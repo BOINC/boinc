@@ -70,6 +70,7 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<ignore_upload_certificates/>")) {
         ignore_upload_certificates = true;
     }
+#if 0
     if (match_tag(buf, "<deletion_policy_priority/>")) {
         deletion_policy_priority = true;
     }
@@ -79,6 +80,7 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<delete_from_self/>")) {
         delete_from_self = true;
     }
+#endif
     if (match_tag(buf, "<enforce_delay_bound/>")) {
         enforce_delay_bound = true;
     }

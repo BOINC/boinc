@@ -626,6 +626,28 @@ void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 }
 
+void notify_if_newer_core_version(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
+    PLATFORM& platform, SCHED_SHMEM& ss
+) {
+    CORE_VERSION* cvp;
+    int req_version;
+
+    if (sreq.core_client_major_version != BOINC_MAJOR_VERSION) {
+        return;
+    }
+    req_version = sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+    cvp = ss.lookup_core_version(platform.id);
+    if (cvp && cvp->version_num > req_version) {
+        sprintf(reply.message,
+            "A new version (%d.%2d) of the BOINC core client is available from this project's web site.",
+            cvp->version_num/100,
+            cvp->version_num%100
+        );
+        strcpy(reply.message_priority, "low");
+    }
+}
+
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
     char* code_sign_key
@@ -727,12 +749,15 @@ void process_request(
         reply.request_delay = 3600*24;
         goto leave;
     }
+    
+    notify_if_newer_core_version(sreq, reply, *platform, ss);
 
     handle_global_prefs(sreq, reply);
 
-    // update deletion policy
+#if 0
     reply.deletion_policy_priority = config.deletion_policy_priority;
     reply.deletion_policy_expire = config.deletion_policy_expire;
+#endif
 
     if (reply.update_user_record) {
         DB_USER user;

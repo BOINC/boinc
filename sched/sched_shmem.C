@@ -41,10 +41,12 @@ void SCHED_SHMEM::init() {
     platform_size = sizeof(PLATFORM);
     app_size = sizeof(APP);
     app_version_size = sizeof(APP_VERSION);
+    core_version_size = sizeof(CORE_VERSION);
     wu_result_size = sizeof(WU_RESULT);
     max_platforms = MAX_PLATFORMS;
     max_apps = MAX_APPS;
     max_app_versions = MAX_APP_VERSIONS;
+    max_core_versions = MAX_CORE_VERSIONS;
     max_wu_results = MAX_WU_RESULTS;
     nwu_results = MAX_WU_RESULTS;
 }
@@ -54,10 +56,12 @@ int SCHED_SHMEM::verify() {
     if (platform_size != sizeof(PLATFORM)) return ERR_SCHED_SHMEM;
     if (app_size != sizeof(APP)) return ERR_SCHED_SHMEM;
     if (app_version_size != sizeof(APP_VERSION)) return ERR_SCHED_SHMEM;
+    if (core_version_size != sizeof(CORE_VERSION)) return ERR_SCHED_SHMEM;
     if (wu_result_size != sizeof(WU_RESULT)) return ERR_SCHED_SHMEM;
     if (max_platforms != MAX_PLATFORMS) return ERR_SCHED_SHMEM;
     if (max_apps != MAX_APPS) return ERR_SCHED_SHMEM;
     if (max_app_versions != MAX_APP_VERSIONS) return ERR_SCHED_SHMEM;
+    if (max_core_versions != MAX_CORE_VERSIONS) return ERR_SCHED_SHMEM;
     if (max_wu_results != MAX_WU_RESULTS) return ERR_SCHED_SHMEM;
     return 0;
 }
@@ -84,6 +88,7 @@ int SCHED_SHMEM::scan_tables() {
     DB_PLATFORM platform;
     DB_APP app;
     DB_APP_VERSION app_version;
+    DB_CORE_VERSION core_version;
     int n;
 
     n = 0;
@@ -111,6 +116,15 @@ int SCHED_SHMEM::scan_tables() {
         if (n == MAX_APP_VERSIONS) overflow("app_versions");
     }
     napp_versions = n;
+
+    n = 0;
+    while (!core_version.enumerate()) {
+        if (core_version.version_num/100 != BOINC_MAJOR_VERSION) continue;
+        if (core_version.deprecated) continue;
+        core_versions[n++] = core_version;
+        if (n == MAX_CORE_VERSIONS) overflow("core_versions");
+    }
+    ncore_versions = n;
     return 0;
 }
 
@@ -136,7 +150,7 @@ APP* SCHED_SHMEM::lookup_app(int id) {
     return 0;
 }
 
-// find the latest version for a given platform
+// find the latest app version for a given platform
 //
 APP_VERSION* SCHED_SHMEM::lookup_app_version(
     int appid, int platformid, int min_version
@@ -155,6 +169,21 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
     }
 
     return best_avp;
+}
+
+// find the latest core version for a given platform
+//
+CORE_VERSION* SCHED_SHMEM::lookup_core_version(int platformid) {
+    CORE_VERSION* cvp, *best=0;
+    int i;
+
+    for (i=0; i<ncore_versions; i++) {
+        cvp = &core_versions[i];
+        if (!best || cvp->version_num > best->version_num) {
+            best = cvp;
+        }
+    }
+    return best;
 }
 
 bool SCHED_SHMEM::no_work(int pid) {

@@ -47,9 +47,11 @@ public:
     bool locality_scheduling;
     bool ignore_upload_certificates;
     bool enforce_delay_bound;
+#if 0
     bool deletion_policy_priority;
     bool deletion_policy_expire;
     bool delete_from_self;
+#endif
     bool use_transactions;
     int daily_result_quota;     // max results per host per day
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none

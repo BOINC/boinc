@@ -17682,3 +17682,12 @@ Lana   23 Sept 2004
         cs_statefile.C
         cs_apps.C
         client_state.C,h
+
+David  24 Sept 2004
+    - Scheduler: send a message to client (low priority)
+        if there is a newer minor version of the core client available.
+        This required adding the set of CORE_VERSIONs to shared mem
+
+    sched/
+        sched_config.C,h
+        sched_shmem.C,h

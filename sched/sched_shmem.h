@@ -26,11 +26,13 @@
 #include "boinc_db.h"
 
 // the following must be at least as large as DB tables
+// (counting only non-deprecated entries for the current major version)
 // Increase as needed
 //
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
-#define MAX_APP_VERSIONS    100
+#define MAX_APP_VERSIONS    50
+#define MAX_CORE_VERSIONS    50
 
 // If you increase this above 100,
 // you may exceed the max shared-memory segment size
@@ -62,18 +64,22 @@ struct SCHED_SHMEM {
     int platform_size;      // sizeof(PLATFORM)
     int app_size;           // sizeof(APP)
     int app_version_size;   // sizeof(APP_VERSION)
+    int core_version_size;  // sizeof(CORE_VERSION)
     int wu_result_size;     // sizeof(WU_RESULT)
     int nplatforms;
     int napps;
     int napp_versions;
+    int ncore_versions;
     int nwu_results;
     int max_platforms;
     int max_apps;
     int max_app_versions;
+    int max_core_versions;
     int max_wu_results;
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];
     APP_VERSION app_versions[MAX_APP_VERSIONS];
+    CORE_VERSION core_versions[MAX_CORE_VERSIONS];
     WU_RESULT wu_results[MAX_WU_RESULTS];
 
     void init();
@@ -85,6 +91,7 @@ struct SCHED_SHMEM {
 
     APP* lookup_app(int);
     APP_VERSION* lookup_app_version(int appid, int platform, int version);
+    CORE_VERSION* lookup_core_version(int platform);
     PLATFORM* lookup_platform(char*);
 };
 
