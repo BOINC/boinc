@@ -135,9 +135,9 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-MYSQL_INCLUDES = /usr/local/mysql/include
-MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
-MYSQL_INCLUDES3 = /usr/include/mysql
+MYSQL_INCLUDES = /usr/local/mysql_32bit/include
+MYSQL_INCLUDES2 = /usr/local/mysql_32bit/include/mysql
+MYSQL_INCLUDES3 = /usr/include/mysql_32bit
 
 MYSQL_LIBS = \
         -L/usr/local/mysql_32bit/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
@@ -182,7 +182,7 @@ EXTRA_PROGRAMS = fcgi
 EXTRA_DIST = wd.php wd_nresults_changing.php
 
 # scripts that 'make install' should put in bindir
-bin_SCRIPTS = watch_tcp start stop
+bin_SCRIPTS = watch_tcp start stop status
 
 LDADD = -L. -lsched $(MYSQL_LIBS)
 
@@ -1048,6 +1048,9 @@ $(LIBRSA):
 
 stop:
 	ln -s start stop
+
+status:
+	ln -s start status
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
