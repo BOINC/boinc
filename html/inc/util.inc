@@ -117,19 +117,15 @@ function write_fd($fd, $str) {
     }
 }
 
-function page_head($title, $user=null, $fd=null, $styleSheet=null) {
-    if ($user == NULL) {
+function page_head($title, $user=null, $fd=null, $get_user=true) {
+    if ($user == NULL && $get_user) {
         $user = get_logged_in_user(false);
     }
 
-    if ($styleSheet == NULL) {
-        $styleSheet = URL_BASE . STYLESHEET;
-    }
+    $styleSheet = URL_BASE . STYLESHEET;
 
     write_fd($fd, "<html><head><title>$title</title>\n");
-    if ($styleSheet) {
-        write_fd($fd, "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">");
-    }
+    write_fd($fd, "<link rel=stylesheet type=text/css href=\"$styleSheet\">");
     write_fd($fd, "</head>\n<body bgcolor=ffffff>\n");
     project_banner($user, $fd);
 }

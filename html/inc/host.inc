@@ -27,8 +27,9 @@ function show_host($host, $private, $ipprivate) {
             row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>Show IP address</a>");
         }
         row2("Domain name", $host->domain_name);
-        $x = $host->timezone/3600;
-        row2("Time zone", "UTC - $x hours");
+        $x = -$host->timezone/3600;
+        if ($x > 0) $x="+$x";
+        row2("Time zone", "UTC $x hours");
     }
     if ($private) {
         row2("Name", $host->domain_name);
