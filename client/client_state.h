@@ -60,7 +60,7 @@ public:
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
     SS_LOGIC ss_logic;
-	LANGUAGE language;
+    LANGUAGE language;
 
     CLIENT_STATE();
     int init();

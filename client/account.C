@@ -54,7 +54,7 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     FILE* f;
     int retval;
 
-	case_format_url(master_url);
+    case_format_url(master_url);
 
     // check if this project is already running
     //
@@ -68,7 +68,7 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     project = new PROJECT;
     strcpy(project->master_url, master_url);
     strcpy(project->authenticator, authenticator);
-	strip_whitespace(project->authenticator);
+    strip_whitespace(project->authenticator);
 
     project->tentative = true;
     retval = project->write_account_file();

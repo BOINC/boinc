@@ -50,7 +50,7 @@ struct APP_INIT_DATA {
     char user_name[256];
     char team_name[256];
     char comm_obj_name[256];  // name to identify shared memory segments, signals, etc
-    double wu_cpu_time;		  // cpu time from previous sessions
+    double wu_cpu_time;       // cpu time from previous sessions
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;

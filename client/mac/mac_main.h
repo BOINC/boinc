@@ -21,10 +21,10 @@
 #include "error_numbers.h"
 #include "filesys.h"
 
-#define kBOINCDataBrowserSig	'duff'
+#define kBOINCDataBrowserSig    'duff'
 
-#define TAB_ID 	 	128
-#define TAB_SIGNATURE	'tabs'
+#define TAB_ID          128
+#define TAB_SIGNATURE    'tabs'
 
 enum {
     kBOINCCommandJoin = 'join',

@@ -26,55 +26,55 @@
 #include "language.h"
 
 LANGUAGE::LANGUAGE() {
-	language_file_contents = NULL;
+    language_file_contents = NULL;
 }
 
 LANGUAGE::~LANGUAGE() {
-	if (language_file_contents) free(language_file_contents);
-	language_file_contents = NULL;
+    if (language_file_contents) free(language_file_contents);
+    language_file_contents = NULL;
 }
 
 int LANGUAGE::read_language_file(char *file_name) {
-	int retval;
+    int retval;
 
-	// TODO: put in a size limitation here?
-	
-	if (language_file_contents) free(language_file_contents);
-	language_file_contents = NULL;
+    // TODO: put in a size limitation here?
+    
+    if (language_file_contents) free(language_file_contents);
+    language_file_contents = NULL;
 
-	retval = read_file_malloc(file_name, language_file_contents);
-	if (retval) return retval;
+    retval = read_file_malloc(file_name, language_file_contents);
+    if (retval) return retval;
 
-	return 0;
+    return 0;
 }
 
 int LANGUAGE::get_translation(char *section_name, char *entry_name,
-							  char *translation, int trans_size) {
-	char buf[256], *sec_ptr, buf2[256];
+                              char *translation, int trans_size) {
+    char buf[256], *sec_ptr, buf2[256];
 
-	// If we never opened the language file, return the default value
-	if (!language_file_contents) goto return_default;
+    // If we never opened the language file, return the default value
+    if (!language_file_contents) goto return_default;
 
-	// Find the specified section
-	sprintf(buf, "[%s]", section_name);
-	sec_ptr = strstr(language_file_contents,buf);
-	if (!sec_ptr) goto return_default;
+    // Find the specified section
+    sprintf(buf, "[%s]", section_name);
+    sec_ptr = strstr(language_file_contents,buf);
+    if (!sec_ptr) goto return_default;
 
-	// Find the translation in the section
-	// skip the header line
-	sec_ptr += strlen(buf);
-	sprintf(buf, "%s=", entry_name);
+    // Find the translation in the section
+    // skip the header line
+    sec_ptr += strlen(buf);
+    sprintf(buf, "%s=", entry_name);
     while (sgets(buf2, 256, sec_ptr)) {
         if (!strncmp(buf, buf2, strlen(buf))) {
-			safe_strncpy(translation,buf2+strlen(buf),trans_size);
-			return trans_size;
+            safe_strncpy(translation,buf2+strlen(buf),trans_size);
+            return trans_size;
         } else if (!strncmp("[", buf2, 1)) {
-			goto return_default;
-		}
+            goto return_default;
+        }
     }
 
 return_default:
-	safe_strncpy(translation,entry_name,trans_size);
-	return trans_size;
+    safe_strncpy(translation,entry_name,trans_size);
+    return trans_size;
 }
 

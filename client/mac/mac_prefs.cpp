@@ -23,11 +23,11 @@
 //
 OSStatus CreatePrefsDialog()
 {
-    IBNibRef 		nibRef;
-    EventTypeSpec 	dialogSpec = {kEventClassCommand, kEventCommandProcess };
-    WindowRef 		prefsDialog;
-    EventHandlerUPP	prefsDialogUPP;
-    OSStatus		err = noErr;
+    IBNibRef         nibRef;
+    EventTypeSpec     dialogSpec = {kEventClassCommand, kEventCommandProcess };
+    WindowRef         prefsDialog;
+    EventHandlerUPP    prefsDialogUPP;
+    OSStatus        err = noErr;
 
     // Find the dialog nib
     err = CreateNibReference(CFSTR("PrefsDialog"), &nibRef);
@@ -66,21 +66,21 @@ CantInstallDialogHandler:
 // Dialog event handler
 //
 pascal OSStatus PrefsDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData) {
-    OSStatus 		result = eventNotHandledErr;
-    HICommand		command;
-    bool		stopModalLoop = FALSE;
+    OSStatus         result = eventNotHandledErr;
+    HICommand        command;
+    bool        stopModalLoop = FALSE;
     
     // Get the HI Command
     GetEventParameter (event, kEventParamDirectObject, typeHICommand, NULL,
                     sizeof (HICommand), NULL, &command);
     // Look for OK and Cancel commands
     switch (command.commandID) {
-        case kHICommandOK:		// 'ok  '
+        case kHICommandOK:        // 'ok  '
             //HandleResponse(TRUE);
             stopModalLoop = TRUE;
             result = noErr;
             break;
-        case kHICommandCancel:		// 'not!'
+        case kHICommandCancel:        // 'not!'
             //HandleResponse(FALSE);
             stopModalLoop = TRUE;
             result = noErr;

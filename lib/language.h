@@ -29,12 +29,12 @@
 #include <stdio.h>
 
 class LANGUAGE {
-	char *language_file_contents;
+    char *language_file_contents;
 public:
-	LANGUAGE();
-	~LANGUAGE();
-	int read_language_file(char *);
-	int get_translation(char *, char *, char *, int );
+    LANGUAGE();
+    ~LANGUAGE();
+    int read_language_file(char *);
+    int get_translation(char *, char *, char *, int );
 };
 
 #endif

@@ -75,7 +75,7 @@ int detach_shmem(HANDLE hSharedMem, void* p) {
     UnmapViewOfFile(p);
     CloseHandle(hSharedMem);
 
-	return 0;
+    return 0;
 }
 
 #else

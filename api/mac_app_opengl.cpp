@@ -58,12 +58,12 @@ static const EventTypeSpec  appEventList[] =
 };
 
 WindowRef               appGLWindow;
-EventLoopTimerRef 	boincTimer;
-EventLoopTimerUPP	boincTimerUPP;
-EventHandlerUPP 	appCommandProcessor,winCommandProcessor;
-AGLContext		boincAGLContext;
-GLuint			main_font;
-structGLWindowInfo	glInfo;
+EventLoopTimerRef     boincTimer;
+EventLoopTimerUPP    boincTimerUPP;
+EventHandlerUPP     appCommandProcessor,winCommandProcessor;
+AGLContext        boincAGLContext;
+GLuint            main_font;
+structGLWindowInfo    glInfo;
 
 bool user_requested_exit = false;
 extern bool using_opengl;
@@ -92,14 +92,14 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     // Window-level event handler installer
     /*winCommandProcessor = NewEventHandlerUPP(MainWinEventHandler);
     err = InstallWindowEventHandler(appGLWindow, 0,
-                                kEventDurationMillisecond*10,		// Every 10 ms
+                                kEventDurationMillisecond*10,        // Every 10 ms
                                 boincYieldUPP, NULL, &boincYieldTimer);*/
 
 
     // Install preemption
     boincYieldUPP = NewEventLoopTimerUPP(YieldProcessor);
     err = InstallEventLoopTimer(GetMainEventLoop(), 0,
-                                kEventDurationMillisecond*10,		// Every 10 ms
+                                kEventDurationMillisecond*10,        // Every 10 ms
                                 boincYieldUPP, NULL, &boincYieldTimer);
 
     // Install graphics
@@ -114,7 +114,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     ShowWindow(appGLWindow);
     SetPortWindowPort (appGLWindow);
     
-    glInfo.fmt = 0;					// output pixel format
+    glInfo.fmt = 0;                    // output pixel format
     
     i = 0;
     glInfo.aglAttributes [i++] = AGL_RGBA;
@@ -150,7 +150,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
         aglSwapBuffers (boincAGLContext);
         aglReportError ();
         
-        GetFNum("\pTimes New Roman", &fNum);									// build font
+        GetFNum("\pTimes New Roman", &fNum);                                    // build font
         main_font = BuildFontGL (boincAGLContext, fNum, normal, 9);
 
         aglUpdateContext (boincAGLContext);
@@ -163,7 +163,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-//  GraphicsLoopProcessor							//
+//  GraphicsLoopProcessor                            //
 //////////////////////////////////////////////////////////////////////////////////
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData) {
     DoUpdate (boincAGLContext);
@@ -171,34 +171,34 @@ pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-//  YieldProcessor								//
+//  YieldProcessor                                //
 //////////////////////////////////////////////////////////////////////////////////
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData) {
     YieldToAnyThread();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-//  MainAppEventHandler								//
+//  MainAppEventHandler                                //
 //////////////////////////////////////////////////////////////////////////////////
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData)
 {
 #pragma unused (appHandler, appData)
 
-    HICommand	aCommand;
-    OSStatus	result;
-    Point	mDelta;
+    HICommand    aCommand;
+    OSStatus    result;
+    Point    mDelta;
     Rect rectPort;
 
     switch(GetEventClass(theEvent))
     {
-        case kEventClassMouse:				// 'mous'
-            GetEventParameter(theEvent,			// the event itself
-                              kEventParamMouseDelta, 	// symbolic parameter name
-                              typeQDPoint, 		// expected type
-                              NULL, 			// actual type (NULL is valid)
-                              sizeof(mDelta), 		// buffer size
-                              NULL, 			// actual buffer size (Can be NULL)
-                              &mDelta);			// variable to hold data
+        case kEventClassMouse:                // 'mous'
+            GetEventParameter(theEvent,            // the event itself
+                              kEventParamMouseDelta,     // symbolic parameter name
+                              typeQDPoint,         // expected type
+                              NULL,             // actual type (NULL is valid)
+                              sizeof(mDelta),         // buffer size
+                              NULL,             // actual buffer size (Can be NULL)
+                              &mDelta);            // variable to hold data
             switch(GetEventKind(theEvent))
             {
                 case kEventMouseDown:
@@ -223,17 +223,17 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
                     HideWindow(appGLWindow);
                     result = noErr;
                     break;
-                case kHICommandMaximizeWindow:	// 'mini'
-                case kHICommandZoomWindow:	// 'zoom'
+                case kHICommandMaximizeWindow:    // 'mini'
+                case kHICommandZoomWindow:    // 'zoom'
                     GetWindowPortBounds (appGLWindow, &rectPort);
                     ReSizeGLScene(rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
                     InitGL();
                     app_init_gl();
                     glReportError ();
                     break;
-                case kHICommandHide:		// 'hide'
-                case kHICommandMinimizeWindow:	// 'mini'
-                case kHICommandArrangeInFront:	// 'frnt'
+                case kHICommandHide:        // 'hide'
+                case kHICommandMinimizeWindow:    // 'mini'
+                case kHICommandArrangeInFront:    // 'frnt'
                     break;
                 default:
                     result = eventNotHandledErr;

@@ -243,7 +243,7 @@ int main(int argc, char **argv) {
 }
 
 #ifdef BOINC_APP_GRAPHICS
-extern GLuint			main_font;
+extern GLuint main_font;
 
 void app_init_gl() {
 }

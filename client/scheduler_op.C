@@ -328,7 +328,7 @@ bool SCHEDULER_OP::poll() {
                     //
                     if (project->tentative) {
                         project_add_failed(project);
-						err = true;
+                        err = true;
                     } else {
                         project->master_fetch_failures++;
                         backoff(project, "Master file parse failed\n");

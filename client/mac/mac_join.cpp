@@ -21,24 +21,24 @@
 
 bool success;
 
-#define kJoinSignature		'join'
-#define kProjectURLFieldID	128
-#define kAccountKeyFieldID	129
+#define kJoinSignature        'join'
+#define kProjectURLFieldID    128
+#define kAccountKeyFieldID    129
 
 // Create, show and run modally our join window
 //
 OSStatus CreateJoinDialog( char *master_url, char *account_key )
 {
-    IBNibRef 		nibRef;
-    EventTypeSpec 	dialogSpec = {kEventClassCommand, kEventCommandProcess };
-    WindowRef 		dialogWindow;
-    EventHandlerUPP	dialogUPP;
-    OSStatus		err = noErr;
-    Size		realSize;
-    ControlID		projectURLID = { kJoinSignature, kProjectURLFieldID };
-    ControlID		accountKeyID = { kJoinSignature, kAccountKeyFieldID };
-    ControlHandle	zeControl;
-    CFStringRef		text;
+    IBNibRef         nibRef;
+    EventTypeSpec     dialogSpec = {kEventClassCommand, kEventCommandProcess };
+    WindowRef         dialogWindow;
+    EventHandlerUPP    dialogUPP;
+    OSStatus        err = noErr;
+    Size        realSize;
+    ControlID        projectURLID = { kJoinSignature, kProjectURLFieldID };
+    ControlID        accountKeyID = { kJoinSignature, kAccountKeyFieldID };
+    ControlHandle    zeControl;
+    CFStringRef        text;
     
     success = false;
     
@@ -86,18 +86,18 @@ CantInstallDialogHandler:
 // Dialog event handler
 //
 pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData) {
-    OSStatus 		result = eventNotHandledErr;
-    HICommand		command;
-    bool		stopModalLoop = FALSE;
+    OSStatus         result = eventNotHandledErr;
+    HICommand        command;
+    bool        stopModalLoop = FALSE;
 
     // Get the HI Command
     GetEventParameter (event, kEventParamDirectObject, typeHICommand, NULL,
                        sizeof (HICommand), NULL, &command);
     // Look for our Yes Join and No Join commands
     switch (command.commandID) {
-        case kHICommandOK:		// 'ok  '
+        case kHICommandOK:        // 'ok  '
             success = true;
-        case kHICommandCancel:		// 'not!'
+        case kHICommandCancel:        // 'not!'
             stopModalLoop = TRUE;
             result = noErr;
             break;

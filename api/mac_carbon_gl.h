@@ -18,19 +18,19 @@
 //
 
 /*
-	Contains:	Functions to enable build and destory a GL fullscreen context
+    Contains:    Functions to enable build and destory a GL fullscreen context
 
-	Written by:	Geoff Stahl (ggs)
+    Written by:    Geoff Stahl (ggs)
 
-	Copyright:	Copyright © 1999 Apple Computer, Inc., All Rights Reserved
+    Copyright:    Copyright © 1999 Apple Computer, Inc., All Rights Reserved
 
-	Disclaimer:	You may incorporate this sample code into your applications without
-				restriction, though the sample code has been provided "AS IS" and the
-				responsibility for its operation is 100% yours.  However, what you are
-				not permitted to do is to redistribute the source as "DSC Sample Code"
-				after having made changes. If you're going to re-distribute the source,
-				we require that you make it clear in the source that the code was
-				descended from Apple Sample Code, but that you've made changes.
+    Disclaimer:    You may incorporate this sample code into your applications without
+                restriction, though the sample code has been provided "AS IS" and the
+                responsibility for its operation is 100% yours.  However, what you are
+                not permitted to do is to redistribute the source as "DSC Sample Code"
+                after having made changes. If you're going to re-distribute the source,
+                we require that you make it clear in the source that the code was
+                descended from Apple Sample Code, but that you've made changes.
 
         Adapted to BOINC by Eric Heien
 */
@@ -60,11 +60,11 @@ extern "C" {
 // structure for creating a fullscreen context
 struct structGLInfo // storage for setup info
 {
-    SInt16 width;		// input: width of drawable (screen width in full screen mode), return: actual width allocated
-    SInt16 height;		// input: height of drawable (screen height in full screen mode), return: actual height allocated
-    UInt32 pixelDepth;		// input: requested pixel depth
-    GLint aglAttributes[64]; 	// input: pixel format attributes always required (reset to what was actually allocated)
-    AGLPixelFormat fmt;		// input: none; output pixel format...
+    SInt16 width;        // input: width of drawable (screen width in full screen mode), return: actual width allocated
+    SInt16 height;        // input: height of drawable (screen height in full screen mode), return: actual height allocated
+    UInt32 pixelDepth;        // input: requested pixel depth
+    GLint aglAttributes[64];     // input: pixel format attributes always required (reset to what was actually allocated)
+    AGLPixelFormat fmt;        // input: none; output pixel format...
 };
 typedef struct structGLInfo structGLInfo;
 typedef struct structGLInfo * pstructGLInfo;
@@ -72,8 +72,8 @@ typedef struct structGLInfo * pstructGLInfo;
 // structure for creating a context from a window
 struct structGLWindowInfo // storage for setup info
 {
-    GLint aglAttributes[64]; 	// input: pixel format attributes always required (reset to what was actually allocated)
-    AGLPixelFormat fmt;		// input: none; output pixel format...
+    GLint aglAttributes[64];     // input: pixel format attributes always required (reset to what was actually allocated)
+    AGLPixelFormat fmt;        // input: none; output pixel format...
                                 //        if so renderer check (accel) will look at all renderers vice just the current one
                                 //        if window is not dragable renderer check will either check the single device or short 
                                 //            circuit to software if window spans multiple devices 

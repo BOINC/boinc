@@ -214,22 +214,22 @@ int get_host_info(HOST_INFO& host) {
 #error Need to specify a sysconf() define to obtain number of processors
 #endif
 
-/*	There can be a variety of methods to obtain amount of
- *		usable memory.  You will have to check your sysconf()
- *		defines, probably in unistd.h
- *		- 2002-11-03 hiram@users.sourceforge.net
+/*    There can be a variety of methods to obtain amount of
+ *        usable memory.  You will have to check your sysconf()
+ *        defines, probably in unistd.h
+ *        - 2002-11-03 hiram@users.sourceforge.net
  */
 #if defined(_SC_USEABLE_MEMORY)
     host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
-	* (double)sysconf(_SC_USEABLE_MEMORY);  /*      UnixWare        */
+        * (double)sysconf(_SC_USEABLE_MEMORY);  /*      UnixWare        */
 #elif defined(_SC_PHYS_PAGES)
     host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
-	* (double)sysconf(_SC_PHYS_PAGES);      /*      Linux   */
+        * (double)sysconf(_SC_PHYS_PAGES);      /*      Linux   */
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);
-    sysctl(mib, 2, &mem_size, &len, NULL, 0);	// Mac OS X
+    sysctl(mib, 2, &mem_size, &len, NULL, 0);    // Mac OS X
     host.m_nbytes = mem_size;
 #else
 #error Need to specify a sysconf() define to obtain memory size

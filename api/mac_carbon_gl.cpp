@@ -19,19 +19,19 @@
 
 
 /*
-	Contains:	Functions to enable building and destorying a GL full screen or windowed context
+    Contains:    Functions to enable building and destorying a GL full screen or windowed context
 
-	Written by:	Geoff Stahl (ggs)
+    Written by:    Geoff Stahl (ggs)
 
-	Copyright:	Copyright © 1999 Apple Computer, Inc., All Rights Reserved
+    Copyright:    Copyright © 1999 Apple Computer, Inc., All Rights Reserved
 
-	Disclaimer:	You may incorporate this sample code into your applications without
-				restriction, though the sample code has been provided "AS IS" and the
-				responsibility for its operation is 100% yours.  However, what you are
-				not permitted to do is to redistribute the source as "DSC Sample Code"
-				after having made changes. If you're going to re-distribute the source,
-				we require that you make it clear in the source that the code was
-				descended from Apple Sample Code, but that you've made changes.
+    Disclaimer:    You may incorporate this sample code into your applications without
+                restriction, though the sample code has been provided "AS IS" and the
+                responsibility for its operation is 100% yours.  However, what you are
+                not permitted to do is to redistribute the source as "DSC Sample Code"
+                after having made changes. If you're going to re-distribute the source,
+                we require that you make it clear in the source that the code was
+                descended from Apple Sample Code, but that you've made changes.
 
         Adapted to BOINC by Eric Heien
 */
@@ -64,10 +64,10 @@ extern WindowRef               appGLWindow;
 // --------------------------------------------------------------------------
 // BuildGLonWindow
 // Takes a window and tries to build on it
-// Inputs: 	aglDraw: a valid AGLDrawable
-//			*pcontextInfo: request and requirements for cotext and drawable
+// Inputs:     aglDraw: a valid AGLDrawable
+//            *pcontextInfo: request and requirements for cotext and drawable
 // Outputs: *paglContext as allocated
-//			*pcontextInfo:  allocated parameters
+//            *pcontextInfo:  allocated parameters
 // if fail to allocate: paglContext will be NULL
 // if error: will return error and paglContext will be NULL
 
@@ -88,7 +88,7 @@ OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLW
     if ((Ptr) kUnresolvedCFragSymbolAddress == (Ptr) aglChoosePixelFormat) {   // check for existance of OpenGL
         ReportError ("OpenGL not installed");
         return NULL;
-    }	
+    }    
     // we successfully passed the renderer check
 
     pcontextInfo->fmt = aglChoosePixelFormat (NULL, 0, pcontextInfo->aglAttributes); // get an appropriate pixel format
@@ -179,8 +179,8 @@ OSStatus ResumeFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext) {
 
 // --------------------------------------------------------------------------
 // GetWindowDevice
-// Inputs:	a valid WindowPtr
-// Outputs:	the GDHandle that that window is mostly on
+// Inputs:    a valid WindowPtr
+// Outputs:    the GDHandle that that window is mostly on
 // returns the number of devices that the windows content touches
 
 short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
@@ -200,7 +200,7 @@ short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
     SetPortWindowPort (pWindow);
     
     GetWindowPortBounds (pWindow, &rectWind);
-    LocalToGlobal ((Point*)& rectWind.top);	// convert to global coordinates
+    LocalToGlobal ((Point*)& rectWind.top);    // convert to global coordinates
     LocalToGlobal ((Point*)& rectWind.bottom);
     hgdNthDevice = GetDeviceList ();
     greatestArea = 0;
@@ -310,7 +310,7 @@ OSStatus DSpReportError (OSStatus error)
             ReportError ("DSp Error: Frame rate not ready");
             break;
         case kDSpConfirmSwitchWarning:
-//		ReportError ("DSp Warning: Must confirm switch"); // removed since it is just a warning, add back for debugging
+//        ReportError ("DSp Warning: Must confirm switch"); // removed since it is just a warning, add back for debugging
             return 0; // don't want to fail on this warning
             break;
         case kDSpInternalErr:
@@ -380,8 +380,8 @@ OSStatus glReportError (void)
 
 void DoUpdate (AGLContext aglContext)
 {
-    Rect	portRect;
-    int		width, height;
+    Rect    portRect;
+    int        width, height;
     
     if (aglContext)
     {
@@ -394,12 +394,12 @@ void DoUpdate (AGLContext aglContext)
         ReSizeGLScene(width,height);
         app_render(width, height, time(0));      // Here's Where We Do All The Drawing
 
-        aglSwapBuffers(aglContext);		// send swap command
+        aglSwapBuffers(aglContext);        // send swap command
     }
 }
 
 /*
-	Contains:	Functions to enable building and destroying a DSp fullscreen context
+    Contains:    Functions to enable building and destroying a DSp fullscreen context
 
 */
 
@@ -427,7 +427,7 @@ OSStatus StartDSp (void)
                 gDSpStarted = true;
         }
     }
-    return err;		
+    return err;        
 }
 
 // --------------------------------------------------------------------------
@@ -446,8 +446,8 @@ void ShutdownDSp (void)
 // --------------------------------------------------------------------------
 // GetDSpDrawable
 // Just returns the front buffer
-// Inputs: 	*pdspContext
-//			pcontextInfo: request and requirements for cotext and drawable
+// Inputs:     *pdspContext
+//            pcontextInfo: request and requirements for cotext and drawable
 // Outputs: returns CGrafPtr thaat is front buffer of context
 // if error: will return NULL
 
@@ -481,32 +481,32 @@ void DestroyDSpContext (DSpContextReference* pdspContext)
 
 OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeTicks) 
 {
-	OSStatus err = noErr;
-	RGBColor inZeroIntensityColor;
-	UInt32 currTick;
-	UInt16 step = (UInt16) (800 / fadeTicks);
-	long x, percent = 0;
+    OSStatus err = noErr;
+    RGBColor inZeroIntensityColor;
+    UInt32 currTick;
+    UInt16 step = (UInt16) (800 / fadeTicks);
+    long x, percent = 0;
 
-	if (gDSpStarted)
-	{
-		if (fadeTicks == 0)
-			fadeTicks = 1;
+    if (gDSpStarted)
+    {
+        if (fadeTicks == 0)
+            fadeTicks = 1;
                 inZeroIntensityColor.red = 0x0000;
                 inZeroIntensityColor.green = 0x0000;
                 inZeroIntensityColor.blue = 0x0000;
-		currTick = TickCount ();
-		for (x = 1; x <= fadeTicks; x++) 
-		{
-			percent = step * x / 8;
-			err = DSpContext_FadeGamma(inContext, percent, &inZeroIntensityColor);
-			if (err != noErr) break;
-			while (currTick >= TickCount ()) {}
-			currTick = TickCount ();
-		}
-		if (err == noErr)
-			err = DSpContext_FadeGamma(inContext, 100, &inZeroIntensityColor);
-	}
-	return err;
+        currTick = TickCount ();
+        for (x = 1; x <= fadeTicks; x++) 
+        {
+            percent = step * x / 8;
+            err = DSpContext_FadeGamma(inContext, percent, &inZeroIntensityColor);
+            if (err != noErr) break;
+            while (currTick >= TickCount ()) {}
+            currTick = TickCount ();
+        }
+        if (err == noErr)
+            err = DSpContext_FadeGamma(inContext, 100, &inZeroIntensityColor);
+    }
+    return err;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -522,7 +522,7 @@ OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, long fade
     if (gDSpStarted)
     {
         if (fadeTicks == 0)
-            fadeTicks = 1;								// ensure we do not have zero fade time
+            fadeTicks = 1;                                // ensure we do not have zero fade time
         inZeroIntensityColor.red = 0x0000;
         inZeroIntensityColor.green = 0x0000;
         inZeroIntensityColor.blue = 0x0000;

@@ -23,11 +23,11 @@
 //
 OSStatus CreateAboutWindow()
 {
-    IBNibRef 		nibRef;
-    EventTypeSpec 	dialogSpec = {kEventClassCommand, kEventCommandProcess };
-    WindowRef 		aboutWindow;
-    EventHandlerUPP	aboutBoxUPP;
-    OSStatus		err = noErr;
+    IBNibRef         nibRef;
+    EventTypeSpec     dialogSpec = {kEventClassCommand, kEventCommandProcess };
+    WindowRef         aboutWindow;
+    EventHandlerUPP    aboutBoxUPP;
+    OSStatus        err = noErr;
 
     // Find the dialog nib
     err = CreateNibReference(CFSTR("AboutBox"), &nibRef);
@@ -63,9 +63,9 @@ CantInstallDialogHandler:
 // Dialog event handler
 //
 /*pascal OSStatus AboutBoxEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData) {
-    OSStatus 		result = eventNotHandledErr;
-    HICommand		command;
-    bool		stopModalLoop = FALSE;
+    OSStatus         result = eventNotHandledErr;
+    HICommand        command;
+    bool        stopModalLoop = FALSE;
 
     // Get the HI Command
     GetEventParameter (event, kEventParamDirectObject, typeHICommand, NULL,
