@@ -11474,3 +11474,13 @@ David  April 8 2004
     
     sched/
         transitioner.C
+
+David  April 9 2004
+    - Added zip/unzip code (from Carl Christensen).
+        This is basically the Info-ZIP code with unused files stripped out,
+        and some minor tweaks to return errors instead of exiting
+
+    zip/
+        * (new)
+    unzip/
+        * (new)
