@@ -21556,11 +21556,17 @@ Rom    17 Dec 2004
 
 Janus 18 Dec 2004
     - Added description of the new colored column "Time reported or deadline".
-    - Also added "Done" to the possible client states in "client state"
+    - Added "Done" to the possible client states in "client state"
       descriptions.
+    - New way of displaying the threadlist: Will use icons to tell if threads
+      are new/unread, important or filtered.
+    - Usual HTML corrections
 
     html/inc
+        forum.inc
+        foum_show.inc
         result.php
     html/user
-	    explain_state.php
-	    results.php
+        explain_state.php
+        results.php
+        filtered_post.png [new]
