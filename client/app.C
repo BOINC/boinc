@@ -385,8 +385,6 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 //
 bool ACTIVE_TASK_SET::poll() {
     ACTIVE_TASK* atp;
-    char path[256];
-    int n;
 
 #ifdef _WIN32
     unsigned long exit_code;
@@ -417,11 +415,13 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->result->exit_status = atp->exit_status;
                 CloseHandle(atp->pid_handle);
                 CloseHandle(atp->thread_handle);
+                atp->read_stderr_file();
+                clean_out_dir(atp->slot_dir);
             }
         }
     }
 
-    return found;
+	return found;
 #endif
 
 #if HAVE_SYS_RESOURCE_H
@@ -459,19 +459,27 @@ bool ACTIVE_TASK_SET::poll() {
 #endif
 #endif
 
-    // check for the stderr file, copy to result record
-    //
-    sprintf(path, "%s%s%s", atp->slot_dir, PATH_SEPARATOR, STDERR_FILE);
-    FILE* f = fopen(path, "r");
-    if (f) {
-        n = fread(atp->result->stderr_out, 1, STDERR_MAX_LEN, f);
-        atp->result->stderr_out[STDERR_MAX_LEN-1] = 0;
-        fclose(f);
-    }
-
+	atp->read_stderr_file();
     clean_out_dir(atp->slot_dir);
 
     return true;
+}
+
+// check for the stderr file, copy to result record
+//
+bool ACTIVE_TASK::read_stderr_file() {
+    char path[256];
+    int n;
+
+    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
+    FILE* f = fopen(path, "r");
+    if (f) {
+        n = fread(result->stderr_out, 1, STDERR_MAX_LEN, f);
+        result->stderr_out[n] = 0;
+        fclose(f);
+		return true;
+    }
+	return false;
 }
 
 // Find the ACTIVE_TASK in the current set with the matching PID

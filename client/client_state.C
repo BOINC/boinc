@@ -739,7 +739,8 @@ bool CLIENT_STATE::garbage_collect() {
             // any errors (MD5, RSA, etc)
             fail_num = rp->wup->had_failure();
             if (fail_num) {
-                rp->exit_status = fail_num;
+                if (!rp->exit_status)       // If we don't already have an error for this file
+                    rp->exit_status = fail_num;
                 if (rp->state < RESULT_READY_TO_ACK) {
                     rp->state = RESULT_READY_TO_ACK;
                 }
@@ -754,7 +755,8 @@ bool CLIENT_STATE::garbage_collect() {
                 //
                 fail_num = rp->output_files[i].file_info->had_failure();
                 if (fail_num) {
-                    rp->exit_status = fail_num;
+                    if (!rp->exit_status)       // If we don't already have an error for this file
+                        rp->exit_status = fail_num;
                     if (rp->state < RESULT_READY_TO_ACK) {
                         rp->state = RESULT_READY_TO_ACK;
                     }
