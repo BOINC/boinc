@@ -15625,3 +15625,9 @@ Daniel 2004-07-22
         sched_send.C
         server_types.C,h
 
+Jeff  22 July 2004
+    - Fixed a malformed SQL statement in DB_RESULT::update_subset() 
+      that was leading to zero results being sent out.
+
+    db/
+	boinc_db.C

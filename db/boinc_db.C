@@ -524,8 +524,8 @@ int DB_RESULT::update_subset() {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update %s set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d",
-        server_state, hostid, userid, sent_time, report_deadline
+        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d where id=%d",
+        server_state, hostid, userid, sent_time, report_deadline, id
     );
     return db->do_query(query);
 }
