@@ -137,7 +137,7 @@ int ACTIVE_TASK::start(bool first_time) {
     unsigned int i;
     FILE_REF file_ref;
     FILE_INFO* fip;
-    int retval;
+    int retval, fd;
     char init_data_path[256], graphics_data_path[256], fd_init_path[256];
     FILE *f;
     APP_INIT_DATA aid;
@@ -249,7 +249,8 @@ int ACTIVE_TASK::start(bool first_time) {
         get_pathname(file_ref.file_info, file_path);
         if (strlen(file_ref.open_name)) {
             if (first_time) {
-                creat(file_path, 0660);
+                fd = creat(file_path, 0660);
+                close(fd);
                 sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
                 sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
                 if (log_flags.task_debug) {
