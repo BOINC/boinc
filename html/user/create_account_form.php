@@ -1,71 +1,69 @@
 <?php
+require_once('include.php');
+doHeader('New Account');
 
-include_once("util.inc");
-
-if (parse_config("<disable_account_creation/>")) {
-    page_head("Account creation is disabled");
-    echo "
-        <h3>Account creation is disabled</h3>
-        Sorry, this project has disabled the creation of new accounts.
-        Please try again later.
-    ";
-    exit();
-}
-
-$userid = $_GET["userid"];
-
-page_head("Create account");
-
-echo "<h3>Create an account with ".PROJECT."</h3>
-    <form method=post action=create_account_action.php>
-    <p>
-    <b>Read the <a href=info.php>rules and policies</a> before creating
-    an account</b>
-    <p>
-";
-
-if ($userid) {
-    echo "
-        <input type=hidden name=userid value=$userid>
-    ";
-}
-
-start_table();
-row2("<b>Name</b>
-    <br><font size=-1>
-    Identifies you on our web site.
-    Use your real name or a nickname.
-    </font>",
-    "<input name=new_name size=30>"
-);
-row2("<b>Email address</b>
-    <br><font size=-1>
-    Must be a valid address of the form <i>name@domain</i>.
-    </font>",
-    "<input name=new_email_addr size=50>"
-);
-
-row2_init("<b>Country</b>
-    <br><font size=-1>Select the country you want to represent, if any.</font>",
-    "<select name=country>"
-);
-print_country_select();
-echo "</select></td></tr>\n";
-
-row2("<b>Postal or ZIP code</b>
-    <br><font size=-1>Optional</font>",
-    "<input name=postal_code size=20>"
-);
-
-row2("", "<input type=submit value=\"Create account\">");
-end_table();
-echo "</form>\n";
-
-echo "If you already received an account key,
-    <a href=account_created.php>click here</a>
-    to activate your account
-";
-
-page_tail();
-
+if (parse_config("<disable_account_creation/>")):
+	?>
+	<h1>Account Creation is Disabled</h1>
+	<p>
+	Account creation is disabled for <?php echo $cfg['project'] ?> at the moment.
+	Please try again later.
+	</p>
+	<?php
+	doFooter();
+	exit;
+endif;
 ?>
+
+<h1>Create an Account with <?php echo $cfg['project'] ?></h1>
+
+<p><b>Read the <a href="info.php">Rules and Policies</a> before creating an account.</b></p>
+
+<p>If you already received an account key, do not submit this form.  <a href="account_created.php">Activate your account</a> instead.</p>
+
+<form action="create_account_form.php" method="post">
+	<?php if (!empty($_GET['userid'])): ?><input type="hidden" name="userid" value="<?php echo $_GET['userid'] ?>"><?php endif; ?>
+	<table class="content" border="0" cellpadding="5" cellspacing="0">
+		<tr>
+			<th colspan="2">Create Account</th>
+		</tr>
+		<tr>
+			<td class="item">
+				Name
+				<br><span class="description">Identifies you on our web site. Use your real name or a nickname.</span>
+			</td>
+			<td class="col1"><input name="new_name" size="30"></td>
+		</tr>
+		<tr>
+			<td class="item">
+				Email Address
+				<br><span class="description">Must be a valid address of the form 'name@domain'.</span>
+			</td>
+			<td class="col1"><input name="new_email_addr" size="50"></td>
+		</tr>
+		<tr>
+			<td class="item">
+				Country
+				<br><span class="description">Select the country you want to represent, if any.</span>
+			</td>
+			<td class="col1">
+				<select name="country">
+					<?php print_country_select(); ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="item">
+				Postal or ZIP Code
+				<br><span class="description">Optional.</span>
+			</td>
+			<td class="col1"><input name="postal_code" size="20"></td>
+		</tr>
+	</table>
+	<p style="text-align:center"><input type="submit" value="Create Account"></p>
+</form>
+
+<?php
+doFooter();
+?>
+
