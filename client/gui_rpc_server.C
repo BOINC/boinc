@@ -391,7 +391,7 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.write_tasks_gui(mf);
     } else if (match_tag(request_msg, "<get_file_transfers>")) {
         gstate.write_file_transfers_gui(mf);
-    } else if (match_tag(request_msg, "<get_project_status>")) {
+    } else if (match_tag(request_msg, "<get_project_status/>")) {
         handle_get_project_status(mf);
     } else if (match_tag(request_msg, "<get_disk_usage>")) {
         handle_get_disk_usage(mf);

@@ -499,18 +499,23 @@ void CC_STATE::clear() {
     for (i=0; i<projects.size(); i++) {
         delete projects[i];
     }
+    projects.clear();
     for (i=0; i<apps.size(); i++) {
         delete apps[i];
     }
+    apps.clear();
     for (i=0; i<app_versions.size(); i++) {
         delete app_versions[i];
     }
+    app_versions.clear();
     for (i=0; i<wus.size(); i++) {
         delete wus[i];
     }
+    wus.clear();
     for (i=0; i<results.size(); i++) {
         delete results[i];
     }
+    results.clear();
 }
 
 APP* CC_STATE::lookup_app(string& str) {
@@ -570,6 +575,7 @@ void PROJECTS::clear() {
     for (i=0; i<projects.size(); i++) {
         delete projects[i];
     }
+    projects.clear();
 }
 
 RESULTS::RESULTS() {
@@ -594,6 +600,7 @@ void RESULTS::clear() {
     for (i=0; i<results.size(); i++) {
         delete results[i];
     }
+    results.clear();
 }
 
 FILE_TRANSFERS::FILE_TRANSFERS() {
@@ -618,6 +625,7 @@ void FILE_TRANSFERS::clear() {
     for (i=0; i<file_transfers.size(); i++) {
         delete file_transfers[i];
     }
+    file_transfers.clear();
 }
 
 MESSAGES::MESSAGES() {
@@ -642,6 +650,7 @@ void MESSAGES::clear() {
     for (i=0; i<messages.size(); i++) {
         delete messages[i];
     }
+    messages.clear();
 }
 
 RPC_CLIENT::RPC_CLIENT() {
