@@ -953,9 +953,15 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             wxASSERT(NULL != pMenuBar);
             wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-            pMenuBar->Check( ID_ACTIVITYRUNALWAYS, false );
-            pMenuBar->Check( ID_ACTIVITYSUSPEND, false );
-            pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
+            if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNALWAYS, NULL ) )
+                pMenuBar->Check( ID_ACTIVITYRUNALWAYS, false );
+
+            if ( NULL != pMenuBar->FindItem( ID_ACTIVITYSUSPEND, NULL ) )
+                pMenuBar->Check( ID_ACTIVITYSUSPEND, false );
+
+            if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNBASEDONPREPERENCES, NULL ) )
+                pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
+
             pDoc->GetActivityRunMode( iActivityMode );
 
             if ( CMainDocument::MODE_ALWAYS == iActivityMode )
@@ -967,9 +973,15 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             if ( CMainDocument::MODE_AUTO == iActivityMode )
                 pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
 
-            pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
-            pMenuBar->Check( ID_NETWORKSUSPEND, false );
-            pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+            if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNALWAYS, NULL ) )
+                pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
+
+            if ( NULL != pMenuBar->FindItem( ID_NETWORKSUSPEND, NULL ) )
+                pMenuBar->Check( ID_NETWORKSUSPEND, false );
+
+            if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNBASEDONPREPERENCES, NULL ) )
+                pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+
             pDoc->GetNetworkRunMode( iNetworkMode );
 
             if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
