@@ -13145,3 +13145,23 @@ Rom   6 June 2004
         win_net.h
         wingui_mainwindow.cpp
 
+David  9 June 2004
+    - changed boinc_rename() to do backoff and retry, like boinc_fopen()
+    - changed file system ops to use random backoff instead of 1 sec,
+        to avoid lockstep scenario
+    - changed implementation of strlcpy() to use existing
+        library functions (strlen(), memcpy()) since these
+        are probably faster than doing it by hand
+    - moved xml_util.C,h from boinc to seti_boinc/db
+        This code isn't used in BOINC
+    - changed all <? to <?php in doc files
+
+    db/
+        boinc_db.C
+    doc/
+        *
+    lib/
+        filesys.C
+        std_fixes.h
+        util.C,h
+        xml_util.C,h (removed)

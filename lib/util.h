@@ -22,7 +22,6 @@
 
 #ifndef _WIN32
 #include <cstdlib>
-//#include <cstdio>
 #include <ctime>
 #include <cmath>
 #include <cctype>
@@ -32,8 +31,8 @@
 using std::string;
 #endif
 
-#ifndef HAVE_STRLCPY
-extern void strlcpy(char*, char*, int);
+#if !defined(HAVE_STRLCPY)
+extern size_t strlcpy(char*, const char*, size_t);
 #endif
 
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);

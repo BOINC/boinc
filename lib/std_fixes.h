@@ -19,6 +19,8 @@
 #ifndef _STD_FIXES_H_
 #define _STD_FIXES_H_
 
+#ifndef CONFIG_TEST
+
 #ifndef HAVE_STD_MIN
 namespace std {
 

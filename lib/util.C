@@ -49,20 +49,34 @@ using std::min;
 #include "fcgi_stdio.h"
 #endif
 
-#ifndef HAVE_STRLCPY
-void strlcpy(char* dst, char* src, int len) {
-    while (1) {
-        len--;
-        if (len == 0) {
-            *dst = 0;
-            break;
-        }
-        if ((*dst++ = *src++) == 0) {
-            break;
-        }
+#if !defined(HAVE_STRLCPY)
+size_t strlcpy(char *dst, const char *src, size_t size) {
+    size_t ret = strlen(src);
+
+    if (size) {
+        size_t len = (ret >= size) ? size-1 : ret;
+        memcpy(dst, src, len);
+        dst[len] = '\0';
     }
+
+    return ret;
 }
 #endif
+
+#if !defined(HAVE_STRLCAT)
+size_t strlcat(char *dst, const char *src, size_t size) {
+    size_t dst_len = strlen(dst);
+    size_t src_len = strlen(src);
+
+    if (size) {
+        size_t len = (src_len >= size-dst_len) ? (size-dst_len-1) : src_len;
+        memcpy(&dst[dst_len], src, len);
+        dst[dst_len + len] = '\0';
+    }
+
+    return dst_len + src_len;
+}
+#endif // !HAVE_STRLCAT
 
 // Converts a double precision time (where the value of 1 represents
 // a day) into a string.  smallest_timescale determines the smallest

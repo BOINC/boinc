@@ -258,7 +258,7 @@ int boinc_delete_file(const char* path) {
     for (int i=0; i<5; i++) {
         retval = remove(path);
         if (!retval) break;
-        boinc_sleep(1.0);
+        boinc_sleep(drand());       // avoid lockstep
     }
 #else
     retval = unlink(path);
@@ -358,7 +358,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     //
     if (!f) {
         for (int i=0; i<5; i++) {
-            boinc_sleep(1.0);
+            boinc_sleep(drand());
             f = fopen(path, mode);
             if (f) break;
         }
@@ -404,9 +404,16 @@ int boinc_copy(const char* orig, const char* newf) {
 
 int boinc_rename(const char* old, const char* newf) {
 #ifdef _WIN32
-    unlink(newf);
-#endif
+    boinc_delete_file(newf);
+    for (int i=0; i<5; i++) {
+        retval = rename(old, newf);
+        if (!retval) break;
+        boinc_sleep(drand());       // avoid lockstep
+    }
+    return retval;
+#else
     return rename(old, newf);
+#endif
 }
 
 int boinc_mkdir(const char* path) {

@@ -182,28 +182,16 @@ libboinc_a_SOURCES = \
     ../api/boinc_api.C			\
     ../api/mfile.C				\
     app_ipc.C				\
-	app_ipc.h				\
 	base64.C				\
-	base64.h				\
-	crypt.h					\
     diagnostics.C           \
-	error_numbers.h			\
     exception.C             \
     filesys.C				\
-	filesys.h				\
     language.C				\
-	language.h				\
     md5.c					\
-	md5.h					\
     md5_file.C				\
-	md5_file.h				\
-	msg_queue.h				\
     parse.C					\
 	shmem.C					\
-    util.C					\
-	util.h					\
-	xml_util.C              \
-	xml_util.h
+    util.C
 
 
 
@@ -228,7 +216,7 @@ am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
 	app_ipc.$(OBJEXT) base64.$(OBJEXT) diagnostics.$(OBJEXT) \
 	exception.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
 	md5.$(OBJEXT) md5_file.$(OBJEXT) parse.$(OBJEXT) \
-	shmem.$(OBJEXT) util.$(OBJEXT) xml_util.$(OBJEXT)
+	shmem.$(OBJEXT) util.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
 bin_PROGRAMS = crypt_prog$(EXEEXT)
@@ -267,8 +255,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/md5_test.Po ./$(DEPDIR)/mfile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msg_queue.Po ./$(DEPDIR)/msg_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/util.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/xml_util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -365,7 +352,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_util.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

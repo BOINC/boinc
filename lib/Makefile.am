@@ -14,28 +14,16 @@ libboinc_a_SOURCES =				\
     ../api/boinc_api.C			\
     ../api/mfile.C				\
     app_ipc.C				\
-	app_ipc.h				\
 	base64.C				\
-	base64.h				\
-	crypt.h					\
     diagnostics.C           \
-	error_numbers.h			\
     exception.C             \
     filesys.C				\
-	filesys.h				\
     language.C				\
-	language.h				\
     md5.c					\
-	md5.h					\
     md5_file.C				\
-	md5_file.h				\
-	msg_queue.h				\
     parse.C					\
 	shmem.C					\
-    util.C					\
-	util.h					\
-	xml_util.C              \
-	xml_util.h
+    util.C
 
 # libboinc_graphics_a_SOURCES =			\
 #         ../api/graphics_api.C			\

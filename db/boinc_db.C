@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <math.h>
 
+#include "util.h"
 #include "boinc_db.h"
 
 DB_CONN boinc_db;
