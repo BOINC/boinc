@@ -24908,3 +24908,32 @@ David  16 Feb 2005
         (most .C, .h)
     tools/
         (most .C, .h)
+
+Janus 17 Feb 2005
+    - Added security checks to forum moderation features
+    - Added project specific translation ability to the translator:
+            To use this you simply add language files and tokens in the 
+            project specific language directory:
+            /html/languages/project_specific_translations/
+            There's a dummy en.po file there to show how it is done.
+            You use the tr(TOKEN)-function to get your token translated.
+            It is possible to override the BOINC-provided translation by
+            redefining the TOKEN in the project specific translation files.
+    - Changed the translator to use the project default language as interface
+      instead of having to explicitly write everything in a seperate file.
+      Therefore you do no longer  have to add tokens to the 
+      language_interface-file.
+
+    html/
+        inc/
+            translation.inc
+        user/
+            forum_moderate_thread.php
+            forum_moderate_post.php
+            forum_moderate_thread_action.php
+            forum_moderate_post_action.php
+        languages/
+            language_interface (removed)
+            project_specific_translations/ (new)
+                en.po (new)
+
