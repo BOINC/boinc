@@ -230,7 +230,7 @@ void boinc_init(APP_IN& ai) {
         parse_init_file(f);
         unlink(BOINC_INIT_FILE);
     }
-    set_timer((int)ai.checkpoint_period);
+    set_timer(ai.checkpoint_period);
 }
 
 void boinc_poll(APP_IN& ai, APP_OUT& ao) {
@@ -307,7 +307,7 @@ void on_timer(int a) {
     _checkpoint = true;
 }
 
-int set_timer(int period) {
+int set_timer(double period) {
     int retval=0;
     struct sigaction sa;
     sa.sa_handler = on_timer;
@@ -315,8 +315,8 @@ int set_timer(int period) {
     sigaction(SIGVTALRM, &sa, NULL);
 #ifdef unix
     itimerval value;
-    value.it_value.tv_sec = period;
-    value.it_value.tv_usec = 0;
+    value.it_value.tv_sec = (int)period;
+    value.it_value.tv_usec = ((int)(period*1000000))%1000000;
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_VIRTUAL, &value, NULL);
 #endif

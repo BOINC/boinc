@@ -99,7 +99,7 @@ int boinc_resolve_link(char *file_name, char *resolved_name);
 extern bool _checkpoint;
 #define time_to_checkpoint() _checkpoint
 int checkpoint_completed();
-int set_timer(int period); //period is seconds spent in process
+int set_timer(double period); //period is seconds spent in process
 void on_timer(int not_used);
 double get_cpu_time(); //return cpu time for this process
 
