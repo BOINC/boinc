@@ -17,6 +17,18 @@
 // Contributor(s):
 //
 
+//using indepenent jpeg group library - jpeglib.lib
+
+#include <stdio.h>
+
+#ifdef _WIN32
+#include "jpeglib.h"
+#include "bmplib.h"
+#include "tgalib.h"
+#else
+#include <jpeglib.h>
+#endif
+
 // various utility classes for OpenGL programming,
 // used in Astropulse and SETI@home
 // See also graphics_data.C,h
@@ -128,23 +140,15 @@ struct tImageJPG
 	unsigned char *data;
 };
 
-//using indepenent jpeg group library - jpeglib.lib
-#ifdef _WIN32
-#include "jpeglib.h"
-#include "bmplib.h"
-#include "tgalib.h"
-#else
-#include <jpeglib.h>
-#endif
-
+typedef unsigned int UINT;
 
 #define MAX_TEXTURES 16
 #define MAX_FONTS 16
 extern UINT g_Texture[MAX_TEXTURES];
 extern UINT listBase[MAX_FONTS];
-extern bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID);
-extern bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID);
-extern bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID);
-extern bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID);
+extern bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID);
+extern bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID);
+extern bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID);
+extern bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID);
 extern tImageJPG *LoadJPG(const char *filename);
 extern void print_text(unsigned int base, char *string);

@@ -38,6 +38,7 @@
 #include <GL/gl.h>
 #elif defined(HAVE_OPENGL_GL_H)
 #include <OpenGL/gl.h>
+#else
 #endif
 
 #ifdef HAVE_GLU_H
@@ -905,7 +906,7 @@ tImageJPG *LoadJPG(const char *filename)
 	
 	if((pFile = fopen(filename, "rb")) == NULL) 
 	{
-		MessageBox(NULL, "Unable to load JPG File!", "Error", MB_OK);
+		fprintf(stderr,"Unable to load JPG File!");
 		return NULL;
 	}
 		
@@ -920,7 +921,7 @@ tImageJPG *LoadJPG(const char *filename)
 	return pImageData;
 }
 
-bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID)
+bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID)
 {
 	if(!strFileName) return false;	
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
@@ -944,7 +945,7 @@ bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID)
 	return true;
 }
 
-bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID)
+bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID)
 {
 #ifdef _WIN32
 	DIB_BITMAP image; 
@@ -961,7 +962,7 @@ bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID)
 #endif
 	return true;
 }
-bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
+bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID)
 {
 #ifdef _WIN32
 	unsigned char* pixels;
@@ -978,7 +979,7 @@ bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 	return true;
 }
 
-bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID)
+bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID)
 {
 #ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in

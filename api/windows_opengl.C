@@ -421,5 +421,6 @@ void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight)
       return;
    	
    SelectObject(myhDC, hFont);
-   wglUseFontBitmaps(myhDC, 32, 96, base);   
+   wglUseFontBitmaps(myhDC, 32, 96, base);
+   wglUseFontBitmaps(myhDC, 32, 96, base);
 }
