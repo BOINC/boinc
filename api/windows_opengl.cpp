@@ -1,3 +1,22 @@
+// The contents of this file are subject to the Mozilla Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://www.mozilla.org/MPL/ 
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
 /*
  *		This Code Was Created By Jeff Molofee 2000
  *		A HUGE Thanks To Fredric Echols For Cleaning Up
@@ -12,7 +31,6 @@
 #include <gl\glu.h>			// Header File For The GLu32 Library
 #include <gl\glaux.h>		// Header File For The Glaux Library
 #include <stdio.h>
-#include <time.h>
 
 #include "graphics_api.h"
 
@@ -22,6 +40,7 @@ HWND		hWnd=NULL;		// Holds Our Window Handle
 HINSTANCE	hInstance;		// Holds The Instance Of The Application
 int			mouse_thresh = 3;
 int			initCursorPosx, initCursorPosy;
+extern int ok_to_draw;
 
 GLuint	base;				// Base Display List For The Font Set
 GLfloat	cnt1;				// 1st Counter Used To Move Text & For Coloring
@@ -30,8 +49,9 @@ GLfloat	cnt2;				// 2nd Counter Used To Move Text & For Coloring
 bool	keys[256];
 bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
-BOOL	done=FALSE;								// Bool Variable To Exit Loop
+BOOL	done=FALSE;			// Bool Variable To Exit Loop
 int		counter;
+extern HANDLE hGlobalDrawEvent;
 
 int DrawGLScene(GLvoid);
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
@@ -444,16 +464,12 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG		msg;									// Windows Message Structure
-	clock_t next_draw_time;
-
-	next_draw_time = clock();
 
 	fullscreen=FALSE;							// Windowed Mode
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow("BOINC Application Window",((GRAPHICS_INFO*)gi)->xsize,
-		((GRAPHICS_INFO*)gi)->ysize,1,fullscreen))
-	{
+		((GRAPHICS_INFO*)gi)->ysize,1,fullscreen)) {
 		return 0;									// Quit If Window Was Not Created
 	}
 
@@ -473,13 +489,15 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 		{
 			if (active)								// Program Active?
 			{
-				if (keys[VK_ESCAPE]) {				// Was ESC Pressed?
-					done=TRUE;						// ESC Signalled A Quit
-				}
-				else if (clock()>next_draw_time) {	// Not Time To Quit, Update Screen
-					DrawGLScene();					// Draw The Scene
-					SwapBuffers(hDC);				// Swap Buffers (Double Buffering).  This is taking lots of CPU time
-					next_draw_time = clock()+(1000/60);
+				if (ok_to_draw) {	// Not Time To Quit, Update Screen
+					// Draw The Scene
+					DrawGLScene();
+					// Swap Buffers (Double Buffering).  This seems to take lots of CPU time
+					SwapBuffers(hDC);
+					// TODO: Do we need a mutex for ok_to_draw?
+					ok_to_draw = 0;
+					// Signal the worker thread that we're done drawing
+					SetEvent(hGlobalDrawEvent);
 				}
 			}
 

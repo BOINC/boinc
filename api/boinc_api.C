@@ -30,6 +30,7 @@
 #include <sys/stat.h>
 #include <afxwin.h>
 #include <winuser.h>
+#include <mmsystem.h>	// for timing
 #endif
 
 #ifdef __APPLE_CC__
@@ -55,12 +56,18 @@
 
 static APP_INIT_DATA aid;
 GRAPHICS_INFO gi;
-static double timer_period = 0.1;
+static double timer_period = 1.0/50.0;	// 50 Hz timer
 static double time_until_checkpoint;
+static double time_until_redraw;
 static double time_until_fraction_done_update;
 static double fraction_done;
 static bool ready_to_checkpoint = false;
+static bool ready_to_redraw = false;
 static bool this_process_active;
+int ok_to_draw = 0;
+#ifdef _WIN32
+HANDLE hGlobalDrawEvent;
+#endif
 
 // read the INIT_DATA and FD_INIT files
 //
@@ -120,6 +127,7 @@ int boinc_init() {
 #endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
+	time_until_redraw = gi.refresh_period;
     this_process_active = true;
     set_timer(timer_period);
 
@@ -161,6 +169,17 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 
 
 bool boinc_time_to_checkpoint() {
+	// Tell the graphics thread it's OK to draw now
+	if (ready_to_redraw) {
+		ok_to_draw = 1;
+		// And wait for the graphics thread to notify us that it's done drawing
+		ResetEvent(hGlobalDrawEvent);
+		WaitForSingleObject( hGlobalDrawEvent, INFINITE );
+		// Reset the refresh counter
+		time_until_redraw = gi.refresh_period;
+		ready_to_redraw = false;
+	}
+
     return ready_to_checkpoint;
 }
 
@@ -248,7 +267,7 @@ double boinc_cpu_time() {
 }
 
 #ifdef _WIN32
-void CALLBACK on_timer(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime) {
+void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
 #else
 void on_timer(int a) {
 #endif
@@ -257,6 +276,13 @@ void on_timer(int a) {
         time_until_checkpoint -= timer_period;
         if (time_until_checkpoint <= 0) {
             ready_to_checkpoint = true;
+        }
+    }
+
+    if (!ready_to_redraw) {
+        time_until_redraw -= timer_period;
+        if (time_until_redraw <= 0) {
+            ready_to_redraw = true;
         }
     }
 
@@ -275,7 +301,23 @@ void on_timer(int a) {
 int set_timer(double period) {
     int retval=0;
 #ifdef _WIN32
-    retval = SetTimer(NULL, 0, (int)(period*1000), on_timer);
+	// Use Windows multimedia timer, since it is more accurate
+	// than SetTimer and doesn't require an associated event loop
+	retval = timeSetEvent(
+		(int)(period*1000), // uDelay
+		(int)(period*1000), // uResolution
+		on_timer, // lpTimeProc
+		NULL, // dwUser
+		TIME_PERIODIC  // fuEvent
+		);
+
+	// Create the event object used to signal between the
+	// worker and event threads
+	hGlobalDrawEvent = CreateEvent( 
+            NULL,     // no security attributes
+            TRUE,    // manual reset event
+            TRUE,     // initial state is signaled
+            NULL);    // object not named
 #endif
 
 #if HAVE_SIGNAL_H
