@@ -30,6 +30,7 @@
 #include <gl\glu.h>			// Header File For The GLu32 Library
 #include <stdio.h>
 
+#include "boinc_api.h"
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
