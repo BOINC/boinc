@@ -139,6 +139,7 @@ public:
     char signed_xml[MAX_BLOB_LEN];
     char xml_signature[MAX_BLOB_LEN];
     char file_signature[MAX_BLOB_LEN];
+    bool approved;          // true if the file is an user-approved executable
 
     FILE_INFO();
     ~FILE_INFO();
