@@ -231,8 +231,14 @@ int CLIENT_STATE::resume_network() {
     return 0;
 }
 
+// call this only after parsing global prefs
+//
+PROJECT* CLIENT_STATE::global_prefs_source_project() {
+    return lookup_project(global_prefs.source_project.c_str());
+}
+
 void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
-    PROJECT* pp = lookup_project(global_prefs.source_project.c_str());
+    PROJECT* pp = global_prefs_source_project();
     if (pp) {
         msg_printf(NULL, MSG_INFO,
             "General prefs: from %s (last modified %s)\n",
@@ -245,15 +251,15 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
             time_to_string(global_prefs.mod_time)
         );
     }
-    if (strlen(host_venue)) {
+    if (strlen(main_host_venue)) {
         if (found_venue) {
             msg_printf(NULL, MSG_INFO,
-                "General prefs: using separate prefs for %s\n", host_venue
+                "General prefs: using separate prefs for %s\n", main_host_venue
             );
         } else {
             msg_printf(NULL, MSG_INFO,
                 "General prefs: no separate prefs for %s; using your defaults\n",
-                host_venue
+                main_host_venue
             );
         }
     } else {

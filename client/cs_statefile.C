@@ -273,35 +273,13 @@ int CLIENT_STATE::parse_state_file() {
                 msg_printf(NULL, MSG_ERROR, "Can't parse proxy info in state file\n");
             }
         // } else if (parse_int(buf, "<user_run_request/>")) {
-        } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
+        } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
         } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
     }
 done:
     fclose(f);
 
     return retval;
-}
-
-// read just the venue from the state file.
-//
-int CLIENT_STATE::parse_venue() {
-    char buf[256];
-
-    if (!boinc_file_exists(STATE_FILE_NAME)) return 0;
-
-    FILE* f = fopen(STATE_FILE_NAME, "r");
-    while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "</client_state>")) {
-            break;
-        }
-        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
-            break;
-        }
-    }
-
-    fclose(f);
-
-    return 0;
 }
 
 
@@ -389,8 +367,8 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     // save proxy info
     //
     proxy_info.write(f);
-    if (strlen(host_venue)) {
-        f.printf("<host_venue>%s</host_venue>\n", host_venue);
+    if (strlen(main_host_venue)) {
+        f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
     f.printf("</client_state>\n");
     return 0;
@@ -542,9 +520,6 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     // save proxy info
     //
     proxy_info.write(f);
-    if (strlen(host_venue)) {
-        f.printf("<host_venue>%s</host_venue>\n", host_venue);
-    }
     f.printf("</client_state>\n");
     return 0;
 }

@@ -67,12 +67,12 @@ enum SUSPEND_REASON_t {
 //
 class CLIENT_STATE {
 public:
-  std::vector<PROJECT*> projects;
-  std::vector<APP*> apps;
-  std::vector<FILE_INFO*> file_infos;
-  std::vector<APP_VERSION*> app_versions;
-  std::vector<WORKUNIT*> workunits;
-  std::vector<RESULT*> results;
+    std::vector<PROJECT*> projects;
+    std::vector<APP*> apps;
+    std::vector<FILE_INFO*> file_infos;
+    std::vector<APP_VERSION*> app_versions;
+    std::vector<WORKUNIT*> workunits;
+    std::vector<RESULT*> results;
 
     NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;
@@ -108,8 +108,8 @@ public:
         // stores URL for -reset_project option
     char update_prefs_url[256];
         // stores URL for -update_prefs option
-    char host_venue[256];    // venue, as reported by project that sent us
-        // most recent global prefs
+    char main_host_venue[256];
+        // venue from project that gave us general prefs
     bool exit_before_upload;
         // exit when about to upload a file
     // exponential backoff variables
@@ -248,6 +248,7 @@ private:
     int suspend_network(int reason);
     int resume_network();
     void install_global_prefs();
+    PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);
 
 // --------------- cs_scheduler.C:
@@ -276,7 +277,6 @@ public:
     int write_state(MIOFILE&);
     int write_state_file();
     int write_state_file_if_needed();
-    int parse_venue();
 	void check_anonymous();
 	int parse_app_info(PROJECT*, FILE*);
     int write_state_gui(MIOFILE&);

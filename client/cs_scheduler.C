@@ -182,8 +182,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
-        "    <estimated_delay>%f</estimated_delay>\n"
-        "    <host_venue>%s</host_venue>\n",
+        "    <estimated_delay>%f</estimated_delay>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -192,8 +191,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         core_client_minor_version,
         work_req,
         p->resource_share / trs,
-        ettprc(p, proj_min_results(p, ncpus)-1),
-        host_venue
+        ettprc(p, proj_min_results(p, ncpus)-1)
     );
 	if (p->anonymous_platform) {
 		fprintf(f, "    <app_versions>\n");
@@ -500,7 +498,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     FILE* f;
     int retval;
     unsigned int i;
-    bool signature_valid, need_to_install_prefs=false;
+    bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[256], filename[256];
 
     nresults = 0;
@@ -535,10 +533,19 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     if (sr.hostid) {
+        project->hostid = sr.hostid;
         project->rpc_seqno = 0;
-	    if (strcmp(host_venue, sr.host_venue)) {
-            safe_strcpy(host_venue, sr.host_venue);
-            need_to_install_prefs = true;
+    }
+
+    // see if we have a new venue from this project
+    //
+	if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
+        safe_strcpy(project->host_venue, sr.host_venue);
+        msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
+        update_project_prefs = true;
+        if (project == global_prefs_source_project()) {
+            strcpy(main_host_venue, sr.host_venue);
+            update_global_prefs = true;
         }
     }
 
@@ -569,14 +576,13 @@ int CLIENT_STATE::handle_scheduler_reply(
             sr.global_prefs_xml
         );
         fclose(f);
-		need_to_install_prefs = true;
+		update_global_prefs = true;
 	}
 
-
-	if (need_to_install_prefs) {
+	if (update_global_prefs) {
         bool found_venue;
         retval = global_prefs.parse_file(
-            GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
+            GLOBAL_PREFS_FILE_NAME, project->host_venue, found_venue
         );
         if (retval) {
             msg_printf(project, MSG_ERROR, "Can't parse general preferences");
@@ -598,10 +604,13 @@ int CLIENT_STATE::handle_scheduler_reply(
                 msg_printf(project, MSG_ERROR, "Can't write account file: %d", retval);
                 return retval;
             }
-            project->parse_account_file();
-            project->parse_preferences_for_user_files();
-            active_tasks.request_reread_prefs(project);
+            update_project_prefs = true;
         }
+    }
+    if (update_project_prefs) {
+        project->parse_account_file();
+        project->parse_preferences_for_user_files();
+        active_tasks.request_reread_prefs(project);
     }
 
     // if the scheduler reply includes a code-signing key,

@@ -89,7 +89,7 @@ CLIENT_STATE::CLIENT_STATE() {
     proxy_info.clear();
     show_projects = false;
     strcpy(detach_project_url, "");
-    strcpy(host_venue, "");
+    strcpy(main_host_venue, "");
     user_run_request = USER_RUN_REQUEST_AUTO;
     user_network_request = USER_RUN_REQUEST_AUTO;
     started_by_screensaver = false;
@@ -194,11 +194,6 @@ int CLIENT_STATE::init() {
     );
 #endif
 
-    // we need the host venue while parsing account files.
-    // Get it from the client state file
-    //
-    parse_venue();
-
     // parse account files.
     // If there are none, prompt user for project URL and create file
     //
@@ -269,7 +264,7 @@ int CLIENT_STATE::init() {
     //
     bool found_venue;
     retval = global_prefs.parse_file(
-        GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
+        GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
     );
     if (retval) {
         msg_printf(NULL, MSG_INFO,

@@ -35,40 +35,6 @@
 
 using std::string;
 
-#if 0
-static string filename_to_project_dirname(const string& filename) {
-    assert(starts_with(filename, "account_"));
-    assert(ends_with(filename, ".xml"));
-    return string(PROJECTS_DIR) + PATH_SEPARATOR + filename.substr(8,filename.size()-12);
-}
-
-// we want to canonicalize filenames to NOT have a trailing _ . However, old
-// clients <=1.03 did not ensure this so we have to rename them when someone
-// upgrades.
-// returns true if an error occurred.
-//
-static bool maybe_rename_old_filename_format(string& filename) {
-    if (ends_with(filename, "_.xml")) {
-        string newfilename = filename.substr(0, filename.length()-5) + ".xml";
-        msg_printf(NULL, MSG_INFO, "Renaming %s to %s", filename.c_str(), newfilename.c_str());
-        if (rename(filename.c_str(), newfilename.c_str())) {
-            msg_printf(NULL, MSG_ERROR, "Couldn't rename %s to %s", filename.c_str(), newfilename.c_str());
-            return true;
-        }
-
-        // also rename the project directory.
-        string newproject_dir = filename_to_project_dirname(newfilename);
-        string oldproject_dir = newproject_dir + '_';
-        msg_printf(NULL, MSG_INFO, "Renaming %s to %s", oldproject_dir.c_str(), newproject_dir.c_str());
-        if (rename(oldproject_dir.c_str(), newproject_dir.c_str())) {
-            msg_printf(NULL, MSG_ERROR, "Couldn't rename %s to %s", oldproject_dir.c_str(), newproject_dir.c_str());
-        }
-        filename = newfilename;
-    }
-    return false;
-}
-#endif
-
 int CLIENT_STATE::parse_account_files() {
     string name;
     PROJECT* project;
@@ -78,12 +44,6 @@ int CLIENT_STATE::parse_account_files() {
     DirScanner dir(".");
     while (dir.scan(name)) {
         if (is_account_file((char*)name.c_str())) {
-#if 0
-            if (maybe_rename_old_filename_format(name)) {
-                msg_printf(NULL, MSG_ERROR, "Warning: not adding project %s", name.c_str());
-                continue;       // Error occurred renaming
-            }
-#endif
             f = fopen(name.c_str(), "r");
             if (!f) continue;
             project = new PROJECT;

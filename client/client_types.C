@@ -133,6 +133,9 @@ int PROJECT::write_account_file() {
     if (tentative) {
         fprintf(f, "    <tentative/>\n");
     }
+    if (strlen(host_venue)) {
+        fprintf(f, "    <host_venue>%s</host_venue>\n", host_venue);
+    }
     fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
         project_prefs.c_str()
     );
@@ -221,33 +224,30 @@ int PROJECT::parse_account(FILE* in) {
     master_url_fetch_pending = true;
     sched_rpc_pending = true;
     strcpy(master_url, "");
+    strcpy(host_venue, "");
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "<project_preferences>")) continue;
         if (match_tag(buf, "</project_preferences>")) continue;
-        if (match_tag(buf, "</venue>")) continue;
+        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         if (match_tag(buf, "</account>")) {
-            if (strlen(gstate.host_venue)) {
-                if (!got_venue_prefs) {
-                    msg_printf(this, MSG_INFO,
-                        "Project prefs: no separate prefs for %s; using your defaults",
-                        gstate.host_venue
-                    );
+            if (strlen(host_venue)) {
+                msg_printf(this, MSG_INFO, "Host location: %s", host_venue);
+                if (got_venue_prefs) {
+                    msg_printf(this, MSG_INFO, "Using separate project prefs for %s", host_venue);
+                } else {
+                    msg_printf(this, MSG_INFO, "Using your primary project prefs");
                 }
             } else {
-                msg_printf(this, MSG_INFO, "Project prefs: using your defaults");
+                msg_printf(this, MSG_INFO, "Using your primary project prefs");
             }
             return 0;
         }
 
         else if (match_tag(buf, "<venue")) {
             parse_attr(buf, "name", venue, sizeof(venue));
-            if (!strcmp(venue, gstate.host_venue)) {
-                msg_printf(this, MSG_INFO,
-                    "Project prefs: using separate prefs for %s",
-                    gstate.host_venue
-                );
+            if (!strcmp(venue, host_venue)) {
                 got_venue_prefs = true;
             } else {
                 retval = copy_element_contents(
@@ -341,6 +341,7 @@ int PROJECT::parse_state(MIOFILE& in) {
 #endif
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
+        else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
         else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;

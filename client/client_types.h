@@ -159,6 +159,7 @@ public:
         // GUI URLs, with enclosing <gui_urls> tags
     double resource_share;
         // project's resource share relative to other projects.
+    char host_venue[256];
 
     // the following items come from client_state.xml
     // They may depend on the host as well as user and project

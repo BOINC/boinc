@@ -613,10 +613,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int&)project->user_create_time)) continue;
 		else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
-        else if (parse_int(buf, "<hostid>", hostid)) {
-            project->hostid = hostid;
-            continue;
-        }
+        else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;

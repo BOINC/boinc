@@ -17943,3 +17943,35 @@ David  30 Sept 2004
     sched/
         handle_request.C
         server_types.C,h
+
+David  1 Oct 2004
+	- Ending the venue debacle, part II: The Client
+
+		1) Each project maintains its venue separately.
+		It's stored in the project's account file,
+		and is used to select the project prefs variant.
+
+		2) Let P be the project that's the source of the global prefs.
+		Then P's venue is used to select the global prefs variant.
+		(Note: P's venue may change without the global prefs changing).
+		This venue is stored in the CLIENT_STATE.main_host_venue
+		and in the client state file; it survives even if P is detached.
+
+		So the basic logic is:
+		if you get a new venue from project P,
+		re-parse its project prefs.
+		If in addition P is the source of the global prefs,
+		re-parse the global prefs and put the venue in CLIENT_STATE.main_host_venue
+
+		- got rid of CLIENT_STATE::parse_venue()
+		- don't send host_venue in scheduler request
+
+	client/
+		client_state.C,h
+		client_types.C,h
+		cs_account.C
+		cs_prefs.C
+		cs_scheduler.C
+		cs_statefile.C
+		scheduler_op.C
+
