@@ -36,6 +36,8 @@
 GLOBAL_PREFS::GLOBAL_PREFS() {
     dont_run_on_batteries = false;
     dont_run_if_user_active = false;
+    run_minimized = false;
+    run_on_startup = false;
     confirm_before_connecting = false;
 	hangup_if_dialed = false;
     high_water_days = 3;
@@ -62,6 +64,12 @@ int GLOBAL_PREFS::parse(FILE* in) {
             continue;
         } else if (match_tag(buf, "<confirm_before_connecting/>")) {
             confirm_before_connecting = true;
+            continue;
+        } else if (match_tag(buf, "<run_minimized/>")) {
+            run_minimized = true;
+            continue;
+        } else if (match_tag(buf, "<run_on_startup/>")) {
+            run_on_startup = true;
             continue;
         } else if (parse_double(buf, "<high_water_days>", high_water_days)) {
             continue;

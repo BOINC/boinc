@@ -75,12 +75,6 @@ BOOL CMyApp::InitInstance()
 		return FALSE;
 	}
     m_pMainWnd = new CMainWindow();
-	if (gstate.minimize)
-		m_pMainWnd->ShowWindow(SW_HIDE);
-	else
-		m_pMainWnd->ShowWindow(SW_SHOW);
-
-	m_pMainWnd->UpdateWindow();
 	if(gstate.projects.size() == 0) {
 		((CMainWindow*)m_pMainWnd)->SendMessage(WM_COMMAND, ID_SETTINGS_LOGIN);
 	}
@@ -432,7 +426,7 @@ BOOL CMainWindow::IsSuspended()
 // function:	asks the user for permission to connect to the network
 BOOL CMainWindow::RequestNetConnect()
 {
-	if(GetForegroundWindow() != this) {
+	if(GetForegroundWindow() != this || !IsWindowVisible()) {
 		m_bRequest = true;
 		return FALSE;
 	}
@@ -689,7 +683,7 @@ void CMainWindow::LoadUserSettings()
 	rt.right = nBuf + rt.left;
 	nBuf = GetPrivateProfileInt("WINDOW", "height", 400, szPath);
 	rt.bottom = nBuf + rt.top;
-	SetWindowPos(&wndNoTopMost, rt.left, rt.top, rt.Width(), rt.Height(), gstate.minimize?SWP_HIDEWINDOW:SWP_SHOWWINDOW);
+	SetWindowPos(&wndNoTopMost, rt.left, rt.top, rt.Width(), rt.Height(), 0);
 
 	// load selected tab
 	nBuf = GetPrivateProfileInt("WINDOW", "selection", 0, szPath);
@@ -1023,6 +1017,9 @@ void CMainWindow::OnCommandSettingsQuit()
 // function:	shows the account login dialog box
 void CMainWindow::OnCommandSettingsLogin()
 {
+	if(GetForegroundWindow() != this || !IsWindowVisible()) {
+		return;
+	}
     CLoginDialog dlg(IDD_LOGIN, "", "");
     int nResult = dlg.DoModal();
 	if(nResult == IDOK) {
@@ -1472,6 +1469,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		OnCommandExit();
 		return 0;
 	}
+
 	SetTimeOut();
 
 	// load dll and start idle detection
@@ -1505,6 +1503,24 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	UpdateGUI(&gstate);
+
+	// see if we need to add this to startup
+	if(gstate.global_prefs.run_on_startup) {
+		UtilGetRegStr("ClientPath", curDir);
+		if(strlen(curDir)) {
+			strcat(curDir, " -min");
+			UtilSetRegStartupStr("boincclient", curDir);
+		}
+	} else {
+		UtilSetRegStartupStr("boincclient", "");
+	}
+
+	// see if we need to hide the window
+	if(gstate.global_prefs.run_minimized) {
+		ShowWindow(SW_HIDE);
+	} else {
+		ShowWindow(SW_SHOW);
+	}
 
     return 0;
 }

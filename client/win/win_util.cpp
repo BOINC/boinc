@@ -103,6 +103,36 @@ int UtilGetRegKey(char *name, DWORD &keyval)
 }
 
 //////////
+// Function:    UtilSetRegStr
+// arguments:	name: name of key, str: value of string to store
+// returns:		int indicating error
+// function:	sets string value in specified key
+int UtilSetRegStr(char *name, char *str)
+{
+	LONG error;
+	HKEY boinc_key;
+
+	if ( OSVersion == OS_WIN95 ) {
+		error = RegOpenKeyEx( HKEY_LOCAL_MACHINE, "SOFTWARE\\BOINC",  
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else if ( OSVersion == OS_WINNT ) {
+		error = RegOpenKeyEx( HKEY_CURRENT_USER, "SOFTWARE\\BOINC",  
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		return -1;
+	}
+
+	error = RegSetValueEx( boinc_key, name, 0,
+		REG_SZ, (CONST BYTE *)str, strlen(str) + 1);
+
+	RegCloseKey( boinc_key );
+
+	return 0;
+}
+
+//////////
 // Function:    UtilGetRegStr
 // arguments:	name: name of key, str: where to store value of key
 // returns:		int indicating error
@@ -136,3 +166,39 @@ int UtilGetRegStr(char *name, char *str)
 	return 0;
 }
 
+//////////
+// Function:    UtilSetRegStartupStr
+// arguments:	name: name of key, str: value of string to store
+//				if str is empty, attepts to delete the key
+// returns:		int indicating error
+// function:	sets string value in specified key in windows startup dir
+int UtilSetRegStartupStr(char *name, char *str)
+{
+	LONG error;
+	HKEY boinc_key;
+
+	if ( OSVersion == OS_WIN95 ) {
+		error = RegOpenKeyEx( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else if ( OSVersion == OS_WINNT ) {
+		error = RegOpenKeyEx( HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		return -1;
+	}
+
+	if(strlen(str) != 0) {
+		error = RegSetValueEx( boinc_key, name, 0,
+			REG_SZ, (CONST BYTE *)str, strlen(str) + 1);
+	} else {
+		error = RegSetValueEx( boinc_key, name, 0,
+			REG_SZ, (CONST BYTE *)"", 1);
+		error = RegDeleteValue(boinc_key, name);
+	}
+
+	RegCloseKey( boinc_key );
+
+	return error;
+}
