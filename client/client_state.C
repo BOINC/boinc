@@ -20,6 +20,16 @@
 #include "windows_cpp.h"
 #include "error_numbers.h"
 
+#if HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#if HAVE_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include <stdio.h>
 #include <time.h>
 
@@ -60,7 +70,13 @@ CLIENT_STATE::CLIENT_STATE() {
     max_bytes = 0;
     user_idle = true;
     use_proxy = false;
+	proxy_server_name[0] = 0;
+	proxy_server_port = -1;
     suspend_requested = false;
+#ifdef _WIN32
+	time_tests_handle = NULL;
+#endif
+	time_tests_id = 0;
 }
 
 int CLIENT_STATE::init() {
@@ -102,6 +118,7 @@ int CLIENT_STATE::init() {
     // ignoring any <project> tags (and associated stuff)
     // for projects with no account file
     //
+    clear_host_info(host_info);
     parse_state_file();
 
     if (log_flags.state_debug) {
@@ -116,11 +133,18 @@ int CLIENT_STATE::init() {
     // Run the time tests and host information check if needed
 
     // Getting host info is very fast, so we can do it anytime
-    clear_host_info(host_info);
     get_host_info(host_info);       // this is platform dependent
 
     if (gstate.run_time_tests()) {
-        gstate.time_tests();
+		show_message("Running time tests", "low");
+#ifdef _WIN32
+		time_tests_handle = CreateThread(NULL, 0, win_time_tests, NULL, 0, &time_tests_id);
+#else
+		time_tests_id = fork();
+		if(time_tests_id == 0) {
+			_exit(time_tests());
+		}
+#endif	
     }
     
     // Restart any tasks that were running when we last quit the client
@@ -139,15 +163,25 @@ bool CLIENT_STATE::run_time_tests() {
     ));
 }
 
+#ifdef _WIN32
+DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
+	return gstate.time_tests();
+}
+#endif
+
 // gets info about the host
 // NOTE: this locks up the process for 10-20 seconds,
 // so it should be called very seldom
 //
 int CLIENT_STATE::time_tests() {
+	HOST_INFO host_info;
+	FILE* finfo;
+
+	clear_host_info(host_info);
     if (log_flags.measurement_debug) {
         printf("Getting general host information.\n");
     }
-#if 0
+#if 1
     double fpop_test_secs = 2.0;
     double iop_test_secs = 2.0;
     double mem_test_secs = 2.0;
@@ -175,6 +209,9 @@ int CLIENT_STATE::time_tests() {
         );
     }
     host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
+
+	// need to check check cache!!
+    host_info.m_cache = 1e6;
 #else
     host_info.p_fpops = 1e9;
     host_info.p_iops = 1e9;
@@ -183,7 +220,37 @@ int CLIENT_STATE::time_tests() {
 #endif
 
     host_info.p_calculated = (double)time(0);
+	finfo = fopen(TIME_TESTS_FILE_NAME, "w");
+	if(!finfo) return ERR_FOPEN;
+	host_info.write_time_tests(finfo);
+	fclose(finfo);
     return 0;
+}
+
+// checks if the time tests are runnon
+int CLIENT_STATE::check_time_tests() {
+	FILE* finfo;
+	if(time_tests_id) {
+#ifdef _WIN32
+		DWORD exit_code = 0;
+		GetExitCodeThread(time_tests_handle, &exit_code);
+		if(exit_code == STILL_ACTIVE) return TIME_TESTS_RUNNING;
+		CloseHandle(time_tests_handle);
+#else
+		int retval, exit_code = 0;
+		retval = waitpid(time_tests_id, &exit_code, WNOHANG);
+		if(retval == 0) return TIME_TESTS_RUNNING;
+#endif
+		time_tests_id = 0;
+		show_message("Time tests complete", "low");
+		finfo = fopen(TIME_TESTS_FILE_NAME, "r");
+		if(!finfo) return TIME_TESTS_COMPLETE;
+		host_info.parse_time_tests(finfo);
+		fclose(finfo);
+		file_delete(TIME_TESTS_FILE_NAME);
+		return TIME_TESTS_COMPLETE;
+	}
+	return TIME_TESTS_NOT_RUNNING;
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.
@@ -253,6 +320,8 @@ static void print_log(char* p) {
 bool CLIENT_STATE::do_something() {
     int nbytes=0;
     bool action = false, x;
+
+	if(check_time_tests() == TIME_TESTS_RUNNING) return action;
 
     check_suspend_activities();
     if (!activities_suspended) {

@@ -55,6 +55,8 @@ struct HOST_INFO {
 
     int parse(FILE*);
     int write(FILE*);
+    int parse_time_tests(FILE*);
+    int write_time_tests(FILE*);
 };
 
 extern bool host_is_running_on_batteries();

@@ -149,6 +149,46 @@ int HOST_INFO::write(FILE* out) {
     return 0;
 }
 
+// Parse the time tests for host information
+// note that unlike parse this checks for the opening tag
+// and does not clear the memory of this struct
+//
+int HOST_INFO::parse_time_tests(FILE* in) {
+    char buf[256];
+
+    fgets(buf, 256, in);
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "<time_tests>"));
+        else if (match_tag(buf, "</time_tests>")) return 0;
+        else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
+        else if (parse_double(buf, "<p_iops>", p_iops)) continue;
+        else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
+        else if (parse_double(buf, "<m_cache>", m_cache)) continue;
+        else fprintf(stderr, "HOST_INFO::parse(): unrecognized: %s\n", buf);
+    }
+    return 0;
+}
+
+// Write the time tests for the host information
+//
+int HOST_INFO::write_time_tests(FILE* out) {
+    fprintf(out,
+        "<time_tests>\n"
+        "    <p_fpops>%f</p_fpops>\n"
+        "    <p_iops>%f</p_iops>\n"
+        "    <p_membw>%f</p_membw>\n"
+        "    <p_calculated>%f</p_calculated>\n"
+        "    <m_cache>%f</m_cache>\n"
+        "</time_tests>\n",
+        p_fpops,
+        p_iops,
+        p_membw,
+        p_calculated, 
+        m_cache
+    );
+    return 0;
+}
 
 // Returns the domain of the local host
 // TODO: Should the 256 be MAXHOSTNAMELEN instead?

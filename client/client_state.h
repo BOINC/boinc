@@ -28,6 +28,7 @@
 #include "file_xfer.h"
 #include "hostinfo.h"
 #include "http.h"
+#include "message.h"
 #include "net_stats.h"
 #include "net_xfer.h"
 #include "pers_file_xfer.h"
@@ -65,6 +66,14 @@ public:
     bool time_to_exit();
     bool run_time_tests();
     int time_tests();
+#ifdef _WIN32
+    static DWORD WINAPI win_time_tests(LPVOID);
+	HANDLE time_tests_handle;
+	DWORD time_tests_id;
+#else
+	PROCESS_ID time_tests_id;
+#endif
+	int check_time_tests();
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);
@@ -74,6 +83,7 @@ public:
     bool use_proxy;
     int proxy_server_port;
     char proxy_server_name[256];
+
 
 private:
     bool client_state_dirty;
