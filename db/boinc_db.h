@@ -17,8 +17,8 @@
 // Contributor(s):
 //
 
-#ifndef _DB_
-#define _DB_
+#ifndef _BOINC_DB_
+#define _BOINC_DB_
 
 // Structures corresponding to database records.
 // Some of these types have counterparts in client/types.h,
