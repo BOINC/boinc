@@ -70,6 +70,12 @@ function mac_advanced() {
     return "<a href=mac_advanced.php>Advanced GUI (test version)</a>";
 }
 
+function show_425_public($xml=false) {
+    version_start("4.25", "3 Mar 2005", $xml);
+    version("Windows", "boinc_4.25_windows_intelx86.exe", win_new(), $xml);
+    version_end($xml);
+}
+
 function show_425($xml=false) {
     version_start("4.25", "3 Mar 2005", $xml);
     version("Windows", "boinc_4.25_windows_intelx86.exe", win_new(), $xml);
@@ -113,6 +119,13 @@ function show_420($xml=false) {
     version_end($xml);
 }
 
+function show_419_public($xml=false) {
+    version("Linux/x86", "boinc_4.19_i686-pc-linux-gnu.gz", bare_core(), $xml);
+    version("Mac OS X", "boinc_4.19_powerpc-apple-darwin.gz", bare_core(), $xml);
+    version("Solaris/SPARC", "boinc_4.19_sparc-sun-solaris2.7.gz", bare_core(), $xml);
+    version_end($xml);
+}
+
 function show_419($xml=false) {
     version_start("4.19", "25 Jan 2005", $xml,
         "This version doesn't work with some HTTP proxies.
@@ -137,7 +150,8 @@ function show_418($xml=false) {
 }
 
 function show_stable($xml) {
-    show_419($xml);
+    show_425_public($xml);
+    show_419_public($xml);
 }
 
 function show_dev($xml) {
