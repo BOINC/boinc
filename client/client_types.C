@@ -646,6 +646,7 @@ int RESULT::parse_state(FILE* in) {
             continue;
         }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        else if (parse_int(buf, "<client_state>", client_state)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
@@ -665,13 +666,14 @@ int RESULT::write(FILE* out, bool to_server) {
     FILE_INFO* fip;
     int n;
 
-    //if we didn't have an error with this result, (in which case we would have called report_project_error():
+    // If we didn't have an error with this result, (in which case
+    // we would have called report_project_error():
    
     fprintf(out,
         "<result>\n"
         "    <name>%s</name>\n"
-  	"    <client_state>%d</client_state>\n"
-	"    <final_cpu_time>%f</final_cpu_time>\n",
+        "    <client_state>%d</client_state>\n"
+        "    <final_cpu_time>%f</final_cpu_time>\n",
         name,
         client_state,
         final_cpu_time

@@ -112,8 +112,6 @@ int FILE_XFER::parse_server_response(double &nbytes) {
     int status = 0;
     char buf[256];
 
-    printf("********** file upload response:\n%s", req1);
-
     parse_double(req1, "<file_size>", nbytes);
     parse_int(req1, "<status>", status);
  

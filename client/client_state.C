@@ -529,6 +529,8 @@ int CLIENT_STATE::parse_state_file() {
             use_http_proxy = true;
         } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
         } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
+        } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
+        } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
             retval = ERR_XML_PARSE;
