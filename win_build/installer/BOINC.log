@@ -3,6 +3,7 @@ Creating Package
      File 'Entries.Extra' in package.
      File 'Repository' in package.
      File 'Root' in package.
+     File 'TortoiseCVS.Status' in package.
      File 'DATA.TAG' in package.
      File 'data1.cab' in package.
      File 'data1.hdr' in package.
@@ -25,6 +26,6 @@ Creating EXE
      Creating data section
      Appending data section
      Appending file groups
-          C:\DOCUME~1\davea\LOCALS~1\Temp\pftw1.pkg
+          C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\pftw1.pkg
 Clean Up
-     Directory 'C:\DOCUME~1\davea\LOCALS~1\Temp\iftwTmp' removed.
+     Directory 'C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\iftwTmp' removed.
