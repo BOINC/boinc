@@ -14,7 +14,7 @@ class ProjectBackend(ProjectUC):
     def __init__(self, num_wu, redundancy)
         self.num_wu = num_wu
         ProjectUC.__init__(self, redundancy = redundancy, short_name = 'test_backend')
-    def run(self):
+    def make_work(self):
         self.install()
         self.sched_install('make_work', cushion=self.num_wu-1)
         self.start_servers()
@@ -22,17 +22,21 @@ class ProjectBackend(ProjectUC):
         # wait for 500 results to be generated
         n = 0
         db = self.db_open()
-        while n < self.num:
+        while n < self.num_wu:
             n = num_wus_left(db)
-            verbose_echo(1, "Generating results [%d/%d]" % (n,self.num));
+            verbose_echo(1, "Generating workunits [%d/%d]" % (n,self.num_wu));
             time.sleep(.1)
         db.close()
-        verbose_echo(1, "Generating results [%d/%d]: done." % (self.num,self.num));
+        verbose_echo(1, "Generating workunits [%d/%d]: done." % (self.num_wu,self.num_wu));
 
         # Stop the project, deinstall make_work, and install the normal
         # backend components
         self.stop()
         self.sched_uninstall('make_work')
+
+    def run(self):
+        self.make_work()
+
         self.sched_install('assimilator')
         self.sched_install('file_deleter')
         self.sched_install('validate_test')
