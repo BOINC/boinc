@@ -5,6 +5,11 @@
 # Automate a clean check out, make all, check, distcheck.  On error, complain
 # to stdout and return 1.  Suitable for a cron job.
 
+# need to set PATH because we might be running from a cron job.
+# on our Solaris servers, cvs is in /opt/misc/bin
+PATH=/opt/misc/bin:/usr/local/bin:/usr/bin:/bin:$PATH
+export PATH
+
 CHECKOUT="CVSROOT=/disks/milkyway/a/users/anderson/seti/cvsroot cvs co boinc"
 TMPDIR=/tmp/testbase
 
