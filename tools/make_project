@@ -48,6 +48,8 @@ Dir-options:
 
 Other:
    --db_name            default: PROJECT
+   --db_user            default: USER_NAME
+   --db_passwd          default: None
 
 Example command line:
   ./make_project --base $HOME/boinc --url_base http://boink/ yah 'YETI @ Home'
@@ -125,6 +127,8 @@ for o,a in opts:
     elif o == '--html_ops_url':  options.html_ops_url   = a
     elif o == '--cgi_url':       options.cgi_url        = a
     elif o == '--db_name':       options.db_name        = a
+    elif o == '--db_user':       options.db_user        = a
+    elif o == '--db_passwd':     options.db_passwd      = a
     # elif o == '--bin_dir':       options.bin_dir        = a
     # elif o == '--cgi_bin_dir':   options.cgi_bin_dir    = a
     # elif o == '--html_user_dir': options.html_user_dir  = a
@@ -175,6 +179,8 @@ defopt('key_dir'       , 'BASE/projects/PROJECT/keys')
 defopt('project_root'  , 'BASE/projects/PROJECT')
 
 defopt('db_name'       , 'PROJECT', isdir=False)
+defopt('db_user'       , 'USER_NAME', isdir=False)
+defopt('db_passwd'     , '', isdir=False)
 
 print "Creating project '%s' (short name '%s'):" %(project_longname, project_shortname)
 for k in ['base',

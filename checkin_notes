@@ -22734,4 +22734,11 @@ Rom    14 Jan 2005
 
     client/win/
         win_screensaver.cpp
- 
+
+Karl 2005-01-16
+    - Added support for specifying db_{user,passwd} when creating projects
+
+    tools/
+        make_project
+    py/Boinc/
+        setup_project.py

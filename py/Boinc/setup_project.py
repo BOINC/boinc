@@ -323,10 +323,10 @@ class Project:
         self.config = configxml.ConfigFile(self.dir('config.xml')).init_empty()
         config = self.config.config
 
-        config.long_name = self.long_name;
-        config.db_user = options.user_name
+        config.long_name = self.long_name
+        config.db_user = options.db_user
         config.db_name = db_name or options.user_name + '_' + self.short_name
-        config.db_passwd = ''
+        config.db_passwd = options.db_passwd
         config.shmem_key = generate_shmem_key()
         config.output_level = 3
         config.uldl_dir_fanout = 1024
