@@ -630,16 +630,17 @@ int ACTIVE_TASK_SET::restart_tasks() {
         atp = *iter;
         atp->init(atp->result);
         get_slot_dir(atp->slot, atp->slot_dir);
+		atp->result->is_active = true;
         retval = atp->start(false);
         if (log_flags.task) {
             printf("restarting application for result %s\n", atp->result->name);
         }
         if (retval) {
             fprintf(stderr, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
-	    atp->result->active_task_state = PROCESS_COULDNT_START;
-	    atp->result->client_state = CLIENT_COMPUTING;
-	    gstate.report_project_error(*(atp->result),retval,"Couldn't restart the app for this result.\n",CLIENT_COMPUTING);
-	   
+            atp->result->active_task_state = PROCESS_COULDNT_START;
+            atp->result->client_state = CLIENT_COMPUTING;
+            gstate.report_project_error(*(atp->result),retval,"Couldn't restart the app for this result.\n",CLIENT_COMPUTING);
+            
             active_tasks.erase(iter);
         } else {
             iter++;
