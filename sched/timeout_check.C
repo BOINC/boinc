@@ -170,6 +170,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         switch (result.server_state) {
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (result.report_deadline < now) {
+                log_messages.printf(SchedMessages::NORMAL, "[%s] result timed out (%d < %d)\n",
+                                    result.name, result.report_deadline, now);
                 // clean up any incomplete uploads
                 result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
@@ -181,7 +183,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         case RESULT_SERVER_STATE_OVER:
             switch (result.outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
-                log_messages.printf(SchedMessages::NORMAL, "WU %s has couldn't-send result\n", wu.name);
+                log_messages.printf(SchedMessages::NORMAL, "[%s] result coulnd't be sent\n", result.name);
                 wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
                 wu_error = true;
                 break;
@@ -199,12 +201,14 @@ void handle_wu(DB_WORKUNIT& wu) {
     // check for too many errors or too many results
     //
     if (nerrors > max_errors) {
-        log_messages.printf(SchedMessages::NORMAL, "WU %s has too many errors\n", wu.name);
+        log_messages.printf(SchedMessages::NORMAL, "[%s] WU has too many errors (%d errors for %d results)\n",
+                            wu.name, nerrors, (int)results.size());
         wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
         wu_error = true;
     }
     if (ndone > max_done) {
-        log_messages.printf(SchedMessages::NORMAL, "WU %s has too many answers\n", wu.name);
+        log_messages.printf(SchedMessages::NORMAL, "[%s] WU has too many answers (%d of %d results)\n",
+                            wu.name, ndone, (int)results.size());
         wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
         wu_error = true;
     }
@@ -232,6 +236,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         if (nredundancy > ndone) {
             n = nredundancy - ndone;
 
+            log_messages.printf(SchedMessages::NORMAL, "[%s] Generating %d more results\n",
+                                wu.name, n);
             for (i=0; i<n; i++) {
                 result = results[0];
                 make_unique_name(result.name);
