@@ -8497,3 +8497,20 @@ David  14 Dec 2003
     sched/
         db_dump.C
         file_upload_handler.C
+
+Gary    15 Dec 2003
+    - fixed bug in installer script which would not clean up previous
+      Boinc client autostart settings, when a new version was installed
+      without uninstalling the previous version first.
+
+    win_build/installer/Script Files/
+        setup.rul
+
+Gary	16 Dec 2003
+	- fixed bug in windows Boinc_gui core client, which caused the
+	  horizontal scroll bar on the Messages tab to be moved to the
+	  extreme right whenever new messages were written.
+
+    client/win/
+		wingui_mainwindow.cpp
+
