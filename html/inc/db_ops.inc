@@ -245,6 +245,9 @@ function show_result_summary() {
     for ($cs=1; $cs<6; $cs++) {
         $client_state[$cs] = 0;
     }
+    for ($fds=0; $fds<3; $fds++) {
+        $delete_state[$fds] = 0;
+    }
 
     $_GET['table'] = 'result';
     $_GET['sort_by'] = ''; // ignore sort
@@ -330,6 +333,10 @@ if ($query_wuid)
         $nvalid          = $res->validate_valid;
         $ninvalid        = $res->validate_invalid;
 
+        $file_delete[0]  = $res->filedeletestate_init;
+        $file_delete[1]  = $res->filedeletestate_ready;
+        $file_delete[2]  = $res->filedeletestate_done;
+
         $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done;
         mysql_free_result($result);
     }
@@ -368,7 +375,13 @@ if ($query_wuid)
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
-    row2("Files deleted", link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
+  
+    for ($fds=0; $fds<3; $fds++) {
+	row2(file_delete_state_str($fds),
+		link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
+    }
+    row2("Total files deleted",
+	link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
@@ -434,6 +447,12 @@ function result_sort_select() {
         <option value=id>ID
         <option value=sent_time>Sent time
         <option value=received_time>Received time
+        <option value=exit_status>Exit status
+        <option value=hostid>Host ID
+        <option value=userid>User ID
+        <option value=app_version_num>App Version Number
+        <option value=cpu_time>CPU time
+        <option value=workunitid>Work Unit ID
         </select>
     ";
 }
@@ -601,6 +620,8 @@ function assimilate_state_str($s) {
     case 1: return "Ready to assimilate";
     case 2: return "Assimilated";
     }
+    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    return "Unknown";
 }
 
 function file_delete_state_str($s) {
@@ -609,11 +630,17 @@ function file_delete_state_str($s) {
     case 1: return "Ready to delete";
     case 2: return "Deleted";
     }
+    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    return "Unknown";
 }
 
 function show_workunit($wu) {
+    $_GET = array('workunitid' => $wu->id);
+    show_result_summary();
+
     start_table();
     row("Created", time_str($wu->create_time));
+    row("Deadline", time_str($wu->create_time+$wu->delay_bound));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
@@ -639,9 +666,6 @@ function show_workunit($wu) {
     row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
     row("result template", "<pre>".htmlspecialchars($wu->result_template)."</pre>");
     end_table();
-
-    $_GET = array('workunitid' => $wu->id);
-    show_result_summary();
 
     echo "<p>";
 }
@@ -678,6 +702,7 @@ function show_workunit_short($wu) {
         </tr>
     ";
 }
+
 
 function server_state_string($s) {
     switch($s) {
@@ -813,6 +838,7 @@ function result_short_header() {
         <th>server<br>state</th>
         <th>outcome</th>
         <th>validate<br>state</th>
+        <th>delete<br>state</th>
         <th>exit<br>status</th>
         <th>host<br>(user)</th>
         <th>client<br>ver</th>
@@ -840,6 +866,7 @@ function show_result_short($result) {
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
     $claimed_credit = credit_str($result->claimed_credit);
     $granted_credit = credit_str($result->granted_credit);
+    $delete_state = file_delete_state_str($result->file_delete_state);
 
     echo "
         <tr>
@@ -848,6 +875,7 @@ function show_result_short($result) {
         <td>$ss</td>
         <td bgcolor=$outcome_color>$oc</td>
         <td bgcolor=$validate_color>$vs</td>
+        <td>$delete_state</td>
 	<td>", exit_status_string($result), "</td>
         <td>$host_user</td>
         <td>$version</td>
@@ -873,6 +901,7 @@ function show_user($user) {
     row("Last average time", time_str($user->expavg_time));
     row("Default venue", $user->venue);
     row("Hosts", "<a href=db_action.php?table=host&userid=$user->id&detail=low>click</a>");
+    row("Cross project ID", $user->cross_project_id);
     end_table();
 }
 

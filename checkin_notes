@@ -20325,8 +20325,13 @@ Bruce 2004-11-29
       for all input or output files respectively.
     - Documented <no_delete/> file tag.
     - file_deleter logs strerror(errno) if unable to remove a result file.
+    - Admin database ops page: show all three file delete states, add additional
+      sort options to results page, better internal bug checking on state lists,
+      move result summary to top of WU detail page, show WU report deadline in
+      human-readable form, show cross_project_ID in user table.
     sched/
       file_deleter.C
     doc/
       files.php
-    
+    html/inc
+      db_ops.inc 
