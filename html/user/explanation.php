@@ -1,4 +1,7 @@
-<?php require_once("project.inc") ?> 
+<?php
+require_once("project.inc");
+require_once("util.inc");
+ ?> 
 <html>
 <head>
 <title>User Profile Voting Information</title>
