@@ -12674,3 +12674,8 @@ David  May 25 2004
         setup_project.py
     test/
         testbase.py
+
+Rom    May 25 2004
+    - Tag for 3.07 release, all platforms
+      boinc_core_release_3_07
+
