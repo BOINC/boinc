@@ -767,7 +767,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             rp->got_server_ack = true;
         } else {
             msg_printf(project, MSG_ERROR,
-                "Got ack for result %s, can't find", sr.result_acks[i]
+                "Got ack for result %s, can't find", sr.result_acks[i].name
             );
         }
     }
