@@ -24,6 +24,9 @@
 #ifndef _WIN32
 #include <cstdio>
 #include <cassert>
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
 #endif
 
 #include "filesys.h"
