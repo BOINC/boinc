@@ -20,6 +20,9 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
+// NOTE: this is required on windows as well as unix, do not add "#ifndef
+// _WIN32" -- if something is not working on windows let's find a working
+// solution 
 #include <string>
 using namespace std;
 
