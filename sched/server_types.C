@@ -303,7 +303,11 @@ int RESULT::parse_from_client(FILE* fin) {
             }
             continue;
         } else {
-            log_messages.printf(SchedMessages::NORMAL, "RESULT::parse_from_client(): unrecognized: %s\n", buf);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "RESULT::parse_from_client(): unrecognized: %s\n",
+                buf
+            );
         }
     }
     return 1;
@@ -357,7 +361,11 @@ int HOST::parse_time_stats(FILE* fin) {
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
         else {
-            log_messages.printf(SchedMessages::NORMAL, "HOST::parse_time_stats(): unrecognized: %s\n", buf);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "HOST::parse_time_stats(): unrecognized: %s\n",
+                buf
+            );
         }
     }
     return 1;
@@ -371,7 +379,11 @@ int HOST::parse_net_stats(FILE* fin) {
         else if (parse_double(buf, "<bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
         else {
-            log_messages.printf(SchedMessages::NORMAL, "HOST::parse_net_stats(): unrecognized: %s\n", buf);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "HOST::parse_net_stats(): unrecognized: %s\n",
+                buf
+            );
         }
     }
     return 1;
@@ -386,7 +398,11 @@ int APP_FILE::parse(char*& in) {
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<timestamp>", timestamp)) continue;
         else {
-            log_messages.printf(SchedMessages::NORMAL, "APP_FILE::parse(): unrecognized %s\n", buf);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "APP_FILE::parse(): unrecognized %s\n",
+                buf
+            );
         }
     }
     return 1;

@@ -95,8 +95,10 @@ void handle_wu(DB_WORKUNIT& wu) {
     char buf[256];
 
     if (wu.canonical_resultid) {
-        log_messages.printf(SchedMessages::NORMAL,
-                            "[%s] handle_wu(): Already has canonical result\n", wu.name);
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "[%s] handle_wu(): Already has canonical result\n", wu.name
+        );
         ++log_messages;
 
         // Here if WU already has a canonical result.
@@ -104,9 +106,11 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         retval = canonical_result.lookup_id(wu.canonical_resultid);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL,
-                                "[%s] Can't read canonical result; marking as validated\n",
-                                wu.name);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[%s] Can't read canonical result; marking as validated\n",
+                wu.name
+            );
             // Mark this WU as validated, otherwise we'll keep checking it
             goto mark_validated;
         }
@@ -121,34 +125,44 @@ void handle_wu(DB_WORKUNIT& wu) {
             ) {
                 retval = check_pair(result, canonical_result, match);
                 if (retval) {
-                    log_messages.printf(SchedMessages::DEBUG,
-                                        "[%s]: pair_check() failed for result\n",
-                                        result.name);
+                    log_messages.printf(
+                        SchedMessages::DEBUG,
+                        "[%s]: pair_check() failed for result\n",
+                        result.name
+                    );
                     continue;
                 } else {
                     if (match) {
                         result.validate_state = VALIDATE_STATE_VALID;
                         result.granted_credit = wu.canonical_credit;
-                        log_messages.printf(SchedMessages::NORMAL,
-                                            "[%s] pair_check() matched: setting result to valid; credit %f\n",
-                                            result.name, result.granted_credit);
+                        log_messages.printf(
+                            SchedMessages::NORMAL,
+                            "[%s] pair_check() matched: setting result to valid; credit %f\n",
+                            result.name, result.granted_credit
+                        );
                     } else {
                         result.validate_state = VALIDATE_STATE_INVALID;
-                        log_messages.printf(SchedMessages::NORMAL,
-                                            "[%s] pair_check() didn't match: setting result to invalid\n",
-                                            result.name);
+                        log_messages.printf(
+                            SchedMessages::NORMAL,
+                            "[%s] pair_check() didn't match: setting result to invalid\n",
+                            result.name
+                        );
                     }
                 }
                 retval = result.update();
                 if (retval) {
-                    log_messages.printf(SchedMessages::CRITICAL,
-                                        "[%s] Can't update result\n", result.name);
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[%s] Can't update result\n", result.name
+                    );
                     continue;
                 }
                 retval = grant_credit(result, result.granted_credit);
                 if (retval) {
-                    log_messages.printf(SchedMessages::NORMAL,
-                                        "[%s] Can't grant credit\n", result.name);
+                    log_messages.printf(
+                        SchedMessages::NORMAL,
+                        "[%s] Can't grant credit\n", result.name
+                    );
                     continue;
                 }
             }
@@ -159,8 +173,10 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Here if WU doesn't have a canonical result yet.
         // Try to get one
 
-        log_messages.printf(SchedMessages::NORMAL,
-                            "[%s] handle_wu(): No canonical result yet\n", wu.name);
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "[%s] handle_wu(): No canonical result yet\n", wu.name
+        );
         ++log_messages;
 
         sprintf(buf, "where workunitid=%d", wu.id);
@@ -171,15 +187,22 @@ void handle_wu(DB_WORKUNIT& wu) {
                 results.push_back(result);
             }
         }
-        log_messages.printf(SchedMessages::DEBUG, "[%s] Found %d successful results\n",
-                            wu.name, (int)results.size());
+        log_messages.printf(
+            SchedMessages::DEBUG, "[%s] Found %d successful results\n",
+            wu.name, (int)results.size()
+        );
         if (results.size() >= (unsigned int)min_quorum) {
-            log_messages.printf(SchedMessages::DEBUG, "[%s] Enough for quorum, checking set.\n", wu.name);
+            log_messages.printf(
+                SchedMessages::DEBUG,
+                "[%s] Enough for quorum, checking set.\n", wu.name
+            );
             retval = check_set(results, canonicalid, credit);
             if (!retval && canonicalid) {
-                log_messages.printf(SchedMessages::DEBUG,
-                                    "[%s] Found a canonical result: id=%d\n",
-                                    wu.name, canonicalid);
+                log_messages.printf(
+                    SchedMessages::DEBUG,
+                    "[%s] Found a canonical result: id=%d\n",
+                    wu.name, canonicalid
+                );
                 wu.canonical_resultid = canonicalid;
                 wu.canonical_credit = credit;
                 wu.assimilate_state = ASSIMILATE_READY;
@@ -193,13 +216,17 @@ void handle_wu(DB_WORKUNIT& wu) {
                         update_result = true;
                         retval = grant_credit(result, credit);
                         if (retval) {
-                            log_messages.printf(SchedMessages::DEBUG,
-                                                "[%s] grant_credit() returned %d\n", result.name, retval );
+                            log_messages.printf(
+                                SchedMessages::DEBUG,
+                                "[%s] grant_credit() returned %d\n", result.name, retval
+                            );
                         }
                         result.granted_credit = credit;
-                        log_messages.printf(SchedMessages::NORMAL,
-                                            "[%s] Granted %f credit to valid result\n",
-                                            result.name, result.granted_credit);
+                        log_messages.printf(
+                            SchedMessages::NORMAL,
+                            "[%s] Granted %f credit to valid result\n",
+                            result.name, result.granted_credit
+                        );
                     }
 
                     // don't send any unsent results
@@ -214,8 +241,11 @@ void handle_wu(DB_WORKUNIT& wu) {
                     if (update_result) {
                         retval = result.update();
                         if (retval) {
-                            log_messages.printf(SchedMessages::CRITICAL,
-                                                "[%s] result.update() = %d\n", result.name, retval );
+                            log_messages.printf(
+                                SchedMessages::CRITICAL,
+                                "[%s] result.update() = %d\n",
+                                result.name, retval
+                            );
                         }
                     }
                 }
@@ -231,8 +261,10 @@ void handle_wu(DB_WORKUNIT& wu) {
     wu.need_validate = 0;
     retval = wu.update();
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL,
-                            "[%s] wu.update() = %d\n", wu.name, retval);
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[%s] wu.update() = %d\n", wu.name, retval
+        );
     }
 }
 

@@ -155,8 +155,11 @@ try_again:
                     goto try_again;
                 }
                 if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-                    log_messages.printf(SchedMessages::NORMAL, "[%s] RESULT STATE CHANGED\n",
-                                        result.name);
+                    log_messages.printf(
+                        SchedMessages::NORMAL,
+                        "[%s] RESULT STATE CHANGED\n",
+                        result.name
+                    );
                     goto try_again;
                 }
                 collision = false;
@@ -170,14 +173,18 @@ try_again:
                     }
                 }
                 if (!collision) {
-                    log_messages.printf(SchedMessages::NORMAL,
-                                        "[%s] adding result in slot %d\n",
-                                        result.name, i);
+                    log_messages.printf(
+                        SchedMessages::NORMAL,
+                        "[%s] adding result in slot %d\n",
+                        result.name, i
+                    );
                     retval = wu.lookup_id(result.workunitid);
                     if (retval) {
-                        log_messages.printf(SchedMessages::CRITICAL,
-                                            "[%s] can't read workunit #%d: %d\n",
-                                            result.name, result.workunitid, retval);
+                        log_messages.printf(
+                            SchedMessages::CRITICAL,
+                            "[%s] can't read workunit #%d: %d\n",
+                            result.name, result.workunitid, retval
+                        );
                         continue;
                     }
                     ssp->wu_results[i].result = result;
@@ -266,14 +273,16 @@ int main(int argc, char** argv) {
     }
     ssp->scan_tables();
 
-    log_messages.printf(SchedMessages::NORMAL,
-              "feeder: read "
-              "%d platforms, "
-              "%d apps, "
-              "%d app_versions\n",
-              ssp->nplatforms,
-              ssp->napps,
-              ssp->napp_versions);
+    log_messages.printf(
+        SchedMessages::NORMAL,
+        "feeder: read "
+        "%d platforms, "
+        "%d apps, "
+        "%d app_versions\n",
+        ssp->nplatforms,
+        ssp->napps,
+        ssp->napp_versions
+    );
 
     feeder_loop();
 }

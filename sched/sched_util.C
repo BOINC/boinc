@@ -32,8 +32,7 @@ using namespace std;
 
 const char* STOP_TRIGGER_FILENAME = "../stop_server";
 
-void write_pid_file(const char* filename)
-{
+void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
     if (!fpid) {
         log_messages.printf(SchedMessages::NORMAL, "Couldn't write pid\n");
@@ -45,14 +44,12 @@ void write_pid_file(const char* filename)
 
 // sig_int will be set to true if SIGINT is caught.
 bool sig_int = false;
-static void sigint_handler(int)
-{
+static void sigint_handler(int) {
     fprintf(stderr, "SIGINT\n");
     sig_int = true;
 }
 
-void install_sigint_handler()
-{
+void install_sigint_handler() {
     signal(SIGINT, sigint_handler);
     // SIGINT is now default again so hitting ^C again will kill the program.
 }
@@ -72,7 +69,9 @@ void check_stop_trigger() {
 
 // update an exponential average of credit per second.
 //
-void update_average(double credit_assigned_time, double credit, double& avg, double& avg_time) {
+void update_average(
+    double credit_assigned_time, double credit, double& avg, double& avg_time
+) {
     time_t now = time(0);
 
     // decrease existing average according to how long it's been
