@@ -25515,10 +25515,13 @@ Janus  4 Mar 2005
       project directory.
       In the future you won't have to manually patch the CVS to edit
       these pages - simply add stuff to these callback functions.
+    - Automatically detect image library to use with profiles
+      (from Christian Beer)
 
     /html/
         inc/
-            home.php
+            user.inc
+            profiles.inc
         user/
             show_user.php
             home.php

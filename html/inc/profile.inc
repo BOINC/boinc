@@ -318,7 +318,9 @@ function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeigh
         $destHeight = $origHeight;
     }
 
-if (1) {
+$gd_info = gd_info();
+$newGD = (strstr($gd_info["GD Version"], "2.0")!="");
+if ($newGD) {
     // If you are using a modern PHP/GD installation that does 'truecolor' images, this is what's needed.
     $newImage = ImageCreateTrueColor($destWidth, $destHeight);
     ImageCopyResampled($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
