@@ -23,6 +23,7 @@ CGI_OBJS = \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o \
+    ../lib/parse.o \
     ../tools/process_result_template.o
 
 FEEDER_OBJS = \

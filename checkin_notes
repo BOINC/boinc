@@ -311,3 +311,20 @@ David A.    June 1, 2002
         test_uc.php
     tools/
         add.C
+
+Eric Heien    June 03, 2002
+    - Consolidated XML parsing functions into lib
+    - Fixed compile bug on Solaris in shmem.C
+
+    client/
+        parse.C (moved to lib)
+        parse.h (moved to lib)
+        Makefile.in
+    lib/
+        parse.C (moved from client)
+        parse.h (moved from client)
+        shmem.C
+    sched/
+        parse.C (removed, uses lib version now)
+        parse.h (removed, uses lib version now)
+        Makefile.in
