@@ -21,6 +21,8 @@
 #include "boinc_win.h"
 #endif
 #ifndef _WIN32
+#include <vector>
+#include <string>
 #include <stdarg.h>
 #endif
 
