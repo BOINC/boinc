@@ -22,6 +22,8 @@
 // concatenate files, write to outfile
 
 #include <stdio.h>
+#include <stdlib.h>
+#include "api.h"
 
 void file_append(FILE* in, FILE* out) {
     char buf[1024];
@@ -36,19 +38,26 @@ void file_append(FILE* in, FILE* out) {
 
 int main(int argc, char** argv) {
     FILE* in, *out;
+    char file_name[512];
     int i;
+    APP_IN ai;
 
+    boinc_init(ai);
     fprintf(stderr, "APP: concat: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: concat: argv[%d] is %s\n", i, argv[i]);
     }
-    out = fopen(argv[argc-1], "w");
+    boinc_resolve_link( argv[argc-1], file_name );
+    fprintf( stderr, "res: %s\n", file_name );
+    out = fopen(file_name, "w");
     if (!out) {
         fprintf(stderr, "APP: concat: can't open out file %s\n", argv[argc-1]);
         exit(1);
     }
     for (i=1; i<argc-1; i++) {
-        in = fopen(argv[i], "r");
+        boinc_resolve_link( argv[i], file_name );
+        fprintf( stderr, "res: %s\n", file_name );
+        in = fopen(file_name, "r");
         if (!in) {
             fprintf(stderr, "APP: concat: can't open in file %s\n", argv[i]);
             exit(1);
@@ -58,4 +67,5 @@ int main(int argc, char** argv) {
     }
     fclose(out);
     fprintf(stderr, "APP: concat: done\n");
+    return 0;
 }

@@ -21,9 +21,14 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include "api.h"
 
 int main() {
     int c, n=0;
+    APP_IN ai;
+
+    boinc_init(ai);
     fprintf(stderr, "APP: upper_case starting\n");
     fflush(stderr);
     while (1) {
@@ -34,4 +39,5 @@ int main() {
         n++;
     }
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", n);
+    return 0;
 }
