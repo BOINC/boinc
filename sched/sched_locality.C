@@ -630,7 +630,7 @@ static int send_new_file_work_deterministic_seeded(
         retval = send_results_for_file(
             filename, nsent, sreq, reply, platform, ss, false
         );
-        if (nsent>0) break; 
+        if (nsent>0 || !reply.work_needed(true)) break; 
         // construct a name which is lexically greater than the name of any result
         // which uses this file.
         sprintf(min_resultname, "%s__~", filename);
