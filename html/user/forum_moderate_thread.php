@@ -9,23 +9,21 @@ $logged_in_user = get_logged_in_user();
 $logged_in_user = getForumPreferences($logged_in_user);
 
 
-if (!$_GET['action']) {
+if (!get_str('action')) {
     echo "You must specify an action...";
     exit();
-} else {
-    if (empty($_GET['thread'])) {
-        // TODO: Standard error page
-        echo "Invalid thread ID.<br>";
-        exit();
-    }
+}
+$thread = getThread(get_int('thread'));
+if (!$thread) {
+    // TODO: Standard error page
+    echo "Invalid thread ID.<br>";
+    exit();
+}
         
-    $thread = getThread($_GET['thread']);
-    if (!isSpecialUser($logged_in_user,0)) {
-        // Can't moderate without being moderator
-        echo "You are not authorized to moderate this post.";
-        exit();
-    }
-    
+if (!isSpecialUser($logged_in_user,0)) {
+    // Can't moderate without being moderator
+    echo "You are not authorized to moderate this post.";
+    exit();
 }
 
 
@@ -37,7 +35,7 @@ echo "<form action=forum_moderate_thread_action.php?thread=$thread->id method=PO
 start_table();
 row1("Moderate thread");
 
-if ($_GET['action']=="hide") {
+if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
     row2("",

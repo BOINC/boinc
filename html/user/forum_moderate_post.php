@@ -13,13 +13,14 @@ if (!$_GET['action']) {
     echo "You must specify an action...";
     exit();
 } else {
-    if (empty($_GET['id'])) {
+        
+    $post = getPost(get_int('id'));
+    if (!$post) {
         // TODO: Standard error page
         echo "Invalid post ID.<br>";
         exit();
     }
-        
-    $post = getPost($_GET['id']);
+
     $thread = getThread($post->thread);
 
     if (!isSpecialUser($logged_in_user,0)) {
@@ -46,7 +47,7 @@ echo "<form action=forum_moderate_post_action.php?id=$post->id method=POST>\n";
 start_table();
 row1("Moderate post");
 
-if ($_GET['action']=="hide") {
+if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
     row2("",
@@ -58,7 +59,7 @@ if ($_GET['action']=="hide") {
     <option value=\"3\">Commercial spam</option>
     <option value=\"4\">Doublepost</option>
 </select>");
-} elseif ($_GET['action']=="move") {
+} elseif (get_str('action')=="move") {
 
     echo "<input type=hidden name=action value=move>";
     row2("Destination thread ID:", "<input name=\"threadid\">");

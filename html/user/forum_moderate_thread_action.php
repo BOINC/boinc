@@ -11,20 +11,18 @@ require_once("../inc/forum.inc");
 db_init();
 $user = get_logged_in_user();
 $user = getForumPreferences($user);
-if (!$_POST['action'] and $_GET['action']) $_POST['action']=$_GET['action'];
 
-if (!$_POST['action']) {
+if (!post_str('action')) {
     echo "You must specify an action...";
     exit();
-} else {
-    if (empty($_GET['thread'])) {
-        // TODO: Standard error page
-        echo "Invalid thread ID.<br>";
-        exit();
-    }
+}
+$thread = getThread($_GET['thread']);
+if (!$thread){
+    // TODO: Standard error page
+    echo "Invalid thread ID.<br>";
+    exit();
 }
 
-$thread = getThread($_GET['thread']);
 
 if (!isSpecialUser($user,0)) {
     // Can't moderate without being moderator
@@ -32,8 +30,8 @@ if (!isSpecialUser($user,0)) {
     exit();
 }
 
-if ($_POST['action']=="hide"){
-    $result=mysql_query("update thread set hidden = ".intval($_POST["category"])." where id=".$thread->id);
+if (post_str('action')=="hide"){
+    $result=mysql_query("update thread set hidden = ".post_int("category")." where id=".$thread->id);
     echo mysql_error();
 } elseif ($_POST['action']=="unhide"){
     $result=mysql_query("update thread set hidden = 0 where id=".$thread->id);
@@ -56,8 +54,8 @@ if ($_POST['action']=="hide"){
 
 if ($result) {
     echo mysql_error();
-    if ($_POST['reason']){
-        send_thread_moderation_email(lookup_user_id($post->user),$thread, $_POST["reason"]);
+    if (post_str('reason')){
+        send_thread_moderation_email(lookup_user_id($post->user),$thread, post_str("reason"));
     }
     header('Location: forum_thread.php?id='.$thread->id);
 } else {

@@ -17,31 +17,29 @@ if (!isSpecialUser($user,0)) {
     exit();
 }
 
-if (!$_POST['action'] and $_GET['action']) $_POST['action']=$_GET['action'];
-
-if (!$_POST['action']) {
+if (!post_str('action')) {
     echo "You must specify an action...";
     exit();
-} else {
-    if (empty($_GET['id'])) {
-        // TODO: Standard error page
-        echo "Invalid post ID.<br>";
-        exit();
-    }
 }
 
-$post = getPost($_GET['id']);
+$post = getPost(get_int('id'));
+if (!$post) {
+    // TODO: Standard error page
+    echo "Invalid post ID.<br>";
+    exit();
+}
+
 $thread = getThread($post->thread);
 
-if ($_POST['action']=="hide"){
-    $result=mysql_query("update post set hidden = ".intval($_POST["category"])." where id=".$post->id);
+if (post_str('action')=="hide"){
+    $result=mysql_query("update post set hidden = ".post_int("category")." where id=".$post->id);
     echo mysql_error();
-} elseif ($_POST['action']=="unhide"){
+} elseif (post_str('action')=="unhide"){
     $result=mysql_query("update post set hidden = 0 where id=".$post->id);
     echo mysql_error();
-} elseif ($_POST['action']=="move"){
-    if (getThread($_POST['threadid'])){
-        $result=mysql_query("update post set thread = ".intval($_POST['threadid'])." where id=".$post->id);
+} elseif (post_str('action')=="move"){
+    if (getThread(post_int('threadid'))){
+        $result=mysql_query("update post set thread = ".post_int('threadid')." where id=".$post->id);
         echo mysql_error();
         //TODO: correct the number of posts in this thread
         //TODO: correct the number of posts in destination thread
@@ -57,8 +55,8 @@ if ($_POST['action']=="hide"){
 
 if ($result) {
     echo mysql_error();
-    if ($_POST['reason']){
-        send_moderation_email(lookup_user_id($post->user),$thread, $post, $_POST["reason"]);
+    if (post_str('reason')){
+        send_moderation_email(lookup_user_id($post->user),$thread, $post, post_str("reason"));
     }
     header('Location: forum_thread.php?id='.$thread->id);
 } else {
