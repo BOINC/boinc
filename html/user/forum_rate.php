@@ -7,10 +7,12 @@ if (!empty($_GET['post'])) {
     $postId = $_GET['post'];
     $choice = $_POST['submit'];
     $rating = $_POST['rating'];
+    if (!$choice) $choice = $_GET['choice'];
+    
 
-    if ($choice == SOLUTION) {
+    if ($choice == SOLUTION or $choice=="p") {
         $rating = 1;
-    } else if ($choice == OFF_TOPIC) {
+    } else if ($choice == OFF_TOPIC or $choice=="n") {
         $rating = -1;
     }
 
@@ -21,13 +23,17 @@ if (!empty($_GET['post'])) {
     }
 
     $user = get_logged_in_user($true);
-
-    $result = mysql_query("SELECT * FROM post WHERE id = $postId");
+    $user = getForumPreferences($user);
+    
+    if (getHasRated($user,$postId)){
+	echo "You have already rated this post.";
+    } else {
+        $result = mysql_query("SELECT * FROM post WHERE id = $postId");
    	if ($result) {
         if (mysql_num_rows($result) > 0) {
    	        $post = mysql_fetch_object($result);
 
-   	        if ($choice == NULL || $choice == SOLUTION || $choice == OFF_TOPIC) {
+   	        if ($choice == NULL || $choice == SOLUTION || $choice == OFF_TOPIC || $choice=="p" || $choice=="n") {
            		$points = $post->votes * $post->score;
            		$votes = $post->votes + 1;
            		$score = ($points + $rating) / $votes;
@@ -39,16 +45,18 @@ if (!empty($_GET['post'])) {
        		}
 
            	if ($result2) {
-                show_result_page(true, $post, $choice);
+            	    show_result_page(true, $post, $choice);
+		    setHasRated($user,$postId);
            	} else {
-                show_result_page(false, $post, $choice);
+            	    show_result_page(false, $post, $choice);
            	}
        	} else {
             show_result_page(false, NULL, $choice);
        	}
    	} else {
-       	show_result_page(false, NULL, $choice);
+       	    show_result_page(false, NULL, $choice);
    	}
+    }
 }
 
 function show_result_page($success, $post, $choice) {
@@ -57,7 +65,6 @@ function show_result_page($success, $post, $choice) {
 		if ($success) {
 	    if ($choice) {
 		    page_head('Input Recorded');
-				echo "<span class=\"title\">Helpdesk Input Recorded</span>";
 				echo "<p>Your input has been successfully recorded.  Thank you for your help.</p>";
 	    } else {
 		    page_head('Vote Registered');

@@ -18842,3 +18842,23 @@ David  25 Oct 2004
     clientgui/
         BOINCGUIApp.cpp,h
         Makefile.old
+
+David  25 Oct 2004
+    - New features for forums:
+        - lets you rate messages (binary)
+        - lets you filter what messages you see, based on ratings
+        From Janus Kristensen
+
+    NOTE: to use this, you need to update your DB to add some fields
+        to the forum_preferences table; see html/ops/db_update.php
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            forum_rate.php
+            forum_thread.php

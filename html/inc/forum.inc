@@ -24,10 +24,15 @@ define("EXCERPT_LENGTH", "120");
 
 define('NEW_IMAGE', 'unread_post.png');
 define('NEW_IMAGE_HEIGHT','15');
+define('EMPHASIZE_IMAGE', 'emphasized_post.png');
+define('EMPHASIZE_IMAGE_HEIGHT','15');
 
 define ('SOLUTION', 'This answered my question');
 define ('SUFFERER', 'I also have this question');
 define ('OFF_TOPIC', 'Off-topic');
+
+define ('DEFAULT_LOW_RATING_THRESHOLD', -25);
+define ('DEFAULT_HIGH_RATING_THRESHOLD', 5);
 
 $forum_sort_styles['modified-new'] = "Most recent post first";
 $forum_sort_styles['modified-old'] = "Least recent post first";
@@ -218,12 +223,30 @@ function getForumPreferences($user){
         $user->special_user=$prefs->special_user;
         $user->jump_to_unread=$prefs->jump_to_unread;
         $user->hide_signatures=$prefs->hide_signatures;
+        $user->rated_posts=$prefs->rated_posts;
+	$user->low_rating_threshold=$prefs->low_rating_threshold;
+	$user->high_rating_threshold=$prefs->high_rating_threshold;
         $user->forum_preferences=1;
+	
+	//Set defaults in certain cases:
+	if ($user->low_rating_threshold==0 and $user->high_rating_threshold==0){
+	    $user->low_rating_threshold=DEFAULT_LOW_RATING_THRESHOLD;
+	    $user->high_rating_threshold=DEFAULT_HIGH_RATING_THRESHOLD;
+	}    
     } else {
         mysql_query("insert into forum_preferences set userid='".$user->id."'");
         $user->forum_preferences=0;
     }
     return $user;
+}
+
+function getHasRated($user, $postid){
+    return (strstr($user->rated_posts,"|".$postid));
+}
+
+function setHasRated($user, $postid){
+    mysql_query("UPDATE forum_preferences SET rated_posts = concat('|$postid',rated_posts) WHERE userid = '".$user->id."'");
+    return mysql_error();
 }
 
 function getSortStyle($user,$place){
@@ -408,13 +431,11 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     }
 
     while ($post = mysql_fetch_object($posts)) {
-        if ($post->score >= $filter) {
-            if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
-                show_post($post, $thread, $logged_in_user, $n, $controls, false);
-                if ($do_coloring) $n = ($n+1)%2;
-                if (($post->timestamp>$logged_in_user->thread_last_visited) && (($post->timestamp<$first_unread_post->timestamp) || $first_unread_post->timestamp==0)){
-                    $first_unread_post=$post;
-                }
+        if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
+            show_post($post, $thread, $logged_in_user, $n, $controls, false, $filter);
+            if ($do_coloring) $n = ($n+1)%2;
+            if (($post->timestamp>$logged_in_user->thread_last_visited) && (($post->timestamp<$first_unread_post->timestamp) || $first_unread_post->timestamp==0)){
+                $first_unread_post=$post;
             }
         }
     }
@@ -428,14 +449,16 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     }
 }
 
-function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false) {
-    global $post_ratings;
+function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false, $filter=true) {
+    global $post_ratings;						// <------ Old obsolete rating method (remove someday)
 
     $user = lookup_user_id($post->user);
     $user = getForumPreferences($user);
     $data = mysql_query("SELECT userid FROM profile WHERE userid = " . $user->id);                //Lookup existance of profile for user
     $user->has_profile = (mysql_numrows($data) > 0);                                                //and store this info in the user object
     $user->has_avatar = ($user->avatar != "");                                                        //for later access
+    $rated_below_threshold = ($logged_in_user->low_rating_threshold>($post->score*$post->votes));
+    $rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
         
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
@@ -460,14 +483,13 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
     if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
     
+    if (!$filter || !$rated_below_threshold){
+        echo "<p style=\"font-size:8pt\">";
+        if ($user->has_avatar and $logged_in_user->hide_avatars!=1) 
+	    echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
+	echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</p>";
+    }
     echo "
-        <p style=\"font-size:8pt\">";
-
-    if ($user->has_avatar and $logged_in_user->hide_avatars!=1) echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
-
-    echo "
-        Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "
-        </p>
         </td>
         <td>
     ";
@@ -484,20 +506,26 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($post->timestamp>$logged_in_user->thread_last_visited){
         echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\">";
     }
+    if ($rated_above_threshold){
+        echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"!\" height=\"".EMPHASIZE_IMAGE_HEIGHT."\">";
+    }
         
     echo "        
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
-    if ($post->parent_post) echo "<br>in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
+    if ($post->parent_post) echo " - in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
     if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=forum_edit.php?id=$post->id>[Edit this post]</a>";
     if ($post->modified) echo "<br>Last modified: ", pretty_time_Str($post->modified);
-
+    if ($rated_below_threshold && $filter){
+	echo "<br>This post has been filtered (rating: ".($post->score * $post->votes)."), press <a href=\"?id=".$thread->id."&filter=false#".$post->id."\">here</a> to view this thread without filtering";
+    }
+    
     echo "</p>\n</td>\n";
 
     if ($controls == FORUM_CONTROLS) {
         //echo "<td align=\"right\" style=\"border:0px\">Rate this post:";
-        //show_select_from_array("rating", $post_ratings, "0");
+        //show_select_from_array("rating", $post_ratings, "0");				// <---- Old obsolete rating method (remove someday)
         //echo "<input type=\"submit\" value=\"Rate\"></td>";
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
@@ -520,41 +548,38 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "</form>";
     }
 
-    $posttext=nl2br(stripslashes($post->content));
-    if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
-        $posttext.=nl2br("\n".stripslashes($user->signature));                                //wants it to be shown for this post AND the logged in
-    }                                                                                        //user has signatures enabled: show it
-        
-    if ($logged_in_user->images_as_links==1){
-        $posttext=image_as_link($posttext);
-    }
-    if ($logged_in_user->link_popup==1){
-        $posttext=externalize_links($posttext);
-    }
+    if (!$filter || !$rated_below_threshold){
+        $posttext=nl2br(stripslashes($post->content));
+        if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
+            $posttext.=nl2br("\n".stripslashes($user->signature));                                //wants it to be shown for this post AND the logged in
+        }                                                                                        //user has signatures enabled: show it
+            
+        if ($logged_in_user->images_as_links==1){
+            $posttext=image_as_link($posttext);
+        }
+        if ($logged_in_user->link_popup==1){
+            $posttext=externalize_links($posttext);
+        }
+        echo "<p>", $posttext, "</p>";
+        echo "<table width=100% cellspacing=0 cellpadding=0>
+            <tr valign=\"bottom\">
+            <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id;
+        if ($controls == HELPDESK_CONTROLS && $separate) {
+            echo "</i></td>";
+        } else if ($controls == HELPDESK_CONTROLS && !$separate) {
+            echo " / Score: ", ($post->score * $post->votes), "</i></td>";
+        } else {
+            echo " / Rating: ", $post->score, "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&choice=n\">-</a></td>";
+        }
     
-    echo "<p>", $posttext, "</p>";
-
-
-
-    echo "<table width=100% cellspacing=0 cellpadding=0>
-        <tr valign=\"bottom\">
-        <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id;
-    if ($controls == HELPDESK_CONTROLS && $separate) {
-        echo "</i></td>";
-    } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-        echo " / Score: ", ($post->score * $post->votes), "</i></td>";
-    } else {
-        echo " / Rating: ", $post->score, "</i></td>";
+        if ($controls == FORUM_CONTROLS) {
+            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
+        } else if ($controls == HELPDESK_CONTROLS && !$separate) {
+            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
+        }
+	echo "</tr></table>";
     }
-
-    if ($controls == FORUM_CONTROLS) {
-        echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
-    } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-        echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
-    }
-
-    echo "</tr></table></td></tr>";
-
+    echo "</td></tr>";
     if ($separate) {
         echo "
             </table>

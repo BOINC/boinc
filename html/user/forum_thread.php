@@ -13,10 +13,12 @@ if (empty($_GET['id'])) {
 $_GET['id'] = stripslashes(strip_tags($_GET['id']));
 
 $sort_style = $_GET['sort'];
-$filter_min = $_GET['filter'];
 
-if ($filter_min == NULL || $filter_min < -2 || $filter_min > 2) {
-    $filter_min = -2;
+$filter = $_GET['filter'];
+if ($filter != "false"){
+    $filter = true;
+} else {
+    $filter = false;
 }
 
 $thread = getThread($_GET['id']);
@@ -117,7 +119,7 @@ if ($category->is_helpdesk) {
 }
 
 start_forum_table($headings);
-show_posts($thread, $sort_style, $filter_min, true, true, $category->is_helpdesk);
+show_posts($thread, $sort_style, $filter, true, true, $category->is_helpdesk);
 end_forum_table();
 
 echo "<p>";

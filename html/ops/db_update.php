@@ -117,6 +117,18 @@ function update_10_09_2004() {
         "alter table post add signature tinyint(1) unsigned not null default 0"
     );
 }
-//update_10_09_2004();
+
+function update_10_25_2004() {
+    mysql_query(
+        "alter table forum_preferences add rated_posts varchar(254) not null"
+    );
+    mysql_query(
+        "alter table forum_preferences add low_rating_threshold integer not null"
+    );
+    mysql_query(
+        "alter table forum_preferences add high_rating_threshold integer not null"
+    );
+}
+//update_10_25_2004();
 
 ?>

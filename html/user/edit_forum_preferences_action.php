@@ -49,6 +49,8 @@
     $hide_avatars = ($HTTP_POST_VARS["forum_hide_avatars"]!="");
     $hide_signatures = ($HTTP_POST_VARS["forum_hide_signatures"]!="");
     $jump_to_unread = ($HTTP_POST_VARS["forum_jump_to_unread"]!="");
+    $low_rating_threshold = intval($HTTP_POST_VARS["forum_low_rating_threshold"]);
+    $high_rating_threshold = intval($HTTP_POST_VARS["forum_high_rating_threshold"]);
 
 
     $no_signature_by_default=($HTTP_POST_VARS["signature_enable"]=="");
@@ -77,7 +79,9 @@
             sorting='".$forum_sorting."',
             signature='$signature',
 	    jump_to_unread='".$jump_to_unread."',
-	    hide_signatures='".$hide_signatures."'
+	    hide_signatures='".$hide_signatures."',
+	    low_rating_threshold='".$low_rating_threshold."',
+	    high_rating_threshold='".$high_rating_threshold."'
         where userid=$user->id");
     if ($result) {
     echo mysql_error();

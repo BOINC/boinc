@@ -52,20 +52,37 @@ row2("Sort styles<br><font size=-2>How to sort the replies in the message board 
 
 if ($user->link_popup==1){$forum_link_externally="checked=\"true\"";} else {$forum_link_externally="";}
 if ($user->images_as_links==1){$forum_image_as_link="checked=\"true\"";} else {$forum_image_as_link="";}
-if ($user->hide_avatars==1){$forum_hide_avatars="checked=\"true\"";} else {$forum_hide_avatars="";}
-if ($user->hide_signatures==1){$forum_hide_signatures="checked=\"true\"";} else {$forum_hide_signatures="";}
 if ($user->jump_to_unread==1){$forum_jump_to_unread="checked=\"true\"";} else {$forum_jump_to_unread="";}
 
 row2("Display and Behavior".
-    "<br><font size=-2>How to treat links, images and signatures in the forum<br>and how to act on unread posts</font>",
-    "
-        <input type=\"checkbox\" name=\"forum_link_externally\" ".$forum_link_externally."> Open links in new window/tab<br>
+    "<br><font size=-2>How to treat links and images in the forum<br>and how to act on unread posts</font>",
+    "<table><tr><td>
         <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
-        <input type=\"checkbox\" name=\"forum_hide_avatars\" ".$forum_hide_avatars."> Hide avatar images<br>
-        <input type=\"checkbox\" name=\"forum_hide_signatures\" ".$forum_hide_signatures."> Hide signatures<br>---<br>
+        <input type=\"checkbox\" name=\"forum_link_externally\" ".$forum_link_externally."> Open links in new window/tab<br>
         <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
+    </td></tr></table>"
+);
+
+if ($user->hide_avatars==1){$forum_hide_avatars="checked=\"true\"";} else {$forum_hide_avatars="";}
+if ($user->hide_signatures==1){$forum_hide_signatures="checked=\"true\"";} else {$forum_hide_signatures="";}
+$forum_low_rating_threshold= $user->low_rating_threshold;
+$forum_high_rating_threshold= $user->high_rating_threshold;
+row2("Filtering".
+    "<br><font size=-2>What to display<br>If you set both your high and low thresholds to 0 or<br>empty they will reset to the default values</font>",
+    "<table><tr><td>
+        <input type=\"checkbox\" name=\"forum_hide_avatars\" ".$forum_hide_avatars."> Hide avatar images<br>
+        <input type=\"checkbox\" name=\"forum_hide_signatures\" ".$forum_hide_signatures."> Hide signatures<br>
+    </td></tr></table>
+    <table width=\"380\">
+	<tr><td width=\"32\"><input type=\"input\" name=\"forum_low_rating_threshold\" value=\"".$forum_low_rating_threshold."\" style=\"width: 30px;\"></td><td>Filter threshold (default: ".DEFAULT_LOW_RATING_THRESHOLD.")</td></tr>
+        <tr><td><input type=\"input\" name=\"forum_high_rating_threshold\" value=\"".$forum_high_rating_threshold."\" style=\"width: 30px;\"></td><td>Emphasize threshold (default: ".DEFAULT_HIGH_RATING_THRESHOLD.")</td></tr>
+	<tr><td colspan=2>
+	    Anything rated lower than the filter threshold will be filtered and anything rated higher than the emphasize threshold will be emphasized.
+	</td></tr>	
+    </table>
     "
 );
+
 
 if ($user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
 row2("Signature for message boards".
