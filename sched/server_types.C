@@ -309,8 +309,11 @@ int RESULT::parse_from_client(FILE* fin) {
     return 1;
 }
 
+// TODO: put the benchmark errors into the DB
+//
 int HOST::parse(FILE* fin) {
     char buf[256];
+    int p_fpop_err, p_iop_err, p_membw_err;
 
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
@@ -324,6 +327,9 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
+        else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
+        else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;

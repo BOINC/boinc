@@ -63,6 +63,9 @@ void clear_host_info(HOST_INFO& host) {
     host.p_fpops = 0;
     host.p_iops = 0;
     host.p_membw = 0;
+    host.p_fpop_err = 0;
+    host.p_iop_err = 0;
+    host.p_membw_err = 0;
     host.p_calculated = 0;
     
     strcpy(host.os_name, "");
@@ -93,6 +96,9 @@ int HOST_INFO::parse(FILE* in) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
+        else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
+        else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
@@ -120,6 +126,9 @@ int HOST_INFO::write(FILE* out) {
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
+        "    <p_fpop_err>%d</p_fpop_err>\n"
+        "    <p_iop_err>%d</p_iop_err>\n"
+        "    <p_membw_err>%d</p_membw_err>\n"
         "    <p_calculated>%f</p_calculated>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
@@ -138,6 +147,9 @@ int HOST_INFO::write(FILE* out) {
         p_fpops,
         p_iops,
         p_membw,
+        p_fpop_err,
+        p_iop_err,
+        p_membw_err,
         p_calculated, 
         os_name,
         os_version,
@@ -164,6 +176,9 @@ int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
+        else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
+        else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
         else fprintf(stderr, "HOST_INFO::parse(): unrecognized: %s\n", buf);
@@ -177,12 +192,18 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
+        "    <p_fpop_err>%d</p_fpop_err>\n"
+        "    <p_iop_err>%d</p_iop_err>\n"
+        "    <p_membw_err>%d</p_membw_err>\n"
         "    <p_calculated>%f</p_calculated>\n"
         "    <m_cache>%f</m_cache>\n"
         "</cpu_benchmarks>\n",
         p_fpops,
         p_iops,
         p_membw,
+        p_fpop_err,
+        p_iop_err,
+        p_membw_err,
         p_calculated, 
         m_cache
     );
