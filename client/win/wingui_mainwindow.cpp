@@ -335,9 +335,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		// time
 		double xtime = 0;
-		if(fi->fxp) {
-			xtime = (double)time(0) - fi->fxp->start_time;
-		}
+		xtime = fi->time_so_far;
 		int xhour = (int)(xtime / (60 * 60));
 		int xmin = (int)(xtime / 60) % 60;
 		int xsec = (int)(xtime) % 60;
@@ -918,7 +916,10 @@ void CMainWindow::PostNcDestroy()
 // function:	creates a thread to signal a timeout
 void CMainWindow::SetTimeOut()
 {
-	CreateThread(NULL, 0, TimeOutThreadProc, GetSafeHwnd(), NULL, NULL);
+	DWORD nId;
+	if(!CreateThread(NULL, 0, TimeOutThreadProc, GetSafeHwnd(), NULL, &nId)) {
+		show_message("Error setting timer, BOINC cannot run", "low");
+	}
 }
 
 //////////
@@ -1455,6 +1456,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// Check what (if any) activities should be logged
     read_log_flags();
 
+	LoadUserSettings();
+	LoadListControls();
+
 	LPSTR command_line;
 	char* argv[100];
 	int argc;
@@ -1490,9 +1494,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 			}
 		}
 	}
-
-	LoadUserSettings();
-	LoadListControls();
 
 	CMenu* ConMenu = NULL;
 	ConMenu = m_MainMenu.GetSubMenu(2);
