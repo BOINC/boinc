@@ -3,6 +3,7 @@
 #include <setjmp.h>    
 #include <unistd.h> 
 #include <pthread.h> 
+#include <signal.h>
 #include "x_opengl.h"
 
 #include "app_ipc.h"
@@ -181,6 +182,8 @@ static void timer_handler(int) {
 
 static jmp_buf jbuf;
 static pthread_t graphics_thread;
+static struct sigaction original_signal_handler;
+static bool tried_to_install_abort_handler=false;
 
 void restart() {
     if (pthread_equal(pthread_self(), graphics_thread)) {
@@ -189,12 +192,48 @@ void restart() {
     }
 }
 
+// we will only arrive here if the signal handler was sucessfully
+// installed.  If we are in the graphics thread, we just return back
+// into xwin_graphics_event_loop.  If we are in the main thread, then
+// restore the old signal handler and raise SIGABORT.
+void restart_sig(int signal_number /* not used, always == SIGABRT */) {
+    if (pthread_equal(pthread_self(), graphics_thread)) {
+        // alternative approach is for the signal hander to call exit().
+        fprintf(stderr, "Caught SIGABRT in graphics thread\n");
+        longjmp(jbuf, 1);
+    }
+    else {
+        // In non-graphics thread: use original signal handler
+        fprintf(stderr, "Caught SIGABRT in non-graphics thread\n");
+	if (sigaction(SIGABRT, &original_signal_handler, NULL)) {
+	    perror("Unable to restore SIGABRT signal handler in non-graphics thread\n");
+	    // what to do? call abort(3)??  call exit(nonzero)???
+	    // boinc_finish()???? Here we just return.
+	}
+	else {
+	  // we could conceivably try to call the old signal handler
+	  // directly.  But this means checking how its flags/masks
+	  // are set, making sure it's not NULL (for no action) and so
+	  // on.  This seems simpler and more robust. On the other
+	  // hand it may take some time for the signal to be
+	  // delivered, and during that time, what's going to be
+	  // executing?
+	  raise(SIGABRT);
+	}
+	return;
+    }
+}
+
+
 void xwin_graphics_event_loop() {
 	char* args[] = {"foobar", 0};
 	int one=1;
     static bool glut_inited = false;
     int restarted;
     int retry_interval_sec=32;
+    struct sigaction sa;
+    sa.sa_handler = restart_sig;
+    sa.sa_flags = SA_RESTART;
 
     graphics_thread = pthread_self();
 
@@ -203,6 +242,17 @@ void xwin_graphics_event_loop() {
 try_again:
     restarted = setjmp(jbuf);
 
+    // install signal handler to catch abort() from GLUT.  Note that
+    // signal handlers are global to ALL threads, so the signal
+    // handler that we record here in &original_signal_handler is the
+    // previous one that applied to BOTH threads
+    if (!tried_to_install_abort_handler) {
+        tried_to_install_abort_handler=true;
+	if (sigaction(SIGABRT, &sa, &original_signal_handler)) {
+	    perror("unable to install signal handler to catch SIGABORT");
+	}
+    }
+      
     if (restarted) {
         //fprintf(stderr, "graphics thread restarted\n"); fflush(stderr);
         if (glut_inited) {
@@ -212,9 +262,21 @@ try_again:
 #ifdef __APPLE_CC__
             glutInit(&one, args);
 #endif
+
+#if 0
+	    // NOTE: currently when run standalone, killing the
+	    // graphics window does NOT kill the application.  If it's
+	    // desired to kill the application in standalone mode,
+	    // insert something here like this
+	    if (boinc_is_standalone())
+	        exit(0);
+#endif
+
+
             set_mode(MODE_HIDE_GRAPHICS);
         } else {
-            // here glutInit() must have failed and called exit().
+            // here glutInit() must have failed and called exit() or
+            // raised SIGABRT.
             //
             retry_interval_sec *= 2;
             sleep(retry_interval_sec);

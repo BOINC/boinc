@@ -21927,4 +21927,19 @@ Bruce 28 Dec 2004
     Makefile.am
     configure.ac
     api/
-        configure.ac
+        Makefile.am
+
+Bruce 29 Dec 2004
+    - make X/Unix graphics not fail if GLUT calls abort(3).  This
+      generated a SIGARBT.  We now catch this signal.  In the
+      graphics thread, this just restarts the graphics init process
+      (with some sleep(2)ing if needed to prevent a busy fail loop).
+      If the signal is caught in the main thread, we restore the old
+      signal handler then raise(SIGABRT).
+
+      David, note that when run standalone, killing the graphics
+      window does NOT kill the process.  I think this is fine, but
+      it doesn't correspond to what the documentation says.
+
+    api/
+        x_opengl.C
