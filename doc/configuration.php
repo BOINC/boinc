@@ -71,9 +71,9 @@ htmlspecialchars("
       <output>   /dev/null                             </output>
       <period>   1 day                                 </period>
     </task>
-    <tasks>
+    <task>
     ...
-    </tasks>
+    </task>
   </tasks>
 
 </boinc>
