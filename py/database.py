@@ -307,14 +307,6 @@ class DatabaseObject:
             if not key in columns:
                 raise ValueError("database '%s' object doesn't take argument '%s'"%(
                     self._table.table, key))
-            if key == 'instructorids':  # KLUDGE
-                self.instructors = InstructorList(map(Instructor._table.__getitem__, value))
-            elif key == 'instructors': # KLUDGE
-                self.instructors = InstructorList(value)
-            elif key == 'frequencies': # KLUDGE
-                self.frequencies = str_to_dict(value)
-            elif key == 'department': # KLUDGE
-                self.department = Department(value)
             elif key.endswith('id'):
                 xkey = key[:-2]
                 self.__dict__[xkey] = self.id_lookups[xkey]._table[value]
