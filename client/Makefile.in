@@ -5,7 +5,9 @@ VPATH           = @srcdir@
 
 INSTALL_DIR = /usr/local/boinc
 
-VERSION = 1
+MINOR_VERSION = 02
+MAJOR_VERSION = 0
+VERSION = 2
 
 CFLAGS = -g -Wall @DEFS@ \
     -I @srcdir@ \
@@ -21,7 +23,7 @@ CC = @CC@ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-CLIENT_PROG = boinc_$(VERSION)_@host@
+CLIENT_PROG = boinc_$(MAJOR_VERSION).$(MINOR_VERSION)_@host@
 PROGS = $(CLIENT_PROG) test_net_xfer test_http test_file_xfer
 
 all: $(PROGS)
@@ -108,11 +110,12 @@ test_file_xfer: test_file_xfer.o $(TEST_FX_OBJS)
 	$(CC) test_file_xfer.o $(TEST_FX_OBJS) $(CLIBS) -o test_file_xfer
 
 tar:
-	cd $(topsrcdir)/..; tar cf boinc_client.tar $(ARCHIVE_TARGETS); \
-	    gzip boinc_client.tar;
+	cd $(topsrcdir)/..; \
+	tar cf boinc_client_$(MAJOR_VERSION).$(MINOR_VERSION).tar $(ARCHIVE_TARGETS); \
+	    gzip boinc_client_$(MAJOR_VERSION).$(MINOR_VERSION).tar;
 
 zip:
-	cd $(topsrcdir)/..; zip boinc_client.zip $(ARCHIVE_TARGETS)
+	cd $(topsrcdir)/..; zip boinc_client_$(MAJOR_VERSION).$(MINOR_VERSION).zip $(ARCHIVE_TARGETS)
 
 clean:
 	rm -f *.o $(PROGS) core dependencies config.cache

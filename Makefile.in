@@ -7,6 +7,9 @@ VPATH	= @srcdir@
 
 INSTALL_DIR = /usr/local/boinc
 
+MINOR_VERSION = 02
+MAJOR_VERSION = 0
+
 #
 #	The ../$(srcdir)/client/configure
 #	only works when the original configure is relative path
@@ -83,10 +86,10 @@ ARCHIVE_TARGETS = \
         *.in *.sub *.guess *.m4
 
 tar: 
-	tar cf boinc.tar $(ARCHIVE_TARGETS) ; gzip boinc.tar
+	tar cf boinc_$(MAJOR_VERSION).$(MINOR_VERSION).tar $(ARCHIVE_TARGETS) ; gzip boinc_$(MAJOR_VERSION).$(MINOR_VERSION).tar
 
 zip:
-	zip boinc.zip $(ARCHIVE_TARGETS)
+	zip boinc_$(MAJOR_VERSION).$(MINOR_VERSION).zip $(ARCHIVE_TARGETS)
 
 client_tar: clean
 	cd client; ./configure; ${MAKE} tar;
