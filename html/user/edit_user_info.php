@@ -3,7 +3,7 @@
     require_once("edit.inc");
     require_once("util.inc");
 
-    $project = db_init();
+    db_init();
     $user = get_user_from_cookie();
 
     if ($user) {

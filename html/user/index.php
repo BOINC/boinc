@@ -3,20 +3,22 @@
     require_once("util.inc");
     require_once("db.inc");
 
-    $project = db_init();
+    db_init();
     $user = get_user_from_cookie();
     printf(
 	"<head>\n"
-	."<title>".$project." Distributed Computing Project</title>\n"
+	."<title>".PROJECT." Distributed Computing Project</title>\n"
 	."</head>\n"
 	."<body text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000>\n"
 	."<table width=780>\n"
-	."<tr><td><h1 align=center>".$project." Distributed Computing Project</h1></td></tr>\n"
+	."<tr><td><h1 align=center>".PROJECT." Distributed Computing Project</h1></td></tr>\n"
     );
     if ($user) {
         echo "<tr><td><h3>Welcome $user->name</h3>\n";
         echo "If you are not $user->name or would wish to log in as another user ";
         echo "<a href=login.php>login here</a>.";
+    } else {
+	echo "<tr><td>\n";
     }
 ?>
 

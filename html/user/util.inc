@@ -23,13 +23,8 @@ define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
 define("BADPASS", "The password you entered is incorrect. Click the <b>Back</b> button on your browser to re-enter your password or try again later.");
 define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields."); 
+define("PROJECT", "SAMPLE_PROJECT");
 
-function get_project_name() {
-    $fp = fopen(db_name, "r");
-    $db_name = fgets($fp, 1024);
-    $db_name = rtrim($db_name);
-    return $db_name;
-}
 
 function get_user_from_cookie() {
     $auth = "";
@@ -44,8 +39,7 @@ function show_login($user) {
     if ($user) {
         printf("Logged in as %s.\n", $user->name);
         printf("<br><a href=login.php>Log in as someone else.</a>\n");
-        $project = get_project_name();
-        printf("<br><a href=this_user.php>My %s</a>\n", $project);
+        printf("<br><a href=this_user.php>My %s</a>\n", PROJECT);
     } else {
 	echo NOLOGIN;
     }
@@ -53,8 +47,7 @@ function show_login($user) {
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    $project = get_project_name();
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".$project.":</a>  $title</b></font></td></tr></table>\n";
+    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {
@@ -81,6 +74,10 @@ function row($x, $y) {
 
 function row2($x, $y) {
     echo "<tr><td>$x</td><td>$y</td></tr>\n";
+}
+
+function row2a($x, $y) {
+    echo "<tr><td>$x</td><td width=50%>$y</td></tr>\n";
 }
 
 function row3($x, $y, $z) {

@@ -3,7 +3,7 @@
     require_once("user.inc");
     require_once("db.inc");
 
-    $project = db_init();
+    db_init();
     if (strlen($HTTP_POST_VARS["old"])) {
         $query = sprintf(
             "select * from user where email_addr='%s'",
@@ -24,7 +24,7 @@
         } else {
             setcookie("auth", $user->authenticator, time()+100000000);
             page_head("User Page");   
-            show_user_page($user, $project);
+            show_user_page($user, PROJECT);
         }
     } else if (strlen($HTTP_POST_VARS["new"])) {
         $query = sprintf(
@@ -58,7 +58,7 @@
                 TABLE2."\n"
                 ."<tr><td>There's already an account with that email address. Click the <b>Back</b> button\n"
                 ." on your browser to edit your information, or <a href=login.php>login </a>to your \n"
-                .$project." account.</td></tr>\n"
+                .PROJECT." account.</td></tr>\n"
                 ."</table>\n"
             );
         } else {

@@ -77,6 +77,9 @@ function element_end($parser, $name) {
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = 1;
         break;
+    case "mod_time":
+	$parse_result->mod_time = $text;
+	break;
     case "low_water_days":
         $parse_result->low_water_days = $text;
         break;
@@ -169,11 +172,18 @@ function prefs_show_work($prefs) {
     } else {
         $confirm = "No";
     }
-    row("<b>Work if computer on batteries:   </b>", $batteries);
-    row("<b>Work if computer in use:   </b>", $in_use);
-    row("<b>Confirm before connecting to network:   </b>", $confirm);
-    row("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days days");
-    row("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days days");
+    row2a("<b>Work if computer on batteries:   </b>", $batteries);
+    row2a("<b>Work if computer in use:   </b>", $in_use);
+    row2a("<b>Confirm before connecting to network:   </b>", $confirm);
+    row2a("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days days");
+    row2a("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days days");
+    
+    #row("<b>Work if computer on batteries:   </b>", $batteries);
+    #row("<b>Work if computer in use:   </b>", $in_use);
+    #row("<b>Confirm before connecting to network:   </b>", $confirm);
+    #row("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days days");
+    #row("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days days");
+    
     echo "<tr><td><a href=prefs_edit_work_form.php>Edit work preferences</a></td></tr>\n";
     echo "</table>\n";
 }
@@ -183,20 +193,20 @@ function prefs_show_disk($prefs) {
     echo "<p>";
     echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Disk preferences:</b></font></td></tr>\n";
-    row("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb MB");
-    row("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb MB");
-    row("<b>Maximum % of disk allowed to used:   </b>", "$prefs->disk_max_used_pct %");
+    row2a("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb MB");
+    row2a("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb MB");
+    row2a("<b>Maximum % of disk allowed to used:   </b>", "$prefs->disk_max_used_pct %");
     echo "<tr><td><a href=prefs_edit_disk_form.php>Edit disk preferences</a></td></tr>\n";
     echo "</table>\n";
 }
 
 function prefs_show_project($project) {
     echo "<tr><td><hr></tr></td>";
-    row("<b>Master URL:   </b>", "$project->master_url");
-    row("<b>Email Address:   </b>", $project->email_addr);
-    row("<b>Authenticator:   </b>", $project->authenticator);
-    row("<b>Resource Share:   </b>", $project->resource_share);
-    row("<b>Project Specific Preferences:   </b>", htmlspecialchars($project->project_specific));
+    row2a("<b>Master URL:   </b>", "$project->master_url");
+    row2a("<b>Email Address:   </b>", $project->email_addr);
+    row2a("<b>Authenticator:   </b>", $project->authenticator);
+    row2a("<b>Resource Share:   </b>", $project->resource_share);
+    row2a("<b>Project Specific Preferences:   </b>", htmlspecialchars($project->project_specific));
 }
 
 function prefs_show_projects($prefs) {
@@ -227,7 +237,7 @@ function prefs_form_work($user, $prefs) {
     echo   "<form action=prefs_edit_work_action.php>\n";
     echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Don't run if computer is<br>on batteries</b></td>\n";
+    echo   "        <td align=right><b>Don't run if computer is on batteries</b></td>\n";
     printf("        <td><input type=checkbox name=dont_run_on_batteries %s></td>\n", $prefs->dont_run_on_batteries?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
@@ -239,11 +249,11 @@ function prefs_form_work($user, $prefs) {
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Minimum amount of work to<br>buffer (days)</b> - this is the<br>minimum amount of work to stay on<br>disk so if your computer is<br>disconnected from the Internet<br>for an extended amount of time<br>you can still do work</td>\n";
+    echo   "        <td align=right><b>Minimum amount of work to buffer (days)</b><br>- this is the minimum amount of work to stay<br>on disk so if your computer is disconnected<br>from the Internet for an extended amount of<br>time you can still do work</td>\n";
     printf("        <td><input size=5 name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Maximum amount of work to<br>buffer (days)</b> - this is the<br>maximum amount of work to stay on<br>disk so if your computer is<br>disconnected from the Internet<br>for an extended amount of time<br>you can still do work</td>\n";
+    echo   "        <td align=right><b>Maximum amount of work to buffer (days)</b><br>- this is the maximum amount of work to stay<br>on disk so if your computer is disconnected<br>from the Internet for an extended amount of<br>time you can still do work</td>\n";
     printf("        <td><input size=5 name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    </table>\n";
@@ -303,7 +313,13 @@ function prefs_form_project($project, $action) {
     echo   "        <td><input size=32 name=authenticator value='$project->authenticator'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Resource share:</b><br>if projects contend<br>for resources, the amount<br>allocated to a project<br>is proportional to<br>this number</td>\n";
+    
+    echo   "        <td align=right><b>Resource share:</b><br><font size=-1> (If projects";
+    echo   "        compete for resources,<br>this is the fraction of resources you<br>choose to";
+    echo   "        allocate to this project.)</font></td>\n";
+    
+    #echo   "        <td align=right><b>Resource share:</b><br>if projects contend<br>for resources, the amount<br>allocated to a project<br>is proportional to<br>this number</td>\n";
+    
     echo   "        <td><input name=resource_share value='$project->resource_share'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";

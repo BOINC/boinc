@@ -4,12 +4,12 @@
     require_once("db.inc");
     require_once("login.inc");
 
-    $project = db_init();
+    db_init();
     $user = get_user_from_cookie();
     if ($user) {
         $head = sprintf("%s's User Page", $user->name);
         page_head($head);
-        show_user_page($user, $project);
+        show_user_page($user, PROJECT);
     } else {
         page_head("Log in");
         print_login_form();

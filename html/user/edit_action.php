@@ -5,7 +5,7 @@
     require_once("db.inc");
     require_once("edit.inc");
 
-    $project = db_init();
+    db_init();
     $user = get_user_from_cookie();
 
     page_head("Updating User Account");
