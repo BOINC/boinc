@@ -56,6 +56,7 @@ CLIENT_STATE::CLIENT_STATE() {
     max_transfer_rate = 9999999;
     max_bytes = 0;
     user_idle = true;
+	suspend_requested = false;
 }
 
 int CLIENT_STATE::init() {
@@ -214,6 +215,9 @@ int CLIENT_STATE::check_suspend_activities() {
     if (!user_idle) {
         should_suspend = true;
     }
+	if(suspend_requested) {
+        should_suspend = true;
+	}
 
     if (should_suspend) {
         if (!activities_suspended) {

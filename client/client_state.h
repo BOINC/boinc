@@ -69,6 +69,7 @@ public:
     double allowed_disk_usage();
     unsigned int giveup_after;
     bool user_idle;
+	bool suspend_requested;
 
 private:
     bool client_state_dirty;
