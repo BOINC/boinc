@@ -23,6 +23,8 @@
 #include <string>
 #include <ctime>
 #include <cstdio>
+#include <stdlib.h>
+
 using namespace std;
 
 #include "error_numbers.h"
@@ -34,6 +36,7 @@ using namespace std;
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_locality.h"
+#include "../lib/parse.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -229,12 +232,186 @@ int insert_after(char* buffer, char* after, char* text) {
     return 0;
 }
 
+typedef struct urltag {
+    int zone;
+    char name[124];
+} URLTYPE;
+
+
+// these global variables are needed to pass information into the
+// compare function below.
+static int tzone=0;
+static int hostid=0;
+
+static int compare(const void *x, const void *y) {
+    URLTYPE *a=(URLTYPE *)x;
+    URLTYPE *b=(URLTYPE *)y;
+    
+    char longname[512];
+    
+    if (abs(tzone - (a->zone))<abs(tzone - (b->zone)))
+        return -1;
+    
+    if (abs(tzone - (a->zone))>abs(tzone - (b->zone)))
+        return +1;
+    
+    // In order to ensure uniform distribution, we hash paths that are
+    // equidistant from the host's timezone in a way that gives a
+    // unique ordering for each host but which is effectively random
+    // between hosts.
+    sprintf(longname, "%s%d", a->name, hostid);
+    std::string sa = md5_string((const unsigned char *)longname, strlen((const char *)longname));
+    sprintf(longname, "%s%d", b->name, hostid);
+    std::string sb = md5_string((const unsigned char *)longname, strlen((const char *)longname));
+    int xa = strtol(sa.substr(1, 7).c_str(), 0, 16);
+    int xb = strtol(sb.substr(1, 7).c_str(), 0, 16);
+    
+    if (xa<xb)
+        return -1;
+    
+    if (xa>xb)
+        return 1;
+    
+    return 0;
+}
+
+// file
+//
+static URLTYPE *cached=NULL;
+#define BLOCKSIZE 32
+URLTYPE* read_download_list(){
+    FILE *fp;
+    int count=0;
+    int i;
+    
+    if (cached)
+        return cached;
+    
+    if (!(fp=fopen("../download_servers", "r")))
+        return NULL;
+    
+    // read in lines from file
+    while (1) {
+        // allocate memory in blocks
+        if ((count % BLOCKSIZE)==0) {
+            cached=(URLTYPE *)realloc(cached, (count+BLOCKSIZE)*sizeof(URLTYPE));
+            if (!cached)
+                return NULL;
+        }
+        // read timezone offset and URL from file, and store in cache
+        // list
+        if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name))
+            count++;
+        else {
+            // provide a null terminator so we don't need to keep
+            // another global variable for count.
+            cached[count].name[0]='\0';
+            break;
+        }
+    }
+    fclose(fp);
+    
+    if (!count) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "file ../download_servers contained no valid entries!\n"
+            "format of this file is one or more lines containing:\n"
+            "TIMEZONE_OFFSET  htt://some.url.path\n"
+        );
+        free(cached);
+        return NULL;
+    }
+    
+    // sort URLs by distance from host timezone.  See compare() above
+    // for details.
+    qsort(cached, count, sizeof(URLTYPE), compare);
+    
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG, "Sorted list of URLs follows\n" 
+    );
+    for (i=0; i<count; i++) {
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG, "zone=%d name=%s\n", cached[i].zone, cached[i].name
+        );
+    }
+    return cached;
+}
+
+// return number of bytes written, or <0 to indicate an error
+//
+int make_download_list(char *buffer, char *path, int timezone) {
+    char *start=buffer;
+    int i;
+
+    // global variable used in the compare() function
+    tzone=timezone;
+    URLTYPE *serverlist=read_download_list();
+    
+    if (!serverlist)
+        return -1;
+    
+    // print list of servers in sorted order.  Space is to format them
+    // nicely
+    for (i=0; strlen(serverlist[i].name); i++)
+        start+=sprintf(start, "%s<url>%s/%s</url>", i?"\n    ":"", serverlist[i].name, path);
+
+    // make a second copy in the same order
+    for (i=0; strlen(serverlist[i].name); i++)
+        start+=sprintf(start, "%s<url>%s/%s</url>", "\n    ", serverlist[i].name, path);
+    
+    return (start-buffer);
+}
+
+// returns zero on success, non-zero to indicate an error
+//
+int add_download_servers(char *old_xml, char *new_xml, int timezone) {
+    char *p, *q, *r;
+    
+    p=r=old_xml;
+
+    // search for next URL to do surgery on 
+    while ((q=strstr(p, "<url>"))) {
+        char *s;
+        char path[1024];
+        int len = q-p;
+        
+        strncpy(new_xml, p, len);
+        
+        new_xml += len;
+        
+        // locate next instance of </url>
+        if (!(r=strstr(q, "</url>")))
+            return 1;
+        r += strlen("</url>");
+        
+        // parse out the URL
+        if (!parse_str(q, "<url>", path, 1024))
+            return 1;
+        
+        // find start of 'download/'
+        if (!(s=strstr(path,"download/")))
+            return 1;
+        
+        // insert new download list in place of the original one
+        len = make_download_list(new_xml, s, timezone);
+        if (len<0)
+            return 1;
+        new_xml += len;
+        
+        // advance pointer to start looking for next <url> tag.
+        p=r;
+    }
+    
+    strcpy(new_xml, r);
+    return 0;
+}
+
 // add elements to WU's xml_doc, in preparation for sending
 // it to a client
 //
 int insert_wu_tags(WORKUNIT& wu, APP& app) {
     char buf[LARGE_BLOB_SIZE];
-
+    
     sprintf(buf,
         "    <rsc_fpops_est>%f</rsc_fpops_est>\n"
         "    <rsc_fpops_bound>%f</rsc_fpops_bound>\n"
@@ -305,18 +482,40 @@ int add_wu_to_reply(
     APP* app, APP_VERSION* avp
 ) {
     int retval;
-    WORKUNIT wu2;
-
+    WORKUNIT wu2, wu3;
+    
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
     //
     if (avp) {
+        APP_VERSION av2=*avp, *avp2=&av2;
+        
+        if (config.choose_download_url_by_timezone) {
+            // replace the download URL for apps with a list of
+            // multiple download servers.
+
+            // set these global variables, needed by the compare()
+            // function so that the download URL list can be sorted by
+            // timezone
+            tzone=reply.host.timezone;
+            hostid=reply.host.id;
+            retval = add_download_servers(avp->xml_doc, av2.xml_doc, reply.host.timezone);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "add_download_servers(to APP version) failed\n"
+                );
+                // restore original WU!
+                av2=*avp;
+            }
+        }
+        
         reply.insert_app_unique(*app);
-        reply.insert_app_version_unique(*avp);
+        reply.insert_app_version_unique(*avp2);
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
             "[HOST#%d] Sending app_version %s %s %d\n",
-            reply.host.id, app->name, platform.name, avp->version_num
+            reply.host.id, app->name, platform.name, avp2->version_num
         );
     }
 
@@ -328,7 +527,29 @@ int add_wu_to_reply(
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "insert_wu_tags failed\n");
         return retval;
     }
-    reply.insert_workunit_unique(wu2);
+    wu3=wu2;
+    if (config.choose_download_url_by_timezone) {
+        // replace the download URL for WU files with a list of
+        // multiple download servers.
+        
+        // set these global variables, needed by the compare()
+        // function so that the download URL list can be sorted by
+        // timezone
+        tzone=reply.host.timezone;
+        hostid=reply.host.id;
+        
+        retval = add_download_servers(wu2.xml_doc, wu3.xml_doc, reply.host.timezone);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "add_download_servers(to WU) failed\n"
+            );
+            // restore original WU!
+            wu3=wu2;
+        }
+    }
+    
+    reply.insert_workunit_unique(wu3);
     return 0;
 }
 

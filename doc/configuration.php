@@ -34,16 +34,17 @@ htmlspecialchars("
     <stripchart_cgi_url>    http://A/URL          </stripchart_cgi_url>
     <log_dir>               /path/to/directory    </log_dir>
 
-    [ <disable_account_creation/>                                              ]
-    [ <show_results/>                                                          ]
-    [ <one_result_per_user_per_wu/>                                            ]
-    [ <max_wus_to_send>                 N   </max_wus_to_send>                 ]
-    [ <min_sendwork_interval>           N   </min_sendwork_interval>           ]
-    [ <daily_result_quota>              N   </daily_result_quota>              ]
-    [ <enforce_delay_bound/>                                                   ]
-    [ <locality_scheduling/>                                                   ]
-    [ <locality_scheduling_wait_period> N   </locality_scheduling_wait_period> ]
-    [ <min_core_client_version>         N   </min_core_client_version          ]
+    [ <disable_account_creation/>                                               ]
+    [ <show_results/>                                                           ]
+    [ <one_result_per_user_per_wu/>                                             ]
+    [ <max_wus_to_send>                  N   </max_wus_to_send>                 ]
+    [ <min_sendwork_interval>            N   </min_sendwork_interval>           ]
+    [ <daily_result_quota>               N   </daily_result_quota>              ]
+    [ <enforce_delay_bound/>                                                    ]
+    [ <locality_scheduling/>                                                    ]
+    [ <locality_scheduling_wait_period>  N   </locality_scheduling_wait_period> ]
+    [ <min_core_client_version>          N   </min_core_client_version          ]
+    [ <choose_download_url_by_timezone/>                                        ]
 
     <!-- optional; defaults as indicated: -->
     <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
@@ -194,7 +195,20 @@ list_item("min_core_client_version",
     a version number less than this,
     it returns an error message and doesn't do any other processing."
 );
-
+list_item("choose_download_url_by_timezone",
+     "When the scheduler sends work to hosts, it replaces the download
+      URL appearing in the data and executable file descriptions with
+      the download URL closest to the host's timezone.  The project
+      must provide a two-column file called 'download_servers' in the
+      project root directory.  This is a list of all download servers
+      that will be inserted when work is sent to hosts.  The first column
+      is an integer listing the server's offset in seconds from UTC.
+      The second column is the server URL in the format such as
+      http://einstein.phys.uwm.edu.  The download servers must
+      have identical file hierarchies and contents, and the path to
+      file and executables must start with '/download/...' as in 
+      'http://einstein.phys.uwm.edu/download/123/some_file_name'."
+);
 list_end();
 
 // THE INFORMATION BELOW NEEDS TO BE ORGANIZED AND PUT INTO TABLES OR SOME OTHER LESS CRAMPED FORM

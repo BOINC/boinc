@@ -90,6 +90,8 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_int(buf, "<locality_scheduling_wait_period>", locality_scheduling_wait_period);
     parse_int(buf, "<locality_scheduling_send_timeout>", locality_scheduling_send_timeout);
     parse_int(buf, "<min_core_client_version>", min_core_client_version);
+    parse_bool(buf, "choose_download_url_by_timezone", choose_download_url_by_timezone);
+
     if (match_tag(buf, "</config>")) {
         char hostname[256];
         gethostname(hostname, 256);

@@ -23737,3 +23737,38 @@ Bruce  2 Feb 2005
 
     sched/
         server_types.C
+
+Bruce 2 Feb 2005
+    - Improvements to the file deletion mechanism.  Now try removing files if
+      no work was sent to hosts, and available space<0 OR if available space>0
+      but work was unfeasible because the disk bound requirements of the work
+      exceeded the available space.
+   -  Added a new config.xml boolean element called 'choose_download_url_by_timezone'
+      This requires that projects provide a 2-column file in the project root named
+      'download_servers'.  An example is:
+           3600   http://einstein.aei.mpg.de
+         -21600   http://einstein.phys.uwm.edu
+      The first column is offset from UTC in seconds, and the second column is the URL
+      of the download server.  When enabled, the scheduler will replace the download
+      path for data and executables by a list of download URLs, ordered by proximity
+      to the host's timezone.  The download path must start with the
+      BOINC default download/ and the different download servers must have identical
+      file paths under download/, in other words they must be mirrored.
+    - Really exciting news, David: I have finally gotten emacs to obey your
+      indentations and formatting conventions, apart from doing this:
+      some_function(foo, bar
+                    );
+      instead of this:
+      some_function(foo, bar
+      );
+      Emacs experts, advice appreciated!
+
+    download/
+        configuration.php
+    sched/
+        sched_config.h
+        sched_config.C
+        sched_send.C
+        handle_request.C
+
+

@@ -908,7 +908,7 @@ extern double watch_diskspace[3];
 int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     int nfiles = (int)sreq.file_infos.size();
     char buf[256];
-                                                                                                                                                    
+
     if (!nfiles) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -949,11 +949,10 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         SCHED_MSG_LOG::DEBUG,
         "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
     );
-    // give host an hour to nuke the file and come back.  This might
+    // give host 4 hours to nuke the file and come back.  This might
     // in general be too soon, since host needs to complete any work
     // that depends upon this file, before it will be removed by core client.
     //
-    
     sprintf(buf, "Removing file %s to free up disk space", fi.name);
     USER_MESSAGE um(buf, "low");
     sreply.insert_message(um);
@@ -970,11 +969,11 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
     }
 
     sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
-    // use _XXXXXX if you want random filenames rather than deterministic
-    // mkstemp(tmpfilename);
-
+    // use _XXXXXX if you want random filenames rather than
+    // deterministic mkstemp(tmpfilename);
+    
     fp=fopen(tmpfilename, "w");
-
+    
     if (!fp) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -982,15 +981,15 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
         );
         return;
     }
-      
+    
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
-
+    
     sreply.write(fp);
     fclose(fp);
-
+    
     sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
     fp=fopen(tmpfilename, "w");
 
@@ -1040,21 +1039,26 @@ void handle_request(
         sreply.insert_message(um);
         sreply.nucleus_only = true;
     }
-
+    
     // if we got no work, and we have no file space, delete some files
-    if (sreply.results.size()==0 && max_allowable_disk(sreq)<0) {
-      // try to delete a file to make more space.  Also give some
-      // hints to the user about what's going wrong (lack of disk
-      // space).
-      delete_file_from_host(sreq, sreply);
+    if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
+        // try to delete a file to make more space.  Also give some
+        // hints to the user about what's going wrong (lack of disk
+        // space).
+        delete_file_from_host(sreq, sreply);
     }
-
+    
 #if 1
-    if (sreply.results.size()==0) {
+    // You can call debug_sched() for whatever situation is of
+    // interest to you.  It won't do anything unless you create
+    // (touch) the file 'debug_sched' in the project root directory.
+    //
+    if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) 
         debug_sched(sreq, sreply, "../debug_sched");
-    }
+    else if (max_allowable_disk(sreq)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0))
+        debug_sched(sreq, sreply, "../debug_sched");
 #endif
-
+    
     sreply.write(fout);
 }
 
