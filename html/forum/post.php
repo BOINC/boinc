@@ -55,7 +55,7 @@ The <?php echo PROJECT ?> Help Desk is designed to help users find answers to qu
 			<tr>
 				<td><b>Title</b>
 				<?php if ($forum->is_helpdesk) { ?>
-					<p>Try to describe your question as completely as you can in the space provided.</p><p>This is the only information that other users will see when before clicking on your question, so it should clearly summarize your question.</p>
+					<p>Try to describe your question as completely (and concisely) as you can in the space provided.</p>A brief, clear summary will help others with the same question (or an answer to your question) find your post.<p></p>
 				<?php } ?>
 				</td>
 				<td><input type="text" name="title" size="62"></td>
