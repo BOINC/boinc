@@ -53,6 +53,9 @@ protected:
     void            StartupBOINCCore();
     void            ShutdownBOINCCore();
 
+    wxInt32         StartupSystemIdleDetection();
+    wxInt32         ShutdownSystemIdleDetection();
+
     wxLocale*       m_pLocale;
     wxConfig*       m_pConfig;
 
@@ -66,6 +69,10 @@ protected:
     bool            m_bFrameVisible;
 
     long            m_lBOINCCoreProccessId;
+
+#ifdef __WXMSW__
+    HINSTANCE       m_hIdleDll;
+#endif
 
     wxString        m_strDefaultWindowStation;
     wxString        m_strDefaultDesktop;

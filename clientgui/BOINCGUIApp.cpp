@@ -31,6 +31,10 @@
 #include "MainDocument.h"
 
 
+typedef BOOL (CALLBACK* IdleTrackerInit)();
+typedef void (CALLBACK* IdleTrackerTerm)();
+
+
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
@@ -99,6 +103,9 @@ bool CBOINCGUIApp::OnInit()
     DetectDefaultWindowStation();
     DetectDefaultDesktop();
 
+    // Startup the System Idle Detection code
+    StartupSystemIdleDetection();
+
     // Detect if we need to start the BOINC Core Client due to configuration
     StartupBOINCCore();
 
@@ -115,6 +122,9 @@ int CBOINCGUIApp::OnExit()
 {
     // Detect if we need to stop the BOINC Core Client due to configuration
     ShutdownBOINCCore();
+
+    // Shutdown the System Idle Detection code
+    ShutdownSystemIdleDetection();
 
 #ifndef NOTASKBAR
     if (m_pTaskBarIcon)
@@ -318,6 +328,58 @@ void CBOINCGUIApp::ShutdownBOINCCore()
 */
         }
     }
+}
+
+
+wxInt32 CBOINCGUIApp::StartupSystemIdleDetection()
+{
+#ifdef __WXMSW__
+    // load dll and start idle detection
+    m_hIdleDll = LoadLibrary("boinc.dll");
+    if(m_hIdleDll)
+    {
+        IdleTrackerInit fn;
+        fn = (IdleTrackerInit)GetProcAddress(m_hIdleDll, wxT("IdleTrackerInit"));
+        if(!fn)
+        {
+            FreeLibrary(m_hIdleDll);
+            m_hIdleDll = NULL;
+            return -1;
+        }
+        else 
+        {
+            if(!fn())
+            {
+                FreeLibrary(m_hIdleDll);
+                m_hIdleDll = NULL;
+                return -1;
+            }
+        }
+    }
+#endif
+    return 0;
+}
+
+
+wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection()
+{
+#ifdef __WXMSW__
+    if(m_hIdleDll) {
+        IdleTrackerTerm fn;
+        fn = (IdleTrackerTerm)GetProcAddress(m_hIdleDll, wxT("IdleTrackerTerm"));
+        if(fn)
+        {
+            fn();
+        }
+        else
+        {
+            return -1;
+        }
+        FreeLibrary(m_hIdleDll);
+        m_hIdleDll = NULL;
+    }
+#endif
+    return 0;
 }
 
 

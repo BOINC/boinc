@@ -21228,3 +21228,14 @@ David  13 Dec 2004
         assimilator.C
         transitioner.C
         validator.C
+
+Rom    13 Dec 2004
+    - Bug Fix: BOINC Manager needs to initialize the System Idle Tracker
+        in order for BOINC to detect if the system is idle.
+    - BOINC Setup for Windows - The UI is now complete for the Single,
+        Shared, and Service install types.
+
+    clientgui/
+        BOINCGUIApp.cpp, .h
+    win_build/installerv2/
+        BOINC.ism
