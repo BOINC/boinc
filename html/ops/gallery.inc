@@ -3,7 +3,7 @@
 require_once("../html_user/project_specific/project.inc");
 require_once("../html_user/profile.inc");
 require_once("../html_user/util.inc");
-require_once("../html_user/sanitize_html.inc");
+
 
 // Generates the html files which comprise the photo gallery.
 //   $room: which gallery to generate (user, computer).
@@ -65,7 +65,7 @@ function build_picture_pages($width, $height) {
       for ($col = 0; $col < $width; $col++) {
 	if ($count < $numIds) {
 
-	  fwrite($descriptor, "<td><a href=\"" . URL_BASE . "view_profile.php?userid=" . $userIds[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $userIds[$count] . '_sm.jpg' . "\"></a></td>");
+	  fwrite($descriptor, "<td align=\"center\"><a href=\"" . URL_BASE . "view_profile.php?userid=" . $userIds[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $userIds[$count] . '_sm.jpg' . "\"></a></td>");
 	  $count++;
 	}
       }
@@ -83,7 +83,6 @@ function build_picture_pages($width, $height) {
 
     page_tail($descriptor);
 
-    //fwrite($descriptor, "</body></html>");
     fclose($descriptor);
 
   }
@@ -111,8 +110,10 @@ function build_country_pages() {
     $row2 = mysql_fetch_assoc($result2);
 
     if ($row2['country']) {
-      $countryMembers[$row2['country']][] = $row2['id'];
-      $numIds++;
+        $countryMembers[$row2['country']][] = $row2['id'];
+        $numIds++;
+    } else {
+        $countryMembers['Other'][] = $row2['id'];
     }
   }
 
@@ -122,6 +123,7 @@ function build_country_pages() {
   //echo "$numIds users have profiles AND non-null country entries.<br>";
 
   $countries = array_keys($countryMembers);
+  sort($countries);
 
   // Build the pages.
   // TODO: Define a constant for the desired number of rows per page.
