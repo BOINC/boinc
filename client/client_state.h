@@ -77,6 +77,7 @@ public:
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
     bool time_to_exit();
+    int set_nslots();
     bool should_run_cpu_benchmarks();
     int cpu_benchmarks();
 #ifdef _WIN32

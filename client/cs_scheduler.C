@@ -392,6 +392,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         retval = global_prefs.parse_file(host_venue);
         if (retval) return retval;
         install_global_prefs();
+        set_nslots();
     }
 
     // deal with project preferences (should always be there)

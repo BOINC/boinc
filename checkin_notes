@@ -4368,3 +4368,11 @@ Eric   May 29, 2003
         client_state.C
     lib/
         language.C,h
+
+Eric   May 30, 2003
+    - nslots will now be updated correctly if user changes preferences on web site
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+

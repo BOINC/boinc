@@ -275,7 +275,7 @@ int CLIENT_STATE::init() {
 
     // running CPU benchmarks is slow, so do it infrequently
     //
-    if (gstate.should_run_cpu_benchmarks()) {
+    if (should_run_cpu_benchmarks()) {
         cpu_benchmarks_start = time(0);
         show_message(NULL, "Running CPU benchmarks", MSG_INFO);
 #ifdef _WIN32
@@ -290,26 +290,35 @@ int CLIENT_STATE::init() {
 #endif
     }
 
-    // Set nslots to actual # of CPUs (or less, depending on prefs)
-    //
-    if (gstate.host_info.p_ncpus > 0) {
-        nslots = gstate.host_info.p_ncpus;
-    } else {
-        nslots = 1;
-    }
-    if (nslots > global_prefs.max_cpus) nslots = global_prefs.max_cpus;
+    set_nslots();
 
     // set up the project and slot directories
     //
     retval = make_project_dirs();
     if (retval) return retval;
-    retval = make_slot_dirs();
-    if (retval) return retval;
 
     // Restart any tasks that were running when we last quit the client
     //
-    gstate.restart_tasks();
+    restart_tasks();
 
+    return 0;
+}
+
+int CLIENT_STATE::set_nslots() {
+    int retval;
+
+    // Set nslots to actual # of CPUs (or less, depending on prefs)
+    //
+    if (host_info.p_ncpus > 0) {
+        nslots = host_info.p_ncpus;
+    } else {
+        nslots = 1;
+    }
+    if (nslots > global_prefs.max_cpus) nslots = global_prefs.max_cpus;
+
+    retval = make_slot_dirs();
+    if (retval) return retval;
+    
     return 0;
 }
 
@@ -325,7 +334,7 @@ bool CLIENT_STATE::should_run_cpu_benchmarks() {
 
 #ifdef _WIN32
 DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID) {
-    return gstate.cpu_benchmarks();
+    return cpu_benchmarks();
 }
 #endif
 
