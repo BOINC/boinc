@@ -13,17 +13,18 @@
     $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
 
+    $host->log_flags = "log_flags.xml";
     $host->add_project($project);
     $host->install();
 
     echo "adding work\n";
 
-    $work = new Work($project, $app);
+    $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
     $work->nresults = 2;
     array_push($work->input_files, "input");
-    $work->install();
+    $work->install($project);
 
     $project->start();
     $host->run("-exit_when_idle");

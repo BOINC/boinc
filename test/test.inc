@@ -90,6 +90,7 @@ class Project {
     var $upload_url;
     var $user_name;
     var $master_url;
+    var $resource_share;
 
     function Project() {
         $this->name = "test";
@@ -98,6 +99,7 @@ class Project {
         $this->app_versions = array();
         $this->generate_keys = false;
         $this->shmem_key = "0xbeefacafe";
+        $this->resource_share = 1;
     }
 
     function add_user($user) {
@@ -268,11 +270,15 @@ class Host {
     var $projects;
     var $user;
     var $host_dir;
+    var $global_prefs;
+    var $log_flags;
 
     function Host($user) {
         $this->user = $user;
         $this->name = "test";
         $this->projects = array();
+        $this->global_prefs = null;
+        $this->log_flags = null;
     }
 
     function add_project($project) {
@@ -297,14 +303,22 @@ class Host {
             fputs($f, "<account>\n");
             fputs($f, "    <master_url>$project->master_url</master_url>\n");
             fputs($f, "    <authenticator>$user->authenticator</authenticator>\n");
-            fputs($f, "    <resource_share>1</resource_share>\n");
+            fputs($f, "    <resource_share>$project->resource_share</resource_share>\n");
             fputs($f, "</account>\n");
             fclose($f);
         }
 
-        // copy log_flags.xml
+        // copy log flags, if any
         //
-        PassThru("cp log_flags.xml $this->host_dir");
+        if ($this->log_flags != null) {
+            PassThru("cp $this->log_flags $this->host_dir/log_flags.xml");
+        }
+
+        // copy global prefs, if any
+        //
+        if ($this->global_prefs != null) {
+            PassThru("cp $this->global_prefs.xml $this->host_dir/global_prefs.xml");
+        }
     }
 
     function run($args) {
@@ -316,21 +330,18 @@ class Host {
 }
 
 class Work {
-    var $project;
     var $app;
     var $wu_template;
     var $result_template;
     var $nresults;
     var $input_files;
 
-    function Work($project, $app) {
-        $this->project = $project;
+    function Work($app) {
         $this->app = $app;
         $this->input_files = array();
     }
 
-    function install() {
-        $project = $this->project;
+    function install($project) {
         $app = $this->app;
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];

@@ -5,7 +5,7 @@
 <h3>1) PHP-based testing framework</h3>
 
 doc/test.php is a library of PHP classes that make it easy to
-write "test scripts" that perform end-to-end tests of BOINC.
+write scripts that perform end-to-end tests of BOINC.
 
 <h4>1.1) Goals of the testing framework</h4>
 
@@ -24,19 +24,25 @@ multiple projects and (virtual) hosts to reside on a single physical host.
 So the testing framework uses this approach.
 
 <p>
-The framework lets you write scripts with any of the following attributes:
+The framework lets you test systems with any of the following attributes:
 <ul>
 <li> Multiple projects
 <li> Multiple applications per project
 <li> Multiple participants per project
 <li> Multiple hosts, with arbitrary enrollment in projects
 </ul>
-
+The following system attributes are planned but not implemented yet:
+<ul>
+<li> Multiple data servers or scheduling servers per project.
+<li> Simulated failures of servers and network connections.
+<li> Simulations of various host conditions
+(out of disk space, crash/reboot, etc.).
+</ul>
 
 <h4>1.2) Directory structure</h4>
 
-Each project has various files that must be kept separate.
-You must designate a "BOINC projects" directory on your test host.
+To use the testing framework,
+you must designate a "BOINC projects" directory on your test host.
 The framework will create subdirectories as follows:
 <pre>
 boinc_projects/
@@ -53,8 +59,7 @@ boinc_projects/
 where proj1, proj2 etc. are the names of the projects in your scripts.
 
 <p>
-Similarly, each virtual host has various files that must be kept separate.
-You must designate a "BOINC hosts" directory on your test host.
+Similarly, you must designate a "BOINC hosts" directory on your test host.
 The framework will create subdirectories as follows:
 <pre>
 boinc_hosts/
@@ -74,6 +79,8 @@ The framework provides the following classes
 <pre>
 class Project {                 // represents a project
     var $name;                  // defaults to "test"; override if needed
+    var $generate_keys;         // set to true if you want to generate
+                                // encryption keys for this project (slow)
     function add_user($user);   // add a User to project's DB
     function add_app($app);     // add an application
     function add_app_version($app_version);     // add an app version
@@ -134,7 +141,7 @@ setenv BOINC_PROJECTS_DIR   /home/david/boinc_projects
 setenv BOINC_HOSTS_DIR      /home/david/boinc_hosts
 # BOINC hosts directory
 setenv BOINC_USER_NAME      david
-# prepended to web error log entries
+# part of DB name, and prepended to web error log entries
 setenv BOINC_SRC_DIR        /home/david/boinc_cvs/boinc
 # BOINC source directory
 setenv BOINC_CGI_DIR        /home/david/cgi-bin
@@ -193,7 +200,38 @@ illustrates the use of the testing framework.
 </pre>
 
 <h4>1.6) Implementation</h4>
+Project->Install() does the following:
+<ul>
+<li> Create the project directory and its subdirectories.
+<li> Create encryption keys if needed.
+<li> Create a database for this project,
+named (BOINC_USER_NAME)_(project-name).
+This is done by macro-substituting the database name
+into db/drop.sql, db/schema.sql, and db/constraints.sql.
+<li> Insert initial records in the project, platform, user, and app tables.
+<li> Run tools/add to create app_version records,
+to copy the application executables from the source directory
+to the download directory, and to compute their digital signatures.
+<li> Copy the server programs (cgi, feeder, file_upload_handler)
+from the source directory to the project/cgi directory.
+<li> Generate the configuration file (config.xml) used by
+the server programs.
+<li> Copy the user and administrative PHP files to the
+project directories html_user and html_ops.
+<li> Create a file "db_name" in project/html_user and project/html_ops.
+<li> Macro-process html_user/index.html to insert the correct
+scheduler URL.
+<li> Create symbolic links (with the project name)
+from the main HTML and CGI directories to the project directory.
+</ul>
 
+<p>
+Host->install() does the following:
+<ul>
+<li> Delete and recreate the directory for this host.
+<li> Create an account file (account_masterURL.xml) for
+each project in which this host participates.
+</ul>
 <h3>2) Test applications</h3>
 <p>
 The <b>apps</b> directory contains the following test applications: 
@@ -234,9 +272,3 @@ You have to run the client yourself, kill and restart it a few times.
 <b>test_rsc.php</b>: tests that scheduling server only sends
 feasible work units. 
 </ul>
-<p>
-These scripts use functions defined in the PHP include file
-<b>init.inc</b>.
-You can use these functions to easily write test
-scripts for your own applications. 
-

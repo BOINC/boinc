@@ -16,7 +16,7 @@ with the following form:
 &lt;config>
     &lt;db_name>david_test&lt;/db_name>
     &lt;db_passwd>&lt;/db_passwd>
-    &lt;shmem_key>0xbeefacafe&lt;/shmem_key>
+    &lt;shmem_key>0xbeefcafe&lt;/shmem_key>
     &lt;key_dir>/home/david/boinc_keys&lt;/key_dir>
     &lt;upload_dir>/home/david/boinc_projects/test/upload&lt;/upload_dir>
     &lt;user_name>david&lt;/user_name>
@@ -30,12 +30,10 @@ The elements are as follows:
 <tr><td>shmem_key</td><td>
 The identifier of the shared-memory segment;
 it is an arbitrary 32-bit quantity,
-but must be unique among different BOINC servers
-sharing a single host.
+but must be unique among different BOINC servers sharing a single host.
 </td></tr>
 <tr><td>key_dir</td><td>
-The directory containing
-the file upload authentication private key.
+The directory containing the file upload authentication private key.
 </td></tr>
 <tr><td>upload_dir</td><td>
 The directory where uploaded files are stored
