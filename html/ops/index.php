@@ -41,6 +41,7 @@ while ($app = mysql_fetch_object($result)) {
     echo "<br>Result summary for $app->name:
         <ul>
         <li><a href=result_summary.php?appid=$app->id&nsecs=86400>last 24 hours</a>
+        <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=86400>last 24 hours - failure by platform</a>
         <li><a href=result_summary.php?appid=$app->id&nsecs=$w>last week</a>
         </ul>
     ";

@@ -11977,3 +11977,11 @@ Rom    May 3 2004
     lib/
         diagnostics.c
         exception.c, .h
+
+Rom    May 3 2004
+    - Add new report to OPs pages to show failures by platform
+
+    html/ops/
+        db_ops.inc
+        failure_result_summary_by_platform.php
+        index.php
