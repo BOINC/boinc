@@ -54,7 +54,7 @@ CLIENT_STATE::CLIENT_STATE() {
     exit_after = -1;
     app_started = 0;
     max_transfer_rate = 9999999;
-    max_bytes = max_transfer_rate;
+    max_bytes = 0;
 }
 
 int CLIENT_STATE::init() {
@@ -239,7 +239,7 @@ static void print_log(char* p) {
 // TODO: handle errors passed back up to here?
 //
 bool CLIENT_STATE::do_something() {
-    int nbytes;
+    int nbytes=0;
     bool action = false, x;
 
     check_suspend_activities();
