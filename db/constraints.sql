@@ -8,14 +8,14 @@ alter table app
 alter table app_version
     add unique(appid, platformid, version_num);
 
-alter table category
-    add unique langID (lang, orderID);
+-- alter table category
+--     add unique langID (lang, orderID);
 
-alter table forum
-    add unique orderID (orderID, category);
+-- alter table forum
+--     add unique orderID (orderID, category);
 
-alter table post
-    add fulltext content (content);
+-- alter table post
+--     add fulltext content (content);
     
 alter table user
     add unique(email_addr),
