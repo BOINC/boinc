@@ -118,8 +118,9 @@ class SqlQueryString {
     }
     function addclause($clause) {
         if ($clause) {
-            $this->add($clause);
-            $this->urlquery .= "&clauses=".urlencode($clause);
+            $c = stripslashes(urldecode($clause));
+            $this->add("( $c )");
+            $this->urlquery .= "&clauses=$clause)";
         }
     }
     function addeq($name) {
@@ -197,8 +198,9 @@ class SqlQueryString {
         $this->addeq_not_CHOOSE_ALL('outcome');
         $this->addeq_not_CHOOSE_ALL('client_state');
         $this->addeq_not_CHOOSE_ALL('validate_state');
-        if ($_GET['clauses']) {
-            $this->addclause("( " . urldecode($_GET['clauses']) . " )");
+        $clauses = $_GET['clauses'];
+        if ($clauses) {
+            $this->addclause($clauses);
         }
         $this->addsort('sort_by');
     }

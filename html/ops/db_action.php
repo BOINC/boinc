@@ -103,8 +103,12 @@
         $show_aggregate = $_GET['show_aggregate'];
         if ($show_aggregate) {
             $query = "select sum(d_total) as tot_sum, sum(d_free) as free_sum, sum(m_nbytes) as tot_mem from host";
-            if ($_GET['clauses']) {
-                $query = $query." WHERE " . urldecode($_GET['clauses']);
+            $clauses = $_GET['clauses'];
+            if ($clauses) {
+                echo "$clauses<br>";
+                $clauses = stripslashes(urldecode($clauses));
+                echo "$clauses<br>";
+                $query = "$query WHERE $clauses";
             }
             $result = mysql_query($query);
             $disk_info = mysql_fetch_object($result);
