@@ -37,11 +37,10 @@ echo "
 print_platform_select();
 echo"
     </td></tr>
-    <tr><td align=right>
+    <tr><td valign=top align=right>
     Problem description:
     </td><td>
-    <textarea rows=10 cols=80>
-    </textarea>
+    <textarea name=problem rows=10 cols=80></textarea>
     </td></tr>
     <tr><td><br></td><td>
     <input type=submit value=OK>
