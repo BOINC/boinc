@@ -7217,7 +7217,7 @@ Karl 2003-10-29
     tools/
         make_project
 
-David  28 Oct 2003
+David  30 Oct 2003
 	- On call to CreateEvent() to make "event" object for
 		core client to ask app to quit (Windows)
 		changed ManualReset argument to false.
@@ -7230,3 +7230,15 @@ David  28 Oct 2003
 		app.C
 		client_state.C,h
 		pers_file_xfer.C
+
+David  30 Oct 2003
+    - API writes to stderr if get quit request
+    - Include signal numbers, error codes in messages about process exit
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        client_state.C
+        cs_apps.C
+        cs_scheduler.C

@@ -295,6 +295,7 @@ int boinc_checkpoint_completed() {
     // If it's time to quit, call boinc_finish which will exit the app properly
     //
     if (time_to_quit) {
+        fprintf(stderr, "Received quit request from core client\n");
         boinc_finish(ERR_QUIT_REQUEST);
     }
     return 0;

@@ -1,3 +1,7 @@
+port graphics API to X
+    CLI core interface:
+        --show slotnum or --show all
+document update_versions
 reject spamming clients w/o DB lookup
 message window is slightly scrolled
 Don't render graphics if minimized

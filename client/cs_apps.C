@@ -264,8 +264,8 @@ bool CLIENT_STATE::start_apps() {
             atp->result->active_task_state = PROCESS_COULDNT_START;
             report_result_error(
                 *(atp->result), retval,
-                "Couldn't start the app for this result."
-                );
+                "Couldn't start the app for this result: error %d", retval
+            );
         }
         action = true;
         set_client_state_dirty("start_apps");

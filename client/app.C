@@ -655,9 +655,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 atp->result->signal = atp->signal;
                 atp->result->active_task_state = PROCESS_WAS_SIGNALED;
                 gstate.report_result_error(
-                    *(atp->result), 0, "process was signaled"
+                    *(atp->result), 0, "process got signal %d", atp->signal
                 );
-                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process was signaled: %d\n", atp->signal);
+                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process got signal %d\n", atp->signal);
             } else {
                 atp->state = PROCESS_EXIT_UNKNOWN;
                 atp->result->state = PROCESS_EXIT_UNKNOWN;
@@ -1032,7 +1032,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
             atp->result->active_task_state = PROCESS_COULDNT_START;
             gstate.report_result_error(
                 *(atp->result), retval,
-                "Couldn't restart the app for this result."
+                "Couldn't restart the app for this result: %d", retval
             );
             active_tasks.erase(iter);
         } else {

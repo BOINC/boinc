@@ -658,12 +658,12 @@ bool CLIENT_STATE::garbage_collect() {
                 if (!rp->ready_to_report) {
                     // had an error uploading a file for this result
                     //
-                    switch(failnum) {
+                    switch (failnum) {
                     case ERR_FILE_TOO_BIG:
                         report_result_error(*rp, 0, "Output file exceeded size limit");
                         break;
                     default:
-                        report_result_error(*rp, 0, "Couldn't upload files or other output file error");
+                        report_result_error(*rp, 0, "Output file error: %d", failnum);
                     }
                 }
             }
@@ -874,7 +874,11 @@ int CLIENT_STATE::report_result_error(
 
     va_list va;
     va_start(va, format);
+#ifdef _WIN32
     _vsnprintf(err_msg, sizeof(err_msg), format, va);
+#else
+    vsnprintf(err_msg, sizeof(err_msg), format, va);
+#endif
     va_end(va);
 
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
