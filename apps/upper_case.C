@@ -28,10 +28,10 @@
 // and writes its state to disk every so often
 
 #include <stdio.h>
-#include <unistd.h>
 #include <ctype.h>
 #include <time.h>
 
+#include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
 
@@ -84,6 +84,9 @@ int do_checkpoint(MFILE& mf, int nchars) {
 
 #ifdef _WIN32
 #include <windows.h>
+
+extern int main(int argc, char** argv);
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
     LPWSTR command_line;
     LPWSTR *args;
@@ -159,7 +162,7 @@ int main(int argc, char **argv) {
         }
 
         if (run_slow) {
-            sleep(1);
+            boinc_sleep(1);
         }
 
         if (boinc_time_to_checkpoint()) {
