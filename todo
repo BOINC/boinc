@@ -5,8 +5,6 @@ Matt's Bugs:
 1. suddenly slow graphics (graphics are plotting smoothly, but after
 several "show graphics" the plots become really slow).
 
-2. windows are appearing too high - top bar is off the screen.
-
 3. after minimizing and quitting, when I double click on the system tray
 icon the window is still minimized - a bit confusing.
 

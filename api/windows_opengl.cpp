@@ -112,7 +112,8 @@ void SetMode(int mode) {
 		while(ShowCursor(true) < 0);
 	}
 
-	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);		// Adjust Window To True Requested Size
+	// Do not do AdjustWindowRectEx here, this will 
+	// cause the window to creep upwards
 
 	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", "BOINC Graphics",
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
