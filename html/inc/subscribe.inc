@@ -61,7 +61,7 @@ function show_result_page($action, $success, $thread) {
         echo "<p>The action you requested is not known</p>";
     }
 
-    echo "<a href=\"thread.php?id=", $thread->id, "\">Return to thread</a>";
+    echo "<a href=forum_thread.php?id=$thread->id>Return to thread</a>";
 
     page_tail();
 
@@ -84,7 +84,7 @@ function send_notice_email($userId, $threadID) {
     $row = mysql_fetch_assoc($result);
 
     $title = PROJECT . ": A user has posted to your subscribed thread.";
-    $link = URL_BASE . "forum/thread.php?id=" . $threadID;
+    $link = URL_BASE . "forum_thread.php?id=" . $threadID;
     $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
         ."To view the updated thread, visit the following URL:\n\n$link";
 

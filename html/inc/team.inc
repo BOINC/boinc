@@ -5,35 +5,21 @@ require_once("../inc/db.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 
-function display_team_page($team, $user) {
+function display_team_page($team, $offset, $sort_by) {
+    $n = 20;
+
+    if ($sort_by == "total_credit") {
+        $sort_clause = "total_credit desc";
+    } else {
+        $sort_clause = "expavg_credit desc";
+    }
+
     if (strlen($team->name_html)) {
         page_head("$team->name_html");
     } else {
         page_head("$team->name");
     }
-    if ($user->teamid == $team->id) {
-        echo "You currently belong to this team
-            <ul>
-            <li><a href=team_quit_form.php?id=$team->id>Quit</a>
-            </ul>
-        ";
-    } else {
-        echo "You don't currently belong to this team.
-            <ul>
-            <li><a href=team_join_form.php?id=$team->id>Join this team</a>
-            </ul>
-        ";
-    }
-    if ($user->id == $team->userid) {
-        echo "
-            You are the founder of this team.
-            <ul>
-            <li><a href=team_edit_form.php?teamid=$team->id>Edit team info</a>
-            <li><a href=team_remove_inactive_form.php?teamid=$team->id>Remove inactive members</a>
-            <li><a href=team_email_list.php?teamid=$team->id>View team email addresses</a>
-            </ul>
-        ";
-    }
+    echo "<a href=team_join_form.php?id=$team->id>Join this team</a> ";
     start_table();
     row1("Team info");
     if (strlen($team->description)) {
@@ -55,15 +41,25 @@ function display_team_page($team, $user) {
     row1("Team members", 4);
     echo "<tr>
         <th>Name</th>
-        <th>Total credit</th>
-        <th>Recent average credit</th>
+    ";
+    if ($sort_by == "total_credit") {
+        echo "<th>Total credit</th>";
+    } else {
+        echo "<th><a href=team_display.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+    }
+    if ($sort_by == "expavg_credit") {
+        echo "<th>Recent average credit</th>";
+    } else {
+        echo "<th><a href=team_display.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+    }
+    echo "
         <th>Country</th>
         </tr>
     ";
 
-    $result = mysql_query("select * from user where teamid=$team->id order by expavg_credit desc");
+    $result = mysql_query("select * from user where teamid=$team->id order by $sort_clause limit $n offset $offset");
 
-    $j = 1;
+    $j = $offset + 1;
     while ($user = mysql_fetch_object($result)) {
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
@@ -79,6 +75,16 @@ function display_team_page($team, $user) {
     }
     mysql_free_result($result);
     echo "</table>";
+
+    if ($offset > 0) {
+        $new_offset = $offset - $n;
+        echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
+    }
+    if ($j == $offset + $n + 1) {
+        $new_offset = $offset + $n;
+        echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
+    }
+
     page_tail();
 }
 

@@ -303,7 +303,7 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         user.expavg_credit,
         cpid
     );
-    if (show_team) {
+    if (show_team && user.teamid) {
         fprintf(f,
             " <teamid>%d</teamid>\n",
             user.teamid

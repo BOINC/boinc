@@ -1,5 +1,6 @@
 <?php
     require_once("../inc/cache.inc");
+
     $sort_by = $_GET["sort_by"];
     if (!$sort_by) $sort_by = "expavg_credit";
     $offset = $_GET["offset"];
@@ -16,7 +17,7 @@
     require_once("../inc/db.inc");
     require_once("../inc/host.inc");
 
-    $n = 10;
+    $n = 20;
 
     db_init();
     page_head("Top computers");

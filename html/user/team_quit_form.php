@@ -5,14 +5,10 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
 db_init();
-$user = get_logged_in_user();
-$id = $_GET["id"];
+$user = get_logged_in_user(true);
+$id = $user->teamid;
 
-    $query = sprintf(
-        "select * from team where id = %d",
-        $id
-    );
-    $result = mysql_query($query);
+    $result = mysql_query("select * from team where id=$id");
     if ($result) {
         $team = mysql_fetch_object($result);
         mysql_free_result($result);

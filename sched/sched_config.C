@@ -59,6 +59,9 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<trickle_down/>")) {
         trickle_down = true;
     }
+    if (match_tag(buf, "<ignore_upload_certificates/>")) {
+        ignore_upload_certificates = true;
+    }
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
     parse_int(buf, "<daily_result_quota>", daily_result_quota);

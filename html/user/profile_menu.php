@@ -3,6 +3,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
+require_once("../inc/uotd.inc");
 
 db_init();
 
@@ -33,7 +34,14 @@ $today = getdate(time());
 $UOTD_heading = "User of the Day -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
 row1($UOTD_heading);
 echo "<tr><td>";
-include( PROFILE_PATH . "uotd.html" );
+    $profile = get_current_uotd();
+    if ($profile) {
+        $user = lookup_user_id($profile->userid);
+        echo uotd_thumbnail($profile, $user);
+        echo user_links($user)."<br>";
+        echo sub_sentence(strip_tags($profile->response1), ' ', 150, true);
+    }
+
 echo "</td></tr>";
 
 rowify("<br>");

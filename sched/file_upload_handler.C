@@ -19,26 +19,6 @@
 // The BOINC file upload handler.
 // See doc/upload.html for protocol spec.
 //
-// Revision History:
-//
-// $Log$
-// Revision 1.57  2004/05/05 00:50:32  boincadm
-// *** empty log message ***
-//
-// Revision 1.56  2004/04/08 08:15:20  davea
-// *** empty log message ***
-//
-// Revision 1.55  2004/01/22 01:35:09  boincadm
-// *** empty log message ***
-//
-// Revision 1.54  2004/01/15 21:24:55  boincadm
-// *** empty log message ***
-//
-// Revision 1.53  2003/12/17 19:14:17  korpela
-// Added include of <unistd.h> (when found) to get definition of gethostname()
-// under solaris.
-//
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -229,17 +209,20 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             if (retval) {
                 return return_error(ERR_PERMANENT, "FILE_INFO::parse");
             }
-            retval = verify_string(
-                file_info.signed_xml, file_info.xml_signature, key, is_valid
-            );
-            if (retval || !is_valid) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                    "verify_string() = %d, is_valid = %d\n",
-                    retval, is_valid
+            if (!config.ignore_upload_certificates) {
+                retval = verify_string(
+                    file_info.signed_xml, file_info.xml_signature, key, is_valid
                 );
-                log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.signed_xml, "signed xml: ");
-                log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.xml_signature, "signature: ");
-                return return_error(ERR_PERMANENT, "invalid signature");
+                if (retval || !is_valid) {
+                    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
+                        file_info.signed_xml, file_info.xml_signature,
+                        retval, is_valid
+                    );
+                    log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.signed_xml, "signed xml: ");
+                    log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.xml_signature, "signature: ");
+                    return return_error(ERR_PERMANENT, "invalid signature");
+                }
             }
             continue;
         }

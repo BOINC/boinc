@@ -41,6 +41,7 @@ public:
     int max_wus_to_send;
     bool non_cpu_intensive;
     bool homogeneous_redundancy;
+    bool ignore_upload_certificates;
     int daily_result_quota;     // max results per host per day
 
     int parse(char*);

@@ -27,13 +27,16 @@ function show_user_stats_private($user) {
     row2(PROJECT." member since", time_str($user->create_time));
     show_credit($user);
     row2("Pending credit", "<a href=pending.php>View</a>");
-    $team_header = "Team<br><font size=-2><a href=team.php>Change</a></font>";
     if ($user->teamid) {
-        $result = mysql_query("select * from team where id = $user->teamid");
-        $team = mysql_fetch_object($result);
-        row2($team_header, "<a href=team_display.php?teamid=$team->id>$team->name</a>");
+        $team = lookup_team($user->teamid);
+        $x = "<a href=team_display.php?teamid=$team->id>$team->name</a>
+            | <a href=team_quit_form.php>Quit this team</a>";
+        if ($team->userid == $user->id) {
+            $x .= " | <a href=team_manage.php>management functions</a>";
+        }
+        row2("Team", $x);
     } else {
-        row2($team_header, "None");
+        row2("Team", "None (<a href=team.php>find a team</a>)");
     }
     row2("Computers", "<a href=hosts_user.php>View</a>");
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");

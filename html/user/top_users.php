@@ -1,31 +1,49 @@
 <?php {
     require_once("../inc/cache.inc");
+
     $sort_by = $_GET["sort_by"];
     if (!$sort_by) $sort_by = "expavg_credit";
-    $cache_args = "sort_by=$sort_by";
-    start_cache(3600, $cache_args);
+    $offset = $_GET["offset"];
+    if (!$offset) $offset=0;
+
+    if ($offset < 1000) {
+        $cache_args = "sort_by=$sort_by&offset=$offset";
+        start_cache(3600, $cache_args);
+    }
 
     require_once("../inc/util.inc");
     require_once("../inc/db.inc");
     require_once("../inc/user.inc");
 
+    $n = 20;
+
+    db_init();
+    page_head("Top participants");
     if ($sort_by == "total_credit") {
         $sort_order = "total_credit desc";
     } else {
         $sort_order = "expavg_credit desc";
     }
 
-    db_init();
-    $numusers = 100;
-    page_head("Top $numusers participants");
-    $result = mysql_query("select * from user order by $sort_order limit $numusers");
+    $result = mysql_query("select * from user order by $sort_order limit $n offset $offset");
     user_table_start($sort_by);
-    $i = 0;
+    $i = 1 + $offset;
     while ($user = mysql_fetch_object($result)) {
-        show_user_row($user, ++$i);
+        show_user_row($user, $i);
+        $i++;
     }
     echo "</table>\n";
+
+    if ($offset > 0) {
+        $new_offset = $offset - $n;
+        echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Previous $n</a> | ";
+
+    }
+    $new_offset = $offset + $n;
+    echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Next $n</a>";
     page_tail();
 
-    end_cache($cache_args);
+    if ($offset < 1000) {
+        end_cache($cache_args);
+    }
 } ?>

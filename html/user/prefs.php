@@ -14,7 +14,7 @@
             Your preferences have been updated.
             They will take effect when your computer communicates
             with ".PROJECT." or
-            you issue the BOINC client's \"Get Preferences\" command.
+            you issue the \"Update\" command from the BOINC client.
             </p>
         ";
 	}

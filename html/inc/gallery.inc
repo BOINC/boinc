@@ -111,7 +111,7 @@ function build_picture_pages($width, $height) {
 // each country.
 
 function build_country_pages() {
-    $query = "SELECT * FROM profile";
+    $query = "select * from profile";
     $result = mysql_query($query);
     $numIds = 0;
 
@@ -121,20 +121,16 @@ function build_country_pages() {
     // Format: array[country][index] = userid.
 
     while ($profile = mysql_fetch_object($result)) {
-        $query2 = "SELECT * FROM user WHERE id=$profile->userid";
-        $result2 = mysql_query($query2);
-        $row2 = mysql_fetch_object($result2);
-
-        if ($row2->country) {
-            $countryMembers[$row2->country][] = $row2->id;
+        $user = lookup_user_id($profile->userid);
+        if ($user->country) {
+            $countryMembers[$user->country][] = $user->id;
             $numIds++;
         } else {
-            $countryMembers['Other'][] = $row2->id;
+            $countryMembers['Other'][] = $user->id;
         }
     }
 
     mysql_free_result($result);
-    mysql_free_result($result2);
 
     //echo "$numIds users have profiles AND non-null country entries.<br>";
 
@@ -168,24 +164,21 @@ function build_country_pages() {
 function build_alpha_pages() {
     global $alphabet;
 
-    $query = "SELECT * FROM profile";
+    $query = "select * from profile";
     $result = mysql_query($query);
     $numIds = 0;
 
-    while ($row = mysql_fetch_assoc($result)) {
-        $query2 = "SELECT * FROM user WHERE id = " . $row['userid'];
-        $result2 = mysql_query($query2);
-        $row2 = mysql_fetch_assoc($result2);
+    while ($profile = mysql_fetch_object($result)) {
+        $user = lookup_user_id($profile->userid);
 
-        if ($row2['name']) {
-            $name = ltrim($row2['name']);
-            $members[strtoupper($name[0])][] = $row2['id'];
+        if ($user->name) {
+            $name = ltrim($user->name);
+            $members[strtoupper($name[0])][] = $user->id;
             $numIds++;
         }
     }
 
     mysql_free_result($result);
-    mysql_free_result($result2);
 
     //echo "$numIds users have profiles AND non-null country entries.<br>";
 

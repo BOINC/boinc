@@ -13025,3 +13025,44 @@ Karl 2004-04-04
 
     test/
         testbase.py
+
+David  June
+    - add "ignore_upload_certificates" flag to config.xml;
+        tells file upload handler to skip certificate check
+    - web:
+        - unified list displays (team members, teams, hosts, users):
+            groups of 20 with sort links
+        - clean up profile code
+        - make team pages generic (not depend on viewing user)
+        - moved team quit/manage links to user page
+    - update_profile_pages.php: remove PHP 30-sec time limit
+
+    html/
+        inc/
+            gallery.inc
+            subscribe.inc
+            team.inc
+            user.inc
+            util.inc
+        ops/
+            update_profile_pages.php
+        user/
+            download_network.php
+            forum_edit.php
+            forum_post.php
+            prefs.php
+            profile_menu.php
+            sample_rss_main.php (new)
+            team_create_form.php
+            team_display.php
+            team_email_list.php
+            team_manage.php (new)
+            team_quit_form.php
+            top_hosts.php
+            top_teams.php
+            top_users.php
+    sched/
+        db_dump.C
+        file_upload_handler.C
+        handle_request.C
+        sched_config.C,h

@@ -6,9 +6,15 @@ require_once("../inc/team.inc");
 
 db_init();
 
-$user = get_logged_in_user();
+$user = get_logged_in_user(true);
 
 page_head("Create a team");
-team_edit_form(null, "Create team", "team_create_action.php");
+if ($user->teamid) {
+    echo "You already belong to a team.
+        You must quit your current team before creating a new one.
+    ";
+} else {
+    team_edit_form(null, "Create team", "team_create_action.php");
+}
 page_tail();
 ?>

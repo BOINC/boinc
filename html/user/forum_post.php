@@ -65,15 +65,15 @@ if ($category->is_helpdesk) {
 
 echo "<form action=\"forum_post.php?id=", $_GET['id'], "\" method=POST>";
 
+start_table();
 if ($category->is_helpdesk) {
-	$cell = "Submit a new question/problem";
+	row1("Submit a new question/problem");
 } else {
-	$cell = "Create a new thread";
+	row1("Create a new thread");
 }
-start_forum_table(array($cell), 2);
 
 $x = "Title".
-    "<br><a href=../html.php><font size=-2>May contain HTML tags</font></a>";
+    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a>";
 
 if ($category->is_helpdesk) {
 	$x .="<br>
@@ -86,7 +86,7 @@ if ($category->is_helpdesk) {
 $y = "<input type=text name=title size=62>";
 row2($x, $y);
 $x = "Message".
-    "<br><a href=../html.php><font size=-2>May contain HTML tags</font></a>";
+    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a>";
 
 if ($category->is_helpdesk) {
 	$x .= " If you are having software problems,

@@ -22,11 +22,13 @@ require_once("../inc/team.inc");
     row1("Member list of $team->name");
     row2_plain("<b>Name</b>", "<b>Email address</b>");
     $result = mysql_query("select * from user where teamid=$team->id");
-    if ($result) {
-        while($user = mysql_fetch_object($result)) {
-            row2_plain($user->name, $user->email_addr);
-        } 
-    }
+    while ($user = mysql_fetch_object($result)) {
+        if (!split_munged_email_addr($addr, $auth, $email)) {
+            $email = $user->email_addr
+        }
+        row2_plain($user->name, $email);
+    } 
+    mysql_free_result($result);
     end_table();
 
     page_tail();

@@ -53,29 +53,27 @@ show_forum_title($forum, $thread, $category->is_helpdesk);
 
 echo "<form action=forum_edit.php?id=$post->id method=POST>\n";
 
-start_forum_table(array("Edit Your Post"), array(NULL), 2);
+start_table();
+row1("Edit your post");
+//start_forum_table(array("Edit your post"), array(NULL), 2);
 if ($post->parent_post==0 and $thread->owner==$logged_in_user->id) {
 	//If this is the first post enable the user to change title
-    echo "<tr>
-	    <td style=\"vertical-align:top\"><b>Thread title</b></td>
-	    <td><input type=\"text\" name=\"title\" value=\"".stripslashes($thread->title)."\"></td>
-	    </tr>"
-	;
+    row2(
+	    "Thread title",
+	    "<input type=text name=title value=\"".stripslashes($thread->title)."\">"
+    );
 };
 
-echo "
-    <tr>
-    <td style=\"vertical-align:top\"><b>Message content</b></td>
-    <td><textarea name=\"content\" rows=12 cols=80>", stripslashes($post->content), "</textarea></td>
-    </tr>
-    <tr>
-    <td colspan=2 style=\"text-align:center\">
-    <input type=\"submit\" name=\"submit\" value=\"submit\">
-    </td>
-    </tr>
-";
+row2(
+    "Message content",
+    "<textarea name=\"content\" rows=12 cols=80>".stripslashes($post->content)."</textarea>"
+);
+row2(
+    "",
+    "<input type=submit name=submit value=OK>"
+);
 
-end_forum_table();
+end_table();
 
 echo "</form>";
 

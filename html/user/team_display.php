@@ -4,6 +4,11 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+$sort_by = $_GET["sort_by"];
+if (!$sort_by) $sort_by = "expavg_credit";
+$offset = $_GET["offset"];
+if (!$offset) $offset=0;
+
 db_init();
 $user = get_logged_in_user(false);
 
@@ -17,6 +22,6 @@ if (!$team) {
     exit();
 }
 
-display_team_page($team, $user);
+display_team_page($team, $offset, $sort_by);
 
 ?>
