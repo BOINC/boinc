@@ -24948,3 +24948,15 @@ Rom    17 Feb 2005
     win_build/installerv2/
         BOINC.ism
  
+David  17 Feb 2005
+    - make_project: added --db_host option.
+        Lets you make a project with a remote DB server
+    - make_project: got rid of --base option
+    - add html/languages/project_specific_translations to set
+        of directories created by make_project and upgrade
+
+    py/Boinc/
+        database.py
+        setup_project.py
+    tools/
+        make_project

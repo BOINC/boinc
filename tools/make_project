@@ -37,9 +37,8 @@ Misc options:
    --drop_db_first      drop database first (from prev installation)
 
 Dir-options:
-   --base               default: $HOME (%(HOME)s)
-   --key_dir            default: BASE/keys
-   --project_root       default: BASE/projects/PROJECT
+   --project_root       default: HOME/projects/PROJECT
+   --key_dir            default: PROJECT_ROOT/keys
    --url_base           default: http://$NODENAME/ (http://%(NODENAME)s/)
 
    --html_user_url      default: URL_BASE/PROJECT/
@@ -50,9 +49,10 @@ Other:
    --db_name            default: PROJECT
    --db_user            default: USER_NAME
    --db_passwd          default: None
+   --db_host            default: None
 
 Example command line:
-  ./make_project --base $HOME/boinc --url_base http://boink/ yah 'YETI @ Home'
+  ./make_project --project_root $HOME/boinc/projects --url_base http://boink/ yah 'YETI @ Home'
 
 Then upload_dir = $HOME/boinc/projects/yah/upload
 and  cgi_url    = http://boink/yah_cgi/
@@ -70,21 +70,26 @@ def usage():
 
 try:
     opts, args = getopt.getopt(sys.argv[1:],
-                               'hv',
-                               [ 'help',
-                                 'verbose=',
-                                 'no_query',
-                                 'user_name=',
-                                 'drop_db_first',
-                                 'delete_prev_inst',
-                                 'base=',
-                                 'key_dir=',
-                                 'project_root=',
-                                 'url_base=',
-                                 'html_user_url=',
-                                 'html_ops_url=',
-                                 'cgi_url=',
-                                 ])
+        'hv', [
+            'help',
+            'verbose=',
+            'no_query',
+            'user_name=',
+            'drop_db_first',
+            'delete_prev_inst',
+            'base=',
+            'key_dir=',
+            'project_root=',
+            'url_base=',
+            'html_user_url=',
+            'html_ops_url=',
+            'cgi_url=',
+            'db_name=',
+            'db_user=',
+            'db_passwd=',
+            'db_host=',
+            ]
+        )
 except getopt.GetoptError, e:
     syntax_error(e)
 
@@ -100,7 +105,6 @@ for o,a in opts:
     elif o == '--user_name':     options.user_name      = a
     elif o == '--drop_db_first': options.drop_db_first  = True
     elif o == '--delete_prev_inst': options.delete_prev_inst  = True
-    elif o == '--base':          options.base           = a
     elif o == '--key_dir':       options.key_dir        = a
     elif o == '--project_root':  options.project_root   = a
     elif o == '--url_base':      options.url_base       = a
@@ -110,6 +114,7 @@ for o,a in opts:
     elif o == '--db_name':       options.db_name        = a
     elif o == '--db_user':       options.db_user        = a
     elif o == '--db_passwd':     options.db_passwd      = a
+    elif o == '--db_host':       options.db_host        = a
     else:
         raise SystemExit('internal error o=%s'%o)
 
@@ -134,6 +139,7 @@ def replopt(str):
     for key in opt_repls:
         str = str.replace(key, delete_slash(opt_repls[key]))
     return str
+
 def defopt(name, v, isdir=True):
     options.__dict__[name] = opt_repls[name.upper()] = add_slash(replopt(options.__dict__.get(name) or v), isdir)
 
@@ -147,22 +153,25 @@ defopt('html_ops_url'  , 'URL_BASE/PROJECT_ops')
 defopt('cgi_url'       , 'URL_BASE/PROJECT_cgi')
 
 defopt('user_name'     , USER, isdir=False)
-defopt('base'          , HOME)
-defopt('key_dir'       , 'BASE/projects/PROJECT/keys')
-defopt('project_root'  , 'BASE/projects/PROJECT')
+defopt('project_root'  , 'HOME/projects/PROJECT')
+defopt('key_dir'       , 'HOME/projects/PROJECT/keys')
 
 defopt('db_name'       , 'PROJECT', isdir=False)
 defopt('db_user'       , 'USER_NAME', isdir=False)
 defopt('db_passwd'     , '', isdir=False)
+defopt('db_host  '     , '', isdir=False)
 
 print "Creating project '%s' (short name '%s'):" %(project_longname, project_shortname)
-for k in ['base',
-          'key_dir',
-          'project_root',
-          'url_base',
-          'html_user_url',
-          'html_ops_url',
-          'cgi_url' ]:
+for k in [
+    'key_dir',
+    'project_root',
+    'url_base',
+    'html_user_url',
+    'html_ops_url',
+    'cgi_url',
+    'db_name',
+    'db_host',
+    ]:
     print k.upper().rjust(15), "=", options.__dict__[k]
 
 project_root_parent = os.path.realpath(os.path.join(options.project_root,'..'))
@@ -185,27 +194,29 @@ if not options.no_query:
 
 options.install_method = 'copy'
 init()
-project = Project(project_shortname, project_longname,
-                  project_dir = options.project_root,
-                  master_url = options.html_user_url,
-                  cgi_url = options.cgi_url,
-                  key_dir = options.key_dir,
-                  db_name = options.db_name,
-                  production = 1
-                  )
+project = Project(
+    project_shortname,
+    project_longname,
+    project_dir = options.project_root,
+    master_url = options.html_user_url,
+    cgi_url = options.cgi_url,
+    key_dir = options.key_dir,
+    db_name = options.db_name,
+    production = 1
+    )
 
 project.install_project()
 
 project.sched_install('feeder')
 project.sched_install('transitioner')
-# project.sched_install('validate_test')
-# project.sched_install('assimilator')
 project.sched_install('file_deleter')
 
 print '''Done installing default daemons.'''
 
-httpd_conf_template_filename = os.path.join(options.project_root,
-                                            project_shortname+'.httpd.conf')
+httpd_conf_template_filename = os.path.join(
+    options.project_root,
+    project_shortname+'.httpd.conf'
+    )
 
 proot = delete_slash(options.project_root)
 html_user_url = options.html_user_url

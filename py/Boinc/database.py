@@ -236,8 +236,10 @@ def connect(config = None, nodb = False):
         db = ''
     else:
         db = config.db_name
+    
+    host=config.__dict__.get('db_host','')
     do_connect(db=db,
-               host=config.__dict__.get('db_host',''),
+               host=host,
                user=config.__dict__.get('db_user',''),
                passwd=config.__dict__.get('db_passwd', ''))
     return 1

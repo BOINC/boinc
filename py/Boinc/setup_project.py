@@ -280,6 +280,7 @@ def create_project_dirs(dest_dir):
             'html/languages',
             'html/languages/compiled',
             'html/languages/translations',
+            'html/languages/project_specific_translations',
             'html/ops',
             'html/project',
             'html/stats',
@@ -320,7 +321,7 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
     install_glob(srcdir('html/user/*.png'), dir('html/user/'))
     install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
-    install_glob(srcdir('html/languages/language_interface'), dir('html/languages/'))
+    install_glob(srcdir('html/languages/project_specific_translations/*.po'), dir('html/languages/project_specific_translations/'))
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
@@ -376,6 +377,7 @@ class Project:
         config.db_user = options.db_user
         config.db_name = db_name or options.user_name + '_' + self.short_name
         config.db_passwd = options.db_passwd
+        config.db_host = options.db_host
         config.shmem_key = generate_shmem_key()
         config.output_level = 3
         config.uldl_dir_fanout = 1024
@@ -416,7 +418,6 @@ class Project:
         _gen_key(self.keydir('code_sign'))
 
     def create_logdir(self):
-        print "logdir = ", self.logdir()
         os.mkdir(self.logdir())
         os.chmod(self.logdir(), 0777)
 
@@ -493,8 +494,10 @@ class Project:
             f.close()
 
         verbose_echo(1, "Setting up database")
-        database.create_database(config = self.config.config,
-                                 drop_first = options.drop_db_first)
+        database.create_database(
+            config = self.config.config,
+            drop_first = options.drop_db_first
+            )
 
         verbose_echo(1, "Setting up server files: writing config files")
 
