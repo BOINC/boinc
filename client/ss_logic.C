@@ -107,7 +107,11 @@ void SS_LOGIC::poll() {
                         ack_deadline = time(0) + 5;
                     } else {
                         do_boinc_logo_ss = true;
-                        strcpy(ss_msg, "No graphics-capable applications running");
+                        if (0 == gstate.active_tasks.active_tasks.size()) {
+                            strcpy(ss_msg, "No work available");
+                        } else {
+                            strcpy(ss_msg, "No graphics-capable applications running");
+                        }
                     }
                 }
             }

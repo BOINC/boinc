@@ -13951,3 +13951,10 @@ Karl 2004-06-18
     - makefile cleanup
 
     */Makefile.am
+
+Rom    June 17 2004
+    - Update screensaver logic to determine the difference between 'no work avaliable'
+      and the active tasks cannot display graphics.
+
+    client/
+        ss_logic.C
