@@ -8042,3 +8042,32 @@ David  2 Dec 2003
         cs_scheduler.C
         hostinfo.C
         pers_file_xfer.C
+
+Karl 2003-12-02
+    - committed Robi Buecheler's translation updates.
+ 
+    client/translation/     
+        language.ini.bg
+        language.ini.ca
+        language.ini.cs
+        language.ini.da
+        language.ini.de
+        language.ini.es
+        language.ini.et
+        language.ini.fi
+        language.ini.fr
+        language.ini.gl
+        language.ini.hr
+        language.ini.it
+        language.ini.ja-euc (added)
+        language.ini.ja-sjis (added)
+        language.ini.ko
+        language.ini.nl
+        language.ini.pl
+        language.ini.pt
+        language.ini.ru
+        language.ini.sk
+        language.ini.sv
+        language.ini.template
+        language.ini.zh-big5 (added)
+        language.ini.zh-gb2312 (added)
