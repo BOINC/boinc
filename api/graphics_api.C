@@ -23,7 +23,7 @@
 #include "parse.h"
 
 #ifdef _WIN32
-#include <windows.h>
+#include <afxwin.h>
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 #endif
 

@@ -28,7 +28,7 @@
 #ifdef WIN32
 #include <io.h>
 #include <sys/stat.h>
-#include <windows.h>
+#include <afxwin.h>
 #include <winuser.h>
 #endif
 

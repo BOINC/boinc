@@ -20,7 +20,7 @@
 #include "windows_cpp.h"
 
 #ifdef _WIN32
-#include <windows.h>
+#include <afxwin.h>
 #endif
 
 #include <stdio.h>

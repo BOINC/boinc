@@ -25,7 +25,7 @@
 // Could replace this with a more general parser.
 
 #ifdef _WIN32
-#include "windows.h"
+#include <afxwin.h>
 #endif
 
 #include <string.h>

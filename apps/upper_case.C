@@ -115,7 +115,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
 }
 
 #ifdef _WIN32
-#include <windows.h>
+#include <afxwin.h>
 
 extern int main(int argc, char** argv);
 

@@ -22,7 +22,7 @@
 
 #ifdef _WIN32
 #include <time.h>
-#include <windows.h>
+#include <afxwin.h>
 #else
 #include <sys/time.h>
 #include <unistd.h>

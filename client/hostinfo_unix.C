@@ -36,7 +36,8 @@
 #endif
 
 #ifdef _WIN32
-#include <windows.h>
+#include <afxwin.h>
+#include <winsock.h>
 #endif
 
 #if HAVE_SYS_SYSTEMINFO_H
