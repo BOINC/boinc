@@ -16615,3 +16615,45 @@ David  21 Aug 2004
     client/
         cs_apps.C
         ss_logic.C
+
+David  23 Aug 2004
+    - Cleanup and bug fixes in CPU scheduler
+        There was inconsistent terminology,
+        e.g. a task could have scheduler_state = CPU_SCHED_RUNNING
+        but actually be suspended; it could have state = PROCESS_RUNNING
+        but actually be suspended, and so on.
+        New terminology:
+            "executing" (formerly "running", which was used ambiguously)
+            CPU_SCHED_SCHEDULED (formerly CPU_SCHED_RUNNING):
+                the CPU scheduler has given its permission
+                for a task to execut; it may not actually be executing
+            PROCESS_EXECUTING: the process is executing (not suspended)
+            PROCESS_SUSPENDED: the process is suspended
+        new function: ACTIVE_TASK::process_exists():
+            true if the state is EXECUTING, SUSPENDED, or ABORT_PENDING
+            Use this instead of (state == PROCESS_RUNNING) in many cases
+        renamed ACTIVE_TASK::task_exited() to has_task_exited()
+        changed logic in ACTIVE_TASK_SET::suspend_all()
+        ACTIVE_TASK_SET::unsuspend_all():
+            Removed code that checks for process exit.
+            Poll code should take care of this.
+
+    - add MSG_CHANNEL::send_msg_overwrite(): send message even
+        if there's already a message there.
+        Use this for process control messages.
+
+    - API: if suspended, check for <quit/> messages as well as <resume/>
+        (this affects Unix only)
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+        app_control.C
+        app_graphics.C
+        app_start.C
+        client_state.C
+        cs_apps.C
+        cs_prefs.C
+        gui_rpc_server.C
+    lib/
+        app_ipc.C,h

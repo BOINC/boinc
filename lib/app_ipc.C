@@ -176,7 +176,10 @@ bool MSG_CHANNEL::send_msg(char *msg) {
     return true;
 }
 
-
+void MSG_CHANNEL::send_msg_overwrite(char* msg) {
+    safe_strncpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
+    buf[0] = 1;
+}
 
 int APP_CLIENT_SHM::decode_graphics_msg(char* msg) {
     int i;

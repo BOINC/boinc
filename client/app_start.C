@@ -418,9 +418,8 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
 #endif
-    state = PROCESS_RUNNING;
-    result->active_task_state = PROCESS_RUNNING;
-    scheduler_state = CPU_SCHED_RUNNING;
+    state = PROCESS_EXECUTING;
+    result->active_task_state = PROCESS_EXECUTING;
     return 0;
 }
 
@@ -436,24 +435,8 @@ int ACTIVE_TASK::resume_or_start() {
     int retval;
     int task_start_type;
 
-    if (state == PROCESS_RUNNING) {
-#if _WIN32
-        unsigned long exit_code;
-        GetExitCodeProcess(pid_handle, &exit_code);
-        if (exit_code != STILL_ACTIVE) {
-            handle_exited_app(exit_code);
-        }
-#else
-        int exited_pid;
-        int stat;
-        struct rusage rs;
-
-        if ((exited_pid = wait4(0, &stat, WNOHANG, &rs)) == pid) {
-            handle_exited_app(stat, rs);
-        }
-#endif
-    }
-    if (state == PROCESS_UNINITIALIZED) {
+    switch (state) {
+    case PROCESS_UNINITIALIZED:
         if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
             if (!boinc_file_exists(slot_dir)) {
                 make_slot_dir(slot);
@@ -466,7 +449,8 @@ int ACTIVE_TASK::resume_or_start() {
             task_start_type = TASK_RESTART;
         }
         if (retval) return retval;
-    } else {
+        break;
+    case PROCESS_SUSPENDED:
         retval = unsuspend();
         if (retval) {
             msg_printf(
@@ -476,8 +460,13 @@ int ACTIVE_TASK::resume_or_start() {
             );
             return retval;
         }
-        scheduler_state = CPU_SCHED_RUNNING;
         task_start_type = TASK_RESUME;
+        break;
+    default:
+        msg_printf(result->project, MSG_ERROR,
+            "resume_or_start(): unexpected process state %d", state
+        );
+        return 0;
     }
     msg_printf(result->project, MSG_INFO,
         "%s computation for result %s using %s version %.2f",
@@ -519,7 +508,7 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
             continue;
         }
 
-        if (atp->scheduler_state != CPU_SCHED_RUNNING
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED
             || num_tasks_started >= max_tasks
         ) {
             msg_printf(atp->wup->project, MSG_INFO,

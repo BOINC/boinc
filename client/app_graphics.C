@@ -63,7 +63,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::get_app_graphics_mode_requested(int req_mode) {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->graphics_mode_requested == req_mode) {
             return atp;
         }
@@ -71,13 +71,16 @@ ACTIVE_TASK* ACTIVE_TASK_SET::get_app_graphics_mode_requested(int req_mode) {
     return NULL;
 }
 
+// remember graphics state of apps.
+// Called when entering screensaver mode,
+// so that we can return to same state later
+//
 void ACTIVE_TASK_SET::save_app_modes() {
     unsigned int i;
     ACTIVE_TASK* atp;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
         //msg_printf(NULL, MSG_INFO, "saved mode %d", atp->graphics_mode_acked);
     }
@@ -89,7 +92,6 @@ void ACTIVE_TASK_SET::hide_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
     }
 }
@@ -102,7 +104,6 @@ void ACTIVE_TASK_SET::restore_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->graphics_mode_requested != atp->graphics_mode_before_ss) {
             atp->request_graphics_mode(atp->graphics_mode_before_ss);
         }
@@ -116,9 +117,6 @@ void ACTIVE_TASK_SET::graphics_poll() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING ||
-            atp->state != PROCESS_RUNNING
-        ) continue;
         if (atp->graphics_mode_requested != atp->graphics_mode_sent) {
             sent = atp->send_graphics_mode(atp->graphics_mode_requested);
             if (sent) {
@@ -135,7 +133,7 @@ bool ACTIVE_TASK::supports_graphics() {
 }
 
 
-// Return the next graphics-capable app.
+// Return the next graphics-capable running app.
 // Always try to choose a new project.
 // Preferences goes to apps with pre-ss mode WINDOW,
 // then apps with pre-ss mode HIDE
@@ -154,7 +152,7 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
 
         for (j=0; j<active_tasks.active_tasks.size(); ++j) {
             atp = active_tasks.active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+            if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if (atp->result->project != p) continue;
             if (atp->graphics_mode_before_ss == MODE_WINDOW) {
                 return atp;
@@ -162,7 +160,7 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
         }
         for (j=0; j<active_tasks.active_tasks.size(); ++j) {
             atp = active_tasks.active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+            if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if (atp->result->project != p) continue;
             if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
                 return atp;

@@ -50,6 +50,8 @@ struct MSG_CHANNEL {
     bool get_msg(char*);    // returns a message and clears pending flag
     bool send_msg(char*);   // if there is not a message in the segment,
                             // writes specified message and sets pending flag
+    void send_msg_overwrite(char*);
+                            // write message, overwriting any msg already there
 };
 
 struct SHARED_MEM {

@@ -155,7 +155,6 @@ bool CLIENT_STATE::handle_finished_apps() {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         switch (atp->state) {
         case PROCESS_EXITED:
         case PROCESS_WAS_SIGNALED:
@@ -212,12 +211,12 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 }
 
 
-// Return true iff there are fewer running tasks than available CPUs
+// Return true iff there are fewer scheduled tasks than available CPUs
 //
 bool CLIENT_STATE::have_free_cpu() {
     int num_running_tasks = 0;
     for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
-        if (active_tasks.active_tasks[i]->scheduler_state == CPU_SCHED_RUNNING) {
+        if (active_tasks.active_tasks[i]->scheduler_state == CPU_SCHED_SCHEDULED) {
             ++num_running_tasks;
         }
     }
@@ -234,10 +233,8 @@ bool CLIENT_STATE::have_free_cpu() {
 void CLIENT_STATE::assign_results_to_projects() {
 
     // Before assigning a result to an active task,
-    // check if that result is a file xfer;
-    // this will be appearent by the lack of files
-    // associated with the workunit's app
-    // Running this function will find these results and mark them as completed.
+    // mark file xfer results as completed;
+    // TODO: why do this in this function??
     //
     handle_file_xfer_apps();
 
@@ -250,16 +247,18 @@ void CLIENT_STATE::assign_results_to_projects() {
             continue;
         }
 
-        // any next_runnable_result assigned so far should have an active task
+        // see if this task is "better" than the one currently
+        // selected for this project
         //
-        ACTIVE_TASK *next_atp = lookup_active_task_by_result(p->next_runnable_result);
+        ACTIVE_TASK *next_atp = lookup_active_task_by_result(
+            p->next_runnable_result
+        );
         //assert(next_atp != NULL);
 
-        if ((next_atp->state == PROCESS_UNINITIALIZED
-            && atp->state == PROCESS_RUNNING) ||
-            (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
-            && atp->state == CPU_SCHED_RUNNING)
-        ){
+        if ((next_atp->state == PROCESS_UNINITIALIZED && atp->process_exists())
+            || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
+            && atp->scheduler_state == CPU_SCHED_SCHEDULED)
+        ) {
             p->next_runnable_result = atp->result;
         }
     }
@@ -327,7 +326,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     }
     best_project->anticipated_debt -= expected_pay_off;
     best_project->next_runnable_result = false;
-    atp->next_scheduler_state = CPU_SCHED_RUNNING;
+    atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
     return true;
 }
 
@@ -353,9 +352,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // Reschedule every cpu_sched_period seconds or as needed
     //
     elapsed_time = time(0) - cpu_sched_last_time;
-    if ((elapsed_time < cpu_sched_period
-         && !have_free_cpu()
-         && !must_reschedule)
+    if ((elapsed_time<cpu_sched_period && !have_free_cpu() && !must_reschedule)
         || projects.size() < 1
         || results.size() < 1
     ) {
@@ -372,7 +369,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     //
     for (i=0; i < active_tasks.active_tasks.size(); ++i) {
         atp = active_tasks.active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
         atp->result->project->work_done_this_period += task_cpu_time;
         cpu_sched_work_done_this_period += task_cpu_time;
@@ -431,15 +428,17 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     iter = active_tasks.active_tasks.begin();
     while (iter != active_tasks.active_tasks.end()) {
         atp = *iter;
-        if (atp->scheduler_state == CPU_SCHED_RUNNING
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
             atp->preempt(active_tasks.vm_limit_exceeded(vm_limit));
             iter++;
-        } else if (atp->scheduler_state != CPU_SCHED_RUNNING
-            && atp->next_scheduler_state == CPU_SCHED_RUNNING
+        } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
+            && atp->next_scheduler_state == CPU_SCHED_SCHEDULED
         ) {
-            if ((retval = atp->resume_or_start())) {
+            atp->scheduler_state = CPU_SCHED_SCHEDULED;
+            retval = atp->resume_or_start();
+            if (retval) {
                 atp->state = PROCESS_COULDNT_START;
                 atp->result->active_task_state = PROCESS_COULDNT_START;
                 report_result_error(

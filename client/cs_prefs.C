@@ -187,7 +187,7 @@ int CLIENT_STATE::suspend_activities(int reason) {
         s_reason += " - running CPU benchmarks";
     }
     if (reason & SUSPEND_REASON_DISK_SIZE) {
-        s_reason += " - projects have grown too large, increase BOINC disk space prefs";
+        s_reason += " - out of disk space - change global prefs";
     }
     msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
     active_tasks.suspend_all(global_prefs.leave_apps_in_memory);

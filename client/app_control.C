@@ -56,11 +56,17 @@ using std::vector;
 
 #include "app.h"
 
-// Send a quit signal.
-// Normally this is caught by the process, which can checkpoint
+bool ACTIVE_TASK::process_exists() {
+    if (state == PROCESS_EXECUTING) return true;
+    if (state == PROCESS_SUSPENDED) return true;
+    if (state == PROCESS_ABORT_PENDING) return true;
+    return false;
+}
+
+// Send a quit message.
 //
 int ACTIVE_TASK::request_exit() {
-    app_client_shm.shm->process_control_request.send_msg("<quit/>");
+    app_client_shm.shm->process_control_request.send_msg_overwrite("<quit/>");
     return 0;
 }
 
@@ -78,50 +84,52 @@ int ACTIVE_TASK::kill_task() {
 #if !defined(HAVE_WAIT4) && defined(HAVE_WAIT3)
 #include <map>
 struct proc_info_t {
-  int status;
-  rusage r;
-  proc_info_t() {};
-  proc_info_t(int s, const rusage &ru);
+    int status;
+    rusage r;
+    proc_info_t() {};
+    proc_info_t(int s, const rusage &ru);
 };
 
 proc_info_t::proc_info_t(int s, const rusage &ru) : status(s), r(ru) {}
 
 pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
-  static std::map<pid_t,proc_info_t> proc_info;
-  pid_t tmp_pid=0;
+    static std::map<pid_t,proc_info_t> proc_info;
+    pid_t tmp_pid=0;
 
-  if (!pid) {
-    return wait3(statusp,options,rusagep);
-  } else {
-    if (proc_info.find(pid) == proc_info.end()) {
-      do {
-        tmp_pid=wait3(statusp,options,rusagep);
-        if ((tmp_pid>0) && (tmp_pid != pid)) {
-      proc_info[tmp_pid]=proc_info_t(*statusp,*rusagep);
-      if (!(options && WNOHANG)) {
-        tmp_pid=0;
-      }
-        } else {
-      return pid;
-        }
-      } while (!tmp_pid);
+    if (!pid) {
+        return wait3(statusp,options,rusagep);
     } else {
-      *statusp=proc_info[pid].status;
-      *rusagep=proc_info[pid].r;
-      proc_info.erase(pid);
-      return pid;
+        if (proc_info.find(pid) == proc_info.end()) {
+            do {
+                tmp_pid=wait3(statusp,options,rusagep);
+                if ((tmp_pid>0) && (tmp_pid != pid)) {
+                    proc_info[tmp_pid]=proc_info_t(*statusp,*rusagep);
+                    if (!(options && WNOHANG)) {
+                        tmp_pid=0;
+                    }
+                } else {
+                    return pid;
+                }
+            } while (!tmp_pid);
+        } else {
+            *statusp=proc_info[pid].status;
+            *rusagep=proc_info[pid].r;
+            proc_info.erase(pid);
+            return pid;
+        }
     }
-  }
 }
 #endif
 
-// We have sent a quit signal to the process; see if it's exited.
+// We have sent a quit request to the process; see if it's exited.
 // This is called when the core client exits,
 // or when a project is detached or reset
 //
-bool ACTIVE_TASK::task_exited() {
+bool ACTIVE_TASK::has_task_exited() {
     bool exited = false;
-    if (state != PROCESS_RUNNING) return true;
+
+    if (!process_exists()) return true;
+
 #ifdef _WIN32
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
@@ -144,7 +152,9 @@ bool ACTIVE_TASK::task_exited() {
     return exited;
 }
 
-// preempts a task
+// preempt this task
+// called from the CLIENT_STATE::schedule_cpus()
+// if quit_task is true always do this by quitting (we're low on swap space)
 //
 int ACTIVE_TASK::preempt(bool quit_task) {
     int retval;
@@ -156,25 +166,18 @@ int ACTIVE_TASK::preempt(bool quit_task) {
         retval = suspend();
     }
 
-    if (retval) {
-        msg_printf(
-            wup->project,
-            MSG_ERROR,
-            "ACTIVE_TASK::preempt(): could not %s active_task",
-            (quit_task ? "quit" : "suspend")
-        );
-        return retval;
-    }
     scheduler_state = CPU_SCHED_PREEMPTED;
 
     msg_printf(result->project, MSG_INFO,
-        "Preempting computation for result %s (%s)",
-        result->name,
-        (quit_task ? "quit" : "suspend")
+        "Preempting result %s (%s)",
+        result->name, (quit_task ? "quit" : "suspend")
     );
     return 0;
 }
 
+// deal with a process that has exited, for whatever reason
+// (including preemption)
+//
 #ifdef _WIN32
 bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     get_msg();
@@ -320,11 +323,7 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
     bool sent;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state == PROCESS_IN_LIMBO
-            || atp->state == PROCESS_UNINITIALIZED
-        ) {
-            continue;
-        }
+        if (!atp->process_exists()) continue;
         if (atp->have_trickle_down) {
             sent = atp->app_client_shm.shm->trickle_down.send_msg("<have_trickle_down/>\n");
             if (sent) atp->have_trickle_down = false;
@@ -338,15 +337,13 @@ void ACTIVE_TASK_SET::send_heartbeats() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state == PROCESS_IN_LIMBO
-            || atp->state == PROCESS_UNINITIALIZED
-        ) {
-            continue;
-        }
+        if (!atp->process_exists()) continue;
         atp->app_client_shm.shm->heartbeat.send_msg("<heartbeat/>\n");
     }
 }
 
+// See if any processes have exited
+//
 bool ACTIVE_TASK_SET::check_app_exited() {
     ACTIVE_TASK* atp;
     bool found = false;
@@ -359,10 +356,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-        if (atp->state == PROCESS_IN_LIMBO ||
-            atp->state == PROCESS_UNINITIALIZED
-        ) continue;
+        if (!atp->process_exists()) continue;
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);
@@ -470,7 +464,7 @@ bool ACTIVE_TASK_SET::vm_limit_exceeded(double vm_limit) {
 
     for (i=0; i<active_tasks.size(); ++i) {
         atp = active_tasks[i];
-        if (atp->state != PROCESS_RUNNING) continue;
+        if (!atp->process_exists()) continue;
         total_vm_usage += atp->vm_size;
     }
 
@@ -487,8 +481,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-        if (atp->state != PROCESS_RUNNING) continue;
+        if (atp->state != PROCESS_EXECUTING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
         else if (atp->check_max_mem_exceeded()) return true;
         else if (time(0)>last_disk_check_time + gstate.global_prefs.disk_interval) {
@@ -504,7 +497,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // This is done when app has exceeded CPU, disk, or mem limits
 //
 int ACTIVE_TASK::abort_task(char* msg) {
-    if (state == PROCESS_RUNNING) {
+    if (state == PROCESS_EXECUTING || state == PROCESS_SUSPENDED) {
         state = PROCESS_ABORT_PENDING;
         result->active_task_state = PROCESS_ABORT_PENDING;
         kill_task();
@@ -536,7 +529,9 @@ bool ACTIVE_TASK::read_stderr_file() {
         // truncate stderr output to 64KB;
         // it's unlikely that more than that will be useful
         //
-        result->stderr_out = result->stderr_out.substr(0, MAX_BLOB_LEN-1-strlen(stderr_txt_close));
+        result->stderr_out = result->stderr_out.substr(
+            0, MAX_BLOB_LEN-1-strlen(stderr_txt_close)
+        );
         result->stderr_out += stderr_txt_close;
         return true;
     }
@@ -570,11 +565,7 @@ void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->result->project != project) continue;
-        if (atp->state == PROCESS_IN_LIMBO
-            || atp->state == PROCESS_UNINITIALIZED
-        ) {
-            continue;
-        }
+        if (!atp->process_exists()) continue;
         atp->request_reread_prefs();
     }
 }
@@ -619,7 +610,7 @@ int ACTIVE_TASK_SET::wait_for_exit(double wait_time, PROJECT* proj) {
         for (n=0; n<active_tasks.size(); n++) {
             atp = active_tasks[n];
             if (proj && atp->wup->project != proj) continue;
-            if (!atp->task_exited()) {
+            if (!atp->has_task_exited()) {
                 all_exited = false;
                 break;
             }
@@ -666,10 +657,11 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
 // Find the ACTIVE_TASK in the current set with the matching result
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
-    for (active_tasks_v::iterator i = active_tasks.begin();
-         i != active_tasks.end(); ++i)
-    {
-        ACTIVE_TASK* atp = *i;
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
         if (atp->result == result) {
             return atp;
         }
@@ -678,30 +670,20 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
 }
 
 // suspend all currently running tasks
+// called only from CLIENT_STATE::suspend_activities(),
+// e.g. because on batteries, time of day, benchmarking, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     unsigned int i;
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->state != PROCESS_EXECUTING) continue;
         if (leave_apps_in_memory) {
-            if (atp->scheduler_state != CPU_SCHED_RUNNING && atp->suspend()) {
-                msg_printf(
-                    atp->wup->project,
-                    MSG_ERROR,
-                    "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task"
-                );
-            }
+            atp->suspend();
         } else {
-            if (atp->state == PROCESS_RUNNING && atp->request_exit()) {
-                msg_printf(
-                    atp->wup->project,
-                    MSG_ERROR,
-                    "ACTIVE_TASK_SET::suspend_all(): could not quit active_task"
-                );
-            } else {
-                atp->pending_suspend_via_quit = true;
-            }
+            atp->request_exit();
+            atp->pending_suspend_via_quit = true;
         }
     }
 }
@@ -713,26 +695,8 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-        if (atp->state == PROCESS_RUNNING) {
-#if _WIN32
-            unsigned long exit_code;
-            GetExitCodeProcess(atp->pid_handle, &exit_code);
-            if (exit_code != STILL_ACTIVE) {
-                atp->handle_exited_app(exit_code);
-            }
-#else
-            int exited_pid;
-            int stat;
-            struct rusage rs;
-
-            if ((exited_pid = wait4(0, &stat, WNOHANG, &rs)) == atp->pid) {
-                atp->handle_exited_app(stat, rs);
-            }
-#endif
-        }
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->state == PROCESS_UNINITIALIZED) {
-            //atp->pending_suspend_via_quit = false;
             if (atp->start(false)) {
                 msg_printf(
                     atp->wup->project,
@@ -740,31 +704,28 @@ void ACTIVE_TASK_SET::unsuspend_all() {
                     "ACTIVE_TASK_SET::unsuspend_all(): could not restart active_task"
                 );
             }
-        } else if (atp->state == PROCESS_RUNNING && atp->unsuspend()) {
-            msg_printf(
-                atp->wup->project,
-                MSG_ERROR,
-                "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task"
-            );
+        } else if (atp->state == PROCESS_SUSPENDED) {
+            atp->unsuspend();
         }
     }
 }
 
 // Check to see if any tasks are running
+// called if benchmarking and waiting for suspends to happen
 //
-bool ACTIVE_TASK_SET::is_task_running() {
+bool ACTIVE_TASK_SET::is_task_executing() {
     unsigned int i;
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if ((atp->scheduler_state == CPU_SCHED_RUNNING) && (atp->state == PROCESS_RUNNING)) {
+        if (atp->state == PROCESS_EXECUTING) {
             return true;
         }
     }
     return false;
 }
 
-// Send quit signal to all currently running tasks
+// Send quit signal to all app processes
 // This is called when the core client exits,
 // or when a project is detached or reset
 //
@@ -774,12 +735,12 @@ void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
-        if (atp->state != PROCESS_RUNNING) continue;
+        if (!atp->process_exists()) continue;
         atp->request_exit();
     }
 }
 
-// Send kill signal to all currently running tasks
+// Send kill signal to all app processes
 // Don't wait for them to exit
 //
 void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
@@ -788,7 +749,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
-        if (atp->state != PROCESS_RUNNING) continue;
+        if (!atp->process_exists()) continue;
         atp->kill_task();
     }
 }
@@ -796,14 +757,16 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 // suspend a task
 //
 int ACTIVE_TASK::suspend() {
-    app_client_shm.shm->process_control_request.send_msg("<suspend/>");
+    app_client_shm.shm->process_control_request.send_msg_overwrite("<suspend/>");
+    state = PROCESS_SUSPENDED;
     return 0;
 }
 
 // resume a suspended task
 //
 int ACTIVE_TASK::unsuspend() {
-    app_client_shm.shm->process_control_request.send_msg("<resume/>");
+    app_client_shm.shm->process_control_request.send_msg_overwrite("<resume/>");
+    state = PROCESS_EXECUTING;
     return 0;
 }
 
@@ -849,11 +812,7 @@ bool ACTIVE_TASK_SET::get_msgs() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state == PROCESS_IN_LIMBO
-            || atp->state == PROCESS_UNINITIALIZED
-        ) {
-            continue;
-        }
+        if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
         if (atp->get_msg()) {
             atp->estimate_frac_rate_of_change(now);

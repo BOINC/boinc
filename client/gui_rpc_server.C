@@ -137,7 +137,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
             return;
         }
         atp = gstate.lookup_active_task_by_result(rp);
-        if (!atp || atp->scheduler_state != CPU_SCHED_RUNNING) {
+        if (!atp || atp->scheduler_state != CPU_SCHED_SCHEDULED) {
             fout.printf("<error>Result not active</error>\n");
             return;
         }
@@ -145,7 +145,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
     } else {
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
             atp = gstate.active_tasks.active_tasks[i];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+            if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             atp->request_graphics_mode(mode);
         }
     }

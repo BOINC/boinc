@@ -390,6 +390,9 @@ static void handle_process_control_msg() {
                         if (match_tag(buf, "<resume/>")) {
                             break;
                         }
+                        if (match_tag(buf, "<quit/>")) {
+                            exit(0);
+                        }
                     }
                     boinc_sleep(1.0);
                 }

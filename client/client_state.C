@@ -364,7 +364,9 @@ bool CLIENT_STATE::do_something() {
     // if we're doing CPU benchmarks, don't do anything else
     //
     if (reason & SUSPEND_REASON_BENCHMARKS) {
-        if (active_tasks.is_task_running()) {
+        // wait for applications to become suspended
+        //
+        if (active_tasks.is_task_executing()) {
             POLL_ACTION(active_tasks, active_tasks.poll);
         } else {
             cpu_benchmarks_poll();

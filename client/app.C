@@ -332,7 +332,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 
     strcpy(result_name, "");
     strcpy(project_master_url, "");
-    scheduler_state = CPU_SCHED_RUNNING;
+    scheduler_state = CPU_SCHED_SCHEDULED;
 
     while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task>")) {

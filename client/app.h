@@ -31,25 +31,32 @@
 class CLIENT_STATE;
 typedef int PROCESS_ID;
 
-// Possible states of a process in an ACTIVE_TASK
+// process states of an ACTIVE_TASK
+//
 #define PROCESS_UNINITIALIZED   0
-#define PROCESS_RUNNING         1
+
+// states in which the process exists
+#define PROCESS_EXECUTING       1
+    // process is running, as far as we know
+#define PROCESS_SUSPENDED       9
+    // we've sent it a "suspend" message
+#define PROCESS_ABORT_PENDING   5
+    // process exceeded limits; killed it, waiting to exit
+
+// states in which the process has exited
 #define PROCESS_EXITED          2
 #define PROCESS_WAS_SIGNALED    3
 #define PROCESS_EXIT_UNKNOWN    4
-#define PROCESS_ABORT_PENDING   5
-    // process exceeded limits; killed it, waiting to exit
 #define PROCESS_ABORTED         6
-    // process has exited
+    // aborted process has exited
 #define PROCESS_COULDNT_START   7
 #define PROCESS_IN_LIMBO        8
-    // process exited zero, but no finish file.
-    // Leave it there.
+    // process exited zero, but no finish file; leave the task there.
 
-// Possible scheduler states of an ACTIVE_TASK
+// CPU scheduler states of an ACTIVE_TASK
 #define CPU_SCHED_UNINITIALIZED   0
 #define CPU_SCHED_PREEMPTED       1
-#define CPU_SCHED_RUNNING         2
+#define CPU_SCHED_SCHEDULED       2
 
 
 // Represents a task in progress.
@@ -139,11 +146,12 @@ public:
 
     int start(bool first_time);         // start the task running
     int request_exit();                 // Send a SIGQUIT signal or equivalent
+    bool process_exists();
     int kill_task();                    // send a SIGKILL signal or equivalent
     int suspend();                      // send a SIGSTOP signal or equivalent
     int unsuspend();                    // send a SIGCONT signal or equivalent
     int abort_task(char*);       // flag as abort pending and send kill signal
-    bool task_exited();                 // return true if this task has exited
+    bool has_task_exited();             // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
     int resume_or_start();
 #ifdef _WIN32
@@ -179,7 +187,7 @@ public:
     bool poll();
     void suspend_all(bool leave_apps_in_memory=true);
     void unsuspend_all();
-    bool is_task_running();
+    bool is_task_executing();
     int restart_tasks(int max_tasks);
     void request_tasks_exit(PROJECT* p=0);
     int wait_for_exit(double, PROJECT* p=0);
