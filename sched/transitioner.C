@@ -76,50 +76,56 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
     for (unsigned int i=0; i<items.size(); i++) {
         switch (items[i].res_server_state) {
         case RESULT_SERVER_STATE_UNSENT:
-            nunsent++;
+            if (items[i].res_id) { nunsent++ };
             break;
         case RESULT_SERVER_STATE_IN_PROGRESS:
-            if (items[i].res_report_deadline < now) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
-                    "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
-                    items[0].id, items[0].name, items[i].res_id, items[i].res_name,
-                    items[i].res_report_deadline, (int)now
-                );
-                items[i].res_server_state = RESULT_SERVER_STATE_OVER;
-                items[i].res_outcome = RESULT_OUTCOME_NO_REPLY;
-                retval = transitioner.update_result(items[i]);
-                if (retval) {
+            if (items[i].res_id) { 
+                if (items[i].res_report_deadline < now) {
                     log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                        items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
-                        );
+                        SCHED_MSG_LOG::NORMAL,
+                        "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
+                        items[0].id, items[0].name, items[i].res_id, items[i].res_name,
+                        items[i].res_report_deadline, (int)now
+                    );
+                    items[i].res_server_state = RESULT_SERVER_STATE_OVER;
+                    items[i].res_outcome = RESULT_OUTCOME_NO_REPLY;
+                    retval = transitioner.update_result(items[i]);
+                    if (retval) {
+                        log_messages.printf(
+                            SCHED_MSG_LOG::CRITICAL,
+                            "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                            items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
+                            );
+                    }
+                    nover++;
+                } else {
+                    ninprogress++;
                 }
-                nover++;
-            } else {
-                ninprogress++;
             }
             break;
         case RESULT_SERVER_STATE_OVER:
-            nover++;
+            if (items[i].res_id) { nover++; }
             switch (items[i].res_outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
-                log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
-                    "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
-                    items[0].id, items[0].name, items[i].res_id, items[i].res_name
-                );
-                ncouldnt_send++;
+                if (items[i].res_id) { 
+                    log_messages.printf(
+                        SCHED_MSG_LOG::NORMAL,
+                        "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
+                        items[0].id, items[0].name, items[i].res_id, items[i].res_name
+                    );
+                    ncouldnt_send++;
+                }
                 break;
             case RESULT_OUTCOME_SUCCESS:
-                if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
-                    have_result_to_validate = true;
+                if (items[i].res_id) { 
+                    if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
+                        have_result_to_validate = true;
+                    }
+                    nsuccess++;
                 }
-                nsuccess++;
                 break;
             case RESULT_OUTCOME_CLIENT_ERROR:
-                nerrors++;
+                if (items[i].res_id) { nerrors++ };
                 break;
             }
             break;
@@ -245,17 +251,19 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
     canonical_result_index = -1;
     all_over_and_validated = true;
     for (unsigned int i=0; i<items.size(); i++) {
-        if (items[i].res_server_state == RESULT_SERVER_STATE_OVER) {
-            if (items[i].res_outcome == RESULT_OUTCOME_SUCCESS) {
-                if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
-                    all_over_and_validated = false;
+        if (items[i].res_id) { 
+            if (items[i].res_server_state == RESULT_SERVER_STATE_OVER) {
+                if (items[i].res_outcome == RESULT_OUTCOME_SUCCESS) {
+                    if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
+                        all_over_and_validated = false;
+                    }
                 }
+            } else {
+                all_over_and_validated = false;
             }
-        } else {
-            all_over_and_validated = false;
-        }
-        if (items[i].res_id == items[0].canonical_resultid) {
-            canonical_result_index = i;
+            if (items[i].res_id == items[0].canonical_resultid) {
+                canonical_result_index = i;
+            }
         }
     }
     if (items[0].canonical_resultid && (canonical_result_index == -1)) {
