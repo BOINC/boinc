@@ -58,11 +58,12 @@ uninstall:
 	$(RM) -r $(INSTALL_DIR)/tools;
 
 ARCHIVE_TARGETS = \
-        client/*.C client/*.cpp client/*.h client/configure \
+        client/*.C client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
         client/mac/*.h client/mac/*.cpp \
-        client/win/*.h client/win/*.cpp \
-        apps/*.C apps/*.h apps/*.in \
+        client/win/*.h client/win/*.cpp client/win/*.rc client/win/*.aps \
+        client/win/res/*.* \
+        apps/*.C apps/*.in \
         db/*.sql db/*.h db/*.C db/*.in db/init_db \
         doc/*.* \
         html_ops/*.* \
@@ -73,10 +74,12 @@ ARCHIVE_TARGETS = \
         test/*.xml test/*.php test/*wu test/*result test/*output \
         test/*.html test/*input \
         tools/*.C tools/*.h tools/*.in \
-        api/*.C api/*.h api/*.in \
+        api/*.C api/*.h api/*.in api/*.c \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
-        mac_build/*.*/*.* mac_build/*.*/*.*/*.* \
-        win_build.zip INSTALL LICENSE configure install-sh \
+        mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.* \
+        mac_build/*.lproj/*.strings \
+        win_build/*.* win_build/*/*.dsp win_build/*/*.rct \
+        INSTALL LICENSE configure install-sh \
         *.in *.sub *.guess *.m4
 
 tar: 
