@@ -133,7 +133,7 @@ id; e.g.
 <pre>
   # executes 'select * from project where id=1'.
   # exception is raised if project is not found
-  project_with_id_1 = database.Projects[1]
+  project_with_id_1 = database.<b>Projects[1]</b>
 </pre>
 
 Table classes have a <code>find</code> function that builds and executes a
@@ -141,17 +141,17 @@ MySQL query based on its arguments:
 <pre>
   # this could return any number (0, 1, 2, ...) of platforms
   # executes 'select * from platform where user_friendly_name="commodore 64"'
-  list_of_platforms_called_c64 = database.Platforms.find(
-      user_friendly_name = 'Commodore 64')
+  list_of_platforms_called_c64 = database.<b>Platforms.find(
+      user_friendly_name = 'Commodore 64')</b>
 </pre>
 
 Find can take any number of arguments; they are ANDed. For more advanced
 usage such as custom SQL queries (anything is possible :) see the pydoc.
 <pre>
-  all_apps = database.Apps.find()
-  finished_yeti_wus = database.Workunits.find(
+  all_apps = database.<b>Apps.find()</b>
+  finished_yeti_wus = database.<b>Workunits.find(
       app = database.Apps.find(name='YETI@home')[0],
-      assimilate_state = ASSIMILATE_DONE)
+      assimilate_state = ASSIMILATE_DONE)</b>
 </pre>
 
 Objects (table rows) have their column data as members so you can access and
@@ -159,30 +159,30 @@ modify them directly.
 
 <pre>
   user_quarl = database.users.find(email_addr='quarl@quarl.org')[0]
-  print "name =", user_quarl.name
-  user_quarl.postal_code = 97404
+  print "name =", <b>user_quarl.name</b>
+  <b>user_quarl.postal_code</b> = 97404
 </pre>
 
 To create a new database object, create a Python object and give all values
 as parameters to the initializer:
 <pre>
-  new_app = database.App(name='SPAGHETTI@home',
+  new_app = database.<B>App(</b>name='SPAGHETTI@home',
                          min_version=1,
-                         create_time=time.time())
+                         create_time=time.time()<b>)</b>
 </pre>
 
 To commit any changes (including a new object), call <code>commit()</code>
 (the tool <code>boinc/tools/add.py</code> is a command-line interface to
 this):
 <pre>
-  user_quarl.commit()  # executes an UPDATE
-  new_app.commit()     # executes an INSERT
+  user_quarl<b>.commit()</b>  # executes an UPDATE
+  new_app.<b>commit()</b>     # executes an INSERT
 </pre>
 
 To remove an object, call <code>remove()</code>:
 <pre>
   team_eric_test = database.Teams(name="Eric's Test Team")[0]
-  team_eric_test.remove()
+  team_eric_test<b>.remove()</b>
   #                        OR
   for team in database.Teams(name="Eric's Test Team"):
       team.remove()
@@ -196,10 +196,10 @@ To access objects related by id, access the field name without "id" suffix:
 column <code>userid</code>)
 <pre>
   wu_1234 = database.Workunits.find(name='1234.wu')[0]
-  results_of_wu_1234 = database.Results.find(workunit=wu_1234)
+  results_of_wu_1234 = database.Results.find(<b>workunit=</b>wu_1234)
   for result in results_of_wu_1234:
       os.system("echo 'you are crunching %s' | mail '%s'" %(
-                 result.name, result.host.user.email_addr))
+                 result.name, <b>result.host.user</b>.email_addr))
 </pre>
 
 <table border=1 width=100%>
