@@ -50,7 +50,10 @@ def set_element(node, new_data):
     if node.firstChild and node.firstChild.data:
         node.firstChild.data = str(new_data)
     else:
-        new_data_node = xml.dom.minidom.Text()
+        try:
+            new_data_node = xml.dom.minidom.Text()
+        except:
+            new_data_node = xml.dom.minidom.Text('')
         new_data_node.data = str(new_data)
         new_data_node.ownerDocument = node.ownerDocument
         node.appendChild(new_data_node)

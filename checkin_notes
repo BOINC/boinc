@@ -13560,3 +13560,9 @@ Rom    14 June 2004
     tools/
         parse_config
         db_query
+
+Karl 2004-06-15 
+    - added compatibility for old versions of python XML library
+
+    py/Boinc/
+        boincxml.py
