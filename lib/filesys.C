@@ -38,11 +38,12 @@
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
+#ifdef HAVE_SYS_MOUNT_H
+#include <sys/mount.h>
+#endif
 
 #ifdef HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
-#endif
-#ifdef HAVE_SYS_STATVFS_H
 #define STATFS statvfs
 #else
 #define STATFS statfs
