@@ -201,9 +201,7 @@ make_new_host:
 // Could also include terms for RAM size, network speed etc.
 //
 static void compute_credit_rating(HOST& host, SCHEDULER_REQUEST& sreq) {
-    double cobblestone_factor = 300;
-    if (sreq.core_client_major_version > 3) cobblestone_factor = 100;
-    if (sreq.core_client_minor_version > 5) cobblestone_factor = 100;
+    double cobblestone_factor = 100;
     host.credit_per_cpu_sec =
         (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9)
         * cobblestone_factor / (2 * SECONDS_PER_DAY);
