@@ -8971,6 +8971,8 @@ David  7 Jan 2004
     - let anyone look at any result and any host
         (may want to change this later,
         but for now it helps with debuggin)
+    - write log message when scheduler creates new host
+        because of bad RPC seqno
 
     html_user/
         host.inc
