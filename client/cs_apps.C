@@ -95,6 +95,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     bool had_error = false;
 
+    if (at.exit_status != 0 && at.exit_status != ERR_QUIT_REQUEST) had_error = true;
+
     for (i=0; i<rp->output_files.size(); i++) {
         fip = rp->output_files[i].file_info;
         get_pathname(fip, path);
