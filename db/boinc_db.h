@@ -407,6 +407,7 @@ struct RESULT {
     int random;                     // determines send order
     int client_version_num;
     int appid;                      // copy of WU's appid
+    int exit_status;                // application exit status, if any
 
     // the following not used in the DB
     char wu_name[256];

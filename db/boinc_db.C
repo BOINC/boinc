@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.29  2003/12/23 19:21:51  boincadm
+// *** empty log message ***
+//
 // Revision 1.28  2003/12/18 00:22:23  boincadm
 // *** empty log message ***
 //
@@ -488,7 +491,7 @@ void DB_RESULT::db_print(char* buf){
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%f, random=%d, "
-        "client_version_num=%d, appid=%d",
+        "client_version_num=%d, appid=%d, exit_status=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -497,7 +500,7 @@ void DB_RESULT::db_print(char* buf){
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
-        client_version_num, appid
+        client_version_num, appid, exit_status
     );
     unescape_single_quotes(xml_doc_out);
     unescape_single_quotes(stderr_out);
@@ -531,6 +534,7 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     random = atoi(r[i++]);
     client_version_num = atoi(r[i++]);
     appid = atoi(r[i++]);
+    exit_status = atoi(r[i++]);
 }
 
 int DB_RESULT::insert() {

@@ -8638,3 +8638,22 @@ David  21 Dec 2003
         profile_search_action.php
         user.inc
         user_search_action.php (new)
+
+David  23 Dec 2003
+    - add mechanism to prevent server spamming
+        (i.e. frequence requests for work from a single host).
+        The mechanism: if the last RPC was within 15 minutes,
+        don't send any work.
+    - add result.exit_status field to DB
+        Currently this is populated by the server,
+        if there's a <exit_status> element in the reply's stderr_out.
+        There may be a better way to do this.
+        TODO: display this field in the web GUI
+    - use SIGHUP instead of SIGINT to stop daemon processes
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    sched/
+        handle_request.C
+        start

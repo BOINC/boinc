@@ -68,8 +68,8 @@ See "start --help" for options.
 
 Daemons:
 These are continuously-running programs.
-The process ID is recorded in the <pid_dir>
-directory and the process is sent a SIGINT in a DISABLE operation.
+The process ID is recorded in the <pid_dir> directory
+and the process is sent a SIGHUP in a DISABLE operation.
 
 Both tasks and daemons can run on a different host (specified by <host>).
 The default is the project's main host,
@@ -433,7 +433,7 @@ def run_tasks():
 def stop_daemon(pid):
     '''returns 1 if something stopped, else 0'''
     try:
-        os.kill(pid, signal.SIGINT)
+        os.kill(pid, signal.SIGHUP)
     except OSError, e:
         if e.errno != 3:
             print >>sys.stderr, "Warning: couldn't kill pid %d:"%pid, e

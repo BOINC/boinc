@@ -44,6 +44,7 @@ using namespace std;
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
 const int MAX_WUS_TO_SEND     = 10;
+const int MIN_SENDWORK_INTERVAL = 15*60;
 
 const double COBBLESTONE_FACTOR = 300.0;
 
@@ -335,7 +336,6 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             goto new_host;
         }
         reply.host.rpc_seqno = sreq.rpc_seqno;
-        reply.host.rpc_time = time(0);
     } else {
         // here no hostid was given; we'll have to create a new host record
         //
@@ -368,7 +368,6 @@ new_host:
         host.create_time = time(0);
         host.userid = reply.user.id;
         host.rpc_seqno = 0;
-        host.rpc_time = time(0);
         strcpy(host.venue, reply.user.venue);
         retval = host.insert();
         if (retval) {
@@ -558,6 +557,11 @@ int handle_results(
                 );
             }
         }
+
+        // look for exit status in stderr_out
+        // TODO: return separately
+        //
+        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 
         // update the result record in DB
         //
@@ -993,6 +997,7 @@ void process_request(
 ) {
     PLATFORM* platform;
     int retval;
+    double last_rpc_time;
 
     // if different major version of BOINC, just send a message
     //
@@ -1001,6 +1006,8 @@ void process_request(
     retval = authenticate_user(sreq, reply);
     if (retval) return;
 
+    last_rpc_time = reply.host.rpc_time;
+    reply.host.rpc_time = time(0);
     retval = update_host_record(sreq, reply.host);
 
     // look up the client's platform in the DB
@@ -1028,7 +1035,17 @@ void process_request(
 
     handle_results(sreq, reply, reply.host);
 
-    send_work(sreq, reply, *platform, ss);
+    // if last RPC was within MIN_SENDWORK_INTERVAL, don't send work
+    //
+    double diff = dtime() - last_rpc_time;
+    if (diff < MIN_SENDWORK_INTERVAL) {
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "Not sending work - last RPC too recent: %f\n", diff
+        );
+    } else {
+        send_work(sreq, reply, *platform, ss);
+    }
 
     send_code_sign_key(sreq, reply, code_sign_key);
 }

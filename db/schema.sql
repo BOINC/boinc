@@ -218,6 +218,7 @@ create table result (
     random              integer     not null,
     client_version_num  integer     not null,
     appid               integer     not null,
+    exit_status         integer     not null,
     primary key (id)
 );
 
