@@ -272,6 +272,7 @@ void handle_wu(
         }
     } else {
         vector<RESULT> results;
+        int nsuccess_results;
 
         // Here if WU doesn't have a canonical result yet.
         // Try to get one
@@ -283,13 +284,12 @@ void handle_wu(
         );
         ++log_messages;
 
-        // make a vector of only successful, unvalidated results
+        // make a vector of only successful results
         //
         for (i=0; i<items.size(); i++) {
             RESULT& result = items[i].res;
 
-            if ((result.validate_state == VALIDATE_STATE_INIT) &&
-                (result.server_state == RESULT_SERVER_STATE_OVER) &&
+            if ((result.server_state == RESULT_SERVER_STATE_OVER) &&
                 (result.outcome == RESULT_OUTCOME_SUCCESS)
             ) {
                 results.push_back(result);
@@ -319,14 +319,20 @@ void handle_wu(
             }
             if (retry) need_delayed_transition = true;
 
-            // update results as needed
+            // scan results.
+            // update as needed, and count the # of results
+            // that are still outcome=SUCCESS
+            // (some may have changed to VALIDATE_ERROR)
             //
+            nsuccess_results = 0;
             for (i=0; i<results.size(); i++) {
                 update_result = false;
                 RESULT& result = results[i];
                 if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
                     need_immediate_transition = true;
                     update_result = true;
+                } else {
+                    nsuccess_results++;
                 }
 
                 // grant credit for valid results
@@ -396,18 +402,24 @@ void handle_wu(
                     }
                 }
             } else {
-                // here if no consensus
+                // here if no consensus.
+                // Trigger a transition to make more results if needed
+                //
+                need_immediate_transition = true;
+
                 // check if #success results is too large
                 //
-                if ((int)results.size() > wu.max_success_results) {
+                if (nsuccess_results > wu.max_success_results) {
                     wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
-                    need_immediate_transition = true;
                 }
-                // if #success results is target_nresults, bump it up
+
+                // if #success results == than target_nresults,
+                // we need more results, so bump target_nresults
+                // NOTE: nsuccess_results should never be > target_nresults,
+                // but accommodate that if it should happen
                 //
-                if ((int)results.size() == wu.target_nresults) {
-                    wu.target_nresults++;
-                    need_immediate_transition = true;
+                if (nsuccess_results >= wu.target_nresults) {
+                    wu.target_nresults = nsuccess_results+1;
                 }
             }
         }

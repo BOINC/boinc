@@ -32,17 +32,18 @@ If, when an output file for a result has a nonrecoverable error
 then it must set the result's outcome (in memory, not database)
 to VALIDATE_ERROR.
 Note: the function try_fopen() (in lib/util.C) can be used
-to detect recoverable/nonrecoverable errors.
+to distinguish recoverable and nonrecoverable file-open errors.
 <li>
 If a canonical result is found, check_set() must set the
-validate_state field of each non-ERROR result to either VALID or INVALID.
+validate_state field of each non-ERROR result
+(in memory, not database) to either VALID or INVALID.
 
 <li>
 If a recoverable error occurs while reading output files
 (e.g. a directory wasn't visible due to NFS mount failure)
 then check_set() should return retry=true.
 This tells the validator to arrange for this WU to be
-examined again in a few hours.
+processed again in a few hours.
 <li>
 check_set() should return nonzero if a major error occurs.
 This tells the validator to write an error message and exit.

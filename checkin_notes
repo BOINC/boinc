@@ -21068,3 +21068,24 @@ David  10 Dec 2004
              and with the shared library in the non-monolithic case)
         graphics_lib.C,h (new)
             (link this with the main program in the non-monolithic case)
+
+David  10 Dec 2004
+    - Fixed a bug in the validator that could cause WUs to
+        get stuck in a state where they have no canonical result,
+        no results in progress, and no transition scheduled.
+
+        1) After calling check_set(), count the number "nsuccess_results"
+        of results that still have outcome == SUCCESS
+        (this may have changed, since check_set() can change
+        the outcome to VALIDATE_ERROR).
+
+        2) If check_set() fails to find a canonical result,
+        always schedule an immediate transition.
+
+        3) If nsuccess_results >= target_nresults,
+        set target_nresults to nsuccess_results+1.
+        This ensures that the transitioner will make a new result,
+        even in pathological cases (e.g. nsuccess_results > target_nresults)
+
+    sched/
+        transitioner.C
