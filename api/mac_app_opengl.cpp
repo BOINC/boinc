@@ -41,7 +41,7 @@
 #include <string.h>
 
 // project includes ---------------------------------------------------------
-using namespace std;
+
 #include "app_ipc.h"
 #include "graphics_api.h"
 
@@ -76,7 +76,6 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     TimerUPP boincYieldUPP;
     EventLoopTimerRef boincYieldTimer;
     short i,fNum;
-    long response;
     
     InitCursor();
 
@@ -168,6 +167,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
 //////////////////////////////////////////////////////////////////////////////////
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData) {
     DoUpdate (boincAGLContext);
+    YieldToAnyThread();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -251,7 +251,7 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
 // --------------------------------------------------------------------------
 
 pascal void *mac_graphics_event_loop ( void *data ) {
-    GRAPHICS_INFO *gi = data;
+    GRAPHICS_INFO *gi = (GRAPHICS_INFO *)data;
     
     InitGLWindow(gi->xsize, gi->ysize, 16, gi->refresh_period);
     RunApplicationEventLoop();
