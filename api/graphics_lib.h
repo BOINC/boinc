@@ -19,9 +19,16 @@
 
 #include "boinc_api.h"
 
-extern int boinc_init_graphics_lib(void (*worker)(), char* argv0);
+extern void* graphics_lib_handle;
+
+#ifdef __cplusplus
+extern "C" {
+  extern int boinc_init_graphics_lib(void (*worker)(), char* argv0);
+}
+
 extern int boinc_init_options_graphics_lib(
     BOINC_OPTIONS&, void (*worker)(), char* argv0
 );
-
-extern void* graphics_lib_handle;
+#else
+  extern int boinc_init_graphics_lib(void (*worker)(), char* argv0);
+#endif
