@@ -27,6 +27,7 @@ boinc_gui_SOURCES = \
     ViewMessages.cpp \
     ViewProjects.cpp \
     ViewResources.cpp \
+    ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
     ../lib/acct_mgr_client.C \

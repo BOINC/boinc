@@ -879,7 +879,7 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CDlgSelectComputer* pDlg = new CDlgSelectComputer(this);
     long                lAnswer = 0;
-    size_t              lIndex = -1;
+    size_t              lIndex = 0;
     long                lRetVal = -1;
     wxArrayString       aComputerNames;
 

@@ -26632,3 +26632,10 @@ David  3 April 2005
         util.C,h
     win_build/
         BOINCGUI.vcproj
+
+David  4 April 2005
+    - compile fixes for Unix
+
+    cliengui/
+        MainFrame.cpp
+        Makefile.am

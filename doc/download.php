@@ -242,7 +242,7 @@ version(
     "Mac",
     "4.25 (v2)",
     "Development version (simple GUI)",
-    "BOINC_Menubar_4.25_v2_mac.zip",
+    "boinc_menubar_4.25_v2_mac.zip",
     "29 Mar 2005",
     mac_simple(),
     "<ul>
