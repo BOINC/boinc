@@ -29,6 +29,7 @@ struct COLOR {
     float g;
     float b;
     float a;
+	COLOR(float rr=0,float gg=0, float bb=0, float aa=0) : r(rr),g(gg),b(bb),a(aa) {};
 };
 
 extern void HLStoRGB( double H, double L, double S, COLOR& c);
@@ -99,6 +100,11 @@ public:
     float pos[3];
     void init(float* pos, float len, float diam, float inner, float* c, float* ic);
     void draw(float);
+	PROGRESS() : len(0), rad(0), inner_rad(0) {
+		memset(color,0,sizeof(color));
+		memset(inner_color,0,sizeof(inner_color));
+		memset(pos,0,sizeof(pos));
+	};
 };
 
 //2d progress bar
@@ -110,6 +116,11 @@ public:
     void set_pos(float*);
     void init(float* pos, float len, float width, float inner_width, float* c, float* ic);
     void draw(float);
+	PROGRESS_2D() : len(0), width(0), inner_width(0) {
+		memset(color,0,sizeof(color));
+		memset(inner_color,0,sizeof(inner_color));
+		memset(pos,0,sizeof(pos));
+	};
 };
 
 // a graph of a function of 1 variable drawn as a ribbon in 3D
@@ -147,6 +158,7 @@ class MOVING_TEXT_PANEL {
     double margin;
     char text[PANEL_MAX_LINES][256];
 public:
+	MOVING_TEXT_PANEL();
     float pos[3];
     void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
@@ -196,6 +208,7 @@ struct TEXTURE_DESC {
     unsigned int id;
     double xsize;          // size of underlying image
     double ysize;
+	TEXTURE_DESC() : present(false),id(0),xsize(0),ysize(0) {};
     void draw(float* pos, float* size, int xalign, int yalign);
     int load_image_file(const char* filename);
     int CreateTextureJPG(const char* strFileName);

@@ -43,12 +43,15 @@
 #include "gutil.h"
 #include "reduce.h"
 
-REDUCED_ARRAY::REDUCED_ARRAY() {
-    rdata = 0;
-    ftemp = 0;
-    itemp = 0;
-    reduce_method = REDUCE_METHOD_AVG;
+REDUCED_ARRAY::REDUCED_ARRAY() : sdimx(0), sdimy(0), rdimx(0), rdimy(0), rdimx_max(0), rdimy_max(0), scury(0),
+	rdata(0), rdata_max(0), rdata_min(0), ftemp(0), itemp(0), last_ry(0), last_ry_count(0), nvalid_rows(0), 
+	ndrawn_rows(0), draw_deltax(0), draw_deltaz(0), reduce_method(REDUCE_METHOD_AVG), hue0(0), dhue(0), 
+	alpha(0), xlabel(0), ylabel(0), zlabel(0)
+{
+		memset(draw_pos,0,sizeof(draw_pos));
+		memset(draw_size,0,sizeof(draw_size));
 }
+
 
 REDUCED_ARRAY::~REDUCED_ARRAY() {
     if (rdata) free(rdata);

@@ -313,6 +313,9 @@ LRESULT CALLBACK WndProc(
 		FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
 		EndPaint(hWnd, &ps);
 		return 0;
+	case WM_CREATE:
+		app_graphics_init();
+		return 0;
 	case WM_SIZE:
         if ( SIZE_MINIMIZED == wParam ) {
             visible = FALSE;
