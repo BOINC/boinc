@@ -13,7 +13,6 @@
  *		Visit My Site At nehe.gamedev.net
  *		Adapted to BOINC by Eric Heien
  */
-
 #include "stdafx.h"
 
 #include "boinc_api.h"
@@ -25,8 +24,8 @@
 
 // application needs to define mouse handlers
 //
-extern void boinc_app_mouse_button(int x, int y, bool is_down);
-extern void boinc_app_mouse_move(int x, int y);
+extern void boinc_app_mouse_button(int x, int y, int which, bool is_down);
+extern void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right);
 
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
@@ -189,6 +188,17 @@ void SetMode(int mode) {
     }
 }
 
+void parse_mouse_event(UINT uMsg, int& which, bool& down) {
+	switch(uMsg) {
+	case WM_LBUTTONDOWN: which = 0; down = true; break;
+	case WM_MBUTTONDOWN: which = 1; down = true; break;
+	case WM_RBUTTONDOWN: which = 2; down = true; break;
+	case WM_LBUTTONUP: which = 0; down = false; break;
+	case WM_MBUTTONUP: which = 1; down = false; break;
+	case WM_RBUTTONUP: which = 2; down = false; break;
+    }
+}
+    
 // message handler (includes timer, Windows msgs)
 //
 LRESULT CALLBACK WndProc(
@@ -202,6 +212,11 @@ LRESULT CALLBACK WndProc(
 			return 0;	
 	case WM_KEYDOWN:
 	case WM_KEYUP:
+		if(current_graphics_mode == MODE_FULLSCREEN) {
+			SetMode(MODE_HIDE_GRAPHICS);
+			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
+        }
+        return 0;
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
@@ -212,9 +227,12 @@ LRESULT CALLBACK WndProc(
 			SetMode(MODE_HIDE_GRAPHICS);
 			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 		} else  {
-			POINT cPos;
-			GetCursorPos(&cPos);
-			boinc_app_mouse_button(cPos.x, cPos.y, uMsg==WM_LBUTTONDOWN);
+            int which;
+            bool down;
+		    POINT cPos;
+		    GetCursorPos(&cPos);
+            parse_mouse_event(uMsg, which, down);
+			boinc_app_mouse_button(cPos.x, cPos.y, which, down);
 		}
 		return 0;
 	case WM_MOUSEMOVE:
@@ -226,7 +244,12 @@ LRESULT CALLBACK WndProc(
 				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 			}
 		} else {
-			boinc_app_mouse_move(cPos.x, cPos.y);
+			boinc_app_mouse_move(
+                cPos.x, cPos.y,
+                (wParam&MK_LBUTTON)!=0,
+                (wParam&MK_MBUTTON)!=0,
+                (wParam&MK_RBUTTON)!=0
+            );
 		}
 		return 0;
 	case WM_CLOSE:

@@ -11253,3 +11253,9 @@ Rom    April 1 2004
     client/win/
         boinc_gui.rc, .h
         wingui_mainwindow.cpp, .h
+
+David  April 1 2004
+	- extend mouse interface to handle buttons better
+
+	api/
+		windows_opengl.C
