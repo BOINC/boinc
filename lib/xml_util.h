@@ -382,6 +382,7 @@ std::string x_setiathome_encode(const T *tbin, size_t n_elements) {
     c[2] = ((bin[offset+1]>>4)&0xf) | (bin[offset+2]<<4)&0x3f;// 4+2
     c[3] = bin[offset+2]>>2;    // 6
     for (int i=0;i<4;i++) c[i]+=0x20;
+    c[4]=0;
     rv+=c;
     offset += 3;
     count += 4;
@@ -818,6 +819,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.12  2003/10/24 16:58:11  korpela
+// *** empty log message ***
+//
 // Revision 1.11  2003/10/23 15:39:54  korpela
 // no message
 //
