@@ -116,12 +116,12 @@ static int possibly_send_result(
 }
 
 // Check with the WU generator to see if we can make some
-// more WU for this file.
+// more WU for this file. Returns zero if can't make more work.
+// Returns nonzero if it *might* have made more work (no way to
+// be sure if it suceeded).
 //
-void make_more_work_for_file(char* filename) {
+int made_more_work_for_file(char* filename) {
     char fullpath[512], buf[256];
-    DB_RESULT result;
-    int retval;
 
     sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
     FILE *fp=fopen(fullpath, "r");
@@ -147,32 +147,7 @@ void make_more_work_for_file(char* filename) {
                 SCHED_MSG_LOG::DEBUG,
                 "touching %s: need work for file %s\n", fullpath, filename
             );
-            // Finish the transaction, wait for the WU
-            // generator to make a new WU, and try again!
-            //
-            boinc_db.commit_transaction();
-            sleep(config.locality_scheduling_wait_period);
-
-            // Now look AGAIN for results which match file
-            // 'filename'.
-            //
-            sprintf(buf,
-                "where name like '%s__%%' and server_state=%d limit 1",
-                filename, RESULT_SERVER_STATE_UNSENT
-            );
-            boinc_db.start_transaction();
-            retval = result.lookup(buf);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
-                    "project didn't make NEW work for file %s in time\n", filename
-                );
-            } else {
-                log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
-                    "success making/finding NEW work for file %s\n", filename
-                );
-            }
+            return 1;
         } else {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -180,6 +155,7 @@ void make_more_work_for_file(char* filename) {
             );
         }
     }
+    return 0;
 }
 
 // The client has (or soon will have) the given file.
@@ -218,11 +194,7 @@ static int send_results_for_file(
         //
         if (!lookup_retval && (result.id == lastid)) lookup_retval = -1;
 
-        if (lookup_retval) {
-            if (config.locality_scheduling_wait_period) {
-                make_more_work_for_file(filename);
-            }
-        } else {
+        if (!lookup_retval) {
             // We found a matching result.
             // Probably we will get one of these,
             // although for example if we already have a
@@ -314,6 +286,15 @@ static void send_new_file_work(
         send_results_for_file(
             filename, nsent, sreq, reply, platform, wreq, ss
         );
+        if (!nsent && config.locality_scheduling_wait_period) {
+            // sleep a bit and try again
+            if (made_more_work_for_file(filename)) {
+                sleep(config.locality_scheduling_wait_period);
+                send_results_for_file(
+                    filename, nsent, sreq, reply, platform, wreq, ss
+                );
+            }
+        }
     }
 }
 
@@ -336,11 +317,25 @@ void send_work_locality(
                 fi.name, nsent, sreq, reply, platform, wreq, ss
             );
 
+            if (!nsent && config.locality_scheduling_wait_period) {
+                // sleep a bit and try again
+                if (made_more_work_for_file(fi.name)) {
+                    sleep(config.locality_scheduling_wait_period);
+                    send_results_for_file(
+                        fi.name, nsent, sreq, reply, platform, wreq, ss
+                    );
+                }
+            }
+
             // if we couldn't send any work for this file, tell client
             // to delete it
             //
             if (nsent == 0) {
                 reply.file_deletes.push_back(fi);
+                log_messages.printf(
+                    SCHED_MSG_LOG::DEBUG,
+                    "[HOST#%d]: delete file %s\n", reply.host.id, fi
+                ); 
             }
         }
 
