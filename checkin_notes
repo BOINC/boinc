@@ -24621,3 +24621,9 @@ David  11 Feb 2005
 
     client/
         net_xfer.C
+
+David  11 Feb 2005
+    - compile fix for FreeBSD (from JR Oldroyd)
+
+    api/
+        graphics_lib.C

@@ -91,14 +91,14 @@ int boinc_init_options_graphics_lib(
         goto no_graphics;
     }
   
-    // get handle for shared library.  Note that this handle is a
-    // global variable, so it can be declared 'extern' in worker() and
-    // thus worker() has access to functions from within this shared
-    // library, also.
+    // get handle for shared library.
+    // This handle is a global variable, so it can be declared 'extern'
+    // in worker() and thus worker() has access to functions
+    // from within this shared library
     //
     graphics_lib_handle = dlopen(resolved_name,  RTLD_NOW);
     if (!graphics_lib_handle) {
-        errormsg = dlerror();
+        errormsg = (char*)dlerror();
         fprintf(stderr,
             "dlopen() failed: %s\nNo graphics.\n", errormsg?errormsg:""
         );
@@ -113,7 +113,7 @@ int boinc_init_options_graphics_lib(
         "boinc_init_options_graphics_impl"
     );
     if (!boinc_init_options_graphics_impl_hook) {
-        errormsg = dlerror();
+        errormsg = (char*)dlerror();
         fprintf(stderr,
             "dlsym(): no boinc_init_options_graphics_impl() in %s\n%s\n",
             resolved_name, errormsg?errormsg:""
