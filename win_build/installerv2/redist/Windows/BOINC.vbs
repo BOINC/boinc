@@ -33,6 +33,16 @@ Const msiMessageTypeActionData     = &H09000000
 Const msiMessageTypeProgress       = &H0A000000
 Const msiMessageTypeCommonData     = &H0B000000 
 
+Const msiMessageStatusError        = -1 
+Const msiMessageStatusNone         = 0 
+Const msiMessageStatusOk           = 1 
+Const msiMessageStatusCancel       = 2 
+Const msiMessageStatusAbort        = 3 
+Const msiMessageStatusRetry        = 4 
+Const msiMessageStatusIgnore       = 5 
+Const msiMessageStatusYes          = 6 
+Const msiMessageStatusNo           = 7 
+
 Const msiDoActionStatusNoAction    = 0
 Const msiDoActionStatusSuccess     = 1
 Const msiDoActionStatusUserExit    = 2
@@ -133,7 +143,7 @@ Function GrantServiceExecutionRight()
     Set oRecord = Installer.CreateRecord(2)
 
     strCommand = CHR(34) & Property("BOINCCOMMONFILES") & "grant.exe" & CHR(34) & "add SeServiceLogonRight " & Property("SERVICE_DOMAINUSERNAME")
-    MsgBox strCommand
+
     iExitCode = oShell.Run(strCommand, 0, true)
     If ( iExitCode <> 0 ) Then
 	    oRecord.StringData(0) = "Attempting to execute '[1]' returned with the following exit code '[2]'"
@@ -362,5 +372,27 @@ Function ValidateSetupType()
     Set oRecord = Nothing
 
 	ValidateSetupType = msiDoActionStatusSuccess
+End Function
+
+
+''
+'' Verify with the user that it is okay to grant the 'Logon As a Service'
+''   right for the selected user account
+''
+Function VerifyServiceExecutionRight()
+    On Error Resume Next
+
+    Dim oRecord
+    Dim iReturnValue
+
+    Set oRecord = Installer.CreateRecord(2)
+
+    oRecord.IntegerData(1) = 25008
+    iReturnValue = Message(msiMessageTypeUser Or vbExclamation Or vbYesNo, oRecord)
+    If ( msiMessageStatusYes = iReturnValue ) Then
+        Property("SERVICE_GRANTEXECUTIONRIGHT") = "1"    
+    End If
+
+	VerifyServiceExecutionRight = msiDoActionStatusSuccess
 End Function
 

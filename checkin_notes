@@ -21503,3 +21503,13 @@ David  17 Dec 2004
         graphics_impl.C,h
         grpahics_impl_lib.C
         x_opengl.C
+
+Rom    17 Dec 2004
+    - Bug Fix: Prompt the user for the permission to grant the selected account
+        the right to logon as a service
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
+ 
