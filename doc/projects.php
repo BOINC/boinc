@@ -31,6 +31,12 @@ you should consider the following questions:
   or will they belong to a for-profit business?
 </ul>
 
+<p>
+Some BOINC projects may make their application's source code available.
+For such projects, BOINC's
+<a href=anonymous_platform.php>anonymous platform mechanism</a>
+lets you participate without running downloaded executables:
+you can examine and compile the source code yourself,
 ";
 page_tail();
 ?>

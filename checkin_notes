@@ -19216,3 +19216,17 @@ Rom    9 Nov 2004
         readme.txt
     win_build/installerv2/redist/Windows/x86/
         dbghelp.dll
+
+David  10 Nov 2004
+    - put brackets around hostname in "can't resolve" error msg
+    - handle "next N" correctly in forum text search
+        (from Volker Hatzenberger)
+    - add RNG code for Windows (in case we ever need to
+        generate true random bits there)
+
+    client/
+        net_xfer.C
+    html/user/
+        forum_text_search_action.php
+    lib/
+        crypt_prog.C

@@ -130,7 +130,7 @@ int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
         char msg[256];
         int n;
 
-        n = sprintf(msg, "Can't resolve hostname %s ", hostname);
+        n = sprintf(msg, "Can't resolve hostname [%s] ", hostname);
 #ifdef WIN32
 
         switch (WSAGetLastError()) {

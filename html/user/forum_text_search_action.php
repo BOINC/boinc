@@ -7,8 +7,10 @@ $search_string = $_GET['search_string'];
 $offset = $_GET['offset'];
 if (!$offset) $offset=0;
 $count = 10;
+$what = '';
 
 if ($_GET['titles']) {
+    $what = 'titles=1';
     page_head("Titles containing '$search_string'");
     $q = "select * from thread where match(title) against ('$search_string') limit $offset,$count";
     $result = mysql_query($q);
@@ -27,6 +29,11 @@ if ($_GET['titles']) {
 }
 
 if ($_GET['bodies']) {
+    if (! empty ($what)) {
+        $what .= '&';
+    }
+    $what .= 'bodies=1';
+
     page_head("Messages containing '$search_string'");
     $q = "select * from post where match(content) against ('$search_string') limit $offset,$count";
     $result = mysql_query($q);
@@ -47,7 +54,7 @@ if ($n==$count) {
     $s = urlencode($search_string);
     $offset += $count;
     echo "
-        <a href=forum_text_search_action.php?bodies=1&search_string=$s&offset=$offset>Next $count</a>
+        <a href=forum_text_search_action.php?$what&search_string=$s&offset=$offset>Next $count</a>
     ";
 
 }

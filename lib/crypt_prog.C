@@ -44,6 +44,28 @@ void die(char* p) {
 }
 
 void better_random_create(R_RANDOM_STRUCT* r) {
+#ifdef __WINDOWS__
+    // in case we ever need this on Win
+    try {
+        HCRYPTPROV hCryptProv;
+        
+        if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
+            throw except("cannot acquire crypt context");
+        }
+    
+        if(! CryptGenRandom(hCryptProv, (DWORD) size, (BYTE *) buf_ptr)) {
+            CryptReleaseContext(hCryptProv, 0);
+            
+            throw except("cannot generate random data");
+        }
+        
+        CryptReleaseContext(hCryptProv, 0);
+    }
+    
+    catch (except &e) {
+        throw except(e, "cannot get random data");
+    }
+#endif
     FILE* f = fopen("/dev/random", "r");
     if (!f) {
         fprintf(stderr, "can't open /dev/random\n");
