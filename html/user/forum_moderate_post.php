@@ -56,6 +56,7 @@ if ($_GET['action']=="hide") {
 	<option value=\"1\">Obscene</option>
 	<option value=\"2\">Flame/Hate mail</option>
 	<option value=\"3\">Commercial spam</option>
+	<option value=\"4\">Doublepost</option>
 </select>");
 } elseif ($_GET['action']=="move") {
 
