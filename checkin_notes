@@ -19873,3 +19873,15 @@ Rom    19 Nov 2004
         ViewWork.cpp
     lib/
         gui_rpc_client.C    
+
+Bruce  19 Nov 2004 UTC (from Reinhard Prix)
+
+    - Added nice macro (acinclude.m4) to CVS for detection of wxWidgets. Any additional
+      non-standard macros should be added to this file. Now switch off
+      clientgui build (with nice warning) if wxWidgets is not found.  Add
+    - Use outcome of pthread tests and corresponding flags to set pthreads
+      CFLAGS correctly.
+
+    configure.ac
+    Makefile.am
+    acinclude.m4

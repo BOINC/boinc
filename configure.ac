@@ -11,16 +11,6 @@ AC_PREREQ(2.57)
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.56)
 
-WXCONFIG=wx-config
-AC_ARG_WITH(wx-config,
-[[  --with-wx-config=FILE     Use the given path to wx-config when determining
-                            wxWidgets configuration; defaults to "wx-config"]],
-[
-    if test "$withval" != "yes" -a "$withval" != ""; then
-        WXCONFIG=$withval
-    fi
-])
-
 AC_ARG_ENABLE(server, 
     AC_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
@@ -47,34 +37,9 @@ else
     if test "${enable_client}" = yes ; then
         configured_to_build='client only'
     else
-        echo "You've disabled both the server and the client -- nothing to build!" >&2
-        exit 1
+        echo "You've disabled both the server and the client -- only BOINC-libraries will be built!" >&2
     fi
 fi
-
-dnl If building the client, check for existence of wxWidgets
-if test "${enable_client}" = yes ; then
-   AC_MSG_CHECKING([wxWidgets version])
-   if wxversion=`$WXCONFIG --version`; then
-       AC_MSG_RESULT([$wxversion])
-   else
-       AC_MSG_RESULT([not found])
-       AC_MSG_ERROR([wxWidgets is required. Try --with-wx-config.])
-   fi
-
-WX_CPPFLAGS="`$WXCONFIG --cppflags`"
-WX_CXXFLAGS="`$WXCONFIG --cxxflags | sed -e 's/-fno-exceptions//'`"
-WX_LIBS="`$WXCONFIG --libs`"
-
-#CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
-#CXXFLAGS="$CXXFLAGS $WX_CPPFLAGS"
-
-AC_SUBST(WX_LIBS)
-AC_SUBST(WX_CPPFLAGS)
-AC_SUBST(WX_CXXFLAGS)
-
-fi
-
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
 
@@ -157,6 +122,10 @@ AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(z, gzopen)
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
+CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+LIBS="$PTHREAD_LIBS $LIBS"
+
 dnl check for GL library
 SAH_GRX_LIBS
 AC_CHECK_LIB(socket, setservent)
@@ -238,6 +207,32 @@ dnl Check for /proc/meminfo (Linux)
 if test -e "/proc/meminfo"; then
     AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
 fi
+
+
+dnl ---------- wxWindows --------------------------------------------------
+
+AM_OPTIONS_WXCONFIG
+
+dnl check for wxWindows
+AM_PATH_WXCONFIG(2.3.4, wxWin=1)
+if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
+   AC_MSG_WARN([
+================================================================================
+WARNING: wxWindows could not be found ==> building client without clientgui.
+  If you add wxWindows to your system, then this configure script will also
+  configure your system to build the BOINC graphical client (clientgui).  
+
+  If wxWindows is installed on your system, please check that wx-config is 
+  in the path, that the directory where wxWindows libraries are installed 
+  (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
+  and that wxWindows version is 2.3.4 or above.
+================================================================================
+       ])
+fi
+
+AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
+dnl --------------------------------------------------------------------------------
+
 
 dnl This is one way to set up host-specific stuff
 case "${host}" in
