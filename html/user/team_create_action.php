@@ -16,7 +16,7 @@
             echo "You must specify a name for your team.";
         } else {
             $query = sprintf(
-                "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, nusers) values(%d, '%s', '%s', '%s', %d, '%s', '%s', %d)",
+                "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers) values(%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', %d)",
                 $user->id,
                 time(),
                 $HTTP_POST_VARS["name"],
@@ -25,6 +25,7 @@
                 $HTTP_POST_VARS["type"],
                 $HTTP_POST_VARS["name_html"],
                 $HTTP_POST_VARS["description"],
+                $HTTP_POST_VARS["country"],
                 1
             );
 
