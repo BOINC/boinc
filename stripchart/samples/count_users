@@ -1,23 +1,8 @@
 #! /bin/csh
- 
-# where is mysql located?
-set MYSQL = /usr/local/mysql/bin/mysql
- 
-# what is the name of the database?   
-set DATABASE = mysql 
- 
-# what is the name of the table you wish to count? 
-set TABLE = user
+# NOTE: this must be macro-substituted (for DATABASE)
 
-# tmpfile for sql
-set TMPFILE = /tmp/count$$.sql
- 
-echo "use $DATABASE;" > $TMPFILE
-echo "select count(*) from $TABLE;" >> $TMPFILE
-
-set COUNT = `cat $TMPFILE | $MYSQL | /bin/tail -1`
-
-set CIVDATE = `/bin/date "+%c:%m:%d:%H:%M" | awk '{print $5}'`
+set CIVDATE = `/bin/date "+%Y:%m:%d:%H:%M"`
 set UNIXDATE = `/usr/local/bin/perl -e 'print time()'`
+set COUNT = `echo "use DATABASE; select count(*) from user" | mysql | tail -1`
  
 echo $CIVDATE $UNIXDATE $COUNT

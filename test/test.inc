@@ -28,8 +28,22 @@ function get_env_var($name) {
 function run_db_script($script, $db_name) {
     $db_dir = get_env_var("BOINC_SRC_DIR")."/db";
     $x = "sed -e s/BOINC_DB_NAME/$db_name/ $db_dir/$script | mysql";
-    //echo $x;
+    echo $x;
     PassThru($x);
+}
+
+// expand a macro in a file
+//
+function macro_substitute($macro, $replacement, $infile, $outfile) {
+    $x = "sed -e s/$macro/$replacement/ $infile > $outfile";
+    echo $x;
+    PassThru($x);
+}
+
+// make a file executable
+//
+function make_executable($name) {
+    PassThru("chmod uog+x $name");
 }
 
 function db_open($db_name) {
@@ -409,10 +423,13 @@ class Project {
         PassThru("cp $source_dir/stripchart/stripchart.cgi $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/stripchart $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/stripchart.cnf $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/samples/looper $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/samples/datafiles $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/samples/get_load $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/samples/get_load_loop $this->project_dir/cgi/");
-        PassThru("cd $this->project_dir/cgi; get_load_loop > get_load_out &");
+        macro_substitute("BOINC_DB_NAME", $this->db_name, "$source_dir/stripchart/samples/count_results", "$this->project_dir/cgi/count_results");
+        make_executable("$this->project_dir/cgi/count_results");
+        PassThru("cd $this->project_dir/cgi; looper get_load 1 > get_load_out &");
+        PassThru("cd $this->project_dir/cgi; looper count_results 1 > count_results_out &");
     }
 
     // this should stop the feeder and any other daemons
@@ -584,7 +601,7 @@ class Host {
         }
     }
 
-    function run($args) {
+    function run($args=null) {
           echo "\nRunning core client\n";
           $source_dir = get_env_var("BOINC_SRC_DIR");
           $platform = get_env_var("BOINC_PLATFORM");

@@ -132,13 +132,15 @@ int CLIENT_STATE::init() {
     // Getting host info is very fast, so we can do it anytime
     get_host_info(host_info);       // this is platform dependent
 
-    if (gstate.run_time_tests()) {
+    if (gstate.should_run_time_tests()) {
         show_message("Running time tests", "low");
 #ifdef _WIN32
-        time_tests_handle = CreateThread(NULL, 0, win_time_tests, NULL, 0, &time_tests_id);
+        time_tests_handle = CreateThread(
+            NULL, 0, win_time_tests, NULL, 0, &time_tests_id
+        );
 #else
         time_tests_id = fork();
-        if(time_tests_id == 0) {
+        if (time_tests_id == 0) {
             _exit(time_tests());
         }
 #endif
@@ -167,10 +169,10 @@ int CLIENT_STATE::init() {
 // This is determined by seeing if the user passed the "-no_time_test"
 // flag or if it's been a month since we last checked time stats
 //
-bool CLIENT_STATE::run_time_tests() {
-    return (run_time_test && (
+bool CLIENT_STATE::should_run_time_tests() {
+    return (
         difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_PER_MONTH
-    ));
+    );
 }
 
 #ifdef _WIN32
@@ -186,54 +188,56 @@ DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
 int CLIENT_STATE::time_tests() {
     HOST_INFO host_info;
     FILE* finfo;
-
-    clear_host_info(host_info);
-    if (log_flags.measurement_debug) {
-        printf("Getting general host information.\n");
-    }
-#if 1
     double fpop_test_secs = 2.0;
     double iop_test_secs = 2.0;
     double mem_test_secs = 2.0;
 
+    clear_host_info(host_info);
     if (log_flags.measurement_debug) {
-        printf(
-            "Running floating point test for about %.1f seconds.\n",
-            fpop_test_secs
-        );
+        printf("Running time tests.\n");
     }
-    host_info.p_fpops = run_double_prec_test(fpop_test_secs); //these are not
+    if (run_time_test) {
+        if (log_flags.measurement_debug) {
+            printf(
+                "Running floating point test for about %.1f seconds.\n",
+                fpop_test_secs
+            );
+        }
+        host_info.p_fpops = run_double_prec_test(fpop_test_secs); //these are not
 
-    if (log_flags.measurement_debug) {
-        printf(
-            "Running integer test for about %.1f seconds.\n",
-            iop_test_secs
-        );
+        if (log_flags.measurement_debug) {
+            printf(
+                "Running integer test for about %.1f seconds.\n",
+                iop_test_secs
+            );
+        }
+        host_info.p_iops = run_int_test(iop_test_secs);
+
+        if (log_flags.measurement_debug) {
+            printf(
+                "Running memory bandwidth test for about %.1f seconds.\n",
+                mem_test_secs
+            );
+        }
+        host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
+
+            // need to check check cache!!
+        host_info.m_cache = 1e6;
+    } else {
+        if (log_flags.measurement_debug) {
+            printf("Using fake performance numbers\n");
+        }
+        host_info.p_fpops = 1e9;
+        host_info.p_iops = 1e9;
+        host_info.p_membw = 4e9;
+        host_info.m_cache = 1e6;
     }
-    host_info.p_iops = run_int_test(iop_test_secs);
-
-    if (log_flags.measurement_debug) {
-        printf(
-            "Running memory bandwidth test for about %.1f seconds.\n",
-            mem_test_secs
-        );
-    }
-    host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
-
-        // need to check check cache!!
-    host_info.m_cache = 1e6;
-#else
-    host_info.p_fpops = 1e9;
-    host_info.p_iops = 1e9;
-    host_info.p_membw = 4e9;
-    host_info.m_cache = 1e6;
-#endif
 
     host_info.p_calculated = (double)time(0);
-        finfo = fopen(TIME_TESTS_FILE_NAME, "w");
-        if(!finfo) return ERR_FOPEN;
-        host_info.write_time_tests(finfo);
-        fclose(finfo);
+    finfo = fopen(TIME_TESTS_FILE_NAME, "w");
+    if(!finfo) return ERR_FOPEN;
+    host_info.write_time_tests(finfo);
+    fclose(finfo);
     return 0;
 }
 
@@ -341,7 +345,7 @@ bool CLIENT_STATE::do_something() {
     int nbytes=0;
     bool action = false, x;
 
-    if (check_time_tests() == TIME_TESTS_RUNNING) return action;
+    if (check_time_tests() == TIME_TESTS_RUNNING) return false;
 
     check_suspend_activities();
 
@@ -839,9 +843,9 @@ void CLIENT_STATE::print_summary() {
     printf("  %d projects\n", (int)projects.size());
     for (i=0; i<projects.size(); i++) {
         printf("    %s", projects[i]->master_url);
-        t = project[i]->min_rpc_time;
+        t = projects[i]->min_rpc_time;
         if (t) {
-            printf(" min RPC %d seconds from now", t-time(0));
+            printf(" min RPC %d seconds from now", (int)(t-time(0)));
         }
         printf("\n");
     }

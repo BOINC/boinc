@@ -81,12 +81,14 @@
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
 //
-/*char* ip_addr_string(int ip_addr) {
+#if 0
+char* ip_addr_string(int ip_addr) {
     in_addr ia;
 
     ia.s_addr = ip_addr;
     return inet_ntoa(ia);
-}*/
+}
+#endif
 
 // Returns the number of seconds difference from UTC
 //
@@ -95,17 +97,17 @@ int get_timezone( void ) {
     // TODO: get this to work on all platforms
     // TODO: take daylight savings time into account
 #ifdef HAVE_GMTOFF
-    //time_t cur_time;
-    //struct tm *time_data;
+    time_t cur_time;
+    struct tm *time_data;
 
-    //cur_time = time(NULL);
-    //time_data = localtime( &cur_time );
-    //return time_data->tm_gmtoff;
+    cur_time = time(NULL);
+    time_data = localtime( &cur_time );
+    return time_data->tm_gmtoff;
 #else
 #ifdef __timezone
-    //return __timezone;
+    return __timezone;
 #else
-    //return timezone;
+    return timezone;
 #endif
 #endif
     return 0;

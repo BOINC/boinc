@@ -5,7 +5,7 @@ if ($UPTIME == "average:") then
   set UPTIME = `/usr/bin/uptime | awk '{print $11}' | sed s/,//`
 endif
 
-set CIVDATE = `/bin/date "+%c:%m:%d:%H:%M" | awk '{print $5}'`
+set CIVDATE = `/bin/date "+%Y:%m:%d:%H:%M"`
 set UNIXDATE = `/usr/local/bin/perl -e 'print time()'`
 
 echo $CIVDATE $UNIXDATE $UPTIME

@@ -33,10 +33,10 @@
     $project->start_feeder();
     $project->start_make_work($work);
     $project->start_validate($app, 3);
-    $project->start_file_delete();
+    //$project->start_file_delete();
     $project->start_assimilator($app);
-    //$project->start_stripchart();
-    $host->run("");
+    $project->start_stripchart();
+    $host->run();
     //$project->stop();
 
     //$result->state = RESULT_STATE_DONE;

@@ -2913,3 +2913,28 @@ David  Jan 8 2003
         backend_lib.C
         create_work.C
 
+David  Jan 13 2003
+    - With -no_time_test flag, client now uses default values for
+        various speeds, rather than zero
+    - Restored commented-out timezone code.
+        May need to get working on Solaris
+    - Added stripchart scripts for getting DB info
+        (need to macro-substitute DB name)
+    
+    Net result: test_loop.php now works correctly and generates
+    stripcharts that show an ever-growing set of results
+    
+    client/
+        client_state.C,h
+        hostinfo_unix.C
+    html_ops/
+        db.inc
+    stripchart/samples
+        count_users
+        count_results (new)
+        datafiles
+        get_load
+        looper
+    test/
+        test.inc
+        test_loop.php

@@ -66,16 +66,16 @@ public:
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
     bool time_to_exit();
-    bool run_time_tests();
+    bool should_run_time_tests();
     int time_tests();
 #ifdef _WIN32
     static DWORD WINAPI win_time_tests(LPVOID);
-	HANDLE time_tests_handle;
-	DWORD time_tests_id;
+    HANDLE time_tests_handle;
+    DWORD time_tests_id;
 #else
-	PROCESS_ID time_tests_id;
+    PROCESS_ID time_tests_id;
 #endif
-	int check_time_tests();
+    int check_time_tests();
     int project_disk_usage(PROJECT*, double&);
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host

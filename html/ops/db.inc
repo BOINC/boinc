@@ -80,8 +80,11 @@ function show_host($host) {
     row("Domain name", $host->domain_name);
     $x = $host->timezone/3600;
     row("Time zone", "UTC - $x hours");
-    row("CPU", "$host->p_vendor $host->p_model");
     row("Number of CPUs", $host->p_ncpus);
+    row("CPU", "$host->p_vendor $host->p_model");
+    row("FP ops/sec", $host->p_fpops);
+    row("Int ops/sec", $host->p_iops);
+    row("memory bandwidth", $host->p_membw);
     row("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);

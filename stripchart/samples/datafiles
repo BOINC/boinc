@@ -9,3 +9,4 @@
 # x:----------------------------------:x
 #
 get_load_out:machine load:3
+count_results_out:Number of results:3
