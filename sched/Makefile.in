@@ -194,7 +194,7 @@ libsched_a_SOURCES = \
         sched_config.C				\
 	sched_messages.C			\
 	../db/boinc_db.C			\
-	../db/db_base.C			\
+	../db/db_base.C				\
         ../lib/util.C				\
         ../lib/crypt.C				\
         ../lib/parse.C				\
@@ -247,9 +247,6 @@ db_dump_DEPENDENCIES = $(LIB_SCHED)
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
 
-
-# start_servers_SOURCES = start_servers.C
-# start_servers_DEPENDENCIES = $(LIB_SCHED)
 file_upload_handler_SOURCES = file_upload_handler.C
 file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
@@ -1081,11 +1078,13 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
-start:  
-	ln -s $(srcdir)/start start
+.PHONY: PHONY-start
 
-status stop: 
-	ln -s start $@
+PHONY-start:
+	@test -f start || ln -s $(srcdir)/start start && test -f start
+
+status stop: PHONY-start
+	@test -f $@ || ln -s start $@ && test -f $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

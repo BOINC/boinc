@@ -170,7 +170,7 @@ AM_CPPFLAGS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-bin_PROGRAMS = create_work old_add country_select sign_executable
+bin_PROGRAMS = create_work sign_executable
 
 EXTRA_DIST = make_project add update_versions dbcheck_files_exist upgrade
 
@@ -194,24 +194,23 @@ create_work_SOURCES = \
 create_work_DEPENDENCIES = $(LIBRSA)
 create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
-old_add_SOURCES = \
-    add.C					\
-    backend_lib.C				\
-    process_result_template.C			\
-    ../lib/md5_file.C				\
-    ../lib/md5.c				\
-    ../lib/parse.C				\
-    ../lib/util.C				\
-    ../db/boinc_db.C				\
-    ../db/db_base.C				\
-    ../lib/crypt.C				\
-    ../sched/sched_config.C			\
-    backend_lib.h
 
+# old_add_SOURCES =				\
+#     add.C					\
+#     backend_lib.C				\
+#     process_result_template.C			\
+#     ../lib/md5_file.C				\
+#     ../lib/md5.c				\
+#     ../lib/parse.C				\
+#     ../lib/util.C				\
+#     ../db/boinc_db.C				\
+#     ../db/db_base.C				\
+#     ../lib/crypt.C				\
+#     ../sched/sched_config.C			\
+#     backend_lib.h
 
-old_add_DEPENDENCIES = $(LIBRSA)
-old_add_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
-
+# old_add_DEPENDENCIES = $(LIBRSA)
+# old_add_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 sign_executable_SOURCES = \
         sign_executable.C			\
         ../lib/md5_file.C			\
@@ -221,33 +220,19 @@ sign_executable_SOURCES = \
 
 sign_executable_DEPENDENCIES = $(LIBRSA)
 sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
-
-country_select_SOURCES = country_select.C ../lib/countries.C
 subdir = tools
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = boinc_path_config.py
-bin_PROGRAMS = create_work$(EXEEXT) old_add$(EXEEXT) \
-	country_select$(EXEEXT) sign_executable$(EXEEXT)
+bin_PROGRAMS = create_work$(EXEEXT) sign_executable$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_country_select_OBJECTS = country_select.$(OBJEXT) countries.$(OBJEXT)
-country_select_OBJECTS = $(am_country_select_OBJECTS)
-country_select_LDADD = $(LDADD)
-country_select_DEPENDENCIES =
-country_select_LDFLAGS =
 am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
 	process_result_template.$(OBJEXT) md5_file.$(OBJEXT) \
 	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
 	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
 create_work_OBJECTS = $(am_create_work_OBJECTS)
 create_work_LDFLAGS =
-am_old_add_OBJECTS = add.$(OBJEXT) backend_lib.$(OBJEXT) \
-	process_result_template.$(OBJEXT) md5_file.$(OBJEXT) \
-	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
-	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
-old_add_OBJECTS = $(am_old_add_OBJECTS)
-old_add_LDFLAGS =
 am_sign_executable_OBJECTS = sign_executable.$(OBJEXT) \
 	md5_file.$(OBJEXT) md5.$(OBJEXT) crypt.$(OBJEXT)
 sign_executable_OBJECTS = $(am_sign_executable_OBJECTS)
@@ -256,12 +241,11 @@ sign_executable_LDFLAGS =
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/add.Po ./$(DEPDIR)/backend_lib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/boinc_db.Po ./$(DEPDIR)/countries.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/country_select.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/create_work.Po ./$(DEPDIR)/crypt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/db_base.Po ./$(DEPDIR)/md5.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/parse.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/backend_lib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_db.Po ./$(DEPDIR)/create_work.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/crypt.Po ./$(DEPDIR)/db_base.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5.Po ./$(DEPDIR)/md5_file.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sign_executable.Po ./$(DEPDIR)/util.Po
@@ -274,10 +258,9 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(country_select_SOURCES) $(create_work_SOURCES) \
-	$(old_add_SOURCES) $(sign_executable_SOURCES)
+DIST_SOURCES = $(create_work_SOURCES) $(sign_executable_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(country_select_SOURCES) $(create_work_SOURCES) $(old_add_SOURCES) $(sign_executable_SOURCES)
+SOURCES = $(create_work_SOURCES) $(sign_executable_SOURCES)
 
 all: all-am
 
@@ -314,10 +297,6 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-countries.$(OBJEXT): ../lib/countries.C
-country_select$(EXEEXT): $(country_select_OBJECTS) $(country_select_DEPENDENCIES) 
-	@rm -f country_select$(EXEEXT)
-	$(CXXLINK) $(country_select_LDFLAGS) $(country_select_OBJECTS) $(country_select_LDADD) $(LIBS)
 md5_file.$(OBJEXT): ../lib/md5_file.C
 md5.$(OBJEXT): ../lib/md5.c
 parse.$(OBJEXT): ../lib/parse.C
@@ -329,9 +308,6 @@ sched_config.$(OBJEXT): ../sched/sched_config.C
 create_work$(EXEEXT): $(create_work_OBJECTS) $(create_work_DEPENDENCIES) 
 	@rm -f create_work$(EXEEXT)
 	$(CXXLINK) $(create_work_LDFLAGS) $(create_work_OBJECTS) $(create_work_LDADD) $(LIBS)
-old_add$(EXEEXT): $(old_add_OBJECTS) $(old_add_DEPENDENCIES) 
-	@rm -f old_add$(EXEEXT)
-	$(CXXLINK) $(old_add_LDFLAGS) $(old_add_OBJECTS) $(old_add_LDADD) $(LIBS)
 sign_executable$(EXEEXT): $(sign_executable_OBJECTS) $(sign_executable_DEPENDENCIES) 
 	@rm -f sign_executable$(EXEEXT)
 	$(CXXLINK) $(sign_executable_LDFLAGS) $(sign_executable_OBJECTS) $(sign_executable_LDADD) $(LIBS)
@@ -342,11 +318,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/add.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/backend_lib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_db.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/countries.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/country_select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/create_work.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_base.Po@am__quote@
@@ -382,28 +355,6 @@ distclean-depend:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'`
-
-countries.o: ../lib/countries.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT countries.o -MD -MP -MF "$(DEPDIR)/countries.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o countries.o `test -f '../lib/countries.C' || echo '$(srcdir)/'`../lib/countries.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/countries.Tpo" "$(DEPDIR)/countries.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/countries.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/countries.C' object='countries.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/countries.Po' tmpdepfile='$(DEPDIR)/countries.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o countries.o `test -f '../lib/countries.C' || echo '$(srcdir)/'`../lib/countries.C
-
-countries.obj: ../lib/countries.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT countries.obj -MD -MP -MF "$(DEPDIR)/countries.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o countries.obj `if test -f '../lib/countries.C'; then $(CYGPATH_W) '../lib/countries.C'; else $(CYGPATH_W) '$(srcdir)/../lib/countries.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/countries.Tpo" "$(DEPDIR)/countries.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/countries.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/countries.C' object='countries.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/countries.Po' tmpdepfile='$(DEPDIR)/countries.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o countries.obj `if test -f '../lib/countries.C'; then $(CYGPATH_W) '../lib/countries.C'; else $(CYGPATH_W) '$(srcdir)/../lib/countries.C'`
 
 md5_file.o: ../lib/md5_file.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md5_file.o -MD -MP -MF "$(DEPDIR)/md5_file.Tpo" \

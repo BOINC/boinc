@@ -180,7 +180,6 @@ libboinc_a_SOURCES = \
         ../api/boinc_api.C			\
         ../api/mfile.C				\
         app_ipc.C				\
-        countries.C				\
         parse.C					\
 	xml_util.C                              \
         filesys.C				\
@@ -190,7 +189,6 @@ libboinc_a_SOURCES = \
         md5_file.C				\
 	shmem.C					\
 	app_ipc.h				\
-	countries.h				\
 	crypt.h					\
 	error_numbers.h				\
 	filesys.h				\
@@ -225,9 +223,9 @@ LIBRARIES = $(noinst_LIBRARIES)
 libboinc_a_AR = $(AR) cru
 libboinc_a_LIBADD =
 am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
-	app_ipc.$(OBJEXT) countries.$(OBJEXT) parse.$(OBJEXT) \
-	xml_util.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
-	util.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT)
+	app_ipc.$(OBJEXT) parse.$(OBJEXT) xml_util.$(OBJEXT) \
+	filesys.$(OBJEXT) language.$(OBJEXT) util.$(OBJEXT) \
+	md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = msg_test$(EXEEXT) synch_test$(EXEEXT)
 bin_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) crypt_prog$(EXEEXT)
@@ -263,15 +261,15 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/app_ipc.Po ./$(DEPDIR)/boinc_api.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/countries.Po ./$(DEPDIR)/crypt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/crypt_prog.Po ./$(DEPDIR)/filesys.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/language.Po ./$(DEPDIR)/md5.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/md5_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/msg_queue.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/msg_test.Po ./$(DEPDIR)/parse.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/shmem_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/synch.Po ./$(DEPDIR)/synch_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/util.Po ./$(DEPDIR)/xml_util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/crypt.Po ./$(DEPDIR)/crypt_prog.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/language.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5.Po ./$(DEPDIR)/md5_file.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_test.Po ./$(DEPDIR)/mfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/msg_queue.Po ./$(DEPDIR)/msg_test.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/synch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/synch_test.Po ./$(DEPDIR)/util.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/xml_util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -355,7 +353,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/app_ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/countries.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt_prog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
