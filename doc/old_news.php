@@ -20,7 +20,7 @@ database have been moved to a new machine.
 <br><br>
 <b>June 10, 2003</b>
 <br>
-<a href=http://boinc.berkeley.edu/db_dump.html>XML based statistics</a> for
+<a href=http://boinc.berkeley.edu/db_dump.php>XML based statistics</a> for
 the Astropulse beta test are
 <a href=http://setiboinc.ssl.berkeley.edu/ap/stats/>available</a>.
 <br><br>

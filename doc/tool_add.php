@@ -35,15 +35,14 @@ add user         --name="Carl Sagan" --email_addr="carl.sagan@example.com"
 
 For detailed help, type `<code>add</code>' (with no arguments) or `<code>add
 app_version</code>' for help on adding an app_version, etc.
-<p>
 
+<p>
 Typically you will only <code>add</code> <code>platform</code>s
-and <code>app</code>s, and only at the inception of the project.  A project is
-created with <a
-href=tool_make_project.php>make_project</a>.  Core_version and app_version are
-automatically added by the <a
-href=tool_update_versions.php>update_versions</a> tool.  Users are usually
-created through the html interface.
+and <code>app</code>s, and only at the inception of the project.
+A project is created with <a href=make_project.php>make_project</a>.
+Core_version and app_version are automatically added by the
+<a href=tool_update_versions.php>update_versions</a> tool.
+Users are usually created through the Web interface.
 
 <?
    page_tail();

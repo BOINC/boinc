@@ -43,6 +43,7 @@ Scheduling server
 Protocols
 </b></font>
 <ul>
+<li> <a href=comm.php>Protocol overview</a>
 <li> <a href=protocol.php>The scheduling server protocol</a>
 <li> <a href=rpc_policy.php>Scheduling server timing and retry policies</a>
 <li> <a href=upload.php>Data server protocol</a>

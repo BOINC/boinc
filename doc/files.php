@@ -65,9 +65,9 @@ Once a file is created (on a data server or a participant host) it
 is immutable.
 <h3>File references</h3> 
 <p>
-Files may be associated with <a href=work.html>workunits</a>,
-<a href=result.html>results</a> and
-<a href=app.html>application versions</a>.
+Files may be associated with <a href=work.php>workunits</a>,
+<a href=result.php>results</a> and
+<a href=app.php>application versions</a>.
 Each such association is represented by an XML element of the form 
 <pre>
 &lt;file_ref>

@@ -101,7 +101,7 @@ These are stored in the host record.
 Second, applications that recognize even more specific
 architecure information can pass it back to the core client
 using the <b>boinc_architecture()</b>
-function from <a href=api.html>the BOINC API</a>.
+function from <a href=api.php>the BOINC API</a>.
 This passes a string (project-specific, but typically in XML)
 to the core client, which records it in the
 <b>architecture_xml</b> field of the <b>result</b> database record.
@@ -126,7 +126,7 @@ platform creation and naming be coordinated by a single group
 <h3>Tools</h3>
 <p>
 Platforms are maintained in the <b>platform</b> table in the BOINC DB,
-and can be created using the <a href=tools_other.html>add</a> utility. 
+and can be created using the <a href=tools_other.php>add</a> utility. 
 ";
 page_tail();
 ?>

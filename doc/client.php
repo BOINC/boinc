@@ -63,7 +63,7 @@ The work manager window has several tabs:
 <li> <b>Messages</b>:
     Shows status and error messages.
     Messages can be sorted by project or time.
-    You can <a href=messages.html>control what messages are shown</a>.
+    You can <a href=client_debug.php>control what messages are shown</a>.
     Messages are also written to a file 'messages.txt'.
     
 <li> <b>Disk</b>:

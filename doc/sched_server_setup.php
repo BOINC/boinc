@@ -40,7 +40,7 @@ The directory containing the file upload authentication private key.
 </td></tr>
 <tr><td>upload_dir</td><td>
 The directory where uploaded files are stored
-(this is used by the <a href=data_server_setup.html>data server</a>).
+(this is used by the <a href=data_server_setup.php>data server</a>).
 </td></tr>
 <tr><td>user_name</td><td>
 This name is prepended to web log error messages

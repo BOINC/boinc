@@ -1,7 +1,7 @@
 <? // -*- html -*-
    // $Id$
    require_once("docutil.php");
-   page_head("Python Framework");
+   page_head("Python scripting framework");
 ?>
 
 See the section on Python in the <a href=software.php>Software
@@ -10,7 +10,8 @@ Prerequisites</a>.
 <h1>Structure</h1>
 
 The directory <code>boinc/py/Boinc</code> contains the <code>Boinc</code>
-module.  This means if you have <code>boinc/py/</code> in your python path you can
+module.
+This means if you have <code>boinc/py/</code> in your python path you can
 write for example:
 <blockquote>
 <code>from Boinc.setup_project import *</code>
@@ -25,9 +26,9 @@ directories which then modifies <code>sys.path</code> appropriately.
 
 <h2>Project-specific settings</h2>
 The module <code>boinc_project_path</code> is imported to get the paths
-for <code>config.xml</code> and <code>run_state.xml</code>.  The default
-paths for these are the parent directory of the invocation script.  You can
-override these defaults
+for <code>config.xml</code> and <code>run_state.xml</code>.
+The default paths for these are the parent directory of the invocation script.
+You can override these defaults
 <ol>
   <li> modify this file directly (if you have only one project on your server
     or have separate copies for each)
@@ -57,7 +58,7 @@ details.
       Adds objects to the database.
       TODO: document
   </td></tr>
-  <tr><td><code>boinc/tools/</code></td><td> <a href=single_host_server.php><code>make_project</code></a> </td> <td>
+  <tr><td><code>boinc/tools/</code></td><td> <a href=make_project.php><code>make_project</code></a> </td> <td>
       Creates a project
   </td></tr>
   <tr><td><code>boinc/tools/</code></td><td> <a href=tool_update_versions.php><code>update_versions</code></a> </td> <td>
@@ -90,8 +91,9 @@ details.
   </td></tr>
 
   <tr><td><code>setup_project.py</code></td><td>
-      internal module for creating a project.  See <a href=
-      tool_make_project.php><code>make_project</code></a> and test scripts.
+      internal module for creating a project.
+      See <a href=make_project.php><code>make_project</code></a>
+      and test scripts.
   </td></tr>
 
   <tr><td><code>database.py</code></td><td>
@@ -116,9 +118,9 @@ and object relationships to allow easy data manipulation.
 <p>
 
 All <a href=database.php>database tables</a> have a corresponding class and
-its rows have classes, where each column is a member of that class.  Ids are
-automatically translated to and from objects.  To begin, import
-the <code>database</code> module:
+its rows have classes, where each column is a member of that class.
+Ids are automatically translated to and from objects.
+To begin, import the <code>database</code> module:
 <pre>
   from Boinc import database
 </pre>
@@ -145,7 +147,8 @@ MySQL query based on its arguments:
       user_friendly_name = 'Commodore 64')</b>
 </pre>
 
-Find can take any number of arguments; they are ANDed. For more advanced
+Find can take any number of arguments; they are ANDed.
+For more advanced
 usage such as custom SQL queries (anything is possible :) see the pydoc.
 <pre>
   all_apps = database.<b>Apps.find()</b>

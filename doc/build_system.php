@@ -1,11 +1,10 @@
 <? // -*- html -*-
 require_once("docutil.php");
-page_head("BOINC: Build system");
+page_head("The BOINC build system");
 ?>
 
 See the <a href=software.php>Software Prerequisites</a>.
 
-<h1>Details of BOINC's new automake/autoconf build system</h1>
 <p>
   The BOINC build system uses <a
   href=http://www.gnu.org/software/autoconf/>autoconf</a> 2.57 and <a

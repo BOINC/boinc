@@ -39,31 +39,36 @@ How to develop or port an application program for use with BOINC.
 <ul>
 <li><a href=api.php>The BOINC API</a>
 <li><a href=graphics.php>The BOINC graphics API</a>
-<li><a href=dev.php>The application development process</a>
 </ul>
+
 <font size=+1><b>
-Setting up a BOINC server
+Compiling BOINC software
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
 <font size=-1>
-How to install and configure the BOINC server software.
+How to configure and compile the BOINC software.
 </font>
 <ul>
+<li> <a href=software.php>Software prerequisites</a>
 <li> <a href=road_map.php>Road map of the BOINC software</a>
-<li> <a href=server_components.php>Server components</a>
-<li> <a href=build_server.php>Building server components</a> (<a href=build_system.php>Build system</a>)
-<ul>
-  <li> <a href=build_client.php>Building the core client for all platforms</a>
-</ul>
-<li> <a href=tools.php>Operational tools</a>
-<li> <a href=single_host_server.php>Setting up a single-host server</a>
-<li> <a href=database_setup.php>Setting up the BOINC database</a>
-<li> <a href=key_setup.php>Creating encryption keys</a>
-<li> <a href=sched_server_setup.php>Setting up a scheduling server</a>
-<li> <a href=web_site.php>Setting up a web site</a>
-<li> <a href=data_server_setup.php>Setting up a data server</a>
+<li> <a href=build_system.php>Build system</a>
+<li> <a href=build_server.php>Building server components</a>
+<li> <a href=build_client.php>Building the core client</a>
 <li> <a href=test.php>Test applications and scripts</a>
-<li> <a href=project_startup.php>Project startup checklist</a>
+</ul>
+
+<font size=+1><b>
+Creating a BOINC server complex
+</b></font>
+<br> &nbsp; &nbsp; &nbsp;
+<font size=-1>
+How to create the 'server complex' for a BOINC project.
+</font>
+<ul>
+<li> <a href=server_components.php>Server components</a>
+<li> <a href=make_project.php>Creating a server complex</a>
+<li> <a href=tools.php>Operational tools</a>
+<li> <a href=web_site.php>Creating a master page</a>
 
 </ul>
 

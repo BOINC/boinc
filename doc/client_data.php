@@ -14,7 +14,7 @@ WORKUNIT
 RESULT
 </pre>
 These correspond to the
-<a href=create_project.html>abstractions of the same name</a>.
+<a href=create_project.php>abstractions of the same name</a>.
 They contain some fields that aren't present on the server side;
 e.g., FILE_INFO has a field indicating whether the
 file is present on this host.

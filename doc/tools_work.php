@@ -5,8 +5,6 @@ echo "
 <p>
 Workunits and results can be created using either a utility program
 or a C++ function.
-In either case you must first <a href=key_setup.html>generate a key pair</a>
-for file upload authentication.
 <hr>
 The utility program is
 <pre>
@@ -54,7 +52,7 @@ name=value&name=value&name=value.
 </td></tr>
 <tr><td valign=top>&lt;max_processing></td>
 <td>Maximum processing
-(measured in <a href=credit.html>Cobblestones</a>).
+(measured in <a href=credit.php>Cobblestones</a>).
 An instance of the computation that exceeds this bound will be aborted.
 This mechanism prevents an infinite-loop bug from
 indefinitely incapacitating a host.
@@ -65,7 +63,7 @@ The default is determined by the client; typically it is 1.
 The default is determined by the client; typically it is 1,000,000.
 </td></tr>
 <tr><td>&lt;file_ref></td>
-<td> describes a <a href=files.html>reference</a> to an input file,
+<td> describes a <a href=files.php>reference</a> to an input file,
 each of which is described by a <b>&lt;file_info></b> element.
 </td></tr></table>
 <p>

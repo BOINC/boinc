@@ -1,14 +1,13 @@
-<? // -*- html -*-
-   // $Id$
-   require_once("docutil.php");
-   page_head("Operational Tools");
-?>
-
+<?
+require_once("docutil.php");
+page_head("Operational Tools");
+echo "
 BOINC provides tools for creating and operating projects:
-<table border=1 width=100%>
-  <tr><td><code>boinc/tools/</code></td><td> <a href=single_host_server.php><code>make_project</code></a> </td> <td>
-      Creates a new project.
-  </td></tr>
+<table border=1 cellpadding=8 width=100%>
+  <tr><td><code>boinc/tools/</code></td>
+      <td><a href=make_project.php><code>make_project</code></a> </td>
+      <td>Creates the server complex for a new project.</td>
+  </tr>
   <tr><td><code>boinc/sched/</code></td><td> <a
   href=tool_start.php><code>start, stop, status</code></a> </td> <td>
       BOINC start / Super Cron program
@@ -27,7 +26,7 @@ BOINC provides tools for creating and operating projects:
 Projects can create their own tools using the Python API (see <a
 href=python.php>Python framework</a>) or the C++ API (<code>db/db.h</code>)
 
-<?
+";
    page_tail();
 ?>
 

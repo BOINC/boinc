@@ -1,13 +1,14 @@
 <? // -*- html -*-
 require_once("docutil.php");
-page_head("BOINC: Software prerequisites and corequisites");
+page_head("Software prerequisites");
 ?>
 
 BOINC depends on various software to build, test, and run.
 
 <h1>Operating systems</h1>
 
-The server components run on flavors of Unix.  We develop on Solaris 2.6-2.9
+The server components run on flavors of Unix.
+We develop on Solaris 2.6-2.9, Red Hat 8,
 and Debian Linux stable and unstable, so those currently work out-of-the-box.
 Other Unix-like systems should work without too much configuration.
 

@@ -17,7 +17,7 @@ to each data server.
 <p>
 The file upload handler uses a configuration of
 the same format as used by the
-<a href=sched_server_setup.html>scheduling server</a>.
+<a href=sched_server_setup.php>scheduling server</a>.
 
 <h3>Web server configuration</h3>
 <p>

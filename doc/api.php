@@ -7,7 +7,7 @@ The BOINC API is a set of C++ functions.
 Unless otherwise specified,
 the functions return an integer error code; zero indicates success.
 On an error return, the application should exit with that status.
-The BOINC graphics API is described <a href=graphics.html>separately</a>.
+The BOINC graphics API is described <a href=graphics.php>separately</a>.
 
 <h3>Initialization and termination</h3>
 The application must call

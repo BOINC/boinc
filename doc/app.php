@@ -8,11 +8,11 @@ it consists of a program (perhaps with versions for different platforms)
 and a set of workunits and results.
 A project can operate many applications. 
 Applications are maintained in the <b>application</b> table in the BOINC DB,
-and can be created using the <a href=tools_other.html>add</a> utility. 
+and can be created using the <a href=tools_other.php>add</a> utility. 
 
 <p>
 An application program may go through a sequence of
-<a href=version.html>versions</a>. 
+<a href=boinc_version.php>versions</a>. 
 A particular version, compiled for a particular platform, is
 called an <b>application version</b>. 
 An application version can consist of multiple files: for example, a
@@ -55,7 +55,7 @@ files that make up the application version:
 &lt;/app_version&gt;
 </pre>
 Application versions can be created using the
-<a href=tools_other.html>add</a> utility program.
+<a href=tools_other.php>add</a> utility program.
 ";
 page_tail();
 ?>

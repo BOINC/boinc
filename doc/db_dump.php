@@ -51,12 +51,12 @@ For example:
 </pre>
 <b>team_total_credit_N.xml</b>
 <br>
-Team summaries, ordered by decreasing <a href=credit.html>total credit</a><.
+Team summaries, ordered by decreasing <a href=credit.php>total credit</a><.
 N is 0, 1, ...
 <p>
 <b>team_expavg_credit_N.xml</b>
 <br>
-Team summaries, ordered by decreasing <a href=credit.html>recent-average credit</a>.
+Team summaries, ordered by decreasing <a href=credit.php>recent-average credit</a>.
 <p>
 <b>team_id_N.xml</b>
 <br>

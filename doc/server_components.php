@@ -22,7 +22,7 @@ These components are described in detail in separate documents,
 which are required reading if you want to separate
 and/or replicate the components.
 To set up a basic server where all components run on a single host,
-you can use a simple <a href=single_host_server.html>server setup script</a>.
+you can use a simple <a href=make_project.php>server setup script</a>.
 ";
 page_tail();
 ?>
