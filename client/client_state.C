@@ -1190,7 +1190,7 @@ bool CLIENT_STATE::garbage_collect() {
     for (i=0; i<app_versions.size(); i++) {
         avp = app_versions[i];
         for (j=0; j<avp->app_files.size(); j++) {
-            avp->app_files[i].file_info->ref_cnt++;
+            avp->app_files[j].file_info->ref_cnt++;
         }
     }
 

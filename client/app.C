@@ -163,7 +163,7 @@ int ACTIVE_TASK::start(bool first_time) {
     f = fopen(init_data_path, "w");
     if (!f) {
         sprintf(
-            buf, "Failed to open core-to-app prefs file %s.\n",
+            buf, "Failed to open core-to-app prefs file %s",
             init_data_path
         );
         show_message(wup->project, buf, MSG_ERROR);
@@ -181,7 +181,7 @@ int ACTIVE_TASK::start(bool first_time) {
     f = fopen(graphics_data_path, "w");
     if (!f) {
         sprintf(
-            buf, "Failed to open core-to-app graphics prefs file %s.\n",
+            buf, "Failed to open core-to-app graphics prefs file %s",
             graphics_data_path
         );
         show_message(wup->project, buf, MSG_ERROR);
@@ -193,7 +193,7 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
     f = fopen(fd_init_path, "w");
     if (!f) {
-        sprintf(buf, "Failed to open init file %s.\n", fd_init_path);
+        sprintf(buf, "Failed to open init file %s", fd_init_path);
         show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
@@ -215,7 +215,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 printf("link %s to %s\n", file_path, link_path);
             }
             if (retval) {
-                sprintf(buf, "Can't link %s to %s\n", file_path, link_path);
+                sprintf(buf, "Can't link %s to %s", file_path, link_path);
                 show_message(wup->project, buf, MSG_ERROR);
                 fclose(f);
                 return retval;
@@ -237,7 +237,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
                 retval = boinc_link(buf, link_path);
                 if (retval) {
-                    sprintf(buf, "Can't link %s to %s\n", file_path, link_path);
+                    sprintf(buf, "Can't link %s to %s", file_path, link_path);
                     show_message(wup->project, buf, MSG_ERROR);
                     fclose(f);
                     return retval;
@@ -264,7 +264,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
                 retval = boinc_link(buf, link_path);
                 if (retval) {
-                    sprintf(buf, "Can't link %s to %s\n", file_path, link_path);
+                    sprintf(buf, "Can't link %s to %s", file_path, link_path);
                     show_message(wup->project, buf, MSG_ERROR);
                     fclose(f);
                     return retval;
@@ -325,7 +325,7 @@ int ACTIVE_TASK::start(bool first_time) {
             LocalFree(lpMsgBuf);
             return -1;
         }
-        sprintf(buf, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+        sprintf(buf, "CreateProcess: %s", (LPCTSTR)lpMsgBuf);
         show_message(wup->project, buf, MSG_ERROR);
         LocalFree(lpMsgBuf);
     }
@@ -641,7 +641,7 @@ void ACTIVE_TASK_SET::suspend_all() {
         if (atp->suspend()) {
             show_message(
                 atp->wup->project,
-                "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task\n",
+                "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task",
                 MSG_ERROR
             );
         }
@@ -658,7 +658,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
         if (atp->unsuspend()) {
             show_message(
                 atp->wup->project,
-                "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task\n",
+                "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task",
                 MSG_ERROR
             );
         }
@@ -674,7 +674,7 @@ void ACTIVE_TASK_SET::request_tasks_exit() {
         atp = active_tasks[i];
         if(atp->request_exit()) {
             show_message(atp->wup->project,
-                "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n",
+                "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task",
                 MSG_ERROR
             );
         }
@@ -748,7 +748,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
         atp->result->is_active = true;
         retval = atp->start(false);
         if (log_flags.task) {
-            sprintf(buf, "restarting computation for result %s\n", atp->result->name);
+            sprintf(buf, "restarting computation for result %s", atp->result->name);
             show_message(atp->wup->project, buf, MSG_INFO);
         }
         if (retval) {

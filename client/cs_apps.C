@@ -135,7 +135,7 @@ bool CLIENT_STATE::handle_running_apps() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->state != PROCESS_RUNNING) {
-            sprintf(buf, "computation for result %s finished\n", atp->wup->name);
+            sprintf(buf, "Computation for result %s finished", atp->wup->name);
             show_message(atp->wup->project, buf, MSG_INFO);
             if (log_flags.task_debug) {
                 printf(
@@ -201,7 +201,7 @@ bool CLIENT_STATE::start_apps() {
         //
         if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active ) {
             if (log_flags.task) {
-                sprintf(buf, "starting computation for result %s\n", rp->name);
+                sprintf(buf, "Starting computation for result %s", rp->name);
                 show_message(rp->project, buf, MSG_INFO);
             }
             rp->is_active = true;

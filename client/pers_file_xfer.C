@@ -94,7 +94,7 @@ bool PERS_FILE_XFER::start_xfer() {
     }
     if (retval) {
         sprintf(buf,
-            "couldn't start %s for %s: error %d\n",
+            "Couldn't start %s for %s: error %d",
             (is_upload ? "upload" : "download"), fip->get_url(), retval
         );
         show_message(fip->project, buf, MSG_ERROR);
@@ -104,7 +104,7 @@ bool PERS_FILE_XFER::start_xfer() {
         fxp = file_xfer;
         if (retval) {
             if (log_flags.file_xfer) {
-                show_message(fip->project, "file_xfer insert failed\n", MSG_ERROR);
+                show_message(fip->project, "file_xfer insert failed", MSG_ERROR);
             }
             fxp->file_xfer_retval = retval;
             handle_xfer_failure(time(0));
@@ -113,7 +113,7 @@ bool PERS_FILE_XFER::start_xfer() {
         }
         if (log_flags.file_xfer) {
             sprintf(buf,
-                "started %s of %s to %s\n",
+                "Started %s of %s to %s",
                 (is_upload ? "upload" : "download"), fip->name, fip->get_url()
             );
             show_message(fip->project, buf, MSG_INFO);
@@ -157,7 +157,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
         if (log_flags.file_xfer) {
             sprintf(
                 buf,
-                "file transfer done for %s; error code %d\n",
+                "File transfer done for %s; error code %d",
                 fip->get_url(), fxp->file_xfer_retval
             );
             show_message(fip->project, buf, MSG_INFO);
@@ -180,12 +180,12 @@ bool PERS_FILE_XFER::poll(time_t now) {
                 get_pathname(fip, pathname);
                 retval = verify_downloaded_file(pathname, *fip);
                 if (retval) {
-                    sprintf(buf, "checksum or signature error for %s\n", fip->name);
+                    sprintf(buf, "Checksum or signature error for %s", fip->name);
                     show_message(fip->project, buf, MSG_ERROR);
                     fip->status = retval;
                 } else {
                     if (log_flags.file_xfer_debug) {
-                        sprintf(buf, "MD5 checksum validated for %s\n", pathname);
+                        sprintf(buf, "MD5 checksum validated for %s", pathname);
                         show_message(fip->project, buf, MSG_INFO);
                     }
                     // Set the appropriate permissions depending on whether
@@ -234,7 +234,7 @@ void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
         }
         xfer_done = true;
         sprintf(buf,
-            "Giving up on file transfer for %s: %d\n",
+            "Giving up on file transfer for %s: %d",
             fip->name, fip->status
         );
         show_message(fip->project, buf, MSG_ERROR);
@@ -272,7 +272,7 @@ void PERS_FILE_XFER::retry_or_backoff(time_t cur_time) {
     }
     if (log_flags.file_xfer_debug) {
         sprintf(buf,
-            "Backing off %f seconds on transfer of file %s\n",
+            "Backing off %f seconds on transfer of file %s",
             exp_backoff, fip->name
         );
         show_message(fip->project, buf, MSG_INFO);
@@ -291,7 +291,7 @@ int PERS_FILE_XFER::parse(FILE* fin) {
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else {
-            sprintf(buf2, "PERS_FILE_XFER::parse(): unrecognized: %s\n", buf);
+            sprintf(buf2, "PERS_FILE_XFER::parse(): unrecognized: %s", buf);
             show_message(fip->project, buf2, MSG_ERROR);
         }
     }
@@ -356,6 +356,6 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
         }
         iter++;
     }
-    show_message(pfx->fip->project, "PERS_FILE_XFER_SET::remove(): not found\n", MSG_ERROR);
+    show_message(pfx->fip->project, "PERS_FILE_XFER_SET::remove(): not found", MSG_ERROR);
     return 1;
 }
