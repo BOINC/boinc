@@ -62,7 +62,7 @@ int detach_shmem(key_t key) {
 
     retval = attach_shmem(key, &p);
     if (retval) return retval;
-    retval = shmdt(p);
+    retval = shmdt((char *)p);
     if (retval) perror("detach_shmem: shmdt");
     return retval;
 }
