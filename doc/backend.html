@@ -1,0 +1,60 @@
+<title>The components of a project back end</title>
+<h2>The components of a project back end</h2>
+
+<p>
+The <b>back end</b> of a BOINC project consists
+of a number of components that together are responsible
+for generating work and absorbing the results.
+Some of these components are supplied by BOINC;
+other parts are project- or application-specific:
+
+<p>
+<table border=1 cellpadding=8>
+<th>Component</th>
+<th>BOINC-supplied part</th>
+<th>project-supplied part</th>
+<tr>
+<td>
+<b>Work generator</b>: generates work units and their input files,
+and generates one or more results per work unit.
+</td>
+<td>
+Functions and programs that handle the details of
+creating workunit and result database records.
+</td>
+<td>
+Programs or scripts that generate input files,
+install them on data servers,
+and call the BOINC functions.
+</td></tr>
+<tr>
+<td><b>Result retry generator</b>:
+generates additional results if some of those initially sent are lost.</td>
+<td>A program, <b>result_retry</b>, that does the job.</td>
+<td>Some parameters used by result_retry.</td>
+</tr>
+<tr>
+<td><b>Result validation and accounting</b>:
+compare redundant results; select a <b>canonical result</b>
+representing the correct output,
+and a <b>canonical credit</b> granted to users and hosts
+that return the correct output.</td>
+<td>A program, <b>validate</b>, that contains the
+basic logic for validation.</td>
+<td>An application-specific function, linked with <b>validate</b>,
+that compares sets of redundant results.</td>
+</tr>
+<tr>
+<td><b>Result processing</b>: parse output files of
+completed results, and take appropriate action
+(record results in a database, and/or generate more work)</td>
+<td>Function for enumerating unprocessed results.</td>
+<td>The rest.</td>
+</tr>
+<tr>
+<td><b>Garbage collector</b>: delete input and output files
+when they are no longer needed.</td>
+<td>A program, <b>garbage_collect</b>, that does the job.</td>
+<td>None.</td>
+</tr>
+</table>

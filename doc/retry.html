@@ -1,0 +1,62 @@
+<title>Generating result retries</title>
+<h2>Generating result retries</h2>
+
+<p>
+Hosts may fail to process and return results for various reasons;
+such results are said to be <b>lost</b>.
+A combination of lost and erroneous results may prevent
+finding canonical result for a workunit.
+The <b>result retry</b> mechanism generates additional
+results as needed to find a canonical result.
+
+<p>
+The result retry mechanism has the following project-supplied parameters:
+<ul>
+<li> D<sub>WU</sub>: the expected delay (in seconds) between
+creating a WU and getting a canonical result.
+<li> D<sub>result</sub>: the expected delay (in seconds) between
+creating a result and getting a confirmation.
+<li> N<sub>Error</sub>: give up on a workunit if it gets this many error results
+(i.e., there must be a bug in the application).
+<li> N<sub>det</sub>: give up on a workunit if it gets this many
+non-error results without finding a canonical result
+(i.e., the algorithm must nondeterministic).
+<li> N<sub>redundancy</sub>: try to get at least this many non-error results.
+</ul>
+
+<p>
+Each workunit has a <b>retry check time</b>.
+This is initially set to now + D<sub>WU</sub>,
+and is set to zero if a canonical result is found for the WU.
+
+<p>
+Each result has a <b>deadline</b>,
+a time by which a confirmation is expected for the result.
+This is initially set to now + D<sub>result</sub>,
+
+<p>
+Retry generation is handled by the program <b>result_retry</b>, invoked as
+<pre>
+result_retry -appname name
+</pre>
+This program continually checks for workunits past their check time
+and without pending validation.
+For each such workunit, it does the following:
+
+<ul>
+<li> If any result is not sent, it generates a project warning,
+and gives up on the WU (i.e., sets its check time to zero).
+<li> If at least N<sub>error</sub> results have an error,
+generate a project warning and give up on the WU.
+<li> If at least N<sub>det</sub> results are done,
+generate a project warning and give up on the WU.
+<li> Generate N<sub>redundancy</sub> - n new results for the WU,
+where n is the number of results that are done.
+The deadline of these results is now + D<sub>result</sub>.
+<li> Set the check time of the WU to now + D<sub>WU</sub>
+
+</ul>
+
+<p>
+You should use crontab to make sure that
+<b>result_retry</b> is always running.
