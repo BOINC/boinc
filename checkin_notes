@@ -21447,3 +21447,8 @@ Rom    16 Dec 2004
     win_build/installerv2/redist/windows
         BOINC.vbs
  
+David  16 Dec 2004
+    - bug fix: resident-set size on Linux was wrong
+
+    lib/
+        mem_usage.C

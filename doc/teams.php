@@ -43,6 +43,7 @@ The founder of a team has some additional capabilities:
 <li> Edit the team's attributes.
 <li> View the email addresses of all team members.
 <li> Remove members from the team.
+<li> Change the founder (to any current member).
 <li> Disband the team.
 </ul>
 ";

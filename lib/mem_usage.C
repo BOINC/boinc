@@ -91,12 +91,13 @@ int mem_usage(double& vm_usage, double& resident_set) {
         // read virtual memory size in bytes.
         //
         vm_usage = atof(p);
+        p = strchr(p, ' ');
 
-        // read resident set size: number of  pages  the  process has in
-        // real  memory, minus 3 for administrative purposes.
+        // read resident set size: number of pages the process has in
+        // real memory, minus 3 for administrative purposes.
         //
-        tmp = strtol(p, 0, 0); // in pages
-        resident_set = (double)(tmp + 3)*getpagesize(); // getpagesize() is bytes/page
+        tmp = strtol(p, 0, 0);
+        resident_set = (double)(tmp + 3)*getpagesize();
 
         fclose(f);
         return 0;
