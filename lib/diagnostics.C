@@ -492,7 +492,7 @@ void boinc_catch_signal(int signal) {
     void *array[64];
     size_t size;
     size = backtrace (array, 64);
-    fprintf(stderr, "Stack trace ($d frames):\n", size);
+    fprintf(stderr, "Stack trace (%d frames):\n", size);
     backtrace_symbols_fd(array, size, fileno(stderr));
 #endif
 
