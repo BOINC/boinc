@@ -22121,6 +22121,10 @@ Rom    6 Jan 2005
         rows were being calculated
     - Bug Fix: Remove the explict call to freeze/thaw which was causing
         the messages tab to flicker even when the data has not changed.
+    - Bug Fix: On Windows systems that support tooltip bubbles, don't 
+        populate the regular tooltip field as it will appear before 
+        the bubble request and makes the taskbar applet appear
+        ugly
 
     client/win/
         wingui_mainwindow.cpp
