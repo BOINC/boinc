@@ -14,15 +14,15 @@ if __name__ == '__main__':
 
     host = Host()
     user = UserUC()
-    work = WorkUC(redundancy=5)
     projects = []
     for i in range(2):
-        project = ProjectUC(users=[user], hosts=[host], works=[work],
-                            short_name="test_1sec_%d"%i)
+        project = ProjectUC(users=[user], hosts=[host],
+                            short_name="test_1sec_%d"%i,
+                            redundancy=5)
         project.resource_share = [1, 5][i]
         projects.append(project)
         project.run()
     host.run()
     for project in projects:
+        project.check()
         project.stop()
-        project.validate()

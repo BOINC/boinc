@@ -4794,6 +4794,7 @@ Karl    2003/06/17
         test_uc.py
         test_concat.py
         test_1sec.py
+        test_backend.py
         version.py.in
 
 Tim     June 18, 2003

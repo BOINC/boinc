@@ -185,12 +185,14 @@ def generate_shmem_key():
 class STARTS_WITH(str):
     pass
 
-def dict_match(dict, resultdict):
-    '''match values in DICT against RESULTDICT'''
-    for key in dict.keys():
-        expected = dict[key]
+def dict_match(dic, resultdic):
+    '''match values in DIC against RESULTDIC'''
+    if not isinstance(dic, dict):
+        dic = dic.__dict__
+    for key in dic.keys():
+        expected = dic[key]
         try:
-            found = resultdict[key]
+            found = resultdic[key]
         except KeyError:
             error("Database query result didn't have key '%s'!" % key)
             continue
@@ -199,7 +201,7 @@ def dict_match(dict, resultdict):
         else:
             match = found == expected
         if not match:
-            id = resultdict.get('id', '?')
+            id = resultdic.get('id', '?')
             if str(found).count('\n') or str(expected).count('\n'):
                 format = """result %s: unexpected %s:
 
@@ -211,6 +213,11 @@ def dict_match(dict, resultdict):
             else:
                 format = "result %s: unexpected %s '%s' (expected '%s')"
             error( format % (id, key, found, expected))
+
+def _db_query(db, query):
+    db.query(query)
+    result = db.use_result()
+    return result and result.fetch_row(0,1)
 
 class Platform:
     def __init__(self, name, user_friendly_name=None):
@@ -296,16 +303,7 @@ class Project:
         shell_call('sed -e s/BOINC_DB_NAME/%s/ %s | mysql'
                    % (self.db_name, self.srcdir('db', script)))
     def db_open(self):
-        try:
-            self.db = MySQLdb.connect(db=self.db_name)
-        except e:
-            fatal_error('in mysql open of database "%s": %s' % (self.db_name, str(e)))
-    def db_query(self, query):
-        try:
-            self.db.query(query)
-            return self.db.use_result()
-        except e:
-            fatal_error('in mysql query "%s": %s' % (query, str(e)))
+        return MySQLdb.connect(db=self.db_name)
 
     def install_project(self, scheduler_file = None):
         verbose_echo(1, "Deleting previous test runs")
@@ -374,8 +372,8 @@ class Project:
         verbose_echo(1, "Setting up database")
         map(self.run_db_script, [ 'drop.sql', 'schema.sql', 'constraints.sql' ])
 
-        self.db_open()
-        self.db_query("insert into project(short_name, long_name) values('%s', '%s')" %(
+        db = self.db_open()
+        db.query("insert into project(short_name, long_name) values('%s', '%s')" %(
             self.short_name, self.long_name));
 
         verbose_echo(1, "Setting up database: adding %d user(s)" % len(self.users))
@@ -389,7 +387,7 @@ class Project:
             else:
                 gp = ''
 
-            self.db_query(("insert into user values (0, %d, '%s', '%s', '%s', " +
+            db.query(("insert into user values (0, %d, '%s', '%s', '%s', " +
                       "'Peru', '12345', 0, 0, 0, '%s', '%s', 0, 'home', '', 0, 1)") % (
                 time.time(),
                 user.email_addr,
@@ -401,11 +399,13 @@ class Project:
         verbose_echo(1, "Setting up database: adding %d apps(s)" % len(self.apps))
         for app in self.apps:
             check_app_executable(app.name)
-            self.db_query("insert into app(name, create_time) values ('%s', %d)" %(
+            db.query("insert into app(name, create_time) values ('%s', %d)" %(
                 app.name, time.time()))
 
         self.platforms = unique(map(lambda a: a.platform, self.app_versions))
         verbose_echo(1, "Setting up database: adding %d platform(s)" % len(self.platforms))
+
+        db.close()
 
         for platform in self.platforms:
             run_tool("add platform -db_name %s -platform_name %s -user_friendly_name '%s'" %(
@@ -611,7 +611,7 @@ class Project:
     def remove_config(self, pattern):
         config = self.dir('cgi/.htconfig.xml')
         config_old = config + '.old'
-        os.rename(config_old, config)
+        os.rename(config, config_old)
         f0 = open(config_old)
         f = open(config, 'w')
         for line in f0:
@@ -627,20 +627,18 @@ class Project:
         stderr_out
         exit_status
         '''
-        self.db_open()
-        result = self.db_query("select * from result")
-        rows = result.fetch_row(0, 1)
+        db = self.db_open()
+        rows = _db_query(db,"select * from result")
         for row in rows:
             dict_match(matchresult, row)
+        db.close()
         if len(rows) != ntarget:
             error("expected %d results, but found %d" % (ntarget, len(rows)))
 
-    def num_results_done(self):
-        self.db_open(self.db_name)
-        return self.db_query("select count(*) from result where server_state=2")[0][0]
-    def num_results_done(self):
-        self.db_open(self.db_name)
-        return self.db_query("select count(*) from result where server_state=4")[0][0]
+    def num_wus_left(self, db):
+        return _db_query(db, "select count(*) from result where server_state=%d"%RESULT_SERVER_STATE_UNSENT)[0]['count(*)']
+    def num_results_done(self, db):
+        return _db_query(db, "select count(*) from result where server_state=%d"%RESULT_SERVER_STATE_OVER)[0]['count(*)']
 
     def check_files_match(self, result, correct, count=None):
         '''if COUNT is specified then [0,COUNT) is mapped onto the %d in RESULT'''

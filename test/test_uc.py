@@ -33,26 +33,29 @@ class WorkUC(Work):
         self.rsc_iops = 86400*1e9/2
         self.rsc_disk = 10e8
 
+class ResultUC:
+    def __init__(self):
+        self.server_state = RESULT_SERVER_STATE_OVER
+        self.stderr_out   = STARTS_WITH("""APP: upper_case: starting, argc 1
+APP: upper_case: argv[0] is upper_case
+APP: upper_case ending, wrote """)
+        # self.exit_status = 0
+
 class ProjectUC(Project):
     def __init__(self, works=None, users=None, hosts=None,
-                 short_name=None, long_name=None):
+                 short_name=None, long_name=None,
+                 redundancy=2):
         Project.__init__(self,
                          appname = 'upper_case',
-                         works = works or [WorkUC()],
+                         works = works or [WorkUC(redundancy=redundancy)],
                          users = users or [UserUC()],
                          hosts = hosts,
                          short_name=short_name, long_name=long_name)
 
-    def validate(self):
+    def check(self):
         redundancy = self.work.redundancy
-        Project.validate(self, redundancy)
-        result = {}
-        result['server_state'] = RESULT_SERVER_STATE_OVER
-        result['stderr_out'] = STARTS_WITH("""APP: upper_case: starting, argc 1
-APP: upper_case: argv[0] is upper_case
-APP: upper_case ending, wrote """)
-        # result['exit_status'] = 0
-        self.check_results(redundancy, result)
+        self.validate(redundancy)
+        self.check_results(redundancy, ResultUC())
         self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=redundancy)
         self.assimilate()
         self.file_delete()
@@ -70,5 +73,5 @@ if __name__ == '__main__':
     project = ProjectUC()
     project.run()
     project.host.run()
-    project.validate()
+    project.check()
     project.stop()

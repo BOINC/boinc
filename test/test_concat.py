@@ -22,9 +22,9 @@ class ProjectConcat(Project):
                          users = users,
                          hosts = hosts)
 
-    def validate(self):
+    def check(self):
         redundancy = self.work.redundancy
-        Project.validate(self, redundancy)
+        self.validate(redundancy)
         result = {}
         result['server_state'] = RESULT_SERVER_STATE_OVER
         self.check_results(redundancy, result)
@@ -45,5 +45,5 @@ if __name__ == '__main__':
     project = ProjectConcat()
     project.run()
     project.host.run()
-    project.validate()
+    project.check()
     project.stop()
