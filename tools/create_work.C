@@ -30,6 +30,7 @@ static volatile const char *BOINCrcsid="$Id$";
 //  -wu_template filename       relative to project root; usually in templates/
 //  -result_template filename   relative to project root; usually in templates/
 //  [ -config_dir path ]
+//  [ -batch n ]
 //            the following can be supplied in WU template; see defaults below
 //  [ -rsc_fpops_est n ]
 //  [ -rsc_fpops_bound n ]
@@ -103,6 +104,10 @@ int main(int argc, char** argv) {
             wu.batch = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-config_dir")) {
             config_dir = argv[++i];
+        } else if (!strcmp(argv[i], "-batch")) {
+            wu.batch = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-priority")) {
+            wu.priority = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops_est")) {
             wu.rsc_fpops_est = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops_bound")) {

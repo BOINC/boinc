@@ -38,6 +38,8 @@ static volatile const char *BOINCrcsid="$Id$";
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
 
+#define SLEEP_INTERVAL 5
+
 SCHED_CONFIG config;
 
 int wu_delete_files(WORKUNIT& wu) {
@@ -239,7 +241,7 @@ int main(int argc, char** argv) {
         do_pass();
     } else {
         while (1) {
-            if (!do_pass()) sleep(10);
+            if (!do_pass()) sleep(SLEEP_INTERVAL);
         }
     }
 }

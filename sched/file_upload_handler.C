@@ -49,15 +49,6 @@ SCHED_CONFIG config;
 
 #define DEBUG_LEVEL     SCHED_MSG_LOG::NORMAL
 
-void get_log_path(char* p) {
-    char buf[256];
-    char path[256];
-    gethostname(buf, 256);
-    sprintf(path, "log_%s", buf);
-    sprintf(p, "../%s/file_upload_handler.log", path);
-    mkdir(path, 0777);
-}
-
 struct FILE_INFO {
     char name[256];
     double max_nbytes;
@@ -447,7 +438,7 @@ int main() {
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
 
-    get_log_path(log_path);
+    get_log_path(log_path, "file_upload_handler.log");
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file\n");
         return_error(ERR_TRANSIENT, "can't open log file");

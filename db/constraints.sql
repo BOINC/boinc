@@ -45,7 +45,7 @@ alter table result
         -- transitioner
         -- NOTE res_wu_user may suffice, could try dropping this one
 
-    add index ind_res_st (server_state),
+    add index ind_res_st (server_state, priority),
         -- feeder
 
     add index res_app_state(appid, server_state),
@@ -66,7 +66,7 @@ alter table result
     add index res_wu_user (workunitid, userid),
         -- scheduler (avoid sending mult results of same WU to one user)
 
-    add index app_received_time (appid, received_time desc);
+    add index app_mod_time (appid, mod_time desc);
         -- html_ops/result_summary.php
 
 alter table msg_from_host

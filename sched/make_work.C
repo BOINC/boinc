@@ -165,6 +165,10 @@ void make_work() {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "Reached max_wus = %d\n", max_wus);
             exit(0);
         }
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG, "unsent: %d cushion: %d\n",
+            unsent_results, cushion
+        );
         if (unsent_results > cushion) {
             sleep(1);
             continue;

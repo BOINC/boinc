@@ -99,8 +99,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.user = user;
         if (strcmp(sreq.authenticator, reply.user.authenticator)) {
             strcpy(reply.message,
-               "Invalid or missing authenticator.  "
-               "Visit this project's web site to get an authenticator."
+               "Invalid or missing account key.  "
+               "Visit this project's web site to get an account key."
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 3600;
@@ -140,8 +140,8 @@ lookup_user_and_make_new_host:
         retval = user.lookup(buf);
         if (retval) {
             strcpy(reply.message,
-                "Invalid or missing account ID.  "
-                "Visit this project's web site to get an account ID."
+                "Invalid or missing account key.  "
+                "Visit this project's web site to get an account key."
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 3600;

@@ -20,7 +20,7 @@ static volatile const char *BOINCrcsid="$Id$";
 
 // -------------------------------
 //
-// feeder [-asynch] [-d debug_level] [-random_order]
+// feeder [-asynch] [-d debug_level] [-random_order | -priority_order]
 // -asynch      fork and run in a separate process
 //
 // Creates a shared memory segment containing DB info,
@@ -93,6 +93,7 @@ static volatile const char *BOINCrcsid="$Id$";
 #include "sched_util.h"
 #include "sched_msgs.h"
 
+#define SLEEP_INTERVAL  5
 #define ENUM_LIMIT 1000
 
 // The following parameters determine the feeder's policy
@@ -124,7 +125,7 @@ static volatile const char *BOINCrcsid="$Id$";
 SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
 key_t sema_key;
-bool random_order = false;
+char* order_clause="";
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -216,7 +217,7 @@ static void scan_work_array(
             break;
 #endif
         case WR_STATE_EMPTY:
-            retval = wi.enumerate(ENUM_LIMIT, random_order);
+            retval = wi.enumerate(ENUM_LIMIT, order_clause);
             if (retval) {
 
                 // if we already restarted the enum on this array scan,
@@ -232,7 +233,7 @@ static void scan_work_array(
                 // restart the enumeration
                 //
                 restarted_enum = true;
-                retval = wi.enumerate(ENUM_LIMIT, random_order);
+                retval = wi.enumerate(ENUM_LIMIT, order_clause);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG,
                     "restarting enumeration\n"
                 );
@@ -335,18 +336,18 @@ void feeder_loop() {
         }
 #endif
         if (nadditions == 0) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results added; sleeping 1 sec\n");
-            sleep(1);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results added; sleeping %d sec\n", SLEEP_INTERVAL);
+            sleep(SLEEP_INTERVAL);
         } else {
             log_messages.printf(SCHED_MSG_LOG::DEBUG, "Added %d results to array\n", nadditions);
         }
         if (no_wus) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results available; sleeping 5 sec\n");
-            sleep(5);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results available; sleeping %d sec\n", SLEEP_INTERVAL);
+            sleep(SLEEP_INTERVAL);
         }
         if (ncollisions) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Some results already in array - sleeping 5 sec\n");
-            sleep(5);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Some results already in array - sleeping %d sec\n", SLEEP_INTERVAL);
+            sleep(SLEEP_INTERVAL);
         }
         fflush(stdout);
         check_stop_daemons();
@@ -374,7 +375,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-random_order")) {
-            random_order = true;
+            order_clause = "order by random";
+        } else if (!strcmp(argv[i], "-priority_order")) {
+            order_clause = "order by priority desc";
         }
     }
 

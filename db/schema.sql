@@ -4,13 +4,16 @@
     py/Boinc/
         database.py
     html/
+        inc/
+            host.inc (host)
         ops/
             db_ops.inc
         user/
-            create_account_action.php
-            team_create_action.php
+            create_account_action.php (user)
+            team_create_action.php (team)
     sched/
-        db_dump.C
+        db_dump.C (host, user, team)
+        db_purge.C (workunit, result)
 */
 /* Fields are documented in boinc_db.h */
 /* Do not replace this with an automatically generated schema */
@@ -162,8 +165,8 @@ create table host (
 
     credit_per_cpu_sec  double      not null,
     venue               varchar(254) not null,
-    projects            blob,
     nresults_today      integer     not null,
+    avg_turnaround      double      not null,
 
     primary key (id)
 ) type=InnoDB;
@@ -193,7 +196,7 @@ create table workunit (
     error_mask          integer     not null,
     file_delete_state   integer     not null,
     assimilate_state    integer     not null,
-    workseq_next        integer     not null,
+    hr_class            integer     not null,
     opaque              double      not null,
     min_quorum          integer     not null,
     target_nresults     integer     not null,
@@ -201,6 +204,8 @@ create table workunit (
     max_total_results   integer     not null,
     max_success_results integer     not null,
     result_template_file varchar(63) not null,
+    priority            integer     not null,
+    mod_time            timestamp,
     primary key (id)
 ) type=InnoDB;
 
@@ -232,6 +237,8 @@ create table result (
     appid               integer     not null,
     exit_status         integer     not null,
     teamid              integer     not null,
+    priority            integer     not null,
+    mod_time            timestamp,
     primary key (id)
 ) type=InnoDB;
 

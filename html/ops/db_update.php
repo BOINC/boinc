@@ -134,6 +134,42 @@ function update_10_26_2004() {
     mysql_query("alter table forum_preferences modify jump_to_unread tinyint(1) unsigned not null default 0");
 }
 
+function update_11_24_2004() {
+    mysql_query(
+        "alter table workunit change workseq_next hr_class integer not null"
+    );
+    mysql_query(
+        "alter table workunit add priority integer not null"
+    );
+    mysql_query(
+        "alter table workunit add mod_time timestamp"
+    );
+    mysql_query(
+        "alter table result add priority integer not null"
+    );
+    mysql_query(
+        "alter table result add mod_time timestamp"
+    );
+    mysql_query(
+        "alter table host drop column projects"
+    );
+    mysql_query(
+        "alter table host add avg_turnaround double not null"
+    );
+    mysql_query(
+        "alter table result drop index ind_res_st"
+    );
+    mysql_query(
+        "alter table result add index ind_res_st(server_state, priority)"
+    );
+    mysql_query(
+        "alter table result drop index app_received_time"
+    );
+    mysql_query(
+        "alter table result add index app_mod_time(appid, mod_time desc)"
+    );
+}
+
 //update_10_25_2004();
 
 ?>

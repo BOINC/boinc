@@ -48,7 +48,7 @@ using namespace std;
 #define PIDFILE                 "transitioner.pid"
 
 #define SELECT_LIMIT    1000
-
+#define SLEEP_INTERVAL  5
 #define BATCH_INSERT    1
 
 int startup_time;
@@ -264,8 +264,7 @@ int handle_wu(
                 sprintf(rtfpath, "../%s", wu_item.result_template_file);
 #ifdef BATCH_INSERT
                 retval = create_result(
-                    wu_item.id, wu_item.appid, wu_item.name,
-                    rtfpath, suffix, key, config, value_buf
+                    wu_item, rtfpath, suffix, key, config, value_buf
                 );
                 if (retval) {
                     log_messages.printf(
@@ -283,8 +282,7 @@ int handle_wu(
                 }
 #else
                 retval = create_result(
-                    wu_item.id, wu_item.appid, wu_item.name,
-                    rtfpath, suffix, key, config, 0
+                    wu_item, rtfpath, suffix, key, config, 0
                 );
                 if (retval) {
                     log_messages.printf(
@@ -510,7 +508,7 @@ void main_loop(bool one_pass) {
         do_pass();
     } else {
         while (1) {
-            if (!do_pass()) sleep(1);
+            if (!do_pass()) sleep(SLEEP_INTERVAL);
         }
     }
 }

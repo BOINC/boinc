@@ -98,11 +98,10 @@ struct SCHEDULER_REQUEST {
     int core_client_major_version;
     int core_client_minor_version;
     int rpc_seqno;
-    int work_req_seconds;
+    double work_req_seconds;
     double resource_share_fraction;
     double estimated_delay;
     char global_prefs_xml[LARGE_BLOB_SIZE];
-    char projects_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
 
 // ROMW: Added these back in since we have 3.x clients who still want

@@ -358,7 +358,8 @@ void DB_HOST::db_print(char* buf){
         "d_boinc_used_total=%.15e, d_boinc_used_project=%.15e, d_boinc_max=%.15e, "
         "n_bwup=%.15e, n_bwdown=%.15e, "
         "credit_per_cpu_sec=%.15e, "
-        "venue='%s', projects='%s', nresults_today=%d",
+        "venue='%s', nresults_today=%d, "
+        "avg_turnaround=%f",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -373,7 +374,8 @@ void DB_HOST::db_print(char* buf){
         d_boinc_used_total, d_boinc_used_project, d_boinc_max,
         n_bwup, n_bwdown,
         credit_per_cpu_sec,
-        venue, projects, nresults_today
+        venue, nresults_today,
+        avg_turnaround
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -423,8 +425,8 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     n_bwdown = atof(r[i++]);
     credit_per_cpu_sec = atof(r[i++]);
     strcpy2(venue, r[i++]);
-    strcpy2(projects, r[i++]);
     nresults_today = atoi(r[i++]);
+    avg_turnaround = atof(r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){
@@ -437,10 +439,11 @@ void DB_WORKUNIT::db_print(char* buf){
         "canonical_resultid=%d, canonical_credit=%.15e, "
         "transition_time=%d, delay_bound=%d, "
         "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
-        "workseq_next=%d, opaque=%f, "
+        "hr_class=%d, opaque=%f, "
         "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
         "max_total_results=%d, max_success_results=%d, "
-        "result_template_file='%s'",
+        "result_template_file='%s', "
+        "priority=%d",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -448,13 +451,14 @@ void DB_WORKUNIT::db_print(char* buf){
         canonical_resultid, canonical_credit,
         transition_time, delay_bound,
         error_mask, file_delete_state, assimilate_state,
-        workseq_next, opaque,
+        hr_class, opaque,
         min_quorum,
         target_nresults,
         max_error_results,
         max_total_results,
         max_success_results,
-        result_template_file
+        result_template_file,
+        priority
     );
 }
 
@@ -479,7 +483,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     error_mask = atoi(r[i++]);
     file_delete_state = atoi(r[i++]);
     assimilate_state = atoi(r[i++]);
-    workseq_next = atoi(r[i++]);
+    hr_class = atoi(r[i++]);
     opaque = atof(r[i++]);
     min_quorum = atoi(r[i++]);
     target_nresults = atoi(r[i++]);
@@ -487,6 +491,8 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     max_total_results = atoi(r[i++]);
     max_success_results = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
+    priority = atoi(r[i++]);
+    strcpy2(mod_time, r[i++]);
 }
 
 void DB_RESULT::db_print(char* buf){
@@ -502,7 +508,8 @@ void DB_RESULT::db_print(char* buf){
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%f, random=%d, "
-        "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d",
+        "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
+        "priority=%d, mod_time=null",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -511,12 +518,15 @@ void DB_RESULT::db_print(char* buf){
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
-        app_version_num, appid, exit_status, teamid
+        app_version_num, appid, exit_status, teamid,
+        priority
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
 }
 
+// the following used for "batch insert" from transitioner
+//
 void DB_RESULT::db_print_values(char* buf){
     ESCAPE(xml_doc_out);
     ESCAPE(stderr_out);
@@ -530,7 +540,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %f, %d, "
-        "%d, %d, %d, %d)",
+        "%d, %d, %d, %d, %d, null)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -539,12 +549,14 @@ void DB_RESULT::db_print_values(char* buf){
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
-        app_version_num, appid, exit_status, teamid
+        app_version_num, appid, exit_status, teamid, priority
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
 }
 
+// called from scheduler when dispatch this result
+//
 int DB_RESULT::update_subset() {
     char query[MAX_QUERY_LEN];
 
@@ -585,6 +597,8 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     appid = atoi(r[i++]);
     exit_status = atoi(r[i++]);
     teamid = atoi(r[i++]);
+    priority = atoi(r[i++]);
+    strcpy2(mod_time, r[i++]);
 }
 
 void DB_MSG_FROM_HOST::db_print(char* buf) {
@@ -655,6 +669,10 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     assimilate_state = atoi(r[i++]);
     target_nresults = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
+    priority = atoi(r[i++]);
+
+    // use safe_atoi() from here on cuz they might not be there
+    //
     res_id = safe_atoi(r[i++]);
     strcpy2(res_name, r[i++]);
     res_report_deadline = safe_atoi(r[i++]);
@@ -669,14 +687,13 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     int transition_time, int nresult_limit,
     std::vector<TRANSITIONER_ITEM>& items
 ) {
-    int                 x;
-    char                query[MAX_QUERY_LEN];
-    char                priority[256];
-    MYSQL_ROW           row;
-    TRANSITIONER_ITEM   new_item;
+    int x;
+    char query[MAX_QUERY_LEN];
+    char priority[256];
+    MYSQL_ROW row;
+    TRANSITIONER_ITEM new_item;
 
     if (!cursor.active) {
-
         strcpy(priority, "");
         if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
 
@@ -697,6 +714,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.assimilate_state, "
             "   wu.target_nresults, "
             "   wu.result_template_file, "
+            "   wu.priority, "
             "   res.id, "
             "   res.name, "
             "   res.report_deadline, "
@@ -718,6 +736,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
         if (x) return mysql_errno(db->mysql);
 
         // the following stores the entire result set in memory
+        //
         cursor.rp = mysql_store_result(db->mysql);
         if (!cursor.rp) return mysql_errno(db->mysql);
         cursor.active = true;
@@ -829,11 +848,11 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
     int appid, int nresult_limit,
     std::vector<VALIDATOR_ITEM>& items
 ) {
-    int                 x;
-    char                query[MAX_QUERY_LEN];
-    char                priority[256];
-    MYSQL_ROW           row;
-    VALIDATOR_ITEM   new_item;
+    int x;
+    char query[MAX_QUERY_LEN];
+    char priority[256];
+    MYSQL_ROW row;
+    VALIDATOR_ITEM new_item;
 
     if (!cursor.active) {
         strcpy(priority, "");
@@ -984,7 +1003,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.error_mask = atoi(r[i++]);
     wu.file_delete_state = atoi(r[i++]);
     wu.assimilate_state = atoi(r[i++]);
-    wu.workseq_next = atoi(r[i++]);
+    wu.hr_class = atoi(r[i++]);
     wu.opaque = atof(r[i++]);
     wu.min_quorum = atoi(r[i++]);
     wu.target_nresults = atoi(r[i++]);
@@ -994,7 +1013,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(wu.result_template_file, r[i++]);
 }
 
-int DB_WORK_ITEM::enumerate(int limit, bool random_order) {
+int DB_WORK_ITEM::enumerate(int limit, char* order_clause) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
@@ -1007,7 +1026,7 @@ int DB_WORK_ITEM::enumerate(int limit, bool random_order) {
             "%s"
             "limit %d",
             RESULT_SERVER_STATE_UNSENT,
-            random_order?" order by random ":"",
+            order_clause,
             limit
         );
         retval = db->do_query(query);
@@ -1050,12 +1069,12 @@ int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
 }
 
 int DB_SCHED_RESULT_ITEM_SET::enumerate() {
-    char                query[MAX_QUERY_LEN];
-    int                 retval;
-    unsigned int        i;
-    MYSQL_RES*          rp;
-    MYSQL_ROW           row;
-    SCHED_RESULT_ITEM   ri;
+    char query[MAX_QUERY_LEN];
+    int retval;
+    unsigned int i;
+    MYSQL_RES* rp;
+    MYSQL_ROW row;
+    SCHED_RESULT_ITEM ri;
 
 
     strcpy2(query,

@@ -2,8 +2,7 @@
 
 # $Id$
 
-import boinc_path_config
-from Boinc import database, db_mid, projectxml
+import database, db_mid, projectxml
 
 database.connect()
 projectxml.default_project().commit_all()

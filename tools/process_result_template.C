@@ -125,19 +125,22 @@ int process_result_template(
     SCHED_CONFIG& config
 ) {
     char* p,*q;
-    char temp[LARGE_BLOB_SIZE];
+    char temp[LARGE_BLOB_SIZE], buf[256];
     char num;
     int i, retval;
 
     while (1) {
         p = strstr(result_template, OUTFILE_MACRO);
         if (p) {
-            i = atoi(p+strlen(OUTFILE_MACRO));
             q = p+strlen(OUTFILE_MACRO);
-            num = q[0];
-            strcpy(temp, p+strlen(OUTFILE_MACRO)+1+2);
+            char* endptr = strstr(q, "/>");
+            if (!endptr) return ERR_XML_PARSE;
+            if (strchr(q, '>') != endptr+1) return ERR_XML_PARSE;
+            *endptr = 0;
+            strcpy(buf, q);
+            strcpy(temp, endptr+2);
             strcpy(p, base_filename);
-            strncat(p, &num, 1);
+            strcat(p, buf);
             strcat(p, temp);
             continue;
         }

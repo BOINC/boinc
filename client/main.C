@@ -104,37 +104,37 @@ void show_message(PROJECT *p, char* msg, int priority) {
     case MSG_ERROR:
         fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
         printf("%s [%s] %s\n", time_string, x, message);
-		if (gstate.executing_as_windows_service) {
+        if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
-		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004 
-			//LogEventErrorMessage(event_message);
+            //LogEventErrorMessage(event_message);
 #endif
-		}
-		break;
+        }
+        break;
     case MSG_WARNING:
         printf("%s [%s] %s\n", time_string,  x, message);
-		if (gstate.executing_as_windows_service) {
+        if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
-		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004 
-			//LogEventWarningMessage(event_message);
+            //LogEventWarningMessage(event_message);
 #endif
-		}
-		break;
+        }
+        break;
     case MSG_INFO:
         printf("%s [%s] %s\n", time_string,  x, message);
-		if (gstate.executing_as_windows_service) {
+        if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
-		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004 
-			//LogEventInfoMessage(event_message);
+            //LogEventInfoMessage(event_message);
 #endif
-		}
-		break;
+        }
+        break;
     }
 }
 
@@ -142,7 +142,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
 // and create an account file
 //
 int add_new_project() {
-#ifndef WIN32
+#ifdef WIN32
+    return 0;
+#else
     PROJECT project;
 
     printf("Enter the URL of the project: ");
@@ -154,10 +156,13 @@ int add_new_project() {
     );
     scanf("%s", project.authenticator);
 
+    if (!strlen(project.master_url) || !strlen(project.authenticator)) {
+        printf("URL and account key must be nonempty\n");
+        return ERR_INVALID_URL;
+    }
+
     project.tentative = true;
     return project.write_account_file();
-#else
-    return 0;
 #endif
 }
 
@@ -175,8 +180,8 @@ void resume_client() {
 }
 
 BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
-	BOOL bReturnStatus = FALSE;
-	switch( dwCtrlType ){
+    BOOL bReturnStatus = FALSE;
+    switch( dwCtrlType ){
     case CTRL_C_EVENT:
         if(gstate.activities_suspended) {
             resume_client();
@@ -197,8 +202,8 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
         }
         bReturnStatus =  TRUE;
         break;
-	}
-	return bReturnStatus;
+    }
+    return bReturnStatus;
 }
 #else
 static void signal_handler(int signum) {
@@ -223,17 +228,19 @@ static void signal_handler(int signum) {
 #endif
 
 int boinc_main_loop(int argc, char** argv) {
-	int retval;
+    int retval;
     double dt;
 
     setbuf(stdout, 0);
 
     boinc_init_diagnostics(
-        BOINC_DIAG_DUMPCALLSTACKENABLED |
-        BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_TRACETOSTDERR |
-        BOINC_DIAG_REDIRECTSTDERR |
-        BOINC_DIAG_REDIRECTSTDOUT
+        BOINC_DIAG_DUMPCALLSTACKENABLED
+        | BOINC_DIAG_HEAPCHECKENABLED
+        | BOINC_DIAG_TRACETOSTDERR
+#ifdef _WIN32
+        | BOINC_DIAG_REDIRECTSTDERR
+        | BOINC_DIAG_REDIRECTSTDOUT
+#endif
     );
 
     retval = check_unique_instance();
@@ -261,14 +268,14 @@ int boinc_main_loop(int argc, char** argv) {
     if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
         fprintf(stderr, "Failed to register the console control handler\n");
         exit(1);
-	} else {
-		printf(
-			"\nTo pause/resume tasks hit CTRL-C, to exit hit CTRL-BREAK\n"
-		);
-	}
+    } else {
+        printf(
+            "\nTo pause/resume tasks hit CTRL-C, to exit hit CTRL-BREAK\n"
+        );
+    }
 #endif
 
-	read_log_flags();
+    read_log_flags();
     gstate.parse_cmdline(argc, argv);
     gstate.parse_env_vars();
     retval = gstate.init();
@@ -299,7 +306,7 @@ int boinc_main_loop(int argc, char** argv) {
     }
     gstate.quit_activities();
 
-	return 0;
+    return 0;
 }
 
 
@@ -310,7 +317,7 @@ int boinc_main_loop(int argc, char** argv) {
 //     a different startup method
 //
 int main(int argc, char** argv) {
-	int retval = 0;
+    int retval = 0;
 
     // Initialize WinSock
     if ( WinsockInitialize() != 0 ) {
@@ -323,9 +330,9 @@ int main(int argc, char** argv) {
     }
 
     SERVICE_TABLE_ENTRY dispatchTable[] = {
-		{ TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
-		{ NULL, NULL }
-	};
+        { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
+        { NULL, NULL }
+    };
 
     if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
         if ( _stricmp( "win_service", argv[1]+1 ) == 0 ) {
@@ -334,18 +341,18 @@ int main(int argc, char** argv) {
             // and adjust it's diagnostics schemes accordingly.
             gstate.executing_as_windows_service = true;
 
-			printf( "\nStartServiceCtrlDispatcher being called.\n" );
-			printf( "This may take several seconds.  Please wait.\n" );
+            printf( "\nStartServiceCtrlDispatcher being called.\n" );
+            printf( "This may take several seconds.  Please wait.\n" );
 
-			if (!StartServiceCtrlDispatcher(dispatchTable)) {
-				LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
+            if (!StartServiceCtrlDispatcher(dispatchTable)) {
+                LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
             }
         } else {
-			retval = boinc_main_loop(argc, argv);
-		}
+            retval = boinc_main_loop(argc, argv);
+        }
     } else {
-		retval = boinc_main_loop(argc, argv);
-	}
+        retval = boinc_main_loop(argc, argv);
+    }
 
     if ( WinsockCleanup() != 0 ) {
         printf(
@@ -364,7 +371,7 @@ int main(int argc, char** argv) {
 // For platforms other than windows just treat it as a console application
 //
 int main(int argc, char** argv) {
-	return boinc_main_loop(argc, argv);
+    return boinc_main_loop(argc, argv);
 }
 
 #endif

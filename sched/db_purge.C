@@ -18,12 +18,9 @@ static volatile const char *BOINCrcsid="$Id$";
 //
 // Contributor(s):
 //
-// TO DO: 
-//        1) Need to add support for compressed zip of archived files that may contain max X number
-//         of items (similiar to db_dump.C).
-//        2) Need to escape XML output
 
-// purges workunit and result records that are no longer needed from 
+// db_purge:
+// purge workunit and result records that are no longer needed from
 // the database
 
 #include <cstdio>
@@ -80,8 +77,8 @@ int open_archive(char* filename_prefix, FILE*& f){
     sprintf(path,"../archives/%s_%d.xml", filename_prefix, time_int);
 
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Opening archive %s\n", path);
-    
-    if ((f = fopen( path,"a+")) == NULL) {  
+
+    if ((f = fopen( path,"a+")) == NULL) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s\n", path);
         return ERR_FOPEN;
     }
@@ -94,7 +91,7 @@ int open_archive(char* filename_prefix, FILE*& f){
     //    "<%s>\n",filename_prefix
     //);
 
-    setbuf( f, NULL ); 
+    setbuf( f, NULL );
     return retval;
 }
 
@@ -105,7 +102,7 @@ int archive_result(DB_RESULT& result) {
         "    <id>%d</id>\n",
         result.id
     );
-    
+
     string r1, r2;
     r1= result.stderr_out;
     xml_escape(r1, r2);
@@ -137,33 +134,37 @@ int archive_result(DB_RESULT& result) {
         "  <app_version_num>%d</app_version_num>\n"
         "  <appid>%d</appid>\n"
         "  <exit_status>%d</exit_status>\n"
-        "  <teamid>%d</teamid>\n",                                            
-        result.create_time, 
+        "  <teamid>%d</teamid>\n"
+        "  <priority>%d</priority>\n"
+        "  <mod_time>%s</mod_time>\n",
+        result.create_time,
         result.workunitid,
-        result.server_state, 
+        result.server_state,
         result.outcome,
         result.client_state,
-        result.hostid, 
+        result.hostid,
         result.userid,
-        result.report_deadline, 
-        result.sent_time, 
+        result.report_deadline,
+        result.sent_time,
         result.received_time,
-        result.name, 
+        result.name,
         result.cpu_time,
-        result.xml_doc_in, 
-        result.xml_doc_out, 
+        result.xml_doc_in,
+        result.xml_doc_out,
         r2.c_str(),
-        result.batch, 
-        result.file_delete_state, 
+        result.batch,
+        result.file_delete_state,
         result.validate_state,
-        result.claimed_credit, 
-        result.granted_credit, 
-        result.opaque, 
+        result.claimed_credit,
+        result.granted_credit,
+        result.opaque,
         result.random,
-        result.app_version_num, 
-        result.appid, 
-        result.exit_status, 
-        result.teamid
+        result.app_version_num,
+        result.appid,
+        result.exit_status,
+        result.teamid,
+        result.priority,
+        result.mod_time
     );
 
     fprintf(re_stream,
@@ -174,7 +175,7 @@ int archive_result(DB_RESULT& result) {
         "%d     %d\n",
         result.id, time_int
     );
-    
+
     return 0;
 }
 
@@ -202,39 +203,43 @@ int archive_wu(DB_WORKUNIT& wu) {
         "  <error_mask>%d</error_mask>\n"
         "  <file_delete_state>%d</file_delete_state>\n"
         "  <assimilate_state>%d</assimilate_state>\n"
-        "  <workseq_next>%d</workseq_next>\n"
+        "  <hr_class>%d</hr_class>\n"
         "  <opaque>%f</opaque>\n"
         "  <min_quorum>%d</min_quorum>\n"
         "  <target_nresults>%d</target_nresults>\n"
         "  <max_error_results>%d</max_error_results>\n"
         "  <max_total_results>%d</max_total_results>\n"
         "  <max_success_results>%d</max_success_results>\n"
-        "  <result_template_file>%s</result_template_file>\n",
-        wu.create_time, 
+        "  <result_template_file>%s</result_template_file>\n"
+        "  <priority>%d</priority>\n"
+        "  <mod_time>%s</mod_time>\n",
+        wu.create_time,
         wu.appid,
-        wu.name, 
-        wu.xml_doc, 
+        wu.name,
+        wu.xml_doc,
         wu.batch,
-        wu.rsc_fpops_est, 
-        wu.rsc_fpops_bound, 
-        wu.rsc_memory_bound, 
+        wu.rsc_fpops_est,
+        wu.rsc_fpops_bound,
+        wu.rsc_memory_bound,
         wu.rsc_disk_bound,
         wu.need_validate,
-        wu.canonical_resultid, 
+        wu.canonical_resultid,
         wu.canonical_credit,
-        wu.transition_time, 
+        wu.transition_time,
         wu.delay_bound,
-        wu.error_mask, 
-        wu.file_delete_state, 
+        wu.error_mask,
+        wu.file_delete_state,
         wu.assimilate_state,
-        wu.workseq_next, 
+        wu.hr_class,
         wu.opaque,
         wu.min_quorum,
         wu.target_nresults,
         wu.max_error_results,
         wu.max_total_results,
         wu.max_success_results,
-        wu.result_template_file
+        wu.result_template_file,
+        wu.priority,
+        wu.mod_time
     );
 
     fprintf(wu_stream,
@@ -253,7 +258,7 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     int retval= 0;
     DB_RESULT result;
     char buf[256];
-    
+
     number_results=0;
 
     sprintf(buf, "where workunitid=%d", wu.id);
@@ -261,7 +266,7 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
        retval= archive_result(result);
        if (retval) return retval;
        log_messages.printf(SCHED_MSG_LOG::DEBUG,"Archived result [%d] to a file\n", result.id);
-        
+
        retval= result.delete_from_db();
        if (retval) return retval;
        log_messages.printf(SCHED_MSG_LOG::DEBUG,"Purged result [%d] from database\n", result.id);
@@ -288,7 +293,7 @@ bool do_pass() {
     bool did_something = false;
     DB_WORKUNIT wu;
     char buf[256];
-    
+
     // select all workunits with file_delete_state='DONE'
     //
     sprintf(buf, "where file_delete_state=%d limit %d", FILE_DELETE_DONE,
@@ -298,7 +303,7 @@ bool do_pass() {
              // compiler complaints about uninitialized
     while (!wu.enumerate(buf)) {
         did_something = true;
-        
+
         retval = purge_and_archive_results(wu, n);
         do_pass_purged_results += n;
 
@@ -310,8 +315,8 @@ bool do_pass() {
             exit(1);
         }
         log_messages.printf(SCHED_MSG_LOG::DEBUG,"Archived workunit [%d] to a file\n", wu.id);
-        
-        //purge workunit from DB        
+
+        //purge workunit from DB
         retval= wu.delete_from_db();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't delete workunit [%d] from database:%d\n", wu.id, retval);
@@ -327,7 +332,7 @@ bool do_pass() {
             break;
 
     }
-    
+
     log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Archived %d workunits and %d results\n",
         do_pass_purged_workunits,do_pass_purged_results
@@ -340,7 +345,7 @@ int main(int argc, char** argv) {
     int retval;
     bool asynch = false, one_pass = false;
     int i;
-    
+
     check_stop_daemons();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -357,15 +362,15 @@ int main(int argc, char** argv) {
             max_number_workunits_to_purge= atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "Unrecognized arg: %s\n", 
+                "Unrecognized arg: %s\n",
                 argv[i]
             );
-        }    
+        }
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, 
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't parse config file\n"
         );
         exit(1);
@@ -375,7 +380,7 @@ int main(int argc, char** argv) {
         if (fork()) {
             exit(0);
         }
-    }    
+    }
 
     // // Call lock_file after fork(), because file locks are not always
     // inherited
@@ -408,34 +413,34 @@ int main(int argc, char** argv) {
     mkdir("../archives", 0777);
 
     retval = open_archive(WU_FILENAME_PREFIX, wu_stream);
-    if (!retval) 
+    if (!retval)
         retval = open_archive(RESULT_FILENAME_PREFIX, re_stream);
-    if (!retval)  
+    if (!retval)
         retval = open_archive(RESULT_INDEX_FILENAME_PREFIX,
         re_index_stream);
-    if (!retval) 
+    if (!retval)
         retval = open_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
-        
+
 
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open archives\n");
         exit(1);
     }
-    
+
     if (one_pass) {
         do_pass();
     } else {
         while (1) {
             if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)
                 break;
-            if (!do_pass()) 
+            if (!do_pass())
                 sleep(10);
         }
-    }    
-            
+    }
+
     boinc_db.close();
     fclose(wu_stream);
     fclose(re_stream);
     fclose(wu_index_stream);
     fclose(re_index_stream);
-}    
+}

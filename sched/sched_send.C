@@ -408,28 +408,28 @@ static bool already_sent_to_different_platform(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 ) {
     DB_WORKUNIT db_wu;
-    int retval, wsn=0;
+    int retval, hr_class=0;
     char buf[256];
 
-    // reread workseq_next field from DB in case it's changed
+    // reread hr_class field from DB in case it's changed
     //
     db_wu.id = workunit.id;
-    retval = db_wu.get_field_int("workseq_next", wsn);
+    retval = db_wu.get_field_int("hr_class", hr_class);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "can't get workseq_next for %d: %d\n",
+            SCHED_MSG_LOG::CRITICAL, "can't get hr_class for %d: %d\n",
             db_wu.id, retval
         );
         return true;
     }
     wreq.homogeneous_redundancy_reject = false;
-    if (wsn != unspec) {
-        if (OS(sreq) + CPU(sreq) != wsn) {
+    if (hr_class != unspec) {
+        if (OS(sreq) + CPU(sreq) != hr_class) {
             wreq.homogeneous_redundancy_reject = true;
         }
     } else {
-        wsn = OS(sreq) + CPU(sreq);
-        sprintf(buf, "workseq_next=%d", wsn);
+        hr_class = OS(sreq) + CPU(sreq);
+        sprintf(buf, "hr_class=%d", hr_class);
         db_wu.update_field(buf);
     }
     return wreq.homogeneous_redundancy_reject;

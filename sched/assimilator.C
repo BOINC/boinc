@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -48,7 +47,7 @@ bool update_db = true;
 bool noinsert = false;
 
 
-#define SLEEP_INTERVAL 10
+#define SLEEP_INTERVAL 1
 
 // assimilate all WUs that need it
 // return nonzero if did anything
@@ -190,3 +189,5 @@ int main(int argc, char** argv) {
         }
     }
 }
+
+static volatile const char *BOINCrcsid="$Id$";

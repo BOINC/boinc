@@ -8,9 +8,9 @@ from Boinc.setup_project import *
 from Boinc import database, db_mid, configxml, tools
 import sys, os, getopt, re, socket
 
-def gethostname():
+def getfqdn():
     try:
-        return socket.gethostname()
+        return socket.getfqdn()
     except:
         return 'localhost'
 
@@ -20,7 +20,7 @@ def isurl(s):
 argv0 = sys.argv[0]
 HOME = os.path.expanduser('~')
 USER = os.environ['USER']
-NODENAME = gethostname()
+NODENAME = getfqdn()
 
 HELP = """
 syntax: %(argv0)s [options] project ['Project Long Name']
@@ -264,7 +264,7 @@ Steps to complete installation:
 
    cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf && apachectl restart
 
-   # (path to httpd.conf varies)
+   (path to httpd.conf varies)
 
 2. Add to crontab (as %(USER)s)
    (If cron cannot run "start", try using a helper script to set PATH and

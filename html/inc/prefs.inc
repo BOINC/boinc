@@ -42,6 +42,7 @@ include_once("../project/project_specific_prefs.inc");
 
 // strings describing various preference fields
 //
+define("CPU_LIMIT_DESC", "Processor usage");
 define("RUN_ON_BATTERIES_DESC",
     "Do work while computer is running on batteries?
     <br><font size=-2>(matters only for portable computers)</font>"
@@ -70,20 +71,21 @@ define("WORK_BUF_DESC", "Connect to network about every");
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
-define("DISK_LIMIT_DESC", "Limits on disk space and memory used by BOINC:");
+define("DISK_LIMIT_DESC", "Disk and memory usage");
 define("DISK_MAX_USED_GB_DESC", "Use no more than");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
 define("DISK_MAX_USED_PCT_DESC", "Use no more than");
 define("DISK_MAX_USED_PCT_DESC2", "% of total space");
 define("VM_MAX_USED_PCT_DESC", "Use no more than");
 define("VM_MAX_USED_PCT_DESC2", "% of total virtual memory");
-define("NETWORK_LIMIT_DESC", "Limits on network bandwidth used by BOINC:");
+define("NETWORK_LIMIT_DESC", "Network usage");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
 
 define("BYTE_CONVERSION", 1000.0);
 define("BYTE_UNITS", "Kbytes/sec");
 define("BYTE_ABBR", "KB/s");
+define("MISC_DESC", "Miscellaneous");
 
 global $text;
 global $parse_result;
@@ -360,6 +362,7 @@ function hour_select($x, $name) {
 // display preference subsets
 //
 function prefs_show_global($prefs) {
+    row1(CPU_LIMIT_DESC);
     row2(RUN_ON_BATTERIES_DESC, $prefs->run_on_batteries?"yes":"no");
     row2(RUN_IF_USER_ACTIVE_DESC, $prefs->run_if_user_active?"yes":"no");
     if (!$prefs->run_if_user_active) {
@@ -375,17 +378,17 @@ function prefs_show_global($prefs) {
     row2(START_END_DESC, $x);
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
-    row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
-    row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
-    row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
-    row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row1(DISK_LIMIT_DESC);
     row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB");
     row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB");
     row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
+    row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row2(VM_MAX_USED_PCT_DESC, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
+    row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
+    row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
+    row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
     $x = max_bytes_display_mode($prefs->max_bytes_sec_down);
     $y = "$x " . BYTE_ABBR;
     row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$y":"no limit");
@@ -403,6 +406,7 @@ function prefs_show_resource($prefs) {
 }
 
 function prefs_show_privacy($user) {
+    row1(MISC_DESC);
     row2("Should ".PROJECT." send you email newsletters?", $user->send_email?"yes":"no");
     row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
 }
@@ -487,6 +491,7 @@ function print_prefs_display($user) {
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs) {
+    row1(CPU_LIMIT_DESC);
     $y = "yes <input type=radio name=run_on_batteries value=yes "
         .($prefs->run_on_batteries?"checked":"")
         ."> no <input type=radio name=run_on_batteries value=no "
@@ -522,6 +527,36 @@ function prefs_form_global($user, $prefs) {
     $y = "<input size=5 name=cpu_scheduling_period_minutes value='$prefs->cpu_scheduling_period_minutes'> minutes ";
     row2(CPU_SCHEDULING_DESC, $y);
 
+    row2(MAX_CPUS_DESC,
+        "<input size=4 name=max_cpus value=$prefs->max_cpus> ".MAX_CPUS_DESC2
+    );
+
+    row1(DISK_LIMIT_DESC);
+
+    row2(DISK_MAX_USED_GB_DESC,
+        "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes"
+    );
+
+    row2(DISK_MIN_FREE_GB_DESC,
+        "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free"
+    );
+
+    row2(DISK_MAX_USED_PCT_DESC,
+        "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2
+    );
+    row2(DISK_INTERVAL_DESC,
+        "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds"
+    );
+
+    row2(VM_MAX_USED_PCT_DESC,
+        "<input size=5 name=vm_max_used_pct value='$prefs->vm_max_used_pct'> ".VM_MAX_USED_PCT_DESC2
+    );
+
+    row1(NETWORK_LIMIT_DESC);
+    $x = WORK_BUF_DESC;
+    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> days";
+    row2($x, $y);
+
     $x = CONFIRM_BEFORE_CONNECTING_DESC;
     $y = "yes <input type=radio name=confirm_before_connecting value=yes "
         .($prefs->confirm_before_connecting?"checked":"")
@@ -540,36 +575,6 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $x = WORK_BUF_DESC;
-    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> days";
-    row2($x, $y);
-
-    row2(MAX_CPUS_DESC,
-        "<input size=4 name=max_cpus value=$prefs->max_cpus> ".MAX_CPUS_DESC2
-    );
-    row2(DISK_INTERVAL_DESC,
-        "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds"
-    );
-
-    row1(DISK_LIMIT_DESC);
-
-    row2(DISK_MAX_USED_GB_DESC,
-        "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes"
-    );
-
-    row2(DISK_MIN_FREE_GB_DESC,
-        "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free"
-    );
-
-    row2(DISK_MAX_USED_PCT_DESC,
-        "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2
-    );
-
-    row2(VM_MAX_USED_PCT_DESC,
-        "<input size=5 name=vm_max_used_pct value='$prefs->vm_max_used_pct'> ".VM_MAX_USED_PCT_DESC2
-    );
-
-    row1(NETWORK_LIMIT_DESC);
     $d = max_bytes_display_mode($prefs->max_bytes_sec_down);
     $dt = $d?"$d":"";
     $u = max_bytes_display_mode($prefs->max_bytes_sec_up);
@@ -583,6 +588,7 @@ function prefs_form_global($user, $prefs) {
 }
 
 function prefs_form_privacy($user) {
+    row1(MISC_DESC);
     $y = "yes <input type=radio name=send_email value=yes "
         .($user->send_email?"checked":"")
         ."> no <input type=radio name=send_email value=no "

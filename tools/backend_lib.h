@@ -40,9 +40,7 @@ extern int read_filename(const char* path, char* buf, int len);
 extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 
 extern int create_result(
-    int wuid,
-    int appid,
-    char* wu_name,
+    TRANSITIONER_ITEM&,
     char* result_template_filename, 
     char* suffix,
     R_RSA_PRIVATE_KEY& key, 

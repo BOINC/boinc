@@ -3,38 +3,63 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-// Sends the authenticator to the given email address
+// Send an email describing an account to the user.
+// There are a few scenarios:
 //
-function send_auth_email($email_addr, $auth) {
-    $user = get_user_from_auth($auth);
-    $subject = PROJECT." new account confirmation for $user->name";
+// 1) the account was created by user via web.
+//    In this case they're currently looking at the "validate account" page
+//    (account_created.php), although they might have strayed
+//    so we need to give them a link.
+// 2) the account was created administratively and is not validated.
+// 3) the account was created administratively and is validated.
+// 4) the user requested account key for existing account
+//
+function send_auth_email($user, $is_new, $is_validated) {
+    $body = "";
+
     if (defined('EMAIL_FROM')) {
         $headers = "From: ". EMAIL_FROM;
     } else {
         $headers ="";
     }
-    $body = "Welcome to ".PROJECT.".
-        
-This email confirms your account with ".PROJECT.":
 
+    if ($is_new) {
+        $subject = PROJECT." account confirmation for $user->name";
+        $body = "Welcome to ".PROJECT.".
+
+This email confirms your account with ".PROJECT.":
     Project URL:         ".MASTER_URL."
-    Account ID:          $auth
+    Account Key:         $user->authenticator
 
     User name:           $user->name
-    E-mail:              $email_addr
-
-You will need the Project URL and Account ID to attach the 
-BOINC client to the project.    
-
-You will need  your Account ID to login to the ".PROJECT." web site,
-or you can use this direct link:
-
-".URL_BASE."login_action.php?key=$auth
-
-Please save this email.    For further information and assistance
-with ".PROJECT." go to ".MASTER_URL."
+    E-mail:              $user->email_addr
 ";
-    return mail($email_addr, $subject, $body, $headers);
+        if (!$is_validated) {
+            $body .= "
+To activate your account, copy and paste your Account Key
+in the 'Activate account' page at ".URL_BASE."account_created.php
+";
+        }
+    } else {
+        $subject = PROJECT." information for $user->name";
+        $body = "Your ".PROJECT." account information is:
+    Project URL:         ".MASTER_URL."
+    Account Key:         $auth
+
+    User name:           $user->name
+    E-mail:              $user->email_addr
+";
+    }
+
+$body .= "
+
+Save this email.
+You'll need the Project URL and Account Key when you run the client software
+and to log in to the ".PROJECT." web site.
+
+For further information and assistance with ".PROJECT." go to ".MASTER_URL."
+";
+    return mail($user->email_addr, $subject, $body, $headers);
 }
 
 function email_sent_message($email_addr) {
@@ -45,7 +70,7 @@ function email_sent_message($email_addr) {
     }
 
     echo "
-        Your account ID has been emailed to $email_addr.
+        Your Account Key has been emailed to $email_addr.
         <p>
         If the email doesn't arrive in a few minutes,
         your ISP may be blocking it as spam.

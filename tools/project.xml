@@ -8,6 +8,10 @@
         <user_friendly_name>Windows/x86</user_friendly_name>
     </platform>
     <platform>
+        <name>sparc-sun-solaris2.7</name>
+        <user_friendly_name>Solaris/SPARC</user_friendly_name>
+    </platform>
+    <platform>
         <name>powerpc-apple-darwin</name>
         <user_friendly_name>Mac OS X</user_friendly_name>
     </platform>

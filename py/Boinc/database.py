@@ -5,7 +5,7 @@ Defines database backend library and database table and object relationships.
 
 Example usage:
 
-from Boinc import database, db_mid
+import database, db_mid
 
 # get platform with id 7; will raise exception if no such platform.
 p7 = database.Platforms[7]
@@ -28,9 +28,9 @@ for user in database.Users.find():
 
 '''
 
-from Boinc import configxml
-from Boinc.util import *
-from Boinc.db_base import *
+import configxml
+from util import *
+from db_base import *
 
 ID = '$Id$'
 
@@ -157,7 +157,10 @@ class Host(DatabaseObject):
                     'n_bwdown',
                     'credit_per_cpu_sec',
                     'venue',
-                    'projects' ])
+                    'projects',
+                    'nresults_today',
+                    'avg_turnaround'
+                    ])
 
 class Workunit(DatabaseObject):
     _table = DatabaseTable(
@@ -179,14 +182,17 @@ class Workunit(DatabaseObject):
                     'error_mask',
                     'file_delete_state',
                     'assimilate_state',
-                    'workseq_next',
+                    'hr_class',
                     'opaque',
                     'min_quorum',
                     'target_nresults',
                     'max_error_results',
                     'max_total_results',
                     'max_success_results',
-                    'result_template' ])
+                    'result_template_file',
+                    'priority',
+                    'mod_time'
+                    ])
 
 class Result(DatabaseObject):
     _table = DatabaseTable(
@@ -215,7 +221,9 @@ class Result(DatabaseObject):
                     'random',
                     'client_version_num',
                     'appid',
-                    'teamid'
+                    'teamid',
+                    'priority',
+                    'mod_time'
                     ])
 
 

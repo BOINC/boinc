@@ -604,6 +604,8 @@ function show_host($host) {
     row("Free Disk Space", "$y GB");
     row("Avg network bandwidth (upstream)", "$host->n_bwup bytes/sec");
     row("Avg network bandwidth (downstream)", "$host->n_bwdown bytes/sec");
+    $x = $host->avg_turnaround/86400;
+    row("Average turnaround", "$x days");
     row("Number of RPCs", $host->rpc_seqno);
     row("Last RPC", time_str($host->rpc_time));
     row("% of time client on", 100*$host->on_frac." %");

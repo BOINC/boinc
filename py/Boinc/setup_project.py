@@ -282,13 +282,13 @@ def install_boinc_files(dest_dir):
           'file_deleter', 'sample_dummy_assimilator',
           'update_stats', 'db_dump' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
-        [ 'start' ])
+        [ 'start', 'show_shmem' ])
     force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
     force_symlink(dir('bin', 'start'), dir('bin', 'status'))
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'create_work', 'add', 'xadd', 'dbcheck_files_exist',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
-          'watch_tcp', 'sign_executable' ])
+          'watch_tcp', 'sign_executable', 'dir_hier_move', 'dir_hier_path' ])
     map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
         [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',
           'boincxml.py', 'configxml.py', 'database.py',
@@ -320,6 +320,7 @@ class Project:
         config.db_passwd = ''
         config.shmem_key = generate_shmem_key()
         config.output_level = 3
+        config.uldl_dir_fanout = 1024
         local_host = socket.gethostname()
         config.host = local_host.split('.')[0]
 

@@ -259,10 +259,8 @@ struct HOST {
     double credit_per_cpu_sec;
 
     char venue[256];        // home/work/school
-    char projects[LARGE_BLOB_SIZE];
-                            // list of projects this host is attached to,
-                            // and the resource shares (XML)
     int nresults_today;     // results sent since midnight
+    double avg_turnaround;  // recent average result turnaround time
 
     int parse(FILE*);
     int parse_time_stats(FILE*);
@@ -327,7 +325,9 @@ struct WORKUNIT {
     int error_mask;             // bitmask of errors (see above)
     int file_delete_state;
     int assimilate_state;
-    int workseq_next;           // if part of a sequence, the next WU
+    int hr_class;               // homogeneous redundancy class
+        // used to send redundant copies only to "similar" hosts
+        // (in terms of numerics, performance, or both)
     double opaque;              // project-specific; usually external ID
     int min_quorum;             // minimum quorum size
     int target_nresults;        // try to get this many successful results
@@ -339,6 +339,8 @@ struct WORKUNIT {
     int max_success_results;    // WU error if < #success results
         // without consensus (i.e. WU is nondeterministic)
     char result_template_file[64];
+    int priority;
+    char mod_time[16];
 
     // the following not used in the DB
     char app_name[256];
@@ -410,6 +412,8 @@ struct RESULT {
     int appid;                      // copy of WU's appid
     int exit_status;                // application exit status, if any
     int teamid;
+    int priority;
+    char mod_time[16];
 
     // the following not used in the DB
     char wu_name[256];
@@ -438,29 +442,30 @@ struct MSG_TO_HOST {
 };
 
 struct TRANSITIONER_ITEM {
-    int  id;
+    int id;
     char name[256];
-    int  appid;
-    int  min_quorum;
+    int appid;
+    int min_quorum;
     bool need_validate;
-    int  canonical_resultid;
-    int  transition_time;
-    int  delay_bound;
-    int  error_mask;
-    int  max_error_results;
-    int  max_total_results;
-    int  file_delete_state;
-    int  assimilate_state;
-    int  target_nresults;
+    int canonical_resultid;
+    int transition_time;
+    int delay_bound;
+    int error_mask;
+    int max_error_results;
+    int max_total_results;
+    int file_delete_state;
+    int assimilate_state;
+    int target_nresults;
     char result_template_file[64];
-    int  res_id;
+    int priority;
+    int res_id;
     char res_name[256];
-    int  res_report_deadline;
-    int  res_server_state;
-    int  res_outcome;
-    int  res_validate_state;
-    int  res_file_delete_state;
-    int  res_sent_time;
+    int res_report_deadline;
+    int res_server_state;
+    int res_outcome;
+    int res_validate_state;
+    int res_file_delete_state;
+    int res_sent_time;
     void clear();
     void parse(MYSQL_ROW&);
 };
@@ -469,8 +474,8 @@ struct VALIDATOR_ITEM {
     WORKUNIT wu;
     RESULT res;
  
-    void        clear();
-    void        parse(MYSQL_ROW&);
+    void clear();
+    void parse(MYSQL_ROW&);
 };
 
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
@@ -615,7 +620,7 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     // CURSOR cursor;
-    int enumerate(int limit, bool random_order);
+    int enumerate(int limit, char* order_clause);
         // used by feeder
     int read_result();
         // used by scheduler to read result server state

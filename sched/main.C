@@ -53,15 +53,6 @@ using namespace std;
 #define DEBUG_LEVEL  999
 #define MAX_FCGI_COUNT  20
 
-void get_log_path(char* p) {
-    char buf[256];
-    char path[256];
-    gethostname(buf, 256);
-    sprintf(path, "../log_%s", buf);
-    mkdir(path, 0777);
-    sprintf(p, "%s/cgi.log", path);
-}
-
 #define REQ_FILE_PREFIX "boinc_req_"
 #define REPLY_FILE_PREFIX "boinc_reply_"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
@@ -101,7 +92,7 @@ int open_database() {
 int main() {
     FILE* fin, *fout;
     int i, retval;
-    char req_path[256], reply_path[256], path[256];
+    char req_path[256], reply_path[256], path[256], buf[256];
     SCHED_SHMEM* ssp=0;
     void* p;
     unsigned int counter=0;
@@ -109,10 +100,11 @@ int main() {
     bool project_stopped = false;
 
 #ifndef _USING_FCGI_
-    get_log_path(path);
+    get_log_path(path, "cgi.log");
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
-        send_message("Server can't open log file", 3600);
+        sprintf(buf, "Server can't open log file (%s)", path);
+        send_message(buf, 3600);
         exit(0);
     }
 #endif

@@ -4,7 +4,7 @@
 
 # add_util.py - code shared between add and xadd
 
-from Boinc import database, tools
+import database, tools
 import time, pprint
 import MySQLdb
 

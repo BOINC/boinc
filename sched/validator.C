@@ -46,7 +46,7 @@ using namespace std;
 #define PIDFILE  "validate.pid"
 
 #define SELECT_LIMIT    1000
-
+#define SLEEP_PERIOD    5
 
 extern int check_set(
     vector<RESULT>&, WORKUNIT& wu, int& canonical, double& credit,
@@ -477,7 +477,7 @@ int main_loop(bool one_pass) {
         did_something = do_validate_scan(app);
         if (one_pass) break;
         if (!did_something) {
-            sleep(5);
+            sleep(SLEEP_PERIOD);
         }
     }
     return 0;

@@ -77,7 +77,6 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     resource_share_fraction = 1.0;
     estimated_delay = 0;
     strcpy(global_prefs_xml, "");
-    strcpy(projects_xml, "");
     strcpy(code_sign_key, "");
     strcpy(cross_project_id, "");
 
@@ -103,7 +102,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         else if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
         else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
-        else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
+        else if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
 
@@ -128,14 +127,6 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
         }
         else if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
-        else if (match_tag(buf, "<projects>")) {
-            strcpy(projects_xml, "<projects>\n");
-            while (fgets(buf, 256, fin)) {
-                if (strstr(buf, "</projects>")) break;
-                safe_strcat(projects_xml, buf);
-            }
-            safe_strcat(projects_xml, "</projects>\n");
-        }
         else if (match_tag(buf, "<host_info>")) {
             host.parse(fin);
             continue;

@@ -84,5 +84,8 @@ function show_error($str) {
     // In success case, redirect to a fixed page so that user can
     // return to it without getting "Repost form data" stuff
 
-    send_auth_email($new_email_addr, $authenticator);
+    $user->name = $name;
+    $user->email_addr = $new_email_addr;
+    $user->authenticator = $authenticator;
+    send_auth_email($user, true, false);
     Header("Location: account_created.php?email_addr=$new_email_addr");

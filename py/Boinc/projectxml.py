@@ -14,10 +14,9 @@ USAGE:     from Boinc import projectxml
 '''
 
 import sys
-import boinc_path_config
 import boinc_project_path
-from Boinc.boincxml import *
-from Boinc.add_util import *
+from boincxml import *
+from add_util import *
 
 default_project_file = None
 

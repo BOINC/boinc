@@ -23,6 +23,8 @@ using namespace std;
 #include <cstdlib>
 #include <csignal>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "filesys.h"
 #include "error_numbers.h"
@@ -107,4 +109,15 @@ int try_fopen(char* path, FILE*& f, char* mode) {
         }
     }
     return 0;
+}
+
+void get_log_path(char* p, char* filename) {
+    char buf[256];
+    char path[256];
+    gethostname(buf, 256);
+    char* q = strchr(buf, '.');
+    if (q) *q=0;
+    sprintf(path, "log_%s", buf);
+    sprintf(p, "../%s/%s", path, filename);
+    mkdir(path, 0777);
 }

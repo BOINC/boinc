@@ -15,10 +15,8 @@ if ($user == NULL) {
 
 page_head("Account setup");
 echo "
-    <h3>Account setup</h3>
-    Thank you for letting ".PROJECT." use part of your computer power.
     <br>
-    You can control when and how your computer is used.
+    You can control when and how your computer is used by ".PROJECT.".
     <br>
     To use the defaults settings,
     scroll to the bottom and click OK.
@@ -35,7 +33,8 @@ echo "<form action=account_setup_first_action.php>
     <table cellpadding=6>
 ";
 prefs_form_global($user, $global_prefs);
-prefs_form_privacy($project_prefs);
+
+prefs_form_privacy($user);
 venue_form($user);
 
 echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>

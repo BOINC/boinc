@@ -11,6 +11,11 @@ static volatile const char *BOINCrcsid="$Id$";
 #include "fcgi_stdio.h"
 #endif
 
+// uncomment the following to print all queries.
+// Useful for low-level debugging
+
+//#define SHOW_QUERIES
+
 DB_CONN::DB_CONN() {
     mysql = 0;
 }
@@ -29,6 +34,9 @@ void DB_CONN::close() {
 
 int DB_CONN::do_query(char* p) {
     int retval;
+#ifdef SHOW_QUERIES
+    fprintf(stderr, "query: %s\n", p);
+#endif
     retval = mysql_query(mysql, p);
     if (retval) {
         fprintf(stderr, "Database error: %s\nquery=%s\n", error_string(), p);

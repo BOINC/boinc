@@ -336,7 +336,8 @@ void write_host(HOST& host, FILE* f, bool detail) {
             "  <d_total>%f</d_total>\n"
             "  <d_free>%f</d_free>\n"
             "  <n_bwup>%f</n_bwup>\n"
-            "  <n_bwdown>%f</n_bwdown>\n",
+            "  <n_bwdown>%f</n_bwdown>\n"
+            "  <avg_turnaround>%f</avg_turnaround>\n",
             host.create_time,
             host.rpc_time,
             host.timezone,
@@ -350,7 +351,8 @@ void write_host(HOST& host, FILE* f, bool detail) {
             host.d_total,
             host.d_free,
             host.n_bwup,
-            host.n_bwdown
+            host.n_bwdown,
+            host.avg_turnaround
         );
     }
     fprintf(f,

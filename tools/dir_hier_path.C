@@ -9,9 +9,12 @@ int main(int argc, char** argv) {
     char path[256];
     int retval;
 
-    retval = config.parse_file("..");
-    if (retval) exit(1);
+    retval = config.parse_file(".");
+    if (retval) {
+        fprintf(stderr, "Can't find config.xml; run this in project root dir\n");
+        exit(1);
+    }
 
     dir_hier_path(argv[1], "", config.uldl_dir_fanout, path);
-    printf("path: %s\n", path);
+    printf("path: %s%s\n", config.download_dir, path);
 }

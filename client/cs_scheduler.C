@@ -246,24 +246,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     }
     fprintf(f, "<cross_project_id>%s</cross_project_id>\n", cross_project_id);
 
-#if 0
-    // no reason to report other projects.
-    //
-    fprintf(f, "<projects>\n");
-    for (i=0; i<projects.size(); i++ ) {
-        PROJECT* project = projects[i];
-        fprintf(f,
-            "    <project>\n"
-            "        <master_url>%s</master_url>\n"
-            "        <resource_share>%f</resource_share>\n"
-            "    </project>\n",
-            project->master_url,
-            project->resource_share
-        );
-    }
-    fprintf(f, "</projects>\n");
-#endif
-
     retval = time_stats.write(mf, true);
     if (retval) return retval;
     retval = net_stats.write(mf);

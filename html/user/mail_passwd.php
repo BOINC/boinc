@@ -6,7 +6,7 @@ require_once("../inc/email.inc");
 
 db_init();
 
-page_head("Password");
+page_head("Mailed account key");
 $email_addr = trim(strtolower($HTTP_POST_VARS["email_addr"]));
 if (strlen($email_addr)) {
     $esc_email_addr = escape_pattern("@".$email_addr."_");
@@ -22,7 +22,13 @@ if (!$user) {
         Try reentering your email address.<p>
     ";
 } else {
-    $retval = send_auth_email($user->email_addr, $user->authenticator);
+    if (split_munged_email_addr($user->email_addr, $auth, $orig_email)) {
+        $is_auth = false;
+        $user->email_addr = $orig_email;
+    } else {
+        $is_auth = true;
+    }
+    $retval = send_auth_email($user, false, $is_auth);
     if ($retval) {
         email_sent_message($email_addr);
     } else {

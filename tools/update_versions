@@ -32,8 +32,7 @@ Example setup:
 
 """
 
-import boinc_path_config
-from Boinc import database, db_mid, configxml, tools
+import database, db_mid, configxml, tools
 import sys, os, re, time
 
 def get_current_core_version():

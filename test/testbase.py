@@ -36,7 +36,8 @@ def test_init():
     options.auto_setup     = int(get_env_var("BOINC_TEST_AUTO_SETUP",1))#######
     options.user_name      = get_env_var("BOINC_TEST_USER_NAME", '') or get_env_var("USER")
     options.delete_testbed = get_env_var("BOINC_TEST_DELETE", 'if-successful').lower()
-    options.install_method = get_env_var("BOINC_TEST_INSTALL_METHOD", 'symlink').lower()
+# options.install_method = get_env_var("BOINC_TEST_INSTALL_METHOD", 'symlink').lower()
+    options.install_method = 'copy'
     options.echo_verbose   = int(get_env_var("BOINC_TEST_VERBOSE", '1'))
     options.proxy_port     = 16000 + (os.getpid() % 1000)
     options.drop_db_first  = True
