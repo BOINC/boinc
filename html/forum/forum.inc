@@ -305,17 +305,35 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
 			</p>
 		</td>
 		<td>
-			<p style=\"font-size:8pt\">
+                  <form action=\"rate.php?post=", $post->id, "\" method=\"post\">
+                    <table width=100% cellspacing=0 cellpadding=0>
+			<tr valign=\"top\">
+                            <td align=\"left\" style=\"border:0px\"><p style=\"font-size:8pt\">
 				Posted: ", date('D M j, Y g:i a', $post->timestamp);
         
         if ($post->parent_post) echo " in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
         if ($can_edit && $show_controls) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>"; 
         if ($post->modified) echo "<br>Last Modified: ", date('D M j, Y g:i a', $post->modified);
         echo "
-			</p>
+			        </p>
+                            </td>
+                        <td align=\"right\" style=\"border:0px\">Rate this post:
+                          <select name=\"rating\">
+                              <option value=\"2\">Excellent (+2)</option>
+                              <option value=\"1\">Helpful (+1)</option>
+                              <option selected value=\"0\">Neutral</option>
+                              <option value=\"-1\">Unhelpful (-1)</option>
+                              <option value=\"-2\">Useless (-2)</option>
+                          </select>
+                          <input type=\"submit\" value=\"Rate\">
+                        </td>
+                    </tr></table>
+                  </form>
 			<p>", nl2br(stripslashes($post->content)), "</p>";
         if ($show_controls) {
-            echo "<p>[<a href=\"reply.php?thread=", $thread->id, "&post=", $post->id, "#input\">Reply to this post</a>]</p></td></tr>";
+            //echo "<table width=100% border=0 cellpadding=0 cellspacing=0><tr><td align=left style=\"border:0px;\">Left</td><td align=right>Right</td></tr></table>";
+            //echo "<div align=\"left\">Rating</div>";
+            echo "<div align=\"right\">[<a href=\"reply.php?thread=", $thread->id, "&post=", $post->id, "#input\">Reply to this post</a>]</div></td></tr>";
         }
 }
 
