@@ -258,23 +258,27 @@ wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 {
     wxInt32     iRetVal = 0;
 
-    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
-    if ( ts.GetSeconds() > 10 )
+    if ( IsConnected() )
     {
-        m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
-
-        if ( IsConnected() )
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
+        if ( ts.GetSeconds() > 10 )
         {
+            m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
+
             iRetVal = rpc.get_run_mode( iMode );
             if ( 0 == iRetVal )
             {
                 m_iCachedActivityRunMode = iMode;
             }
         }
+        else
+        {
+            iMode = m_iCachedActivityRunMode;
+        }
     }
     else
     {
-        iMode = m_iCachedActivityRunMode;
+        iRetVal = -1;
     }
 
     return iRetVal;
@@ -303,23 +307,27 @@ wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
 {
     wxInt32     iRetVal = 0;
 
-    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
-    if ( ts.GetSeconds() > 10 )
+    if ( IsConnected() )
     {
-        m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
-
-        if ( IsConnected() )
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
+        if ( ts.GetSeconds() > 10 )
         {
+            m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
+
             iRetVal = rpc.get_network_mode( iMode );
             if ( 0 == iRetVal )
             {
                 m_iCachedNetworkRunMode = iMode;
             }
         }
+        else
+        {
+            iMode = m_iCachedNetworkRunMode;
+        }
     }
     else
     {
-        iMode = m_iCachedNetworkRunMode;
+        iRetVal = -1;
     }
 
     return iRetVal;
