@@ -132,6 +132,7 @@ function project_specific_prefs_parse_form() {
     if ($two_dim == "yes") $x = $x."<two_dim/>\n";
     if (strlen($background)) {
         $x = $x."<app_file>
+        	<timestamp>".time()."</timestamp>
             <url>$background</url>
             <open_name>background</open_name>
             </app_file>

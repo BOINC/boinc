@@ -454,6 +454,10 @@ SOURCE=..\client\win\res\iconhigh.ico
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\res\iconsmall.ico
+# End Source File
+# Begin Source File
+
 SOURCE=..\client\win\res\mess.bmp
 # End Source File
 # Begin Source File
