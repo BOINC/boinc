@@ -65,7 +65,7 @@ public:
     int remove(NET_XFER*);
     int poll(int max_bytes, int& bytes_transferred);
     int net_sleep(double);
-    int do_select(int max_bytes, int& bytes_transferred, timeval& timeout);
+    int do_select(int max_bytes, int& bytes_transferred, struct timeval& timeout);
     NET_XFER* lookup_fd(int);   // lookup by fd
 };
 
