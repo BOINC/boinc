@@ -21,7 +21,7 @@ This distribued computing project is running on the BOINC software platform. BOI
 to simultaneously participate in multiple projects and to choose how to allocate their resources
 for each project. 
 
-<h3>Joining this project</h3>
+<h3>Joining Sample Project</h3>
 First, <a href=create_account.php>create an account</a>, setting your preferences to specify how much your computer should be 
 working on this project. You may view your user page to see how much credit you have accumulated as your 
 participation proceeds.  In addition, you may update your user information or modify your preferences 
@@ -31,7 +31,7 @@ be involved in.
 When creating you account the project will send you an authenticator to the email specified.  After successfully 
 creating an account <a href=download.php>download the core client</a>.  In order to run the core client you must cut and paste in the 
 authenticator provided in the email sent to you by the project.
-<h3>Joining other projects</h3>
+<h3>Joining Other Projects</h3>
 
 When you join subsequent projects make sure to edit your project preferences for your home project 
 (the first BOINC supported project you joined) accordingly.  You will need to update project preferences with each new project you join.  You will be asked to provide the authenticator for each 
