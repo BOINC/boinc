@@ -4,7 +4,7 @@ page_head("Workunits");
 echo "
 <p>
 A <b>workunit</b> describes a computation to be performed.
-The basic workunit attributes include:
+Its attributes include:
 ";
 
 list_start();
@@ -14,10 +14,10 @@ list_item(
 );
 list_item(
     "application",
-    "Which application performs the computation.
-    A workunit is associated with an application, not with a particular
-    version or range of versions.
-    If the format of your input data changes in
+    "Which <a href=app.php>application</a> will perform the computation.
+    A workunit is associated with an application,
+	not with a particular version or range of versions.
+    If the input data format changes in
     a way that is incompatible with older versions,
     you must create a new application.
     This can often be avoided by using XML data format. "
