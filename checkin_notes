@@ -19960,3 +19960,12 @@ David  21 Nov 2004
             util.inc
         user/
             team*.php
+
+Rom    21 Nov 2004
+    - Bug Fix: I think this fixes the "Could not find item xxx in list view" error messages
+        for all tabs.  After detecting a disconnected state, resrt the cache to and cache from
+        variables since the listview control does not reissue a cache request when all the
+        items have been deleted.
+
+    clientgui/
+        BOINCBaseView.cpp

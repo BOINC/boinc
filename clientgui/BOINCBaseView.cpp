@@ -170,7 +170,11 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
         {
             m_iCount = iCount;
             if ( 0 >= iCount )
+            {
                 m_pListPane->DeleteAllItems();
+                m_iCacheFrom = 0;
+                m_iCacheTo = 0;
+            }
             else
                 m_pListPane->SetItemCount(iCount);
         }
