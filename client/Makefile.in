@@ -315,7 +315,7 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(boinc_client_SOURCES) $(speed_stats_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in \
-	config.guess config.sub configure install-sh
+	install-sh
 SOURCES = $(boinc_client_SOURCES) $(speed_stats_SOURCES)
 
 all: all-am

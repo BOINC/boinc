@@ -231,6 +231,7 @@ function show_result_summary() {
     row2("Valid", link_results($nvalid, $urlquery, "validate_state=1"));
     row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2"));
     echo "</td></table>";
+    echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
     row2("Files deleted", link_results($ninvalid, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
     echo "</td></table>";
