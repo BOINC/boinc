@@ -15,7 +15,8 @@
 // University of California at Berkeley. All Rights Reserved. 
 // 
 // Contributor(s):
-//     DirectX 8.1 Screen Saver framework from Microsoft Corporation.
+//     DirectX 8.1 Screen Saver Framework from Microsoft.
+//     Microsoft Knowledge Base Article - 79212
 //
 
 #ifndef _BOINC_H
@@ -149,6 +150,7 @@ protected:
 	VOID			ShutdownBOINC();
 
 	SaverMode       ParseCommandLine( TCHAR* pstrCommandLine );
+	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
 
 	VOID            EnumMonitors( VOID );
 	VOID            ChangePassword();
