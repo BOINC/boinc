@@ -10650,3 +10650,13 @@ David  Mar 20 2004
         various
     lib/
         sighandle.C
+
+Rom    Mar 20 2004
+    - Setup project clients so they report back possible memory leaks on exit and
+        validate the heap after every 1024 allocations.
+    - Define constant for stdout.txt
+
+    api/
+        boinc_api.c
+    lib/
+        app_ipc.h

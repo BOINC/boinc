@@ -283,7 +283,7 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 	switch(reportType){
 
 		case _CRT_WARN:
-			fprintf( stderr, "TRACE: %s", szMsg );
+			fprintf( stderr, "%s", szMsg );
 			fflush( stderr );
 			break;
 		case _CRT_ERROR:
@@ -453,6 +453,11 @@ int boinc_init(bool standalone_ /* = false */) {
 
 	// Define how messages should me formatted to sdterr
 	_CrtSetReportHook( boinc_message_reporting );
+
+    SET_CRT_DEBUG_FIELD(
+        _CRTDBG_LEAK_CHECK_DF |
+        _CRTDBG_CHECK_EVERY_1024_DF
+    ); 
 
 	DuplicateHandle(
         GetCurrentProcess(),

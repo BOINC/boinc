@@ -125,6 +125,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define FD_INIT_FILE    "fd_init.xml"
 
 #define STDERR_FILE           "stderr.txt"
+#define STDOUT_FILE           "stdout.txt"
 
 extern char* xml_graphics_modes[NGRAPHICS_MODES];
 int boinc_link(const char* existing, const char* new_link);
