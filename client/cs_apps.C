@@ -350,6 +350,8 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double vm_limit;
     unsigned int i;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+
     // Reschedule every cpu_sched_period seconds or as needed
     //
     elapsed_time = time(0) - cpu_sched_last_time;
@@ -423,7 +425,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             p->anticipated_debt = p->debt;
         }
         p->next_runnable_result = NULL;
-        //msg_printf(p, MSG_INFO, "debt: %f", p->debt);
+        scope_messages.printf(
+            "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
+            p->project_name, p->debt
+        );
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt
