@@ -10193,3 +10193,9 @@ Rom    Feb 28 2004
         boinc_exception.C, .h (added)
     lib/
         filesys.C
+
+David  Feb 29 2004
+    - check for "w", "a" in boinc_fopen()
+
+    lib/
+        filesys.C
