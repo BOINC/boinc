@@ -207,45 +207,32 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
     
 }
 
-// Helper function for build_country_pages.  Creates as many pages as
-// are neccessary to list all user profiles for country $name, given
-// $rows rows per page.  Member IDs are passed in the array $members.
+// A generalized function to create a summary page for pages created by build_profile_pages.
+// TODO: Check paths; probably have to add some more parameters.
 
-function build_country_page($name, $members, $rows) {
-
-  $countryName = $name;
-
-  // Make the country name a legal format for a filename.
-  $name = get_legal_filename($countryName);
-
-  $numMembers = count($members);
-  $numPages = ceil(count($members) / (2 * $rows));
-  //echo "<br>$countryName has $numMembers members. - $numPages pages will be generated. <a href=", "../html_user/", PROFILE_PATH , "profile_country_" , $name , "_1.html> VIEW</a>";
-
-  $count = 0;
-
-  for ($page = 1; $page <= $numPages; $page++) {
-
-    $filename = "../html_user/" . PROFILE_PATH . "profile_country_" . $name . "_" . $page . ".html";
+function build_profile_summary_page($members, $pageHead, $pageTitle, $columnHead, $filePath, $fileName) {
+    $elements = array_keys($members);
+    
+    $filename = $filePath . $baseFileName . ".html";
     $descriptor = fopen($filename, "w");
+    
+    page_head($pageHead, null, $descriptor);
+    fwrite($descriptor, "<h2>$pageTitle</h2>Last updated " . gmdate("r") . " UTC<p>");
+    
+    fwrite($descriptor, "<table border=0>\n");
+    fwrite($descriptor, "<tr><td><b>$columnHead</b></td><td align=\"center\"><b>Profiles</b></td></tr>\n");
+    
+    foreach ($elements as $element) {
+        $numMembers = count($members[$element]);
+        
+        fwrite($descriptor, "<tr>\n<td><a href=\"$baseFileName_" . $element . "_1.html\">$element</a></td><td align=\"center\">$numMembers</td></td>\n");
+        
+    }
 
-    page_head("User Profiles from $countryName: Page $page of $numPages", null, $descriptor);
-
-    fwrite($descriptor, "<h2>$countryName</h2>\n");
-    fwrite($descriptor, "Last updated " . gmdate("r") . " UTC<p>\n");
-
-    $offset = (($page-1) * $rows * 2);
-    $numPerPage = ($rows * 2);
-
-    show_user_table($members, $offset, $numPerPage, 2, $descriptor, "../html_user/");
-
-    $tempFileName = "profile_country_" . $name;
-    write_page_links($tempFileName, $page, $numPages, $descriptor);
-
+    fwrite($descriptor, "</table>");
     page_tail($descriptor);
+    
     fclose($descriptor);
-  }
-
 }
 
 function build_country_summary_page($countryMembers) {
@@ -253,8 +240,6 @@ function build_country_summary_page($countryMembers) {
 
   $filename = "../html_user/" . PROFILE_PATH . "profile_country.html";
   $descriptor = fopen($filename, "w");
-
-  //echo "<p>Building country summary page...<br>";
 
   page_head("User Profiles by Country", null, $descriptor);
   fwrite($descriptor, "<h2>User Profiles by Country</h2>Last updated " . gmdate("r") . " UTC<p>");
