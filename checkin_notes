@@ -1610,3 +1610,17 @@ David    August 12 2002
 	log_flags.C,h
 	main.C
 	prefs.h
+
+Eric Heien  August 13, 2002
+    - Implemented correct handling of RSA or MD5 failures.  The
+      result associated with the file will be flagged and the
+      failure will be passed back to the scheduling server.
+
+    client/
+        client_state.C
+        client_types.C
+        client_types.h
+        cs_files.C
+        pers_file_xfer.C
+    lib/
+        error_numbers.h
