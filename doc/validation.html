@@ -1,0 +1,51 @@
+<h2>Accounting and result validation</h2>
+
+<p>
+Participants are given <b>credit</b> for the computations
+performed by their hosts.
+These credits are used to generate "leaderboards"
+of individuals, teams, and categories (countries, CPU types, etc.).
+It is to be expected that users will explore ways of "cheating",
+i.e. getting undeserved credit.
+
+<p>
+In principles credit should reflect network transfers and
+disk storage as well as computation.
+However, it's hard to verify these activities,
+so they aren't included in credit.
+
+<p>
+The core client assigns credit for a completed work unit
+as a function of the CPU time used,
+and the performance metrics of the CPU (discussed later).
+This is sent back to the scheduling server;
+of course, the number can't be trusted in general.
+<p>
+Output files may be wrong.
+This can happen because of hardware failures,
+or because of tampering.
+<p>
+Both problems - credit-cheating and wrong result -
+can be addressed by <b>redundant computing</b>
+and <b>result validation</b>.
+This means that each workunit is processed at least twice.
+The project back end waits until a minimum number
+of results have been returned,
+then compares the results and decides which are "correct".
+The notion of "equality" of results,
+and the policy for deciding which are correct,
+are project-specific.
+
+<p>
+The back end then marks correct results as "validated",
+finds the minimum reported credit for the correct
+results of a given workunit,
+and assigns this amount of credit to all the correct results.
+This ensures that as long as a reasonable majority of participants
+don't falsify credit, almost all credit accounting will be correct.
+
+<p>
+<b>To do</b>: database keeps track of two types of credit:
+validated and unvalidated.
+Users can see the workunits that didn't pass validation,
+or that were given reduced credit.

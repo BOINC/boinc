@@ -1,0 +1,20 @@
+<h2>The BOINC application library</h2>
+
+<p>
+BOINC supplies a library that can be optionally used for
+application development.
+This library includes the following:
+<ul>
+<li> <b>Communication with the core client</b>.
+Functions for parsing an initialization file
+containing the checkpoint period.
+Functions for checking for trigger files saying
+when to exit, when to suspend computation,
+and when to generate graphics.
+Functions for writing files to report percentage done,
+and to report errors.
+<li> <b>Checkpoint/restart support</b>.
+Simple support for writing output into memory buffers,
+then appending them to output files and
+writing the checkpoint file (almost atomic).
+</ul>

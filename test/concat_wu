@@ -1,0 +1,23 @@
+<file_info>
+    <name>INFILE_0</name>
+    <url>http://localhost.localdomain/download/INFILE_0</url>
+    <md5_cksum>MD5_0</md5_cksum>
+</file_info>
+<file_info>
+    <name>INFILE_1</name>
+    <url>http://localhost.localdomain/download/INFILE_1</url>
+    <md5_cksum>MD5_1</md5_cksum>
+</file_info>
+<workunit>
+    <name>WU_NAME</name>
+    <app_name>concat</app_name>
+    <input_file>
+        <file_name>INFILE_0</file_name>
+        <open_name>in1</open_name>
+    </input_file>
+    <input_file>
+        <file_name>INFILE_1</file_name>
+        <open_name>in2</open_name>
+    </input_file>
+    <command_line>in1 in2 out</command_line>
+</workunit>

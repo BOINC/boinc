@@ -1,0 +1,198 @@
+// The contents of this file are subject to the Mozilla Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://www.mozilla.org/MPL/ 
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
+#include <stdio.h>
+#include <fcntl.h>
+
+#ifdef macintosh
+#include "seti_mac.h"
+#else
+#include <sys/stat.h>
+#endif
+
+#ifdef MAC_OS_X
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+
+#include <time.h>
+#include <string.h>
+
+#ifdef unix
+#include <stdlib.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <time.h>
+#include <sys/resource.h>
+#endif
+#ifdef _WIN32
+#include <io.h>
+#include <winsock.h>
+#endif
+
+#include "error_numbers.h"
+#include "filesys.h"
+
+#ifdef unix
+DIR* dirp;
+#endif
+
+#ifdef _WIN32
+static char path[256];
+static HANDLE handle;
+static int first;
+#endif
+
+char failed_file[256];
+
+// routines for enumerating the entries in a directory
+
+int dir_open(char* p) {
+#ifdef unix
+    dirp = opendir(p);
+    if (!dirp) return ERR_OPENDIR;
+#endif
+#ifdef _WIN32
+    strcpy(path, p);
+    strcat(path, "\\*");
+    first = 1;
+    handle = INVALID_HANDLE_VALUE;
+#endif
+#ifdef macintosh
+    SayErr("\pdir_open called (empty function)");	/* CAF Temp */
+#endif
+    return 0;
+}
+
+int dir_scan(char* p) {
+#ifdef unix
+    while (1) {
+	dirent* dp = readdir(dirp);
+	if (dp) {
+	    if (dp->d_name[0] == '.') continue;
+	    if (p) strcpy(p, dp->d_name);
+	    return 0;
+	} else {
+	    closedir(dirp);
+	    dirp = 0;
+	    return -1;
+	}
+    }
+#endif
+#ifdef _WIN32
+    WIN32_FIND_DATA data;
+    while (1) {
+	if (first) {
+	    first = 0;
+	    handle = FindFirstFile(path, &data);
+	    if (handle == INVALID_HANDLE_VALUE) {
+		return -1;
+	    } else {
+		if (data.cFileName[0] == '.') continue;
+		if (p) strcpy(p, data.cFileName);
+		return 0;
+	    }
+	} else {
+	    if (FindNextFile(handle, &data)) {
+		if (data.cFileName[0] == '.') continue;
+		if (p) strcpy(p, data.cFileName);
+		return 0;
+	    } else {
+		FindClose(handle);
+		handle = INVALID_HANDLE_VALUE;
+		return 1;
+	    }
+	}
+    }
+#endif
+#ifdef macintosh
+	SayErr("\pdir_scan called (empty function)");	/* CAF Temp */
+	return 1;
+#endif
+}
+
+void dir_close() {
+#ifdef unix
+    if (dirp) {
+	closedir(dirp);
+	dirp = 0;
+    }
+#endif
+#ifdef _WIN32
+    if (handle == INVALID_HANDLE_VALUE) {
+	FindClose(handle);
+	handle = INVALID_HANDLE_VALUE;
+    }
+#endif
+#ifdef macintosh
+	SayErr("\pdir_close called (empty function)");	/* CAF Temp */
+#endif
+}
+
+int file_delete(char* path) {
+    int retval,i;
+
+    for (i=0; i<2; i++) {
+#ifdef unix
+        retval = unlink(path);
+#endif
+#if ( defined(_WIN32) || defined(macintosh) )
+        retval = remove(path);
+#endif
+        if (!retval) break;
+        if (i==0) sleep(3);
+    }
+    if (retval) {
+	strcpy(failed_file, path);
+	return ERR_UNLINK;
+    }
+    return 0;
+}
+
+// get file size
+int file_size(char* path, int& size) {
+    struct stat sbuf;
+    int retval;
+
+    retval = stat(path, &sbuf);
+    if (retval) return retval;
+    size = sbuf.st_size;
+    return 0;
+}
+
+int clean_out_dir(char* dirpath) {
+    char filename[256], path[256];
+    int retval;
+
+    retval = dir_open(dirpath);
+    if (retval) return retval;
+    while (1) {
+        retval = dir_scan(filename);
+        if (retval) break;
+        sprintf(path, "%s/%s", dirpath, filename);
+        retval = file_delete(path);
+        if (retval) {
+            dir_close();
+            return retval;
+        }
+    }
+    dir_close();
+    return 0;
+}

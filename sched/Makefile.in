@@ -1,0 +1,37 @@
+all: cgi
+
+CFLAGS = -g -Wall -I ../db -I ../lib -I ../tools
+CC = g++ $(CFLAGS)
+
+CLIBS = @LIBS@
+
+CGI_OBJS = \
+    handle_request.o \
+    main.o \
+    parse.o \
+    server_types.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../tools/process_result_template.o
+
+MYSQL_DIR = /usr/local/mysql/lib
+MYSQL_LIBS = \
+-L$(MYSQL_DIR) \
+-lmysqlclient -lz \
+-lm $(NETLIBS)
+
+.C.o:
+	$(CC) -c -o $*.o $<
+.c.o:
+	$(CC) -c -o $*.o $<
+
+cgi: $(CGI_OBJS)
+	$(CC) $(CGI_OBJS) $(MYSQL_LIBS) $(CLIBS) -o cgi
+
+dependencies: *.C
+	$(CC) -M *.C > dependencies
+
+include dependencies
+
+clean:
+	rm -f cgi *.o core dependencies config.cache

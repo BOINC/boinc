@@ -1,0 +1,82 @@
+// The contents of this file are subject to the Mozilla Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://www.mozilla.org/MPL/ 
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
+#include <stdio.h>
+#include <unistd.h>
+
+#include "http.h"
+#include "net_xfer.h"
+
+#define UNCONNECTED 0
+#define WRITE_WAIT  1
+#define HEADER_WAIT 2
+#define BODY_WAIT   3
+
+int main() {
+    NET_XFER_SET nxs;
+    NET_XFER* nxp;
+    HTTP_REPLY_HEADER reply_header;
+    int n;
+
+    nxp = new NET_XFER;
+    nxp->init("localhost.localdomain", 80, 1024);
+    nxp->net_xfer_state = UNCONNECTED;
+    nxs.insert(nxp);
+
+    char* buf = "GET /my_index.html HTTP/1.0\015\012"
+        "Host: localhost.localdomain:80\015\012"
+        "Accept: */*\015\012"
+        "\015\012";
+
+    while (1) {
+        nxs.poll(100000, n);
+        switch(nxp->net_xfer_state) {
+        case UNCONNECTED:
+            if(nxp->is_connected) {
+                nxp->net_xfer_state = WRITE_WAIT;
+                nxp->want_upload = true;
+            }
+            break;
+        case WRITE_WAIT:
+            if (nxp->io_ready) {
+                n = write(nxp->socket, buf, strlen(buf));
+                printf("wrote %d bytes\n", n);
+                nxp->net_xfer_state = HEADER_WAIT;
+                nxp->want_upload = false;
+                nxp->want_download = true;
+                nxp->io_ready = false;
+            }
+            break;
+        case HEADER_WAIT:
+            if (nxp->io_ready) {
+                read_http_reply_header(nxp->socket, reply_header);
+                nxp->net_xfer_state = BODY_WAIT;
+                nxp->file = fopen("foo", "w");
+                nxp->do_file_io = true;
+            }
+            break;
+        case BODY_WAIT:
+            if (nxp->io_done) break;
+        }
+        if (nxp->io_done) break;
+        sleep(1);
+    }
+    nxs.remove(nxp);
+    if (nxp->file) fclose(nxp->file);
+}

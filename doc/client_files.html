@@ -1,0 +1,31 @@
+<h2>Core client: file structure</h2>
+
+<p>
+The core client runs in a BOINC home directory.
+An account file (accounts.xml) must be present in this directory.
+The core client creates and uses the following files and directories
+within the BOINC home directory:
+
+<ul>
+<li> <b>client_state.xml</b>: this is an description
+of the files, application, workunits and results
+present on this client.
+<li> Each project has a <b>project subdirectory</b>
+whose name is the project's base URL.
+This subdirectory contains all files (inputs, outputs, executables)
+related to the project.
+<li> <b>slots</b>: this directory contains one subdirectory
+for each CPU "slot" (normally there are as many slots
+as the host has CPUs).
+The subdirectories are named 0, 1, ... N-1.
+</ul>
+
+<p>
+Each result executes in particular slot.
+The core client creates symbolic links (UNIX)
+or .lnk files (Windows) in the slot directory,
+linking the input, output and executable files
+to the appropriate files in the project directory.
+On UNIX, the core client uses chroot() so that the
+application sees the slot directory as the root of its filesystem,
+and cannot create or access files outside of it.

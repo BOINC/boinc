@@ -1,0 +1,28 @@
+<h2>Installing BOINC</h2>
+
+<p>
+To use BOINC you must have the following software
+installed on a server computer running Linux or Solaris:
+
+<ul>
+<li> MySQL
+<li> Apache with PHP
+</ul>
+
+<p>
+Unzip and untar the BOINC release, and compile it
+by typing "configure" and "make".
+<p>
+Edit your Apache configuration file (httpd.conf) to
+set the "boinc/sched" directory as CGI,
+and to allow uploads to to the upload directory.
+
+<p>
+Go into the boinc/test directory, and type
+<pre>
+test_uc
+</pre>
+
+This script runs a test case that initializes the database
+with a user account, application and workunits,
+runs the client, and checks the results.

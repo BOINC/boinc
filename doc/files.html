@@ -1,0 +1,35 @@
+<h2>Compute model: files</h2>
+
+<p>
+<b>Files</b> are inputs and outputs to applications,
+and the executable application programs.
+Each file has a <b>name</b> that is unique within the project.
+A file may also have one or more URLs,
+indicating where it is (or will be) located on data servers.
+Once a file is created (on the project server or on a participant host)
+it is immutable.
+
+<p>
+Files have the following Boolean attributes:
+<ul>
+<li> Sticky
+<li> Upload-when-present
+</ul>
+
+Some files originate on hosts;
+i.e. as output files of applications.
+If the Upload-when-present flag is set,
+the file (when available) is uploaded to one of its URLs.
+If the Sticky flag is set, the file remains on the host
+(where, e.g., it will serve as input to a later computation).
+
+<p>
+Other files originate in the back-end servers,
+and are placed on data servers.
+If the Sticky flag is set,
+the file is retained and a participant host after it is used.
+
+<p>
+The core agent and scheduling server exchange descriptions of files.
+These descriptions include an MD5 checksum of the file,
+providing protection against corruption and spoofing.

@@ -1,0 +1,28 @@
+<h2>Core client: data structures</h2>
+
+<p>
+The key data structures in the core client are as follows.
+
+<p>
+Basic types:
+<pre>
+PROJECT
+APP
+FILE_INFO
+APP_VERSION
+IO_FILE_DESC
+WORKUNIT
+RESULT
+</pre>
+
+<pre>ACCOUNTS</pre>
+Contains a vector of PROJECTs, summarizing the accounts file.
+<p>
+<pre>CLIENT_STATE</pre>
+<p>
+Contains vectors of all the basic types.
+These are crossed-linked with pointers;
+for example, APP_VERSION has a pointer to FILE_INFO.
+
+Also contains FSM sets for network connections,
+HTTP operations, file transfers, and active tasks.

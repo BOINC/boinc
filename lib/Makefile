@@ -1,0 +1,33 @@
+# Generated automatically from Makefile.in by configure.
+VERSION = 1
+
+CFLAGS = -g
+
+CC = gcc $(CFLAGS)
+
+PROGS = md5_test
+
+MD5_OBJS = \
+    md5.o \
+    md5_file.o
+
+COUNTRY_OBJS = \
+    countries.o
+
+all: $(PROGS) $(MD5_OBJS)
+
+.C.o:
+	$(CC) -c -o $*.o $<
+.c.o:
+	$(CC) -c -o $*.o $<
+
+md5_test: md5_test.o $(MD5_OBJS)
+	$(CC) md5_test.o $(MD5_OBJS) -o md5_test
+
+clean:
+	rm -f *.o $(PROGS) core dependencies
+
+dependencies: *.C
+	$(CC) -M *.C > dependencies
+
+include dependencies

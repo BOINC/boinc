@@ -1,0 +1,27 @@
+1sec.o: 1sec.C /usr/include/stdio.h /usr/include/sys/feature_tests.h \
+ /usr/include/sys/isa_defs.h /usr/include/sys/va_list.h \
+ /usr/include/stdio_tag.h /usr/include/stdio_impl.h \
+ /usr/include/time.h /usr/include/sys/types.h \
+ /usr/include/sys/machtypes.h /usr/include/sys/int_types.h \
+ /usr/include/sys/select.h /usr/include/sys/time.h \
+ /usr/include/sys/time_impl.h
+concat.o: concat.C /usr/include/stdio.h \
+ /usr/include/sys/feature_tests.h /usr/include/sys/isa_defs.h \
+ /usr/include/sys/va_list.h /usr/include/stdio_tag.h \
+ /usr/include/stdio_impl.h
+error.o: error.C /usr/include/stdio.h /usr/include/sys/feature_tests.h \
+ /usr/include/sys/isa_defs.h /usr/include/sys/va_list.h \
+ /usr/include/stdio_tag.h /usr/include/stdio_impl.h
+uc_slow.o: uc_slow.C /usr/include/stdio.h \
+ /usr/include/sys/feature_tests.h /usr/include/sys/isa_defs.h \
+ /usr/include/sys/va_list.h /usr/include/stdio_tag.h \
+ /usr/include/stdio_impl.h /usr/include/unistd.h \
+ /usr/include/sys/types.h /usr/include/sys/machtypes.h \
+ /usr/include/sys/int_types.h /usr/include/sys/select.h \
+ /usr/include/sys/time.h /usr/include/time.h \
+ /usr/include/sys/time_impl.h /usr/include/sys/unistd.h \
+ /usr/include/ctype.h ../api/api.h
+upper_case.o: upper_case.C /usr/include/stdio.h \
+ /usr/include/sys/feature_tests.h /usr/include/sys/isa_defs.h \
+ /usr/include/sys/va_list.h /usr/include/stdio_tag.h \
+ /usr/include/stdio_impl.h /usr/include/ctype.h

@@ -1,0 +1,97 @@
+<h2>BOINC operational tools</h2>
+
+<p>
+BOINC provides various tools for creating and operating projects.
+These tools are accessed in several ways:
+
+<ul>
+<li> Via a web interface.
+These scripts are in the html_ops directory.
+They are accessable only by users with the "manager" rights.
+<li> Application programs.
+These can be invoked from scripting languages.
+<li> C++ functions.
+</ul>
+
+<hr>
+The C++ library (backend_lib.C,h) provides the following function:
+<pre>
+int create_work(
+    int appid,
+    char* wu_name,
+    char* wu_template,
+    char* result_template,
+    int nresults,
+    char* infile_dir,
+    char** infiles,
+    int ninfiles
+);
+</pre>
+
+<p>
+This creates a workunit and one or more results.
+<p>
+"appid" is the database ID of the application.
+<p>
+"wu_name" is the name of the workunit.
+<p>
+"wu_name" is the filename of a template for the
+workunit XML document.
+This template is macro-substituted as follows:
+<ul>
+<li> INFILE_n is replaced with the name of the nth input file.
+<li> MD5_n is replaced with the MD5 checksum of the nth input file.
+<li> WU_NAME is replaced with the workunit name.
+</ul>
+<p>
+"result_template" is the filename of a template for the
+result XML document.
+This template is macro-substituted as follows:
+<ul>
+<li> OUTFILE_n is replaced with a string of the form
+"wuname_resultnum_n" where wuname is the workunit name and
+resultnum is the ordinal number of the result (0, 1, ...).
+<li> WU_NAME is replaced with the workunit name.
+<li> RESULT_NAME is replaced with a string of the form "wuname_resultnum".
+</ul>
+<p>
+"nresults" is the number of results to be created.
+<p>
+"infile_dir" is the path of the directory where the input files are.
+<p>
+"infiles" is an array of names of the input files,
+of length "ninfiles".
+
+<hr>
+The program
+<pre>
+create_work -appname file -wu_name file -wu_template file -result_template file -nresults n infile1 infile2 ...
+</pre>
+is a command-line equivalent of the create_work() function.
+
+<p>
+The program "add" performs various types of initialization:
+<dl>
+<dt>
+add app name
+<dd>
+Create an application record.
+<dt>
+add platform name
+<dd>
+Create a platform record
+<dt>
+add app_version app-name platform-name version-num exec-dir exec-filename
+<dd>
+Create an app_version record.
+<dt>
+add user email_addr name web_password authenticator
+<dd>
+Create a user record.
+<dt>
+add prefs email_addr file
+<dd>
+Create a preference set, and make it the default
+preferences for the given user.
+
+</dl>

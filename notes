@@ -1,0 +1,318 @@
+Abstractions
+
+"Project": each is described by a URL.
+Each has its own database and control server.
+
+"Application": a particular program.
+A project may have several applications.
+
+"Account": each user has a separate account with each project.
+Each account has a unique email address and a server-assigned authenticator.
+
+--------------------
+Client files
+two files:
+
+account.xml
+    list of projects; for each:
+        user ID
+        password
+    preferences
+
+client_state.xml
+    hostid
+    rpc_seqno (per project)
+    files, WUs, results etc.
+
+NOTE: to "clone" an installation on a new computer,
+just need to copy the core client (or run the installer)
+then copy the account.xml file.
+
+NOTE: a scheduler request can specify that no client_state.xml
+was found, so a new host record should be created.
+If a scheduler gets a request with an unexpected seqno,
+it sends back a reply saying
+--------------------
+When does client contact scheduling server?
+Each result has a max notification delay,
+so when a client completes it there's a deadline for notification.
+
+Contact a scheduling server if:
+- you're below the low-water mark in work for that project,
+  or you have a result past its deadline
+- AND there's no delay in effect for that project.
+    A delay may be explicitly returned by the scheduling server,
+    or may be because of exponential backoff after failed attempts.
+--------------------
+Given that we can estimate the time it will take to get back
+a result from a given host, it might be possible to assign
+deadlines to results, and only send them to hosts that are fast enough
+--------------------
+Client logging
+write events to log file:
+    start/stop client
+    start/finish file xfer
+    start/finish application execution
+    start/finish scheduling server call
+    error messages
+
+logging flag is part of preferences
+--------------------
+division between database and XML
+proposal: move as much info as possible out of the DB into XML files.
+examples:
+- workunits and results
+    WUs and results are described by XML files listing
+    their inputs, outputs, etc.
+    The DB entry for a WU contains only info relevant to scheduling:
+        memory/disk/communication requirement
+- user info
+    A configuration is an XML file, opaque to the scheduling server
+    
+--------------------
+WUs and results
+- WUs and results are desribed by XML files that describe their
+    input and output files.
+- each client computation is represented by a "result" DB record,
+    which is created BEFORE the client requests it.
+    The application server system must keep the DB supplied
+    with result records, or clients will starve.
+
+    NOTE: this is necessary to control where output files go.
+    Could also have a scheme where each application has a
+    "template" result file.
+    This instructs the client to create its own output file names.
+    When the client returns the result,
+    the server creates the result record and plugs in file names.
+--------------------
+File info
+    input files
+        "sticky": don't delete after result done
+        URL (if not already on client)
+    output files
+        "sticky": don't delete after result done
+        URL (optional; send here after result done)
+--------------------
+file xfer commands
+    implemented as WU/result pairs whose app is "file_xfer".
+    Can have just one input file, one output.
+    Application servers can leaves these in a "message" directory,
+    where the scheduling server can find them and give to
+    client next time they contact.
+--------------------
+result states in client
+    don't have files yet
+    have files, not started
+    have files, started
+    completed, sending output files
+    output files sent
+    output files sent, some sticky files deleted
+
+--------------------
+result attributes in DB, sched server
+    state:
+        unsent
+        sent, in progress
+        timed out
+    file state
+        all output files are openly available
+        (i.e. have been uploaded)
+
+WU attributes in DB, sched server
+    input file state (set by app server)
+        all input files are available
+        not all input files available
+
+--------------------
+Workunit affinity
+
+This mechanism allows a sequence of WUs to get executed on the same host,
+but allows the sequence to migrate (or be duplicated) if needed.
+
+result attributes:
+previous_resultid
+    This result is a "successor" to the previous one.
+    If all the sticky input and output files of the previous WU are present,
+    this WU can be executed efficiently.
+has_successor
+    This result has a successor.
+
+How it works:
+The project generates a sequence of WUs,
+each with one or more results.
+It chains the results together into sequences.
+
+When a client completes a result with successor,
+it retains the result record.
+
+NOTE: one goal of this design is to avoid the scheduler
+having to know about individual files
+--------------------
+Scheduler request
+
+The client sends all its results with successors
+
+scheduler algorithm:
+    if there any results with predecessors
+    for which the client has all sticky files, send them in preference
+    to any other results
+
+
+
+--------------------
+database tables
+
+application
+platform
+app_version
+core_version
+account
+file
+workunit
+    applicationid
+    file1 name1
+    file2 name2
+    nresults
+result
+    workunitid
+    accountid
+    fileid
+    boolean verified
+host
+--------------------
+State maintained on client
+Config file (XML)
+
+<config>
+    <update-time>123123</update-time>
+        // last time user added project or changed CPU shares
+    <max-disk-mb>1000</max-disk-mb>
+    <min-work-hrs>10</min-work-hrs>
+        // if estimated work falls below this, try to get more
+    <max-work-hrs>10</max-work-hrs>
+        // don't get more work if estimate is above this
+    <max_ram_while_user_active>20</max_ram_while_user_active>
+        // zero means don't work while user active
+    <projects>
+        <project>
+            <url>http://wjwjwj</url>
+            <dont-contact-until>123123</dont_contact_until>
+            <control-server>blah.blah</control-server>
+            </control-server>blah.blah</control-server>
+            <cpu-share>1</cpu-share>
+            <max-disk-mb>100</max-disk-mb>
+            <cpu-total>5.44</cpu-total>
+                // this is zeroed out each time shares updated
+            <password>123123123</password>
+                // stored on client only; not sent to server in general
+            <email-address>foo@bar</email-address>
+            </home-project>
+
+            <file>
+                <md5>sfkjf</md5>
+                <url>akdjsfd</url>
+                <size>123123</size>
+                <complete/>
+            </file>
+            <workunit>
+                <name>skdjf</name>
+                <file>
+                    <name>foo</name>
+                    <appname>blah</appname>
+                        // name by which app refers to file
+                </file>
+            </workunit>
+            <result>
+                <workunit-name>12938</workunit-name>
+            <result>
+        </project>
+        ...
+    </projects>
+</config>
+
+--------------------
+Security notes:
+--------------------
+Client directory structure
+top-level dir
+    project dir (one per project)
+    CPU dir (one per CPU)
+        contains symbolic links to application file,
+        all input and output files
+--------------------
+Client logic
+    ["network xfer" object encapsulates a set of file xfers in progress]
+    ["processor" object: one for each CPU]
+
+    read config file
+    loop
+        check user activity - turn off computations if needed
+        start a computation if possible
+            all necessary files present,
+            and workunit not done or in progress.
+        check processes (fail, done)
+        start new network xfers if possible
+        xfer 16KB if possible (use select)
+            if xfer complete, update state
+        if estimated work below low-water mark
+            while estimated work below high-water mark
+                pick project with work due, OK dont_contact_until
+                contact a control server; request high-current work
+                if can't get connection, update dont_contact_until
+            end
+        end
+    end
+--------------------
+Application logic
+--------------------
+Control RPC protocol
+--------------------
+Web site functions
+--------------------
+Startup scenarios
+
+- How a user initially signs up:
+Visit the project's URL.
+Create an account:
+    enter email address
+    wait for password to arrive in email.
+    download installer
+    installer installs agent, initial config file
+    run agent; type in password.
+
+- How a user adds a project
+Same as above, but don't download agent.
+Go to "home" web site and add project.
+
+- How a user removes a project
+Go to "home" web site and remove project
+
+------------------------------
+Versions
+
+Core client:
+
+When and how does a scheduler tell a core agent
+that a newer version can/should be downloaded?
+
+How is compatibility between application agents
+and core agents represented?
+--------------------------------------
+Distributed storage
+
+Projects can use clients for storage using "sticky" files
+(which are either sent to clients, or generated by the client).
+
+The core client is free to delete sticky files any time.
+
+Scheduler requests include a list of the sticky files held by the host.
+This list is stored in a blob in the host record.
+
+Scheduler replies can include <file_info> tags
+instructing the client to download files.
+These files need not be associated with applications or workunits.
+
+Scheduler replies can include <file_info> tags
+instructing the client to upload
+
+The BOINC database does not explicitly

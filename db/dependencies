@@ -1,0 +1,18 @@
+db_mysql.o: db_mysql.C /usr/include/stdio.h \
+ /usr/include/sys/feature_tests.h /usr/include/sys/isa_defs.h \
+ /usr/include/sys/va_list.h /usr/include/stdio_tag.h \
+ /usr/include/stdio_impl.h /usr/include/stdlib.h /usr/include/string.h \
+ mysql_util.h mysql.h /usr/include/sys/types.h \
+ /usr/include/sys/machtypes.h /usr/include/sys/int_types.h \
+ /usr/include/sys/select.h /usr/include/sys/time.h /usr/include/time.h \
+ /usr/include/sys/time_impl.h /usr/local/mysql/include/mysql_com.h \
+ /usr/local/mysql/include/mysql_version.h db.h
+mysql_util.o: mysql_util.C /usr/include/stdio.h \
+ /usr/include/sys/feature_tests.h /usr/include/sys/isa_defs.h \
+ /usr/include/sys/va_list.h /usr/include/stdio_tag.h \
+ /usr/include/stdio_impl.h /usr/include/string.h /usr/include/stdlib.h \
+ mysql.h /usr/include/sys/types.h /usr/include/sys/machtypes.h \
+ /usr/include/sys/int_types.h /usr/include/sys/select.h \
+ /usr/include/sys/time.h /usr/include/time.h \
+ /usr/include/sys/time_impl.h /usr/local/mysql/include/mysql_com.h \
+ /usr/local/mysql/include/mysql_version.h mysql_util.h

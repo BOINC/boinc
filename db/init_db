@@ -1,0 +1,5 @@
+#! /bin/tcsh
+
+mysql < drop.sql
+mysql < schema.sql
+mysql < constraints.sql

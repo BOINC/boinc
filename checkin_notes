@@ -1,0 +1,58 @@
+David A.	April 10 2002
+    Initial checkin of all files.
+    The system is fairly feature-complete and
+    runs a number of test cases correctly.
+    Currently runs only on Linux.
+
+David A.	April 11 2002
+    - Got things to compile on Solaris.
+    - Pass in platform name, version number from Makefile
+	(platform name comes from configure)
+
+David A.	April 12 2002
+    - Think through application-version logic.  Here's how it works:
+	On the server side, WUs don't have a version number,
+	either in the DB or in the XML doc.
+	When the server sends a WU,
+	it precedes it with an <app> tag containing a version number.
+	This instructs the client to process all WUs included in
+	the reply using that app version.
+	On the client side, WU records DO have a version number
+	(obtained as above).
+    - Change the "add" program so that command-line arguments are named
+	(e.g., "-app_name" foo instead of just "foo")
+	Modify test scripts accordingly.
+    - Have the scheduler read static tables (platform, app, app_version)
+	into memory at the beginning (new class: DB_CACHE)
+	This is a first step towards making the server efficient
+	(also need to convert it to fast CGI)
+    - Have the scheduler use files of the form
+	/tmp/boinc_req_PID and /tmp/boinc_reply_PID
+	rather than fixed-named files
+    - Have the scheduler send back error message when it can't open files
+	
+    client
+	Makefile.in
+	client_state.C
+	cs_scheduler.C
+	hostinfo_unix.C
+	types.C,h
+    db
+	db.h
+	db_mysql.C
+    html_user
+	db.inc
+    sched
+	handle_request.C,h
+	main.C
+	server_types.C,h
+    test
+	*wu
+	init.inc
+    tools
+	add.C
+David A.	April 15, 2002
+    Change name from BOINC to BONC :-(
+
+David A.	April 25, 2002
+    Change name from BONC back to BOINC :-)

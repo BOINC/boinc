@@ -1,0 +1,13 @@
+<file_info>
+    <name>INFILE_0</name>
+    <url>http://localhost.localdomain/download/INFILE_0</url>
+    <md5_cksum>MD5_0</md5_cksum>
+</file_info>
+<workunit>
+    <name>WU_NAME</name>
+    <app_name>uc_slow</app_name>
+    <input_file>
+        <file_name>INFILE_0</file_name>
+        <open_name>in</open_name>
+    </input_file>
+</workunit>

@@ -1,0 +1,21 @@
+<h2>Participant startup</h2>
+
+<p>
+The BOINC core client is run in a <b>BOINC home directory</b>.
+On hosts that share a network file system,
+each host must have its own BOINC home directory.
+
+
+<p>
+The use of "proxy" servers
+(such as SETI@home's SETIQueue) serves two purposes:
+<ul>
+<li> To buffer input and output data,
+allowing hosts to work for long periods without connecting to the Internet,
+or when the project's servers are down.
+<li> To support hosts that are not connected to the Internet.
+</ul>
+BOINC's high/low water mark scheme performs the first function.
+The second function would be hard to do;
+the proxy server would have to parse the XML descriptions
+of workunits and results, and would interact with data servers.

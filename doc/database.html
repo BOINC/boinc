@@ -1,0 +1,58 @@
+<h2>The BOINC database</h2>
+
+<p>
+BOINC uses a relational database to keep track of
+participants, work and result.
+The reference implementation uses MySQL,
+but any SQL database can be used.
+
+<p>
+The database tables are as follows:
+
+<dl>
+<dt> platform
+<dd>
+Compilation targets of the core client and/or applications.
+<dt> app
+<dd>
+Applications.
+The core client is treated as an application;
+its name is "core_client".
+
+<dt> app_version
+<dd>
+Versions of applications.
+Each record includes a URL for downloading the executable,
+and the MD5 checksum of the executable.
+
+<dt> user
+<dd>
+Describes users, including their email address,
+name, web password, and authenticator.
+
+<dt> preferences
+<dd>
+Describes preferences.
+The actual preference information is stored in
+an XML document in a "blob" field of this table.
+
+<dt> host
+<dd>
+Describes hosts.
+
+<dt> workunit
+<dd>
+Describes workunits.
+The input file descriptions are stored in an XML document in a blob field.
+Includes counts of the number of results linked to this workunit,
+and the numbers that have been sent, that have succeeded, and that have failed.
+
+<dt> result
+<dd>
+Describes results.
+Includes a "state" (whether the result has been dispatched).
+Stores a number of items relevant only after the
+result has been returned:
+CPU time, exit status, and validation status.
+
+</dl>

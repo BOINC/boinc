@@ -1,0 +1,35 @@
+<h2>Test applications and scripts</h2>
+
+<p>
+The <b>apps</b> directory contains the following test applications:
+
+<ul>
+<li> <b>concat</b>: concatenates its input files.
+Input and output filenames are passed on the command line.
+<li> <b>upper_case</b>: reads from stdin, converts to upper case,
+writes to stdout.
+<li> <b>uc_slow</b>: like upper_case, but processes
+only one character per second.
+Checkpoints every 5 characters.
+Restartable.
+</ul>
+
+The <b>test</b> directory contains PHP scripts,
+together with XML templates and sample input files,
+for initializing and testing the entire system:
+
+<ul>
+<li> <b>test_uc.php</b>: tests I/O connection using descriptors.
+<li> <b>test_concat.php</b>: tests I/O connection using command-line args
+and filenames.
+<li> <b>test_uc_slow.php</b>: tests checkpoint/restart.
+You have to run the client yourself;
+kill and restart it a few times.
+<li> <b>test_prefs.php</b>: tests some aspects of preferences.
+</ul>
+
+<p>
+These scripts use functions defined in the PHP include file
+<b>init.inc</b>.
+You can use these functions to easily write test scripts
+for your own applications.

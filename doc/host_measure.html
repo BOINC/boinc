@@ -1,0 +1,50 @@
+<h2>Measuring and distinguishing hosts</h2> 
+
+<p>
+The core client measures the following aspects of each host:
+
+<ul>
+<li> CPU performance: integer ops/sec, double-precision floating-point
+ops/sec, and memory bandwidth are measured separately.
+They are measured by a process executing at the same priority
+as BOINC applications,
+so the results will be affected by other processes.
+These measurements are taken at random intervals.
+<li> Number of CPUs.
+<li> Vendor and model of CPU.
+<li> Disk space: free and total.
+<li> Memory: total RAM, CPU cache, and swap space.
+<li> Timezone.
+<li> Last IP address, and count of consecutive same addresses.
+<li> Number of RPCs and time of last RPC.
+<li> Fractions of time that core client runs on host,
+host is connected, and user is active.
+These are computed as exponentially-weighted averages;
+see the class TIME_STATS.
+<li> Operating system name and version.
+<li> Average up- and downstream network bandwidth.
+These are computed as exponentially-weighted averages;
+see the class NET_STATS.
+</ul>
+
+These quantities are reported in every scheduling RPC,
+and their latest values are stored in the BOINC database.
+
+<h3>Distinguishing hosts</h3>
+<p>
+Not all systems have an application-readable globally unique ID,
+so we don't take this approach.
+When a host first contacts the scheduling server it
+is assigned a host ID, which it stores in its "state.xml" file.
+
+<p>
+The BOINC database maintains the RPC sequence number for each host,
+and the host maintains the sequence number in its state.xml file.
+<p>
+To install the BOINC client on a large number of computers,
+users are instructed to copy only the executable
+and the "account.xml" file.
+If the user copies the state.xml file as well,
+the first RPCs from the other hosts will have
+a repeat sequence number; in this case the scheduling server
+creates a new host record and returns its ID.

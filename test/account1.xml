@@ -1,0 +1,9 @@
+<accounts>
+    <project>
+        <home_project/>
+        <domain>localhost.localdomain</domain>
+        <scheduler_url>http://localhost.localdomain/boinc-cgi/cgi</scheduler_url>
+        <email_addr>david@localhost.localdomain</email_addr>
+        <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
+    </project>
+</accounts>
