@@ -15487,3 +15487,8 @@ Karl 2004-07-21
     sched/
         message_handler.C
         validator.C
+
+    - allow '.msi' as extension for installation package
+
+    tools/
+        update_versions
