@@ -176,8 +176,8 @@ function pretty_time_str($x) {
     return gmdate('D M j, Y g:i a', $x) . " UTC";
 }
 
-function start_table() {
-    echo "<table border=1 cellpadding=5>";
+function start_table($extra="") {
+    echo "<table border=1 cellpadding=5 $extra>";
 }
 
 function start_table_noborder($width=640) {
