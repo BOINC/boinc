@@ -217,4 +217,39 @@ function hosts_compatible($host1, $host2) {
     return true;
 }
 
+function host_update_credit($hostid) {
+    $t = 0;
+    $avg = 0;
+    $now = time();
+    $avg_time = 0;
+    $half_life = 86400*7;
+    $r = mysql_query("select * from result where hostid=$hostid order by received_time");
+    while ($result = mysql_fetch_object($r)) {
+        if ($result->granted_credit <= 0) continue;
+        $t += $result->granted_credit;
+
+        // the following taken from lib/util.C
+        //
+        if ($avg_time) {
+            $diff = $result->received_time - $avg_time;
+            if ($diff <=0) $diff = 3600;
+            $diff_days = $diff/86400;
+            $weight = exp(-$diff*M_LN2/$half_life);
+            $avg *= $weight;
+            $avg += (1-$weight)*($result->granted_credit/$diff_days);
+        } else {
+            $dd = ($result->received_time - $result->sent_time)/86400;
+            $avg = $result->granted_credit/$dd;
+        }
+        $avg_time = $result->received_time;
+        echo "<br>$avg\n";
+    }
+    mysql_free_result($r);
+
+    $diff = $now - $avg_time;
+    $weight = exp(-$diff*M_LN2/$half_life);
+    $avg *= $weight;
+    mysql_query("update host set total_credit=$t, expavg_credit=$avg where id=$hostid");
+}
+
 ?>

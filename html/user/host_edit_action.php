@@ -67,6 +67,10 @@ function merge_hosts($old_host, $new_host) {
         } else {
             merge_hosts($host, $latest_host);
         }
+        // reread latest_host from database since we just
+        // updated its credits
+        //
+        $latest_host = lookup_host($latest_host->id);
     }
     echo "
         <p><a href=hosts_user.php>Return to list of your computers</a>

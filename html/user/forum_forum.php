@@ -44,7 +44,7 @@ if ($category->is_helpdesk) {
 }
 
 echo "
-    <form action=forum.php method=get>
+    <form action=forum_forum.php method=get>
     <input type=hidden name=id value=", $forum->id, ">
     <table width=100% cellspacing=0 cellpadding=0>
     <tr valign=bottom>

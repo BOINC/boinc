@@ -115,7 +115,7 @@ function show_forum($category, $forum, $start, $sort_style) {
         } else {
             echo "
                 <td>", $thread->replies+1, "</td>
-                <td align=left>", user_links($user, "../"), "</td>
+                <td align=left>", user_links($user), "</td>
                 <td>", $thread->views, "</td>
                 <td style=\"text-align:right\">", $x, "</td>
             ";

@@ -12906,7 +12906,27 @@ David  May 31 2004
         diagnostics.C
 
 David  June 1 2004
+    web stuff:
+    - fix bug in merging > 2 hosts
     - remove references to html/forum in setup script
+    - move host_update_credit() to host.inc
+        and make an ops page for updating a host's credit
 
     py/Boinc/
         setup_project.py
+
+David  June 1 2004
+    - small web fixes related to moving forum files
+    html/
+        inc/
+            forum_show.inc
+            host.inc
+            util.inc
+        ops/
+            host_update_credit.php (new)
+        user/
+            forum_edit.php
+            forum_forum.php
+            forum_user_posts.php
+            host_edit_action.php
+            host_update_credit.php

@@ -51,7 +51,7 @@ if ($logged_in_user->id != $post->user) {
 
 show_forum_title($forum, $thread, $category->is_helpdesk);
 
-echo "<form action=\"edit.php?id=", $post->id, "\" method=\"POST\">";
+echo "<form action=forum_edit.php?id=$post->id method=POST>\n";
 
 start_forum_table(array("Edit Your Post"), array(NULL), 2);
 if ($post->parent_post==0 and $thread->owner==$logged_in_user->id) {

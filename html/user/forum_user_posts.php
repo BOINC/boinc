@@ -25,7 +25,7 @@ if ($n == $count) {
     $offset += $count;
     echo "
         <br><br>
-        <a href=user_posts.php?userid=$userid&offset=$offset><b>Next $count posts</b></a>
+        <a href=forum_user_posts.php?userid=$userid&offset=$offset><b>Next $count posts</b></a>
     ";
 }
 
