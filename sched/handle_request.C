@@ -609,6 +609,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             MAJOR_VERSION,
             sreq.core_client_major_version
         );
+        strcpy(reply.message_priority, "low");
         write_log("wrong major version\n");
         return true;
     }
