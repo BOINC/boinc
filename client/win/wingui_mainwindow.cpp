@@ -625,9 +625,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
         // check message pane size
         n = m_MessageListCtrl.GetItemCount();
-        if (n > 2000) {
+        if (n > 200) {
             m_MessageListCtrl.SetRedraw(FALSE);
-            for (i = 0 ; i < n - 2000 ; i++)
+            for (i = 0 ; i < n - 200 ; i++)
                 m_MessageListCtrl.DeleteItem(0);
             m_MessageListCtrl.SetRedraw(TRUE);
         }

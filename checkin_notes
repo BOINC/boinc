@@ -14778,3 +14778,11 @@ Rom    6 July 2004
         boinc_gui.rc
         boinc_ss.rc
         wingui_mainwindow.cpp, .h
+
+Rom    6 July 2004
+    - Reduce the total number of messages the system attempts to keep in the messages 
+      tab to 200.  2000 was a bit much and caused the system to spend some time processing
+      when there were quite a few messages to go through, such as in Predictor@home
+
+    client/win/
+        wingui_mainwindow.cpp, .h
