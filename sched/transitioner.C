@@ -112,6 +112,7 @@ int handle_wu(
     int rs, max_result_suffix = -1;
 
     TRANSITIONER_ITEM& wu_item = items[0];
+    TRANSITIONER_ITEM wu_item_original = wu_item;
 
     // Scan the WU's results, and find the canonical result if there is one
     //
@@ -495,7 +496,7 @@ int handle_wu(
         wu_item.id, wu_item.name, wu_item.transition_time
     );
 
-    retval = transitioner.update_workunit(wu_item);
+    retval = transitioner.update_workunit(wu_item, wu_item_original);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -515,6 +516,18 @@ bool do_pass() {
 
     check_stop_daemons();
 
+#if 0
+    if (config.use_transactions) {
+        retval = boinc_db.start_transaction();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "transitioner.start_transaction() == %d\n", retval
+            );
+        }
+    }
+#endif
+
     // loop over entries that are due to be checked
     //
     while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, items)) {
@@ -528,16 +541,6 @@ bool do_pass() {
         // ??? why ???
         //
         if ((mod_n == 0) || ((mod_n != 0) && (mod_i == (wu_item.id % mod_n)))) {
-            if (config.use_transactions) {
-                retval = boinc_db.start_transaction();
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
-                        "[WU#%d %s] transitioner.start_transaction() == %d\n",
-                        wu_item.id, wu_item.name, retval
-                    );
-                }
-            }
 
             retval = handle_wu(transitioner, items);
             if (retval) {
@@ -549,19 +552,23 @@ bool do_pass() {
                 exit(1);
             }
 
-            if (config.use_transactions) {
-                retval = boinc_db.commit_transaction();
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
-                        "[WU#%d %s] transitioner.commit_transaction() == %d\n",
-                        wu_item.id, wu_item.name, retval
-                    );
-                }
-            }
             check_stop_daemons();
         }
     }
+
+#if 0
+    if (config.use_transactions) {
+        retval = boinc_db.commit_transaction();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[WU#%d %s] transitioner.commit_transaction() == %d\n",
+                wu_item.id, wu_item.name, retval
+            );
+        }
+    }
+#endif
+
     return did_something;
 }
 

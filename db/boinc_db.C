@@ -801,20 +801,43 @@ int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
     return db->do_query(query);
 }
 
-int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
+int DB_TRANSITIONER_ITEM_SET::update_workunit(
+    TRANSITIONER_ITEM& ti, TRANSITIONER_ITEM& ti_original
+) {
     char query[MAX_QUERY_LEN];
+    char updates[4096], buf[256];
 
-    sprintf(query,
-        "update workunit set need_validate=%d, error_mask=%d, "
-        "assimilate_state=%d, file_delete_state=%d, "
-        "transition_time=%d where id=%d",
-        ti.need_validate,
-        ti.error_mask,
-        ti.assimilate_state,
-        ti.file_delete_state,
-        ti.transition_time,
-        ti.id
-    );
+    strcpy(updates, "");
+    if (ti.need_validate != ti_original.need_validate) {
+        sprintf(buf, " need_validate=%d,", ti.need_validate);
+        strcat(updates, buf);
+    }
+    if (ti.error_mask != ti_original.error_mask) {
+        sprintf(buf, " error_mask=%d,", ti.error_mask);
+        strcat(updates, buf);
+    }
+    if (ti.assimilate_state != ti_original.assimilate_state) {
+        sprintf(buf, " assimilate_state=%d,", ti.assimilate_state);
+        strcat(updates, buf);
+    }
+    if (ti.file_delete_state != ti_original.file_delete_state) {
+        sprintf(buf, " file_delete_state=%d,", ti.file_delete_state);
+        strcat(updates, buf);
+    }
+    if (ti.transition_time != ti_original.transition_time) {
+        sprintf(buf, " transition_time=%d,", ti.transition_time);
+        strcat(updates, buf);
+    }
+    int n = strlen(updates);
+    if (n == 0) {
+        return 0;
+    }
+
+    // trim the final comma
+    //
+    updates[n-1] = 0;
+
+    sprintf(query, "update workunit set %s where id=%d", updates, ti.id);
     return db->do_query(query);
 }
 

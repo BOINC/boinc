@@ -602,7 +602,7 @@ public:
         std::vector<TRANSITIONER_ITEM>& items
     );
     int update_result(TRANSITIONER_ITEM&);
-    int update_workunit(TRANSITIONER_ITEM&);
+    int update_workunit(TRANSITIONER_ITEM&, TRANSITIONER_ITEM&);
 };
 
 // The validator uses this to get (WU, result) pairs efficiently.

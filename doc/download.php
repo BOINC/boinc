@@ -28,7 +28,7 @@ function dl_item($x, $y) {
 }
 
 function version(
-    $platform, $number, $desc, $filename, $date, $installer, $issues=null
+    $platform, $number, $desc, $filename, $date, $installer, $features=null, $issues=null
 ) {
     global $xml;
     $path = "dl/$filename";
@@ -50,6 +50,7 @@ function version(
     <size_mb>$s</size_mb>
     <md5>$md</md5>
     <installer>$installer</installer>
+    <features>$features</features>
     <issues>$issues</issues>
 </version>
 ";
@@ -61,6 +62,9 @@ function version(
         dl_item("Release date", $date);
         dl_item("Installer type", $installer);
         dl_item("MD5 checksum of download file", $md);
+        if ($features) {
+            dl_item ("New features", $features);
+        }
         if ($issues) {
             dl_item ("Known issues", $issues);
         }
@@ -153,6 +157,7 @@ version(
     "boinc_4.25_windows_intelx86.exe",
     "3 Mar 2005",
     win_new(),
+    "Works with HTTP proxies",
     "<ul>
     <li/> The BOINC screensaver conflicts with Microsoft Intellitype software.
     <li/>
@@ -184,6 +189,7 @@ version(
     "boinc_4.19_windows_intelx86.exe",
     "25 Jan 2005",
     win_old(),
+    null,
     "<ul>
     <li> Doesn't work with some HTTP proxies (fixed in later versions).
     <li>
@@ -199,6 +205,7 @@ version(
     "boinc_4.27_windows_intelx86.exe",
     "24 Mar 2005",
     win_new(),
+    null,
     "<ul>
     <li>
     This release should workaround the Intellisense/Intellipoint issue of
@@ -249,7 +256,8 @@ version(
      Fixes a bug which caused the application to freeze when choosing &quot;Stop&quot; or &quot;Quit BOINC Menubar&quot;.
      <li>
      Various other fixes and improvements.
-"
+    ",
+    null
 );
 version(
     "Mac",

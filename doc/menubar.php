@@ -17,7 +17,7 @@ echo "
   
 <h3>&nbsp;</h3>
 <h3>First-time BOINC Participants</h3>
-<p> If you are new to BOINC, then you need to create accounts for projects in which you would like to participate. Please visit the main BOINC site (<a href=http://boinc.berkeley.edu/>http://http://boinc.berkeley.edu/</a>) for a list of popular projects.
+<p> If you are new to BOINC, then you need to create accounts for projects in which you would like to participate. Please visit the main BOINC site (<a href=http://boinc.berkeley.edu/>http://boinc.berkeley.edu/</a>) for a list of popular projects.
 <p>When you create an account, you will be sent an email containing a URL and Account Key. Collect this information and skip down to the 'Project Manager' section for information on how to set up BOINC Menubar to run these projects.
  <h3>&nbsp;</h3>
 <h3>Returning BOINC Participants</h3>
