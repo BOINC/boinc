@@ -20,6 +20,8 @@
 #ifndef _STD_FIXES_H_
 #define _STD_FIXES_H_
 
+#ifdef __cplusplus
+
 #ifndef CONFIG_TEST
 
 #ifndef HAVE_STD_MIN
@@ -34,7 +36,7 @@ inline T min(const T &a, const T &b) {
 	return ((a<b)?a:b);
 }
 }
-#endif
+#endif /* HAVE_STD_MIN */
 
 #ifndef HAVE_STD_MAX
 namespace std {
@@ -48,7 +50,7 @@ inline T max(const T &a, const T &b) {
 }
 
 }
-#endif
+#endif /* HAVE_STD_MAX */
 
 #ifndef HAVE_STD_TRANSFORM
 #include <algorithm>
@@ -70,8 +72,8 @@ o_iterator transform(i_iterator first, i_iterator last, o_iterator res, OP op) {
 
 }
 
-#endif
-#endif
+#endif /* HAVE_STD_TRANSFORM */
+#endif /* CONFIG_TEST */
 
 #if defined(LARGEFILE_BREAKS_CXX) && (defined(_LARGE_FILES) || (_FILE_OFFSET_BITS==64))
 
@@ -113,5 +115,6 @@ inline int open(const char *filename, int flags, mode_t mode) { return open64(fi
 inline int creat(const char *filename, mode_t mode) { return creat64(filename,mode); }
 
 #endif
-#endif
+#endif /* __cplusplus */
+#endif /* STD_FIXES_H */
 

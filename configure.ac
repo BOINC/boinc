@@ -112,6 +112,18 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 AC_PROG_LN_S
 
+dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
+dnl configuring itself for largefile support.  On these systems largefile
+dnl support breaks C++ compiles by defining away many of the C standard library
+dnl routines that should reside in namespace std::.  In order to get around
+dnl problem first we have to check the largefile support macros.  Later we will
+dnl use the macro SAH_LARGEFILE_BREAKS_CXX to check for the breakage.  If
+dnl if breakage is found LARGEFILE_BREAKS_CXX is defined in config.h.  This
+dnl define is checked in std_fixes.h and the appropriate functions are defined
+dnl in order to solve the problem.
+AC_SYS_LARGEFILE
+
+
 if test "${enable_server}" = yes; then
    AC_CHECK_MYSQL
    if test "${no_mysql}" = yes; then
@@ -197,6 +209,9 @@ AH_TOP([
 
 ])
 AH_BOTTOM([
+/* include fixes for the most common problems */
+#include "std_fixes.h"
+
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */
 ])
@@ -211,6 +226,7 @@ AC_TYPE_SIGNAL
 AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h)
 
 AC_LANG_PUSH(C++)
+SAH_LARGEFILE_BREAKS_CXX
 SAH_HEADER_STDCXX
 SAH_CHECK_NAMESPACES
 AH_TEMPLATE([HAVE_STD_MIN],[Define to 1 if min is in namespace std::])

@@ -24333,6 +24333,8 @@ Bruce 8 Feb 2005
         sched_config.C
         sched_config.h
 
+
+
 Bruce 8 Feb 2005
     - Turn off ops pages that update the data base.  These now issue a message
       informing the project admin that they need to be explicitly edited to
@@ -24359,3 +24361,29 @@ David  9 Feb 2005
 	client/
 		app_control.C
 		client_state.h
+
+Eric K. 9 Feb 2005
+    -Unfortunately on some 32 bit systems there is a problem with wx-widgets
+     configuring itself for largefile support.  On these systems largefile
+     support breaks C++ compiles by defining away many of the C standard library
+     routines that should reside in namespace std::.  In order to get around
+     problem first we have to check the largefile support macros.  Later we will
+     use the macro SAH_LARGEFILE_BREAKS_CXX to check for the breakage.  If
+     if breakage is found LARGEFILE_BREAKS_CXX is defined in config.h.  This
+     define is checked in std_fixes.h and the appropriate functions are defined
+     in order to solve the problem. (These functions were already in place)
+     Because these defines affect the behavior of standard library headers,
+     std_fixes.h is being included from config.h
+    -Added AM_CPPFLAGS, AM_CFLAGS, and AM_CXXFLAGS (for flags common to all
+     compiles) so they will be defined in all Makefile.am files.
+    -Put #ifdef _cplusplus around the C++ specific items in std_fixes.h so it
+     may be included from C source files.  
+    
+    configure.ac
+    Makefile.incl
+    m4/
+        sah_largefile_breaks_cxx.m4
+    api/
+        Makefile.am
+    lib/
+        std_fixes.h

@@ -22,7 +22,11 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/sched			\
         $(MYSQL_CFLAGS)				\
         $(PTHREAD_CFLAGS)		        \
-        -include $(top_builddir)/config.h
+        -include $(top_srcdir)/config.h
+
+AM_CFLAGS = $(AM_CPPFLAGS)
+AM_CXXFLAGS = $(AM_CPPFLAGS)
+AM_LDFLAGS =
 
 # dependencies to make sure libs gets compiled before
 # programs linking to them:
@@ -38,3 +42,4 @@ $(LIBSCHED):
 LIBBOINC = $(top_builddir)/libboinc.a
 $(LIBBOINC):
 	cd $(top_builddir)/lib; ${MAKE} libboinc.a
+
