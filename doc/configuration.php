@@ -5,7 +5,7 @@
 
 require_once("docutil.php");
 
-echo "<-- \$Id$ -->\n";
+// echo "<-- \$Id$ -->\n";
 
 page_head("The project configuration file");
 
