@@ -56,8 +56,10 @@ struct APP_INIT_DATA {
     char user_name[256];
     char team_name[256];
     double wu_cpu_time;		  // cpu time from previous sessions
-    double total_cobblestones;
-    double recent_avg_cobblestones;
+    double user_total_credit;
+    double user_expavg_credit;
+    double host_total_credit;
+    double host_expavg_credit;
     double checkpoint_period;     // recommended checkpoint period
     double fraction_done_update_period;
 };

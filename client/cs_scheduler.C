@@ -17,8 +17,7 @@
 // Contributor(s):
 //
 
-// This file contains high-level logic for communicating with
-// scheduling servers,
+// High-level logic for communicating with scheduling servers,
 // and for merging the result of a scheduler RPC into the client state
 
 // Note: code for actually doing a scheduler RPC is in scheduler_op.C
@@ -33,8 +32,9 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
-#include "log_flags.h"
+#include "util.h"
 
+#include "log_flags.h"
 #include "account.h"
 #include "message.h"
 #include "scheduler_op.h"
@@ -43,8 +43,7 @@
 
 // quantities like avg CPU time decay by a factor of e every week
 //
-#define SECONDS_IN_DAY (3600*24)
-#define EXP_DECAY_RATE  (1./(SECONDS_IN_DAY*7))
+#define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
 
 // estimate the days of work remaining
 //
@@ -60,7 +59,7 @@ double CLIENT_STATE::current_water_days() {
         // TODO: subtract time already finished for WUs in progress
         seconds_remaining += rp->wup->seconds_to_complete;
     }
-    return (seconds_remaining / SECONDS_IN_DAY);
+    return (seconds_remaining / SECONDS_PER_DAY);
 }
 
 // seconds of work needed to come up to high-water mark
@@ -68,7 +67,7 @@ double CLIENT_STATE::current_water_days() {
 double CLIENT_STATE::work_needed_secs() {
     double x = current_water_days();
     if (x > global_prefs.high_water_days) return 0;
-    return (global_prefs.high_water_days - x)*SECONDS_IN_DAY;
+    return (global_prefs.high_water_days - x)*SECONDS_PER_DAY;
 }
 
 // update exponentially-averaged CPU times of all projects

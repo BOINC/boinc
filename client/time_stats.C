@@ -22,6 +22,7 @@
 #include <math.h>
 
 #include "parse.h"
+#include "util.h"
 #include "error_numbers.h"
 
 #include "time_stats.h"
@@ -30,7 +31,7 @@
 // The last 30 days have a weight of 1/e;
 // everything before that has a weight of (1-1/e)
 
-#define ALPHA (3600.*24*7*30)
+#define ALPHA (SECONDS_PER_DAY*30)
 
 TIME_STATS::TIME_STATS() {
     last_update = 0;

@@ -206,7 +206,9 @@ function no_cache() {
 // (Used during account creation and email address changes)
 
 // a valid email address is of the form A@B.C
-// where A, B, C are nonempty and don't contain @ or .
+// where A, B, C are nonempty,
+// A and B don't contain @ or .,
+// and C doesn't contain @
 //
 function is_valid_email_addr($addr) {
     $x = strstr($addr, "@");
@@ -218,9 +220,6 @@ function is_valid_email_addr($addr) {
     if (!$y) return false;
     if (strlen($y) == strlen($x)) return false;
     if (strlen($y) == 1) return false;
-    $y = substr($y, 1);
-    if (strstr($y, ".")) return false;
-    if (strlen($y) == 0) return false;
     return true;
 }
 
@@ -241,4 +240,8 @@ function split_munged_email_addr($addr, $string, &$email) {
     return true;
 }
 
+// remove all HTML tags except vanilla formatting
+//
+function cleanse_html($text) {
+}
 ?>

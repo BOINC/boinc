@@ -1,7 +1,6 @@
 <?php
     require_once("db.inc");
     require_once("util.inc");
-    require_once("prefs.inc");
 
     $authenticator = init_session();
     db_init();

@@ -147,8 +147,10 @@ int boinc_init() {
     strcpy(aid.user_name, "John Smith");
     strcpy(aid.team_name, "The A-Team");
     aid.wu_cpu_time = 1000;
-    aid.total_cobblestones = 1000;
-    aid.recent_avg_cobblestones = 500;
+    aid.user_total_credit = 1000;
+    aid.user_expavg_credit = 500;
+    aid.host_total_credit = 1000;
+    aid.host_expavg_credit = 500;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
 
@@ -527,13 +529,17 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     }
     fprintf(f,
         "<wu_cpu_time>%f</wu_cpu_time>\n"
-        "<total_cobblestones>%f</total_cobblestones>\n"
-        "<recent_avg_cobblestones>%f</recent_avg_cobblestones>\n"
+        "<user_total_credit>%f</user_total_credit>\n"
+        "<user_expavg_credit>%f</user_expavg_credit>\n"
+        "<host_total_credit>%f</host_total_credit>\n"
+        "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n",
         ai.wu_cpu_time,
-        ai.total_cobblestones,
-        ai.recent_avg_cobblestones,
+        ai.user_total_credit,
+        ai.user_expavg_credit,
+        ai.host_total_credit,
+        ai.host_expavg_credit,
         ai.checkpoint_period,
         ai.fraction_done_update_period
     );
@@ -554,8 +560,10 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         }
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
-        else if (parse_double(buf, "<total_cobblestones>", ai.total_cobblestones)) continue;
-        else if (parse_double(buf, "<recent_avg_cobblestones>", ai.recent_avg_cobblestones)) continue;
+        else if (parse_double(buf, "<user_total_credit>", ai.user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
+        else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;

@@ -13,6 +13,10 @@ function option($name, $val) {
     echo "<option name='$name' $x>$name\n";
 }
 
+function project_specific_prefs_default() {
+    return "<color_scheme>Tahiti Sunset</color_scheme>\n";
+}
+
 // given struct, show form for editing
 //
 function project_specific_prefs_edit($prefs) {

@@ -1,5 +1,7 @@
 <?php
 
+// This is a sample project file.  Replace it with your own.
+
 define("PROJECT", "Astropulse");
 define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 

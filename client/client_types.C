@@ -37,6 +37,7 @@ PROJECT::PROJECT() {
     resource_share = 100;
     strcpy(project_name,"");
     strcpy(user_name,"");
+    strcpy(team_name,"");
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
@@ -103,6 +104,7 @@ int PROJECT::parse_state(FILE* in) {
 
     strcpy(project_name, "");
     strcpy(user_name, "");
+    strcpy(team_name, "");
     resource_share = 100;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
@@ -119,6 +121,7 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
+        else if (parse_str(buf, "<team_name>", user_name, sizeof(team_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
@@ -165,6 +168,7 @@ int PROJECT::write_state(FILE* out) {
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
         "    <user_name>%s</user_name>\n"
+        "    <team_name>%s</team_name>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
         "    <user_create_time>%d</user_create_time>\n"
@@ -181,6 +185,7 @@ int PROJECT::write_state(FILE* out) {
         master_url,
         project_name,
         user_name,
+        team_name,
         user_total_credit,
         user_expavg_credit,
         user_create_time,
@@ -213,6 +218,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     strcpy(project_name, p.project_name);
     strcpy(user_name, p.user_name);
+    strcpy(team_name, p.team_name);
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     user_create_time = p.user_create_time;

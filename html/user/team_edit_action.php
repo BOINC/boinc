@@ -18,39 +18,38 @@
     require_founder_login($user, $team);
 
     $team_url = ereg_replace("\"", "'", $HTTP_POST_VARS["url"]);
-    $pos = strpos($team_url, "http://");
-    if (!($pos === false)) { // note: three equal signs
-      $team_url = substr($team_url, 7);
+    $x = strstr($team_url, "http://");
+    if ($x) {
+        $team_url = substr($team_url, 7);
     }
     $team_name = ereg_replace("\"", "'", $HTTP_POST_VARS["name"]);
     $team_name_html = ereg_replace("\"", "'", $HTTP_POST_VARS["name_html"]);
     $team_description = ereg_replace("\"", "'", $HTTP_POST_VARS["description"]);
 
-
-        $query_team_table = sprintf(
-            "update team set name = '%s',
-            name_html = '%s',
-            url = '%s',
-            description = '%s',
-            type = %d
-            where id = %d",
-            $team_name,
-            $team_name_html,
-            $team_url,
-            $team_description,
-            $HTTP_POST_VARS["type"],
-            $team->id
-        );
-        $result_team_table = mysql_query($query_team_table);
-        if ($result_team_table) {
-            page_head("Changes accepted");
-            $team_name = $team->name;
-            echo "<h2>Changes Accepted</h2>";
-            echo "The changes to <a href=team_display.php?id=$team->id>$team_name</a> were accepted and should now be in effect.";
-        } else {
-            page_head("Error");
-            echo "Couldn't edit team - please try later.\n";
-        }
+    $query_team_table = sprintf(
+        "update team set name = '%s',
+        name_html = '%s',
+        url = '%s',
+        description = '%s',
+        type = %d
+        where id = %d",
+        $team_name,
+        $team_name_html,
+        $team_url,
+        $team_description,
+        $HTTP_POST_VARS["type"],
+        $team->id
+    );
+    $result_team_table = mysql_query($query_team_table);
+    if ($result_team_table) {
+        page_head("Changes accepted");
+        $team_name = $team->name;
+        echo "<h2>Changes Accepted</h2>";
+        echo "The changes to <a href=team_display.php?id=$team->id>$team_name</a> were accepted and should now be in effect.";
+    } else {
+        page_head("Error");
+        echo "Couldn't edit team - please try later.\n";
+    }
 
 page_tail();
 

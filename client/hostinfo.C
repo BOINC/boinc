@@ -191,15 +191,14 @@ int HOST_INFO::write_time_tests(FILE* out) {
 }
 
 // Returns the domain of the local host
-// TODO: Should the 256 be MAXHOSTNAMELEN instead?
 //
-int get_local_domain_name(char* p) {
+int get_local_domain_name(char* p, int len) {
     char buf[256];
 
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
     if (!he) return -1;
-    strcpy(p, he->h_name);
+    strncpy(p, he->h_name, len);
     return 0;
 }
 

@@ -65,7 +65,7 @@ extern int get_host_info(HOST_INFO&);
 extern void clear_host_info(HOST_INFO&);
 extern void get_host_disk_info( double &total_space, double &free_space );
 
-extern int get_local_domain_name(char* p);
+extern int get_local_domain_name(char* p, int len);
 extern int get_local_ip_addr_str(char* p);
 extern int get_local_ip_addr(int& p);
 

@@ -300,7 +300,7 @@ int get_host_info(HOST_INFO& host) {
     parse_meminfo(host);
 #endif
 
-    get_local_domain_name(host.domain_name);
+    get_local_domain_name(host.domain_name, sizeof(host.domain_name));
     get_local_ip_addr_str(host.ip_addr);
     host.timezone = get_timezone();
 #ifdef HAVE_SYS_UTSNAME_H

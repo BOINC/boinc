@@ -134,12 +134,19 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&aid, 0, sizeof(aid));
 
-    // TODO: fill in the app prefs, team name, etc.
-    strncpy( aid.user_name, wup->project->user_name, 256 );
-    if (wup->project->project_specific_prefs)
-        strncpy( aid.app_preferences, wup->project->project_specific_prefs, 4096 );
-    aid.total_cobblestones = wup->project->user_total_credit;
-    aid.recent_avg_cobblestones = wup->project->user_expavg_credit;
+    strncpy(aid.user_name, wup->project->user_name, sizeof(aid.user_name));
+    strncpy(aid.team_name, wup->project->team_name, sizeof(aid.team_name));
+    if (wup->project->project_specific_prefs) {
+        strncpy(
+            aid.app_preferences,
+            wup->project->project_specific_prefs,
+            sizeof(aid.app_preferences)
+        );
+    }
+    aid.user_total_credit = wup->project->user_total_credit;
+    aid.user_expavg_credit = wup->project->user_expavg_credit;
+    aid.host_total_credit = wup->project->host_total_credit;
+    aid.host_expavg_credit = wup->project->host_expavg_credit;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.wu_cpu_time = checkpoint_cpu_time;
@@ -728,34 +735,28 @@ bool ACTIVE_TASK_SET::poll_time() {
     return updated;
 }
 
-// Gets the next available free slot, or returns -1 if all slots are full
-// TODO: don't use malloc here
+// Get the next available free slot, or returns -1 if all slots are full
 //
 int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
     unsigned int i;
-    char *slot_status;
+    int j;
+    bool found;
 
     if (active_tasks.size() >= (unsigned int)total_slots) {
         return -1;
     }
 
-    slot_status = (char *)calloc( sizeof(char), total_slots );
-    if (!slot_status) return -1;
-    
-    for (i=0; i<active_tasks.size(); i++) {
-        if (active_tasks[i]->slot >= 0 && active_tasks[i]->slot < total_slots) {
-            slot_status[active_tasks[i]->slot] = 1;
+    for (j=0; j<total_slots; j++) {
+        found = false;
+        for (i=0; i<active_tasks.size(); i++) {
+            if (active_tasks[i]->slot == j) {
+                found = true;
+                break;
+            }
         }
+        if (!found) return j;
     }
 
-    for (i=0; i<(unsigned int)total_slots; i++) {
-        if (!slot_status[i]) {
-            free(slot_status);
-            return i;
-        }
-    }
-
-    free(slot_status);
     return -1;
 }
 

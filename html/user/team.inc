@@ -2,6 +2,7 @@
 
 require_once("util.inc");
 require_once("db.inc");
+require_once("sanitize_html.inc");
 
 function show_team($team) {
     start_table();
@@ -11,7 +12,7 @@ function show_team($team) {
     row("url", $team->url);
     row("type", $team->type);
     row("name_html", $team->name_html);
-    row("description", $team->description);
+    row("description", sanitize_html($team->description));
 }
 
 function display_team_page($team) {
@@ -36,7 +37,7 @@ function display_team_page($team) {
     echo "<b>Team Info:</b></font></td></tr></table>";
     echo "<table>";
     if (strlen($team->description)) {
-        row("<b>Description:   </b>", $team->description);
+        row("<b>Description:   </b>", sanitize_html($team->description));
     }
     if (strlen($team->url)) {;
         row("<b>Web site:   </b>", "<a href=http://$team->url>http://$team->url</a>");

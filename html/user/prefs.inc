@@ -76,7 +76,7 @@ function element_end($parser, $name) {
         $parse_result->run_if_user_active = true;
         break;
     case "confirm_before_connecting":
-        $parse_result->confirm_before_connecting = 1;
+        $parse_result->confirm_before_connecting = true;
         break;
     case "low_water_days":
         $parse_result->low_water_days = $text;
@@ -128,8 +128,8 @@ function char_handler($parser, $x) {
 function default_prefs() {
     $p = null;
     $p->run_on_batteries = false;
-    $p->run_if_user_active = false;
-    $p->confirm_before_connecting = 0;
+    $p->run_if_user_active = true;
+    $p->confirm_before_connecting = false;
     $p->low_water_days = 1;
     $p->high_water_days = 3;
     $p->disk_max_used_gb = 100;
@@ -139,15 +139,18 @@ function default_prefs() {
     $p->resource_share = 100;
     $p->show_email = false;
     $p->send_email = true;
+
+    $p->project_specific = project_specific_prefs_default();
     return $p;
 }
 
 // state of prefs before parsing
 //
 function initial_prefs() {
-    $p = default_prefs;
+    $p = default_prefs();
     $p->show_email = false;
     $p->send_email = false;
+    return $p;
 }
 
 // parse prefs (either global or project) from XML to a struct
@@ -242,8 +245,8 @@ function prefs_form_global($user, $prefs) {
         <br><font size=-1>(This matters only if you use a modem)</font>
         </td><td valign=top>
     ";
-    printf("Yes <input type=radio name=confirm_before_connecting %s>\n", $prefs->confirm_before_connecting?"checked":"");
-    printf("No <input type=radio name=confirm_before_connecting %s>\n", $prefs->confirm_before_connecting?"":"checked");
+    printf("Yes <input type=radio name=confirm_before_connecting value=yes %s>\n", $prefs->confirm_before_connecting?"checked":"");
+    printf("No <input type=radio name=confirm_before_connecting value=no %s>\n", $prefs->confirm_before_connecting?"":"checked");
     echo   "</td></tr>
         <tr>
         <td align=right>Keep enough to work on disk to last between
@@ -339,11 +342,21 @@ function venue_update($user) {
 //
 function prefs_global_parse_form(&$prefs) {
     parse_str(getenv("QUERY_STRING"));
+
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
-    $prefs->confirm_before_connecting = isset($confirm_before_connecting)?1:0;
+    $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
+
+    if ($low_water_days<0) $low_water_days = 0;
+    if ($high_water_days<0) $high_water_days = 0;
+    if ($low_water_days > $high_water_days) $low_water_days = $high_water_days;
     $prefs->low_water_days = $low_water_days;
     $prefs->high_water_days = $high_water_days;
+
+    if ($disk_max_used_gb<0) $disk_max_used_gb = 0;
+    if ($disk_max_used_pct<0) $disk_max_used_pct = 0;
+    if ($disk_max_used_pct>100) $disk_max_used_pct = 100;
+    if ($disk_min_free_gb<0) $disk_min_free_gb = 0;
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_max_used_pct = $disk_max_used_pct;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
@@ -401,9 +414,14 @@ function project_prefs_make_xml($prefs) {
     if ($prefs->send_email == 1) {
         $xml = $xml."<send_email/>\n";
     }
-    $xml = $xml
-        ."<resource_share>$prefs->resource_share</resource_share>\n"
-        ."<project_specific>\n$prefs->project_specific</project_specific>\n";
+    if ($prefs->resource_share) {
+        $xml = $xml
+            ."<resource_share>$prefs->resource_share</resource_share>\n";
+    }
+    if ($prefs->project_specific) {
+        $xml = $xml
+            ."<project_specific>\n$prefs->project_specific</project_specific>\n";
+    }
     $xml = $xml."</project_preferences>\n";
     return $xml;
 }

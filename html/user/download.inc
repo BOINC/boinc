@@ -14,10 +14,9 @@ function platform_downloads($platform, $core_app) {
             echo "CAN'T FIND FILENAMEn $app_version->xml_doc\n";
         }
         $version = sprintf(
-            $platform->name,
             $app_version->version_num/100
         );
-        echo "<tr><td><a href=$download_url/$filename><b>$platform->user_friendly_name</b></td></tr>\n";
+        echo "<tr><td><a href=$download_url/$filename><b>$platform->user_friendly_name $version</b></td></tr>\n";
         //$app_version->md5_cksum";
         $found = true;
     }

@@ -53,7 +53,8 @@
 #include "speed_stats.h"
 #include "client_state.h"
 
-#define SECONDS_PER_MONTH        (SECONDS_PER_DAY*30)
+#define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
+    // rerun CPU benchmarks this often (hardware may have been upgraded)
 
 CLIENT_STATE gstate;
 
@@ -183,12 +184,11 @@ int CLIENT_STATE::init() {
 }
 
 // Returns true if time tests should be run
-// This is determined by seeing if the user passed the "-no_time_test"
 // flag or if it's been a month since we last checked time stats
 //
 bool CLIENT_STATE::should_run_time_tests() {
     return (
-        difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_PER_MONTH
+        difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD
     );
 }
 
@@ -569,7 +569,7 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<active_task_set>")) {
             active_tasks.parse(f, this);
         } else if (match_tag(buf, "<platform_name>")) {
-            // should match out current platform name
+            // should match our current platform name
         } else if (match_tag(buf, "<version>")) {
             // could put logic here to detect incompatible state files
             // after core client update
