@@ -21,7 +21,7 @@
             user_host_table_start(false);
         } else {
             echo "Hidden\n";
-            end_cache(USER_PAGE_TTL,$cache_args);
+            end_cache(USER_PAGE_TTL, $cache_args);
             exit();
         }
         $private = false;
@@ -43,7 +43,7 @@
     echo "</table>\n";
     if ($caching) {
         page_tail(true);
-        end_cache(USER_PAGE_TTL,$cache_args);
+        end_cache(USER_PAGE_TTL, $cache_args);
     } else {
         page_tail();
     }

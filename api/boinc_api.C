@@ -126,6 +126,7 @@ int boinc_init() {
     options.defaults();
     return boinc_init_options(options);
 }
+
 int boinc_init_options(BOINC_OPTIONS& opt) {
     int retval;
     retval = boinc_init_options_general(opt);

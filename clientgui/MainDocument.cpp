@@ -104,7 +104,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if ( pFrame )
         {
             wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-            pFrame->UpdateStatusbar( _("Retrieving the BOINC system state.  Please wait...") );
+            pFrame->UpdateStatusbar( _("Retrieving system state; please wait...") );
         }
 
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
@@ -118,7 +118,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if ( pFrame )
         {
             wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-            pFrame->UpdateStatusbar( _("Retrieving the BOINC host information.  Please wait...") );
+            pFrame->UpdateStatusbar( _("Retrieving host information; please wait...") );
         }
 
         retval = rpc.get_host_info(host);

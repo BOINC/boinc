@@ -77,6 +77,8 @@ int main(int argc, char** argv) {
     ninfiles = 0;
     wu.clear();
 
+    // defaults (in case not in WU template)
+
     wu.min_quorum = 2;
     wu.target_nresults = 5;
     wu.max_error_results = 10;
@@ -97,6 +99,8 @@ int main(int argc, char** argv) {
             strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
+        } else if (!strcmp(argv[i], "-batch")) {
+            wu.batch = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-config_dir")) {
             config_dir = argv[++i];
         } else if (!strcmp(argv[i], "-rsc_fpops_est")) {

@@ -118,8 +118,8 @@ show_link(
 //);
 show_link(
     "Slovak",
-    "BOINC translation by slavko.sk",
-    "http://slavko.sk/boinc"
+    "www.boinc.sk",
+    "http://www.boinc.sk/"
 );
 show_link(
     "Spanish",

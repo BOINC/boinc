@@ -67,52 +67,50 @@ const wxString LINKDESC_DEFAULT         =
 
 const wxString LINK_TASKATTACH      = wxT(SECTION_TASK "attach");
 const wxString LINKDESC_TASKATTACH  = 
-     _("<b>Attach to Project</b><br>"
-       "Clicking attach to project allows you to join other BOINC "
-       "projects.  You will need a valid project URL and Authenticator.");
+     _("<b>Attach to project</b><br>"
+       "Join a BOINC project.  "
+       "You will need a project URL and account key.");
 
 const wxString LINK_TASKDETACH      = wxT(SECTION_TASK "detach");
 const wxString LINKDESC_TASKDETACH  = 
-     _("<b>Detach from Project</b><br>"
-       "Clicking detach from project removes the computer from the currently "
-       "selected project.  You may wish to update the project first to submit "
+     _("<b>Detach from project</b><br>"
+       "Detach this computer from this project.  "
+       "You may wish to update the project first to report "
        "any completed work.");
 
 const wxString LINK_TASKRESET       = wxT(SECTION_TASK "reset");
 const wxString LINKDESC_TASKRESET   = 
-     _("<b>Reset Project</b><br>"
-       "Clicking reset project removes all workunits and applications from "
-       "the currently selected project.  You may wish to update the project "
-       "first to submit any completed work.");
+     _("<b>Reset project</b><br>"
+       "Remove all workunits and applications from this project.  "
+       "You may wish to update the project "
+       "first to report any completed work.");
 
 const wxString LINK_TASKSUSPEND     = wxT(SECTION_TASK "suspend");
 const wxString LINKDESC_TASKSUSPEND = 
-     _("<b>Suspend Project</b><br>"
-       "Clicking suspend project will pause the project from any additional "
-       "computation for that project until the resume project option is selected.");
+     _("<b>Suspend project</b><br>"
+       "Stop work for this project "
+       "(you can resume later).");
 
 const wxString LINK_TASKRESUME      = wxT(SECTION_TASK "resume");
 const wxString LINKDESC_TASKRESUME  = 
-     _("<b>Resume Project</b><br>"
-       "Clicking resume project resumes computation for a project that has been"
-       "previously suspended.");
+     _("<b>Resume project</b><br>"
+       "Resume work for this project");
 
 const wxString LINK_TASKUPDATE      = wxT(SECTION_TASK "update");
 const wxString LINKDESC_TASKUPDATE  = 
-     _("<b>Update Project</b><br>"
-       "Clicking update project submits any outstanding work and refreshes "
-       "your credit and preferences for the currently selected project.");
+     _("<b>Update project</b><br>"
+       "Report all completed work and refresh "
+       "your credit and preferences for this project.");
 
 const wxString LINK_WEBBOINC        = wxT(SECTION_WEB "boinc");
 const wxString LINKDESC_WEBBOINC    = 
-     _("<b>BOINC Homepage</b><br>"
-       "This will open a browser window to the BOINC homepage.");
+     _("<b>BOINC home page</b><br>"
+       "Open the BOINC home page in a web browser.");
 
 const wxString LINK_WEBPROJECT      = wxT(SECTION_WEB "project");
 const wxString LINKDESC_WEBPROJECT  = 
-     _("<b>Project Homepage</b><br>"
-       "This will open a browser window to the currently selected project "
-       "homepage.");
+     _("<b>Project home page</b><br>"
+       "Open this project's home page in a web browser.");
 
 const wxString LINK_WEB             = wxT(SECTION_WEB ":");
 
@@ -147,7 +145,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pTaskPane->AddVirtualFile(BITMAP_BOINC, bmpBOINC, wxBITMAP_TYPE_XPM);
 
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_WEBHEADER, bmpWeb, _("Websites"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_WEBHEADER, bmpWeb, _("Web sites"));
     m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
@@ -278,7 +276,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
 
         strMessage.Printf(
-            _("Are you sure you wish to detach from project '%s'?"), 
+            _("Are you sure you want to detach from project '%s'?"), 
             strProjectName.c_str());
 
         iAnswer = wxMessageBox(
@@ -301,7 +299,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
 
         strMessage.Printf(
-            _("Are you sure you wish to reset project '%s'?"), 
+            _("Are you sure you want to reset project '%s'?"), 
             strProjectName.c_str());
 
         iAnswer = wxMessageBox(

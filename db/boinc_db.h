@@ -335,7 +335,7 @@ struct WORKUNIT {
                                 // quicker or reflect loss rate
     int max_error_results;      // WU error if < #error results
     int max_total_results;      // WU error if < #total results
-        // (need this in case results never returned
+        // (need this in case results are never returned)
     int max_success_results;    // WU error if < #success results
         // without consensus (i.e. WU is nondeterministic)
     char result_template_file[64];

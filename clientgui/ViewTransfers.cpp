@@ -57,19 +57,18 @@
 
 
 const wxString LINKDESC_DEFAULT         = 
-     _("Please click a transfer item to see additional options.");
+     _("Click an item to see additional options.");
 
 const wxString LINK_TASKRETRY           = wxT(SECTION_TASK "retry");
 const wxString LINKDESC_TASKRETRY       = 
-     _("<b>Retry Now</b><br>"
-       "Clicking retry now will attempt to upload the result data file "
-       "to the project server now.");
+     _("<b>Retry now</b><br>"
+       "Click <b>Retry now</b> to upload the file now");
 
 const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
 const wxString LINKDESC_TASKABORT       = 
-     _("<b>Abort Upload</b><br>"
-       "Clicking abort upload will delete the result from the upload queue. "
-       "Doing this will keep you from being granted any credit for this result.");
+     _("<b>Abort upload</b><br>"
+       "Click <b>Abort upload</b> to delete the file from the upload queue. "
+       "This will prevent you from being granted credit for this result.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
@@ -215,7 +214,7 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         pDoc->GetTransferFileName(iProjectIndex, strName);
 
         strMessage.Printf(
-            _("Are you sure you wish to abort this file transfer '%s'?"), 
+            _("Are you sure you want to abort this file transfer '%s'?"), 
             strName.c_str());
 
         iAnswer = wxMessageBox(

@@ -24,17 +24,18 @@ some information is
 
 <h2>Other software</h2>
 
-Required for <b>compiling</b>:
+Required for compiling:
 <ul>
   <li><b>GNU C++</b> 2.95 or 3.0 - 3.4
   <li>Other GNU development tools: gmake, gzip, etc.
 </ul>
 
-Required on the <b>database</b> server:
+Required on the database server:
 <ul>
   <li><b>MySQL server</b> 3.23+ or 4.0+
-(package <code>mysql-server</code>).  Note: Transactions are only supported by
-MySQL 4.0+; to use MySQL 3.23, disable &lt;use_transactions/&gt; in config.xml
+(package <code>mysql-server</code>).
+Note: Transactions are only supported by MySQL 4.0+;
+to use MySQL 3.23, disable &lt;use_transactions/&gt; in config.xml
 
 </ul>
 After installing and running the server,
@@ -48,8 +49,10 @@ the account under which Apache runs
     grant all on *.* to nobody@localhost;
     grant all on *.* to nobody;
 </pre>
+Set your PATH variable to include MySQL programs
+(typically /usr/local/mysql and /usr/local/mysql/bin).
 
-Required on the <b>master/scheduler</b> server(s):
+Required on other server(s):
 <ul>
   <li><b>Apache</b> or other webserver (package <code>apache2</code> or <code>apache</code>)
   <li><b>PHP</b> 4.0 (package <code>php4</code>)

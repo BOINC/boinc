@@ -97,11 +97,13 @@ static int process_wu_template(
                         infiles[file_number], config.download_dir,
                         config.uldl_dir_fanout, path, true
                     );
-                    if ( ! boinc_file_exists(path) ) {
-                        sprintf(top_download_path,"%s/%s",config.download_dir,
-                            infiles[file_number]);
-			boinc_copy(top_download_path,path);
-	       	    }
+                    if (!boinc_file_exists(path)) {
+                        sprintf(top_download_path,
+                            "%s/%s",config.download_dir,
+                            infiles[file_number]
+                        );
+                        boinc_copy(top_download_path,path);
+                    }
 
                     retval = md5_file(path, md5, nbytes);
                     if (retval) {
@@ -168,6 +170,8 @@ static int process_wu_template(
         } else if (parse_double(p, "<rsc_memory_bound>", wu.rsc_memory_bound)) {
             continue;
         } else if (parse_double(p, "<rsc_disk_bound>", wu.rsc_disk_bound)) {
+            continue;
+        } else if (parse_int(p, "<batch>", wu.batch)) {
             continue;
         } else if (parse_int(p, "<delay_bound>", wu.delay_bound)) {
             continue;

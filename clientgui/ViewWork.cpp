@@ -58,29 +58,28 @@
 
 
 const wxString LINKDESC_DEFAULT         = 
-     _("Please click a result to see additional options.");
+     _("Click a result to see additional options.");
 
 const wxString LINK_TASKSUSPEND         = wxT(SECTION_TASK "suspend");
 const wxString LINKDESC_TASKSUSPEND     = 
      _("<b>Suspend</b><br>"
-       "Clicking suspend allows you to suspend the currently selected result.");
+       "Click <b>Suspend</b> to suspend the result.");
 
 const wxString LINK_TASKRESUME          = wxT(SECTION_TASK "resume");
 const wxString LINKDESC_TASKRESUME      = 
      _("<b>Resume</b><br>"
-       "Clicking resume allows you to resume a previously suspended result.");
+       "Click <b>Resume</b> to resume a suspended result.");
 
 const wxString LINK_TASKSHOWGRAPHICS    = wxT(SECTION_TASK "showgraphics");
 const wxString LINKDESC_TASKSHOWGRAPHICS= 
-     _("<b>Show Graphics</b><br>"
-       "Clicking show graphics will display a window giving you a chance "
-       "to see how the active result will look while in screensaver mode.");
+     _("<b>Show graphics</b><br>"
+       "Click <b>Show graphics</b> to show application graphics in a window.");
 
 const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
 const wxString LINKDESC_TASKABORT       = 
-     _("<b>Abort Result</b><br>"
-       "Clicking abort result will delete the result from the work queue. "
-       "Doing this will keep you from being granted any credit for this result.");
+     _("<b>Abort result</b><br>"
+       "Click <b>Abort result</b> to delete the result from the work queue. "
+       "This will prevent you from being granted credit for the result.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
@@ -108,15 +107,15 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pTaskPane->AddVirtualFile(BITMAP_RESULTS, bmpResult, wxBITMAP_TYPE_XPM);
 
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
     m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
-    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_RIGHT, 100);
-    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, 150);
+    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To completetion"), wxLIST_FORMAT_RIGHT, 100);
+    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
     m_bTipsHeaderHidden = false;
@@ -270,12 +269,12 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         pDoc->GetWorkName(iProjectIndex, strResultName);
 
         strMessage.Printf(
-            _("Are you sure you wish to abort this result '%s'?"), 
+            _("Are you sure you want to abort this result '%s'?"), 
             strResultName.c_str());
 
         iAnswer = wxMessageBox(
             strMessage,
-            _("Abort Result"),
+            _("Abort result"),
             wxYES_NO | wxICON_QUESTION, 
             this
         );

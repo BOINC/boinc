@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/11/22 19:17:06  davea
+// *** empty log message ***
+//
 // Revision 1.4  2004/10/26 16:58:34  rwalton
 // *** empty log message ***
 //
@@ -93,11 +96,11 @@ bool CValidateURL::Validate(wxWindow *parent)
         ok = FALSE;
 
         if      ( wxURL_SNTXERR == val.GetError() )
-            m_errormsg = _("No URL supplied, please enter a valid project URL.");
+            m_errormsg = _("No URL supplied; please enter a valid project URL.");
         else if ( wxURL_NOPROTO == val.GetError() )
-            m_errormsg = _("'%s' does not contain a protocol which can get this URL.");
+            m_errormsg = _("'%s' does not start with http://");
         else if ( wxURL_NOHOST == val.GetError() )
-            m_errormsg = _("'%s' does not contain a host name.");
+            m_errormsg = _("'%s' does not contain a valid host name.");
         else if ( wxURL_NOPATH == val.GetError() )
             m_errormsg = _("'%s' does not contain a valid path.");
     }

@@ -132,19 +132,22 @@ list_item(
     "If the number of client error results exceeds this,
     the work unit is declared to have an error;
     no further results are issued, and the assimilator is triggered.
-    This safeguards against workunits that exercise a bug
-    in the application."
+    This safeguards against workunits that cause
+    the application to crash."
 );
 list_item(
     "max_total_results",
     "If the total number of results for this workunit exceeds this,
-    the workunit is declared to be in error."
+    the workunit is declared to be in error.
+    This safeguards against workunits that are never reported
+    (e.g. because they crash the core client)."
 );
 list_item(
     "max_success_results",
     "If the number of success results for this workunit exceeds this,
     and a consensus has not been reached,
-    the workunit is declared to be in error."
+    the workunit is declared to be in error.
+    This safeguards against workunits that produce nondeterministic results."
 );
 list_end();
 

@@ -313,7 +313,7 @@ void CTaskBarIcon::CreateContextMenu()
     menu->AppendRadioItem( ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString );
     menu->AppendRadioItem( ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString );
     menu->AppendSeparator();
-    menu->AppendCheckItem( ID_TB_NETWORKSUSPEND, _("&Disable BOINC Network Access"), wxEmptyString );
+    menu->AppendCheckItem( ID_TB_NETWORKSUSPEND, _("&Disable BOINC network access"), wxEmptyString );
     menu->AppendSeparator();
     menu->Append( wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString );
     menu->AppendSeparator();

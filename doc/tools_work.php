@@ -33,6 +33,7 @@ A WU template file has the form
     [ <target_nresults>x</target_nresults> ]
     [ <max_error_results>x</max_error_results> ]
     [ <max_total_results>x</max_total_results> ]
+    [ <max_success_results>x</max_success_results> ]
 </workunit>
 "), "
 </pre>

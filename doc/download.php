@@ -12,14 +12,14 @@ function version_start($num, $date, $xml) {
 function version($platform, $filename, $xml) {
     $path = "dl/$filename";
     $dlink = "<a href=$path>Download</a>";
-    $md = md5($path);
+    $md = md5_file($path);
     if ($xml) {
         echo "
 <version>
     <platform>$platform</platform>
     <url>http://boinc.berkeley.edu/$path</url>
     <filename>$filename</filename>
-    <md5>$md5</md5>
+    <md5>$md</md5>
 </version>
 ";
     } else {

@@ -471,6 +471,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 			app_versions.push_back(avp);
 			continue;
 		}
+        msg_printf(p, MSG_ERROR, "Unparsed line in app_info.xml: %s", buf);
 	}
 	return ERR_XML_PARSE;
 }

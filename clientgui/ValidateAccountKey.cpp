@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/11/22 19:17:06  davea
+// *** empty log message ***
+//
 // Revision 1.3  2004/10/26 16:58:34  rwalton
 // *** empty log message ***
 //
@@ -89,7 +92,7 @@ bool CValidateAccountKey::Validate(wxWindow *parent)
     {
         ok = FALSE;
 
-        m_errormsg = _("Invalid Account Key, please enter a valid Account Key");
+        m_errormsg = _("Invalid Account Key; please enter a valid Account Key");
     }
 
     if ( !ok )

@@ -54,7 +54,7 @@
 #    include <OpenGL/glu.h>
 #  endif
 
-# include "GL/glut.h"
+# include "glut.h"
 /*
 #  if defined(HAVE_GLUT_H)
 #    include "glut.h"

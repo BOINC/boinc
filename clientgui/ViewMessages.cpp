@@ -66,7 +66,7 @@ const wxString LINKDESC_TASKCOPYALL     =
 const wxString LINK_TASKCOPYMESSAGE     = wxT(SECTION_TASK "copymessage");
 const wxString LINKDESC_TASKCOPYMESSAGE = 
      _("<b>Copy Selection</b><br>"
-       "Clicking copy selection, copies the selected message(s) to the system clipboard.<br><br>You can select multiple items by holding down either the shift key or control key before clicking on the next desired message.");
+       "Clicking <b>copy selection</b> copies the selected message(s) to the system clipboard.<br><br>You can select multiple items by holding down the shift key or control key while clicking on the next desired message.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)

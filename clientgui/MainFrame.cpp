@@ -176,17 +176,17 @@ bool CMainFrame::CreateMenu()
     menuFile->AppendRadioItem(
         ID_ACTIVITYRUNALWAYS,
         _("&Run always"),
-        _("Runs BOINC without regards to the configured preferences for the computer")
+        _("Does work regardless of preferences")
     );
     menuFile->AppendRadioItem(
         ID_ACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
-        _("Runs BOINC according to the preferences configured for the computer")
+        _("Does work according to your preferences")
     );
     menuFile->AppendRadioItem(
         ID_ACTIVITYSUSPEND,
         _("&Suspend"),
-        _("Suspends processing and network activity without regards to the configured preferences")
+        _("Stops work regardless of preferences")
     );
 
     menuFile->AppendSeparator();
@@ -194,7 +194,7 @@ bool CMainFrame::CreateMenu()
     menuFile->AppendCheckItem(
         ID_NETWORKSUSPEND,
         _("&Disable BOINC Network Access"),
-        _("Disables network activity without suspending BOINC")
+        _("Stops BOINC network activity")
     );
 
     menuFile->AppendSeparator();
@@ -202,7 +202,7 @@ bool CMainFrame::CreateMenu()
     menuFile->Append(
         ID_RUNBENCHMARKS, 
         _("Run &Benchmarks"),
-        _("Runs the CPU Benchmarks for BOINC")
+        _("Runs BOINC CPU benchmarks")
     );
 
     menuFile->AppendSeparator();
@@ -210,7 +210,7 @@ bool CMainFrame::CreateMenu()
     menuFile->Append(
         ID_SELECTCOMPUTER, 
         _("Select Computer..."),
-        _("Allows you to remotely connect up to another computer running BOINC")
+        _("Connect to another computer running BOINC")
     );
 
     menuFile->AppendSeparator();
@@ -234,7 +234,7 @@ bool CMainFrame::CreateMenu()
     menuHelp->Append(  
         wxID_ABOUT,
         _("&About BOINC Manager..."), 
-        _("Displays general information about BOINC and BOINC Manager")
+        _("Show information about BOINC and BOINC Manager")
     );
 
     // construct menu
@@ -587,7 +587,7 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
 
     strMachine = ::wxGetTextFromUser(
         _("Which computer do you wish to connect to?"),
-        _("Select Computer...")
+        _("Select computer...")
     );
 
     iRetVal = pDoc->Connect( strMachine );
