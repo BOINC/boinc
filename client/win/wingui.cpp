@@ -20,6 +20,7 @@
 // include header
 
 #include "wingui.h"
+#include "win_idle_tracker.h"
 
 // globals
 
@@ -992,6 +993,17 @@ CMainWindow::CMainWindow()
 //				gui display.
 void CALLBACK CMainWindow::TimerProc(HWND h, UINT msg, UINT id, DWORD time)
 {
+	if (gstate.global_prefs.idle_time_to_run > 0) {
+		if (GetTickCount()-IdleTrackerGetLastTickCount() > 1000*gstate.global_prefs.idle_time_to_run) {
+			gstate.user_idle = true;
+		} else {
+			gstate.user_idle = false;
+		}
+	}
+	else {
+		gstate.user_idle = true;
+	}
+
     while(gstate.do_something());
 	fflush(stdout);
 	fflush(stderr);
@@ -1444,6 +1456,17 @@ void CMainWindow::OnCommandStatusIconQuit()
 	m_TabIL.DeleteImageList();
 	m_MainMenu.DestroyMenu();
 
+	// Stop user idle detection
+	IdleTrackerTerm();
+
+	/*if (boincDLL != NULL) {
+		term_proc = (INITPROC) GetProcAddress(boincDLL, "IdleTrackerTerm");
+		if (term_proc != NULL) {
+			(term_proc)();
+		}
+	}
+	FreeLibrary(boincDLL);*/
+
 	// kill child processes
 	gstate.active_tasks.exit_tasks();
 	SaveUserSettings();
@@ -1553,16 +1576,32 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	StatusIcon(NIM_ADD);
 
 	// take care of other things
+	// 
     NetOpen();
+	// Redirect stdout and stderr to files
     freopen("stdout.txt", "w", stdout);
     freopen("stderr.txt", "w", stderr);
+	// Check what (if any) activities should be logged
     read_log_flags();
     int retval = gstate.init();
     if (retval) exit(retval);
     SetTimer(ID_TIMER, 1000, TimerProc);
 
+	// Start user idle detection
+	IdleTrackerInit();
+
+	//boincDLL = LoadLibrary((LPCTSTR) "boinc.dll");
+
+	/*if (boincDLL != NULL) {
+		init_proc = (INITPROC) GetProcAddress(boincDLL, "IdleTrackerInit");
+		if (init_proc != NULL) {
+			(init_proc)();
+		}
+	}*/
+
 	LoadUserSettings();
 	UpdateGUI(&gstate);
+
     return 0;
 }
 

@@ -87,12 +87,15 @@ int write_checkpoint_cpu_file(double);
 int parse_checkpoint_cpu_file(FILE*, double&);
 int write_fraction_done_file(FILE*, double, double);
 int parse_fraction_done_file(FILE*, double&, double&);
+int write_suspend_quit_file(FILE* f, bool suspend, bool quit);
+int parse_suspend_quit_file(FILE* f, bool& suspend, bool& quit);
 
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 #define CHECKPOINT_CPU_FILE     "checkpoint_cpu.xml"
 #define FRACTION_DONE_FILE  "fraction_done.xml"
+#define SUSPEND_QUIT_FILE  "suspend.xml"
 #define STDERR_FILE             "stderr.txt"
 
 int set_timer(double period);

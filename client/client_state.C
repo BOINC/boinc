@@ -210,6 +210,9 @@ int CLIENT_STATE::check_suspend_activities() {
     if (global_prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
+	if (!user_idle) {
+		should_suspend = true;
+	}
 
     if (should_suspend) {
         if (!activities_suspended) {

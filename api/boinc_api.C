@@ -84,6 +84,7 @@ static double timer_period = 1.0/50.0;    // 50 Hz timer
 static double time_until_checkpoint;
 static double time_until_redraw;
 static double time_until_fraction_done_update;
+static double time_until_suspend_check;
 static double fraction_done;
 static bool ready_to_checkpoint = false;
 static bool ready_to_redraw = false;
@@ -149,6 +150,7 @@ int boinc_init() {
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
     time_until_redraw = gi.refresh_period;
+    time_until_suspend_check = 1;  // check every 1 second for suspend request from core client
     this_process_active = true;
     
     set_timer(timer_period);
@@ -397,6 +399,15 @@ void on_timer(int a) {
         }
     }
 
+    time_until_suspend_check -= timer_period;
+    if (time_until_suspend_check <= 0) {
+        FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
+        if(f) {
+			fclose(f);
+		}
+        time_until_suspend_check = 1;	// reset to 1 second
+	}
+
     if (this_process_active) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update < 0) {
@@ -545,6 +556,27 @@ int parse_fraction_done_file(FILE* f, double& pct, double& cpu) {
         if (parse_double(buf, "<fraction_done>", pct)) continue;
         else if (parse_double(buf, "<cpu_time>", cpu)) continue;
         else fprintf(stderr, "parse_fraction_done_file: unrecognized %s", buf);
+    }
+    return 0;
+}
+
+int write_suspend_quit_file(FILE* f, bool suspend, bool quit) {
+	if (suspend) {
+	    fprintf(f, "<suspend/>\n");
+	}
+	if (quit) {
+	    fprintf(f, "<quit/>\n");
+	}
+    return 0;
+}
+
+int parse_suspend_quit_file(FILE* f, bool& suspend, bool& quit) {
+    char buf[256];
+	
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "<suspend/>")) suspend = true;
+        else if (match_tag(buf, "<quit/>")) quit = true;
+        else fprintf(stderr, "parse_suspend_quit_file: unrecognized %s", buf);
     }
     return 0;
 }

@@ -42,6 +42,7 @@ struct GLOBAL_PREFS {
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;
+	double idle_time_to_run;
 
     GLOBAL_PREFS();
     int parse(FILE*);

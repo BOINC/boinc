@@ -125,8 +125,8 @@ int ACTIVE_TASK::start(bool first_time) {
     starting_cpu_time = checkpoint_cpu_time;
     fraction_done = 0;
 
-    gi.xsize = 640;
-    gi.ysize = 480;
+    gi.xsize = 800;
+    gi.ysize = 600;
     gi.graphics_mode = MODE_WINDOW;
     gi.refresh_period = 0.1;
 
@@ -337,7 +337,7 @@ int ACTIVE_TASK::start(bool first_time) {
 }
 
 // Sends a request to the process of this active task to exit.  If it
-// doesn't exist within a set time (seconds), the process is terminated
+// doesn't exit within a set time (seconds), the process is terminated
 //
 void ACTIVE_TASK::request_exit(int seconds) {
     int retval;
@@ -457,7 +457,7 @@ bool ACTIVE_TASK_SET::poll() {
 
     // check for the stderr file, copy to result record
     //
-    sprintf(path, "%s/%s", atp->slot_dir, STDERR_FILE);
+    sprintf(path, "%s%s%s", atp->slot_dir, PATH_SEPARATOR, STDERR_FILE);
     FILE* f = fopen(path, "r");
     if (f) {
         n = fread(atp->result->stderr_out, 1, STDERR_MAX_LEN, f);

@@ -27,6 +27,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "boinc_dll"=.\boinc_dll\boinc_dll.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "boinc_gui"=.\boinc_gui\boinc_gui.dsp - Package Owner=<4>
 
 Package=<5>

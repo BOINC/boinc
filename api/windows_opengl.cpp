@@ -33,6 +33,7 @@
 #include <stdio.h>
 
 #include "graphics_api.h"
+#include "win_idle_tracker.h"
 
 HDC			hDC=NULL;		// Private GDI Device Context
 HGLRC		hRC=NULL;		// Permanent Rendering Context
@@ -41,7 +42,7 @@ HINSTANCE	hInstance;		// Holds The Instance Of The Application
 int			mouse_thresh = 3;
 POINT		initCursorPos;
 extern int ok_to_draw;
-UINT		BOINC_GFX_MODE_MSG,BOINC_QUIT_MSG;
+UINT		BOINC_GFX_MODE_MSG;
 
 GLuint	main_font;			// Base Display List For The Font Set
 GLfloat	cnt1;				// 1st Counter Used To Move Text & For Coloring
@@ -59,6 +60,8 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 void renderBitmapString( float x, float y, void *font, char *string);
 BOOL CreateGLWindow(char* title, int width, int height, int bits);
+BOOL reg_win_class();
+BOOL unreg_win_class();
 
 GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize The GL Window
 {
@@ -69,9 +72,9 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 	}
 
 	if (height*aspect_ratio > width)
-		glViewport(0,0,width,width/aspect_ratio);			// Reset The Current Viewport
+		glViewport(0,0,(int)width,(int)(width/aspect_ratio));	// Reset The Current Viewport
 	else
-		glViewport(0,0,height*aspect_ratio,height);			// Reset The Current Viewport
+		glViewport(0,0,(int)(height*aspect_ratio),(height));	// Reset The Current Viewport
 }
 
 GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
@@ -218,7 +221,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits)
 
 	// Create The Window
 	if (!(hWnd=CreateWindowEx(	dwExStyle,							// Extended Style For The Window
-								"OpenGL",							// Class Name
+								"BOINC_OpenGL",						// Class Name
 								title,								// Window Title
 								dwStyle |							// Defined Window Style
 								WS_CLIPSIBLINGS |					// Required Window Style
@@ -387,10 +390,9 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		{
 			ShowWindow(hWnd,SW_HIDE);
 			active = false;
-			//Sleep(2000);
 			//ShowWindow(hWnd,SW_SHOW);
-			//SetForegroundWindow(hWnd);						// Slightly Higher Priority
-			//SetFocus(hWnd);									// Sets Keyboard Focus To The Window
+			//SetForegroundWindow(hWnd);					// Slightly Higher Priority
+			//SetFocus(hWnd);								// Sets Keyboard Focus To The Window
 			//active = true;
 			return 0;								// Jump Back
 		}
@@ -412,32 +414,15 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 }
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
-	MSG		msg;									// Windows Message Structure
-	WNDCLASS	wc;						// Windows Class Structure
-
+	MSG			msg;		// Windows Message Structure
+ 
 	fullscreen=FALSE;							// Windowed Mode
 
-	hInstance			= GetModuleHandle(NULL);				// Grab An Instance For Our Window
-	wc.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraw On Size, And Own DC For Window.
-	wc.lpfnWndProc		= (WNDPROC) WndProc;					// WndProc Handles Messages
-	wc.cbClsExtra		= 0;									// No Extra Window Data
-	wc.cbWndExtra		= 0;									// No Extra Window Data
-	wc.hInstance		= hInstance;							// Set The Instance
-	wc.hIcon			= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
-	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
-	wc.hbrBackground	= NULL;									// No Background Required For GL
-	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
-	wc.lpszClassName	= "OpenGL";								// Set The Class Name
+	// Register window class
+	reg_win_class();
 
-	if (!RegisterClass(&wc))									// Attempt To Register The Window Class
-	{
-		MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;											// Return FALSE
-	}
-
-	// Register the message for starting the screensaver
+	// Register the messages for changing graphics modes
 	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
-	BOINC_QUIT_MSG = RegisterWindowMessage( "BOINC_QUIT" );
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow("BOINC Application Window",((GRAPHICS_INFO*)gi)->xsize,
@@ -449,7 +434,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	{
 		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	// Is There A Message Waiting?
 		{
-			if (msg.message==WM_QUIT||msg.message==BOINC_QUIT_MSG) {	// Have We Received A Quit Message?
+			if (msg.message==WM_QUIT) {	// Have We Received A Quit Message?
 				win_loop_done=TRUE;					// If So done=TRUE
 			}
 			else if (msg.message==BOINC_GFX_MODE_MSG) {
@@ -466,7 +451,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 		}
 		else										// If There Are No Messages
 		{
-			if (ok_to_draw) {							// Window Active?
+			if (ok_to_draw) {						// Window Active?
 				if (active) {	// Not Time To Quit, Update Screen
 					// Draw The Scene
 					DrawGLScene();
@@ -491,11 +476,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Shutdown
 	KillGLWindow();				// Kill The Window
 
-	if (!UnregisterClass("OpenGL",hInstance))			// Are We Able To Unregister Class
-	{
-		MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-		hInstance=NULL;									// Set hInstance To NULL
-	}
+	unreg_win_class();
 
 	SetEvent(hQuitEvent);		// Signal to the worker thread that we're quitting
 	return (msg.wParam);		// Exit The thread
@@ -521,3 +502,38 @@ BOOL VerifyPassword(HWND hwnd)
   BOOL bres=VerifyScreenSavePwd(hwnd); FreeLibrary(hpwdcpl);
   return bres;
 }
+
+BOOL reg_win_class() {
+	WNDCLASS	wc;						// Windows Class Structure
+
+	hInstance			= GetModuleHandle(NULL);				// Grab An Instance For Our Window
+	wc.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraw On Size, And Own DC For Window.
+	wc.lpfnWndProc		= (WNDPROC) WndProc;					// WndProc Handles Messages
+	wc.cbClsExtra		= 0;									// No Extra Window Data
+	wc.cbWndExtra		= 0;									// No Extra Window Data
+	wc.hInstance		= hInstance;							// Set The Instance
+	wc.hIcon			= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
+	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
+	wc.hbrBackground	= NULL;									// No Background Required For GL
+	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
+	wc.lpszClassName	= "BOINC_OpenGL";						// Set The Class Name
+
+	if (!RegisterClass(&wc))									// Attempt To Register The Window Class
+	{
+		MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;											// Return FALSE
+	}
+
+	return TRUE;
+}
+
+BOOL unreg_win_class() {
+	if (!UnregisterClass("BOINC_OpenGL",hInstance))		// Are We Able To Unregister Class
+	{
+		MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+		hInstance=NULL;									// Set hInstance To NULL
+	}
+
+	return TRUE;
+}
+
