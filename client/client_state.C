@@ -401,7 +401,12 @@ static void print_log(char* p) {
 }
 
 int CLIENT_STATE::net_sleep(double x) {
-    return net_xfers->net_sleep(x);
+    if (activities_suspended) {
+        boinc_sleep((int)ceil(x));
+        return 0;
+    } else {
+        return net_xfers->net_sleep(x);
+    }
 }
 
 // do_something polls each of the client's finite-state machine layers,
