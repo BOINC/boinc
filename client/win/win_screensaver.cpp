@@ -770,8 +770,9 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					return 0; 
 		 
 				case 2:
-                    int iReturnValue = 0;
-                    int iStatus = 0;
+                    HWND hwndBOINCAppWindow = NULL;
+                    int  iReturnValue = 0;
+                    int  iStatus = 0;
 
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
@@ -779,6 +780,13 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     // Reset the error flags.
                    	m_bErrorMode = FALSE;
     				m_hrError = 0;
+
+                    hwndBOINCAppWindow = ::FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
+                    if ( NULL != hwndBOINCAppWindow )
+                    {
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - BOINC Application Window Detected\n"));
+                        ::SetForegroundWindow( hwndBOINCAppWindow );
+                    }
 
                     // Lets try and get the current state of the CC
                     if (m_bResetCoreState)

@@ -196,23 +196,18 @@ static void set_mode(int mode) {
         if (NULL == hInteractiveWindowStation) {
             BOINCTRACE(_T("Failed to retrieve the required window station\n"));
         } else {
+            BOINCTRACE(_T("Retrieved the required window station\n"));
             hInteractiveDesktop = OpenDesktop(
                 graphics_msg.desktop, NULL, FALSE,
-                GENERIC_READ | DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_WRITEOBJECTS
+                GENERIC_READ | GENERIC_WRITE
             );
             if (NULL == hInteractiveDesktop) {
-
                 BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
-                SetProcessWindowStation(hOriginalWindowStation);
-                SetThreadDesktop(hOriginalDesktop);
-
                 new_mode = MODE_UNSUPPORTED;
-
             } else {
-
+                BOINCTRACE(_T("Retrieved the required desktop\n"));
                 SetProcessWindowStation(hInteractiveWindowStation);
                 SetThreadDesktop(hInteractiveDesktop);
-
             }
         }
     }

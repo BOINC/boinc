@@ -43,9 +43,12 @@
 //-----------------------------------------------------------------------------
 // Constants
 //-----------------------------------------------------------------------------
-#define MAX_DISPLAYS 9
-#define NO_ADAPTER 0xffffffff
-#define NO_MONITOR 0xffffffff
+#define MAX_DISPLAYS                              9
+#define NO_ADAPTER                                0xffffffff
+#define NO_MONITOR                                0xffffffff
+
+
+#define BOINC_WINDOW_CLASS_NAME                   "BOINC_app"
 
 
 //***************************************************************************************
