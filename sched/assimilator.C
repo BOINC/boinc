@@ -69,6 +69,13 @@ bool do_pass(APP& app) {
     while (!wu.enumerate(buf)) {
         vector<RESULT> results;     // must be inside while()!
 
+        if (wu.assimilate_state != ASSIMILATE_READY) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[%s] unexpected state=%d\n", wu.name, wu.assimilate_state
+            );
+            continue;
+        }
+
         // for testing purposes, pretend we did nothing
         //
         if (update_db) {
@@ -92,6 +99,7 @@ bool do_pass(APP& app) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "[%s] handler returned error %d; exiting\n", wu.name, retval
             );
+            exit(retval);
         }
 
         if (update_db) {
