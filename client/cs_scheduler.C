@@ -438,7 +438,11 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
-            msg_printf(NULL, MSG_INFO, "Fewer active results than CPUs; requesting more work");
+            if (nactive_results < host_info.p_ncpus) {
+                msg_printf(NULL, MSG_INFO, "Fewer active results than CPUs; requesting more work");
+            } else {
+                msg_printf(NULL, MSG_INFO, "Cache low-water mark hit; requesting more work");
+            }
             compute_resource_debts();
             scheduler_op->init_get_work();
             action = true;
