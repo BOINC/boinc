@@ -24,6 +24,7 @@ boinc_client_SOURCES =				\
     hostinfo_unix.C				\
     http.C					\
     log_flags.C					\
+    message.C					\
     net_stats.C					\
     net_xfer.C					\
     pers_file_xfer.C				\
