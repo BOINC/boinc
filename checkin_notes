@@ -22333,3 +22333,63 @@ David  7 Jan 2005
             team_repair.php (new)
         user/
             explain_state.php
+
+Bruce 8 Jan 2005
+
+    In order to coordinate better with David, I am doing a slightly
+    premature checkin of modifications to scheduling locality.  The
+    basic idea is to provide a simple notification mechanism to the
+    project, so that if no work is currently available for a given
+    data file, there is an opportunity to make such work.  This is
+    controlled by an additional tag in config.xml, of the form:
+    NOTE: CURRENTLY ENABLED BY DEFAULT WITH N=5 sec
+
+    <locality_scheduling_signal> N </locality_scheduling_signal>
+
+    where N is some number of seconds.  If this new tag is absent,
+    then the locality scheduler behaves as before.
+
+    The modification to behavior happens in send_results_for_file().
+    This is the function that queries the database to see if there are
+    unsent results available for a given (large) data file on the
+    host.  Previously, if such results are not found the scheduler
+    gives up and tries sending other results.  With this modification,
+    if N is nonzero, then if no results are found the scheduler
+    touches a file with the same name as the host's data file, in a
+    directory
+       PROJECT_ROOT/locality_scheduling/need_work/
+    The scheduler then sleeps for N seconds, and makes one additional
+    attempt to find suitable unsent results. The idea is that in this
+    interval, the project has an opportunity to make additional WU for
+    this file, which the transitioner can convert to unsent
+    results. [Note, the transaction for the first query is completed
+    before the sleep(N), and a new transaction is initiated
+    afterwards. So there is no 'sleep within a transaction'.] This
+    delay allows the project to make additional workunits suitable for
+    the host's existing data files.
+
+    In addition, if the project determines that NO further workunits
+    can be made for a given data file, then the project can touch a
+    file with the same name as the input data file, in a directory
+          PROJECT_ROOT/locality_scheduling/no_work_available/
+    If the scheduler finds this warning then it assumes that the
+    project can not manufacture additional WU for this data file and
+    skips the 'notify, sleep, query again' sequence above.  Of course
+    it still does the initial query, so if the transitioner has made
+    some new results for an existing (old) WU, they will get picked
+    up.
+
+    This mechanism is robust in the sense that if the signals fail for
+    any reason, or (say) the WU are not converted into unsent results
+    quickly enough by the transitioner, or if they are snapped up by
+    some other host, then the scheduler simply proceeds as with its
+    current unmodified behavior and nothing goes wrong.  In other
+    words, the signals can be ignored at any time and for any time
+    without adverse consequences.
+
+    TODO: further testing, enable/disable this feature using XML tag
+    described above.
+
+    sched/
+        sched_locality.C
+

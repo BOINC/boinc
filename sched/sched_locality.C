@@ -27,6 +27,7 @@
 
 
 #include <stdio.h>
+#include <unistd.h> // for sleep(2)
 
 #include "boinc_db.h"
 
@@ -131,12 +132,85 @@ static int send_results_for_file(
     while (1) {
         if (!wreq.work_needed(reply)) break;
         boinc_db.start_transaction();
+	// Look for results which match file 'filename'
+
+	// Comment 1: in order to work as designed, this query should
+	// do 'order by id'.  But one has to check that this won't
+	// kill DB efficiency.
+
+	// Comment 2: if the user has configured one_result_per_user_per_wu then you can
+        // replace ID below by workunitid.
         sprintf(buf,
             "where name like '%s__%%' and server_state=%d and id>%d limit 1",
             filename, RESULT_SERVER_STATE_UNSENT, lastid
         );
         retval = result.lookup(buf);
+	if (retval) {
+	    // We did not find any matching results.  In this case,
+	    // check with the WU generator to see if we can make some
+	    // more WU for this file.
+            char fullpath[512];
+	    sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
+	    FILE *fp=fopen(fullpath, "r");
+	    if (fp) {
+	        // since we found this file, it means that no work
+	        // remains for this WU.  So give up trying to interact
+	        // with the WU generator.
+	        fclose(fp);
+		log_messages.printf(
+                    SCHED_MSG_LOG::DEBUG,
+		    "found %s indicating no work remaining for file %s\n", fullpath, filename
+		);
+	    }
+	    else {
+	        // We'll open and touch a file in the need_work/
+	        // directory as a way of indicating that we need work
+	        // for this file.  If this operation fails, don't
+	        // worry or tarry!
+	        sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
+	        FILE *fp2=fopen(fullpath, "w");
+                if (fp2) {
+		    fclose(fp2);
+		    log_messages.printf(
+		        SCHED_MSG_LOG::DEBUG,
+			"touching %s: need work for file %s\n", fullpath, filename
+		    );
+		    // Finish the transaction, wait for the WU
+		    // generator to make a new WU, and try again!
+		    boinc_db.commit_transaction();
+		    sleep(5);
+		    // Now look AGAIN for results which match file
+		    // 'filename'. Note: result.clear() may not be
+		    // needed since previous query didn't find any
+		    // results.
+		    result.clear();
+		    sprintf(buf,
+		        "where name like '%s__%%' and server_state=%d and id>%d limit 1",
+			filename, RESULT_SERVER_STATE_UNSENT, lastid
+		    );
+		    boinc_db.start_transaction();
+		    retval = result.lookup(buf);
+		    if (!retval) {
+		    	log_messages.printf(
+		            SCHED_MSG_LOG::DEBUG,
+			    "success making/finding NEW work for file %s\n", fullpath, filename
+		        );
+		    }
+		}
+		else {
+		    log_messages.printf(
+		        SCHED_MSG_LOG::CRITICAL,
+			"unable to touch %s to indicate need work for file %s\n", fullpath, filename
+		    );
+		}
+	    }
+	}
+
         if (!retval) {
+	    // We found a matching result.  Probably we will get one
+	    // of these, although for example if we already have a
+	    // result for the same workunit and the administrator has
+	    // set one_result_per_wu then we won't get one of these.
             lastid = result.id;
             if (possibly_send_result(
                 result,
@@ -145,6 +219,7 @@ static int send_results_for_file(
                 nsent++;
             }
         }
+
         boinc_db.commit_transaction();
         if (retval) break;
     }
