@@ -29,10 +29,10 @@ msgid "APPS_PLATFORM"
 msgstr "Платформа"
 
 msgid "APPS_VERSION"
-msgstr "Текущая версия"
+msgstr "Текущая Версия"
 
 msgid "APPS_INSTALLTIME"
-msgstr "Установлено"
+msgstr "Время Сборки"
 
 #########################################
 # Rules and Policies page (info.php)
@@ -143,25 +143,25 @@ msgstr "Прочтите %s до создания учетной записи."
 
 msgid "CREATE_AC_ALREADY_GOT"
 msgstr "Если Вы уже получили учетную запись, не заполняйте эту форму. "
-"%s вместо."
+"%s вместо этого."
 
 msgid "CREATE_AC_NAME"
 msgstr "Имя"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "Идентифицирует Вас на нашем web-сайте. Введите Ваше настоящее имя или псевдоним."
+msgstr "Идентифицирует Вас на нашем web-сайте. Введите Ваше настоящее имя или псевдоним"
 
 msgid "CREATE_AC_EMAIL"
 msgstr "Адрес Электронной почты"
 
 msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Должет быть действительным адресом в форме 'имя@домен', к примеру, user@aol.com."
+msgstr "Должет быть действительным адресом в форме 'имя@домен', к примеру, user@aol.com"
 
 msgid "CREATE_AC_COUNTRY"
 msgstr "Страна"
 
 msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Выберите страну, которую хотите представлять, если хотите."
+msgstr "Выберите страну, которую представляете, если хотите"
 
 msgid "CREATE_AC_ZIP"
 msgstr "Почтовый Индекс или ZIP-код"
@@ -298,11 +298,11 @@ msgstr "Это заветшит установку $PROJECT."
 
 # account_created.php
 msgid "AC_CREATED_TITLE"
-msgstr "Настроить Вашу Учетную Запись"
+msgstr "Настройте Вашу учетную запись"
 
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
 msgid "OPTIONAL"
-msgstr "Необязательный"
+msgstr "Необязательно"
