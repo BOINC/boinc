@@ -12871,6 +12871,7 @@ David  May 31 2004
         (Really Simple Syndication), described here:
         http://blogs.law.harvard.edu/tech/rss
         All projects now offer news feed at rss_main.php
+        This code courtesy of Jens Seidler.
     - SETI@home public site: made front page cached
     - added index on profile.uotd_time
 

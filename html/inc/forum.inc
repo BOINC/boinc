@@ -443,18 +443,18 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
     } else if ($forum && !$thread) {
         echo "<span class=title>";
         if ($helpdesk) {
-            echo "<a href=help_desk.php>", " Questions and problems</a> : ";
+            echo "<a href=forum_help_desk.php>", " Questions and problems</a> : ";
         } else {
-            echo "<a href=index.php>", " Message boards</a> : ";
+            echo "<a href=forum_index.php>", " Message boards</a> : ";
         }
         echo $forum->title;
         echo "</span><br>";
     } else if ($forum && $thread) {
         echo "<span class=title>";
         if ($helpdesk) {
-            echo "<a href=help_desk.php>", " Questions and problems</a> : ";
+            echo "<a href=forum_help_desk.php>", " Questions and problems</a> : ";
         } else {
-            echo "<a href=index.php>", " Message boards</a> : ";
+            echo "<a href=forum_index.php>", " Message boards</a> : ";
         }
         echo "<a href=forum_forum.php?id=$forum->id>", $forum->title, "</a> : ";
         echo strip_tags(stripslashes($thread->title));
@@ -473,7 +473,7 @@ function show_thread($thread, $n) {
     $first_post = getFirstPost($thread->id);
     $title = stripslashes($thread->title);
     $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"forum_help_desk.php":"index.php";
+    $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
     $excerpt = sub_sentence(stripslashes($first_post->content), ' ', EXCERPT_LENGTH, true);
     $posted = time_diff_str($thread->create_time, time());
     $last = time_diff_str($thread->timestamp, time());
@@ -503,7 +503,7 @@ function show_post2($post, $n) {
     $forum = getForum($thread->forum);
     $category = getCategory($forum->category);
     $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"help_desk.php":"index.php";
+    $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
     $content = nl2br(stripslashes($post->content));
     $when = time_diff_str($post->timestamp, time());
     $user = lookup_user_id($post->user);
