@@ -10113,3 +10113,9 @@ David  Feb 19 2004
 
 Jeff  Feb 19 2004
     - CVS tagged as seti_boinc_app_release_2_25.
+
+Rom    Feb 23 2004
+    - Removed stackwalkers exception description so duplicate information is not logged.
+
+	api/win/
+		stackwalker.cpp

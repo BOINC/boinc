@@ -1909,14 +1909,6 @@ DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile)
     _ftprintf(fFile, _T("code_desc=\"%s\" more_desc=\"%s\">\n"), GetExpectionCodeText(ep->ExceptionRecord->ExceptionCode),
       GetAdditionalExpectionCodeText(ep->ExceptionRecord));
   }
-  else
-  {
-    _ftprintf(fFile, _T("######## EXCEPTION: 0x%8.8X at address: 0x%8.8X"), 
-      ep->ExceptionRecord->ExceptionCode,
-      ep->ExceptionRecord->ExceptionAddress);
-    _ftprintf(fFile, _T(": %s %s\n"), GetExpectionCodeText(ep->ExceptionRecord->ExceptionCode),
-      GetAdditionalExpectionCodeText(ep->ExceptionRecord));
-  }
 
   DuplicateHandle( GetCurrentProcess(), GetCurrentThread(),
     GetCurrentProcess(), &hThread, 0, false, DUPLICATE_SAME_ACCESS );
