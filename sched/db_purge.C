@@ -62,6 +62,10 @@ FILE            *wu_index_stream;
 FILE            *re_index_stream;
 int             time_int;
 
+int             purged_workunits= 0, purged_results= 0, 
+                max_number_workunits_to_purge;
+
+
 int open_archive(char* filename_prefix, FILE*& f){
     int   retval=0;
     char  path[256];
@@ -263,7 +267,6 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 // return nonzer if did anything
 //
 bool do_pass() {
-    int purged_workunits= 0, purged_results= 0;
     int retval= 0;
    
     check_stop_daemons();
@@ -301,6 +304,10 @@ bool do_pass() {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged workunit [%d] from database\n", wu.id);
 
         purged_workunits++;
+        
+        if (purged_workunits >= max_number_workunits_to_purge)
+            break;
+
     }
     
     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -324,6 +331,8 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
+        } else if (!strcmp(argv[i], "-max")) {
+            max_number_workunits_to_purge= atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "Unrecognized arg: %s\n", 
@@ -395,6 +404,8 @@ int main(int argc, char** argv) {
         do_pass();
     } else {
         while (1) {
+            if (purged_workunits >= max_number_workunits_to_purge)
+                break;
             if (!do_pass()) sleep(10);
         }
     }    
