@@ -52,3 +52,17 @@ extern int create_work(
     char* upload_url,
     char* download_url
 );
+
+extern int create_sequence_group(
+    WORKUNIT& wu,
+    char* wu_template,
+    char* result_template,
+    int redundancy,
+    char* infile_dir,
+    char** infiles,
+    int ninfiles,
+    R_RSA_PRIVATE_KEY&,
+    char* upload_url,
+    char* download_url,
+    int nsteps
+);

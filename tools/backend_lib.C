@@ -260,11 +260,14 @@ int create_sequence(
     int nsteps
 ) {
     int i, retval;
+    WORKSEQ ws;
 
     retval = db_workseq_new(ws);
     if (retval) return retval;
     for (i=0; i<nsteps; i++) {
+        // to be completed
     }
+    return 0;
 }
 
 int create_sequence_group(
@@ -284,4 +287,5 @@ int create_sequence_group(
 
     for (i=0; i<redundancy; i++) {
     }
+    return 0;
 }

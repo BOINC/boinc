@@ -153,7 +153,7 @@ int main(int argc, char** argv) {
     }
 
     if (sequence) {
-        retval = create_sequence(
+        retval = create_sequence_group(
             wu,
             wu_template,
             result_template_file,

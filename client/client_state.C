@@ -186,7 +186,7 @@ int CLIENT_STATE::time_tests() {
 // Return the maximum allowed disk usage as determined by user preferences.
 // Since there are three different settings in the prefs, it returns the least
 // of the three.
-double CLIENT_STATE::allowed_disk_usage() {
+int CLIENT_STATE::allowed_disk_usage(double& size) {
     double percent_space, min_val;
 
     // Calculate allowed disk usage based on % pref
@@ -197,13 +197,12 @@ double CLIENT_STATE::allowed_disk_usage() {
 
     // Return the minimum of the three
     //
-    return min(min(global_prefs.disk_max_used_gb*1e9, percent_space), min_val);
+    size = min(min(global_prefs.disk_max_used_gb*1e9, percent_space), min_val);
+    return 0;
 }
 
-double CLIENT_STATE::current_disk_usage() {
-    double sz = 0;
-    sz = dir_size(".");
-    return sz;
+int CLIENT_STATE::current_disk_usage(double& size) {
+    return dir_size(".", size);
 }
 
 // See if (on the basis of user prefs) we should suspend activities.

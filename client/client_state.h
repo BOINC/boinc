@@ -65,8 +65,9 @@ public:
     bool time_to_exit();
     bool run_time_tests();
     int time_tests();
-    double current_disk_usage();
-    double allowed_disk_usage();
+    int current_disk_usage(double&);
+        // returns the total disk usage of BOINC on this host
+    int allowed_disk_usage(double&);
     unsigned int giveup_after;
     bool user_idle;
 	bool suspend_requested;

@@ -69,11 +69,11 @@ DIRREF dir_open(char* p) {
     if (!dirp) return NULL;
 #endif
 #ifdef _WIN32
-	dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
+    dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
-	strcpy(dirp->path, p);
-	strcat(dirp->path, "\\*");
-	dirp->handle = INVALID_HANDLE_VALUE;
+    strcpy(dirp->path, p);
+    strcat(dirp->path, "\\*");
+    dirp->handle = INVALID_HANDLE_VALUE;
 #endif
     return dirp;
 }
@@ -134,25 +134,21 @@ void dir_close(DIRREF dirp) {
 	FindClose(dirp->handle);
 	dirp->handle = INVALID_HANDLE_VALUE;
     }
-	free(dirp);
+    free(dirp);
 #endif
 }
 
 // Delete the file located at path
 //
 int file_delete(char* path) {
-    int retval,i;
+    int retval;
 
-    for (i=0; i<2; i++) {
 #ifdef HAVE_UNISTD_H
-        retval = unlink(path);
+    retval = unlink(path);
 #endif
 #if ( defined(_WIN32) || defined(macintosh) )
-        retval = remove(path);
+    retval = remove(path);
 #endif
-        if (!retval) break;
-        if (i==0) boinc_sleep(3);
-    }
     if (retval) {
 	strcpy(failed_file, path);
 	return ERR_UNLINK;
@@ -161,13 +157,14 @@ int file_delete(char* path) {
 }
 
 // get file size
-int file_size(char* path, int& size) {
+//
+int file_size(char* path, double& size) {
     struct stat sbuf;
     int retval;
 
     retval = stat(path, &sbuf);
     if (retval) return retval;
-    size = sbuf.st_size;
+    size = (double)sbuf.st_size;
     return 0;
 }
 
@@ -218,28 +215,36 @@ int clean_out_dir(char* dirpath) {
 // Goes recursively through directory specified by dirpath and returns the
 // total size of files in it and its subdirectories
 //
-double dir_size(char* dirpath) {
+int dir_size(char* dirpath, double& size) {
     char filename[256], subdir[256];
-    int retval,temp;
-    double cur_size = 0;
+    int retval=0;
     DIRREF dirp;
+    double x;
 
+    size = 0;
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
         retval = dir_scan(filename, dirp);
         if (retval) break;
         sprintf(subdir, "%s/%s", dirpath, filename);
-        cur_size += dir_size(subdir);
-        retval = file_size(subdir, temp);
-        if (retval) {
-            dir_close(dirp);
-            return cur_size;
+
+        // We don't know if this entry is a file or a directory.
+        // dir_size() will return -1 if it's a file
+        //
+        retval = dir_size(subdir, x);
+        if (retval == 0) {
+            size += x;
+        } else if (retval == -1) {
+            retval = file_size(subdir, x);
+            if (retval) break;
+            size += x;
+        } else {
+            break;
         }
-        cur_size += temp;
     }
     dir_close(dirp);
-    return cur_size;
+    return retval;
 }
 
 int boinc_rename(char* old, char* newf) {

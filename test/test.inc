@@ -54,7 +54,7 @@ function db_query($query) {
 function run_tool($cmd) {
     $tool_dir = get_env_var("BOINC_SRC_DIR")."/tools/";
     $cmd = $tool_dir.$cmd;
-    //echo "$cmd\n";
+    echo "$cmd\n";
     PassThru($cmd);
 }
 
@@ -276,7 +276,6 @@ class Project {
         // edit "index.php" in the user directory to have
         // the right file as the source for scheduler_urls, default is schedulers.txt
         $x = "sed -e s/FILE_NAME/$scheduler_file/ $this->project_dir/html_user/index.php > temp; mv temp $this->project_dir/html_user/index.php";
-        echo "x is $x\n";
         PassThru($x);
 
         // create symbolic links to the CGI and HTML directories
@@ -675,6 +674,7 @@ if (false) {        // doesn't belong here; needs comment
             }
         }
         fclose($f);
+}
                       
         $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -redundancy $this->redundancy -wu_name $this->wu_template -delay_bound $this->delay_bound";
 
@@ -684,5 +684,4 @@ if (false) {        // doesn't belong here; needs comment
         }
         run_tool($cmd);
     }
-}
 }

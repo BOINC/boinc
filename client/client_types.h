@@ -35,8 +35,8 @@
 #include "hostinfo.h"
 
 #define STDERR_MAX_LEN 4096
-#define DEFAULT_MAX_PROCESSING  1
-#define DEFAULT_MAX_DISK        1000000
+#define DEFAULT_MAX_PROCESSING  1e10
+#define DEFAULT_MAX_DISK        1e10
 
 class PERS_FILE_XFER;
 struct RESULT;
@@ -183,7 +183,9 @@ struct WORKUNIT {
     APP* app;
     APP_VERSION* avp;
     int ref_cnt;
-    double seconds_to_complete; // needs to be initialized
+    double seconds_to_complete;
+        // estimated CPU time, based on server-supplied resource estimates
+        // together with host info.
     double max_processing;  // abort if use this many cobblestones
     double max_disk;        // abort if use this much disk
 

@@ -42,7 +42,7 @@ FILE_XFER::~FILE_XFER() {
 }
 
 int FILE_XFER::init_download(FILE_INFO& file_info) {
-    int f_size;
+    double f_size;
 
     fip = &file_info;
     get_pathname(fip, pathname);
@@ -50,7 +50,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     if (file_size(pathname, f_size)) {
         f_size = 0;
     }
-    return HTTP_OP::init_get(fip->get_url(), pathname, false, f_size);
+    return HTTP_OP::init_get(fip->get_url(), pathname, false, (int)f_size);
 }
 
 // for uploads, we need to build a header with xml_signature etc.

@@ -98,6 +98,8 @@ int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
     app_version = wup->avp;
+    max_cpu_time = rp->wup->max_processing;
+    max_disk_usage = rp->wup->max_disk;
     
     return 0;
 }
@@ -250,41 +252,6 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(temp, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
     file_delete(temp);
 
-#ifdef HAVE_UNISTD_H
-#ifdef HAVE_SYS_TYPES_H
-    char* argv[100];
-    pid = fork();
-    if (pid == 0) {
-        
-        // from here on we're running in a new process.
-        // If an error happens, exit nonzero so that the core client
-        // knows there was a problem.
-
-        // chdir() into the slot directory
-        //
-        retval = chdir(slot_dir);
-        if (retval) {
-            perror("chdir");
-            exit(retval);
-        }
-
-        // hook up stderr to a specially-named file
-        //
-        freopen(STDERR_FILE, "a", stderr);
-
-        argv[0] = exec_name;
-        parse_command_line(wup->command_line, argv+1);
-        if (log_flags.task_debug) print_argv(argv);
-        boinc_resolve_filename(exec_name, temp, sizeof(temp));
-        retval = execv(temp, argv);
-        fprintf(stderr, "execv failed: %d\n", retval);
-        perror("execv");
-        exit(1);
-    }
-    if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
-#endif
-#endif
-
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -332,39 +299,64 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
+#else
+    char* argv[100];
+    pid = fork();
+    if (pid == 0) {
+        
+        // from here on we're running in a new process.
+        // If an error happens, exit nonzero so that the core client
+        // knows there was a problem.
 
+        // chdir() into the slot directory
+        //
+        retval = chdir(slot_dir);
+        if (retval) {
+            perror("chdir");
+            exit(retval);
+        }
+
+        // hook up stderr to a specially-named file
+        //
+        freopen(STDERR_FILE, "a", stderr);
+
+        argv[0] = exec_name;
+        parse_command_line(wup->command_line, argv+1);
+        if (log_flags.task_debug) print_argv(argv);
+        boinc_resolve_filename(exec_name, temp, sizeof(temp));
+        retval = execv(temp, argv);
+        fprintf(stderr, "execv failed: %d\n", retval);
+        perror("execv");
+        exit(1);
+    }
+    if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
 #endif
 
     state = PROCESS_RUNNING;
     return 0;
 }
 
-// Sends a request to the process of this active task to exit.  If it
-// doesn't exit within a set time (seconds), the process is terminated
+// Sends a request to the process of this active task to exit.
+// If it doesn't exit within a set time (seconds), the process is terminated
 //
-void ACTIVE_TASK::request_exit(int seconds) {
-    int retval;
+int ACTIVE_TASK::request_exit() {
     char susp_file[256];
-    if(seconds<0) {
-        fprintf(stderr, "error: ACTIVE_TASK.request_exit: negative seconds\n");
-        seconds=0;
-    }
 
     get_slot_dir(slot, slot_dir);
-    sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
-    FILE *fp = fopen( susp_file, "w" );
-    write_suspend_quit_file( fp, false, true );
+    sprintf(susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
+    FILE *fp = fopen(susp_file, "w");
+    if (!fp) return ERR_FOPEN;
+    write_suspend_quit_file(fp, false, true);
     fclose(fp);
+    return 0;
+}
 
-    // We shouldn't sleep the full amount if the process successfully quits
-    boinc_sleep(seconds);
-#if HAVE_SIGNAL_H
-#if HAVE_SYS_TYPES_H
-    while(retval) retval=kill(pid, SIGKILL);
-#endif
-#endif
+int ACTIVE_TASK::kill_task() {
 #ifdef _WIN32
-    while(retval) retval=TerminateProcess(pid_handle, -1);
+    TerminateProcess(pid_handle, -1);
+    return 0;
+#else
+    return kill(pid, SIGKILL);
 #endif
 }
 
@@ -385,10 +377,10 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 //
 bool ACTIVE_TASK_SET::poll() {
     ACTIVE_TASK* atp;
+    unsigned int j;
 
 #ifdef _WIN32
     unsigned long exit_code;
-    int i;
     FILETIME creation_time, exit_time, kernel_time, user_time;
     ULARGE_INTEGER tKernel, tUser;
     LONGLONG totTime;
@@ -410,10 +402,14 @@ bool ACTIVE_TASK_SET::poll() {
             atp->result->final_cpu_time = atp->checkpoint_cpu_time;
             if (exit_code != STILL_ACTIVE) {
                 found = true;
-                atp->state = PROCESS_EXITED;
-                atp->exit_status = exit_code;
-                atp->result->exit_status = atp->exit_status;
-                atp->result->active_task_state = PROCESS_EXITED;
+                if (atp->state == PROCESS_ABORT_PENDING) {
+                    atp->state = PROCESS_ABORTED;
+                } else {
+                    atp->state = PROCESS_EXITED;
+                    atp->exit_status = exit_code;
+                    atp->result->exit_status = atp->exit_status;
+                    atp->result->active_task_state = PROCESS_EXITED;
+                }
                 CloseHandle(atp->pid_handle);
                 CloseHandle(atp->thread_handle);
                 atp->read_stderr_file();
@@ -421,46 +417,65 @@ bool ACTIVE_TASK_SET::poll() {
             }
         }
     }
-
-	return found;
+    if (found) return true;
 #else
-
     struct rusage rs;
     int pid;
     int stat;
 
     pid = wait3(&stat, WNOHANG, &rs);
-    if (pid <= 0) return false;
-    if (log_flags.task_debug) printf("got signal for process %d\n", pid);
-    atp = lookup_pid(pid);
-    if (!atp) {
-        fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
+    if (pid > 0) {
+        if (log_flags.task_debug) printf("process %d is done\n", pid);
+        atp = lookup_pid(pid);
+        if (!atp) {
+            fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
+            return true;
+        }
+        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
+        atp->result->final_cpu_time = atp->starting_cpu_time + x;
+        if (atp->state == PROCESS_ABORT_PENDING) {
+            atp->state = PROCESS_ABORTED;
+        } else {
+            if (WIFEXITED(stat)) {
+                atp->state = PROCESS_EXITED;
+                atp->exit_status = WEXITSTATUS(stat);
+                atp->result->exit_status = atp->exit_status;
+                if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
+            } else if (WIFSIGNALED(stat)) {
+                atp->state = PROCESS_WAS_SIGNALED;
+                atp->signal = WTERMSIG(stat);
+                atp->result->exit_status = atp->signal;
+                if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
+            } else {
+                atp->state = PROCESS_EXIT_UNKNOWN;
+                atp->result->exit_status = -1;
+            }
+        }
+
+        atp->read_stderr_file();
+        clean_out_dir(atp->slot_dir);
+
         return true;
-    }
-    double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
-    atp->result->final_cpu_time = atp->starting_cpu_time + x;
-    if (WIFEXITED(stat)) {
-        atp->state = PROCESS_EXITED;
-        atp->exit_status = WEXITSTATUS(stat);
-        atp->result->exit_status = atp->exit_status;
-        atp->result->active_task_state = PROCESS_EXITED;
-        if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
-    } else if (WIFSIGNALED(stat)) {
-        atp->state = PROCESS_WAS_SIGNALED;
-        atp->signal = WTERMSIG(stat);
-        atp->result->signal = atp->signal;
-        atp->result->active_task_state = PROCESS_WAS_SIGNALED;
-        if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
-    } else {
-        atp->state = PROCESS_EXIT_UNKNOWN;
-        atp->result->exit_status = -1;
     }
 #endif
 
-    atp->read_stderr_file();
-    clean_out_dir(atp->slot_dir);
+    // check for processes that have exceeded their maximum CPU time
+    // and abort them
+    //
+    for (j=0; j<active_tasks.size(); j++) {
+        atp = active_tasks[j];
+        if (atp->current_cpu_time > atp->max_cpu_time) {
+            fprintf(stderr, "Aborting task because CPU time limit exceeded");
+            atp->abort();
+            return true;
+        }
+    }
+    return false;
+}
 
-    return true;
+int ACTIVE_TASK::abort() {
+    state = PROCESS_ABORT_PENDING;
+    return kill_task();
 }
 
 // check for the stderr file, copy to result record
@@ -493,71 +508,77 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
     return NULL;
 }
 
-// Sends a suspend request to all currently running computation processes
+// suspend all currently running tasks
 //
 void ACTIVE_TASK_SET::suspend_all() {
     unsigned int i;
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->suspend(true);  // suspend each active task
+        atp->suspend();
     }
 }
 
-// Sends a resume signal to all currently running computation processes
+// resume all currently running tasks
 //
 void ACTIVE_TASK_SET::unsuspend_all() {
     unsigned int i;
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->suspend(false);  // resume each active task
+        atp->unsuspend();
     }
 }
 
-// Attempts to exit all currently running computation processes, either
-// via exit request or termination
+// initiate exit of all currently running tasks
 //
 void ACTIVE_TASK_SET::exit_tasks() {
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->request_exit(1);        // Give it 1 second to quit
-        atp->check_app_status_files();
+        atp->request_exit();
     }
 }
 
-#ifdef _WIN32
-// Send a suspend or resume request to the ACTIVE_TASK
+// suspend a task
 //
-void ACTIVE_TASK::suspend(bool suspend) {
+int ACTIVE_TASK::suspend() {
+#ifdef _WIN32
     char susp_file[256];
 
     get_slot_dir(slot, slot_dir);
-    sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
-    FILE *fp = fopen( susp_file, "w" );
-
-    if (suspend)
-        write_suspend_quit_file( fp, true, false );
-    else
-        write_suspend_quit_file( fp, false, false );
-
+    sprintf(susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
+    FILE *fp = fopen(susp_file, "w");
+    if (!fp) return ERR_FOPEN;
+    write_suspend_quit_file(fp, true, false);
     fclose(fp);
-}
 #else
-// Send a suspend or resume request to the ACTIVE_TASK
-//
-void ACTIVE_TASK::suspend(bool suspend) {
-    if (suspend)
-        kill(this->pid, SIGSTOP);    // put the process to sleep
-    else
-        kill(this->pid, SIGCONT);    // wake up the process
-}
+    kill(pid, SIGSTOP);
 #endif
+    return 0;
+}
 
-// Remove an ACTIVE_TASK from the set, assumes that the task has
-// already been shut down via request_exit or similar means
+// resume a suspended task
+//
+int ACTIVE_TASK::unsuspend() {
+#ifdef _WIN32
+    char susp_file[256];
+
+    get_slot_dir(slot, slot_dir);
+    sprintf(susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
+    FILE *fp = fopen(susp_file, "w");
+    if (!fp) return ERR_FOPEN;
+    write_suspend_quit_file(fp, false, false);
+    fclose(fp);
+#else
+    kill(pid, SIGCONT);
+#endif
+    return 0;
+}
+
+// Remove an ACTIVE_TASK from the set.
+// Do this only if you're sure that the process has exited.
 //
 int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     vector<ACTIVE_TASK*>::iterator iter;
@@ -625,14 +646,34 @@ bool ACTIVE_TASK::check_app_status_files() {
     return found;
 }
 
-// Returns the estimated time to completion (in seconds) of this
-// active task, based on current reported CPU time and fraction done
+// Returns the estimated time to completion (in seconds) of this task,
+// based on current reported CPU time and fraction done
 //
 double ACTIVE_TASK::est_time_to_completion() {
-    if(fraction_done <= 0 || fraction_done > 1) {
+    if (fraction_done <= 0 || fraction_done > 1) {
         return -1;
     }
     return (current_cpu_time / fraction_done) - current_cpu_time;
+}
+
+// size of output files and files in slot dir
+//
+int ACTIVE_TASK::current_disk_usage(double& size) {
+    double x;
+    unsigned int i;
+    int retval;
+    FILE_INFO* fip;
+    char path[256];
+
+    retval = dir_size(slot_dir, size);
+    if (retval) return retval;
+    for (i=0; i<result->output_files.size(); i++) {
+        fip = result->output_files[i].file_info;
+        get_pathname(fip, path);
+        retval = file_size(path, x);
+        if (!retval) size += x;
+    }
+    return 0;
 }
 
 // Poll each of the currently running tasks and get their CPU time

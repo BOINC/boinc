@@ -41,11 +41,11 @@
 // For upload, try to upload the file to the first URL;
 // if that fails try the others.
 //
-int PERS_FILE_XFER::init(FILE_INFO* the_file, bool is_file_upload) {
+int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fxp = NULL;
-    this->fip = the_file;
+    fip = f;
     nretry = 0;
-    first_request_time = time(NULL);
+    first_request_time = time(0);
     next_request_time = first_request_time;
     is_upload = is_file_upload;
     xfer_done = false;
@@ -270,7 +270,7 @@ PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
 bool PERS_FILE_XFER_SET::poll() {
     unsigned int i;
     bool action = false;
-    int now = time(NULL);
+    int now = time(0);
 
     for (i=0; i<pers_file_xfers.size(); i++) {
         action |= pers_file_xfers[i]->poll(now);

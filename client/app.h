@@ -27,8 +27,10 @@
 
 #include <stdio.h>
 #include <vector>
-
 #include "client_types.h"
+
+class CLIENT_STATE;
+typedef int PROCESS_ID;
 
 // Possible states of a process in an ACTIVE_TASK
 #define PROCESS_UNINITIALIZED   0
@@ -36,16 +38,18 @@
 #define PROCESS_EXITED          2
 #define PROCESS_WAS_SIGNALED    3
 #define PROCESS_EXIT_UNKNOWN    4
-#define PROCESS_ABORTED         5
-#define PROCESS_COULDNT_START   6
-    // process exceeded time or disk limits
+#define PROCESS_ABORT_PENDING   5
+    // process exceeded limits; killed it, waiting to exit
+#define PROCESS_ABORTED         6
+    // process has exited
+#define PROCESS_COULDNT_START   7
 
-typedef int PROCESS_ID;
 
-class CLIENT_STATE;
-
-// ACTIVE_TASK represents a task in progress.
-// Written to the client state file so that tasks can be restarted.
+// Represents a task in progress.
+// The execution of a task may be divided into many "episodes"
+// (if the host is turned off/on, e.g.)
+// A task may checkpoint now and then.
+// Each episode begins with the state of the last checkpoint.
 //
 class ACTIVE_TASK {
 public:
@@ -61,20 +65,36 @@ public:
     int exit_status;
     int signal;
     double fraction_done;
+        // App's estimate of how much of the work unit is done.
+        // Passed from the application via an API call;
+        // will be zero if the app doesn't use this call
     double starting_cpu_time;
+        // total CPU time at the start of current episode
     double checkpoint_cpu_time;
+        // total CPU at the last checkpoint
     double current_cpu_time;
+        // most recent total CPU time reported by app
+    int current_disk_usage(double&);
+        // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs
+    double max_cpu_time;
+    double max_disk_usage;
+
     ACTIVE_TASK();
     int init(RESULT*);
 
     int start(bool first_time);          // start the task running
-    void request_exit(int x);
-        // request a task to exit.  If still there after x secs, kill
-    void request_pause(int x);
-        // request a task to pause.  If not paused after x secs, kill
+    int request_exit();
+        // ask a task to exit.  doesn't wait for it to do so.
+    int request_pause();
+        // ask a task to pause.  doesn't wait for it to do so.
+    int kill_task();
+        // externally kill the task.  doesn't wait for exit
+    int abort();
+        // kill, and flag as abort pending
 
-    void suspend(bool suspend);
+    int suspend();
+    int unsuspend();
 
     bool check_app_status_files();
     double est_time_to_completion();

@@ -263,13 +263,15 @@ int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
 //
 int HTTP_OP::init_post(char* url, char* in, char* out) {
     int retval;
+    double size;
 
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     strcpy(infile, in);
     strcpy(outfile, out);
-    retval = file_size(infile, content_length);
+    retval = file_size(infile, size);
     if (retval) return retval;
+    content_length = (int)size;
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     http_post_request_header(
@@ -284,6 +286,7 @@ int HTTP_OP::init_post2(
     char* url, char* r1, char* in, double offset
 ) {
     int retval;
+    double size;
 
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
@@ -291,12 +294,12 @@ int HTTP_OP::init_post2(
     if (in) {
         strcpy(infile, in);
         file_offset = offset;
-        retval = file_size(infile, content_length);
+        retval = file_size(infile, size);
         if (retval) {
             printf("HTTP::init_post2: couldn't get file size\n");
             return retval;
         }
-        content_length -= (int)offset;
+        content_length = (int)size - (int)offset;
     }
     content_length += strlen(req1);
     http_op_type = HTTP_OP_POST2;

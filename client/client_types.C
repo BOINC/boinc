@@ -544,8 +544,17 @@ int WORKUNIT::write(FILE* out) {
         "    <version_num>%d</version_num>\n"
         "    <command_line>%s</command_line>\n"
         "    <env_vars>%s</env_vars>\n"
-        "    <seconds_to_complete>%f</seconds_to_complete>\n",
-        name, app_name, version_num, command_line, env_vars, seconds_to_complete
+        "    <seconds_to_complete>%f</seconds_to_complete>\n"
+        "    <max_processing>%f</max_processing>\n"
+        "    <max_disk>%f</max_disk>\n",
+        name,
+        app_name,
+        version_num,
+        command_line,
+        env_vars,
+        seconds_to_complete,
+        max_processing,
+        max_disk
     );
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
