@@ -691,10 +691,14 @@ static void scan_work_array(
         }
 
         result = wu_result.result;
-        wu_result.present = false;
 
         retval = add_wu_to_reply(wu, reply, platform, ss);
-        if (retval) continue;
+        if (retval) {
+            wu_result.infeasible_count++;
+            continue;
+        }
+
+        wu_result.present = false;
 
         log_messages.printf(
             SchedMessages::NORMAL,
@@ -849,8 +853,8 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         strcpy(reply.message_priority, "low");
         log_messages.printf(
             SchedMessages::NORMAL,
-            "[HOST#%d] Wrong major version from user: wanted %d, got %d\n",
-            reply.host.id,
+            "[HOST#%d] [auth %s] Wrong major version from user: wanted %d, got %d\n",
+            sreq.hostid, sreq.authenticator,
             MAJOR_VERSION, sreq.core_client_major_version
         );
         return true;
@@ -858,8 +862,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     return false;
 }
 
-inline static const char* get_remote_addr()
-{
+inline static const char* get_remote_addr() {
     const char * r = getenv("REMOTE_ADDR");
     return r ? r : "?.?.?.?";
 }

@@ -5,7 +5,7 @@ include $(top_srcdir)/Makefile.incl
 noinst_PROGRAMS =								\
 	cgi feeder show_shmem file_upload_handler				\
         validate_test validate_trivial make_work transitioner file_deleter	\
-        assimilator db_dump update_stats
+        assimilator db_dump update_stats show_shmem
 
 noinst_LIBRARIES = libsched.a
 

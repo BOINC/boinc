@@ -6314,3 +6314,22 @@ David  Sept 21 2003
         feeder.C
         handle_request.C
         sched_shmem.h
+
+David  Sept 21 2003
+    - Partly debugged the above changes:
+    - The feeder's result enumeration should have no limit;
+        otherwise it may enumerate the same results over and over
+    - If the infeasible_count of a result a threshold (MAX_INFEASIBLE_COUNT)
+        the feeder marks it as couldnt_send.
+        This prevents a situation where results sit in the work array
+        forever, their infeasible_count approaching infinity
+    - Added show_shmem to sched/ Makefile, and fleshed it out a bit
+    - Show hostID correctly when get RPC from wrong major version
+
+    NOTE: still haven't exercised the case where a result is marked COULDNT_SEND
+
+    sched/
+        Makefile.am
+        feeder.C
+        handle_request.C
+        show_shmem.C

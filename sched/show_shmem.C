@@ -46,7 +46,16 @@ int main() {
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     printf("ready: %d\n", ssp->ready);
+    printf("nwu_results: %d\n", ssp->nwu_results);
+    printf("max_wu_results: %d\n", ssp->max_wu_results);
     for (i=0; i<ssp->max_wu_results; i++) {
-        printf("%d. %s\n", i, ssp->wu_results[i].present?"present":"absent");
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.present) {
+            printf("%d: present; infeasible_count %d; result %s\n",
+                i, wu_result.infeasible_count, wu_result.result.name
+            );
+        } else {
+            printf("%d: absent\n", i);
+        }
     }
 }

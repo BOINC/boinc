@@ -17,14 +17,45 @@
 // Contributor(s):
 //
 
+// -------------------------------
+//
 // feeder [-asynch] [-d debug_level]
+// -asynch      fork and run in a separate process
 //
 // Creates a shared memory segment containing DB info,
-// including results/workunits to send.
+// including the work array (results/workunits to send).
 // This means that the scheduler CGI program doesn't have to
 // access the DB to get this info.
 //
-// -asynch      fork and run in a separate process
+// Try to keep the work array filled.
+// This is a little tricky.
+// We use an enumerator.
+// The inner loop scans the wu_result table,
+// looking for empty slots and trying to fill them in.
+// When the enumerator reaches the end, it is restarted;
+// hopefully there will be some new workunits.
+// There are two complications:
+//  - An enumeration may return results already in the array.
+//    So, for each result, we scan the entire array to make sure
+//    it's not there already.  Can this be streamlined?
+//  - We must avoid excessive re-enumeration,
+//    especially when the number of results is less than the array size.
+//    Crude approach: if a "collision" (as above) occurred on
+//    a pass through the array, wait a long time (5 sec)
+//
+// Checking for infeasible results (i.e. can't sent to any host):
+// - the "infeasible_count" field of WU_RESULT keeps track of
+//   how many times the WU_RESULT was infeasible for a host
+// - the scheduler gives priority to results that have infeasible_count > 0
+// - If the infeasible_count of any result exceeds MAX_INFEASIBLE_COUNT,
+//   the feeder flags the result as OVER with outcome COULDNT_SEND,
+//   and flags the WU for the transitioner.
+// - the feeder tries to ensure that the number of WU_RESULTs
+//   with infeasible_count  > 0 doesn't exceed MAX_INFEASIBLE
+//   (compiled into feeder).
+//   If it does, then the feeder picks the WU_RESULT with
+//   the largest infeasible_count, marks if COULDNT_SEND as above,
+//   and repeats this until the infeasible count is low enough again
 
 // Trigger files:
 // The feeder program periodically checks for two trigger files:
@@ -55,7 +86,8 @@
 #include "sched_shmem.h"
 #include "sched_util.h"
 
-#define RESULTS_PER_ENUM    100
+#define MAX_INFEASIBLE_COUNT    50
+
 #define REREAD_DB_FILENAME      "reread_db"
 #define LOCKFILE                "feeder.out"
 #define PIDFILE                 "feeder.pid"
@@ -82,34 +114,46 @@ int check_reread_trigger() {
     return 0;
 }
 
-// Try to keep the work array filled.
-// This is a little tricky.
-// We use an enumerator.
-// The inner loop scans the wu_result table,
-// looking for empty slots and trying to fill them in.
-// When the enumerator reaches the end, it is restarted;
-// hopefully there will be some new workunits.
-// There are two complications:
-//  - An enumeration may return results already in the array.
-//    So, for each result, we scan the entire array to make sure
-//    it's not there already.  Can this be streamlined?
-//  - We must avoid excessive re-enumeration,
-//    especially when the number of results is less than the array size.
-//    Crude approach: if a "collision" (as above) occurred on
-//    a pass through the array, wait a long time (5 sec)
-//
-// Checking for infeasible results (i.e. can't sent to any host):
-// - the "infeasible_count" field of WU_RESULT keeps track of
-//   how many times the WU_RESULT was infeasible for a host
-// - the scheduler gives priority to results that have infeasible_count > 0
-// - the feeder tries to ensure that the number of WU_RESULTs
-//   with infeasible_count  > 0 doesn't exceed MAX_INFEASIBLE
-//   (compiled into feeder).
-//   If it does, then the feeder picks the WU_RESULT with
-//   the largest infeasible_count,
-//   flags the result as OVER with outcome COULDNT_SEND,
-//   flags the WU for the transitioner,
-//   and repeats this until the infeasible count is low enough again
+static int remove_infeasible(int i) {
+    int retval;
+    DB_RESULT result;
+    DB_WORKUNIT wu;
+
+    WU_RESULT& wu_result = ssp->wu_results[i];
+    wu_result.present = false;      // mark as absent
+    result = wu_result.result;
+    wu = wu_result.workunit;
+
+    log_messages.printf(
+        SchedMessages::NORMAL,
+        "[%s] declaring result as unsendable\n",
+        result.name
+    );
+
+    result.server_state = RESULT_SERVER_STATE_OVER;
+    result.outcome = RESULT_OUTCOME_COULDNT_SEND;
+    retval = result.update();
+    if (retval) {
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[%s]: can't update: %d\n",
+            result.name, retval
+        );
+        return retval;
+    }
+    wu.transition_time = time(0);
+    retval = wu.update();
+    if (retval) {
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[%s]: can't update: %d\n",
+            wu.name, retval
+        );
+        return retval;
+    }
+
+    return 0;
+}
 
 static void scan_work_array(
     DB_RESULT& result, char* clause,
@@ -123,7 +167,9 @@ static void scan_work_array(
     for (i=0; i<ssp->nwu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
         if (wu_result.present) {
-            if (wu_result.infeasible_count > 0) {
+            if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
+                remove_infeasible(i);
+            } else if (wu_result.infeasible_count > 0) {
                 ninfeasible++;
             }
         } else {
@@ -135,7 +181,9 @@ try_again:
                 // there's no point in doing it again.
                 //
                 if (restarted_enum) {
-                    log_messages.printf(SchedMessages::DEBUG, "already restarted enum on this array scan\n");
+                    log_messages.printf(SchedMessages::DEBUG,
+                        "already restarted enum on this array scan\n"
+                    );
                     break;
                 }
 
@@ -143,9 +191,13 @@ try_again:
                 //
                 restarted_enum = true;
                 retval = result.enumerate(clause);
-                log_messages.printf(SchedMessages::DEBUG, "restarting enumeration\n");
+                log_messages.printf(SchedMessages::DEBUG,
+                    "restarting enumeration\n"
+                );
                 if (retval) {
-                    log_messages.printf(SchedMessages::DEBUG, "enumeration restart returned nothing\n");
+                    log_messages.printf(SchedMessages::DEBUG,
+                        "enumeration restart returned nothing\n"
+                    );
                     no_wus = true;
                     break;
                 }
@@ -205,10 +257,8 @@ try_again:
     }
 }
 
-int remove_most_infeasible() {
-    int i, max, imax=-1, retval;
-    DB_RESULT result;
-    DB_WORKUNIT wu;
+static int remove_most_infeasible() {
+    int i, max, imax=-1;
 
     max = 0;
     for (i=0; i<ssp->nwu_results; i++) {
@@ -220,26 +270,7 @@ int remove_most_infeasible() {
     }
     if (max == 0) return -1;        // nothing is infeasible
 
-    WU_RESULT& wu_result = ssp->wu_results[imax];
-    wu_result.present = false;      // mark as absent
-    result = wu_result.result;
-    wu = wu_result.workunit;
-
-    log_messages.printf(
-        SchedMessages::NORMAL,
-        "[%s] declaring result as unsendable\n",
-        result.name
-    );
-
-    result.server_state = RESULT_SERVER_STATE_OVER;
-    result.outcome = RESULT_OUTCOME_COULDNT_SEND;
-    retval = result.update();
-    if (retval) return retval;
-    wu.transition_time = time(0);
-    retval = wu.update();
-    if (retval) return retval;
-
-    return 0;
+    return remove_infeasible(imax);
 }
 
 void feeder_loop() {
@@ -248,8 +279,8 @@ void feeder_loop() {
     bool no_wus;
     char clause[256];
 
-    sprintf(clause, "where server_state=%d order by random limit %d",
-        RESULT_SERVER_STATE_UNSENT, RESULTS_PER_ENUM
+    sprintf(clause, "where server_state=%d order by random",
+        RESULT_SERVER_STATE_UNSENT
     );
 
     while (1) {
