@@ -30,16 +30,6 @@
 #define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
 #define WIN32_EXTRA_LEAN      // Trims even farther.
 
-//#define DRAW_WITH_DLL
-
-#ifdef DRAW_WITH_DLL
-__declspec(dllimport) void vis_render(int,int,double,float*,int);
-__declspec(dllimport) void vis_unload();
-__declspec(dllimport) void vis_init();
-#pragma comment(lib,"../../vis_dll/debug/vis.lib")
-#endif
-
-
 static HDC			hDC;
 static HGLRC		hRC;
 static HWND			hWnd=NULL;		// Holds Our Window Handle
@@ -65,11 +55,7 @@ BOOL reg_win_class();
 BOOL unreg_win_class();
 
 bool KillWindow() {	
-#ifdef DRAW_WITH_DLL
-	if(hDC) vis_unload();
-#else
 	//if(hDC) app_unload_gl();
-#endif
 
 	if (hRC) {											// Do We Have A Rendering Context?
 		if (!wglMakeCurrent(NULL,NULL)) {				// Are We Able To Release The DC And RC Contexts?
@@ -101,6 +87,7 @@ bool KillWindow() {
 // - when get mode change msg (via shared mem)
 // - when in SS mode and get user input
 //
+extern FILE* gf();
 void SetMode(int mode) {
 	RECT WindowRect = {0,0,0,0};
 	int width, height;
@@ -112,6 +99,8 @@ void SetMode(int mode) {
 	KillWindow();
 
 	current_graphics_mode = mode;
+
+    // ?? if mode is HIDE, can't we just return here?
 
 	if (current_graphics_mode == MODE_FULLSCREEN) {
 		HDC screenDC=GetDC(NULL);
@@ -172,7 +161,16 @@ void SetMode(int mode) {
 		ShowWindow(hWnd, SW_HIDE);
 	}	
 	
-	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
+    // do GL initialization every time, since we're creating a new window
+    //
+	InitGL();
+    app_init_gl();
+
+    // tell the core client that we're entering new mode
+    //
+    app_client_shm->send_graphics_mode_msg(
+        APP_CORE_GFX_SEG, current_graphics_mode
+    );
 }
 
 // message handler (includes timer, Windows msgs)
@@ -187,7 +185,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
     static bool visible = true;
 
 	switch(uMsg) {
-	case WM_ERASEBKGND:								// Check To See If Windows Is Trying To Erase The Background
+	case WM_ERASEBKGND:		// Check To See If Windows Is Trying To Erase The Background
 			return 0;	
     case WM_SHOWWINDOW:
         // this is an attempt to avoid wasting CPU time on rendering
@@ -267,15 +265,11 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Register window class and graphics mode message
 	reg_win_class();
 
-
     if (standalone) {
         SetMode(MODE_WINDOW);
     } else {
         SetMode(MODE_HIDE_GRAPHICS);
     }
-	InitGL();
-    app_init_gl();
-
 	win_loop_done = false;
 	using_opengl = true;
 	while(!win_loop_done) {

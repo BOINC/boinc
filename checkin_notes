@@ -7066,3 +7066,20 @@ Karl 2003-10-25
     client/win/
         wingui_mainwindow.cpp
 
+
+David  25 Oct 2003
+	- removed code that caps backoff count at one
+		TODO: we still need to reexamine the backoff policy,
+		so that multiple file failures don't lead to huge backoffs
+	- moved OpenGL init calls from the start of the event loop
+		back to SetMode, undoing an earlier change.
+		Turns out the need to be in SetMode because it creates a new
+		window every time.
+		This should fix the bug that cause Astropulse to show no graphics.
+		TODO: make sure that when an application window is hidden,
+		no rendering work gets done.
+
+	api/
+		windows_opengl.C
+	client/
+		scheduler_op.C
