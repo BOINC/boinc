@@ -19243,3 +19243,12 @@ Rom    10 Nov 2004
         boinc_gui.vcproj
         BOINCGUI.vcproj
         boinc.sln
+
+Rom    10 Nov 2004
+    - Create a custom action to copy account files from a specific location when the
+      ACCOUNTS_LOCATION public property is defined.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows
+        Accounts_CopyFiles.vbs
