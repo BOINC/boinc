@@ -66,6 +66,7 @@ include_HEADERS =               \
                 hostinfo.h      \
                 mfile.h         \
                 miofile.h   \
+                parse.h \
                 prefs.h         \
                 proxy_info.h    \
                 util.h      
