@@ -78,14 +78,15 @@ void	boinc_trace(const char *pszFormat, ...);
 #include <crtdbg.h>
 
 
-#define BOINCASSERT(expr)	_ASSERT_BASE((expr), #expr)
 
 #ifdef _DEBUG
 
+#define BOINCASSERT(expr)	_ASSERT_BASE((expr), #expr)
 #define BOINCTRACE			boinc_trace
 
 #else _DEBUG
 
+#define BOINCASSERT(expr)	((void)0)
 #define BOINCTRACE			((void)0)
 
 #endif _DEBUG
