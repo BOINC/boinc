@@ -40,7 +40,7 @@ CONFIG config;
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
-#define DEBUG_LEVEL     1
+#define DEBUG_LEVEL     SchedMessages::NORMAL
 
 #define STDERR_FILENAME "file_upload_handler.out"
 
@@ -73,12 +73,12 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<generated_locally/>")) continue;
         if (match_tag(buf, "<upload_when_present/>")) continue;
         if (match_tag(buf, "<url>")) continue;
-        write_log(MSG_NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
+        log_messages.printf(SchedMessages::NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
     }
     return 1;
 }
 
-int return_error(bool transient, char* message) {
+int return_error(bool transient, const char* message, ...) {
     printf(
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
@@ -88,9 +88,15 @@ int return_error(bool transient, char* message) {
         transient?1:-1,
         message
         );
-    write_log(MSG_DEBUG, "Returning error to client: %s (%s)\n", message,
-              (transient?"transient":"permanent")
-        );
+
+    va_list va;
+    va_start(va, message);
+    char buf[1024];
+    vsprintf(buf, message, va);
+    va_end(va);
+
+    log_messages.printf(SchedMessages::NORMAL, "Returning error to client: %s (%s)\n", buf,
+                        (transient?"transient":"permanent"));
     return 1;
 }
 
@@ -134,7 +140,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
         fclose(out);
-        write_log(MSG_DEBUG, "offset == nbytes: %f\n", nbytes);
+        log_messages.printf(SchedMessages::DEBUG, "offset == nbytes: %f\n", nbytes);
         return return_success(0);
     }
     while (1) {
@@ -177,7 +183,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool is_valid;
 
     while (fgets(buf, 256, in)) {
-        write_log_multiline(MSG_DEBUG, buf);
+        log_messages.printf_multiline(SchedMessages::DEBUG, buf, "handle_file_upload: ");
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
@@ -187,10 +193,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
-                write_log(MSG_NORMAL, "signed xml:\n");
-                write_log_multiline(MSG_NORMAL, file_info.signed_xml);
-                write_log(MSG_NORMAL, "signature:\n");
-                write_log_multiline(MSG_NORMAL, file_info.xml_signature);
+                log_messages.printf_multiline(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
+                log_messages.printf_multiline(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
                 return return_error(ERR_PERMANENT, "invalid signature");
             }
             continue;
@@ -216,14 +220,15 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             // make sure filename is legit
             //
             if (strstr(file_info.name, "..")) {
-                sprintf(buf,
-                    "file_upload_handler: .. found in filename: %s",
-                    file_info.name
-                );
-                return return_error(ERR_PERMANENT, buf);
+                return return_error(ERR_PERMANENT,
+                                    "file_upload_handler: .. found in filename: %s",
+                                    file_info.name);
             }
 
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
+            log_messages.printf(SchedMessages::NORMAL,
+                                "Handling upload of %s [offset=%f, nbytes=%f]\n",
+                                path, offset, nbytes);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (!retval) {
                 return_success(0);
@@ -245,13 +250,13 @@ int handle_get_file_size(char* file_name) {
     sprintf(path, "%s/%s", config.upload_dir, file_name );
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
-        write_log(MSG_NORMAL, "handle_get_file_size: %s, returning error\n", file_name);
+        log_messages.printf(SchedMessages::NORMAL, "handle_get_file_size: %s, returning error\n", file_name);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
-        write_log(MSG_NORMAL, "handle_get_file_size: %s, returning zero\n", file_name);
+        log_messages.printf(SchedMessages::NORMAL, "handle_get_file_size: %s, returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
     } else {
-        write_log(MSG_NORMAL, "handle_get_file_size: %s, returning %d\n",
+        log_messages.printf(SchedMessages::NORMAL, "handle_get_file_size: %s, returning %d\n",
                 file_name, (int)sbuf.st_size);
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
@@ -266,15 +271,13 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool got_version = false;
 
     while (fgets(buf, 256, in)) {
-        write_log_multiline(MSG_DEBUG, buf);
+        log_messages.printf_multiline(SchedMessages::DEBUG, buf, "handle_request: ");
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
-                sprintf(buf,
-                    "Core client has major version %d; "
-                    "expected %d.",
-                    major, MAJOR_VERSION
-                );
-                return return_error(ERR_PERMANENT, buf);
+                return return_error(ERR_PERMANENT,
+                                    "Core client has major version %d; "
+                                    "expected %d.",
+                                    major, MAJOR_VERSION);
             } else {
                 got_version = true;
             }
@@ -317,7 +320,7 @@ int main() {
         exit(1);
     }
 
-    set_debug_level(DEBUG_LEVEL);
+    log_messages.set_debug_level(DEBUG_LEVEL);
 
     retval = config.parse_file();
     if (retval) {
