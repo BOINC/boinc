@@ -405,6 +405,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             error = ERR_READ;
         } else {
             nbytes_transferred += n;
+			bytes_xferred += n;
             m = fwrite(buf, 1, n, file);
             if (n != m) {
                 fprintf(stdout, "Error: incomplete disk write\n");
@@ -441,11 +442,13 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             } else if (n < nleft) {
                 fseek( file, n+nbytes_transferred-blocksize, SEEK_CUR );
                 nbytes_transferred += n;
+				bytes_xferred += n;
                 break;
             }
             nleft -= n;
             offset += n;
             nbytes_transferred += n;
+			bytes_xferred += n;
         }
     }
     return 0;

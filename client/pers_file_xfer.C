@@ -66,6 +66,7 @@ bool PERS_FILE_XFER::start_xfer() {
     struct tm *newtime;
     time_t now;
 
+	now = time(0);
 
     // Decide whether to start a new file transfer
     //

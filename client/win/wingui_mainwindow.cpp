@@ -288,12 +288,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		// progress
 		double xSent = 0;
-		if(fi->fip->generated_locally) {
-			xSent = fi->fip->upload_offset;
-		} else {
-		    char pathname[256];
-			get_pathname(fi->fip, pathname);
-			file_size(pathname, xSent);
+		if (fi->fxp) {
+			xSent = fi->fxp->bytes_xferred;
 		}
 		m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / fi->fip->nbytes);
 

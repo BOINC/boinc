@@ -48,6 +48,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     if (file_size(pathname, f_size)) {
         f_size = 0;
     }
+	bytes_xferred = f_size;
     return HTTP_OP::init_get(fip->get_url(), pathname, false, (int)f_size);
 }
 
@@ -65,6 +66,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     get_pathname(fip, pathname);
 
     if (file_info.upload_offset < 0) {
+		bytes_xferred = 0;
         sprintf(header,
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
@@ -77,6 +79,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         file_size_query = true;
         return HTTP_OP::init_post2(fip->get_url(), header, NULL, 0);
     } else {
+		bytes_xferred = file_info.upload_offset;
         sprintf(header,
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
