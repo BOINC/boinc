@@ -19775,5 +19775,12 @@ Rom    17 Nov 2004
 Bruce  18 Nov 2004
     - Bug fixes (thanks to Jens Seidler): set cross project id (CPID) to random value
       when creating user account from Administrator form, and lower_case email address
-      before inserting into database.
-    html/ops/create_account_action.php 
+      before inserting into database. Added script  make_emails_lowercase.php which
+      goes through user database and changes email addresses to lowercase, and sets CPID
+      to a random string if it is currently 0 (empty).  It should be safe to run this
+      script any number of times, on a damanged or undamaged user database, with no side
+      effects.
+
+    html/ops/
+      create_account_action.php 
+      make_emails_lowercase.php
