@@ -164,7 +164,6 @@ void parse_cpuinfo(HOST_INFO& host) {
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return;
-    host.p_ncpus = 1;
     while (fgets(buf, 256, f)) {
         if (strstr(buf, "vendor_id\t: ") == buf) {
             sscanf(buf, "vendor_id\t: %s", host.p_vendor);
@@ -208,7 +207,12 @@ void get_host_disk_info( double &total_space, double &free_space ) {
 //
 int get_host_info(HOST_INFO& host) {
     get_host_disk_info( host.d_total, host.d_free );
-    
+
+#ifdef linux
+    parse_cpuinfo(host);
+    parse_meminfo(host);
+#endif
+
 #if HAVE_SYS_SYSTEMINFO_H
     char buf[256];
 
@@ -294,11 +298,6 @@ int get_host_info(HOST_INFO& host) {
     len = sizeof(vm_info);
     sysctl(mib, 2, &vm_info, &len, NULL, 0);
     host.m_swap = vm_info.t_vm;*/
-#endif
-
-#ifdef linux
-    parse_cpuinfo(host);
-    parse_meminfo(host);
 #endif
 
     get_local_domain_name(host.domain_name, sizeof(host.domain_name));
