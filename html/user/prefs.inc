@@ -79,7 +79,7 @@ define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
 
 define("BYTE_CONVERSION", 1000.0);
-define("BYTE_UNITS", "Kbytes/s");
+define("BYTE_UNITS", "Kbytes/sec");
 define("BYTE_ABBR", "KB/s");
 
 global $text;
