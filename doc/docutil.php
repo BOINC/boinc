@@ -6,10 +6,10 @@ function last_mod() {
 
 function page_head($title) {
     $d = last_mod();
-    echo "
+    echo "<html>
         <head>
-        <link rel='stylesheet' type='text/css' href=white.css>
-        <link rel='shortcut icon' href='iconsmall.ico'>
+        <link rel='stylesheet' type='text/css' href="white.css"/>
+        <link rel='shortcut icon' href='iconsmall.ico'/>
         <title>$title</title>
         </head>
         <body bgcolor=ffffff>
@@ -27,11 +27,14 @@ function page_head($title) {
 
 function page_tail() {
     echo "
-        <hr size=0 noshade>
-        <center>
-        <a href=/>Return to BOINC main page</a>
-        <br><br>
+        <hr size="0" noshade/>
+        <p align="center">
+        <a href="/">Return to BOINC main page</a>
+        <br/><br/>
         Copyright &copy; 2004 University of California
+        </p>
+        </body>
+        </html>
     ";
 }
 
