@@ -272,6 +272,10 @@ wxInt32 CViewResources::AddCacheElement()
 
 wxInt32 CViewResources::EmptyCache()
 {
+    unsigned int i;
+    for (i=0; i<m_ResourceCache.size(); i++) {
+        delete m_ResourceCache[i];
+    }
     m_ResourceCache.clear();
     return 0;
 }

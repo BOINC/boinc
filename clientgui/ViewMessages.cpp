@@ -403,6 +403,10 @@ wxInt32 CViewMessages::EmptyCache()
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    unsigned int i;
+    for (i=0; i<m_MessageCache.size(); i++) {
+        delete m_MessageCache[i];
+    }
     m_MessageCache.clear();
     pDoc->ResetMessageState();
 

@@ -521,6 +521,10 @@ wxInt32 CViewWork::AddCacheElement()
 
 wxInt32 CViewWork::EmptyCache()
 {
+    unsigned int i;
+    for (i=0; i<m_WorkCache.size(); i++) {
+        delete m_WorkCache[i];
+    }
     m_WorkCache.clear();
     return 0;
 }

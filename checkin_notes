@@ -23429,3 +23429,12 @@ Rom    28 Jan 2005
         BOINCGUI.vcproj
     winbuild/installerv2/
         BOINC.ism
+
+Rom    29 Jan 2005
+    - Cleanup memory leaks due to the conversion to vectors.
+
+    clientgui/
+        ViewMessages.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

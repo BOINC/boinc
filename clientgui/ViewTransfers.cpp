@@ -445,6 +445,10 @@ wxInt32 CViewTransfers::AddCacheElement()
 
 wxInt32 CViewTransfers::EmptyCache()
 {
+    unsigned int i;
+    for (i=0; i<m_TransferCache.size(); i++) {
+        delete m_TransferCache[i];
+    }
     m_TransferCache.clear();
     return 0;
 }
