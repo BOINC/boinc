@@ -22,33 +22,71 @@ alter table user
     add unique(authenticator),
     add index ind_tid (teamid),
     add index user_tot (total_credit desc),
+        -- db_dump.C
     add index user_avg (expavg_credit desc);
+        -- db_dump.C
 
 alter table team
     add unique(name),
     add index team_avg (expavg_credit desc),
+        -- db_dump.C
     add index team_tot (total_credit desc);
+        -- db_dump.C
 
 alter table workunit
     add unique(name),
+        -- not currently used but good invariant
     add index wu_val (appid, need_validate),
+        -- validator
     add index wu_timeout (transition_time),
+        -- transitioner
     add index wu_filedel (file_delete_state),
+        -- file_deleter
     add index wu_assim (appid, assimilate_state);
+        -- assimilator
 
 alter table result
     add unique(name),
-    add index res_wuid (workunitid),
+        -- the scheduler looks up results by name
+
+    //add index res_wuid (workunitid),
+    //    -- transitioner
+    //    -- NOTE: res_wu_user may suffice; could try dropping this one
+
     add index ind_res_st (server_state, random),
+        -- feeder (random is to avoid sending WU result close together)
+
+    add index res_app_state(appid, server_state),
+        -- splitter, e.g.
+
     add index res_filedel (file_delete_state),
-    add index res_hostid (hostid),
+        -- file_deleter
+
+    add index res_userid_id(userid, id desc),
+        -- html_user/results.php
+
+    add index res_userid_val(userid, validate_state),
+        -- to show pending credit
+
+    add index res_hostid (hostid, id desc),
+        -- html_user/results.php
+
     add index res_wu_user (workunitid, userid),
+        -- scheduler (avoid sending mult results of same WU to one user)
+
     add index app_received_time (appid, received_time desc);
+        -- html_ops/result_summary.php
 
 alter table host
     add index host_user (userid),
+        -- html_user/host_user.php
     add index host_avg (expavg_credit desc),
+        -- db_dump.C
     add index host_tot (total_credit desc);
+        -- db_dump.C
 
 alter table profile
     add unique profile_userid(userid);
+
+alter table subscriptions
+    add unique sub_unique(userid, threadid);

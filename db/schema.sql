@@ -317,3 +317,9 @@ create table post (
     primary key (id)
 );
 
+-- subscription to a thread
+--
+create table subscriptions (
+    userid              integer     not null,
+    threadid            integer     not null
+);

@@ -8004,3 +8004,24 @@ Karl 2003-12-02
     - created export-tarball program for nightly-tarball
 
     nightly-tarball
+
+David  28 Nov 2003
+    - changed indices on result table
+        changed res_hostid to include id desc
+        removed res_wuid
+        added app_received_time
+    - removed "last result for host" info from web pages;
+        this required an index with no other function
+    - added comments to constraints.sql explaining why each index is needed
+    - add "subscriptions" table to schema.sql
+
+    db/
+        constraints.sql
+        schema.sql
+    html_user/
+        host.inc
+        totals.php
+        util.inc
+        forum/
+            post.php
+            subscribe.inc

@@ -91,10 +91,10 @@ if ($category->is_helpdesk) {
 	echo "<p>
         If you are having software problems,
         mention the version number of the software,
-        your computer type, operating system, etc.
+        your computer type and operating system.
         </td>
     ";
-} else {
+}
     
 
 echo "

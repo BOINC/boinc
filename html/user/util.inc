@@ -60,8 +60,8 @@ function get_profile_from_userid($userid) {
     return null;
 }
 
-// $pathMod is a prefix for the path of the login processing form.  This
-// allows scripts in other directories (i.e. forum/) to call this function.
+// $pathMod is a prefix for the path of the login processing form.
+// This allows scripts in other directories (i.e. forum/) to call this function.
 
 function get_logged_in_user($must_be_logged_in=true, $pathMod="") {
     $authenticator = init_session();
