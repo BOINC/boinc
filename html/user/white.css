@@ -86,16 +86,13 @@ input , select {
 h1 , h2 {
 	color: black;
 	font-size: large;
-	font-variant: small-caps;
 	font-weight: normal;
 	margin-top: 10px;
 }
 
 h3 , h4 {
 	color: black;
-    text-decoration: underline;
 	font-size: small;
-	font-variant: small-caps;
 	font-weight: bold;
 }
 

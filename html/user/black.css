@@ -82,7 +82,7 @@ tr.subtitle {
 }
 
 tr.message {
-           background-color: rgb(100,100,100);
+   background-color: rgb(100,100,100);
 }
 
 input , select {
@@ -92,16 +92,13 @@ input , select {
 h1 , h2 {
 	color: white;
 	font-size: large;
-	font-variant: small-caps;
 	font-weight: normal;
 	margin-top: 10px;
 }
 
 h3 , h4 {
 	color: white;
-        text-decoration: underline;
 	font-size: small;
-	font-variant: small-caps;
 	font-weight: bold;
 }
 
