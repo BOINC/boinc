@@ -21520,3 +21520,15 @@ David  17 Dec 2004
 
     html/user/
         account_setup_first_action.php
+
+Rom    17 Dec 2004
+    - Bug Fix: Remove customer information screen
+    - Bug Fix: Change splash screen
+    - Bug Fix: Only prompt for permission to change user rights if the install
+        type is a service install type
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
+ 
