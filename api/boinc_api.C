@@ -96,6 +96,8 @@ static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
 static bool ready_to_redraw = false;
+static bool check_susp_quit = false;
+static bool write_frac_done = false;
 static bool this_process_active;
 static bool time_to_suspend = false,time_to_quit = false;
 int ok_to_draw = 0;
@@ -405,6 +407,22 @@ bool boinc_time_to_checkpoint() {
     }
 #endif  // BOINC_APP_GRAPHICS
 
+    if (check_susp_quit) {
+        FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
+        if(f) {
+            parse_suspend_quit_file(f,time_to_suspend,time_to_quit);
+            fclose(f);
+        }
+        time_until_suspend_check = 1;    // reset to 1 second
+        check_susp_quit = false;
+    }
+
+    if (write_frac_done) {
+        write_fraction_done_file(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
+        time_until_fraction_done_update = aid.fraction_done_update_period;
+        write_frac_done = false;
+    }
+
     // If the application has received a quit or suspend request
     // it should checkpoint
     if (time_to_quit || time_to_suspend) {
@@ -517,6 +535,8 @@ double boinc_cpu_time() {
     fprintf(stderr, "boinc_cpu_time(): not implemented\n");
 }
 
+// This function should be as fast as possible, and shouldn't make any system calls
+//
 #ifdef _WIN32
 void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
 #else
@@ -537,21 +557,17 @@ void on_timer(int a) {
         }
     }
 
-    time_until_suspend_check -= timer_period;
-    if (time_until_suspend_check <= 0) {
-        FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
-        if(f) {
-            parse_suspend_quit_file(f,time_to_suspend,time_to_quit);
-            fclose(f);
+    if (!check_susp_quit) {
+        time_until_suspend_check -= timer_period;
+        if (time_until_suspend_check <= 0) {
+            check_susp_quit = true;
         }
-        time_until_suspend_check = 1;    // reset to 1 second
     }
 
-    if (this_process_active) {
+    if (!write_frac_done && this_process_active) {
         time_until_fraction_done_update -= timer_period;
-        if (time_until_fraction_done_update < 0) {
-            write_fraction_done_file(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
-            time_until_fraction_done_update = aid.fraction_done_update_period;
+        if (time_until_fraction_done_update <= 0) {
+            write_frac_done = true;
         }
     }
 
@@ -599,14 +615,21 @@ int set_timer(double period) {
 #if HAVE_SIGNAL_H
 #if HAVE_SYS_TIME_H
     struct sigaction sa;
-    sa.sa_handler = on_timer;
-    sa.sa_flags = 0;
-    sigaction(SIGALRM, &sa, NULL);
     itimerval value;
+    sa.sa_handler = on_timer;
+    sa.sa_flags = SA_RESTART;
+    retval = sigaction(SIGALRM, &sa, NULL);
+    if (retval) {
+        perror( "boinc set_timer() sigaction" );
+        return retval;
+    }
     value.it_value.tv_sec = (int)period;
     value.it_value.tv_usec = ((int)(period*1000000))%1000000;
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
+    if (retval) {
+        perror( "boinc set_timer() setitimer" );
+    }
 #endif
 #endif
     return retval;
