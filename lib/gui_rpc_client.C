@@ -1046,6 +1046,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
     int retval;
 
     state.clear();
+    client_version = 0;
 
     retval = rpc.do_rpc("<get_state/>\n");
     if (retval) return retval;

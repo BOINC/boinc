@@ -25265,4 +25265,9 @@ Rom    23 Feb 2005
 
     win_build/installerv2/
         BOINC.ism
-    
+
+Rom    24 Feb 2005
+    - Bug Fix: Reset the client_version integer with every get_state request.
+
+    lib/
+        gui_rpc_client.C
