@@ -167,4 +167,45 @@ GLvoid glPrint(GLuint font, const char *fmt, ...)	// Custom GL "Print" Routine
     glPopAttrib();					// Pops The Display List Bits
 }
 
+GLenum InitGL(GLvoid) {					// All Setup For OpenGL Goes Here
+    GLenum err;
+    
+    glShadeModel(GL_SMOOTH);				// Enable Smooth Shading
+    if (err=glGetError()) return err;
+    
+    glClearColor(0.0f, 0.0f, 0.0f, 0.5f);		// Black Background
+    if (err=glGetError()) return err;
+    
+    glClearDepth(1.0f);					// Depth Buffer Setup
+    if (err=glGetError()) return err;
+    
+    glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
+    if (err=glGetError()) return err;
+    
+    glDepthFunc(GL_LEQUAL);				// The Type Of Depth Testing To Do
+    if (err=glGetError()) return err;
+    
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
+    if (err=glGetError()) return err;
+    
+    return GL_NO_ERROR;					// Initialization Went OK
+}
+
+GLenum ReSizeGLScene(GLsizei width, GLsizei height) {	// Resize And Initialize The GL Window
+    GLenum err;
+    double aspect_ratio = 4.0/3.0;
+
+    if (height<=0) height=1;		// Prevent A Divide By Zero By Making Height Equal One
+    if (width<=0) width=1;
+
+    if (height*aspect_ratio > width)
+        glViewport(0,0,(int)width,(int)(width/aspect_ratio));	// Reset The Current Viewport
+    else
+        glViewport(0,0,(int)(height*aspect_ratio),(height));	// Reset The Current Viewport
+    
+    if (err=glGetError()) return err;
+    
+    return GL_NO_ERROR;
+}
+
 #endif

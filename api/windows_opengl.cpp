@@ -61,20 +61,6 @@ void ChangeMode( int mode );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
-GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize The GL Window
-{
-	double aspect_ratio = 4.0/3.0;
-
-	if (height==0) {									// Prevent A Divide By Zero By
-		height=1;										// Making Height Equal One
-	}
-
-	if (height*aspect_ratio > width)
-		glViewport(0,0,(int)width,(int)(width/aspect_ratio));	// Reset The Current Viewport
-	else
-		glViewport(0,0,(int)(height*aspect_ratio),(height));	// Reset The Current Viewport
-}
-
 GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
 {
 	HFONT	font;										// Windows Font ID
@@ -106,18 +92,6 @@ GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
 GLvoid KillFont(GLvoid)									// Delete The Font List
 {
 	glDeleteLists(main_font, 256);						// Delete All 96 Characters
-}
-
-int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
-{
-	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
-	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);				// Black Background
-	glClearDepth(1.0f);									// Depth Buffer Setup
-	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
-	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	BuildFont();										// Build The Font
-	return TRUE;										// Initialization Went OK
 }
 
 GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
@@ -335,6 +309,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;								// Return FALSE
 	}
+	BuildFont();										// Build The Font
 
 	return TRUE;									// Success
 }
@@ -356,22 +331,6 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			}
 			return 0;
 		}
-
-		/*case WM_SYSCOMMAND:							// Intercept System Commands
-		{
-			switch (wParam) {						// Check System Calls
-				case SC_SCREENSAVE:					// Screensaver Trying To Start?
-					if (!fullscreen) {
-						GetCursorPos(&initCursorPos);
-						ChangeMode(!fullscreen);
-
-						counter = 5;
-					}
-				case SC_MONITORPOWER:				// Monitor Trying To Enter Powersave?
-				return 0;							// Prevent From Happening
-			}
-			break;									// Exit
-		}*/
 
 		case WM_KEYDOWN:							// Is A Key Being Held Down?
 			// If a key is pressed in full screen mode, go back to old mode

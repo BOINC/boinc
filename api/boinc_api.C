@@ -126,19 +126,19 @@ int boinc_init() {
     f = fopen(GRAPHICS_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init(): can't open graphics data file\n");
-		fprintf(stderr, "Using default graphics settings.\n");
-		gi.refresh_period = 0.5;
-		gi.xsize = 640;
-		gi.ysize = 480;
+        fprintf(stderr, "Using default graphics settings.\n");
+        gi.refresh_period = 0.5;
+        gi.xsize = 640;
+        gi.ysize = 480;
     }
-	if (f) {
-		retval = parse_graphics_file(f, &gi);
-		if (retval) {
-			fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
-			return retval;
-		}
-		fclose(f);
-	}
+    if (f) {
+        retval = parse_graphics_file(f, &gi);
+        if (retval) {
+            fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
+            return retval;
+        }
+        fclose(f);
+    }
 
     f = fopen(FD_INIT_FILE, "r");
     if (f) {
@@ -575,8 +575,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
     FILE* f = fopen(FRACTION_DONE_TEMP_FILE, "w");
 
-	if (!f)
-		return -1;
+    if (!f)
+        return -1;
 
     fprintf(f,
         "<fraction_done>%f</fraction_done>\n"

@@ -77,6 +77,8 @@ void *p_graphics_loop( void *duff ) {
         fprintf(stderr, "glXMakeCurrent failed (window)!\n");
         return 0;
     }
+    
+    InitGL();
 
     win_open = true;
     buildFont();
@@ -115,7 +117,7 @@ void process_input(Display *dpy) {
 GLvoid buildFont(GLvoid)
 {
     XFontStruct *font;
-	
+    
     main_font = glGenLists(256);      /* storage for 256 characters */
     /* load a font with a specific name in "Host Portable Character Encoding" */
     /*font = XLoadQueryFont(dpy,

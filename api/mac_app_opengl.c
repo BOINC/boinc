@@ -69,6 +69,7 @@ GLuint			main_font;
 structGLWindowInfo	glInfo;
 
 bool user_requested_exit = false;
+extern bool using_opengl;
 
 // --------------------------------------------------------------------------
 
@@ -154,22 +155,25 @@ int InitGLWindow(int xsize, int ysize, int depth)
         aglUpdateContext (boincAGLContext);
         aglReportError ();
 
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);					// Clear color buffer to dark grey
+        aglDisable (boincAGLContext, AGL_BUFFER_RECT);
+        aglReportError ();
+        ReSizeGLScene( rectPort.right - rectPort.left, rectPort.bottom - rectPort.top );
+        glReportError ();
+        
+        InitGL();
+
         glClear (GL_COLOR_BUFFER_BIT);
         glReportError ();
         aglSwapBuffers (boincAGLContext);
         aglReportError ();
-
-        aglDisable (boincAGLContext, AGL_BUFFER_RECT);
-        aglReportError ();
-        glViewport (0, 0, rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
-        glReportError ();
         
         GetFNum("\pTimes New Roman", &fNum);									// build font
         main_font = BuildFontGL (boincAGLContext, fNum, normal, 9);
 
         aglUpdateContext (boincAGLContext);
         aglReportError ();
+        
+        using_opengl = true;
     }
     
     return 0;
@@ -241,7 +245,7 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
                 case kHICommandMaximizeWindow:	// 'mini'
                 case kHICommandZoomWindow:	// 'zoom'
                     GetWindowPortBounds (appGLWindow, &rectPort);
-                    glViewport (0, 0, rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
+                    ReSizeGLScene(rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
                     glReportError ();
                     break;
                 case kHICommandOK:		// 'ok  '
