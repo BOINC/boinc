@@ -690,6 +690,11 @@ static void scan_work_array(
             continue;
         }
 
+        // XXX FIXME: result should be re-read from database here and checked
+        // that server_state is still UNSENT -- if no longer `UNSENT'
+        // (perhaps because the WU had an unrecoverable error), then skip it.
+        // Should handle_request or feeder take care of removing it?
+
         result = wu_result.result;
 
         retval = add_wu_to_reply(wu, reply, platform, ss);

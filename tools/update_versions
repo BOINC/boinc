@@ -69,7 +69,7 @@ def find_versions(app, dir):
         platform = platforms[0]
 
         if app:
-            existing_versions = database.AppVersions.find(version_num = version_num)
+            existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num)
             if existing_versions:
                 print "  Skipping existing %s %3d: %s" %(app.name, version_num, file)
                 continue

@@ -94,13 +94,20 @@ void handle_wu(DB_WORKUNIT& wu) {
             if (result.report_deadline < now) {
                 log_messages.printf(
                     SchedMessages::NORMAL,
-                    "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d)\n",
+                    "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
                     wu.id, wu.name, result.id, result.name,
                     result.report_deadline, (int)now
                 );
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
-                result.update();
+                retval = result.update();
+                if (retval) {
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                        wu.id, wu.name, result.id, result.name, retval
+                        );
+                }
                 nover++;
             } else {
                 ninprogress++;
@@ -169,9 +176,21 @@ void handle_wu(DB_WORKUNIT& wu) {
         for (unsigned int i=0; i<results.size(); i++) {
             DB_RESULT& result = results[i];
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
+                log_messages.printf(
+                    SchedMessages::NORMAL,
+                    "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
+                    wu.id, wu.name, result.id, result.name
+                );
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                result.update();
+                retval = result.update();
+                if (retval) {
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                        wu.id, wu.name, result.id, result.name, retval
+                        );
+                }
             }
         }
         if (wu.assimilate_state == ASSIMILATE_INIT) {
@@ -232,7 +251,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             wu.file_delete_state = FILE_DELETE_READY;
             log_messages.printf(
                 SchedMessages::DEBUG,
-                "[WU#%d %s] ASSIMILATE_DONE => setting FILE_DELETE_READY\n",
+                "[WU#%d %s] ASSIMILATE_DONE: file_delete_state:=>READY\n",
                 wu.id, wu.name
             );
         }
@@ -258,8 +277,20 @@ void handle_wu(DB_WORKUNIT& wu) {
                 break;
             }
             if (do_delete && result.file_delete_state == FILE_DELETE_INIT) {
+                log_messages.printf(
+                    SchedMessages::NORMAL,
+                    "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
+                    wu.id, wu.name, result.id, result.name
+                );
                 result.file_delete_state = FILE_DELETE_READY;
-                result.update();
+                retval = result.update();
+                if (retval) {
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                        wu.id, wu.name, result.id, result.name, retval
+                        );
+                }
             }
         }
     }
@@ -278,7 +309,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     if (retval) {
         log_messages.printf(
             SchedMessages::CRITICAL,
-            "[WU#%d %s] workunit.update() %d\n", wu.id, wu.name, retval
+            "[WU#%d %s] workunit.update() == %d\n", wu.id, wu.name, retval
         );
     }
 }
