@@ -461,6 +461,8 @@ if program_name == 'start':
     command = command_enable_start
 elif program_name == 'stop':
     command = command_disable_stop
+elif program_name == 'status':
+    command = command_status
 else:
     command = None
 
