@@ -11346,3 +11346,19 @@ David  April 3 2004
 
     client/
         hostinfo_unix.C
+
+David  April 3 2004
+    - If a web page requires login (e.g., forum/post.php)
+        the resulting form will refer to a handler (login_action.php)
+        in the wrong directory.
+        Kludge solution: put a symbolic link in forum/login_action.php
+        Is there a better solution?  Maybe, but I'm too tired to think of it.
+    - better download instructions for Unix
+
+    html/
+        forum/
+            post.php
+        user/
+            account_setup_first_download.php
+    py/Boinc/
+        setup_project.py

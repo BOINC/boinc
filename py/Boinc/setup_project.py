@@ -391,6 +391,7 @@ class Project:
         my_symlink('../stats', self.dir('html/user/stats'))
         my_symlink('../user_profile', self.dir('html/user/user_profile'))
         my_symlink('../user_profile', self.dir('html/user_profile/user_profile'))
+        my_symlink('../user/login_action.php', self.dir('html/forum/login_action.php'))
 
 
         # Copy the sched server in the cgi directory with the cgi names given

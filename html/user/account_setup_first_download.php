@@ -27,7 +27,8 @@ echo "
         This will install BOINC on your computer.
     <li><b>Macintosh OS/X users</b>: BOINC will install itself automatically.
     <li><b>Unix and Linux users</b>:
-        Use gunzip and tar to extract BOINC.
+        Use gunzip to uncompress if your browser has not done it for you.
+        Then chmod +x on the executable and run it.
     </ul>
 
     When BOINC first runs,

@@ -2,7 +2,6 @@
 
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
-
 require_once('../inc/subscribe.inc');
 
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
@@ -10,7 +9,7 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
 
 	$user = get_logged_in_user(true);
 
-    if ($_POST['add_signature']=="add_it"){
+    if ($_POST['add_signature']=="add_it") {
         $forum_signature = "\n".$user->signature;
     }
     $threadID = createThread($_GET['id'], $user->id, $_POST['title'], $_POST['content'].$forum_signature);
@@ -22,8 +21,7 @@ if (!empty($_GET['id'])) {
 	$forum = getForum($_GET['id']);
 	$category = getCategory($forum->category);
 } else {
-	// TODO: Standard error page
-	echo "No forum ID was provided.<br>";
+	echo "Forum ID missing.<br>";
 	exit();
 }
 
