@@ -371,16 +371,18 @@ static int send_results_for_file(
 	    // since it is for WU A, and since the host has already
 	    // gotten a result for WU A, it's infeasible.  So I think
 	    // this is only wacky if !one_wu_per_result_per_host.
-            if (retval_send && !config.one_result_per_user_per_wu) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                    "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n", i, result.id, retval_send
+	    if (!retval_send) {
+	        nsent++;
+	    } else if (!config.one_result_per_user_per_wu) {
+	        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+	            "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n", i, result.id, retval_send
                 );
             }
-	    else {
-                nsent++;
-            }
+
             prev_result = result;
+
         } // query_retval
+
     } // loop over 0<i<100
     return 0;
 }
