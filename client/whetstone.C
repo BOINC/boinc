@@ -136,7 +136,7 @@ C
 */
 	LOOP = loopstart;
 
-	JJ = 1;
+	JJ = 0;
 
 IILOOP:
 	N1  = 0;
@@ -310,11 +310,14 @@ C
 #if 0
 	if (++JJ <= II)
 		goto IILOOP;
-#endif
-
+#else
+    JJ++;
     if (!benchmark_time_to_stop(BM_TYPE_FP)) {
         goto IILOOP;
     }
+    II = JJ;
+#endif
+
 /*
 C
 C      Stop benchmark timing at this point.
