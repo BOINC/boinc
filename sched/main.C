@@ -84,7 +84,7 @@ int main() {
         exit(1);
     }
     //fprintf(stderr, "got ready flag\n");
-    retval = db_open("boinc");
+    retval = db_open(BOINC_DB_NAME);
     if (retval) {
         exit(return_error("BOINC scheduler: can't open database"));
     }

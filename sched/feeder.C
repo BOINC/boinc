@@ -42,6 +42,7 @@
 // has completed the request.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #if HAVE_UNISTD_H
 #include <unistd.h>
@@ -190,7 +191,7 @@ int main(int argc, char** argv) {
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
-    retval = db_open("boinc");
+    retval = db_open(BOINC_DB_NAME);
     if (retval) {
         fprintf(stderr, "feeder: db_open: %d\n", retval);
         exit(1);

@@ -1,9 +1,5 @@
 #include "db.h"
 
-#ifndef BOINC_KEY
-#define BOINC_KEY   0xdadacafe
-#endif
-
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    100

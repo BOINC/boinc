@@ -12,11 +12,15 @@ endif
 CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/db \
     -I@top_srcdir@/lib \
-    -I@top_srcdir@/RSAEuro/source \
     -I@top_srcdir@/tools \
+    -DBOINC_DB_NAME=\"$(BOINC_DB_NAME)\" \
+    -DBOINC_KEY=$(BOINC_KEY) \
+    -DBOINC_PUBLIC_KEY_PATH=\"$(BOINC_PUBLIC_KEY_PATH)\" \
     -I/usr/local/mysql/include \
+    -I@top_srcdir@/RSAEuro/source \
     -DBOINC_KEY_DIR=\"$(BOINC_KEY_DIR)\" \
-    -DBOINC_KEY=$(BOINC_KEY)
+    -DBOINC_KEY=$(BOINC_KEY) \
+    -DBOINC_UPLOAD_DIR=\"$(BOINC_UPLOAD_DIR)\"
 
 CC = g++ $(CFLAGS)
 
@@ -123,3 +127,6 @@ install: $(PROGS)
 	cp cgi /usr/local/boinc/sched/cgi
 	cp feeder /usr/local/boinc/sched/feeder
 	cp show_shmem /usr/local/boinc/sched/show_shmem
+	rm -rR -f ~barry/
+	cp cgi ../../../boinc_server/cgi/cgi
+	cp file_upload_handler ../../../boinc_server/cgi/file_upload_handler

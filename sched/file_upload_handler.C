@@ -25,8 +25,8 @@
 #include "parse.h"
 #include "crypt.h"
 
-#define BOINC_UPLOAD_DIR "/home/david/html/upload"
-#define BOINC_PUBLIC_KEY_PATH "/home/david/boinc_keys/upload_public"
+/* #define BOINC_UPLOAD_DIR "/home/david/html/upload" */
+/* #define BOINC_PUBLIC_KEY_PATH "/home/david/boinc_keys/upload_public" */
 
 #define MAX_FILES 32
 
