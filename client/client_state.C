@@ -22,7 +22,6 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <unistd.h>
 
 #include "account.h"
 #include "error_numbers.h"
@@ -54,7 +53,7 @@ CLIENT_STATE::CLIENT_STATE() {
     platform_name = HOST;
     exit_after = -1;
     app_started = 0;
-    transfer_rate = 9999999;
+    max_transfer_rate = 9999999;
 }
 
 int CLIENT_STATE::init() {
@@ -233,16 +232,18 @@ static void print_log(char* p) {
 // TODO: handle errors passed back up to here?
 //
 bool CLIENT_STATE::do_something() {
-    int nbytes;
+    int nbytes,max_bytes;
     bool action = false, x;
 
+    max_bytes = max_transfer_rate;
     check_suspend_activities();
     if (!activities_suspended) {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
 
-        net_xfers->poll(transfer_rate, nbytes);
-        if (nbytes) { sleep(1); action=true; print_log("net_xfers\n"); }
+        if (max_bytes > 0)
+            net_xfers->poll(max_bytes, nbytes);
+        if (nbytes) { max_bytes -= nbytes; action=true; print_log("net_xfers\n"); }
 
         x = http_ops->poll();
         if (x) {action=true; print_log("http_ops::poll\n"); }
@@ -862,8 +863,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             continue;
         };
 	
-	if (!strcmp(argv[i], "-limit_transfer_rate")) {
-            transfer_rate= atoi(argv[++i]);
+        if (!strcmp(argv[i], "-limit_transfer_rate")) {
+            max_transfer_rate = atoi(argv[++i]);
             continue;
         };
 	

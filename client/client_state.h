@@ -80,7 +80,7 @@ private:
     bool activities_suspended;
     int exit_after;
     time_t app_started;
-    int transfer_rate;
+    int max_transfer_rate;
 
     int parse_account_files();
     int parse_state_file();

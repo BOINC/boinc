@@ -359,7 +359,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
         if (sticky) fprintf(out, "    <sticky/>\n");
         if (signature_required) fprintf(out, "    <signature_required/>\n");
-	if (file_signature) fprintf(out,"    <file_signature>\n%s</file_signature>\n", file_signature);
+        if (file_signature) fprintf(out,"    <file_signature>\n%s</file_signature>\n", file_signature);
     }
     for (i=0; i<urls.size(); i++) {
         fprintf(out, "<url>%s</url>\n", urls[i].text);
