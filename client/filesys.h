@@ -16,10 +16,13 @@
 // 
 // Contributor(s):
 //
+#ifdef HAVE_DIRENT_H
+#include <dirent.h>
+#endif
 
-extern int dir_open(char*);
-extern int dir_scan(char*);
-extern void dir_close();
+extern int dir_open(char*,DIR*);
+extern int dir_scan(char*,DIR*);
+extern void dir_close(DIR*);
 extern int file_delete(char*);
 extern int file_size(char*, int&);
 extern int boinc_link( char *existing, char *new_link );

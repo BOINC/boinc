@@ -59,11 +59,6 @@
 #include "error_numbers.h"
 #include "filesys.h"
 
-#ifdef HAVE_DIRENT_H
-DIR **dirp = NULL;
-int cur_dirp = 0;
-#endif
-
 #ifdef _WIN32
 static char path[256];
 static HANDLE handle;
@@ -75,14 +70,14 @@ char failed_file[256];
 // routines for enumerating the entries in a directory
 
 // Open a directory
-int dir_open(char* p) {
+int dir_open(char* p, DIR* dirp) {
     if(p==NULL) {
         fprintf(stderr, "error: dir_open: unexpected NULL pointer p\n");
         return ERR_NULL;
     }
 #ifdef HAVE_DIRENT_H
-    dirp[cur_dirp] = opendir(p);
-    if (!dirp[cur_dirp]) return ERR_OPENDIR;
+    dirp = opendir(p);
+    if (!dirp) return ERR_OPENDIR;
 #endif
 #ifdef _WIN32
     strcpy(path, p);
@@ -99,23 +94,23 @@ int dir_open(char* p) {
 
 // Scan through a directory and return the next file name in it
 //
-int dir_scan(char* p) {
+int dir_scan(char* p, DIR *dirp) {
     if(p==NULL) {
         fprintf(stderr, "error: dir_scan: unexpected NULL pointer p\n");
         return ERR_NULL;
     }
-    if( !dirp[cur_dirp] )
+    if( !dirp )
         return -1;
 #ifdef HAVE_DIRENT_H
     while (1) {
-	dirent* dp = readdir(dirp[cur_dirp]);
+	dirent* dp = readdir(dirp);
 	if (dp) {
 	    if (dp->d_name[0] == '.') continue;
 	    if (p) strcpy(p, dp->d_name);
 	    return 0;
 	} else {
-	    closedir(dirp[cur_dirp]);
-	    dirp[cur_dirp] = 0;
+	    closedir(dirp);
+	    dirp = 0;
 	    return -1;
 	}
     }
@@ -154,11 +149,11 @@ int dir_scan(char* p) {
 
 // Close a directory
 //
-void dir_close() {
+void dir_close( DIR* dirp ) {
 #ifdef HAVE_DIRENT_H
-    if (dirp[cur_dirp]) {
-	closedir(dirp[cur_dirp]);
-	dirp[cur_dirp] = 0;
+    if (dirp) {
+	closedir(dirp);
+	dirp = 0;
     }
 #endif
 #ifdef _WIN32
@@ -238,23 +233,24 @@ int boinc_link( char *existing, char *new_link ) {
 int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;
+    DIR dirp;
     if(dirpath==NULL) {
         fprintf(stderr, "error: clean_out_dir: unexpected NULL pointer dirpath\n");
         return ERR_NULL;
     }
-    retval = dir_open(dirpath);
+    retval = dir_open(dirpath,&dirp);
     if (retval) return retval;
     while (1) {
-        retval = dir_scan(filename);
+        retval = dir_scan(filename,&dirp);
         if (retval) break;
         sprintf(path, "%s/%s", dirpath, filename);
         retval = file_delete(path);
         if (retval) {
-            dir_close();
+            dir_close(&dirp);
             return retval;
         }
     }
-    dir_close();
+    dir_close(&dirp);
     return 0;
 }
 
@@ -265,31 +261,27 @@ double dir_size(char* dirpath) {
     char filename[256], *path;
     int retval,temp;
     double cur_size = 0;
-
-    if( dirp == NULL )
-        dirp = (DIR **)malloc( 256*sizeof( DIR * ) );
+    DIR dirp;
 
     if(dirpath==NULL) {
         fprintf(stderr, "error: dir_size: unexpected NULL pointer dirpath\n");
         return ERR_NULL;
     }
     path = (char *)malloc( 256*sizeof( char ) );
-    retval = dir_open(dirpath);
+    retval = dir_open(dirpath,&dirp);
     if (retval) return 0;
     while (1) {
-        retval = dir_scan(filename);
+        retval = dir_scan(filename,&dirp);
         if (retval) break;
         sprintf(path, "%s/%s", dirpath, filename);
-        cur_dirp++;
         cur_size += dir_size( path );
-        cur_dirp--;
         retval = file_size(path,temp);
         if (retval) {
-            dir_close();
+            dir_close(&dirp);
             return cur_size;
         }
         cur_size += temp;
     }
-    dir_close();
+    dir_close(&dirp);
     return cur_size;
 }
