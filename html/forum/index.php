@@ -1,10 +1,9 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
-doHeader('Forum', 'forum.css');
+page_head('Forum', NULL, NULL, '../style.css');
 
 show_forum_title(NULL, NULL, false);
 
@@ -13,8 +12,7 @@ echo "<p>Note: For questions or problems pertaining to the ", PROJECT, " client,
 start_forum_table(array("Forum", "Threads", "Posts", "Last Post"), array(NULL, 60, 60, 160));
 show_forums();
 end_table();
-doFooter();
-
+page_tail();
 
 function show_forums() {
 	$categories = getCategories();
@@ -24,7 +22,7 @@ function show_forums() {
 				<td colspan=\"4\">",  $category->name, "</td>
 			</tr>
 		";
-		
+
 		$forums = getForums($category->id);
 		while ($forum = mysql_fetch_object($forums)) {
 			echo "
@@ -40,5 +38,5 @@ function show_forums() {
 			";
 		}
 	}
-}	
+}
 ?>

@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
@@ -28,10 +27,10 @@ $forum = getForum($_GET['id']);
 $category = getCategory($forum->category);
 
 if ($category->is_helpdesk) {
-	doHeader('Help Desk');
+	page_head('Help Desk', NULL, NULL, '../style.css');
 	$sort_style = 'help-activity-most';
 } else {
-	doHeader('Forum');
+	page_head('Forum', NULL, NULL, '../style.css');
 	($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
 }
 
@@ -110,7 +109,7 @@ if ($forum->threads > $n) {
 	echo $gotoStr;
 }
 
-doFooter();
+page_tail();
 
 
 function show_page_nav($forum) {

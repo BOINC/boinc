@@ -1,10 +1,9 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
-doHeader('Help Desk', 'forum.css');
+page_head('Forum', NULL, NULL, '../style.css');
 
 show_forum_title(NULL, NULL, true);
 
@@ -40,5 +39,5 @@ echo "
 </p>
 ";
 
-doFooter();
+page_tail();
 ?>

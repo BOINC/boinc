@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
@@ -43,15 +42,15 @@ function unsubscribe($thread, $user=null) {
 
 function show_result_page($action, $success, $thread) {
     if ($action == "subscribe" && $success) {
-        doHeader("Subscription Successful");
+        page_head("Subscription Successful");
         echo "<span class=\"title\">Subscription successful</span>";
         echo "<p>You are now subscribed to <b>", stripslashes($thread->title), "</b>.  You will receive an email whenever another user posts to this thread.</p>";
     } else if ($action == "unsubscribe" && $success) {
-        doHeader("Unsubscription Successful");
+        page_head("Unsubscription Successful");
         echo "<span class=\"title\">Unsubscription successful</span>";
         echo "<p>You have successfully unsubscribed from <b>", stripslashes($thread->title), "</b>.  You will no longer receive emails for posts to this thread.</p>";
     } else if ($action == "subscribe" && !$success) {
-        doHeader("Subscription Failed");
+        page_head("Subscription Failed");
         echo "<span class=\"title\">Subscription failed</span>";
         if ($thread) {
             echo "<p>There was a problem subscribing you to ", stripslashes($thread->title), ".  Please try again later.</p>";
@@ -59,7 +58,7 @@ function show_result_page($action, $success, $thread) {
             echo "<p>The thread you tried to subscribe to does not exist.</p>";
         }
     } else if ($action == "unsubscribe" && !$success) {
-        doHeader("Unsubscription Failed");
+        page_head("Unsubscription Failed");
         echo "<span class=\"title\">Unsubscription failed</span>";
         if ($thread) {
             echo "<p>There was a problem unsubscribing you from ", stripslashes($thread->title), ".  Please try again later.</p>";
@@ -67,14 +66,14 @@ function show_result_page($action, $success, $thread) {
             echo "<p>The thread you tried to unsubscribe from does not exist.</p>";
         }
     } else {
-        doHeader("Unknown action");
+        page_head("Unknown action");
         echo "<span class=\"title\">Unknown action</span>";
         echo "<p>The action you requested is not known</p>";
     }
     
     echo "<a href=\"thread.php?id=", $thread->id, "\">Return to thread</a>";
     
-    doFooter();
+    page_tail();
     
 }
 

@@ -2,7 +2,6 @@
 
 require_once('forum.inc');
 require_once('../util.inc');
-require_once('../include/template.inc');
 
 if ($_POST['submit']) {    
 	
@@ -22,7 +21,7 @@ if ($_POST['submit']) {
 
 $logged_in_user = get_logged_in_user();
 
-doHeader('Forum');
+page_head('Forum', $logged_in_user, NULL, '../style.css');
 
 if (!empty($_GET['id'])) {
 	$post = getPost($_GET['id']);
@@ -63,6 +62,6 @@ end_forum_table();
 
 echo "</form>";
 
-doFooter();
+page_tail();
 
 ?>

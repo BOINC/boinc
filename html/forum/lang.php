@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 

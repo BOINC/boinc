@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
@@ -31,10 +30,10 @@ $logged_in_user = get_logged_in_user(false);
 
 // TODO: Make these more specific.
 if ($category->is_helpdesk) {
-	doHeader('Help Desk');
+	page_head('Help Desk', $logged_in_user, NULL, '../style.css');
 	$sort_style = 'rating-high';
 } else {
-	doHeader('Forum');
+	page_head('Forum', $logged_in_user, NULL, '../style.css');
 }
 
 // TODO: Constant for default sort style and filter values.
@@ -117,5 +116,5 @@ if ($category->is_helpdesk) {
 
 echo $link, "</a><br>\n</p>";
 
-doFooter();
+page_tail();
 ?>

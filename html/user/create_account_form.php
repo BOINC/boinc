@@ -1,6 +1,7 @@
 <?php
-require_once('include.php');
-doHeader('New Account');
+require_once('util.inc');
+db_init();
+page_head('New Account');
 
 if (parse_config("<disable_account_creation/>")):
 	?>
@@ -10,12 +11,12 @@ if (parse_config("<disable_account_creation/>")):
 	Please try again later.
 	</p>
 	<?php
-	doFooter();
+	page_tail();
 	exit;
 endif;
 ?>
 
-<h1>Create an Account with <?php echo $cfg['project'] ?></h1>
+<h1>Create an Account with <?php echo PROJECT ?></h1>
 
 <p><b>Read the <a href="info.php">Rules and Policies</a> before creating an account.</b></p>
 
@@ -64,6 +65,6 @@ endif;
 </form>
 
 <?php
-doFooter();
+page_tail();
 ?>
 

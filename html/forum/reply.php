@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
@@ -27,8 +26,6 @@ $logged_in_user = get_logged_in_user(true, '../');
 
 //if (empty($_SESSION['authenticator']))
 //    get_logged_in_user(true, '../');
-        
-doHeader('Forum');
 
 if (empty($_GET['thread'])) {
 	// TODO: Standard error page.
@@ -42,12 +39,21 @@ if (!empty($_GET['post'])) {
 
 $helpdesk = false;
 
+// TODO: Just get this from the category perhaps?
+
 if (!empty($_GET['helpdesk'])) {
 	$helpdesk = true;
 }
 
 $thread = getThread($_GET['thread']);
 $forum = getForum($thread->forum);
+
+// TODO: Write a function for this.
+if ($helpdesk) {
+	page_head('Help Desk', $logged_in_user, NULL, '../style.css');
+} else {	
+	page_head('Forum', $logged_in_user, NULL, '../style.css');
+}
 
 show_forum_title($forum, $thread, $helpdesk);
 
@@ -60,7 +66,7 @@ show_message_row($thread, $post);
 
 end_forum_table();
 
-doFooter();
+page_tail();
 
 function show_message_row($thread, $post=NULL) {
     global $logged_in_user;

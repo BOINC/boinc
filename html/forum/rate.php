@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
@@ -53,19 +52,21 @@ if (!empty($_GET['post'])) {
 }
 
 function show_result_page($success, $post, $choice) {
-    if ($success) {
+    $logged_in_user = get_logged_in_user(false, '../');
+		
+		if ($success) {
 	    if ($choice) {
-		 	doHeader('Input Recorded');
-			echo "<span class=\"title\">Helpdesk Input Recorded</span>";
-			echo "<p>Your input has been successfully recorded.  Thank you for your help.</p>";
+		    page_head('Input Recorded', $logged_in_user, NULL, '../style.css');	
+				echo "<span class=\"title\">Helpdesk Input Recorded</span>";
+				echo "<p>Your input has been successfully recorded.  Thank you for your help.</p>";
 	    } else {
-        	doHeader('Vote Registered');
-        	echo "<span class=\"title\">Vote Registered</span>";
-        	echo "<p>Your rating has been successfully recorded.  Thank you for your input.</p>";
+		    page_head('Vote Registered', $logged_in_user, NULL, '../style.css');	
+        echo "<span class=\"title\">Vote Registered</span>";
+        echo "<p>Your rating has been successfully recorded.  Thank you for your input.</p>";
     	}
     	echo "<a href=\"thread.php?id=", $post->thread, "#", $post->id, "\">Return to thread</a>";
     } else {
-        doHeader("Vote Submission Problem");
+	    	page_head('Vote Submission Problem', $logged_in_user, NULL, '../style.css');	
         echo "<span class=\"title\">Vote submission failed</span>";
         if ($post) {
             echo "<p>There was a problem recording your vote in our database.  Please try again later.</p>";
@@ -74,6 +75,6 @@ function show_result_page($success, $post, $choice) {
             echo "<p>There post you specified does not exist, or your rating was invalid.</p>";
         }
     }
-    doFooter();
+    page_tail();
 }
 ?>
