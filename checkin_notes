@@ -8096,3 +8096,16 @@ David  3 Dec 2003
         time.inc (new)
     sched/
         db_dump.C
+
+Gary	04 Dec 2003
+    - fixed a bug in app.C which caused the checkpoint_cpu_time to
+      nearly double in certain cases. This was most obvious in the
+      windows core client.
+        [in ACTIVE_TASK::write_app_init_file()]
+          old:
+             aid.wu_cpu_time = checkpoint_cpu_time;
+          new:
+             aid.wu_cpu_time = starting_cpu_time;
+
+	client/
+		app.C
