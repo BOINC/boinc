@@ -23956,3 +23956,7 @@ Rom    3 Feb 2005
         ViewMessages.cpp
     win_build/installerv2/
         BOINC.ism
+
+Rom    3 Feb 2005
+    - Tag for 4.65 release, all platforms
+      boinc_core_release_4_65
