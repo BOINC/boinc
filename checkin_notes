@@ -8657,3 +8657,10 @@ David  23 Dec 2003
     sched/
         handle_request.C
         start
+
+David  23 Dec 2003
+    - improved error messages in stderr_out
+
+    client/
+        app.C
+        client_state.C

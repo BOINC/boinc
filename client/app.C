@@ -389,7 +389,7 @@ int ACTIVE_TASK::start(bool first_time) {
         state = PROCESS_COULDNT_START;
         result->active_task_state = PROCESS_COULDNT_START;
         if (win_error) {
-            gstate.report_result_error(*result, win_error, (LPTSTR)&lpMsgBuf);
+            gstate.report_result_error(*result, win_error, "CreateProcess(): %s", (LPTSTR)&lpMsgBuf);
             LocalFree(lpMsgBuf);
             return ERR_EXEC;
         }
@@ -415,7 +415,7 @@ int ACTIVE_TASK::start(bool first_time) {
     if (pid == -1) {
         state = PROCESS_COULDNT_START;
         result->active_task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, -1, strerror(errno));
+        gstate.report_result_error(*result, -1, "fork(): %s", strerror(errno));
         msg_printf(wup->project, MSG_ERROR, "fork(): %s", strerror(errno));
         return ERR_FORK;
     }
@@ -613,7 +613,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     atp->state = PROCESS_ABORTED;
                     atp->result->active_task_state = PROCESS_ABORTED;
                     gstate.report_result_error(
-                        *(atp->result), 0, "process was aborted"
+                        *(atp->result), 0, "process was aborted by core client"
                     );
                 } else {
                     atp->state = PROCESS_EXITED;
@@ -665,7 +665,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             atp->state = PROCESS_ABORTED;
             atp->result->active_task_state = PROCESS_ABORTED;
             gstate.report_result_error(
-                *(atp->result), 0, "process was aborted"
+                *(atp->result), 0, "process was aborted by core client"
             );
         } else {
             if (WIFEXITED(stat)) {

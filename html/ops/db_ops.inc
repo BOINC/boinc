@@ -173,6 +173,18 @@ function link_results($n, $mq, $query) {
     }
 }
 
+//
+function exit_status_string($result) {
+    $x = $result->exit_status;
+    if ($x == 0) {
+        $y = parse_element($result->stderr_out, "<exit_status>");
+        if ($y) {
+            $x = (int)$y;
+        }
+    }
+    return sprintf("%d (0x%x)", $x, $x);
+}
+
 function show_result_summary() {
     $server_state = array();
     $outcome = array();
@@ -654,6 +666,7 @@ function show_result($result) {
     row("Server state", server_state_string($result->server_state));
     row("Outcome", outcome_string($result->outcome));
     row("Client state", client_state_string($result->client_state));
+    row("Exit status", exit_status_string($result));
     row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
@@ -679,6 +692,7 @@ function result_short_header() {
         <th>WU ID</th>
         <th>server state</th>
         <th>outcome</th>
+        <th>exit status</th>
         <th>host (user)</th>
         <th>client ver</th>
         <th>received</th>
@@ -710,6 +724,7 @@ function show_result_short($result) {
         <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
         <td>$ss</td>
         <td bgcolor=$outcome_color>$oc</td>
+        <td>", exit_status_string($result), "</td>
         <td>$host_user</td>
         <td>$version</td>
         <td>$received</td>

@@ -672,7 +672,7 @@ bool CLIENT_STATE::garbage_collect() {
         //
         if (!rp->ready_to_report && rp->wup->had_failure(failnum)) {
             rp->wup->get_file_errors(error_msgs);
-            report_result_error(*rp, 0, error_msgs.c_str());
+            report_result_error(*rp, 0, "file transfer error: %s", error_msgs.c_str());
         }
         for (i=0; i<rp->output_files.size(); i++) {
             // If one of the output files had an upload failure,
