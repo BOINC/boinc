@@ -111,6 +111,7 @@ void quit_client(int a) {
     gstate.requested_exit = true;
 }
 
+#ifndef _WIN32
 void susp_client(int a) {
     gstate.active_tasks.suspend_all();
     msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
@@ -122,6 +123,7 @@ void resume_client(int a) {
     gstate.active_tasks.unsuspend_all();
     msg_printf(NULL, MSG_INFO, "Resuming activity");
 }
+#endif
 
 int main(int argc, char** argv) {
     int retval;
