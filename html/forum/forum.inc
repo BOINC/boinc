@@ -339,28 +339,28 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     $n = 0;
     
     if ($show_controls && !$is_helpdesk) {
-	    $controls = FORUM_CONTROLS;
+        $controls = FORUM_CONTROLS;
     } else if ($show_controls && $is_helpdesk) {
-	    $controls = HELPDESK_CONTROLS;
+        $controls = HELPDESK_CONTROLS;
     } else {
-	    $controls = NO_CONTROLS;
+        $controls = NO_CONTROLS;
     }
     
     $posts = $thread->getPosts(-1, -1, $sort_style);
     $firstPost = getFirstPost($thread->id);
     
     if ($is_helpdesk) {
-	    if ($firstPost) {
-	    	show_post($firstPost, $thread, $logged_in_user, $n, $controls, true);
+        if ($firstPost) {
+            show_post($firstPost, $thread, $logged_in_user, $n, $controls, true);
     	}
     }
     
     while ($post = getNextPost($posts)) {
         if ($post->score >= $filter) {
-	        if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
+            if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
             	show_post($post, $thread, $logged_in_user, $n, $controls, false);
             	if ($do_coloring) $n = ($n+1)%2;
-        	}
+            }
         }
     } 
 }
