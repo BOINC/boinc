@@ -328,8 +328,6 @@ GROUP BY
        exit_status
 ";
 
-    echo "<p>Query: <b>$main_query</b><p>\n";
-
     $result = mysql_query($main_query);
 
     echo "<table>\n";
