@@ -49,7 +49,6 @@ inline float safe_atof(const char* s) {
 #define ESCAPE(x) escape_string(x, sizeof(x))
 #define UNESCAPE(x) unescape_string(x, sizeof(x))
 
-void PROJECT::clear() {memset(this, 0, sizeof(*this));}
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void CORE_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
@@ -61,9 +60,7 @@ void RESULT::clear() {memset(this, 0, sizeof(*this));}
 void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
 void TRICKLE_UP::clear() {memset(this, 0, sizeof(*this));}
 void TRICKLE_DOWN::clear() {memset(this, 0, sizeof(*this));}
-//void WORKSEQ::clear() {memset(this, 0, sizeof(*this));}
 
-DB_PROJECT::DB_PROJECT() : DB_BASE(boinc_db, "project"){}
 DB_PLATFORM::DB_PLATFORM() : DB_BASE(boinc_db, "platform"){}
 DB_CORE_VERSION::DB_CORE_VERSION() : DB_BASE(boinc_db, "core_version"){}
 DB_APP::DB_APP() : DB_BASE(boinc_db, "app"){}
@@ -75,9 +72,7 @@ DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
 DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
 DB_TRICKLE_UP::DB_TRICKLE_UP() : DB_BASE(boinc_db, "trickle_up"){}
 DB_TRICKLE_DOWN::DB_TRICKLE_DOWN() : DB_BASE(boinc_db, "trickle_down"){}
-//DB_WORKSEQ::DB_WORKSEQ() : DB_BASE(boinc_db, "workseq"){}
 
-int DB_PROJECT::get_id() {return id;}
 int DB_PLATFORM::get_id() {return id;}
 int DB_CORE_VERSION::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -89,23 +84,6 @@ int DB_WORKUNIT::get_id() {return id;}
 int DB_RESULT::get_id() {return id;}
 int DB_TRICKLE_UP::get_id() {return id;}
 int DB_TRICKLE_DOWN::get_id() {return id;}
-//int DB_WORKSEQ::get_id() {return id;}
-
-void DB_PROJECT::db_print(char* buf){
-    sprintf(buf,
-        "id=%d, short_name='%s', long_name='%s'",
-        id, short_name, long_name
-    );
-}
-
-void DB_PROJECT::db_parse(MYSQL_ROW &r) {
-    int i=0;
-    clear();
-    id = atoi(r[i++]);
-    strcpy2(short_name, r[i++]);
-    strcpy2(long_name, r[i++]);
-}
-
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -601,30 +579,3 @@ void DB_TRICKLE_DOWN::db_parse(MYSQL_ROW& r) {
     handled = atol(r[i++]);
     strcpy2(xml, r[i++]);
 }
-
-#if 0
-void DB_WORKSEQ::db_print(char* buf){
-    sprintf(buf,
-        "id=%d, create_time=%d, "
-        "state=%d, hostid=%d, "
-        "wuid_last_done=%d, wuid_last_sent=%d, "
-        "workseqid_master=%d",
-        id, create_time,
-        state, hostid,
-        wuid_last_done, wuid_last_sent,
-        workseqid_master
-    );
-}
-
-void DB_WORKSEQ::db_parse(MYSQL_ROW &r) {
-    int i=0;
-    clear();
-    id=atol(r[i++]);
-    create_time = atoi(r[i++]);
-    state = atoi(r[i++]);
-    hostid = atoi(r[i++]);
-    wuid_last_done = atoi(r[i++]);
-    wuid_last_sent = atoi(r[i++]);
-    workseqid_master = atoi(r[i++]);
-}
-#endif

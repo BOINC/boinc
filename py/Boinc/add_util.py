@@ -35,7 +35,6 @@ class XAppVersion(database.AppVersion):
 #       '?arg'    optional
 #       [ 'arg', default_value ]
 list_objects_to_add = [
-    [ database.Project,    'short_name', 'long_name' ],
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
     [ XCoreVersion, 'platform', 'version_num', 'exec_file',
       ['?message',''], ['?message_priority','']],

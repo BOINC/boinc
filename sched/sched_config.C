@@ -36,6 +36,7 @@ int SCHED_CONFIG::parse(char* buf) {
     memset(this, 0, sizeof(SCHED_CONFIG));
     max_wus_to_send = 10;
 
+    parse_str(buf, "<long_name>", long_name, sizeof(long_name));
     parse_str(buf, "<db_name>", db_name, sizeof(db_name));
     parse_str(buf, "<db_user>", db_user, sizeof(db_user));
     parse_str(buf, "<db_passwd>", db_passwd, sizeof(db_passwd));

@@ -41,19 +41,6 @@ extern DB_CONN boinc_db;
 #define MEDIUM_BLOB_SIZE   4096
 #define LARGE_BLOB_SIZE   65536
 
-// represents the project as a whole.
-// There is only of these per DB
-//
-struct PROJECT {
-    int id;
-    char short_name[256];
-        // used as directory name and part of DB name of server side,
-        // so no spaces or special chars
-    char long_name[256];
-        // shown on client side, e.g. in GUI
-        // can contain spaces etc.
-    void clear();
-};
 
 // A compilation target, i.e. a architecture/OS combination.
 // The core client will be given only applications with the same platform
@@ -457,14 +444,6 @@ struct WORKSEQ {
     void clear();
 };
 #endif
-
-class DB_PROJECT : public DB_BASE, public PROJECT {
-public:
-    DB_PROJECT();
-    int get_id();
-    void db_print(char*);
-    void db_parse(MYSQL_ROW &row);
-};
 
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:

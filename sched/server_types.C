@@ -201,7 +201,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     fprintf(fout,
         "<project_name>%s</project_name>\n",
-        gproject.long_name
+        config.long_name
     );
 
     u1 = user.name;

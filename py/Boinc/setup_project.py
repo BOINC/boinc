@@ -300,6 +300,7 @@ class Project:
         self.config = configxml.ConfigFile(self.dir('config.xml')).init_empty()
         config = self.config.config
 
+        config.long_name = self.long_name;
         config.db_user = options.user_name
         config.db_name = db_name or options.user_name + '_' + self.short_name
         config.db_passwd = ''
@@ -419,10 +420,6 @@ class Project:
         verbose_echo(1, "Setting up database")
         database.create_database(config = self.config.config,
                                  drop_first = options.drop_db_first)
-
-        self.project = database.Project(short_name = self.short_name,
-                                        long_name = self.long_name)
-        self.project.commit()
 
         verbose_echo(1, "Setting up server files: writing config files")
 

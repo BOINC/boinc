@@ -11,13 +11,6 @@
 /* Fields are documented in boinc_db.h */
 /* Do not replace this with an automatically generated schema */
 
-create table project (
-    id                  integer     not null auto_increment,
-    short_name          varchar(254) not null,
-    long_name           varchar(254) not null,
-    primary key (id)
-);
-
 create table platform (
     id                  integer     not null auto_increment,
     create_time         integer     not null,

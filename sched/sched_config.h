@@ -24,6 +24,7 @@
 //
 class SCHED_CONFIG {
 public:
+    char long_name[256];
     char db_name[256];
     char db_user[256];
     char db_passwd[256];

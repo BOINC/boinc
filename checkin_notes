@@ -11901,3 +11901,21 @@ David  April 30 2004
     tools/
         backend_lib.C
         process_results_template.C
+
+David  May 2 2004
+    - removed the "project" table from DB.
+        Its only role was to store the project name.
+        This is now in the config file instead.
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    py/Boinc/
+        add_util.py
+        database.py
+        db_mid.py
+        setup_project.py
+    sched/
+        main.C,h
+        sched_config.C,h
+        server_types.C

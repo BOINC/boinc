@@ -60,7 +60,6 @@ void get_log_path(char* p) {
 #define REPLY_FILE_PREFIX "boinc_reply_"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
-DB_PROJECT gproject;
 SCHED_CONFIG config;
 key_t sema_key;
 
@@ -85,15 +84,6 @@ int open_database() {
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open database\n");
         return retval;
-    } else {
-        found = false;
-        while (!gproject.enumerate("")) {
-            found = true;
-        }
-        if (!found) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find project\n");
-            return ERR_DB_NOT_FOUND;
-        }
     }
     db_opened = true;
     return 0;

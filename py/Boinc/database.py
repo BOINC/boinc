@@ -35,11 +35,6 @@ from Boinc.db_base import *
 
 ID = '$Id$'
 
-class Project(DatabaseObject):
-    _table = DatabaseTable(
-        table = 'project',
-        columns = [ 'short_name', 'long_name' ] )
-
 class Platform(DatabaseObject):
     _table = DatabaseTable(
         table = 'platform',
@@ -259,8 +254,7 @@ def create_database(config = None, drop_first = False):
 # alias
 connect_default_config = connect
 
-database_classes_ = [ Project,
-                      Platform,
+database_classes_ = [ Platform,
                       CoreVersion,
                       App,
                       AppVersion,
@@ -270,7 +264,6 @@ database_classes_ = [ Project,
                       Workunit,
                       Result ]
 
-Projects     = Project._table
 Platforms    = Platform._table
 CoreVersions = CoreVersion._table
 Apps         = App._table

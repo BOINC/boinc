@@ -21,7 +21,6 @@
 #include "sched_config.h"
 #include "synch.h"
 
-extern DB_PROJECT gproject;
 extern SCHED_CONFIG config;
 extern key_t sema_key;
 

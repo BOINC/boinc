@@ -12,10 +12,6 @@ import database
 def MixIn(pyClass, mixInClass):
     pyClass.__bases__ = (mixInClass,) + pyClass.__bases__
 
-class front_Project:
-    def __repr__(self):
-        return '<Project#%s %s>'%(self.id, self.short_name)
-
 class front_Platform:
     def __repr__(self):
         return '<Platform#%s %s>'%(self.id, self.name)
@@ -53,7 +49,6 @@ class front_Result:
     def __repr__(self):
         return '<Result#%s %s WU#%s %s>'%(self.id, self.name, self.workunit.id, self.workunit.name)
 
-MixIn(database.Project, front_Project)
 MixIn(database.Platform, front_Platform)
 MixIn(database.CoreVersion, front_CoreVersion)
 MixIn(database.App, front_App)
