@@ -297,7 +297,6 @@ function client_version_string($client_version_num) {
 
 function outcome_color($outcome) {
     switch($s) {
-    switch($s) {
     case 1: return 'darkgreen'; // "Success"
     case 3: return 'darkred'; // "Client error"
     }

@@ -75,4 +75,4 @@
     end_table();
 
     page_tail();
-?>
+} ?>
