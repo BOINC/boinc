@@ -930,11 +930,11 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     return 0;
 }
 
-int DB_SCHED_RESULT_ITEM_SET::lookup_result(char* result_name, SCHED_RESULT_ITEM& ri) {
+int DB_SCHED_RESULT_ITEM_SET::lookup_result(char* result_name, SCHED_RESULT_ITEM* rip) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (!strcmp(results[i].name, result_name)) {
-            ri = results[i];
+            rip = &results[i];
             return 0;
         }
     }

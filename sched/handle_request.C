@@ -314,7 +314,7 @@ int handle_results(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
     DB_SCHED_RESULT_ITEM_SET result_handler;
-    SCHED_RESULT_ITEM result;
+    SCHED_RESULT_ITEM* srip;
     unsigned int i;
     int retval;
     RESULT* rp;
@@ -344,7 +344,7 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        retval = result_handler.lookup_result(rp->name, result);
+        retval = result_handler.lookup_result(rp->name, srip);
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -356,98 +356,98 @@ int handle_results(
 
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
-            reply.host.id, result.id, result.name
+            reply.host.id, srip->id, srip->name
         );
 
-        if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
+        if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
-                reply.host.id, result.id, result.name, result.server_state
+                reply.host.id, srip->id, srip->name, srip->server_state
             );
             continue;
         }
 
-        if (result.received_time) {
+        if (srip->received_time) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result twice\n",
-                reply.host.id, result.id, result.name
+                reply.host.id, srip->id, srip->name
             );
             continue;
         }
 
-        if (result.hostid != sreq.hostid) {
+        if (srip->hostid != sreq.hostid) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
-                reply.host.id, result.id, result.name, result.hostid
+                reply.host.id, srip->id, srip->name, srip->hostid
             );
             DB_HOST result_host;
-            int retval = result_host.lookup_id(result.hostid);
+            int retval = result_host.lookup_id(srip->hostid);
 
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
-                    result.id, result.name, result.hostid
+                    srip->id, srip->name, srip->hostid
                 );
                 continue;
             } else if (result_host.userid != reply.host.userid) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
-                    reply.host.userid, reply.host.id, result.id, result.name, result_host.userid
+                    reply.host.userid, reply.host.id, srip->id, srip->name, result_host.userid
                 );
                 continue;
             } else {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
-                    reply.host.id, result.id, result.name, reply.host.userid
+                    reply.host.id, srip->id, srip->name, reply.host.userid
                 );
             }
         }
 
         // update the result record in DB
         //
-        result.hostid = reply.host.id;
-        result.teamid = reply.user.teamid;
-        result.received_time = time(0);
-        result.client_state = rp->client_state;
-        result.cpu_time = rp->cpu_time;
-        result.exit_status = rp->exit_status;
-        result.app_version_num = rp->app_version_num;
-        result.claimed_credit = result.cpu_time * reply.host.credit_per_cpu_sec;
+        srip->hostid = reply.host.id;
+        srip->teamid = reply.user.teamid;
+        srip->received_time = time(0);
+        srip->client_state = rp->client_state;
+        srip->cpu_time = rp->cpu_time;
+        srip->exit_status = rp->exit_status;
+        srip->app_version_num = rp->app_version_num;
+        srip->claimed_credit = srip->cpu_time * reply.host.credit_per_cpu_sec;
 #if 1
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "cpu %f cpcs %f, cc %f\n", result.cpu_time, reply.host.credit_per_cpu_sec, result.claimed_credit
+            "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.credit_per_cpu_sec, srip->claimed_credit
         );
 #endif
-        result.server_state = RESULT_SERVER_STATE_OVER;
+        srip->server_state = RESULT_SERVER_STATE_OVER;
 
-        strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
-        strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
+        strncpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
+        strncpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
 
         // look for exit status and app version in stderr_out
         // (historical - can be deleted at some point)
         //
-        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
-        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
+        parse_int(srip->stderr_out, "<exit_status>", srip->exit_status);
+        parse_int(srip->stderr_out, "<app_version>", srip->app_version_num);
 
-        if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
-            result.outcome = RESULT_OUTCOME_SUCCESS;
+        if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
+            srip->outcome = RESULT_OUTCOME_SUCCESS;
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "[RESULT#%d %s]: setting outcome SUCCESS\n",
-                result.id, result.name
+                srip->id, srip->name
             );
         } else {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
-                result.id, result.name, result.client_state, result.exit_status
+                srip->id, srip->name, srip->client_state, srip->exit_status
             );
-            result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
-            result.validate_state = VALIDATE_STATE_INVALID;
+            srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
+            srip->validate_state = VALIDATE_STATE_INVALID;
         }
     }
 
@@ -478,9 +478,9 @@ int handle_results(
                     boinc_db.error_string()
                 );
             }
-
         }
     }
+
     // trigger the transition handle for the results' WUs
     //
     retval = result_handler.update_workunits();
