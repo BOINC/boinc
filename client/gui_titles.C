@@ -23,7 +23,7 @@ char g_szUsageItems[MAX_USAGE_STR][256] = {
 	"Free space",
 	"Used space: non-BOINC",
 	"Used space: BOINC",
-    "Reserved space: BOINC",
+    "Allocated space: BOINC",
 	"BOINC software",
     "BOINC free space",
 };
