@@ -314,21 +314,33 @@ class Project {
         //
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
-        fputs($f, "    <db_name>$this->db_name</db_name>\n");
-        fputs($f, "    <db_passwd>$this->db_passwd</db_passwd>\n");
-        fputs($f, "    <shmem_key>$this->shmem_key</shmem_key>\n");
-        fputs($f, "    <key_dir>$this->key_dir</key_dir>\n");
-        fputs($f, "    <download_url>$this->download_url</download_url>\n");
-        fputs($f, "    <download_dir>$this->project_dir/download</download_dir>\n");
-        fputs($f, "    <upload_url>$this->upload_url</upload_url>\n");
-        fputs($f, "    <upload_dir>$this->project_dir/upload</upload_dir>\n");
-        fputs($f, "    <user_name>$this->user_name</user_name>\n");
-        if ($this->start_assimilator) fputs($f, "    <start_assimilator/>\n");
-        if ($this->start_feeder) fputs($f, "    <start_assimilator/>\n");
-        if ($this->start_file_deleter) fputs($f, "    <start_file_deleter/>\n");
-        if ($this->start_make_work) fputs($f, "    <start_make_work/>\n");
-        if ($this->start_result_retry) fputs($f, "    <start_result_retry/>\n");
-        if ($this->start_validate) fputs($f, "    <start_validate/>\n");
+        fputs($f, "<db_name>$this->db_name</db_name>\n");
+        fputs($f, "<db_passwd>$this->db_passwd</db_passwd>\n");
+        fputs($f, "<shmem_key>$this->shmem_key</shmem_key>\n");
+        fputs($f, "<key_dir>$this->key_dir</key_dir>\n");
+        fputs($f, "<download_url>$this->download_url</download_url>\n");
+        fputs($f, "<download_dir>$this->project_dir/download</download_dir>\n");
+        fputs($f, "<upload_url>$this->upload_url</upload_url>\n");
+        fputs($f, "<upload_dir>$this->project_dir/upload</upload_dir>\n");
+        fputs($f, "<user_name>$this->user_name</user_name>\n");
+        if ($this->start_assimilator) {
+            fputs($f, "<start>assimilator >> assimilator.out 2>&1</start>\n");
+        }
+        if ($this->start_feeder) {
+            fputs($f, "<start>feeder >> feeder.out 2>&1</start>\n");
+        }
+        if ($this->start_file_deleter) {
+            fputs($f, "<start>file_deleter >> file_deleter.out 2>&1</start>\n");
+        }
+        if ($this->start_make_work) {
+            fputs($f, "<start>make_work >> make_work.out 2>&1</start>\n");
+        }
+        if ($this->start_result_retry) {
+            fputs($f, "<start>result_retry >> result_retry.out 2>&1</start>\n");
+        }
+        if ($this->start_validate) {
+            fputs($f, "<start>validate >> validate.out 2>&1</start>\n");
+        }
         fputs($f, "</config>\n");
         fclose($f);
 

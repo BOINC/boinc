@@ -3194,3 +3194,13 @@ David  Feb 12 2003
         scheduler_op.C
     test/
         test_time.php
+
+David  Feb 12 2003
+    - changed server startup mechanism so that config.xml contains
+        actual commands (so you can include cmdline args etc.)
+
+    sched/
+        config.C,h
+        start_servers.C
+    test/
+        test.inc

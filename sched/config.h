@@ -33,12 +33,7 @@ public:
     char upload_url[256];
     char upload_dir[256];
     char user_name[256];
-    bool start_assimilator;
-    bool start_feeder;
-    bool start_file_deleter;
-    bool start_make_work;
-    bool start_result_retry;
-    bool start_validate;
+    char* start_commands[20];
 
     int parse(FILE*);
     int parse_file();

@@ -25,6 +25,7 @@
 int main() {
     CONFIG config;
     int retval;
+    char* p;
 
     retval = config.parse_file();
     if (retval) {
@@ -32,22 +33,9 @@ int main() {
         exit(1);
     }
 
-    if (config.start_assimilator) {
-        system("assimilator >> assimilator.out 2>&1");
-    }
-    if (config.start_feeder) {
-        system("feeder >> feeder.out 2>&1");
-    }
-    if (config.start_file_deleter) {
-        system("file_deleter >> file_deleter.out 2>&1");
-    }
-    if (config.start_make_work) {
-        system("make_work >> make_work.out 2>&1");
-    }
-    if (config.start_result_retry) {
-        system("result_retry >> result_retry.out 2>&1");
-    }
-    if (config.start_validate) {
-        system("validate >> validate.out 2>&1");
+    for (i=0; i<20; i++) {
+        p = config.start_commands[i];
+        if (!p) break;
+        system(p);
     }
 }
