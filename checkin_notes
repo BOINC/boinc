@@ -22305,3 +22305,9 @@ David  7 Jan 2005
         backend_lib.C
         dir_hier_move.C
         dir_hier_path.C
+
+David  7 Jan 2005
+	- Win compile fix
+
+	api/
+		boinc_api.C

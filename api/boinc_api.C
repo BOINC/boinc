@@ -235,6 +235,9 @@ int boinc_finish(int status) {
         boinc_write_init_data_file();
     }
 
+#ifdef _WIN32
+    exit(status);
+#else
     // on Linux < 2.6, probably due to non-POSIX LinuxThreads, _Exit() fails to
     // shut down the graphics-thread properly, while exit() does the job and does _NOT_ 
     // seem to get tangled in exit-atexit loops... 
@@ -246,6 +249,7 @@ int boinc_finish(int status) {
     // This is not pretty but unless someone finds a cleaner solution, we handle the two cases
     // separately based on these observations
     _Exit(status);
+#endif
 #endif
 
     fprintf(stderr, "..exit() or _Exit() returned... this is totally weird!!\n");
