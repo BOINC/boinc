@@ -15284,7 +15284,7 @@ David  15 July 2004
         handle_request.C
         sched_config.C,h
 	
-Noaa: 
+Noaa	15 July 2004 
 	- completely new copy of x_opengl utilizing glut, updated using Karl's
 	boinc_gl.h. Include-file issues including makefile issues have yet to 
 	be resolved so this will NOT compile with your existing Makefile
@@ -15322,3 +15322,11 @@ David  15 July 2004
 		http.h
 	win_build/
 		boinc_gui.vcproj
+
+Noaa	15 July 2004
+
+	-added printout of usabilities in gui_test.C (ie when user types
+	"gui_test" with no arguments
+
+	client/
+		gui_test.C
