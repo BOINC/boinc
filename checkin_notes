@@ -26250,7 +26250,13 @@ David  28 Mar 2005
             login_action.php
 
 Rom    28 Mar 2005
-    - Bug Fix: Keep people from rating posts if their RAC falls below 5.0
+    - Keep people from rating posts if their RAC falls below 5.0
 
     html/inc/
         forum.inc
+
+David  29 Mar 2005
+    - user SHM_R|SHM_W instead of 0777 in shmget() call
+
+    lib/
+        shmem.C
