@@ -17447,3 +17447,7 @@ David  14 Sept 2004
 
     tools/
         update_versions
+
+Rom    14 Sep 2004 (boinc_public)
+    - Tag for 4.09 release, all platforms
+      boinc_core_release_4_09
