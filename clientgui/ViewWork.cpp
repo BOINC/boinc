@@ -658,7 +658,7 @@ wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) c
 
     pDoc->GetWorkEstimatedCPUTime(item, fBuffer);
 
-    if ( 0 == fBuffer )
+    if ( 0 >= fBuffer )
     {
         strBuffer = wxT("---");
     }
