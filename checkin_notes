@@ -6854,3 +6854,19 @@ Oliver 16 Oct 2003
 		graphics_api.C
 		gutil.C,h
 		windows_opengl.C
+
+Karl 2003-10-16
+    - updated python database API with new workunit.userid field
+
+    - refactored database.py into db_base.py and merged in changes from
+      CourseSurvey system
+    - improved object caching and implemented lazy lookup of relational
+      objects; database-heavy python programs should now be much faster
+
+    - added <one_result_per_user_per_wu>1</one_result_per_user_per_wu> to
+      config.XML in make_project (but not testbase)
+
+    py/Boinc/
+        db_base.py (new)
+        database.py
+

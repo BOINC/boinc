@@ -287,7 +287,9 @@ class Project:
                  short_name, long_name,
                  project_dir=None,key_dir=None,
                  master_url=None, cgi_url=None,
-                 db_name=None):
+                 db_name=None,
+                 production=False
+                 ):
         init()
 
         self.short_name     = short_name
@@ -312,6 +314,8 @@ class Project:
         config.upload_dir    = os.path.join(self.project_dir , 'upload')
         config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
         config.app_dir       = os.path.join(self.project_dir, 'apps')
+        if production:
+            config.one_result_per_user_per_wu = '1'
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
         self.project_php_file                  = srcdir('html_user/project.inc.sample')
         self.project_specific_prefs_php_file   = srcdir('html_user/project_specific_prefs.inc.sample')

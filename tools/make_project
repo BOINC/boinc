@@ -216,7 +216,8 @@ project = Project(project_shortname, project_longname,
                   master_url = options.html_user_url,
                   cgi_url = options.cgi_url,
                   key_dir = options.key_dir,
-                  db_name = options.db_name
+                  db_name = options.db_name,
+                  production = 1
                   )
 
 project.install_project()
