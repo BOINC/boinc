@@ -130,8 +130,9 @@ class Post {
 	var $user;
 	var $timestamp;
 	var $content;
+        var $modified;
 
-	function Post($id = -1, $thread = -1, $user = -1, $timestamp = 0, $content = "") {
+	function Post($id = -1, $thread = -1, $user = -1, $timestamp = 0, $content = "", $modified = NULL) {
 		$vars = get_class_vars('Post');
 		foreach ($vars as $var => $value)
 			$this->$var = $$var;
@@ -144,6 +145,14 @@ class Post {
 			return false;
 		return ($this->id = sql_insert_id());
 	}
+        
+        function update($content) {
+                $sql = "UPDATE post SET content = \"$content\", modified = UNIX_TIMESTAMP() WHERE id = " . $this->id;
+                $result = sql_query($sql);
+                if (!$result)
+                    return false;
+                return true;
+        }
 }
 
 /* group database functions */
@@ -187,7 +196,7 @@ function getNextPost($result) {
 		return false;
 	foreach ($post as $var => $value)
 		$post[$var] = stripslashes($value);
-	return new Post($post['id'], $post['thread'], $post['user'], $post['timestamp'], $post['content']);
+	return new Post($post['id'], $post['thread'], $post['user'], $post['timestamp'], $post['content'], $post['modified']);
 }
 
 /* specific database functions */
