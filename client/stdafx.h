@@ -102,6 +102,7 @@ using namespace std;
 #ifdef _WIN32
 
 #define vsnprintf               _vsnprintf
+#define snprintf                _snprintf
 #define fdopen                  _fdopen
 #define dup                     _dup
 #define unlink                  _unlink

@@ -49,8 +49,8 @@ const char * boinc_base_exception::what()
 	m_strErrorBuffer.empty();
 
 	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
-	itoa(ErrorValue(), m_szConversionBuffer, 10);
-
+    snprintf(m_szConversionBuffer, sizeof(m_szConversionBuffer), "%ld", ErrorValue());
+    
 	m_strErrorBuffer.append(ErrorType());
 	m_strErrorBuffer.append(" ");
 	m_strErrorBuffer.append(m_szConversionBuffer);
@@ -68,7 +68,7 @@ const char * boinc_base_exception::what()
 	m_strErrorBuffer.append("'\n");
 
 	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
-	itoa(m_lLineNumber, m_szConversionBuffer, 10);
+    snprintf(m_szConversionBuffer, sizeof(m_szConversionBuffer), "%ld", m_lLineNumber);
 
 	m_strErrorBuffer.append("Line: '");
 	m_strErrorBuffer.append(m_szConversionBuffer);
