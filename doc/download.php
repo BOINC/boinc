@@ -32,6 +32,12 @@ function version_end($xml) {
     list_end();
 }
 
+function show_465($xml=false) {
+    version_start("4.65", "3 Feb 2005", $xml);
+    version("Windows", "boinc_4.65_windows_intelx86.exe", $xml);
+    version_end($xml);
+}
+
 function show_464($xml=false) {
     version_start("4.64", "1 Feb 2005", $xml);
     version("Windows", "boinc_4.64_windows_intelx86.exe", $xml);
@@ -150,7 +156,7 @@ function show_stable($xml) {
 }
 
 function show_dev($xml) {
-    show_464($xml);
+    show_465($xml);
     show_462($xml);
 }
 
