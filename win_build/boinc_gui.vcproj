@@ -17,17 +17,18 @@
 			OutputDirectory=".\Build\Release"
 			IntermediateDirectory=".\Build\Release\boinc_gui\obj"
 			ConfigurationType="1"
-			UseOfMFC="1"
+			UseOfMFC="2"
+			UseOfATL="2"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client,.."
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../lib/boinc_win.h"
@@ -43,11 +44,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nafxcw.lib atls.lib libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib comdlg32.lib comctl32.lib shell32.lib shlwapi.lib ole32.lib oleaut32.lib oleacc.lib winspool.lib oldnames.lib uuid.lib"
 				OutputFile=".\Build\Release/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreAllDefaultLibraries="FALSE"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="oleacc.lib"
 				GenerateDebugInformation="TRUE"
@@ -72,7 +72,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories=".."/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -89,16 +90,17 @@
 			OutputDirectory=".\Build\Debug"
 			IntermediateDirectory=".\Build\Debug\boinc_gui\obj"
 			ConfigurationType="1"
-			UseOfMFC="1"
+			UseOfMFC="2"
+			UseOfATL="2"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../;../lib/;../api/;../RSAEuro/source/;../client/win/;../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_gui\obj/boinc_gui.pch"
@@ -114,12 +116,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nafxcwd.lib atlsd.lib libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib comdlg32.lib comctl32.lib shell32.lib shlwapi.lib ole32.lib oleaut32.lib oleacc.lib winspool.lib oldnames.lib uuid.lib"
 				OutputFile=".\Build\Debug/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\boinc_dll\Debug"
-				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreAllDefaultLibraries="FALSE"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="TRUE"

@@ -19230,3 +19230,16 @@ David  10 Nov 2004
         forum_text_search_action.php
     lib/
         crypt_prog.C
+
+Rom    10 Nov 2004
+    - Remove the old VC 6.0 build files
+    - Include the boinc_gui project within the boinc solution again to ease debugging
+    - Update the new installer to shutdown and uninstall the BOINC service during
+      uninstall.
+
+    win_build/
+        *.dsp (Removed)
+        *.dsw (Removed)
+        boinc_gui.vcproj
+        BOINCGUI.vcproj
+        boinc.sln
