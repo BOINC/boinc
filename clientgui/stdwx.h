@@ -139,6 +139,7 @@
 #include <locale>
 
 
+#ifdef __WXMSW__
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
 #define fdopen                  _fdopen
@@ -147,6 +148,7 @@
 #define strdup                  _strdup
 #define read                    _read
 #define stat                    _stat
+#endif
 
 
 // On the Win32 platform include file and line number information for each
