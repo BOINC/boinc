@@ -99,6 +99,9 @@ class ConfigDictList(list):
         new_cd      = ConfigDict(new_element)
         self.append(new_cd)
         return new_cd
+    def remove_node(self, item):
+        self.remove(item)
+        self._node.removeChild(item._node)
 
 class XMLConfig:
     '''Base class for xml config files'''
