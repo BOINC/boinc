@@ -116,30 +116,30 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
     current_cpu_time = working_set_size = 0;
 
-	fraction_done = 0;
-	frac_rate_of_change = 0;
-	last_frac_done = 0;
-	recent_change = 0;
-	last_frac_update = 0;
-	starting_cpu_time = 0;
-	checkpoint_cpu_time = 0;
-	current_cpu_time = 0;
-	working_set_size = 0;
+    fraction_done = 0;
+    frac_rate_of_change = 0;
+    last_frac_done = 0;
+    recent_change = 0;
+    last_frac_update = 0;
+    starting_cpu_time = 0;
+    checkpoint_cpu_time = 0;
+    current_cpu_time = 0;
+    working_set_size = 0;
 #ifdef _WIN32
-	pid_handle = 0;
-	thread_handle = 0;
-	quitRequestEvent = 0;
-	shm_handle = 0;
+    pid_handle = 0;
+    thread_handle = 0;
+    quitRequestEvent = 0;
+    shm_handle = 0;
 #endif
 }
 
 ACTIVE_TASK::~ACTIVE_TASK() {
 #ifdef _WIN32
-	if (pid_handle) CloseHandle(pid_handle);
-	if (thread_handle) CloseHandle(thread_handle);
-	if (quitRequestEvent) CloseHandle(quitRequestEvent);
+    if (pid_handle) CloseHandle(pid_handle);
+    if (thread_handle) CloseHandle(thread_handle);
+    if (quitRequestEvent) CloseHandle(quitRequestEvent);
     // detach from shared mem.
-	// This will destroy shmem seg since we're the last attachment
+    // This will destroy shmem seg since we're the last attachment
     //
     if (app_client_shm.shm) {
         detach_shmem(shm_handle, app_client_shm.shm);
@@ -334,7 +334,7 @@ int ACTIVE_TASK::start(bool first_time) {
                         fclose(f);
                         return retval;
                     }
-				} else {
+                } else {
                     retval = boinc_link(buf, link_path);
                     if (retval) {
                         msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
@@ -416,8 +416,8 @@ int ACTIVE_TASK::start(bool first_time) {
         &startup_info,
         &process_info
     )) {
-		char szError[1024];
-		windows_error_string(szError, sizeof(szError));
+        char szError[1024];
+        windows_error_string(szError, sizeof(szError));
 
         state = PROCESS_COULDNT_START;
         result->active_task_state = PROCESS_COULDNT_START;
@@ -534,12 +534,12 @@ pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
       do {
         tmp_pid=wait3(statusp,options,rusagep);
         if ((tmp_pid>0) && (tmp_pid != pid)) {
-	  proc_info[tmp_pid]=proc_info_t(*statusp,*rusagep);
-	  if (!(options && WNOHANG)) {
-	    tmp_pid=0;
-	  }
+      proc_info[tmp_pid]=proc_info_t(*statusp,*rusagep);
+      if (!(options && WNOHANG)) {
+        tmp_pid=0;
+      }
         } else {
-	  return pid;
+      return pid;
         }
       } while (!tmp_pid);
     } else {
@@ -552,6 +552,10 @@ pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
 }
 #endif
 
+// We have sent a quit signal to the process; see if it's exited.
+// This is called when the core client exits,
+// or when a project is detached or reset
+//
 bool ACTIVE_TASK::task_exited() {
     bool exited = false;
     if (state != PROCESS_RUNNING) return true;
@@ -569,11 +573,6 @@ bool ACTIVE_TASK::task_exited() {
     my_pid = wait4(pid, &stat, WNOHANG, &rs);
     if (my_pid == pid) {
         exited = true;
-
-        // Is the following necessary??
-        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
-        result->final_cpu_time = current_cpu_time =
-            checkpoint_cpu_time = starting_cpu_time + x;
     }
 #endif
     if (exited) {
@@ -622,11 +621,11 @@ bool ACTIVE_TASK_SET::poll() {
     action = check_app_exited();
     action |= check_rsc_limits_exceeded();
     if (get_status_msgs()) {
-		action = true;
+        action = true;
     }
-	if (action) {
+    if (action) {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
-	}
+    }
     return action;
 }
 
@@ -638,13 +637,13 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 #ifdef _WIN32
     unsigned long exit_code;
     bool found = false;
-	unsigned int i;
+    unsigned int i;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
-				msg_printf(NULL, MSG_INFO, "Process exited with code %d", exit_code);
+                msg_printf(NULL, MSG_INFO, "Process exited with code %d", exit_code);
                 atp->get_status_msg();
                 atp->result->final_cpu_time = atp->checkpoint_cpu_time;
                 found = true;
@@ -658,12 +657,12 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     atp->result->active_task_state = PROCESS_EXITED;
                     //if a nonzero error code, then report it
                     if (exit_code) {
-						char szError[1024];
+                        char szError[1024];
                         gstate.report_result_error(
                             *(atp->result), 0,
                             "%s - exit code %d (0x%x)",
                             windows_format_error_string(exit_code, szError, sizeof(szError)),
-							exit_code, exit_code
+                            exit_code, exit_code
                         );
                     }
                 }
@@ -711,8 +710,8 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 }
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);
             } else if (WIFSIGNALED(stat)) {
-	        atp->exit_status = stat;
-	        atp->result->exit_status = atp->exit_status;
+                atp->exit_status = stat;
+                atp->result->exit_status = atp->exit_status;
                 atp->state = PROCESS_WAS_SIGNALED;
                 atp->signal = WTERMSIG(stat);
                 atp->result->signal = atp->signal;
@@ -743,7 +742,7 @@ bool ACTIVE_TASK::check_max_cpu_exceeded() {
         msg_printf(result->project, MSG_INFO,
             "Aborting result %s: exceeded CPU time limit %f\n",
             result->name, max_cpu_time
-		);
+        );
         abort_task("Maximum CPU time exceeded");
         return true;
     }
@@ -765,7 +764,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
         if (disk_usage > max_disk_usage) {
             msg_printf(
                 result->project, MSG_INFO,
-				"Aborting result %s: exceeded disk limit: %f > %f\n",
+                "Aborting result %s: exceeded disk limit: %f > %f\n",
                 result->name, disk_usage, max_disk_usage
             );
             abort_task("Maximum disk usage exceeded");
@@ -804,7 +803,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
-		if (atp->state != PROCESS_RUNNING) continue;
+        if (atp->state != PROCESS_RUNNING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
         //else if (atp->check_max_mem_exceeded()) return true;
         else if (time(0)>last_disk_check_time + gstate.global_prefs.disk_interval) {
@@ -904,10 +903,11 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 }
 
 // send quit signal to all tasks in the project
-// (or all tasks, if zero).
-// If they don't exit in 5, send them a kill signal
-// and wait up to 5 more seconds to exit.
-// TODO: unsuspend active tasks so they have a chance to checkpoint
+// (or all tasks, if proj==0).
+// If they don't exit in 5 seconds,
+// send them a kill signal and wait up to 5 more seconds to exit.
+// This is called when the core client exits,
+// or when a project is detached or reset
 //
 int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     request_tasks_exit(proj);
@@ -1034,6 +1034,8 @@ void ACTIVE_TASK_SET::unsuspend_all() {
 }
 
 // Send quit signal to all currently running tasks
+// This is called when the core client exits,
+// or when a project is detached or reset
 //
 void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
     unsigned int i;
@@ -1300,8 +1302,6 @@ int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
     return -1;
 }
 
-// Write XML data about this ACTIVE_TASK
-//
 int ACTIVE_TASK::write(FILE* fout) {
     fprintf(fout,
         "<active_task>\n"
@@ -1324,8 +1324,6 @@ int ACTIVE_TASK::write(FILE* fout) {
     return 0;
 }
 
-// Parse XML information about an active task
-//
 int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
     char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0;
