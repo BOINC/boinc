@@ -155,6 +155,7 @@ class Project {
     var $start_result_retry;
     var $start_validate;
     var $project_php_file;
+    var $project_prefs_php_file;
     var $make_work_wu_template;
     var $make_work_result_template;
 
@@ -297,11 +298,14 @@ class Project {
         
         // copy the user and administrative PHP files to the project dir,
         //
-        PassThru("cp -f $source_dir/html_user/* $this->project_dir/html_user");
-        PassThru("cp -f $source_dir/tools/country_select $this->project_dir/html_user");
-        PassThru("cp -f $source_dir/html_ops/* $this->project_dir/html_ops");
+        PassThru("cp -f $source_dir/html_user/* $this->project_dir/html_user >> /dev/null 2>&1");
+        PassThru("cp -f $source_dir/tools/country_select $this->project_dir/html_user >> /dev/null 2>&1");
+        PassThru("cp -f $source_dir/html_ops/* $this->project_dir/html_ops >> /dev/null 2>&1");
         if ($this->project_php_file) {
             PassThru("cp -f $source_dir/html_user/$this->project_php_file $this->project_dir/html_user/project.inc");
+        }
+        if ($this->project_prefs_php_file) {
+            PassThru("cp -f $source_dir/html_user/$this->project_prefs_php_file $this->project_dir/html_user/project_specific_prefs.inc");
         }
 
         // Copy the sched server in the cgi directory with the
@@ -633,7 +637,6 @@ class Host {
     function install() {
         $base_dir = get_env_var("BOINC_HOSTS_DIR");
         $this->host_dir = $base_dir."/".$this->name;
-        $user = $this->user;
         PassThru("rm -rf $this->host_dir");
         PassThru("mkdir $this->host_dir");
 

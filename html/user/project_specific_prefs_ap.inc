@@ -1,0 +1,155 @@
+<?php
+
+// Functions to display and edit project-specific prefs
+// (Astropulse version)
+// The prefs are as follows:
+// <color_scheme>
+//      A few presets, plus "Custom" to control other parameters
+// <start_hue>
+//      Starting hue (0..1) for graph
+// <hue_change>
+//      Delta hue for graph (+ or -)
+// <grow_time>
+//      Time to grow graph, back to front
+// <hold_time>
+//      Time to hold completed graph
+// <two_dim/>
+//      If present, draw 2-D graph
+// <graph_alpha>
+//      transparency of graph (0..1)
+
+function project_specific_prefs_default() {
+    return "<color_scheme>Tahiti Sunset</color_scheme>\n";
+}
+
+function option($name, $val) {
+    if ($name == $val) {
+        $x = "selected";
+    } else {
+        $x = "";
+    }
+    echo "<option name='$name' $x>$name\n";
+}
+
+// given struct, show form for editing
+//
+function project_specific_prefs_edit($prefs) {
+    $x = $prefs->color_scheme;
+    echo "<tr>
+        <td align=right>Color scheme:</td><td>
+        <select name=color_scheme>
+        ";
+    option("Tahiti Sunset", $x);
+    option("Desert Sands", $x);
+    option("Underwater", $x);
+    option("Custom", $x);
+    echo "</select></td></tr>\n";
+    if ($prefs->color_scheme == "Custom") {
+        $sel2 = ($prefs->two_dim?"checked":"");
+        $sel3 = ($prefs->two_dim?"":"checked");
+        echo "
+            <tr><td align=right>Start hue</td>
+            <td><input name=start_hue value='$prefs->start_hue'></td></tr>
+            <tr><td align=right>Hue change</td>
+            <td><input name=hue_change value='$prefs->hue_change'></td></tr>
+            <tr><td align=right>Grow time</td>
+            <td><input name=grow_time value='$prefs->grow_time'></td></tr>
+            <tr><td align=right>Hold time</td>
+            <td><input name=hold_time value='$prefs->hold_time'></td></tr>
+            <tr><td align=right>Graph dimension</td>
+            <td><input type=radio name=two_dim value=yes $sel2>2-D
+            <input type=radio name=two_dim value=no $sel3>3-D</td></tr>
+            <tr><td align=right>Graph transparency</td>
+            <td><input name=graph_alpha value='$prefs->graph_alpha'></td></tr>
+        ";
+    }
+}
+
+// Return XML version of project-specific prefs from form vars
+//
+function project_specific_prefs_parse_form() {
+    parse_str(getenv("QUERY_STRING"));
+    switch( $color_scheme ) {
+        case "Tahiti Sunset":
+            $start_hue = 0.5;
+            $hue_change = 0.5;
+            $grow_time = 10;
+            $hold_time = 5;
+            $graph_alpha = 0.7;
+            $two_dim = "no";
+            break;
+        case "Desert Sands":
+            $start_hue = 0.0;
+            $hue_change = 0.2;
+            $grow_time = 10;
+            $hold_time = 5;
+            $graph_alpha = 0.7;
+            $two_dim = "no";
+            break;
+        case "Underwater":
+            $start_hue = 0.2;
+            $hue_change = 0.4;
+            $grow_time = 10;
+            $hold_time = 5;
+            $graph_alpha = 0.7;
+            $two_dim = "no";
+            break;
+        case "Custom":
+            if (!isset($start_hue)) $start_hue = 0;
+            if (!isset($hue_change)) $hue_change = 1;
+            if (!isset($grow_time)) $grow_time = 10;
+            if (!isset($hold_time)) $hold_time = 5;
+            if (!isset($graph_alpha)) $graph_alpha = 0.7;
+            if (!isset($two_dim)) $two_dim = "no";
+            break;
+    }
+    $x = "<color_scheme>$color_scheme</color_scheme>
+        <start_hue>$start_hue</start_hue>
+        <hue_change>$hue_change</hue_change>
+        <grow_time>$grow_time</grow_time>
+        <hold_time>$hold_time</hold_time>
+        <graph_alpha>$graph_alpha</graph_alpha>
+    ";
+    if ($two_dim == "yes") $x = $x."<two_dim/>\n";
+    return $x;
+}
+
+// show non-editable version of prefs
+//
+function project_specific_prefs_show($prefs) {
+    echo "<tr>
+        <td>Color scheme:</td>
+        <td>$prefs->color_scheme</td>
+        </tr>
+    ";
+    if ($prefs->color_scheme == "Custom") {
+        $dim = $prefs->two_dim?"2":"3";
+        echo "
+            <tr><td align=right>Start hue</td>
+            <td>$prefs->start_hue</td></tr>
+            <tr><td align=right>Hue change</td>
+            <td>$prefs->hue_change</td></tr>
+            <tr><td align=right>Grow time</td>
+            <td>$prefs->grow_time</td></tr>
+            <tr><td align=right>Hold time</td>
+            <td>$prefs->hold_time</td></tr>
+            <tr><td align=right>Graph alpha</td>
+            <td>$prefs->graph_alpha</td></tr>
+            <tr><td align=right>Graph dimension</td>
+            <td>$dim</td></tr>
+        ";
+    }
+}
+
+// parse XML, fill in struct
+//
+function project_specific_prefs_parse($prefs_xml) {
+    $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
+    $prefs->start_hue = parse_element($prefs_xml, "<start_hue>");
+    $prefs->hue_change = parse_element($prefs_xml, "<hue_change>");
+    $prefs->grow_time = parse_element($prefs_xml, "<grow_time>");
+    $prefs->hold_time = parse_element($prefs_xml, "<hold_time>");
+    $prefs->graph_alpha = parse_element($prefs_xml, "<graph_alpha>");
+    $prefs->two_dim = parse_element($prefs_xml, "<two_dim>");
+    return $prefs;
+}

@@ -16,7 +16,7 @@
     $app_version = new App_Version($app);
     $app_version->platform = $platform;
     $app_version->exec_dir = "../apps";
-    $app_version->exec_name = "ap_win_0.02.exe";
+    $app_version->exec_name = "ap_win_0.05.exe";
 
     $core_app = new App("core client");
     $core_app_version = new App_Version($core_app);
@@ -38,6 +38,7 @@
     $project->start_validate = false;
     $project->shmem_key = 0x31415927;
     $project->project_php_file = "project_ap.inc";
+    $project->project_prefs_php_file = "project_specific_prefs_ap.inc";
 
     $project->install();
 

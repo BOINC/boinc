@@ -106,6 +106,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     code_sign_key_signature = 0;
     memset(&user, 0, sizeof(user));
     memset(&host, 0, sizeof(host));
+    memset(&team, 0, sizeof(team));
     nucleus_only = false;
 }
 
@@ -152,6 +153,15 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         host.total_credit,
         host.expavg_credit
     );
+
+    // might want to send team credit too.
+    //
+    if (team.id) {
+        fprintf(fout,
+            "<team_name>%s</team_name>\n",
+            team.name
+        );
+    }
 
     if (hostid) {
         fprintf(fout, 

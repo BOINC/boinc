@@ -227,6 +227,11 @@ new_host:
         reply.hostid = reply.host.id;
         // this tells client to updates its host ID
     }
+    if (reply.user.teamid) {
+        TEAM team;
+        retval = db_team(reply.user.teamid, team);
+        if (!retval) reply.team = team;
+    }
     return 0;
 }
 

@@ -67,6 +67,7 @@ struct SCHEDULER_REPLY {
     bool nucleus_only;          // send only message
     USER user;
     HOST host;
+    TEAM team;
     vector<APP> apps;
     vector<APP_VERSION> app_versions;
     vector<WORKUNIT>wus;
