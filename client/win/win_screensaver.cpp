@@ -831,6 +831,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                         hwndForegroundWindow = GetForegroundWindow();
                                         if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
                                         {
+                                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
                                             SetForegroundWindow(hwndBOINCGraphicsWindow);
                                         }
                                     }
