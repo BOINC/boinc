@@ -54,7 +54,8 @@ PROJECT::PROJECT() {
     master_fetch_failures = 0;
     resource_debt = 0;
     debt_order = 0;
-    master_url_fetch_pending = 0;
+    master_url_fetch_pending = false;
+    sched_rpc_pending = false;
 }
 
 PROJECT::~PROJECT() {

@@ -128,8 +128,7 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     pbest = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-    if (p->master_url_fetch_pending)
-        continue;
+        if (p->master_url_fetch_pending) continue;
         if (p->min_rpc_time > now ) continue;
         if (old && p->debt_order <= old->debt_order) continue;
         if (p->debt_order < best) {

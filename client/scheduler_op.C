@@ -309,6 +309,7 @@ bool SCHEDULER_OP::poll() {
         if (http_op.http_op_state == HTTP_STATE_DONE) {
             action = true;
             project->master_url_fetch_pending = false;
+            gstate.set_client_state_dirty("master URL fetch done");
             http_ops->remove(&http_op);
             if (http_op.http_op_retval == 0) {
                 if (log_flags.sched_op_debug) {

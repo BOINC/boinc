@@ -45,7 +45,23 @@ using namespace std;
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
-    return ((wu.rsc_disk <= host.d_free) && (wu.rsc_memory <= host.m_nbytes));
+    char buf[256];
+
+    if(host.d_free && wu.rsc_disk > host.d_free) {
+        sprintf(buf, "WU %d needs %f disk; host %d has %f\n",
+            wu.id, wu.rsc_disk, host.id, host.d_free
+        );
+        write_log(buf);
+        return false;
+    }
+    if (host.m_nbytes && wu.rsc_memory > host.m_nbytes) {
+        sprintf(buf, "WU %d needs %f mem; host %d has %f\n",
+            wu.id, wu.rsc_memory, host.id, host.m_nbytes
+        );
+        write_log(buf);
+        return false;
+    }
+    return true;
 }
 
 // estimate the time that a WU will take on a host
@@ -177,7 +193,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            write_log("bad authenticator\n");
+            sprintf(buf, "Bad authenticator: %s\n", sreq.authenticator);
+            write_log(buf);
             return -1;
         }
 
@@ -202,7 +219,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "Visit this project's web site to get an authenticator.");
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            write_log("bad authenticator\n");
+            sprintf(buf, "Bad authenticator: %s\n", sreq.authenticator);
+            write_log(buf);
             return -1;
         }
 new_host:
