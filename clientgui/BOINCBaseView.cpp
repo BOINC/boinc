@@ -74,11 +74,13 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
     m_pListPane = new CBOINCListCtrl( this, iListWindowID, iListWindowFlags );
     wxASSERT(NULL != m_pListPane);
 
-    itemFlexGridSizer->Add(m_pTaskPane, 0, wxGROW|wxGROW|wxALL, 1);
-    itemFlexGridSizer->Add(m_pListPane, 0, wxGROW|wxGROW|wxALL, 1);
+    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
+    itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
     SetSizer(itemFlexGridSizer);
     SetAutoLayout(TRUE);
+
+    itemFlexGridSizer->Fit(this);
 }
 
 
