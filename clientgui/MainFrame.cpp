@@ -287,8 +287,8 @@ bool CMainFrame::CreateNotebook()
     CreateNotebookPage( new CViewResources( m_pNotebook ) );
 
 
-    // Have the panel calculate everything after the pages are created so
-    //   the Mac can display the Html control width correctly
+    // have the panel calculate everything after the pages are created so
+    //   the mac can display the html control width correctly
     pPanel->SetSizerAndFit(pPanelSizer);
     pPanel->SetAutoLayout(TRUE);
 
