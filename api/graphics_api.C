@@ -30,7 +30,7 @@ HANDLE graphics_threadh=NULL;
 
 #ifdef __APPLE_CC__
 #include "mac_app_opengl.h"
-#ndif
+#endif
 
 #ifndef _WIN32
 #include <cstring>
@@ -216,3 +216,4 @@ bool throttled_app_render(int x, int y, double t) {
     }
     return false;
 }
+

@@ -830,7 +830,7 @@ float white[4] = {1., 1., 1., 1.};
 // mogrify -format ppm foo.jpg
 // or xv foo.jpg; right click on image, choose PPM
 //
-int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
+int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
     FILE* f;
     char buf[256];
     char img_type;

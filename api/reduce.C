@@ -24,14 +24,13 @@
 #include <cstdlib>
 #include <cmath>
 
-#include "boinc_gl.h"
-
 #ifdef __APPLE_CC__
 #define max(a,b)  (a>b?a:b)
 #define min(a,b)  (a>b?b:a)
 #endif
 #endif
 
+#include "boinc_gl.h"
 #include "gutil.h"
 #include "reduce.h"
 
