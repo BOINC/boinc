@@ -25335,3 +25335,10 @@ David  25 Feb 2005
         sched_send.C
         server_types.h
         transitioner.C
+
+David  25 Feb 2005
+    - core client: possible fix for heap corruption problem -
+        check for strlen(file_signature), not file_signature
+
+    client/
+        cs_files.C
