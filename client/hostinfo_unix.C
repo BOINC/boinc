@@ -19,6 +19,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.52  2004/03/12 23:09:48  rwalton
+// *** empty log message ***
+//
 // Revision 1.51  2004/03/04 11:41:40  rwalton
 // *** empty log message ***
 //
@@ -134,6 +137,46 @@ bool host_is_running_on_batteries() {
 
 #ifdef linux
 
+#ifdef __mips__
+
+void parse_cpuinfo(HOST_INFO& host) {
+    char buf[256];
+    char buf2[256];
+    int system_found=0,model_found=0;
+
+    strcpy(host.p_model, "MIPS ");
+
+    FILE* f = fopen("/proc/cpuinfo", "r");
+    if (!f) return;
+
+    while (fgets(buf, 256, f)) {
+        if ((strstr(buf, "system type\t\t: ") == buf) &&
+           (system_found == 0)) {
+           system_found = 1;
+           strncpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor)-1);
+           char * p = strchr(host.p_vendor, '\n');
+           if (p) {
+             *p = '\0';
+           }
+        }
+        if ((strstr(buf, "cpu model\t\t: ") == buf) &&
+           (model_found == 0)) {
+           model_found = 1;
+           strncpy(buf2, strchr(buf, ':') + 2,
+                   sizeof(host.p_model) - strlen(host.p_model) - 1);
+           strcat(host.p_model, buf2);
+           char * p = strchr(host.p_model, '\n');
+           if (p) {
+             *p = '\0';
+           }
+        }
+    }
+
+    fclose(f);
+}
+
+#else
+
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 // The following is for Redhat Linux 2.2.14.
@@ -145,20 +188,33 @@ void parse_cpuinfo(HOST_INFO& host) {
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return;
+
     while (fgets(buf, 256, f)) {
         if (strstr(buf, "vendor_id\t: ") == buf) {
-            sscanf(buf, "vendor_id\t: %s", host.p_vendor);
+            strncpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor) - 1);
+            char * p = strchr(host.p_vendor, '\n');
+            if (p) {
+                *p = '\0';
+            }
         }
         if (strstr(buf, "model name\t: ") == buf) {
-            sscanf(buf, "model name\t: %s", host.p_model);
+            strncpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model) - 1);
+            char * p = strchr(host.p_model, '\n');
+            if (p) {
+                *p = '\0';
+            }
         }
         if (strstr(buf, "cache size\t: ") == buf) {
             sscanf(buf, "cache size\t: %d", &n);
             host.m_cache = n*1024;
         }
     }
+
     fclose(f);
 }
+
+#endif // MIPS
+
 #endif
 
 // get all relevant host information

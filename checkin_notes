@@ -10434,3 +10434,12 @@ Rom    Mar 11 2004
     client/win/
         hostinfo_win.cpp
 
+Rom    Mar 11 2004 (for Thomas Horsten)
+    - Here is a patch that fixes CPU detection for Linux (i386) and adds CPU detection for MIPS.
+      It is not perfect (it's really the proc interface's fault), but at least it is a lot better
+      than what is there now.
+
+
+    client/
+        hostinfo_unix.cpp
+
