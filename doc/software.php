@@ -24,8 +24,17 @@ Required on the <b>database</b> server:
 <ul>
   <li><b>MySQL server</b> 3.23+ or 4.0+
       (package <code>mysql-server</code>).
-
 </ul>
+After installing and running the server,
+grant permissions for your own account and for
+the account under which Apache runs:
+<pre>
+    mysql -u root
+    grant all on *.* to yourname@localhost;
+    grant all on *.* to yourname;
+    grant all on *.* to nobody@localhost;
+    grant all on *.* to nobody;
+</pre>
 
 Required on the <b>master/scheduler</b> server(s):
 <ul>
@@ -59,13 +68,11 @@ Optional, required only if you change <code>*/Makefile.am</code>:
   <li><b>autoconf</b> 2.5+
 </ul>
 
-
-<small>
-  On Debian Linux you can install all of the above software using
-  <blockquote>
-    <code>apt-get install g++ python python-mysqldb python-xml mysql-server mysql-client apache php4 automake autoconf</code>
-  </blockquote>
-</small>
+<p>
+On Debian Linux you can install all of the above software using
+<blockquote>
+<code>apt-get install g++ python python-mysqldb python-xml mysql-server mysql-client apache php4 automake autoconf</code>
+</blockquote>
 
 
 <h2>Windows client software</h2>

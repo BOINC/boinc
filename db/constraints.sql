@@ -77,11 +77,13 @@ alter table result
     add index app_received_time (appid, received_time desc);
         -- html_ops/result_summary.php
 
-alter table trickle
-    add unique(resultid, create_time),
-        -- avoids dups, and lets us enumerate on resultid
+alter table trickle_up
     add index trickle_handled (appid, handled);
-        -- for project
+        -- for trickle handler
+
+alter table trickle_down
+    add index trickle_host(hostid, handled);
+        -- for scheduler
 
 alter table host
     add index host_user (userid),

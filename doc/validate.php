@@ -5,9 +5,13 @@ echo "
 <p>
 <b>Validation</b> is the process of comparing redundant results
 and deciding which is to be considered correct.
-BOINC supplies a utility program <b>validate</b>
-to perform validation and credit-granting.
-You 
+Because floating-point arithmetic varies between platforms,
+this decision is an application-specific.
+<p>
+A <b>validator</b> is a back-end program that does validation
+and credit-granting.
+You must supply a validator for each application in your project.
+BOINC supplies a framework program <b>validate.C</b>.
 This program must be linked with two application-specific functions:
 <pre>",
 htmlspecialchars("
@@ -25,11 +29,33 @@ be granted for correct results for this workunit.
 if they agree.
 
 <p>
-The file <b>validate_test.C</b> contains an example
-implementation of check_set() and check_pair().
+Two example validators are supplied
+(each implements check_set() and check_pair()):
+<ul>
+<li>
+<b>validate_test</b> requires a strict majority,
+and regards results as equivalent only if they agree byte for byte.
+<li>
+<b>validate_trivial</b>
+regards any two results as equivalent if their CPU time
+exceeds a given minimum.
+</ul>
+<p>
+<b>validate_util.C</b> contains support functions for
+both of the above.
+
+<hr>
+<b>NOTE: the above code assumes that each result
+has a single output file.
+Revisions will be needed to handle multiple output files.
+To do this you will need to know the following:
+</b>
 
 <p>
-The XML document listing the output files has the form: <pre>
+The database field 'result.xml_doc_out'
+describes a result's output files.
+It has the form
+<pre>
 ",htmlspecialchars("
 <file_info>...</file_info>
 [ ... ]
@@ -46,13 +72,13 @@ The components are:
 <ul>
 <li> The <b>&lt;name></b> element is the result name.
 <li> The <b>&lt;wu_name></b> element is the workunit name.
-<li> Each <b>&lt;file_ref></b> element is an association to an
-output file, described by a corresponding <b>&lt;file_info></b> element.
+<li> Each <b>&lt;file_ref></b> element is an association to an output file,
+described by a corresponding <b>&lt;file_info></b> element.
 </ul>
 <p>
 The XML document describing the sizes and checksums of the output
-files is just a list of <b>&lt;file_info></b> elements, with the
-<b>nbytes</b> and <b>md5_cksum</b> fields present.
+files is a list of <b>&lt;file_info></b> elements,
+with the <b>nbytes</b> and <b>md5_cksum</b> fields present.
 The project back end
 must parse this field to find the locations and checksums of output files.
 ";

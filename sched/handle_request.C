@@ -1074,28 +1074,58 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-void handle_trickles(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     DB_RESULT result;
-    DB_TRICKLE trickle;
+    DB_TRICKLE_UP trickle;
     int retval;
     char buf[256];
 
     for (i=0; i<sreq.trickles.size(); i++) {
-        reply.send_trickle_ack = true;
-        TRICKLE_DESC& td = sreq.trickles[i];
+        reply.send_trickle_up_ack = true;
+        TRICKLE_UP_DESC& td = sreq.trickles[i];
         sprintf(buf, "where name='%s'", td.result_name);
         retval = result.lookup(buf);
         if (retval) continue;
-        if (reply.user.id != result.userid) continue;
+        if (reply.user.id != result.userid) {
+            log_messages.printf(SchedMessages::NORMAL,
+                "[HOST#%d] trickle up: wrong user ID %d, %d\n", 
+                sreq.host.id, reply.user.id, result.userid
+            );
+            continue;
+        }
+        if (sreq.host.id != result.hostid) {
+            log_messages.printf(SchedMessages::NORMAL,
+                "[HOST#%d] trickle up: wrong host ID %d\n", 
+                sreq.host.id, result.hostid
+            );
+            continue;
+        }
         memset(&trickle, 0, sizeof(trickle));
-        trickle.create_time = td.create_time;
+        trickle.send_time = td.send_time;
         trickle.resultid = result.id;
-        trickle.hostid = sreq.host.id;
-        trickle.userid = reply.user.id;
         trickle.appid = result.appid;
+        trickle.handled = false;
         safe_strcpy(trickle.xml, td.trickle_text.c_str());
         retval = trickle.insert();
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL,
+                "[HOST#%d] trickle insert failed: %d\n", 
+                sreq.host.id, retval
+            );
+        }
+    }
+}
+
+void handle_trickle_downs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    DB_TRICKLE_DOWN td;
+    char buf[256];
+
+    sprintf(buf, "where hostid = %d", sreq.host.id);
+    while (!td.enumerate(buf)) {
+        reply.trickle_downs.push_back(td);
+        td.handled = true;
+        td.update();
     }
 }
 
@@ -1170,7 +1200,10 @@ void process_request(
 
     send_code_sign_key(sreq, reply, code_sign_key);
 
-    handle_trickles(sreq, reply);
+    handle_trickle_ups(sreq, reply);
+    if (config.trickle_down) {
+        handle_trickle_downs(sreq, reply);
+    }
 }
 
 void handle_request(

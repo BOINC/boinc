@@ -28,9 +28,9 @@ list_item(
 list_item(
 	html_text(
 		"<result_show_graphics>
-			<project_url>X</project_url>
-			<result_name>X</result_name>
-		</result_show_graphics>"
+    <project_url>X</project_url>
+    <result_name>X</result_name>
+</result_show_graphics>
 	"),
 	"Request that the application processing the given result
 	create a graphics window"
@@ -38,33 +38,33 @@ list_item(
 list_item(
 	html_text(
 		"<project_reset>
-			<project_url>X</project_url>
-		</project_reset>"
+    <project_url>X</project_url>
+</project_reset>"
 	),
 	"Reset the given project"
 );
 list_item(
 	html_text(
 		"<project_update>
-			<project_url>X</project_url>
-		</project_update>"
+    <project_url>X</project_url>
+</project_update>"
 	),
 	"Update the given project"
 );
 list_item(
 	html_text(
 		"<project_detach>
-			<project_url>X</project_url>
-		</project_detach>"
+    <project_url>X</project_url>
+</project_detach>"
 	),
 	"Detach from the given project"
 );
 list_item(
 	html_text(
 		"<project_attach>
-			<project_url>X</project_url>
-			<authenticator>X</authenticator>
-		</project_attach>"
+    <project_url>X</project_url>
+    <authenticator>X</authenticator>
+</project_attach>"
 	),
 	"Attach to the given project"
 );
@@ -75,9 +75,9 @@ list_item(
 list_item(
 	html_text(
 		"<set_proxy_settings>
-			<proxy_server_name>X</proxy_server_name>
-			<proxy_server_port>X</proxy_server_port>
-		</set_proxy_settings>"
+    <proxy_server_name>X</proxy_server_name>
+    <proxy_server_port>X</proxy_server_port>
+</set_proxy_settings>"
 	),
 	"Set proxy settings"
 );

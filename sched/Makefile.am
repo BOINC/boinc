@@ -2,10 +2,20 @@
 
 include $(top_srcdir)/Makefile.incl
 
-noinst_PROGRAMS =								\
-	cgi feeder show_shmem file_upload_handler				\
-        validate_test validate_trivial make_work transitioner file_deleter	\
-        assimilator db_dump update_stats show_shmem wu_check
+noinst_PROGRAMS = \
+    assimilator \
+	cgi feeder \
+    db_dump \
+    file_deleter \
+    file_upload_handler	\
+    make_work \
+    show_shmem \
+    transitioner \
+    trickle_handler \
+    update_stats \
+    validate_test \
+    validate_trivial \
+    wu_check
 
 noinst_LIBRARIES = libsched.a
 

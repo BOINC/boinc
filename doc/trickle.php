@@ -9,8 +9,9 @@ let applications communicate with the server
 during the execution of a workunit.
 That are intended for applications that have
 long work units (multiple days).
-Trickle messages may be in either direction
-(application to server, or vice versa).
+Trickle messages may be in either direction:
+'trickle up' messages go from application to server,
+'trickle down' messages go from server to application.
 Typical uses of this mechanism:
 <ul>
 <li>
@@ -32,6 +33,11 @@ but this may take a while if the client is offline.
 
 
 <p>
+To handle trickle-down messages you must include the line
+<pre>
+&lt;trickle_down/>
+</pre>
+in the configuration (config.xml) file.
 
 
 <h3>API (client)</h3>
@@ -100,11 +106,11 @@ boinc_receive_trickle() sets a flag in the result record;
 this flag is conveyed to the scheduling server.
 <p>
 The server database has two tables,
-trickle_to_server and trickle_to_client.
+trickle_up and trickle_down.
 The scheduling server extracts trickle messages from
-the request message and inserts them in trickle_to_server.
+the request message and inserts them in trickle_up.
 If the above flag is set for a given result,
-it queries the trickle_to_client table for that result
+it queries the trickle_down table for that result
 and appends any messages to the reply.
 
 

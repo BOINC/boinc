@@ -419,14 +419,23 @@ struct RESULT {
     void clear();
 };
 
-struct TRICKLE {
+struct TRICKLE_UP {
+    int id;
+    int create_time;
+    int send_time;                  // when API call was made
+    int resultid;
+    int appid;
+    bool handled;                   // trickle handler has processed this
+    char xml[LARGE_BLOB_SIZE];
+    void clear();
+};
+
+struct TRICKLE_DOWN {
     int id;
     int create_time;
     int resultid;
     int hostid;
-    int userid;
-    int appid;
-    bool handled;
+    bool handled;                   // scheduler has sent this
     char xml[LARGE_BLOB_SIZE];
     void clear();
 };
@@ -533,13 +542,20 @@ public:
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
-class DB_TRICKLE : public DB_BASE, public TRICKLE {
+class DB_TRICKLE_UP : public DB_BASE, public TRICKLE_UP {
 public:
-    DB_TRICKLE();
+    DB_TRICKLE_UP();
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
-    void operator=(TRICKLE& r) {TRICKLE::operator=(r);}
+};
+
+class DB_TRICKLE_DOWN : public DB_BASE, public TRICKLE_DOWN {
+public:
+    DB_TRICKLE_DOWN();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
 };
 
 #if 0

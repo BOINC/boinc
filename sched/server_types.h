@@ -26,9 +26,9 @@
 #include "boinc_db.h"
 #include "result_state.h"
 
-struct TRICKLE_DESC {
+struct TRICKLE_UP_DESC {
     char result_name[256];
-    int create_time;
+    int send_time;
     string trickle_text;
     int parse(FILE*);
 };
@@ -60,7 +60,7 @@ struct SCHEDULER_REQUEST {
 
     HOST host;
     vector<RESULT> results;
-    vector<TRICKLE_DESC> trickles;
+    vector<TRICKLE_UP_DESC> trickles;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
@@ -88,9 +88,10 @@ struct SCHEDULER_REPLY {
     vector<WORKUNIT>wus;
     vector<RESULT>results;
     vector<RESULT>result_acks;
+    vector<TRICKLE_DOWN>trickle_downs;
     char code_sign_key[MEDIUM_BLOB_SIZE];
     char code_sign_key_signature[MEDIUM_BLOB_SIZE];
-    bool send_trickle_ack;
+    bool send_trickle_up_ack;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

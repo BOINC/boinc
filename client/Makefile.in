@@ -99,9 +99,6 @@ PTHREAD_LIBS = @PTHREAD_LIBS@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-
-# by default, "-static -static-libgcc" on linux.
-#STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
 TOP_BUILD_DIR = @TOP_BUILD_DIR@
 TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
@@ -172,6 +169,9 @@ AM_CPPFLAGS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
+
+# by default, "-static -static-libgcc" on linux.
+#STATIC_FLAGS=@STATIC_FLAGS@
 bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = cpu_benchmark
@@ -222,12 +222,16 @@ boinc_client_SOURCES = \
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 boinc_client_LDADD = $(RSA_LIBS)
-#boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
+#boinc_client_LDFLAGS = $(STATIC_FLAGS)
 cpu_benchmark_SOURCES = cpu_benchmark.C
 cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
 
 EXTRA_DIST = \
+	win/update-boinc-cli-version		\
+	win/update-boinc-dll-version		\
+	win/update-boinc-gui-version		\
+	win/update-boinc-ss-version		\
 	*.h					\
 	mac/*.h mac/*.cpp			\
         win/*.h win/*.cpp win/*.rc		\
@@ -275,6 +279,7 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-md5.$(OBJEXT) boinc_client-crypt.$(OBJEXT) \
 	boinc_client-util.$(OBJEXT) boinc_client-messages.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
+boinc_client_LDFLAGS =
 am_cpu_benchmark_OBJECTS = cpu_benchmark.$(OBJEXT)
 cpu_benchmark_OBJECTS = $(am_cpu_benchmark_OBJECTS)
 cpu_benchmark_LDADD = $(LDADD)
@@ -1579,16 +1584,16 @@ win/win_config.h: $(top_srcdir)/config.h
 	grep '#define.*VERSION' $^ > $@
 
 win/boinc_cli.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-cli-version
+	cd win && ../$(srcdir)/win/update-boinc-cli-version
 
 win/boinc_dll.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-dll-version
+	cd win && ../$(srcdir)/win/update-boinc-dll-version
 
 win/boinc_gui.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-gui-version
+	cd win && ../$(srcdir)/win/update-boinc-gui-version
 
 win/boinc_ss.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-ss-version
+	cd win && ../$(srcdir)/win/update-boinc-ss-version
 
 version: win/win_config.h win/boinc_cli.rc win/boinc_dll.rc win/boinc_gui.rc win/boinc_ss.rc
 

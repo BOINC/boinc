@@ -10495,3 +10495,40 @@ Karl 2004-04-15
     tools/
         update_versions
 
+David  Mar 16 2004
+    - fleshed out trickle-message support a bit.
+        Separate notions of "trickle up" (client->server)
+        and "trickle down" (server->client) messages.
+        They're kept in different tables.
+    - added a program trickle_handler.C for handling trickle-up messages.
+        This is a framework program: you need to supply a handler function
+    - The scheduler sees if there are and trickle-down messages
+        for the host, and sends them
+    
+    STILL TO BE DONE:
+        - server-side API for creating trickle-down messages
+        - client logic for delivering trickle-down messages
+
+    - fix bad mem size reporting on Mac w/ > 2GB mem
+
+    client/
+        hostinfo_unix.C
+        scheduler_op.C,h
+    db/
+        boinc_db.C,h
+        constraints.sql
+    doc/
+        contact.php
+        docutil.php
+        gui_rpc.php
+        software.php
+        trickle.php
+        validate.php
+    sched/
+        handle_request.C
+        sched_config.C,h
+        server_types.C,h
+        trickle_handler.C (new)
+        validate_test.C
+        validate_trivial.C
+

@@ -67,4 +67,9 @@ function list_end() {
     echo "</table><p>\n";
 }
 
+function html_text($x) {
+    return "<pre>".htmlspecialchars($x)."
+        </pre>
+    ";
+}
 ?>

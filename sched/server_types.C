@@ -122,7 +122,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
         }
         else if (match_tag(buf, "<trickle>")) {
-            TRICKLE_DESC td;
+            TRICKLE_UP_DESC td;
             retval = td.parse(fin);
             if (!retval) {
                 trickles.push_back(td);
@@ -135,13 +135,13 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-int TRICKLE_DESC::parse(FILE* fin) {
+int TRICKLE_UP_DESC::parse(FILE* fin) {
     char buf[256];
 
     trickle_text = "";
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</trickle>")) return 0;
-        if (parse_int(buf, "<time>", create_time)) continue;
+        if (parse_int(buf, "<time>", send_time)) continue;
         if (match_tag(buf, "<text>")) {
             while (fgets(buf, 256, fin)) {
                 if (match_tag(buf, "</text>")) break;
@@ -165,7 +165,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&team, 0, sizeof(team));
     nucleus_only = false;
     probable_user_browser = false;
-    send_trickle_ack = false;
+    send_trickle_up_ack = false;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
@@ -174,6 +174,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     string u1, u2, t1, t2;
+    int retval;
 
     fprintf(fout,
         "<scheduler_reply>\n"
@@ -286,8 +287,28 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fputs(code_sign_key_signature, fout);
         fputs("</code_sign_key_signature>\n", fout);
     }
-    if (send_trickle_ack) {
-        fputs("<trickle_ack/>\n", fout);
+    if (send_trickle_up_ack) {
+        fputs("<trickle_up_ack/>\n", fout);
+    }
+    for (i=0; i<trickle_downs.size(); i++) {
+        TRICKLE_DOWN& td = trickle_downs[i];
+        DB_RESULT result;
+        retval = result.lookup_id(td.resultid);
+        if (retval) {
+            continue;
+        }
+        fprintf(fout,
+            "<trickle_down>\n"
+            "    <result_name>%s</result_name>\n"
+            "    <send_time>%d</send_time>\n"
+            "    <text>\n"
+            "%s\n"
+            "    </text>\n"
+            "</trickle_down>\n",
+            result.name,
+            td.create_time,
+            td.xml
+        );
     }
 end:
     fprintf(fout,

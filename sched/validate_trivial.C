@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+// A sample validator that grants credit to any result
+// whose CPU time is above a certain minimum
+
 #include "validate_util.h"
 
 static const double MIN_CPU_TIME = 10000;
@@ -32,17 +35,15 @@ int check_pair_initialized_trivial(
     RESULT const& r1, void* /*data1*/,
     RESULT const& r2, void* /*data2*/,
     bool& match
-    ) {
+) {
     match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
     return 0;
 }
 
-int cleanup_result_trivial(RESULT const& /*result*/, void* /*data*/) {
+int cleanup_result_trivial(RESULT const&, void*) {
     return 0;
 }
 
-// Always grant credit to everybody
-//
 int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     return generic_check_set_majority(
         results, canonicalid, credit,
@@ -53,12 +54,10 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
 }
 
 int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
-    // return generic_check_pair(r1, r2, match,
-    //                           init_result_trivial,
-    //                           check_pair_initialized_trivial,
-    //                           cleanup_result_trivial);
-    return check_pair_initialized_trivial(r1, NULL,
-                                          r2, NULL,
-                                          match);
+    return check_pair_initialized_trivial(
+        r1, NULL,
+        r2, NULL,
+        match
+    );
 }
 

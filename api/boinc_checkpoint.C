@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+// Untested and unsupported code for checkpointing multiple files.
+
 #include <iostream>
 #include <fstream>
 #include <sstream>

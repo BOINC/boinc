@@ -17,14 +17,14 @@
 // Contributor(s):
 //
 
-#include "validate_util.h"
 #include "sched_util.h"
+#include "validate_util.h"
 
 // TODO: use md5 hash
 
 // read file into memory
-int init_result_read_file(RESULT const& result, void*& data)
-{
+//
+int init_result_read_file(RESULT const& result, void*& data) {
     int retval;
     string path;
 
@@ -34,7 +34,7 @@ int init_result_read_file(RESULT const& result, void*& data)
             SchedMessages::CRITICAL,
             "[RESULT#%d %s] check_set: can't get output filename\n",
             result.id, result.name
-            );
+        );
         return retval;
     }
 
@@ -47,7 +47,7 @@ int init_result_read_file(RESULT const& result, void*& data)
             SchedMessages::CRITICAL,
             "[RESULT#%d %s] Couldn't open %s\n",
             result.id, result.name, path.c_str()
-            );
+        );
         return retval;
     }
 

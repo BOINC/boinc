@@ -56,7 +56,8 @@ void TEAM::clear() {memset(this, 0, sizeof(*this));}
 void HOST::clear() {memset(this, 0, sizeof(*this));}
 void RESULT::clear() {memset(this, 0, sizeof(*this));}
 void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
-void TRICKLE::clear() {memset(this, 0, sizeof(*this));}
+void TRICKLE_UP::clear() {memset(this, 0, sizeof(*this));}
+void TRICKLE_DOWN::clear() {memset(this, 0, sizeof(*this));}
 //void WORKSEQ::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PROJECT::DB_PROJECT() : DB_BASE(boinc_db, "project"){}
@@ -69,7 +70,8 @@ DB_TEAM::DB_TEAM() : DB_BASE(boinc_db, "team"){}
 DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
 DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
 DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
-DB_TRICKLE::DB_TRICKLE() : DB_BASE(boinc_db, "trickle"){}
+DB_TRICKLE_UP::DB_TRICKLE_UP() : DB_BASE(boinc_db, "trickle_up"){}
+DB_TRICKLE_DOWN::DB_TRICKLE_DOWN() : DB_BASE(boinc_db, "trickle_down"){}
 //DB_WORKSEQ::DB_WORKSEQ() : DB_BASE(boinc_db, "workseq"){}
 
 int DB_PROJECT::get_id() {return id;}
@@ -82,7 +84,8 @@ int DB_TEAM::get_id() {return id;}
 int DB_HOST::get_id() {return id;}
 int DB_WORKUNIT::get_id() {return id;}
 int DB_RESULT::get_id() {return id;}
-int DB_TRICKLE::get_id() {return id;}
+int DB_TRICKLE_UP::get_id() {return id;}
+int DB_TRICKLE_DOWN::get_id() {return id;}
 //int DB_WORKSEQ::get_id() {return id;}
 
 void DB_PROJECT::db_print(char* buf){
@@ -544,27 +547,52 @@ int DB_RESULT::insert() {
     return DB_BASE::insert();
 }
 
-void DB_TRICKLE::db_print(char* buf) {
+void DB_TRICKLE_UP::db_print(char* buf) {
     escape_string(xml);
     sprintf(buf,
-        "id=%d, create_time=%d, resultid=%d, hostid=%d, "
-        "userid=%d, appid=%d, handled=%d, xml='%s'",
-        id, create_time, resultid, hostid,
-        userid, appid, handled, xml
+        "id=%d, create_time=%d, send_time=%d, "
+        "resultid=%d, appid=%d, "
+        "handled=%d, xml='%s'",
+        id, create_time, send_time,
+        resultid, appid,
+        handled, xml
     );
     unescape_string(xml);
 }
 
-void DB_TRICKLE::db_parse(MYSQL_ROW& r) {
+void DB_TRICKLE_UP::db_parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    create_time = atol(r[i++]);
+    send_time = atol(r[i++]);
+    resultid = atol(r[i++]);
+    appid = atol(r[i++]);
+    handled = atoi(r[i++]);
+    strcpy2(xml, r[i++]);
+}
+
+void DB_TRICKLE_DOWN::db_print(char* buf) {
+    escape_string(xml);
+    sprintf(buf,
+        "id=%d, create_time=%d, "
+        "resultid=%d, hostid=%d, "
+        "handled=%d, xml='%s'",
+        id, create_time,
+        resultid, hostid,
+        handled, xml
+    );
+    unescape_string(xml);
+}
+
+void DB_TRICKLE_DOWN::db_parse(MYSQL_ROW& r) {
     int i=0;
     clear();
     id = atol(r[i++]);
     create_time = atol(r[i++]);
     resultid = atol(r[i++]);
     hostid = atol(r[i++]);
-    userid = atol(r[i++]);
-    appid = atol(r[i++]);
-    handled = atoi(r[i++]);
+    handled = atol(r[i++]);
     strcpy2(xml, r[i++]);
 }
 

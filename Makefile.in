@@ -96,7 +96,6 @@ PTHREAD_LIBS = @PTHREAD_LIBS@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
 TOP_BUILD_DIR = @TOP_BUILD_DIR@
 TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
@@ -152,12 +151,13 @@ SUBDIRS = RSAEuro db lib api apps client sched tools test py
 # dist-hook below gets rid of CVS directories.
 EXTRA_DIST = \
 	mac_build win_build						\
-	doc html_ops html_user						\
+	doc								\
 	stripchart							\
         INSTALL
 
 
-UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
+UNIX2DOS = unix2dos
+UNIX2DOSDIR = /disks/philmor/a/users/quarl/bin
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -170,9 +170,9 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	all-recursive install-data-recursive install-exec-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
-DIST_COMMON = INSTALL Makefile.am Makefile.in aclocal.m4 compile \
-	config.guess config.h.in config.sub configure configure.ac \
-	depcomp install-sh missing mkinstalldirs
+DIST_COMMON = ChangeLog INSTALL Makefile.am Makefile.in aclocal.m4 \
+	compile config.guess config.h.in config.sub configure \
+	configure.ac depcomp install-sh missing mkinstalldirs
 DIST_SUBDIRS = $(SUBDIRS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -467,7 +467,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile config.h all-local
+all-am: Makefile config.h
 installdirs: installdirs-recursive
 installdirs-am:
 
@@ -542,10 +542,10 @@ uninstall-am: uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
-.PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am all-local check \
-	check-am clean clean-generic clean-recursive ctags \
-	ctags-recursive dist dist-all dist-gzip dist-zip distcheck \
-	distclean distclean-generic distclean-hdr distclean-recursive \
+.PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am check check-am clean \
+	clean-generic clean-recursive ctags ctags-recursive dist \
+	dist-all dist-gzip dist-zip distcheck distclean \
+	distclean-generic distclean-hdr distclean-recursive \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am dvi-recursive info info-am info-recursive install \
 	install-am install-data install-data-am install-data-recursive \
@@ -560,15 +560,14 @@ uninstall-info: uninstall-info-recursive
 	uninstall-info-am uninstall-info-recursive uninstall-recursive
 
 
-py html_user html_ops:
-	[ "$srcdir" != . ] && ln -s $srcdir/$@ $@
+py:
+	[ "$(srcdir)" != . ] && rm -f $@ && $(LN_S) $(srcdir)/$@ $@
 
-all-local: html_user html_ops
+# UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
 
 dist-hook:
-	rm -rf `find $(distdir) -name CVS -prune`
-	rm -rf `find $(distdir) -name .backup -prune -o -name *~`
-	cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
+	rm -rf `find $(distdir) -name .backup -prune -o -name '*~'`
+	PATH=$PATH:$UNIX2DOSDIR cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
 
 client-bin:
 	cd client && make client-bin client-bin-gz

@@ -19,6 +19,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.54  2004/03/17 01:26:38  davea
+// *** empty log message ***
+//
 // Revision 1.53  2004/03/12 23:20:04  rwalton
 // *** empty log message ***
 //
@@ -223,7 +226,8 @@ int get_host_info(HOST_INFO& host) {
     parse_cpuinfo(host);
 #else
 #if HAVE_SYS_SYSCTL_H
-    int mib[2], mem_size;
+    int mib[2];
+    unsigned int mem_size;
     size_t len;
 
     // Get machine
