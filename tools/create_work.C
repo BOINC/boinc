@@ -52,7 +52,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <values.h>
 
 #include "boinc_db.h"
 #include "crypt.h"

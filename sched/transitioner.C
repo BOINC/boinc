@@ -31,7 +31,7 @@ using namespace std;
 
 #include <vector>
 #include <unistd.h>
-#include <values.h>
+#include <limits.h>
 #include <sys/time.h>
 
 #include "boinc_db.h"

@@ -6281,3 +6281,10 @@ No code changes.  This is the branch point for the seti beta.  The tag is:
 for both seti_boinc and boinc.  They both make on solaris without serious 
 error and the resulting seti client links without error with the resulting 
 boinc libs. 
+
+Karl,Eric Heien 2003/09/18
+    - fixed some pre-ANSI C
+    sched/
+        transitioner.C
+    tools/
+        create_work.C
