@@ -13026,7 +13026,7 @@ Karl 2004-04-04
     test/
         testbase.py
 
-David  June
+David  June 6 2004
     - add "ignore_upload_certificates" flag to config.xml;
         tells file upload handler to skip certificate check
     - web:
@@ -13066,3 +13066,13 @@ David  June
         file_upload_handler.C
         handle_request.C
         sched_config.C,h
+        
+David  June 6 2004
+	- client: show error messages on errors linking structures
+	- PERS_FILE_XFER::giveup(): add "why" argument;
+		store in FILE_INFO::error_msg, and show to user
+		(all permanent xfer failures pass through here)
+
+	client/
+		client_state.C
+		pers_file_xfer.C,h

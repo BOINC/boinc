@@ -224,21 +224,13 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     is_upload?"upload":"download", fip->name
                 );
             }
-            giveup();
+            giveup("server rejected file");
         } else {
             if (log_flags.file_xfer) {
-                if (fip->error_msg.empty()) {
-                    msg_printf(
-                        fip->project, MSG_INFO, "Failed %s of %s",
-                        is_upload?"upload":"download", fip->name
-                    );
-                } else {
-                    msg_printf(
-                        fip->project, MSG_INFO, "Failed %s of %s: %s",
-                        is_upload?"upload":"download", fip->name,
-                        fip->error_msg.c_str()
-                    );
-                }
+                msg_printf(
+                    fip->project, MSG_INFO, "Temporarily failed %s of %s",
+                    is_upload?"upload":"download", fip->name
+                );
             }
             handle_xfer_failure();
         }
@@ -254,7 +246,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
     return false;
 }
 
-void PERS_FILE_XFER::giveup() {
+void PERS_FILE_XFER::giveup(char* why) {
     if (is_upload) {
         fip->status = ERR_GIVEUP_UPLOAD;
     } else {
@@ -262,9 +254,10 @@ void PERS_FILE_XFER::giveup() {
     }
     xfer_done = true;
     msg_printf(
-        fip->project, MSG_ERROR, "Giving up on %s of %s",
-        is_upload?"upload":"download", fip->name
+        fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
+        is_upload?"upload":"download", fip->name, why
     );
+    fip->error_msg = why;
 }
 
 // Handle a transfer failure
@@ -279,14 +272,14 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 
     if (fxp->file_xfer_retval == HTTP_STATUS_NOT_FOUND) {
-        giveup();
+        giveup("file was not found on server");
         return;
     }
 
     // See if it's time to give up on the persistent file xfer
     //
     if ((now - first_request_time) > gstate.file_xfer_giveup_period) {
-        giveup();
+        giveup("too much elapsed time");
     } else {
         retry_or_backoff();
     }

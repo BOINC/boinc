@@ -527,7 +527,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     avp->project = p;
     app = lookup_app(p, avp->app_name);
     if (!app) {
-        msg_printf(0, MSG_ERROR, "app_version refers to nonexistent app: %s\n", avp->app_name);
+        msg_printf(p, MSG_ERROR, "app_version refers to nonexistent app: %s\n", avp->app_name);
         return ERR_NOT_FOUND;
     }
     avp->app = app;
@@ -538,7 +538,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         FILE_REF& file_ref = avp->app_files[i];
         fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
-            msg_printf(0, MSG_ERROR,
+            msg_printf(p, MSG_ERROR,
                 "app_version refers to nonexistent file: %s\n",
                 file_ref.file_name
             );
@@ -560,7 +560,7 @@ int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
 
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
-        msg_printf(0, MSG_ERROR, "File ref refers to nonexistent file: %s\n", file_refp->file_name);
+        msg_printf(p, MSG_ERROR, "File ref refers to nonexistent file: %s\n", file_refp->file_name);
         return ERR_NOT_FOUND;
     }
     file_refp->file_info = fip;
@@ -575,12 +575,12 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
 
     app = lookup_app(p, wup->app_name);
     if (!app) {
-        msg_printf(0, MSG_ERROR, "WU refers to nonexistent app: %s\n", wup->app_name);
+        msg_printf(p, MSG_ERROR, "WU refers to nonexistent app: %s\n", wup->app_name);
         return ERR_NOT_FOUND;
     }
     avp = lookup_app_version(app, wup->version_num);
     if (!avp) {
-        msg_printf(0, MSG_ERROR,
+        msg_printf(p, MSG_ERROR,
             "WU refers to nonexistent app_version: %s %d\n",
             wup->app_name, wup->version_num
         );
@@ -591,7 +591,13 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     wup->avp = avp;
     for (i=0; i<wup->input_files.size(); i++) {
         retval = link_file_ref(p, &wup->input_files[i]);
-        if (retval) return retval;
+        if (retval) {
+            msg_printf(p, MSG_ERROR,
+                "WU refers to nonexistent file: %s\n",
+                wup->input_files[i].file_name
+            );
+            return retval;
+        }
     }
     return 0;
 }
@@ -603,7 +609,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
 
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
-        fprintf(stderr, "result refers to nonexistent WU: %s\n", rp->wu_name);
+        msg_printf(p, MSG_ERROR, "link_result: nonexistent WU %s\n", rp->wu_name);
         return ERR_NOT_FOUND;
     }
     rp->project = p;
@@ -612,7 +618,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     for (i=0; i<rp->output_files.size(); i++) {
         retval = link_file_ref(p, &rp->output_files[i]);
         if (retval) {
-            msg_printf(0, MSG_ERROR, "link_result: link_file_ref failed\n");
+            msg_printf(p, MSG_ERROR, "link_result: link_file_ref failed\n");
             return retval;
         }
     }

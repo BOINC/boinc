@@ -69,7 +69,7 @@ public:
     bool poll(time_t now);
     void handle_xfer_failure();
     void retry_or_backoff();
-    void giveup();
+    void giveup(char*);
     int write(FILE* fout);
     int parse(FILE* fin);
     int start_xfer();
