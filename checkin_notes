@@ -110,3 +110,8 @@ David A.        May 23 2002
     tools/
         add.C
         create_work.C
+
+Hiram C.	Fri May 24 23:34:59 PDT 2002
+	files db/dependencies and client/config.status and client/config.log
+		removed.  These are build time files and should not belong
+		in the source tree.  They confuse subsequent builds.
