@@ -1,7 +1,7 @@
-<?
+<? // -*- html -*-
 require_once("docutil.php");
 page_head("Setting up a single-host server");
-echo "
+?>
 
 <p>
 BOINC provides a set of scripts for setting up
@@ -17,15 +17,10 @@ In fact, the scripts are part of a general
 that allows multiple developers to work independently on
 a single host, with each developer able to create multiple projects.
 <p>
-Install the following software on the server host:
-<ul>
-<li> MySQL, version 3.23 or later
-<li> PHP, version 4.2.3 or later
-<li> Apache, linked with the PHP module, POST enabled
-  <li> Python, version 2.2 or later
-</ul>
-Your operating system must have shared memory enabled, with
-a max shared segment size of at least 32 MB.
+
+Install all components listed in the <a href=software.php>Software
+Prerequisites</a> page.  Your operating system must have shared memory
+enabled, with a max shared segment size of at least 32 MB.
 
 <h3>Creating the server</h3>
 <p>
@@ -96,7 +91,8 @@ Each project directory contains:
 When you run the <code>make_project</code> script it will give you lines to
 append to your Apache <code>httpd.conf</code>.  (Basically you need to alias
 html_user, alias html_ops, and script-alias cgi-bin, all with appropriate
-directory permissions.)
+directory permissions.)  It will also give you a crontab line to install.
+
 <p>
 You should also set the default MIME type as follows:
 <pre>
@@ -114,6 +110,7 @@ project include:
 <li> Using the 'add' utility, add application versions to the BOINC database.
 <li> Develop your web site.
 </ul>
-";
+
+<?
 page_tail();
 ?>
