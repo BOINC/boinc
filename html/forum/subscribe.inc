@@ -44,16 +44,16 @@ function show_result_page($action, $success, $thread) {
     if ($action == "subscribe" && $success) {
         doHeader("Subscription Successful");
         echo "<span class=\"title\">Subscription successful</span>";
-        echo "<p>You are now subscribed to <b>", $thread->title, "</b>.  You will receive an email whenever another user posts to this thread.</p>";
+        echo "<p>You are now subscribed to <b>", stripslashes($thread->title), "</b>.  You will receive an email whenever another user posts to this thread.</p>";
     } else if ($action == "unsubscribe" && $success) {
         doHeader("Unsubscription Successful");
         echo "<span class=\"title\">Unsubscription successful</span>";
-        echo "<p>You have successfully unsubscribed from <b>", $thread->title, "</b>.  You will no longer receive emails for posts to this thread.</p>";
+        echo "<p>You have successfully unsubscribed from <b>", stripslashes($thread->title), "</b>.  You will no longer receive emails for posts to this thread.</p>";
     } else if ($action == "subscribe" && !$success) {
         doHeader("Subscription Failed");
         echo "<span class=\"title\">Subscription failed</span>";
         if ($thread) {
-            echo "<p>There was a problem subscribing you to ", $thread->title, ".  Please try again later.</p>";
+            echo "<p>There was a problem subscribing you to ", stripslashes($thread->title), ".  Please try again later.</p>";
         } else {
             echo "<p>The thread you tried to subscribe to does not exist.</p>";
         }
@@ -61,7 +61,7 @@ function show_result_page($action, $success, $thread) {
         doHeader("Unsubscription Failed");
         echo "<span class=\"title\">Unsubscription failed</span>";
         if ($thread) {
-            echo "<p>There was a problem unsubscribing you from ", $thread->title, ".  Please try again later.</p>";
+            echo "<p>There was a problem unsubscribing you from ", stripslashes($thread->title), ".  Please try again later.</p>";
         } else {
             echo "<p>The thread you tried to unsubscribe from does not exist.</p>";
         }
@@ -93,7 +93,7 @@ function send_notice_email($userId, $thread) {
     
     $title = PROJECT . ": A user has posted to your subscribed thread.";
     $link = URL_BASE . "forum/thread.php?id=" . $thread->id;
-    $body = "Another " . PROJECT . " user has posted to the thread \"" . $thread->title . "\".\n"
+    $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
         ."To view the updated thread, direct your web browser to the following URL:\n\n$link";
            
     mail($row['email_addr'], $title, $body);
