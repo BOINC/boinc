@@ -36,16 +36,17 @@ list_item(
 list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a>",
     "For people developing, debugging or porting the BOINC software.
 ");
+list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc</a>",
+    "For people localizing, or translating the BOINC software.
+");
 list_item(
     "<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>",
     "For people developing web sites showing statistics for BOINC projects."
 );
-
 list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs</a>",
     "Summaries of BOINC CVS checkins are posted to this list.
     No other posts, please."
 );
-
 list_item("<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>",
     "For people porting and optimizing BOINC applications."
 );
