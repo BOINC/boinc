@@ -24059,3 +24059,49 @@ Rom    6 Feb 2005
 
     client/win/
         win_screensaver.cpp, .h
+
+David  6 Feb 2005
+	- Initial client support for "account managers".
+		 Includes:
+		- new core client class (ACCT_MGR) for doing RPCs
+			to account managers
+		- GUI RPC for initiating an account manager RPC
+		TODO: add support in BOINC Manager
+
+	client/
+		acct_mgr.C,h (new)
+		file_names.h
+		gui_rpc_server.C
+	win_build/
+		boinc_cli.vcproj
+
+David  6 Feb 2005
+	- The critically important "work_req_seconds" field of a scheduler request
+		was not documented anywhere.
+		The units of this request are "normalized CPU seconds":
+		the request specifies the number of wall-clock seconds
+		the work should take to finish using 1 CPU on the host,
+		taking into account resource share, on_frac, and active_frac.
+		- client side:
+			document;
+			take on_frac into account
+		- server side:
+			document;
+			use wall-clock instead of cpu estimate for "seconds filled";
+			take on_frac into account in wallclock estimate.
+		TODO: it would be simpler if the request just specified a number of FLOPs .
+			 That way the server wouldn't have to
+			know about on_frac, resource share etc.
+	- Code cleanup
+		
+
+	client/
+		client_state.h
+		client_types.h
+		cs_scheduler.C
+	doc/
+		work_req.php (new)
+	sched/
+		handle_request.C
+		sched_send.C
+		server_types.C

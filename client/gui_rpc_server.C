@@ -437,6 +437,20 @@ static void handle_quit(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
+static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
+    std::string url, name, password;
+    bool bad_arg = false;
+    if (!parse_str(buf, "<url>", url)) bad_arg = true;
+    if (!parse_str(buf, "<name>", name)) bad_arg = true;
+    if (!parse_str(buf, "<password>", password)) bad_arg = true;
+    if (bad_arg) {
+        fout.printf("<error>bad arg</error>\n");
+    } else {
+        gstate.acct_mgr.do_rpc(url, name, password);
+        fout.printf("<success/>\n");
+    }
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -533,14 +547,18 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<quit")) {
         handle_quit(request_msg, mf);
+    } else if (match_tag(request_msg, "<acct_mgr_rpc")) {
+        handle_acct_mgr_rpc(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }
 
     mf.printf("</boinc_gui_rpc_reply>\n\003");
     m.get_buf(p, n);
-    send(sock, p, n, 0);
-    if (p) free(p);
+    if (p) {
+        send(sock, p, n, 0);
+        free(p);
+    }
 
     return 0;
 }

@@ -402,10 +402,11 @@ int handle_results(
 
         // Comment -- In the sanity checks that follow, should we
         // verify that the results validate_state is consistent with
-        // this being a newly arrived result?  What happens if a
-        // workunit was canceled after a result was sent?  When it
-        // gets back in, do we want to leave the validate state 'as
-        // is'?  Probably yes, which is as the code currently behaves.
+        // this being a newly arrived result?
+		// What happens if a workunit was canceled after a result was sent?
+		// When it gets back in, do we want to leave the validate state 'as is'?
+		// Probably yes, which is as the code currently behaves.
+		//
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -505,8 +506,7 @@ int handle_results(
     } // end of loop over all incoming results
 
 
-    // update all the results we have kept in memory, by storing to
-    // database.
+    // update all the results we have kept in memory, by storing to database.
     //
     if (config.use_transactions) {
         retval = boinc_db.start_transaction();
@@ -707,7 +707,6 @@ void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.msgs_to_host.push_back(mth);
         mth.handled = true;
         mth.update();
-
     }
 }
 
@@ -902,8 +901,7 @@ leave:
 extern double max_allowable_disk(SCHEDULER_REQUEST& req);
 extern double watch_diskspace[3];
 
-// returns zero if there is a file we can delete.  Return non-zero if
-// no file to delete.
+// returns zero if there is a file we can delete.
 //
 int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     int nfiles = (int)sreq.file_infos.size();
@@ -933,14 +931,14 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         return 1;
     }
     
-    // pick a data file to delete.  Do this deterministically
-    // so that we always tell host to delete the same file. But to prevent
-    // all hosts from removing 'the same' file, we choose a file which depends
-    // upon the hostid.
+    // pick a data file to delete.
+	// Do this deterministically so that we always tell host to delete the same file.
+	// But to prevent all hosts from removing 'the same' file,
+	// choose a file which depends upon the hostid.
     //
-    // Assumption is that if nothing has changed on the host, the order in
-    // which it reports files is fixed.  If this is false, we need to sort
-    // files into order by name!
+    // Assumption is that if nothing has changed on the host,
+	// the order in which it reports files is fixed.
+	// If this is false, we need to sort files into order by name!
     //
     int j = sreply.host.id % nfiles;
     FILE_INFO& fi = sreq.file_infos[j];
@@ -949,8 +947,9 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         SCHED_MSG_LOG::DEBUG,
         "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
     );
-    // give host 4 hours to nuke the file and come back.  This might
-    // in general be too soon, since host needs to complete any work
+
+    // give host 4 hours to nuke the file and come back.
+	// This might in general be too soon, since host needs to complete any work
     // that depends upon this file, before it will be removed by core client.
     //
     sprintf(buf, "Removing file %s to free up disk space", fi.name);
@@ -1041,10 +1040,12 @@ void handle_request(
     }
     
     // if we got no work, and we have no file space, delete some files
+	//
     if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
-        // try to delete a file to make more space.  Also give some
-        // hints to the user about what's going wrong (lack of disk
-        // space).
+        // try to delete a file to make more space.
+		// Also give some hints to the user about what's going wrong
+		// (lack of disk space).
+		//
         delete_file_from_host(sreq, sreply);
     }
     
@@ -1053,10 +1054,11 @@ void handle_request(
     // interest to you.  It won't do anything unless you create
     // (touch) the file 'debug_sched' in the project root directory.
     //
-    if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) 
+    if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
         debug_sched(sreq, sreply, "../debug_sched");
-    else if (max_allowable_disk(sreq)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0))
+    } else if (max_allowable_disk(sreq)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
         debug_sched(sreq, sreply, "../debug_sched");
+	}
 #endif
     
     sreply.write(fout);

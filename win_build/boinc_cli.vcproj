@@ -165,6 +165,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\client\acct_mgr.C">
+			</File>
+			<File
 				RelativePath="..\Client\app.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1016,6 +1019,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
+			<File
+				RelativePath="..\client\acct_mgr.h">
+			</File>
 			<File
 				RelativePath="..\client\app.h">
 			</File>

@@ -32,6 +32,7 @@
 struct WORK_REQ {
     bool infeasible_only;
     double seconds_to_fill;
+		// in "normalized CPU seconds" (see work_req.php)
     double disk_available;
     int nresults;
     int core_client_version;
@@ -98,6 +99,7 @@ struct SCHEDULER_REQUEST {
     int core_client_minor_version;
     int rpc_seqno;
     double work_req_seconds;
+		// in "normalized CPU seconds" (see work_req.php)
     double resource_share_fraction;
     double estimated_delay;
     char global_prefs_xml[LARGE_BLOB_SIZE];

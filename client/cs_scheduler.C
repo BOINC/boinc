@@ -335,15 +335,19 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 }
 #endif
 
-// return the average number of CPU seconds completed by the client
-// for project p in a second of (wall-clock) time
+// return the expected number of CPU seconds completed by the client
+// for project p in a second of wall-clock time.
+// May be > 1 on a multiprocessor.
 //
 double CLIENT_STATE::avg_proc_rate(PROJECT *p) {
-    return (p->resource_share / trs) * ncpus * time_stats.active_frac;
+    double running_frac = time_stats.on_frac * time_stats.active_frac;
+    if (running_frac < 0.1) running_frac = 0.1;
+    if (running_frac > 1) running_frac = 1;
+    return (p->resource_share / trs) * ncpus * running_frac;
 }
 
 // "estimated time to project result count"
-// return the estimated amount of time that will elapse until the
+// return the estimated wall-clock time until the
 // number of results for project p will reach k
 //
 double CLIENT_STATE::ettprc(PROJECT *p, int k) {

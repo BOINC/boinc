@@ -101,12 +101,13 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
     x = min(x1, min(x2, x3));
 
     // keep track of which bound is the most stringent
-    if (x==x1)
-      watch_diskspace[0]=x;
-    else if (x==x2)
-      watch_diskspace[1]=x;
-    else
-      watch_diskspace[2]=x;
+    if (x==x1) {
+        watch_diskspace[0]=x;
+    } else if (x==x2) {
+        watch_diskspace[1]=x;
+    } else {
+        watch_diskspace[2]=x;
+	}
 
     if (x < 0) {
         log_messages.printf(
@@ -151,10 +152,8 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
 //
 const double HOST_ACTIVE_FRAC_MIN = 0.1;
 
-// estimate the number of seconds that a workunit requires running 100% on a
-// single CPU of this host.
-//
-// TODO: improve this.  take memory bandwidth into account
+// estimate the number of CPU seconds that a workunit requires
+// running on this host.
 //
 static double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
     if (host.p_fpops <= 0) host.p_fpops = 1e9;
@@ -168,9 +167,10 @@ static double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
 static double estimate_wallclock_duration(
     WORKUNIT& wu, HOST& host, double resource_share_fraction
 ) {
-    return estimate_cpu_duration(wu, host)
-        / (max(HOST_ACTIVE_FRAC_MIN, host.active_frac)*resource_share_fraction)
-    ;
+	double running_frac = host.active_frac * host.on_frac;
+	if (running_frac < HOST_ACTIVE_FRAC_MIN) running_frac = HOST_ACTIVE_FRAC_MIN;
+	if (running_frac > 1) running_frac = 1;
+    return estimate_cpu_duration(wu, host)/(running_frac*resource_share_fraction);
 }
 
 // return false if the WU can't be executed on the host because either
@@ -202,6 +202,9 @@ bool wu_is_feasible(
         return false;
     }
 
+	// TODO: take into account delay due to other results
+	// being sent in the current RPC reply
+	//
     if (config.enforce_delay_bound) {
         double wu_wallclock_time = estimate_wallclock_duration(
             wu, reply.host, request.resource_share_fraction
@@ -262,11 +265,13 @@ static int compare(const void *x, const void *y) {
     
     char longname[512];
     
-    if (abs(tzone - (a->zone))<abs(tzone - (b->zone)))
+    if (abs(tzone - (a->zone))<abs(tzone - (b->zone))) {
         return -1;
+	}
     
-    if (abs(tzone - (a->zone))>abs(tzone - (b->zone)))
+    if (abs(tzone - (a->zone))>abs(tzone - (b->zone))) {
         return +1;
+	}
     
     // In order to ensure uniform distribution, we hash paths that are
     // equidistant from the host's timezone in a way that gives a
@@ -279,26 +284,26 @@ static int compare(const void *x, const void *y) {
     int xa = strtol(sa.substr(1, 7).c_str(), 0, 16);
     int xb = strtol(sb.substr(1, 7).c_str(), 0, 16);
     
-    if (xa<xb)
+    if (xa<xb) {
         return -1;
+	}
     
-    if (xa>xb)
+    if (xa>xb) {
         return 1;
+	}
     
     return 0;
 }
 
-// file
-//
 static URLTYPE *cached=NULL;
 #define BLOCKSIZE 32
-URLTYPE* read_download_list(){
+
+URLTYPE* read_download_list() {
     FILE *fp;
     int count=0;
     int i;
     
-    if (cached)
-        return cached;
+    if (cached) return cached;
     
     if (!(fp=fopen("../download_servers", "r"))) {
         log_messages.printf(
@@ -313,16 +318,16 @@ URLTYPE* read_download_list(){
         // allocate memory in blocks
         if ((count % BLOCKSIZE)==0) {
             cached=(URLTYPE *)realloc(cached, (count+BLOCKSIZE)*sizeof(URLTYPE));
-            if (!cached)
-                return NULL;
+            if (!cached) return NULL;
         }
         // read timezone offset and URL from file, and store in cache
         // list
-        if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name))
+        if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name)) {
             count++;
-        else {
+        } else {
             // provide a null terminator so we don't need to keep
             // another global variable for count.
+			//
             cached[count].name[0]='\0';
             break;
         }
@@ -365,17 +370,20 @@ int make_download_list(char *buffer, char *path, int timezone) {
     tzone=timezone;
     URLTYPE *serverlist=read_download_list();
     
-    if (!serverlist)
-        return -1;
+    if (!serverlist) return -1;
     
-    // print list of servers in sorted order.  Space is to format them
-    // nicely
-    for (i=0; strlen(serverlist[i].name); i++)
+    // print list of servers in sorted order.
+	// Space is to format them nicely
+	//
+    for (i=0; strlen(serverlist[i].name); i++) {
         start+=sprintf(start, "%s<url>%s/%s</url>", i?"\n    ":"", serverlist[i].name, path);
+	}
 
     // make a second copy in the same order
-    for (i=0; strlen(serverlist[i].name); i++)
+	//
+    for (i=0; strlen(serverlist[i].name); i++) {
         start+=sprintf(start, "%s<url>%s/%s</url>", "\n    ", serverlist[i].name, path);
+	}
     
     return (start-buffer);
 }
@@ -398,25 +406,34 @@ int add_download_servers(char *old_xml, char *new_xml, int timezone) {
         new_xml += len;
         
         // locate next instance of </url>
-        if (!(r=strstr(q, "</url>")))
+		//
+        if (!(r=strstr(q, "</url>"))) {
             return 1;
+		}
         r += strlen("</url>");
         
         // parse out the URL
-        if (!parse_str(q, "<url>", path, 1024))
+		//
+        if (!parse_str(q, "<url>", path, 1024)) {
             return 1;
+		}
         
         // find start of 'download/'
-        if (!(s=strstr(path,"download/")))
+		//
+        if (!(s=strstr(path,"download/"))) {
             return 1;
+		}
         
         // insert new download list in place of the original one
+		//
         len = make_download_list(new_xml, s, timezone);
-        if (len<0)
+        if (len<0) {
             return 1;
+		}
         new_xml += len;
         
         // advance pointer to start looking for next <url> tag.
+		//
         p=r;
     }
     
@@ -424,8 +441,8 @@ int add_download_servers(char *old_xml, char *new_xml, int timezone) {
     return 0;
 }
 
-// add elements to WU's xml_doc, in preparation for sending
-// it to a client
+// add elements to WU's xml_doc,
+// in preparation for sending it to a client
 //
 int insert_wu_tags(WORKUNIT& wu, APP& app) {
     char buf[LARGE_BLOB_SIZE];
@@ -698,6 +715,11 @@ void unlock_sema() {
     unlock_semaphore(sema_key);
 }
 
+// return true if additional work is needed,
+// and there's disk space left,
+// and we haven't exceeded result per RPC limit,
+// and we haven't exceeded results per day limit
+//
 bool SCHEDULER_REPLY::work_needed() {
     if (wreq.seconds_to_fill <= 0) return false;
     if (wreq.disk_available <= 0) {
@@ -740,7 +762,7 @@ int add_result_to_reply(
     result.report_deadline = result.sent_time + wu.delay_bound;
     result.update_subset();
 
-    wu_seconds_filled = estimate_cpu_duration(wu, reply.host);
+    wu_seconds_filled = estimate_wallclock_duration(wu, reply.host);
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
         "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",

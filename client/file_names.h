@@ -64,5 +64,6 @@ extern void get_sched_reply_filename(PROJECT&, char*);
 #define APP_INFO_FILE_NAME			"app_info.xml"
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
 #define FILE_LIST_NAME              "file_list.xml"
+#define ACCT_MGR_REPLY_FILENAME     "acct_mgr_reply.xml"
 
 #endif

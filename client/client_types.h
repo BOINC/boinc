@@ -222,7 +222,14 @@ public:
     struct RESULT *next_runnable_result; // the next result to run for this project
     
     // the following used by work-fetch algorithm
-    double work_request;        // how much work a project needs (secs)
+    double work_request;
+        // the unit is "normalized CPU seconds",
+        // i.e. the work should take 1 CPU on this host
+        // X seconds of wall-clock time to complete,
+        // taking into account
+        // 1) other projects and resource share;
+        // 2) on_frac and active_frac
+        // see doc/work_req.php
 
 #if 0
     // used in disk-space management (temp)

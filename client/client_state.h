@@ -25,6 +25,7 @@
 #include <ctime>
 #endif
 
+#include "acct_mgr.h"
 #include "app.h"
 #include "client_types.h"
 #include "file_xfer.h"
@@ -51,7 +52,7 @@ extern int add_new_project();
 #define NEED_WORK 1
 #define NEED_WORK_IMMEDIATELY 2
 
-enum SUSPEND_REASON_t {
+enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
     SUSPEND_REASON_USER_ACTIVE = 2,
     SUSPEND_REASON_USER_REQ = 4,
@@ -87,6 +88,7 @@ public:
     LANGUAGE language;
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
+    ACCT_MGR acct_mgr;
 
     int core_client_major_version;
     int core_client_minor_version;
