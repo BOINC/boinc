@@ -1,25 +1,24 @@
-<title>Accounting and Result Validation</title> 
+<title>Accounting and result validation</title>
 <body bgcolor=ffffff>
-<h2>Accounting and Result Validation</h2> 
+<h2>Accounting and Result Validation</h2>
 <p>
 Participants are given <b>credit</b> for the computations performed
 by their hosts.
 These credits are used to generate "leaderboards" of
 individuals, teams, and categories (countries, CPU types, etc.).
-It is
-to be expected that users will explore ways of "cheating", i.e. getting
-undeserved credit. 
+It is expected that some users will "cheat", i.e. attempt to get
+undeserved credit.
 <p>
-In principles credit should reflect network transfers and disk
-storage as well as computation.
-However, it's hard to verify these
-activities, so they aren't included in credit. 
+BOINC's unit of credit is the "Cobblestone".
+Currently, it is CPU time times a weighted average
+of FP and integer speed and memory bandwidth.
+In principle it should reflect network transfer and disk storage as well.
+But it's hard to verify these activities,
+so for now they aren't included.
 <p>
-The core client assigns credit for a completed work unit as a
-function of the CPU time used, and the performance metrics of the CPU
-(discussed later).
-This is sent back to the scheduling server; of
-course, the number can't be trusted in general.
+The core client reports the CPU time and the
+CPU metrics on which credit is based.
+These numbers can't be trusted in general.
 <p>
 Output files may be wrong.
 This can happen because of hardware
@@ -33,16 +32,42 @@ waits until a minimum number of results have been returned, then
 compares the results and decides which are "correct".
 The notion of
 "equality" of results, and the policy for deciding which are correct,
-are project-specific. 
+are project-specific.
 <p>
 The back end then marks correct results as "validated", finds the
 minimum reported credit for the correct results of a given workunit, and
 assigns this amount of credit to all the correct results.
 This ensures
 that as long as a reasonable majority of participants don't falsify
-credit, almost all credit accounting will be correct. 
+credit, almost all credit accounting will be correct.
 <p>
 <b>To do</b>: database keeps track of two types of credit: validated
 and unvalidated.
 Users can see the workunits that didn't pass
-validation, or that were given reduced credit. 
+validation, or that were given reduced credit.
+
+<hr>
+<h3>Implementation</h3>
+
+WORKUNIT
+    bool need_validate
+        true iff this workunit has one or more results in state DONE
+        and validate_state UNCHECKED
+    int canonical_resultid
+        nonzero if a conclusive check has been done for this WU;
+        indicates the canonical result
+                            
+RESULT
+    int state
+        NOT_READY
+        READY
+        ...
+        DONE (computation finished successfully)
+        TIMEOUT
+        ERROR
+    int validate_state
+        NOT_DONE
+        UNCHECKED
+        VALID
+        INVALID
+

@@ -5,8 +5,6 @@ VPATH           = @srcdir@
 
 INSTALL_DIR = /usr/local/boinc
 
-all: cgi
-
 CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/db \
     -I@top_srcdir@/lib \
@@ -24,7 +22,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler fcgi
+PROGS = cgi feeder show_shmem file_upload_handler fcgi validate
 
 all: $(PROGS)
 
@@ -59,6 +57,10 @@ FILE_UPLOAD_OBJS = \
     ../lib/md5.o \
     ../lib/md5_file.o \
     ../RSAEuro/source/rsaeuro.a
+
+VALIDATE_OBJS = \
+    validate.o \
+    ../db/db_mysql.o
 
 FCGI_OBJS = \
     handle_request.fcgi.o \
@@ -106,6 +108,9 @@ show_shmem: $(SHOW_SHMEM_OBJS)
 
 file_upload_handler: $(FILE_UPLOAD_OBJS)
 	$(CC) $(FILE_UPLOAD_OBJS) $(CLIBS) -o file_upload_handler
+
+validate: $(VALIDATE_OBJS)
+	$(CC) $(VALIDATE_OBJS) $(CLIBS) -o validate
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \
