@@ -920,7 +920,7 @@ int zip_main(int argc, char** argv)
     return retcode;
   }
 //#endif /* !MACOS */
-#if defined(MACOS) || defined(WINDLL)
+//#if defined(MACOS) || defined(WINDLL)
   action = ADD; /* one of ADD, UPDATE, FRESHEN, or DELETE */
   comadd = 0;   /* 1=add comments for new files */
   zipedit = 0;  /* 1=edit zip comment and all file comments */
@@ -933,7 +933,7 @@ int zip_main(int argc, char** argv)
 #if defined(AMIGA) || defined(MACOS)
   filenotes = 0;/* 1=take comments from AmigaDOS/MACOS filenotes */
 #endif
-  zipstate = -1;
+  //zipstate = -1;
   tempzip = NULL;
   fcount = 0;
   recurse = 0;         /* 1=recurse into directories; 2=match filenames */
@@ -965,7 +965,7 @@ int zip_main(int argc, char** argv)
   pcount = 0;          /* number of patterns */
   icount = 0;          /* number of include only patterns */
 
-#endif /* MACOS || WINDLL */
+//#endif /* MACOS || WINDLL */
 
   mesg = (FILE *) stdout; /* cannot be made at link time for VMS */
   comment_stream = (FILE *)stdin;

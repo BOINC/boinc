@@ -13,6 +13,10 @@ int zip_main(int argc, char** argv);
 
 #ifndef _WIN32  // only need for Linux & Mac
 #include "config.h"
+#include <string>
+#include <string.h>
+using std::string;
+#define _S_IFDIR S_IFDIR
 #endif
 
 #include "./unzip/unzip.h"
@@ -28,10 +32,53 @@ int zip_main(int argc, char** argv);
 #define _MAX_PATH 255
 #endif
 
+// ZipFileEntry/List stuff
+ZipFileEntry::ZipFileEntry(const std::string strIn, unsigned char ucSort)
+{
+  this->assign(strIn);
+  stat(strIn.c_str(), &m_statFile);
+  m_ucSort = ucSort;
+}
+
+ZipFileEntry::ZipFileEntry(const std::string strIn, const struct stat instat, unsigned char ucSort)
+{
+  this->assign(strIn);
+  m_statFile = instat;
+  m_ucSort = ucSort;
+}
+
+ZipFileEntry::~ZipFileEntry()
+{
+  this->assign("");
+}
+
+bool ZipFileEntry::operator< (const ZipFileEntry& other) const
+{
+	bool bRet = false;
+	if (m_ucSort & SORT_NAME 
+		&& m_ucSort & SORT_ASCENDING
+		&& strcmp(this->c_str(), other.c_str())<0)
+		bRet = true;
+	else if (m_ucSort & SORT_NAME 
+		&& m_ucSort & SORT_DESCENDING
+		&& strcmp(this->c_str(), other.c_str())>0)
+		bRet = true;
+	else if (m_ucSort & SORT_TIME 
+		&& m_ucSort & SORT_ASCENDING
+		&& this->m_statFile.st_mtime < other.m_statFile.st_mtime)
+		bRet = true;
+	else if (m_ucSort & SORT_TIME 
+		&& m_ucSort & SORT_DESCENDING
+		&& this->m_statFile.st_mtime > other.m_statFile.st_mtime)
+		bRet = true;
+
+  return bRet;
+}
+
 int boinc_zip(int bZipType, const std::string szFileZip, const std::string szFileIn)
 {
 	ZipFileList tempvec;
-	tempvec.push_back(szFileIn);
+	tempvec.push_back(ZipFileEntry(szFileIn));
 	return boinc_zip(bZipType, szFileZip, &tempvec);
 }
 
@@ -41,11 +88,12 @@ int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn)
 	strFileZip.assign(szFileZip);
 	strFileIn.assign(szFileIn);
 	ZipFileList tempvec;
-	tempvec.push_back(strFileIn);
+	tempvec.push_back(ZipFileEntry(strFileIn));
 	return boinc_zip(bZipType, strFileZip, &tempvec);
 }
 
-int boinc_zip(int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn)
+int boinc_zip(int bZipType, const std::string szFileZip, 
+     const ZipFileList* pvectszFileIn)
 {
 	int carg;
 	char** av;
@@ -142,24 +190,61 @@ int boinc_zip(int bZipType, const std::string szFileZip, const ZipFileList* pvec
 
 bool boinc_filelist(const std::string directory,
                   const std::string pattern,
-                  ZipFileList* pList)
+                  ZipFileList* pList,
+				  const unsigned char ucSort, const bool bClear)
 {
-    if (!pList) return false;
-    pList->clear();  // removes old entries that may be in pList
-    std::string strDir = directory;
+	std::string strFile;
+        // at most three |'s may be passed in pattern match
+	int iPos[3], iFnd, iCtr, i, lastPos;  
+	struct stat statF;
+	std::string strFullPath;
+	char strPart[3][32];
+	std::string spattern = pattern;
+        std::string strDir = directory;
+	std::string strUserDir = directory;
+	int iLen = strUserDir.size();
 
-	// add final / or \ if doesn't exist
-	if (directory[directory.size()-1] != '/' && directory[directory.size()-1]!='\\')
-#ifdef _WIN32
-           strDir += '\\'; 
+    if (!pList) return false;
+
+	// wildcards are blank!
+	if (pattern == "*" || pattern == "*.*") spattern.assign("");
+
+	if (bClear)
+		pList->clear();  // removes old entries that may be in pList
+
+	// first tack on a final slash on user dir if required
+	if (strUserDir[iLen-1] != '\\' 
+		&& strUserDir[iLen] != '/')
+	{
+		// need a final slash, but what type?
+		// / is safe on all OS's for CPDN at least
+		// but if they already used \ use that
+		// well they didn't use a backslash so just use a slash
+		if (strUserDir.find("\\") == -1)
+			strUserDir += "/";
+		else
+			strUserDir += "\\";
+	}
+
+	// transform strDir to either all \\ or all /
+	int j;
+	for (j=0; j<directory.size(); j++)  {
+		// take off final / or backslash
+		if (j == (directory.size()-1) 
+	         && (strDir[j] == '/' || strDir[j]=='\\'))
+			strDir.resize(directory.size()-1);
+		else {
+#ifdef _WIN32  // transform paths appropriate for OS
+           if (directory[j] == '/')
+				strDir[j] = '\\';
 #else
-           strDir += '/'; 
+           if (directory[j] == '\\')
+				strDir[j] = '/';
 #endif
+		}
+	}
 
 	DirScanner dirscan(strDir);
-	std::string strFile;
-	int iPos[3], iFnd, iCtr, i, lastPos;  // at most three |'s may be passed in pattern
-	char strPart[3][32];
 	memset(strPart, 0x00, 3*32);
 	while (dirscan.scan(strFile))
 	{			
@@ -170,13 +255,13 @@ bool boinc_filelist(const std::string directory,
 		iPos[2] = -1;
 		// match the whole filename returned against the regexp to see if it's a hit
 		// first get all the |'s to get the pieces to verify
-		while (iCtr<3 && (iPos[iCtr] = (int) pattern.find('|', lastPos)) > -1)
+		while (iCtr<3 && (iPos[iCtr] = (int) spattern.find('|', lastPos)) > -1)
 		{
 			if (iCtr==0)  {
-				strncpy(strPart[0], pattern.c_str(), iPos[iCtr]);
+				strncpy(strPart[0], spattern.c_str(), iPos[iCtr]);
 			}
 			else  {
-				strncpy(strPart[iCtr], pattern.c_str()+lastPos, iPos[iCtr]-lastPos);
+				strncpy(strPart[iCtr], spattern.c_str()+lastPos, iPos[iCtr]-lastPos);
 			}
 			lastPos = iPos[iCtr]+1;
 
@@ -184,13 +269,13 @@ bool boinc_filelist(const std::string directory,
 		}
 		if (iCtr>0)  // found a | so need to get the part from lastpos onward
 		{
-			strncpy(strPart[iCtr], pattern.c_str()+lastPos, pattern.length() - lastPos);
+			strncpy(strPart[iCtr], spattern.c_str()+lastPos, spattern.length() - lastPos);
 		}
 
 		// check no | were found at all
 		if (iCtr == 0)
 		{
-			strcpy(strPart[0], pattern.c_str());
+			strcpy(strPart[0], spattern.c_str());
 			iCtr++; // fake iCtr up 1 to get in the loop below
 		}
 
@@ -211,10 +296,19 @@ bool boinc_filelist(const std::string directory,
 		if (bFound)
 		{
 			// this pattern matched the file, add to vector
-			pList->push_back(strDir + strFile);
+			// NB: first get stat to make sure it really is a file
+			strFullPath = strUserDir + strFile;
+			// only add if the file really exists (i.e. not a directory)
+			if (stat(strFullPath.c_str(), &statF) != -1 && !(statF.st_mode & _S_IFDIR)) {
+				ZipFileEntry zfe(strFullPath, statF, ucSort);
+				pList->push_back(zfe);
+			}
 		}
 
 	}
+
+	// sort by file creation time
+
     std::sort(pList->begin(), pList->end());  // may as well sort it?
     return true;
 }

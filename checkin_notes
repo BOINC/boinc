@@ -14003,3 +14003,11 @@ David  2004.06.18
 
 	client/win/
 		wingui.cpp
+
+David  2004.06.18
+    - updated zip/unzip files (from Carl)
+
+    lib/
+        boinc_zip.C,h (removed)
+    zip/
+        various

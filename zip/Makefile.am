@@ -2,7 +2,7 @@
 
 ## note:  -D flags taken from a zip config build under Linux
 
-AM_CPPFLAGS = \
+AM_CPPFLAGS = -pthread \
  -I./zip \
  -I./unzip \
  -I../lib \
@@ -30,7 +30,6 @@ libboinc_zip_a_SOURCES = boinc_zip.cpp \
 ./unzip/unzip.c \
 ./unzip/zipinfo.c \
 ./zip/deflate.c \
-./zip/mktime.c \
 ./zip/trees.c \
 ./zip/util.c \
 ./zip/z_fileio.c \
