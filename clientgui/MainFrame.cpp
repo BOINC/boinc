@@ -119,11 +119,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
     RestoreState();
 
-    // On platforms like Linux, Solaris, and possibly others the Size event isn't
-    //   sent after creation, so lets send it so that the status bar area is
-    //   displayed correctly.
-    SendSizeEvent();
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
 
@@ -444,7 +439,9 @@ bool CMainFrame::SaveState()
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
     pConfig->Write(wxT("WindowIconized"), IsIconized());
+#if defined(__WXMSW__) || defined(__WXMAC__)
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
+#endif
     if ( !IsIconized() && !IsMaximized() )
     {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
@@ -493,7 +490,9 @@ bool CMainFrame::RestoreState()
     wxInt32         iIndex = 0;
     wxInt32         iPageCount = 0;
     bool            bWindowIconized = false;
+#if defined(__WXMSW__) || defined(__WXMAC__)
     bool            bWindowMaximized = false;
+#endif
     //wxInt32         iTop = 0;
     //wxInt32         iLeft = 0;
     wxInt32         iHeight = 0;
@@ -520,13 +519,15 @@ bool CMainFrame::RestoreState()
 
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
+#if defined(__WXMSW__) || defined(__WXMAC__)
     pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
+#endif
     pConfig->Read(wxT("Width"), &iWidth, 800);
     pConfig->Read(wxT("Height"), &iHeight, 600);
 
     SetSize( -1, -1, iWidth, iHeight );
-#if defined(__WXMSW__) || defined(__WXMAC__)
     Iconize( bWindowIconized );
+#if defined(__WXMSW__) || defined(__WXMAC__)
     Maximize( bWindowMaximized );
 #endif
 
