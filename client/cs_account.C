@@ -81,25 +81,26 @@ int CLIENT_STATE::parse_account_files() {
     return 0;
 }
 
-int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
-    char path[256];
+int CLIENT_STATE::add_project(const char* master_url, const char* authenticator) {
+    char path[256], canonical_master_url[256];
     PROJECT* project;
     FILE* f;
     int retval;
 
-    canonicalize_master_url(master_url);
+    safe_strcpy(canonical_master_url, master_url);
+    canonicalize_master_url(canonical_master_url);
 
     // check if this project is already running
     //
-    if (lookup_project(master_url)) {
-        msg_printf(0, MSG_ERROR, "Already attached to %s", master_url);
+    if (lookup_project(canonical_master_url)) {
+        msg_printf(0, MSG_ERROR, "Already attached to %s", canonical_master_url);
         return ERR_ALREADY_ATTACHED;
     }
 
     // create project state
     //
     project = new PROJECT;
-    strcpy(project->master_url, master_url);
+    strcpy(project->master_url, canonical_master_url);
     strcpy(project->authenticator, authenticator);
     strip_whitespace(project->authenticator);
 
@@ -107,7 +108,7 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     retval = project->write_account_file();
     if (retval) return retval;
 
-    get_account_filename(master_url, path);
+    get_account_filename(canonical_master_url, path);
     f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = project->parse_account(f);

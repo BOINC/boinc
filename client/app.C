@@ -27,6 +27,9 @@
 #include <io.h>
 #include <afxwin.h>
 #endif
+#if HAVE_ERRNO_H
+#include <errno.h>
+#endif
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif

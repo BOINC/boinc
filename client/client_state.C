@@ -105,7 +105,8 @@ CLIENT_STATE::CLIENT_STATE() {
 }
 
 #if 0
-// Deallocate memory to prevent unneeded reporting of memory leaks
+// Deallocate memory.  Can be used to check for memory leaks.
+// Turned off for now.
 //
 void CLIENT_STATE::free_mem() {
     vector<PROJECT*>::iterator proj_iter;
@@ -381,7 +382,7 @@ bool CLIENT_STATE::do_something() {
 // See if the project specified by master_url already exists
 // in the client state record.  Ignore any trailing "/" characters
 //
-PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
+PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     int len1, len2;
     char *mu;
 
@@ -399,7 +400,7 @@ PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
     return 0;
 }
 
-APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
+APP* CLIENT_STATE::lookup_app(PROJECT* p, const char* name) {
     for (unsigned int i=0; i<apps.size(); i++) {
         APP* app = apps[i];
         if (app->project == p && !strcmp(name, app->name)) return app;
@@ -407,7 +408,7 @@ APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
     return 0;
 }
 
-RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
+RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (rp->project == p && !strcmp(name, rp->name)) return rp;
@@ -415,7 +416,7 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
     return 0;
 }
 
-WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, char* name) {
+WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
     for (unsigned int i=0; i<workunits.size(); i++) {
         WORKUNIT* wup = workunits[i];
         if (wup->project == p && !strcmp(name, wup->name)) return wup;

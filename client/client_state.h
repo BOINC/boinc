@@ -145,11 +145,11 @@ public:
     bool time_to_exit();
     void approve_executables();
         // get user approval of any executables for which approval is pending
-    PROJECT* lookup_project(char*);
-    APP* lookup_app(PROJECT*, char*);
+    PROJECT* lookup_project(const char*);
+    APP* lookup_app(PROJECT*, const char*);
     FILE_INFO* lookup_file_info(PROJECT*, const char* name);
-    RESULT* lookup_result(PROJECT*, char*);
-    WORKUNIT* lookup_workunit(PROJECT*, char*);
+    RESULT* lookup_result(PROJECT*, const char*);
+    WORKUNIT* lookup_workunit(PROJECT*, const char*);
     APP_VERSION* lookup_app_version(APP*, int);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int detach_project(PROJECT*);
@@ -169,7 +169,7 @@ private:
 
 // --------------- cs_account.C:
 public:
-    int add_project(char* master_url, char* authenticator);
+    int add_project(const char* master_url, const char* authenticator);
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();

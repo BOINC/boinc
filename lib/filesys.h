@@ -20,6 +20,7 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
+#include <stdio.h>
 #include <string>
 using std::string;
 

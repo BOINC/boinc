@@ -18,7 +18,11 @@
 //
 
 #include <stdio.h>
-#ifndef _WIN32
+#ifdef _WIN32
+#include <io.h>
+#include <afxwin.h>
+#include <winsock.h>
+#else
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -31,46 +35,172 @@
 
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
-#ifndef _WIN32
+#ifdef _WIN32
+	fout = _fdopen(_dup(sock), "w");
+#else
     fout = fdopen(dup(sock), "w");
 #endif
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
-#ifndef _WIN32
+#ifdef _WIN32
+	closesocket(sock);
+#else
     close(sock);
     fclose(fout);
 #endif
 }
 
+static PROJECT* get_project(char* buf, FILE* fout) {
+	string url;
+	if (!parse_str(buf, "<project_url>", url)) {
+		fprintf(fout, "<error>Missing project URL</error>\n");
+		return 0;
+	}
+	PROJECT* p = gstate.lookup_project(url.c_str());
+	if (!p) {
+		fprintf(fout, "<error>No such project</error>\n");
+		return 0 ;
+	}
+	return p;
+}
+
+static void handle_result_show_graphics(char* buf, FILE* fout) {
+	string result_name;
+    PROJECT* p = get_project(buf, fout);
+    if (!p) return;
+
+	if (!parse_str(buf, "<result_name>", result_name)) {
+		fprintf(fout, "<error>Missing result name</error>\n");
+		return;
+	}
+	RESULT* rp = gstate.lookup_result(p, result_name.c_str());
+	if (!rp) {
+		fprintf(fout, "<error>No such result</error>\n");
+		return;
+	}
+	ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+    if (!atp) {
+		fprintf(fout, "<error>Result not active</error>\n");
+		return;
+	}
+    atp->request_graphics_mode(MODE_WINDOW);
+	fprintf(fout, "<success/>\n");
+}
+
+
+static void handle_project_reset(char* buf, FILE* fout) {
+	PROJECT* p = get_project(buf, fout);
+	if (p) {
+		gstate.reset_project(p);
+		fprintf(fout, "<success/>\n");
+	}
+}
+
+static void handle_project_attach(char* buf, FILE* fout) {
+	string url, authenticator;
+	if (!parse_str(buf, "<url>", url)) {
+		fprintf(fout, "<error>Missing URL</error>\n");
+		return;
+	}
+	if (!parse_str(buf, "<authenticator>", authenticator)) {
+		fprintf(fout, "<error>Missing authenticator</error>\n");
+		return;
+	}
+	gstate.add_project(url.c_str(), authenticator.c_str());
+	fprintf(fout, "<success/>\n");
+}
+
+static void handle_project_detach(char* buf, FILE* fout) {
+	PROJECT* p = get_project(buf, fout);
+	if (p) {
+		gstate.detach_project(p);
+		fprintf(fout, "<success/>\n");
+	}
+}
+
+static void handle_project_update(char* buf, FILE* fout) {
+	PROJECT* p = get_project(buf, fout);
+	if (p) {
+        p->sched_rpc_pending = true;
+        p->min_rpc_time = 0;
+		fprintf(fout, "<success/>\n");
+	}
+}
+
+static void handle_set_run_mode(char* buf, FILE* fout) {
+	if (match_tag(buf, "<always>")) {
+		gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
+	} else if (match_tag(buf, "<never>")) {
+		gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+	} else if (match_tag(buf, "<auto>")) {
+		gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+	} else {
+		fprintf(fout, "<error>Missing mode</error>\n");
+		return;
+	}
+	fprintf(fout, "<success/>\n");
+}
+
+static void handle_run_benchmarks(char* buf, FILE* fout) {
+    // TODO: suspend activities; make sure run at right priority
+    //
+    gstate.fork_run_cpu_benchmarks();
+    fprintf(fout, "<success/>\n");
+}
+
+static void handle_set_proxy_settings(char* buf, FILE* fout) {
+    string proxy_server_name;
+    int proxy_server_port;
+    if (!parse_str(buf, "<proxy_server_name>", proxy_server_name)) {
+        fprintf(fout, "<error>Proxy server name missing</error>\n");
+        return;
+    }
+    if (!parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
+        fprintf(fout, "<error>Proxy server port missing</error>\n");
+        return;
+    }
+    safe_strcpy(gstate.proxy_server_name, proxy_server_name.c_str());
+    gstate.proxy_server_port = proxy_server_port;
+    fprintf(fout, "<success/>\n");
+}
+
 int GUI_RPC_CONN::handle_rpc() {
-#ifndef _WIN32
-    char buf[256];
+//#ifndef _WIN32
+    char buf[1024];
     int n;
 
 	// read the request message in one read()
 	// so that the core client won't hang because
 	// of malformed request msgs
 	//
-    n = read(sock, buf, 256);
+    n = read(sock, buf, 1024);
     if (n <= 0) return -1;
     buf[n] = 0;
     printf("got %s\n", buf);
     if (match_tag(buf, "<get_state")) {
         gstate.write_state(fout);
 	} else if (match_tag(buf, "<result_show_graphics>")) {
+		handle_result_show_graphics(buf, fout);
 	} else if (match_tag(buf, "<project_reset>")) {
+		handle_project_reset(buf, fout);
 	} else if (match_tag(buf, "<project_attach>")) {
+		handle_project_attach(buf, fout);
 	} else if (match_tag(buf, "<project_detach>")) {
+		handle_project_detach(buf, fout);
 	} else if (match_tag(buf, "<project_update>")) {
+		handle_project_update(buf, fout);
 	} else if (match_tag(buf, "<set_run_mode>")) {
+		handle_set_run_mode(buf, fout);
 	} else if (match_tag(buf, "<run_benchmarks>")) {
+		handle_run_benchmarks(buf, fout);
 	} else if (match_tag(buf, "<set_proxy_settings>")) {
+		handle_set_proxy_settings(buf, fout);
     } else {
         fprintf(fout, "<unrecognized/>\n");
     }
     fflush(fout);
-#endif
+//#endif
    return 0;
 }
 
@@ -80,15 +210,27 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 }
 
 void GUI_RPC_CONN_SET::init(char* path) {
-#ifndef _WIN32
+#ifdef _WIN32
+	sockaddr addr;
+#else
     sockaddr_un addr;
+#endif
     int retval;
 
     unlink(path);
+#ifdef _WIN32
+	addr.sa_family = AF_UNIX;
+	strcpy(addr.sa_data, path);
+#else
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, path);
+#endif
+	WSADATA wsdata;
+	WORD wVersionRequested = MAKEWORD(1, 1);
+	WSAStartup(wVersionRequested, &wsdata);
     lsock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (lsock < 0) {
+		int x = WSAGetLastError();
         perror("socket");
         exit(1);
     }
@@ -102,13 +244,13 @@ void GUI_RPC_CONN_SET::init(char* path) {
         perror("listen");
         exit(1);
     }
-#endif
+//#endif
 }
 
 bool GUI_RPC_CONN_SET::poll() {
-#ifdef _WIN32
-    return false;
-#else
+//#ifdef _WIN32
+    //return false;
+//#else
     unsigned int i;
     fd_set read_fds, error_fds;
     int sock, n, retval;
@@ -156,5 +298,5 @@ bool GUI_RPC_CONN_SET::poll() {
         iter++;
     }
     return (n != 0);
-#endif
+//#endif
 }

@@ -10156,3 +10156,6 @@ David  Feb 28 2004
         gallery.inc
         host.inc
         util.inc
+
+David  Feb 28 2004
+    - added some #includes for freeBSD compile
