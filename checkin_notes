@@ -5769,6 +5769,12 @@ Karl 2003/08/15
     sched/
         file_upload_handler.C
 
+Karl 2003/08/15
+    - db_dump: added core_versions.xml; simplified
+
+    sched/
+        db_dump.C
+
 David  Aug 15 2003
     - revised backend logic
         This fixes some bugs and inefficiencies (I hope)

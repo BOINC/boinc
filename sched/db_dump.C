@@ -397,7 +397,7 @@ void core_versions() {
             fprintf(f,
                     "   <core_version>\n"
                     "      <id>%d</id>\n"
-                    "      <platform id=%d name=\"%s\">%s</platform>\n"
+                    "      <platform id=\"%d\" name=\"%s\">%s</platform>\n"
                     "      <version>%d</version>\n"
                     "      <create_time>%d</create_time>\n"
                     "      <url>%s</url>\n"
