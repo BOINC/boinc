@@ -78,4 +78,4 @@ EXTRA_DIST =					\
         translation/language.* 
 
 clean-local:
-	rm -f @CLIENT_BIN_FILENAME@
+	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz
