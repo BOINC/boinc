@@ -1,5 +1,4 @@
 <?php
-echo "<!--\$Id$ -->\n";
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -545,5 +544,7 @@ function process_view_results($vote, $userid) {
 
     page_tail();
 }
+
+// echo "<!--\$Id$ -->\n";
 
 ?>
