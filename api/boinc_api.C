@@ -115,7 +115,9 @@ int boinc_init() {
     // adjust the thread priority so we don't eat cycles from
     // other programs
     //
+#ifdef _WIN32
     boinc_adjust_worker_thread_priority(GetCurrentThread());
+#endif
 
     return boinc_init_options(options);
 }
