@@ -12,6 +12,7 @@
  */
 #include "boinc_win.h"
 
+#include "diagnostics.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
 #include "app_ipc.h"
@@ -28,9 +29,15 @@ static RECT		 rect                  = {50, 50, 50+640, 50+480};
 static int		 current_graphics_mode = MODE_HIDE_GRAPHICS;
 static int       acked_graphics_mode = -1;
 static POINT	 mousePos;
-static UINT		 m_uEndSSMsg;
 static HDC       myhDC;
 BOOL		     win_loop_done;
+
+
+static HWINSTA   hOriginalWindowStation = NULL;
+static HDESK     hOriginalDesktop = NULL;
+static HWINSTA   hInteractiveWindowStation = NULL;
+static HDESK     hInteractiveDesktop = NULL;
+
 
 static bool visible = true;
 
@@ -50,6 +57,16 @@ void KillWindow() {
         DestroyWindow(hWnd);
 	}
     hWnd = NULL;
+
+    if (hOriginalDesktop) {
+        SetThreadDesktop(hOriginalDesktop);
+        CloseDesktop(hInteractiveDesktop);
+    }
+
+    if (hOriginalWindowStation) {
+        SetProcessWindowStation(hOriginalWindowStation);
+        CloseWindowStation(hOriginalWindowStation);
+    }
 }
 
 void SetupPixelFormat(HDC hDC) {
@@ -87,6 +104,34 @@ static void make_new_window(int mode) {
 	int width, height;
 	DWORD dwExStyle;
 	DWORD dwStyle;
+
+
+    if (!boinc_is_standalone()){
+        GetDesktopWindow();
+        hOriginalWindowStation = GetProcessWindowStation();
+        if ( NULL == hOriginalWindowStation ) {
+            BOINCTRACE(_T("Failed to retrieve the orginal window station\n"));
+        }
+
+        hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
+        if ( NULL == hOriginalDesktop ) {
+            BOINCTRACE(_T("Failed to retrieve the orginal desktop\n"));
+        }
+
+        hInteractiveWindowStation = OpenWindowStation(_T("WinSta0"), FALSE, MAXIMUM_ALLOWED);
+        if ( NULL == hInteractiveWindowStation ) {
+            BOINCTRACE(_T("Failed to retrieve the interactive window station\n"));
+        }
+        else
+        {
+            hInteractiveDesktop = OpenInputDesktop( NULL, FALSE, MAXIMUM_ALLOWED );
+            if (hInteractiveDesktop){
+                SetProcessWindowStation(hInteractiveWindowStation);
+                SetThreadDesktop(hInteractiveDesktop);
+           }
+        }
+    }
+
 
 	if (current_graphics_mode == MODE_FULLSCREEN) {
 		HDC screenDC=GetDC(NULL);
@@ -346,7 +391,6 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 
 void win_graphics_event_loop() {
 	MSG					msg;		// Windows Message Structure
-	m_uEndSSMsg = RegisterWindowMessage(STOP_SS_MSG);
 
 	// Register window class and graphics mode message
 	reg_win_class();

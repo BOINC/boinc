@@ -19448,3 +19448,28 @@ David  14 Nov 2004
     html/user/
         intro.php
         sample_index.php
+
+Rom    14 Nov 2004
+    - Update screensaver so that it'll pass target Window Station and 
+      Desktop to the graphics app via the CC, the CC code still needs
+      to be written.
+    - When the shared memory segment for the graphics channel is updated
+      to include the Window Station and Desktop the apps will now be able
+      to traverse the Window Station/Desktop boundry on Windows NT based
+      platforms.  I still need to run this on a 9x platform and see if
+      I need to change the API calls into LoadLibrary/GetProcAddress calls.
+    - Update the diagnostics header so it can co-exist with the wxWidget
+      library.
+
+    api/
+        windows_opengl.C
+    client/
+        gui_rpc_server.C
+    client/win/
+        win_screensaver.cpp
+    lib/
+        diagnostics.h
+        gui_rpc_client.C, .h
+    win_build/
+        boinc_guirpc_test.vcproj
+        boinc_ss.vcproj

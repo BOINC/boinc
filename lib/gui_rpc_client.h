@@ -360,7 +360,7 @@ public:
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
     int get_screensaver_mode(bool& enabled);
-    int set_screensaver_mode(bool enabled, double blank_time);
+    int set_screensaver_mode(bool enabled, const char* window_station, const char* desktop, double blank_time);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_proxy_settings(PROXY_INFO&);

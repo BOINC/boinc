@@ -38,21 +38,31 @@
 //
 
 // Forward declare so we can assign a macro to it.
+void	boinc_trace(const char *pszFormat, ...);
 void	boinc_info_debug(const char *pszFormat, ...);
 void	boinc_info_release(const char *pszFormat, ...);
 
 #ifdef _DEBUG
 
-#ifndef _CONSOLE
+#if !defined(_CONSOLE) && !defined(WXDEBUG) && !defined(WXNDEBUG)
 
-// Microsoft MFC/ATL
+// Microsoft MFC/ATL UI Framework
 //
 
 #define BOINCASSERT         ASSERT
 #define BOINCTRACE          TRACE
 #define BOINCINFO           boinc_info_debug
 
-#else
+#elif defined(WXDEBUG) || defined(WXNDEBUG)
+
+// wxWidgets UI Framework
+//
+
+#define BOINCASSERT(expr)   __noop
+#define BOINCTRACE          __noop
+#define BOINCINFO           boinc_info_release
+
+#elif defined(_CONSOLE)
 
 // Microsoft CRT
 //

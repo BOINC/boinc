@@ -396,6 +396,7 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
 
 static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
     ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
+
     fout.printf("<screensaver_mode>\n");
     if (atp) fout.printf("     <enabled/>\n");
     fout.printf("</screensaver_mode>\n");
@@ -403,8 +404,17 @@ static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
 
 static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     double blank_time = 0.0;
+    string window_station;
+    string desktop;
+
     if (match_tag(buf, "<blank_time")) {
         parse_double(buf, "<blank_time>", blank_time);
+    }
+    if (match_tag(buf, "<desktop")) {
+        parse_double(buf, "<desktop>", desktop);
+    }
+    if (match_tag(buf, "<window_station")) {
+        parse_double(buf, "<window_station>", window_station);
     }
     if (match_tag(buf, "<enabled")) {
         gstate.ss_logic.start_ss( blank_time );

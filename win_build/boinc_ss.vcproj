@@ -24,18 +24,18 @@
 				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_ss\obj/boinc_ss.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_ss\obj/"
 				ObjectFile=".\Build\Debug\boinc_ss\obj/"
-				ProgramDataBaseFileName=".\Build\Debug\boinc_ss\obj/vc70.pdb"
+				ProgramDataBaseFileName=".\Build\Debug\boinc_ss\obj/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
-				CompileAs="0"/>
+				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -49,8 +49,8 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_scr.pdb"
 				SubSystem="2"
-				StackReserveSize="2097152"
-				StackCommitSize="2097152"
+				StackReserveSize="0"
+				StackCommitSize="0"
 				OptimizeReferences="0"
 				TargetMachine="1"/>
 			<Tool

@@ -162,6 +162,12 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\lib\diagnostics.C">
+			</File>
+			<File
+				RelativePath="..\lib\exception.C">
+			</File>
+			<File
 				RelativePath="..\lib\filesys.C">
 			</File>
 			<File
@@ -200,6 +206,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\stackwalker_win.cpp">
+			</File>
+			<File
 				RelativePath="..\lib\util.C">
 			</File>
 		</Filter>
@@ -207,7 +216,13 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath="..\lib\diagnostics.h">
+			</File>
+			<File
 				RelativePath="..\lib\error_numbers.h">
+			</File>
+			<File
+				RelativePath="..\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\lib\filesys.h">
@@ -223,6 +238,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
+			</File>
+			<File
+				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File
 				RelativePath="..\lib\util.h">

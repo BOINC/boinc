@@ -39,6 +39,7 @@
 #include <netdb.h>
 #endif
 
+#include "diagnostics.h"
 #include "parse.h"
 #include "error_numbers.h"
 #include "miofile.h"
@@ -1280,18 +1281,23 @@ int RPC_CLIENT::get_screensaver_mode(bool& enabled) {
     return 0;
 }
 
-int RPC_CLIENT::set_screensaver_mode(bool enabled, double blank_time) {
+int RPC_CLIENT::set_screensaver_mode(bool enabled, const char* window_station, const char* desktop, double blank_time) {
     char buf[256];
     RPC rpc(this);
 
     sprintf(buf,
         "<set_screensaver_mode>\n"
         "     %s\n"
+        "     <window_station>%s</window_station>\n"
+        "     <desktop>%s</desktop>\n"
         "     <blank_time>%f</blank_time>\n"
         "</set_screensaver_mode>\n",
         enabled ? "<enabled/>" : "",
+        window_station ? window_station : "", 
+        desktop ? desktop : "", 
         blank_time
     );
+    BOINCTRACE(_T("Sending: set_screensaver_mode\n%s"), buf);
     return rpc.do_rpc(buf);
 }
 

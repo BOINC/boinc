@@ -31,11 +31,10 @@
 #include <multimon.h>
 #include <strsafe.h>
 
-#include "boinc_ss.h"
-#include "win_screensaver.h"
 #include "diagnostics.h"
 #include "exception.h"
-#include "stackwalker_win.h"
+#include "boinc_ss.h"
+#include "win_screensaver.h"
 #include "win_util.h"
 
 
@@ -278,17 +277,49 @@ VOID CScreensaver::StartupBOINC()
 		{
             if( (NULL != m_Monitors[0].hWnd) && (m_bBOINCCoreNotified == FALSE) )
 			{
-                DWORD blank_time;
-                int   retval;
+                TCHAR szCurrentWindowStation[MAX_PATH];
+                TCHAR szCurrentDesktop[MAX_PATH];
+                DWORD dwBlankTime;
+                BOOL  bReturnValue;
+
+
+                if (!m_bIs9x)
+                {
+                    // Retrieve the current window station and desktop names
+                    bReturnValue = GetUserObjectInformation( 
+                        GetProcessWindowStation(), 
+                        UOI_NAME, 
+                        szCurrentWindowStation,
+                        (sizeof(szCurrentWindowStation) / sizeof(TCHAR)),
+                        NULL
+                    );
+                    if (!bReturnValue)
+                    {
+                        BOINCTRACE(TEXT("Failed to retrieve the current window station.\n"));
+                    }
+
+                    bReturnValue = GetUserObjectInformation( 
+                        GetThreadDesktop(GetCurrentThreadId()), 
+                        UOI_NAME, 
+                        szCurrentDesktop,
+                        (sizeof(szCurrentDesktop) / sizeof(TCHAR)),
+                        NULL
+                    );
+                    if (!bReturnValue)
+                    {
+                        BOINCTRACE(TEXT("Failed to retrieve the current desktop.\n"));
+                    }
+                }
+
 
                 // Retrieve the blank screen timeout
 			    // make sure you check return value of registry queries
 			    // in case the item in question doesn't happen to exist.
-			    retval = UtilGetRegKey( REG_BLANK_TIME, blank_time );
-			    if ( retval < 0 ) { blank_time=0; }
+			    bReturnValue = UtilGetRegKey( REG_BLANK_TIME, dwBlankTime );
+			    if ( bReturnValue < 0 ) dwBlankTime = 0;
 
 				// Tell the boinc client to start the screen saver
-                rpc.set_screensaver_mode(true, blank_time);
+                rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
 
 				// We have now notified the boinc client
 				m_bBOINCCoreNotified = TRUE;
@@ -309,7 +340,7 @@ VOID CScreensaver::ShutdownBOINC()
 	if( m_bBOINCCoreNotified )
 	{
 		// Tell the boinc client to stop the screen saver
-        rpc.set_screensaver_mode(false, 0.0);
+        rpc.set_screensaver_mode(false, NULL, NULL, 0.0);
 
         // We have now notified the boinc client
 		m_bBOINCCoreNotified = FALSE;
