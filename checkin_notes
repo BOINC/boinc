@@ -5331,3 +5331,9 @@ David  July 15 2003
     api/
         boinc_api.C,h
 
+David  July 15 2003
+    - project-specific files are now kept in separate repositories
+
+    html_user/
+        project_ap.inc (removed)
+        project_specific_prefs_ap.inc (removed)

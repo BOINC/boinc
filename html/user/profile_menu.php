@@ -1,7 +1,7 @@
 <?php
 
 require_once("util.inc");
-require_once("project.inc");
+require_once("project_specific/project.inc");
 require_once("gallery.inc");
 
 db_init();

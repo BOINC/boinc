@@ -2,7 +2,7 @@
 
 require_once("util.inc");
 require_once("db.inc");
-require_once("project.inc");
+require_once("project_specific/project.inc");
 require_once("profile.inc");
 
 // TODO: Manually limit max size of stored "big" image.

@@ -39,7 +39,7 @@
 // and also to/from HTML form elements
 
 
-include_once("project_specific_prefs.inc");
+include_once("project_specific/project_specific_prefs.inc");
 
 global $text;
 global $parse_result;

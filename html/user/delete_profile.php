@@ -1,7 +1,7 @@
 <?php
 require_once("db.inc");
 require_once("util.inc");
-require_once("project.inc");
+require_once("project_specific/project.inc");
 require_once("gallery.inc");
 
 db_init();
@@ -22,10 +22,15 @@ row1("Delete your profile");
 
 
 rowify("
-<h2>Are you sure?</h2><p>
-Remember that deleted profiles are gone forever and cannot be recovered--you will have to start from scratch if you want another profile in the future.
+    <h2>Are you sure?</h2><p>
+    Deleted profiles are gone forever and cannot be recovered --
+    you will have to start from scratch
+    if you want another profile in the future.
 ");
-rowify("<br>If you're sure, click the \"Delete\" button below to remove your profile from our database.");
+rowify(
+    "<br>If you're sure, click the \"Delete\" button below
+    to remove your profile from our database."
+);
 echo "<tr><td align=\"center\"><br><input type=\"submit\" name=\"delete\" value=\"Delete\"></td></tr>";
 end_table();
 echo "</form>";

@@ -1,7 +1,7 @@
 <?php
 
 require_once("db.inc");
-require_once("project.inc");
+require_once("project_specific/project.inc");
 
 // Sends the authenticator to the given email address
 //
@@ -63,58 +63,53 @@ function show_login($user) {
     }
 }
 
-// Constructs a combo box with name attribute = $name, from a list of newline-
-// delineated items from the regular text file $filename.  If $selection is
-// provided, and if it matches one of the entries in $filename, it will be
-// selected by default.  
+// output a select form item with the given name,
+// from a list of newline-delineated items from the text file.
+// If $selection is provided, and if it matches one of the entries in the file,
+// it will be selected by default.  
+//
 function show_combo_box($name, $filename, $selection=null) {
-  if (!file_exists($filename)) {
-    echo "ERROR: $filename does not exist!  Cannot create combo box.<br>";
-    exit();
-  }
-  echo "<select name=\"$name\">\n";
-  
-  $file = fopen($filename, "r");
-  
-  while ($line = trim(fgets($file, 1024))) {
-    if ($line == $selection) {
-      echo "<option SELECTED value=\"$line\">$line\n";
-    } else {
-      echo "<option value=\"$line\">$line\n";
+    if (!file_exists($filename)) {
+        echo "ERROR: $filename does not exist!  Cannot create combo box.<br>";
+        exit();
     }
-  }
+    echo "<select name=\"$name\">\n";
+  
+    $file = fopen($filename, "r");
+  
+    while ($line = trim(fgets($file, 1024))) {
+        if ($line == $selection) {
+            echo "<option SELECTED value=\"$line\">$line\n";
+        } else {
+            echo "<option value=\"$line\">$line\n";
+        }
+    }
 
-  echo "</select>\n";
-  fclose($file);
+    echo "</select>\n";
+    fclose($file);
 }
 
-function page_head($title, $user=null, $fileDescriptor=null) {
-  if ($fileDescriptor) {
-    fwrite($fileDescriptor, "<head><title>$title</title><body bgcolor=ffffff>\n");
-  } else {
-    echo "<head><title>$title</title><body bgcolor=ffffff>\n";
-  }
-  project_banner($user, $fileDescriptor);
-
+// write to the given fd if non-null; else echo
+// 
+function write_fd($fd, $str) {
+    if ($fd) {
+        fwrite($fd, $str);
+    } else {
+        echo $str;
+    }
 }
 
-function page_tail($fileDescriptor=null) {
-    if ($fileDescriptor) {
+function page_head($title, $user=null, $fd=null) {
+    write_fd($fd, "<head><title>$title</title><body bgcolor=ffffff>\n");
+    project_banner($user, $fd);
+}
 
-      fwrite($fileDescriptor, "<br><hr><center><a href=". MASTER_URL . "index.php>Return to ".PROJECT." main page</a><br>\n");
+function page_tail($fd=null) {
+    write_fd($fd, "<br><hr><center><a href=". MASTER_URL . "index.php>Return to ".PROJECT." main page</a><br>\n");
 
-      // put your copyright notice etc. here
+    // put your copyright notice etc. here
 
-      fwrite($fileDescriptor, "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n");
-
-    } else {
-
-      echo "<br><hr><center><a href=" . MASTER_URL . "index.php>Return to ".PROJECT." main page</a><br>\n";
-
-      // put your copyright notice etc. here
-
-      echo "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n";
-    }
+    write_fd($fd, "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n");
 }
 
 function db_error_page() {
@@ -306,21 +301,6 @@ function split_munged_email_addr($addr, $string, &$email) {
     if ($y != $string) return false;
     $email = substr($addr, 1, strlen($addr)-strlen($x)-1);
     return true;
-}
-
-// If the user with id = $userid has uploaded a picture his/herself,
-// delete it and its thumbnail.
-
-function delete_user_pictures($userid) {
-    $filename1 = IMAGE_PATH . $userid . '.jpg';
-    $filename2 = IMAGE_PATH . $userid . '_sm.jpg';
-    
-    if (file_exists($filename1)) {
-      unlink($filename1);
-    }
-    if (file_exists($filename2)) {
-      unlink($filename2);
-    }
 }
 
 ?>

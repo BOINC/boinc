@@ -1,6 +1,6 @@
 <?php
 
-require_once("project.inc");
+require_once("project_specific/project.inc");
 require_once("profile.inc");
 
 // Generates the html files which comprise the photo gallery.
