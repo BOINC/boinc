@@ -649,6 +649,10 @@ void process_request(
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] Resetting nresults_today\n",
+            reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno
+        );
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
@@ -667,10 +671,9 @@ void process_request(
     }
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL, "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
-        reply.user.id, reply.host.id,
-        get_remote_addr(),
-        sreq.rpc_seqno,
+        SCHED_MSG_LOG::NORMAL,
+        "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
+        reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno,
         sreq.core_client_major_version, sreq.core_client_minor_version
     );
     ++log_messages;
