@@ -59,6 +59,7 @@ DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
 DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
 DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
 DB_MSG_FROM_HOST::DB_MSG_FROM_HOST() : DB_BASE(boinc_db, "msg_from_host"){}
+DB_MSG_TO_HOST::DB_MSG_TO_HOST() : DB_BASE(boinc_db, "msg_to_host"){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}

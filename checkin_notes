@@ -14458,3 +14458,9 @@ David  1 July 2004
     lib/
 		app_ipc.h
         error_numbers.h
+
+Karl 2004-07-02
+    - compile fixes
+
+    db/
+        boinc_db.C
