@@ -33,7 +33,7 @@ file looks like this:
   <config>
     ...
     <!-- optional; defaults as indicated: -->
-    <project_dir>../</project_dir>     <!-- relative to location of 'start' -->
+    <project_dir>../</project_dir>     <!-- relative to location of "start" -->
     <bin_dir>bin</bin_dir>             <!-- relative to project_dir -->
     <cgi_bin_dir>cgi-bin</cgi_dir>
     <log_dir>log</log_dir>
@@ -82,6 +82,19 @@ See "start --help" for options.
 
 A daemon is a task for which a process ID is recorded in the <pid_dir>
 directory and is sent a SIGINT in a DISABLE operation.
+
+Implementation:
+
+Daemons:
+  Writes a PID to pid_dir/command.pid.
+
+Non-daemon tasks:
+  Writes a timestamp to run_state.xml to remember when the task was last run.
+
+Both:
+  A lock file (pid_dir/command.lock) prevents tasks and daemons from being run
+  again when they are currently running.
+
 '''
 
 import sys, os, getopt, time, glob, fcntl, signal
@@ -89,6 +102,10 @@ from boinc_config import *
 
 verbose = os.isatty(sys.stdout.fileno())
 verbose_daemon_run = 0
+# how long (in seconds) parent should wait before continuing after a
+# fork. this is just a safety measure in case anything doesn't play nice if
+# starting simultaneously.  also it keeps output in sequence.
+fork_delay = 0.1
 
 def get_dir(name):
     return config.config.__dict__.get(name+'_dir') or os.path.join(project_dir,name)
@@ -124,6 +141,9 @@ def ensure_dir(filename):
     except OSError:
         return
 
+def timestamp():
+    return time.strftime('%Y/%m/%d %H:%M:%S')
+
 def redirect(stdout='/dev/null', stderr=None, stdin='/dev/null', pidfile=None):
     '''
     Redirects stdio.  The stdin, stdout, and stderr arguments are file names
@@ -146,6 +166,13 @@ def redirect(stdout='/dev/null', stderr=None, stdin='/dev/null', pidfile=None):
     os.dup2(so.fileno(), sys.stdout.fileno())
     os.dup2(se.fileno(), sys.stderr.fileno())
 
+def fork():
+    ''' fork with fork_delay '''
+    pid = os.fork()
+    if pid:
+        time.sleep(fork_delay)
+    return pid
+
 def double_fork():
     '''
     This forks the current process into a daemon using a double-fork.
@@ -160,7 +187,7 @@ def double_fork():
 
     # Do first fork.
     try:
-        pid = os.fork()
+        pid = fork()
         if pid > 0: return 1
     except OSError, e:
         sys.stderr.write("fork #1 failed: (%d) %s\n" % (e.errno, e.strerror))
@@ -196,21 +223,28 @@ def lock_file(filename):
 def exec_command_string(command):
     args = command.split()
     # set default path for program to <bin_dir>:
-    args[0] = os.path.join( bin_dir, args[0] )
-    os.execv( args[0], args )
-    os._exit(1)                         # shouldn't get here
+    args[0] = os.path.realpath(os.path.join( bin_dir, args[0] ))
+    try:
+        os.execv( args[0], args )
+        # on success we don't reach here
+    except OSError, e:
+        print >>sys.stderr, "Couldn't execute '%s':" %command, e
+    os._exit(1)
 
-def task_time_elapsed(task):
+def lookup_task_run_state(task):
     # TODO
-    return 0
+    pass
 
-def update_task_timestamp(task):
-    # TODO
-    return 0
+def time_to_run_task(task, task_run_state):
+    return (time.time() >= task_run_state.last_run + interpret_period(task.period))
+
+def update_task_timestamp(task_run_state):
+    task_run_state.last_run = time.time()
 
 def run_task(task):
     '''Fork and exec command without stdout/err redirection'''
-    if not task_time_elapsed(task):
+    task_run_state = lookup_task_run_state(task)
+    if not time_to_run_task(task, task_run_state):
         if verbose:
             print "  Not running task because not time yet:",task.cmd
         return
@@ -218,7 +252,7 @@ def run_task(task):
         print "  Running task:", task.cmd
     update_task_timestamp(task)
     # we don't need the full double-fork because this should finish quickly
-    if os.fork() > 0: return
+    if fork() > 0: return
     if lock_file(get_task_lock_name(task)):
         print >>sys.stderr, "Task currently running!"
         sys.exit(1)
@@ -227,16 +261,18 @@ def run_task(task):
 
 def run_daemon(task):
     '''Double-fork and exec command with stdout/err redirection and pid writing'''
-    if verbose or verbose_daemon_run:
-        print "  Starting daemon:", task.cmd
-    # TODO: lock file
     if double_fork() > 0: return
     if lock_file(get_task_lock_name(task)):
         if verbose:
-            print >>sys.stderr, "Daemon already running:",task.cmd
+            print >>sys.stderr, "  Daemon already running:",task.cmd
         sys.exit(0)
+    if verbose or verbose_daemon_run:
+        print "  Starting daemon:", task.cmd
+        sys.stdout.flush()
     redirect(stdout = get_daemon_output_name(task),
              pidfile = get_daemon_pid_name(task))
+    print "[%s] Executing command:"%timestamp(), task.cmd
+    sys.stdout.flush()
     exec_command_string(task.cmd)
 
 def run_daemons():
@@ -268,6 +304,12 @@ def stop_daemon(pid):
 def write_stop_trigger():
     print >>open(os.path.join(project_dir, 'stop_servers'),'w'), '<stop/>'
 
+def safe_unlink(filename):
+    try:
+        os.unlink(filename)
+    except OSError, e:
+        print "Couldn't unlink %s:"%filename,e
+
 def stop_daemons():
     if verbose: print "Stopping all daemons"
     write_stop_trigger()
@@ -275,6 +317,7 @@ def stop_daemons():
     count = 0
     for pid_file in pid_files:
         count += stop_daemon(safe_read_int(pid_file))
+        safe_unlink(pid_file)
     if verbose:
         if not count:
             print "  No processes stopped"
@@ -292,17 +335,20 @@ def command_enable_start():
     run_daemons()
 
 def command_cron_start():
-    if verbose: print "Cron-start mode (enabled=%s)"%run_state.enabled
+    if verbose: print "Cron-start (verbose) mode (enabled=%s)"%run_state.enabled
     if run_state.enabled:
         global verbose_daemon_run
         verbose_daemon_run = 1
         run_daemons()
         run_tasks()
-    else:
-        if verbose: print "Not running tasks because disabled"
 
 def command_disable_stop():
-    if verbose: print "Entering DISABLED mode"
+    if verbose:
+        if run_state.enabled:
+            print "Entering DISABLED mode"
+        else:
+            print "Staying in DISABLED mode"
+        run_state.enabled = True
     run_state.enabled = False
     stop_daemons()
 
@@ -311,12 +357,14 @@ def command_status():
         print "BOINC is ENABLED"
     else:
         print "BOINC is DISABLED"
-    # TODO: for each daemon and task, show:
-    #    - lock file locked?
-    #    - pid
-    #    - process running? (use kill(0))
-    #    - last run? (task)
-    #    - next run in how long? (task)
+    if verbose:
+        # TODO: for each daemon and task, show:
+        #    - lock file exists/locked, ctime?
+        #    - pid file exists, ctime, pid ?
+        #    - process running? (use kill(0))
+        #    - timestamp (task)
+        #    - next run in how long? (task)
+        pass
 
 def help():
     print >>sys.stderr, "Syntax: %s [options] [command]" % sys.argv[0]
@@ -340,7 +388,7 @@ command = command_enable_start
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'cedskqvh?',
                                ('enable', 'cron', 'disable',
-                                'start', 'stop', 'kill', 'status',
+                                'start', 'stop', 'kill', 'status', 'fork_delay=',
                                 'quiet', 'verbose', 'help'))
 except Exception, e:
     print >>sys.stderr, e
@@ -361,6 +409,8 @@ for opt,v in opts:
         command = command_disable_stop
     elif opt == '-s' or opt == '--status':
         command = command_status
+    elif opt == '--fork_delay':
+        fork_delay = v
     else: assert(False)
 
 program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
