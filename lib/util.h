@@ -28,6 +28,7 @@
 #include <cstring>
 #include <cstdarg>
 #include <string>
+#include <algorithm>
 using std::string;
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
@@ -63,7 +64,7 @@ inline bool starts_with(string const& s, string const& prefix) {
 inline void downcase_string(string::iterator begin, string::iterator end,
                             string::iterator src)
 {
-    transform(begin, end, src, (int(*)(int))std::tolower);
+	std::transform(begin, end, src, (int(*)(int))tolower);
 }
 
 inline void downcase_string(string& w)
