@@ -1,9 +1,34 @@
 ;; $Id$
 
-These notes/hints are for ourselves (SSL SETI/BOINC group) but they might be useful to others
+These notes/hints are for ourselves (SSL SETI/BOINC group) but they might be
+useful to others
+
+COMPILING
+=========
 
 On Koloth, use these flags to link with mysql:
      -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64
 
 The -m64 compile flag generates 64-bit code and is necessary because the libraries are 64-bit.
 
+
+
+INSTALLING
+==========
+
+Need to set PATH to include python executable; need to set PYTHONPATH to
+include PyXML module.
+
+crontab:
+
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /mydisks/a/users/boincadm/projects/cron/cron-astropulse
+
+
+cron-astropulse:
+
+
+PATH=/opt/misc/bin:/usr/bin:/bin
+PYTHONPATH=/disks/koloth/a/users/boincadm/pkg/Pyxml/PyXML-0.8.2/build/lib.solaris-2.9-sun4u-2.2
+export PATH PYTHONPATH
+
+/mydisks/a/users/boincadm/projects/AstroPulse_Beta/bin/start --cron
