@@ -14,14 +14,14 @@ ApplicationName=BOINC
 Description=Berkeley Open Infrastructure for Network Computing
 Comments=
 Notice=Copyright 2002-2004 University of California, Berkeley
-Version=3.01
-OutputSpec=boinc_3.01_windows_intelx86.exe
+Version=3.03
+OutputSpec=boinc_3.03_windows_intelx86.exe
 GUIDs=0
 Type=2
 Compress=1
 Sign=0
 Transfer=0
-Files=24
+Files=23
 
 [Engine]
 Setup=Disk1\Setup.exe
@@ -85,120 +85,114 @@ Flags=1
 Disk=0
 
 [File 5]
-Name=Tag
-Path=Media\Default\Disk Images\Disk1\CVS\
-Flags=1
-Disk=0
-
-[File 6]
 Name=TortoiseCVS.Status
 Path=Media\Default\Disk Images\Disk1\CVS\
 Flags=1
 Disk=0
 
-[File 7]
+[File 6]
 Name=DATA.TAG
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 8]
+[File 7]
 Name=data1.cab
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 9]
+[File 8]
 Name=data1.hdr
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 10]
+[File 9]
 Name=lang.dat
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 11]
+[File 10]
 Name=layout.bin
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 12]
+[File 11]
 Name=os.dat
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 13]
+[File 12]
 Name=setup.bmp
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 14]
+[File 13]
 Name=Setup.exe
 Path=Media\Default\Disk Images\Disk1\
 Flags=589825
 Disk=0
 
-[File 15]
+[File 14]
 Name=SETUP.INI
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 16]
+[File 15]
 Name=setup.ins
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 17]
+[File 16]
 Name=setup.lid
 Path=Media\Default\Disk Images\Disk1\
 Flags=1
 Disk=0
 
-[File 18]
+[File 17]
 Name=_INST32I.EX_
 Path=Media\Default\Disk Images\Disk1\
 Flags=524289
 Disk=0
 
-[File 19]
+[File 18]
 Name=_ISDel.exe
 Path=Media\Default\Disk Images\Disk1\
 Flags=589825
 Disk=0
 
-[File 20]
+[File 19]
 Name=_Setup.dll
 Path=Media\Default\Disk Images\Disk1\
 Flags=655377
 Disk=0
 
-[File 21]
+[File 20]
 Name=_sys1.cab
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 22]
+[File 21]
 Name=_sys1.hdr
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 23]
+[File 22]
 Name=_user1.cab
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 24]
+[File 23]
 Name=_user1.hdr
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
