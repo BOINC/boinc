@@ -3502,3 +3502,30 @@ Eric  Feb 26, 2003
     sched/
         db_dump.C
 
+David  Feb 27 2003
+    - fix bug in prefs display
+    - use $_GET["foo"] to access form variables in PHP scripts
+        (this makes it clear what the form variables are)
+    - use trim() to get rid of white space and start/end of authenticator.
+        Should do this for most user-supplied data
+    - use row2() to generate all two-item rows.
+        Right-align the first part and embolden the second.
+        Get rid of row() and row2a()
+    - change "water days" terminology to "work buf"
+
+    html_user/
+        account_created.php
+        bug_report_action.php
+        confirm_email_change.php
+        login_action.php
+        login_form.php
+        prefs.inc
+        prefs_edit_global_action.php
+        prefs_edit_project_action.php
+        prefs_edit_project_form.php
+        project_specific_prefs.inc
+        project_specific_prefs_ap.inc
+        show_host_detail.php
+        team.inc
+        user.inc
+        util.inc
