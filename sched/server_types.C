@@ -92,9 +92,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        else if (parse_double(buf, "<project_disk_free>", project_disk_free)) continue;
+        else if (parse_double(buf, "<potentially_free_offender>", potentially_free_offender)) continue;
+        else if (parse_double(buf, "<potentially_free_self>", potentially_free_self)) continue;
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
-        else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
-        else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
             while (fgets(buf, 256, fin)) {
@@ -265,6 +266,11 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     // always send project prefs
     //
     fputs(user.project_prefs, fout);
+
+    // send project deletion policy
+    //
+    if(deletion_policy_priority) fprintf(fout, "<deletion_policy_priority/>\n");
+    if(deletion_policy_expire) fprintf(fout, "<deletion_policy_expire/>\n");
 
     // acknowledge results
     //

@@ -701,7 +701,7 @@ int send_work(
     WORK_REQ wreq;
 
     memset(&wreq, 0, sizeof(wreq));
-    wreq.disk_available = max_allowable_disk(sreq);
+    wreq.disk_available = sreq.project_disk_free;
     wreq.insufficient_disk = false;
     wreq.insufficient_mem = false;
     wreq.insufficient_speed = false;
@@ -735,6 +735,15 @@ int send_work(
 
     wreq.infeasible_only = false;
     scan_work_array(wreq, sreq, reply, platform, ss);
+
+    if(wreq.nresults == 0) {
+        wreq.disk_available = sreq.potentially_free_offender;
+        scan_work_array(wreq, sreq, reply, platform, ss);
+    }
+    if(wreq.nresults == 0 && config.delete_from_self) {
+        wreq.disk_available = sreq.potentially_free_self;
+        scan_work_array(wreq, sreq, reply, platform, ss);
+    }
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results\n",

@@ -269,7 +269,7 @@ CMainWindow::CMainWindow()
 // function:    detemines colors for pie pieces in usage control
 COLORREF CMainWindow::GetPieColor(int nPiece)
 {
-    return RGB( (64*(nPiece%4))%256, 0, (256-64*(nPiece%4)-1)%256 );
+    return RGB( (32*(nPiece%6))%256, 0, (256-32*(nPiece%6)-1)%256 );
 }
 
 //////////
@@ -627,35 +627,44 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
         double xDiskTotal;
         double xDiskFree; get_filesystem_info(xDiskTotal, xDiskFree);
         double xDiskUsed = xDiskTotal - xDiskFree;
-        double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
         double xDiskUsage; gstate.total_disk_usage(xDiskUsage);
+        double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskAllow - xDiskUsage;
 
         m_UsagePieCtrl.SetTotal(xDiskTotal);
-        m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space
+        if(xDiskAllow > 0) {
+            m_UsagePieCtrl.SetPiece(0, xDiskFree - xDiskAllow); // Free space
+            m_UsagePieCtrl.SetPiece(3, xDiskAllow);
+        } else {
+            m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space
+            m_UsagePieCtrl.SetPiece(3, 0);
+        }
         m_UsagePieCtrl.SetPiece(1, xDiskUsed - xDiskUsage); // Used space
         m_UsagePieCtrl.SetPiece(2, xDiskUsage); // Used space: BOINC
         m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
-        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 < (int)gstate.projects.size()) {
+        while(m_UsageBOINCPieCtrl.GetItemCount() - 2 < (int)gstate.projects.size()) {
             m_UsageBOINCPieCtrl.AddPiece("", GetPieColor(m_UsageBOINCPieCtrl.GetItemCount()), 0);
         }
 
-        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 > (int)gstate.projects.size()) {
-            m_UsageBOINCPieCtrl.RemovePiece(m_UsageBOINCPieCtrl.GetItemCount() - 1);
+        while(m_UsageBOINCPieCtrl.GetItemCount() - 2 > (int)gstate.projects.size()) {
+            m_UsageBOINCPieCtrl.RemovePiece(m_UsageBOINCPieCtrl.GetItemCount() - 2);
         }
 
-        m_UsageBOINCPieCtrl.SetTotal(xDiskUsage);
+        if(xDiskAllow > 0) m_UsageBOINCPieCtrl.SetTotal(xDiskUsage + xDiskAllow);
+        else m_UsageBOINCPieCtrl.SetTotal(xDiskUsage);
         m_UsageBOINCPieCtrl.SetPiece(0, 1); // BOINC: core application
+        m_UsageBOINCPieCtrl.SetPiece(1, 1);
         for(ui = 0; ui < gstate.projects.size(); ui ++) {
             double xUsage;
             CString strLabel;
             strLabel.Format("%s", gstate.projects[ui]->project_name);
             gstate.project_disk_usage(gstate.projects[ui], xUsage);
-            m_UsageBOINCPieCtrl.SetPieceLabel(ui + 1, strLabel.GetBuffer(0));
-            m_UsageBOINCPieCtrl.SetPiece(ui + 1, xUsage);
+            m_UsageBOINCPieCtrl.SetPieceLabel(ui + 2, strLabel.GetBuffer(0));
+            m_UsageBOINCPieCtrl.SetPiece(ui + 2, xUsage);
             xDiskUsage -= xUsage;
         }
         m_UsageBOINCPieCtrl.SetPiece(0, xDiskUsage); // BOINC: core application
+        m_UsageBOINCPieCtrl.SetPiece(1, xDiskAllow);
         m_UsageBOINCPieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
         break;
@@ -1767,10 +1776,12 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     m_UsagePieCtrl.AddPiece(g_szUsageItems[0], RGB(255, 0, 255), 0);
     m_UsagePieCtrl.AddPiece(g_szUsageItems[1], RGB(192, 64, 192), 0);
     m_UsagePieCtrl.AddPiece(g_szUsageItems[2], RGB(0, 0, 255), 0);
+    m_UsagePieCtrl.AddPiece(g_szUsageItems[3], RGB(0, 200, 0), 0);
 
     m_UsageBOINCPieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
     m_UsageBOINCPieCtrl.ModifyStyle(WS_VISIBLE, 0);
-    m_UsageBOINCPieCtrl.AddPiece(g_szUsageItems[3], GetPieColor(0), 0);
+    m_UsageBOINCPieCtrl.AddPiece(g_szUsageItems[4], GetPieColor(0), 0);
+    m_UsageBOINCPieCtrl.AddPiece(g_szUsageItems[5], RGB(0, 200, 0), 0);
 
     // set up image list for tab control
     m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, MAX_TABS, 1);
@@ -2275,6 +2286,30 @@ void project_add_failed(PROJECT* project) {
     AfxMessageBox(buf);
     g_myWnd->DetachProject(project);
     // TODO: To be filled in
+}
+
+// This gets called when the client doesn't have enough disk space to continue
+// running its active tasks. Notify user which project is the greatest offender
+// of their data share
+//
+void data_overflow_notify(PROJECT* project) {
+    char buf[512];
+    if(project == NULL) {
+        sprintf( buf,
+            "Your disk size preferenecs are too small.\n"
+            "BOINC no longer has space to run computation.\n"
+            "Please visit your project's website and change your\n"
+            "general prefs to accomidate the size of the project.\n"
+            );
+    } else {
+        sprintf( buf,
+            "Your disk size preferenecs are too small.\n"
+            "BOINC no longer has space to run %s.\n"
+            "Please visit %s and change your\n"
+            "General Prefs to accomidate the size of the project.\n",
+            project->project_name, project->master_url);
+    }
+    AfxMessageBox(buf);
 }
 
 void guiOnBenchmarksBegin()

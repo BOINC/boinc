@@ -67,8 +67,9 @@ struct SCHEDULER_REQUEST {
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char projects_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
-    double total_disk_usage;
-    double project_disk_usage;
+    double project_disk_free;
+    double potentially_free_offender;
+    double potentially_free_self;
     bool anonymous_platform;
     vector<CLIENT_APP_VERSION> client_app_versions;
     GLOBAL_PREFS global_prefs;
@@ -111,6 +112,8 @@ struct SCHEDULER_REPLY {
     char code_sign_key_signature[4096];
     bool send_msg_ack;
     bool update_user_record;
+    bool deletion_policy_priority;
+    bool deletion_policy_expire;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

@@ -41,6 +41,7 @@ using namespace std;
 #include "handle_request.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
+#include "sched_config.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -308,6 +309,8 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 }
 
 
+// New handle completed results
+//
 int handle_results(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
@@ -666,10 +669,12 @@ void process_request(
         strcat(reply.message, "No work available");
         strcpy(reply.message_priority, "low");
         reply.request_delay = 3600;
-        log_messages.printf(
+        if(!config.msg_to_host) {
+            log_messages.printf(
             SCHED_MSG_LOG::NORMAL, "No work - skipping DB access\n"
-        );
-        return;
+            );
+            return;
+        }
     }
 
     // FROM HERE ON DON'T RETURN; goto leave instead
@@ -725,6 +730,10 @@ void process_request(
 
     handle_global_prefs(sreq, reply);
 
+    // update deletion policy
+    reply.deletion_policy_priority = config.deletion_policy_priority;
+    reply.deletion_policy_expire = config.deletion_policy_expire;
+
     if (reply.update_user_record) {
         DB_USER user;
         user = reply.user;
@@ -758,7 +767,7 @@ void process_request(
 
     send_code_sign_key(sreq, reply, code_sign_key);
 
-    handle_msgs_from_host(sreq, reply);
+
     if (config.msg_to_host) {
         handle_msgs_to_host(sreq, reply);
     }

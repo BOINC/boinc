@@ -43,6 +43,9 @@ public:
     bool homogeneous_redundancy;
     bool ignore_upload_certificates;
     bool enforce_delay_bound;
+    bool deletion_policy_priority;
+    bool deletion_policy_expire;
+    bool delete_from_self;
     bool use_transactions;
     int daily_result_quota;     // max results per host per day
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
