@@ -6405,3 +6405,11 @@ Eric K Sept 29 2003
 
     lib/xml_util.C
 
+Karl 2003/09/28
+    - python work
+
+    py/Boinc/
+        database.py
+        setup_project.py
+    tools/
+        dbcheck_files_exist
