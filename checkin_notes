@@ -12748,3 +12748,13 @@ David  May 27 2004
 
     sched/
         start
+
+David  May 27 2004
+	- The BOINC app graphics framework does not use
+		(or require the use of) OpenGL.
+		Get rid of all OpenGL stuff in the code.
+		Note: windows_opengl.C is misnamed.
+
+	api/
+		graphics_api.C,h
+		windows_opengl.C

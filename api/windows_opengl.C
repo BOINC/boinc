@@ -282,7 +282,7 @@ LRESULT CALLBACK WndProc(
         } else {
             visible = TRUE;
         }
-		ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
+		app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
 		return 0;
 	}
 
@@ -411,7 +411,7 @@ BOOL VerifyPassword(HWND hwnd)
   return bres;
 }
 
-
+#if 0
 float txt_widths[256];
 
 unsigned int MyCreateFont(char *fontName, int Size, int weight) {	
@@ -456,3 +456,4 @@ unsigned int MyCreateFont(char *fontName, int Size, int weight) {
 float get_char_width(unsigned char c) {
 	return txt_widths[c];	
 }
+#endif

@@ -61,11 +61,10 @@ GRAPHICS_INFO gi;
 bool graphics_inited = false;
 
 int boinc_init_graphics() {
-#ifdef HAVE_GL_LIB
     FILE* f;
     int retval;
 
-    f = boinc_file_exists(GRAPHICS_DATA_FILE)?boinc_fopen(GRAPHICS_DATA_FILE, "r"):0;
+    f = boinc_fopen(GRAPHICS_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init_graphics(): can't open graphics data file\n");
         fprintf(stderr, "boinc_init_graphics(): Using default graphics settings.\n");
@@ -148,10 +147,8 @@ int boinc_init_graphics() {
 #endif
     
     graphics_inited = true;
-#else
-    graphics_inited = false;
-#endif
-    return !graphics_inited;
+
+    return 0;
 }
 
 int boinc_finish_graphics() {
@@ -219,88 +216,3 @@ bool throttled_app_render(int x, int y, double t) {
     }
     return false;
 }
-
-#ifdef HAVE_GL_LIB
-// Custom GL "Print" Routine
-GLvoid glPrint(GLuint font, const char *fmt, ...) {
-	/*
-    char		text[256];			// Holds Our String
-    va_list		ap;				// Pointer To List Of Arguments
-
-    if (fmt == NULL)					// If There's No Text
-        return;						// Do Nothing
-
-    va_start(ap, fmt);					// Parses The String For Variables
-        vsprintf(text, fmt, ap);			// And Converts Symbols To Actual Numbers
-    va_end(ap);						// Results Are Stored In Text
-
-    glPushAttrib(GL_LIST_BIT);				// Pushes The Display List Bits
-    glListBase(font);					// Sets The Base Character
-    glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
-    glPopAttrib();					// Pops The Display List Bits
-	*/
-}
-
-// All Setup For OpenGL Goes Here
-//
-GLenum InitGL(GLvoid) {
-    GLenum err;
-
-    glShadeModel(GL_SMOOTH);				// Enable Smooth Shading
-    err = glGetError();
-    if (err) {
-        fprintf(stderr, "glShadeModel Error: %d '%s'", err, gluErrorString(err));
-        return err;
-    }
-
-    glClearColor(0.0f, 0.0f, 0.0f, 0.5f);		// Black Background
-    err = glGetError();
-    if (err) {
-        fprintf(stderr, "glClearColor Error: %d '%s'", err, gluErrorString(err));
-        return err;
-    }
-
-    glClearDepth(1.0f);					// Depth Buffer Setup
-    err = glGetError();
-    if (err) {
-        fprintf(stderr, "glClearDepth Error: %d '%s'", err, gluErrorString(err));
-        return err;
-    }
-
-    glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
-    err = glGetError();
-    if (err) {
-        fprintf(stderr, "glEnable Error: %d '%s'", err, gluErrorString(err));
-        return err;
-    }
-
-    glDepthFunc(GL_LEQUAL);				// The Type Of Depth Testing To Do
-    err = glGetError();
-    if (err) {
-        fprintf(stderr, "glDepthFunc Error: %d '%s'", err, gluErrorString(err));
-        return err;
-    }
-
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-    err = glGetError();
-    if (err) {
-        fprintf(stderr, "glHint Error: %d '%s'", err, gluErrorString(err));
-        return err;
-    }
-
-    return GL_NO_ERROR;					// Initialization Went OK
-}
-
-// Resize And Initialize The GL Window
-// 
-GLenum ReSizeGLScene(GLsizei width, GLsizei height) {
-    GLenum err;
-	glViewport(0,0,(int)width,(int)(height));
-
-    err = glGetError();
-    if (err) return err;
-
-	app_graphics_resize(width,height);
-    return GL_NO_ERROR;
-}
-#endif
