@@ -42,6 +42,8 @@ extern int boinc_link(char *existing, char *new_link);
 extern int clean_out_dir(char*);
 extern int dir_size(char* dirpath, double&);
 extern int boinc_rename(char* old, char* newf);
+extern int boinc_mkdir(char*);
+extern int boinc_rmdir(char*);
 #ifdef _WIN32
 extern void full_path(char* relname, char* path);
 #endif

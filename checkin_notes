@@ -4101,3 +4101,45 @@ Erik  May 8 2003
     lib/
         Makefile.in
         app_ipc.C,h
+
+Erik  May 13 2003
+    - Added a notion of "tentative" project.
+        This means that the (URL, account ID) pair hasn't been verified,
+        i.e. we haven't fetched the master page, found a scheduler,
+        and done a scheduler op that verified the account ID.
+        If anything fails for a tentative project, call project_add_failed().
+        in the cmdline version this prints an error message,
+        deletes all evidence of the project, and exits.
+        TODO: implement for GUI
+    - Make write_account_file() into a member function of PROJECT.
+    - Got rid of CLIENT_STATE::change_project().
+        The user must detach and attach.
+    - CLIENT_STATE::quit_project() now takes a PROJECT*, not an int.
+        Need to change the GUI code.
+    - got rid of separate WIN_32 implementations of
+        make_project_dir(), remove_project_dir(), make_slot_dir().
+        THIS IS THE WRONG LEVEL FOR PLATFORM-DEPENDENT CODE!
+        Instead, added boinc_mkdir() and boinc_rmdir()
+    - added implementation docs for screensaver logic
+    - test_uc.php: wait for a second before running client.
+        On fast computers the client runs before feeder has seeded shmem.
+
+    client/
+        account.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        file_names.C
+        main.C
+        scheduler_op.C,h
+        ss_logic.C
+        win/
+            wingui.cpp
+            wingui_mainwindow.cpp
+    doc/
+        client_app.html
+        client_app_graphic.html
+    lib/
+        filesys.C,y
+    test/
+        test_uc.php

@@ -59,7 +59,7 @@ public:
 
     // the following items come from client_state.xml
     // They may depend on the host as well as user and project
-    // NOTE: if you add anything, add it copy_state_fields() as well!!!
+    // NOTE: if you add anything, add it to copy_state_fields() also!!!
     //
     vector<STRING256> scheduler_urls;       // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
@@ -82,8 +82,8 @@ public:
                                 // of this project (or zero)
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
-    bool sched_rpc_pending;
-                                // need to contact the scheduling server for user/project info
+    bool sched_rpc_pending;     // contact scheduling server for preferences
+    bool tentative;             // master URL and account ID not confirmed
     char code_sign_key[MAX_BLOB_LEN];
 
     // the following items are transient; not saved in state file
@@ -95,6 +95,7 @@ public:
     ~PROJECT();
     void copy_state_fields(PROJECT&);
     char *get_project_name();
+    int write_account_file();
     int parse_account(FILE*);
     int parse_state(FILE*);
     int write_state(FILE*);

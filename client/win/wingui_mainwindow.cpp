@@ -1057,6 +1057,7 @@ void CMainWindow::OnCommandConnectionConnectNow()
 	NetClose();
 }
 
+#if 0
 //////////
 // CMainWindow::OnCommandProjectRelogin
 // arguments:	void
@@ -1083,6 +1084,7 @@ void CMainWindow::OnCommandProjectRelogin()
 		gstate.change_project(i, dlg.m_strUrl.GetBuffer(0), dlg.m_strAuth.GetBuffer(0));
 	}
 }
+#endif
 
 //////////
 // CMainWindow::OnCommandProjectQuit

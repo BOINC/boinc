@@ -1,11 +1,13 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
+- CPU benchmarks take way too long (linux)
 - Client treats URL "maggie/ap/" different than URL "maggie/ap",
     though this isn't really a bug it might be good to fix anyway
 - global battery/user active prefs are always true in the client
-- Client should display "Upload failed" and "Download failed" when failure occurs
-- Result status should say "downloading files", "uploading files", etc.
+- GUI client should display "Upload failed" and "Download failed"
+    in transfers tab when failure occurs
+- GUI: Result status should say "downloading files", "uploading files", etc.
 - message window should reposition to bottom when new message
 - show_message should expect \n, discard it if GUI
 - Win GUI: line between menus and tabs
@@ -19,29 +21,68 @@ BUGS (arranged from high to low priority)
     run_on_startup
     hangup_if_dialed
 - trim leading/trailing spaces from account ID (Win GUI)
-- I entered in a wrong URL - there was no obvious feedback that it wasn't correct.
-    Messages showed up in the messages tab, but I was looking at the progress tab.
-    Shouldn't the client expect something from the server? If it doesn't get it,
-    especially on logging in for the first time, you should get an obvious warning.
 - when i quit a project, I have to exit and restart the client, which is ugly.
-- after quitting a project, the project name still showed up in gray in the projects
-    list - I could right click on it to "relogin" (which did nothing) or "quit project"
+- after quitting a project, the project name still showed up in gray
+    in the projects list - I could right click on it to "relogin"
+    (which did nothing) or "quit project"
     which I thought I already did.
 - consider warning message during windows (and perhaps other platforms)
     install that checks to see if the BOINC directory already exists,
     and if so, should the user overwrite it? or upgrade it?
-- After running all night (on Win98) I shook the mouse to wake up the blank screen, and
-    all I saw was the top half of the screen was solid gray, and the bottom half the
-    bottom half of the astropulse graphics. They weren't moving. The computer was frozen.
+- After running all night (on Win98) I shook the mouse to wake up
+    the blank screen, and all I saw was the top half of the screen
+    was solid gray, and the bottom half the
+    bottom half of the astropulse graphics.
+    They weren't moving. The computer was frozen.
     I had to ctrl-alt-del to restart.
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
 
-On "add project" the core client should immediately attempt to
-    get project master page and verify user account.
-    If failure, let user retype URL/ID
+"Add project" behavior:
+    Goal: give user timely feedback if bad project URL or account ID;
+    don't leave bad project files sitting around
+
+    A project addition is "successful" when
+    1) the client fetches the master page,
+    2) the master page has at least one scheduler URL
+    3) the client contacts a scheduler and gets a user name back.
+
+    The cmdline and GUI clients need to inform the user if a project
+    add is not successful, since it probably means the master URL
+    or account ID were typed in wrong.
+
+    A project is "tentative" if the above hasn't happened yet.
+    This is flagged in the project file (<tentative/>) and in memory
+
+    A "failure event" is
+        - master fetch fails
+        - master page has no scheduler URLs
+        - scheduler RPC fails
+        - scheduler RPC returns no user name
+    A "success event" is
+        - scheduler RPC returns user name
+
+    cmdline client
+        first time (no projects initially) or -add_new_project flag:
+        new project is tentative (write flag to project file)
+        if failure event occurs for tentative project:
+            project_add_fail(PROJECT&)
+                print "check URL and account ID" message
+                delete project file
+                exit
+        If success event occurs for tentative project
+            project_add_succeed(PROJECT&)
+                clear tentative flag, rewrite account file
+            
+    GUI client:
+        first-time dialog or "attach to project" command:
+        show a modal dialog
+            ("verifying account" w/ "cancel" button)
+        project_add_fail(PROJECT&) 
+            replace w/ modal error dialog w/ retry, cancel
+        project_add_succeed(PROJECT&)
 
 Delete files if needed to honor disk usage constraint
     should include per-result constraints (e.g. giant stderr files)

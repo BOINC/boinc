@@ -89,55 +89,15 @@ void get_slot_dir(int slot, char* path) {
     sprintf(path, "%s%s%d", SLOTS_DIR, PATH_SEPARATOR, slot);
 }
 
-#ifdef _WIN32
-
-// Double check permissions for CreateDirectory
-
-int make_project_dir(PROJECT& p) {
-    char buf[256],buf2[256];
-
-    CreateDirectory(PROJECTS_DIR, NULL);
-    escape_project_url(p.master_url, buf);
-    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-    CreateDirectory(buf2, NULL);
-    return 0;
-}
-
-int remove_project_dir(PROJECT& p) {
-    char buf[256],buf2[256];
-
-    escape_project_url(p.master_url, buf);
-    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-    clean_out_dir(buf2);
-    RemoveDirectory(buf2);
-    return 0;
-}
-
-// Returns the location of a numbered slot directory
-//
-int make_slot_dir(int slot) {
-    if(slot<0) {
-        fprintf(stderr, "error: make_slot_dir: negative slot\n");
-        return ERR_NEG;
-    }
-    char buf[256];
-    CreateDirectory(SLOTS_DIR, NULL);
-    get_slot_dir(slot, buf);
-    CreateDirectory(buf, NULL);
-    return 0;
-}
-
-#else
-
 // Create the directory for the project p
 //
 int make_project_dir(PROJECT& p) {
     char buf[256],buf2[256];
 
-    mkdir(PROJECTS_DIR, 0777);
+    boinc_mkdir(PROJECTS_DIR);
     escape_project_url(p.master_url, buf);
     sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-    mkdir(buf2, 0777);
+    boinc_mkdir(buf2);
     return 0;
 }
 
@@ -147,7 +107,7 @@ int remove_project_dir(PROJECT& p) {
     escape_project_url(p.master_url, buf);
     sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
     clean_out_dir(buf2);
-    // rmdir(buf2);
+    boinc_rmdir(buf2);
     return 0;
 }
 
@@ -159,13 +119,11 @@ int make_slot_dir(int slot) {
         fprintf(stderr, "error: make_slot_dir: negative slot\n");
         return ERR_NEG;
     }
-    mkdir(SLOTS_DIR, 0777);
+    boinc_mkdir(SLOTS_DIR);
     get_slot_dir(slot, buf);
-    mkdir(buf, 0777);
+    boinc_mkdir(buf);
     return 0;
 }
-
-#endif
 
 void get_account_filename(char* master_url, char* path) {
     char buf[256];

@@ -57,9 +57,41 @@ PROJECT::PROJECT() {
     debt_order = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
+    tentative = false;
 }
 
 PROJECT::~PROJECT() {
+}
+
+// write account_*.xml file
+//
+int PROJECT::write_account_file() {
+    char path[256];
+    FILE* f;
+    int retval;
+
+    get_account_filename(master_url, path);
+    f = fopen(TEMP_FILE_NAME, "w");
+    if (!f) return ERR_FOPEN;
+
+    fprintf(f,
+        "<account>\n"
+        "    <master_url>%s</master_url>\n"
+        "    <authenticator>%s</authenticator>\n",
+        master_url,
+        authenticator
+    );
+    if (strlen(project_specific_prefs)) {
+        fprintf(f, "%s", project_specific_prefs);
+    }
+    if (tentative) {
+        fprintf(f, "    <tentative/>\n");
+    }
+    fprintf(f, "</account>\n");
+    fclose(f);
+    retval = boinc_rename(TEMP_FILE_NAME, path);
+    if (retval) return ERR_RENAME;
+    return 0;
 }
 
 // parse project fields from account_*.xml
@@ -83,6 +115,10 @@ int PROJECT::parse_account(FILE* in) {
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (match_tag(buf, "<send_email/>")) continue;
         else if (match_tag(buf, "<show_email/>")) continue;
+        else if (match_tag(buf, "<tentative/>")) {
+            tentative = true;
+            continue;
+        }
         else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,
@@ -243,11 +279,12 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(code_sign_key, p.code_sign_key);
 }
 
-char *PROJECT::get_project_name() {
-    if(!strcmp(project_name, ""))
-        return master_url;
-    else
+char* PROJECT::get_project_name() {
+    if (strlen(project_name)) {
         return project_name;
+    } else {
+        return master_url;
+    }
 }
 
 int APP::parse(FILE* in) {

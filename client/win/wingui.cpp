@@ -23,18 +23,18 @@
 #include "wingui_mainwindow.h"
 
 void show_message(PROJECT* p, char* message, int priority) {
-	char  proj_name[256];
+	char* x;
 
 	if (p) {
-		safe_strncpy( proj_name, p->get_project_name(), sizeof(proj_name) );
+        x = p->get_project_name();
 	} else {
-		safe_strncpy( proj_name, "BOINC", sizeof(proj_name) );
+		x = "BOINC";
 	}
 
 	if(g_myWnd) {
-		g_myWnd->MessageUser(proj_name, message, priority);
+		g_myWnd->MessageUser(x, message, priority);
 	} else {
-        fprintf(stderr, "%s: %s (priority: %s)\n", proj_name, message, priority);
+        fprintf(stderr, "%s: %s (priority: %s)\n", x, message, priority);
 	}
 }
 

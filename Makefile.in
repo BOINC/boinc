@@ -56,7 +56,7 @@ ARCHIVE_TARGETS = \
         mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.* \
         mac_build/*.lproj/*.strings \
         win_build/*.* win_build/*/*.dsp win_build/*/*.rct \
-        INSTALL LICENSE configure \
+        INSTALL LICENSE configure todo checkin_notes \
         *.in *.sub *.guess
 
 tar: 

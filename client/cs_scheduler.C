@@ -396,17 +396,18 @@ int CLIENT_STATE::handle_scheduler_reply(
     // deal with project preferences (should always be there)
     //
     if (sr.project_prefs_xml) {
-        char path[256];
-
-        retval = write_account_file(
-            project->master_url, project->authenticator, sr.project_prefs_xml
-        );
+        strcpy(project->project_specific_prefs, sr.project_prefs_xml);
+        retval = project->write_account_file();
         if (retval) return retval;
+
+#if 0
+        char path[256];
         get_account_filename(project->master_url, path);
         f = fopen(path, "r");
         if (!f) return ERR_FOPEN;
         project->parse_account(f);
         fclose(f);
+#endif
     }
 
     // if the scheduler reply includes a code-signing key,

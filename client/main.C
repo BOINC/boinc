@@ -42,16 +42,42 @@
 void create_curtain(){}
 void delete_curtain(){}
 
+// This gets called when the client fails to add a project
+//
+void project_add_failed(PROJECT* project) {
+    if (project->scheduler_urls.size()) {
+        printf(
+            "BOINC failed to log in to %s.\n "
+            "Please check your account ID and try again.\n",
+            project->master_url
+        );
+    } else {
+        printf(
+            "BOINC couldn't get main page for %s.\n"
+            "Please check the URL and try again.\n",
+            project->master_url
+        );
+    }
+    gstate.quit_project(project);
+    exit(1);
+}
+
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
 //
 void show_message(PROJECT *p, char* message, int priority) {
-    const char* proj = p?p->project_name:"BOINC";
+    char* x;
+    
+    if (p) {
+        x = p->get_project_name();
+    } else {
+        x = "BOINC";
+    }
     switch (priority) {
     case MSG_ERROR:
-        fprintf(stderr, "%s [%s] %s\n", timestamp(), proj, message);
+        fprintf(stderr, "%s [%s] %s\n", timestamp(), x, message);
     default:
-        printf("%s [%s] %s\n", timestamp(), proj, message);
+        printf("%s [%s] %s\n", timestamp(), x, message);
     }
 }
 
@@ -59,19 +85,19 @@ void show_message(PROJECT *p, char* message, int priority) {
 // and create an account file
 //
 int add_new_project() {
-    char master_url[256];
-    char authenticator[256];
+    PROJECT project;
 
     printf("Enter the URL of the project: ");
-    scanf("%s", master_url);
+    scanf("%s", project.master_url);
     printf(
         "You should have already registered with the project\n"
         "and received an account key by email.\n"
         "Paste the account key here: "
     );
-    scanf("%s", authenticator);
+    scanf("%s", project.authenticator);
 
-    write_account_file(master_url, authenticator);
+    project.tentative = true;
+    project.write_account_file();
     return 0;
 }
 

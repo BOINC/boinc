@@ -26,34 +26,6 @@
 
 #include "account.h"
 
-int write_account_file(
-    char* master_url, char* authenticator, char* project_prefs
-) {
-    char path[256];
-    FILE* f;
-    int retval;
-
-    get_account_filename(master_url, path);
-    f = fopen(TEMP_FILE_NAME, "w");
-    if (!f) return ERR_FOPEN;
-
-    fprintf(f,
-        "<account>\n"
-        "    <master_url>%s</master_url>\n"
-        "    <authenticator>%s</authenticator>\n",
-        master_url,
-        authenticator
-    );
-    if (project_prefs) {
-        fprintf(f, "%s", project_prefs);
-    }
-    fprintf(f, "</account>\n");
-    fclose(f);
-    retval = boinc_rename(TEMP_FILE_NAME, path);
-    if (retval) return ERR_RENAME;
-    return 0;
-}
-
 int CLIENT_STATE::parse_account_files() {
     DIRREF dir;
     char name[256];
@@ -87,17 +59,19 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
 
     // create project state
     //
-    retval = write_account_file(master_url, authenticator);
+    project = new PROJECT;
+    strcpy(project->master_url, master_url);
+    strcpy(project->authenticator, authenticator);
+    project->tentative = true;
+    retval = project->write_account_file();
     if (retval) return retval;
+
     get_account_filename(master_url, path);
     f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
-    project = new PROJECT;
     retval = project->parse_account(f);
     fclose(f);
-    if(retval) {
-        return retval;
-    }
+    if (retval) return retval;
 
     // remove any old files
     //
@@ -109,6 +83,13 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     return 0;
 }
 
+#if 0
+// Wrong approach.
+// The user must detach and reattach.
+// In any case the following has a major bug:
+// the call to remove_project_dir() won't work because
+// it gets the new, not the old, project URL
+// 
 int CLIENT_STATE::change_project(
     int index, char* master_url, char* authenticator
 ) {
@@ -121,7 +102,7 @@ int CLIENT_STATE::change_project(
     //
     if (lookup_project(master_url)) return -1;
 
-    // delete old file
+    // delete old account file
     //
     project = projects[index];
     get_account_filename(project->master_url, path);
@@ -147,33 +128,42 @@ int CLIENT_STATE::change_project(
     }
     return 0;
 }
+#endif
 
-int CLIENT_STATE::quit_project(int index) {
-    PROJECT* project = NULL;
+// TODO: see if any activities are in progress for this project, and stop them
+//
+int CLIENT_STATE::quit_project(PROJECT* project) {
+    PROJECT* p;
     vector <PROJECT*>::iterator iter;
-    int curindex = 0;
+    char path[256];
+    int retval;
 
     // find project and remove it from the vector
+    //
     for (iter = projects.begin(); iter != projects.end(); iter++) {
-        if (curindex == index) {
-            project = *iter;
+        p = *iter;
+        if (p == project) {
             projects.erase(iter);
             break;
         }
-        curindex++;
     }
-    if (project == NULL) return -1;
 
-    // delete file
-    char path[256];
-    int retval;
+    // delete account file
+    //
     get_account_filename(project->master_url, path);
     retval = file_delete(path);
 
-//    delete project;  //also somewhere else?
-
+    // if tentative, there are no activities so we can safely delete everything
+    //
+    if (project->tentative) {
+        // remove project directory and its contents
+        //
+        remove_project_dir(*project);
+        delete project;
+    } else {
 #ifdef _WIN32
-    AfxMessageBox("Please restart the client to complete the quit.", MB_OK, 0);
+        AfxMessageBox("Please restart the client to complete the quit.", MB_OK, 0);
 #endif
+    }
     return 0;
 }

@@ -71,7 +71,7 @@ void SS_LOGIC::poll() {
                 } else {
                     if (time(0)>ack_deadline) {
                         do_boinc_logo_ss = true;
-                        sprintf(ss_msg, "App can't display graphics");
+                        strcpy(ss_msg, "App can't display graphics");
                     }
                 }
             } else {
@@ -81,7 +81,7 @@ void SS_LOGIC::poll() {
                     ack_deadline = time(0) + 5;
                 } else {
                     do_boinc_logo_ss = true;
-                    sprintf(ss_msg, "No work available");
+                    strcpy(ss_msg, "No work available");
                 }
             }
         }

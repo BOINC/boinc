@@ -32,10 +32,33 @@
 #include "log_flags.h"
 #include "scheduler_op.h"
 
+extern void project_add_failed(PROJECT*);
+
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
+}
+
+// see if there's a pending master file fetch.  start it if so.
+//
+bool SCHEDULER_OP::check_master_fetch_start() {
+    int retval;
+
+    project = gstate.next_project_master_pending();
+    if (project) {
+        retval = init_master_fetch(project);
+        if (retval) {
+            if (project->tentative) {
+                project_add_failed(project);
+            } else {
+                project->master_fetch_failures++;
+                backoff(project, "Master file fetch failed\n");
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 // try to get enough work to bring us up to max buffer level
@@ -55,14 +78,7 @@ int SCHEDULER_OP::init_get_work() {
             return retval;
         }
     } else {
-        project = gstate.next_project_master_pending();
-        if (project) {
-            retval = init_master_fetch(project);
-            if (retval) {
-                sprintf(err_msg, "init_master_fetch failed, error %d\n", retval);
-                backoff(project, err_msg);
-            }
-        }
+        check_master_fetch_start();
     }
 
     return 0;
@@ -344,26 +360,23 @@ bool SCHEDULER_OP::poll() {
             // it may be the wrong URL.  notify the user
             //
             if (project->scheduler_urls.size() == 0) {
-                sprintf(err_msg,
-                    "Could not contact %s. Make sure this is the correct project URL.",
-                    err_url
-                );
-                show_message(project, err_msg, MSG_ERROR);
-                project->master_fetch_failures++;
-                backoff(project, err_msg);
+                if (project->tentative) {
+                    project_add_failed(project);
+                } else {
+                    sprintf(err_msg,
+                        "Could not contact any schedulers for %s.",
+                        err_url
+                    );
+                    show_message(project, err_msg, MSG_ERROR);
+                    project->master_fetch_failures++;
+                    backoff(project, err_msg);
+                }
             }
 
-            // See if need to read master file for another project
+            // See if need to read master file for another project;
+            // if not, we're done for now
             //
-            project = gstate.next_project_master_pending();
-            if (project) {
-                retval = init_master_fetch(project);
-                if (retval) {
-                    project->master_fetch_failures++;
-                    backoff(project, "Master file fetch failed\n");
-                    err_url = project->master_url;
-                }
-            } else {
+            if (!check_master_fetch_start()) {
                 state = SCHEDULER_OP_STATE_IDLE;
                 if (log_flags.sched_op_debug) {
                     printf("Scheduler_op: return to idle state\n");
@@ -402,8 +415,7 @@ bool SCHEDULER_OP::poll() {
                         } else {
                             scheduler_op_done = true;
                         }
-                    }
-                    else {
+                    } else {
                         scheduler_op_done = true;
                     }
                 }
@@ -416,14 +428,27 @@ bool SCHEDULER_OP::poll() {
                 }
                 gstate.handle_scheduler_reply(project, scheduler_url, nresults);
 
-                // if we asked for work and didn't get any,
-                // back off this project
+                // if this was a tentative project and we didn't get user name,
+                // the account ID must be bad.  Tell the user.
                 //
-                if (must_get_work && nresults==0) {
-                    backoff(project, "No work from project\n");
+                if (project->tentative) {
+                    if (strlen(project->user_name)) {
+                        project->tentative = false;
+                        project->write_account_file();
+                    } else {
+                        project_add_failed(project);
+                    }
                 } else {
-                    project->nrpc_failures = 0;
-                    project->min_rpc_time = 0;
+
+                    // if we asked for work and didn't get any,
+                    // back off this project
+                    //
+                    if (must_get_work && nresults==0) {
+                        backoff(project, "No work from project\n");
+                    } else {
+                        project->nrpc_failures = 0;
+                        project->min_rpc_time = 0;
+                    }
                 }
                     
                 // if we didn't get all the work we needed,

@@ -263,6 +263,22 @@ int boinc_rename(char* old, char* newf) {
     return rename(old, newf);
 }
 
+int boinc_mkdir(char* name) {
+#ifdef _WIN32
+    return CreateDirectory(name, NULL);
+#else
+    return mkdir(name, 0777);
+#endif
+}
+
+int boinc_rmdir(char* name) {
+#ifdef _WIN32
+    return RemoveDirectory(name, NULL);
+#else
+    return rmdir(name);
+#endif
+}
+
 #ifdef _WIN32
 void full_path(char* relname, char* path) {
     _getcwd(path, 256);

@@ -488,13 +488,11 @@ int CLIENT_STATE::check_suspend_activities() {
 
     if (should_suspend) {
         if (!activities_suspended) {
-            if (log_flags.task_debug) printf("SUSPENDING ACTIVITIES\n");
             active_tasks.suspend_all();
             show_message(NULL, susp_msg, MSG_INFO);
         }
     } else {
         if (activities_suspended) {
-            if (log_flags.task_debug) printf("UNSUSPENDING ACTIVITIES\n");
             active_tasks.unsuspend_all();
             show_message(NULL, "Resuming activity", MSG_INFO);
         }

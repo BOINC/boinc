@@ -168,8 +168,8 @@ public:
     int report_result_error(RESULT &res, int err_num, char *err_msg);
         // flag a result as having an error
     int add_project(char* master_url, char* authenticator);
-    int change_project(int index, char* master_url, char* authenticator);
-    int quit_project(int index);
+    //int change_project(int index, char* master_url, char* authenticator);
+    int quit_project(PROJECT*);
 private:
     PROJECT* find_project_with_overdue_results();
     bool some_project_rpc_ok();
