@@ -65,7 +65,7 @@ int check_trigger(SCHED_SHMEM* ssp) {
     assert(ssp!=NULL);
     f = fopen(TRIGGER_FILENAME, "r");
     if (!f) return 0;
-    fread(buf, 1, 256, f);
+    fgets(buf, 256, f);
     fclose(f);
     if (!strcmp(buf, "<quit/>\n")) {
         detach_shmem((void*)ssp);
@@ -146,7 +146,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     printf("feeder: adding result %d in slot %d\n", result.id, i);
                     retval = db_workunit(result.workunitid, wu);
                     if (retval) {
-                        printf("feeder: can't read workunit %d: %d\n", result.workunitid, result);
+                        printf("feeder: can't read workunit %d: %d\n", result.workunitid, retval);
                         continue;
                     }
                     ssp->wu_results[i].result = result;
