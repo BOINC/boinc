@@ -25777,3 +25777,13 @@ David  9 Mar 2005
         main.C
         net_xfer.C
         scheduler_op.C,h
+
+Rom    9 Mar 2005
+    - Bug Fix: refactor the status bar code so that it is a derived
+        class of wxStatusBar and then set it to be the status bar, which
+        in turn fixes the status bar creation bug on platforms other
+        than Windows in which the status bar text and bitmaps were
+        having their top and left values be set to 0,0.
+
+    clientgui/
+        MainFrame.cpp, .h
