@@ -20496,6 +20496,8 @@ Bruce	2 Dec 2004
         and target_nresults.  Results pages displays deadline not received time
         for results that are still in progress or were never received.
     -   Fixed glut detection bug in configure script
+    -   Made php script function correctly under both php4 and php5.
+
     checkin-notes
     configure.ac
     zip/
@@ -20503,3 +20505,4 @@ Bruce	2 Dec 2004
     html/
         inc/
             db_ops.inc
+            util_ops.inc
