@@ -7,7 +7,7 @@ database.connect()
 config = configxml.default_config().config
 
 def get_file_path(wu):
-    return os.path.join(config.upload_dir,
+    return os.path.join(config.download_dir,
                         re.search('<name>(.*)</name>',wu.xml_doc).group(1))
 
 print "Checking for missing input files ...\n"
