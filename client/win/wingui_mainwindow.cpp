@@ -1257,6 +1257,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		return -1;
 	}
 
+	// Determine the OS version
+	UtilInitOSVersion();
+
     g_myWnd = this;
 	m_nIconState = ICON_OFF;
 	m_bMessage = false;
@@ -1353,9 +1356,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_Font.CreateFontIndirect(&lf);
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
-
-	// Determine the OS version
-	UtilInitOSVersion();
 
 	// Set the current directory to the default
 	UtilGetRegStr("ClientDir", curDir);
