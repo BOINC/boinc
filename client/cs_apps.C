@@ -233,9 +233,9 @@ bool CLIENT_STATE::have_free_cpu() {
 //
 void CLIENT_STATE::assign_results_to_projects() {
 
-	// Before assigning a result to an active task, check if that result is a file xfer
-	// this will be appearent by the lack of files associated with the workunit's app
-	// Running this function will find these results and mark them as completed.
+    // Before assigning a result to an active task, check if that result is a file xfer
+    // this will be appearent by the lack of files associated with the workunit's app
+    // Running this function will find these results and mark them as completed.
 
     handle_file_xfer_apps();
 
