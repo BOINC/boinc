@@ -30,7 +30,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 #ifdef __APPLE_CC__
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
-#include "mac_app_opengl.h"
+//#include "mac_app_opengl.h"
 #endif
 
 extern GRAPHICS_INFO gi;

@@ -19,7 +19,7 @@
 
 // API_IGNORE_CLIENT will make the app ignore the core client
 // this is useful for debugging just the application
-#define API_IGNORE_CLIENT
+//#define API_IGNORE_CLIENT
 
 #include <stdlib.h>
 #include <stdio.h>
