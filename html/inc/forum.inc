@@ -518,8 +518,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 	    if (isSpecialUser($user,$i)) $fstatus.=$special_user_bitfield[$i]."<br>";
 	}
     } else {
-        if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
-	echo "<br>";
+        if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW."<br>";
         /*...*/
     }
     if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
