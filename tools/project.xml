@@ -15,8 +15,8 @@
         <name>anonymous</name>
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>
-    <application>
+    <app>
         <name>setiathome</name>
         <user_friendly_name>SETI@home</user_friendly_name>
-    </application>
+    </app>
 </boinc>
