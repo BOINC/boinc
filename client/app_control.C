@@ -220,6 +220,7 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
 #if 0
                 state = PROCESS_IN_LIMBO;
 #else
+                scheduler_state = CPU_SCHED_PREEMPTED;
                 state = PROCESS_UNINITIALIZED;
                 close_process_handles();
 #endif
@@ -285,6 +286,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
 #if 0
                     state = PROCESS_IN_LIMBO;
 #else
+                    scheduler_state = CPU_SCHED_PREEMPTED;
                     state = PROCESS_UNINITIALIZED;
                     detach_and_destroy_shmem();
 #endif

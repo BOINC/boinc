@@ -119,7 +119,6 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         }
     }
 
-    rp->is_active = false;
     if (had_error) {
         // dead-end state indicating we had an error at end of computation;
         // do not move to RESULT_FILES_UPLOADING
@@ -215,7 +214,8 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 //
 bool CLIENT_STATE::have_free_cpu() {
     int num_running_tasks = 0;
-    for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
+    unsigned int i;
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
         if (active_tasks.active_tasks[i]->scheduler_state == CPU_SCHED_SCHEDULED) {
             ++num_running_tasks;
         }
@@ -223,26 +223,30 @@ bool CLIENT_STATE::have_free_cpu() {
     return num_running_tasks < ncpus;
 }
 
-// Choose the next runnable result for each project with this
-// preference order:
+// Choose a "best" runnable result for each project
+//
+// Values are returned in project->next_runnable_result
+// (skip projects for which this is already non-NULL)
+//
+// Don't choose results with already_selected == true;
+// mark chosen results as already_selected.
+//
+// The preference order:
 // 1. results with active tasks that are running
 // 2. results with active tasks that are preempted (but have a process)
 // 3. results with active tasks that have no process
 // 4. results with no active task
 //
 void CLIENT_STATE::assign_results_to_projects() {
+    unsigned int i;
 
-    // Before assigning a result to an active task,
-    // mark file xfer results as completed;
-    // TODO: why do this in this function??
+    // first scan results with an ACTIVE_TASK already
     //
-    handle_file_xfer_apps();
-
-    for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
+    for (i=0; i<active_tasks.active_tasks.size(); ++i) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
         if (atp->result->already_selected) continue;
         PROJECT *p = atp->wup->project;
-        if (p->next_runnable_result == NULL) {
+        if (!p->next_runnable_result) {
             p->next_runnable_result = atp->result;
             continue;
         }
@@ -253,7 +257,7 @@ void CLIENT_STATE::assign_results_to_projects() {
         ACTIVE_TASK *next_atp = lookup_active_task_by_result(
             p->next_runnable_result
         );
-        //assert(next_atp != NULL);
+        assert(next_atp != NULL);
 
         if ((next_atp->state == PROCESS_UNINITIALIZED && atp->process_exists())
             || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
@@ -262,16 +266,13 @@ void CLIENT_STATE::assign_results_to_projects() {
             p->next_runnable_result = atp->result;
         }
     }
-    // Note: !results[i]->is_active is true for results with preempted
-    // active tasks, but all of those were already been considered in the
-    // previous loop.
-    // So p->next_runnable_result will not be NULL if there were any.
+
+    // Now consider results that don't have an active task
     //
-    for (unsigned int i=0; i<results.size(); ++i) {
+    for (i=0; i<results.size(); i++) {
         if (results[i]->already_selected) continue;
         PROJECT *p = results[i]->wup->project;
-        if (p->next_runnable_result == NULL
-            && !results[i]->is_active
+        if (!p->next_runnable_result
             && results[i]->state == RESULT_FILES_DOWNLOADED
         ){
             p->next_runnable_result = results[i];
@@ -279,10 +280,10 @@ void CLIENT_STATE::assign_results_to_projects() {
     }
 
     // mark selected results, so CPU scheduler won't try to consider
-    // a result more than once (i.e. for running on another CPU)
+    // a result more than once
     //
-    for (unsigned int i=0; i<projects.size(); ++i) {
-        if (projects[i]->next_runnable_result != NULL) {
+    for (i=0; i<projects.size(); i++) {
+        if (projects[i]->next_runnable_result) {
             projects[i]->next_runnable_result->already_selected = true;
         }
     }
@@ -296,9 +297,10 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     PROJECT *best_project = NULL;
     double best_debt = 0.; // initial value doesn't matter
     bool first = true;
+    unsigned int i;
 
-    for (unsigned int i=0; i < projects.size(); ++i) {
-        if (projects[i]->next_runnable_result == NULL) continue;
+    for (i=0; i<projects.size(); i++) {
+        if (!projects[i]->next_runnable_result) continue;
         if (!input_files_available(projects[i]->next_runnable_result)) {
             report_result_error(
                 *(projects[i]->next_runnable_result), ERR_FILE_MISSING,
@@ -321,7 +323,6 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
         atp->init(best_project->next_runnable_result);
         atp->slot = active_tasks.get_free_slot();
         get_slot_dir(atp->slot, atp->slot_dir);
-        atp->result->is_active = true;
         active_tasks.active_tasks.push_back(atp);
     }
     best_project->anticipated_debt -= expected_pay_off;
@@ -339,12 +340,11 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 //
 bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double expected_pay_off;
-    vector<ACTIVE_TASK*>::iterator iter;
     ACTIVE_TASK *atp;
     PROJECT *p;
     bool some_app_started = false;
     double adjusted_total_resource_share;
-    int retval, elapsed_time;
+    int retval, elapsed_time, j;
     double max_debt = SECONDS_PER_DAY * ncpus;
     double vm_limit;
     unsigned int i;
@@ -359,15 +359,29 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         return false;
     }
 
+    // mark file xfer results as completed;
+    // TODO: why do this here??
+    //
+    handle_file_xfer_apps();
+
     // tell app doing screensaver (fullscreen) graphics to stop
     // TODO: this interrupts the graphics, even if it's
     // the only app running.  DO THIS A DIFFERENT WAY
     //
     ss_logic.reset();
 
-    // do work accounting for active tasks, reset temporary fields
+    // clear temporary variables
     //
-    for (i=0; i < active_tasks.active_tasks.size(); ++i) {
+    for (i=0; i<projects.size(); i++) {
+        projects[i]->next_runnable_result = NULL;
+    }
+    for (i=0; i<results.size(); i++) {
+        results[i]->already_selected = false;
+    }
+
+    // do work accounting for active tasks
+    //
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
@@ -378,13 +392,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
 
     // compute total resource share among projects with runnable results
     //
-    for (i=0; i < projects.size(); ++i) {
-        projects[i]->next_runnable_result = NULL;
-    }
-    assign_results_to_projects(); // do this to see which projects have work
+    assign_results_to_projects();   // see which projects have work
     adjusted_total_resource_share = 0;
-    for (i=0; i < projects.size(); ++i) {
-        if (projects[i]->next_runnable_result != NULL) {
+    for (i=0; i<projects.size(); i++) {
+        if (projects[i]->next_runnable_result) {
             adjusted_total_resource_share += projects[i]->resource_share;
         }
     }
@@ -393,9 +404,9 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // reset debts for projects with no runnable results
     // reset temporary fields
     //
-    for (i=0; i < projects.size(); ++i) {
+    for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->next_runnable_result == NULL) {
+        if (!p->next_runnable_result) {
             p->debt = 0;
             p->anticipated_debt = 0;
         } else {
@@ -416,11 +427,11 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
 
     // schedule tasks for projects in order of decreasing anticipated debt
     //
-    for (i=0; i<results.size(); ++i) {
+    for (i=0; i<results.size(); i++) {
         results[i]->already_selected = false;
     }
     expected_pay_off = cpu_sched_work_done_this_period / ncpus;
-    for (int j=0; j<ncpus; ++j) {
+    for (j=0; j<ncpus; j++) {
         assign_results_to_projects();
         if (!schedule_largest_debt_project(expected_pay_off)) break;
     }
@@ -428,9 +439,8 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // preempt, start, and resume tasks
     //
     vm_limit = global_prefs.vm_max_used_pct / 100.0 * host_info.m_swap;
-    iter = active_tasks.active_tasks.begin();
-    while (iter != active_tasks.active_tasks.end()) {
-        atp = *iter;
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
@@ -448,14 +458,11 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
                     *(atp->result), retval,
                     "Couldn't start the app for this result: error %d", retval
                 );
-                iter = active_tasks.active_tasks.erase(iter);
-                delete atp;
                 continue;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             some_app_started = true;
         }
-        iter++;
         atp->cpu_time_at_last_sched = atp->current_cpu_time;
     }
 

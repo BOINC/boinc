@@ -1158,7 +1158,6 @@ void RESULT::clear() {
     strcpy(wu_name, "");
     report_deadline = 0;
     output_files.clear();
-    is_active = false;
     state = RESULT_NEW;
     ready_to_report = false;
     got_server_ack = false;

@@ -537,8 +537,6 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
             continue;
         }
 
-        result->is_active = true;
-
         msg_printf(atp->wup->project, MSG_INFO,
             "Resuming computation for result %s using %s version %.2f",
             atp->result->name,

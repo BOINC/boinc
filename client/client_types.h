@@ -279,9 +279,6 @@ struct RESULT {
     char wu_name[256];
     int report_deadline;
     std::vector<FILE_REF> output_files;
-    bool is_active;
-        // an app is currently running for this.
-        // this is false for preempted tasks!
     bool ready_to_report;
         // we're ready to report this result to the server;
         // either computation is done and all the files have been uploaded
@@ -318,7 +315,7 @@ struct RESULT {
 
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice
-        // (transient)
+        // transient; used only within schedule_cpus()
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);
