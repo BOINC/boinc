@@ -270,8 +270,14 @@ int CLIENT_STATE::make_slot_dirs() {
 }
 
 int CLIENT_STATE::exit_tasks() {
+    int retval;
     active_tasks.exit_tasks();
     active_tasks.poll_time();
+    retval = write_state_file();
+    if(retval) {
+        fprintf(stderr, "error: CLIENT_STATE.exit_tasks: write_state_file failed\n");
+        return retval;
+    }
     return 0;
 }
 
