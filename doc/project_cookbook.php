@@ -5,16 +5,21 @@ echo "
 <h2>Make skeletal project</h2>
 <ul>
 <li> Compile the BOINC software, say into HOME/boinc.
+Make sure MySQL is configured and running.
 <li> run HOME/boinc/tools/make_project
 <li> paste text into httpd.conf
 <li> insert cron job
 <li> xadd project.xml
-<li> Edit html/project/project.inc to use the right
+<li> Edit html/project/project.inc, changing the
 master URL and copyright holder.
 <li> Add .htaccess and .htpasswd files to html/ops.
 </ul>
 
 Visible result: the project web site is up.
+The database 'platforms' table has several rows.
+<p>
+Troubleshooting:
+check the Apache access and error logs.
 
 <h2>Create an application version</h2>
 <ul>
@@ -33,15 +38,19 @@ Visible result: the web site's Applications page has an entry.
 <li> Using a text editor, create a work unit template file
 and a result template file.
 <li> Run create_work
-<li> Edit the configuration file to add make_work,
-the feeder,
-the transitioner,
-the file deleter,
+<li> Edit the configuration file to add
+".htmlspecialchars("<daemon>")." records for
+make_work,
+feeder,
+transitioner,
+file_deleter,
 the trivial validator,
 and the trivial assimilator.
 </ul>
 
-Visible result: 'status' shows everything running.
+Visible result: 'status' shows the above daemon processes running.
+<p>
+Troubleshooting: check the log files of all daemon processes.
 
 <h2>Test the system</h2>
 <ul>
@@ -54,6 +63,8 @@ enter the project URL and the account ID.
 
 Visible result: the client does a stream of work;
 the web site shows credit accumulating.
+
+Troubleshooting: check the log files of all daemon processes.
 
 <h2>Develop back end components</h2>
 <ul>

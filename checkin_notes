@@ -13262,3 +13262,12 @@ Rom    10 June 2004
         net_xfer.C
     win_build
         *.vcproj
+
+David  10 June 2004
+    - added "-allow_remote_gui_rpc command line flag
+        to allow GUI RPCs from remote hosts (courtesy of Rob Oglivie)
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        gui_rpc_server.C

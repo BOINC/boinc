@@ -386,7 +386,7 @@ bool GUI_RPC_CONN_SET::poll() {
             sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #endif
             int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
-            if (peer_ip != 0x7f000001) {
+            if (!gstate.allow_remote_gui_rpc && peer_ip != 0x7f000001) {
                 msg_printf(
                     NULL, MSG_ERROR,
                     "GUI RPC request from non-local address 0x%x\n",

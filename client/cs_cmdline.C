@@ -44,7 +44,8 @@ static void print_options(char* prog) {
         "    -reset_project URL     reset (clear) a project\n"
         "    -attach_project        attach to a project (will prompt for URL, account key)\n"
         "    -update_prefs URL      contact a project to update preferences\n"
-        "    -run_cpu_benchmarks    run the CPU benchmarks\n",
+        "    -run_cpu_benchmarks    run the CPU benchmarks\n"
+        "    -allow_remote_gui_rpc  allow remote GUI RPC connections\n",
         prog
     );
 }
@@ -141,6 +142,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(version)) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOSTTYPE );
             exit(0);
+        } else if (ARG(allow_remote_gui_rpc)) {
+            allow_remote_gui_rpc = true;
         } else if (ARG(help)) {
             print_options(argv[0]);
             exit(0);

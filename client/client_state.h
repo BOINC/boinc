@@ -94,6 +94,7 @@ public:
     bool started_by_screensaver;
     bool exit_when_idle;
     bool return_results_immediately;
+    bool allow_remote_gui_rpc;
     bool show_projects;
     bool requested_exit;
     char detach_project_url[256];
