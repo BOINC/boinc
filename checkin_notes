@@ -7932,9 +7932,11 @@ David  28 Nov 2003
         util.inc
 
 Karl 2003-11-28
-    - fixed testbase.py not working due to change in client default benchmark
-    - fixed problem with app_versions due to checking major version
+    - fixed problems in testbase.py:
+        - changed workunit fpops due to change in client default benchmark
+        - changed app_version major version to come from version.MAJOR_VERSION
     - added new columns to python database interface
+    - test_uc.py (and thus 'make check') pass now.
 
     test/
         testbase.py
