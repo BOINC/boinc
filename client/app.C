@@ -759,8 +759,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     return false;
 }
 
-// The application has done something wrong.
-// May as well send it a kill signal.
+// If process is running, send it a kill signal
+// This is done when
+// 1) project is reset or detached
+// 2) app has exceeded CPU, disk, or mem limits
 //
 int ACTIVE_TASK::abort() {
     if (state == PROCESS_RUNNING) {
@@ -811,37 +813,42 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     }
 }
 
-// send quit signal to all tasks.
-// If they don't exit in one second, send them a kill signal
+// send quit signal to all tasks in the project
+// (or all tasks, if zero).
+// If they don't exit in 5, send them a kill signal
+// and wait up to 5 more seconds to exit.
 // TODO: unsuspend active tasks so they have a chance to checkpoint
 //
-int ACTIVE_TASK_SET::exit_tasks() {
-    request_tasks_exit();
+int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
+    request_tasks_exit(proj);
 
     // Wait 5 seconds for them to exit normally; if they don't then kill them
     //
-    if (wait_for_exit(5)) {
-        kill_tasks();
+    if (wait_for_exit(5, proj)) {
+        kill_tasks(proj);
     }
+    wait_for_exit(5, proj);
 
     get_cpu_times();
 
     return 0;
 }
 
-// Wait up to wait_time seconds for all processes to exit
+// Wait up to wait_time seconds for processes to exit
+// If proj is zero, wait for all processes, else that project's
+// NOTE: it's bad form to sleep, but it would be complex to avoid it here
 //
-int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
+int ACTIVE_TASK_SET::wait_for_exit(double wait_time, PROJECT* proj) {
     bool all_exited;
     unsigned int i,n;
     ACTIVE_TASK *atp;
 
     for (i=0; i<10; i++) {
-        boinc_sleep(wait_time/10.0);
         all_exited = true;
 
         for (n=0; n<active_tasks.size(); n++) {
             atp = active_tasks[n];
+            if (proj && atp->wup->project != proj) continue;
             if (!atp->task_exited()) {
                 all_exited = false;
                 break;
@@ -849,9 +856,27 @@ int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
         }
 
         if (all_exited) return 0;
+        boinc_sleep(wait_time/10.0);
     }
 
     return -1;
+}
+
+int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
+    vector<ACTIVE_TASK*>::iterator task_iter;
+    ACTIVE_TASK* atp;
+
+    exit_tasks(project);
+    task_iter = active_tasks.begin();
+    while (task_iter != active_tasks.end()) {
+        atp = *task_iter;
+        if (atp->result->project == project) {
+            task_iter = active_tasks.erase(task_iter);
+        } else {
+            task_iter++;
+        }
+    }
+    return 0;
 }
 
 // Find the ACTIVE_TASK in the current set with the matching PID
@@ -917,11 +942,12 @@ void ACTIVE_TASK_SET::unsuspend_all() {
 
 // Send quit signal to all currently running tasks
 //
-void ACTIVE_TASK_SET::request_tasks_exit() {
+void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (proj && atp->wup->project != proj) continue;
         atp->request_exit();
     }
 }
@@ -929,11 +955,12 @@ void ACTIVE_TASK_SET::request_tasks_exit() {
 // Send kill signal to all currently running tasks
 // Don't wait for them to exit
 //
-void ACTIVE_TASK_SET::kill_tasks() {
+void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (proj && atp->wup->project != proj) continue;
         atp->kill_task();
     }
 }

@@ -345,14 +345,18 @@ bool SCHEDULER_OP::poll() {
             gstate.set_client_state_dirty("master URL fetch done");
             http_ops->remove(&http_op);
             if (http_op.http_op_retval == 0) {
-                scope_messages.printf("SCHEDULER_OP::poll(): Got master file from %s; parsing\n",
-                                      project->master_url);
+                scope_messages.printf(
+                    "SCHEDULER_OP::poll(): Got master file from %s; parsing\n",
+                     project->master_url
+                );
                 retval = parse_master_file(urls);
                 if (retval) {
                     // master file parse failed.
                     //
                     if (project->tentative) {
-                        project_add_failed(project);
+                        PROJECT* project_temp = project;
+                        project = 0;        // keep detach(0) from removing HTTP OP
+                        project_add_failed(project_temp);
                         err = true;
                     } else {
                         project->master_fetch_failures++;
@@ -380,7 +384,7 @@ bool SCHEDULER_OP::poll() {
             // If don't have any schedulers for this project,
             // it may be the wrong URL.  notify the user
             //
-            if (project->scheduler_urls.size() == 0 && !err) {
+            if (!err && project->scheduler_urls.size() == 0) {
                 if (project->tentative) {
                     project_add_failed(project);
                 } else {

@@ -103,6 +103,10 @@ public:
     int master_fetch_retry_cap, master_fetch_interval;
     int sched_retry_delay_min, sched_retry_delay_max;
     int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
+    bool activities_suspended;
+	bool previous_activities_suspended;
+		// if activities were suspended in the previous check_suspend();
+		// this is needed to update GUI windows after suspension and close transfers/files.
 
 private:
     bool client_state_dirty;
@@ -116,10 +120,6 @@ private:
         // if set, use hardwired numbers rather than running benchmarks
     bool run_cpu_benchmarks;
         // if set, run benchmarks on client startup
-    bool activities_suspended;
-	bool previous_activities_suspended;
-		// if activities were suspended in the previous check_suspend();
-		// this is needed to update GUI windows after suspension and close transfers/files.
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app
     time_t app_started;
@@ -152,6 +152,7 @@ public:
     int report_result_error(RESULT &res, int err_num, const char *err_msg);
         // flag a result as having an error
     void set_client_state_dirty(char*);
+    int reset_project(PROJECT*);
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);
@@ -162,12 +163,12 @@ private:
     void print_summary();
     bool garbage_collect();
     bool update_results();
-    int reset_project(PROJECT*);
 
 // --------------- cs_account.C:
+public:
+    int add_project(char* master_url, char* authenticator);
 private:
     int parse_account_files();
-    int add_project(char* master_url, char* authenticator);
 
 // --------------- cs_apps.C:
 public:

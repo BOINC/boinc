@@ -173,12 +173,12 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
     }
     if (strlen(host_venue)) {
         if (found_venue) {
-            msg_printf(NULL, MSG_INFO, "General preferences: using preferences for venue %s\n", host_venue);
+            msg_printf(NULL, MSG_INFO, "Using preferences for '%s'\n", host_venue);
         } else {
-            msg_printf(NULL, MSG_INFO, "General preferences: can't find special preferences for %s; using your default preferences\n", host_venue);
+            msg_printf(NULL, MSG_INFO, "No preferences for '%s'; using  default preferences\n", host_venue);
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "General preferences: no venue given; using your default general preferences\n");
+        msg_printf(NULL, MSG_INFO, "Using  default preferences\n");
     }
     return 0;
 }

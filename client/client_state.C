@@ -175,9 +175,11 @@ int CLIENT_STATE::init() {
 
     // printing the platform name here helps bug reports because users often
     // give us this line but don't say what platform they have
-    msg_printf(NULL, MSG_INFO, "Starting BOINC client version %d.%02d (%s)",
-               core_client_major_version, core_client_minor_version, platform_name
-        );
+    //
+    msg_printf(
+        NULL, MSG_INFO, "Starting BOINC client version %d.%02d (%s)",
+        core_client_major_version, core_client_minor_version, platform_name
+    );
 
     // parse account files.
     // If there are none, prompt user for project URL and create file
@@ -931,20 +933,13 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     unsigned int i;
     APP_VERSION* avp;
     APP* app;
-    ACTIVE_TASK* atp;
     vector<APP*>::iterator app_iter;
     vector<APP_VERSION*>::iterator avp_iter;
     RESULT* rp;
     PERS_FILE_XFER* pxp;
 
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
-        if (atp->result->project == project) {
-            atp->abort();
-            active_tasks.remove(atp);
-            i--;
-        }
-    }
+    msg_printf(project, MSG_INFO, "Resetting project");
+    active_tasks.abort_project(project);
 
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
@@ -957,6 +952,8 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         }
     }
 
+    // if we're in the middle of a scheduler op to the project, abort it
+    //
     if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE
         && scheduler_op->project == project
     ) {
@@ -1008,6 +1005,8 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     int retval;
 
     reset_project(project);
+
+    msg_printf(project, MSG_INFO, "Detaching from project");
 
     // find project and remove it from the vector
     //
