@@ -367,11 +367,9 @@ int CLIENT_STATE::write_state_file() {
 PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
     for (unsigned int i=0; i<projects.size(); i++) {
         if (!strcmp(master_url, projects[i]->master_url)) {
-	    fprintf(stderr, "project found: %s\n", master_url);
             return projects[i];
         }
     }
-    fprintf(stderr, "project not found: %s\n", master_url);
     return 0;
 }
 
@@ -384,7 +382,6 @@ APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
 }
 
 RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
-    fprintf(stderr, "p: %p\n", p);
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (rp->project == p && !strcmp(name, rp->name)) return rp;
