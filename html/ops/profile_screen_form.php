@@ -6,20 +6,22 @@ db_init();
 
 function buttons($i) {
     echo "
-        skip: <input type=radio name=user$i value=0>
-        <br>accept: <input type=radio name=user$i value=1>
-        <br>reject: <input type=radio name=user$i value=-1>
+        <input type=radio name=user$i value=0 checked=checked> skip <br>
+        <input type=radio name=user$i value=1> accept <br>
+        <input type=radio name=user$i value=-1> reject
     ";
 }
 
-echo "<form method=get action=profile_screen_action.php>\n";
+page_head("screen profiles");
 
 $result = mysql_query("select * from profile, user where profile.userid=user.id and (uotd_time is null) and (has_picture>0) and (verification=0) and (user.total_credit>0) order by recommend desc limit 20");
 
 $n = 0;
-page_head("screen profiles");
+echo "<form method=get action=profile_screen_action.php>\n";
 start_table();
+$found = false;
 while ($profile = mysql_fetch_object($result)) {
+    $found = true;
     echo "<tr><td>
     ";
     buttons($n);
@@ -37,10 +39,19 @@ while ($profile = mysql_fetch_object($result)) {
 }
 
 end_table();
+
+if ($found) {
+    echo "
+        <input type=hidden name=n value=$n>
+        <input type=submit value=OK>
+    ";
+} else {
+    echo "No more profiles to screen.";
+}
+
 echo "
-    <input type=hidden name=n value=$n>
-    <input type=submit value=OK>
     </form>
 ";
+
 page_tail();
 ?>

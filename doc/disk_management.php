@@ -3,6 +3,9 @@ require_once("docutil.php");
 page_head("Disk space management");
 echo "
 
+<h3>THIS FILE IS DEPRECATED</h3>
+
+<p>
 This document describes the core client's policies
 for managing disk space.
 The goals are the following (highest to lowest priority):
@@ -275,9 +278,10 @@ config.xml
   <li><b>Expiration deletion. </b> Whenever space runs out, all files that have 
     past their expiration date are deleted first. Any file who's the expiration_date 
     is less than the time now is deleted.</li>
-  <li><b>Least Recently Used (LRU). </b>The DEFAULT method, the last file to be 
-    downloaded/uploaded is deleted first. The LRU policy is always used to determine 
-    the next file to delete. </li>
+  <li><b>Least Recently Used (LRU)</b>.
+    The DEFAULT method, the last file to be downloaded/uploaded
+    is deleted first.
+    The LRU policy is always used to determine the next file to delete. </li>
 </ol>
 <p>
 The policies are invoked by including the following in the config.xml file 

@@ -21880,7 +21880,14 @@ David  27 Dec 2004
         db_purge.C
 
 David  27 Dec 2004
+    - user web: apply process_user_text() to login text
     - upgrade --help now works
 
+    html/
+        ops/
+            profile_screen_action.php
+            profile_screen_form.php
+        user/
+            login_action.php
     tools/
         upgrade

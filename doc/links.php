@@ -43,8 +43,8 @@ language("Danish", array(
 ));
 language(
     "Dutch", array(
-    site("http://www.seti-nl.org/content.php?c=boinc_berkeley_main",
-        "www.seti-nl.org")
+    site("http://www.seti.nl/content.php?c=boinc_berkeley_main",
+        "SETI@Netherlands")
 ));
 //language("English", array(
 //    site("http://www.geocities.com/boinc_volunteers/",

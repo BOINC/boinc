@@ -102,6 +102,7 @@ How to generate tasks and handle the results.
 <li> <a href=validate.php>Result validation</a>
 <li> <a href=assimilate.php>Result assimilation</a>
 <li> <a href=file_deleter.php>Server-side file deletion</a>
+<li> <a href=db_purge.php>Database purging utility</a>
 </ul>
 
 <font size=+1><b>

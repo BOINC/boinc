@@ -29,7 +29,7 @@ for ($i=0; $i<$n; $i++) {
 }
 
 echo "
-    <a href=profile_rate_form.php>next 20</a>
+    <a href=profile_screen_form.php>next 20</a>
 ";
 
 page_tail();

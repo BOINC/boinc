@@ -9,14 +9,12 @@
 
     // First see if key is in URL; if not then check for form data
     //
-    $authenticator = trim($_GET["key"]);
+    $authenticator = process_user_text($_GET["key"]);
     if (!$authenticator) {
-       $authenticator = trim($_POST["authenticator"]);
+       $authenticator = process_user_text($_POST["authenticator"]);
     }
 
-    if (strlen($authenticator)) {
-        $query = "select * from user where authenticator='$authenticator'";
-    }
+    $query = "select * from user where authenticator='$authenticator'";
     $result = mysql_query($query);
     if ($result) {
         $user = mysql_fetch_object($result);
