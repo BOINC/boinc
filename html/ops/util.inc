@@ -165,11 +165,11 @@ function parse_element($xml, $tag) {
     return $element;
 }
 
-// look for a particular element in the config.xml file
+// look for a particular element in the .htconfig.xml file
 //
 function parse_config($tag) {
     $element = null;
-    $fp = fopen("config.xml", "r");
+    $fp = fopen(".htconfig.xml", "r");
     while (1) {
         $buf = fgets($fp, 1024);
         if ($buf == null) break;
