@@ -26,6 +26,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				RuntimeTypeInfo="FALSE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_cli\obj/boinc_cli.pch"
@@ -1128,9 +1129,6 @@
 			</File>
 			<File
 				RelativePath="..\client\scheduler_op.h">
-			</File>
-			<File
-				RelativePath="..\client\speed_stats.h">
 			</File>
 			<File
 				RelativePath="..\client\ss_logic.h">

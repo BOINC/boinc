@@ -22,14 +22,17 @@
 
 #include "stdafx.h"
 
+#include "diagnostics.h"
 #include "win_service.h"
 #include "util.h"
+
 
 // internal variables
 SERVICE_STATUS          ssStatus;       // current status of the service
 SERVICE_STATUS_HANDLE   sshStatusHandle;
 DWORD                   dwErr = 0;
 TCHAR                   szErr[1024];
+
 
 // define the execution engine start point
 extern int boinc_main_loop(int argc, char** argv);
@@ -38,9 +41,8 @@ extern void susp_client(int a);
 extern void resume_client(int a);
 
 
-
-// internal function prototypes not defined in the header
-LPTSTR      GetLastErrorText( LPTSTR lpszBuf, DWORD dwSize );
+// Define API's that are going to be used through LoadLibrary calls.
+typedef WINADVAPI BOOL (WINAPI *PROCCHANGESERVICECONFIG2)(SC_HANDLE, DWORD, LPCVOID);
 
 
 //
@@ -62,14 +64,15 @@ LPTSTR      GetLastErrorText( LPTSTR lpszBuf, DWORD dwSize );
 //
 void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
 {
+    TCHAR   szPath[MAX_PATH-1];
+
+
     // SERVICE_STATUS members that don't change in example
     //
     ssStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
-    ssStatus.dwControlsAccepted =
-		SERVICE_ACCEPT_STOP | 
-        SERVICE_ACCEPT_PAUSE_CONTINUE |
-		SERVICE_ACCEPT_SHUTDOWN; 
+    ssStatus.dwControlsAccepted = SERVICE_ACCEPTED_ACTIONS;
     ssStatus.dwServiceSpecificExitCode = 0;
+
 
     // register our service control handler:
     //
@@ -77,13 +80,25 @@ void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
     if (!sshStatusHandle)
         goto cleanup;
 
-     if (!ReportStatus(
+    if (!ReportStatus(
         SERVICE_RUNNING,       // service state
         ERROR_SUCCESS,         // exit code
         0))                    // wait hint
         goto cleanup;
 
+
+    // change the current directory to the boinc install directory
+    if (!GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR))))
+		goto cleanup;
+		
+    TCHAR *pszProg = strrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+        SetCurrentDirectory(szPath);
+    }
+
     dwErr = boinc_main_loop(dwArgc, lpszArgv);
+
 
 cleanup:
 
@@ -91,7 +106,7 @@ cleanup:
     //
     if (sshStatusHandle)
         (VOID)ReportStatus(
-			SERVICE_STOPPED,
+            SERVICE_STOPPED,
             dwErr,
             0);
 }
@@ -125,11 +140,6 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         // which may result in a 1053 - The Service did not respond...
         // error.
         case SERVICE_CONTROL_STOP:
-            ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 10000);
-			quit_client(NULL);
-            ReportStatus(SERVICE_STOPPED, ERROR_SUCCESS, 10000);
-            return;
-
 		case SERVICE_CONTROL_SHUTDOWN:
             ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 10000);
 			quit_client(NULL);
@@ -148,7 +158,7 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         //
 		case SERVICE_CONTROL_CONTINUE:
             ReportStatus(SERVICE_CONTINUE_PENDING, ERROR_SUCCESS, 10000);
-			susp_client(NULL);
+			resume_client(NULL);
             ReportStatus(SERVICE_RUNNING, ERROR_SUCCESS, 10000);
             return;
 
@@ -195,10 +205,7 @@ BOOL ReportStatus(DWORD dwCurrentState,
     if (dwCurrentState == SERVICE_START_PENDING)
         ssStatus.dwControlsAccepted = 0;
     else
-        ssStatus.dwControlsAccepted = 
-        	SERVICE_ACCEPT_STOP | 
-            SERVICE_ACCEPT_PAUSE_CONTINUE |
-            SERVICE_ACCEPT_SHUTDOWN; 
+        ssStatus.dwControlsAccepted = SERVICE_ACCEPTED_ACTIONS;
 
     ssStatus.dwCurrentState = dwCurrentState;
     ssStatus.dwWin32ExitCode = dwWin32ExitCode;
@@ -254,7 +261,7 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg)
         ReportEvent(hEventSource, // handle of event source
             EVENTLOG_ERROR_TYPE,  // event type
             0,                    // event category
-            0,                    // event ID
+            1,                    // event ID
             NULL,                 // current user's SID
             2,                    // strings in lpszStrings
             0,                    // no bytes of raw data
@@ -263,7 +270,7 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg)
 
         (VOID) DeregisterEventSource(hEventSource);
     }
-}
+ }
 
 
 //
@@ -299,7 +306,7 @@ VOID LogEventWarningMessage(LPTSTR lpszMsg)
         ReportEvent(hEventSource, // handle of event source
             EVENTLOG_WARNING_TYPE,// event type
             0,                    // event category
-            0,                    // event ID
+            1,                    // event ID
             NULL,                 // current user's SID
             2,                    // strings in lpszStrings
             0,                    // no bytes of raw data
@@ -344,7 +351,7 @@ VOID LogEventInfoMessage(LPTSTR lpszMsg)
         ReportEvent(hEventSource, // handle of event source
             EVENTLOG_INFORMATION_TYPE,// event type
             0,                    // event category
-            0,                    // event ID
+            1,                    // event ID
             NULL,                 // current user's SID
             2,                    // strings in lpszStrings
             0,                    // no bytes of raw data
@@ -370,14 +377,16 @@ VOID LogEventInfoMessage(LPTSTR lpszMsg)
 //
 void CmdInstallService()
 {
-    SC_HANDLE   schService;
-    SC_HANDLE   schSCManager;
+    SC_HANDLE                       schService;
+    SC_HANDLE                       schSCManager;
+    HINSTANCE                       hinstAdvAPI32; 
+    PROCCHANGESERVICECONFIG2        ProcChangeServiceConfig2; 
 
     TCHAR szPath[512];
 
     if ( GetModuleFileName( NULL, szPath, 512 ) == 0 )
     {
-        _tprintf(TEXT("Unable to install %s - %s\n"), TEXT(SZSERVICEDISPLAYNAME), windows_error_string(szErr, sizeof(szErr)));
+        _tprintf(TEXT("Unable to install %s - %s\n"), TEXT(SZSERVICEDISPLAYNAME), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
         return;
     }
 
@@ -435,23 +444,48 @@ void CmdInstallService()
 			SERVICE_DESCRIPTION sdDescription;
 			sdDescription.lpDescription = TEXT(SZSERVICEDESCRIPTION);
 
-			if ( ChangeServiceConfig2(schService, SERVICE_CONFIG_DESCRIPTION, &sdDescription) ){
-	            _tprintf(TEXT("%s service description installed.\n"), TEXT(SZSERVICEDISPLAYNAME) );
-			} else {
-	            _tprintf(TEXT("ChangeServiceConfig2 failed - %s\n"), windows_error_string(szErr, sizeof(szErr)));
-			}
+            hinstAdvAPI32 = LoadLibrary("ADVAPI32"); 
+         
+            // If the handle is valid, try to get the function address.
+            if ( NULL != hinstAdvAPI32 ) 
+            { 
+#ifdef _UNICODE
+                ProcChangeServiceConfig2 = (PROCCHANGESERVICECONFIG2)GetProcAddress(
+                    hinstAdvAPI32,
+                    TEXT("ChangeServiceConfig2W")
+                    ); 
+#else
+                ProcChangeServiceConfig2 = (PROCCHANGESERVICECONFIG2)GetProcAddress(
+                    hinstAdvAPI32,
+                    TEXT("ChangeServiceConfig2A")
+                    ); 
+#endif
+
+                // If the function address is valid, call the function.
+                if ( NULL != ProcChangeServiceConfig2 ) 
+                {
+			        if ( ProcChangeServiceConfig2(schService, SERVICE_CONFIG_DESCRIPTION, &sdDescription) ){
+	                    _tprintf(TEXT("%s service description installed.\n"), TEXT(SZSERVICEDISPLAYNAME) );
+			        } else {
+	                    _tprintf(TEXT("ChangeServiceConfig2 failed - %s\n"), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
+			        }
+                }
+
+                // Free the DLL module
+                FreeLibrary( hinstAdvAPI32 ); 
+            } 
 
             CloseServiceHandle(schService);
         }
         else
         {
-            _tprintf(TEXT("CreateService failed - %s\n"), windows_error_string(szErr, sizeof(szErr)));
+            _tprintf(TEXT("CreateService failed - %s\n"), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
         }
 
         CloseServiceHandle(schSCManager);
     }
     else
-        _tprintf(TEXT("OpenSCManager failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
+        _tprintf(TEXT("OpenSCManager failed - %s\n"), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
 }
 
 
@@ -513,18 +547,18 @@ void CmdUninstallService()
             if( DeleteService(schService) )
                 _tprintf(TEXT("%s removed.\n"), TEXT(SZSERVICEDISPLAYNAME) );
             else
-                _tprintf(TEXT("DeleteService failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
+                _tprintf(TEXT("DeleteService failed - %s\n"), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
 
 
             CloseServiceHandle(schService);
         }
         else
-            _tprintf(TEXT("OpenService failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
+            _tprintf(TEXT("OpenService failed - %s\n"), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
 
         CloseServiceHandle(schSCManager);
     }
     else
-        _tprintf(TEXT("OpenSCManager failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
+        _tprintf(TEXT("OpenSCManager failed - %s\n"), windows_error_string(szErr, (sizeof(szErr)/sizeof(TCHAR))));
 }
 
 

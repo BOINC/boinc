@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+
 // internal name of the service
 #define SZSERVICENAME        "BOINC"
 
@@ -35,6 +36,12 @@ extern "C" {
 
 // displayed description of the service
 #define SZSERVICEDESCRIPTION "Berkeley Open Infrastructure for Network Computing"
+
+// Service Accepted Actions
+#define SERVICE_ACCEPTED_ACTIONS  ( \
+    SERVICE_ACCEPT_STOP | \
+    SERVICE_ACCEPT_PAUSE_CONTINUE | \
+    SERVICE_ACCEPT_SHUTDOWN ) 
 
 // Service Control Manager Routines
 VOID WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv);

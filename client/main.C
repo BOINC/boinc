@@ -156,7 +156,7 @@ int add_new_project() {
 }
 
 void quit_client(int a) {
-    gstate.requested_exit = true;
+    gstate.cleanup_and_exit();
 }
 
 void susp_client(int a) {
@@ -306,6 +306,11 @@ int main(int argc, char** argv) {
         } else if ( _stricmp( "uninstall", argv[1]+1 ) == 0 ) {
             CmdUninstallService();
         } else if ( _stricmp( "win_service", argv[1]+1 ) == 0 ) {
+
+            // allow the system to know it is running as a Windows service
+            // and adjust it's diagnostics schemes accordingly.
+            gstate.executing_as_windows_service = true;
+
 			printf( "\nStartServiceCtrlDispatcher being called.\n" );
 			printf( "This may take several seconds.  Please wait.\n" );
 

@@ -11814,9 +11814,9 @@ Rom    April 28 2004
 
     /
         set-version
-    /client
+    client/
         Makefile.am
-    /client/win
+    client/win/
         *.rc
         update* (deleted)
 
@@ -11825,3 +11825,20 @@ David  April 28 2004
 
     client/
         hostinfo_unix.C
+
+Rom    April 28 2004
+    - Fixup Windows service controls so that pause/resume/start/stop work as
+      expected, when running as a service log to the Windows event log.
+    - When attempting to change the service description use runtime dynamic
+      linking for the call to ChangeServiceConfig2 so that we will work even
+      on NT 4.0 systems.
+    - Some of these fixes were based on code from Mathias Walter
+
+    client/
+        cs_cmdline.C
+        main.C
+    client/win/
+        win_service.cpp, .h
+    win_build/
+        boinc_cli.vcproj
+

@@ -39,7 +39,7 @@ static void print_options(char* prog) {
         "    -install               install boinc as a Windows Service\n"
         "    -uninstall             uninstall boinc as a Windows Service\n"
 #endif
-       "    -show_projects         show attached projects\n"
+        "    -show_projects         show attached projects\n"
         "    -detach_project URL    detach from a project\n"
         "    -reset_project URL     reset (clear) a project\n"
         "    -attach_project        attach to a project (will prompt for URL, account key)\n"
@@ -117,8 +117,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             else pers_giveup = atoi(argv[++i]);
         } else if (ARG(debug_fake_exponential_backoff)) {
             debug_fake_exponential_backoff = true;
-		} else if (ARG(win_service)) {
-			executing_as_windows_service = true;
 
         // the above options are private (i.e. not shown by -help)
         // Public options follow.
