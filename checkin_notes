@@ -19151,4 +19151,5 @@ Karl 2004-11-07
 Bruce Allen 2004-11-07
     - added include credit.inc
 
-    html/user/top_teams.php
+    html/user/
+        top_teams.php
