@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-12-28 20:12+0100\n"
+"PO-Revision-Date: 2004-12-28 22:16+0100\n"
 "Last-Translator: Alex <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr "Arrancar BOINC de forma que sólo sea visible el icono en el área de noti
 #: clientgui/BOINCTaskBar.cpp:315
 #: clientgui/BOINCTaskBar.cpp:322
 msgid "&Open BOINC Manager..."
-msgstr "%Abrir BOINC Manager"
+msgstr "&Abrir BOINC Manager"
 
 #: clientgui/BOINCTaskBar.cpp:326
 #: clientgui/MainFrame.cpp:177
@@ -36,7 +36,7 @@ msgstr "Ejecutar según &preferencias"
 #: clientgui/BOINCTaskBar.cpp:328
 #: clientgui/MainFrame.cpp:187
 msgid "&Suspend"
-msgstr "&Suspender"
+msgstr "S&uspender"
 
 #: clientgui/BOINCTaskBar.cpp:330
 msgid "&Disable BOINC network access"
@@ -45,7 +45,7 @@ msgstr "&Desactivar el acceso a la red de BOINC"
 #: clientgui/BOINCTaskBar.cpp:332
 #: clientgui/MainFrame.cpp:235
 msgid "&About BOINC Manager..."
-msgstr "&Acerca de BOINC Manager..."
+msgstr "Acerca de &BOINC Manager..."
 
 #: clientgui/BOINCTaskBar.cpp:334
 #: clientgui/MainFrame.cpp:219
@@ -164,7 +164,7 @@ msgstr "Hace el trabajo de acuerdo con sus preferencias"
 
 #: clientgui/MainFrame.cpp:188
 msgid "Stops work regardless of preferences"
-msgstr "Detiene el trabajo sin tener en cuanta las preferencias"
+msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
 
 #: clientgui/MainFrame.cpp:195
 msgid "&Disable BOINC Network Access"
@@ -287,7 +287,7 @@ msgstr "Tareas"
 #: clientgui/ViewResources.cpp:137
 #: clientgui/ViewTransfers.cpp:234
 msgid "Tips"
-msgstr "Consejos"
+msgstr "Pistas"
 
 #: clientgui/ViewMessages.cpp:186
 #: clientgui/ViewProjects.cpp:289
@@ -325,11 +325,11 @@ msgstr "Haga click en un proyecto para ver opciones adicionales."
 
 #: clientgui/ViewProjects.cpp:216
 msgid "<b>Attach to new project</b><br>Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "<b>Unase a un nuevo proyecto</b><br>Una este ordenador a un proyecto BOINC. Necesitará la URL del proyecto y una clave de cuenta (visite la página web del proyecto para conseguirlas)."
+msgstr "<b>Unirse a un nuevo proyecto</b><br>Unir este ordenador a un proyecto BOINC. Necesitará la URL del proyecto y una clave de cuenta (visite la página web del proyecto para conseguirlas)."
 
 #: clientgui/ViewProjects.cpp:223
 msgid "<b>Detach from project</b><br>Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
-msgstr "<b>Sepárese del proyecto</b><br>Separe este ordenador de este proyecto. El trabajo en progreso se perderá. Puede actualizar antes el proyecto para enviar cualquier trabajo completado."
+msgstr "<b>Separase del proyecto</b><br>Separar este ordenador de este proyecto. El trabajo en progreso se perderá. Puede actualizar antes el proyecto para enviar cualquier trabajo completado."
 
 #: clientgui/ViewProjects.cpp:231
 msgid "<b>Reset project</b><br>Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
@@ -337,23 +337,23 @@ msgstr "<b>Reiniciar proyecto</b><br>Borrar todos los ficheros y el trabajo asoc
 
 #: clientgui/ViewProjects.cpp:239
 msgid "<b>Suspend project</b><br>Stop work for this project (you can resume later)."
-msgstr "<b>Suspender el proyecto</b><br>Detenga el trabajo para este proyecto (puede reanudarlo más tarde)."
+msgstr "<b>Suspender el proyecto</b><br>Detener el trabajo para este proyecto (puede reanudarlo más tarde)."
 
 #: clientgui/ViewProjects.cpp:245
 msgid "<b>Resume project</b><br>Resume work for this project"
-msgstr "<b>Reanudar proyecto</b><br>Reanude el trabajo para este proyecto"
+msgstr "<b>Reanudar proyecto</b><br>Reanudar el trabajo para este proyecto"
 
 #: clientgui/ViewProjects.cpp:250
 msgid "<b>Update project</b><br>Report all completed work and refresh your credit and preferences for this project."
-msgstr "<b>Actualice proyecto</b><br>Envíe todo el trabajo completado y actualice sus créditos y preferencias para este proyecto."
+msgstr "<b>Actualizar proyecto</b><br>Enviar todo el trabajo completado y actualizar sus créditos y preferencias para este proyecto."
 
 #: clientgui/ViewProjects.cpp:256
 msgid "<b>BOINC home page</b><br>Open the BOINC home page in a web browser."
-msgstr "<b>Página de inicio de BOINC</b><br>Abre la página de inicio de BOINC en su navegador de internet."
+msgstr "<b>Página de inicio de BOINC</b><br>Abrir la página de inicio de BOINC en su navegador de internet."
 
 #: clientgui/ViewProjects.cpp:261
 msgid "<b>Project home page</b><br>Open this project's home page in a web browser."
-msgstr "<b>Página de inicio del proyecto</b><br>Abre esta página de inicio en su navegador de internet."
+msgstr "<b>Página de inicio del proyecto</b><br>Abrir esta página de inicio en su navegador de internet."
 
 #: clientgui/ViewProjects.cpp:286
 msgid "Web sites"
@@ -450,7 +450,7 @@ msgstr "Sin opciones definidas actualmente."
 
 #: clientgui/ViewResources.cpp:140
 msgid "Disk Space"
-msgstr "Espacio ocupado de disco"
+msgstr "Espacio ocupado en disco"
 
 #: clientgui/ViewResources.cpp:161
 msgid "Disk"
@@ -554,7 +554,7 @@ msgstr "<b>Cancelar resultado</b><br>Borra el resultado de la cola de trabajo. E
 
 #: clientgui/ViewWork.cpp:260
 msgid "Quick tips"
-msgstr "Consejos rápidos"
+msgstr "Pistas rápidas"
 
 #: clientgui/ViewWork.cpp:263
 msgid "Application"
