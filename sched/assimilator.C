@@ -58,6 +58,7 @@ bool do_pass(APP& app) {
     bool did_something = false;
     char buf[256];
     int retval;
+    int num_assimilated=0;
 
     check_stop_daemons();
 
@@ -102,6 +103,11 @@ bool do_pass(APP& app) {
     if (did_something) {
         boinc_db.commit_transaction();
     }
+
+    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            "Assimilated %d workunits.\n", num_assimilated
+    );
+
     return did_something;
 }
 

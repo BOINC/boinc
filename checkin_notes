@@ -20349,3 +20349,9 @@ David  29 Nov 2004
     sched/
         assimilator.C
         handle_request.C
+
+Jeff  29 Nov 2004
+    - Log the number of WUs assimlated at the end of each WU enumeration.
+
+    sched/
+	assimilator.C
