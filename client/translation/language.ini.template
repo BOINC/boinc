@@ -1,4 +1,4 @@
-# Template language.ini file
+        # Template language.ini file
 # $Id$
 
 # Use & for menu keys
@@ -61,8 +61,8 @@ Results uploaded=RESULTS UPLOADED
 Acknowledged=ACKNOWLEDGED
 Error: invalid state=ERROR: INVALID STATE
 Completed=COMPLETED
-Upload=UPLOAD
-Download=DOWNLOAD
+Uploading=UPLOADING
+Downloading=DOWNLOADING
 Retry in=RETRY IN
 Upload failed=UPLOAD FAILED
 Download failed=DOWNLOAD FAILED
