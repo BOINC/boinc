@@ -284,12 +284,6 @@ int CLIENT_STATE::init() {
     //
     host_info.get_host_info();
 
-    // running CPU benchmarks is slow, so do it infrequently
-    //
-    if (should_run_cpu_benchmarks()) {
-		start_cpu_benchmarks();
-    }
-
     set_ncpus();
 
     // set period start time
@@ -349,6 +343,11 @@ int CLIENT_STATE::net_sleep(double x) {
 bool CLIENT_STATE::do_something() {
     int actions = 0, reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
+
+    if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
+		start_cpu_benchmarks();
+    }
+
     check_suspend_activities(reason);
     if (reason) {
         if (!activities_suspended) {
@@ -365,7 +364,11 @@ bool CLIENT_STATE::do_something() {
     // if we're doing CPU benchmarks, don't do anything else
     //
     if (reason & SUSPEND_REASON_BENCHMARKS) {
-        cpu_benchmarks_poll();
+        if (active_tasks.is_task_running()) {
+            POLL_ACTION(active_tasks, active_tasks.poll);
+        } else {
+            cpu_benchmarks_poll();
+        }
         return false;
     }
 

@@ -179,6 +179,7 @@ public:
     bool poll();
     void suspend_all(bool leave_apps_in_memory=true);
     void unsuspend_all();
+    bool is_task_running();
     int restart_tasks(int max_tasks);
     void request_tasks_exit(PROJECT* p=0);
     int wait_for_exit(double, PROJECT* p=0);

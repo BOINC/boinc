@@ -174,6 +174,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     int i;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_MEASUREMENT);
+
     if (skip_cpu_benchmarks) {
         scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
         host_info.p_fpops = DEFAULT_FPOPS;
@@ -219,7 +220,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
 }
 
 // Returns true if CPU benchmarks should be run:
-// flag is set or it's been a month since we last ran
+// flag is set or it's been 5 days since we last ran
 //
 bool CLIENT_STATE::should_run_cpu_benchmarks() {
     // Note: if skip_cpu_benchmarks we still should "run" cpu benchmarks
@@ -291,7 +292,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
     // Send heartbeat to all active tasks so they know we are alive
     // and well.
-    gstate.active_tasks.send_heartbeats();
+    active_tasks.send_heartbeats();
 
     // do transitions through benchmark states
     //

@@ -1338,6 +1338,20 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     }
 }
 
+// Check to see if any tasks are running
+//
+bool ACTIVE_TASK_SET::is_task_running() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if ((atp->scheduler_state == CPU_SCHED_RUNNING) && (atp->state == PROCESS_RUNNING)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Send quit signal to all currently running tasks
 // This is called when the core client exits,
 // or when a project is detached or reset

@@ -16105,3 +16105,22 @@ Noaa	9 August 2004
 		api/
 			x_opengl.C
 			graphics_api.h
+
+Rom    10 Aug 2004
+    - Bug Fix: Moved 5 day benchmark checking code into main polling function
+    - Bug Fix: Added extra logic so that if benchmarks execute BOINC will
+          successfully start back up the applications if leave_apps_in_memory
+          is set to false
+    - Bug Fix: Fix a state file parsing issue where an extra <file_signature>
+          start tag was being included within the signed_xml field without the
+          closing tag, this could be what was causing problems with P@H and
+          incorrect result file info structures.  This could also lead to 
+          messages on the server about duplicate result submissions.
+
+    client/
+        app.C, .h
+        client_state.C
+        client_types.C
+        gui_rpc_server.C
+        cs_benchmark.C
+

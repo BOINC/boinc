@@ -634,14 +634,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             );
             continue;
         }
-        if (from_server) {
-            strcat(signed_xml, buf);
-        }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_str(buf, "<url>", url.text, sizeof(url.text))) {
-            urls.push_back(url);
-            continue;
-        }
         else if (match_tag(buf, "<file_signature>")) {
             copy_element_contents(
                 in,
@@ -649,6 +641,19 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
                 file_signature,
                 sizeof(file_signature)
             );
+            if (from_server) {
+                strcat(signed_xml, "<file_signature>\n");
+                strcat(signed_xml, file_signature);
+                strcat(signed_xml, "</file_signature>\n");
+            }
+            continue;
+        }
+        if (from_server) {
+            strcat(signed_xml, buf);
+        }
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        else if (parse_str(buf, "<url>", url.text, sizeof(url.text))) {
+            urls.push_back(url);
             continue;
         }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
@@ -720,7 +725,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
-        if (file_signature) out.printf("    <file_signature>\n    %s</file_signature>\n", file_signature);
+        if (file_signature) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
         if (time_last_used) out.printf("    <time_last_used>%d</time_last_used>\n", time_last_used);
         if (priority) out.printf("    <priority>%d</priority>\n", priority);
         if (exp_date) out.printf("    <exp_date>%ld</exp_date>\n", exp_date);
