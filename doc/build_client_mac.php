@@ -5,6 +5,8 @@ page_head("Building the BOINC Core Client GUI for Macintosh");
 
 See the <a href=software.php>Software Prerequisites</a>.
 
+<p>
+The build is same as for Unix.
 
 <h3>Notes</h3>
 

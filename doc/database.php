@@ -6,7 +6,8 @@ echo "
 <p>
 Normally you don't have to directly examine or manipulate the
 BOINC database.
-If you need to, you can use the MySQL command-line interpreter.
+If you need to, you can use the MySQL command-line interpreter
+or BOINC's <a href=html_ops.php>administrative web interface</a>.
 <p>
 The database tables are as follows: 
 ";

@@ -14,13 +14,13 @@ This involves filling out a form with
 <li> other optional information
 </ul>
 
-<li> You will receive an email containing an <b>account key</b>
+<li> You will receive an email containing an <b>account ID</b>
 (a long random string).
 
 <li> Download, install and run the BOINC client program.
-It will ask for a project URL and an account key.
+It will ask for a project URL and an account ID.
 Enter the project's URL,
-cut and paste the account key from the email.
+cut and paste the account ID from the email.
 
 </ol>
 <p>

@@ -44,7 +44,7 @@ list_item(
         have been returned for this work unit.
     <li> <b>WU_ERROR_TOO_MANY_SUCCESS_RESULTS</b>:
         Too many successful results have been returned
-        without a quorum being reached.
+        without consensus.
         This indicates that the application may
         be nondeterministic.
     <li> <b>WU_ERROR_TOO_MANY_TOTAL_RESULTS</b>:

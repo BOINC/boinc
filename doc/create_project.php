@@ -66,6 +66,7 @@ Creating a BOINC project
 The components of a BOINC project, and how to create them.
 </font>
 <ul>
+<li> <a href=project_cookbook.php>Cookbook</a>
 <li> <a href=server_components.php>What is a project?</a>
 <li> <a href=database.php>The BOINC database</a>
 <li> <a href=server_dirs.php>Directory structure</a>

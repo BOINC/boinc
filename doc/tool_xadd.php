@@ -3,12 +3,13 @@
    page_head("xadd - tool for adding database items");
 
 echo "
-`<code>xadd</code>' adds records to the BOINC database through an XML file,
-<code><b>project.xml</b></code>.
-This file should be in the same location as <code>config.xml</code>.
+<b>xadd</b> adds records to the BOINC database.
+Information is taken from an XML file,
+<b>project.xml</b>.
+This file should be in the project's root directory.
 
 <p>
-The contents of <code>project.xml</code> should look like this:
+The contents of <b>project.xml</b> should look like this:
 
 <pre>", htmlspecialchars("
   <boinc>
@@ -24,6 +25,9 @@ The contents of <code>project.xml</code> should look like this:
   </boinc>
 "), "</pre>
 
+<p>
+An example is in tools/ in the source tree.
+<p>
 Notes:
 <ul>
   <li>Object arguments have the same format as for the `add' tool

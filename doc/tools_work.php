@@ -2,46 +2,42 @@
 require_once("docutil.php");
 page_head("Generating work");
 echo "
-<h3>Template files</h3>
+Workunits and results can be created using either a utility program
+or a C++ function.
 <p>
 Workunits and results are described by <b>template files</b>,
-with placeholders for their input and output filenames.
+with placeholders for their input and output files.
+
+<h3>Workunit template files</h3>
 <p>
 A WU template file has the form
 <pre>",htmlspecialchars("
-[ <file_info>...</file_info> ]
+<file_info>
+    <number>0</number>
+    [ ... ]
+</file_info>
 [ ... ]
 <workunit>
+    <file_ref>
+        <number>0</number>
+        <open_name>NAME</open_name>
+    </file_ref>
+    [ ... ]
     [ <command_line>-flags xyz</command_line> ]
     [ <env_vars>name=val&amp;name=val</env_vars> ]
-    [ <max_processing>...</max_processing> ]
-    [ <max_disk>...</max_disk> ]
-    [ <file_ref>...</file_ref> ]
-    [ ... ]
 </workunit>
 "), "
 </pre>
 The components are: 
 ";
 list_start();
+list_item(htmlspecialchars("<file_info>, <file_ref>"),
+"Each pair describes an input file");
 list_item(htmlspecialchars("<command_line>"),
 "The command-line arguments to be passed to the main program.");
 list_item(htmlspecialchars("<env_vars>"),
 "A list of environment variables in the form
 name=value&name=value&name=value.");
-list_item(htmlspecialchars("<max_processing>"),
-"Maximum processing
-(measured in <a href=credit.php>Cobblestones</a>).
-An instance of the computation that exceeds this bound will be aborted.
-This mechanism prevents an infinite-loop bug from
-indefinitely incapacitating a host.
-The default is determined by the client; typically it is 1.");
-list_item(htmlspecialchars("<max_disk>"),
-"Maximum disk usage (in bytes).
-The default is determined by the client; typically it is 1,000,000.");
-list_item(htmlspecialchars("<file_ref>"),
-"describes a <a href=files.php>reference</a> to an input file,
-each of which is described by a <b>&lt;file_info></b> element.");
 list_end();
 echo"
 When a workunit is created, the template file is processed as follows:
@@ -56,6 +52,24 @@ file.
 Within a &lt;file_ref> element,
 &lt;file_number>x&lt;/file_number> is replaced with the filename.
 </ul>
+<h3>Result template files</h3>
+<p>
+A result template file has the form
+<pre>", htmlspecialchars("
+<file_info>
+    <name><OUTFILE_0/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>32768</max_nbytes>
+    <url><UPLOAD_URL/></url>
+</file_info>
+<result>
+    <file_ref>
+        <file_name><OUTFILE_0/></file_name>
+        <open_name>result.sah</open_name>
+    </file_ref>
+</result>
+"), "</pre>
 <p>
 The result file template is macro-substituted as follows:
 <ul>
@@ -69,32 +83,38 @@ the ordinal number of the result (0, 1, ...).
 <p>
 <h3>Command-line interface</h3>
 <p>
-Workunits and results can be created using either a utility program
-or a C++ function.
-<hr>
 The utility program is
 <pre>
 create_work
-    -appname name                   // application name
-    -wu_name name                   // workunit name
-    -wu_template filename           // WU template filename
-    -result_template filename       // result template filename
-    -redundancy n                   // # of results to create
-    -db_name x                      // database name
-    -db_passwd x                    // database password
-    -db_host x                      // database host
-    -db_user x                      // database user name
-    -upload_url x                   // URL for output file upload
-    -download_url x                 // base URL for input file download
-    -download_dir x                 // where to move input files
-    -rsc_fpops x                    // est. # floating-point ops
-    -rsc_iops x                     // est. # integer ops
-    -rsc_memory x                   // est. RAM working set size, bytes
-    -rsc_disk x                     // est. disk space required
-    -keyfile x                      // path of upload private key
-    -delay_bound x                  // delay bound for result completion
+    -appname name                      // application name
+    -wu_name name                      // workunit name
+    -wu_template filename              // WU template filename
+    -result_template filename          // result template filename
+    [ -db_name x ]                     // database name
+    [ -db_passwd x ]                   // database password
+    [ -db_host x ]                     // database host
+    [ -db_user x ]                     // database user name
+    [ -upload_url x ]                  // URL for output file upload
+    [ -download_url x ]                // base URL for input file download
+    [ -download_dir x ]                // where to move input files
+    [ -rsc_fpops_est x ]
+    [ -rsc_fpops_bound x ]
+    [ -rsc_memory_bound x ]
+    [ -rsc_disk_bound x ]
+    [ -keyfile x ]                     // path of upload private key
+    [ -delay_bound x ]
+    [ -min_quorum x ]
+    [ -target_nresults x ]
+    [ -max_error_results x ]
+    [ -max_total_results x ]
+    [ -max_success_results x ]
     infile_1 ... infile_m           // input files
 </pre>
+The workunit parameters are documented <a href=work.php>here</a>.
+Defaults for many of the optional arguments
+are taken from the <b>config.xml</b> file,
+if it's in the current directory.
+
 <h3>C++ function interface</h3>
 <p>
 The C++ library (backend_lib.C,h) provides the functions:

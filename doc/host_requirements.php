@@ -16,8 +16,11 @@ However, these factors may limit the amount or type
 of work that is sent to your computer.
 Each 'work unit' has minimum RAM and disk requirements,
 and a deadline for completion of its computation.
-A BOINC project won't send a work unit to a computer
-that can't handle it.
+A BOINC project won't send a work unit to a computer that can't handle it.
+<p>
+If software is not available for your computer,
+you may still be able to participate in BOINC projects if you are able to
+<a href=anonymous_platform.php>compile the software yourself</a>.
 ";
 page_tail();
 ?>

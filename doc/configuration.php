@@ -12,8 +12,21 @@ A config.xml file looks like this:
 htmlspecialchars("
 <boinc>
   <config>
-    <host>main_host</host>
-    ...
+    <host>main_host</host>     <!-- default host where tasks and daemons run -->
+    <db_name>x</db_name>       <!-- database connection info -->
+    <db_host>x</db_host>
+    <db_passwd>x</db_passwd>
+    <db_user>x</db_user>
+    <shmem_key>x</shmem_key>   <!-- ID of scheduler shared memory -->
+    <download_url>x</download_url>
+    <download_dir>x</download_dir>   <!-- absolute path -->
+    <upload_url>x</upload_url>
+    <upload_dir>x</upload_dir>
+    <cgi_url>x</cgi_url>
+    <stripchart_cgi_url>x</stripchart_cgi_url>
+    [ <one_result_per_user_per_wu/> ]
+    [ <disable_account_creation/> ]
+    [ <max_wus_to_send>10</max_wus_to_send ]
     <!-- optional; defaults as indicated: -->
     <project_dir>../</project_dir>     <!-- relative to location of 'start' -->
     <bin_dir>bin</bin_dir>             <!-- relative to project_dir -->

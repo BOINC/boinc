@@ -7,7 +7,7 @@
 See the section on Python in the <a href=software.php>Software
 Prerequisites</a>.
 
-<h1>Structure</h1>
+<h2>Structure</h2>
 
 The directory <code>boinc/py/Boinc</code> contains the <code>Boinc</code>
 module.
@@ -70,7 +70,7 @@ details.
   </td></tr>
 </table>
 
-<h1>Python modules in <code>boinc/py/Boinc/</code></h1>
+<h2>Python modules in <b>boinc/py/Boinc/</b></h2>
 <table border=1>
   <tr><td><code>boinc_path_config.py.in</code></td><td>
       <code>Configure</code> puts <code>boinc_path_config.py</code> in all
@@ -112,7 +112,7 @@ details.
 
 </table>
 
-<h1>Python database access</h1>
+<h2>Python database access</h2>
 <code>Database.py</code> defines database backend library and database table
 and object relationships to allow easy data manipulation.
 <p>

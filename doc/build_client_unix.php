@@ -5,7 +5,8 @@ page_head("Building the BOINC Core Client for Unix");
 
 See the <a href=software.php>Software Prerequisites</a>.
 
-<h1>Build executable</h1>
+<p>
+To build the core client:
 
 <pre>
   cd boinc/client

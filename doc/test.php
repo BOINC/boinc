@@ -1,18 +1,18 @@
-<? // -*- html -*-
+<?
    require_once("docutil.php");
    page_head("Testing BOINC");
-   ?>
+?>
 
-See the section on testing in the <a href=software.php>Software
-Prerequisites</a>. Note that a performance web server with PHP is required for
+See the section on testing in <a href=software.php>Software Prerequisites</a>.
+Note that a web server with PHP is required for
 running a real server, but that requires a lot of path and permissions
 configuration so we opt not to use them in testing.
 
 <h2>Python testing framework</h2>
 
 The <code>test/</code> directory contains a library of Python modules that
-make end-to-end testing of BOINC easy.  See the <a href=python.php>Python
-framework</a>.
+make end-to-end testing of BOINC easy.
+See the <a href=python.php>Python framework</a>.
 
 <h2>Quick start</h2>
 Single test:
@@ -26,24 +26,26 @@ Full test suite:
 </blockquote>
 
 
-After two or three minutes you should see "Passed Test".  During the test you
-should see various progress status indicators (Resize your window so that the
-status indicator line fits on one line).
+After two or three minutes you should see "Passed Test".
+During the test you should see various progress status indicators
+(resize your window so that the status indicator line fits on one line).
 
 <h2>Goals of the testing framework</h2>
 
-The goal of the framework is to support automated testing of BOINC itself, and
-of BOINC applications.  Each test is performed by a Python program that
+The goal of the framework is to support automated testing of BOINC
+and BOINC applications.
+Each test is performed by a Python program that
 initializes the system to a deterministic state, executes the system, detects
 termination, and returns success or failure depending on the final state.
 
 <p>
 
-Many BOINC features involve multiple projects and/or multiple hosts.  It would
-be prohibitively complex to do automated testing on multiple physical hosts.
+Many BOINC features involve multiple projects and/or multiple hosts.
+It would be prohibitively complex to do automated testing on multiple
+physical hosts.
 Fortunately the BOINC architecture makes it possible for multiple projects and
-(virtual) hosts to reside on a single physical host.  So the testing framework
-uses this approach.
+(virtual) hosts to reside on a single physical host.
+So the testing framework uses this approach.
 
 <p>
 The framework lets you test systems with any of the following attributes:
@@ -61,26 +63,28 @@ The following system attributes are planned but not implemented yet:
 (out of disk space, crash/reboot, etc.).
 </ul>
 
-<!-- TODO: Directory structure -->
+<p>
+TODO: Directory structure
 
-<!-- TODO: Modules/ Classes  -->
+<p>
+TODO: Modules/ Classes
 
-<!-- TODO: Example script -->
+<p>
+TODO: Example script
 
 <h2>Test applications</h2>
 The <code>apps</code> directory contains the following test applications:
 <ul>
-  <li><code>upper_case</code>: converts a file to upper case.
-  <li><code>concat</code>: concatenates its input files.
-  <li><code>1sec</code>: uses 1 second of CPU time.
-  <li><code>uc_slow</code>: like upper_case, but processes only one character per
-    second.  Checkpoints every 5 characters. Restartable.
+<li><code>upper_case</code>: converts a file to upper case.
+<li><code>concat</code>: concatenates its input files.
+<li><code>1sec</code>: uses 1 second of CPU time.
 </ul>
 
 <h2>Test cases</h2>
 The <code>test/</code> directory contains various python scripts named with
-prefix <code>test_</code>.  Each of these is a test case which runs an
-end-to-end test of BOINC (creates directory structure for project(s) and
+prefix <code>test_</code>.
+Each of these is a test case which runs an end-to-end test of BOINC
+(creates directory structure for project(s) and
 host(s), starts a web server, server daemons, host client(s), and checks
 output is as expected).
 <table border=1>
@@ -124,7 +128,8 @@ you use:
 
 <code>BOINC_TEST_USER_NAME</code>
 <blockquote>
-  User name to use for setting up database name. Defaults to <code>$USER</code>
+  User name to use for setting up database name.
+  Defaults to <code>$USER</code>
 </blockquote>
 
 <code>BOINC_TEST_VERBOSE</code>
@@ -132,16 +137,17 @@ you use:
   Verbosity level.
   <table border=1>
     <tr><td><code>0</code></td><td>print nothing</td></tr>
-    <tr><td><code>1</code> [default]</td><td>print some. if output is a tty, overwrite lines.</td>
+    <tr><td><code>1</code> [default]</td><td>print some.
+    If output is a tty, overwrite lines.</td>
     <tr><td><code>2</code></td><td>print all</td>
   </table>
 </blockquote>
 
 <code>BOINC_TEST_DELETE</code>
 <blockquote>
-    Specifies whether or not to delete testbed after the test finishes.  Only
-    relevant when BOINC_TEST_AUTO_SETUP=0.  Possible values (case doesn't
-    matter):
+    Specifies whether or not to delete testbed after the test finishes.
+    Only relevant when BOINC_TEST_AUTO_SETUP=0.
+    Possible values (case doesn't matter):
     <table border=1>
       <tr><td><code>No</code></td></tr>
       <tr><td><code>If-Successful</code>   [default]</td></tr>
@@ -150,7 +156,7 @@ you use:
 </blockquote>
 <code>BOINC_TEST_INSTALL_METHOD</code>
 <blockquote>
-    Specifies how to install html/php, cgi from source directories to testbed
+    Specifies how to install html/php, CGI from source directories to testbed
     location.
     <table border=1>
       <tr><td><code>link</code>             </td><td>hardlink</td></tr>
@@ -165,9 +171,9 @@ you use:
 <h2>Appendix: Web Server</h2>
 
 By default, the test script will use a custom web server that has no security
-and minimal cgi/php capability.  You can also use Apache or some other web
-server with manually initialized directories by setting these environment
-variables:
+and minimal cgi/php capability.
+You can also use Apache or some other web server with manually
+initialized directories by setting these environment variables:
 
 <blockquote>
 <pre>

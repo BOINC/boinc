@@ -29,8 +29,7 @@ but it's inadequate for some people:
 People who, for security reasons,
 want to only run executables they have compiled themselves.
 <li>
-People whose computers have platforms not supported by the project
-(projects are generally resource-limited and cannot support all platforms).
+People whose computers have platforms not supported by the project.
 <li>
 People who want to optimize applications for particular architectures.
 </ul>

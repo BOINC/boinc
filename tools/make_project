@@ -139,7 +139,7 @@ for o,a in opts:
 if len(args) == 2:
     (project_shortname, project_longname) = args
 elif len(args) == 1:
-    (project_shortname, project_longname) = args[0], args[0].capitalize()
+    (project_shortname, project_longname) = args[0], args[0]
 else:
     syntax_error('Need one or two arguments')
 

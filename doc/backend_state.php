@@ -1,17 +1,19 @@
 <?
 require_once("docutil.php");
-page_head("Workunit and result scheduling logic");
+page_head("Workunit and result state transitions");
 echo "
 
 <p>
-Workunit and result database records have several state fields,
-and their processing can be described in terms of state transitions.
+The processing of workunits and results
+can be described in terms of transitions of their state variables.
 
+<h3>Workunit state variables</h3>
 <p>
 Several workunits parameters are described
 <a href=work.php>here</a>.
 
-Other state fields include
+Other workunit state variables are described in
+the following table:
 ";
 list_start();
 list_item(
@@ -97,7 +99,8 @@ Workunit invariants:
 </ul>
 
 <p>
-Notes on file deletion:
+Notes on deletion of input files:
+<ul>
 <li> Input files are eventually deleted,
 but only when all results have state=OVER
 (so that clients don't get download failures)
@@ -112,6 +115,9 @@ all other results are over and (if necessary) validated.
 Error output files can be deleted immediately.
 Success output files can be deleted after validation.
 </ul>
+
+<h3>Result state variable</h3>
+Result state variables are listed in the following table:
 ";
 
 
@@ -189,15 +195,20 @@ echo "
 <p>
 Result invariants:
 <ul>
-<li> eventually server_state = OVER.
-<li> output files are eventually deleted.
-Non-canonical results can be deleted as soon as the WU is assimilated.
-Canonical results can be deleted only when all results have server_state=OVER.
-If a result reply arrives after its timeout,
+<li> Eventually server_state = OVER.
+<li> Output files are eventually deleted.
+</ul>
+Notes on deletion of output files:
+<ul>
+<li> Non-canonical results can be deleted as soon as the WU is assimilated.
+<li> Canonical results can be deleted only when all results have server_state=OVER.
+<li> If a result reply arrives after its timeout,
 the output files can be immediately deleted.
+</ul>
 How do we delete output files that arrive REALLY late?
 (e.g. uploaded after all results have timed out, and never reported)?
-Let X = create time of oldest unassimilated WU.
+Possible answer:
+let X = create time of oldest unassimilated WU.
 Any output files created before X can be deleted.
 </ul>
 ";

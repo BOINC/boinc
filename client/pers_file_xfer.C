@@ -357,7 +357,7 @@ int PERS_FILE_XFER::write(FILE* fout) {
             "        <bytes_xferred>%f</bytes_xferred>\n"
             "        <file_offset>%f</file_offset>\n"
             "        <xfer_speed>%f</xfer_speed>\n"
-            "        <hostname>%s</hostname/>\n"
+            "        <hostname>%s</hostname>\n"
             "    </file_xfer>\n",
             fxp->bytes_xferred,
             fxp->file_offset,

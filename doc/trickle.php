@@ -39,7 +39,7 @@ it moves the file from 'slot/trickle'
 to 'project/trickle_resultid_time'.
 <p>
 When the core client sends an RPC to a server,
-it scans the project director for trickle files
+it scans the project directory for trickle files
 and includes them in the request.
 On successful RPC completion it deletes the trickle files.
 
