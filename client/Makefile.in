@@ -48,6 +48,7 @@ OBJS = \
     time_stats.o \
     ../lib/filesys.o \
     ../lib/parse.o \
+    ../lib/shmem.o \
     ../lib/md5_file.o \
     ../lib/md5.o \
     ../lib/crypt.o \
