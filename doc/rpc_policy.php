@@ -47,7 +47,7 @@ The minimum RPC time can be set for various reasons:
 <ul>
 <li> Because of a request from the project, i.e. a
 &lt;request_delay&gt; element in a scheduler reply message.
-<li> Because RPCs to all of the project's scheduler has failed.
+<li> Because RPCs to all of the project's scheduler have failed.
 An exponential backoff policy is used.
 <li> Because one of the project's computations has failed (the
 application crashed, or a file upload or download failed).
@@ -114,7 +114,7 @@ if a scheduler RPC session is not active
         start a get-work session
     else if some project P has overdue results
         start a report-result session for P;
-        is P is the project with greatest resource debt,
+        if P is the project with greatest resource debt,
         the RPC request should ask for enough work to bring us up
         to the high-water mark
 </pre> 

@@ -61,7 +61,8 @@ servers.
 <dt> &lt;net_xfer_debug/&gt; 
 <dd> Log debugging information about network communication. 
 <dt> &lt;measurement_debug/&gt; 
-<dd> Log debugging information host speed, platform, disk space, etc measurements.
+<dd> Log debugging information about measurements of CPU speed,
+platform, disk space, etc.
 </dl>
 ";
 page_tail();

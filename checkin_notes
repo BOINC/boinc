@@ -11548,3 +11548,11 @@ Jeff  April 12 2004
      - tagged with both:
 	boinc_core_release_3_00
 	seti_boinc_app_release_3_00
+
+
+David  April 13 2004
+    - removed "result_template_file" arg (and several other args)
+        from make_work; these can just be copied from the WU
+
+    sched/
+        make_work.C

@@ -68,36 +68,38 @@ application does e.g. all integer arithmetic.
 Each time new credit granted,
 the following function is used to update the
 recent average credit of the host, user and team:
-<pre>
-#define LOG2 M_LN2
-    // log(2)
-#define SECONDS_IN_DAY (3600*24)
-#define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
+<pre>",htmlspecialchars("
 
-// decay an exponential average of credit per day,
-// and possibly add an increment for new credit
+// Update an estimate of \"units per day\" of something (credit or CPU time).
+// The estimate is exponentially averaged with a given half-life
+// (i.e. if no new work is done, the average will decline by 50% in this time).
+// This function can be called either with new work,
+// or with zero work to decay an existing average.
 //
 void update_average(
-    double credit_assigned_time,        // when work was started for new credit
-                                        // (or zero if no new credit)
-    double credit,                      // amount of new credit
-    double& avg,                        // average credit per day (in and out)
-    double& avg_time                    // when average was last computed
+    double work_start_time,       // when new work was started
+                                    // (or zero if no new work)
+    double work,                    // amount of new work
+    double half_life,
+    double& avg,                    // average work per day (in and out)
+    double& avg_time                // when average was last computed
 ) {
     double now = dtime();
 
     if (avg_time) {
         double diff = now - avg_time;
-        double diff_days = diff/SECONDS_IN_DAY;
-        double weight = exp(-diff*LOG2/AVG_HALF_LIFE);
+        double diff_days = diff/SECONDS_PER_DAY;
+        double weight = exp(-diff*M_LN2/half_life);
         avg *= weight;
-        avg += (1-weight)*(credit/diff_days);
+        avg += (1-weight)*(work/diff_days);
     } else {
-        double dd = (now - credit_assigned_time)/SECONDS_IN_DAY;
-        avg = credit/dd;
+        double dd = (now - work_start_time)/SECONDS_PER_DAY;
+        avg = work/dd;
     }
     avg_time = now;
 }
+
+"),"
 </pre>
 <hr noshade size=1>
 <sup>1</sup> Named after Jeff Cobb of SETI@home

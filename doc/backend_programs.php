@@ -14,9 +14,15 @@ Each program should be listed as a daemon in the
 <p>
 There is one work generator per application.
 It creates workunits and the corresponding input files.
-It is entirely application-specific, and uses
+It is application-specific, and uses
 <a href=tools_work.php>BOINC-supplied interfaces</a>
 for registering the workunits in the database.
+<p>
+During testing, you can create a single workunit using
+<a href=tools_work.php#cmdline>create_work</a>,
+then use
+<a href=tools_work.php#make_work>make_work</a>
+to make copies as needed to maintain a supply of work.
 
 <h3>Transitioning</h3>
 <p>

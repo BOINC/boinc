@@ -80,6 +80,7 @@ the ordinal number of the result (0, 1, ...).
 &lt;UPLOAD_URL> is replaced with the upload URL.
 </ul>
 <p>
+<a name=cmdline>
 <h3>Command-line interface</h3>
 <p>
 The utility program is
@@ -153,6 +154,18 @@ rsc_disk
 delay_bound
 </pre>
 All other fields should be zeroed.
+
+<a name=make_work>
+<h3>Make_work</h3>
+<p>
+The program
+<pre>
+make_work -wu_name name -cushion N
+</pre>
+can be used to create an endless supply of work.
+It will create copies of the given work unit
+as needed to maintain a supply of at least N unsent results.
 ";
+    
 page_tail();
 ?>

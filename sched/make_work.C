@@ -19,14 +19,8 @@
 
 // make_work
 //      -wu_name name
-//      -result_template filename
 //      [ -cushion n ]      // make work if fewer than this many unsent results
 //      [ -max_wus n ]      // don't make work if more than this many WUs
-//      [ -min_quorum n ]
-//      [ -target_nresults n ]
-//      [ -max_error_results n ]
-//      [ -max_total_results n ]
-//      [ -max_success_results n ]
 //
 // Create WU and result records as needed to maintain a pool of work
 // (for testing purposes).
@@ -53,13 +47,8 @@
 
 int max_wus = 0;
 int cushion = 300;
-int min_quorum = 2;
-int target_nresults = 5;
-int max_error_results = 10;
-int max_total_results = 20;
-int max_success_results = 10;
 
-char wu_name[256], result_template_file[256];
+char wu_name[256];
 
 // edit a WU XML doc, replacing one filename by another
 // (should appear twice, within <file_info> and <file_ref>)
@@ -120,7 +109,7 @@ void make_work() {
     SCHED_CONFIG config;
     char * p;
     int retval, start_time=time(0);
-    char keypath[256], result_template[MEDIUM_BLOB_SIZE];
+    char keypath[256];
     char file_name[256], buf[MEDIUM_BLOB_SIZE], pathname[256];
     char new_file_name[256], new_pathname[256], command[256];
     char starting_xml[MEDIUM_BLOB_SIZE], new_buf[MEDIUM_BLOB_SIZE];
@@ -156,11 +145,6 @@ void make_work() {
         exit(1);
     }
 
-    retval = read_filename(result_template_file, result_template);
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open result template\n");
-        exit(1);
-    }
     while (1) {
         check_stop_trigger();
 
@@ -183,7 +167,7 @@ void make_work() {
         p = strtok(buf, "\n");
         strcpy(file_name, "");
 
-        // make new copies of all the WU's input files
+        // make new copies of the WU's input files
         //
         while (p) {
             if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
@@ -218,11 +202,6 @@ void make_work() {
         wu.id = 0;
         wu.create_time = time(0);
         sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
-        wu.min_quorum = min_quorum;
-        wu.target_nresults = target_nresults;
-        wu.max_error_results = max_error_results;
-        wu.max_total_results = max_total_results;
-        wu.max_success_results = max_success_results;
         wu.need_validate = false;
         wu.canonical_resultid = 0;
         wu.canonical_credit = 0;
@@ -230,8 +209,6 @@ void make_work() {
         wu.error_mask = 0;
         wu.file_delete_state = FILE_DELETE_INIT;
         wu.assimilate_state = ASSIMILATE_INIT;
-        strcpy(wu.result_template, result_template);
-        process_result_template_upload_url_only(wu.result_template, config.upload_url);
         retval = wu.insert();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -254,30 +231,17 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-cushion")) {
             cushion = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-result_template")) {
-            strcpy(result_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-wu_name")) {
             strcpy(wu_name, argv[++i]);
         } else if (!strcmp(argv[i], "-max_wus")) {
             max_wus = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-min_quorum")) {
-            min_quorum = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-target_nresults")) {
-            target_nresults = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_error_results")) {
-            max_error_results = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_total_results")) {
-            max_total_results = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_success_results")) {
-            max_success_results = atoi(argv[++i]);
         }
     }
 
 #define CHKARG(x,m) do { if (!(x)) { fprintf(stderr, "make_work: bad command line: "m"\n"); exit(1); } } while (0)
 #define CHKARG_STR(v,m) CHKARG(strlen(v),m)
-    CHKARG_STR(result_template_file , "need -result_template_file");
     CHKARG_STR(wu_name              , "need -wu_name");
 #undef CHKARG
 #undef CHKARG_STR
@@ -296,8 +260,8 @@ int main(int argc, char** argv) {
     // write_pid_file(PIDFILE);
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
-        "Starting: min_quorum=%d target_nresults=%d max_error_results=%d max_total_results=%d max_success_results=%d\n",
-        min_quorum, target_nresults, max_error_results, max_total_results, max_success_results
+        "Starting: cushion %d, max_wus %d\n",
+        cushion, max_wus
     );
     install_stop_signal_handler();
 

@@ -80,7 +80,7 @@ echo "
     There may be a delay of several days between
     when your computer reports a result
     and when it is granted credit for the result.
-    Your <a href=home.php>User page</a> shows you how much credit is 'pending'
+    Your User page shows you how much credit is 'pending'
     (claimed but not granted).
     <li>
     The credit-granting process starts when your computer reports

@@ -49,7 +49,7 @@ core client in order to continue participating in this project.
 <li>
 If the priority is 'low' (default) the core client should
 allow the participant to see the message, but should not require it.
-For example, it could the message to a log file.
+For example, it could write the message to a log file.
 </ul>
 <p>
 A reply message can contain multiple message elements.

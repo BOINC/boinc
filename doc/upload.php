@@ -38,7 +38,7 @@ The reply message has the form:
 <pre> ", htmlspecialchars("
 <data_server_reply>
     <status>x</status>
-    [ <message>text&<message>
+    [ <message>text<message>
     | <file_size>nbytes</file_size> ]
 </data_server_reply>
 "), "</pre>
@@ -72,7 +72,7 @@ Request message format:
 <offset>x</offset>
 <data>
 ... (nbytes bytes of data; may include non-ASCII data)
-</data>
+(no closing tags)
 "), "</pre>
 <p>
 The &lt;file_info> element is the exact text sent from the
