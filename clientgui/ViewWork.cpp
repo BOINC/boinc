@@ -543,7 +543,7 @@ wxInt32 CViewWork::GetCacheCount()
 
 wxInt32 CViewWork::RemoveCacheElement()
 {
-    m_WorkCache.RemoveAt( GetCacheCount() - 1 );
+    m_WorkCache.RemoveAt( m_WorkCache.GetCount() - 1 );
     return 0;
 }
 

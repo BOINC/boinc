@@ -141,18 +141,27 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
-    notifyData.uFlags           = NIF_MESSAGE | NIF_TIP | NIF_INFO;
+    notifyData.uFlags           = NIF_MESSAGE;
     notifyData.dwInfoFlags      = iconballoon | NIIF_NOSOUND;
     notifyData.uTimeout         = timeout;
     notifyData.uVersion         = NOTIFYICON_VERSION;
-    lstrcpyn(notifyData.szTip, WXSTRINGCAST strTip, sizeof(notifyData.szTip));
-    lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
-    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
 
     if (icon.Ok())
     {
         notifyData.uFlags |= NIF_ICON;
         notifyData.hIcon = (HICON) icon.GetHICON();
+    }
+
+    if (IsBalloonsSupported())
+    {
+        notifyData.uFlags |= NIF_INFO;
+        lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
+        lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
+    }
+    else
+    {
+        notifyData.uFlags |= NIF_TIP;
+        lstrcpyn(notifyData.szTip, WXSTRINGCAST strTip, sizeof(notifyData.szTip));
     }
 
     if (m_iconAdded)
@@ -309,7 +318,7 @@ bool wxTaskBarIconEx::IsBalloonsSupported()
     wxInt32 iMajor = 0, iMinor = 0;
     if ( wxWINDOWS_NT == wxGetOsVersion( &iMajor, &iMinor ) )
     {
-        if ( (5 >= iMajor) && (0 >= iMinor) )
+        if ( (5 >= iMajor) && (0 <= iMinor) )
             return true;
     }
 #endif

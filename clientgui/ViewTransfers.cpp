@@ -467,7 +467,7 @@ wxInt32 CViewTransfers::GetCacheCount()
 
 wxInt32 CViewTransfers::RemoveCacheElement()
 {
-    m_TransferCache.RemoveAt( GetCacheCount() - 1 );
+    m_TransferCache.RemoveAt( m_TransferCache.GetCount() - 1 );
     return 0;
 }
 

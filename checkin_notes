@@ -22114,3 +22114,20 @@ Janus 6 Jan 2005
     /html/inc
         forum.inc
 
+Rom    6 Jan 2005
+    - Bug Fix: fix crashing bug when running the old gui and new gui
+        side by side
+    - Bug Fix: Fix sync bug in new gui related to how the number of
+        rows were being calculated
+    - Bug Fix: Remove the explict call to freeze/thaw which was causing
+        the messages tab to flicker even when the data has not changed.
+
+    client/win/
+        wingui_mainwindow.cpp
+    clientgui/
+        BOINCBaseView.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

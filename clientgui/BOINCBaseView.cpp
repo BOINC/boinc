@@ -199,8 +199,6 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
 
         wxASSERT(NULL != m_pListPane);
 
-        m_pListPane->Freeze();
-
         wxInt32 iDocCount = GetDocCount();
         wxInt32 iCacheCount = GetCacheCount();
         if ( iDocCount != iCacheCount )
@@ -212,38 +210,33 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
             }
             else
             {
-                if ( !(iDocCount == iCacheCount) )
+                wxInt32 iIndex = 0;
+                wxInt32 iReturnValue = -1;
+                if ( iDocCount > iCacheCount )
                 {
-                    wxInt32 iIndex = 0;
-                    wxInt32 iReturnValue = -1;
-                    if ( iDocCount > iCacheCount )
+                    for ( iIndex = 0; iIndex < ( iDocCount - iCacheCount ); iIndex++ )
                     {
-                        for ( iIndex = iCacheCount; iIndex <= iDocCount; iIndex++ )
-                        {
-                            iReturnValue = AddCacheElement();
-                            wxASSERT( 0 == iReturnValue );
-                        }
+                        iReturnValue = AddCacheElement();
+                        wxASSERT( 0 == iReturnValue );
                     }
-                    else
-                    {
-                        for ( iIndex = iDocCount; iIndex >= iCacheCount; iIndex-- )
-                        {
-                            iReturnValue = RemoveCacheElement();
-                            wxASSERT( 0 == iReturnValue );
-                        }
-                    }
-
-                    m_pListPane->SetItemCount(iDocCount);
                 }
+                else
+                {
+                    for ( iIndex = 0; iIndex < ( iCacheCount - iDocCount ); iIndex++ )
+                    {
+                        iReturnValue = RemoveCacheElement();
+                        wxASSERT( 0 == iReturnValue );
+                    }
+                }
+
+                m_pListPane->SetItemCount(iDocCount);
             }
         }
 
         SyncronizeCache();
 
         if (EnsureLastItemVisible())
-            m_pListPane->EnsureVisible(iCacheCount);
-
-        m_pListPane->Thaw();
+            m_pListPane->EnsureVisible(iDocCount);
 
         m_bProcessingListRenderEvent = false;
     }

@@ -1618,11 +1618,7 @@ void CMainWindow::OnCommandExit()
     m_ContextMenu.DestroyMenu();
 
     // free dll and idle detection
-#ifdef 1
-	if(g_hIdleDetectionDll) {
-	    FreeLibrary(g_hIdleDetectionDll);
-	}
-#else
+#ifdef ENABLEIDLE
 	if(g_hIdleDetectionDll) {
         typedef void (CALLBACK* TermFn)();
         TermFn fn;
@@ -1632,10 +1628,12 @@ void CMainWindow::OnCommandExit()
         } else {
             fn();
         }
-        FreeLibrary(g_hIdleDetectionDll);
-        g_hIdleDetectionDll = NULL;
     }
 #endif
+	if(g_hIdleDetectionDll) {
+	    FreeLibrary(g_hIdleDetectionDll);
+        g_hIdleDetectionDll = NULL;
+	}
 
     SaveUserSettings();
     //SaveListControls();
@@ -1875,7 +1873,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     if(!g_hIdleDetectionDll) {
         show_message(NULL,"Can't load \"boinc.dll\", will not be able to determine idle time", MSG_ERROR);
     }
-#ifdef 0
+#ifdef ENABLEIDLE
 	else {
         typedef BOOL (CALLBACK* InitFn)();
         InitFn fn;

@@ -425,7 +425,7 @@ wxInt32 CViewMessages::GetCacheCount()
 
 wxInt32 CViewMessages::RemoveCacheElement()
 {
-    m_MessageCache.RemoveAt( GetCacheCount() - 1 );
+    m_MessageCache.RemoveAt( m_MessageCache.GetCount() - 1 );
     return 0;
 }
 

@@ -630,7 +630,7 @@ wxInt32 CViewProjects::GetCacheCount()
 
 wxInt32 CViewProjects::RemoveCacheElement()
 {
-    m_ProjectCache.RemoveAt( GetCacheCount() - 1 );
+    m_ProjectCache.RemoveAt( m_ProjectCache.GetCount() - 1 );
     return 0;
 }
 

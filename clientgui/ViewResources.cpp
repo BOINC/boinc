@@ -294,7 +294,7 @@ wxInt32 CViewResources::GetCacheCount()
 
 wxInt32 CViewResources::RemoveCacheElement()
 {
-    m_ResourceCache.RemoveAt( GetCacheCount() - 1 );
+    m_ResourceCache.RemoveAt( m_ResourceCache.GetCount() - 1 );
     return 0;
 }
 
