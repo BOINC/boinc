@@ -15676,3 +15676,19 @@ Daniel 2004-07-26
     sched/
         sched_send.C
 
+Daniel 2004-07-26
+    - API: send current VM usage and resident set size in
+      update_app_progress(). Currently only works for Solaris and Linux.
+      Does anyone know how to do this on Windows or OSX?
+    - Fixed typo in prefs page
+
+    config.h.in
+    configure
+    configure.ac
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+    html/inc/
+        prefs.inc
+

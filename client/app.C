@@ -128,7 +128,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     cpu_time_at_last_sched = 0;
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
-    working_set_size = 0;
+    vm_size = 0;
+    resident_set_size = 0;
     have_trickle_down = false;
 #ifdef _WIN32
     pid_handle = 0;
@@ -626,6 +627,10 @@ bool ACTIVE_TASK::task_exited() {
 // preempts a task
 //
 int ACTIVE_TASK::preempt() {
+    // TODO: if process vm_size > total_vm_size * some fraction, then kill
+    // (or maybe send "kill" message) to the process instead of suspending
+    // it
+
     int retval = suspend();
 
     if (retval) {
@@ -1402,7 +1407,8 @@ bool ACTIVE_TASK::get_status_msg() {
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-        parse_double(msg_buf, "<working_set_size>", working_set_size);
+        parse_double(msg_buf, "<vm_size>", vm_size);
+        parse_double(msg_buf, "<resident_set_size>", resident_set_size);
         if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
             move_trickle_file();
         }

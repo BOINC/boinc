@@ -38,6 +38,9 @@
 #include <sys/time.h>
 #endif
 #include <csignal>
+#ifdef HAVE_PROCFS_H
+#include <procfs.h> // definitions for solaris /proc structs
+#endif
 #include "config.h"
 using namespace std;
 #endif
@@ -102,6 +105,7 @@ static int  setup_shared_mem();
 static void cleanup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static int  set_timer(double period);
+static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
 
 // Timer will be installed iff is_worker=true.
 //
@@ -263,15 +267,23 @@ static int update_app_progress(
     double cpu_t, double cp_cpu_t, double ws_t
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
+    unsigned long vm = 0, rs = 0;
     bool sent;
 
     if (!app_client_shm) return 0;
 
+#if 0
     sprintf(msg_buf,
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
         "<working_set_size>%f</working_set_size>\n",
         cpu_t, cp_cpu_t, ws_t
+    );
+#endif
+    sprintf(msg_buf,
+        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
+        cpu_t, cp_cpu_t
     );
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
@@ -279,7 +291,10 @@ static int update_app_progress(
         sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
         strcat(msg_buf, buf);
     }
-
+    if (!mem_usage(vm, rs)) {
+        sprintf(buf, "<vm_size>%lu</vm_size>\n", vm);
+        sprintf(buf, "<resident_set_size>%lu</resident_set_size>\n", rs);
+    }
     if (have_new_trickle_up) {
         strcat(msg_buf, "<have_new_trickle_up/>\n");
     }
@@ -559,5 +574,75 @@ bool boinc_receive_trickle_down(char* buf, int len) {
         }
     }
     return false;
+}
+
+static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
+
+#ifdef _WIN32
+    return ERR_NOT_IMPLEMENTED;
+#else
+
+    FILE* f;
+
+#if defined(HAVE_PROCFS_H)
+
+    // guess that this is solaris
+    // need psinfo_t from procfs.h
+    //
+    if ((f = fopen("/proc/self/psinfo", "r")) != 0) {
+        psinfo_t psinfo;
+
+        if (fread(&psinfo, sizeof(psinfo_t), 1, f) == 1) {
+            vm_kb = psinfo.pr_size;
+            rs_kb = psinfo.pr_rssize;
+            fclose(f);
+            return 0;
+        } else {
+            fclose(f);
+            return ERR_FREAD;
+        }
+    }
+#endif
+
+    // guess that this is linux
+    //
+    if ((f = fopen("/proc/self/stat", "r")) != 0) {
+        char buf[256];
+        char* p;
+        int i;
+        unsigned long tmp;
+
+        i = fread(buf, sizeof(char), 255, f);
+        buf[i] = '\0'; // terminate string
+        p = &buf[0];
+
+        // skip over first 22 fields
+        //
+        for (i = 0; i < 22; ++i) {
+            p = strchr(p, ' ');
+            if (!p) break;
+            ++p; // move past space
+        }
+        if (!p) {
+            return ERR_NOT_IMPLEMENTED;
+        }
+
+        // read virtual memory size in bytes.
+        //
+        tmp = strtol(p, &p, 0); // in bytes
+        vm_kb = tmp>>10; // bytes to Kb
+
+        // read resident set size: number of  pages  the  process has in
+        // real  memory, minus 3 for administrative purposes.
+        //
+        tmp = strtol(p, 0, 0); // in pages
+        rs_kb = (tmp + 3)<<2; // assuming 4Kb/page
+
+        fclose(f);
+        return 0;
+    }
+
+    return ERR_NOT_IMPLEMENTED;
+#endif
 }
 

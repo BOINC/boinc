@@ -577,7 +577,7 @@ function prefs_form_resource($prefs) {
         The default is 100.
         For example, if you participate in two projects and
         give them resource shares of 100 and 200,
-        the first will get 1/3 of our resources and the second will get 2/3.
+        the first will get 1/3 of your resources and the second will get 2/3.
         </font>",
         "<input name=resource_share value='$prefs->resource_share'"
     );

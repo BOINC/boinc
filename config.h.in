@@ -144,6 +144,9 @@
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
 #undef HAVE_OPENGL_GL_H
 
+/* Define to 1 if you have the <procfs.h> header file. */
+#undef HAVE_PROCFS_H
+
 /* Define if you have POSIX threads libraries and header files. */
 #undef HAVE_PTHREAD
 
