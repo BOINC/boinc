@@ -111,8 +111,11 @@ int CLIENT_STATE::init() {
     make_slot_dirs();
 
     // Run the time tests and host information check if needed
-    // TODO: break time tests and host information check into two
-    //       separate functions? 
+
+    // Getting host info is very fast, so we can do it anytime
+    clear_host_info(host_info);
+    get_host_info(host_info);       // this is platform dependent
+
     if (gstate.run_time_tests()) {
         gstate.time_tests();
     }
@@ -141,8 +144,6 @@ int CLIENT_STATE::time_tests() {
     if (log_flags.measurement_debug) {
         printf("Getting general host information.\n");
     }
-    clear_host_info(host_info);
-    get_host_info(host_info);       // this is platform dependent
 #if 0
     double fpop_test_secs = 2.0;
     double iop_test_secs = 2.0;
@@ -190,7 +191,7 @@ double CLIENT_STATE::allowed_disk_usage() {
 
     // Calculate allowed disk usage based on % pref
     //
-    percent_space = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
+    percent_space = host_info.d_total*global_prefs.disk_max_used_pct;
 
     min_val = host_info.d_free - global_prefs.disk_min_free_gb*1e9;
 

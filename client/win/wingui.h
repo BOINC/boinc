@@ -211,8 +211,6 @@ protected:
     void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
-    double					GetDiskSize();
-    double					GetDiskFree();
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();

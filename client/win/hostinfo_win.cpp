@@ -21,6 +21,9 @@
 #include "client_types.h"
 #include "hostinfo.h"
 
+double GetDiskFree();
+double GetDiskSize();
+
 // Gets windows specific host information (not complete)
 //
 int get_host_info(HOST_INFO& host) {
@@ -139,6 +142,8 @@ int get_host_info(HOST_INFO& host) {
     }
         
     memset(&host, 0, sizeof(host));
+	host.d_total = GetDiskSize();
+	host.d_free = GetDiskFree();
       
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
@@ -148,4 +153,41 @@ int get_host_info(HOST_INFO& host) {
 
 bool host_is_running_on_batteries() {
 	return false;
+}
+
+
+//////////
+// GetDiskFree
+// arguments:	void
+// returns:		amount of free disk space in MB
+// function:	calculates free disk space on current drive
+double GetDiskFree()
+{
+	ULARGE_INTEGER TotalNumberOfFreeBytes;
+	char path[256];
+	char drive[256];
+	GetCurrentDirectory(256, path);
+	memcpy(drive, path, 3);
+	drive[3] = 0;
+	GetDiskFreeSpaceEx(drive, NULL, NULL, &TotalNumberOfFreeBytes);
+	unsigned int MB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
+	return (double)MB * 1024.0 * 1024.0;
+}
+
+//////////
+// GetDiskSize
+// arguments:	void
+// returns:		total disk space in bytes
+// function:	calculates total disk space on current drive
+double GetDiskSize()
+{
+	ULARGE_INTEGER TotalNumberOfBytes;
+	char path[256];
+	char drive[256];
+	GetCurrentDirectory(256, path);
+	memcpy(drive, path, 3);
+	drive[3] = 0;
+	GetDiskFreeSpaceEx(drive, NULL, &TotalNumberOfBytes, NULL);
+	unsigned int MB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
+	return (double)MB * 1024.0 * 1024.0;
 }

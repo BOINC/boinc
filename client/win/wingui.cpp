@@ -47,6 +47,9 @@ char* column_titles[MAX_LIST_ID][MAX_COLS] = {
         {"Project",	"File",			"Progress",		"Total",		"Direction",		NULL,				NULL}
 };
 
+double GetDiskSize();
+double GetDiskFree();
+
 void show_message(char* message, char* priority) {
 	if(g_myWnd) {
 		g_myWnd->MessageUser(message, priority);
@@ -1110,7 +1113,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		int cpuhour = (int)(cur_cpu / (60 * 60));
 		int cpumin = (int)(cur_cpu / 60) % 60;
 		int cpusec = (int)(cur_cpu) % 60;
-		buf.Format("%0.2dh%0.2dm%0.2ds", cpuhour, cpumin, cpusec);
+		buf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
 		m_ResultListCtrl.SetItemText(i, 3, buf);
 
 		// progress
@@ -1128,7 +1131,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 			cpuhour = (int)(tocomp / (60 * 60));
 			cpumin = (int)(tocomp / 60) % 60;
 			cpusec = (int)(tocomp) % 60;
-			buf.Format("%0.2dh%0.2dm%0.2ds", cpuhour, cpumin, cpusec);
+			buf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
 		}
 		m_ResultListCtrl.SetItemText(i, 5, buf);
 
@@ -1384,42 +1387,6 @@ void CMainWindow::LoadUserSettings()
 		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
 		m_XferListCtrl.SetColumnWidth(i, intbuf);
 	}
-}
-
-//////////
-// CMainWindow::GetDiskSize
-// arguments:	void
-// returns:		total disk space in bytes
-// function:	calculates total disk space on current drive
-double CMainWindow::GetDiskSize()
-{
-	ULARGE_INTEGER TotalNumberOfBytes;
-	char path[256];
-	char drive[256];
-	GetCurrentDirectory(256, path);
-	memcpy(drive, path, 3);
-	drive[3] = 0;
-	GetDiskFreeSpaceEx(drive, NULL, &TotalNumberOfBytes, NULL);
-	unsigned int MB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
-	return (double)MB * 1024.0 * 1024.0;
-}
-
-//////////
-// CMainWindow::GetDiskFree
-// arguments:	void
-// returns:		amount of free disk space in MB
-// function:	calculates free disk space on current drive
-double CMainWindow::GetDiskFree()
-{
-	ULARGE_INTEGER TotalNumberOfFreeBytes;
-	char path[256];
-	char drive[256];
-	GetCurrentDirectory(256, path);
-	memcpy(drive, path, 3);
-	drive[3] = 0;
-	GetDiskFreeSpaceEx(drive, NULL, NULL, &TotalNumberOfFreeBytes);
-	unsigned int MB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
-	return (double)MB * 1024.0 * 1024.0;
 }
 
 //////////
@@ -1700,7 +1667,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0, GetDiskSize() / (1024.0 * 1024.0 * 1024.0));
 	m_UsagePieCtrl.AddPiece("Space used", RGB(0, 0, 255), 0, 0);
 	m_UsagePieCtrl.AddPiece("Used by BOINC", RGB(255, 255, 0), 0, 0);
-	m_UsagePieCtrl.AddPiece("Free available for BOINC", RGB(255, 128, 0), 0, 0);
+	m_UsagePieCtrl.AddPiece("Space available to BOINC", RGB(255, 128, 0), 0, 0);
 
 	// create message edit control
 	m_MessageEditCtrl.Create(ES_MULTILINE|ES_READONLY|WS_VSCROLL|WS_CHILD|WS_TABSTOP|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
