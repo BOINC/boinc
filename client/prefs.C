@@ -52,6 +52,8 @@ void GLOBAL_PREFS::init() {
     idle_time_to_run = 0;
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
+    max_memory_mbytes = 128;
+    cpu_affinity = -1;
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -142,6 +144,10 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
             continue;
         } else if (parse_double(buf, "<max_bytes_sec_down>", max_bytes_sec_down)) {
             if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e12;
+            continue;
+        } else if (parse_int(buf, "<max_memory_mbytes>", max_memory_mbytes)) {
+            continue;
+        } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
             continue;
         }
     }

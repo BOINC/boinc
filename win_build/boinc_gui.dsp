@@ -430,6 +430,10 @@ SOURCE=..\client\win\boinc.bmp
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\res\boinc.bmp
+# End Source File
+# Begin Source File
+
 SOURCE=..\client\win\boincsm.bmp
 # End Source File
 # Begin Source File
@@ -447,6 +451,18 @@ SOURCE=..\client\win\res\icon.ico
 # Begin Source File
 
 SOURCE=..\client\win\res\iconhigh.ico
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\mess.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\small.ico
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\smallico.ico
 # End Source File
 # End Group
 # End Target

@@ -52,6 +52,8 @@ struct GLOBAL_PREFS {
     double idle_time_to_run;
     double max_bytes_sec_up;
     double max_bytes_sec_down;
+    int max_memory_mbytes;
+    int cpu_affinity;
 
     GLOBAL_PREFS();
     void init();

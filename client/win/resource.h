@@ -22,6 +22,7 @@
 #define IDD_QUIT                        125
 #define IDD_PROXY                       127
 #define IDD_CONNECT                     129
+#define IDI_ICONSMALL                   132
 #define IDC_LOGIN_URL                   1000
 #define IDC_LOGIN_AUTH                  1002
 #define IDC_LIST                        1006
@@ -92,7 +93,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        130
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40043
 #define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101

@@ -1,1004 +1,1842 @@
-ĞÏà¡±á>şÿ	şÿÿÿşÿÿÿ}ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿıÿÿÿ 	
-şÿÿÿşÿÿÿşÿÿÿI"#$%&'()*şÿÿÿ,-./01234şÿÿÿ6789:;<=>şÿÿÿ@ABCDEFGHşÿÿÿrKLMNOPQRSşÿÿÿUVWXYZ[\]şÿÿÿ_`abcdefgşÿÿÿijklmnopqşÿÿÿşÿÿÿtuvwxyz{|şÿÿÿıÿÿÿ€Root Entryÿÿÿÿÿÿÿÿ@MVS-1ÃşÿÿÿWorkspace State ÿÿÿÿBrowserÿÿÿÿEditorÿÿÿÿÿÿÿÿ	boinc_guiGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_gui.dsprsaeuroEC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\RSAEuro.dsp	boinc_cliGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_cli.dspboinc_ssFC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_ss.dsp
-upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#pragguiGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_gui.dsprsaeuroEC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\RSAEuro.dsp	boinc_cliGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_cli.dspboinc_ssFC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_ss.dsp
-upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#pragMLJLguiGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_gui.dsprsaeuroEC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\RSAEuro.dsp	boinc_cliGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_cli.dspboinc_ssFC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_ss.dsp
-upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#pragWorkspace Window"ÿÿÿÿÿÿÿÿ!IPI_RSAEuro	ÿÿÿÿ+IPI_boinc_cliÿÿÿÿ5IPI_boinc_dllÿÿÿÿÿÿÿÿÿÿÿÿ?	boinc_gui	ClassView<EOR><EOR>boinc_gui classes<EOR>boinc_gui classes<EOR>boinc_gui classes<EOR>ResourceView<EOR><EOR><EOR>boinc_ss resources<EOR>boinc_ss resources<EOR>FileView<EOR>Workspace 'boinc': 6 project(s)<EOR>boinc_gui files<EOR>boinc_gui files<EOR>Workspace 'boinc': 6 project(s)<EOR><EOR>FileView<EOR>
-upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag`êRSAEuro - Win32 DebugRSAEuro.dspCProjectRSAEuro - Win32 DebugRSAEuro - Win32 ReleaseìBuild\ReleaseêRSAEuro - Win32 DebugêìBuild\DebugSSBRCTargetItemRSAEuro - Win32 DebugSSBRSource Files
+ĞÏà¡±á>şÿ	şÿÿÿşÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿıÿÿÿ 	
+şÿÿÿşÿÿÿşÿÿÿI"#$%&'()*şÿÿÿ,-./01234şÿÿÿ6789:;<=>şÿÿÿ@ABCDEFGHşÿÿÿtKLMNOPQRSTUşÿÿÿWXYZ[\]^_şÿÿÿabcdefghişÿÿÿklmnopqrsşÿÿÿşÿÿÿvwxyz{|}~şÿÿÿıÿÿÿRoot Entryÿÿÿÿÿÿÿÿ0:¤j34ÃşÿÿÿWorkspace State ÿÿÿÿBrowserÿÿÿÿEditorÿÿÿÿÿÿÿÿ	boinc_guiGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_gui.dsprsaeuroEC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\RSAEuro.dsp	boinc_cliGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_cli.dsp
+upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dspboinc_ssFC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_ss.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿSC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\Build\Debug\boinc_gui.bsceuroEC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\RSAEuro.dsp	boinc_cliGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_cli.dsp
+upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dspboinc_ssFC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_ss.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿMLJLcuments and Settings\Tim Lan\Desktop\boinc\win_build\Build\Debug\boinc_gui.bsceuroEC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\RSAEuro.dsp	boinc_cliGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_cli.dsp
+upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dspboinc_ssFC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_ss.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿWorkspace Window"ÿÿÿÿÿÿÿÿ!IPI_RSAEuro	ÿÿÿÿ+IPI_boinc_cliÿÿÿÿ5IPI_boinc_dllÿÿÿÿÿÿÿÿÿÿÿÿ?	boinc_gui	ClassView<EOR>boinc_gui classesCMainWindow<EOR>OnCreate(LPCREATESTRUCT)<EOR>OnCreate(LPCREATESTRUCT)<EOR>	OnClose()<EOR>ResourceView<EOR>resource resources *Icon<EOR>IDI_ICON<EOR>IDI_ICON<EOR>boinc_ss resources<EOR>FileView<EOR>Workspace 'boinc': 6 project(s)boinc_gui filesHeader Files<EOR>wingui_mainwindow.h<EOR>wingui_mainwindow.h<EOR>http.h<EOR><EOR>ResourceView<EOR>c_ss.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ`êRSAEuro - Win32 DebugRSAEuro.dspCProjectRSAEuro - Win32 DebugRSAEuro - Win32 ReleaseêìBuild\ReleaseRSAEuro - Win32 DebugìBuild\DebugêSSBRCTargetItemRSAEuro - Win32 DebugSSBRSource Files
 CProjGroupSSBRDJWHeader Files
-CProjGroupSSBRDJWDJWDJWiew<EOR>
-upper_caseHC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\upper_case.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag`êboinc_cli - Win32 Debugboinc_cli.dspCProjectboinc_cli - Win32 Debugboinc_cli - Win32 ReleaseìBuild\Releaseboinc_cli - Win32 DebugìBuild\DebugSSBRCTargetItemboinc_cli - Win32 DebugSSBRSource Files
+CProjGroupSSBRDJWDJWDJWgui_mainwindow.h<EOR>wingui_mainwindow.h<EOR>http.h<EOR><EOR>ResourceView<EOR>c_ss.dsp	boinc_dllGC:\Documents and Settings\Tim Lan\Desktop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ`êboinc_cli - Win32 Debugboinc_cli.dspCProjectboinc_cli - Win32 Debugboinc_cli - Win32 ReleaseìBuild\Releaseboinc_cli - Win32 DebugìBuild\DebugSSBRCTargetItemboinc_cli - Win32 DebugSSBRSource Files
 CProjGroupSSBRDJWHeader Files
 CProjGroupSSBRDJWResource Files
-CProjGroupSSBRDJW	boinc_dllCProjectDependencySSBRRSAEuroCProjectDependencySSBRboinc_ssCProjectDependencySSBRDJWDJWop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag`êboinc_dll - Win32 Debugboinc_dll.dspCProjectboinc_dll - Win32 Debugboinc_dll - Win32 ReleaseìBuild\Releaseboinc_dll - Win32 DebugìBuild\DebugêûSSBRCTargetItemboinc_dll - Win32 DebugSSBRSource Files
+CProjGroupSSBRDJW	boinc_dllCProjectDependencySSBRRSAEuroCProjectDependencySSBRboinc_ssCProjectDependencySSBRDJWDJWop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ`êboinc_dll - Win32 Debugboinc_dll.dspCProjectboinc_dll - Win32 Debugboinc_dll - Win32 ReleaseìBuild\Releaseboinc_dll - Win32 DebugêìBuild\DebugûSSBRCTargetItemboinc_dll - Win32 DebugSSBRSource Files
 CProjGroupSSBRDJWHeader Files
 CProjGroupSSBRDJWResource Files
-CProjGroupSSBRDJWdepCDependencyContainerSSBRDJWDJWDJWSBRboinc_ssCProjectDependencySSBRDJWDJWop\boinc\win_build\boinc_dll.dsp COM {
-#define END_COM_MAP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#pragIPI_boinc_gui
-ÿÿÿÿJIPI_boinc_ssÿÿÿÿÿÿÿÿÿÿÿÿTIPI_upper_caseÿÿÿÿÿÿÿÿÿÿÿÿ^IPI_
-ÿÿÿÿÿÿÿÿÿÿÿÿh`êboinc_gui - Win32 Debugboinc_gui.dspCProjectboinc_gui - Win32 Debugboinc_gui - Win32 ReleaseìBuild\Releaseboinc_gui - Win32 DebugêìBuild\DebugûSSBRCTargetItemboinc_gui - Win32 DebugSSBRSource Files
+CProjGroupSSBRDJWdepCDependencyContainerSSBRDJWDJWDJWSBRboinc_ssCProjectDependencySSBRDJWDJWop\boinc\win_build\boinc_dll.dspI™™ÌÌÉ™DOôDDÿôL™™ÌÉ™™OÿôDDÿôL™™ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€€€€À€pğøşGÿçÿÀ÷ÿü?ÿ( ÿÿÿÿ0	( À€€€€€€€€€ÀÀÀ€€€ÿÿÿÿÿÿÿÿÿÿÿÿD™DDD‡DDDDDIOÿø„DH	OHôÿDH™DHôDôH™™DHôDøH™™DHø‡ô‰™™OÿÿøDI™™DHôøDH™™™HôHôH™	˜HôD÷H˜ÿôDÿH—‡÷÷‰˜HÿD	—ˆøàÀÀ€€ÀÀğø" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿIPI_boinc_gui
+ÿÿÿÿJIPI_boinc_ssÿÿÿÿÿÿÿÿÿÿÿÿVIPI_upper_caseÿÿÿÿÿÿÿÿÿÿÿÿ`IPI_
+ÿÿÿÿÿÿÿÿÿÿÿÿj`êboinc_gui - Win32 Debugboinc_gui.dspCProjectboinc_gui - Win32 Debugboinc_gui - Win32 ReleaseìBuild\Releaseboinc_gui - Win32 Debug€ìBuild\DebugêûSSBRCTargetItemboinc_gui - Win32 DebugSSBRSource Files
 CProjGroupSSBRDJWHeader Files
 CProjGroupSSBRDJWResource Files
-CProjGroupSSBRDJW	boinc_dllCProjectDependencySSBRRSAEuroCProjectDependencySSBRboinc_ssCProjectDependencySSBRdepCDependencyContainerSSBRDJWDJWDJWP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag`êboinc_ss - Win32 Debugboinc_ss.dspCProjectboinc_ss - Win32 Debugboinc_ss - Win32 ReleaseìBuild\Releaseboinc_ss - Win32 DebugìBuild\DebugûSSBRCTargetItemboinc_ss - Win32 DebugSSBRSource Files
+CProjGroupSSBRDJW	boinc_dllCProjectDependencySSBRRSAEuroCProjectDependencySSBRboinc_ssCProjectDependencySSBRdepCDependencyContainerSSBRresult_state.hCDependencyFileSSBR	basetsd.hCDependencyFileSSBRparse.hCDependencyFileSSBRdes.hCDependencyFileSSBRshs.hCDependencyFileSSBRglobal.hCDependencyFileSSBRmd4.hCDependencyFileSSBRcrypt.hCDependencyFileSSBR	rsaeuro.hCDependencyFileSSBRnn.hCDependencyFileSSBRmd5.hCDependencyFileSSBRrsa.hCDependencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜ÌÉ™™™OÿÿDÿÿôàÉÀ™™™Oÿÿÿÿ@î	™™™DÿÿDI	™îÌDD™™	àœÌÉ™™™ÌÀ	œÌ™™™™À™™Ì™™™ÀÉ™ÿü?ÿïÀÿçÿâğğğàÀ€€€V(V(V(V(V(eÑeÑã:"ã:"V(¹‘"V(G"’K"'J"œoV(ékék»Æ»Æ<H"H"V(V(V(V(V(V(ñ5"ékÃ
+ékV(ı6"26"& "]ìkq	3Ÿ"j3"kq	ékV(V(V(V(V(ä0"ékJÛeÑùùùùùù%ŠÌŒ"³m"³m"UèV(©q"V(ºr"Áq"ékékékékJÛJÛeÑñ×eÑ7 eÑeÑeÑÑY9"Y9"Ërà»Æ»Æëp[ëp[ëpc›"V(V(+$»ÆìV"°W"»Æ»Æ»Æ»Æq„V(™V('}cR"ùV(V(_‚"ü"–"V(V(*úËrŠŠËrV(õ¹"‹½ñ_"V(õ¦"XŠ"m&m&ékXŠ"ék2="÷·7!"÷·÷·7!"¿ "½Z"ékékm&Lh×Ş"8"~£
+8"q„~£
+q„8"~£
+8"q„~£
+q„÷·÷·÷·÷·÷·ùù÷·ù÷·÷·÷·÷·÷·÷·ù÷·àààú)"XŠ"¡Š"m&m&cR"à·"àù7!"ààŞ)"ój"ëp]$RB"lB"ã(´íÀÌ°/Àv7ÒCÒC,$ÒCÒCTåTåÒC0$ÒCÒCTåÒC0$Tå0$ÒCò,,$ÒCÒC,$ÒCÒC0$ÒCTåTå9‡0$,$ÒCÒC0$TåTåÒC0$,$ÒCÒC0$TåTå´í0$Tå„cñeÒCÒCÒCÒCÒC´íTå`êboinc_ss - Win32 Debugboinc_ss.dspCProjectboinc_ss - Win32 Debugboinc_ss - Win32 ReleaseìBuild\Releaseboinc_ss - Win32 DebugìBuild\DebugûSSBRCTargetItemboinc_ss - Win32 DebugSSBRSource Files
 CProjGroupSSBRDJWHeader Files
 CProjGroupSSBRDJWResource Files
-CProjGroupSSBRDJWdepCDependencyContainerSSBRDJWDJWDJWBRRSAEuroCProjectDependencySSBRboinc_ssCProjectDependencySSBRdepCDependencyContainerSSBRDJWDJWDJWP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag`êupper_case - Win32 Debugupper_case.dspCProjectupper_case - Win32 Debugupper_case - Win32 ReleaseìBuild\Releaseêupper_case - Win32 DebugìBuild\DebugêSSBRCTargetItemupper_case - Win32 DebugSSBRBOINC Source Files
+CProjGroupSSBRDJWdepCDependencyContainerSSBRDJWDJWDJWdencySSBRRSAEuroCProjectDependencySSBRboinc_ssCProjectDependencySSBRdepCDependencyContainerSSBRresult_state.hCDependencyFileSSBR	basetsd.hCDependencyFileSSBRparse.hCDependencyFileSSBRdes.hCDependencyFileSSBRshs.hCDependencyFileSSBRglobal.hCDependencyFileSSBRmd4.hCDependencyFileSSBRcrypt.hCDependencyFileSSBR	rsaeuro.hCDependencyFileSSBRnn.hCDependencyFileSSBRmd5.hCDependencyFileSSBRrsa.hCDependencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ`êupper_case - Win32 Debugupper_case.dspCProjectupper_case - Win32 Debugupper_case - Win32 ReleaseêìBuild\Releaseupper_case - Win32 DebugêìBuild\DebugSSBRCTargetItemupper_case - Win32 DebugSSBRBOINC Source Files
 CProjGroupSSBRDJWBOINC Header Files
 CProjGroupSSBRDJWResource Files
 CProjGroupSSBRDJWApp Source Files
 CProjGroupSSBRDJWApp Header Files
-CProjGroupSSBRDJWDJWDJWCDependencyContainerSSBRDJWDJWDJWP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag`ê	boinc_cli	boinc_dll	boinc_guiboinc_ssRSAEuro
-upper_caseÿÿÿÿÿÿìBuild\Releaseêupper_case - Win32 DebugìBuild\DebugêSSBRCTargetItemupper_case - Win32 DebugSSBRBOINC Source Files
+CProjGroupSSBRDJWDJWDJWSSBRdepCDependencyContainerSSBRresult_state.hCDependencyFileSSBR	basetsd.hCDependencyFileSSBRparse.hCDependencyFileSSBRdes.hCDependencyFileSSBRshs.hCDependencyFileSSBRglobal.hCDependencyFileSSBRmd4.hCDependencyFileSSBRcrypt.hCDependencyFileSSBR	rsaeuro.hCDependencyFileSSBRnn.hCDependencyFileSSBRmd5.hCDependencyFileSSBRrsa.hCDependencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ`ê	boinc_cli	boinc_dll	boinc_guiboinc_ssRSAEuro
+upper_caseÿÿÿÿÿÿêìBuild\Releaseupper_case - Win32 DebugêìBuild\DebugSSBRCTargetItemupper_case - Win32 DebugSSBRBOINC Source Files
 CProjGroupSSBRDJWBOINC Header Files
 CProjGroupSSBRDJWResource Files
 CProjGroupSSBRDJWApp Source Files
 CProjGroupSSBRDJWApp Header Files
-CProjGroupSSBRDJWDJWDJWCDependencyContainerSSBRDJWDJWDJWP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#pragClassView Window"ÿÿÿÿÿÿÿÿÿÿÿÿsDebuggerÿÿÿÿÿÿÿÿ~DocumentsÿÿÿÿÿÿÿÿÿÿÿÿˆÿÿÿÿÿÿÿÿÿÿÿÿÿÿCClsFldSlobRSAEuro€	boinc_cli€	boinc_dll€	boinc_gui€boinc_ss€
-upper_caseBuild\Releaseêupper_case - Win32 DebugìBuild\DebugêSSBRCTargetItemupper_case - Win32 DebugSSBRBOINC Source Files
+CProjGroupSSBRDJWDJWDJWSSBRdepCDependencyContainerSSBRresult_state.hCDependencyFileSSBR	basetsd.hCDependencyFileSSBRparse.hCDependencyFileSSBRdes.hCDependencyFileSSBRshs.hCDependencyFileSSBRglobal.hCDependencyFileSSBRmd4.hCDependencyFileSSBRcrypt.hCDependencyFileSSBR	rsaeuro.hCDependencyFileSSBRnn.hCDependencyFileSSBRmd5.hCDependencyFileSSBRrsa.hCDependencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿClassView Window"ÿÿÿÿÿÿÿÿÿÿÿÿuDebuggerÿÿÿÿÿÿÿÿ€DocumentsÿÿÿÿÿÿÿÿÿÿÿÿŠÿÿÿÿÿÿÿÿÿÿÿÿÿÿCClsFldSlobRSAEuro€	boinc_cli€	boinc_dll€	boinc_gui€boinc_ss€
+upper_caseìBuild\Releaseupper_case - Win32 DebugêìBuild\DebugSSBRCTargetItemupper_case - Win32 DebugSSBRBOINC Source Files
 CProjGroupSSBRDJWBOINC Header Files
 CProjGroupSSBRDJWResource Files
 CProjGroupSSBRDJWApp Source Files
 CProjGroupSSBRDJWApp Header Files
-CProjGroupSSBRDJWDJWDJWCDependencyContainerSSBRDJWDJWDJWP() };
-#define BEGIN_CONNECTION_POINT_MAP(x) class __NCB__CONNECTIONPOINT_##x : public CONNECTION_POINT {
-#define END_CONNECTION_POINT_MAP() };
-#define BEGIN_EXTENSION_SNAPIN_NODEINFO_MAP(x) class __NCB__EXTENSIONSNAPINNODEINFO_##x : public EXTENSION_SNAPIN_NODEINFO {
-#define END_EXTENSION_SNAPIN_NODEINFO_MAP() };
-#define BEGIN_FILTER_MAP(x) class __NCB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag‚ƒ„…†‡şÿÿÿ‰Š‹Œ‘şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
-@	Control-C@Control-Break€Datatype MisalignmentÀAccess ViolationÀIn Page ErrorÀIllegal InstructionŒÀArray Bounds ExceededÀFloat Denormal OperandÀFloat Divide by ZeroÀFloat Inexact ResultÀFloat Invalid Operation‘ÀFloat Overflow’ÀFloat Stack Check“ÀFloat UnderflowÀ	No Memory%ÀNoncontinuable Exception&ÀInvalid Disposition”ÀInteger Divide by Zero•ÀInteger Overflow–ÀPrivileged InstructionıÀStack Overflow5ÀDLL Not FoundBÀDLL Initialization Failed~mÀModule Not FoundmÀProcedure Not FoundÀInvalid HandlecsmàMicrosoft C++ ExceptionWatch1Watch2Watch3Watch4CB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag!@	Control-C@Control-Break€Datatype MisalignmentÀAccess ViolationÀIn Page ErrorÀIllegal InstructionŒÀArray Bounds ExceededÀFloat Denormal OperandÀFloat Divide by ZeroÀFloat Inexact ResultÀFloat Invalid Operation‘ÀFloat Overflow’ÀFloat Stack Check“ÀFloat UnderflowÀ	No Memory%ÀNoncontinuable Exception&ÀInvalid Disposition”ÀInteger Divide by Zero•ÀInteger Overflow–ÀPrivileged InstructionıÀStack Overflow5ÀDLL Not FoundBÀDLL Initialization Failed~mÀModule Not FoundmÀProcedure Not FoundÀInvalid HandlecsmàMicrosoft C++ ExceptionWatch1Watch2Watch3Watch4CB__FILTER_##x : public FILTER {
-#define END_FILTER_MAP() };
-#define BEGIN_MSG_MAP(x) class __NCB__MSG_##x : public MSG {
-#define END_MSG_MAP() };
-#define BEGIN_OBJECT_MAP(x) class __NCB__OBJECT_##x : public OBJECT {
-#define END_OBJECT_MAP() };
-#define BEGIN_PARAM_MAP(x) class __NCB__PARAM_##x : public PARAM {
-#define END_PARAM_MAP() };
-#define BEGIN_PROP_MAP(x) class __NCB__PROP_##x : public PROP {
-#define END_PROP_MAP() };
-#define BEGIN_PROPERTY_MAP(x) class __NCB__PROPERTY_##x : public PROPERTY {
-#define END_PROPERTY_MAP() };
-#define BEGIN_PROPPAGE_MAP(x) class __NCB___PROPPAGE_##x : public PROPPAGE {
-#define END_PROPPAGE_MAP() };
-#define BEGIN_SERVICE_MAP(x) class __NCB__SERVICE_##x : public SERVICE {
-#define END_SERVICE_MAP() };
-#define BEGIN_SINK_MAP(x) class __NCB__SINK_##x : public SINK {
-#define END_SINK_MAP() };
-#define BEGIN_SNAPINTOOLBARID_MAP(x) class __NCB__SNAPINTOOLBARID_##x : public SNAPINTOOLBARID {
-#define END_SNAPINTOOLBARID_MAP() };
-#define BEGIN_UPDATE_UI_MAP(x) class __NCB__UPDATEUI_##x : public UPDATE_UI {
-#define END_UPDATE_UI_MAP() };
-#define BEGIN_ACCESSOR_MAP(x, num) class __NCB__ACCESSOR_##x : pup!blic ACCESSOR {
-#define END_ACCESSOR_MAP() };
-#define BEGIN_CATEGORY_MAP() class __NCB__CATEGORY_ {
-#define END_CATEGORY_MAP() };
-#define BEGIN_PROPSET_MAP(x) class __NCB__PROPSET_##x : public PROPSET {
-#define END_PROPSET_MAP( ) };
-#define BEGIN_PROVIDER_COLUMN_MAP(x) class __NCB__PROVIDERCOLUMN_##x : public PROVIDER_COLUMN {
-#define END_PROVIDER_COLUMN_MAP() };
-#define BEGIN_SNAPINCOMMAND_MAP(x, bIsExtension) class __NCB__SNAPINCOMMAND_##x : public SNAPINCOMMAND {
-#define END_SNAPINCOMMAND_MAP() };
-#define BEGIN_CONNECTION_MAP(x,y) class __NCB__CONNECTION_##x : public CONNECTION, public y {
-#define END_CONNECTION_MAP() };
-#define BEGIN_DISPATCH_MAP(x,y) class __NCB__DISPATCH_##x : public DISPATCH, public y {
-#define END_DISPATCH_MAP() };
-#define BEGIN_EVENT_MAP(x,y) class __NCB__EVENT_##x : public EVENT, public y {
-#define END_EVENT_MAP() };
-#define BEGIN_EVENTSINK_MAP(x,y) class __NCB__EVENTSINK_##x : public EVENTSINK, public y {
-#define END_EVENTSINK_MAP() };
-#define BEGIN_INTERFACE_MAP(x,y) class __NCB__INTERFACE_##x : public INTERFACE, public y {
-#define END_INTERFACE_MAP() };
-#define BEGIN_MESSAGE_MAP(x,y) class __NCB__MESSAGE_##x : public MESSAGE, public y {
-#define END_MESSAGE_MAP() };
-#define BEGIN_OLECMD_MAP(x,y) class __NCB__OLECMD_##x : public OLECMD, public y {
-#define END_OLECMD_MAP() };
-#define BEGIN_PARSE_MAP(x,y) class __NCB__PARSE_##x : public PARSE, public y {
-#define END_PARSE_MAP() };
-#pragma acp_assume_type (BOOL)
-#pragma acp_assume_type (DWORD)
-#pragma acp_assume_type (UINT)
-#pragma acp_assume_not_type (TRUE)
-#pragma acp_assume_not_type (FALSE)
-#pragma acp_assume_not_type (NULL)
-#pragma acp_assume_not_defined (DOS)
-#pragma acp_assume_not_defined (_DOS)
-#pragma acp_assume_not_defined (WIN16)
-#pragma acp_assume_not_defined (_WIN16)
-#pragma acp_assume_not_defined (MAC)
-#pragma acp_assume_not_defined (_MAC)
-#pragma acp_assume_not_defined (RC_INVOKED)
-#pragma acp_assume_not_defined (_POSIX_)
-#pragma acp_assume_not_defined (__STDC__)
-#pragma acp_assume_not_defined (NONAMELESSUNION)
-#prag
+CProjGroupSSBRDJWDJWDJWSSBRdepCDependencyContainerSSBRresult_state.hCDependencyFileSSBR	basetsd.hCDependencyFileSSBRparse.hCDependencyFileSSBRdes.hCDependencyFileSSBRshs.hCDependencyFileSSBRglobal.hCDependencyFileSSBRmd4.hCDependencyFileSSBRcrypt.hCDependencyFileSSBR	rsaeuro.hCDependencyFileSSBRnn.hCDependencyFileSSBRmd5.hCDependencyFileSSBRrsa.hCDependencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ‚ƒ„…†‡ˆ‰şÿÿÿ‹Œ‘’“şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+boinc_gui - Win32 Debug@	Control-C@Control-Break€Datatype MisalignmentÀAccess ViolationÀIn Page ErrorÀIllegal InstructionŒÀArray Bounds ExceededÀFloat Denormal OperandÀFloat Divide by ZeroÀFloat Inexact ResultÀFloat Invalid Operation‘ÀFloat Overflow’ÀFloat Stack Check“ÀFloat UnderflowÀ	No Memory%ÀNoncontinuable Exception&ÀInvalid Disposition”ÀInteger Divide by Zero•ÀInteger Overflow–ÀPrivileged InstructionıÀStack Overflow5ÀDLL Not FoundBÀDLL Initialization Failed~mÀModule Not FoundmÀProcedure Not FoundÀInvalid HandlecsmàMicrosoft C++ ExceptionWatch1Watch2Watch3Watch4endencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿjC:\Documents and Settings\Tim Lan\Desktop\boinc\client\win\resource.rc
+Icon IDI_ICONSMALL [English (U.S.)]&{34866984-49EB-11CF-BF46-00AA004C12E2},ÿÿÿÿÿÿÿÿüÿÿÿâÿÿÿn‘¼¹eC:\Documents and Settings\Tim Lan\Desktop\boinc\client\win\resource.rc
+Icon IDI_ICON [English (U.S.)]&{34866984-49EB-11CF-BF46-00AA004C12E2},ÿÿÿÿÿÿÿÿüÿÿÿâÿÿÿN(flow’ÀFloat Stack Check“ÀFloat UnderflowÀ	No Memory%ÀNoncontinuable Exception&ÀInvalid Disposition”ÀInteger Divide by Zero•ÀInteger Overflow–ÀPrivileged InstructionıÀStack Overflow5ÀDLL Not FoundBÀDLL Initialization Failed~mÀModule Not FoundmÀProcedure Not FoundÀInvalid HandlecsmàMicrosoft C++ ExceptionWatch1Watch2Watch3Watch4endencyFileSSBRmd2.hCDependencyFileSSBRproj.bmpCDependencyFileSSBR
+result.bmpCDependencyFileSSBR	usage.bmpCDependencyFileSSBRxfer.bmpCDependencyFileSSBRDJWDJWDJW" ÿÿÿÿs0	  è(h ÿÿÿÿ0	( @€€€€€€€€€ÀÀÀÀÜÀğÊ¦""")))UUUMMMBBB999€|ÿPPÿ“ÖÿìÌÆÖïÖçç©­3f™Ì3333f3™3Ì3ÿff3fff™fÌfÿ™™3™f™™™Ì™ÿÌÌ3ÌfÌ™ÌÌÌÿÿfÿ™ÿÌ3333f3™3Ì3ÿ3333333f33™33Ì33ÿ3f3f33ff3f™3fÌ3fÿ3™3™33™f3™™3™Ì3™ÿ3Ì3Ì33Ìf3Ì™3ÌÌ3Ìÿ3ÿ33ÿf3ÿ™3ÿÌ3ÿÿff3fff™fÌfÿf3f33f3ff3™f3Ìf3ÿffff3fffff™ffÌf™f™3f™ff™™f™Ìf™ÿfÌfÌ3fÌ™fÌÌfÌÿfÿfÿ3fÿ™fÿÌÌÿÿÌ™™™3™™™™Ì™™33™f™3Ì™ÿ™f™f3™3f™f™™fÌ™3ÿ™™3™™f™™™™™Ì™™ÿ™Ì™Ì3fÌf™Ì™™ÌÌ™Ìÿ™ÿ™ÿ3™Ìf™ÿ™™ÿÌ™ÿÿÌ™3ÌfÌ™ÌÌ™3Ì33Ì3fÌ3™Ì3ÌÌ3ÿÌfÌf3™ffÌf™ÌfÌ™fÿÌ™Ì™3Ì™fÌ™™Ì™ÌÌ™ÿÌÌÌÌ3ÌÌfÌÌ™ÌÌÌÌÌÿÌÿÌÿ3™ÿfÌÿ™ÌÿÌÌÿÿÌ3ÿfÿ™Ì3ÿ33ÿ3fÿ3™ÿ3Ìÿ3ÿÿfÿf3Ìffÿf™ÿfÌÌfÿÿ™ÿ™3ÿ™fÿ™™ÿ™Ìÿ™ÿÿÌÿÌ3ÿÌfÿÌ™ÿÌÌÿÌÿÿÿ3Ìÿfÿÿ™ÿÿÌffÿfÿffÿÿÿffÿfÿÿÿf!¥___www†††–––ËËË²²²×××İİİãããêêêñññøøøğûÿ¤  €€€ÿÿÿÿÿÿÿÿÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿ
+
+
+
+
+
+
+ÿÿÿÿÿ
+
+ÓÓÿ
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+Óÿÿ
+
+
+
+
+
+
+ÿÿ
+
+ÿÿ
+Óÿ
+
+
+ÿÓÓ
+ÿÿ
+Ó
+ÿÿ
+Óÿ
+ÿÓÓÓ
+ÿÿ
+ÓÓ
+ÿÿ
+Óÿÿ
+
+
+
+ÿÿ
+
+
+ÿÿ
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿÿ
+
+ÓÓÿÿ
+ÿÿÿÿÿÿÿÿ
+ÓÓÓÓÿÿ
+
+
+
+ÿÿ
+
+ÿÿ
+ÓÓÓÿÿÓÓÓ
+ÿÿ
+Ó
+ÿ
+
+ÓÓÿ
+ÿÓ
+
+ÿÿ
+Ó
+
+ÿÿ
+ÿ
+
+
+
+ÿ
+ÿÿ
+Ó
+
+ÿÿ
+
+
+
+
+
+ÿÿÿÿ
+
+ÿÿÿÿ
+
+
+
+
+
+
+
+ÿÿÿÿÿÿÿ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+À€€€€€ÀÀàø ÿÿÿÿ„0	hˆ ÿÿÿÿ0	ˆ4VS_VERSION_INFO½ïş?èStringFileInfoÄ040904b0CommentsTCompanyNameSpace Sciences Laboratory<
+FileDescriptionboinc_gui6FileVersion1, 0, 3, 04
+InternalNameboinc_guiFLegalCopyrightCopyright © 2003(LegalTrademarksDOriginalFilenameboinc_gui.exe PrivateBuildh$ProductNameSpace Sciences Laboratory boinc_gui:ProductVersion1, 0, 3, 0 SpecialBuildDVarFileInfo$Translation	°¼$HWBÿÿKDHWBÿÿ	—D´HWBÿÿÈ0	€pEHWBÿÿÉ0	X
+GHWBÿÿÊ0	ÍQHWBÿÿ/0	„RHWBÿÿ-0	ŞA(THWBÿÿ.0	<–TEXTINCLUDEÿÿ0	|–TEXTINCLUDEÿÿ0	È–TEXTINCLUDEÿÿ0	.ì–ÿÿÿÿf0	D<˜chi
+(¯4¸03 6	ıdG°ıdG°Šˆ‚3¦6xd#@~²ø0İ2€İ2à}*PÙ2ÿÿÿÿX2	88am Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chmN
+	èèam Files\Microsoft Visual Studio\MSDN98\98VS\1033\IndexSrv.chiD
+˜˜ğ6	È]È]@xxxd#Áfƒ>€ß23¸F. Û2ÿÿÿÿ

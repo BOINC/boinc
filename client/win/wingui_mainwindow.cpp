@@ -572,10 +572,12 @@ void CMainWindow::ShowTab(int nTab)
 	m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	RedrawWindow();
 
+    /*
     // draw line between menu and tabs
     RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
     GetDC()->MoveTo(0, 0);
     GetDC()->LineTo(rect.right, 0);
+    */
 }
 
 //////////
@@ -605,7 +607,7 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
 		icon_data.hIcon = NULL;
 		success = Shell_NotifyIcon(NIM_DELETE, &icon_data);
 	} else if(dwMessage == ICON_NORMAL) {
-		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICON);
+		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONSMALL);
 		if(m_nIconState == ICON_OFF) {
 			success = Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
@@ -1460,7 +1462,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabIL.Add(&m_TabBMP[4], RGB(255, 0, 255));
 
 	// create tab control
-	m_TabCtrl.Create(TCS_FIXEDWIDTH|TCS_BUTTONS|TCS_FLATBUTTONS|TCS_FOCUSNEVER|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
+	//m_TabCtrl.Create(TCS_FIXEDWIDTH|TCS_BUTTONS|TCS_FLATBUTTONS|TCS_FOCUSNEVER|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
+    m_TabCtrl.Create(TCS_FIXEDWIDTH|TCS_FOCUSNEVER|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
 	m_TabCtrl.SetImageList(&m_TabIL);
 	m_TabCtrl.InsertItem(1, g_szTabItems[0], 0);
 	m_TabCtrl.InsertItem(2, g_szTabItems[1], 1);
@@ -1710,10 +1713,12 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 
 		RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 
+        /*
         // draw line between menu and tabs
         RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
         GetDC()->MoveTo(0, 0);
         GetDC()->LineTo(rect.right, 0);
+        */
 	}
 }
 
