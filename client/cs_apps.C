@@ -345,6 +345,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
          && !have_free_cpu()
          && !must_reschedule)
         || projects.size() < 1
+        || results.size() < 1
     ) {
         return false;
     }

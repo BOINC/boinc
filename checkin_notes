@@ -14424,7 +14424,8 @@ Rom    1 July 2004
 Daniel 2004-07-01
     - client: scheduler now only calls set_client_state_dirty if some
       task was started or stopped (i.e. set of running tasks changed).
-      Also, don't try to schedule CPUs if there are no projects.
+      Also, don't try to schedule CPUs if there are no projects or
+      no results.
 
     client/
         cs_apps.C
