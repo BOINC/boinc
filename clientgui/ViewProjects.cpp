@@ -261,7 +261,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
         iAnswer = pDlg->ShowModal();
  
-        if ( wxOK == iAnswer )
+        if ( wxID_OK == iAnswer )
         {
             pDoc->ProjectAttach(
                 pDlg->m_strProjectAddress, 

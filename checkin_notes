@@ -19337,3 +19337,13 @@ David  12 Nov 2004
 
     sched/
         validator.C
+
+Rom    12 Nov 2004
+    - Fixed a bug that kept people from being able to attach to a new project
+      because of a control ID change.
+    - Fix the reference to gui_rpc_client.h in the project file.
+
+    clientgui/
+        ViewProjects.cpp
+    win_build/
+        BOINCGUI.vcproj
