@@ -1189,7 +1189,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     p = lookup_project(global_prefs.source_project);
     if (p == project) {
         boinc_delete_file(GLOBAL_PREFS_FILE_NAME);
-        global_prefs.init();
+        global_prefs.defaults();
     }
 
     // find project and remove it from the vector
@@ -1231,3 +1231,4 @@ double CLIENT_STATE::total_resource_share() {
     }
     return x;
 }
+

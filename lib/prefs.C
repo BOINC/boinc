@@ -34,11 +34,11 @@
 #include "prefs.h"
 
 // The following values determine how the client behaves
-// if there are no global prefs yet (e.g. on our very first RPC).
+// if there are no global prefs (e.g. on our very first RPC).
 // - Should impose minimal restrictions, so that the client can do the RPC
 // and get the global prefs from the server
 //
-void GLOBAL_PREFS::init() {
+void GLOBAL_PREFS::defaults() {
     run_on_batteries = true;
     run_if_user_active = true;
     start_hour = 0;
@@ -48,7 +48,6 @@ void GLOBAL_PREFS::init() {
     leave_apps_in_memory = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
-    //work_buf_max_days = 0.2;
     work_buf_min_days = 0.1;
     max_cpus = 1;
     cpu_scheduling_period_minutes = 60;
@@ -68,8 +67,19 @@ void GLOBAL_PREFS::init() {
     // since they are outside of <venue> elements
 };
 
+// before parsing
+void GLOBAL_PREFS::clear_bools() {
+    run_on_batteries = false;
+    run_if_user_active = false;
+    leave_apps_in_memory = false;
+    confirm_before_connecting = false;
+    run_minimized = false;
+    run_on_startup = false;
+    hangup_if_dialed = false;
+}
+
 GLOBAL_PREFS::GLOBAL_PREFS() {
-    init();
+    defaults();
 }
 
 // Parse XML global prefs.
@@ -84,16 +94,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
 
-	init();
+    defaults();
+    clear_bools();
 
-    // set all booleans to false here
-    run_on_batteries = false;
-    run_if_user_active = false;
-    leave_apps_in_memory = false;
-    confirm_before_connecting = false;
-    run_minimized = false;
-    run_on_startup = false;
-    hangup_if_dialed = false;
     strcpy(source_project, "");
     strcpy(source_scheduler, "");
 
@@ -115,7 +118,8 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
                 in_venue = true;
                 parse_attr(buf, "name", buf2, sizeof(buf2));
                 if (!strcmp(buf2, host_venue)) {
-                    init();
+                    defaults();
+                    clear_bools();
                     in_correct_venue = true;
                     found_venue = true;
                 } else {

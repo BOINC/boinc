@@ -18493,3 +18493,12 @@ David  17 Oct 2004
     boincglut/lib/glut/
         glut_util.C
         README (new)
+
+David  17 Oct 2004
+    - Fix bug in parsing multi-venue general prefs
+        (from Tim Brown)
+
+    client/
+        client_state.C
+    lib/
+        prefs.C,h

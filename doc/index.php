@@ -72,8 +72,12 @@ BOINC-based distributed computing projects include:
 <a href=http://climateprediction.net>Climateprediction.net</a>:
 Improve the accuracy of long-range climate prediction.
 <li>
+<a href=http://www.physics2005.org/events/einsteinathome/index.html>Einstein@home</a>:
+search data from the Laser Interferometer Gravitational wave Observatory (LIGO)
+in the US and from the GEO 600 gravitational wave observatory in Germany for signals coming from rapidly rotating neutron stars, known as pulsars.
+<li>
 <a href=http://athome.web.cern.ch/athome/>LHC@home</a>:
-Help to build the CERN LHC accelerator.
+improve the design of the CERN LHC particle accelerator.
 <li>
 <a href=http://predictor.scripps.edu>Predictor@home</a>:
 Solve biomedical questions of protein-related diseases.

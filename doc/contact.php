@@ -24,6 +24,7 @@ echo "<table bgcolor=ddddff width=100% border=2 cellpadding=6>\n";
 show_name("David Anderson");
 show_name("Noaa Avital");
 show_name("Brian Boshes");
+show_name("Tim Brown");
 show_name("Karl Chen");
 show_name("Pietro Cicotti");
 show_name("Seth Cooper");

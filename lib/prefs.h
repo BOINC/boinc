@@ -61,7 +61,8 @@ struct GLOBAL_PREFS {
     char source_scheduler[256];
 
     GLOBAL_PREFS();
-    void init();
+    void defaults();
+    void clear_bools();
     int parse(FILE*, char* venue, bool& found_venue);
     int parse_file(char* filename, char* venue, bool& found_venue);
     int write(FILE*);
