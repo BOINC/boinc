@@ -5,6 +5,7 @@
 
 import BaseHTTPServer, CGIHTTPServer
 import sys, os, urllib, select
+import random, time                     # XXX
 
 php_path = None
 possible_php_paths = [ '/usr/lib/cgi-bin/php4',
@@ -159,6 +160,23 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                 return
             # Child
             try:
+                if 0:
+                    time.sleep(.1)
+                    fn = '/tmp/a%d'%random.randint(1000,10000)
+                    f = open(fn, 'w')
+                    s = ''
+                    while select.select([self.rfile], [], [], 0)[0]:
+                        try:
+                            c = self.rfile.read(1)
+                            if not c:
+                                break
+                            s += c
+                        except:
+                            break
+                    print '### input:', repr(s)
+                    print >>f, s
+                    f.close()
+                    self.rfile = open(fn, 'r')
                 os.dup2(self.rfile.fileno(), 0)
                 os.dup2(self.wfile.fileno(), 1)
                 os.chdir(self.translate_path(dir)) # KC

@@ -7776,7 +7776,14 @@ Karl 2003-11-22
         client_types.C
 
 Karl 2003-11-24
-    - testbase fixes
+    - fixed bug in boinc_db.C which causes SQL lookups to seg fault if any of
+      the 'seti_*' grandfather fields are NULL (how does the current beta test
+      run at all?!)
+
+    db/
+        boinc_db.C
+
+    - testbase tweaks
 
     test/
         testbase.py

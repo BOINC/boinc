@@ -32,6 +32,18 @@ static struct random_init {
     }
 } random_init;
 
+// if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
+// instead of atoi, atof, since the strings returned by MySQL may be NULL.
+inline int safe_atoi(const char* s)
+{
+    return s && atoi(s);
+}
+
+inline float safe_atof(const char* s)
+{
+    return s && atof(s);
+}
+
 void PROJECT::clear() {memset(this, 0, sizeof(*this));}
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void CORE_VERSION::clear() {memset(this, 0, sizeof(*this));}
@@ -236,11 +248,11 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     strcpy2(url, r[i++]);
     send_email = atoi(r[i++]);
     show_hosts = atoi(r[i++]);
-    posts = atoi(r[i++]);
-    seti_id = atoi(r[i++]);
-    seti_nresults = atoi(r[i++]);
-    seti_last_result_time = atoi(r[i++]);
-    seti_total_cpu = atof(r[i++]);
+    posts = safe_atoi(r[i++]);
+    seti_id = safe_atoi(r[i++]);
+    seti_nresults = safe_atoi(r[i++]);
+    seti_last_result_time = safe_atoi(r[i++]);
+    seti_total_cpu = safe_atof(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -293,7 +305,7 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     strcpy2(country, r[i++]);
     total_credit = atof(r[i++]);
     expavg_credit = atof(r[i++]);
-    seti_id = atoi(r[i++]);
+    seti_id = safe_atoi(r[i++]);
 }
 
 void DB_HOST::db_print(char* buf){
