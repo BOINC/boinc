@@ -11,9 +11,10 @@ CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/tools \
     -DBOINC_DB_NAME=\"$(BOINC_DB_NAME)\" \
     -DBOINC_KEY=$(BOINC_KEY) \
+    -DBOINC_KEY_DIR=\"$(BOINC_KEY_DIR)\" \
+    -DBOINC_USER=\"$(BOINC_USER)\" \
     -I/usr/local/mysql/include \
     -I@top_srcdir@/RSAEuro/source \
-    -DBOINC_KEY_DIR=\"$(BOINC_KEY_DIR)\" \
 
 CC = g++ $(CFLAGS)
 

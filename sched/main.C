@@ -57,36 +57,36 @@ int main() {
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
         fprintf(stderr,
-            "BOINC scheduler: can't read code sign key file (%s)\n", path
+            "BOINC scheduler - compiled by BOINC_USER: can't read code sign key file (%s)\n", path
         );
         exit(1);
     }
 
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
-        fprintf(stderr, "BOINC scheduler: can't attach shmem\n");
+        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: can't attach shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     if (retval) {
-        fprintf(stderr, "BOINC scheduler: shmem has wrong struct sizes - recompile\n");
+        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: shmem has wrong struct sizes - recompile\n");
         exit(1);
     }
 
     for (i=0; i<10; i++) {
         if (ssp->ready) break;
-        fprintf(stderr, "BOINC scheduler: waiting for ready flag\n");
+        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: waiting for ready flag\n");
         sleep(1);
     }
     if (!ssp->ready) {
-        fprintf(stderr, "BOINC scheduler: feeder doesn't seem to be running\n");
+        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: feeder doesn't seem to be running\n");
         exit(1);
     }
     //fprintf(stderr, "got ready flag\n");
     retval = db_open(BOINC_DB_NAME);
     if (retval) {
-        exit(return_error("BOINC scheduler: can't open database"));
+        exit(return_error("BOINC scheduler - Compiled by BOINC_USER: can't open database"));
     }
     pid = getpid();
 #ifdef _USING_FCGI_
@@ -98,24 +98,24 @@ int main() {
     fprintf(stdout, "Content-type: text/plain\n\n");
     fout = fopen(req_path, "w");
     if (!fout) {
-        exit(return_error("can't write request file"));
+        exit(return_error("Compiled by BOINC_USER: can't write request file"));
     }
     copy_stream(stdin, fout);
     fclose(fout);
     fin = fopen(req_path, "r");
     if (!fin) {
-        exit(return_error("can't read request file"));
+        exit(return_error("Compiled by BOINC_USER: can't read request file"));
     }
     fout = fopen(reply_path, "w");
     if (!fout) {
-        exit(return_error("can't write reply file"));
+        exit(return_error("Compiled by BOINC_USER: can't write reply file"));
     }
     handle_request(fin, fout, *ssp, code_sign_key);
     fclose(fin);
     fclose(fout);
     fin = fopen(reply_path, "r");
     if (!fin) {
-        exit(return_error("can't read reply file"));
+        exit(return_error("Compiled by BOINC_USER: can't read reply file"));
     }
     copy_stream(fin, stdout);
     fclose(fin);

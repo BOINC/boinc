@@ -172,7 +172,6 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false;
     void* p;
-    char* barry;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
