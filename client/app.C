@@ -83,8 +83,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     exit_status = 0;
     signal = 0;
     strcpy(slot_dir, "");
-    graphics_mode_requested = MODE_HIDE_GRAPHICS;
-    graphics_mode_sent = 0;
+    is_ss_app = false;
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
 
@@ -159,6 +158,9 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
 
+    strcpy(process_control_queue.name, rp->name);
+    strcpy(graphics_request_queue.name, rp->name);
+
     return 0;
 }
 
@@ -190,6 +192,7 @@ bool ACTIVE_TASK_SET::poll() {
     send_heartbeats();
     send_trickle_downs();
     graphics_poll();
+    process_control_poll();
     action |= check_rsc_limits_exceeded();
     if (get_msgs()) {
         action = true;
@@ -444,4 +447,21 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
         } else scope_messages.printf("ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);
     }
     return 0;
+}
+
+void MSG_QUEUE::msg_queue_send(char* msg, MSG_CHANNEL& channel) {
+    if (channel.send_msg(msg)) {
+        //msg_printf(NULL, MSG_INFO, "sent %s to %s", msg, name);
+        return;
+    }
+    msgs.push_back(std::string(msg));
+}
+
+void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
+    if (msgs.size() > 0) {
+        if (channel.send_msg((char*)(msgs[0].c_str()))) {
+            //msg_printf(NULL, MSG_INFO, "sent %s to %s (delayed)", (char*)(msgs[0].c_str()), name);
+            msgs.erase(msgs.begin());
+        }
+    }
 }

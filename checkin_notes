@@ -17312,3 +17312,23 @@ Lana 11 Sept 2004
         db_base.h
         db_base.C
 
+
+David  12 Sept 2004
+	- Added a queueing mechanism for shared-memory message passing,
+		class MSG_QUEUE.
+		This provides reliable, ordered message delivery.
+		I think process-control messages were being lost in some cases.
+	- Replaced ad-hoc 1-level queueing mechanism for graphics requests
+	- Changed the logic for selecting app for screensaver a bit;
+		have new field bool ACTIVE_TASK::is_ss_app that keeps track
+		of which app is acting as the screensaver.
+		This fixes bugs in a few particular cases.
+
+	client/
+		app.C,h
+		app_control.C
+		app_graphics.C
+		cs_apps.C
+		ss_logic.C
+	lib/
+		app_ipc.h

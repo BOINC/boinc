@@ -124,19 +124,15 @@ public:
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
+    MSG_QUEUE graphics_request_queue;
+    MSG_QUEUE process_control_queue;
 
     // info related to app's graphics mode (win, screensaver, etc.)
-    // NOTE: because of the way message-passing works,
-    // request_graphics_mode() sets a variable (graphic_mode_requested).
-    // ACTIVE_TASK_SET::poll_graphics() tries to send this,
-    // and sets graphics_mode_sent when it succeeds.
     //
-    int graphics_mode_requested;        // mode to send
-    int graphics_mode_sent;             // mode actually sent
     int graphics_mode_acked;            // mode acked by app
     int graphics_mode_before_ss;        // mode before last screensaver request
     void request_graphics_mode(int);
-    bool send_graphics_mode(int);
+    bool is_ss_app;
     int request_reread_prefs();
     void check_graphics_mode_ack();
     int link_user_files();
@@ -208,12 +204,12 @@ public:
     void send_trickle_downs();
 
     // screensaver-related functions
-    //ACTIVE_TASK* get_graphics_capable_app();
-    ACTIVE_TASK* get_app_graphics_mode_requested(int req_mode);
+    ACTIVE_TASK* get_ss_app();
     void save_app_modes();
     void hide_apps();
     void restore_apps();
     void graphics_poll();
+    void process_control_poll();
     void request_reread_prefs(PROJECT*);
 
     int write(MIOFILE&);

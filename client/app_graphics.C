@@ -23,26 +23,21 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#else
 #endif
 
 #include "client_state.h"
+#include "client_msgs.h"
 
 #include "app.h"
 
 void ACTIVE_TASK::request_graphics_mode(int mode) {
-    graphics_mode_requested = mode;
-    graphics_mode_sent = 0;
+    if (!app_client_shm.shm) return;
+    graphics_request_queue.msg_queue_send(
+        xml_graphics_modes[mode],
+        app_client_shm.shm->graphics_request
+    );
 }
 
-bool ACTIVE_TASK::send_graphics_mode(int mode) {
-    if (!app_client_shm.shm) return false;
-    bool sent = app_client_shm.shm->graphics_request.send_msg(
-        xml_graphics_modes[mode]
-    );
-    //msg_printf(NULL, MSG_INFO, "%d requested mode %d: sent %d", time(0), mode, sent);        
-    return sent;
-}
 
 void ACTIVE_TASK::check_graphics_mode_ack() {
     int mode;
@@ -51,7 +46,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         mode = app_client_shm.decode_graphics_msg(buf);
-        //msg_printf(NULL, MSG_INFO, "got graphics ack %d", mode);
+        //msg_printf(NULL, MSG_INFO, "got graphics ack %s for %s", buf, result->name);
         if (mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = mode;
         }
@@ -60,14 +55,13 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 
 // return an app (if any) with given requested mode
 //
-ACTIVE_TASK* ACTIVE_TASK_SET::get_app_graphics_mode_requested(int req_mode) {
+ACTIVE_TASK* ACTIVE_TASK_SET::get_ss_app() {
     unsigned int i;
     ACTIVE_TASK* atp;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->graphics_mode_requested == req_mode) {
+        if (atp->is_ss_app) {
             return atp;
         }
     }
@@ -84,6 +78,12 @@ void ACTIVE_TASK_SET::save_app_modes() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+
+        // nothing should be in fullscreen mode.
+        //
+        if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
+            atp->graphics_mode_acked = MODE_HIDE_GRAPHICS;
+        }
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
         //msg_printf(NULL, MSG_INFO, "saved mode %d", atp->graphics_mode_acked);
     }
@@ -107,8 +107,8 @@ void ACTIVE_TASK_SET::restore_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->graphics_mode_requested != atp->graphics_mode_before_ss) {
-            atp->request_graphics_mode(atp->graphics_mode_before_ss);
+        if (atp->graphics_mode_before_ss == MODE_WINDOW) {
+            atp->request_graphics_mode(MODE_WINDOW);
         }
     }
 }
@@ -116,18 +116,13 @@ void ACTIVE_TASK_SET::restore_apps() {
 void ACTIVE_TASK_SET::graphics_poll() {
     unsigned int i;
     ACTIVE_TASK* atp;
-    bool sent;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
-        if (atp->graphics_mode_requested != atp->graphics_mode_sent) {
-            sent = atp->send_graphics_mode(atp->graphics_mode_requested);
-            if (sent) {
-                atp->graphics_mode_sent = atp->graphics_mode_requested;
-            }
-            //msg_printf(NULL, MSG_INFO, "sending graphics req %d: %d", sent);
-        }
+        atp->graphics_request_queue.msg_queue_poll(
+            atp->app_client_shm.shm->graphics_request
+        );
         atp->check_graphics_mode_ack();
     }
 }
@@ -135,7 +130,6 @@ void ACTIVE_TASK_SET::graphics_poll() {
 bool ACTIVE_TASK::supports_graphics() {
     return (graphics_mode_acked != MODE_UNSUPPORTED);
 }
-
 
 // Return the next graphics-capable running app.
 // Always try to choose a new project.
@@ -145,7 +139,7 @@ bool ACTIVE_TASK::supports_graphics() {
 ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     static int project_index=0;
     unsigned int i, j;
-    ACTIVE_TASK *atp;
+    ACTIVE_TASK *atp, *best_atp;
     PROJECT *p;
 
     // loop through all projects starting with the one at project_index
@@ -154,22 +148,26 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
         project_index %= projects.size();
         p = projects[project_index++];
 
-        for (j=0; j<active_tasks.active_tasks.size(); ++j) {
+        best_atp = NULL;
+        for (j=0; j<active_tasks.active_tasks.size(); j++) {
             atp = active_tasks.active_tasks[j];
             if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if (atp->result->project != p) continue;
-            if (atp->graphics_mode_before_ss == MODE_WINDOW) {
-                return atp;
+            if (!best_atp && atp->graphics_mode_before_ss == MODE_WINDOW) {
+                best_atp = atp;
             }
-        }
-        for (j=0; j<active_tasks.active_tasks.size(); ++j) {
-            atp = active_tasks.active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-            if (atp->result->project != p) continue;
-            if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
-                return atp;
+            if (!best_atp && atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
+                best_atp = atp;
             }
+            if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED) {
+                best_atp = atp;
+            }
+            if (best_atp) {
+                 //msg_printf(NULL, MSG_INFO, "chose SS: %s", best_atp->result->name);
+                 return atp;
+           }
         }
     }
+    //msg_printf(NULL, MSG_INFO, "no SS to choose");
     return NULL;
 }

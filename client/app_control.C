@@ -67,7 +67,10 @@ bool ACTIVE_TASK::process_exists() {
 //
 int ACTIVE_TASK::request_exit() {
     if (!app_client_shm.shm) return 1;
-    app_client_shm.shm->process_control_request.send_msg_overwrite("<quit/>");
+    process_control_queue.msg_queue_send(
+        "<quit/>",
+        app_client_shm.shm->process_control_request
+    );
     return 0;
 }
 
@@ -368,6 +371,20 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
         atp->app_client_shm.shm->heartbeat.send_msg("<heartbeat/>\n");
+    }
+}
+
+void ACTIVE_TASK_SET::process_control_poll() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (!atp->process_exists()) continue;
+        if (!atp->app_client_shm.shm) continue;
+        atp->process_control_queue.msg_queue_poll(
+            atp->app_client_shm.shm->process_control_request
+        );
     }
 }
 
@@ -787,7 +804,10 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 //
 int ACTIVE_TASK::suspend() {
     if (!app_client_shm.shm) return 0;
-    app_client_shm.shm->process_control_request.send_msg_overwrite("<suspend/>");
+    process_control_queue.msg_queue_send(
+        "<suspend/>",
+        app_client_shm.shm->process_control_request
+    );
     state = PROCESS_SUSPENDED;
     return 0;
 }
@@ -796,7 +816,10 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
-    app_client_shm.shm->process_control_request.send_msg_overwrite("<resume/>");
+    process_control_queue.msg_queue_send(
+        "<resume/>",
+        app_client_shm.shm->process_control_request
+    );
     state = PROCESS_EXECUTING;
     return 0;
 }

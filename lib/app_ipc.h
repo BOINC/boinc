@@ -92,6 +92,13 @@ struct SHARED_MEM {
         // <have_new_trickle_down/>
 };
 
+struct MSG_QUEUE {
+    std::vector<std::string> msgs;
+    char name[256];
+    void msg_queue_send(char*, MSG_CHANNEL& channel);
+    void msg_queue_poll(MSG_CHANNEL& channel);
+};
+
 #define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
 #define DEFAULT_CHECKPOINT_PERIOD               300
 

@@ -54,6 +54,7 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
             atp->request_graphics_mode(MODE_FULLSCREEN);
+            atp->is_ss_app = true;
             ack_deadline = time(0) + 5;
         } else {
             do_boinc_logo_ss = true;
@@ -63,6 +64,7 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
 
 void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
+    reset();
     do_ss = do_boinc_logo_ss = do_blank = false;
     delete_curtain();
     gstate.active_tasks.restore_apps();
@@ -73,8 +75,10 @@ void SS_LOGIC::stop_ss() {
 void SS_LOGIC::reset() {
     ACTIVE_TASK* atp;
     if (do_ss) {
-        if ((atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN)) != 0) {
+        atp = gstate.active_tasks.get_ss_app();
+        if (atp) {
             atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+            atp->is_ss_app = false;
         }
         do_boinc_logo_ss = false;
     }
@@ -105,16 +109,17 @@ void SS_LOGIC::poll() {
     //
     if (blank_time && (time(0) > blank_time)) {
         if (!do_blank) {
-            atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
+            atp = gstate.active_tasks.get_ss_app();
             if (atp) {
                 atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+                atp->is_ss_app = false;
             }
             do_blank = true;
         }
         do_boinc_logo_ss = false;
         strcpy(ss_msg, "");
     } else {
-        atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
+        atp = gstate.active_tasks.get_ss_app();
         if (atp) {
             if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
                 do_boinc_logo_ss = false;
@@ -124,12 +129,14 @@ void SS_LOGIC::poll() {
                     do_boinc_logo_ss = true;
                     strcpy(ss_msg, "App can't display graphics");
                     atp->graphics_mode_acked = MODE_UNSUPPORTED;
+                    atp->is_ss_app = false;
                 }
             }
         } else {
             atp = gstate.get_next_graphics_capable_app();
             if (atp) {
                 atp->request_graphics_mode(MODE_FULLSCREEN);
+                atp->is_ss_app = true;
                 ack_deadline = time(0) + 5;
             } else {
                 do_boinc_logo_ss = true;

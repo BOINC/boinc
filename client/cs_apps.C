@@ -429,6 +429,8 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
             p->project_name, p->debt
         );
+        //msg_printf(p, MSG_INFO, "debt %f", p->debt);        
+
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt
@@ -476,7 +478,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // doing this at the end of schedule_cpus() because
     // work_done_this_period's can change as apps finish
     //
-    for (i=0; i < projects.size(); ++i) {
+    for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->work_done_this_period = 0;
     }
@@ -487,9 +489,8 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         app_started = cpu_sched_last_time;
     }
 
-    // debts and active_tasks can only change if some project had
-    // a runnable result (and thus if adjusted_total_resource_share
-    // is positive)
+    // debts and active_tasks can only change if some project had  a runnable result
+    // (and thus if adjusted_total_resource_share is positive)
     //
     if (adjusted_total_resource_share > 0.0) {
         set_client_state_dirty("schedule_cpus");
