@@ -29,7 +29,7 @@
 //#define DRAW_WITH_DLL
 
 #ifdef DRAW_WITH_DLL
-__declspec(dllimport) void vis_render(int,int,double);
+__declspec(dllimport) void vis_render(int,int,double,float*,int);
 __declspec(dllimport) void vis_unload();
 __declspec(dllimport) void vis_init();
 #pragma comment(lib,"../../vis_dll/debug/vis.lib")
@@ -248,7 +248,14 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 				height = rt.bottom-rt.top;
 
 #ifdef DRAW_WITH_DLL
-				vis_render(width,height,dtime());
+				float* data;
+				int data_size=100;
+				data=(float*)malloc(sizeof(float)*data_size);
+				for(int i=0;i<data_size;i++)
+				{
+					data[i]=float(rand()%1000/1000.);
+				}
+				vis_render(width,height,dtime(),data,data_size);
 #else
 				app_render(width, height, dtime());			
 #endif
