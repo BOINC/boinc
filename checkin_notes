@@ -7037,3 +7037,10 @@ David  24 Oct 2003
         schema.sql
     sched/
         handle_request.C
+
+Oliver 24 Oct 2003
+    - updated reduced array class to contain the name of the labels.  they are set when the reduced array
+      is created
+
+    api/
+	reduce.h,C

@@ -59,12 +59,13 @@ public:
     double hue0;
     double dhue;
 	float alpha;
+	char* xlabel,*ylabel,*zlabel;
     GRAPH_STYLE draw_style;
 
     REDUCED_ARRAY();
     ~REDUCED_ARRAY();
     void init(int, int);
-    void init_draw(GRAPH_STYLE, float*, float*, double, double, float);
+    void init_draw(GRAPH_STYLE, float*, float*, double, double, float,char*,char*,char*);
     void set_max_dims(int, int);
     void reduce_source_row(float*, float*);
     void add_source_row(float*);
@@ -84,8 +85,7 @@ public:
 	void draw_part(double frac);
     void draw_axes();
 	void draw_axis_labels();
-	void draw_labels();	
-	void draw_3dlabels();	
+	void draw_labels();			
 };
 
 #endif

@@ -80,7 +80,8 @@ void REDUCED_ARRAY::reset() {
     last_ry_count = 0;
 }
 
-void REDUCED_ARRAY::init_draw(GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans) {
+void REDUCED_ARRAY::init_draw(GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans,
+							  char* xl,char* yl,char* zl) {
     memcpy(draw_pos, p, sizeof(draw_pos));
     memcpy(draw_size, s, sizeof(draw_size));
     draw_deltax = draw_size[0]/rdimx;
@@ -89,6 +90,9 @@ void REDUCED_ARRAY::init_draw(GRAPH_STYLE st, float* p, float* s, double h0, dou
     dhue = dh;
     alpha = trans;
     draw_style = st;
+	xlabel=xl;
+	ylabel=yl;
+	zlabel=zl;
 }
 
 // reduce a single row.  This is called only if sdimx > rdimx;
@@ -749,9 +753,9 @@ void REDUCED_ARRAY::draw_labels() {
 
 	float wd=.015f;
 	float l=1.0f;
-	char* zlabel = "Time(sec)";
-	char* xlabel = "Frequency(HZ)";
-	char* plabel = "Power";
+//	char* zlabel = "Time(sec)";
+//	char* xlabel = "Frequency(HZ)";
+//	char* plabel = "Power";
 
 	char* zmax = "107.4";
 	char* zmin = "0";
@@ -834,76 +838,7 @@ void REDUCED_ARRAY::draw_labels() {
 
 	draw_text_right(zpos,ch,lw,ls,zlabel);
 	draw_text(xpos,ch,lw,ls,xlabel);
-	draw_text(ppos,ch,lw,ls,plabel);
+	draw_text(ppos,ch,lw,ls,ylabel);
 	
 	ortho_done();		
 }
-
-
-void REDUCED_ARRAY::draw_3dlabels() {	
-	double model[16];	
-	double proj[16];
-	float arrowh = .35f;
-	float arroww = .05f;
-
-	glLineWidth(1.4f);
-	glBegin(GL_LINES);
-	glColor3f(1,1,1);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1],draw_pos[2]+draw_size[2]-.5f);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f);
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.2f+arrowh,draw_pos[2]+draw_size[2]-.5f);
-
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f+arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f+arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f+arroww);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f+arroww);
-	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
-	glEnd();
-
-	int viewport[4];
-			
-	get_matrix(model);				
-	get_projection(proj);
-	get_viewport(viewport);
-
-	float offset = 0;
-
-	char* zlabel = "Time(sec)";
-	char* xlabel = "Frequency(HZ)";
-	char* plabel = "Power";
-
-	char* zmax = "107.4";
-	char* zmin = "0";
-
-	char* xmax = "9765.620";
-	char* xmin = "0.0";
-
-	float left_of_z = -0.1f;
-	float left_of_z2 = -0.04f;
-	float below_x = -.03f;
-	float center_x = -.06f;
-	
-	float w=.3f;
-	float l=1.0f;
-	float h=.3f;
-	float s=.3f;
-	mode_unshaded();	
-	glColor3d(1,1,1);	
-	float zpos[3]={draw_pos[0]-.5f,draw_pos[1],draw_pos[2]+(draw_size[2]/2.0f)};
-	float xpos[3]={draw_pos[0]+draw_size[0]/2.0f,draw_pos[1]-.2f,draw_pos[2]+draw_size[2]};
-	float ppos[3]={draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.5f/2.3f,draw_pos[2]+draw_size[2]-.5f};
-
-	glPushMatrix();	
-	float r[3] = {0,1,0};
-    draw_rotated_text(zpos,h,w,s,zlabel,90.0f,r);
-	
-	glPopMatrix();
-    
-	draw_text_line(xpos, w, l, xlabel);	
-    draw_text_line(ppos, w, l, plabel);	
-}
-
-
