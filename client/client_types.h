@@ -164,6 +164,7 @@ struct FILE_REF {
     int fd;
     bool main_program;
     FILE_INFO* file_info;
+	bool copy_file;  // if true, core client will copy the file instead of linking
 
     int parse(FILE*);
     int write(FILE*);

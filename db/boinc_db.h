@@ -94,18 +94,19 @@ struct APP_VERSION {
     int version_num;
     int platformid;
     char xml_doc[MAX_BLOB_SIZE];
-	// describes app files. format:
-	// <file_info>...</file_info>
-	// ...
+    // describes app files. format:
+    // <file_info>...</file_info>
+    // ...
     // <app_version>
     //     <app_name>...</app_name>
     //     <version_num>x</version_num>
-	//     <file_ref>
-	//        ...
+    //     <file_ref>
+    //        ...
     //        [<main_program/>]
-	//     </file_ref>
+    //        [<copy_file/>]
+    //     </file_ref>
     // </app_version>
-	//
+    //
 
     // the following let you handle backwards-incompatible changes to
     // the core client / app interface

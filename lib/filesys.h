@@ -43,6 +43,7 @@ extern int file_delete(char*);
 extern int file_size(char*, double&);
 extern int clean_out_dir(char*);
 extern int dir_size(char* dirpath, double&);
+extern int boinc_copy(char* orig, char* newf);
 extern int boinc_rename(char* old, char* newf);
 extern int boinc_mkdir(char*);
 extern int boinc_rmdir(char*);

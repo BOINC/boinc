@@ -239,11 +239,20 @@ int ACTIVE_TASK::start(bool first_time) {
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
-                retval = boinc_link(buf, link_path);
-                if (retval) {
-                    msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
-                    fclose(f);
-                    return retval;
+                if (file_ref.copy_file) {
+                    retval = boinc_copy(buf, link_path);
+                    if (retval) {
+                        msg_printf(wup->project, MSG_ERROR, "Can't copy %s to %s", file_path, link_path);
+                        fclose(f);
+                        return retval;
+                    }
+				} else {
+                    retval = boinc_link(buf, link_path);
+                    if (retval) {
+                        msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
+                        fclose(f);
+                        return retval;
+                    }
                 }
             }
         } else {

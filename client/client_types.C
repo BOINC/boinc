@@ -601,12 +601,14 @@ int FILE_REF::parse(FILE* in) {
     strcpy(open_name, "");
     fd = -1;
     main_program = false;
+	copy_file = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
         else if (match_tag(buf, "<main_program/>")) main_program = true;
+        else if (match_tag(buf, "<copy_file/>")) copy_file = true;
         else fprintf(stderr, "FILE_REF::parse(): unrecognized: %s\n", buf);
     }
     return 1;
@@ -627,6 +629,9 @@ int FILE_REF::write(FILE* out) {
     }
     if (main_program) {
         fprintf(out, "        <main_program/>\n");
+    }
+    if (copy_file) {
+        fprintf(out, "        <copy_file/>\n");
     }
     fprintf(out, "    </file_ref>\n");
     return 0;

@@ -324,6 +324,16 @@ int dir_size(char* dirpath, double& size) {
     return 0;
 }
 
+int boinc_copy(char* orig, char* newf) {
+#ifdef _WIN32
+	return !CopyFile(orig, newf, FALSE);
+#else
+	char cmd[256];
+	sprintf(cmd, "cp %s %s", orig, newf);
+	return system(cmd);
+#endif
+}
+
 int boinc_rename(char* old, char* newf) {
 #ifdef _WIN32
     unlink(newf);
