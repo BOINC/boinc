@@ -313,16 +313,19 @@ int ACTIVE_TASK::start(bool first_time) {
         &process_info
     )) {
         state = GetLastError();
-        LPVOID lpMsgBuf;
-        FormatMessage( 
-            FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-            FORMAT_MESSAGE_FROM_SYSTEM | 
-            FORMAT_MESSAGE_IGNORE_INSERTS,
-            NULL, state,
-            0, // Default language
-            (LPTSTR) &lpMsgBuf, 0, NULL
-        );
-        fprintf(stderr, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+		char *errorargs[] = {app_version->app_name,"","","",""};
+		LPVOID lpMsgBuf;
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
+			NULL, state, 0, (LPTSTR)&lpMsgBuf, 0, errorargs);
+
+		// check for an error; if there is one, set error information for the currect result
+		if(state) {
+			gstate.report_project_error(*result, state, (LPTSTR)&lpMsgBuf);
+			LocalFree(lpMsgBuf);
+			return -1;
+		}
+        fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+		LocalFree(lpMsgBuf);
     }
     pid_handle = process_info.hProcess;
 	thread_handle = process_info.hThread;
