@@ -90,6 +90,8 @@ private:
     bool garbage_collect();
     int make_scheduler_request(PROJECT*, int);
     void handle_scheduler_reply(PROJECT*);
+    double estimate_duration(WORKUNIT*);
+    double current_water_days();
 
     // the following could be eliminated by using map instead of vector
     //

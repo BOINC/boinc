@@ -33,16 +33,30 @@
 // quantities like avg CPU time decay by a factor of e every week
 #define EXP_DECAY_RATE  (1./(3600*24*7))
 
-// TODO: implement hi/lo water mark scheme
+//estimates amount of time a workunit will take to complete
 //
-bool CLIENT_STATE::need_work() {
-    unsigned int i;
+double CLIENT_STATE::estimate_duration(WORKUNIT* wup) {
+    return wup->rsc_fpops/host_info.p_fpops + wup->rsc_iops/host_info.p_iops;
+}
 
+//estimates the number of days of work remaining
+//
+double CLIENT_STATE::current_water_days() {
+    unsigned int i;
+    double seconds_remaining=0;
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        if (!rp->is_compute_done) return false;
+        if (rp->is_compute_done) continue;
+	if (rp->cpu_time > 0)
+	    seconds_remaining += (estimate_duration(rp->wup) - rp->cpu_time);
+	else
+	    seconds_remaining += estimate_duration(rp->wup);
     }
-    return true;
+    return (seconds_remaining * 86400);
+}
+
+bool CLIENT_STATE::need_work() {
+    return (current_water_days() <= prefs.low_water_days);
 }
 
 void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
@@ -142,6 +156,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
 
 // manage the task of maintaining a supply of work.
 //
+// todo: determine how to calculate current_water_level
 bool CLIENT_STATE::get_work() {
     PROJECT* p;
     int retval;
@@ -158,7 +173,8 @@ bool CLIENT_STATE::get_work() {
                 }
                 return false;
             }
-            retval = make_scheduler_request(p, 1000);
+            retval = make_scheduler_request(p, 
+		  (int)(prefs.high_water_days - current_water_days())*86400);
             scheduler_op.init_post(
                 p->scheduler_url, SCHED_OP_REQUEST_FILE, SCHED_OP_RESULT_FILE
             );

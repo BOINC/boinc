@@ -329,6 +329,13 @@ Eric Heien    June 03, 2002
         parse.h (removed, uses lib version now)
         Makefile.in
 
+Michael Gary	June 04, 2002
+    - Added server side water level functionality, now sends as many work units
+	as necessary to fill the time requested. 
+
+    sched/
+	handle_request.C
+
 Eric Heien   June 06, 2002
     - Changes and additions made to begin porting to Windows.
     - This code will compile on Windows, but is not quite fully functional.
@@ -351,4 +358,24 @@ Eric Heien   June 06, 2002
     lib/
 	md5.c
 	parse.C
+
+Michael Gary	June 06, 2002
+    - Added client side water level functionality.
+    - Added rsc_fpops and rsc_iops to the client WORKUNIT struct, bun not yet
+	functional since not initialized.
+    - Test scripts to check water level functionality, including minima and
+	maxima. Test scripts are based on test_prefs.php. 
+
+    client/
+	client_state.h
+	cs_scheduler.C
+	client_types.h
+    test/
+	max_water_prefs.xml
+	min_water_prefs.xml
+	normal_water_prefs.xml
+	test_max_water_prefs.php
+	test_min_water_prefs.php
+	test_normal_water_prefs.php
+
 

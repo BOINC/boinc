@@ -43,9 +43,10 @@ HIGH-PRIORITY (must be done to support SETI@home)
         returns a file with list of scheduler address
         and email address of "problems" contact
 
-- implement and test hi/lo water mark scheme
-    - core client must estimate how much work it has left,
-        based on %done (if available) and time estimates
+- complete client side and test hi/lo water mark scheme
+    - initialize rsc_fpops and rsc_iops in client WORKUNIT 
+    - ensure server sends correct number of work units
+    - check client requests correct number of seconds of work
 
 - measure hardware parameters: CPU speed, #CPUs, memory, disk
     - define CPU benchmarks

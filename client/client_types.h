@@ -130,6 +130,8 @@ struct WORKUNIT {
     APP* app;
     APP_VERSION* avp;
     int ref_cnt;
+    double rsc_fpops; //needs to be initialized
+    double rsc_iops; //needs to be initialized
 
     int parse(FILE*);
     int write(FILE*);
