@@ -204,6 +204,7 @@ libsched_a_SOURCES = \
         ../lib/md5.c				\
         ../lib/md5_file.C			\
 	../lib/messages.C			\
+	../tools/process_result_template.C	\
 	config.h				\
 	sched_shmem.h				\
 	sched_util.h
@@ -285,7 +286,8 @@ libsched_a_LIBADD =
 am_libsched_a_OBJECTS = sched_shmem.$(OBJEXT) sched_util.$(OBJEXT) \
 	config.$(OBJEXT) sched_messages.$(OBJEXT) boinc_db.$(OBJEXT) \
 	util.$(OBJEXT) crypt.$(OBJEXT) parse.$(OBJEXT) shmem.$(OBJEXT) \
-	md5.$(OBJEXT) md5_file.$(OBJEXT) messages.$(OBJEXT)
+	md5.$(OBJEXT) md5_file.$(OBJEXT) messages.$(OBJEXT) \
+	process_result_template.$(OBJEXT)
 libsched_a_OBJECTS = $(am_libsched_a_OBJECTS)
 EXTRA_PROGRAMS = fcgi$(EXEEXT)
 noinst_PROGRAMS = cgi$(EXEEXT) feeder$(EXEEXT) show_shmem$(EXEEXT) \
@@ -691,6 +693,28 @@ messages.obj: ../lib/messages.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'; fi`
 
+process_result_template.o: ../tools/process_result_template.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT process_result_template.o -MD -MP -MF "$(DEPDIR)/process_result_template.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o process_result_template.o `test -f '../tools/process_result_template.C' || echo '$(srcdir)/'`../tools/process_result_template.C; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/process_result_template.Tpo" "$(DEPDIR)/process_result_template.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/process_result_template.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/process_result_template.C' object='process_result_template.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/process_result_template.Po' tmpdepfile='$(DEPDIR)/process_result_template.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o process_result_template.o `test -f '../tools/process_result_template.C' || echo '$(srcdir)/'`../tools/process_result_template.C
+
+process_result_template.obj: ../tools/process_result_template.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT process_result_template.obj -MD -MP -MF "$(DEPDIR)/process_result_template.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o process_result_template.obj `if test -f '../tools/process_result_template.C'; then $(CYGPATH_W) '../tools/process_result_template.C'; else $(CYGPATH_W) '$(srcdir)/../tools/process_result_template.C'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/process_result_template.Tpo" "$(DEPDIR)/process_result_template.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/process_result_template.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/process_result_template.C' object='process_result_template.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/process_result_template.Po' tmpdepfile='$(DEPDIR)/process_result_template.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o process_result_template.obj `if test -f '../tools/process_result_template.C'; then $(CYGPATH_W) '../tools/process_result_template.C'; else $(CYGPATH_W) '$(srcdir)/../tools/process_result_template.C'; fi`
+
 fcgi-handle_request.o: handle_request.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-handle_request.o -MD -MP -MF "$(DEPDIR)/fcgi-handle_request.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o fcgi-handle_request.o `test -f 'handle_request.C' || echo '$(srcdir)/'`handle_request.C; \
@@ -800,28 +824,6 @@ backend_lib.obj: ../tools/backend_lib.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/backend_lib.Po' tmpdepfile='$(DEPDIR)/backend_lib.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o backend_lib.obj `if test -f '../tools/backend_lib.C'; then $(CYGPATH_W) '../tools/backend_lib.C'; else $(CYGPATH_W) '$(srcdir)/../tools/backend_lib.C'; fi`
-
-process_result_template.o: ../tools/process_result_template.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT process_result_template.o -MD -MP -MF "$(DEPDIR)/process_result_template.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o process_result_template.o `test -f '../tools/process_result_template.C' || echo '$(srcdir)/'`../tools/process_result_template.C; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/process_result_template.Tpo" "$(DEPDIR)/process_result_template.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/process_result_template.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/process_result_template.C' object='process_result_template.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/process_result_template.Po' tmpdepfile='$(DEPDIR)/process_result_template.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o process_result_template.o `test -f '../tools/process_result_template.C' || echo '$(srcdir)/'`../tools/process_result_template.C
-
-process_result_template.obj: ../tools/process_result_template.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT process_result_template.obj -MD -MP -MF "$(DEPDIR)/process_result_template.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o process_result_template.obj `if test -f '../tools/process_result_template.C'; then $(CYGPATH_W) '../tools/process_result_template.C'; else $(CYGPATH_W) '$(srcdir)/../tools/process_result_template.C'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/process_result_template.Tpo" "$(DEPDIR)/process_result_template.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/process_result_template.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/process_result_template.C' object='process_result_template.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/process_result_template.Po' tmpdepfile='$(DEPDIR)/process_result_template.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o process_result_template.obj `if test -f '../tools/process_result_template.C'; then $(CYGPATH_W) '../tools/process_result_template.C'; else $(CYGPATH_W) '$(srcdir)/../tools/process_result_template.C'; fi`
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
