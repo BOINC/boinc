@@ -228,7 +228,7 @@ void handle_wu(
             for (int i=0; i<n; i++) {
                 sprintf(suffix, "%d", items.size()+i);
                 char rtfpath[256];
-                sprintf(rtfpath, "%s", items[0].result_template_file);
+                sprintf(rtfpath, "../%s", items[0].result_template_file);
                 retval = create_result(
                     items[0].id, items[0].appid, items[0].name,
                     rtfpath, suffix, key, ""
