@@ -858,7 +858,7 @@ int send_work(
 
     if (reply.wreq.nresults == 0) {
         reply.set_delay(3600);
-        USER_MESSAGE um2("No work available", "high");
+        USER_MESSAGE um2("No work sent", "high");
         reply.insert_message(um2);
         if (reply.wreq.no_app_version) {
             USER_MESSAGE um("(there was work for other platforms)", "high");
@@ -883,20 +883,12 @@ int send_work(
         if (reply.wreq.insufficient_speed) {
             char helpful[512];
             sprintf(helpful,
-                "(there was work, but your computer would not finish it before it is due) "
-                "Your computer is on %.1f%% of the time, and runs BOINC %.1f%% of that time. "
-                "This project has %.1f%% of those cycles (other BOINC projects get the rest)",
+                "(won't finish in time) "
+                "Computer on %.1f%% of time, BOINC on %.1f%% of that, Einstein gets %.1f%% of that",
                 100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
             );
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
-            if (!config.ignore_delay_bound && sreq.resource_share_fraction<1.0) {
-                USER_MESSAGE um3 (
-                    "Review preferences for this project's Resource Share",
-                    "high"
-                );
-                reply.insert_message(um3);
-            }
         }
         if (reply.wreq.homogeneous_redundancy_reject) {
             USER_MESSAGE um(

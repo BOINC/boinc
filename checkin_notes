@@ -25116,3 +25116,19 @@ Rom    21 Feb 2005
         ViewWork.cpp
     lib/
         gui_rpc_client.C, .h
+
+Bruce 22 Feb 2005
+    - Bug fixes to scheduler code
+    - For locality scheduler, if anonymous platform lacks app, don't do deterministic
+      search for work!
+    - For locality scheduler, remove 'unsent' constraint from initial query so that
+      existing index in result table can be used to perform a more efficient search.
+    - Send multi-message replies to core clients > 4.19
+    - Change 'no work available' message to 'no work sent' since this is often due
+      to constraints at the client end, NOT lack of work at project end.
+
+    sched/
+        sched_locality.C
+        sched_send.C
+        server_types.C
+

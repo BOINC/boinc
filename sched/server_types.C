@@ -334,7 +334,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %f\n", request_delay);
     }
-    if (wreq.core_client_version < 462) {
+    if (wreq.core_client_version <= 419) {
         std::string msg;
         std::string pri = "low";
         for (i=0; i<messages.size(); i++) {
