@@ -16538,3 +16538,6 @@ Daniel 2004-08-20
     client/
         pers_file_xfer.C
 
+Rom    20 Aug 2004
+    - Tag for 4.03 release, all platforms
+      boinc_release_4_03
