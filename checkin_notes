@@ -21798,3 +21798,21 @@ David  25 Dec 2004
         client_types.C,h
     tools/
         backend_lib.C
+
+David  25 Dec 2004
+	- bug fix (from Nikolay Saharov): if user minimized app graphics window,
+		then closed it, then did "show graphics" again,
+		the result would be a nonexistent window,
+		impossible to manipulate.
+		Fix this by using original window size if window
+		is minimized or maximized
+	- compile fixes for SETI@home on Windows
+		removed extern "C" on jpeglib.h include (why did I need this
+			in the first place??)
+	api/
+		gutil.c
+		gutil.C
+		windows_opengl.C
+	win_build/
+		config.h (new)
+		win-config.h (new)

@@ -17,7 +17,6 @@
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
-#include "win_util.h"
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
@@ -172,7 +171,17 @@ static void set_mode(int mode) {
     int new_mode = mode;
 
     if (mode == current_graphics_mode) return;
-	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
+	if (current_graphics_mode != MODE_FULLSCREEN) {
+		if (IsIconic(hWnd) || IsZoomed(hWnd)){
+            // If graphics window is minimized or maximized
+            // then set default values of window size
+			rect.left = 50;
+            rect.top = 50;
+            rect.right = 50+640;
+            rect.bottom = 50+480;
+		}
+		else GetWindowRect(hWnd, &rect); // else get current values
+	}
 
     KillWindow();
 

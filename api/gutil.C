@@ -19,9 +19,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-extern "C"{
+//extern "C"{
 #include "jpeglib.h"
-}
+//}
 #include "bmplib.h"
 #include "tgalib.h"
 #endif
