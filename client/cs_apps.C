@@ -212,7 +212,7 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 // efficiency here.
 RESULT* CLIENT_STATE::next_result_to_start() const
 {
-    int earliest_deadline = (int) -1;
+    int earliest_deadline = INT_MAX;
     RESULT* rp_earliest_deadline = NULL;
 
     for (vector<RESULT*>::const_iterator i = results.begin();
