@@ -539,7 +539,7 @@ inline bool now_between_two_hours(int start_hour, int end_hour)
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
     // char susp_msg[256];
-    const char* susp_msg;
+    const char* susp_msg = "<error>";
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
         susp_msg = "Suspending activity - on batteries";
         should_suspend = true;
@@ -579,7 +579,7 @@ int CLIENT_STATE::check_suspend_activities() {
             msg_printf(NULL, MSG_INFO, "Resuming activity");
         }
     }
-	previous_activities_suspended = activities_suspended;
+    previous_activities_suspended = activities_suspended;
     activities_suspended = should_suspend;
     return 0;
 }
