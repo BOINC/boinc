@@ -3,7 +3,7 @@ CXX = $(shell wx-config --cxx)
 # comment out the following as needed
 OTHER_LIBS = -lsocket -lnsl
 
-CFLAGS = -g -I ../lib -DNOTASKBAR -DNOCLIPBOARD -DDEBUG
+CFLAGS = -g -I ../lib -DNOTASKBAR -DNOCLIPBOARD
 
 PROGRAM = boincmgr
 
