@@ -9,14 +9,7 @@ $logged_in_user = get_logged_in_user();
 
 
 if ($_POST['submit']) {    
-    
-    if (empty($_GET['id'])) {
-        // TODO: Standard error page
-        echo "Invalid post ID.<br>";
-        exit();
-    }
-        
-    $post = getPost($_GET['id']);
+    $post = getPost(get_int("id"));
     $thread = getThread($post->thread);
 
     if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
@@ -41,20 +34,14 @@ if ($_POST['submit']) {
 
 page_head('Forum');
 
-if (!empty($_GET['id'])) {
-    $post = getPost($_GET['id']);
-    $thread = getThread($post->thread);
-    $forum = getForum($thread->forum);
-    $category = getCategory($forum->category);
-} else {
-    // TODO: Standard error page
-    echo "No post was specified.<br>";
-    exit();
-}
-    if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
+$post = getPost(get_int("id"));
+$thread = getThread($post->thread);
+$forum = getForum($thread->forum);
+$category = getCategory($forum->category);
+if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
 	echo "You can no longer edit this post.<br>Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
 	exit();
-    }
+}
 
 if ($logged_in_user->id != $post->user) {
     // Can't edit other's posts.

@@ -7,8 +7,10 @@
 
     $user = get_logged_in_user();
 
-    $venue = $_GET["venue"];
-    $subset = $_GET["subset"];
+    $venue = get_str("venue");
+    check_venue($venue);
+    $subset = get_str("subset");
+    check_subset($subset);
 
     if ($subset == "global") {
         $prefs = prefs_parse_global($user->global_prefs);

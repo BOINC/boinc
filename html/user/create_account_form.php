@@ -28,7 +28,7 @@ echo "
 
     <form action=create_account_action.php method=post>
 ";
-$teamid = $_GET['teamid'];
+$teamid = get_int("teamid", true);
 if ($teamid) {
     $team = lookup_team($teamid);
     $user = lookup_user_id($team->userid);

@@ -6,8 +6,8 @@
 
     db_init();
 
-    $id = $_GET["id"];
-    $str = $_GET["str"];
+    $id = get_int("id");
+    $str = process_user_text(get_str("str"));
 
     $user = null;
     $result = mysql_query("select * from user where id=$id");

@@ -65,6 +65,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     if (!$authenticator) {
         $authenticator = $_COOKIE['auth'];
     }
+    $authenticator = process_user_text($authenticator);
     $user = get_user_from_auth($authenticator);
     if ($must_be_logged_in) {
         require_login($user);
@@ -79,32 +80,6 @@ function show_login($user) {
     } else {
         echo "Not logged in";
     }
-}
-
-// output a select form item with the given name,
-// from a list of newline-delineated items from the text file.
-// If $selection is provided, and if it matches one of the entries in the file,
-// it will be selected by default.
-//
-function show_combo_box($name, $filename, $selection=null) {
-    if (!file_exists($filename)) {
-        echo "ERROR: $filename does not exist!  Cannot create combo box.<br>";
-        exit();
-    }
-    echo "<select name=\"$name\">\n";
-
-    $file = fopen($filename, "r");
-
-    while ($line = trim(fgets($file, 1024))) {
-        if ($line == $selection) {
-            echo "<option SELECTED value=\"$line\">$line\n";
-        } else {
-            echo "<option value=\"$line\">$line\n";
-        }
-    }
-
-    echo "</select>\n";
-    fclose($file);
 }
 
 function page_head($title, $java_onload="") {
@@ -200,36 +175,6 @@ function time_str($x) {
 
 function pretty_time_str($x) {
     return time_str($x);
-}
-// Converts a mysql-Timestamp to a user readable format
-// @return String A user readable DateTime-String in UTC
-// @param Integer $x The mysql-Timestamp to convert
-function mysqltime_str($x) {
-	if(strpos($x,"-")==4)
-	{
-		// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
-		$year = substr($x,0,4);
-		$month = substr($x,5,2);
-		$day = substr($x,8,2);
-		$hour = substr($x,11,2);
-		$minute = substr($x,14,2);
-		$second = substr($x,17,2);
-	}
-    else
-    {
-    	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
-		$year = substr($x,0,4);
-		$month = substr($x,4,2);
-		$day = substr($x,6,2);
-		$hour = substr($x,8,2);
-		$minute = substr($x,10,2);
-		$second = substr($x,12,2);
-	
-    }
-	//make a Unix-Timestamp
-    // echo "Time string is " . "$x";
-	$time = mktime($hour,$minute,$second,$month,$day,$year);
-	return time_str($time);
 }
 function start_table($extra="width=100%") {
     echo "<table border=1 cellpadding=5 $extra>";
@@ -387,45 +332,6 @@ function no_cache() {
     header ("Pragma: no-cache");                          // HTTP/1.0
 }
 
-// Generates a standard set of links between associated multi-page documents.
-//  All linked files must be of the form "$filename_<page number>.html".
-
-function write_page_links($filename, $currPageNum, $numPages) {
-    echo "<p>Page $currPageNum of $numPages</p>";
-
-    $nextPageNum = $currPageNum + 1;
-    $prevPageNum = $currPageNum - 1;
-
-    // Make the 'previous' and 'next' page links as appropriate.
-    if ($currPageNum > 1) {
-        echo "<a href={$filename}_{$prevPageNum}.html>Previous Page</a>";
-
-        if ($currPageNum != $numPages) {
-            echo " | ";
-        }
-    }
-    if ($currPageNum != $numPages) {
-        //fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
-        echo "<a href={$filename}_{$nextPageNum}.html>Next Page</a>";
-    }
-
-    //fwrite($descriptor, "<p>Jump to Page:\n");
-    echo "<p>Jump to Page:\n";
-
-    // Make the individual page links (or a bold non-link for the current page).
-    //
-    for ($i = 1; $i <= $numPages; $i++) {
-        if ($i != $currPageNum) {
-            //fwrite($descriptor, "<a href=$filename" . "_" . $i . ".html>$i</a>\n");
-            echo "<a href={$filename}_{$i}.html>$i</a>\n";
-        } else {
-            //fwrite($descriptor, "<b>$i</b>\n");
-            echo "<b>$i</b>\n";
-        }
-    }
-
-}
-
 // Generates a legal filename from a parameter string.
 
 function get_legal_filename($name) {
@@ -502,6 +408,46 @@ function close_output_buffer($filename) {
 
 function html_info() {
     return "<br><a href=html.php><font size=-2>You may use HTML tags</font></a>\n";
+}
+
+function get_int($name, $optional=false) {
+    $x = $_GET[$name];
+    if (!is_numeric($x)) {
+        if ($optional) {
+            return null;
+        } else {
+            error_page("missing or bad parameter: $name $x");
+        }
+    }
+    return (int)$x;
+}
+
+function post_int($name, $optional=false) {
+    $x = $_POST[$name];
+    if (!is_numeric($x)) {
+        if ($optional) {
+            return null;
+        } else {
+            error_page("missing or bad parameter: $name $x");
+        }
+    }
+    return (int)$x;
+}
+
+function get_str($name, $optional=false) {
+    $x = $_GET[$name];
+    if (!$x && !optional) {
+        error_page("missing or bad parameter: $name");
+    }
+    return $x;
+}
+
+function post_str($name, $optional=false) {
+    $x = $_POST[$name];
+    if (!$x && !optional) {
+        error_page("missing or bad parameter: $name");
+    }
+    return $x;
 }
 
 ?>

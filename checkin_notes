@@ -24646,3 +24646,20 @@ David  12 Feb 2005
 
     client/
         http.C
+
+David  12 Feb 2005
+    - added functions in PHP code to get data from GET and POST,
+        and do various safety checking on it.
+        These functions should be used exclusively;
+        $_GET and $_POST should not be accessed directly
+    - moved some stuff out of html/inc/util.inc
+
+    html/
+        inc/
+            db_ops.inc
+            gallery.inc
+            prefs.inc
+            profile.inc
+            util.inc
+        user/
+            various (didn't finish)

@@ -2,10 +2,10 @@
     require_once("../inc/cache.inc");
     require_once("../inc/util.inc");
 
-    $id = $_GET["userid"];
-    $format = $_GET["format"];
+    $id = get_int("userid");
+    $format = get_str("format", true);
     $cache_args = "userid=$id";
-    if ($format) {
+    if ($format=="xml") {
         $cache_args .= "&format=xml";
     }
     start_cache(USER_PAGE_TTL, $cache_args);

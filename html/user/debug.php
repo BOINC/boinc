@@ -3,11 +3,11 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
-    init_session();
+init_session();
 
-    page_head("Download debugging files");
+page_head("Download debugging files");
 
-    echo "
+echo "
     <h2>Download debugging files</h2>
     <p>
     <b>Windows users</b>:
@@ -38,7 +38,7 @@ require_once("../inc/util.inc");
     Thanks for helping make BOINC a better product.
     <p>
     <p>
-    ";
+";
 
     page_tail();
 ?>

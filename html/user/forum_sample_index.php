@@ -34,10 +34,10 @@ function show_category($category) {
 }
 
 function show_forums() {
-	$categories = getCategories();
-	while ($category = mysql_fetch_object($categories)) {
+    $categories = getCategories();
+    while ($category = mysql_fetch_object($categories)) {
         show_category($category);
-	}
+    }
 }
 
 start_forum_table(array("Topic", "Threads", "Posts", "Last post"));

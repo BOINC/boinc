@@ -97,6 +97,19 @@ global $top_parse_result;
 global $in_project_specific;
 global $venue_name;
 
+function check_venue($x) {
+    if ($x == "home") return;
+    if ($x == "work") return;
+    if ($x == "school") return;
+    error_page("bad venue: $x");
+}
+
+function check_subset($x) {
+    if ($x == "global") return;
+    if ($x == "project") return;
+    error_page("bad subset: $x");
+}
+
 // functions to convert between max_bytes_sec_* as stored in the
 // database and max_bytes_sec_* as displayed/entered on the web
 // pages. Currently max_bytes_sec_* is stored in bytes and

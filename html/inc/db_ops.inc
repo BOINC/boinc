@@ -3,59 +3,87 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 define("NVALIDATE_STATES", 6);
 
+// Converts a mysql-Timestamp to a user readable format
+// @return String A user readable DateTime-String in UTC
+// @param Integer $x The mysql-Timestamp to convert
+function mysqltime_str($x) {
+	if(strpos($x,"-")==4) {
+		// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
+		$year = substr($x,0,4);
+		$month = substr($x,5,2);
+		$day = substr($x,8,2);
+		$hour = substr($x,11,2);
+		$minute = substr($x,14,2);
+		$second = substr($x,17,2);
+	} else {
+    	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
+		$year = substr($x,0,4);
+		$month = substr($x,4,2);
+		$day = substr($x,6,2);
+		$hour = substr($x,8,2);
+		$minute = substr($x,10,2);
+		$second = substr($x,12,2);
+	
+    }
+	//make a Unix-Timestamp
+    // echo "Time string is " . "$x";
+	$time = mktime($hour,$minute,$second,$month,$day,$year);
+	return time_str($time);
+}
+
 // Function prints a description of $table 
 //
 function print_describe_table_onecol($table, $which, $columns) {
-  $result=mysql_query("SELECT * from $table LIMIT 1");
-  $fields=mysql_num_fields($result);
-  
-  $avgnum=(int)($fields/$columns);
-  if ($avgnum*$columns<$fields) {
-    $avgnum++;
-  }
+    $result=mysql_query("SELECT * from $table LIMIT 1");
+    $fields=mysql_num_fields($result);
 
-  $actualcolumns=0;
-  while ($avgnum*$actualcolumns<$fields) {
-    $actualcolumns++;
-  }
-
-  if ($which>$actualcolumns) {
-    return 0;
-  }
-
-  $bot=($which-1)*$avgnum;
-  $top=$which*$avgnum;
-
-  $width=100.0/$actualcolumns;
-
-  //  echo "<td><table border='2' width=\"$width%\">\n";
-  echo "<td><table border=\"1\" width=\"100%\">\n";
-  echo "<tr><th align=\"left\">NAME</th><th align=\"left\">Type</th><th align=\"left\">Bytes</th>\n";
-  for ($count=$bot; $count<$top; $count++) {
-    if ($count<$fields) {
-      $name= mysql_field_name($result, $count);
-      $type= mysql_field_type($result, $count);
-      $length=mysql_field_len($result, $count);
-    } else {
-      $name="<br/> ";
-      $type="<br/>";
-      $length="<br/>";
+    $avgnum=(int)($fields/$columns);
+    if ($avgnum*$columns<$fields) {
+        $avgnum++;
     }
-    echo "\t<tr><td><b>$name</b></td><td>$type</td><td>$length</td></tr>\n";
-  }
-  echo "</table></td>";
-  return 0;
+
+    $actualcolumns=0;
+    while ($avgnum*$actualcolumns<$fields) {
+        $actualcolumns++;
+    }
+
+    if ($which>$actualcolumns) {
+        return 0;
+    }
+
+    $bot=($which-1)*$avgnum;
+    $top=$which*$avgnum;
+
+    $width=100.0/$actualcolumns;
+
+    //  echo "<td><table border='2' width=\"$width%\">\n";
+    echo "<td><table border=\"1\" width=\"100%\">\n";
+    echo "<tr><th align=\"left\">NAME</th><th align=\"left\">Type</th><th align=\"left\">Bytes</th>\n";
+    for ($count=$bot; $count<$top; $count++) {
+        if ($count<$fields) {
+            $name= mysql_field_name($result, $count);
+            $type= mysql_field_type($result, $count);
+            $length=mysql_field_len($result, $count);
+        } else {
+            $name="<br/> ";
+            $type="<br/>";
+            $length="<br/>";
+        }
+        echo "\t<tr><td><b>$name</b></td><td>$type</td><td>$length</td></tr>\n";
+    }
+    echo "</table></td>";
+    return 0;
 }
 
 function print_describe_table($table, $how_many_columns) {
-  // Number of columns for showing table description
-  echo "<h2>Description of <b>$table</b> table fields:</h2>\n";
-  echo "<table border=\"0\" width=\"100%\">\n\t<tr>";
-  for ($i=1; $i<=$how_many_columns; $i++) {
-    print_describe_table_onecol($table, $i, $how_many_columns);
-  }
-  echo "\t</tr>\n</table>\n";
-  return 0;
+    // Number of columns for showing table description
+    echo "<h2>Description of <b>$table</b> table fields:</h2>\n";
+    echo "<table border=\"0\" width=\"100%\">\n\t<tr>";
+    for ($i=1; $i<=$how_many_columns; $i++) {
+        print_describe_table_onecol($table, $i, $how_many_columns);
+    }
+    echo "\t</tr>\n</table>\n";
+    return 0;
 }
 
 function print_detail_field() {

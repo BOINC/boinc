@@ -9,6 +9,45 @@ require_once("../inc/uotd.inc");
 $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
 
 
+// Generates a standard set of links between associated multi-page documents.
+//  All linked files must be of the form "$filename_<page number>.html".
+
+function write_page_links($filename, $currPageNum, $numPages) {
+    echo "<p>Page $currPageNum of $numPages</p>";
+
+    $nextPageNum = $currPageNum + 1;
+    $prevPageNum = $currPageNum - 1;
+
+    // Make the 'previous' and 'next' page links as appropriate.
+    if ($currPageNum > 1) {
+        echo "<a href={$filename}_{$prevPageNum}.html>Previous Page</a>";
+
+        if ($currPageNum != $numPages) {
+            echo " | ";
+        }
+    }
+    if ($currPageNum != $numPages) {
+        //fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
+        echo "<a href={$filename}_{$nextPageNum}.html>Next Page</a>";
+    }
+
+    //fwrite($descriptor, "<p>Jump to Page:\n");
+    echo "<p>Jump to Page:\n";
+
+    // Make the individual page links (or a bold non-link for the current page).
+    //
+    for ($i = 1; $i <= $numPages; $i++) {
+        if ($i != $currPageNum) {
+            //fwrite($descriptor, "<a href=$filename" . "_" . $i . ".html>$i</a>\n");
+            echo "<a href={$filename}_{$i}.html>$i</a>\n";
+        } else {
+            //fwrite($descriptor, "<b>$i</b>\n");
+            echo "<b>$i</b>\n";
+        }
+    }
+
+}
+
 // Generates the html files which comprise the photo gallery.
 //   $room: which gallery to generate (user, computer).
 //   $width: the width of the table of images.

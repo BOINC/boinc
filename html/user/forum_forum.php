@@ -7,28 +7,17 @@ require_once('../inc/forum_show.inc');
 
 db_init();
 
-if (empty($_GET['id'])) {
-    // TODO: Standard error page
-    echo "Invalid forum ID.<br>";
-    exit();
-}
+$id = get_int("id");
+$sort_style = get_str("sort", true);
+$start = get_int("start", true);
+if (!$start) $start = 0;
 
-$_GET['id'] = stripslashes(strip_tags($_GET['id']));
-$_GET['sort'] = stripslashes(strip_tags($_GET['sort']));
-
-if (!array_key_exists('start', $_GET) || $_GET['start'] < 0) {
-    $start = 0;
-} else {
-    $start = $_GET['start'];
-}
-
-$forum = getForum($_GET['id']);
+$forum = getForum($id);
 $category = getCategory($forum->category);
 $logged_in_user = get_logged_in_user(false);
 $logged_in_user = getForumPreferences($logged_in_user);
 
 if ($category->is_helpdesk) {
-    $sort_style = $_GET['sort'];
     if (!$sort_style) {
         $sort_style = getSortStyle($logged_in_user,"faq");
     } else {
@@ -37,13 +26,10 @@ if ($category->is_helpdesk) {
     if (!$sort_style) $sort_style = 'activity';
     page_head('Help Desk');
 } else {
-    $sort_style = $_GET['sort'];
     if (!$sort_style) {
         $sort_style = getSortStyle($logged_in_user,"forum");
-        //$sort_style = $_COOKIE['forum_sort_style'];
     } else {
-	setSortStyle($logged_in_user, "forum",$sort_style);
-        //setcookie('forum_sort_style', $sort_style, time()+3600*24*365);
+        setSortStyle($logged_in_user, "forum",$sort_style);
     }
     if (!$sort_style) $sort_style = 'modified-new';
     page_head('Message boards : '.$forum->title);
@@ -59,7 +45,7 @@ echo "
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
-echo "<p>\n<a href=\"forum_post.php?id=", $_GET['id'], "\">";
+echo "<p>\n<a href=forum_post.php?id=$id>";
 
 if ($category->is_helpdesk) {
     echo "Submit a question or problem";
@@ -81,6 +67,5 @@ echo "</tr>\n</table>\n</form>";
 show_forum($category, $forum, $start, $sort_style, $logged_in_user);
 
 page_tail();
-
 
 ?>

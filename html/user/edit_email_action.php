@@ -1,9 +1,9 @@
 <?php
 
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/email.inc");
-    require_once("../inc/user.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/email.inc");
+require_once("../inc/user.inc");
 
 function send_verify_email($user, $email_addr, $key) {
     mail(
@@ -12,13 +12,13 @@ function send_verify_email($user, $email_addr, $key) {
 "You have asked that the email address of your " . PROJECT . " account be changed to $email_addr.
 To confirm this change, please visit the following URL:
 ". URL_BASE ."confirm_email_change.php?id=$user->id&str=$key"
-        );  // Changed from (URL_BASE || MASTER_URL)
+    );
 }
 
     db_init();
     $user = get_logged_in_user();
 
-    $email_addr = trim(strtolower($HTTP_POST_VARS["email_addr"]));
+    $email_addr = process_user_text(post_str("email_addr"));
 
     page_head("Edit email address");
     if ($email_addr == "Verification pending") {

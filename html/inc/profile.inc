@@ -18,6 +18,32 @@ define('MAX_DESC_LENGTH', 90);
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
 
+// output a select form item with the given name,
+// from a list of newline-delineated items from the text file.
+// If $selection is provided, and if it matches one of the entries in the file,
+// it will be selected by default.
+//
+function show_combo_box($name, $filename, $selection=null) {
+    if (!file_exists($filename)) {
+        echo "ERROR: $filename does not exist!  Cannot create combo box.<br>";
+        exit();
+    }
+    echo "<select name=\"$name\">\n";
+
+    $file = fopen($filename, "r");
+
+    while ($line = trim(fgets($file, 1024))) {
+        if ($line == $selection) {
+            echo "<option SELECTED value=\"$line\">$line\n";
+        } else {
+            echo "<option value=\"$line\">$line\n";
+        }
+    }
+
+    echo "</select>\n";
+    fclose($file);
+}
+
 function get_profile($userid) {
     $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
     if (!$result) {

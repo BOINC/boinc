@@ -14,16 +14,15 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
     $_GET['thread'] = stripslashes($_GET['thread']);
 
     if (!empty($_GET['post'])) {
-	$parent_post = $_GET['post'];
+        $parent_post = $_GET['post'];
     } else {
-	$parent_post = NULL;
+        $parent_post = NULL;
     }
 
     if ($_POST['add_signature']=="add_it"){
-        //$forum_signature = "\n".$logged_in_user->signature;		//Old style: concatenate signature
-	$add_signature=true;						// New style: set a flag and concatenate later
+        $add_signature=true;    // set a flag and concatenate later
     }  else {
-	$add_signature=false;
+        $add_signature=false;
     }
 
     replyToThread($_GET['thread'], $logged_in_user->id, $_POST['content'], $parent_post, $add_signature);
@@ -33,9 +32,9 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 
 
 if (empty($_GET['thread'])) {
-	// TODO: Standard error page.
-	echo "No thread ID specified.<br>";
-	exit();
+    // TODO: Standard error page.
+    echo "No thread ID specified.<br>";
+    exit();
 }
 
 if (!empty($_GET['post'])) {
@@ -50,9 +49,9 @@ $helpdesk = $category->is_helpdesk;
 
 // TODO: Write a function for this.
 if ($helpdesk) {
-	page_head('Questions and problems');
+    page_head('Questions and problems');
 } else {
-	page_head('Message boards');
+    page_head('Message boards');
 }
 
 show_forum_title($forum, $thread, $helpdesk);
@@ -102,12 +101,12 @@ function show_message_row($thread, $category, $post=NULL) {
     if ($post) echo quote_text(stripslashes($post->content), 80);
     if ($logged_in_user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
     echo "</textarea><p>
-	    <input type=\"submit\" value=\"Post reply\">
+        <input type=\"submit\" value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
         <input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this reply                                
 
         </form>
-	";
+    ";
 
     echo "</td></tr>\n";
 }

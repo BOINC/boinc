@@ -27,7 +27,7 @@ function show_error($str) {
     init_session();
     db_init();
 
-    $teamid = $_POST["teamid"];
+    $teamid = post_int("teamid");
     if ($teamid) {
         $team = lookup_team($teamid);
         $clone_user = lookup_user_id($team->userid);
