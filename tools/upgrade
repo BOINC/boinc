@@ -3,8 +3,10 @@
 # $Id$
 
 '''
+
 This program upgrades the project with current source/build files.
 Useful if you are a BOINC developer or closely following BOINC development.
+
 '''
 
 import boinc_path_config
@@ -15,18 +17,21 @@ import os
 if not tools.query_noyes("Update project executables and PHP files (overwrite existing files)"):
     raise SystemExit
 
-if os.system(os.path.join(boinc_project_path.PROGRAM_PARENT_DIR,'bin/stop')):
+INSTALL_DIR = os.environ.get('INSTALL_DIR') or \
+    boinc_project_path.PROGRAM_PARENT_DIR
+
+if os.system(os.path.join(INSTALL_DIR,'bin/stop')):
     raise SystemExit("Couldn't stop BOINC!")
 
 print "Upgrading files... "
 
 options.install_method = 'copy'
 init()
-install_boinc_files(boinc_project_path.PROGRAM_PARENT_DIR)
+install_boinc_files(INSTALL_DIR)
 
 print "Upgrading files... done"
 print
 # print "Run `start' to resume BOINC."
 
-if os.system(os.path.join(boinc_project_path.PROGRAM_PARENT_DIR,'bin/start')):
+if os.system(os.path.join(INSTALL_DIR,'bin/start')):
     raise SystemExit("Couldn't start BOINC!")
