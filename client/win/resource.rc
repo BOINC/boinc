@@ -65,14 +65,16 @@ BEGIN
     LTEXT           "Account Key:",IDC_STATIC,7,32,44,8
 END
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 230, 65
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 285, 67
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,173,7,50,14
-    LTEXT           "Info about BOINC goes here.",IDC_STATIC,56,17,102,31
+    DEFPUSHBUTTON   "OK",IDOK,228,7,50,14
+    LTEXT           "Berkeley Open Infrastructure for Network Computing",
+                    IDC_STATIC,57,17,171,14
     CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,13,17,33,31
+    CTEXT           "Open Beta",IDC_STATIC,56,36,171,13
 END
 
 IDD_QUIT DIALOG DISCARDABLE  0, 0, 186, 70
@@ -106,9 +108,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 223
+        RIGHTMARGIN, 278
         TOPMARGIN, 7
-        BOTTOMMARGIN, 58
+        BOTTOMMARGIN, 60
     END
 
     IDD_QUIT, DIALOG
@@ -131,8 +133,12 @@ IDR_MAINFRAME MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
+        MENUITEM "Clear Inactive",              ID_FILE_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Hide",                       ID_FILE_HIDE
         MENUITEM "&Suspend",                    ID_FILE_SUSPEND
-        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_FILE_EXIT
     END
     POPUP "&Account"
     BEGIN
@@ -145,14 +151,19 @@ BEGIN
     END
 END
 
-IDR_STATUS_ICON MENU DISCARDABLE 
+IDR_CONTEXT MENU DISCARDABLE 
 BEGIN
     POPUP "Status Icon"
     BEGIN
         MENUITEM "Hide",                        ID_STATUSICON_HIDE
         MENUITEM "Suspend",                     ID_STATUSICON_SUSPEND
         MENUITEM SEPARATOR
-        MENUITEM "Quit",                        ID_STATUSICON_QUIT
+        MENUITEM "Exit",                        ID_STATUSICON_EXIT
+    END
+    POPUP "Project"
+    BEGIN
+        MENUITEM "Relogin...",                  ID_PROJECT_RELOGIN
+        MENUITEM "Quit Project",                ID_PROJECT_QUIT
     END
 END
 
@@ -179,6 +190,52 @@ IDB_MESS                BITMAP  DISCARDABLE     "res\\mess.bmp"
 // remains consistent on all systems.
 IDI_ICON                ICON    DISCARDABLE     "res\\icon.ico"
 IDI_ICONHIGHLIGHT       ICON    DISCARDABLE     "res\\iconhigh.ico"
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "Space Sciences Laboratory\0"
+            VALUE "FileDescription", "boinc_gui\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "boinc_gui\0"
+            VALUE "LegalCopyright", "Copyright © 2002\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "boinc_gui.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "Space Sciences Laboratory boinc_gui\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

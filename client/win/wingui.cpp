@@ -28,6 +28,11 @@ CMyApp g_myApp;
 
 #define STATUS_ICON_ID		(WM_USER + 1)
 
+#define STATUS_MENU			0
+#define PROJECT_MENU		1
+#define RESULT_MENU			2
+#define XFER_MENU			3
+
 #define PROJECT_ID			0
 #define RESULT_ID			1
 #define XFER_ID				2
@@ -38,13 +43,13 @@ CMyApp g_myApp;
 
 #define PROJECT_COLS		5
 #define RESULT_COLS			7
-#define XFER_COLS			5
+#define XFER_COLS			6
 #define MAX_COLS			7
 
 char* column_titles[MAX_LIST_ID][MAX_COLS] = {
         {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	NULL,				NULL},
         {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
-        {"Project",	"File",			"Progress",		"Total",		"Direction",		NULL,				NULL}
+        {"Project",	"File",			"Progress",		"Size",		"Time",				"Direction",		NULL}
 };
 
 double GetDiskSize();
@@ -52,24 +57,46 @@ double GetDiskFree();
 
 void show_message(char* message, char* priority) {
 	if(g_myWnd) {
-		g_myWnd->MessageUser(message, priority);
+		g_myWnd->MessageUser("", message, priority);
+	}
+}
+
+void show_project_message(PROJECT* project, char* message, char* priority) {
+	if(g_myWnd) {
+		if(strcmp(project->project_name, "")) {
+			g_myWnd->MessageUser(project->project_name, message, priority);
+		} else {
+			g_myWnd->MessageUser(project->master_url, message, priority);
+		}
 	}
 }
 
 int get_initial_project() {
-	if(g_myWnd) {
-		return g_myWnd->GetInitialProject();
-	}
-	return -1;
+	return 0;
+}
+
+void GetByteString(double nbytes, CString* str) {
+    if (nbytes > 1e12) {
+        str->Format("%4.2f TB", nbytes/1e12);
+    } else if (nbytes > 1e9) {
+        str->Format("%4.2f GB", nbytes/1e9);
+    } else if (nbytes > 1e6) {
+        str->Format("%4.2f MB", nbytes/1e6);
+    } else if (nbytes > 1e3) {
+        str->Format("%4.2f KB", nbytes/1e3);
+    } else {
+        str->Format("%4f bytes", nbytes);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////
 // CProgressHeaderCtrl message map and member functions
 
-BEGIN_MESSAGE_MAP (CProgressBarCtrl, CProgressCtrl)
-	ON_WM_LBUTTONDOWN ()
-	ON_WM_LBUTTONUP ()
-END_MESSAGE_MAP ()
+BEGIN_MESSAGE_MAP(CProgressBarCtrl, CProgressCtrl)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_RBUTTONDOWN()
+END_MESSAGE_MAP()
 
 //////////
 // CProgressBarCtrl::CProgressBarCtrl
@@ -120,13 +147,33 @@ void CProgressBarCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 }
 
+//////////
+// CProgressBarCtrl::OnRButtonDown
+// arguments:	nFlags: message flags (keys down)
+//				point: mouse's point
+// returns:		void
+// function:	convert point to parent window's coordinates and forward message.
+void CProgressBarCtrl::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	CProgressCtrl::OnRButtonDown(nFlags, point);
+
+	// if this control has a parent, repackage this message and forward it
+	CWnd* parent = GetParent();
+	if(parent) {
+		MapWindowPoints(parent,&point,1);
+		WPARAM wParam = nFlags;
+		LPARAM lParam = MAKELPARAM(point.x, point.y);
+		parent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////
 // CProgressHeaderCtrl message map and member functions
 
-BEGIN_MESSAGE_MAP (CProgressHeaderCtrl, CHeaderCtrl)
-	ON_WM_RBUTTONDOWN ()
-	ON_WM_RBUTTONUP ()
-END_MESSAGE_MAP ()
+BEGIN_MESSAGE_MAP(CProgressHeaderCtrl, CHeaderCtrl)
+	ON_WM_RBUTTONDOWN()
+	ON_WM_RBUTTONUP()
+END_MESSAGE_MAP()
 
 //////////
 // CProgressHeaderCtrl::CProgressHeaderCtrl
@@ -184,7 +231,10 @@ BEGIN_MESSAGE_MAP(CProgressListCtrl, CListCtrl)
     ON_WM_CREATE()
     ON_WM_DESTROY()
     ON_WM_PAINT()
+	ON_WM_SETCURSOR()
+	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
+	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
 END_MESSAGE_MAP()
 
 //////////
@@ -219,6 +269,20 @@ int CProgressListCtrl::InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFo
 {
 	m_ColWidths.SetAtGrow(nCol, nWidth);
 	return CListCtrl::InsertColumn(nCol, lpszColumnHeading, nFormat, nWidth, nSubItem);
+}
+
+//////////
+// CProgressListCtrl::InsertItem
+// arguments:	nItem: index of new item
+//				lpszItem: text of new item
+// returns:		index of new item if successful,otherwise -1
+// function:	adds a new item to the list control
+int CProgressListCtrl::InsertItem(int nItem, LPCTSTR lpszItem)
+{
+	m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
+	CString empty;
+	m_ProjectURLs.InsertAt(nItem, empty);
+	return CListCtrl::InsertItem(nItem, lpszItem);
 }
 
 //////////
@@ -263,11 +327,18 @@ BOOL CProgressListCtrl::SetColumnWidth(int nCol, int cx)
 // function:	deletes given item from the list control
 BOOL CProgressListCtrl::DeleteItem(int nItem)
 {
+	int i, si;
+
+	// remove array info
+	m_ItemColors.RemoveAt(nItem);
+	CString empty;
+	m_ProjectURLs.RemoveAt(nItem);
+
 	CString str;
 	CProgressCtrl* progCtrl = NULL;
 
 	// go through all the subitems and see if they have a progess control
-	for(int si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
+	for(si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
 		str.Format("%d:%d", nItem, si);
 		progCtrl = NULL;
 		m_Progs.Lookup(str, (CObject*&)progCtrl);
@@ -276,6 +347,22 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 			delete progCtrl;
 		}
 	}
+
+
+	// move other progress controls up
+	for(i = nItem + 1; i < GetItemCount(); i ++) {
+		for(si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
+			str.Format("%d:%d", i, si);
+			progCtrl = NULL;
+			m_Progs.Lookup(str, (CObject*&)progCtrl);
+			if(progCtrl) {
+				m_Progs.RemoveKey(str);
+				str.Format("%d:%d", i - 1, si);
+				m_Progs.SetAt(str, progCtrl);
+			}
+		}
+	}
+
 	return CListCtrl::DeleteItem(nItem);
 }
 
@@ -346,7 +433,6 @@ void CProgressListCtrl::RepositionProgress()
 		}
 		progCtrl->MoveWindow(rt, false);
 	}
-	Invalidate(false);
 }
 
 //////////
@@ -356,7 +442,7 @@ void CProgressListCtrl::RepositionProgress()
 // returns:		void
 // function:	swaps all relevant information of the two given items. this
 //				includes text and progress controls of subitems and 
-//				item data.
+//				item data
 void CProgressListCtrl::SwapItems(int i1, int i2)
 {
 	int nCols = GetHeaderCtrl()->GetItemCount();
@@ -369,6 +455,51 @@ void CProgressListCtrl::SwapItems(int i1, int i2)
 	// check item indicies
 	if(i1 >= GetItemCount() || i2 >= GetItemCount()) {
 		return;
+	}
+
+	// swap url data
+	bool ok1 = false, ok2 = false;
+	CString stemp1, stemp2, sempty;
+	if(i1 < m_ProjectURLs.GetSize()) {
+		stemp1 = m_ProjectURLs.GetAt(i1);
+		ok1 = true;
+	}
+	if(i2 < m_ProjectURLs.GetSize()) {
+		stemp2 = m_ProjectURLs.GetAt(i2);
+		ok2 = true;
+	}
+	if(ok1) {
+		m_ProjectURLs.SetAtGrow(i2, stemp1);
+	} else {
+		m_ProjectURLs.SetAtGrow(i2, sempty);
+	}
+	if(ok2) {
+		m_ProjectURLs.SetAtGrow(i1, stemp2);
+	} else {
+		m_ProjectURLs.SetAtGrow(i1, sempty);
+	}
+
+	// swap color data
+	ok1 = false;
+	ok2 = false;
+	COLORREF ctemp1, ctemp2, cempty = RGB(0, 0, 0);
+	if(i1 < m_ItemColors.GetSize()) {
+		ctemp1 = m_ItemColors.GetAt(i1);
+		ok1 = true;
+	}
+	if(i2 < m_ItemColors.GetSize()) {
+		ctemp2 = m_ItemColors.GetAt(i2);
+		ok2 = true;
+	}
+	if(ok1) {
+		m_ItemColors.SetAtGrow(i2, ctemp1);
+	} else {
+		m_ItemColors.SetAtGrow(i2, cempty);
+	}
+	if(ok2) {
+		m_ItemColors.SetAtGrow(i1, ctemp2);
+	} else {
+		m_ItemColors.SetAtGrow(i1, cempty);
 	}
 
 	// swap indices
@@ -482,6 +613,59 @@ void CProgressListCtrl::SwapColumnVisibility(int col)
 }
 
 //////////
+// CProgressListCtrl::SetItemColor
+// arguments:	nItem: item whose color is to be set
+//				clr: the new color
+// returns:		void
+// function:	causes an item to be displayed in the given color
+void CProgressListCtrl::SetItemColor(int nItem, COLORREF clr)
+{
+	m_ItemColors.SetAtGrow(nItem, clr);
+}
+
+//////////
+// CProgressListCtrl::SetProjectURL
+// arguments:	nItem: the item to set the url for
+//				url: the url for the link
+// returns:		void
+// function:	sets the url for a project's link, causing the text of
+//				the first subitem for the given item to be displayed
+//				as a link
+void CProgressListCtrl::SetProjectURL(int nItem, char* url)
+{
+	CString str;
+	str.Format("%s", url);
+	m_ProjectURLs.SetAtGrow(nItem, str);
+}
+
+//////////
+// CProgressListCtrl::GetTextRect
+// arguments:	nItem: item to get the rect of
+//				nSubItem: subitem to get the rect of
+//				lpRect: pointer to rect to fill with result
+// returns:		void
+// function:	calculates the rect of the text for the given
+//				item and subitem
+void CProgressListCtrl::GetTextRect(int nItem, int nSubItem, LPRECT lpRect)
+{
+	CRect hrt, vrt;
+	int left, top, right, bottom;
+	GetItemRect(nItem, vrt, LVIR_BOUNDS);
+	GetHeaderCtrl()->GetItemRect(nSubItem, hrt);
+	left = hrt.left + 3;
+	top = vrt.top + 1;
+	right = hrt.left + GetStringWidth(GetItemText(nItem, nSubItem)) + 5;
+	if(hrt.right < right) right = hrt.right - 5;
+	bottom = vrt.bottom - 1;
+	if(right < left) right = left;
+	if(bottom < top) bottom = top;
+	lpRect->left = left;
+	lpRect->top = top;
+	lpRect->right = right;
+	lpRect->bottom = bottom;
+}
+
+//////////
 // CProgressListCtrl::OnCreate
 // arguments:	lpcs: a pointer to the create structure
 // returns:		0 if successful, otherwise -1
@@ -502,7 +686,6 @@ int CProgressListCtrl::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	// subclass header
-	m_iSort = 0;
 	CHeaderCtrl* header = GetHeaderCtrl();
 	if(header) {
 		HWND hWnd = header->GetSafeHwnd();
@@ -510,7 +693,63 @@ int CProgressListCtrl::OnCreate(LPCREATESTRUCT lpcs)
 			m_Header.SubclassWindow(hWnd);
 		}
 	}
+
+	m_OldFont = NULL;
+	m_iSort = 0;
     return 0;
+}
+
+//////////
+// CProgressListCtrl::OnCustomDraw
+// arguments:	pNMHDR: pointer to notification message header
+//				pResult: pointer to result
+// returns:		void
+// function:	handles special cases of drawing text, including changing
+//				an item's color or displaying project names as links
+void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMLVCUSTOMDRAW* pLVCD = (NMLVCUSTOMDRAW*)pNMHDR;
+
+    *pResult = CDRF_DODEFAULT;
+    if(pLVCD->nmcd.dwDrawStage == CDDS_PREPAINT) {
+
+		// before painting, get notifications for each item
+		*pResult = CDRF_NOTIFYITEMDRAW;
+    } else if(pLVCD->nmcd.dwDrawStage == CDDS_ITEMPREPAINT) {
+
+		// before item, get notifications for each subitem
+        *pResult = CDRF_NOTIFYSUBITEMDRAW;
+	} else if(pLVCD->nmcd.dwDrawStage == (CDDS_ITEMPREPAINT | CDDS_SUBITEM)) {
+
+		// before subitem, set font
+		pLVCD->clrText = RGB(0, 0, 0);
+		CDC* cdc = CDC::FromHandle(pLVCD->nmcd.hdc);
+		CFont* curFont = cdc->GetCurrentFont();
+		LOGFONT lf;
+		curFont->GetLogFont(&lf);
+		if(pLVCD->nmcd.dwItemSpec < m_ItemColors.GetSize()) {
+			pLVCD->clrText = m_ItemColors.GetAt(pLVCD->nmcd.dwItemSpec);
+		}
+		if(pLVCD->nmcd.dwItemSpec < m_ProjectURLs.GetSize() && !m_ProjectURLs.GetAt(pLVCD->nmcd.dwItemSpec).IsEmpty()) {
+			if(pLVCD->iSubItem == 0) {
+				lf.lfUnderline = true;
+				pLVCD->clrText = RGB(0, 0, 255);
+			}
+		}
+		CFont* newFont = new CFont;
+		newFont->CreateFontIndirect(&lf);
+		m_OldFont = cdc->SelectObject(newFont);
+		*pResult = CDRF_NOTIFYPOSTPAINT;
+	} else if(pLVCD->nmcd.dwDrawStage == (CDDS_ITEMPOSTPAINT | CDDS_SUBITEM)) {
+
+		// after subitem, restore font
+		CDC* cdc = CDC::FromHandle(pLVCD->nmcd.hdc);
+		m_OldFont = cdc->SelectObject(m_OldFont);
+		m_OldFont->DeleteObject();
+		delete m_OldFont;
+		m_OldFont = NULL;
+	    *pResult = CDRF_DODEFAULT;
+	}
 }
 
 //////////
@@ -535,6 +774,54 @@ void CProgressListCtrl::OnDestroy()
 }
 
 //////////
+// CProgressListCtrl::OnSetCursor
+// arguments:	pWnd: window containing the cursor
+//				nHitTest: hit test area code
+//				message: mouse message number
+// returns:		true if the message should not be processed further, false otherwise
+// function:	checks if the cursor is over a link, if so,
+//				changes it to the hand
+BOOL CProgressListCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+	CRect hit;
+	for(int i = 0; i < GetItemCount(); i ++) {
+		if(i < m_ProjectURLs.GetSize() && !m_ProjectURLs.GetAt(i).IsEmpty()) {
+			GetTextRect(i, 0, &hit);
+			if(hit.PtInRect(point)) {
+				HCURSOR hand = LoadCursor(NULL, IDC_HAND);
+				if(hand) {
+					SetCursor(hand);
+					return TRUE;
+				}
+			}
+		}
+	}
+	return CWnd::OnSetCursor(pWnd, nHitTest, message);
+}
+
+//////////
+// CProgressListCtrl::OnLButtonDown
+// arguments:	nFlags: message flags (keys down)
+//				point: mouse's point
+// returns:		void
+// function:	stops control from highlighting items, opens links
+void CProgressListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	CRect hit;
+	for(int i = 0; i < GetItemCount(); i ++) {
+		if(i < m_ProjectURLs.GetSize() && !m_ProjectURLs.GetAt(i).IsEmpty()) {
+			GetTextRect(i, 0, &hit);
+			if(hit.PtInRect(point)) {
+				ShellExecute(GetSafeHwnd(), "open", m_ProjectURLs.GetAt(i).GetBuffer(0), "", "", SW_SHOWNORMAL);
+			}
+		}
+	}
+}
+
+//////////
 // CProgressListCtrl::OnRButtonDown
 // arguments:	nFlags: message flags (keys down)
 //				point: mouse's point
@@ -552,7 +839,16 @@ void CProgressListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 		header->GetWindowRect(&rt);
 		if(rt.PtInRect(point)) {
 			m_PopupMenu.TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+			return;
 		}
+	}
+
+	CWnd* parent = GetParent();
+	if(parent) {
+		MapWindowPoints(parent,&point,1);
+		WPARAM wParam = nFlags;
+		LPARAM lParam = MAKELPARAM(point.x, point.y);
+		parent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
 	}
 	//CListCtrl::OnRButtonDown(nFlags, point);
 }
@@ -616,6 +912,17 @@ void CProgressListCtrl::OnPaint()
 {
 	RepositionProgress();
 	CListCtrl::OnPaint();
+
+	// iterate through each progress control
+	CProgressCtrl* progCtrl = NULL;
+	CString str;
+	POSITION pos = m_Progs.GetStartPosition();
+	while (pos != NULL) {
+
+		// remove the control and delete it
+		m_Progs.GetNextAssoc(pos, str, (CObject*&)progCtrl);
+		progCtrl->RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE);
+	}
 }
 
 //////////
@@ -646,7 +953,7 @@ END_MESSAGE_MAP()
 // function:	initializes members
 CPieChartCtrl::CPieChartCtrl()
 {
-	m_Total = 0;
+	m_total = 0;
 	m_Font = NULL;
 }
 
@@ -660,16 +967,10 @@ CPieChartCtrl::CPieChartCtrl()
 // function:	adds a piece to the pie, truncating at 100%, starting at
 //				index 0, the first piece is the base piece that changes
 //				size to complete the pie and its percent is meaningless
-void CPieChartCtrl::AddPiece(LPTSTR label, COLORREF color, float percent, float base)
+void CPieChartCtrl::AddPiece(LPTSTR label, COLORREF color, double value)
 {
-	if(m_Total >= 1) return;
-	if(percent < 0) percent = 0;
-	if(m_Total + percent > 1) percent = 1 - m_Total;
-	m_Total += percent;
-	if(m_Percents.GetSize() == 0) {
-		m_Base = base;
-	}
-	m_Percents.Add(percent);
+	if(value < 0) value = 0;
+	m_Values.Add(value);
 	m_Colors.Add(color);
 	CString str;
 	str.Format("%s", label);
@@ -681,15 +982,12 @@ void CPieChartCtrl::AddPiece(LPTSTR label, COLORREF color, float percent, float 
 // arguments:	index: index of piece to change
 //				percent: percent of the pie the piece takes
 // returns:		void
-// function:	changes the piece's percentage, truncating at 100%
-void CPieChartCtrl::SetPiece(int index, float percent)
+// function:	changes the piece's value
+void CPieChartCtrl::SetPiece(int index, double value)
 {
-	if(index < 1 || index >= m_Percents.GetSize()) return;
-	if(percent < 0) percent = 0;
-	float oldpercent = m_Percents.GetAt(index);
-	if(m_Total + (percent - oldpercent) > 1) percent = 1 - (m_Total - oldpercent);
-	m_Percents.SetAt(index, percent);
-	m_Total += (percent - oldpercent);
+	if(index < 0 || index >= m_Values.GetSize()) return;
+	if(value < 0) value = 0;
+	m_Values.SetAt(index, value);
 }
 
 //////////
@@ -713,9 +1011,9 @@ BOOL CPieChartCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UI
 //				xEndAngle: ending angle of piece
 // returns:		void
 // function:	draws a pie piece in the dc
-void CPieChartCtrl::DrawPiePiece(CDC* dc, float xStartAngle, float xEndAngle)
+void CPieChartCtrl::DrawPiePiece(CDC* dc, double xStartAngle, double xEndAngle)
 {
-	if(abs(xStartAngle - xEndAngle) <= 0.01) return;
+	if(xEndAngle - xStartAngle <= 0.05) return;
 
 	// gdi objects needed
 	CRect rt, rt2;
@@ -730,49 +1028,16 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, float xStartAngle, float xEndAngle)
 	CPoint cp;
 	int major = (int)((rt.Width() - 2 * PIE_BUFFER) * 0.5);
 	int minor = (int)((rt.Height() - 2 * PIE_BUFFER) * 0.25);
+	int maxmajor = dc->GetDeviceCaps(HORZRES) * PIE_MAJOR_MAX;
+	int maxminor = dc->GetDeviceCaps(VERTRES) * PIE_MINOR_MAX;
+	if(major > maxmajor) major = maxmajor;
+	if(minor > maxminor) minor = maxminor;
+
 	int depth = minor * PIE_DEPTH;
 	cp.x = rt.Width() * 0.5;
 	cp.y = rt.Height() - minor - PIE_BUFFER - depth;
 	rt.SetRect(cp.x - major, cp.y - minor, cp.x + major, cp.y + minor);
 	rt2.SetRect(cp.x - major, cp.y - minor + depth, cp.x + major, cp.y + minor + depth);
-
-	// draw depth part of pie piece if needed
-	if(xStartAngle >= 180 || xEndAngle >= 180) {
-
-		// set up coordinates
-		int xLowerAngle = 180;
-		if(xStartAngle > 180) xLowerAngle = xStartAngle;
-		int xHigherAngle = 360;
-		if(xEndAngle < 360) xHigherAngle = xEndAngle;
-		EllipsePoint(&rt, xLowerAngle, &pt1);
-		EllipsePoint(&rt, xHigherAngle, &pt2);
-		EllipsePoint(&rt2, xLowerAngle, &pt3);
-		EllipsePoint(&rt2, xHigherAngle, &pt4);
-
-		// filled part
-		rellipsehi.CreateEllipticRgnIndirect(&rt);
-		rellipselow.CreateEllipticRgnIndirect(&rt2);
-		rrect.CreateRectRgn(pt1.x, rt.top, pt4.x, rt2.bottom);
-		rdepthcurve.CreateRectRgnIndirect(&rt2);
-		rdepthcurve.CombineRgn(&rellipselow, &rellipsehi, RGN_DIFF);
-		rdepth.CreateRectRgnIndirect(&rt2);
-		rdepth.CombineRgn(&rdepthcurve, &rrect, RGN_AND);
-		dc->FillRgn(&rdepth, dc->GetCurrentBrush());
-		
-		// ouline
-		dc->Arc(&rt, pt1, pt2);
-		dc->Arc(&rt2, pt3, pt4);
-		dc->MoveTo(pt1);
-		dc->LineTo(pt3);
-		dc->MoveTo(pt4);
-		dc->LineTo(pt2);
-
-		// clean up
-		rellipsehi.DeleteObject();
-		rellipselow.DeleteObject();
-		rdepthcurve.DeleteObject();
-		rdepth.DeleteObject();
-	}
 
 	// draw elliptical part of piece
 
@@ -804,6 +1069,52 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, float xStartAngle, float xEndAngle)
 	rellipse.DeleteObject();
 	rangle.DeleteObject();
 	rpie.DeleteObject();
+
+	// draw depth part of pie piece if needed
+	if(xStartAngle >= 180 || xEndAngle >= 180) {
+
+		// set up coordinates
+		int xLowerAngle = 180;
+		if(xStartAngle > 180) xLowerAngle = xStartAngle;
+		int xHigherAngle = 360;
+		if(xEndAngle < 360) xHigherAngle = xEndAngle;
+		EllipsePoint(&rt, xLowerAngle, &pt1);
+		EllipsePoint(&rt, xHigherAngle, &pt2);
+		EllipsePoint(&rt2, xLowerAngle, &pt3);
+		EllipsePoint(&rt2, xHigherAngle, &pt4);
+		if(xStartAngle > 180) {
+			pt1.x = poly[1].x;
+			pt3.x = poly[1].x;
+		}
+		if(xEndAngle < 360) {
+			pt2.x = poly[7].x;
+			pt4.x = poly[7].x;
+		}
+
+		// filled part
+		rellipsehi.CreateEllipticRgnIndirect(&rt);
+		rellipselow.CreateEllipticRgnIndirect(&rt2);
+		rrect.CreateRectRgn(pt1.x, rt.top, pt4.x, rt2.bottom);
+		rdepthcurve.CreateRectRgnIndirect(&rt2);
+		rdepthcurve.CombineRgn(&rellipselow, &rellipsehi, RGN_DIFF);
+		rdepth.CreateRectRgnIndirect(&rt2);
+		rdepth.CombineRgn(&rdepthcurve, &rrect, RGN_AND);
+		dc->FillRgn(&rdepth, dc->GetCurrentBrush());
+		
+		// ouline
+		dc->Arc(&rt, pt1, pt2);
+		dc->Arc(&rt2, pt3, pt4);
+		dc->MoveTo(pt1);
+		dc->LineTo(pt3);
+		dc->MoveTo(pt4);
+		dc->LineTo(pt2);
+
+		// clean up
+		rellipsehi.DeleteObject();
+		rellipselow.DeleteObject();
+		rdepthcurve.DeleteObject();
+		rdepth.DeleteObject();
+	}
 }
 
 //////////
@@ -814,7 +1125,7 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, float xStartAngle, float xEndAngle)
 //				pt: pointer to CPoint to put result in
 // returns:		void
 // function:	calculates the point on the circle at the given angle
-void CPieChartCtrl::CirclePoint(CPoint* center, int rad, float angle, CPoint* pt)
+void CPieChartCtrl::CirclePoint(CPoint* center, int rad, double angle, CPoint* pt)
 {
 	pt->x = center->x + rad * cos(angle * (PI / 180));
 	pt->y = center->y - rad * sin(angle * (PI / 180));
@@ -828,7 +1139,7 @@ void CPieChartCtrl::CirclePoint(CPoint* center, int rad, float angle, CPoint* pt
 // returns:		void
 // function:	calculates the point on the ellipse in the given rect at
 //				the given angle
-void CPieChartCtrl::EllipsePoint(CRect* rt, float angle, CPoint* pt)
+void CPieChartCtrl::EllipsePoint(CRect* rt, double angle, CPoint* pt)
 {
 	pt->x = rt->CenterPoint().x + (rt->Width() / 2) * cos(angle * (PI / 180));
 	pt->y = rt->CenterPoint().y - (rt->Height() / 2) * sin(angle * (PI / 180));
@@ -845,16 +1156,14 @@ void CPieChartCtrl::SetFont(CFont* pcf)
 }
 
 //////////
-// CPieChartCtrl::SetTag
+// CPieChartCtrl::SetTotal
 // arguments:	tag: the string to be set as the tag
 // returns:		void
 // function:	sets the tag for data, which is a string that will be displayed
 //				after the numbers in the label
-void CPieChartCtrl::SetTag(char* tag)
+void CPieChartCtrl::SetTotal(double total)
 {
-	if(tag) {
-		m_Tag.Format("%s", tag);
-	}
+	if(total >= 0) m_total = total;
 }
 
 //////////
@@ -866,8 +1175,9 @@ void CPieChartCtrl::SetTag(char* tag)
 void CPieChartCtrl::OnPaint()
 {
 	CWnd::OnPaint();
+
 	// no pieces, so dont do anything
-	if(m_Percents.GetSize() == 0) return;
+	if(m_Values.GetSize() == 0) return;
 
 	// gdi objects needed
 	CClientDC cdc(this);
@@ -894,11 +1204,11 @@ void CPieChartCtrl::OnPaint()
 	memdc.FillSolidRect(&rt, RGB(255, 255, 255));
 
 	// go through each percent and draw its label and pie
-	float sofar = 0;
+	double sofar = 0;
 	CRect wndrect;
 	CRect textrect;
 	GetWindowRect(&wndrect);
-	for(int i = 0; i < m_Percents.GetSize(); i ++) {
+	for(int i = 0; i < m_Values.GetSize(); i ++) {
 		cb.CreateSolidBrush(m_Colors.GetAt(i));
 		oldbrush = memdc.SelectObject(&cb);
 
@@ -912,23 +1222,19 @@ void CPieChartCtrl::OnPaint()
 			memdc.LineTo(textrect.left, textrect.bottom);
 			memdc.LineTo(textrect.left, textrect.top);
 			textrect.SetRect(PIE_BUFFER + 15, PIE_BUFFER + i * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + i * 20);
+			CString sbytes;
+			GetByteString(m_Values.GetAt(i), &sbytes);
 			CString str;
-			if(i == 0) {
-				str.Format("%s (%0.2f%s)", m_Labels.GetAt(i).GetBuffer(0), (1 - m_Total) * m_Base, m_Tag.GetBuffer(0));
-			} else {
-				str.Format("%s (%0.2f%s)", m_Labels.GetAt(i).GetBuffer(0), m_Percents.GetAt(i) * m_Base, m_Tag.GetBuffer(0));
-			}
+			str.Format("%s (%s)", m_Labels.GetAt(i).GetBuffer(0), sbytes.GetBuffer(0));
 			memdc.DrawText(str, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT);
 		}
 
 		// display pie piece
-		if(i == 0) {
-			DrawPiePiece(&memdc, 0, (1 - m_Total) * 360);
-			sofar += (1 - m_Total);
-		} else {
-			DrawPiePiece(&memdc, sofar * 360, (sofar + m_Percents.GetAt(i)) * 360);
-			sofar += m_Percents.GetAt(i);
-		}
+		double percent = 0;
+		if(m_total > 0) percent = m_Values.GetAt(i) / m_total;
+		DrawPiePiece(&memdc, sofar * 360, (sofar + percent) * 360);
+		sofar += percent;
+
 		memdc.SelectObject(oldbrush);
 		cb.DeleteObject();
 	}
@@ -953,14 +1259,22 @@ void CPieChartCtrl::OnPaint()
 // CMyApp::InitInstance
 // arguments:	void
 // returns:		true if initialization is successful, otherwise false
-// function:	creates and shows the main window.
+// function:	creates and shows the main window if boinc is not running,
+//				otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
-    m_pMainWnd = new CMainWindow();
-	if(gstate.projects.size() != 0) {
-		m_pMainWnd->ShowWindow(m_nCmdShow);
-		m_pMainWnd->UpdateWindow();
+	CWnd* boincWnd;
+	boincWnd = CWnd::FindWindow(NULL, WND_TITLE);
+	if(boincWnd) {
+		if(boincWnd->GetStyle() & WS_EX_TOOLWINDOW) {
+			boincWnd->ShowWindow(SW_SHOW);
+			boincWnd->SetForegroundWindow();
+			return FALSE;
+		}
 	}
+    m_pMainWnd = new CMainWindow();
+	m_pMainWnd->ShowWindow(SW_SHOW);
+	m_pMainWnd->UpdateWindow();
     return TRUE;
 }
 
@@ -969,16 +1283,20 @@ BOOL CMyApp::InitInstance()
 
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
-    ON_COMMAND(ID_FILE_CLOSE, OnCommandFileClose)
+    ON_COMMAND(ID_FILE_CLEAR, OnCommandClear)
+    ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
     ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
+    ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
     ON_COMMAND(ID_ACCT_LOGIN, OnCommandAccountLogin)
     ON_COMMAND(ID_ACCT_QUIT, OnCommandAccountQuit)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
-    ON_COMMAND(ID_STATUSICON_HIDE, OnCommandStatusIconHide)
-    ON_COMMAND(ID_STATUSICON_QUIT, OnCommandStatusIconQuit)
+    ON_COMMAND(ID_PROJECT_RELOGIN, OnCommandProjectRelogin)
+    ON_COMMAND(ID_PROJECT_QUIT, OnCommandProjectQuit)
+    ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
+    ON_COMMAND(ID_STATUSICON_EXIT, OnCommandExit)
     ON_WM_CREATE()
-    ON_WM_PAINT()
+    ON_WM_RBUTTONDOWN()
     ON_WM_SIZE()
     ON_WM_SETFOCUS()
     ON_MESSAGE(STATUS_ICON_ID, OnStatusIcon)
@@ -996,10 +1314,10 @@ CMainWindow::CMainWindow()
         (HBRUSH)(COLOR_3DFACE+1), g_myApp.LoadIcon(IDI_ICON));
 
 	// create and position window
-    CreateEx(0, strWndClass, "BOINC", WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW,
+    CreateEx(0, strWndClass, WND_TITLE, WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, NULL);
-    CRect rect(0, 0, 420, 500);
+    CRect rect(0, 0, 600, 400);
     CalcWindowRect(&rect);
     SetWindowPos(NULL, 0, 0, rect.Width(), rect.Height(), SWP_NOZORDER|SWP_NOMOVE|SWP_NOREDRAW);
 }
@@ -1055,6 +1373,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
 		PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
 		if(!pr) {
+			m_ProjectListCtrl.SetItemColor(i, RGB(128, 128, 128));
+			m_ProjectListCtrl.SetProjectURL(i, "");
+			m_ProjectListCtrl.SetItemProgress(i, 4, 0);
 			continue;
 		}
 
@@ -1064,6 +1385,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		} else {
 			m_ProjectListCtrl.SetItemText(i, 0, pr->project_name);
 		}
+		m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
 
 		// account
 		m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
@@ -1089,7 +1411,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
 		if(!re) {
-			m_XferListCtrl.SetItemProgress(i, 4, 100);
+			m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
+			m_ResultListCtrl.SetItemProgress(i, 4, 100);
 			continue;
 		}
 
@@ -1162,6 +1485,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		FILE_XFER* fi = (FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!fi) {
+			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			m_XferListCtrl.SetItemProgress(i, 2, 100);
 			m_XferListCtrl.SetItemText(i, 3, "Completed");
 			continue;
@@ -1176,24 +1500,33 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		// progress
 		m_XferListCtrl.SetItemProgress(i, 2, 100 * (fi->nbytes_xfered / fi->fip->nbytes));
 
-		// progress
+		// size
 		buf.Format("%0.0f/%0.0fKB", fi->nbytes_xfered / 1024, fi->fip->nbytes / 1024);
 		m_XferListCtrl.SetItemText(i, 3, buf.GetBuffer(0));
 
+		// time
+		double xtime = (double)time(0) - fi->start_time;
+		int xhour = (int)(xtime / (60 * 60));
+		int xmin = (int)(xtime / 60) % 60;
+		int xsec = (int)(xtime) % 60;
+		buf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
+		m_XferListCtrl.SetItemText(i, 4, buf.GetBuffer(0));
+
 		// direction
-		m_XferListCtrl.SetItemText(i, 4, fi->fip->generated_locally?"Upload":"Download");
+		m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?"Upload":"Download");
 	}
 
 	// update usage
 	double disktotal = GetDiskSize();
 	double diskfree = GetDiskFree();
 	double diskused = disktotal - diskfree;
-	double diskallow = gstate.allowed_disk_usage();
-	double diskusage = gstate.current_disk_usage();
-	m_UsagePieCtrl.SetPiece(0, 0);
-	m_UsagePieCtrl.SetPiece(1, 1.0 * (diskused - diskusage) / disktotal);
-	m_UsagePieCtrl.SetPiece(2, 1.0 * diskusage / disktotal);
-	m_UsagePieCtrl.SetPiece(3, 1.0 * (diskallow - diskusage) / disktotal);
+	double diskallow; gstate.allowed_disk_usage(diskallow);
+	double diskusage; gstate.current_disk_usage(diskusage);
+	m_UsagePieCtrl.SetTotal(disktotal);
+	m_UsagePieCtrl.SetPiece(0, diskfree - (diskallow - diskusage)); // Free not available for BOINC
+	m_UsagePieCtrl.SetPiece(1, diskused - diskusage); // Space used
+	m_UsagePieCtrl.SetPiece(2, diskusage); // Used by BOINC
+	m_UsagePieCtrl.SetPiece(3, diskallow - diskusage); // Space available to BOINC
 
 	// make icon flash if needed
 	if(m_Message) {
@@ -1203,17 +1536,6 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 			SetStatusIcon(ICON_NORMAL);
 		}
 	}
-}	
-
-int CMainWindow::GetInitialProject()
-{
-    CLoginDialog dlg(IDD_LOGIN);
-    int retval = dlg.DoModal();
-	if(retval == IDOK) {
-	    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
-		return 0;
-	}
-	return -1;
 }
 
 //////////
@@ -1223,10 +1545,17 @@ int CMainWindow::GetInitialProject()
 // returns:		void
 // function:	if message is "high" priority, flashes the status icon, then
 //				adds to message edit control.
-void CMainWindow::MessageUser(char* message, char* priority)
+void CMainWindow::MessageUser(char* project, char* message, char* priority)
 {
 	CTime curTime = CTime::GetCurrentTime();
-	CString timeStr = curTime.Format("(%I:%M%p) ");
+	CString timeStr;
+	timeStr = curTime.Format("(%c) ");
+	if(strcmp(project, "")) {
+		timeStr.Insert(0, ": ");
+		timeStr.Insert(0, project);
+	} else {
+		timeStr.Insert(0, "BOINC: ");
+	}
 
 	if(!strcmp(priority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
 		m_Message = true;
@@ -1279,7 +1608,7 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
     icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     icon_data.hWnd = GetSafeHwnd();
     icon_data.uID = STATUS_ICON_ID;
-    strcpy(icon_data.szTip, "BOINC");
+    strcpy(icon_data.szTip, WND_TITLE);
     icon_data.uCallbackMessage = STATUS_ICON_ID;
 	if(dwMessage == ICON_OFF) {
 		icon_data.hIcon = NULL;
@@ -1456,7 +1785,6 @@ void CMainWindow::Syncronize(CProgressListCtrl* prog, vector<void*>* vect)
 		}
 		if(!contained) {
 			prog->SetItemData(i, (DWORD)NULL);
-//			prog->DeleteItem(i);
 		}
 	}
 }
@@ -1491,7 +1819,15 @@ void CMainWindow::OnCommandAccountQuit()
     CQuitDialog dlg(IDD_QUIT);
     int retval = dlg.DoModal();
 	if(retval == IDOK) {
-		//gstate.quit_project(dlg.m_sel); ??
+		CString str;
+		if(strcmp(gstate.projects[dlg.m_sel]->project_name, "")) {
+			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_sel]->project_name);
+		} else {
+			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_sel]->master_url);
+		}
+		if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
+			gstate.quit_project(dlg.m_sel);
+		}
 	}
 }
 
@@ -1502,21 +1838,11 @@ void CMainWindow::OnCommandAccountQuit()
 // function:	shows the account login dialog box
 void CMainWindow::OnCommandAccountLogin()
 {
-    CLoginDialog dlg(IDD_LOGIN);
+    CLoginDialog dlg(IDD_LOGIN, "", "");
     int retval = dlg.DoModal();
 	if(retval == IDOK) {
-	    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
+	    gstate.add_project(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
 	}
-}
-
-//////////
-// CMainWindow::OnCommandFileClose
-// arguments:	void
-// returns:		void
-// function:	hides the window, keeps status icon
-void CMainWindow::OnCommandFileClose()
-{
-    OnClose();
 }
 
 //////////
@@ -1531,58 +1857,119 @@ void CMainWindow::OnCommandHelpAbout()
 }
 
 //////////
-// CMainWindow::OnCommandStatusIconHide
+// CMainWindow::OnCommandClear
 // arguments:	void
 // returns:		void
-// function:	hides or shows the window
-void CMainWindow::OnCommandStatusIconHide()
+// function:	clears inactive items from lists
+void CMainWindow::OnCommandClear()
 {
-	if(IsWindowVisible()) {
-		ShowWindow(SW_HIDE);
-	} else {
-		ShowWindow(SW_SHOW);
+	int i;
+	for(i = 0; i < m_ProjectListCtrl.GetItemCount();) {
+		if(!m_ProjectListCtrl.GetItemData(i)) {
+			m_ProjectListCtrl.DeleteItem(i);
+		} else {
+			i ++;
+		}
+	}
+	for(i = 0; i < m_ResultListCtrl.GetItemCount();) {
+		if(!m_ResultListCtrl.GetItemData(i)) {
+			m_ResultListCtrl.DeleteItem(i);
+		} else {
+			i ++;
+		}
+	}
+	for(i = 0; i < m_XferListCtrl.GetItemCount();) {
+		if(!m_XferListCtrl.GetItemData(i)) {
+			m_XferListCtrl.DeleteItem(i);
+		} else {
+			i ++;
+		}
+	}
+	m_ContextItem = -1;
+}
+
+//////////
+// CMainWindow::OnCommandProjectRelogin
+// arguments:	void
+// returns:		void
+// function:	lets a user change the properties for an account
+void CMainWindow::OnCommandProjectRelogin()
+{
+	if(m_ContextItem < 0 || m_ContextItem > m_ProjectListCtrl.GetItemCount()) return;
+	PROJECT* toRelogin = (PROJECT*)m_ProjectListCtrl.GetItemData(m_ContextItem);
+	m_ContextItem = -1;
+	if(!toRelogin) return;
+
+	// find project index
+	int i;
+	for(i = 0; i < gstate.projects.size(); i ++) {
+		if(gstate.projects[i] == toRelogin) break;
+	}
+	if(i == gstate.projects.size()) return;
+
+	// get info and relogin
+    CLoginDialog dlg(IDD_LOGIN, gstate.projects[i]->master_url, gstate.projects[i]->authenticator);
+    int retval = dlg.DoModal();
+	if(retval == IDOK) {
+		gstate.change_project(i, dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
 	}
 }
 
 //////////
-// CMainWindow::OnCommandStatusIconQuit
+// CMainWindow::OnCommandProjectQuit
 // arguments:	void
 // returns:		void
-// function:	cleans up, closes and quits everything
-void CMainWindow::OnCommandStatusIconQuit()
+// function:	lets the user quit a project
+void CMainWindow::OnCommandProjectQuit()
 {
-	// quit
-	gstate.exit();
-	PostQuitMessage(0);
+	if(m_ContextItem < 0 || m_ContextItem > m_ProjectListCtrl.GetItemCount()) return;
+	PROJECT* toQuit = (PROJECT*)m_ProjectListCtrl.GetItemData(m_ContextItem);
+	m_ContextItem = -1;
+	if(!toQuit) return;
 
-	// status icon in taskbar
-	SetStatusIcon(ICON_OFF);
-
-	// clean up and delete objects
-	m_Font.DeleteObject();
-	m_TabBMP[0].DeleteObject();
-	m_TabBMP[1].DeleteObject();
-	m_TabBMP[2].DeleteObject();
-	m_TabBMP[3].DeleteObject();
-	m_TabBMP[4].DeleteObject();
-	m_TabIL.DeleteImageList();
-	m_MainMenu.DestroyMenu();
-
-	// free dll and idle detection
-	if(m_IdleDll) {
-		TermFn fn;
-		fn = (TermFn)GetProcAddress(m_IdleDll, "IdleTrackerTerm");
-		if(!fn) {
-			MessageUser("Error in DLL, can't find procedure \"IdleTrackerTerm\"", "low");
-		} else {
-			fn();
-		}
-		AfxFreeLibrary(m_IdleDll);
-		m_IdleDll = NULL;
+	// find project index
+	int i;
+	for(i = 0; i < gstate.projects.size(); i ++) {
+		if(gstate.projects[i] == toQuit) break;
 	}
+	if(i == gstate.projects.size()) return;
 
-	SaveUserSettings();
-	CWnd::OnClose();
+	// confirm and quit
+	CString str;
+	if(strcmp(gstate.projects[i]->project_name, "")) {
+		str.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->project_name);
+	} else {
+		str.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->master_url);
+	}
+	if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
+		gstate.quit_project(i);
+	}
+}
+
+//////////
+// CMainWindow::OnCommandHide
+// arguments:	void
+// returns:		void
+// function:	hides or shows the window
+void CMainWindow::OnCommandHide()
+{
+	CMenu* mainMenu;
+	CMenu* fileMenu;
+	mainMenu = GetMenu();
+	if(mainMenu) {
+		fileMenu = mainMenu->GetSubMenu(0);
+	}
+	if(IsWindowVisible()) {
+		ShowWindow(SW_HIDE);
+		if(fileMenu) {
+			fileMenu->CheckMenuItem(ID_FILE_HIDE, MF_CHECKED);
+		}
+	} else {
+		ShowWindow(SW_SHOW);
+		if(fileMenu) {
+			fileMenu->CheckMenuItem(ID_FILE_HIDE, MF_UNCHECKED);
+		}
+	}
 }
 
 //////////
@@ -1614,6 +2001,47 @@ void CMainWindow::OnCommandSuspend()
 }
 
 //////////
+// CMainWindow::OnCommandExit
+// arguments:	void
+// returns:		void
+// function:	cleans up, closes and quits everything
+void CMainWindow::OnCommandExit()
+{
+	// quit
+	gstate.exit();
+	PostQuitMessage(0);
+
+	// status icon in taskbar
+	SetStatusIcon(ICON_OFF);
+
+	// clean up and delete objects
+	m_Font.DeleteObject();
+	m_TabBMP[0].DeleteObject();
+	m_TabBMP[1].DeleteObject();
+	m_TabBMP[2].DeleteObject();
+	m_TabBMP[3].DeleteObject();
+	m_TabBMP[4].DeleteObject();
+	m_TabIL.DeleteImageList();
+	m_MainMenu.DestroyMenu();
+
+	// free dll and idle detection
+	if(m_IdleDll) {
+		TermFn fn;
+		fn = (TermFn)GetProcAddress(m_IdleDll, "IdleTrackerTerm");
+		if(!fn) {
+			MessageUser("", "Error in DLL \"boinc.dll\"", "low");
+		} else {
+			fn();
+		}
+		AfxFreeLibrary(m_IdleDll);
+		m_IdleDll = NULL;
+	}
+
+	SaveUserSettings();
+	CWnd::OnClose();
+}
+
+//////////
 // CMainWindow::OnCreate
 // arguments:	lpcs: a pointer to the create structure
 // returns:		0 if successful, otherwise -1
@@ -1629,13 +2057,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_IconState = ICON_OFF;
 	m_Message = false;
 	m_Suspend = false;
+	m_ContextItem = -1;
 
 	// load main menu
 	m_MainMenu.LoadMenu(IDR_MAINFRAME);
 	SetMenu(&m_MainMenu);
-
-	// load images
-	m_Logo.LoadBitmap(IDB_LOGO);
 
 	// create project list control
 	m_ProjectListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, PROJECT_ID);
@@ -1663,11 +2089,10 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// create usage pie control
 	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.SetTag(" GB");
-	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0, GetDiskSize() / (1024.0 * 1024.0 * 1024.0));
-	m_UsagePieCtrl.AddPiece("Space used", RGB(0, 0, 255), 0, 0);
-	m_UsagePieCtrl.AddPiece("Used by BOINC", RGB(255, 255, 0), 0, 0);
-	m_UsagePieCtrl.AddPiece("Space available to BOINC", RGB(255, 128, 0), 0, 0);
+	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0);
+	m_UsagePieCtrl.AddPiece("Space used", RGB(0, 0, 255), 0);
+	m_UsagePieCtrl.AddPiece("Used by BOINC", RGB(255, 255, 0), 0);
+	m_UsagePieCtrl.AddPiece("Space available to BOINC", RGB(255, 128, 0), 0);
 
 	// create message edit control
 	m_MessageEditCtrl.Create(ES_MULTILINE|ES_READONLY|WS_VSCROLL|WS_CHILD|WS_TABSTOP|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
@@ -1687,7 +2112,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabIL.Add(&m_TabBMP[4], RGB(255, 0, 255));
 
 	// create tab control
-	m_TabCtrl.Create(TCS_BUTTONS|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
+	m_TabCtrl.Create(TCS_FIXEDWIDTH|TCS_BUTTONS|TCS_FLATBUTTONS|TCS_FOCUSNEVER|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
 	m_TabCtrl.SetImageList(&m_TabIL);
 	m_TabCtrl.InsertItem(1, "Projects", 0);
 	m_TabCtrl.InsertItem(2, "Work", 1);
@@ -1720,7 +2145,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     read_log_flags();
     int retval = gstate.init();
     if (retval) {
-		OnCommandStatusIconQuit();
+		OnCommandExit();
 		return 0;
 	}
     SetTimer(ID_TIMER, 1000, TimerProc);
@@ -1728,17 +2153,17 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// load dll and start idle detection
 	m_IdleDll = AfxLoadLibrary("boinc.dll");
 	if(!m_IdleDll) {
-		MessageUser("Can't load \"boinc.dll\", will not be able to determine idle time", "high");
+		MessageUser("", "Can't load \"boinc.dll\", will not be able to determine idle time", "high");
 	} else {
 		InitFn fn;
 		fn = (InitFn)GetProcAddress(m_IdleDll, "IdleTrackerInit");
 		if(!fn) {
-			MessageUser("Error in DLL, can't find procedure \"IdleTrackerInit\"", "low");
+			MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
 			AfxFreeLibrary(m_IdleDll);
 			m_IdleDll = NULL;
 		} else {
 			if(!fn()) {
-				MessageUser("Error in DLL, can't create hooks", "low");
+				MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
 				AfxFreeLibrary(m_IdleDll);
 				m_IdleDll = NULL;
 			}
@@ -1774,24 +2199,28 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == RESULT_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_ResultListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == XFER_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_XferListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == USAGE_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == MESSAGE_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
@@ -1802,27 +2231,54 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 				m_Message = false;
 				SetStatusIcon(ICON_NORMAL);
 			}
+			m_MessageEditCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		}
-		Invalidate(false);
+		m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		RedrawWindow();
 	}
 	return CWnd::OnNotify(wParam, lParam, pResult);
 }
 
 //////////
-// CMainWindow::OnPaint
-// arguments:	void
+// CMainWindow::OnRButtonDown
+// arguments:	nFlags: message flags (keys down)
+//				point: mouse's point
 // returns:		void
-// function:	void
-void CMainWindow::OnPaint()
+// function:	shows context menu for list items
+void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	CWnd::OnPaint();
-	/*
-	CClientDC dc(this);
-	CDC logoDC;
-	logoDC.CreateCompatibleDC(&dc);
-	logoDC.SelectObject(&m_Logo);
-	dc.BitBlt(0,0,166,150,&logoDC,0,0,SRCCOPY);
-	*/
+	CMenu wholeMenu;
+	CMenu* contextMenu = NULL;
+	GetCursorPos(&point);
+	CRect rt;
+	CListCtrl* menuCtrl = NULL;
+	int menuId = -1;
+	if(m_ProjectListCtrl.IsWindowVisible()) {
+		menuCtrl = &m_ProjectListCtrl;
+		menuId = PROJECT_MENU;
+	} else if(m_ResultListCtrl.IsWindowVisible()) {
+		menuCtrl = &m_ResultListCtrl;
+		menuId = RESULT_MENU;
+	} else if(m_XferListCtrl.IsWindowVisible()) {
+		menuCtrl = &m_XferListCtrl;
+		menuId = XFER_MENU;
+	}
+	if(menuCtrl) {
+		for(int i = 0; i < menuCtrl->GetItemCount(); i ++) {
+			menuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
+			menuCtrl->ClientToScreen(&rt);
+			if(rt.PtInRect(point)) {
+				wholeMenu.LoadMenu(IDR_CONTEXT);
+				contextMenu = wholeMenu.GetSubMenu(menuId);
+				if(contextMenu) {
+					contextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+					m_ContextItem = i;
+				}
+				break;
+			}
+		}
+	}
+	//CWnd::OnRButtonDown(nFlags, point);
 }
 
 //////////
@@ -1868,12 +2324,28 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 
 		// calculate the rects for other controls inside the tab control
 		RECT srt = {rt.left+EDGE_BUFFER, irt.bottom+EDGE_BUFFER*2, rt.right-EDGE_BUFFER, rt.bottom-EDGE_BUFFER};
-		if(m_ProjectListCtrl.GetSafeHwnd()) m_ProjectListCtrl.MoveWindow(&srt, false);
-		if(m_ResultListCtrl.GetSafeHwnd()) m_ResultListCtrl.MoveWindow(&srt, false);
-		if(m_XferListCtrl.GetSafeHwnd()) m_XferListCtrl.MoveWindow(&srt, false);
-		if(m_UsagePieCtrl.GetSafeHwnd()) m_UsagePieCtrl.MoveWindow(&srt, false);
-		if(m_MessageEditCtrl.GetSafeHwnd()) m_MessageEditCtrl.MoveWindow(&srt, false);
-		Invalidate(true);
+		if(m_ProjectListCtrl.GetSafeHwnd()) {
+			m_ProjectListCtrl.MoveWindow(&srt, false);
+			m_ProjectListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		}
+		if(m_ResultListCtrl.GetSafeHwnd()) {
+			m_ResultListCtrl.MoveWindow(&srt, false);
+			m_ResultListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		}
+		if(m_XferListCtrl.GetSafeHwnd()) {
+			m_XferListCtrl.MoveWindow(&srt, false);
+			m_XferListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		}
+		if(m_UsagePieCtrl.GetSafeHwnd()) {
+			m_UsagePieCtrl.MoveWindow(&srt, false);
+			m_UsagePieCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+		}
+		if(m_MessageEditCtrl.GetSafeHwnd()) {
+			m_MessageEditCtrl.MoveWindow(&srt, false);
+			m_MessageEditCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+		}
+		m_TabCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+		RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	}
 }
 
@@ -1887,46 +2359,43 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 //				double click: alternates visibility of window
 LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 {
-	if(gstate.projects.size() != 0) {
-		if(lParam == WM_RBUTTONDOWN) {
-			CPoint point;
-			SetForegroundWindow();
-			GetCursorPos(&point);
-			CMenu menu, *submenu;
-			if(!menu.LoadMenu(IDR_STATUS_ICON)) {
-				return FALSE;
-			}
-			submenu = menu.GetSubMenu(0);
-			if(!submenu) {
-				menu.DestroyMenu();
-				return FALSE;
-			}
-			if(IsWindowVisible()) {
-				submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_UNCHECKED);
-			} else {
-				submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_CHECKED);
-			}
-			if(m_Suspend) {
-				submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_CHECKED);
-			} else {
-				submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_UNCHECKED);
-			}
-			submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
-			menu.DestroyMenu();
-		} else if(lParam == WM_LBUTTONDOWN) {
-			if(IsWindowVisible()) {
-				SetForegroundWindow();
-			}
-		} else if(lParam == WM_LBUTTONDBLCLK) {
-			if(IsWindowVisible()) {
-				ShowWindow(SW_HIDE);
-			} else {
-				ShowWindow(SW_SHOW);
-			}
+	if(lParam == WM_RBUTTONDOWN) {
+		CPoint point;
+		SetForegroundWindow();
+		GetCursorPos(&point);
+		CMenu menu, *submenu;
+		if(!menu.LoadMenu(IDR_CONTEXT)) {
+			return FALSE;
 		}
-	 	return TRUE;
+		submenu = menu.GetSubMenu(STATUS_MENU);
+		if(!submenu) {
+			menu.DestroyMenu();
+			return FALSE;
+		}
+		if(IsWindowVisible()) {
+			submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_UNCHECKED);
+		} else {
+			submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_CHECKED);
+		}
+		if(m_Suspend) {
+			submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_CHECKED);
+		} else {
+			submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_UNCHECKED);
+		}
+		submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+		menu.DestroyMenu();
+	} else if(lParam == WM_LBUTTONDOWN) {
+		if(IsWindowVisible()) {
+			SetForegroundWindow();
+		}
+	} else if(lParam == WM_LBUTTONDBLCLK) {
+		if(IsWindowVisible()) {
+			ShowWindow(SW_HIDE);
+		} else {
+			ShowWindow(SW_SHOW);
+		}
 	}
-	return FALSE;
+	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -1943,8 +2412,10 @@ END_MESSAGE_MAP()
 // arguments:	y: dialog box resource id
 // returns:		void
 // function:	calls parents contructor.
-CLoginDialog::CLoginDialog(UINT y) : CDialog(y)
+CLoginDialog::CLoginDialog(UINT y, LPCTSTR url, LPCTSTR auth) : CDialog(y)
 {
+	m_url.Format("%s", url);
+	m_auth.Format("%s", auth);
 }
 
 //////////
@@ -1955,6 +2426,14 @@ CLoginDialog::CLoginDialog(UINT y) : CDialog(y)
 BOOL CLoginDialog::OnInitDialog() 
 {
     CDialog::OnInitDialog();
+	CWnd* wurl = GetDlgItem(IDC_LOGIN_URL);
+	if(wurl) {
+		wurl->SetWindowText(m_url);
+	}
+	CWnd* wauth = GetDlgItem(IDC_LOGIN_AUTH);
+	if(wauth) {
+		wauth->SetWindowText(m_auth);
+	}
 	CWnd* toFocus = GetDlgItem(IDC_LOGIN_URL);
 	if(toFocus) toFocus->SetFocus();
     CenterWindow();
@@ -1993,7 +2472,8 @@ BOOL CLoginDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 		pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
 
 		// idFrom is actually the HWND of the tool
-		nID = ::GetDlgCtrlID((HWND)nID);
+		CWnd* wnd = CWnd::FromHandle((HWND)nID);
+		if(wnd) nID = wnd->GetDlgCtrlID();
 	}
 
 	if(nID == IDC_LOGIN_URL) strTipText.Format("The url for the website of the project.");
@@ -2087,7 +2567,8 @@ BOOL CQuitDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 		pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
 
 		// idFrom is actually the HWND of the tool
-		nID = ::GetDlgCtrlID((HWND)nID);
+		CWnd* wnd = CWnd::FromHandle((HWND)nID);
+		if(wnd) nID = wnd->GetDlgCtrlID();
 	}
 
 	if(nID == IDC_LIST) strTipText.Format("Select the project you wish to quit.");

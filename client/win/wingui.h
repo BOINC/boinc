@@ -27,7 +27,7 @@
 #include <afxtempl.h>
 #include <afxcoll.h>
 #include <afxext.h>
-#include <afxhtml.h>
+#include <Tlhelp32.h>
 #include <math.h>
 #include "filesys.h"
 #include "log_flags.h"
@@ -37,6 +37,12 @@
 #include "win_net.h"
 
 // constants
+
+#define WND_TITLE			"BOINC"		// window's title
+
+#ifndef IDC_HAND
+#define IDC_HAND			MAKEINTRESOURCE(32649)	// hand pointer, the "hidden resource"
+#endif
 
 #define ICON_OFF			0			// remove icon
 #define ICON_NORMAL			1			// normal icon
@@ -53,6 +59,8 @@
 
 #define ID_TIMER			104			// timer id
 
+#define PIE_MAJOR_MAX		0.25		// max size of the screen of the pie's major axis
+#define PIE_MINOR_MAX		0.25		// max size of the screen of the pie's minor axis
 #define PIE_BUFFER			20			// buffer pixels around edge of pie chart
 #define PIE_DEPTH			0.25		// depth of pie chart
 #define PI					3.14159		// pi
@@ -77,6 +85,7 @@ public:
 protected:
 	afx_msg void			OnLButtonDown(UINT, CPoint);
 	afx_msg void			OnLButtonUp(UINT, CPoint);
+	afx_msg void			OnRButtonDown(UINT, CPoint);
     DECLARE_MESSAGE_MAP()
 };
 
@@ -110,8 +119,12 @@ public:
 	void					SetItemProgress(int, int, int);
 	void					RepositionProgress();
 	int						InsertColumn(int, LPCTSTR, int, int, int);
+	int						InsertItem(int, LPCTSTR);
+	void					GetTextRect(int, int, LPRECT);
 	int						GetColumnWidth(int);
 	BOOL					SetColumnWidth(int, int);
+	void					SetItemColor(int, COLORREF);
+	void					SetProjectURL(int, char*);
 
 protected:
 	CMenu					m_PopupMenu;			// context menu for header
@@ -119,6 +132,9 @@ protected:
 	CProgressHeaderCtrl		m_Header;				// header for subclassing
 	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
 	int						m_iSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
+	CFont*					m_OldFont;				// old font for setting subitem font
+	CArray<COLORREF,COLORREF>		m_ItemColors;	// special colors of items
+	CArray<CString,CString>			m_ProjectURLs;	// urls for project links
 
 	void					SwapItems(int, int);
 	// TODO: fix selection sort algorithm
@@ -129,8 +145,11 @@ protected:
     afx_msg int				OnCreate(LPCREATESTRUCT);
     afx_msg void			OnDestroy();
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
+	afx_msg void			OnCustomDraw(NMHDR*, LRESULT*);
 	afx_msg void			OnPaint();
 	// TODO: context menu for items?
+	afx_msg BOOL			OnSetCursor(CWnd*, UINT, UINT);
+	afx_msg void			OnLButtonDown(UINT, CPoint);
 	afx_msg void			OnRButtonDown(UINT, CPoint);
     DECLARE_MESSAGE_MAP()
 };
@@ -143,24 +162,22 @@ class CPieChartCtrl : public CWnd
 {
 public:
 							CPieChartCtrl();
-	void					AddPiece(LPTSTR, COLORREF, float, float);
-	void					SetPiece(int, float);
+	void					AddPiece(LPTSTR, COLORREF, double);
+	void					SetPiece(int, double);
 	BOOL					Create(DWORD, const RECT&, CWnd*, UINT);
 	void					SetFont(CFont*);
-	void					SetTag(char*);
+	void					SetTotal(double);
 
 protected:
-	float					m_Total;				// total percentage taken up by pieces
-	CArray<float,float>		m_Percents;				// specific percentages of pieces
+	double					m_total;				// total amount of pie
+	CArray<double,double>	m_Values;				// specific values of pieces
 	CArray<COLORREF,COLORREF>		m_Colors;		// colors of pieces
 	CArray<CString,CString>			m_Labels;		// labels of pieces
 	CFont*					m_Font;					// font for control
-	float					m_Base;					// base units of pie
-	CString					m_Tag;					// tag for numbers on labels
 
-	void					DrawPiePiece(CDC*, float, float);
-	void					CirclePoint(CPoint*, int, float, CPoint*);
-	void					EllipsePoint(CRect*, float, CPoint*);
+	void					DrawPiePiece(CDC*, double, double);
+	void					CirclePoint(CPoint*, int, double, CPoint*);
+	void					EllipsePoint(CRect*, double, CPoint*);
 
 	afx_msg void			OnPaint();
     DECLARE_MESSAGE_MAP()
@@ -187,13 +204,11 @@ public:
 							CMainWindow ();
 	static void CALLBACK	TimerProc(HWND, UINT, UINT, DWORD);
 	void					UpdateGUI(CLIENT_STATE*);
-	void					MessageUser(char*,char*);
-	int						GetInitialProject();
+	void					MessageUser(char*,char*,char*);
     BOOL					IsSuspended();
 
 protected:
 	CMenu					m_MainMenu;				// window's main menu
-	CBitmap					m_Logo;					// bitmap of the boinc logo
 	CProgressListCtrl		m_ProjectListCtrl;		// list control
 	CProgressListCtrl		m_XferListCtrl;			// list control
 	CProgressListCtrl		m_ResultListCtrl;		// list control
@@ -207,6 +222,7 @@ protected:
 	int						m_IconState;			// state of the status icon
 	BOOL					m_Message;				// does the user have a new message?
 	BOOL					m_Suspend;				// should apps be suspended?
+	int						m_ContextItem;			// item selected for context menu
 
     void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
@@ -219,13 +235,15 @@ protected:
 	afx_msg void			OnCommandAccountQuit();
 	afx_msg void			OnCommandAccountLogin();
 	afx_msg void			OnCommandHelpAbout();
-	afx_msg void			OnCommandFileClose();
-	afx_msg void			OnCommandStatusIconHide();
-	afx_msg void			OnCommandStatusIconQuit();
+	afx_msg void			OnCommandProjectRelogin();
+	afx_msg void			OnCommandProjectQuit();
+	afx_msg void			OnCommandClear();
+	afx_msg void			OnCommandHide();
 	afx_msg void			OnCommandSuspend();
+	afx_msg void			OnCommandExit();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
-    afx_msg void			OnPaint();
+	afx_msg void			OnRButtonDown(UINT, CPoint);
     afx_msg void			OnSetFocus(CWnd*);
     afx_msg void			OnSize(UINT, int, int);
 	afx_msg LRESULT			OnStatusIcon(WPARAM, LPARAM);
@@ -239,7 +257,7 @@ protected:
 class CLoginDialog : public CDialog 
 {
 public:
-							CLoginDialog(UINT);
+							CLoginDialog(UINT, LPCTSTR, LPCTSTR);
 	afx_msg BOOL			OnInitDialog();
 	CString					m_url;
 	CString					m_auth;
