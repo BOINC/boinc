@@ -67,6 +67,9 @@ public:
     int http_op_state;     // values below
     int http_op_type;
     int http_op_retval;
+    bool use_proxy;
+    int proxy_server_port;
+    char proxy_server_name[256];
 
     int init_head(char* url);
     int init_get(char* url, char* outfile, bool del_old_file, double offset=0);

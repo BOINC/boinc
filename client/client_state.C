@@ -916,16 +916,13 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             max_transfer_rate = atoi(argv[++i]);
             continue;
         };
-        
-        if (!strcmp(argv[i], "-proxy")) {
-            use_proxy = 1;
-            parse_url(argv[++i], proxy_server_name, proxy_server_port, temp);
-        }
     }
 
     if ((p = getenv("HTTP_PROXY"))) {
-        use_proxy = 1;
-        parse_url(p, proxy_server_name, proxy_server_port, temp);
+        if (strlen(p) > 0) {
+            use_proxy = true;
+            parse_url(p, proxy_server_name, proxy_server_port, temp);
+        }
     }
 }
 

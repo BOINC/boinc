@@ -56,7 +56,6 @@
 #include <time.h>
 #include <string.h>
 
-#include "client_state.h"
 #include "error_numbers.h"
 #include "log_flags.h"
 #include "net_xfer.h"
@@ -73,12 +72,7 @@ int NET_XFER::open_server() {
     hostent* hep;
     int fd=0, ipaddr, retval=0;
 
-    if (gstate.use_proxy) {
-        hep = gethostbyname(gstate.proxy_server_name);
-        port = gstate.proxy_server_port;
-    } else {
-        hep = gethostbyname(hostname);
-    }
+    hep = gethostbyname(hostname);
     if (!hep) {
         fprintf(stderr, "can't resolve hostname %s\n", hostname);
         return ERR_GETHOSTBYNAME;
