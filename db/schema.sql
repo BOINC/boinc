@@ -292,7 +292,7 @@ create table lang (
 -- user profile (description, pictures)
 --
 create table profile (
-    userid              integer     not null auto_increment,
+    userid              integer     not null,
     language            varchar(254),
     response1           text,
     response2           text,
