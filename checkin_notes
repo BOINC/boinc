@@ -16394,3 +16394,14 @@ Karl 2004-08-14
     doc/
         software.php
         build_server.php
+
+David  14 Aug 2004
+    - fix compile error
+    - check bind/listen failure in GUI RPC code
+    - added boinc_close_socket()
+
+    client/
+        gui_rpc_server.C
+        net_xfer.C
+    lib/
+        util.C,h

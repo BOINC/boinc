@@ -252,10 +252,11 @@ int NET_XFER::open_server() {
 void NET_XFER::close_socket() {
 #ifdef WIN32
     NetClose();
-    if (socket) closesocket(socket);
-#else
-    if (socket) close(socket);
 #endif
+    if (socket) {
+        boinc_close_socket(socket);
+        socket = 0;
+    }
 }
 
 void NET_XFER::init(char* host, int p, int b) {

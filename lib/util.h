@@ -40,6 +40,7 @@ extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);
 extern double dtime();
 extern void boinc_sleep(double);
+extern void boinc_close_socket(int);
 extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
 extern void c2x(char *what);

@@ -223,6 +223,14 @@ void boinc_sleep(double seconds) {
 #endif
 }
 
+void boinc_close_socket(int sock) {
+#ifdef _WIN32
+    closesocket(sock);
+#else
+    close(sock);
+#endif
+}
+
 // take a string containing some space separated words.
 // return an array of pointers to the null-terminated words.
 // Modifies the string arg.

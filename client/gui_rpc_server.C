@@ -60,11 +60,7 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) {
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
-#ifdef _WIN32
-	closesocket(sock);
-#else
-    close(sock);
-#endif
+	boinc_close_socket(sock);
 }
 
 static void handle_get_project_status(MIOFILE& fout) {
@@ -415,11 +411,15 @@ int GUI_RPC_CONN_SET::init() {
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
+        boinc_close_socket(lsock);
+        lsock = -1;
         return ERR_BIND;
     }
     retval = listen(lsock, 999);
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d\n", retval);
+        boinc_close_socket(lsock);
+        lsock = -1;
         return ERR_LISTEN;
     }
     return 0;
@@ -427,91 +427,85 @@ int GUI_RPC_CONN_SET::init() {
 
 bool GUI_RPC_CONN_SET::poll() {
     int n = 0;
+    unsigned int i;
+    fd_set read_fds, error_fds;
+    int sock, retval;
+    vector<GUI_RPC_CONN*>::iterator iter;
+    GUI_RPC_CONN* gr;
+    struct timeval tv;
 
-    if (lsock >= 0) {
-        unsigned int i;
-        fd_set read_fds, error_fds;
-        int sock, retval;
-        vector<GUI_RPC_CONN*>::iterator iter;
-        GUI_RPC_CONN* gr;
-        struct timeval tv;
+    if (lsock < 0) return false;
+    FD_ZERO(&read_fds);
+    FD_ZERO(&error_fds);
+    FD_SET(lsock, &read_fds);
+    for (i=0; i<gui_rpcs.size(); i++) {
+        gr = gui_rpcs[i];
+        FD_SET(gr->sock, &read_fds);
+        FD_SET(gr->sock, &error_fds);
+    }
 
-        FD_ZERO(&read_fds);
-        FD_ZERO(&error_fds);
-        FD_SET(lsock, &read_fds);
-        for (i=0; i<gui_rpcs.size(); i++) {
-            gr = gui_rpcs[i];
-            FD_SET(gr->sock, &read_fds);
-            FD_SET(gr->sock, &error_fds);
+    memset(&tv, 0, sizeof(tv));
+    n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
+    if (FD_ISSET(lsock, &read_fds)) {
+        struct sockaddr_in addr;
+
+        socklen_t addr_len = sizeof(addr);
+        sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+
+        int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
+
+        // check list of allowed remote hosts
+        bool allowed = false;
+        vector<int>::iterator remote_iter;
+
+        remote_iter = allowed_remote_ip_addresses.begin();
+        while (remote_iter != allowed_remote_ip_addresses.end() ) {
+            int remote_host = *remote_iter;
+            if (peer_ip == remote_host) allowed = true;
+            remote_iter++;
         }
-
-        memset(&tv, 0, sizeof(tv));
-        n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
-        if (FD_ISSET(lsock, &read_fds)) {
-            struct sockaddr_in addr;
-
-            socklen_t addr_len = sizeof(addr);
-            sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
-
-            int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
-
-            // check list of allowed remote hosts
-            bool allowed = false;
-            vector<int>::iterator remote_iter;
- 
-            remote_iter = allowed_remote_ip_addresses.begin();
-            while (remote_iter != allowed_remote_ip_addresses.end() ) {
-                int remote_host = *remote_iter;
-                if (peer_ip == remote_host) allowed = true;
-                remote_iter++;
-            }
-             
-            // accept the connection if:
-            // 1) allow_remote_gui_rpc is set or
-            // 2) client host is included in "remote_hosts" file or
-            // 3) client is on localhost
-            //
-            if ( !(gstate.allow_remote_gui_rpc) && !(allowed)) {
-                in_addr ia;
-                ia.s_addr = peer_ip;
-                msg_printf(
-                    NULL, MSG_ERROR,
-                    "GUI RPC request from non-allowed address %s\n",
-                    inet_ntoa(htonl(ia))
-                );
-#ifdef _WIN32
-                closesocket(sock);
-#else
-                close(sock);
-#endif
-            } else {
-                GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
-                insert(gr);
-            }
+         
+        // accept the connection if:
+        // 1) allow_remote_gui_rpc is set or
+        // 2) client host is included in "remote_hosts" file or
+        // 3) client is on localhost
+        //
+        if ( !(gstate.allow_remote_gui_rpc) && !(allowed)) {
+            in_addr ia;
+            ia.s_addr = htonl(peer_ip);
+            msg_printf(
+                NULL, MSG_ERROR,
+                "GUI RPC request from non-allowed address %s\n",
+                inet_ntoa(ia)
+            );
+            boinc_close_socket(sock);
+        } else {
+            GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
+            insert(gr);
         }
-        iter = gui_rpcs.begin();
-        while (iter != gui_rpcs.end()) {
-            gr = *iter;
-            if (FD_ISSET(gr->sock, &error_fds)) {
-                delete gr;
-                gui_rpcs.erase(iter);
-            } else {
-                iter++;
-            }
-        }
-        iter = gui_rpcs.begin();
-        while (iter != gui_rpcs.end()) {
-            gr = *iter;
-            if (FD_ISSET(gr->sock, &read_fds)) {
-                retval = gr->handle_rpc();
-                if (retval) {
-                    delete gr;
-                    gui_rpcs.erase(iter);
-                    continue;
-                }
-            }
+    }
+    iter = gui_rpcs.begin();
+    while (iter != gui_rpcs.end()) {
+        gr = *iter;
+        if (FD_ISSET(gr->sock, &error_fds)) {
+            delete gr;
+            gui_rpcs.erase(iter);
+        } else {
             iter++;
         }
     }
-    return (n != 0);
+    iter = gui_rpcs.begin();
+    while (iter != gui_rpcs.end()) {
+        gr = *iter;
+        if (FD_ISSET(gr->sock, &read_fds)) {
+            retval = gr->handle_rpc();
+            if (retval) {
+                delete gr;
+                gui_rpcs.erase(iter);
+                continue;
+            }
+        }
+        iter++;
+    }
+    return (n > 0);
 }
