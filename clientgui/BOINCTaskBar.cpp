@@ -83,7 +83,10 @@ void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     if ( NULL != pFrame )
+	{
         pFrame->Show();
+        pFrame->SendSizeEvent();
+	}
 }
 
 
@@ -277,7 +280,10 @@ void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     if ( NULL != pFrame )
+	{
         pFrame->Show();
+        pFrame->SendSizeEvent();
+	}
 }
 
 

@@ -156,6 +156,12 @@ bool CBOINCGUIApp::OnInit()
     SetTopWindow(m_pFrame);
     if (m_bFrameVisible)
         m_pFrame->Show();
+	else
+	{
+        m_pFrame->Show();
+        m_pFrame->Show(false);
+	}
+
 
     return true;
 }

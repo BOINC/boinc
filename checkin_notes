@@ -24510,3 +24510,16 @@ David  10 Feb 2005
         boinc_cmd.C (new)
         gui_rpc_client.C,h
         gui_test.C (removed)
+
+Rom    10 Feb 2005
+    - Bug Fix: Inconsistant window state was causing the BOINC Manager to
+        be blank on startup, basically either wxWidgets or Windows wasn't
+        properly dealing with the Window state changes and the client
+        would believe it was not being displayed when in fact it was on
+        the screen.  When the window was hidden from view, it would
+        skip updating any of the controls.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        MainFrame.cpp
