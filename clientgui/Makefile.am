@@ -34,8 +34,9 @@ boincgui_SOURCES = \
     ../lib/parse.C \
     ../lib/util.C
 
-boincgui_CPPFLAGS = $(AM_CPPFLAGS) -O3
-boincgui_LDADD = $(PTHREAD_LIBS)
+boincgui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS) -O3
+boincgui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS) -O3
+boincgui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS) $(CLIENTGUILIBS)
 
 all-local: client-bin
 client-bin: @CLIENT_BIN_FILENAME@

@@ -19836,3 +19836,17 @@ David  18 Nov 2004
         client_state.C,h
         cs_prefs.C
         main.C
+
+Bruce 19 Nov 2004 UTC
+    - Clean fix automake/autoconf to build graphical core client.  David, I don't
+      have a Mac OSX box handy to test this on. I followed your hints in Makefile.old.
+      If you need to modify the Mac build flags, it is trivial, just search for ${host}
+      in configure.ac and you'll see.
+    - Removed obsolete aclocal.m4 file from CVS: it is build by the ./_autosetup script
+    - Added some more files to .cvsignore
+
+    .cvsignore
+    aclocal.m4
+    configure.ac
+    clientgui/
+      Makefile.am

@@ -11,6 +11,16 @@ AC_PREREQ(2.57)
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.56)
 
+WXCONFIG=wx-config
+AC_ARG_WITH(wx-config,
+[[  --with-wx-config=FILE     Use the given path to wx-config when determining
+                            wxWidgets configuration; defaults to "wx-config"]],
+[
+    if test "$withval" != "yes" -a "$withval" != ""; then
+        WXCONFIG=$withval
+    fi
+])
+
 AC_ARG_ENABLE(server, 
     AC_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
@@ -41,6 +51,30 @@ else
         exit 1
     fi
 fi
+
+dnl If building the client, check for existence of wxWidgets
+if test "${enable_client}" = yes ; then
+   AC_MSG_CHECKING([wxWidgets version])
+   if wxversion=`$WXCONFIG --version`; then
+       AC_MSG_RESULT([$wxversion])
+   else
+       AC_MSG_RESULT([not found])
+       AC_MSG_ERROR([wxWidgets is required. Try --with-wx-config.])
+   fi
+
+WX_CPPFLAGS="`$WXCONFIG --cppflags`"
+WX_CXXFLAGS="`$WXCONFIG --cxxflags | sed -e 's/-fno-exceptions//'`"
+WX_LIBS="`$WXCONFIG --libs`"
+
+#CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
+#CXXFLAGS="$CXXFLAGS $WX_CPPFLAGS"
+
+AC_SUBST(WX_LIBS)
+AC_SUBST(WX_CPPFLAGS)
+AC_SUBST(WX_CXXFLAGS)
+
+fi
+
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
 
@@ -205,6 +239,29 @@ if test -e "/proc/meminfo"; then
     AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
 fi
 
+dnl This is one way to set up host-specific stuff
+case "${host}" in
+      *-*-linux*)
+           dnl no taskbar support in wxWidgets
+ 	  CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
+	  AC_SUBST(CLIENTGUIFLAGS)
+	  AC_SUBST(CLIENTGUILIBS) ;;
+      *-*-darwin*)
+           dnl no taskbar support in wxWidgets
+          CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
+	  CLIENTGUILIBS="-framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System  -licon -framework WebKit";
+	  AC_SUBST(CLIENTGUIFLAGS)
+	  AC_SUBST(CLIENTGUILIBS) ;;
+esac
+
+dnl Here's another way to set up host-specific stuff
+AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
+AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
+dnl In case anyone wants to try building the windows code using mingw!
+AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
+
+
+
 dnl  by default, create static binaries on linux.
 dnl [if [ "$target_os" = "linux-gnu" ]; then
 dnl     STATIC_FLAGS="-static"
@@ -222,6 +279,7 @@ AC_CONFIG_FILES([Makefile
                  boincglut/include/Makefile
                  apps/Makefile
                  client/Makefile
+                 clientgui/Makefile
                  db/Makefile
                  lib/Makefile
                  sched/Makefile
