@@ -16905,8 +16905,8 @@ David  2 Sept 2004
 
 Rom    2 Sep 2004
     - BUGFIX: The active task destructor also tried to clean up dangling handles, so
-      after cleaning up a handle lets also set the handle value to NULL to keep it from
-      being acted on again.
+          after cleaning up a handle lets also set the handle value to NULL to keep it from
+          being acted on again.
 
     client/
         app.C
@@ -16927,3 +16927,11 @@ David  2 Sept 2004
 		client_types.C
 		gui_titles.C
 		pers_file_xfer.C
+
+Rom    2 Sep 2004
+    - BUGFIX: During a project reset the next_runnable_result becomes invalid, so each
+          time we go through the loop reset all next_runnable_result to NULL so we don't
+          crash.
+
+    client/
+        cs_apps.C

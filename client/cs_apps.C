@@ -378,11 +378,13 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
 
     // compute total resource share among projects with runnable results
     //
+    for (i=0; i < projects.size(); ++i) {
+        projects[i]->next_runnable_result = NULL;
+    }
     assign_results_to_projects(); // do this to see which projects have work
     adjusted_total_resource_share = 0;
     for (i=0; i < projects.size(); ++i) {
-        p = projects[i];
-        if (p->next_runnable_result != NULL) {
+        if (projects[i]->next_runnable_result != NULL) {
             adjusted_total_resource_share += projects[i]->resource_share;
         }
     }
