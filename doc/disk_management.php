@@ -317,17 +317,43 @@ a workunit or result template, the default information is replaced.
 &lt;exp_days&gt;(int; # of days to keep)&lt;exp_days&gt; 
 </blockquote>
 
-<h2>TODO: Future Additions (in progress)</h2>
-<h3>Scheduling Server Changes</h3>
-<p>
-The client should communicate three values of disk space to the server.  
+<h2>Scheduling Server Changes</h2>
+<p>The client communicates three values of disk usage to the server. 
 <ol>
-  <li>The amount of free PDS</li>
-  <li>The amount of free PDS if the client were to delete low priority files</li>
-  <li>The amount of free PDS if the client were to delete high priority files</li>
+  <li>The amount of free_space</li>
+  <li>The amount of free_space if the client were to delete files from offending 
+    projects</li>
+  <li>The amount of free_space if the client were to delete files from offending 
+    projects &amp; itself</li>
 </ol>
 <p>
-The server can then make a more educated decision on how much work to send 
-to a client. It can also assume that this space is guaranteed because it was 
-found doing the same process it would have used to delete the same amount of 
-space. 
+The server will assign workunits normally using the first amount. If no workunits 
+were assigned, a second pass of the database is made using the second amount. 
+If no workunits were assigned and the following is in the config.xml:
+<blockquote>&lt;delete_from_self/&gt;</blockquote>
+<p>
+the third amound of free_space is used and a third pass of the database is 
+made. Return whatever workunits were deemed acceptable for the host. 
+<p>
+Under most circumstances, the amount of free_space will be enough to get workunits 
+for a project. If a project has larger workunits (&gt; 1 gb) or the host is 
+storing many files for a project, amounts 2 &amp; 3 become more important. The 
+amount of free_space if files are deleted is found by: 
+<ul>
+  <li>For offending projects, marking files that could be deleted up to where 
+    the project is no longer an offender</li>
+  <li>For the requesing project, marking all files that could be deleted 
+    <ul>
+      <li>Files that are not expired are never included if <i>deletion_policy_expire</i> 
+        is true</li>
+    </ul>
+  </li>
+</ul>
+<h2>TODO: Future Changes</h2>
+<p>
+There is currently a method for requesting a list of files from the project. 
+There needs to be a way to communicate the information back to the project, 
+such as an xml doc that can be parsed by the project.</p>
+<p>
+There also needs to be a database, separate from the scheduling database, which 
+keeps track of the files on host's clients. </p>
