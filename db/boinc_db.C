@@ -1137,7 +1137,7 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    stderr_out='%s', "
         "    xml_doc_out='%s', "
         "    validate_state=%d, "
-        "    teamid=%d "          // Seems not to be used in handle_request.C
+        "    teamid=%d "
         "WHERE "
         "    id=%d",
         ri.hostid,
