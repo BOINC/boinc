@@ -16079,7 +16079,7 @@ David  7 Aug 2004
     client/
         gui_rpc_server.C
 
-Daniel 2004-08-06
+Daniel 2004-08-09
     - client:
         - check for exited apps right before (re)starting them for any
           reason (unsuspend_all(), resume_or_start())
@@ -16207,3 +16207,11 @@ David  11 Aug 2004
 
     db/
         boinc_db.C
+
+Daniel 2004-08-11
+    - client: #include fixes for app.C refactoring
+
+    client/
+        app_control.C
+        app_start.C
+

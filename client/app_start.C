@@ -27,6 +27,12 @@
 #if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
 #endif
+#if HAVE_SYS_RESOURCE_H
+#include <sys/resource.h>
+#endif
+#if HAVE_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
 #include <unistd.h>
 #endif
 
