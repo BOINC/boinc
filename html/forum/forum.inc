@@ -17,9 +17,17 @@ $forum_sort_styles['modified-old'] = "Least recent post first";
 $forum_sort_styles['views-most'] = "Most views first";
 $forum_sort_styles['replies-most'] = "Most posts first";
 
-$thread_sort_styles['date-old'] = "Oldest first";
-$thread_sort_styles['date-new'] = "Newest first";
-$thread_sort_styles['rating-high'] = "Highest rated first";
+$faq_sort_styles['create_time'] = "Most recent question first";
+$faq_sort_styles['timestamp'] = "Most recent answer first";
+$faq_sort_styles['sufferers'] = "Most often asked first";
+$faq_sort_styles['activity'] = "Highest score first";
+
+$answer_sort_styles['score'] = "Highest score first";
+$answer_sort_styles['timestamp'] = "Most recent first";
+
+$thread_sort_styles['timestamp'] = "Newest first";
+$thread_sort_styles['timestamp_asc'] = "Oldest first";
+$thread_sort_styles['score'] = "Highest rated first";
 
 $thread_filter_styles['2'] = "\"Very helpful\"";
 $thread_filter_styles['1'] = "At least \"helpful\"";
@@ -51,58 +59,64 @@ function getForums($categoryID) {
   return mysql_query($sql);
 }
 
-function getThreads($forumID, $min = -1, $nRec = -1, $sort_style='modified-new') {
+function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new') {
     $sql = 'SELECT * FROM thread WHERE forum = ' . $forumID;
     switch($sort_style) {
         case 'modified-new':
-            $sql = $sql . ' ORDER BY timestamp DESC';
+            $sql .= ' ORDER BY timestamp DESC';
             break;
         case 'modified-old':
-            $sql = $sql . ' ORDER BY timestamp ASC';
+            $sql .= ' ORDER BY timestamp ASC';
             break;
         case 'views-most':
-            $sql = $sql . ' ORDER BY views DESC';
+            $sql .= ' ORDER BY views DESC';
             break;
         case 'replies-most':
-            $sql = $sql . ' ORDER BY replies DESC';
+            $sql .= ' ORDER BY replies DESC';
             break;
-//        case 'activity-most':
-//            $sql = $sql . ' ORDER by activity DESC, timestamp DESC';
-//            break;
-        case 'help-activity-most':
-            $sql = $sql . ' ORDER by sufferers DESC';
+        case 'create_time':
+            $sql .= ' ORDER by create_time desc';
+            break;
+        case 'timestamp':
+            $sql .= ' ORDER by timestamp desc';
+            break;
+        case 'sufferers':
+            $sql .= ' ORDER by sufferers desc';
+            break;
+        case 'activity':
+            $sql .= ' ORDER by activity desc';
+            break;
+        case 'score':
+            $sql .= ' ORDER by score desc';
             break;
     }
     if ($min > -1) {
         $sql .= ' LIMIT '.$min;
-            if ($nRec > -1) {
-                $sql .= ', '.$nRec;
-            }
+        if ($nRec > -1) {
+            $sql .= ', '.$nRec;
+        }
     } else if ($nRec > -1) {
         $sql .= ' LIMIT '.$nRec;
-  }
+    }
 
-  return mysql_query($sql);
+    return mysql_query($sql);
 }
 
-function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="date-old") {
-    $sql = 'SELECT *, (score * votes) AS rating FROM post WHERE thread = '. $threadID;
+function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp") {
+    $sql = 'SELECT * FROM post WHERE thread = '. $threadID;
     switch($sort_style) {
-        case 'date-old':
-            $sql = $sql . ' ORDER BY timestamp ASC';
-            break;
-        case 'date-new':
-            $sql = $sql . ' ORDER BY timestamp DESC';
-            break;
-        case 'score-high':
-            $sql = $sql . ' ORDER BY score DESC';
-            break;
-        case 'rating-high':
-            $sql = $sql . ' ORDER BY rating DESC';
-            break;
-  }
+    case 'timestamp':
+        $sql = $sql . ' ORDER BY timestamp desc';
+        break;
+    case 'timestamp_asc':
+        $sql = $sql . ' ORDER BY timestamp asc';
+        break;
+    case 'score':
+        $sql = $sql . ' ORDER BY score DESC';
+        break;
+    }
 
-  if ($min > -1) {
+    if ($min > -1) {
         $sql .= ' LIMIT '.$min;
         if ($nRec > -1) {
             $sql .= ', '.$nRec;
@@ -178,7 +192,7 @@ function createThread($forumID, $ownerID, $title, $content) {
     $title = addslashes(sanitize_html($title));
     $content = addslashes(sanitize_html($content));
 
-    $sql = "INSERT INTO thread (forum, owner, title, timestamp) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP())";
+    $sql = "INSERT INTO thread (forum, owner, title, create_time) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', time())";
     $result = mysql_query($sql);
     if (!$result) return false;
     $threadID = mysql_insert_id();
@@ -197,7 +211,7 @@ function createThread($forumID, $ownerID, $title, $content) {
 function replyToThread($threadID, $userID, $content, $parent_post=NULL) {
     $thread = getThread($threadID);
 
-    $content = addslashes(sanitize_html($content));
+    $content = addslashes(sanitize_html(stripslashes($content)));
 
     addPost($threadID, $userID, $parent_post, $content);
 
@@ -315,7 +329,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     if ($controls == FORUM_CONTROLS) {
         echo "<td align=\"right\" style=\"border:0px\">Rate this post:";
-        show_combo_from_array("rating", $post_ratings, "0");
+        show_select_from_array("rating", $post_ratings, "0");
         echo "<input type=\"submit\" value=\"Rate\"></td>";
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
@@ -393,7 +407,9 @@ function end_forum_table() {
     echo "</table></p>\n";
 }
 
-function show_combo_from_array($name, $array, $selection) {
+// generate a "select" element from an array of values
+//
+function show_select_from_array($name, $array, $selection) {
     echo "<select name=\"$name\">";
 
     foreach ($array as $key => $value) {

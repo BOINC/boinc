@@ -10,7 +10,7 @@ show_forum_title(NULL, NULL, true);
 
 echo "<p style=\"text-align:center\">";
 
-start_forum_table(array("Topic", "# Questions", "Last answer posted"));
+start_forum_table(array("Topic", "# Questions", "Last post"));
 
 $categories = getHelpDeskCategories();
 while ($category = mysql_fetch_object($categories)) {

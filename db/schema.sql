@@ -275,6 +275,7 @@ create table forum (
     title               varchar(254) not null,
     description         varchar(254) not null,
     timestamp           integer     not null,
+        -- time of last new or modified thread or post
     threads             integer     not null,
     posts               integer     not null,
     primary key (id)
@@ -288,7 +289,7 @@ create table thread (
     owner               integer     not null,
     title               varchar(254) not null,
     timestamp           integer     not null,
-        -- creation time (uh, why not call it that?)
+        -- time of last new or modified post
     views               integer     not null,
         -- number of times this has been viewed
     replies             integer     not null,
@@ -297,6 +298,8 @@ create table thread (
         -- not used??  should remove references
     sufferers           integer     not null,
         -- in help desk: # people who indicated they had same problem
+    create_time         integer     not null,
+        -- when this record was created
     primary key (id)
 );
 
@@ -308,10 +311,12 @@ create table post (
     thread              integer     not null,
     user                integer     not null,
     timestamp           integer     not null,
+        -- create time
     content             text        not null,
     modified            integer     not null,
         -- when last modified
     parent_post         integer     not null,
+        -- post that was replied to, if any
     score               double      not null,
     votes               integer     not null,
     primary key (id)

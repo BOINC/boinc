@@ -16,7 +16,6 @@ if (empty($_GET['id'])) {
     exit();
 }
 
-/* sanitize variable */
 $_GET['id'] = stripslashes(strip_tags($_GET['id']));
 $_GET['sort'] = stripslashes(strip_tags($_GET['sort']));
 
@@ -29,10 +28,12 @@ $category = getCategory($forum->category);
 
 if ($category->is_helpdesk) {
     page_head('Help Desk');
-    $sort_style = 'help-activity-most';
+    $sort_style = $_GET['sort'];
+    if (!sort_style) $sort_style = 'sufferers';
 } else {
     page_head('Message boards : '.$forum->title);
-    ($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
+    $sort_style = $_GET['sort'];
+    if (!sort_style) $sort_style = 'modified-new';
 }
 
 echo "
@@ -55,12 +56,13 @@ if ($category->is_helpdesk) {
 
 echo "</a>\n</p>\n</td>";
 
-// Only show the sort combo box for normal forums, never for the help desk.
-if (!$category->is_helpdesk) {
-    echo "<td align=\"right\" style=\"border:0px\">";
-    show_combo_from_array("sort", $forum_sort_styles, $sort_style);
-    echo "<input type=\"submit\" value=\"Sort\">\n</td>";
+echo "<td align=right>";
+if ($category->is_helpdesk) {
+    show_select_from_array("sort", $faq_sort_styles, $sort_style);
+} else {
+    show_select_from_array("sort", $forum_sort_styles, $sort_style);
 }
+echo "<input type=submit value=OK></td>\n";
 
 echo "</tr>\n</table>\n</form>";
 
@@ -91,14 +93,16 @@ while($thread = mysql_fetch_object($threads)) {
     $n = ($n+1)%2;
 
     if ($category->is_helpdesk) {
-        echo "<span style=\"font-size:8pt\">", stripslashes($excerpt), "</span>";
+        echo stripslashes($excerpt);
         $na = $thread->sufferers + 1;
-        echo "<br>Times asked: $na";
+        $x = time_diff_str($first_post->timestamp, time());
+        echo "<br><font size=-2>Asked $x; asked $na times";
     }
 
     echo "</td>";
     $x = time_diff_str($thread->timestamp, time());
     if ($category->is_helpdesk) {
+        if ($thread->replies == 0) $x = "---";
         echo "<td align=left>
             Total: $thread->replies
             <br>Last: $x

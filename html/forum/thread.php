@@ -30,7 +30,6 @@ $logged_in_user = get_logged_in_user(false);
 // TODO: Make these more specific.
 if ($category->is_helpdesk) {
 	page_head('Help Desk', $logged_in_user);
-	$sort_style = 'rating-high';
 } else {
 	page_head('Forum', $logged_in_user);
 }
@@ -85,12 +84,15 @@ if ($is_subscribed) {
 
 echo "</td>";
 
-if (!$category->is_helpdesk) {
-    echo "<td align=\"right\" style=\"border:0px\">Sort / Filter ";
-    show_combo_from_array("sort", $thread_sort_styles, $sort_style);
-    show_combo_from_array("filter", $thread_filter_styles, $filter_min);
-    echo "<input type=submit value=OK>\n</td>";
+echo "<td align=right style=\"border:0px\">";
+if ($category->is_helpdesk) {
+    show_select_from_array("sort", $answer_sort_styles, $sort_styles);
+} else {
+    echo "Sort/filter ";
+    show_select_from_array("sort", $thread_sort_styles, $sort_style);
+    show_select_from_array("filter", $thread_filter_styles, $filter_min);
 }
+echo "<input type=submit value=OK>\n</td>";
 
 echo "</tr>\n</table>\n</form>\n";
 

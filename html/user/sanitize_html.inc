@@ -4,7 +4,7 @@ require_once("kses.php");
 $allowed = array(
     'b' => array(),
     'i' => array(),
-    'a' => array('href' => array('maxlen' => 50), 'title' => 1),
+    'a' => array('href' => array('maxlen' => 150), 'title' => 1),
     'p' => array('align' => 1),
     'font' => array('face' => 1),
     'br' => array(),
