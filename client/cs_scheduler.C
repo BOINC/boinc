@@ -164,7 +164,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     int retval;
     double free;
     double possible;
-    double total_share = 0;
     char cross_project_id[MD5_LEN];
 
     trs = total_resource_share();

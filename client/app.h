@@ -113,6 +113,7 @@ public:
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;   // abort if memory usage exceeds this
     bool have_trickle_down;
+    bool pending_suspend_via_quit;  // waiting for task to suspend via quit
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
 
@@ -143,7 +144,7 @@ public:
     int unsuspend();                    // send a SIGCONT signal or equivalent
     int abort_task(char*);       // flag as abort pending and send kill signal
     bool task_exited();                 // return true if this task has exited
-    int preempt();
+    int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
     int resume_or_start();
 
     bool check_max_cpu_exceeded();
@@ -171,7 +172,7 @@ public:
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
     bool poll();
-    void suspend_all();
+    void suspend_all(bool leave_apps_in_memory=true);
     void unsuspend_all();
     int restart_tasks(int max_tasks);
     void request_tasks_exit(PROJECT* p=0);
@@ -182,6 +183,7 @@ public:
     bool get_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
+    bool vm_limit_exceeded(double);
     int get_free_slot();
     void send_heartbeats();
     void send_trickle_downs();

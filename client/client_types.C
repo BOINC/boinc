@@ -189,11 +189,13 @@ int PROJECT::parse_preferences_for_user_files() {
                 fip->is_user_file = true;
                 gstate.file_infos.push_back(fip);
             } else {
-                msg_printf(
-                NULL, MSG_INFO, "There is not enough disk space to attach file ",
-                "%s to %s, please increase data share or wait for workunits from ",
-                "other projects to complete before requesting more work", fip->name, 
-                project_name); 
+                msg_printf(NULL, MSG_INFO,
+                    "There is not enough disk space to attach file %s to %s. "
+                    "Please increase data share or wait for workunits from "
+                    "other projects to complete before requesting more work.",
+                    fip->name, 
+                    project_name
+                ); 
             }
         }
 

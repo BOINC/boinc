@@ -38,6 +38,7 @@ struct GLOBAL_PREFS {
     bool run_if_user_active;
     int start_hour;     // 0..23; no restriction if start==end
     int end_hour;
+    bool leave_apps_in_memory;
     bool confirm_before_connecting;
     bool run_minimized;
     bool run_on_startup;
@@ -49,6 +50,7 @@ struct GLOBAL_PREFS {
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;
+    double vm_max_used_pct;
     double idle_time_to_run;
     double max_bytes_sec_up;
     double max_bytes_sec_down;

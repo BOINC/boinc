@@ -16043,3 +16043,21 @@ Brian  6 Aug 2004
 	cs_data.C
 	scheduler_op.C
 	gui_titles.C
+
+Daniel 2004-08-06
+    - New preferences that cause apps to <quit/> instead of <suspend/>:
+      leave_apps_in_memory (<quit/> if false) and vm_max_used_pct (if
+      exceeded, apps <quit/>)
+    - Various code clean up and bug fixes from data management stuff
+
+    client/
+        app.C,h
+        client_types.C
+        cs_apps.C
+        cs_data.C
+        cs_prefs.C
+        cs_scheduler.C
+        prefs.C,h
+    html/inc/
+        prefs.inc
+

@@ -50,6 +50,7 @@ void GLOBAL_PREFS::init() {
     end_hour = 0;
     run_minimized = false;
     run_on_startup = false;
+    leave_apps_in_memory = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
     work_buf_max_days = 0.2;
@@ -57,8 +58,9 @@ void GLOBAL_PREFS::init() {
     max_cpus = 1;
     disk_interval = 60;
     disk_max_used_gb = 1;
-    disk_max_used_pct = 0.5;
+    disk_max_used_pct = 50;
     disk_min_free_gb = 0.1;
+    vm_max_used_pct = 75;
     idle_time_to_run = 3;
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
@@ -92,6 +94,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     // set all booleans to false here
     run_on_batteries = false;
     run_if_user_active = false;
+    leave_apps_in_memory = false;
     confirm_before_connecting = false;
     run_minimized = false;
     run_on_startup = false;
@@ -144,6 +147,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
             continue;
         } else if (parse_int(buf, "<end_hour>", end_hour)) {
             continue;
+        } else if (match_tag(buf, "<leave_apps_in_memory/>")) {
+            leave_apps_in_memory = true;
+            continue;
         } else if (match_tag(buf, "<confirm_before_connecting/>")) {
             confirm_before_connecting = true;
             continue;
@@ -171,6 +177,8 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
         } else if (parse_double(buf, "<disk_max_used_pct>", disk_max_used_pct)) {
             continue;
         } else if (parse_double(buf, "<disk_min_free_gb>", disk_min_free_gb)) {
+            continue;
+        } else if (parse_double(buf, "<vm_max_used_pct>", vm_max_used_pct)) {
             continue;
         } else if (parse_double(buf, "<idle_time_to_run>", idle_time_to_run)) {
             continue;

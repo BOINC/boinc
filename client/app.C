@@ -81,11 +81,11 @@ using std::vector;
 using std::max;
 using std::min;
 
-// ways an active tasks can be started
+// ways an active task can be started by the client
 //
-#define TASK_RESUMING   0   // process suspended; call unsuspend()
-#define TASK_RESTARTING 1   // process uninitalized; call start(false)
-#define TASK_STARTING   2   // process uninitalized; call start(true)
+#define TASK_RESUME     0   // process suspended; call unsuspend()
+#define TASK_RESTART    1   // process uninitalized; call start(false)
+#define TASK_START      2   // process uninitalized; call start(true)
 
 // value for setpriority(2)
 static const int PROCESS_IDLE_PRIORITY = 19;
@@ -136,6 +136,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     vm_size = 0;
     resident_set_size = 0;
     have_trickle_down = false;
+    pending_suspend_via_quit = false;
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -632,26 +633,31 @@ bool ACTIVE_TASK::task_exited() {
 
 // preempts a task
 //
-int ACTIVE_TASK::preempt() {
-    // TODO: if process vm_size > total_vm_size * some fraction, then kill
-    // (or maybe send "kill" message) to the process instead of suspending
-    // it
+int ACTIVE_TASK::preempt(bool quit_task) {
+    int retval;
 
-    int retval = suspend();
+    if (quit_task) {
+        retval = request_exit();
+        pending_suspend_via_quit = true;
+    } else {
+        retval = suspend();
+    }
 
     if (retval) {
         msg_printf(
             wup->project,
             MSG_ERROR,
-            "ACTIVE_TASK::preempt(): could not suspend active_task"
+            "ACTIVE_TASK::preempt(): could not %s active_task",
+            (quit_task ? "quit" : "suspend")
         );
         return retval;
     }
     scheduler_state = CPU_SCHED_PREEMPTED;
 
     msg_printf(result->project, MSG_INFO,
-        "Preempting computation for result %s",
-        result->name
+        "Preempting computation for result %s (%s)",
+        result->name,
+        (quit_task ? "quit" : "suspend")
     );
     return 0;
 }
@@ -675,10 +681,10 @@ int ACTIVE_TASK::resume_or_start() {
             }
             retval = clean_out_dir(slot_dir);
             retval = start(true);
-            task_start_type = TASK_STARTING;
+            task_start_type = TASK_START;
         } else {
             retval = start(false);
-            task_start_type = TASK_RESTARTING;
+            task_start_type = TASK_RESTART;
         }
         if (retval) return retval;
     } else {
@@ -692,7 +698,7 @@ int ACTIVE_TASK::resume_or_start() {
             return retval;
         }
         scheduler_state = CPU_SCHED_RUNNING;
-        task_start_type = TASK_RESUMING;
+        task_start_type = TASK_RESUME;
     }
     msg_printf(result->project, MSG_INFO,
         "%s computation for result %s using %s version %.2f",
@@ -795,7 +801,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-        if (atp->state == PROCESS_IN_LIMBO) continue;
+        if (atp->state == PROCESS_IN_LIMBO ||
+            atp->state == PROCSES_UNINITIALIZED
+        ) continue;
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);
@@ -820,10 +828,17 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                             exit_code, exit_code
                         );
                     } else {
-                        if (!atp->finish_file_present()) {
+                        if (atp->pending_suspend_via_quit) {
+                            atp->pending_suspend_via_quit = false;
+                            atp->state = PROCESS_UNINITIALIZED;
+                            if (atp->app_client_shm.shm) {
+                                detach_shmm(atp->shm_handle, atp->app_client_shm.shm);
+                                atp->app_client_shm.shm = NULL;
+                            }
+                        } else if (!atp->finish_file_present()) {
                             atp->state = PROCESS_IN_LIMBO;
-                            return true;
                         }
+                        return true;
                     }
                     atp->result->exit_status = atp->exit_status;
                     atp->result->active_task_state = PROCESS_EXITED;
@@ -868,7 +883,18 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                         atp->exit_status, atp->exit_status
                     );
                 } else {
-                    if (!atp->finish_file_present()) {
+                    if (atp->pending_suspend_via_quit) {
+                        atp->pending_suspend_via_quit = false;
+                        atp->state = PROCESS_UNINITIALIZED;
+
+                        // destroy shm, since restarting app will re-create it
+                        //
+                        if (atp->app_client_shm.shm) {
+                            detach_shmem(atp->app_client_shm.shm);
+                            atp->app_client_shm.shm = NULL;
+                        }
+                        destroy_shmem(atp->shm_key);
+                    } else if (!atp->finish_file_present()) {
                         // The process looks like it exited normally
                         // but there's no "finish file".
                         // Assume it was externally killed,
@@ -876,8 +902,8 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                         // (assume user is about to exit core client)
                         //
                         atp->state = PROCESS_IN_LIMBO;
-                        return true;
                     }
+                    return true;
                 }
                 atp->result->exit_status = atp->exit_status;
                 atp->result->active_task_state = PROCESS_EXITED;
@@ -984,9 +1010,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
 #endif
 
 bool ACTIVE_TASK::check_max_mem_exceeded() {
-    if (resident_set_size != 0 && max_mem_usage != 0
-        && resident_set_size*1024 > max_mem_usage
-    ) {
+    if (max_mem_usage != 0 && resident_set_size*1024 > max_mem_usage) {
         msg_printf(
             result->project, MSG_INFO,
             "Aborting result %s: exceeded memory limit %f\n",
@@ -997,6 +1021,21 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
         return true;
     }
     return false;
+}
+
+bool ACTIVE_TASK_SET::vm_limit_exceeded(double vm_limit) {
+    unsigned int i;
+    ACTIVE_TASK *atp;
+
+    double total_vm_usage = 0;
+
+    for (i=0; i<active_tasks.size(); ++i) {
+        atp = active_tasks[i];
+        if (atp->state != PROCESS_RUNNING) continue;
+        total_vm_usage += atp->vm_size;
+    }
+
+    return (total_vm_usage > vm_limit);
 }
 
 // Check if any of the active tasks have exceeded their
@@ -1201,18 +1240,30 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
 
 // suspend all currently running tasks
 //
-void ACTIVE_TASK_SET::suspend_all() {
+void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     unsigned int i;
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-        if (atp->suspend()) {
-            msg_printf(
-                atp->wup->project,
-                MSG_ERROR,
-                "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task"
-            );
+        if (leave_apps_in_memory) {
+            if (atp->suspend()) {
+                msg_printf(
+                    atp->wup->project,
+                    MSG_ERROR,
+                    "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task"
+                );
+            }
+        } else {
+            if (atp->request_exit()) {
+                msg_printf(
+                    atp->wup->project,
+                    MSG_ERROR,
+                    "ACTIVE_TASK_SET::suspend_all(): could not quit active_task"
+                );
+            } else {
+                atp->pending_suspend_via_quit = true;
+            }
         }
     }
 }
@@ -1225,7 +1276,16 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-        if (atp->unsuspend()) {
+        if (atp->state == PROCESS_UNINITIALIZED) {
+            //atp->pending_suspend_via_quit = false;
+            if (atp->start(false)) {
+                msg_printf(
+                    atp->wup->project,
+                    MSG_ERROR,
+                    "ACTIVE_TASK_SET::unsuspend_all(): could not restart active_task"
+                );
+            }
+        } else if (atp->state == PROCESS_RUNNING && atp->unsuspend()) {
             msg_printf(
                 atp->wup->project,
                 MSG_ERROR,
@@ -1767,7 +1827,9 @@ void ACTIVE_TASK_SET::graphics_poll() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+        if (atp->scheduler_state != CPU_SCHED_RUNNING ||
+            atp->state != PROCESS_RUNNING
+        ) continue;
         if (atp->graphics_mode_requested != atp->graphics_mode_sent) {
             sent = atp->send_graphics_mode(atp->graphics_mode_requested);
             if (sent) {

@@ -340,6 +340,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double adjusted_total_resource_share;
     int retval, elapsed_time;
     double max_debt = SECONDS_PER_DAY * ncpus;
+    double vm_limit;
     unsigned int i;
 
     elapsed_time = time(NULL) - cpu_sched_last_time;
@@ -414,13 +415,14 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
 
     // preempt, start, and resume tasks
     //
+    vm_limit = global_prefs.vm_max_used_pct / 100.0 * host_info.m_swap;
     iter = active_tasks.active_tasks.begin();
     while (iter != active_tasks.active_tasks.end()) {
         atp = *iter;
         if (atp->scheduler_state == CPU_SCHED_RUNNING
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
-            atp->preempt();
+            atp->preempt(active_tasks.vm_limit_exceeded(vm_limit));
             iter++;
         } else if (atp->scheduler_state != CPU_SCHED_RUNNING
             && atp->next_scheduler_state == CPU_SCHED_RUNNING

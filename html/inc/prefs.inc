@@ -53,6 +53,9 @@ define("IDLE_TIME_TO_RUN_DESC", "Do work only after computer is idle for");
 define("IDLE_TIME_TO_RUN_DESC2", "<br><font size=-2>(applies only if above is 'no')</font>");
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><font size=-2>(no restriction if equal)</font>");
+define("LEAVE_APPS_IN_MEMORY_DESC",
+    "Leave project applications in memory while activities are suspended?
+    <br><font size=-2>(applications will always consume swap space if 'yes')</font>");
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     "Confirm before connecting to Internet?
     <br><font size=-2>(matters only if you use a modem)</font>"
@@ -65,11 +68,13 @@ define("WORK_BUF_DESC", "Keep enough work on disk to last between");
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
-define("DISK_LIMIT_DESC", "Limits on disk space used by BOINC:");
+define("DISK_LIMIT_DESC", "Limits on disk space and memory used by BOINC:");
 define("DISK_MAX_USED_GB_DESC", "Use no more than");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
 define("DISK_MAX_USED_PCT_DESC", "Use no more than");
 define("DISK_MAX_USED_PCT_DESC2", "% of total space");
+define("VM_MAX_USED_PCT_DESC", "Use no more than");
+define("VM_MAX_USED_PCT_DESC2", "% of total virtual memory");
 define("NETWORK_LIMIT_DESC", "Limits on network bandwidth used by BOINC:");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
@@ -205,6 +210,9 @@ function element_end_global($parser, $name) {
     case "end_hour":
         $parse_result->end_hour = $text;
         break;
+    case "leave_apps_in_memory":
+        $parse_result->leave_apps_in_memory = true;
+        break;
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = true;
         break;
@@ -231,6 +239,9 @@ function element_end_global($parser, $name) {
         break;
     case "disk_min_free_gb":
         $parse_result->disk_min_free_gb = $text;
+        break;
+    case "vm_max_used_pct":
+        $parse_result->vm_max_used_pct = $text;
         break;
     case "max_bytes_sec_down":
         $parse_result->max_bytes_sec_down = $text;
@@ -262,6 +273,7 @@ function default_prefs_global() {
     $p->idle_time_to_run = 3;
     $p->start_hour = 0;
     $p->end_hour = 0;
+    $p->leave_apps_in_memory = false;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = .1;
@@ -271,6 +283,7 @@ function default_prefs_global() {
     $p->disk_max_used_gb = 100;
     $p->disk_max_used_pct = 50;
     $p->disk_min_free_gb = 0.1;
+    $p->vm_max_used_pct = 75;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
     return $p;
@@ -289,6 +302,7 @@ function initialize_prefs_before_parsing_global() {
     $p = default_prefs_global();
     $p->run_on_batteries = false;
     $p->run_if_user_active = false;
+    $p->leave_apps_in_memory = false;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = false;
     return $p;
@@ -357,6 +371,7 @@ function prefs_show_global($prefs) {
         $x = "$s and $e";
     }
     row2(START_END_DESC, $x);
+    row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
     row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
     row2(WORK_BUF_DESC, "$prefs->work_buf_min_days and $prefs->work_buf_max_days days");
@@ -366,6 +381,7 @@ function prefs_show_global($prefs) {
     row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB");
     row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB");
     row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
+    row2(VM_MAX_USED_PCT_DESC, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
     $x = max_bytes_display_mode($prefs->max_bytes_sec_down);
     $y = "$x " . BYTE_ABBR;
@@ -491,6 +507,15 @@ function prefs_form_global($user, $prefs) {
     $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
     row2($x, $y);
 
+    $x = LEAVE_APPS_IN_MEMORY_DESC;
+    $y = "yes <input type=radio name=leave_apps_in_memory value=yes "
+        .($prefs->leave_apps_in_memory?"checked":"")
+        ."> no <input type=radio name=leave_apps_in_memory value=no "
+        .($prefs->leave_apps_in_memory?"":"checked")
+        .">
+    ";
+    row2($x, $y);
+
     $x = CONFIRM_BEFORE_CONNECTING_DESC;
     $y = "yes <input type=radio name=confirm_before_connecting value=yes "
         .($prefs->confirm_before_connecting?"checked":"")
@@ -532,8 +557,13 @@ function prefs_form_global($user, $prefs) {
     row2(DISK_MIN_FREE_GB_DESC,
         "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free"
     );
+
     row2(DISK_MAX_USED_PCT_DESC,
         "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2
+    );
+
+    row2(VM_MAX_USED_PCT_DESC,
+        "<input size=5 name=vm_max_used_pct value='$prefs->vm_max_used_pct'> ".VM_MAX_USED_PCT_DESC2
     );
 
     row1(NETWORK_LIMIT_DESC);
@@ -621,6 +651,7 @@ function prefs_global_parse_form(&$prefs) {
     $run_on_batteries = $_GET["run_on_batteries"];
     $run_if_user_active = $_GET["run_if_user_active"];
     $idle_time_to_run = $_GET["idle_time_to_run"];
+    $leave_apps_in_memory = $_GET["leave_apps_in_memory"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
@@ -630,6 +661,7 @@ function prefs_global_parse_form(&$prefs) {
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
     $disk_max_used_pct = $_GET["disk_max_used_pct"];
     $disk_min_free_gb = $_GET["disk_min_free_gb"];
+    $vm_max_used_pct = $_GET["vm_max_used_pct"];
     $max_bytes_sec_down = $_GET["max_bytes_sec_down"];
     $max_bytes_sec_up = $_GET["max_bytes_sec_up"];
 
@@ -638,6 +670,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->idle_time_to_run = $idle_time_to_run;
     $prefs->start_hour = $_GET["start_hour"];
     $prefs->end_hour = $_GET["end_hour"];
+    $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
     $prefs->confirm_eecutable = ($confirm_eecutable == "yes");
@@ -656,9 +689,12 @@ function prefs_global_parse_form(&$prefs) {
     if ($disk_max_used_pct<0) $disk_max_used_pct = 0;
     if ($disk_max_used_pct>100) $disk_max_used_pct = 100;
     if ($disk_min_free_gb<0) $disk_min_free_gb = 0;
+    if ($vm_max_used_pct<0) $vm_max_used_pct = 0;
+    if ($vm_max_used_pct>100) $vm_max_used_pct = 100;
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_max_used_pct = $disk_max_used_pct;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
+    $prefs->vm_max_used_pct = $vm_max_used_pct;
     $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
     $prefs->max_bytes_sec_up = max_bytes_db_mode($max_bytes_sec_up);
 }
@@ -700,6 +736,9 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $xml = $xml."<start_hour>$prefs->start_hour</start_hour>\n"
             ."<end_hour>$prefs->end_hour</end_hour>\n";
     }
+    if ($prefs->leave_apps_in_memory) {
+        $xml = $xml."<leave_apps_in_memory/>\n";
+    }
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
@@ -715,6 +754,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
         ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
         ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
         ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n"
+        ."<vm_max_used_pct>$prefs->vm_max_used_pct</vm_max_used_pct>\n"
         ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
         ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
     if ($prefs->home) {
