@@ -296,6 +296,10 @@ struct WORKUNIT {
     void clear();
 };
 
+// WARNING: be Very careful about changing any states, especially for a
+// project already running - these values are entered into the database and
+// must stay consistent.
+
 #define RESULT_SERVER_STATE_INACTIVE       1
 #define RESULT_SERVER_STATE_UNSENT         2
 #define RESULT_SERVER_STATE_UNSENT_SEQ     3
@@ -311,6 +315,8 @@ struct WORKUNIT {
 #define RESULT_OUTCOME_CLIENT_ERROR     3
 #define RESULT_OUTCOME_NO_REPLY         4
 #define RESULT_OUTCOME_DIDNT_NEED       5
+    // we created the result but didn't need to send it because we already
+    // got a quorum
 
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1
@@ -322,14 +328,11 @@ struct RESULT {
     int workunitid;
     int server_state;               // see above
     int outcome;                    // see above; defined if server state OVER
-    int client_state;               // phase when client error happened
-                                    // (download, compute, upload)
-                                    // Defined if outcome is CLIENT_ERROR
-                                    // and error details are in stderr_out
-                                    // the values for this field are defined
-                                    // in sched/server_types.h and
-                                    // in client/client_types.h,
-                                    // they are the same.
+    int client_state;               // phase that client contacted us in.
+                                    // iff it is UPLOADED then outcome is success.
+                                    // error details are in stderr_out.
+                                    // The values for this field are defined
+                                    // in lib/result_state.h
     int hostid;                     // host processing this result
     unsigned int report_deadline;   // deadline for receiving result
     unsigned int sent_time;         // when result was sent to host
