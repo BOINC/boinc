@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.21  2004/09/24 02:01:48  rwalton
+// *** empty log message ***
+//
 // Revision 1.20  2004/09/22 21:53:03  rwalton
 // *** empty log message ***
 //
@@ -75,7 +78,6 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
-#include "DlgAttachProject.h"
 
 #include "res/BOINCGUIApp.xpm"
 
@@ -83,14 +85,11 @@
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
-    EVT_CLOSE       (                           CMainFrame::OnClose)
-
-    EVT_MENU        (wxID_EXIT,                 CMainFrame::OnExit)
-    EVT_MENU        (ID_COMMANDSATTACHPROJECT,  CMainFrame::OnCommandsAttachProject)
-    EVT_MENU        (ID_TOOLSOPTIONS,           CMainFrame::OnToolsOptions)
-    EVT_MENU        (wxID_ABOUT,                CMainFrame::OnAbout)
-
-    EVT_TIMER       (ID_FRAMERENDERTIMER,       CMainFrame::OnFrameRender)
+    EVT_CLOSE(CMainFrame::OnClose)
+    EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
+    EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
+    EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
+    EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
 END_EVENT_TABLE ()
 
 CMainFrame::CMainFrame()
@@ -118,7 +117,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(NULL != m_pFrameRenderTimer);
 
-    m_pFrameRenderTimer->Start(5000);       // Send event every 5 seconds
+    m_pFrameRenderTimer->Start(1000);       // Send event every 5 seconds
 
 
     RestoreState();
@@ -447,18 +446,6 @@ void CMainFrame::OnExit(wxCommandEvent &WXUNUSED(event))
 void CMainFrame::OnClose(wxCloseEvent &WXUNUSED(event)) 
 {
     Destroy();
-}
-
-
-void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) 
-{
-    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-    wxASSERT(NULL != pDlg);
-
-    pDlg->ShowModal();
-
-    if (pDlg)
-        pDlg->Destroy();
 }
 
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/24 02:01:47  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/23 08:28:50  rwalton
 // *** empty log message ***
 //
@@ -58,7 +61,8 @@ public:
                                                    bool  bHidden );
     virtual void                CreateTask(        const wxString& strLink,
                                                    const wxString& strTaskIconFilename, 
-                                                   const wxString& strTaskName );
+                                                   const wxString& strTaskName,
+                                                   bool  bHidden );
     virtual void                EndTaskSection(    bool  bHidden );
     virtual void                UpdateQuickTip(    const wxString& strLink,
                                                    const wxString& strIconFilename,

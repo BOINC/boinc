@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/24 02:01:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:26  rwalton
 // *** empty log message ***
 //
@@ -53,12 +56,28 @@ public:
 
     virtual void            OnRender( wxTimerEvent& event );
 
-    virtual wxString        OnGetItemText(long item, long column) const;
+    virtual void            OnListSelected( wxListEvent& event );
+    virtual void            OnListDeselected( wxListEvent& event );
+    virtual void            OnListActivated( wxListEvent& event );
+    virtual void            OnListFocused( wxListEvent& event );
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
 private:
 
-    DECLARE_EVENT_TABLE()
+    bool                    m_bTaskHeaderHidden;
+    bool                    m_bTaskSuspendResumeHidden;
+    bool                    m_bTaskShowGraphicsHidden;
+    bool                    m_bTaskAbortHidden;
 
+    bool                    m_bTipsHeaderHidden;
+
+    bool                    m_bItemSelected;
+
+    virtual void            UpdateSelection();
+    virtual void            UpdateTaskPane();
 };
 
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/24 02:01:52  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/23 08:28:50  rwalton
 // *** empty log message ***
 //
@@ -47,7 +50,6 @@
 class CViewProjects : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjects )
-    DECLARE_EVENT_TABLE()
 
 public:
     CViewProjects();
@@ -60,11 +62,14 @@ public:
 
     virtual void            OnRender( wxTimerEvent& event );
 
-    virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
-    virtual wxString        OnGetItemText( long item, long column ) const;
+    virtual void            OnListActivated( wxListEvent& event );
+    virtual void            OnListFocused( wxListEvent& event );
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
 private:
 
@@ -75,13 +80,18 @@ private:
     bool                    m_bTaskResetProjectHidden;
 
     bool                    m_bWebsiteHeaderHidden;
+    bool                    m_bWebsiteBOINCHidden;
+    bool                    m_bWebsiteFAQHidden;
+    bool                    m_bWebsiteProjectHidden;
+    bool                    m_bWebsiteTeamHidden;
+    bool                    m_bWebsiteUserHidden;
 
     bool                    m_bTipsHeaderHidden;
 
-    wxString                m_strQuickTip;
+    bool                    m_bItemSelected;
 
+    virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
-
 };
 
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/24 02:01:47  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:24  rwalton
 // *** empty log message ***
 //
@@ -52,19 +55,35 @@ public:
 
 private:
     
+    virtual void            OnCacheHint( wxListEvent& event );
+    virtual void            OnSelected( wxListEvent& event );
+    virtual void            OnDeselected( wxListEvent& event );
+    virtual void            OnActivated( wxListEvent& event );
+    virtual void            OnFocused( wxListEvent& event );
     virtual wxString        OnGetItemText( long item, long column ) const;
+    virtual int             OnGetItemImage( long item ) const;
+    virtual wxListItemAttr* OnGetItemAttr( long item ) const;
+
+    template < class T >
+        void                FireOnCacheHintEvent( T pView, wxListEvent& event );
+    template < class T >
+        void                FireOnSelectedEvent( T pView, wxListEvent& event );
+    template < class T >
+        void                FireOnDeselectedEvent( T pView, wxListEvent& event );
+    template < class T >
+        void                FireOnActivatedEvent( T pView, wxListEvent& event );
+    template < class T >
+        void                FireOnFocusedEvent( T pView, wxListEvent& event );
     template < class T >
         wxString            FireOnGetItemTextEvent( T pView, long item, long column ) const;
-
-    virtual int             OnGetItemImage( long item ) const;
     template < class T >
         int                 FireOnGetItemImageEvent( T pView, long item ) const;
-
-    virtual wxListItemAttr* OnGetItemAttr( long item ) const;
     template < class T >
         wxListItemAttr*     FireOnGetItemAttrEvent( T pView, long item ) const;
 
     CBOINCBaseView*         m_pParentView;
+
+    DECLARE_EVENT_TABLE()
 
 };
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/24 02:01:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
@@ -42,7 +45,6 @@
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE(CViewResources, CBOINCBaseView)
-    EVT_LIST_CACHE_HINT(ID_LIST_RESOURCEUTILIZATIONVIEW, CViewResources::OnCacheHint)
 END_EVENT_TABLE()
 
 
@@ -54,7 +56,7 @@ CViewResources::CViewResources()
 
 
 CViewResources::CViewResources(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_LIST_RESOURCEUTILIZATIONVIEW, ID_HTML_RESOURCEUTILIZATIONVIEW)
+    CBOINCBaseView(pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, ID_LIST_RESOURCEUTILIZATIONVIEW)
 {
     m_bProcessingRenderEvent = false;
 

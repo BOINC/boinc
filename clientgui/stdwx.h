@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/09/24 02:01:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/09/21 01:26:23  rwalton
 // *** empty log message ***
 //
@@ -79,7 +82,7 @@
 #include <wx/txtstrm.h>         // text streams support
 #include <wx/datetime.h>        // date/time support
 #include <wx/dynarray.h>        // dynamic array support
-
+#include <wx/utils.h>
 
 // Standard Libraries
 //

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/24 02:01:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
@@ -51,7 +54,6 @@
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE(CViewTransfers, CBOINCBaseView)
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnCacheHint)
 END_EVENT_TABLE()
 
 
@@ -63,7 +65,7 @@ CViewTransfers::CViewTransfers()
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_LIST_TRANSFERSVIEW, ID_HTML_TRANSFERSVIEW)
+    CBOINCBaseView(pNotebook, ID_HTML_TRANSFERSVIEW, ID_LIST_TRANSFERSVIEW)
 {
     m_bProcessingRenderEvent = false;
 

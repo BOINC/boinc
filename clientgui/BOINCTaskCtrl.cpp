@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/24 02:01:47  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/23 08:28:50  rwalton
 // *** empty log message ***
 //
@@ -112,31 +115,34 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& 
 }
 
 
-void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName )
+void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName, bool  bHidden )
 {
-    m_strTaskPage += wxT("        <tr>");
-    m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">");
+    if ( !bHidden )
+    {
+        m_strTaskPage += wxT("        <tr>");
+        m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">");
 
-    if ( !strLink.empty() )
-        m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
+        if ( !strLink.empty() )
+            m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
 
-    m_strTaskPage += wxT("              <img src=\"memory:") + strTaskIconFilename + wxT("\">");
+        m_strTaskPage += wxT("              <img src=\"memory:") + strTaskIconFilename + wxT("\">");
 
-    if ( !strLink.empty() )
-        m_strTaskPage += wxT("            </a>");
+        if ( !strLink.empty() )
+            m_strTaskPage += wxT("            </a>");
 
-    m_strTaskPage += wxT("            &nbsp;&nbsp;");
+        m_strTaskPage += wxT("            &nbsp;&nbsp;");
 
-    if ( !strLink.empty() )
-        m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
+        if ( !strLink.empty() )
+            m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
 
-    m_strTaskPage += wxT("              <font color=\"#000000\">") + strTaskName + wxT("</font>");
+        m_strTaskPage += wxT("              <font color=\"#000000\">") + strTaskName + wxT("</font>");
 
-    if ( !strLink.empty() )
-        m_strTaskPage += wxT("            </a>");
+        if ( !strLink.empty() )
+            m_strTaskPage += wxT("            </a>");
 
-    m_strTaskPage += wxT("          </td>");
-    m_strTaskPage += wxT("        </tr>");
+        m_strTaskPage += wxT("          </td>");
+        m_strTaskPage += wxT("        </tr>");
+    }
 }
 
 
@@ -315,13 +321,13 @@ wxHtmlOpeningStatus CBOINCTaskCtrl::OnOpeningURL( wxHtmlURLType type, const wxSt
 template < class T >
 void CBOINCTaskCtrl::FireOnLinkClickedEvent( T pView, const wxHtmlLinkInfo& link )
 {
-    return pView->OnLinkClicked( link );
+    return pView->OnTaskLinkClicked( link );
 }
 
 
 template < class T >
 void CBOINCTaskCtrl::FireOnCellMouseHoverEvent( T pView, wxHtmlCell* cell, wxCoord x, wxCoord y )
 {
-    return pView->OnCellMouseHover( cell, x, y );
+    return pView->OnTaskCellMouseHover( cell, x, y );
 }
 

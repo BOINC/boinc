@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/24 02:01:45  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/23 08:28:50  rwalton
 // *** empty log message ***
 //
@@ -53,23 +56,35 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            UpdateTaskPane();
-
     virtual void            OnRender( wxTimerEvent& event );
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
-    virtual void            OnCacheHint( wxListEvent& event );
-    virtual wxString        OnGetItemText( long item, long column ) const;
-    virtual int             OnGetItemImage( long item ) const;
-    virtual wxListItemAttr* OnGetItemAttr( long item ) const;
+    virtual void            OnListCacheHint( wxListEvent& event );
+    virtual void            OnListSelected( wxListEvent& event );
+    virtual void            OnListDeselected( wxListEvent& event );
+    virtual void            OnListActivated( wxListEvent& event );
+    virtual void            OnListFocused( wxListEvent& event );
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+    virtual int             OnListGetItemImage( long item ) const;
+    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
-    virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    wxString                GetCurrentQuickTip();
+    wxString                GetCurrentQuickTipText();
+    void                    SetCurrentQuickTip( const wxString& strQuickTip, const wxString& strQuickTipText );
+
+    virtual void            UpdateSelection();
+    virtual void            UpdateTaskPane();
 
     bool                    m_bProcessingRenderEvent;
     wxInt32                 m_iCacheFrom;
     wxInt32                 m_iCacheTo;
+
+    wxString                m_strQuickTip;
+    wxString                m_strQuickTipText;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

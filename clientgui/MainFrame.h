@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/09/24 02:01:49  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/07/13 05:56:01  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -43,6 +46,8 @@
 #pragma interface "MainFrame.cpp"
 #endif
 
+class CViewProjects;
+class CViewWork;
 
 class CMainFrame : public wxFrame
 {
@@ -57,7 +62,6 @@ public:
     void OnExit(wxCommandEvent &event);
     void OnClose(wxCloseEvent &event);
 
-    void OnCommandsAttachProject(wxCommandEvent &event);
     void OnToolsOptions(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
 

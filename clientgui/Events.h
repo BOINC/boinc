@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/09/24 02:01:47  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/09/21 01:26:23  rwalton
 // *** empty log message ***
 //
@@ -34,20 +37,20 @@
 #define _EVENTS_H_
 
 
-#define ID_STATUSBAR                        wxID_HIGHEST + 1
-#define ID_COMMANDSATTACHPROJECT            wxID_HIGHEST + 2
-#define ID_TOOLSOPTIONS                     wxID_HIGHEST + 3
-#define ID_FRAMERENDERTIMER                 wxID_HIGHEST + 4
-#define ID_LIST_PROJECTSVIEW                wxID_HIGHEST + 5
-#define ID_LIST_WORKVIEW                    wxID_HIGHEST + 6
-#define ID_LIST_TRANSFERSVIEW               wxID_HIGHEST + 7
-#define ID_LIST_MESSAGESVIEW                wxID_HIGHEST + 8
-#define ID_LIST_RESOURCEUTILIZATIONVIEW     wxID_HIGHEST + 9
-#define ID_HTML_PROJECTSVIEW                wxID_HIGHEST + 10
-#define ID_HTML_WORKVIEW                    wxID_HIGHEST + 11
-#define ID_HTML_TRANSFERSVIEW               wxID_HIGHEST + 12
-#define ID_HTML_MESSAGESVIEW                wxID_HIGHEST + 13
-#define ID_HTML_RESOURCEUTILIZATIONVIEW     wxID_HIGHEST + 14
+#define ID_STATUSBAR                        6000
+#define ID_COMMANDSATTACHPROJECT            6001
+#define ID_TOOLSOPTIONS                     6002
+#define ID_FRAMERENDERTIMER                 6003
+#define ID_LIST_PROJECTSVIEW                6004
+#define ID_LIST_WORKVIEW                    6005
+#define ID_LIST_TRANSFERSVIEW               6006
+#define ID_LIST_MESSAGESVIEW                6007
+#define ID_LIST_RESOURCEUTILIZATIONVIEW     6008
+#define ID_HTML_PROJECTSVIEW                6009
+#define ID_HTML_WORKVIEW                    6010
+#define ID_HTML_TRANSFERSVIEW               6011
+#define ID_HTML_MESSAGESVIEW                6012
+#define ID_HTML_RESOURCEUTILIZATIONVIEW     6013
 
 
 #endif

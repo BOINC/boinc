@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/24 02:01:44  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/23 08:28:49  rwalton
 // *** empty log message ***
 //
@@ -114,13 +117,6 @@ char** CBOINCBaseView::GetViewIcon()
 }
 
 
-void CBOINCBaseView::UpdateTaskPane()
-{
-    wxLogTrace("CBOINCBaseView::UpdateTaskPane - Function Begining");
-    wxLogTrace("CBOINCBaseView::UpdateTaskPane - Function Ending");
-}
-
-
 void CBOINCBaseView::OnRender (wxTimerEvent& event)
 {
     wxLogTrace("CBOINCBaseView::OnRender - Function Begining");
@@ -169,41 +165,106 @@ bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig ) {
 }
 
 
-void CBOINCBaseView::OnCacheHint ( wxListEvent& event )
+void CBOINCBaseView::OnListCacheHint ( wxListEvent& event )
 {
     m_iCacheFrom = event.GetCacheFrom();
     m_iCacheTo = event.GetCacheTo();
 }
 
 
-wxString CBOINCBaseView::OnGetItemText(long item, long column) const
+void CBOINCBaseView::OnListSelected ( wxListEvent& event )
+{
+    wxLogTrace("CBOINCBaseView::OnListSelected - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CBOINCBaseView::OnListDeselected ( wxListEvent& event )
+{
+    wxLogTrace("CBOINCBaseView::OnListDeselected - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CBOINCBaseView::OnListActivated ( wxListEvent& event )
+{
+    wxLogTrace("CBOINCBaseView::OnListActivated - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CBOINCBaseView::OnListFocused ( wxListEvent& event )
+{
+    wxLogTrace("CBOINCBaseView::OnListFocused - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+wxString CBOINCBaseView::OnListGetItemText(long item, long column) const
 {
     return wxString("Undefined");
 }
 
 
-int CBOINCBaseView::OnGetItemImage(long item) const
+int CBOINCBaseView::OnListGetItemImage(long item) const
 {
     return -1;
 }
 
 
-wxListItemAttr* CBOINCBaseView::OnGetItemAttr(long item) const
+wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const
 {
     return NULL;
 }
 
 
-void CBOINCBaseView::OnLinkClicked( const wxHtmlLinkInfo& link )
+void CBOINCBaseView::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
-    wxLogTrace("CBOINCBaseView::OnLinkClicked - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnLinkClicked - Function Ending");
+    wxLogTrace("CBOINCBaseView::OnTaskLinkClicked - Function Begining");
+    wxLogTrace("CBOINCBaseView::OnTaskLinkClicked - Function Ending");
 }
 
 
-void CBOINCBaseView::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+void CBOINCBaseView::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 {
-    wxLogTrace("CBOINCBaseView::OnCellMouseHover - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnCellMouseHover - Function Ending");
+    wxLogTrace("CBOINCBaseView::OnTaskCellMouseHover - Function Begining");
+    wxLogTrace("CBOINCBaseView::OnTaskCellMouseHover - Function Ending");
+}
+
+
+wxString CBOINCBaseView::GetCurrentQuickTip()
+{
+    return m_strQuickTip;
+}
+
+
+wxString CBOINCBaseView::GetCurrentQuickTipText()
+{
+    return m_strQuickTipText;
+}
+
+
+void CBOINCBaseView::SetCurrentQuickTip( const wxString& strQuickTip, const wxString& strQuickTipText )
+{
+    m_strQuickTip = strQuickTip;
+    m_strQuickTipText = strQuickTipText;
+}
+
+
+void CBOINCBaseView::UpdateSelection()
+{
+    wxLogTrace("CBOINCBaseView::UpdateSelection - Function Begining");
+    wxLogTrace("CBOINCBaseView::UpdateSelection - Function Ending");
+}
+
+
+void CBOINCBaseView::UpdateTaskPane()
+{
+    wxLogTrace("CBOINCBaseView::UpdateTaskPane - Function Begining");
+    wxLogTrace("CBOINCBaseView::UpdateTaskPane - Function Ending");
 }
 

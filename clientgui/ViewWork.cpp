@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/24 02:01:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:26  rwalton
 // *** empty log message ***
 //
@@ -36,8 +39,27 @@
 #include "ViewWork.h"
 #include "Events.h"
 
+#include "res/boinc.xpm"
 #include "res/result.xpm"
+#include "res/task.xpm"
+#include "res/tips.xpm"
 
+
+#define VIEW_HEADER                 "result"
+
+#define SECTION_TASK                VIEW_HEADER "task"
+#define SECTION_TIPS                VIEW_HEADER "tips"
+
+#define BITMAP_RESULTS              VIEW_HEADER ".xpm"
+#define BITMAP_TASKHEADER           SECTION_TASK ".xpm"
+#define BITMAP_TIPSHEADER           SECTION_TIPS ".xpm"
+
+#define LINK_TASKSUSPENDRESUME      SECTION_TASK "suspendresume"
+#define LINK_TASKSHOWGRAPHICS       SECTION_TASK "showgraphics"
+#define LINK_TASKABORT              SECTION_TASK "abort"
+
+#define LINK_DEFAULT                "default"
+#define LINK_BLANK                  "blank"
 
 #define COLUMN_PROJECT              0
 #define COLUMN_APPLICATION          1
@@ -51,25 +73,32 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE(CViewWork, CBOINCBaseView)
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewWork::OnCacheHint)
-END_EVENT_TABLE()
-
 
 CViewWork::CViewWork()
 {
-    wxLogTrace("CViewWork::CViewWork - Function Begining");
-    wxLogTrace("CViewWork::CViewWork - Function Ending");
 }
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_LIST_WORKVIEW, ID_HTML_WORKVIEW)
+    CBOINCBaseView(pNotebook, ID_HTML_WORKVIEW, ID_LIST_WORKVIEW)
 {
     m_bProcessingRenderEvent = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
+
+    wxBitmap bmpResult(result_xpm);
+    wxBitmap bmpTask(task_xpm);
+    wxBitmap bmpTips(tips_xpm);
+
+    bmpResult.SetMask(new wxMask(bmpResult, wxColour(255, 0, 255)));
+    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
+    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
+
+    m_pTaskPane->AddVirtualFile(wxT(BITMAP_RESULTS), bmpResult, wxBITMAP_TYPE_XPM);
+
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TASKHEADER), bmpTask, _("Tasks"));
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TIPSHEADER), bmpTips, _("Quick Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, -1);
@@ -79,13 +108,20 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
+
+    m_bTipsHeaderHidden = false;
+
+    SetCurrentQuickTip(
+        wxT(LINK_DEFAULT), 
+        _("Please select a result to see additional options.")
+    );
+
+    UpdateSelection();
 }
 
 
 CViewWork::~CViewWork()
 {
-    wxLogTrace("CViewWork::~CViewWork - Function Begining");
-    wxLogTrace("CViewWork::~CViewWork - Function Ending");
 }
 
 
@@ -103,14 +139,22 @@ char** CViewWork::GetViewIcon()
 
 void CViewWork::OnRender(wxTimerEvent &event)
 {
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
     wxLogTrace("CViewWork::OnRender - Processing Render Event...");
     if (!m_bProcessingRenderEvent)
     {
         m_bProcessingRenderEvent = true;
 
         wxInt32 iProjectCount = wxGetApp().GetDocument()->GetWorkCount();
-        wxASSERT(NULL != m_pListPane);
         m_pListPane->SetItemCount(iProjectCount);
+
+        long lSelected = m_pListPane->GetFirstSelected();
+        if ( (-1 == lSelected) && m_bItemSelected )
+        {
+            UpdateSelection();
+        }
 
         m_bProcessingRenderEvent = false;
     }
@@ -121,7 +165,39 @@ void CViewWork::OnRender(wxTimerEvent &event)
 }
 
 
-wxString CViewWork::OnGetItemText(long item, long column) const
+void CViewWork::OnListSelected ( wxListEvent& event )
+{
+    wxLogTrace("CViewWork::OnListSelected - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CViewWork::OnListDeselected ( wxListEvent& event )
+{
+    wxLogTrace("CViewWork::OnListDeselected - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CViewWork::OnListActivated ( wxListEvent& event )
+{
+    wxLogTrace("CViewWork::OnListActivated - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CViewWork::OnListFocused ( wxListEvent& event )
+{
+    wxLogTrace("CViewWork::OnListFocused - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+wxString CViewWork::OnListGetItemText(long item, long column) const
 {
     wxString strBuffer;
     switch(column) {
@@ -153,5 +229,160 @@ wxString CViewWork::OnGetItemText(long item, long column) const
             break;
     }
     return strBuffer;
+}
+
+
+void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
+{
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    wxString strMessage;
+
+    if ( link.GetHref() == wxT(SECTION_TASK) )
+        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+
+    if ( link.GetHref() == wxT(SECTION_TIPS) )
+        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
+
+
+    UpdateTaskPane();
+}
+
+
+void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    if ( NULL != cell->GetLink() )
+    {
+        bool        bUpdateTaskPane = false;
+        wxString    strLink;
+
+        strLink = cell->GetLink()->GetHref();
+
+        if      ( wxT(LINK_TASKSUSPENDRESUME) == strLink )
+        {
+            if  ( wxT(LINK_TASKSUSPENDRESUME) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKSUSPENDRESUME), 
+                    _("<b>Suspend/Resume</b><br>"
+                      "Selecting suspend/resume allows you to suspend or resume the "
+                      "currently selected result.")
+                );
+
+                bUpdateTaskPane = true;
+            }
+        }
+        else if ( wxT(LINK_TASKSHOWGRAPHICS) == strLink )
+        {
+            if  ( wxT(LINK_TASKSHOWGRAPHICS) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKSHOWGRAPHICS), 
+                    _("<b>Show Graphics</b><br>"
+                      "Selecting show graphics will display a window giving you a chance "
+                      "to see how the active result will look while in screensaver mode.")
+                );
+
+                bUpdateTaskPane = true;
+            }
+        }
+        else if ( wxT(LINK_TASKABORT) == strLink )
+        {
+            if  ( wxT(LINK_TASKABORT) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKABORT), 
+                    _("<b>Abort Result</b><br>"
+                      "Selecting abort result will delete the result from the work queue. "
+                      "Doing this will keep you from being granted any credit for this result.")
+                );
+
+                bUpdateTaskPane = true;
+            }
+        }
+        else
+        {
+            long lSelected = m_pListPane->GetFirstSelected();
+            if ( -1 == lSelected )
+            {
+                if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
+                {
+                    SetCurrentQuickTip(
+                        wxT(LINK_DEFAULT), 
+                        _("Please select a result to see additional options.")
+                    );
+
+                    bUpdateTaskPane = true;
+                }
+            }
+            else
+            {
+                if  ( wxT(LINK_BLANK) != GetCurrentQuickTip() )
+                {
+                    SetCurrentQuickTip(
+                        wxT(LINK_BLANK), 
+                        wxT("")
+                    );
+
+                    bUpdateTaskPane = true;
+                }
+            }
+        }
+
+        if ( bUpdateTaskPane )
+        {
+            UpdateTaskPane();
+        }
+    }
+}
+
+
+void CViewWork::UpdateSelection()
+{
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    long lSelected = m_pListPane->GetFirstSelected();
+    if ( -1 == lSelected )
+    {
+        m_bTaskHeaderHidden = true;
+        m_bTaskSuspendResumeHidden = true;
+        m_bTaskShowGraphicsHidden = true;
+        m_bTaskAbortHidden = true;
+
+        m_bItemSelected = false;
+    }
+    else
+    {
+        m_bTaskHeaderHidden = false;
+        m_bTaskSuspendResumeHidden = false;
+        m_bTaskShowGraphicsHidden = false;
+        m_bTaskAbortHidden = false;
+
+        m_bItemSelected = true;
+    }
+    UpdateTaskPane();
+}
+
+
+void CViewWork::UpdateTaskPane()
+{
+    wxASSERT(NULL != m_pTaskPane);
+
+    m_pTaskPane->BeginTaskPage();
+
+    m_pTaskPane->BeginTaskSection( wxT(SECTION_TASK), wxT(BITMAP_TASKHEADER), m_bTaskHeaderHidden );
+    if (!m_bTaskHeaderHidden)
+    {
+        m_pTaskPane->CreateTask( wxT(LINK_TASKSUSPENDRESUME), wxT(BITMAP_RESULTS), _("Suspend/Resume"), m_bTaskSuspendResumeHidden );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKSHOWGRAPHICS), wxT(BITMAP_RESULTS), _("Show Graphics"), m_bTaskShowGraphicsHidden );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKABORT), wxT(BITMAP_RESULTS), _("Abort Result"), m_bTaskAbortHidden );
+    }
+    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+
+    m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+
+    m_pTaskPane->EndTaskPage();
 }
 

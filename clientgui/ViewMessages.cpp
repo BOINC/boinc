@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/24 02:01:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
@@ -47,7 +50,6 @@
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE(CViewMessages, CBOINCBaseView)
-    EVT_LIST_CACHE_HINT(ID_LIST_MESSAGESVIEW, CViewMessages::OnCacheHint)
 END_EVENT_TABLE()
 
 
@@ -59,7 +61,7 @@ CViewMessages::CViewMessages()
 
 
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_LIST_MESSAGESVIEW, ID_HTML_MESSAGESVIEW)
+    CBOINCBaseView(pNotebook, ID_HTML_MESSAGESVIEW, ID_LIST_MESSAGESVIEW)
 {
     m_bProcessingRenderEvent = false;
 
