@@ -18,6 +18,7 @@ before getting into the source code.
 Read about:
 <ul>
 <li> <a href=compile.php>Compiling BOINC software</a>
+<li> <a href=coding.php>BOINC coding style</a>
 </ul>
 <p>
 Various implementation notes:
