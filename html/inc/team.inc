@@ -4,6 +4,7 @@ require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
+require_once("../inc/credit.inc");
 
 function show_team_create_account_url($team) {
     $url = URL_BASE."create_account_form.php?teamid=$team->id";

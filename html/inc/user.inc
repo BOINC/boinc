@@ -1,5 +1,7 @@
 <?php
 
+require_once("../inc/credit.inc");
+
 function pending_credit($user) {
     $result = mysql_query("select sum(claimed_credit) as total from result where userid=$user->id and validate_state=0");
     $foobar = mysql_fetch_object($result);

@@ -19125,3 +19125,10 @@ Rom    5 Nov 2004
 Rom    5 Nov 2004 (boinc)
     - Tag for 4.54 release, all platforms
       boinc_core_release_4_54
+
+David  6 Nov 2004
+    - include credit.inc where needed
+
+    html/inc
+        team.inc
+        host.inc
