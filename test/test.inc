@@ -10,6 +10,8 @@
 //
 // See doc/test.html for details
 
+include_once("version.inc");
+
 define("RESULT_STATE_OVER", 5);
 
 ob_end_flush();         // let us see what's going on
@@ -204,6 +206,7 @@ class Project {
     // Set up the database and directory structures for a project
     //
     function install($scheduler_file = null) {
+        global $CLIENT_BIN_FILENAME;
         $source_dir = $this->source_dir;
         $base_dir = get_env_var("BOINC_PROJECTS_DIR");
         $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->short_name;
@@ -290,7 +293,8 @@ class Project {
                 $core_version->exec_dir = "$source_dir/client";
             }
             if ($core_version->exec_name == null) {
-                $core_version->exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
+                //$core_version->exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
+                $core_version->exec_name = $CLIENT_BIN_FILENAME;
             }
             $p = $core_version->platform;
             $x = "add core_version -db_name $this->db_name -platform_name $p->name -version $core_version->version -download_dir $this->project_dir/download -download_url $this->download_url -exec_dir $core_version->exec_dir -exec_files $core_version->exec_name";
@@ -567,7 +571,7 @@ class Project {
         $f_new = fopen($this->project_dir."/cgi/.htconfig.tmp", "w");
         $appended = false;
         while(!feof($f_old)) {
-            $in_line = fgets($f_old);
+            $in_line = fgets($f_old,1024);
             if (strstr($in_line, "</config>")) {
                 fputs($f_new, $line);
                 $appended = true;
@@ -586,7 +590,7 @@ class Project {
         $f_old = fopen($this->project_dir."/cgi/.htconfig.xml", "r");
         $f_new = fopen($this->project_dir."/cgi/.htconfig.tmp", "w");
         while(!feof($f_old)) {
-            $in_line = fgets($f_old);
+            $in_line = fgets($f_old, 1024);
             if (!strstr($in_line, $pattern))
                 fputs($f_new, $in_line);
         }
@@ -734,6 +738,7 @@ class Host {
     // get_new_boincpid() must be called and kill() must be called on it. 
     //
     function run_asynch($args) {
+        global $CLIENT_BIN_FILENAME;
         $pid = pcntl_fork();
         if ($pid == -1) {
             return -1; 
@@ -743,7 +748,8 @@ class Host {
             echo "\nRunning core client asynch\n";
             $source_dir = get_env_var("BOINC_SRC_DIR");
             $platform = get_env_var("BOINC_PLATFORM");
-            $exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
+            //$exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
+            $exec_name = $CLIENT_BIN_FILENAME;
             PassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
             exit(0);
         }
@@ -763,10 +769,12 @@ class Host {
     }
 
     function run($args=null) {
+          global $CLIENT_BIN_FILENAME;
           echo "\nRunning core client\n";
           $source_dir = get_env_var("BOINC_SRC_DIR");
           $platform = get_env_var("BOINC_PLATFORM");
-          $exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
+          //$exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
+          $exec_name = $CLIENT_BIN_FILENAME;
           PassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
     }
 

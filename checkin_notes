@@ -4497,3 +4497,52 @@ Tim    June 5, 2003
         client_state.h
         prefs.c
         wingui_mainwindow.cpp
+
+Karl    2003/05/06
+    Rewrote build system using automake and modern autoconf.
+
+    Added:
+
+     RSAEuro/Makefile.am
+     RSAEuro/source/Makefile.am
+     api/Makefile.am
+     apps/Makefile.am
+     client/Makefile.am
+     db/Makefile.am
+     lib/Makefile.am
+     sched/Makefile.am
+     sched_fcgi/Makefile.am
+     tools/Makefile.am
+     configure.ac
+
+    (helper files:)
+     Makefile.incl
+     _autosetup
+     aclocal.m4
+     compile
+     depcomp
+     install-sh
+     missing
+     mkinstalldirs
+     config.h.in
+     test/version.inc.in
+
+    Modified:
+     test/test.inc
+
+    Removed:
+     RSAEuro/source/targets.mak
+     configure.in
+
+    These files are now built automatically:
+
+     RSAEuro/Makefile.in
+     RSAEuro/source/Makefile.in
+     api/Makefile.in
+     apps/Makefile.in
+     client/Makefile.in
+     db/Makefile.in
+     lib/Makefile.in
+     sched/Makefile.in
+     sched_fcgi/Makefile.in
+     tools/Makefile.in

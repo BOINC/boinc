@@ -1,0 +1,22 @@
+Packages required for running the server:
+
+  mysql-server mysql-client libmysqlclient
+
+  apache or apache2 or other webserver
+  php4-cgi (or php4 if running apache 1)
+
+Packages required for compilation:
+
+  g++
+
+  libgl-dev libglu-dev
+    (these are virtual packages; one example of packages that provide these are:
+       mesag-dev xlibmesa-glu-dev 
+     )
+
+  libmysqlclient-dev
+
+Packages required if you change makefiles:
+
+  autoconf automake1.7
+

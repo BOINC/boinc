@@ -165,6 +165,8 @@ struct TEAM {
     void clear();
 };
 
+#undef HOST
+
 struct HOST {
     int id;
     unsigned int create_time;
