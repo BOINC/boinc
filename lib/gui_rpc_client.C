@@ -399,6 +399,10 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_int(buf, "<num_retries>", num_retries)) continue;
+        else if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
+        else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
+        else if (parse_int(buf, "<status>", status)) continue;
+        else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else if (parse_double(buf, "<bytes_xferred>", bytes_xferred)) continue;
         else if (parse_double(buf, "<file_offset>", file_offset)) continue;
         else if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
@@ -427,6 +431,10 @@ void FILE_TRANSFER::clear() {
     pers_xfer_active = false;
     xfer_active = false;
     num_retries = 0;
+    first_request_time = 0;
+    next_request_time = 0;
+    status = 0;
+    time_so_far = 0.0;
     bytes_xferred = 0.0;
     file_offset = 0.0;
     xfer_speed = 0.0;

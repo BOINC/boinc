@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-10-21 23:33-0800\n"
+"PO-Revision-Date: 2004-10-22 11:38-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -146,32 +146,30 @@ msgstr ""
 msgid "&Help"
 msgstr ""
 
-#: clientgui/ValidateAccountKey.cpp:86
-#, c-format
-msgid "'%s' should only contain alphabetic or numeric characters and be equal to 32 characters."
+#: clientgui/ValidateAccountKey.cpp:89
+msgid "Invalid Account Key, please enter a valid Account Key"
 msgstr ""
 
-#: clientgui/ValidateAccountKey.cpp:98
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateAccountKey.cpp:101
+#: clientgui/ValidateURL.cpp:111
 msgid "Validation conflict"
 msgstr ""
 
-#: clientgui/ValidateURL.cpp:90
-#, c-format
-msgid "'%s' contains a syntax error."
+#: clientgui/ValidateURL.cpp:93
+msgid "No URL supplied, please enter a valid project URL."
 msgstr ""
 
-#: clientgui/ValidateURL.cpp:92
+#: clientgui/ValidateURL.cpp:95
 #, c-format
 msgid "'%s' does not contain a protocol which can get this URL."
 msgstr ""
 
-#: clientgui/ValidateURL.cpp:94
+#: clientgui/ValidateURL.cpp:97
 #, c-format
 msgid "'%s' does not contain a host name."
 msgstr ""
 
-#: clientgui/ValidateURL.cpp:96
+#: clientgui/ValidateURL.cpp:99
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr ""
@@ -206,7 +204,7 @@ msgstr ""
 
 #: clientgui/ViewMessages.cpp:102
 #: clientgui/ViewProjects.cpp:156
-#: clientgui/ViewProjects.cpp:669
+#: clientgui/ViewProjects.cpp:668
 #: clientgui/ViewResources.cpp:89
 #: clientgui/ViewTransfers.cpp:105
 #: clientgui/ViewWork.cpp:116
@@ -304,52 +302,53 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:415
+#: clientgui/ViewProjects.cpp:414
 #, c-format
 msgid "Are you sure you wish to detach from project '%s'?"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:420
-#: clientgui/ViewProjects.cpp:656
+#: clientgui/ViewProjects.cpp:419
+#: clientgui/ViewProjects.cpp:655
 msgid "Detach from Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:438
+#: clientgui/ViewProjects.cpp:437
 #, c-format
 msgid "Are you sure you wish to reset project '%s'?"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:443
-#: clientgui/ViewProjects.cpp:657
+#: clientgui/ViewProjects.cpp:442
+#: clientgui/ViewProjects.cpp:656
 msgid "Reset Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:655
+#: clientgui/ViewProjects.cpp:654
 #: clientgui/DlgAttachProject.h:42
 msgid "Attach to Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:658
+#: clientgui/ViewProjects.cpp:657
 msgid "Suspend Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:659
+#: clientgui/ViewProjects.cpp:658
 msgid "Resume Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:660
+#: clientgui/ViewProjects.cpp:659
 msgid "Update Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:668
+#: clientgui/ViewProjects.cpp:667
 msgid "BOINC"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:802
+#: clientgui/ViewProjects.cpp:801
 msgid "Project Suspended"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:814
+#: clientgui/ViewProjects.cpp:813
+#: clientgui/ViewTransfers.cpp:618
 msgid "Retry in "
 msgstr ""
 
@@ -365,15 +364,15 @@ msgstr ""
 msgid "Disk"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:60
+#: clientgui/ViewTransfers.cpp:61
 msgid "Please click a transfer item to see additional options."
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:64
+#: clientgui/ViewTransfers.cpp:65
 msgid "<b>Retry Now</b><br>Clicking retry now will attempt to upload the result data file to the project server now."
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:70
+#: clientgui/ViewTransfers.cpp:71
 msgid "<b>Abort Upload</b><br>Clicking abort upload will delete the result from the upload queue. Doing this will keep you from being granted any credit for this result."
 msgstr ""
 
@@ -398,12 +397,32 @@ msgstr ""
 msgid "Transfers"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:351
+#: clientgui/ViewTransfers.cpp:413
 msgid "Retry Now"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:352
+#: clientgui/ViewTransfers.cpp:414
 msgid "Abort Upload"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:622
+#: clientgui/ViewWork.cpp:711
+msgid "Download failed"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:626
+#: clientgui/ViewWork.cpp:753
+msgid "Upload failed"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:630
+#: clientgui/ViewWork.cpp:757
+msgid "Uploading"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:630
+#: clientgui/ViewWork.cpp:715
+msgid "Downloading"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:62
@@ -450,78 +469,62 @@ msgstr ""
 msgid "Work"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:392
+#: clientgui/ViewWork.cpp:387
 #, c-format
 msgid "Are you sure you wish to abort this result '%s'?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:397
-#: clientgui/ViewWork.cpp:519
+#: clientgui/ViewWork.cpp:392
+#: clientgui/ViewWork.cpp:513
 msgid "Abort Result"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:516
+#: clientgui/ViewWork.cpp:510
 msgid "Suspend"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:517
+#: clientgui/ViewWork.cpp:511
 msgid "Resume"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:518
+#: clientgui/ViewWork.cpp:512
 msgid "Show Graphics"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:706
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:717
-msgid "Download failed"
-msgstr ""
-
-#: clientgui/ViewWork.cpp:721
-msgid "Downloading"
-msgstr ""
-
-#: clientgui/ViewWork.cpp:730
+#: clientgui/ViewWork.cpp:724
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:730
 msgid "Suspended"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:740
+#: clientgui/ViewWork.cpp:734
 msgid "Paused"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:745
-#: clientgui/ViewWork.cpp:750
+#: clientgui/ViewWork.cpp:739
+#: clientgui/ViewWork.cpp:744
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:754
+#: clientgui/ViewWork.cpp:748
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:759
-msgid "Upload failed"
-msgstr ""
-
 #: clientgui/ViewWork.cpp:763
-msgid "Uploading"
-msgstr ""
-
-#: clientgui/ViewWork.cpp:769
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:773
+#: clientgui/ViewWork.cpp:767
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:777
+#: clientgui/ViewWork.cpp:771
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""

@@ -1080,7 +1080,6 @@ wxInt32 CMainDocument::GetTransferProjectName( wxInt32 iIndex, wxString& strBuff
 wxInt32 CMainDocument::GetTransferFileName( wxInt32 iIndex, wxString& strBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
-    PROJECT* pProject = NULL;
 
     if ( !ft.file_transfers.empty() )
         pFT = ft.file_transfers.at( iIndex );
@@ -1095,7 +1094,6 @@ wxInt32 CMainDocument::GetTransferFileName( wxInt32 iIndex, wxString& strBuffer 
 wxInt32 CMainDocument::GetTransferFileSize( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
-    PROJECT* pProject = NULL;
 
     if ( !ft.file_transfers.empty() )
         pFT = ft.file_transfers.at( iIndex );
@@ -1110,7 +1108,6 @@ wxInt32 CMainDocument::GetTransferFileSize( wxInt32 iIndex, float& fBuffer )
 wxInt32 CMainDocument::GetTransferBytesXfered( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
-    PROJECT* pProject = NULL;
 
     if ( !ft.file_transfers.empty() )
         pFT = ft.file_transfers.at( iIndex );
@@ -1125,7 +1122,6 @@ wxInt32 CMainDocument::GetTransferBytesXfered( wxInt32 iIndex, float& fBuffer )
 wxInt32 CMainDocument::GetTransferSpeed( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
-    PROJECT* pProject = NULL;
 
     if ( !ft.file_transfers.empty() )
         pFT = ft.file_transfers.at( iIndex );
@@ -1137,16 +1133,43 @@ wxInt32 CMainDocument::GetTransferSpeed( wxInt32 iIndex, float& fBuffer )
 }
 
 
-wxInt32 CMainDocument::GetTransferTime( wxInt32 iIndex, wxString& strBuffer )
+wxInt32 CMainDocument::GetTransferTime( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
-    PROJECT* pProject = NULL;
 
     if ( !ft.file_transfers.empty() )
         pFT = ft.file_transfers.at( iIndex );
 
-    //if ( NULL != pFT )
-        //fBuffer = pFT->;
+    if ( NULL != pFT )
+        fBuffer = pFT->time_so_far;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetTransferNextRequestTime( wxInt32 iIndex, wxInt32& iBuffer )
+{
+    FILE_TRANSFER* pFT = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        iBuffer = pFT->next_request_time;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetTransferStatus( wxInt32 iIndex, wxInt32& iBuffer )
+{
+    FILE_TRANSFER* pFT = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        iBuffer = pFT->status;
 
     return 0;
 }
@@ -1162,6 +1185,20 @@ bool CMainDocument::IsTransferActive( wxInt32 iIndex )
 
     if ( NULL != pFT )
         bRetVal = pFT->pers_xfer_active;
+
+    return bRetVal;
+}
+
+bool CMainDocument::IsTransferGeneratedLocally( wxInt32 iIndex )
+{
+    FILE_TRANSFER* pFT = NULL;
+    bool bRetVal    = false;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        bRetVal = pFT->generated_locally;
 
     return bRetVal;
 }

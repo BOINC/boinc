@@ -184,17 +184,18 @@ private:
 
 public:
 
-
     wxInt32                     GetTransferCount();
     wxInt32                     GetTransferProjectName( wxInt32 iIndex, wxString& strBuffer );
     wxInt32                     GetTransferFileName( wxInt32 iIndex, wxString& strBuffer );
     wxInt32                     GetTransferFileSize( wxInt32 iIndex, float& fBuffer );
     wxInt32                     GetTransferBytesXfered( wxInt32 iIndex, float& fBuffer );
     wxInt32                     GetTransferSpeed( wxInt32 iIndex, float& fBuffer );
-    wxInt32                     GetTransferTime( wxInt32 iIndex, wxString& strBuffer );
-    wxInt32                     GetTransferStatus( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferTime( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetTransferNextRequestTime( wxInt32 iIndex, wxInt32& iBuffer );
+    wxInt32                     GetTransferStatus( wxInt32 iIndex, wxInt32& iBuffer );
 
     bool                        IsTransferActive( wxInt32 iIndex );
+    bool                        IsTransferGeneratedLocally( wxInt32 iIndex );
 
 };
 

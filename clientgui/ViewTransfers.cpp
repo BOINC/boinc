@@ -32,6 +32,7 @@
 #include "BOINCListCtrl.h"
 #include "ViewTransfers.h"
 #include "Events.h"
+#include "error_numbers.h"
 
 #include "res/xfer.xpm"
 #include "res/task.xpm"
@@ -101,13 +102,13 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
     m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_SIZE, _("Size"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
+    m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, 205);
+    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
+    m_pListPane->InsertColumn(COLUMN_SIZE, _("Size"), wxLIST_FORMAT_LEFT, 80);
+    m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 80);
+    m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, 80);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
 
     m_bTipsHeaderHidden = false;
 
@@ -549,6 +550,25 @@ wxInt32 CViewTransfers::FormatSize( wxInt32 item, wxString& strBuffer ) const
 
 wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
 {
+    float          fBuffer = 0;
+    int            xhour = 0;
+    int            xmin = 0;
+    int            xsec = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetTransferTime(item, fBuffer);
+
+    xhour = (int)(fBuffer / (60 * 60));
+    xmin = (int)(fBuffer / 60) % 60;
+    xsec = (int)(fBuffer) % 60;
+
+    strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), xhour, xmin, xsec);
+
     return 0;
 }
 
@@ -577,6 +597,39 @@ wxInt32 CViewTransfers::FormatSpeed( wxInt32 item, wxString& strBuffer ) const
 
 wxInt32 CViewTransfers::FormatStatus( wxInt32 item, wxString& strBuffer ) const
 {
+    int            iTime = 0;
+    int            iStatus = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetTransferNextRequestTime( item, iTime );
+    pDoc->GetTransferStatus( item, iStatus );
+
+    wxDateTime dtNextRequest( (time_t)iTime );
+    wxDateTime dtNow(wxDateTime::Now());
+
+    if      ( dtNextRequest > dtNow )
+    {
+        wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
+        strBuffer = _("Retry in ") + tsNextRequest.Format();
+    }
+    else if ( ERR_GIVEUP_DOWNLOAD == iStatus )
+    {
+        strBuffer = _("Download failed");
+    }
+    else if ( ERR_GIVEUP_UPLOAD == iStatus )
+    {
+        strBuffer = _("Upload failed");
+    }
+    else
+    {
+        strBuffer = pDoc->IsTransferGeneratedLocally( item )? _("Uploading") : _("Downloading");
+    }
+
     return 0;
 }
 
