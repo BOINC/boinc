@@ -655,7 +655,7 @@ void CMainWindow::SaveUserSettings()
 // function:	loads relevant user settings from boinc ini file
 void CMainWindow::LoadUserSettings()
 {
-	char szPath[256], szVal[256];
+	char szPath[256];
 	CString strKey;
 	GetCurrentDirectory(256, szPath);
 	strcat(szPath, "\\");
@@ -1226,7 +1226,6 @@ void CMainWindow::OnCommandHide()
 void CMainWindow::OnCommandSuspend()
 {
 	gstate.suspend_requested = true;
-	m_bSuspend = true;
 
 	CMenu* pMainMenu;
 	CMenu* pFileMenu;
@@ -1248,7 +1247,6 @@ void CMainWindow::OnCommandSuspend()
 void CMainWindow::OnCommandResume()
 {
 	gstate.suspend_requested = false;
-	m_bSuspend = false;
 
 	CMenu* pMainMenu;
 	CMenu* pFileMenu;
@@ -1512,8 +1510,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		ShowWindow(SW_SHOW);
 	}
 
-	if(gstate.suspend_requested) OnCommandResume();
-	else OnCommandSuspend();
+	if(gstate.suspend_requested) OnCommandSuspend();
+	else OnCommandResume();
 
     return 0;
 }
@@ -1665,7 +1663,7 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 		GetCursorPos(&point);
 		CMenu* pSubmenu;
 		pSubmenu = m_ContextMenu.GetSubMenu(STATUS_MENU);
-		if(m_bSuspend) {
+		if(IsSuspended()) {
 			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_GRAYED);
 			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_ENABLED);
 		} else {
