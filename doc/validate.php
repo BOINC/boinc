@@ -27,7 +27,8 @@ be granted for correct results for this workunit.
 
 <li>
 If, when an output file for a result has a nonrecoverable error
-(i.e. the directory is there but the file isn't),
+(e.g. the directory is there but the file isn't,
+ or the file is present but has invalid contents),
 then it must set the result's outcome (in memory, not database)
 to VALIDATE_ERROR.
 Note: the function try_fopen() (in lib/util.C) can be used
@@ -59,6 +60,7 @@ In the absence of errors,
 it sets the new result's validate_state to either VALID or INVALID.
 <li>
 If it has a nonrecoverable error reading an output file of either result,
+or if the new result's output file is invalid,
 it must set the new result's outcome (in memory, not database)
 to VALIDATE_ERROR.
 <li>

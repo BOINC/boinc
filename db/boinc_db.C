@@ -643,6 +643,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(name, r[i++]);
     appid = atoi(r[i++]);
     min_quorum = atoi(r[i++]);
+    need_validate = atoi(r[i++]);
     canonical_resultid = atoi(r[i++]);
     transition_time = atoi(r[i++]);
     delay_bound = atoi(r[i++]);
@@ -684,6 +685,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.name, "
             "   wu.appid, "
             "   wu.min_quorum, "
+            "   wu.need_validate, "
             "   wu.canonical_resultid, "
             "   wu.transition_time, "
             "   wu.delay_bound, "
@@ -924,7 +926,7 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
 
     sprintf(query,
         "update result set validate_state=%d, granted_credit=%.15e, "
-        "server_state=%d, outcome=%d, opaque=%lf"
+        "server_state=%d, outcome=%d, opaque=%lf "
         "where id=%d",
         res.validate_state,
         res.granted_credit,

@@ -20372,3 +20372,24 @@ Bruce 30 Nov 2004
         db_ops.inc
     sched/
         db_purge.C
+
+David  30 Nov 2004
+    - fixed a bug in DB_VALIDATOR_ITEM_SET::update_result(): the lines
+            "server_state=%d, outcome=%d, opaque=%lf"
+            "where id=%d",
+        produce a bad SQL query (e.g. opaque=0.0000where id=4)
+    - fixed a bug in the transitioner:
+        TRANSITIONER_ITEM::enumerate() and query()
+        weren't reading "need_validate".
+        In some (rare) cases this would cause the flag
+        to get incorrectly cleared by the transitioner
+                     
+    NOTES:
+    - ALL VALIDATORS SHOULD BE RECOMPILED
+    - RECOMPILE THE TRANSITIONER
+
+    db/
+        boinc_db.C
+    client/
+        cs_account.C
+        main.C

@@ -87,7 +87,7 @@ The result file template is macro-substituted as follows:
 'wuname_resultnum_n' where wuname is the workunit name and resultnum is
 the ordinal number of the result (0, 1, ...).
 <li>
-&lt;UPLOAD_URL> is replaced with the upload URL.
+&lt;UPLOAD_URL/> is replaced with the upload URL.
 </ul>
 <p>
 <a name=cmdline>

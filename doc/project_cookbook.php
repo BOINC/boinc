@@ -9,7 +9,8 @@ Make sure MySQL is configured and running.
 <li> Run HOME/boinc/tools/<a href=make_project.php>make_project</a>
 <li> Append the contents of projects/PROJECT/PROJECT.httpd.conf
 to httpd.conf and restart Apache.
-<li> Insert a cron job to run the project's periodic tasks, e.g.
+<li> Use 'crontab' to insert a cron job to run the project's
+periodic tasks, e.g.
     <br> 0,5,10,15,20,25,30,35,40,45,50,55 * * * * HOME/projects/PROJECT/bin/start --cron
     <br> (if cron cannot run 'start', try using a helper script
     to set PATH and PYTHONPATH)
@@ -19,8 +20,8 @@ edit it to taste,
 and run <a href=tool_xadd.php>bin/xadd</a>.
 <li> Edit html/project/project.inc, changing the
 master URL and copyright holder.
-<li> Using <a href=http://httpd.apache.org/docs/programs/htpasswd.html>htpasswd</a>,
-add .htaccess and .htpasswd files to html/ops.
+<li> Protect the html/ops directory
+(e.g. by putting .htaccess and .htpasswd files there).
 </ul>
 
 Visible result: the project web site is up.

@@ -1,9 +1,7 @@
 <?php
 require_once("docutil.php");
-page_head("update_versions");
+page_head("Releasing application versions");
 echo "
-
-<h2>Releasing application versions</h2>
 
 The <code>update_versions</code> script
 releases new application versions.
@@ -20,6 +18,7 @@ with the same name as the application.
 Put new application versions here.
 <code>update_versions</code>
 scans these directories for new application versions.
+<li> Run bin/update_versions
 </ul>
 <p>
 
@@ -49,22 +48,23 @@ Recommended code-signing practices are described
 <a href=code_signing.php>here</a>.
 
 
-<h3>Minimum core version</h3>
-Application versions have a field <code>min_core_version</code> which,
-if nonzero, indicates the minimum core client version number
+<h3>Min/max core version</h3>
+Application versions have fields <code>min_core_version</code>
+and <code>max_core_version</code> which, if nonzero,
+indicates the range of core client version numbers
 to which the application version should be sent.
 Update_versions, by default, sets this to the largest
 core client version number in the database.
-You can disable this by editing update_versions,
-or by manually changing the app_version record.
+To change this, you can manually edit the app_version record.
 
 <h3>Multiple-file application versions</h3>
 
-Application versions can consist of multiple files.
-Follow the above procedure, but create a directory
-with the given name, and put the files in that directory.
-The executable file with the lexicographically first name
-will be treated as the main program.
+Application versions can consist of multiple files,
+one of which is the main program.
+To create a multiple-file application version,
+create a directory with the same name as the main program
+(of the form NAME_VERSION_PLATFORM[.ext]).
+and put the files in that directory.
 
 
 <h2>Releasing core client versions</h2>

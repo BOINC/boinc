@@ -60,7 +60,7 @@ void project_add_failed(PROJECT* project) {
     if (project->scheduler_urls.size()) {
         printf(
             "BOINC failed to log in to %s.\n "
-            "Please check your account ID and try again.\n",
+            "Please check your account key and try again.\n",
             project->master_url
         );
     } else {

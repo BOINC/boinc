@@ -4,7 +4,24 @@
 
    echo "
 <p>
-The BOINC source code is <a href=source/>here</a>.
+<h2>Source code</h2>
+You can get the BOINC source code in several ways:
+<ul>
+<li>
+<a href=source/>Download</a> a tarball or .zip file
+(generated nightly).
+<li>
+Browse the CVS repository via a
+<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/>web-based interface</a>.
+<li>
+Access the CVS repository directly, e.g. with a command like
+<pre>
+cvs -d :pserver:anonymous@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
+<pre>
+</ul>
+<p>
+Source code for a typical BOINC application,
+SETI@home, is <a href=http://boinc.berkeley.edu/seti_source/>here</a>.
 <p>
 If you are an experienced C++ system programmer you may be able
 to help us maintain and enhance BOINC.
@@ -15,6 +32,8 @@ You should understand exactly how BOINC is supposed to work
 (for both <a href=participate.php>participants</a>
 and <a href=create_project.php>developers</a>)
 before getting into the source code.
+
+<h2>Bug database</h2>
 <p>
 <a href=http://setiathome.berkeley.edu/taskbase>View database of bugs and feature requests</a>
 <p>

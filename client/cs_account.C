@@ -238,7 +238,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     safe_strcpy(auth, _auth);
     strip_whitespace(auth);
     if (!strlen(auth)) {
-        msg_printf(0, MSG_ERROR, "Invalid account ID: %s", auth);
+        msg_printf(0, MSG_ERROR, "Invalid account key: %s", auth);
         return ERR_AUTHENTICATOR;
     }
 
