@@ -1516,7 +1516,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	// see if we need to hide the window
-	if(gstate.global_prefs.run_minimized) {
+	if(gstate.global_prefs.run_minimized || gstate.start_saver) {
 		ShowWindow(SW_HIDE);
 	} else {
 		ShowWindow(SW_SHOW);
@@ -1733,5 +1733,4 @@ void CMainWindow::OnTimer(UINT uEventID)
 	if(uEventID == m_nAppTimerID) {
 		CheckAppWnd();
 	}
-
 }

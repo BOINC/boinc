@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CSSWindow, CWnd)
     ON_WM_CREATE()
     ON_WM_DESTROY()
     ON_WM_PAINT()
+    ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 //////////
@@ -40,6 +41,8 @@ CSSWindow::CSSWindow()
 	int nY = rand() % 50;
 	m_Rect.SetRect(0+nX,0+nY,640+nX,480+nY);
 	SetMode(MODE_NO_GRAPHICS, MODE_NO_GRAPHICS);
+
+	m_hBOINCIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON));
 }
 
 // CMainWindow::SetMode
@@ -191,6 +194,10 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 
 	GetCursorPos(&m_MousePos);
 	SetTimer(1, 100, NULL);
+
+	m_nPosX = m_nPosY = 0;
+	m_nDX = m_nDY = 5;
+
     return 0;
 }
 
@@ -208,7 +215,7 @@ void CSSWindow::OnDestroy()
 // CSSWindow::OnPaint
 // arguments:	null
 // returns:		null
-// function:	for now, clears the window
+// function:	clears the window and draws the bouncing icon if necessary
 void CSSWindow::OnPaint()
 {
 	PAINTSTRUCT ps;
@@ -220,5 +227,27 @@ void CSSWindow::OnPaint()
 	pdc = BeginPaint(&ps);
 	GetClientRect(&winRect);
 	pdc->FillRect(&winRect, &cb);
+
+	if (m_nMode == MODE_FULLSCREEN || m_nMode == MODE_WINDOW) {
+		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
+		m_nPosX += m_nDX;
+		m_nPosY += m_nDY;
+		if (m_nPosX <= winRect.left || (m_nPosX+32) >= winRect.right) m_nDX *= -1;
+		if (m_nPosY <= winRect.top || (m_nPosY+32) >= winRect.bottom) m_nDY *= -1;
+	}
+
 	EndPaint(&ps);
+}
+
+//////////
+// CSSWindow::OnTimer
+// arguments:	null
+// returns:		null
+// function:	redraw the window if needed
+void CSSWindow::OnTimer()
+{
+	if (m_nMode == MODE_FULLSCREEN || m_nMode == MODE_WINDOW) {
+		Invalidate();
+		OnPaint();
+	}
 }

@@ -46,6 +46,10 @@ private:
 	UINT					m_uSetMsg;
 	UINT					m_uGetMsg;
 
+	HICON					m_hBOINCIcon;
+	int						m_nPosX, m_nPosY;
+	int						m_nDX, m_nDY;
+
 	HDC hdc;
 	HGLRC hrc;
 
