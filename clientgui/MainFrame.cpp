@@ -541,6 +541,10 @@ bool CMainFrame::SaveState()
     {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
         pConfig->Write(wxT("Height"), GetSize().GetHeight());
+#ifdef __WXMAC__
+        pConfig->Write(wxT("XPos"),GetPosition().x);
+        pConfig->Write(wxT("YPos"), GetPosition().y);
+#endif
     }
 
 
@@ -588,8 +592,10 @@ bool CMainFrame::RestoreState()
 #if defined(__WXMSW__) || defined(__WXMAC__)
     bool            bWindowMaximized = false;
 #endif
-    //wxInt32         iTop = 0;
-    //wxInt32         iLeft = 0;
+#ifdef __WXMAC__
+    wxInt32         iTop = 0;
+    wxInt32         iLeft = 0;
+#endif
     wxInt32         iHeight = 0;
     wxInt32         iWidth = 0;
 
@@ -626,6 +632,20 @@ bool CMainFrame::RestoreState()
     Maximize( bWindowMaximized );
 #endif
 
+#ifdef __WXMAC__
+    pConfig->Read(wxT("YPos"), &iTop, 30);
+    pConfig->Read(wxT("XPos"), &iLeft, 30);
+
+    SetPosition(wxPoint(iLeft, iTop));
+    // The following line of code works around an apparent bug in 
+    // the Macintosh version of wxWidgets which fails to set the 
+    // window size and position, though the Windows version does so.
+    // It appears that SetSize() and SetPosition() don't set their 
+    // corresponding instance variables on the Macintosh, but 
+    // wxTopLevelWindowMac::DoMoveWindow() does successfully set 
+    // these instance variables as well as actually adjust the window.
+    wxTopLevelWindowMac::DoMoveWindow(iLeft, iTop, iWidth, iHeight);
+#endif
 
     //
     // Restore Page(s) State
