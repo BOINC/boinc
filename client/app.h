@@ -53,7 +53,7 @@ class CLIENT_STATE;
 class ACTIVE_TASK {
 public:
 #ifdef _WIN32
-	HANDLE pid_handle;
+    HANDLE pid_handle;
 #endif
     RESULT* result;
     WORKUNIT* wup;
@@ -67,7 +67,7 @@ public:
     double starting_cpu_time;
     double checkpoint_cpu_time;
     double current_cpu_time;
-    char dirname[256];      // directory where process runs
+    char slot_dir[256];      // directory where process runs
     ACTIVE_TASK();
     int init(RESULT*);
 

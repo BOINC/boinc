@@ -63,9 +63,15 @@ int boinc_init() {
 #endif
 
     f = fopen(INIT_DATA_FILE, "r");
-    if (!f) return ERR_FOPEN;
+    if (!f) {
+        fprintf(stderr, "boinc_init(): can't open init data file\n");
+        return ERR_FOPEN;
+    }
     retval = parse_init_data_file(f, aid);
-    if (retval) return retval;
+    if (retval) {
+        fprintf(stderr, "boinc_init(): can't parse init data file\n");
+        return retval;
+    }
     fclose(f);
 
     f = fopen(FD_INIT_FILE, "r");
@@ -147,7 +153,7 @@ double boinc_cpu_time() {
     retval = getrusage(RUSAGE_SELF, &ru);
     if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
     return (double)ru.ru_utime.tv_sec + (
-	((double)ru.ru_utime.tv_usec) / ((double)1000000.0)
+        ((double)ru.ru_utime.tv_usec) / ((double)1000000.0)
     );
 #else
 #ifdef _WIN32
@@ -176,19 +182,19 @@ double boinc_cpu_time() {
         return(totTime / 10000000.0);
     }
     CloseHandle(hProcess);
-	// ... fall through
+    // ... fall through
 #endif  // WINNT_CLOCK
-	static bool first=true;
-	static DWORD last_count = 0;
+    static bool first=true;
+    static DWORD last_count = 0;
 
-	if (first) {
-		last_count = GetTickCount();
-		first = true;
-	}
-	DWORD cur = GetTickCount();
-	double x = (cur - last_count)/1000.;
-	last_count = cur;
-	return x;
+    if (first) {
+	last_count = GetTickCount();
+	first = true;
+    }
+    DWORD cur = GetTickCount();
+    double x = (cur - last_count)/1000.;
+    last_count = cur;
+    return x;
 #endif  // _WIN32
 #endif
 
@@ -285,9 +291,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         }
         else if (parse_str(buf, "<user_name>", ai.user_name)) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name)) continue;
-	else if (parse_double(buf, "<total_cobblestones>", ai.total_cobblestones)) continue;
-	else if (parse_double(buf, "<recent_avg_cobblestones>", ai.recent_avg_cobblestones)) continue;
-	else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
+        else if (parse_double(buf, "<total_cobblestones>", ai.total_cobblestones)) continue;
+        else if (parse_double(buf, "<recent_avg_cobblestones>", ai.recent_avg_cobblestones)) continue;
+        else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
         else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);
@@ -354,37 +360,44 @@ int parse_fd_init_file(FILE* f) {
         if (parse_str(buf, "<fdesc_dup_infile>", filename)) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_innum>", filedesc)) {
+#if  1
+		    freopen(filename, "r", stdin);
+#else
                     fd = open(filename, O_RDONLY);
+		    if (fd < 0) return ERR_OPEN;
                     if (fd != filedesc) {
                         retval = dup2(fd, filedesc);
                         if (retval < 0) {
                             fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
-                            exit(retval);
+                            return ERR_DUP2;
                         }
                         close(fd);
                     }
+#endif
+		    fprintf(stderr, "opened input file %s\n", filename);
                 }
             }
-            continue;
-        }
-        else if (parse_str(buf, "<fdesc_dup_outfile>", filename)) {
+        } else if (parse_str(buf, "<fdesc_dup_outfile>", filename)) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_outnum>", filedesc)) {
+#if 1
+		    freopen(filename, "w", stdout);
+#else
                     fd = open(filename, O_WRONLY|O_CREAT, 0660);
+		    if (fd < 0) return ERR_OPEN;
                     if (fd != filedesc) {
                         retval = dup2(fd, filedesc);
                         if (retval < 0) {
                             fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
-                            exit(retval);
+                            return ERR_DUP2;
                         }
                         close(fd);
                     }
+#endif
+		    fprintf(stderr, "opened output file %s\n", filename);
                 }
             }
-            continue;
-        }
-        else fprintf(stderr, "parse_fd_init_file: unrecognized %s", buf);
+        } else fprintf(stderr, "parse_fd_init_file: unrecognized %s", buf);
     }
     return 0;
 }
-

@@ -1647,3 +1647,23 @@ Eric Heien  August 21, 2002
     lib/
         error_numbers.h
 
+David   August 24, 2002
+    - fixed bugs in the Windows variant of app.C
+	Notes on Windows:
+	- Some places (e.g. current dir arg of CreateProcess())
+	  require a full path
+	- Some places require \ instead of / in paths.
+	  Added the constant PATH_SEPARATOR for this purpose.
+	- To redirect stdin/stdout, you need to use freopen();
+	  it's not enough to dup2 the underlying descriptor
+
+    api/
+	boinc_api.C
+    apps/
+	upper_case.C
+    client/
+	app.C,h
+	file_names.C
+	filesys.C,h
+    lib/
+	error_numbers.h

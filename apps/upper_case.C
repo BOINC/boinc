@@ -30,9 +30,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 #else
 int main() {
 #endif
-    int c, n=0;
+    int c, n=0, retval;
 
-    boinc_init();
+    retval = boinc_init();
+    if (retval) exit(retval);
     fprintf(stderr, "APP: upper_case starting\n");
     fflush(stderr);
     while (1) {
@@ -42,8 +43,8 @@ int main() {
         putchar(c);
         n++;
         if (boinc_time_to_checkpoint()) {
-	    fflush(stdout);
-	    boinc_checkpoint_completed();
+            fflush(stdout);
+            boinc_checkpoint_completed();
         }
     }
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", n);

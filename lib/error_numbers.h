@@ -36,12 +36,14 @@
 // too much time has elapsed without progress on file xfer
 #define ERR_GIVEUP      -114
 // unexpected NULL pointer
-#define ERR_NULL	-115
+#define ERR_NULL        -115
 // unexpected negative value
-#define ERR_NEG		-116
+#define ERR_NEG         -116
 // caught buffer overflow
 #define ERR_BUFF_OVERFLOW -117
 // MD5 checksum failed for a file
 #define ERR_MD5_FAILED -118
 // RSA key check failed for a file
 #define ERR_RSA_FAILED -119
+#define ERR_OPEN       -120
+#define ERR_DUP2       -121

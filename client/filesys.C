@@ -53,6 +53,7 @@
 #ifdef _WIN32
 #include <io.h>
 #include <winsock.h>
+#include <direct.h>
 #endif
 
 #include "util.h"
@@ -261,3 +262,11 @@ int boinc_rename(char* old, char* newf) {
 #endif
     return rename(old, newf);
 }
+
+#ifdef _WIN32
+void full_path(char* relname, char* path) {
+	_getcwd(path, 256);
+    strcat(path, PATH_SEPARATOR);
+    strcat(path, relname);
+}
+#endif

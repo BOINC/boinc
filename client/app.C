@@ -115,7 +115,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     state = PROCESS_UNINITIALIZED;
     exit_status = 0;
     signal = 0;
-    strcpy(dirname, "");
+    strcpy(slot_dir, "");
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -132,13 +132,13 @@ int ACTIVE_TASK::init(RESULT* rp) {
 // Current dir is top-level BOINC dir
 //
 int ACTIVE_TASK::start(bool first_time) {
-    char exec_name[256], file_path[256], link_path[256], temp[256];
+    char exec_name[256], file_path[256], link_path[256], temp[256], exec_path[256];
     unsigned int i;
     FILE_REF file_ref;
     FILE_INFO* fip;
     int retval;
-    char prefs_path[256], init_path[256];
-    FILE *prefs_fd,*init_file;
+    char init_data_path[256], fd_init_path[256];
+    FILE *f;
     APP_INIT_DATA aid;
 
     if (first_time) {
@@ -159,22 +159,22 @@ int ACTIVE_TASK::start(bool first_time) {
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.wu_cpu_time = checkpoint_cpu_time;
 
-    sprintf(prefs_path, "%s/%s", dirname, INIT_DATA_FILE);
-    prefs_fd = fopen(prefs_path, "w");
-    if (!prefs_fd) {
+    sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
+    f = fopen(init_data_path, "w");
+    if (!f) {
         if (log_flags.task_debug) {
-            printf("Failed to open core to app prefs file %s.\n", prefs_path);
+            printf("Failed to open core to app prefs file %s.\n", init_data_path);
         }
         return ERR_FOPEN;
     }
-    retval = write_init_data_file(prefs_fd, aid);
-    fclose(prefs_fd);
+    retval = write_init_data_file(f, aid);
+    fclose(f);
 
-    sprintf(init_path, "%s/%s", dirname, FD_INIT_FILE);
-    init_file = fopen(init_path, "w");
-    if (!init_file) {
+    sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
+    f = fopen(fd_init_path, "w");
+    if (!f) {
         if(log_flags.task_debug) {
-            printf( "Failed to open init file %s.\n", init_path );
+            printf("Failed to open init file %s.\n", fd_init_path);
         }
         return ERR_FOPEN;
     }
@@ -186,9 +186,10 @@ int ACTIVE_TASK::start(bool first_time) {
         get_pathname(fip, file_path);
         if (i == 0) {
             strcpy(exec_name, fip->name);
+            strcpy(exec_path, file_path);
         }
         if (first_time) {
-            sprintf(link_path, "%s/%s", dirname, fip->name);
+            sprintf(link_path, "%s/%s", slot_dir, fip->name);
             sprintf(temp, "../../%s", file_path );
             retval = boinc_link( temp, link_path);
             if (log_flags.task_debug) {
@@ -196,7 +197,7 @@ int ACTIVE_TASK::start(bool first_time) {
             }
             if (retval) {
                 perror("link");
-                fclose( init_file );
+                fclose(f);
                 return retval;
             }
         }
@@ -209,21 +210,21 @@ int ACTIVE_TASK::start(bool first_time) {
         get_pathname(file_ref.file_info, file_path);
         if (strlen(file_ref.open_name)) {
             if (first_time) {
-                sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
+                sprintf(link_path, "%s/%s", slot_dir, file_ref.open_name);
                 sprintf(temp, "../../%s", file_path );
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
-                retval = boinc_link( temp, link_path);
+                retval = boinc_link(temp, link_path);
                 if (retval) {
                     perror("link");
-                    fclose( init_file );
+                    fclose(f);
                     return retval;
                 }
             }
         } else {
             sprintf(temp, "../../%s", file_path);
-            write_fd_init_file(init_file, temp, file_ref.fd, 1);
+            write_fd_init_file(f, temp, file_ref.fd, 1);
         }
     }
 
@@ -235,25 +236,25 @@ int ACTIVE_TASK::start(bool first_time) {
         if (strlen(file_ref.open_name)) {
             if (first_time) {
                 creat(file_path, 0660);
-                sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
+                sprintf(link_path, "%s/%s", slot_dir, file_ref.open_name);
                 sprintf(temp, "../../%s", file_path );
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
-                retval = boinc_link( temp, link_path);
+                retval = boinc_link(temp, link_path);
                 if (retval) {
-                    fclose( init_file );
+                    fclose(f);
                     perror("link");
                     return retval;
                 }
             }
         } else {
-            sprintf( temp, "../../%s", file_path );
-            write_fd_init_file(init_file, temp, file_ref.fd, 0);
+            sprintf(temp, "../../%s", file_path);
+            write_fd_init_file(f, temp, file_ref.fd, 0);
         }
     }
 
-    fclose( init_file );
+    fclose(f);
 
 #ifdef HAVE_UNISTD_H
 #ifdef HAVE_SYS_TYPES_H
@@ -267,7 +268,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
         // chdir() into the slot directory
         //
-        retval = chdir(dirname);
+        retval = chdir(slot_dir);
         if (retval) {
             perror("chdir");
             exit(retval);
@@ -293,7 +294,7 @@ int ACTIVE_TASK::start(bool first_time) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    char exec_path[256];
+    char slotdirpath[256];
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -306,7 +307,7 @@ int ACTIVE_TASK::start(bool first_time) {
     // Need to condense argv into a single string
     //if (log_flags.task_debug) print_argv(argv);
     //
-    sprintf(exec_path, "%s/%s", dirname, exec_name);
+    full_path(slot_dir, slotdirpath);
     if (!CreateProcess(exec_path,
         wup->command_line,
         NULL,
@@ -314,7 +315,7 @@ int ACTIVE_TASK::start(bool first_time) {
         FALSE,
         CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|NORMAL_PRIORITY_CLASS,
         NULL,
-        dirname,
+        slotdirpath,
         &startup_info,
         &process_info
     )) {
@@ -369,8 +370,8 @@ void ACTIVE_TASK::request_exit(int seconds) {
 int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
     int retval;
 
-    get_slot_dir(atp->slot, atp->dirname);
-    clean_out_dir(atp->dirname);
+    get_slot_dir(atp->slot, atp->slot_dir);
+    clean_out_dir(atp->slot_dir);
     retval = atp->start(true);
     if (retval) return retval;
     active_tasks.push_back(atp);
@@ -399,10 +400,9 @@ bool ACTIVE_TASK_SET::poll() {
             if (GetProcessTimes(atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
                 tKernel.LowPart = kernel_time.dwLowDateTime;
                 tKernel.HighPart = kernel_time.dwHighDateTime;
-	
                 tUser.LowPart = user_time.dwLowDateTime;
                 tUser.HighPart = user_time.dwHighDateTime;
-	
+
                 // Runtimes in 100-nanosecond units
                 totTime = tKernel.QuadPart + tUser.QuadPart;
 
@@ -412,7 +412,7 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->result->final_cpu_time = ((double)clock())/CLOCKS_PER_SEC;
             }
             if (exit_code != STILL_ACTIVE) {
-		found = true;
+                found = true;
                 // Not sure how to incorporate the other states (WAS_SIGNALED, etc)
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
@@ -462,7 +462,7 @@ bool ACTIVE_TASK_SET::poll() {
 
     // check for the stderr file, copy to result record
     //
-    sprintf(path, "%s/%s", atp->dirname, STDERR_FILE);
+    sprintf(path, "%s/%s", atp->slot_dir, STDERR_FILE);
     FILE* f = fopen(path, "r");
     if (f) {
         n = fread(atp->result->stderr_out, 1, STDERR_MAX_LEN, f);
@@ -470,7 +470,7 @@ bool ACTIVE_TASK_SET::poll() {
         fclose(f);
     }
 
-    clean_out_dir(atp->dirname);
+    clean_out_dir(atp->slot_dir);
 
     if (log_flags.task_debug) printf("ACTIVE_TASK_SET::poll\n");
     return true;
@@ -528,15 +528,15 @@ void ACTIVE_TASK_SET::exit_tasks() {
 // Send a suspend request to the ACTIVE_TASK
 //
 void ACTIVE_TASK::suspend() {
-	// figure out a way to do this, perhaps via trigger file?
-	//kill(atp->pid, SIGSTOP);
+    // figure out a way to do this, perhaps via trigger file?
+    //kill(atp->pid, SIGSTOP);
 }
 
 // Send a resume request to the ACTIVE_TASK
 //
 void ACTIVE_TASK::unsuspend() {
-	// figure out a way to do this, perhaps via trigger file?
-	//kill(atp->pid, SIGCONT);
+    // figure out a way to do this, perhaps via trigger file?
+    //kill(atp->pid, SIGCONT);
 }
 #else
 // Send a suspend request to the ACTIVE_TASK
@@ -580,7 +580,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         atp = *iter;
-        get_slot_dir(atp->slot, atp->dirname);
+        get_slot_dir(atp->slot, atp->slot_dir);
         retval = atp->start(false);
         if (log_flags.task) {
             printf("restarting application for result %s\n", atp->result->name);
@@ -604,19 +604,19 @@ bool ACTIVE_TASK::check_app_status_files() {
     bool found = false;
     int retval;
 
-    sprintf(app_path, "%s/%s", dirname, CHECKPOINT_CPU_FILE);
+    sprintf(app_path, "%s/%s", slot_dir, CHECKPOINT_CPU_FILE);
     f = fopen(app_path, "r");
     if (f) {
         found = true;
         parse_checkpoint_cpu_file(f, checkpoint_cpu_time);
         fclose(f);
-	retval = file_delete(CHECKPOINT_CPU_FILE);
-	if (retval) {
-	    fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", CHECKPOINT_CPU_FILE);
-	}
+        retval = file_delete(CHECKPOINT_CPU_FILE);
+        if (retval) {
+            fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", CHECKPOINT_CPU_FILE);
+        }
     }
 
-    sprintf(app_path, "%s/%s", dirname, FRACTION_DONE_FILE);
+    sprintf(app_path, "%s/%s", slot_dir, FRACTION_DONE_FILE);
     f = fopen(app_path, "r");
     if (f) {
         found = true;
@@ -624,10 +624,10 @@ bool ACTIVE_TASK::check_app_status_files() {
             f, current_cpu_time, fraction_done
         );
         fclose(f);
-	retval = file_delete(app_path);
-	if (retval) {
-	    fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", FRACTION_DONE_FILE);
-	}
+        retval = file_delete(app_path);
+        if (retval) {
+            fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", FRACTION_DONE_FILE);
+        }
     }
     return found;
 }
@@ -706,7 +706,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_str(buf, "<project_master_url>", project_master_url)) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
-	else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else fprintf(stderr, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return -1;

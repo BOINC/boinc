@@ -27,8 +27,9 @@
 #include <sys/stat.h>
 #include <ctype.h>
 
-#include "file_names.h"
+#include "filesys.h"
 #include "error_numbers.h"
+#include "file_names.h"
 
 // Converts a character string of a decimal number to hexadecimal string
 //
@@ -84,7 +85,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
     //
     if (p) {
         escape_url(p->master_url, buf);
-        sprintf(path, "%s/%s", buf, fip->name);
+        sprintf(path, "%s%s%s", buf, PATH_SEPARATOR, fip->name);
     } else {
         strcpy(path, fip->name);
     }
@@ -93,7 +94,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
 // Returns the location of a numbered slot directory
 //
 void get_slot_dir(int slot, char* path) {
-    sprintf(path, "slots/%d", slot);
+    sprintf(path, "slots%s%d", PATH_SEPARATOR, slot);
 }
 
 #ifdef _WIN32

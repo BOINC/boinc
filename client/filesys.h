@@ -24,10 +24,13 @@
 #include <io.h>
 struct DIR_DESC {
     char path[256];
-	bool first;
+    bool first;
     void* handle;
 };
 #define DIRREF DIR_DESC*
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
 #endif
 
 extern DIRREF dir_open(char*);
@@ -39,3 +42,6 @@ extern int boinc_link(char *existing, char *new_link);
 extern int clean_out_dir(char*);
 extern double dir_size(char* dirpath);
 extern int boinc_rename(char* old, char* newf);
+#ifdef _WIN32
+extern void full_path(char* relname, char* path);
+#endif
