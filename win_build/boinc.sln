@@ -29,7 +29,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "upper_case", "upper_case.vc
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_guirpc_test", "boinc_guirpc_test.vcproj", "{DA997BD1-B575-465C-9851-EEBB727F506A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_guirpctest", "boinc_guirpc_test.vcproj", "{DA997BD1-B575-465C-9851-EEBB727F506A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "boinc_setup", "boinc_setup.vdproj", "{DCBF1B21-CABD-4ADC-B940-ED40623468EF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "boinc_setup_auto", "boinc_setup_auto.vdproj", "{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -67,6 +75,14 @@ Global
 		{DA997BD1-B575-465C-9851-EEBB727F506A}.Debug.Build.0 = Debug|Win32
 		{DA997BD1-B575-465C-9851-EEBB727F506A}.Release.ActiveCfg = Release|Win32
 		{DA997BD1-B575-465C-9851-EEBB727F506A}.Release.Build.0 = Release|Win32
+		{DCBF1B21-CABD-4ADC-B940-ED40623468EF}.Debug.ActiveCfg = Debug
+		{DCBF1B21-CABD-4ADC-B940-ED40623468EF}.Debug.Build.0 = Debug
+		{DCBF1B21-CABD-4ADC-B940-ED40623468EF}.Release.ActiveCfg = Release
+		{DCBF1B21-CABD-4ADC-B940-ED40623468EF}.Release.Build.0 = Release
+		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Debug.ActiveCfg = Debug
+		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Debug.Build.0 = Debug
+		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Release.ActiveCfg = Release
+		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Release.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -14311,3 +14311,18 @@ Daniel 29 June 2004
     lib/
         shmem.C
 
+Karl 2004-06-30
+
+    - updated 'about' dialog to remove "beta" and add UCB SSL copyright
+
+    - visual studio installer projects (create MSIs)
+
+      boinc_setup creates an MSI with dialogs and options (launch on bootup,
+      desktop icon, etc.). boinc_setup_auto creates an MSI that installs
+      immediately with no prompting, ideal for Windows group policy to apply
+      to many computers
+
+    win_build/
+        boinc_setup.vdproj
+        boinc_setup_auto.vdproj
+
