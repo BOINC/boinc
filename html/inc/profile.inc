@@ -43,29 +43,17 @@ function show_profile_creation_page($user) {
         page_head("Create a Profile");
     }
 
-    setup_form($user, $profile);
+    echo "
+        <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
+    ";
     start_table_noborder();
     show_description($user, $profile);
     show_questions($profile);
     show_picture_option($profile);
     show_finale();
     end_table();
-    close_form();
-    page_tail();
-}
-
-function setup_form($user, $profile) {
-
- // <form action=", $_SERVER['PHP_SELF'], " method=\"POST\">
-
-    // multipart/form-data doesn't always work (?)
-    echo "
-<form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
-";
-}
-
-function close_form() {
     echo "</form>";
+    page_tail();
 }
 
 function show_description($user, $profile) {
@@ -84,13 +72,13 @@ with the ".PROJECT." community.
 }
 
 function show_questions($profile) {
-    show_profile_heading1();
-    show_profile_question1();
+    row1(show_profile_heading1());
+    rowify(show_profile_question1());
     rowify("<br>");
     show_textarea("response1", $profile->response1);
     rowify("<br>");
-    show_profile_heading2();
-    show_profile_question2();
+    row1( show_profile_heading2());
+    rowify( show_profile_question2());
     rowify("<br>");
     show_textarea("response2", $profile->response2);
     rowify("<br>");
@@ -204,19 +192,17 @@ function process_create_results($user, $profile) {
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
         $hasPicture = true;
 
-            /* 
-            echo "<br>Name: " . $_FILES['picture']['name'];
-            echo "<br>Type: " . $_FILES['picture']['type'];
-            echo "<br>Size: " . $_FILES['picture']['size'];
-            echo "<br>Temp name: " . $_FILES['picture']['tmp_name'];
-            */
+        // echo "<br>Name: " . $_FILES['picture']['name'];
+        // echo "<br>Type: " . $_FILES['picture']['type'];
+        // echo "<br>Size: " . $_FILES['picture']['size'];
+        // echo "<br>Temp name: " . $_FILES['picture']['tmp_name'];
 
-            $images = getImages($_FILES['picture']['tmp_name']);
+        $images = getImages($_FILES['picture']['tmp_name']);
 
-            // Write the original image file to disk.
-            // TODO: define a constant for image quality.
-            ImageJPEG($images[0], IMAGE_PATH . $user->id . '.jpg');
-            ImageJPEG($images[1], IMAGE_PATH . $user->id . '_sm.jpg');
+        // Write the original image file to disk.
+        // TODO: define a constant for image quality.
+        ImageJPEG($images[0], IMAGE_PATH . $user->id . '.jpg');
+        ImageJPEG($images[1], IMAGE_PATH . $user->id . '_sm.jpg');
     }
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
@@ -245,8 +231,7 @@ function process_create_results($user, $profile) {
             profile_error_page("Couldn't create profile: database error");
             exit();
         }
-        $q = "update user set has_profile=1 where id=$user->id";
-        mysql_query($q);
+        mysql_query("update user set has_profile=1 where id=$user->id");
     }
 
     show_result_page($user);
@@ -458,10 +443,10 @@ function show_profile($userid, $verify_mode=false) {
 
     show_profile_summary($user, $profile, $can_edit, $verify_mode);
     echo "<br><br>";
-    show_profile_heading1();
+    echo "<b>".show_profile_heading1()."</b><p>";
     echo $profile->response1;
     echo "<br><br>";
-    show_profile_heading2();
+    echo "<b>".show_profile_heading2()."</b><p>";
     echo $profile->response2;
     if (!$verify_mode) {
         page_tail();

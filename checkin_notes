@@ -22433,3 +22433,9 @@ David  9 Jan 2005
 
     db/
         db_base.C
+
+David  9 Jan 2005
+    - user profile fixes
+
+    html/inc/
+        profile.inc
