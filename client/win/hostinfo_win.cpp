@@ -29,7 +29,7 @@ int get_timezone(void) {
 	TIME_ZONE_INFORMATION tzi;
 	ZeroMemory(&tzi, sizeof(TIME_ZONE_INFORMATION));
 	GetTimeZoneInformation(&tzi);
-	return (tzi.Bias * 60);
+	return -(tzi.Bias * 60);
 }
 
 // Gets windows specific host information (not complete)
