@@ -10570,3 +10570,12 @@ kevin 18 March 2004
 	exit status of application set to nonzero value if there is an
 	uncaught signal.
 
+Rom    Mar 18 2004
+    - Fixed a bug causing build problems for a customer in Australia, basically
+      we were trying to do some ANSI<->Unicode conversions that were not needed.
+    - sighandle.h does not need to include its contents on the Win32 platform
+
+    client/win/
+        wingui_dialog.cpp
+    lib/
+        sighandle.h

@@ -26,8 +26,7 @@
 
 BEGIN_MESSAGE_MAP(CLoginDialog, CDialog)
     ON_BN_CLICKED(IDOK, OnOK)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 //////////
@@ -103,30 +102,25 @@ void CLoginDialog::OnOK()
 //				text for tool tips
 BOOL CLoginDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// need to handle both ANSI and UNICODE versions of the message
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
-	CString strTipText;
-	UINT nID = pNMHDR->idFrom;
-	if(pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND) ||
-		pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+    TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-		// idFrom is actually the HWND of the tool
-		CWnd* wnd = CWnd::FromHandle((HWND)nID);
-		if(wnd) nID = wnd->GetDlgCtrlID();
-	}
+    if(pTTT->uFlags & TTF_IDISHWND) {
 
-	if(nID == IDC_LOGIN_URL) strTipText = m_strUrlTT;
-	if(nID == IDC_LOGIN_AUTH) strTipText = m_strAuthTT;
-	if(pNMHDR->code == TTN_NEEDTEXTA) {
-		lstrcpyn(pTTTA->szText, strTipText, sizeof(pTTTA->szText));
-	} else {
-		_mbstowcsz(pTTTW->szText, strTipText, sizeof(pTTTW->szText));
-	}
-	*pResult = 0;
+        // idFrom is actually the HWND of the tool
+        UINT nID = ::GetDlgCtrlID((HWND)pNMHDR->idFrom);
+
+        if(nID == IDC_LOGIN_URL) {
+            lstrcpyn(pTTT->szText, m_strUrlTT, (sizeof(pTTT->szText)/sizeof(TCHAR)));
+        }
+        if(nID == IDC_LOGIN_AUTH) {
+            lstrcpyn(pTTT->szText, m_strAuthTT, (sizeof(pTTT->szText)/sizeof(TCHAR)));
+        }
+    }
+
+    *pResult = 0;
 
     // message was handled
-	return TRUE;
+    return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////

@@ -19,13 +19,13 @@
 #ifndef SIGHANDLE_H
 #define SIGHANDLE_H
 
-#ifdef _WIN32
-#include "stdafx.h"
-#else
+#ifndef _WIN32
+
 #include "config.h"
-#endif
 
 void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
 void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
+
+#endif
 
 #endif /* SIGHANDLE_H */
