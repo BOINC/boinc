@@ -16,7 +16,6 @@ gray, and the bottom half the bottom half of the astropulse graphics.
 They weren't moving. The computer was frozen. I had to ctrl-alt-del
 to restart.
 
-- Set "Show Graphics" disabled if app can't display graphics
 - Test BOINC error handling on UNIX if app can't start up (use bad path name)
 - If BOINC starts up before the taskbar is available, it is inaccessible
 - GUI client should display "Upload failed" and "Download failed"

@@ -1224,3 +1224,7 @@ void ACTIVE_TASK_SET::check_graphics_mode_ack() {
         atp->check_graphics_mode_ack();
     }
 }
+
+bool ACTIVE_TASK::supports_graphics() {
+    return (graphics_acked_mode != MODE_UNSUPPORTED);
+}

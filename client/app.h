@@ -116,6 +116,7 @@ public:
     int get_cpu_time_via_os();
     double est_time_to_completion();
     bool read_stderr_file();
+    bool supports_graphics();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

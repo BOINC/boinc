@@ -1554,6 +1554,15 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 			if(rt.PtInRect(point)) {
 				pContextMenu = m_ContextMenu.GetSubMenu(nMenuId);
 				if(pContextMenu) {
+					if (nMenuId == RESULT_MENU) {
+						pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_GRAYED); //disable
+						RESULT *rp = (RESULT *)pMenuCtrl->GetItemData(i);
+						if (rp) {
+							ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(rp);
+							if (atp && atp->supports_graphics())
+								pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_ENABLED); // enable
+						}
+					}
 					pContextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 					m_nContextItem = i;
 				}
