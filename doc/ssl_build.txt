@@ -1,0 +1,9 @@
+;; $Id$
+
+These notes/hints are for ourselves (SSL SETI/BOINC group) but they might be useful to others
+
+On Koloth, use these flags to link with mysql:
+     -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64
+
+The -m64 compile flag generates 64-bit code and is necessary because the libraries are 64-bit.
+

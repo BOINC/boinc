@@ -386,13 +386,16 @@ class ProjectList(list):
     def run(self):   map(lambda i: i.run(), self)
     def check(self): map(lambda i: i.check(), self)
     def stop(self):  map(lambda i: i.maybe_stop(), self)
-    def open_dbs(self):
-        self.dbs = map(lambda i: i.db_open(), self)
-    def progress(self):
+    def get_progress(self):
         s = "Running core client - results [done/total]:"
         for db in self.dbs:
             s += " [%d/%d]" % (num_results_done(db), num_results(db))
         return s
+    def start_progress_meter(self):
+        self.dbs = map(lambda i: i.db_open(), self)
+        self.rm = ResultMeter(self.get_progress)
+    def stop_progress_meter(self):
+        self.rm.stop()
 
 all_projects = ProjectList()
 
@@ -641,14 +644,20 @@ class Project:
         verbose_echo(2, "Master URL: " + self.master_url)
         verbose_echo(2, "Admin URL:  " + admin_url)
 
-    def install(self):
-        self.install_project()
+    def install_works(self):
         for work in self.works:
             work.install(self)
+
+    def install_hosts(self):
         for host in self.hosts:
             for user in self.users:
                 host.add_user(user, self)
             host.install()
+
+    def install(self):
+        self.install_project()
+        self.install_works()
+        self.install_hosts()
 
     def http_password(self, user, password):
         'Adds http password protection to the html_ops directory'
@@ -980,14 +989,13 @@ def run_check_all():
     '''Run all projects, run all hosts, check all projects, stop all projects.'''
     atexit.register(all_projects.stop)
     all_projects.run()
-    all_projects.open_dbs()             # for progress meter
+    all_projects.start_progress_meter()
     if os.environ.get('TEST_STOP_BEFORE_HOST_RUN'):
         raise SystemExit, 'Stopped due to $TEST_STOP_BEFORE_HOST_RUN'
-    rm = ResultMeter(all_projects.progress)
     all_hosts.run()
-    rm.stop()
+    all_projects.stop_progress_meter()
     all_projects.check()
-    # all_projects.stop()
+    all_projects.stop()
 
 def delete_test():
     '''Delete all test data'''
