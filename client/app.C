@@ -203,8 +203,8 @@ int ACTIVE_TASK::start(bool first_time) {
             strcpy(exec_path, file_path);
         }
         if (first_time) {
-            sprintf(link_path, "%s/%s", slot_dir, fip->name);
-            sprintf(temp, "../../%s", file_path );
+            sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, fip->name);
+            sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
             retval = boinc_link( temp, link_path);
             if (log_flags.task_debug) {
                 printf("link %s to %s\n", file_path, link_path);
@@ -224,8 +224,8 @@ int ACTIVE_TASK::start(bool first_time) {
         get_pathname(file_ref.file_info, file_path);
         if (strlen(file_ref.open_name)) {
             if (first_time) {
-                sprintf(link_path, "%s/%s", slot_dir, file_ref.open_name);
-                sprintf(temp, "../../%s", file_path );
+                sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
+                sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
@@ -237,7 +237,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
             }
         } else {
-            sprintf(temp, "../../%s", file_path);
+            sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
             write_fd_init_file(f, temp, file_ref.fd, 1);
         }
     }
@@ -250,8 +250,8 @@ int ACTIVE_TASK::start(bool first_time) {
         if (strlen(file_ref.open_name)) {
             if (first_time) {
                 creat(file_path, 0660);
-                sprintf(link_path, "%s/%s", slot_dir, file_ref.open_name);
-                sprintf(temp, "../../%s", file_path );
+                sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
+                sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
@@ -263,7 +263,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
             }
         } else {
-            sprintf(temp, "../../%s", file_path);
+            sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
             write_fd_init_file(f, temp, file_ref.fd, 0);
         }
     }

@@ -33,6 +33,8 @@ extern int make_project_dir(PROJECT&);
 extern int make_slot_dir(int);
 extern int make_prefs_backup_name(PREFS&, char*);
 
+#define PROJECTS_DIR            "projects"
+#define SLOTS_DIR               "slots"
 #define STATE_FILE_TEMP         "state_file_temp.xml"
 #define STATE_FILE_NAME         "client_state.xml"
 #define PREFS_FILE_NAME         "prefs.xml"

@@ -74,6 +74,39 @@ static void escape_url(char *in, char* out) {
     out[y] = 0;
 }
 
+// Escape a URL for the project directory, cutting off the "http://", converting
+// '\' '/' and ' ' to '_', and converting the non alphanumeric characters to
+// %XY where XY is their hexadecimal equivalent
+//
+static void escape_project_url(char *in, char* out) {
+    int x, y;
+    char *temp;
+    
+    temp = strstr(in,"://");
+    if (temp) {
+        in = temp + strlen("://");
+    }
+    for (x=0, y=0; in[x]; ++x) {
+        if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
+            out[y] = in[x];
+            ++y;
+        } else if (in[x] == '/' || in[x] == '\\' || in[x] == ' ') {
+            out[y] = '_';
+            ++y;
+        } else {
+            out[y] = '%';
+            ++y;
+            out[y] = 0;
+            char buf[256];
+            sprintf(buf, "%d", (char)in[x]);
+            c2x(buf);
+            strcat(out, buf);
+            y += 2;
+        }
+    }
+    out[y] = 0;
+}
+
 // Gets the pathname of a file
 //
 void get_pathname(FILE_INFO* fip, char* path) {
@@ -84,7 +117,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
     // an associated PROJECT.
     //
     if (p) {
-        escape_url(p->master_url, buf);
+        escape_project_url(p->master_url, buf);
         sprintf(path, "%s%s%s", buf, PATH_SEPARATOR, fip->name);
     } else {
         strcpy(path, fip->name);
@@ -94,7 +127,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
 // Returns the location of a numbered slot directory
 //
 void get_slot_dir(int slot, char* path) {
-    sprintf(path, "slots%s%d", PATH_SEPARATOR, slot);
+    sprintf(path, "%s%s%d", SLOTS_DIR, PATH_SEPARATOR, slot);
 }
 
 #ifdef _WIN32
@@ -102,9 +135,11 @@ void get_slot_dir(int slot, char* path) {
 // Double check permissions for CreateDirectory
 
 int make_project_dir(PROJECT& p) {
-    char buf[256];
+    char buf[256],buf2[256];
 
-    escape_url(p.master_url, buf);
+    CreateDirectory(PROJECTS_DIR, NULL);
+    escape_project_url(p.master_url, buf);
+    sprintf( buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf );
     CreateDirectory(buf, NULL);
     return 0;
 }
@@ -117,7 +152,7 @@ int make_slot_dir(int slot) {
         return ERR_NEG;
     }
     char buf[256];
-    CreateDirectory("slots", NULL);
+    CreateDirectory(SLOTS_DIR, NULL);
     get_slot_dir(slot, buf);
     CreateDirectory(buf, NULL);
     return 0;
@@ -128,10 +163,12 @@ int make_slot_dir(int slot) {
 // Create the directory for the project p
 //
 int make_project_dir(PROJECT& p) {
-    char buf[256];
+    char buf[256],buf2[256];
 
-    escape_url(p.master_url, buf);
-    mkdir(buf, 0777);
+    mkdir(PROJECTS_DIR, 0777);
+    escape_project_url(p.master_url, buf);
+    sprintf( buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf );
+    mkdir(buf2, 0777);
     return 0;
 }
 
@@ -143,7 +180,7 @@ int make_slot_dir(int slot) {
         fprintf(stderr, "error: make_slot_dir: negative slot\n");
         return ERR_NEG;
     }
-    mkdir("slots", 0777);
+    mkdir(SLOTS_DIR, 0777);
     get_slot_dir(slot, buf);
     mkdir(buf, 0777);
     return 0;
