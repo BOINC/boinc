@@ -8,6 +8,7 @@ function page_head($title) {
     $d = last_mod();
     echo "
         <head>
+        <link rel='stylesheet' type='text/css' href=white.css>
         <link rel='shortcut icon' href='iconsmall.ico'>
         <title>$title</title>
         </head>

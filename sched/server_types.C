@@ -399,22 +399,3 @@ int HOST::parse_net_stats(FILE* fin) {
     }
     return 1;
 }
-
-int APP_FILE::parse(char*& in) {
-    char buf[256];
-
-    while (sgets(buf, 256, in)) {
-        if (match_tag(buf, "</app_file>")) return 0;
-        else if (parse_str(buf, "<url>", url, sizeof(url))) continue;
-        else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
-        else if (parse_int(buf, "<timestamp>", timestamp)) continue;
-        else {
-            log_messages.printf(
-                SchedMessages::NORMAL,
-                "APP_FILE::parse(): unrecognized %s\n",
-                buf
-            );
-        }
-    }
-    return 1;
-}

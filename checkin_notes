@@ -7360,12 +7360,12 @@ David  2 Nov 2003
         With this change, user-supplied images in graphics are updated
         dynamically when the user edits prefs on web,
         then does "Get Preferences" in core client
-	- Handling of completed file transfers moved from
-		PERS_FILE_XFER::poll() to CLIENT_STATE::handle_pers_file_xfers().
-		(this job of PERS_FILE_XFER is to transfer the file,
-		not deal with its contents)
+    - Handling of completed file transfers moved from
+        PERS_FILE_XFER::poll() to CLIENT_STATE::handle_pers_file_xfers().
+        (this job of PERS_FILE_XFER is to transfer the file,
+        not deal with its contents)
     - changed benchmarks defaults from 1GFLOPs to 10MFLOPs;
-		prevents slow computers from being inundated with work
+        prevents slow computers from being inundated with work
 
     api/
         gutil.C (fixed code formatting)
@@ -7380,3 +7380,13 @@ David  2 Nov 2003
         cs_scheduler.C
         cs_statefile.C
         pers_file_xfer.C
+
+David  2 Nov 2003
+    - removed code in scheduling server for parsing project prefs
+        and inserting <file_info> elements into <app_version> elements
+
+    lib/
+        parse.C
+    sched/
+        handle_request.C
+        server_types.C,h

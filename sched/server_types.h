@@ -78,13 +78,4 @@ struct SCHEDULER_REPLY {
     void insert_result(RESULT&);
 };
 
-// represents an <app_file> element in user's project prefs
-//
-struct APP_FILE {
-    char url[256];
-    char open_name[256];
-    int timestamp;
-    int parse(char*&);
-};
-
 #endif

@@ -68,9 +68,10 @@ bool parse_double(const char* buf, const char* tag, double& x) {
     return true;
 }
 
-// parse a string of the form <tag attrs>string</tag>;
+// parse a string of the form ...<tag attrs>string</tag>...;
 // returns the "string" part.
-// Make sure you use "<tag", not "<tag>", if there might be attributes
+// Strips white space from ends.
+// Use "<tag", not "<tag>", if there might be attributes
 //
 bool parse_str(const char* buf, const char* tag, char* dest, int len) {
     char* p = strstr(buf, tag);
