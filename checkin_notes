@@ -6079,12 +6079,12 @@ quarl 2003/09/03
         - reorganized directory structure. Now 'modules' are under
           boinc/py/Boinc (so you can do "from Boinc import *").
 
-    - configure runs test/test_sanity.py
-
     - all python scripts can run from anywhere
 
     - start and add.py know where config.xml and run_state.xml are
       (customizable too)
+
+    - configure runs test/test_sanity.py
 
     - wrote documentation for python framework; revised other documentation
 
