@@ -1638,6 +1638,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         mode = app_client_shm.decode_graphics_msg(buf);
+        //msg_printf(NULL, MSG_INFO, "got graphics ack %d", mode);
         if (mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = mode;
         }
@@ -1695,6 +1696,7 @@ void ACTIVE_TASK_SET::save_app_modes() {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
+        //msg_printf(NULL, MSG_INFO, "saved mode %d", atp->graphics_mode_acked);
     }
 }
 

@@ -74,6 +74,13 @@ void SS_LOGIC::stop_ss() {
 void SS_LOGIC::poll() {
     ACTIVE_TASK* atp;
 
+#if 0
+	// if you want to debug screensaver functionality...
+    static int foo=0;
+    foo++;
+    if (foo == 8) start_ss(time(0)+1000);
+#endif
+
     if (!gstate.activities_suspended) {
         if (do_ss) {
             if (blank_time && (time(0) > blank_time)) {
