@@ -31,6 +31,7 @@
 #ifndef _WIN32
 #include <cstring>
 #include <cstdlib>
+#include <locale>
 #include <string>
 #endif
 
@@ -62,7 +63,10 @@ bool match_tag(const std::string &s, const char* tag) {
 bool parse_int(const char* buf, const char* tag, int& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
+    std::string strLocale = setlocale(LC_NUMERIC, NULL);
+    setlocale(LC_NUMERIC, "C");
     x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
+    setlocale(LC_NUMERIC, strLocale.c_str());
     return true;
 }
 
@@ -71,7 +75,10 @@ bool parse_int(const char* buf, const char* tag, int& x) {
 bool parse_double(const char* buf, const char* tag, double& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
+    std::string strLocale = setlocale(LC_NUMERIC, NULL);
+    setlocale(LC_NUMERIC, "C");
     x = atof(p+strlen(tag));
+    setlocale(LC_NUMERIC, strLocale.c_str());
     return true;
 }
 

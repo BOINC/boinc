@@ -23981,3 +23981,13 @@ Janus 4 Feb 2005
     html/inc/
         sanitize_html.php
 
+Rom    4 Feb 2005
+    - Bug Fix: Surround the calls to atol and atof in parse_int and parse_double
+        with setlocale calls so that we can parse numerical types from the core
+        client even while the manager is configured for a different locale.
+
+    lib/
+        boinc_win.h
+        parse.C
+
+    

@@ -89,6 +89,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <locale>
 #else
 #include <assert.h>
 #include <ctype.h>
@@ -100,6 +101,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <locale.h>
 #endif
 
 // C++ headers
@@ -113,7 +115,6 @@
 #include <vector>
 #include <deque>
 #include <list>
-#include <locale>
 #endif
 
 
