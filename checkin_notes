@@ -20630,3 +20630,17 @@ Rom    3 Dec 2004
     clientgui/
         BOINCGUIApp.cpp
         MainFrame.cpp
+
+Eric   3 Dec 2004
+    - Altered the configure script to generate a config.h that includes
+      "win-config.h" on WIN32 systems
+    - Added a file "version.h[.in]" that contains platform independent version
+      info.
+    - Made a default "config.h" that tells the user to run configure on
+      non-windows systems.  Includes "win-config.h" on windows systems.
+
+    config.h
+    version.h
+    version.h.in
+    configure.ac
+    win_config.h
