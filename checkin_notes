@@ -25870,6 +25870,7 @@ Charlie	11 Mar 2005
 	boinc.proj/boinc.proj (directory & file both removed)
 	boinc.proj.zip (new)
 	info.plist (new)
+        HowToBuildBOINC_XCode.rtf
 
 Rom    11 Mar 2005
     - Add Account Management support into the BOINC Manager.
