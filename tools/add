@@ -6,7 +6,7 @@
 #XXX TODO: add app should modify config.xml to add application-specific daemons
 
 '''
-add items to the BOINC database.
+add items to the BOINC database -- command-line interface.  See also ``xadd``.
 
 Usages:
 
@@ -50,100 +50,10 @@ add workunit  (TODO)
 add result    (TODO) '''
 
 import boinc_path_config
-from Boinc import database, db_mid, configxml, tools
+from Boinc import database, db_mid, configxml
 from Boinc.util import *
-import sys, os, getopt, time, pprint
-
-CREATE_TIME = ['?create_time', int(time.time())]
-TRANSITION_TIME = ['?transition_time', int(time.time())]
-
-class XCoreVersion(database.CoreVersion):
-    def __init__(self,**kwargs):
-        kwargs['xml_doc'] = tools.process_executable_file(kwargs['exec_file'])
-        del kwargs['exec_file']
-        apply(database.CoreVersion.__init__,[self],kwargs)
-
-class XAppVersion(database.AppVersion):
-    def __init__(self,**kwargs):
-        kwargs['xml_doc'] = tools.process_app_version(
-            app = kwargs['app'],
-            version_num = int(kwargs['version_num']),
-            exec_files = kwargs['exec_files'],
-            signature_files = kwargs.setdefault('signature_files',{}))
-        del kwargs['signature_files']
-        del kwargs['exec_files']
-        del kwargs['exec_file']
-        apply(database.AppVersion.__init__,[self],kwargs)
-
-# format: [ database.Object, args, ...]
-#   arg format:
-#       'arg'
-#       '?arg'    optional
-#       [ 'arg', default_value ]
-list_objects_to_add = [
-    [ database.Project,    'name', '?long_name' ],
-    [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
-    [ XCoreVersion, 'platform', 'version_num', 'exec_file',
-      ['?message',''], ['?message_priority','']],
-    [ database.App,        'name', ['?min_version',0], CREATE_TIME],
-    [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file',
-      CREATE_TIME ],
-    [ database.User,       'name', 'email_addr', 'authenticator',
-      ['?country','United States'], ['?postal_code','94703'],
-      '?global_prefs', '?global_prefs_file',
-      CREATE_TIME ],
-    # [ database.Workunit,   'zzzz' ],
-    ]
-
-most_recent_exec_file = None
-
-def translate_arg(object, arg, value, args_dict):
-    '''Translate various arguments'''
-    database_table = None
-    try:
-        database_table = database.__dict__[arg.capitalize()]._table
-    except:
-        pass
-    if database_table:
-        return (arg,translate_database_arg(database_table, arg, value))
-
-    if arg == 'global_prefs_file':
-        return ('global_prefs', open(value).read())
-
-    if object.DatabaseObject == XAppVersion:
-        # 'add app_version' accepts multiple '-exec_file's with
-        # '-signature_file' applying to the most recent exec_file
-        if arg == 'exec_file':
-            global most_recent_exec_file
-            most_recent_exec_file = value
-            args_dict.setdefault('exec_files',[]).append(value)
-            # since this is required, set it to None so that argument checker
-            # knows we got one; we'll delete it later.
-            return (arg,None)
-        if arg == 'signature_file':
-            args_dict.setdefault('signature_files',{})[most_recent_exec_file] = value
-            return (None,None)
-
-    return (arg,value)
-
-
-def translate_database_arg(database_table, arg, value):
-    '''Accept e.g. either --app Astropulse or --app 1'''
-    try:
-        id = int(value)
-        results = database_table.find(id=id)
-        if not results:
-            raise Exception("")
-    except:
-        results = database_table.find(name=value)
-    if len(results) == 0:
-        raise SystemExit('No %s "%s" found' %(arg,value))
-    if len(results) > 1:
-        print >>sys.stderr, 'Too many %ss match "%s": '%(arg,value)
-        for result in results:
-            print  >>sys.stderr, '   ', result.name
-        raise SystemExit
-    return results[0]
+from Boinc.add_util import *
+import sys, os, getopt
 
 def ambiguous_lookup(string, dict):
     results = []
@@ -156,6 +66,17 @@ def ambiguous_lookup(string, dict):
             results.append(dict[key])
     return results
 
+def lookup_object_to_add(name_of_object_to_add):
+    name_of_object_to_add = name_of_object_to_add.strip().lower()
+    possible_objects = ambiguous_lookup(name_of_object_to_add, add_objects)
+    if len(possible_objects) == 0:
+        raise SystemExit("No such object '%s' to add"%name_of_object_to_add)
+    if len(possible_objects) > 1:
+        print >>sys.stderr, "Object name '%s' matches multiple objects:"%name_of_object_to_add
+        for object in possible_objects:
+            print "    ", object.name
+        raise SystemExit(1)
+    return possible_objects[0]
 
 def parse_global_options(args):
     # raise SystemExit('todo')
@@ -179,62 +100,25 @@ def help_object(object, msg=None):
         print >>sys.stderr, dv(object,arg)
     raise SystemExit
 
-def add_object(object, args):
+def commandline_add_object(add_object, args):
     try:
         parsed_opts, placement_args = \
                      getopt.getopt(args, '',
                                    map(lambda s: s+'=',
-                                       object.args + object.optional_args))
+                                       add_object.args + add_object.optional_args))
         if placement_args:
             raise getopt.GetoptError('Unknown args '+' '.join(placement_args))
     except getopt.GetoptError, e:
-        help_object(object, e)
-    args_dict = object.default_values.copy()
+        help_object(add_object, e)
+    untranslated_args_dict = {}
     for arg,value in parsed_opts:
         if not arg.startswith('--'):
             raise Exception('internal error: arg should start with "--"')
-        arg = arg[2:]
-        (arg,value) = translate_arg(object,arg,value,args_dict)
-        if not arg: continue
-        args_dict[arg] = value
-    for arg in object.args:
-        if not arg in args_dict:
-            help_object(object, 'required argument --%s not given'%arg)
-
-    object = apply(object.DatabaseObject, [], args_dict)
-    object.commit()
-    print "Committed", object, "with args:"
-    pprint.pprint(object.__dict__)
-
-class Dict:
-    pass
-
-objects_to_add = {}
-for o in list_objects_to_add:
-    object = Dict()
-    object.DatabaseObject = o[0]
-    object.name = object.DatabaseObject._table.table
-    object.args = []
-    object.optional_args = []
-    object.default_values = {}
-    for arg in o[1:]:
-        if isinstance(arg, list):
-            default_value = arg[1]
-            arg = arg[0]
-        else:
-            default_value = None
-        if arg.startswith('?'):
-            optional = True
-            arg = arg[1:]
-        else:
-            optional = False
-        if optional:
-            object.optional_args.append(arg)
-        else:
-            object.args.append(arg)
-        if default_value:
-            object.default_values[arg] = default_value
-    objects_to_add[object.name] = object
+        untranslated_args_dict[arg[2:]] = value
+    try:
+        do_add_object(add_object, untranslated_args_dict)
+    except AddObjectException, e:
+        help_object(add_object, e)
 
 if len(sys.argv) < 2:
     print >>sys.stderr, """Syntax: add <object_to_add> <options...>
@@ -247,6 +131,7 @@ Objects to add:"""
     print >>sys.stderr, """
 Global options:
      --config=config.xml Path to configuration file.
+     --skip_old          Ignore database objects that already exist
 
 These override config.xml:
      --db_name           Database name
@@ -259,16 +144,7 @@ arguments.
 
     raise SystemExit(1)
 
-name_of_object_to_add = sys.argv[1].strip().lower()
-
-possible_objects = ambiguous_lookup(name_of_object_to_add, objects_to_add)
-if len(possible_objects) == 0:
-    raise SystemExit("No such object '%s' to add"%name_of_object_to_add)
-if len(possible_objects) > 1:
-    print >>sys.stderr, "Object name '%s' matches multiple objects:"%name_of_object_to_add
-    for object in possible_objects:
-        print "    ", object.name
-    raise SystemExit(1)
+add_object = lookup_object_to_add(sys.argv[1])
 
 args = sys.argv[2:]
 parse_global_options(args)
@@ -276,4 +152,4 @@ parse_global_options(args)
 config = configxml.default_config()
 database.connect(config.config)
 
-add_object(possible_objects[0], args)
+commandline_add_object(add_object, args)

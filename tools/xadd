@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+# $Id$
+
+import boinc_path_config
+from Boinc import database, db_mid, configxml, projectxml
+
+config = configxml.default_config()
+database.connect(config.config)
+
+projectxml.ProjectFile().read().commit_all()
+

@@ -9091,3 +9091,39 @@ David  9 Jan 2004
 	win_build/
 		boinc.sln
 		*.vcproj
+
+Karl 2004-01-12
+
+    - BOINC how has a project.xml file (by default in the same location as
+      config.xml) that can contain database information:
+        - projects
+        - platforms
+        - core versions
+        - apps
+        - app versions
+    - this information used to be added one at a time using the `add'
+      command-line tool; now there is a new tool `xadd' available, which
+      parses project.xml and adds anything necessary.
+
+    - refactored configxml.py into boincxml.py and configxml.py:
+        - boincxml.py contains generic XML utility code
+        - configxml.py contains code specific to config.xml and run_state.XML
+        - external interface to configxml.py unchanged
+
+    - new projectxml.py that parses and writes project.xml
+
+    - refactored tools/add into tools/add and py/Boinc/add_util.py
+
+    - added new addable fields
+
+    py/Boinc/
+        boinc_project_path.py
+        configxml.py
+        boincxml.py (new)
+        projectxml.py (new)
+        add_util.py (new)
+        db_base.py
+    tools/
+        xadd (new)
+        add
+        

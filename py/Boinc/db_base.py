@@ -57,6 +57,14 @@ class Debug:
 debug = Debug()
 debug.mysql = not not os.environ.get('DEBUG_DB')
 
+def _execute_sql(cursor, command):
+    '''Same as ``cursor.execute(command)``, but more verbose on error.'''
+    try:
+        cursor.execute(command)
+    except MySQLdb.MySQLError, e:
+        e.args += (command,)
+        raise e
+
 def _commit_object(tablename, paramdict, id=None):
     """Takes a tablename, a parameter dict, and an optional id.  Puts together
     the appropriate SQL command to commit the object to the database.
@@ -77,14 +85,14 @@ def _commit_object(tablename, paramdict, id=None):
             (tablename, ', '.join(equalcommands))
         if debug.mysql:
             debug.printline("query: "+command)
-        cursor.execute(command)
+        _execute_sql(cursor, command)
         id = cursor.insert_id()       #porters note: works w/MySQLdb only
     else:
         command =  "UPDATE %s SET %s WHERE id=%d" % \
             (tablename, ', '.join(equalcommands), id)
         if debug.mysql:
             debug.printline("query: "+command)
-        cursor.execute(command)
+        _execute_sql(cursor, command)
     cursor.close()
     dbconnection.commit()
     return id
@@ -101,7 +109,7 @@ def _remove_object(command, id=None):
             ' WHERE id=%d' % id
         if debug.mysql:
             debug.printline("query: "+command)
-        cursor.execute(command)
+        _execute_sql(cursor, command)
         cursor.close()
         dbconnection.commit()
 def _select_object(table, searchdict, extra_args="", extra_params=[], select_what=None):
@@ -132,7 +140,7 @@ def _select_object(table, searchdict, extra_args="", extra_params=[], select_wha
     cursor = dbconnection.cursor()
     if debug.mysql:
         debug.printline("query: "+command)
-    cursor.execute(command)
+    _execute_sql(cursor, command)
     return cursor
 
 def _select_object_fetchall(*args, **kwargs):

@@ -3,11 +3,6 @@
 # $Id$
 # Creates a new BOINC project.
 
-# TODO: use database.py (mainly for setup_project.py)
-# TODO: don't add app / app version here.
-# TODO: create 'apps' subdirectory and set it in config.xml
-# TODO: use configxml module
-
 import boinc_path_config
 from Boinc.setup_project import *
 from Boinc import database, db_mid, configxml, tools
