@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <vector>
 
-#include "db.h"
+#include "boinc_db.h"
 
 //The following are the states that the client is in according to the result. 
 #define RESULT_NEW              0

@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "error_numbers.h"
 #include "parse.h"
 #include "crypt.h"

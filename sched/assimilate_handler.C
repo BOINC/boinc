@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "assimilate_handler.h"
 
 void assimilate_handler(

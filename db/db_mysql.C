@@ -23,7 +23,7 @@
 
 #include "mysql_util.h"
 
-#include "db.h"
+#include "boinc_db.h"
 
 #define TYPE_PROJECT            1
 #define TYPE_PLATFORM           2

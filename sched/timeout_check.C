@@ -35,7 +35,7 @@ using namespace std;
 #include <unistd.h>
 #include <sys/time.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "util.h"
 #include "backend_lib.h"
 #include "config.h"

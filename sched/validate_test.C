@@ -20,7 +20,7 @@
 using namespace std;
 #include <vector>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "config.h"
 #include "parse.h"
 

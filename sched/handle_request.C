@@ -31,7 +31,7 @@ using namespace std;
 #include <assert.h>
 #include <math.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "backend_lib.h"
 #include "parse.h"
 #include "util.h"

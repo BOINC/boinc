@@ -25,7 +25,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "db.h"
+#include "boinc_db.h"
 
 #include "sched_shmem.h"
 

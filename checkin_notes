@@ -4039,9 +4039,11 @@ David  Apr 3 2003
 David  Apr 7 2003
     - changed names of DB interface routines to get rid of conflict
         with SETI@home DB interface
+    - changed name of "db.h" to "boinc_db.h" to remove conflict w/ SETI@home
 
     db/
-        db.h
+        db.h (removed)
+        boinc_db.h (new)
         db_mysql.C
     sched/
         *.C

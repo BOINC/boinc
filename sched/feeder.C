@@ -52,7 +52,7 @@
 #include <unistd.h>
 #endif
 
-#include "db.h"
+#include "boinc_db.h"
 #include "shmem.h"
 #include "util.h"
 #include "config.h"

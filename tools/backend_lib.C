@@ -21,7 +21,7 @@
 #include <time.h>
 #include <assert.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "crypt.h"
 #include "md5_file.h"
 #include "parse.h"

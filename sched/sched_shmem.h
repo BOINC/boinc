@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "db.h"
+#include "boinc_db.h"
 
 // the following must be at least as large as DB tables
 // Increase as needed

@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "db.h"
+#include "boinc_db.h"
 #include "config.h"
 
 extern PROJECT gproject;

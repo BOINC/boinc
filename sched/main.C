@@ -30,7 +30,7 @@ using namespace std;
 #include <unistd.h>
 #include <assert.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"

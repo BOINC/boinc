@@ -23,7 +23,7 @@
 #include <time.h>
 #include <vector>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "parse.h"
 #include "util.h"
 #include "config.h"

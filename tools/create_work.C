@@ -49,7 +49,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "crypt.h"
 #include "backend_lib.h"
 

@@ -58,7 +58,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "db.h"
+#include "boinc_db.h"
 #include "util.h"
 #include "config.h"
 #include "sched_util.h"
