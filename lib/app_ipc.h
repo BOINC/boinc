@@ -64,6 +64,7 @@
 #define GRAPHICS_MSG_SET_MODE       1
 #define GRAPHICS_MSG_REREAD_PREFS   2
 
+#include <cstdio>
 
 class APP_CLIENT_SHM {
 public:

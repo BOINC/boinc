@@ -13650,3 +13650,16 @@ Daniel 15 June 2004
     client/
         hostinfo_unix.C
 
+
+Karl 2004-06-16
+
+    - Compile fixes
+
+    lib/
+        app_ipc.h
+
+    - Return value fixes
+
+    api/
+        boinc_api_fortran.C
+

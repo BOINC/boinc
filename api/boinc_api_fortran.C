@@ -39,65 +39,65 @@ public:
 
 extern "C" {
 
-    int boinc_init_(int *standalone) {
+    void boinc_init_(int *standalone) {
         boinc_init(*standalone);
     }
 
-    int boinc_finish_(int* status) {
+    void boinc_finish_(int* status) {
         boinc_finish(*status);
     }
 
-    int boinc_is_standalone_() {
-        return boinc_is_standalone();
+    void boinc_is_standalone_(int* result) {
+        *result = boinc_is_standalone();
     }
 
-    int boinc_resolve_filename_(const char* s, int s_len, char* t, int t_len)
+    void boinc_resolve_filename_(const char* s, int s_len, char* t, int t_len)
     {
         boinc_resolve_filename(StringFromFortran(s, s_len), t, t_len);
     }
 
-    int boinc_parse_init_data_file_()
+    void boinc_parse_init_data_file_()
     {
-        return boinc_parse_init_data_file();
+        boinc_parse_init_data_file();
     }
 
-    int boinc_write_init_data_file_()
+    void boinc_write_init_data_file_()
     {
-        return boinc_write_init_data_file_();
+        boinc_write_init_data_file_();
     }
 
 // TODO: structs? common?
 // extern int	boinc_get_init_data(APP_INIT_DATA&);
 
-    int boinc_send_trickle_up_(char* s, int len)
+    void boinc_send_trickle_up_(char* s, int len)
     {
-        return boinc_send_trickle_up(StringFromFortran(s,s_len));
+        boinc_send_trickle_up(StringFromFortran(s,s_len));
     }
 
-    int boinc_receive_trickle_down_(char* buf, int len)
+    void boinc_receive_trickle_down_(char* buf, int len)
     {
-        return boinc_receive_trickle_down(buf, len);
+        boinc_receive_trickle_down(buf, len);
     }
 
-    int boinc_time_to_checkpoint_() {
-        return boinc_time_to_checkpoint();
+    void boinc_time_to_checkpoint_(int* result) {
+        *result = boinc_time_to_checkpoint();
     }
 
-    int boinc_checkpoint_completed_() {
-        return boinc_checkpoint_completed();
+    void boinc_checkpoint_completed_() {
+        boinc_checkpoint_completed();
     }
 
-    int boinc_fraction_done_(double* d) {
-        return boinc_fraction_done(* d);
+    void boinc_fraction_done_(double* d) {
+        boinc_fraction_done(* d);
     }
 
-    int boinc_wu_cpu_time_(double* d_out) {
-        return boinc_wu_cpu_time(*d_out);
+    void boinc_wu_cpu_time_(double* d_out) {
+        boinc_wu_cpu_time(*d_out);
     }
 
-    int boinc_thread_cpu_time_(double* d1_out, double* d2_out)
+    void boinc_thread_cpu_time_(double* d1_out, double* d2_out)
     {
-        return boinc_thread_cpu_time(*d1_out, *d2_out);
+        boinc_thread_cpu_time(*d1_out, *d2_out);
     }
 
 }
