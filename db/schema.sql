@@ -131,6 +131,7 @@ create table workunit (
     retry_check_time double     not null,
     delay_bound     integer     not null,
     state           integer     not null,
+    workseq_next    integer     not null,
     primary key (id)
 );
 
@@ -155,4 +156,15 @@ create table result (
     claimed_credit  double       not null,
     granted_credit  double       not null,
     primary key (id)
+);
+
+create table workseq (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    state           integer     not null,
+    hostid          integer     not null,
+    wuid_last_done  integer     not null,
+    wuid_last_sent  integer     not null,
+    workseqid_master integer     not null,
+    
 );

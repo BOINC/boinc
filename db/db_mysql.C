@@ -34,6 +34,7 @@
 #define TYPE_HOST               7
 #define TYPE_WORKUNIT           8
 #define TYPE_RESULT             9
+#define TYPE_WORKSEQ            10
 
 char* table_name[] = {
     "",
@@ -46,6 +47,7 @@ char* table_name[] = {
     "host",
     "workunit",
     "result",
+    "workseq",
 };
 
 void struct_to_str(void* vp, char* q, int type) {
@@ -58,8 +60,8 @@ void struct_to_str(void* vp, char* q, int type) {
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
-    assert(vp!=NULL);
-    assert(q!=NULL);
+    WORKSEQ* wsp;
+
     switch(type) {
     case TYPE_PROJECT:
         prp = (PROJECT*)vp;
@@ -195,13 +197,15 @@ void struct_to_str(void* vp, char* q, int type) {
             "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
             "need_validate=%d, "
             "canonical_resultid=%d, canonical_credit=%f, "
-            "retry_check_time=%f, delay_bound=%d, state=%d",
+            "retry_check_time=%f, delay_bound=%d, state=%d, "
+            "workseq_next=%d",
             wup->id, wup->create_time, wup->appid,
             wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
             wup->need_validate,
             wup->canonical_resultid, wup->canonical_credit,
-            wup->retry_check_time, wup->delay_bound, wup->state
+            wup->retry_check_time, wup->delay_bound, wup->state,
+            wup->workseq_next
         );
         break;
     case TYPE_RESULT:
@@ -219,6 +223,19 @@ void struct_to_str(void* vp, char* q, int type) {
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
             rp->batch, rp->project_state, rp->validate_state,
             rp->claimed_credit, rp->granted_credit
+        );
+        break;
+    case TYPE_WORKSEQ:
+        wsp = (WORKSEQ*)vp;
+        sprintf(q,
+            "id=%d, create_time=%d, "
+            "state=%d, hostid=%d, "
+            "wuid_last_done=%d, wuid_last_sent=%d, "
+            "workseqid_master=%d",
+            wsp->id, wsp->create_time,
+            wsp->state, wsp->hostid,
+            wsp->wuid_last_done, wsp->wuid_last_sent,
+            wsp->workseqid_master
         );
         break;
     }
@@ -239,9 +256,9 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
-
+    WORKSEQ* wsp;
     int i=0;
-    assert(vp!=NULL);
+
     switch(type) {
     case TYPE_PROJECT:
         prp = (PROJECT*)vp;
@@ -363,6 +380,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->retry_check_time = atof(r[i++]);
         wup->delay_bound = atoi(r[i++]);
         wup->state = atoi(r[i++]);
+        wup->workseq_next = atoi(r[i++]);
         break;
     case TYPE_RESULT:
         rp = (RESULT*)vp;
@@ -387,6 +405,16 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->claimed_credit = atof(r[i++]);
         rp->granted_credit = atof(r[i++]);
         break;
+    case TYPE_WORKSEQ:
+        wsp = (WORKSEQ*)vp;
+        memset(wsp, 0, sizeof(WORKSEQ));
+        wsp->id = atoi(r[i++]);
+        wsp->create_time = atoi(r[i++]);
+        wsp->state = atoi(r[i++]);
+        wsp->hostid = atoi(r[i++]);
+        wsp->wuid_last_done = atoi(r[i++]);
+        wsp->wuid_last_sent = atoi(r[i++]);
+        wsp->workseqid_master = atoi(r[i++]);
     }
 }
 
@@ -633,4 +661,10 @@ int db_result_count_state(int state, int& n) {
 
     sprintf(buf, " where state=%d", state);
     return db_count(&n, "*", TYPE_RESULT, buf);
+}
+
+/////////// WORKSEQ ///////////////
+
+int db_workseq_new(WORKSEQ& p) {
+    return db_new(&p, TYPE_WORKSEQ);
 }

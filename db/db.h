@@ -211,8 +211,9 @@ struct WORKUNIT {
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
     double retry_check_time;    // when to check for result retry
-    int state;                  // see values above
     int delay_bound;            // determines result deadline, retry check time
+    int state;                  // see values above
+    int workseq_next;           // if part of a sequence, the next WU
 
     // the following not used in the DB
     char app_name[256];
@@ -224,6 +225,8 @@ struct WORKUNIT {
 #define RESULT_STATE_DONE           4
 #define RESULT_STATE_TIMEOUT        5
 #define RESULT_STATE_ERROR          6
+#define RESULT_STATE_UNSENT_SEQ     7
+    // unsent, part of a work sequence
 
 #define VALIDATE_STATE_INITIAL      0
 #define VALIDATE_STATE_NEED_CHECK   1
@@ -254,6 +257,20 @@ struct RESULT {
     // the following not used in the DB
     char wu_name[256];
     int parse_from_client(FILE*);
+};
+
+#define WORKSEQ_STATE_UNASSIGNED    0
+#define WORKSEQ_STATE_ASSIGNED      1
+#define WORKSEQ_STATE_DONE          2
+
+struct WORKSEQ {
+    int id;
+    unsigned int create_time;
+    int state;
+    int hostid;                     // host this seq is assigned to
+    int wuid_last_done;             // last validated WU or zero
+    int wuid_last_sent;             // last sent WU or zero
+    int workseqid_master;           // if part of a redundant group, master ID
 };
 
 extern int db_open(char* dbname, char* passwd);
@@ -312,4 +329,5 @@ extern int db_result_enum_state(RESULT&, int);
 extern int db_result_enum_wuid(RESULT&);
 extern int db_result_count_state(int state, int&);
 
+extern int db_workseq_new(WORKSEQ& p);
 #endif

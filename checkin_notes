@@ -2446,3 +2446,11 @@ David   Nov 30 2002
         Makefile.in
         client_state.C,h
         cs_scheduler.C
+
+David   Nov 30 200
+    - first part of work sequence implementation
+
+    db/
+        schema.sql
+        db.h
+        db_mysql.C
