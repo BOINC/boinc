@@ -105,6 +105,7 @@ class Project {
     var $user_name;
     var $master_url;
     var $resource_share;
+    var $source_dir;
 
     function Project() {
         $this->name = "test";
@@ -116,6 +117,7 @@ class Project {
         $this->generate_keys = false;
         $this->shmem_key = get_env_var("BOINC_SHMEM_KEY");
         $this->resource_share = 1;
+        $this->source_dir = get_env_var("BOINC_SRC_DIR");
     }
 
     function add_user($user) {
@@ -137,8 +139,8 @@ class Project {
     // Set up the database and directory structures for a project
     //
     function Install($scheduler_file = null) {
+        $source_dir = $this->source_dir;
         $base_dir = get_env_var("BOINC_PROJECTS_DIR");
-        $source_dir = get_env_var("BOINC_SRC_DIR");
         $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->name;
         $this->download_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/download";
         //link download1...downloadn to download. Get this from reading the reading how many <urls>s in the template. For uploads 
@@ -242,7 +244,6 @@ class Project {
         }
 
         PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/");
-        // would have to be able to add more of these, copy several to cgi dir
         PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
@@ -250,7 +251,6 @@ class Project {
         PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/file_deleter $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/assimilator $this->project_dir/cgi/");
-        PassThru("cp $source_dir/html_ops/stripchart.cgi $this->project_dir/cgi/");
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
         fputs($f, "    <db_name>$this->db_name</db_name>\n");
@@ -299,115 +299,69 @@ class Project {
         echo "The admin URL for project $this->name is $admin_url\n";
     }
     
-    // moves the masterindex file to temp after $time seconds (if not null).
+    // moves the masterindex file to temp
     // This is used to test exponential backoff on the client side.
     //
-    function delete_masterindex($time=null) {
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
+    function delete_masterindex() {
         PassThru("mv $this->project_dir/html_user/index.php $this->project_dir/html_user/temp");
     }
     
-    // moves temp back to the masterindex after $time seconds(if not null).
+    // moves temp back to the masterindex
     // This is used to test exponential backoff on the client side.
     //
-    function reestablish_masterindex($time=null) {
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
+    function reestablish_masterindex() {
         PassThru("mv $this->project_dir/html_user/temp $this->project_dir/html_user/index.php");
           
     }
     
-    // delete the cgi file for this project after $time if not null.
+    // delete the cgi file for this project
     // This is used to test exponential backoff on the client side.
     //
-    function delete_scheduler($time=null,$cgi_num = null) {
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
+    function delete_scheduler($cgi_num = null) {
         PassThru("rm $this->project_dir/cgi/cgi$cgi_num");
     }
       
     // copies the cgi file back into the cgi directory.
     // This is used to test exponential backoff on the client side.
     //
-    function reinstall_scheduler($time=null,$cgi_num=null) {
-        $source_dir = get_env_var("BOINC_SRC_DIR");
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
-        PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/cgi$cgi_num");
+    function reinstall_scheduler($cgi_num=null) {
+        PassThru("cp $this->source_dir/sched/cgi $this->project_dir/cgi/cgi$cgi_num");
     }
     
     // moves the download directory to temp.
-    // This is used to test exponential backoff on the client side.
+    // This is used to test exponential backoff
     //
-    function delete_downloaddir($time = null,$download_dir_num = null) {
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
+    function delete_downloaddir($download_dir_num = null) {
         PassThru("mv $this->project_dir/download$download_dir_num $this->project_dir/download_moved$download_dir_num");
          
     }
     
     // reinstalls the download directory.
-    // This is used to test exponential backoff on the client side.
+    // This is used to test exponential backoff
     //
-    function reinstall_downloaddir($time = null ,$download_dir_num = null) {
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
+    function reinstall_downloaddir($download_dir_num = null) {
         PassThru("mv $this->project_dir/download_moved$download_dir_num $this->project_dir/download$download_dir_num");
     }
     
-    function remove_file_upload_handler($time = null,$handler_num = null) {
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
+    function remove_file_upload_handler($handler_num = null) {
         PassThru("rm $this->project_dir/cgi/file_upload_handler$handler_num");
     }
         
-    function reinstall_file_upload_handler($time = null,$handler_num = null) {
-        $source_dir = get_env_var("BOINC_SRC_DIR");
-        if($time != null) {
-            echo "\nsleeping for $time seconds";
-            PassThru("sleep $time");
-        }
-        PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
+    function reinstall_file_upload_handler($handler_num = null) {
+        PassThru("cp $this->source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
     }
 
-    // blocks until a file_upload_handler is running in the system,
-    // kills it and returns
-    //
-    function kill_file_upload_handler() {
-        while(true) {
-            $pid = exec("pgrep -n file_up");
-            if($pid != null) break;
-        }
-        PassThru("kill -9 $pid");
-    }
-          
     function start_feeder(){
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
     }
 
     function result_retry($app, $nerror = 5, $ndet = 5, $nredundancy = 5){
-       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy  > result_retry_out");
+        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy  > result_retry_out");
     }
 
     function start_result_retry($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
-       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch > result_retry_out");
+        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch > result_retry_out");
     }
-      
 
     function start_make_work($work){
         $result_template_path = realpath($work->result_template);
@@ -444,6 +398,19 @@ class Project {
     //
     function assimilate($app) {
         PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name > assimilator_out");
+    }
+
+    // start collecting data for stripcharts
+    //
+    function start_stripchart() {
+        $source_dir = $this->source_dir;
+        PassThru("cp $source_dir/stripchart/stripchart.cgi $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/stripchart $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/stripchart.cnf $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/samples/datafiles $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/samples/get_load $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/samples/get_load_loop $this->project_dir/cgi/");
+        PassThru("cd $this->project_dir/cgi; get_load_loop > get_load_out &");
     }
 
     // this should stop the feeder and any other daemons
@@ -671,7 +638,9 @@ class Work {
             PassThru("cp $x $project->project_dir/download");
         }
 
-if (false) {        // doesn't belong here; needs comment
+        // simulate multiple data servers by making symbolic links
+        // to the download directory
+        //
         $f = fopen($this->wu_template,"r");
         while(true) {
             $temp = fgets($f,1000);
@@ -686,6 +655,9 @@ if (false) {        // doesn't belong here; needs comment
             }
         }
         
+        // simulate multiple data servers by making copies of
+        // the file upload handler
+        //
         fclose($f);
         $source_dir = get_env_var("BOINC_SRC_DIR");
         $append = null;
@@ -706,8 +678,7 @@ if (false) {        // doesn't belong here; needs comment
             }
         }
         fclose($f);
-}
-                      
+
         $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -redundancy $this->redundancy -wu_name $this->wu_template -delay_bound $this->delay_bound";
 
         for ($i=0; $i<sizeof($this->input_files); $i++) {

@@ -425,10 +425,12 @@ int send_work(
         );
         if (retval) continue;
 
+#if 0
         fprintf(stderr,
             "BOINC scheduler: sending result name %s, id %d\n",
             result.name, result.id
         );
+#endif
 
         // copy the result so we don't overwrite its XML fields
         //

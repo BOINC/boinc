@@ -34,7 +34,7 @@
 
 CONFIG config;
 
-#define DEBUG
+//#define DEBUG
 
 #define MAX_FILES 32
 

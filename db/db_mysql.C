@@ -146,7 +146,8 @@ void struct_to_str(void* vp, char* q, int type) {
         sprintf(q,
             "id=%d, userid=%d, name='%s', "
             "name_lc='%s', url='%s', "
-            "type=%d, name_html='%s', description='%s', nusers=%d",
+            "type=%d, name_html='%s', description='%s', nusers=%d, "
+            "country='%s'",
             tp->id,
             tp->userid,
             tp->name,
@@ -155,7 +156,8 @@ void struct_to_str(void* vp, char* q, int type) {
             tp->type,
             tp->name_html,
             tp->description,
-            tp->nusers
+            tp->nusers,
+            tp->country
         );
         break;
     case TYPE_HOST:
@@ -326,6 +328,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         strcpy2(tp->name_html, r[i++]);
         strcpy2(tp->description, r[i++]);
         tp->nusers = atoi(r[i++]);
+        strcpy2(tp->country, r[i++]);
         break;
     case TYPE_HOST:
         hp = (HOST*)vp;

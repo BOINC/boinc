@@ -61,8 +61,9 @@ create table team (
     url		    varchar(254),
     type	    integer	not null,
     name_html	    varchar(254),
-    description     varchar(254),
+    description     blob,
     nusers          integer     not null,
+    country         varchar(254),
     total_credit    double      not null,   /* temp */
     expavg_credit   double      not null,   /* temp */
     primary key (id)

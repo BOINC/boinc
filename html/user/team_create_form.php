@@ -27,7 +27,8 @@ You'll become the founding member of the team.
 <table>
 <tr>
 <td valign=top>Team name (text version)
-<br><font size=2>This name will be printed as-is and is the name
+<br><font size=2>This name will be printed as text.
+It's the name
 you should use <br>when searching for your Team.
 </td>
 <td valign=top><input name=name type=text size=50>
@@ -52,26 +53,31 @@ If you don't know HTML, just leave this box blank.
 </tr><tr>
 <td valign=top>Type of team:</td>
 <td valign=top>
-<input type=radio name=type value=4 checked>Club
+<input type=radio name=type value=1 checked> Club
 <br>
-<input type=radio name=type value=1>Small Company (< 50 employees)
+<input type=radio name=type value=2> Company
 <br>
-<input type=radio name=type value=2>Medium Company (50-1000 employees)
+<input type=radio name=type value=3> Primary School
 <br>
-<input type=radio name=type value=3>Large Company (> 1000 employees)
+<input type=radio name=type value=4> Secondary School
 <br>
-<input type=radio name=type value=5>Primary School
+<input type=radio name=type value=5> Junior College
 <br>
-<input type=radio name=type value=6>Secondary School
+<input type=radio name=type value=6> University or Department
 <br>
-<input type=radio name=type value=8>Junior College
-<br>
-<input type=radio name=type value=7>University or Department
-<br>
-<input type=radio name=type value=9>Government Agency
-</td>
+<input type=radio name=type value=7> Government Agency
 </td>
 </tr>
+
+<tr><td>Country</td>
+<td>
+<select name=country>
+<?php
+print_country_select("None");
+?>
+
+</select>
+</td></tr>
 <tr><td valign=top><br></td><td valign=top>
 <input type=submit name=new value="Create Team">
 </td></tr>

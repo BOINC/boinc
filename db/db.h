@@ -112,15 +112,13 @@ struct USER {
     int teamid;                     // if user is part of a team
 };
 
-#define TEAM_TYPE_COMPANY_SMALL         1
-#define TEAM_TYPE_COMPANY_MEDIUM        2
-#define TEAM_TYPE_COMPANY_LARGE         3
-#define TEAM_TYPE_CLUB                  4
-#define TEAM_TYPE_PRIMARY               5
-#define TEAM_TYPE_SECONDARY             6
-#define TEAM_TYPE_UNIVERSITY            7
-#define TEAM_TYPE_JUNIOR_COLLEGE        8
-#define TEAM_TYPE_GOVERNMENT            9
+#define TEAM_TYPE_CLUB                  1
+#define TEAM_TYPE_COMPANY               2
+#define TEAM_TYPE_PRIMARY               3
+#define TEAM_TYPE_SECONDARY             4
+#define TEAM_TYPE_JUNIOR_COLLEGE        5
+#define TEAM_TYPE_UNIVERSITY            6
+#define TEAM_TYPE_GOVERNMENT            7
 
 struct TEAM {
     int id;
@@ -130,8 +128,9 @@ struct TEAM {
     char url[256];
     int type;               // Team type (see above)
     char name_html[256];
-    char description[256];
+    char description[MAX_BLOB_SIZE];
     int nusers;
+    char country[256];
 };
 
 struct HOST {

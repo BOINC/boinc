@@ -3,8 +3,6 @@
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
-// TODO: add support for host, user, password
-
 function db_init() {
     $retval = mysql_pconnect();
     if (!$retval) {

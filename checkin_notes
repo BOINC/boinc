@@ -2768,3 +2768,38 @@ David  Dec 19 2002
     win/
         wingui.cpp,h
 
+David   Dec 23 2002
+    - Made stripcharts work with BOINC test framework
+        The script "test_loop.php" now generates a data file of
+        CPU load that can be graphed using stripchart.
+        TODO: add other data sources
+    - added "country" field to team
+    - expanded team description from 256 chars to blob
+    - turned off debug output from file upload handler, scheduler
+    - removed "time" args from various Project member functions
+        in test.inc.  Use sleep().
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_user/
+        db.inc
+        team_create_form.php
+    sched/
+        file_upload_handler.C
+        handle_request.C
+        result_retry.C
+    stripchart/
+        stripchart.cgi
+        stripchart.cnf
+        samples/
+            datafiles
+    test/
+        test.inc
+        test_download_backoff.php
+        test_loop.php
+        test_masterurl_failure.php
+        test_sched_failure.php
+
+    

@@ -257,7 +257,7 @@ update_wu:
     return did_something;
 }
 
-void main_loop() {
+void main_loop(bool one_pass) {
     APP app;
     bool did_something;
     int retval;
@@ -277,6 +277,7 @@ void main_loop() {
 
     while (1) {
         did_something = do_pass(app);
+        if (one_pass) break;
         if (!did_something) sleep(1);
         check_trigger();
     }
@@ -284,7 +285,7 @@ void main_loop() {
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false;
+    bool asynch = false, one_pass=false;
     char path[256];
 
     retval = config.parse_file();
@@ -310,6 +311,8 @@ int main(int argc, char** argv) {
             max_done = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
+        } else if (!strcmp(argv[i], "-one_pass")) {
+            one_pass = true;
         } else if (!strcmp(argv[i], "-nredundancy")) {
             nredundancy = atoi(argv[++i]);;
         }
@@ -319,5 +322,5 @@ int main(int argc, char** argv) {
             exit(0);
         }
     }
-    main_loop();
+    main_loop(one_pass);
 }

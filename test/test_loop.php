@@ -33,6 +33,7 @@
     $project->start_feeder();
     $project->start_make_work($work);
     $project->start_validate($app, 3);
+    $project->start_stripchart();
     $host->run("");
     //$project->stop();
 

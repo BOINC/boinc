@@ -41,11 +41,12 @@
     //delete the download_dir immediately 
     $project->delete_downloaddir();
     $pid = $host->run_asynch("-exit_when_idle");
-    //reinstall download_dir after 100 seconds
-    $project->reinstall_downloaddir(100,null);
+    echo "sleeping 100 secs\n";
+    sleep(100);
+    $project->reinstall_downloaddir(null);
     $status = 0;
     //wait until the host has stopped running
-    pcntl_waitpid($pid,$status,0);
+    pcntl_waitpid($pid, $status, 0);
     $project->stop();
 
     $result->state = RESULT_STATE_DONE;

@@ -124,7 +124,7 @@ sub to_unix_time {
 if ($query->param("flags") ne "") {
   $flags = $query->param("flags");
   $outfile = "/tmp/tempout$$" . "." . rand(100000);
-  print "Content-type: image/gif\n\n";
+  print "Pragma: nocache\nCache-Control: no-cache\nContent-type: image/gif\n\n";
   `$stripchartexe $flags > $outfile`;
   open (OUTFILE,"$outfile");
   while ($dummy=read(OUTFILE,$buffer,1024)) { print $buffer }

@@ -38,9 +38,11 @@
     $work->install($project);
 
     $project->start_feeder();
-    $project->delete_masterindex(null);
+    $project->delete_masterindex();
     $pid = $host->run_asynch("-exit_when_idle");
-    $project->reestablish_masterindex(100);
+    echo "sleeping for 100 seconds\n";
+    sleep(100);
+    $project->reestablish_masterindex();
     $status = 0;
     pcntl_waitpid($pid,$status,0);
     $project->stop();

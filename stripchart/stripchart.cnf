@@ -5,9 +5,10 @@ use Time::Local;
 # What version is this?
 $majorversion = 2; $minorversion = 1;
 
-# Where is gnuplot located?
+# Directory where gnuplot is
 # $gnuplot = "/usr/local/gnuplot-3.7";
-$gnuplot = "/disks/asimov/a/users/hiramc/local/src/gnuplot-3.7";
+#$gnuplot = "/disks/asimov/a/users/hiramc/local/src/gnuplot-3.7";
+$gnuplot = "/usr/local/bin"
  
 # Temporary files
 $suffix = rand(10000);
@@ -29,9 +30,9 @@ $plotheight = 180;
 @monthabbs = ("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 
 # Where are these unix commands located?
-$tailexe = "/usr/ucb/tail";
-$catexe = "/usr/bin/cat";
-$grepexe = "/usr/bin/grep";
+$tailexe = "tail";
+$catexe = "cat";
+$grepexe = "grep";
 
 # How many seconds in a day?
 $daysecs = 86400;
@@ -51,11 +52,11 @@ $defaultflags = "-s";
 
 # Where is the list of datafiles for stripchart.cgi?
 # Note: there is a sample copy in the samples directory: 
-$datafilelist = "/disks/jill/a/inet_services/www/share/cgi-bin/lib/datafiles";
+$datafilelist = "datafiles";
  
 # Where is the list of user-definied cgi queries?
 # Note: this file gets created by the cgi - must put it somewhere that the cgi user can write to 
-$queryfilelist = "/disks/jill/a/inet_services/www/share/cgi-bin/lib/querylist";
+$queryfilelist = "querylist";
 
 # What time is it right now?
 $rightnow = time;
