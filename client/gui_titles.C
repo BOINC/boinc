@@ -16,11 +16,11 @@ char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256] = {
 };
 
 char g_szUsageItems[MAX_USAGE_STR][256] = {
-	"Free space: not available for use",
-	"Free space: available for use",
-	"Used space: other than BOINC",
-	"Used space: BOINC",
-	"Used space:"
+	"Free space",
+	"Used space",
+	"Used space: BOINC"
+//	"BOINC: core application",
+//	"BOINC:"
 };
 
 char g_szMiscItems[MAX_MISC_STR][256] = {

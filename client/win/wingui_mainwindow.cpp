@@ -403,9 +403,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	double xDiskTotal;
 	double xDiskFree; get_host_disk_info(xDiskTotal, xDiskFree);
 	double xDiskUsed = xDiskTotal - xDiskFree;
-	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow);
+	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
 	double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
 
+    /*
 	while(m_UsagePieCtrl.GetItemCount() - 4 < gstate.projects.size()) {
 		m_UsagePieCtrl.AddPiece("", GetPieColor(m_UsagePieCtrl.GetItemCount()), 0);
 	}
@@ -413,11 +414,18 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	while(m_UsagePieCtrl.GetItemCount() - 4 > gstate.projects.size()) {
 		m_UsagePieCtrl.RemovePiece(m_UsagePieCtrl.GetItemCount() - 1);
 	}
+    */
+
+	while(m_UsagePieCtrl.GetItemCount() < 3) {
+		m_UsagePieCtrl.AddPiece("", GetPieColor(m_UsagePieCtrl.GetItemCount()), 0);
+	}
 
 	m_UsagePieCtrl.SetTotal(xDiskTotal);
-	m_UsagePieCtrl.SetPiece(0, xDiskFree - (xDiskAllow - xDiskUsage)); // Free (non-BOINC)
-	m_UsagePieCtrl.SetPiece(1, xDiskAllow - xDiskUsage); // Free (BOINC)
-	m_UsagePieCtrl.SetPiece(2, xDiskUsed - xDiskUsage); // Used (non-BOINC)
+	m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space
+	m_UsagePieCtrl.SetPiece(1, xDiskUsed - xDiskUsage); // Used space
+	m_UsagePieCtrl.SetPiece(2, xDiskUsage); // Used space: BOINC
+
+    /*
 	for(i = 0; i < gstate.projects.size(); i ++) {
 		double xUsage;
 		CString strLabel;
@@ -427,7 +435,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		m_UsagePieCtrl.SetPiece(i + 4, xUsage);
 		xDiskUsage -= xUsage;
 	}
-	m_UsagePieCtrl.SetPiece(3, xDiskUsage); // Used (BOINC)
+	m_UsagePieCtrl.SetPiece(3, xDiskUsage); // BOINC: core application
+    */
+
 	m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
 	// make icon flash if needed
@@ -453,6 +463,8 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 
 	int nNewPos = m_MessageListCtrl.GetItemCount();
 	m_MessageListCtrl.InsertItem(nNewPos, szProject);
+
+    m_MessageListCtrl.Scroll(m_MessageListCtrl.ApproximateViewRect());
 
 	CTime curTime = CTime::GetCurrentTime();
 	CString strTime;
@@ -1387,7 +1399,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_UsagePieCtrl.AddPiece(g_szUsageItems[0], GetPieColor(0), 0);
 	m_UsagePieCtrl.AddPiece(g_szUsageItems[1], GetPieColor(1), 0);
 	m_UsagePieCtrl.AddPiece(g_szUsageItems[2], GetPieColor(2), 0);
-	m_UsagePieCtrl.AddPiece(g_szUsageItems[3], GetPieColor(3), 0);
+	//m_UsagePieCtrl.AddPiece(g_szUsageItems[3], GetPieColor(3), 0);
 
 	// set up image list for tab control
 	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, MAX_TABS, 1);

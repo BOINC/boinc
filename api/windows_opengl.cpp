@@ -29,6 +29,7 @@
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
 #include <stdio.h>
+#include <winuser.h>
 
 #include "boinc_api.h"
 #include "graphics_api.h"
@@ -120,6 +121,8 @@ void SetMode(int mode) {
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
 		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
 		NULL, NULL, hInstance, NULL);
+
+	SetForegroundWindow(hWnd);
 
 	GetCursorPos(&mousePos);
 
