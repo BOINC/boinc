@@ -249,11 +249,17 @@ bool PERS_FILE_XFER::poll(time_t now) {
                 }
                 handle_xfer_failure();
             }
-            // remove fxp from file_xfer_set and deallocate it
-            //
-            gstate.file_xfers->remove(fxp);
-            delete fxp;
-            fxp = NULL;
+
+			// fxp could have already been deallocated via check_giveup
+			// so check before trying to remove
+			//
+			if (fxp) {
+	            // remove fxp from file_xfer_set and deallocate it
+		        //
+				gstate.file_xfers->remove(fxp);
+				delete fxp;
+				fxp = NULL;
+			}
 
             return true;
         }
