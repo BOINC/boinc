@@ -11938,3 +11938,10 @@ David  May 2 2004
     sched/
         handle_request.C
         server_types.C,h
+
+David  May 2 2004
+	- client: fixed bug in general prefs parsing that caused
+		source project to be "unidentified"
+
+	client/
+		prefs.C

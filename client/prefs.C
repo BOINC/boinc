@@ -65,8 +65,6 @@ void GLOBAL_PREFS::init() {
     max_memory_mbytes = 128;
     proc_priority = 1;
     cpu_affinity = -1;
-    source_project = "";
-    source_scheduler = "";
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -86,6 +84,8 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     bool in_venue = false, in_correct_venue=false;
 
 	init();
+    source_project = "";
+    source_scheduler = "";
 
     // set all booleans to false here
     run_on_batteries = false;
