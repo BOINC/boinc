@@ -17,8 +17,6 @@
 // Contributor(s):
 //
 
-#define DEBUG
-
 #ifndef _SCHEDULER_OP_
 #define _SCHEDULER_OP_
 

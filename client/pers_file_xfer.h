@@ -22,7 +22,6 @@
 #include "file_xfer.h"
 
 
-#define DEBUG
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URL is given in the FILE_INFO.
 
