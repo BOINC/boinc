@@ -10021,15 +10021,23 @@ David  Feb 11 2004
 		cs_scheduler.C
 
 David  Feb 15 2004
+    - updated docs
     - make_project:
         use short hostname
         shorten instructions at end
     - add a sample project.xml
     - scheduler: write log debug msg when set result.outcome
-    - setup_project.py:
+    - setup_project.py and make_project:
         add copy of "create_work"
         make symbolic link of html/user_profile to itself
+        don't capitalize long name
+    - parse_attr(): don't modify const input string
+    - XML error in client: </hostname/>
 
+    doc/
+        (many files)
+    lib/
+        parse.C
     sched/
         handle_request.C
     tools/
