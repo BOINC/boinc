@@ -9,7 +9,10 @@ noinst_PROGRAMS =						\
         assimilator db_dump update_stats start_servers
 
 EXTRA_PROGRAMS = fcgi
-EXTRA_DIST = watch_tcp wd.php wd_nresults_changing.php
+EXTRA_DIST = wd.php wd_nresults_changing.php 
+
+# scripts that 'make install' should put in bindir
+bin_SCRIPTS = watch_tcp kill_server
 
 cgi_SOURCES =					\
         handle_request.C			\

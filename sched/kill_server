@@ -1,0 +1,77 @@
+#!/usr/bin/env python
+
+## $Id$
+
+## stop_server stop specified server(s)
+
+import sys, os, getopt
+
+daemons = [ 'assimilator',
+            'db_dump',
+            'feeder',
+            'file_deleter',
+            'make_work',
+            'timeout_check',
+            'update_stats',
+            'validate' ]
+
+def help():
+    print >>sys.stderr, "Syntax: %s [-q] [-v] { ALL | <daemons...> }" % sys.argv[0]
+    print >>sys.stderr, """   Stops running BOINC daemon(s).
+      -q   : don't warn when kill fails
+      -v   : print names of the daemons killed
+   Valid daemons are:"""
+    for daemon in daemons:
+        print >>sys.stderr, "        ", daemon
+    print >>sys.stderr, "         ALL          : all of the above; implies -q"
+    sys.exit(1)
+
+
+quiet = False
+verbose = False
+try:
+    opts, args = getopt.getopt(sys.argv[1:], 'qvh')
+    if not args:
+        raise Exception, "No daemons specified"
+except Exception, e:
+    print >>sys.stderr, e
+    print >>sys.stderr, "Use '%s -h' for help" % sys.argv[0]
+    sys.exit(1)
+for opt,v in opts:
+    if opt == '-q': quiet = True
+    elif opt == '-v': verbose = True
+    elif opt == '-h': help()
+    else: assert(False)
+
+if 'ALL' in args:
+    args = daemons
+    quiet = True
+
+killed = 0
+
+for arg in args:
+    if not arg in daemons:
+        print >>sys.stderr, 'Warning: "%s" is not a valid BOINC daemon' % arg
+    pidfilename = arg + '.pid'
+    try:
+        pidfile = open(pidfilename)
+    except IOError, e:
+        if not quiet:
+            print >>sys.stderr, "Error stopping %s: couldn't open pidfile %s\n   %s" % (arg, pidfilename, e)
+        continue
+    try:
+        pid = int(pidfile.readline())
+    except:
+        print >>sys.stderr, "Error stopping %s: couldn't read pid from pidfile %s" % (arg, pidfilename)
+        continue
+    try:
+        os.kill(pid, 2)
+        if verbose:
+            print arg,
+        killed += 1
+    except OSError, e:
+        if not quiet:
+            print >>sys.stderr, "Error stopping %s: couldn't kill %d\n   %s" % (arg, pid, e)
+
+if verbose and not killed:
+    print '(none killed)',
