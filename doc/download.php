@@ -127,10 +127,10 @@ if ($_GET["xml"]) {
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 <core_versions>
     ";
-    echo "<stable_version>4.14</stable_version>\n";
-    show_413(true);
-    //echo "<development_version>4.55</development_version>\n";
-    //show_455(true);
+    echo "<stable_version>4.18</stable_version>\n";
+    show_418(true);
+    echo "<development_version>4.62</development_version>\n";
+    show_462(true);
     echo "</core_versions>\n";
     exit();
 }
@@ -147,7 +147,7 @@ of work that is sent to your computer.
 
 <h2>Current version</h2>
 ";
-show_413();
+show_418();
 echo "
     After the download is finished:
     <ul>
@@ -177,8 +177,6 @@ if ($_GET["dev"]) {
     echo "
         <h2>Development versions (latest features, possibly buggy)</h2>
     ";
-    show_418();
-echo "<br>";
     show_462();
 }
 
