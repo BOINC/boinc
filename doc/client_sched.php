@@ -260,17 +260,8 @@ It can be called whenever the client can make a scheduler RPC.
 For each project P
 <ol>
 <li>
-If the number of runnable results for P is less than min_results(P)
-<ol>
-<li>
-Set the project's work request to 2T * P.resource_share
-<li>
-urgency  = max(urgency, NEED WORK IMMEDIATELY)
-<li>
-Continue
-</ol>
-<li>
 Let R0...Rn-1 be P's runnable results ordered by decreasing deadline.
+<li>
 Let S be the sum of estimated duration E(R) of R(min_results-1),...Rn-1,
 where E(R) is R's FLOPS estimate
 divided by this host's average processing rate times P.resource_share.
@@ -278,8 +269,9 @@ divided by this host's average processing rate times P.resource_share.
 <li>
 If S < T
 <ol>
+<li>If S == 0: urgency = NEED_WORK_IMMEDIATELY
 <li>P.work_request = (2T - S) * P.resource_share
-<li>urgency = max(urgency, NEED WORK)
+<li>urgency = max(urgency, NEED_WORK)
 </ol>
 <li>
 Else, P.work_request = 0
@@ -299,44 +291,30 @@ request the work.
 data structures:
 PROJECT:
     double work_request
-    double work_remaining // temp
-RESULT:
-    double cpu_time_remaining // temp
-
-return values:
-define DONT_NEED_WORK 0
-define NEED_WORK 1
-define NEED_WORK_IMMEDIATELY 2
 
 compute_work_request():
 
+    urgency = 0
+
     foreach project P:
+        work_remaining = 0
+        results_to_skip = min_results(P) - 1
         P.work_request = 0
-        P.work_remaining = 0
 
-    foreach result R:
-        R.cpu_time_remaining = estimate_cpu_time_remaining(R)
+        foreach result R for P in order of decreasing deadline:
+            if results_to_skip > 0:
+                results_to_skip--
+                continue
+            work_remaining += E(R)
 
-    // ignore the top (min_results-1) results (according to cpu
-    // time remaining) by zeroing out their cpu_time_remaining
-    foreach project P:
-        do min_results(P) - 1 times:
-            R = argmax { R.cpu_time_remaining } over all results for P
-            R.cpu_time_remaining = 0
-
-    foreach result R:
-        R.project.work_remaining += R.cpu_time_remaining
-
-    foreach project P:
         if P.work_remaining < T:
-            if P.work_remaining == 0:
-                // no other results (with non-zero cpu time remaining)
-                // besides the top (min_results-1)
-                need_work_immediately = 1
-            P.work_request = 2*T - P.work_remaining / SECONDS_PER_DAY
-            need_work = 1
+            if work_remaining == 0:
+                urgency = NEED_WORK_IMMEDIATELY
+            P.work_request =
+                (2*T - work_remaining / SECONDS_PER_DAY) * P.resource_share
+            urgency = max(NEED_WORK, urgency)
 
-    return need_work_immediately + need_work
+    return urgency
 
 </pre>
 
