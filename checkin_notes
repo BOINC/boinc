@@ -19364,3 +19364,7 @@ Rom    12 Nov 2004
     win_build/
         boinc_ss.vcproj
  
+Rom   13 Nov 2004 (boinc)
+    - Tag for 4.54 release, all platforms
+      boinc_core_release_4_54
+
