@@ -430,16 +430,13 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
 // If DB has more recent global prefs than client's, send them.
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    unsigned int req_mod_time=0, db_mod_time=0;
-    bool need_update;
-    DB_USER user;
-
     reply.send_global_prefs = false;
     if (strlen(sreq.global_prefs_xml)) {
-        need_update = false;
-        parse_int(sreq.global_prefs_xml, "<mod_time>", (int)req_mod_time);
+        bool need_update = false;
+        unsigned req_mod_time=0, db_mod_time=0;
+        parse_int(sreq.global_prefs_xml, "<mod_time>", (int&)req_mod_time);
         if (strlen(reply.user.global_prefs)) {
-            parse_int(reply.user.global_prefs, "<mod_time>", (int)db_mod_time);
+            parse_int(reply.user.global_prefs, "<mod_time>", (int&)db_mod_time);
             if (req_mod_time > db_mod_time) {
                 need_update = true;
             } else if (req_mod_time < db_mod_time) {
@@ -450,6 +447,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         if (need_update) {
             safe_strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
+            DB_USER user;
             user = reply.user;
             user.update();
         }

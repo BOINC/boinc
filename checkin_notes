@@ -5395,6 +5395,9 @@ Karl 2003/07/25
 
     added "run benchmarks now" File menu command, and display results.    
 
+    Fixed global preferences not being updated to/from client because of
+    <mod_time> parse bug.
+
     db/*
     sched/*
     py/*
