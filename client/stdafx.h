@@ -65,6 +65,8 @@
 #include <io.h>
 #include <crtdbg.h>
 #include <tchar.h>
+#include <crtdbg.h>
+#include <delayimp.h>
 
 #include "Stackwalker.h"
 
@@ -127,5 +129,43 @@ using namespace std;
 #define stat                    _stat
 
 #endif
+
+// On the Win32 platform include file and line number information for each
+//   memory allocation/deallocation
+#if (defined(_WIN32) && !defined(__AFX_H__))
+
+#ifdef _DEBUG
+
+#define   malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define   calloc(c, s)                          _calloc_dbg(c, s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define   realloc(p, s)                         _realloc_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define   _expand(p, s)                         _expand_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define   free(p)                               _free_dbg(p, _NORMAL_BLOCK)
+#define   _msize(p)                             _msize_dbg(p, _NORMAL_BLOCK)
+#define   _aligned_malloc(s, a)                 _aligned_malloc_dbg(s, a, __FILE__, __LINE__)
+#define   _aligned_realloc(p, s, a)             _aligned_realloc_dbg(p, s, a, __FILE__, __LINE__)
+#define   _aligned_offset_malloc(s, a, o)       _aligned_offset_malloc_dbg(s, a, o, __FILE__, __LINE__)
+#define   _aligned_offset_realloc(p, s, a, o)   _aligned_offset_realloc_dbg(p, s, a, o, __FILE__, __LINE__)
+#define   _aligned_free(p)                      _aligned_free_dbg(p)
+
+#define DEBUG_NEW   new(_NORMAL_BLOCK, __FILE__, __LINE__)
+
+// The following macros set and clear, respectively, given bits 
+// of the C runtime library debug flag, as specified by a bitmask. 
+#define SET_CRT_DEBUG_FIELD(a)      _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
+#define CLEAR_CRT_DEBUG_FIELD(a)    _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
+
+#else
+
+#define DEBUG_NEW   new
+
+#define SET_CRT_DEBUG_FIELD(a) ((void) 0) 
+#define CLEAR_CRT_DEBUG_FIELD(a) ((void) 0) 
+
+#endif //_DEBUG
+
+#define new DEBUG_NEW
+
+#endif //_WIN32
 
 #endif //_STDAFX_H_
