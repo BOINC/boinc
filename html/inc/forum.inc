@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //get CVS version of this file to be shown in version list (display_cvs_version())
 
 require_once('../inc/db.inc');
 require_once('../inc/sanitize_html.inc');
