@@ -68,7 +68,7 @@ extern int boinc_finish(int);
 extern int boinc_resolve_filename(char*, char*, int len);
 extern bool boinc_time_to_checkpoint();
 extern int boinc_checkpoint_completed();
-extern int boinc_fraction_done();
+extern int boinc_fraction_done(double);
 extern int boinc_child_start();
 extern int boinc_child_done(double);
 extern double boinc_cpu_time();     // CPU time for this process
