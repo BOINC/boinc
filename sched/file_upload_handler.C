@@ -78,11 +78,13 @@ int FILE_INFO::parse(FILE* in) {
 
 int print_status(int status, char* message) {
     printf("Content-type: text/plain\n\n<status>%d</status>\n", status);
-    if (message) printf("<error>%s</error>\n", message);
-    fprintf(stderr,
-    	"file_upload_handler (%s): status %d: %s>\n",
-	BOINC_USER, status, message
-    );
+    if (message) {
+        printf("<error>%s</error>\n", message);
+        fprintf(stderr,
+            "file_upload_handler (%s): status %d: %s>\n",
+            BOINC_USER, status, message
+        );
+    }
     return 0;
 }
 
@@ -145,12 +147,12 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
-		fprintf(stderr,
-		    "file_upload_handler (%s): FILE_INFO.parse\n",
-		    BOINC_USER
-		);
-		return retval;
-	    }
+                fprintf(stderr,
+                    "file_upload_handler (%s): FILE_INFO.parse\n",
+                    BOINC_USER
+                );
+                return retval;
+            }
             retval = verify_string(
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
@@ -163,14 +165,23 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         // Handle a file size request
         else if (parse_str(buf, "<file_size_req>", file_name)) {
             struct stat sbuf;
-            // TODO: put checking here to ensure path doesn't point somewhere bad
+            // TODO: check to ensure path doesn't point somewhere bad
+            //
             sprintf( path, "%s/%s", BOINC_UPLOAD_DIR, file_name );
             retval = stat( path, &sbuf );
-            if (retval && errno != ENOENT) print_status( -1, "cannot open file" );
-            else if (retval) printf("Content-type: text/plain\n\n<nbytes>0</nbytes>\n"
-                                    "<status>0</status>\n");
-            else printf("Content-type: text/plain\n\n<nbytes>%d</nbytes>\n"
-                        "<status>0</status>\n", (int)sbuf.st_size);
+            if (retval && errno != ENOENT) {
+                print_status( -1, "cannot open file" );
+            } else if (retval) {
+                printf(
+                    "Content-type: text/plain\n\n<nbytes>0</nbytes>\n"
+                    "<status>0</status>\n"
+                );
+            } else {
+                printf(
+                    "Content-type: text/plain\n\n<nbytes>%d</nbytes>\n"
+                    "<status>0</status>\n", (int)sbuf.st_size
+                );
+            }
             exit(0);
         }
         else if (parse_double(buf, "<offset>", offset)) continue;
@@ -193,12 +204,12 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
             sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
-	    if (retval) {
-		fprintf(stderr,
-		    "file_upload_handler (%s): copy_socket_to_file %d %s\n",
-		    BOINC_USER, retval, path
-		);
-	    }
+            if (retval) {
+                fprintf(stderr,
+                    "file_upload_handler (%s): copy_socket_to_file %d %s\n",
+                    BOINC_USER, retval, path
+                );
+            }
             break;
         }
     }
@@ -233,7 +244,6 @@ int main() {
     if (retval) {
         fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
     } else {
-        //fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
         print_status(0, 0);
     }
     return 0;

@@ -38,3 +38,5 @@ extern int create_work(
     int ninfiles,
     R_RSA_PRIVATE_KEY&
 );
+
+extern int grant_credit(int resultid, double cobblestones);

@@ -335,7 +335,6 @@ bool SCHEDULER_OP::poll() {
     default:
         break;
     }
-    if (log_flags.sched_op_debug && action) printf("SCHEDULER_OP::poll\n");
     return action;
 }
 
@@ -377,6 +376,12 @@ int SCHEDULER_REPLY::parse(FILE* in) {
         } else if (match_tag(buf, "</scheduler_reply>")) {
             return 0;
         } else if (parse_str(buf, "<project_name>", project_name)) {
+            continue;
+        } else if (parse_str(buf, "<user_name>", user_name)) {
+            continue;
+        } else if (parse_double(buf, "<total_credit>", total_credit)) {
+            continue;
+        } else if (parse_double(buf, "<expavg_credit>", expavg_credit)) {
             continue;
         } else if (parse_int(buf, "<hostid>", hostid)) {
             continue;

@@ -74,42 +74,41 @@ function show_app_version($app_version,$show_xml_docs) {
 }
 
 function show_host($host) {
+    start_table();
 
-    echo TABLE2."\n";
-    echo "<tr>";
-    echo "<p>";
-    echo "<tr>".TD2.LG_FONT."<b>Host Information:</b></font></td></tr>\n";
-    row("<b>IP address:   </b>", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
-    row("<b>Domain name:   <b>", $host->domain_name);
+    row("Created", time_str($host->create_time));
+    row("Total credit", $host->total_credit);
+    row("Average credit", $host->expavg_credit);
+    row("Average update time", time_str($host->expavg_time));
+    row("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+    row("Domain name", $host->domain_name);
     $x = $host->timezone/3600;
-    row("<b>Time zone:   </b>", "UTC - $x hours");
-    row("<b>Created:   </b>", time_str($host->create_time));
-    row("<b>CPU:   </b>", "$host->p_vendor $host->p_model");
-    row("<b>Number of CPUs:   </b>", $host->p_ncpus);
-    row("<b>Operating System:   </b>", "$host->os_name $host->os_version");
+    row("Time zone", "UTC - $x hours");
+    row("CPU", "$host->p_vendor $host->p_model");
+    row("Number of CPUs", $host->p_ncpus);
+    row("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);
-    row("<b>Memory:   </b>", "$y MB");
+    row("Memory", "$y MB");
     $x = $host->m_cache/1024;
     $y = round($x, 2);
-    row("<b>Cache:   </b>", "$y KB");
+    row("Cache", "$y KB");
     $x = $host->m_swap/(1024*1024);
     $y = round($x, 2);
-    row("<b>Swap Space:   </b>", "$y MB");
+    row("Swap Space", "$y MB");
     $x = $host->d_total/(1024*1024*1024);
     $y = round($x, 2);
-    row("<b>Total Disk Space:   </b>", "$y GB");
+    row("Total Disk Space", "$y GB");
     $x = $host->d_free/(1024*1024*1024);
     $y = round($x, 2);
-    row("<b>Free Disk Space:   </b>", "$y GB");
-    row("<b>Avg network bandwidth:<br>(upstream)   </b>", "$host->n_bwup bytes/sec");
-    row("<b>Avg network bandwidth:<br>(downstream)   </b>", "$host->n_bwdown bytes/sec");
-    row("<b>Number of times client has contacted server:   </b>", $host->rpc_seqno);
-    row("<b>Last time contacted server:   </b>", time_str($host->rpc_time));
-    row("<b>% of time client on:   </b>", 100*$host->on_frac." %");
-    row("<b>% of time host connected:   </b>", 100*$host->connected_frac." %");
-    row("<b>% of time user active:   </b>", 100*$host->active_frac." %");
-    row("","<a href=result.php?host_id=$host->id>Results Assigned to Host</a>");
+    row("Free Disk Space", "$y GB");
+    row("Avg network bandwidth (upstream)", "$host->n_bwup bytes/sec");
+    row("Avg network bandwidth (downstream)", "$host->n_bwdown bytes/sec");
+    row("Number of RPCs", $host->rpc_seqno);
+    row("Last RPC", time_str($host->rpc_time));
+    row("% of time client on", 100*$host->on_frac." %");
+    row("% of time host connected", 100*$host->connected_frac." %");
+    row("% of time user active", 100*$host->active_frac." %");
     end_table();
 
 }
@@ -171,15 +170,16 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
 
 function show_user($user) {
     start_table();
-    row("Created", time_str($user->create_time));
-    row("Total Credit", $user->total_credit);
-    row("Recent Averaged Credit:", $user->expavg_credit);
-    row("Name", $user->name);
-    row("Email Address", $user->email_addr);
-    row("Country", $user->country);
-    row("Postal Code", $user->postal_code);
-    row("Team", ($user->teamid == 0 ? "None" : "<a href=team.php?id=$user->teamid>" . team_name_by_id($user->teamid) . "</a>" ));
-    row("", "<a href=host.php?user_id=$user->id>User Hosts</a>");
+    row("created", time_str($user->create_time));
+    row("total credit", $user->total_credit);
+    row("recent averaged credit:", $user->expavg_credit);
+    row("name", $user->name);
+    row("email address", $user->email_addr);
+    row("country", $user->country);
+    row("postal code", $user->postal_code);
+    row("total credit", $user->total_credit);
+    row("average credit", $user->expavg_credit);
+    row("last average time", time_str($user->expavg_time));
     end_table();
 }
 

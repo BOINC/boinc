@@ -189,9 +189,6 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
         bytes_transferred += n;
         if (max_bytes < 0) break;
     }
-    if (log_flags.net_xfer_debug && bytes_transferred) {
-    	printf("NET_XFER_SET::poll bytes_transferred %d\n", bytes_transferred);
-    }
     return 0;
 }
 

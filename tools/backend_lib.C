@@ -202,3 +202,16 @@ int create_work(
     }
     return 0;
 }
+
+// not finished!
+int grant_credit(int resultid, double credit) {
+    RESULT result;
+    int retval;
+
+    retval = db_result(resultid, result);
+    if (retval) return retval;
+    result.granted_credit = credit;
+    result.validated = true;
+    retval = db_result_update(result);
+    return retval;
+}

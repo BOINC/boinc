@@ -125,9 +125,10 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     return pbest;
 }
 
-// Compute the "resource debt" of each project.  This is used
-// to determine what project we will focus on next, based on
-// the user specified resource share
+// Compute the "resource debt" of each project.
+// This is used to determine what project we will focus on next,
+// based on the user-specified resource share.
+// TODO: this counts only CPU time.  Should reflect disk/network usage too.
 //
 void CLIENT_STATE::compute_resource_debts() {
     unsigned int i, j;
@@ -278,7 +279,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         }
         break;
     }
-    if (log_flags.sched_op_debug && action) printf("CS::scheduler_rpc_poll\n");
     return action;
 }
 
@@ -322,6 +322,11 @@ void CLIENT_STATE::handle_scheduler_reply(
     if (strlen(sr.project_name)) {
         strcpy(project->project_name, sr.project_name);
     }
+    if (strlen(sr.user_name)) {
+        strcpy(project->user_name, sr.user_name);
+    }
+    project->total_credit = sr.total_credit;
+    project->expavg_credit = sr.expavg_credit;
     if (strlen(sr.message)) {
         show_message(sr.message, sr.message_priority);
     }

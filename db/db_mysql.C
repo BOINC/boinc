@@ -162,6 +162,7 @@ void struct_to_str(void* vp, char* q, int type) {
         sprintf(q,
             "id=%d, create_time=%d, userid=%d, "
             "rpc_seqno=%d, rpc_time=%d, "
+            "total_credit=%f, expavg_credit=%f, expavg_time=%f, "
             "timezone=%d, domain_name='%s', serialnum='%s', "
             "last_ip_addr='%s', nsame_ip_addr=%d, "
             "on_frac=%f, connected_frac=%f, active_frac=%f, "
@@ -173,6 +174,7 @@ void struct_to_str(void* vp, char* q, int type) {
             "n_bwup=%f, n_bwdown=%f",
             hp->id, hp->create_time, hp->userid,
             hp->rpc_seqno, hp->rpc_time,
+            hp->total_credit, hp->expavg_credit, hp->expavg_time,
             hp->timezone, hp->domain_name, hp->serialnum,
             hp->last_ip_addr, hp->nsame_ip_addr,
             hp->on_frac, hp->connected_frac, hp->active_frac,
@@ -208,12 +210,12 @@ void struct_to_str(void* vp, char* q, int type) {
             "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
             "name='%s', exit_status=%d, cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
-            "batch=%d, project_state=%d, validated=%d",
+            "batch=%d, project_state=%d, validated=%d, granted_credit=%f",
             rp->id, rp->create_time, rp->workunitid, rp->state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
             rp->name, rp->exit_status, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
-            rp->batch, rp->project_state, rp->validated
+            rp->batch, rp->project_state, rp->validated, rp->granted_credit
         );
 	break;
     }
@@ -307,6 +309,9 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	hp->userid = atoi(r[i++]);
 	hp->rpc_seqno = atoi(r[i++]);
 	hp->rpc_time = atoi(r[i++]);
+	hp->total_credit = atof(r[i++]);
+	hp->expavg_credit = atof(r[i++]);
+	hp->expavg_time = atof(r[i++]);
 	hp->timezone = atoi(r[i++]);
 	strcpy(hp->domain_name, r[i++]);
 	strcpy(hp->serialnum, r[i++]);
@@ -373,6 +378,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	rp->batch = atoi(r[i++]);
 	rp->project_state = atoi(r[i++]);
 	rp->validated = atoi(r[i++]);
+	rp->granted_credit = atof(r[i++]);
 	break;
     }
 }
@@ -568,6 +574,10 @@ int db_workunit_enum_dynamic_to_send(WORKUNIT& p, int limit) {
 
 int db_result_new(RESULT& p) {
     return db_new(&p, TYPE_RESULT);
+}
+
+int db_result(int i, RESULT& p) {
+    return db_lookup_id(i, &p, TYPE_RESULT);
 }
 
 int db_result_update(RESULT& p) {

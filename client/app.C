@@ -421,7 +421,6 @@ bool ACTIVE_TASK_SET::poll() {
         }
     }
 
-    if (log_flags.task_debug && found) printf("ACTIVE_TASK_SET::poll\n");
     return found;
 #endif
 
@@ -472,7 +471,6 @@ bool ACTIVE_TASK_SET::poll() {
 
     clean_out_dir(atp->slot_dir);
 
-    if (log_flags.task_debug) printf("ACTIVE_TASK_SET::poll\n");
     return true;
 }
 
@@ -613,9 +611,9 @@ bool ACTIVE_TASK::check_app_status_files() {
         retval = file_delete(path);
         if (retval) {
             fprintf(stderr,
-		"ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
-		path, retval
-	    );
+                "ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
+                path, retval
+            );
         }
     }
 
@@ -630,9 +628,9 @@ bool ACTIVE_TASK::check_app_status_files() {
         retval = file_delete(path);
         if (retval) {
             fprintf(stderr,
-		"ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
-		path, retval
-	    );
+                "ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
+                path, retval
+            );
         }
     }
     return found;
@@ -650,7 +648,6 @@ bool ACTIVE_TASK_SET::poll_time() {
         updated |= atp->check_app_status_files();
     }
 
-    if (log_flags.task_debug && updated) printf("ACTIVE_TASK_SET::poll_time\n");
     return updated;
 }
 

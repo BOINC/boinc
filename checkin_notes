@@ -1758,3 +1758,50 @@ David  August 26, 2002
 	init.inc
 	master.html
 	test_uc.php
+
+David   August 28, 2002
+    - added DB fields to keep track of credit for hosts and result
+    - added utility program "grant_credit" to grant credit for a result
+    - removed some extraneous printfs
+    - file upload handler error messages have user name
+    - added a "poll_debug" flag; turn this on in case of infinite
+        poll loop, to see what's causing the problem
+    - added a "libboinc.a" target to lib/ Makefile.
+        We might want to consider using a random library
+        instead of referring to explicit .o files everywhere
+
+    api/
+        boinc_api.h
+    client/
+        Makefile.in
+        app.C
+        client_state.C
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        log_flags.C,h
+        net_xfer.C
+        pers_file_xfer.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_ops/
+        db.inc
+        db.php
+    html_user/
+        index.html
+    lib/
+        Makefile.in
+    sched/
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+    test/
+        master.html
+        test_uc.php
+    tools/
+        Makefile.in
+        backend_lib.C,h
+        grant_credit.C (new)

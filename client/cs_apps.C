@@ -119,7 +119,6 @@ bool CLIENT_STATE::handle_running_apps() {
             action = true;
         }
     }
-    if (log_flags.task_debug && action) printf("CS::handle_running_apps\n");
     return action;
 }
 
@@ -154,10 +153,10 @@ bool CLIENT_STATE::start_apps() {
     int open_slot;
 
     for (i=0; i<results.size(); i++) {
-        // If all the app slots are already used, we can't start
-        // a new app
+
+        // If all the app slots are already used, we can't start a new app
+        //
         open_slot = active_tasks.get_free_slot(nslots);
-        
         if (open_slot < 0) {
             if (log_flags.task_debug) {
                 printf("start_apps(): all slots full\n");
@@ -165,10 +164,12 @@ bool CLIENT_STATE::start_apps() {
             return false;
         }
         rp = results[i];
-        // Start the application to compute a result if the result
-        // isn't done yet, the application isn't currently computing
-        // the result, and all the input files for the result are
-        // locally available
+
+        // Start the application to compute a result if:
+        // 1) the result isn't done yet;
+        // 2) the application isn't currently computing the result;
+        // 3) all the input files for the result are locally available
+        //
         if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active ) {
             if (log_flags.task_debug) {
                 printf("starting application for result %s\n", rp->name);
@@ -180,10 +181,9 @@ bool CLIENT_STATE::start_apps() {
             active_tasks.insert(atp);
             action = true;
             set_client_state_dirty("start_apps");
-	    app_started = time(0);
+            app_started = time(0);
         }
     }
-    if (log_flags.task_debug && action) printf("CS::start_apps\n");
     return action;
 }
 

@@ -188,8 +188,8 @@ double boinc_cpu_time() {
     static DWORD last_count = 0;
 
     if (first) {
-	last_count = GetTickCount();
-	first = true;
+        last_count = GetTickCount();
+        first = true;
     }
     DWORD cur = GetTickCount();
     double x = (cur - last_count)/1000.;
@@ -355,46 +355,20 @@ int write_fd_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
 //
 int parse_fd_init_file(FILE* f) {
     char buf[256],filename[256];
-    int filedesc,fd,retval;
+    int filedesc;
     while (fgets(buf, 256, f)) {
         if (parse_str(buf, "<fdesc_dup_infile>", filename)) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_innum>", filedesc)) {
-#if  1
-		    freopen(filename, "r", stdin);
-#else
-                    fd = open(filename, O_RDONLY);
-		    if (fd < 0) return ERR_OPEN;
-                    if (fd != filedesc) {
-                        retval = dup2(fd, filedesc);
-                        if (retval < 0) {
-                            fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
-                            return ERR_DUP2;
-                        }
-                        close(fd);
-                    }
-#endif
-		    fprintf(stderr, "opened input file %s\n", filename);
+                    freopen(filename, "r", stdin);
+                    fprintf(stderr, "opened input file %s\n", filename);
                 }
             }
         } else if (parse_str(buf, "<fdesc_dup_outfile>", filename)) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_outnum>", filedesc)) {
-#if 1
-		    freopen(filename, "w", stdout);
-#else
-                    fd = open(filename, O_WRONLY|O_CREAT, 0660);
-		    if (fd < 0) return ERR_OPEN;
-                    if (fd != filedesc) {
-                        retval = dup2(fd, filedesc);
-                        if (retval < 0) {
-                            fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
-                            return ERR_DUP2;
-                        }
-                        close(fd);
-                    }
-#endif
-		    fprintf(stderr, "opened output file %s\n", filename);
+                    freopen(filename, "w", stdout);
+                    fprintf(stderr, "opened output file %s\n", filename);
                 }
             }
         } else fprintf(stderr, "parse_fd_init_file: unrecognized %s", buf);

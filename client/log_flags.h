@@ -42,6 +42,7 @@ public:
     bool http_debug;
     bool time_debug;        // print message on sleep
     bool net_xfer_debug;
+    bool poll_debug;        // show what polls are responding
 
     LOG_FLAGS();
     int parse(FILE*);

@@ -83,6 +83,10 @@ int LOG_FLAGS::parse(FILE* in) {
             net_xfer_debug = true;
             continue;
         }
+        else if (match_tag(buf, "<poll_debug/>")) {
+            poll_debug = true;
+            continue;
+        }
         else fprintf(stderr, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;

@@ -73,6 +73,7 @@ int check_trigger(SCHED_SHMEM* ssp) {
         ssp->scan_tables();
     } else {
         fprintf(stderr, "feeder: unknown command in trigger file: %s\n", buf);
+        exit(0);
     }
     unlink(TRIGGER_FILENAME);
     return 0;

@@ -38,6 +38,9 @@ all: $(PROGS) $(OBJS) $(MD5_OBJS) $(CRYPT_OBJS)
 .c.o:
 	$(CC) -c -o $*.o $<
 
+libboinc.a: $(OBJS) $(MD5_OBJS)
+	ar cr libboinc.a $(OBJS) $(MD5_OBJS); ranlib libboinc.a
+
 md5_test: md5_test.o $(MD5_OBJS)
 	$(CC) md5_test.o $(MD5_OBJS) -o md5_test
 

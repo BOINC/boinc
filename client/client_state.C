@@ -183,6 +183,12 @@ int CLIENT_STATE::check_suspend_activities() {
     return 0;
 }
 
+static void print_log(char* p) {
+    if (log_flags.poll_debug) {
+        printf(p);
+    }
+}
+
 // do_something is where all the action happens.  This is part of the
 // finite state machine abstraction of the client.  Each of the key
 // elements of the client is given a chance to perform work here.
@@ -195,32 +201,45 @@ bool CLIENT_STATE::do_something() {
 
     check_suspend_activities();
     if (!activities_suspended) {
-        // Call these functions in bottom to top order in
-        // respect to the FSMs hierarchy
+        // Call these functions in bottom to top order with
+        // respect to the FSM hierarchy
+
         net_xfers->poll(999999, nbytes);
-        if (nbytes) { printf("net_xfers\n"); action = true; }
+        if (nbytes) { action=true; print_log("net_xfers\n"); }
+
         x = http_ops->poll();
-	if (x) {action=true; printf("http_ops::poll\n"); }
+        if (x) {action=true; print_log("http_ops::poll\n"); }
+
         x = file_xfers->poll();
-	if (x) {action=true; printf("file_xfers::poll\n"); }
+        if (x) {action=true; print_log("file_xfers::poll\n"); }
+
         x = active_tasks.poll();
-	if (x) {action=true; printf("active_tasks::poll\n"); }
+        if (x) {action=true; print_log("active_tasks::poll\n"); }
+
         x = active_tasks.poll_time();
-	if (x) {action=true; printf("active_tasks::poll_time\n"); }
+        if (x) {action=true; print_log("active_tasks::poll_time\n"); }
+
         x = scheduler_rpc_poll();
-	if (x) {action=true; printf("scheduler_rpc_poll\n"); }
+        if (x) {action=true; print_log("scheduler_rpc_poll\n"); }
+
         x = start_apps();
-	if (x) {action=true; printf("start_apps\n"); }
+        if (x) {action=true; print_log("start_apps\n"); }
+
         x = pers_xfers->poll();
-	if (x) {action=true; printf("pers_xfers->poll\n"); }
+        if (x) {action=true; print_log("pers_xfers->poll\n"); }
+
         x = handle_running_apps();
-	if (x) {action=true; printf("handle_running_apps\n"); }
+        if (x) {action=true; print_log("handle_running_apps\n"); }
+
         x = handle_pers_file_xfers();
-	if (x) {action=true; printf("handle_pers_file_xfers\n"); }
+        if (x) {action=true; print_log("handle_pers_file_xfers\n"); }
+
         x = garbage_collect();
-	if (x) {action=true; printf("garbage_collect\n"); }
+        if (x) {action=true; print_log("garbage_collect\n"); }
+
         x = update_results();
-	if (x) {action=true; printf("update_results\n"); }
+        if (x) {action=true; print_log("update_results\n"); }
+
         write_state_file_if_needed();
     }
     if (!action) time_stats.update(true, !activities_suspended);

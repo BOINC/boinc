@@ -120,8 +120,10 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
 
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer) {
-            printf( "file transfer done for %s; retval %d\n",
-                    fip->get_url(), fxp->file_xfer_retval );
+            printf(
+                "file transfer done for %s; retval %d\n",
+                fip->get_url(), fxp->file_xfer_retval
+            );
         }
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
@@ -260,7 +262,6 @@ bool PERS_FILE_XFER_SET::poll() {
 
     if (action) gstate.set_client_state_dirty("pers_file_xfer_set poll");
 
-    if (log_flags.file_xfer_debug && action) printf("PERS_FILE_XFER_SET::poll\n");
     return action;
 }
 

@@ -148,6 +148,9 @@ struct HOST {
     int userid;             // ID of user running this host
     int rpc_seqno;          // last seqno received from client
     unsigned int rpc_time;  // time of last scheduler RPC
+    double total_credit;
+    double expavg_credit;
+    double expavg_time;
 
     // all remaining items are assigned by the client
     int timezone;
@@ -236,6 +239,7 @@ struct RESULT {
     int batch;
     int project_state;
     bool validated;
+    double granted_credit;
 
     // the following not used in the DB
     char wu_name[256];
@@ -290,6 +294,7 @@ extern int db_workunit_lookup_name(WORKUNIT&);
 extern int db_workunit_enum_dynamic_to_send(WORKUNIT&, int);
 
 extern int db_result_new(RESULT& p);
+extern int db_result(int id, RESULT&);
 extern int db_result_update(RESULT& p);
 extern int db_result_lookup_name(RESULT& p);
 extern int db_result_enum_to_send(RESULT&, int);

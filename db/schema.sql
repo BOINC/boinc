@@ -74,6 +74,9 @@ create table host (
     userid          integer     not null,
     rpc_seqno       integer     not null,
     rpc_time        integer     not null,
+    total_credit    float       not null,
+    expavg_credit   float       not null,
+    expavg_time     float       not null,
 
     timezone        integer     not null,
     domain_name     varchar(254),
@@ -148,5 +151,6 @@ create table result (
     batch           integer     not null,
     project_state   integer     not null,
     validated       smallint    not null,
+    granted_credit  float       not null,
     primary key (id)
 );

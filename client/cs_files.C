@@ -94,21 +94,21 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         pfx = fip->pers_file_xfer;
-	if (pfx) continue;
+        if (pfx) continue;
         if (!fip->generated_locally && fip->status == FILE_NOT_PRESENT) {
 
             // Set up the persistent file transfer object.
-	    // This will start the download when there is available bandwidth
+            // This will start the download when there is available bandwidth
             //
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
-	    pers_xfers->insert( fip->pers_file_xfer );
+            pers_xfers->insert( fip->pers_file_xfer );
             action = true;
         } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
 
             // Set up the persistent file transfer object.
-	    // This will start the upload when there is available bandwidth
+            // This will start the upload when there is available bandwidth
             //
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
@@ -123,7 +123,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
 
         // If the transfer finished, remove the PERS_FILE_XFER object
         // from the set and delete it
-	//
+        //
         if (pfx->xfer_done) {
             pfx->fip->pers_file_xfer = NULL;
             pers_xfers->remove(pfx);
@@ -132,6 +132,5 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         }
     }
     
-    if (log_flags.file_xfer_debug && action) printf("CS::handle_pers_file_xfers\n");
     return action;
 }

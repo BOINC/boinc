@@ -52,10 +52,10 @@ int insert_time_tag(WORKUNIT& wu, double seconds) {
 
     location = strstr(wu.xml_doc, "</workunit>");
     if ((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
-	return -1; //not enough space to include time info
+        return -1; //not enough space to include time info
     }
     sprintf(location,
-        "    <seconds_to_complete>%lf</seconds_to_complete>\n"
+        "    <seconds_to_complete>%f</seconds_to_complete>\n"
         "</workunit>\n",
         seconds
     );
@@ -140,8 +140,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             return -1;
         }
 new_host:
-	// reply.user is filled in and valid at this point
-	//
+        // reply.user is filled in and valid at this point
+        //
         reply.host = sreq.host;
         reply.host.id = 0;
         reply.host.create_time = time(0);
@@ -156,8 +156,8 @@ new_host:
             return -1;
         }
         reply.host.id = db_insert_id();
-	reply.hostid = reply.host.id;
-	    // this tells client to updates its host ID
+        reply.hostid = reply.host.id;
+        // this tells client to updates its host ID
     }
     return 0;
 }
@@ -300,18 +300,18 @@ int send_work(
         if (!ss.wu_results[i].present || 
             !wu_is_feasible(ss.wu_results[i].workunit, reply.host) 
         ) {
-	    continue;
-	}
+            continue;
+        }
         wu = ss.wu_results[i].workunit;
         result = ss.wu_results[i].result;
         ss.wu_results[i].present = false;
         
         retval = add_wu_to_reply(wu, reply, platform, ss,
-	    estimate_duration(wu, reply.host)
+            estimate_duration(wu, reply.host)
         );
         if (retval) continue;
         reply.insert_result(result);
-	seconds_to_fill -= (int)estimate_duration(wu, reply.host);
+        seconds_to_fill -= (int)estimate_duration(wu, reply.host);
         nresults++;
 
         result.state = RESULT_STATE_IN_PROGRESS;
