@@ -10241,3 +10241,13 @@ Rom    Mar 2 2004
         client_state.C
     client/win/
         hostinfo_win.cpp
+
+Rom    Mar 2 2004
+    - Update version Resouces to version 2.26 for the Windows release.
+
+    client/win/
+        boinc_ss.rc
+        resource.rc
+        win_config.h
+
+
