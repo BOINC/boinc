@@ -86,7 +86,7 @@ public:
     int get_field_int(char*, int&);
     int lookup_id(int id);
     int lookup(char*);
-    int enumerate(char* clause="");
+    int enumerate(char* clause="", bool use_use_result=false);
     int end_enumerate();
     int count(int&, char* clause="");
     int sum(double&, char* field, char* clause="");

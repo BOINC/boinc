@@ -127,11 +127,17 @@ int OUTPUT::parse(FILE* in) {
             } else if (!strcmp(buf2, "zip")) {
                 compression = COMPRESSION_ZIP;
             } else {
-                printf("unrecognized: %s", buf);
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "unrecognized compression type: %s", buf
+                );
             }
             continue;
         }
-        printf("unrecognized: %s", buf);
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "OUTPUT::parse: unrecognized: %s", buf
+        );
     }
     return ERR_XML_PARSE;
 }
@@ -213,7 +219,10 @@ public:
 
         f = fopen(filename, "w");
         if (!f) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "db_dump: Couldn't open %s for output\n", filename);
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "Couldn't open %s for output\n", filename
+            );
         }
         fprintf(f,
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
@@ -396,6 +405,7 @@ void write_user(USER& user, FILE* f, bool detail) {
             " <has_profile/>\n"
         );
     }
+#if 0
     if (detail && user.show_hosts) {
         sprintf(buf, "where userid=%d", user.id);
         while (!host.enumerate(buf)) {
@@ -404,6 +414,7 @@ void write_user(USER& user, FILE* f, bool detail) {
             }
         }
     }
+#endif
     fprintf(f,
         "</user>\n"
     );
@@ -630,7 +641,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     switch(table) {
     case TABLE_USER:
         n = 0;
-        while (!user.enumerate(clause)) {
+        while (!user.enumerate(clause, true)) {
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {

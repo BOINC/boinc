@@ -17689,5 +17689,24 @@ David  24 Sept 2004
         This required adding the set of CORE_VERSIONs to shared mem
 
     sched/
+        handle_request.C
         sched_config.C,h
         sched_shmem.C,h
+
+David  24 Sept 2004
+    - db_dump: use mysql_use_result() instead of mysql_store_result()
+        for the enumeration of users.
+        Otherwise it has to store the entire result set in memory,
+        which could be prohibitive.
+        NOTE: still have to use mysql_store_result() for hosts
+        because of the user lookup to get show_hosts flag.
+        Could deal with this by doing a join.
+    - added use_use_result arg to DB_BASE::enumerate() (default false)
+    - change printfs to log_messages.printf in db_dump
+    - db_dump: don't show user host list
+        (can't do this if use mysql_use_result())
+
+    db/
+        db_base.C,h
+    sched/
+        db_dump.C

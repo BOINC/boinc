@@ -183,7 +183,7 @@ int DB_BASE::lookup_id(int id) {
     return 0;
 }
 
-int DB_BASE::enumerate(char* clause) {
+int DB_BASE::enumerate(char* clause, bool use_use_result) {
     int x;
     char query[MAX_QUERY_LEN];
     MYSQL_ROW row;
@@ -200,10 +200,14 @@ int DB_BASE::enumerate(char* clause) {
         x = db->do_query(query);
         if (x) return mysql_errno(db->mysql);
 
-        // can't use mysql_use_results() here; if you do,
+        // if you use mysql_use_result() here,
         // any other transactions will fail
         //
-        cursor.rp = mysql_store_result(db->mysql);
+        if (use_use_result) {
+            cursor.rp = mysql_use_result(db->mysql);
+        } else {
+            cursor.rp = mysql_store_result(db->mysql);
+        }
         if (!cursor.rp) return mysql_errno(db->mysql);
     }
     row = mysql_fetch_row(cursor.rp);

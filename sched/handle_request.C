@@ -640,7 +640,7 @@ void notify_if_newer_core_version(
     cvp = ss.lookup_core_version(platform.id);
     if (cvp && cvp->version_num > req_version) {
         sprintf(reply.message,
-            "A new version (%d.%2d) of the BOINC core client is available from this project's web site.",
+            "A new version (%d.%02d) of the BOINC core client is available from this project's web site.",
             cvp->version_num/100,
             cvp->version_num%100
         );
