@@ -155,12 +155,12 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Call lock_file after fork(), because file locks are not always inherited
-    if (lock_file(LOCKFILE)) {
-        log_messages.printf(SchedMessages::NORMAL, "Another copy of file deleter is running\n");
-        exit(1);
-    }
-    write_pid_file(PIDFILE);
+    // // Call lock_file after fork(), because file locks are not always inherited
+    // if (lock_file(LOCKFILE)) {
+    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of file deleter is running\n");
+    //     exit(1);
+    // }
+    // write_pid_file(PIDFILE);
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     retval = boinc_db_open(config.db_name, config.db_passwd);

@@ -322,12 +322,12 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Call lock_file after fork(), because file locks are not always inherited
-    if (lock_file(LOCKFILE)) {
-        log_messages.printf(SchedMessages::NORMAL, "Another copy of validate is already running\n");
-        exit(1);
-    }
-    write_pid_file(PIDFILE);
+    // // Call lock_file after fork(), because file locks are not always inherited
+    // if (lock_file(LOCKFILE)) {
+    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of validate is already running\n");
+    //     exit(1);
+    // }
+    // write_pid_file(PIDFILE);
     log_messages.printf(SchedMessages::NORMAL, "Starting validator: min_quorum %d\n", min_quorum);
 
     install_sigint_handler();

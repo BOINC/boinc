@@ -4,25 +4,6 @@
 
 # boinc_config.py - module to read and parse config.xml, run_state.xml
 
-# The contents of this file are subject to the BOINC Public License
-# Version 1.0 (the "License"); you may not use this file except in
-# compliance with the License. You may obtain a copy of the License at
-# http:#boinc.berkeley.edu/license_1.0.txt
-#
-# Software distributed under the License is distributed on an "AS IS"
-# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-# License for the specific language governing rights and limitations
-# under the License.
-#
-# The Original Code is the Berkeley Open Infrastructure for Network Computing.
-#
-# The Initial Developer of the Original Code is the SETI@home project.
-# Portions created by the SETI@home project are Copyright (C) 2002
-# University of California at Berkeley. All Rights Reserved.
-#
-# Contributor(s):
-#
-
 '''
 SYNOPSIS:  parses and writes config.xml and run_state.xml
 
@@ -50,7 +31,7 @@ RUN_STATE_FILE = '../run_state.xml'
 def _get_elements(node, name):
     return node.getElementsByTagName(name)
 
-def _get_element(node, name, optional=False):
+def _get_element(node, name, optional=True):
     try:
         return _get_elements(node,name)[0]
     except IndexError:
@@ -157,8 +138,8 @@ class BoincConfig(XMLConfig):
         tasks    - list of ConfigDict elements
     '''
     def _get_elements(self):
-        self.xml_boinc   = _get_element(self.xml,  'boinc')
-        self.xml_config  = _get_element(self.xml_boinc, 'config')
+        self.xml_boinc   = _get_element(self.xml,  'boinc', optional=False)
+        self.xml_config  = _get_element(self.xml_boinc, 'config', optional=False)
         self.xml_tasks   = _get_element(self.xml_boinc, 'tasks')
         self.xml_daemons = _get_element(self.xml_boinc, 'daemons')
         self.config      = ConfigDict(self.xml_config)
@@ -188,7 +169,7 @@ class BoincConfig(XMLConfig):
         for task in self.tasks:
             task.debug_print()
             print
-    default_xml = '<boinc><config></config><daemons></daemons><tasks></tasks></boinc>'
+    default_xml = '<boinc><config></config></boinc>'
 
 # keeps BoincCron's timestamp status file
 class BoincRunState(XMLConfig):
@@ -199,15 +180,15 @@ class BoincRunState(XMLConfig):
        enabled - boolean
     '''
     def _get_elements(self):
-        self.xml_boinc    = _get_element(self.xml,  'boinc')
+        self.xml_boinc    = _get_element(self.xml,  'boinc', optional=False)
         self.xml_tasks    = _get_element(self.xml_boinc, 'tasks')
-        self.xml_enabled  = _get_element(self.xml_boinc, 'enabled', optional=1)
+        self.xml_enabled  = _get_element(self.xml_boinc, 'enabled')
         self.tasks        = ConfigDictList(self.xml_tasks)
         self.enabled      = _get_element_int(self.xml_enabled)
     def _set_elements(self):
         _set_element( self.xml_enabled, self.enabled )
         self.tasks.save()
-    default_xml = '<boinc><tasks></tasks></boinc>'
+    default_xml = '<boinc></boinc>'
 
 if __name__ == '__main__':
     config = BoincConfig('config.xml')

@@ -308,7 +308,6 @@ class ProjectList(list):
             s += " [%d/%d]" % (num_results_done(db), num_results(db))
         return s
 
-
 all_projects = ProjectList()
 
 class Project:
@@ -319,7 +318,8 @@ class Project:
                  add_to_list=True):
         if add_to_list:
             all_projects.append(self)
-        self.configlines    = []
+        self.config_options = []
+        self.config_daemons = []
         self.short_name     = short_name or 'test_'+appname
         self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
         self.db_passwd      = ''
@@ -440,7 +440,8 @@ class Project:
         map(lambda (s): self.copy(os.path.join('sched', s), 'cgi/'),
             [ 'cgi', 'file_upload_handler', 'make_work',
               'feeder', 'timeout_check', 'validate_test',
-              'file_deleter', 'assimilator', 'start_servers', 'kill_server', 'grep_logs' ])
+              'file_deleter', 'assimilator', 'start', 'boinc_config.py',
+              'grep_logs' ])
 
         verbose_echo(1, "Setting up database")
         map(self.run_db_script, [ 'drop.sql', 'schema.sql', 'constraints.sql' ])
@@ -514,26 +515,15 @@ class Project:
 
         verbose_echo(1, "Setting up server files: writing config files");
 
+        self.log_dir = self.dir('cgi')
         config = map_xml(self,
                          [ 'db_name', 'db_passwd', 'shmem_key',
                            'key_dir', 'download_url', 'download_dir',
                            'upload_url', 'upload_dir', 'project_dir', 'user_name',
+                           'cgi_url', 'log_dir',
                            'output_level' ])
-        self.append_config(config)
-
-        # put a file with the database name and other info in each HTML
-        # directory
-
-        htconfig = self.dir('html_user', '.htconfig.xml')
-        htconfig2 = self.dir('html_ops', '.htconfig.xml')
-        htconfig3 = self.dir('html_ops', 'config.xml')
-        f = open(htconfig, 'w')
-        self.log_dir = self.dir('cgi');
-        print >>f, map_xml(self,
-                           [ 'db_name', 'db_passwd', 'download_url', 'cgi_url', 'log_dir'] )
-        f.close()
-        shutil.copy(htconfig, htconfig2)
-        shutil.copy(htconfig, htconfig3)
+        self.config_options = config.split('\n')
+        self.write_config()
 
         # edit "index.php" in the user HTML directory to have the right file
         # as the source for scheduler_urls; default is schedulers.txt
@@ -542,8 +532,9 @@ class Project:
                                  self.dir('html_user', 'index.php'))
 
         # create symbolic links to the CGI and HTML directories
-        verbose_echo(1, "Setting up server files: linking cgi programs");
+        verbose_echo(1, "Setting up server files: linking cgi programs")
         symlink(self.dir('cgi'), os.path.join(CGI_DIR, self.short_name))
+        symlink(self.dir('cgi'), self.dir('bin')) #TODO
         symlink(self.dir('html_user'), os.path.join(HTML_DIR, self.short_name))
         symlink(self.dir('html_ops'), os.path.join(HTML_DIR, self.short_name+'_admin'))
 
@@ -598,13 +589,12 @@ class Project:
     def reenable_file_upload_handler(self, num = ''):
         self._reenable('cgi/file_upload_handler'+str(num))
 
-
     def _run_cgi_prog(self, prog, args='', logfile=None):
         verbose_shell_call("cd %s && ./%s %s >> %s.out 2>&1" %
                            (self.dir('cgi'), prog, args, (logfile or prog)))
     def start_servers(self):
-        self.restart()
-        self._run_cgi_prog('start_servers')
+        # self.restart()
+        self._run_cgi_prog('start', '-v')
         verbose_sleep("Starting servers for project '%s'" % self.short_name, 1)
         self.read_server_pids()
 
@@ -659,8 +649,8 @@ class Project:
             self._run_cgi_prog(prog, '-d 3 -one_pass '+cmdline)
     def sched_install(self, prog, **kwargs):
         for cmdline in self._build_cgi_commandlines(prog, kwargs):
-            self.append_config('<start>./%s -d 3 -asynch %s >>%s.out 2>&1</start>' % (
-                prog, cmdline, prog))
+            self.config_daemons.append("%s -d 3 %s" %(prog, cmdline))
+            self.write_config()
     def sched_uninstall(self, prog):
         self.remove_config(prog)
 
@@ -678,37 +668,43 @@ class Project:
         self._run_cgi_prog('looper'    , '"dir_size ../download" 1'              , 'download_size')
         self._run_cgi_prog('looper'    , '"dir_size ../upload" 1'                , 'upload_size')
 
-    def stop(self, daemons=['ALL']):
-        '''Stop running scheduler daemons.'''
-        ## the following shouldn't be necessary anymore:
-        f = open(self.dir('cgi', 'stop_server'), 'w')
-        print >>f, "<quit/>"
-        f.close()
+    # def stop(self, daemons=['ALL']):
+    #     '''Stop running scheduler daemons.'''
+    #     ## the following shouldn't be necessary anymore:
+    #     f = open(self.dir('cgi', 'stop_server'), 'w')
+    #     print >>f, "<quit/>"
+    #     f.close()
 
-        daemons = ' '.join(daemons)
+    #     daemons = ' '.join(daemons)
+    #     verbose_echo(1,"Stopping server(s) for project '%s': "%self.short_name)
+    #     shell_call("cd %s ; ./kill_server -v %s" % (self.dir('cgi'), daemons))
+
+    def stop(self):
         verbose_echo(1,"Stopping server(s) for project '%s': "%self.short_name)
-        shell_call("cd %s ; ./kill_server -v %s" % (self.dir('cgi'), daemons))
+        self._run_cgi_prog('start', '-vk')
 
-    def restart(self):
-        '''remove the stop_server trigger'''
-        try:
-            os.unlink(self.dir('cgi', 'stop_server'))
-        except OSError:
-            pass
-
-    def append_config(self, line):
-        self.configlines += line.split('\n')
-        self.write_config()
+    # def restart(self):
+    #     '''remove the stop_server trigger'''
+    #     try:
+    #         os.unlink(self.dir('cgi', 'stop_server'))
+    #     except OSError:
+    #         pass
 
     def write_config(self):
-        f = open(self.dir('cgi/.htconfig.xml'), 'w')
-        print >>f, '<config>'
-        for line in self.configlines:
-            print >>f, "   ", line
-        print >>f, '</config>'
+        f = open(self.dir('config.xml'), 'w')
+        print >>f, '<boinc>'
+        print >>f, '  <config>'
+        for line in self.config_options:
+            print >>f, "     ", line
+        print >>f, '  </config>'
+        print >>f, '  <daemons>'
+        for daemon in self.config_daemons:
+            print >>f, "       <daemon><cmd>%s</cmd></daemon>"%daemon
+        print >>f, '  </daemons>'
+        print >>f, '</boinc>'
 
-    def remove_config(self, pattern):
-        self.configlines = filter(lambda l: l.find(pattern)==-1, self.configlines)
+    def remove_daemon(self, pattern):
+        self.config_daemons = filter(lambda l: l.find(pattern)==-1, self.config_daemons)
         self.write_config()
 
     def check_results(self, matchresult, expected_count=None):

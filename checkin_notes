@@ -5283,3 +5283,22 @@ David  July 3 2003
         team.php
         user.inc
         util.inc
+
+Karl 2003/07/03-08
+    - created python start/stop program to handle daemonish and cronish tasks.
+        See sched/start builtin help for info
+
+    sched/
+        boinc_config.py (new)
+        start (new)
+        Makefile.am
+        assimilator.C
+        config.C
+        feeder.C
+        file_deleter.C
+        make_work.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+    test/
+        boinc.py
