@@ -48,6 +48,7 @@ CSSWindow::CSSWindow()
 	m_uGetMsg = RegisterWindowMessage(APP_GET_MSG);
 	m_dwAppId = 0;
 	m_uStartTime = 0;
+	m_bCleared = false;
 }
 
 // CMainWindow::SetMode
@@ -57,7 +58,6 @@ CSSWindow::CSSWindow()
 //				in the new mode
 void CSSWindow::SetMode(int nMode)
 {
-	if(nMode == m_nMode) return;
 	RECT WindowRect = {0,0,0,0};
 	m_nPrevMode = m_nMode;
 	m_nMode = nMode;
@@ -96,11 +96,10 @@ void CSSWindow::SetMode(int nMode)
 
 	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
 		ShowWindow(SW_SHOW);
-		if(nMode == MODE_FULLSCREEN) SetForegroundWindow();
+		SetFocus();
 	} else {
 		ShowWindow(SW_HIDE);
 	}
-	SetFocus();
 }
 
 //////////
@@ -129,12 +128,14 @@ void CSSWindow::CheckAppWnd()
 		if(BlankScreen()) {
 			pAppWnd = GetWndFromProcId(m_dwAppId);
 			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
-				pAppWnd->PostMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
+				SetMode(MODE_FULLSCREEN);
+				pAppWnd->SendMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
 			}
 			m_dwAppId = 0;
 		} else {
 			pAppWnd = GetWndFromProcId(m_dwAppId);
 			if(!pAppWnd || !IsWindow(pAppWnd->m_hWnd)) {
+				SetMode(MODE_FULLSCREEN);
 				m_dwAppId = 0;
 			}
 		}
@@ -172,6 +173,8 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		if(gstate.active_tasks.active_tasks.size() == 0) m_dwAppId = 0;
 		else m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
 		m_uStartTime = (double)time(0);
+		m_bCleared = false;
+		SetMode(MODE_FULLSCREEN);
 		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
 		if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
 			pAppWnd->PostMessage(m_uSetMsg, MODE_FULLSCREEN, MODE_DEFAULT);
@@ -245,12 +248,10 @@ void CSSWindow::OnPaint()
 	PAINTSTRUCT ps;
 	CDC* pdc;
 	RECT winRect;
-	CBrush cb;
-	cb.CreateSolidBrush(RGB(0,0,0));
 
 	pdc = BeginPaint(&ps);
 	GetClientRect(&winRect);
-	pdc->FillRect(&winRect, &cb);
+	pdc->FillSolidRect(&winRect, RGB(0,0,0));
 
 	if ((m_nMode == MODE_FULLSCREEN || m_nMode == MODE_WINDOW) && !BlankScreen()) {
 		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
@@ -291,7 +292,8 @@ void CSSWindow::OnTimer(UINT uEventID)
 	}
 
 	if(uEventID == m_uPaintTimerID) {
-		if(!BlankScreen()) {
+		if(!BlankScreen() || !m_bCleared) {
+			if(BlankScreen()) m_bCleared = true;
 			Invalidate();
 			OnPaint();
 		}

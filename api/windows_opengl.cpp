@@ -147,11 +147,10 @@ void SetMode(int mode, int pmode)
 
 	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
-		if(nMode == MODE_FULLSCREEN) SetForegroundWindow(hWnd);
+		SetFocus(hWnd);
 	} else {
 		ShowWindow(hWnd, SW_HIDE);
 	}
-	SetFocus(hWnd);
 
 	PostMessage(HWND_BROADCAST, RegisterWindowMessage( "BOINC_APP_MODE" ), nMode, GetCurrentProcessId());
 }

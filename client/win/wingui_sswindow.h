@@ -53,6 +53,7 @@ private:
 	unsigned long			m_bBlankScreen;
 	unsigned long			m_uBlankTime;
 	unsigned long			m_uStartTime;
+	bool					m_bCleared;
 
 	UINT					m_uAppTimerID;			// ID of current app timer	
 	UINT					m_uPaintTimerID;			// ID of current app timer	
