@@ -77,8 +77,9 @@ Windows: pre-packaged binary
 
 Does it work?
 =============
-    You can check if your MySQLdb was installed correctly like this:
+    You can check if your MySQLdb was compiled correctly like this:
     
-    $ python
+    $ cd ../Python-MySQLdb-0.9.2
+    $ ../Python-2.3/python
     >>> import MySQLdb
     >>> MySQLdb.connect(db='databasename', user='username')
