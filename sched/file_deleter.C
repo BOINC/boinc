@@ -26,6 +26,7 @@ static volatile const char *BOINCrcsid="$Id$";
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
+#include <errno.h>
 
 #include "boinc_db.h"
 #include "parse.h"
@@ -111,8 +112,8 @@ int result_delete_files(RESULT& result) {
                     retval = unlink(pathname);
                     ++count_deleted;
                     log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                        "[%s] unlinked %s; retval %d\n",
-                        result.name, filename, retval
+                        "[%s] unlinked %s; retval %d %s\n",
+                         result.name, filename, retval, (retval && errno)?strerror(errno):""
                     );
                 }
             }

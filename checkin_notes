@@ -20324,6 +20324,7 @@ Bruce 2004-11-29
       to the file deleter.  This are useful to implement <no_delete/>
       for all input or output files respectively.
     - Documented <no_delete/> file tag.
+    - file_deleter logs strerror(errno) if unable to remove a result file.
     sched/
       file_deleter.C
     doc/
