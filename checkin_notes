@@ -18679,3 +18679,16 @@ David  20 Oct 2004
 
     Makefile.am
     configure.ac
+
+David  20 Oct 2004
+    - Save user_run_request and user_network_request in client_state.xml
+        (so always/never/auto settings are persistent)
+    - Save PROJECT::suspended_via_gui in client_state.xml
+        (so suspend project is persistent)
+    - Save ACTIVE_TASK::suspended_via_gui in client_state.xml
+        (so suspend task is persistent)
+
+    client/
+        app.C
+        client_types.C
+        cs_statefile.C

@@ -335,6 +335,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
+        "%s"
         "</active_task>\n",
         result->project->master_url,
         result->name,
@@ -343,7 +344,8 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         scheduler_state,
         checkpoint_cpu_time,
         fraction_done,
-        current_cpu_time
+        current_cpu_time,
+        suspended_via_gui?"    <suspended_via_gui/>\n":""
     );
     return 0;
 }
@@ -411,6 +413,9 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (match_tag(buf, "<suspended_via_gui")) {
+            suspended_via_gui = true;
+        }
         else scope_messages.printf("ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return ERR_XML_PARSE;

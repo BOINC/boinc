@@ -262,9 +262,10 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<platform_name>")) {
             // should match our current platform name
-        } else if (match_tag(buf, "<version>")) {
-            // could put logic here to detect incompatible state files
-            // after core client update
+        } else if (parse_int(buf, "<user_run_request>", user_run_request)) {
+            continue;
+        } else if (parse_int(buf, "<user_network_request>", user_network_request)) {
+            continue;
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
         } else if (parse_double(buf, "<cpu_sched_work_done_this_period>", cpu_sched_work_done_this_period)) {
@@ -352,10 +353,14 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     f.printf(
         "<platform_name>%s</platform_name>\n"
         "<core_client_major_version>%d</core_client_major_version>\n"
-        "<core_client_minor_version>%d</core_client_minor_version>\n",
+        "<core_client_minor_version>%d</core_client_minor_version>\n"
+        "<user_run_request>%d</user_run_request>\n"
+        "<user_network_request>%d</user_network_request>\n",
         platform_name,
         core_client_major_version,
-        core_client_minor_version
+        core_client_minor_version,
+        user_run_request,
+        user_network_request
     );
 
     // save CPU scheduling state

@@ -126,6 +126,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     sched_rpc_pending = false;
     send_file_list = false;
     non_cpu_intensive = false;
+    suspended_via_gui = false;
     scheduler_urls.clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
@@ -170,6 +171,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
         else if (match_tag(buf, "<non_cpu_intensive/>")) non_cpu_intensive = true;
+        else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
 #if 0
         else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
         else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
@@ -221,7 +223,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <min_rpc_time>%d</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
         "    <resource_share>%f</resource_share>\n"
-        "%s%s%s%s",
+        "%s%s%s%s%s",
         master_url,
         project_name,
 #if 0
@@ -250,7 +252,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
-        non_cpu_intensive?"    <non_cpu_intensive/>\n":""
+        non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
+        suspended_via_gui?"    <suspended_via_gui/>\n":""
     );
 #if 0
     out.printf(
@@ -260,10 +263,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     );
 #endif
     if (gui_rpc) {
-        out.printf("%s%s",
-        	gui_urls.c_str(),
-        	suspended_via_gui?"    <suspended_via_gui/>\n":""
-        );
+        out.printf("%s", gui_urls.c_str());
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
@@ -315,6 +315,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     debt = p.debt;
     send_file_list = p.send_file_list;
     non_cpu_intensive = p.non_cpu_intensive;
+    suspended_via_gui = p.suspended_via_gui;
 #if 0
     deletion_policy_priority = p.deletion_policy_priority;
     deletion_policy_expire = p.deletion_policy_expire;
