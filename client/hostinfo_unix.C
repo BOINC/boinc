@@ -118,17 +118,15 @@ char* ip_addr_string(int ip_addr) {
     return inet_ntoa(ia);
 }
 
-// What does this return?  # of seconds from GMT?
+// Returns the number of seconds difference from UTC
 //
-void get_timezone(int& tz) {
-    tzset();
+int get_timezone( void ) {
+    time_t cur_time;
+    struct tm *time_data;
 
-    // TODO: take daylight savings time into account
-#ifdef __timezone
-    tz = __timezone;
-#else
-    tz = timezone;
-#endif
+    cur_time = time(NULL);
+    time_data = localtime( &cur_time );
+    return time_data->tm_gmtoff;
 }
 
 // Returns true if the host is currently running off battery power
@@ -255,7 +253,7 @@ int get_host_info(HOST_INFO& host) {
 #endif
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
-    get_timezone(host.timezone);
+    host.timezone = get_timezone();
 #ifdef HAVE_SYS_UTSNAME_H
     get_osinfo(host);
 #endif
