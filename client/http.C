@@ -423,7 +423,7 @@ bool HTTP_OP_SET::poll() {
                 htp->io_ready = false;
                 htp->io_done = false;
             }
-            // TODO: intentional no break here?
+            // TODO: intentional no break here? -- quarl
         case HTTP_STATE_REPLY_HEADER:
             if (htp->io_ready) {
                 action = true;
