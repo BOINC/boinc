@@ -120,6 +120,41 @@ function split_munged_email_addr($addr, $auth, &$email) {
     return true;
 }
 
+// Given email address X,
+// find a user record whose email_addr field is a munged version of X,
+// i.e. of the form @X_Y (Y is an authenticator, and contains no _s)
+// There may be more than one.  Return any.
+//
+function lookup_user_munged_email($email) {
+    $pattern = escape_pattern("@".$email."_");
+    $q = "select * from user where email_addr like '$esc_email_addr%'";
+    $result = mysql_query($q);
+    $found = false;
+    while ($user = mysql_fetch_object($result)) {
+
+        // make sure we don't return @X_a_Y
+        //
+        $x = strrchr($user->email_addr, "_");
+        $y = "@".$email.$x;
+        if ($y == $user->email_addr) {
+            $found = true;
+            break;
+        }
+    }
+    mysql_free_result($result);
+    if (!$found) {
+        return null;
+    }
+    return $user;
+}
+
+function validated($user) {
+    if (substr($user->email_addr, 0, 1) == "@") return false;
+    return true;
+}
+
+//////////////////////////////////////////////
+
 function send_moderation_email($user, $thread,  $post, $message) {
     $body = "";
 

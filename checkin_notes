@@ -26141,3 +26141,22 @@ David  23 Mar 2005
             db_update.php
         user/
             white.css
+
+David  24 Mar 2005
+    - User web: in create_account_action() there was SQL of the form
+        select * from user where email_addr like '@$email_addr\\_%'.
+        THIS IS NOT CORRECT.
+        The email address itself can contain underscores,
+        which are wildcards for "like".
+        If the user table is big (like S@h) and the email address
+        is like a_a@b.c, a very slow query will result.
+    - added functions lookup_user_munged_email() and validated()
+        to inc/email.inc.
+        Use these for logic related to munged email addresses -
+        don't put SQL into top-level PHP files.
+
+    html/
+        inc/
+            email.inc
+        user/
+            create_account_action.php

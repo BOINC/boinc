@@ -58,14 +58,12 @@ if (!is_valid_email_addr($new_email_addr)) {
         name@domain"
     );
 }
-$query = "select * from user where email_addr='$new_email_addr' or email_addr like '@$new_email_addr\\_%' limit 1";
-$result = mysql_query($query);
-if ($result) {
-    $user = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if ($user) {
-        show_error("There's already an account with that email address.");
-    }
+$user = lookup_user_email_addr($new_email_addr);
+if (!$user) {
+    $user = lookup_user_munged_email($new_email_addr);
+}
+if ($user) {
+    show_error("There's already an account with that email address.");
 }
 
 $country = $_POST["country"];
@@ -85,7 +83,7 @@ $query = sprintf(
     $munged_email_addr,
     $new_name,
     $authenticator,
-    $country,
+    boinc_real_escape_string($country),
     $postal_code
 );
 $result = mysql_query($query);
