@@ -6,6 +6,7 @@ echo "
 <ul>
 <li> <a href=intro_user.php>Getting started</a>
 <li> <a href=projects.php>Choosing projects</a>
+<li> <a href=info.php>Usage rules and privacy policy</a>
 <li> <a href=host_requirements.php>System requirements</a>
 <li> <a href=account.php>Joining a project</a>
 <li> Installing and running the BOINC client

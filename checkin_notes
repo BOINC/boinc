@@ -16494,3 +16494,9 @@ Karl 2004-08-18
         update_versions
     py/Boinc/
         tools.py
+
+David  19 Aug 2004
+    - don't show a zillion digits of precision on file xfer speeds
+
+    client/
+        pers_file_xfer.C

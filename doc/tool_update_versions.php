@@ -32,7 +32,15 @@ The prefix name and extensions .gz, .exe, .sit are ignored.
 Platform strings must match the names of platforms in the database.
 
 <p>
-TO DO: check for code signature files.
+If a file of the form
+<pre>
+EXEC_FILENAME.sig
+</pre>
+is found, its contents will be used as a digital signature
+for the corresponding file.
+Recommended code-signing practices are described
+<a href=code_signing.php>here</a>.
+
 
 <h3>Multiple-file application versions</h3>
 

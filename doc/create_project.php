@@ -50,20 +50,6 @@ How to develop or port an application program for use with BOINC.
 </ul>
 
 <font size=+1><b>
-Managing distributed data
-</b></font>
-<br> &nbsp; &nbsp; &nbsp;
-<font size=-1>
-Using disk space on participant hosts
-</font>
-<ul>
-<li> <a href=get_file_list.php>Uploading file lists</a>
-<li> <a href=get_file.php>Uploading files</a>
-<li> <a href=send_file.php>Downloading files</a>
-<li> <a href=delete_file.php>Deleting files</a>
-</ul>
-
-<font size=+1><b>
 Compiling BOINC software
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
@@ -95,7 +81,8 @@ The components of a BOINC project, and how to create them.
 <li> <a href=make_project.php>The make_project script</a>
 <li> <a href=tool_start.php>Project control scripts</a>
 <li> <a href=tool_xadd.php>Adding applications/platforms</a>
-<li> <a href=tool_update_versions.php>Adding versions</a>
+<li> <a href=code_signing.php>Code signing</a>
+<li> <a href=tool_update_versions.php>Adding application versions</a>
 <li> <a href=tool_upgrade.php>Upgrading a project's server software</a>
 
 </ul>
@@ -127,6 +114,21 @@ Tools for monitoring a BOINC project
 <li> <a href=stripchart.php>Stripcharts: a tool for viewing time-varying data </a>
 <li> <a href=stripchart_data.php>Recording data for Stripcharts</a>
 </ul>
+
+<font size=+1><b>
+Managing distributed data
+</b></font>
+<br> &nbsp; &nbsp; &nbsp;
+<font size=-1>
+Using disk space on participant hosts
+</font>
+<ul>
+<li> <a href=get_file_list.php>Uploading file lists</a>
+<li> <a href=get_file.php>Uploading files</a>
+<li> <a href=send_file.php>Downloading files</a>
+<li> <a href=delete_file.php>Deleting files</a>
+</ul>
+
 ";
 page_tail();
 ?>

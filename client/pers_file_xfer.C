@@ -174,8 +174,8 @@ int PERS_FILE_XFER::start_xfer() {
 //
 bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
-	char pathname[256];
-	double existing_size = 0;
+    char pathname[256];
+    double existing_size = 0;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
@@ -209,7 +209,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
         file_size(pathname, existing_size);
         if (existing_size != fip->nbytes) {
             check_giveup("File downloaded was not the correct file or was garbage from bad URL");
-		    return false;
+            return false;
         } else {
             scope_messages.printf(
                 "PERS_FILE_XFER::poll(): file transfer status %d",
@@ -226,9 +226,9 @@ bool PERS_FILE_XFER::poll(time_t now) {
                         msg_printf(fip->project, MSG_INFO, "No data transferred");
                     } else {
                         msg_printf(
-                            fip->project, MSG_INFO, "Approximate throughput %f bytes/sec",
-                            fxp->xfer_speed
-                            );
+                            fip->project, MSG_INFO, "Throughput %d bytes/sec",
+                            (int)fxp->xfer_speed
+                        );
                     }
                 }
                 xfer_done = true;
@@ -237,7 +237,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     msg_printf(
                         fip->project, MSG_INFO, "Permanently failed %s of %s",
                         is_upload?"upload":"download", fip->name
-                        );
+                    );
                 }
                 check_giveup("server rejected file");
             } else {
@@ -245,7 +245,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     msg_printf(
                         fip->project, MSG_INFO, "Temporarily failed %s of %s",
                         is_upload?"upload":"download", fip->name
-                        );
+                    );
                 }
                 handle_xfer_failure();
             }
@@ -256,7 +256,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
             fxp = NULL;
 
             return true;
-		}
+        }
     }
     return false;
 }
