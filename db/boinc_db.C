@@ -636,8 +636,6 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
         cursor.rp = mysql_store_result(db->mysql);
         if (!cursor.rp) return mysql_errno(db->mysql);
         cursor.active = true;
-        //nrows = mysql_num_rows(cursor.rp);
-        //current_row = 0;
 
         row = mysql_fetch_row(cursor.rp);
         if (!row) {
@@ -683,11 +681,11 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     assimilate_state = atoi(r[i++]);
     target_nresults = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
-    res_id = atoi(r[i++]);
-    res_report_deadline = atoi(r[i++]);
-    res_server_state = atoi(r[i++]);
-    res_outcome = atoi(r[i++]);
-    res_validate_state = atoi(r[i++]);
-    res_file_delete_state = atoi(r[i++]);
-    res_sent_time = atoi(r[i++]);
+    res_id = safe_atoi(r[i++]);
+    res_report_deadline = safe_atoi(r[i++]);
+    res_server_state = safe_atoi(r[i++]);
+    res_outcome = safe_atoi(r[i++]);
+    res_validate_state = safe_atoi(r[i++]);
+    res_file_delete_state = safe_atoi(r[i++]);
+    res_sent_time = safe_atoi(r[i++]);
 }
