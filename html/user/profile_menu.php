@@ -40,7 +40,7 @@ rowify("<br>");
 row1("User Profile Explorer");
 echo "<tr><td>
     <ul>
-    <li>View the <a href=" . URL_BASE . "user_gallery_1.html>User Picture Gallery</a>.
+    <li>View the <a href=" . URL_BASE . "user_profile/user_gallery_1.html>User Picture Gallery</a>.
     <li>Browse profiles <a href=" . URL_BASE . "profile_country.html>by country</a>.
     <li>Browse profiles <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=-1>at random</a>,
     <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=1>at random with pictures</a>, or 
