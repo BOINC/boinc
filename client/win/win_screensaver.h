@@ -126,12 +126,10 @@ protected:
 	virtual BOOL    GetTextForError( HRESULT hr, TCHAR* pszError, DWORD dwNumChars );
 	BOOL			IsConfigStartupBOINC();
 
-	LRESULT         PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-	LRESULT         GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+	LRESULT         SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	INT_PTR         ConfigureDialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
-    static LRESULT CALLBACK PrimarySaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-	static LRESULT CALLBACK GenericSaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static LRESULT CALLBACK SaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	static INT_PTR CALLBACK ConfigureDialogProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     int             UtilGetRegKey(LPCTSTR name, DWORD &keyval);

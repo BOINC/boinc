@@ -26093,3 +26093,11 @@ David  21 Mar 2005
     sched/
         handle_request.C
         validate_util.C
+
+Rom    22 Mar 2005
+    - Bug Fix: Capture the WM_CLOSE message that Intellitype and Intellipoint
+        sends us and ignore them, that'll keep the screensaver up and running
+        even when Intellipoint/Intellitype is trying to shut us down.
+
+    client/win/
+        win_screensaver.cpp, .h

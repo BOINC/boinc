@@ -16,6 +16,11 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// 
+// Contributor(s):
+//     DirectX 8.1 Screen Saver Framework from Microsoft.
+//     Microsoft Knowledge Base Article - 79212
+//
 
 #include "boinc_win.h"
 
@@ -39,7 +44,7 @@
 //   Windows 2000 or later machines.
 //
 #ifndef BSF_ALLOWSFW
-#define BSF_ALLOWSFW            0x00000080
+#define BSF_ALLOWSFW                    0x00000080
 #endif
 
 const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
@@ -551,7 +556,7 @@ HRESULT CScreensaver::CreateSaverWindow()
     cls.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
     cls.hInstance      = m_hInstance; 
     cls.style          = CS_VREDRAW|CS_HREDRAW;
-    cls.lpfnWndProc    = PrimarySaverProcStub;
+    cls.lpfnWndProc    = SaverProcStub;
     cls.cbWndExtra     = 0; 
     cls.cbClsExtra     = 0; 
     RegisterClass( &cls );
@@ -565,7 +570,7 @@ HRESULT CScreensaver::CreateSaverWindow()
     cls2.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
     cls2.hInstance      = m_hInstance; 
     cls2.style          = CS_VREDRAW|CS_HREDRAW;
-    cls2.lpfnWndProc    = GenericSaverProcStub;
+    cls2.lpfnWndProc    = SaverProcStub;
     cls2.cbWndExtra     = 0; 
     cls2.cbClsExtra     = 0; 
     RegisterClass( &cls2 );
@@ -717,13 +722,20 @@ VOID CScreensaver::DoConfig()
 
 
 //-----------------------------------------------------------------------------
-// Name: PrimarySaverProc()
-// Desc: Handle window messages for main screensaver windows (one per screen).
+// Name: SaverProc()
+// Desc: Handle window messages for main screensaver windows.
 //-----------------------------------------------------------------------------
-LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT CScreensaver::SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
+    DWORD dwMonitor = 0;
+#ifdef _DEBUG
+    for( DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++ )
+		if( hWnd == m_Monitors[iIndex].hWnd  )
+            dwMonitor = iIndex;
+#endif
+
     switch ( uMsg )
-        {
+    {
         case WM_USER:
             // All initialization messages have gone through.  Allow
             // 500ms of idle time, then proceed with initialization.
@@ -749,45 +761,63 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     //   can state that it supports graphics but still can't start
                     //   due to permission problems when attempting to transition
                     //   accross the window station/desktop boundry.
-                    if ( 9 >= m_dwTimerCounter )
-                        m_dwTimerCounter++;
 
-                    if      ( 8 >= m_dwTimerCounter )
+                    if ( hWnd == m_Monitors[0].hWnd )
                     {
-                        if ( m_bErrorMode )
+                        BOINCTRACE(_T("CScreensaver::SaverProc - Primary display timer detected - Loop '%d'\n"), m_dwTimerCounter );
+                        if ( 9 >= m_dwTimerCounter )
+                            m_dwTimerCounter++;
+
+                        if      ( 8 >= m_dwTimerCounter )
                         {
+                            BOINCTRACE(_T("CScreensaver::SaverProc - Display screen saver loading error\n"));
                             m_bErrorMode = TRUE;
                             m_hrError = SCRAPPERR_BOINCSCREENSAVERLOADING;
-                        }
 
-						UpdateErrorBoxText();
-						UpdateErrorBox();
-                    }
-                    else if ( 9 == m_dwTimerCounter )
-                    {
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Starting Update Timer\n"));
-    					SetTimer(hWnd, 3, 30000, NULL);
-                    }
-                    else
-                    {
-                        if ( m_bErrorMode )
-					    {
-                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
+						    UpdateErrorBoxText();
 						    UpdateErrorBox();
-					    }
+                        }
+                        else if ( 9 == m_dwTimerCounter )
+                        {
+                            BOINCTRACE(_T("CScreensaver::SaverProc - Starting Update Timer\n"));
+    					    SetTimer(hWnd, 3, 30000, NULL);
+                        }
                         else
                         {
+                            if ( m_bErrorMode )
+					        {
+                                BOINCTRACE(_T("CScreensaver::SaverProc - Updating Error Box\n"));
+						        UpdateErrorBox();
+					        }
+                            else
+                            {
+                                InvalidateRect( hWnd, NULL, TRUE );
+                                UpdateWindow( hWnd );
+                            }
+                        }
+                    }
+
+                    if ( 10 >= m_dwTimerCounter || hWnd != m_Monitors[0].hWnd )
+                    {
+                        if ( !m_bErrorMode )
+					    {
                             InvalidateRect( hWnd, NULL, TRUE );
                             UpdateWindow( hWnd );
                         }
+                    }
 
-                        if ( 10 >= m_dwTimerCounter )
+                    if ( hWnd == m_Monitors[0].hWnd )
+                    {
+                        if ( 10 <= m_dwTimerCounter )
                             break;
                     }
+                    else
+                        break;
 
                 case 3:
                     // Except for the initial startup sequence, this is run every
-                    //   30 seconds.
+                    //   30 seconds, and is only run my the primary monitor window
+                    //   proc
                     HWND hwndBOINCGraphicsWindow = NULL;
                     HWND hwndForegroundWindow = NULL;
                     int  iReturnValue = 0;
@@ -795,10 +825,10 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::SaverProc - Start Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
 
                     iReturnValue = rpc.get_screensaver_mode( m_iStatus );
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
+                    BOINCTRACE(_T("CScreensaver::SaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
                     if (0 != iReturnValue)
                     {
                     	// Attempt to reinitialize the RPC client and state
@@ -842,13 +872,13 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                         hwndForegroundWindow = GetForegroundWindow();
                                         if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
                                         {
-                                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
+                                            BOINCTRACE(_T("CScreensaver::SaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
                                             SetForegroundWindow(hwndBOINCGraphicsWindow);
 
                                             hwndForegroundWindow = GetForegroundWindow();
                                             if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
                                             {
-                                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
+                                                BOINCTRACE(_T("CScreensaver::SaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
                                                 // This may be needed on Windows 2000 or better machines
                                                 DWORD dwComponents = BSM_APPLICATIONS;
                                                 BroadcastSystemMessage( 
@@ -890,7 +920,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Checkpoint Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::SaverProc - Checkpoint Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
 
 
                     // Lets try and get the current state of the CC
@@ -900,74 +930,64 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         if ( 0 == iReturnValue )
                             m_bResetCoreState = FALSE;
 
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_state iReturnValue = '%d'\n"), iReturnValue);
+                        BOINCTRACE(_T("CScreensaver::SaverProc - get_state iReturnValue = '%d'\n"), iReturnValue);
                     }
 
 
                     if( m_bErrorMode )
 					{
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box Text\n"));
+                        BOINCTRACE(_T("CScreensaver::SaverProc - Updating Error Box Text\n"));
 						UpdateErrorBoxText();
 					}
                     else
                     {
                         if ( !m_bCoreNotified )
                         {
-                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Startup BOINC Screensaver\n"));
+                            BOINCTRACE(_T("CScreensaver::SaverProc - Startup BOINC Screensaver\n"));
                             StartupBOINC();
                         }
                         else
                         {
                             if (SS_STATUS_QUIT == m_iStatus)
                             {
-                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Shutdown BOINC Screensaver\n"));
+                                BOINCTRACE(_T("CScreensaver::SaverProc - Shutdown BOINC Screensaver\n"));
                                 ShutdownSaver();
                             }
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - End Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::SaverProc - End Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
             }
-            break;
 
-        case WM_DESTROY:
-            if( m_SaverMode == sm_preview || m_SaverMode == sm_test )
-                ShutdownSaver();
-            break;
-
-        case WM_SETCURSOR:
-            if ( m_SaverMode == sm_full && !m_bCheckingSaverPassword )
-            {
-                // Hide cursor
-                SetCursor( NULL );
-                return TRUE;
-            }
+            return 0;
             break;
 
         case WM_PAINT:
-        {
-            // Show error message, if there is one
-            PAINTSTRUCT ps;
-            BeginPaint( hWnd, &ps );
-
-            // In preview mode, just fill 
-            // the preview window with black, and the BOINC icon. 
-            if( !m_bErrorMode && m_SaverMode == sm_preview )
             {
-                RECT rc;
-                GetClientRect(hWnd,&rc);
-				FillRect(ps.hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH) );
-				DrawIcon(ps.hdc, (rc.right / 2) - 16, (rc.bottom / 2) - 16,
-					LoadIcon( m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON) ) );
-            }
-            else
-            {
-                DoPaint( hWnd, ps.hdc );
+                // Show error message, if there is one
+                PAINTSTRUCT ps;
+                BeginPaint( hWnd, &ps );
+
+                // In preview mode, just fill 
+                // the preview window with black, and the BOINC icon. 
+                if( !m_bErrorMode && m_SaverMode == sm_preview )
+                {
+                    RECT rc;
+                    GetClientRect(hWnd,&rc);
+				    FillRect(ps.hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH) );
+				    DrawIcon(ps.hdc, (rc.right / 2) - 16, (rc.bottom / 2) - 16,
+					    LoadIcon( m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON) ) );
+                }
+                else
+                {
+                    DoPaint( hWnd, ps.hdc );
+                }
+
+                EndPaint( hWnd, &ps );
             }
 
-            EndPaint( hWnd, &ps );
             return 0;
-        }
+            break;
 
         case WM_MOUSEMOVE:
             if( m_SaverMode != sm_test )
@@ -985,6 +1005,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         InterruptSaver();
                 }
             }
+            return 0;
             break;
 
         case WM_KEYDOWN:
@@ -993,16 +1014,14 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
         case WM_MBUTTONDOWN:
             if( m_SaverMode != sm_test )
                 InterruptSaver();
-            break;
-
-		case WM_NCACTIVATE:
-		case WM_ACTIVATEAPP:
             return 0;
             break;
 
-        case WM_POWERBROADCAST:
-            if( wParam == PBT_APMSUSPEND && m_VerifySaverPassword == NULL )
-                InterruptSaver();
+        case WM_CLOSE:
+        case WM_DESTROY:
+            if( m_SaverMode == sm_preview || m_SaverMode == sm_test )
+                ShutdownSaver();
+            return 0;
             break;
 
         case WM_SYSCOMMAND: 
@@ -1018,143 +1037,25 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                 };
             }
             break;
+
+        case WM_SETCURSOR:
+            if ( m_SaverMode == sm_full && !m_bCheckingSaverPassword )
+            {
+                // Hide cursor
+                SetCursor( NULL );
+                return TRUE;
+            }
+            break;
+
+        case WM_POWERBROADCAST:
+            if( wParam == PBT_APMSUSPEND && m_VerifySaverPassword == NULL )
+                InterruptSaver();
+            break;
     }
 
-    BOINCTRACE(_T("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+    BOINCTRACE(_T("CScreensaver::SaverProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
 
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
-}
-
-
-
-
-//-----------------------------------------------------------------------------
-// Name: GenericSaverProc()
-// Desc: Handle window messages for main screensaver windows (one per screen).
-//-----------------------------------------------------------------------------
-LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-    switch ( uMsg )
-        {
-        case WM_USER:
-            // All initialization messages have gone through.  Allow
-            // 500ms of idle time, then proceed with initialization.
-            SetTimer( hWnd, 1, 500, NULL );
-            break;
-
-        case WM_TIMER:
-			switch (wParam) 
-			{ 
-				case 1: 
-					// Initial idle time is done, proceed with initialization.
-					m_bWaitForInputIdle = FALSE;
-					KillTimer( hWnd, 1 );
-					break; 
-                case 2:
-                    if ( 10 >= m_dwTimerCounter )
-                    {
-                        if ( !m_bErrorMode )
-					    {
-                            InvalidateRect( hWnd, NULL, TRUE );
-                            UpdateWindow( hWnd );
-                        }
-                    }
-            }
-            break;
-
-        case WM_DESTROY:
-            if( m_SaverMode == sm_preview || m_SaverMode == sm_test )
-                ShutdownSaver();
-            break;
-
-        case WM_SETCURSOR:
-            if ( m_SaverMode == sm_full && !m_bCheckingSaverPassword )
-            {
-                // Hide cursor
-                SetCursor( NULL );
-                return TRUE;
-            }
-            break;
-
-        case WM_PAINT:
-        {
-            // Show error message, if there is one
-            PAINTSTRUCT ps;
-            BeginPaint( hWnd, &ps );
-
-            // In preview mode, just fill 
-            // the preview window with black, and the BOINC icon. 
-            if( !m_bErrorMode && m_SaverMode == sm_preview )
-            {
-                RECT rc;
-                GetClientRect(hWnd,&rc);
-				FillRect(ps.hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH) );
-				DrawIcon(ps.hdc, (rc.right / 2) - 16, (rc.bottom / 2) - 16,
-					LoadIcon( m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON) ) );
-            }
-            else
-            {
-                DoPaint( hWnd, ps.hdc );
-            }
-
-            EndPaint( hWnd, &ps );
-            return 0;
-        }
-
-        case WM_MOUSEMOVE:
-            if( m_SaverMode != sm_test )
-            {
-                static INT xPrev = -1;
-                static INT yPrev = -1;
-                INT xCur = GET_X_LPARAM(lParam);
-                INT yCur = GET_Y_LPARAM(lParam);
-                if( xCur != xPrev || yCur != yPrev )
-                {
-                    xPrev = xCur;
-                    yPrev = yCur;
-                    m_dwSaverMouseMoveCount++;
-                    if ( m_dwSaverMouseMoveCount > 5 )
-                        InterruptSaver();
-                }
-            }
-            break;
-
-        case WM_KEYDOWN:
-        case WM_LBUTTONDOWN:
-        case WM_RBUTTONDOWN:
-        case WM_MBUTTONDOWN:
-            if( m_SaverMode != sm_test )
-                InterruptSaver();
-            break;
-
-        case WM_ACTIVATEAPP:
-            if( wParam == FALSE && m_SaverMode != sm_test )
-                InterruptSaver();
-            break;
-
-        case WM_POWERBROADCAST:
-            if( wParam == PBT_APMSUSPEND && m_VerifySaverPassword == NULL )
-                InterruptSaver();
-            break;
-
-        case WM_SYSCOMMAND: 
-            if ( m_SaverMode == sm_full )
-            {
-                switch ( wParam )
-                {
-                    case SC_NEXTWINDOW:
-                    case SC_PREVWINDOW:
-                    case SC_SCREENSAVE:
-                    case SC_CLOSE:
-                        return FALSE;
-                };
-            }
-            break;
-    }
-
-	BOINCTRACE(_T("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
-
-	return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
 
 
@@ -1206,28 +1107,14 @@ INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARA
 
 
 //-----------------------------------------------------------------------------
-// Name: PrimarySaverProcStub()
+// Name: SaverProcStub()
 // Desc: This function forwards all window messages to SaverProc, which has
 //       access to the "this" pointer.
 //-----------------------------------------------------------------------------
-LRESULT CALLBACK CScreensaver::PrimarySaverProcStub( HWND hWnd, UINT uMsg,
-                                                 WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK CScreensaver::SaverProcStub( HWND hWnd, UINT uMsg,
+                                          WPARAM wParam, LPARAM lParam )
 {
-    return gs_pScreensaver->PrimarySaverProc( hWnd, uMsg, wParam, lParam );
-}
-
-
-
-
-//-----------------------------------------------------------------------------
-// Name: GenericSaverProcStub()
-// Desc: This function forwards all window messages to SaverProc, which has
-//       access to the "this" pointer.
-//-----------------------------------------------------------------------------
-LRESULT CALLBACK CScreensaver::GenericSaverProcStub( HWND hWnd, UINT uMsg,
-                                                 WPARAM wParam, LPARAM lParam )
-{
-    return gs_pScreensaver->GenericSaverProc( hWnd, uMsg, wParam, lParam );
+    return gs_pScreensaver->SaverProc( hWnd, uMsg, wParam, lParam );
 }
 
 
