@@ -11076,45 +11076,45 @@ Rom   Mar 29 2004
         boinc_gui.vcproj
 
 David  Mar 29 2004
-	- Don't use semaphores for multiple-copy exclusion on Unix.
-		Semaphores don't work better than lockfile.
-	- Fix bugs in global preferences.
-		- GLOBAL_PREFS::parse() now sets all booleans to false
-		- removed confused should_request_global_prefs() from Win client.
+    - Don't use semaphores for multiple-copy exclusion on Unix.
+        Semaphores don't work better than lockfile.
+    - Fix bugs in global preferences.
+        - GLOBAL_PREFS::parse() now sets all booleans to false
+        - removed confused should_request_global_prefs() from Win client.
 
-	client/
-		main.C
-		prefs.C
-		win/
-			wingui_mainwindow.cpp,h
-	lib/
-		filesys.C
-	tools/
-		create_work.C
+    client/
+        main.C
+        prefs.C
+        win/
+            wingui_mainwindow.cpp,h
+    lib/
+        filesys.C
+    tools/
+        create_work.C
 
 David  Mar 29 2004
-	- rename main_loop() to boinc_main_loop()
+    - rename main_loop() to boinc_main_loop()
 
-	api/
-		boinc_api.C
-	client/
-		main.C
-		win/
-			win_service.cpp
+    api/
+        boinc_api.C
+    client/
+        main.C
+        win/
+            win_service.cpp
 
 Rom    Mar 29 2004
-	- Implement UI for SOCKS proxy server
-	- Fix setup bug in the making, only automatically startup BOINC if the user
-	    has opted for the always start BOINC at startup.
+    - Implement UI for SOCKS proxy server
+    - Fix setup bug in the making, only automatically startup BOINC if the user
+        has opted for the always start BOINC at startup.
 
-	client/win
-		wingui_dialog.cpp, .h
-		wingui_mainwindow.cpp, .h
-		wingui_proxydlg.cpp, .h (Added)
-	win_build/
-		boinc_gui.vcproj
-	win_build/installer/Script Files/
-		setup.rul
+    client/win
+        wingui_dialog.cpp, .h
+        wingui_mainwindow.cpp, .h
+        wingui_proxydlg.cpp, .h (Added)
+    win_build/
+        boinc_gui.vcproj
+    win_build/installer/Script Files/
+        setup.rul
 
 David  Mar 30 2004
     - preparation for moving prefs.C from client/ to lib/
@@ -11173,8 +11173,8 @@ David  Mar 31 2004
         cs_prefs.C
         hostinfo.C,h
         hostinfo_unix.C
-		win/
-			hostinfo_win.cpp
+        win/
+            hostinfo_win.cpp
     lib/
         app_ipc.C
 
@@ -11205,15 +11205,15 @@ Rom    Mar 31 2004
         <Multiple Files>
 
 David  Mar 31 2004
-	- add support for mouse-event handling in apps
-		Apps that use graphics must now supply
-		boinc_app_mouse_move() and boinc_app_mouse_button functions
-	- check for file existence before opening for read, avoid 5-second delay
+    - add support for mouse-event handling in apps
+        Apps that use graphics must now supply
+        boinc_app_mouse_move() and boinc_app_mouse_button functions
+    - check for file existence before opening for read, avoid 5-second delay
 
-	api/
-		boinc_api.C
-		graphics_api.C
-		windows_opengl.C
+    api/
+        boinc_api.C
+        graphics_api.C
+        windows_opengl.C
 
 David  April 1 2004
     - Client: add a mechanism for suspending/resume network activity,
@@ -11255,10 +11255,10 @@ Rom    April 1 2004
         wingui_mainwindow.cpp, .h
 
 David  April 1 2004
-	- extend mouse interface to handle buttons better
+    - extend mouse interface to handle buttons better
 
-	api/
-		windows_opengl.C
+    api/
+        windows_opengl.C
 
 Rom    April 1 2004
     - Found another place that should have been using boinc_file_exist.
@@ -11373,19 +11373,19 @@ David  April 4 2004
         pers_file_xfer.h
 
 David  April 4 2004
-	- ACTIVE_TASK::request_exit() (win): kill the process immediately,
-		instead of sending it a quit request event,
-		waiting a few seconds, then killing it.
-		Currently the quit request event is checked only in
-		boinc_time_to_checkpoint(),
-		which (at least, in SETI@home) isn't called very often.
-		So it always takes 5 seconds to exit the core client.
+    - ACTIVE_TASK::request_exit() (win): kill the process immediately,
+        instead of sending it a quit request event,
+        waiting a few seconds, then killing it.
+        Currently the quit request event is checked only in
+        boinc_time_to_checkpoint(),
+        which (at least, in SETI@home) isn't called very often.
+        So it always takes 5 seconds to exit the core client.
 
-	NOTE: when the new app management-thread stuff is done,
-	we can change this back
+    NOTE: when the new app management-thread stuff is done,
+    we can change this back
 
-	client/
-		app.C
+    client/
+        app.C
 
 David  April 6 2004
     - move update_average() from sched_util.C to util.C
@@ -11546,8 +11546,8 @@ David  April 11 2004
 
 Jeff  April 12 2004
      - tagged with both:
-	boinc_core_release_3_00
-	seti_boinc_app_release_3_00
+    boinc_core_release_3_00
+    seti_boinc_app_release_3_00
 
 
 David  April 13 2004
@@ -11676,48 +11676,48 @@ David  April 18 2004
         server_types.C
 
 David  April 19 2004
-	- Client: change the way network transfer speed is computed.
-		Instead of computing it every 3 seconds (which doesn't work
-		for short transfers) just computed it from start of transfer.
-	- when detach from a project, and global prefs are from that project,
-		delete the global prefs file and init() prefs in mem.
-		Otherwise you have prefs from unknown project.
-	- write <app_version_num> element in <result> only if writing to server
-		(avoid error parsing state file)
-	- some message end with multiple \n's.  delete them all.
-	- change return type of boinc_file_exists() to bool
+    - Client: change the way network transfer speed is computed.
+        Instead of computing it every 3 seconds (which doesn't work
+        for short transfers) just computed it from start of transfer.
+    - when detach from a project, and global prefs are from that project,
+        delete the global prefs file and init() prefs in mem.
+        Otherwise you have prefs from unknown project.
+    - write <app_version_num> element in <result> only if writing to server
+        (avoid error parsing state file)
+    - some message end with multiple \n's.  delete them all.
+    - change return type of boinc_file_exists() to bool
 
-	client/
-		client_state.C
-		client_types.C
-		net_xfer.C,h
-		prefs.C
-		win/
-			wingui.cpp
-			wingui_proxydlg.cpp
-	lib/
-		filesys.C,h
+    client/
+        client_state.C
+        client_types.C
+        net_xfer.C,h
+        prefs.C
+        win/
+            wingui.cpp
+            wingui_proxydlg.cpp
+    lib/
+        filesys.C,h
 
 Rom    April 20 2004
-	- Prevent a nested exception during a heap check by disabling the
+    - Prevent a nested exception during a heap check by disabling the
             heap check during a stack dump.
-	lib/
-		diagnostics.C
+    lib/
+        diagnostics.C
 
 
 David  April 20 2004
-	- The Windows CreateDirectory and RemoveDirectory return
-		nonzero on error (unlike rmdir and mkdir).
-		The code had it backwards, which led to various problems,
-		e.g. after attaching to a new project no RPC happened
-	- print error messages if fail to delete account file
-		or project dir on detach
+    - The Windows CreateDirectory and RemoveDirectory return
+        nonzero on error (unlike rmdir and mkdir).
+        The code had it backwards, which led to various problems,
+        e.g. after attaching to a new project no RPC happened
+    - print error messages if fail to delete account file
+        or project dir on detach
 
-	client/
-		client_state.C
-		file_names.C
-	lib/
-		filesys.C
+    client/
+        client_state.C
+        file_names.C
+    lib/
+        filesys.C
 
 Jeff  April 21 2004
         - tagged as seti_boinc_app_release_3_01
@@ -11751,7 +11751,7 @@ Rom    April 22 2004
         hostinfo_unix.c
 
 Jeff   April 22 2004
-	- tagged as boinc_core_release_3_01
+    - tagged as boinc_core_release_3_01
 
 David  April 22 2004
     - boinc_fopen(): add a Unix-specific #ifdef case that,
@@ -11944,11 +11944,11 @@ David  May 2 2004
         server_types.C,h
 
 David  May 2 2004
-	- client: fixed bug in general prefs parsing that caused
-		source project to be "unidentified"
+    - client: fixed bug in general prefs parsing that caused
+        source project to be "unidentified"
 
-	client/
-		prefs.C
+    client/
+        prefs.C
 
 David  May 3 2004
     - server: instead of a single "stop" file, we now have two:
@@ -12295,30 +12295,30 @@ David  May 14 2004
     - various web fixes
 
 David  May 15 2004
-	- small trickle-down fixes
-	client/
-		cs_trickle.C
-		scheduler_op.C
+    - small trickle-down fixes
+    client/
+        cs_trickle.C
+        scheduler_op.C
 
 David  May 15 2004
-	- Massive simplification of STARFIELD implementation.
-		Instead of using the same 3D coordinate space as other stuff,
-		stars now have their own -1..1 type coordinate space,
-		and we do the perspective transformation ourselves.
-		This eliminates the need for all the is_visible() crap.
+    - Massive simplification of STARFIELD implementation.
+        Instead of using the same 3D coordinate space as other stuff,
+        stars now have their own -1..1 type coordinate space,
+        and we do the perspective transformation ourselves.
+        This eliminates the need for all the is_visible() crap.
 
-		The goal was to get rid of the hang/crash when the user
-		moves the viewpoint too far away,
-		but I ended up rewriting the (crufty) code.
+        The goal was to get rid of the hang/crash when the user
+        moves the viewpoint too far away,
+        but I ended up rewriting the (crufty) code.
 
-		Got rid of get_matrix_invert()
+        Got rid of get_matrix_invert()
 
-	- Moved glFlush() from REDUCED_ARRAY::draw() to SAH_GFX_BASE::render
-		(or whatever the app's render routine is)
+    - Moved glFlush() from REDUCED_ARRAY::draw() to SAH_GFX_BASE::render
+        (or whatever the app's render routine is)
 
-	api/
-		gutil.C,h
-		reduce.C
+    api/
+        gutil.C,h
+        reduce.C
 
 David  May 17 2004
     - In the scheduler shared-memory segment,
@@ -12349,15 +12349,15 @@ David  May 18 2004
         sched_send.C
 
 David  May 18 2004
-	- Various changes to benchmark code:
-		- unroll loops in FP benchmark
-		- use 10M instead of 1M ops per iteration
-		- use dtime() for timing
-		- get rid of wacky integer benchmark;
-			replace with integer counterpart to FP benchmark
+    - Various changes to benchmark code:
+        - unroll loops in FP benchmark
+        - use 10M instead of 1M ops per iteration
+        - use dtime() for timing
+        - get rid of wacky integer benchmark;
+            replace with integer counterpart to FP benchmark
 
-	client/
-		cpu_benchmark.C
+    client/
+        cpu_benchmark.C
 
 Rom    May 18 2004
     - XML Parsing errors should now be hidden from normal operation.
@@ -12379,28 +12379,28 @@ Rom    May 18 2004
       boinc_core_release_3_05
 
 David  May 19 2004
-	- Added code for Whetstone benchmark.
-		This produces a result several times larger than our own floating-point
-		benchmark (e.g., 750MFLOPS versus 160MFLOPS).
-		But it's not clear that the Whetstone number
-		should be interpreted as MFLOPS.
-		If you want to check it out, add a call to whetstone(10, x) somewhere,
-		and look at the result in the debugger.
+    - Added code for Whetstone benchmark.
+        This produces a result several times larger than our own floating-point
+        benchmark (e.g., 750MFLOPS versus 160MFLOPS).
+        But it's not clear that the Whetstone number
+        should be interpreted as MFLOPS.
+        If you want to check it out, add a call to whetstone(10, x) somewhere,
+        and look at the result in the debugger.
 
-	client/
-		whetstone.C (new)
+    client/
+        whetstone.C (new)
 
 David  May 19 2004
-	- Added code for Dhrystone benchmark.
-		Use the "VAX MIPS" result as integer benchmark.
-		It's somewhat higher than the benchmark we've been using.
-	- Switch to using Whetstone and Dhrystone instead of home-brew benchmarks.
+    - Added code for Dhrystone benchmark.
+        Use the "VAX MIPS" result as integer benchmark.
+        It's somewhat higher than the benchmark we've been using.
+    - Switch to using Whetstone and Dhrystone instead of home-brew benchmarks.
 
-	client/
-		cpu_benchmark.C,h
-		cs_benchmark.C
-		dhrystone.C (new)
-		whetstone.C
+    client/
+        cpu_benchmark.C,h
+        cs_benchmark.C
+        dhrystone.C (new)
+        whetstone.C
 
 David  May 19 2004
     - Since new benchmarks are higher than old ones,
@@ -12411,78 +12411,78 @@ David  May 19 2004
         handle_request.C
 
 David  May 19 2004
-	- Changed dhry/whetstone to use fixed # of iterations instead
-		of dynamically adapting.
-		This hopefully will make multiple CPUs run more in lockstep
+    - Changed dhry/whetstone to use fixed # of iterations instead
+        of dynamically adapting.
+        This hopefully will make multiple CPUs run more in lockstep
 
-	client
-		cpu_benchmark.h
-		cs_benchmark.C
-		dhrystone.C
-		whetstone.C
+    client
+        cpu_benchmark.h
+        cs_benchmark.C
+        dhrystone.C
+        whetstone.C
 
 David  May 19 2004
-	- boinc_fopen: if opening for read, and file doesn't exist,
-		return 0 immediately (avoid 5-sec delays)
-	- boinc_resolve_filename: use boinc_fopen() to open symlink file
-	- graphics: scale starfield velocity down by a factor of 10
+    - boinc_fopen: if opening for read, and file doesn't exist,
+        return 0 immediately (avoid 5-sec delays)
+    - boinc_resolve_filename: use boinc_fopen() to open symlink file
+    - graphics: scale starfield velocity down by a factor of 10
 
-	api/
-		gutil.C
-	lib/
-		app_ipc.C
-		filesys.C
+    api/
+        gutil.C
+    lib/
+        app_ipc.C
+        filesys.C
 
 David  May 20 2004
-	- In messages about benchmarks, report the number of CPUs, and
-		say that benchmark numbers are per CPU
+    - In messages about benchmarks, report the number of CPUs, and
+        say that benchmark numbers are per CPU
 
-	client/
-		cs_benchmark.C
+    client/
+        cs_benchmark.C
 
 David  May 21 2004
-	- API: changed timer period from 50 Hz to 1 Hz.
-		This timer is used only for reporting progress and CPU,
-		not for doing graphics, to 1 Hz is enough
-	- API: if setup_shared_mem() returns error, set standalone = true.
-		This means that if you run an app standalone,
-		it will be detected automatically,
-		so no need for command-line args or even
-		standalone argument to boinc_init()
-		(but leave that arg in for now)
-	- API: initialize fraction_done to -1,
-		and only report it to core client if >= 0
-		(i.e. don't report it unless app specifies it)
-	- API: removed
-	    #ifdef HAVE_SYS_SHM_H
+    - API: changed timer period from 50 Hz to 1 Hz.
+        This timer is used only for reporting progress and CPU,
+        not for doing graphics, to 1 Hz is enough
+    - API: if setup_shared_mem() returns error, set standalone = true.
+        This means that if you run an app standalone,
+        it will be detected automatically,
+        so no need for command-line args or even
+        standalone argument to boinc_init()
+        (but leave that arg in for now)
+    - API: initialize fraction_done to -1,
+        and only report it to core client if >= 0
+        (i.e. don't report it unless app specifies it)
+    - API: removed
+        #ifdef HAVE_SYS_SHM_H
         #ifdef HAVE_SYS_IPC_H
-		around calls to attach_shmem in non-Win case.
-		This not an appropriate place for these ifdefs.
-	- core client: ACTIVE_TASK_SET::check_app_exited():
-		skip tasks in state PROCESS_IN_LIMBO.
-		This avoid core client spinning when apps misbehave.
+        around calls to attach_shmem in non-Win case.
+        This not an appropriate place for these ifdefs.
+    - core client: ACTIVE_TASK_SET::check_app_exited():
+        skip tasks in state PROCESS_IN_LIMBO.
+        This avoid core client spinning when apps misbehave.
     - core client: changed variable names in app.C:
         starting_cpu_time -> episode_start_cpu_time
 
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
     client/
         app.C,h
 
 David  May 21 2004
-	- Core client: attempted to make benchmarks more accurate
-		and reproducible on multiprocessor or HT machines
-		be forcing each phase (floating point, integer)
-		to be more or less concurrent across processors.
-		This is done using trigger files.
-		Each benchmark waits for its trigger file before starting,
-		and stops when the file goes away.
+    - Core client: attempted to make benchmarks more accurate
+        and reproducible on multiprocessor or HT machines
+        be forcing each phase (floating point, integer)
+        to be more or less concurrent across processors.
+        This is done using trigger files.
+        Each benchmark waits for its trigger file before starting,
+        and stops when the file goes away.
 
-	client/
-		cpu_benchmark.h
-		cs_benchmark.C
-		dhrystone.C
-		whetstone.C
+    client/
+        cpu_benchmark.h
+        cs_benchmark.C
+        dhrystone.C
+        whetstone.C
 
 Rom    May 21 2004
     - A little fine tuning to the benchmark process.
@@ -12495,17 +12495,17 @@ Rom    May 21 2004
         whetstone.C
 
 David  May 21 2004
-	- Core client: in FILE_XFER_SET::poll(), when completed a file-size query,
-		close the socket before iniating the file transfer.
-		Otherwise we have a socket that's never closed.
+    - Core client: in FILE_XFER_SET::poll(), when completed a file-size query,
+        close the socket before iniating the file transfer.
+        Otherwise we have a socket that's never closed.
 
-	Note: some aspects of the FILE_XFER/HTTP_OP/NET_XFER hierarchy
-		seem absurdly complex, like the issue of when sockets are closed.
-		The whole thing should be reexamined at some point (but not now).
+    Note: some aspects of the FILE_XFER/HTTP_OP/NET_XFER hierarchy
+        seem absurdly complex, like the issue of when sockets are closed.
+        The whole thing should be reexamined at some point (but not now).
 
-	client/
-		file_xfer.X
-		
+    client/
+        file_xfer.X
+        
 Rom    May 22 2004
     - Somehow the boinc release build switched over to using shared libraries on
       Windows instead of static, so now i'm switching it back to static libraries.
@@ -12600,16 +12600,16 @@ David  May 24 2004
         filesys.C,h
 
 David  May 24 2004
-	- client: initialize NET_XFER::xfer_speed to -1,
-		and when we print it out check for this value
-		and print "no bytes transferred"
-		(this happens e.g. if upload a file that's
-		already been uploaded)
-	- removed NET_XFER::net_xfer_state (not used)
+    - client: initialize NET_XFER::xfer_speed to -1,
+        and when we print it out check for this value
+        and print "no bytes transferred"
+        (this happens e.g. if upload a file that's
+        already been uploaded)
+    - removed NET_XFER::net_xfer_state (not used)
 
-	client/
-		net_xfer.C,h
-		pers_file_xfer.h
+    client/
+        net_xfer.C,h
+        pers_file_xfer.h
 
 Rom    May 24 2004
     - Tag for 3.06 release, all platforms
@@ -12624,16 +12624,16 @@ David  May 24 2004
         update_versions
 
 David  May 24 2004
-	- Change benchmarks to not use global variables
-		(since, on Windows, we have several threads running them
-		in the same address space).
-		This requires passing around an extra structure pointer,
-		which slows down the benchmarks,
-		but it doesn't seem to make a big difference.
+    - Change benchmarks to not use global variables
+        (since, on Windows, we have several threads running them
+        in the same address space).
+        This requires passing around an extra structure pointer,
+        which slows down the benchmarks,
+        but it doesn't seem to make a big difference.
 
-	client/
-		dhrystone.C
-		whetstone.C
+    client/
+        dhrystone.C
+        whetstone.C
 
 David  May 25 2004
     - added -noinsert option to assimilator
@@ -12749,36 +12749,36 @@ David  May 27 2004
         start
 
 David  May 27 2004
-	- The BOINC app graphics framework does not use
-		(or require the use of) OpenGL.
-		Get rid of all OpenGL stuff in the code.
-		Note: windows_opengl.C is misnamed.
+    - The BOINC app graphics framework does not use
+        (or require the use of) OpenGL.
+        Get rid of all OpenGL stuff in the code.
+        Note: windows_opengl.C is misnamed.
 
-	api/
-		graphics_api.C,h
-		windows_opengl.C
+    api/
+        graphics_api.C,h
+        windows_opengl.C
 
 David  May 27 2004
-	- added support for "static graphics":
-		applications generate graphics from a static image file
-		(part of the workunit) rather than dynamically.
-	- removed cruft from gutil.C:
-		mode_orth_ratio()
-		set_viewport_*()
-		center_screen_ratio()
-		I have no idea what these were for,
-		and perhaps neither did their author.
-		
-	- moved declarations of boinc_ap_mouse_button() etc.
-		to graphics_api.h
-	api/
-		graphics_api.h
-		gutil.C
-		static_graphics.C (new)
-		windows_opengl.C
-	doc/
-		graphics.png
-		graphics.sxd
+    - added support for "static graphics":
+        applications generate graphics from a static image file
+        (part of the workunit) rather than dynamically.
+    - removed cruft from gutil.C:
+        mode_orth_ratio()
+        set_viewport_*()
+        center_screen_ratio()
+        I have no idea what these were for,
+        and perhaps neither did their author.
+        
+    - moved declarations of boinc_ap_mouse_button() etc.
+        to graphics_api.h
+    api/
+        graphics_api.h
+        gutil.C
+        static_graphics.C (new)
+        windows_opengl.C
+    doc/
+        graphics.png
+        graphics.sxd
 
 David  May 27 2004
     - negated Windows timezone, and server-side timezone usage
@@ -12943,16 +12943,16 @@ David  June 1 2004
         setup_project.py
 
 David  June 1 2004
-	- client: SCHEDULER_OP::poll(): if a RPC or master fetch fails for
-		a tentative project, set the RPC state to IDLE
-		before calling project_add_failed().
-		Otherwise that function will attempt to remove the
-		NET_XFER and HTTP_OP, which have alread been removed
-	- client: clean_out_dir(): return 0 if directory doesn't exist
-	client/
-		scheduler_op.C
-	lib/
-		filesys.C
+    - client: SCHEDULER_OP::poll(): if a RPC or master fetch fails for
+        a tentative project, set the RPC state to IDLE
+        before calling project_add_failed().
+        Otherwise that function will attempt to remove the
+        NET_XFER and HTTP_OP, which have alread been removed
+    - client: clean_out_dir(): return 0 if directory doesn't exist
+    client/
+        scheduler_op.C
+    lib/
+        filesys.C
 
 Rom    June 1 2004
     - Give visual indictators as to whether the build is debug or release.
@@ -12969,30 +12969,30 @@ Rom    June 1 2004
         handle_request.C
 
 David  June 2 2004
-	- client: cosmetic changes: "Account Key" -> "Account ID",
-		"BOINC Core Client" -> "BOINC software"
+    - client: cosmetic changes: "Account Key" -> "Account ID",
+        "BOINC Core Client" -> "BOINC software"
 
-	client/
-		gui_titles.C
-		win/
-			boinc_gui.rc
+    client/
+        gui_titles.C
+        win/
+            boinc_gui.rc
 
 David  June 2 2004
-	- API: if app init data file not present,
-		set standalone to true, don't return error
+    - API: if app init data file not present,
+        set standalone to true, don't return error
 
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
 
 Daniel June 3 2004
-	- client: handle_pers_file_xfers(): if file transfer fails,
-		then don't verify the file
-	- client: start_xfer(): need to assign fxp in order for
-		handle_xfer_failure() to work
+    - client: handle_pers_file_xfers(): if file transfer fails,
+        then don't verify the file
+    - client: start_xfer(): need to assign fxp in order for
+        handle_xfer_failure() to work
 
-	client/
-		cs_files.C
-		pers_file_xfer.C
+    client/
+        cs_files.C
+        pers_file_xfer.C
 
 Karl 2004-06-04
     - start: fixed bug where Python 2.3.3 writes 'True' instead of '1' to
@@ -13067,14 +13067,14 @@ David  June 6 2004
         sched_config.C,h
         
 David  June 6 2004
-	- client: show error messages on errors linking structures
-	- PERS_FILE_XFER::giveup(): add "why" argument;
-		store in FILE_INFO::error_msg, and show to user
-		(all permanent xfer failures pass through here)
+    - client: show error messages on errors linking structures
+    - PERS_FILE_XFER::giveup(): add "why" argument;
+        store in FILE_INFO::error_msg, and show to user
+        (all permanent xfer failures pass through here)
 
-	client/
-		client_state.C
-		pers_file_xfer.C,h
+    client/
+        client_state.C
+        pers_file_xfer.C,h
 
 Karl 2004-06-08
     - changed BOINC api calls to extern "C" -- makes it easier to call from
@@ -13216,12 +13216,12 @@ Rom    9 June 2004
         *.vcproj
 
 Brian   10 June 2004
-	- changed get_log_path to create log directory dynamically if
-		not already present on server
+    - changed get_log_path to create log directory dynamically if
+        not already present on server
 
-	sched/
-		main.C
-		file_upload_handler.C
+    sched/
+        main.C
+        file_upload_handler.C
 
 David  10 June 2004
     - Web caching system: use only the filename part of URL
@@ -13380,17 +13380,17 @@ David  11 June 2004
         mfile.C,h (moved to here)
 
 David  11 June 2004
-	- get core client to compile on Win
-	- graphics API: change max frame rate from 10 to 33.3
+    - get core client to compile on Win
+    - graphics API: change max frame rate from 10 to 33.3
 
-	api/
-		windows_opengl.C
-	client/
-		gui_rpc_server.C
-		miofile.h
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    api/
+        windows_opengl.C
+    client/
+        gui_rpc_server.C
+        miofile.h
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 David  11 June 2004
     - moved idle-time funcs from cs_prefs.C to hostinfo_unix.C
@@ -13428,21 +13428,21 @@ David  June 12 2004
         Makefile.am,in
 
 David  June 12 2004
-	- added support for name/passwd authentication to HTTP proxies.
-		Includes changes to the proxy settings dialog,
-		and to the HTTP_OP class.
-		All this courtesy of Kenichi Miyoshi and his colleagues
+    - added support for name/passwd authentication to HTTP proxies.
+        Includes changes to the proxy settings dialog,
+        and to the HTTP_OP class.
+        All this courtesy of Kenichi Miyoshi and his colleagues
         at NTT - thanks!
 
-	client/
-		http.C,h
-		proxy.C,h
-		win/
-			boinc_gui.h,rc
-		wingui_proxydlg.cpp,h
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    client/
+        http.C,h
+        proxy.C,h
+        win/
+            boinc_gui.h,rc
+        wingui_proxydlg.cpp,h
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 David  13 June 2004
     - fix typo on "start"
@@ -13680,24 +13680,24 @@ David  16 June 2004
             user_search_action.php
 
 David  16 June 2004
-	- Added <host_info> to app_init_data.xml file,
-		passed to applications (for Folding@home).
-		This necessitated shuffline some code to
-		move write/parse code from client/ to lib/
+    - Added <host_info> to app_init_data.xml file,
+        passed to applications (for Folding@home).
+        This necessitated shuffline some code to
+        move write/parse code from client/ to lib/
 
-	client/
-		app.C
-		hostinfo.C,h (moved from client/ to lib/)
-		hostinfo_network.C,h (new)
-		miofile.C,h (moved from client/ to lib/)
-		win/
-			hostinfo_win.cpp
-	lib/
-		app_ipc.C,h
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
-		upper_case.vcproj
+    client/
+        app.C
+        hostinfo.C,h (moved from client/ to lib/)
+        hostinfo_network.C,h (new)
+        miofile.C,h (moved from client/ to lib/)
+        win/
+            hostinfo_win.cpp
+    lib/
+        app_ipc.C,h
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
+        upper_case.vcproj
 
 
 David  16 June 2004
@@ -13719,19 +13719,19 @@ Daniel 16 June 2004
         hostinfo_unix.C
 
 David  16 June 2004
-	- renamed client/stdafx.h to lib/boinc_win.h
+    - renamed client/stdafx.h to lib/boinc_win.h
 
-	api/
-		boinc_api.C
-	client/
-		stdafx.cpp
-		stdafx.h (removed)
-	lib/
-		boinc_win.h (new)
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
-		boinc_guirpc_test.vcproj
+    api/
+        boinc_api.C
+    client/
+        stdafx.cpp
+        stdafx.h (removed)
+    lib/
+        boinc_win.h (new)
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
+        boinc_guirpc_test.vcproj
 
 David  16 June 2004
     - scheduler returns message to client in case of internal errors
@@ -13741,54 +13741,54 @@ David  16 June 2004
         handle_request.C
 
 David  16 June 2004
-	- change includes from stdafx.h to boinc_win.h
-	- add 1o-minute timeout on all network transfers
+    - change includes from stdafx.h to boinc_win.h
+    - add 1o-minute timeout on all network transfers
 
-	client/
-		*.C
-	lib/
-		*.C
+    client/
+        *.C
+    lib/
+        *.C
 
 Rom    16 June 2004
-	- Additional include changes from stdafx.h to boinc_win.h
+    - Additional include changes from stdafx.h to boinc_win.h
 
-	api/
-		*.C
-	client/
-		*.C
-	lib/
-		*.C
-
-David  16 June 2004
-	- a few additions to the above
-
-	api/
-		graphics_api.C
-		gutil.C
-		reduce.C
-		static_graphics.C
-		windows_opengl.C
-	client/
-		cpu_benchmark (removed)
-		message.C (removed)
-		win/
-			wingui.h
-	lib/
-		boinc_win.h
-	win_build/
-		boinc_gui.vcproj
+    api/
+        *.C
+    client/
+        *.C
+    lib/
+        *.C
 
 David  16 June 2004
-	- fixed shocking error in http.C:
-		in poll function (HTTP_OP_SET::poll()),
-		check for error conditions at the beginning,
-		outside of the switch on http_op_state.
-		Previously we were checking for errors only in a couple of states
-		(CONNECTING, REPLY_BODY) and errors in other states would go undetected.
-		This could account for hangs in file uploads, scheduler RPCs
+    - a few additions to the above
 
-	client/
-		http.C
+    api/
+        graphics_api.C
+        gutil.C
+        reduce.C
+        static_graphics.C
+        windows_opengl.C
+    client/
+        cpu_benchmark (removed)
+        message.C (removed)
+        win/
+            wingui.h
+    lib/
+        boinc_win.h
+    win_build/
+        boinc_gui.vcproj
+
+David  16 June 2004
+    - fixed shocking error in http.C:
+        in poll function (HTTP_OP_SET::poll()),
+        check for error conditions at the beginning,
+        outside of the switch on http_op_state.
+        Previously we were checking for errors only in a couple of states
+        (CONNECTING, REPLY_BODY) and errors in other states would go undetected.
+        This could account for hangs in file uploads, scheduler RPCs
+
+    client/
+        http.C
 
 Rom    16 June 2004
     - Fix HTTP:OP bug where on an upload and the server responds with a 404- 
@@ -13803,26 +13803,26 @@ Rom    June 15 2004
       boinc_core_release_3_09
 
 David  16 June 2004
-	- Change how messages are stored in memory in core client
-		- use a list instead of a vector, ordered new to old
-		- max of 1000 messages (MAX_SAVED_MESSAGES)
-		- add seqno to MESSAGE_DESC
-	- change GUI RPC for getting messages.
-		Instead of "offset", has a "seqno" arg.
-		If nonzero, this is the minimum seqno to return
-	- add message-storage logic to Windows client
-	
+    - Change how messages are stored in memory in core client
+        - use a list instead of a vector, ordered new to old
+        - max of 1000 messages (MAX_SAVED_MESSAGES)
+        - add seqno to MESSAGE_DESC
+    - change GUI RPC for getting messages.
+        Instead of "offset", has a "seqno" arg.
+        If nonzero, this is the minimum seqno to return
+    - add message-storage logic to Windows client
+    
 
-	client/
-		client_msgs.C,h
-		gui_rpc_server.C
-		main.C
-		win/
-			wingui.cpp
-		lib/
-			boinc_win.h
-	win_build/
-		boinc_guirpc_test.vcproj
+    client/
+        client_msgs.C,h
+        gui_rpc_server.C
+        main.C
+        win/
+            wingui.cpp
+        lib/
+            boinc_win.h
+    win_build/
+        boinc_guirpc_test.vcproj
 
 David  16 June 2004
     - get GUI RPC working on UNIX
@@ -13999,10 +13999,10 @@ Rom    June 18 2004
 
 
 David  2004.06.18
-	- add timestamps to messages written stdout/err.txt in Win
+    - add timestamps to messages written stdout/err.txt in Win
 
-	client/win/
-		wingui.cpp
+    client/win/
+        wingui.cpp
 
 David  2004.06.18
     - updated zip/unzip files (from Carl)
@@ -14182,40 +14182,40 @@ David  27 June 2004
         transitioner.C
 
 David  27 June 2004
-	- changes (from Carl C.) to get rid of signal usage in zip/unzip code
+    - changes (from Carl C.) to get rid of signal usage in zip/unzip code
 
-	zip/unzip
-		fileio.c
-		unzip.c
-	zip/zip
-		zip.c
-		zipcloak.c
-		zipnote.c
-		zipsplit.c
+    zip/unzip
+        fileio.c
+        unzip.c
+    zip/zip
+        zip.c
+        zipcloak.c
+        zipnote.c
+        zipsplit.c
 
 David  27 June 2004
-	- Added core->app heartbeat mechanism so that apps will quit
-		if the core client dies
-		(i.e. if no heartbeat message arrives in 5 seconds).
-		Suppress this if app is standalone.
-		Also provide messages that let the core disable/enable
-		the mechanism (to support debugging of the core client)
-	- Added a 3rd message channel for suspend/resume/quit messages,
-		to replace signals.
-		This isn't used now.
-	- Restored code in APP_CLIENT_SHM that checks the "full" bit
-		before writing a message.
-		This may cause problems.
+    - Added core->app heartbeat mechanism so that apps will quit
+        if the core client dies
+        (i.e. if no heartbeat message arrives in 5 seconds).
+        Suppress this if app is standalone.
+        Also provide messages that let the core disable/enable
+        the mechanism (to support debugging of the core client)
+    - Added a 3rd message channel for suspend/resume/quit messages,
+        to replace signals.
+        This isn't used now.
+    - Restored code in APP_CLIENT_SHM that checks the "full" bit
+        before writing a message.
+        This may cause problems.
 
     NOTE: this is a backwards-incompatible change to the core/app
         interface, so it requires a major version change (will do later)
 
-	api/
-		boinc_api.C
-	client/
-		app.C,h
-	lib/
-		app_ipc.C,h
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+    lib/
+        app_ipc.C,h
 
 David  27 June 2004
     - Add a lock file mechanism to prevent two apps
@@ -14282,15 +14282,15 @@ Daniel  29 June 2004
         hostinfo.h
 
 David  29 June 2004
-	- fix window compile by moving DLL handle out of HOSTINFO class
+    - fix window compile by moving DLL handle out of HOSTINFO class
 
-	client/
-		app.C
-		win/
-			hostinfo_win.cpp
-			wingui_mainwindow.cpp
-	lib/
-		hostinfo.h
+    client/
+        app.C
+        win/
+            hostinfo_win.cpp
+            wingui_mainwindow.cpp
+    lib/
+        hostinfo.h
 
 Daniel 29 June 2004
     - New client CPU scheduler, as specified in client_sched.php
@@ -14407,11 +14407,11 @@ Daniel 30 June 2004
 
 Brian 1 July 2004
     - Continuing Eric and Daniel's vanquishing of "using" directives from 
-	header files. Instances of string or vector in header files were changed
-	to std::string and std::vector respectively.
+    header files. Instances of string or vector in header files were changed
+    to std::string and std::vector respectively.
 
     client/
-	  gui_rpc_client.h
+      gui_rpc_client.h
 
 Rom    1 July 2004
     - Introduce skeleton of new transitioner queue class that uses a specialized
@@ -14445,19 +14445,19 @@ Daniel 2004-07-01
 David  1 July 2004
     - trickle message support:
         - core client: send <have_trickle_down> message to app when appropriate
-		- boinc_api: implement boinc_receive_trickle_down()
+        - boinc_api: implement boinc_receive_trickle_down()
     - blind attempt to fix HTTP auth crash:
         check for empty URL on redirect
         
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
     client/
         app.C,h
         cs_trickle.C
         hostinfo_unix.C
         http.C
     lib/
-		app_ipc.h
+        app_ipc.h
         error_numbers.h
 
 Karl 2004-07-02
@@ -14616,33 +14616,33 @@ David  4 July 2004
         sched_shmem.C,h
 
 David  6 July 2004
-	- Completed (more or less) the implementation of trickle messages.
-		Some changes:
-		- Trickle-up messages now have a "variety",
+    - Completed (more or less) the implementation of trickle messages.
+        Some changes:
+        - Trickle-up messages now have a "variety",
             specified by the application.
-			Typically it's the name of the application.
-			The trickle-up handler (on the server side) specifies what
-			variety of message it wants to handle.
-		- boinc_receive_trickle_down() no longer returns the message itself;
-			instead, it returns the name of the file.
-			The app must open, read and delete the file.
+            Typically it's the name of the application.
+            The trickle-up handler (on the server side) specifies what
+            variety of message it wants to handle.
+        - boinc_receive_trickle_down() no longer returns the message itself;
+            instead, it returns the name of the file.
+            The app must open, read and delete the file.
 
     NOTE: the structure of the msg_to_host and msg_from_host tables
         is changed.  Projects will want to drop and recreate these.
 
-	api/
-		boinc_api.C,h
-	client/
-		app.C
-		cs_scheduler.C
-		cs_trickle.C
-		scheduler_op.C,h
+    api/
+        boinc_api.C,h
+    client/
+        app.C
+        cs_scheduler.C
+        cs_trickle.C
+        scheduler_op.C,h
     db/
         boinc_db.C,h
         schema.sql
-	lib/
-		diagnostics.h
-		filesys.C
+    lib/
+        diagnostics.h
+        filesys.C
     sched/
         handle_request.C
         server_types.C,h
@@ -14650,58 +14650,58 @@ David  6 July 2004
 
 Brian  6 July 2004
       - Changed client so that when a file info is compared to 
-		an existing file info with the same name, the differences 
-		in whether it is an upload or download are updated and 
-		any urls that are not present in the file info are added to the url list.
-	- When a url is requested for a file info, the file info 
-		checks whether it is an upload, and then looks for the 
-		substring "file_upload_handler" any url it is trying to 
-		use to upload the file. The opposite is true for downloads.
+        an existing file info with the same name, the differences 
+        in whether it is an upload or download are updated and 
+        any urls that are not present in the file info are added to the url list.
+    - When a url is requested for a file info, the file info 
+        checks whether it is an upload, and then looks for the 
+        substring "file_upload_handler" any url it is trying to 
+        use to upload the file. The opposite is true for downloads.
 
-	- Changed get_url into three separate functions:
-    		get_current_url(bool), returns the current good url
-    		get_init_url(bool), returns the initial good url and sets the start url
-    		get_next_url(book), increments current_url and finds the next good url
+    - Changed get_url into three separate functions:
+            get_current_url(bool), returns the current good url
+            get_init_url(bool), returns the initial good url and sets the start url
+            get_next_url(book), increments current_url and finds the next good url
 
-	- Changed client so that a file_info will save its signed xml 
-		even if it doesn't include have xml signature. 
+    - Changed client so that a file_info will save its signed xml 
+        even if it doesn't include have xml signature. 
 
-	- Updated the client so that the check to see if the url is 
-		valid for the type of network request is a private function of FILE_INFO
+    - Updated the client so that the check to see if the url is 
+        valid for the type of network request is a private function of FILE_INFO
 
-	- Modified the backoff_retry function in persistant_file_xfers 
-		so that it uses the updated get_url that checks if the url
-		is correct for the type of transfer. Otherwise it could 
-		increment the current_url index to point to an invalid url
+    - Modified the backoff_retry function in persistant_file_xfers 
+        so that it uses the updated get_url that checks if the url
+        is correct for the type of transfer. Otherwise it could 
+        increment the current_url index to point to an invalid url
 
- 	- If a file_info doesn't have a max number of bytes and a new 
-		file_info with the same name does, update the max number 
-		of bytes of the existing file_info and add the <max_nbytes> to the signed_xml. 
+     - If a file_info doesn't have a max number of bytes and a new 
+        file_info with the same name does, update the max number 
+        of bytes of the existing file_info and add the <max_nbytes> to the signed_xml. 
 
-	- when file_xfer is complete, the client checks if the file 
-		was meant to be uploaded when present OR generated locally 
-		before setting it to ready to report, instead of only the later
+    - when file_xfer is complete, the client checks if the file 
+        was meant to be uploaded when present OR generated locally 
+        before setting it to ready to report, instead of only the later
 
-	- With the addition of multiple urls, the issue of sending urls
-		that didn't communicate well or got garbage. Whenever a file 
-		get's a server error, it calls, check_giveup, which only gives 
-		up on the file if there are no more urls to try. Also is called 
-		if the downloaded file is garbage or has the same name but not the
-		correct size.
+    - With the addition of multiple urls, the issue of sending urls
+        that didn't communicate well or got garbage. Whenever a file 
+        get's a server error, it calls, check_giveup, which only gives 
+        up on the file if there are no more urls to try. Also is called 
+        if the downloaded file is garbage or has the same name but not the
+        correct size.
 
-	- added functionality for send_file_list but does not do anything yet
+    - added functionality for send_file_list but does not do anything yet
 
-	
-	client/
-		client_types.C,h
-		client_state.h
-		cs_apps.C
-		cs_file.C
-		cs_scheduler.C
-		file_xfer.C
-		pers_file_xfer.C,h
-		scheduler_op.C,h
-		
+    
+    client/
+        client_types.C,h
+        client_state.h
+        cs_apps.C
+        cs_file.C
+        cs_scheduler.C
+        file_xfer.C
+        pers_file_xfer.C,h
+        scheduler_op.C,h
+        
 Daniel 2004-07-06
     - client: when a project fails to attach, call quit_activities()
         before exit(1) so other running apps will terminate.
@@ -14823,27 +14823,27 @@ Daniel 2004-07-07
 
 
 David  7 July 2004
-	- Implement revised core/app interface
-		(see boinc/doc/api_v4.php).
-		- Augment the set of shared-memory message channels;
-			add a channel for suspend/resume/quit messages
-			(these replace the use of signals and SuspendThread calls);
-			add separate channels for trickle up/down
-		- Modify the API library accordingly.
-			Currently works for Windows; will do UNIX later
-		- Modify the core client (app.C) accordingly
-		- Call ACTIVE_TASK_SET::poll() even when activities suspended;
-			still need to send heartbeats.
-		- added MSG_CHANNEL class to make code better organized
+    - Implement revised core/app interface
+        (see boinc/doc/api_v4.php).
+        - Augment the set of shared-memory message channels;
+            add a channel for suspend/resume/quit messages
+            (these replace the use of signals and SuspendThread calls);
+            add separate channels for trickle up/down
+        - Modify the API library accordingly.
+            Currently works for Windows; will do UNIX later
+        - Modify the core client (app.C) accordingly
+        - Call ACTIVE_TASK_SET::poll() even when activities suspended;
+            still need to send heartbeats.
+        - added MSG_CHANNEL class to make code better organized
 
-	api/
-		boinc_api.C
-		windows_opengl.C
-	client/
-		app.C,h
-		client_state.C
-	lib/
-		app_ipc.C,h
+    api/
+        boinc_api.C
+        windows_opengl.C
+    client/
+        app.C,h
+        client_state.C
+    lib/
+        app_ipc.C,h
 
 Daniel 2004-07-08
     - NetBSD compile fixes from John Klos <john@ziaspace.com>
@@ -14989,9 +14989,9 @@ Jeff  9 July 2004
       not run from the project root directory.
 
     tools/
-	backend_lib.C 
-	backend_lib.h 
-	create_work.C
+    backend_lib.C 
+    backend_lib.h 
+    create_work.C
 
 David  9 July 2004
     - Integrate code (courtesy of James Drews) that lets you limit
@@ -15017,22 +15017,22 @@ David  9 July 2004
         create_work.C
 
 David  11 July 2004
-	- changes in core client related to attaching to projects
-		- commented out "maybe_rename_old_filename_format()" stuff.
-			Not needed, and contains hazardous asserts
-		- CLIENT_STATE::add_project()
-			- check that master URL starts with http://,
-				and has other chars after that
-				[WHY WASN'T THIS BEING DONE??]
-			- check that authenticator is non-null
+    - changes in core client related to attaching to projects
+        - commented out "maybe_rename_old_filename_format()" stuff.
+            Not needed, and contains hazardous asserts
+        - CLIENT_STATE::add_project()
+            - check that master URL starts with http://,
+                and has other chars after that
+                [WHY WASN'T THIS BEING DONE??]
+            - check that authenticator is non-null
 
-	client/
-		cs_account.C
-		win/
-			wingui_dialog.cpp
-	lib/
-		error_numbers.h
-		util.C,h
+    client/
+        cs_account.C
+        win/
+            wingui_dialog.cpp
+    lib/
+        error_numbers.h
+        util.C,h
 
 Rom    11 July 2004
     - Checkin the document class stuff for the new GUI, right now the 
@@ -15283,53 +15283,53 @@ David  15 July 2004
         db_dump.C
         handle_request.C
         sched_config.C,h
-	
-Noaa	15 July 2004 
-	- completely new copy of x_opengl utilizing glut, updated using Karl's
-	boinc_gl.h. Include-file issues including makefile issues have yet to 
-	be resolved so this will NOT compile with your existing Makefile
-	- updated graphics_api with xwin_graphics_event_loop and some new
-	included files. Will not compile with existing Makefile.
-	- reduce.C rearranged includes and added GL, to be resolved later.
-	- gutil.C extern "C" for jpeglib, glut included, will not compile
-	with existing Makefile
-	- boinc_api.h RETSIGTYPE changed to void
+    
+Noaa    15 July 2004 
+    - completely new copy of x_opengl utilizing glut, updated using Karl's
+    boinc_gl.h. Include-file issues including makefile issues have yet to 
+    be resolved so this will NOT compile with your existing Makefile
+    - updated graphics_api with xwin_graphics_event_loop and some new
+    included files. Will not compile with existing Makefile.
+    - reduce.C rearranged includes and added GL, to be resolved later.
+    - gutil.C extern "C" for jpeglib, glut included, will not compile
+    with existing Makefile
+    - boinc_api.h RETSIGTYPE changed to void
 
-	New makefile to take all of these into account will be committed when
-	available.
+    New makefile to take all of these into account will be committed when
+    available.
 
-	api/
-		x_opengl.C
-		x_opengl.h
-		graphics_api.C
-		reduce.C
-		boinc_api.h
-		gutil.C
+    api/
+        x_opengl.C
+        x_opengl.h
+        graphics_api.C
+        reduce.C
+        boinc_api.h
+        gutil.C
 
 
 David  15 July 2004
-	- HTTP; increase size of request header buffer from 256 to 4096
-		(fixes HTTP proxy authentication crash bug)
-	- New way of updating client_state.xml:
-		- write new file to client_state_next.xml
-		- rename client_state.xml to client_state_prev.xml
-		- rename client_state_next.xml to client_state.xml
-	- remove references to version.* from project file
+    - HTTP; increase size of request header buffer from 256 to 4096
+        (fixes HTTP proxy authentication crash bug)
+    - New way of updating client_state.xml:
+        - write new file to client_state_next.xml
+        - rename client_state.xml to client_state_prev.xml
+        - rename client_state_next.xml to client_state.xml
+    - remove references to version.* from project file
 
-	client/
-		cs_statefile.C
-		file_names.h
-		http.h
-	win_build/
-		boinc_gui.vcproj
+    client/
+        cs_statefile.C
+        file_names.h
+        http.h
+    win_build/
+        boinc_gui.vcproj
 
-Noaa	15 July 2004
+Noaa    15 July 2004
 
-	-added printout of usabilities in gui_test.C (ie when user types
-	"gui_test" with no arguments)
+    -added printout of usabilities in gui_test.C (ie when user types
+    "gui_test" with no arguments)
 
-	client/
-		gui_test.C
+    client/
+        gui_test.C
 
 Daniel 2004-07-15
     - API: made APP_INIT_DATA aid extern so apps can access it (used to set
@@ -15368,45 +15368,45 @@ David  16 July 2004
         transitioner.C
 
 David  17 July 2004
-	Various changes to reflect the fact that message-passing
+    Various changes to reflect the fact that message-passing
     operations may fail because buffer is full,
-	in which case they must be retried later.
+    in which case they must be retried later.
 
-	- in graphics API: don't ack graphics mode in set_mode();
-		instead, ack it in timer_handler()
-	- in core client: keep track of the graphics_mode_requested
-		separately from the graphics_mode_sent;
-		in a polling routine, if these are different then try to send.
+    - in graphics API: don't ack graphics mode in set_mode();
+        instead, ack it in timer_handler()
+    - in core client: keep track of the graphics_mode_requested
+        separately from the graphics_mode_sent;
+        in a polling routine, if these are different then try to send.
 
-	- used CLIENT_STATE::get_next_graphics_capable_app() instead of
-		ACTIVE_TASK_SET::get_graphics_capable_app()
-		
-	api/
-		windows_opengl.C
-	client/
-		app.C,h
-		cs_apps.C
-		ss_logic.C
+    - used CLIENT_STATE::get_next_graphics_capable_app() instead of
+        ACTIVE_TASK_SET::get_graphics_capable_app()
+        
+    api/
+        windows_opengl.C
+    client/
+        app.C,h
+        cs_apps.C
+        ss_logic.C
 
 David  19 July 2004
-	- windows_opengl.
-		- on WM_CLOSE message, call set_mode() rather than KillWindow().
-			If you call KillWindow() the core client never finds out
-			that we're in HIDE_GRAPHICS mode
-		- removed specious KillWindow() logic from make_new_window();
-	- Various changes and bug fixes for GUI RPC:
-		- include resource share in PROJECT write
-		- include wu_name etc. in RESULT write
-		- expanded gui_test.C to include almost all RPCs
+    - windows_opengl.
+        - on WM_CLOSE message, call set_mode() rather than KillWindow().
+            If you call KillWindow() the core client never finds out
+            that we're in HIDE_GRAPHICS mode
+        - removed specious KillWindow() logic from make_new_window();
+    - Various changes and bug fixes for GUI RPC:
+        - include resource share in PROJECT write
+        - include wu_name etc. in RESULT write
+        - expanded gui_test.C to include almost all RPCs
 
-	api/
-		windows_opengl.C
-	client/
-		client_types.C,h
-		cs_statefile.C
-		gui_rpc_client.C,h
-		gui_rpc_server.C
-		gui_test.C
+    api/
+        windows_opengl.C
+    client/
+        client_types.C,h
+        cs_statefile.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C
+        gui_test.C
 
 Daniel 2004-07-19
     - client: try to choose new app to do screensaver graphics in
@@ -15463,7 +15463,7 @@ Rom    July 19 2004
     - Tag for 4.01 release, all platforms
       boinc_release_4_01
 
-Eric K.	July 20 2004
+Eric K.    July 20 2004
     - Added cache control headers to the cached php pages to reduce CGI
       load on the web server.  The headers include Last-Modified, Expires,
       and Cache-Control: public, max-age=.  Expiration and max-age are
@@ -15550,25 +15550,25 @@ David  21 July 2004
         backend_lib.C,h
 
 
-Noaa 	21 July 2004
+Noaa     21 July 2004
 
-	- incorporated modded, smaller glut into the source tree, includes
-		a makefile if any files are changed
-	- updated, cleaner version of x_opengl.C
-	- removed glut stuff from boinc_gl.h to account for integrated glut in 
-		source tree
-	- updated gutil.C header
-	- changed Makefile for api to account for glut in source tree, called 
-		Makefile.graphics (unaffected by configure, may not run on every 
-		system correctly, please check for specific setups)
+    - incorporated modded, smaller glut into the source tree, includes
+        a makefile if any files are changed
+    - updated, cleaner version of x_opengl.C
+    - removed glut stuff from boinc_gl.h to account for integrated glut in 
+        source tree
+    - updated gutil.C header
+    - changed Makefile for api to account for glut in source tree, called 
+        Makefile.graphics (unaffected by configure, may not run on every 
+        system correctly, please check for specific setups)
 
-	api/
-		x_opengl.C
-		boinc_gl.h
-		gutil.C
-		Makefile.graphics (new)
+    api/
+        x_opengl.C
+        boinc_gl.h
+        gutil.C
+        Makefile.graphics (new)
 
-	boincglut/ (new)
+    boincglut/ (new)
 
 David  21 July 2004
     - tweaked and enabled Rom's DB accelerator for the scheduler.
@@ -15587,17 +15587,17 @@ Jeff  21 July 2004
     - only grab 1000 Wus at a time in do_validate_scan() 
 
     sched/
-	validator.C
+    validator.C
 
-Noaa 	21 July 2004
+Noaa     21 July 2004
 
-	- changed frand's type from extern to static to match the .C definition
-	in gutil.h
-	- added gutil.C to the api's Makefile.graphics
-	
-	api/
-		gutil.h
-		Makefile.graphics
+    - changed frand's type from extern to static to match the .C definition
+    in gutil.h
+    - added gutil.C to the api's Makefile.graphics
+    
+    api/
+        gutil.h
+        Makefile.graphics
 
 David  22 July 2004
     - Another DB performance tweak: add DB_RESULT::update_subset()
@@ -15630,36 +15630,36 @@ Jeff  22 July 2004
       that was leading to zero results being sent out.
 
     db/
-	boinc_db.C
+    boinc_db.C
 
 Eric K. July 22 2004
     - Worked a bit more on the caching... Improvements include....
-    	- A parameter file html/project.sample/cache_parameters.inc that
-	  contains the cache TTL values for differing types of files, maximum
-	  cache size and minimum free disk space in the cache directory.
-	- Reducing the cache TTL to 0 for a specific file type results in
-	  caching being turned off for that file type.
-	- The cache now has 256 subdirectories to speed up file open times.
-	- The cache directories will be automatically built if they don't exist
-	  when first called
-	- The cache size is checked every CACHE_SIZE_CHECK_FREQ page accesses.
-	  If the max size or min free space are exceeded, file are purged in
-	  order of age until the cache size is below the cutoff.
+        - A parameter file html/project.sample/cache_parameters.inc that
+      contains the cache TTL values for differing types of files, maximum
+      cache size and minimum free disk space in the cache directory.
+    - Reducing the cache TTL to 0 for a specific file type results in
+      caching being turned off for that file type.
+    - The cache now has 256 subdirectories to speed up file open times.
+    - The cache directories will be automatically built if they don't exist
+      when first called
+    - The cache size is checked every CACHE_SIZE_CHECK_FREQ page accesses.
+      If the max size or min free space are exceeded, file are purged in
+      order of age until the cache size is below the cutoff.
     html/
-    	inc/
-	    cache.inc
-	    profile.inc
+        inc/
+        cache.inc
+        profile.inc
         project.sample/
-	    cache_parameters.inc
-	user/
-	    download.php
-	    hosts_user.php
-	    sample_index.php
-	    show_user.php
-	    team_display.php
-	    top_hosts.php
-	    top_teams.php
-	    top_users.php
+        cache_parameters.inc
+    user/
+        download.php
+        hosts_user.php
+        sample_index.php
+        show_user.php
+        team_display.php
+        top_hosts.php
+        top_teams.php
+        top_users.php
 
 Karl 2004-07-23
     - added argument check to create_work process_wu_template if <file_number>
@@ -15729,60 +15729,60 @@ Daniel 2004-07-29
         app.C
 
 Noaa  29 July 2004
-	  - added another glut file to the source tree, updated the
-	  makefile for it
-	  - updated version of x_opengl.C
+      - added another glut file to the source tree, updated the
+      makefile for it
+      - updated version of x_opengl.C
 
-	  boincglut/
-		lib/
-			glut/
-				glut_glxext.c (new)
-				Makefile
+      boincglut/
+        lib/
+            glut/
+                glut_glxext.c (new)
+                Makefile
 
-	 api/
-		x_opengl.C
-		
+     api/
+        x_opengl.C
+        
 Noaa  30 July 2004
-	- added Makefile.Readme to explain how to make a Makefile.graphics
-	for a system since at the moment Makefile.graphics is restricted
-	to the setup on Miner. This can be used when Makefile.in is changed
-	so that a correct Makefile is generated at configure time.
+    - added Makefile.Readme to explain how to make a Makefile.graphics
+    for a system since at the moment Makefile.graphics is restricted
+    to the setup on Miner. This can be used when Makefile.in is changed
+    so that a correct Makefile is generated at configure time.
 
-	client/
-		Makefile.Readme(new)
+    client/
+        Makefile.Readme(new)
 
 David  3 Aug 2004
-	- changed the API to handle compound applications.
-		API tasks are broken down into a number of boolean
-		"options" (struct BOINC_OPTIONS).
-		For compound apps, the controller and worker call a new
-		function boinc_init_options(), specifying which tasks
-		they're going to handle.
-		This reads the API init file, attaches shared memory,
-		and starts a timer (which does only the requested tasks).
+    - changed the API to handle compound applications.
+        API tasks are broken down into a number of boolean
+        "options" (struct BOINC_OPTIONS).
+        For compound apps, the controller and worker call a new
+        function boinc_init_options(), specifying which tasks
+        they're going to handle.
+        This reads the API init file, attaches shared memory,
+        and starts a timer (which does only the requested tasks).
 
-		The old boinc_init() still exists (with no args now).
-		It is to be used by single-process apps.
-		It calls boinc_init_options() with all options turned on.
-	- Add the core client version to the API init file;
-		if the app has the wrong API version file, it quits.
-	- Core client: if an app gives us a trickle-up message,
-		do a scheduler RPC.
-	- Fixed API bug where trickle-up msgs were being read
-		from the wrong message channel
-	- Removed old code from API involving windows events
+        The old boinc_init() still exists (with no args now).
+        It is to be used by single-process apps.
+        It calls boinc_init_options() with all options turned on.
+    - Add the core client version to the API init file;
+        if the app has the wrong API version file, it quits.
+    - Core client: if an app gives us a trickle-up message,
+        do a scheduler RPC.
+    - Fixed API bug where trickle-up msgs were being read
+        from the wrong message channel
+    - Removed old code from API involving windows events
 
-	api/
-		boinc_api.C,h
-	apps/
-		upper_case.C
-	client/
-		app.C,h
-	lib/
-		app_ipc.C,h
-		error_numbers.h
-	win_build/
-		upper_case.vcproj
+    api/
+        boinc_api.C,h
+    apps/
+        upper_case.C
+    client/
+        app.C,h
+    lib/
+        app_ipc.C,h
+        error_numbers.h
+    win_build/
+        upper_case.vcproj
 
 David  3 Aug 2004
     - fixed gui_test so that
@@ -15863,10 +15863,10 @@ Daniel 2004-08-04
         hostinfo_unix.C
 
 David  5 Aug 2004
-	- Kinder, gentler messages when need work
+    - Kinder, gentler messages when need work
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 David  5 Aug 2004
     - Initial support for hierarchical upload/download directories.
@@ -15900,14 +15900,14 @@ Brian  5 Aug 2004
     - Added my data management code for client. Full documentation is avaiable
       on the BOINC website under Disk Space Management. Major changes to the
       client are as follows:
-		- When a file is sent to be downloaded, it is associated with a project
-		  which checks if there is enough space on disk
-		- Files are deleted when this space, as set by the user prefs, fills up
-		- Instead of sending the user prefs to the scheduling server, three 
-		  new values are sent and the server decides how much work to award
-		  each host based on these values and config.xml prefs (documented)
-		- Files have a priority and expiration date which sorts them for
-		  deletion purposes
+        - When a file is sent to be downloaded, it is associated with a project
+          which checks if there is enough space on disk
+        - Files are deleted when this space, as set by the user prefs, fills up
+        - Instead of sending the user prefs to the scheduling server, three 
+          new values are sent and the server decides how much work to award
+          each host based on these values and config.xml prefs (documented)
+        - Files have a priority and expiration date which sorts them for
+          deletion purposes
     - Uploaded my tools for sending and getting files to and from a host.
     - Uploaded a tool that requests a file list from all hosts, although it has
       not been fully implimented on the core client
@@ -15944,24 +15944,24 @@ Rom    5 Aug 2004
     sched/
         sched_msgs.h
 
-Noaa	5 August 2004
+Noaa    5 August 2004
 
-		-changed source tree's glut library to boincglut to avoid
+        -changed source tree's glut library to boincglut to avoid
          linking problems with possibly prexisting glut libraries
-		-updated the Makefile.Readme to reflect the change
-		-updated sample Makefile.graphics
+        -updated the Makefile.Readme to reflect the change
+        -updated sample Makefile.graphics
 
-		boincglut/
-			lib/
-				glut/
-					Makefile
+        boincglut/
+            lib/
+                glut/
+                    Makefile
 
-		api/
-				Makefile.Readme
-				Makefile.graphics
-		
-		/
-				Graphics.Readme
+        api/
+                Makefile.Readme
+                Makefile.graphics
+        
+        /
+                Graphics.Readme
 
 Daniel 2004-08-05
     - regenerated build files to fix (some) compilation problems from the
@@ -16026,16 +16026,16 @@ David  6 Aug 2004
 
 Brian  6 Aug 2004
     - Fixed bug that was causing problems with BOINC client
-	  Files were not being associated with projects because of small
-	  bugs in the code that were resently checked in. Sorry
+      Files were not being associated with projects because of small
+      bugs in the code that were resently checked in. Sorry
     - Changed a naming convention in a new slice added to the data pies
-	in Windows GUI.
+    in Windows GUI.
 
     client/
-	client_types.C
-	cs_data.C
-	scheduler_op.C
-	gui_titles.C
+    client_types.C
+    cs_data.C
+    scheduler_op.C
+    gui_titles.C
 
 Daniel 2004-08-06
     - New preferences that cause apps to <quit/> instead of <suspend/>:
@@ -16054,12 +16054,12 @@ Daniel 2004-08-06
     html/inc/
         prefs.inc
 
-Noaa	6 August 2004
+Noaa    6 August 2004
 
-	- removed libglut.a from cvs, was accidentally in there
+    - removed libglut.a from cvs, was accidentally in there
 
-	boincglut/lib/glut/
-		libglut.a (removed)
+    boincglut/lib/glut/
+        libglut.a (removed)
 
 Rom    6 Aug 2004
     - Feeder should be using mysql_store_result instead of mysql_use_result.
@@ -16090,14 +16090,14 @@ Daniel 2004-08-09
     client/
         app.C,h
 
-Noaa	9 August 2004
-		- changed version of x_opengl no print statements handles
-		fullscreen
-		- added extern "C" around protos in graphics_api.h
+Noaa    9 August 2004
+        - changed version of x_opengl no print statements handles
+        fullscreen
+        - added extern "C" around protos in graphics_api.h
 
-		api/
-			x_opengl.C
-			graphics_api.h
+        api/
+            x_opengl.C
+            graphics_api.h
 
 Rom    10 Aug 2004
     - Bug Fix: Moved 5 day benchmark checking code into main polling function
@@ -16127,15 +16127,15 @@ Karl 2004-08-10
 
 
 David  11 Aug 2004
-	- FILE_INFO::write(): don't write signed_xml if it's not relevant
-		(i.e. if there's no xml_signature)
-		This caused an XML syntax error in client_state.xml
+    - FILE_INFO::write(): don't write signed_xml if it's not relevant
+        (i.e. if there's no xml_signature)
+        This caused an XML syntax error in client_state.xml
 
-		NOTE: this looks similar to Rom's bug fix yesterday.
-		Two fixes are better than one, hopefully.
+        NOTE: this looks similar to Rom's bug fix yesterday.
+        Two fixes are better than one, hopefully.
 
-	client/
-		client_types.C,h
+    client/
+        client_types.C,h
 
 David  11 Aug 2004
     - Change "limit x offset y" to "limit y,x" in PHP code
@@ -16164,9 +16164,9 @@ David  11 Aug 2004
         app_graphics.C (new)
         app_start.C (new)
         cs_apps.C
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 David  11 Aug 2004
     - Make <copy_file/> work for application files as well as input files
@@ -16250,43 +16250,43 @@ Rom    11 Aug 2004
         WorkView.cpp
 
 David  12 Aug 2004
-	- removed call to associate_file() for user files.
-	- fixed some code formatting, and comments of the form
-		foo();		// call foo
+    - removed call to associate_file() for user files.
+    - fixed some code formatting, and comments of the form
+        foo();        // call foo
 
-	client/
-		client_types.C
-		cs_apps.C
-		cs_prefs.C
-		cs_scheduler.C
-		http.C
-		pers_file_xfer.C
-		prefs.C
-	lib/
-		filesys.C
-		util.C
+    client/
+        client_types.C
+        cs_apps.C
+        cs_prefs.C
+        cs_scheduler.C
+        http.C
+        pers_file_xfer.C
+        prefs.C
+    lib/
+        filesys.C
+        util.C
 
 David  12 Aug 2004
-	- Improved error checking and reporting in parse state file
-		- check error returns of parse functions
-		- temp_project is local to block (so get a new one)
-		- delete objects in all error cases
-		- Check and report errors in init/insert of PERS_FILE_XFER
-			while parsing state file
-		- ignore app/app_version from state file if project is anonymous platform
-		- If get error parsing host info, time/net stats etc.,
-			continue parsing rather than error out
-	- Improved error checking and reporting in parsing
-		and processing of scheduler reply
-		- check error returns of parse functions
-		- use msg_printf() instead of show_message() or fprintf(stderr)!!
-		- fix memory leaks
+    - Improved error checking and reporting in parse state file
+        - check error returns of parse functions
+        - temp_project is local to block (so get a new one)
+        - delete objects in all error cases
+        - Check and report errors in init/insert of PERS_FILE_XFER
+            while parsing state file
+        - ignore app/app_version from state file if project is anonymous platform
+        - If get error parsing host info, time/net stats etc.,
+            continue parsing rather than error out
+    - Improved error checking and reporting in parsing
+        and processing of scheduler reply
+        - check error returns of parse functions
+        - use msg_printf() instead of show_message() or fprintf(stderr)!!
+        - fix memory leaks
 
-	client/
-		client_msgs.C
-		cs_scheduler.C
-		cs_statefile.C
-		scheduler_op.C
+    client/
+        client_msgs.C
+        cs_scheduler.C
+        cs_statefile.C
+        scheduler_op.C
 
 David  12 Aug 2004
     - compile fixes from Jakob Pedersen
@@ -16320,11 +16320,11 @@ David  12 Aug 2004
         server_types.C
 
 David  12 Aug 2004
-	- canonicalize_master_url(): prepend http:// if it's not there.
-		And replace messy std::string code with nice stdlib code
+    - canonicalize_master_url(): prepend http:// if it's not there.
+        And replace messy std::string code with nice stdlib code
 
-	lib/
-		util.C
+    lib/
+        util.C
 
 David  12 Aug 2004
     - db_dump: add <userid> element to team XML
@@ -16365,10 +16365,10 @@ David  13 Aug 2004
 
 Noaa  13 Aug 2004
 
- 	- changed Graphics.Readme to reflect movement of the gui_test stuff
+     - changed Graphics.Readme to reflect movement of the gui_test stuff
 
-	/
-	Graphics.Readme
+    /
+    Graphics.Readme
 
 Rom   13 Aug 2004
     - Needed to backout the newer style of determining disk free space
@@ -16452,29 +16452,29 @@ Rom    16 Aug 2004
         makefile.gui_test (added)
 
 David  17 Aug 2004
-	- server changes (courtesy Pietro Cicotti from Predictor@home)
-		to implement homogeneous redundancy more efficiently.
-		Instead of scanning result table,
-		use the workunit.workseq_next field to store an integer encoding
-		of the platform the WU has been sent to, if any.
-	- added utility program (hr_db_convert.C) to convert
-		existing an database to new format
+    - server changes (courtesy Pietro Cicotti from Predictor@home)
+        to implement homogeneous redundancy more efficiently.
+        Instead of scanning result table,
+        use the workunit.workseq_next field to store an integer encoding
+        of the platform the WU has been sent to, if any.
+    - added utility program (hr_db_convert.C) to convert
+        existing an database to new format
 
-	sched/
-		sched_send.C
-	tools/
-		hr_db_convert.C (new)
+    sched/
+        sched_send.C
+    tools/
+        hr_db_convert.C (new)
 
 David  17 Aug 2004
-	- removed boinc_close_socket() from util.C,
-		since it causes Win link error in upper_case.
-		TODO: would be nice to use lib/ code as library
+    - removed boinc_close_socket() from util.C,
+        since it causes Win link error in upper_case.
+        TODO: would be nice to use lib/ code as library
 
-	client/
-		gui_rpc_server.C
-		net_xfer.C
-	lib/
-		util.C,h
+    client/
+        gui_rpc_server.C
+        net_xfer.C
+    lib/
+        util.C,h
 Rom    17 Aug 2004
     - BugFix: Fix trickle messages from host.
     - BugFix: HR fix for the scheduler.
@@ -16637,13 +16637,13 @@ David  23 Aug 2004
         ACTIVE_TASK_SET::unsuspend_all():
             Removed code that checks for process exit.
             Poll code should take care of this.
-	- enabled preemption by quit
+    - enabled preemption by quit
     - add MSG_CHANNEL::send_msg_overwrite(): send message even
         if there's already a message there.
         Use this for process control messages.
     - API: if suspended, check for <quit/> messages as well as <resume/>
         (this affects Unix only)
-	- add enclosing tag for app init data file (so XML parsers accept it)
+    - add enclosing tag for app init data file (so XML parsers accept it)
 
     api/
         boinc_api.C
@@ -16727,11 +16727,11 @@ David  25 Aug 2004
     client/
         app_control.C
 
-Jeff  	25 Aug 2004
+Jeff      25 Aug 2004
     - limit workunit and result enumerations in the file_deleter to 1000.
 
     sched/
-	file_deleter.C
+    file_deleter.C
 
 David  27 Aug 2004
     - add "use bytes" pragma to grep_logs (from Carl C.)
@@ -16747,10 +16747,10 @@ David  27 Aug 2004
         handle_request.C
 
 David  27 Aug 2004
-	- db_ops DB browsing fixes (from Kalle Happonen)
+    - db_ops DB browsing fixes (from Kalle Happonen)
 
-	html/inc/
-		db_ops.inc
+    html/inc/
+        db_ops.inc
 
 Rom    29 Aug 2004
     - Increase the feeder buffer sizes so that whatever this fcgi problem is, 
@@ -16877,29 +16877,29 @@ David  1 Sep 2004
         cache.inc
 
 David  2 Sept 2004
-	- If an executable file failed validation, any results using
-		that app version would hang forever in the "downloading" state.
-		Two changes were needed to fix this:
-		1) garbage_collect(): when scanning results,
-			check for download failures of APP_VERSION files
+    - If an executable file failed validation, any results using
+        that app version would hang forever in the "downloading" state.
+        Two changes were needed to fix this:
+        1) garbage_collect(): when scanning results,
+            check for download failures of APP_VERSION files
             (as well as WU files), and if so mark the result as failed.
-			Added new functions APP_VERSION::had_failure() and get_file_errors().
-		2) handle_scheduler_reply(): if get an APP_VERSION that we already have,
-			reset any errored-out FILE_INFOs,
-			i.e. give it a chance to download again.
-			There are various ways to do this, but this seems the cleanest.
-			Added new functions FILE_INFO::reset()
+            Added new functions APP_VERSION::had_failure() and get_file_errors().
+        2) handle_scheduler_reply(): if get an APP_VERSION that we already have,
+            reset any errored-out FILE_INFOs,
+            i.e. give it a chance to download again.
+            There are various ways to do this, but this seems the cleanest.
+            Added new functions FILE_INFO::reset()
             and APP_VERSION::clear_errors()
-	- made verify_downloaded_file() into a member function of FILE_INFO.
-		It now sets the error_msg field to a descriptive string
-		so that failures will be reported to project
+    - made verify_downloaded_file() into a member function of FILE_INFO.
+        It now sets the error_msg field to a descriptive string
+        so that failures will be reported to project
 
-	client/
-		client_state.C
-		client_types.C,h
-		cs_files.C
-		cs_scheduler.C
-		pers_file_xfer.C
+    client/
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        cs_scheduler.C
+        pers_file_xfer.C
 
 David  2 Sept 2004
     - change MAX_WU_RESULTS from 500 to 100
@@ -16917,20 +16917,20 @@ Rom    2 Sep 2004
         app_control.C
 
 David  2 Sept 2004
-	- PERS_FILE_XFER::poll(): don't check file size if it's not specified in FILE_INFO
-		==> This fixes download failure of user-supplied files
-	- PROJECT::parse_preferences_for_user_files(): fill in fip->project
-		==> This fixes a crashing bug when user supplies files
-	- User-visible test:
-		change "preempt" to "pause"
-		change "quit" to "removed from memory"
-		change "suspend" to "left in memory"
+    - PERS_FILE_XFER::poll(): don't check file size if it's not specified in FILE_INFO
+        ==> This fixes download failure of user-supplied files
+    - PROJECT::parse_preferences_for_user_files(): fill in fip->project
+        ==> This fixes a crashing bug when user supplies files
+    - User-visible test:
+        change "preempt" to "pause"
+        change "quit" to "removed from memory"
+        change "suspend" to "left in memory"
 
-	client/
-		app_control.C
-		client_types.C
-		gui_titles.C
-		pers_file_xfer.C
+    client/
+        app_control.C
+        client_types.C
+        gui_titles.C
+        pers_file_xfer.C
 
 Rom    2 Sep 2004
     - BUGFIX: During a project reset the next_runnable_result becomes invalid, so each
@@ -16941,42 +16941,42 @@ Rom    2 Sep 2004
         cs_apps.C
 
 David  2 Sept 2004
-	- PERS_FILE_XFER::poll(): fixed bug that caused hang
+    - PERS_FILE_XFER::poll(): fixed bug that caused hang
 
-	NOTE: check_giveup(), handle_xfer_failure(), and retry_or_backoff()
-	are a total mess.  I'll get to them next.
+    NOTE: check_giveup(), handle_xfer_failure(), and retry_or_backoff()
+    are a total mess.  I'll get to them next.
 
-	- If an app exits with zero status but no finish file,
-		instead of putting it in limbo (which causes the core client to do no work)
-		just restart the process again.
-		NOTE: eventually we should detect when this is happening repeatedly,
-		and error out the result.
-		For now, just print a message telling user they may need to reset project.
-	- rename PERS_FILE_XFER::xfer_done to pers_xfer_done
-	- move process cleanup code into separate functions
-		(ACTIVE_TASK::close_process_handles()
-		and ACTIVE_TASK::detach_and_destroy_shmem())
-	client/
-		app.C,h
-		app_control.C
-		pers_file_xfer.C
+    - If an app exits with zero status but no finish file,
+        instead of putting it in limbo (which causes the core client to do no work)
+        just restart the process again.
+        NOTE: eventually we should detect when this is happening repeatedly,
+        and error out the result.
+        For now, just print a message telling user they may need to reset project.
+    - rename PERS_FILE_XFER::xfer_done to pers_xfer_done
+    - move process cleanup code into separate functions
+        (ACTIVE_TASK::close_process_handles()
+        and ACTIVE_TASK::detach_and_destroy_shmem())
+    client/
+        app.C,h
+        app_control.C
+        pers_file_xfer.C
 
 David  3 Sept 2004
-	- fix bugs in previous checkin
-	- schedule_cpus()
-		- clear temp vars at start (bug)
-		- don't delete ACTIVE_TASK on start failure;
-			other code takes care of this
-	- get rid of RESULT.is_active field.
-		Things that can be derived from other fields,
-		and need to be maintained in a bunch of places throughout
-		the code, are a bad programming practice
+    - fix bugs in previous checkin
+    - schedule_cpus()
+        - clear temp vars at start (bug)
+        - don't delete ACTIVE_TASK on start failure;
+            other code takes care of this
+    - get rid of RESULT.is_active field.
+        Things that can be derived from other fields,
+        and need to be maintained in a bunch of places throughout
+        the code, are a bad programming practice
 
-	client/
-		app_control.C
-		app_start.C
-		client_types.C,h
-		cs_apps.C
+    client/
+        app_control.C
+        app_start.C
+        client_types.C,h
+        cs_apps.C
 
 David  4 Sept 2004
     - New features for message boards (from Janus Kristensen):
@@ -17101,15 +17101,15 @@ David  6 Sept 2004
         error_numbers.h
 
 David  7 Sept 2004
-	- (from Ben Herndon)  Some compilers optimize away sections of the Whetstone
-		benchmark function, since their results aren't used outside the function.
-		To deal with this, we added an global-scope array (extern_array[])
-		and store the result of each section into it.
-		Also changed section 3 by initializint j from the extern_array,
-		so the compiler can't optimize out all the conditionals.
+    - (from Ben Herndon)  Some compilers optimize away sections of the Whetstone
+        benchmark function, since their results aren't used outside the function.
+        To deal with this, we added an global-scope array (extern_array[])
+        and store the result of each section into it.
+        Also changed section 3 by initializint j from the extern_array,
+        so the compiler can't optimize out all the conditionals.
 
-	client/
-		whetstone.C
+    client/
+        whetstone.C
 
 David  7 Sept 2004
     - change "upgrade" to query user before overwriting files
@@ -17227,18 +17227,18 @@ David  9 Sept 2004
 
 
 David  9 Sept 2004
-	- Added support for stats access via WAP (for cell phones)
-		(from Carl Christensen)
+    - Added support for stats access via WAP (for cell phones)
+        (from Carl Christensen)
 
-	html/
-		inc/
-			userw.inc
-			wap.inc
-		user/
-			userw.php
+    html/
+        inc/
+            userw.inc
+            wap.inc
+        user/
+            userw.php
         ops/
-			opsw.php
-			userw.php
+            opsw.php
+            userw.php
 
 David  9 Sept 2004
     - In transitioner, count RESULT_OUTCOME_VALIDATE_ERROR as an error
@@ -17257,10 +17257,10 @@ David  9 Sept 2004
         server_types.h
 
 David  10 Sept 2004
-	- compile fix for Win
+    - compile fix for Win
 
-	lib/
-		util.C
+    lib/
+        util.C
 
 David  10 Sept 2004
     - validator: slight change to check_set() and check_pair():
@@ -17315,24 +17315,24 @@ Lana 11 Sept 2004
 
 
 David  12 Sept 2004
-	- Added a queueing mechanism for shared-memory message passing,
-		class MSG_QUEUE.
-		This provides reliable, ordered message delivery.
-		I think process-control messages were being lost in some cases.
-	- Replaced ad-hoc 1-level queueing mechanism for graphics requests
-	- Changed the logic for selecting app for screensaver a bit;
-		have new field bool ACTIVE_TASK::is_ss_app that keeps track
-		of which app is acting as the screensaver.
-		This fixes bugs in a few particular cases.
+    - Added a queueing mechanism for shared-memory message passing,
+        class MSG_QUEUE.
+        This provides reliable, ordered message delivery.
+        I think process-control messages were being lost in some cases.
+    - Replaced ad-hoc 1-level queueing mechanism for graphics requests
+    - Changed the logic for selecting app for screensaver a bit;
+        have new field bool ACTIVE_TASK::is_ss_app that keeps track
+        of which app is acting as the screensaver.
+        This fixes bugs in a few particular cases.
 
-	client/
-		app.C,h
-		app_control.C
-		app_graphics.C
-		cs_apps.C
-		ss_logic.C
-	lib/
-		app_ipc.h
+    client/
+        app.C,h
+        app_control.C
+        app_graphics.C
+        cs_apps.C
+        ss_logic.C
+    lib/
+        app_ipc.h
 
 David  13 Sept 2004
     - Preliminary checkin for "GUI URLs" feature
@@ -17383,24 +17383,24 @@ David  13 Sept 2004
             mail_passwd.php
 
 David  13 Sept 2004
-	- small changes to screensaver logic, try to fix Rom's 2-CPU bug
+    - small changes to screensaver logic, try to fix Rom's 2-CPU bug
 
-	client/
-		app_graphics.C
-		ss_logic.C
+    client/
+        app_graphics.C
+        ss_logic.C
 
 
 David  13 Sept 2004
-	- Change CPU scheduling logic so that the min debt is subtracted
-		from the debt of all active projects.
-		i.e. debt is normalized to be zero-based.
-		This fixes a bug where the debt of projects with work
-		keeps getting bigger and bigger,
-		so that when a new project is attached or gets work,
-		it takes a long time for it to run.
+    - Change CPU scheduling logic so that the min debt is subtracted
+        from the debt of all active projects.
+        i.e. debt is normalized to be zero-based.
+        This fixes a bug where the debt of projects with work
+        keeps getting bigger and bigger,
+        so that when a new project is attached or gets work,
+        it takes a long time for it to run.
 
-	client/
-		cs_apps.C
+    client/
+        cs_apps.C
 
 Rom    14 Sept 2004
     - GUIRPC: Remove memory leaks from the client-side GUI RPC's.
@@ -17457,13 +17457,13 @@ Lana   14 Sep 2004
     - added cpu_scheduling to global preferences
 
     html/inc/
-	   prefs.inc 
+       prefs.inc 
 
 David  18 Sept 2004
-	- fixed "used before assigned" errors in whetstone.
+    - fixed "used before assigned" errors in whetstone.
 
-	client/
-		whetstone.C
+    client/
+        whetstone.C
 
 David  20 Sept 2004
     - changed PHP caching code to touch file before regenerating it.
@@ -17586,11 +17586,11 @@ David  22 Sept 2004
 
 
 David  22 Sept 2004
-	- commented out PROJECT::share_size and PROJECT::size.
+    - commented out PROJECT::share_size and PROJECT::size.
 
-	client/
-		client_state.C
-		client_types.C,h
+    client/
+        client_state.C
+        client_types.C,h
 
 Lana   22 Sept 2004
         - included MD5 Checksum in the Core Client download page
@@ -17638,29 +17638,29 @@ David  23 Sept 2004
         cs_apps.C
 
 David  23 Sept 2004
-	- fix (from Frank Weiler) for GUI column sorting problem
+    - fix (from Frank Weiler) for GUI column sorting problem
 
-	client/
-		gui_titles.C,h
-		win/
-			wingui_listctrl.cpp,h
-			wingui_mainwindow.cpp
+    client/
+        gui_titles.C,h
+        win/
+            wingui_listctrl.cpp,h
+            wingui_mainwindow.cpp
 
 David  23 Sept 2004
-	- Added code (from Ben Herndon) for getting X86 CPU names and models better.
-		Not using this for now.
+    - Added code (from Ben Herndon) for getting X86 CPU names and models better.
+        Not using this for now.
 
-	client/win/
-		cpuid_tbl.cpp,h
-		opt_x86.h
-		opt_x86cpu.cpp
-		optBench.hpp
-		optimize.hpp
+    client/win/
+        cpuid_tbl.cpp,h
+        opt_x86.h
+        opt_x86cpu.cpp
+        optBench.hpp
+        optimize.hpp
 
 Lana    23 Sept 2004
         - Fixed setting of the default venue on account setup.
-	
-	html/user/
+    
+    html/user/
         account_setup_nonfirst_action.php
 
 David  23 Sept 2004
@@ -17746,15 +17746,15 @@ Rom    24 Sept 2004
         <Numerous Files>
 
 David  24 Sept 2004
-	- support for <non_cpu_intensive/> projects.
-		The flag is parsed from scheduler and stored in state file
-		Non-CPU-intensive projects are treated specially
-		by the CPU scheduler: their results are always scheduled.
+    - support for <non_cpu_intensive/> projects.
+        The flag is parsed from scheduler and stored in state file
+        Non-CPU-intensive projects are treated specially
+        by the CPU scheduler: their results are always scheduled.
 
-	client/
-		client_state.C,h
-		client_types.C
-		cs_apps.C
+    client/
+        client_state.C,h
+        client_types.C
+        cs_apps.C
 
 David  25 Sept 2004
     - Made GUI RPC client code a bit nicer by adding RPC class
@@ -17784,8 +17784,8 @@ David  25 Sept 2004
         gui_rpc_server.C
         pers_file_xfer.C,h
         scheduler_op.C
-		win/
-			wingui_proxydlg.cpp
+        win/
+            wingui_proxydlg.cpp
     lib/
         gui_rpc_client.C,h
         gui_test.C
@@ -17837,7 +17837,7 @@ David  27 Sept 2004
 
     client/
         client_types.C
-		scheduler_op.C
+        scheduler_op.C
     lib/
         gui_rpc_client.C,h
 
@@ -17862,16 +17862,16 @@ Jeff   28 Sep 2004
     - reduced limit on feeder enumeration query from 10,000 to 1,000.
 
     sched/
-	feeder.C
+    feeder.C
 
 David  29 Sept 2004
-	- handle GUI RPCs even if we're running benchmarks
-	- report PROJECT::suspended_via_gui in RPC reply
+    - handle GUI RPCs even if we're running benchmarks
+    - report PROJECT::suspended_via_gui in RPC reply
 
-	client/
-		client_state.C
-		client_types.C
-		gui_rpc_server.C
+    client/
+        client_state.C
+        client_types.C
+        gui_rpc_server.C
 
 David  30 Sept 2004
     - added -db_host option to db_dump (so it can use a DB replica)
@@ -17898,34 +17898,34 @@ David  30 Sept 2004
         ValidateURL.cpp
 
 David  30 Sept 2004
-	- changed the semantics of the GUI RPC get_messages() call.
-		- It no longer takes an "nmessages" arg.
-		- it returns messages in order of increasing seqno
-	- changed message_descs from a std::list to a std::deque
+    - changed the semantics of the GUI RPC get_messages() call.
+        - It no longer takes an "nmessages" arg.
+        - it returns messages in order of increasing seqno
+    - changed message_descs from a std::list to a std::deque
 
-	client/
-		client_msgs.C,h
-		gui_rpc_server.C
-	lib/
-		boinc_win.h
-		gui_rpc_client.C,h
-		gui_test.C
-	win_build/
-		boinc_guirpc_test.vcproj
-
-David  30 Sept 2004
-	- added GUI_RPC_CLIENT::close() function.
-		Call this if any RPC returns ERR_READ or ERR_WRITE.
-		Then call init() again to reconnect
-
-	lib/
-		gui_rpc_client.C,h
+    client/
+        client_msgs.C,h
+        gui_rpc_server.C
+    lib/
+        boinc_win.h
+        gui_rpc_client.C,h
+        gui_test.C
+    win_build/
+        boinc_guirpc_test.vcproj
 
 David  30 Sept 2004
-	- fix crashing bug in get_messages GUI RPC (signed/unsigned issue)
+    - added GUI_RPC_CLIENT::close() function.
+        Call this if any RPC returns ERR_READ or ERR_WRITE.
+        Then call init() again to reconnect
 
-	client/
-		gui_rpc_server.C
+    lib/
+        gui_rpc_client.C,h
+
+David  30 Sept 2004
+    - fix crashing bug in get_messages GUI RPC (signed/unsigned issue)
+
+    client/
+        gui_rpc_server.C
 
 David  30 Sept 2004
     - First steps in fixing the venue mess:
@@ -17946,45 +17946,45 @@ David  30 Sept 2004
         server_types.C,h
 
 David  1 Oct 2004
-	- Ending the venue debacle, part II: The Client
+    - Ending the venue debacle, part II: The Client
 
-		1) Each project maintains its venue separately.
-		It's stored in the project's account file,
-		and is used to select the project prefs variant.
+        1) Each project maintains its venue separately.
+        It's stored in the project's account file,
+        and is used to select the project prefs variant.
 
-		2) Let P be the project that's the source of the global prefs.
-		Then P's venue is used to select the global prefs variant.
-		(Note: P's venue may change without the global prefs changing).
-		This venue is stored in the CLIENT_STATE.main_host_venue
-		and in the client state file; it survives even if P is detached.
+        2) Let P be the project that's the source of the global prefs.
+        Then P's venue is used to select the global prefs variant.
+        (Note: P's venue may change without the global prefs changing).
+        This venue is stored in the CLIENT_STATE.main_host_venue
+        and in the client state file; it survives even if P is detached.
 
-		So the basic logic is:
-		if you get a new venue from project P,
-		re-parse its project prefs.
-		If in addition P is the source of the global prefs,
-		re-parse the global prefs and put the venue in CLIENT_STATE.main_host_venue
+        So the basic logic is:
+        if you get a new venue from project P,
+        re-parse its project prefs.
+        If in addition P is the source of the global prefs,
+        re-parse the global prefs and put the venue in CLIENT_STATE.main_host_venue
 
-		- got rid of CLIENT_STATE::parse_venue()
-		- don't send host_venue in scheduler request
+        - got rid of CLIENT_STATE::parse_venue()
+        - don't send host_venue in scheduler request
 
-	client/
-		client_state.C,h
-		client_types.C,h
-		cs_account.C
-		cs_prefs.C
-		cs_scheduler.C
-		cs_statefile.C
-		scheduler_op.C
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C
+        scheduler_op.C
 
 David  1 Oct 2004
-	- Bug fix for venue propagation
-	- Moved some account-file-related code to cs_account.C,
-		some prefs-related code to cs_prefs.C
-	client/
-		client_types.C
-		cs_account.C
-		cs_prefs.C
-		cs_scheduler.C
+    - Bug fix for venue propagation
+    - Moved some account-file-related code to cs_account.C,
+        some prefs-related code to cs_prefs.C
+    client/
+        client_types.C
+        cs_account.C
+        cs_prefs.C
+        cs_scheduler.C
 
 David  1 Oct 2004
     - CLIENT_STATE::avg_proc_rate: include on_frac in the formula
@@ -18062,37 +18062,37 @@ Lana    4 Oct 2004
         wu_check.C
 
 David  6 Oct 2004
-	- Added some new items to the APP_INIT_DATA struct
-		(and to the init_data.xml file):
-		- global preferences
-		- user/team/host IDs
-		- proxy info
+    - Added some new items to the APP_INIT_DATA struct
+        (and to the init_data.xml file):
+        - global preferences
+        - user/team/host IDs
+        - proxy info
 
-	This is for the benefit of Folding@home,
-	whose application does some core-client-type stuff
-	(e.g. network communication) and therefore needs this info
+    This is for the benefit of Folding@home,
+    whose application does some core-client-type stuff
+    (e.g. network communication) and therefore needs this info
 
-	- changed GLOBAL_PREFS::source_project and source_scheduler
-		from std::string to char[256]
+    - changed GLOBAL_PREFS::source_project and source_scheduler
+        from std::string to char[256]
 
-	- factored out PROXY_INFO code into lib/proxy_info.C,h
-	- moved GLOBAL_PREFS code from client/ to lib/
+    - factored out PROXY_INFO code into lib/proxy_info.C,h
+    - moved GLOBAL_PREFS code from client/ to lib/
 
-	client/
-		app_start.C
-		client_state.C
-		cs_prefs.C
-		cs_scheduler.C
-		prefs.C,h (moved to lib)
-		proxy.C,h
-	lib/
-		app_ipc.C,h
-		prefs.C,h (moved from client)
-		proxy_info.C,h (new)
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
-		upper_case.vcproj
+    client/
+        app_start.C
+        client_state.C
+        cs_prefs.C
+        cs_scheduler.C
+        prefs.C,h (moved to lib)
+        proxy.C,h
+    lib/
+        app_ipc.C,h
+        prefs.C,h (moved from client)
+        proxy_info.C,h (new)
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
+        upper_case.vcproj
 
 David  6 Oct 2004
     - file upload handler was doing too many checks
@@ -18117,16 +18117,16 @@ David  6 Oct 2004
         proxy_info.h
 
 David  6 Oct 2004
-	- Added files (from Kenichi Miyoshi of NTT) to support
-		SSL (secure socket layer) communication.
-		These require an SSL library to use,
-		so I haven't put these files into the project.
-		Directions for using them are in
-		doc/ssl_build.txt
+    - Added files (from Kenichi Miyoshi of NTT) to support
+        SSL (secure socket layer) communication.
+        These require an SSL library to use,
+        so I haven't put these files into the project.
+        Directions for using them are in
+        doc/ssl_build.txt
 
-	client/
-		ssl_http.C,h
-		ssl_net_xfer.C,h
+    client/
+        ssl_http.C,h
+        ssl_net_xfer.C,h
 
 David  6 Oct 2004
     - the key generation function of crypt_prog now uses /dev/random
@@ -18188,14 +18188,14 @@ David  8 Oct 2004
         prefs_remove.php
 
 David  8 Oct 2004
-	- GLOBAL_PREFS::parse(): don't erase source project/scheduler info
-		when parse venue-specific prefs
-	- compile fix for windows
+    - GLOBAL_PREFS::parse(): don't erase source project/scheduler info
+        when parse venue-specific prefs
+    - compile fix for windows
 
-	client/win/
-		wingui_mainwindow.cpp
-	lib/
-		prefs.C
+    client/win/
+        wingui_mainwindow.cpp
+    lib/
+        prefs.C
 
 Lana    8 Oct 2004
     - changed check_set() to take input WORKUNIT instead of DB_WORKUNIT
@@ -18247,15 +18247,15 @@ David  9 Oct 2004
         validator.C
 
 David  9 Oct 2004
-	- When parsing a FILE_INFO, always copy the XML to "signed_xml".
-		Otherwise, when the core client tries to upload the file,
-		it sends an empty <file_info> element.
+    - When parsing a FILE_INFO, always copy the XML to "signed_xml".
+        Otherwise, when the core client tries to upload the file,
+        it sends an empty <file_info> element.
 
-		This fixes a problem in which all uploads fail if a project
-		uses the <dont_generate_upload_certificates/> config option
+        This fixes a problem in which all uploads fail if a project
+        uses the <dont_generate_upload_certificates/> config option
 
-	client/
-		client_types.C,h
+    client/
+        client_types.C,h
 
 
 David  10 Oct 2004
@@ -18266,29 +18266,29 @@ David  10 Oct 2004
         gui_rpc_server.C
 
 David  11 Oct 2004
-	- changed the graphics API to support Mac OS/X
-		(in which only the original thread can do GUI stuff).
-		boinc_init_graphics() now takes a function-pointer arg
-		for the worker function; it runs this function in a new thread,
-		and the calling thread does the GUI event loop.
+    - changed the graphics API to support Mac OS/X
+        (in which only the original thread can do GUI stuff).
+        boinc_init_graphics() now takes a function-pointer arg
+        for the worker function; it runs this function in a new thread,
+        and the calling thread does the GUI event loop.
 
-		Did this for Windows, and attempted to make the same changes
-		in the Mac and X11 code.  May or may not work.
+        Did this for Windows, and attempted to make the same changes
+        in the Mac and X11 code.  May or may not work.
 
-	- got rid of everything related to the GRAPHICS_INFO structure.
-		This wasn't being used.
+    - got rid of everything related to the GRAPHICS_INFO structure.
+        This wasn't being used.
 
-	NOTE: this change doesn't affect the core/app interface.
-	No need to recompile existing apps.
+    NOTE: this change doesn't affect the core/app interface.
+    No need to recompile existing apps.
 
-	api/
-		graphics_api.C,h
-		windows_opengl.C
-	client/
-		app_start.C
-	lib/
-		app_ipc.C,h
-		prefs.C
+    api/
+        graphics_api.C,h
+        windows_opengl.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h
+        prefs.C
 
 David  11 Oct 2004
     - added <get_host_info/> GUI RPC
@@ -18331,15 +18331,15 @@ David  12 Oct 2004
             wingui_mainwindow.cpp
 
 David  13 Oct 2004
-	- in global prefs XML, if cpu_scheduling_period_minutes is empty,
+    - in global prefs XML, if cpu_scheduling_period_minutes is empty,
         set it to 60 (this caused core client to hang in some situations)
-	- renamed PREFS::cpu_sched_period to cpu_scheduling_period_minutes
-		(matching what it's called in the XML)
+    - renamed PREFS::cpu_sched_period to cpu_scheduling_period_minutes
+        (matching what it's called in the XML)
 
-	client/
-		cs_apps.C
-	lib/
-		prefs.C,h
+    client/
+        cs_apps.C
+    lib/
+        prefs.C,h
 
 David  13 Oct 2004
     - initial cleanup of x_opengl.C
@@ -18416,8 +18416,8 @@ David  14 Oct 2004
         net_xfer.C,h
         scheduler_op.C
         time_stats.h
-		win/
-			wingui_mainwindow.cpp
+        win/
+            wingui_mainwindow.cpp
     lib/
         app_ipc.C,h
         makefile.gui_test
@@ -18556,11 +18556,11 @@ David  19 Oct 2004
     configure.ac
 
 David  19 Oct 2004
-	- fix bugs in GUI RPCs
+    - fix bugs in GUI RPCs
 
-	client/
-		cs_apps.C
-		gui_rpc_server.C
+    client/
+        cs_apps.C
+        gui_rpc_server.C
 
 David  19 Oct 2004
     - fix GUI RPC client so it won't get confused if different
@@ -18607,11 +18607,11 @@ David  19 Oct 2004
         glut_tr24.c
 
 David  19 Oct 2004
-	- fixed CPU scheduler bug so that tasks suspended via GUI
-		actually are suspended
+    - fixed CPU scheduler bug so that tasks suspended via GUI
+        actually are suspended
 
-	client/
-		cs_apps.C
+    client/
+        cs_apps.C
 
 David  19 Oct 2004
     - added a -random_order option to the feeder
@@ -18791,46 +18791,46 @@ Jeff   22 Oct 2004
         boinc_db.C
 
 David  22 Oct 2004
-	- schedule_cpus(): assume that if a task ran for X seconds,
-		it got X seconds of CPU time.
-		This makes the schedule work correctly even when
-		apps don't report their CPU time.
+    - schedule_cpus(): assume that if a task ran for X seconds,
+        it got X seconds of CPU time.
+        This makes the schedule work correctly even when
+        apps don't report their CPU time.
 
-	client/
-		client_state.C
-		cs_apps.C
-
-David  25 Oct 2004
-	- Use double instead of time_t to represent time;
-		use dtime() instead of time(0) to get time
-	- better error message on upload init failure
-	- add lib/result_state.h to VC project
-
-	client/
-		client_state.C
-		client_types.h
-		cs_prefs.C
-		cs_scheduler.C
-		net_xfer.h
-		pers_file_xfer.C,h
-		schedule_op.C,h
-		ss_logic.C,h
-	lib/
-		util.C,h
-	win_build/
-		boinc_gui.vcproj
+    client/
+        client_state.C
+        cs_apps.C
 
 David  25 Oct 2004
-	- fixed bug that caused app's reported CPU time to always stay at zero
-		This is a by-product of recent graphics changes:
-		boinc_init() was getting the current thread handle and assuming
-		it's the worker thread, which is not the case now.
-		Fix: use a single variable for worker thread handle;
-		if boinc_graphics_init() is called, it changes it
+    - Use double instead of time_t to represent time;
+        use dtime() instead of time(0) to get time
+    - better error message on upload init failure
+    - add lib/result_state.h to VC project
 
-	api/
-		boinc_api.C,h
-		graphics_api.C
+    client/
+        client_state.C
+        client_types.h
+        cs_prefs.C
+        cs_scheduler.C
+        net_xfer.h
+        pers_file_xfer.C,h
+        schedule_op.C,h
+        ss_logic.C,h
+    lib/
+        util.C,h
+    win_build/
+        boinc_gui.vcproj
+
+David  25 Oct 2004
+    - fixed bug that caused app's reported CPU time to always stay at zero
+        This is a by-product of recent graphics changes:
+        boinc_init() was getting the current thread handle and assuming
+        it's the worker thread, which is not the case now.
+        Fix: use a single variable for worker thread handle;
+        if boinc_graphics_init() is called, it changes it
+
+    api/
+        boinc_api.C,h
+        graphics_api.C
 
 David  25 Oct 2004
     - fix compile errors.
@@ -18903,11 +18903,11 @@ Rom    26 Oct 2004 (boinc)
 
 
 David  26 Oct 2004
-	- Further changes to graphics API
+    - Further changes to graphics API
 
-	api/
-		boinc_api.C,h
-		graphics_api.C
+    api/
+        boinc_api.C,h
+        graphics_api.C
 
 David  26 Oct 2004
     - forum updates (from Jans)
@@ -18925,12 +18925,12 @@ David  26 Oct 2004
             forum_rate.php
 
 David  26 Oct 2004
-	- added "supports graphics" boolean to RESULT GUI RPC reply
+    - added "supports graphics" boolean to RESULT GUI RPC reply
 
-	client/
-		app.C
-	lib/
-		gui_rpc_client.C,h
+    client/
+        app.C
+    lib/
+        gui_rpc_client.C,h
 
 David  28 Oct 2004
     - client GUI: makefile fix, compile fix
@@ -18950,20 +18950,20 @@ Eric   28 Oct 2004
     Makefile.incl
     aclocal.m4
     api/
-    	Makefile.am
+        Makefile.am
     apps/
-    	Makefile.am
+        Makefile.am
     client/
-      	Makefile.am
+          Makefile.am
     clientgui/
-    	Makefile.am
+        Makefile.am
     lib/
-    	Makefile.am
+        Makefile.am
     sched/
-    	Makefile.am
-    	file_upload_handler.C
+        Makefile.am
+        file_upload_handler.C
     tools/
-    	Makefile.am
+        Makefile.am
 
 David  29 Oct 2004
     - update_versions looks for .sig files for single-file applications
@@ -19047,17 +19047,17 @@ David  2 Nov 2004
         schema.sql
 
 David  2 Nov 2004
-	- split Dhrystone source into 2 files (from Peter Smithson).
-		This supposedly prevents compiler optimizations on Win
-		that give inflated results (I don't see this).
+    - split Dhrystone source into 2 files (from Peter Smithson).
+        This supposedly prevents compiler optimizations on Win
+        that give inflated results (I don't see this).
 
-	client/
-		dhrystone.C
-		dhrystone.h (new)
-		dhrystone2.C (new)
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    client/
+        dhrystone.C
+        dhrystone.h (new)
+        dhrystone2.C (new)
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 Karl 2004-11-02
     - added environment options INSTALL_DIR and TOP_SOURCE_DIR for upgrade
@@ -19079,11 +19079,11 @@ David  3 Nov 2004
         sample_trivial_validator.C
 
 David  4 Nov 2004
-	- compile fixes
+    - compile fixes
 
-	configure.ac
-	client
-		Makefile.am
+    configure.ac
+    client
+        Makefile.am
 
 David  5 Nov 2004
     - get clientgui to compile on Solaris.
@@ -19165,34 +19165,34 @@ David  9 Nov 2004
         top_teams.php
 
 David  9 Nov 2004
-	- GUI RPC changes:
-		- enclose requests and replies in <boinc_gui_rpc_request>
-			or <boinc_gui_rpc_reply> tags (make them more legit XML).
-		- add <version> element to both requests and replies
-		- add /003 to end of requests messages
-		NOTE: neither end currently checks for or uses these elements.
-	- add CLIENT_STATE::version() (returns version #)
-	- moved win_config.h from client/win to top level,
-		since version number is needed by components
-		other than client
+    - GUI RPC changes:
+        - enclose requests and replies in <boinc_gui_rpc_request>
+            or <boinc_gui_rpc_reply> tags (make them more legit XML).
+        - add <version> element to both requests and replies
+        - add /003 to end of requests messages
+        NOTE: neither end currently checks for or uses these elements.
+    - add CLIENT_STATE::version() (returns version #)
+    - moved win_config.h from client/win to top level,
+        since version number is needed by components
+        other than client
 
-	win_config.h (new)
-	client/
-		app_start.C
-		client_state.C,h
-		gui_rpc_server.C
-		win/
-			win_config.h (removed)
-	lib/
-		gui_rpc_client,.C
-	win_build/
-		BOINCGUI.vcproj
-		boinc_cli.vcproj
-		boinc_dll.vcproj
-		boinc_gui.vcproj
-		boinc_guirpc_test.vcproj
-		boinc_ss.vcproj
-		upper_case.vcproj
+    win_config.h (new)
+    client/
+        app_start.C
+        client_state.C,h
+        gui_rpc_server.C
+        win/
+            win_config.h (removed)
+    lib/
+        gui_rpc_client,.C
+    win_build/
+        BOINCGUI.vcproj
+        boinc_cli.vcproj
+        boinc_dll.vcproj
+        boinc_gui.vcproj
+        boinc_guirpc_test.vcproj
+        boinc_ss.vcproj
+        upper_case.vcproj
 
 Rom    9 Nov 2004
     - Add needed files by the new installer
@@ -19264,20 +19264,20 @@ David  11 Nov 2004
         filesys.C
 
 David  11 Nov 2004
-	- compile fixes and cleanup for Mac
+    - compile fixes and cleanup for Mac
 
-	api/
-		boinc_gl.h
-		graphics_api.C
-		gutil.C
-		mac_app_opengl.C,h (removed)
-		mac_carbon_gl.C,h (removed)
-		reduce.C
-	boincglut/lib/glut/
-		glutint.h
-	clientgui/
-		MainDocument.cpp
-		Makefile.old
+    api/
+        boinc_gl.h
+        graphics_api.C
+        gutil.C
+        mac_app_opengl.C,h (removed)
+        mac_carbon_gl.C,h (removed)
+        reduce.C
+    boincglut/lib/glut/
+        glutint.h
+    clientgui/
+        MainDocument.cpp
+        Makefile.old
 
 Rom    12 Nov 2004
     - New Installer: Set screensaver to the BOINC screensaver
@@ -19680,15 +19680,15 @@ David  17 Nov 2004
 
         Thanks to Bruce Allen for suggesting this!!!!
 
-	[Note inserted by Bruce the next day. ANSI-C 4.6.2.1 says: "The
-	longjmp function ... The longjmp function should not be called in
-	an exit handler (i.e., a function registered with the atexit
-	function (see §4.10.4.2)), since it might jump to some code which
-	is no longer in scope."  This should be OK on OSes that delay image
-	teardown until after calling the handler functions, provided that
-	the routine calling exit() has cleaned up its memory. An
-	alternative might be to use dlopen() or the loader to replace the
-	calls to exit() with a BOINC routine.]
+    [Note inserted by Bruce the next day. ANSI-C 4.6.2.1 says: "The
+    longjmp function ... The longjmp function should not be called in
+    an exit handler (i.e., a function registered with the atexit
+    function (see §4.10.4.2)), since it might jump to some code which
+    is no longer in scope."  This should be OK on OSes that delay image
+    teardown until after calling the handler functions, provided that
+    the routine calling exit() has cleaned up its memory. An
+    alternative might be to use dlopen() or the loader to replace the
+    calls to exit() with a BOINC routine.]
 
     api/
         gutil.C
@@ -19708,26 +19708,26 @@ David  17 Nov 2004
         x_opengl.C
 
 David  17 Nov 2004
-	- compile fixes for Mac OS X
-		Applications graphics (at least for SETI@home) work on Mac now.
-		The close button is disabled when launch from cmdline (why??)
-	- remove references to boincglut/
-	- GUI RPC client: don't try to send RPC request if not connected
+    - compile fixes for Mac OS X
+        Applications graphics (at least for SETI@home) work on Mac now.
+        The close button is disabled when launch from cmdline (why??)
+    - remove references to boincglut/
+    - GUI RPC client: don't try to send RPC request if not connected
 
-	api/
-		Makefile.am
-		boinc_gl.h
-		graphics_api.C
-		x_opengl.C
-	client/
-		app_graphics.C
-	clientgui/
-		BOINCGUIApp.cpp
-		MainDocument.cpp,h
-		Makefile.old
-		ViewWork.cpp
-	lib/
-		gui_rpc_client.C,h
+    api/
+        Makefile.am
+        boinc_gl.h
+        graphics_api.C
+        x_opengl.C
+    client/
+        app_graphics.C
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp,h
+        Makefile.old
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.C,h
 
 Rom    17 Nov 2004
     - Bug Fix: When BOINC is running as a service, make sure that we can display
@@ -19939,14 +19939,14 @@ Rom    20 Nov 2004
         app_start.C
 
 David  20 Nov 2004
-	- Fix check_suspend_activity() logic when benchmarks running
-	- Old Win GUI: restore "Show Graphics" code
+    - Fix check_suspend_activity() logic when benchmarks running
+    - Old Win GUI: restore "Show Graphics" code
 
-	client/
-		client_state.C,h
-		cs_prefs.C
-		win/
-			wingui_mainwindow.cpp
+    client/
+        client_state.C,h
+        cs_prefs.C
+        win/
+            wingui_mainwindow.cpp
 
 David  21 Nov 2004
     - Change team-related PHP code so that it recomputes
@@ -20028,18 +20028,26 @@ Rom    22 Nov 2004
         BOINC.ism
 
 Bruce 23 Nov 2004 UTC
-    - Build boinc zip compression library as part of normal ./configure && make process
-    - make install now installs libboinc_zip.a and boinc_zip.h as part of normal make install
-    - Unix boinc client and boinc gui had the same name, eg boinc_4.56_i686-pc-linux-gnu
-      I have changed this so that it is now boinc_client_4.56_i686-pc-linux-gnu and
-      boinc_gui_4.56_i686-pc-linux-gnu.  If the change from boinc_ to boinc_client_
-      causes any pain, please just modify CLIENT_BIN_FILENAME in configure.ac
-    - Removed -O3 as required compilation flag in building client gui.  Only needed for
-      client (to optimize benchmarking routines).
-    - Removed un-necessary zip/configure.ac and zip/Makefile and zip/config.h and config.h.in
+    - Build boinc zip compression library as part of normal
+        ./configure && make process
+    - make install now installs libboinc_zip.a and boinc_zip.h
+        as part of normal make install
+    - Unix boinc client and boinc gui had the same name,
+        eg boinc_4.56_i686-pc-linux-gnu
+          I have changed this so that it is now
+          boinc_client_4.56_i686-pc-linux-gnu and
+          boinc_gui_4.56_i686-pc-linux-gnu.
+          If the change from boinc_ to boinc_client_ causes any pain,
+          please just modify CLIENT_BIN_FILENAME in configure.ac
+    - Removed -O3 as required compilation flag in building client gui.
+        Only needed for client (to optimize benchmarking routines).
+    - Removed un-necessary zip/configure.ac and zip/Makefile and zip/config.h
+        and config.h.in
     - Added .cvsignore file for zip/ directory.
-    - Modified api/boinc_gl.h to use config.h to get correct include path for glut.h
-    - Added double-inclusion protection for config.h to avoid some warning messages
+    - Modified api/boinc_gl.h to use config.h to get correct include path
+        for glut.h
+    - Added double-inclusion protection for config.h
+        to avoid some warning messages
     - Run autoheader BEFORE automake and autoconf in _autosetup
     - Removed huge number of extraneous Makefile.in's
     - Changed production of config.h from AM_ to AC_ macro
@@ -20050,13 +20058,13 @@ Bruce 23 Nov 2004 UTC
     config.h
     config.h.in (removed)
     clientgui/
-     Makefile.am
+        Makefile.am
     zip/
-     Makefile.am
-     configure.ac (removed)
-     Makefile (removed)
-     .cvsignore (added)
-     config.h (shouldn't be here anyway) 
-     config.h.in (shouldn't be here anyway)
+        Makefile.am
+        configure.ac (removed)
+        Makefile (removed)
+        .cvsignore (added)
+        config.h (shouldn't be here anyway) 
+        config.h.in (shouldn't be here anyway)
     api/
-     boinc_gl.h 
+        boinc_gl.h 

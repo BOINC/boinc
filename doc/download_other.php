@@ -24,6 +24,10 @@ list_item(
     "Mac OS X, 10.2.8 and 10.3.x, G3/G4/G5
     <br>(BOINC client and SETI@home app)"
 );
+list_item(
+    "<a href=http://boinc.vawacon.de/>SOLARIS@x86</a>",
+    "Solaris 9 on Intel x86 (BOINC client and SETI@home app)"
+);
 list_end();
 page_tail();
 ?>
