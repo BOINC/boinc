@@ -1019,6 +1019,8 @@ LRESULT CScreensaver::SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
         case WM_CLOSE:
         case WM_DESTROY:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_CLOSE or WM_DESTROY\n"));
+            BOINCTRACE(_T("CScreensaver::SaverProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
             if( m_SaverMode == sm_preview || m_SaverMode == sm_test )
                 ShutdownSaver();
             return 0;
