@@ -57,7 +57,7 @@ downloading them from the project.  Here's how it works:
     lists the applications you have compiled or downloaded.  It has the
     following form:
     <pre>
-      <?php= htmlspecialchars("
+      <?php echo htmlspecialchars("
 <app_info>
     <app>
         <name>setiathome</name>
