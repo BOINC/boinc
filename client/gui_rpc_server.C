@@ -325,8 +325,13 @@ bool GUI_RPC_CONN_SET::poll() {
     n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
     if (FD_ISSET(lsock, &read_fds)) {
         struct sockaddr_in addr;
+#ifdef _WIN32
+        int addr_len = sizeof(addr);
+        sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+#else
         size_t addr_len = sizeof(addr);
         sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+#endif
         int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
         printf("peer addr: %x\n", peer_ip);
         if (peer_ip != 0x7f000001) {

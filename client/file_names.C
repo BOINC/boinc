@@ -86,7 +86,6 @@ int make_project_dir(PROJECT& p) {
 
 int remove_project_dir(PROJECT& p) {
     char buf[256];
-    int retval;
 
     get_project_dir(&p, buf);
     clean_out_dir(buf);
