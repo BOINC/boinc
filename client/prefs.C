@@ -49,8 +49,8 @@ void GLOBAL_PREFS::init() {
     run_on_startup = false;
     confirm_before_connecting = false;
     hangup_if_dialed = true;
-    work_buf_max_days = 3;
-    work_buf_min_days = 1;
+    work_buf_max_days = 0.2;
+    work_buf_min_days = 0.1;
     max_cpus = 2;
     disk_interval = 60;
     disk_max_used_gb = 1;
