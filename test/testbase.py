@@ -320,7 +320,7 @@ class TestProject(Project):
         self.start_servers()
 
     def run_init_wait(self):
-        time.sleep(5)
+        time.sleep(8)
     def run_finish_wait(self):
         '''Sleep until all workunits are assimilated and no workunits need to transition.
 
