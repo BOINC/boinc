@@ -21,6 +21,7 @@
 
 #include "wingui_mainwindow.h"
 #include "diagnostics.h"
+#include ".\wingui_mainwindow.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
@@ -171,6 +172,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_FILE_RUN_REQUEST_ALWAYS, OnCommandRunRequestAlways)
     ON_COMMAND(ID_FILE_RUN_REQUEST_AUTO, OnCommandRunRequestAuto)
     ON_COMMAND(ID_FILE_RUN_REQUEST_NEVER, OnCommandRunRequestNever)
+    ON_COMMAND(ID_FILE_TOGGLE_NETWORK_ACCESS, OnFileDisableNetworkAccess)
     ON_COMMAND(ID_FILE_RUN_BENCHMARKS, OnCommandRunBenchmarks)
     ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
@@ -1514,6 +1516,26 @@ void CMainWindow::OnCommandRunRequestNever()
     UpdateRunRequestFileMenu();
 }
 
+void CMainWindow::OnFileDisableNetworkAccess()
+{
+    CMenu*  pMenu;
+    UINT    uiState;
+
+    // Get the File menu
+    pMenu = GetMenu()->GetSubMenu( 0 );
+
+    uiState = pMenu->GetMenuState( ID_FILE_TOGGLE_NETWORK_ACCESS, MF_BYCOMMAND );
+    ASSERT(uiState != 0xFFFFFFFF);
+
+    if ( MF_CHECKED & uiState  ) {
+        pMenu->CheckMenuItem( ID_FILE_TOGGLE_NETWORK_ACCESS, MF_UNCHECKED | MF_BYCOMMAND );
+        gstate.user_network_request = USER_RUN_REQUEST_ALWAYS;
+    } else {
+        pMenu->CheckMenuItem( ID_FILE_TOGGLE_NETWORK_ACCESS, MF_CHECKED | MF_BYCOMMAND );
+        gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+    }
+}
+
 void CMainWindow::OnCommandRunBenchmarks()
 {
     gstate.start_cpu_benchmarks();
@@ -2269,3 +2291,4 @@ void guiOnBenchmarksEnd()
 {
     g_myWnd->OnBenchmarksEnd();
 }
+

@@ -164,6 +164,7 @@ protected:
 	afx_msg void            OnCommandTransfersRetryNow();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
+    afx_msg void            OnFileDisableNetworkAccess();
 	afx_msg void            OnCommandRunBenchmarks();
 	afx_msg void			OnCommandConnectionHangupIfDialed();
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();

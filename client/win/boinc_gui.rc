@@ -29,7 +29,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "boinc_gui.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -198,6 +198,10 @@ BEGIN
         MENUITEM "Run based on &preferences",   ID_FILE_RUN_REQUEST_AUTO
         MENUITEM "&Suspend",                    ID_FILE_RUN_REQUEST_NEVER
         MENUITEM SEPARATOR
+        MENUITEM "&Disable BOINC Network Access", 
+                                                ID_FILE_TOGGLE_NETWORK_ACCESS
+        , CHECKED
+        MENUITEM SEPARATOR
         MENUITEM "Run &Benchmarks",             ID_FILE_RUN_BENCHMARKS
         MENUITEM SEPARATOR
         MENUITEM "&Hide",                       ID_FILE_HIDE
@@ -302,12 +306,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "boinc_gui"
-            VALUE "FileVersion", "2, 28, 0, 0\0"
+            VALUE "FileVersion", "2, 28, 0, 0"
             VALUE "InternalName", "boinc_gui"
             VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", "2, 28, 0, 0\0"
+            VALUE "ProductVersion", "2, 28, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
