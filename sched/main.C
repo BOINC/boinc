@@ -74,6 +74,7 @@ void send_message(char* msg, int delay) {
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
         "    <request_delay>%d</request_delay>\n"
+        "    <project_is_down/>\n"
         "</scheduler_reply>\n",
         msg, delay
     );

@@ -14049,3 +14049,35 @@ David  21 June 2004
 
     html/inc/
         result.inc
+
+David 22 June 2004
+    - client: handle a "down for maintenance" RPC reply as a failure,
+        i.e. do a backoff on the project.
+        This should hopefully fix a problem where if
+        a project is down, and a client has a result to report,
+        it will do an RPC every second, creating an overload on the server.
+        Do this by adding a new optional <project_is_down/> element
+        to scheduler replies.
+    - If get a <request_delay> from scheduler,
+        don't let that override the current min_rpc_time;
+        instead, take the max of the two.
+    - Change the implementation of trickle messages.
+        Instead of using dedicated trickle_up and trickle_down DB tables,
+        use more general msg_from_host and msg_to_host tables.
+        These will be used also for data management,
+        i.e. to send upoad or download requests to specific hosts.
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C,h
+    db/
+        boinc_db.C,h
+        schema.sql
+    lib/
+        error_numbers.h
+    sched/
+        assimilator.C
+        handle_request.C
+        main.C
+        server_types.C,h
+        trickle_handler.C

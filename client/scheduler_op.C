@@ -477,9 +477,8 @@ bool SCHEDULER_OP::poll() {
                         project->write_account_file();
                     }
                 } else {
-                    if (retval) {
-                        backoff(project, "Can't parse scheduler reply");
-                    } else {
+                    switch (retval) {
+                    case 0:
                         // if we asked for work and didn't get any,
                         // back off this project
                         //
@@ -489,6 +488,13 @@ bool SCHEDULER_OP::poll() {
                             project->nrpc_failures = 0;
                             project->min_rpc_time = 0;
                         }
+                        break;
+                    case ERR_PROJECT_DOWN:
+                        backoff(project, "Project is down");
+                        break;
+                    default:
+                        backoff(project, "Can't parse scheduler reply");
+                        break;
                     }
                 }
 
@@ -576,6 +582,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     code_sign_key = 0;
     code_sign_key_signature = 0;
     trickle_up_ack = false;
+    project_is_down = false;
 
     p = fgets(buf, 256, in);
     if (!p) {
@@ -670,6 +677,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<trickle_up_ack/>")) {
             trickle_up_ack = true;
+        } else if (match_tag(buf, "<project_is_down/>")) {
+            project_is_down = true;
         } else if (parse_str(buf, "<email_hash>", project->email_hash, sizeof(project->email_hash))) {
             continue;
         } else if (parse_str(buf, "<cross_project_id>", project->cross_project_id, sizeof(project->cross_project_id))) {

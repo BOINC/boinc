@@ -131,3 +131,4 @@
 #define ERR_BIND            -180
 #define ERR_LISTEN          -181
 #define ERR_TIMEOUT         -182
+#define ERR_PROJECT_DOWN    -183

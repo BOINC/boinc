@@ -104,7 +104,7 @@ struct SCHEDULER_REPLY {
     vector<WORKUNIT>wus;
     vector<RESULT>results;
     vector<RESULT>result_acks;
-    vector<TRICKLE_DOWN>trickle_downs;
+    vector<MSG_TO_HOST>msgs_to_host;
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_trickle_up_ack;

@@ -112,6 +112,7 @@ struct SCHEDULER_REPLY {
     char* code_sign_key;
     char* code_sign_key_signature;
     bool trickle_up_ack;
+    bool project_is_down;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

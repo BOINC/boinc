@@ -489,14 +489,23 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->user_total_credit = sr.user_total_credit;
     project->user_expavg_credit = sr.user_expavg_credit;
     project->user_create_time = sr.user_create_time;
+
+    if (sr.request_delay) {
+        time_t x = time(0) + sr.request_delay;
+        if (x > project->min_rpc_time) project->min_rpc_time = x;
+    }
+
     if (strlen(sr.message)) {
         sprintf(buf, "Message from server: %s", sr.message);
         int prio = (!strcmp(sr.message_priority, "high"))?MSG_ERROR:MSG_INFO;
         show_message(project, buf, prio);
     }
 
-    if (sr.request_delay) {
-        project->min_rpc_time = time(0) + sr.request_delay;
+    // if project is down, return error (so that we back off)
+    // and don't do anything else
+    //
+    if (sr.project_is_down) {
+        return ERR_PROJECT_DOWN;
     }
 
     project->host_total_credit = sr.host_total_credit;

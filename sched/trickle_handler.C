@@ -44,23 +44,23 @@ using namespace std;
 SCHED_CONFIG config;
 char app_name[256];
 
-extern int handle_trickle(TRICKLE_UP&);
+extern int handle_trickle(MSG_FROM_HOST&);
 
-int handle_trickle(TRICKLE_UP& tup) {
+int handle_trickle(MSG_FROM_HOST& mfh) {
     int retval;
 
     printf(
-        "got trickle-up \n%s\nfor result %d\n",
-        tup.xml, tup.resultid
+        "got trickle-up \n%s\n\n",
+        mfh.xml
     );
-    DB_TRICKLE_DOWN tdown;
-    tdown.clear();
-    tdown.create_time = time(0);
-    tdown.resultid = tup.resultid;
-    tdown.hostid = tup.hostid;
-    tdown.handled = false;
-    strcpy(tdown.xml, tup.xml);
-    retval = tdown.insert();
+    DB_MSG_TO_HOST mth;
+    mth.clear();
+    mth.create_time = time(0);
+    mth.hostid = mfh.hostid;
+    mth.variety = mfh.variety;
+    mth.handled = false;
+    strcpy(mth.xml, mfh.xml);
+    retval = mth.insert();
     if (retval) {
         printf("insert failed %d\n", retval);
     }
@@ -71,17 +71,17 @@ int handle_trickle(TRICKLE_UP& tup) {
 // return true if there were any
 //
 bool do_trickle_scan(APP& app) {
-    DB_TRICKLE_UP tup;
+    DB_MSG_FROM_HOST mfh;
     char buf[256];
     bool found=false;
     int retval;
 
-    sprintf(buf, "where appid=%d and handled=0", app.id);
-    while (!tup.enumerate(buf)) {
-        retval = handle_trickle(tup);
+    sprintf(buf, "where variety=%d and handled=0", app.id);
+    while (!mfh.enumerate(buf)) {
+        retval = handle_trickle(mfh);
         if (!retval) {
-            tup.handled = true;
-            tup.update();
+            mfh.handled = true;
+            mfh.update();
         }
         found = true;
     }

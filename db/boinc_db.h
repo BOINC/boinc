@@ -406,23 +406,22 @@ struct RESULT {
     void clear();
 };
 
-struct TRICKLE_UP {
+struct MSG_FROM_HOST {
     int id;
     int create_time;
     int send_time;                  // when API call was made
-    int resultid;
-    int appid;
     int hostid;
+    int variety;                    // project-defined; generally app ID
     bool handled;                   // trickle handler has processed this
     char xml[LARGE_BLOB_SIZE];
     void clear();
 };
 
-struct TRICKLE_DOWN {
+struct MSG_TO_HOST {
     int id;
     int create_time;
-    int resultid;
     int hostid;
+    int variety;                    // project-defined; generally app ID
     bool handled;                   // scheduler has sent this
     char xml[LARGE_BLOB_SIZE];
     void clear();
@@ -522,17 +521,17 @@ public:
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
-class DB_TRICKLE_UP : public DB_BASE, public TRICKLE_UP {
+class DB_MSG_FROM_HOST : public DB_BASE, public MSG_FROM_HOST {
 public:
-    DB_TRICKLE_UP();
+    DB_MSG_FROM_HOST();
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
 
-class DB_TRICKLE_DOWN : public DB_BASE, public TRICKLE_DOWN {
+class DB_MSG_TO_HOST : public DB_BASE, public MSG_TO_HOST {
 public:
-    DB_TRICKLE_DOWN();
+    DB_MSG_TO_HOST();
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);

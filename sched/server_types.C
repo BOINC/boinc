@@ -185,7 +185,6 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     string u1, u2, t1, t2;
-    int retval;
 
     fprintf(fout,
         "<scheduler_reply>\n"
@@ -317,25 +316,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     if (send_trickle_up_ack) {
         fputs("<trickle_up_ack/>\n", fout);
     }
-    for (i=0; i<trickle_downs.size(); i++) {
-        TRICKLE_DOWN& td = trickle_downs[i];
-        DB_RESULT result;
-        retval = result.lookup_id(td.resultid);
-        if (retval) {
-            continue;
-        }
-        fprintf(fout,
-            "<trickle_down>\n"
-            "    <result_name>%s</result_name>\n"
-            "    <send_time>%d</send_time>\n"
-            "    <text>\n"
-            "%s\n"
-            "    </text>\n"
-            "</trickle_down>\n",
-            result.name,
-            td.create_time,
-            td.xml
-        );
+    for (i=0; i<msgs_to_host.size(); i++) {
+        MSG_TO_HOST& mth = msgs_to_host[i];
+        fprintf(fout, "%s", mth.xml);
     }
     if (config.non_cpu_intensive) {
         fprintf(fout, "<non_cpu_intensive/>\n");

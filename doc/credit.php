@@ -97,6 +97,8 @@ void update_average(
     avg_time = now;
 }
 
+#define CREDIT_HALF_LIFE  (SECONDS_IN_DAY*7)
+
 "),"
 </pre>
 <hr noshade size=1>

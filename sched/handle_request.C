@@ -547,7 +547,7 @@ inline static const char* get_remote_addr() {
 void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     DB_RESULT result;
-    DB_TRICKLE_UP tup;
+    DB_MSG_FROM_HOST mfh;
     int retval;
     char buf[256];
 
@@ -577,15 +577,18 @@ void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             continue;
         }
-        tup.clear();
-        tup.create_time = time(0);
-        tup.send_time = td.send_time;
-        tup.resultid = result.id;
-        tup.appid = result.appid;
-        tup.hostid = reply.host.id;
-        tup.handled = false;
-        safe_strcpy(tup.xml, td.trickle_text.c_str());
-        retval = tup.insert();
+        mfh.clear();
+        mfh.create_time = time(0);
+        mfh.send_time = td.send_time;
+        mfh.variety = result.appid;
+        mfh.hostid = reply.host.id;
+        mfh.handled = false;
+        sprintf(buf, "<result_name>%s</result_name>\n", td.result_name);
+        string foobar;
+        foobar = buf;
+        foobar += td.trickle_text;
+        safe_strcpy(mfh.xml, foobar.c_str());
+        retval = mfh.insert();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] trickle insert failed: %d\n", 
@@ -596,14 +599,14 @@ void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 }
 
 void handle_trickle_downs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    DB_TRICKLE_DOWN td;
+    DB_MSG_TO_HOST mth;
     char buf[256];
 
     sprintf(buf, "where hostid = %d", reply.host.id);
-    while (!td.enumerate(buf)) {
-        reply.trickle_downs.push_back(td);
-        td.handled = true;
-        td.update();
+    while (!mth.enumerate(buf)) {
+        reply.msgs_to_host.push_back(mth);
+        mth.handled = true;
+        mth.update();
     }
 }
 
