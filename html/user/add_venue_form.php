@@ -25,7 +25,8 @@
         prefs_form_global($user, $prefs, null);
     } else {
         $prefs = default_prefs_project();
-        prefs_form_project($user, $prefs, null);
+        prefs_form_resource($prefs);
+        prefs_form_project($prefs);
     }
     row2("","<input type=submit value=OK>");
     end_table();

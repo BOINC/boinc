@@ -23,7 +23,7 @@ $prefs = prefs_parse_project($user->project_prefs);
 prefs_email_parse_form($prefs);
 project_prefs_update($user, $prefs);
 
-venue_parse($user);
+venue_parse_form($user);
 venue_update($user);
 
 Header("Location: account_setup_first_download.php");

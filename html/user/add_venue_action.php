@@ -20,6 +20,7 @@
     } else {
         $prefs = prefs_parse_project($user->project_prefs);
         prefs_project_parse_form($new_prefs);
+        prefs_resource_parse_form($new_prefs);
         $prefs->$venue = $new_prefs;
         $retval = project_prefs_update($user, $prefs);
     }

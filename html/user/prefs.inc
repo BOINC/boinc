@@ -22,13 +22,16 @@
 //
 // and
 //
-// <project_preferences [venue=x] >
+// <project_preferences>
 //    <resource_share>4</resource_share>
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
 //    <send_email/>
 //    <show_email/>
+//    <home>
+//       ...
+//    </home>
 // </project_preferences>
 
 // Various functions are defined below for converting between these forms,
@@ -45,6 +48,8 @@ global $in_project_specific;
 // functions to parse preferences XML into a struct
 //
 function element_start_project($parser, $name, $attrs) {
+    global $top_parse_result;
+    global $parse_result;
     global $text;
     global $in_project_specific;
 
@@ -88,6 +93,7 @@ function element_end_project($parser, $name) {
     global $text;
     global $parse_result;
     global $in_project_specific;
+    global $top_parse_result;
 
     switch($name) {
     case "home":
@@ -276,24 +282,8 @@ function prefs_show_email($prefs) {
 }
 
 function prefs_show_project($prefs) {
-    project_specific_prefs_show($prefs);
-}
-
-function print_prefs_display_project($user) {
-    $project_prefs = prefs_parse_project($user->project_prefs);
-    $project_specific_prefs = project_specific_prefs_parse($project_prefs->project_specific);
-
-    start_table();
-    row1(PROJECT." preferences");
-    prefs_show_resource($project_prefs);
-    prefs_show_project($project_specific_prefs);
-    prefs_show_email($project_prefs);
-    venue_show($user);
-    row2("", "<a href=prefs_edit_project_form.php>Edit ".PROJECT." preferences</a>");
-    prefs_display_venue($project_prefs, "home", "project");
-    prefs_display_venue($project_prefs, "school", "project");
-    prefs_display_venue($project_prefs, "work", "project");
-    end_table();
+    $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
+    project_specific_prefs_show($project_specific_prefs);
 }
 
 function subset_name($subset) {
@@ -308,6 +298,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
         if ($subset == "global") {
             prefs_show_global($x);
         } else {
+            prefs_show_resource($x);
             prefs_show_project($x);
         }
         row2("<br>", "<a href=prefs_edit_form.php?venue=$venue&subset=$subset>Edit</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
@@ -315,6 +306,22 @@ function prefs_display_venue($prefs, $venue, $subset) {
         $x = subset_name($subset);
         row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Click to add separate $x preferences for computers at $venue</a>");
     }
+}
+
+function print_prefs_display_project($user) {
+    $project_prefs = prefs_parse_project($user->project_prefs);
+
+    start_table();
+    row1(PROJECT." preferences");
+    prefs_show_resource($project_prefs);
+    prefs_show_project($project_prefs);
+    prefs_show_email($project_prefs);
+    venue_show($user);
+    row2("", "<a href=prefs_edit_form.php?subset=project>Edit ".PROJECT." preferences</a>");
+    prefs_display_venue($project_prefs, "home", "project");
+    prefs_display_venue($project_prefs, "school", "project");
+    prefs_display_venue($project_prefs, "work", "project");
+    end_table();
 }
 
 function print_prefs_display_global($user) {
@@ -460,8 +467,8 @@ function venue_form($user) {
     if ($user->venue == "home") $h = "selected";
     if ($user->venue == "work") $w = "selected";
     if ($user->venue == "school") $s = "selected";
-    row2("Computer location",
-        "<select name=venue>
+    row2("Default computer location",
+        "<select name=default_venue>
         <option value=home $h>Home
         <option value=work $w>Work
         <option value=school $s>School
@@ -470,8 +477,8 @@ function venue_form($user) {
     );
 }
 
-function venue_parse(&$user) {
-    $user->venue = $_GET['venue'];
+function venue_parse_form(&$user) {
+    $user->venue = $_GET['default_venue'];
 }
 
 function venue_update($user) {
@@ -573,22 +580,24 @@ function global_prefs_make_xml($prefs, $primary=true) {
 }
 
 function project_prefs_make_xml($prefs, $primary=true) {
+    $xml = "";
     if ($primary) {
         $xml = "<project_preferences>\n";
-    }
-    if ($prefs->show_email == 1) {
-        $xml = $xml."<show_email/>\n";
-    }
-    if ($prefs->send_email == 1) {
-        $xml = $xml."<send_email/>\n";
+        if ($prefs->show_email == 1) {
+            $xml = $xml."<show_email/>\n";
+        }
+        if ($prefs->send_email == 1) {
+            $xml = $xml."<send_email/>\n";
+        }
     }
     if ($prefs->resource_share) {
         $xml = $xml
             ."<resource_share>$prefs->resource_share</resource_share>\n";
     }
     if ($prefs->project_specific) {
+        $x = trim($prefs->project_specific);
         $xml = $xml
-            ."<project_specific>\n$prefs->project_specific</project_specific>\n";
+            ."<project_specific>\n$x\n</project_specific>\n";
     }
     if ($prefs->home) {
         $xml = $xml."<home>\n".project_prefs_make_xml($prefs->home, false)."</home>\n";

@@ -3647,3 +3647,14 @@ David  Mar 4 2003
         prefs_edit_project* (removed)
         user.inc
         util.inc
+
+David  Mar 4 2003
+    - debugged prefs editing code
+
+    html_user/
+        account_setup_first_action.php
+        add_venue_action.php
+        add_venue_form.php
+        prefs.inc
+        prefs_edit_action.php
+        project_specific_prefs.inc

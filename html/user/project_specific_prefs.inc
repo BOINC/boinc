@@ -33,7 +33,7 @@ function project_specific_prefs_edit($prefs) {
 //
 function project_specific_prefs_parse_form() {
     $color_scheme = $_GET["color_scheme"];
-    return "<color_scheme>$color_scheme</color_scheme>";
+    return "<color_scheme>$color_scheme</color_scheme>\n";
 }
 
 // show non-editable version of prefs
