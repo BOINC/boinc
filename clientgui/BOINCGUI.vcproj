@@ -3,87 +3,35 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="boincgui"
-	ProjectGUID="{2221DD49-9379-447D-AC5E-E3EB7CE7A42D}">
+	ProjectGUID="{06113715-AC51-4E91-8B9D-C987CABE0920}"
+	SccProjectName=""
+	SccLocalPath=""
+	Keyword="MFCProj">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
-			ConfigurationType="1"
-			UseOfMFC="1">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api;..\clientgui"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG"
-				StringPooling="FALSE"
-				MinimalRebuild="FALSE"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				BufferSecurityCheck="TRUE"
-				EnableFunctionLevelLinking="FALSE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="stdwx.h"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="4"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="rpcrt4.lib comctl32.lib wsock32.lib wxmswd.lib regexd.lib"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(WXWIN)\lib;$(WXWIN)\contrib\lib"
-				IgnoreAllDefaultLibraries="FALSE"
-				GenerateDebugInformation="TRUE"
-				SubSystem="2"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
-		</Configuration>
-		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="1">
+			ConfigurationType="1"
+			UseOfMFC="1"
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
+				Optimization="2"
 				GlobalOptimizations="TRUE"
 				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api;..\clientgui"
 				PreprocessorDefinitions="WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				BufferSecurityCheck="TRUE"
 				EnableFunctionLevelLinking="FALSE"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdwx.h"
-				WarningLevel="4"
+				WarningLevel="3"
 				WarnAsError="FALSE"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
@@ -91,9 +39,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="rpcrt4.lib comctl32.lib wsock32.lib wxmsw.lib regex.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw.lib regex.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(WXWIN)\lib;$(WXWIN)\contrib\lib"
+				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -110,6 +59,67 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="Debug"
+			ConfigurationType="1"
+			UseOfMFC="1"
+			CharacterSet="2"
+			WholeProgramOptimization="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api;..\clientgui"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG"
+				StringPooling="TRUE"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				EnableEnhancedInstructionSet="0"
+				DisableLanguageExtensions="FALSE"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough="stdwx.h"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmswd.lib regexd.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(WXWIN)\lib;$(WXWIN)\contrib\lib"
+				IgnoreAllDefaultLibraries="TRUE"
+				GenerateDebugInformation="TRUE"
+				SubSystem="2"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
 				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -149,7 +159,50 @@
 				RelativePath=".\DlgOptions.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\filesys.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\lib\gui_rpc_client.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\MainDocument.cpp">
@@ -161,7 +214,73 @@
 				RelativePath=".\MessagesView.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\mfile.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\miofile.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\lib\parse.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\ProjectsView.cpp">
@@ -172,13 +291,13 @@
 			<File
 				RelativePath=".\stdwx.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
@@ -192,6 +311,26 @@
 			</File>
 			<File
 				RelativePath="..\lib\util.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\WorkView.cpp">
@@ -232,6 +371,9 @@
 				RelativePath=".\Events.h">
 			</File>
 			<File
+				RelativePath="..\lib\filesys.h">
+			</File>
+			<File
 				RelativePath="..\lib\gui_rpc_client.h">
 			</File>
 			<File
@@ -242,6 +384,12 @@
 			</File>
 			<File
 				RelativePath=".\MessagesView.h">
+			</File>
+			<File
+				RelativePath="..\lib\mfile.h">
+			</File>
+			<File
+				RelativePath="..\lib\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
@@ -308,5 +456,8 @@
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value=".\BOINCGUIApp.rc"/>
 	</Globals>
 </VisualStudioProject>
