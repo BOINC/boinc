@@ -444,7 +444,8 @@ def do_prune_run_states():
             print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(float(run_state_task.last_run))
         else:
             new_run_state_tasks.append(run_state_task)
-    run_state.tasks = new_run_state_tasks
+    # replace all elements of existing ConfigDictList instead of assigning a new one
+    run_state.tasks[:] = new_run_state_tasks
 
 def stop_daemon(pid):
     '''returns 1 if something stopped, else 0'''
