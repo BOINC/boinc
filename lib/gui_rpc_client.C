@@ -419,6 +419,7 @@ void FILE_TRANSFER::print() {
 void FILE_TRANSFER::clear() {
     name.clear();
     project_url.clear();
+    nbytes = 0.0;
     generated_locally = false;
     uploaded = false;
     upload_when_present = false;

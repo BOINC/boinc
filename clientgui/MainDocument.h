@@ -96,21 +96,21 @@ private:
 public:
 
     wxInt32                     GetProjectCount();
-    wxInt32                     GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer);
-    wxInt32                     GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer);
-    wxInt32                     GetProjectResourceShare(wxInt32 iIndex,  float& fBuffer);
-    wxInt32                     GetProjectTotalResourceShare(wxInt32 iIndex,  float& fBuffer);
-    wxInt32                     GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer);
-    wxInt32                     GetProjectWebsiteCount(wxInt32 iIndex);
-    wxInt32                     GetProjectWebsiteName(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer);
-    wxInt32                     GetProjectWebsiteDescription(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer);
-    wxInt32                     GetProjectWebsiteLink(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer);
-    bool                        IsProjectSuspended(wxInt32 iIndex);
-    bool                        IsProjectRPCPending(wxInt32 iIndex);
+    wxInt32                     GetProjectProjectName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetProjectProjectURL( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetProjectAccountName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetProjectTeamName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetProjectTotalCredit( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetProjectAvgCredit( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetProjectResourceShare( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetProjectTotalResourceShare( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetProjectMinRPCTime( wxInt32 iIndex, wxInt32& iBuffer );
+    wxInt32                     GetProjectWebsiteCount( wxInt32 iIndex );
+    wxInt32                     GetProjectWebsiteName( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer );
+    wxInt32                     GetProjectWebsiteDescription( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer );
+    wxInt32                     GetProjectWebsiteLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer );
+    bool                        IsProjectSuspended( wxInt32 iIndex );
+    bool                        IsProjectRPCPending( wxInt32 iIndex );
 
     wxInt32                     ProjectAttach( wxString& strURL, wxString& strAccountKey );
     wxInt32                     ProjectDetach( wxInt32 iIndex );
@@ -131,22 +131,22 @@ private:
 public:
 
     wxInt32                     GetWorkCount();
-    wxInt32                     GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetWorkProjectURL(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetWorkProjectName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetWorkProjectURL( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetWorkApplicationName( wxInt32 iIndex, wxString& strBuffer );
     wxInt32                     GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffer);
-    wxInt32                     GetWorkName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer);
-    wxInt32                     GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer);
-    wxInt32                     GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer);
-    wxInt32                     GetWorkFractionDone(wxInt32 iIndex, float& fBuffer);
-    wxInt32                     GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer);
-    wxInt32                     GetWorkState(wxInt32 iIndex);
-    wxInt32                     GetWorkSchedulerState(wxInt32 iIndex);
-    bool                        IsWorkAcknowledged(wxInt32 iIndex);
-    bool                        IsWorkActive(wxInt32 iIndex);
-    bool                        IsWorkReadyToReport(wxInt32 iIndex);
-    bool                        IsWorkSuspended(wxInt32 iIndex);
+    wxInt32                     GetWorkName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetWorkCurrentCPUTime( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetWorkEstimatedCPUTime( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetWorkFinalCPUTime( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetWorkFractionDone( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetWorkReportDeadline( wxInt32 iIndex, wxInt32& iBuffer );
+    wxInt32                     GetWorkState( wxInt32 iIndex );
+    wxInt32                     GetWorkSchedulerState( wxInt32 iIndex );
+    bool                        IsWorkAcknowledged( wxInt32 iIndex );
+    bool                        IsWorkActive( wxInt32 iIndex );
+    bool                        IsWorkReadyToReport( wxInt32 iIndex );
+    bool                        IsWorkSuspended( wxInt32 iIndex );
 
     wxInt32                     WorkSuspend( wxInt32 iIndex );
     wxInt32                     WorkResume( wxInt32 iIndex );
@@ -167,27 +167,32 @@ private:
 public:
 
     wxInt32                     GetMessageCount();
-    wxInt32                     GetMessageProjectName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetMessageTime(wxInt32 iIndex, wxDateTime& dtBuffer);
-    wxInt32                     GetMessagePriority(wxInt32 iIndex, wxInt32& iBuffer);
-    wxInt32                     GetMessageMessage(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetMessageProjectName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetMessageTime( wxInt32 iIndex, wxDateTime& dtBuffer );
+    wxInt32                     GetMessagePriority( wxInt32 iIndex, wxInt32& iBuffer );
+    wxInt32                     GetMessageMessage( wxInt32 iIndex, wxString& strBuffer );
 
 
+    //
+    // Transfers Tab
+    //
 private:
 
     FILE_TRANSFERS              ft;
+
+    wxInt32                     CachedFileTransfersUpdate();
 
 public:
 
 
     wxInt32                     GetTransferCount();
-    wxString                    GetTransferFileName(wxInt32 iIndex);
-    wxString                    GetTransferProgress(wxInt32 iIndex);
-    wxString                    GetTransferProjectName(wxInt32 iIndex);
-    wxString                    GetTransferSize(wxInt32 iIndex);
-    wxString                    GetTransferSpeed(wxInt32 iIndex);
-    wxString                    GetTransferStatus(wxInt32 iIndex);
-    wxString                    GetTransferTime(wxInt32 iIndex);
+    wxInt32                     GetTransferFileName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferProgress( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferProjectName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferSize( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferSpeed( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferStatus( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferTime( wxInt32 iIndex, wxString& strBuffer );
 
 };
 

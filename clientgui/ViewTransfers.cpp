@@ -217,30 +217,35 @@ void CViewTransfers::OnListDeselected ( wxListEvent& event )
 
 wxString CViewTransfers::OnListGetItemText(long item, long column) const
 {
-    wxString strBuffer;
+    wxString       strBuffer = wxEmptyString;
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
     switch(column) {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetTransferProjectName(item);
+            if (item == m_iCacheFrom) pDoc->CachedStateLock();
+            FormatProjectName( item, strBuffer );
             break;
         case COLUMN_FILE:
-            strBuffer = wxGetApp().GetDocument()->GetTransferFileName(item);
+            FormatFileName( item, strBuffer );
             break;
         case COLUMN_PROGRESS:
-            strBuffer = wxGetApp().GetDocument()->GetTransferProgress(item);
+            FormatProgress( item, strBuffer );
             break;
         case COLUMN_SIZE:
-            strBuffer = wxGetApp().GetDocument()->GetTransferSize(item);
+            FormatSize( item, strBuffer );
             break;
         case COLUMN_TIME:
-            strBuffer = wxGetApp().GetDocument()->GetTransferTime(item);
+            FormatTime( item, strBuffer );
             break;
         case COLUMN_SPEED:
-            strBuffer = wxGetApp().GetDocument()->GetTransferSpeed(item);
+            FormatSpeed( item, strBuffer );
             break;
         case COLUMN_STATUS:
-            strBuffer = wxGetApp().GetDocument()->GetTransferStatus(item);
-            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            FormatStatus( item, strBuffer );
+            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
     return strBuffer;
@@ -351,5 +356,65 @@ void CViewTransfers::UpdateTaskPane()
     m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
+}
+
+
+wxInt32 CViewTransfers::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetTransferProjectName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::FormatFileName( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetTransferFileName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::FormatProgress( wxInt32 item, wxString& strBuffer ) const
+{
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::FormatSize( wxInt32 item, wxString& strBuffer ) const
+{
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
+{
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::FormatSpeed( wxInt32 item, wxString& strBuffer ) const
+{
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::FormatStatus( wxInt32 item, wxString& strBuffer ) const
+{
+    return 0;
 }
 

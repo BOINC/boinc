@@ -344,25 +344,25 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const
     {
         case COLUMN_PROJECT:
             if (item == m_iCacheFrom) pDoc->CachedStateLock();
-            FormatProjectName(item, strBuffer);
+            FormatProjectName( item, strBuffer );
             break;
         case COLUMN_ACCOUNTNAME:
-            FormatAccountName(item, strBuffer);
+            FormatAccountName( item, strBuffer );
             break;
         case COLUMN_TEAMNAME:
-            FormatTeamName(item, strBuffer);
+            FormatTeamName( item, strBuffer );
             break;
         case COLUMN_TOTALCREDIT:
-            FormatTotalCredit(item, strBuffer);
+            FormatTotalCredit( item, strBuffer );
             break;
         case COLUMN_AVGCREDIT:
-            FormatAVGCredit(item, strBuffer);
+            FormatAVGCredit( item, strBuffer );
             break;
         case COLUMN_RESOURCESHARE:
-            FormatResourceShare(item, strBuffer);
+            FormatResourceShare( item, strBuffer );
             break;
         case COLUMN_STATUS:
-            FormatStatus(item, strBuffer);
+            FormatStatus( item, strBuffer );
             if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }

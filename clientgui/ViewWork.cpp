@@ -308,28 +308,28 @@ wxString CViewWork::OnListGetItemText( long item, long column ) const
     {
         case COLUMN_PROJECT:
             if (item == m_iCacheFrom) pDoc->CachedStateLock();
-            FormatProjectName(item, strBuffer);
+            FormatProjectName( item, strBuffer );
             break;
         case COLUMN_APPLICATION:
-            FormatApplicationName(item, strBuffer);
+            FormatApplicationName( item, strBuffer );
             break;
         case COLUMN_NAME:
-            FormatName(item, strBuffer);
+            FormatName( item, strBuffer );
             break;
         case COLUMN_CPUTIME:
-            FormatCPUTime(item, strBuffer);
+            FormatCPUTime( item, strBuffer );
             break;
         case COLUMN_PROGRESS:
-            FormatProgress(item, strBuffer);
+            FormatProgress( item, strBuffer );
             break;
         case COLUMN_TOCOMPLETETION:
-            FormatTimeToCompletion(item, strBuffer);
+            FormatTimeToCompletion( item, strBuffer );
             break;
         case COLUMN_REPORTDEADLINE:
-            FormatReportDeadline(item, strBuffer);
+            FormatReportDeadline( item, strBuffer );
             break;
         case COLUMN_STATUS:
-            FormatStatus(item, strBuffer);
+            FormatStatus( item, strBuffer );
             if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }

@@ -202,7 +202,7 @@ wxInt32 CMainDocument::GetProjectCount()
 }
 
 
-wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectProjectName( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -216,7 +216,7 @@ wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer
 }
 
 
-wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectProjectURL( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -230,7 +230,7 @@ wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
 }
 
 
-wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectAccountName( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -244,7 +244,7 @@ wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer
 }
 
 
-wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectTeamName( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -258,7 +258,7 @@ wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
 }
 
 
-wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetProjectTotalCredit( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -272,7 +272,7 @@ wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetProjectAvgCredit( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -286,7 +286,7 @@ wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetProjectResourceShare(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetProjectResourceShare( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -300,14 +300,14 @@ wxInt32 CMainDocument::GetProjectResourceShare(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetProjectTotalResourceShare(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetProjectTotalResourceShare( wxInt32 iIndex, float& fBuffer )
 {
     fBuffer = m_fProjectTotalResourceShare;
     return 0;
 }
 
 
-wxInt32 CMainDocument::GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer)
+wxInt32 CMainDocument::GetProjectMinRPCTime( wxInt32 iIndex, wxInt32& iBuffer )
 {
     PROJECT* pProject = NULL;
 
@@ -321,7 +321,7 @@ wxInt32 CMainDocument::GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer)
 }
 
 
-wxInt32 CMainDocument::GetProjectWebsiteCount(wxInt32 iIndex)
+wxInt32 CMainDocument::GetProjectWebsiteCount( wxInt32 iIndex )
 {
     wxInt32     iCount = 0;
     wxString    strProjectURL = wxEmptyString;
@@ -341,7 +341,7 @@ wxInt32 CMainDocument::GetProjectWebsiteCount(wxInt32 iIndex)
 }
 
 
-wxInt32 CMainDocument::GetProjectWebsiteName(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectWebsiteName( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer )
 {
     wxString    strProjectURL = wxEmptyString;
     std::string str;
@@ -364,7 +364,7 @@ wxInt32 CMainDocument::GetProjectWebsiteName(wxInt32 iProjectIndex, wxInt32 iWeb
 }
 
 
-wxInt32 CMainDocument::GetProjectWebsiteDescription(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectWebsiteDescription( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer )
 {
     wxString    strProjectURL = wxEmptyString;
     std::string str;
@@ -387,7 +387,7 @@ wxInt32 CMainDocument::GetProjectWebsiteDescription(wxInt32 iProjectIndex, wxInt
 }
 
 
-wxInt32 CMainDocument::GetProjectWebsiteLink(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetProjectWebsiteLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer )
 {
     wxString    strProjectURL = wxEmptyString;
     std::string str;
@@ -410,7 +410,7 @@ wxInt32 CMainDocument::GetProjectWebsiteLink(wxInt32 iProjectIndex, wxInt32 iWeb
 }
 
 
-bool CMainDocument::IsProjectSuspended(wxInt32 iIndex)
+bool CMainDocument::IsProjectSuspended( wxInt32 iIndex )
 {
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
@@ -425,7 +425,7 @@ bool CMainDocument::IsProjectSuspended(wxInt32 iIndex)
 }
 
 
-bool CMainDocument::IsProjectRPCPending(wxInt32 iIndex)
+bool CMainDocument::IsProjectRPCPending( wxInt32 iIndex )
 {
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
@@ -571,7 +571,7 @@ wxInt32 CMainDocument::GetWorkCount()
 }
 
 
-wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetWorkProjectName( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
     RESULT* pStateResult = NULL;
@@ -597,7 +597,7 @@ wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkProjectURL(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetWorkProjectURL( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -611,7 +611,7 @@ wxInt32 CMainDocument::GetWorkProjectURL(wxInt32 iIndex, wxString& strBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetWorkApplicationName( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
     RESULT* pStateResult = NULL;
@@ -642,7 +642,7 @@ wxInt32 CMainDocument::GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffe
 }
 
 
-wxInt32 CMainDocument::GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffer)
+wxInt32 CMainDocument::GetWorkApplicationVersion( wxInt32 iIndex, wxInt32& iBuffer )
 {
     RESULT* pResult = NULL;
     RESULT* pStateResult = NULL;
@@ -673,7 +673,7 @@ wxInt32 CMainDocument::GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffe
 }
 
 
-wxInt32 CMainDocument::GetWorkName(wxInt32 iIndex, wxString& strBuffer)
+wxInt32 CMainDocument::GetWorkName( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -687,7 +687,7 @@ wxInt32 CMainDocument::GetWorkName(wxInt32 iIndex, wxString& strBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetWorkCurrentCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -701,7 +701,7 @@ wxInt32 CMainDocument::GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetWorkEstimatedCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -715,7 +715,7 @@ wxInt32 CMainDocument::GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetWorkFinalCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -729,7 +729,7 @@ wxInt32 CMainDocument::GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkFractionDone(wxInt32 iIndex, float& fBuffer)
+wxInt32 CMainDocument::GetWorkFractionDone( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -743,7 +743,7 @@ wxInt32 CMainDocument::GetWorkFractionDone(wxInt32 iIndex, float& fBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer)
+wxInt32 CMainDocument::GetWorkReportDeadline( wxInt32 iIndex, wxInt32& iBuffer )
 {
     RESULT* pResult = NULL;
 
@@ -757,7 +757,7 @@ wxInt32 CMainDocument::GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer)
 }
 
 
-wxInt32 CMainDocument::GetWorkState(wxInt32 iIndex)
+wxInt32 CMainDocument::GetWorkState( wxInt32 iIndex )
 {
     wxInt32 iBuffer = 0;
     RESULT* pResult = NULL;
@@ -772,7 +772,7 @@ wxInt32 CMainDocument::GetWorkState(wxInt32 iIndex)
 }
 
 
-wxInt32 CMainDocument::GetWorkSchedulerState(wxInt32 iIndex)
+wxInt32 CMainDocument::GetWorkSchedulerState( wxInt32 iIndex )
 {
     wxInt32 iBuffer = 0;
     RESULT* pResult = NULL;
@@ -787,7 +787,7 @@ wxInt32 CMainDocument::GetWorkSchedulerState(wxInt32 iIndex)
 }
 
 
-bool CMainDocument::IsWorkAcknowledged(wxInt32 iIndex)
+bool CMainDocument::IsWorkAcknowledged( wxInt32 iIndex )
 {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
@@ -802,7 +802,7 @@ bool CMainDocument::IsWorkAcknowledged(wxInt32 iIndex)
 }
 
 
-bool CMainDocument::IsWorkActive(wxInt32 iIndex)
+bool CMainDocument::IsWorkActive( wxInt32 iIndex )
 {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
@@ -817,7 +817,7 @@ bool CMainDocument::IsWorkActive(wxInt32 iIndex)
 }
 
 
-bool CMainDocument::IsWorkReadyToReport(wxInt32 iIndex)
+bool CMainDocument::IsWorkReadyToReport( wxInt32 iIndex )
 {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
@@ -832,7 +832,7 @@ bool CMainDocument::IsWorkReadyToReport(wxInt32 iIndex)
 }
 
 
-bool CMainDocument::IsWorkSuspended(wxInt32 iIndex)
+bool CMainDocument::IsWorkSuspended( wxInt32 iIndex )
 {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
@@ -921,7 +921,7 @@ wxInt32 CMainDocument::WorkAbort( wxString& strProjectURL, wxString& strResultNa
 wxInt32 CMainDocument::CachedMessageUpdate()
 {
     wxInt32 retval = 0;
-    wxInt32 i = 0;
+    //wxInt32 i = 0;
 
     retval = rpc.get_messages( m_iMessageSequenceNumber, messages );
     if (retval)
@@ -951,7 +951,7 @@ wxInt32 CMainDocument::GetMessageCount()
 }
 
 
-wxInt32 CMainDocument::GetMessageProjectName(wxInt32 iIndex, wxString& strBuffer) 
+wxInt32 CMainDocument::GetMessageProjectName( wxInt32 iIndex, wxString& strBuffer ) 
 {
     MESSAGE* pMessage = NULL;
 
@@ -965,7 +965,7 @@ wxInt32 CMainDocument::GetMessageProjectName(wxInt32 iIndex, wxString& strBuffer
 }
 
 
-wxInt32 CMainDocument::GetMessageTime(wxInt32 iIndex, wxDateTime& dtBuffer) 
+wxInt32 CMainDocument::GetMessageTime( wxInt32 iIndex, wxDateTime& dtBuffer ) 
 {
     MESSAGE* pMessage = NULL;
 
@@ -982,7 +982,7 @@ wxInt32 CMainDocument::GetMessageTime(wxInt32 iIndex, wxDateTime& dtBuffer)
 }
 
 
-wxInt32 CMainDocument::GetMessagePriority(wxInt32 iIndex, wxInt32& iBuffer) 
+wxInt32 CMainDocument::GetMessagePriority( wxInt32 iIndex, wxInt32& iBuffer ) 
 {
     MESSAGE* pMessage = NULL;
 
@@ -996,7 +996,7 @@ wxInt32 CMainDocument::GetMessagePriority(wxInt32 iIndex, wxInt32& iBuffer)
 }
 
 
-wxInt32 CMainDocument::GetMessageMessage(wxInt32 iIndex, wxString& strBuffer) 
+wxInt32 CMainDocument::GetMessageMessage( wxInt32 iIndex, wxString& strBuffer ) 
 {
     MESSAGE* pMessage = NULL;
 
@@ -1010,53 +1010,66 @@ wxInt32 CMainDocument::GetMessageMessage(wxInt32 iIndex, wxString& strBuffer)
 }
 
 
+wxInt32 CMainDocument::CachedFileTransfersUpdate()
+{
+    wxInt32 retval = 0;
+
+    retval = rpc.get_file_transfers( ft );
+    if (retval)
+    {
+        wxLogTrace("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", retval);
+        ft.clear();
+    }
+
+    return retval;
+}
 
 
-
-wxInt32 CMainDocument::GetTransferCount() {
+wxInt32 CMainDocument::GetTransferCount()
+{
     CachedStateUpdate();
     return 0;
 }
 
 
-wxString CMainDocument::GetTransferFileName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferProjectName( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
 
-wxString CMainDocument::GetTransferProgress(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferFileName( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
 
-wxString CMainDocument::GetTransferProjectName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferProgress( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
 
-wxString CMainDocument::GetTransferSize(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferSize( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
 
-wxString CMainDocument::GetTransferSpeed(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferSpeed( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
 
-wxString CMainDocument::GetTransferStatus(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferStatus( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
 
-wxString CMainDocument::GetTransferTime(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
+wxInt32 CMainDocument::GetTransferTime( wxInt32 iIndex, wxString& strBuffer )
+{
+    return 0;
 }
 
