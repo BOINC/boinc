@@ -21,28 +21,35 @@
 # Contributor(s):
 #
 
-# add - add items to the DB
-#
-# usages:
-# add project -project_short_name x -project_long_name x
-#      add project
-# add app -app_name x
-#      add application
-#      create DB record
-# add platform -platform_name x -user_friendly_name y
-#      create DB record
-# add app_version
-#      -app_name x -platform_name y -version a
-#      -download_dir d -download_url e
-#      -exec_file file1 [ -signature_file signature1 ]
-#      -exec_file file2 [ -signature_file signature2 ]
-#   file1 is the main programs.  signature files should be created on another
-#   machine but for testing purposes add.py will sign for you (for a real
-#   project you should never store the private key on the networked server)
-#      create DB record
-#      copy exec to data directory
-# add user -email_addr x -name y -authenticator a
-#      [ -global_prefs_file y ]
+'''
+add.py -- add items to the BOINC database.
+
+Usages:
+
+add.py project      --name=yah --long_name="YETI @ home"
+
+add.py platform     --name=c64 [ --user_friendly_name="Commodore 64" ]
+
+add.py core_version --platform=c64 --version_num=717
+                    --exec_file=/path/to/boinc_7.17_c64
+                    [--message="Message"] [--message_priority="Priority"]
+
+add.py app          --name=YetiApp [--min_version=716]
+
+add.py app_version  --app=YetiApp --platform=c64 --version_num=717
+                    --exec_file=/path/to/yeti_7.17_c64
+                      [--signature_file=/path/to/sig_file]
+                    [--exec_file=/path/to/more_bins
+                      [--signature_file=/tmp/sig_file2]] ...
+
+add.py user         --name="Carl Sagan" --email_addr="carl.sagan@example.com"
+                    --authenticator="deadbeef"
+                    [--country=Estonia --postal_code=94703
+                     --global_prefs_file=/path/to/prefs.xml]
+
+add.py workunit  (TODO)
+
+add.py result    (TODO) '''
 
 import sys, getopt, md5
 sys.path.append('../py/')
