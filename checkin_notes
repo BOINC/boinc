@@ -10055,10 +10055,12 @@ David  Feb 16 2004
         to something nonzero).
         If a host isn't sent any work because of this,
         send a message suggesting upgrade
-    - In the scheduler, parse <exit_status> from within <result>
-        Also parse it within <stderr_out> for backwards compat
-    - put an <exit_status> element at the top level of <result>,
+    - Core client: put an <exit_status> element at the top level of <result>,
         not within <stderr_out>
+    - Scheduler: parse <exit_status> from within <result>
+        Also parse it within <stderr_out> for backwards compat
+	- Client state file not parsed correctly when it contained a <file_xfer>
+		(because of active file xfer).
     - add uniqueness constraints for category and forum
     - add a script to set up initial categories and forums
 

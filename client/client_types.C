@@ -554,7 +554,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
    	    	while (fgets(buf, 256, in)) {
    	    		if (match_tag(buf, "</file_xfer>")) break;
    	   	    }
-   	   	    break;
+   	   	    continue;
         } else if (match_tag(buf, "<error_msg>")) {
             copy_element_contents(in, "</error_msg>", buf2, sizeof(buf2));
             error_msg = buf2;
