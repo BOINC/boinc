@@ -528,13 +528,13 @@ void setup_shared_mem(void) {
 
 void cleanup_shared_mem(void) {
 #ifdef _WIN32
-    if (app_client_shm != NULL)
+    if (app_client_shm->shm != NULL)
         detach_shmem(hSharedMem, app_client_shm->shm);
 #endif
 
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
-    if (app_client_shm != NULL)
+    if (app_client_shm->shm != NULL)
         detach_shmem(app_client_shm->shm);
 #endif
 #endif
