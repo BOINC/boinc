@@ -41,6 +41,7 @@ if ($subset == "global") {
         venue_update($user);
     }
 }
+
 Header("Location: prefs.php?subset=$subset&updated=1");
 
 ?>

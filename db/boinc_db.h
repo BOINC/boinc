@@ -162,7 +162,7 @@ struct USER {
     int seti_id;                    // ID in old DB
     int seti_nresults;              // number of WUs completed
     int seti_last_result_time;      // time of last result (UNIX)
-    double seti_total_cpu;             // number of CPU seconds
+    double seti_total_cpu;          // number of CPU seconds
     void clear();
 };
 

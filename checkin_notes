@@ -7252,3 +7252,18 @@ David  30 Oct 2003
         app_ipc.C,h
     client/
         app.C
+
+David  31 Oct 2003
+    - clarified types of seti_* fields
+        (cpu time is double, last result time is int)
+    - fixed bug in project prefs that caused unbounded extraneous CRs
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        index.php
+        prefs.inc
+        prefs.php
+        prefs_edit_action.php
+        stats.php (new)

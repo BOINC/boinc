@@ -184,7 +184,7 @@ void DB_USER::db_print(char* buf){
         "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d, "
         "posts=%d, "
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
-        "seti_total_cpu=%d",
+        "seti_total_cpu=%.15e",
         id,
         create_time,
         email_addr,
@@ -241,7 +241,7 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     seti_id = atoi(r[i++]);
     seti_nresults = atoi(r[i++]);
     seti_last_result_time = atoi(r[i++]);
-    seti_total_cpu = atoi(r[i++]);
+    seti_total_cpu = atof(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -255,7 +255,7 @@ void DB_TEAM::db_print(char* buf){
         "name_lc='%s', url='%s', "
         "type=%d, name_html='%s', description='%s', nusers=%d, "
         "country='%s', total_credit=%.15e, expavg_credit=%.15e, "
-        "set_id=%d",
+        "seti_id=%d",
         id,
         create_time,
         userid,

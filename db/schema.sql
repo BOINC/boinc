@@ -69,7 +69,7 @@ create table user (
     seti_id             integer,
     seti_nresults       integer,
     seti_last_result_time   integer,
-    seti_total_cpu      integer,
+    seti_total_cpu      double,
     primary key (id)
 );
 

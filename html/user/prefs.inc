@@ -113,7 +113,7 @@ function element_end_project($parser, $name) {
         break;
     default:
         if ($in_project_specific) {
-            $text = $text."</$name>\n";
+            $text = $text."</$name>";
         } else {
             //echo "Unknown tag: $name\n";
         }
@@ -690,6 +690,8 @@ function global_prefs_make_xml($prefs, $primary=true) {
     return $xml;
 }
 
+// given a prefs structure, return the corresponding XML string
+//
 function project_prefs_make_xml($prefs, $primary=true) {
     $xml = "";
     if ($primary) {

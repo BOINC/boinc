@@ -11,11 +11,10 @@
     page_head(subset_name($subset)." preferences");
 	if ($_GET['updated']) {
 	    echo "<p style='color: red'>
-            Your preferences have been updated
-            and will take effect the next time your computer communicates
-            with the project.
-            You may manually retrieve the preferences
-            using the BOINC client's \"Get Preferences\" command.
+            Your preferences have been updated.
+            They will take effect when your computer communicates
+            with ".PROJECT." or
+            you issue the BOINC client's \"Get Preferences\" command.
             </p>
         ";
 	}

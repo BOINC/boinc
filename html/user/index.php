@@ -35,6 +35,7 @@
 <li><a href=".URL_BASE."top_users.php>Top users</a>
 <li><a href=".URL_BASE."top_hosts.php>Top computers</a>
 <li><a href=".URL_BASE."top_teams.php>Top teams</a>
+<li><a href=".URL_BASE."stats.php>XML statistics data</a>
 </ul>
 <!--
 ";
