@@ -441,7 +441,6 @@ int boinc_init(bool standalone_ /* = false */) {
     int retval;
 
 #ifdef _WIN32
-    freopen(STDERR_FILE, "a", stderr);
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),

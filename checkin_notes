@@ -9653,3 +9653,17 @@ David  Feb 2 2004
 		parse.C,h
     sched/
         server_types.C
+
+Rom    Feb 2 2004
+    - Added a diagnostics library for project clients
+        Currently only windows specific stuff has been implemented for the
+        BOINCASSERT and BOINCTRACE.  BOINCASSERT has been defined as an ASNI C assert
+        for all other platforms.
+
+        boinc_trace(), boinc_diag_init(), and boinc_diag_cleanup() need to be defined for
+        all the other platforms.
+    - Moved stderr redirection into boinc_diag_init() for the Windows client.
+
+    api/
+        boincdiag.cpp,h (Added)
+        boinc_api.c
