@@ -178,6 +178,7 @@ function account_file_name($url) {
         $x = $url;
     }
     $encoded_name = strtr($x, "/", "_");
+    $encoded_name = substr($encoded_name, 0,strlen($encoded_name)-1);
     return "account_".$encoded_name.".xml";
 }
 
@@ -477,7 +478,7 @@ class Project {
         $this->copy('html_user/*.html'     , 'html_user/');
         $this->copy('html_ops/*.php'       , 'html_ops/');
         $this->copy('html_ops/*.inc'       , 'html_ops/');
-        $this->copy('html_ops/*.html'      , 'html_ops/');
+        // $this->copy('html_ops/*.html'      , 'html_ops/');
         $this->copy('tools/country_select' , 'html_user/');
         if ($this->project_php_file) {
             $this->copy('html_user/$this->project_php_file', 'html_user/project.inc');

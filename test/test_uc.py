@@ -28,10 +28,13 @@ class WorkUC(Work):
         self.redundancy = redundancy
         self.delay_bound = 5*redundancy
         self.input_files = ['input']
-        # Say that 1 WU takes 1 day on a ref comp
-        self.rsc_fpops = 86400*1e9/2
-        self.rsc_iops = 86400*1e9/2
-        self.rsc_disk = 10e8
+        # # Say that 1 WU takes 1 day on a ref comp
+        #    - note: for test_1sec these values are too high so if you want to
+        #            add these back, make them smaller of make test_1sec
+        #            request more work
+        # self.rsc_fpops = 86400*1e9/2
+        # self.rsc_iops = 86400*1e9/2
+        # self.rsc_disk = 10e8
 
 class ResultUC:
     def __init__(self):

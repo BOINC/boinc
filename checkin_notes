@@ -5014,7 +5014,7 @@ Karl    2003/06/23
         util.C
         util.h
 
-Karl 2003/06/23
+Karl    2003/06/23
     - removed stderr messages on detach_project() after user adds a URL that
       doesn't work
 
@@ -5032,3 +5032,13 @@ John Brian	2003/06/24
         resource.rc
         resource.h
         
+Karl    2003/06/23
+    - Got test_1sec working
+
+    test/
+        boinc.py        
+        test.inc
+        test_backend.py
+        test_uc.py
+    sched/
+        start_servers.C

@@ -53,6 +53,7 @@ class ProjectBackend(ProjectUC):
         self.check_results(self.num, ResultUC())
 
 if __name__ == '__main__':
-    test_msg("entire backend");
-    ProjectBackend(sys.argv[1:] and get_int(sys.argv[1]) or 100)
+    num = sys.argv[1:] and get_int(sys.argv[1]) or 100
+    test_msg("entire backend (with %d results)" % num);
+    ProjectBackend(num)
     run_check_all()

@@ -287,6 +287,7 @@ class Project:
                  add_to_list=True):
         if add_to_list:
             all_projects.append(self)
+        self.configlines = []
         self.short_name = short_name or 'test_'+appname
         self.long_name = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
         self.db_passwd = ''
@@ -638,7 +639,6 @@ class Project:
         except OSError:
             pass
 
-    configlines = []
     def append_config(self, line):
         self.configlines += line.split('\n')
         self.write_config()
@@ -843,6 +843,8 @@ def run_check_all():
     '''Run all projects, run all hosts, check all projects, stop all projects.'''
     all_projects.run()
     all_projects.open_dbs()             # for progress meter
+    if os.environ.get('TEST_STOP_BEFORE_HOST_RUN'):
+        raise SystemExit, 'Stopped due to $TEST_STOP_BEFORE_HOST_RUN'
     rm = ResultMeter(all_projects.progress)
     all_hosts.run()
     rm.stop()
@@ -868,6 +870,7 @@ def stop_proxy():
         os.kill(2, proxy_pid)
 
 def test_msg(msg):
+    print
     print "-- Testing", msg, '-'*(66-len(msg))
 
 def test_done():
