@@ -19680,11 +19680,11 @@ David  17 Nov 2004
 
         Thanks to Bruce Allen for suggesting this!!!!
 
-	[Note inserted by Bruce the next day. ANSI-C 4.6.2.1 says: The
+	[Note inserted by Bruce the next day. ANSI-C 4.6.2.1 says: "The
 	longjmp function ... The longjmp function should not be called in
 	an exit handler (i.e., a function registered with the atexit
 	function (see §4.10.4.2)), since it might jump to some code which
-	is no longer in scope.  This should be OK on OSes that delay image
+	is no longer in scope."  This should be OK on OSes that delay image
 	teardown until after calling the handler functions, provided that
 	the routine calling exit() has cleaned up its memory. An
 	alternative might be to use dlopen() or the loader to replace the
