@@ -72,22 +72,24 @@ int get_local_domain_name(char* p) {
 int get_local_ip_addr(int& p) {
     char buf[256];
     struct in_addr addr;
-
+#if HAVE_NETDB_H
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     p = addr.s_addr;
+#endif
     return 0;
 }
 
 int get_local_ip_addr_str(char* p) {
     char buf[256];
+#if HAVE_NETDB_H
     struct in_addr addr;
-
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     strcpy(p, inet_ntoa(addr));
+#endif
     return 0;
 }
 
