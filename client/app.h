@@ -97,23 +97,16 @@ public:
     ACTIVE_TASK();
     int init(RESULT*);
 
-    int start(bool first_time);          // start the task running
-    int request_exit();
-        // ask a task to exit.  doesn't wait for it to do so.
-    int request_pause();
-        // ask a task to pause.  doesn't wait for it to do so.
-    int kill_task();
-        // externally kill the task.  doesn't wait for exit
-    bool task_exited();
-        // return true if this task has exited
-    int abort();
-        // kill, and flag as abort pending
+    int start(bool first_time);         // start the task running
+    int request_exit();                 // Send a SIGQUIT signal or equivalent
+    int kill_task();                    // send a SIGKILL signal or equivalent
+    int suspend();                      // send a SIGSTOP signal or equivalent
+    int unsuspend();                    // send a SIGCONT signal or equivalent
+    int abort();             // flag as abort pending and send kill signal
+    bool task_exited();                 // return true if this task has exited
 
-    int suspend();
-    int unsuspend();
-
-    int get_cpu_time();
-    bool check_app_status();
+    int get_cpu_time_via_shmem(time_t);
+    int get_cpu_time_via_os();
     double est_time_to_completion();
     bool read_stderr_file();
 
@@ -129,13 +122,17 @@ public:
     int wait_for_exit(double);
     ACTIVE_TASK* lookup_pid(int);
     bool poll();
-    bool poll_time();
     void suspend_all();
     void unsuspend_all();
     int restart_tasks();
     void request_tasks_exit();
+    int exit_tasks();
     void kill_tasks();
-    void check_apps();
+    void get_cpu_times();
+    int check_max_disk_usage();
+    bool check_app_exited();
+    bool check_max_cpu_exceeded();
+    bool check_max_disk_exceeded();
     int get_free_slot(int total_slots);
 
     // screensaver-related functions

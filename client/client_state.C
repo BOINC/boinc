@@ -451,20 +451,16 @@ int CLIENT_STATE::check_cpu_benchmarks() {
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.
-// Since there are three different settings in the prefs, it returns the least
-// of the three.
+// There are three different settings in the prefs;
+// return the least of the three.
 //
 int CLIENT_STATE::allowed_disk_usage(double& size) {
     double percent_space, min_val;
 
-    // Calculate allowed disk usage based on % pref
-    //
     percent_space = host_info.d_total*global_prefs.disk_max_used_pct;
 
     min_val = host_info.d_free - global_prefs.disk_min_free_gb*1e9;
 
-    // Return the minimum of the three
-    //
     size = min(min(global_prefs.disk_max_used_gb*1e9, percent_space), min_val);
     if(size < 0) size = 0;
     return 0;
@@ -481,6 +477,16 @@ int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
 
 int CLIENT_STATE::current_disk_usage(double& size) {
     return dir_size(".", size);
+}
+
+// estimate how long a WU will take on this host
+//
+double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
+    double x;
+
+    x = wu.rsc_fpops/host_info.p_fpops;
+    x += wu.rsc_iops/host_info.p_iops;
+    return x;
 }
 
 // See if (on the basis of user prefs) we should suspend activities.
@@ -601,9 +607,6 @@ bool CLIENT_STATE::do_something() {
         x = active_tasks.poll();
         if (x) {action=true; print_log("active_tasks::poll\n"); }
 
-        x = active_tasks.poll_time();
-        if (x) {action=true; print_log("active_tasks::poll_time\n"); }
-
         x = scheduler_rpc_poll();
         if (x) {action=true; print_log("scheduler_rpc\n"); }
 
@@ -613,8 +616,8 @@ bool CLIENT_STATE::do_something() {
         x = pers_xfers->poll();
         if (x) {action=true; print_log("pers_xfers\n"); }
 
-        x = handle_running_apps();
-        if (x) {action=true; print_log("handle_running_apps\n"); }
+        x = handle_finished_apps();
+        if (x) {action=true; print_log("handle_finished_apps\n"); }
 
         x = handle_pers_file_xfers();
         if (x) {action=true; print_log("handle_pers_file_xfers\n"); }

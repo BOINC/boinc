@@ -149,11 +149,10 @@ private:
     int check_suspend_activities();
     int make_project_dirs();
     int make_slot_dirs();
-    int exit_tasks();
     bool input_files_available(RESULT*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
-    bool handle_running_apps();
+    bool handle_finished_apps();
     bool handle_pers_file_xfers();
     void print_summary();
     bool garbage_collect();

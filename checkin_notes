@@ -4334,3 +4334,28 @@ Erik  May 21 2003
         error_numbers.h
     sched/
         handle_request.C
+
+Erik  May 22 2003
+    - abort applications that exceed max disk usage
+        Do this check at most global_prefs.disk_interval seconds
+    - moved code that detaches core/app shared memory from
+        CLIENT_STATE::handle_finished_apps() to
+        ACTIVE_TASK::check_app_exited()
+        NOTE: ACTIVE_TASK IS SUPPOSED TO ENCAPSULATE TASK IMPLEMENTATION
+    - CLIENT_STATE::handle_finished_apps(): don't view an app as finished
+        if it's in PROCESS_ABORT_PENDING state
+    - got rid of ACTIVE_TASK_SET::poll_time();
+        moved its functionality to ACTIVE_TASK_SET::poll()
+    - broke up ACTIVE_TASK_SET::poll() into subfunctions:
+        get_cpu_times(), check_app_exited(),
+        check_max_cpu_exceeded(), check_max_disk_exceeded()
+    - change function names:
+        get_cpu_time() -> get_cpu_time_via_os()
+        check_app_state() -> get_cpu_time_via_shmem()
+        handle_running_aps() -> handle_finished_apps()
+    - exit_tasks() is a member function of ACTIVE_TASK_SET, not CLIENT_STATE
+
+    client/
+        app.C,h
+        client_state.C,h
+        cs_apps.C

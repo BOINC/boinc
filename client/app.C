@@ -101,16 +101,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
 	last_status_msg_time = 0;
 }
 
-// estimate how long a WU will take on this host
-//
-double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
-    double x;
-
-    x = wu.rsc_fpops/host_info.p_fpops;
-    x += wu.rsc_iops/host_info.p_iops;
-    return x;
-}
-
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
@@ -405,8 +395,8 @@ int ACTIVE_TASK::start(bool first_time) {
     return 0;
 }
 
-// Sends a request to the process of this active task to exit.
-// If it doesn't exit within a set time (seconds), the process is terminated
+// Send a quit signal.
+// Normally this is caught by the process, which can checkpoint
 //
 int ACTIVE_TASK::request_exit() {
 #ifdef _WIN32
@@ -416,6 +406,9 @@ int ACTIVE_TASK::request_exit() {
 #endif
 }
 
+// send a kill signal.
+// This is not caught by the process
+//
 int ACTIVE_TASK::kill_task() {
 #ifdef _WIN32
     return !TerminateProcess(pid_handle, -1);
@@ -472,12 +465,26 @@ void ACTIVE_TASK_SET::free_mem() {
 }
 #endif
 
-// Checks if any child processes have exited and records their final CPU time
+// Do period checks on running apps:
+// - get latest CPU time and % done info
+// - check if any has exited, and clean up
+// - see if any has exceeded its CPU or disk space limits, and abort
 //
 bool ACTIVE_TASK_SET::poll() {
-    ACTIVE_TASK* atp;
-    unsigned int j;
+    bool action;
 
+    get_cpu_times();
+    action = check_app_exited();
+    if (action) return true;
+    action = check_max_cpu_exceeded();
+    if (action) return true;
+    action = check_max_disk_exceeded();
+    if (action) return true;
+    return false;
+}
+
+bool ACTIVE_TASK_SET::check_app_exited() {
+    ACTIVE_TASK* atp;
 #ifdef _WIN32
     unsigned long exit_code;
     bool found = false;
@@ -485,8 +492,6 @@ bool ACTIVE_TASK_SET::poll() {
     for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
-            // Get the elapsed CPU time, checkpoint CPU time
-            atp->check_app_status();
             atp->result->final_cpu_time = atp->checkpoint_cpu_time;
             if (exit_code != STILL_ACTIVE) {
                 found = true;
@@ -514,6 +519,13 @@ bool ACTIVE_TASK_SET::poll() {
                 CloseHandle(atp->quitRequestEvent);
                 atp->read_stderr_file();
                 clean_out_dir(atp->slot_dir);
+
+                // detach from shared mem.  This will destroy shmem seg
+                // since we're the last attachment
+                //
+                if (atp->app_client_shm.shm) {
+                    detach_shmem(atp->shm_handle, atp->app_client_shm.shm);
+                }
             }
         }
     }
@@ -530,7 +542,6 @@ bool ACTIVE_TASK_SET::poll() {
             fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
             return true;
         }
-        atp->check_app_status();
         atp->result->final_cpu_time = atp->checkpoint_cpu_time;
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
@@ -577,17 +588,36 @@ bool ACTIVE_TASK_SET::poll() {
         atp->read_stderr_file();
         clean_out_dir(atp->slot_dir);
 
+        // detach from and destroy share mem
+        //
+        if (atp->app_client_shm.shm) {
+            detach_shmem(atp->app_client_shm.shm);
+        }
+        destroy_shmem(atp->shm_key);
+
+
         return true;
     }
 #endif
+    return false;
+}
 
-    // check for processes that have exceeded their maximum CPU time
-    // and abort them
-    //
+// if an app has exceeded its maximum CPU time, abort it
+//
+bool ACTIVE_TASK_SET::check_max_cpu_exceeded() {
+    unsigned int j;
+    ACTIVE_TASK* atp;
+    char buf[256];
+
     for (j=0; j<active_tasks.size(); j++) {
         atp = active_tasks[j];
         if (atp->current_cpu_time > atp->max_cpu_time) {
-            fprintf(stderr, "Aborting task: exceeded CPU time limit %f\n", atp->max_cpu_time);
+            sprintf(buf,
+                "Aborting result %s: exceeded CPU time limit %f\n",
+                atp->result->name,
+                atp->max_cpu_time
+            );
+            show_message(atp->result->project, buf, MSG_INFO);
             atp->abort();
             return true;
         }
@@ -595,6 +625,46 @@ bool ACTIVE_TASK_SET::poll() {
     return false;
 }
 
+// if an app has exceeded its maximum disk usage, abort it
+//
+bool ACTIVE_TASK_SET::check_max_disk_exceeded() {
+    unsigned int j;
+    ACTIVE_TASK* atp;
+    char buf[256];
+    static time_t last_check_time;
+    double disk_usage;
+    int retval;
+
+// don't do disk check too often
+//
+    if (time(0)>last_check_time + gstate.global_prefs.disk_interval) {
+        last_check_time = time(0);
+        for (j=0; j<active_tasks.size(); j++) {
+            atp = active_tasks[j];
+            retval = atp->current_disk_usage(disk_usage);
+            if (retval) {
+                show_message(0, "Can't get application disk usage", MSG_ERROR);
+            } else {
+                fprintf(stderr, "using %f bytes; max is %f bytes\n", disk_usage, atp->max_disk_usage);
+                if (disk_usage > atp->max_disk_usage) {
+                    sprintf(buf,
+                        "Aborting result %s: exceeded disk limit %f\n",
+                        atp->result->name,
+                        atp->max_disk_usage
+                    );
+                    show_message(atp->result->project, buf, MSG_INFO);
+                    atp->abort();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+// The application has done something wrong.
+// May as well send it a kill signal.
+// 
 int ACTIVE_TASK::abort() {
     state = PROCESS_ABORT_PENDING;
     result->active_task_state = PROCESS_ABORT_PENDING;
@@ -633,7 +703,25 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     }
 }
 
-// Wait up to wait_time seconds for all processes in this set to exit
+// send quit signal to all tasks.
+// If they don't exit in one second, send them a kill signal
+// TODO: unsuspend active tasks so they have a chance to checkpoint
+//
+int ACTIVE_TASK_SET::exit_tasks() {
+    request_tasks_exit();
+
+    // Wait a second for them to exit normally; if they don't then kill them
+    //
+    if (wait_for_exit(1)) {
+        kill_tasks();
+    }
+
+    get_cpu_times();
+    
+    return 0;
+}
+
+// Wait up to wait_time seconds for all processes to exit
 //
 int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
     bool all_exited;
@@ -807,7 +895,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
-int ACTIVE_TASK::get_cpu_time() {
+int ACTIVE_TASK::get_cpu_time_via_os() {
 #ifdef _WIN32
     FILETIME creation_time, exit_time, kernel_time, user_time;
     ULARGE_INTEGER tKernel, tUser;
@@ -839,33 +927,38 @@ int ACTIVE_TASK::get_cpu_time() {
     return -1;
 }
 
-// See if the app has generated a new fraction-done buffer.
+// See if the app has generated a new fraction-done message in shared mem.
 // If so read it and return true.
 //
-bool ACTIVE_TASK::check_app_status() {
+int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
     char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
-        last_status_msg_time = time(0);
+        last_status_msg_time = now;
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-        return true;
+        return 0;
     }
-    if (last_status_msg_time+5 < time(0)) {
-        get_cpu_time();
+
+    // if no message in 5 seconds, get the CPU time by system calls
+    //
+    if (last_status_msg_time+5 < now) {
+        last_status_msg_time = now;
+        return get_cpu_time_via_os();
     }
-    return false;
+    return -1;
 }
 
-// Check status of all active tasks
+// get CPU times of active tasks
 //
-void ACTIVE_TASK_SET::check_apps() {
+void ACTIVE_TASK_SET::get_cpu_times() {
     unsigned int i;
     ACTIVE_TASK *atp;
+    time_t now = time(0);
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->check_app_status();
+        atp->get_cpu_time_via_shmem(now);
     }
 }
 
@@ -897,21 +990,6 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
         if (!retval) size += x;
     }
     return 0;
-}
-
-// Poll each of the currently running tasks and get their CPU time
-//
-bool ACTIVE_TASK_SET::poll_time() {
-    ACTIVE_TASK* atp;
-    unsigned int i;
-    bool updated = false;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
-        updated |= atp->check_app_status();
-    }
-
-    return updated;
 }
 
 // Get the next available free slot, or returns -1 if all slots are full

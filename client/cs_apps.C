@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+// High-level logic involving task execution
+//
 #include "windows_cpp.h"
 
 #ifdef _WIN32
@@ -35,8 +37,7 @@
 
 #include "client_state.h"
 
-// Make a directory for each of the available slots specified
-// in the client state
+// Make a directory for each available slot
 //
 int CLIENT_STATE::make_slot_dirs() {
     int i;
@@ -55,7 +56,7 @@ int CLIENT_STATE::make_slot_dirs() {
 int CLIENT_STATE::cleanup_and_exit() {
     int retval;
 
-    retval = exit_tasks();
+    retval = active_tasks.exit_tasks();
     if (retval) {
         fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
         // don't return here - we'll exit anyway
@@ -79,21 +80,6 @@ int CLIENT_STATE::cleanup_and_exit() {
     return 0;
 }
 
-int CLIENT_STATE::exit_tasks() {
-    // TODO: unsuspend active tasks so they have a chance to checkpoint
-    // Send a request to the tasks to exit
-    active_tasks.request_tasks_exit();
-
-    // Wait a second for them to exit normally, if they don't then kill them
-    if (active_tasks.wait_for_exit(1))
-        active_tasks.kill_tasks();
-
-    // Check their final CPU time
-    active_tasks.check_apps();
-    
-    return 0;
-}
-
 // Handle a task that has finished.
 // Mark its output files as present, and delete scratch files.
 // Don't delete input files because they might be shared with other WUs.
@@ -103,7 +89,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     RESULT* rp = at.result;
     FILE_INFO* fip;
     unsigned int i;
-    char path[256];
+    char path[256], buf[256];
     int retval;
     double size;
 
@@ -117,6 +103,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             fip->status = retval;
         } else {
             if (size > fip->max_nbytes) {
+                sprintf(buf,
+                    "Output file %s for result %s exceeds size limit.",
+                    fip->name,
+                    at.result->name
+                );
+                show_message(at.result->project, buf, MSG_INFO);
+
                 fip->delete_file();
                 fip->status = ERR_FILE_TOO_BIG;
             } else {
@@ -134,19 +127,6 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         }
     }
 
-    // Detach from shared memory.  In Windows, this is the same as
-    // destroying the shared mem since we're the last one attached
-    //
-#ifdef _WIN32
-    if (at.app_client_shm.shm) {
-        detach_shmem(at.shm_handle, at.app_client_shm.shm);
-    }
-#else
-    if (at.app_client_shm.shm) {
-        detach_shmem(at.app_client_shm.shm);
-    }
-    destroy_shmem(at.shm_key);
-#endif
     at.result->is_active = false;
     at.result->state = RESULT_COMPUTE_DONE;
     update_avg_cpu(at.result->project);
@@ -154,9 +134,9 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     return 0;
 }
 
-// poll status of existing apps and and clean up after them
+// clean up after finished apps
 //
-bool CLIENT_STATE::handle_running_apps() {
+bool CLIENT_STATE::handle_finished_apps() {
     unsigned int i;
     ACTIVE_TASK* atp;
     bool action = false;
@@ -164,7 +144,11 @@ bool CLIENT_STATE::handle_running_apps() {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        if (atp->state != PROCESS_RUNNING) {
+        switch (atp->state) {
+        case PROCESS_RUNNING:
+        case PROCESS_ABORT_PENDING:
+            break;
+        default:
             sprintf(buf, "Computation for result %s finished", atp->wup->name);
             show_message(atp->wup->project, buf, MSG_INFO);
             if (log_flags.task_debug) {
