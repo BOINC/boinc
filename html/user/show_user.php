@@ -12,11 +12,14 @@
 
     require_once("../inc/db.inc");
     require_once("../inc/user.inc");
+    require_once("../inc/forum.inc");
     db_init();
 
     $result = mysql_query("select * from user where id = $id");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
+
+    $user = getForumPreferences($user);
 
     if ($format == "xml") {
         require_once("../inc/xml.inc");

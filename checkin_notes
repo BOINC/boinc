@@ -17474,3 +17474,11 @@ David  20 Sept 2004
     html/inc/
         cache.inc
         prefs.inc
+
+David  20 Sept 2004
+    html/
+        inc/
+            forum.inc
+        user/
+            edit_forum_preferences_action.php
+            show_user.php

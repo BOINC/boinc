@@ -233,10 +233,10 @@ function getSortStyle($user,$place){
 
 function setSortStyle($user,$place,$new_style){
     if ($user->id!=""){
-	list($forum,$thread,$faq,$answer)=explode("|",$user->forum_sorting);
+	list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
 	$$place=$new_style;
-	$user->forum_sorting=implode("|",array($forum,$thread,$faq,$answer));
-	$sql = "UPDATE forum_preferences SET sorting = '".$user->forum_sorting."' where userid = '".$user->id."'";
+	$user->sorting=implode("|",array($forum,$thread,$faq,$answer));
+	$sql = "UPDATE forum_preferences SET sorting = '".$user->sorting."' where userid = '".$user->id."'";
 	mysql_query($sql);
     } else {
         list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);

@@ -26,9 +26,9 @@
                 $file=$_FILES['picture']['tmp_name'];
             $size = getImageSize($file);
     //        print_r($size);flush();
-            if ($size[2]!=1 and $size[2]!=2 and $size[2]!=3){
+            if ($size[2]!=2 and $size[2]!=3){
                 //Not the right kind of file
-                Echo "Error: Not the right kind of file";
+                Echo "Error: Not the right kind of file, only PNG and JPEG are supported.";
                 exit();
             }
                 $width = $size[0];
