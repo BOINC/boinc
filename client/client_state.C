@@ -538,10 +538,10 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
 //
 ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep)
 {
-	for(int i = 0; i < active_tasks.active_tasks.size(); i ++) {
-		if(active_tasks.active_tasks[i]->result == rep) return active_tasks.active_tasks[i];
-	}
-	return NULL;
+    for(unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
+        if(active_tasks.active_tasks[i]->result == rep) return active_tasks.active_tasks[i];
+    }
+    return NULL;
 }
 
 // functions to create links between state objects
