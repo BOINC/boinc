@@ -19874,15 +19874,19 @@ Rom    19 Nov 2004
     lib/
         gui_rpc_client.C    
 
-Bruce  19 Nov 2004 UTC (from Reinhard Prix)
+Bruce  19 Nov 2004 UTC
 
     - Added nice macro (wxWidgets.m4) to CVS for detection of wxWidgets.
       Now switch off clientgui build (with nice warning) if wxWidgets is
-      not found.
+      not found. (thanks Reinhard Prix)
     - Use outcome of pthread tests and corresponding flags to set pthreads
       CFLAGS correctly.
+    - New user database email-lowercasing script more efficient, handles case
+      where user.id is not contiguous.
 
     configure.ac
     Makefile.am
     m4/
      wxWidgets.m4
+    html/ops/
+     make_emails_lowercase.php
