@@ -15680,7 +15680,7 @@ Daniel 2004-07-26
     - API: send current VM usage and resident set size in
       update_app_progress(). Currently only works for Solaris and Linux.
       Does anyone know how to do this on Windows or OSX?
-    - Fixed typo in prefs page
+    - Fixed typo on prefs page
 
     config.h.in
     configure
@@ -15699,3 +15699,10 @@ Rom    July 27 2004
         boinc_db.C
     sched/
         handle_request.C
+
+Daniel 2004-07-27
+    - client: upon file xfer failure, don't do multiple back-offs
+
+    client/
+        pers_file_xfer.C
+

@@ -141,8 +141,8 @@ int PERS_FILE_XFER::start_xfer() {
             (is_upload ? "upload" : "download"), fip->get_current_url(is_upload), retval
         );
         handle_xfer_failure();
-		delete fxp;
-		fxp = NULL;
+        delete fxp;
+        fxp = NULL;
         return retval;
         // TODO: do we need to do anything here?
     }
@@ -261,45 +261,48 @@ bool PERS_FILE_XFER::poll(time_t now) {
     return false;
 }
 
-// Takes a reason why a transfer has failed. Checks to see if there are no more valid URLs
-// listed in the file_info. If no more urls are present, the file is then given up on, the reason is
-// listed in the error_msg field, and the appropriate status code is given. If there are more
-// URLs to try, the file_xfer is restarted with these new urls until a good transfer is made
-// or it completely gives up.
+// Takes a reason why a transfer has failed.
 //
-
+// Checks to see if there are no more valid URLs listed in the file_info.
+//
+// If no more urls are present, the file is then given up on, the reason is
+// listed in the error_msg field, and the appropriate status code is given.
+//
+// If there are more URLs to try, the file_xfer is restarted with these new
+// urls until a good transfer is made or it completely gives up.
+//
 void PERS_FILE_XFER::check_giveup(char* why) {
-	if(fip->get_next_url(fip->upload_when_present) == NULL) {
-		// the file has no appropriate download location
-		// remove the file from the directory and delete the file xfer object
-		gstate.file_xfers->remove(fxp);
-		delete fxp;
-		fxp = NULL;
-		// apply the correct error code
-		if (is_upload) {
-			fip->status = ERR_GIVEUP_UPLOAD;
-		} else {
-			fip->status = ERR_GIVEUP_DOWNLOAD;
-		}
-		// end the xfer so it will be deleted
-		xfer_done = true;
-		msg_printf(
-			fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
-			is_upload?"upload":"download", fip->name, why
-		);
-		fip->error_msg = why;
-		// delete the associated file in the project directory
-		fip->delete_file();
-	} else {
-		if (is_upload) {
-			if (gstate.exit_before_upload) {
-				exit(0);
-			}
-			fxp->init_upload(*fip);
-		} else {
-			fxp->init_download(*fip);
-		}
-	}
+    if(fip->get_next_url(fip->upload_when_present) == NULL) {
+        // the file has no appropriate download location
+        // remove the file from the directory and delete the file xfer object
+        gstate.file_xfers->remove(fxp);
+        delete fxp;
+        fxp = NULL;
+        // apply the correct error code
+        if (is_upload) {
+                fip->status = ERR_GIVEUP_UPLOAD;
+        } else {
+                fip->status = ERR_GIVEUP_DOWNLOAD;
+        }
+        // end the xfer so it will be deleted
+        xfer_done = true;
+        msg_printf(
+            fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
+            is_upload?"upload":"download", fip->name, why
+        );
+        fip->error_msg = why;
+        // delete the associated file in the project directory
+        fip->delete_file();
+    } else {
+        if (is_upload) {
+            if (gstate.exit_before_upload) {
+                exit(0);
+            }
+            fxp->init_upload(*fip);
+        } else {
+            fxp->init_download(*fip);
+        }
+    }
 }
 
 // Handle a transfer failure
@@ -311,6 +314,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     //
     if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
         fip->delete_file();
+        return;
     }
 
     if (fxp->file_xfer_retval == HTTP_STATUS_NOT_FOUND) {
@@ -321,6 +325,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
             return;
         } else {
             retry_or_backoff();
+            return;
         }
     }
 
