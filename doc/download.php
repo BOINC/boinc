@@ -120,6 +120,7 @@ function show_420($xml=false) {
 }
 
 function show_419_public($xml=false) {
+    version_start("4.19", "25 Jan 2005", $xml);
     version("Linux/x86", "boinc_4.19_i686-pc-linux-gnu.gz", bare_core(), $xml);
     version("Mac OS X", "boinc_4.19_powerpc-apple-darwin.gz", bare_core(), $xml);
     version("Solaris/SPARC", "boinc_4.19_sparc-sun-solaris2.7.gz", bare_core(), $xml);
