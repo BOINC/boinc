@@ -796,7 +796,7 @@ bool host_has_file(SCHEDULER_REQUEST& request,
     //
     for (i=0; i<(int)request.file_infos.size(); i++) {
         FILE_INFO& fi = request.file_infos[i];
-        if (!strncmp(filename, fi.name, strlen(filename))) {
+        if (!strcmp(filename, fi.name)) {
             has_file=true;
             break;
         }
@@ -815,13 +815,14 @@ bool host_has_file(SCHEDULER_REQUEST& request,
     //
     for (i=0; i<(int)reply.wus.size(); i++) {
         char wu_filename[256];
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] sched reply wu(%d)=%s\n", reply.host.id, i, reply.wus[i].name
-        );
-        if (extract_filename(reply.wus[i].name, wu_filename))
+
+        if (extract_filename(reply.wus[i].name, wu_filename)) {
+            // work unit does not appear to contain a file name
             continue;
-        if (!strncmp(filename, wu_filename, strlen(filename))) {
+        }
+
+        if (!strcmp(filename, wu_filename)) {
+            // work unit is based on the file that we are looking for
             has_file=true;
             break;
         }
