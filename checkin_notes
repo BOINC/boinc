@@ -2913,6 +2913,15 @@ David  Jan 8 2003
         backend_lib.C
         create_work.C
 
+Seth   Jan 8 2003
+	- Set up Windows client to read captions from a file
+
+    client/win/
+        Resource.h
+        resource.rc
+        wingui_dialog.cpp,h
+        wingui_mainwindow.cpp,h
+
 David  Jan 13 2003
     - With -no_time_test flag, client now uses default values for
         various speeds, rather than zero

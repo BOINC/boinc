@@ -36,10 +36,8 @@ BUGS (arranged from high to low priority)
 - make pie chart colors/labels easier to understand
 - need a way to refresh prefs from client
 - columns expand when window expands
-- % done display screwed up in progress bar; also dark color is hard to read
 - Download speed is not as fast as it should be
 - Result status should say "downloading files", "uploading files", etc.
-- result % done should have 2 digits after dec pt
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
@@ -47,10 +45,6 @@ HIGH-PRIORITY (should do for beta test)
 
 Check for problematic HTML tags in team descriptions
     (use SETI@home code?)
-
-Windows: put text (e.g. column headings, menus) in a file
-    so that people can develop alternate versions of the file
-    for different languages.
 
 Windows: use messages rather than interrupt for timing
 
