@@ -19,6 +19,9 @@
 //
 // Revision History
 // $Log$
+// Revision 1.26  2004/01/20 02:51:50  korpela
+// VC 7 mods
+//
 // Revision 1.25  2003/12/01 23:42:05  korpela
 // Under some compilers template parameters of type char [] weren't getting
 // cast to char *.  Template functions now use &(array[0]) to ensure correct
@@ -547,7 +550,8 @@ unsigned char decode_char(const char *s) {
 
 std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   std::ostringstream rv("");
-  long lastlen=0,i;
+  long lastlen=0;
+  size_t i;
   rv << std::endl << xml_indent(2);
   for (i=0;i<(nelements-1);i++) {
     unsigned int ival=bin[i];
@@ -564,6 +568,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.26  2004/01/20 02:51:50  korpela
+// VC 7 mods
+//
 // Revision 1.25  2003/12/01 23:42:05  korpela
 // Under some compilers template parameters of type char [] weren't getting
 // cast to char *.  Template functions now use &(array[0]) to ensure correct
