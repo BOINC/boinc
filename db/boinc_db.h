@@ -40,6 +40,9 @@ extern DB_CONN boinc_db;
 //#define MEDIUM_BLOB_SIZE   4096
 #define LARGE_BLOB_SIZE   65536
 
+// Dummy name for file xfers
+#define FILE_MOVER "move_file"
+
 
 // A compilation target, i.e. a architecture/OS combination.
 // The core client will be given only applications with the same platform
