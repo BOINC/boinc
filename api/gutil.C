@@ -17,11 +17,11 @@
 // Contributor(s):
 //
 
-#include "config.h"
-
 #ifdef _WIN32
 #include "boinc_win.h"
+extern "C"{
 #include "jpeglib.h"
+}
 #include "bmplib.h"
 #include "tgalib.h"
 #endif
@@ -38,8 +38,6 @@ extern "C"{
 #endif
 
 #include "boinc_gl.h"
-
-//#include <GLUT/glut.h>
 
 #include "gutil.h"
 #include "filesys.h"

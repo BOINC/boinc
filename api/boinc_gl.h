@@ -20,7 +20,6 @@
 #ifndef H_BOINC_GL
 #define H_BOINC_GL
 
-#include "config.h"
 
 #if defined(_WIN32)
 #  include <GL/gl.h>
@@ -33,6 +32,7 @@
 #  include "GLUT/glut.h"
 
 #else // !_WIN32, !__APPLE_CC__
+#include "config.h"
 
 #  if defined(HAVE_GL_H)
 #    include <gl.h>
