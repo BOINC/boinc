@@ -186,6 +186,8 @@ DirScanner::DirScanner(string const& path) {
 //
 bool DirScanner::scan(string& s) {
 #ifdef HAVE_DIRENT_H
+    if (!dirp) return false;
+    
     while (1) {
         dirent* dp = readdir(dirp);
         if (dp) {

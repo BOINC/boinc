@@ -160,9 +160,10 @@ bool HOST_INFO::host_is_running_on_batteries() {
                 if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) { 
                     // on batteries if ac adapter is "off-line" (or maybe "offline")
                     retval = (strstr(buf, "off") != NULL);
-                    fclose(facpi);
                     break;
                 }
+
+                fclose(facpi);
             }
         }
     }

@@ -11786,3 +11786,13 @@ David  April 23 2004
         app.C
     lib/
         app_ipc.C,h
+
+Rom    April 26 2004
+    - Fix a condition where we were leaking a file handle on Linux
+    - Fix a seg fault when the dirscanner attempts to scan a non
+      existent directory
+
+    client/
+        hostinfo_unix.c
+    lib/
+        filesys.c
