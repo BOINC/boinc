@@ -23,30 +23,6 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=Windows Operating System\Windows System Folder
 
-[Language Files\English]
-SELECTED=Yes
-FILENEED=STANDARD
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=
-DISPLAYTEXT=
-IMAGE=
-DEFSELECTION=Yes
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination
-
 [Help Files]
 SELECTED=Yes
 FILENEED=STANDARD
@@ -74,15 +50,11 @@ PASSWORD=
 TARGETHIDDEN=General Application Destination
 
 [Components]
-component0=Language Files\English
-component1=System DLLs
-component2=Help Files
-component3=Language Files\Italiano
-component4=Language Files
-component5=Language Files\Deutsch
-component6=Program Files
-component7=Screensaver Files
-component8=Language Files\Espanol
+component0=System DLLs
+component1=Help Files
+component2=Language Files
+component3=Program Files
+component4=Screensaver Files
 
 [TopComponents]
 component0=Program Files
@@ -94,56 +66,6 @@ component4=System DLLs
 [SetupType]
 setuptype0=Typical
 
-[Language Files\Italiano]
-SELECTED=Yes
-FILENEED=STANDARD
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=Italiano
-DISPLAYTEXT=Italiano
-IMAGE=
-DEFSELECTION=Yes
-filegroup0=Italian Files
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination
-
-[Language Files\Deutsch]
-SELECTED=Yes
-FILENEED=STANDARD
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=Deutsch
-DISPLAYTEXT=Deutsch
-IMAGE=
-DEFSELECTION=Yes
-filegroup0=Language Files
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination
-
 [Language Files]
 SELECTED=Yes
 FILENEED=STANDARD
@@ -151,13 +73,9 @@ HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
 TARGET=<TARGETDIR>
-member0=Language Files\Espanol
 FTPLOCATION=
-member1=Language Files\Deutsch
 VISIBLE=Yes
 DESCRIPTION=
-member2=Language Files\Italiano
-member3=Language Files\English
 DISPLAYTEXT=
 IMAGE=
 DEFSELECTION=Yes
@@ -225,30 +143,6 @@ DISK=ANYDISK
 TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=Windows Operating System
-
-[Language Files\Espanol]
-SELECTED=Yes
-FILENEED=STANDARD
-HTTPLOCATION=
-STATUS=Espanol
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=Espanol
-DISPLAYTEXT=Espanol
-IMAGE=
-DEFSELECTION=Yes
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination
 
 [Info]
 Type=CompDef
