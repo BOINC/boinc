@@ -305,21 +305,21 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     for (i=0; i<net_xfers.size(); i++) {
         nxp = net_xfers[i];
         if (!nxp->is_connected) {
-            FD_SET(net_xfers[i]->socket, &write_fds);
-        } else if (net_xfers[i]->want_download) {
+            FD_SET(nxp->socket, &write_fds);
+        } else if (nxp->want_download) {
             if (bytes_left_down > 0) {
-                FD_SET(net_xfers[i]->socket, &read_fds);
+                FD_SET(nxp->socket, &read_fds);
             } else {
                 if (log_flags.net_xfer_debug) printf("Throttling download\n");
             }
-        } else if (net_xfers[i]->want_upload) {
+        } else if (nxp->want_upload) {
             if (bytes_left_up > 0) {
-                FD_SET(net_xfers[i]->socket, &write_fds);
+                FD_SET(nxp->socket, &write_fds);
             } else {
                 if (log_flags.net_xfer_debug) printf("Throttling upload\n");
             }
         }
-        FD_SET(net_xfers[i]->socket, &error_fds);
+        FD_SET(nxp->socket, &error_fds);
     }
     n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
     if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
