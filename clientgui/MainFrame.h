@@ -88,6 +88,8 @@ private:
 
     wxString        m_strBaseTitle;
 
+    bool            m_bRunInitialClientConnectionChecks;
+
     wxInt32         m_iSelectedLanguage;
     wxArrayString   m_aSelectedComputerMRU;
 

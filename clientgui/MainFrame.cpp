@@ -183,6 +183,8 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
     m_strBaseTitle = strTitle;
 
+    m_bRunInitialClientConnectionChecks = true;
+
     m_aSelectedComputerMRU.Clear();
 
 
@@ -912,9 +914,9 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
         }
         else
         {
-            // If we don't detect any attached projects for this BOINC Daemon,
-            //   prompt to add one.
-            AttachToProjectPrompt();
+            // Run any checks that may need to be run upon an initial
+            //   connection.
+            m_bRunInitialClientConnectionChecks = true;
         }
 
         // Insert a copy of the current combo box value to the head of the
@@ -1212,8 +1214,8 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     static bool bAlreadyRunningLoop = false;
-    static bool bDoneOnce = false;
 
     if (!bAlreadyRunningLoop)
     {
@@ -1221,25 +1223,23 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 
         wxGetApp().UpdateSystemIdleDetection();
 
-
-        // Run stuff that we want to display on startup
-        if ( !bDoneOnce )
-        {
-            bDoneOnce = true;
-
-            // If we don't detect any attached projects for this BOINC Daemon,
-            //   prompt to add one.
-            AttachToProjectPrompt();
-
-        }
-
-
         if ( IsShown() )
         {
-            CMainDocument* pDoc = wxGetApp().GetDocument();
             if ( NULL != pDoc )
             {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+                // Run stuff that we want to display on startup
+                if ( m_bRunInitialClientConnectionChecks && pDoc->IsConnected() )
+                {
+                    m_bRunInitialClientConnectionChecks = false;
+
+                    // If we don't detect any attached projects for this BOINC Daemon,
+                    //   prompt to add one.
+                    AttachToProjectPrompt();
+
+                }
+
 
                 // Update the menu bar
                 wxMenuBar*     pMenuBar      = GetMenuBar();
@@ -1300,7 +1300,7 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 
                 // Update the statusbar
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
-                if ( pDoc->IsConnected() )
+                if ( pDoc->IsConnected() || pDoc->IsReconnecting() )
                 {
                     m_pStatusbar->m_pbmpConnected->Show();
                     m_pStatusbar->m_ptxtConnected->Show();
@@ -1308,28 +1308,40 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                     m_pStatusbar->m_ptxtDisconnect->Hide();
 
                     wxString strBuffer = wxEmptyString;
-                    wxString strConnectedMachine = wxEmptyString;
+                    wxString strComputerName = wxEmptyString;
                     wxString strStatusText = wxEmptyString;
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = setlocale(LC_NUMERIC, NULL);
      
-                    pDoc->GetConnectedComputerName( strConnectedMachine );
-                    if ( strConnectedMachine.empty() )
+                    if ( pDoc->IsReconnecting() )
+                        pDoc->GetConnectingComputerName( strComputerName );
+                    else
+                        pDoc->GetConnectedComputerName( strComputerName );
+
+                    if ( strComputerName.empty() )
                     {
                         strTitle += wxT(" - (localhost)");
-                        strConnectedMachine += wxT("localhost");
+                        strComputerName += wxT("localhost");
                     }
                     else
                     {
-                        strStatusText += strConnectedMachine;
+                        strStatusText += strComputerName;
                     }
 
-                    setlocale(LC_NUMERIC, "C");
-                    strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
-                    setlocale(LC_NUMERIC, strLocale.c_str());
+                    if ( pDoc->IsReconnecting() )
+                    {
+                        strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
+                        strStatusText.Printf(_("Connecting to %s"), strComputerName.c_str());
+                    }
+                    else
+                    {
+                        setlocale(LC_NUMERIC, "C");
+                        strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
+                        setlocale(LC_NUMERIC, strLocale.c_str());
 
-                    strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strConnectedMachine.c_str());
-                    strStatusText.Printf(_("Connected to %s (%s)"), strConnectedMachine.c_str(), strBuffer.c_str());
+                        strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
+                        strStatusText.Printf(_("Connected to %s (%s)"), strComputerName.c_str(), strBuffer.c_str());
+                    }
 
                     SetTitle( strTitle );
                     m_pStatusbar->m_ptxtConnected->SetLabel( strStatusText );

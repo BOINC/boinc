@@ -35,7 +35,6 @@ public:
     CNetworkConnectionThread( CMainDocument* pDocument );
 
     virtual void* Entry();
-    void OnExit();
 
 private:
     CMainDocument* m_pDocument;
@@ -102,9 +101,10 @@ public:
     wxInt32                     OnRefreshState();
 
     wxInt32                     Connect( const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = TRUE );
-    wxInt32                     Disconnect();
     wxInt32                     GetConnectedComputerName( wxString& strMachine );
+    wxInt32                     GetConnectingComputerName( wxString& strMachine );
     bool                        IsConnected();
+    bool                        IsReconnecting();
 
     wxInt32                     CachedStateLock();
     wxInt32                     CachedStateUnlock();
@@ -131,6 +131,7 @@ public:
     wxString                    m_strNCTNewConnectedComputerName;
     wxString                    m_strNCTNewConnectedComputerPassword;
     bool                        m_bIsConnected;
+    bool                        m_bIsReconnecting;
     wxString                    m_strConnectedComputerName;
     wxString                    m_strConnectedComputerPassword;
 

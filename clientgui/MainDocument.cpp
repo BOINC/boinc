@@ -27,7 +27,8 @@
 #include "error_numbers.h"
 
 
-CNetworkConnectionThread::CNetworkConnectionThread( CMainDocument* pDocument )
+CNetworkConnectionThread::CNetworkConnectionThread( CMainDocument* pDocument ) :
+    wxThread( wxTHREAD_JOINABLE )
 {
     m_pDocument = pDocument;
 }
@@ -61,32 +62,25 @@ void* CNetworkConnectionThread::Entry()
                 m_pDocument->m_iMessageSequenceNumber = 0;
 
                 m_pDocument->m_bIsConnected = false;
+                m_pDocument->m_bIsReconnecting = true;
             }
 
             if ( m_pDocument->IsConnected() )
                 return BOINC_SUCCESS;
 
-            if ( strComputer.empty() && !m_pDocument->m_strConnectedComputerName.empty() )
-                if (!m_pDocument->m_strNCTNewConnectedComputerName.empty())
-                    strComputer = m_pDocument->m_strNCTNewConnectedComputerName;
-                else
-                    strComputer = m_pDocument->m_strConnectedComputerName.c_str();
-            else
-            {
-                if (!m_pDocument->m_strNCTNewConnectedComputerName.empty())
-                    strComputer = m_pDocument->m_strNCTNewConnectedComputerName.empty();
-            }
 
-            if ( strComputerPassword.empty() && !m_pDocument->m_strConnectedComputerPassword.empty() )
-                if (!m_pDocument->m_strNCTNewConnectedComputerPassword.empty())
-                    strComputerPassword = m_pDocument->m_strNCTNewConnectedComputerPassword;
-                else
-                    strComputerPassword = m_pDocument->m_strConnectedComputerPassword.c_str();
+            if (!m_pDocument->m_strNCTNewConnectedComputerName.empty())
+                strComputer = m_pDocument->m_strNCTNewConnectedComputerName;
             else
-            {
-                if (!m_pDocument->m_strNCTNewConnectedComputerPassword.empty())
-                    strComputerPassword = m_pDocument->m_strNCTNewConnectedComputerPassword;
-            }
+                if ( !m_pDocument->m_strConnectedComputerName.empty() )
+                    strComputer = m_pDocument->m_strConnectedComputerName.c_str();
+
+            if (!m_pDocument->m_strNCTNewConnectedComputerPassword.empty())
+                strComputerPassword = m_pDocument->m_strNCTNewConnectedComputerPassword;
+            else
+                if ( !m_pDocument->m_strConnectedComputerPassword.empty() )
+                    strComputerPassword = m_pDocument->m_strConnectedComputerPassword.c_str();
+
 
             if ( strComputer.empty() )
                 iRetVal = m_pDocument->rpc.init( NULL );
@@ -109,6 +103,7 @@ void* CNetworkConnectionThread::Entry()
             if ( 0 == iRetVal )
             {
                 m_pDocument->m_bIsConnected = true;
+                m_pDocument->m_bIsReconnecting = false;
                 m_pDocument->m_strConnectedComputerName = strComputer.c_str();
                 m_pDocument->m_strConnectedComputerPassword = strComputerPassword.c_str();
                 m_pDocument->m_bNCTNewShouldReconnect = false;
@@ -123,27 +118,6 @@ void* CNetworkConnectionThread::Entry()
     }
 
     return NULL;
-}
-
-
-void CNetworkConnectionThread::OnExit()
-{
-    m_pDocument->rpc.close();
-    m_pDocument->state.clear();
-    m_pDocument->host.clear();
-    m_pDocument->project_status.clear();
-    m_pDocument->results.clear();
-    m_pDocument->messages.clear();
-    m_pDocument->ft.clear();
-    m_pDocument->resource_status.clear();
-    m_pDocument->proxy_info.clear();
-    
-    m_pDocument->m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    m_pDocument->m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
-
-    m_pDocument->m_iMessageSequenceNumber = 0;
-
-    m_pDocument->m_bIsConnected = false;
 }
 
 
@@ -164,6 +138,7 @@ CMainDocument::CMainDocument()
 #endif
 
     m_bIsConnected = false;
+    m_bIsReconnecting = false;
     m_strConnectedComputerName = wxEmptyString;
     m_strConnectedComputerPassword = wxEmptyString;
 
@@ -202,6 +177,7 @@ CMainDocument::~CMainDocument()
     m_strConnectedComputerPassword = wxEmptyString;
     m_strConnectedComputerName = wxEmptyString;
     m_bIsConnected = false;
+    m_bIsReconnecting = false;
 
 #ifdef __WIN32__
     WSACleanup();
@@ -311,32 +287,6 @@ wxInt32 CMainDocument::Connect( const wxChar* szComputer, const wxChar* szComput
 }
 
 
-wxInt32 CMainDocument::Disconnect()
-{
-    if ( IsConnected() )
-    {
-        rpc.close();
-        state.clear();
-        host.clear();
-        project_status.clear();
-        results.clear();
-        messages.clear();
-        ft.clear();
-        resource_status.clear();
-        proxy_info.clear();
-        
-        m_dtCachedStateLockTimestamp = wxDateTime::Now();
-        m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
-
-        m_iMessageSequenceNumber = 0;
-
-        m_bIsConnected = false;
-    }
-
-    return 0;
-}
-
-
 wxInt32 CMainDocument::GetConnectedComputerName( wxString& strMachine )
 {
     strMachine = m_strConnectedComputerName;
@@ -344,9 +294,22 @@ wxInt32 CMainDocument::GetConnectedComputerName( wxString& strMachine )
 }
 
 
+wxInt32 CMainDocument::GetConnectingComputerName( wxString& strMachine )
+{
+    strMachine = m_strNCTNewConnectedComputerName;
+    return 0;
+}
+
+
 bool CMainDocument::IsConnected()
 {
     return m_bIsConnected;
+}
+
+
+bool CMainDocument::IsReconnecting()
+{
+    return m_bIsReconnecting;
 }
 
 

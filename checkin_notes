@@ -26762,3 +26762,19 @@ David  6 April 2005
 		win_screensaver.cpp
 		res/
 			boinc.cmp
+
+Rom    6 April 2005
+    - Added the connecting state to the status bar since the UI was displaying
+        it as disconnected when we would switch between machines.
+    - Bug Fix: Explicitly declare the network connection thread as a joinable
+        thread, by default wxWidgets defines the default behavior as detached 
+        which handles its own destruction.
+
+      NOTE: The documentation also states that on Windows all threads are 
+        joinable, so in the end, the crashes were related to me attempting to
+        cleanup the thread when it had already deleted itself, which caused a 
+        double free situation.
+
+    clientgui/
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
