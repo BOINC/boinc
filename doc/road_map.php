@@ -58,13 +58,29 @@ and file upload handler as Fast CGI programs.
 On UNIX systems, the BOINC software (both server and client)
 can be built by typing
 <pre>
+  ./_autosetup  [Only needed if using CVS; not needed if using tarball]
   ./configure
   make
+  make install  [Optional: installs libraries and header files useful for building apps]
 </pre>
-in the top directory. Automatic tests can be run using
+in the top directory. If you want to build the Unix/Mac graphical client, you will need to
+install <a href='http://www.wxwidgets.org/'>wxWidgets</a>.
+
+ Automatic tests can be run using:
 <pre>
   make check
 </pre>
+A list of options to the configure script can be found by using
+<pre>
+./configure --help
+</pre>
+The most useful of these is
+<pre>
+./configure --prefix=/path/to/install/headers/and/libraries/
+</pre>
+Note that if building from CVS you should have fairly recent versions of 
+<a href='http://directory.fsf.org/GNU/autoconf.html'>autoconf</a> and <a href='http://directory.fsf.org/GNU/automake.html'>automake</a>
+installed.  These are maintained by the <a href='http://www.gnu.org'>GNU project</a>.
 ";
 page_tail();
 ?>
