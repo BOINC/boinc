@@ -48,33 +48,9 @@ CLoginDialog::CLoginDialog(UINT y, LPCTSTR szUrl, LPCTSTR szAuth) : CDialog(y)
 // function:	loads new captions from language file
 void CLoginDialog::LoadLanguage()
 {
-	char szPath[256];
-	CString strSection;
-	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\");
-	strcat(szPath, LANGUAGE_FILE_NAME);
-	CString strKey;
-	char szVal[256];
-	GetWindowText(strKey);
-	GetPrivateProfileString("DIALOG-LOGIN", "Title", strKey, szVal, 256, szPath);
-	SetWindowText(szVal);
-	GetDlgItemText(IDC_STATIC_URL, strKey);
-	GetPrivateProfileString("DIALOG-LOGIN", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_URL, szVal);
-	GetDlgItemText(IDC_STATIC_AUTH, strKey);
-	GetPrivateProfileString("DIALOG-LOGIN", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_AUTH, szVal);
-	GetDlgItemText(IDOK, strKey);
-	GetPrivateProfileString("DIALOG-LOGIN", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDOK, szVal);
-	GetDlgItemText(IDCANCEL, strKey);
-	GetPrivateProfileString("DIALOG-LOGIN", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDCANCEL, szVal);
-
-	GetPrivateProfileString("DIALOG-LOGIN", m_strUrlTT, m_strUrlTT, szVal, 256, szPath);
-	m_strUrlTT.Format("%s", szVal);
-	GetPrivateProfileString("DIALOG-LOGIN", m_strAuthTT, m_strAuthTT, szVal, 256, szPath);
-	m_strAuthTT.Format("%s", szVal);
+	int const static nIDs[] = { IDC_STATIC_URL, IDC_STATIC_AUTH, IDOK, IDCANCEL, 0 };
+	CString * const pStrs[] = { &m_strUrlTT, &m_strAuthTT, 0 };
+	UpdateLanguageStrings(this, "DIALOG-LOGIN", nIDs, pStrs);
 }
 
 //////////
@@ -176,58 +152,13 @@ CProxyDialog::CProxyDialog(UINT y) : CDialog(y)
 // function:	loads new captions from language file
 void CProxyDialog::LoadLanguage()
 {
-	char szPath[256];
-	CString strSection;
-	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\");
-	strcat(szPath, LANGUAGE_FILE_NAME);
-	CString strKey;
-	char szVal[512];
-	GetWindowText(strKey);
-	GetPrivateProfileString("DIALOG-PROXY", "Title", strKey, szVal, 256, szPath);
-	SetWindowText(szVal);
-	GetDlgItemText(IDC_STATIC_PROXY, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 512, szPath);
-	SetDlgItemText(IDC_STATIC_PROXY, szVal);
-	GetDlgItemText(IDC_STATIC_HTTP, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_HTTP, szVal);
-	GetDlgItemText(IDC_CHECK_HTTP, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_CHECK_HTTP, szVal);
-	GetDlgItemText(IDC_STATIC_HTTP_ADDR, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_HTTP_ADDR, szVal);
-	GetDlgItemText(IDC_STATIC_HTTP_PORT, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_HTTP_PORT, szVal);
-	GetDlgItemText(IDC_STATIC_SOCKS, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_SOCKS, szVal);
-	GetDlgItemText(IDC_CHECK_SOCKS, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_CHECK_SOCKS, szVal);
-	GetDlgItemText(IDC_STATIC_SOCKS_ADDR, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_SOCKS_ADDR, szVal);
-	GetDlgItemText(IDC_STATIC_SOCKS_PORT, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_SOCKS_PORT, szVal);
-	GetDlgItemText(IDC_STATIC_SOCKS_BLANK, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_SOCKS_BLANK, szVal);
-	GetDlgItemText(IDC_STATIC_SOCKS_NAME, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_SOCKS_NAME, szVal);
-	GetDlgItemText(IDC_STATIC_SOCKS_PASS, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_SOCKS_PASS, szVal);
-	GetDlgItemText(IDOK, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDOK, szVal);
-	GetDlgItemText(IDCANCEL, strKey);
-	GetPrivateProfileString("DIALOG-PROXY", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDCANCEL, szVal);
+	int const static nIDs[] = { IDC_STATIC_PROXY, IDC_STATIC_HTTP, IDC_CHECK_HTTP,
+		IDC_STATIC_HTTP_ADDR, IDC_STATIC_HTTP_PORT, IDC_STATIC_SOCKS,
+		IDC_CHECK_SOCKS, IDC_STATIC_SOCKS_ADDR, IDC_STATIC_SOCKS_PORT,
+		IDC_STATIC_SOCKS_BLANK, IDC_STATIC_SOCKS_NAME, IDC_STATIC_SOCKS_PASS,
+		IDOK, IDCANCEL, 0 };
+
+	UpdateLanguageStrings(this, "DIALOG-PROXY", nIDs);
 }
 
 //////////
@@ -369,28 +300,8 @@ CConnectDialog::CConnectDialog(UINT y) : CDialog(y)
 // function:	loads new captions from language file
 void CConnectDialog::LoadLanguage()
 {
-	char szPath[256];
-	CString strSection;
-	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\");
-	strcat(szPath, LANGUAGE_FILE_NAME);
-	CString strKey;
-	char szVal[256];
-	GetWindowText(strKey);
-	GetPrivateProfileString("DIALOG-CONNECT", "Title", strKey, szVal, 256, szPath);
-	SetWindowText(szVal);
-	GetDlgItemText(IDC_STATIC_ASK, strKey);
-	GetPrivateProfileString("DIALOG-CONNECT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_ASK, szVal);
-	GetDlgItemText(IDC_DONTASK, strKey);
-	GetPrivateProfileString("DIALOG-CONNECT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_DONTASK, szVal);
-	GetDlgItemText(IDOK, strKey);
-	GetPrivateProfileString("DIALOG-CONNECT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDOK, szVal);
-	GetDlgItemText(IDCANCEL, strKey);
-	GetPrivateProfileString("DIALOG-CONNECT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDCANCEL, szVal);
+	int const static nIDs[] = { IDC_STATIC_ASK, IDC_DONTASK, IDOK, IDCANCEL, 0 };
+	UpdateLanguageStrings(this, "DIALOG-CONNECT", nIDs);
 }
 
 //////////
@@ -437,25 +348,8 @@ CAboutDialog::CAboutDialog(UINT y) : CDialog(y)
 // function:	loads new captions from language file
 void CAboutDialog::LoadLanguage()
 {
-	char szPath[256];
-	CString strSection;
-	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\");
-	strcat(szPath, LANGUAGE_FILE_NAME);
-	CString strKey;
-	char szVal[256];
-	GetWindowText(strKey);
-	GetPrivateProfileString("DIALOG-ABOUT", "Title", strKey, szVal, 256, szPath);
-	SetWindowText(szVal);
-	GetDlgItemText(IDC_STATIC_TOP, strKey);
-	GetPrivateProfileString("DIALOG-ABOUT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_TOP, szVal);
-	GetDlgItemText(IDC_STATIC_BOTTOM, strKey);
-	GetPrivateProfileString("DIALOG-ABOUT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDC_STATIC_BOTTOM, szVal);
-	GetDlgItemText(IDOK, strKey);
-	GetPrivateProfileString("DIALOG-ABOUT", strKey, strKey, szVal, 256, szPath);
-	SetDlgItemText(IDOK, szVal);
+	const int nIDs[] = { IDC_STATIC_TOP, IDC_STATIC_BOTTOM, IDOK, 0 };
+	UpdateLanguageStrings(this, "DIALOG-ABOUT", nIDs);
 }
 
 //////////

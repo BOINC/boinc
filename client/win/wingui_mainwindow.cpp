@@ -73,6 +73,52 @@ int CMyApp::ExitInstance()
 	return CWinApp::ExitInstance();
 }
 
+////////
+
+void GetLanguageFilename(CString& path)
+{
+	GetCurrentDirectory(256, path.GetBuffer(256));
+	path.ReleaseBuffer();
+	path += '\\';
+	path += LANGUAGE_FILE_NAME;
+}
+
+inline bool UpdateLanguageString(LPCSTR szSection, CString& strItem, LPCSTR szPath)
+{
+	CString strItemNoAmp = strItem; strItemNoAmp.Remove('&');
+	if(strItemNoAmp.IsEmpty()) return false;
+	char szValue[256];
+	GetPrivateProfileString(szSection, strItemNoAmp, strItem, szValue, 256, szPath);
+	strItem = szValue;
+	return true;
+}
+
+void UpdateLanguageStrings(CWnd* wnd, char const * windowname, int const* pnIDs, CString * const * pStrs)
+{
+	CString strPath, strKey;
+	char szVal[256];
+	GetLanguageFilename(strPath);
+
+	// title
+	wnd->GetWindowText(strKey);
+	GetPrivateProfileString(windowname, "Title", strKey, szVal, 256, strPath);
+	wnd->SetWindowText(szVal);
+
+	while (*pnIDs) {
+		int nID = *pnIDs++;
+		wnd->GetDlgItemText(nID, strKey);
+		GetPrivateProfileString(windowname, strKey, strKey, szVal, 256, strPath);
+		wnd->SetDlgItemText(nID, szVal);
+	}
+	if (pStrs) {
+		while (*pStrs) {
+			CString& str = **pStrs++;
+			GetPrivateProfileString(windowname, str, str, szVal, 256, strPath);
+			str = szVal;
+		}
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////
 // CMainWindow message map and member functions
 
@@ -136,6 +182,9 @@ CMainWindow::CMainWindow()
 	// register window class
     //CString strWndClass = AfxRegisterWndClass (0, g_myApp.LoadStandardCursor(IDC_ARROW),
     //    (HBRUSH)(COLOR_3DFACE+1), g_myApp.LoadIcon(IDI_ICON));
+
+	m_MenuLabelRetryNow = "&Retry now";
+	m_MenuLabelGetPreferences = "Get p&references";
 
 	// create and position window
     CreateEx(0, wndcls.lpszClassName, WND_TITLE,
@@ -870,46 +919,44 @@ void CMainWindow::LoadUserSettings()
 // function:	loads new captions from language file
 void CMainWindow::LoadLanguage()
 {
-	char szPath[256];
+	CString strPath;
+	GetLanguageFilename(strPath);
 	int col;
 	CString strSection;
-	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\");
-	strcat(szPath, LANGUAGE_FILE_NAME);
 
 	// load column headers
 	strSection.Format("HEADER-%s", g_szTabItems[PROJECT_ID]);
 	for(col = 0; col < PROJECT_COLS; col ++) {
-		GetPrivateProfileString(strSection, g_szColumnTitles[PROJECT_ID][col], g_szColumnTitles[PROJECT_ID][col], g_szColumnTitles[PROJECT_ID][col], 256, szPath);
+		GetPrivateProfileString(strSection, g_szColumnTitles[PROJECT_ID][col], g_szColumnTitles[PROJECT_ID][col], g_szColumnTitles[PROJECT_ID][col], 256, strPath);
 	}
-	GetPrivateProfileString(strSection, "Title", g_szTabItems[PROJECT_ID], g_szTabItems[PROJECT_ID], 16, szPath);
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[PROJECT_ID], g_szTabItems[PROJECT_ID], 16, strPath);
 	strSection.Format("HEADER-%s", g_szTabItems[RESULT_ID]);
 	for(col = 0; col < RESULT_COLS; col ++) {
-		GetPrivateProfileString(strSection, g_szColumnTitles[RESULT_ID][col], g_szColumnTitles[RESULT_ID][col], g_szColumnTitles[RESULT_ID][col], 256, szPath);
+		GetPrivateProfileString(strSection, g_szColumnTitles[RESULT_ID][col], g_szColumnTitles[RESULT_ID][col], g_szColumnTitles[RESULT_ID][col], 256, strPath);
 	}
-	GetPrivateProfileString(strSection, "Title", g_szTabItems[RESULT_ID], g_szTabItems[RESULT_ID], 16, szPath);
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[RESULT_ID], g_szTabItems[RESULT_ID], 16, strPath);
 	strSection.Format("HEADER-%s", g_szTabItems[XFER_ID]);
 	for(col = 0; col < XFER_COLS; col ++) {
-		GetPrivateProfileString(strSection, g_szColumnTitles[XFER_ID][col], g_szColumnTitles[XFER_ID][col], g_szColumnTitles[XFER_ID][col], 256, szPath);
+		GetPrivateProfileString(strSection, g_szColumnTitles[XFER_ID][col], g_szColumnTitles[XFER_ID][col], g_szColumnTitles[XFER_ID][col], 256, strPath);
 	}
-	GetPrivateProfileString(strSection, "Title", g_szTabItems[XFER_ID], g_szTabItems[XFER_ID], 16, szPath);
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[XFER_ID], g_szTabItems[XFER_ID], 16, strPath);
 	strSection.Format("HEADER-%s", g_szTabItems[MESSAGE_ID]);
 	for(col = 0; col < MESSAGE_COLS; col ++) {
-		GetPrivateProfileString(strSection, g_szColumnTitles[MESSAGE_ID][col], g_szColumnTitles[MESSAGE_ID][col], g_szColumnTitles[MESSAGE_ID][col], 256, szPath);
+		GetPrivateProfileString(strSection, g_szColumnTitles[MESSAGE_ID][col], g_szColumnTitles[MESSAGE_ID][col], g_szColumnTitles[MESSAGE_ID][col], 256, strPath);
 	}
-	GetPrivateProfileString(strSection, "Title", g_szTabItems[MESSAGE_ID], g_szTabItems[MESSAGE_ID], 16, szPath);
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[MESSAGE_ID], g_szTabItems[MESSAGE_ID], 16, strPath);
 
 	// load usage labels
 	strSection.Format("HEADER-%s", g_szTabItems[USAGE_ID]);
 	for(col = 0; col < MAX_USAGE_STR; col ++) {
-		GetPrivateProfileString(strSection, g_szUsageItems[col], g_szUsageItems[col], g_szUsageItems[col], 256, szPath);
+		GetPrivateProfileString(strSection, g_szUsageItems[col], g_szUsageItems[col], g_szUsageItems[col], 256, strPath);
 	}
-	GetPrivateProfileString(strSection, "Title", g_szTabItems[USAGE_ID], g_szTabItems[USAGE_ID], 16, szPath);
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[USAGE_ID], g_szTabItems[USAGE_ID], 16, strPath);
 
 	// load miscellaneous text
 	strSection.Format("HEADER-MISC");
 	for(col = 0; col < MAX_MISC_STR; col ++) {
-		GetPrivateProfileString(strSection, g_szMiscItems[col], g_szMiscItems[col], g_szMiscItems[col], 256, szPath);
+		GetPrivateProfileString(strSection, g_szMiscItems[col], g_szMiscItems[col], g_szMiscItems[col], 256, strPath);
 	}
 
 	// load menu items
@@ -920,34 +967,35 @@ void CMainWindow::LoadLanguage()
 		m_MainMenu.GetMenuString(i, strItem, MF_BYPOSITION);
 		strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
 		strSection.Format("MENU-%s", strItemNoAmp);
-		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, szPath);
+		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, strPath);
 		m_MainMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem); 
 		CMenu* pSubMenu = m_MainMenu.GetSubMenu(i);
 		if(!pSubMenu) continue;
 		for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
 			pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
-			if(strItem.IsEmpty()) continue;
-			strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
-			GetPrivateProfileString(strSection, strItemNoAmp, strItem, szItem, 256, szPath);
-			pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), szItem); 
+			if (UpdateLanguageString(strSection, strItem, strPath)) {
+				pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem); 
+			}
 		}
 	}
 	for(i = 0; i < m_ContextMenu.GetMenuItemCount(); i ++) {
 		m_ContextMenu.GetMenuString(i, strItem, MF_BYPOSITION);
 		strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
 		strSection.Format("MENU-%s", strItemNoAmp);
-		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, szPath);
+		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, strPath);
 		m_ContextMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem); 
 		CMenu* pSubMenu = m_ContextMenu.GetSubMenu(i);
 		if(!pSubMenu) continue;
 		for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
 			pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
-			if(strItem.IsEmpty()) continue;
-			strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
-			GetPrivateProfileString(strSection, strItemNoAmp, strItem, szItem, 256, szPath);
-			pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), szItem); 
+			if (UpdateLanguageString(strSection, strItem, strPath)) {
+				pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem); 
+			}
 		}
 	}
+
+	UpdateLanguageString("MENU-Project", m_MenuLabelGetPreferences, strPath);
+	UpdateLanguageString("MENU-Project", m_MenuLabelRetryNow, strPath);
 }
 
 //////////
@@ -1813,7 +1861,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 					PROJECT *proj = (PROJECT *)pMenuCtrl->GetItemData(indexSelected);
 					pContextMenu->ModifyMenu(ID_PROJECT_GET_PREFS, 0, ID_PROJECT_GET_PREFS, 
 						((proj && proj->min_rpc_time > time(0)) ?
-						"&Retry now" : "Get p&references"));
+						 m_MenuLabelRetryNow : m_MenuLabelGetPreferences));
 					break;
 				}
 			case RESULT_MENU: 

@@ -165,6 +165,8 @@ protected:
 	afx_msg LRESULT			OnStatusIcon(WPARAM, LPARAM);
 	afx_msg void			OnTimer(UINT); 
 
+	CString m_MenuLabelRetryNow, m_MenuLabelGetPreferences;
+
     DECLARE_MESSAGE_MAP()
 
 public:
