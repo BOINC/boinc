@@ -270,8 +270,8 @@ IDI_ICONHIGHLIGHT       ICON    DISCARDABLE     "res\\iconhigh.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,5,0
- PRODUCTVERSION 0,1,5,0
+ FILEVERSION 0,1,7,0
+ PRODUCTVERSION 0,1,7,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -289,14 +289,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Space Sciences Laboratory\0"
             VALUE "FileDescription", "boinc_gui\0"
-            VALUE "FileVersion", "0, 1, 5, 0\0"
+            VALUE "FileVersion", "0, 1, 7, 0\0"
             VALUE "InternalName", "boinc_gui\0"
             VALUE "LegalCopyright", "Copyright © 2002\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "boinc_gui.exe\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Space Sciences Laboratory boinc_gui\0"
-            VALUE "ProductVersion", "0, 1, 5, 0\0"
+            VALUE "ProductVersion", "0, 1, 7, 0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
