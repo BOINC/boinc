@@ -106,6 +106,17 @@ function update_9_26_2004() {
     );
 }
 
-//update_9_26_2004();
+function update_10_09_2004() {
+    mysql_query(
+        "alter table forum_preferences add jump_to_unread tinyint(1) unsigned not null default 1"
+    );
+    mysql_query(
+        "alter table forum_preferences add hide_signatures tinyint(1) unsigned not null default 0"
+    );
+    mysql_query(
+        "alter table post add signature tinyint(1) unsigned not null default 0"
+    );
+}
+//update_10_09_2004();
 
 ?>

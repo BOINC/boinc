@@ -52,7 +52,12 @@
 
 
     $no_signature_by_default=($HTTP_POST_VARS["signature_enable"]=="");
-    $signature = mysql_escape_string($HTTP_POST_VARS["signature"]);
+    $signature = sanitize_html(stripslashes($HTTP_POST_VARS["signature"]));
+    if (strlen($signature)>250) {
+        echo "You signature was too long, please keep it less than 250 chars";
+        exit();
+    }
+    $signature = mysql_escape_string($signature); 
 
     $forum_sort = $HTTP_POST_VARS["forum_sort"];
     $thread_sort = $HTTP_POST_VARS["thread_sort"];

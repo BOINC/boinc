@@ -363,6 +363,7 @@ create table post (
         -- post that was replied to, if any
     score               double      not null,
     votes               integer     not null,
+    signature           tinyint(1) unsigned not null default 0,
     primary key (id)
 );
 
@@ -386,6 +387,8 @@ create table forum_preferences (
     link_popup          tinyint(1) unsigned not null default 0,
     mark_as_read_timestamp integer not null default 0,
     special_user        integer not null default 0,
+    jump_to_unread      tinyint(1) unsigned not null default 1,
+    hide_signatures     tinyint(1) unsigned not null default 0,
     primary key (userid)
 ) type=MyISAM; 
 

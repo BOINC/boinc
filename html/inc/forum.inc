@@ -574,7 +574,7 @@ function externalize_links($text){
     while (true){                                //Find a link
         $linkpos=strpos($text,"<a ",$i);
         if ($linkpos===false) break;
-        $out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\"";        //Replace with target='_new'
+        $out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\" ";        //Replace with target='_new'
         $i=$linkpos+3;
     }
     $out.=substr($text,$i);

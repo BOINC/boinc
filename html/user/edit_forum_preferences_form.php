@@ -69,7 +69,7 @@ row2("Display and Behavior".
 
 if ($user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
 row2("Signature for message boards".
-    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a><font size=-2><br>Max length (including newlines) is 254 chars.",
+    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a><font size=-2><br>Max length (including newlines) is 250 chars.",
     "
         <textarea name=signature rows=4 cols=50>".stripslashes($user->signature)."</textarea>
         <br><input type=\"checkbox\" name=\"signature_enable\" ".$enable_signature."> Attach signature by default"

@@ -18211,11 +18211,16 @@ Lana    8 Oct 2004
 David  9 Oct 2004
     - forum updates (from Janus Kristensen)
 
+    NOTE: to use this new code you'll have to update
+    your database (see html/ops/db_update.php)
+
     html/
         inc/
             forum.inc
             forum_show.inc
             util.inc
+        ops/
+            db_update.php
         user/
             edit_forum_preferences_action.php
             edit_forum_preferences_form.php
@@ -18295,3 +18300,16 @@ David  11 Oct 2004
         filesys.h
         gui_rpc_client.C,h
         util.h
+
+David  12 Oct 2004
+    - fixes to forum code (from Janus)
+    - finished checkin of 9 Oct (forgot db_update.php)
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
