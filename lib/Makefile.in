@@ -197,6 +197,8 @@ libboinc_a_SOURCES = \
     mfile.C                                     \
     miofile.C                                   \
     parse.C                                     \
+    prefs.C                                     \
+    proxy_info.C                                \
 	shmem.C                                     \
     util.C
 
@@ -223,8 +225,8 @@ am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) app_ipc.$(OBJEXT) \
 	base64.$(OBJEXT) diagnostics.$(OBJEXT) exception.$(OBJEXT) \
 	filesys.$(OBJEXT) hostinfo.$(OBJEXT) language.$(OBJEXT) \
 	md5.$(OBJEXT) md5_file.$(OBJEXT) mfile.$(OBJEXT) \
-	miofile.$(OBJEXT) parse.$(OBJEXT) shmem.$(OBJEXT) \
-	util.$(OBJEXT)
+	miofile.$(OBJEXT) parse.$(OBJEXT) prefs.$(OBJEXT) \
+	proxy_info.$(OBJEXT) shmem.$(OBJEXT) util.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
 bin_PROGRAMS = crypt_prog$(EXEEXT)
@@ -263,7 +265,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/md5_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/miofile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msg_queue.Po ./$(DEPDIR)/msg_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/prefs.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/proxy_info.Po ./$(DEPDIR)/shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -359,6 +362,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/prefs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proxy_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@

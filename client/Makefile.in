@@ -213,7 +213,6 @@ boinc_client_SOURCES = \
     net_stats.C \
     net_xfer.C \
     pers_file_xfer.C \
-    prefs.C \
     proxy.C \
     scheduler_op.C \
     ss_logic.C \
@@ -233,6 +232,8 @@ boinc_client_SOURCES = \
     ../lib/miofile.C \
     ../lib/msg_log.C \
     ../lib/parse.C \
+    ../lib/prefs.C \
+    ../lib/proxy_info.C \
     ../lib/shmem.C \
     ../lib/util.C
 
@@ -288,7 +289,7 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-main.$(OBJEXT) boinc_client-net_stats.$(OBJEXT) \
 	boinc_client-net_xfer.$(OBJEXT) \
 	boinc_client-pers_file_xfer.$(OBJEXT) \
-	boinc_client-prefs.$(OBJEXT) boinc_client-proxy.$(OBJEXT) \
+	boinc_client-proxy.$(OBJEXT) \
 	boinc_client-scheduler_op.$(OBJEXT) \
 	boinc_client-ss_logic.$(OBJEXT) \
 	boinc_client-time_stats.$(OBJEXT) \
@@ -300,6 +301,7 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-md5_file.$(OBJEXT) boinc_client-md5.$(OBJEXT) \
 	boinc_client-mfile.$(OBJEXT) boinc_client-miofile.$(OBJEXT) \
 	boinc_client-msg_log.$(OBJEXT) boinc_client-parse.$(OBJEXT) \
+	boinc_client-prefs.$(OBJEXT) boinc_client-proxy_info.$(OBJEXT) \
 	boinc_client-shmem.$(OBJEXT) boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
 boinc_client_LDFLAGS =
@@ -358,6 +360,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-pers_file_xfer.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-prefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-proxy.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-proxy_info.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-scheduler_op.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-ss_logic.Po \
@@ -442,7 +445,6 @@ boinc_client-main.$(OBJEXT): main.C
 boinc_client-net_stats.$(OBJEXT): net_stats.C
 boinc_client-net_xfer.$(OBJEXT): net_xfer.C
 boinc_client-pers_file_xfer.$(OBJEXT): pers_file_xfer.C
-boinc_client-prefs.$(OBJEXT): prefs.C
 boinc_client-proxy.$(OBJEXT): proxy.C
 boinc_client-scheduler_op.$(OBJEXT): scheduler_op.C
 boinc_client-ss_logic.$(OBJEXT): ss_logic.C
@@ -462,6 +464,8 @@ boinc_client-mfile.$(OBJEXT): ../lib/mfile.C
 boinc_client-miofile.$(OBJEXT): ../lib/miofile.C
 boinc_client-msg_log.$(OBJEXT): ../lib/msg_log.C
 boinc_client-parse.$(OBJEXT): ../lib/parse.C
+boinc_client-prefs.$(OBJEXT): ../lib/prefs.C
+boinc_client-proxy_info.$(OBJEXT): ../lib/proxy_info.C
 boinc_client-shmem.$(OBJEXT): ../lib/shmem.C
 boinc_client-util.$(OBJEXT): ../lib/util.C
 boinc_client$(EXEEXT): $(boinc_client_OBJECTS) $(boinc_client_DEPENDENCIES) 
@@ -523,6 +527,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-pers_file_xfer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-prefs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-proxy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-proxy_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-scheduler_op.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-ss_logic.Po@am__quote@
@@ -1217,28 +1222,6 @@ boinc_client-pers_file_xfer.obj: pers_file_xfer.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-pers_file_xfer.obj `if test -f 'pers_file_xfer.C'; then $(CYGPATH_W) 'pers_file_xfer.C'; else $(CYGPATH_W) '$(srcdir)/pers_file_xfer.C'`
 
-boinc_client-prefs.o: prefs.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-prefs.o -MD -MP -MF "$(DEPDIR)/boinc_client-prefs.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-prefs.o `test -f 'prefs.C' || echo '$(srcdir)/'`prefs.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-prefs.Tpo" "$(DEPDIR)/boinc_client-prefs.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-prefs.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='prefs.C' object='boinc_client-prefs.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-prefs.Po' tmpdepfile='$(DEPDIR)/boinc_client-prefs.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-prefs.o `test -f 'prefs.C' || echo '$(srcdir)/'`prefs.C
-
-boinc_client-prefs.obj: prefs.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-prefs.obj -MD -MP -MF "$(DEPDIR)/boinc_client-prefs.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-prefs.obj `if test -f 'prefs.C'; then $(CYGPATH_W) 'prefs.C'; else $(CYGPATH_W) '$(srcdir)/prefs.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-prefs.Tpo" "$(DEPDIR)/boinc_client-prefs.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-prefs.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='prefs.C' object='boinc_client-prefs.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-prefs.Po' tmpdepfile='$(DEPDIR)/boinc_client-prefs.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-prefs.obj `if test -f 'prefs.C'; then $(CYGPATH_W) 'prefs.C'; else $(CYGPATH_W) '$(srcdir)/prefs.C'`
-
 boinc_client-proxy.o: proxy.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-proxy.o -MD -MP -MF "$(DEPDIR)/boinc_client-proxy.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o boinc_client-proxy.o `test -f 'proxy.C' || echo '$(srcdir)/'`proxy.C; \
@@ -1634,6 +1617,50 @@ boinc_client-parse.obj: ../lib/parse.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-parse.Po' tmpdepfile='$(DEPDIR)/boinc_client-parse.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`
+
+boinc_client-prefs.o: ../lib/prefs.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-prefs.o -MD -MP -MF "$(DEPDIR)/boinc_client-prefs.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-prefs.o `test -f '../lib/prefs.C' || echo '$(srcdir)/'`../lib/prefs.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-prefs.Tpo" "$(DEPDIR)/boinc_client-prefs.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-prefs.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/prefs.C' object='boinc_client-prefs.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-prefs.Po' tmpdepfile='$(DEPDIR)/boinc_client-prefs.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-prefs.o `test -f '../lib/prefs.C' || echo '$(srcdir)/'`../lib/prefs.C
+
+boinc_client-prefs.obj: ../lib/prefs.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-prefs.obj -MD -MP -MF "$(DEPDIR)/boinc_client-prefs.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-prefs.obj `if test -f '../lib/prefs.C'; then $(CYGPATH_W) '../lib/prefs.C'; else $(CYGPATH_W) '$(srcdir)/../lib/prefs.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-prefs.Tpo" "$(DEPDIR)/boinc_client-prefs.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-prefs.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/prefs.C' object='boinc_client-prefs.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-prefs.Po' tmpdepfile='$(DEPDIR)/boinc_client-prefs.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-prefs.obj `if test -f '../lib/prefs.C'; then $(CYGPATH_W) '../lib/prefs.C'; else $(CYGPATH_W) '$(srcdir)/../lib/prefs.C'`
+
+boinc_client-proxy_info.o: ../lib/proxy_info.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-proxy_info.o -MD -MP -MF "$(DEPDIR)/boinc_client-proxy_info.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-proxy_info.o `test -f '../lib/proxy_info.C' || echo '$(srcdir)/'`../lib/proxy_info.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-proxy_info.Tpo" "$(DEPDIR)/boinc_client-proxy_info.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-proxy_info.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/proxy_info.C' object='boinc_client-proxy_info.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-proxy_info.Po' tmpdepfile='$(DEPDIR)/boinc_client-proxy_info.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-proxy_info.o `test -f '../lib/proxy_info.C' || echo '$(srcdir)/'`../lib/proxy_info.C
+
+boinc_client-proxy_info.obj: ../lib/proxy_info.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-proxy_info.obj -MD -MP -MF "$(DEPDIR)/boinc_client-proxy_info.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-proxy_info.obj `if test -f '../lib/proxy_info.C'; then $(CYGPATH_W) '../lib/proxy_info.C'; else $(CYGPATH_W) '$(srcdir)/../lib/proxy_info.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-proxy_info.Tpo" "$(DEPDIR)/boinc_client-proxy_info.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-proxy_info.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/proxy_info.C' object='boinc_client-proxy_info.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-proxy_info.Po' tmpdepfile='$(DEPDIR)/boinc_client-proxy_info.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-proxy_info.obj `if test -f '../lib/proxy_info.C'; then $(CYGPATH_W) '../lib/proxy_info.C'; else $(CYGPATH_W) '$(srcdir)/../lib/proxy_info.C'`
 
 boinc_client-shmem.o: ../lib/shmem.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-shmem.o -MD -MP -MF "$(DEPDIR)/boinc_client-shmem.Tpo" \

@@ -41,7 +41,6 @@ boinc_client_SOURCES = \
     net_stats.C \
     net_xfer.C \
     pers_file_xfer.C \
-    prefs.C \
     proxy.C \
     scheduler_op.C \
     ss_logic.C \
@@ -61,6 +60,8 @@ boinc_client_SOURCES = \
     ../lib/miofile.C \
     ../lib/msg_log.C \
     ../lib/parse.C \
+    ../lib/prefs.C \
+    ../lib/proxy_info.C \
     ../lib/shmem.C \
     ../lib/util.C
 

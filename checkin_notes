@@ -18099,3 +18099,18 @@ David  6 Oct 2004
 
     sched/
         file_upload_handler.C
+
+David  6 Oct 2004
+    - Compile fixes.
+
+    NOTE: on UNIX, it seems to be necessary to remove everything
+    from client/.deps before compiling,
+    else you get errors trying to compile prefs.C (which got moved)
+    Shouldn't something do this automatically?
+
+
+    client/
+        Makefile.am
+    lib/
+        Makefile.am
+        proxy_info.h

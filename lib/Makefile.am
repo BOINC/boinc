@@ -25,6 +25,8 @@ libboinc_a_SOURCES =                            \
     mfile.C                                     \
     miofile.C                                   \
     parse.C                                     \
+    prefs.C                                     \
+    proxy_info.C                                \
 	shmem.C                                     \
     util.C
 
