@@ -561,13 +561,6 @@ int db_team_lookup_name_lc(TEAM& p) {
     return db_lookup(&p, TYPE_TEAM, buf);
 }
 
-int db_team_enum(USER& p, int id) {
-    static ENUM e;
-    char buf[256];
-    sprintf(buf, "where teamid=%d", id);
-    return db_enum(e, &p, TYPE_USER, buf);
-}
-
 ////////// HOST /////////
 
 int db_host_new(HOST& p) {

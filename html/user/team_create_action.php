@@ -26,11 +26,13 @@
                 $HTTP_POST_VARS["description"],
                 1
             );
+
+            // TODO: the following logic is very confused
+
             $result = mysql_query($query);
             if ($result) {
                 $query_team = sprintf(
-                    "select * from team where userid = %d and name = '%s'",
-                    $user->id,
+                    "select * from team where name = '%s'",
                     $HTTP_POST_VARS["name"]
                 );
                 $result_team = mysql_query($query_team);

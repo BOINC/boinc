@@ -323,7 +323,6 @@ extern int db_team_new(TEAM&);
 extern int db_team_update(TEAM&);
 extern int db_team_lookup_name(TEAM&);
 extern int db_team_lookup_name_lc(TEAM&);
-extern int db_team_enum(TEAM&);
 
 extern int db_host_new(HOST& p);
 extern int db_host(int, HOST&);

@@ -69,12 +69,16 @@ function show_host($host) {
     if ($user && $hostid) {
         page_head("Host stats");
 
-        $result = mysql_query("select * from host where id = $hostid and userid = $user->id");
+        $result = mysql_query("select * from host where id = $hostid");
         $host = mysql_fetch_object($result);
         mysql_free_result($result);
 
         if ($host) {
-            show_host($host);
+            if ($host->userid != $user->id) {
+                echo "Not your host\n";
+            } else {
+                show_host($host);
+            }
         } else {
             echo "Couldn't find host or user.<p>";
         }
