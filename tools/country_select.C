@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
         printf(
             "<option value=\"%s\" %s>%s\n",
             countries[i],
-            !strcmp(countries[i], argv[1])?"checked":"",
+            !strcmp(countries[i], argv[1])?"selected":"",
             countries[i]
         );
     }
