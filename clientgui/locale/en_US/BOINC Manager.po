@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-12-20 11:29-0800\n"
+"PO-Revision-Date: 2004-12-22 01:50-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -261,19 +261,19 @@ msgid "'%s' does not contain a valid path."
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:62
-msgid "Please click a message to see additional options."
+msgid "Click a message to see additional options."
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:66
-msgid "<b>Copy all</b><br>Copy all the messages to the system clipboard."
+msgid "<b>Copy all</b><br>Copy all the messages to the clipboard."
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:71
-msgid "<b>Copy selection</b><br>Copy the selected message(s) to the system clipboard.  You can select multiple items by holding down the shift key  or control key while clicking on the next desired message."
+msgid "<b>Copy selected messages</b><br>Copy the selected messages to the clipboard.  You can select multiple messages by holding down the shift  or control key while clicking on messages."
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:178
-#: clientgui/ViewProjects.cpp:276
+#: clientgui/ViewProjects.cpp:278
 #: clientgui/ViewResources.cpp:130
 #: clientgui/ViewTransfers.cpp:226
 #: clientgui/ViewWork.cpp:253
@@ -281,15 +281,15 @@ msgid "Tasks"
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:179
-#: clientgui/ViewProjects.cpp:278
+#: clientgui/ViewProjects.cpp:280
 #: clientgui/ViewResources.cpp:131
 #: clientgui/ViewTransfers.cpp:227
-msgid "Quick Tips"
+msgid "Tips"
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:181
-#: clientgui/ViewProjects.cpp:280
-#: clientgui/ViewProjects.cpp:756
+#: clientgui/ViewProjects.cpp:282
+#: clientgui/ViewProjects.cpp:758
 #: clientgui/ViewResources.cpp:133
 #: clientgui/ViewTransfers.cpp:229
 #: clientgui/ViewWork.cpp:256
@@ -310,15 +310,15 @@ msgid "Messages"
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:504
-msgid "Copy all"
+msgid "Copy all messages"
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:505
-msgid "Copy selection"
+msgid "Copy selected messages"
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:69
-msgid "Please click a project to see additional options."
+msgid "Click a project to see additional options."
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:73
@@ -326,118 +326,118 @@ msgid "<b>Attach to new project</b><br>Attach this computer to a BOINC project. 
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:80
-msgid "<b>Detach from project</b><br>Detach this computer from this project.  You may wish to update the project first to report any completed work."
+msgid "<b>Detach from project</b><br>Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:87
-msgid "<b>Reset project</b><br>Remove all workunits and applications from this project.  You may wish to update the project first to report any completed work."
+#: clientgui/ViewProjects.cpp:88
+msgid "<b>Reset project</b><br>Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:94
+#: clientgui/ViewProjects.cpp:96
 msgid "<b>Suspend project</b><br>Stop work for this project (you can resume later)."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:100
+#: clientgui/ViewProjects.cpp:102
 msgid "<b>Resume project</b><br>Resume work for this project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewProjects.cpp:107
 msgid "<b>Update project</b><br>Report all completed work and refresh your credit and preferences for this project."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:111
+#: clientgui/ViewProjects.cpp:113
 msgid "<b>BOINC home page</b><br>Open the BOINC home page in a web browser."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:116
+#: clientgui/ViewProjects.cpp:118
 msgid "<b>Project home page</b><br>Open this project's home page in a web browser."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:277
+#: clientgui/ViewProjects.cpp:279
 msgid "Web sites"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:281
+#: clientgui/ViewProjects.cpp:283
 msgid "Account"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:282
+#: clientgui/ViewProjects.cpp:284
 msgid "Team"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:283
-msgid "Total Credit"
-msgstr ""
-
-#: clientgui/ViewProjects.cpp:284
-msgid "Avg. Credit"
-msgstr ""
-
 #: clientgui/ViewProjects.cpp:285
-msgid "Resource Share"
+msgid "Total credit"
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:286
+msgid "Avg. credit"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:287
+msgid "Resource share"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:288
 #: clientgui/ViewTransfers.cpp:235
 #: clientgui/ViewWork.cpp:263
 msgid "Status"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:307
+#: clientgui/ViewProjects.cpp:309
 msgid "Projects"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:436
+#: clientgui/ViewProjects.cpp:438
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:441
+#: clientgui/ViewProjects.cpp:443
 msgid "Detach from Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:459
+#: clientgui/ViewProjects.cpp:461
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:464
+#: clientgui/ViewProjects.cpp:466
 msgid "Reset Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:742
+#: clientgui/ViewProjects.cpp:744
 msgid "Attach to new project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:743
+#: clientgui/ViewProjects.cpp:745
 msgid "Detach from project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:744
+#: clientgui/ViewProjects.cpp:746
 msgid "Reset project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:745
+#: clientgui/ViewProjects.cpp:747
 msgid "Suspend project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:746
+#: clientgui/ViewProjects.cpp:748
 msgid "Resume project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:747
+#: clientgui/ViewProjects.cpp:749
 msgid "Update project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:755
+#: clientgui/ViewProjects.cpp:757
 msgid "BOINC"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:889
+#: clientgui/ViewProjects.cpp:891
 msgid "Project Suspended"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:901
+#: clientgui/ViewProjects.cpp:903
 #: clientgui/ViewTransfers.cpp:752
 msgid "Retry in "
 msgstr ""
