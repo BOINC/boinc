@@ -181,6 +181,7 @@ struct WORKUNIT {
 
     int parse(FILE*);
     int write(FILE*);
+    int had_failure();
 };
 
 #define RESULT_NEW              0

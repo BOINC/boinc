@@ -522,6 +522,18 @@ int WORKUNIT::write(FILE* out) {
     return 0;
 }
 
+int WORKUNIT::had_failure() {
+    unsigned int i;
+
+    for (i=0;i<input_files.size();i++) {
+        if (input_files[i].file_info->had_failure()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
 
