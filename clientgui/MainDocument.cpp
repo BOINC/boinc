@@ -251,7 +251,6 @@ wxInt32 CMainDocument::CachedStateUnlock()
 wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
     if ( ts.GetSeconds() > 10 )
@@ -279,7 +278,6 @@ wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     if ( IsConnected() )
     {
@@ -298,7 +296,6 @@ wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
 wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
     if ( ts.GetSeconds() > 10 )
@@ -326,7 +323,6 @@ wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
 wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     if ( IsConnected() )
     {
@@ -336,6 +332,35 @@ wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
             m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
             m_iCachedNetworkRunMode = iMode;
         }
+    }
+
+    return iRetVal;
+}
+
+
+wxInt32 CMainDocument::GetActivityState( bool& bActivitiesSuspended, bool& bNetworkSuspended )
+{
+    wxInt32     iRetVal = 0;
+
+    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityStateTimestamp);
+    if ( ts.GetSeconds() > 10 )
+    {
+        m_dtCachedActivityStateTimestamp = wxDateTime::Now();
+
+        if ( IsConnected() )
+        {
+			iRetVal = rpc.get_activity_state( bActivitiesSuspended, bNetworkSuspended );
+            if ( 0 == iRetVal )
+            {
+                m_iCachedActivitiesSuspended = bActivitiesSuspended;
+                m_iCachedNetworkSuspended = bNetworkSuspended;
+            }
+        }
+    }
+    else
+    {
+        bActivitiesSuspended = m_iCachedActivitiesSuspended;
+        bNetworkSuspended = m_iCachedNetworkSuspended;
     }
 
     return iRetVal;

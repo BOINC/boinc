@@ -1336,6 +1336,32 @@ int RPC_CLIENT::get_network_mode(int& mode) {
     return 0;
 }
 
+int RPC_CLIENT::get_activity_state(bool& activities_suspended, bool& network_suspended) {
+    char buf[256];
+    RPC rpc(this);
+    int retval;
+
+    activities_suspended = false;
+	network_suspended = false;
+
+    retval = rpc.do_rpc("<get_activity_state/>\n");
+    if (retval) return retval;
+
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</activity_state>")) break;
+		else if (match_tag(buf, "<activities_suspended/>")) {
+			activities_suspended = true;
+			continue;
+		}
+		else if (match_tag(buf, "<network_suspended/>")) {
+			network_suspended = true;
+			continue;
+		}
+    }
+
+	return 0;
+}
+
 int RPC_CLIENT::get_screensaver_mode(int& status) {
     char buf[256];
     RPC rpc(this);

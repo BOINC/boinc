@@ -70,15 +70,18 @@ private:
     HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
-    wxDateTime                  m_dtCachedActivityRunModeTimestamp;
-    wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
     bool                        m_bCachedStateLocked;
 
     bool                        m_bIsConnected;
     wxString                    m_strConnectedComputerName;
 
+	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
+    wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
+    wxDateTime                  m_dtCachedActivityStateTimestamp;
     wxInt32                     m_iCachedActivityRunMode;
     wxInt32                     m_iCachedNetworkRunMode;
+    bool                        m_iCachedActivitiesSuspended;
+    bool                        m_iCachedNetworkSuspended;
 
     wxInt32                     CachedStateUpdate();
     wxInt32                     ForceCacheUpdate();
@@ -101,7 +104,7 @@ public:
     wxInt32                     SetActivityRunMode( wxInt32 iMode );
     wxInt32                     GetNetworkRunMode( wxInt32& iMode );
     wxInt32                     SetNetworkRunMode( wxInt32 iMode );
-
+    wxInt32                     GetActivityState( bool& bActivitiesSuspended, bool& bNetworkSuspended );
 
     wxInt32                     RunBenchmarks();
     wxInt32                     CoreClientQuit();

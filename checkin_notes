@@ -25102,3 +25102,17 @@ Rom    21 Feb 2005
 
     clientgui/
         MainFrame.cpp
+
+Rom    21 Feb 2005
+    - Bug Fix: If a result or transfer is paused by some event other than
+        actually changing it's CPU_SCHED state, such as user activity then
+        report the result as suspended instead of running.
+
+    client/
+        gui_rpc_server.C
+    clientgui/
+        MainDocument.cpp, .h
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.C, .h

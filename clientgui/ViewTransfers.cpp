@@ -737,14 +737,19 @@ wxInt32 CViewTransfers::FormatStatus( wxInt32 item, wxString& strBuffer ) const
     wxInt32        iStatus = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
+    bool           bActivitiesSuspended = false;
+    bool           bNetworkSuspended = false;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
+    pDoc->GetActivityState( bActivitiesSuspended, bNetworkSuspended );
 
     pDoc->GetTransferNextRequestTime( item, iTime );
     pDoc->GetTransferStatus( item, iStatus );
+
+    pDoc->GetActivityRunMode( iActivityMode );
 
     wxDateTime dtNextRequest( (time_t)iTime );
     wxDateTime dtNow(wxDateTime::Now());
@@ -764,10 +769,16 @@ wxInt32 CViewTransfers::FormatStatus( wxInt32 item, wxString& strBuffer ) const
     }
     else
     {
-        strBuffer = pDoc->IsTransferGeneratedLocally( item )? _("Uploading") : _("Downloading");
+        if ( bNetworkSuspended )
+        {
+            strBuffer = _("Suspended");
+        }
+        else
+        {
+            strBuffer = pDoc->IsTransferGeneratedLocally( item )? _("Uploading") : _("Downloading");
+        }
     }
 
-    pDoc->GetActivityRunMode( iActivityMode );
     if ( CMainDocument::MODE_NEVER == iActivityMode )
     {
         strBuffer = wxT(" ( ") + strBuffer + wxT(" ) ");

@@ -277,6 +277,17 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
     gstate.proxy_info.write(fout);
 }
 
+static void handle_get_activity_state(char* , MIOFILE& fout) {
+    fout.printf("<activity_state>\n");
+	if ( gstate.activities_suspended ) {
+		fout.printf("    <activities_suspended/>\n");
+	}
+	if ( gstate.network_suspended ) {
+		fout.printf("    <network_suspended/>\n");
+	}
+    fout.printf("</activity_state>\n");
+}
+
 // params:
 // [ <seqno>n</seqno> ]
 //    return only msgs with seqno > n; if absent or zero, return all
@@ -530,6 +541,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<get_proxy_settings")) {
         handle_get_proxy_settings(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_activity_state")) {
+        handle_get_activity_state(request_msg, mf);
     } else if (match_tag(request_msg, "<get_messages")) {
         handle_get_messages(request_msg, mf);
     } else if (match_tag(request_msg, "<retry_file_transfer")) {

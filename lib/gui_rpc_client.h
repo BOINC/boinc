@@ -395,6 +395,7 @@ public:
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
+    int get_activity_state(bool& activities_suspended, bool& network_suspended);
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
         bool enabled, double blank_time, DISPLAY_INFO&

@@ -856,11 +856,16 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
+    bool           bActivitiesSuspended = false;
+    bool           bNetworkSuspended = false;
+
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
+    pDoc->GetActivityState( bActivitiesSuspended, bNetworkSuspended );
+    pDoc->GetActivityRunMode( iActivityMode );
 
     switch( pDoc->GetWorkState(item) )
     {
@@ -891,7 +896,14 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
                 wxInt32 iSchedulerState = pDoc->GetWorkSchedulerState(item);
                 if      ( CMainDocument::SCHED_SCHEDULED == iSchedulerState )
                 {
-                    strBuffer = _("Running");
+                    if ( bActivitiesSuspended )
+                    {
+                        strBuffer = _("Suspended");
+                    }
+                    else
+                    {
+                        strBuffer = _("Running");
+                    }
                 }
                 else if ( CMainDocument::SCHED_PREEMPTED == iSchedulerState )
                 {
@@ -943,7 +955,6 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
             break;
     }
 
-    pDoc->GetActivityRunMode( iActivityMode );
     if ( CMainDocument::MODE_NEVER == iActivityMode )
     {
         strBuffer = wxT(" ( ") + strBuffer + wxT(" ) ");
