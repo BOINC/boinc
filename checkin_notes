@@ -24780,3 +24780,10 @@ David  15 Feb 2005
 
     clientgui/
         ViewWork.cpp
+
+David  15 Feb 2005
+    - "upgrade" creates any project directories that don't already exist.
+        (e.g. html/languages stuff)
+
+    py/Boinc/
+        setup_project.py

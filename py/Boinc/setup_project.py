@@ -174,10 +174,10 @@ def _remove_trail(s, suffix):
 def _url_to_filename(url):
     s=""
     for c in url.replace('http://',''):
-	if (c.isalnum()):
-	    s += c
-	else:
-	    s += '_'
+        if (c.isalnum()):
+            s += c
+        else:
+            s += '_'
     return _remove_trail(s,'_')
 
 def account_file_name(url):
@@ -258,9 +258,56 @@ def build_command_line(cmd, **kwargs):
         cmd += " -%s '%s'" %(key,value)
     return cmd
 
+def create_project_dirs(dest_dir):
+    def dir(*d):
+        return apply(os.path.join,(dest_dir,)+d)
+    def mkdir2(d):
+        try:
+            os.mkdir(d);
+        except:
+            pass
+    map(lambda d: mkdir2(dir(d)),
+        [   '',
+            'cgi-bin',
+            'bin',
+            'templates',
+            'upload',
+            'download',
+            'apps',
+            'html',
+            'html/cache',
+            'html/inc',
+            'html/languages',
+            'html/languages/compiled',
+            'html/languages/translations',
+            'html/ops',
+            'html/project',
+            'html/stats',
+            'html/user',
+            'html/user_profile',
+            'html/user_profile/images'
+        ])
+
+    # make directories writeable to Apache.
+    # make the CGI writeable in case scheduler writes req/reply files
+    # TODO: that is a security risk; don't do this in the future - write
+    # req/reply files somewhere else
+    #
+    map(lambda d: os.chmod(dir(d), 0777),
+        [
+            'cgi-bin',
+            'upload',
+            'html/cache',
+            'html/languages',
+            'html/languages/compiled',
+            'html/user_profile/images'
+        ])
+
 def install_boinc_files(dest_dir):
     def dir(*dirs):
         return apply(os.path.join,(dest_dir,)+dirs)
+
+    create_project_dirs(dest_dir);
 
     install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
     install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
@@ -359,8 +406,8 @@ class Project:
     def keydir(self, *dirs):
         return apply(os.path.join,(self.config.config.key_dir,)+dirs)
 
-    def logdir(self, *dirs):
-		return apply(os.path.join,("log_"+self.config.config.host,)+dirs)
+    def logdir(self):
+        return os.path.join(self.project_dir, "log_"+self.config.config.host)
 
     def create_keys(self):
         if not os.path.exists(self.keydir()):
@@ -369,8 +416,9 @@ class Project:
         _gen_key(self.keydir('code_sign'))
 
     def create_logdir(self):
-		print "logdir = ", self.logdir();
-		os.mkdir(self.logdir());
+        print "logdir = ", self.logdir()
+        os.mkdir(self.logdir())
+        os.chmod(self.logdir(), 0777)
 
     def query_create_keys(self):
         return query_yesno("Keys don't exist in %s; generate them?"%self.keydir())
@@ -388,35 +436,7 @@ class Project:
 
         verbose_echo(1, "Setting up server: creating directories");
 
-        map(lambda dir: os.mkdir(self.dir(dir)),
-            [ '', 'cgi-bin', 'bin', 'templates', 'upload', 'download',
-                'apps', self.logdir(),
-                'html',
-                'html/cache',
-                'html/inc',
-                'html/languages',
-                'html/languages/compiled',
-                'html/languages/translations',
-                'html/ops',
-                'html/project',
-                'html/stats',
-                'html/user',
-                'html/user_profile',
-                'html/user_profile/images'
-              ])
-
-        # make directories writeable to Apache.
-        # make the CGI writeable in case scheduler writes req/reply files
-        # TODO: that is a security risk; don't do this in the future - write
-        # req/reply files somewhere else
-        #
-        map(lambda dir: os.chmod(self.dir(dir), 0777),
-            [ 'cgi-bin', 'upload', self.logdir(),
-                'html/cache',
-                'html/languages',
-                'html/languages/compiled',
-                'html/user_profile/images'
-            ])
+        create_project_dirs(self.project_dir);
 
         if not self.keys_exist():
             if self.query_create_keys():
@@ -426,8 +446,8 @@ class Project:
         # copy the user and administrative PHP files to the project dir,
         verbose_echo(1, "Setting up server files: copying files")
 
-		# Create the project log directory
-#        self.create_logdir()
+        # Create the project log directory
+        self.create_logdir()
 
         install_boinc_files(self.dir())
 
