@@ -148,14 +148,23 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
+        else if (parse_double(buf, "<user_create_time>", user_create_time)) {
+            validate_time(user_create_time);
+            continue;
+        }
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
-        else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
+        else if (parse_double(buf, "<host_create_time>", host_create_time)) {
+            validate_time(user_create_time);
+            continue;
+        }
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
-        else if (parse_double(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
+        else if (parse_double(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) {
+            validate_time(exp_avg_mod_time);
+            continue;
+        }
         else if (match_tag(buf, "<code_sign_key>")) {
             retval = copy_element_contents(
                 in,
@@ -167,7 +176,10 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) {
+            validate_time(min_rpc_time);
+            continue;
+        }
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
@@ -211,12 +223,12 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <cross_project_id>%s</cross_project_id>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
-        "    <user_create_time>%d</user_create_time>\n"
+        "    <user_create_time>%f</user_create_time>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"
         "    <host_total_credit>%f</host_total_credit>\n"
         "    <host_expavg_credit>%f</host_expavg_credit>\n"
-        "    <host_create_time>%d</host_create_time>\n"
+        "    <host_create_time>%f</host_create_time>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
         "    <exp_avg_mod_time>%f</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
@@ -1068,7 +1080,10 @@ int RESULT::parse_server(MIOFILE& in) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
-        if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_double(buf, "<report_deadline>", report_deadline)) {
+            validate_time(report_deadline);
+            continue;
+        }
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
@@ -1099,7 +1114,10 @@ int RESULT::parse_state(MIOFILE& in) {
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
-        if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_double(buf, "<report_deadline>", report_deadline)) {
+            validate_time(report_deadline);
+            continue;
+        }
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
@@ -1173,7 +1191,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (ready_to_report) out.printf("    <ready_to_report/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"
-            "    <report_deadline>%d</report_deadline>\n",
+            "    <report_deadline>%f</report_deadline>\n",
             wu_name,
             report_deadline
         );
@@ -1195,7 +1213,7 @@ int RESULT::write_gui(MIOFILE& out) {
         "    <final_cpu_time>%f</final_cpu_time>\n"
         "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n"
-        "    <report_deadline>%d</report_deadline>\n"
+        "    <report_deadline>%f</report_deadline>\n"
         "    <estimated_cpu_time_remaining>%f</estimated_cpu_time_remaining>\n",
         name,
         wu_name,

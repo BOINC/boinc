@@ -191,22 +191,41 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
     safe_strncpy(str, buf, len);
 }
 
+#define EPOCHFILETIME_SEC (11644473600.)
+#define TEN_MILLION 10000000.
 // return time of day as a double
-// Not necessarily in terms of UNIX time (especially on Windows)
 //
 double dtime() {
 #ifdef _WIN32
     LARGE_INTEGER time;
     FILETIME sysTime;
+    double t;
     GetSystemTimeAsFileTime(&sysTime);
     time.LowPart = sysTime.dwLowDateTime;
     time.HighPart = sysTime.dwHighDateTime;  // Time is in 100 ns units
-    return (double)time.QuadPart/10000000;    // Convert to 1 s units
+    t = (double)time.QuadPart;    // Convert to 1 s units
+    t /= TEN_MILLION;                /* In seconds */
+    t -= EPOCHFILETIME_SEC;     /* Offset to the Epoch time */
+    return t;
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
 #endif
+}
+
+// do sanity check on a time, replace with now if bad
+// We switched to using all UNIX times on 12/1/04.
+// During the transition, times in client_state.xml may be
+// in Windows (1601-based or whatever) format.
+//
+void validate_time(double& t) {
+    if (t==0) return;
+    double now = dtime();
+    if (t > now+86400*1000) {
+        t -=  EPOCHFILETIME_SEC;
+;
+    }
 }
 
 // sleep for a specified number of seconds

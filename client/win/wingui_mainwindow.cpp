@@ -552,7 +552,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
             if (pfx->fxp) {
                 xSent = pfx->fxp->bytes_xferred;
             }
-            else {
+            else if (pfx->is_upload) {
+                xSent = 0;
+            } else {
                 get_pathname(pfx->fip, pathnm);
                 if (file_size(pathnm, f_size)) {
                     f_size = 0;
@@ -587,7 +589,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                 m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
 
             // status
-            if (pfx->next_request_time > time(0)) {
+            if (pfx->next_request_time > dtime()) {
                 double xtime = pfx->next_request_time-dtime();
                 int xhour = (int)(xtime / (60 * 60));
                 int xmin = (int)(xtime / 60) % 60;
@@ -1972,7 +1974,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
                     // if we are backing off, show "retry now", else "get preferences"
                     PROJECT *proj = (PROJECT *)pMenuCtrl->GetItemData(indexSelected);
                     pContextMenu->ModifyMenu(ID_PROJECT_GET_PREFS, 0, ID_PROJECT_GET_PREFS,
-                        ((proj && proj->min_rpc_time > time(0)) ?
+                        ((proj && proj->min_rpc_time > dtime()) ?
                          m_MenuLabelRetryNow : m_MenuLabelGetPreferences));
                     break;
                 }
@@ -1992,7 +1994,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
                     // enable "retry now" only if currently waiting to retry
                     PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(indexSelected);
                     pContextMenu->EnableMenuItem(ID_TRANSFERS_RETRYNOW,
-                        pfx && (pfx->next_request_time > time(0) ?
+                        pfx && (pfx->next_request_time > dtime() ?
                                 MF_ENABLED : MF_GRAYED));
                     break;
                 }

@@ -20410,3 +20410,27 @@ David  30 Nov 2004
         boinc_db.C
     sched/
         validator.C
+
+David  1 Dec 2004
+	- Use exclusively UNIX time (1970-origin) on Windows.
+		Previously we were using times in both this format
+		and in Windows 1601-based format.
+		This is a bug waiting to happen (in fact, it had already happened).
+	- convert a few remaining absolute times from int to double
+	- Add a function validate_time().
+		This sees if its arg is in Windows format
+		(greater than now + 1000 days)
+		and if so converts it to UNIX format.
+	- Call validate_time() after parsing all absolute times
+	- in old GUI, show %done of file uploads correctly
+
+	NOTE: the time-checking code can be removed in the next major version
+
+	client/
+		client_types.C,h
+		pers_file_xfer.C,h
+		win/
+			wingui_mainwindow.cpp
+	lib/
+		util.C,h
+

@@ -173,14 +173,14 @@ public:
     char team_name[256];
     char email_hash[MD5_LEN];
     char cross_project_id[MD5_LEN];
-    double user_total_credit;    // as reported by server
-    double user_expavg_credit;    // as reported by server
-    unsigned int user_create_time;   // as reported by server
+    double user_total_credit;      // as reported by server
+    double user_expavg_credit;     // as reported by server
+    double user_create_time;       // as reported by server
     int rpc_seqno;
     int hostid;
     double host_total_credit;      // as reported by server
     double host_expavg_credit;     // as reported by server
-    unsigned int host_create_time; // as reported by server
+    double host_create_time;       // as reported by server
     double exp_avg_cpu;            // exponentially weighted CPU time
     double exp_avg_mod_time;       // last time average was changed
     int nrpc_failures;          // # of consecutive times we've failed to
@@ -293,7 +293,7 @@ struct WORKUNIT {
 struct RESULT {
     char name[256];
     char wu_name[256];
-    int report_deadline;
+    double report_deadline;
     std::vector<FILE_REF> output_files;
     bool ready_to_report;
         // we're ready to report this result to the server;
