@@ -22,6 +22,15 @@ static volatile const char *BOINCrcsid="$Id$";
 //     Microsoft Knowledge Base Article - 79212
 //
 
+#ifdef _DEBUG
+
+#define WINVER         0x0502
+#define _WIN32_WINNT   0x0502
+#define _WIN32_WINDOWS 0x0502
+#define _WIN32_IE      0x0502
+
+#endif
+
 #include "boinc_win.h"
 
 #include <windowsx.h>
@@ -124,6 +133,9 @@ CScreensaver::CScreensaver()
 	m_bPaintingInitialized = FALSE;
 	m_bBOINCCoreNotified = FALSE;
     m_bResetCoreState = TRUE;
+
+    m_bBOINCConfigChecked = FALSE;
+    m_bBOINCStartupConfigured = FALSE;
 
 	ZeroMemory( m_Monitors, sizeof(m_Monitors) );
     m_dwNumMonitors = 0;
@@ -779,6 +791,23 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     int  iReturnValue = 0;
                     int  iStatus = 0;
 
+#ifdef _DEBUG
+                    DWORD dwHandleCount = 0;
+                    DWORD dwGDIObjectCount = 0;
+                    DWORD dwUserObjectCount = 0;
+
+                    GetProcessHandleCount(GetCurrentProcess(), &dwHandleCount);
+                    dwGDIObjectCount = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+                    dwUserObjectCount = GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS);
+
+                    // Detect a handle leak if any exist
+                    BOINCTRACE(
+                        _T("CScreensaver::PrimarySaverProc - Handle Count = '%d', GDI Objects = '%d', User Objects = '%d'\n"),
+                        dwHandleCount,
+                        dwGDIObjectCount,
+                        dwUserObjectCount
+                    );
+#endif
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
@@ -805,7 +834,13 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         rpc.init( NULL );
                         m_bResetCoreState = TRUE;
 
-			            if(IsConfigStartupBOINC())
+                        if (!m_bBOINCConfigChecked)
+                        {
+                            m_bBOINCConfigChecked = TRUE;
+                            m_bBOINCStartupConfigured = IsConfigStartupBOINC();
+                        }
+
+			            if(m_bBOINCStartupConfigured)
 			            {
 				            m_bErrorMode = TRUE;
 				            m_hrError = SCRAPPERR_BOINCNOTDETECTED;
@@ -1577,20 +1612,17 @@ void CScreensaver::DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, 
 
    // Create the object mask for the bitmap by performing a BitBlt
    // from the source bitmap to a monochrome bitmap.
-   BitBlt(hdcObject, 0, 0, ptSize.x, ptSize.y, hdcTemp, 0, 0,
-          SRCCOPY);
+   BitBlt(hdcObject, 0, 0, ptSize.x, ptSize.y, hdcTemp, 0, 0, SRCCOPY);
 
    // Set the background color of the source DC back to the original
    // color.
    SetBkColor(hdcTemp, cColor);
 
    // Create the inverse of the object mask.
-   BitBlt(hdcBack, 0, 0, ptSize.x, ptSize.y, hdcObject, 0, 0,
-          NOTSRCCOPY);
+   BitBlt(hdcBack, 0, 0, ptSize.x, ptSize.y, hdcObject, 0, 0, NOTSRCCOPY);
 
    // Copy the background of the main DC to the destination.
-   BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdc, xStart, yStart,
-          SRCCOPY);
+   BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdc, xStart, yStart, SRCCOPY);
 
    // Mask out the places where the bitmap will be placed.
    BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdcObject, 0, 0, SRCAND);
@@ -1602,8 +1634,7 @@ void CScreensaver::DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, 
    BitBlt(hdcMem, 0, 0, ptSize.x, ptSize.y, hdcTemp, 0, 0, SRCPAINT);
 
    // Copy the destination to the screen.
-   BitBlt(hdc, xStart, yStart, ptSize.x, ptSize.y, hdcMem, 0, 0,
-          SRCCOPY);
+   BitBlt(hdc, xStart, yStart, ptSize.x, ptSize.y, hdcMem, 0, 0, SRCCOPY);
 
    // Place the original bitmap back into the bitmap sent here.
    BitBlt(hdcTemp, 0, 0, ptSize.x, ptSize.y, hdcSave, 0, 0, SRCCOPY);
@@ -1637,7 +1668,7 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 {
 	BOOL				bRetVal;
 	BOOL				bCheckFileExists;
-	TCHAR				szBuffer[512];
+	TCHAR				szBuffer[MAX_PATH];
 	HANDLE				hFileHandle;
     HMODULE				hShell32;
 	MYSHGETFOLDERPATH	pfnMySHGetFolderPath = NULL;
@@ -1660,14 +1691,14 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 	else
 	{
 		// It could be in the global startup group
-		ZeroMemory( szBuffer, 512 );
+		ZeroMemory( szBuffer, sizeof(szBuffer) );
 		bCheckFileExists = FALSE;
 		if ( NULL != pfnMySHGetFolderPath )
 		{
 			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 			{
 				BOINCTRACE(_T("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-				if (SUCCEEDED(StringCchCatN(szBuffer, 512, _T("\\BOINC Manager.lnk"), 36)))
+				if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), BOINC_SHORTCUT_NAME, sizeof(BOINC_SHORTCUT_NAME))))
 				{
 					BOINCTRACE(_T("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 					bCheckFileExists = TRUE;
@@ -1706,14 +1737,14 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 				BOINCTRACE(_T("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
 
 				// It could be in the global startup group
-				ZeroMemory( szBuffer, 512 );
+        		ZeroMemory( szBuffer, sizeof(szBuffer) );
 				bCheckFileExists = FALSE;
 				if ( NULL != pfnMySHGetFolderPath )
 				{
 					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 					{
 						BOINCTRACE(_T("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-						if (SUCCEEDED(StringCchCatN(szBuffer, 512, _T("\\BOINC Manager.lnk"), 36)))
+						if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), BOINC_SHORTCUT_NAME, sizeof(BOINC_SHORTCUT_NAME))))
 						{
 							BOINCTRACE(_T("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 							bCheckFileExists = TRUE;

@@ -48,7 +48,8 @@
 #define NO_MONITOR                                0xffffffff
 
 
-#define BOINC_WINDOW_CLASS_NAME                   "BOINC_app"
+#define BOINC_SHORTCUT_NAME                       _T("\\BOINC Manager.lnk")
+#define BOINC_WINDOW_CLASS_NAME                   _T("BOINC_app")
 
 
 //***************************************************************************************
@@ -178,9 +179,9 @@ protected:
 
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
 	BOOL					m_bBOINCCoreNotified;
-
     BOOL                    m_bResetCoreState;
-
+    BOOL                    m_bBOINCConfigChecked;
+    BOOL                    m_bBOINCStartupConfigured;
 };
 
 #endif
