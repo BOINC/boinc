@@ -4409,6 +4409,19 @@ Eric   June 3, 2002
         pers_file_xfer.C
         scheduler_op.C
 
+Tim    June 3, 2003
+    - Windows GUI enhancement
+        graphics window opens on top
+        simplified disk chart labels
+        message window scrolls to the bottom with new messages
+        reduce flicker in projects, results, and transfers
+
+    api/
+        windows_opengl.cpp
+    client/
+        gui_titles.c
+        wingui_mainwindow.cpp
+
 David  June 4 2003
     - Checked in Eric Korpela's rewrite of the DB interface code.
         No more db_xxx functions; instead, use derived classes
@@ -4443,6 +4456,19 @@ Eric   June 4, 2003
 
     client/
         main.C
+
+Tim    June 4, 2003
+    - Windows GUI enhancement
+        added "show" and "hide" to system tray icon context menu
+        added line between menu and tabs (not perfect; currently reside in updateGUI)
+        results now reads "downloading" and "uploading" during file transfer
+        removed history (i.e. completed results, old messages from last session)
+
+    client/
+        client_state.c
+        client_types.h
+        wingui_mainwindow.cpp
+        resource.rc
 
 David  June 5 2003
     - use a separate DB table for core versions
