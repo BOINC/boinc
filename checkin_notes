@@ -12085,3 +12085,7 @@ David  May 5 2004
     tools/
         backend_lib.C
         create_work.C
+
+Rom    May 4 2004
+    - Tag for 3.03 release, all platforms
+      boinc_core_release_3_04

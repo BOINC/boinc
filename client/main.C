@@ -158,21 +158,15 @@ int add_new_project() {
 
 #ifdef WIN32
 void quit_client() {
-    msg_printf(NULL, MSG_INFO, "Exiting - user request");
-    gstate.quit_activities();
     gstate.requested_exit = true;
 }
 
 void suspend_client() {
-    msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
-    gstate.activities_suspended = true;
-    gstate.active_tasks.suspend_all();
+    gstate.user_run_request = USER_RUN_REQUEST_NEVER;
 }
 
 void resume_client() {
-    msg_printf(NULL, MSG_INFO, "Resuming activity - user request");
-    gstate.activities_suspended = false;
-    gstate.active_tasks.unsuspend_all();
+    gstate.user_run_request = USER_RUN_REQUEST_AUTO;
 }
 
 BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){

@@ -281,19 +281,15 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg)
 //
 VOID LogEventWarningMessage(LPTSTR lpszMsg)
 {
-    TCHAR   szMsg[1024];
     HANDLE  hEventSource;
     LPTSTR  lpszStrings[2];
-
-    dwErr = GetLastError();
 
     // Use event logging to log the error.
     //
     hEventSource = RegisterEventSource(NULL, TEXT(SZSERVICENAME));
 
-    _stprintf(szMsg, TEXT("%s error: %d"), TEXT(SZSERVICENAME), dwErr);
-    lpszStrings[0] = szMsg;
-    lpszStrings[1] = lpszMsg;
+    lpszStrings[0] = lpszMsg;
+    lpszStrings[1] = '\0';
 
     if (hEventSource != NULL) {
         ReportEvent(hEventSource, // handle of event source
@@ -326,19 +322,15 @@ VOID LogEventWarningMessage(LPTSTR lpszMsg)
 //
 VOID LogEventInfoMessage(LPTSTR lpszMsg)
 {
-    TCHAR   szMsg[1024];
     HANDLE  hEventSource;
     LPTSTR  lpszStrings[2];
-
-    dwErr = GetLastError();
 
     // Use event logging to log the error.
     //
     hEventSource = RegisterEventSource(NULL, TEXT(SZSERVICENAME));
 
-    _stprintf(szMsg, TEXT("%s error: %d"), TEXT(SZSERVICENAME), dwErr);
-    lpszStrings[0] = szMsg;
-    lpszStrings[1] = lpszMsg;
+    lpszStrings[0] = lpszMsg;
+    lpszStrings[1] = '\0';
 
     if (hEventSource != NULL) {
         ReportEvent(hEventSource, // handle of event source
