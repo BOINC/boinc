@@ -122,3 +122,4 @@ int main(int argc, char** argv){
 	boinc_db.close();
 	return final;
 }
+const char *BOINC_RCSID_6d019426c9="$Id$";

@@ -659,3 +659,4 @@ void REDUCED_ARRAY::draw_labels() {
 	ortho_done();
 }
 
+const char *BOINC_RCSID_f4749d0d37="$Id$";

@@ -38,3 +38,4 @@ void wxLogBOINC::DoLogString(const wxChar *szString, time_t t)
     wxLogStderr::DoLogString(szString, t);
 }
 
+const char *BOINC_RCSID_4f7bf42814="$Id$";
