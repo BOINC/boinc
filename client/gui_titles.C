@@ -1,11 +1,11 @@
 #include "gui_titles.h"
 
 char g_szTabItems[MAX_TABS][256] = {
-	"Projects",
-	"Work",
-	"Transfers",
-	"Messages",
-	"Disk"
+    "Projects",
+    "Work",
+    "Transfers",
+    "Messages",
+    "Disk"
 };
 
 char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256] = {
@@ -24,17 +24,17 @@ char g_szUsageItems[MAX_USAGE_STR][256] = {
 };
 
 char g_szMiscItems[MAX_MISC_STR][256] = {
-	"New",
-	"Running",
-	"Ready to run",
-	"Computation done",
-	"Results uploaded",
-	"Acknowledged",
-	"Error: invalid state",
-	"Completed",
-	"Uploading",
-	"Downloading",
-	"Retry in",
-	"Download failed",
-	"Upload failed"
+    "New",
+    "Running",
+    "Ready to run",
+    "Computation done",
+    "Results uploaded",
+    "Acknowledged",
+    "Error: invalid state",
+    "Completed",
+    "Uploading",
+    "Downloading",
+    "Retry in",
+    "Download failed",
+    "Upload failed"
 };

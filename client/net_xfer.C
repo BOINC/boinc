@@ -406,7 +406,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             error = ERR_READ;
         } else {
             nbytes_transferred += n;
-			bytes_xferred += n;
+            bytes_xferred += n;
             m = fwrite(buf, 1, n, file);
             if (n != m) {
                 fprintf(stdout, "Error: incomplete disk write\n");
@@ -443,13 +443,13 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             } else if (n < nleft) {
                 fseek( file, n+nbytes_transferred-blocksize, SEEK_CUR );
                 nbytes_transferred += n;
-				bytes_xferred += n;
+                bytes_xferred += n;
                 break;
             }
             nleft -= n;
             offset += n;
             nbytes_transferred += n;
-			bytes_xferred += n;
+            bytes_xferred += n;
         }
     }
     return 0;
@@ -467,7 +467,7 @@ void NET_XFER::update_speed(int nbytes) {
     if (last_speed_update==0) last_speed_update = now;
     delta_t = now-last_speed_update;
     if (delta_t<=0) return;
-    x = exp(-delta_t*log(2)/3.0);
+    x = exp(-delta_t*log(2.0)/3.0);
     xfer_speed *= x;
     xfer_speed += recent_bytes*(1-x);
     last_speed_update = now;

@@ -61,14 +61,14 @@ char failed_file[256];
 
 int is_file(char* path) {
     struct stat sbuf;
-	memset(&sbuf, 0, sizeof(struct stat));
+    memset(&sbuf, 0, sizeof(struct stat));
     stat(path, &sbuf);
     return sbuf.st_mode & S_IFREG;
 }
 
 int is_dir(char* path) {
     struct stat sbuf;
-	memset(&sbuf, 0, sizeof(struct stat));
+    memset(&sbuf, 0, sizeof(struct stat));
     stat(path, &sbuf);
     return sbuf.st_mode & S_IFDIR;
 }
@@ -83,7 +83,7 @@ DIRREF dir_open(char* p) {
     if (!dirp) return NULL;
 #endif
 #ifdef _WIN32
-	if(!is_dir(p)) return NULL;
+    if(!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
     strcpy(dirp->path, p);
@@ -98,40 +98,40 @@ DIRREF dir_open(char* p) {
 int dir_scan(char* p, DIRREF dirp) {
 #ifdef HAVE_DIRENT_H
     while (1) {
-	dirent* dp = readdir(dirp);
-	if (dp) {
-	    if (dp->d_name[0] == '.') continue;
-	    if (p) strcpy(p, dp->d_name);
-	    return 0;
-	} else {
-	    return -1;
-	}
+        dirent* dp = readdir(dirp);
+        if (dp) {
+            if (dp->d_name[0] == '.') continue;
+            if (p) strcpy(p, dp->d_name);
+            return 0;
+        } else {
+            return -1;
+        }
     }
 #endif
 #ifdef _WIN32
     WIN32_FIND_DATA data;
     while (1) {
-	if (dirp->first) {
-	    dirp->first = false;
-	    dirp->handle = FindFirstFile(dirp->path, &data);
-	    if (dirp->handle == INVALID_HANDLE_VALUE) {
-		return -1;
-	    } else {
-		if (data.cFileName[0] == '.') continue;
-		if (p) strcpy(p, data.cFileName);
-		return 0;
-	    }
-	} else {
-	    if (FindNextFile(dirp->handle, &data)) {
-		if (data.cFileName[0] == '.') continue;
-		if (p) strcpy(p, data.cFileName);
-		return 0;
-	    } else {
-		FindClose(dirp->handle);
-		dirp->handle = INVALID_HANDLE_VALUE;
-		return 1;
-	    }
-	}
+        if (dirp->first) {
+            dirp->first = false;
+            dirp->handle = FindFirstFile(dirp->path, &data);
+            if (dirp->handle == INVALID_HANDLE_VALUE) {
+                return -1;
+            } else {
+                if (data.cFileName[0] == '.') continue;
+                if (p) strcpy(p, data.cFileName);
+                return 0;
+            }
+        } else {
+            if (FindNextFile(dirp->handle, &data)) {
+                if (data.cFileName[0] == '.') continue;
+                if (p) strcpy(p, data.cFileName);
+                return 0;
+            } else {
+                FindClose(dirp->handle);
+                dirp->handle = INVALID_HANDLE_VALUE;
+                return 1;
+            }
+        }
     }
 #endif
 }
@@ -141,13 +141,13 @@ int dir_scan(char* p, DIRREF dirp) {
 void dir_close(DIRREF dirp) {
 #ifdef HAVE_DIRENT_H
     if (dirp) {
-	closedir(dirp);
+        closedir(dirp);
     }
 #endif
 #ifdef _WIN32
     if (dirp->handle != INVALID_HANDLE_VALUE) {
-	FindClose(dirp->handle);
-	dirp->handle = INVALID_HANDLE_VALUE;
+        FindClose(dirp->handle);
+        dirp->handle = INVALID_HANDLE_VALUE;
     }
     free(dirp);
 #endif
@@ -165,8 +165,8 @@ int file_delete(char* path) {
     retval = remove(path);
 #endif
     if (retval) {
-	strcpy(failed_file, path);
-	return ERR_UNLINK;
+        strcpy(failed_file, path);
+        return ERR_UNLINK;
     }
     return 0;
 }
@@ -207,15 +207,15 @@ int clean_out_dir(char* dirpath) {
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
-	strcpy(filename,"");
+        strcpy(filename,"");
         retval = dir_scan(filename, dirp);
         if (retval) break;
         sprintf(path, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
-		clean_out_dir(path);
+        clean_out_dir(path);
 #ifdef _WIN32
-		RemoveDirectory(path);
+        RemoveDirectory(path);
 #else
-		rmdir(path);
+        rmdir(path);
 #endif
         retval = file_delete(path);
         if (retval) {
@@ -236,7 +236,7 @@ int dir_size(char* dirpath, double& size) {
     DIRREF dirp;
     double x;
 
-	size = 0;
+    size = 0;
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {

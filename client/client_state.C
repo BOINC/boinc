@@ -340,7 +340,7 @@ int CLIENT_STATE::allowed_disk_usage(double& size) {
     // Return the minimum of the three
     //
     size = min(min(global_prefs.disk_max_used_gb*1e9, percent_space), min_val);
-	if(size < 0) size = 0;
+    if(size < 0) size = 0;
     return 0;
 }
 
