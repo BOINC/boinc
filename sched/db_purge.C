@@ -59,7 +59,7 @@ int open_archive(char* filename_prefix, FILE*& f){
 
     sprintf(path,"../archives/%s_%d.xml", filename_prefix, (int)time(0));
 
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Opening archive %s\n", path);
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Opening archive %s\n", path);
     
     if ((f = fopen( path,"a+")) == NULL) {  
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s\n", path);
@@ -243,11 +243,11 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     while (!result.enumerate(buf)) {
        retval= archive_result(result);
        if (retval) return retval;
-       log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Archived result [%d] to a file\n", result.id);
+       log_messages.printf(SCHED_MSG_LOG::NORMAL,"Archived result [%d] to a file\n", result.id);
         
        retval= result.delete_from_db();
        if (retval) return retval;
-       log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged result [%d] from database\n", result.id);
+       log_messages.printf(SCHED_MSG_LOG::NORMAL,"Purged result [%d] from database\n", result.id);
 
        number_results++;
     }
@@ -265,7 +265,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Starting DB Purger\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting DB Purger\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
     config.db_passwd);
@@ -273,7 +273,7 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
         exit(1);
     }
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Opened DB\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Opened DB\n");
 
     mkdir("../archives", 0777);
 
@@ -305,7 +305,7 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Archived workunit [%d] to a file\n", wu.id);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL,"Archived workunit [%d] to a file\n", wu.id);
         
         //purge workunit from DB        
         retval= wu.delete_from_db();
@@ -313,7 +313,7 @@ int main(int argc, char** argv) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't delete workunit [%d] from database:%d\n", wu.id, retval);
             exit(1);
         }
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged workunit [%d] from database\n", wu.id);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL,"Purged workunit [%d] from database\n", wu.id);
 
         purged_workunits++;
     }
@@ -323,7 +323,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+    log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Archived %d workunits and %d results\n",
         purged_workunits,purged_results
     );
