@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma implementation "TransfersView.h"
+#endif
+
 #include "stdwx.h"
 #include "TransfersView.h"
 

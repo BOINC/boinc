@@ -17,10 +17,9 @@
 // Contributor(s):
 //
 
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma implementation "BaseWindowView.h"
+#endif
 
 #include "stdwx.h"
 #include "BaseWindowView.h"

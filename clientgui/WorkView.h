@@ -17,7 +17,14 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _WORKVIEW_H_
+#define _WORKVIEW_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "WorkView.cpp"
+#endif
+
+
 #include "BaseListCtrlView.h"
 
 class CWorkView : public CBaseListCtrlView
@@ -32,3 +39,6 @@ public:
 
     virtual wxString GetViewName(void);
 };
+
+
+#endif

@@ -17,7 +17,13 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _MAINFRAME_H_
+#define _MAINFRAME_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "MainFrame.cpp"
+#endif
+
 
 class CMainFrame : public wxFrame
 {
@@ -63,3 +69,6 @@ private:
 
     DECLARE_EVENT_TABLE()
 };
+
+
+#endif

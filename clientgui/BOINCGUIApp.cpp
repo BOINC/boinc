@@ -17,8 +17,11 @@
 // Contributor(s):
 //
 
-#include "stdwx.h"
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma implementation "BOINCGUIApp.h"
+#endif
 
+#include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainFrame.h"
 #include "MainDocument.h"

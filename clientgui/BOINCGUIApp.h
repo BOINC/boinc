@@ -17,7 +17,13 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _BOINCGUIAPP_H_
+#define _BOINCGUIAPP_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "BOINCGUIApp.cpp"
+#endif
+
 
 #include "MainFrame.h"
 #include "MainDocument.h"
@@ -30,11 +36,9 @@ class CBOINCGUIApp : public wxApp
     typedef wxApp Inherited;
 
 protected:
-    int OnExit();
+    int             OnExit();
 
-    /// Called by wxWindows to initialize command line handling.
     void            OnInitCmdLine(wxCmdLineParser &parser);
-    /// Called by wxWindows to allow CboincguiApp to handle the command line.
     bool            OnCmdLineParsed(wxCmdLineParser &parser);
 
     CMainFrame*     m_pFrame;
@@ -51,3 +55,6 @@ public:
 
 
 DECLARE_APP(CBOINCGUIApp)
+
+
+#endif

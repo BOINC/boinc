@@ -17,7 +17,14 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _PROJECTSVIEW_H_
+#define _PROJECTSVIEW_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "ProjectsView.cpp"
+#endif
+
+
 #include "BaseListCtrlView.h"
 
 class CProjectsView : public CBaseListCtrlView
@@ -32,3 +39,6 @@ public:
 
     virtual wxString GetViewName(void);
 };
+
+
+#endif

@@ -17,7 +17,14 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _RESOURCEUTILIZATIONVIEW_H_
+#define _RESOURCEUTILIZATIONVIEW_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "ResourceUtilizationView.cpp"
+#endif
+
+
 #include "BaseWindowView.h"
 
 class CResourceUtilizationView : public CBaseWindowView
@@ -32,3 +39,6 @@ public:
 
     virtual wxString GetViewName(void);
 };
+
+
+#endif

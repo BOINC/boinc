@@ -17,7 +17,13 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _BASEWINDOWVIEW_H_
+#define _BASEWINDOWVIEW_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "BaseWindowView.cpp"
+#endif
+
 
 class CBaseWindowView : public wxPanel
 {
@@ -31,3 +37,6 @@ public:
 
     virtual wxString GetViewName(void);
 };
+
+
+#endif

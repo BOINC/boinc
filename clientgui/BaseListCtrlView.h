@@ -17,7 +17,13 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _BASELISTCTRLVIEW_H_
+#define _BASELISTCTRLVIEW_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "BaseListCtrlView.cpp"
+#endif
+
 
 class CBaseListCtrlView : public wxListCtrl
 {
@@ -31,3 +37,6 @@ public:
 
     virtual wxString GetViewName(void);
 };
+
+
+#endif

@@ -17,10 +17,15 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _EVENTS_H_
+#define _EVENTS_H_
+
 
 enum {
     ID_STATUSBAR = wxID_HIGHEST + 1,
+    ID_COMMANDSATTACHPROJECT,
     ID_TOOLSOPTIONS
 } enumEvents;
 
+
+#endif

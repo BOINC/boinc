@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma implementation "MainDocument.h"
+#endif
+
 #include "stdwx.h"
 #include "MainDocument.h"
 

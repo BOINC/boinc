@@ -17,7 +17,13 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _MAINDOCUMENT_H_
+#define _MAINDOCUMENT_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "MainDocument.cpp"
+#endif
+
 
 class CMainDocument : public wxObject
 {
@@ -27,3 +33,6 @@ public:
     CMainDocument(void);
     ~CMainDocument(void);
 };
+
+
+#endif

@@ -17,7 +17,14 @@
 // Contributor(s):
 //
 
-#pragma once
+#ifndef _TRANSFERSVIEW_H_
+#define _TRANSFERSVIEW_H_
+
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "TransfersView.cpp"
+#endif
+
+
 #include "BaseListCtrlView.h"
 
 class CTransfersView : public CBaseListCtrlView
@@ -32,3 +39,6 @@ public:
 
     virtual wxString GetViewName(void);
 };
+
+
+#endif
