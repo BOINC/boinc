@@ -54,9 +54,9 @@ public:
 
     void OnClose( wxCloseEvent& event );
 
-    virtual void OnMouseMove( wxEvent& event );
-    virtual void OnRButtonDown( wxEvent& event );
-    virtual void OnLButtonDClick( wxEvent& event );
+    void OnMouseMove( wxTaskBarIconEvent& event );
+    void OnRButtonDown( wxTaskBarIconEvent& event );
+    void OnLButtonDClick( wxTaskBarIconEvent& event );
 
     bool ShowBalloon( 
         wxString title, 

@@ -43,6 +43,9 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIcon)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
     EVT_CLOSE(CTaskBarIcon::OnClose)
+    EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
+    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
+    EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
 END_EVENT_TABLE ()
 
 
@@ -169,7 +172,7 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
 }
 
 
-void CTaskBarIcon::OnMouseMove( wxEvent& event )
+void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 {
    wxTimeSpan ts(wxDateTime::Now() - dtLastMouseCaptureTime);
 
@@ -215,7 +218,7 @@ void CTaskBarIcon::OnMouseMove( wxEvent& event )
 }
 
 
-void CTaskBarIcon::OnRButtonDown( wxEvent& event )
+void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
 {
     ResetTaskBar();
 
@@ -271,7 +274,7 @@ void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 }
 
 
-void CTaskBarIcon::OnLButtonDClick( wxEvent& event )
+void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
 {
     ResetTaskBar();
 
