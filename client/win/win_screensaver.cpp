@@ -93,8 +93,11 @@ void RunSaver( void ) {
 	if(boinc_mutex != NULL && GetLastError() != ERROR_ALREADY_EXISTS) {
 		CloseHandle(boinc_mutex);
 		// Get the path to the client
-		UtilGetRegStr( "ClientPath", client_path );
-		UtilGetRegStr( "ClientDir", client_dir );
+		if (!UtilGetRegStr( "ClientPath", client_path ) ||
+			 UtilGetRegStr( "ClientDir", client_dir )) 
+		{
+			return /* error */;
+		}
 
 		memset( &process_info, 0, sizeof( process_info ) );
 		memset( &startup_info, 0, sizeof( startup_info ) );
@@ -112,6 +115,8 @@ void RunSaver( void ) {
 					client_dir,					// start in the standard client directory
 					&startup_info,
 					&process_info );
+		// wait up to 3 seconds for BOINC to start
+		WaitForInputIdle(process_info.hProcess, 3000);
 	}
 
 	BOINC_SS_START_MSG = RegisterWindowMessage( START_SS_MSG );

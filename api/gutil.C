@@ -1,3 +1,4 @@
+//#include <afx.h> // for ASSERT 
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -445,6 +446,7 @@ int init_texture(char* filename) {
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     err = glGetError();
     if (err) return err;
+	//ASSERT(0);
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
@@ -459,7 +461,10 @@ int init_texture(char* filename) {
         pixels    // dimension of PPM file MUST be power of 2
     );
     err = glGetError();
-    if (err) return err;
+    if (err) {
+		fprintf(stderr, "glTexImage2D returned error # %d: %s\n", err, gluErrorString(err)); 
+		return err;
+	}
     return 0;
 }
 struct Vertex

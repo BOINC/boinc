@@ -144,6 +144,8 @@ int UtilGetRegStr(char *name, char *str)
 	DWORD size = 128;
 	HKEY boinc_key;
 
+	*str = 0;
+
 	if ( OSVersion == OS_WIN95 ) {
 		error = RegOpenKeyEx( HKEY_LOCAL_MACHINE, "SOFTWARE\\BOINC",  
 			0, KEY_ALL_ACCESS, &boinc_key );
