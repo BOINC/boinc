@@ -463,6 +463,43 @@ void core_versions() {
     f.close();
 }
 
+int print_app(FILE* f, APP& app) {
+    DB_RESULT result;
+    char buf[256];
+    int n, retval;
+
+    fprintf(f, "        <application>\n");
+    fprintf(f, "            <name>%s</name>\n", app.name);
+
+    sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_UNSENT);
+    retval = result.count(n, buf);
+    if (retval) return retval;
+    fprintf(f, "            <results_unsent>%d</results_unsent>\n", n);
+
+    sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_IN_PROGRESS);
+    retval = result.count(n, buf);
+    if (retval) return retval;
+    fprintf(f, "            <results_in_progress>%d</results_in_progress>\n", n);
+
+    sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_OVER);
+    retval = result.count(n, buf);
+    if (retval) return retval;
+    fprintf(f, "            <results_over>%d</results_over>\n", n);
+    
+    fprintf(f, "        <application>\n");
+    return 0;
+}
+
+int print_apps(FILE* f) {
+    DB_APP app;
+    fprintf(f, "    <applications>\n");
+    while (!app.enumerate()) {
+        print_app(f, app);
+    }
+    fprintf(f, "    </applications>\n");
+    return 0;
+}
+
 int tables_file() {
     int nusers, nteams, nhosts;
     int retval;
@@ -500,6 +537,7 @@ int tables_file() {
         nrecs_per_file_summary,
         nrecs_per_file_detail
     );
+    print_apps(f);
     f.close();
     return 0;
 }

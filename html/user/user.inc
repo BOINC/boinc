@@ -1,11 +1,20 @@
 <?php
 
+function pending_credit($user) {
+    $result = mysql_query("select sum(claimed_credit) as total from result where userid=$user->id and validate_state=0");
+    $foobar = mysql_fetch_object($result);
+    if (!$foobar) return 0;
+    mysql_free_result($result);
+    return $foobar->total;
+}
+
 // show dynamic user info (private)
 //
 function show_user_stats_private($user) {
     row1("Account statistics");
     row2(PROJECT." member since", time_str($user->create_time));
     row2("Total credit", format_credit($user->total_credit));
+    row2("Pending credit", format_credit(pending_credit($user)));
     row2("Recent average credit", format_credit($user->expavg_credit));
     $team_header = "Team<br><font size=-2><a href=team.php>Change</a></font>";
     if ($user->teamid) {

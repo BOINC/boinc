@@ -8071,3 +8071,14 @@ Karl 2003-12-02
         language.ini.template
         language.ini.zh-big5 (added)
         language.ini.zh-gb2312 (added)
+
+David  3 Dec 2003
+    - Added "Pending credit" row to user page
+    - Added new elements to XML stats dump (tables.xml) to show
+        - applications
+        - # results unsent/in progress/over for each app
+    
+    html_user/
+        user.inc
+    sched/
+        db_dump.C
