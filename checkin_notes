@@ -6623,3 +6623,12 @@ Oliver  Oct 8 2003
        recuce.c
        gutil.c
        windows_opengl.c
+
+David  Oct 8 2003
+	- made draw, CreateTextureJPG etc. into member functions of TEXTURE_DESC
+	- added xalign, yalign args to TEXTURE_DESC::draw()
+	- attempted to turn off rendering when window is hidden (don't think I succeeded)
+
+	api/
+		gutil.C,h
+		windows_opengl.C

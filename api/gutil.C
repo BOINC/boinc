@@ -959,25 +959,27 @@ int init_texture(char* filename) {
 // draw a texture at a given position and size.
 // Change size if needed so aspect ratio of texture isn't changed
 //
-void draw_texture(float* p, float* size, TEXTURE_DESC& td) {
+void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
     float pos[3];
     double tratio, sratio, new_size;
     memcpy(pos, p, sizeof(pos));
     glColor4f(1.,1.,1.,1.);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, td.id);
+    glBindTexture(GL_TEXTURE_2D, id);
 
-    tratio = td.xsize/td.ysize;
+    tratio = xsize/ysize;
     sratio = size[0]/size[1];
 
     if (tratio > sratio) {      // texture is wider than space
         new_size = size[0]/tratio;
-        pos[1] += (size[1]-new_size)/2;
+        if (yalign == ALIGN_CENTER) pos[1] += (size[1]-new_size)/2;
+        if (yalign == ALIGN_TOP) pos[1] += size[1]-new_size;
         size[1] = new_size;
     }
     if (sratio > tratio) {      // space is wider than texture
         new_size = size[1]*tratio;
-        pos[0] += (size[0]-new_size)/2;
+        if (xalign == ALIGN_CENTER) pos[0] += (size[0]-new_size)/2;
+        if (xalign == ALIGN_TOP) pos[0] += size[0]-new_size;
         size[0] = new_size;
     }
 
@@ -1048,17 +1050,17 @@ tImageJPG *LoadJPG(const char *filename) {
 	return pImageData;
 }
 
-int CreateTextureJPG(char* strFileName, TEXTURE_DESC& td) {
+int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
 	if(!strFileName) return -1;	
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
 	if(pImage == NULL) return -1;
-	glGenTextures(1, &td.id);
-	glBindTexture(GL_TEXTURE_2D, td.id);	
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);	
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);	
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
-    td.xsize = pImage->sizeX;
-    td.ysize = pImage->sizeY;
+    xsize = pImage->sizeX;
+    ysize = pImage->sizeY;
 	
 	if (pImage) {
 		if (pImage->data) {
@@ -1069,47 +1071,47 @@ int CreateTextureJPG(char* strFileName, TEXTURE_DESC& td) {
 	return 0;
 }
 
-int CreateTextureBMP(char* strFileName, TEXTURE_DESC& td) {
+int TEXTURE_DESC::CreateTextureBMP(char* strFileName) {
 #ifdef _WIN32
 	DIB_BITMAP image; 
     if(image.loadBMP(strFileName) == false) {
 		return -1;
     }
 
-	glGenTextures(1, &td.id);	
-	glBindTexture(GL_TEXTURE_2D, td.id);
+	glGenTextures(1, &id);	
+	glBindTexture(GL_TEXTURE_2D, id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(), 
         image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
         image.getLinePtr(0)
     );
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
-    td.xsize = image.get_width();
-    td.ysize = image.get_height();
+    xsize = image.get_width();
+    ysize = image.get_height();
 #endif
 	return 0;
 }
 
-int CreateTexturePPM(char* strFileName, TEXTURE_DESC& td) {
+int TEXTURE_DESC::CreateTexturePPM(char* strFileName) {
 #ifdef _WIN32
 	unsigned char* pixels;
     int width, height, retval;    
     retval = read_ppm_file(strFileName, width, height, &pixels);
     if (retval) return retval;
     
-    glGenTextures(1, &td.id);
-    glBindTexture(GL_TEXTURE_2D, td.id);
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
-    td.xsize = width;
-    td.ysize = height;
+    xsize = width;
+    ysize = height;
 #endif
 	return 0;
 }
 
-int CreateTextureTGA(char* strFileName, TEXTURE_DESC& td) {
+int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
 #ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return -1;
@@ -1118,8 +1120,8 @@ int CreateTextureTGA(char* strFileName, TEXTURE_DESC& td) {
     if(pImage == NULL) {
 		return -1;
     }
-	glGenTextures(1, &td.id);
-	glBindTexture(GL_TEXTURE_2D, td.id);
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
 	int textureType = GL_RGB;
 	if(pImage->channels == 4) {
 		textureType = GL_RGBA;		
@@ -1128,8 +1130,8 @@ int CreateTextureTGA(char* strFileName, TEXTURE_DESC& td) {
 		pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
-    td.xsize = pImage->sizeX;
-    td.ysize = pImage->sizeY;
+    xsize = pImage->sizeX;
+    ysize = pImage->sizeY;
 
     if (pImage)	{									// If we loaded the image
         if (pImage->data) {							// If there is texture data
@@ -1141,6 +1143,7 @@ int CreateTextureTGA(char* strFileName, TEXTURE_DESC& td) {
 	return 0;
 }
 
+#if 0
 static int getFileType(char* file) {
     int l = strlen(file);
     char f2[64];
@@ -1163,22 +1166,28 @@ static int getFileType(char* file) {
 
     else return -1;
 }
+#endif
 
-int create_texture(char* filename, TEXTURE_DESC& td) {
-    switch (getFileType(filename)) {
-    case IMAGE_TYPE_JPG:
-        return CreateTextureJPG(filename, td); 
-        break;
-    case IMAGE_TYPE_PPM:
-        return CreateTexturePPM(filename, td);    
-        break;
-    case IMAGE_TYPE_BMP:
-        return CreateTextureBMP(filename, td);
-        break;
-    case IMAGE_TYPE_TGA:
-        return CreateTextureTGA(filename, td);
-        break;
-    }
+int TEXTURE_DESC::load_image_file(char* filename) {
+    int retval;
+    FILE* f;
+    f = fopen(filename, "r");
+    if (!f) goto done;
+    fclose(f);
+
+    // for now, just try all the image types in turn
+
+    present = true;
+    retval = CreateTexturePPM(filename);    
+    if (!retval) return 0;
+    retval = CreateTextureJPG(filename);
+    if (!retval) return 0;
+    retval = CreateTextureBMP(filename);
+    if (!retval) return 0;
+    retval = CreateTextureTGA(filename);
+    if (!retval) return 0;
+done:
+    present = false;
     return -1;
 }
 

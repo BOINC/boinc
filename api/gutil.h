@@ -166,16 +166,28 @@ extern void replaceStar(int);
 
 // ----- STUFF RELATED TO TEXTURES AND IMAGES
 
+#if 0
 #define IMAGE_TYPE_JPG     0
 #define IMAGE_TYPE_PPM      1
 #define IMAGE_TYPE_BMP      2
 #define IMAGE_TYPE_TGA      3
+#endif
+
+#define ALIGN_BOTTOM    0
+#define ALIGN_CENTER    1
+#define ALIGN_TOP       2
 
 struct TEXTURE_DESC {
 	bool present;
     unsigned int id;
     double xsize;          // size of underlying image
     double ysize;
+    void draw(float* pos, float* size, int xalign, int yalign);
+    int load_image_file(char* filename);
+    int CreateTextureJPG(char* strFileName);
+    int CreateTextureBMP(char* strFileName);
+    int CreateTexturePPM(char* strFileName);
+    int CreateTextureTGA(char* strFileName);
 };
 
 #if 0
@@ -185,8 +197,6 @@ extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
 extern int init_texture(char* filename);
 #endif
 
-extern void draw_texture(float* pos, float* size, TEXTURE_DESC&);
-
 struct tImageJPG {
 	int rowSpan;
 	int sizeX;
@@ -194,11 +204,6 @@ struct tImageJPG {
 	unsigned char *data;
 };
 
-extern int CreateTextureJPG(char* strFileName, TEXTURE_DESC&);
-extern int CreateTextureBMP(char* strFileName, TEXTURE_DESC&);
-extern int CreateTexturePPM(char* strFileName, TEXTURE_DESC&);
-extern int CreateTextureTGA(char* strFileName, TEXTURE_DESC&);
-extern int create_texture(char* filename, TEXTURE_DESC&);
 extern tImageJPG *LoadJPG(const char *filename);
 
 

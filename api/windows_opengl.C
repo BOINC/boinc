@@ -192,70 +192,68 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 {
 	RECT rt;
 	int width, height, new_mode;
+    static bool visible = true;
 
 	switch(uMsg) {
-		case WM_KEYDOWN:
-		case WM_KEYUP:
-		case WM_LBUTTONDOWN:
-		case WM_MBUTTONDOWN:
-		case WM_RBUTTONDOWN:
-			if(current_graphics_mode == MODE_FULLSCREEN) {
+    case WM_SHOWWINDOW:
+        // this is an attempt to avoid wasting CPU time on rendering
+        // when the window is minimized or hidden.
+        // Doesn't seem to work though - never get this message
+        //
+        visible = (wParam == TRUE);
+        return 0;
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		if(current_graphics_mode == MODE_FULLSCREEN) {
+			SetMode(MODE_HIDE_GRAPHICS);
+			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
+		}
+		return 0;
+	case WM_MOUSEMOVE:
+		if(current_graphics_mode == MODE_FULLSCREEN) {
+			POINT cPos;
+			GetCursorPos(&cPos);
+			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
 				SetMode(MODE_HIDE_GRAPHICS);
 				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 			}
-			return 0;
-		case WM_MOUSEMOVE:
-			if(current_graphics_mode == MODE_FULLSCREEN) {
-				POINT cPos;
-				GetCursorPos(&cPos);
-				if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-					SetMode(MODE_HIDE_GRAPHICS);
-					PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
-				}
-			}
-			return 0;
-		case WM_CLOSE:
-			SetMode(MODE_HIDE_GRAPHICS);
-			return 0;
-		case WM_PAINT:
-			PAINTSTRUCT ps;
-			RECT winRect;
-			HDC pdc;
-			pdc = BeginPaint(hWnd, &ps);
-			GetClientRect(hWnd, &winRect);
-			FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
-			EndPaint(hWnd, &ps);
-			return 0;
-		case WM_SIZE:
-			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
-			return 0;
-		case WM_TIMER:
-			if (app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {
-				SetMode(new_mode);
-			}
-			if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
+		}
+		return 0;
+	case WM_CLOSE:
+		SetMode(MODE_HIDE_GRAPHICS);
+		return 0;
+	case WM_PAINT:
+		PAINTSTRUCT ps;
+		RECT winRect;
+		HDC pdc;
+		pdc = BeginPaint(hWnd, &ps);
+		GetClientRect(hWnd, &winRect);
+		FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+		EndPaint(hWnd, &ps);
+		return 0;
+	case WM_SIZE:
+		ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
+		return 0;
+	case WM_TIMER:
+		if (app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {
+			SetMode(new_mode);
+		}
+        if (!visible) return 0;
+		if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
 
-            // TODO: remove width, height from API
-            //
-		    GetClientRect(hWnd, &rt);
-			width = rt.right-rt.left;
-			height = rt.bottom-rt.top;
+        // TODO: remove width, height from API
+        //
+		GetClientRect(hWnd, &rt);
+		width = rt.right-rt.left;
+		height = rt.bottom-rt.top;
 
-#ifdef DRAW_WITH_DLL
-			float* data;
-			int data_size=100;
-			data=(float*)malloc(sizeof(float)*data_size);
-			for(int i=0;i<data_size;i++)
-			{
-				data[i]=float(rand()%1000/1000.);
-			}
-			vis_render(width,height,dtime(),data,data_size);
-#else
-            if (throttled_app_render(width, height, dtime())) {
-		    	SwapBuffers(hDC);
-            }
-#endif
-			return 0;
+        if (throttled_app_render(width, height, dtime())) {
+		    SwapBuffers(hDC);
+        }
+		return 0;
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
