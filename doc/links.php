@@ -5,9 +5,12 @@ function show_link($language, $name, $url) {
     list_item($language, "<a href=$url>$name</a>");
 }
 
-page_head("Web sites related to BOINC");
+page_head("Web sites for BOINC participants");
 echo "
-Information about BOINC is available in the following languages:
+Information for BOINC participants is available in several languages
+(also see
+ <a href=guis.php>GUIs and add-on software</a>).
+
 ";
 list_start();
 show_link(

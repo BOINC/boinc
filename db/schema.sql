@@ -11,6 +11,12 @@
 /* Fields are documented in boinc_db.h */
 /* Do not replace this with an automatically generated schema */
 
+/* engine is specified as InnoDB for most tables.
+   Supposedly this gives better performance.
+   The others (post, thread, profile) are myISAM
+   because it supports fulltext index
+*/
+
 create table platform (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
@@ -18,7 +24,7 @@ create table platform (
     user_friendly_name  varchar(254) not null,
     deprecated          integer     not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table core_version (
     id                  integer     not null auto_increment,
@@ -29,7 +35,7 @@ create table core_version (
     message             varchar(254),
     deprecated          smallint    not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table app (
     id                  integer     not null auto_increment,
@@ -39,7 +45,7 @@ create table app (
     deprecated          integer     not null,
     user_friendly_name  varchar(254) not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table app_version (
     id                  integer     not null auto_increment,
@@ -52,7 +58,7 @@ create table app_version (
     max_core_version    integer     not null,
     deprecated          integer     not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table user (
     id                  integer     not null auto_increment,
@@ -81,7 +87,7 @@ create table user (
     has_profile         smallint    not null,
     cross_project_id    varchar(254) not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table team (
     id                  integer     not null auto_increment,
@@ -100,7 +106,7 @@ create table team (
     expavg_time         double      not null,
     seti_id             integer     not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table host (
     id                  integer     not null auto_increment,
@@ -151,7 +157,7 @@ create table host (
     nresults_today      integer     not null,
 
     primary key (id)
-);
+) engine=InnoDB;
 
 /*
  * Only information needed by the server or other backend components
@@ -187,7 +193,7 @@ create table workunit (
     max_success_results integer     not null,
     result_template_file varchar(63) not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table result (
     id                  integer     not null auto_increment,
@@ -218,7 +224,7 @@ create table result (
     exit_status         integer     not null,
     teamid              integer     not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table msg_from_host (
     id                  integer     not null auto_increment,
@@ -228,7 +234,7 @@ create table msg_from_host (
     handled             smallint    not null,
     xml                 text,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table msg_to_host (
     id                  integer     not null auto_increment,
@@ -238,7 +244,7 @@ create table msg_to_host (
     handled             smallint    not null,
     xml                 text,
     primary key (id)
-);
+) engine=InnoDB;
 
 create table workseq (
     id                  integer     not null auto_increment,
@@ -249,7 +255,7 @@ create table workseq (
     wuid_last_sent      integer     not null,
     workseqid_master    integer     not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 -- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
 -- SO NOT IN BOINC_DB.H ETC.
@@ -261,7 +267,7 @@ create table lang (
     name                varchar(254) not null,
     charset             varchar(254) not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 
 -- user profile (description, pictures)
@@ -292,7 +298,7 @@ create table category (
     name                varchar(254) binary,
     is_helpdesk         smallint    not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 -- message board topic
 --
@@ -307,7 +313,7 @@ create table forum (
     threads             integer     not null,
     posts               integer     not null,
     primary key (id)
-);
+) engine=InnoDB;
 
 -- threads in a topic (or questions)
 --
@@ -356,4 +362,4 @@ create table post (
 create table subscriptions (
     userid              integer     not null,
     threadid            integer     not null
-);
+) engine=InnoDB;

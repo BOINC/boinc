@@ -16074,3 +16074,9 @@ Rom    6 Aug 2004
 
     db/
        boinc_db.C
+
+David  7 Aug 2004
+    - fixed bug w/ graphics GUI RPC
+
+    client/
+        gui_rpc_server.C

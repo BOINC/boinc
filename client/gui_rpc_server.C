@@ -113,7 +113,13 @@ static PROJECT* get_project(char* buf, MIOFILE& fout) {
 static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 	string result_name;
     ACTIVE_TASK* atp;
+    int mode
 
+    if (match_tag(buf, "<full_screen/>")) {
+        mode = MODE_FULLSCREEN;
+    } else {
+        mode = MODE_WINDOW;
+    }
 
 	if (parse_str(buf, "<result_name>", result_name)) {
         PROJECT* p = get_project(buf, fout);
@@ -131,16 +137,12 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
             fout.printf("<error>Result not active</error>\n");
             return;
         }
-        if (match_tag(buf, "<full_screen/>")) {
-            atp->request_graphics_mode(MODE_FULLSCREEN);
-        } else {
-            atp->request_graphics_mode(MODE_WINDOW);
-        }
+        atp->request_graphics_mode(mode);
     } else {
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
             atp = gstate.active_tasks.active_tasks[i];
             if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-            atp->request_graphics_mode(MODE_WINDOW);
+            atp->request_graphics_mode(mode);
         }
     }
 	fout.printf("<success/>\n");

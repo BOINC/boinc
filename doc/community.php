@@ -12,9 +12,13 @@ please go to the
 board area</a> of the BOINC beta test.
 
 <p>
-There are several
-<a href=links.php>other web sites about BOINC</a>
+There are
+<a href=links.php>web sites for BOINC participants</a>
 in various languages.
+
+<p>
+See also
+<a href=guis.php>GUIs and add-on software for BOINC</a>.
 
 <h2>Mailing lists</h2>
 
