@@ -356,6 +356,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     generated_locally = false;
     status = FILE_NOT_PRESENT;
     executable = false;
+    approval_required = false;
     uploaded = false;
     upload_when_present = false;
     sticky = false;
@@ -403,6 +404,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
         else if (parse_int(buf, "<status>", status)) continue;
         else if (match_tag(buf, "<executable/>")) executable = true;
+        else if (match_tag(buf, "<approval_required/>")) approval_required = true;
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
@@ -453,6 +455,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (generated_locally) fprintf(out, "    <generated_locally/>\n");
         fprintf(out, "    <status>%d</status>\n", status);
         if (executable) fprintf(out, "    <executable/>\n");
+        if (approval_required) fprintf(out, "    <approval_required/>\n");
         if (uploaded) fprintf(out, "    <uploaded/>\n");
         if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
         if (sticky) fprintf(out, "    <sticky/>\n");

@@ -223,12 +223,6 @@ void PERS_FILE_XFER::giveup() {
 void PERS_FILE_XFER::handle_xfer_failure() {
     time_t now = time(0);
 
-    // for handling user-declined download of executable files
-    if (fxp == NULL) {
-        giveup();
-        return;
-    }
-
     // If it was a bad range request, delete the file and start over
     //
     if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
