@@ -1,42 +1,26 @@
 <?php
-   require_once("docutil.php");
-   page_head("Development and debugging");
+require_once("docutil.php");
+page_head("Development and debugging");
 
-   echo "
-<p>
-<h2>Source code</h2>
-You can get the BOINC source code in several ways:
-<ul>
-<li>
-<a href=source/>Download</a> a tarball or .zip file
-(generated nightly).
-<li>
-Browse the CVS repository via a
-<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/>web-based interface</a>.
-<li>
-Access the CVS repository directly, e.g. with a command like
-<pre>
-cvs -d :pserver:anonymous@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
-<pre>
-</ul>
-<p>
-Source code for a typical BOINC application,
-SETI@home, is <a href=http://boinc.berkeley.edu/seti_source/>here</a>.
+echo "
 <p>
 If you are an experienced C++ system programmer you may be able
 to help us maintain and enhance BOINC.
 In any case, you are welcome to browse the source code and
 give us feedback.
 <p>
-You should understand exactly how BOINC is supposed to work
+You should understand how BOINC works
 (for both <a href=participate.php>participants</a>
-and <a href=create_project.php>developers</a>)
+and <a href=create_project.php>projects</a>)
 before getting into the source code.
 
-<h2>Bug database</h2>
 <p>
-<a href=http://setiathome.berkeley.edu/taskbase>View database of bugs and feature requests</a>
+Read about:
+<ul>
+<li> <a href=compile.php>Compiling BOINC software</a>
+</ul>
 <p>
+Various implementation notes:
 <h2>Core client</h2>
 <ul>
 <li> <a href=client_files.php>File structure</a>
@@ -81,6 +65,6 @@ between two versions of an executable</a>.
 </ul>
 
 ";
-   page_tail();
+page_tail();
 ?>
 

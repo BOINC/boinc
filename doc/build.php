@@ -23,8 +23,10 @@ Other Unix-like systems should work without too much configuration.
 <tr>
     <td>GNU tools:
         <br>GCC 3.0.4+
-        <br>autoconf 2.59+
-        <br>automake 1.9.3+
+        <br> <a href=http://www.gnu.org/software/autoconf/>
+        autoconf 2.59+</a>
+        <br> <a href=http://www.gnu.org/software/automake/automake.html>
+        automake 1.9.3+</a>
     </td>
     <td>X</td>
     <td>X</td>

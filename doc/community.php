@@ -52,39 +52,12 @@ list_item("<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_
     "For people porting and optimizing BOINC applications."
 );
 list_end();
+
 echo "
-<h2>Getting source code</h2>
-<p>
-At any given point there are two different versions
-of the BOINC source code (maintained as separate CVS projects):
+<h2>Programming</h2>
 <ul>
-<li> <b>boinc</b> is the development version.
-It may be unstable, and it may not be compatible with public BOINC projects.
-<li> <b>boinc_public</b> is the stable version.
-It generally is the version being used
-(on both client and server) by public BOINC projects.
+<li> <a href=compile.php>Compile BOINC software</a>
 </ul>
-You can get the BOINC source code in several ways:
-<ul>
-<li>
-<a href=source/>Download</a> a tarball or .zip file
-(generated nightly).
-<li>
-Browse the CVS repository via a
-<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/>web-based interface</a>.
-<li>
-Access the CVS repository directly, e.g. with a command like
-<pre>
-cvs -d :pserver:anonymous@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
-<pre>
-</ul>
-<p>
-Source code for a typical BOINC application,
-SETI@home, is <a href=http://boinc.berkeley.edu/seti_source/>here</a>.
-<h2>Bug database</h2>
-<p>
-You can browse the BOINC
-<a href=http://setiathome.ssl.berkeley.edu/taskbase/database.cgi>bug-tracking database</a>.
 
 <h2>News feeds</h2>
 <p>

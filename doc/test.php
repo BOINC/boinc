@@ -1,6 +1,6 @@
 <?php
-   require_once("docutil.php");
-   page_head("Testing BOINC");
+require_once("docutil.php");
+page_head("Test framework for BOINC developers (not intended for general use)");
 echo "
 See the section on testing in <a href=build.php>Software Prerequisites</a>.
 Note that a web server with PHP is required for

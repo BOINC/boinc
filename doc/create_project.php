@@ -53,24 +53,6 @@ How to develop or port an application program for use with BOINC.
 </ul>
 
 <font size=+1><b>
-Compiling BOINC software
-</b></font>
-<br> &nbsp; &nbsp; &nbsp;
-<font size=-1>
-How to configure and compile the BOINC software.
-</font>
-<ul>
-<li> <a href=build.php>Software prerequisites</a>
-<li> <a href=road_map.php>Road map of the BOINC software</a>
-<li> <a href=build_system.php>Build system</a>
-<li> <a href=build_server.php>Building server components</a>
-<li> <a href=build_client.php>Building the core client</a>
-<li> <a href=test.php>Test applications and scripts</a>
-<li> <a href=http://noether.vassar.edu/~myers/help/boinc/boinc-on-redhat.html>Compiling BOINC on Red Hat Linux 7.x</a> (by Eric Myers)
-<li> <a href=ssl_build.txt>Build instructions for SSL (Secure Socket Layer) client</a>
-</ul>
-
-<font size=+1><b>
 Creating a BOINC project
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
@@ -78,6 +60,7 @@ Creating a BOINC project
 The components of a BOINC project, and how to create them.
 </font>
 <ul>
+<li> <a href=compile.php>Compile BOINC Software</a>
 <li> <a href=project_cookbook.php>Project creation cookbook</a>
 <li> <a href=server_components.php>What is a project?</a>
 <li> <a href=database.php>The BOINC database</a>
