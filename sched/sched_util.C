@@ -31,6 +31,9 @@ using namespace std;
 #include "server_types.h"
 
 const char* STOP_TRIGGER_FILENAME = "../stop_servers";
+    // NOTE: this be the same name as used by the "start" script
+const int STOP_SIGNAL = SIGHUP;
+    // NOTE: this be the same signal as used by the "start" script
 
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
@@ -43,19 +46,19 @@ void write_pid_file(const char* filename) {
 }
 
 // caught_sig_int will be set to true if SIGINT is caught.
-bool caught_sig_int = false;
-static void sigint_handler(int) {
-    fprintf(stderr, "SIGINT\n");
-    caught_sig_int = true;
+bool caught_stop_signal = false;
+static void stop_signal_handler(int) {
+    fprintf(stderr, "GOT STOP SIGNAL\n");
+    caught_stop_signal = true;
 }
 
-void install_sigint_handler() {
-    signal(SIGINT, sigint_handler);
-    // SIGINT is now default again so hitting ^C again will kill the program.
+void install_stop_signal_handler() {
+    signal(STOP_SIGNAL, stop_signal_handler);
+    // handler is now default again so hitting ^C again will kill the program.
 }
 
 void check_stop_trigger() {
-    if (caught_sig_int) {
+    if (caught_stop_signal) {
         log_messages.printf(SchedMessages::CRITICAL, "Quitting due to SIGINT\n");
         exit(0);
     }

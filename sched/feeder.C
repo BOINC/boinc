@@ -375,7 +375,7 @@ int main(int argc, char** argv) {
     ssp->init();
 
     atexit(cleanup_shmem);
-    install_sigint_handler();
+    install_stop_signal_handler();
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {

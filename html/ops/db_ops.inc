@@ -8,7 +8,7 @@ function db_init() {
     }
     $db_name = parse_config("<db_name>");
     if(!mysql_select_db($db_name)) {
-	    echo "Unable to select database - please try again later";
+	    echo "Unable to select database '$db_name' - please try again later";
 	    exit();
     }
 

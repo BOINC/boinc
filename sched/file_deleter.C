@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
         log_messages.printf(SchedMessages::CRITICAL, "can't open DB\n");
         exit(1);
     }
-    install_sigint_handler();
+    install_stop_signal_handler();
     if (one_pass) {
         do_pass();
     } else {

@@ -64,4 +64,8 @@ Tell us your thoughts about " . PROJECT . "<ol>
 ");
 }
 
+function project_news() {
+    echo "No news is good news\n";
+}
+
 ?>

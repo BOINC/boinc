@@ -49,9 +49,9 @@ alter table result
     add unique(name),
         -- the scheduler looks up results by name
 
-    //add index res_wuid (workunitid),
-    //    -- transitioner
-    //    -- NOTE: res_wu_user may suffice; could try dropping this one
+    add index res_wuid (workunitid),
+        -- transitioner
+        -- NOTE res_wu_user may suffice, could try dropping this one
 
     add index ind_res_st (server_state, random),
         -- feeder (random is to avoid sending WU result close together)
@@ -86,7 +86,7 @@ alter table host
         -- db_dump.C
 
 alter table profile
-    add fulltext index profile_reponse(response1, reponse2),
+    add fulltext index profile_reponse(response1, response2),
     add unique profile_userid(userid);
 
 alter table subscriptions

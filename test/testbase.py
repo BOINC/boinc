@@ -318,7 +318,7 @@ class TestProject(Project):
     def run(self):
         self.sched_install('make_work', max_wus = self.num_wu, min_quorum = self.redundancy)
         self.sched_install('assimilator')
-        # self.sched_install('file_deleter')
+        self.sched_install('file_deleter')
         self.sched_install('validate_test')
         self.sched_install('feeder')
         self.sched_install('transitioner')
@@ -670,6 +670,7 @@ def run_check_all():
     all_projects.stop_progress_meter()
     print
     # all_hosts.stop()
+    time.sleep(12)
     all_projects.stop()
     all_projects.check()
 

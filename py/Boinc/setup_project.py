@@ -8,7 +8,7 @@
 import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
 from Boinc.boinc_db import *
-import os, sys, glob, time, shutil, re, random
+import os, sys, glob, time, shutil, re, random, socket
 
 class Options:
     pass
@@ -303,6 +303,7 @@ class Project:
         config.db_passwd = ''
         config.shmem_key = generate_shmem_key()
         config.output_level = 3
+        config.host = socket.gethostname()
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')

@@ -44,7 +44,6 @@ using namespace std;
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
 const int MAX_WUS_TO_SEND     = 10;
-const int MIN_SENDWORK_INTERVAL = 15*60;
 
 const double COBBLESTONE_FACTOR = 300.0;
 
@@ -1032,15 +1031,20 @@ void process_request(
 
     handle_results(sreq, reply, reply.host);
 
-    // if last RPC was within MIN_SENDWORK_INTERVAL, don't send work
+    // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    double diff = dtime() - last_rpc_time;
-    if (diff < MIN_SENDWORK_INTERVAL) {
-        log_messages.printf(
-            SchedMessages::NORMAL,
-            "Not sending work - last RPC too recent: %f\n", diff
-        );
-    } else {
+    bool ok_to_send = true;
+    if (config.min_sendwork_interval) {
+        double diff = dtime() - last_rpc_time;
+        if (diff < config.min_sendwork_interval) {
+            ok_to_send = false;
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "Not sending work - last RPC too recent: %f\n", diff
+            );
+        }
+    }
+    if (ok_to_send) {
         send_work(sreq, reply, *platform, ss);
     }
 

@@ -304,7 +304,7 @@ create table thread (
         -- number of postings in thread
     activity            double      not null,
         -- for questions: number of askers / time since asked
-           (set periodically by update_forum_activity.php)
+        -- (set periodically by update_forum_activity.php)
     sufferers           integer     not null,
         -- in help desk: # people who indicated they had same problem
     create_time         integer     not null,

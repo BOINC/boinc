@@ -45,8 +45,8 @@ extern void set_debug_level(int);
 extern void check_stop_trigger();
 extern bool is_stopfile_present();
 extern void update_average(double, double, double&, double&);
-extern void install_sigint_handler();
-extern bool caught_sig_int;
+extern void install_stop_signal_handler();
+extern bool caught_stop_signal;
 
 
 class SchedMessages : public Messages {

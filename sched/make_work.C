@@ -298,7 +298,7 @@ int main(int argc, char** argv) {
         "Starting: min_quorum=%d target_nresults=%d max_error_results=%d max_total_results=%d max_success_results=%d\n",
         min_quorum, target_nresults, max_error_results, max_total_results, max_success_results
     );
-    install_sigint_handler();
+    install_stop_signal_handler();
 
     srand48(getpid() + time(0));
     make_work();

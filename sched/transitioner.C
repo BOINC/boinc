@@ -415,7 +415,7 @@ int main(int argc, char** argv) {
     // write_pid_file(PIDFILE);
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
-    install_sigint_handler();
+    install_stop_signal_handler();
 
     main_loop(one_pass);
 }

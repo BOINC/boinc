@@ -8805,3 +8805,38 @@ David  30 Dec 2003
         
     client/
         client_types.C,h
+
+David  31 Dec 2003
+    - Made the basic test script (test_uc.py) work again:
+        - fixed syntax errors in SQL files
+        - initial config.xml file includes <host> element
+        - back-end processes handle SIGHUP, not SIGINT
+            (we changed in "start"; need to change here too)
+        - "MIN_SENDWORK_INTERVAL" is read from config.xml (default 0)
+        - added 12-second sleep in run_check_all()
+            (based on 10-sec sleep in assimilator; should reduce)
+    - The user and admin web interfaces now work in the basic test case
+        (i.e. you can use html_ops to look at DB contents)
+
+    db/
+        constraints.sql
+        schema.sql
+    html_ops/
+        db_ops.inc
+    html_user/
+        project.inc.sample
+        util.inc
+    py/Boinc/
+        setup_project.py
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        handle_request.C
+        make_work.C
+        sched_config.C,h
+        sched_util.C,h
+        transitioner.C
+        validate.C
+    test/
+        testbase.py

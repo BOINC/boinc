@@ -1,6 +1,6 @@
 <?php
 
-require_once("project_specific/project.inc");
+require_once("../html_user/project_specific/project.inc");
 require_once("countries.inc");
 
 // Sends the authenticator to the given email address
@@ -301,15 +301,9 @@ function parse_element($xml, $tag) {
 //
 function parse_config($tag, $pathMod='') {
     $element = null;
-    $fp = fopen($pathMod . "../config.xml", "r");
-    while (1) {
-        $buf = fgets($fp, 1024);
-        if ($buf == null) break;
-        $element = parse_element($buf, $tag);
-        if ($element) break;
-    }
-    fclose($fp);
-    return $element;
+    $buf = file_get_contents($pathMod . "../config.xml");
+    $element = parse_element($buf, $tag);
+    return trim($element);
 }
 
 // Call this if for dynamic pages

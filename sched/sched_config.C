@@ -59,6 +59,7 @@ int SCHED_CONFIG::parse(istream& f) {
     if (match_tag(buf.c_str(), "<one_result_per_user_per_wu/>")) {
         one_result_per_user_per_wu = true;
     }
+    parse_int(buf.c_str(), "<min_sendwork_interval>", min_sendwork_interval);
     if (match_tag(buf.c_str(), "</config>")) return 0;
     return ERR_XML_PARSE;
 }

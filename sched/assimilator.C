@@ -35,6 +35,8 @@
 
 SCHED_CONFIG config;
 
+#define SLEEP_INTERVAL 10
+
 // assimilate all WUs that need it
 // return nonzero if did anything
 //
@@ -125,12 +127,12 @@ int main(int argc, char** argv) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't find app\n");
         exit(1);
     }
-    install_sigint_handler();
+    install_stop_signal_handler();
     if (one_pass) {
         do_pass(app);
     } else {
         while (1) {
-            if (!do_pass(app)) sleep(10);
+            if (!do_pass(app)) sleep(SLEEP_INTERVAL);
         }
     }
 }
