@@ -165,7 +165,8 @@ public:
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
-    double vm_size;
+    double vm_bytes;
+    double rss_bytes;
     double estimated_cpu_time_remaining;
     bool suspended_via_gui;
     bool supports_graphics;

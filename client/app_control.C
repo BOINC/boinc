@@ -477,12 +477,12 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
 #endif
 
 bool ACTIVE_TASK::check_max_mem_exceeded() {
-    if (max_mem_usage != 0 && resident_set_size*1024 > max_mem_usage) {
+    if (max_mem_usage != 0 && rss_bytes > max_mem_usage) {
         msg_printf(
             result->project, MSG_INFO,
             "result %s: memory usage %f exceeds limit %f\n",
             result->name,
-            resident_set_size*1024,
+            rss_bytes,
             max_mem_usage
         );
         //abort_task("Maximum memory usage exceeded");
@@ -500,7 +500,7 @@ bool ACTIVE_TASK_SET::vm_limit_exceeded(double vm_limit) {
     for (i=0; i<active_tasks.size(); ++i) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
-        total_vm_usage += atp->vm_size;
+        total_vm_usage += atp->vm_bytes;
     }
 
     return (total_vm_usage > vm_limit);
@@ -827,8 +827,8 @@ bool ACTIVE_TASK::get_app_status_msg() {
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-        parse_double(msg_buf, "<vm_size>", vm_size);
-        parse_double(msg_buf, "<resident_set_size>", resident_set_size);
+        parse_double(msg_buf, "<vm_bytes>", vm_bytes);
+        parse_double(msg_buf, "<rss_bytes>", rss_bytes);
         found = true;
     }
     return found;

@@ -473,7 +473,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
 
     // preempt, start, and resume tasks
     //
-    vm_limit = global_prefs.vm_max_used_pct / 100.0 * host_info.m_swap;
+    vm_limit = (global_prefs.vm_max_used_pct/100.)*host_info.m_swap;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED

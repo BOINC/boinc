@@ -325,7 +325,8 @@ int RESULT::parse(MIOFILE& in) {
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (parse_double(buf, "<vm_size>", vm_size)) continue;
+        else if (parse_double(buf, "<vm_bytes>", vm_bytes)) continue;
+        else if (parse_double(buf, "<rss_bytes>", rss_bytes)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
     }
@@ -347,7 +348,8 @@ void RESULT::print() {
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
     printf("   current CPU time: %f\n", current_cpu_time);
     printf("   fraction done: %f\n", fraction_done);
-    printf("   VM size: %f\n", vm_size);
+    printf("   VM usage: %f\n", vm_bytes);
+    printf("   resident set size: %f\n", rss_bytes);
 }
 
 void RESULT::clear() {

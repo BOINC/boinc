@@ -33,9 +33,6 @@ struct BOINC_MAIN_STATE {
     APP_CLIENT_SHM* app_client_shm;
 };
 
-typedef int (*BIOGI_FUNC_PTR)(BOINC_OPTIONS&, WORKER_FUNC_PTR, BOINC_MAIN_STATE*);
-    // ptr to a function like boinc_init_options_graphics_impl()
-
 extern int boinc_init_graphics_impl(
     WORKER_FUNC_PTR worker, BOINC_MAIN_STATE*
 );

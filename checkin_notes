@@ -21254,3 +21254,29 @@ David  14 Dec 2004
 
 	api/
 		windows_opengl.C
+
+David  14 Dec 2004
+    - moved mem_usage() from api/boinc_api.C to lib/mem_usage.C (new)
+        and changed its return value from (int) KBytes to (double) bytes.
+        POLICY: BOINC INTERNALS NEVER USE UNITS LIKE KBYTES.
+        USE THE NATIVE UNIT (E.G. BYTES), AND STORE IT IN A DOUBLE.
+    - changed the XML tags used in
+        - API messages
+        - GUI RPCs
+        - client_state.xml
+        for storing VM sizes.
+        This doesn't justify a major-version change since we
+        don't use these for anything critical.
+
+    api/
+        boinc_api.C
+        graphics_impl.h
+        graphics_lib.C
+    client/
+        app.C,h
+        app_control.C
+        cs_apps.C
+    lib/
+        Makefile.am
+        mem_usage.C,h (new)
+        gui_rpc_client.C,h

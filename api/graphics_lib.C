@@ -35,6 +35,9 @@ void* graphics_lib_handle=NULL;
 
 #define BOINC_STRLEN    512
 
+typedef int (*BIOGI_FUNC_PTR)(BOINC_OPTIONS&, WORKER_FUNC_PTR, BOINC_MAIN_STATE*);
+    // ptr to a function like boinc_init_options_graphics_impl()
+
 // This routine never returns.
 // If a problem arises, it calls boinc_finish(nonzero).
 //

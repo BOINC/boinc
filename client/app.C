@@ -98,8 +98,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     cpu_time_at_last_sched = 0;
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
-    vm_size = 0;
-    resident_set_size = 0;
+    vm_bytes = 0;
+    rss_bytes = 0;
     have_trickle_down = false;
     pending_suspend_via_quit = false;
     suspended_via_gui = false;
@@ -340,7 +340,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
-        "    <vm_size>%f</vm_size>\n"
+        "    <vm_bytes>%f</vm_bytes>\n"
         "%s%s"
         "</active_task>\n",
         result->project->master_url,
@@ -352,7 +352,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time,
-        vm_size,
+        vm_bytes,
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         supports_graphics()?"   <supports_graphics/>\n":""
     );

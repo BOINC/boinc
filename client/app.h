@@ -112,10 +112,10 @@ public:
         // CPU at the last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
-    double vm_size;
-        // most recent virtual memory used in kbytes
-    double resident_set_size;
-        // most recent resident set size in kbytes
+    double vm_bytes;
+        // virtual memory used
+    double rss_bytes;
+        // resident set size
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs

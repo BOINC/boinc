@@ -11,17 +11,14 @@ bin_PROGRAMS = crypt_prog $(nslprogs)
 
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
 
-
 ##LIBS = -lnsl -lsocket
 gui_test_SOURCES = gui_test.C gui_rpc_client.C gui_rpc_client.h
 gui_test_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 
 lib_LIBRARIES = libboinc.a 
 
-#libboinc_graphics.a
 EXTRA_DIST = *.h *.C
 
-# libboinc.a is for use by applications (not core client or server)
 libboinc_a_SOURCES =        \
     app_ipc.C               \
 	base64.C                \
@@ -33,6 +30,7 @@ libboinc_a_SOURCES =        \
     language.C              \
     md5.c                   \
     md5_file.C              \
+    mem_usage.C             \
     mfile.C                 \
     miofile.C               \
     msg_log.C               \
@@ -61,21 +59,6 @@ libboinc_a_SOURCES =        \
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
-
-## only headers that are meant for exporting the API !!
-include_HEADERS = 	\
-	app_ipc.h 		\
-	diagnostics.h 	\
-	filesys.h  		\
-	boinc_win.h  	\
-	mfile.h  		\
-	util.h 			\
-	hostinfo.h  	\
-	proxy_info.h  	\
-	prefs.h  		\
-	exception.h  	\
-	miofile.h 
-
 
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C

@@ -24,13 +24,10 @@
 #include "boinc_win.h"
 #include "win_config.h"
 #else
+#include "config.h"
 #include <cstdlib>
 #include <cstdio>
 #include <cstdarg>
-#include <cstring>
-#include <string>
-#include <fcntl.h>
-#include <algorithm>
 #include <sys/types.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -38,11 +35,6 @@
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
-#include <csignal>
-#ifdef HAVE_PROCFS_H
-#include <procfs.h> // definitions for solaris /proc structs
-#endif
-#include "config.h"
 using namespace std;
 #endif
 
@@ -51,6 +43,7 @@ using namespace std;
 #include "shmem.h"
 #include "util.h"
 #include "filesys.h"
+#include "mem_usage.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
 
@@ -108,7 +101,6 @@ static MMRESULT timer_id;
 
 static int  setup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
-static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
 static BOINC_OPTIONS options;
 static BOINC_STATUS boinc_status;
 
@@ -312,7 +304,7 @@ static int update_app_progress(
     double cpu_t, double cp_cpu_t, double ws_t
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
-    unsigned long vm = 0, rs = 0;
+    double vm, rs;
 
     if (!app_client_shm) return 0;
 
@@ -329,8 +321,8 @@ static int update_app_progress(
     }
     if (!mem_usage(vm, rs)) {
         sprintf(buf,
-            "<vm_size>%lu</vm_size>\n"
-            "<resident_set_size>%lu</resident_set_size>\n",
+            "<vm_bytes>%f</vm_bytes>\n"
+            "<rss_bytes>%flu</rss_bytes>\n",
             vm, rs
         );
         strcat(msg_buf, buf);
@@ -632,101 +624,6 @@ bool boinc_receive_trickle_down(char* buf, int len) {
     }
     return false;
 }
-
-static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
-
-#ifdef _WIN32
-
-    // Figure out if we're on WinNT
-    OSVERSIONINFO osvi; 
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx( &osvi );
-    if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-        SIZE_T lpMinimumWorkingSetSize;
-        SIZE_T lpMaximumWorkingSetSize;
-
-        GetProcessWorkingSetSize(
-            GetCurrentProcess(),
-            &lpMinimumWorkingSetSize,
-            &lpMaximumWorkingSetSize
-        );
-
-        // return value is in bytes, we need to return kb
-        vm_kb = (unsigned long) (lpMinimumWorkingSetSize / 1024);
-        rs_kb = (unsigned long) (lpMaximumWorkingSetSize / 1024);
-    } else {
-        return ERR_NOT_IMPLEMENTED;
-    }
-    return 0;
-#else
-
-
-#if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)
-    FILE* f;
-
-    // guess that this is solaris
-    // need psinfo_t from procfs.h
-    //
-    if ((f = fopen("/proc/self/psinfo", "r")) != 0) {
-        psinfo_t psinfo;
-
-        if (fread(&psinfo, sizeof(psinfo_t), 1, f) == 1) {
-            vm_kb = psinfo.pr_size;
-            rs_kb = psinfo.pr_rssize;
-            fclose(f);
-            return 0;
-        } else {
-            fclose(f);
-            return ERR_FREAD;
-        }
-    }
-#endif
-
-#if defined(HAVE__PROC_SELF_STAT)
-    FILE* f;
-    // guess that this is linux
-    //
-    if ((f = fopen("/proc/self/stat", "r")) != 0) {
-        char buf[256];
-        char* p;
-        int i;
-        unsigned long tmp;
-
-        i = fread(buf, sizeof(char), 255, f);
-        buf[i] = '\0'; // terminate string
-        p = &buf[0];
-
-        // skip over first 22 fields
-        //
-        for (i = 0; i < 22; ++i) {
-            p = strchr(p, ' ');
-            if (!p) break;
-            ++p; // move past space
-        }
-        if (!p) {
-            return ERR_NOT_IMPLEMENTED;
-        }
-
-        // read virtual memory size in bytes.
-        //
-        tmp = strtol(p, &p, 0); // in bytes
-        vm_kb = tmp>>10; // bytes to Kb
-
-        // read resident set size: number of  pages  the  process has in
-        // real  memory, minus 3 for administrative purposes.
-        //
-        tmp = strtol(p, 0, 0); // in pages
-        rs_kb = ((tmp + 3)*getpagesize())>>10; // getpagesize() is bytes/page
-
-        fclose(f);
-        return 0;
-    }
-#endif
-
-    return ERR_NOT_IMPLEMENTED;
-#endif
-}
-
 
 #ifdef __GNUC__
 static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
