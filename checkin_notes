@@ -14735,4 +14735,18 @@ Daniel 2004-07-06
         cs_apps.C
         cs_trickle.C
 
+Daniel 2004-07-06
+    - client: work requests now include <resource_share_fraction> tag.
+    - scheduler: support for resource_share_fraction
+        when checking for wu feasibility, consider resource share of
+        project to determine estimated wallclock duration
+    - scheduler: syntax bug fix in validator
+
+    client/
+        cs_scheduler.C
+    sched/
+        sched_send.C
+        server_types.C
+        server_types.h
+        validate.C
 

@@ -61,6 +61,7 @@ struct SCHEDULER_REQUEST {
     int core_client_minor_version;
     int rpc_seqno;
     int work_req_seconds;
+    double resource_share_fraction;
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char projects_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];

@@ -140,18 +140,21 @@ inline double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
 }
 
 // estimate the amount of real time for this WU based on active_frac
-//
-inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
+// and resource_share_fraction
+inline double estimate_wallclock_duration(
+    WORKUNIT& wu, HOST& host, double resource_share_fraction
+) {
     return estimate_cpu_duration(wu, host)
-        / max(HOST_ACTIVE_FRAC_MIN, host.active_frac)
+        / max(HOST_ACTIVE_FRAC_MIN, host.active_frac * resource_share_fraction)
     ;
-
 }
 
 // return false if the WU can't be executed on the host
-// because of insufficient memory or CPU speed
+// because of insufficient memory, CPU speed, or resource share
 //
-bool wu_is_feasible(WORKUNIT& wu, HOST& host, WORK_REQ& wreq) {
+bool wu_is_feasible(
+    WORKUNIT& wu, HOST& host, WORK_REQ& wreq, double resource_share_fraction
+) {
     double m_nbytes = host.m_nbytes;
     if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
 
@@ -164,7 +167,7 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host, WORK_REQ& wreq) {
         return false;
     }
 
-    double wu_wallclock_time = estimate_wallclock_duration(wu, host);
+    double wu_wallclock_time = estimate_wallclock_duration(wu, host, resource_share_fraction);
     int host_remaining_time = 0; // TODO
 
     if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
@@ -517,7 +520,9 @@ static void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (!wu_is_feasible(wu, reply.host, wreq)) {
+        if (!wu_is_feasible(wu, reply.host, wreq,
+                sreq.resource_share_fraction)
+        ) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name

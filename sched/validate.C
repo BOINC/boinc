@@ -357,8 +357,8 @@ mark_validated:
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] wu.update() failed: %d; exiting\n", wu.id, wu.name, retval
-            exit(1);
         );
+        exit(1);
     }
 }
 

@@ -283,7 +283,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE_INFO* fip;
     int retval;
     double size;
+    double total_share;
     char cross_project_id[MD5_LEN];
+
+    for (i=0; i<projects.size(); ++i) {
+        total_share += projects[i]->resource_share;
+    }
 
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
@@ -296,13 +301,15 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n",
+        "    <resource_share_fraction>%f</resource_share_fraction>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
 		p->anonymous_platform?"anonymous":platform_name,
         core_client_major_version,
         core_client_minor_version,
-        work_req
+        work_req,
+        p->resource_share / total_share
     );
 	if (p->anonymous_platform) {
 		fprintf(f, "    <app_versions>\n");
