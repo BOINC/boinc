@@ -15731,10 +15731,14 @@ Daniel 2004-07-27
 Noaa  29 July 2004
 	  - added another glut file to the source tree, updated the
 	  makefile for it
+	  - updated version of x_opengl.C
 
 	  boincglut/
 		lib/
 			glut/
 				glut_glxext.c (new)
 				Makefile
+
+	 api/
+		x_opengl.C
 		
