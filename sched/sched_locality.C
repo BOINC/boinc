@@ -186,7 +186,7 @@ static void send_new_file_work(
         retval = extract_filename(result.name, filename);
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG
+                SCHED_MSG_LOG::DEBUG,
                 "result doesn't contain filename: %s\n", result.name
             );
             continue;

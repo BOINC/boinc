@@ -22212,3 +22212,11 @@ David  7 Jan 2005
     sched/
         db_dump.C
         sched_locality.C
+
+David  7 Jan 2005
+    - User web: show "external" version of cross-project ID
+        (i.e. hashed with email_addr) in the My Account page.
+        It will now match what's in the XML dump files
+
+    html/inc
+        user.inc
