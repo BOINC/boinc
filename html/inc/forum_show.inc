@@ -93,17 +93,14 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
         echo "
             <tr class=row$n style=\"text-align:center\">";
 
-        //Show thread icons:
-        if (!$category->is_helpdesk) {
+        if (!$category->is_helpdesk) {		        //Show thread icons if in forum:
             echo "<td width=\"1%\" align=\"right\"><nobr>";
-            if (!$user->disable_filtering) {
-                $first_post = getFirstPost($thread->id);
-                if ($first_post->score*$first_post->votes>$logged_in_user->high_rating_threshold) {
-                    echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";
-                }
-                if ($first_post->score*$first_post->votes<$logged_in_user->low_rating_threshold) {
-                    echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
-                }
+            $first_post = getFirstPost($thread->id);
+            if ($first_post->score*$first_post->votes>$logged_in_user->high_rating_threshold) {
+                echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";
+            }
+            if ($first_post->score*$first_post->votes<$logged_in_user->low_rating_threshold) {
+                echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
             }
             if ($unread) {
                 echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
