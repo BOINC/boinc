@@ -33,6 +33,9 @@
 #include "ViewResources.h"
 #include "Events.h"
 
+#include "wx/arrimpl.cpp" 
+
+
 #include "res/usage.xpm"
 #include "res/task.xpm"
 #include "res/tips.xpm"
@@ -53,6 +56,51 @@
 
 const wxString LINKDESC_DEFAULT         = 
      _("No available options currently defined.");
+
+
+WX_DEFINE_OBJARRAY( CResourceCache );
+
+
+CResource::CResource()
+{
+    m_strProjectName = wxEmptyString;
+    m_strDiskSpace = wxEmptyString;
+}
+
+
+CResource::~CResource()
+{
+    m_strProjectName.Clear();
+    m_strDiskSpace.Clear();
+}
+
+
+wxInt32 CResource::GetProjectName( wxString& strProjectName )
+{
+    strProjectName = m_strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CResource::GetDiskSpace( wxString& strDiskSpace )
+{
+    strDiskSpace = m_strDiskSpace;	
+	return 0;
+}
+
+
+wxInt32 CResource::SetProjectName( wxString& strProjectName )
+{
+    m_strProjectName = strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CResource::SetDiskSpace( wxString& strDiskSpace )
+{
+    m_strDiskSpace = strDiskSpace;	
+	return 0;
+}
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
@@ -114,7 +162,7 @@ char** CViewResources::GetViewIcon()
 }
 
 
-wxInt32 CViewResources::GetListRowCount()
+wxInt32 CViewResources::GetDocCount()
 {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -127,23 +175,37 @@ wxInt32 CViewResources::GetListRowCount()
 
 wxString CViewResources::OnListGetItemText( long item, long column ) const
 {
-    wxString       strBuffer = wxEmptyString;
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    CResource& resource   = m_ResourceCache.Item( item );
+    wxString   strBuffer  = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) pDoc->CachedStateLock();
+            resource.GetProjectName( strBuffer );
+            break;
+        case COLUMN_DISKSPACE:
+            resource.GetDiskSpace( strBuffer );
+            break;
+    }
+
+    return strBuffer;
+}
+
+
+wxString CViewResources::OnDocGetItemText( long item, long column ) const
+{
+    wxString       strBuffer = wxEmptyString;
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
             FormatProjectName( item, strBuffer );
             break;
         case COLUMN_DISKSPACE:
             FormatDiskSpace( item, strBuffer );
-            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
+
     return strBuffer;
 }
 
@@ -197,6 +259,57 @@ void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x)
             UpdateSelection();
         }
     }
+}
+
+
+wxInt32 CViewResources::AddCacheElement()
+{
+    CResource* pItem = new CResource();
+    wxASSERT( NULL != pItem );
+    if ( NULL != pItem )
+    {
+        m_ResourceCache.Add( pItem );
+        return 0;
+    }
+    return -1;
+}
+
+
+wxInt32 CViewResources::EmptyCache()
+{
+    m_ResourceCache.Empty();
+    return 0;
+}
+
+
+wxInt32 CViewResources::GetCacheCount()
+{
+    return m_ResourceCache.GetCount();
+}
+
+
+wxInt32 CViewResources::RemoveCacheElement()
+{
+    m_ResourceCache.RemoveAt( GetCacheCount() - 1 );
+    return 0;
+}
+
+
+wxInt32 CViewResources::UpdateCache( long item, long column, wxString& strNewData )
+{
+    CResource& resource   = m_ResourceCache.Item( item );
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            resource.SetProjectName( strNewData );
+            break;
+        case COLUMN_DISKSPACE:
+            resource.SetDiskSpace( strNewData );
+            break;
+    }
+
+    return 0;
 }
 
 

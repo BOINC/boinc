@@ -31,6 +31,42 @@
 
 #include "BOINCBaseView.h"
 
+
+class CTransfer : public wxObject
+{
+public:
+	CTransfer();
+	~CTransfer();
+
+	wxInt32  GetProjectName( wxString& strProjectName );
+	wxInt32  GetFileName( wxString& strFileName );
+	wxInt32  GetProgress( wxString& strProgress );
+	wxInt32  GetSize( wxString& strSize );
+	wxInt32  GetTime( wxString& strTime );
+	wxInt32  GetSpeed( wxString& strSpeed );
+	wxInt32  GetStatus( wxString& strStatus );
+
+	wxInt32  SetProjectName( wxString& strProjectName );
+	wxInt32  SetFileName( wxString& strFileName );
+	wxInt32  SetProgress( wxString& strProgress );
+	wxInt32  SetSize( wxString& strSize );
+	wxInt32  SetTime( wxString& strTime );
+	wxInt32  SetSpeed( wxString& strSpeed );
+	wxInt32  SetStatus( wxString& strStatus );
+
+protected:
+	wxString m_strProjectName;
+    wxString m_strFileName;
+    wxString m_strProgress;
+    wxString m_strSize;
+    wxString m_strTime;
+    wxString m_strSpeed;
+    wxString m_strStatus;
+};
+
+WX_DECLARE_OBJARRAY( CTransfer, CTransferCache );
+
+
 class CViewTransfers : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewTransfers )
@@ -43,14 +79,8 @@ public:
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
-    virtual wxInt32         GetListRowCount();
 
-    virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
-
-private:
+protected:
 
     bool                    m_bTaskHeaderHidden;
     bool                    m_bTaskRetryHidden;
@@ -59,6 +89,23 @@ private:
     bool                    m_bTipsHeaderHidden;
 
     bool                    m_bItemSelected;
+
+	CTransferCache          m_TransferCache;
+
+    virtual wxInt32         GetDocCount();
+
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual wxString        OnDocGetItemText( long item, long column ) const;
+
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    virtual wxInt32         AddCacheElement();
+    virtual wxInt32         EmptyCache();
+    virtual wxInt32         GetCacheCount();
+    virtual wxInt32         RemoveCacheElement();
+    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();

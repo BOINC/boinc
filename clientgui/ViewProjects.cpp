@@ -34,6 +34,9 @@
 #include "DlgAttachProject.h"
 #include "Events.h"
 
+#include "wx/arrimpl.cpp" 
+
+
 #include "res/boinc.xpm"
 #include "res/proj.xpm"
 #include "res/task.xpm"
@@ -116,6 +119,131 @@ const wxString LINKDESC_WEBPROJECT  =
 const wxString LINK_WEB             = wxT(SECTION_WEB ":");
 
 
+WX_DEFINE_OBJARRAY( CProjectCache );
+
+
+CProject::CProject()
+{
+    m_strProjectName = wxEmptyString;
+    m_strAccountName = wxEmptyString;
+    m_strTeamName = wxEmptyString;
+    m_strTotalCredit = wxEmptyString;
+    m_strAVGCredit = wxEmptyString;
+    m_strResourceShare = wxEmptyString;
+    m_strStatus = wxEmptyString;
+}
+
+
+CProject::~CProject()
+{
+    m_strProjectName.Clear();
+    m_strAccountName.Clear();
+    m_strTeamName.Clear();
+    m_strTotalCredit.Clear();
+    m_strAVGCredit.Clear();
+    m_strResourceShare.Clear();
+    m_strStatus.Clear();
+}
+
+
+wxInt32 CProject::GetProjectName( wxString& strProjectName )
+{
+    strProjectName = m_strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CProject::GetAccountName( wxString& strAccountName )
+{
+    strAccountName = m_strAccountName;	
+	return 0;
+}
+
+
+wxInt32 CProject::GetTeamName( wxString& strTeamName )
+{
+    strTeamName = m_strTeamName;	
+	return 0;
+}
+
+
+wxInt32 CProject::GetTotalCredit( wxString& strTotalCredit )
+{
+    strTotalCredit = m_strTotalCredit;	
+	return 0;
+}
+
+
+wxInt32 CProject::GetAVGCredit( wxString& strAVGCredit )
+{
+    strAVGCredit = m_strAVGCredit;	
+	return 0;
+}
+
+
+wxInt32 CProject::GetResourceShare( wxString& strResourceShare )
+{
+    strResourceShare = m_strResourceShare;	
+	return 0;
+}
+
+
+wxInt32 CProject::GetStatus( wxString& strStatus )
+{
+    strStatus = m_strStatus;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetProjectName( wxString& strProjectName )
+{
+    m_strProjectName = strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetAccountName( wxString& strAccountName )
+{
+    m_strAccountName = strAccountName;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetTeamName( wxString& strTeamName )
+{
+    m_strTeamName = strTeamName;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetTotalCredit( wxString& strTotalCredit )
+{
+    m_strTotalCredit = strTotalCredit;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetAVGCredit( wxString& strAVGCredit )
+{
+    m_strAVGCredit = strAVGCredit;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetResourceShare( wxString& strResourceShare )
+{
+    m_strResourceShare = strResourceShare;	
+	return 0;
+}
+
+
+wxInt32 CProject::SetStatus( wxString& strStatus )
+{
+    m_strStatus = strStatus;	
+	return 0;
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
 
 
@@ -186,7 +314,7 @@ char** CViewProjects::GetViewIcon()
 }
 
 
-wxInt32 CViewProjects::GetListRowCount()
+wxInt32 CViewProjects::GetDocCount()
 {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -199,16 +327,45 @@ wxInt32 CViewProjects::GetListRowCount()
 
 wxString CViewProjects::OnListGetItemText(long item, long column) const 
 {
-    wxString       strBuffer = wxEmptyString;
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    CProject& project     = m_ProjectCache.Item( item );
+    wxString  strBuffer   = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) pDoc->CachedStateLock();
+            project.GetProjectName( strBuffer );
+            break;
+        case COLUMN_ACCOUNTNAME:
+            project.GetAccountName( strBuffer );
+            break;
+        case COLUMN_TEAMNAME:
+            project.GetTeamName( strBuffer );
+            break;
+        case COLUMN_TOTALCREDIT:
+            project.GetTotalCredit( strBuffer );
+            break;
+        case COLUMN_AVGCREDIT:
+            project.GetAVGCredit( strBuffer );
+            break;
+        case COLUMN_RESOURCESHARE:
+            project.GetResourceShare( strBuffer );
+            break;
+        case COLUMN_STATUS:
+            project.GetStatus( strBuffer );
+            break;
+    }
+
+    return strBuffer;
+}
+
+
+wxString CViewProjects::OnDocGetItemText(long item, long column) const 
+{
+    wxString       strBuffer = wxEmptyString;
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
             FormatProjectName( item, strBuffer );
             break;
         case COLUMN_ACCOUNTNAME:
@@ -228,7 +385,6 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const
             break;
         case COLUMN_STATUS:
             FormatStatus( item, strBuffer );
-            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
 
@@ -434,6 +590,72 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x),
             UpdateSelection();
         }
     }
+}
+
+
+wxInt32 CViewProjects::AddCacheElement()
+{
+    CProject* pItem = new CProject();
+    wxASSERT( NULL != pItem );
+    if ( NULL != pItem )
+    {
+        m_ProjectCache.Add( pItem );
+        return 0;
+    }
+    return -1;
+}
+
+
+wxInt32 CViewProjects::EmptyCache()
+{
+    m_ProjectCache.Empty();
+    return 0;
+}
+
+
+wxInt32 CViewProjects::GetCacheCount()
+{
+    return m_ProjectCache.GetCount();
+}
+
+
+wxInt32 CViewProjects::RemoveCacheElement()
+{
+    m_ProjectCache.RemoveAt( GetCacheCount() - 1 );
+    return 0;
+}
+
+
+wxInt32 CViewProjects::UpdateCache( long item, long column, wxString& strNewData )
+{
+    CProject& project     = m_ProjectCache.Item( item );
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            project.SetProjectName( strNewData );
+            break;
+        case COLUMN_ACCOUNTNAME:
+            project.SetAccountName( strNewData );
+            break;
+        case COLUMN_TEAMNAME:
+            project.SetTeamName( strNewData );
+            break;
+        case COLUMN_TOTALCREDIT:
+            project.SetTotalCredit( strNewData );
+            break;
+        case COLUMN_AVGCREDIT:
+            project.SetAVGCredit( strNewData );
+            break;
+        case COLUMN_RESOURCESHARE:
+            project.SetResourceShare( strNewData );
+            break;
+        case COLUMN_STATUS:
+            project.SetStatus( strNewData );
+            break;
+    }
+
+    return 0;
 }
 
 

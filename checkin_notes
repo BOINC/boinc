@@ -20458,3 +20458,31 @@ Bruce 2 Dec 2004
 		user/
 			explain_state.php
  
+Rom    2 Dec 2004
+    - Bug Fix: Each view now contains a display cache; the display cache
+        is synchronized during the regularly scheduled list render event.
+        The control grabs the necessary information from the cache instead
+        of cycling down to the document.  Due to the way listviews were 
+        implemented on some platforms I believe this will fix some refresh
+        problems where the data wasn’t being updated in a timely manor.
+        This also had the added benefit of increasing performance on displaying
+        updates.
+    - Fill in the missing piece for the memory leak detection to proplerly
+        display the file and line number information per allocation for the
+        GUI on Windows
+    - Rename the CC and GUI on all platforms to match that of Windows.
+
+    /
+        configure.ac
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCGUIApp.cpp
+        MainFrame.cpp, .h
+        stdwx.h
+        ViewMessages.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h
+    clientgui/msw/
+        taskbarex.h

@@ -80,17 +80,21 @@
 #include <wx/html/htmlwin.h>    // html window support
 #include <wx/statline.h>        // static line support
 #include <wx/statbmp.h>         // static bitmap support
-#ifndef NOTASKBAR
-#include <wx/taskbar.h>         // taskbar support
-#endif
 #include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
 #include <wx/textdlg.h>
 #include <wx/mimetype.h>
 #include <wx/event.h>
+#include <wx/list.h>
+#include <wx/icon.h>
 #include <wx/utils.h>
 #include <wx/settings.h>
 #include <wx/process.h>
+#include <wx/dynarray.h>
+
+#ifndef NOTASKBAR
+#include <wx/taskbar.h>         // taskbar support
+#endif
 
 
 // Standard Libraries
@@ -140,6 +144,8 @@
 
 #ifdef _DEBUG
 
+#include <crtdbg.h>
+
 #define malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
 #define calloc(c, s)                          _calloc_dbg(c, s, _NORMAL_BLOCK, __FILE__, __LINE__)
 #define realloc(p, s)                         _realloc_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
@@ -167,6 +173,8 @@
 #define CLEAR_CRT_DEBUG_FIELD(a)              ((void) 0) 
 
 #endif //_DEBUG
+
+#define new DEBUG_NEW
 
 #endif //__WIN32__ && __VISUALC && !__AFX_H__
 

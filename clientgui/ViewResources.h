@@ -31,6 +31,27 @@
 
 #include "BOINCBaseView.h"
 
+
+class CResource : public wxObject
+{
+public:
+	CResource();
+	~CResource();
+
+	wxInt32  GetProjectName( wxString& strProjectName );
+	wxInt32  GetDiskSpace( wxString& strDiskSpace );
+
+	wxInt32  SetProjectName( wxString& strProjectName );
+	wxInt32  SetDiskSpace( wxString& strDiskSpace );
+
+protected:
+	wxString m_strProjectName;
+    wxString m_strDiskSpace;
+};
+
+WX_DECLARE_OBJARRAY( CResource, CResourceCache );
+
+
 class CViewResources : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewResources )
@@ -43,20 +64,31 @@ public:
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
-    virtual wxInt32         GetListRowCount();
 
-    virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
-
-private:
+protected:
 
     bool                    m_bTaskHeaderHidden;
 
     bool                    m_bTipsHeaderHidden;
 
     bool                    m_bItemSelected;
+
+	CResourceCache          m_ResourceCache;
+
+    virtual wxInt32         GetDocCount();
+
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual wxString        OnDocGetItemText( long item, long column ) const;
+
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    virtual wxInt32         AddCacheElement();
+    virtual wxInt32         EmptyCache();
+    virtual wxInt32         GetCacheCount();
+    virtual wxInt32         RemoveCacheElement();
+    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();

@@ -298,9 +298,10 @@ void CBOINCGUIApp::ShutdownBOINCCore()
         if ( wxProcess::Exists( m_lBOINCCoreProccessId ) )
         {
             m_pDocument->CoreClientQuit();
+/*
             for ( iCount = 0; iCount <= 10; iCount++ )
             {
-                if ( !wxProcess::Exists( m_lBOINCCoreProccessId ) )
+                if ( !bClientQuit && !wxProcess::Exists( m_lBOINCCoreProccessId ) )
                 {
                     bClientQuit = true;
                     continue;
@@ -310,6 +311,7 @@ void CBOINCGUIApp::ShutdownBOINCCore()
 
             if ( !bClientQuit )
                 ::wxKill( m_lBOINCCoreProccessId );
+*/
         }
     }
 }

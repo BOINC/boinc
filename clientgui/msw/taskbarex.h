@@ -17,11 +17,6 @@
 #pragma interface "taskbarex.cpp"
 #endif
 
-#include <wx/event.h>
-#include <wx/list.h>
-#include <wx/icon.h>
-
-
 // ----------------------------------------------------------------------------
 // wxTaskBarIconEx 
 // ----------------------------------------------------------------------------

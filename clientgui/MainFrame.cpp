@@ -64,10 +64,10 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_IDLE(CMainFrame::OnIdle)
     EVT_CLOSE(CMainFrame::OnClose)
     EVT_SIZE(CMainFrame::OnSize)
+    EVT_CHAR(CMainFrame::OnChar)
     EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
     EVT_UPDATE_UI_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnUpdateNetworkSelection)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
-    EVT_LIST_CACHE_HINT(wxID_ANY, CMainFrame::OnListCacheHint)
     EVT_LIST_ITEM_SELECTED(wxID_ANY, CMainFrame::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(wxID_ANY, CMainFrame::OnListDeselected)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
@@ -819,6 +819,28 @@ void CMainFrame::OnSize( wxSizeEvent& event )
 }
 
 
+void CMainFrame::OnChar( wxKeyEvent& event )
+{
+    if ( IsShown() )
+    {
+        wxWindow*       pwndNotebookPage = NULL;
+        CBOINCBaseView* pView = NULL;
+
+        wxASSERT(NULL != m_pNotebook);
+
+        pwndNotebookPage = m_pNotebook->GetPage( event.GetId() - ID_LIST_BASE );
+        wxASSERT(NULL != pwndNotebookPage);
+
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(NULL != pView);
+
+        pView->FireOnChar( event );
+    }
+
+    event.Skip();
+}
+
+
 void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
 {
     if ( (-1 != event.GetSelection()) && IsShown() )
@@ -837,28 +859,6 @@ void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
 
         pView->FireOnTaskRender( timerEvent );
         pView->FireOnListRender( timerEvent );
-    }
-
-    event.Skip();
-}
-
-
-void CMainFrame::OnListCacheHint( wxListEvent& event )
-{
-    if ( IsShown() )
-    {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-
-        wxASSERT(NULL != m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage( event.GetId() - ID_LIST_BASE );
-        wxASSERT(NULL != pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
-
-        pView->FireOnListCacheHint( event );
     }
 
     event.Skip();

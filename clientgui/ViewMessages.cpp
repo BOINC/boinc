@@ -33,6 +33,9 @@
 #include "ViewMessages.h"
 #include "Events.h"
 
+#include "wx/arrimpl.cpp" 
+
+
 #include "res/mess.xpm"
 #include "res/task.xpm"
 #include "res/tips.xpm"
@@ -71,7 +74,84 @@ const wxString LINKDESC_TASKCOPYMESSAGE =
        " or control key while clicking on the next desired message.");
 
 
-IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
+WX_DEFINE_OBJARRAY( CMessageCache );
+
+
+CMessage::CMessage()
+{
+	m_strPriority = wxEmptyString;
+	m_strProjectName = wxEmptyString;
+	m_strTime = wxEmptyString;
+	m_strMessage = wxEmptyString;
+}
+
+
+CMessage::~CMessage()
+{
+	m_strPriority.Clear();
+	m_strProjectName.Clear();
+	m_strTime.Clear();
+	m_strMessage.Clear();
+}
+
+
+wxInt32 CMessage::GetProjectName( wxString& strProjectName )
+{
+    strProjectName = m_strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CMessage::GetPriority( wxString& strPriority )
+{
+    strPriority = m_strPriority;	
+	return 0;
+}
+
+
+wxInt32 CMessage::GetTime( wxString& strTime )
+{
+    strTime = m_strTime;	
+	return 0;
+}
+
+
+wxInt32 CMessage::GetMessage( wxString& strMessage )
+{
+    strMessage =  m_strMessage;	
+	return 0;
+}
+
+
+wxInt32 CMessage::SetProjectName( wxString& strProjectName )
+{
+    m_strProjectName = strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CMessage::SetPriority( wxString& strPriority )
+{
+	m_strPriority = strPriority;
+	return 0;
+}
+
+
+wxInt32 CMessage::SetTime( wxString& strTime )
+{
+	m_strTime = strTime;
+	return 0;
+}
+
+
+wxInt32 CMessage::SetMessage( wxString& strMessage )
+{
+	m_strMessage = strMessage;
+	return 0;
+}
+
+
+IMPLEMENT_DYNAMIC_CLASS( CViewMessages, CBOINCBaseView )
 
 
 CViewMessages::CViewMessages()
@@ -145,7 +225,7 @@ char** CViewMessages::GetViewIcon()
 }
 
 
-wxInt32 CViewMessages::GetListRowCount()
+wxInt32 CViewMessages::GetDocCount()
 {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -156,81 +236,21 @@ wxInt32 CViewMessages::GetListRowCount()
 }
 
 
-void CViewMessages::OnListRender(wxTimerEvent &event)
-{
-    if (!m_bProcessingListRenderEvent)
-    {
-        m_bProcessingListRenderEvent = true;
-
-        wxASSERT(NULL != m_pListPane);
-
-        wxInt32 iCount = _GetListRowCount();
-        if ( iCount != m_iCount )
-        {
-            m_iCount = iCount;
-            if ( 0 >= iCount )
-                m_pListPane->DeleteAllItems();
-            else
-            {
-                m_pListPane->SetItemCount(iCount);
-                m_pListPane->EnsureVisible(iCount-1);
-            }
-        }
-        else
-        {
-            if ( 1 <= m_iCacheTo )
-            {
-                wxListItem liListItemMessage;
-                wxString   strListItemMessage;
-                wxString   strDocumentItemMessage;
-
-                FormatMessage(m_iCacheTo, strDocumentItemMessage);
-
-                liListItemMessage.SetId(m_iCacheTo);
-                liListItemMessage.SetColumn(COLUMN_MESSAGE);
-                liListItemMessage.SetMask(wxLIST_MASK_TEXT);
-
-                m_pListPane->GetItem(liListItemMessage);
-
-                strListItemMessage = liListItemMessage.GetText();
-
-                if ( !strDocumentItemMessage.IsSameAs(strListItemMessage) )
-                {
-                    m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
-                    m_pListPane->EnsureVisible(m_iCacheTo);
-                }
-            }
-        }
-
-        m_bProcessingListRenderEvent = false;
-    }
-
-    m_pListPane->Refresh();
-
-    event.Skip();
-}
-
-
 wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
-    wxString       strBuffer = wxEmptyString;
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    CMessage&       message     = m_MessageCache.Item( item );
+    wxString        strBuffer   = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) pDoc->CachedStateLock();
-            FormatProjectName( item, strBuffer );
+            message.GetProjectName( strBuffer );
             break;
         case COLUMN_TIME:
-            FormatTime( item, strBuffer );
+            message.GetTime( strBuffer );
             break;
         case COLUMN_MESSAGE:
-            FormatMessage( item, strBuffer );
-            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
+            message.GetMessage( strBuffer );
             break;
     }
 
@@ -240,22 +260,43 @@ wxString CViewMessages::OnListGetItemText( long item, long column ) const
 
 wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 {
-    wxListItemAttr* pAttribute = NULL;
-    wxInt32 iBuffer = 0;
+    wxListItemAttr* pAttribute  = NULL;
+    CMessage&       message     = m_MessageCache.Item( item );
+    wxString        strBuffer   = wxEmptyString;
 
-    wxGetApp().GetDocument()->GetMessagePriority(item, iBuffer);
+    message.GetPriority( strBuffer );
 
-    switch(iBuffer)
+    if ( wxT("E") == strBuffer )
     {
-        case PRIORITY_INFO:
-            pAttribute = m_pMessageInfoAttr;
-            break;
-        case PRIORITY_ERROR:
-            pAttribute = m_pMessageErrorAttr;
-            break;
+        pAttribute = m_pMessageErrorAttr;
+    }
+    else
+    {
+        pAttribute = m_pMessageInfoAttr;
     }
 
     return pAttribute;
+}
+
+
+wxString CViewMessages::OnDocGetItemText( long item, long column ) const
+{
+    wxString       strBuffer = wxEmptyString;
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            FormatProjectName( item, strBuffer );
+            break;
+        case COLUMN_TIME:
+            FormatTime( item, strBuffer );
+            break;
+        case COLUMN_MESSAGE:
+            FormatMessage( item, strBuffer );
+            break;
+    }
+
+    return strBuffer;
 }
 
 
@@ -348,6 +389,70 @@ void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x),
 }
 
 
+wxInt32 CViewMessages::AddCacheElement()
+{
+    CMessage* pItem = new CMessage();
+    wxASSERT( NULL != pItem );
+    if ( NULL != pItem )
+    {
+        m_MessageCache.Add( pItem );
+        return 0;
+    }
+    return -1;
+}
+
+
+wxInt32 CViewMessages::EmptyCache()
+{
+    m_MessageCache.Empty();
+    return 0;
+}
+
+
+wxInt32 CViewMessages::GetCacheCount()
+{
+    return m_MessageCache.GetCount();
+}
+
+
+wxInt32 CViewMessages::RemoveCacheElement()
+{
+    m_MessageCache.RemoveAt( GetCacheCount() - 1 );
+    return 0;
+}
+
+    
+wxInt32 CViewMessages::UpdateCache( long item, long column, wxString& strNewData )
+{
+    CMessage& message     = m_MessageCache.Item( item );
+    wxString  strPriority = wxEmptyString;
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            message.SetProjectName( strNewData );
+            break;
+        case COLUMN_TIME:
+            message.SetTime( strNewData );
+            break;
+        case COLUMN_MESSAGE:
+            message.SetMessage( strNewData );
+            break;
+    }
+
+    FormatPriority( item, strPriority );
+    message.SetPriority( strPriority );
+
+    return 0;
+}
+
+
+bool CViewMessages::EnsureLastItemVisible()
+{
+    return true;
+}
+
+
 void CViewMessages::UpdateSelection()
 {
     wxASSERT(NULL != m_pTaskPane);
@@ -410,6 +515,32 @@ wxInt32 CViewMessages::FormatProjectName( wxInt32 item, wxString& strBuffer ) co
     strBuffer.Clear();
 
     pDoc->GetMessageProjectName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewMessages::FormatPriority( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument*  pDoc = wxGetApp().GetDocument();
+    wxInt32         iBuffer = 0;
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetMessagePriority(item, iBuffer);
+
+    switch(iBuffer)
+    {
+        case PRIORITY_INFO:
+            strBuffer = wxT("I");
+            break;
+        case PRIORITY_ERROR:
+            strBuffer = wxT("E");
+            break;
+    }
 
     return 0;
 }

@@ -54,11 +54,6 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
 
-    m_iCacheFrom = 0;
-    m_iCacheTo = 0;
-
-    m_iCount = 0;
-
     m_bItemSelected = false;
 
     m_strQuickTip = wxEmptyString;
@@ -111,15 +106,10 @@ char** CBOINCBaseView::GetViewIcon()
 }
 
 
-wxInt32 CBOINCBaseView::_GetListRowCount()
-{
-    return GetListRowCount();
-}
-
-
 wxInt32 CBOINCBaseView::GetListRowCount()
 {
-    return 0;
+    wxASSERT(NULL != m_pListPane);
+    return m_pListPane->GetItemCount();
 }
 
 
@@ -132,6 +122,72 @@ void CBOINCBaseView::FireOnTaskRender ( wxTimerEvent& event )
 void CBOINCBaseView::FireOnListRender ( wxTimerEvent& event )
 {
     OnListRender( event );
+}
+
+
+bool CBOINCBaseView::FireOnSaveState( wxConfigBase* pConfig )
+{
+    return OnSaveState( pConfig );
+}
+
+
+bool CBOINCBaseView::FireOnRestoreState( wxConfigBase* pConfig )
+{
+    return OnRestoreState( pConfig );
+}
+
+
+void CBOINCBaseView::FireOnChar( wxKeyEvent& event )
+{
+    OnChar( event );
+}
+
+
+void CBOINCBaseView::FireOnListSelected( wxListEvent& event )
+{
+    OnListSelected( event );
+}
+
+
+void CBOINCBaseView::FireOnListDeselected( wxListEvent& event )
+{
+    OnListDeselected( event );
+}
+
+
+wxString CBOINCBaseView::FireOnListGetItemText( long item, long column ) const
+{
+    return OnListGetItemText( item, column );
+}
+
+
+int CBOINCBaseView::FireOnListGetItemImage( long item ) const
+{
+    return OnListGetItemImage( item );
+}
+
+
+wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr( long item ) const
+{
+    return OnListGetItemAttr( item );
+}
+
+
+void CBOINCBaseView::FireOnTaskLinkClicked( const wxHtmlLinkInfo& link )
+{
+    OnTaskLinkClicked( link );
+}
+
+
+void CBOINCBaseView::FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    OnTaskCellMouseHover( cell, x, y );
+}
+
+
+wxInt32 CBOINCBaseView::GetDocCount()
+{
+    return 0;
 }
 
 
@@ -165,80 +221,56 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
 
         wxASSERT(NULL != m_pListPane);
 
-        wxInt32 iCount = _GetListRowCount();
-        if ( iCount != m_iCount )
+        wxInt32 iDocCount = GetDocCount();
+        wxInt32 iCacheCount = GetCacheCount();
+        if ( iDocCount != iCacheCount )
         {
-            m_iCount = iCount;
-            if ( 0 >= iCount )
+            if ( 0 >= iDocCount )
             {
+                EmptyCache();
                 m_pListPane->DeleteAllItems();
-                m_iCacheFrom = 0;
-                m_iCacheTo = 0;
             }
             else
-                m_pListPane->SetItemCount(iCount);
+            {
+                if ( iDocCount > iCacheCount )
+                {
+                    wxInt32 iIndex = 0;
+                    wxInt32 iReturnValue = -1;
+                    for ( iIndex = iCacheCount; iIndex <= iDocCount; iIndex++ )
+                    {
+                        iReturnValue = AddCacheElement();
+                        wxASSERT( 0 == iReturnValue );
+                    }
+                }
+                else
+                {
+                    wxInt32 iIndex = 0;
+                    wxInt32 iReturnValue = -1;
+                    for ( iIndex = iDocCount; iIndex >= iCacheCount; iIndex-- )
+                    {
+                        iReturnValue = RemoveCacheElement();
+                        wxASSERT( 0 == iReturnValue );
+                    }
+                }
+                    
+                SyncronizeCache();
+                m_pListPane->SetItemCount(iDocCount);
+
+                if (EnsureLastItemVisible())
+                {
+                    m_pListPane->EnsureVisible(iCacheCount);
+                }
+            }
         }
         else
         {
-            if ( 1 <= m_iCacheTo )
-            {
-                wxInt32         iRowIndex        = 0;
-                wxInt32         iColumnIndex     = 0;
-                wxInt32         iColumnTotal     = 0;
-                wxString        strDocumentText  = wxEmptyString;
-                wxString        strListPaneText  = wxEmptyString;
-                bool            bNeedRefreshData = false;
-                wxListItem      liItem;
-
-                liItem.SetMask(wxLIST_MASK_TEXT);
-                iColumnTotal = m_pListPane->GetColumnCount();
-
-                for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
-                {
-                    bNeedRefreshData = false;
-                    liItem.SetId(iRowIndex);
-
-                    for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
-                    {
-                        strDocumentText.Empty();
-                        strListPaneText.Empty();
-
-                        strDocumentText = OnListGetItemText( iRowIndex, iColumnIndex );
-
-                        liItem.SetColumn(iColumnIndex);
-                        m_pListPane->GetItem(liItem);
-                        strListPaneText = liItem.GetText();
-
-                        if ( !strDocumentText.IsSameAs(strListPaneText) )
-                            bNeedRefreshData = true;
-                    }
-
-                    if ( bNeedRefreshData )
-                    {
-                        m_pListPane->RefreshItem( iRowIndex );
-                    }
-                }
-            }
+            SyncronizeCache();
         }
 
         m_bProcessingListRenderEvent = false;
     }
 
-    m_pListPane->Refresh();
-
     event.Skip();
-}
-
-
-bool CBOINCBaseView::FireOnSaveState( wxConfigBase* pConfig )
-{
-    return OnSaveState( pConfig );
-}
-
-
-bool CBOINCBaseView::FireOnRestoreState( wxConfigBase* pConfig )
-{
-    return OnRestoreState( pConfig );
 }
 
 
@@ -278,46 +310,8 @@ bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig )
 }
 
 
-void CBOINCBaseView::FireOnListCacheHint( wxListEvent& event )
+void CBOINCBaseView::OnChar( wxKeyEvent& event )
 {
-    OnListCacheHint( event );
-}
-
-
-void CBOINCBaseView::FireOnListSelected( wxListEvent& event )
-{
-    OnListSelected( event );
-}
-
-
-void CBOINCBaseView::FireOnListDeselected( wxListEvent& event )
-{
-    OnListDeselected( event );
-}
-
-
-wxString CBOINCBaseView::FireOnListGetItemText( long item, long column ) const
-{
-    return OnListGetItemText( item, column );
-}
-
-
-int CBOINCBaseView::FireOnListGetItemImage( long item ) const
-{
-    return OnListGetItemImage( item );
-}
-
-
-wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr( long item ) const
-{
-    return OnListGetItemAttr( item );
-}
-
-
-void CBOINCBaseView::OnListCacheHint( wxListEvent& event )
-{
-    m_iCacheFrom = event.GetCacheFrom();
-    m_iCacheTo = event.GetCacheTo();
 }
 
 
@@ -363,15 +357,21 @@ wxListItemAttr* CBOINCBaseView::OnListGetItemAttr( long WXUNUSED(item) ) const
 }
 
 
-void CBOINCBaseView::FireOnTaskLinkClicked( const wxHtmlLinkInfo& link )
+wxString CBOINCBaseView::OnDocGetItemText( long WXUNUSED(item), long WXUNUSED(column) ) const
 {
-    OnTaskLinkClicked( link );
+    return wxString("Undefined");
 }
 
 
-void CBOINCBaseView::FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+wxString CBOINCBaseView::OnDocGetItemImage( long WXUNUSED(item) ) const
 {
-    OnTaskCellMouseHover( cell, x, y );
+    return wxString("Undefined");
+}
+
+
+wxString CBOINCBaseView::OnDocGetItemAttr( long WXUNUSED(item) ) const
+{
+    return wxString("Undefined");
 }
 
 
@@ -401,6 +401,86 @@ void CBOINCBaseView::SetCurrentQuickTip( const wxString& strQuickTip, const wxSt
 {
     m_strQuickTip = strQuickTip;
     m_strQuickTipText = strQuickTipText;
+}
+
+
+wxInt32 CBOINCBaseView::AddCacheElement()
+{
+    return -1;
+}
+
+    
+wxInt32 CBOINCBaseView::EmptyCache()
+{
+    return -1;
+}
+
+
+wxInt32 CBOINCBaseView::GetCacheCount()
+{
+    return -1;
+}
+
+
+wxInt32 CBOINCBaseView::RemoveCacheElement()
+{
+    return -1;
+}
+
+
+wxInt32 CBOINCBaseView::SyncronizeCache()
+{
+    wxInt32         iRowIndex        = 0;
+    wxInt32         iRowTotal        = 0;
+    wxInt32         iColumnIndex     = 0;
+    wxInt32         iColumnTotal     = 0;
+    wxString        strDocumentText  = wxEmptyString;
+    wxString        strListPaneText  = wxEmptyString;
+    wxInt32         iReturnValue     = -1;
+    bool            bNeedRefreshData = false;
+
+    iRowTotal = GetDocCount();
+    iColumnTotal = m_pListPane->GetColumnCount();
+
+    for ( iRowIndex = 0; iRowIndex < iRowTotal; iRowIndex++ )
+    {
+        bNeedRefreshData = false;
+
+        for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+        {
+            strDocumentText.Empty();
+            strListPaneText.Empty();
+
+            strDocumentText = OnDocGetItemText( iRowIndex, iColumnIndex );
+            strListPaneText = OnListGetItemText( iRowIndex, iColumnIndex );
+
+            if ( !strDocumentText.IsSameAs(strListPaneText) )
+            {
+                iReturnValue = UpdateCache( iRowIndex, iColumnIndex, strDocumentText );
+                wxASSERT( 0 == iReturnValue );
+                bNeedRefreshData = true;
+            }
+        }
+
+        if ( bNeedRefreshData )
+        {
+            m_pListPane->RefreshItem( iRowIndex );
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CBOINCBaseView::UpdateCache( long item, long column, wxString& strNewData )
+{
+    return -1;
+}
+
+
+bool CBOINCBaseView::EnsureLastItemVisible()
+{
+    return false;
 }
 
 

@@ -31,6 +31,42 @@
 
 #include "BOINCBaseView.h"
 
+
+class CProject : public wxObject
+{
+public:
+	CProject();
+	~CProject();
+
+	wxInt32  GetProjectName( wxString& strProjectName );
+	wxInt32  GetAccountName( wxString& strAccountName );
+	wxInt32  GetTeamName( wxString& strTeamName );
+	wxInt32  GetTotalCredit( wxString& strTotalCredit );
+	wxInt32  GetAVGCredit( wxString& strAVGCredit );
+	wxInt32  GetResourceShare( wxString& strResourceShare );
+	wxInt32  GetStatus( wxString& strStatus );
+
+	wxInt32  SetProjectName( wxString& strProjectName );
+	wxInt32  SetAccountName( wxString& strAccountName );
+	wxInt32  SetTeamName( wxString& strTeamName );
+	wxInt32  SetTotalCredit( wxString& strTotalCredit );
+	wxInt32  SetAVGCredit( wxString& strAVGCredit );
+	wxInt32  SetResourceShare( wxString& strResourceShare );
+	wxInt32  SetStatus( wxString& strStatus );
+
+protected:
+    wxString m_strProjectName;
+    wxString m_strAccountName;
+    wxString m_strTeamName;
+    wxString m_strTotalCredit;
+    wxString m_strAVGCredit;
+    wxString m_strResourceShare;
+    wxString m_strStatus;
+};
+
+WX_DECLARE_OBJARRAY( CProject, CProjectCache );
+
+
 class CViewProjects : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjects )
@@ -43,14 +79,8 @@ public:
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
-    virtual wxInt32         GetListRowCount();
 
-    virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
-
-private:
+protected:
 
     bool                    m_bTaskHeaderHidden;
     bool                    m_bTaskAttachHidden;
@@ -67,6 +97,23 @@ private:
     bool                    m_bTipsHeaderHidden;
 
     bool                    m_bItemSelected;
+
+	CProjectCache           m_ProjectCache;
+
+    virtual wxInt32         GetDocCount();
+
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual wxString        OnDocGetItemText( long item, long column ) const;
+
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    virtual wxInt32         AddCacheElement();
+    virtual wxInt32         EmptyCache();
+    virtual wxInt32         GetCacheCount();
+    virtual wxInt32         RemoveCacheElement();
+    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();

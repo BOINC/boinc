@@ -31,6 +31,45 @@
 
 #include "BOINCBaseView.h"
 
+
+class CWork : public wxObject
+{
+public:
+	CWork();
+	~CWork();
+
+	wxInt32  GetProjectName( wxString& strProjectName );
+	wxInt32  GetApplicationName( wxString& strApplicationName );
+	wxInt32  GetName( wxString& strName );
+	wxInt32  GetCPUTime( wxString& strCPUTime );
+	wxInt32  GetProgress( wxString& strProgress );
+	wxInt32  GetTimeToCompletion( wxString& strTimeToCompletion );
+	wxInt32  GetReportDeadline( wxString& strReportDeadline );
+	wxInt32  GetStatus( wxString& strStatus );
+
+	wxInt32  SetProjectName( wxString& strProjectName );
+	wxInt32  SetApplicationName( wxString& strApplicationName );
+	wxInt32  SetName( wxString& strName );
+	wxInt32  SetCPUTime( wxString& strCPUTime );
+	wxInt32  SetProgress( wxString& strProgress );
+	wxInt32  SetTimeToCompletion( wxString& strTimeToCompletion );
+	wxInt32  SetReportDeadline( wxString& strReportDeadline );
+	wxInt32  SetStatus( wxString& strStatus );
+
+protected:
+	wxString m_strProjectName;
+    wxString m_strApplicationName;
+    wxString m_strName;
+    wxString m_strCPUTime;
+    wxString m_strProgress;
+    wxString m_strTimeToCompletion;
+    wxString m_strReportDeadline;
+    wxString m_strStatus;
+};
+
+WX_DECLARE_OBJARRAY( CWork, CWorkCache );
+
+
 class CViewWork : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewWork )
@@ -43,14 +82,8 @@ public:
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
-    virtual wxInt32         GetListRowCount();
 
-    virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
-
-private:
+protected:
 
     bool                    m_bTaskHeaderHidden;
     bool                    m_bTaskSuspendHidden;
@@ -61,6 +94,23 @@ private:
     bool                    m_bTipsHeaderHidden;
 
     bool                    m_bItemSelected;
+
+	CWorkCache              m_WorkCache;
+
+    virtual wxInt32         GetDocCount();
+
+    virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual wxString        OnDocGetItemText( long item, long column ) const;
+
+    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    virtual wxInt32         AddCacheElement();
+    virtual wxInt32         EmptyCache();
+    virtual wxInt32         GetCacheCount();
+    virtual wxInt32         RemoveCacheElement();
+    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();

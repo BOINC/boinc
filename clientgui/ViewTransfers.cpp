@@ -34,6 +34,9 @@
 #include "Events.h"
 #include "error_numbers.h"
 
+#include "wx/arrimpl.cpp" 
+
+
 #include "res/xfer.xpm"
 #include "res/task.xpm"
 #include "res/tips.xpm"
@@ -71,6 +74,131 @@ const wxString LINKDESC_TASKABORT       =
        "This will prevent you from being granted credit for this result.");
 
 
+WX_DEFINE_OBJARRAY( CTransferCache );
+
+
+CTransfer::CTransfer()
+{
+    m_strProjectName = wxEmptyString;
+    m_strFileName = wxEmptyString;
+    m_strProgress = wxEmptyString;
+    m_strSize = wxEmptyString;
+    m_strTime = wxEmptyString;
+    m_strSpeed = wxEmptyString;
+    m_strStatus = wxEmptyString;
+}
+
+
+CTransfer::~CTransfer()
+{
+    m_strProjectName.Clear();
+    m_strFileName.Clear();
+    m_strProgress.Clear();
+    m_strSize.Clear();
+    m_strTime.Clear();
+    m_strSpeed.Clear();
+    m_strStatus.Clear();
+}
+
+
+wxInt32 CTransfer::GetProjectName( wxString& strProjectName )
+{
+    strProjectName = m_strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::GetFileName( wxString& strFileName )
+{
+    strFileName = m_strFileName;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::GetProgress( wxString& strProgress )
+{
+    strProgress = m_strProgress;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::GetSize( wxString& strSize )
+{
+    strSize = m_strSize;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::GetTime( wxString& strTime )
+{
+    strTime = m_strTime;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::GetSpeed( wxString& strSpeed )
+{
+    strSpeed = m_strSpeed;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::GetStatus( wxString& strStatus )
+{
+    strStatus = m_strStatus;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetProjectName( wxString& strProjectName )
+{
+    m_strProjectName = strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetFileName( wxString& strFileName )
+{
+    m_strFileName = strFileName;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetProgress( wxString& strProgress )
+{
+    m_strProgress = strProgress;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetSize( wxString& strSize )
+{
+    m_strSize = strSize;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetTime( wxString& strTime )
+{
+    m_strTime = strTime;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetSpeed( wxString& strSpeed )
+{
+    m_strSpeed = strSpeed;	
+	return 0;
+}
+
+
+wxInt32 CTransfer::SetStatus( wxString& strStatus )
+{
+    m_strStatus = strStatus;	
+	return 0;
+}
+
+	
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 
 
@@ -135,7 +263,7 @@ char** CViewTransfers::GetViewIcon()
 }
 
 
-wxInt32 CViewTransfers::GetListRowCount()
+wxInt32 CViewTransfers::GetDocCount()
 {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -148,16 +276,45 @@ wxInt32 CViewTransfers::GetListRowCount()
 
 wxString CViewTransfers::OnListGetItemText(long item, long column) const
 {
-    wxString       strBuffer = wxEmptyString;
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    CTransfer& transfer   = m_TransferCache.Item( item );
+    wxString   strBuffer  = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) pDoc->CachedStateLock();
+            transfer.GetProjectName( strBuffer );
+            break;
+        case COLUMN_FILE:
+            transfer.GetFileName( strBuffer );
+            break;
+        case COLUMN_PROGRESS:
+            transfer.GetProgress( strBuffer );
+            break;
+        case COLUMN_SIZE:
+            transfer.GetSize( strBuffer );
+            break;
+        case COLUMN_TIME:
+            transfer.GetTime( strBuffer );
+            break;
+        case COLUMN_SPEED:
+            transfer.GetSpeed( strBuffer );
+            break;
+        case COLUMN_STATUS:
+            transfer.GetStatus( strBuffer );
+            break;
+    }
+
+    return strBuffer;
+}
+
+
+wxString CViewTransfers::OnDocGetItemText(long item, long column) const
+{
+    wxString       strBuffer = wxEmptyString;
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
             FormatProjectName( item, strBuffer );
             break;
         case COLUMN_FILE:
@@ -177,9 +334,9 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const
             break;
         case COLUMN_STATUS:
             FormatStatus( item, strBuffer );
-            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
+
     return strBuffer;
 }
 
@@ -273,6 +430,72 @@ void CViewTransfers::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x)
             UpdateSelection();
         }
     }
+}
+
+
+wxInt32 CViewTransfers::AddCacheElement()
+{
+    CTransfer* pItem = new CTransfer();
+    wxASSERT( NULL != pItem );
+    if ( NULL != pItem )
+    {
+        m_TransferCache.Add( pItem );
+        return 0;
+    }
+    return -1;
+}
+
+
+wxInt32 CViewTransfers::EmptyCache()
+{
+    m_TransferCache.Empty();
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::GetCacheCount()
+{
+    return m_TransferCache.GetCount();
+}
+
+
+wxInt32 CViewTransfers::RemoveCacheElement()
+{
+    m_TransferCache.RemoveAt( GetCacheCount() - 1 );
+    return 0;
+}
+
+
+wxInt32 CViewTransfers::UpdateCache( long item, long column, wxString& strNewData )
+{
+    CTransfer& transfer   = m_TransferCache.Item( item );
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            transfer.SetProjectName( strNewData );
+            break;
+        case COLUMN_FILE:
+            transfer.SetFileName( strNewData );
+            break;
+        case COLUMN_PROGRESS:
+            transfer.SetProgress( strNewData );
+            break;
+        case COLUMN_SIZE:
+            transfer.SetSize( strNewData );
+            break;
+        case COLUMN_TIME:
+            transfer.SetTime( strNewData );
+            break;
+        case COLUMN_SPEED:
+            transfer.SetSpeed( strNewData );
+            break;
+        case COLUMN_STATUS:
+            transfer.SetStatus( strNewData );
+            break;
+    }
+
+    return 0;
 }
 
 

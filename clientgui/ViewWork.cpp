@@ -33,6 +33,9 @@
 #include "ViewWork.h"
 #include "Events.h"
 
+#include "wx/arrimpl.cpp" 
+
+
 #include "res/result.xpm"
 #include "res/task.xpm"
 #include "res/tips.xpm"
@@ -80,6 +83,147 @@ const wxString LINKDESC_TASKABORT       =
      _("<b>Abort result</b><br>"
        "Delete the result from the work queue. "
        "This will prevent you from being granted credit for the result.");
+
+
+WX_DEFINE_OBJARRAY( CWorkCache );
+
+
+CWork::CWork()
+{
+    m_strProjectName = wxEmptyString;
+    m_strApplicationName = wxEmptyString;
+    m_strName = wxEmptyString;
+    m_strCPUTime = wxEmptyString;
+    m_strProgress = wxEmptyString;
+    m_strTimeToCompletion = wxEmptyString;
+    m_strReportDeadline = wxEmptyString;
+    m_strStatus = wxEmptyString;
+}
+
+
+CWork::~CWork()
+{
+    m_strProjectName.Clear();
+    m_strApplicationName.Clear();
+    m_strName.Clear();
+    m_strCPUTime.Clear();
+    m_strProgress.Clear();
+    m_strTimeToCompletion.Clear();
+    m_strReportDeadline.Clear();
+    m_strStatus.Clear();
+}
+
+
+wxInt32 CWork::GetProjectName( wxString& strProjectName )
+{
+    strProjectName = m_strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetApplicationName( wxString& strApplicationName )
+{
+    strApplicationName = m_strApplicationName;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetName( wxString& strName )
+{
+    strName = m_strName;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetCPUTime( wxString& strCPUTime )
+{
+    strCPUTime = m_strCPUTime;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetProgress( wxString& strProgress )
+{
+    strProgress = m_strProgress;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetTimeToCompletion( wxString& strTimeToCompletion )
+{
+    strTimeToCompletion = m_strTimeToCompletion;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetReportDeadline( wxString& strReportDeadline )
+{
+    strReportDeadline = m_strReportDeadline;	
+	return 0;
+}
+
+
+wxInt32 CWork::GetStatus( wxString& strStatus )
+{
+    strStatus = m_strStatus;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetProjectName( wxString& strProjectName )
+{
+    m_strProjectName = strProjectName;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetApplicationName( wxString& strApplicationName )
+{
+    m_strApplicationName = strApplicationName;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetName( wxString& strName )
+{
+    m_strName = strName;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetCPUTime( wxString& strCPUTime )
+{
+    m_strCPUTime = strCPUTime;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetProgress( wxString& strProgress )
+{
+    m_strProgress = strProgress;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetTimeToCompletion( wxString& strTimeToCompletion )
+{
+    m_strTimeToCompletion = strTimeToCompletion;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetReportDeadline( wxString& strReportDeadline )
+{
+    m_strReportDeadline = strReportDeadline;	
+	return 0;
+}
+
+
+wxInt32 CWork::SetStatus( wxString& strStatus )
+{
+    m_strStatus = strStatus;	
+	return 0;
+}
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
@@ -147,7 +291,7 @@ char** CViewWork::GetViewIcon()
 }
 
 
-wxInt32 CViewWork::GetListRowCount()
+wxInt32 CViewWork::GetDocCount()
 {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -160,16 +304,48 @@ wxInt32 CViewWork::GetListRowCount()
 
 wxString CViewWork::OnListGetItemText( long item, long column ) const
 {
-    wxString       strBuffer = wxEmptyString;
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    CWork&    work      = m_WorkCache.Item( item );
+    wxString  strBuffer = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) pDoc->CachedStateLock();
+            work.GetProjectName( strBuffer );
+            break;
+        case COLUMN_APPLICATION:
+            work.GetApplicationName( strBuffer );
+            break;
+        case COLUMN_NAME:
+            work.GetName( strBuffer );
+            break;
+        case COLUMN_CPUTIME:
+            work.GetCPUTime( strBuffer );
+            break;
+        case COLUMN_PROGRESS:
+            work.GetProgress( strBuffer );
+            break;
+        case COLUMN_TOCOMPLETETION:
+            work.GetTimeToCompletion( strBuffer );
+            break;
+        case COLUMN_REPORTDEADLINE:
+            work.GetReportDeadline( strBuffer );
+            break;
+        case COLUMN_STATUS:
+            work.GetStatus( strBuffer );
+            break;
+    }
+
+    return strBuffer;
+}
+
+
+wxString CViewWork::OnDocGetItemText( long item, long column ) const
+{
+    wxString       strBuffer = wxEmptyString;
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
             FormatProjectName( item, strBuffer );
             break;
         case COLUMN_APPLICATION:
@@ -192,7 +368,6 @@ wxString CViewWork::OnListGetItemText( long item, long column ) const
             break;
         case COLUMN_STATUS:
             FormatStatus( item, strBuffer );
-            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
 
@@ -332,6 +507,75 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxC
             UpdateSelection();
         }
     }
+}
+
+
+wxInt32 CViewWork::AddCacheElement()
+{
+    CWork* pItem = new CWork();
+    wxASSERT( NULL != pItem );
+    if ( NULL != pItem )
+    {
+        m_WorkCache.Add( pItem );
+        return 0;
+    }
+    return -1;
+}
+
+
+wxInt32 CViewWork::EmptyCache()
+{
+    m_WorkCache.Empty();
+    return 0;
+}
+
+
+wxInt32 CViewWork::GetCacheCount()
+{
+    return m_WorkCache.GetCount();
+}
+
+
+wxInt32 CViewWork::RemoveCacheElement()
+{
+    m_WorkCache.RemoveAt( GetCacheCount() - 1 );
+    return 0;
+}
+
+
+wxInt32 CViewWork::UpdateCache( long item, long column, wxString& strNewData )
+{
+    CWork& work   = m_WorkCache.Item( item );
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            work.SetProjectName( strNewData );
+            break;
+        case COLUMN_APPLICATION:
+            work.SetApplicationName( strNewData );
+            break;
+        case COLUMN_NAME:
+            work.SetName( strNewData );
+            break;
+        case COLUMN_CPUTIME:
+            work.SetCPUTime( strNewData );
+            break;
+        case COLUMN_PROGRESS:
+            work.SetProgress( strNewData );
+            break;
+        case COLUMN_TOCOMPLETETION:
+            work.SetTimeToCompletion( strNewData );
+            break;
+        case COLUMN_REPORTDEADLINE:
+            work.SetReportDeadline( strNewData );
+            break;
+        case COLUMN_STATUS:
+            work.SetStatus( strNewData );
+            break;
+    }
+
+    return 0;
 }
 
 

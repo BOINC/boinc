@@ -58,10 +58,11 @@ public:
     void OnIdle ( wxIdleEvent& event );
     void OnClose( wxCloseEvent& event );
     void OnSize( wxSizeEvent& event );
+    void OnChar( wxKeyEvent& event );
+
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
-    void OnListCacheHint( wxListEvent& event );
     void OnListSelected( wxListEvent& event );
     void OnListDeselected( wxListEvent& event );
 
