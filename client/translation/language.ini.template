@@ -22,6 +22,7 @@ Name=NAME
 CPU time=CPU TIME
 Progress=PROGRESS
 To Completion=TO COMPLETION
+Report Deadline=REPORT DEADLINE
 Status=STATUS
 
 #XFER_ID
