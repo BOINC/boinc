@@ -5666,3 +5666,10 @@ Karl 2003/08/12
 
     sched/
         handle_request.C
+
+Chrisz  2003/8/13
+    - if get either new global prefs OR new venue,
+        parse and install prefs
+
+    client/
+         cs_scheduler.C

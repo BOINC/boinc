@@ -373,7 +373,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     FILE* f;
     int retval;
     unsigned int i;
-    bool signature_valid;
+    bool signature_valid,need_to_install_prefs=false;
     char buf[256];
 
     nresults = 0;
@@ -420,6 +420,12 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->rpc_seqno = 0;
     }
 
+	if (strcmp(host_venue, sr.host_venue)) {
+        safe_strcpy(host_venue, sr.host_venue);
+        need_to_install_prefs = true;
+    }
+
+	
     // if the scheduler reply includes global preferences,
     // insert extra elements, write to disk, and parse
     //
@@ -436,8 +442,12 @@ int CLIENT_STATE::handle_scheduler_reply(
             scheduler_url,
             sr.global_prefs_xml
         );
-        fclose(f);
-        safe_strcpy(host_venue, sr.host_venue);
+        fclose(f); 
+		need_to_install_prefs = true;
+	}
+
+
+	if (need_to_install_prefs) {
         retval = global_prefs.parse_file(host_venue);
         if (retval) return retval;
         install_global_prefs();
