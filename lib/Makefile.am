@@ -5,6 +5,7 @@ include $(top_srcdir)/Makefile.incl
 bin_PROGRAMS = md5_test shmem_test crypt_prog
 EXTRA_PROGRAMS = msg_test synch_test
 noinst_LIBRARIES = libboinc.a
+EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES =				\
         app_ipc.C				\
