@@ -24769,3 +24769,8 @@ Rom    14 Feb 2005
         app_graphics.C
         gui_rpc_server.C
 
+David  15 Feb 2005
+    - un-break the anonymous platform mechanism
+
+    client/
+        app_start.C
