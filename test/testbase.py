@@ -190,16 +190,34 @@ class ProjectList(list):
         list.__init__(self)
         self.state = '<error>'
         self.pm_started = False
-    def install(self):         self.state = '<error>'; map(lambda i: i.install(), self)
-    def run(self):             self.set_progress_state('INIT '); map(lambda i: i.run(), self)
-    def run_init_wait(self):   map(lambda i: i.run_init_wait(), self); self.set_progress_state('RUNNING ')
-    def run_finish_wait(self): self.set_progress_state('FINISH '); map(lambda i: i.run_finish_wait(), self); self.state='DONE '
-    def check(self):           map(lambda i: i.check(), self); self.state
-    def stop(self):            map(lambda i: i.maybe_stop(), self)
+    def install(self):
+        self.state = '<error>'
+        for i in self:
+            i.install()
+    def run(self):
+        self.set_progress_state('INIT ')
+        for i in self:
+            i.run()
+    def run_init_wait(self):
+        for i in self:
+            i.run_init_wait()
+        self.set_progress_state('RUNNING ')
+    def run_finish_wait(self):
+        self.set_progress_state('FINISH ')
+        for i in self:
+            i.run_finish_wait()
+        self.state='DONE '
+    def check(self):
+        for i in self:
+            i.check()
+    def stop(self):
+        for i in self:
+            i.maybe_stop()
     def get_progress(self):
-        return self.state + " " + ' | '.join(
-            map(lambda project: project.short_name+": "+project.progress_meter_status(),
-                self))
+        progress = []
+        for project in self:
+            progress.append(project.short_name + ": " + project.progress_meter_status())
+        return self.state + " " + ' | '.join(progress)
     def start_progress_meter(self):
         for project in self:
             project.progress_meter_ctor()
