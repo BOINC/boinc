@@ -175,7 +175,16 @@ bin_PROGRAMS = upper_case concat 1sec
 # bin_PROGRAMS = upper_case upper_case_x11 concat 1sec
 noinst_LIBRARIES = libapp.a
 
-libapp_a_SOURCES = ../api/mfile.C ../lib/parse.C ../lib/filesys.C ../lib/shmem.C ../lib/util.C ../lib/app_ipc.C
+libapp_a_SOURCES = \
+    ../api/mfile.C \
+    ../lib/app_ipc.C \
+    ../lib/diagnostics.C \
+    ../lib/diagnostics.h \
+    ../lib/filesys.C \
+    ../lib/parse.C \
+    ../lib/shmem.C \
+    ../lib/util.C
+
 
 
 # when we are ready to build graphics apps on unix:
@@ -196,8 +205,9 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libapp_a_AR = $(AR) cru
 libapp_a_LIBADD =
-am_libapp_a_OBJECTS = mfile.$(OBJEXT) parse.$(OBJEXT) filesys.$(OBJEXT) \
-	shmem.$(OBJEXT) util.$(OBJEXT) app_ipc.$(OBJEXT)
+am_libapp_a_OBJECTS = mfile.$(OBJEXT) app_ipc.$(OBJEXT) \
+	diagnostics.$(OBJEXT) filesys.$(OBJEXT) parse.$(OBJEXT) \
+	shmem.$(OBJEXT) util.$(OBJEXT)
 libapp_a_OBJECTS = $(am_libapp_a_OBJECTS)
 bin_PROGRAMS = upper_case$(EXEEXT) concat$(EXEEXT) 1sec$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
@@ -223,14 +233,19 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/1sec.Po ./$(DEPDIR)/app_ipc.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/concat.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/mfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/upper_case.Po ./$(DEPDIR)/util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/diagnostics.Po ./$(DEPDIR)/filesys.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/parse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/upper_case.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libapp_a_SOURCES) $(1sec_SOURCES) $(concat_SOURCES) \
 	$(upper_case_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
@@ -251,11 +266,12 @@ AR = ar
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 mfile.$(OBJEXT): ../api/mfile.C
-parse.$(OBJEXT): ../lib/parse.C
+app_ipc.$(OBJEXT): ../lib/app_ipc.C
+diagnostics.$(OBJEXT): ../lib/diagnostics.C
 filesys.$(OBJEXT): ../lib/filesys.C
+parse.$(OBJEXT): ../lib/parse.C
 shmem.$(OBJEXT): ../lib/shmem.C
 util.$(OBJEXT): ../lib/util.C
-app_ipc.$(OBJEXT): ../lib/app_ipc.C
 libapp.a: $(libapp_a_OBJECTS) $(libapp_a_DEPENDENCIES) 
 	-rm -f libapp.a
 	$(libapp_a_AR) libapp.a $(libapp_a_OBJECTS) $(libapp_a_LIBADD)
@@ -305,6 +321,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/app_ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/concat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnostics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
@@ -359,27 +376,49 @@ mfile.obj: ../api/mfile.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o mfile.obj `if test -f '../api/mfile.C'; then $(CYGPATH_W) '../api/mfile.C'; else $(CYGPATH_W) '$(srcdir)/../api/mfile.C'`
 
-parse.o: ../lib/parse.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parse.o -MD -MP -MF "$(DEPDIR)/parse.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o parse.o `test -f '../lib/parse.C' || echo '$(srcdir)/'`../lib/parse.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/parse.Tpo" "$(DEPDIR)/parse.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/parse.Tpo"; exit 1; \
+app_ipc.o: ../lib/app_ipc.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT app_ipc.o -MD -MP -MF "$(DEPDIR)/app_ipc.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o app_ipc.o `test -f '../lib/app_ipc.C' || echo '$(srcdir)/'`../lib/app_ipc.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/app_ipc.Tpo" "$(DEPDIR)/app_ipc.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/app_ipc.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/parse.C' object='parse.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/parse.Po' tmpdepfile='$(DEPDIR)/parse.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/app_ipc.C' object='app_ipc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/app_ipc.Po' tmpdepfile='$(DEPDIR)/app_ipc.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parse.o `test -f '../lib/parse.C' || echo '$(srcdir)/'`../lib/parse.C
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o app_ipc.o `test -f '../lib/app_ipc.C' || echo '$(srcdir)/'`../lib/app_ipc.C
 
-parse.obj: ../lib/parse.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parse.obj -MD -MP -MF "$(DEPDIR)/parse.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/parse.Tpo" "$(DEPDIR)/parse.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/parse.Tpo"; exit 1; \
+app_ipc.obj: ../lib/app_ipc.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT app_ipc.obj -MD -MP -MF "$(DEPDIR)/app_ipc.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o app_ipc.obj `if test -f '../lib/app_ipc.C'; then $(CYGPATH_W) '../lib/app_ipc.C'; else $(CYGPATH_W) '$(srcdir)/../lib/app_ipc.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/app_ipc.Tpo" "$(DEPDIR)/app_ipc.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/app_ipc.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/parse.C' object='parse.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/parse.Po' tmpdepfile='$(DEPDIR)/parse.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/app_ipc.C' object='app_ipc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/app_ipc.Po' tmpdepfile='$(DEPDIR)/app_ipc.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o app_ipc.obj `if test -f '../lib/app_ipc.C'; then $(CYGPATH_W) '../lib/app_ipc.C'; else $(CYGPATH_W) '$(srcdir)/../lib/app_ipc.C'`
+
+diagnostics.o: ../lib/diagnostics.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT diagnostics.o -MD -MP -MF "$(DEPDIR)/diagnostics.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o diagnostics.o `test -f '../lib/diagnostics.C' || echo '$(srcdir)/'`../lib/diagnostics.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/diagnostics.Tpo" "$(DEPDIR)/diagnostics.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/diagnostics.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/diagnostics.C' object='diagnostics.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/diagnostics.Po' tmpdepfile='$(DEPDIR)/diagnostics.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o diagnostics.o `test -f '../lib/diagnostics.C' || echo '$(srcdir)/'`../lib/diagnostics.C
+
+diagnostics.obj: ../lib/diagnostics.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT diagnostics.obj -MD -MP -MF "$(DEPDIR)/diagnostics.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o diagnostics.obj `if test -f '../lib/diagnostics.C'; then $(CYGPATH_W) '../lib/diagnostics.C'; else $(CYGPATH_W) '$(srcdir)/../lib/diagnostics.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/diagnostics.Tpo" "$(DEPDIR)/diagnostics.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/diagnostics.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/diagnostics.C' object='diagnostics.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/diagnostics.Po' tmpdepfile='$(DEPDIR)/diagnostics.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o diagnostics.obj `if test -f '../lib/diagnostics.C'; then $(CYGPATH_W) '../lib/diagnostics.C'; else $(CYGPATH_W) '$(srcdir)/../lib/diagnostics.C'`
 
 filesys.o: ../lib/filesys.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.o -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
@@ -402,6 +441,28 @@ filesys.obj: ../lib/filesys.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`
+
+parse.o: ../lib/parse.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parse.o -MD -MP -MF "$(DEPDIR)/parse.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o parse.o `test -f '../lib/parse.C' || echo '$(srcdir)/'`../lib/parse.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/parse.Tpo" "$(DEPDIR)/parse.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/parse.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/parse.C' object='parse.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/parse.Po' tmpdepfile='$(DEPDIR)/parse.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parse.o `test -f '../lib/parse.C' || echo '$(srcdir)/'`../lib/parse.C
+
+parse.obj: ../lib/parse.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parse.obj -MD -MP -MF "$(DEPDIR)/parse.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/parse.Tpo" "$(DEPDIR)/parse.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/parse.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/parse.C' object='parse.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/parse.Po' tmpdepfile='$(DEPDIR)/parse.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`
 
 shmem.o: ../lib/shmem.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT shmem.o -MD -MP -MF "$(DEPDIR)/shmem.Tpo" \
@@ -446,28 +507,6 @@ util.obj: ../lib/util.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/util.Po' tmpdepfile='$(DEPDIR)/util.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o util.obj `if test -f '../lib/util.C'; then $(CYGPATH_W) '../lib/util.C'; else $(CYGPATH_W) '$(srcdir)/../lib/util.C'`
-
-app_ipc.o: ../lib/app_ipc.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT app_ipc.o -MD -MP -MF "$(DEPDIR)/app_ipc.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o app_ipc.o `test -f '../lib/app_ipc.C' || echo '$(srcdir)/'`../lib/app_ipc.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/app_ipc.Tpo" "$(DEPDIR)/app_ipc.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/app_ipc.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/app_ipc.C' object='app_ipc.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/app_ipc.Po' tmpdepfile='$(DEPDIR)/app_ipc.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o app_ipc.o `test -f '../lib/app_ipc.C' || echo '$(srcdir)/'`../lib/app_ipc.C
-
-app_ipc.obj: ../lib/app_ipc.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT app_ipc.obj -MD -MP -MF "$(DEPDIR)/app_ipc.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o app_ipc.obj `if test -f '../lib/app_ipc.C'; then $(CYGPATH_W) '../lib/app_ipc.C'; else $(CYGPATH_W) '$(srcdir)/../lib/app_ipc.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/app_ipc.Tpo" "$(DEPDIR)/app_ipc.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/app_ipc.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/app_ipc.C' object='app_ipc.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/app_ipc.Po' tmpdepfile='$(DEPDIR)/app_ipc.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o app_ipc.obj `if test -f '../lib/app_ipc.C'; then $(CYGPATH_W) '../lib/app_ipc.C'; else $(CYGPATH_W) '$(srcdir)/../lib/app_ipc.C'`
 
 boinc_api.o: ../api/boinc_api.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_api.o -MD -MP -MF "$(DEPDIR)/boinc_api.Tpo" \

@@ -1104,7 +1104,7 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
 #
 # Revision Log:
 # $Log$
-# Revision 1.77  2004/03/31 06:07:15  davea
+# Revision 1.78  2004/03/31 19:38:24  boincadm
 # *** empty log message ***
 #
 # Revision 1.1  2003/12/11 18:38:24  korpela

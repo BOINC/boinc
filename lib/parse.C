@@ -222,7 +222,7 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
 // then return the contents of that element.
 // Otherwise strip out all <venue> elements
 //
-void extract_venue(const char* in, const char* venue_name, char* out) {
+void extract_venue(char* in, char* venue_name, char* out) {
     char* p, *q;
     char buf[256];
     sprintf(buf, "<venue name=\"%s\">", venue_name);

@@ -7,7 +7,15 @@ bin_PROGRAMS = upper_case concat 1sec
 
 noinst_LIBRARIES = libapp.a
 
-libapp_a_SOURCES = ../api/mfile.C ../lib/parse.C ../lib/filesys.C ../lib/shmem.C ../lib/util.C ../lib/app_ipc.C
+libapp_a_SOURCES = \
+    ../api/mfile.C \
+    ../lib/app_ipc.C \
+    ../lib/diagnostics.C \
+    ../lib/diagnostics.h \
+    ../lib/filesys.C \
+    ../lib/parse.C \
+    ../lib/shmem.C \
+    ../lib/util.C
 
 # when we are ready to build graphics apps on unix:
 # LDADD = -lm -lGL -lGLU -lpthread -L. -lapp
