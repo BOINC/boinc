@@ -5,11 +5,11 @@
     require_once("util_ops.inc");
 
     function link_results($n, $query) {
+        global $received_time;
         if ($n == 0) {
             return "0";
         } else {
-            return "<a href=db_action.php?table=result&$query&detail=low>$n</a>";
-            // &sort_by=received_time
+            return "<a href=db_action.php?table=result&$query&received_time=$received_time&sort_by=received_time&detail=low>$n</a>";
         }
     }
 
@@ -21,7 +21,7 @@
     $client_state = array();
 
     $nsecs = $_GET["nsecs"];
-
+    
     for ($ss=1; $ss<6; $ss++) {
         $server_state[$ss] = 0;
     }
@@ -33,11 +33,13 @@
     }
 
     $x = $nsecs/3600.;
-    echo "Results that have finished in last $x hours: $x\n";
-    $y = time() - $nsecs;
-    $result = mysql_query("select * from result where received_time > $y");
+    echo "Results that have finished in last $x hours:\n";
+    $received_time = time() - $nsecs;
+    $result = mysql_query("select * from result where received_time > $received_time");
+    $ntotal =0; // TODO: how to count $result?
     while ($res = mysql_fetch_object($result)) {
         $server_state[$res->server_state] += 1;
+        $ntotal  += 1;
         if ($res->server_state == 5) {
             $outcome[$res->outcome] += 1;
             if ($res->outcome == 3) {
@@ -47,11 +49,11 @@
     }
     mysql_free_result($result);
 
-    echo "<table width=100%>";
+    echo "<table>";
     echo "<tr valign=top>";
-    echo "<td><h3>All results</h3></td>";
-    echo "<td><h3>'Over' results</h3></td>";
-    echo "<td><h3>'Client error' results</h3></td>";
+    echo "<td><h2><a href=db_action.php?table=result&received_time=$received_time&sort_by=received_time&detail=low>$ntotal results</a></h2></td>";
+    echo "<td><h2><a href=db_action.php?table=result&received_time=$received_time&sort_by=received_time&detail=low&result_server_state=5>'Over' results</a></h2></td>";
+    echo "<td><h2><a href=db_action.php?table=result&received_time=$received_time&sort_by=received_time&detail=low&result_outcome=3>'Client error' results</a></h2></td>";
     echo "</tr>";
     echo "<tr valign=top>";
     echo "<td><table border=2 cellpadding=4\n";

@@ -353,7 +353,11 @@ function result_short_header() {
 
 function show_result_short($result) {
     $ss = result_server_state_string($result->server_state);
-    $cs = result_client_state_string($result->client_state);
+    if ($result->outcome == 3) {
+        $cs = result_client_state_string($result->client_state);
+    } else {
+        $cs = '---';
+    }
     $oc = result_outcome_string($result->outcome);
     $received = time_str($result->received_time);
     $version = client_version_string($result->client_version_num);
