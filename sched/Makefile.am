@@ -32,6 +32,7 @@ libsched_a_SOURCES =				\
         ../lib/md5.c				\
         ../lib/md5_file.C			\
 	../lib/messages.C			\
+	../tools/process_result_template.C	\
 	config.h				\
 	sched_shmem.h				\
 	sched_util.h
