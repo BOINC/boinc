@@ -549,28 +549,19 @@ int ACTIVE_TASK::abort_task(char* msg) {
 // check for the stderr file, copy to result record
 //
 bool ACTIVE_TASK::read_stderr_file() {
-    char stderr_file[MAX_BLOB_LEN];
+    std::string stderr_file;
     char path[256];
     int n;
 
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
-    if (boinc_file_exists(path)) {
-        FILE* f = fopen(path, "r");
-        n = fread(stderr_file, 1, sizeof(stderr_file)-1, f);
-        fclose(f);
-        if (n < 0) return false;
-        stderr_file[n] = '\0';
-        result->stderr_out += "<stderr_txt>\n";
-        result->stderr_out += stderr_file;
-        const char* stderr_txt_close = "\n</stderr_txt>\n";
-
-        // truncate stderr output to 64KB;
+    if (boinc_file_exists(path) && !read_file_string(path, stderr_file)) {
+        // truncate stderr output to 63KB;
         // it's unlikely that more than that will be useful
         //
-        result->stderr_out = result->stderr_out.substr(
-            0, MAX_BLOB_LEN-1-strlen(stderr_txt_close)
-        );
-        result->stderr_out += stderr_txt_close;
+        stderr_file = stderr_file.substr( 0, 63*1024);
+        result->stderr_out += "<stderr_txt>\n";
+        result->stderr_out += stderr_file;
+        result->stderr_out += "\n</stderr_txt>\n";
         return true;
     }
     return false;

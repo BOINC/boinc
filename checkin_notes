@@ -24163,3 +24163,9 @@ David  7 Feb 2005
     sched/
         sched_send.C
         transitioner.C
+
+David  7 Feb 2005
+    - change limit in stderr_out reporting from 4KB to 63KB
+
+    client/
+        app_control.C
