@@ -27,7 +27,7 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
     "Running",
     "Ready to run",
     "Computation done",
-    "Results uploaded",
+    "Outputs uploaded",
     "Acknowledged",
     "Error: invalid state",
     "Completed",
@@ -36,5 +36,5 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
     "Retry in",
     "Download failed",
     "Upload failed",
-	"Suspended"
+    "Suspended"
 };

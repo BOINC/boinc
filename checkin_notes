@@ -6232,3 +6232,9 @@ Karl 2003/09/07
       total_credit (default expavg_credit)
 
     html_user/*.php, *.inc
+
+Karl 2003/09/07
+    - changed "Results uploaded" to "Outputs uploaded"
+
+    clients/
+        gui_titles.C
