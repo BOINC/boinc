@@ -1,3 +1,9 @@
+#!/bin/sh
+
+echo "this file is obsolete! cvs remove when ready"
+exit 1
+
+
 #! /usr/local/bin/php
 <?php
     // This script creates a BOINC project.

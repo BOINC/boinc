@@ -4,7 +4,7 @@ include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = create_work add country_select
 
-EXTRA_DIST = make_project.py
+EXTRA_DIST = make_project
 
 # TODO: use libboinc for these:
 

@@ -21,6 +21,7 @@ options.install_method = None
 options.echo_verbose = 1
 options.is_test = False
 options.client_bin_filename = CLIENT_BIN_FILENAME
+options.drop_db_first = False
 
 def init():
     if options.have_init: return
@@ -262,19 +263,20 @@ class App:
         self.name = name
 
 class AppVersion:
-    def __init__(self, app, version = 1):
+    def __init__(self, app, version = 1, exec_names=None):
         self.exec_names = []
         self.exec_dir = builddir('apps')
-        self.exec_names = [app.name]
+        self.exec_names = exec_names or [app.name]
         self.app = app
         self.version = 1
         self.platform = Platform(PLATFORM)
 
 class Project:
     def __init__(self,
-                 short_name, long_name,
+                 short_name, long_name, appname=None,
+                 project_dir=None, master_url=None, cgi_url=None,
                  core_versions=None, key_dir=None,
-                 apps=None, app_versions=None, appname=None,
+                 apps=None, app_versions=None,
                  resource_share=None, redundancy=None):
         init()
         self.config_options = []
@@ -287,12 +289,12 @@ class Project:
         self.redundancy     = redundancy or 2
         self.output_level   = 3
 
-        self.master_url    = os.path.join(options.html_url , self.short_name , '')
-        self.download_url  = os.path.join(options.html_url , self.short_name , 'download')
-        self.cgi_url       = options.cgi_url
-        self.upload_url    = os.path.join(self.cgi_url     , self.short_name , 'file_upload_handler')
-        self.scheduler_url = os.path.join(self.cgi_url     , self.short_name , 'cgi')
-        self.project_dir   = os.path.join(options.projects_dir     , self.short_name)
+        self.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
+        self.download_url  = os.path.join(master_url, 'download')
+        self.cgi_url       = cgi_url or os.path.join(options.cgi_url, self.short_name)
+        self.upload_url    = os.path.join(self.cgi_url     , 'file_upload_handler')
+        self.scheduler_url = os.path.join(self.cgi_url     , 'cgi')
+        self.project_dir   = project_dir or os.path.join(options.projects_dir     , self.short_name)
         self.download_dir  = os.path.join(self.project_dir , 'download')
         self.upload_dir    = os.path.join(self.project_dir , 'upload')
         self.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
@@ -322,17 +324,21 @@ class Project:
         shell_call('echo "drop database if exists %s" | mysql' % self.db_name)
 
     def create_db(self):
+        if options.drop_db_first:
+            self.drop_db_if_exists()
         shell_call('echo "create database %s" | mysql' % self.db_name)
 
     def db_open(self):
         return MySQLdb.connect(db=self.db_name)
 
     def create_keys(self):
+        if not os.path.exists(self.keydir()):
+            os.mkdir(self.keydir())
         _gen_key(self.keydir('upload'))
         _gen_key(self.keydir('code_sign'))
 
     def query_create_keys(self):
-        return not query_yesno("Keys don't exist in %s; generate them?"%self.key_dir)
+        return query_yesno("Keys don't exist in %s; generate them?"%self.key_dir)
 
     def keys_exist(self):
         keys = ['upload_private', 'upload_public',
@@ -350,7 +356,7 @@ class Project:
         # TODO: that is a security risk; don't do this in the future - write
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
-            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'keys', 'log',
+            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'log',
               'html_ops', 'html_user', 'html_user/project_specific'])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
             [ 'cgi-bin', 'upload', 'log' ])
@@ -420,7 +426,6 @@ class Project:
 
         verbose_echo(1, "Setting up database: adding %d apps(s)" % len(self.apps))
         for app in self.apps:
-            check_app_executable(app.name)
             db.query("insert into app(name, create_time) values ('%s', %d)" %(
                 app.name, time.time()))
 
@@ -458,6 +463,7 @@ class Project:
                 os.path.join(self.key_dir, 'code_sign_private'),
                 app_version.exec_dir)
             for exec_name in app_version.exec_names:
+                check_app_executable(exec_name)
                 cmd += ' ' + exec_name
             run_tool(cmd)
 
@@ -480,15 +486,17 @@ class Project:
 
         # create symbolic links to the CGI and HTML directories
         verbose_echo(1, "Setting up server files: linking cgi programs")
-        force_symlink(self.dir('cgi-bin'), os.path.join(options.cgi_dir, self.short_name))
-        force_symlink(self.dir('html_user'), os.path.join(options.html_dir, self.short_name))
-        force_symlink(self.dir('html_ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
+        if options.__dict__.get('cgi_dir'):
+            force_symlink(self.dir('cgi-bin'), os.path.join(options.cgi_dir, self.short_name))
+        if options.__dict__.get('html_dir'):
+            force_symlink(self.dir('html_user'), os.path.join(options.html_dir, self.short_name))
+            force_symlink(self.dir('html_ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
 
         # show the URLs for user and admin sites
-        admin_url = os.path.join("html_user", self.short_name+'_admin/')
+        # admin_url = os.path.join("html_user", self.short_name+'_admin/')
 
-        verbose_echo(2, "Master URL: " + self.master_url)
-        verbose_echo(2, "Admin URL:  " + admin_url)
+        # verbose_echo(2, "Master URL: " + self.master_url)
+        # verbose_echo(2, "Admin URL:  " + admin_url)
 
     def http_password(self, user, password):
         'Adds http password protection to the html_ops directory'
@@ -516,7 +524,7 @@ class Project:
         if progname == 'feeder':
             _check_vars(kwargs)
         elif progname == 'timeout_check':
-            _check_vars(kwargs, app=self.app, nerror=5, ndet=5, nredundancy=5)
+            _check_vars(kwargs, app=self.app.name, nerror=5, ndet=5, nredundancy=5)
         elif progname == 'make_work':
             work = kwargs.get('work', self.work)
             _check_vars(kwargs, cushion=None, redundancy=self.redundancy,

@@ -48,7 +48,8 @@ def test_init():
     options.install_method = get_env_var("BOINC_TEST_INSTALL_METHOD", 'hardlink').lower()
     options.echo_verbose   = int(get_env_var("BOINC_TEST_VERBOSE", '1'))
     options.proxy_port     = 16000 + (os.getpid() % 1000)
-
+    options.drop_db_first  = True
+    
     if options.auto_setup:
         options.auto_setup_basedir = 'run-%d'%os.getpid()
         verbose_echo(0, "Creating testbed in %s"%options.auto_setup_basedir)
@@ -218,7 +219,7 @@ class TestProject(Project):
         if not options.auto_setup:
             verbose_echo(1, "Deleting previous test runs")
             rmtree(self.dir())
-        self.drop_db_if_exists()
+        # self.drop_db_if_exists()
 
     def query_create_keys(self):
         '''Overrides Project::query_create_keys() to always return true'''

@@ -5337,3 +5337,22 @@ David  July 15 2003
     html_user/
         project_ap.inc (removed)
         project_specific_prefs_ap.inc (removed)
+
+Karl 2003/07/18
+    - created make_project script
+    - split test/boinc.py into test-specific and project-creation
+    - made everything work if build dir != src dir
+
+    configure.ac
+
+    py/   (added)
+        Makefile.am
+        boinc.py        
+        version.py.in
+
+    test/
+        boinc.py (removed)
+        test_*.py
+
+    tools/
+        make_project (added)
