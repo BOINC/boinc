@@ -73,7 +73,7 @@ create table user (
     send_email          smallint    not null,
     show_hosts          smallint    not null,
     posts               smallint    not null,
-    seti_id             integer     not null,
+    seti_id             integer     ,
     seti_nresults       integer     not null,
     seti_last_result_time   integer not null,
     seti_total_cpu      double      not null,
