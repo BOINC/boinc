@@ -41,8 +41,8 @@
 
 // quantities like avg CPU time decay by a factor of e every week
 //
-#define EXP_DECAY_RATE  (1./(3600*24*7))
-#define SECONDS_IN_DAY 86400
+#define SECONDS_IN_DAY (3600*24)
+#define EXP_DECAY_RATE  (1./(SECONDS_IN_DAY*7))
 
 // estimate the days of work remaining
 //

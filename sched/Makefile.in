@@ -22,7 +22,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler fcgi validate
+PROGS = cgi feeder show_shmem file_upload_handler fcgi validate_test
 
 all: $(PROGS)
 
@@ -60,7 +60,10 @@ FILE_UPLOAD_OBJS = \
 
 VALIDATE_OBJS = \
     validate.o \
-    ../db/db_mysql.o
+    validate_test.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/parse.o
 
 FCGI_OBJS = \
     handle_request.fcgi.o \
@@ -109,8 +112,8 @@ show_shmem: $(SHOW_SHMEM_OBJS)
 file_upload_handler: $(FILE_UPLOAD_OBJS)
 	$(CC) $(FILE_UPLOAD_OBJS) $(CLIBS) -o file_upload_handler
 
-validate: $(VALIDATE_OBJS)
-	$(CC) $(VALIDATE_OBJS) $(CLIBS) -o validate
+validate_test: $(VALIDATE_OBJS)
+	$(CC) $(VALIDATE_OBJS) $(MYSQL_LIBS) $(CLIBS) -o validate_test
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

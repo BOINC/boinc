@@ -45,9 +45,9 @@ create table user (
     authenticator   varchar(254),
     country         varchar(254),
     postal_code     varchar(254),
-    total_credit    double      not null,
-    expavg_credit   double      not null,
-    expavg_time     integer     not null,
+    total_credit    float      not null,
+    expavg_credit   float      not null,
+    expavg_time     float      not null,
     prefs           blob,
     prefs_mod_time  integer     not null,
     teamid	    integer	not null,
@@ -108,6 +108,8 @@ create table host (
     n_bwup          float       not null,
     n_bwdown        float       not null,
 
+    credit_per_cpu_sec float    not null,
+
     primary key (id)
 );
 
@@ -130,6 +132,9 @@ create table workunit (
     nresults_unsent integer     not null,
     nresults_done   integer     not null,
     nresults_fail   integer     not null,
+    need_validate   smallint    not null,
+    canonical_resultid integer  not null,
+    canonical_credit double     not null,
     primary key (id)
 );
 
@@ -150,7 +155,8 @@ create table result (
     stderr_out      blob,
     batch           integer     not null,
     project_state   integer     not null,
-    validated       smallint    not null,
+    validate_state  integer     not null,
+    claimed_credit  float       not null,
     granted_credit  float       not null,
     primary key (id)
 );

@@ -1882,3 +1882,18 @@ David    Sept 22, 2002
         file_upload_handler.C
         handle_request.C
         server_types.C,h
+
+David   Sept 25 2002
+    - Progress on validation and credit-granting
+    - added DB fields to support the above
+
+    client/
+        cs_scheduler.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        validate.C
+        validate_test.C (new)

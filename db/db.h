@@ -47,7 +47,7 @@ struct PROJECT {
 struct PLATFORM {
     int id;
     unsigned int create_time;
-    char name[256];             // Platform name (i.e. "sparc-sun-solaris2.7")
+    char name[256];             // i.e. "sparc-sun-solaris2.7"
 };
 
 // An application.
@@ -57,7 +57,7 @@ struct APP {
     int id;
     unsigned int create_time;
     char name[256];     // application name, preferably short
-    int min_version;    // don't use versions before this
+    int min_version;    // don't use app versions before this
     char result_xml_template[MAX_BLOB_SIZE];
         // if any workunits have dynamic results,
         // XML template for results comes from here
@@ -113,8 +113,8 @@ struct USER {
     char country[256];
     char postal_code[256];
     double total_credit;
-    double expavg_credit;       // exponentially averaged credit
-    int expavg_time;            // last time the above was computed
+    double expavg_credit;       // credit per second, recent average
+    double expavg_time;         // last time the above was computed
     char prefs[MAX_BLOB_SIZE];  // XML preferences
     unsigned int prefs_mod_time; // When the preferences were last updated
     int teamid;                 // if the user is part of a team
@@ -149,8 +149,8 @@ struct HOST {
     int rpc_seqno;          // last seqno received from client
     unsigned int rpc_time;  // time of last scheduler RPC
     double total_credit;
-    double expavg_credit;
-    double expavg_time;
+    double expavg_credit;   // credit per second, recent average
+    double expavg_time;     // last time the above was updated
 
     // all remaining items are assigned by the client
     int timezone;
@@ -184,6 +184,9 @@ struct HOST {
     double n_bwup;          // Average upload bandwidth
     double n_bwdown;        // Average download bandwidth
 
+    // The following is derived (by server) from other fields
+    double credit_per_cpu_sec;
+
     int parse(FILE*);
     int parse_time_stats(FILE*);
     int parse_net_stats(FILE*);
@@ -209,6 +212,10 @@ struct WORKUNIT {
     int nresults_unsent;
     int nresults_done;
     int nresults_fail;
+    bool need_validate;         // this WU has at least 1 result in
+                                // VALIDATE_STATE_NEED_CHECK state
+    int canonical_resultid;     // ID of canonical result, or zero
+    double canonical_credit;    // credit that all correct results get
 
     // the following not used in the DB
     char app_name[256];
@@ -220,6 +227,11 @@ struct WORKUNIT {
 #define RESULT_STATE_DONE           4
 #define RESULT_STATE_TIMEOUT        5
 #define RESULT_STATE_ERROR          6
+
+#define VALIDATE_STATE_INITIAL      0
+#define VALIDATE_STATE_NEED_CHECK   1
+#define VALIDATE_STATE_VALID        2
+#define VALIDATE_STATE_INVALID      3
 
 struct RESULT {
     int id;
@@ -238,8 +250,9 @@ struct RESULT {
     char stderr_out[MAX_BLOB_SIZE];     // stderr output, if any
     int batch;
     int project_state;
-    bool validated;
-    double granted_credit;
+    int validate_state;
+    double claimed_credit;      // CPU time times host credit/sec
+    double granted_credit;      // == canonical credit of WU
 
     // the following not used in the DB
     char wu_name[256];
@@ -291,12 +304,14 @@ extern int db_workunit_new(WORKUNIT& p);
 extern int db_workunit(int id, WORKUNIT&);
 extern int db_workunit_update(WORKUNIT& p);
 extern int db_workunit_lookup_name(WORKUNIT&);
-extern int db_workunit_enum_dynamic_to_send(WORKUNIT&, int);
+//extern int db_workunit_enum_dynamic_to_send(WORKUNIT&, int);
+extern int db_workunit_enum_app_need_validate(WORKUNIT&);
 
 extern int db_result_new(RESULT& p);
 extern int db_result(int id, RESULT&);
 extern int db_result_update(RESULT& p);
 extern int db_result_lookup_name(RESULT& p);
 extern int db_result_enum_to_send(RESULT&, int);
+extern int db_result_enum_wuid(RESULT&);
 
 #endif
