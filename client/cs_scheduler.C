@@ -387,8 +387,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
 
     if (sr.code_sign_key) {
-        if (!project->code_sign_key) {
-            project->code_sign_key = strdup(sr.code_sign_key);
+        if (!strlen(project->code_sign_key)) {
+            strcpy(project->code_sign_key, sr.code_sign_key);
         } else {
             if (sr.code_sign_key_signature) {
                 retval = verify_string2(
@@ -396,8 +396,7 @@ int CLIENT_STATE::handle_scheduler_reply(
                     project->code_sign_key, signature_valid
                 );
                 if (!retval && signature_valid) {
-                    free(project->code_sign_key);
-                    project->code_sign_key = strdup(sr.code_sign_key);
+                    strcpy(project->code_sign_key, sr.code_sign_key);
                 } else {
                     fprintf(stdout,
                         "New code signing key from %s doesn't validate\n",

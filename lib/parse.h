@@ -28,5 +28,6 @@ extern bool match_tag(char*, char*);
 extern void copy_stream(FILE* in, FILE* out);
 extern void strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, char* end_tag, char** pp);
+extern int copy_element_contents(FILE* in, char* end_tag, char* p, int len);
 extern int read_file_malloc(char* pathname, char*& str);
 extern void replace_element(char* buf, char* start, char* end, char* replacement);

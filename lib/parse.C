@@ -131,6 +131,22 @@ int dup_element_contents(FILE* in, char* end_tag, char** pp) {
     return 1;
 }
 
+// copy from a file to static buffer
+//
+int copy_element_contents(FILE* in, char* end_tag, char* p, int len) {
+    char buf[256];
+
+    strcpy(p, "");
+    while (fgets(buf, 256, in)) {
+        if (strstr(buf, end_tag)) {
+            return 0;
+        }
+        strcat(p, buf);
+    }
+    fprintf(stderr, "copy_element_contents(): no end tag\n");
+    return 1;
+}
+
 // read a file into a malloc'd string
 //
 int read_file_malloc(char* pathname, char*& str) {

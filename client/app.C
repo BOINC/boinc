@@ -513,7 +513,7 @@ bool ACTIVE_TASK::read_stderr_file() {
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
     FILE* f = fopen(path, "r");
     if (f) {
-        n = fread(result->stderr_out, 1, STDERR_MAX_LEN, f);
+        n = fread(result->stderr_out, 1, sizeof(result->stderr_out), f);
         result->stderr_out[n] = 0;
         fclose(f);
             return true;

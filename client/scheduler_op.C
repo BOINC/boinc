@@ -533,20 +533,40 @@ int SCHEDULER_REPLY::parse(FILE* in) {
         } else if (parse_int(buf, "<request_delay>", request_delay)) {
             continue;
         } else if (match_tag(buf, "<global_preferences>")) {
-            retval = dup_element_contents(in, "</global_preferences>", &global_prefs_xml);
+            retval = copy_element_contents(
+                in,
+                "</global_preferences>",
+                global_prefs_xml,
+                sizeof(global_prefs_xml)
+            );
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<project_preferences>")) {
-            retval = dup_element_contents(in, "</project_preferences>", &project_prefs_xml);
+            retval = copy_element_contents(
+                in,
+                "</project_preferences>",
+                project_prefs_xml,
+                sizeof(project_prefs_xml)
+            );
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<code_sign_key>")) {
-            retval = dup_element_contents(in, "</code_sign_key>", &code_sign_key);
+            retval = copy_element_contents(
+                in,
+                "</code_sign_key>",
+                code_sign_key,
+                sizeof(code_sign_key)
+            );
             //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
             if (retval) {
                 fprintf(stderr, "error: SCHEDULER_REPLY.parse: xml parsing error\n");
                 return ERR_XML_PARSE;
             }
         } else if (match_tag(buf, "<code_sign_key_signature>")) {
-            retval = dup_element_contents(in, "</code_sign_key_signature>", &code_sign_key_signature);
+            retval = copy_element_contents(
+                in,
+                "</code_sign_key_signature>",
+                code_sign_key_signature,
+                sizeof(code_sign_key_signature)
+            );
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<app>")) {
             APP app;

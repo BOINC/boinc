@@ -34,7 +34,7 @@
 
 #include "hostinfo.h"
 
-#define STDERR_MAX_LEN 4096
+#define MAX_BLOB_LEN 4096
 #define DEFAULT_MAX_PROCESSING  1e10
 #define DEFAULT_MAX_DISK        1e10
 
@@ -53,7 +53,7 @@ public:
     char master_url[256];       // url of site that contains scheduler tags
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
-    char* project_specific_prefs;   // without enclosing tags
+    char project_specific_prefs[MAX_BLOB_LEN];   // without enclosing tags
     double resource_share;      // project's resource share
                                 // relative to other projects.  Arbitrary scale.
 
@@ -73,7 +73,7 @@ public:
     unsigned int host_create_time; // as reported by server 
     double exp_avg_cpu;         // exponentially weighted CPU time
     int exp_avg_mod_time;       // last time average was changed
-    char* code_sign_key;
+    char code_sign_key[MAX_BLOB_LEN];
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
     int min_rpc_time;           // earliest time to contact any server
@@ -128,9 +128,9 @@ public:
     vector<STRING256> urls;
     int start_url;
     int current_url;
-    char* signed_xml;
-    char* xml_signature;
-    char* file_signature;
+    char signed_xml[MAX_BLOB_LEN];
+    char xml_signature[MAX_BLOB_LEN];
+    char file_signature[MAX_BLOB_LEN];
 
     FILE_INFO();
     ~FILE_INFO();
@@ -220,7 +220,7 @@ struct RESULT {
     int signal;             // the signal caught by the active_task,
                 // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
-    char stderr_out[STDERR_MAX_LEN];
+    char stderr_out[MAX_BLOB_LEN];
     
     APP* app;
     WORKUNIT* wup;

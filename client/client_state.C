@@ -1219,7 +1219,7 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 int CLIENT_STATE::report_project_error(
     RESULT& res, int err_num, char *err_msg
     ) {
-    char total_err[STDERR_MAX_LEN];
+    char total_err[MAX_BLOB_LEN];
     unsigned int i;
     int failnum;
     
@@ -1244,13 +1244,13 @@ int CLIENT_STATE::report_project_error(
         res.signal
     );
     
-    if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN) {
+    if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN) {
         strcat(res.stderr_out, total_err );
     }
     
     if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {            
         sprintf(total_err,"<couldnt_start>%d</couldnt_start>\n", err_num);
-        if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN) {
+        if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN) {
             strcat(res.stderr_out, total_err );
         }
     }
@@ -1266,7 +1266,7 @@ int CLIENT_STATE::report_project_error(
                     "</download_error>\n",
                     res.wup->input_files[i].file_info->name, failnum
                 );
-                if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
+                if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN ) {
                     strcat( res.stderr_out, total_err );
                 }
             }
@@ -1283,7 +1283,7 @@ int CLIENT_STATE::report_project_error(
                     "</upload_error>\n",
                     res.output_files[i].file_info->name, failnum
                 );
-                if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
+                if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN ) {
                     strcat( res.stderr_out, total_err );
                 }
             }

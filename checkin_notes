@@ -3138,3 +3138,15 @@ David  Feb 10 2003
     client/
         client_types.C
         net_xfer.C
+    
+David  Feb 10 2003
+    - attempt to fix bugs by eliminating dynamic allocation
+
+    client/
+        client_state.C
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C
+        test_file_xfer.C
+    lib/
+        parse.C,h

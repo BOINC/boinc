@@ -33,7 +33,7 @@
 PROJECT::PROJECT() {
     strcpy(master_url,"");
     strcpy(authenticator,"");
-    project_specific_prefs = NULL;
+    strcpy(project_specific_prefs, "");
     resource_share = 0;
     strcpy(project_name,"");
     strcpy(user_name,"");
@@ -47,7 +47,7 @@ PROJECT::PROJECT() {
     host_create_time = 0;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
-    code_sign_key = NULL;
+    strcpy(code_sign_key, "");
     nrpc_failures = 0;
     min_rpc_time = 0;
     master_fetch_failures = 0;
@@ -57,8 +57,6 @@ PROJECT::PROJECT() {
 }
 
 PROJECT::~PROJECT() {
-    if (project_specific_prefs) free(project_specific_prefs);
-    if (code_sign_key) free(code_sign_key);
 }
 
 // parse project fields from account_*.xml
@@ -69,7 +67,6 @@ int PROJECT::parse_account(FILE* in) {
 
     strcpy(master_url, "");
     strcpy(authenticator, "");
-    if (project_specific_prefs) free(project_specific_prefs);
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "</account>")) return 0;
@@ -77,9 +74,13 @@ int PROJECT::parse_account(FILE* in) {
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (match_tag(buf, "<project_specific>")) {
-            retval = dup_element_contents(in, "</project_specific>", &p);
+            retval = copy_element_contents(
+                in,
+                "</project_specific>",
+                project_specific_prefs,
+                sizeof(project_specific_prefs)
+            );
             if (retval) return ERR_XML_PARSE;
-            project_specific_prefs = p;
             continue;
         }
         else fprintf(stderr, "PROJECT::parse_account(): unrecognized: %s\n", buf);
@@ -120,7 +121,12 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {
-            dup_element_contents(in, "</code_sign_key>", &code_sign_key);
+            copy_element_contents(
+                in,
+                "</code_sign_key>",
+                code_sign_key,
+                sizeof(code_sign_key)
+            );
             //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
@@ -203,9 +209,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     host_create_time = p.host_create_time;
     exp_avg_cpu = p.exp_avg_cpu;
     exp_avg_mod_time = p.exp_avg_mod_time;
-    if (p.code_sign_key) {
-        code_sign_key = strdup(p.code_sign_key);
-    }
+    strcpy(code_sign_key, p.code_sign_key);
     nrpc_failures = p.nrpc_failures;
     min_rpc_time = p.min_rpc_time;
 }
@@ -237,9 +241,6 @@ FILE_INFO::FILE_INFO() {
 }
 
 FILE_INFO::~FILE_INFO() {
-    if (xml_signature) free(xml_signature);
-    if (file_signature) free(file_signature);
-    if (signed_xml) free(signed_xml);
 }
 
 // Set the appropriate permissions depending on whether
@@ -289,21 +290,22 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     urls.clear();
     start_url = -1;
     current_url = -1;
-    if (from_server) {
-        signed_xml = strdup("");
-    } else {
-        signed_xml = NULL;
-    }
-    xml_signature = NULL;
-    file_signature = NULL;
+    strcpy(signed_xml, "");
+    strcpy(xml_signature, "");
+    strcpy(file_signature, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
-            dup_element_contents(in, "</xml_signature>", &xml_signature);
+            copy_element_contents(
+                in,
+                "</xml_signature>",
+                xml_signature,
+                sizeof(xml_signature)
+            );
             continue;
         }
         if (from_server) {
-            strcatdup(signed_xml, buf);
+            strcat(signed_xml, buf);
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_str(buf, "<url>", url.text, sizeof(url.text))) {
@@ -311,7 +313,12 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             continue;
         }
         else if (match_tag(buf, "<file_signature>")) {
-            dup_element_contents(in, "</file_signature>", &file_signature);
+            copy_element_contents(
+                in,
+                "</file_signature>",
+                file_signature,
+                sizeof(file_signature)
+            );
             continue;
         }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
@@ -334,7 +341,12 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             }
         }
         else if (!from_server && match_tag(buf, "<signed_xml>")) {
-            dup_element_contents(in, "</signed_xml>", &signed_xml);
+            copy_element_contents(
+                in,
+                "</signed_xml>",
+                signed_xml,
+                sizeof(signed_xml)
+            );
             continue;
         }
         else fprintf(stderr, "FILE_INFO::parse(): unrecognized: %s\n", buf);
