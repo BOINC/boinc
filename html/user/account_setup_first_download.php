@@ -28,7 +28,7 @@ echo "
     After the download is finished:
     <ul>
     <li><b>Windows users</b>:
-        double-click on the downloaded file.
+        open the downloaded file.
         This will install BOINC on your computer.
     <li><b>Macintosh OS/X users</b>: BOINC will install itself automatically.
     <li><b>Unix and Linux users</b>:

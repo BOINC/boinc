@@ -22,11 +22,11 @@ echo "
     <li><b>Windows users:</b>
         Open the BOINC application window by
         double-clicking the BOINC system tray icon.
-        Choose the 'Login to Project' item in the Projects menu.
+        Choose the 'Login to Project' item in the Settings menu.
         It will ask you for a project URL and an account key.
     <li><b>Macintosh users:</b>
-        Open the BOINC application window by XXX.
-        Choose the 'Login to Project' item in the Projects menu.
+        Open the BOINC application window.
+        Choose the 'Login to Project' item in the Settings menu.
         It will ask you for a project URL and an account key.
     <li><b>Unix and Linux users:</b>
         Quit the BOINC client.
