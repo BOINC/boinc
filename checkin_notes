@@ -26162,44 +26162,45 @@ David  24 Mar 2005
             create_account_action.php
 
 Charlie	25 Mar 2005
-BOINC Manager: create BOINC Data directory in "/Library/Application Support/" 
-directory, not in user's "~/Library/Application Support/"
-Set working directory to "BOINC Data" before redirecting stdout and stderr
-Fixed BOINCTRACE compile warning when non-debug build on Mac
-Fixed bug in CTaskBarIcon::OnNetworkSelection
-Implemented Dock popup menu using CTaskBarIcon class
-Implemented System Menubar Icon menu using CMacSystemMenu class derived from 
-CTaskBarIcon class
-Changed "Hide" menu item to "Close" (Mac only)
+    - BOINC Manager: create BOINC Data directory in
+        "/Library/Application Support/" directory,
+        not in user's "~/Library/Application Support/"
+    - Set working directory to "BOINC Data" before redirecting stdout and stderr
+    - Fixed BOINCTRACE compile warning when non-debug build on Mac
+    - Fixed bug in CTaskBarIcon::OnNetworkSelection
+    - Implemented Dock popup menu using CTaskBarIcon class
+    - Implemented System Menubar Icon menu using CMacSystemMenu class
+        derived from CTaskBarIcon class
+    - Changed "Hide" menu item to "Close" (Mac only)
 
-client/
-	main.c
+    client/
+        main.c
 
-clientGUI/
-	BOINCGUIApp.cpp
-	BOINCTaskBar.cpp/h
-	MainFrame.cpp
-clientGUI/mac/
-	MacSysMenu.cpp/h (add)
-	SystemMenu_Prefix.pch (add)
-	SystemMenu.m (add)
-lib/
-	diagnostics.h
-mac_build/
-	Info.plist (add)
-	SystemMenu-Info.plist (add)
-	boinc.pbproj/boinc.pbproj (add)
+    clientGUI/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp/h
+        MainFrame.cpp
+    clientGUI/mac/
+        MacSysMenu.cpp/h (add)
+        SystemMenu_Prefix.pch (add)
+        SystemMenu.m (add)
+    lib/
+        diagnostics.h
+    mac_build/
+        Info.plist (add)
+        SystemMenu-Info.plist (add)
+        boinc.pbproj/boinc.pbproj (add)
 
 Charlie	26 Mar 2005
-BOINC Manager: Workaround apparent bug in Mac version of WxWidgets which 
-prevented the main window's size and position from being restored on 
-application launch.
-Precompile stdwx.h in XCode project BOINC Manager builds.
+    - BOINC Manager: Workaround apparent bug in Mac version of WxWidgets which 
+        prevented the main window's size and position from being restored on 
+        application launch.
+    - Precompile stdwx.h in XCode project BOINC Manager builds.
 
-clientGUI/
-	MainFrame.cpp
-mac_build/
-	boinc.pbproj/boinc.pbproj
+    clientGUI/
+        MainFrame.cpp
+    mac_build/
+        boinc.pbproj/boinc.pbproj
 
 Rom    28 Mar 2005
     - Well now that I've fully tested and deployed BOINC via Active Directory,
@@ -26232,3 +26233,18 @@ Rom    28 Mar 2005
     win_build/installerv2/redist/Windows/x86/
         boinccas.dll
         boinccas95.dll
+
+David  28 Mar 2005
+    - user web: put charset in header if it's defined (from Jens)
+    - user web: call db_init() before mysql_real_escape_string()
+
+    html/
+        inc/
+            util.inc
+        user/
+            account_created.php
+            am_get_info.php
+            am_query.php
+            am_set_info.php
+            confirm_email_change.php
+            login_action.php

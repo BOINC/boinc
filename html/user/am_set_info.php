@@ -4,8 +4,6 @@ require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 
-xml_header();
-
 function reply($x) {
     echo "<am_set_info_reply>
     $x
@@ -23,6 +21,8 @@ function success($x) {
 }
 
 db_init();
+
+xml_header();
 
 $auth = process_user_text($_GET["account_key"]);
 $user = lookup_user_auth($auth);

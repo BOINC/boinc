@@ -92,6 +92,10 @@ function page_head($title, $java_onload="") {
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE . "rss_main.php";
 
+    if (defined("CHARSET")) {
+        header("Content-type: text/html; charset=".tr(CHARSET));
+    }
+
     echo "<html><head><title>".strip_tags($title)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
         <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />

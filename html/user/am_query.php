@@ -3,6 +3,8 @@
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 
+db_init();
+
 $nonce = process_user_text($_GET["nonce"]);
 
 xml_header();
@@ -23,7 +25,6 @@ function success($x) {
     reply("<success/>\n$x");
 }
 
-db_init();
 $tuser = lookup_tentative_user($nonce);
 
 if (!$tuser) {

@@ -4,9 +4,9 @@ include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/translation.inc");
 
-$email_addr = get_str("email_addr", true);
-
 db_init();
+
+$email_addr = get_str("email_addr", true);
 
 if ($email_addr) {
     // here when this page is reached via create_account_action.php

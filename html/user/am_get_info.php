@@ -3,6 +3,8 @@
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 
+db_init();
+
 $auth = process_user_text($_GET["account_key"]);
 
 xml_header();
@@ -22,8 +24,6 @@ function error($x) {
 function success($x) {
     reply("<success/>\n$x");
 }
-
-db_init();
 
 $user = lookup_user_auth($auth);
 if (!$user) {

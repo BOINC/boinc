@@ -24,8 +24,8 @@ if (parse_bool($config, "disable_account_creation")) {
     exit();
 }
 
-init_session();
 db_init();
+init_session();
 
 $teamid = post_int("teamid", true);
 if ($teamid) {
