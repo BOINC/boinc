@@ -7192,3 +7192,11 @@ Karl 2003-10-28
     M lib/app_ipc.C
     M lib/app_ipc.h
     
+Oliver 29 Oct 2003
+
+    - fixed improperly scaled logos
+
+    api/
+	gutil.C,h
+	
+

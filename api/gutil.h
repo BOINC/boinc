@@ -38,6 +38,7 @@ extern void set_viewport_full(int w, int h);
 extern void set_viewport_fixed(int w, int h);
 extern void scale_screen(int w,int h);
 extern void center_screen(int w,int h);
+extern void center_screen_ratio(int w,int h);
 
 
 extern void drawSphere(float* pos, float rad);
@@ -83,6 +84,7 @@ extern void draw_text_panel(
 
 extern void mode_texture();
 extern void mode_ortho();
+extern void mode_ortho_ratio();
 extern void mode_shaded(float*);
 extern void mode_unshaded();
 extern void mode_lines();

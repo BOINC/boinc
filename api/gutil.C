@@ -119,6 +119,23 @@ void mode_ortho() {
 	scale_screen(viewport[2],viewport[3]);
 }
 
+void mode_ortho_ratio() {
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0,4,0,3);
+    glMatrixMode(GL_MODELVIEW);	
+	glPushMatrix();
+    glLoadIdentity();
+    gluLookAt(0.0,0.0,1.0,  // eye position
+			  0,0,0,      // where we're looking
+			  0.0, 1.0, 0.);      // up is in positive Y direction	
+	int viewport[4];
+	get_viewport(viewport);
+	center_screen_ratio(viewport[2],viewport[3]);
+	scale_screen(viewport[2],viewport[3]);
+}
+
 void ortho_done() {
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
@@ -337,6 +354,19 @@ void center_screen(int w,int h)
 	else 
 	{        
 		glTranslatef(((double)w/2.0f-((double)h*aspect_ratio/2.0f))/(double)w,0.0f,0.0f);
+    }		
+}
+
+void center_screen_ratio(int w,int h)
+{
+	double aspect_ratio = 4.0/3.0;
+	if ((double)h*aspect_ratio > (double)w) 
+	{        
+		glTranslatef(0.0f*4.0f,(((double)h/2.0f-((double)w/aspect_ratio/2.0f))/(double)h)*3.0f,0.0f);
+    } 
+	else 
+	{        
+		glTranslatef((((double)w/2.0f-((double)h*aspect_ratio/2.0f))/(double)w)*4.0f,0.0f,0.0f);
     }		
 }
 
