@@ -1411,20 +1411,14 @@ wxInt32 CMainDocument::GetProxyConfiguration()
 
 wxInt32 CMainDocument::GetProxyHTTPProxyEnabled( bool& bEnabled )
 {
-    bEnabled = proxy_info.use_http_authentication;
-    return 0;
-}
-
-
-wxInt32 CMainDocument::GetProxyHTTPAuthenticationEnabled( bool& bEnabled )
-{
-    bEnabled = proxy_info.use_http_authentication;
+    bEnabled = proxy_info.use_http_proxy;
     return 0;
 }
 
 
 wxInt32 CMainDocument::GetProxyHTTPServerName( wxString& strServerName )
 {
+    strServerName.Clear();
     strServerName = proxy_info.http_server_name.c_str();
     return 0;
 }
@@ -1439,6 +1433,7 @@ wxInt32 CMainDocument::GetProxyHTTPServerPort( wxInt32& iPortNumber )
 
 wxInt32 CMainDocument::GetProxyHTTPUserName( wxString& strUserName )
 {
+    strUserName.Clear();
     strUserName = proxy_info.http_user_name.c_str();
     return 0;
 }
@@ -1446,6 +1441,7 @@ wxInt32 CMainDocument::GetProxyHTTPUserName( wxString& strUserName )
 
 wxInt32 CMainDocument::GetProxyHTTPPassword( wxString& strPassword )
 {
+    strPassword.Clear();
     strPassword = proxy_info.http_user_passwd.c_str();
     return 0;
 }
@@ -1458,15 +1454,9 @@ wxInt32 CMainDocument::GetProxySOCKSProxyEnabled( bool& bEnabled )
 }
 
 
-wxInt32 CMainDocument::GetProxySOCKSVersion( wxInt32& iVersion )
-{
-    iVersion = proxy_info.socks_version;
-    return 0;
-}
-
-
 wxInt32 CMainDocument::GetProxySOCKSServerName( wxString& strServerName )
 {
+    strServerName.Clear();
     strServerName = proxy_info.socks_server_name.c_str();
     return 0;
 }
@@ -1481,6 +1471,7 @@ wxInt32 CMainDocument::GetProxySOCKSServerPort( wxInt32& iPortNumber )
 
 wxInt32 CMainDocument::GetProxySOCKSUserName( wxString& strUserName )
 {
+    strUserName.Clear();
     strUserName = proxy_info.socks5_user_name.c_str();
     return 0;
 }
@@ -1488,6 +1479,7 @@ wxInt32 CMainDocument::GetProxySOCKSUserName( wxString& strUserName )
 
 wxInt32 CMainDocument::GetProxySOCKSPassword( wxString& strPassword )
 {
+    strPassword.Clear();
     strPassword = proxy_info.socks5_user_passwd.c_str();
     return 0;
 }
@@ -1497,7 +1489,7 @@ wxInt32 CMainDocument::SetProxyConfiguration()
 {
     wxInt32 retval = 0;
 
-	retval = rpc.set_proxy_settings(proxy_info);
+	retval = rpc.set_proxy_settings( proxy_info );
     if (retval)
     {
         wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", retval);
@@ -1510,14 +1502,7 @@ wxInt32 CMainDocument::SetProxyConfiguration()
 
 wxInt32 CMainDocument::SetProxyHTTPProxyEnabled( const bool bEnabled )
 {
-    proxy_info.use_http_authentication = bEnabled;
-    return 0;
-}
-
-
-wxInt32 CMainDocument::SetProxyHTTPAuthenticationEnabled( const bool bEnabled )
-{
-    proxy_info.use_http_authentication = bEnabled;
+    proxy_info.use_http_proxy = bEnabled;
     return 0;
 }
 
@@ -1553,13 +1538,6 @@ wxInt32 CMainDocument::SetProxyHTTPPassword( const wxString& strPassword )
 wxInt32 CMainDocument::SetProxySOCKSProxyEnabled( const bool bEnabled )
 {
     proxy_info.use_socks_proxy = bEnabled;
-    return 0;
-}
-
-
-wxInt32 CMainDocument::SetProxySOCKSVersion( const wxInt32 iVersion )
-{
-    proxy_info.socks_version = iVersion;
     return 0;
 }
 

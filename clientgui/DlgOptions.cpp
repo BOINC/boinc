@@ -69,7 +69,7 @@ bool CDlgOptions::Create( wxWindow* parent, wxWindowID id, const wxString& capti
     m_SOCKSAddressCtrl = NULL;
     m_SOCKSPortCtrl = NULL;
     m_SOCKSUsernameCtrl = NULL;
-    m_SOCKPasswordCtrl = NULL;
+    m_SOCKSPasswordCtrl = NULL;
 
     SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
@@ -219,7 +219,7 @@ void CDlgOptions::CreateControls()
 
     wxTextCtrl* itemTextCtrl38 = new wxTextCtrl;
     itemTextCtrl38->Create( itemPanel23, ID_SOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    m_SOCKPasswordCtrl = itemTextCtrl38;
+    m_SOCKSPasswordCtrl = itemTextCtrl38;
     itemFlexGridSizer34->Add(itemTextCtrl38, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel23, _("SOCKS Proxy"));
@@ -255,28 +255,104 @@ void CDlgOptions::OnNotebookUpdate( wxUpdateUIEvent& event )
 
 void CDlgOptions::OnEnableHTTPProxyCtrlClick( wxCommandEvent& event )
 {
-    // Insert custom code here
+    if ( event.IsChecked() )
+    {
+        m_HTTPAddressCtrl->Enable(true);
+        m_HTTPPortCtrl->Enable(true);
+        m_HTTPUsernameCtrl->Enable(true);
+        m_HTTPPasswordCtrl->Enable(true);
+    }
+    else
+    {
+        m_HTTPAddressCtrl->Enable(false);
+        m_HTTPPortCtrl->Enable(false);
+        m_HTTPUsernameCtrl->Enable(false);
+        m_HTTPPasswordCtrl->Enable(false);
+    }
     event.Skip();
 }
 
 
 void CDlgOptions::OnEnableHTTPProxyCtrlUpdate( wxUpdateUIEvent& event )
 {
-    // Insert custom code here
+    if ( m_bProxySectionConfigured )
+    {
+        m_EnableHTTPProxyCtrl->Enable(true);
+        if ( m_EnableHTTPProxyCtrl->IsChecked() )
+        {
+            m_HTTPAddressCtrl->Enable(true);
+            m_HTTPPortCtrl->Enable(true);
+            m_HTTPUsernameCtrl->Enable(true);
+            m_HTTPPasswordCtrl->Enable(true);
+        }
+        else
+        {
+            m_HTTPAddressCtrl->Enable(false);
+            m_HTTPPortCtrl->Enable(false);
+            m_HTTPUsernameCtrl->Enable(false);
+            m_HTTPPasswordCtrl->Enable(false);
+        }
+    }
+    else
+    {
+        m_EnableHTTPProxyCtrl->Enable(false);
+        m_HTTPAddressCtrl->Enable(false);
+        m_HTTPPortCtrl->Enable(false);
+        m_HTTPUsernameCtrl->Enable(false);
+        m_HTTPPasswordCtrl->Enable(false);
+    }
     event.Skip();
 }
 
 
 void CDlgOptions::OnEnableSOCKSProxyCtrlClick( wxCommandEvent& event )
 {
-    // Insert custom code here
+    if ( event.IsChecked() )
+    {
+        m_SOCKSAddressCtrl->Enable(true);
+        m_SOCKSPortCtrl->Enable(true);
+        m_SOCKSUsernameCtrl->Enable(true);
+        m_SOCKSPasswordCtrl->Enable(true);
+    }
+    else
+    {
+        m_SOCKSAddressCtrl->Enable(false);
+        m_SOCKSPortCtrl->Enable(false);
+        m_SOCKSUsernameCtrl->Enable(false);
+        m_SOCKSPasswordCtrl->Enable(false);
+    }
     event.Skip();
 }
 
 
 void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate( wxUpdateUIEvent& event )
 {
-    // Insert custom code here
+    if ( m_bProxySectionConfigured )
+    {
+        m_EnableSOCKSProxyCtrl->Enable(true);
+        if ( m_EnableSOCKSProxyCtrl->IsChecked() )
+        {
+            m_SOCKSAddressCtrl->Enable(true);
+            m_SOCKSPortCtrl->Enable(true);
+            m_SOCKSUsernameCtrl->Enable(true);
+            m_SOCKSPasswordCtrl->Enable(true);
+        }
+        else
+        {
+            m_SOCKSAddressCtrl->Enable(false);
+            m_SOCKSPortCtrl->Enable(false);
+            m_SOCKSUsernameCtrl->Enable(false);
+            m_SOCKSPasswordCtrl->Enable(false);
+        }
+    }
+    else
+    {
+        m_EnableSOCKSProxyCtrl->Enable(false);
+        m_SOCKSAddressCtrl->Enable(false);
+        m_SOCKSPortCtrl->Enable(false);
+        m_SOCKSUsernameCtrl->Enable(false);
+        m_SOCKSPasswordCtrl->Enable(false);
+    }
     event.Skip();
 }
 

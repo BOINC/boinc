@@ -531,18 +531,78 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CDlgOptions*   pDlg = new CDlgOptions(this);
     wxInt32        iAnswer = 0;
+    bool           bProxyInformationConfigured = false;
+    bool           bBuffer = false;
+    wxInt32        iBuffer = 0;
+    wxString       strBuffer = wxEmptyString;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != pDlg);
 
 
-
-    iAnswer = pDlg->ShowModal();
-    if ( wxOK == iAnswer )
+    bProxyInformationConfigured = ( 0 == pDoc->GetProxyConfiguration() );
+    if ( bProxyInformationConfigured )
     {
+        pDlg->m_bProxySectionConfigured = true;
+        if ( 0 == pDoc->GetProxyHTTPProxyEnabled( bBuffer ) )
+            pDlg->m_EnableHTTPProxyCtrl->SetValue( bBuffer );
+        if ( 0 == pDoc->GetProxyHTTPServerName( strBuffer ) ) 
+            pDlg->m_HTTPAddressCtrl->SetValue( strBuffer );
+        if ( 0 == pDoc->GetProxyHTTPServerPort( iBuffer ) ) 
+        {
+            strBuffer.Printf( wxT("%d"), iBuffer );
+            pDlg->m_HTTPPortCtrl->SetValue( strBuffer );
+        }
+        if ( 0 == pDoc->GetProxyHTTPUserName( strBuffer ) ) 
+            pDlg->m_HTTPUsernameCtrl->SetValue( strBuffer );
+        if ( 0 == pDoc->GetProxyHTTPPassword( strBuffer ) ) 
+            pDlg->m_HTTPPasswordCtrl->SetValue( strBuffer );
+
+        if ( 0 == pDoc->GetProxySOCKSProxyEnabled( bBuffer ) )
+            pDlg->m_EnableSOCKSProxyCtrl->SetValue( bBuffer );
+        if ( 0 == pDoc->GetProxySOCKSServerName( strBuffer ) ) 
+            pDlg->m_SOCKSAddressCtrl->SetValue( strBuffer );
+        if ( 0 == pDoc->GetProxySOCKSServerPort( iBuffer ) ) 
+        {
+            strBuffer.Printf( wxT("%d"), iBuffer );
+            pDlg->m_SOCKSPortCtrl->SetValue( strBuffer );
+        }
+        if ( 0 == pDoc->GetProxySOCKSUserName( strBuffer ) ) 
+            pDlg->m_SOCKSUsernameCtrl->SetValue( strBuffer );
+        if ( 0 == pDoc->GetProxySOCKSPassword( strBuffer ) ) 
+            pDlg->m_SOCKSPasswordCtrl->SetValue( strBuffer );
     }
 
+    iAnswer = pDlg->ShowModal();
+    if ( wxID_OK == iAnswer )
+    {
+        bBuffer = pDlg->m_EnableHTTPProxyCtrl->GetValue();
+        pDoc->SetProxyHTTPProxyEnabled( bBuffer );
+        strBuffer = pDlg->m_HTTPAddressCtrl->GetValue();
+        pDoc->SetProxyHTTPServerName( strBuffer );
+        strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
+        strBuffer.ToLong( (long*)&iBuffer );
+        pDoc->SetProxyHTTPServerPort( iBuffer );
+        strBuffer = pDlg->m_HTTPUsernameCtrl->GetValue();
+        pDoc->SetProxyHTTPUserName( strBuffer );
+        strBuffer = pDlg->m_HTTPPasswordCtrl->GetValue();
+        pDoc->SetProxyHTTPPassword( strBuffer );
+        bBuffer = pDlg->m_EnableHTTPProxyCtrl->GetValue();
+
+        pDoc->SetProxySOCKSProxyEnabled( bBuffer );
+        strBuffer = pDlg->m_SOCKSAddressCtrl->GetValue();
+        pDoc->SetProxySOCKSServerName( strBuffer );
+        strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
+        strBuffer.ToLong( (long*)&iBuffer );
+        pDoc->SetProxySOCKSServerPort( iBuffer );
+        strBuffer = pDlg->m_SOCKSUsernameCtrl->GetValue();
+        pDoc->SetProxySOCKSUserName( strBuffer );
+        strBuffer = pDlg->m_SOCKSPasswordCtrl->GetValue();
+        pDoc->SetProxySOCKSPassword( strBuffer );
+
+        pDoc->SetProxyConfiguration();
+    }
 
     if (pDlg)
         pDlg->Destroy();

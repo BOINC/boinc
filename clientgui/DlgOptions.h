@@ -102,7 +102,7 @@ public:
     wxTextCtrl* m_SOCKSAddressCtrl;
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
-    wxTextCtrl* m_SOCKPasswordCtrl;
+    wxTextCtrl* m_SOCKSPasswordCtrl;
 };
 
 #endif
