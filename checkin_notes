@@ -1147,3 +1147,18 @@ David A     July 15, 2002
         prefs1.xml
     tools/
         Makefile.in
+
+Michael Gary	July 15, 2002
+    - Fixed compile bug
+    - Updated documentation
+    doc/
+        api.html
+        client_debug.html
+        flow.html
+        index.html
+        protocol.html
+        sched_debug.html
+        sched_policy.html
+        test.html
+    tools/
+        Makefile.in
