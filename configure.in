@@ -17,7 +17,7 @@ AC_CHECK_LIB(socket, main)
 dnl Replace `main' with a function in -lstdc:
 AC_CHECK_LIB(stdc, main)
 dnl Replace `main' with a function in -lz:
-AC_CHECK_LIB(z, main)
+AC_CHECK_LIB(z, gzopen)
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
