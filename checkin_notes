@@ -7151,6 +7151,8 @@ Karl 2003-10-27
       disk filename 'open_name=url_filename' (url_filename is the basename of
       file as copied to download/)
 
+    tools/
+        update_versions
     py/Boinc/
         tools.py
 

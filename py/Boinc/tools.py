@@ -61,7 +61,7 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     target_path = os.path.join(target_dir, target_file_base)
     if file != target_path:
         if not quiet:
-            print "Copying %s to %s"%(file_base, target_dir)
+            print "Copying %s to %s"%(source_file_base, target_dir)
         shutil.copy(file, target_path)
 
     xml = '''<file_info>

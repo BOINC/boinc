@@ -40,6 +40,7 @@ verbose = 0
 try:
     if sys.argv[1] == '-v':
         verbose = 1
+        print '(verbose mode)'
 except:
     pass
 
@@ -61,6 +62,9 @@ def xsort(list):
     newlist = list[:]
     newlist.sort()
     return newlist
+
+def xlistdir(dir):
+    return map(lambda file: os.path.join(dir, file), os.listdir(dir))
 
 def add_files(app, match, exec_file, non_exec_files=[]):
     ''' add files to app/core.
@@ -142,7 +146,7 @@ def find_versions(app, dir):
 
     """
 
-    for filepath in os.listdir(dir):
+    for filepath in xlistdir(dir):
         if os.path.islink(filepath):
             continue
         if os.path.isdir(filepath):
@@ -151,7 +155,7 @@ def find_versions(app, dir):
             match = None
             non_exec_files = []
             dir = filepath
-            for filepath in os.listdir(dir):
+            for filepath in xlistdir(dir):
                 if os.path.isdir(filepath):
                     continue
                 if not match:
@@ -176,7 +180,7 @@ def find_versions(app, dir):
                 continue
             add_files(app=app, match=match, exec_file=filepath)
 
-for appdir in os.listdir(config.app_dir):
+for appdir in xlistdir(config.app_dir):
     if not os.path.isdir(appdir): continue
     dirname = os.path.basename(appdir)
     if dirname == 'boinc':
