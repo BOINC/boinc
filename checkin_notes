@@ -24549,3 +24549,13 @@ I   - Added RCSID tag to sched_timezone.C
         main.C
         sched_timezone.C
         server_types.C
+
+David  11 Feb 2005
+	- Core client: require that an app version's main program be executable
+		(and thus that it be digitally signed)
+	- compile fix for Windows guirpctest (should rename boinc_cmd)
+	client/
+		app_control.C
+		app_start.C
+	win_build/
+		boinc_guirpctest.vcproj

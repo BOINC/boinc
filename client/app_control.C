@@ -551,7 +551,6 @@ int ACTIVE_TASK::abort_task(char* msg) {
 bool ACTIVE_TASK::read_stderr_file() {
     std::string stderr_file;
     char path[256];
-    int n;
 
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
     if (boinc_file_exists(path) && !read_file_string(path, stderr_file)) {

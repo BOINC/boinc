@@ -265,11 +265,18 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // set up applications files
     //
+    strcpy(exec_name, "");
     for (i=0; i<app_version->app_files.size(); i++) {
         FILE_REF fref = app_version->app_files[i];
         fip = fref.file_info;
         get_pathname(fip, file_path);
         if (fref.main_program) {
+            if (!fip->executable) {
+                msg_printf(wup->project, MSG_ERROR,
+                    "Main program %s is not executable", fip->name
+                );
+                return ERR_NO_SIGNATURE;
+            }
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
         }
@@ -277,6 +284,12 @@ int ACTIVE_TASK::start(bool first_time) {
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
+    }
+    if (!strlen(exec_name)) {
+        msg_printf(wup->project, MSG_ERROR,
+            "No main program specified"
+        );
+        return ERR_NOT_FOUND;
     }
 
     // set up input files

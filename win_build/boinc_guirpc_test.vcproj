@@ -162,6 +162,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\lib\boinc_cmd.C">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.C">
 			</File>
 			<File
@@ -172,9 +175,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\gui_rpc_client.C">
-			</File>
-			<File
-				RelativePath="..\lib\gui_test.C">
 			</File>
 			<File
 				RelativePath="..\lib\md5.c">
