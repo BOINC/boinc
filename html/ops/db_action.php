@@ -1,6 +1,6 @@
 <?php
     require_once("util_ops.inc");
-    require_once("db.inc");
+    require_once("db_ops.inc");
 
 function append_sql_query($original,$addition,$first) {
     if ($first == 1) {
