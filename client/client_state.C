@@ -122,11 +122,6 @@ int CLIENT_STATE::init() {
         print_counts();
     }
     
-    // set up the project and slot directories
-    //
-    make_project_dirs();
-    make_slot_dirs();
-
     // Run the time tests and host information check if needed
 
     // Getting host info is very fast, so we can do it anytime
@@ -146,11 +141,16 @@ int CLIENT_STATE::init() {
 
     // Set nslots to actual # of CPUs (or less, depending on prefs?)
     //
-	if (gstate.host_info.p_ncpus > 0)
-		nslots = gstate.host_info.p_ncpus;
-	else
-	    nslots = 1;
+    if (gstate.host_info.p_ncpus > 0)
+        nslots = gstate.host_info.p_ncpus;
+    else
+        nslots = 1;
     
+    // set up the project and slot directories
+    //
+    make_project_dirs();
+    make_slot_dirs();
+
     // Restart any tasks that were running when we last quit the client
     gstate.restart_tasks();
 
