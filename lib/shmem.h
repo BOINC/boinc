@@ -1,5 +1,6 @@
 // platform-independent interface to shared memory
 
+#ifndef _WIN32
 #include <sys/shm.h>
 
 // create a shared-memory segment of the given size.
@@ -21,3 +22,4 @@ extern int attach_shmem(key_t, void**);
 extern int detach_shmem(void*);
 
 extern int shmem_info(key_t key);
+#endif
