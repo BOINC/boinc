@@ -15493,8 +15493,12 @@ Karl 2004-07-21
     tools/
         update_versions
 
-    - fixed html/php bugs
+    - fixed html/php bugs (e.g. should be <?php instead of <?)
 
     html/user/
         sample_index.php
         team_manage.php
+        html.php
+        old_news.php
+    project.sample/
+        project_news.inc
