@@ -113,7 +113,7 @@ function write_fd($fd, $str) {
 }
 
 function page_head($title, $user=null, $fd=null) {
-    write_fd($fd, "<html>\n<head><title>$title</title></head>\n<body bgcolor=ffffff>\n");
+    write_fd($fd, "<html>\n<head><title>$title</title>\n</head>\n<body bgcolor=ffffff>\n");
     project_banner($user, $fd);
 }
 
@@ -153,6 +153,11 @@ function time_str($x) {
     if ($x == 0) return "---";
     // return strftime("%T %b %e, %Y", $x);
     return strftime("%Y-%m-%d %H:%M:%S", $x);
+}
+
+function pretty_time_str($x) {
+    if ($x == 0) return "&nbsp;";
+    return date('D M j, Y g:i a', $x);
 }
 
 function start_table() {
@@ -257,9 +262,9 @@ function parse_element($xml, $tag) {
 
 // look for a particular element in the ../config.xml file
 //
-function parse_config($tag) {
+function parse_config($tag, $pathMod='') {
     $element = null;
-    $fp = fopen("../config.xml", "r");
+    $fp = fopen($pathMod . "../config.xml", "r");
     while (1) {
         $buf = fgets($fp, 1024);
         if ($buf == null) break;
@@ -391,4 +396,16 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     return $result;
 }
 
+// TODO: Generalize this.  Currently it is just pasted from error.inc
+
+function doError($msg, $info = '') {
+    //doHeader('Error');
+    page_head('Error');
+    echo '<p class="title">'.$msg.'</p>';
+    echo '<p>The error has been recorded, and the website administrator will investigate the issue as soon as possible.  We sincerely apologize for the inconvenience.</p>';
+    
+    //doFooter();
+    page_tail();
+    exit();
+}
 ?>
