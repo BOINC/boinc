@@ -886,7 +886,8 @@ int send_work(
                 "(there was work, but your computer would not finish it before it is due) "
                 "Your computer is on %.1f%% of the time, and runs BOINC %.1f%% of that time. "
                 "This project has %.1f%% of those cycles (other BOINC projects get the rest)",
-                100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction);
+                100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
+            );
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
             if (!config.ignore_delay_bound && sreq.resource_share_fraction<1.0) {
