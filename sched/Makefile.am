@@ -33,6 +33,7 @@ libsched_a_SOURCES =				\
         ../lib/md5_file.C			\
 	../lib/messages.C			\
 	../tools/process_result_template.C	\
+        ../tools/backend_lib.C			\
 	config.h				\
 	sched_shmem.h				\
 	sched_util.h
@@ -75,25 +76,18 @@ file_upload_handler_SOURCES = file_upload_handler.C
 file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
-make_work_SOURCES =				\
-        make_work.C				\
-        ../tools/backend_lib.C			\
-        ../tools/process_result_template.C
+make_work_SOURCES = make_work.C
 make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 
-timeout_check_SOURCES =				\
-        timeout_check.C				\
-        ../tools/backend_lib.C			\
-        ../tools/process_result_template.C
+timeout_check_SOURCES = timeout_check.C
 timeout_check_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 timeout_check_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES =					\
         handle_request.C			\
         main.C					\
-        server_types.C				\
-        ../tools/process_result_template.C
+        server_types.C
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
