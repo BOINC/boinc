@@ -15552,7 +15552,8 @@ David  21 July 2004
 
 Noaa 	21 July 2004
 
-	- incorporated modded, smaller glut into the source tree
+	- incorporated modded, smaller glut into the source tree, includes
+		a makefile if any files are changed
 	- updated, cleaner version of x_opengl.C
 	- removed glut stuff from boinc_gl.h to account for integrated glut in 
 		source tree
