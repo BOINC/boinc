@@ -119,19 +119,28 @@ the ordinal number of the result (0, 1, ...).
 </ul>
 <p>
 
-<h2>Placing input files in the download directory</h2>
+<h2>Moving input files to the download directory</h2>
 
-If you're a flat download directory, just place input files in that directory.
+If you're a flat download directory, just put input files in that directory.
 If you're using <a href=hier_dir.php>hierarchical upload/download directories</a>,
-you must place each input file in the appropriate directory;
+you must put each input file in the appropriate directory;
 the directory is determined by the file's name.
 To find this directory, call the C++ function
 <pre>
 dir_hier_path(
+    const char* filename,
+    const char* root,       // root of download directory
+    int fanout,             // from config.xml
+    bool new_hash,          // use true here
+    char* result            // path of file in hierarchy
+);
 </pre>
 If you're using scripts, you can invoke the program
 <pre>
+dir_hier_path filename
 </pre>
+It prints the full pathname.
+Run this in the project's root directory.
 
 
 <h2>Creating workunit records</h2>
