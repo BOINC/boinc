@@ -27,8 +27,9 @@
 #include <cctype>
 #include <cstring>
 #include <cstdarg>
-#include <string>
 #include <algorithm>
+#include <string>
+
 using std::string;
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);

@@ -15,7 +15,7 @@ inline T min(const T &a, const T &b) {
 }
 #endif
 
-#ifndef HAVE_STD_MIN
+#ifndef HAVE_STD_MAX
 namespace std {
 #ifdef max
 #undef max
@@ -29,5 +29,26 @@ inline T max(const T &a, const T &b) {
 }
 #endif
 
+#ifndef HAVE_STD_TRANSFORM
+#include <algorithm>
+#include <iterator>
+
+namespace std {
+#ifdef transform
+#undef transform
 #endif
 
+
+template <typename i_iterator, typename o_iterator, typename OP>
+o_iterator transform(i_iterator first, i_iterator last, o_iterator res, OP op) {
+	for (;first != last; first++) {
+		*(res++)=op(*first);
+	}
+	return (res);
+}
+
+}
+
+#endif
+
+#endif
