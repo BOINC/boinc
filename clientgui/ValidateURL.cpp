@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/10/26 16:58:34  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/10/22 16:06:10  rwalton
 // *** empty log message ***
 //
@@ -106,7 +109,7 @@ bool CValidateURL::Validate(wxWindow *parent)
         m_validatorWindow->SetFocus();
 
         wxString buf;
-        buf.Printf(m_errormsg, control->GetValue());
+        buf.Printf(m_errormsg, control->GetValue().c_str());
 
         wxMessageBox(buf, _("Validation conflict"),
                      wxOK | wxICON_EXCLAMATION, parent);
