@@ -47,8 +47,6 @@ CMainWindow* g_myWnd = NULL;
 //              otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
-	TRACE(TEXT("starting\n"));
-
     HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
     if ((h==0)|| GetLastError() == ERROR_ALREADY_EXISTS) {
         TRACE(TEXT("couldn't create mutex; h=%x, e=%d\n"), h, GetLastError());
@@ -68,7 +66,6 @@ BOOL CMyApp::InitInstance()
         UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
         ((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
     }
-    TRACE(TEXT("returning from initInstance\n"));
     return TRUE;
 }
 
@@ -1195,7 +1192,6 @@ void CMainWindow::PostNcDestroy()
 // function:    handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-    TRACE(TEXT("message %d\n"), message);
     if(m_nShowMsg == message) {
         ShowWindow(SW_SHOW);
         SetForegroundWindow();
@@ -2161,9 +2157,7 @@ void CMainWindow::OnTimer(UINT uEventID)
         KillTimer(m_nGuiTimerID);
 
         // update state and gui
-        TRACE(TEXT("calling do_something\n"));
         while(gstate.do_something());
-        TRACE(TEXT("return from do_something\n"));
         NetCheck(); // check if network connection can be terminated
         if (gstate.user_run_request == USER_RUN_REQUEST_NEVER) {
             // user suspended - don't bother checking idle
