@@ -2,6 +2,7 @@
 
 require_once('../inc/db.inc');
 require_once('../inc/sanitize_html.inc');
+require_once('../inc/time.inc');
 
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
@@ -517,6 +518,23 @@ function show_post2($post, $n) {
             $content
         </td>
         </tr>
+    ";
+}
+
+function show_forum_summary($forum) {
+    $x = time_diff_str($forum->timestamp, time());
+    echo "
+        <tr class=row1 style=\"font-size:8pt; text-align:right\">
+        <td class=indent style=\"text-align:left\">
+            <span style=\"font-size:10pt; font-weight:bold\">
+            <a href=\"forum.php?id=", $forum->id, "\">", $forum->title,
+            "</a></span>
+            <br>", $forum->description, "
+        </td>
+        <td>", $forum->threads, "</td>
+        <td>", $forum->posts, "</td>
+        <td>", $x, "</td>
+    </tr>
     ";
 }
 

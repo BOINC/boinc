@@ -517,7 +517,6 @@ void core_versions() {
     ZFILE f("core_versions", false);
     f.open("core_versions.xml");
     if (!f) return;
-    fprintf(f, "<core_versions>\n");
 
     DB_PLATFORM platform;
     while (!platform.enumerate("order by name")) {
@@ -544,7 +543,6 @@ void core_versions() {
             );
         }
     }
-    fprintf(f, "</core_versions>\n");
     f.close();
 }
 

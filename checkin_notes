@@ -12501,9 +12501,33 @@ Rom    May 22 2004
     win_build/
         boinc_gui.vcproj
 
-Rom    May 3 2004
+Rom    May 23 2004
     - Add new report to OPs pages to show failures by host
 
     html/ops/
         failure_result_summary_by_host.php
         index.php
+
+David  May 23 2004
+    - web: activating an account (un-munging the email address)
+        can fail if there's already an account with that email address.
+        Print an explanatory message in this case.
+    - web: moved forum-display code to separate file/functions
+        (forum_show.inc) so can selectively show forums
+        Renamed "$n" to "$thread_per_page" (come on, folks)
+    - remove extra tags in core_version XML dump file
+
+    html/
+        forum/
+            forum.php
+            forum_show.inc (new)
+            sample_index.php (renamed from index.php)
+        inc/
+            forum.inc
+        user/
+            download.php
+            download_network.php
+            login_action.php
+            sample_index.php (renamed from index.php)
+    sched/
+        db_dump.C

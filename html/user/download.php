@@ -27,7 +27,7 @@ require_once("../inc/download.inc");
     echo "
         <p>
         Instructions for installing and running BOINC are
-        <a href=http://boinc.berkeley.edu/client.php>here</a>.
+        <a href=http://boinc.berkeley.edu/participate.php>here</a>.
         <p>
         If your computer is not one of the above types,
         you can

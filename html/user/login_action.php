@@ -23,7 +23,21 @@
         page_tail();
     } else {
         if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
-            mysql_query("update user set email_addr='$email' where id=$user->id");
+            $retval = mysql_query("update user set email_addr='$email' where id=$user->id");
+            $n = mysql_affected_rows();
+            if ($n <= 0) {
+                page_head("Account already exists");
+                echo "
+                    We can't activate your account because
+                    an account with the same email address
+                    has already been activated.
+                    To get the ID of this account,
+                    <a href=get_passwd.php>click here</a>.
+                ";
+                page_tail();
+                exit();
+            }
+
         }
         $_SESSION["authenticator"] = $authenticator;
         $next_url = $_POST["next_url"];

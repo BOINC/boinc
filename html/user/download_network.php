@@ -15,7 +15,7 @@ BOINC_download_network_print_download_links();
 echo "
     <p>
     Instructions for installing and running BOINC are
-    <a href=http://boinc.berkeley.edu/client.php>here</a>.
+    <a href=http://boinc.berkeley.edu/participate.php>here</a>.
     <p>
     We do not provide instructions for installing the above applications.
     However, the author may have provided some help on installing or
