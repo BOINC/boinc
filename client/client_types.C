@@ -626,8 +626,14 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         "    <name>%s</name>\n"
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n",
-		project->master_url, name, nbytes, max_nbytes
+        "    <status>%d</status>\n",
+		project->master_url, name, nbytes, max_nbytes, status
     );
+    if (generated_locally) out.printf("    <generated_locally/>\n");
+    if (uploaded) out.printf("    <uploaded/>\n");
+    if (upload_when_present) out.printf("    <upload_when_present/>\n");
+    if (sticky) out.printf("    <sticky/>\n");
+
     if (pers_file_xfer) {
         pers_file_xfer->write(out);
     }

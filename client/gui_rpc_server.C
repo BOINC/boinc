@@ -409,56 +409,56 @@ int GUI_RPC_CONN::handle_rpc() {
 
     if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
-    } else if (match_tag(request_msg, "<get_results>")) {
+    } else if (match_tag(request_msg, "<get_results")) {
         gstate.write_tasks_gui(mf);
-    } else if (match_tag(request_msg, "<get_file_transfers>")) {
+    } else if (match_tag(request_msg, "<get_file_transfers")) {
         gstate.write_file_transfers_gui(mf);
-    } else if (match_tag(request_msg, "<get_project_status/>")) {
+    } else if (match_tag(request_msg, "<get_project_status")) {
         handle_get_project_status(mf);
-    } else if (match_tag(request_msg, "<get_disk_usage>")) {
+    } else if (match_tag(request_msg, "<get_disk_usage")) {
         handle_get_disk_usage(mf);
-    } else if (match_tag(request_msg, "<result_show_graphics>")) {
+    } else if (match_tag(request_msg, "<result_show_graphics")) {
         handle_result_show_graphics(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_reset>")) {
+    } else if (match_tag(request_msg, "<project_reset")) {
         handle_project_op(request_msg, mf, "reset");
-    } else if (match_tag(request_msg, "<project_attach>")) {
+    } else if (match_tag(request_msg, "<project_attach")) {
         handle_project_attach(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_detach>")) {
+    } else if (match_tag(request_msg, "<project_detach")) {
         handle_project_op(request_msg, mf, "detach");
-    } else if (match_tag(request_msg, "<project_update>")) {
+    } else if (match_tag(request_msg, "<project_update")) {
         handle_project_op(request_msg, mf, "update");
-    } else if (match_tag(request_msg, "<project_suspend>")) {
+    } else if (match_tag(request_msg, "<project_suspend")) {
         handle_project_op(request_msg, mf, "suspend");
-    } else if (match_tag(request_msg, "<project_resume>")) {
+    } else if (match_tag(request_msg, "<project_resume")) {
         handle_project_op(request_msg, mf, "resume");
-    } else if (match_tag(request_msg, "<set_run_mode>")) {
+    } else if (match_tag(request_msg, "<set_run_mode")) {
         handle_set_run_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_run_mode")) {
         handle_get_run_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<set_network_mode>")) {
+    } else if (match_tag(request_msg, "<set_network_mode")) {
         handle_set_network_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_network_mode>")) {
+    } else if (match_tag(request_msg, "<get_network_mode")) {
         handle_get_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<run_benchmarks")) {
         handle_run_benchmarks(request_msg, mf);
-    } else if (match_tag(request_msg, "<set_proxy_settings>")) {
+    } else if (match_tag(request_msg, "<set_proxy_settings")) {
         handle_set_proxy_settings(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_proxy_settings>")) {
+    } else if (match_tag(request_msg, "<get_proxy_settings")) {
         handle_get_proxy_settings(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_messages>")) {
+    } else if (match_tag(request_msg, "<get_messages")) {
         handle_get_messages(request_msg, mf);
-    } else if (match_tag(request_msg, "<retry_file_transfer>")) {
+    } else if (match_tag(request_msg, "<retry_file_transfer")) {
         handle_file_transfer_op(request_msg, mf, "retry");
-    } else if (match_tag(request_msg, "<abort_file_transfer>")) {
+    } else if (match_tag(request_msg, "<abort_file_transfer")) {
         handle_file_transfer_op(request_msg, mf, "abort");
-    } else if (match_tag(request_msg, "<abort_result>")) {
+    } else if (match_tag(request_msg, "<abort_result")) {
         handle_result_op(request_msg, mf, "abort");
-    } else if (match_tag(request_msg, "<suspent_result>")) {
+    } else if (match_tag(request_msg, "<suspent_result")) {
         handle_result_op(request_msg, mf, "suspend");
-    } else if (match_tag(request_msg, "<resume_result>")) {
+    } else if (match_tag(request_msg, "<resume_result")) {
         handle_result_op(request_msg, mf, "resume");
     } else {
-        mf.printf("<error>unrecognized op</error/>\n");
+        mf.printf("<error>unrecognized op</error>\n");
     }
 
     mf.printf("\003");
