@@ -318,9 +318,15 @@ function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeigh
         $destHeight = $origHeight;
     }
 
+if (1) {
+    // If you are using a modern PHP/GD installation that does 'truecolor' images, this is what's needed.
     $newImage = ImageCreateTrueColor($destWidth, $destHeight);
-
     ImageCopyResampled($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
+} else {
+    // If not, use this block.  The image quality is lower but it works using older PHP/GD versions.
+    $newImage = ImageCreate($destWidth, $destHeight);
+    ImageCopyResized($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
+}
 
     return $newImage;
 }
