@@ -221,6 +221,7 @@ create table result (
     app_version_num     integer     not null,
     appid               integer     not null,
     exit_status         integer     not null,
+    teamid              integer     not null,
     primary key (id)
 );
 

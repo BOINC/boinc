@@ -220,7 +220,8 @@ class Result(DatabaseObject):
                     'opaque',
                     'random',
                     'client_version_num',
-                    'appid'
+                    'appid',
+		    'teamid'
                     ])
 
 class Workseq(DatabaseObject):

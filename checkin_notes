@@ -9228,10 +9228,14 @@ David  Jan 15 2004
         handle_request.C
 
 Karl 2004-01-15
+    - fixed database schema for new 'teamid' field
     - misc. fixes
 
+   db/
+       schema.sql
     py/Boinc/
         Makefile.am
+	database.py
     lib/
         Makefile.am
         base64.C

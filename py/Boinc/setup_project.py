@@ -299,7 +299,7 @@ class Project:
         config = self.config.config
 
         config.db_user = options.user_name
-        config.db_name = db_name or config.user_name + '_' + self.short_name
+        config.db_name = db_name or options.user_name + '_' + self.short_name
         config.db_passwd = ''
         config.shmem_key = generate_shmem_key()
         config.output_level = 3
