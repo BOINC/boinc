@@ -389,9 +389,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 // arguments:	message: message string to display
 //				priority: string with priority of message
 // returns:		void
-// function:	if message is "high" priority, flashes the status icon, then
-//				adds to message edit control.
-void CMainWindow::MessageUser(char* szProject, char* szMessage, char* szPriority)
+// function:	if message is MSG_ERROR priority, flashes the status icon,
+//				then adds to message edit control.
+void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 {
 	if(!m_MessageListCtrl.GetSafeHwnd()) return;
 
@@ -406,7 +406,7 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, char* szPriority
 	m_MessageListCtrl.SetItemText(nNewPos, 2, szMessage);
 	
 	// set status icon to flash
-	if(!strcmp(szPriority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
+	if((szPriority == MSG_ERROR) && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
 		m_bMessage = true;
 	}
 }
@@ -1307,7 +1307,7 @@ void CMainWindow::OnCommandExit()
 		TermFn fn;
 		fn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
 		if(!fn) {
-			show_message(NULL, "Error in DLL \"boinc.dll\"", "low");
+			show_message(NULL, "Error in DLL \"boinc.dll\"", MSG_INFO);
 		} else {
 			fn();
 		}
@@ -1477,18 +1477,18 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// load dll and start idle detection
 	m_hIdleDll = LoadLibrary("boinc.dll");
 	if(!m_hIdleDll) {
-		show_message(NULL,"Can't load \"boinc.dll\", will not be able to determine idle time", "high");
+		show_message(NULL,"Can't load \"boinc.dll\", will not be able to determine idle time", MSG_ERROR);
 	} else {
 		typedef BOOL (CALLBACK* InitFn)();
 		InitFn fn;
 		fn = (InitFn)GetProcAddress(m_hIdleDll, "IdleTrackerInit");
 		if(!fn) {
-			show_message(NULL,"Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
+			show_message(NULL,"Error in DLL \"boinc.dll\", will not be able to determine idle time", MSG_INFO);
 			FreeLibrary(m_hIdleDll);
 			m_hIdleDll = NULL;
 		} else {
 			if(!fn()) {
-				show_message(NULL,"Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
+				show_message(NULL,"Error in DLL \"boinc.dll\", will not be able to determine idle time", MSG_INFO);
 				FreeLibrary(m_hIdleDll);
 				m_hIdleDll = NULL;
 			}

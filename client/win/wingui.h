@@ -42,7 +42,6 @@
 
 // functions
 
-void show_message(PROJECT *p, char* message, char* priority);
 int add_new_project();
 void GetByteString(double nbytes, CString* str);
 BOOL RequestNetConnect();

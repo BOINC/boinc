@@ -22,7 +22,7 @@
 #include "wingui.h"
 #include "wingui_mainwindow.h"
 
-void show_message(PROJECT* p, char* message, char* priority) {
+void show_message(PROJECT* p, char* message, int priority) {
 	char  proj_name[256];
 
 	if (p) {

@@ -87,7 +87,7 @@ class CMainWindow : public CWnd
 public:
 							CMainWindow ();
 	void					UpdateGUI(CLIENT_STATE*);
-	void					MessageUser(char*,char*,char*);
+	void					MessageUser(char*,char*,int);
     BOOL					IsSuspended();
     BOOL					RequestNetConnect();
 	UINT					m_nNetActivityMsg;		// ID of net activity message
