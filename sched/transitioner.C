@@ -361,7 +361,7 @@ bool do_pass() {
     // loop over WUs that are due to be checked
     //
     if (do_mod) {
-        sprintf(buf, "where transition_time<%d and (mod(id, %d)==%d) order by transition_time limit %d", (int)time(0), mod_n, mod_i, SELECT_LIMIT);
+        sprintf(buf, "where transition_time<%d and (mod(id, %d)=%d) order by transition_time limit %d", (int)time(0), mod_n, mod_i, SELECT_LIMIT);
     } else {
         sprintf(buf, "where transition_time<%d order by transition_time limit %d", (int)time(0), SELECT_LIMIT);
     }
