@@ -22,9 +22,9 @@ aclocal && automake && autoconf && autoheader
 ## want to run it, or may want to run with custom parameters.
 
 if [ "$1" = "-a" ]; then
-    ./configure --enable-maintainer-mode
+    ./configure -C --enable-maintainer-mode
 elif [ "$1" = "-c" ]; then
-    ./configure
+    ./configure -C
 else
     echo "Done, now run ./configure"
     echo " ./configure -C                         to enable caching"
