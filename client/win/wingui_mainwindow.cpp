@@ -109,6 +109,7 @@ CMainWindow::CMainWindow()
 	m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
 	m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
 	m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
+	m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
 }
 
 //////////
@@ -126,14 +127,10 @@ COLORREF CMainWindow::GetPieColor(int nPiece)
 	}
 	nPiece -= 2;
 	switch(nPiece % 4) {
-		case 0:
-			return RGB(0, 0, 255);
-		case 1:
-			return RGB(64, 0, 192);
-		case 2:
-			return RGB(128, 0, 128);
-		default:
-			return RGB(192, 0, 64);
+		case 0: return RGB(0, 0, 255);
+		case 1: return RGB(64, 0, 192);
+		case 2: return RGB(128, 0, 128);
+		default: return RGB(192, 0, 64);
 	}
 	return RGB(0, 0, 0);
 }
@@ -166,11 +163,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		}
 
 		// project
-		if(!strcmp(pr->project_name, "")) {
-			m_ProjectListCtrl.SetItemText(i, 0, pr->master_url);
-		} else {
-			m_ProjectListCtrl.SetItemText(i, 0, pr->project_name);
-		}
+		m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
 		m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
 
 		// account
@@ -908,7 +901,7 @@ void CMainWindow::PostNcDestroy()
 // function:	handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	unsigned long time_until_blank, blank_screen;
+	unsigned long time_until_blank, blank_screen, x;
 
 	if(m_nShowMsg == message) {
 		ShowWindow(SW_SHOW);
@@ -917,12 +910,19 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 	} else if(m_nNetActivityMsg == message) {
 		gstate.net_sleep(0);
 		return 0;
+	} else if(m_uEndSSMsg == message) {
+		gstate.ss_logic.stop_ss();
+		return 0;
 	} else if(m_uScreenSaverMsg == message) {
 		// Get the current screen blanking information
 		UtilGetRegKey(REG_BLANK_NAME, blank_screen);
 		UtilGetRegKey(REG_BLANK_TIME, time_until_blank);
-		time_until_blank *= 60;
-		gstate.active_tasks.start_screensaver(blank_screen, time_until_blank);
+		if (blank_screen) {
+			x = time(0) + time_until_blank*60;
+		} else {
+			x = 0;
+		}
+		gstate.ss_logic.start_ss(x);
 		return 0;
 	}
 
@@ -950,11 +950,7 @@ void CMainWindow::OnCommandSettingsQuit()
     int nResult = dlg.DoModal();
 	if(nResult == IDOK) {
 		CString str;
-		if(strcmp(gstate.projects[dlg.m_nSel]->project_name, "")) {
-			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->project_name);
-		} else {
-			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->master_url);
-		}
+		str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->get_project_name());
 		if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
 			gstate.quit_project(dlg.m_nSel);
 		}
@@ -1106,11 +1102,7 @@ void CMainWindow::OnCommandProjectQuit()
 
 	// confirm and quit
 	CString strBuf;
-	if(strcmp(gstate.projects[i]->project_name, "")) {
-		strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->project_name);
-	} else {
-		strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->master_url);
-	}
+	strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->get_project_name());
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
 		gstate.quit_project(i);
 	}
@@ -1127,7 +1119,7 @@ void CMainWindow::OnCommandWorkShowGraphics()
 	if(resToShow) {
 		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(resToShow);
 		if(at) {
-			at->gfx_mode(MODE_WINDOW);
+			at->app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, MODE_WINDOW);
 		}
 	}
 }
@@ -1272,7 +1264,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_bMessage = false;
 	m_bRequest = false;
 	m_nContextItem = -1;
-	m_pSSWnd = new CSSWindow(gstate.active_tasks.app_client_shm->shm);
+	m_pSSWnd = new CSSWindow();
 
 	// load menus
 	m_ContextMenu.LoadMenu(IDR_CONTEXT);
@@ -1651,4 +1643,12 @@ void CMainWindow::OnTimer(UINT uEventID)
 		// Start the timer again
 		m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
 	}
+}
+
+void create_curtain() {
+	g_myWnd->m_pSSWnd->ShowSSWindow(true);
+}
+
+void delete_curtain() {
+	g_myWnd->m_pSSWnd->ShowSSWindow(false);
 }

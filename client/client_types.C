@@ -243,6 +243,13 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(code_sign_key, p.code_sign_key);
 }
 
+char *PROJECT::get_project_name() {
+	if(!strcmp(project_name, ""))
+		return master_url;
+	else
+		return project_name;
+}
+
 int APP::parse(FILE* in) {
     char buf[256];
 

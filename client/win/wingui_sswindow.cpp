@@ -36,20 +36,16 @@ END_MESSAGE_MAP()
 // arguments:	void
 // returns:		void
 // function:	sets initial rect for window and other members
-CSSWindow::CSSWindow(char *ss_shm)
+CSSWindow::CSSWindow()
 {
 	// Use a 640x480 window randomly positioned at (0-49,0-49)
 	int nX = rand() % 50;
 	int nY = rand() % 50;
-	m_Rect.SetRect(0+nX,0+nY,640+nX,480+nY);
 	// Start off in no graphics mode
-	SetMode(MODE_HIDE_GRAPHICS);
+	ShowSSWindow(false);
 
 	m_hBOINCIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON));
 	m_bCleared = false;
-
-	boinc_screensaver_shm = new APP_CLIENT_SHM;
-	boinc_screensaver_shm->shm = ss_shm;
 }
 
 // CMainWindow::SetMode
@@ -57,72 +53,41 @@ CSSWindow::CSSWindow(char *ss_shm)
 // returns:		void
 // function:	destroys the current window and creates a new window
 //				in the new mode
-void CSSWindow::SetMode(int nMode)
+void CSSWindow::ShowSSWindow(bool show_win)
 {
 	RECT WindowRect = {0,0,0,0};
 
-	if(GetSafeHwnd()) {
-		if(m_nMode != MODE_FULLSCREEN)
-			GetWindowRect(&m_Rect);
-		DestroyWindow();
+	if (!show_win) {
+		// If there's a window, destroy it
+		if (GetSafeHwnd()) DestroyWindow();
+		// Make sure the cursor is visible again
+		while(ShowCursor(true) < 0);
+		return;
 	}
-	m_nMode = nMode;
+
+	m_bCleared = false;
 
 	CString strWndClass = AfxRegisterWndClass(0);
 	DWORD dwExStyle;
 	DWORD dwStyle;
 
-	if (nMode == MODE_FULLSCREEN || nMode == MODE_BLANKSCREEN) {
-		HDC screenDC=::GetDC(NULL);
-		WindowRect.left = WindowRect.top = 0;
-		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
-		WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
-		::ReleaseDC(NULL, screenDC);
-		dwExStyle=WS_EX_TOPMOST;
-		dwStyle=WS_POPUP;
-		while(ShowCursor(false) >= 0);
-	} else {
-		if(m_Rect.IsRectEmpty()) m_Rect.SetRect(CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT);
-		WindowRect = m_Rect;
-		dwExStyle=WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
-		dwStyle=WS_OVERLAPPEDWINDOW;
-		while(ShowCursor(true) < 0);
-	}
+	// Get the dimensions of the screen
+	HDC screenDC=::GetDC(NULL);
+	WindowRect.left = WindowRect.top = 0;
+	WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
+	WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
+	::ReleaseDC(NULL, screenDC);
+	dwExStyle=WS_EX_TOPMOST;
+	dwStyle=WS_POPUP;
+	// Hide the cursor
+	while(ShowCursor(false) >= 0);
 
 	CreateEx(dwExStyle, strWndClass, "DEFAULT BOINC Graphics",
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect,
 		NULL, 0, NULL);
 
-	if(nMode == MODE_HIDE_GRAPHICS) {
-		ShowWindow(SW_HIDE);
-	} else {
-		ShowWindow(SW_SHOW);
-		SetFocus();
-	}
-	//boinc_screensaver_shm->send_msg(xml_graphics_modes[nMode], APP_CORE_GFX_SEG);
-}
-
-//////////
-// CSSWindow::CheckAppMsg
-// arguments:	void
-// returns:		void
-// function:	polls application message queues to see if the currently shown
-//				window needs to be switched, or if an app has closed
-void CSSWindow::CheckMsgQueue()
-{
-	char msg_buf[SHM_SEG_SIZE];
-
-	if (boinc_screensaver_shm->get_msg(msg_buf,CORE_APP_GFX_SEG)) {
-		if (match_tag(msg_buf, xml_graphics_modes[MODE_HIDE_GRAPHICS])) {
-			SetMode(MODE_HIDE_GRAPHICS);
-		} else if (match_tag(msg_buf, xml_graphics_modes[MODE_WINDOW])) {
-			SetMode(MODE_WINDOW);
-		} else if (match_tag(msg_buf, xml_graphics_modes[MODE_FULLSCREEN])) {
-			SetMode(MODE_FULLSCREEN);
-		} else if (match_tag(msg_buf, xml_graphics_modes[MODE_BLANKSCREEN])) {
-			SetMode(MODE_BLANKSCREEN);
-		}
-	}
+	ShowWindow(SW_SHOW);
+	SetFocus();
 }
 
 // CMainWindow::DefWindowProc
@@ -140,15 +105,12 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANKSCREEN)
-				SetMode(MODE_HIDE_GRAPHICS);
+			gstate.ss_logic.stop_ss();
 			return 0;
 		case WM_MOUSEMOVE:
-			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANKSCREEN) {
-				GetCursorPos(&mousePos);
-				if(mousePos.x != m_MousePos.x && mousePos.y != m_MousePos.y)
-					SetMode(MODE_HIDE_GRAPHICS);
-			}
+			GetCursorPos(&mousePos);
+			if(mousePos.x != m_MousePos.x && mousePos.y != m_MousePos.y)
+				gstate.ss_logic.stop_ss();
 			return 0;
 	}
 
@@ -162,7 +124,7 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 // function:	hides the window
 void CSSWindow::OnClose()
 {
-	SetMode(MODE_HIDE_GRAPHICS);
+	ShowSSWindow(false);
 }
 
 //////////
@@ -179,8 +141,6 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 	GetCursorPos(&m_MousePos);
 	// Set up the timer for painting this window
 	m_uPaintTimerID = SetTimer(PAINT_TIMER, PAINT_WAIT, (TIMERPROC) NULL);
-	// Set up the timer for checking the status of app graphics
-	m_uAppTimerID = SetTimer(APP_TIMER, APP_WAIT, (TIMERPROC) NULL);
 
 	// Initial position is (0,0)
 	m_nPosX = m_nPosY = 0;
@@ -199,7 +159,6 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 void CSSWindow::OnDestroy()
 {
 	KillTimer(m_uPaintTimerID);
-	KillTimer(m_uAppTimerID);
 }
 
 //////////
@@ -217,9 +176,10 @@ void CSSWindow::OnPaint()
 	pdc = BeginPaint(&ps);
 	GetClientRect(&winRect);
 	pdc->FillSolidRect(&winRect, RGB(0,0,0));
+	m_bCleared = true;
 
 	// Draw the bouncing BOINC icon if we're not in blank screen mode
-	if ((m_nMode != MODE_HIDE_GRAPHICS) && (m_nMode != MODE_BLANKSCREEN)) {
+	if (gstate.ss_logic.do_boinc_logo_ss) {
 		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
 		m_nPosX += m_nDX;
 		m_nPosY += m_nDY;
@@ -241,15 +201,9 @@ void CSSWindow::OnPaint()
 // function:	redraw the window if needed
 void CSSWindow::OnTimer(UINT uEventID)
 {
-	// Check the apps for any new messages
-	if(uEventID == m_uAppTimerID) {
-		CheckMsgQueue();
-	}
-
 	// Paint our own window
 	if(uEventID == m_uPaintTimerID) {
-		if((m_nMode != MODE_BLANKSCREEN) || !m_bCleared) {
-			if(m_nMode == MODE_BLANKSCREEN) m_bCleared = true;
+		if(gstate.ss_logic.do_boinc_logo_ss || gstate.ss_logic.do_blank) {
 			Invalidate();
 			OnPaint();
 		}

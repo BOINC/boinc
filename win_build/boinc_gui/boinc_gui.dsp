@@ -206,6 +206,10 @@ SOURCE=..\..\Client\speed_stats.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\client\ss_logic.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Client\time_stats.C
 # End Source File
 # Begin Source File
@@ -351,6 +355,10 @@ SOURCE=..\..\lib\shmem.h
 # Begin Source File
 
 SOURCE=..\..\client\speed_stats.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\ss_logic.h
 # End Source File
 # Begin Source File
 

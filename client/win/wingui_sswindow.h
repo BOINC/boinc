@@ -40,17 +40,13 @@
 class CSSWindow : public CWnd
 {
 public:
-							CSSWindow(char*);
-	void					SetMode(int);
-	void					CheckMsgQueue();
+							CSSWindow();
+	void					ShowSSWindow(bool);
 
 private:
-	int						m_nMode;
 	CPoint					m_MousePos;
-	CRect					m_Rect;
 	bool					m_bCleared;
 
-	UINT					m_uAppTimerID;			// ID of current app timer	
 	UINT					m_uPaintTimerID;		// ID of current app timer	
 
 	CRect					m_AppRect;
@@ -59,7 +55,6 @@ private:
 	HICON					m_hBOINCIcon;
 	int						m_nPosX, m_nPosY;
 	int						m_nDX, m_nDY;
-    APP_CLIENT_SHM			*boinc_screensaver_shm;
 
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 

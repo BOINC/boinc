@@ -210,11 +210,7 @@ BOOL CQuitDialog::OnInitDialog()
 	CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST);
 	if(pListBox) {
 		for(int i = 0; i < gstate.projects.size(); i ++) {
-			if(!strcmp(gstate.projects[i]->project_name, "")) {
-				pListBox->AddString(gstate.projects[i]->master_url);
-			} else {
-				pListBox->AddString(gstate.projects[i]->project_name);
-			}
+			pListBox->AddString(gstate.projects[i]->get_project_name());
 		}
 		pListBox->SetFocus();
 	}

@@ -89,6 +89,7 @@ public:
     BOOL					IsSuspended();
     BOOL					RequestNetConnect();
 	UINT					m_nNetActivityMsg;		// ID of net activity message
+	CSSWindow*				m_pSSWnd;				// default graphics window
 
 protected:
 	CMenu					m_MainMenu;				// window's main menu
@@ -108,9 +109,9 @@ protected:
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	int						m_nContextItem;			// item selected for context menu
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	
-	CSSWindow*				m_pSSWnd;				// default graphics window
 	UINT					m_nShowMsg;				// ID of show window request message
 	UINT					m_uScreenSaverMsg;		// ID of screensaver message
+	UINT					m_uEndSSMsg;			// ID of end screensaver request message
 
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);

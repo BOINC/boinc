@@ -26,11 +26,7 @@ void show_message(PROJECT* p, char* message, int priority) {
 	char  proj_name[256];
 
 	if (p) {
-		if (strcmp(p->project_name, "")) {
-			safe_strncpy( proj_name, p->project_name, sizeof(proj_name) );
-		} else {
-			safe_strncpy( proj_name, p->master_url, sizeof(proj_name) );
-		}
+		safe_strncpy( proj_name, p->get_project_name(), sizeof(proj_name) );
 	} else {
 		safe_strncpy( proj_name, "BOINC", sizeof(proj_name) );
 	}

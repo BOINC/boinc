@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef _FILE_NAMES_
+#define _FILE_NAMES_
+
 #include "client_types.h"
 #include "prefs.h"
 
@@ -53,3 +56,5 @@ extern void escape_project_url(char *in, char* out);
 #define INI_FILE_NAME               "boinc.ini"
 #define LANGUAGE_FILE_NAME          "language.ini"
 #define LIST_STATE_FILE_NAME        "list.ini"
+
+#endif
