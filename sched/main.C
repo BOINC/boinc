@@ -28,6 +28,8 @@
 using namespace std;
 
 #include <unistd.h>
+#include <signal.h>
+#include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -95,6 +97,48 @@ int open_database() {
     return 0;
 }
 
+void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger); 
+
+// If the scheduler 'hangs', which it can do if a request is not fully processed
+// or some other process arises, then Apache will send a SIGTERM to the cgi.
+// This signal handler ensures that rather than dying silently, the cgi process
+// will leave behind some record in the log file.
+//
+void sigterm_handler(int signo) {
+   log_messages.printf(SCHED_MSG_LOG::CRITICAL, 
+       "BOINC scheduler (pid=%d) caught signal %d.  Exit(1)ing\n",
+       (int)getpid(), signo
+    );
+    fflush(NULL);
+    exit(1);
+    return;
+}
+
+void log_request_info(int& length) {
+    char *cl=getenv("CONTENT_LENGTH");
+    char *ri=getenv("REMOTE_ADDR");
+    char *rm=getenv("REQUEST_METHOD");
+    char *ct=getenv("CONTENT_TYPE");
+    char *ha=getenv("HTTP_ACCEPT");
+    char *hu=getenv("HTTP_USER_AGENT");
+
+    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "REQUEST_METHOD=%s "
+        "CONTENT_TYPE=%s "
+        "HTTP_ACCEPT=%s "
+        "HTTP_USER_AGENT=%s\n",
+        rm?rm:"" , ct?ct:"", ha?ha:"", hu?hu:""
+    );
+
+    if (!cl) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "CONTENT_LENGTH environment variable not set\n");
+    }
+    else {
+        length=atoi(cl);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]");
+    }
+}
+
 int main() {
     FILE* fin, *fout;
     int i, retval;
@@ -104,6 +148,12 @@ int main() {
     unsigned int counter=0;
     char* code_sign_key;
     bool project_stopped = false;
+    int length=-1;
+
+    // install a signal handler that catches SIGTERMS sent by Apache if the cgi
+    // times out.
+    //
+    signal(SIGTERM, sigterm_handler);
 
 #ifndef _USING_FCGI_
     char *stderr_buffer, buf[256];
@@ -235,8 +285,11 @@ int main() {
         send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
+    log_request_info(length);
     fprintf(stdout,"Content-type: text/plain\n\n");
+
     if (use_files) {
+        struct stat statbuf;
         // the code below is convoluted because,
         // instead of going from stdin to stdout directly,
         // we go via a pair of disk files
@@ -252,6 +305,14 @@ int main() {
         }
         copy_stream(stdin, fout);
         fclose(fout);
+        stat(req_path, &statbuf);
+        if (length>=0 && (statbuf.st_size != length)) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "Request length %d != CONTENT_LENGTH %d\n",
+                (int)statbuf.st_size, length
+            );
+        }
+
         fin = fopen(req_path, "r");
         if (!fin) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read request file\n");
@@ -273,8 +334,13 @@ int main() {
         }
         copy_stream(fin, stdout);
         fclose(fin);
-        //unlink(req_path);
-        //unlink(reply_path);
+#ifdef EINSTEIN_AT_HOME
+        if (getenv("CONTENT_LENGTH")) unlink(req_path);
+        if (getenv("CONTENT_LENGTH")) unlink(reply_path);
+#else
+        // unlink(req_path);
+        // unlink(reply_path);
+#endif
     } else {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }

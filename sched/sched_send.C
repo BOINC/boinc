@@ -178,14 +178,19 @@ static double estimate_wallclock_duration(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
     double running_frac;
-    running_frac = reply.host.active_frac * reply.host.on_frac;
+    if (reply.wreq.core_client_version<=419) {
+        running_frac = reply.host.on_frac;
+    }
+    else {
+        running_frac = reply.host.active_frac * reply.host.on_frac;
+    }
     if (running_frac < HOST_ACTIVE_FRAC_MIN) {
         running_frac = HOST_ACTIVE_FRAC_MIN;
     }
     if (running_frac > 1) running_frac = 1;
     double ecd = estimate_cpu_duration(wu, reply);
     double ewd = ecd/(running_frac*request.resource_share_fraction);
-#if 0
+#ifdef EINSTEIN_AT_HOME
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG, "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
         ecd, running_frac, request.resource_share_fraction, ewd
@@ -533,15 +538,13 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
         return false;
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
-    if (config.daily_result_quota) {
-        if (host.max_results_day == 0) {
-            host.max_results_day = config.daily_result_quota;
-        }
 
+    if (config.daily_result_quota) {
         // scale daily quota by #CPUs, up to a limit of 4
         //
         int ncpus = host.p_ncpus;
         if (ncpus > 4) ncpus = 4;
+        if (ncpus < 1) ncpus = 1;
         wreq.daily_result_quota = ncpus*host.max_results_day;
         if (host.nresults_today >= wreq.daily_result_quota) {
             wreq.daily_result_quota_exceeded = true;
@@ -903,11 +906,20 @@ int send_work(
         }
         if (reply.wreq.insufficient_speed) {
             char helpful[512];
-            sprintf(helpful,
-                "(won't finish in time) "
-                "Computer on %.1f%% of time, BOINC on %.1f%% of that, this project gets %.1f%% of that",
-                100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
-            );
+            if (reply.wreq.core_client_version>419) {
+                sprintf(helpful,
+                    "(won't finish in time) "
+                    "Computer on %.1f%% of time, BOINC on %.1f%% of that, this project gets %.1f%% of that",
+                    100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
+                );
+            }
+            else {
+                sprintf(helpful,
+                    "(won't finish in time) "
+                    "Computer available %.1f%% of time, this project gets %.1f%% of that",
+                    100.0*reply.host.on_frac, 100.0*sreq.resource_share_fraction
+                );
+            }
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
         }

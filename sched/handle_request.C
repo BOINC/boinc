@@ -99,6 +99,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             goto lookup_user_and_make_new_host;
         }
         reply.host = host;
+        log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "Request [HOST#%d] Database [HOST#%d] Request [RPC#%d] Database [RPC#%d]\n",
+                sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
+            );
 
         strlcpy(
             user.authenticator, sreq.authenticator,
@@ -513,7 +518,7 @@ int handle_results(
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
         srip->claimed_credit = rp->cpu_time * reply.host.credit_per_cpu_sec;
-#if 1
+#ifdef EINSTEIN_AT_HOME
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.credit_per_cpu_sec, srip->claimed_credit
         );
@@ -715,6 +720,41 @@ void warn_user_if_core_client_upgrade_scheduled(
     return;
 }
 
+#ifdef EINSTEIN_AT_HOME
+bool unacceptable_os(
+        SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+) {
+    log_messages.printf(
+        SCHED_MSG_LOG::NORMAL,
+        "OS version %s %s\n",
+        sreq.host.os_name, sreq.host.os_version
+    );
+
+    if (!strcmp(sreq.host.os_name, "Darwin") && 
+           (!strncmp(sreq.host.os_version, "5.", 2) || 
+            !strncmp(sreq.host.os_version, "6.", 2)
+           ) 
+        ) {
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL,
+            "Unacceptable OS %s %s\n",
+            sreq.host.os_name, sreq.host.os_version
+        );
+        USER_MESSAGE um("Project only supports MacOS Darwin versions 7.X and above",
+                        "low");
+        reply.insert_message(um);
+        reply.set_delay(3600*24);
+        return true;
+    }
+    return false;
+}
+#else
+bool unacceptable_os(
+        SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+) {
+    return false;
+}
+#endif // EINSTEIN_AT_HOME
 
 bool wrong_core_client_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
@@ -725,9 +765,7 @@ bool wrong_core_client_version(
         // TODO: check for user-agent not empty and not BOINC
         wrong_version = true;
         sprintf(msg,
-            "To participate in this project, "
-            "you must use major version %d of the BOINC core client. "
-            "Your core client is major version %d.",
+            "Need major version %d of the BOINC core client. You have %d.",
             BOINC_MAJOR_VERSION,
             sreq.core_client_major_version
         );
@@ -743,9 +781,7 @@ bool wrong_core_client_version(
         if (sreq.core_client_minor_version < minor) {
             wrong_version = true;
             sprintf(msg,
-                "To participate in this project, "
-                "you must use version %d.%02d or higher of the BOINC core client.  "
-                "Your core client is version %d.%02d.",
+                "Need version %d.%02d or higher of the BOINC core client. You have %d.%02d.",
                 major, minor,
                 sreq.core_client_major_version, sreq.core_client_minor_version
             );
@@ -760,6 +796,7 @@ bool wrong_core_client_version(
     if (wrong_version) {
         USER_MESSAGE um(msg, "low");
         reply.insert_message(um);
+        // IS THE FOLLOWING LINE CORRECT?  I DON'T UNDERSTAND IT.  Bruce
         reply.probable_user_browser = true;
         reply.set_delay(3600*24);
         return true;
@@ -852,7 +889,7 @@ void process_request(
 
     // if different major version of BOINC, just send a message
     //
-    if (wrong_core_client_version(sreq, reply)) {
+    if (wrong_core_client_version(sreq, reply) || unacceptable_os(sreq, reply)) {
         ok_to_send_work = false;
 
         // if no results, return without accessing DB
@@ -863,7 +900,7 @@ void process_request(
     } else {
         warn_user_if_core_client_upgrade_scheduled(sreq, reply);
     }
-  
+
     if (config.locality_scheduling) {
         have_no_work = false;
     } else {
@@ -926,6 +963,13 @@ void process_request(
     reply.host.rpc_time = time(0);
     rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
+
+    if (config.daily_result_quota) {
+        if (reply.host.max_results_day <= 0 || reply.host.max_results_day > config.daily_result_quota) {
+            reply.host.max_results_day = config.daily_result_quota;
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "[HOST#%d] Initializing max_results_day to %d\n", reply.host.id, config.daily_result_quota);
+        }
+    }
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
         log_messages.printf(SCHED_MSG_LOG::DEBUG, "[HOST#%d] Resetting nresults_today\n", reply.host.id);
@@ -1139,19 +1183,38 @@ void handle_request(
         );
         process_request(sreq, sreply, ss, code_sign_key);
     } else {
+        // BOINC scheduler requests use method POST.  So method GET
+        // means that someone is trying a browser.
+        char *rm=getenv("REQUEST_METHOD");
+        if (rm && !strcmp(rm, "GET")) sreply.probable_user_browser=true;
+        
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
-            "Incomplete request received from IP %s, auth %s, platform %s, version %d.%02d\n",
+            "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%02d\n",
+            sreply.probable_user_browser?"(probably a browser) ":"",
             get_remote_addr(), sreq.authenticator, sreq.platform_name,
             sreq.core_client_major_version, sreq.core_client_minor_version
         );
+        
         USER_MESSAGE um("Incomplete request received.", "low");
         sreply.insert_message(um);
         sreply.nucleus_only = true;
     }
+
+#ifdef EINSTEIN_AT_HOME
+    // for testing
+    if (sreply.user.id==3) {
+        USER_MESSAGE um("THIS IS A SHORT MESSAGE. \n AND ANOTHER", "high");
+        // USER_MESSAGE um("THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE. \n"
+	//		"THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "low");
+        sreply.insert_message(um);
+        // USER_MESSAGE um2("THIS IS A VERY LONG TEST MESSAGE2. THIS IS A VERY LONG TEST MESSAGE. \n"
+	//		"THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "high");
+        // sreply.insert_message(um2);
+    }
+#endif
     
     // if we got no work, and we have no file space, delete some files
-	//
     if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
         // try to delete a file to make more space.
         // Also give some hints to the user about what's going wrong
@@ -1160,7 +1223,17 @@ void handle_request(
         delete_file_from_host(sreq, sreply);
     }
     
-#if 1
+    // write all messages to log file
+    for (unsigned int i=0; i<sreply.messages.size(); i++) {
+        USER_MESSAGE um = sreply.messages[i];
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
+        );
+    }
+
+    debug_sched(sreq, sreply, "../debug_sched");
+
+#ifdef EINSTEIN_AT_HOME
     // You can call debug_sched() for whatever situation is of
     // interest to you.  It won't do anything unless you create
     // (touch) the file 'debug_sched' in the project root directory.

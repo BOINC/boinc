@@ -26028,3 +26028,34 @@ David  19 Mar 2005
         license_1.0.txt (removed)
     win_build/installerv2/redist/0409/
         eula.rtf
+
+Bruce  19 Mar 2005
+    - Overdue checkins on a bunch of minor scheduler code.  Some that is
+      E@H specific is now included (but protected by
+      #ifdef EINSTEIN_AT_HOME
+      to make it simpler for me to maintain consistency with BOINC cvs.
+    - Added project-specific unacceptable_os() function for rejecting hosts.
+    - Transitioner and scheduler now initalize host.max_results_day correctly
+      in database under all circumstances.
+    - Browser requests are now correctly identifed (REQUEST_METHO=="GET") and
+      properly redirected.  This was broken. David, please see comment near
+      one of the probable_user_browser=true in handle_request.C.  I think
+      something is wrong here (or I am missing the point!).
+    - More info about requests is logged
+    - If the scheduler hangs (incoming request incomplete) it will normally be
+      killed by Apache after a timeout.  But this happens silently.  So I now
+      install a signal handler and catch this SIGTERM.  In this case an
+      error message is logged and all open files are flushed before exit(1)ing.
+    - If IO is passed through files, check that request length and content length
+      agree and log a message if they do NOT.
+    - active_frac not correctly reported by 4.19 and earlier core clients.
+      Adjust for this in estimating wallclock execution times.
+    - Added a small block into validator code to attach a debugger.
+
+    sched/
+        handle_request.C
+        sched_send.C
+        main.C
+        transitioner.C
+        validator.C
+

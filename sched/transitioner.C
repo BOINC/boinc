@@ -70,6 +70,9 @@ int penalize_host(int hostid, double delay_bound) {
     int retval = host.lookup_id(hostid);
     if (retval) return retval;
     compute_avg_turnaround(host, delay_bound);
+    if (host.max_results_day <= 0 || host.max_results_day > config.daily_result_quota) {
+        host.max_results_day = config.daily_result_quota;
+    }
     host.max_results_day -= 1;
     if (host.max_results_day < 1) {
         host.max_results_day = 1;
