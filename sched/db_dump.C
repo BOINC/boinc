@@ -26,7 +26,7 @@
 // NOTE: the goal is to make the full DB available (view *_id files)
 // to those who want it,
 // while allowing those who want to see only a particular row,
-// or the highest-ranked rows, to get this info with limited transfer
+// or the highest-ranked rows, to get this info with a small download
 //
 //
 // tables.xml

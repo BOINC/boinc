@@ -157,8 +157,6 @@ int main(int argc, char **argv) {
     retval = boinc_init(standalone);
     if (retval) exit(retval);
 
-    boinc_mask();       // mask clock signal since we're about to do I/O
-
 #ifdef BOINC_APP_GRAPHICS
     strcpy(display_buf, "(none)\0");
     retval = boinc_init_opengl();
@@ -238,9 +236,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        boinc_unmask();
         bool flag = boinc_time_to_checkpoint();
-        boinc_mask();
         if (flag) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
