@@ -6,7 +6,7 @@
 
     db_init();
     $user = get_logged_in_user();
-    $hostid = $HTTP_GET_VARS["hostid"];
+    $hostid = $_GET["hostid"];
     $result = mysql_query("select * from host where id = $hostid");
     $host = mysql_fetch_object($result);
     mysql_free_result($result);

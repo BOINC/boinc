@@ -7,17 +7,14 @@
     db_init();
     $user = get_logged_in_user();
 
-    $query = sprintf(
-        "select * from team where id = %d",
-        $HTTP_POST_VARS["id"]
-    );
-    $result = mysql_query($query);
+    $teamid = $_POST["teamid"];
+    $result = mysql_query("select * from team where id = $teamid");
     $team = mysql_fetch_object($result);
-    $team_name = $team->name;
     mysql_free_result($result);
+    require_team($team);
     if ($user->teamid == $team->id) {
         page_head("Unable to add $user->name");
-        echo "$user->name is already a member of $team_name.";
+        echo "You are already a member of $team->name.";
     } else {
         if ($user->teamid != 0) {
             $query_team_other = sprintf(
@@ -50,11 +47,11 @@
         );
         $result_team_table = mysql_query($query_team_table);
         if ($result_user_table && $result_team_table) {
-            page_head("Added to $team_name");
-            echo "<h2>Added to team</h2>";
-            echo "You have been added to <a href=team_display.php?id=$team->id>$team_name</a>.<br>";
-            echo "If you were previously a part of a team you are no longer a member of it. ";
-            echo "You may only be part of one team at a time.<p>";
+            page_head("Joined $team_name");
+            echo "<h2>Joined team</h2>";
+            echo "You have joined
+                <a href=team_display.php?teamid=$team->id>$team_name</a>.
+            ";
         } else {
             page_head("Error");
             echo "Couldn't join team - please try later.\n";

@@ -7,7 +7,7 @@
     db_init();
     init_session();
 
-    $team_name = $HTTP_POST_VARS["team_name"];
+    $team_name = $_POST["team_name"];
     $words = preg_split("/[\s,]+/", $team_name);
     $length = count($words);
     $name_lc = strtolower($team_name);
@@ -30,7 +30,7 @@
                 break;
             }
             echo "<li>";
-            echo "<a href=team_display.php?id=$team_possible->id>";
+            echo "<a href=team_display.php?teamid=$team_possible->id>";
             echo "$team_possible->name</a></li>";
             $total++;
         }

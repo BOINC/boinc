@@ -8,7 +8,7 @@
 
     $query = sprintf(
         "select * from team where id = %d",
-        $HTTP_POST_VARS["id"]
+        $_POST["id"]
     );
     $result = mysql_query($query);
     $team = mysql_fetch_object($result);
@@ -32,7 +32,7 @@
             $team_name = $team->name;
             page_head("Quit $team_name");
             echo "<h2>Removed from team</h2>";
-            echo "You have been removed from <a href=team_display.php?id=$team->id>$team_name</a>";
+            echo "You have been removed from <a href=team_display.php?teamid=$team->id>$team_name</a>";
         } else {
             page_head("Error");
             echo "Couldn't quit team - please try later.\n";

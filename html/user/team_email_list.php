@@ -7,12 +7,9 @@ require_once("db.inc");
     db_init();
 
     $user = get_logged_in_user();
+    $teamid = $_GET["teamid"];
 
-    $query = sprintf(
-        "select * from team where id=%d",
-        $HTTP_GET_VARS["id"]
-    );
-    $result = mysql_query($query);
+    $result = mysql_query("select * from team where id=$teamid");
     if ($result) {
         $team = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -21,25 +18,16 @@ require_once("db.inc");
     require_founder_login($user, $team);
 
     page_head("$team->name Email List");
-    echo "<p>";
-    echo "<table border=0 width=580>";
-    echo "<tr bgcolor=#708090><td colspan=2><font size=+1>";
-    echo "<b>Team Email List:   </b></font></td></tr>";
-    echo "<tr><td width=25% valign=top align=left><b>Name:</b></td>";
-    echo "<td><b>Email Address:</b></td></tr>\n";
-    $query = sprintf(
-        "select * from user where teamid=%d",
-        $team->id
-    );
-    $result = mysql_query($query);
+    start_table();
+    row1("Member list of $team->name");
+    row2_plain("<b>Name</b>", "<b>Email address</b>");
+    $result = mysql_query("select * from user where teamid=$team->id");
     if ($result) {
-        for ($i = 0; $i < $team->nusers; $i++) {
-            $user_team = mysql_fetch_object($result);
-            echo "<tr><td>$user_team->name</td>";
-            echo "<td><a href=mailto:$user_team->email_addr>$user_team->email_addr</a></td></tr>";
+        while($user = mysql_fetch_object($result)) {
+            row2_plain($user->name, $user->email_addr);
         } 
     }
-    echo "</table>";
+    end_table();
 
     page_tail();
 

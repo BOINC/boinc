@@ -5,7 +5,7 @@ require_once("team.inc");
 
 db_init();
 $user = get_logged_in_user();
-$id = $HTTP_GET_VARS["id"];
+$id = $_GET["id"];
 
     $query = sprintf(
         "select * from team where id = %d",

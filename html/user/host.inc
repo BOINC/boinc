@@ -83,6 +83,7 @@ function show_host($host, $private) {
         row2("% of time host is connected", 100*$host->connected_frac." %");
         row2("% of time user is active", 100*$host->active_frac." %");
         row2("Location", location_form($host));
+        row2("Edit", "<a href=host_edit_form.php?hostid=$host->id>Merge this host</a>");
     }
     echo "</table>\n";
 
@@ -134,6 +135,16 @@ function show_host_row($host, $i, $private) {
         <td>$host->os_name $host->os_version</td>
         </tr>
     ";
+}
+
+// return true iff it's possible that the hosts are actually
+// the same machine
+//
+function hosts_compatible($host1, $host2) {
+    if ($host2->p_vendor != $host1->p_vendor) return false;
+    if ($host2->p_model != $host1->p_model) return false;
+    if ($host2->os_name != $host1->os_name) return false;
+    return true;
 }
 
 ?>

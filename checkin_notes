@@ -3911,3 +3911,11 @@ David  Mar 19 2003
         test.inc
     tools/
         add.C
+
+David  Mar 20 2003
+    - added web interface for "merging" hosts
+    - cleaned up team-related PHP code
+
+    html_user/
+        edit_host_action.php
+        edit_host_form.php

@@ -5,22 +5,18 @@ require_once("team.inc");
 require_once("db.inc");
 
 db_init();
-init_session();
+$user = get_logged_in_user(false);
 
-$query = sprintf(
-    "select * from team where id=%d",
-    $HTTP_GET_VARS["id"]
-);
-$result = mysql_query($query);
+$teamid = $_GET["teamid"];
+$result = mysql_query("select * from team where id=$teamid");
 if ($result) {
     $team = mysql_fetch_object($result);
 }
 if (!$team) {
-    page_head("Unable to display team page");
-    echo ("We are unable to display that team's page");
-    page_tail();
-} else {
-    display_team_page($team);
+    echo ("Can't find team in database");
+    exit();
 }
+
+display_team_page($team, $user);
 
 ?>

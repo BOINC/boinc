@@ -40,10 +40,12 @@ function get_user_from_auth($auth) {
     return NULL;
 }
 
-function get_logged_in_user() {
+function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = init_session();
     $user = get_user_from_auth($authenticator);
-    require_login($user);
+    if ($must_be_logged_in) {
+        require_login($user);
+    }
     return $user;
 }
 
@@ -111,6 +113,10 @@ function row2($x, $y) {
 }
 function row2_init($x, $y) {
     echo "<tr><td bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y\n";
+}
+
+function row2_plain($x, $y) {
+    echo "<tr><td>$x</td><td>$y</td></tr>\n";
 }
 
 function row3($x, $y, $z) {

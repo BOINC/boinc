@@ -5,7 +5,7 @@ require_once("team.inc");
 
 db_init();
 $user = get_logged_in_user();
-$id = $HTTP_GET_VARS["id"];
+$id = $_GET["id"];
 
     $query = "select * from team where id = $id";
     $result = mysql_query($query);
@@ -16,19 +16,20 @@ $id = $HTTP_GET_VARS["id"];
     $team_name = $team->name;
     $team_id = $team->id;
     page_head("Join $team_name");
-    echo "<h2>Join $team_name</h2>";
-    echo "<p><b>Please note before joining or switching to a new team:</b>";
-    echo "<ul>";
-    echo "<li> Your credit will be transferred from your old team (if any)";
-    echo " to the new team.";
-    echo "<li> Joining a team does not affect your account's credit.";
-    echo "<li> Joining a team gives your team's founder access to your email address.";
-    echo "</ul>";
-    echo "<hr>";
-    echo "<form method=post action=team_join_action.php>";
-    echo "<input type=hidden name=id value=$team_id>";
-    echo "<input type=submit value=\"Join Team\">";
-    echo "</form>";
+    echo "<h2>Join $team_name</h2>
+        <p><b>Please note before joining or switching to a team:</b>
+        <ul>
+        <li> Your credit will be transferred from your old team (if any)
+         to the new team.
+        <li> Joining a team does not affect your account's credit.
+        <li> Joining a team gives its founder access to your email address.
+        </ul>
+        <hr>
+        <form method=post action=team_join_action.php>
+        <input type=hidden name=teamid value=$team_id>
+        <input type=submit value='Join team'>
+        </form>
+    ";
     page_tail();
 
 ?>

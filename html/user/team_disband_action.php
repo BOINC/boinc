@@ -9,7 +9,7 @@
 
     $query = sprintf(
         "select * from team where id = %d",
-        $HTTP_POST_VARS["id"]
+        $_POST["id"]
     );
     $result = mysql_query($query);
     if ($result) {

@@ -5,7 +5,7 @@
 
     init_session();
     db_init();
-    $id = $HTTP_GET_VARS["userid"];
+    $id = $_GET["userid"];
 
     $result = mysql_query("select * from user where id = $id");
     $user = mysql_fetch_object($result);
@@ -14,7 +14,7 @@
     if ($user) {
       	page_head("Account data for $user->name");
         start_table();
-    	show_user_stats($user, false);
+    	show_user_summary_public($user);
         end_table();
         page_tail();
     } else {

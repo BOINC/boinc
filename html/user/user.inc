@@ -1,37 +1,24 @@
 <?php
 
-function show_user_stats($user, $private) {
-    if ($private) {
-        row1("Your account statistics");
-    } else {
-        row1("Account statistics for $user->name");
-    }
-    $row = sprintf("%s User since", $project);
-    row2($row, time_str($user->create_time));
+// show dynamic user info (private)
+//
+function show_user_stats_private($user) {
+    row1("Your account statistics");
+    row2(PROJECT." member since", time_str($user->create_time));
     row2("Total credit", $user->total_credit);
     row2("Recent average credit", $user->expavg_credit);
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
-        row2("Team", "<a href=team_display.php?id=$team->id>$team->name</a>");
+        row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a>");
     } else {
         row2("Team", "None");
     }
-    row2("Country", $user->country);
-    if (strlen($user->url)) {
-        row2("URL", "<a href=http://$user->url>http://$user->url</a>");
-    }
-    if ($private) {
-        row2("Computers", "<a href=hosts_user.php>View</a>");
-    } else {
-        if ($user->show_hosts) {
-            row2("Computers", "<a href=hosts_user.php?userid=$user->id>View</a>");
-        } else {
-            row2("Computers", "hidden");
-        }
-    }
+    row2("Computers", "<a href=hosts_user.php>View</a>");
 }
 
+// show static user info (private)
+//
 function show_user_profile_private($user) {
     if (is_valid_email_addr($user->email_addr)) {
         $email_text = $user->email_addr;
@@ -48,8 +35,33 @@ function show_user_profile_private($user) {
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
-    row2("General preferences", "<a href=prefs.php?subset=global>View</a>");
-    row2(PROJECT." preferences", "<a href=prefs.php?subset=project>View</a>");
+    row1("Your preferences");
+    row2("General", "<a href=prefs.php?subset=global>View</a>");
+    row2(PROJECT, "<a href=prefs.php?subset=project>View</a>");
+}
+
+// show summary of dynamic and static info (public)
+function show_user_summary_public($user) {
+    row1("Account data for $user->name");
+    row2(PROJECT." member since", time_str($user->create_time));
+    row2("Country", $user->country);
+    if (strlen($user->url)) {
+        row2("URL", "<a href=http://$user->url>http://$user->url</a>");
+    }
+    row2("Total credit", $user->total_credit);
+    row2("Recent average credit", $user->expavg_credit);
+    if ($user->teamid) {
+        $result = mysql_query("select * from team where id = $user->teamid");
+        $team = mysql_fetch_object($result);
+        row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a>");
+    } else {
+        row2("Team", "None");
+    }
+    if ($user->show_hosts) {
+        row2("Computers", "<a href=hosts_user.php?userid=$user->id>View</a>");
+    } else {
+        row2("Computers", "hidden");
+    }
 }
 
 // show a summary of the user.
@@ -59,7 +71,7 @@ function show_user_profile_private($user) {
 function show_user_page_private($user) {
     start_table();
     show_user_profile_private($user);
-    show_user_stats($user, true);
+    show_user_stats_private($user);
     end_table();
 
 }

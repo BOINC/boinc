@@ -2,14 +2,13 @@
 
 // This is a sample project file.  Replace it with your own.
 
-define("PROJECT", "Astropulse");
-define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
+define("PROJECT", "TestBOINC@home");
+define("MASTER_URL", "http://boinc.berkeley.edu/");
 
 function project_intro() {
     echo"
-The Astropulse project, based at UC Berkeley,
-uses the idle time of thousands of computers to
-analyze radio telescope signals.
+This is a test project of
+the Berkeley Open Infrastructure for Network Computing (BOINC)
 ";
 }
 
