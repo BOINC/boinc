@@ -20,23 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.10  2004/10/05 02:55:25  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/09/21 01:26:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/27 06:17:57  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:08  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "BOINCGUIApp.h"

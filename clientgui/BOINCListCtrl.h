@@ -20,20 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.4  2004/10/05 02:55:25  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/24 22:18:55  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/24 02:01:47  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:24  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _BOINCLISTCTRL_H_
 #define _BOINCLISTCTRL_H_

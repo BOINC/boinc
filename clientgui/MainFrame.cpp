@@ -20,53 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.23  2004/10/05 02:55:25  rwalton
-// *** empty log message ***
-//
-// Revision 1.22  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.21  2004/09/24 02:01:48  rwalton
-// *** empty log message ***
-//
-// Revision 1.20  2004/09/22 21:53:03  rwalton
-// *** empty log message ***
-//
-// Revision 1.19  2004/09/21 01:26:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.18  2004/08/11 23:52:12  rwalton
-// *** empty log message ***
-//
-// Revision 1.17  2004/07/13 05:56:01  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.16  2004/05/29 06:58:47  rwalton
-// *** empty log message ***
-//
-// Revision 1.15  2004/05/29 06:39:27  rwalton
-// *** empty log message ***
-//
-// Revision 1.14  2004/05/29 00:09:40  rwalton
-// *** empty log message ***
-//
-// Revision 1.13  2004/05/27 06:17:57  rwalton
-// *** empty log message ***
-//
-// Revision 1.12  2004/05/24 23:50:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/05/22 01:36:36  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "MainFrame.h"

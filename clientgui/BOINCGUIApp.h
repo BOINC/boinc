@@ -20,14 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.6  2004/05/21 06:27:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.5  2004/05/17 22:15:08  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _BOINCGUIAPP_H_
 #define _BOINCGUIAPP_H_

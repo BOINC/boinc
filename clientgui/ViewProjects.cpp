@@ -20,35 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.9  2004/10/05 02:55:26  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/09/29 22:20:43  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/09/28 01:19:46  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.5  2004/09/24 22:18:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/09/24 02:01:51  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/23 08:28:50  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/22 21:53:03  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:25  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ViewProjects.h"
@@ -532,10 +503,10 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
         {
             if ( 0 == m_pListPane->GetSelectedItemCount() )
             {
-                if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
+                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
                 {
                     SetCurrentQuickTip(
-                        wxT(LINK_DEFAULT), 
+                        LINK_DEFAULT, 
                         _("Please select a project to see additional options.")
                     );
 
@@ -609,15 +580,15 @@ void CViewProjects::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( wxT(SECTION_TASK), wxT(BITMAP_TASKHEADER), m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( wxT(LINK_TASKATTACH), wxT(BITMAP_PROJECTS), _("Attach to Project"), m_bTaskAttachToProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKDETACH), wxT(BITMAP_PROJECTS), _("Detach from Project"), m_bTaskDetachFromProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKRESET), wxT(BITMAP_PROJECTS), _("Reset Project"), m_bTaskResetProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKSUSPEND), wxT(BITMAP_PROJECTS), _("Suspend Project"), m_bTaskSuspendProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKRESUME), wxT(BITMAP_PROJECTS), _("Resume Project"), m_bTaskResumeProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKUPDATE), wxT(BITMAP_PROJECTS), _("Update Project"), m_bTaskUpdateProjectHidden );
+        m_pTaskPane->CreateTask( LINK_TASKATTACH, BITMAP_PROJECTS, _("Attach to Project"), m_bTaskAttachToProjectHidden );
+        m_pTaskPane->CreateTask( LINK_TASKDETACH, BITMAP_PROJECTS, _("Detach from Project"), m_bTaskDetachFromProjectHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESET, BITMAP_PROJECTS, _("Reset Project"), m_bTaskResetProjectHidden );
+        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, BITMAP_PROJECTS, _("Suspend Project"), m_bTaskSuspendProjectHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESUME, BITMAP_PROJECTS, _("Resume Project"), m_bTaskResumeProjectHidden );
+        m_pTaskPane->CreateTask( LINK_TASKUPDATE, BITMAP_PROJECTS, _("Update Project"), m_bTaskUpdateProjectHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
@@ -625,12 +596,12 @@ void CViewProjects::UpdateTaskPane()
     m_pTaskPane->BeginTaskSection( wxT(SECTION_WEB), wxT(BITMAP_WEBHEADER), m_bWebsiteHeaderHidden );
     if (!m_bWebsiteHeaderHidden)
     {
-        m_pTaskPane->CreateTask( wxT(LINK_WEBBOINC), wxT(BITMAP_BOINC), _("BOINC"), m_bWebsiteBOINCHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_WEBPROJECT), wxT(BITMAP_PROJECTS), _("Project"), m_bWebsiteProjectHidden );
+        m_pTaskPane->CreateTask( LINK_WEBBOINC, wxTBITMAP_BOINC, _("BOINC"), m_bWebsiteBOINCHidden );
+        m_pTaskPane->CreateTask( LINK_WEBPROJECT, wxTBITMAP_PROJECTS, _("Project"), m_bWebsiteProjectHidden );
     }
     m_pTaskPane->EndTaskSection(m_bWebsiteHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }

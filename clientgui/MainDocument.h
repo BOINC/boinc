@@ -20,44 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.15  2004/10/01 00:06:32  rwalton
-// *** empty log message ***
-//
-// Revision 1.14  2004/09/29 22:20:43  rwalton
-// *** empty log message ***
-//
-// Revision 1.13  2004/09/28 01:19:46  rwalton
-// *** empty log message ***
-//
-// Revision 1.12  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/09/14 15:52:06  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/09/10 23:17:08  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/09/01 04:59:32  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/08/11 23:52:12  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/07/13 05:56:01  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.6  2004/07/12 08:46:25  rwalton
-// Document parsing of the <get_state/> message
-//
-// Revision 1.5  2004/06/25 22:50:56  rwalton
-// Client spamming server hotfix
-//
-// Revision 1.4  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _MAINDOCUMENT_H_
 #define _MAINDOCUMENT_H_

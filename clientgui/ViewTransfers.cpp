@@ -20,23 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.5  2004/10/05 02:55:26  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/24 22:19:01  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/24 02:01:53  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:25  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ViewTransfers.h"
@@ -54,19 +37,16 @@
 #include "res/task.xpm"
 #include "res/tips.xpm"
 
-#define VIEW_HEADER                 "xfer"
+#define VIEW_HEADER                 wxT("xfer")
 
-#define SECTION_TASK                VIEW_HEADER "task"
-#define SECTION_TIPS                VIEW_HEADER "tips"
+#define SECTION_TASK                wxT(VIEW_HEADER "task")
+#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
 
-#define BITMAP_TRANSFER             VIEW_HEADER ".xpm"
-#define BITMAP_TASKHEADER           SECTION_TASK ".xpm"
-#define BITMAP_TIPSHEADER           SECTION_TIPS ".xpm"
+#define BITMAP_TRANSFER             wxT(VIEW_HEADER ".xpm")
+#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
+#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
-#define LINK_TASKRETRY              SECTION_TASK "retry"
-#define LINK_TASKABORT              SECTION_TASK "abort"
-
-#define LINK_DEFAULT                "default"
+#define LINK_DEFAULT                wxT("default")
 
 #define COLUMN_PROJECT              0
 #define COLUMN_FILE                 1
@@ -75,6 +55,19 @@
 #define COLUMN_TIME                 4
 #define COLUMN_SPEED                5
 #define COLUMN_STATUS               6
+
+
+const wxString LINK_TASKRETRY           = wxT(SECTION_TASK "retry");
+const wxString LINKDESC_TASKRETRY       = 
+     _("<b>Retry Now</b><br>"
+       "Selecting retry now will attempt to upload the result data file "
+       "to the project server now.");
+
+const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
+const wxString LINKDESC_TASKABORT       = 
+     _("<b>Abort Upload</b><br>"
+       "Selecting abort upload will delete the result from the upload queue. "
+       "Doing this will keep you from being granted any credit for this result.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
@@ -102,10 +95,10 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
     bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
 
-    m_pTaskPane->AddVirtualFile(wxT(BITMAP_TRANSFER), bmpTransfer, wxBITMAP_TYPE_XPM);
+    m_pTaskPane->AddVirtualFile(BITMAP_TRANSFER, bmpTransfer, wxBITMAP_TYPE_XPM);
 
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TASKHEADER), bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TIPSHEADER), bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, -1);
@@ -118,7 +111,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
-        wxT(LINK_DEFAULT), 
+        LINK_DEFAULT, 
         _("Please select a transfer item to see additional options.")
     );
 
@@ -246,10 +239,10 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
     wxString strMessage;
 
-    if ( link.GetHref() == wxT(SECTION_TASK) )
+    if ( link.GetHref() == SECTION_TASK )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
 
-    if ( link.GetHref() == wxT(SECTION_TIPS) )
+    if ( link.GetHref() == SECTION_TIPS )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
 
@@ -266,42 +259,18 @@ void CViewTransfers::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord 
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( wxT(LINK_TASKRETRY) == strLink )
-        {
-            if  ( wxT(LINK_TASKRETRY) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKRETRY), 
-                    _("<b>Retry Now</b><br>"
-                      "Selecting retry now will attempt to upload the result data file "
-                      "to the project server now.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_TASKABORT) == strLink )
-        {
-            if  ( wxT(LINK_TASKABORT) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKABORT), 
-                    _("<b>Abort Upload</b><br>"
-                      "Selecting abort upload will delete the result from the upload queue. "
-                      "Doing this will keep you from being granted any credit for this result.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
+        if      ( UpdateQuickTip( strLink, LINK_TASKRETRY, LINKDESC_TASKRETRY ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_TASKABORT, LINKDESC_TASKABORT ) )
+            bUpdateSelection = true;
         else
         {
             if ( 0 == m_pListPane->GetSelectedItemCount() )
             {
-                if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
+                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
                 {
                     SetCurrentQuickTip(
-                        wxT(LINK_DEFAULT), 
+                        LINK_DEFAULT, 
                         _("Please select an result upload to see additional options.")
                     );
 
@@ -349,15 +318,15 @@ void CViewTransfers::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( wxT(SECTION_TASK), wxT(BITMAP_TASKHEADER), m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( wxT(LINK_TASKRETRY), wxT(BITMAP_TRANSFER), _("Retry Now"), m_bTaskRetryHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKABORT), wxT(BITMAP_TRANSFER), _("Abort Upload"), m_bTaskAbortHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRETRY, BITMAP_TRANSFER, _("Retry Now"), m_bTaskRetryHidden );
+        m_pTaskPane->CreateTask( LINK_TASKABORT, BITMAP_TRANSFER, _("Abort Upload"), m_bTaskAbortHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }

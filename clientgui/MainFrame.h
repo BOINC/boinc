@@ -20,29 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.12  2004/10/05 02:55:26  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/09/24 02:01:49  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/07/13 05:56:01  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.8  2004/05/27 06:17:57  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
-//
-//
 
 
 #ifndef _MAINFRAME_H_

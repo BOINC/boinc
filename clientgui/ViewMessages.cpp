@@ -20,26 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.6  2004/10/05 02:55:26  rwalton
-// *** empty log message ***
-//
-// Revision 1.5  2004/09/29 22:20:43  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/24 22:18:56  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/24 02:01:50  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:25  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ViewMessages.h"
@@ -204,6 +184,7 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
         else
         {
             wxListItem liListItemMessage;
+            wxString   strListItemMessage;
             wxString   strDocumentItemMessage;
 
             wxGetApp().GetDocument()->GetMessageMessage(m_iCacheTo, strDocumentItemMessage);
@@ -214,7 +195,9 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
 
             m_pListPane->GetItem(liListItemMessage);
 
-            if (strDocumentItemMessage != liListItemMessage.GetText())
+            strListItemMessage = liListItemMessage.GetText();
+
+            if ( !strDocumentItemMessage.IsSameAs(strListItemMessage) )
             {
                 m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
                 m_pListPane->Refresh();
@@ -324,10 +307,10 @@ void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
         {
             if ( 0 == m_pListPane->GetSelectedItemCount() )
             {
-                if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
+                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
                 {
                     SetCurrentQuickTip(
-                        wxT(LINK_DEFAULT), 
+                        LINK_DEFAULT, 
                         _("Please select a message to see additional options.")
                     );
 
@@ -383,7 +366,7 @@ void CViewMessages::UpdateTaskPane()
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }

@@ -20,32 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.8  2004/10/05 02:55:26  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/09/28 01:19:46  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.5  2004/09/24 22:18:59  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/09/24 02:01:52  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/23 08:28:50  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/22 21:53:03  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:25  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _VIEWPROJECTS_H_
 #define _VIEWPROJECTS_H_

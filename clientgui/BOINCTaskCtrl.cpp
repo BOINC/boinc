@@ -20,20 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.4  2004/09/24 02:01:47  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/23 08:28:50  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/22 21:53:02  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:24  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "BOINCTaskCtrl.h"

@@ -20,20 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.4  2004/09/29 22:20:43  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/24 22:18:57  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:25  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _VIEWMESSAGES_H_
 #define _VIEWMESSAGES_H_

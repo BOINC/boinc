@@ -20,17 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.3  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/24 22:19:01  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:26  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _VIEWTRANSFERS_H_
 #define _VIEWTRANSFERS_H_

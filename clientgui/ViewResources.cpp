@@ -20,23 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.5  2004/10/05 02:55:26  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/09/25 21:33:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/24 22:19:00  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/24 02:01:53  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:25  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ViewResources.h"

@@ -20,26 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.6  2004/10/05 02:55:25  rwalton
-// *** empty log message ***
-//
-// Revision 1.5  2004/09/25 21:33:22  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/09/24 22:18:53  rwalton
-// *** empty log message ***
-//
-// Revision 1.3  2004/09/24 02:01:45  rwalton
-// *** empty log message ***
-//
-// Revision 1.2  2004/09/23 08:28:50  rwalton
-// *** empty log message ***
-//
-// Revision 1.1  2004/09/21 01:26:24  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef _BOINCBASEVIEW_H_
 #define _BOINCBASEVIEW_H_
