@@ -64,6 +64,7 @@ int PROJECT::parse_account(FILE* in) {
 
     strcpy(master_url, "");
     strcpy(authenticator, "");
+    if (project_specific_prefs) free(project_specific_prefs);
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "</account>")) return 0;

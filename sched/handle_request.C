@@ -224,23 +224,39 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     return 0;
 }
 
+// Deal with global preferences.
 // If the client sent global prefs, and they're more recent than ours,
 // update user record in DB.
-// If we our DB has more recent global prefs than client's, send them.
+// If DB has more recent global prefs than client's, send them.
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    if (sreq.global_prefs_mod_time > reply.user.global_prefs_mod_time
-        && strlen(sreq.global_prefs_xml)
-    ) {
-        strncpy(reply.user.global_prefs, sreq.global_prefs_xml, sizeof(reply.user.global_prefs));
-        reply.user.global_prefs_mod_time = sreq.global_prefs_mod_time;
-        if (reply.user.global_prefs_mod_time > (unsigned)time(0)) {
-            reply.user.global_prefs_mod_time = (unsigned)time(0);
+    unsigned int req_mod_time, db_mod_time;
+    bool need_update;
+    reply.send_global_prefs = false;
+    if (sreq.global_prefs_xml) {
+        need_update = false;
+        parse_int(sreq.global_prefs_xml, "<mod_time>", (int)req_mod_time);
+        if (strlen(reply.user.global_prefs)) {
+            parse_int(reply.user.global_prefs, "<mod_time>", (int)db_mod_time);
+            if (req_mod_time > db_mod_time) {
+                need_update = true;
+            } else if (req_mod_time < db_mod_time) {
+                reply.send_global_prefs = true;
+            }
+        } else {
+            need_update = true;
         }
-        db_user_update(reply.user);
-    }
-    if (reply.user.global_prefs_mod_time > sreq.global_prefs_mod_time) {
-        reply.send_global_prefs = true;
+        if (need_update) {
+            strncpy(
+                reply.user.global_prefs, sreq.global_prefs_xml,
+                sizeof(reply.user.global_prefs)
+            );
+            db_user_update(reply.user);
+        }
+    } else {
+        if (strlen(reply.user.global_prefs)) {
+            reply.send_global_prefs = true;
+        }
     }
     return 0;
 }

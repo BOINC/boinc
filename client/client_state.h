@@ -53,7 +53,7 @@ public:
     FILE_XFER_SET* file_xfers;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
-    PREFS prefs;
+    GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
 
     CLIENT_STATE();

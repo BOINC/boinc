@@ -237,7 +237,6 @@ void add_user() {
             printf("read_file: %s", global_prefs_file);
             return;
         }
-        user.global_prefs_mod_time = time(0);
     }
     retval = db_user_new(user);
     if (retval) {

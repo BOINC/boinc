@@ -1992,3 +1992,34 @@ David   Sept 26 2002
         test_uc.php
     tools/
         add.C
+
+David   Sept 28 2002
+    - Clarified the way that preferences (global and project)
+        are stored in the database and in the core client,
+        and the protocol (part of scheduler RPC) for maintaining them.
+        See doc/prefs_impl.html
+    - Implemented the above: lots of small changes to client, server
+    - Changed names from "prefs" to "global_prefs" where relevant
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        file_names.C,h
+        prefs.C,h
+        scheduler_op.C,h
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        boinc_dev.html
+        prefs_impl.html (new)
+        prefs_mod.html (removed)
+    html_user/
+        prefs.inc
+    sched/
+        handle_request.C
+        server_types.C,h
+    tools/
+        add.C

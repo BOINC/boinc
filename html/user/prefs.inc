@@ -287,6 +287,8 @@ function prefs_project_parse_form(&$prefs) {
 //
 function global_prefs_make_xml($prefs) {
     $xml = "<global_preferences>\n";
+    $now = time();
+    $xml = $xml."<mod_time>$now</mod_time>\n";
     if ($prefs->dont_run_on_batteries) {
         $xml = $xml."<dont_run_on_batteries/>\n";
     }
@@ -322,14 +324,12 @@ function project_prefs_make_xml($prefs) {
 //
 function global_prefs_update($user, $prefs) {
     $prefs_xml = global_prefs_make_xml($prefs);
-    $now = time();
-    mysql_query("update user set global_prefs='$prefs_xml', global_prefs_mod_time=$now where id=$user->id");
+    mysql_query("update user set global_prefs='$prefs_xml' where id=$user->id");
     $user->global_prefs = $prefs_xml;
 }
 
 function project_prefs_update($user, $prefs) {
     $prefs_xml = project_prefs_make_xml($prefs);
-    $now = time();
     mysql_query("update user set project_prefs='$prefs_xml' where id=$user->id");
     $user->project_prefs = $prefs_xml;
 }

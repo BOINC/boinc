@@ -33,8 +33,7 @@
 
 // The following structure is a parsed version of the prefs file
 //
-struct PREFS {
-    int mod_time;
+struct GLOBAL_PREFS {
     bool dont_run_on_batteries;
     bool dont_run_if_user_active;
     bool confirm_before_connecting;
@@ -44,11 +43,9 @@ struct PREFS {
     double disk_max_used_pct;
     double disk_min_free_gb;
 
-    PREFS();
+    GLOBAL_PREFS();
     int parse(FILE*);
     int parse_file();
 };
-
-extern int write_initial_prefs();
 
 #endif

@@ -76,8 +76,8 @@ struct SCHEDULER_REPLY {
     char message[1024];
     char message_priority[256];
     char project_name[256];
-    int prefs_mod_time;
-    char* prefs_xml;
+    char* global_prefs_xml;     // not including <global_preferences> tags
+    char* project_prefs_xml;    // not including <project_preferences> tags
     char user_name[256];
     double total_credit;
     double expavg_credit;

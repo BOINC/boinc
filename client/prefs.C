@@ -31,10 +31,9 @@
 #include "prefs.h"
 
 // the following values determine how the client behaves
-// if the user didn't set preferences via web
+// if there are no global prefs yet
 //
-PREFS::PREFS() {
-    mod_time = 0;
+GLOBAL_PREFS::GLOBAL_PREFS() {
     dont_run_on_batteries = false;
     dont_run_if_user_active = false;
     confirm_before_connecting = false;
@@ -45,14 +44,13 @@ PREFS::PREFS() {
     disk_min_free_gb = 0.1;
 };
 
-// Parse XML based prefs, usually from prefs.xml
+// Parse XML global prefs
 //
-int PREFS::parse(FILE* in) {
+int GLOBAL_PREFS::parse(FILE* in) {
     char buf[256];
-    PROJECT* project;
 
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</preferences>")) {
+        if (match_tag(buf, "</global_preferences>")) {
             return 0;
         } else if (match_tag(buf, "<dont_run_on_batteries/>")) {
             dont_run_on_batteries = true;
@@ -78,32 +76,15 @@ int PREFS::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-// Parse prefs.xml for user preferences
+// Parse global prefs file
 //
-int PREFS::parse_file() {
+int GLOBAL_PREFS::parse_file() {
     FILE* f;
     int retval;
 
-    f = fopen(PREFS_FILE_NAME, "r");
+    f = fopen(GLOBAL_PREFS_FILE_NAME, "r");
     if (!f) return ERR_FOPEN;
     retval = parse(f);
     fclose(f);
     return retval;
-}
-
-// Write the default preferences
-// TODO: should mod_time really be 1?
-//
-int write_initial_prefs() {
-    FILE* f = fopen(PREFS_FILE_NAME, "w");
-    if (!f) return ERR_FOPEN;
-    fprintf(f,
-        "<preferences>\n"
-        "    <mod_time>1</mod_time>\n"
-        "    <high_water_days>2</high_water_days>\n"
-        "    <low_water_days>1</low_water_days>\n"
-        "</preferences>\n"
-    );
-    fclose(f);
-    return 0;
 }

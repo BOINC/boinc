@@ -64,8 +64,8 @@ double CLIENT_STATE::current_water_days() {
 //
 double CLIENT_STATE::work_needed_secs() {
     double x = current_water_days();
-    if (x > prefs.high_water_days) return 0;
-    return (prefs.high_water_days - x)*86400;
+    if (x > global_prefs.high_water_days) return 0;
+    return (global_prefs.high_water_days - x)*86400;
 }
 
 // update exponentially-averaged CPU times of all projects
@@ -185,10 +185,13 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         fprintf(f, "<code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
 
-    FILE* fprefs = fopen(PREFS_FILE_NAME, "r");
-    if (!fprefs) return ERR_FOPEN;
-    copy_stream(fprefs, f);
-    fclose(fprefs);
+    // insert global preferences if present
+    //
+    FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
+    if (fprefs) {
+        copy_stream(fprefs, f);
+        fclose(fprefs);
+    }
 
     time_stats.write(f, true);
     net_stats.write(f, true);
@@ -247,7 +250,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
-        below_low_water = (current_water_days() <= prefs.low_water_days);
+        below_low_water = (current_water_days() <= global_prefs.low_water_days);
         if (below_low_water && some_project_rpc_ok()) {
             compute_resource_debts();
             scheduler_op->init_get_work();
@@ -276,7 +279,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     return action;
 }
 
-// Parse the reply from a scheduler
+// Handle the reply from a scheduler
 //
 void CLIENT_STATE::handle_scheduler_reply(
     PROJECT* project, char* scheduler_url
@@ -315,32 +318,52 @@ void CLIENT_STATE::handle_scheduler_reply(
     if (sr.request_delay) {
         project->min_rpc_time = time(0) + sr.request_delay;
     }
+
     if (sr.hostid) {
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;
     }
 
-    // if the scheduler reply includes preferences
-    // that are newer than what we have on disk, write them to disk
+    // if the scheduler reply includes global preferences,
+    // insert extra elements, write to disk, and parse
     //
-
-    if (sr.prefs_mod_time > prefs.mod_time) {
-        f = fopen(PREFS_FILE_NAME, "w");
+    if (sr.global_prefs_xml) {
+        f = fopen(GLOBAL_PREFS_FILE_NAME, "w");
         fprintf(f,
-            "<preferences>\n"
-            "    <prefs_mod_time>%d</prefs_mod_time>\n"
-            "    <from_project>%s</from_project>\n"
-            "    <from_scheduler>%s</from_scheduler>\n",
-            sr.prefs_mod_time,
+            "<global_preferences>\n"
+            "    <source_project>%s</source_project>\n"
+            "    <source_scheduler>%s</source_scheduler>\n"
+            "%s"
+            "</global_preferences>\n",
             project->master_url,
-            scheduler_url
-        );
-        fputs(sr.prefs_xml, f);
-        fprintf(f,
-            "</preferences>\n"
+            scheduler_url,
+            sr.global_prefs_xml
         );
         fclose(f);
-        prefs.parse_file();
+        global_prefs.parse_file();
+    }
+
+    // deal with project preferences (should always be there)
+    //
+    if (sr.project_prefs_xml) {
+        char path[256];
+        f = fopen(TEMP_FILE_NAME, "w");
+        fprintf(f,
+            "<account>\n"
+            "    <master_url>%s</master_url>\n"
+            "    <authenticator>%s</authenticator>\n"
+            "%s"
+            "</account>\n",
+            project->master_url,
+            project->authenticator,
+            sr.project_prefs_xml
+        );
+        fclose(f);
+        get_account_filename(project->master_url, path);
+        retval = boinc_rename(TEMP_FILE_NAME, path);
+        f = fopen(path, "r");
+        project->parse_account(f);
+        fclose(f);
     }
 
     // if the scheduler reply includes a code-signing key,

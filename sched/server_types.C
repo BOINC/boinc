@@ -46,7 +46,6 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(authenticator, "");
     hostid = 0;
     work_req_seconds = 0;
-    global_prefs_mod_time = 0;
     global_prefs_xml = strdup("");
 
     fgets(buf, 256, fin);
@@ -59,14 +58,13 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
         else if (parse_int(buf, "<core_client_version>", core_client_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
-        else if (parse_int(buf, "<global_prefs_mod_time>", (int)global_prefs_mod_time)) {
-            continue;
-        }
-        else if (match_tag(buf, "<preferences>")) {
+        else if (match_tag(buf, "<global_preferences>")) {
+            global_prefs_xml = strdup("<global_preferences>\n");
             while (fgets(buf, 256, fin)) {
-                if (strstr(buf, "</preferences>")) break;
+                if (strstr(buf, "</global_preferences>")) break;
                 strcatdup(global_prefs_xml, buf);
             }
+            strcatdup(global_prefs_xml, "</global_preferences>\n");
         }
         else if (match_tag(buf, "<host_info>")) {
             host.parse(fin);
@@ -145,12 +143,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
     
     if (send_global_prefs) {
-        fprintf(fout,
-            "<global_prefs_mod_time>%d</global_prefs_mod_time>\n",
-            user.global_prefs_mod_time
-        );
         fputs(user.global_prefs, fout);
     }
+
+    // always send project prefs
+    //
+    fputs(user.project_prefs, fout);
 
     // acknowledge results
     //

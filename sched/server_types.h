@@ -32,7 +32,6 @@ struct SCHEDULER_REQUEST {
     int core_client_version;
     int rpc_seqno;
     int work_req_seconds;
-    unsigned int global_prefs_mod_time;
     char* global_prefs_xml;
     char* code_sign_key;
 

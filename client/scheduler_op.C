@@ -340,13 +340,15 @@ bool SCHEDULER_OP::poll() {
 }
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
-    prefs_xml = 0;
+    global_prefs_xml = 0;
+    project_prefs_xml = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
-    if (prefs_xml) free(prefs_xml);
+    if (global_prefs_xml) free(global_prefs_xml);
+    if (project_prefs_xml) free(project_prefs_xml);
     if (code_sign_key) free(code_sign_key);
     if (code_sign_key_signature) free(code_sign_key_signature);
 }
@@ -359,8 +361,8 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     strcpy(message_priority, "");
     request_delay = 0;
     hostid = 0;
-    prefs_mod_time = 0;
-    prefs_xml = 0;
+    global_prefs_xml = 0;
+    project_prefs_xml = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
 
@@ -388,10 +390,11 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             continue;
         } else if (parse_int(buf, "<request_delay>", request_delay)) {
             continue;
-        } else if (parse_int(buf, "<prefs_mod_time>", prefs_mod_time)) {
-            continue;
-        } else if (match_tag(buf, "<preferences>")) {
-            retval = dup_element_contents(in, "</preferences>", &prefs_xml);
+        } else if (match_tag(buf, "<global_preferences>")) {
+            retval = dup_element_contents(in, "</global_preferences>", &global_prefs_xml);
+            if (retval) return ERR_XML_PARSE;
+        } else if (match_tag(buf, "<project_preferences>")) {
+            retval = dup_element_contents(in, "</project_preferences>", &project_prefs_xml);
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(in, "</code_sign_key>", &code_sign_key);

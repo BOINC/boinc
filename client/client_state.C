@@ -64,20 +64,11 @@ int CLIENT_STATE::init() {
     //
     nslots = 1;
 
-    // Read the user preferences file, if it exists.
+    // Read the global preferences file, if it exists.
     //
-    retval = prefs.parse_file();
+    retval = global_prefs.parse_file();
     if (retval) {
-        retval = write_initial_prefs();
-        if (retval) {
-            printf("can't initialize prefs.xml\n");
-            return retval;
-        }
-        retval = prefs.parse_file();
-        if (retval) {
-            printf("can't initialize prefs.xml\n");
-            return retval;
-        }
+        printf("No global preferences file; will use defaults.\n");
     }
 
     // parse account files.
@@ -192,11 +183,14 @@ double CLIENT_STATE::allowed_disk_usage() {
     double percent_space, min_val;
 
     // Calculate allowed disk usage based on % pref
-    percent_space = host_info.d_total*prefs.disk_max_used_pct/100.0;
+    //
+    percent_space = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
 
-    min_val = host_info.d_free - prefs.disk_min_free_gb*1e9;
+    min_val = host_info.d_free - global_prefs.disk_min_free_gb*1e9;
+
     // Return the minimum of the three
-    return min(min(prefs.disk_max_used_gb*1e9, percent_space), min_val);
+    //
+    return min(min(global_prefs.disk_max_used_gb*1e9, percent_space), min_val);
 }
 
 // See if (on the basis of user prefs) we should suspend activities.
@@ -204,7 +198,7 @@ double CLIENT_STATE::allowed_disk_usage() {
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
-    if (prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
+    if (global_prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
 

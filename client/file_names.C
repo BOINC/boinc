@@ -189,13 +189,6 @@ int make_slot_dir(int slot) {
 
 #endif
 
-// Returns a filename used for prefs backup
-//
-int make_prefs_backup_name(PREFS& prefs, char* name) {
-    sprintf(name, "prefs_backup_%d", prefs.mod_time);
-    return 0;
-}
-
 void get_account_filename(char* master_url, char* path) {
     char buf[256];
     escape_project_url(master_url, buf);

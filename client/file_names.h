@@ -31,7 +31,6 @@ extern void get_slot_dir(int slot, char* path);
 
 extern int make_project_dir(PROJECT&);
 extern int make_slot_dir(int);
-extern int make_prefs_backup_name(PREFS&, char*);
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(char*);
 
@@ -39,9 +38,9 @@ extern bool is_account_file(char*);
 #define SLOTS_DIR               "slots"
 #define STATE_FILE_TEMP         "state_file_temp.xml"
 #define STATE_FILE_NAME         "client_state.xml"
-#define PREFS_FILE_NAME         "prefs.xml"
+#define GLOBAL_PREFS_FILE_NAME  "global_prefs.xml"
 #define MASTER_FILE_NAME        "master.html"
-#define PREFS_TEMP_FILE_NAME    "prefs_temp.xml"
 #define SCHED_OP_REQUEST_FILE   "sched_request.xml"
 #define SCHED_OP_RESULT_FILE    "sched_reply.xml"
 #define LOG_FLAGS_FILE          "log_flags.xml"
+#define TEMP_FILE_NAME          "temp.xml"
