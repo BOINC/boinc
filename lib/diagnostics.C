@@ -498,14 +498,16 @@ void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
 
 void boinc_catch_signal(int signal) {
     switch(signal) {
-        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
+        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup");
+             return;
         case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
         case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
         case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
         case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
         case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
         case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
-        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader"); break;
+        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader");
+            return;
         default: fprintf(stderr, "unknown signal %d", signal); break;
     }
     fprintf(stderr, "\nExiting...\n");

@@ -18762,3 +18762,17 @@ David  21 Oct 2004
         glut_win.c
     clientgui/
         Makefile.old
+
+David  21 Oct 2004
+    - boinc_receive_trickle_down(): reset have_trickle_down
+        if don't find any trickle-down messages.
+        This will make subsequence checks efficient (i.e. no disk check).
+    - boinc_catch_signal(): for SIGHUP and SIGPIPE,
+        return (i.e. ignore the signal) rather than exiting.
+        This affects both the core client and apps that use
+        boinc_init_diagnostics().
+
+    api/
+        boinc_api.C
+    lib/
+        diagnostics.C

@@ -603,6 +603,7 @@ bool boinc_receive_trickle_down(char* buf, int len) {
                 return true;
             }
         }
+        have_trickle_down = false;
     }
     return false;
 }
