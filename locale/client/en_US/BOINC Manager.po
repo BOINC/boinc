@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-02-01 15:23-0800\n"
+"PO-Revision-Date: 2005-02-03 14:20-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:169
+#: clientgui/BOINCGUIApp.cpp:184
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 
@@ -272,19 +272,19 @@ msgstr ""
 msgid "'%s' does not contain a valid path."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:149
+#: clientgui/ViewMessages.cpp:81
 msgid "Click a message to see additional options."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:153
+#: clientgui/ViewMessages.cpp:85
 msgid "<b>Copy all</b><br>Copy all the messages to the clipboard."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:158
+#: clientgui/ViewMessages.cpp:90
 msgid "<b>Copy selected messages</b><br>Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:176
+#: clientgui/ViewMessages.cpp:108
 #: clientgui/ViewProjects.cpp:276
 #: clientgui/ViewResources.cpp:127
 #: clientgui/ViewTransfers.cpp:224
@@ -292,14 +292,15 @@ msgstr ""
 msgid "Tasks"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:177
+#: clientgui/ViewMessages.cpp:109
 #: clientgui/ViewProjects.cpp:278
 #: clientgui/ViewResources.cpp:128
 #: clientgui/ViewTransfers.cpp:225
+#: clientgui/ViewWork.cpp:251
 msgid "Tips"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:179
+#: clientgui/ViewMessages.cpp:111
 #: clientgui/ViewProjects.cpp:280
 #: clientgui/ViewProjects.cpp:768
 #: clientgui/ViewResources.cpp:130
@@ -308,24 +309,24 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:180
+#: clientgui/ViewMessages.cpp:112
 #: clientgui/ViewTransfers.cpp:231
 msgid "Time"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:181
+#: clientgui/ViewMessages.cpp:113
 msgid "Message"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:218
+#: clientgui/ViewMessages.cpp:148
 msgid "Messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:505
+#: clientgui/ViewMessages.cpp:374
 msgid "Copy all messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:506
+#: clientgui/ViewMessages.cpp:375
 msgid "Copy selected messages"
 msgstr ""
 
@@ -471,11 +472,11 @@ msgid "Click an item to see additional options."
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:201
-msgid "<b>Retry now</b><br>Click <b>Retry now</b> to upload the file now"
+msgid "<b>Retry now</b><br>Click <b>Retry now</b> to transfer the file now"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:206
-msgid "<b>Abort upload</b><br>Click <b>Abort upload</b> to delete the file from the upload queue. This will prevent you from being granted credit for this result."
+msgid "<b>Abort transfer</b><br>Click <b>Abort transfer</b> to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:228
@@ -517,28 +518,28 @@ msgid "Abort Upload"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:759
-#: clientgui/ViewWork.cpp:861
+#: clientgui/ViewWork.cpp:871
 msgid "Download failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:763
-#: clientgui/ViewWork.cpp:907
+#: clientgui/ViewWork.cpp:917
 msgid "Upload failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:767
-#: clientgui/ViewWork.cpp:911
+#: clientgui/ViewWork.cpp:921
 msgid "Uploading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:767
-#: clientgui/ViewWork.cpp:865
+#: clientgui/ViewWork.cpp:875
 msgid "Downloading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:774
-#: clientgui/ViewWork.cpp:884
-#: clientgui/ViewWork.cpp:934
+#: clientgui/ViewWork.cpp:894
+#: clientgui/ViewWork.cpp:944
 msgid "Suspended"
 msgstr ""
 
@@ -560,10 +561,6 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:232
 msgid "<b>Abort result</b><br>Delete the result from the work queue. This will prevent you from being granted credit for the result."
-msgstr ""
-
-#: clientgui/ViewWork.cpp:251
-msgid "Quick tips"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:254
@@ -617,40 +614,40 @@ msgstr ""
 msgid "Resume"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:856
+#: clientgui/ViewWork.cpp:866
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:871
+#: clientgui/ViewWork.cpp:881
 msgid "Aborted"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:878
+#: clientgui/ViewWork.cpp:888
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:888
+#: clientgui/ViewWork.cpp:898
 msgid "Paused"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:893
-#: clientgui/ViewWork.cpp:898
+#: clientgui/ViewWork.cpp:903
+#: clientgui/ViewWork.cpp:908
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:902
+#: clientgui/ViewWork.cpp:912
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:917
+#: clientgui/ViewWork.cpp:927
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:921
+#: clientgui/ViewWork.cpp:931
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:925
+#: clientgui/ViewWork.cpp:935
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""

@@ -199,12 +199,12 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     LINK_TASKRETRY           = SECTION_TASK + wxT("retry");
     LINKDESC_TASKRETRY       = 
         _("<b>Retry now</b><br>"
-        "Click <b>Retry now</b> to upload the file now");
+        "Click <b>Retry now</b> to transfer the file now");
 
     LINK_TASKABORT           = SECTION_TASK + wxT("abort");
     LINKDESC_TASKABORT       = 
-        _("<b>Abort upload</b><br>"
-        "Click <b>Abort upload</b> to delete the file from the upload queue. "
+        _("<b>Abort transfer</b><br>"
+        "Click <b>Abort transfer</b> to delete the file from the transfer queue. "
         "This will prevent you from being granted credit for this result.");
 
 
