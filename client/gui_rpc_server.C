@@ -42,7 +42,6 @@
 #include "client_state.h"
 
 using std::string;
-using std::list;
 using std::vector;
 
 #if defined(_WIN32)
