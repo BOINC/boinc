@@ -465,7 +465,7 @@ int lock_file(char* filename) {
     int retval;
 
     // some systems have both!
-#ifdef HAVE_LOCKF
+#if defined(HAVE_LOCKF) && !defined(__APPLE__)
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
     retval = lockf(lock, F_TLOCK, 1);
 #elif HAVE_FLOCK
