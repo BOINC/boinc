@@ -56,7 +56,7 @@ function show_error($str) {
 	    	$myrow = mysql_fetch_array($result);
 	}
 	$query = 'INSERT INTO user SET '
-	        .' create_time = NOW(),'
+	        .' create_time = UNIX_TIMESTAMP(),'
 	        ." email_addr = '$munged_email_addr',"
 	        ." name = '$new_name',"'
 	        ." authenticator = '$authenticator',"
