@@ -24400,3 +24400,11 @@ David  9 Feb 2005
         sched_locality.C
         sched_send.C
         server_types.h
+
+Rom    9 Feb 2005
+    - Bug Fix: Fix a stupid mistake where I wasn't even checking to see if a
+        person selected to allow the screen to be blanked before setting the
+        blank timer to work.
+
+    client/win/
+        win_screensaver.cpp, .h

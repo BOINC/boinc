@@ -171,9 +171,6 @@
 				RelativePath="..\lib\diagnostics.C">
 			</File>
 			<File
-				RelativePath="..\lib\exception.C">
-			</File>
-			<File
 				RelativePath="..\lib\filesys.C">
 			</File>
 			<File
@@ -233,9 +230,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.h">
-			</File>
-			<File
-				RelativePath="..\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\lib\filesys.h">

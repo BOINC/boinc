@@ -131,6 +131,7 @@ CScreensaver::CScreensaver()
     m_bResetCoreState = TRUE;
     m_dwTimerCounter = 0;
     m_iStatus = 0;
+    m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
 
     m_bBOINCConfigChecked = FALSE;
@@ -164,6 +165,11 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
     // Enumerate Monitors
     EnumMonitors();
 
+
+    // Retrieve the blank screen flag so we can determine if we are
+    // suppose to actually blank the screen at some point.
+	bReturnValue = UtilGetRegKey( REG_BLANK_NAME, m_dwBlankScreen );
+	if ( bReturnValue != 0 ) m_dwBlankScreen = 0;
 
     // Retrieve the blank screen timeout
 	// make sure you check return value of registry queries
@@ -319,11 +325,13 @@ VOID CScreensaver::StartupBOINC()
             }
 
 			// Tell the boinc client to start the screen saver
-            BOINCTRACE(
-                _T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankTime = '%d'.\n"),
-                szCurrentWindowStation, szCurrentDesktop, m_dwBlankTime
-            );
-            iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, m_dwBlankTime);
+            BOINCTRACE(_T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankScreen = '%d', BlankTime = '%d'.\n"), szCurrentWindowStation, szCurrentDesktop, m_dwBlankScreen, m_dwBlankTime);
+
+            if ( 0 == m_dwBlankScreen )
+                iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, 0);
+            else
+                iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, m_dwBlankTime);
+
             BOINCTRACE(_T("CScreensaver::StartupBOINC - set_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
 
 			// We have now notified the boinc client

@@ -171,6 +171,7 @@ protected:
     BOOL                    m_bResetCoreState;
     DWORD                   m_dwTimerCounter;
     int                     m_iStatus;
+    DWORD                   m_dwBlankScreen;
     DWORD                   m_dwBlankTime;
 
     BOOL                    m_bBOINCConfigChecked;
