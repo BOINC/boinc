@@ -496,10 +496,8 @@ static void scan_work_array(
         // i.e. ones that don't require DB access
         // if any check fails, continue
 
-        switch (wu_result.state) {
-            case WR_STATE_EMPTY:
-            case WR_STATE_CHECKED_OUT:
-                continue;
+        if (wu_result.state != WR_STATE_PRESENT || wu_result.state != g_pid) {
+            continue;
         }
 
         if (wreq.infeasible_only && (wu_result.infeasible_count==0)) {

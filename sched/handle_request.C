@@ -813,7 +813,7 @@ void process_request(
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
     bool ok_to_send_work = true;
-
+    bool have_no_work;
 
     // if different major version of BOINC, just send a message
     //
@@ -831,8 +831,12 @@ void process_request(
     // this isn't an initial RPC,
     // and client is requesting work, return without accessing DB
     //
+    lock_sema();
+    have_no_work = ss.no_work(g_pid);
+    unlock_sema();
+
     if ((sreq.work_req_seconds > 0)
-        && ss.no_work()
+        && have_no_work
         && (sreq.results.size() == 0)
         && (sreq.hostid != 0)
     ) {
@@ -845,16 +849,18 @@ void process_request(
         return;
     }
 
+    // FROM HERE ON DON'T RETURN; goto leave instead
+
     // now open the database
     //
     retval = open_database();
     if (retval) {
         send_message("Server can't open database", 3600);
-        return;
+        goto leave;
     }
 
     retval = authenticate_user(sreq, reply);
-    if (retval) return;
+    if (retval) goto leave;
     if (reply.user.id == 0) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "No user ID!\n");
     }
@@ -891,7 +897,7 @@ void process_request(
             SCHED_MSG_LOG::CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
         );
-        return;
+        goto leave;
     }
 
     handle_global_prefs(sreq, reply);
@@ -906,7 +912,7 @@ void process_request(
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    if (ok_to_send_work && sreq.work_req_seconds > 0) {
+    if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
         if (config.min_sendwork_interval) {
             double diff = dtime() - last_rpc_time;
             if (diff < config.min_sendwork_interval) {
@@ -935,6 +941,11 @@ void process_request(
     }
 
     update_host_record(reply.host);
+
+leave:
+    if (!have_no_work) {
+        ss.restore_work(g_pid);
+    }
 }
 
 void handle_request(

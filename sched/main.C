@@ -66,6 +66,7 @@ bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 SCHED_CONFIG config;
 key_t sema_key;
+int g_pid;
 
 void send_message(char* msg, int delay) {
     printf(
@@ -96,7 +97,7 @@ int open_database() {
 
 int main() {
     FILE* fin, *fout;
-    int i, retval, pid;
+    int i, retval;
     char req_path[256], reply_path[256], path[256];
     SCHED_SHMEM* ssp=0;
     void* p;
@@ -169,7 +170,7 @@ int main() {
         }
     }
 
-    pid = getpid();
+    g_pid = getpid();
 #ifdef _USING_FCGI_
     while(FCGI_Accept() >= 0) {
     counter++;
@@ -186,8 +187,8 @@ int main() {
         // (this makes it easy to save the input,
         // and to know the length of the output).
         //
-        sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, pid, counter);
-        sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
+        sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, g_pid, counter);
+        sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
         fout = fopen(req_path, "w");
         if (!fout) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write request file\n");

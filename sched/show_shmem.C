@@ -62,6 +62,8 @@ int main() {
         case WR_STATE_CHECKED_OUT:
             printf("%d: checked out: result %d\n", i, wu_result.resultid);
             break;
+        default:
+            printf("%d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);
         }
     }
 }

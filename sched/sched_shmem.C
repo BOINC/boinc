@@ -157,12 +157,26 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
     return best_avp;
 }
 
-bool SCHED_SHMEM::no_work() {
+bool SCHED_SHMEM::no_work(int pid) {
     int i;
 
-    if (!ready) return false;
+    if (!ready) return true;
     for (i=0; i<max_wu_results; i++) {
-        if (wu_results[i].state == WR_STATE_PRESENT) return false;
+        if (wu_results[i].state == WR_STATE_PRESENT) {
+            wu_results[i].state = pid;
+            return false;
+        }
     }
     return true;
+}
+
+void SCHED_SHMEM::restore_work(int pid) {
+    int i;
+
+    for (i=0; i<max_wu_results; i++) {
+        if (wu_results[i].state == pid) {
+            wu_results[i].state = WR_STATE_PRESENT;
+            return;
+        }
+    }
 }
