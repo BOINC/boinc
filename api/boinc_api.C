@@ -190,11 +190,13 @@ double boinc_cpu_time() {
 #ifdef HAVE_SYS_RESOURCE_H
     int retval, pid = getpid();
     struct rusage ru;
+    double cpu_secs;
     retval = getrusage(RUSAGE_SELF, &ru);
     if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
-    return (double)ru.ru_utime.tv_sec + (
-        ((double)ru.ru_utime.tv_usec) / ((double)1000000.0)
-    );
+    // Sum the user and system time spent in this process
+    cpu_secs = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
+    cpu_secs += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
+    return cpu_secs;
 #else
 #ifdef _WIN32
 #ifdef WINNT_CLOCK
@@ -281,12 +283,12 @@ int set_timer(double period) {
     struct sigaction sa;
     sa.sa_handler = on_timer;
     sa.sa_flags = 0;
-    sigaction(SIGVTALRM, &sa, NULL);
+    sigaction(SIGALRM, &sa, NULL);
     itimerval value;
     value.it_value.tv_sec = (int)period;
     value.it_value.tv_usec = ((int)(period*1000000))%1000000;
     value.it_interval = value.it_value;
-    retval = setitimer(ITIMER_VIRTUAL, &value, NULL);
+    retval = setitimer(ITIMER_REAL, &value, NULL);
 #endif
 #endif
     return retval;
