@@ -85,9 +85,17 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
     // Give default processing (-?, --help and --verbose) the chance to do something.
     Inherited::OnCmdLineParsed(parser);
     if (parser.Found("example")) {
-        // Strings that have to be localized are enclosed in _(). See Internationalization.
-        wxMessageBox(_("You have specified -e on the commmand line. The application will exit now."), _("Example command line option"), MB_OK);
-        // tell wxWindows to exit right now.
+
+        wxMessageDialog* pDlg = new wxMessageDialog(
+            NULL, 
+            _("You have specified -e on the commmand line. The application will exit now."),
+            _("Example command line option"),
+            wxOK | wxICON_INFORMATION,
+            wxDefaultPosition
+            );
+
+        pDlg->ShowModal();
+
         return false;
     } else {
         // Log a message, but only if --verbose has been set on the command line.
