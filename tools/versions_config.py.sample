@@ -1,5 +1,10 @@
+# -*- python -*-
 # sample versions_config.py file.
 # $Id$
+
+class Project:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
 PROJECTS_ROOT = '~/projects/'
 URL_ROOT = 'http://setiboinc.ssl.berkeley.edu/'
@@ -7,7 +12,7 @@ URL_ROOT = 'http://setiboinc.ssl.berkeley.edu/'
 PROJECTS = [ Project(directory_name ='AstroPulse_Beta',
                      db_name        ='ap',
                      url_name       ='ap',
-                     applications   =[Project(appname='AstroPulse', exe_prefix='ap')]),
+                     applications   =[Project(appname='AstroPulse', exe_prefix='ap_1.*')]),
              Project(directory_name ='client_test',
                      db_name        ='boinc_client_test',
                      url_name       ='client_test',
