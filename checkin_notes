@@ -4679,3 +4679,11 @@ Eric K. 2003/06/16
 
 	parse.C
 	parse.h
+
+Karl    2003/06/16
+        Removed bzip2 rule; add 'foreign' option to automake through
+        configure.ac so you don't need to specify when invoking automake
+        manually
+
+        _autosetup
+        configure.ac
