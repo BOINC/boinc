@@ -8,9 +8,11 @@
 #ifndef HAVE_OPENGL_GL_H
 #define HAVE_OPENGL_GL_H
 #endif
+#include <Carbon/Carbon.h>
 #endif
 
 #ifdef _WIN32
+#include <windows.h>
 #ifndef HAVE_GL_LIB
 #define HAVE_GL_LIB 1
 #endif
@@ -68,15 +70,10 @@
 #include "x_opengl.h"
 #endif
 
-#ifdef __APPLE_CC__
-#include <Carbon/Carbon.h>
-#endif
-
 // The API (functions called by the app)
 extern int boinc_init_opengl();
 extern int boinc_finish_opengl();
 extern GLvoid glPrint(GLuint font, const char *fmt, ...);
-extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
 
 // Functions that must be supplied by the app
 //
@@ -88,6 +85,7 @@ extern void app_resize(int width, int height);
 //
 extern GLenum InitGL(GLvoid);
 extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
+extern void throttled_app_render(int, int, double);
 
 #ifdef _WIN32
 extern HANDLE hQuitEvent;

@@ -1,5 +1,9 @@
-// Event loop and support functions for BOINC applications w/ graphics.
-// Is any of this related to or dependent on OpenGL??
+// Event loop and support functions for Windows versions
+// of BOINC applications w/ graphics.
+// Platform-independent code should NOT be here.
+//
+// TODO: Is any of this related to or dependent on OpenGL??
+// Why not make it independent of OpenGL?
 //
 
 /*		This Code Was Created By Jeff Molofee 2000
@@ -137,9 +141,8 @@ void SetMode(int mode) {
 	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", aid.app_name,
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
 		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
-		NULL, NULL, hInstance, NULL);
-
-
+		NULL, NULL, hInstance, NULL
+    );
 
 	SetForegroundWindow(hWnd);
 
@@ -241,27 +244,26 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			}
 			if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
 
-			if(dtime()-starttime>1./fps)
-			{
-				GetClientRect(hWnd, &rt);
-				width = rt.right-rt.left;
-				height = rt.bottom-rt.top;
+            // TODO: remove width, height from API
+            //
+		    GetClientRect(hWnd, &rt);
+			width = rt.right-rt.left;
+			height = rt.bottom-rt.top;
 
 #ifdef DRAW_WITH_DLL
-				float* data;
-				int data_size=100;
-				data=(float*)malloc(sizeof(float)*data_size);
-				for(int i=0;i<data_size;i++)
-				{
-					data[i]=float(rand()%1000/1000.);
-				}
-				vis_render(width,height,dtime(),data,data_size);
+			float* data;
+			int data_size=100;
+			data=(float*)malloc(sizeof(float)*data_size);
+			for(int i=0;i<data_size;i++)
+			{
+				data[i]=float(rand()%1000/1000.);
+			}
+			vis_render(width,height,dtime(),data,data_size);
 #else
-				app_render(width, height, dtime());			
+			throttled_app_render(width, height, dtime());			
 #endif
-				starttime=dtime();
-				SwapBuffers(hDC);
-			}		
+			starttime=dtime();
+			SwapBuffers(hDC);
 			return 0;
 	}
 

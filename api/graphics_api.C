@@ -28,6 +28,9 @@ extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
 #endif
 
+#ifdef __APPLE_CC__
+#include "mac_app_opengl.h"
+#endif
 
 #include <string.h>
 #include <stdarg.h>
@@ -37,13 +40,12 @@ HANDLE graphics_threadh=NULL;
 #endif
 
 #include "parse.h"
+#include "util.h"
 #include "app_ipc.h"
-#include "graphics_api.h"
 #include "error_numbers.h"
+#include "boinc_api.h"
+#include "graphics_api.h"
 
-#ifdef __APPLE_CC__
-#include "mac_app_opengl.h"
-#endif
 
 #ifdef _WIN32
 HANDLE hQuitEvent;
@@ -156,6 +158,61 @@ int boinc_finish_opengl() {
 #endif
 	
     return 0;
+}
+
+void throttled_app_render(int x, int y, double t) {
+    static double total_render_time = 0;
+    static double time_until_render = 0;
+    static double last_now = 0;
+    static double elapsed_time = 0;
+    double now, t0, t1, diff, frac, m;
+    bool ok_to_render;
+
+    // the following should be passed in via prefs
+    double max_fps = 1;
+    double max_gfx_cpu_frac = 0.2;
+
+    ok_to_render = true;
+    now = dtime();
+    diff = now - last_now;
+    last_now = now;
+    if (diff > 1) diff = 0;     // handle initial case
+
+    // enforce frames/sec restriction
+    //
+    if (max_fps) {
+        time_until_render -= diff;
+        if (time_until_render < 0) {
+            time_until_render += 1./max_fps;
+        } else {
+            ok_to_render = false;
+        }
+    }
+
+    // enforce max CPU time restriction
+    //
+    if (max_gfx_cpu_frac) {
+        elapsed_time += diff;
+        if (elapsed_time) {
+            frac = total_render_time/elapsed_time;
+            if (frac > max_gfx_cpu_frac) {
+                ok_to_render = false;
+            }
+        }
+    }
+
+    // render if allowed
+    //
+    if (ok_to_render) {
+        if (max_gfx_cpu_frac) {
+            boinc_cpu_time(t0, m);
+        }
+        app_render(x, y, t);
+        if (max_gfx_cpu_frac) {
+            boinc_cpu_time(t1, m);
+            total_render_time += t1 - t0;
+        }
+    }
 }
 
 #ifdef HAVE_GL_LIB
