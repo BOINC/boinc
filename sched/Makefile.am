@@ -2,9 +2,9 @@
 
 include $(top_srcdir)/Makefile.incl
 
-noinst_PROGRAMS =							\
-	cgi feeder show_shmem file_upload_handler			\
-        validate_test make_work timeout_check file_deleter		\
+noinst_PROGRAMS =								\
+	cgi feeder show_shmem file_upload_handler				\
+        validate_test validate_trivial make_work timeout_check file_deleter	\
         assimilator db_dump update_stats
 
 noinst_LIBRARIES = libsched.a
@@ -54,8 +54,11 @@ feeder_DEPENDENCIES = $(LIB_SCHED)
 show_shmem_SOURCES = show_shmem.C
 show_shmem_DEPENDENCIES = $(LIB_SCHED)
 
-validate_test_SOURCES = validate.C validate_test.C
+validate_test_SOURCES = validate.C validate_test.C validate_util.C validate_util.h
 validate_test_DEPENDENCIES = $(LIB_SCHED)
+
+validate_trivial_SOURCES = validate.C validate_trivial.C validate_util.C validate_util.h
+validate_trivial_DEPENDENCIES = $(LIB_SCHED)
 
 file_deleter_SOURCES = file_deleter.C
 file_deleter_DEPENDENCIES = $(LIB_SCHED)

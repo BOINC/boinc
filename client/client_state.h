@@ -105,6 +105,7 @@ public:
     int user_run_request;
     bool start_saver;
     bool exit_when_idle;
+    bool return_results_immediately;
     bool show_projects;
     bool requested_exit;
     bool use_http_proxy;

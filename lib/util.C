@@ -17,20 +17,21 @@
 // Contributor(s):
 //
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <cctype>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
-#include <string>
 #include <algorithm>
-using namespace std;
+#include <fstream>
+using std::ifstream;
+using std::min;
 
 #ifdef _WIN32
 #include <time.h>
@@ -489,4 +490,16 @@ string timediff_format(long tdiff)
 
     sprintf(buf, "%d weeks, %d days, %d hours, %d minutes, and %d seconds", (int)tdiff, days, hours, min, sex);
     return buf;
+}
+
+// read entire file into string
+int read_file_string(const char* pathname, string& result)
+{
+    result.erase();
+    ifstream f(pathname);
+    if (!f) return -1;
+
+    char c;
+    while (f.get(c)) result += c;
+    return 0;
 }

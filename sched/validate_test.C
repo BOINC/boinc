@@ -17,163 +17,76 @@
 // Contributor(s):
 //
 
-using namespace std;
-#include <vector>
-
-#include "boinc_db.h"
-#include "config.h"
-#include "parse.h"
+#include "validate_util.h"
 #include "sched_util.h"
 
-extern CONFIG config;
+// TODO: use md5 hash
 
-// get the name of a result's (first) output file
-//
-int get_output_file_path(RESULT& result, char* path) {
-    char buf[256];
-    bool flag;
+// read file into memory
+int init_result_read_file(RESULT const& result, void*& data)
+{
+    int retval;
+    string path;
 
-    flag = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
-    if (!flag) return -1;
-    sprintf(path, "%s/%s", config.upload_dir, buf);
+    retval = get_output_file_path(result, path);
+    if (retval) {
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[RESULT#%d %s] check_set: can't get output filename\n",
+            result.id, result.name
+            );
+        return retval;
+    }
+
+    string* s = new string;
+    data = (void*) s;
+
+    retval = read_file_string(path.c_str(), *s);
+    if (retval) {
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[RESULT#%d %s] Couldn't open %s\n",
+            result.id, result.name, path.c_str()
+            );
+        return retval;
+    }
+
     return 0;
 }
 
-// crude example of a validation function.
+int check_pair_initialized_identical(RESULT const& /*r1*/, void* data1,
+                                     RESULT const& /*r2*/, void* data2,
+                                     bool& match)
+{
+    string const* s1 = (string*) data1;
+    string const* s2 = (string*) data2;
+
+    match = (*s1 == *s2);
+    return 0;
+}
+
+int cleanup_result_string(RESULT const& /*result*/, void* data)
+{
+    string* s = (string*) data;
+    delete s;
+    return 0;
+}
+
 // See if there's a strict majority under equality.
 //
-int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
-    int i, j, n, neq=0, retval, ilow, ihigh, canonical;
-    char* files[100];
-    char path[256];
-    bool found;
-    double c, low=0.0, high=0.0;
-
-    canonical = 0;
-    n = results.size();
-
-    // read the result files into malloc'd memory buffers
-    //
-    for (i=0; i<n; i++) {
-        RESULT& result = results[i];
-        retval = get_output_file_path(result, path);
-        if (retval) {
-            log_messages.printf(
-                SchedMessages::CRITICAL,
-                "check_set: can't get output filename for %s\n",
-                result.name
-            );
-            return retval;
-        }
-        retval = read_file_malloc(path, files[i]);
-        if (retval) {
-            log_messages.printf(
-                SchedMessages::CRITICAL,
-                "[RESULT#%d %s] Couldn't open %s (read_file_malloc()=%d)\n",
-                result.id, result.name, path, retval
-            );
-            return retval;
-        }
-    }
-
-    // go through the files, compare with the others.
-    // If equal to over half, make it the canonical result
-    //
-    for (i=0; i<n; i++) {
-        neq = 0;
-        for (j=0; j<n; j++) {
-            if (!strcmp(files[i], files[j])) neq++;
-        }
-        if (neq > n/2) {
-            found = true;
-            canonical = i;
-            canonicalid = results[i].id;
-            break;
-        }
-    }
-
-    // if we have a canonical result, flag all matching results as valid
-    // Also find the low and high claimed credits
-    //
-    ilow = ihigh = -1;
-    for (i=0; i<n; i++) {
-        if (!strcmp(files[i], files[canonical])) {
-            results[i].validate_state = VALIDATE_STATE_VALID;
-            c = results[i].claimed_credit;
-            if (ilow < 0) {
-                ilow = ihigh = i;
-                low = high = c;
-            } else {
-                if (c < low) {
-                    low = c;
-                    ilow = i;
-                }
-                if (c > high) {
-                    high = c;
-                    ihigh = i;
-                }
-            }
-        } else {
-            results[i].validate_state = VALIDATE_STATE_INVALID;
-        }
-    }
-
-    // if we have a canonical result, compute a canonical credit as follows:
-    // - if N==1, give that credit
-    // - if N==2, give min credit
-    // - if N>2, toss out min and max, give average of rest
-    //
-    if (neq == 1) {
-        credit = low;
-    } else if (neq == 2) {
-        credit = low;
-    } else {
-        double sum = 0;
-        for (i=0; i<n; i++) {
-            if (i == ilow) continue;
-            if (i == ihigh) continue;
-            if (results[i].validate_state == VALIDATE_STATE_VALID) {
-                sum += results[i].claimed_credit;
-            }
-        }
-        credit = sum/(neq-2);
-    }
-
-    // free malloced files
-    //
-    for (i=0; i<n; i++) {
-        free(files[i]);
-    }
-    return 0;
+int check_set(vector<RESULT>& results, int& canonicalid, double& credit)
+{
+    return generic_check_set_majority(results, canonicalid, credit,
+                                      init_result_read_file,
+                                      check_pair_initialized_identical,
+                                      cleanup_result_string);
 }
 
-int check_pair(RESULT& r1, RESULT& r2, bool& match) {
-    char path[256];
-    char* p1, *p2;
-    int retval;
-
-    get_output_file_path(r1, path);
-    retval = read_file_malloc(path, p1);
-    if (retval) {
-        log_messages.printf(
-            SchedMessages::CRITICAL,
-            "[RESULT#%d %s] [RESULT#%d %s] Couldn't open %s (r1: read_file_malloc()=%d)\n",
-            r1.id, r1.name, r2.id, r2.name, path, retval
-        );
-        return retval;
-    }
-    get_output_file_path(r2, path);
-    retval = read_file_malloc(path, p2);
-    if (retval) {
-        log_messages.printf(
-            SchedMessages::CRITICAL,
-            "[RESULT#%d %s] [RESULT#%d %s] Couldn't open %s (r2: read_file_malloc()=%d)\n",
-            r1.id, r1.name, r2.id, r2.name, path, retval
-        );
-        return retval;
-    }
-    match = !strcmp(p1, p2);
-    free(p1);
-    free(p2);
-    return 0;
+int check_pair(RESULT const& r1, RESULT const& r2, bool& match)
+{
+    return generic_check_pair(r1, r2, match,
+                              init_result_read_file,
+                              check_pair_initialized_identical,
+                              cleanup_result_string);
 }
+

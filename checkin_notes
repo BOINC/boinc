@@ -5696,3 +5696,37 @@ Karl 2003/08/13
     _autosetup
     aclocal.m4
 
+
+Karl 2003/08/13
+    - test script fixes: increase delay_bound to reasonable value since it's
+      now checked by handle_request
+
+    test/
+        testbase.py
+        test_uc.py
+
+
+Karl 2003/08/13
+    - create validation routines which generalize what used to be
+      validate_test, but more efficiently and safer (from buffer overruns and
+      allows NULL character in files).  Rewrote validate_test using this, and
+      created validate_trivial which grants credit to all results.
+
+    Sched/
+        Makefile.am
+        validate.C
+        validate_test.C
+        validate_trivial.C  (new)
+        validate_trivial.h  (new)
+        validate_util.C     (new)
+        validate_util.h     (new)
+
+
+Karl 2003/08/13
+    - added '-return_results_immediately' flag to client to allow it to
+      ignore the report deadline when deciding when to report a result
+
+    client/
+        cs_scheduler.C
+        client_state.C
+        client_state.h

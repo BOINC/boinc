@@ -68,6 +68,7 @@ CLIENT_STATE::CLIENT_STATE() {
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
+    return_results_immediately = false;
     run_cpu_benchmarks = false;
     skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
@@ -1436,6 +1437,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
+        } else if (!strcmp(argv[i], "-return_results_immediately")) {
+            return_results_immediately = true;
         } else if (!strcmp(argv[i], "-skip_cpu_benchmarks")) {
             skip_cpu_benchmarks = true;
         } else if (!strcmp(argv[i], "-exit_after_app_start")) {

@@ -54,7 +54,7 @@ using namespace std;
 #define PIDFILE  "validate.pid"
 
 extern int check_set(vector<RESULT>&, int& canonical, double& credit);
-extern int check_pair(RESULT&, RESULT&, bool&);
+extern int check_pair(RESULT const&, RESULT const&, bool&);
 
 CONFIG config;
 char app_name[256];

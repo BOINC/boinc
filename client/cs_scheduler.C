@@ -292,8 +292,11 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (r->project->waiting_until_min_rpc_time(now)) continue;
         // NOTE: early versions of scheduler (<2003/08/07) did not send
         // report_deadline (in which case it is 0)
+        // 'return_results_immediately' is a debug flag that makes the client
+        // ignore the report deadline when deciding when to report a result
         if (r->ready_to_ack &&
-            r->report_deadline <= now+SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT)
+            (return_results_immediately ||
+             r->report_deadline <= now+SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT))
         {
             return r->project;
         }
@@ -425,7 +428,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         need_to_install_prefs = true;
     }
 
-	
+
     // if the scheduler reply includes global preferences,
     // insert extra elements, write to disk, and parse
     //
@@ -442,7 +445,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             scheduler_url,
             sr.global_prefs_xml
         );
-        fclose(f); 
+        fclose(f);
 		need_to_install_prefs = true;
 	}
 

@@ -45,6 +45,7 @@ extern void safe_strncpy(char*, char*, int);
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* timestamp();
 string timediff_format(long tdiff);
+int read_file_string(const char* pathname, string& result);
 
 // NOTE: use #include <functional>   to get max,min
 

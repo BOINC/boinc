@@ -26,7 +26,7 @@ class WorkUC(Work):
         self.wu_template = "uc_wu"
         self.result_template = "uc_result"
         self.redundancy = redundancy
-        self.delay_bound = 5*redundancy
+        self.delay_bound = 86400*3 # 5*redundancy
         self.input_files = ['input']
         # # Say that 1 WU takes 1 day on a ref comp
         #    - note: for test_1sec these values are too high so if you want to

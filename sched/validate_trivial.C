@@ -1,0 +1,62 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+//
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved.
+//
+// Contributor(s):
+//
+
+#include "validate_util.h"
+
+// TODO: use md5 hash
+
+// read file into memory
+int init_result_trivial(RESULT const& result, void*& data)
+{
+    return 0;
+}
+
+int check_pair_initialized_trivial(RESULT const& /*r1*/, void* /*data1*/,
+                                   RESULT const& /*r2*/, void* /*data2*/,
+                                   bool& match)
+{
+    match = true;
+    return 0;
+}
+
+int cleanup_result_trivial(RESULT const& /*result*/, void* /*data*/)
+{
+    return 0;
+}
+
+// Always grant credit to everybody
+//
+int check_set(vector<RESULT>& results, int& canonicalid, double& credit)
+{
+    return generic_check_set_majority(results, canonicalid, credit,
+                                      init_result_trivial,
+                                      check_pair_initialized_trivial,
+                                      cleanup_result_trivial);
+}
+
+int check_pair(RESULT const& r1, RESULT const& r2, bool& match)
+{
+    // return generic_check_pair(r1, r2, match,
+    //                           init_result_trivial,
+    //                           check_pair_initialized_trivial,
+    //                           cleanup_result_trivial);
+    match = true;
+    return 0;
+}
+
