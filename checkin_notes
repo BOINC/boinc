@@ -13789,3 +13789,11 @@ David  16 June 2004
 
 	client/
 		http.C
+
+Rom    16 June 2004
+    - Fix HTTP:OP bug where on an upload and the server responds with a 404
+        not found for the file_upload_handler would cause the client
+        to delete the result file.
+
+    client/
+        pers_file_xfer.C

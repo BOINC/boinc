@@ -200,9 +200,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\stdafx.cpp">
-			</File>
-			<File
 				RelativePath="..\lib\util.C">
 			</File>
 		</Filter>

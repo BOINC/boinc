@@ -272,8 +272,14 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 
     if (fxp->file_xfer_retval == HTTP_STATUS_NOT_FOUND) {
-        giveup("file was not found on server");
-        return;
+        // If it is uploading and receives a HTTP_STATUS_NOT_FOUND then
+        //   the file upload handler could not be found.
+        if (!fxp->is_upload) {
+            giveup("file was not found on server");
+            return;
+        } else {
+            retry_or_backoff();
+        }
     }
 
     // See if it's time to give up on the persistent file xfer
