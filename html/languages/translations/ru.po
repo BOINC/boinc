@@ -8,20 +8,28 @@
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
 
-
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
 msgid "CHARSET"
 msgstr "windows-1251"
+
 # The name of this language in this language
+# Имя языка в этом файле
 msgid "LANG_NAME_NATIVE"
-msgstr "Russian"
+msgstr "Русский"
+
 # The name of this language in an international language (English)
+# Имя языка в этом файле на интернациональном языке (английском)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Russian"
 
 
-#########################################
-# Apps page (apps.php)
-#########################################
+##########################################
+# Apps page
+# Страница приложений
+# apps.php
+##########################################
+
 msgid "APPS_TITLE"
 msgstr "Приложения"
 
@@ -41,9 +49,13 @@ msgstr "Текущая Версия"
 msgid "APPS_INSTALLTIME"
 msgstr "Время Сборки"
 
-#########################################
-# Rules and Policies page (info.php)
-#########################################
+
+##########################################
+# Rules and Policies page
+# Страница Правил и Политик
+# info.php
+##########################################
+
 msgid "RULES_TITLE"
 msgstr "Правила и Политики"
 
@@ -139,9 +151,13 @@ msgstr "Другие проекты не связаны с $PROJECT, и мы не можем "
 "поручиться за их безопасность или природу их исследований. Присоединяйтесь к ним "
 "на свой страх и риск."
 
-#########################################
-# Create account form (create_account_form.php)
-#########################################
+
+##########################################
+# Create account form
+# Форма создания учетной записи
+# create_account_form.php
+##########################################
+
 msgid "CREATE_AC_TITLE"
 msgstr "Создание Учетной Записи"
 
@@ -187,9 +203,12 @@ msgid "CREATE_AC_TEAM"
 msgstr "Эта учетная запись будет относиться к команде '%s' и будет иметь преимущества создателя."
 
 
-#########################################
-# Account created page (account_created.php)
-#########################################
+##########################################
+# Account created page
+# Страница 'Учетная запись создана'
+# account_created.php
+##########################################
+
 msgid "AC_READY_TITLE"
 msgstr "Учетная Запись Создана"
 
@@ -203,10 +222,12 @@ msgid "AC_READY_CLICK"
 msgstr "и нажмите"
 
 
-#########################################
-# Account setup page (account_setup.php)
-#########################################
-#also used in account_setup_nonfirst.php:
+##########################################
+# Account setup page
+# Страница настройки учетной записи
+# account_setup.php, account_setup_nonfirst.php
+##########################################
+
 msgid "AC_SETUP_TITLE"
 msgstr "Настройка Учетной Записи"
 
@@ -226,10 +247,12 @@ msgid "AC_SETUP_NONFIRST"
 msgstr "Нет - к данному моменту я учавствую как минимум в одном BOINC-проекте"
 
 
-#########################################
-# First Account setup page (account_setuo_first.php)
-# and (account_setup_nonfirst_done.php)
-#########################################
+##########################################
+# First Account setup page
+# Настройка первой учетной записи
+# account_setuo_first.php, account_setup_nonfirst_done.php
+##########################################
+
 msgid "AC_FIRST_TITLE"
 msgstr "Настройки Учетной Записи"
 
@@ -266,10 +289,12 @@ msgid "AC_DONE_THANKS"
 msgstr "Спасибо за участие в $PROJECT"
 
 
+##########################################
+# Non-first Account setup page
+# Настройка существующей учетной записи
+# account_setup_nonfirst.php
+##########################################
 
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
 msgid "AC_NONFIRST_TITLE"
 msgstr "Настройки Учетной Записи: Разделение Ресурсов"
 
@@ -298,18 +323,30 @@ msgid "AC_DONE_INSTALLED"
 msgstr "Это заветшит установку $PROJECT."
 
 
+##########################################
+# Forum sample index page
+# Пример главной страницы форума
+##########################################
 
-#########################################
+msgid "FORUM_TITLE"
+msgstr "Доска объявлений $PROJECT"
+
+
+##########################################
 # Different strange places:
-#########################################
-
+# хз
 # account_created.php
+##########################################
+
 msgid "AC_CREATED_TITLE"
 msgstr "Настройте Вашу учетную запись"
 
 
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
+##########################################
+# General stuff
+# Общий материал
+# create_account_form.php
+##########################################
+
 msgid "OPTIONAL"
 msgstr "Необязательно"
