@@ -136,7 +136,8 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // TODO: fill in the app prefs, team name, etc.
 	strncpy( aid.user_name, wup->project->user_name, 256 );
-	strncpy( aid.app_preferences, wup->project->project_specific_prefs, 4096 );
+    if (wup->project->project_specific_prefs)
+	    strncpy( aid.app_preferences, wup->project->project_specific_prefs, 4096 );
     aid.total_cobblestones = wup->project->user_total_credit;
     aid.recent_avg_cobblestones = wup->project->user_expavg_credit;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
