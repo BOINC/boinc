@@ -1,7 +1,6 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- global battery/user active prefs are always true in the client
 - GUI client should display "Upload failed" and "Download failed"
     in transfers tab when failure occurs
 - GUI: Result status should say "downloading files", "uploading files", etc.

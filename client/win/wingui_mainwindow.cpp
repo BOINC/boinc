@@ -248,21 +248,16 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			case RESULT_NEW:
 				strBuf.Format(g_szMiscItems[0]); break;
 			case RESULT_FILES_DOWNLOADED:
-				if (at)
-					strBuf.Format(g_szMiscItems[1]);
-				else
-					strBuf.Format(g_szMiscItems[2]);
+				if (at) strBuf.Format(g_szMiscItems[1]);
+				else strBuf.Format(g_szMiscItems[2]);
 				break;
 			case RESULT_COMPUTE_DONE:
 				strBuf.Format(g_szMiscItems[3]); break;
 			default:
-				if (re->server_ack) {
-					strBuf.Format(g_szMiscItems[5]); break;
-				} else if (re->ready_to_ack) {
-					strBuf.Format(g_szMiscItems[4]); break;
-				} else {
-					strBuf.Format(g_szMiscItems[6]); break;
-				}
+				if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
+				else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
+				else strBuf.Format(g_szMiscItems[6]);
+				break;
 		}
 		m_ResultListCtrl.SetItemText(i, 6, strBuf);
 	}

@@ -34,8 +34,8 @@
 // if there are no global prefs yet
 //
 void GLOBAL_PREFS::init() {
-    run_on_batteries = true;
-    run_if_user_active = true;
+    run_on_batteries = false;
+    run_if_user_active = false;
     start_hour = 0;
     end_hour = 0;
     run_minimized = false;
