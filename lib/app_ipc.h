@@ -119,8 +119,9 @@ struct MSG_QUEUE {
 #define MODE_FULLSCREEN         3
 #define MODE_BLANKSCREEN        4
 #define MODE_REREAD_PREFS       5
+#define MODE_QUIT               6
 
-#define NGRAPHICS_MSGS  6
+#define NGRAPHICS_MSGS  7
 
 #include <cstdio>
 

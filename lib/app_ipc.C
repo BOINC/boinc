@@ -43,6 +43,7 @@ char* xml_graphics_modes[NGRAPHICS_MSGS] = {
     "<mode_fullscreen/>",
     "<mode_blankscreen/>",
     "<reread_prefs/>",
+    "<mode_quit/>"
 };
 
 GRAPHICS_MSG::GRAPHICS_MSG() {

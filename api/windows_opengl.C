@@ -208,7 +208,7 @@ static void set_mode(int mode) {
 	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
 	KillWindow();
 	current_graphics_mode = mode;
-    if (mode != MODE_HIDE_GRAPHICS) {
+    if (mode != MODE_HIDE_GRAPHICS && mode != MODE_QUIT) {
         make_new_window();
     }
 
@@ -239,7 +239,7 @@ LRESULT CALLBACK WndProc(
 	case WM_KEYDOWN:
 	case WM_KEYUP:
 		if (current_graphics_mode == MODE_FULLSCREEN) {
-			set_mode(MODE_HIDE_GRAPHICS);
+			set_mode(MODE_QUIT);
         } else {
             if (uMsg == WM_KEYDOWN) {
                 boinc_app_key_press((int)wParam, (int)lParam);
@@ -255,7 +255,7 @@ LRESULT CALLBACK WndProc(
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
 		if (current_graphics_mode == MODE_FULLSCREEN) {
-			set_mode(MODE_HIDE_GRAPHICS);
+			set_mode(MODE_QUIT);
 		} else  {
             int which;
             bool down;
@@ -270,7 +270,7 @@ LRESULT CALLBACK WndProc(
 		GetCursorPos(&cPos);
 		if(current_graphics_mode == MODE_FULLSCREEN) {
 			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-				set_mode(MODE_HIDE_GRAPHICS);
+    			set_mode(MODE_QUIT);
 			}
 		} else {
 			boinc_app_mouse_move(
@@ -381,6 +381,9 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                 xml_decode_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;
+            if (MODE_QUIT == current_graphics_mode) {
+                current_graphics_mode = MODE_HIDE_GRAPHICS;
+            }
         }
     }
     if (!visible) return;

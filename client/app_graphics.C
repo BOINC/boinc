@@ -61,10 +61,13 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
-        app_client_shm.decode_graphics_msg(buf, gm);
-        //msg_printf(NULL, MSG_INFO, "got graphics ack %s for %s", buf, result->name);
-        if (gm.mode != MODE_REREAD_PREFS) {
-            graphics_mode_acked = gm.mode;
+        mode = app_client_shm.decode_graphics_msg(buf, NULL, 0, NULL, 0);
+        //BOINCTRACE("got graphics ack %s for %s", buf, result->name);
+        if (mode != MODE_REREAD_PREFS) {
+            graphics_mode_acked = mode;
+        }
+        if (mode == MODE_QUIT) {
+            gstate.ss_logic.stop_ss();
         }
     }
 }
@@ -100,7 +103,7 @@ void ACTIVE_TASK_SET::save_app_modes() {
             atp->graphics_mode_acked = MODE_HIDE_GRAPHICS;
         }
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
-        //msg_printf(NULL, MSG_INFO, "saved mode %d", atp->graphics_mode_acked);
+        //BOINCTRACE("saved mode %d", atp->graphics_mode_acked);
     }
 }
 
@@ -181,11 +184,11 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
                 best_atp = atp;
             }
             if (best_atp) {
-                 //msg_printf(NULL, MSG_INFO, "chose SS: %s", best_atp->result->name);
+                 //BOINCTRACE("chose SS: %s", best_atp->result->name);
                  return atp;
            }
         }
     }
-    //msg_printf(NULL, MSG_INFO, "no SS to choose");
+    //BOINCTRACE("no SS to choose");
     return NULL;
 }

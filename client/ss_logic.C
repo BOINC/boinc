@@ -61,6 +61,7 @@ void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
     reset();
     do_ss = false;
+    ss_status = SS_STATUS_DISABLED;
     gstate.active_tasks.restore_apps();
 }
 
@@ -121,6 +122,7 @@ void SS_LOGIC::poll() {
         } else {
             atp = gstate.get_next_graphics_capable_app();
             if (atp) {
+                do_ss = false;
                 ss_status = SS_STATUS_RESTARTREQUEST;
             } else {
                 if (gstate.active_tasks.active_tasks.size()==0) {
