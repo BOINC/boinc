@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef h_MD5_FILE
+#define h_MD5_FILE
+
 #include <string>
 
 // length of buffer to hold an MD5 hash
@@ -31,3 +34,5 @@ inline std::string md5_string(std::string const& data)
 {
     return md5_string((const unsigned char*) data.c_str(), data.size());
 }
+
+#endif
