@@ -390,7 +390,7 @@ Michael Gary	June 07, 2002
 	sched_shmem.C
 	server_types.C
 	show_shmem.C
-	Makefile
+	Makefile.in
     lib/
 	parse.C
 

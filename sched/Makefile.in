@@ -5,10 +5,10 @@ VPATH           = @srcdir@
 
 all: cgi
 
-CFLAGS = -g -Wall @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
+CFLAGS = -g -Wall -include /usr/local/include/fcgi_stdio.h @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
 CC = g++ $(CFLAGS)
 
-CLIBS = @LIBS@
+CLIBS = @LIBS@ -lfcgi -lfcgi++
 
 PROGS = cgi feeder show_shmem
 
@@ -43,7 +43,7 @@ MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
 -L$(MYSQL_DIR) -L/sw/lib/mysql -L/usr/local/lib/mysql \
 -lmysqlclient -L/usr/local/lib -lz \
--lm $(NETLIBS)
+-lm $(NETLIBS) 
 
 .C.o:
 	$(CC) -c -o $*.o $<
