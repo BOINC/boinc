@@ -60,6 +60,5 @@ int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
     return check_pair_initialized_trivial(r1, NULL,
                                           r2, NULL,
                                           match);
-    return 0;
 }
 
