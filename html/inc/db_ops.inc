@@ -515,6 +515,7 @@ function show_host($host) {
     row("% of time client on", 100*$host->on_frac." %");
     row("% of time host connected", 100*$host->connected_frac." %");
     row("% of time user active", 100*$host->active_frac." %");
+    row("# of results today", $host->nresults_today);
     row("Results", "<a href=db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time>click here</a>");
     end_table();
 

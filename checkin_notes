@@ -12780,3 +12780,16 @@ David  May 27 2004
 	doc/
 		graphics.png
 		graphics.sxd
+
+Rom    May 28 2004
+    - Fix screensaver issue where somebody may have configured a 0 blank time,
+      if so, the blank time is set to twenty minutes.
+    - Host properties on the BOINC Ops page now shows the nresults_today value
+    - The host failures report now displays the nresults_today
+
+    client/win/
+        wingui_mainwindow.cpp
+    html/inc
+        db_ops.inc
+    html/ops/
+        failure_result_summary_by_host.php

@@ -2216,8 +2216,13 @@ LRESULT CMainWindow::OnStartScreensaver(WPARAM wParam, LPARAM lParam)
 
     UtilGetRegKey(REG_BLANK_NAME, reg_blank_screen);
     UtilGetRegKey(REG_BLANK_TIME, reg_time_until_blank);
-    if (reg_blank_screen && reg_time_until_blank>0) {
-        blank_time = time(0) + reg_time_until_blank*60;
+    if (reg_blank_screen) {
+        if (reg_time_until_blank>0) {
+            blank_time = time(0) + reg_time_until_blank*60;
+        } else {
+            blank_time = time(0) + 1200; // After twenty mintues,
+                                         // blank the screen
+        }
     } else {
         blank_time = 0;
     }

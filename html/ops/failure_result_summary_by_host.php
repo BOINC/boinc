@@ -48,6 +48,7 @@ SELECT
                end
            else host.os_version
        end AS OS_Version,
+       host.nresults_today AS Results_Today, 
        COUNT(*) AS error_count
 FROM   result
            left join host on result.hostid = host.id 
@@ -60,13 +61,14 @@ GROUP BY
        app_version_num DESC,
        hostid,
        OS_Name,
-       OS_Version
+       OS_Version,
+       host.nresults_today
 ";
 
 $result = mysql_query($main_query);
 
 echo "<table>\n";
-echo "<tr><th>App Version</th><th>Host ID</th><th>OS Name</th><th>OS Version</th><th>Error Count</th></tr>\n";
+echo "<tr><th>App Version</th><th>Host ID</th><th>OS Name</th><th>OS Version</th><th>Results Today</th><th>Error Count</th></tr>\n";
 
 while ($res = mysql_fetch_object($result)) {
 
@@ -86,6 +88,10 @@ while ($res = mysql_fetch_object($result)) {
 
     echo "<td align=left valign=top>";
     echo $res->OS_Version;
+    echo "</td>";
+
+    echo "<td align=left valign=top>";
+    echo $res->Results_Today;
     echo "</td>";
 
     echo "<td align=left valign=top>";
