@@ -551,13 +551,9 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
     {
         case ID_NETWORKSUSPEND:
             if ( event.IsChecked() )
-            {
-                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
-            }
-            else
-            {
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
-            }
+            else
+                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
             break;
         case ID_NETWORKRUNALWAYS:
         case ID_NETWORKRUNBASEDONPREPERENCES:
@@ -705,52 +701,67 @@ void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnUpdateActivitySelection( wxUpdateUIEvent& WXUNUSED(event) )
+void CMainFrame::OnUpdateActivitySelection( wxUpdateUIEvent& event )
 {
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenuBar*     pMenuBar      = GetMenuBar();
     wxInt32        iActivityMode = -1;
+    wxInt32        iEventId      = event.GetId();
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
+    pMenuBar->Check( event.GetId(), false );
     pDoc->GetActivityRunMode( iActivityMode );
-    switch( iActivityMode )
+
+    switch( iEventId )
     {
-        case CMainDocument::MODE_ALWAYS:
-            pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+        case ID_ACTIVITYRUNALWAYS:
+            if ( CMainDocument::MODE_ALWAYS == iActivityMode )
+                pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
             break;
-        case CMainDocument::MODE_NEVER:
-            pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
+        case ID_ACTIVITYSUSPEND:
+            if ( CMainDocument::MODE_NEVER == iActivityMode )
+                pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
             break;
-        case CMainDocument::MODE_AUTO:
-            pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+        case ID_ACTIVITYRUNBASEDONPREPERENCES:
+            if ( CMainDocument::MODE_AUTO == iActivityMode )
+                pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
             break;
     }
 }
 
 
-void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& WXUNUSED(event) )
+void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& event )
 {
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenuBar*     pMenuBar      = GetMenuBar();
     wxInt32        iNetworkMode  = -1;
+    wxInt32        iEventId      = event.GetId();
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
+    pMenuBar->Check( event.GetId(), false );
     pDoc->GetNetworkRunMode( iNetworkMode );
-    switch( iNetworkMode )
+
+    switch( iEventId )
     {
-        case CMainDocument::MODE_NEVER:
-            pMenuBar->Check( ID_NETWORKSUSPEND, true );
+        case ID_NETWORKRUNALWAYS:
+            if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
+                pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
             break;
-        default:
-            pMenuBar->Check( ID_NETWORKSUSPEND, false );
+        case ID_NETWORKSUSPEND:
+            if ( CMainDocument::MODE_NEVER == iNetworkMode )
+                pMenuBar->Check( ID_NETWORKSUSPEND, true );
+            break;
+        case ID_NETWORKRUNBASEDONPREPERENCES:
+            if ( CMainDocument::MODE_AUTO == iNetworkMode )
+                pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
             break;
     }
 }

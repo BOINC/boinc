@@ -115,13 +115,9 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
     {
         case ID_TB_NETWORKSUSPEND:
             if ( event.IsChecked() )
-            {
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
-            }
             else
-            {
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
-            }
             break;
         case ID_TB_NETWORKRUNALWAYS:
         case ID_TB_NETWORKRUNBASEDONPREPERENCES:
@@ -271,15 +267,10 @@ void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
     }
 
     pDoc->GetNetworkRunMode( iNetworkMode );
-    switch( iNetworkMode )
-    {
-        case CMainDocument::MODE_NEVER:
-            menu->Check( ID_TB_NETWORKSUSPEND, true );
-            break;
-        default:
-            menu->Check( ID_TB_NETWORKSUSPEND, false );
-            break;
-    }
+    if ( CMainDocument::MODE_NEVER == iNetworkMode )
+        menu->Check( ID_TB_NETWORKSUSPEND, true );
+    else
+        menu->Check( ID_TB_NETWORKSUSPEND, false );
 
     PopupMenu( menu );
 
