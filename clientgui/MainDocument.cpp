@@ -1362,10 +1362,15 @@ wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
 }
 
 
-wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen )
+wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString& strWindowStation, wxString& strDesktop )
 {
     RESULT* pResult = NULL;
     wxInt32 iRetVal = 0;
+    std::string strWinSta;
+    std::string strDesk;
+
+    strWinSta = strWindowStation.c_str();
+    strDesk = strDesktop.c_str();
 
     try
     {
@@ -1378,7 +1383,7 @@ wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen )
     }
 
     if ( NULL != pResult )
-        iRetVal = rpc.show_graphics( pResult->project_url.c_str(), pResult->name.c_str(), bFullScreen );
+        iRetVal = rpc.show_graphics( pResult->project_url.c_str(), pResult->name.c_str(), bFullScreen, strWinSta.c_str(), strDesk.c_str() );
 
     return iRetVal;
 }

@@ -41,19 +41,19 @@ public:
 
     enum RESULTTYPES
     {
-        RESULT_NEW = 0,
-        RESULT_FILES_DOWNLOADING = 1,
-        RESULT_FILES_DOWNLOADED = 2,
-        RESULT_COMPUTE_ERROR = 3,
-        RESULT_FILES_UPLOADING = 4,
-        RESULT_FILES_UPLOADED = 5
+        NEW = RESULT_NEW,
+        FILES_DOWNLOADING = RESULT_FILES_DOWNLOADING,
+        FILES_DOWNLOADED = RESULT_FILES_DOWNLOADED,
+        COMPUTE_ERROR = RESULT_COMPUTE_ERROR,
+        FILES_UPLOADING = RESULT_FILES_UPLOADING,
+        FILES_UPLOADED = RESULT_FILES_UPLOADED
     };
 
     enum CPUSCHEDTYPES
     {
-        CPU_SCHED_UNINITIALIZED = 0,
-        CPU_SCHED_PREEMPTED = 1,
-        CPU_SCHED_SCHEDULED = 2
+        SCHED_UNINITIALIZED = CPU_SCHED_UNINITIALIZED,
+        SCHED_PREEMPTED = CPU_SCHED_PREEMPTED,
+        SCHED_SCHEDULED = CPU_SCHED_SCHEDULED
     };
 
     enum RUNMODETYPES
@@ -179,7 +179,7 @@ public:
 
     wxInt32                     WorkSuspend( wxInt32 iIndex );
     wxInt32                     WorkResume( wxInt32 iIndex );
-    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen );
+    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString& strWindowStation, wxString& strDesktop );
     wxInt32                     WorkAbort( wxInt32 iIndex );
 
 

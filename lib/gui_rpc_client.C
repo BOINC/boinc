@@ -1130,27 +1130,25 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
 }
 
 int RPC_CLIENT::show_graphics(
-    const char* project_url, const char* result_name, bool full_screen
+    const char* project_url, const char* result_name, bool full_screen, const char* window_station, const char* desktop
 ) {
     char buf[1024];
     RPC rpc(this);
 
-    if (project_url) {
-        sprintf(buf, "<result_show_graphics>\n"
-            "   <project_url>%s</project_url>\n"
-            "   <result_name>%s</result_name>\n"
-            "%s"
-            "</result_show_graphics>\n",
-            project_url,
-            result_name,
-            full_screen?"   <full_screen/>\n":""
-        );
-    } else {
-        sprintf(buf,
-            "<result_show_graphics>\n%s</result_show_graphics>\n",
-            full_screen?"<full_screen/>\n":""
-        );
-    }
+    sprintf(buf, 
+        "<result_show_graphics>\n"
+        "   <project_url>%s</project_url>\n"
+        "   <result_name>%s</result_name>\n"
+        "%s"
+        "   <window_station>%s</window_station>\n"
+        "   <desktop>%s</desktop>\n"
+        "</result_show_graphics>\n",
+        project_url,
+        result_name,
+        full_screen?"   <full_screen/>\n":"",
+        window_station,
+        desktop
+    );
     return rpc.do_rpc(buf);
 }
 
@@ -1261,7 +1259,7 @@ int RPC_CLIENT::get_network_mode(int& mode) {
     return 0;
 }
 
-int RPC_CLIENT::get_screensaver_mode(bool& enabled) {
+int RPC_CLIENT::get_screensaver_mode(int& status) {
     char buf[256];
     RPC rpc(this);
     int retval;
@@ -1269,13 +1267,9 @@ int RPC_CLIENT::get_screensaver_mode(bool& enabled) {
     retval = rpc.do_rpc("<get_screensaver_mode/>\n");
     if (retval) return retval;
 
-    enabled = false;
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</screensaver_mode>")) break;
-        else if (match_tag(buf, "<enabled/>")) {
-            enabled = true;
-            continue;
-        }
+        else if (parse_int(buf, "<status>", status)) continue;
     }
 
     return 0;

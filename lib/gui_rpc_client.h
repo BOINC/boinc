@@ -29,11 +29,31 @@
 
 #include "miofile.h"
 
-#define GUI_RPC_PORT 1043
+#define GUI_RPC_PORT                         1043
 
-#define RUN_MODE_ALWAYS 0
-#define RUN_MODE_NEVER  1
-#define RUN_MODE_AUTO   2
+#define RUN_MODE_ALWAYS                      0
+#define RUN_MODE_NEVER                       1
+#define RUN_MODE_AUTO                        2
+
+#define RESULT_NEW                           0
+#define RESULT_FILES_DOWNLOADING             1
+#define RESULT_FILES_DOWNLOADED              2
+#define RESULT_COMPUTE_ERROR                 3
+#define RESULT_FILES_UPLOADING               4
+#define RESULT_FILES_UPLOADED                5
+
+#define CPU_SCHED_UNINITIALIZED              0
+#define CPU_SCHED_PREEMPTED                  1
+#define CPU_SCHED_SCHEDULED                  2
+
+#define SS_STATUS_DISABLED                   0
+#define SS_STATUS_ENABLED                    1
+#define SS_STATUS_RESTARTREQUEST             2
+#define SS_STATUS_BLANKED                    3
+#define SS_STATUS_BOINCSUSPENDED             4
+#define SS_STATUS_NOTGRAPHICSCAPABLE         5
+#define SS_STATUS_NOAPPSEXECUTING            6
+#define SS_STATUS_NOGRAPHICSAPPSEXECUTING    7
 
 struct GUI_URL {
     std::string name;
@@ -352,14 +372,14 @@ public:
     int get_file_transfers(FILE_TRANSFERS&);
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);
-    int show_graphics(const char* project, const char* result_name, bool full_screen);
+    int show_graphics(const char* project, const char* result_name, bool full_screen, const char* window_station, const char* desktop);
     int project_op(PROJECT&, char* op);
     int project_attach(char* url, char* auth);
     int set_run_mode(int mode);
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
-    int get_screensaver_mode(bool& enabled);
+    int get_screensaver_mode(int& status);
     int set_screensaver_mode(bool enabled, const char* window_station, const char* desktop, double blank_time);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);

@@ -257,7 +257,9 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         {
             pDoc->WorkShowGraphics(
                 iProjectIndex,
-                false
+                false,
+                wxGetApp().GetDefaultWindowStation(),
+                wxGetApp().GetDefaultDesktop()
             );
         }
     }
@@ -479,7 +481,7 @@ wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
     }
     else
     {
-        if(pDoc->GetWorkState(item) < CMainDocument::RESULT_COMPUTE_ERROR)
+        if(pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR)
             fBuffer = 0;
         else 
             pDoc->GetWorkFinalCPUTime(item, fBuffer);
@@ -516,7 +518,7 @@ wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 
     if (!pDoc->IsWorkActive(item))
     {
-        if( pDoc->GetWorkState(item) < CMainDocument::RESULT_COMPUTE_ERROR )
+        if( pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR )
             strBuffer = wxT("0.00%");
         else 
             strBuffer = wxT("100.00%");
@@ -598,10 +600,10 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
 
     switch( pDoc->GetWorkState(item) )
     {
-        case CMainDocument::RESULT_NEW:
+        case CMainDocument::NEW:
             strBuffer = _("New"); 
             break;
-        case CMainDocument::RESULT_FILES_DOWNLOADING:
+        case CMainDocument::FILES_DOWNLOADING:
             if (pDoc->IsWorkReadyToReport(item))
             {
                 strBuffer = _("Download failed");
@@ -611,15 +613,15 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
                 strBuffer = _("Downloading");
             }
             break;
-        case CMainDocument::RESULT_FILES_DOWNLOADED:
+        case CMainDocument::FILES_DOWNLOADED:
             if ( pDoc->IsWorkActive(item) )
             {
                 wxInt32 iSchedulerState = pDoc->GetWorkSchedulerState(item);
-                if      ( CMainDocument::CPU_SCHED_SCHEDULED == iSchedulerState )
+                if      ( CMainDocument::SCHED_SCHEDULED == iSchedulerState )
                 {
                     strBuffer = _("Running");
                 }
-                else if ( CMainDocument::CPU_SCHED_PREEMPTED == iSchedulerState )
+                else if ( CMainDocument::SCHED_PREEMPTED == iSchedulerState )
                 {
                     if ( pDoc->IsWorkSuspended(item) )
                     {
@@ -630,7 +632,7 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
                         strBuffer = _("Paused");
                     }
                 }
-                else if ( CMainDocument::CPU_SCHED_UNINITIALIZED == iSchedulerState )
+                else if ( CMainDocument::SCHED_UNINITIALIZED == iSchedulerState )
                 {
                     strBuffer = _("Ready to run");
                 }
@@ -640,10 +642,10 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
                 strBuffer = _("Ready to run");
             }
             break;
-        case CMainDocument::RESULT_COMPUTE_ERROR:
+        case CMainDocument::COMPUTE_ERROR:
             strBuffer = _("Computation error");
             break;
-        case CMainDocument::RESULT_FILES_UPLOADING:
+        case CMainDocument::FILES_UPLOADING:
             if ( pDoc->IsWorkReadyToReport(item) )
             {
                 strBuffer = _("Upload failed");

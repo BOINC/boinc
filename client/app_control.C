@@ -589,7 +589,7 @@ int ACTIVE_TASK::request_reread_prefs() {
     if (retval) return retval;
     if (!app_client_shm.shm) return 0;
     app_client_shm.shm->graphics_request.send_msg(
-        xml_graphics_modes[MODE_REREAD_PREFS]
+        xml_encode_graphics_modes[MODE_REREAD_PREFS]
     );
     return 0;
 }

@@ -27,7 +27,7 @@
 // -get_file_transfers
 // -get_messages    nmsgs seqno
 // -set_run_mode {always | auto | never}
-// -show_graphics {window | fullscreen} [ url result_name ]
+// -show_graphics {window | fullscreen} url result_name
 // -project_reset url
 // -project_attach url auth
 // -project_detach url
@@ -118,11 +118,7 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(argv[i], "-show_graphics")) {
         bool fullscreen = !strcmp(argv[++i], "fullscreen");
-        if (i == argc-1) {
-            retval = rpc.show_graphics(0, 0, fullscreen);
-        } else {
-            retval = rpc.show_graphics(argv[++i], argv[++i], fullscreen);
-        }
+        retval = rpc.show_graphics(argv[++i], argv[++i], fullscreen, "winsta0", "default");
     } else if (!strcmp(argv[i], "-project_reset")) {
         project.master_url = argv[++i];
         retval = rpc.project_op(project, "reset");

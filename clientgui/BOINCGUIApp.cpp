@@ -85,6 +85,12 @@ bool CBOINCGUIApp::OnInit()
     wxASSERT(NULL != m_pTaskBarIcon);
 #endif
 
+    // Detect the default Window Station and Desktop and store the
+    //   information for later use.
+    DetectDefaultWindowStation();
+    DetectDefaultDesktop();
+
+    // Show the UI
     SetTopWindow(m_pFrame);
     m_pFrame->Show();
 
@@ -146,5 +152,54 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
         wxLogVerbose("Commandline has been parsed. -e was not found.");
     }
     return true;
+}
+
+
+void CBOINCGUIApp::DetectDefaultWindowStation()
+{
+    wxChar szWindowStation[256];
+    memset(szWindowStation, NULL, sizeof(szWindowStation));
+
+#ifdef __WXMSW__
+
+    if ( wxWIN95 != wxGetOsVersion( NULL, NULL) )
+    {
+        // Retrieve the current window station and desktop names
+        GetUserObjectInformation( 
+            GetProcessWindowStation(), 
+            UOI_NAME, 
+            szWindowStation,
+            (sizeof(szWindowStation) / sizeof(wxChar)),
+            NULL
+        );
+    }
+
+#endif
+
+    m_strDefaultWindowStation = szWindowStation;
+}
+
+
+void CBOINCGUIApp::DetectDefaultDesktop()
+{
+    wxChar szDesktop[256];
+    memset(szDesktop, NULL, sizeof(szDesktop));
+
+#ifdef __WXMSW__
+
+    if ( wxWIN95 != wxGetOsVersion( NULL, NULL) )
+    {
+        GetUserObjectInformation( 
+            GetThreadDesktop(GetCurrentThreadId()), 
+            UOI_NAME, 
+            szDesktop,
+            (sizeof(szDesktop) / sizeof(wxChar)),
+            NULL
+        );
+    }
+
+#endif
+
+    m_strDefaultDesktop = szDesktop;
 }
 

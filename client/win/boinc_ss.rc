@@ -136,6 +136,11 @@ BEGIN
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
                             "BOINC is not running.\n(Automatic Startup not detected)\n\nWe recommend running BOINC at startup;\nplease reinstall BOINC and select this option."
+    IDS_ERR_BOINCSUSPENDED  "BOINC is currently suspended."
+    IDS_ERR_BOINCNOAPPSEXECUTING
+                            "BOINC is currently idle."
+    IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
+                            "BOINC System Status:\n\n"
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 

@@ -36,13 +36,38 @@
 
 using std::string;
 
-char* xml_graphics_modes[NGRAPHICS_MSGS] = {
+char* xml_encode_graphics_modes[NGRAPHICS_MSGS] = {
+    "<mode>\n"
+    "    <mode_unsupported/>\n"
+    "</mode>\n",
+    "<mode>\n"
+    "    <mode_hide_graphics/>\n"
+    "</mode>\n",
+    "<mode>\n"
+    "    <mode_window/>\n"
+    "    <window_station>%s</window_station>\n"
+    "    <desktop>%s</desktop>\n"
+    "</mode>\n",
+    "<mode>\n"
+    "    <mode_fullscreen/>\n"
+    "    <window_station>%s</window_station>\n"
+    "    <desktop>%s</desktop>\n"
+    "</mode>\n",
+    "<mode>\n"
+    "    <mode_blankscreen/>\n"
+    "</mode>\n",
+    "<mode>\n"
+    "    <reread_prefs/>\n"
+    "</mode>\n"
+};
+
+char* xml_decode_graphics_modes[NGRAPHICS_MSGS] = {
     "<mode_unsupported/>",
     "<mode_hide_graphics/>",
     "<mode_window/>",
     "<mode_fullscreen/>",
     "<mode_blankscreen/>",
-    "<reread_prefs/>"
+    "<reread_prefs/>",
 };
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
@@ -194,10 +219,19 @@ void MSG_CHANNEL::send_msg_overwrite(char* msg) {
     buf[0] = 1;
 }
 
-int APP_CLIENT_SHM::decode_graphics_msg(char* msg) {
+int APP_CLIENT_SHM::decode_graphics_msg(char* msg, char* window_station, size_t windows_station_size, char* desktop, size_t desktop_size) {
     int i;
+
+    if (match_tag(msg, "<window_station>") && (window_station != NULL)) {
+        parse_str(msg, "<window_station>", window_station, windows_station_size);
+    }
+
+    if (match_tag(msg, "<desktop>") && (desktop != NULL)) {
+        parse_str(msg, "<desktop>", desktop, desktop_size);
+    }
+
     for (i=0; i<NGRAPHICS_MSGS; i++) {
-        if (match_tag(msg, xml_graphics_modes[i])) {
+        if (match_tag(msg, xml_decode_graphics_modes[i])) {
             return i;
         }
     }

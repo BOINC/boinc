@@ -216,9 +216,9 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
         iResultCount = pDoc->GetWorkCount();
         for ( iIndex = 0; iIndex < iResultCount; iIndex++ )
         {
-            bIsDownloaded = ( CMainDocument::RESULT_FILES_DOWNLOADED == pDoc->GetWorkState( iIndex ) );
+            bIsDownloaded = ( CMainDocument::FILES_DOWNLOADED == pDoc->GetWorkState( iIndex ) );
             bIsActive     = ( pDoc->IsWorkActive( iIndex ) );
-            bIsExecuting  = ( CMainDocument::CPU_SCHED_SCHEDULED == pDoc->GetWorkSchedulerState( iIndex ) );
+            bIsExecuting  = ( CMainDocument::SCHED_SCHEDULED == pDoc->GetWorkSchedulerState( iIndex ) );
             if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
 
             pDoc->GetWorkProjectName( iIndex, strProjectName );

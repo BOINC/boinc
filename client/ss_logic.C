@@ -38,10 +38,8 @@ void SS_LOGIC::start_ss(char* window_station, char* desktop, double new_blank_ti
     ACTIVE_TASK* atp;
 
     if (do_ss) return;
-    
     do_ss = true;
 
-    ss_status = SS_STATUS_ENABLED;
     blank_time = new_blank_time;
     gstate.active_tasks.save_app_modes();
     gstate.active_tasks.hide_apps();
@@ -49,9 +47,10 @@ void SS_LOGIC::start_ss(char* window_station, char* desktop, double new_blank_ti
     if (!gstate.activities_suspended) {
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
-            atp->request_graphics_mode(MODE_FULLSCREEN);
+            atp->request_graphics_mode(MODE_FULLSCREEN, window_station, desktop);
             atp->is_ss_app = true;
             ack_deadline = time(0) + 5;
+            ss_status = SS_STATUS_ENABLED;
         }
     }
 }
@@ -68,8 +67,9 @@ void SS_LOGIC::stop_ss() {
 void SS_LOGIC::reset() {
     ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
     if (atp) {
-        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+        atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
         atp->is_ss_app = false;
+        ss_status = SS_STATUS_DISABLED;
     }
 }
 
@@ -107,7 +107,7 @@ void SS_LOGIC::poll() {
             if (atp->graphics_mode_acked != MODE_FULLSCREEN) {
                 if (time(0)>ack_deadline) {
                     ss_status = SS_STATUS_NOTGRAPHICSCAPABLE;
-                    atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+                    atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
                     atp->is_ss_app = false;
                 }
             }

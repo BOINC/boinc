@@ -48,9 +48,11 @@ protected:
     void            OnInitCmdLine(wxCmdLineParser &parser);
     bool            OnCmdLineParsed(wxCmdLineParser &parser);
 
+    void            DetectDefaultWindowStation();
+    void            DetectDefaultDesktop();
+
     wxLocale*       m_pLocale;
     wxConfig*       m_pConfig;
-
 
     CMainFrame*     m_pFrame;
     CMainDocument*  m_pDocument;
@@ -58,15 +60,21 @@ protected:
     CTaskBarIcon*   m_pTaskBarIcon;
 #endif
 
+    wxString        m_strDefaultWindowStation;
+    wxString        m_strDefaultDesktop;
+
 public:
 
     bool            OnInit();
 
-    CMainFrame*     GetFrame()       { return m_pFrame; };
-    CMainDocument*  GetDocument()    { return m_pDocument; };
+    CMainFrame*     GetFrame()                { return m_pFrame; };
+    CMainDocument*  GetDocument()             { return m_pDocument; };
 #ifndef NOTASKBAR
-    CTaskBarIcon*   GetTaskBarIcon() { return m_pTaskBarIcon; };
+    CTaskBarIcon*   GetTaskBarIcon()          { return m_pTaskBarIcon; };
 #endif
+
+    wxString        GetDefaultWindowStation() { return m_strDefaultWindowStation; };
+    wxString        GetDefaultDesktop()       { return m_strDefaultDesktop; };
 
 };
 

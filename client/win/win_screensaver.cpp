@@ -250,11 +250,11 @@ INT CScreensaver::Run()
 //-----------------------------------------------------------------------------
 VOID CScreensaver::StartupBOINC()
 {
-    bool bScreensaverEnabled;
+    int iStatus;
 
 	if( m_SaverMode != sm_preview )
 	{
-        if(rpc.get_screensaver_mode(bScreensaverEnabled) != 0)
+        if(rpc.get_screensaver_mode(iStatus) != 0)
 		{
 			// Create a screen saver window on the primary display if the boinc client crashes
 			CreateSaverWindow();
@@ -790,7 +790,34 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					KillTimer( hWnd, 1 );
 					return 0; 
 		 
-				case 2: 
+				case 2:
+                    int iStatus = 0;
+
+                    if (m_bBOINCCoreNotified)
+                    {
+                        rpc.get_screensaver_mode( iStatus );
+                        switch (iStatus)
+                        {
+                            case SS_STATUS_RESTARTREQUEST:
+                   				m_bErrorMode = TRUE;
+                                m_bBOINCCoreNotified = FALSE;
+                                break;
+                            case SS_STATUS_BOINCSUSPENDED:
+       				            m_bErrorMode = TRUE;
+    				            m_hrError = SCRAPPERR_BOINCSUSPENDED;
+                                break;
+                            case SS_STATUS_NOAPPSEXECUTING:
+       				            m_bErrorMode = TRUE;
+    				            m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTING;
+                                break;
+                            case SS_STATUS_NOTGRAPHICSCAPABLE:
+                            case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
+       				            m_bErrorMode = TRUE;
+    				            m_hrError = SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING;
+                                break;
+                        }
+                    }
+
 					if( m_bErrorMode )
 					{
 						UpdateErrorBox();
@@ -803,9 +830,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                         else
                         {
-                            bool bScreensaverEnabled = false;
-                            rpc.get_screensaver_mode( bScreensaverEnabled );
-                            if (!bScreensaverEnabled)
+                            if (SS_STATUS_DISABLED  == iStatus)
                             {
                                 ShutdownSaver();
                             }
@@ -904,12 +929,6 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
             }
             break;
     }
-
-	if ( BOINC_SS_STOP_MSG == uMsg )
-	{
-		if( m_SaverMode != sm_test )
-			InterruptSaver();
-	}
 
     BOINCTRACE(_T("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
@@ -1055,12 +1074,6 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
             break;
     }
 
-	if ( BOINC_SS_STOP_MSG == uMsg )
-	{
-		if( m_SaverMode != sm_test )
-			InterruptSaver();
-	}
-
 	BOINCTRACE(_T("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
@@ -1152,6 +1165,16 @@ VOID CScreensaver::UpdateErrorBox()
     DWORD dwTimeNow;
     FLOAT fTimeDelta;
 
+    RESULTS  results;
+    TCHAR    szBuffer[256];
+    bool     bIsActive       = false;
+    bool     bIsExecuting    = false;
+    bool     bIsDownloaded   = false;
+    int      iResultCount    = 0;
+    int      iIndex          = 0;
+    float    fProgress       = 0;
+
+
     // Update timing to determine how much to move error box
     if( dwTimeLast == 0 )
         dwTimeLast = timeGetTime();
@@ -1159,10 +1182,30 @@ VOID CScreensaver::UpdateErrorBox()
     fTimeDelta = (FLOAT)(dwTimeNow - dwTimeLast) / 1000.0f;
     dwTimeLast = dwTimeNow;
 
-    // Load error string if necessary
-    if( m_szError[0] == _T('\0') )
+    // Load error string
+    GetTextForError( m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR) );
+    if( SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError )
     {
-        GetTextForError( m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR) );
+        if( 0 == rpc.get_results( results ) )
+        {
+            iResultCount = results.results.size();
+            for ( iIndex = 0; iIndex < iResultCount; iIndex++ )
+            {
+                bIsDownloaded = ( RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state );
+                bIsActive     = ( results.results.at(iIndex)->active_task );
+                bIsExecuting  = ( CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state );
+                if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
+
+                StringCbPrintf( szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
+                    _T("%s: %.2f%%\n"),
+                    results.results.at(iIndex)->name.c_str(),
+                    results.results.at(iIndex)->fraction_done * 100 
+                );
+
+                StringCbCat( m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer );
+            }
+            m_szError[ sizeof(m_szError) -1 ] = '\0';
+        }
     }
 
     for( DWORD iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++ )
@@ -1263,8 +1306,7 @@ VOID CScreensaver::UpdateErrorBox()
 //       FALSE if no specific translation for the HRESULT was found (though
 //       it still puts a generic string into pszError).
 //-----------------------------------------------------------------------------
-BOOL CScreensaver::GetTextForError( HRESULT hr, TCHAR* pszError, 
-                                       DWORD dwNumChars )
+BOOL CScreensaver::GetTextForError( HRESULT hr, TCHAR* pszError, DWORD dwNumChars )
 {
     const DWORD dwErrorMap[][2] = 
     {
@@ -1273,6 +1315,9 @@ BOOL CScreensaver::GetTextForError( HRESULT hr, TCHAR* pszError,
         E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
 		SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_BOINCNOTDETECTED,
 		SCRAPPERR_BOINCNOTDETECTEDSTARTUP, IDS_ERR_BOINCNOTDETECTEDSTARTUP,
+		SCRAPPERR_BOINCSUSPENDED, IDS_ERR_BOINCSUSPENDED,
+		SCRAPPERR_BOINCNOAPPSEXECUTING, IDS_ERR_BOINCNOAPPSEXECUTING,
+		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);

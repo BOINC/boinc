@@ -115,6 +115,8 @@ static PROJECT* get_project(char* buf, MIOFILE& fout) {
 
 static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
     string result_name;
+    string window_station;
+    string desktop;
     ACTIVE_TASK* atp;
     int mode;
 
@@ -122,6 +124,14 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
         mode = MODE_FULLSCREEN;
     } else {
         mode = MODE_WINDOW;
+    }
+
+    if (match_tag(buf, "<window_station>")) {
+        parse_str(buf, "<window_station>", window_station);
+    }
+
+    if (match_tag(buf, "<desktop>")) {
+        parse_str(buf, "<desktop>", desktop);
     }
 
     if (parse_str(buf, "<result_name>", result_name)) {
@@ -140,12 +150,12 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
             fout.printf("<error>Result not active</error>\n");
             return;
         }
-        atp->request_graphics_mode(mode);
+        atp->request_graphics_mode(mode, (char*)window_station.c_str(), (char*)desktop.c_str());
     } else {
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
             atp = gstate.active_tasks.active_tasks[i];
             if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-            atp->request_graphics_mode(mode);
+                atp->request_graphics_mode(mode, (char*)window_station.c_str(), (char*)desktop.c_str());
         }
     }
     fout.printf("<success/>\n");
@@ -395,29 +405,31 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
 }
 
 static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
-    ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
-
-    fout.printf("<screensaver_mode>\n");
-    if (atp) fout.printf("     <enabled/>\n");
-    fout.printf("</screensaver_mode>\n");
+    int ss_result = gstate.ss_logic.get_ss_status();
+    fout.printf(
+        "<screensaver_mode>\n"
+        "    <status>%d</status>\n"
+        "</screensaver_mode>\n",
+        ss_result
+    );
 }
 
 static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     double blank_time = 0.0;
-    char window_station[256];
-    char desktop[256];
+    string window_station;
+    string desktop;
 
     if (match_tag(buf, "<blank_time")) {
         parse_double(buf, "<blank_time>", blank_time);
     }
     if (match_tag(buf, "<desktop")) {
-        parse_str(buf, "<desktop>", desktop, sizeof(desktop));
+        parse_str(buf, "<desktop>", desktop);
     }
     if (match_tag(buf, "<window_station")) {
-        parse_str(buf, "<window_station>", window_station, sizeof(window_station));
+        parse_str(buf, "<window_station>", window_station);
     }
     if (match_tag(buf, "<enabled")) {
-        gstate.ss_logic.start_ss( window_station, desktop, blank_time );
+        gstate.ss_logic.start_ss( (char*)window_station.c_str(), (char*)desktop.c_str(), blank_time );
     }
     fout.printf("<success/>\n");
 }

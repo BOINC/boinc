@@ -31,9 +31,13 @@
 // Error codes
 //-----------------------------------------------------------------------------
 
-#define SCRAPPERR_BOINCNOTDETECTED           0x82000001
-#define SCRAPPERR_BOINCNOTDETECTEDSTARTUP    0x82000002
-#define SCRAPPERR_NOPREVIEW                  0x8200000f
+#define SCRAPPERR_BOINCNOTDETECTED                0x82000001
+#define SCRAPPERR_BOINCNOTDETECTEDSTARTUP         0x82000002
+#define SCRAPPERR_BOINCSUSPENDED                  0x82000003
+#define SCRAPPERR_BOINCNOTGRAPHICSCAPABLE         0x82000004
+#define SCRAPPERR_BOINCNOAPPSEXECUTING            0x82000005
+#define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING    0x82000006
+#define SCRAPPERR_NOPREVIEW                       0x8200000f
 
 
 //-----------------------------------------------------------------------------
@@ -171,10 +175,6 @@ protected:
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
 	BOOL					m_bBOINCCoreNotified;
 
-	BOOL					m_bLogMessagePump;
-
-	// Global Messages
-	int						BOINC_SS_STOP_MSG;
 };
 
 #endif

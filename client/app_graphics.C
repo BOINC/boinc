@@ -29,11 +29,19 @@
 #include "client_msgs.h"
 
 #include "app.h"
+#include "util.h"
 
-void ACTIVE_TASK::request_graphics_mode(int mode) {
+void ACTIVE_TASK::request_graphics_mode(int mode, char* new_window_station, char* new_desktop) {
+    char buf[MSG_CHANNEL_SIZE];
+
     if (!app_client_shm.shm) return;
+
+    safe_strncpy(&window_station[0], new_window_station, sizeof(window_station));
+    safe_strncpy(&desktop[0], new_desktop, sizeof(desktop));
+    snprintf(buf, MSG_CHANNEL_SIZE, xml_encode_graphics_modes[mode], new_window_station, new_desktop);
+
     graphics_request_queue.msg_queue_send(
-        xml_graphics_modes[mode],
+        buf,
         app_client_shm.shm->graphics_request
     );
 }
@@ -45,7 +53,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
-        mode = app_client_shm.decode_graphics_msg(buf);
+        mode = app_client_shm.decode_graphics_msg(buf, NULL, 0, NULL, 0);
         //msg_printf(NULL, MSG_INFO, "got graphics ack %s for %s", buf, result->name);
         if (mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = mode;
@@ -94,7 +102,7 @@ void ACTIVE_TASK_SET::hide_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+        atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
     }
 }
 
@@ -107,7 +115,11 @@ void ACTIVE_TASK_SET::restore_apps() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->graphics_mode_before_ss == MODE_WINDOW) {
-            atp->request_graphics_mode(MODE_WINDOW);
+            atp->request_graphics_mode(
+                MODE_WINDOW, 
+                atp->window_station, 
+                atp->desktop 
+            );
         }
     }
 }

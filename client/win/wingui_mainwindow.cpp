@@ -1411,7 +1411,7 @@ void CMainWindow::OnCommandWorkShowGraphics()
     if(resToShow) {
         ACTIVE_TASK* at = gstate.lookup_active_task_by_result(resToShow);
         if(at) {
-            at->request_graphics_mode(MODE_WINDOW);
+//            at->request_graphics_mode(MODE_WINDOW);
         }
     }
 }
