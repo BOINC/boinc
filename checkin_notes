@@ -9697,6 +9697,9 @@ David  Feb 3 2004
         handle_request.C
         sched_config.C,h
 
+David 2004-02-03
+    BOINC 2.23 release for Windows 
+
 Karl 2004-02-03
     - updates for html directory structure change
 
