@@ -6333,3 +6333,11 @@ David  Sept 21 2003
         feeder.C
         handle_request.C
         show_shmem.C
+
+Eric K  9/22/03
+
+    Modified DB_CONN::open() to support "db_name@host" syntax for remote
+    database connections.
+
+    db/db_base.C
+
