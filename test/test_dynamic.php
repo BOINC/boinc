@@ -15,7 +15,7 @@
     add_user(null);
     add_app("upper_case");
     create_work("-appname upper_case -wu_name uc_wu -wu_template uc_wu -result_template uc_result -dynamic_results -nresults 5 input input");
-    run_client();
+    run_client(NULL);
 
     check_results_done();
     compare_file("uc_wu_0_0", "uc_correct_output");

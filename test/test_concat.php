@@ -17,7 +17,7 @@
     add_app("concat");
     create_work("-appname concat -wu_name concat_wu -wu_template concat_wu -result_template concat_result -nresults 2 input input");
     start_feeder();
-    run_client();
+    run_client("-exit_when_idle");
     stop_feeder();
     check_results_done();
     compare_file("concat_wu_0_0", "concat_correct_output");
