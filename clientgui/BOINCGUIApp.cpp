@@ -49,6 +49,9 @@ bool CBOINCGUIApp::OnInit()
     //   storing images
     wxFileSystem::AddHandler(new wxMemoryFSHandler);
 
+    // Enable known image types
+    wxImage::AddHandler(new wxXPMHandler);
+
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
     wxASSERT(NULL != m_pLocale);
