@@ -511,7 +511,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     ";
 
     echo user_links($user, URL_BASE);
-
+    echo "<br>";
     global $special_user_bitfield; 
     if ($user->special_user) {                                                                        //If this user is somehow special
 	for ($i=0; $i<sizeof($special_user_bitfield);$i++){
@@ -521,7 +521,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW."<br>";
         /*...*/
     }
-    if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
+    if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
 
     echo "<font size=-2>";
     if (!$filter || !$rated_below_threshold){
