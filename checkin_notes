@@ -13928,3 +13928,7 @@ Rom    17 June 2004
 
     client/
         hostinfo_network.C
+
+Rom    June 17 2004
+    - Tag for 3.13 release, all platforms
+      boinc_core_release_3_13
