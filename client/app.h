@@ -101,6 +101,7 @@ public:
     void request_graphics_mode(int);
     int request_reread_prefs();
     void check_graphics_mode_ack();
+    int link_user_files();
 
     ACTIVE_TASK();
     int init(RESULT*);

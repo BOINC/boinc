@@ -23,6 +23,11 @@
 #include "file_names.h"
 #include "client_state.h"
 
+void CLIENT_STATE::set_client_state_dirty(char* source) {
+    log_messages.printf(ClientMessages::DEBUG_STATE, "set dirty: %s\n", source);
+    client_state_dirty = true;
+}
+
 // Parse the client_state.xml file
 //
 int CLIENT_STATE::parse_state_file() {

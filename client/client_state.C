@@ -213,6 +213,10 @@ int CLIENT_STATE::init() {
     clear_host_info(host_info);
     parse_state_file();
 
+    // scan user prefs; create file records
+    //
+    parse_preferences_for_user_files();
+
     print_summary();
     do_cmdline_actions();
 
@@ -256,6 +260,7 @@ int CLIENT_STATE::init() {
     //
     restart_tasks();
 
+    set_client_state_dirty("init");
     return 0;
 }
 
@@ -410,7 +415,7 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, int version_num) {
     return 0;
 }
 
-FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
+FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
     for (unsigned int i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->project == p && !strcmp(fip->name, name)) {
@@ -605,6 +610,7 @@ bool CLIENT_STATE::garbage_collect() {
     vector<APP_VERSION*>::iterator avp_iter;
     bool action = false, found;
     string error_msgs;
+    PROJECT* project;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
 
@@ -621,6 +627,15 @@ bool CLIENT_STATE::garbage_collect() {
     for (i=0; i<app_versions.size(); i++) {
         avp = app_versions[i];
         avp->ref_cnt = 0;
+    }
+
+    // reference-count project files
+    //
+    for (i=0; i<projects.size(); i++) {
+        project = projects[i];
+        for (j=0; j<project->user_files.size(); j++) {
+            project->user_files[j].file_info->ref_cnt++;
+        }
     }
 
     // Scan through RESULTs.
@@ -835,11 +850,6 @@ bool CLIENT_STATE::time_to_exit() {
         return true;
     }
     return false;
-}
-
-void CLIENT_STATE::set_client_state_dirty(char* source) {
-    log_messages.printf(ClientMessages::DEBUG_STATE, "set dirty: %s\n", source);
-    client_state_dirty = true;
 }
 
 // Call this when a result has a nonrecoverable error.

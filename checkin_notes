@@ -7269,56 +7269,114 @@ David  31 Oct 2003
         stats.php (new)
 
 David  31 Oct 2003
-	- Added a mechanism allowing applications to change their graphics
-		"on the fly" in response to new project preferences:
-		- Added a new message type <reread_prefs/> to the
-			core->app graphics segment
-		- When the graphics framework (windows_opengl.C) gets this message,
-			it calls an application function app_graphics_reread_prefs().
-			This function can call boinc_parse_init_data_file() (see below)
-			to get the new prefs
-	- Core client: when get new project preferences,
-		write new init_data.xml files for all running apps,
-		and send them <reread_prefs/> messages.
-		New functions:
-			ACTIVE_TASK::write_app_init_file()
-			ACTIVE_TASK::request_reread_prefs()
-			ACTIVE_TASK_SET::request_reread_prefs(PROJECT*)
-	- name changes:
-		old						new
-		boinc_init_opengl		boinc_init_graphics
-		boinc_finish_opengl		boinc_finish_graphics
-		app_init_gl				app_graphics_init
-		app_render				app_graphics_render
-		app_resize				app_graphics_resize
-		REDUCED_ARRAY::init		init_data
-		REDUCED_ARRAY::init_draw	init_display:$
-	- changed graphics objects (PROGRESS, PROGRESS2D, RIBBON_GRAPH)
-		to use init() functions instead of constructor for setup;
-		changed STARFIELD::build_stars() so that it can be called repeatedly
-	- factored code to read init_data.xml into a new function
-		boinc_parse_init_data_file()
-	- moved tImageJPG out of the .h file - it's not interface
+    - Added a mechanism allowing applications to change their graphics
+        "on the fly" in response to new project preferences:
+        - Added a new message type <reread_prefs/> to the
+            core->app graphics segment
+        - When the graphics framework (windows_opengl.C) gets this message,
+            it calls an application function app_graphics_reread_prefs().
+            This function can call boinc_parse_init_data_file() (see below)
+            to get the new prefs
+    - Core client: when get new project preferences,
+        write new init_data.xml files for all running apps,
+        and send them <reread_prefs/> messages.
+        New functions:
+            ACTIVE_TASK::write_app_init_file()
+            ACTIVE_TASK::request_reread_prefs()
+            ACTIVE_TASK_SET::request_reread_prefs(PROJECT*)
+    - name changes:
+        old                        new
+        boinc_init_opengl        boinc_init_graphics
+        boinc_finish_opengl        boinc_finish_graphics
+        app_init_gl                app_graphics_init
+        app_render                app_graphics_render
+        app_resize                app_graphics_resize
+        REDUCED_ARRAY::init        init_data
+        REDUCED_ARRAY::init_draw    init_display:$
+    - changed graphics objects (PROGRESS, PROGRESS2D, RIBBON_GRAPH)
+        to use init() functions instead of constructor for setup;
+        changed STARFIELD::build_stars() so that it can be called repeatedly
+    - factored code to read init_data.xml into a new function
+        boinc_parse_init_data_file()
+    - moved tImageJPG out of the .h file - it's not interface
 
-	api/
-		boinc_api.C,h
-		graphics_api.C,h
-		gutil.C,h
-		reduce.C,h
-		windows_opengl.C
-	client/
-		app.C,h
-		cs_scheduler.C
-	doc/
-		graphics.sxd (new)
-		graphics.png (new)
-	lib/
-		app_ipc.C
-		parse.C,h
+    api/
+        boinc_api.C,h
+        graphics_api.C,h
+        gutil.C,h
+        reduce.C,h
+        windows_opengl.C
+    client/
+        app.C,h
+        cs_scheduler.C
+    doc/
+        graphics.sxd (new)
+        graphics.png (new)
+    lib/
+        app_ipc.C
+        parse.C,h
 
 David  31 Oct 2003
-	- boinc_resolve_filename() (string version)
-		physical name defaults to virtual name
+    - boinc_resolve_filename() (string version)
+        physical name defaults to virtual name
 
-	lib/
-		app_ipc.C
+    lib/
+        app_ipc.C
+
+David  1 Nov 2003
+    - core client: when get new project prefs,
+        use PROJECT::parse_account_file() to extract the correct
+        venue-specific variant
+
+    client/
+        client_types.C,h
+        cs_scheduler.C
+
+David  2 Nov 2003
+    - Changed the way that user-supplied files (e.g. logos and images) work.
+        OLD WAY: (see checkin by "Erik", May 19 2003)
+            the scheduling server scans the user's project prefs
+            and inserts <file_info> and <file_ref> elements
+            into the <app_version> element,
+            making it look like the user-supplied files are associated
+            with the app.
+            This necessitated the slightly kludgy "optional"
+            attribute of FILE_INFO, so that slow-downloading
+            user-supplied files wouldn't defer work indefinitely.
+        NEW WAY:
+            The scheduling server is not involved.
+            PROJECT now has list "user_files" of FILE_REFS
+            FILE_INFO now has an attribute "is_user"file"
+            - When parse project prefs from account file,
+                or when get new project preferences from server,
+                convert <app_file> elements to entries in project.user_files
+            - new function ACTIVE_TASK::link_user_files() makes links
+                from slot dir to all user files that are present
+            - when the download of a user file completes,
+                tell running apps to reread prefs
+                (they'll find the user file now)
+            - garbage collection reference-counts user files
+            - got rid of "optional" mechanism
+        With this change, user-supplied images in graphics are updated
+        dynamically when the user edits prefs on web,
+        then does "Get Preferences" in core client
+	- Handling of completed file transfers moved from
+		PERS_FILE_XFER::poll() to CLIENT_STATE::handle_pers_file_xfers().
+		(this job of PERS_FILE_XFER is to transfer the file,
+		not deal with its contents)
+    - changed benchmarks defaults from 1GFLOPs to 10MFLOPs;
+		prevents slow computers from being inundated with work
+
+    api/
+        gutil.C (fixed code formatting)
+    client/
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_apps.C
+        cs_benchmark.C
+        cs_files.C
+        cs_scheduler.C
+        cs_statefile.C
+        pers_file_xfer.C

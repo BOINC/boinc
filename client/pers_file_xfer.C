@@ -200,46 +200,15 @@ bool PERS_FILE_XFER::poll(time_t now) {
                 msg_printf(
                     fip->project, MSG_INFO, "Finished %s of %s",
                     is_upload?"upload":"download", fip->name
-                    );
+                );
             }
-            if (fip->generated_locally) {
-                // file has been uploaded - delete if not sticky
-                //
-                if (!fip->sticky) {
-                    fip->delete_file();
-                }
-                fip->uploaded = true;
-                xfer_done = true;
-            } else {
-
-                // verify the file with RSA or MD5, and change permissions
-                //
-                get_pathname(fip, pathname);
-                retval = verify_downloaded_file(pathname, *fip);
-                if (retval) {
-                    msg_printf(fip->project, MSG_ERROR, "Checksum or signature error for %s", fip->name);
-                    fip->status = retval;
-                } else {
-                    scope_messages.printf("PERS_FILE_XFER::poll(): MD5 checksum validated for %s\n", pathname);
-                    // Set the appropriate permissions depending on whether
-                    // it's an executable or normal file
-                    //
-                    retval = fip->set_permissions();
-                    if (fip->executable && gstate.global_prefs.confirm_executable) {
-#ifndef _WIN32
-                        fip->approval_pending = true;
-#endif
-                    }
-                    fip->status = FILE_PRESENT;
-                }
-                xfer_done = true;
-            }
+            xfer_done = true;
         } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
             if (log_flags.file_xfer) {
                 msg_printf(
                     fip->project, MSG_INFO, "Permanently failed %s of %s",
                     is_upload?"upload":"download", fip->name
-                    );
+                );
             }
             giveup();
         } else {

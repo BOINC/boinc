@@ -123,3 +123,12 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     projects.push_back(project);
     return 0;
 }
+
+int CLIENT_STATE::parse_preferences_for_user_files() {
+    unsigned int i;
+
+    for (i=0; i<projects.size(); i++) {
+        projects[i]->parse_preferences_for_user_files();
+    }
+    return 0;
+}

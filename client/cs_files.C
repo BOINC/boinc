@@ -129,6 +129,8 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
+    char pathname[256];
+    int retval;
 
     // Look for FILE_INFOs for which we should start a transfer,
     // and make PERS_FILE_XFERs for them
@@ -165,13 +167,47 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         // from the set and delete it
         //
         if (pfx->xfer_done) {
-            // pfx->fip->pers_file_xfer = NULL;
-            FILE_INFO* DEBUG_fip = pfx->fip;
+            fip = pfx->fip;
+            if (fip->generated_locally) {
+                // file has been uploaded - delete if not sticky
+                //
+                if (!fip->sticky) {
+                    fip->delete_file();
+                }
+                fip->uploaded = true;
+            } else {
+
+                // verify the file with RSA or MD5, and change permissions
+                //
+                get_pathname(fip, pathname);
+                retval = verify_downloaded_file(pathname, *fip);
+                if (retval) {
+                    msg_printf(fip->project, MSG_ERROR, "Checksum or signature error for %s", fip->name);
+                    fip->status = retval;
+                } else {
+                    // Set the appropriate permissions depending on whether
+                    // it's an executable or normal file
+                    //
+                    retval = fip->set_permissions();
+                    if (fip->executable && gstate.global_prefs.confirm_executable) {
+#ifndef _WIN32
+                        fip->approval_pending = true;
+#endif
+                    }
+                    fip->status = FILE_PRESENT;
+                }
+
+                // if it's a user file, reread prefs for running apps
+                //
+                if (fip->is_user_file) {
+                    active_tasks.request_reread_prefs(fip->project);
+                }
+            }
             iter = pers_file_xfers->pers_file_xfers.erase(iter);
             delete pfx;
             action = true;
             // `delete pfx' should have set pfx->fip->pfx to NULL
-            assert (DEBUG_fip == NULL || DEBUG_fip->pers_file_xfer == NULL);
+            assert (fip == NULL || fip->pers_file_xfer == NULL);
         } else {
             iter++;
         }

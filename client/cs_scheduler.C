@@ -468,6 +468,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             strcpy(project->project_specific_prefs, sr.project_prefs_xml);
             retval = project->write_account_file();
             if (retval) return retval;
+            project->parse_account_file();
+            project->parse_preferences_for_user_files();
             active_tasks.request_reread_prefs(project);
         }
     }

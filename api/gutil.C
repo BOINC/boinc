@@ -309,63 +309,46 @@ float frand() {
     return rand()/(float)RAND_MAX;
 }
 
-void set_viewport_full(int w, int h)
-{
+void set_viewport_full(int w, int h) {
 	glViewport(0,0,w,h);
 }
 
-void set_viewport_fixed(int w,int h)
-{
+void set_viewport_fixed(int w,int h) {
 	double aspect_ratio = 4.0/3.0;
 
     if (h<=0) h=1;
     if (w<=0) w=1;
 
-	if (h*aspect_ratio > w) 
-	{
+	if (h*aspect_ratio > w) {
         glViewport(0,h/2.0f-(w/aspect_ratio/2.0f),(int)w,(int)(w/aspect_ratio));
-    } 
-	else 
-	{
+    } else {
         glViewport(w/2.0f-(h*aspect_ratio/2.0f),0,(int)(h*aspect_ratio),(h));
     }	
 }
 
-void scale_screen(int w, int h)
-{
+void scale_screen(int w, int h) {
 	double aspect_ratio = 4.0/3.0;
-	if ((double)h*aspect_ratio > (double)w) 
-	{        
+	if ((double)h*aspect_ratio > (double)w) {        
 		glScalef(1.0f,((double)w/aspect_ratio)/(double)h,1.0f);
-    } 
-	else 
-	{        
+    } else {        
 		glScalef(((double)h*aspect_ratio)/(double)w,1.0f,1.0f);
     }		
 }
 
-void center_screen(int w,int h)
-{
+void center_screen(int w,int h) {
 	double aspect_ratio = 4.0/3.0;
-	if ((double)h*aspect_ratio > (double)w) 
-	{        
+	if ((double)h*aspect_ratio > (double)w) {        
 		glTranslatef(0.0f,((double)h/2.0f-((double)w/aspect_ratio/2.0f))/(double)h,0.0f);
-    } 
-	else 
-	{        
+    } else {        
 		glTranslatef(((double)w/2.0f-((double)h*aspect_ratio/2.0f))/(double)w,0.0f,0.0f);
     }		
 }
 
-void center_screen_ratio(int w,int h)
-{
+void center_screen_ratio(int w,int h) {
 	double aspect_ratio = 4.0/3.0;
-	if ((double)h*aspect_ratio > (double)w) 
-	{        
+	if ((double)h*aspect_ratio > (double)w) {        
 		glTranslatef(0.0f*4.0f,(((double)h/2.0f-((double)w/aspect_ratio/2.0f))/(double)h)*3.0f,0.0f);
-    } 
-	else 
-	{        
+    } else {        
 		glTranslatef((((double)w/2.0f-((double)h*aspect_ratio/2.0f))/(double)w)*4.0f,0.0f,0.0f);
     }		
 }
@@ -517,8 +500,8 @@ void draw_text(
 
 void draw_text_new_3d(
 	GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text)
-{
+    GLfloat line_spacing, char* text
+) {
 	char* q, *p;
     char buf[4096];
     GLfloat pos[3];
@@ -542,8 +525,8 @@ void draw_text_new_3d(
 
 void draw_text_new(
     GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text)
-{
+    GLfloat line_spacing, char* text
+) {
 	char *q, *p;
 	char buf[4096];
 	GLfloat pos[3];
@@ -552,8 +535,7 @@ void draw_text_new(
 	p=buf;
 	int viewport[4];
 	get_viewport(viewport);
-	while(*p)
-	{
+	while(*p) {
 		q = strchr(p, '\n');
         if (q) *q = 0;
 		glRasterPos3d(pos[0],pos[1],pos[2]);
@@ -566,8 +548,8 @@ void draw_text_new(
 
 void draw_text_right(
     GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text)
-{
+    GLfloat line_spacing, char* text
+) {
 	char *q, *p;
 	char buf[4096];
 	GLfloat pos[3];
@@ -577,8 +559,7 @@ void draw_text_right(
 	p=buf;
 	float w;
 
-	while(*p)
-	{
+	while (*p) {
 		q = strchr(p, '\n');
         if (q) *q = 0;
         w = text_width(p)/66.5f;
@@ -898,28 +879,24 @@ void RIBBON_GRAPH::add_tick(float x, int index) {
 }
 
 
-void normalize(float a[3])
-{
+void normalize(float a[3]) {
 	float mag = sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);
 	if(mag!=0)  {
 		a[0]/=mag;
 		a[1]/=mag;
 		a[2]/=mag;
-	}
-	else {
+    } else {
 		a[0]=0;
 		a[1]=0;
 		a[2]=0;
 	}
 }
 
-float dotProd(float a, float b, float c, float x, float y, float z)
-{
+float dotProd(float a, float b, float c, float x, float y, float z) {
 	return(a*x+b*y+c*z);
 }
 
-void crossProd(float a[3], float b[3], float out[3])
-{
+void crossProd(float a[3], float b[3], float out[3]) {
 	out[0] = a[1]*b[2] - a[2]*b[1];
 	out[1] = a[2]*b[0] - a[0]*b[2];
 	out[2] = a[0]*b[1] - a[1]*b[0];
@@ -969,15 +946,13 @@ void STARFIELD::build_stars(int sz, float sp) {
 	get_projection(proj);		
 	glMatrixMode(GL_MODELVIEW);
 
-	for(i=0;i<size;i++)
-	{				
+	for(i=0;i<size;i++) {				
 		replace_star(i);		
 		while(!is_visible(i,model,proj,view)) replace_star(i);
 	}	
 }
 
-bool STARFIELD::is_visible(int i,double model[16],double proj[16],int view[4])
-{	
+bool STARFIELD::is_visible(int i,double model[16],double proj[16],int view[4]) {	
 	bool inside;
 	
 	double out[3];
@@ -989,17 +964,18 @@ bool STARFIELD::is_visible(int i,double model[16],double proj[16],int view[4])
 	if(speed>0)	return inside;
 	else {
 		float dist;
-		float d[3] = {(camera[0]-stars[i].x),
-			          (camera[1]-stars[i].y),
-		   	          (camera[2]-stars[i].z)};
+		float d[3] = {
+            (camera[0]-stars[i].x),
+			(camera[1]-stars[i].y),
+		   	(camera[2]-stars[i].z)
+        };
 
 		dist=(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);				
 		return(inside && dist<MAX_DRAW_DISTANCE);
 	}	
 }
 
-void STARFIELD::update_stars(float dt)
-{
+void STARFIELD::update_stars(float dt) {
 	glMatrixMode(GL_MODELVIEW);
 	float dist;
 	double model[16];
@@ -1015,8 +991,7 @@ void STARFIELD::update_stars(float dt)
 	get_projection(proj);			
 	glMatrixMode(GL_MODELVIEW);	
 
-	for(int i=0;i<size;i++)
-	{				
+	for(int i=0;i<size;i++) {				
 		while(!is_visible(i,model,proj,view)) replace_star(i); 										
 	
 		stars[i].x+=(eye[0])*stars[i].v*speed*dt;
@@ -1065,14 +1040,12 @@ struct tImageJPG {
 	unsigned char *data;
 };
 
-struct Vertex
-{
+struct Vertex {
     float tu, tv;
     float x, y, z;
 };
 
-Vertex g_quadVertices[] =
-{
+Vertex g_quadVertices[] = {
     { 0.0f,0.0f, -1.0f,-1.0f, 0.0f },
     { 1.0f,0.0f,  1.0f,-1.0f, 0.0f },
     { 1.0f,1.0f,  1.0f, 1.0f, 0.0f },
@@ -1235,10 +1208,10 @@ tImageJPG *LoadJPG(const char *filename) {
 void printdata(char* filename, int x, int y, unsigned char* data) {
 	FILE* bmpfile = fopen(filename,"w");
 	fprintf(bmpfile,"%i,%i\n",x,y);
-	for(int i=0;i<y;i++)
-	{
-		for(int c=0;c<8;c++)
+	for(int i=0;i<y;i++) {
+        for(int c=0;c<8;c++) {
 			fprintf(bmpfile,"%d ",data[x*i+c]);
+        }
 		fprintf(bmpfile,"\n");
 	}
 	fclose(bmpfile);
@@ -1366,8 +1339,7 @@ done:
 //text
 unsigned int listBase;
 
-void print_text(char* string)
-{
+void print_text(char* string) {
 	if(string==NULL) return;
 	glPushAttrib(GL_LIST_BIT);
 	glListBase(listBase);

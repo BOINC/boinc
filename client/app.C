@@ -130,6 +130,27 @@ int ACTIVE_TASK::init(RESULT* rp) {
     return 0;
 }
 
+int ACTIVE_TASK::link_user_files() {
+    PROJECT* project = wup->project;
+    unsigned int i;
+    FILE_REF fref;
+    FILE_INFO* fip;
+    char link_path[256], buf[256], file_path[256];
+    int retval;
+
+    for (i=0; i<project->user_files.size(); i++) {
+        fref = project->user_files[i];
+        fip = fref.file_info;
+        if (fip->status != FILE_PRESENT) continue;
+        get_pathname(fip, file_path);
+        sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
+        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+        retval = boinc_link(buf, link_path);
+        if (retval) return retval;
+    }
+    return 0;
+}
+
 int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
     char init_data_path[256];
@@ -318,6 +339,8 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     fclose(f);
+
+    link_user_files();
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
@@ -813,6 +836,8 @@ int ACTIVE_TASK::request_reread_prefs() {
     int retval;
     APP_INIT_DATA aid;
     
+    link_user_files();
+
     retval = write_app_init_file(aid);
     if (retval) return retval;
     app_client_shm.send_graphics_msg(

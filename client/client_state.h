@@ -144,7 +144,7 @@ public:
         // get user approval of any executables for which approval is pending
     PROJECT* lookup_project(char*);
     APP* lookup_app(PROJECT*, char*);
-    FILE_INFO* lookup_file_info(PROJECT*, char* name);
+    FILE_INFO* lookup_file_info(PROJECT*, const char* name);
     RESULT* lookup_result(PROJECT*, char*);
     WORKUNIT* lookup_workunit(PROJECT*, char*);
     APP_VERSION* lookup_app_version(APP*, int);
@@ -152,7 +152,6 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT &res, int err_num, const char *format, ...);
         // flag a result as having an error
-    void set_client_state_dirty(char*);
     int reset_project(PROJECT*);
 private:
     int link_app(PROJECT*, APP*);
@@ -170,6 +169,7 @@ public:
     int add_project(char* master_url, char* authenticator);
 private:
     int parse_account_files();
+    int parse_preferences_for_user_files();
 
 // --------------- cs_apps.C:
 public:
@@ -251,6 +251,7 @@ private:
 
 // --------------- cs_statefile.C:
 public:
+    void set_client_state_dirty(char*);
     int parse_state_file();
     int write_state_file();
     int write_state_file_if_needed();

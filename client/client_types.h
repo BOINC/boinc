@@ -40,10 +40,75 @@
 #define MAX_BLOB_LEN 4096
 
 class PERS_FILE_XFER;
+class PROJECT;
 struct RESULT;
 
 struct STRING256 {
     char text[256];
+};
+
+// If the status is neither of these two,
+// it will be an error code defined in error_numbers.h,
+// indicating an unrecoverable error in the upload or download of the file
+//
+#define FILE_NOT_PRESENT    0
+#define FILE_PRESENT        1
+
+class FILE_INFO {
+public:
+    char name[256];
+    char md5_cksum[33];
+    double max_nbytes;
+    double nbytes;
+    double upload_offset;
+    bool generated_locally; // file is produced by app
+    int status;
+    bool executable;        // change file protections to make executable
+    bool uploaded;          // file has been uploaded
+    bool upload_when_present;
+    bool sticky;            // don't delete unless instructed to do so
+    bool signature_required;    // true iff associated with app version
+    bool is_user_file;
+    PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
+    RESULT* result;         // for upload files (to authenticate)
+    PROJECT* project;
+    int ref_cnt;
+    vector<STRING256> urls;
+    int start_url;
+    int current_url;
+    char signed_xml[MAX_BLOB_LEN];
+    char xml_signature[MAX_BLOB_LEN];
+    char file_signature[MAX_BLOB_LEN];
+    bool approval_pending;     // true if the file requires user approval
+    string error_msg;       // if permanent error occurs during file xfer,
+                            // it's recorded here
+
+    FILE_INFO();
+    ~FILE_INFO();
+    int set_permissions();
+    int parse(FILE*, bool from_server);
+    int write(FILE*, bool to_server);
+    int delete_file();      // attempt to delete the underlying file
+    char* get_url();
+    bool had_failure(int& failnum);
+};
+
+// Describes a connection between a file and a workunit, result, or application.
+// In the first two cases,
+// the app will either use open() or fopen() to access the file
+// (in which case "open_name" is the name it will use)
+// or the app will be connected by the given fd (in which case fd is nonzero)
+//
+struct FILE_REF {
+    char file_name[256];
+    char open_name[256];
+    int fd;
+    bool main_program;
+    FILE_INFO* file_info;
+	bool copy_file;  // if true, core client will copy the file instead of linking
+
+    int parse(FILE*);
+    int write(FILE*);
 };
 
 class PROJECT {
@@ -88,6 +153,8 @@ public:
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
     char code_sign_key[MAX_BLOB_LEN];
+    vector<FILE_REF> user_files;
+    int parse_preferences_for_user_files();
 
     // the following items are transient; not saved in state file
     double resource_debt;       // How much CPU time we owe this project
@@ -101,6 +168,7 @@ public:
     char *get_project_name();
     int write_account_file();
     int parse_account(FILE*);
+    int parse_account_file();
     int parse_state(FILE*);
     int write_state(FILE*);
 
@@ -113,71 +181,6 @@ public:
 struct APP {
     char name[256];
     PROJECT* project;
-
-    int parse(FILE*);
-    int write(FILE*);
-};
-
-// If the status is neither of these two,
-// it will be an error code defined in error_numbers.h,
-// indicating an unrecoverable error in the upload or download of the file
-//
-#define FILE_NOT_PRESENT    0
-#define FILE_PRESENT        1
-
-class FILE_INFO {
-public:
-    char name[256];
-    char md5_cksum[33];
-    double max_nbytes;
-    double nbytes;
-    double upload_offset;
-    bool generated_locally; // file is produced by app
-    int status;
-    bool executable;        // change file protections to make executable
-    bool uploaded;          // file has been uploaded
-    bool upload_when_present;
-    bool sticky;            // don't delete unless instructed to do so
-    bool signature_required;    // true iff associated with app version
-    PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
-    RESULT* result;         // for upload files (to authenticate)
-    PROJECT* project;
-    int ref_cnt;
-    vector<STRING256> urls;
-    int start_url;
-    int current_url;
-    char signed_xml[MAX_BLOB_LEN];
-    char xml_signature[MAX_BLOB_LEN];
-    char file_signature[MAX_BLOB_LEN];
-    bool approval_pending;     // true if the file requires user approval
-    string error_msg;       // if permanent error occurs during file xfer,
-                            // it's recorded here
-
-    FILE_INFO();
-    ~FILE_INFO();
-    int set_permissions();
-    int parse(FILE*, bool from_server);
-    int write(FILE*, bool to_server);
-    int delete_file();      // attempt to delete the underlying file
-    char* get_url();
-    bool had_failure(int& failnum);
-};
-
-// Describes a connection between a file and a workunit, result, or application.
-// In the first two cases,
-// the app will either use open() or fopen() to access the file
-// (in which case "open_name" is the name it will use)
-// or the app will be connected by the given fd (in which case fd is nonzero)
-//
-struct FILE_REF {
-    char file_name[256];
-    char open_name[256];
-    int fd;
-    bool main_program;
-    FILE_INFO* file_info;
-	bool copy_file;  // if true, core client will copy the file instead of linking
-    bool optional;              // if true, can start app without this file
-    int optional_deadline;      // after this time
 
     int parse(FILE*);
     int write(FILE*);

@@ -49,6 +49,14 @@
 extern void guiOnBenchmarksBegin();
 extern void guiOnBenchmarksEnd();
 
+// defaults in case benchmarks fail or time out.
+// better to err on the low side so hosts don't get too much work
+
+#define DEFAULT_FPOPS   1e7
+#define DEFAULT_IOPS    1e7
+#define DEFAULT_MEMBW   1e8
+#define DEFAULT_CACHE   1e6
+
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
@@ -105,10 +113,10 @@ int CLIENT_STATE::cpu_benchmarks() {
     ++log_messages;
     if (skip_cpu_benchmarks) {
         scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
-        host_info.p_fpops = 1e9;
-        host_info.p_iops = 1e9;
-        host_info.p_membw = 4e9;
-        host_info.m_cache = 1e6;
+        host_info.p_fpops = DEFAULT_FPOPS;
+        host_info.p_iops = DEFAULT_IOPS;
+        host_info.p_membw = DEFAULT_MEMBW;
+        host_info.m_cache = DEFAULT_CACHE;
     } else {
         scope_messages.printf(
             "CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
@@ -170,10 +178,10 @@ int CLIENT_STATE::check_cpu_benchmarks() {
                 msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
                 TerminateThread(cpu_benchmarks_handle, 0);
                 CloseHandle(cpu_benchmarks_handle);
-                host_info.p_fpops = 1e9;
-                host_info.p_iops = 1e9;
-                host_info.p_membw = 4e9;
-                host_info.m_cache = 1e6;
+                host_info.p_fpops = DEFAULT_FPOPS;
+                host_info.p_iops = DEFAULT_IOPS;
+                host_info.p_membw = DEFAULT_MEMBW;
+                host_info.m_cache = DEFAULT_CACHE;
                 cpu_benchmarks_id = 0;
                 return CPU_BENCHMARKS_ERROR;
             }
@@ -188,10 +196,10 @@ int CLIENT_STATE::check_cpu_benchmarks() {
             if((unsigned int)time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
                 msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
                 kill(cpu_benchmarks_id, SIGKILL);
-                host_info.p_fpops = 1e9;
-                host_info.p_iops = 1e9;
-                host_info.p_membw = 4e9;
-                host_info.m_cache = 1e6;
+                host_info.p_fpops = DEFAULT_FPOPS;
+                host_info.p_iops = DEFAULT_IOPS;
+                host_info.p_membw = DEFAULT_MEMBW;
+                host_info.m_cache = DEFAULT_CACHE;
                 cpu_benchmarks_id = 0;
                 return CPU_BENCHMARKS_ERROR;
             }
@@ -203,10 +211,10 @@ int CLIENT_STATE::check_cpu_benchmarks() {
         finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "r");
         if (!finfo) {
             msg_printf(NULL, MSG_ERROR, "Can't open CPU benchmark file, using default values");
-            host_info.p_fpops = 1e9;
-            host_info.p_iops = 1e9;
-            host_info.p_membw = 4e9;
-            host_info.m_cache = 1e6;
+            host_info.p_fpops = DEFAULT_FPOPS;
+            host_info.p_iops = DEFAULT_IOPS;
+            host_info.p_membw = DEFAULT_MEMBW;
+            host_info.m_cache = DEFAULT_CACHE;
             return CPU_BENCHMARKS_ERROR;
         }
         retval = host_info.parse_cpu_benchmarks(finfo);

@@ -104,6 +104,64 @@ int PROJECT::write_account_file() {
     return 0;
 }
 
+int PROJECT::parse_account_file() {
+    char path[256];
+    int retval;
+    FILE* f;
+
+    get_account_filename(master_url, path);
+    f = fopen(path, "r");
+    if (!f) return ERR_FOPEN;
+    retval = parse_account(f);
+    fclose(f);
+    return retval;
+}
+
+// parse user's project preferences, generating
+// FILE_REF and FILE_INFO objects for each <app_file> element.
+//
+int PROJECT::parse_preferences_for_user_files() {
+    char* p = project_specific_prefs, *q, *q2;
+    char buf[1024];
+    string timestamp, open_name, url, filename;
+    FILE_INFO* fip;
+    FILE_REF fr;
+    STRING256 url_str;
+
+    user_files.clear();
+    while (1) {
+        q = strstr(p, "<app_file>");
+        if (!q) break;
+        q2 = strstr(q, "</app_file>");
+        if (!q2) break;
+        *q2 = 0;
+        strcpy(buf, q);
+        if (!parse_str(buf, "<timestamp>", timestamp)) break;
+        if (!parse_str(buf, "<open_name>", open_name)) break;
+        if (!parse_str(buf, "<url>", url)) break;
+        strcpy(url_str.text, url.c_str());
+
+        filename = open_name + "_" + timestamp;
+        fip = gstate.lookup_file_info(this, filename.c_str());
+        if (!fip) {
+            fip = new FILE_INFO;
+            fip->urls.push_back(url_str);
+            strcpy(fip->name, filename.c_str());
+            fip->project = this;
+            fip->is_user_file = true;
+            gstate.file_infos.push_back(fip);
+        }
+
+        fr.file_info = fip;
+        strcpy(fr.open_name, open_name.c_str());
+        user_files.push_back(fr);
+
+        p = q2+strlen("</app_file>");
+    }
+
+    return 0;
+}
+
 // parse account_*.xml file
 //
 int PROJECT::parse_account(FILE* in) {
@@ -131,9 +189,7 @@ int PROJECT::parse_account(FILE* in) {
                     );
                 }
             } else {
-                msg_printf(this, MSG_INFO,
-                    "Using default project prefs"
-                );
+                msg_printf(this, MSG_INFO, "Using default project prefs");
             }
             return 0;
         }
@@ -362,6 +418,29 @@ int APP::write(FILE* out) {
 }
 
 FILE_INFO::FILE_INFO() {
+    strcpy(name, "");
+    strcpy(md5_cksum, "");
+    max_nbytes = 0;
+    nbytes = 0;
+    upload_offset = -1;
+    generated_locally = false;
+    status = FILE_NOT_PRESENT;
+    executable = false;
+    approval_pending = false;
+    uploaded = false;
+    upload_when_present = false;
+    sticky = false;
+    signature_required = false;
+    is_user_file = false;
+    pers_file_xfer = NULL;
+    result = NULL;
+    project = NULL;
+    urls.clear();
+    start_url = -1;
+    current_url = -1;
+    strcpy(signed_xml, "");
+    strcpy(xml_signature, "");
+    strcpy(file_signature, "");
 }
 
 FILE_INFO::~FILE_INFO() {
@@ -400,28 +479,6 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     PERS_FILE_XFER *pfxp;
     int retval;
 
-    strcpy(name, "");
-    strcpy(md5_cksum, "");
-    max_nbytes = 0;
-    nbytes = 0;
-    upload_offset = -1;
-    generated_locally = false;
-    status = FILE_NOT_PRESENT;
-    executable = false;
-    approval_pending = false;
-    uploaded = false;
-    upload_when_present = false;
-    sticky = false;
-    signature_required = false;
-    pers_file_xfer = NULL;
-    result = NULL;
-    project = NULL;
-    urls.clear();
-    start_url = -1;
-    current_url = -1;
-    strcpy(signed_xml, "");
-    strcpy(xml_signature, "");
-    strcpy(file_signature, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
@@ -626,25 +683,19 @@ int APP_VERSION::write(FILE* out) {
 }
 
 int FILE_REF::parse(FILE* in) {
-    char buf[256], buf2[256];
+    char buf[256];
 
     strcpy(file_name, "");
     strcpy(open_name, "");
     fd = -1;
     main_program = false;
 	copy_file = false;
-    optional = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
         else if (match_tag(buf, "<main_program/>")) main_program = true;
-        else if (match_tag(buf, "<optional")) {
-            optional = true;
-            parse_attr(buf, "deadline", buf2, sizeof(buf2));
-            optional_deadline = time(0) + atoi(buf2);
-        }
         else if (match_tag(buf, "<copy_file/>")) copy_file = true;
         else msg_printf(NULL, MSG_ERROR, "FILE_REF::parse(): unrecognized: %s\n", buf);
     }
