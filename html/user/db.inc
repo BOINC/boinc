@@ -91,8 +91,8 @@ function show_host($host) {
     row("<b>Number of times client has contacted server:   </b>", $host->rpc_seqno);
     row("<b>Last time contacted server:   </b>", time_str($host->rpc_time));
     row("<b>% of time client on:   </b>", 100*$host->on_frac." %");
-    row("<b>% of time client connected:   </b>", 100*$host->connected_frac." %");
-    row("<b>% of time client active:   </b>", 100*$host->active_frac." %");
+    row("<b>% of time host connected:   </b>", 100*$host->connected_frac." %");
+    row("<b>% of time user active:   </b>", 100*$host->active_frac." %");
     echo "</table>\n";
 
 }
