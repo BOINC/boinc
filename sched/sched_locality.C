@@ -261,9 +261,14 @@ static int send_results_for_file(
         if (retval) return retval;
     }
 
+
     nsent = 0;
     for (i=0; i<100; i++) {     // avoid infinite loop
         if (!wreq.work_needed(reply)) break;
+    
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "in_send_results_for_file(%s) maxid=%d prev_result.id=%d\n", filename, maxid, prev_result.id
+        );
 
         // Use a transaction so that if we get a result,
         // someone else doesn't send it before we do
@@ -295,12 +300,19 @@ static int send_results_for_file(
             boinc_db.commit_transaction();
             if (!work_generator_invoked && config.locality_scheduling_wait_period) {
                 retval = make_more_work_for_file(filename);
+                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                    "make_more_work_for_file(%s, %d)=%d\n", filename, i, retval
+                );
+
                 if (retval) break;
                 work_generator_invoked = true;
             } else {
                 if (in_working_set) {
 		    if (work_generation_over(filename)) {
                         flag_for_possible_removal(filename);
+                        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                            "No remaining work for file %s, flagging for removal\n", filename
+                        );
 		    } else {
 		    //  DAVID: if work generation is NOT over then we
 		    //  should invoke make_more_work_for_file(),
@@ -359,19 +371,27 @@ static int send_new_file_work_deterministic(
 
     strcpy(min_filename, "");
     while (1) {
+        int len;
         sprintf(query,
             "where server_state=%d and name>'%s' order by name limit 1",
             RESULT_SERVER_STATE_UNSENT, min_filename
         );
         retval = result.lookup(query);
-        if (retval) break;
+        if (retval) break; // no more unsent results, return -1
         retval = extract_filename(result.name, filename);
-        if (retval) return retval;
+        if (retval) return retval; // not locality scheduled, now what???
         retval = send_results_for_file(
             filename, nsent, sreq, reply, platform, wreq, ss, false
         );
-        if (nsent>0) break;
-        strcpy(min_filename, filename);
+        if (nsent>0) break; // agreed
+        strcpy(min_filename, filename); // logic bug here is that RESULT name and FILENAME are not same!
+	// construct the lexically maximum result name corresponding to given filename
+        strcat(min_filename,"__");
+        for (len=strlen(min_filename) ; len<255; len++)
+            min_filename[len]=0xff;  // DAVID: IS THIS MYSQL SORT ORDER FOR VARCHAR??. Probably
+                                     // 'Z' is safe, the question is, what's the 'max' mysql char?
+        min_filename[255]='\0';      // Also for varchar(254) do I want strlen()==254 or 255?
+
     }
     return 0;
 }
@@ -463,6 +483,8 @@ void send_work_locality(
     int nsent, nfiles, j, k;
 
     nfiles = (int) sreq.file_infos.size();
+    if (!nfiles)
+        nfiles=1;
     j = rand()%nfiles;
 
     // send old work if there is any
