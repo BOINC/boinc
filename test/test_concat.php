@@ -14,6 +14,7 @@
     $project->add_app($app);
     $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
+    $project->install_feeder();
 
     $host->add_user($user,$project);
     $host->install();
@@ -28,7 +29,7 @@
     array_push($work->input_files, "input");
     $work->install($project);
 
-    $project->start_feeder();
+    $project->start_servers();
     $host->run("-exit_when_idle");
     $project->stop();
 

@@ -2,6 +2,7 @@
 <?php
     // This tests whether the most basic mechanisms are working
     // Also whether stderr output is reported correctly
+    // Also tests if water levels are working correctly
 
     include_once("test.inc");
 
@@ -21,10 +22,16 @@
 
     $user = new User();
     $user->project_prefs = "<project_specific>\nfoobar\n</project_specific>\n";
-    $user->global_prefs = "<run_on_batteries/>\n<max_bytes_sec_down>400000</max_bytes_sec_down>\n";
+    $user->global_prefs = "<venue name=\"home\">\n".
+    "<work_buf_min_days>0</work_buf_min_days>\n".
+    "<work_buf_max_days>2</work_buf_max_days>\n".
+    "<run_on_batteries/>\n".
+    "<max_bytes_sec_down>400000</max_bytes_sec_down>\n".
+    "</venue>\n";
 
     $project->add_user($user);
     $project->install();      // must install projects before adding to hosts
+    $project->install_feeder();
 
     $host = new Host();
     $host->log_flags = "log_flags.xml";
@@ -36,12 +43,15 @@
     $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
-    $work->redundancy = 2;
+    $work->redundancy = 10;
     $work->delay_bound = 2;
+    // Say that 1 WU takes 1 day on a ref comp
+    $work->rsc_fpops = 86400*1e9/2;
+    $work->rsc_iops = 86400*1e9/2;
     array_push($work->input_files, "input");
     $work->install($project);
 
-    $project->start_feeder();
+    $project->start_servers();
     $host->run("-exit_when_idle -no_time_test");
 
     $project->stop();

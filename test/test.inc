@@ -148,16 +148,8 @@ class Project {
     var $master_url;
     var $resource_share;
     var $source_dir;
-    var $start_assimilator;
-    var $start_feeder;
-    var $start_file_deleter;
-    var $start_make_work;
-    var $start_timeout_check;
-    var $start_validate;
     var $project_php_file;
     var $project_prefs_php_file;
-    var $make_work_wu_template;
-    var $make_work_result_template;
 
     function Project() {
         $this->short_name = "test";
@@ -171,12 +163,6 @@ class Project {
         $this->shmem_key = get_env_var("BOINC_SHMEM_KEY");
         $this->resource_share = 1;
         $this->source_dir = get_env_var("BOINC_SRC_DIR");
-        $this->start_assimilator = false;
-        $this->start_feeder = false;
-        $this->start_file_deleter = false;
-        $this->start_make_work = false;
-        $this->start_timeout_check = false;
-        $this->start_validate = false;
     }
 
     function add_user($user) {
@@ -347,39 +333,17 @@ class Project {
 
         // write the server config file
         //
-        $f = fopen("$this->project_dir/cgi/.htconfig.xml", "w");
-        fputs($f, "<config>\n");
-        fputs($f, "<db_name>$this->db_name</db_name>\n");
-        fputs($f, "<db_passwd>$this->db_passwd</db_passwd>\n");
-        fputs($f, "<shmem_key>$this->shmem_key</shmem_key>\n");
-        fputs($f, "<key_dir>$this->key_dir</key_dir>\n");
-        fputs($f, "<download_url>$this->download_url</download_url>\n");
-        fputs($f, "<download_dir>$this->project_dir/download</download_dir>\n");
-        fputs($f, "<upload_url>$this->upload_url</upload_url>\n");
-        fputs($f, "<upload_dir>$this->project_dir/upload</upload_dir>\n");
-        fputs($f, "<user_name>$this->user_name</user_name>\n");
-        if ($this->start_assimilator) {
-            fputs($f, "<start>assimilator >> assimilator.out 2>&1</start>\n");
-        }
-        if ($this->start_feeder) {
-            fputs($f, "<start>feeder -asynch >> feeder.out 2>&1</start>\n");
-        }
-        if ($this->start_file_deleter) {
-            fputs($f, "<start>file_deleter -asynch >> file_deleter.out 2>&1</start>\n");
-        }
-        if ($this->start_make_work) {
-            $result_template_path = realpath($this->make_work_result_template);
-            fputs($f, "<start>make_work -asynch -result_template $result_template_path -wu_name $this->make_work_wu_template >> make_work.out 2>&1</start>\n");
-        }
-        if ($this->start_timeout_check) {
-            fputs($f, "<start>timeout_check -asynch >> timeout_check.out 2>&1</start>\n");
-        }
-        if ($this->start_validate) {
-            fputs($f, "<start>validate -asynch >> validate.out 2>&1</start>\n");
-        }
-        fputs($f, "</config>\n");
-        fclose($f);
-
+        $this->append_config("<config>\n" .
+            "<db_name>$this->db_name</db_name>\n" .
+            "<db_passwd>$this->db_passwd</db_passwd>\n" .
+            "<shmem_key>$this->shmem_key</shmem_key>\n" .
+            "<key_dir>$this->key_dir</key_dir>\n" .
+            "<download_url>$this->download_url</download_url>\n" .
+            "<download_dir>$this->project_dir/download</download_dir>\n" .
+            "<upload_url>$this->upload_url</upload_url>\n" .
+            "<upload_dir>$this->project_dir/upload</upload_dir>\n" .
+            "<user_name>$this->user_name</user_name>\n" .
+            "</config>\n");
 
         // put a file with the database name and other info
         // in each HTML directory
@@ -431,6 +395,7 @@ class Project {
 
         PassThru("htpasswd -bc $this->project_dir/html_ops/.htpasswd $user $password");
     }
+
     // moves the master web page to temp
     // This is used to test exponential backoff on the client side.
     //
@@ -483,53 +448,57 @@ class Project {
         PassThru("cp $this->source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
     }
 
-    function start_servers(){
-        PassThru("cd $this->project_dir/cgi; ./start_servers >> start_servers_out 2>&1");
+    function start_servers() {
+        PassThru("cd $this->project_dir/cgi; ./start_servers >> start_servers.out 2>&1");
     }
 
-    function start_feeder(){
-        PassThru("cd $this->project_dir/cgi; ./feeder -asynch >> feeder_out 2>&1");
+    function install_feeder() {
+        $this->append_config("<start>./feeder -asynch >> feeder.out 2>&1</start>\n");
     }
 
-    function start_timeout_check($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
-        PassThru("cd $this->project_dir/cgi; ./timeout_check -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> timeout_check_out 2>&1");
+    function install_timeout_check($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
+        $this->append_config("<start>./timeout_check -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> timeout_check.out 2>&1</start>\n");
     }
 
-    function start_make_work($work){
+    function install_make_work($work,$cushion,$redundancy){
         $result_template_path = realpath($work->result_template);
-        PassThru("cd $this->project_dir/cgi; ./make_work -asynch -result_template $result_template_path -wu_name $work->wu_template >> make_work_out 2>&1");
+        $this->append_config("<start>./make_work -asynch -cushion $cushion -redundancy $redundancy -result_template $result_template_path -wu_name $work->wu_template >> make_work.out 2>&1</start>\n");
+    }
+
+    function deinstall_make_work() {
+        $this->remove_config("make_work");
     }
 
     // run the validator asynchronously
     //
-    function start_validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; ./validate_test -asynch -app $app->name -quorum $quorum >> validate_out 2>&1");
+    function install_validate($app, $quorum) {
+        $this->append_config("<start>./validate_test -asynch -app $app->name -quorum $quorum >> validate.out 2>&1</start>\n");
     }
 
     // do one pass of validation
     //
     function validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum >> validate_out 2>&1");
+        PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum >> validate.out 2>&1");
     }
    
-    function start_file_delete(){
-        PassThru("cd $this->project_dir/cgi; ./file_deleter -asynch >> file_deleter_out 2>&1");
+    function install_file_delete(){
+        $this->append_config("<start>./file_deleter -asynch >> file_deleter.out 2>&1</start>\n");
     }
 	
     // do one pass of file_deleter
     //
     function file_delete() {
-        PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass >> file_deleter_out 2>&1");
+        PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass >> file_deleter.out 2>&1");
     }
     
-    function start_assimilator($app) {
-        PassThru("cd $this->project_dir/cgi; ./assimilator -asynch -app $app->name >> assimilator_out 2>&1");
+    function install_assimilator($app) {
+        $this->append_config("<start>./assimilator -asynch -app $app->name >> assimilator.out 2>&1</start>\n");
     }
     
     // do one pass of assimilator
     //
     function assimilate($app) {
-        PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name >> assimilator_out 2>&1");
+        PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name >> assimilator.out 2>&1");
     }
 
     // start collecting data for stripcharts
@@ -561,6 +530,47 @@ class Project {
         fclose($f);
     }
 
+    // append the line to the config file
+    function append_config($line) {
+        touch($this->project_dir."/cgi/.htconfig.xml");
+        $f_old = fopen($this->project_dir."/cgi/.htconfig.xml", "r");
+        $f_new = fopen($this->project_dir."/cgi/.htconfig.tmp", "w");
+        $appended = false;
+        while(!feof($f_old)) {
+            $in_line = fgets($f_old);
+            if (strstr($in_line, "</config>")) {
+                fputs($f_new, $line);
+                $appended = true;
+            }
+            fputs($f_new, $in_line);
+        }
+        if (!$appended) fputs($f_new, $line);
+        fclose($f_old);
+        fclose($f_new);
+        rename($this->project_dir."/cgi/.htconfig.tmp", $this->project_dir."/cgi/.htconfig.xml");
+    }
+
+    // remove any line containing the pattern from the config file
+    function remove_config($pattern) {
+        touch($this->project_dir."/cgi/.htconfig.xml");
+        $f_old = fopen($this->project_dir."/cgi/.htconfig.xml", "r");
+        $f_new = fopen($this->project_dir."/cgi/.htconfig.tmp", "w");
+        while(!feof($f_old)) {
+            $in_line = fgets($f_old);
+            if (!strstr($in_line, $pattern))
+                fputs($f_new, $in_line);
+        }
+        fclose($f_old);
+        fclose($f_new);
+        rename($this->project_dir."/cgi/.htconfig.tmp", $this->project_dir."/cgi/.htconfig.xml");
+    }
+
+    // remove the stop_server trigger
+    //
+    function restart() {
+        unlink($this->project_dir."/cgi/stop_server");
+    }
+
     function check_results($ntarget, $result) {
         $n = 0;
         db_open($this->db_name);
@@ -586,14 +596,14 @@ class Project {
 
     function num_wus_left() {
         db_open($this->db_name);
-        $result = mysql_query("select count(*) as cnt from result where state=2");
+        $result = mysql_query("select count(*) as cnt from result where server_state=2");
         $count = mysql_fetch_object($result);
         return $count->cnt;
     }
 
     function num_results_done() {
         db_open($this->db_name);
-        $result = mysql_query("select count(*) as cnt from result where state=4");
+        $result = mysql_query("select count(*) as cnt from result where server_state=4");
         $count = mysql_fetch_object($result);
         return $count->cnt;
     }
