@@ -30,6 +30,11 @@ function build_picture_pages($width, $height) {
 
   mysql_free_result($result);
 
+  if (count($userIds) == 0) {
+    page_tail();
+    exit();
+  }
+
   // Randomize the ordering of users.
   shuffle($userIds);
 
@@ -54,7 +59,7 @@ function build_picture_pages($width, $height) {
       for ($col = 0; $col < $width; $col++) {
 	if ($count < $numIds) {
 
-	  fwrite($descriptor, "<td><a href=\"" . MASTER_URL . "view_profile.php?userid=" . $userIds[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $userIds[$count] . '_sm.jpg' . "\"></a></td>");
+	  fwrite($descriptor, "<td><a href=\"" . URL_BASE . "view_profile.php?userid=" . $userIds[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $userIds[$count] . '_sm.jpg' . "\"></a></td>");
 	  $count++;
 	}
       }
@@ -220,9 +225,9 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
 	// Only link an image if one exists.
 	if (file_exists(IMAGE_PATH . $members[$count] . '_sm.jpg')) {
 	  if ($descriptor) {
-	    fwrite($descriptor, "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
+	    fwrite($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
 	  } else {
-	    echo "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>";
+	    echo "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>";
 	  }
 	  
 	} else {
@@ -299,7 +304,7 @@ function get_profile_summary($userid) {
     $description = $description . "\")";
   }
 
-  $summary = "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $userid . "\">" . $row2['name'] . "</a> " . $description;
+  $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $userid . "\">" . $row2['name'] . "</a> " . $description;
   return $summary;
 }
 
