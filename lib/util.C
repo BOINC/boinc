@@ -422,6 +422,8 @@ char* timestamp() {
 // set by command line
 bool debug_fake_exponential_backoff = false;
 double debug_total_exponential_backoff = 0;
+static int count_debug_fake_exponential_backoff = 0;
+static const int max_debug_fake_exponential_backoff = 1000; // safety limit
 
 // return a random integer in the range [MIN,min(e^n,MAX))
 int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, double MAX, double factor /*=1.0*/)
@@ -436,10 +438,17 @@ int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, do
         double expected_backoff = (MIN > rmax) ? MIN : (rmax-MIN)/2.0;
 
         debug_total_exponential_backoff += expected_backoff;
+        ++count_debug_fake_exponential_backoff;
         fprintf(stderr,
-                "## calculate_exponential_backoff(): descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
+                "## calculate_exponential_backoff(): #%5d descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
+                count_debug_fake_exponential_backoff,
                 debug_descr, n, MIN, MAX, factor,
                 MIN, rmax, debug_total_exponential_backoff);
+        if (count_debug_fake_exponential_backoff >= max_debug_fake_exponential_backoff) {
+            fprintf(stderr,
+                    "## calculate_exponential_backoff(): reached max_debug_fake_exponential_backoff\n");
+            exit(1);
+        }
         return 0;
     }
 

@@ -11,39 +11,107 @@
 
 # the module MySQLdb can be installed on debian with "apt-get install python2.2-mysqldb"
 
+# TODO: make things work if build_dir != src_dir
+
 from version import *
 from boinc_db import *
-import os, sys, glob, time, shutil, re, atexit, traceback, random
+import os, sys, glob, time, shutil, re, atexit, traceback, random, signal
 import MySQLdb
 
 errors = 0
 
-def get_env_var(name, default = None):
-    try:
-        return os.environ.get(name, default)
-    except KeyError:
-        print "Environment variable %s not defined" % name
-        sys.exit(1)
+HAVE_INIT = 0
+def init():
+    global HAVE_INIT
+    global VERBOSE, AUTO_SETUP, USER_NAME, INSTALL_METHOD, DELETE, TTY, OVERWRITE
+    global PORT, PROXY_PORT, install_function
+    global AUTO_SETUP_BASEDIR, MINISERV_BASEDIR, MINISERV_PORT, MINISERV_BASEURL
+    global KEY_DIR, PROJECTS_DIR, CGI_DIR, HTML_DIR, HOSTS_DIR, CGI_URL, HTML_URL
 
-# VERBOSE: 0 = print nothing
-#          1 = print some (default
-#              if output is a tty, overwrite lines.
-#          2 = print all
+    if HAVE_INIT: return
+    HAVE_INIT = 1
 
-VERBOSE = int(get_env_var('TEST_VERBOSE', 1))
-TTY = os.isatty(1)
-OVERWRITE = TTY and VERBOSE==1
+    # TODO:  use @build_dir@ from autoconf.
+    os.chdir(os.path.dirname(sys.argv[0]))
+    if not os.path.exists("test_uc.py"):
+        raise SystemExit('Could not find boinc_db.py')
 
+    # VERBOSE: 0 = print nothing
+    #          1 = print some (default
+    #              if output is a tty, overwrite lines.
+    #          2 = print all
+
+    VERBOSE        = int(get_env_var('BOINC_TEST_VERBOSE', 1))
+    AUTO_SETUP     = int(get_env_var("BOINC_TEST_AUTO_SETUP",0)) ####
+    USER_NAME      = get_env_var("BOINC_TEST_USER_NAME", '') or get_env_var("USER")
+    INSTALL_METHOD = get_env_var("BOINC_TEST_INSTALL_METHOD", 'hardlink').lower()
+    DELETE         = get_env_var("BOINC_TEST_DELETE", 'if-successful').lower()
+
+    TTY = os.isatty(1)
+    OVERWRITE = TTY and VERBOSE==1
+
+    PROXY_PORT = 16000 + (os.getpid() % 1000)
+
+    if INSTALL_METHOD == 'copy':
+        install_function = shutil.copy
+    elif INSTALL_METHOD == 'link' or INSTALL_METHOD == 'hardlink':
+        install_function = my_link
+    elif INSTALL_METHOD == 'symlink' or INSTALL_METHOD == 'softlink':
+        install_function = my_symlink
+    else:
+        fatal_error("Invalid BOINC_TEST_INSTALL_METHOD: %s"%BOINC_TEST_INSTALL_METHOD)
+
+    if AUTO_SETUP:
+        AUTO_SETUP_BASEDIR = 'run-%d'%os.getpid()
+        verbose_echo(0, "Creating testbed in %s"%AUTO_SETUP_BASEDIR)
+        os.mkdir(AUTO_SETUP_BASEDIR)
+        try:
+            os.unlink('run')
+        except OSError:
+            pass
+        try:
+            os.symlink(AUTO_SETUP_BASEDIR, 'run')
+        except OSError:
+            pass
+        MINISERV_BASEDIR = os.path.join(os.getcwd(), AUTO_SETUP_BASEDIR)
+        MINISERV_PORT    = 15000 + (os.getpid() % 1000)
+        MINISERV_BASEURL = 'http://localhost:%d/' % MINISERV_PORT
+        miniserver = MiniServer(MINISERV_PORT, MINISERV_BASEDIR)
+        miniserver.run()
+        #KEY_DIR          = os.path.join(MINISERV_BASEDIR, 'keys')
+        PROJECTS_DIR     = os.path.join(MINISERV_BASEDIR, 'projects')
+        CGI_DIR          = os.path.join(MINISERV_BASEDIR, 'cgi-bin')
+        HTML_DIR         = os.path.join(MINISERV_BASEDIR, 'html')
+        HOSTS_DIR        = os.path.join(MINISERV_BASEDIR, 'hosts')
+        CGI_URL          = os.path.join(MINISERV_BASEURL, 'cgi-bin')
+        HTML_URL         = os.path.join(MINISERV_BASEURL, 'html')
+        PORT             = MINISERV_PORT
+        map(os.mkdir, [PROJECTS_DIR, CGI_DIR, HTML_DIR, HOSTS_DIR])
+    else:
+        KEY_DIR      = get_env_var("BOINC_TEST_KEY_DIR")
+        PROJECTS_DIR = get_env_var("BOINC_TEST_PROJECTS_DIR")
+        CGI_DIR      = get_env_var("BOINC_TEST_CGI_DIR")
+        HTML_DIR     = get_env_var("BOINC_TEST_HTML_DIR")
+        HOSTS_DIR    = get_env_var("BOINC_TEST_HOSTS_DIR")
+        CGI_URL      = get_env_var("BOINC_TEST_CGI_URL")
+        HTML_URL     = get_env_var("BOINC_TEST_HTML_URL")
+        m = re.compile('http://[^/]+:(\d+)/').match(HTML_URL)
+        PORT = m and m.group(1) or 80
+
+prev_overwrite = False
 def verbose_echo(level, line):
+    global prev_overwrite
     if level == 0:
-        if OVERWRITE:
+        if prev_overwrite:
             print
         print line
+        prev_overwrite = False
     elif VERBOSE >= level:
         if OVERWRITE:
             print "\r                                                                               ",
             print "\r", line,
             sys.stdout.flush()
+            prev_overwrite = True
         else:
             print line
 
@@ -66,6 +134,13 @@ def verbose_sleep(msg, wait):
         verbose_echo(1, msg + ' [sleep ' + ('.'*i).ljust(wait) + ']')
         time.sleep(1)
 
+def get_env_var(name, default = None):
+    value = os.environ.get(name, default)
+    if value == None:
+        print "Environment variable %s not defined" % name
+        sys.exit(1)
+    return value
+
 def shell_call(cmd, doexec=False, failok=False):
     if doexec:
         os.execl('/bin/sh', 'sh', '-c', cmd)
@@ -83,25 +158,41 @@ def verbose_shell_call(cmd, doexec=False, failok=False):
 def proxerize(url, t=True):
     if t:
         r = re.compile('http://[^/]*/')
-        return r.sub('http://localhost:8080/', url)
+        return r.sub('http://localhost:%d/'%PROXY_PORT, url)
     else:
         return url
 
-KEY_DIR      = get_env_var("BOINC_KEY_DIR")
-# SHMEM_KEY    = get_env_var("BOINC_SHMEM_KEY")
-PROJECTS_DIR = get_env_var("BOINC_PROJECTS_DIR")
-CGI_URL      = get_env_var("BOINC_CGI_URL")
-HTML_URL     = get_env_var("BOINC_HTML_URL")
-USER_NAME    = get_env_var("BOINC_USER_NAME", '') or get_env_var("USER")
-CGI_DIR      = get_env_var("BOINC_CGI_DIR")
-HTML_DIR     = get_env_var("BOINC_HTML_DIR")
-HOSTS_DIR    = get_env_var("BOINC_HOSTS_DIR")
+def destpath(src,dest):
+    if dest.endswith('/'):
+        return dest + os.path.basename(src)
+    else:
+        return dest
+
+# my_symlink and my_link just add the filename to the exception object if one
+# is raised - don't know why it's not already there
+def my_symlink(src,dest):
+    dest = destpath(src,dest)
+    try:
+        os.symlink(src,dest)
+    except OSError, e:
+        e.filename = dest
+        raise
+
+def my_link(src,dest):
+    dest = destpath(src,dest)
+    try:
+        os.link(src,dest)
+    except OSError, e:
+        e.filename = dest
+        raise
 
 def use_cgi_proxy():
     global CGI_URL
+    init()
     CGI_URL = proxerize(CGI_URL)
 def use_html_proxy():
     global HTML_URL
+    init()
     HTML_URL = proxerize(HTML_URL)
 
 def check_exists(file):
@@ -145,15 +236,13 @@ def macro_substitute_inplace(macro, replacement, inoutfile):
 
 def make_executable(name):
     os.chmod(name, 755)
-def symlink(src, dest):
+def force_symlink(src, dest):
     if os.path.exists(dest):
         os.unlink(dest)
-    os.symlink(src, dest)
+    my_symlink(src, dest)
 def rmtree(dir):
-    try:
+    if os.path.exists(dir):
         shutil.rmtree(dir)
-    except OSError:
-        pass
 
 def _remove_trail(s, suffix):
     if s.endswith(suffix):
@@ -170,15 +259,12 @@ def run_tool(cmd):
     verbose_shell_call(os.path.join(SRC_DIR, 'tools', cmd))
 
 def _gen_key_p(private_key, public_key):
-    shell_call("%s/crypt_prog -genkey 1024 %s %s" % (
-        os.path.join(SRC_DIR, '/lib'),
-        os.path.join(KEY_DIR, private_key),
-        os.path.join(KEY_DIR, public_key)))
+    shell_call("%s/crypt_prog -genkey 1024 %s %s >/dev/null" % (
+        os.path.join(SRC_DIR, 'lib'),
+        private_key,
+        public_key))
 def _gen_key(key):
     _gen_key_p(key+'_private', key+'_public')
-def create_keys():
-    _gen_key('upload')
-    _gen_key('code_sign')
 
 def get_int(s):
     '''Convert a string to an int; return 0 on error.'''
@@ -299,7 +385,7 @@ class AppVersion:
 class ProjectList(list):
     def run(self):   map(lambda i: i.run(), self)
     def check(self): map(lambda i: i.check(), self)
-    def stop(self):  map(lambda i: i.stop(), self)
+    def stop(self):  map(lambda i: i.maybe_stop(), self)
     def open_dbs(self):
         self.dbs = map(lambda i: i.db_open(), self)
     def progress(self):
@@ -316,6 +402,7 @@ class Project:
                  apps=None, app_versions=None, appname=None,
                  resource_share=None, redundancy=None,
                  add_to_list=True):
+        init()
         if add_to_list:
             all_projects.append(self)
         self.config_options = []
@@ -323,7 +410,7 @@ class Project:
         self.short_name     = short_name or 'test_'+appname
         self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
         self.db_passwd      = ''
-        self.generate_keys  = False
+        self.generate_keys  = AUTO_SETUP
         self.shmem_key      = generate_shmem_key()
         self.resource_share = resource_share or 1
         self.redundancy     = redundancy or 2
@@ -357,6 +444,8 @@ class Project:
         self.work          = self.works[0]
         self.user          = self.users[0]
 
+        self.started = False
+
     def srcdir(self, *dirs):
         return apply(os.path.join,(SRC_DIR,)+dirs)
     def dir(self, *dirs):
@@ -367,10 +456,12 @@ class Project:
     def chmod(self, dir):
         os.chmod(self.dir(dir), 0777)
     def copy(self, source, dest):
-        shutil.copy(self.srcdir(source), self.dir(dest))
-    def copytree(self, source, dest = None, failok=False):
-        shutil.copytree(self.srcdir(source),
-                        self.dir(dest or os.path.join(source, '')))
+        install_function(self.srcdir(source), self.dir(dest))
+    def copyglob(self, source, dest = None, failok=False):
+        dest = self.dir(dest or os.path.join(source, ''))
+        for src in glob.glob(os.path.join(self.srcdir(source), '*')):
+            if not os.path.isdir(src):
+                install_function(src, dest)
 
     def run_db_script(self, script):
         shell_call('sed -e s/BOINC_DB_NAME/%s/ %s | mysql'
@@ -378,31 +469,36 @@ class Project:
     def db_open(self):
         return MySQLdb.connect(db=self.db_name)
 
+    def create_keys(self):
+        _gen_key(self.dir('keys/upload'))
+        _gen_key(self.dir('keys/code_sign'))
+
     def install_project(self, scheduler_file = None):
-        verbose_echo(1, "Deleting previous test runs")
-        rmtree(self.dir())
+        if not AUTO_SETUP:
+            verbose_echo(1, "Deleting previous test runs")
+            rmtree(self.dir())
 
         verbose_echo(1, "Setting up server: creating directories");
         # make the CGI writeable in case scheduler writes req/reply files
 
         map(self.mkdir,
-            [ '', 'cgi', 'upload', 'download', ])#'keys', 'html_ops', 'html_user' ])
+            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'keys', 'html_ops', 'html_user', 'log'])
         map(self.chmod,
-            [ '', 'cgi', 'upload' ])
+            [ '', 'cgi-bin', 'upload', 'log' ])
 
         if self.generate_keys:
             verbose_echo(1, "Setting up server files: generating keys");
-            print "KEY GENERATION NOT IMPLEMENTED YET"
+            self.create_keys()
         else:
             verbose_echo(1, "Setting up server files: copying keys");
-            self.copytree(KEY_DIR, self.key_dir)
+            self.copyglob(KEY_DIR, os.path.join(self.key_dir,''))
 
         # copy the user and administrative PHP files to the project dir,
         verbose_echo(1, "Setting up server files: copying html directories")
 
-        self.copytree('html_user')
-        self.copytree('html_ops')
-        self.copy('tools/country_select', 'html_user')
+        self.copyglob('html_user')
+        self.copyglob('html_ops')
+        self.copy('tools/country_select', 'html_user/')
         if self.project_php_file:
             self.copy(os.path.join('html_user', self.project_php_file),
                       os.path.join('html_user', 'project.inc'))
@@ -410,7 +506,7 @@ class Project:
             self.copy(os.path.join('html_user', self.project_prefs_php_file),
                       os.path.join('html_user', 'project_specific_prefs.inc'))
 
-        symlink(self.download_dir, self.dir('html_user', 'download'))
+        my_symlink(self.download_dir, self.dir('html_user', 'download'))
 
         # Copy the sched server in the cgi directory with the cgi names given
         # source_dir/html_usr/schedulers.txt
@@ -427,7 +523,7 @@ class Project:
                 if match:
                     cgi_name = match.group(1)
                     verbose_echo(2, "Setting up server files: copying " + cgi_name);
-                    copy('sched/cgi', os.path.join('cgi', cgi_name))
+                    install_function('sched/cgi', os.path.join('cgi-bin', cgi_name,''))
             f.close()
         else:
             scheduler_file = 'schedulers.txt'
@@ -436,11 +532,14 @@ class Project:
             f.close()
 
 
-        # copy all the backend programs to the CGI directory
-        map(lambda (s): self.copy(os.path.join('sched', s), 'cgi/'),
-            [ 'cgi', 'file_upload_handler', 'make_work',
+        # copy all the backend programs
+        map(lambda (s): self.copy(os.path.join('sched', s), 'cgi-bin/'),
+            [ 'cgi', 'file_upload_handler', ])
+        map(lambda (s): self.copy(os.path.join('sched', s), 'bin/'),
+            [ 'make_work',
               'feeder', 'timeout_check', 'validate_test',
-              'file_deleter', 'assimilator', 'start', 'boinc_config.py',
+              'file_deleter', 'assimilator', 'start', 'stop',
+              'boinc_config.py',
               'grep_logs' ])
 
         verbose_echo(1, "Setting up database")
@@ -515,12 +614,11 @@ class Project:
 
         verbose_echo(1, "Setting up server files: writing config files");
 
-        self.log_dir = self.dir('cgi')
         config = map_xml(self,
                          [ 'db_name', 'db_passwd', 'shmem_key',
                            'key_dir', 'download_url', 'download_dir',
                            'upload_url', 'upload_dir', 'project_dir', 'user_name',
-                           'cgi_url', 'log_dir',
+                           'cgi_url',
                            'output_level' ])
         self.config_options = config.split('\n')
         self.write_config()
@@ -533,10 +631,9 @@ class Project:
 
         # create symbolic links to the CGI and HTML directories
         verbose_echo(1, "Setting up server files: linking cgi programs")
-        symlink(self.dir('cgi'), os.path.join(CGI_DIR, self.short_name))
-        symlink(self.dir('cgi'), self.dir('bin')) #TODO
-        symlink(self.dir('html_user'), os.path.join(HTML_DIR, self.short_name))
-        symlink(self.dir('html_ops'), os.path.join(HTML_DIR, self.short_name+'_admin'))
+        force_symlink(self.dir('cgi-bin'), os.path.join(CGI_DIR, self.short_name))
+        force_symlink(self.dir('html_user'), os.path.join(HTML_DIR, self.short_name))
+        force_symlink(self.dir('html_ops'), os.path.join(HTML_DIR, self.short_name+'_admin'))
 
         # show the URLs for user and admin sites
         admin_url = os.path.join("html_user", self.short_name+'_admin/')
@@ -577,29 +674,29 @@ class Project:
     def reenable_masterindex(self):
         self._reenable('html_user/index.php')
     def disable_scheduler(self, num = ''):
-        self._disable('cgi/cgi'+str(num))
+        self._disable('cgi-bin/cgi'+str(num))
     def reenable_scheduler(self, num = ''):
-        self._reenable('cgi/cgi'+str(num))
+        self._reenable('cgi-bin/cgi'+str(num))
     def disable_downloaddir(self, num = ''):
         self._disable('download'+str(num))
     def reenable_downloaddir(self, num = ''):
         self._reenable('download'+str(num))
     def disable_file_upload_handler(self, num = ''):
-        self._disable('cgi/file_upload_handler'+str(num))
+        self._disable('cgi-bin/file_upload_handler'+str(num))
     def reenable_file_upload_handler(self, num = ''):
-        self._reenable('cgi/file_upload_handler'+str(num))
+        self._reenable('cgi-bin/file_upload_handler'+str(num))
 
-    def _run_cgi_prog(self, prog, args='', logfile=None):
-        verbose_shell_call("cd %s && ./%s %s >> %s.out 2>&1" %
-                           (self.dir('cgi'), prog, args, (logfile or prog)))
+    def _run_sched_prog(self, prog, args='', logfile=None):
+        verbose_shell_call("cd %s && ./%s %s >> %s.log 2>&1" %
+                           (self.dir('bin'), prog, args, (logfile or prog)))
     def start_servers(self):
-        # self.restart()
-        self._run_cgi_prog('start', '-v')
+        self.started = True
+        self._run_sched_prog('start', '-v --enable')
         verbose_sleep("Starting servers for project '%s'" % self.short_name, 1)
         self.read_server_pids()
 
     def read_server_pids(self):
-        pid_dir = self.dir('cgi')
+        pid_dir = self.dir('pid')
         self.pids = {}
         for pidfile in glob.glob(os.path.join(pid_dir, '*.pid')):
             try:
@@ -616,7 +713,7 @@ class Project:
         os.waitpid(self.pids[progname], 0)
         verbose_echo(1, msg+" done.")
 
-    def _build_cgi_commandlines(self, progname, kwargs):
+    def _build_sched_commandlines(self, progname, kwargs):
         '''Given a KWARGS dictionary build a list of command lines string depending on the program.'''
         each_app = False
         if progname == 'feeder':
@@ -645,50 +742,37 @@ class Project:
             return [cmdline]
 
     def sched_run(self, prog, **kwargs):
-        for cmdline in self._build_cgi_commandlines(prog, kwargs):
-            self._run_cgi_prog(prog, '-d 3 -one_pass '+cmdline)
+        for cmdline in self._build_sched_commandlines(prog, kwargs):
+            self._run_sched_prog(prog, '-d 3 -one_pass '+cmdline)
     def sched_install(self, prog, **kwargs):
-        for cmdline in self._build_cgi_commandlines(prog, kwargs):
+        for cmdline in self._build_sched_commandlines(prog, kwargs):
             self.config_daemons.append("%s -d 3 %s" %(prog, cmdline))
             self.write_config()
     def sched_uninstall(self, prog):
-        self.remove_config(prog)
+        self.config_daemons = filter(lambda l: l.find(prog)==-1, self.config_daemons)
+        self.write_config()
 
     def start_stripcharts(self):
-        map(lambda l: self.copy(os.path.join('stripchart', l), 'cgi/'),
+        map(lambda l: self.copy(os.path.join('stripchart', l), 'cgi-bin/'),
             [ 'stripchart.cgi', 'stripchart', 'stripchart.cnf',
               'looper', 'db_looper', 'datafiles', 'get_load', 'dir_size' ])
         macro_substitute('BOINC_DB_NAME', self.db_name, self.srcdir('stripchart/samples/db_count'),
-                         self.dir('cgi/db_count'))
-        make_executable(self.dir('cgi/db_count'))
+                         self.dir('bin/db_count'))
+        make_executable(self.dir('bin/db_count'))
 
-        self._run_cgi_prog('looper'    , 'get_load 1'                            , 'get_load')
-        self._run_cgi_prog('db_looper' , '"result" 1'                            , 'count_results')
-        self._run_cgi_prog('db_looper' , '"workunit where assimilate_state=2" 1' , 'assimilated_wus')
-        self._run_cgi_prog('looper'    , '"dir_size ../download" 1'              , 'download_size')
-        self._run_cgi_prog('looper'    , '"dir_size ../upload" 1'                , 'upload_size')
-
-    # def stop(self, daemons=['ALL']):
-    #     '''Stop running scheduler daemons.'''
-    #     ## the following shouldn't be necessary anymore:
-    #     f = open(self.dir('cgi', 'stop_server'), 'w')
-    #     print >>f, "<quit/>"
-    #     f.close()
-
-    #     daemons = ' '.join(daemons)
-    #     verbose_echo(1,"Stopping server(s) for project '%s': "%self.short_name)
-    #     shell_call("cd %s ; ./kill_server -v %s" % (self.dir('cgi'), daemons))
+        self._run_sched_prog('looper'    , 'get_load 1'                            , 'get_load')
+        self._run_sched_prog('db_looper' , '"result" 1'                            , 'count_results')
+        self._run_sched_prog('db_looper' , '"workunit where assimilate_state=2" 1' , 'assimilated_wus')
+        self._run_sched_prog('looper'    , '"dir_size ../download" 1'              , 'download_size')
+        self._run_sched_prog('looper'    , '"dir_size ../upload" 1'                , 'upload_size')
 
     def stop(self):
-        verbose_echo(1,"Stopping server(s) for project '%s': "%self.short_name)
-        self._run_cgi_prog('start', '-vk')
+        verbose_echo(1,"Stopping server(s) for project '%s'"%self.short_name)
+        self._run_sched_prog('start', '-v --disable')
+        self.started = False
 
-    # def restart(self):
-    #     '''remove the stop_server trigger'''
-    #     try:
-    #         os.unlink(self.dir('cgi', 'stop_server'))
-    #     except OSError:
-    #         pass
+    def maybe_stop(self):
+        if self.started: self.stop()
 
     def write_config(self):
         f = open(self.dir('config.xml'), 'w')
@@ -702,10 +786,6 @@ class Project:
             print >>f, "       <daemon><cmd>%s</cmd></daemon>"%daemon
         print >>f, '  </daemons>'
         print >>f, '</boinc>'
-
-    def remove_daemon(self, pattern):
-        self.config_daemons = filter(lambda l: l.find(pattern)==-1, self.config_daemons)
-        self.write_config()
 
     def check_results(self, matchresult, expected_count=None):
         '''MATCHRESULT should be a dictionary of columns to check, such as:
@@ -845,8 +925,8 @@ class Work:
             self.wu_template, project.short_name))
         if not self.app:
             self.app = project.app_versions[0].app
-        for input_file in self.input_files:
-            shutil.copy(input_file, project.download_dir)
+        for input_file in unique(self.input_files):
+            install_function(input_file, os.path.join(project.download_dir,''))
 
         # simulate multiple data servers by making symbolic links to the
         # download directory
@@ -909,6 +989,12 @@ def run_check_all():
     all_projects.check()
     # all_projects.stop()
 
+def delete_test():
+    '''Delete all test data'''
+    if AUTO_SETUP:
+        verbose_echo(1, "Deleting testbed %s."%AUTO_SETUP_BASEDIR)
+        shutil.rmtree(AUTO_SETUP_BASEDIR)
+
 class Proxy:
     def __init__(self, code, cgi=0, html=0, start=1):
         self.pid = 0
@@ -919,8 +1005,10 @@ class Proxy:
     def start(self):
         self.pid = os.fork()
         if not self.pid:
-            verbose_shell_call("exec ./testproxy 8080 localhost:80 '%s' 2>testproxy.log"%self.code,
-                               doexec=True)
+            verbose_shell_call(
+                "exec ./testproxy %d localhost:%d '%s' 2>testproxy.log" % (
+                PROXY_PORT, PORT, self.code),
+                doexec=True)
         verbose_sleep("Starting proxy server", 1)
         # check if child process died
         (pid,status) = os.waitpid(self.pid, os.WNOHANG)
@@ -938,12 +1026,64 @@ class Proxy:
                 verbose_echo(0, "Couldn't kill pid %d" % self.pid)
             self.pid = 0
 
+
+class MiniServer:
+    def __init__(self, port, doc_root, miniserv_root=None):
+        self.port = port
+        self.doc_root = doc_root
+        self.miniserv_root = miniserv_root or os.path.join(doc_root,'miniserv')
+        if not os.path.isdir(self.miniserv_root):
+            os.mkdir(self.miniserv_root)
+        self.config_file = os.path.join(self.miniserv_root, 'miniserv.conf')
+        self.log_file = os.path.join(self.miniserv_root, 'miniserv.log')
+        self.pid_file = os.path.join(self.miniserv_root, 'miniserv.pid')
+        print >>open(self.config_file,'w'), '''
+root=%(doc_root)s
+mimetypes=/etc/mime.types
+port=%(port)d
+addtype_cgi=internal/cgi
+addtype_php=internal/cgi
+index_docs=index.html index.htm index.cgi index.php
+logfile=%(log_file)s
+pidfile=%(pid_file)s
+logtime=168
+ssl=0
+#logout=/etc/webmin/logout-flag
+#libwrap=1
+#alwaysresolve=1
+#allow=127.0.0.1
+blockhost_time=300
+no_pam=0
+logouttime=5
+passdelay=1
+blockhost_failures=3
+log=1
+logclear=
+loghost=1
+''' %self.__dict__
+
+    def run(self):
+        verbose_echo(0,"Running miniserv on localhost:%d"%self.port)
+        if os.spawnl(os.P_WAIT, os.path.join(SRC_DIR, 'test/miniserv.pl'), 'miniserv', self.config_file):
+            raise SystemExit("Couldn't spawn miniserv")
+        atexit.register(self.stop)
+
+    def stop(self):
+        verbose_echo(1,"Killing miniserv")
+        try:
+            pid = int(open(self.pid_file).readline())
+            os.kill(pid, signal.SIGINT)
+        except Exception, e:
+            print >>sys.stderr, "Couldn't stop miniserv:", e
+
 def test_msg(msg):
     print
     print "-- Testing", msg, '-'*(66-len(msg))
+    init()
 
 def test_done():
     global errors
+    init()
     if sys.__dict__.get('last_traceback'):
         if sys.last_type == KeyboardInterrupt:
             errors += 0.1
@@ -953,9 +1093,15 @@ def test_done():
             sys.stderr.write("\nException thrown - bug in test scripts?\n")
     if errors:
         verbose_echo(0, "ERRORS: %d" % errors)
+        if DELETE == 'always':
+            delete_test()
         sys.exit(int(errors))
     else:
         verbose_echo(1, "Passed test!")
+        if OVERWRITE:
+            print
+        if DELETE == 'if-successful' or DELETE == 'always':
+            delete_test()
         if OVERWRITE:
             print
         sys.exit(0)

@@ -131,7 +131,7 @@ function parse_element($xml, $tag) {
 //
 function parse_config($tag) {
     $element = null;
-    $fp = fopen("config.xml", "r");
+    $fp = fopen("../config.xml", "r");
     while (1) {
         $buf = fgets($fp, 1024);
         if ($buf == null) break;

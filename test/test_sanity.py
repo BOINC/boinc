@@ -3,6 +3,7 @@
 ## $Id$
 
 import urllib, random
+import boinc
 from boinc import *
 
 # test makes sure that testing framework is sane
@@ -29,19 +30,19 @@ if __name__ == '__main__':
     check_app_executable("1sec")
 
     verbose_echo(1, "Checking directories")
-    for d in ['KEY_DIR', 'PROJECTS_DIR',
+    for d in ['PROJECTS_DIR', #'KEY_DIR',
               'CGI_DIR', 'HTML_DIR', 'HOSTS_DIR']:
-        dir = globals()[d]
+        dir = boinc.__dict__[d]
         if not os.path.isdir(dir):
             error("%s doesn't exist: %s" % (d, dir))
 
     magic = "Foo %x Bar" % random.randint(0,2**16)
 
-    html_path = os.path.join(HTML_DIR, 'test_sanity.txt')
-    html_url  = os.path.join(HTML_URL, 'test_sanity.txt')
+    html_path = os.path.join(boinc.HTML_DIR, 'test_sanity.txt')
+    html_url  = os.path.join(boinc.HTML_URL, 'test_sanity.txt')
     html_proxy_url = proxerize(html_url)
-    cgi_path  = os.path.join(CGI_DIR,  'test_sanity_cgi')
-    cgi_url   = os.path.join(CGI_URL,  'test_sanity_cgi')
+    cgi_path  = os.path.join(boinc.CGI_DIR,  'test_sanity_cgi')
+    cgi_url   = os.path.join(boinc.CGI_URL,  'test_sanity_cgi')
 
     verbose_echo(1, "Checking webserver setup: non-cgi")
     print >>open(html_path,'w'), magic
