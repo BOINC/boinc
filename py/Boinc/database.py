@@ -58,7 +58,10 @@ class App(DatabaseObject):
         table = 'app',
         columns = [ 'create_time',
                     'name',
-                    'min_version' ])
+                    'min_version',
+                    'deprecated',
+                    'user_friendly_name',
+                    'homogeneous_redundancy' ])
 
 class AppVersion(DatabaseObject):
     _table = DatabaseTable(

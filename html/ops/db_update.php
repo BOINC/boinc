@@ -100,6 +100,12 @@ function update_9_05_2004() {
     );
 }
 
-//update_9_05_2004();
+function update_9_26_2004() {
+    mysql_query(
+        "alter table app add homogeneous_redundancy smallint not null"
+    );
+}
+
+//update_9_26_2004();
 
 ?>

@@ -13,12 +13,16 @@ and results that are erroneous.
 <p>
 BOINC provides a feature called <b>homogeneous redundancy</b>
 for such applications.
-This is enabled by including the line
+You can enable it for a project by including the line
 <pre>
 &lt;homogeneous_redundancy/&gt;
 </pre>
 in the <a href=configuration.php>config.xml</a> file.
 
+<p>
+Alternatively, you can enable it selectively for a single
+application by setting the
+<code>homogeneous_redundancy</code> field in its database record.
 <p>
 When this feature is enabled,
 the BOINC scheduler will send results for a given workunit

@@ -14,7 +14,8 @@ to having GUI code in the core client.
 BOINC provides a C++ interface to these RPCs.
 The interface is based on the GUI_RPC class,
 which provides the following functions
-(the program <code>gui_test.C</code> gives an example of their use):
+(the code is in <code>lib/gui_rpc_client.h</code>,
+ and the program <code>gui_test.C</code> gives a usage example):
 <p>
 ";
 list_start();
@@ -46,8 +47,7 @@ list_item_func(
     "get_file_transfers(FILE_TRANSFERS&)",
     "Get a list of file transfers in progress.
     Each is linked by name to a project;
-    use CC_STATE::lookup_project() to find this project in
-    the current state;
+    use CC_STATE::lookup_project() to find this project in the current state;
     if it's not there, call get_state() again."
 );
 list_item_func(
@@ -64,20 +64,19 @@ list_item_func(
 	create a graphics window"
 );
 list_item_func(
-    "project_reset(char* url)",
-	"Reset the given project"
+    "project_op(PROJECT&, char* op)",
+	"Perform a control operation on the given project.
+    <code>op</code> is one of
+    \"suspend\",
+    \"resume\",
+    \"reset\",
+    \"detach\", or
+    \"update\".
+    "
 );
 list_item_func(
     "project_attach(char* url, char* account_id)",
 	"Attach to the given project"
-);
-list_item_func(
-    "project_detach(char* url)",
-	"Detach from the given project"
-);
-list_item_func(
-    "project_update(char* url)",
-	"Update the given project"
 );
 list_item_func(
     "set_run_mode(int mode)",
@@ -100,6 +99,10 @@ list_item_func(
 	"Set proxy settings"
 );
 list_item_func(
+    "get_proxy_settings(PROXY_INFO&)",
+	"Get proxy settings"
+);
+list_item_func(
     "get_messages(
     int nmessages,
     int seqno,
@@ -114,8 +117,21 @@ list_item_func(
     They are returned in order of decreasing sequence number."
 );
 list_item_func(
-    "retry_file_transfer(FILE_TRANSFER&)",
-	"Retry file transfer"
+    "file_transfer_op(FILE_TRANSFER&, char* op)",
+	"Perform a control operation on a file transfer.
+    <code>op</code> is one of
+    \"abort\" or
+    \"retry\".
+    "
+);
+list_item_func(
+    "result_op(FILE_TRANSFER&, char* op)",
+	"Perform a control operation on an active result.
+    <code>op</code> is one of
+    \"suspend\",
+    \"resume\", or
+    \"abort\".
+    "
 );
 list_end();
 echo "

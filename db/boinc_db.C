@@ -125,9 +125,9 @@ void DB_CORE_VERSION::db_parse(MYSQL_ROW &r) {
 void DB_APP::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, name='%s', min_version=%d, "
-        "deprecated=%d, user_friendly_name='%s'",
+        "deprecated=%d, user_friendly_name='%s', homogeneous_redundancy=%d",
         create_time, name, min_version,
-        deprecated, user_friendly_name
+        deprecated?1:0, user_friendly_name, homogeneous_redundancy?1:0
     );
 }
 
@@ -140,6 +140,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     min_version = atoi(r[i++]);
     deprecated = atoi(r[i++]);
     strcpy2(user_friendly_name, r[i++]);
+    homogeneous_redundancy = atoi(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

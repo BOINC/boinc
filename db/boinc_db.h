@@ -79,8 +79,10 @@ struct APP {
     int create_time;
     char name[256];         // application name, preferably short
     int min_version;        // don't use app versions before this
-    int deprecated;
+    bool deprecated;
     char user_friendly_name[256];
+    bool homogeneous_redundancy;
+
     int write(FILE*);
     void clear();
 };

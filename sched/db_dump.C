@@ -357,7 +357,6 @@ void write_host(HOST& host, FILE* f, bool detail) {
 }
 
 void write_user(USER& user, FILE* f, bool detail) {
-    DB_HOST host;
     char buf[1024];
     char cpid[MD5_LEN];
 
@@ -407,6 +406,7 @@ void write_user(USER& user, FILE* f, bool detail) {
     }
 #if 0
     if (detail && user.show_hosts) {
+        DB_HOST host;
         sprintf(buf, "where userid=%d", user.id);
         while (!host.enumerate(buf)) {
             if (host.total_credit > 0) {

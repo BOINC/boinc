@@ -642,7 +642,7 @@ static void scan_work_array(
 
         // if desired, make sure redundancy is homogeneous
         //
-        if (config.homogeneous_redundancy) {
+        if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
             if (already_sent_to_different_platform(
                 sreq, wu_result.workunit, wreq
             )) {

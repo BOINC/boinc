@@ -382,6 +382,9 @@ function show_app($app) {
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
     row("Name", $app->name);
+    row("User-friendly name", $app->user_friendly_name);
+    row("Deprecated", $app->deprecated);
+    row("Homogeneous redundancy", $app->homogeneous_redundancy);
     row("","<a href=db_action.php?table=app_version&appid=$app->id>App Versions for this application</a>");
     row("","<a href=db_action.php?table=workunit&appid=$app->id&detail=low>Workunits for this application</a>");
     end_table();

@@ -1,10 +1,14 @@
 /*  If you add/change anything, update
     boinc_db.C,h
     and if needed:
-    py/Boinc/database.py
-    html_user/
-        create_account_action.php
-        team_create_action.php
+    py/Boinc/
+        database.py
+    html/
+        ops/
+            db_ops.inc
+        user/
+            create_account_action.php
+            team_create_action.php
     sched/
         db_dump.C
 */
@@ -42,8 +46,9 @@ create table app (
     create_time         integer     not null,
     name                varchar(254) not null,
     min_version         integer     not null,
-    deprecated          integer     not null,
+    deprecated          smallint    not null,
     user_friendly_name  varchar(254) not null,
+    homogeneous_redundancy smallint not null,
     primary key (id)
 ) type=InnoDB;
 

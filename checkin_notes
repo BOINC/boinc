@@ -17734,10 +17734,10 @@ David  24 Sept 2004
         process_result_template.C
 
 Rom    24 Sept 2004
-    - NEWGUI: Hook up the rest of the html panes for the transfers, messages, work,
-      and resources tabs.
-    - Kick start the CPU scheduler on startup by setting must_reschedule_cpus to true,
-      in case the scheduler is stuck in a funky state.
+    - NEWGUI: Hook up the rest of the html panes for the transfers,
+        messages, work, and resources tabs.
+    - Kick start the CPU scheduler on startup by setting must_reschedule_cpus
+       in case the scheduler is stuck in a funky state.
 
     client/
         client_state.C
@@ -17788,3 +17788,27 @@ David  25 Sept 2004
     lib/
         gui_rpc_client.C,h
         gui_test.C
+
+David  26 Sept 2004
+    - Added the ability to turn homogeneous redundancy on/off
+        on a per-application basis.
+
+    NOTE: this involved adding a homogeneous_redundancy field to
+    the app table in the database.
+    To upgrade to this server software,
+    you must run the SQL query in html/ops/db_update.php,
+    which adds this database field.
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        inc/
+            db_ops.inc
+        ops/
+            db_update.php
+    py/Boinc/
+        database.py
+    sched/
+        db_dump.C
+        sched_send.C
