@@ -39,7 +39,12 @@ function display_team_page($team, $user) {
     start_table();
     row1("Team info");
     if (strlen($team->description)) {
-        row2("Description", sanitize_html($team->description));
+        // row2("Description", sanitize_html($team->description));
+        // sanitize_html() is currently very buggy.  it changes http:// to
+        // uucp://; strips tags that don't need to be stripped (like <font>. if
+        // font should be stripped then style= tags should also be
+        // stripped!)  -- quarl
+        row2("Description", $team->description);
     }
     if (strlen($team->url)) {;
         row2("Web site", "<a href=http://$team->url>http://$team->url</a>");
