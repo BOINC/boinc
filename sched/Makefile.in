@@ -17,7 +17,6 @@ all: $(PROGS)
 CGI_OBJS = \
     handle_request.o \
     main.o \
-    parse.o \
     sched_shmem.o \
     server_types.o \
     ../db/db_mysql.o \
