@@ -411,6 +411,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_run_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_network_mode>")) {
         handle_set_network_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_network_mode>")) {
+        handle_get_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<run_benchmarks")) {
         handle_run_benchmarks(request_msg, mf);
     } else if (match_tag(request_msg, "<set_proxy_settings>")) {

@@ -407,11 +407,13 @@ int RPC_CLIENT::get_run_mode(int& mode) {
     MIOFILE fin;
     fin.init_buf(mbuf);
 
+    mode = -1;
     while (fin.fgets(buf, 256)) {
-        if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) return RUN_MODE_ALWAYS;
-        if (match_tag(buf, mode_name(RUN_MODE_NEVER))) return RUN_MODE_NEVER;
-        if (match_tag(buf, mode_name(RUN_MODE_AUTO))) return RUN_MODE_AUTO;
+        if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
+        if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
+        if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
     }
+    return 0;
 }
 
 int RPC_CLIENT::set_network_mode(int mode) {
@@ -430,6 +432,27 @@ int RPC_CLIENT::set_network_mode(int mode) {
     retval = get_reply(mbuf);
     if (retval) return retval;
     if (mbuf) free(mbuf);
+    return 0;
+}
+
+int RPC_CLIENT::get_network_mode(int& mode) {
+    char buf[256];
+    char* mbuf=0;
+    int retval;
+
+    retval = send_request("<get_network_mode/>\n");
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
+    MIOFILE fin;
+    fin.init_buf(mbuf);
+
+    mode = -1;
+    while (fin.fgets(buf, 256)) {
+        if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
+        if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
+        if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
+    }
     return 0;
 }
 

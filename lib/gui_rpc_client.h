@@ -201,6 +201,7 @@ public:
     int set_run_mode(int mode);
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
+    int get_network_mode(int& mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
