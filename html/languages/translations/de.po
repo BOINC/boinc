@@ -9,6 +9,13 @@
 ##########################################
 msgid "CHARSET"
 msgstr "iso-8859-1"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "German"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "German"
+
 
 #########################################
 # Apps page (apps.php)

@@ -12,7 +12,7 @@ if (get_str("set_lang")){
         exit;
     } else {
         setcookie('lang', get_str("set_lang"), time()+3600*24*365);
-        header("Location: language_select.php");
+        header("Location: index.php");
         flush();
         exit;
     }
@@ -37,6 +37,7 @@ echo "<p>The currently selected language is: <em>".tr(LANG_NAME_INTERNATIONAL)."
 
 
 start_table();
+row2("Language symbol", "Language name (click to select)");
 for ($i=0; $i<sizeof($languages);$i++){
     $lang_native[$i] = trSpecific(LANG_NAME_NATIVE,$languages[$i]);
     $lang_international[$i] = trSpecific(LANG_NAME_INTERNATIONAL, $languages[$i]);
@@ -45,12 +46,13 @@ for ($i=0; $i<sizeof($languages);$i++){
 array_multisort($lang_international, $languages, $lang_native);
 
 for ($i=0; $i<sizeof($languages);$i++){
-    if (file_exists($imgdir.$languages[$i].".png")){
-        $im = "<a href=\"language_select.php?set_lang=".$languages[$i]."\"><img height=\"12\" width=\"16\" src=\"".$imgdir.$languages[$i].".png\" border=0></a>";
-    } else {
-        $im="";
-    }
-    row3($im,
+//    if (file_exists($imgdir.$languages[$i].".png")){
+//        $im = "<a href=\"language_select.php?set_lang=".$languages[$i]."\"><img src=\"".$imgdir.$languages[$i].".png\" border=0></a>";
+//    } else {
+//        $im="";
+//    }
+//    row3($im,
+    row2(
         "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$languages[$i]."</a>",
         "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$lang_international[$i]." (".$lang_native[$i].")</a>"
     );

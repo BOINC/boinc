@@ -8,6 +8,13 @@
 # http://boinc.berkeley.edu/translate.html
 ##########################################
 
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Danish"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Danish"
+
 msgid "APPS_TITLE"
 msgstr "Applikationer"
 

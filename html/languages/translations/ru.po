@@ -11,6 +11,13 @@
 
 msgid "CHARSET"
 msgstr "windows-1251"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Russian"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Russian"
+
 
 #########################################
 # Apps page (apps.php)

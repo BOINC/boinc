@@ -20,6 +20,13 @@ msgstr ""
 ##########################################
 msgid "CHARSET"
 msgstr "UTF-8"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Chinese/Taiwan"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Chinese/Taiwan"
+
 
 #########################################
 # Apps page (apps.php)

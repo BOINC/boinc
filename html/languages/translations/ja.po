@@ -12,8 +12,6 @@ msgstr ""
 # ########################################
 # Language: Japanese
 # FileID  : $Id$
-# Author  : Janus Kristensen ( Translator: Komori Hitoshi, Reviewer: Takeda Nobuhiko )
-# Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 # ########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
@@ -23,6 +21,13 @@ msgstr ""
 # msgstr "UTF-8"
 msgid "CHARSET"
 msgstr "UTF-8"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Japanese"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Japanese"
+
 
 #########################################
 # Apps page (apps.php)

@@ -10,16 +10,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 ##########################################
-# Language: English (International)
+# Language: Italian
 # FileID  : $Id$
-# Author  : Janus Kristensen
-# Email   : jbk@visualgroup.dk
 ##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
 msgid "CHARSET"
 msgstr "iso-8859-1"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Italian"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Italian"
+
 
 #########################################
 # Apps page (apps.php)
