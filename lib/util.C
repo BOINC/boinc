@@ -216,7 +216,8 @@ void boinc_sleep(double seconds) {
     unsigned int rem = (int) seconds;
     while (1) {
         rem = sleep(rem);
-        if (rem <= 0) break;
+        if (rem == 0) break;
+        if (rem > seconds) break;   // paranoia
     }
     int x = (int)fmod(seconds*1000000,1000000);
     if (x) usleep(x);

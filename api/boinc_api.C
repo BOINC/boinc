@@ -502,10 +502,7 @@ int set_worker_timer() {
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
     );
-#endif
-
-#if HAVE_SIGNAL_H
-#if HAVE_SYS_TIME_H
+#else
     struct sigaction sa;
     itimerval value;
     sa.sa_handler = worker_timer;
@@ -522,7 +519,6 @@ int set_worker_timer() {
     if (retval) {
         perror("boinc set_worker_timer() setitimer");
     }
-#endif
 #endif
     return retval;
 }

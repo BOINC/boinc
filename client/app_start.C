@@ -116,12 +116,10 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     sprintf(szSharedMemoryName, "boinc_%d", i);
     strcpy(shmem_seg_name, szSharedMemoryName);
 
-#elif HAVE_SYS_IPC_H
+#else
     char init_data_path[256];
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
     shmem_seg_name = ftok(init_data_path, slot);
-#else
-#error shared memory key generation unimplemented
 #endif
     return 0;
 }

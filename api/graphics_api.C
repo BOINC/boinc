@@ -63,20 +63,18 @@ bool graphics_inited = false;
 static void (*worker_main)();
 
 #ifdef _WIN32
-// glue routine for Windows
 DWORD WINAPI foobar(LPVOID) {
     set_worker_timer();
     worker_main();
     return 0;
 }
-#endif
-#ifdef _PTHREAD_H
+#else
 void* foobar(void*) {
+#endif
     set_worker_timer();
     worker_main();
     return 0;
 }
-#endif
 
 int boinc_init_graphics(void (*worker)()) {
     BOINC_OPTIONS opt;
@@ -130,17 +128,15 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
     ThreadID    workerThreadID = 0;
     ThreadEntryUPP entry_proc;
 
-    entry_proc = NewThreadEntryUPP( worker_main );
+    entry_proc = NewThreadEntryUPP(foobar);
 
     // Create the thread in a suspended state
     theErr = NewThread ( kCooperativeThread, entry_proc,
-        (void *)(&gi), 0, kNewSuspend | kCreateIfNeeded, NULL, &graphicsThreadID
+        0, 0, kNewSuspend | kCreateIfNeeded, NULL, &workerThreadID
     );
     if (theErr != noErr) return ERR_THREAD;
 
-    // In theory we could do customized scheduling or install thread disposal routines here
-
-    // Put the graphics event loop into the ready state
+    // Put the worker event loop into the ready state
     SetThreadState(workerThreadID, kReadyThreadState, kNoThreadID);
 
     YieldToAnyThread();

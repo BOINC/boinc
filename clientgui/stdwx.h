@@ -66,6 +66,8 @@
 #include <wx/settings.h>        // system settings support
 #include <wx/intl.h>            // internationalization support
 #include <wx/timer.h>           // timer support
+#include <wx/image.h>
+#include <wx/url.h>
 #include <wx/file.h>            // filesystem support
 #include <wx/fs_mem.h>          // memory virtual filesystem support
 #include <wx/dcmemory.h>        // memory based device context
@@ -78,7 +80,9 @@
 #include <wx/html/htmlwin.h>    // html window support
 #include <wx/statline.h>        // static line support
 #include <wx/statbmp.h>         // static bitmap support
+#ifndef NOTASKBAR
 #include <wx/taskbar.h>         // taskbar support
+#endif
 #include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
 #include <wx/textdlg.h>

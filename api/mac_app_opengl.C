@@ -138,11 +138,10 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
 
         aglDisable (boincAGLContext, AGL_BUFFER_RECT);
         aglReportError ();
-        ReSizeGLScene( rectPort.right - rectPort.left, rectPort.bottom - rectPort.top );
+        //ReSizeGLScene( rectPort.right - rectPort.left, rectPort.bottom - rectPort.top );
         glReportError ();
 
-        InitGL();
-        app_init_gl();
+        app_graphics_init();
 
         glClear (GL_COLOR_BUFFER_BIT);
         glReportError ();
@@ -225,9 +224,9 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
                 case kHICommandMaximizeWindow:    // 'mini'
                 case kHICommandZoomWindow:    // 'zoom'
                     GetWindowPortBounds (appGLWindow, &rectPort);
-                    ReSizeGLScene(rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
-                    InitGL();
-                    app_init_gl();
+                    //ReSizeGLScene(rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
+                    //InitGL();
+                    app_graphics_init();
                     glReportError ();
                     break;
                 case kHICommandHide:        // 'hide'
@@ -249,12 +248,9 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
 
 // --------------------------------------------------------------------------
 
-pascal void *mac_graphics_event_loop ( void *data ) {
-    GRAPHICS_INFO *gi = (GRAPHICS_INFO *)data;
-
-    InitGLWindow(gi->xsize, gi->ysize, 16, gi->refresh_period);
+pascal void *mac_graphics_event_loop () {
+    InitGLWindow(600, 400, 16, 1./30.);
     RunApplicationEventLoop();
-
     return NULL;
 }
 

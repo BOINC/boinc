@@ -111,11 +111,11 @@ show_link(
     "www.boinc.narod.ru",
     "http://www.boinc.narod.ru"
 );
-show_link(
-    "Serbian",
-    "BOINC@Serbia",
-    "http://www.boincatserbia.co.sr/"
-);
+//show_link(
+//    "Serbian",
+//    "BOINC@Serbia",
+//    "http://www.boincatserbia.co.sr/"
+//);
 show_link(
     "Slovak",
     "BOINC translation by slavko.sk",

@@ -18979,6 +18979,25 @@ David  29 Oct 2004
     html/inc/
         result.inc
 
+David  31 Oct 2004
+    - fix clientgui compile on Solaris
+    - Mac OS/X app graphics fixes
+
+    NOTE: shared memory doesn't seem to work right on Mac OS 10.2.
+    I've battled this for 2 solid days and am giving up for now.
+
+    api/
+        Makefile.am
+        boinc_api.C
+        graphics_api.C
+        macc_app_opengl.C,h
+    client/
+        app_start.C
+    clientgui/
+        stdwx.h
+    lib/
+        util.C
+
 David  1 Nov 2004
     - Fixed the display of top users/hosts/teams ordered by average credit.
         This code wasn't taking into account how long ago
@@ -19046,5 +19065,3 @@ Karl 2004-11-02
         upgrade
     py/Boinc/
         BOINC_path_config.py.in
-
-

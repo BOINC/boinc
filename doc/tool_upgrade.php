@@ -10,6 +10,14 @@ echo "
     The script must reside in the project's bin/ directory,
     and you must run it from the source tree root.
     <p>
+    NOTE: if you are upgrading from a BOINC source tree
+    in a different location than the original,
+    you must manually edit the file
+    boinc_path_config.py in the project's bin/ directory
+    (and delete the file boinc_path_config.pyc).
+    Change the values of TOP_BUILD_DIR and TOP_SOURCE_DIR
+    to point to your new BOINC source tree.
+    <p>
     <b>upgrade</b> does the following:
     <ul>
     <li>

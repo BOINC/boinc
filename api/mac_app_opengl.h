@@ -20,7 +20,7 @@
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
 
-pascal void *mac_graphics_event_loop ( void *data );
+pascal void *mac_graphics_event_loop ();
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
