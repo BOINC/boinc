@@ -55,9 +55,7 @@
 #include <GL/glu.h>
 #endif
 
-bool app_render(int xs, int ys, double time_of_day);
 void renderBitmapString(float x, float y, void *font, char *string);
-int DrawGLScene(GLvoid);
 #endif
 
 #include "util.h"
@@ -238,7 +236,7 @@ int main(int argc, char **argv) {
 #ifdef BOINC_APP_GRAPHICS
 extern GLuint			main_font;
 
-int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
+bool app_render(int xs, int ys, double time_of_day)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
     glLoadIdentity();                                    // Reset The Current Modelview Matrix

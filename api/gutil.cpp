@@ -1,8 +1,15 @@
+#include <stdlib.h>
+#include <string.h>
 #include <math.h>
-#include <windows.h>
+#ifdef _WIN32
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#endif
+#ifdef __APPLE_CC__
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+#endif
 
 #include "gutil.h"
 
@@ -206,3 +213,4 @@ void draw_text_panel(
     glColor3f(1, 1, 1);
     draw_text(pos3, char_height, line_width, line_spacing, text);
 }
+
