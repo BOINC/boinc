@@ -17,7 +17,10 @@
 // Contributor(s):
 //
 
+#ifndef _WIN32
 #include "config.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,6 +32,9 @@
 #include "jpeglib.h"
 #include "bmplib.h"
 #include "tgalib.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 #else
 #include <jpeglib.h>
 #endif

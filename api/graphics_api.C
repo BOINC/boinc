@@ -24,6 +24,8 @@
 #include <afxwin.h>
 extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
+#else
+#include "config.h"
 #endif
 
 #ifdef __APPLE_CC__
