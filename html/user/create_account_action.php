@@ -58,13 +58,13 @@ if (!is_valid_email_addr($new_email_addr)) {
         name@domain"
     );
 }
-$query = "select * from user where email_addr='$new_email_addr' or email_addr like '@$new_email_addr_%' limit 1";
+$query = "select * from user where email_addr='$new_email_addr' or email_addr like '@$new_email_addr\\_%' limit 1";
 $result = mysql_query($query);
 if ($result) {
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
     if ($user) {
-        show_error("There's already an account with that email address");
+        show_error("There's already an account with that email address.");
     }
 }
 
