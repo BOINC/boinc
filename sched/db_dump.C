@@ -700,6 +700,7 @@ int main(int argc, char** argv) {
     SCHED_CONFIG config;
     int retval, i;
     DUMP_SPEC spec;
+    char* db_host = 0;
     char spec_filename[256], buf[256];
 
     check_stop_daemons();
@@ -710,42 +711,52 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dump_spec")) {
             strcpy(spec_filename, argv[++i]);
+        } else if (!strcmp(argv[i], "-db_host")) {
+            db_host = argv[++i];
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Usage\n");
+            exit(1);
         }
     }
 
     if (!strlen(spec_filename)) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "no spec file given\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "no spec file given\n");
         exit(1);
     }
 
     FILE* f = fopen(spec_filename, "r");
     if (!f) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "spec file missing\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "spec file missing\n");
         exit(1);
     }
 
     retval = spec.parse(f);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "can't parse spec file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't parse spec file\n");
         exit(1);
     }
 
     fclose(f);
 
     if (lock_file(LOCKFILE)) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of db_dump is already running\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Another copy of db_dump is already running\n");
         exit(1);
     }
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name,
+        db_host?db_host:config.db_host,
+        config.db_user,
+        config.db_passwd
+    );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
         exit(1);
     }
 

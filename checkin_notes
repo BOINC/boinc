@@ -17871,3 +17871,9 @@ David  29 Sept 2004
 		client_state.C
 		client_types.C
 		gui_rpc_server.C
+
+David  30 Sept 2004
+    - added -db_host option to db_dump (so it can use a DB replica)
+
+    sched/
+        db_dump.C

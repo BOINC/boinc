@@ -87,6 +87,9 @@ On Debian Linux you can install all of the above software using
 <code>apt-get install g++ python python-mysqldb python-xml mysql-server mysql-client apache php4 automake autoconf</code>
 </blockquote>
 
+<p>
+Some info on installing BOINC on Linux is
+<a href=http://torque.oncloud8.com/archives/000124.html>here</a>.
 
 <h2>Windows client software</h2>
 Required for compiling:
