@@ -12692,3 +12692,10 @@ David  May 26 2004
     - updated config.guess
 
     config.guess
+
+Rom    May 26 2004
+    - Update config.guess so we don't have to add the --build command to
+      each execution of ./configure for the Macs
+
+    /
+    config.guess

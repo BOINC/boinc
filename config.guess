@@ -1056,7 +1056,7 @@ EOF
 	echo ${UNAME_MACHINE}-apple-rhapsody${UNAME_RELEASE}
 	exit 0 ;;
     *:Darwin:*:*)
-	echo `uname -p`-apple-darwin${UNAME_RELEASE}
+	echo `uname -p`-apple-darwin
 	exit 0 ;;
     *:procnto*:*:* | *:QNX:[0123456789]*:*)
 	if test "${UNAME_MACHINE}" = "x86pc"; then
