@@ -22,7 +22,7 @@
 #include "client_msgs.h"
 #include "wingui_mainwindow.h"
 #include "diagnostics.h"
-#include ".\wingui_mainwindow.h"
+#include "win_net.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
@@ -38,6 +38,7 @@ CMainWindow* g_myWnd = NULL;
 //              otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
+    // Initialize Diagnostics
     try {
         unsigned long dwDiagnosticsFlags = 0;
 
@@ -56,6 +57,14 @@ BOOL CMyApp::InitInstance()
     {
         MessageBox(NULL, e.what(), "BOINC GUI Diagnostic Error", MB_OK);
     }
+
+
+    // Initialize WinSock
+    if ( WinsockInitialize() != 0 ) {
+        MessageBox(NULL, "Failed to initialize the Windows Sockets Interface\nTerminating Application", "BOINC GUI Error", MB_OK);
+        return FALSE;
+    }
+
 
     HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
     if ((h==0)|| GetLastError() == ERROR_ALREADY_EXISTS) {
@@ -87,7 +96,11 @@ int CMyApp::ExitInstance()
 
     //gstate.free_mem();
 
-    TRACE(TEXT("exiting\n"));
+    // Cleanup WinSock
+    if ( WinsockCleanup() != 0 ) {
+        MessageBox(NULL, "Failed to cleanup the Windows Sockets Interface", "BOINC GUI Error", MB_OK);
+    }
+
     return CWinApp::ExitInstance();
 }
 

@@ -13129,3 +13129,19 @@ David  6 June 2004
     lib/
         std_fixes.h
         util.C,h
+
+Rom   6 June 2004
+    - Enable GUI RPC's in the Windows Core Clients
+    - Move Winsock initialization out of each request to a per process thing
+    - Detect error condition where a socket initialization failure would cause
+      an error to be logged continuously
+
+    client/
+        client_state.C
+        gui_rpc_server.C
+        main.C
+    client/win/
+        win_net.cpp
+        win_net.h
+        wingui_mainwindow.cpp
+

@@ -42,18 +42,18 @@
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
 #ifdef _WIN32
-	fout = _fdopen(_dup(sock), "w");
+    fout = fdopen(dup(_open_osfhandle(sock, _O_WRONLY)), "w");
 #else
     fout = fdopen(dup(sock), "w");
 #endif
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
+    fclose(fout);
 #ifdef _WIN32
 	closesocket(sock);
 #else
     close(sock);
-    fclose(fout);
 #endif
 }
 
@@ -284,8 +284,20 @@ int GUI_RPC_CONN_SET::init() {
     int retval;
 
     lsock = socket(AF_INET, SOCK_STREAM, 0);
-    if (lsock < 0) {
-        perror("socket");
+    if (lsock < 0)
+    {
+        msg_printf(
+            NULL, MSG_ERROR,
+            "GUI RPC failed to initialize socket (retval = '%d')\n",
+            lsock
+        );
+#ifdef _WIN32
+        msg_printf(
+            NULL, MSG_ERROR,
+            "Windows Socket Error = '%d')\n",
+            WSAGetLastError()
+        );
+#endif
         return ERR_SOCKET;
     }
 
@@ -295,81 +307,108 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        perror("bind");
+        msg_printf(
+            NULL, MSG_ERROR,
+            "GUI RPC failed to bind to socket (retval = '%d')\n",
+            retval
+        );
+#ifdef _WIN32
+        msg_printf(
+            NULL, MSG_ERROR,
+            "Windows Socket Error = '%d')\n",
+            WSAGetLastError()
+        );
+#endif
         return ERR_BIND;
     }
     retval = listen(lsock, 999);
     if (retval) {
-        perror("listen");
+        msg_printf(
+            NULL, MSG_ERROR,
+            "GUI RPC failed to put socket into listening state (retval = '%d')\n",
+            retval
+        );
+#ifdef _WIN32
+        msg_printf(
+            NULL, MSG_ERROR,
+            "Windows Socket Error = '%d')\n",
+            WSAGetLastError()
+        );
+#endif
         return ERR_LISTEN;
     }
     return 0;
 }
 
 bool GUI_RPC_CONN_SET::poll() {
-    unsigned int i;
-    fd_set read_fds, error_fds;
-    int sock, n, retval;
-    vector<GUI_RPC_CONN*>::iterator iter;
-    GUI_RPC_CONN* gr;
-    struct timeval tv;
+    int n = 0;
 
-    FD_ZERO(&read_fds);
-    FD_ZERO(&error_fds);
-    FD_SET(lsock, &read_fds);
-    for (i=0; i<gui_rpcs.size(); i++) {
-        gr = gui_rpcs[i];
-        FD_SET(gr->sock, &read_fds);
-        FD_SET(gr->sock, &error_fds);
-    }
+    if (lsock >= 0) {
+        unsigned int i;
+        fd_set read_fds, error_fds;
+        int sock, retval;
+        vector<GUI_RPC_CONN*>::iterator iter;
+        GUI_RPC_CONN* gr;
+        struct timeval tv;
 
-    memset(&tv, 0, sizeof(tv));
-    n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
-    if (FD_ISSET(lsock, &read_fds)) {
-        struct sockaddr_in addr;
+        FD_ZERO(&read_fds);
+        FD_ZERO(&error_fds);
+        FD_SET(lsock, &read_fds);
+        for (i=0; i<gui_rpcs.size(); i++) {
+            gr = gui_rpcs[i];
+            FD_SET(gr->sock, &read_fds);
+            FD_SET(gr->sock, &error_fds);
+        }
+
+        memset(&tv, 0, sizeof(tv));
+        n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
+        if (FD_ISSET(lsock, &read_fds)) {
+            struct sockaddr_in addr;
 #ifdef _WIN32
-        int addr_len = sizeof(addr);
-        sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+            int addr_len = sizeof(addr);
+            sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #else
-        size_t addr_len = sizeof(addr);
-        sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+            size_t addr_len = sizeof(addr);
+            sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #endif
-        int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
-        printf("peer addr: %x\n", peer_ip);
-        if (peer_ip != 0x7f000001) {
-            msg_printf(
-                NULL, MSG_ERROR,
-                "GUI RPC request from non-local address 0x%x\n",
-                peer_ip
-            );
+            int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
+            if (peer_ip != 0x7f000001) {
+                msg_printf(
+                    NULL, MSG_ERROR,
+                    "GUI RPC request from non-local address 0x%x\n",
+                    peer_ip
+                );
+                GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
+                insert(gr);
 
-        } else {
-            GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
-            insert(gr);
-        }
-    }
-    iter = gui_rpcs.begin();
-    while (iter != gui_rpcs.end()) {
-        gr = *iter;
-        if (FD_ISSET(gr->sock, &error_fds)) {
-            delete gr;
-            gui_rpcs.erase(iter);
-        } else {
-            iter++;
-        }
-    }
-    iter = gui_rpcs.begin();
-    while (iter != gui_rpcs.end()) {
-        gr = *iter;
-        if (FD_ISSET(gr->sock, &read_fds)) {
-            retval = gr->handle_rpc();
-            if (retval) {
-                delete gr;
-                gui_rpcs.erase(iter);
-                continue;
+            } else {
+                GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
+                insert(gr);
             }
         }
-        iter++;
+        iter = gui_rpcs.begin();
+        while (iter != gui_rpcs.end()) {
+            gr = *iter;
+            if (FD_ISSET(gr->sock, &error_fds)) {
+                delete gr;
+                gui_rpcs.erase(iter);
+            } else {
+                iter++;
+            }
+        }
+        iter = gui_rpcs.begin();
+        while (iter != gui_rpcs.end()) {
+            gr = *iter;
+            if (FD_ISSET(gr->sock, &read_fds)) {
+                retval = gr->handle_rpc();
+                if (retval) {
+                    delete gr;
+                    gui_rpcs.erase(iter);
+                    continue;
+                }
+            }
+            iter++;
+        }
     }
     return (n != 0);
 }

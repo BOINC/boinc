@@ -32,19 +32,28 @@ double net_last_dial_time = 0;      // last time modem was dialed
 double net_close_time = 0;          // 0 don't close, >0 time when network connection should be terminated in seconds
 bool dialed = false;
 
+int WinsockInitialize()
+{
+    WSADATA wsdata;
+    return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+}
+
+int WinsockCleanup()
+{
+    return WSACleanup();
+}
+
 int NetOpen( void )
 {
+    int rc;
+
+    typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
+    typedef BOOL (WINAPI *AutoDialProc)( IN DWORD    dwFlags, IN DWORD    dwReserved);
+
     if(net_ref_count >= 0) {
         net_ref_count ++;
         return 0;
     }
-
-    WSADATA wsdata;
-    WORD    wVersionRequested;
-    int rc, addrlen = 16;
-
-    typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
-    typedef BOOL (WINAPI *AutoDialProc)( IN DWORD    dwFlags, IN DWORD    dwReserved);
 
     GetStateProc GetState = NULL;
     AutoDialProc AutoDial = NULL;
@@ -94,13 +103,6 @@ int NetOpen( void )
         }
     }
 
-
-    wVersionRequested = MAKEWORD(1, 1);
-    rc = WSAStartup(wVersionRequested, &wsdata);
-    if (rc) {
-        return -1;
-    }
-
     net_ref_count = 1;
     return 0;
 }
@@ -115,7 +117,6 @@ void NetClose( void )
 
 void NetCheck( void ) {
     if(net_ref_count == 0 && net_close_time > 0 && net_close_time < (double)time(NULL)) {
-        WSACleanup();
 
         typedef BOOL (WINAPI *HangupProc)(IN DWORD    dwReserved);
         HangupProc HangUp = NULL;
@@ -132,5 +133,6 @@ void NetCheck( void ) {
         dialed = false;
         net_ref_count = -1;
         net_close_time = 0;
+
     }
 }

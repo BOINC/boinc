@@ -25,6 +25,7 @@
 #ifdef WIN32
 #include "stdafx.h"
 #include "win_service.h"
+#include "win_net.h"
 #endif
 
 #ifndef _WIN32
@@ -310,7 +311,17 @@ int boinc_main_loop(int argc, char** argv) {
 int main(int argc, char** argv) {
 	int retval = 0;
 
-	SERVICE_TABLE_ENTRY dispatchTable[] = {
+    // Initialize WinSock
+    if ( WinsockInitialize() != 0 ) {
+        printf(
+            "BOINC Core Client Error Message\n"
+            "Failed to initialize the Windows Sockets interface\n"
+            "Terminating Application...\n"
+        );
+        return ERR_IO;
+    }
+
+    SERVICE_TABLE_ENTRY dispatchTable[] = {
 		{ TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
 		{ NULL, NULL }
 	};
@@ -338,6 +349,14 @@ int main(int argc, char** argv) {
     } else {
 		retval = boinc_main_loop(argc, argv);
 	}
+
+    if ( WinsockInitialize() != 0 ) {
+        printf(
+            "BOINC Core Client Error Message\n"
+            "Failed to cleanup the Windows Sockets interface\n"
+        );
+        return ERR_IO;
+    }
 
     return retval;
 }
