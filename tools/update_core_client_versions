@@ -148,7 +148,7 @@ add core_version -db_name %(db_name)s \
             download_url = get_download_url(url_name)
             print "  Adding ", platform_name.ljust(20), os.path.join(download_dir,exec_file)
             os.system("""
-add core_version -db_name %(db_name)s \
+add app_version -db_name %(db_name)s \
     -app_name '%(appname)s' \
     -platform_name %(platform_name)s \
     -download_dir %(download_dir)s \
