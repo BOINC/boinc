@@ -393,7 +393,7 @@ int CLIENT_STATE::cpu_benchmarks() {
         // need to check cache!!
         host_info.m_cache = 1e6;
 
-		msg_printf(NULL, MSG_INFO, "Benchmark results: FP: %f%s;  INT: %f%s;  Mem BW: %f%s",
+		msg_printf(NULL, MSG_INFO, "Benchmark results: FP: %.0f%s;  Int: %.0f%s;  Mem BW: %.0f%s",
 			host_info.p_fpops, (host_info.p_fpop_err?" [ERROR]":""),
 			host_info.p_iops,  (host_info.p_iops?" [ERROR]":""),
 			host_info.p_membw, (host_info.p_membw?" [ERROR]":"")
