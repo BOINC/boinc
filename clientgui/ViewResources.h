@@ -34,13 +34,6 @@ public:
 	CResource();
 	~CResource();
 
-	wxInt32  GetProjectName( wxString& strProjectName );
-	wxInt32  GetDiskSpace( wxString& strDiskSpace );
-
-	wxInt32  SetProjectName( wxString& strProjectName );
-	wxInt32  SetDiskSpace( wxString& strDiskSpace );
-
-protected:
 	wxString m_strProjectName;
     wxString m_strDiskSpace;
 };

@@ -53,34 +53,6 @@ CResource::~CResource()
 }
 
 
-wxInt32 CResource::GetProjectName( wxString& strProjectName )
-{
-    strProjectName = m_strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CResource::GetDiskSpace( wxString& strDiskSpace )
-{
-    strDiskSpace = m_strDiskSpace;	
-	return 0;
-}
-
-
-wxInt32 CResource::SetProjectName( wxString& strProjectName )
-{
-    m_strProjectName = strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CResource::SetDiskSpace( wxString& strDiskSpace )
-{
-    m_strDiskSpace = strDiskSpace;	
-	return 0;
-}
-
-
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
 
@@ -179,10 +151,10 @@ wxString CViewResources::OnListGetItemText( long item, long column ) const
     switch(column)
     {
         case COLUMN_PROJECT:
-            resource->GetProjectName( strBuffer );
+            strBuffer = resource->m_strProjectName;
             break;
         case COLUMN_DISKSPACE:
-            resource->GetDiskSpace( strBuffer );
+            strBuffer = resource->m_strDiskSpace;
             break;
     }
 
@@ -303,10 +275,10 @@ wxInt32 CViewResources::UpdateCache( long item, long column, wxString& strNewDat
     switch(column)
     {
         case COLUMN_PROJECT:
-            resource->SetProjectName( strNewData );
+            resource->m_strProjectName = strNewData;
             break;
         case COLUMN_DISKSPACE:
-            resource->SetDiskSpace( strNewData );
+            resource->m_strDiskSpace = strNewData;
             break;
     }
 

@@ -71,104 +71,6 @@ CProject::~CProject()
 }
 
 
-wxInt32 CProject::GetProjectName( wxString& strProjectName )
-{
-    strProjectName = m_strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CProject::GetAccountName( wxString& strAccountName )
-{
-    strAccountName = m_strAccountName;	
-	return 0;
-}
-
-
-wxInt32 CProject::GetTeamName( wxString& strTeamName )
-{
-    strTeamName = m_strTeamName;	
-	return 0;
-}
-
-
-wxInt32 CProject::GetTotalCredit( wxString& strTotalCredit )
-{
-    strTotalCredit = m_strTotalCredit;	
-	return 0;
-}
-
-
-wxInt32 CProject::GetAVGCredit( wxString& strAVGCredit )
-{
-    strAVGCredit = m_strAVGCredit;	
-	return 0;
-}
-
-
-wxInt32 CProject::GetResourceShare( wxString& strResourceShare )
-{
-    strResourceShare = m_strResourceShare;	
-	return 0;
-}
-
-
-wxInt32 CProject::GetStatus( wxString& strStatus )
-{
-    strStatus = m_strStatus;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetProjectName( wxString& strProjectName )
-{
-    m_strProjectName = strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetAccountName( wxString& strAccountName )
-{
-    m_strAccountName = strAccountName;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetTeamName( wxString& strTeamName )
-{
-    m_strTeamName = strTeamName;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetTotalCredit( wxString& strTotalCredit )
-{
-    m_strTotalCredit = strTotalCredit;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetAVGCredit( wxString& strAVGCredit )
-{
-    m_strAVGCredit = strAVGCredit;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetResourceShare( wxString& strResourceShare )
-{
-    m_strResourceShare = strResourceShare;	
-	return 0;
-}
-
-
-wxInt32 CProject::SetStatus( wxString& strStatus )
-{
-    m_strStatus = strStatus;	
-	return 0;
-}
-
-
 IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
 
 
@@ -334,25 +236,25 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const
     switch(column)
     {
         case COLUMN_PROJECT:
-            project->GetProjectName( strBuffer );
+            strBuffer = project->m_strProjectName;
             break;
         case COLUMN_ACCOUNTNAME:
-            project->GetAccountName( strBuffer );
+            strBuffer = project->m_strAccountName;
             break;
         case COLUMN_TEAMNAME:
-            project->GetTeamName( strBuffer );
+            strBuffer = project->m_strTeamName;
             break;
         case COLUMN_TOTALCREDIT:
-            project->GetTotalCredit( strBuffer );
+            strBuffer = project->m_strTotalCredit;
             break;
         case COLUMN_AVGCREDIT:
-            project->GetAVGCredit( strBuffer );
+            strBuffer = project->m_strAVGCredit;
             break;
         case COLUMN_RESOURCESHARE:
-            project->GetResourceShare( strBuffer );
+            strBuffer = project->m_strResourceShare;
             break;
         case COLUMN_STATUS:
-            project->GetStatus( strBuffer );
+            strBuffer = project->m_strStatus;
             break;
     }
 
@@ -639,25 +541,25 @@ wxInt32 CViewProjects::UpdateCache( long item, long column, wxString& strNewData
     switch(column)
     {
         case COLUMN_PROJECT:
-            project->SetProjectName( strNewData );
+            project->m_strProjectName = strNewData;
             break;
         case COLUMN_ACCOUNTNAME:
-            project->SetAccountName( strNewData );
+            project->m_strAccountName = strNewData;
             break;
         case COLUMN_TEAMNAME:
-            project->SetTeamName( strNewData );
+            project->m_strTeamName = strNewData;
             break;
         case COLUMN_TOTALCREDIT:
-            project->SetTotalCredit( strNewData );
+            project->m_strTotalCredit = strNewData;
             break;
         case COLUMN_AVGCREDIT:
-            project->SetAVGCredit( strNewData );
+            project->m_strAVGCredit = strNewData;
             break;
         case COLUMN_RESOURCESHARE:
-            project->SetResourceShare( strNewData );
+            project->m_strResourceShare = strNewData;
             break;
         case COLUMN_STATUS:
-            project->SetStatus( strNewData );
+            project->m_strStatus = strNewData;
             break;
     }
 

@@ -71,118 +71,6 @@ CWork::~CWork()
 }
 
 
-wxInt32 CWork::GetProjectName( wxString& strProjectName )
-{
-    strProjectName = m_strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetApplicationName( wxString& strApplicationName )
-{
-    strApplicationName = m_strApplicationName;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetName( wxString& strName )
-{
-    strName = m_strName;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetCPUTime( wxString& strCPUTime )
-{
-    strCPUTime = m_strCPUTime;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetProgress( wxString& strProgress )
-{
-    strProgress = m_strProgress;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetTimeToCompletion( wxString& strTimeToCompletion )
-{
-    strTimeToCompletion = m_strTimeToCompletion;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetReportDeadline( wxString& strReportDeadline )
-{
-    strReportDeadline = m_strReportDeadline;	
-	return 0;
-}
-
-
-wxInt32 CWork::GetStatus( wxString& strStatus )
-{
-    strStatus = m_strStatus;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetProjectName( wxString& strProjectName )
-{
-    m_strProjectName = strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetApplicationName( wxString& strApplicationName )
-{
-    m_strApplicationName = strApplicationName;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetName( wxString& strName )
-{
-    m_strName = strName;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetCPUTime( wxString& strCPUTime )
-{
-    m_strCPUTime = strCPUTime;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetProgress( wxString& strProgress )
-{
-    m_strProgress = strProgress;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetTimeToCompletion( wxString& strTimeToCompletion )
-{
-    m_strTimeToCompletion = strTimeToCompletion;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetReportDeadline( wxString& strReportDeadline )
-{
-    m_strReportDeadline = strReportDeadline;	
-	return 0;
-}
-
-
-wxInt32 CWork::SetStatus( wxString& strStatus )
-{
-    m_strStatus = strStatus;	
-	return 0;
-}
-
-
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 
 
@@ -308,28 +196,28 @@ wxString CViewWork::OnListGetItemText( long item, long column ) const
     switch(column)
     {
         case COLUMN_PROJECT:
-            work->GetProjectName( strBuffer );
+            strBuffer = work->m_strProjectName;
             break;
         case COLUMN_APPLICATION:
-            work->GetApplicationName( strBuffer );
+            strBuffer = work->m_strApplicationName;
             break;
         case COLUMN_NAME:
-            work->GetName( strBuffer );
+            strBuffer = work->m_strName;
             break;
         case COLUMN_CPUTIME:
-            work->GetCPUTime( strBuffer );
+            strBuffer = work->m_strCPUTime;
             break;
         case COLUMN_PROGRESS:
-            work->GetProgress( strBuffer );
+            strBuffer = work->m_strProgress;
             break;
         case COLUMN_TOCOMPLETETION:
-            work->GetTimeToCompletion( strBuffer );
+            strBuffer = work->m_strTimeToCompletion;
             break;
         case COLUMN_REPORTDEADLINE:
-            work->GetReportDeadline( strBuffer );
+            strBuffer = work->m_strReportDeadline;
             break;
         case COLUMN_STATUS:
-            work->GetStatus( strBuffer );
+            strBuffer = work->m_strStatus;
             break;
     }
 
@@ -553,28 +441,28 @@ wxInt32 CViewWork::UpdateCache( long item, long column, wxString& strNewData )
     switch(column)
     {
         case COLUMN_PROJECT:
-            work->SetProjectName( strNewData );
+            work->m_strProjectName = strNewData;
             break;
         case COLUMN_APPLICATION:
-            work->SetApplicationName( strNewData );
+            work->m_strApplicationName = strNewData;
             break;
         case COLUMN_NAME:
-            work->SetName( strNewData );
+            work->m_strName = strNewData;
             break;
         case COLUMN_CPUTIME:
-            work->SetCPUTime( strNewData );
+            work->m_strCPUTime = strNewData;
             break;
         case COLUMN_PROGRESS:
-            work->SetProgress( strNewData );
+            work->m_strProgress = strNewData;
             break;
         case COLUMN_TOCOMPLETETION:
-            work->SetTimeToCompletion( strNewData );
+            work->m_strTimeToCompletion = strNewData;
             break;
         case COLUMN_REPORTDEADLINE:
-            work->SetReportDeadline( strNewData );
+            work->m_strReportDeadline = strNewData;
             break;
         case COLUMN_STATUS:
-            work->SetStatus( strNewData );
+            work->m_strStatus = strNewData;
             break;
     }
 

@@ -34,25 +34,6 @@ public:
 	CWork();
 	~CWork();
 
-	wxInt32  GetProjectName( wxString& strProjectName );
-	wxInt32  GetApplicationName( wxString& strApplicationName );
-	wxInt32  GetName( wxString& strName );
-	wxInt32  GetCPUTime( wxString& strCPUTime );
-	wxInt32  GetProgress( wxString& strProgress );
-	wxInt32  GetTimeToCompletion( wxString& strTimeToCompletion );
-	wxInt32  GetReportDeadline( wxString& strReportDeadline );
-	wxInt32  GetStatus( wxString& strStatus );
-
-	wxInt32  SetProjectName( wxString& strProjectName );
-	wxInt32  SetApplicationName( wxString& strApplicationName );
-	wxInt32  SetName( wxString& strName );
-	wxInt32  SetCPUTime( wxString& strCPUTime );
-	wxInt32  SetProgress( wxString& strProgress );
-	wxInt32  SetTimeToCompletion( wxString& strTimeToCompletion );
-	wxInt32  SetReportDeadline( wxString& strReportDeadline );
-	wxInt32  SetStatus( wxString& strStatus );
-
-protected:
 	wxString m_strProjectName;
     wxString m_strApplicationName;
     wxString m_strName;

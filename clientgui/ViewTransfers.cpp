@@ -69,104 +69,6 @@ CTransfer::~CTransfer()
 }
 
 
-wxInt32 CTransfer::GetProjectName( wxString& strProjectName )
-{
-    strProjectName = m_strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::GetFileName( wxString& strFileName )
-{
-    strFileName = m_strFileName;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::GetProgress( wxString& strProgress )
-{
-    strProgress = m_strProgress;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::GetSize( wxString& strSize )
-{
-    strSize = m_strSize;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::GetTime( wxString& strTime )
-{
-    strTime = m_strTime;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::GetSpeed( wxString& strSpeed )
-{
-    strSpeed = m_strSpeed;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::GetStatus( wxString& strStatus )
-{
-    strStatus = m_strStatus;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetProjectName( wxString& strProjectName )
-{
-    m_strProjectName = strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetFileName( wxString& strFileName )
-{
-    m_strFileName = strFileName;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetProgress( wxString& strProgress )
-{
-    m_strProgress = strProgress;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetSize( wxString& strSize )
-{
-    m_strSize = strSize;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetTime( wxString& strTime )
-{
-    m_strTime = strTime;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetSpeed( wxString& strSpeed )
-{
-    m_strSpeed = strSpeed;	
-	return 0;
-}
-
-
-wxInt32 CTransfer::SetStatus( wxString& strStatus )
-{
-    m_strStatus = strStatus;	
-	return 0;
-}
-
-	
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 
 
@@ -281,25 +183,25 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const
     switch(column)
     {
         case COLUMN_PROJECT:
-            transfer->GetProjectName( strBuffer );
+            strBuffer = transfer->m_strProjectName;
             break;
         case COLUMN_FILE:
-            transfer->GetFileName( strBuffer );
+            strBuffer = transfer->m_strFileName;
             break;
         case COLUMN_PROGRESS:
-            transfer->GetProgress( strBuffer );
+            strBuffer = transfer->m_strProgress;
             break;
         case COLUMN_SIZE:
-            transfer->GetSize( strBuffer );
+            strBuffer = transfer->m_strSize;
             break;
         case COLUMN_TIME:
-            transfer->GetTime( strBuffer );
+            strBuffer = transfer->m_strTime;
             break;
         case COLUMN_SPEED:
-            transfer->GetSpeed( strBuffer );
+            strBuffer = transfer->m_strSpeed;
             break;
         case COLUMN_STATUS:
-            transfer->GetStatus( strBuffer );
+            strBuffer = transfer->m_strStatus;
             break;
     }
 
@@ -475,25 +377,25 @@ wxInt32 CViewTransfers::UpdateCache( long item, long column, wxString& strNewDat
     switch(column)
     {
         case COLUMN_PROJECT:
-            transfer->SetProjectName( strNewData );
+            transfer->m_strProjectName = strNewData;
             break;
         case COLUMN_FILE:
-            transfer->SetFileName( strNewData );
+            transfer->m_strFileName = strNewData;
             break;
         case COLUMN_PROGRESS:
-            transfer->SetProgress( strNewData );
+            transfer->m_strProgress = strNewData;
             break;
         case COLUMN_SIZE:
-            transfer->SetSize( strNewData );
+            transfer->m_strSize = strNewData;
             break;
         case COLUMN_TIME:
-            transfer->SetTime( strNewData );
+            transfer->m_strTime = strNewData;
             break;
         case COLUMN_SPEED:
-            transfer->SetSpeed( strNewData );
+            transfer->m_strSpeed = strNewData;
             break;
         case COLUMN_STATUS:
-            transfer->SetStatus( strNewData );
+            transfer->m_strStatus = strNewData;
             break;
     }
 

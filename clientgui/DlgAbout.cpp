@@ -98,7 +98,7 @@ void CDlgAbout::CreateControls()
     item7->Add(item8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item9 = new wxStaticText;
-    item9->Create( item1, wxID_STATIC, _T( BOINC_VERSION_STRING ), wxDefaultPosition, wxDefaultSize, 0 );
+    item9->Create( item1, wxID_STATIC, wxT( BOINC_VERSION_STRING ), wxDefaultPosition, wxDefaultSize, 0 );
     item7->Add(item9, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item10 = new wxStaticText;
@@ -118,25 +118,33 @@ void CDlgAbout::CreateControls()
     item7->Add(item13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item14 = new wxStaticText;
-    item14->Create( item1, wxID_STATIC, _T("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
-    item2->Add(item14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+    item14->Create( item1, wxID_STATIC, _T("Default System Encoding:"), wxDefaultPosition, wxDefaultSize, 0 );
+    item7->Add(item14, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item15 = new wxStaticText;
-    item15->Create( item1, wxID_STATIC, _T("A software platform for distributed computing using volunteered computer resources"), wxDefaultPosition, wxDefaultSize, 0 );
-    item2->Add(item15, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+    item15->Create( item1, wxID_STATIC, wxLocale::GetSystemEncodingName(), wxDefaultPosition, wxDefaultSize, 0 );
+    item7->Add(item15, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item16 = new wxStaticText;
-    item16->Create( item1, wxID_STATIC, _T("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, 0 );
+    item16->Create( item1, wxID_STATIC, _T("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
     item2->Add(item16, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxStaticLine* item17 = new wxStaticLine;
-    item17->Create( item1, wxID_STATIC, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-    item2->Add(item17, 0, wxGROW|wxALL, 5);
+    wxStaticText* item17 = new wxStaticText;
+    item17->Create( item1, wxID_STATIC, _T("A software platform for distributed computing using volunteered computer resources"), wxDefaultPosition, wxDefaultSize, 0 );
+    item2->Add(item17, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxButton* item18 = new wxButton;
-    item18->Create( item1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    item18->SetDefault();
-    item2->Add(item18, 0, wxALIGN_RIGHT|wxALL, 5);
+    wxStaticText* item18 = new wxStaticText;
+    item18->Create( item1, wxID_STATIC, _T("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, 0 );
+    item2->Add(item18, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+
+    wxStaticLine* item19 = new wxStaticLine;
+    item19->Create( item1, wxID_STATIC, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+    item2->Add(item19, 0, wxGROW|wxALL, 5);
+
+    wxButton* item20 = new wxButton;
+    item20->Create( item1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    item20->SetDefault();
+    item2->Add(item20, 0, wxALIGN_RIGHT|wxALL, 5);
 
 }
 

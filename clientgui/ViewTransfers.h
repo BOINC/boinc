@@ -34,23 +34,6 @@ public:
 	CTransfer();
 	~CTransfer();
 
-	wxInt32  GetProjectName( wxString& strProjectName );
-	wxInt32  GetFileName( wxString& strFileName );
-	wxInt32  GetProgress( wxString& strProgress );
-	wxInt32  GetSize( wxString& strSize );
-	wxInt32  GetTime( wxString& strTime );
-	wxInt32  GetSpeed( wxString& strSpeed );
-	wxInt32  GetStatus( wxString& strStatus );
-
-	wxInt32  SetProjectName( wxString& strProjectName );
-	wxInt32  SetFileName( wxString& strFileName );
-	wxInt32  SetProgress( wxString& strProgress );
-	wxInt32  SetSize( wxString& strSize );
-	wxInt32  SetTime( wxString& strTime );
-	wxInt32  SetSpeed( wxString& strSpeed );
-	wxInt32  SetStatus( wxString& strStatus );
-
-protected:
 	wxString m_strProjectName;
     wxString m_strFileName;
     wxString m_strProgress;

@@ -25976,3 +25976,16 @@ Rom    15 Mar 2005
 
     lib/
         gui_rpc_client.C
+
+Rom    15 Mar 2005
+    - Remove the accessors from the cache container classes for each
+        of the views.
+    - Add the default system encoding to the help/about dialog for
+        the internationalization team.
+
+    clientgui/
+        DlgAbout.cpp
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h

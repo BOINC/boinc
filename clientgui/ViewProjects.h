@@ -34,23 +34,6 @@ public:
 	CProject();
 	~CProject();
 
-	wxInt32  GetProjectName( wxString& strProjectName );
-	wxInt32  GetAccountName( wxString& strAccountName );
-	wxInt32  GetTeamName( wxString& strTeamName );
-	wxInt32  GetTotalCredit( wxString& strTotalCredit );
-	wxInt32  GetAVGCredit( wxString& strAVGCredit );
-	wxInt32  GetResourceShare( wxString& strResourceShare );
-	wxInt32  GetStatus( wxString& strStatus );
-
-	wxInt32  SetProjectName( wxString& strProjectName );
-	wxInt32  SetAccountName( wxString& strAccountName );
-	wxInt32  SetTeamName( wxString& strTeamName );
-	wxInt32  SetTotalCredit( wxString& strTotalCredit );
-	wxInt32  SetAVGCredit( wxString& strAVGCredit );
-	wxInt32  SetResourceShare( wxString& strResourceShare );
-	wxInt32  SetStatus( wxString& strStatus );
-
-protected:
     wxString m_strProjectName;
     wxString m_strAccountName;
     wxString m_strTeamName;
@@ -72,7 +55,7 @@ public:
     ~CViewProjects();
 
     virtual wxString        GetViewName();
-    virtual const char**          GetViewIcon();
+    virtual const char**    GetViewIcon();
 
 protected:
 
