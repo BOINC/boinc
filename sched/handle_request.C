@@ -482,9 +482,9 @@ int handle_results(
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] can't update [WU#%d %s]\n",
+                    "[HOST#%d] [RESULT#%d %s] can't update [WU#%d]\n",
                     reply.host.id, result_handler.results[i].id, result_handler.results[i].name, 
-                    result_handler.results[i].workunitid, wu.name
+                    result_handler.results[i].workunitid
                 );
             }
         }
