@@ -91,7 +91,7 @@
 			IntermediateDirectory=".\Build\Debug\boinc_gui\obj"
 			ConfigurationType="1"
 			UseOfMFC="2"
-			UseOfATL="2"
+			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
@@ -956,6 +956,9 @@
 				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
+				RelativePath="..\client\win\StdAfx.cpp">
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1294,6 +1297,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">
+			</File>
+			<File
+				RelativePath="..\client\win\StdAfx.h">
 			</File>
 			<File
 				RelativePath="..\client\time_stats.h">

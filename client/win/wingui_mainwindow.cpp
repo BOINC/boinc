@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "boinc_win.h"
+#include "stdafx.h"
 
 #include "client_msgs.h"
 #include "wingui_mainwindow.h"
@@ -45,26 +45,23 @@ static bool winsock_inited = false;
 BOOL CMyApp::InitInstance()
 {
     // Initialize Diagnostics
-    try {
-        unsigned long dwDiagnosticsFlags = 0;
+    unsigned long dwDiagnosticsFlags = 0;
 
-        dwDiagnosticsFlags = 
-            BOINC_DIAG_DUMPCALLSTACKENABLED | 
-            BOINC_DIAG_HEAPCHECKENABLED |
-            BOINC_DIAG_ARCHIVESTDERR |
-            BOINC_DIAG_ARCHIVESTDOUT |
-            BOINC_DIAG_REDIRECTSTDERROVERWRITE |
-            BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
-            BOINC_DIAG_TRACETOSTDERR;
+    dwDiagnosticsFlags = 
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_ARCHIVESTDERR |
+        BOINC_DIAG_ARCHIVESTDOUT |
+        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+        BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
+        BOINC_DIAG_TRACETOSTDERR;
 
-        boinc_init_diagnostics(dwDiagnosticsFlags);
-    }
-    catch (boinc_runtime_base_exception e)
-    {
-        MessageBox(NULL, e.what(), "BOINC GUI Diagnostic Error", MB_OK);
+    int retval = boinc_init_diagnostics(dwDiagnosticsFlags);
+    if (retval) {
+        MessageBox(NULL, NULL, "BOINC GUI Diagnostic Error", MB_OK);
     }
 
-    int retval = check_unique_instance();
+    retval = check_unique_instance();
     if (retval) {
         TRACE(TEXT("Another instance of BOINC is running\n"));
         UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);

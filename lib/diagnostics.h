@@ -22,7 +22,17 @@
 #ifndef _BOINC_DIAGNOSTICS_
 #define _BOINC_DIAGNOSTICS_
 
+
+// NOTE: No other includes should be included from this file.
+//       Whatever is defined in this file should fit into
+//       any existing frameworks that might be used by BOINC.
+//
+#ifdef __cplusplus
+#include <cassert>
+#else
 #include <assert.h>
+#endif
+
 
 // flags for boinc_init_diagnostics()
 //
@@ -46,33 +56,7 @@
 #define BOINC_DIAG_STDOUTOLD               "stdout.old"
 
 
-/* ----------------------------------------------------------------------
- * C++ specific API
- */
-#ifdef __cplusplus
-
-#include <string>
-#include "exception.h"
-
-#define BOINCERROR( errmsg ) \
-    throw boinc_runtime_base_exception( __FILE__, __LINE__, errmsg )
-#define BOINCMEMORYERROR( errmsg ) \
-    throw boinc_out_of_memory_exception( __FILE__, __LINE__, errmsg )
-#define BOINCPARAMETERERROR( errmsg ) \
-    throw boinc_invalid_parameter_exception( __FILE__, __LINE__, errmsg )
-#define BOINCFILEERROR( errmsg ) \
-    throw boinc_file_operation_exception( __FILE__, __LINE__, errmsg )
-#define BOINCSIGNALERROR( errmsg ) \
-    throw boinc_signal_operation_exception( __FILE__, __LINE__, errmsg )
-
-#endif /* C++ */
-
-
-
 #ifdef _WIN32
-
-#include "boinc_win.h"
-#undef min
 
 // Define macros for both debug and release builds.
 //
@@ -87,16 +71,7 @@ void	boinc_info_release(const char *pszFormat, ...);
 
 #ifdef _DEBUG
 
-#if !defined(_CONSOLE) && !defined(WXDEBUG) && !defined(WXNDEBUG)
-
-// Microsoft MFC/ATL UI Framework
-//
-
-#define BOINCASSERT         ASSERT
-#define BOINCTRACE          TRACE
-#define BOINCINFO           boinc_info_debug
-
-#elif defined(WXDEBUG) || defined(WXNDEBUG)
+#if defined(WXDEBUG) || defined(WXNDEBUG)
 
 // wxWidgets UI Framework
 //
@@ -131,9 +106,11 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #endif // ! _WIN32
 
 
-/*----------------------------------------------------------------------
- * pure ANSI C API follows here
- */
+// If none of the TRACE and INFO macros have been defined for
+//   any existing framework to plug into, null them out.
+// ASSERT is a special case and should point to the CRT version
+//   if it hasn't already been redirected.
+
 #ifndef BOINCASSERT
 #define BOINCASSERT			assert
 #endif
@@ -151,4 +128,4 @@ extern int boinc_finish_diag(void);
 extern int boinc_install_signal_handlers(void);
 
 
-#endif /* double-inclusion protection */
+#endif

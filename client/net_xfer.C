@@ -21,10 +21,11 @@ static volatile const char *BOINCrcsid="$Id$";
 #include "cpp.h"
 
 #ifdef _WIN32
-#include "boinc_win.h"
-
 #ifndef _CONSOLE
+#include "stdafx.h"
 #include "wingui_mainwindow.h"
+#else
+#include "boinc_win.h"
 #endif
 
 #include "Win_net.h"

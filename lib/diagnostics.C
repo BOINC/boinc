@@ -79,64 +79,33 @@ int boinc_init_diagnostics(int _flags) {
     if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "a", stderr);
 	    if ( NULL == lpRetVal ) {
-#ifdef __cplusplus
-		    BOINCFILEERROR("Failed to reopen stderr for diagnostics redirection" );
-#else
             return ERR_FOPEN;
-#endif
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "w", stderr);
 	    if ( NULL == lpRetVal ) {
-#ifdef __cplusplus
-		    BOINCFILEERROR("Failed to reopen stderr for diagnostics redirection (overwrite)" );
-#else
             return ERR_FOPEN;
-#endif
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT ) {
 	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "a", stdout);
 	    if ( NULL == lpRetVal ) {
-#ifdef __cplusplus
-		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection" );
-#else
             return ERR_FOPEN;
-#endif
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
 	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "w", stdout);
         if ( NULL == lpRetVal ) {
-#ifdef __cplusplus
-		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection (overwrite)" );
-#else
             return ERR_FOPEN;
-#endif
         }
     }
 
 
 #if defined(_WIN32) && defined(_DEBUG)
-
-#ifndef _CONSOLE
-
-    // MFC by default, configures itself for the memory leak detection on exit
-    //
-
-    //if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
-    //    SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
-
-    if (flags & BOINC_DIAG_HEAPCHECKENABLED ) {
-        AfxEnableMemoryTracking(TRUE);
-        afxMemDF = allocMemDF | checkAlwaysMemDF;
-    }
-
-#else
 
     _CrtSetReportHook( boinc_message_reporting );
 
@@ -146,18 +115,12 @@ int boinc_init_diagnostics(int _flags) {
     if (flags & BOINC_DIAG_HEAPCHECKENABLED )
         SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
 
-#endif // _CONSOLE
-
 #endif // defined(_WIN32) && defined(_DEBUG)
 
 
     // Install unhandled exception filters and signal traps.
     if ( BOINC_SUCCESS != boinc_install_signal_handlers() ) {
-#ifdef __cplusplus
-		BOINCSIGNALERROR( "Failed to install signal handlers" );
-#else
         return ERR_SIGNAL_OP;
-#endif
     }
 
 	return BOINC_SUCCESS;
@@ -219,32 +182,16 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 #ifdef _DEBUG
 
-#ifndef _CONSOLE
-
-    // MFC by default, configures itself for the memory leak detection on exit
-    //
-
-    //if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
-    //    CLEAR_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
-
-    if (flags & BOINC_DIAG_HEAPCHECKENABLED ) {
-        AfxEnableMemoryTracking(FALSE);
-    }
-
-#else
-
     if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
         CLEAR_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
 
     if (flags & BOINC_DIAG_HEAPCHECKENABLED )
         CLEAR_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
 
-#endif // _CONSOLE
-
 #endif // _DEBUG
 
 
-	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
+    PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
     DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
 
 	LONG  lReturnValue = NULL;

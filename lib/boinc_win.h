@@ -47,21 +47,6 @@
 #define _WIN32_IE 0x0500        // Change this to the appropriate value to target IE 5.0 or later.
 #endif
 
-// BOINC Windows GUI Applications use MFC libraries and the like.
-#if !defined(_CONSOLE) && !defined(WXDEBUG) && !defined(WXNDEBUG)
-
-#ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN
-#endif
-
-#include <afxwin.h>         // MFC core and standard components
-#include <afxcmn.h>         // MFC support for Windows Common Controls
-#include <afxtempl.h>
-#include <afxcoll.h>
-#include <afxext.h>         // MFC extensions
-
-#endif //_CONSOLE
-
 #define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
 #define WIN32_EXTRA_LEAN      // Trims even farther.
 
@@ -78,6 +63,11 @@
 #include <tchar.h>
 #include <crtdbg.h>
 #include <delayimp.h>
+
+// All projects should be using std::min and std::max instead of the Windows
+//   version of the symbols.
+#undef min
+#undef max
 
 #include "stackwalker_win.h"
 
@@ -125,8 +115,6 @@
 
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
-#if !defined(__AFX_H__)
-
 #ifdef _DEBUG
 
 #define malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
@@ -141,7 +129,9 @@
 #define _aligned_offset_realloc(p, s, a, o)   _aligned_offset_realloc_dbg(p, s, a, o, __FILE__, __LINE__)
 #define _aligned_free(p)                      _aligned_free_dbg(p)
 
+#ifndef DEBUG_NEW
 #define DEBUG_NEW                             new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
 
 // The following macros set and clear, respectively, given bits
 // of the C runtime library debug flag, as specified by a bitmask.
@@ -150,7 +140,9 @@
 
 #else //_DEBUG
 
+#ifndef DEBUG_NEW
 #define DEBUG_NEW                             new
+#endif
 
 #define SET_CRT_DEBUG_FIELD(a)                ((void) 0)
 #define CLEAR_CRT_DEBUG_FIELD(a)              ((void) 0)
@@ -158,7 +150,5 @@
 #endif //_DEBUG
 
 #define new DEBUG_NEW
-
-#endif
 
 #endif //_BOINC_WIN_

@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "boinc_win.h"
+#include "stdafx.h"
 
 #include "boinc_gui.h"
 #include "wingui_proxydlg.h"

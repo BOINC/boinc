@@ -20775,3 +20775,30 @@ David  6 Dec 2004
         update_versions
         xadd
 
+Rom    6 Dec 2004
+    - Like so many other things in life, breaking out the MFC references
+        into there own include file proved that things are never as easy
+        as they first appear.  As of right now the old GUI will not work
+        without a major investment in time and energy.  I'm not going to
+        worry about it unless somebody really, really, really needs it.
+    - boinc_win.h now doesn't do anything with MFC.  And undefined min
+        and max from the Windows header files.
+    - Diagnostics functions should no longer use exception handling for
+      error conditions.
+
+    client/
+        net_xfer.C
+    client/win/
+        wingui.cpp
+        wingui_dialog.cpp
+        wingui_listctrl.cpp
+        wingui_mainwindow.cpp
+        wingui_piectrl.cpp
+        wingui_proxydlg.cpp
+        stdafx.cpp, .h (added)
+    lib/
+        boinc_win.h
+        diagnostics.C, .h
+    win_build/
+        boinc.sln
+        boinc_gui.vcproj
