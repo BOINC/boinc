@@ -32,12 +32,14 @@
                 $authenticator = random_string();
                 $email_addr = $HTTP_POST_VARS["new_email_addr"];
                 $query = sprintf(
-                    "insert into user values(0, %d, '%s', '%s', '%s', '%s')",
+                    "insert into user values(0, %d, '%s', '%s', '%s', '%s', '%s', '%s', 0, 0, 0, 0, 0)",
                     time(),
                     $email_addr,
                     $HTTP_POST_VARS["new_name"],
                     $HTTP_POST_VARS["new_password"],
-                    $authenticator
+                    $authenticator,
+                    $HTTP_POST_VARS["country"],
+                    $HTTP_POST_VARS["postal_code"]
                 );
                 $result = mysql_query($query);
                 if ($result) {
