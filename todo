@@ -261,6 +261,8 @@ before I get to see my new pretty underwater colors.
 by a significant amount.  This is because Windows 9x uses GetTickCount
 for CPU time.
 
+"Retry transfers now" feature, especially for dialup users
+
 -----------------------
 LONG-TERM IDEAS AND PROJECTS
 -----------------------
