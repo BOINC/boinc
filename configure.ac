@@ -168,7 +168,9 @@ test/test_sanity.py || (
 **  
 ** If you are developing BOINC and want to run the automated tests, you need a
 ** MySQL server installed and running, with permission to create databases.
-**  
+**
+** You can run this sanity check using test/test_sanity.py
+**
 ******************************************************************************
 
 EOF
