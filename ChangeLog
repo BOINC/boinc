@@ -1,0 +1,4 @@
+2004-03-11  Kevin Dalley  <kevin@kelphead.org>
+
+	* lib/util.C: added newline to end of file.
+
