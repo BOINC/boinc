@@ -19,6 +19,12 @@
 //     If reduced in one dimension, draw vertical rectangles.
 //     Otherwise draw quadrilaterals.
 
+
+#define REDUCE_METHOD_AVG	0		// Take the average of reduced elements
+#define REDUCE_METHOD_SUM	1		// Take the sum of reduced elements
+#define REDUCE_METHOD_MAX	2		// Take the maximum of reduced elements
+#define REDUCE_METHOD_MIN	3		// Take the minimum of reduced elements
+
 class REDUCED_ARRAY {
 public:
     int sdimx, sdimy;           // size of the source array
@@ -28,6 +34,7 @@ public:
     int scury;                  // next row of source array
     float* rdata;
     float rdata_max;            // estimated or actual maximum
+    float rdata_min;            // estimated or actual minimum
     float* ftemp;
     int* itemp;
         // the following 2 are relevant only if sdimy > rdimy
@@ -39,6 +46,7 @@ public:
     float draw_size[3];
     float draw_deltax;
     float draw_deltaz;
+	int reduce_method;			// Which method to use for data row reduction
     double hue0;
     double dhue;
 

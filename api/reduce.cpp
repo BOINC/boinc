@@ -11,6 +11,7 @@ REDUCED_ARRAY::REDUCED_ARRAY() {
     rdata = 0;
     ftemp = 0;
     itemp = 0;
+	reduce_method = REDUCE_METHOD_AVG;
 }
 
 REDUCED_ARRAY::~REDUCED_ARRAY() {
@@ -54,6 +55,7 @@ void REDUCED_ARRAY::init(int sx, int sy) {
     last_ry = 0;
     last_ry_count = 0;
     rdata_max = 0;
+	rdata_min = (float)1e20;
 }
 
 bool REDUCED_ARRAY::full() {
@@ -86,12 +88,27 @@ void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
     memset(itemp, 0, rdimx*sizeof(int));
     for (i=0; i<sdimx; i++) {
         ri = (i*rdimx)/sdimx;
-        out[ri] += in[i];
-        itemp[ri]++;
+		switch (reduce_method) {
+		case REDUCE_METHOD_AVG:
+            out[ri] += in[i];
+            itemp[ri]++;
+            break;
+		case REDUCE_METHOD_SUM:
+            out[ri] += in[i];
+            break;
+		case REDUCE_METHOD_MIN:
+            out[ri] = min(out[ri],in[i]);
+            break;
+		case REDUCE_METHOD_MAX:
+            out[ri] = max(out[ri],in[i]);
+            break;
+		}
     }
-    for (i=0; i<rdimx; i++) {
-        if (itemp[i] > 1) out[i] /= itemp[i];
-    }
+	if (reduce_method==REDUCE_METHOD_AVG) {
+        for (i=0; i<rdimx; i++) {
+            if (itemp[i] > 1) out[i] /= itemp[i];
+        }
+	}
 }
 
 void REDUCED_ARRAY::update_max(int row) {
@@ -100,6 +117,7 @@ void REDUCED_ARRAY::update_max(int row) {
 
     for (i=0; i<rdimx; i++) {
         if (p[i] > rdata_max) rdata_max = p[i];
+        if (p[i] < rdata_min) rdata_min = p[i];
     }
 }
 
@@ -183,10 +201,10 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax;
-        float h00 = row0[i]/rdata_max;
-        float h01 = row0[i+1]/rdata_max;
-        float h10 = row1[i]/rdata_max;
-        float h11 = row1[i+1]/rdata_max;
+        float h00 = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+        float h01 = (row0[i+1]-rdata_min)/(rdata_max-rdata_min);
+        float h10 = (row1[i]-rdata_min)/(rdata_max-rdata_min);
+        float h11 = (row1[i+1]-rdata_min)/(rdata_max-rdata_min);
 
         y00 = draw_pos[1] + draw_size[1]*h00;
         y01 = draw_pos[1] + draw_size[1]*h01;
@@ -217,10 +235,10 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax;
         float eps=.03f;
-        y00 = draw_pos[1] + draw_size[1]*row0[i]/rdata_max+eps;
-        y01 = draw_pos[1] + draw_size[1]*row0[i+1]/rdata_max+eps;
-        y10 = draw_pos[1] + draw_size[1]*row1[i]/rdata_max+eps;
-        y11 = draw_pos[1] + draw_size[1]*row1[i+1]/rdata_max+eps;
+        y00 = draw_pos[1] + draw_size[1]*(row0[i]-rdata_min)/rdata_max+eps;
+        y01 = draw_pos[1] + draw_size[1]*(row0[i+1]-rdata_min)/rdata_max+eps;
+        y10 = draw_pos[1] + draw_size[1]*(row1[i]-rdata_min)/rdata_max+eps;
+        y11 = draw_pos[1] + draw_size[1]*(row1[i+1]-rdata_min)/rdata_max+eps;
         glVertex3f(x0, y00, z0);
         glVertex3f(x1, y01, z0);
         glVertex3f(x1, y01, z0);
@@ -240,7 +258,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
     for (i=0; i<rdimx; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax*.8f;
-        float h = row0[i]/rdata_max;
+        float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
         y0 = draw_pos[1];
         y1 = draw_pos[1] + draw_size[1]*h;
@@ -267,7 +285,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
     for (i=0; i<rdimx; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax*.8f;
-        float h = row0[i]/rdata_max;
+        float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
         y1 = draw_pos[1] + draw_size[1]*h;
 
@@ -287,7 +305,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
     glBegin(GL_QUADS);
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
-        float h = row0[i]/rdata_max;
+        float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
         y0 = draw_pos[1];
         y1 = draw_pos[1] + draw_size[1]*h;
@@ -313,7 +331,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
     glColor3f(0., 0., 0.);
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
-        float h = row0[i]/rdata_max;
+        float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
         y1 = draw_pos[1] + draw_size[1]*h;
 
