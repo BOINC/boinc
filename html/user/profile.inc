@@ -1,7 +1,6 @@
 <?php
 
 require_once("util.inc");
-require_once("sanitize_html.inc");
 
 // TODO: Determine if we can always assume these will be the same number.
 define('SMALL_IMG_WIDTH', 64);
@@ -106,9 +105,9 @@ function show_picture_option() {
 </td>
 <td>You have previously uploaded a picture of yourself to accompany your profile, shown at left.
 If you would like to replace it, please click the \"Browse\" button and select the JPEG or PNG file
-you would like to use instead. (No animated GIFs, please!)    If you would rather not have a picture
-with your profile, click the \"Delete\" checkbox.    If you like your current picture, there is no need
-to do anything.<p>
+you would like to use instead.  If you would rather not have a picture
+with your profile, click the \"Delete\" checkbox; your picture will be deleted as soon as you submit
+this form.  If you're happy with your current picture, there is no need to do anything.<p>
 <input name=\"picture\" type=\"file\"><br>
 <font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>";
         rowify("<br>");
@@ -370,7 +369,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
       echo "<tr>";
     }
 
-    // Formatting is a table with two columns of user summaries.
+    // Formatting is a table with $col columns of user summaries.
     for ($col = 0; $col < $cols; $col++) {
       if ($count < $numMembers) {
 	if ($descriptor) {
@@ -450,7 +449,7 @@ function get_profile_summary($userid) {
   if (strlen($row['response1']) != 0) {
     $temp = $row['response1'];
 
-    $description = "(\"" . substr(sanitize_html($temp), 0, MAX_DESC_LENGTH);
+    $description = "(\"" . substr(strip_tags($temp), 0, MAX_DESC_LENGTH);
     if (strlen($row['response1']) >= MAX_DESC_LENGTH) {
       $description = $description . "...";
     }
@@ -521,12 +520,13 @@ function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
     show_view_buttons($user->id);
   }
 
-echo "</td></tr>\n<tr><td colspan=\"2\">\n";
+  echo "</td></tr>\n<tr><td colspan=\"2\">\n";
 
-  // Only display an image if the user has uploaded one.
-  if (file_exists(IMAGE_PATH . $user->id . '_sm.jpg')) {
-    echo "
-<a href=\"" , IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
+  // Only display an image if the user has uploaded one;
+  if (!$verify_mode && file_exists(IMAGE_PATH . $user->id . '_sm.jpg')) {
+    echo "<a href=\"" , IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
+  } else if ($verify_mode && file_exists('../html_user/' . IMAGE_PATH . $user->id . '_sm.jpg')) {
+    echo "<a href=\"" , IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
   }
 
   echo "
