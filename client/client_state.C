@@ -57,13 +57,13 @@ CLIENT_STATE::CLIENT_STATE() {
     max_transfer_rate = 9999999;
     max_bytes = 0;
     user_idle = true;
-    suspend_requested = false;
+	suspend_requested = false;
 }
 
 int CLIENT_STATE::init() {
     int retval;
 
-    srand(time(NULL));
+    srand(clock());
 
     // TODO: set this to actual # of CPUs (or less, depending on prefs?)
     //
@@ -266,7 +266,7 @@ bool CLIENT_STATE::do_something() {
         x = file_xfers->poll();
         if (x) {action=true; print_log("file_xfers::poll\n"); }
 
-        x = active_tasks.poll();
+       x = active_tasks.poll();
         if (x) {action=true; print_log("active_tasks::poll\n"); }
 
         x = active_tasks.poll_time();
@@ -309,6 +309,7 @@ int CLIENT_STATE::parse_state_file() {
     FILE* f = fopen(STATE_FILE_NAME, "r");
     PROJECT temp_project, *project;
     int retval=0;
+    int failnum;
 
     if (!f) {
         if (log_flags.state_debug) {
@@ -353,7 +354,7 @@ int CLIENT_STATE::parse_state_file() {
                 if (!retval) file_infos.push_back(fip);
                 // If the file had a failure before, there's no reason
                 // to start another file transfer
-                if (fip->had_failure()) {
+                if (fip->had_failure(failnum)) {
                     if (fip->pers_file_xfer) delete fip->pers_file_xfer;
                     fip->pers_file_xfer = NULL;
                 }
@@ -410,10 +411,6 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<version>")) {
             // could put logic here to detect incompatible state files
             // after core client update
-        } else if (match_tag(buf, "<core_client_major_version>")) {
-            // TODO: handle old client state file if different version
-        } else if (match_tag(buf, "<core_client_minor_version>")) {
-            // TODO: handle old client state file if different version
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
             retval = ERR_XML_PARSE;
@@ -718,7 +715,7 @@ void CLIENT_STATE::print_counts() {
 //
 bool CLIENT_STATE::garbage_collect() {
     unsigned int i;
-    int fail_num;
+    int failnum;
     FILE_INFO* fip;
     RESULT* rp;
     WORKUNIT* wup;
@@ -726,6 +723,7 @@ bool CLIENT_STATE::garbage_collect() {
     vector<WORKUNIT*>::iterator wu_iter;
     vector<FILE_INFO*>::iterator fi_iter;
     bool action = false;
+  
 
     // zero references counts on WUs and FILE_INFOs
     for (i=0; i<workunits.size(); i++) {
@@ -751,15 +749,16 @@ bool CLIENT_STATE::garbage_collect() {
         } else {
             // See if the files for this result's workunit had
             // any errors (MD5, RSA, etc)
-            fail_num = rp->wup->had_failure();
-            if (fail_num) {
-                if (!rp->exit_status)       // If we don't already have an error for this file
-                    rp->exit_status = fail_num;
-                if (rp->state < RESULT_READY_TO_ACK) {
-                    rp->state = RESULT_READY_TO_ACK;
-                }
-            } else {
-                rp->wup->ref_cnt++;
+	  if(rp->wup->had_failure(failnum))
+            {
+               
+	      // If we don't already have an error for this file
+	      if (rp->state < RESULT_READY_TO_ACK) {
+		report_project_error(*rp,failnum,"The work_unit corresponding to this result had an error");
+	      }
+	      
+	    } else {
+	      rp->wup->ref_cnt++;
             }
             for (i=0; i<rp->output_files.size(); i++) {
                 // If one of the file infos had a failure,
@@ -767,13 +766,11 @@ bool CLIENT_STATE::garbage_collect() {
                 // The result, workunits, and file infos
                 // will be cleaned up after the server is notified
                 //
-                fail_num = rp->output_files[i].file_info->had_failure();
-                if (fail_num) {
-                    if (!rp->exit_status)       // If we don't already have an error for this file
-                        rp->exit_status = fail_num;
-                    if (rp->state < RESULT_READY_TO_ACK) {
-                        rp->state = RESULT_READY_TO_ACK;
-                    }
+	      if(rp->output_files[i].file_info->had_failure(failnum))
+		{
+		  if (rp->state < RESULT_READY_TO_ACK) {
+		    report_project_error(*rp,failnum,"The outputfile corresponding to this result had an error");
+		  }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
                 }
@@ -936,13 +933,14 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 // off on the project.  The error will appear in the stderr_out field of
 // the result
 // 
-int CLIENT_STATE::report_project_error( RESULT &res, int err_num, char *err_msg ) {
-    char total_err[256];
-    
+int CLIENT_STATE::report_project_error( RESULT &res,int err_num, char *err_msg ) {
+    char total_err[500];
     res.state = RESULT_READY_TO_ACK;
     scheduler_op->backoff(res.project,"");
     
-    sprintf( total_err, "BOINC Core Client: Err %d: %s\n", err_num, err_msg );
+    sprintf( total_err, "BOINC Core Client: Err %d: %s\n<active_task_state>%d</active_task_state>\n<exit_status>%d</exit_status>\n<signal>%d</signal>\n", err_num, err_msg,res.active_task_state,res.exit_status,res.signal );
+   
+
     if( strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
         strcat( res.stderr_out, total_err );
     }

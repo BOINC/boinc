@@ -685,3 +685,4 @@ if (false) {        // doesn't belong here; needs comment
         run_tool($cmd);
     }
 }
+}

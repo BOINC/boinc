@@ -413,6 +413,7 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
                 atp->result->exit_status = atp->exit_status;
+		atp->result->active_task_state = PROCESS_EXITED;
                 CloseHandle(atp->pid_handle);
                 CloseHandle(atp->thread_handle);
                 atp->read_stderr_file();
@@ -442,11 +443,13 @@ bool ACTIVE_TASK_SET::poll() {
         atp->state = PROCESS_EXITED;
         atp->exit_status = WEXITSTATUS(stat);
         atp->result->exit_status = atp->exit_status;
+	atp->result->active_task_state = PROCESS_EXITED;
         if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
     } else if (WIFSIGNALED(stat)) {
         atp->state = PROCESS_WAS_SIGNALED;
         atp->signal = WTERMSIG(stat);
-        atp->result->exit_status = atp->signal;
+        atp->result->signal = atp->signal;
+	atp->result->active_task_state = PROCESS_WAS_SIGNALED;
         if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
     } else {
         atp->state = PROCESS_EXIT_UNKNOWN;

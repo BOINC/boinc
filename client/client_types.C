@@ -409,8 +409,14 @@ char* FILE_INFO::get_url() {
 // Returns true if the file had some sort of error
 // (couldn't download, RSA/MD5 check failed, etc)
 //
-bool FILE_INFO::had_failure() {
-    return (status != FILE_NOT_PRESENT && status != FILE_PRESENT);
+bool FILE_INFO::had_failure(int & failnum) {
+  if (status != FILE_NOT_PRESENT && status != FILE_PRESENT)
+    {
+      failnum = status;
+      return true;
+    }
+    
+    return false;
 }
 
 // Parse XML based app_version information, usually from client_state.xml
@@ -548,12 +554,13 @@ int WORKUNIT::write(FILE* out) {
     return 0;
 }
 
-int WORKUNIT::had_failure() {
+bool WORKUNIT::had_failure(int& failnum) {
     unsigned int i;
-
+     
     for (i=0;i<input_files.size();i++) {
-        if (input_files[i].file_info->had_failure()) {
-            return true;
+      if(input_files[i].file_info->had_failure(failnum))
+	{
+	  return true;
         }
     }
 
@@ -581,6 +588,8 @@ void RESULT::clear() {
     state = RESULT_NEW;
     final_cpu_time = 0;
     exit_status = 0;
+    active_task_state = 0;
+    signal = 0;
     strcpy(stderr_out, "");
     app = NULL;
     wup = NULL;

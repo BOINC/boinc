@@ -37,6 +37,7 @@
 #define PROCESS_WAS_SIGNALED    3
 #define PROCESS_EXIT_UNKNOWN    4
 #define PROCESS_ABORTED         5
+#define PROCESS_COULDNT_START   6
     // process exceeded time or disk limits
 
 typedef int PROCESS_ID;

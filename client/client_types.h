@@ -139,7 +139,7 @@ public:
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file
     char* get_url();
-    bool had_failure();
+    bool had_failure(int& failnum);
 };
 
 // Describes a connection between a file and a workunit, result, or application.
@@ -189,7 +189,7 @@ struct WORKUNIT {
 
     int parse(FILE*);
     int write(FILE*);
-    int had_failure();
+    bool had_failure(int& failnum);
 };
 
 #define RESULT_NEW              0
@@ -212,6 +212,8 @@ struct RESULT {
     double final_cpu_time;
     int state;              // status of this result
     int exit_status;        // return value from the application
+    int signal; 
+    int active_task_state; // the state of the active task corresponding to this result
     char stderr_out[STDERR_MAX_LEN];
     APP* app;
     WORKUNIT* wup;
