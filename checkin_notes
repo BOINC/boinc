@@ -5673,3 +5673,10 @@ Chrisz  2003/8/13
 
     client/
          cs_scheduler.C
+
+Karl 2003/08/13
+    - validator: use SQL queries instead of 'if' statements
+    - validator: fixed bug where UNSENT results don't get marked DIDNT_NEED
+
+    sched/
+        validate.C
