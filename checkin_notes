@@ -13573,8 +13573,6 @@ Karl 2004-06-15
         boinc_api_fortran.C
 
 Daniel 15 June 2004
-    - html: replaced uses of mysql_fetch_assoc with mysql_fetch_object
-        when possible
     - html: got rid of file descriptor parameters for a lot of
         functions (esp. those used by gallery.inc). using output
         buffering now (ob_start(), ob_get_contents(), etc.)
@@ -13711,3 +13709,11 @@ David  16 June 2004
         Makefile.am
     sched/
         Makefile.am
+
+Daniel 16 June 2004
+    - client: added implementations of {set,get}utent for lacking 
+        systems (BSD, MacOSX) so all_logins_idle() will work.
+
+    client/
+        hostinfo_unix.C
+

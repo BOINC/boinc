@@ -424,6 +424,7 @@ inline bool all_tty_idle(time_t t, char *device, char first_char, int num_tty) {
     return true;
 }
 
+#ifdef HAVE_UTMP_H
 inline bool user_idle(time_t t, struct utmp* u) {
     char tty[5 + sizeof u->ut_line + 1] = "/dev/";
     unsigned int i;
@@ -436,10 +437,30 @@ inline bool user_idle(time_t t, struct utmp* u) {
     return device_idle(t, tty);
 }
 
-#ifdef HAVE_UTMP_H
+#if !defined(HAVE_SETUTENT) || !defined(HAVE_GETUTENT)
+static FILE *ufp = NULL;
+static struct utmp ut;
+
+struct utmp *getutent() {
+    if (ufp == NULL) {
+        if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
+            return((struct utmp *)NULL);
+        }
+    }
+    do {
+        if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
+            return((struct utmp *)NULL);
+        }
+    } while (ut.ut_name[0] == 0);
+    return(&ut);
+}
+
+void setutent() {
+    if (ufp != NULL) rewind(ufp);
+}
+#endif
+
 inline bool all_logins_idle(time_t t) {
-    // TODO: {get,set}utent unavailable on bsd
-#if defined(HAVE_SETUTENT) && defined(HAVE_GETUTENT)
     struct utmp* u;
     setutent();
 
@@ -448,7 +469,6 @@ inline bool all_logins_idle(time_t t) {
             return false;
         }
     }
-#endif
     return true;
 }
 #endif
