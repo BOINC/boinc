@@ -5302,3 +5302,24 @@ Karl 2003/07/03-08
         validate.C
     test/
         boinc.py
+
+John Brian	2003/07/11
+    - added profile functionality to BOINC.  Users can now add, modify, and delete
+      personal profiles.  Scripts to build picture galleries, and country summaries
+      are also available.  Most of the functionality of the SETI@Home profiling system
+      is now available in BOINC.
+
+    html_user/
+	create_profile.php (new)
+	delete_profile.php (new)
+	gallery.inc (new)
+	generate_country_pages.php (new)
+	generate_picture_pages.php (new)
+	index.php
+	languages.txt (new)
+	profile.inc (new)
+	profile_menu.php (new)
+	project.inc
+	user.inc
+	util.inc
+	view_profile.php (new)
