@@ -15,12 +15,15 @@ cmd()
     "$@" || die "couldn't $*"
 }
 
-[ "$1" ] || die "syntax: set-version 1.42"
+if [ "$1" ]; then
+    echo "Setting BOINC version to $1."
 
-echo "Setting boinc version to $1."
+    cmd mv configure.ac configure.ac.old
+    cmd sed "s/^AC_INIT.*/AC_INIT(BOINC, $1)/" configure.ac.old > configure.ac
+else
+    echo "Updating files for BOINC version (assuming you manually changed configure.ac)"
+fi
 
-cmd mv configure.ac configure.ac.old
-cmd sed "s/^AC_INIT.*/AC_INIT(BOINC, $1)/" configure.ac.old > configure.ac
 cmd ./_autosetup -c
 cmd cd client
 cmd make win/win_config.h
