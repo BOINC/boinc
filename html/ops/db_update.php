@@ -80,6 +80,15 @@ function update_7_02_2004() {
     );
 }
 
-update_6_15_2004();
+function update_7_08_2004() {
+    mysql_query(
+        "alter table result drop index ind_res_st"
+    );
+    mysql_query(
+        "alter table add index ind_res_st(server_state)"
+    );
+}
+
+//update_6_15_2004();
 
 ?>

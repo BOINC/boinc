@@ -14648,7 +14648,7 @@ David  6 July 2004
         trickle_handler.C
 
 Brian  6 July 2004
-      - Changed cliet so that when a file info is compared to 
+      - Changed client so that when a file info is compared to 
 		an existing file info with the same name, the differences 
 		in whether it is an upload or download are updated and 
 		any urls that are not present in the file info are added to the url list.
@@ -14709,13 +14709,15 @@ Daniel 2004-07-06
         main.C
 
 Rom    6 July 2004
-    - Removed ';' from queries that had them since the API Docs state not to put
-      them in the query.
+    - Removed ';' from queries that had them since the API Docs state
+        not to put them in the query.
     - Implement a scheduler optimization so we do one batched read and one 
-      transactional write.  In the worst case scenario where the client had submitted 
-      20 results we would do 41 reads and 40 writes just to update the results. Now we 
-      batch read all the results at one time and surround the write requests within a 
-      transaction. So now our worst case scenario is 2 reads and 40 writes within a 
+      transactional write.  In the worst case scenario where the client
+      had submitted 20 results we would do 41 reads and 40 writes
+      just to update the results.
+      Now we batch read all the results at one time and surround
+      the write requests within a transaction.
+      So now our worst case scenario is 2 reads and 40 writes within a 
       transaction.
 
     db/
@@ -14865,3 +14867,25 @@ David  8 July 2004
         gui_rpc_client.C,h
         gui_rpc_server.C
         gui_test.C
+
+David  8 July 2004
+    - Change the ind_res_st index (on result) from
+        (server_state, random) to just (server_state).
+        This makes the feeder's DB query somewhat faster (I think).
+        The price we pay is that results from the same WU may
+        be sent out close together in time.
+    - make download page cached
+
+    NOTE TO PROJECTS:
+        this requires an update to your database.
+        See html/ops/db_update.php
+
+    db/
+        boinc_db.C
+        constraints.sql
+    html/
+        ops/
+            db_update.php
+            index.php
+        user/
+            download.php

@@ -54,8 +54,8 @@ alter table result
         -- transitioner
         -- NOTE res_wu_user may suffice, could try dropping this one
 
-    add index ind_res_st (server_state, random),
-        -- feeder (random is to avoid sending WU result close together)
+    add index ind_res_st (server_state),
+        -- feeder
 
     add index res_app_state(appid, server_state),
         -- splitter, e.g.

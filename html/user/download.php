@@ -1,8 +1,13 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
+
+start_cache(3600);
+
+require_once("../inc/db.inc");
 require_once("../inc/download.inc");
+
 
     init_session();
     db_init();
@@ -44,4 +49,5 @@ require_once("../inc/download.inc");
         </font>
     ";
     page_tail();
+end_cache();
 ?>

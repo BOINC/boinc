@@ -809,7 +809,7 @@ int DB_WORK_ITEM::enumerate(int limit) {
         sprintf(query,
             "select high_priority result.id, workunit.* from result left join workunit "
             "on workunit.id = result.workunitid "
-            "where result.server_state=%d order by result.random "
+            "where result.server_state=%d "
             "limit %d",
             RESULT_SERVER_STATE_UNSENT, limit
         );
