@@ -1,0 +1,147 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
+#include "filesys.h"
+#include "file_names.h"
+#include "speed_stats.h"
+#include "client_state.h"
+
+void CLIENT_STATE::install_global_prefs() {
+    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
+    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
+    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
+    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
+}
+
+// Return the maximum allowed disk usage as determined by user preferences.
+// There are three different settings in the prefs;
+// return the least of the three.
+//
+int CLIENT_STATE::allowed_disk_usage(double& size) {
+    double percent_space, min_val;
+
+    percent_space = host_info.d_total*global_prefs.disk_max_used_pct;
+
+    min_val = host_info.d_free - global_prefs.disk_min_free_gb*(1024.*1024.*1024.);
+
+    size = min(min(global_prefs.disk_max_used_gb*(1024.*1024.*1024.), percent_space), min_val);
+    if(size < 0) size = 0;
+    return 0;
+}
+
+int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
+    char buf[256],buf2[256];
+
+    escape_project_url(p->master_url, buf);
+    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+
+    return dir_size(buf2, size);
+}
+
+int CLIENT_STATE::current_disk_usage(double& size) {
+    return dir_size(".", size);
+}
+
+// returns true if start_hour == end_hour or start_hour <= now < end_hour
+//
+inline bool now_between_two_hours(int start_hour, int end_hour) {
+    if (start_hour == end_hour) {
+        // always work
+        return true;
+    }
+
+    time_t now = time(0);
+    struct tm *tmp = localtime(&now);
+    int hour = tmp->tm_hour;
+    if (start_hour < end_hour) {
+        return (hour >= start_hour && hour < end_hour);
+    } else {
+        return !(hour >= end_hour && hour < start_hour);
+    }
+}
+
+// See if (on the basis of user run request and prefs)
+// we should suspend activities.
+//
+void CLIENT_STATE::check_suspend_activities(int& reason) {
+    reason = 0;
+
+    // Don't work while we're running CPU benchmarks
+    //
+    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
+        reason |= SUSPEND_REASON_BENCHMARKS;
+    }
+
+    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return;
+
+    if (user_run_request == USER_RUN_REQUEST_NEVER) {
+        reason |= SUSPEND_REASON_USER_REQ;
+        return;
+    }
+
+    if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
+        reason |= SUSPEND_REASON_BATTERIES;
+    }
+
+    // user_idle is set in the Mac/Win GUI code
+    //
+    if (!global_prefs.run_if_user_active && !user_idle) {
+        reason |= SUSPEND_REASON_USER_ACTIVE;
+    }
+
+    if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
+        reason |= SUSPEND_REASON_TIME_OF_DAY;
+    }
+
+    return;
+}
+
+int CLIENT_STATE::suspend_activities(int reason) {
+    string s_reason;
+    s_reason = "Suspending computation and file transfer";
+    if (reason & SUSPEND_REASON_BATTERIES) {
+        s_reason += " - on batteries";
+    }
+    if (reason & SUSPEND_REASON_USER_ACTIVE) {
+        s_reason += " - user is active";
+    }
+    if (reason & SUSPEND_REASON_USER_REQ) {
+        s_reason += " - user request";
+    }
+    if (reason & SUSPEND_REASON_TIME_OF_DAY) {
+        s_reason += " - time of day";
+    }
+    if (reason & SUSPEND_REASON_BENCHMARKS) {
+        s_reason += " - running CPU benchmarks";
+    }
+    msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
+    active_tasks.suspend_all();
+    pers_file_xfers->suspend();
+    return 0;
+}
+
+// persistent file xfers will resume of their own accord
+// since activities_suspended is now true
+//
+int CLIENT_STATE::resume_activities() {
+    msg_printf(NULL, MSG_INFO, "Resuming activity");
+    active_tasks.unsuspend_all();
+    return 0;
+}
+

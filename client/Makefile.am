@@ -17,8 +17,11 @@ boinc_client_SOURCES =				\
     client_state.C				\
     client_types.C				\
     cs_apps.C					\
+    cs_benchmark.C				\
     cs_files.C					\
+    cs_prefs.C					\
     cs_scheduler.C				\
+    cs_statefile.C				\
     file_names.C				\
     file_xfer.C					\
     hostinfo.C					\

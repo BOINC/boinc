@@ -35,11 +35,9 @@
 #include <unistd.h>
 #endif
 
-#include <cassert>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <cassert>
 
 #include "parse.h"
 #include "util.h"
@@ -50,13 +48,9 @@
 #include "file_names.h"
 #include "hostinfo.h"
 #include "http.h"
-#include "speed_stats.h"
 #include "log_flags.h"
 #include "maybe_gui.h"
 #include "client_state.h"
-
-#define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
-    // rerun CPU benchmarks this often (hardware may have been upgraded)
 
 CLIENT_STATE gstate;
 
@@ -172,13 +166,6 @@ void CLIENT_STATE::free_mem() {
     active_tasks.free_mem();
 }
 #endif
-
-void CLIENT_STATE::install_global_prefs() {
-    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
-    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
-    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
-    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
-}
 
 int CLIENT_STATE::init() {
     int retval;
@@ -306,21 +293,6 @@ int CLIENT_STATE::init() {
     return 0;
 }
 
-void CLIENT_STATE::fork_run_cpu_benchmarks() {
-	cpu_benchmarks_start = time(0);
-	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
-#ifdef _WIN32
-    cpu_benchmarks_handle = CreateThread(
-        NULL, 0, win_cpu_benchmarks, NULL, 0, &cpu_benchmarks_id
-    );
-#else
-    cpu_benchmarks_id = fork();
-    if (cpu_benchmarks_id == 0) {
-        _exit(cpu_benchmarks());
-    }
-#endif
-}
-
 int CLIENT_STATE::set_nslots() {
     int retval;
 
@@ -337,183 +309,6 @@ int CLIENT_STATE::set_nslots() {
     if (retval) return retval;
 
     return 0;
-}
-
-// Returns true if CPU benchmarks should be run:
-// flag is set or it's been a month since we last ran
-//
-bool CLIENT_STATE::should_run_cpu_benchmarks() {
-    // Note: we if skip_cpu_benchmarks we still should "run" cpu benchmarks
-    // (we'll just use default values in cpu_benchmarks())
-    return (
-        run_cpu_benchmarks ||
-        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
-    );
-}
-
-#ifdef _WIN32
-DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID) {
-    return gstate.cpu_benchmarks();
-}
-#endif
-
-// gets info about the host
-// NOTE: this locks up the process for 10-20 seconds,
-// so it should be called very seldom
-//
-int CLIENT_STATE::cpu_benchmarks() {
-    HOST_INFO host_info;
-    FILE* finfo;
-    double fpop_test_secs = 3.3;
-    double iop_test_secs = 3.3;
-    double mem_test_secs = 3.3;
-
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
-    scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running CPU benchmarks.\n");
-
-#ifdef _WIN32
-	guiOnBenchmarksBegin();
-#endif
-
-    clear_host_info(host_info);
-    ++log_messages;
-    if (skip_cpu_benchmarks) {
-        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
-        host_info.p_fpops = 1e9;
-        host_info.p_iops = 1e9;
-        host_info.p_membw = 4e9;
-        host_info.m_cache = 1e6;
-    } else {
-        scope_messages.printf(
-            "CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
-            fpop_test_secs
-        );
-        host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
-
-        scope_messages.printf(
-            "CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
-            iop_test_secs
-        );
-        host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
-
-        scope_messages.printf(
-            "CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
-            mem_test_secs
-        );
-        host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
-
-        // need to check cache!!
-        host_info.m_cache = 1e6;
-
-        msg_printf(NULL, MSG_INFO, "Benchmark results: FP: %.0f million op/sec%s;  Int: %.0f million op/sec%s;  Mem BW: %.0f million bytes/sec%s",
-                   host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":""),
-                   host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":""),
-                   host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
-        );
-    }
-
-    host_info.p_calculated = (double)time(0);
-    finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "w");
-    if(!finfo) return ERR_FOPEN;
-    host_info.write_cpu_benchmarks(finfo);
-    fclose(finfo);
-#ifdef _WIN32
-	guiOnBenchmarksEnd();
-#endif
-    --log_messages;
-    return 0;
-}
-
-// checks if the CPU benchmarks are running
-//
-int CLIENT_STATE::check_cpu_benchmarks() {
-    FILE* finfo;
-    int retval;
-
-    if (cpu_benchmarks_id) {
-#ifdef _WIN32
-        DWORD exit_code = 0;
-        GetExitCodeThread(cpu_benchmarks_handle, &exit_code);
-        if(exit_code == STILL_ACTIVE) {
-            if(time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-                msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
-                TerminateThread(cpu_benchmarks_handle, 0);
-                CloseHandle(cpu_benchmarks_handle);
-                host_info.p_fpops = 1e9;
-                host_info.p_iops = 1e9;
-                host_info.p_membw = 4e9;
-                host_info.m_cache = 1e6;
-                cpu_benchmarks_id = 0;
-                return CPU_BENCHMARKS_ERROR;
-            }
-            return CPU_BENCHMARKS_RUNNING;
-        }
-        CloseHandle(cpu_benchmarks_handle);
-		guiOnBenchmarksEnd();
-#else
-        int exit_code = 0;
-        retval = waitpid(cpu_benchmarks_id, &exit_code, WNOHANG);
-        if(retval == 0) {
-            if((unsigned int)time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-                msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
-                kill(cpu_benchmarks_id, SIGKILL);
-                host_info.p_fpops = 1e9;
-                host_info.p_iops = 1e9;
-                host_info.p_membw = 4e9;
-                host_info.m_cache = 1e6;
-                cpu_benchmarks_id = 0;
-                return CPU_BENCHMARKS_ERROR;
-            }
-            return CPU_BENCHMARKS_RUNNING;
-        }
-#endif
-        cpu_benchmarks_id = 0;
-        msg_printf(NULL, MSG_INFO, "CPU benchmarks complete");
-        finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "r");
-        if (!finfo) {
-            msg_printf(NULL, MSG_ERROR, "Can't open CPU benchmark file, using default values");
-            host_info.p_fpops = 1e9;
-            host_info.p_iops = 1e9;
-            host_info.p_membw = 4e9;
-            host_info.m_cache = 1e6;
-            return CPU_BENCHMARKS_ERROR;
-        }
-        retval = host_info.parse_cpu_benchmarks(finfo);
-        fclose(finfo);
-        if (retval) return CPU_BENCHMARKS_ERROR;
-        file_delete(CPU_BENCHMARKS_FILE_NAME);
-        return CPU_BENCHMARKS_COMPLETE;
-    }
-    return CPU_BENCHMARKS_NOT_RUNNING;
-}
-
-// Return the maximum allowed disk usage as determined by user preferences.
-// There are three different settings in the prefs;
-// return the least of the three.
-//
-int CLIENT_STATE::allowed_disk_usage(double& size) {
-    double percent_space, min_val;
-
-    percent_space = host_info.d_total*global_prefs.disk_max_used_pct;
-
-    min_val = host_info.d_free - global_prefs.disk_min_free_gb*(1024.*1024.*1024.);
-
-    size = min(min(global_prefs.disk_max_used_gb*(1024.*1024.*1024.), percent_space), min_val);
-    if(size < 0) size = 0;
-    return 0;
-}
-
-int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
-    char buf[256],buf2[256];
-
-    escape_project_url(p->master_url, buf);
-    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-
-    return dir_size(buf2, size);
-}
-
-int CLIENT_STATE::current_disk_usage(double& size) {
-    return dir_size(".", size);
 }
 
 // estimate how long a WU will take on this host
@@ -536,68 +331,6 @@ double CLIENT_STATE::get_percent_done(RESULT* result) {
     return atp ? force_fraction(atp->fraction_done) : 0.0;
 }
 
-// returns true if start_hour == end_hour or start_hour <= now < end_hour
-//
-inline bool now_between_two_hours(int start_hour, int end_hour) {
-    if (start_hour == end_hour) {
-        // always work
-        return true;
-    }
-
-    time_t now = time(0);
-    struct tm *tmp = localtime(&now);
-    int hour = tmp->tm_hour;
-    if (start_hour < end_hour) {
-        return (hour >= start_hour && hour < end_hour);
-    } else {
-        return !(hour >= end_hour && hour < start_hour);
-    }
-}
-
-enum SUSPEND_REASON_t {
-    SUSPEND_REASON_BATTERIES = 1,
-    SUSPEND_REASON_USER_ACTIVE = 2,
-    SUSPEND_REASON_USER_REQ = 4,
-    SUSPEND_REASON_TIME_OF_DAY = 8,
-    SUSPEND_REASON_BENCHMARKS = 16
-};
-
-// See if (on the basis of user run request and prefs)
-// we should suspend activities.
-//
-void CLIENT_STATE::check_suspend_activities(int& reason) {
-    reason = 0;
-
-    // Don't work while we're running CPU benchmarks
-    //
-    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
-        reason |= SUSPEND_REASON_BENCHMARKS;
-    }
-
-    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return;
-
-    if (user_run_request == USER_RUN_REQUEST_NEVER) {
-        reason |= SUSPEND_REASON_USER_REQ;
-        return;
-    }
-
-    if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
-        reason |= SUSPEND_REASON_BATTERIES;
-    }
-
-    // user_idle is set in the Mac/Win GUI code
-    //
-    if (!global_prefs.run_if_user_active && !user_idle) {
-        reason |= SUSPEND_REASON_USER_ACTIVE;
-    }
-
-    if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
-        reason |= SUSPEND_REASON_TIME_OF_DAY;
-    }
-
-    return;
-}
-
 // sleep up to x seconds,
 // but if network I/O becomes possible,
 // wake up and do as much as limits allow.
@@ -616,39 +349,6 @@ int CLIENT_STATE::net_sleep(double x) {
     } else {
         return net_xfers->net_sleep(x);
     }
-}
-
-int CLIENT_STATE::suspend_activities(int reason) {
-    string s_reason;
-    s_reason = "Suspending computation and file transfer";
-    if (reason & SUSPEND_REASON_BATTERIES) {
-        s_reason += " - on batteries";
-    }
-    if (reason & SUSPEND_REASON_USER_ACTIVE) {
-        s_reason += " - user is active";
-    }
-    if (reason & SUSPEND_REASON_USER_REQ) {
-        s_reason += " - user request";
-    }
-    if (reason & SUSPEND_REASON_TIME_OF_DAY) {
-        s_reason += " - time of day";
-    }
-    if (reason & SUSPEND_REASON_BENCHMARKS) {
-        s_reason += " - running CPU benchmarks";
-    }
-    msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
-    active_tasks.suspend_all();
-    pers_file_xfers->suspend();
-    return 0;
-}
-
-// persistent file xfers will resume of their own accord
-// since activities_suspended is now true
-//
-int CLIENT_STATE::resume_activities() {
-    msg_printf(NULL, MSG_INFO, "Resuming activity");
-    active_tasks.unsuspend_all();
-    return 0;
 }
 
 #define POLL_ACTION(name, func)                                                \
@@ -725,240 +425,6 @@ bool CLIENT_STATE::do_something() {
         time_stats.update(true, !activities_suspended);
         return false;
     }
-}
-
-// Parse the client_state.xml file
-//
-int CLIENT_STATE::parse_state_file() {
-    char buf[256];
-    FILE* f = fopen(STATE_FILE_NAME, "r");
-    PROJECT temp_project, *project=NULL;
-    int retval=0;
-    int failnum;
-
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
-    if (!f) {
-        scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
-
-        // avoid warning messages about version
-        //
-        old_major_version = MAJOR_VERSION;
-        old_minor_version = MINOR_VERSION;
-        return ERR_FOPEN;
-    }
-    fgets(buf, 256, f);
-    if (!match_tag(buf, "<client_state>")) {
-        retval = ERR_XML_PARSE;
-        goto done;
-    }
-    while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "</client_state>")) {
-            retval = 0;
-            break;
-        } else if (match_tag(buf, "<project>")) {
-            temp_project.parse_state(f);
-            project = lookup_project(temp_project.master_url);
-            if (project) {
-                project->copy_state_fields(temp_project);
-            } else {
-                msg_printf(NULL, MSG_ERROR, "Project %s found in state file but not prefs.\n",
-                    temp_project.master_url);
-            }
-        } else if (match_tag(buf, "<app>")) {
-            APP* app = new APP;
-            app->parse(f);
-            if (project) {
-                retval = link_app(project, app);
-                if (!retval) apps.push_back(app);
-            } else {
-                delete app;
-            }
-        } else if (match_tag(buf, "<file_info>")) {
-            FILE_INFO* fip = new FILE_INFO;
-            fip->parse(f, false);
-            if (project) {
-                retval = link_file_info(project, fip);
-                if (!retval) file_infos.push_back(fip);
-                // If the file had a failure before, there's no reason
-                // to start another file transfer
-                if (fip->had_failure(failnum)) {
-                    if (fip->pers_file_xfer) delete fip->pers_file_xfer;
-                    fip->pers_file_xfer = NULL;
-                }
-                // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
-                if (fip->pers_file_xfer) {
-                    fip->pers_file_xfer->init(fip, fip->upload_when_present);
-                    retval = pers_file_xfers->insert( fip->pers_file_xfer );
-                }
-            } else {
-                delete fip;
-            }
-        } else if (match_tag(buf, "<app_version>")) {
-            APP_VERSION* avp = new APP_VERSION;
-            avp->parse(f);
-            if (project) {
-                retval = link_app_version(project, avp);
-                if (!retval) app_versions.push_back(avp);
-            } else {
-                delete avp;
-            }
-        } else if (match_tag(buf, "<workunit>")) {
-            WORKUNIT* wup = new WORKUNIT;
-            wup->parse(f);
-            if (project) {
-                retval = link_workunit(project, wup);
-                if (!retval) workunits.push_back(wup);
-            } else {
-                delete wup;
-            }
-        } else if (match_tag(buf, "<result>")) {
-            RESULT* rp = new RESULT;
-            rp->parse_state(f);
-            if (project) {
-                retval = link_result(project, rp);
-                if (!retval) results.push_back(rp);
-            } else {
-                msg_printf(NULL, MSG_ERROR,
-                    "<result> found before any project\n"
-                );
-                delete rp;
-            }
-        } else if (match_tag(buf, "<host_info>")) {
-            retval = host_info.parse(f);
-            if (retval) goto done;
-        } else if (match_tag(buf, "<time_stats>")) {
-            retval = time_stats.parse(f);
-            if (retval) goto done;
-        } else if (match_tag(buf, "<net_stats>")) {
-            retval = net_stats.parse(f);
-            if (retval) goto done;
-        } else if (match_tag(buf, "<active_task_set>")) {
-            retval = active_tasks.parse(f, this);
-            if (retval) goto done;
-        } else if (match_tag(buf, "<platform_name>")) {
-            // should match our current platform name
-        } else if (match_tag(buf, "<version>")) {
-            // could put logic here to detect incompatible state files
-            // after core client update
-        } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
-        } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
-        } else if (match_tag(buf, "<use_http_proxy/>")) {
-            use_http_proxy = true;
-        } else if (match_tag(buf, "<use_socks_proxy/>")) {
-            use_socks_proxy = true;
-        } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
-        } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
-        } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
-        } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
-        // } else if (parse_int(buf, "<user_run_request/>")) {
-        } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
-        } else {
-            msg_printf(NULL, MSG_ERROR, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
-        }
-    }
-done:
-    fclose(f);
-
-    return retval;
-}
-
-// Write the client_state.xml file
-//
-int CLIENT_STATE::write_state_file() {
-    unsigned int i, j;
-    FILE* f = fopen(STATE_FILE_TEMP, "w");
-    int retval;
-
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
-    scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
-    if (!f) {
-        msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);
-        return ERR_FOPEN;
-    }
-    fprintf(f, "<client_state>\n");
-    retval = host_info.write(f);
-    if (retval) return retval;
-    retval = time_stats.write(f, false);
-    if (retval) return retval;
-    retval = net_stats.write(f, false);
-    if (retval) return retval;
-    for (j=0; j<projects.size(); j++) {
-        PROJECT* p = projects[j];
-        retval = p->write_state(f);
-        if (retval) return retval;
-        for (i=0; i<apps.size(); i++) {
-            if (apps[i]->project == p) {
-                retval = apps[i]->write(f);
-                if (retval) return retval;
-            }
-        }
-        for (i=0; i<file_infos.size(); i++) {
-            if (file_infos[i]->project == p) {
-                retval = file_infos[i]->write(f, false);
-                if (retval) return retval;
-            }
-        }
-        for (i=0; i<app_versions.size(); i++) {
-            if (app_versions[i]->project == p) app_versions[i]->write(f);
-        }
-        for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f);
-        }
-        for (i=0; i<results.size(); i++) {
-            if (results[i]->project == p) results[i]->write(f, false);
-        }
-    }
-    active_tasks.write(f);
-    fprintf(f,
-        "<platform_name>%s</platform_name>\n"
-        "<core_client_major_version>%d</core_client_major_version>\n"
-        "<core_client_minor_version>%d</core_client_minor_version>\n",
-        platform_name,
-        core_client_major_version,
-        core_client_minor_version
-    );
-
-    // save proxy info
-    //
-    fprintf(f,
-        "%s"
-        "%s"
-        "<proxy_server_name>%s</proxy_server_name>\n"
-        "<proxy_server_port>%d</proxy_server_port>\n"
-        "<socks_user_name>%s</socks_user_name>\n"
-        "<socks_user_passwd>%s</socks_user_passwd>\n",
-        use_http_proxy?"<use_http_proxy/>\n":"",
-        use_socks_proxy?"<use_socks_proxy/>\n":"",
-        proxy_server_name,
-        proxy_server_port,
-        socks_user_name,
-        socks_user_passwd
-    );
-#if 0
-    fprintf(f, "<user_run_request>%d</user_run_request>\n", user_run_request);
-#endif
-    if (strlen(host_venue)) {
-        fprintf(f, "<host_venue>%s</host_venue>\n", host_venue);
-    }
-    fprintf(f, "</client_state>\n");
-    fclose(f);
-    retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
-    scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
-    if (retval) return ERR_RENAME;
-    return 0;
-}
-
-// Write the client_state.xml file if necessary
-// TODO: write no more often than X seconds
-//
-int CLIENT_STATE::write_state_file_if_needed() {
-    int retval;
-    if (client_state_dirty) {
-        client_state_dirty = false;
-        retval = write_state_file();
-        if (retval) return retval;
-    }
-    return 0;
 }
 
 // See if the project specified by master_url already exists

@@ -184,8 +184,11 @@ boinc_client_SOURCES = \
     client_state.C				\
     client_types.C				\
     cs_apps.C					\
+    cs_benchmark.C				\
     cs_files.C					\
+    cs_prefs.C					\
     cs_scheduler.C				\
+    cs_statefile.C				\
     file_names.C				\
     file_xfer.C					\
     hostinfo.C					\
@@ -242,8 +245,11 @@ am_boinc_client_OBJECTS = boinc_client-main.$(OBJEXT) \
 	boinc_client-check_state.$(OBJEXT) \
 	boinc_client-client_state.$(OBJEXT) \
 	boinc_client-client_types.$(OBJEXT) \
-	boinc_client-cs_apps.$(OBJEXT) boinc_client-cs_files.$(OBJEXT) \
+	boinc_client-cs_apps.$(OBJEXT) \
+	boinc_client-cs_benchmark.$(OBJEXT) \
+	boinc_client-cs_files.$(OBJEXT) boinc_client-cs_prefs.$(OBJEXT) \
 	boinc_client-cs_scheduler.$(OBJEXT) \
+	boinc_client-cs_statefile.$(OBJEXT) \
 	boinc_client-file_names.$(OBJEXT) \
 	boinc_client-file_xfer.$(OBJEXT) \
 	boinc_client-hostinfo.$(OBJEXT) \
@@ -282,8 +288,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_types.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-crypt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_apps.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_benchmark.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_files.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_prefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_scheduler.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_statefile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-file_names.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-file_xfer.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-filesys.Po \
@@ -363,8 +372,11 @@ boinc_client-check_state.$(OBJEXT): check_state.C
 boinc_client-client_state.$(OBJEXT): client_state.C
 boinc_client-client_types.$(OBJEXT): client_types.C
 boinc_client-cs_apps.$(OBJEXT): cs_apps.C
+boinc_client-cs_benchmark.$(OBJEXT): cs_benchmark.C
 boinc_client-cs_files.$(OBJEXT): cs_files.C
+boinc_client-cs_prefs.$(OBJEXT): cs_prefs.C
 boinc_client-cs_scheduler.$(OBJEXT): cs_scheduler.C
+boinc_client-cs_statefile.$(OBJEXT): cs_statefile.C
 boinc_client-file_names.$(OBJEXT): file_names.C
 boinc_client-file_xfer.$(OBJEXT): file_xfer.C
 boinc_client-hostinfo.$(OBJEXT): hostinfo.C
@@ -413,8 +425,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_types.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_apps.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_benchmark.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_files.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_prefs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_scheduler.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_statefile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-file_names.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-file_xfer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-filesys.Po@am__quote@
@@ -620,6 +635,28 @@ boinc_client-cs_apps.obj: cs_apps.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_apps.obj `if test -f 'cs_apps.C'; then $(CYGPATH_W) 'cs_apps.C'; else $(CYGPATH_W) '$(srcdir)/cs_apps.C'`
 
+boinc_client-cs_benchmark.o: cs_benchmark.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_benchmark.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_benchmark.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_benchmark.o `test -f 'cs_benchmark.C' || echo '$(srcdir)/'`cs_benchmark.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_benchmark.Tpo" "$(DEPDIR)/boinc_client-cs_benchmark.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_benchmark.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_benchmark.C' object='boinc_client-cs_benchmark.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_benchmark.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_benchmark.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_benchmark.o `test -f 'cs_benchmark.C' || echo '$(srcdir)/'`cs_benchmark.C
+
+boinc_client-cs_benchmark.obj: cs_benchmark.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_benchmark.obj -MD -MP -MF "$(DEPDIR)/boinc_client-cs_benchmark.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_benchmark.obj `if test -f 'cs_benchmark.C'; then $(CYGPATH_W) 'cs_benchmark.C'; else $(CYGPATH_W) '$(srcdir)/cs_benchmark.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_benchmark.Tpo" "$(DEPDIR)/boinc_client-cs_benchmark.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_benchmark.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_benchmark.C' object='boinc_client-cs_benchmark.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_benchmark.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_benchmark.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_benchmark.obj `if test -f 'cs_benchmark.C'; then $(CYGPATH_W) 'cs_benchmark.C'; else $(CYGPATH_W) '$(srcdir)/cs_benchmark.C'`
+
 boinc_client-cs_files.o: cs_files.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_files.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_files.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_files.o `test -f 'cs_files.C' || echo '$(srcdir)/'`cs_files.C; \
@@ -642,6 +679,28 @@ boinc_client-cs_files.obj: cs_files.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_files.obj `if test -f 'cs_files.C'; then $(CYGPATH_W) 'cs_files.C'; else $(CYGPATH_W) '$(srcdir)/cs_files.C'`
 
+boinc_client-cs_prefs.o: cs_prefs.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_prefs.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_prefs.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_prefs.o `test -f 'cs_prefs.C' || echo '$(srcdir)/'`cs_prefs.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_prefs.Tpo" "$(DEPDIR)/boinc_client-cs_prefs.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_prefs.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_prefs.C' object='boinc_client-cs_prefs.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_prefs.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_prefs.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_prefs.o `test -f 'cs_prefs.C' || echo '$(srcdir)/'`cs_prefs.C
+
+boinc_client-cs_prefs.obj: cs_prefs.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_prefs.obj -MD -MP -MF "$(DEPDIR)/boinc_client-cs_prefs.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_prefs.obj `if test -f 'cs_prefs.C'; then $(CYGPATH_W) 'cs_prefs.C'; else $(CYGPATH_W) '$(srcdir)/cs_prefs.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_prefs.Tpo" "$(DEPDIR)/boinc_client-cs_prefs.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_prefs.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_prefs.C' object='boinc_client-cs_prefs.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_prefs.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_prefs.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_prefs.obj `if test -f 'cs_prefs.C'; then $(CYGPATH_W) 'cs_prefs.C'; else $(CYGPATH_W) '$(srcdir)/cs_prefs.C'`
+
 boinc_client-cs_scheduler.o: cs_scheduler.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_scheduler.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_scheduler.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_scheduler.o `test -f 'cs_scheduler.C' || echo '$(srcdir)/'`cs_scheduler.C; \
@@ -663,6 +722,28 @@ boinc_client-cs_scheduler.obj: cs_scheduler.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_scheduler.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_scheduler.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_scheduler.obj `if test -f 'cs_scheduler.C'; then $(CYGPATH_W) 'cs_scheduler.C'; else $(CYGPATH_W) '$(srcdir)/cs_scheduler.C'`
+
+boinc_client-cs_statefile.o: cs_statefile.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_statefile.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_statefile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_statefile.o `test -f 'cs_statefile.C' || echo '$(srcdir)/'`cs_statefile.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_statefile.Tpo" "$(DEPDIR)/boinc_client-cs_statefile.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_statefile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_statefile.C' object='boinc_client-cs_statefile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_statefile.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_statefile.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_statefile.o `test -f 'cs_statefile.C' || echo '$(srcdir)/'`cs_statefile.C
+
+boinc_client-cs_statefile.obj: cs_statefile.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_statefile.obj -MD -MP -MF "$(DEPDIR)/boinc_client-cs_statefile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_statefile.obj `if test -f 'cs_statefile.C'; then $(CYGPATH_W) 'cs_statefile.C'; else $(CYGPATH_W) '$(srcdir)/cs_statefile.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_statefile.Tpo" "$(DEPDIR)/boinc_client-cs_statefile.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_statefile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_statefile.C' object='boinc_client-cs_statefile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_statefile.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_statefile.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_statefile.obj `if test -f 'cs_statefile.C'; then $(CYGPATH_W) 'cs_statefile.C'; else $(CYGPATH_W) '$(srcdir)/cs_statefile.C'`
 
 boinc_client-file_names.o: file_names.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-file_names.o -MD -MP -MF "$(DEPDIR)/boinc_client-file_names.Tpo" \

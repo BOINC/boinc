@@ -42,8 +42,15 @@
 #define USER_RUN_REQUEST_AUTO       2
 #define USER_RUN_REQUEST_NEVER      3
 
-// CLIENT_STATE is the global variables of the core client
-// Most of the state is saved to and restored from "client_state.xml"
+enum SUSPEND_REASON_t {
+    SUSPEND_REASON_BATTERIES = 1,
+    SUSPEND_REASON_USER_ACTIVE = 2,
+    SUSPEND_REASON_USER_REQ = 4,
+    SUSPEND_REASON_TIME_OF_DAY = 8,
+    SUSPEND_REASON_BENCHMARKS = 16
+};
+
+// CLIENT_STATE encapsulates the global variables of the core client
 //
 class CLIENT_STATE {
 public:

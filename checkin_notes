@@ -6888,4 +6888,13 @@ David  17 Oct 2003
 Oliver 17 Oct 2003
     - small label coord tweak
     api/
-	reduce.c
+        reduce.c
+
+David  18 Oct 2003
+    - factored some code out of client_state.C into new files
+
+    client/
+        client_state.C,h
+        cs_benchmark.C (new)
+        cs_prefs.C (new)
+        cs_statefile.C (new)
