@@ -24,6 +24,7 @@
 #include <cstdio>
 
 #include "parse.h"
+#include "util.h"
 #include "error_numbers.h"
 #include "boinc_db.h"
 #include "sched_config.h"
@@ -42,7 +43,7 @@ int get_file_path(WORKUNIT& wu, char* path) {
     bool flag;
     flag = parse_str(wu.xml_doc, "<name>", buf, sizeof(buf));
     if (!flag) return ERR_XML_PARSE;
-    sprintf(path, "%s/%s", config.download_dir, buf);
+    dir_hier_path(buf, config.download_dir, config.uldl_dir_fanout, path);
     return 0;
 }
 

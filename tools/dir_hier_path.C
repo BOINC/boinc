@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
     char path[256];
     int retval;
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) exit(1);
 
     dir_hier_path(argv[1], "", config.uldl_dir_fanout, path);

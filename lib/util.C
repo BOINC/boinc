@@ -750,7 +750,8 @@ void update_average(
 }
 
 int dir_hier_path(
-    char* filename, char* root, int fanout, char* result, bool create
+    const char* filename, const char* root, int fanout, char* result,
+    bool create
 ) {
     int sum=0;
     char dir[256];
@@ -761,7 +762,7 @@ int dir_hier_path(
         return 0;
     }
 
-    char* p = filename;
+    char* p = (char*)filename;
     while (*p) sum += *p++;
     sum %= fanout;
     sprintf(dir, "%s/%x", root, sum);
@@ -772,5 +773,22 @@ int dir_hier_path(
         }
     }
     sprintf(result, "%s/%s", dir, filename);
+    return 0;
+}
+
+int dir_hier_url(
+    const char* filename, const char* root, int fanout, char* result
+) {
+    int sum=0;
+
+    if (fanout==0) {
+        sprintf(result, "%s/%s", root, filename);
+        return 0;
+    }
+
+    char* p = (char*)filename;
+    while (*p) sum += *p++;
+    sum %= fanout;
+    sprintf(result, "%s/%x/%s", root, sum, filename);
     return 0;
 }

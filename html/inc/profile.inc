@@ -425,11 +425,11 @@ function show_profile($userid, $verify_mode=false) {
 
     if (!$verify_mode) {
         $logged_in_user = get_logged_in_user(false);  // (false) since anyone can look at profiles.;
-	if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
-	  $caching = true;
-	  $cache_args = "userid=$userid";
-	  start_cache(USER_PROFILE_TTL,$cache_args);
-	}
+        if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
+            $caching = true;
+            $cache_args = "userid=$userid";
+            start_cache(USER_PROFILE_TTL,$cache_args);
+        }
     }
 
 
@@ -455,10 +455,10 @@ function show_profile($userid, $verify_mode=false) {
     show_profile_summary($user, $profile, $can_edit, $verify_mode);
     echo "<br><br>";
     show_profile_heading1();
-    echo ":", $profile->response1;
+    echo $profile->response1;
     echo "<br><br>";
     show_profile_heading2();
-    echo ":", $profile->response2;
+    echo $profile->response2;
     if (!$verify_mode) {
         page_tail();
     }

@@ -21,6 +21,7 @@
 #define H_BACKEND_LIB
 
 #include "crypt.h"
+#include "sched_config.h"
 #include "boinc_db.h"
 
 extern int add_signatures(char*, R_RSA_PRIVATE_KEY&);
@@ -54,27 +55,10 @@ extern int create_work(
     const char* wu_template,
     const char* result_template_filename,
     const char* result_template_filepath,
-    const char* infile_dir,
     const char** infiles,
     int ninfiles,
     R_RSA_PRIVATE_KEY&,
-    const char* upload_url,
-    const char* download_url
+    SCHED_CONFIG&
 );
-
-#if 0
-extern int create_sequence_group(
-    DB_WORKUNIT& wu,
-    char* wu_template,
-    char* result_template,
-    char* infile_dir,
-    char** infiles,
-    int ninfiles,
-    R_RSA_PRIVATE_KEY&,
-    char* upload_url,
-    char* download_url,
-    int nsteps
-);
-#endif
 
 #endif

@@ -20,6 +20,8 @@ This data can be summarized and represented as Web pages.
 Examples:
 <ul>
 <li>
+<a href=http://www.setisynergy.com/stats/index.php>BOINC Statistics for the WORLD!</a>
+<li>
 <a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>,
 developed by <a href=mailto:stats@boinc.dk>Janus Kristensen</a>.
 <li>

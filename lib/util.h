@@ -114,7 +114,17 @@ int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws);
 
 extern void update_average(double, double, double, double&, double&);
 
+// convert filename to path in a hierarchical directory system
+//
 extern int dir_hier_path(
-    char* filename, char* root, int fanout, char* result, bool create=false
+    const char* filename, const char* root, int fanout, char* result,
+    bool create=false
 );
+
+// convert filename to URL in a hierarchical directory system
+//
+extern int dir_hier_url(
+    const char* filename, const char* root, int fanout, char* result
+);
+
 #endif

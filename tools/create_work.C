@@ -64,7 +64,6 @@ int main(int argc, char** argv) {
     int i, ninfiles;
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256],db_user[256],db_host[256];
-    char upload_url[256], download_url[256];
     char buf[256];
     SCHED_CONFIG config;
 
@@ -150,9 +149,7 @@ int main(int argc, char** argv) {
         strcpy(db_passwd, config.db_passwd);
         strcpy(db_user, config.db_user);
         strcpy(db_host, config.db_host);
-        strcpy(download_url, config.download_url);
         strcpy(download_dir, config.download_dir);
-        strcpy(upload_url, config.upload_url);
         sprintf(keyfile, "%s/upload_private", config.key_dir);
     }
 
@@ -188,13 +185,11 @@ int main(int argc, char** argv) {
         wu,
         wu_template,
         result_template_file,
-	result_template_path,
-        download_dir,
+        result_template_path,
         const_cast<const char **>(infiles),
         ninfiles,
         key,
-        upload_url,
-        download_url
+        config
     );
     if (retval) {
         fprintf(stderr, "create_work: %d\n", retval);

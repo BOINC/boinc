@@ -49,6 +49,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_str(buf, "<key_dir>", key_dir, sizeof(key_dir));
     parse_str(buf, "<download_url>", download_url, sizeof(download_url));
     parse_str(buf, "<download_dir>", download_dir, sizeof(download_dir));
+    parse_str(buf, "<download_dir_alt>", download_dir_alt, sizeof(download_dir_alt));
     parse_str(buf, "<upload_url>", upload_url, sizeof(upload_url));
     parse_str(buf, "<upload_dir>", upload_dir, sizeof(upload_dir));
     if (match_tag(buf, "<one_result_per_user_per_wu/>")) {

@@ -15953,3 +15953,34 @@ Daniel 2004-08-05
         boinc_cli.dsp,vcproj
         boinc_gui.dsp,vcproj
 
+David  6 Aug 2004
+    - Changed server software to use the hierarchical directory mechanism.
+        This means using dir_hier_path() to generate the pathname
+        of an input or output file,
+        rather than just concatenating directory and filename.
+        Also (in process_wu_template()) use dir_hier_url()
+        to generate the appropriate URL
+    - Add a scheme for transitioning from flat to hierarchical download dir.
+        Can have a <download_dir_alt> element in config.xml,
+        giving the path of an old, flat dir.
+        file_deleter will look here if it can't find file in main download dir.
+    - Pass around SCHED_CONFIG in a few interfaces
+        (e.g. create_work()) in order to access uldl_dir_fanout
+
+    html/inc/
+        profile.inc
+    lib/
+        util.C,h
+    sched/
+        file_deleter.C
+        file_upload_handler.C
+        make_work.C
+        sched_config.C,h
+        validate_util.C
+        wu_check.C
+    tools/
+        Makefile.am
+        backend_lib.C,h
+        create_work.C
+        dir_hier_move.C
+        dir_hier_path.C

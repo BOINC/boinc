@@ -267,7 +267,10 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 );
             }
 
-            sprintf(path, "%s/%s", config.upload_dir, file_info.name);
+            retval = dir_hier_path(
+                file_info.name, config.upload_dir, config.uldl_dir_fanout,
+                path, true
+            );
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
@@ -312,7 +315,7 @@ int handle_get_file_size(char* file_name) {
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
     //
-    sprintf(path, "%s/%s", config.upload_dir, file_name );
+    dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, path);
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
         log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning error\n", file_name);

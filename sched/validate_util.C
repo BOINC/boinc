@@ -26,6 +26,7 @@
 
 #include "error_numbers.h"
 #include "parse.h"
+#include "util.h"
 
 #include "sched_util.h"
 #include "sched_config.h"
@@ -39,15 +40,14 @@ extern SCHED_CONFIG config;
 
 // get the name of a result's (first) output file
 //
-int get_output_file_path(RESULT const& result, string& path) {
-    char buf[256];
+int get_output_file_path(RESULT const& result, string& path_str) {
+    char buf[256], path[256];
     bool flag;
 
     flag = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
     if (!flag) return ERR_XML_PARSE;
-    path = config.upload_dir;
-    path += '/';
-    path += buf;
+    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, path);
+    path_str = path;
     return 0;
 }
 

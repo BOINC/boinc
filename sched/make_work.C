@@ -174,9 +174,13 @@ void make_work() {
                 sprintf(
                     new_file_name, "%s__%d_%d", file_name, start_time, seqno++
                 );
-                sprintf(pathname, "%s/%s", config.download_dir, file_name);
-                sprintf(
-                    new_pathname, "%s/%s",config.download_dir, new_file_name
+                dir_hier_path(
+                    file_name, config.download_dir, config.uldl_dir_fanout,
+                    pathname
+                );
+                dir_hier_path(
+                    new_file_name, config.download_dir, config.uldl_dir_fanout,
+                    new_pathname, true
                 );
                 sprintf(command,"ln %s %s", pathname, new_pathname);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG, "executing command: %s\n", command);

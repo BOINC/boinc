@@ -64,14 +64,12 @@ int read_filename(const char* path, char* buf, int len) {
 static int process_wu_template(
     WORKUNIT& wu,
     char* tmplate,
-    const char* dirpath,
     const char** infiles,
     int n,
-    const char* upload_url,
-    const char* download_url
+    SCHED_CONFIG& config
 ) {
     char* p;
-    char buf[LARGE_BLOB_SIZE], md5[33], path[256];
+    char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256];
     char out[LARGE_BLOB_SIZE];
     int retval, file_number;
     double nbytes;
@@ -93,20 +91,27 @@ static int process_wu_template(
                         fprintf(stderr, "No file number found\n");
                         return ERR_XML_PARSE;
                     }
-                    sprintf(path, "%s/%s", dirpath, infiles[file_number]);
+                    dir_hier_path(
+                        infiles[file_number], config.download_dir,
+                        config.uldl_dir_fanout, path
+                    );
                     retval = md5_file(path, md5, nbytes);
                     if (retval) {
                         fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
                         return retval;
                     }
+                    dir_hier_url(
+                        infiles[file_number], config.download_url,
+                        config.uldl_dir_fanout, url
+                    );
                     sprintf(buf,
                         "    <name>%s</name>\n"
-                        "    <url>%s/%s</url>\n"
+                        "    <url>%s</url>\n"
                         "    <md5_cksum>%s</md5_cksum>\n"
                         "    <nbytes>%.0f</nbytes>\n"
                         "</file_info>\n",
                         infiles[file_number],
-                        download_url, infiles[file_number],
+                        url,
                         md5,
                         nbytes
                     );
@@ -277,13 +282,15 @@ int create_result(
 
 // make sure a WU's input files are actually there
 //
-int check_files(char** infiles, int ninfiles, char* download_dir) {
+int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config) {
     int i;
     char path[256];
     FILE* f;
 
     for (i=0; i<ninfiles; i++) {
-        sprintf(path, "%s/%s", download_dir, infiles[i]);
+        dir_hier_path(
+            infiles[i], config.download_dir, config.uldl_dir_fanout, path
+        );
         f = fopen(path, "r");
         if (f) {
             fclose(f);
@@ -299,18 +306,17 @@ int create_work(
     const char* _wu_template,
     const char* result_template_filename,
     const char* result_template_filepath,
-    const char* infile_dir,
     const char** infiles,
     int ninfiles,
     R_RSA_PRIVATE_KEY& key,
-    const char* upload_url, const char* download_url
+    SCHED_CONFIG& config
 ) {
     int retval;
     char _result_template[LARGE_BLOB_SIZE];
     char wu_template[LARGE_BLOB_SIZE];
 
 #if 0
-    retval = check_files(infiles, ninfiles, download_dir);
+    retval = check_files(infiles, ninfiles, config);
     if (retval) {
         fprintf(stderr, "Missing input file: %s\n", infiles[0]);
         return -1;
@@ -320,8 +326,7 @@ int create_work(
     strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_wu_template(
-        wu, wu_template, infile_dir, infiles, ninfiles,
-        upload_url, download_url
+        wu, wu_template, infiles, ninfiles, config
     );
     if (retval) {
         fprintf(stderr, "process_wu_template: %d\n", retval);

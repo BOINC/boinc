@@ -41,7 +41,7 @@ int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0;
+    int count_deleted = 0, retval;
 
     safe_strcpy(buf, wu.xml_doc);
 
@@ -56,10 +56,21 @@ int wu_delete_files(WORKUNIT& wu) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                sprintf(pathname, "%s/%s", config.download_dir, filename);
-                log_messages.printf(SCHED_MSG_LOG::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
-                unlink(pathname);
-                ++count_deleted;
+                retval = dir_hier_path(
+                    filename, config.download_dir, config.uldl_dir_fanout,
+                    pathname
+                );
+                if (retval) {
+                    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] dir_hier_path: %d\n", wu.name, retval);
+                } else {
+                    log_messages.printf(SCHED_MSG_LOG::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
+                    retval = unlink(pathname);
+                    if (retval && strlen(config.download_dir_alt)) {
+                        sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
+                        unlink(pathname);
+                    }
+                    ++count_deleted;
+                }
             }
         }
         p = strtok(0, "\n");
@@ -85,13 +96,23 @@ int result_delete_files(RESULT& result) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                sprintf(pathname, "%s/%s", config.upload_dir, filename);
-                retval = unlink(pathname);
-                ++count_deleted;
-                log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                    "[%s] unlinked %s; retval %d\n",
-                    result.name, filename, retval
+                retval = dir_hier_path(
+                    filename, config.upload_dir, config.uldl_dir_fanout,
+                    pathname
                 );
+                if (retval) {
+                    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        "[%s] dir_hier_path: %d\n",
+                        result.name, retval
+                    );
+                } else {
+                    retval = unlink(pathname);
+                    ++count_deleted;
+                    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                        "[%s] unlinked %s; retval %d\n",
+                        result.name, filename, retval
+                    );
+                }
             }
         }
         p = strtok(0, "\n");
