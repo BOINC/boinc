@@ -103,6 +103,7 @@ create table team (
     country             varchar(254),
     total_credit        double      not null,   /* temp */
     expavg_credit       double      not null,   /* temp */
+    expavg_time         double      not null,
     seti_id             integer     not null,
     primary key (id)
 );
@@ -217,7 +218,7 @@ create table result (
     granted_credit      double      not null,
     opaque              double      not null,
     random              integer     not null,
-    client_version_num  integer     not null,
+    app_version_num     integer     not null,
     appid               integer     not null,
     exit_status         integer     not null,
     primary key (id)

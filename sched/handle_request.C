@@ -600,8 +600,8 @@ int handle_results(
         }
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
-        result.client_version_num =
-            sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
+        result.teamid = reply.user.teamid;
         retval = result.update();
         if (retval) {
             log_messages.printf(

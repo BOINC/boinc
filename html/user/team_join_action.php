@@ -8,9 +8,7 @@
     $user = get_logged_in_user();
 
     $teamid = $_POST["teamid"];
-    $result = mysql_query("select * from team where id = $teamid");
-    $team = mysql_fetch_object($result);
-    mysql_free_result($result);
+    team = lookup_team($teamid);
     require_team($team);
     if ($user->teamid == $team->id) {
         page_head("Unable to add $user->name");

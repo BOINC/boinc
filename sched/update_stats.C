@@ -16,10 +16,14 @@
 //
 // Contributor(s):
 //
-
-// update_stats
-// update average credit for users and hosts,
-// and calculate total users/credit for teams
+// update_stats:
+// Update average credit for idle users, hosts and teams.
+// These fields are updates as new credit is granted;
+// the purpose of this program is to decay credit of entities
+// that are inactive for long periods.
+// Hence it should be run about once a day at most.
+//
+// Also updates the nusers field of teams
 //
 // usage: update_stats [-update_teams] [-update_users] [-update_hosts] [-asynch]
 
@@ -36,11 +40,16 @@
 #define LOCKFILE "update_stats.out"
 #define PIDFILE  "update_stats.pid"
 
+#define UPDATE_INTERVAL 3600*24*4;
+
+double update_time_cutoff;
+
 int update_users() {
     DB_USER user;
     int retval;
 
     while (!user.enumerate()) {
+        if (user.expavg_time > update_time_cutoff) continue;
         update_average(0, 0, user.expavg_credit, user.expavg_time);
         retval = user.update();
         if (retval) {
@@ -57,6 +66,7 @@ int update_hosts() {
     int retval;
 
     while (!host.enumerate()) {
+        if (host.expavg_time > update_time_cutoff) continue;
         update_average(0, 0, host.expavg_credit, host.expavg_time);
         retval = host.update();
         if (retval) {
@@ -68,9 +78,8 @@ int update_hosts() {
     return 0;
 }
 
-int get_team_credit(TEAM& team) {
+int get_team_totals(TEAM& team) {
     int nusers;
-    double expavg_credit, total_credit;
     int retval;
     DB_USER user;
     char buf[256];
@@ -81,23 +90,7 @@ int get_team_credit(TEAM& team) {
     retval = user.count(nusers, buf);
     if (retval) return retval;
 
-    // get the summed credit values for a team
-    //
-    sprintf(buf, "where teamid=%d", team.id);
-    retval = user.sum(expavg_credit, "expavg_credit", buf);
-    // we'll get error if nusers == 0
-    //
-    if (retval) {
-        expavg_credit = 0;
-    }
-    retval = user.sum(total_credit, "total_credit", buf);
-    if (retval) {
-        total_credit = 0;
-    }
-
     team.nusers = nusers;
-    team.total_credit = total_credit;
-    team.expavg_credit = expavg_credit;
 
     return 0;
 }
@@ -111,17 +104,19 @@ int update_teams() {
     int retval;
 
     while (!team.enumerate()) {
-        retval = get_team_credit(team);
+        retval = get_team_totals(team);
         if (retval) {
             log_messages.printf(
                 SchedMessages::CRITICAL,
                 "update_teams: get_team_credit([TEAM#%d]) failed: %d\n",
                 team.id,
-                retval);
-            //return retval;
+                retval
+            );
             continue;
         }
-
+        if (team.expavg_time < update_time_cutoff) {
+            update_average(0, 0, team.expavg_credit, team.expavg_time);
+        }
         retval = team.update();
         if (retval) {
             log_messages.printf(SchedMessages::CRITICAL, "Can't update team %d\n", team.id);
@@ -136,6 +131,8 @@ int main(int argc, char** argv) {
     int retval, i;
     bool do_update_teams = false, do_update_users = false;
     bool do_update_hosts = false, asynch = false;
+
+    update_time_cutoff = time(0) - UPDATE_INTERVAL;
 
     check_stop_trigger();
 

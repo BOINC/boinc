@@ -54,6 +54,16 @@ function lookup_host($id) {
     return null;
 }
 
+function lookup_team($id) {
+    $result = mysql_query("select * from team where id='$id'");
+    if ($result) {
+        $team = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $team;
+    }
+    return null;
+}
+
 function lookup_wu($id) {
     $result = mysql_query("select * from workunit where id='$id'");
     if ($result) {

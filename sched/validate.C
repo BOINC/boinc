@@ -60,11 +60,12 @@ SCHED_CONFIG config;
 char app_name[256];
 
 // here when a result has been validated;
-// grant credit to host and user
+// grant credit to host, user and team
 //
 int grant_credit(DB_RESULT& result, double credit) {
     DB_USER user;
     DB_HOST host;
+    DB_TEAM team;
     int retval;
 
     retval = host.lookup_id(result.hostid);
@@ -81,6 +82,15 @@ int grant_credit(DB_RESULT& result, double credit) {
     update_average(result.sent_time, credit, host.expavg_credit, host.expavg_time);
     retval = host.update();
     if (retval) return retval;
+
+    if (user.teamid) {
+        retval = team.lookup_id(user.teamid);
+        if (retval) return retval;
+        team.total_credit += credit;
+        update_average(result.sent_time, credit, team.expavg_credit, team.expavg_time);
+        retval = team.update();
+        if (retval) return retval;
+    }
 
     return 0;
 }

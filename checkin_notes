@@ -9136,3 +9136,49 @@ Karl 2004-01-12
 
 Karl 2004-01-12
     - source release 2.18 (no client-visible changes)
+
+David  Jan 12 2004
+    - change team account so that team gets (and keeps) credit
+        for results of users while they belong to team:
+        - add team_id field to result
+        - add expavg_time field to team
+        - validator increments team credit
+        - scheduler fills in result.teamid
+    - don't delete empty teams
+    - rename result.client_version_num to result.app_version_num
+        populate this field based on <app_version> field of stderr_out
+    - change update_stats so that it doesn't compute team credit fields,
+        and so that it updates expavg fields only if the entity
+        has been idle for 4 days or more
+    - add DB_BASE::update_field() (to update one or more fields,
+        not whole record)
+    - add lookup_team() to db.inc
+        SHOULD ALWAYS USE FUNCTIONS LIKE THIS INSTEAD OF AD-HOC QUERIES
+    - factor out mysql_query() into DB_BASE::do_query()
+
+    db/
+        db_boinc.C,h
+        db_base.C,h
+        schema.sql
+    html_user/
+        db.inc
+        team.inc
+        team_join_action.php
+        team_quit_action.php
+    sched/
+        handle_request.C
+        update_stats.C
+        validate.C
+
+David  Jan 14 2004
+    - typo in boincxml.py
+        (caused "start" script to always set enabled=0
+        in run_state file, with various bad consequences)
+    - two indentation problems in "start":
+        line 499
+        line 516
+
+    py/Boinc/
+        boincxml.py
+    sched/
+        start

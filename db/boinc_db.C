@@ -263,7 +263,8 @@ void DB_TEAM::db_print(char* buf){
         "id=%d, create_time=%d, userid=%d, name='%s', "
         "name_lc='%s', url='%s', "
         "type=%d, name_html='%s', description='%s', nusers=%d, "
-        "country='%s', total_credit=%.15e, expavg_credit=%.15e, "
+        "country='%s', "
+        "total_credit=%.15e, expavg_credit=%.15e, expavg_time=%.15e, "
         "seti_id=%d",
         id,
         create_time,
@@ -278,6 +279,7 @@ void DB_TEAM::db_print(char* buf){
         country,
         total_credit,
         expavg_credit,
+        expavg_time,
         seti_id
     );
     unescape_string(name);
@@ -303,6 +305,7 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     strcpy2(country, r[i++]);
     total_credit = atof(r[i++]);
     expavg_credit = atof(r[i++]);
+    expavg_time = atof(r[i++]);
     seti_id = safe_atoi(r[i++]);
 }
 
@@ -472,7 +475,7 @@ void DB_RESULT::db_print(char* buf){
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%f, random=%d, "
-        "client_version_num=%d, appid=%d, exit_status=%d",
+        "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -481,7 +484,7 @@ void DB_RESULT::db_print(char* buf){
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
-        client_version_num, appid, exit_status
+        app_version_num, appid, exit_status, teamid
     );
     unescape_string(xml_doc_out);
     unescape_string(stderr_out);
@@ -513,9 +516,10 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     granted_credit = atof(r[i++]);
     opaque = atof(r[i++]);
     random = atoi(r[i++]);
-    client_version_num = atoi(r[i++]);
+    app_version_num = atoi(r[i++]);
     appid = atoi(r[i++]);
     exit_status = atoi(r[i++]);
+    teamid = atoi(r[i++]);
 }
 
 int DB_RESULT::insert() {

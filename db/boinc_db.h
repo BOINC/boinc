@@ -199,8 +199,9 @@ struct TEAM {
     char description[LARGE_BLOB_SIZE];
     int nusers;             // UNDEFINED BY DEFAULT
     char country[256];
-    double total_credit;    // UNDEFINED BY DEFAULT
-    double expavg_credit;   // UNDEFINED BY DEFAULT
+    double total_credit;
+    double expavg_credit;
+    double expavg_time;
 
     // The following is specific to SETI@home
     int seti_id;            // ID in old DB
@@ -406,9 +407,10 @@ struct RESULT {
     double granted_credit;          // == canonical credit of WU
     double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order
-    int client_version_num;
+    int app_version_num;            // version# of app (not core client)
     int appid;                      // copy of WU's appid
     int exit_status;                // application exit status, if any
+    int teamid;
 
     // the following not used in the DB
     char wu_name[256];

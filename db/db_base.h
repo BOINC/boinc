@@ -33,6 +33,7 @@ class DB_CONN {
 public:
     DB_CONN();
     int open(char* name, char* host, char* passwd);
+    int do_query(char*);
     void close();
     int insert_id();
     void print_error(char*);
@@ -49,6 +50,7 @@ public:
     DB_BASE(DB_CONN&, char *table_name);
     int insert();
     int update();
+    int update_field(char*);
     int lookup_id(int id);
     int lookup(char*);
     int enumerate(char* clause="");

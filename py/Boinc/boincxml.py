@@ -39,7 +39,7 @@ def get_element_data(node):
 
 def get_element_int(node, default=0):
     try:
-        return int(_get_element_data(node))
+        return int(get_element_data(node))
     except:
         return default
 

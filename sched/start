@@ -496,7 +496,7 @@ def command_enable_start():
             print "Staying in ENABLED mode"
         else:
             print "Entering ENABLED mode"
-        run_state.enabled = True
+    run_state.enabled = True
     run_daemons()
 
 def command_cron_start():
@@ -513,7 +513,6 @@ def command_disable_stop():
             print "Entering DISABLED mode"
         else:
             print "Staying in DISABLED mode"
-        run_state.enabled = True
     run_state.enabled = False
     stop_daemons()
 

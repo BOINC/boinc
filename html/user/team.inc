@@ -46,16 +46,9 @@ function display_team_page($team, $user) {
     }
     row2("Members", $team->nusers);
 
-    $result = mysql_query("select * from user where teamid=$team->id");
-    $total_credit = 0;
-    for ($i = 0; $i < $team->nusers; $i++) {
-        $user = mysql_fetch_object($result);
-        $total_credit = $total_credit + $user->total_credit;
-    }
-
-    row2("Total credit", format_credit($total_credit));
-    $result = mysql_query("select * from user where id=$team->userid");
-    $user = mysql_fetch_object($result);
+    row2("Total credit", format_credit($team->total_credit));
+    row2("Recent average credit", format_credit($team->expavg_credit));
+    $user = lookup_user_id($team->userid);
     row2("Founder", user_links($user));
     row2("Country", $team->country);
     echo "</table>";
@@ -73,9 +66,7 @@ function display_team_page($team, $user) {
     $result = mysql_query("select * from user where teamid=$team->id order by expavg_credit desc");
 
     $j = 1;
-    while (true) {
-        $user = mysql_fetch_object($result);
-        if (!$user) break;
+    while ($user = mysql_fetch_object($result)) {
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
         $x = user_links($user);
@@ -171,14 +162,7 @@ function user_join_team($team, $user) {
         $user->id
     );
     $result_user_table = mysql_query($query_user_table);
-    $nusers = $team->nusers;
-    $new_nusers = $nusers + 1;
-    $query_team_table = sprintf(
-        "update team set nusers = %d where id = %d",
-        $new_nusers,
-        $team->id
-    );
-    $result_team_table = mysql_query($query_team_table);
+    $result_team_table = mysql_query("update team set nusers=nusers+1 where id = $team->id");
     if ($result_user_table && $result_team_table) return true;
     else return false;
 }
