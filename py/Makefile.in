@@ -173,7 +173,7 @@ AM_CPPFLAGS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-EXTRA_DIST = boinc.py boinc_db.py boinc_db.py.in version.py.in db_def_to_py
+EXTRA_DIST = boinc.py boinc_db.py version.py.in db_def_to_py
 subdir = py
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs

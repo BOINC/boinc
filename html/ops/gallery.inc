@@ -8,7 +8,7 @@ require_once("../html_user/sanitize_html.inc");
 // Generates the html files which comprise the photo gallery.
 //   $room: which gallery to generate (user, computer).
 //   $width: the width of the table of images.
-//   $height: the height of the table of images. 
+//   $height: the height of the table of images.
 function build_picture_pages($width, $height) {
 
   // TODO: Add support for a computer image gallery.
@@ -53,8 +53,8 @@ function build_picture_pages($width, $height) {
   for ($page = 1; $page <= $numPages; $page++) {
     $file = "../html_user/" . PROFILE_PATH . "user_gallery_" . $page . ".html";
     $descriptor = fopen($file, "w");
-    
-    page_head("User Picture Gallery: Page $page of $numPages", null, $descriptor); 
+
+    page_head("User Picture Gallery: Page $page of $numPages", null, $descriptor);
 
     fwrite($descriptor, "<h2>User Profile Pictures</h2>Last updated " . gmdate("r") . " UTC\n<p>Browse the user profiles by picture. Only user profiles with pictures are listed here.");
 
@@ -74,11 +74,11 @@ function build_picture_pages($width, $height) {
 	break;
       }
     }
-    
+
     fwrite($descriptor, "</table>\n");
 
     // Previous and Next links
-    
+
     write_page_links("user_gallery", $page, $numPages, $descriptor);
 
     page_tail($descriptor);
@@ -127,7 +127,7 @@ function build_country_pages() {
   // TODO: Define a constant for the desired number of rows per page.
 
   foreach ($countries as $country) {
-    build_country_page($country, $countryMembers[$country], 5); 
+    build_country_page($country, $countryMembers[$country], 5);
   }
 
   // Build the summary page linking to the individual country pages.
@@ -144,7 +144,7 @@ function build_country_pages() {
 // $rows rows per page.  Member IDs are passed in the array $members.
 
 function build_country_page($name, $members, $rows) {
-  
+
   $countryName = $name;
 
   // Make the country name a legal format for a filename.
@@ -156,7 +156,7 @@ function build_country_page($name, $members, $rows) {
   $numMembers = count($members);
   $numPages = ceil(count($members) / (2 * $rows));
   //echo "<br>$countryName has $numMembers members. - $numPages pages will be generated. <a href=", "../html_user/", PROFILE_PATH , "profile_country_" , $name , "_1.html> VIEW</a>";
-  
+
   $count = 0;
 
   for ($page = 1; $page <= $numPages; $page++) {
@@ -168,7 +168,7 @@ function build_country_page($name, $members, $rows) {
 
     fwrite($descriptor, "<h2>$countryName</h2>\n");
     fwrite($descriptor, "Last updated " . gmdate("r") . " UTC<p>\n");
-    
+
     $offset = (($page-1) * $rows * 2);
     $numPerPage = ($rows * 2);
 
@@ -180,20 +180,20 @@ function build_country_page($name, $members, $rows) {
     page_tail($descriptor);
     fclose($descriptor);
   }
-  
+
 }
 
 function build_country_summary_page($countryMembers) {
   $countries = array_keys($countryMembers);
-  
+
   $filename = "../html_user/" . PROFILE_PATH . "profile_country.html";
   $descriptor = fopen($filename, "w");
-  
+
   //echo "<p>Building country summary page...<br>";
 
   page_head("User Profiles by Country", null, $descriptor);
   fwrite($descriptor, "<h2>User Profiles by Country</h2>Last updated " . gmdate("r") . " UTC<p>");
-  
+
   fwrite($descriptor, "<table border=0>\n");
   fwrite($descriptor, "<tr><td><b>Country</b></td><td align=\"center\"><b>Profiles</b></td></tr>\n");
 
