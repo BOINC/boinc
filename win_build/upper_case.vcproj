@@ -43,6 +43,7 @@
 				OutputFile=".\Build\Release/uppercase_2.06_windows_intelx86.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/upper_case.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
@@ -104,7 +105,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib opengl32.lib glu32.lib glaux.lib"
+				AdditionalDependencies="winmm.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
 				OutputFile=".\Build\Debug/uppercase_2.06_windows_intelx86.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -288,6 +289,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\api\win\Stackwalker.cpp">
+			</File>
+			<File
 				RelativePath="..\lib\util.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -337,6 +341,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\shmem.h">
+			</File>
+			<File
+				RelativePath="..\api\win\Stackwalker.h">
 			</File>
 			<File
 				RelativePath="..\lib\util.h">

@@ -45,7 +45,7 @@
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Debug/boinc.pdb"
+				ProgramDatabaseFile=".\Build\Debug/boinc_scr.pdb"
 				SubSystem="2"
 				StackReserveSize="2097152"
 				StackCommitSize="2097152"
@@ -113,7 +113,8 @@
 				OutputFile="Build\Release/boinc.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\Build\Release/boinc.pdb"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\Build\Release/boinc_scr.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool

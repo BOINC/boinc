@@ -10217,3 +10217,17 @@ David  Mar 1 2004
 
     client/
         gui_rpc_server.C
+
+Rom    Mar 1 2004
+    - Update project files so they'll build symbol files for release builds
+    - Remove the name collision between boinc.scr and boinc.dll as far as symbol
+      generation goes
+    - updated uppercase so it'll build again
+
+    winbuild/
+        boinc_cli.vsproj
+        boinc_dll.vsproj
+        boinc_gui.vsproj
+        boinc_ss.vsproj
+        upper_case.vsproj
+
