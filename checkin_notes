@@ -16386,3 +16386,10 @@ David  13 Aug 2004
         gui_rpc_server.C
     sched/
         request_file_list.C
+
+Karl 2004-08-14
+    - documentation notes on transaction support
+
+    doc/
+        software.php
+        build_server.php

@@ -35,6 +35,15 @@ You may need to install additional packages
 (often you can use something called 'mysql-dev' or 'mysql-devel')
 or fiddle with Makefiles.
 
+<h3>MySQL transactions </h3>
+If you get messages such as this:
+<pre>
+Database error: You have an error in your SQL syntax near 'START TRANSACTION' at line 1 query=START TRANSACTION
+</pre>
+then your MySQL server does not support transactions.  Either upgrade to MySQL
+4.x, or remove <use_transactions/> from config.xml
+
+
 ";
    page_tail();
 ?>

@@ -26,14 +26,16 @@ some information is
 
 Required for <b>compiling</b>:
 <ul>
-  <li><b>GNU C++</b> 2.95 or 3.0-3.3
+  <li><b>GNU C++</b> 2.95 or 3.0 - 3.4
   <li>Other GNU development tools: gmake, gzip, etc.
 </ul>
 
 Required on the <b>database</b> server:
 <ul>
   <li><b>MySQL server</b> 3.23+ or 4.0+
-      (package <code>mysql-server</code>).
+(package <code>mysql-server</code>).  Note: Transactions are only supported by
+MySQL 4.0+; to use MySQL 3.23, disable &lt;use_transactions/&gt; in config.xml
+
 </ul>
 After installing and running the server,
 grant permissions for your own account and for
