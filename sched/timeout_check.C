@@ -174,6 +174,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 // clean up any incomplete uploads
                 result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
+                result.received_time = time(0);
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
                 result.update();
             }
@@ -219,6 +220,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             result = results[i];
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
+                result.received_time = time(0);
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
                 result.update();
             }
@@ -367,7 +369,7 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of timeout_check is already running\n", MSG_NORMAL);
+        fprintf(stderr, "Another copy of timeout_check is already running\n");
         exit(1);
     }
 
