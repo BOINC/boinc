@@ -1,3 +1,5 @@
+SHELL = /bin/sh
+
 DEPTH	= .
 topsrcdir	= @top_srcdir@
 srcdir	= @srcdir@
@@ -10,34 +12,34 @@ VPATH	= @srcdir@
 #	This needs to be fixed
 #
 all:
-	cd RSAEuro/source; make; cd ../..; \
-	cd db; make; cd ..; \
-	cd lib; make; cd ..; \
-	cd api; make; cd ..; \
-	cd apps; make; cd ..; \
-	cd client; ../$(srcdir)/client/configure; make; cd ..; \
-	cd sched; make; cd ..; \
-	cd tools; make; cd ..;
+	cd RSAEuro/source; ${MAKE}; cd ../..; \
+	cd db; ${MAKE}; cd ..; \
+	cd lib; ${MAKE}; cd ..; \
+	cd api; ${MAKE}; cd ..; \
+	cd apps; ${MAKE}; cd ..; \
+	cd client; ../$(srcdir)/client/configure; ${MAKE}; cd ..; \
+	cd sched; ${MAKE}; cd ..; \
+	cd tools; ${MAKE}; cd ..;
 
 clean:
 	rm -f boinc.tar.gz config.cache; \
-	cd RSAEuro/source/; make clean; cd ../../; \
-	cd db; make clean; cd ..; \
-	cd lib; make clean; cd ..; \
-	cd api; make clean; cd ..; \
-	cd apps; make clean; cd ..; \
-	cd client; make clean; cd ..; \
-	cd sched; make clean; cd ..; \
-	cd tools; make clean; cd ..;
+	cd RSAEuro/source/; ${MAKE} clean; cd ../../; \
+	cd db; ${MAKE} clean; cd ..; \
+	cd lib; ${MAKE} clean; cd ..; \
+	cd api; ${MAKE} clean; cd ..; \
+	cd apps; ${MAKE} clean; cd ..; \
+	cd client; ${MAKE} clean; cd ..; \
+	cd sched; ${MAKE} clean; cd ..; \
+	cd tools; ${MAKE} clean; cd ..;
 
 install: all
 	-mkdir -p /usr/local/boinc;
-	cd sched; make install;
-	cd lib; make install;
-	cd api; make install;
-	cd apps; make install;
-	cd client; make install;
-	cd tools; make install;
+	cd sched; ${MAKE} install;
+	cd lib; ${MAKE} install;
+	cd api; ${MAKE} install;
+	cd apps; ${MAKE} install;
+	cd client; ${MAKE} install;
+	cd tools; ${MAKE} install;
 	cp -r test /usr/local/boinc;
 
 tar: clean
