@@ -1,12 +1,10 @@
 <?php
 
 function show_hosts($user) {
-    $i=0;
     $result = mysql_query("select * from host where userid=$user->id");
     while ($host = mysql_fetch_object($result)) {
-        echo "<br><br>Host $i:\n";
+        echo "<p>\n";
         show_host($host);
-        $i++;
     }
     mysql_free_result($result);
 }

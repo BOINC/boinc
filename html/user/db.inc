@@ -60,38 +60,37 @@ function show_app_version($app_version) {
 }
 
 function show_host($host) {
-    start_table();
-    row("ID", $host->id);
-    row("created", time_str($host->create_time));
-    row("user ID", $host->userid);
-    row("prefs ID", $host->prefsid);
-    row("RPC seqno", $host->rpc_seqno);
-    row("RPC time", time_str($host->rpc_time));
-    echo "<tr><td align=right>Domain name</td><td>$host->domain_name</td></tr>\n";
+
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>Host Information:</b></font></td></tr>\n";
+    row("<b>IP address:   </b>", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+    row("<b>Domain name:   <b>", $host->domain_name);
     $x = $host->timezone/3600;
-    echo "<tr><td align=right>Time zone</td><td>UTC - $x hours</td></tr>\n";
-    echo "<tr><td align=right>IP address</td><td>$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)</td></tr>\n";
-    echo "<tr><td align=right>On fraction</td><td>$host->on_frac</td></tr>\n";
-    echo "<tr><td align=right>Connected fraction</td><td>$host->connected_frac</td></tr>\n";
-    echo "<tr><td align=right>Active fraction</td><td>$host->active_frac</td></tr>\n";
-    echo "<tr><td align=right># CPUs</td><td>$host->p_ncpus</td></tr>\n";
-    echo "<tr><td align=right>CPU vendor</td><td>$host->p_vendor</td></tr>\n";
-    echo "<tr><td align=right>CPU model</td><td>$host->p_model</td></tr>\n";
-    echo "<tr><td align=right>OS name</td><td>$host->os_name</td></tr>\n";
-    echo "<tr><td align=right>OS version</td><td>$host->os_version</td></tr>\n";
+    row("<b>Time zone:   </b>", "UTC - $x hours");
+    row("<b>Created:   </b>", time_str($host->create_time));
+    row("<b>Number of CPUs:   </b>", $host->p_ncpus);
+    row("<b>CPU:   </b>", "$host->p_vendor $host->p_model");
+    row("<b>Operating System:   </b>", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
-    echo "<tr><td align=right>Memory</td><td>$x MB</td></tr>\n";
+    row("<b>Memory:   </b>", "$x MB");
     $x = $host->m_cache/1024;
-    echo "<tr><td align=right>Cache</td><td>$x KB</td></tr>\n";
+    row("<b>Cache:   </b>", "$x KB");
     $x = $host->m_swap/(1024*1024);
-    echo "<tr><td align=right>Swap space</td><td>$x MB</td></tr>\n";
+    row("<b>Swap Space:   </b>", "$x MB");
     $x = $host->d_total/(1024*1024*1024);
-    echo "<tr><td align=right>Disk, total</td><td>$x GB</td></tr>\n";
+    row("<b>Total Disk Space:   </b>", "$x GB");
     $x = $host->d_free/(1024*1024*1024);
-    echo "<tr><td align=right>Disk, free</td><td>$x GB</td></tr>\n";
-    echo "<tr><td align=right>Average network bandwidth, upstream</td><td>$host->n_bwup bytes/sec</td></tr>\n";
-    echo "<tr><td align=right>Average network bandwidth, downstream</td><td>$host->n_bwdown bytes/sec</td></tr>\n";
+    row("<b>Free Disk Space:   </b>", "$x GB");
+    row("<b>Avg Network Bandwidth:<br>(upstream)   </b>", "$host->n_bwup bytes/sec");
+    row("<b>Avg Network Bandwidth:<br>(downstream)   </b>", "$host->n_bwdown bytes/sec");
+    row("<b>RPC seqno:   </b>", $host->rpc_seqno);
+    row("<b>RPC time:   </b>", time_str($host->rpc_time));
+    row("<b>On fraction:   </b>", $host->on_frac);
+    row("<b>Connected fraction:   </b>", $host->connected_frac);
+    row("<b>Active fraction:   </b>", $host->active_frac);
     echo "</table>\n";
+
+
 }
 
 function show_workunit($wu) {
