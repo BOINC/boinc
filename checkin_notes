@@ -7643,3 +7643,9 @@ David  9 Nov 2003
 		scheduler_op.C
 	lib/
 		filesys.C
+
+Eric  10 Nov 2003
+    - readded statfs support for systems that don't have statvfs (i.e. Mac)
+
+    lib/filesys.C
+
