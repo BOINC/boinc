@@ -34,7 +34,7 @@ Red Hat Linux: shared module
        $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2-1.i386.rpm
 
     2. Install
-       # rpm (arguments?) 
+       # rpm -i MySQL-python-0.9.2-1.i386.rpm
 
 Other Unix/Linux: shared module
 -------------------------------
