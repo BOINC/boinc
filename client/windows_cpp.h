@@ -22,8 +22,8 @@
 #ifndef _WINDOWS_CPP
 #define _WINDOWS_CPP
 
-#define HOSTTYPE "Windows Generic"
-#define HOST "Windows Generic"
+#define HOSTTYPE "sparc-sun-solaris2.7"
+#define HOST "sparc-sun-solaris2.7"
 #define VERSION 1
 
 #include <iostream>

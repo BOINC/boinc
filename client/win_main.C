@@ -25,13 +25,19 @@
 #include <process.h>
 #include <pbt.h>
 
+#include "win_net.h"
+
+//#include "win_globals.h"
+
+#define WIN_WIDTH 760
+#define WIN_HEIGHT 491
 
 //
 //	DATA
 //
 
-static char ParentName[] = "SetiClientParent";
-static char ChildName[]  = "SetiClientChild";
+static char ParentName[] = "BOINCClientParent";
+static char ChildName[]  = "BOINCClientChild";
 
 
 //
@@ -49,6 +55,7 @@ void SafeShutDown(void);
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
+int main(int argc, char** argv);
 
 
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode )
@@ -58,10 +65,17 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 	MSG msg;
 	WNDCLASSEX wcl;
 	int screenw,w,h;
+	char *command_line;
+	char **argv;
+	int argc;
 
+	NetOpen();
+	//command_line = GetCommandLine();
+	//argv = CommandLineToArgvW( command_line, &argc );
+	main( argc, argv );
 	// If instance of client is already running, quit
 	//
-	HWND awin = FindWindow( ParentName, NULL );
+	/*HWND awin = FindWindow( ParentName, NULL );
 	if ( awin ) 
 		return 1;
 
@@ -105,7 +119,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 	// Check display coordinates; if where on a small
 	// screen (640x480), use Windows default for width
 	// and height;
-	/*hdc = GetDC( parent );
+	hdc = GetDC( parent );
 	screenw = ( GetDeviceCaps( hdc, HORZRES ) );
 	ReleaseDC( parent, hdc );
 	if ( screenw < 800 )
@@ -128,8 +142,8 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 	wcl.lpfnWndProc = ChildFunc;
 	wcl.style = 0;
 	wcl.cbSize = sizeof(WNDCLASSEX);
-	wcl.hIcon = LoadIcon( hInst, MAKEINTRESOURCE(IDI_GREEN_K) );
-	wcl.hIconSm = LoadIcon( hInst, MAKEINTRESOURCE(IDI_GREEN_K) );
+	//wcl.hIcon = LoadIcon( hInst, MAKEINTRESOURCE(IDI_GREEN_K) );
+	//wcl.hIconSm = LoadIcon( hInst, MAKEINTRESOURCE(IDI_GREEN_K) );
 	wcl.hCursor = LoadCursor( NULL, IDC_ARROW );
 	wcl.lpszMenuName = "SETIMENU";
 	wcl.cbClsExtra = 0;
@@ -152,11 +166,11 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 		hInst,
 		NULL );
 
-
-	if ( !Initialize( hInst, child ) ) return 1;
+*/
+	/*if ( !Initialize( hInst, child ) ) return 1;
 	Globals->parent = parent;
 
-	SetTimer( child, 313, 1000/TIMER_EVENTS_PER_SECOND, NULL );
+	SetTimer( child, 313, 1000/TIMER_EVENTS_PER_SECOND, NULL );*/
 
 
 //#ifdef DONT_MINIMIZE
@@ -174,24 +188,24 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 
 	// Turn the taskbar icon on
 	//
-	UtilSetIcon( ICON_NORMAL );
+	//UtilSetIcon( ICON_NORMAL );
 
 	// Force initial paint
 	//
-	SendMessage( Globals->child, WM_PAINT, 0, 0 );
+	//SendMessage( Globals->child, WM_PAINT, 0, 0 );
 
-	if ( strcmp( Args, "-min" ) )
+	/*if ( strcmp( Args, "-min" ) )
 		// maximizing sets process priority to normal
 		MessageSend( MESSAGE_MAXIMIZE );
 	else
 		// do explicit minimize call
 		//
-		MessageSend( MESSAGE_MINIMIZE );
+		MessageSend( MESSAGE_MINIMIZE );*/
 		//UtilSetProcessPriority( SETI_PRIORITY_LOW );
 
-	while( GetMessage( &msg, NULL, 0, 0 ) )
+	/*while( GetMessage( &msg, NULL, 0, 0 ) )
 	{
-		Loop();
+		//Loop();
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
 	}
@@ -200,7 +214,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 	
 	DeInitialize();						// Calls UtilEndWorker()
 
-	UtilSetIcon( ICON_OFF );
+	UtilSetIcon( ICON_OFF );*/
 
 	return msg.wParam;
 }
@@ -213,7 +227,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 //  unsafe situation, we set a flag to tell check_suspend_flag() 
 //  to kill the worker thread before we actually exit.
 //  For safety, we exit anyway if no response after 2 seconds.
-void SafeShutDown()
+/*void SafeShutDown()
 {
 	if (Globals->status & STATUS_FLAG_ANALYSISON) {
 		Globals->status &= ~STATUS_FLAG_ANALYSISON;
@@ -479,9 +493,9 @@ LRESULT CALLBACK ChildFunc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 	default:
 		return DefWindowProc( hwnd, message, wParam, lParam );
 	}
-	return 0;*/
+	return 0;
 }
-
+*/
 #endif
 
 
