@@ -233,20 +233,26 @@ public:
     }
 };
 
-/* usage in astropulse:
+usage in astropulse:
 
 AtomicFileSet files;
+ostream* output;
 
 void init()
 {
     files.add("ap_state.dat",
               new BoincRawDataCheckpointFile(client.state, sizeof(client.state)));
-    files.add("pulse.out", new BoincStreamCheckpointFile);
+    files.add("pulse.out", (output=new BoincStreamCheckpointFile));
     if (files.read()) {
         // resuming
     } else {
-        // new run
+        *output << "<astropulse> ...";
     }
+}
+
+void output_pulse()
+{
+    *output << "<pulse> ... </pulse>";
 }
 
 void checkpoint()
