@@ -12611,3 +12611,7 @@ David  May 24 2004
 		net_xfer.C,h
 		pers_file_xfer.h
 
+Rom    May 24 2004
+    - Tag for 3.06 release, all platforms
+      boinc_core_release_3_06
+
