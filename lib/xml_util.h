@@ -21,6 +21,10 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.21  2004/04/05 22:07:08  korpela
+//
+// Segfault problem fixed?
+//
 // Revision 1.20  2004/03/06 09:45:25  rwalton
 // *** empty log message ***
 //
@@ -544,7 +548,7 @@ string x_csv_encode(const T *bin, size_t nelements) {
   bool ischar=(sizeof(T)==1);
   rv << endl << xml_indent(2);
   if (ischar) return x_csv_encode_char((const unsigned char *)bin, nelements);
-  for (i=0;i<(nelements-1);i++) {
+  for (i=0;i<(static_cast<long>(nelements)-1);i++) {
     rv << bin[i] << ',';
     if ((static_cast<int>(rv.str().size())-lastlen-min(xml_indent_level,XML_MAX_INDENT))>73) {
       rv << endl << xml_indent();
@@ -848,6 +852,10 @@ extern bool extract_xml_record(const string &field, const char *tag, string &rec
 #endif
 //
 // $Log$
+// Revision 1.21  2004/04/05 22:07:08  korpela
+//
+// Segfault problem fixed?
+//
 // Revision 1.20  2004/03/06 09:45:25  rwalton
 // *** empty log message ***
 //
