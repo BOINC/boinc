@@ -169,6 +169,7 @@ int ACTIVE_TASK::start(bool first_time) {
     app_prefs.graphics.refresh_period = 5;
     app_prefs.checkpoint_period = 5;
     app_prefs.poll_period = 5;
+    if(!first_time) app_prefs.cpu_time = result->cpu_time;
 
     // Write out the app prefs.  This has everything in the APP_IN
     // struct, including graphics prefs and checkpoint/poll prefs
@@ -551,7 +552,6 @@ void ACTIVE_TASK_SET::exit_tasks() {
 // Send a suspend request to the ACTIVE_TASK
 //
 void ACTIVE_TASK::suspend() {
-    prev_cpu_time = cpu_time;
 	// figure out a way to do this, perhaps via trigger file?
 	//kill(atp->pid, SIGSTOP);
 }
