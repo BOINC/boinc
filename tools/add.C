@@ -426,7 +426,7 @@ int main(int argc, char** argv) {
             strcpy(code_sign_keyfile, argv[++i]);
         }
     }
-    retval = boinc_db.open(db_name, db_passwd);
+    retval = boinc_db.open(db_name, "", db_passwd);
     if (retval) {
     	fprintf(stderr, "can't open DB %s\n", db_name);
         exit(1);
