@@ -1,0 +1,329 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+//
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved.
+//
+// Contributor(s):
+//
+// TO DO: 
+//		1) Need to add support for compressed zip of archived files that may contain max X number
+// 		of items (similiar to db_dump.C).
+//		2) Need to escape XML output
+
+// db_purge: purges workunit and result records that are no longer needed from 
+// the database
+#include <cstdio>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
+
+#include "boinc_db.h"
+#include "util.h"
+#include "parse.h"
+#include "sched_config.h"
+#include "sched_util.h"
+
+SCHED_CONFIG 	config;
+FILE 			*wu_stream;
+FILE 			*re_stream;
+	
+int openDBconnection() {
+	int retval=0;
+    //open DB connection
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
+    config.db_passwd);
+
+	return retval;
+}
+
+int closeFile(FILE *stream) {
+	return fclose(stream);
+}
+
+int openArchivesForWriting(){
+	int retval=0;
+	//open archive files for purged workunits with the name- archive_workunitTIMESTAMP.xml
+	//open archive files for purged results with the name- archive_resultTIMESTAMP.xml
+    mkdir("..//archives",0777);
+	
+	time_t now;
+	time(&now);
+    
+	char wu_archive_file_name[60];
+	char re_archive_file_name[50];
+
+    sprintf(wu_archive_file_name,"..//archives//archive_workunit%d.xml",now);
+	sprintf(re_archive_file_name,"..//archives//archive_result%d.xml",now);
+	
+	if ((wu_stream = fopen( wu_archive_file_name,"a")) == NULL) {  
+		fprintf(stdout,"DB_PURGE: Can't open archive file %s\n",wu_archive_file_name);
+		exit (1);
+	}
+	fprintf(wu_stream,
+         "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
+    fprintf(stdout, "DB_PURGE: Opened workunit archive %s\n", wu_archive_file_name);
+		
+	if ((re_stream = fopen( re_archive_file_name,"a")) == NULL) {  
+		fprintf(stdout,"DB_PURGE: Can't open archive file %s\n",re_archive_file_name);
+		exit (1);
+	}
+	fprintf(re_stream,
+         "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
+    fprintf(stdout, "DB_PURGE: Opened result archive %s\n", re_archive_file_name);
+	
+	return retval;
+}
+
+
+int archive_result(DB_RESULT result) {
+    fprintf(re_stream,
+        "<result>\n"
+        "    <id>%d</id>\n",
+        result.id
+    );
+    
+ 	fprintf(
+ 			re_stream,
+            "  <create_time>%d</create_time>\n"
+            "  <workunitid>%d</workunitid>\n"
+            "  <server_state>%d</server_state>\n"
+            "  <outcome>%d</outcome>\n"
+            "  <client_state>%d</client_state>\n"
+            "  <hostid>%d</hostid>\n"
+            "  <userid>%d</userid>\n"
+            "  <report_deadline>%d</report_deadline>\n"
+            "  <sent_time>%d</sent_time>\n"
+			"  <received_time>%d</received_time>\n"
+			"  <name>%s</name>\n"
+			"  <cpu_time>%.15e</cpu_time>\n"
+			"  <xml_doc_in>%s</xml_doc_in>\n"
+			"  <xml_doc_out>%s</xml_doc_out>\n"
+			"  <stderr_out>%s</stderr_out>\n"
+			"  <batch>%d</batch>\n"
+			"  <file_delete_state>%d</file_delete_state>\n"
+			"  <validate_state>%d</validate_state>\n"
+			"  <claimed_credit>%.15e</claimed_credit>\n"
+			"  <granted_credit>%.15e</granted_credit>\n"
+			"  <opaque>%f</opaque>\n"
+			"  <random>%d</random>\n"
+			"  <app_version_num>%d</app_version_num>\n"
+			"  <appid>%d</appid>\n"
+			"  <exit_status>%d</exit_status>\n"
+			"  <teamid>%d</teamid>\n",											
+        	result.create_time, 
+        	result.workunitid,
+        	result.server_state, 
+        	result.outcome,
+        	result.client_state,
+        	result.hostid, 
+        	result.userid,
+        	result.report_deadline, 
+        	result.sent_time, 
+        	result.received_time,
+        	result.name, 
+        	result.cpu_time,
+        	result.xml_doc_in, 
+        	result.xml_doc_out, 
+        	result.stderr_out,
+        	result.batch, 
+        	result.file_delete_state, 
+        	result.validate_state,
+        	result.claimed_credit, 
+        	result.granted_credit, 
+        	result.opaque, 
+        	result.random,
+        	result.app_version_num, 
+        	result.appid, 
+        	result.exit_status, 
+        	result.teamid
+    	);
+
+    fprintf(re_stream,
+        "</result>\n"
+    );
+	return 0;
+}
+
+int archive_wu(DB_WORKUNIT wu) {
+    fprintf(wu_stream,
+        "<workunit>\n"
+        "    <id>%d</id>\n",
+        wu.id
+    );
+	fprintf(wu_stream,
+            "  <create_time>%d</create_time>\n"
+            "  <appid>%d</appid>\n"
+            "  <name>%s</name>\n"
+            "  <xml_doc>%s</xml_doc>\n"
+            "  <batch>%d</batch>\n"
+            "  <rsc_fpops_est>%.15e</rsc_fpops_est>\n"
+            "  <rsc_fpops_bound>%.15e</rsc_fpops_bound>\n"
+            "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n"
+            "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n"
+            "  <need_validate>%d</need_validate>\n"
+            "  <canonical_resultid>%d</canonical_resultid>\n"
+            "  <canonical_credit>%.15e</canonical_credit>\n"
+            "  <transition_time>%d</transition_time>\n"
+            "  <delay_bound>%d</delay_bound>\n"
+            "  <error_mask>%d</error_mask>\n"
+            "  <file_delete_state>%d</file_delete_state>\n"
+			"  <assimilate_state>%d</assimilate_state>\n"
+			"  <workseq_next>%d</workseq_next>\n"
+			"  <opaque>%f</opaque>\n"
+			"  <min_quorum>%d</min_quorum>\n"
+			"  <target_nresults>%d</target_nresults>\n"
+			"  <max_error_results>%d</max_error_results>\n"
+			"  <max_total_results>%d</max_total_results>\n"
+			"  <max_success_results>%d</max_success_results>\n"
+            "  <result_template_file>%s</result_template_file>\n",
+            wu.create_time, 
+            wu.appid,
+        	wu.name, 
+        	wu.xml_doc, 
+        	wu.batch,
+        	wu.rsc_fpops_est, 
+        	wu.rsc_fpops_bound, 
+        	wu.rsc_memory_bound, 
+        	wu.rsc_disk_bound,
+        	wu.need_validate,
+        	wu.canonical_resultid, 
+        	wu.canonical_credit,
+        	wu.transition_time, 
+        	wu.delay_bound,
+        	wu.error_mask, 
+        	wu.file_delete_state, 
+        	wu.assimilate_state,
+        	wu.workseq_next, 
+        	wu.opaque,
+        	wu.min_quorum,
+        	wu.target_nresults,
+       	 	wu.max_error_results,
+        	wu.max_total_results,
+        	wu.max_success_results,
+        	wu.result_template_file
+        );
+
+    fprintf(wu_stream,
+        "</workunit>\n"
+    );
+	return 0;
+}
+
+void cleanUpResources() {
+	//close archive files
+	closeFile(wu_stream);
+    closeFile(re_stream);
+    
+    //close DB connection
+    boinc_db.close();
+}
+
+int purge_and_archive_results(int wu_id) {
+	int retval= 0;
+    DB_RESULT result;
+	int number_results=0;
+ 	char buf[256];
+    
+    //select all results for workunit with workunitid=wu_id
+    sprintf(buf, "where workunitid=%d", wu_id);
+ 	while (!result.enumerate(buf)) {
+		//archive result in XML archive
+        retval= archive_result(result);
+		if (retval) {
+        	fprintf(stdout,"DB_PURGE: Failed to write to XML file result:%d\n", result.id);
+        	exit(1);
+    	}
+    	fprintf(stdout,"DB_PURGE: Archived result [%d] to a file\n", result.id);
+    	
+    	//purge result from DB        
+        retval= result.delete_from_db();
+	    if (retval) {
+        	fprintf(stdout,"DB_PURGE: Can't delete result [%d] from database:%d\n", result.id, retval);
+        	exit(1);
+    	}
+    	fprintf(stdout,"DB_PURGE: Purged result [%d] from database\n", result.id);
+ 		
+ 		number_results++;
+ 	}	
+	return number_results;
+}
+
+
+int main(int argc, char** argv) {
+    int purged_workunits= 0, purged_results= 0;
+    int retval= 0;
+	
+    retval= config.parse_file("..");
+    if (retval) {
+        fprintf(stdout, "DB_PURGE: Can't parse config file\n");
+        exit(1);
+    }
+
+    fprintf(stdout, "DB_PURGE: Starting DB Purger\n");
+
+	retval= openDBconnection();
+	if (retval) {
+        fprintf(stdout, "DB_PURGE: Can't open DB\n");
+        exit(1);
+    }
+	fprintf(stdout, "DB_PURGE: Opened DB\n");
+
+	retval= openArchivesForWriting();
+	if (retval) {
+        fprintf(stdout, "DB_PURGE: Can't open archives\n");
+        exit(1);
+    }
+	
+	bool did_something = false;
+	DB_WORKUNIT wu;
+    char buf[256];
+    
+    //select all workunits with file_delete_state='DONE'
+    sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_DONE);
+ 	while (!wu.enumerate(buf)) {
+ 		//for each workunit
+        did_something = true;
+        
+        //purge from DB and archive results in XML file for that workunit
+        purged_results= purged_results + purge_and_archive_results(wu.get_id());
+        
+        //archive workunit in XML archive
+        retval= archive_wu(wu);
+		if (retval) {
+        	fprintf(stdout,"DB_PURGE: Failed to write to XML file workunit:%d\n", wu.id);
+        	exit(1);
+    	}
+    	fprintf(stdout,"DB_PURGE: Archived workunit [%d] to a file\n", wu.id);
+    	
+    	//purge workunit from DB        
+        retval= wu.delete_from_db();
+	    if (retval) {
+        	fprintf(stdout,"DB_PURGE: Can't delete workunit [%d] from database:%d\n", wu.id, retval);
+        	exit(1);
+    	}
+    	fprintf(stdout,"DB_PURGE: Purged workunit [%d] from database\n", wu.id);
+
+        purged_workunits++;
+    }
+    
+    if (!did_something) {
+    	fprintf(stdout, "DB_PURGE: Did not do anything\n");
+        exit(1);
+    }
+    
+	fprintf(stdout, "DB_PURGE: Archived %d workunits and %d results\n",purged_workunits,purged_results);
+}
