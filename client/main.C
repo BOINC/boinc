@@ -205,7 +205,7 @@ static void signal_handler(int signum) {
         msg_printf(NULL, MSG_INFO, "Exiting - user request");
         gstate.quit_activities();
         exit(0);
-    case SIGSTOP:
+    case SIGTSTP:
         msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
         gstate.active_tasks.suspend_all();
         signal(SIGTSTP, SIG_DFL);
@@ -214,6 +214,7 @@ static void signal_handler(int signum) {
     case SIGCONT:
         msg_printf(NULL, MSG_INFO, "Resuming activity");
         gstate.active_tasks.unsuspend_all();
+        boinc_set_signal_handler_force(SIGTSTP, signal_handler);
         break;
     default:
         msg_printf(NULL, MSG_INFO, "Signal not handled");
