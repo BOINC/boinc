@@ -36,6 +36,11 @@
 
 #define SPDP double
 
+// External array; store results here so that optimizing compilers
+// don't do away with their computation.
+// suggested by Ben Herndon
+//
+double extern_array[12];
 
 void pa(SPDP e[4], SPDP t, SPDP t2)
       {
@@ -81,6 +86,7 @@ void whetstone(double& flops) {
             // on my current computer (2.2 GHz celeron)
             // Non-critical.
 
+    extern_array[11] = 1;
     benchmark_wait_to_start(BM_TYPE_FP);
 
     boinc_calling_thread_cpu_time(startsec, ws);
@@ -125,6 +131,10 @@ void whetstone(double& flops) {
 	      }
 	    t =  t0;
 	 }
+     extern_array[0] = e1[0];
+     extern_array[1] = e1[1];
+     extern_array[2] = e1[2];
+     extern_array[3] = e1[3];
 
 	/* Section 2, Array as parameter */
 
@@ -139,14 +149,13 @@ void whetstone(double& flops) {
 	      }
 	    t =  t0;
 	 }
+     extern_array[4] = e1[0];
 
 	/* Section 3, Conditional jumps */
-	j = 1;
+	j = (long) extern_array[11];
 	 {
-	    for (ix=0; ix<xtra; ix++)
-	      {
-		for(i=0; i<n3; i++)
-		  {
+	    for (ix=0; ix<xtra; ix++) {
+		  for(i=0; i<n3; i++)  {
 		     if(j==1)       j = 2;
 		     else           j = 3;
 		     if(j>2)        j = 0;
@@ -154,8 +163,9 @@ void whetstone(double& flops) {
 		     if(j<1)        j = 1;
 		     else           j = 0;
 		  }
-	      }
+	    }
 	 }
+     extern_array[5] = (double)j;
 
 	/* Section 4, Integer arithmetic */
 	j = 1;
@@ -174,6 +184,7 @@ void whetstone(double& flops) {
 		  }
 	      }
 	 }
+     extern_array[6] = e1[0];
 
 	/* Section 5, Trig functions */
 	x = 0.5;
@@ -190,6 +201,7 @@ void whetstone(double& flops) {
 	      }
 	    t = t0;
 	 }
+     extern_array[7] = x;
 
 	/* Section 6, Procedure calls */
 	x = 1.0;
@@ -204,6 +216,7 @@ void whetstone(double& flops) {
 		  }
 	      }
 	 }
+    extern_array[8] = x;
 
 	/* Section 7, Array refrences */
 	j = 0;
@@ -221,18 +234,16 @@ void whetstone(double& flops) {
 		  }
 	      }
 	 }
+    extern_array[9] = e1[0];
 
 	/* Section 8, Standard functions */
 	x = 0.75;
-	 {
-	    for (ix=0; ix<xtra; ix++)
-	      {
-		for(i=0; i<n8; i++)
-		  {
+	    for (ix=0; ix<xtra; ix++) {
+		  for(i=0; i<n8; i++) {
 		     x = sqrt(exp(log(x)/t1));
 		  }
-	      }
-	 }
+	     }
+    extern_array[10] = x;
 
      ii++;
     }

@@ -17099,3 +17099,14 @@ David  6 Sept 2004
             wingui_mainwindow.cpp
     lib/
         error_numbers.h
+
+David  7 Sept 2004
+	- (from Ben Herndon)  Some compilers optimize away sections of the Whetstone
+		benchmark function, since their results aren't used outside the function.
+		To deal with this, we added an global-scope array (extern_array[])
+		and store the result of each section into it.
+		Also changed section 3 by initializint j from the extern_array,
+		so the compiler can't optimize out all the conditionals.
+
+	client/
+		whetstone.C
