@@ -18587,3 +18587,9 @@ David  19 Oct 2004
         client_types.C
     lib/
         gui_rpc_client.C,h
+
+David  19 Oct 2004
+    - Add <link> to RSS export so Firefox users can bookmark RSS feed
+
+    html/user/
+        sample_rss_main.php

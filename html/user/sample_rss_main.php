@@ -34,32 +34,42 @@ $description = "BOINC project ".PROJECT.": Main page News";
 $channel_image = URL_BASE . "/rss_image.jpg";
 $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
 $language = "en-us";
-echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
-    ."<rss version=\"2.0\">\n<channel>\n    <title>"
-    .PROJECT."</title>\n    <link>"
-    .MASTER_URL."</link>\n    <description>"
-    .$description."</description>\n    <copyright>"
-    .COPYRIGHT_HOLDER."</copyright>\n    <lastBuildDate>"
-    .$create_date."</lastBuildDate>\n    <language>"
-    .$language."</language>\n    <image>\n      <url>"
-    .$channel_image."</url>\n      <title>"
-    .PROJECT."</title>\n      <link>"
-    .MASTER_URL."</link>\n    </image>\n";
+echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+    <rss version=\"2.0\">
+    <channel>
+    <title>".PROJECT."</title>
+    <link>".URL_BASE."</link>
+    <link rel='alternate' type='text/xml' title='".PROJECT." RSS 2.0' href='".URL_BASE."rss.php' />
+    <description>".$description."</description>
+    <copyright>".COPYRIGHT_HOLDER."</copyright>
+    <lastBuildDate>".$create_date."</lastBuildDate>
+    <language>".$language."</language>
+    <image>
+        <url>".$channel_image."</url>
+        <title>".PROJECT."</title>
+        <link>".URL_BASE."</link>
+    </image>
+";
 
 // - Create news items
 //
 $news = min( count($project_news), $news);
 for( $item=0; $item < $news; $item++ ) {
-if( count($project_news[$item]) == 2) {
-    echo "    <item>\n     <title>Project News "
-         .strip_tags($project_news[$item][0])."</title>\n     <link>"
-         .MASTER_URL."</link>\n     <description>"
-         .strip_tags($project_news[$item][1])."</description>\n    </item>";
+    if( count($project_news[$item]) == 2) {
+        echo "<item>
+            <title>Project News ".strip_tags($project_news[$item][0])."</title>
+            <link>".URL_BASE."</link>
+            <description>".strip_tags($project_news[$item][1])."</description>
+            </item>
+        ";
     }
 }
 
 // Close XML content
 //
-echo "</channel>\n</rss>";
+echo "
+    </channel>
+    </rss>
+";
 
 ?>
