@@ -1182,4 +1182,24 @@ Michael Gary	July 16, 2002
 	concat_result
 	test_concat.php
 
-test
+Eric Heien      July 17, 2002
+    - Removed assembly optimized routines from RSAEuro, since we
+      want to be platform independent and RSAEuro isn't a highly speed
+      critical piece of code.  This had the side benefit of making the
+      RSAEuro Makefile operate cleanly with make.
+    - Fixed compiler warnings in RSAEuro demo programs.  Do we really
+      need to keep these demo programs around?
+    - Turned off the "secure" versions of memcpy, memset and memcmp.
+      If needed, we can turn them back on.
+    RSAEuro/
+        source/
+            makefile (moved to Makefile)
+            Makefile (renamed from makefile)
+            des386.s (removed)
+            rsa386.s (removed)
+            rsa68k.s (removed)
+            rsasparc.s (removed)
+        demo/
+            mdemo.c
+            randemo.c
+            redemo.c
