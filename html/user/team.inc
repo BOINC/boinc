@@ -8,7 +8,7 @@ function print_teams_display() {
 page_head("Teams");
 echo "<h2>BOINC Teams</h2>";
 echo "<p>";
-echo "BOINC user can form &quot;teams&quot; - ";
+echo "BOINC users can form &quot;teams&quot; - ";
 echo "for example, students in a school, employees of a company. ";
 echo "<br>";
 echo "Teams can compete to analyze the most data, ";

@@ -49,7 +49,7 @@
                     $HTTP_POST_VARS["new_name"],
                     $HTTP_POST_VARS["new_password"],
                     $authenticator,
-                    "United States",
+                    $HTTP_POST_VARS["country"],
                     $HTTP_POST_VARS["postal_code"]
                 );
                 $result = mysql_query($query);
