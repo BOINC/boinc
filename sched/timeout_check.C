@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -42,6 +42,7 @@ using namespace std;
 #include "sched_util.h"
 
 #define LOCKFILE                "timeout_check.out"
+#define PIDFILE                 "timeout_check.pid"
 
 int max_errors = 999;
 int max_done = 999;
@@ -235,7 +236,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         if (nredundancy > ndone) {
             n = nredundancy - ndone;
-            
+
             for (i=0; i<n; i++) {
                 result = results[0];
                 make_unique_name(result.name);
@@ -284,6 +285,7 @@ bool do_pass(APP& app) {
     char buf[256];
     bool did_something = false;
 
+    check_stop_trigger();
     // loop over WUs that are due to be checked
     //
     sprintf(buf, "where appid=%d and timeout_check_time>0 and timeout_check_time<%d", app.id, (int)time(0));
@@ -315,11 +317,12 @@ void main_loop(bool one_pass) {
         exit(1);
     }
 
-    while (1) {
-        did_something = do_pass(app);
-        if (one_pass) break;
-        if (!did_something) sleep(1);
-        check_stop_trigger();
+    if (one_pass) {
+        do_pass(app);
+    } else {
+        while (1) {
+            if (!do_pass(app)) sleep(1);
+        }
     }
 }
 
@@ -372,6 +375,8 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Another copy of timeout_check is already running\n");
         exit(1);
     }
+    write_pid_file(PIDFILE);
+    install_sigint_handler();
 
     main_loop(one_pass);
 }
