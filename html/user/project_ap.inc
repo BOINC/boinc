@@ -44,4 +44,28 @@ function project_banner($user) {
     echo "</td></tr></table><br>\n";
 }
 
+function show_profile_heading1() {
+  row1("Your personal background.");
+}
+
+function show_profile_question1() {
+  rowify("
+Tell us about yourself. You could tell us where you're from, your age, occupation, hobbies, or anything else about yourself. HTML formatting tags are allowed (other tags will be removed), and responses are limited to 2000 characters.
+");
+}
+
+function show_profile_heading2() {
+  row1("Your opinions about " . PROJECT);
+}
+
+function show_profile_question2() {
+  rowify("
+Tell us your thoughts about " . PROJECT . "<ol>
+<li>Why do you run " . PROJECT . "?
+<li>What are your views about the project?
+<li>Any suggestions?
+</ol>
+");
+}
+
 ?>
