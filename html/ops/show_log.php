@@ -4,7 +4,7 @@
 
     // grep logs for a particular string
 
-    require_once("util.inc");
+    require_once("util_ops.inc");
 
     $log_dir = parse_config("<log_dir>");
     if (!$log_dir) {
