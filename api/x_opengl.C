@@ -64,6 +64,7 @@ enum
 }; // possible longjmp-values to signal from where we jumped:
 // 1= exit caught by atexit, 2 = signal caught by handler
        
+bool xwin_glut_is_initialized() { return glut_is_initialized; }
 
 void app_debug_msg (char *fmt, ...);
 
