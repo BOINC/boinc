@@ -187,7 +187,7 @@
      support, indemnity or liability obligations to one or more recipients
      of Covered Code. However, You may do so only on Your own behalf, and
      not on behalf of the Initial Developer or any Contributor. You must
-     make it absolutely clear than any such warranty, support, indemnity or
+     make it absolutely clear that any such warranty, support, indemnity or
      liability obligation is offered by You alone, and You hereby agree to
      indemnify the Initial Developer and every Contributor for any liability
      incurred by the Initial Developer or such Contributor as a result of

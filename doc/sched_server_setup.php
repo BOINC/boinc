@@ -32,8 +32,7 @@ The elements are as follows:
 <tr><td>db_password</td><td>The password of the BOINC database</td></tr>
 <tr><td>shmem_key</td><td>
 The identifier of the shared-memory segment;
-it is an arbitrary 32-bit quantity,
-but must be unique among different BOINC servers sharing a single host.
+it is an arbitrary 32-bit quantity, but must be unique on the host.
 </td></tr>
 <tr><td>key_dir</td><td>
 The directory containing the file upload authentication private key.

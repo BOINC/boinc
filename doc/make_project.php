@@ -24,7 +24,7 @@ For example:
 creates a project with master URL
 http://&lt;hostname>/cplan/
 whose directory structure is rooted at
-\$HOME/projects/yah.
+\$HOME/projects/cplan.
 <pre>
     cd tools/
     ./make_project --base \$HOME/boinc --url_base http://boink/ cplan 'Cunning Plan'

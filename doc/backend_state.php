@@ -136,7 +136,7 @@ list_item("server_state",
     <li> Initially UNSENT
     <li> Set by scheduler to IN_PROGRESS when send result
     <li> Set by scheduler to OVER when get reply from client
-    <li> Set by transitioner to OVER if now < result.report_deadline
+    <li> Set by transitioner to OVER if now > result.report_deadline
     <li> Set by transitioner to OVER if WU has error condition
         and result.server_state=UNSENT
     <li> Set by validater to OVER if WU has canonical result

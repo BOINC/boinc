@@ -20,7 +20,7 @@ Visible result: the project web site is up.
 <ul>
 <li> Create a BOINC application executable
 (if you're in a hurry, use the test application).
-<li> Copy the executable to HOME/projects/PROJECTNAME>/apps/APPNAME
+<li> Copy the executable to HOME/projects/PROJECTNAME/apps/APPNAME
 <li> cd to HOME/projects/PROJECTNAME/bin
 <li> run ./update_versions, type y or return.
 <li> run ./stop && ./start
@@ -32,9 +32,8 @@ Visible result: the web site's Applications page has an entry.
 <ul>
 <li> Using a text editor, create a work unit template file
 and a result template file.
-<li> Run add_work
-<li> Edit the configuration file to
-add make_work,
+<li> Run create_work
+<li> Edit the configuration file to add make_work,
 the feeder,
 the transitioner,
 the file deleter,

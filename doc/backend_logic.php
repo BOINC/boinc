@@ -94,8 +94,8 @@ echo "
 
         // get next result timeout if any
         transition_time = MAX_INT
-        if any results are IN_PROGRESS
-            transition_time = min(result.report_deadline)
+        for all results IN_PROGRESS
+            transition_time = min(transition_time, result.report_deadline)
 </pre>
 
 <h3>Validator</h3>

@@ -3,13 +3,18 @@ require_once("docutil.php");
 page_head("Validation");
 echo "
 <p>
+<b>Validation</b> is the process of comparing redundant results
+and deciding which is to be considered correct.
 BOINC supplies a utility program <b>validate</b>
 to perform validation and credit-granting.
-This program must be linked with two project-specific functions:
-<pre>
+You 
+This program must be linked with two application-specific functions:
+<pre>",
+htmlspecialchars("
 int check_set(vector<RESULT> results, int& canonicalid, double& credit);
 int check_pair(RESULT& r1, RESULT& r2, bool& match);
-</pre>
+"),
+"</pre>
 <b>check_set()</b> takes a set of results.
 If there is sufficient agreement,
 it selects one of them as the canonical result
@@ -25,15 +30,17 @@ implementation of check_set() and check_pair().
 
 <p>
 The XML document listing the output files has the form: <pre>
-&lt;file_info>...&lt;/file_info>
+",htmlspecialchars("
+<file_info>...</file_info>
 [ ... ]
-&lt;result>
-    &lt;name>foobar&lt;/name>
-    &lt;wu_name>blah&lt;/wu_name>
-    &lt;exit_status>blah&lt;/exit_status>
-    &lt;file_ref>...&lt;/file_ref>
+<result>
+    <name>foobar</name>
+    <wu_name>blah</wu_name>
+    <exit_status>blah</exit_status>
+    <file_ref>...</file_ref>
     [ ... ]
-&lt;/result>
+</result>
+"),"
 </pre>
 The components are:
 <ul>
