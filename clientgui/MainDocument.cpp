@@ -1173,6 +1173,28 @@ wxInt32 CMainDocument::GetWorkSchedulerState( wxInt32 iIndex )
 }
 
 
+bool CMainDocument::IsWorkAborted( wxInt32 iIndex )
+{
+    RESULT* pResult = NULL;
+    bool bRetVal    = false;
+
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
+
+    if ( NULL != pResult )
+        bRetVal = pResult->aborted_via_gui;
+
+    return bRetVal;
+}
+
+
 bool CMainDocument::IsWorkAcknowledged( wxInt32 iIndex )
 {
     RESULT* pResult = NULL;
@@ -1404,6 +1426,11 @@ wxInt32 CMainDocument::WorkAbort( wxInt32 iIndex )
         if ( NULL != pStateResult )
         {
             iRetVal = rpc.result_op( (*pStateResult), wxT("abort") );
+            if ( 0 == iRetVal )
+            {
+                pResult->aborted_via_gui = true;
+                pStateResult->aborted_via_gui = true;
+            }
         }
         else
             ForceCacheUpdate();

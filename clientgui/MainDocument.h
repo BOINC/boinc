@@ -168,6 +168,7 @@ public:
     wxInt32                     GetWorkReportDeadline( wxInt32 iIndex, wxInt32& iBuffer );
     wxInt32                     GetWorkState( wxInt32 iIndex );
     wxInt32                     GetWorkSchedulerState( wxInt32 iIndex );
+    bool                        IsWorkAborted( wxInt32 iIndex );
     bool                        IsWorkAcknowledged( wxInt32 iIndex );
     bool                        IsWorkActive( wxInt32 iIndex );
     bool                        IsWorkReadyToReport( wxInt32 iIndex );

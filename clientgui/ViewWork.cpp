@@ -613,6 +613,7 @@ void CViewWork::UpdateSelection()
         iSelectedRow = m_pListPane->GetFirstSelected();
 
         m_bTaskHeaderHidden = false;
+
         if ( pDoc->IsWorkSuspended( iSelectedRow ) )
         {
             m_bTaskSuspendHidden = true;
@@ -623,11 +624,16 @@ void CViewWork::UpdateSelection()
             m_bTaskSuspendHidden = false;
             m_bTaskResumeHidden = true;
         }
+
         if ( pDoc->IsWorkGraphicsSupported( iSelectedRow ) && !pDoc->IsWorkSuspended( iSelectedRow ) )
             m_bTaskShowGraphicsHidden = false;
         else
             m_bTaskShowGraphicsHidden = true;
-        m_bTaskAbortHidden = false;
+
+        if ( !pDoc->IsWorkAborted( iSelectedRow ) )
+            m_bTaskAbortHidden = false;
+        else
+            m_bTaskAbortHidden = true;
 
         m_bItemSelected = true;
     }
@@ -860,7 +866,11 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
             }
             break;
         case CMainDocument::FILES_DOWNLOADED:
-            if ( pDoc->IsWorkActive(item) )
+            if ( pDoc->IsWorkAborted(item) )
+            {
+                strBuffer = _("Aborted");
+            }
+            else if ( pDoc->IsWorkActive(item) )
             {
                 wxInt32 iSchedulerState = pDoc->GetWorkSchedulerState(item);
                 if      ( CMainDocument::SCHED_SCHEDULED == iSchedulerState )

@@ -385,6 +385,7 @@ void RESULT::clear() {
     fraction_done = 0.0;
     estimated_cpu_time_remaining = 0.0;
     suspended_via_gui = false;
+    aborted_via_gui = false;
     supports_graphics = false;
 }
 

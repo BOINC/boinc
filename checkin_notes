@@ -23714,3 +23714,13 @@ David  1 Feb 2005
 
     lib/
         mfile.C,h
+
+Rom    1 Feb 2005
+    - Implement the UI for aborted results that have not been executed before.
+    - Initialize aborted_via_gui since wxWidgets initializes bools to true.
+
+    clientgui/
+        MainDocument.cpp, .h
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.C
