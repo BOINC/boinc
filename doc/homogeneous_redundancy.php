@@ -1,18 +1,33 @@
 <?php
 require_once("docutil.php");
-page_head("Homogeneous redundancy ");
+page_head("Dealing with numerical discrepancies");
 echo"
 Most numerical applications produce different outcomes 
 for a given workunit depending on the machine 
 architecture, operating system, compiler, and compiler flags.
-In such cases it may be difficult to distinguish
+For some applications these discrepancies produce
+only small differences in the final output,
+and results can be validated using a 'fuzzy comparison' function
+that allows for deviations of a few percent.
+<p>
+Other applications are 'divergent' in the sense that small
+numerical differences lead to unpredictably large differences
+in the final output.
+For such applications it may be difficult to distinguish
 between results that are correct but differ because
-of numerical variation,
-and results that are erroneous.
+of numerical discrepancies, and results that are erroneous.
+The 'fuzzy comparison' approach does not work for such applications.
 
+<h2>Eliminating discrepancies</h2>
+<p>
+One approach is to eliminate numerical discrepancies.
+Some notes on how to do this for Fortran programs
+are <a href=fortran_numerics.txt>here</a>
+
+<h2>Homogeneous redundancy</h2>
 <p>
 BOINC provides a feature called <b>homogeneous redundancy</b>
-for such applications.
+to handle divergent applications.
 You can enable it for a project by including the line
 <pre>
 &lt;homogeneous_redundancy/&gt;

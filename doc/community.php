@@ -59,6 +59,13 @@ echo "
 <li> <a href=compile.php>Compile BOINC software</a>
 </ul>
 
+<h2>Translating</h2>
+If you speak a non-English language, you can help by
+<ul>
+<li> <a href=language.php>translating the BOINC manager</a> or
+<li> <a href=web_translation.php>translating the web site</a>.
+</ul>
+
 <h2>News feeds</h2>
 <p>
 RSS-based news feeds are available from BOINC

@@ -534,10 +534,12 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
     if (config.daily_result_quota) {
+        // scale daily quota by #CPUs, up to a limit of 4
+        //
         if (host.p_ncpus<4) {
-             wreq.daily_result_quota=host.p_ncpus*config.daily_result_quota;
+             wreq.daily_result_quota = host.p_ncpus*config.daily_result_quota;
         } else {
-             wreq.daily_result_quota=4*config.daily_result_quota;
+             wreq.daily_result_quota = 4*config.daily_result_quota;
         }
         if (host.nresults_today >= wreq.daily_result_quota) {
             wreq.daily_result_quota_exceeded = true;

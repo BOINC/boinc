@@ -27,9 +27,8 @@ The BOINC's features fall into several areas:
 Many different projects can use BOINC.
 Projects are independent; each one operates its own servers and databases.
 However, projects can share resources in the following sense:
-Participants install a <b>core client</b> program
-which in turn downloads and executes project-specific application programs.
-Participants control which projects they participate in,
+Participants can participate in multiple projects;
+they control which projects they participate in,
 and how their resources are divided among these projects.
 When a project is down or has no work,
 the resources of its participants are divided among
@@ -72,16 +71,9 @@ This simplifies the task of diagnosing performance problems.
 <li>
 <b>Source code availability</b>
 <br>
-BOINC is distributed under a
-<a href=license_1.0.txt>public license</a>
-that allows it to be used freely for public or private distributed
-computing projects,
-with the restriction that it cannot be used as the basis for
-commercial products.
-BOINC applications need not be open source.
-Each project must provide and maintain its own server systems;
-these systems can be set up easily using
-open-source components (MySQL, PHP, Apache).
+BOINC is distributed under the
+<a href=http://www.gnu.org/copyleft/lesser.html>Lesser GNU Public License</a>.
+However, BOINC applications need not be open source.
 <li>
 <b>Support for large data</b>
 <br>

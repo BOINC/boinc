@@ -12,7 +12,8 @@ A <b>validator</b> is a back-end program that does validation
 and credit-granting.
 You must supply a validator for each application in your project.
 BOINC supplies a framework program <b>validator.C</b>.
-This program must be linked with two application-specific functions:
+To make a validator program, you must link validator.C
+with two application-specific functions:
 <pre>",
 htmlspecialchars("
 int check_set(vector<RESULT> results, DB_WORKUNIT& wu, int& canonicalid, double& credit, bool& retry);
@@ -100,6 +101,18 @@ exceeds a given minimum.
 A placeholder, validator_placeholder.C is also provided.  You can replace
 this file with your own code and 'make' will correctly build and link it.
 
+<h3>Command-line arguments</h3>
+A validator has the following command-line arguments:
 ";
+list_start();
+list_item("-app appname", "Name of the application");
+list_item("[ -one_pass_N_WU N ]", "Validate at most N WUs, then exit");
+list_item("[ -one_pass ]", "Make one pass through WU table, then exit");
+list_item("[ -mod n i ]",
+    "Process only WUs with (id mod n) == i.
+    This option lets you run multiple instances of the validator
+    for increased performance."
+);
+list_end();
 page_tail();
 ?>

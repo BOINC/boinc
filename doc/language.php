@@ -15,15 +15,13 @@ you can help by making a translation for your non-English language.
 Notes:
 <ul>
 <li>
-You can use a tool called poEdit to modify the 'po' file.
-It can be found here:<br>
-<a href=http://sourceforge.net/projects/poedit/>http://sourceforge.net/projects/poedit/</a>
+You can use a tool called <a href=http://www.poedit.org>poEdit</a>
+to modify the 'po' file.
 	
 <li>
 You might want to subscribe to the
-<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc@ssl.berkeley.edu</a>
-email list, which is devoted to discussion of
-BOINC-related translation.
+<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc at ssl.berkeley.edu</a>
+email list, which is devoted to discussion of BOINC-related translation.
 <li>
 To submit a new language file,
 please email it to Rom Walton (rwalton at ssl.berkeley.edu).

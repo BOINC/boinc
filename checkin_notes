@@ -25206,3 +25206,13 @@ David  22 Feb 2005
             forum_post.php
             forum_reply.php
             sample_index.php
+
+David  22 Feb 2005
+    - core client: scheduling: cap project debt at 1 day
+
+    client/
+        cs_apps.C
+        http.C
+        scheduler_op.C
+    sched/
+        sched_send.C

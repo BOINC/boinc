@@ -660,7 +660,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &code_sign_key
             );
             if (retval) {
-                msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY.parse(): xml parsing error\n");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse code sign key in scheduler reply: %d",
+                    retval
+                );
                 return ERR_XML_PARSE;
             }
         } else if (match_tag(buf, "<code_sign_key_signature>")) {
@@ -674,7 +677,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             APP app;
             retval = app.parse(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "Can't parse app in scheduler reply");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse app in scheduler reply: %d", retval
+                );
             } else {
                 apps.push_back(app);
             }
@@ -682,7 +687,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             FILE_INFO file_info;
             retval = file_info.parse(mf, true);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "Can't parse file info in scheduler reply");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse file info in scheduler reply: %d", retval
+                );
             } else {
                 file_infos.push_back(file_info);
             }
@@ -690,7 +697,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             APP_VERSION av;
             retval = av.parse(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "Can't parse app version in scheduler reply");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse app version in scheduler reply: %d", retval
+                );
             } else {
                 app_versions.push_back(av);
             }
@@ -698,7 +707,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             WORKUNIT wu;
             retval = wu.parse(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "Can't parse work unit in scheduler reply");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse work unit in scheduler reply: %d", retval
+                );
             } else {
                 workunits.push_back(wu);
             }
@@ -707,7 +718,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                                 // gets called each time
             retval = result.parse_server(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "Can't parse result in scheduler reply");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse result in scheduler reply: %d", retval
+                );
             } else {
                 results.push_back(result);
             }
@@ -715,7 +728,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             RESULT result;
             retval = result.parse_ack(in);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "Can't parse result ack in scheduler reply");
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse result ack in scheduler reply: %d", retval
+                );
             } else {
                 result_acks.push_back(result);
             }
@@ -739,7 +754,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (match_tag(buf, "<trickle_down>")) {
             retval = gstate.handle_trickle_down(project, in);
             if (retval) {
-                msg_printf(project, MSG_ERROR, "handle_trickle_down failed: %d\n", retval);
+                msg_printf(project, MSG_ERROR,
+                    "handle_trickle_down failed: %d\n", retval
+                );
             }
             continue;
         } else if (match_tag(buf, "<non_cpu_intensive/>")) {

@@ -45,7 +45,7 @@ language("Danish", array(
     site("http://www.setihome.dk", "www.setihome.dk")
 ));
 language("Dutch", array(
-    site("http://www.seti.nl/content.php?c=boinc_berkeley_main",
+    site("http://www.seti.nl/content.php?c=boincmain",
         "SETI@Netherlands"
     )
 ));
@@ -69,6 +69,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://home.arcor.de/tim222/", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
     site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (Lübeck, Germany)"),
     site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),

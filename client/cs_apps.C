@@ -44,6 +44,8 @@
 
 using std::vector;
 
+#define MAX_DEBT    (86400)
+    // maximum project debt
 
 // Quit running applications, quit benchmarks,
 // write the client_state.xml file
@@ -462,6 +464,9 @@ bool CLIENT_STATE::schedule_cpus(double now) {
         if (p->non_cpu_intensive) continue;
         if (p->next_runnable_result) {
             p->debt -= min_debt;
+            if (p->debt > MAX_DEBT) {
+                p->debt = MAX_DEBT;
+            }
             p->anticipated_debt = p->debt;
             //msg_printf(p, MSG_INFO, "debt %f", p->debt);
             p->next_runnable_result = NULL;

@@ -19,7 +19,7 @@ BOINC's abstractions of data and computation.
 <li><a href=work.php>Workunits</a>
 <li><a href=result.php>Results</a>
 <li><a href=redundancy.php>Redundancy and errors</a>
-<li><a href=homogeneous_redundancy.php>Homogeneous redundancy</a>
+<li><a href=homogeneous_redundancy.php>Numerical discrepancies</a>
 <li><a href=work_distribution.php>Work distribution</a>
 <li><a href=sched_locality.php>Locality scheduling</a>
 <li><a href=trickle.php>Trickle messages</a>
@@ -129,6 +129,7 @@ Communicating with participants via the web
 <ul>
 <li> <a href=web.php>Managing the project web site</a>
 <li> <a href=gui_urls.php>Add project-specific links to the client GUI</a>
+<li> <a href=web_translation.php>Web site translation</a>
 </ul>
 <font size=+1><b>
 Miscellaneous

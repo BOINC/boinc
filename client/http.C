@@ -56,17 +56,24 @@ using std::istringstream;
 using std::vector;
 using std::getline;
 
-// Breaks a HTTP url down into its server and file path components
+// Breaks a HTTP URL down into its server, port and file components
+// format of url:
+// [http://]host.dom.dom[:port][/dir/file]
 //
 void parse_url(const char* url, char* host, int &port, char* file) {
     char* p;
     char buf[256];
 
+    // strip off http:// if present
+    //
     if (strncmp(url, "http://", 7) == 0) {
         safe_strcpy(buf, url+7);
     } else {
         safe_strcpy(buf, url);
     }
+
+    // parse and strip off file part if present
+    //
     p = strchr(buf, '/');
     if (p) {
         strcpy(file, p+1);
@@ -74,13 +81,19 @@ void parse_url(const char* url, char* host, int &port, char* file) {
     } else {
         strcpy(file, "");
     }
-    p=strchr(buf,':');
+
+    // parse and strip off port if present
+    //
+    p = strchr(buf,':');
     if (p) {
         port = atol(p+1);
         *p = 0;
     } else {
         port=80;
     }
+
+    // what remains is the host
+    //
     strcpy(host, buf);
 }
 
