@@ -46,6 +46,9 @@
 #if HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #endif
+#if HAVE_SYS_IPC_H
+#include <sys/ipc.h>
+#endif
 #if HAVE_FCNTL_H
 #include <fcntl.h>
 #endif

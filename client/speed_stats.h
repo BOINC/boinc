@@ -3,12 +3,9 @@
 #define THOUSAND    1000
 #define MILLION     THOUSAND*THOUSAND
 
-#define D_FLOP_TEST_ITERS		150
 #define D_LOOP_ITERS			1*MILLION
-#define I_OP_TEST_ITERS			150
 #define I_LOOP_ITERS			1*MILLION
-#define BANDWIDTH_TEST_ITERS	15
-#define MEM_SIZE				1*MILLION
+#define MEM_SIZE			1*MILLION
 
 #define NUM_DOUBLES       28
 #define NUM_INTS          28
@@ -27,12 +24,19 @@
 #define TIME_TESTS_ERROR		3
 
 int check_cache_size( int mem_size );
-clock_t double_flop_test( int iterations, int print_debug );
-clock_t int_op_test( int iterations, int print_debug );
-clock_t bandwidth_test( int iterations, int print_debug );
+double double_flop_test( int iterations, int print_debug );
+double int_op_test( int iterations, int print_debug );
+double bandwidth_test( int iterations, int print_debug );
 void run_test_suite( double num_secs_per_test );
 double run_double_prec_test( double num_secs );
 double run_int_test( double num_secs );
 double run_mem_bandwidth_test( double num_secs );
+int set_test_timer(double num_secs);
+int destroy_test_timer();
+#ifdef _WIN32
+void CALLBACK stop_test(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
+#else
+void stop_test(int a);
+#endif
 
 

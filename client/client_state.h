@@ -92,6 +92,7 @@ public:
     int file_xfer_giveup_period;
     bool user_idle;
     bool suspend_requested;
+    bool run_speed_test;
     bool update_prefs;
     bool start_saver;
     bool exit_when_idle;

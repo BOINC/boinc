@@ -85,6 +85,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(socks_user_passwd, "");
     strcpy(host_venue, "");
     suspend_requested = false;
+    run_speed_test = false;
     start_saver = false;
 #ifdef _WIN32
     time_tests_handle = NULL;
@@ -260,7 +261,8 @@ int CLIENT_STATE::init() {
 //
 bool CLIENT_STATE::should_run_time_tests() {
     return (
-        difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD
+        run_speed_test || 
+        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
     );
 }
 
@@ -277,9 +279,9 @@ DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
 int CLIENT_STATE::time_tests() {
     HOST_INFO host_info;
     FILE* finfo;
-    double fpop_test_secs = 2.0;
-    double iop_test_secs = 2.0;
-    double mem_test_secs = 2.0;
+    double fpop_test_secs = 3.3;
+    double iop_test_secs = 3.3;
+    double mem_test_secs = 3.3;
 
     clear_host_info(host_info);
     if (log_flags.measurement_debug) {
@@ -310,7 +312,7 @@ int CLIENT_STATE::time_tests() {
         }
         host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
 
-            // need to check check cache!!
+        // need to check cache!!
         host_info.m_cache = 1e6;
     } else {
         if (log_flags.measurement_debug) {
@@ -446,6 +448,11 @@ int CLIENT_STATE::check_suspend_activities() {
         should_suspend = true;
         sprintf(susp_msg, "Suspending activity - user request");
     }
+    // Stop the applications while we're running time tests
+    if (check_time_tests() == TIME_TESTS_RUNNING) {
+        should_suspend = true;
+        sprintf(susp_msg, "Suspending activity - running time tests");
+    }
 
     if (should_suspend) {
         if (!activities_suspended) {
@@ -487,9 +494,9 @@ int CLIENT_STATE::net_sleep(double x) {
 bool CLIENT_STATE::do_something() {
     bool action = false, x;
 
-    if (check_time_tests() == TIME_TESTS_RUNNING) return false;
-
     check_suspend_activities();
+
+    if (check_time_tests() == TIME_TESTS_RUNNING) return false;
 
     print_log("Polling; active layers:\n");
     net_stats.poll(*net_xfers);
@@ -1259,6 +1266,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         } else if (!strcmp(argv[i], "-update_prefs")) {
             update_prefs = true;
+        } else if (!strcmp(argv[i], "-run_speed_test")) {
+            run_speed_test = true;
         } else if (!strcmp(argv[i], "-add_new_project")) {
             add_new_project();
         } else if (!strcmp(argv[i], "-version")) {
@@ -1268,7 +1277,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf(
                 "Usage: %s [options]\n"
                 "    -version                show version info\n"
-                "    -add_new_project        add project (will prompt for URL, account key)\n",
+                "    -add_new_project        add project (will prompt for URL, account key)\n"
+                "    -update_prefs           contact all projects to update preferences\n"
+                "    -run_speed_test         run the speed benchmark routines\n",
                 argv[0]
             );
             exit(0);
