@@ -26,6 +26,12 @@
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
+#if HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+#if HAVE_SYS_SIGNAL_H
+#include <sys/signal.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
