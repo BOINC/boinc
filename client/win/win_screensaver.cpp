@@ -147,7 +147,8 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
     GetVersionEx( &osvi );
     m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
 
-	// Initialize the RPC client
+    // Attempt to reinitialize the RPC client
+    rpc.close();
     rpc.init( NULL );
 
     // Enumerate Monitors
@@ -254,75 +255,52 @@ VOID CScreensaver::StartupBOINC()
 
 	if( m_SaverMode != sm_preview )
 	{
-        if(rpc.get_screensaver_mode(iStatus) != 0)
+        if( (NULL != m_Monitors[0].hWnd) && (m_bBOINCCoreNotified == FALSE) )
 		{
-			// Create a screen saver window on the primary display if the boinc client crashes
-			CreateSaverWindow();
+            TCHAR szCurrentWindowStation[MAX_PATH];
+            TCHAR szCurrentDesktop[MAX_PATH];
+            DWORD dwBlankTime;
+            BOOL  bReturnValue;
 
-			if(IsConfigStartupBOINC())
-			{
-				m_bErrorMode = TRUE;
-				m_hrError = SCRAPPERR_BOINCNOTDETECTED;
-			}
-			else
-			{
-				m_bErrorMode = TRUE;
-				m_hrError = SCRAPPERR_BOINCNOTDETECTEDSTARTUP;
-			}
-
-			m_bBOINCCoreNotified = FALSE;
-		}
-		else
-		{
-            if( (NULL != m_Monitors[0].hWnd) && (m_bBOINCCoreNotified == FALSE) )
-			{
-                TCHAR szCurrentWindowStation[MAX_PATH];
-                TCHAR szCurrentDesktop[MAX_PATH];
-                DWORD dwBlankTime;
-                BOOL  bReturnValue;
-
-
-                if (!m_bIs9x)
+            if (!m_bIs9x)
+            {
+                // Retrieve the current window station and desktop names
+                bReturnValue = GetUserObjectInformation( 
+                    GetProcessWindowStation(), 
+                    UOI_NAME, 
+                    szCurrentWindowStation,
+                    (sizeof(szCurrentWindowStation) / sizeof(TCHAR)),
+                    NULL
+                );
+                if (!bReturnValue)
                 {
-                    // Retrieve the current window station and desktop names
-                    bReturnValue = GetUserObjectInformation( 
-                        GetProcessWindowStation(), 
-                        UOI_NAME, 
-                        szCurrentWindowStation,
-                        (sizeof(szCurrentWindowStation) / sizeof(TCHAR)),
-                        NULL
-                    );
-                    if (!bReturnValue)
-                    {
-                        BOINCTRACE(_T("Failed to retrieve the current window station.\n"));
-                    }
-
-                    bReturnValue = GetUserObjectInformation( 
-                        GetThreadDesktop(GetCurrentThreadId()), 
-                        UOI_NAME, 
-                        szCurrentDesktop,
-                        (sizeof(szCurrentDesktop) / sizeof(TCHAR)),
-                        NULL
-                    );
-                    if (!bReturnValue)
-                    {
-                        BOINCTRACE(_T("Failed to retrieve the current desktop.\n"));
-                    }
+                    BOINCTRACE(_T("Failed to retrieve the current window station.\n"));
                 }
 
+                bReturnValue = GetUserObjectInformation( 
+                    GetThreadDesktop(GetCurrentThreadId()), 
+                    UOI_NAME, 
+                    szCurrentDesktop,
+                    (sizeof(szCurrentDesktop) / sizeof(TCHAR)),
+                    NULL
+                );
+                if (!bReturnValue)
+                {
+                    BOINCTRACE(_T("Failed to retrieve the current desktop.\n"));
+                }
+            }
 
-                // Retrieve the blank screen timeout
-			    // make sure you check return value of registry queries
-			    // in case the item in question doesn't happen to exist.
-			    bReturnValue = UtilGetRegKey( REG_BLANK_TIME, dwBlankTime );
-			    if ( bReturnValue < 0 ) dwBlankTime = 0;
+            // Retrieve the blank screen timeout
+			// make sure you check return value of registry queries
+			// in case the item in question doesn't happen to exist.
+			bReturnValue = UtilGetRegKey( REG_BLANK_TIME, dwBlankTime );
+			if ( bReturnValue < 0 ) dwBlankTime = 0;
 
-				// Tell the boinc client to start the screen saver
-                rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
+			// Tell the boinc client to start the screen saver
+            rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
 
-				// We have now notified the boinc client
-				m_bBOINCCoreNotified = TRUE;
-			}
+			// We have now notified the boinc client
+			m_bBOINCCoreNotified = TRUE;
 		}
 	}
 }
@@ -791,34 +769,65 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					return 0; 
 		 
 				case 2:
+                    int iReturnValue = 0;
                     int iStatus = 0;
 
-                    if (m_bBOINCCoreNotified)
+			        // Create a screen saver window on the primary display if the boinc client crashes
+			        CreateSaverWindow();
+
+                    // Reset the error flags.
+                   	m_bErrorMode = FALSE;
+    				m_hrError = 0;
+
+                    // Lets try and get the current status of the CC
+                    iReturnValue = rpc.get_screensaver_mode( iStatus );
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
+                    if (0 != iReturnValue)
                     {
-                        rpc.get_screensaver_mode( iStatus );
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Screensaver Status = '%d'\n"), iStatus);
-                        switch (iStatus)
+                    	// Attempt to reinitialize the RPC client
+                        rpc.close();
+                        rpc.init( NULL );
+
+			            if(IsConfigStartupBOINC())
+			            {
+				            m_bErrorMode = TRUE;
+				            m_hrError = SCRAPPERR_BOINCNOTDETECTED;
+			            }
+			            else
+			            {
+				            m_bErrorMode = TRUE;
+				            m_hrError = SCRAPPERR_BOINCNOTDETECTEDSTARTUP;
+			            }
+
+			            m_bBOINCCoreNotified = FALSE;
+                    }
+                    else
+                    {
+                        if (m_bBOINCCoreNotified)
                         {
-                            case SS_STATUS_RESTARTREQUEST:
-                   				m_bErrorMode = TRUE;
-                                m_bBOINCCoreNotified = FALSE;
-                                break;
-                            case SS_STATUS_BOINCSUSPENDED:
-       				            m_bErrorMode = TRUE;
-    				            m_hrError = SCRAPPERR_BOINCSUSPENDED;
-                                break;
-                            case SS_STATUS_NOAPPSEXECUTING:
-       				            m_bErrorMode = TRUE;
-    				            m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTING;
-                                break;
-                            case SS_STATUS_NOTGRAPHICSCAPABLE:
-                            case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
-       				            m_bErrorMode = TRUE;
-    				            m_hrError = SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING;
-                                break;
+                            switch (iStatus)
+                            {
+                                case SS_STATUS_RESTARTREQUEST:
+                                    m_bBOINCCoreNotified = FALSE;
+                                    break;
+                                case SS_STATUS_BOINCSUSPENDED:
+       				                m_bErrorMode = TRUE;
+    				                m_hrError = SCRAPPERR_BOINCSUSPENDED;
+                                    break;
+                                case SS_STATUS_NOAPPSEXECUTING:
+       				                m_bErrorMode = TRUE;
+    				                m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTING;
+                                    break;
+                                case SS_STATUS_NOTGRAPHICSCAPABLE:
+                                case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
+       				                m_bErrorMode = TRUE;
+    				                m_hrError = SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING;
+                                    break;
+                            }
                         }
                     }
 
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
 					if( m_bErrorMode )
 					{
                         BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
@@ -826,14 +835,14 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					}
 					else
 					{
-                        if (!m_bBOINCCoreNotified)
+                        if ( !m_bBOINCCoreNotified )
                         {
                             BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Startup BOINC Screensaver\n"));
                             StartupBOINC();
                         }
                         else
                         {
-                            if (SS_STATUS_DISABLED  == iStatus)
+                            if (SS_STATUS_QUIT == iStatus)
                             {
                                 BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Shutdown BOINC Screensaver\n"));
                                 ShutdownSaver();

@@ -19718,3 +19718,24 @@ David  17 Nov 2004
 		ViewWork.cpp
 	lib/
 		gui_rpc_client.C,h
+
+Rom    17 Nov 2004
+    - Bug Fix: When BOINC is running as a service, make sure that we can display
+        some simple status messages about the progress of the projects.
+    - Bug Fix: Allow the apps to detect if they can support graphics, because
+        of the Window Station and Desktop change, if not report back to the
+        CC that graphics are not supported.
+    - Bug Fix: Configure the screensaver so that is can reestablish a connection
+        to the CC in case the core client is shutdown in the background, and
+        restarted.
+    - Remove remain screensaver logic from the old GUI.
+
+    api/
+        windows_opengl.C
+    client/
+        ss_logic.C, .h
+    client/win/
+        win_screensaver.cpp
+        wingui_mainwindow.cpp
+    lib/
+        gui_rpc_client.h

@@ -40,6 +40,7 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
 
     if (do_ss) return;
     do_ss = true;
+    ss_status = SS_STATUS_ENABLED;
 
     blank_time = new_blank_time;
     gstate.active_tasks.save_app_modes();
@@ -52,7 +53,6 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
             atp->request_graphics_mode(m);
             atp->is_ss_app = true;
             ack_deadline = time(0) + 5;
-            ss_status = SS_STATUS_ENABLED;
         }
     }
 }
@@ -61,7 +61,7 @@ void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
     reset();
     do_ss = false;
-    ss_status = SS_STATUS_DISABLED;
+    ss_status = SS_STATUS_QUIT;
     gstate.active_tasks.restore_apps();
 }
 

@@ -2201,7 +2201,7 @@ LRESULT CMainWindow::OnStartScreensaver(WPARAM wParam, LPARAM lParam)
     } else {
         blank_time = 0;
     }
-    gstate.ss_logic.start_ss( "", "", blank_time );
+    //gstate.ss_logic.start_ss( "", "", blank_time );
     return TRUE;
 }
 
@@ -2213,7 +2213,7 @@ LRESULT CMainWindow::OnStartScreensaver(WPARAM wParam, LPARAM lParam)
 // returns:     
 LRESULT CMainWindow::OnEndScreensaver(WPARAM wParam, LPARAM lParam)
 {
-    gstate.ss_logic.stop_ss();
+    //gstate.ss_logic.stop_ss();
     return TRUE;
 }
 

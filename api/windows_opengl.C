@@ -107,44 +107,6 @@ static void make_new_window() {
 	DWORD dwExStyle;
 	DWORD dwStyle;
 
-
-    if (!boinc_is_standalone()){
-        GetDesktopWindow();
-
-        if (NULL == hOriginalWindowStation) {
-            hOriginalWindowStation = GetProcessWindowStation();
-            if (NULL == hOriginalWindowStation) {
-                BOINCTRACE(_T("Failed to retrieve the orginal window station\n"));
-            }
-        }
-
-        if (NULL == hOriginalDesktop) {
-            hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
-            if (NULL == hOriginalDesktop) {
-                BOINCTRACE(_T("Failed to retrieve the orginal desktop\n"));
-            }
-        }
-
-        hInteractiveWindowStation = OpenWindowStation(
-            graphics_msg.window_station, FALSE, GENERIC_READ | GENERIC_EXECUTE
-        );
-        if (NULL == hInteractiveWindowStation) {
-            BOINCTRACE(_T("Failed to retrieve the required window station\n"));
-        } else {
-            hInteractiveDesktop = OpenDesktop(
-                graphics_msg.desktop, NULL, FALSE,
-                GENERIC_READ | DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_WRITEOBJECTS
-            );
-            if (NULL == hInteractiveDesktop) {
-                BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
-            } else {
-                SetProcessWindowStation(hInteractiveWindowStation);
-                SetThreadDesktop(hInteractiveDesktop);
-            }
-        }
-    }
-
-
 	if (current_graphics_mode == MODE_FULLSCREEN) {
 		HDC screenDC=GetDC(NULL);
 		WindowRect.left = WindowRect.top = 0;
@@ -204,11 +166,59 @@ static void make_new_window() {
 // - when in SS mode and get user input
 //
 static void set_mode(int mode) {
+    int new_mode = mode;
+
     if (mode == current_graphics_mode) return;
 	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
-	KillWindow();
-	current_graphics_mode = mode;
-    if (mode != MODE_HIDE_GRAPHICS && mode != MODE_QUIT) {
+
+    KillWindow();
+
+    if (!boinc_is_standalone()){
+        GetDesktopWindow();
+
+        if (NULL == hOriginalWindowStation) {
+            hOriginalWindowStation = GetProcessWindowStation();
+            if (NULL == hOriginalWindowStation) {
+                BOINCTRACE(_T("Failed to retrieve the orginal window station\n"));
+            }
+        }
+
+        if (NULL == hOriginalDesktop) {
+            hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
+            if (NULL == hOriginalDesktop) {
+                BOINCTRACE(_T("Failed to retrieve the orginal desktop\n"));
+            }
+        }
+
+        hInteractiveWindowStation = OpenWindowStation(
+            graphics_msg.window_station, FALSE, GENERIC_READ | GENERIC_EXECUTE
+        );
+        if (NULL == hInteractiveWindowStation) {
+            BOINCTRACE(_T("Failed to retrieve the required window station\n"));
+        } else {
+            hInteractiveDesktop = OpenDesktop(
+                graphics_msg.desktop, NULL, FALSE,
+                GENERIC_READ | DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_WRITEOBJECTS
+            );
+            if (NULL == hInteractiveDesktop) {
+
+                BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
+                SetProcessWindowStation(hOriginalWindowStation);
+                SetThreadDesktop(hOriginalDesktop);
+
+                new_mode = MODE_UNSUPPORTED;
+
+            } else {
+
+                SetProcessWindowStation(hInteractiveWindowStation);
+                SetThreadDesktop(hInteractiveDesktop);
+
+            }
+        }
+    }
+   
+    current_graphics_mode = new_mode;
+    if (new_mode != MODE_HIDE_GRAPHICS && new_mode != MODE_QUIT) {
         make_new_window();
     }
 
@@ -346,7 +356,7 @@ BOOL unreg_win_class() {
 
 static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 	RECT rt;
-	int width, height, new_mode;
+	int width, height;
     char buf[MSG_CHANNEL_SIZE];
 
     // check for graphics-related message from core client
@@ -378,7 +388,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
         //
         if (acked_graphics_mode != current_graphics_mode) {
             bool sent = app_client_shm->shm->graphics_reply.send_msg(
-                xml_decode_graphics_modes[current_graphics_mode]
+                xml_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;
             if (MODE_QUIT == current_graphics_mode) {

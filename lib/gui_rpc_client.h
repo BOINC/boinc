@@ -46,7 +46,6 @@
 #define CPU_SCHED_PREEMPTED                  1
 #define CPU_SCHED_SCHEDULED                  2
 
-#define SS_STATUS_DISABLED                   0
 #define SS_STATUS_ENABLED                    1
 #define SS_STATUS_RESTARTREQUEST             2
 #define SS_STATUS_BLANKED                    3
@@ -54,6 +53,7 @@
 #define SS_STATUS_NOTGRAPHICSCAPABLE         5
 #define SS_STATUS_NOAPPSEXECUTING            6
 #define SS_STATUS_NOGRAPHICSAPPSEXECUTING    7
+#define SS_STATUS_QUIT                       8
 
 struct GUI_URL {
     std::string name;
