@@ -1,7 +1,6 @@
 <?php
 require_once('../include.php');
 require_once('forum.inc');
-//require_once('thread.php');
 require_once('subscribe.inc');
 require_once('../util.inc');
 
@@ -32,7 +31,14 @@ doHeader('Forum');
 
 if (!empty($_GET['post'])) {
     $post = getPost($_GET['post']);
-} 
+}
+
+$helpdesk = false;
+
+if (!empty($_GET['helpdesk'])) {
+	$helpdesk = true;
+}
+
 $thread = getThread($_GET['thread']);
 $forum = getForum($thread->forum);
 
@@ -53,7 +59,10 @@ $logged_in_user = get_logged_in_user(true);
 		</tr>
 <?php
 
-show_posts($thread, false, false);
+// TODO: Use the same sorting method that the user had in the thread view.
+//show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true, $is_helpdesk=false)
+
+show_posts($thread, 'modified-new',-2, false, false, $helpdesk);
 show_message_row($thread, $post);
 ?>
 

@@ -1,7 +1,6 @@
 <?php
 require_once('../include.php');
 require_once('forum.inc');
-doHeader('Forum');
 
 // Number of forum topics per page.
 $n = 50;
@@ -13,14 +12,17 @@ $_GET['sort'] = stripslashes(strip_tags($_GET['sort']));
 
 if (!array_key_exists('start', $_GET) || $_GET['start'] < 0)
 	$_GET['start'] = 0;
-        
-$sort_style = $_GET['sort'];
 
-if ($sort_style == NULL) {
-    $sort_style = 'modified-new';
+$forum = getForum($_GET['id']);
+
+if ($forum->is_helpdesk) {
+	doHeader('Help Desk');
+	$sort_style = 'activity-most';	        
+} else {
+	doHeader('Forum');
+	($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
 }
         
-$forum = getForum($_GET['id']);
 ?>
 <form action="forum.php" method="get">
 <input type="hidden" name="id" value=<?php echo $forum->id ?>>
@@ -32,8 +34,10 @@ $forum = getForum($_GET['id']);
 	<span class="title"><?php echo $forum->title ?></span>
 	<br><a href="index.php"><?php echo $cfg['sitename'] ?> Forum</a>
 </p>
-<p><a href="post.php?id=<?php echo $_GET['id'] ?>">Post a New Thread / Question</a></p>
+<p><a href="post.php?id=<?php echo $_GET['id'] ?>"><?php if ($forum->is_helpdesk) echo "Post a New Question"; else echo "Post a New Thread / Question"; ?></a></p>
 </td>
+
+<?php if (!$forum->is_helpdesk) { ?>
 <td align="right" style="border:0px">
 <select name="sort">
   <option <?php if ($sort_style == 'modified-new') echo 'selected' ?> value="modified-new">Most recent post first</option>
@@ -44,6 +48,8 @@ $forum = getForum($_GET['id']);
 </select>
 <input type="submit" value="Sort">  
 </td>
+<?php } ?>
+
 </tr></table>
 </form>
 <?php
@@ -93,11 +99,16 @@ endif;
 <p>
 	<table class="content" border="0" cellpadding="5" cellspacing="0" width="100%">
 		<tr>
-			<th>Titles</th>
-			<th style="width: 50px">Replies</th>
-			<th style="width: 150px">Author</th>
-			<th style="width: 50px">Views</th>
-			<th style="width: 170px">Last Post</th>
+			<?php if ($forum->is_helpdesk) { ?>
+				<th>Question</th>
+				<th style="width: 50px">Answers</th>
+			<?php } else { ?>
+				<th>Titles</th>
+				<th style="width: 50px">Replies</th>
+				<th style="width: 150px">Author</th>
+				<th style="width: 50px">Views</th>
+				<th style="width: 170px">Last Post</th>			
+			<?php } ?>
 		</tr>
 		<?php
 		$threads = $forum->getThreads($_GET['start'], $n, $sort_style);
@@ -106,10 +117,18 @@ endif;
 			?>
 			<tr style="font-size:8pt; text-align:center">
 				<td class="col1" style="font-size:10pt; text-align:left"><a href="thread.php?id=<?php echo $thread->id ?>"><b><?php echo stripslashes($thread->title) ?></b></a></td>
-				<td class="col2"><?php echo $thread->replies ?></td>
-				<td class="col3"><a href="../show_user.php?userid=<?php echo $thread->owner ?>"><?php echo $user->name ?></a></td>
-				<td class="col2"><?php echo $thread->views ?></td>
-				<td class="col3" style="text-align:right"><?php echo date('D M j, Y g:i a', $thread->timestamp) ?></td>
+				<?php
+					if ($forum->is_helpdesk) {
+						echo "<td class=\"col2\">", $thread->replies, "</td>";
+					} else {
+						echo "
+							<td class=\"col2\">", $thread->replies, "</td>
+							<td class=\"col3\"><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
+							<td class=\"col2\">", $thread->views, "</td>
+							<td class=\"col3\" style=\"text-align:right\">", date('D M j, Y g:i a', $thread->timestamp), "</td>";
+					}
+				?>
+				
 			</tr>
 			<?php
 		endwhile;
