@@ -79,8 +79,6 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
 
     SetSizer(itemFlexGridSizer);
     SetAutoLayout(TRUE);
-
-    itemFlexGridSizer->Fit(this);
 }
 
 

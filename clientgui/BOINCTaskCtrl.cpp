@@ -47,7 +47,11 @@ CBOINCTaskCtrl::CBOINCTaskCtrl()
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags ) :
+#ifdef __WXMAC__
+    wxHtmlWindow( pView, iHtmlWindowID, wxDefaultPosition, wxSize(500, -1), iHtmlWindowFlags )
+#else
     wxHtmlWindow( pView, iHtmlWindowID, wxDefaultPosition, wxSize(225, -1), iHtmlWindowFlags )
+#endif
 {
     m_pParentView = pView;
 }
