@@ -64,13 +64,13 @@ function show_result_page($success, $post, $choice) {
         echo "<span class=\"title\">Vote Registered</span>";
         echo "<p>Your rating has been successfully recorded.  Thank you for your input.</p>";
     	}
-    	echo "<a href=\"thread.php?id=", $post->thread, "#", $post->id, "\">Return to thread</a>";
+    	echo "<a href=\"forum_thread.php?id=", $post->thread, "#", $post->id, "\">Return to thread</a>";
     } else {
 	    	page_head('Vote Submission Problem');	
         echo "<span class=\"title\">Vote submission failed</span>";
         if ($post) {
             echo "<p>There was a problem recording your vote in our database.  Please try again later.</p>";
-            echo "<a href=\"thread.php?id=", $post->thread, "#", $post->id, "\">Return to thread</a>";
+            echo "<a href=\"forum_thread.php?id=", $post->thread, "#", $post->id, "\">Return to thread</a>";
         } else {
             echo "<p>There post you specified does not exist, or your rating was invalid.</p>";
         }

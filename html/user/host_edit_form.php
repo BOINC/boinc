@@ -14,7 +14,7 @@ $result = mysql_query("select * from host where id=$hostid");
 $host = mysql_fetch_object($result);
 mysql_free_result($result);
 if (!$host || $host->userid != $user->id) {
-    echo "Host not found";
+    echo "We have no record of that computer";
     exit();
 }
 

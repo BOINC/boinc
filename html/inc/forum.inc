@@ -194,7 +194,12 @@ function createThread($forumID, $ownerID, $title, $content) {
     $title = addslashes(sanitize_html($title));
     $content = addslashes(sanitize_html($content));
 
-    $sql = "INSERT INTO thread (forum, owner, title, create_time, timestamp) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
+    $title = trim($title);
+    if (strlen($title) == 0) {
+        return 0;
+    }
+
+    $sql = "insert into thread (forum, owner, title, create_time, timestamp) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
     $result = mysql_query($sql);
     if (!$result) return false;
     $threadID = mysql_insert_id();
@@ -300,16 +305,14 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     echo "
-        <tr class=\"row$n\" style=\"vertical-align:top\">
+        <tr class=\"row$n\" valign=top>
         <td>
         <a name= $post->id ></a>
-        <p style=\"font-weight:bold\">
     ";
 
     echo user_links($user, URL_BASE);
 
     echo "
-        </p>
         <p style=\"font-size:8pt\">
         Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "
         </p>
@@ -318,17 +321,17 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     ";
 
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
-        echo "<form action=\"rate.php?post=", $post->id, "\" method=\"post\">";
+        echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
     echo "
-        <table width=100% cellspacing=0 cellpadding=0>
-        <tr valign=\"top\">
-        <td align=\"left\" style=\"border:0px\"><p style=\"font-size:8pt\">
+        <table width=100% cellpadding=0 cellspacing=0 border=0 cellborder=0>
+        <tr valign=top>
+        <td align=left style=border:0px><font size=-2>
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
-    if ($post->parent_post) echo " in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
-    if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>";
+    if ($post->parent_post) echo "<br>in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
+    if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=forum_edit.php?id=$post->id>[Edit this post]</a>";
     if ($post->modified) echo "<br>Last modified: ", pretty_time_Str($post->modified);
 
     echo "</p>\n</td>\n";
@@ -340,7 +343,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
             <td align=\"right\" style=\"border:0px\">
-            <input type=\"submit\" name=\"submit\" value=\"", SUFFERER, "\">
+            <input type=submit name=submit value=\"", SUFFERER, "\">
             </td>
         ";
     } else if ($controls == HELPDESK_CONTROLS && !$separate) {
@@ -370,9 +373,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
 
     if ($controls == FORUM_CONTROLS) {
-        echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
+        echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
     } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-        echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
+        echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
     }
 
     echo "</tr></table></td></tr>";
@@ -381,9 +384,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "
             </table>
             <br><br>
-            <table class=\"content\" border=0 cellpadding=5 cellspacing=0 width=100%>
+            <table border=0 cellpadding=5 cellspacing=0 width=100%>
             <tr>
-            <th style=\"width: 150px\">Author</th>
+            <th>Author</th>
             <th>Answers</th>
         ";
     }
@@ -453,7 +456,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
         } else {
             echo "<a href=index.php>", " Message boards</a> : ";
         }
-        echo "<a href=\"forum.php?id=", $forum->id, "\">", $forum->title, "</a> : ";
+        echo "<a href=forum_forum.php?id=$forum->id>", $forum->title, "</a> : ";
         echo strip_tags(stripslashes($thread->title));
         echo "</span><br>";
     } else {
@@ -470,7 +473,7 @@ function show_thread($thread, $n) {
     $first_post = getFirstPost($thread->id);
     $title = stripslashes($thread->title);
     $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"help_desk.php":"index.php";
+    $top_url = $category->is_helpdesk?"forum_help_desk.php":"index.php";
     $excerpt = sub_sentence(stripslashes($first_post->content), ' ', EXCERPT_LENGTH, true);
     $posted = time_diff_str($thread->create_time, time());
     $last = time_diff_str($thread->timestamp, time());
@@ -484,8 +487,8 @@ function show_thread($thread, $n) {
         </td>
         <td valign=top>
             <a href=$top_url>$where</a> : $category->name :
-            <a href=forum.php?id=$forum->id>$forum->title</a> :
-            <a href=thread.php?id=$thread->id>$title</a>
+            <a href=forum_forum.php?id=$forum->id>$forum->title</a> :
+            <a href=forum_thread.php?id=$thread->id>$title</a>
             <br>
             <font size=-2>$excerpt</font>
         </td>
@@ -510,8 +513,8 @@ function show_post2($post, $n) {
         <tr class=row$m>
         <td>
             $n) <a href=$top_url>$where</a> : $category->name :
-            <a href=forum.php?id=$forum->id>$forum->title</a> :
-            <a href=thread.php?id=$thread->id>$title</a>
+            <a href=forum_forum.php?id=$forum->id>$forum->title</a> :
+            <a href=forum_thread.php?id=$thread->id>$title</a>
             <br>
             Posted $when by $user->name
             <hr>
@@ -527,7 +530,7 @@ function show_forum_summary($forum) {
         <tr class=row1 style=\"font-size:8pt; text-align:right\">
         <td class=indent style=\"text-align:left\">
             <span style=\"font-size:10pt; font-weight:bold\">
-            <a href=\"forum.php?id=", $forum->id, "\">", $forum->title,
+            <a href=forum_forum.php?id=$forum->id>", $forum->title,
             "</a></span>
             <br>", $forum->description, "
         </td>

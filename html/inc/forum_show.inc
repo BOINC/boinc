@@ -35,10 +35,10 @@ function show_page_nav($forum) {
         if ($curPage == 0) {
             $gotoStr .= '<span style="font-size:larger; font-weight:bold">1</span>';
         } else {
-            $gotoStr .= '<a href="forum.php?id='.$_GET['id'];
+            $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($curPage-1)*$threads_per_page);
             $gotoStr .= '&sort='.$_GET["sort"];
-            $gotoStr .= '">Previous</a> <a href="forum.php?id='.$_GET['id'].'&start=0">1</a>';
+            $gotoStr .= '">Previous</a> <a href="forum_forum.php?id='.$_GET['id'].'&start=0">1</a>';
         }
 
         for ($i = 1 ; $i < count($pages)-1 ; $i++) {
@@ -47,7 +47,7 @@ function show_page_nav($forum) {
                 $gotoStr .= '<span style="font-size:larger; font-weight:bold">'.($pages[$i]+1).'</span>';
             } else {
                 $gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
-                $gotoStr .= '<a href="forum.php?id='.$_GET['id'];
+                $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
                 $gotoStr .= '&start='.($pages[$i]*$threads_per_page);
                 $gotoStr .= '&sort='.$_GET["sort"];
                 $gotoStr .= '">'.($pages[$i]+1).'</a>';
@@ -57,11 +57,11 @@ function show_page_nav($forum) {
         if ($curPage == $totalPages-1) {
             $gotoStr .= ', <span style="font-size:larger; font-weight:bold">'.$totalPages.'</span>';
         } else {
-            $gotoStr .= ', <a href="forum.php?id='.$_GET['id'];
+            $gotoStr .= ', <a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($totalPages-1)*$threads_per_page);
             $gotoStr .= '&sort='.$_GET["sort"];
             $gotoStr .= '">'.$totalPages.'</a> ';
-            $gotoStr .= '<a href="forum.php?id='.$_GET['id'];
+            $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($curPage+1)*$threads_per_page);
             $gotoStr .= '&sort='.$_GET["sort"];
             $gotoStr .= '">Next</a>';
@@ -92,7 +92,7 @@ function show_forum($category, $forum, $start, $sort_style) {
         $excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
         echo "
             <tr class=row$n style=\"font-size:8pt; text-align:center\">
-            <td style=\"font-size:10pt; text-align:left\"><a href=\"thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
+            <td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
         ";
         $n = ($n+1)%2;
 

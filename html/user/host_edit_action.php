@@ -12,7 +12,7 @@ function fail($msg) {
 function get_host($hostid, $user) {
     $host = lookup_host($hostid);
     if (!$host || $host->userid != $user->id) {
-        fail("No such host");
+        fail("We have no record of that computer");
     }
     return $host;
 }
@@ -31,6 +31,7 @@ function merge_hosts($old_host, $new_host) {
    // - add credit from old to new host
    // - change results to refer to new host
    // - delete old host
+   //
    $total_credit = $old_host->total_credit + $new_host->total_credit;
    $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
    $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit where id=$new_host->id");
@@ -43,14 +44,14 @@ function merge_hosts($old_host, $new_host) {
    }
    $result = mysql_query("delete from host where id=$old_host->id");
    if (!$result) {
-       fail("Couldn't delete host");
+       fail("Couldn't delete record of computer");
    }
 }
 
     db_init();
     $user = get_logged_in_user();
 
-    page_head("Host merge");
+    page_head("Merge computer records");
 
     $nhosts = $_GET["nhosts"];
     $hostid = $_GET["id_0"];

@@ -4,7 +4,7 @@
 
     if ($field == "result_server_state") {
         echo "
-            This <b>server state</b> of a result has the following values:
+            The <b>server state</b> of a result has the following values:
             <dl>
             <dt><b>Inactive</b>
             <dd> The result is not ready to send

@@ -8,14 +8,25 @@ function pending_credit($user) {
     return $foobar->total;
 }
 
+function show_credit($user) {
+    row2("Total credit", format_credit($user->total_credit));
+    row2("Recent average credit", format_credit($user->expavg_credit));
+    if ($user->seti_nresults) {
+        row2("SETI@home classic workunits", number_format($user->seti_nresults));
+    }
+    if ($user->seti_total_cpu) {
+        $x = number_format($user->seti_total_cpu/3600)." hours";
+        row2("SETI@home classic CPU time", $x);
+    }
+}
+
 // show dynamic user info (private)
 //
 function show_user_stats_private($user) {
     row1("Account statistics");
     row2(PROJECT." member since", time_str($user->create_time));
-    row2("Total credit", format_credit($user->total_credit));
+    show_credit($user);
     row2("Pending credit", "<a href=pending.php>View</a>");
-    row2("Recent average credit", format_credit($user->expavg_credit));
     $team_header = "Team<br><font size=-2><a href=team.php>Change</a></font>";
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
@@ -27,14 +38,14 @@ function show_user_stats_private($user) {
     row2("Computers", "<a href=hosts_user.php>View</a>");
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");
     if ($user->posts) {
-        row2("Message board posts", "<a href=forum/user_posts.php?userid=$user->id>$user->posts messages</a>");
+        row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts messages</a>");
 
     }
 }
 
 // show static user info (private)
 //
-function show_user_profile_private($user) {
+function show_user_info_private($user) {
     if (is_valid_email_addr($user->email_addr)) {
         $email_text = $user->email_addr;
     } else {
@@ -60,7 +71,6 @@ function show_user_profile_private($user) {
         row2("Forums signature", $x);
     }
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
-    row2("", "<a href=logout.php>Log out</a>");
 
     row1("Profile");
     $sql = "SELECT * FROM profile WHERE userid = ".$user->id;
@@ -86,8 +96,7 @@ function show_user_summary_public($user) {
     if (strlen($user->url)) {
         row2("URL", "<a href=http://$user->url>http://$user->url</a>");
     }
-    row2("Total credit", format_credit($user->total_credit));
-    row2("Recent average credit", format_credit($user->expavg_credit));
+    show_credit($user);
 
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
@@ -102,7 +111,7 @@ function show_user_summary_public($user) {
         row2("Computers", "hidden");
     }
     if ($user->posts) {
-        row2("Message board posts", "<a href=forum/user_posts.php?userid=$user->id>$user->posts</a>");
+        row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts</a>");
     }
     if ($user->has_profile) {
         row2("Profile", "<a href=view_profile.php?userid=$user->id>view</a>");
@@ -115,8 +124,11 @@ function show_user_summary_public($user) {
 
 function show_user_page_private($user) {
     start_table("width=100%");
-    show_user_profile_private($user);  // NOTE: Will include the actual user profile.
+    show_user_info_private($user);
     show_user_stats_private($user);
+    row1("Other");
+    row2("", "<a href=logout.php>Log out</a>");
+    row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
     end_table();
 }
 

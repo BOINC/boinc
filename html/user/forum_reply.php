@@ -21,7 +21,7 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 	replyToThread($_GET['thread'], $user->id, $_POST['content'].$forum_signature, $parent_post);
 	notify_subscribers($_GET['thread']);
 
-	header('Location: thread.php?id='.$_GET['thread']);
+	header('Location: forum_thread.php?id='.$_GET['thread']);
 }
 
 $logged_in_user = get_logged_in_user(true);
@@ -86,7 +86,7 @@ function show_message_row($thread, $category, $post=NULL) {
             discuss this particular question or problem.
         ";
     }
-    echo "<form action='reply.php?thread=", $thread->id;
+    echo "<form action='forum_reply.php?thread=", $thread->id;
 
     if ($post) {
         echo "&post=", $post->id;

@@ -13,8 +13,14 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
         $forum_signature = "\n".$user->signature;
     }
     $threadID = createThread($_GET['id'], $user->id, $_POST['title'], $_POST['content'].$forum_signature);
+    if (!$threadID) {
+        page_head("Can't create thread");
+        echo "Title is possibly missing";
+        page_tail();
+        exit();
+    }
 
-	header('Location: thread.php?id=' . $threadID);
+	header('Location: forum_thread.php?id=' . $threadID);
 }
 
 if (!empty($_GET['id'])) {
@@ -57,7 +63,7 @@ if ($category->is_helpdesk) {
     ";
 }
 
-echo "<form action=\"post.php?id=", $_GET['id'], "\" method=POST>";
+echo "<form action=\"forum_post.php?id=", $_GET['id'], "\" method=POST>";
 
 if ($category->is_helpdesk) {
 	$cell = "Submit a new question/problem";

@@ -18,40 +18,43 @@ define('GALLERY_HEIGHT', 4);
 
 define('UOTD_THRESHOLD', 7);
 
-$user = NULL;
-$profile_info = NULL;
-
 db_init();
 
-function show_profile_creation_page($usr) {
-    global $user;
-    global $profile_info;
-    $user = $usr;
+function get_profile($userid) {
+    $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
+    $profile = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $profile;
+}
 
+function show_profile_creation_page($user) {
     // If the user already has a profile,
     // fill in the fields with their current values.
-    $result = mysql_query("SELECT * FROM profile WHERE userid = $user->id");
-    if ($result) {
-        $profile_info = mysql_fetch_array($result, MYSQL_ASSOC);
+    //
+    $profile = get_profile($user->id);
+    if ($_POST['submit']) {
+        process_create_results($user, $profile);
+        exit();
     }
 
-    setup_form();
-    $profile_info?page_head("Edit your Profile"):page_head("Create a Profile");
+    if ($profile) {
+        page_head("Edit your Profile");
+    } else {
+        page_head("Create a Profile");
+    }
+
+    setup_form($user, $profile);
     start_table_noborder();
-    show_description();
-    show_questions();
-    show_picture_option();
+    show_description($user, $profile);
+    show_questions($profile);
+    show_picture_option($profile);
     show_finale();
     end_table();
     close_form();
     page_tail();
 }
 
-function setup_form() {
-    if ($_POST['submit']) {
-        process_create_results();
-        exit();
-    }
+function setup_form($user, $profile) {
 
     echo "
 <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
@@ -62,50 +65,50 @@ function close_form() {
     echo "</form>";
 }
 
-function show_description() {
-    global $profile_info;
-    global $user;
+function show_description($user, $profile) {
 
-    $profile_info?row1("Edit your profile: " . $user->name):row1("Create a profile");
+    if ($profile) {
+        row1("Edit your profile");
+    } else {
+        row1("Create a profile");
+    }
     rowify("
-By creating a <b>profile</b> you can share your opinions and background
-with the entire ".PROJECT." community.
+Your <b>profile</b> lets you share your opinions and background
+with the ".PROJECT." community.
+<br><a href=html.php><font size=-2>You may use HTML tags</font></a>
 ");
     rowify("<br>");
 }
 
-function show_questions() {
+function show_questions($profile) {
     show_profile_heading1();
     show_profile_question1();
     rowify("<br>");
-    show_textarea('response1');
+    show_textarea("response1", $profile->response1);
     rowify("<br>");
     show_profile_heading2();
     show_profile_question2();
     rowify("<br>");
-    show_textarea('response2');
+    show_textarea("response2", $profile->response2);
     rowify("<br>");
-    show_language_selection();
+    show_language_selection($profile);
     rowify("<br>");
 }
 
-function show_textarea($name) {
-    global $profile_info;
-
-    rowify("<textarea name=\"$name\" cols=80 rows=20>" . $profile_info[$name] . "</textarea>");
+function show_textarea($name, $text) {
+    rowify("<textarea name=\"$name\" cols=80 rows=20>" . $text . "</textarea>");
 }
 
-function show_picture_option() {
-    global $profile_info;
+function show_picture_option($profile) {
 
     row1("Your Picture");
 
-    if ($profile_info['has_picture']) {
+    if ($profile->has_picture) {
         echo "
 <tr><td colspan=2>
 <table border=0 cellpadding=5
 <tr>
-<td><a href=\"" . IMAGE_URL . $profile_info['userid'] . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile_info['userid'] . '_sm.jpg' . "\"></a><p>
+<td><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a><p>
 <input type=\"checkbox\" name=\"delete_pic\">Delete
 </td>
 <td>You have previously uploaded a picture of yourself
@@ -137,14 +140,12 @@ you want to send. (No animated GIFs, please!)<br>
     }
 }
 
-function show_language_selection() {
-    global $profile_info;
-
+function show_language_selection($profile) {
     row1("Select Your Primary Language");
     rowify("Selecting a language will help others with the same language preference to find each others' profiles and message board postings.");
     echo "<tr><td>";
-    if ($profile_info) {
-        show_combo_box("language", LANGUAGE_FILE, $profile_info['language']);
+    if (strlen($profile->language)) {
+        show_combo_box("language", LANGUAGE_FILE, $profile->language);
     } else {
         show_combo_box("language", LANGUAGE_FILE, "English");
     }
@@ -152,8 +153,6 @@ function show_language_selection() {
 }
 
 function show_finale() {
-    global $profile_info;
-
     row1("Submit Your Profile");
     rowify("<p>
         <input type=submit value=Submit name=submit>
@@ -177,10 +176,7 @@ function delete_user_pictures($userid) {
     }
 }
 
-function process_create_results() {
-    global $user;
-    global $profile_info;
-
+function process_create_results($user, $profile) {
     $response1 = $_POST['response1'];
     $response2 = $_POST['response2'];
     $language = $_POST['language'];
@@ -196,13 +192,11 @@ function process_create_results() {
     }
 
     if ($delete_pic == "on") {
-
-        delete_user_pictures($profile_info['userid']);
-
-        $profile_info['has_picture'] = false;
+        delete_user_pictures($profile->userid);
+        $profile->has_picture = false;
     }
 
-    $profile_info ? $hasPicture = $profile_info['has_picture']: $hasPicture = false;
+    $profile ? $hasPicture = $profile->has_picture: $hasPicture = false;
 
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
         $hasPicture = true;
@@ -223,7 +217,7 @@ function process_create_results() {
     }
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
-    if ($profile_info) {
+    if ($profile) {
         $query = 'UPDATE profile SET '
             ." response1 = '$response1',"
             ." response2 = '$response2',"
@@ -251,7 +245,7 @@ function process_create_results() {
         mysql_query($q);
     }
 
-    show_result_page();
+    show_result_page($user);
 }
 
 // Returns an array containing:
@@ -325,9 +319,7 @@ function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeigh
     return $newImage;
 }
 
-function show_result_page() {
-    global $user;
-
+function show_result_page($user) {
     page_head("Profile Saved");
 
     echo "
@@ -369,11 +361,8 @@ function show_user_table(
                 write_fd($descriptor, "<td class=bordered width=7% height=64><center>");
 
                 // Only link an image if the user has uploaded one.;
-                $sql = "SELECT * FROM profile WHERE userid = " . $members[$count];
-                $result = mysql_query($sql);
-                $profile = mysql_fetch_assoc($result);
-
-                if ($profile['has_picture']) {
+                $profile = get_profile($members[$count]);
+                if ($profile->has_picture) {
                     write_fd($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . URL_BASE . IMAGE_URL . $members[$count] . '_sm.jpg' . "\"></a>");
 
                 } else {
@@ -397,31 +386,22 @@ function show_user_table(
 //   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
 
 function get_profile_summary($profile) {
-    $sql = "SELECT * FROM profile WHERE userid = " . $profile['userid'];
-    $result = mysql_query($sql);
-    $sql = "SELECT name FROM user WHERE id = " . $profile['userid'];
-    $result2 = mysql_query($sql);
+    $user = get_user_from_id($profile->userid);
 
-    if (!$result || !$result2) {
+    if (!$user || !$profile) {
         echo "Database error!";  // Change this to a standard error page.
         exit();
     }
 
-    $row = mysql_fetch_assoc($result);
-    $row2 = mysql_fetch_assoc($result2);
-
-    mysql_free_result($result);
-    mysql_free_result($result2);
-
     $description = "";
 
-    if (strlen($row['response1']) != 0) {
-        $temp = $row['response1'];
+    if (strlen($profile->response1) != 0) {
+        $temp = $profile->response1;
         $description = "(\"" . sub_sentence(strip_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
 
     }
 
-    $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $profile['userid'] . "\">" . $row2['name'] . "</a> " . $description;
+    $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $profile->userid . "\">" . $user->name . "</a> " . $description;
     return $summary;
 }
 
@@ -435,12 +415,9 @@ function show_profile($userid, $verify_mode=false) {
         exit();
     }
 
-    $result = mysql_query("SELECT * FROM profile WHERE userid = $user->id");
+    $profile = get_profile($userid);
 
-    if (mysql_num_rows($result) > 0) {
-        $profile_info = mysql_fetch_array($result, MYSQL_ASSOC);
-    } else {
-    // TODO: Standardize this to a global error page.;
+    if (!$profile) {
         echo "No user profile exists for that user ID.";
         exit();
     }
@@ -457,25 +434,25 @@ function show_profile($userid, $verify_mode=false) {
         echo "<a href=create_profile.php>[Edit Your Profile]</a>";
     }
 
-    show_profile_summary($user, $profile_info, $can_edit, $verify_mode);
+    show_profile_summary($user, $profile, $can_edit, $verify_mode);
     echo "<br><br>";
     show_profile_heading1();
-    echo ":", $profile_info['response1'];
+    echo ":", $profile->response1;
     echo "<br><br>";
     show_profile_heading2();
-    echo ":", $profile_info['response2'];
+    echo ":", $profile->response2;
     if (!$verify_mode) {
         page_tail();
     }
 }
 
-function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
+function show_profile_summary($user, $profile, $can_edit, $verify_mode) {
     if (!$can_edit && !$verify_mode) {
         show_view_buttons($user->id);
     }
 
     // Only display an image if the user has uploaded one;
-    if ($profile_info['has_picture']) {
+    if ($profile->has_picture) {
         //echo "<a href=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '_sm.jpg' . "\"></a>\n";
         echo "<br><img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">\n";
     }
@@ -484,7 +461,7 @@ function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
         <br>
         <font size=-1>
         <b>Country:</b> ", $user->country,
-        "<br><b>Language:</b> ", $profile_info['language'], "<br>
+        "<br><b>Language:</b> ", $profile->language, "<br>
     ";
     echo "<b>Total Credit:</b> ", $user->total_credit, "<br>";
 

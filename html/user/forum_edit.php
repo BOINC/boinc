@@ -26,7 +26,7 @@ if ($_POST['submit']) {
         updateThread($thread->id, $_POST['title']);
     }
 
-    header('Location: thread.php?id='.$thread->id);
+    header('Location: forum_thread.php?id='.$thread->id);
 }
 
 

@@ -426,7 +426,7 @@ static void scan_work_array(
         if (wreq.disk_available <= 0) break;
         if (wreq.nresults >= config.max_wus_to_send) break;
         if (config.daily_result_quota) {
-            if (reply.host.nresults_today > config.daily_result_quota) {
+            if (reply.host.nresults_today >= config.daily_result_quota) {
                 wreq.daily_result_quota_exceeded = true;
                 break;
             }

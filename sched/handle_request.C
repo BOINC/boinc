@@ -207,10 +207,7 @@ static void compute_credit_rating(HOST& host, SCHEDULER_REQUEST& sreq) {
 // modify host struct based on request.
 // Copy all fields that are determined by the client.
 //
-static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& xhost) {
-    DB_HOST host;
-    host = xhost;
-
+static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.timezone = sreq.host.timezone;
     strncpy(host.domain_name, sreq.host.domain_name, sizeof(host.domain_name));
     strncpy(host.serialnum, sreq.host.serialnum, sizeof(host.serialnum));
@@ -308,7 +305,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 // handle completed results
 //
 int handle_results(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, HOST& host
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
     unsigned int i;
     int retval;
@@ -332,21 +329,21 @@ int handle_results(
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
-                host.id, rp->name
+                reply.host.id, rp->name
             );
             continue;
         }
 
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
-            host.id, result.id, result.name
+            reply.host.id, result.id, result.name
         );
 
         if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
-                host.id, result.id, result.name, result.server_state
+                reply.host.id, result.id, result.name, result.server_state
             );
             continue;
         }
@@ -355,7 +352,7 @@ int handle_results(
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result twice\n",
-                host.id, result.id, result.name
+                reply.host.id, result.id, result.name
             );
             continue;
         }
@@ -364,7 +361,7 @@ int handle_results(
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
-                host.id, result.id, result.name, result.hostid
+                reply.host.id, result.id, result.name, result.hostid
             );
             DB_HOST result_host;
             int retval = result_host.lookup_id(result.hostid);
@@ -376,18 +373,18 @@ int handle_results(
                     result.id, result.name, result.hostid
                 );
                 continue;
-            } else if (result_host.userid != host.userid) {
+            } else if (result_host.userid != reply.host.userid) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
-                    host.userid, host.id, result.id, result.name, result_host.userid
+                    reply.host.userid, reply.host.id, result.id, result.name, result_host.userid
                 );
                 continue;
             } else {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
-                    host.id, result.id, result.name, host.userid
+                    reply.host.id, result.id, result.name, reply.host.userid
                 );
             }
         }
@@ -400,10 +397,12 @@ int handle_results(
         result.cpu_time = rp->cpu_time;
         result.exit_status = rp->exit_status;
         result.app_version_num = rp->app_version_num;
-        result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+        result.claimed_credit = result.cpu_time * reply.host.credit_per_cpu_sec;
+#if 1
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "cpu %f cpcs %f, cc %f\n", result.cpu_time, host.credit_per_cpu_sec, result.claimed_credit
+            "cpu %f cpcs %f, cc %f\n", result.cpu_time, reply.host.credit_per_cpu_sec, result.claimed_credit
         );
+#endif
         result.server_state = RESULT_SERVER_STATE_OVER;
 
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
@@ -436,7 +435,7 @@ int handle_results(
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                host.id, result.id, result.name, boinc_db.error_string()
+                reply.host.id, result.id, result.name, boinc_db.error_string()
             );
         }
 
@@ -447,7 +446,7 @@ int handle_results(
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
-                host.id, result.id, result.name, result.workunitid
+                reply.host.id, result.id, result.name, result.workunitid
             );
         } else {
             wu.transition_time = time(0);
@@ -456,7 +455,7 @@ int handle_results(
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
-                    host.id, result.id, result.name, wu.id, wu.name
+                    reply.host.id, result.id, result.name, wu.id, wu.name
                 );
             }
         }
@@ -683,7 +682,7 @@ void process_request(
         user.update();
     }
 
-    handle_results(sreq, reply, reply.host);
+    handle_results(sreq, reply);
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //

@@ -15,7 +15,7 @@ echo "
     <td align=right>
     Search titles:
     </td><td>
-    <form action=text_search_action.php>
+    <form action=forum_text_search_action.php>
     <input name=search_string>
     <input type=submit name=titles value=Search>
     </form>

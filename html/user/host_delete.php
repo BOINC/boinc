@@ -12,7 +12,7 @@ function fail($msg) {
 function get_host($hostid, $user) {
     $host = lookup_host($hostid);
     if (!$host || $host->userid != $user->id) {
-        fail("No such host");
+        fail("We have no record of that computer");
     }
     return $host;
 }
@@ -20,7 +20,7 @@ function get_host($hostid, $user) {
     db_init();
     $user = get_logged_in_user();
 
-    page_head("Host delete");
+    page_head("Delete record of computer");
 
     $hostid = $_GET["hostid"];
     $host = get_host($hostid, $user);

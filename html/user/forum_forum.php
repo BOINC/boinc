@@ -3,7 +3,7 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
-require_once('forum_show.inc');
+require_once('../inc/forum_show.inc');
 
 if (empty($_GET['id'])) {
     // TODO: Standard error page
@@ -53,7 +53,7 @@ echo "
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
-echo "<p>\n<a href=\"post.php?id=", $_GET['id'], "\">";
+echo "<p>\n<a href=\"forum_post.php?id=", $_GET['id'], "\">";
 
 if ($category->is_helpdesk) {
     echo "Submit a question or problem";

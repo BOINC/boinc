@@ -33,7 +33,6 @@ if (project_is_stopped()) {
 
         <h3>Returning participants</h3>
         <ul>
-        <li><a href=".URL_BASE."login_form.php>Log in or out</a>
         <li><a href=".URL_BASE."home.php>Your account</a> - view stats, modify preferences
         <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
         <li><a href=".URL_BASE."download.php>Download BOINC</a>
@@ -42,10 +41,8 @@ if (project_is_stopped()) {
         <h3>Community</h3>
         <ul>
         <li><a href=".URL_BASE."profile_menu.php>Participant profiles</a>
-        <li><a href=".URL_BASE."forum/>Message boards</a>
-        <li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
-
-
+        <li><a href=forum_main.php/>Message boards</a>
+        <li><a href=forum_help_desk.php>Questions and problems</a>
     ";
     project_community();
     echo "

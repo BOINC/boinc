@@ -109,7 +109,8 @@ function show_host($host, $private, $ipprivate) {
         } else {
             $x = "";
         }
-        row2("Edit", "<a href=host_edit_form.php?hostid=$host->id>Merge this host</a> $x");
+        row2("Click to", "<a href=host_edit_form.php?hostid=$host->id>merge this computer</a> $x");
+        row2("Click to", "<a href=host_update_credit.php?hostid=$host->id>recompute credit</a>");
     }
     echo "</table>\n";
 
@@ -118,7 +119,7 @@ function show_host($host, $private, $ipprivate) {
 function host_table_start($private, $show_owner) {
     start_table();
     echo "<tr>";
-    echo "<th>Host ID<br><font size=-2>Click for more info</font></th>\n";
+    echo "<th>Computer ID<br><font size=-2>Click for more info</font></th>\n";
     if ($private) {
         echo "<th>Name</th>\n
         ";

@@ -12781,6 +12781,14 @@ David  May 27 2004
 		graphics.png
 		graphics.sxd
 
+David  May 27 2004
+    - negated Windows timezone, and server-side timezone usage
+
+    client/
+        hostinfo_win.cpp
+    html/inc/
+        host.inc
+
 Rom    May 28 2004
     - Fix screensaver issue where somebody may have configured a 0 blank time,
       if so, the blank time is set to twenty minutes.
@@ -12795,8 +12803,38 @@ Rom    May 28 2004
         failure_result_summary_by_host.php
 
 Rom    May 29 2004
-    - Fix a possible bug in the new Limiting number of WU's sent to a host per day
-      due to a floating point issue.
+    - Fix a possible bug in the new Limiting number of results sent
+        to a host per day due to a floating point issue.
 
     sched/
         handle_request.C
+
+David  May 30 2004
+    - scheduler: modify_host_struct():
+        modify the actual structure, not a copy
+        (this caused results from new hosts to get zero claimed credit)
+    - numerous web site changes, including:
+        -  added "recompute credit" feature for hosts
+        - moved forum files from html/forum to html/user
+            Also changed forum code to use object notation
+            (instead of archaic array notation)
+            and to eliminate the use of global variables
+        - show SETI@home credit, CPU hours
+
+    html/
+        inc/
+            forum.inc
+            forum_show.inc (new)
+            host.inc
+            profile.inc
+            user.inc
+        ops/
+            forum_repair.php (moved from forum)
+        user/
+            forum_*.php (new; moved/renamed from forum)
+            host_delete.php
+            host_edit_action.php
+            host_edit_form.php
+    sched/
+        handle_request.C
+        sched_send.C

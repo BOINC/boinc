@@ -63,7 +63,7 @@ echo "
     <td align=left>
 ";
 
-$link = "<a href=reply.php?thread=" . $thread->id;
+$link = "<a href=forum_reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
 	$link = $link . "&helpdesk=1#input>Answer this question";
 } else {
@@ -78,12 +78,12 @@ if ($is_subscribed) {
 	} else {
 		echo "You are subscribed to this thread.  ";
 	}
-	echo "<a href=subscribe.php?action=unsubscribe&thread=$thread->id>Click here to unsubscribe</a>.";
+	echo "<a href=forum_subscribe.php?action=unsubscribe&thread=$thread->id>Click here to unsubscribe</a>.";
 } else {
 	if ($category->is_helpdesk) {
-    	echo "<a href=subscribe.php?action=subscribe&thread=$thread->id>Subscribe to this question</a>";
+    	echo "<a href=forum_subscribe.php?action=subscribe&thread=$thread->id>Subscribe to this question</a>";
 	} else {
-		echo "<a href=subscribe.php?action=subscribe&thread=$thread->id>Subscribe to this thread</a>";
+		echo "<a href=forum_subscribe.php?action=subscribe&thread=$thread->id>Subscribe to this thread</a>";
 	}
 }
 
@@ -113,7 +113,7 @@ end_forum_table();
 
 echo "<p>";
 
-$link = "<a href=reply.php?thread=" . $thread->id;
+$link = "<a href=forum_reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
 	$link = $link . "&helpdesk=1#input>Answer this question";
 } else {
