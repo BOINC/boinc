@@ -80,7 +80,7 @@ int open_archive(char* filename_prefix, FILE*& f){
 
 int archive_result(DB_RESULT& result) {
     fprintf(re_stream,
-        "<result>\n"
+        "<result_archive>\n"
         "    <id>%d</id>\n",
         result.id
     );
@@ -146,14 +146,14 @@ int archive_result(DB_RESULT& result) {
     );
 
     fprintf(re_stream,
-        "</result>\n"
+        "</result_archive>\n"
     );
     return 0;
 }
 
 int archive_wu(DB_WORKUNIT& wu) {
     fprintf(wu_stream,
-        "<workunit>\n"
+        "<workunit_archive>\n"
         "    <id>%d</id>\n",
         wu.id
     );
@@ -211,7 +211,7 @@ int archive_wu(DB_WORKUNIT& wu) {
     );
 
     fprintf(wu_stream,
-        "</workunit>\n"
+        "</workunit_archive>\n"
     );
     return 0;
 }
