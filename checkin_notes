@@ -25734,3 +25734,10 @@ Rom    9 Mar 2005
     clientgui/
         MainFrame.cpp
         MainDocument.cpp
+
+David  9 Mar 2005
+	- core client: allow show_graphics RPCs even for results
+		that are not currently scheduled
+
+	client/
+		gui_rpc_server.C
