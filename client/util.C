@@ -44,6 +44,24 @@ void gettimeofday(timeval *t, void *tz) {
 
 #include "util.h"
 
+// return minimum of two double precision numbers
+double min( double a, double b ) {
+    if (a<b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+// return maximum of two double precision numbers
+double max( double a, double b ) {
+    if (a>b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 // return time of day as a double
 //
 double dtime() {

@@ -1,4 +1,5 @@
-// The input to this program looks like this:
+// There are two possible inputs to this program.
+// One is for uploading a completed result, this looks as follows:
 //
 // <file_info>
 //    ...
@@ -11,17 +12,34 @@
 // <data>
 // ... (data)
 //
-// The return looks like
+// The return for an uploaded result looks like
 //
 // <status>0</status>
 // or
 // <status>2</status>
 // <error>bad file size</error>
+//
+// The other kind of input is a file size request.  This is used
+// to determine how much of a file has been uploaded already.
+// This kind of request should always be made before starting
+// a file upload.
+// The input for this looks as follows:
+// <file_size_req>result_1234_file</file_size_req>
+//
+// The return for this information request looks like
+//
+// <nbytes>1234</nbytes>
+//
+// Where nbytes will be 0 if the file doesn't exist
+//
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
 
 #include "parse.h"
 #include "crypt.h"
@@ -117,7 +135,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
     double nbytes=0, offset=0;
-    char path[256];
+    char path[256],file_name[256];
     FILE_INFO file_info;
     int retval;
     bool is_valid;
@@ -138,6 +156,17 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 return -1;
             }
             continue;
+        }
+        // Handle a file size request
+        else if (parse_str(buf, "<file_size_req>", file_name)) {
+            struct stat sbuf;
+            // TODO: put checking here to ensure path doesn't point somewhere bad
+            sprintf( path, "%s/%s", BOINC_UPLOAD_DIR, file_name );
+            retval = stat( path, &sbuf );
+            if (retval && errno != ENOENT) print_status( -1, "cannot open file" );
+            else if (retval) printf("Content-type: text/plain\n\n<nbytes>0</nbytes>\n");
+            else printf("Content-type: text/plain\n\n<nbytes>%d</nbytes>\n", (int)sbuf.st_size);
+            exit(0);
         }
         else if (parse_double(buf, "<offset>", offset)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;

@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+#include <time.h>
+#include "client_types.h"
+#include "file_xfer.h"
+
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URL is given in the FILE_INFO.
 
@@ -28,26 +32,35 @@
 // For upload, try to upload the file to the first URL;
 // if that fails try the others.
 
-#define PERS_RETRY_DELAY_MIN    60
-#define PERS_RETRY_DELAY_MAX    (256*60)
-#define PERS_GIVEUP             (3600*24*7)
+#define PERS_RETRY_DELAY_MIN    60			// 1 minute
+#define PERS_RETRY_DELAY_MAX    (60*60*4)		// 4 hours
+#define PERS_GIVEUP             (60*60*24*7*2)		// 2 weeks
     // give up on xfer if this time elapses since last byte xferred
 
 class PERS_FILE_XFER {
-    int url_index;      // which URL to try next
     int nretry;         // # of retries so far
-    FILE_INFO* fip;
+    int first_request_time;	// UNIX time of first file request
+    int next_request_time;	// UNIX time to next retry the file request
     bool is_upload;
-    FILE_XFER* fxp;     // nonzero if file xfer in progress
-    int retry_time;     // don't retry until this time
 
-    int init(FILE_INFO&, bool is_upload);
+public:
+    int pers_xfer_retval;
+    bool xfer_done;
+    FILE_XFER* fxp;     // nonzero if file xfer in progress
+    FILE_INFO* fip;
+    
+    int init(FILE_INFO*, bool is_file_upload);
+    int poll(unsigned int now);
+    int write(FILE* fout);
+    int parse(FILE* fin);
+    bool start_xfer();
 };
 
 class PERS_FILE_XFER_SET {
-    vector<PERS_FILE_XFER>pers_file_xfers;
     FILE_XFER_SET* file_xfers;
 public:
+    vector<PERS_FILE_XFER*>pers_file_xfers;
+    
     PERS_FILE_XFER_SET(FILE_XFER_SET*);
     int insert(PERS_FILE_XFER*);
     int remove(PERS_FILE_XFER*);

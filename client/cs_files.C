@@ -82,104 +82,36 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
 
 // scan all FILE_INFOs.
 // start downloads and uploads as needed.
-// check for completion of existing transfers
 //
 bool CLIENT_STATE::start_file_xfers() {
     unsigned int i;
     FILE_INFO* fip;
-    FILE_XFER* fxp;
-    char pathname[256];
-    int retval;
+    PERS_FILE_XFER *pfx;
     bool action = false;
 
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
-        fxp = fip->file_xfer;
-        if (!fip->generated_locally && !fip->file_present && !fxp) {
-            fxp = new FILE_XFER;
-            fxp->init_download(*fip);
-            retval = file_xfers->insert(fxp);
-            if (retval) {
-                fprintf(stderr,
-                    "couldn't start download for %s: error %d\n",
-                    fip->urls[0].text, retval
-                );
-            } else {
-                fip->file_xfer = fxp;
-                if (log_flags.file_xfer) {
-                    printf(
-                        "started download of %s\n",
-                        fip->urls[0].text
-                    );
-                }
-            }
+        pfx = fip->pers_file_xfer;
+        if (!fip->generated_locally && !fip->file_present && !pfx) {
+            // Set up the persistent file transfer object.  This will start
+            // the download when there is available bandwidth
+            //
+            pfx = new PERS_FILE_XFER;
+            pfx->init( fip, false );
+            fip->pers_file_xfer = pfx;
+            // Pop PERS_FILE_XFER onto pers_file_xfer stack
+            if (fip->pers_file_xfer) pers_xfers->insert( fip->pers_file_xfer );
             action = true;
-        } else if (
-            fip->upload_when_present && fip->file_present
-            && !fip->uploaded && !fxp
-        ) {
-            fxp = new FILE_XFER;
-            fxp->init_upload(*fip);
-            retval = file_xfers->insert(fxp);
-            if (retval) {
-                fprintf(stderr,
-                    "couldn't start upload for %s: error %d\n",
-                    fip->urls[0].text, retval
-                );
-            } else {
-                fip->file_xfer = fxp;
-                if (log_flags.file_xfer) {
-                    printf("started upload to %s\n", fip->urls[0].text);
-                }
-            }
+        } else if ( fip->upload_when_present && fip->file_present && !fip->uploaded && !pfx ) {
+            // Set up the persistent file transfer object.  This will start
+            // the upload when there is available bandwidth
+            //
+            pfx = new PERS_FILE_XFER;
+            pfx->init( fip, true );
+            fip->pers_file_xfer = pfx;
+            // Pop PERS_FILE_XFER onto pers_file_xfer stack
+            if (fip->pers_file_xfer) pers_xfers->insert( fip->pers_file_xfer );
             action = true;
-        } else if (fxp) {
-            if (fxp->file_xfer_done) {
-                action = true;
-                if (log_flags.file_xfer) {
-                    printf(
-                        "file transfer done for %s; retval %d\n",
-                        fip->urls[0].text, fxp->file_xfer_retval
-                    );
-                }
-                file_xfers->remove(fxp);
-                fip->file_xfer = 0;
-                if (fip->generated_locally) {
-                    if (fxp->file_xfer_retval == 0) {
-                        net_stats.update(true, fip->nbytes, fxp->elapsed_time());
-
-                        // file has been uploaded - delete if not sticky
-                        if (!fip->sticky) {
-                            fip->delete_file();
-                        }
-                        fip->uploaded = true;
-                    }
-                } else {
-                    if (fxp->file_xfer_retval == 0) {
-                        net_stats.update(false, fip->nbytes, fxp->elapsed_time());
-                        get_pathname(fip, pathname);
-                        retval = verify_downloaded_file(pathname, *fip);
-                        if (retval) {
-                            fprintf(stderr,
-                                "checksum or signature error for %s\n", fip->name
-                            );
-                        } else {
-                            if (log_flags.file_xfer_debug) {
-                                printf("MD5 checksum validated for %s\n", pathname);
-                            }
-                            if (fip->executable) {
-                                retval = chmod(pathname, S_IEXEC|S_IREAD|S_IWRITE);
-                            } else {
-                                get_pathname(fip, pathname);
-                                retval = chmod(pathname, S_IREAD|S_IWRITE);
-                            }
-                            fip->file_present = true;
-                        }
-                    }
-                }
-                client_state_dirty = true;
-                delete fxp;
-            }
         }
     }
     return action;

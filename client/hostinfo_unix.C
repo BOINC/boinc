@@ -232,9 +232,7 @@ int get_host_info2(HOST_INFO &host);
 // General function to get all relevant host information
 //
 int get_host_info(HOST_INFO& host) {
-    int timezone;    // seconds added to local time to get UTC
-
-    host.timezone = 0;
+    host.timezone = 0;		// seconds added to local time to get UTC
     strcpy(host.domain_name,"");
     strcpy(host.serialnum,"");
     strcpy(host.ip_addr,"");

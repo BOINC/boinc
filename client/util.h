@@ -18,4 +18,7 @@
 //
 
 extern double dtime();
+extern double min( double a, double b );
+extern double max( double a, double b );
 extern void boinc_sleep( int seconds );
+

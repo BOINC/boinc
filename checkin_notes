@@ -1443,6 +1443,7 @@ David A.
     doc/
         api.html
 
+
 Barry Luong  August 6, 2002
 
     - Added team pages in html_user/
@@ -1470,4 +1471,38 @@ Barry Luong  August 6, 2002
         team_quit_form.php
         team_remove_inactive_action.php
         team_remove_inactive_form.php
+
+
+Eric Heien      August 7, 2002
+        - Added PERS_FILE_XFER (persistent file transfer)
+          functionality.  This includes the notions of retrying
+          when unable to connect, exponential backoff, and giving
+          up after a period of time.  Giving up is currently
+          not fully implemented.  Includes initial work for
+          supporting upload/download resumption.  All features
+          still need to be thoroughly tested.
+        - Added initial functionality to calculate allowable disk
+          usage.
+
+    client/
+        Makefile.in
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        hostinfo_unix.C
+        http.C
+        http.h
+        pers_file_xfer.C
+        pers_file_xfer.h
+        scheduler_op.C
+        test_file_xfer.C
+        test_http.C
+        util.C
+        util.h
+    sched/
+        file_upload_handler.C
 

@@ -34,7 +34,7 @@
 
 #define STDERR_MAX_LEN 4096
 
-class FILE_XFER;
+class PERS_FILE_XFER;
 struct RESULT;
 
 struct STRING256 {
@@ -106,11 +106,13 @@ public:
     bool upload_when_present;
     bool sticky;            // don't delete unless instructed to do so
     bool signature_required;    // true iff associated with app version
-    FILE_XFER* file_xfer;   // nonzero if in the process of being up/downloaded
+    PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
     RESULT* result;         // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
     vector<STRING256> urls;
+    int start_url;
+    int current_url;
     char* signed_xml;
     char* xml_signature;
     char* file_signature;
@@ -120,6 +122,7 @@ public:
     int parse(FILE*, bool from_server);
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file
+    char* get_url();
 };
 
 // Describes a connection between a file and a workunit, result, or application.
@@ -191,5 +194,7 @@ struct RESULT {
     int write(FILE*, bool to_server);
     bool is_upload_done();    // files uploaded?
 };
+
+int verify_downloaded_file(char* pathname, FILE_INFO& file_info);
 
 #endif

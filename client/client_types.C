@@ -23,6 +23,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
+#include "pers_file_xfer.h"
 
 #include "client_types.h"
 
@@ -176,7 +177,9 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     hostid = p.hostid;
     exp_avg_cpu = p.exp_avg_cpu;
     exp_avg_mod_time = p.exp_avg_mod_time;
-    code_sign_key = strdup(p.code_sign_key);
+    if( p.code_sign_key ) {
+        code_sign_key = strdup(p.code_sign_key);
+    }
     nrpc_failures = p.nrpc_failures;
     min_rpc_time = p.min_rpc_time;
 }
@@ -231,6 +234,8 @@ FILE_INFO::~FILE_INFO() {
 int FILE_INFO::parse(FILE* in, bool from_server) {
     char buf[256];
     STRING256 url;
+    PERS_FILE_XFER *pfxp;
+    int retval;
     if(in==NULL) {
         fprintf(stderr, "error: FILE_INFO.parse: unexpected NULL pointer in\n");
         return ERR_NULL;
@@ -246,10 +251,12 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     upload_when_present = false;
     sticky = false;
     signature_required = false;
-    file_xfer = NULL;
+    pers_file_xfer = NULL;
     result = NULL;
     project = NULL;
     urls.clear();
+    start_url = -1;
+    current_url = -1;
     if (from_server) {
         signed_xml = strdup("");
     } else {
@@ -285,6 +292,15 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
+        else if (match_tag(buf, "<persistent_file_xfer>")) {
+            pfxp = new PERS_FILE_XFER;
+            retval = pfxp->parse(in);
+            if (!retval) {
+                pers_file_xfer = pfxp;
+            } else {
+                delete pfxp;
+            }
+        }
         else if (!from_server && match_tag(buf, "<signed_xml>")) {
             dup_element_contents(in, "</signed_xml>", &signed_xml);
             continue;
@@ -322,6 +338,9 @@ int FILE_INFO::write(FILE* out, bool to_server) {
     for (i=0; i<urls.size(); i++) {
         fprintf(out, "<url>%s</url>\n", urls[i].text);
     }
+    if (!to_server && pers_file_xfer) {
+        pers_file_xfer->write(out);
+    }
     if (!to_server) {
         if (signed_xml) {
             fprintf(out, "<signed_xml>\n%s</signed_xml>\n", signed_xml);
@@ -343,6 +362,24 @@ int FILE_INFO::delete_file() {
     return file_delete(path);
 }
 
+// get the currently selected url to download/upload file, or
+// select one if none is chosen yet
+//
+char* FILE_INFO::get_url() {
+    double temp;
+    if( current_url < 0 ) {
+        temp = rand();
+        temp *= urls.size();
+        temp /= RAND_MAX;
+        current_url = (int)temp;
+        start_url = current_url;
+    }
+
+    return urls[current_url].text;
+}
+
+// Parse XML based app_version information, usually from client_state.xml
+//
 int APP_VERSION::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;

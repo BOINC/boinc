@@ -41,6 +41,7 @@ OBJS = \
     log_flags.o \
     net_stats.o \
     net_xfer.o \
+    pers_file_xfer.o \
     prefs.o \
     scheduler_op.o \
     speed_stats.o \

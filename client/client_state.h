@@ -30,6 +30,7 @@
 #include "http.h"
 #include "net_stats.h"
 #include "net_xfer.h"
+#include "pers_file_xfer.h"
 #include "prefs.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
@@ -45,6 +46,11 @@ public:
     bool time_to_exit();
     bool run_time_tests();
     int time_tests();
+    double current_disk_usage();
+    double allowed_disk_usage();
+    void update_net_stats(bool is_upload, double nbytes, double nsecs);
+    int insert_file_xfer( FILE_XFER *fxp );
+    int giveup_after;
 
 private:
     vector<PROJECT*> projects;
@@ -57,6 +63,7 @@ private:
     int version;
     char* platform_name;
     NET_XFER_SET* net_xfers;
+    PERS_FILE_XFER_SET* pers_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;
     ACTIVE_TASK_SET active_tasks;
@@ -100,6 +107,7 @@ private:
     bool contacted_sched_server;
     void compute_resource_debts();
 public:
+    bool start_new_file_xfer();
     PROJECT* next_project(PROJECT*);
     PROJECT* next_project_master_pending();
     double work_needed_secs();

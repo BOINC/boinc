@@ -44,6 +44,8 @@ FILE_XFER::~FILE_XFER() {
 #if 0
 // Is there any reason to keep this around?
 int FILE_XFER::init_download(char* url, char* outfile) {
+    int file_size;
+
     if(url==NULL) {
         fprintf(stderr, "error: FILE_XFER.init_download: unexpected NULL pointer url\n");
         return ERR_NULL;
@@ -52,7 +54,11 @@ int FILE_XFER::init_download(char* url, char* outfile) {
         fprintf(stderr, "error: FILE_XFER.init_download: unexpected NULL pointer outfile\n");
         return ERR_NULL;
     }
-    return HTTP_OP::init_get(url, outfile);
+
+    if (file_size(outfile, &file_size)) {
+        file_size = 0;
+    }
+    return HTTP_OP::init_get(url, outfile, file_size);
 }
 
 // Is there any reason to keep this around?
@@ -72,7 +78,7 @@ int FILE_XFER::init_upload(char* url, char* infile) {
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     fip = &file_info;
     get_pathname(fip, pathname);
-    return HTTP_OP::init_get((char*)(&fip->urls[0]), pathname);
+    return HTTP_OP::init_get(fip->get_url(), pathname, false);
 }
 
 // for uploads, we need to build a header with xml_signature etc.
@@ -96,7 +102,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         file_info.xml_signature,
         file_info.nbytes
     );
-    return HTTP_OP::init_post2((char*)(&fip->urls[0]), header, pathname, 0);
+    return HTTP_OP::init_post2(fip->get_url(), header, pathname, 0);
 }
 
 // Returns the total time that the file xfer has taken
@@ -153,7 +159,6 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     }
     fprintf(stderr, "FILE_XFER_SET::remove(): not found\n");
     return 1;
-
 }
 
 // Run through the FILE_XFER_SET and determine if any of the file
@@ -176,7 +181,11 @@ bool FILE_XFER_SET::poll() {
             if (fxp->http_op_retval == 200) {
                 fxp->file_xfer_retval = 0;
             } else {
+                // Remove the transfer from the set.  The actual object
+                // will be removed later by it's associated PERS_FILE_XFER
+                remove(fxp);
                 fxp->file_xfer_retval = fxp->http_op_retval;
+                i--;
             }
         }
     }

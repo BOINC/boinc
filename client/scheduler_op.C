@@ -148,7 +148,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     if (log_flags.sched_op_debug) {
         printf("Fetching master file for %s\n", project->master_url);
     }
-    retval = http_op.init_get(project->master_url, MASTER_FILE_NAME);
+    retval = http_op.init_get(project->master_url, MASTER_FILE_NAME, true);
     if (retval) return retval;
     retval = http_ops->insert(&http_op);
     if (retval) return retval;

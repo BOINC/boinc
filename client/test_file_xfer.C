@@ -27,6 +27,13 @@
 #define DOWNLOAD_URL "http://localhost.localdomain/download/input"
 #define UPLOAD_URL "http://localhost.localdomain/boinc-cgi/file_upload_handler"
 
+// Skeleton class to force compilation
+class PERS_FILE_XFER {
+public:
+    int write(FILE* fout);
+    int parse(FILE* fin);
+};
+
 
 int main() {
     NET_XFER_SET nxs;
@@ -107,3 +114,14 @@ int main() {
     }
     printf("all done\n");
 }
+
+// Skeleton function to force compilation
+int PERS_FILE_XFER::parse(FILE* fin) {
+    return 0;
+}
+
+// Skeleton function to force compilation
+int PERS_FILE_XFER::write(FILE* fout) {
+    return 0;
+}
+

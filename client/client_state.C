@@ -25,6 +25,7 @@
 
 #include "error_numbers.h"
 #include "file_names.h"
+#include "filesys.h"
 #include "hostinfo.h"
 #include "log_flags.h"
 #include "parse.h"
@@ -40,10 +41,12 @@ CLIENT_STATE::CLIENT_STATE() {
     net_xfers = new NET_XFER_SET;
     http_ops = new HTTP_OP_SET(net_xfers);
     file_xfers = new FILE_XFER_SET(http_ops);
+    pers_xfers = new PERS_FILE_XFER_SET(file_xfers);
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
     run_time_test = true;
+    giveup_after = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
     version = VERSION;
@@ -60,6 +63,9 @@ int CLIENT_STATE::init(PREFS* p) {
         return ERR_NULL;
     }
     prefs = p;
+
+    // Initialize the random number generator
+    srand( clock() );
 
     // copy all PROJECTs from the prefs to the client state.
     //
@@ -108,6 +114,31 @@ int CLIENT_STATE::time_tests() {
     return 0;
 }
 
+// Update the net_stats object, since it's private
+//
+void CLIENT_STATE::update_net_stats(bool is_upload, double nbytes, double nsecs) {
+    net_stats.update( is_upload, nbytes, nsecs );
+}
+
+// Insert an object into the file_xfers object, since it's private
+//
+int CLIENT_STATE::insert_file_xfer( FILE_XFER *fxp ) {
+    return file_xfers->insert(fxp);
+}
+
+// Return the maximum allowed disk usage as determined by user preferences.
+// Since there are three different settings in the prefs, it returns the least
+// of the three.
+double CLIENT_STATE::allowed_disk_usage() {
+    double percent_space,min_val;
+
+    // Calculate allowed disk usage based on % pref
+    percent_space = host_info.d_total*prefs->disk_max_used_pct/100.0;
+
+    // Return the minimum of the three
+    return min(min(prefs->disk_max_used_gb, percent_space),min_val);
+}
+
 // See if (on the basis of user prefs) we should suspend activities.
 // If so, suspend tasks
 //
@@ -136,6 +167,7 @@ int CLIENT_STATE::check_suspend_activities() {
 // finite state machine abstraction of the client.  Each of the key
 // elements of the client is given a chance to perform work here.
 // return true if something happened
+// TODO: handle errors passed back up to here?
 //
 bool CLIENT_STATE::do_something() {
     int nbytes;
@@ -145,6 +177,12 @@ bool CLIENT_STATE::do_something() {
     if (!activities_suspended) {
         net_xfers->poll(999999, nbytes);
         if (nbytes) action = true;
+        // If pers_xfers returns true, we've made a change to a
+        // persistent transfer which must be recorded in the
+        // client_state.xml file
+        if (pers_xfers->poll()) {
+            action = client_state_dirty = true;
+        }
         action |= http_ops->poll();
         action |= file_xfers->poll();
         action |= active_tasks.poll();
@@ -205,6 +243,11 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 retval = link_file_info(project, fip);
                 if (!retval) file_infos.push_back(fip);
+                // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
+                if (fip->pers_file_xfer) {
+                    fip->pers_file_xfer->init( fip, fip->upload_when_present );
+                    pers_xfers->insert( fip->pers_file_xfer );
+                }
             } else {
                 delete fip;
             }
@@ -572,9 +615,11 @@ void CLIENT_STATE::print_counts() {
 //
 bool CLIENT_STATE::garbage_collect() {
     unsigned int i;
+    PERS_FILE_XFER* pfxp;
     FILE_INFO* fip;
     RESULT* rp;
     WORKUNIT* wup;
+    vector<PERS_FILE_XFER*>::iterator pers_iter;
     vector<RESULT*>::iterator result_iter;
     vector<WORKUNIT*>::iterator wu_iter;
     vector<FILE_INFO*>::iterator fi_iter;
@@ -590,6 +635,32 @@ bool CLIENT_STATE::garbage_collect() {
         fip->ref_cnt = 0;
     }
 
+    // delete PERS_FILE_XFERs that have finished and their
+    // associated FILE_INFO and FILE_XFER objects
+    //
+    pers_iter = pers_xfers->pers_file_xfers.begin();
+    while (pers_iter != pers_xfers->pers_file_xfers.end()) {
+        pfxp = *pers_iter;
+        if (pfxp->xfer_done) {
+            // TODO: *** Set the exit status of the related result
+            // to ERR_GIVEUP.  The failure will be reported to the
+            // server and related file infos, results, and workunits
+            // will be deleted if necessary
+
+            pers_iter = pers_xfers->pers_file_xfers.erase(pers_iter);
+            if (pfxp->fip) {
+                pfxp->fip->pers_file_xfer = NULL;
+            }
+            delete pfxp;
+
+            // Update the client_state file
+            client_state_dirty = true;
+            action = true;
+        } else {
+            pers_iter++;
+        }
+    }
+    
     // delete RESULTs that have been finished and reported;
     // reference-count files referred to by other results
     //
@@ -655,6 +726,7 @@ bool CLIENT_STATE::garbage_collect() {
 }
 
 // TODO: write no more often than X seconds
+// Write the client_state.xml file if necessary
 //
 int CLIENT_STATE::write_state_file_if_needed() {
     int retval;
@@ -674,16 +746,21 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
-	    continue;
-        }
+            continue;
+        }	
         if (!strcmp(argv[i], "-no_time_test")) {
             run_time_test = false;
 	    continue;
         };
         if (!strcmp(argv[i], "-exit_after")) {
-	    exit_after = atoi(argv[i+1]);
-	    continue;
-	};
+            exit_after = atoi(argv[i+1]);
+            continue;
+        };
+        // Give up on file transfers after x seconds.  Default value is 1209600 (2 weeks)
+        if (!strcmp(argv[i], "-giveup_after")) {
+            giveup_after = atoi(argv[i+1]);
+            continue;
+        };
     }
 }
 

@@ -62,7 +62,7 @@ public:
     int http_op_retval;
 
     int init_head(char* url);
-    int init_get(char* url, char* outfile, int offset=0);
+    int init_get(char* url, char* outfile, bool del_old_file, double offset=0);
     int init_post(char* url, char* infile, char* outfile);
     int init_post2(
         char* url, char* req1, char* infile, double offset

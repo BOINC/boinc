@@ -76,7 +76,7 @@ static void parse_url(char* url, char* host, char* file) {
 // Prints an HTTP 1.0 GET request header into buf
 //
 static void http_get_request_header(
-    char* buf, char* host, char* file, int offset
+    char* buf, char* host, char* file, double offset
 ) {
     if(buf==NULL) {
         fprintf(stderr, "error: http_get_request_header: unexpected NULL pointer buf\n");
@@ -92,7 +92,7 @@ static void http_get_request_header(
     }
     if (offset) {
         sprintf(buf,
-            "GET /%s;byte-range %d- HTTP/1.0\015\012"
+            "GET /%s;byte-range %12.0f- HTTP/1.0\015\012"
             "User-Agent: BOINC client\015\012"
             "Host: %s:80\015\012"
             "Accept: */*\015\012"
@@ -314,7 +314,7 @@ int HTTP_OP::init_head(char* url) {
 
 // Initialize HTTP GET operation to url
 //
-int HTTP_OP::init_get(char* url, char* out, int off) {
+int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
     if(url==NULL) {
         fprintf(stderr, "error: HTTP_OP.init_get: unexpected NULL pointer url\n");
         return ERR_NULL;
@@ -326,6 +326,9 @@ int HTTP_OP::init_get(char* url, char* out, int off) {
     if(off<0) {
         fprintf(stderr, "error: HTTP_OP.init_get: negative off\n"); 
         return ERR_NEG;
+    }
+    if (del_old_file) {
+        unlink(out);
     }
     file_offset = off;
     parse_url(url, hostname, filename);
@@ -556,7 +559,8 @@ bool HTTP_OP_SET::poll() {
                             htp->init_head( htp->hrh.redirect_location );
                             break;
                         case HTTP_OP_GET:
-                            htp->init_get( htp->hrh.redirect_location, htp->outfile );
+                            // *** Not sure if delete_old_file should be true
+                            htp->init_get( htp->hrh.redirect_location, htp->outfile, true );
                             break;
                         case HTTP_OP_POST:
                             htp->init_post( htp->hrh.redirect_location, htp->infile, htp->outfile );
@@ -580,13 +584,15 @@ bool HTTP_OP_SET::poll() {
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = 0;
                     break;
-                case HTTP_OP_GET:
                 case HTTP_OP_POST:
-                    htp->http_op_state = HTTP_STATE_REPLY_BODY;
-
-                    // KLUDGE - should check for file first
                     unlink(htp->outfile);
-
+                case HTTP_OP_GET:
+                    htp->http_op_state = HTTP_STATE_REPLY_BODY;
+                  
+                    // TODO:
+                    // Append to a file if it already exists, otherwise
+                    // create a new one.  init_get should have already
+                    // deleted the file if necessary
                     htp->file = fopen(htp->outfile, "w");
                     if (!htp->file) {
                         fprintf(stderr,

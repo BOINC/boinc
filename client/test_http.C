@@ -47,7 +47,7 @@ int main() {
 
 #if 0
     op1 = new HTTP_OP;
-    retval = op1->init_get("http://localhost.localdomain/my_index.html", "test_out1");
+    retval = op1->init_get("http://localhost.localdomain/my_index.html", "test_out1", true);
     if (retval) {
         printf("init_post: %d\n", retval);
         exit(1);
