@@ -247,6 +247,14 @@ function updatePost($postID, $content) {
     return true;
 }
 
+function updateThread($threadID, $title) {
+   $x = addslashes(sanitize_html(stripslashes($title)));
+   $sql = "UPDATE thread SET title = \"$x\" WHERE id = " . $threadID;
+   $result = mysql_query($sql);
+   if (!$result) return false;
+   return true;
+} 
+
 /* display functions */
 
 function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true, $is_helpdesk=false) {

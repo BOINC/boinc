@@ -10548,8 +10548,8 @@ Rom    Mar 16 2004
         wingui_mainwindow.cpp
 
 kevin 17 March 2004
-	checked in signal handling code.  Uses sigaction.  If signal is
-	originally ignored, do not handle signals.
+    checked in signal handling code.  Uses sigaction.  If signal is
+    originally ignored, do not handle signals.
 
 David  Mar 18 2004
     - Remove "confirm executables" preference.
@@ -10566,9 +10566,9 @@ David  Mar 18 2004
         prefs.inc
 
 kevin 18 March 2004
-	- exit status of application set to nonzero value if there is an
+    - exit status of application set to nonzero value if there is an
         uncaught signal.
-	client/
+    client/
         app.C
 
 Rom    Mar 18 2004
@@ -10600,14 +10600,14 @@ David  Mar 19 2004
             profile_menu.php
             white.css
 
-kevin	March 19 2004
+kevin    March 19 2004
     - Scheduler: don't handle partial requests
         (i.e. missing </scheduler_request> tag)
-	lib/
-		error_numbers.h
-	sched/
-		server_types.C
-		handle_request.C
+    lib/
+        error_numbers.h
+    sched/
+        server_types.C
+        handle_request.C
 
 David  Mar 20 2004
     - Various changes to the way CPU benchmarking is done,
@@ -10645,8 +10645,8 @@ David  Mar 20 2004
         cs_prefs.C
         file_names.h
         gui_rpc_server.C
-		win/
-			wingui_mainwindow.cpp
+        win/
+            wingui_mainwindow.cpp
     doc/
         various
     lib/
@@ -10730,7 +10730,7 @@ Jeff  Mar 23 2004
       or expired.
 
      sched/
-	validate.C
+    validate.C
 
 Rom  Mar 23 2004
     - client applications don't really need to dump leak detection information
@@ -10740,17 +10740,17 @@ Rom  Mar 23 2004
         boinc_api.c
 
 David  Mar 23 2004
-	- Initial global prefs (as defined in GLOBAL_PREFS::init()) should
-	    impose minimal restrictions, so that the client can do its first
-		scheduler RPC and get global prefs from a server
+    - Initial global prefs (as defined in GLOBAL_PREFS::init()) should
+        impose minimal restrictions, so that the client can do its first
+        scheduler RPC and get global prefs from a server
     - Fix bug where benchmarks always run on Win client startup
     - Improve startup and prefs messages
-	
+    
     client/
-		client_state.C
-		client_types.C
-		cs_benchmark.C
-		prefs.C
+        client_state.C
+        client_types.C
+        cs_benchmark.C
+        prefs.C
 
 David  Mar 23 2004
     - Turned off the entire "infeasible result" mechanism for now.
@@ -10797,11 +10797,11 @@ Rom    Mar 24 2004
         upper_case.vcproj
 
 kevin    Mar 24 2004
-	- class boinc_base_exception: changed order of initialization
+    - class boinc_base_exception: changed order of initialization
         in constructor so that initialization matches declaration. 
 
-	lib/
-		exception.h 
+    lib/
+        exception.h 
 
 Rom    Mar 24 2004
      - I was a little to agressive in cleaning up boinc_api.c and removed some
@@ -10877,22 +10877,22 @@ David  Mar 24 2004
         sighandle.C,h (removed)
 
 David  Mar 24 2004
-	- get the above stuff working on Windows
+    - get the above stuff working on Windows
 
-	client/
-		app.C
-		cs_apps.C
-	lib/
-		diagnostics.C,h
-		error_numbers.h
+    client/
+        app.C
+        cs_apps.C
+    lib/
+        diagnostics.C,h
+        error_numbers.h
 
 David  Mar 24 2004
-	- add log flag to suppress file-size checking on app startup
+    - add log flag to suppress file-size checking on app startup
 
-	client/
-		client_types.C
-		log_flags.C,h
-		
+    client/
+        client_types.C
+        log_flags.C,h
+
 Rom   Mar 25 2004
      - I have made SETI_BOINC Glut Free, Basically copied font code from glut
          and put it into the glut folder.
@@ -10974,8 +10974,17 @@ Rom   Mar 26 2004
         app_ipc.c
 
 Rom   Mar 26 2004
-    - Update versions started to complain about PDB files, so tell it to ignore them
-        for determining platforms
+    - Update versions started to complain about PDB files,
+        so tell it to ignore them for determining platforms
 
     tools/
         update_versions
+
+David  Mar 26 2004
+    - combine RAC when merging hosts
+
+    html/
+        inc/
+            forum.inc
+        user/
+            host_edit_action.php
