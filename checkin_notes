@@ -6815,3 +6815,14 @@ Karl 2003-10-14
         team.inc
         user.inc
         host.inc
+
+David  15 Oct 2003
+    - if user rejects executable, mark result as failed (not tested)
+
+    client/
+        cs_apps.C
+        main.C
+    doc/
+        graphics.php
+    lib/
+        error_numbers.h

@@ -63,6 +63,9 @@ void CLIENT_STATE::approve_executables() {
             if (buf[0]=='y' || buf[0]=='Y') {
                 fip->approval_pending = false;
                 set_client_state_dirty("approve_executables");
+            } else {
+                msg_printf(fip->project, MSG_INFO, "User rejected executable: %s", fip->name);
+                fip->status = ERR_USER_REJECTED;
             }
         }
     }

@@ -1,5 +1,8 @@
+hook up graphics prefs to graphics
 Don't render graphics if minimized
 add executable approval to win GUI
+prevent one host from marking results as CANT_SEND
+add a mechanism for server to send messages to client, shown in graphics
 ------------------------
 DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
 

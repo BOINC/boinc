@@ -121,15 +121,19 @@ DefaultType application/octet-stream
 
 
 <p>
-At this point you hopefully have a functioning BOINC server, but it has no
-applications or work to distribute.  The remaining steps to make a public
-project include:
+At this point you hopefully have a functioning BOINC server,
+but it has no applications or work to distribute.
+The remaining steps to make a public project include:
 <ul>
 <li> Develop, debug and test your application.
 <li> Develop back-end systems for generating work and processing results.
 <li> Using the 'add' utility, add application versions to the BOINC database.
 <li> Develop your web site.
 </ul>
+
+<p>
+If you want distributed or replicated server components,
+you'll need <a server_details.php>more information</a>.
 ";
 page_tail();
 ?>

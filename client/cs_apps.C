@@ -209,10 +209,7 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     return true;
 }
 
-// if necessary we could change results to a set or sorted vector to improve
-// efficiency here.
-RESULT* CLIENT_STATE::next_result_to_start() const
-{
+RESULT* CLIENT_STATE::next_result_to_start() const {
     int earliest_deadline = INT_MAX;
     RESULT* rp_earliest_deadline = NULL;
 

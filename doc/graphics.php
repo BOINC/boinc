@@ -23,7 +23,7 @@ It must also supply a function
 which will be called periodically.
 This should make openGL calls to generate the current graphic.
 <tt>xs</tt> and <tt>ys</tt> are the X and Y sizes of the window,
-and <tt>time_of_day</tt> is the relative time.
+and <tt>time_of_day</tt> is the relative time in seconds.
 The function should return true if it actually drew anything.
 It can refer to the user name, CPU time etc. obtained from
 <tt>boinc_init()</tt>.
@@ -32,7 +32,14 @@ It can refer to the user name, CPU time etc. obtained from
 <p>
 Applications that don't do graphics must also supply a
 dummy <tt>app_render</tt> to link with the API.
-<tt>boinc_draw_gl</tt> is called to draw graphics
+<p>
+The following global variables control frame rate:
+<p>
+<b>boinc_max_fps</b> is an upper bound on the number of frames per second
+(default 30).
+<p>
+<b>boinc_max_gfx_cpu_frac</b> is an upper bound on the fraction
+of CPU time used for graphics (default 0.5).
 ";
 page_tail();
 ?>
