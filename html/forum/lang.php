@@ -1,6 +1,8 @@
 <?php
-require_once('../include.php');
+
+require_once('../include/template.inc');
 require_once('forum.inc');
+require_once('../util.inc');
 
 if (array_key_exists('id', $_GET) && $_GET['id'] > 0) {
 	$lang = getLanguage($_GET['id']);
