@@ -194,6 +194,7 @@ void xwin_graphics_event_loop() {
 	int one=1;
     static bool glut_inited = false;
     int restarted;
+    int retry_interval_sec=32;
 
     graphics_thread = pthread_self();
 
@@ -215,7 +216,8 @@ try_again:
         } else {
             // here glutInit() must have failed and called exit().
             //
-            sleep(60);
+            retry_interval_sec *= 2;
+            sleep(retry_interval_sec);
             goto try_again;
         }
     } else {
