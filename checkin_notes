@@ -12954,3 +12954,11 @@ David  June 1 2004
 		scheduler_op.C
 	lib/
 		filesys.C
+
+Rom    June 1 2004
+    - Give visual indictators as to whether the build is debug or release.
+
+    client/
+        client_state.C
+    client/win/
+        wingui_dialog.cpp

@@ -212,8 +212,12 @@ BOOL CAboutDialog::OnInitDialog()
 	CString strOldTitle, strVersion, strTitle;
 	GetWindowText(strOldTitle);
 	strVersion.Format("%0.2f", xVersion);
-	strTitle.Format("%s %s", strOldTitle, strVersion);
-	SetWindowText(strTitle);
+#ifdef _DEBUG
+    strTitle.Format("%s %s (DEBUG)", strOldTitle, strVersion);
+#else
+    strTitle.Format("%s %s", strOldTitle, strVersion);
+#endif
+    SetWindowText(strTitle);
     CenterWindow();
     return TRUE;
 }

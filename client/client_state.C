@@ -176,10 +176,17 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
+#ifdef _DEBUG
+    msg_printf(
+        NULL, MSG_INFO, "Starting BOINC client version %d.%02d for %s (DEBUG)",
+        core_client_major_version, core_client_minor_version, platform_name
+    );
+#else
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%02d for %s",
         core_client_major_version, core_client_minor_version, platform_name
     );
+#endif
 
     // we need the host venue while parsing account files.
     // Get it from the client state file
