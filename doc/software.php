@@ -5,16 +5,32 @@ page_head("BOINC: Software prerequisites and corequisites");
 
 BOINC depends on various software to build, test, and run.
 
-<h1>Unix software</h1>
+<h1>Unix</h1>
 
-<h2>Development tools</h2>
-Required for compiling:
+Required for <b>compiling</b>:
 <ul>
-  <li><b>gcc</b> 2.95 or 3.0-3.3
-  <li><b>make</b>, possibly GNU make
+  <li><b>GNU C++</b> 2.95 or 3.0-3.3; other C++ compilers can be ported
+  <li>Other standard development tools assumed: make, gzip, etc.
 </ul>
+
+Required to run automated tests, create a project and other various tools:
 <ul>
-  <li>Other standard unix tools
+  <li><b>Python</b> 2.2+
+    <ul>
+      <li>Python module <a href=z><b>MySQLdb</b></a> (<a href=z>installation instructions</a>)
+      <li>Python module <a href=z><b>xmlzzzz</b></a>
+    </ul>
+</ul>
+
+Required on the <b>database</b> server:
+<ul>
+  <li><b>MySQL</b> 3.25+ or 4.0+: other SQL server can be ported.
+</ul>
+
+Required on the <b>master/scheduler</b> server(s):
+<ul>
+  <li><b>Apache</b> or other webserver
+  <li><b>PHP</b> 4.0
 </ul>
 
 Optional, required only if you change <code>*/Makefile.am</code>:
@@ -24,15 +40,26 @@ Optional, required only if you change <code>*/Makefile.am</code>:
 </ul>
 
 
-<h1>Windows client software</h1>
-<h2>Development tools</h2>
+<small>
+  On Debian Linux you can install all of the above software using
+  <blockquote>
+    <code>apt-get install g++ python python-mysqldb python-xml mysql apache php automake autoconf</code>
+  </blockquote>
+</small>
+
+
+<h1>Windows client</h1>
 Required for compiling:
 <ul>
   <li><b>Microsoft Visual C</b> 6.0
 </ul>
+Required for creating install packages:
+<ul>
+  <li><b>InstallShield</b>
+</ul>
 
-<h1>Macintosh client software</h1>
-<h2>Development tools</h2>
+
+<h1>Macintosh client</h1>
 Required for compiling:
 <ul>
   <li><b>?</b>
