@@ -48,7 +48,7 @@ static const char* STDERR_FILENAME = "../log/cgi.log";
 
 #define REQ_FILE_PREFIX "boinc_req_"
 #define REPLY_FILE_PREFIX "boinc_reply_"
-bool use_files = true;     // use disk files for req/reply msgs (for debugging)
+bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 DB_PROJECT gproject;
 CONFIG config;
