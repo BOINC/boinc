@@ -699,7 +699,7 @@ static void scan_work_array(
             continue;
         }
 
-        // don't send if we've already a result of this WU to this user
+        // don't send if we've already sent a result of this WU to this user
         //
         if (config.one_result_per_user_per_wu) {
             sprintf(buf,
@@ -724,7 +724,7 @@ static void scan_work_array(
                 }
             }
         }
-        
+
         // don't sent if host can't handle it
         //
         wu = wu_result.workunit;
