@@ -24,6 +24,11 @@
       this happens just ignore the warnings.)
     </p>
 
+    <p>
+      Much of these instructions are generic to automake but are provided here
+      for convenience.
+    </p>
+
     <h3>Notes</h3>
     <ul>
       <li><b>Layout</b>
@@ -104,7 +109,7 @@
           <pre>
             make check
           </pre>
-          (This runs tests in the <code>test</code> directory)
+          (This runs the php-based tests in the <code>test</code> directory)
         </p>
       </li>
       <li><b>Version number</b>
@@ -113,9 +118,11 @@
           <pre>
             AC_INIT(BOINC, 1.03)
           </pre>
-          in <code>configure.ac</code>. (If you change this,
+          in <code>configure.ac</code>.  If you change this,
           run <code>make</code> and it will rebuild necessary files to
-          propagate the version number into source files and scripts.)
+          propagate the version number into source files and scripts.  This is
+          the only location the version number is set; all other uses of it
+          come from here (no environment variables used).
         </p>
       </li>
       <li><b>Archiving</b>
@@ -133,6 +140,13 @@
           targets <code>dist-bzip2</code>, <code>dist-gzip</code>, <code>dist-zip</code>.
           The source distributions contain everything necessary to build and
           run the server, and also remake distributions.
+        </p>
+
+        <p>
+          (There used to be a separate client distribution requiring
+           complicated rules for picking subdirectories to compile and
+           distribute, but it has been obsoleted because few people will
+           download the distribution to build only the client.)
         </p>
 
         <p>
