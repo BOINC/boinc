@@ -303,23 +303,39 @@ int HOST_INFO::get_host_info() {
 	m_swap = (double)mStatus.dwTotalPageFile;
 	
 	// gets processor vendor name and model name from registry, works for intel
-	char vendorName[256], procNameString[256];
+	char vendorName[256], processorName[256], identifierName[256];
 	HKEY hKey;
 	LONG retval;
 	DWORD nameSize, procSpeed;
-	bool gotProcName = false, gotMHz = false, gotVendIdent = false;
+	bool gotIdent = false, gotProcName = false, gotMHz = false, gotVendIdent = false;
 
 	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
 	if(retval == ERROR_SUCCESS) {
-		// Look in various places for processor information, add'l
-		// entries suggested by mark mcclure
-		nameSize = sizeof(procNameString);
-		retval = RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)procNameString, &nameSize);
-		if (retval == ERROR_SUCCESS) gotProcName = true;
+        // Win9x and WinNT store different information in these field.
+        // NT Examples:
+        // ProcessorNameString: Intel(R) Xeon(TM) CPU 3.06GHz
+        // Identifier: x86 Family 15 Model 2 Stepping 7
+        // VendorIdentifier: GenuineIntel
+        // ~MHz: 3056
+        // 9X Examples:
+        // ProcessorNameString: <Not Defined>
+        // Identifier: Pentium(r) Processor
+        // ~MHz: <Not Defined>
+        // VendorIdentifier: GenuineIntel
 
+        // Look in various places for processor information, add'l
+		// entries suggested by mark mcclure
 		nameSize = sizeof(vendorName);
 		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
 		if (retval == ERROR_SUCCESS) gotVendIdent = true;
+
+		nameSize = sizeof(identifierName);
+		retval = RegQueryValueEx(hKey, "Identifier", NULL, NULL, (LPBYTE)identifierName, &nameSize);
+		if (retval == ERROR_SUCCESS) gotIdent = true;
+
+		nameSize = sizeof(processorName);
+		retval = RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)processorName, &nameSize);
+		if (retval == ERROR_SUCCESS) gotProcName = true;
 
 		nameSize = sizeof(DWORD);
 		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
@@ -330,9 +346,13 @@ int HOST_INFO::get_host_info() {
     else safe_strncpy( p_vendor, "Unknown", sizeof(p_vendor) );
 
     if (gotProcName) {
-        safe_strncpy( p_model, procNameString, sizeof(p_model) );
+        safe_strncpy( p_model, processorName, sizeof(p_model) );
+    } else if (gotIdent && gotMHz) {
+        sprintf( p_model, "%s %dMHz", identifierName, procSpeed );
     } else if (gotVendIdent && gotMHz) {
         sprintf( p_model, "%s %dMHz", vendorName, procSpeed );
+    } else if (gotIdent) {
+        safe_strncpy( p_model, identifierName, sizeof(p_model) );
     } else if (gotVendIdent) {
         safe_strncpy( p_model, vendorName, sizeof(p_model) );
     } else {
