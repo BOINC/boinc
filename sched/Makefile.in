@@ -12,6 +12,7 @@ CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/lib \
     -I@top_srcdir@/tools \
     -DBOINC_DB_NAME=\"$(BOINC_DB_NAME)\" \
+    -DBOINC_DB_PASSWD=\"$(BOINC_DB_PASSWD)\" \
     -DBOINC_KEY=$(BOINC_KEY) \
     -DBOINC_KEY_DIR=\"$(BOINC_KEY_DIR)\" \
     -DBOINC_UPLOAD_DIR=\"$(BOINC_UPLOAD_DIR)\" \

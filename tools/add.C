@@ -253,7 +253,7 @@ void add_user() {
 int main(int argc, char** argv) {
     int i, retval;
 
-    retval = db_open(getenv("BOINC_DB_NAME"));
+    retval = db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"));
     if (retval) {
     	printf("can't open DB %s\n", getenv("BOINC_DB_NAME"));
     }

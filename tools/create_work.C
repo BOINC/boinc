@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
         printf("must define BOINC_DOWNLOAD_DIR");
         exit(1);
     }
-    if (db_open(getenv("BOINC_DB_NAME"))) {
+    if (db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"))) {
         printf( "Error opening database.\n" );
         exit(0);
     }

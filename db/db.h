@@ -238,7 +238,7 @@ struct RESULT {
     int parse_from_client(FILE*);
 };
 
-extern int db_open(char*);
+extern int db_open(char* dbname, char* passwd);
 extern int db_close();
 extern void db_print_error(char*);
 extern int db_insert_id();

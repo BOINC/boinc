@@ -191,7 +191,7 @@ int main(int argc, char** argv) {
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
-    retval = db_open(getenv("BOINC_DB_NAME"));
+    retval = db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"));
     if (retval) {
         fprintf(stderr, "feeder: db_open: %d\n", retval);
         exit(1);

@@ -24,7 +24,7 @@ struct ENUM {
     MYSQL_RES *rp;
 };
 
-extern int db_open(char*);
+extern int db_open(char* dbname, char* password);
 extern int db_close();
 extern void db_print_error();
 
