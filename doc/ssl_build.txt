@@ -6,7 +6,7 @@ useful to others
 COMPILING
 =========
 
-On Koloth, use these flags to link with mysql:
+On Koloth, use these flags to link with mysql-max-64bit:
      -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64 -Wl,-R,/usr/local/gcc/lib/sparcv9
 
 Therefore configure like this:
