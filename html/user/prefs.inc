@@ -604,6 +604,8 @@ function prefs_project_parse_form(&$prefs) {
 // convert prefs from structure to XML
 //
 function global_prefs_make_xml($prefs, $primary=true) {
+    // N.B.: each XML entry must end with \n due to the sloppy parsing by the
+    // BOINC client!!
     if ($primary) {
         $xml = "<global_preferences>\n";
         $now = time();
@@ -616,7 +618,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $xml = $xml."<run_if_user_active/>\n";
     }
     if ($prefs->start_hour != $prefs->end_hour) {
-        $xml = $xml."<start_hour>$prefs->start_hour</start_hour>"
+        $xml = $xml."<start_hour>$prefs->start_hour</start_hour>\n"
             ."<end_hour>$prefs->end_hour</end_hour>\n";
     }
     if ($prefs->confirm_before_connecting) {
