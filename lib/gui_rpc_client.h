@@ -286,6 +286,7 @@ struct HOST_INFO {
     ~HOST_INFO();
 
     int parse(MIOFILE&);
+    void print();
     void clear();
 };
 
@@ -392,6 +393,7 @@ public:
     int result_op(RESULT&, char*);
     int get_host_info(HOST_INFO&);
     int quit();
+    int acct_mgr_rpc(char* url, char* name, char* passwd);
     char* mode_name(int mode);
 };
 

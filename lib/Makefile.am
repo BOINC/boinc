@@ -4,16 +4,14 @@
 include $(top_srcdir)/Makefile.incl
 
 #if HAVE_NSL
-nslprogs=gui_test
+nslprogs=boinc_cmd
 #endif
 
 bin_PROGRAMS = crypt_prog $(nslprogs)
 
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
-
-##LIBS = -lnsl -lsocket
-gui_test_SOURCES = gui_test.C gui_rpc_client.C gui_rpc_client.h
-gui_test_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
+boinc_cmd_SOURCES = boinc_cmd.C gui_rpc_client.C gui_rpc_client.h
+boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 
 lib_LIBRARIES = libboinc.a 
 

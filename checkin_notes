@@ -24499,3 +24499,14 @@ David  10 Feb 2005
         sched_locality.C,h
         sched_send.C
         sched_timezone.C,h (new)
+
+David  10 Feb 2005
+    - expanded gui_test to a full-featured command-line interface
+        to the core client, and renamed it to boinc_cmd.
+        The commands have all changed; see code (I'll write a web page too)
+
+    lib/
+        Makefile.am
+        boinc_cmd.C (new)
+        gui_rpc_client.C,h
+        gui_test.C (removed)

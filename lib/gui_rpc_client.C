@@ -155,6 +155,7 @@ void PROJECT::print() {
     printf("   tentative: %s\n", tentative?"yes":"no");
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
+    printf("   disk usage: %f\n", disk_usage);
     for (i=0; i<gui_urls.size(); i++) {
         gui_urls[i].print();
     }
@@ -347,13 +348,19 @@ int RESULT::parse(MIOFILE& in) {
 
 void RESULT::print() {
     printf("   name: %s\n", name.c_str());
-    printf("   WU name: %s\n", wup->name.c_str());
+    printf("   WU name: %s\n", wu_name.c_str());
+    printf("   project URL: %s\n", project_url.c_str());
+    time_t foo = (time_t)report_deadline;
+    printf("   report deadline: %s", ctime(&foo));
     printf("   ready to report: %s\n", ready_to_report?"yes":"no");
     printf("   got server ack: %s\n", got_server_ack?"yes":"no");
     printf("   final CPU time: %f\n", final_cpu_time);
     printf("   state: %d\n", state);
+    printf("   scheduler state: %d\n", scheduler_state);
     printf("   exit_status: %d\n", exit_status);
     printf("   signal: %d\n", signal);
+    printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
+    printf("   aborted via GUI: %s\n", aborted_via_gui?"yes":"no");
     printf("   active_task_state: %d\n", active_task_state);
     printf("   stderr_out: %s\n", stderr_out.c_str());
     printf("   app version num: %d\n", app_version_num);
@@ -362,6 +369,8 @@ void RESULT::print() {
     printf("   fraction done: %f\n", fraction_done);
     printf("   VM usage: %f\n", vm_bytes);
     printf("   resident set size: %f\n", rss_bytes);
+    printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
+    printf("   supports graphics: %s\n", supports_graphics?"yes":"no");
 }
 
 void RESULT::clear() {
@@ -618,6 +627,25 @@ int HOST_INFO::parse(MIOFILE& in) {
     return 0;
 }
 
+void HOST_INFO::print() {
+    printf("  timezone: %d\n", timezone);
+    printf("  domain name: %s\n", domain_name);
+    printf("  IP addr: %s\n", ip_addr);
+    printf("  #CPUS: %d\n", p_ncpus);
+    printf("  CPU vendor: %s\n", p_vendor);
+    printf("  CPU model: %s\n", p_model);
+    printf("  CPU FP OPS: %f\n", p_fpops);
+    printf("  CPU int OPS: %f\n", p_iops);
+    printf("  CPU mem BW: %f\n", p_membw);
+    printf("  OS name: %s\n", os_name);
+    printf("  OS version: %s\n", os_version);
+    printf("  mem size: %f\n", m_nbytes);
+    printf("  cache size: %f\n", m_cache);
+    printf("  swap size: %f\n", m_swap);
+    printf("  disk size: %f\n", d_total);
+    printf("  disk free: %f\n", d_free);
+}
+
 void HOST_INFO::clear() {
     timezone = 0;
     strcpy(domain_name, "");
@@ -854,7 +882,7 @@ FILE_TRANSFERS::~FILE_TRANSFERS() {
 
 void FILE_TRANSFERS::print() {
     unsigned int i;
-    printf("\n======== Files ========\n");
+    printf("\n======== File transfers ========\n");
     for (i=0; i<file_transfers.size(); i++) {
         printf("%d) -----------\n", i+1);
         file_transfers[i]->print();
@@ -1440,7 +1468,7 @@ int RPC_CLIENT::result_op(RESULT& result, char* op) {
         "   <name>%s</name>\n"
         "</%s>\n",
         tag,
-        result.project->master_url.c_str(),
+        result.project_url.c_str(),
         result.name.c_str(),
         tag
     );
@@ -1463,5 +1491,17 @@ int RPC_CLIENT::quit() {
     return rpc.do_rpc("<quit/>\n");
 }
 
+int RPC_CLIENT::acct_mgr_rpc(char* url, char* name, char* passwd) {
+    char buf[4096];
+    RPC rpc(this);
+    sprintf(buf,
+        "<acct_mgr_rpc>\n"
+        "  <url>%s</url>\n"
+        "  <name>%s</name>\n"
+        "  <passwd>%s</passwd>\n",
+        url, name, passwd
+    );
+    return rpc.do_rpc(buf);
+}
 
 const char *BOINC_RCSID_6802bead97 = "$Id$";
