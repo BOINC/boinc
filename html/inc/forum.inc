@@ -26,6 +26,8 @@ define('NEW_IMAGE', 'unread_post.png');
 define('NEW_IMAGE_HEIGHT','15');
 define('EMPHASIZE_IMAGE', 'emphasized_post.png');
 define('EMPHASIZE_IMAGE_HEIGHT','15');
+define('FILTER_IMAGE', 'filtered_post.png');
+define('FILTER_IMAGE_HEIGHT','15');
 
 define ('SOLUTION', 'This answered my question');
 define ('SUFFERER', 'I also have this question');
@@ -481,13 +483,13 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
         /*...*/
     }
-    if ($fstatus) echo "<br><font size=-2>$fstatus</font>";
+    if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
     
     if (!$filter || !$rated_below_threshold){
-        echo "<p>";
+        echo "<p><font size=\"-2\">";
         if ($user->has_avatar and $logged_in_user->hide_avatars!=1) 
 	    echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
-	echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</p>";
+	echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</font></p>";
     }
     echo "
         </td>
@@ -499,9 +501,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
     
     echo "
-        <table width=100% cellpadding=0 cellspacing=0 border=0 cellborder=0>
+        <table width=\"100%\" cellpadding=0 cellspacing=0 border=0>
         <tr valign=top>
-        <td align=left style=border:0px><font size=-2>";
+        <td align=left style=\"border:0px\"><font size=-2>"; //cellborder=0 deleted - what did it do?
 
     if ($post->timestamp>$logged_in_user->thread_last_visited){
         echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\">";
@@ -514,19 +516,17 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
-    if ($post->parent_post) echo " - in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
-    if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=forum_edit.php?id=$post->id>[Edit this post]</a>";
+    if ($post->parent_post) echo " - in response to <a href=\"#$post->parent_post\">Message ID $post->parent_post</a>.";
+    if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=$post->id\">[Edit this post]</a>";
     if ($post->modified) echo "<br>Last modified: ", pretty_time_Str($post->modified);
     if ($rated_below_threshold && $filter){
-	echo "<br>This post has been filtered (rating: ".($post->score * $post->votes)."), press <a href=\"?id=".$thread->id."&filter=false#".$post->id."\">here</a> to view this thread without filtering";
+	echo "<br>This post has been filtered (rating: ".($post->score * $post->votes)."), press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
     }
     
-    echo "</p>\n</td>\n";
+    echo "\n</font></td>\n";
 
     if ($controls == FORUM_CONTROLS) {
-        //echo "<td align=\"right\" style=\"border:0px\">Rate this post:";
-        //show_select_from_array("rating", $post_ratings, "0");				// <---- Old obsolete rating method (remove someday)
-        //echo "<input type=\"submit\" value=\"Rate\"></td>";
+	//no special controls in forum
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
             <td align=\"right\" style=\"border:0px\">
@@ -561,21 +561,21 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             $posttext=externalize_links($posttext);
         }
         echo "<p>", $posttext, "</p>";
-        echo "<table width=100% cellspacing=0 cellpadding=0>
+        echo "<table width=\"100%\" cellspacing=0 cellpadding=0>
             <tr valign=\"bottom\">
-            <td style=border:0px><font size=-2><i>ID: ", $post->id;
+            <td style=\"border:0px;\"><font size=-2><i>ID: ", $post->id;
         if ($controls == HELPDESK_CONTROLS && $separate) {
-            echo "</i></td>";
+            echo "</i></font></td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-            echo " / Score: ", ($post->score * $post->votes), "</i></td>";
+            echo " / Score: ", ($post->score * $post->votes), "</i></font></td>";
         } else {
-            echo " / Rating: ", ($post->score * $post->votes), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&choice=n\">-</a></td>";
+            echo " / Rating: ", ($post->score * $post->votes), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\">-</a></font></td>";
         }
     
         if ($controls == FORUM_CONTROLS) {
-            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
+            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input\">Reply to this post</a>]</td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
+            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
         }
 	echo "</tr></table>";
     }
@@ -630,7 +630,7 @@ function image_as_link($text){
 function start_forum_table($headings, $span=NULL) {
     echo "
         <p style=\"text-align:center\">
-        <table order=0 cellpadding=5 cellspacing=0 width=100%>
+        <table border=0 cellpadding=5 cellspacing=0 width=\"100%\">
         <tr>
     ";
 
@@ -646,7 +646,7 @@ function start_forum_table($headings, $span=NULL) {
 }
 
 function end_forum_table() {
-    echo "</table></p>\n";
+    echo "</table>\n";
 }
 
 // generate a "select" element from an array of values
@@ -681,20 +681,20 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
     } else if ($forum && !$thread) {
         echo "<span class=title>";
         if ($helpdesk) {
-            echo "<a href=forum_help_desk.php>", " Questions and problems</a> : ";
+            echo "<a href=\"forum_help_desk.php\">", " Questions and problems</a> : ";
         } else {
-            echo "<a href=forum_index.php>", " Message boards</a> : ";
+            echo "<a href=\"forum_index.php\">", " Message boards</a> : ";
         }
         echo $forum->title;
         echo "</span><br>";
     } else if ($forum && $thread) {
         echo "<span class=title>";
         if ($helpdesk) {
-            echo "<a href=forum_help_desk.php>", " Questions and problems</a> : ";
+            echo "<a href=\"forum_help_desk.php\">", " Questions and problems</a> : ";
         } else {
-            echo "<a href=forum_index.php>", " Message boards</a> : ";
+            echo "<a href=\"forum_index.php\">", " Message boards</a> : ";
         }
-        echo "<a href=forum_forum.php?id=$forum->id>", $forum->title, "</a> : ";
+        echo "<a href=\"forum_forum.php?id=$forum->id\">", $forum->title, "</a> : ";
         echo strip_tags(stripslashes($thread->title));
         echo "</span><br>";
     } else {
@@ -717,18 +717,18 @@ function show_thread($thread, $n) {
     $last = time_diff_str($thread->timestamp, time());
     $m = $n%2;
     echo "
-        <tr class=row$m>
-        <td><font size=-2>
+        <tr class=\"row$m\">
+        <td><font size=\"-2\">
             $n) Posted $posted
             <br>
             Last response $last
         </td>
         <td valign=top>
-            <a href=$top_url>$where</a> : $category->name :
-            <a href=forum_forum.php?id=$forum->id>$forum->title</a> :
-            <a href=forum_thread.php?id=$thread->id>$title</a>
+            <a href=\"$top_url\">$where</a> : $category->name :
+            <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
+            <a href=\"forum_thread.php?id=$thread->id\">$title</a>
             <br>
-            <font size=-2>$excerpt</font>
+            <font size=\"-2\">$excerpt</font>
         </td>
         </tr>
     ";
@@ -750,9 +750,9 @@ function show_post2($post, $n) {
     echo "
         <tr class=row$m>
         <td>
-            $n) <a href=$top_url>$where</a> : $category->name :
-            <a href=forum_forum.php?id=$forum->id>$forum->title</a> :
-            <a href=forum_thread.php?id=$thread->id>$title</a>
+            $n) <a href=\"$top_url\">$where</a> : $category->name :
+            <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
+            <a href=\"forum_thread.php?id=$thread->id\">$title</a>
             <br>
             Posted $when by $user->name
             <hr>
@@ -768,7 +768,7 @@ function show_forum_summary($forum) {
         <tr class=row1 style=\"text-align:right\">
         <td class=indent style=\"text-align:left\">
             <span style=\"font-weight:bold\">
-            <a href=forum_forum.php?id=$forum->id>", $forum->title,
+            <a href=\"forum_forum.php?id=$forum->id\">", $forum->title,
             "</a></span>
             <br><font size=-2>", $forum->description, "
         </td>
