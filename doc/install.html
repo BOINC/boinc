@@ -28,14 +28,37 @@ install".
 the "boinc/sched" directory, replacing the existing cgi.
 </p>
 <p>
-	Edit your Apache configuration file (httpd.conf) to set the
-"boinc/sched" directory as CGI, and to allow uploads to to the upload
+When installed there will be two directories created in your current directory,
+"boinc_cvs/" and "boinc_server/".  <br>
+"boinc_cvs/" will contain all the source
+code in a directory called "boinc/".  <br>
+"boinc_server/" will contain four directories, "upload/", "download/", "cgi/", and "keys/".  <br>
+"upload/" and "cgi/"must be set as CGI in the Apache configuration file (httpd.conf) and uploads must be allowed to the "upload/" directory.  <br>
+Make sure to include something like:<br>
+<p>alias /barry/ "/disks/philmor/a/users/barry/"<p>
+or whichever directory contains "boinc_cvs/" and "boinc_server/".
+	Edit your Apache configuration file (httpd.conf) 
+to allow uploads to to the upload
 directory.
 </p>
 <p>
 	Add the following (with appropriate changes) to your .tcshrc
 </p>
 <pre>
+setenv BOINC_DOWNLOAD_DIR   ~boinc_server/download
+setenv BOINC_UPLOAD_DIR     ~boinc_server/upload
+setenv BOINC_PLATFORM       sparc-sun-solaris2.7
+setenv BOINC_EMAIL          barry@ssl.berkeley.edu
+setenv BOINC_URL_BASE       http://maggie.ssl.berkeley.edu/barry/boinc_server/download
+setenv BOINC_DB_NAME        boinc_barry
+setenv BOINC_UPLOAD_URL     http://maggie.ssl.berkeley.edu/barry/boinc_server/cgi/file_upload_handler
+setenv BOINC_DOWNLOAD_URL   http://maggie.ssl.berkeley.edu/barry/boinc_server/download
+setenv BOINC_KEY            0xdabacafe
+setenv BOINC_USER           barry
+setenv BOINC_KEY_DIR        ~/boinc_server/keys
+setenv BOINC_MASTER_URL     http:\\\/\\\/localhost\\\/
+</pre>
+
 setenv BOINC_DOWNLOAD_DIR /usr/local/boinc/download
 </pre> This directory should be set to be web accessible via Apache. If
 you plan on using a different directory, be sure to set the
