@@ -289,6 +289,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
     double now = dtime();
 
+    // Send heartbeat to all active tasks so they know we are alive
+    // and well.
+    gstate.active_tasks.send_heartbeats();
+
     // do transitions through benchmark states
     //
     switch (bm_state) {

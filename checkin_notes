@@ -15473,3 +15473,10 @@ Eric
       'Last-Modified:'
 
     html/inc/cache.inc
+
+Rom    July 19 2004
+    - Fix a bug where during the benchmarking process all the active tasks
+      would die off.
+
+    client/
+        cs_benchmark.C
