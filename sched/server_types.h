@@ -67,9 +67,18 @@ struct SCHEDULER_REQUEST {
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char projects_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
+
+// ROMW: Added these back in since we have 3.x clients who still want
+//       want to send us the older style for determining disk usage.
+// TODO: Remove the two lines below when the 4.x way of doing things
+//       is completely implemented.
+    double total_disk_usage;
+    double project_disk_usage;
+
     double project_disk_free;
     double potentially_free_offender;
     double potentially_free_self;
+
     bool anonymous_platform;
     vector<CLIENT_APP_VERSION> client_app_versions;
     GLOBAL_PREFS global_prefs;

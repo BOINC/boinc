@@ -92,6 +92,14 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+
+// ROMW: Added these back in since we have 3.x clients who still want
+//       want to send us the older style for determining disk usage.
+// TODO: Remove the two lines below when the 4.x way of doing things
+//       is completely implemented.
+        else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
+        else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
+
         else if (parse_double(buf, "<project_disk_free>", project_disk_free)) continue;
         else if (parse_double(buf, "<potentially_free_offender>", potentially_free_offender)) continue;
         else if (parse_double(buf, "<potentially_free_self>", potentially_free_self)) continue;

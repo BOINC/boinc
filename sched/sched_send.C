@@ -81,6 +81,51 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
 // compute the max disk usage we can request of the host
 //
 double max_allowable_disk(SCHEDULER_REQUEST& req) {
+// ROMW: Reverting back to older implementation until all clients are 4.x
+//       or higher.
+#if 1
+    HOST host = req.host;
+    GLOBAL_PREFS prefs = req.global_prefs;
+    double x1, x2, x3, x;
+
+    // fill in default values for missing prefs
+    //
+    if (prefs.disk_max_used_gb == 0) prefs.disk_max_used_gb = 0.1;   // 100 MB
+    if (prefs.disk_max_used_pct == 0) prefs.disk_max_used_pct = 10;
+    // min_free_gb can be zero
+
+    // default values for BOINC disk usage (project and total) is zero
+    //
+
+    // no defaults for total/free disk space (host.d_total, d_free)
+    // if they're zero, project will get no work.
+    //
+
+    x1 = prefs.disk_max_used_gb*(1024.*1024.*1024.) - req.total_disk_usage;
+    x2 = host.d_total*prefs.disk_max_used_pct/100.;
+    x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
+
+    x = min(x1, min(x2, x3));
+    if (x < 0) {
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL,
+            "disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
+            prefs.disk_max_used_gb, prefs.disk_max_used_pct,
+            prefs.disk_min_free_gb
+        );
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL,
+            "req.total_disk_usage %f host.d_total %f host.d_free %f\n",
+            req.total_disk_usage, host.d_total, host.d_free
+        );
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL,
+            "x1 %f x2 %f x3 %f x %f\n",
+            x1, x2, x3, x
+        );
+    }
+    return x;
+#else
     double x1, x2, x3;
 
     HOST host = req.host;
@@ -97,6 +142,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
         );
     }
     return max(max(x1,x2), x3);
+#endif
 }
 
 // if a host has active_frac < 0.1, assume 0.1 so we don't deprive it of work.
@@ -676,7 +722,13 @@ int send_work(
     WORK_REQ wreq;
 
     memset(&wreq, 0, sizeof(wreq));
+// ROMW: Reverting back to older implementation until all clients are 4.x
+//       or higher.
+#if 1
+    wreq.disk_available = max_allowable_disk(sreq);
+#else
     wreq.disk_available = sreq.project_disk_free;
+#endif
     wreq.insufficient_disk = false;
     wreq.insufficient_mem = false;
     wreq.insufficient_speed = false;

@@ -13,7 +13,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
-			ConfigurationType="1">
+			ConfigurationType="1"
+			UseOfMFC="1">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -22,7 +23,7 @@
 				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				BufferSecurityCheck="TRUE"
 				EnableFunctionLevelLinking="FALSE"
 				UsePrecompiledHeader="2"
@@ -229,9 +230,6 @@
 			</File>
 			<File
 				RelativePath=".\Events.h">
-			</File>
-			<File
-				RelativePath="..\client\gui_rpc_client.h">
 			</File>
 			<File
 				RelativePath=".\gui_rpc_client.h">
