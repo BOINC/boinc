@@ -114,7 +114,6 @@ AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h malloc.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/swap.h sys/sysctl.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h signal.h sys/wait.h sys/file.h sys/ipc.h sys/shm.h)
-dnl AC_CHECK_HEADERS(mysql/include/mysql_com.h mysql/mysql_com.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
