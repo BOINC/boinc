@@ -227,21 +227,13 @@ void handle_wu(DB_WORKUNIT& wu) {
     if (wu.assimilate_state == ASSIMILATE_DONE) {
         // can delete input files if all results OVER
         //
-        if (all_over) {
+        if (all_over && wu.file_delete_state == FILE_DELETE_INIT) {
             wu.file_delete_state = FILE_DELETE_READY;
             log_messages.printf(
                 SchedMessages::DEBUG,
                 "[WU#%d %s] ASSIMILATE_DONE => setting FILE_DELETE_READY\n",
                 wu.id, wu.name
             );
-
-            // can delete canonical result outputs
-            // if all successful results have been validated
-            //
-            // if (canonical_result.id && canonical_result.file_delete_state == FILE_DELETE_INIT) {
-            //     canonical_result.file_delete_state = FILE_DELETE_READY;
-            //     canonical_result.update();
-            // }
         }
 
         // output of error results can be deleted immediately;
@@ -249,8 +241,10 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         for (unsigned int i=0; i<results.size(); i++) {
             DB_RESULT& result = results[i];
+
             // can delete canonical result outputs only if all successful
             // results have been validated
+            //
             if (&result == p_canonical_result && !all_over) continue;
 
             do_delete = false;
@@ -262,7 +256,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 do_delete = (result.validate_state != VALIDATE_STATE_INIT);
                 break;
             }
-            if (do_delete) {
+            if (do_delete && result.file_delete_state == FILE_DELETE_INIT) {
                 result.file_delete_state = FILE_DELETE_READY;
                 result.update();
             }

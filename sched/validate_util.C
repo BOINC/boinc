@@ -17,6 +17,12 @@
 // Contributor(s):
 //
 
+// Code to facilitate writing validators.
+// Can be used as the basis for a validator that accepts everything
+// (see validate_trivial.C),
+// or that requires strict or fuzzy equality.
+
+
 #include "validate_util.h"
 #include "sched_util.h"
 #include "sched_config.h"
@@ -40,8 +46,7 @@ int get_output_file_path(RESULT const& result, string& path) {
 }
 
 
-// If we have a canonical result, and N results (including itself) that match
-// it, compute a canonical credit as follows:
+// If we have N correct results, compute a canonical credit as follows:
 // - if N==1, give that credit
 // - if N==2, give min credit
 // - if N>2, toss out min and max, give average of rest

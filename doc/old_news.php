@@ -2,6 +2,45 @@
 require_once("docutil.php");
 page_head("Archived news");
 echo "
+<br><br>
+<b>July 25, 2003</b>
+<br>
+We've added two new web-site features for BOINC projects:
+user profiles and message boards.
+These are visible on the <a href=http://maggie.ssl.berkeley.edu/ap/>beta-test web site</a>.
+<br><br>
+<b>July 23, 2003</b>
+<br>
+The <a href=source/>BOINC source code</a> is available again,
+under <a href=legal.html>a new public license</a>.
+Version 1.05 incorporates bug fixes and new features,
+including the ability to add your own graphics to the screensaver.
+The beta test has been resumed, and the scheduling server and
+database have been moved to a new machine.
+<br><br>
+<b>June 10, 2003</b>
+<br>
+<a href=http://boinc.berkeley.edu/db_dump.html>XML based statistics</a> for
+the Astropulse beta test are
+<a href=http://setiboinc.ssl.berkeley.edu/ap/stats/>available</a>.
+<br><br>
+<b>May 30, 2003</b>
+<br>
+No big news to report,
+but thanks to the beta test we've fixed a number of bugs,
+involving runaway applications, too-large output files,
+screensaver behavior, and mechanisms for
+quitting and resetting projects.
+<br><br>
+<b>April 29, 2003</b>
+<br>
+We have created a second project, allowing beta testers to
+experiment with dividing their resources between multiple projects.
+<br><br>
+<b>April 23, 2003</b>
+<br>
+We have resumed the BOINC beta test.
+<br><br>
 <b>April 9, 2003</b>
 <br>
 Due to a legal issue,

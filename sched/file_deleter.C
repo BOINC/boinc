@@ -71,7 +71,7 @@ int result_delete_files(RESULT& result) {
     char* p;
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0;
+    int count_deleted = 0, retval;
 
     safe_strcpy(buf, result.xml_doc_in);
     p = strtok(buf,"\n");
@@ -85,15 +85,20 @@ int result_delete_files(RESULT& result) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
-                log_messages.printf(SchedMessages::NORMAL, "[%s] deleting upload/%s\n", result.name, filename);
-                unlink(pathname);
+                retval = unlink(pathname);
                 ++count_deleted;
+                log_messages.printf(SchedMessages::NORMAL,
+                    "[%s] unlinked %s; retval %d\n",
+                    result.name, filename, retval
+                );
             }
         }
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(SchedMessages::DEBUG, "[%s] deleted %d file(s)\n", result.name, count_deleted);
+    log_messages.printf(SchedMessages::DEBUG,
+        "[%s] deleted %d file(s)\n", result.name, count_deleted
+    );
     return 0;
 }
 
