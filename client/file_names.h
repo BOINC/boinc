@@ -50,3 +50,5 @@ extern void escape_project_url(char *in, char* out);
 #define STDOUT_FILE_NAME        "stdout.txt"
 #define TIME_TESTS_FILE_NAME	"time_tests.xml"
 #define LOCK_FILE_NAME          "lockfile"
+#define INI_FILE_NAME			"boinc.ini"
+#define LANGUAGE_FILE_NAME		"language.ini"
