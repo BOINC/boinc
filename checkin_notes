@@ -22726,3 +22726,12 @@ David  14 Jan 2005
 
     html/inc/
         forum_show.inc
+
+Rom    14 Jan 2005
+    - Bug Fix: The screensaver was passing the raw blank time (number of 
+        minutes) instead of when in unix time format the screen should go 
+        blank (number of seconds).
+
+    client/win/
+        win_screensaver.cpp
+ 

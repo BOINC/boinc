@@ -323,6 +323,10 @@ VOID CScreensaver::StartupBOINC()
 			bReturnValue = UtilGetRegKey( REG_BLANK_TIME, dwBlankTime );
 			if ( bReturnValue < 0 ) dwBlankTime = 0;
 
+            // Calculate the estimated blank time by adding the current time
+            //   and and the user specified time which is in minutes
+            dwBlankTime = time(0) + (dwBlankTime * 60);
+
 			// Tell the boinc client to start the screen saver
             iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
 
@@ -623,7 +627,8 @@ HRESULT CScreensaver::CreateSaverWindow()
                     if( m_hWnd == NULL )
 						m_hWnd = pMonitorInfo->hWnd;
 
-					SetTimer(pMonitorInfo->hWnd, 2, 60000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 2, 500, NULL);
+					SetTimer(pMonitorInfo->hWnd, 3, 60000, NULL);
 				}
             }
     }
@@ -728,9 +733,15 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					// Initial idle time is done, proceed with initialization.
 					m_bWaitForInputIdle = FALSE;
 					KillTimer( hWnd, 1 );
-					return 0; 
-		 
+                    return 0;
 				case 2:
+                    // This kicks off the first pass for communitication with the
+                    // core client and should tell the core client to startup the
+                    // screensaver window.
+					KillTimer( hWnd, 2 );
+				case 3:
+                    // Except for the initial startup sequence, this is run every
+                    //   60 seconds.
                     HWND hwndBOINCGraphicsWindow = NULL;
                     HWND hwndForegroundWindow = NULL;
                     int  iReturnValue = 0;
@@ -791,6 +802,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                             hwndForegroundWindow = GetForegroundWindow();
                                             if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
                                             {
+                                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
                                                 // This may be needed on Windows 2000 or better machines
                                                 DWORD dwComponents = BSM_APPLICATIONS;
                                                 BroadcastSystemMessage( 
@@ -804,6 +816,8 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                         }
                                     }
                                 break;
+                                case SS_STATUS_BLANKED:
+                                    break;
                                 case SS_STATUS_RESTARTREQUEST:
                                     m_bBOINCCoreNotified = FALSE;
                                     break;
@@ -972,6 +986,8 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					return 0; 
 		 
 				case 2: 
+					KillTimer( hWnd, 2 );
+				case 3: 
 					if( m_bErrorMode )
 					{
 						UpdateErrorBox();
