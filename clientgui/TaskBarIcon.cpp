@@ -37,12 +37,12 @@
 IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIcon)
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIcon)
-    EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
-    EVT_MENU_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
-    EVT_MENU_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
+    EVT_MENU_RANGE(ID_TB_ACTIVITYRUNALWAYS, ID_TB_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
+    EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
+    EVT_CLOSE(CTaskBarIcon::OnClose)
 END_EVENT_TABLE ()
 
 
@@ -82,13 +82,13 @@ void CTaskBarIcon::OnActivitySelection( wxCommandEvent& event )
 
     switch( event.GetId() )
     {
-        case ID_ACTIVITYRUNALWAYS:
+        case ID_TB_ACTIVITYRUNALWAYS:
             pDoc->SetActivityRunMode( CMainDocument::MODE_ALWAYS );
             break;
-        case ID_ACTIVITYSUSPEND:
+        case ID_TB_ACTIVITYSUSPEND:
             pDoc->SetActivityRunMode( CMainDocument::MODE_NEVER );
             break;
-        case ID_ACTIVITYRUNBASEDONPREPERENCES:
+        case ID_TB_ACTIVITYRUNBASEDONPREPERENCES:
             pDoc->SetActivityRunMode( CMainDocument::MODE_AUTO );
             break;
     }
@@ -104,7 +104,7 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
 
     switch( event.GetId() )
     {
-        case ID_NETWORKSUSPEND:
+        case ID_TB_NETWORKSUSPEND:
             if ( event.IsChecked() )
             {
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
@@ -114,8 +114,8 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
             }
             break;
-        case ID_NETWORKRUNALWAYS:
-        case ID_NETWORKRUNBASEDONPREPERENCES:
+        case ID_TB_NETWORKRUNALWAYS:
+        case ID_TB_NETWORKRUNBASEDONPREPERENCES:
         default:
             pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
             break;
@@ -216,11 +216,11 @@ void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 
     menu->Append( wxID_OPEN, _("&Open"), wxEmptyString );
     menu->AppendSeparator();
-    menu->AppendRadioItem( ID_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString );
-    menu->AppendRadioItem( ID_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString );
-    menu->AppendRadioItem( ID_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString );
+    menu->AppendRadioItem( ID_TB_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString );
+    menu->AppendRadioItem( ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString );
+    menu->AppendRadioItem( ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString );
     menu->AppendSeparator();
-    menu->AppendCheckItem( ID_NETWORKSUSPEND, _("&Disable BOINC Network Access"), wxEmptyString );
+    menu->AppendCheckItem( ID_TB_NETWORKSUSPEND, _("&Disable BOINC Network Access"), wxEmptyString );
     menu->AppendSeparator();
     menu->Append( wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString );
     menu->AppendSeparator();
@@ -230,13 +230,13 @@ void CTaskBarIcon::OnRButtonDown( wxEvent& event )
     switch( iActivityMode )
     {
         case CMainDocument::MODE_ALWAYS:
-            menu->Check( ID_ACTIVITYRUNALWAYS, true );
+            menu->Check( ID_TB_ACTIVITYRUNALWAYS, true );
             break;
         case CMainDocument::MODE_NEVER:
-            menu->Check( ID_ACTIVITYSUSPEND, true );
+            menu->Check( ID_TB_ACTIVITYSUSPEND, true );
             break;
         case CMainDocument::MODE_AUTO:
-            menu->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+            menu->Check( ID_TB_ACTIVITYRUNBASEDONPREPERENCES, true );
             break;
     }
 
@@ -244,10 +244,10 @@ void CTaskBarIcon::OnRButtonDown( wxEvent& event )
     switch( iNetworkMode )
     {
         case CMainDocument::MODE_NEVER:
-            menu->Check( ID_NETWORKSUSPEND, true );
+            menu->Check( ID_TB_NETWORKSUSPEND, true );
             break;
         default:
-            menu->Check( ID_NETWORKSUSPEND, false );
+            menu->Check( ID_TB_NETWORKSUSPEND, false );
             break;
     }
 

@@ -51,6 +51,7 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
+
     void OnClose( wxCloseEvent& event );
 
     virtual void OnMouseMove( wxEvent& event );

@@ -44,11 +44,16 @@
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
-    EVT_CLOSE(CMainFrame::OnClose)
+    EVT_MENU(ID_HIDE, CMainFrame::OnHide)
+    EVT_MENU_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
+    EVT_MENU_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnNetworkSelection)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
+    EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
+    EVT_UPDATE_UI_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnUpdateNetworkSelection)
     EVT_IDLE(CMainFrame::OnIdle)
+    EVT_CLOSE(CMainFrame::OnClose)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
     EVT_LIST_CACHE_HINT(wxID_ANY, CMainFrame::OnListCacheHint)
     EVT_LIST_ITEM_SELECTED(wxID_ANY, CMainFrame::OnListSelected)
@@ -132,6 +137,41 @@ bool CMainFrame::CreateMenu()
 {
     // File menu
     wxMenu *menuFile = new wxMenu;
+
+    menuFile->Append(
+        ID_HIDE, 
+        _("&Hide"),
+        _("Hides the main BOINC Manager window")
+    );
+
+    menuFile->AppendSeparator();
+
+    menuFile->AppendRadioItem(
+        ID_ACTIVITYRUNALWAYS,
+        _("&Run always"),
+        _("Runs BOINC without regards to the configured preferences for the computer")
+    );
+    menuFile->AppendRadioItem(
+        ID_ACTIVITYRUNBASEDONPREPERENCES,
+        _("Run based on &preferences"),
+        _("Runs BOINC according to the preferences configured for the computer")
+    );
+    menuFile->AppendRadioItem(
+        ID_ACTIVITYSUSPEND,
+        _("&Suspend"),
+        _("Suspends processing and network activity without regards to the configured preferences")
+    );
+
+    menuFile->AppendSeparator();
+
+    menuFile->AppendCheckItem(
+        ID_NETWORKSUSPEND,
+        _("&Disable BOINC Network Access"),
+        _("Disables network activity without suspending BOINC")
+    );
+
+    menuFile->AppendSeparator();
+
     menuFile->Append(
         wxID_EXIT,
         _("E&xit"),
@@ -476,21 +516,65 @@ bool CMainFrame::FireRestoreStateEvent( T pPage, wxConfigBase* pConfig )
 }
 
 
-void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
+void CMainFrame::OnHide( wxCommandEvent& event )
 {
-    Close(true);
+    Hide();
 }
 
 
-void CMainFrame::OnClose( wxCloseEvent& event )
+void CMainFrame::OnActivitySelection( wxCommandEvent& event )
 {
-    if ( !event.CanVeto() )
-        Destroy();
-    else
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    switch( event.GetId() )
     {
-        Hide();
-        event.Veto();
+        case ID_ACTIVITYRUNALWAYS:
+            pDoc->SetActivityRunMode( CMainDocument::MODE_ALWAYS );
+            break;
+        case ID_ACTIVITYSUSPEND:
+            pDoc->SetActivityRunMode( CMainDocument::MODE_NEVER );
+            break;
+        case ID_ACTIVITYRUNBASEDONPREPERENCES:
+            pDoc->SetActivityRunMode( CMainDocument::MODE_AUTO );
+            break;
     }
+}
+
+
+void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    switch( event.GetId() )
+    {
+        case ID_NETWORKSUSPEND:
+            if ( event.IsChecked() )
+            {
+                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+            }
+            else
+            {
+                pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
+            }
+            break;
+        case ID_NETWORKRUNALWAYS:
+        case ID_NETWORKRUNBASEDONPREPERENCES:
+        default:
+            pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+            break;
+    }
+}
+
+   
+void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
+{
+    Close(true);
 }
 
 
@@ -518,6 +602,57 @@ void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 }
 
 
+void CMainFrame::OnUpdateActivitySelection( wxUpdateUIEvent& WXUNUSED(event) )
+{
+    CMainDocument* pDoc          = wxGetApp().GetDocument();
+    wxMenuBar*     pMenuBar      = GetMenuBar();
+    wxInt32        iActivityMode = -1;
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pMenuBar);
+    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+    pDoc->GetActivityRunMode( iActivityMode );
+    switch( iActivityMode )
+    {
+        case CMainDocument::MODE_ALWAYS:
+            pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+            break;
+        case CMainDocument::MODE_NEVER:
+            pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
+            break;
+        case CMainDocument::MODE_AUTO:
+            pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+            break;
+    }
+}
+
+
+void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& WXUNUSED(event) )
+{
+    CMainDocument* pDoc          = wxGetApp().GetDocument();
+    wxMenuBar*     pMenuBar      = GetMenuBar();
+    wxInt32        iNetworkMode  = -1;
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pMenuBar);
+    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+    pDoc->GetNetworkRunMode( iNetworkMode );
+    switch( iNetworkMode )
+    {
+        case CMainDocument::MODE_NEVER:
+            pMenuBar->Check( ID_NETWORKSUSPEND, true );
+            break;
+        default:
+            pMenuBar->Check( ID_NETWORKSUSPEND, false );
+            break;
+    }
+}
+
+   
 void CMainFrame::OnIdle( wxIdleEvent& event )
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -525,11 +660,22 @@ void CMainFrame::OnIdle( wxIdleEvent& event )
     if ( NULL != pDoc )
     {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
         pDoc->OnIdle();
     }
 
     event.Skip();
+}
+
+
+void CMainFrame::OnClose( wxCloseEvent& event )
+{
+    if ( !event.CanVeto() )
+        Destroy();
+    else
+    {
+        Hide();
+        event.Veto();
+    }
 }
 
 

@@ -49,18 +49,25 @@ CMainDocument::CMainDocument()
 
     m_bIsConnected = false;
 
+    m_iCachedActivityRunMode = 0;
+    m_iCachedNetworkRunMode = 0;
+
     m_fProjectTotalResourceShare = 0.0;
 
     m_iMessageSequenceNumber = 0;
 
     m_bCachedStateLocked = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    m_dtCachedStateTimestamp = 0;
+    m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
+    m_dtCachedActivityRunModeTimestamp = wxDateTime( (time_t)0 );
+    m_dtCachedNetworkRunModeTimestamp = wxDateTime( (time_t)0 );
 }
 
 
 CMainDocument::~CMainDocument()
 {
+    m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
+    m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime::Now();
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_bCachedStateLocked = false;
@@ -68,6 +75,9 @@ CMainDocument::~CMainDocument()
     m_iMessageSequenceNumber = 0;
 
     m_fProjectTotalResourceShare = 0.0;
+
+    m_iCachedActivityRunMode = 0;
+    m_iCachedNetworkRunMode = 0;
 
     m_bIsConnected = false;
 
@@ -87,7 +97,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
-    if (!m_bCachedStateLocked && (ts > wxTimeSpan::Seconds(3600)))
+    if (!m_bCachedStateLocked && (ts.GetSeconds() > 3600))
     {
         pFrame->UpdateStatusbar( _("Retrieving the BOINC system state.  Please wait...") );
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
@@ -168,25 +178,79 @@ wxInt32 CMainDocument::CachedStateUnlock()
 
 wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 {
-    return rpc.get_run_mode( iMode );
+    wxInt32 iRetVal = 0;
+
+    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
+    if ( ts.GetSeconds() > 10 )
+    {
+        m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
+
+        iRetVal = rpc.get_run_mode( iMode );
+        if ( 0 == iRetVal )
+        {
+            m_iCachedActivityRunMode = iMode;
+        }
+    }
+    else
+    {
+        iMode = m_iCachedActivityRunMode;
+    }
+
+    return iRetVal;
 }
 
 
 wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
 {
-    return rpc.set_run_mode( iMode );
+    wxInt32 iRetVal = 0;
+
+    iRetVal = rpc.set_run_mode( iMode );
+    if ( 0 == iRetVal )
+    {
+        m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
+        m_iCachedActivityRunMode = iMode;
+    }
+
+    return iRetVal;
 }
 
 
 wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
 {
-    return rpc.get_network_mode( iMode );
+    wxInt32 iRetVal = 0;
+
+    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
+    if ( ts.GetSeconds() > 10 )
+    {
+        m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
+
+        iRetVal = rpc.get_network_mode( iMode );
+        if ( 0 == iRetVal )
+        {
+            m_iCachedNetworkRunMode = iMode;
+        }
+    }
+    else
+    {
+        iMode = m_iCachedNetworkRunMode;
+    }
+
+    return iRetVal;
 }
 
 
 wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
 {
-    return rpc.set_network_mode( iMode );
+    wxInt32 iRetVal = 0;
+
+    iRetVal = rpc.set_network_mode( iMode );
+    if ( 0 == iRetVal )
+    {
+        m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
+        m_iCachedNetworkRunMode = iMode;
+    }
+
+    return iRetVal;
 }
 
 

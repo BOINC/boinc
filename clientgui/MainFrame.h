@@ -42,13 +42,19 @@ public:
 
     bool UpdateStatusbar( const wxString& strStatusbarText );
 
+    void OnHide( wxCommandEvent& event );
+    void OnActivitySelection( wxCommandEvent& event );
+    void OnNetworkSelection( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
-    void OnClose( wxCloseEvent& event );
 
     void OnToolsOptions( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 
+    void OnUpdateActivitySelection( wxUpdateUIEvent& event );
+    void OnUpdateNetworkSelection( wxUpdateUIEvent& event );
+
     void OnIdle ( wxIdleEvent& event );
+    void OnClose( wxCloseEvent& event );
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 

@@ -74,9 +74,14 @@ private:
     HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
+    wxDateTime                  m_dtCachedActivityRunModeTimestamp;
+    wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
     bool                        m_bCachedStateLocked;
 
     bool                        m_bIsConnected;
+
+    wxInt32                     m_iCachedActivityRunMode;
+    wxInt32                     m_iCachedNetworkRunMode;
 
     wxInt32                     CachedStateUpdate();
 
