@@ -17,8 +17,6 @@
 #include "gutil.h"
 #include "reduce.h"
 
-extern unsigned int listBase;
-
 REDUCED_ARRAY::REDUCED_ARRAY() {
     rdata = 0;
     ftemp = 0;
@@ -470,6 +468,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)
 			glEnd();
 		break;
 		case TYPE_WAVE:
+			glLineWidth(1.0f);
 			z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 			z1 = z0+.14f;			
 			row0 = rrow(row);			
@@ -786,9 +785,30 @@ void REDUCED_ARRAY::draw_labels()
 	double proj[16];
 	double z_pos[3];
 	double x_pos[3];
+	double p_pos[3];
 	double xzmin_corner[3];
 	double zmax_corner[3];
 	double xmax_corner[3];
+
+	float arrowh = .35f;
+	float arroww = .05f;
+
+	glLineWidth(1.4f);
+	glBegin(GL_LINES);
+	glColor3f(1,1,1);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1],draw_pos[2]+draw_size[2]-.5f);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f);
+	glEnd();
+
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.2f+arrowh,draw_pos[2]+draw_size[2]-.5f);
+
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f+arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f+arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f+arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f+arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
+	glEnd();
 
 	int viewport[4];
 			
@@ -800,6 +820,7 @@ void REDUCED_ARRAY::draw_labels()
 
 	char* zlabel = "Time(sec)";
 	char* xlabel = "Frequency(HZ)";
+	char* plabel = "Power";
 
 	char* zmax = "107.4";
 	char* zmin = "0";
@@ -811,7 +832,6 @@ void REDUCED_ARRAY::draw_labels()
 	float left_of_z2 = -0.04f;
 	float below_x = -.03f;
 	float center_x = -.06f;
-
 	
 	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2]+(draw_size[2]/2.0f),
 			   model, proj, viewport,z_pos);
@@ -827,6 +847,9 @@ void REDUCED_ARRAY::draw_labels()
 
 	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2],
 			   model, proj, viewport,zmax_corner);
+
+	get_2d_positions(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.5f/2.3f,draw_pos[2]+draw_size[2]-.5f,
+			   model, proj, viewport,p_pos);
 	
 	mode_ortho();	
 
@@ -840,8 +863,9 @@ void REDUCED_ARRAY::draw_labels()
 	float xmaxpos[3]={(float)xmax_corner[0]/(float)(viewport[2]),(float)xmax_corner[1]/(float)(viewport[3])+below_x,(float)xmax_corner[2]};
 	float zminpos[3]={(float)xzmin_corner[0]/(float)(viewport[2])+left_of_z2,(float)xzmin_corner[1]/(float)(viewport[3]),(float)xzmin_corner[2]};
 	float zmaxpos[3]={(float)zmax_corner[0]/(float)(viewport[2])+left_of_z2,(float)zmax_corner[1]/(float)(viewport[3]),(float)zmax_corner[2]};
-	//draw_text_line(zpos, w, l, zlabel);	
-	//draw_text_line(xpos, w, l, xlabel);	
+	float ppos[3]={(float)p_pos[0]/(float)(viewport[2])+.02f,(float)p_pos[1]/(float)(viewport[3]),(float)p_pos[2]};
+//  draw_text_line(zpos, w, l, zlabel);	
+//  draw_text_line(xpos, w, l, xlabel);	
 //	draw_text_line(xminpos, w, l, xmin);	
 //	draw_text_line(xmaxpos, w, l, xmax);	
 //	draw_text_line(zminpos, w, l, zmin);	
@@ -852,10 +876,13 @@ void REDUCED_ARRAY::draw_labels()
 	glLoadIdentity();
   	
 	glRasterPos3d(zpos[0],zpos[1],-1);//zpos[2]);
-	print_text(listBase, "Time(sec)");
+	print_text(listBase[0], zlabel);
 
 	glRasterPos3d(xpos[0],xpos[1],-1);//xpos[2]);
-	print_text(listBase, "Frequency(HZ)");
+	print_text(listBase[0], xlabel);
+
+	glRasterPos3d(ppos[0],ppos[1],-1);//xpos[2]);
+	print_text(listBase[0], plabel);
 
 	glPopMatrix();
 	

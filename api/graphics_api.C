@@ -116,6 +116,7 @@ int boinc_finish_opengl() {
 
 GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routine
 {
+	/*
     char		text[256];			// Holds Our String
     va_list		ap;				// Pointer To List Of Arguments
 
@@ -130,6 +131,7 @@ GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routin
     glListBase(font);					// Sets The Base Character
     glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
     glPopAttrib();					// Pops The Display List Bits
+	*/
 }
 
 GLenum InitGL(GLvoid) {					// All Setup For OpenGL Goes Here
@@ -170,6 +172,7 @@ GLenum ReSizeGLScene(GLsizei width, GLsizei height) {	// Resize And Initialize T
         glViewport(0,0,(int)(height*aspect_ratio),(height));	// Reset The Current Viewport
     
     if (err=glGetError()) return err;
+	app_resize(width,height);
     
     return GL_NO_ERROR;
 }

@@ -72,7 +72,6 @@
 #include "gutil.h"
 
 extern HDC myhDC;
-unsigned int listBase;
 
 GLfloat mat_diffuse[] = {0.7, 0.5, 1.0, 0.4};
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
@@ -458,7 +457,7 @@ void draw_text_new(
         q = strchr(p, '\n');
         if (q) *q = 0;
 		glRasterPos3d(pos[0],pos[1],pos[2]);
-		print_text(listBase, p);
+		print_text(listBase[0], p);
         pos[1] -= line_spacing;
         if (!q) break;
         p = q+1;
@@ -770,12 +769,17 @@ void build_stars()
 	float fov=45.0f;
 	while(i<STARFIELD_SIZE)
 	{
+		
 		float z = (float)(rand()%2000-1000);
 		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
 		float beta = asin(z/1000.0f);
 		float x = 1000.0f * cos(beta) * cos(alpha);
 		float y = 1000.0f * cos(beta) * sin(alpha);				
-
+/*
+		float z = (float)(-rand()%1000);
+		float x = (float)(rand()%(int)(2.0f*-z*tan(22.5f*PI/180.0f) - (-z*tan(22.5f*PI/180.0f))));		
+		float y = (float)(rand()%(int)(2.0f*-z*tan(22.5f*PI/180.0f) - (-z*tan(22.5f*PI/180.0f))));		
+*/
 		tmpStar->x=x;
 		tmpStar->y=y;
 		tmpStar->z=z;		
@@ -786,12 +790,20 @@ void build_stars()
 		tmpStar->next = new Star;		
 		tmpStar=tmpStar->next;
 		i++;
+		
+		
 	}	
 	tmpStar->next=NULL;
 	tmpStar=NULL;
 }
 
 //moves stars towards the eye vector, and replaces ones that go behind z=0
+
+float dotProd(float a, float b, float c, float x, float y, float z)
+{
+	return(a*x+b*y+c*z);
+}
+
 void update_stars()
 {
 	float modelview[16];
@@ -812,10 +824,7 @@ void update_stars()
 //	get_projection(proj);
 
 	if(get_matrix_invert(modelview)==false)
-		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");		
-
-	if(get_matrix_invert(modelview)==false)
-		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");		
+		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
 
 	eye[0]=modelview[2];
 	eye[1]=modelview[6];
@@ -831,17 +840,12 @@ void update_stars()
 				  (camera[1]-tmpStar->y)*(camera[1]-tmpStar->y) + 
 				  (camera[2]-tmpStar->z)*(camera[2]-tmpStar->z));
 
-
-		if(tmpStar->z>0)  //replace it if its behind the camera
+		
+		if(dotProd(eye[0],eye[1],eye[2],tmpStar->x,tmpStar->y,tmpStar->z)>0) // behing camera
 		{
 			replaceStar(tmpStar);
 			continue;
-		}
-		
-//		tmpStar->x+=(0)*tmpStar->v*STAR_SPEED;
-//		tmpStar->y+=(0)*tmpStar->v*STAR_SPEED;
-//		tmpStar->z+=(1)*tmpStar->v*STAR_SPEED;
-		
+		}		
 		
 		tmpStar->x+=(eye[0])*tmpStar->v*STAR_SPEED;
 		tmpStar->y+=(eye[1])*tmpStar->v*STAR_SPEED;
@@ -850,8 +854,8 @@ void update_stars()
 		
 		//grow objects as the approach you
 		if(dist>900) glPointSize(1.0f);
-		else if(dist>700) glPointSize(2.0f);
-		else if(dist>10) glPointSize(3.0f);				
+		else if(dist>600) glPointSize(2.0f);
+		else if(dist>30) glPointSize(3.0f);				
 
 		GLfloat mat_emission[] = {1, 1, 1, 1};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
@@ -989,6 +993,7 @@ bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 }
 
 //text
+UINT listBase[MAX_TEXTURES];
 
 void print_text(unsigned int base, char *string)
 {   
@@ -1001,8 +1006,8 @@ void print_text(unsigned int base, char *string)
    glPopAttrib();
 }
 
-void MyCreateFont(unsigned int &base, char *fontName, int Size)
-{
+void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight)
+{	
    // windows font
    HFONT hFont;   
 
@@ -1017,7 +1022,7 @@ void MyCreateFont(unsigned int &base, char *fontName, int Size)
       }
    else
       {
-         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+         hFont = CreateFont(Size, 0, 0, 0, weight, FALSE, FALSE, FALSE,
                             ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
                             ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
       }

@@ -36,6 +36,7 @@ GLenum ReSizeGLScene(GLsizei width, GLsizei height);
 extern bool app_render(int xs, int ys, double time_of_day);
 extern void app_init_gl(void);
 extern void app_unload_gl();
+extern void app_resize(int width, int height);
 #endif
 
 #endif
