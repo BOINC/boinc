@@ -74,38 +74,42 @@ int get_local_network_info(
 #else
 
 // gethostbyname() is a linkage nightmare on UNIX systems (go figure)
-// so use a kludge instead: run ping and parse the output
-// should be "PING domainname (ipaddr) ..."
+// so use a kludge instead: run ping and parse the output.
+// The output should have a line like
+// "9 bytes from a.b.c.d (1.0.1.0): icmp_seq=0"
 //
 static int try_ping(
     char* cmd, char* domain_name, int domlen, char* ip_addr, int iplen
 ) {
-    int retval;
+    int retval,n;
     char buf[256];
+    char *p, *q;
 
     retval = system(cmd);
     if (retval) return retval;
     FILE* f = fopen(TEMP_FILE_NAME, "r");
     if (!f) return ERR_FOPEN;
-    fgets(buf, 256, f);
-    fclose(f);
-    char *p, *q;
-    p = strchr(buf, ' ');
-    if (!p) return ERR_NULL;
-    p++;
-    q = strchr(p, ' ');
-    if (!q) return ERR_NULL;
-    *q = 0;
-    safe_strncpy(domain_name, p, domlen);
-    q++;
-    p = strchr(q, '(');
-    if (!p) return ERR_NULL;
-    p++;
-    q = strchr(p, ')');
-    if (!q) return ERR_NULL;
-    *q = 0;
-    safe_strncpy(ip_addr, p, iplen);
-    return 0;
+    while (fgets(buf, 256, f)) {
+        p = strchr(buf, '(');
+        if (!p) continue;
+        q = strchr(p, ')');
+        if (!q) continue;
+        *q = 0;
+        if (!strchr(p, '.')) continue;
+        safe_strncpy(ip_addr, p+1, iplen);
+
+        *p = 0;
+        p = strrchr(buf, ' ');
+        if (!p) continue;
+        *p = 0;
+        p = strrchr(buf, ' ');
+        if (!p) continue;
+        p++;
+        if (!strchr(p, '.')) continue;
+        safe_strncpy(domain_name, p, sizeof(domain_name));
+        return 0;
+    }
+    return ERR_NULL;
 }
 
 int get_local_network_info(
@@ -116,20 +120,25 @@ int get_local_network_info(
     int retval;
 
     if (gethostname(hostname, 256)) return ERR_GETHOSTBYNAME;
+
     sprintf(buf, "ping -c 1 -w 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
     retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
-    if (retval) {
-        sprintf(buf, "ping -c 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
-        retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
-        if (retval) {
-            sprintf(buf, "/usr/sbin/ping -c 1 -w 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
-            retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
-            if (retval) {
-                sprintf(buf, "/usr/sbin/ping -c 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
-                return try_ping(buf, domain_name, domlen, ip_addr, iplen);
-            }
-        }
-    }
+    if (!retval) return 0;
+
+    sprintf(buf, "ping -c 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
+    retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
+    if (!retval) return 0;
+
+    sprintf(buf, "/usr/sbin/ping -s %s 1 1 > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
+    retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
+    if (!retval) return 0;
+    
+    msg_printf(NULL, MSG_INFO, "Couldn't get hostname and IP address");
+    msg_printf(NULL, MSG_INFO, "Make sure 'ping' is in your search path");
+
+    strcpy(domain_name, "unknown");
+    strcpy(ip_addr, "0.0.0.0");
+
     return 0;
 }
 

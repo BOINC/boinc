@@ -13932,3 +13932,17 @@ Rom    17 June 2004
 Rom    June 17 2004
     - Tag for 3.13 release, all platforms
       boinc_core_release_3_13
+
+David  2004.06.17
+    - /usr/sbin/ping has different options than others.
+        Revise get_local_network_info().
+        If all variants of ping fail,
+        set hostname="unknown" and ip_addr="0.0.0.0"
+        and print a helpful message.
+    - show more command line options
+
+    client/
+        cs_cmdline.C
+        cs_scheduler.C
+        hostinfo_network.C
+        hostinfo_unix.C

@@ -39,12 +39,14 @@ static void print_options(char* prog) {
         "    -install               install boinc as a Windows Service\n"
         "    -uninstall             uninstall boinc as a Windows Service\n"
 #endif
+        "    -exit_when_idle        Get/process/report work, then exit\n"
         "    -show_projects         show attached projects\n"
         "    -detach_project URL    detach from a project\n"
         "    -reset_project URL     reset (clear) a project\n"
         "    -attach_project        attach to a project (will prompt for URL, account key)\n"
         "    -update_prefs URL      contact a project to update preferences\n"
         "    -run_cpu_benchmarks    run the CPU benchmarks\n"
+        "    -check_all_logins      check input from remote users\n"
         "    -allow_remote_gui_rpc  allow remote GUI RPC connections\n",
         prog
     );

@@ -42,6 +42,14 @@ list_item("-run_cpu_benchmarks",
     "Run CPU benchmarks.
     Do this if you have modified your computer's hardware."
 );
+list_item("-check_all_logins",
+    "If 'run if user active' preference is off,
+    check for input activity on all current logins;
+    default is to check only local mouse/keyboard"
+);
+list_item("-exit_when_idle",
+    "Get, process and report work, then exit."
+);
 list_item("-allow_remote_gui_rpc",
     "Allow GUI RPCs from remote hosts"
 );

@@ -57,7 +57,7 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 // values used in adjusting the deadline to report
 // These values should be changed to produce approximately
 // one week maximum warning in the release version of the client.
-// Recomended base=60*60*12, multiplier=14.0
+// Recommended base=60*60*12, multiplier=14.0
 //
 float SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
 const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE = 60*60*6;

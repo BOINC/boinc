@@ -443,6 +443,9 @@ inline bool user_idle(time_t t, struct utmp* u) {
 static FILE *ufp = NULL;
 static struct utmp ut;
 
+// get next user login record
+// (this is defined on everything except BSD)
+//
 struct utmp *getutent() {
     if (ufp == NULL) {
 #if defined(UTMP_LOCATION)
@@ -470,6 +473,8 @@ void setutent() {
 }
 #endif
 
+// scan list of logged-in users, and see if they're all idle
+//
 inline bool all_logins_idle(time_t t) {
     struct utmp* u;
     setutent();
