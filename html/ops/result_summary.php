@@ -38,7 +38,8 @@
     }
     mysql_free_result($result);
 
-    start_table();
+    // start_table();
+    echo "<table width=400>"
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         if ($server_state[$ss] == 0) {
