@@ -1,3 +1,16 @@
+protection mechanism for project admin web
+
+Deadline mechanism for results
+    - use in result dispatching
+    - use in file uploading (decide what to upload next)
+    - use in deciding when to make scheduler RPC (done already?)
+
+create "result adder" program that detects WUs that don't have
+    a canonical result yet, and should,
+    and creates more results for them.
+    This should detect situations where we're getting lots
+    of error results, and skip over those WUs
+
 CPU benchmarking
     This should be done by a pseudo-application
     rather than by the core client.
