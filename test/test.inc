@@ -205,7 +205,7 @@ function create_keys() {
 }
 
 function check_exists($file) {
-    if (file_exists($file)) {
+    if (!file_exists($file)) {
         error("file doesn't exist: $file\n");
     }
 }
@@ -636,16 +636,16 @@ class Project {
     }
 
     function install_feeder() {
-        $this->append_config("<start>./feeder -asynch >> feeder.out 2>&1</start>\n");
+        $this->append_config("<start>./feeder -d 3 -asynch >> feeder.out 2>&1</start>\n");
     }
 
     function install_timeout_check($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
-        $this->append_config("<start>./timeout_check -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> timeout_check.out 2>&1</start>\n");
+        $this->append_config("<start>./timeout_check -d 3 -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> timeout_check.out 2>&1</start>\n");
     }
 
     function install_make_work($work,$cushion,$redundancy){
         $result_template_path = realpath($work->result_template);
-        $this->append_config("<start>./make_work -asynch -cushion $cushion -redundancy $redundancy -result_template $result_template_path -wu_name $work->wu_template >> make_work.out 2>&1</start>\n");
+        $this->append_config("<start>./make_work -asynch -d 3 -cushion $cushion -redundancy $redundancy -result_template $result_template_path -wu_name $work->wu_template >> make_work.out 2>&1</start>\n");
     }
 
     function deinstall_make_work() {
@@ -659,7 +659,7 @@ class Project {
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app = $this->app_versions[$i]->app;
             assert($app);
-            $this->append_config("<start>./validate_test -asynch -app $app->name -quorum $quorum >> validate.out 2>&1</start>\n");
+            $this->append_config("<start>./validate_test -asynch -d 3 -app $app->name -quorum $quorum >> validate.out 2>&1</start>\n");
         }
     }
 
@@ -671,24 +671,24 @@ class Project {
             $app = $this->app_versions[$i]->app;
             assert($app);
             verbose_echo(1, "Validating $app->name");
-            XPassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum >> validate.out 2>&1");
+            XPassThru("cd $this->project_dir/cgi; ./validate_test -d 3 -one_pass -app $app->name -quorum $quorum >> validate.out 2>&1");
         }
     }
 
     function install_file_delete(){
-        $this->append_config("<start>./file_deleter -asynch >> file_deleter.out 2>&1</start>\n");
+        $this->append_config("<start>./file_deleter -d 3 -asynch >> file_deleter.out 2>&1</start>\n");
     }
 
     // do one pass of file_deleter
     //
     function file_delete() {
-        XPassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass >> file_deleter.out 2>&1");
+        XPassThru("cd $this->project_dir/cgi; ./file_deleter -d 3 -one_pass >> file_deleter.out 2>&1");
     }
 
     function install_assimilator() {
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app = $this->app_versions[$i]->app;
-            $this->append_config("<start>./assimilator -asynch -app $app->name >> assimilator.out 2>&1</start>\n");
+            $this->append_config("<start>./assimilator -asynch -app -d 3 $app->name >> assimilator.out 2>&1</start>\n");
         }
     }
 
@@ -698,7 +698,7 @@ class Project {
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app = $this->app_versions[$i]->app;
             verbose_echo(1, "Assimilating $app->name");
-            XPassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name >> assimilator.out 2>&1");
+            XPassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -d 3 -app $app->name >> assimilator.out 2>&1");
         }
     }
 
