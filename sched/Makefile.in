@@ -199,7 +199,7 @@ noinst_PROGRAMS = \
 noinst_LIBRARIES = libsched.a
 
 EXTRA_PROGRAMS = fcgi
-EXTRA_DIST = wd.php wd_nresults_changing.php start grep_logs
+EXTRA_DIST = start
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
