@@ -24981,3 +24981,13 @@ Bruce 17 Feb 2005
     doc/
         configuration.php
 
+David  17 Feb 2005
+    - partially fixed test_uc.py.
+        It doesn't get Python errors any more, but it sometimes fails.
+        This is because of file_deleter.
+        It can delete input files that are needed by
+        another WU, and it can delete output files before they're checked.
+        Should fix this.
+
+    test/
+        testbase.py
