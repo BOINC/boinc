@@ -184,6 +184,34 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 		__asm mov esp,eax;
 	}
 
+
+#ifdef _DEBUG
+
+#ifndef _CONSOLE
+
+    // MFC by default, configures itself for the memory leak detection on exit
+    //
+
+    //if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
+    //    SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
+
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED ) {
+        AfxEnableMemoryTracking(FALSE);
+    }
+
+#else
+
+    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
+        CLEAR_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
+
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED )
+        CLEAR_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
+
+#endif // _CONSOLE
+
+#endif // _DEBUG
+
+
 	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
     DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
 

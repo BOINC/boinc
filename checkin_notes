@@ -11697,3 +11697,9 @@ David  April 19 2004
 			wingui_proxydlg.cpp
 	lib/
 		filesys.C,h
+
+Rom    April 20 2004
+	- Prevent a nested exception during a heap check by disabling the
+            heap check during a stack dump.
+	lib/
+		diagnostics.C
