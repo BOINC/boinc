@@ -16362,3 +16362,10 @@ David  13 Aug 2004
 
     sched/
         transitioner.C
+
+Noaa  13 Aug 2004
+
+ 	- changed Graphics.Readme to reflect movement of the gui_test stuff
+
+	/
+	Graphics.Readme
