@@ -674,7 +674,24 @@ int ACTIVE_TASK::resume_or_start() {
     int retval;
     int task_start_type;
 
-    if (state == PROCESS_UNINITIALIZED) {
+    if (pending_suspend_via_quit || state == PROCESS_UNINITIALIZED) {
+        if (pending_suspend_via_quit) {
+            // still have to destroy shm
+            //
+#ifdef _WIN32
+            if (app_client_shm.shm) {
+                detach_shmem(shm_handle, app_client_shm.shm);
+                app_client_shm.shm = NULL;
+            }
+#else
+            if (app_client_shm.shm) {
+                detach_shmem(app_client_shm.shm);
+                app_client_shm.shm = NULL;
+            }
+            destroy_shmem(shm_key);
+#endif
+            pending_suspend_via_quit = false;
+        }
         if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
             if (!boinc_file_exists(slot_dir)) {
                 make_slot_dir(slot);
