@@ -1,7 +1,8 @@
 ;; $Id$
 
-<verno> represents the new version number. At the time of this update, it
-would be 2.15, so substitute 2.15 everywhere you see <verno>
+<verno> represents the new version number. At the time of this update, the
+latest version is 2.16, so the new version number would be 2.17. Substitute
+2.17 everywhere you see <verno>
 
 Administrivia:
     Make a note in checkin_notes 
@@ -20,17 +21,20 @@ Administrivia:
             % cvs ci -m 'new version'
 
     Make a source tarball and zip:
-        % make dist
+        % make dist  (if you have problems here, such as the make choking on
+                      emacs save files, try "make -i dist")
         % cp boinc-<verno>.tar.gz boinc-<verno>.zip ~davea/boinc/doc/source/
         
 Windows:
-    Use the Windows computer (bart) in 329.
+    Use the Windows computer (bart) in 329 or the Dell Celeron (skinner)in 325.
 
-    Open 'quarl' on the desktop.
+    bart: Open 'quarl' on the desktop.
+    skinner: Open 'build' on the desktop.
 
     Open 'BOINC'
 
     Right click in the folder; select 'cvs update'
+    resolve any M(erge) problems
 
     Open 'win_build'
 
@@ -69,14 +73,16 @@ Windows:
        Linux: milhouse
        solaris2.7: milkyway
        Mac OS X: seti2 (the macox build should work as a command-line application in
-                     OS X 10.2 and OS X 10.3 [10.1 or earlier is not supported])
+                 OS X 10.2 and OS X 10.3 [10.1 or earlier will not be supported] see
+                 below)
 
     note 1: The solaris 2.7 build should be statically linked, and should support
             solaris 2.7-2.9
 
-    note 2: The mac os x build should run on 10.2 (jaguar) and 10.3 (panther)
-            via Terminal. It is currently only run here under 10.3
-
+    note 2: The mac os x  build should be statically linked, and should support OS X
+            10.2 and 10.3. However, the apple-supplied gcc ignores the -static option.
+            Until this problem is resolved, builds should be performed on an OS X 10.2
+            machine (gmg's laptop at the moment).
 
     do a clean check out; compile; copy to koloth:
         % cd ~
@@ -91,6 +97,8 @@ Windows:
 
     [bonus: automate this process]
 
+Test the installer(s) and start the new version on each test machine.
+If all is well...
 
 Update the server:
     ssh boincadm@koloth
