@@ -591,7 +591,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
 
         strcpy(mod, "");
         if (ntotal_transitioners > 1) {
-            sprintf(mod, "MOD(wu.id, %d) = %d",
+            sprintf(mod, "AND MOD(wu.id, %d) = %d",
                 ntotal_transitioners, ntransitioner
             );
         }
@@ -625,7 +625,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.transition_time < %d AND "
+            "   wu.transition_time < %d "
             "   %s "
             "LIMIT "
             "   %d ",
