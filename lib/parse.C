@@ -38,12 +38,12 @@
 
 // return true if the tag appears in the line
 //
-bool match_tag(char* buf, char* tag) {
+bool match_tag(const char* buf, const char* tag) {
     if (strstr(buf, tag)) return true;
     return false;
 }
 
-bool match_tag(const std::string &s, char* tag) {
+bool match_tag(const std::string &s, const char* tag) {
     if (s.find(tag) != std::string::npos) return true;
     return false;
 }
@@ -52,7 +52,7 @@ bool match_tag(const std::string &s, char* tag) {
 // return true if it's there
 // Note: this doesn't check for the end tag
 //
-bool parse_int(char* buf, char* tag, int& x) {
+bool parse_int(const char* buf, const char* tag, int& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
     x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
@@ -61,7 +61,7 @@ bool parse_int(char* buf, char* tag, int& x) {
 
 // Same, for doubles
 //
-bool parse_double(char* buf, char* tag, double& x) {
+bool parse_double(const char* buf, const char* tag, double& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
     x = atof(p+strlen(tag));
@@ -70,7 +70,7 @@ bool parse_double(char* buf, char* tag, double& x) {
 
 // parse a string of the form <tag>string</tag>
 //
-bool parse_str(char* buf, char* tag, char* dest, int len) {
+bool parse_str(const char* buf, const char* tag, char* dest, int len) {
     char* p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
@@ -84,7 +84,7 @@ bool parse_str(char* buf, char* tag, char* dest, int len) {
 
 // parse a string of the form name="string"
 //
-void parse_attr(char* buf, char* name, char* dest, int len) {
+void parse_attr(const char* buf, const char* name, char* dest, int len) {
     char* p, *q;
 
     strcpy(dest, "");
@@ -121,7 +121,7 @@ void strcatdup(char*& p, char* buf) {
 
 // copy from a file to a malloc'd string until the end tag is reached
 //
-int dup_element_contents(FILE* in, char* end_tag, char** pp) {
+int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
     char buf[256];
 
     char* p = strdup("");
@@ -138,7 +138,7 @@ int dup_element_contents(FILE* in, char* end_tag, char** pp) {
 
 // copy from a file to static buffer
 //
-int copy_element_contents(FILE* in, char* end_tag, char* p, int len) {
+int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
     char buf[256];
 
     strcpy(p, "");
@@ -154,7 +154,7 @@ int copy_element_contents(FILE* in, char* end_tag, char* p, int len) {
 
 // read a file into a malloc'd string
 //
-int read_file_malloc(char* pathname, char*& str) {
+int read_file_malloc(const char* pathname, char*& str) {
     char buf[256];
     FILE* f;
 
@@ -189,7 +189,7 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
 // then return the contents of that element.
 // Otherwise strip out all <venue> elements
 //
-void extract_venue(char* in, char* venue_name, char* out) {
+void extract_venue(const char* in, const char* venue_name, char* out) {
     char* p, *q;
     char buf[256];
     sprintf(buf, "<venue name=\"%s\">", venue_name);

@@ -21,20 +21,20 @@
 #include <stdlib.h>
 #include <string>
 
-extern bool parse(char*, char*);
-extern bool parse_int(char*, char*, int&);
-extern bool parse_double(char*, char*, double&);
-extern bool parse_str(char*, char*, char*, int);
+extern bool parse(char* , char* );
+extern bool parse_int(const char* buf, const char*tag, int&);
+extern bool parse_double(const char*, const char*, double&);
+extern bool parse_str(const char*, const char*, char*, int);
 extern void parse_attr(char* buf, char* attrname, char* out, int len);
-extern bool match_tag(char*, char*);
-extern bool match_tag(const std::string &, char*);
+extern bool match_tag(const char*, const char*);
+extern bool match_tag(const std::string &, const char*);
 extern void copy_stream(FILE* in, FILE* out);
 extern void strcatdup(char*& p, char* buf);
-extern int dup_element_contents(FILE* in, char* end_tag, char** pp);
-extern int copy_element_contents(FILE* in, char* end_tag, char* p, int len);
-extern int read_file_malloc(char* pathname, char*& str);
+extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
+extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len);
+extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element(char* buf, char* start, char* end, char* replacement);
-extern void extract_venue(char* in, char* venue_name, char* out);
+extern void extract_venue(const char* in, const char* venue_name, char* out);
 extern char* sgets(char* buf, int len, char* &in);
 extern bool extract_xml_record(const std::string &field, const char *tag, std::string &record);
 
