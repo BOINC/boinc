@@ -328,16 +328,14 @@ function show_app($app) {
     end_table();
 }
 
-function show_app_version($app_version, $hide_xml_docs) {
+function show_app_version($app_version) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
     row("Application", "<a href=db_action.php?table=app&id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
     row("Platform", "<a href=db_action.php?table=platform&id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
-    if (!$hide_xml_docs) {
-        row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
-    }
+    row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     row("Min_core_version", $app_version->min_core_version);
     row("Max_core_version", $app_version->max_core_version);
     row("Message", $app_version->message);
@@ -465,13 +463,11 @@ function file_delete_state_str($s) {
     }
 }
 
-function show_workunit($wu, $hide_xml_doc) {
+function show_workunit($wu) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Name", $wu->name);
-    if (!$hide_xml_doc) {
-        row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
-    }
+    row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
     row("Batch", $wu->batch);
     row("Estimated FP Operations", $wu->rsc_fpops_est);
@@ -493,9 +489,7 @@ function show_workunit($wu, $hide_xml_doc) {
     row("max total results", $wu->max_total_results);
     row("max success results", $wu->max_success_results);
     row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
-    if (!$hide_xml_doc) {
-        row("result template", "<pre>".htmlspecialchars($wu->result_template)."</pre>");
-    }
+    row("result template", "<pre>".htmlspecialchars($wu->result_template)."</pre>");
     end_table();
 
     $_GET = array('workunitid' => $wu->id);
@@ -621,17 +615,15 @@ function credit_str($c) {
     }
 }
 
-function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
+function show_result($result) {
     $wu_name = wu_name_by_id($result->workunitid);
 
 
     start_table();
 
-    if (!$hide_times) {
-        row("Created", time_str($result->create_time));
-        row("Sent", time_str($result->sent_time));
-        row("Received", time_str($result->received_time));
-    }
+    row("Created", time_str($result->create_time));
+    row("Sent", time_str($result->sent_time));
+    row("Received", time_str($result->received_time));
     row("Name", $result->name);
     row("Workunit", "<a href=db_action.php?table=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
     row("Server state", server_state_string($result->server_state));
@@ -640,13 +632,9 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
-    if (!$hide_xml_docs) {
-        row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
-        row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
-    }
-    if (!$hide_stderr) {
-        row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
-    }
+    row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
+    row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
+    row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     row("Batch", $result->batch);
     row("File delete state", file_delete_state_str($result->file_delete_state));
     row("Validate state", validate_state_str($result->validate_state));

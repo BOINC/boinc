@@ -41,9 +41,11 @@
     $main_query = $q->get_select_query($entries_to_show, $start_at);
 
     echo "<p>Query: <b>$main_query</b><p>\n";
+    
+    $start_1_offset = $start_at + 1;
     echo "
-        <p>$count database entries match the query.
-        Displaying $start_at to $last.<p>
+        <p>$count records match the query.
+        Displaying $start_1_offset to $last.<p>
     ";
 
     $urlquery = $q->urlquery;
@@ -147,16 +149,16 @@
                     show_app($res);
                     break;
                 case "app_version":
-                    show_app_version($res, $hide_xml_docs);
+                    show_app_version($res);
                     break;
                 case "host":
                     show_host($res);
                     break;
                 case "workunit":
-                    show_workunit($res, $hide_xml_docs);
+                    show_workunit($res);
                     break;
                 case "result":
-                    show_result($res, $hide_xml_docs, $hide_stderr, $hide_times);
+                    show_result($res);
                     break;
                 case "team":
                     show_team($res);

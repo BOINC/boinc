@@ -391,6 +391,7 @@ struct RESULT {
     int opaque;                     // project-specific; usually external ID
     int random;                     // determines send order
     int client_version_num;
+    int appid;                      // copy of WU's appid
 
     // the following not used in the DB
     char wu_name[256];

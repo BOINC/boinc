@@ -5,10 +5,12 @@ require_once("util_ops.inc");
 
 $cgi_url = parse_config("<cgi_url>");
 
+db_init();
+
 $w = 7*86400;
 echo "
-    <title>BOINC Project Management for ".PROJECT."</title>
-    <h2>BOINC Project Management for ".PROJECT."</h2>
+    <title>BOINC project management for ".PROJECT."</title>
+    <h2>BOINC project management for ".PROJECT."</h2>
     <p>
     Browse database:
     <ul> 
@@ -32,14 +34,22 @@ echo "
     <li><a href=profile_ops.php?set=all&num=0>All profiles</a>
     </ul>
     </p>
-    Result summary:
-    <a href=result_summary.php?nsecs=86400>last 24 hours</a>
-    <a href=result_summary.php?nsecs=$w>last week</a>
-    <br>
-    <a href=$cgi_url/stripchart.cgi>Stripcharts</a> |
-    <a href=show_log.php>Show/Grep all logs</a> |
-    <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
-    <br><a href=create_account_form.php>Create account</a>
+";
+$result = mysql_query("select * from app");
+while ($app = mysql_fetch_object($result)) {
+    echo "<br>Result summary for $app->name:
+        <ul>
+        <li><a href=result_summary.php?appid=$app->id&nsecs=86400>last 24 hours</a>
+        <li><a href=result_summary.php?appid=$app->id&nsecs=$w>last week</a>
+        </ul>
+    ";
+}
+mysql_free_result($result);
+echo "
+    <a href=$cgi_url/stripchart.cgi>Stripcharts</a>
+    | <a href=show_log.php>Show/Grep all logs</a>
+    | <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
+    | <a href=create_account_form.php>Create account</a>
 ";
 
 // TODO: Add functionality to list the number of recommends / rejects received

@@ -45,7 +45,7 @@ alter table result
     add index res_filedel (file_delete_state),
     add index res_hostid (hostid),
     add index res_wu_user (workunitid, userid),
-    add index received_time (received_time);
+    add index app_received_time (appid, received_time desc);
 
 alter table host
     add index host_user (userid),

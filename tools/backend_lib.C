@@ -142,6 +142,7 @@ void initialize_result(DB_RESULT& result, DB_WORKUNIT& wu) {
     result.validate_state = VALIDATE_STATE_INIT;
     result.claimed_credit = 0;
     result.granted_credit = 0;
+    result.appid = wu.appid;
 }
 
 // Create a new result for the given WU.

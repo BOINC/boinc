@@ -141,7 +141,7 @@ function page_tail($fd=null) {
 
     // put your copyright notice etc. here
 
-    write_fd($fd, "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n</body>\n</html>");
+    write_fd($fd, "<br><br>Copyright &copy; 2003 ".PROJECT."</center>\n</body>\n</html>");
 }
 
 function db_error_page() {

@@ -7672,3 +7672,26 @@ Karl 2003-11-11
     - compile fixes
     lib/
         xml_util.C
+
+David  11 Nov 2003
+    - added "appid" field to result (redundant copy of WU's appid)
+    - added index on result (appid, received_time desc)
+    - changed admin web interface to show recent results
+        broken down by application
+    - sched_shmem: omit app versions with wrong major version
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    html_ops/
+        db_action.php
+        db_form.php
+        db_ops.php
+        index.php
+    html_user/
+        util.inc
+    sched/
+        sched_shmem.C
+    tools/
+        backend_lib.C

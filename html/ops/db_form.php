@@ -28,6 +28,7 @@ require_once("db_ops.inc");
 
     $title = table_title($table);
     page_head($title);
+    echo "<h2>Query $table table</h2>\n";
     echo "<form method=get action=db_action.php>\n";
     echo "<p>\n";
     echo "<input type=hidden name=table value=$table>\n";
@@ -36,7 +37,6 @@ require_once("db_ops.inc");
     if ($table=="platform") {
     } else if ($table=="app") {
     } else if ($table=="app_version") {
-        print_checkbox("Hide XML Docs", "hide_xml_docs", $hide_xml_docs);
         print_detail_field();
     } else if ($table=="host") {
         print_checkbox("Show Aggregate Information", "show_aggregate", $show_aggregate);
@@ -57,9 +57,6 @@ require_once("db_ops.inc");
         client_state_select();
         echo "</td></tr>\n";
 
-        row2("Hide XML fields", "<input type=checkbox name=hide_xml_docs>");
-        row2("Hide result stderr", "<input type=checkbox name=hide_stderr>");
-        row2("Hide times", "<input type=checkbox name=hide_times>");
         echo "<tr><td align=right>Sort by</td><td>";
         result_sort_select();
         echo "</td></tr>\n";

@@ -27,8 +27,7 @@
 DB_CONN boinc_db;
 
 static struct random_init {
-    random_init()
-    {
+    random_init() {
         srand48(getpid() + time(0));
     }
 } random_init;
@@ -463,7 +462,7 @@ void DB_RESULT::db_print(char* buf){
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%d, random=%d, "
-        "client_version_num=%d",
+        "client_version_num=%d, appid=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -471,7 +470,8 @@ void DB_RESULT::db_print(char* buf){
         name, cpu_time,
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
-        claimed_credit, granted_credit, opaque, random, client_version_num
+        claimed_credit, granted_credit, opaque, random,
+        client_version_num, appid
     );
     unescape_single_quotes(xml_doc_out);
     unescape_single_quotes(stderr_out);
@@ -504,10 +504,10 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     opaque = atoi(r[i++]);
     random = atoi(r[i++]);
     client_version_num = atoi(r[i++]);
+    appid = atoi(r[i++]);
 }
 
-int DB_RESULT::insert()
-{
+int DB_RESULT::insert() {
     random = lrand48();
     return DB_BASE::insert();
 }
