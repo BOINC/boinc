@@ -133,8 +133,33 @@ void get_account_filename(char* master_url, char* path) {
     sprintf(path, "account_%s.xml", buf);
 }
 
+static bool bad_account_filename(const char* filename) {
+    msg_printf(NULL, MSG_ERROR, "Invalid account file: %s", filename);
+    return false;
+}
+
+// account filenames are of the form
+// account_URL.xml
+// where URL is master URL with slashes replaced by underscores
+//
 bool is_account_file(const char* filename) {
-    return (strstr(filename, "account_") == filename);
+    const char* p, *q;
+    p = strstr(filename, "account_");
+    if (p != filename) return false;
+    q = filename + strlen("account_");
+
+    p = strstr(q, ".");
+    if (!p) return bad_account_filename(filename);
+    if (p == q) return bad_account_filename(filename);
+
+    q = p+1;
+    p = strstr(q, ".xml");
+    if (!p) return bad_account_filename(filename);
+    if (p == q) return bad_account_filename(filename);
+
+    q = p + strlen(".xml");
+    if (strlen(q)) return bad_account_filename(filename);
+    return true;
 }
 
 int check_unique_instance() {

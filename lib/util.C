@@ -420,7 +420,7 @@ void escape_url_readable(char *in, char* out) {
 }
 
 // Canonicalize a master url.
-//   - Convert the first part of a URL (before the "//") to http://,
+//   - Convert the first part of a URL (before the "://") to http://,
 // or prepend it
 //   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
@@ -429,9 +429,9 @@ void canonicalize_master_url(char* url) {
     char buf[1024];
     size_t n;
 
-    char *p = strstr(url, "//");
+    char *p = strstr(url, "://");
     if (p) {
-        strcpy(buf, p+2);
+        strcpy(buf, p+3);
     } else {
         strcpy(buf, url);
     }
@@ -447,11 +447,24 @@ void canonicalize_master_url(char* url) {
     sprintf(url, "http://%s", buf);
 }
 
+// is the string a valid master URL, in canonical form?
+//
+bool valid_master_url(char* buf) {
+    char* p, *q;
+    int n;
 
-bool invalid_url(char* p) {
-    if (strstr(p, "http://") != p) return true;
-    if (strlen(p) == strlen("http://")) return true;
-    return false;
+    p = strstr(buf, "http://");
+    if (p != buf) return false;
+    q = p+strlen("http://");
+    p = strstr(q, ".");
+    if (!p) return false;
+    if (p == q) return false;
+    q = p+1;
+    p = strstr(q, "/");
+    if (!p) return false;
+    if (p == q) return false;
+    n = strlen(buf);
+    if (buf[n-1] != '/') return false;
 }
 
 void safe_strncpy(char* dst, const char* src, int len) {

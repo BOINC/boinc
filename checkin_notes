@@ -25360,3 +25360,28 @@ Rom    27 Feb 2005
         main.C
     lib/
         diagnostics.C, .h
+
+David  27 Feb 2005
+	If you attached to a project and give a URL like "a.b.c//",
+	two bad things happen:
+	1) canonicalize_master_url() strips off everything before the //,
+		leaving an empty URL
+	2) it will write an account file account_.xml
+		and make an entry in the client state file
+	3) next time the core client starts up, it errors out
+		trying to create the project directory.
+	Fixes:
+	- canonicalize_master_url(): check before "://", not "//"
+	- is_account_file(): tighten up.
+		Old: anything starting with account_ is considered an account file.
+		New: must match account_A.B.xml where A and B are nonempty
+	- invalid_url():
+		Old: must match http://X, X nonempty
+		New: must match http://X.Y/, X and Y nonempty
+		rename to valid_master_url() and invert sense
+
+	client/
+		cs_account.C
+		file_names.C
+	lib/
+		util.C,h

@@ -230,7 +230,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     safe_strcpy(canonical_master_url, master_url);
     strip_whitespace(canonical_master_url);
     canonicalize_master_url(canonical_master_url);
-    if (invalid_url(canonical_master_url)) {
+    if (!valid_master_url(canonical_master_url)) {
         msg_printf(0, MSG_ERROR, "Invalid project URL: %s", canonical_master_url);
         return ERR_INVALID_URL;
     }

@@ -48,7 +48,7 @@ extern void strip_whitespace(std::string&);
 extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
 extern void escape_url_readable(char* in, char* out);
-extern bool invalid_url(char*);
+extern bool valid_master_url(char*);
 extern void canonicalize_master_url(char *url);
 extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
