@@ -225,6 +225,7 @@ create table trickle_up (
     send_time           integer     not null,
     resultid            integer     not null,
     appid               integer     not null,
+    hostid              integer     not null,
     handled             smallint    not null,
     xml                 text,
     primary key (id)

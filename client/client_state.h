@@ -248,8 +248,6 @@ private:
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
-    int read_trickle_files(PROJECT*, FILE*);
-    int remove_trickle_files(PROJECT*);
 
 // --------------- cs_statefile.C:
 public:
@@ -261,6 +259,13 @@ public:
     int parse_venue();
 	void check_anonymous();
 	int parse_app_info(PROJECT*, FILE*);
+
+// --------------- cs_trickle.C:
+private:
+    int read_trickle_files(PROJECT*, FILE*);
+    int remove_trickle_files(PROJECT*);
+public:
+    int handle_trickle_down(PROJECT*, FILE*);
 
 // --------------- check_state.C:
 // stuff related to data-structure integrity checking

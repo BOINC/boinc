@@ -535,10 +535,10 @@ void DB_TRICKLE_UP::db_print(char* buf) {
     ESCAPE(xml);
     sprintf(buf,
         "id=%d, create_time=%d, send_time=%d, "
-        "resultid=%d, appid=%d, "
+        "resultid=%d, appid=%d, hostid=%d, "
         "handled=%d, xml='%s'",
         id, create_time, send_time,
-        resultid, appid,
+        resultid, appid, hostid,
         handled, xml
     );
     UNESCAPE(xml);
@@ -552,6 +552,7 @@ void DB_TRICKLE_UP::db_parse(MYSQL_ROW& r) {
     send_time = atol(r[i++]);
     resultid = atol(r[i++]);
     appid = atol(r[i++]);
+    hostid = atol(r[i++]);
     handled = atoi(r[i++]);
     strcpy2(xml, r[i++]);
 }

@@ -5,7 +5,7 @@ echo "
 <b>Running BOINC</b>
 <ul>
 <li> <a href=intro_user.php>Getting started</a>
-<li> <a href=projects.php>Choosing project(s)</a>
+<li> <a href=projects.php>Choosing projects</a>
 <li> <a href=host_requirements.php>System requirements</a>
 <li> <a href=account.php>Joining a project</a>
 <li> Installing and running the BOINC client

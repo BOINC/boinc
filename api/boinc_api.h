@@ -44,7 +44,8 @@ extern int	boinc_resolve_filename(const char*, string&);
 extern int	boinc_parse_init_data_file();
 extern int	boinc_get_init_data(APP_INIT_DATA&);
 
-extern int	boinc_trickle(char*);
+extern int	boinc_send_trickle_up(char*);
+extern bool boinc_receive_trickle_down(char* buf, int len);
 
 extern bool	boinc_time_to_checkpoint();
 extern int	boinc_checkpoint_completed();

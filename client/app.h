@@ -53,6 +53,12 @@ typedef int PROCESS_ID;
 // A task may checkpoint now and then.
 // Each episode begins with the state of the last checkpoint.
 //
+// When an active task is created, it is assigned a "slot"
+// which determines the directory it runs in.
+// This doesn't change over the life of the active task;
+// thus the task can use the slot directory for temp files
+// that BOINC doesn't know about.
+//
 class ACTIVE_TASK {
 public:
 #ifdef _WIN32

@@ -66,30 +66,19 @@ Messages are delivered in order.
 
 <h3>API (server)</h3>
 
-The server C library API:
+To handle trickle messages,
+use the daemon process 'trickle_handler'.
+You must supply the following function:
 ",html_text("
-int get_trickle_up(
-    int applicationid,
-    int& resultid,
-    int& messageid,
-    char* buf,
-    int len
-);
-int mark_trickle_up_processed(int messageid);
-
-int send_trickle_down(
-    int resultid,
-    char* buf
-);
+int handle_trickle(TRICKLE_UP&);
 "),"
-get_trickle_up() gets an unprocessed trickle-up message
-for the given application,
-returning the result and message IDs as well as the message itself.
-mark_trickle_up_processed() marks a trickle-up message as processed.
-send_trickle_down() sends a trickle-down message to the
-client handling the given result.
-<p>
-These functions are also available as scriptable command-line programs.
+You may send trickle-down messages, from this function or elsewhere,
+as follows:
+",html_text("
+DB_TRICKLE_DOWN tdown;
+// ... populate the tdown object
+tdown.insert();
+"),"
 
 <h3>Implementation</h3>
 <p>
@@ -103,20 +92,26 @@ it moves the file from 'slot/trickle'
 to 'project/trickle_resultid_time'.
 <p>
 When the core client sends an RPC to a server,
-it scans the project directory for trickle-up files
+it scans the project directory for these trickle-up files
 and includes them in the request.
 On successful RPC completion it deletes the files.
 
 <p>
 On the server,
 messages are stored in database tables 'trickle_up' and 'trickle_down'.
-<p>
-boinc_receive_trickle_down() creates a trickle_down record.
-The scheduler RPC handler checks this table for unsent
-messages for the given host.
-<p>
 The scheduling server extracts trickle messages from
-the request message and inserts them in trickle_up.
+the request message and inserts them in the trickle_up table.
+If the 'trickle_down' flag in the configuration is set,
+it scans the database for trickle-down messages for this host
+and includes them in the reply message,
+clearing the 'handled' flag in the DB record.
+
+<p>
+The client parses trickle-down messages
+in the scheduler reply,
+creates files of the form trickle_down_createtime_id
+in the slot directory,
+and signals the app via shared memory that a message is available.
 
 
 ";

@@ -1,14 +1,11 @@
 <?
 require_once("docutil.php");
-page_head("BOINC contact information");
+page_head("Acknowledgements");
 echo "
-<p>
+
 The BOINC project is based at the Space Sciences Laboratory
-at the University of California, Berkeley,
-and is led by <a href=mailto:davea_at_ssl_dot_berkeley_dot_edu>Dr. David P. Anderson</a>.
-<p>
-If you have problems with the BOINC software for Windows please email
-<a href=mailto:rwalton@ssl.berkeley.edu>Rom Walton</a>.
+at the University of California, Berkeley.
+
 <p>
 BOINC developers include:
 David Anderson,
@@ -32,7 +29,7 @@ Mathias Walter,
 Rom Walton,
 Oliver Wang
 </p>
-BOINC project testers include:
+BOINC testers include:
 Comatose,
 Jay Curtis,
 Fons Maartens,

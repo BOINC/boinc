@@ -303,6 +303,7 @@ int GUI_RPC_CONN_SET::init() {
         perror("listen");
         return ERR_LISTEN;
     }
+    return 0;
 }
 
 bool GUI_RPC_CONN_SET::poll() {

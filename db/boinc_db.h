@@ -413,6 +413,7 @@ struct TRICKLE_UP {
     int send_time;                  // when API call was made
     int resultid;
     int appid;
+    int hostid;
     bool handled;                   // trickle handler has processed this
     char xml[LARGE_BLOB_SIZE];
     void clear();

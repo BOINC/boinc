@@ -46,7 +46,24 @@ char app_name[256];
 
 extern int handle_trickle(TRICKLE_UP&);
 
-int handle_trickle(TRICKLE_UP&) {
+int handle_trickle(TRICKLE_UP& tup) {
+    int retval;
+
+    printf(
+        "got trickle-up \n%s\nfor result %d\n",
+        tup.xml, tup.resultid
+    );
+    DB_TRICKLE_DOWN tdown;
+    tdown.clear();
+    tdown.create_time = time(0);
+    tdown.resultid = tup.resultid;
+    tdown.hostid = tup.hostid;
+    tdown.handled = false;
+    strcpy(tdown.xml, tup.xml);
+    retval = tdown.insert();
+    if (retval) {
+        printf("insert failed %d\n", retval);
+    }
     return 0;
 }
 
@@ -57,10 +74,15 @@ bool do_trickle_scan(APP& app) {
     DB_TRICKLE_UP tup;
     char buf[256];
     bool found=false;
+    int retval;
 
     sprintf(buf, "where appid=%d and handled == 0", app.id);
     while (!tup.enumerate(buf)) {
-        handle_trickle(tup);
+        retval = handle_trickle(tup);
+        if (!retval) {
+            tup.handled = true;
+            tup.update();
+        }
         found = true;
     }
     return found;

@@ -24,6 +24,7 @@ boinc_client_SOURCES =			\
     cs_prefs.C					\
     cs_scheduler.C				\
     cs_statefile.C				\
+    cs_trickle.C				\
     file_names.C				\
     file_xfer.C					\
     gui_rpc_server.C			\

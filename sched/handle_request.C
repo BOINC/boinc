@@ -538,7 +538,7 @@ inline static const char* get_remote_addr() {
 void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     DB_RESULT result;
-    DB_TRICKLE_UP trickle;
+    DB_TRICKLE_UP tup;
     int retval;
     char buf[256];
 
@@ -562,13 +562,14 @@ void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             continue;
         }
-        memset(&trickle, 0, sizeof(trickle));
-        trickle.send_time = td.send_time;
-        trickle.resultid = result.id;
-        trickle.appid = result.appid;
-        trickle.handled = false;
-        safe_strcpy(trickle.xml, td.trickle_text.c_str());
-        retval = trickle.insert();
+        tup.clear();
+        tup.send_time = td.send_time;
+        tup.resultid = result.id;
+        tup.appid = result.appid;
+        tup.hostid = sreq.hostid;
+        tup.handled = false;
+        safe_strcpy(tup.xml, td.trickle_text.c_str());
+        retval = tup.insert();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] trickle insert failed: %d\n", 
