@@ -62,10 +62,6 @@ static double fraction_done;
 static bool ready_to_checkpoint = false;
 static bool this_process_active;
 
-#ifdef _WIN32
-DWORD WINAPI graphics_main( LPVOID duff );
-#endif
-
 // read the INIT_DATA and FD_INIT files
 //
 int boinc_init() {

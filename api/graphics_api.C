@@ -3,6 +3,11 @@
 
 #include "parse.h"
 
+#ifdef _WIN32
+#include <windows.h>
+DWORD WINAPI win_graphics_event_loop( LPVOID duff );
+#endif
+
 #ifdef __APPLE_CC__
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
