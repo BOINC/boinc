@@ -62,7 +62,3 @@ EXTRA_DIST =							\
 
 clean-local:
 	rm @CLIENT_BIN_FILENAME@
-
-## remove carriage returns in case CVS screwed it up.
-dist-hook:
-	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw */*.dsp

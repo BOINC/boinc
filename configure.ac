@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(BOINC, 1.03, [davea@ssl.berkeley.edu])
+AC_INIT(BOINC, 1.03)
 
 AC_CANONICAL_SYSTEM
 
