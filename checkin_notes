@@ -24615,3 +24615,9 @@ David  11 Feb 2005
 
     client/
         http.C
+
+David  11 Feb 2005
+    - compile fix for Unix
+
+    client/
+        net_xfer.C

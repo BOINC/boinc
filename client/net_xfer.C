@@ -62,6 +62,7 @@
 #include <fcntl.h>
 #endif
 
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <cerrno>
 #include <cstdlib>
