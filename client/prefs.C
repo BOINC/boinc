@@ -53,8 +53,9 @@ void GLOBAL_PREFS::init() {
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
     max_memory_mbytes = 128;
+    proc_priority = 1;
     cpu_affinity = -1;
-    confirm_executable = true;
+    confirm_executable = false;
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {

@@ -213,9 +213,9 @@ int ACTIVE_TASK::start(bool first_time) {
             safe_strcpy(exec_path, file_path);
         }
         if (first_time) {
-            sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, fip->name);
-            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
-            retval = boinc_link( buf, link_path);
+            sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+            retval = boinc_link(buf, link_path);
             if (log_flags.task_debug) {
                 printf("link %s to %s\n", file_path, link_path);
             }
@@ -640,7 +640,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 //
 bool ACTIVE_TASK::check_max_mem_exceeded() {
     // TODO: calculate working set size elsewhere
-    if (working_set_size > max_mem_usage) {
+    if (working_set_size > max_mem_usage || working_set_size/1048576 > gstate.global_prefs.max_memory_mbytes) {
         msg_printf(result->project, MSG_INFO, "Aborting result %s: exceeded memory limit %f\n",
             result->name, max_mem_usage);
         abort();
