@@ -24408,3 +24408,12 @@ Rom    9 Feb 2005
 
     client/win/
         win_screensaver.cpp, .h
+
+Rom    9 Feb 2005
+    - Bug Fix: If a result is flagged as 'Aborted', do not show the 
+        'Suspend'/'Resume' options in the task list.
+    - Bug Fix: If a result is suspended without having already been
+        executed, display it as suspended instead of 'Ready to Run'
+
+    clientgui/
+        ViewWork.cpp

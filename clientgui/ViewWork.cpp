@@ -633,7 +633,15 @@ void CViewWork::UpdateSelection()
         if ( !pDoc->IsWorkAborted( iSelectedRow ) )
             m_bTaskAbortHidden = false;
         else
+        {
             m_bTaskAbortHidden = true;
+            m_bTaskSuspendHidden = true;
+            m_bTaskResumeHidden = true;
+            UpdateQuickTip( LINK_TASKABORT, LINK_TASKABORT, LINKDESC_TASKABORT );
+        }
+
+        if ( m_bTaskSuspendHidden && m_bTaskResumeHidden && m_bTaskShowGraphicsHidden && m_bTaskAbortHidden )
+            m_bTaskHeaderHidden = true;
 
         m_bItemSelected = true;
     }
@@ -869,9 +877,13 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
             }
             break;
         case CMainDocument::FILES_DOWNLOADED:
-            if ( pDoc->IsWorkAborted(item) )
+            if      ( pDoc->IsWorkAborted(item) )
             {
                 strBuffer = _("Aborted");
+            }
+            else if ( !pDoc->IsWorkActive(item) && pDoc->IsWorkSuspended(item) )
+            {
+                strBuffer = _("Suspended");
             }
             else if ( pDoc->IsWorkActive(item) )
             {
