@@ -211,7 +211,7 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
             "<msg>\n"
             " <i>%d</i>\n"
             " <pri>%d</pri>\n"
-            " <body>%s</body>\n"
+            " <body>\n%s\n</body>\n"
             " <time>%d</time>\n",
             i,
             md.priority,

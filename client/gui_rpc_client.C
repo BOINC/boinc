@@ -214,7 +214,10 @@ int RPC_CLIENT::get_messages(
                 puts(buf);
                 if (match_tag(buf, "</msg>")) break;
                 if (parse_str(buf, "<project>", md.project)) continue;
-                if (parse_str(buf, "<body>", md.body)) continue;
+                if (match_tag(buf, "<body>" )) {
+                    copy_element_contents(fin, "</body>", md.body);
+                    continue;
+                }
                 if (parse_int(buf, "<pri>", md.priority)) continue;
                 if (parse_int(buf, "<time>", md.timestamp)) continue;
             }

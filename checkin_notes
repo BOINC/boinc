@@ -13392,3 +13392,12 @@ David  11 June 2004
 		boinc_cli.vcproj
 		boinc_gui.vcproj
 
+David  11 June 2004
+    - moved idle-time funcs from cs_prefs.C to hostinfo_unix.C
+    - fixed handling of "messages" in GUI RPC
+
+    client/
+        cs_prefs.C
+        gui_rpc_client.C
+        gui_rpc_server.C
+        hostinfo_unix.C
