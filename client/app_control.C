@@ -869,7 +869,7 @@ bool ACTIVE_TASK_SET::get_msgs() {
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
         if (atp->get_app_status_msg()) {
-            atp->estimate_frac_rate_of_change(now);
+            //atp->estimate_frac_rate_of_change(now);
             if (old_time != atp->checkpoint_cpu_time) {
                 action = true;
             }

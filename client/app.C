@@ -88,10 +88,12 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
 
     fraction_done = 0;
+#if 0
     frac_rate_of_change = 0;
     last_frac_done = 0;
     recent_change = 0;
     last_frac_update = 0;
+#endif
     episode_start_cpu_time = 0;
     cpu_time_at_last_sched = 0;
     checkpoint_cpu_time = 0;
@@ -225,6 +227,7 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     return ERR_NOT_FOUND;
 }
 
+#if 0
 // compute frac_rate_of_change
 //
 void ACTIVE_TASK::estimate_frac_rate_of_change(double now) {
@@ -249,6 +252,7 @@ void ACTIVE_TASK::estimate_frac_rate_of_change(double now) {
         }
     }
 }
+#endif
 
 // There's a new trickle file.
 // Move it from slot dir to project dir
@@ -278,7 +282,7 @@ int ACTIVE_TASK::move_trickle_file() {
 // based on current reported CPU time and fraction done
 //
 double ACTIVE_TASK::est_cpu_time_to_completion() {
-    if (fraction_done <= 0 || fraction_done > 1 || frac_rate_of_change <= 0) {
+    if (fraction_done <= 0 || fraction_done > 1) {
         return -1;
     }
     return (current_cpu_time / fraction_done) - current_cpu_time;

@@ -18692,3 +18692,11 @@ David  20 Oct 2004
         app.C
         client_types.C
         cs_statefile.C
+
+David  20 Oct 2004
+    - commented out frac_rate_of_change stuff
+        (too much complexity per unit value)
+
+    client/
+        app.C,h
+        app_control.C
