@@ -6988,3 +6988,7 @@ David  20 Oct 2003
     
     client/
         cpu_benchmark.C,h
+
+Karl 2003-10-21
+    - BOINC client release 2.06 (Linux)
+
