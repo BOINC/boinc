@@ -22,19 +22,23 @@
 #include "wingui.h"
 #include "wingui_mainwindow.h"
 
-void show_message(char* message, char* priority) {
-	if(g_myWnd) {
-		g_myWnd->MessageUser("BOINC", message, priority);
-	}
-}
+void show_message(PROJECT* p, char* message, char* priority) {
+	char  proj_name[256];
 
-void show_project_message(PROJECT* project, char* message, char* priority) {
-	if(g_myWnd) {
-		if(strcmp(project->project_name, "")) {
-			g_myWnd->MessageUser(project->project_name, message, priority);
+	if (p) {
+		if (strcmp(p->project_name, "")) {
+			strcpy( proj_name, p->project_name );
 		} else {
-			g_myWnd->MessageUser(project->master_url, message, priority);
+			strcpy( proj_name, p->master_url );
 		}
+	} else {
+		strcpy( proj_name, "BOINC" );
+	}
+
+	if(g_myWnd) {
+		g_myWnd->MessageUser(proj_name, message, priority);
+	} else {
+        fprintf(stderr, "%s: %s (priority: %s)\n", proj_name, message, priority);
 	}
 }
 

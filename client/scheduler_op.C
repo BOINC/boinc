@@ -350,7 +350,7 @@ bool SCHEDULER_OP::poll() {
                     "Could not contact %s. Make sure this is the correct project URL.",
                     err_url
                 );
-                show_message(err_msg, "high");
+                show_message(project, err_msg, "high");
                 project->master_fetch_failures++;
                 backoff(project, err_msg);
             }

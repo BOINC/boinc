@@ -347,7 +347,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->user_expavg_credit = sr.user_expavg_credit;
     project->user_create_time = sr.user_create_time;
     if (strlen(sr.message)) {
-        show_message(sr.message, sr.message_priority);
+        show_message(project, sr.message, sr.message_priority);
     }
 
     if (sr.request_delay) {

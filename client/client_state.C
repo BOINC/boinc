@@ -141,7 +141,7 @@ int CLIENT_STATE::init() {
 
     if (gstate.should_run_time_tests()) {
         time_tests_start = time(NULL);
-        show_message("Running time tests", "low");
+        show_message(NULL, "Running time tests", "low");
 #ifdef _WIN32
         time_tests_handle = CreateThread(
             NULL, 0, win_time_tests, NULL, 0, &time_tests_id
@@ -269,7 +269,7 @@ int CLIENT_STATE::check_time_tests() {
         GetExitCodeThread(time_tests_handle, &exit_code);
         if(exit_code == STILL_ACTIVE) {
             if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
-                show_message("Time tests timed out, using default values", "low");
+                show_message(NULL, "Time tests timed out, using default values", "low");
                 TerminateThread(time_tests_handle, 0);
                 CloseHandle(time_tests_handle);
                 host_info.p_fpops = 1e9;
@@ -287,7 +287,7 @@ int CLIENT_STATE::check_time_tests() {
         retval = waitpid(time_tests_id, &exit_code, WNOHANG);
         if(retval == 0) {
             if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
-                show_message("Time tests timed out, using default values", "low");
+                show_message(NULL, "Time tests timed out, using default values", "low");
                 kill(time_tests_id, SIGKILL);
                 host_info.p_fpops = 1e9;
                 host_info.p_iops = 1e9;
@@ -300,10 +300,10 @@ int CLIENT_STATE::check_time_tests() {
         }
 #endif
         time_tests_id = 0;
-        show_message("Time tests complete", "low");
+        show_message(NULL, "Time tests complete", "low");
         finfo = fopen(TIME_TESTS_FILE_NAME, "r");
         if(!finfo) {
-            show_message("Error in time tests file, using default values", "low");
+            show_message(NULL, "Error in time tests file, using default values", "low");
             host_info.p_fpops = 1e9;
             host_info.p_iops = 1e9;
             host_info.p_membw = 4e9;

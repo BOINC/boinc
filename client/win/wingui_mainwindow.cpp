@@ -1272,7 +1272,7 @@ void CMainWindow::OnCommandExit()
 		TermFn fn;
 		fn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
 		if(!fn) {
-			show_message("Error in DLL \"boinc.dll\"", "low");
+			show_message(NULL, "Error in DLL \"boinc.dll\"", "low");
 		} else {
 			fn();
 		}
@@ -1439,18 +1439,18 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// load dll and start idle detection
 	m_hIdleDll = LoadLibrary("boinc.dll");
 	if(!m_hIdleDll) {
-		show_message("Can't load \"boinc.dll\", will not be able to determine idle time", "high");
+		show_message(NULL,"Can't load \"boinc.dll\", will not be able to determine idle time", "high");
 	} else {
 		typedef BOOL (CALLBACK* InitFn)();
 		InitFn fn;
 		fn = (InitFn)GetProcAddress(m_hIdleDll, "IdleTrackerInit");
 		if(!fn) {
-			show_message("Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
+			show_message(NULL,"Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
 			FreeLibrary(m_hIdleDll);
 			m_hIdleDll = NULL;
 		} else {
 			if(!fn()) {
-				show_message("Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
+				show_message(NULL,"Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
 				FreeLibrary(m_hIdleDll);
 				m_hIdleDll = NULL;
 			}
