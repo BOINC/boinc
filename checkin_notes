@@ -20040,7 +20040,11 @@ Bruce 23 Nov 2004 UTC
     - Added .cvsignore file for zip/ directory.
     - Modified api/boinc_gl.h to use config.h to get correct include path for glut.h
     - Added double-inclusion protection for config.h to avoid some warning messages
+    - Run autoheader BEFORE automake and autoconf in _autosetup
+    - Removed huge number of extraneous Makefile.in's
+    - Changed production of config.h from AM_ to AC_ macro
 
+    _autosetup
     configure.ac
     Makefile.am
     config.h

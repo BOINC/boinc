@@ -306,8 +306,8 @@ AC_CONFIG_FILES([
                  zip/Makefile
                  ])
 
-dnl AC_CONFIG_HEADER([config.h])
-AM_CONFIG_HEADER([config.h])
+dnl AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
 
