@@ -125,6 +125,9 @@ public:
     int sched_retry_delay_min, sched_retry_delay_max;
     int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
 
+	bool is_suspended() const { return activities_suspended; }
+	bool was_previously_suspended() const { return previous_activities_suspended; }
+
 private:
     bool client_state_dirty;
     time_t last_write_state_file;
@@ -140,6 +143,9 @@ private:
     bool run_cpu_benchmarks;
         // if set, run benchmarks on client startup
     bool activities_suspended;
+	bool previous_activities_suspended;
+		// if activities were suspended in the previous check_suspend(); 
+		// this is needed to update GUI windows after suspension and close transfers/files.
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app
     time_t app_started;

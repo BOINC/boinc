@@ -73,6 +73,7 @@ CLIENT_STATE::CLIENT_STATE() {
     file_xfer_giveup_period = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
+    previous_activities_suspended = false;
     core_client_major_version = MAJOR_VERSION;
     core_client_minor_version = MINOR_VERSION;
     platform_name = HOSTTYPE;
@@ -578,6 +579,7 @@ int CLIENT_STATE::check_suspend_activities() {
             msg_printf(NULL, MSG_INFO, "Resuming activity");
         }
     }
+	previous_activities_suspended = activities_suspended;
     activities_suspended = should_suspend;
     return 0;
 }
@@ -624,6 +626,9 @@ bool CLIENT_STATE::do_something() {
 
     if (activities_suspended) {
         scope_messages.printf("CLIENT_STATE::do_evil(): No active tasks! (suspended)\n");
+		if (!previous_activities_suspended) {
+			// TODO: clean up network connections, close files
+		}
     } else {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy

@@ -88,7 +88,7 @@ public:
 							CMainWindow ();
 	void					UpdateGUI(CLIENT_STATE*);
 	void					MessageUser(char*,char*,int);
-    BOOL					IsSuspended();
+    BOOL					IsUserSuspended();
     BOOL					RequestNetConnect();
 	void					DetachProject(PROJECT *);
 	UINT					m_nNetActivityMsg;		// ID of net activity message

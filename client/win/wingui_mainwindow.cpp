@@ -340,28 +340,31 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
     		    m_ResultListCtrl.SetItemText(i, 5, strBuf);
 
 		    // status
-		    switch(re->state) {
-			    case RESULT_NEW:
-				    strBuf.Format(g_szMiscItems[0]); break;
-			    case RESULT_FILES_DOWNLOADING:
-                    strBuf.Format(g_szMiscItems[9]);
-                    break;
-			    case RESULT_FILES_DOWNLOADED:
-				    if (at) strBuf.Format(g_szMiscItems[1]);
-				    else strBuf.Format(g_szMiscItems[2]);
-				    break;
-			    case RESULT_COMPUTE_DONE:
-				    strBuf.Format(g_szMiscItems[3]); break;
-                    break;
-			    case RESULT_FILES_UPLOADING:
-                    strBuf.Format(g_szMiscItems[8]);
-                    break;
-			    default:
-				    if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
-				    else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
-				    else strBuf.Format(g_szMiscItems[6]);
-				    break;
-		    }
+			switch(re->state) {
+				case RESULT_NEW:
+					strBuf.Format(g_szMiscItems[0]); break;
+				case RESULT_FILES_DOWNLOADING:
+					strBuf.Format(g_szMiscItems[9]);
+					break;
+				case RESULT_FILES_DOWNLOADED:
+					if (at) strBuf.Format(g_szMiscItems[1]);
+					else strBuf.Format(g_szMiscItems[2]);
+					break;
+				case RESULT_COMPUTE_DONE:
+					strBuf.Format(g_szMiscItems[3]); break;
+					break;
+				case RESULT_FILES_UPLOADING:
+					strBuf.Format(g_szMiscItems[8]);
+					break;
+				default:
+					if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
+					else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
+					else strBuf.Format(g_szMiscItems[6]);
+					break;
+			}
+			if (gstate.is_suspended()) {
+				strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
+			}
             if (m_ResultListCtrl.GetItemText(i, 6) != strBuf)
     		    m_ResultListCtrl.SetItemText(i, 6, strBuf);
 	    }
@@ -426,26 +429,25 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		        m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
 
 		    // status
-		    if (pfx->next_request_time > time(0)) {
-			    double xtime = pfx->next_request_time-time(0);
-			    int xhour = (int)(xtime / (60 * 60));
-			    int xmin = (int)(xtime / 60) % 60;
-			    int xsec = (int)(xtime) % 60;
-			    strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
-                if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
-			        m_XferListCtrl.SetItemText(i, 6, strBuf);
-		    } else if (pfx->fip->status == ERR_GIVEUP_DOWNLOAD) {
-			    strBuf.Format(g_szMiscItems[11]);
-                if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
-				    m_XferListCtrl.SetItemText(i, 6, strBuf);
-		    } else if (pfx->fip->status == ERR_GIVEUP_UPLOAD) {
-			    strBuf.Format(g_szMiscItems[12]);
-                if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
-				    m_XferListCtrl.SetItemText(i, 6, strBuf);
-		    } else {
-                if (m_XferListCtrl.GetItemText(i, 6) != pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9])
-				    m_XferListCtrl.SetItemText(i, 6, pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
-		    }
+			if (pfx->next_request_time > time(0)) {
+				double xtime = pfx->next_request_time-time(0);
+				int xhour = (int)(xtime / (60 * 60));
+				int xmin = (int)(xtime / 60) % 60;
+				int xsec = (int)(xtime) % 60;
+				strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
+			} else if (pfx->fip->status == ERR_GIVEUP_DOWNLOAD) {
+				strBuf.Format(g_szMiscItems[11]);
+			} else if (pfx->fip->status == ERR_GIVEUP_UPLOAD) {
+				strBuf.Format(g_szMiscItems[12]);
+			} else {
+				strBuf.Format(pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+			}
+			if (gstate.is_suspended()) {
+				strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
+			}
+			if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+				m_XferListCtrl.SetItemText(i, 6, strBuf);
+
 	    }
 	    m_XferListCtrl.SetRedraw(TRUE);
 
@@ -549,7 +551,7 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 // arguments:	void
 // returns:		true if the window is suspended, false otherwise
 // function:	tells if the window is suspended
-BOOL CMainWindow::IsSuspended()
+BOOL CMainWindow::IsUserSuspended()
 {
 	return gstate.suspend_requested;
 }
@@ -1874,7 +1876,7 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 		GetCursorPos(&point);
 		CMenu* pSubmenu;
 		pSubmenu = m_ContextMenu.GetSubMenu(STATUS_MENU);
-		if(IsSuspended()) {
+		if(IsUserSuspended()) {
 			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_GRAYED);
 			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_ENABLED);
 		} else {
@@ -1936,10 +1938,18 @@ void CMainWindow::OnTimer(UINT uEventID)
 		// update state and gui
 		while(gstate.do_something());
 		NetCheck(); // check if network connection can be terminated
-		if(!IsSuspended()) {
+		if (IsUserSuspended()) {
+			// user spended - don't bother checking idle
+		} else if (gstate.is_suspended()) {
+			// otherwise suspended, possibly due to not being idle
 			CheckIdle();
-			UpdateGUI(&gstate);
+		} else {
+			// active
+			CheckIdle();
 			gstate.trunc_stderr_stdout();
+		}
+		if (!gstate.is_suspended() || !gstate.was_previously_suspended()) {
+			UpdateGUI(&gstate);
 		}
 
 		// Start the timer again

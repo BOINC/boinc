@@ -35,5 +35,6 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
     "Downloading",
     "Retry in",
     "Download failed",
-    "Upload failed"
+    "Upload failed",
+	"Suspended"
 };
