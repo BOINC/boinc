@@ -1,0 +1,22 @@
+/* XPM */
+static char *mess_xpm[] = {
+"16 16 3 1",
+" 	c #FF00FF",
+".	c #000000",
+"X	c #FFFFFF",
+"                ",
+"                ",
+"                ",
+" .............. ",
+" .XXXXXXXXXXXX. ",
+" ...XXXXXXXX... ",
+" .XX..XXXX..XX. ",
+" .XXXX....XXXX. ",
+" .XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX. ",
+" .............. ",
+"                ",
+"                ",
+"                "};
