@@ -162,41 +162,47 @@ def find_versions(app, dir):
 
     for filepath in xlistdir(dir):
         if os.path.islink(filepath):
+            # ignore symlinks
             continue
         if os.path.isdir(filepath):
-            # add executable + bundle as app/core version
-            exec_file = None
-            match = None
-            non_exec_files = []
-            dir = filepath
-            for filepath in xlistdir(dir):
-                if os.path.isdir(filepath):
-                    continue
-                if not match:
-                    # no executable found yet, try this one
-                    match = re_match_exec_filename(filepath)
-                    if match:
-                        # found an executable matching regexp
-                        exec_file = filepath
-                        continue
-                non_exec_files.append(filepath)
-            if not match:
-                print >>sys.stderr, "  Ignoring directory", dir
-                continue
-            add_files(app=app, match=match,
-                      exec_file=exec_file,
-                      non_exec_files=non_exec_files,
-                      min_core_version = min_core_version
-                      )
+            find_versions__process_bundle(filepath)
         else:
-            # add a single executable as app/core version
+            find_versions__process_single_file(filepath)
+
+def find_versions__process_single_file(filepath):
+     '''add a single executable as app/core version'''
+     match = re_match_exec_filename(filepath)
+     if not match:
+         print >>sys.stderr, "  Ignoring unknown file", filepath
+         continue
+     add_files(app=app, match=match, exec_file=filepath,
+               min_core_version = min_core_version
+               )
+
+def find_versions__process_bundle(dir):
+    '''add executable + bundle as app/core version'''
+    exec_file = None
+    match = None
+    non_exec_files = []
+    for filepath in xlistdir(dir):
+        if os.path.isdir(filepath):
+            continue
+        if not match:
+            # no executable found yet, try this one
             match = re_match_exec_filename(filepath)
-            if not match:
-                print >>sys.stderr, "  Ignoring unknown file", filepath
+            if match:
+                # found an executable matching regexp
+                exec_file = filepath
                 continue
-            add_files(app=app, match=match, exec_file=filepath,
-                      min_core_version = min_core_version
-                      )
+        non_exec_files.append(filepath)
+    if not match:
+        print >>sys.stderr, "  Ignoring directory", dir
+        continue
+    add_files(app=app, match=match,
+              exec_file=exec_file,
+              non_exec_files=non_exec_files,
+              min_core_version = min_core_version
+              )
 
 for appdir in xlistdir(config.app_dir):
     if not os.path.isdir(appdir): continue
