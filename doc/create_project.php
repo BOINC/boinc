@@ -18,10 +18,12 @@ BOINC's abstractions of data and computation.
 <li><a href=app.php>Applications and application versions</a>
 <li><a href=work.php>Workunits</a>
 <li><a href=result.php>Results</a>
+<li><a href=redundancy.php>Redundancy and errors</a>
+<!--
 <li><a href=batch.php>Batches</a>
-<li><a href=flow.php>Work distribution</a>
 <li><a href=sequence.php>Handling long, large-footprint computations</a>
 <li><a href=file_access.php>Remote file access</a>
+-->
 <li><a href=security.php>Security</a>
 <li><a href=boinc_version.php>Versions of BOINC</a>
 
@@ -73,7 +75,9 @@ How to feed work into a BOINC system and collect the results.
 <li> <a href=backend_state.php>Back end state transitions</a>
 <li> <a href=backend_programs.php>Back end programs</a>
 <li> <a href=tools_work.php>Generating work</a>
+<!--
 <li> <a href=backend_work_sequence.php>Back ends and work sequences</a>
+-->
 <li> <a href=back_end.php>Back end examples</a>
 </ul>
 

@@ -79,7 +79,7 @@ This mechanism is
 designed to prevent attackers from breaking into a BOINC server and
 distributing a false key pair.
 <p>
-<b>Overrun of data server</b>
+<b>Denial of server attacks on data servers</b>
 <p>
 Each result file has an associated maximum size.
 Each project has a
@@ -92,7 +92,8 @@ ensures that the amount of data uploaded does not exceed the maximum size.
 <p>
 <b>Theft of participant account information by server attack</b>
 <p>
-Each project must address this using conventional security practices.
+Each project must address theft of private account information
+(e.g. email addresses) using conventional security practices.
 All server machines should be protected by a firewall, and
 should have all unused network services disabled.
 Access to these machines should be done only with encrypted protocols like SSH.
@@ -105,6 +106,10 @@ attack could discredit all BOINC-based projects, and
 public-participation computing in general.
 <p>
 <b>Theft of participant account information by network attack</b>
+Attackers sniffing network traffic could get user's account IDs,
+and use them to get the user's email address,
+or change the user's preferences.
+
 <p>
 <b>Theft of project files</b>
 <p>

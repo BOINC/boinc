@@ -1,16 +1,17 @@
-<title>Computation credit</title>
-<body bgcolor=ffffff>
-<h2>Computation credit</h2>
+<?
+require_once("docutil.php");
+page_head("Computation credit");
+echo "
 
 <p>
 Each project gives you <b>credit</b> for the computations your
 computers performs for the project.
-These credits are used to generate web-site "leaderboards" showing
+These credits are used to generate web-site 'leaderboards' showing
 individuals, teams, and categories (countries, CPU types, etc.)
 ranked by credit.
 
 <p>
-BOINC's credit system is based on a "reference computer" that does
+BOINC's credit system is based on a 'reference computer' that does
 <ul>
 <li>1 billion floating-point multiplies per second
 <li>1 billion integer multiplies per second
@@ -61,3 +62,6 @@ projects supply their own benchmarking functions.
 This will also handle the situation where a project's
 application does e.g. all integer arithmetic.
 </ul>
+";
+page_tail();
+?>

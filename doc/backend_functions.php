@@ -24,19 +24,20 @@ This can result from tampering or hardware failures.
 This problem can be addressed
 by <b>redundant computing</b>
 In this approach, each workunit is processed at least twice.
-The project back end waits until a minimum number of results have been returned,then compares the results and decides which are considered correct.
+The project back end waits until a minimum number of results have been returned,
+then compares the results and decides which are considered correct.
 The notion of equality of results,
 and the policy for deciding which are correct, are project-specific.
 <p>
 
 <li> <b>Grant credit</b>.
-  Some users will attempt to get undeserved credit by falsifying their CPU
-  metrics or CPU times.  Each project and application can have its own
-  credit-granting algorithm, for example granting the minimum or the mean of
-  the median of all claimed credits (during validation time).  The granted
-  credit is assigned to all correct results. This ensures that as long as a
-  reasonable majority of participants don't falsify credit, almost all credit
-  accounting will be correct.
+Some users will attempt to get undeserved credit by falsifying their CPU
+metrics or CPU times.  Each project and application can have its own
+credit-granting algorithm, for example granting the minimum or the mean of
+the median of all claimed credits (during validation time).  The granted
+credit is assigned to all correct results. This ensures that as long as a
+reasonable majority of participants don't falsify credit, almost all credit
+accounting will be correct.
 <p>
 <li> <b>Assimilate results</b>.
 <p>

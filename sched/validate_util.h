@@ -31,13 +31,17 @@ typedef int (*check_pair_with_data_f)(RESULT const&, void*, RESULT const&, void*
 typedef int (*cleanup_result_f)(RESULT const&, void*);
 int get_output_file_path(RESULT const& result, string& path);
 double median_mean_credit(vector<RESULT> const& results);
-int generic_check_set_majority(vector<RESULT>& results, int& canonicalid, double& credit,
-                               init_result_f init_result_f,
-                               check_pair_with_data_f check_pair_with_data_f,
-                               cleanup_result_f cleanup_result_f);
-int generic_check_pair(RESULT const& r1, RESULT const& r2, bool& match,
-                       init_result_f init_result_f,
-                       check_pair_with_data_f check_pair_with_data_f,
-                       cleanup_result_f cleanup_result_f);
+int generic_check_set_majority(
+    vector<RESULT>& results, int& canonicalid, double& credit,
+    init_result_f init_result_f,
+    check_pair_with_data_f check_pair_with_data_f,
+    cleanup_result_f cleanup_result_f
+);
+int generic_check_pair(
+    RESULT const& r1, RESULT const& r2, bool& match,
+    init_result_f init_result_f,
+    check_pair_with_data_f check_pair_with_data_f,
+    cleanup_result_f cleanup_result_f
+);
 
 #endif

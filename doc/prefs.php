@@ -1,6 +1,7 @@
-<title>Preferences</title> 
-<body bgcolor=ffffff>
-<h2>Preferences</h2> 
+<?
+require_once("docutil.php");
+page_head("Preferences");
+echo "
 <p>
 You can specify <b>preferences</b> determining and limiting
 how BOINC uses your computers.
@@ -48,14 +49,17 @@ a web interface at the project's web site.
 <h3>Location-specific preferences</h3>
 If you have computers both at home and at work
 you may want to use differences preferences for them.
-In addition to your "primary preferences"
+In addition to your 'primary preferences'
 (which are used by default)
 BOINC allows you to create separate preferences for
 home, work, and school.
 <p>
-Your account with a project has a "default location"
+Your account with a project has a 'default location'
 (home, work, or school).
 New computers registered to your account will be
 given the default location.
 You can change the location of an existing computer
 through the project's web site.
+";
+page_tail();
+?>

@@ -1,5 +1,7 @@
-<title>Teams</title>
-<h2>Teams</h2>
+<?
+require_once("docutil.php");
+page_head("Teams");
+echo "
 
 <p>
 Participants in a project can form <b>teams</b>.
@@ -41,3 +43,6 @@ The founder of a team has some additional capabilities:
 <li> Remove members from the team.
 <li> Disband the team.
 </ul>
+";
+page_tail();
+?>

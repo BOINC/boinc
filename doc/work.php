@@ -125,8 +125,8 @@ list_end();
 
 echo "
 <p>
-The <a href=tools_work.html>create_work</a> utility program provides a
-simplified interface for creating workunits. 
+BOINC provides a <a href=tools_work.php>utility program and C function</a>
+for creating workunits. 
 ";
 
 page_tail();

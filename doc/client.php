@@ -1,8 +1,7 @@
-<title>Running the client</title>
-<body bgcolor=ffffff>
-<h2>Running the client</h2>
-<p>
-<hr>
+<?
+require_once("docutil.php");
+page_head("Running the BOINC client");
+echo "
 <h3>BOINC for Windows</h3>
 <p>
 The <b>BOINC work manager</b> program controls
@@ -65,7 +64,7 @@ The work manager window has several tabs:
     Shows status and error messages.
     Messages can be sorted by project or time.
     You can <a href=messages.html>control what messages are shown</a>.
-    Messages are also written to a file "messages.txt".
+    Messages are also written to a file 'messages.txt'.
     
 <li> <b>Disk</b>:
     This shows how much disk space is available for use by BOINC,
@@ -159,5 +158,8 @@ Do this if you have modified your computer's hardware.
 </dl>
 <p>
 To remove a project: quit the client.
-Then delete the file "account_PROJECT-URL.xml"
+Then delete the file 'account_PROJECT-URL.xml'
 where PROJECT-URL is the project's URL.
+";
+page_tail();
+?>

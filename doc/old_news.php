@@ -1,3 +1,7 @@
+<?
+require_once("docutil.php");
+page_head("Archived news");
+echo "
 <b>April 9, 2003</b>
 <br>
 Due to a legal issue,
@@ -57,3 +61,6 @@ Many bugs have been found and fixed.
 <br>BOINC is under development.
 The basic features are working on UNIX platforms.
 We plan to release the first public application of BOINC later this year.
+";
+page_tail();
+?>

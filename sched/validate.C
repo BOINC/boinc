@@ -116,13 +116,9 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
 
         // scan this WU's results, and check the unchecked ones
+        // TODO: do we have an index on these fields?
+        // maybe better just to enum on workunitid
         //
-        // sprintf(buf, "where workunitid=%d", wu.id);
-        // while (!result.enumerate(buf)) {
-        //     if (result.validate_state == VALIDATE_STATE_INIT
-        //         && result.server_state == RESULT_SERVER_STATE_OVER
-        //         && result.outcome == RESULT_OUTCOME_SUCCESS
-        //     ) {
         sprintf(buf, "where workunitid=%d and validate_state=%d and server_state=%d and outcome=%d",
             wu.id, VALIDATE_STATE_INIT, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
         );
@@ -192,6 +188,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         ++log_messages;
 
         // sprintf(buf, "where workunitid=%d", wu.id);
+        // TODO: do we have an index on these fields?
+        // maybe better to enum on workunitid
         // while (!result.enumerate(buf)) {
         //     if (result.server_state == RESULT_SERVER_STATE_OVER
         //         && result.outcome == RESULT_OUTCOME_SUCCESS

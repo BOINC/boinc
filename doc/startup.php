@@ -1,6 +1,7 @@
-<title>Participating in multiple projects</title> 
-<body bgcolor=ffffff>
-<h2>Participating in multiple projects</h2> 
+<?
+require_once("docutil.php");
+page_head("Participating in multiple projects");
+echo "
 <p>
 
 You can join a second and subsequent projects as follows.
@@ -35,3 +36,6 @@ In this case it may be necessary to edit preferences at different sites.
 To avoid overwriting edits,
 wait until previous edits have propagated to a site
 before editing preferences there.
+";
+page_tail();
+?>

@@ -170,7 +170,6 @@ int main(int argc, char** argv) {
     }
 
     wu.appid = app.id;
-    wu.transition_time = MAXINT;
 
     retval = read_key_file(keyfile, key);
     if (retval) {

@@ -75,7 +75,7 @@ for both 2.6 and 2.7, even if they're identical.
 <p>
 BOINC allows applications to exploit specific architectures,
 but places the burden of recognizing the architecture
-on the application developer.
+on the application.
 
 <p>
 In other words, if you want to make a version of your application

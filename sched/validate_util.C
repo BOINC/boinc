@@ -46,8 +46,7 @@ int get_output_file_path(RESULT const& result, string& path) {
 // - if N==2, give min credit
 // - if N>2, toss out min and max, give average of rest
 //
-double median_mean_credit(vector<RESULT> const& results)
-{
+double median_mean_credit(vector<RESULT> const& results) {
     typedef vector<RESULT>::const_iterator it;
 
     it it_low = results.end(), it_high;
@@ -55,12 +54,9 @@ double median_mean_credit(vector<RESULT> const& results)
 
     size_t n_valid = 0;
 
-    for (it i = results.begin(); i != results.end(); ++i)
-    {
+    for (it i = results.begin(); i != results.end(); ++i) {
         if (i->validate_state != VALIDATE_STATE_VALID) continue;
-
         ++n_valid;
-
         if (it_low == results.end()) {
             it_low = it_high = i;
             credit_low = credit_high = i->claimed_credit;
@@ -88,8 +84,7 @@ double median_mean_credit(vector<RESULT> const& results)
     } else {
         double sum = 0;
 
-        for (it i = results.begin(); i != results.end(); ++i)
-        {
+        for (it i = results.begin(); i != results.end(); ++i) {
             if (i == it_low) continue;
             if (i == it_high) continue;
             if (i->validate_state != VALIDATE_STATE_VALID) continue;
@@ -116,11 +111,12 @@ double median_mean_credit(vector<RESULT> const& results)
 //
 // see validate_test.C example usage.
 //
-int generic_check_set_majority(vector<RESULT>& results, int& canonicalid, double& credit,
-                               init_result_f init_result_f,
-                               check_pair_with_data_f check_pair_with_data_f,
-                               cleanup_result_f cleanup_result_f)
-{
+int generic_check_set_majority(
+    vector<RESULT>& results, int& canonicalid, double& credit,
+    init_result_f init_result_f,
+    check_pair_with_data_f check_pair_with_data_f,
+    cleanup_result_f cleanup_result_f
+) {
     assert (!results.empty());
 
     vector<void*> data;
@@ -128,8 +124,7 @@ int generic_check_set_majority(vector<RESULT>& results, int& canonicalid, double
     data.resize(n);
 
     // 1. INITIALIZE DATA
-    for (i = 0; i != n; ++i)
-    {
+    for (i = 0; i != n; ++i) {
         if (init_result_f(results[i], data[i])) {
             log_messages.printf(
                 SchedMessages::CRITICAL,
@@ -140,8 +135,7 @@ int generic_check_set_majority(vector<RESULT>& results, int& canonicalid, double
     }
 
     // 2. COMPARE
-    for (i = 0; i != n; ++i)
-    {
+    for (i = 0; i != n; ++i) {
         vector<bool> matches;
         matches.resize(n);
         neq = 0;
@@ -179,11 +173,12 @@ cleanup:
     return 0;
 }
 
-int generic_check_pair(RESULT const& r1, RESULT const& r2, bool& match,
-                       init_result_f init_result_f,
-                       check_pair_with_data_f check_pair_with_data_f,
-                       cleanup_result_f cleanup_result_f)
-{
+int generic_check_pair(
+    RESULT const& r1, RESULT const& r2, bool& match,
+    init_result_f init_result_f,
+    check_pair_with_data_f check_pair_with_data_f,
+    cleanup_result_f cleanup_result_f
+) {
     void* data1;
     void* data2;
     int retval;

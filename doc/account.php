@@ -1,6 +1,7 @@
-<title>Joining a project</title>
-<body bgcolor=ffffff>
-<h2>Joining a project</h2>
+<?
+require_once("docutil.php");
+page_head("Joining a project");
+echo "
 
 <p>
 You can join a BOINC project as follows:
@@ -9,7 +10,7 @@ You can join a BOINC project as follows:
 This involves filling out a form with
 <ul>
 <li> An email address.
-<li> A public "screen name" (real name or nickname).
+<li> A public 'screen name' (real name or nickname).
 <li> Country (optional)
 <li> Postal Code (optional)
 </ul>
@@ -47,3 +48,6 @@ from an existing host to the new host.
 The BOINC client resides in a <b>BOINC home directory</b>.
 If hosts share a network file system,
 each host must have its own BOINC home directory. 
+";
+page_tail();
+?>

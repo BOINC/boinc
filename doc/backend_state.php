@@ -1,65 +1,97 @@
 <?
 require_once("docutil.php");
-page_head("Work unit and results states");
+page_head("Workunit and result scheduling logic");
 echo "
 
 <p>
-The processing of workunits and results involves several independent activities.
-To keep track of these activities,
-workunit and result database records have several parameters and state fields,
-and their processing can be expressed in terms of state machines.
+Workunit and result database records have several state fields,
+and their processing can be described in terms of state transitions.
 
-<hr>
-<h3>Workunit.delay_bound</h3>
-An upper bound for the interval between when a scheduler
-sends an instance of this WU to a host
-when the host sends the completion message.
-It should be several times the execution time on an average host.
-If it's exceeded, the server 'gives up' on the result
-and may delete its input files.
-If the result is returned later,
-it will still be validated and credited.
+<p>
+Several workunits parameters are described
+<a href=work.php>here</a>.
 
-<h3>Workunit.canonical_resultid</h3>
-The ID of the canonical result for this workunit, or zero.
+Other state fields include
+";
+list_start();
+list_item(
+    "canonical_resultid",
+    "The ID of the canonical result for this workunit, or zero."
+);
 
-<h3>Workunit.timeout_check_time</h3>
-The next time to check for timeouts on this WU
-(e.g. to give up on results and create new ones).
-<center>
-<br><img src=wu_timeout.png>
-</center>
-</center>
+list_item("transition_time",
+    "The next time to check for state transitions for this WU.
+    <ul>
+    <li>Initially now.
+    <li>Set to now by scheduler when get a result for this WU.
+    <li>Set to min(current value, now + delay_bound) by scheduler
+    when send a result for this WU
+    <li>Set to min(x.sent_time + wu.delay_bound) over IN_PROGRESS results x
+    by transitioner when done handling this WU
+    <li>Set to now by validater if it finds canonical result,
+    or if there is already a canonical result
+    and some other results have validate_state = INIT,
+    or if there is no consensus and the number of successful results
+    is > wu.max_success_results
+    </ul>
+    "
+);
+list_item("file_delete_state",
+    "Indicates whether input files should be deleted.
+    <ul>
+    <li>Initially INIT
+    <li>Set to READY by transitioner when all results have server_state=OVER
+        and wu.assimilate_state=DONE
+    <li>Set to DONE by file_deleter when it has attempted to delete files.
+    </ul>
+    "
+);
 
-<h3>Workunit.file_delete_state</h3>
-Indicates whether input files should be deleted.
-<center>
-<br><img src=wu_file_delete.png>
-</center>
+list_item("assimilate_state",
+    "Indicates whether the workunit should be assimilated.
+    <ul>
+    <li> Initially INIT
+    <li> Set to READY by transitioner if wu.assimilate_state=INIT
+        and WU has error condition
+    <li> Set to READY by validater when find canonical result
+        and wu.assimilate_state=INIT
+    <li> Set to DONE by assimilator when done
+    </ul>
+    "
+);
 
-<h3>Workunit.assimilate_state</h3>
-Indicates whether the workunit should be assimilated.
-<center>
-<br><img src=wu_assimilate.png>
-</center>
+list_item("need_validate",
+    "Indicates that the workunit has a result that needs validation.
+    <ul>
+    <li> Initially FALSE
+    <li> Set to TRUE by transitioner if the number of success results
+        is at least wu.min_quorum and there is a success result
+        not validated yet
+    <li> Set to FALSE by validater
+    </ul>
+    "
+);
 
-<h3>Workunit.need_validate</h3>
-Indicates that the workunit has a result that needs validation.
-<center>
-<br><img src=wu_need_validate.png>
-</center>
-
-<h3>Workunit.error_mask</h3>
-A bit mask for error conditions.
-<center>
-<br><img src=wu_error_mask.png>
-</center>
+list_item("error_mask",
+    "A bit mask for error conditions.
+    <ul>
+    <li> Initially zero
+    <li> Transitioner sets COULDNT_SEND_RESULT if some result couldn't be sent.
+    <li> Transitioner sets TOO_MANY_RESULTS if too many error results
+    <li> Transitioner sets TOO_MANY_TOTAL_RESULTS if too many total results
+    <li> Validater sets TOO_MANY_SUCCESS_RESULTS if no consensus
+        and too many success results
+    </ul>
+    "
+);
+list_end();
+echo "
 
 </ul>
 Workunit invariants:
 <ul>
 <li> eventually either canonical_resultid or error_mask is set
-<li> eventually timeout_check_time=0
+<li> eventually transition_time = infinity
 <li> WUs are eventually assimilated
 <li> input files are eventually deleted,
 but only when all results have state=OVER
@@ -67,35 +99,79 @@ but only when all results have state=OVER
 and wu.assimilate_state = DONE
 (since project may want to do something with WU in error case)
 </ul>
+";
 
 
-<hr>
+list_start();
+list_item("report_deadline",
+    "Give up on result (and possibly delete input files)
+    if don't get reply by this time.
+    <ul>
+    <li> Set by scheduler to now + wu.delay_bound when send result
+    </ul>
+    "
+);
+list_item("server_state",
+    "Values: UNSENT, IN_PROGRESS, OVER
+    <ul>
+    <li> Initially UNSENT
+    <li> Set by scheduler to IN_PROGRESS when send result
+    <li> Set by scheduler to OVER when get reply from client
+    <li> Set by transitioner to OVER if now < result.report_deadline
+    <li> Set by transitioner to OVER if WU has error condition
+        and result.server_state=UNSENT
+    <li> Set by validater to OVER if WU has canonical result
+        and result.server_state=UNSENT
+    </ul>
+    "
+);
+list_item("outcome",
+    "Values: SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED.
+    <br>Defined iff result.server_state=OVER
+    <ul>
+    <li> Set by scheduler to SUCCESS if get reply and no client error
+    <li> Set by scheduler to CLIENT_ERROR if get reply and client error
+    <li> Set by transitioner to NO_REPLY if server_state=IN_PROGRESS
+        and now<report_deadline
+    <li> Set by transitioner to DIDNT_NEED if WU has error condition
+        and result.server_state=UNSENT
+    <li> Set by validater to DIDNT_NEED if WU has canonical result
+        and result.server_state=UNSENT
+    </ul>
+    "
+);
+list_item("client_state",
+    "Records the client state (upload, process, or download)
+    where an error occurred.
+    Defined if outcome is CLIENT_ERROR.
+    "
+);
 
-<h3>Result.report_deadline</h3>
-give up on result (and possibly delete input files)
-if don't get reply by this time.
-<p>
-Assignment: when send result; now + WU.delay_bound
+list_item("file_delete_state",
+    "
+    <ul>
+    <li> Initially INIT
+    <li> Set by transitioner to READY if this is the canonical result,
+        and file_delete_state=INIT,
+        and wu.assimilate_state=DONE
+    <li> Set by transitioner to READY if wu.assimilate_state=DONE
+        and result.outcome=CLIENT_ERROR
+        or result.validate_state!=INIT
+    "
+);
 
-<h3>Result.server_state</h3>
-<center>
-<br><img src=result_server_state.png>
-</center>
+list_item("validate_state",
+    "
+    Defined iff result.outcome=SUCCESS
+    <ul>
+    <li> Initially INIT
+    <li> Set by validater to VALID if outcome=SUCCESS and matches canonical result
+    <li> Set by validater to INVALID if outcome=SUCCESS and doesn't match canonical result
+    "
+);
+list_end();
 
-<h3>Result.outcome</h3>
-SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED.
-Defined if server_state = OVER.
-
-<h3>Result.client_state</h3>
-Records the client state (upload, process, or download)
-where an error occurred.
-Defined if outcome is CLIENT_ERROR.
-
-<h3>Result.file_delete_state</h3>
-<br><img src=result_file_delete.png>
-
-<h3>Result.validate_state</h3>
-<br><img src=result_validate.png>
+echo "
 
 <p>
 Result invariants:
