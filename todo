@@ -15,11 +15,6 @@ BUGS (arranged from high to low priority)
     run_minimized
     run_on_startup
     hangup_if_dialed
-- when i quit a project, I have to exit and restart the client, which is ugly.
-- after quitting a project, the project name still showed up in gray
-    in the projects list - I could right click on it to "relogin"
-    (which did nothing) or "quit project"
-    which I thought I already did.
 - consider warning message during windows (and perhaps other platforms)
     install that checks to see if the BOINC directory already exists,
     and if so, should the user overwrite it? or upgrade it?

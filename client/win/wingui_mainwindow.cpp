@@ -150,6 +150,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	m_ProjectListCtrl.SetRedraw(FALSE);
 	float totalres = 0;
 	Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
+	for(i = 0; i < m_ProjectListCtrl.GetItemCount();) {
+		if(!m_ProjectListCtrl.GetItemData(i)) m_ProjectListCtrl.DeleteItem(i);
+		else i ++;
+	}
 	for(i = 0; i < pcs->projects.size(); i ++) {
 		totalres += pcs->projects[i]->resource_share;
 	}
