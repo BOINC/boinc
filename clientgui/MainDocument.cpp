@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.14  2004/09/28 01:19:46  rwalton
+// *** empty log message ***
+//
 // Revision 1.13  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -107,7 +110,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
         retval = rpc.init(NULL);
         if (retval)
         {
-            wxLogTrace("CMainDocument::CachedStateUpdate - RPC Initialization Failed '%d'", retval);
+            wxLogTrace("CMainDocument::CachedProjectStatusUpdate - RPC Initialization Failed '%d'", retval);
             return retval;
         }
 
@@ -117,7 +120,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
     retval = rpc.get_project_status(project_status);
     if (retval)
     {
-        wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+        wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get State Failed '%d'", retval);
     }
 
     return retval;
@@ -210,17 +213,39 @@ wxInt32 CMainDocument::ProjectAttach( wxString& strURL, wxString& strAccountKey 
 
 wxInt32 CMainDocument::ProjectDetach( wxString& strURL )
 {
-    return rpc.project_detach((char *)strURL.c_str());
+    PROJECT p;
+    p.master_url = strURL;
+    return rpc.project_op(p, wxT("detach"));
 }
 
 wxInt32 CMainDocument::ProjectUpdate( wxString& strURL )
 {
-    return rpc.project_update((char *)strURL.c_str());
+    PROJECT p;
+    p.master_url = strURL;
+    return rpc.project_op(p, wxT("update"));
 }
 
 wxInt32 CMainDocument::ProjectReset( wxString& strURL )
 {
-    return rpc.project_reset((char *)strURL.c_str());
+    PROJECT p;
+    p.master_url = strURL;
+    return rpc.project_op(p, wxT("reset"));
+}
+
+
+wxInt32 CMainDocument::ProjectSuspend( wxString& strURL )
+{
+    PROJECT p;
+    p.master_url = strURL;
+    return rpc.project_op(p, wxT("suspend"));
+}
+
+
+wxInt32 CMainDocument::ProjectResume( wxString& strURL )
+{
+    PROJECT p;
+    p.master_url = strURL;
+    return rpc.project_op(p, wxT("resume"));
 }
 
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.13  2004/09/28 01:19:46  rwalton
+// *** empty log message ***
+//
 // Revision 1.12  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -97,9 +100,8 @@ public:
     wxInt32                     ProjectDetach( wxString& strURL );
     wxInt32                     ProjectUpdate( wxString& strURL );
     wxInt32                     ProjectReset( wxString& strURL );
-
-
-
+    wxInt32                     ProjectSuspend( wxString& strURL );
+    wxInt32                     ProjectResume( wxString& strURL );
 
 private:
 

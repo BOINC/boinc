@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/09/28 01:19:46  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -79,8 +82,10 @@ private:
     bool                    m_bTaskHeaderHidden;
     bool                    m_bTaskAttachToProjectHidden;
     bool                    m_bTaskDetachFromProjectHidden;
-    bool                    m_bTaskUpdateProjectHidden;
     bool                    m_bTaskResetProjectHidden;
+    bool                    m_bTaskSuspendProjectHidden;
+    bool                    m_bTaskResumeProjectHidden;
+    bool                    m_bTaskUpdateProjectHidden;
 
     bool                    m_bWebsiteHeaderHidden;
     bool                    m_bWebsiteBOINCHidden;

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/09/28 01:19:46  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -75,8 +78,10 @@
 
 #define LINK_TASKATTACH             SECTION_TASK "attach"
 #define LINK_TASKDETACH             SECTION_TASK "detach"
-#define LINK_TASKUPDATE             SECTION_TASK "update"
 #define LINK_TASKRESET              SECTION_TASK "reset"
+#define LINK_TASKSUSPEND            SECTION_TASK "suspend"
+#define LINK_TASKRESUME             SECTION_TASK "resume"
+#define LINK_TASKUPDATE             SECTION_TASK "update"
 
 #define LINK_WEBBOINC               SECTION_WEB "boinc"
 #define LINK_WEBFAQ                 SECTION_WEB "faq"
@@ -308,16 +313,6 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         }
     }
 
-    if ( link.GetHref() == wxT(LINK_TASKUPDATE) )
-    {
-        iProject = m_pListPane->GetFirstSelected();
-        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
-
-        wxGetApp().GetDocument()->ProjectUpdate(
-            strProjectURL 
-        );
-    }
-
     if ( link.GetHref() == wxT(LINK_TASKRESET) )
     {
         iProject = m_pListPane->GetFirstSelected();
@@ -341,6 +336,36 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
                 strProjectURL 
             );
         }
+    }
+
+    if ( link.GetHref() == wxT(LINK_TASKUPDATE) )
+    {
+        iProject = m_pListPane->GetFirstSelected();
+        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
+
+        wxGetApp().GetDocument()->ProjectUpdate(
+            strProjectURL 
+        );
+    }
+
+    if ( link.GetHref() == wxT(LINK_TASKSUSPEND) )
+    {
+        iProject = m_pListPane->GetFirstSelected();
+        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
+
+        wxGetApp().GetDocument()->ProjectSuspend(
+            strProjectURL 
+        );
+    }
+
+    if ( link.GetHref() == wxT(LINK_TASKRESUME) )
+    {
+        iProject = m_pListPane->GetFirstSelected();
+        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
+
+        wxGetApp().GetDocument()->ProjectResume(
+            strProjectURL 
+        );
     }
 
 
@@ -393,20 +418,6 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                 bUpdateSelection = true;
             }
         }
-        else if ( wxT(LINK_TASKUPDATE) == strLink )
-        {
-            if  ( wxT(LINK_TASKUPDATE) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKUPDATE), 
-                    _("<b>Update Project</b><br>"
-                    "Selecting update project submits any outstanding work and refreshes "
-                    "your credit and preferences for the currently selected project.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
         else if ( wxT(LINK_TASKRESET) == strLink )
         {
             if  ( wxT(LINK_TASKRESET) != GetCurrentQuickTip() )
@@ -417,6 +428,48 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "Selecting reset project removes all workunits and applications from "
                     "the currently selected project.  You may wish to update the project "
                     "first to submit any completed work.")
+                );
+
+                bUpdateSelection = true;
+            }
+        }
+        else if ( wxT(LINK_TASKSUSPEND) == strLink )
+        {
+            if  ( wxT(LINK_TASKSUSPEND) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKSUSPEND), 
+                    _("<b>Suspend Project</b><br>"
+                    "Selecting suspend project will pause the project from any additional "
+                    "computation for that project until the resume project option is selected.")
+                );
+
+                bUpdateSelection = true;
+            }
+        }
+        else if ( wxT(LINK_TASKRESUME) == strLink )
+        {
+            if  ( wxT(LINK_TASKRESUME) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKRESUME), 
+                    _("<b>Resume Project</b><br>"
+                    "Selecting resume project resumes computation for a project that has been"
+                    "previously suspended.")
+                );
+
+                bUpdateSelection = true;
+            }
+        }
+        else if ( wxT(LINK_TASKUPDATE) == strLink )
+        {
+            if  ( wxT(LINK_TASKUPDATE) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKUPDATE), 
+                    _("<b>Update Project</b><br>"
+                    "Selecting update project submits any outstanding work and refreshes "
+                    "your credit and preferences for the currently selected project.")
                 );
 
                 bUpdateSelection = true;
@@ -526,8 +579,10 @@ void CViewProjects::UpdateSelection()
         m_bTaskHeaderHidden = false;
         m_bTaskAttachToProjectHidden = false;
         m_bTaskDetachFromProjectHidden = true;
-        m_bTaskUpdateProjectHidden = true;
         m_bTaskResetProjectHidden = true;
+        m_bTaskSuspendProjectHidden = true;
+        m_bTaskResumeProjectHidden = true;
+        m_bTaskUpdateProjectHidden = true;
 
         m_bWebsiteHeaderHidden = false;
         m_bWebsiteBOINCHidden = false;
@@ -543,8 +598,10 @@ void CViewProjects::UpdateSelection()
         m_bTaskHeaderHidden = false;
         m_bTaskAttachToProjectHidden = false;
         m_bTaskDetachFromProjectHidden = false;
-        m_bTaskUpdateProjectHidden = false;
         m_bTaskResetProjectHidden = false;
+        m_bTaskSuspendProjectHidden = false;
+        m_bTaskResumeProjectHidden = false;
+        m_bTaskUpdateProjectHidden = false;
 
         m_bWebsiteHeaderHidden = false;
         m_bWebsiteBOINCHidden = false;
@@ -570,8 +627,10 @@ void CViewProjects::UpdateTaskPane()
     {
         m_pTaskPane->CreateTask( wxT(LINK_TASKATTACH), wxT(BITMAP_PROJECTS), _("Attach to Project"), m_bTaskAttachToProjectHidden );
         m_pTaskPane->CreateTask( wxT(LINK_TASKDETACH), wxT(BITMAP_PROJECTS), _("Detach from Project"), m_bTaskDetachFromProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_TASKUPDATE), wxT(BITMAP_PROJECTS), _("Update Project"), m_bTaskUpdateProjectHidden );
         m_pTaskPane->CreateTask( wxT(LINK_TASKRESET), wxT(BITMAP_PROJECTS), _("Reset Project"), m_bTaskResetProjectHidden );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKSUSPEND), wxT(BITMAP_PROJECTS), _("Suspend Project"), m_bTaskSuspendProjectHidden );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKRESUME), wxT(BITMAP_PROJECTS), _("Resume Project"), m_bTaskResumeProjectHidden );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKUPDATE), wxT(BITMAP_PROJECTS), _("Update Project"), m_bTaskUpdateProjectHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
