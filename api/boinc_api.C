@@ -297,6 +297,24 @@ int boinc_write_init_data_file() {
     return retval;
 }
 
+int boinc_report_app_status(
+    double cpu_time,
+    double checkpoint_cpu_time,
+    double fraction_done
+) {
+    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
+    sprintf(msg_buf,
+        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
+        "<fraction_done>%2.8f</fraction_done>\n",
+        cpu_time,
+        checkpoint_cpu_time,
+        fraction_done
+    );
+    app_client_shm->shm->app_status.send_msg(msg_buf);
+    return 0;
+}
+
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
 //

@@ -45,6 +45,7 @@ extern "C" {
   extern int boinc_fraction_done(double);
   extern int boinc_suspend_other_activities(void);
   extern int boinc_resume_other_activities(void);
+  extern int boinc_report_app_status(double, double, double);
 
   /* we can use those in ANSI-C with a suitable define for 'bool' */
   extern bool boinc_is_standalone(void);

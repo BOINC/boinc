@@ -20934,3 +20934,12 @@ David  8 Dec 2004
         Makefile.am
         bmplib.C,h (new)
         tgalib.C,h (new)
+
+David  8 Dec 2004
+    - added boinc_report_app_status() function to API
+        (lets controllers report CPU time etc.)
+
+    api/
+        boinc_api.C,h
+    client/
+        Makefile.am
