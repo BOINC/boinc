@@ -16738,3 +16738,10 @@ David  27 Aug 2004
 
     tools/
         grep_logs
+
+David  27 Aug 2004
+    - scheduling server only updates cross-project ID if the one
+        in request message is greater than what it has (from Janus K)
+    
+    sched/
+        handle_request.C

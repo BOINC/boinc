@@ -186,10 +186,10 @@ make_new_host:
         reply.email_hash
     );
 
-    // see if new cross-project ID
+    // see if new cross-project ID (i.e., greater than the one we have)
     //
     if (strlen(sreq.cross_project_id)) {
-        if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
+        if (strcmp(sreq.cross_project_id, reply.user.cross_project_id) > 0) {
             strcpy(reply.user.cross_project_id, sreq.cross_project_id);
             reply.update_user_record = true;
         }
