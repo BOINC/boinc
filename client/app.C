@@ -435,9 +435,10 @@ int ACTIVE_TASK::start(bool first_time) {
     // create core/app share mem segment
     //
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
-    shm_handle = create_shmem(buf, APP_CLIENT_SHMEM_SIZE,
+    shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
         (void **)&app_client_shm.shm
     );
+    if (shm_handle == NULL) return ERR_SHMGET;
     app_client_shm.reset_msgs();
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
@@ -536,12 +537,8 @@ int ACTIVE_TASK::start(bool first_time) {
 // Normally this is caught by the process, which can checkpoint
 //
 int ACTIVE_TASK::request_exit() {
-#ifdef _WIN32
-    //return !SetEvent(quitRequestEvent);
-    return !TerminateProcess(pid_handle, -1);
-#else
-    return kill(pid, SIGQUIT);
-#endif
+    app_client_shm.shm->process_control_request.send_msg("<quit/>");
+    return 0;
 }
 
 // send a kill signal.
@@ -722,7 +719,8 @@ bool ACTIVE_TASK_SET::poll() {
     bool action;
 
     action = check_app_exited();
-    send_heartbeat();
+    send_heartbeats();
+    send_trickle_downs();
     action |= check_rsc_limits_exceeded();
     if (get_status_msgs()) {
         action = true;
@@ -739,22 +737,30 @@ bool ACTIVE_TASK::finish_file_present() {
     return boinc_file_exists(path);
 }
 
-void ACTIVE_TASK_SET::send_heartbeat() {
+void ACTIVE_TASK_SET::send_trickle_downs() {
     unsigned int i;
     ACTIVE_TASK* atp;
     bool sent;
-    char* msg;
-
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->state == PROCESS_IN_LIMBO) continue;
         if (atp->have_trickle_down) {
-            msg = "<heartbeat/>\n<have_trickle_down/>\n";
-        } else {
-            msg = "<heartbeat/>\n";
+            sent = atp->app_client_shm.shm->trickle_down.send_msg("<have_trickle_down/>\n");
+            if (sent) atp->have_trickle_down = false;
         }
-        sent = atp->app_client_shm.send_msg(msg, CORE_APP_WORKER_SEG);
-        if (sent) atp->have_trickle_down = false;
+    }
+}
+
+void ACTIVE_TASK_SET::send_heartbeats() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->state == PROCESS_IN_LIMBO) {
+            continue;
+        }
+        atp->app_client_shm.shm->heartbeat.send_msg("<heartbeat/>\n");
     }
 }
 
@@ -1037,8 +1043,8 @@ int ACTIVE_TASK::request_reread_prefs() {
 
     retval = write_app_init_file(aid);
     if (retval) return retval;
-    app_client_shm.send_graphics_msg(
-        CORE_APP_GFX_SEG, GRAPHICS_MSG_REREAD_PREFS, 0
+    app_client_shm.shm->graphics_request.send_msg(
+        xml_graphics_modes[MODE_REREAD_PREFS]
     );
     return 0;
 }
@@ -1057,16 +1063,18 @@ void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
 }
 
 void ACTIVE_TASK::request_graphics_mode(int mode) {
-    app_client_shm.send_graphics_msg(
-        CORE_APP_GFX_SEG, GRAPHICS_MSG_SET_MODE, mode
+    app_client_shm.shm->graphics_request.send_msg(
+        xml_graphics_modes[mode]
     );
     graphics_requested_mode = mode;
 }
 
 void ACTIVE_TASK::check_graphics_mode_ack() {
-    int msg, mode;
-    if (app_client_shm.get_graphics_msg(APP_CORE_GFX_SEG, msg, mode)) {
-        if (msg == GRAPHICS_MSG_SET_MODE) {
+    int mode;
+    char buf[MSG_CHANNEL_SIZE];
+    if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
+        mode = app_client_shm.decode_graphics_msg(buf);
+        if (mode != MODE_REREAD_PREFS) {
             graphics_acked_mode = mode;
             if (mode != MODE_FULLSCREEN) {
                 graphics_mode_before_ss = mode;
@@ -1240,22 +1248,14 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 // suspend a task
 //
 int ACTIVE_TASK::suspend() {
-#ifdef _WIN32
-    SuspendThread(thread_handle);
-#else
-    kill(pid, SIGSTOP);
-#endif
+    app_client_shm.shm->process_control_request.send_msg("<suspend/>");
     return 0;
 }
 
 // resume a suspended task
 //
 int ACTIVE_TASK::unsuspend() {
-#ifdef _WIN32
-    ResumeThread(thread_handle);
-#else
-    kill(pid, SIGCONT);
-#endif
+    app_client_shm.shm->process_control_request.send_msg("<resume/>");
     return 0;
 }
 
@@ -1401,8 +1401,8 @@ int ACTIVE_TASK::move_trickle_file() {
 // If so parse it and return true.
 //
 bool ACTIVE_TASK::get_status_msg() {
-    char msg_buf[SHM_SEG_SIZE];
-    if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
+    char msg_buf[MSG_CHANNEL_SIZE];
+    if (app_client_shm.shm->app_status.get_msg(msg_buf)) {
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);

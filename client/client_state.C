@@ -391,6 +391,7 @@ bool CLIENT_STATE::do_something() {
         scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
+        POLL_ACTION(active_tasks           , active_tasks.poll      );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );

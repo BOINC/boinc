@@ -14815,3 +14815,27 @@ Daniel 2004-07-07
     lib/
         error_numbers.h
 
+
+David  7 July 2004
+	- Implement revised core/app interface
+		(see boinc/doc/api_v4.php).
+		- Augment the set of shared-memory message channels;
+			add a channel for suspend/resume/quit messages
+			(these replace the use of signals and SuspendThread calls);
+			add separate channels for trickle up/down
+		- Modify the API library accordingly.
+			Currently works for Windows; will do UNIX later
+		- Modify the core client (app.C) accordingly
+		- Call ACTIVE_TASK_SET::poll() even when activities suspended;
+			still need to send heartbeats.
+		- added MSG_CHANNEL class to make code better organized
+
+	api/
+		boinc_api.C
+		windows_opengl.C
+	client/
+		app.C,h
+		client_state.C
+	lib/
+		app_ipc.C,h
+

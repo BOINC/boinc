@@ -36,59 +36,59 @@
 // - graphics init file
 // - conversion of symbolic links
 
-// Shared memory is arranged as follows:
-// 4 1K segments
-// First byte of each segment is nonzero if
-// segment contains unread data.
+// Shared memory is a set of MSG_CHANNELs.
+// First byte of a channel is nonzero if
+// the channel contains an unread data.
 // This is set by the sender and cleared by the receiver.
 // The sender doesn't write if the flag is set.
 // Remaining 1023 bytes contain data.
 //
+#define MSG_CHANNEL_SIZE 1024
 
-#define SHM_SEG_SIZE            1024
-#define NUM_SEGS                6
+struct MSG_CHANNEL {
+    char buf[MSG_CHANNEL_SIZE];
+    bool get_msg(char*);    // returns a message and clears pending flag
+    bool send_msg(char*);   // if there is not a message in the segment,
+                            // writes specified message and sets pending flag
+};
 
-// The following 2 segs are used by the timer interrupt handler
-// in the worker program
-//
-#define CORE_APP_WORKER_SEG     0
-    // <heartbeat/>             sent every second, even while app is suspended
-    // <disable_heartbeat/>     disables heartbeat mechanism
-    // <enable_heartbeat/>      enable heartbeat mechanism (default)
-    // <have_new_trickle_down/> a new trickle-down message is available
-#define APP_CORE_WORKER_SEG     1
-    // status message every second, of the form
-    // <current_cpu_time>...
-    // <checkpoint_cpu_time>...
-    // <working_set_size>...
-    // <fraction_done> ...
-    // [ <have_new_trickle_up/> ]
-
-// The following 2 segs are used by the graphics thread
-// in the worker program
-//
-#define CORE_APP_GFX_SEG        2
-    // request a graphics mode:
-    // <mode_hide_graphics/>
-    // ...
-    // <mode_blankscreen/>
-#define APP_CORE_GFX_SEG        3
-    // acknowledge graphics mode
-    // same msgs as above
-
-// The following 2 segs are used by the coordinator program
-// NOT IMPLEMENTED, here as a placeholder
-//
-#define CORE_APP_COORD_SEG      4
-    // control commands:
-    // <quit/>
-    // <suspend/>
-    // <resume/>
-#define APP_CORE_COORD_SEG      5
-    // acknowledge control commands
-    // same msgs as above
-
-#define APP_CLIENT_SHMEM_SIZE   (sizeof(char)*NUM_SEGS*SHM_SEG_SIZE)
+struct SHARED_MEM {
+    MSG_CHANNEL process_control_request;
+        // core->app
+        // <quit/>
+        // <suspend/>
+        // <resume/>
+    MSG_CHANNEL process_control_reply;
+        // app->core
+        // same as above
+    MSG_CHANNEL graphics_request;
+        // core->app
+        // request a graphics mode:
+        // <mode_hide_graphics/>
+        // ...
+        // <mode_blankscreen/>
+    MSG_CHANNEL graphics_reply;
+        // app->core
+        // same as above
+    MSG_CHANNEL heartbeat;
+        // core->app
+        // <heartbeat/>             sent every second, even while app is suspended
+        // <disable_heartbeat/>     disables heartbeat mechanism
+        // <enable_heartbeat/>      enable heartbeat mechanism (default)
+    MSG_CHANNEL app_status;
+        // app->core
+        // status message every second, of the form
+        // <current_cpu_time>...
+        // <checkpoint_cpu_time>...
+        // <working_set_size>...
+        // <fraction_done> ...
+    MSG_CHANNEL trickle_up;
+        // app->core
+        // <have_new_trickle_up/>
+    MSG_CHANNEL trickle_down;
+        // core->app
+        // <have_new_trickle_down/>
+};
 
 #define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
 #define DEFAULT_CHECKPOINT_PERIOD               300
@@ -96,37 +96,25 @@
 #define SHM_PREFIX          "shm_"
 #define QUIT_PREFIX         "quit_"
 
-// graphics modes of an application
+// graphics messages
 //
 #define MODE_UNSUPPORTED        0
 #define MODE_HIDE_GRAPHICS      1
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
 #define MODE_BLANKSCREEN        4
+#define MODE_REREAD_PREFS       5
 
-#define NGRAPHICS_MODES  5
-
-// graphics messages
-//
-#define GRAPHICS_MSG_SET_MODE       1
-#define GRAPHICS_MSG_REREAD_PREFS   2
+#define NGRAPHICS_MSGS  6
 
 #include <cstdio>
 
 class APP_CLIENT_SHM {
 public:
-    char *shm;
+    SHARED_MEM *shm;
 
-    bool pending_msg(int);    // returns true if a message is waiting
-                              // in the specified segment
-    bool get_msg(char*, int); // returns the message from the specified
-                              // segment and clears pending flag
-    bool send_msg(char*, int); // if there is not a message in the segment,
-                              // writes specified message and sets pending flag
-    bool send_graphics_msg(int seg, int msg, int mode);
-    bool get_graphics_msg(int seg, int& msg, int& mode);
+    int decode_graphics_msg(char*);
     void reset_msgs();        // resets all messages and clears their flags
-    void reset_msg(int);      // resets specified message and clears its flag
 
     APP_CLIENT_SHM();
 };
@@ -193,7 +181,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define STDOUT_FILE           "stdout.txt"
 #define LOCKFILE               "boinc_lockfile"
 
-extern char* xml_graphics_modes[NGRAPHICS_MODES];
+extern char* xml_graphics_modes[NGRAPHICS_MSGS];
 int boinc_link(const char* existing, const char* new_link);
 
 #endif

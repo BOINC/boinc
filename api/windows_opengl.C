@@ -172,8 +172,8 @@ static void set_mode(int mode) {
     // tell the core client that we're entering new mode
     //
     if (app_client_shm) {
-        app_client_shm->send_graphics_msg(
-            APP_CORE_GFX_SEG, GRAPHICS_MSG_SET_MODE, current_graphics_mode
+        app_client_shm->shm->graphics_reply.send_msg(
+            xml_graphics_modes[current_graphics_mode]
         );
     }
 }
@@ -313,17 +313,16 @@ BOOL unreg_win_class() {
 
 static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 	RECT rt;
-	int width, height, new_mode, msg;
+	int width, height, new_mode;
+    char buf[MSG_CHANNEL_SIZE];
 
     // check for graphics-related message from core client
     //
     if (app_client_shm) {
-        if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
-            switch (msg) {
-            case GRAPHICS_MSG_SET_MODE:
-                set_mode(new_mode);
-                break;
-            case GRAPHICS_MSG_REREAD_PREFS:
+        if (app_client_shm->shm->graphics_request.get_msg(buf)) {
+            new_mode = app_client_shm->decode_graphics_msg(buf);
+            switch (new_mode) {
+            case MODE_REREAD_PREFS:
 				// only reread graphics prefs if we have a window open
 				//
 				switch(current_graphics_mode) {
@@ -332,6 +331,12 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 					app_graphics_reread_prefs();
 					break;
 				}
+                break;
+            case MODE_HIDE_GRAPHICS:
+            case MODE_WINDOW:
+            case MODE_FULLSCREEN:
+            case MODE_BLANKSCREEN:
+                set_mode(new_mode);
                 break;
             }
         }

@@ -36,15 +36,14 @@
 
 using std::string;
 
-char* xml_graphics_modes[NGRAPHICS_MODES] = {
+char* xml_graphics_modes[NGRAPHICS_MSGS] = {
     "<mode_unsupported/>",
     "<mode_hide_graphics/>",
     "<mode_window/>",
     "<mode_fullscreen/>",
-    "<mode_blankscreen/>"
+    "<mode_blankscreen/>",
+    "<reread_prefs/>"
 };
-
-#define REREAD_PREFS_MSG "<reread_prefs/>"
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 	string str1, str2;
@@ -201,85 +200,34 @@ int parse_fd_init_file(FILE* f) {
 APP_CLIENT_SHM::APP_CLIENT_SHM() {
     shm = 0;
 }
-
-bool APP_CLIENT_SHM::pending_msg(int seg_num) {
-    if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
-    return (shm[seg_num*SHM_SEG_SIZE]?true:false);
-}
-
-bool APP_CLIENT_SHM::get_msg(char *msg, int seg_num) {
-    if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
-
-    // Check if there's an available message
-    //
-    if (!shm[seg_num*SHM_SEG_SIZE]) return false;
-
-    // Copy the message from shared memory
-    //
-    safe_strncpy(msg, &shm[(seg_num*SHM_SEG_SIZE)+1], SHM_SEG_SIZE-1);
-
-    // Reset the message status flag
-    //
-    shm[seg_num*SHM_SEG_SIZE] = 0;
+bool MSG_CHANNEL::get_msg(char *msg) {
+    if (!buf[0]) return false;
+    safe_strncpy(msg, buf+1, MSG_CHANNEL_SIZE-1);
+    buf[0] = 0;
     return true;
 }
 
-bool APP_CLIENT_SHM::send_msg(char *msg, int seg_num) {
-    if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
-
-    // Check if there's already a message
-    //
-    if (shm[seg_num*SHM_SEG_SIZE]) return false;
-
-    // Copy the message into shared memory
-    //
-    safe_strncpy(&shm[(seg_num*SHM_SEG_SIZE)+1], msg, SHM_SEG_SIZE-1);
-
-    // Set the message status flag
-    //
-    shm[seg_num*SHM_SEG_SIZE] = 1;
+bool MSG_CHANNEL::send_msg(char *msg) {
+    if (buf[0]) return false;
+    safe_strncpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
+    buf[0] = 1;
     return true;
 }
 
-void APP_CLIENT_SHM::reset_msgs(void) {
-    if (shm == NULL) return;
-    memset(shm, 0, sizeof(char)*NUM_SEGS*SHM_SEG_SIZE);
-}
 
-void APP_CLIENT_SHM::reset_msg(int seg_num) {
-    if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return;
-    memset(&shm[seg_num*SHM_SEG_SIZE], 0, sizeof(char)*SHM_SEG_SIZE);
-}
 
-bool APP_CLIENT_SHM::send_graphics_msg(int seg, int msg, int mode) {
-    switch (msg) {
-    case GRAPHICS_MSG_SET_MODE:
-        return send_msg(xml_graphics_modes[mode], seg);
-        break;
-    case GRAPHICS_MSG_REREAD_PREFS:
-        return send_msg(REREAD_PREFS_MSG, seg);
-        break;
-    }
-    return false;
-}
-
-bool APP_CLIENT_SHM::get_graphics_msg(int seg, int& msg, int& mode) {
-    char buf[SHM_SEG_SIZE];
+int APP_CLIENT_SHM::decode_graphics_msg(char* msg) {
     int i;
-
-    if (!get_msg(buf, seg)) return false;
-    for (i=0; i<NGRAPHICS_MODES; i++) {
-        if (match_tag(buf, xml_graphics_modes[i])) {
-            msg = GRAPHICS_MSG_SET_MODE;
-            mode = i;
-            return true;
+    for (i=0; i<NGRAPHICS_MSGS; i++) {
+        if (match_tag(msg, xml_graphics_modes[i])) {
+            return i;
         }
     }
-    if (match_tag(buf, REREAD_PREFS_MSG)) {
-        msg = GRAPHICS_MSG_REREAD_PREFS;
-        return true;
-    }
-    return false;
+    return 0;
+}
+
+void APP_CLIENT_SHM::reset_msgs() {
+    memset(shm, 0, sizeof(SHARED_MEM));
 }
 
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi) {

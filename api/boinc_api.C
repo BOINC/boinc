@@ -82,7 +82,7 @@ static	double	      initial_wu_cpu_time;
 static	bool	      have_new_trickle_up = false;
 static bool have_trickle_down = true;
     // on first call, scan slot dir for msgs
-static double seconds_until_heartbeat_giveup;
+static double heartbeat_giveup_time;
 static bool heartbeat_active;   // if false, suppress heartbeat mechanism
 
 #define HEARTBEAT_GIVEUP_PERIOD 5.0
@@ -166,7 +166,7 @@ int boinc_init(bool is_worker /* = true */) {
     last_wu_cpu_time = aid.wu_cpu_time;
 
     heartbeat_active = !standalone;
-    seconds_until_heartbeat_giveup = HEARTBEAT_GIVEUP_PERIOD;
+    heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 
     if (is_worker) {
         set_timer(timer_period);
@@ -261,7 +261,7 @@ int boinc_write_init_data_file() {
 static int update_app_progress(
     double cpu_t, double cp_cpu_t, double ws_t
 ) {
-    char msg_buf[SHM_SEG_SIZE], buf[256];
+    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
     bool sent;
 
     if (!app_client_shm) return 0;
@@ -283,7 +283,7 @@ static int update_app_progress(
         strcat(msg_buf, "<have_new_trickle_up/>\n");
     }
 
-    sent = app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+    sent = app_client_shm->shm->app_status.send_msg(msg_buf);
     if (sent) {
         have_new_trickle_up = false;
     }
@@ -320,19 +320,50 @@ int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
 #endif  // _WIN32
 
 static void handle_core_app_msgs() {
-    char msg_buf[SHM_SEG_SIZE];
-    if (!app_client_shm->get_msg(msg_buf, CORE_APP_WORKER_SEG)) return;
-    if (match_tag(msg_buf, "<heartbeat/>")) {
-        seconds_until_heartbeat_giveup = HEARTBEAT_GIVEUP_PERIOD;
+    char buf[MSG_CHANNEL_SIZE];
+    if (app_client_shm->shm->heartbeat.get_msg(buf)) {
+        if (match_tag(buf, "<heartbeat/>")) {
+            heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
+        }
+        if (match_tag(buf, "<enable_heartbeat/>")) {
+            heartbeat_active = true;
+        }
+        if (match_tag(buf, "<disable_heartbeat/>")) {
+            heartbeat_active = false;
+        }
     }
-    if (match_tag(msg_buf, "<enable_heartbeat/>")) {
-        heartbeat_active = true;
+    if (app_client_shm->shm->trickle_down.get_msg(buf)) {
+        if (match_tag(buf, "<have_trickle_down/>")) {
+            have_trickle_down = true;
+        }
     }
-    if (match_tag(msg_buf, "<disable_heartbeat/>")) {
-        heartbeat_active = false;
-    }
-    if (match_tag(msg_buf, "<have_trickle_down/>")) {
-        have_trickle_down = true;
+    if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+ #ifdef _WIN32
+        if (match_tag(buf, "<suspend/>")) {
+            SuspendThread(worker_thread_handle);
+        }
+        if (match_tag(buf, "<resume/>")) {
+            ResumeThread(worker_thread_handle);
+        }
+#else
+        if (match_tag(buf, "<suspend/>")) {
+            fprintf(stderr, "got suspend\n"); fflush(stderr);
+            while (1) {
+                if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+                    fprintf(stderr, "got %s\n", buf);
+                    fflush(stderr);
+                    if (match_tag(buf, "<resume/>")) {
+                        break;
+                    }
+                }
+                fprintf(stderr, "no msg- sleep\n"); fflush(stderr);
+                boinc_sleep(1.0);
+            }
+        }
+#endif
+        if (match_tag(buf, "<quit/>")) {
+            exit(0);
+        }
     }
 }
 
@@ -358,24 +389,21 @@ static void on_timer(int a) {
 	// see if the core client has died, and we need to die too
 	//
     if (heartbeat_active) {
-        seconds_until_heartbeat_giveup -= timer_period;
-        if (seconds_until_heartbeat_giveup < 0) {
+        if (heartbeat_giveup_time < dtime()) {
             fprintf(stderr, "No heartbeat from core client - exiting\n");
             exit(0);
         }
     }
 
-    //if (this_process_active) {
-        time_until_fraction_done_update -= timer_period;
-        if (time_until_fraction_done_update <= 0) {
-            double cur_cpu;
-            double cur_mem;
-            boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
-            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
-            time_until_fraction_done_update = aid.fraction_done_update_period;
-        }
-    //}
+    time_until_fraction_done_update -= timer_period;
+    if (time_until_fraction_done_update <= 0) {
+        double cur_cpu;
+        double cur_mem;
+        boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
+        last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+        update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
+        time_until_fraction_done_update = aid.fraction_done_update_period;
+    }
 }
 
 
