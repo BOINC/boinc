@@ -48,10 +48,11 @@ public:
 
 // An application that wants to be well-behaved should do the following:
 //
-// - call boinc_init() at startup
-// - call boinc_time() periodically.
-//   This is cheap - it gets the time of day.
+// - call boinc_init(APP_IN&) at startup
+// - call time_to_checkpoint() often.
+//   This is cheap - it returns true if time to checkpoint.
 // - checkpoint as often as requested by core
+// - call checkpoint_completed() when checkpoint is complete
 // - boinc_poll(): 
 //   Call this as often as requested by core
 
@@ -86,7 +87,6 @@ void parse_init_file(FILE* f);
 void boinc_init(APP_IN&);
 void parse_app_file(FILE* f, APP_OUT&);
 void write_app_file(FILE* f, APP_OUT&);
-double boinc_time();
 void boinc_poll(APP_IN&, APP_OUT&);
 double boinc_cpu_time();
 int boinc_resolve_link(char *file_name, char *resolved_name);

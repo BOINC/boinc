@@ -233,11 +233,6 @@ void boinc_init(APP_IN& ai) {
     set_timer((int)ai.checkpoint_period);
 }
 
-double boinc_time() {
-    //return double_time();
-    return 0;
-}
-
 void boinc_poll(APP_IN& ai, APP_OUT& ao) {
     FILE* f;
 
