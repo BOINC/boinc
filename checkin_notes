@@ -7166,7 +7166,7 @@ Karl 2003-10-27
     - Astropulse 2.07 release (...)
     - SETI@Home 2.01 release
 
-Karl 2003-10-17
+Karl 2003-10-27
     - fixed bug in assuming client_state.XML always exists (it doesn't, on a
       clean install)
 
@@ -7183,3 +7183,12 @@ Eric K 28 Oct 2003
     
     client/hostinfo_unix.C
 
+Karl 2003-10-28
+    - added "const" to API function calls
+    - created "string" (as opposed to char[]) version of API function calls
+    
+    M api/boinc_api.h
+    M api/mfile.C
+    M lib/app_ipc.C
+    M lib/app_ipc.h
+    

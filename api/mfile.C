@@ -27,7 +27,7 @@
 
 #include "boinc_api.h"
 
-int MFILE::open(char* path, char* mode) {
+int MFILE::open(const char* path, const char* mode) {
     buf = 0;
     len = 0;
     f = fopen(path, mode);
@@ -35,7 +35,7 @@ int MFILE::open(char* path, char* mode) {
     return 0;
 }
 
-int MFILE::printf(char* format, ...) {
+int MFILE::printf(const char* format, ...) {
     va_list ap;
     char buf2[20000];
     int n, k;
@@ -64,7 +64,7 @@ int MFILE::_putchar(char c) {
     return c;
 }
 
-int MFILE::puts(char* p) {
+int MFILE::puts(const char* p) {
     int n = strlen(p);
     buf = (char*)realloc(buf, len+n);
     strncpy(buf+len, p, n);

@@ -28,6 +28,9 @@
 #include <sys/resource.h>
 #endif
 
+#include <string>
+using std::string;
+
 #include "app_ipc.h"
 
 // MFILE supports a primitive form of checkpointing.
@@ -41,25 +44,26 @@ class MFILE {
     int len;
     FILE* f;
 public:
-    int open(char* path, char* mode);
+    int open(const char* path, const char* mode);
     int _putchar(char);
-    int puts(char*);
-    int printf(char* format, ...);
+    int puts(const char*);
+    int printf(const char* format, ...);
     size_t write(const void *, size_t size, size_t nitems);
     int close();
     int flush();
     long tell() const;
 };
 
-extern int boinc_init(bool standalone = false);
-extern int boinc_get_init_data(APP_INIT_DATA&);
-extern int boinc_finish(int);
-extern int boinc_resolve_filename(char*, char*, int len);
-extern bool boinc_time_to_checkpoint();
-extern int boinc_checkpoint_completed();
-extern int boinc_fraction_done(double);
-extern int boinc_child_start();
-extern int boinc_child_done(double);
+int boinc_init(bool standalone = false);
+int boinc_get_init_data(APP_INIT_DATA&);
+int boinc_finish(int);
+int boinc_resolve_filename(const char*, char*, int len);
+int boinc_resolve_filename(const char*, string&);
+bool boinc_time_to_checkpoint();
+int boinc_checkpoint_completed();
+int boinc_fraction_done(double);
+int boinc_child_start();
+int boinc_child_done(double);
 bool boinc_is_standalone();
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS

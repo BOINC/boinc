@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -237,7 +237,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
 // create a file (new_link) which contains an XML
 // reference to existing file.
 //
-int boinc_link(char *existing, char *new_link) {
+int boinc_link(const char *existing, const char *new_link) {
     FILE *fp;
 
     fp = fopen(new_link, "w");
@@ -250,7 +250,7 @@ int boinc_link(char *existing, char *new_link) {
 
 // resolve XML soft link
 //
-int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
+int boinc_resolve_filename(const char *virtual_name, char *physical_name, int len) {
     FILE *fp;
     char buf[512];
 
@@ -258,7 +258,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 
     // Open the file and load the first line
     fp = fopen(virtual_name, "r");
-    if (!fp) return 0;
+    if (!fp) return 1;
 
     fgets(buf, 512, fp);
     fclose(fp);
@@ -267,6 +267,27 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
     // otherwise, return the original file name
     //
     parse_str(buf, "<soft_link>", physical_name, len);
+    return 0;
+}
+
+
+// resolve XML soft link
+//
+int boinc_resolve_filename(const char *virtual_name, string& physical_name) {
+    // Open the file and load the first line
+    FILE *fp = fopen(virtual_name, "r");
+    if (!fp) {
+        physical_name = virtual_name;
+        return 1;
+    }
+    char buf[512];
+    fgets(buf, 512, fp);
+    fclose(fp);
+
+    // If it's the <soft_link> XML tag, return its value,
+    // otherwise, return the original file name
+    //
+    parse_str(buf, "<soft_link>", physical_name);
     return 0;
 }
 
