@@ -28,6 +28,7 @@
 #include <sys/file.h>
 #endif
 #include <string>
+#include <algorithm>
 using namespace std;
 
 #ifdef _WIN32

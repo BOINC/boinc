@@ -53,7 +53,7 @@ extern int get_filesystem_info(double& total, double& free);
 
 class DirScanner {
 #ifdef _WIN32
-    string path;
+    string dir;
     bool first;
     void* handle;
 #endif

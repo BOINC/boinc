@@ -195,7 +195,7 @@ bool DirScanner::scan(string& s) {
     while (1) {
         if (first) {
             first = false;
-            handle = FindFirstFile(path.c_str(), &data);
+            handle = FindFirstFile(dir.c_str(), &data);
             if (handle == INVALID_HANDLE_VALUE) {
                 return false;
             } else {
