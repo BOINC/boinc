@@ -27,11 +27,11 @@
 #define REDUCE_METHOD_MAX	2		// Take the maximum of reduced elements
 #define REDUCE_METHOD_MIN	3		// Take the minimum of reduced elements
 
-enum GRAPH_DRAW_STYLE {
-    GRAPH_DRAW_STYLE_QUAD,
-    GRAPH_DRAW_STYLE_STRIP,
-    GRAPH_DRAW_STYLE_WAVE,
-    GRAPH_DRAW_STYLE_SURFACE
+enum GRAPH_STYLE {
+    GRAPH_STYLE_RECTANGLES,
+    GRAPH_STYLE_PLANES,
+    GRAPH_STYLE_WIREFRAME,
+    GRAPH_STYLE_SURFACE
 };
 
 class REDUCED_ARRAY {
@@ -59,12 +59,12 @@ public:
     double hue0;
     double dhue;
 	float alpha;
-    GRAPH_DRAW_STYLE draw_style;
+    GRAPH_STYLE draw_style;
 
     REDUCED_ARRAY();
     ~REDUCED_ARRAY();
     void init(int, int);
-    void init_draw(GRAPH_DRAW_STYLE, float*, float*, double, double, float);
+    void init_draw(GRAPH_STYLE, float*, float*, double, double, float);
     void set_max_dims(int, int);
     void reduce_source_row(float*, float*);
     void add_source_row(float*);

@@ -6615,3 +6615,11 @@ David  Oct 8 2003
         db_action.php
         db_form.php
         db_ops.php
+
+Oliver  Oct 8 2003
+    - fixed reduced graph display
+    - fixed opengl resize bug
+    /api/
+       recuce.c
+       gutil.c
+       windows_opengl.c

@@ -80,7 +80,7 @@ void REDUCED_ARRAY::reset() {
     last_ry_count = 0;
 }
 
-void REDUCED_ARRAY::init_draw(GRAPH_DRAW_STYLE st, float* p, float* s, double h0, double dh, float trans) {
+void REDUCED_ARRAY::init_draw(GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans) {
     memcpy(draw_pos, p, sizeof(draw_pos));
     memcpy(draw_size, s, sizeof(draw_size));
     draw_deltax = draw_size[0]/rdimx;
@@ -272,7 +272,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 	COLOR color;
 
 	switch(draw_style) {
-	case GRAPH_DRAW_STYLE_QUAD:
+	case GRAPH_STYLE_RECTANGLES:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
 		row0 = rrow(row);
@@ -396,7 +396,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 //		}
 		glEnd();	
 	break;
-	case GRAPH_DRAW_STYLE_SURFACE:
+	case GRAPH_STYLE_SURFACE:
 		glBegin(GL_QUAD_STRIP);
 
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
@@ -430,7 +430,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		}		
 		glEnd();
 	break;
-	case GRAPH_DRAW_STYLE_WAVE:
+	case GRAPH_STYLE_WIREFRAME:
 		glLineWidth(1.0f);
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
@@ -469,7 +469,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		glEnd();
 		glDisable(GL_LINE_SMOOTH);
 	break;
-	case GRAPH_DRAW_STYLE_STRIP:
+	case GRAPH_STYLE_PLANES:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
 		row0 = rrow(row);						
