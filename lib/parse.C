@@ -32,6 +32,8 @@
 #include <stdlib.h>
 #include <string>
 
+using namespace std;	// needed on Windows!!!
+
 #include "error_numbers.h"
 #include "util.h"
 #include "parse.h"

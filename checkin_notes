@@ -10252,3 +10252,11 @@ Rom    Mar 2 2004
 
 Rom    Mar 2 2004
     - CVS tagged as boinc_app_release_2_26.
+
+David  Mar 3 2004
+	- added "using namespace std;" a couple places to fix bizarre
+		link problems on Windows
+
+	client/
+		parse.C
+		util.C

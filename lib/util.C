@@ -31,10 +31,7 @@
 #include <algorithm>
 #include <fstream>
 
-using std::ifstream;
-#ifndef _WIN32
-using std::min;
-#endif
+using namespace std;
 
 #ifdef _WIN32
 #include <time.h>
