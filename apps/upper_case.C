@@ -224,7 +224,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        int flag = boinc_time_to_checkpoint();
+        bool flag = boinc_time_to_checkpoint();
         if (flag) {
             retval = do_checkpoint(out, nchars);
             if (retval) {

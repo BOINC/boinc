@@ -74,11 +74,11 @@ extern int boinc_fraction_done(double);
 extern int boinc_suspend_other_activities(void);
 extern int boinc_resume_other_activities(void);
 extern int boinc_report_app_status(double, double, double);
-extern int boinc_time_to_checkpoint();
 
 // we can use those in ANSI-C with a suitable define for 'bool'
 extern bool boinc_is_standalone(void);
 extern bool boinc_receive_trickle_down(char* buf, int len);
+extern bool boinc_time_to_checkpoint();
 
 
 #ifdef __cplusplus

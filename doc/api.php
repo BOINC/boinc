@@ -94,10 +94,10 @@ Frequency of checkpointing is a user preference
 (e.g. laptop users might want to checkpoint infrequently).
 An application must call
 <pre>
-    int boinc_time_to_checkpoint();
+    bool boinc_time_to_checkpoint();
 </pre>
 whenever it reaches a point where it is able to checkpoint.
-If this returns nonzero,
+If this returns true,
 the application should write the state file and flush all output files,
 then call
 <pre>
