@@ -80,8 +80,8 @@ public:
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs
-    double max_cpu_time;
-    double max_disk_usage;
+    double max_cpu_time;    // abort if total CPU exceeds this
+    double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     time_t last_status_msg_time;

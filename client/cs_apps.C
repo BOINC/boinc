@@ -27,8 +27,10 @@
 #endif
 
 #include "md5_file.h"
+#include "error_numbers.h"
 #include "log_flags.h"
 #include "file_names.h"
+#include "filesys.h"
 #include "shmem.h"
 
 #include "client_state.h"
@@ -103,19 +105,31 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     unsigned int i;
     char path[256];
     int retval;
+    double size;
 
     for (i=0; i<rp->output_files.size(); i++) {
         fip = rp->output_files[i].file_info;
-        fip->status = FILE_PRESENT;
-        if (!fip->upload_when_present && !fip->sticky) {
-            fip->delete_file();
+        get_pathname(fip, path);
+        retval = file_size(path, size);
+        if (retval) {
+            // an output file is unexpectedly absent.
+            // 
+            fip->status = retval;
         } else {
-            get_pathname(fip, path);
-            retval = md5_file(path, fip->md5_cksum, fip->nbytes);
-            if (retval) {
-                // an output file is unexpectedly absent.
-                // 
-                fip->status = retval;
+            if (size > fip->max_nbytes) {
+                fip->delete_file();
+                fip->status = ERR_FILE_TOO_BIG;
+            } else {
+                if (!fip->upload_when_present && !fip->sticky) {
+                    fip->delete_file();     // sets status to NOT_PRESENT
+                } else {
+                    retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+                    if (retval) {
+                        fip->status = retval;
+                    } else {
+                        fip->status = FILE_PRESENT;
+                    }
+                }
             }
         }
     }

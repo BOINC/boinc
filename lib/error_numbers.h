@@ -62,3 +62,5 @@
 #define ERR_IDLE_PERIOD     -129
     // can't start work because of user prefs
 #define ERR_ALREADY_ATTACHED    -130
+#define ERR_FILE_TOO_BIG    -131
+    // an output file was bigger than max_nbytes

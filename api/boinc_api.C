@@ -19,10 +19,6 @@
 
 // Code that's in the BOINC app library (but NOT in the core client)
 
-// API_IGNORE_CLIENT will make the app ignore the core client
-// this is useful for debugging just the application
-//#define API_IGNORE_CLIENT
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -96,7 +92,7 @@ int boinc_init() {
     freopen(STDERR_FILE, "a", stderr);
 #endif
 
-#ifndef API_IGNORE_CLIENT
+#ifndef API_STANDALONE
     FILE* f;
     int retval;
     f = fopen(INIT_DATA_FILE, "r");
@@ -503,10 +499,10 @@ int set_timer(double period) {
 }
 
 void setup_shared_mem(void) {
-    app_client_shm = new APP_CLIENT_SHM;
-#ifdef API_IGNORE_CLIENT
+	app_client_shm = new APP_CLIENT_SHM;
+#ifdef API_STANDALONE
     app_client_shm->shm = NULL;
-    fprintf( stderr, "Ignoring client, so not attaching to shared memory.\n" );
+    fprintf( stderr, "Standalone mode, so not attaching to shared memory.\n" );
     return;
 #endif
 

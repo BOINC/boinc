@@ -101,12 +101,22 @@ ACTIVE_TASK::ACTIVE_TASK() {
 	last_status_msg_time = 0;
 }
 
+// estimate how long a WU will take on this host
+//
+double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
+    double x;
+
+    x = wu.rsc_fpops/host_info.p_fpops;
+    x += wu.rsc_iops/host_info.p_iops;
+    return x;
+}
+
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
     app_version = wup->avp;
-    max_cpu_time = rp->wup->max_processing;
-    max_disk_usage = rp->wup->max_disk;
+    max_cpu_time = gstate.estimate_cpu_time(*rp->wup)*2;
+    max_disk_usage = rp->wup->rsc_disk;
     
     return 0;
 }

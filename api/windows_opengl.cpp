@@ -253,7 +253,11 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Register window class and graphics mode message
 	reg_win_class();
 
+#ifdef API_STANDALONE
+	SetMode(MODE_WINDOW);
+#else
 	SetMode(MODE_HIDE_GRAPHICS);
+#endif
 
 	win_loop_done = false;
 	using_opengl = true;

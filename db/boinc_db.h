@@ -229,8 +229,22 @@ struct WORKUNIT {
     int batch;
     double rsc_fpops;           // estimated # of FP operations
     double rsc_iops;            // estimated # of integer operations
+        // The above two items are used for 2 purposes:
+        // 1) to estimate how long a result will take on a host
+        //    for scheduling purposes;
+        // 2) to calculate an upper bound on the CPU time for a result
+        //    before it is aborted.
+        //    Currently this is twice the estimated CPU time.
+        //    At some point we might want to have separate "max rsc" fields
     double rsc_memory;          // estimated size of RAM working set (bytes)
+        // currently used only by scheduler to screen hosts
+        // At some point, could use as runtime limit
     double rsc_disk;            // estimated amount of disk needed (bytes)
+        // (including input, output and temp files, but NOT the app)
+        // This is used for 2 purposes:
+        // 1) for scheduling (don't send this WU to a host w/ insuff. disk)
+        // 2) upper bound (abort task if it uses more than this disk)
+        // At some point we might want to have separate "max" fields
     bool need_validate;         // this WU has at least 1 result in
                                 // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero

@@ -99,23 +99,25 @@ int insert_after(char* buffer, char* after, char* text) {
     return 0;
 }
 
-// add elements in xml_doc:
-// WU name, app name,
-// and estimate of how many seconds it will take on this host
+// add elements to WU's xml_doc, in preparation for sending
+// it to a client
 //
-int insert_wu_tags(WORKUNIT& wu, double seconds, APP& app) {
+int insert_wu_tags(WORKUNIT& wu, APP& app) {
     char buf[256];
-    int retval;
 
     sprintf(buf,
-        "    <seconds_to_complete>%f</seconds_to_complete>\n",
-        seconds
-    );
-    retval = insert_after(wu.xml_doc, "<workunit>\n", buf);
-    if (retval) return retval;
-    sprintf(buf,
-        "    <name>%s</name>\n    <app_name>%s</app_name>\n",
-        wu.name, app.name
+        "    <rsc_fpops>%f</rsc_fpops>\n"
+        "    <rsc_iops>%f</rsc_iops>\n"
+        "    <rsc_memory>%f</rsc_memory>\n"
+        "    <rsc_disk>%f</rsc_disk>\n"
+        "    <name>%s</name>\n"
+        "    <app_name>%s</app_name>\n",
+        wu.rsc_fpops,
+        wu.rsc_iops,
+        wu.rsc_memory,
+        wu.rsc_disk,
+        wu.name,
+        app.name
     );
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
@@ -234,7 +236,7 @@ int add_wu_to_reply(
     // add time estimate to reply
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
-    retval = insert_wu_tags(wu2, seconds_to_complete, *app);
+    retval = insert_wu_tags(wu2, *app);
     if (retval) {
         write_log("insert_wu_tags failed\n");
         return retval;

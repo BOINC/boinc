@@ -1312,7 +1312,7 @@ bool CLIENT_STATE::update_results() {
         // server.  It will be deleted on the next
         // garbage collection, which we trigger by
         // setting action to true
-        if(rp->server_ack)
+        if (rp->server_ack)
             action = true;
         
         switch (rp->state) {
@@ -1338,8 +1338,6 @@ bool CLIENT_STATE::update_results() {
             break;
             
         case RESULT_FILES_UPLOADED:
-            // The transition to SERVER_ACK is performed in
-            // handle_scheduler_reply()
             break;
         }
         result_iter++;

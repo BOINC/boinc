@@ -4302,3 +4302,35 @@ Erik  May 21 2003
         download.inc
     lib/
         error_numbers.h
+
+Erik  May 21 2003
+    - various changes to support abort of apps if use too much disk or CPU
+        - send workunit rsc_* fields in scheduler reply; store on client
+        - scheduler doesn't send estimated CPU time; instead,
+            client calculates it
+        - CPU time bound is estimated time * 2
+        - disk bound is rsc_disk
+        TODO: finish implementing this
+    - When an app finishes, see if any of the output files is larger
+        than its max_nbytes.
+        If so set its status to ERR_FILE_TOO_BIG.
+        This will prevent the client from trying to upload it.
+        TODO: make sure result is flagged as erroneous
+    - Change API_IGNORE_CLIENT to API_STANDALONE
+    - Apps start in MODE_WINDOW if standalone
+
+    api/
+        boinc_api.C,h
+        windows_opengl.cpp
+    client/
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+    db/
+        boinc_db.h
+    lib/
+        error_numbers.h
+    sched/
+        handle_request.C

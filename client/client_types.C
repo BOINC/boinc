@@ -501,16 +501,14 @@ char* FILE_INFO::get_url() {
     return urls[current_url].text;
 }
 
-// Returns true if the file had some sort of error
+// Returns true if the file had an unrecoverable error
 // (couldn't download, RSA/MD5 check failed, etc)
 //
-bool FILE_INFO::had_failure(int & failnum) {
-  if (status != FILE_NOT_PRESENT && status != FILE_PRESENT)
-    {
-      failnum = status;
-      return true;
+bool FILE_INFO::had_failure(int& failnum) {
+    if (status != FILE_NOT_PRESENT && status != FILE_PRESENT) {
+        failnum = status;
+        return true;
     }
-    
     return false;
 }
 
@@ -608,9 +606,10 @@ int WORKUNIT::parse(FILE* in) {
     strcpy(env_vars, "");
     app = NULL;
     project = NULL;
-    seconds_to_complete = 0;
-    max_processing = DEFAULT_MAX_PROCESSING;
-    max_disk = DEFAULT_MAX_DISK;
+    rsc_fpops = 0;
+    rsc_iops = 0;
+    rsc_memory = 0;
+    rsc_disk = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -618,9 +617,10 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else if (parse_str(buf, "<command_line>", command_line, sizeof(command_line))) continue;
         else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
-        else if (parse_double(buf, "<seconds_to_complete>", seconds_to_complete)) continue; 
-        else if (parse_double(buf, "<max_processing>", max_processing)) continue; 
-        else if (parse_double(buf, "<max_disk>", max_disk)) continue; 
+        else if (parse_double(buf, "<rsc_fpops>", rsc_fpops)) continue; 
+        else if (parse_double(buf, "<rsc_iops>", rsc_iops)) continue; 
+        else if (parse_double(buf, "<rsc_memory>", rsc_memory)) continue; 
+        else if (parse_double(buf, "<rsc_disk>", rsc_disk)) continue; 
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);
@@ -641,17 +641,19 @@ int WORKUNIT::write(FILE* out) {
         "    <version_num>%d</version_num>\n"
         "    <command_line>%s</command_line>\n"
         "    <env_vars>%s</env_vars>\n"
-        "    <seconds_to_complete>%f</seconds_to_complete>\n"
-        "    <max_processing>%f</max_processing>\n"
-        "    <max_disk>%f</max_disk>\n",
+        "    <rsc_fpops>%f</rsc_fpops>\n"
+        "    <rsc_iops>%f</rsc_iops>\n"
+        "    <rsc_memory>%f</rsc_memory>\n"
+        "    <rsc_disk>%f</rsc_disk>\n",
         name,
         app_name,
         version_num,
         command_line,
         env_vars,
-        seconds_to_complete,
-        max_processing,
-        max_disk
+        rsc_fpops,
+        rsc_iops,
+        rsc_memory,
+        rsc_disk
     );
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
@@ -664,11 +666,10 @@ bool WORKUNIT::had_failure(int& failnum) {
     unsigned int i;
      
     for (i=0;i<input_files.size();i++) {
-        if(input_files[i].file_info->had_failure(failnum)) {
+        if (input_files[i].file_info->had_failure(failnum)) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -811,18 +812,22 @@ int RESULT::write(FILE* out, bool to_server) {
     return 0;
 }
 
-// this is called only after the result state reaches
-// COMPUTE_DONE is true.  Returns true if the result
-// and it's associated files were successfully uploaded
+// this is called after the result state is RESULT_COMPUTE_DONE.
+// Returns true if the result's output files are all either
+// successfully uploaded or have unrecoverable errors
 //
 bool RESULT::is_upload_done() {
     unsigned int i;
     FILE_INFO* fip;
+    int retval;
 
     for (i=0; i<output_files.size(); i++) {
         fip = output_files[i].file_info;
-        if (fip->upload_when_present && !fip->uploaded) {
-            return false;
+        if (fip->upload_when_present) {
+            if (fip->had_failure(retval)) continue;
+            if (!fip->uploaded) {
+                return false;
+            }
         }
     }
     return true;

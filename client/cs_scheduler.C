@@ -57,7 +57,7 @@ double CLIENT_STATE::current_work_buf_days() {
         // Don't count result if we've already computed it
         if (rp->state >= RESULT_COMPUTE_DONE) continue;
         // TODO: subtract time already finished for WUs in progress
-        seconds_remaining += rp->wup->seconds_to_complete;
+        seconds_remaining += estimate_cpu_time(*rp->wup);
     }
     return (seconds_remaining / SECONDS_PER_DAY);
 }
