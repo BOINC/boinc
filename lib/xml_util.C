@@ -27,9 +27,8 @@
 int xml_indent_level=0;
 
 std::string xml_indent(int i) {
-  if (i>0) xml_indent_level+=i;
+  if (i) xml_indent_level+=i;
   std::string rv(xml_indent_level,' ');
-  if (i<0) xml_indent_level+=i;
   xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
   return rv;
 }
@@ -535,23 +534,27 @@ unsigned char decode_char(const char *s) {
 }  
 
 std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
-  std::ostringstream rv("\n");
+  std::ostringstream rv("");
   size_t lastlen=0,i;
+  rv << std::endl << xml_indent(2);
   for (i=0;i<(nelements-1);i++) {
     unsigned int ival=bin[i];
     rv << ival << ',';
-    if ((rv.str().size()-lastlen)>70) {
-      rv << std::endl;
+    if ((rv.str().size()-lastlen-xml_indent_level)>73) {
+      rv << std::endl << xml_indent();
       lastlen=rv.str().size();
     }
   }
   unsigned int ival=bin[i];
-  rv << ival << std::endl;
+  rv << ival << std::endl << xml_indent(-2);
   return rv.str();
 }
 
 //
 // $Log$
+// Revision 1.11  2003/10/22 18:01:41  korpela
+// *** empty log message ***
+//
 // Revision 1.10  2003/10/22 15:24:10  korpela
 // *** empty log message ***
 //
