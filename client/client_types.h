@@ -24,7 +24,7 @@
 
 #ifndef _CLIENT_TYPES_
 #define _CLIENT_TYPES_
-
+#include <windows_cpp.h>
 #include <vector>
 #include <stdio.h>
 
