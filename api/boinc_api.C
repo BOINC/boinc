@@ -292,8 +292,12 @@ static int update_app_progress(
         strcat(msg_buf, buf);
     }
     if (!mem_usage(vm, rs)) {
-        sprintf(buf, "<vm_size>%lu</vm_size>\n", vm);
-        sprintf(buf, "<resident_set_size>%lu</resident_set_size>\n", rs);
+        sprintf(buf,
+            "<vm_size>%lu</vm_size>\n"
+            "<resident_set_size>%lu</resident_set_size>\n",
+            vm, rs
+        );
+        strcat(msg_buf, buf);
     }
     if (have_new_trickle_up) {
         strcat(msg_buf, "<have_new_trickle_up/>\n");

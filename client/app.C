@@ -81,6 +81,11 @@ using std::vector;
 using std::max;
 using std::min;
 
+// ways an active tasks can be started
+//
+#define TASK_RESUMING   0   // process suspended; call unsuspend()
+#define TASK_RESTARTING 1   // process uninitalized; call start(false)
+#define TASK_STARTING   2   // process uninitalized; call start(true)
 
 // value for setpriority(2)
 static const int PROCESS_IDLE_PRIORITY = 19;
@@ -654,7 +659,13 @@ int ACTIVE_TASK::preempt() {
 // Otherwise, start it
 //
 int ACTIVE_TASK::resume_or_start() {
+    static const char process_start_types[3][15] = {
+        "Resuming",
+        "Restarting",
+        "Starting"
+    };
     int retval;
+    int task_start_type;
 
     if (state == PROCESS_UNINITIALIZED) {
         if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
@@ -662,24 +673,13 @@ int ACTIVE_TASK::resume_or_start() {
                 make_slot_dir(slot);
             }
             retval = clean_out_dir(slot_dir);
-            if (retval) {
-                msg_printf(result->project, MSG_ERROR,
-                    "ACTIVE_TASK::resume_or_start(): can't delete file %s",
-                    boinc_failed_file
-                );
-                return retval;
-            }
             retval = start(true);
+            task_start_type = TASK_STARTING;
         } else {
             retval = start(false);
+            task_start_type = TASK_RESTARTING;
         }
         if (retval) return retval;
-        msg_printf(result->project, MSG_INFO,
-            "Starting computation for result %s using %s version %.2f",
-            result->name,
-            app_version->app->name,
-            app_version->version_num/100.
-        );
     } else {
         retval = unsuspend();
         if (retval) {
@@ -691,13 +691,15 @@ int ACTIVE_TASK::resume_or_start() {
             return retval;
         }
         scheduler_state = CPU_SCHED_RUNNING;
-        msg_printf(result->project, MSG_INFO,
-            "Resuming computation for result %s using %s version %.2f",
-            result->name,
-            app_version->app->name,
-            app_version->version_num/100.
-        );
+        task_start_type = TASK_RESUMING;
     }
+    msg_printf(result->project, MSG_INFO,
+        "%s computation for result %s using %s version %.2f",
+        process_start_types[task_start_type],
+        result->name,
+        app_version->app->name,
+        app_version->version_num/100.
+    );
     return 0;
 }
 
@@ -980,6 +982,22 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
 }
 #endif
 
+bool ACTIVE_TASK::check_max_mem_exceeded() {
+    if (resident_set_size != 0 && max_mem_usage != 0
+        && resident_set_size*1024 > max_mem_usage
+    ) {
+        msg_printf(
+            result->project, MSG_INFO,
+            "Aborting result %s: exceeded memory limit %f\n",
+            result->name,
+            max_mem_usage
+        );
+        abort_task("Maximum memory usage exceeded");
+        return true;
+    }
+    return false;
+}
+
 // Check if any of the active tasks have exceeded their
 // resource limits on disk, CPU time or memory
 //
@@ -993,7 +1011,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->state != PROCESS_RUNNING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
-        //else if (atp->check_max_mem_exceeded()) return true;
+        else if (atp->check_max_mem_exceeded()) return true;
         else if (time(0)>last_disk_check_time + gstate.global_prefs.disk_interval) {
             last_disk_check_time = time(0);
             if (atp->check_max_disk_exceeded()) return true;

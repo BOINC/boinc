@@ -15716,3 +15716,15 @@ Rom    July 27 2004
         setup_project.py
     sched/
         start
+
+Daniel 2004-07-27
+    - API: fixed bug that caused vm_size and resident_set_size not to be
+      sent to core client
+    - client: check_max_mem_exceeded() revived - currently only checks
+      against workunit max_mem_usage attribute
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+
