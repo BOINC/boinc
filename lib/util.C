@@ -753,47 +753,74 @@ void update_average(
     avg_time = now;
 }
 
-int dir_hier_path(
-    const char* filename, const char* root, int fanout, char* result,
-    bool create
-) {
+static void filename_hash_old(const char* filename, int fanout, char* dir) {
     int sum=0;
-    char dir[256];
+
+    while (*p) sum += *p++;
+    sum %= fanout;
+	sprintf(dir, "%x", sum);
+}
+
+static void filename_hash(const char* filename, int fanout, char* dir) {
+	std::string s = md5_string(p, strlen(p));
+	int x = strtol(s.substr(1, 7).c_str(), 0, 16);
+	return x % fanout;
+}
+
+// given a filename, compute its path in a directory hierarchy
+// If create is true, create the directory if needed
+// NOTE: this first time around I used a bad hash function.
+// During the period of transition to the good hash function,
+// programs to look for files (validator, assimilator, file deleter)
+// will have to try both the old and new variants.
+// We can phase this out after everyone is caught up.
+//
+int dir_hier_path(
+    const char* filename, const char* root, int fanout, bool new_hash,
+	char* path, bool create
+) {
+    char dir[256], dirpath[256];
     int retval;
 
     if (fanout==0) {
-        sprintf(result, "%s/%s", root, filename);
+        sprintf(path, "%s/%s", root, filename);
         return 0;
     }
 
-    char* p = (char*)filename;
-    while (*p) sum += *p++;
-    sum %= fanout;
-    sprintf(dir, "%s/%x", root, sum);
+	if (new_hash) {
+	    filename_hash(filename, fanout, dir);
+	} else {
+	    filename_hash_old(filename, fanout, dir);
+	}
+
+    sprintf(dirpath, "%s/%s", root, dir);
     if (create) {
-        retval = boinc_mkdir(dir);
+        retval = boinc_mkdir(dirpath);
         if (retval && (retval != EEXIST)) {
             return ERR_MKDIR;
         }
     }
-    sprintf(result, "%s/%s", dir, filename);
+    sprintf(path, "%s/%s", dirpath, filename);
     return 0;
 }
 
 int dir_hier_url(
-    const char* filename, const char* root, int fanout, char* result
+    const char* filename, const char* root, int fanout, bool new_hash
+	char* result
 ) {
-    int sum=0;
+    char dir[256];
 
     if (fanout==0) {
         sprintf(result, "%s/%s", root, filename);
         return 0;
     }
 
-    char* p = (char*)filename;
-    while (*p) sum += *p++;
-    sum %= fanout;
-    sprintf(result, "%s/%x/%s", root, sum, filename);
+	if (new_hash) {
+		filename_hash(filename, fanout, dir);
+	} else {
+		filename_hash_old(filename, fanout, dir);
+	}
+    sprintf(result, "%s/%s/%s", root, dir, filename);
     return 0;
 }
 

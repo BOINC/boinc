@@ -22038,3 +22038,30 @@ Bruce  31 Dec 2004
         ops/
             show_log.php
 
+
+David  1 Jan 2005
+	- Deprecated the bad hash function used for the
+		upload/download directory hierarchies.
+		It wasn't uniform.
+		Use MD5 instead.
+
+		Kept the old one around for a the time being.
+		dir_hier_path() and dir_hier_url() take a new arg
+		saying whether to use new or old hash.
+		The file_deleter and validator try the new hash, then the old.
+
+	doc/
+		busy_work.php (new)
+		tools_work.php
+	lib/
+		util.C,h
+	sched/
+		file_deleter.C
+		file_upload_handler.C
+		make_work.C
+		validate_util.C
+		wu_check.C
+	tools/
+		backend_lib.C
+		dir_hier_move.C
+		dir_hier_path.C

@@ -177,7 +177,8 @@ void make_work() {
         p = strtok(buf, "\n");
         strcpy(file_name, "");
 
-        // make new copies of the WU's input files
+        // make new hard links to the WU's input files
+		// (don't actually copy files)
         //
         while (p) {
             if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
@@ -185,11 +186,11 @@ void make_work() {
                     new_file_name, "%s__%d_%d", file_name, start_time, seqno++
                 );
                 dir_hier_path(
-                    file_name, config.download_dir, config.uldl_dir_fanout,
+                    file_name, config.download_dir, config.uldl_dir_fanout, true,
                     pathname
                 );
                 dir_hier_path(
-                    new_file_name, config.download_dir, config.uldl_dir_fanout,
+                    new_file_name, config.download_dir, config.uldl_dir_fanout, true,
                     new_pathname, true
                 );
                 sprintf(command,"ln %s %s", pathname, new_pathname);

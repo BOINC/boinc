@@ -2,15 +2,43 @@
 require_once("docutil.php");
 page_head("Generating work");
 echo "
-Workunits and results can be created using either a utility program
-or a C++ function.
-<p>
-Workunits and results are described by <b>template files</b>,
-with placeholders for their input and output files.
 
-<h3>Workunit template files</h3>
+As described earlier, a <a href=work.php>workunit</a>
+represents the inputs to a computation.
+The steps in creating a workunit are:
+<ul>
+
+<li> Write XML 'template files' that describe the workunit
+and its corresponding results.
+Generally the same templates will be used for
+a large number work of workunits.
+
+<li> Create the workunit's input file(s)
+and place them in the download directory.
+
+<li> Call a BOINC function that creates a
+database record for the workunit.
+
+</ul>
+Once this is done, BOINC takes over:
+it creates one or more results for the workunit,
+distributes them to client hosts,
+collects the output files,
+finds a canonical result,
+assimilates the canonical result,
+and deletes files.
+
 <p>
-A WU template file has the form
+During the testing phase of a project,
+you can use the <a href=busy_work.php>busy_work</a> daemon
+to replicate a given workunit as needed to maintain
+a constant supply of work.
+This is useful while testing and debugging the application.
+
+
+<h2>Workunit and result template files</h2>
+<p>
+A workunit template file has the form
 <pre>",htmlspecialchars("
 <file_info>
     <number>0</number>
@@ -61,7 +89,7 @@ Within a &lt;file_ref> element,
 &lt;file_number>x&lt;/file_number> is replaced with an element
 giving the filename.
 </ul>
-<h3>Result template files</h3>
+
 <p>
 A result template file has the form
 <pre>", htmlspecialchars("
@@ -90,8 +118,27 @@ the ordinal number of the result (0, 1, ...).
 &lt;UPLOAD_URL/> is replaced with the upload URL.
 </ul>
 <p>
-<a name=cmdline>
-<h3>Command-line interface</h3>
+
+<h2>Placing input files in the download directory</h2>
+
+If you're a flat download directory, just place input files in that directory.
+If you're using <a href=hier_dir.php>hierarchical upload/download directories</a>,
+you must place each input file in the appropriate directory;
+the directory is determined by the file's name.
+To find this directory, call the C++ function
+<pre>
+dir_hier_path(
+</pre>
+If you're using scripts, you can invoke the program
+<pre>
+</pre>
+
+
+<h2>Creating workunit records</h2>
+<p>
+Workunits can be created using either a script
+(using the <code>create_work</code>program)
+or a program (using the <code>create_work()</code> function).
 <p>
 The utility program is
 <pre>
@@ -126,7 +173,6 @@ If the -config_dir option is not used,
 the program must be run in the project root directory;
 it looks for <b>config.xml</b> there, and uses its contents.
 
-<h3>C++ function interface</h3>
 <p>
 The C++ library (crypt.C, backend_lib.C,h) provides the functions:
 <pre>
@@ -166,17 +212,6 @@ delay_bound
 </pre>
 All other fields should be zeroed.
 
-<hr>
-<a name=make_work>
-<h3>Make_work</h3>
-<p>
-The daemon program
-<pre>
-make_work -wu_name name -cushion N
-</pre>
-can be used to create an endless supply of work.
-It will create copies of the given work unit
-as needed to maintain a supply of at least N unsent results.
 ";
     
 page_tail();

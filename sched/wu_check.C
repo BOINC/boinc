@@ -43,7 +43,7 @@ int get_file_path(WORKUNIT& wu, char* path) {
     bool flag;
     flag = parse_str(wu.xml_doc, "<name>", buf, sizeof(buf));
     if (!flag) return ERR_XML_PARSE;
-    dir_hier_path(buf, config.download_dir, config.uldl_dir_fanout, path);
+    dir_hier_path(buf, config.download_dir, config.uldl_dir_fanout, true, path);
     return 0;
 }
 

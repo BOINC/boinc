@@ -183,7 +183,8 @@ static int process_wu_template(
                     }
                     dir_hier_path(
                         infiles[file_number], config.download_dir,
-                        config.uldl_dir_fanout, path, true
+                        config.uldl_dir_fanout, true,
+						path, true
                     );
                     if (!boinc_file_exists(path)) {
                         sprintf(top_download_path,
@@ -209,7 +210,8 @@ static int process_wu_template(
 
                     dir_hier_url(
                         infiles[file_number], config.download_url,
-                        config.uldl_dir_fanout, url
+                        config.uldl_dir_fanout, true,
+						url
                     );
                     sprintf(buf,
                         "    <name>%s</name>\n"
@@ -393,18 +395,15 @@ int create_result(
 int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config) {
     int i;
     char path[256];
-    FILE* f;
 
     for (i=0; i<ninfiles; i++) {
         dir_hier_path(
-            infiles[i], config.download_dir, config.uldl_dir_fanout, path
+            infiles[i], config.download_dir, config.uldl_dir_fanout, true, path
         );
-        f = fopen(path, "r");
-        if (f) {
-            fclose(f);
-        } else {
-            return 1;
-        }
+		if (!boinc_file_exists(path)) {
+			return 1;
+		}
+
     }
     return 0;
 }

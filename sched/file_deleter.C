@@ -45,7 +45,7 @@ int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval;
+    int count_deleted = 0, retval, ret1, ret2;
 
     safe_strcpy(buf, wu.xml_doc);
     
@@ -60,11 +60,17 @@ int wu_delete_files(WORKUNIT& wu) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                retval = dir_hier_path(
-                    filename, config.download_dir, config.uldl_dir_fanout,
+            	// TODO: get rid of the old hash in about 3/2005
+            	//
+                ret1 = dir_hier_path(
+                    filename, config.download_dir, config.uldl_dir_fanout, true,
                     pathname
                 );
-                if (retval) {
+                ret2 = dir_hier_path(
+                    filename, config.download_dir, config.uldl_dir_fanout, false,
+                    pathname
+                );
+                if (ret1 && ret2) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] dir_hier_path: %d\n", wu.name, retval);
                 } else {
                     log_messages.printf(SCHED_MSG_LOG::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
@@ -87,7 +93,7 @@ int result_delete_files(RESULT& result) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval;
+    int count_deleted = 0, retval, ret1, ret2;
 
     safe_strcpy(buf, result.xml_doc_in);
     p = strtok(buf,"\n");
@@ -100,14 +106,17 @@ int result_delete_files(RESULT& result) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                retval = dir_hier_path(
-                    filename, config.upload_dir, config.uldl_dir_fanout,
+                ret1 = dir_hier_path(
+                    filename, config.upload_dir, config.uldl_dir_fanout, true,
                     pathname
                 );
-                if (retval) {
+                ret2 = dir_hier_path(
+                    filename, config.upload_dir, config.uldl_dir_fanout, false,
+                    pathname
+                );
+                if (ret1 && ret2) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                        "[%s] dir_hier_path: %d\n",
-                        result.name, retval
+                        "[%s] dir_hier_path: %d\n", result.name, retval
                     );
                 } else {
                     retval = unlink(pathname);
