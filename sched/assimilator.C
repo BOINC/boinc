@@ -1,0 +1,84 @@
+#include <string.h>
+#include <unistd.h>
+
+#include "db.h"
+#include "parse.h"
+#include "config.h"
+
+CONFIG config;
+
+// return nonzero if did anything
+//
+bool do_pass() {
+    WORKUNIT wu;
+    RESULT result;
+    bool did_something = false;
+    int retval;
+
+    wu.assimilate_state = ASSIMILATE_READY;
+    while (db_workunit_enum_assimilate_state(wu)) {
+        did_something = true;
+        switch(wu.main_state) {
+        case WU_MAIN_STATE_INIT:
+            fprintf(stderr, "assimilate: ERROR; shouldn't be in init state\n");
+            break;
+        case WU_MAIN_STATE_DONE:
+            if (!wu.canonical_resultid) {
+                fprintf(stderr, "assimilate: ERROR: canonical resultid zero\n");
+                break;
+            }
+            retval = db_result(wu.canonical_resultid, result);
+            if (retval) {
+                fprintf(stderr, "assimilate: can't get canonical result\n");
+                break;
+            }
+            printf("canonical result for WU %s:\n%s", wu.name, result.xml_doc_out);
+            result.file_delete_state = FILE_DELETE_READY;
+            db_result_update(result);
+            break;
+        case WU_MAIN_STATE_ERROR:
+            printf("WU %s had an error\n", wu.name);
+            break;
+        }
+        wu.assimilate_state = ASSIMILATE_DONE;
+        db_workunit_update(wu);
+    }
+    return did_something;
+}
+
+int main(int argc, char** argv) {
+    int retval;
+    bool asynch = false, one_pass = false;
+    int i;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-asynch")) {
+            asynch = true;
+        } else if (!strcmp(argv[i], "-one_pass")) {
+            one_pass = true;
+        } else {
+            fprintf(stderr, "Unrecognized arg: %s\n", argv[i]);
+        }
+    }
+
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "Can't parse config file\n");
+        exit(1);
+    }
+
+    if (asynch) {
+        if (fork()) {
+            exit(0);
+        }
+    }
+
+    retval = db_open(config.db_name, config.db_passwd);
+    if (one_pass) {
+        do_pass();
+    } else {
+        while (1) {
+            if (!do_pass()) sleep(10);
+        }
+    }
+}

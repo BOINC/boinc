@@ -256,6 +256,7 @@ class Project {
         fputs($f, "    <shmem_key>$this->shmem_key</shmem_key>\n");
         fputs($f, "    <key_dir>$this->key_dir</key_dir>\n");
         fputs($f, "    <download_url>$this->download_url</download_url>\n");
+        fputs($f, "    <download_dir>$this->project_dir/download</download_dir>\n");
         fputs($f, "    <upload_url>$this->upload_url</upload_url>\n");
         fputs($f, "    <upload_dir>$this->project_dir/upload</upload_dir>\n");
         fputs($f, "    <user_name>$this->user_name</user_name>\n");

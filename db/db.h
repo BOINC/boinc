@@ -188,11 +188,27 @@ struct HOST {
     int parse_net_stats(FILE*);
 };
 
-#define WU_STATE_SEND_FAIL          1
+// values for main_state
+#define WU_MAIN_STATE_INIT      0
+#define WU_MAIN_STATE_DONE      1
+#define WU_MAIN_STATE_ERROR     2
+
+// values for file_delete state
+#define FILE_DELETE_INIT        0
+#define FILE_DELETE_READY       1
+#define FILE_DELETE_DONE        2
+
+// values for assimilate_state
+#define ASSIMILATE_INIT         0
+#define ASSIMILATE_READY        1
+#define ASSIMILATE_DONE         2
+
+// values for error
+#define SEND_FAIL               1
     // failed to send results for this WU
-#define WU_STATE_TOO_MANY_ERRORS    2
+#define TOO_MANY_ERRORS         2
     // too many errors; may have bug
-#define WU_STATE_TOO_MANY_DONE      3
+#define TOO_MANY_DONE           3
     // too many results without consensus; may be nondeterministic
 
 struct WORKUNIT {
@@ -212,7 +228,10 @@ struct WORKUNIT {
     double canonical_credit;    // credit that all correct results get
     double retry_check_time;    // when to check for result retry
     int delay_bound;            // determines result deadline, retry check time
-    int state;                  // see values above
+    int main_state;             // see values above
+    int error;
+    int file_delete_state;
+    int assimilate_state;
     int workseq_next;           // if part of a sequence, the next WU
 
     // the following not used in the DB
@@ -243,13 +262,14 @@ struct RESULT {
     unsigned int sent_time;         // when result was sent to host
     unsigned int received_time;     // when result was received from host
     char name[256];
-    int client_state;
+    int client_state;               // records phase when error happened
+                                    // (download, compute, upload)
     double cpu_time;                // CPU time used to complete result
     char xml_doc_in[MAX_BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[MAX_BLOB_SIZE];    // MD5s of output files
     char stderr_out[MAX_BLOB_SIZE];     // stderr output, if any
     int batch;
-    int project_state;
+    int file_delete_state;
     int validate_state;
     double claimed_credit;      // CPU time times host credit/sec
     double granted_credit;      // == canonical credit of WU
@@ -320,12 +340,15 @@ extern int db_workunit_update(WORKUNIT& p);
 extern int db_workunit_lookup_name(WORKUNIT&);
 extern int db_workunit_enum_app_need_validate(WORKUNIT&);
 extern int db_workunit_enum_retry_check_time(WORKUNIT&);
+extern int db_workunit_enum_file_delete_state(WORKUNIT&);
+extern int db_workunit_enum_assimilate_state(WORKUNIT&);
 
 extern int db_result_new(RESULT& p);
 extern int db_result(int id, RESULT&);
 extern int db_result_update(RESULT& p);
 extern int db_result_lookup_name(RESULT& p);
 extern int db_result_enum_server_state(RESULT&, int);
+extern int db_result_enum_file_delete_state(RESULT&);
 extern int db_result_enum_wuid(RESULT&);
 extern int db_result_count_server_state(int state, int&);
 

@@ -152,7 +152,7 @@ void initialize_result(RESULT& result, WORKUNIT& wu) {
     result.cpu_time = 0;
     strcpy(result.xml_doc_out, "");
     strcpy(result.stderr_out, "");
-    result.project_state = 0;
+    result.file_delete_state = ASSIMILATE_INIT;
     result.validate_state = VALIDATE_STATE_INITIAL;
     result.claimed_credit = 0;
     result.granted_credit = 0;

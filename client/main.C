@@ -35,8 +35,8 @@
 #include "prefs.h"
 #include "util.h"
 
-// Display a message to the user.  Depending on the priority, the
-// message may be more or less obtrusive
+// Display a message to the user.
+// Depending on the priority, the message may be more or less obtrusive
 //
 void show_message(char* message, char* priority) {
     if (!strcmp(priority, "high")) {

@@ -193,7 +193,20 @@ bool do_validate_scan(APP& app, int min_quorum) {
                     printf("found a canonical result\n");
                     wu.canonical_resultid = canonicalid;
                     wu.canonical_credit = credit;
+                    wu.main_state = WU_MAIN_STATE_DONE;
+                    wu.file_delete_state = FILE_DELETE_READY;
+                    wu.assimilate_state = ASSIMILATE_READY;
                     for (i=0; i<results.size(); i++) {
+
+                        // if result is not canonical, arrange to delete
+                        // its output files
+                        //
+                        if (results[i].id != canonicalid) {
+                            results[i].file_delete_state = FILE_DELETE_READY;
+                        }
+
+                        // grant credit for valid results
+                        //
                         if (results[i].validate_state == VALIDATE_STATE_VALID) {
                             retval = grant_credit(results[i], credit);
                             if (retval) {
@@ -270,6 +283,8 @@ int main(int argc, char** argv) {
             strcpy(app_name, argv[++i]);
         } else if (!strcmp(argv[i], "-quorum")) {
             min_quorum = atoi(argv[++i]);
+        } else {
+            fprintf(stderr, "unrecognized arg: %s\n", argv[i]);
         }
     }
 

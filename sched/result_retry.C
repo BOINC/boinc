@@ -188,7 +188,10 @@ bool do_pass(APP& app) {
             //
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 fprintf(stderr, "WU %s has unsent result\n", wu.name);
-                wu.state = WU_STATE_SEND_FAIL;
+                wu.main_state = WU_MAIN_STATE_ERROR;
+                wu.error = SEND_FAIL;
+                wu.file_delete_state = FILE_DELETE_READY;
+                wu.assimilate_state = ASSIMILATE_READY;
                 wu.retry_check_time = 0;
                 goto update_wu;
             }
@@ -204,13 +207,19 @@ bool do_pass(APP& app) {
         //
         if (nerrors > max_errors) {
             fprintf(stderr, "WU %s has too many errors\n", wu.name);
-            wu.state = WU_STATE_TOO_MANY_ERRORS;
+            wu.main_state = WU_MAIN_STATE_ERROR;
+            wu.error = TOO_MANY_ERRORS;
+            wu.file_delete_state = FILE_DELETE_READY;
+            wu.assimilate_state = ASSIMILATE_READY;
             wu.retry_check_time = 0;
             goto update_wu;
         }
         if (ndone > max_done) {
             fprintf(stderr, "WU %s has too many answers\n", wu.name);
-            wu.state = WU_STATE_TOO_MANY_DONE;
+            wu.main_state = WU_MAIN_STATE_ERROR;
+            wu.error = TOO_MANY_DONE;
+            wu.file_delete_state = FILE_DELETE_READY;
+            wu.assimilate_state = ASSIMILATE_READY;
             wu.retry_check_time = 0;
             goto update_wu;
         }

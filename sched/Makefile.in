@@ -18,7 +18,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator
 
 all: $(PROGS)
 
@@ -63,6 +63,20 @@ FILE_UPLOAD_OBJS = \
 VALIDATE_OBJS = \
     validate.o \
     validate_test.o \
+    config.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/parse.o
+
+FILE_DELETER_OBJS = \
+    file_deleter.o \
+    config.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/parse.o
+
+ASSIMILATOR_OBJS = \
+    assimilator.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -149,6 +163,12 @@ make_work: $(MAKE_WORK_OBJS)
 
 result_retry: $(RESULT_RETRY_OBJS)
 	$(CC) $(RESULT_RETRY_OBJS) $(MYSQL_LIBS) $(CLIBS) -o result_retry
+
+file_deleter: $(FILE_DELETER_OBJS)
+	$(CC) $(FILE_DELETER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o file_deleter
+
+assimilator: $(ASSIMILATOR_OBJS)
+	$(CC) $(ASSIMILATOR_OBJS) $(MYSQL_LIBS) $(CLIBS) -o assimilator
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

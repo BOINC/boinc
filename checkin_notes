@@ -2637,3 +2637,26 @@ David  Dec 13 2002
         main.C
     lib/
         util.C,y
+
+David  Dec. 17 2002
+    - Added new state fields to workunit and result to support
+        file deletion and assimilation backend phases
+    - Added sample assimilator program
+    - Added file_deleter program (AKA garbage collector)
+
+    client/
+        main.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        assimilator.C (new)
+        config.C,h
+        result_retry.C
+        validate.C
+    test/
+        test.inc
+    tools/
+        backend_lib.C

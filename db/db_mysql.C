@@ -197,14 +197,16 @@ void struct_to_str(void* vp, char* q, int type) {
             "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
             "need_validate=%d, "
             "canonical_resultid=%d, canonical_credit=%f, "
-            "retry_check_time=%f, delay_bound=%d, state=%d, "
+            "retry_check_time=%f, delay_bound=%d, main_state=%d, "
+            "error=%d, file_delete_state=%d, assimilate_state=%d, "
             "workseq_next=%d",
             wup->id, wup->create_time, wup->appid,
             wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
             wup->need_validate,
             wup->canonical_resultid, wup->canonical_credit,
-            wup->retry_check_time, wup->delay_bound, wup->state,
+            wup->retry_check_time, wup->delay_bound, wup->main_state,
+            wup->error, wup->file_delete_state, wup->assimilate_state,
             wup->workseq_next
         );
         break;
@@ -215,13 +217,13 @@ void struct_to_str(void* vp, char* q, int type) {
             "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
             "name='%s', client_state=%d, cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
-            "batch=%d, project_state=%d, validate_state=%d, "
+            "batch=%d, file_delete_state=%d, validate_state=%d, "
             "claimed_credit=%f, granted_credit=%f",
             rp->id, rp->create_time, rp->workunitid, rp->server_state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
             rp->name, rp->client_state, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
-            rp->batch, rp->project_state, rp->validate_state,
+            rp->batch, rp->file_delete_state, rp->validate_state,
             rp->claimed_credit, rp->granted_credit
         );
         break;
@@ -379,7 +381,10 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->canonical_credit = atof(r[i++]);
         wup->retry_check_time = atof(r[i++]);
         wup->delay_bound = atoi(r[i++]);
-        wup->state = atoi(r[i++]);
+        wup->main_state = atoi(r[i++]);
+        wup->error = atoi(r[i++]);
+        wup->file_delete_state = atoi(r[i++]);
+        wup->assimilate_state = atoi(r[i++]);
         wup->workseq_next = atoi(r[i++]);
         break;
     case TYPE_RESULT:
@@ -400,7 +405,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         strcpy2(rp->xml_doc_out, r[i++]);
         strcpy2(rp->stderr_out, r[i++]);
         rp->batch = atoi(r[i++]);
-        rp->project_state = atoi(r[i++]);
+        rp->file_delete_state = atoi(r[i++]);
         rp->validate_state = atoi(r[i++]);
         rp->claimed_credit = atof(r[i++]);
         rp->granted_credit = atof(r[i++]);
@@ -605,6 +610,26 @@ int db_workunit_enum_app_need_validate(WORKUNIT& p) {
     return db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
 
+int db_workunit_enum_file_delete_state(WORKUNIT& p) {
+    static ENUM e;
+    char buf[256];
+
+    if (!e.active) {
+        sprintf(buf, "where file_delete_state=%d", p.file_delete_state);
+    }
+    return db_enum(e, &p, TYPE_WORKUNIT, buf);
+}
+
+int db_workunit_enum_assimilate_state(WORKUNIT& p) {
+    static ENUM e;
+    char buf[256];
+
+    if (!e.active) {
+        sprintf(buf, "where assimilate_state=%d", p.assimilate_state);
+    }
+    return db_enum(e, &p, TYPE_WORKUNIT, buf);
+}
+
 int db_workunit_enum_retry_check_time(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
@@ -646,6 +671,14 @@ int db_result_enum_server_state(RESULT& p, int limit) {
 
     if (!e.active) sprintf(buf, "where server_state=%d", p.server_state);
     return db_enum(e, &p, TYPE_RESULT, buf, limit);
+}
+
+int db_result_enum_file_delete_state(RESULT& p) {
+    static ENUM e;
+    char buf[256];
+
+    if (!e.active) sprintf(buf, "where file_delete_state=%d", p.file_delete_state);
+    return db_enum(e, &p, TYPE_RESULT, buf);
 }
 
 int db_result_enum_wuid(RESULT& p) {

@@ -136,7 +136,10 @@ create table workunit (
     canonical_credit double     not null,
     retry_check_time double     not null,
     delay_bound     integer     not null,
-    state           integer     not null,
+    main_state      integer     not null,
+    error           integer     not null,
+    file_delete_state   integer not null,
+    assimilate_state    integer not null,
     workseq_next    integer     not null,
     primary key (id)
 );
@@ -157,7 +160,7 @@ create table result (
     xml_doc_out     blob,
     stderr_out      blob,
     batch           integer     not null,
-    project_state   integer     not null,
+    file_delete_state   integer not null,
     validate_state  integer     not null,
     claimed_credit  double       not null,
     granted_credit  double       not null,
