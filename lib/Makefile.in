@@ -135,12 +135,12 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-MYSQL_INCLUDES = /usr/local/mysql/include
-MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
-MYSQL_INCLUDES3 = /usr/include/mysql
+MYSQL_INCLUDES = /usr/local/mysql_32bit/include
+MYSQL_INCLUDES2 = /usr/local/mysql_32bit/include/mysql
+MYSQL_INCLUDES3 = /usr/include/mysql_32bit
 
 MYSQL_LIBS = \
-        -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
+        -L/usr/local/mysql_32bit/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
         -lmysqlclient -L/usr/local/lib -lz				\
         -lm $(NETLIBS)
 
@@ -176,6 +176,11 @@ noinst_LIBRARIES = libboinc.a
 EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES = \
+        api_app.C 				\
+        boinc_api.C				\
+        graphics_api.C				\
+        graphics_data.C				\
+        mfile.C 				\
         app_ipc.C				\
         countries.C				\
         parse.C					\
@@ -215,9 +220,11 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libboinc_a_AR = $(AR) cru
 libboinc_a_LIBADD =
-am_libboinc_a_OBJECTS = app_ipc.$(OBJEXT) countries.$(OBJEXT) \
-	parse.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
-	util.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT)
+am_libboinc_a_OBJECTS = api_app.$(OBJEXT) boinc_api.$(OBJEXT) \
+	graphics_api.$(OBJEXT) graphics_data.$(OBJEXT) mfile.$(OBJEXT) \
+	app_ipc.$(OBJEXT) countries.$(OBJEXT) parse.$(OBJEXT) \
+	filesys.$(OBJEXT) language.$(OBJEXT) util.$(OBJEXT) \
+	md5.$(OBJEXT) md5_file.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = msg_test$(EXEEXT) synch_test$(EXEEXT)
 bin_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) crypt_prog$(EXEEXT)
@@ -252,11 +259,14 @@ synch_test_LDFLAGS =
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/app_ipc.Po ./$(DEPDIR)/countries.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/api_app.Po ./$(DEPDIR)/app_ipc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/countries.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/crypt.Po ./$(DEPDIR)/crypt_prog.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/language.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5.Po ./$(DEPDIR)/md5_file.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_test.Po ./$(DEPDIR)/msg_queue.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/graphics_api.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/graphics_data.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/language.Po ./$(DEPDIR)/md5.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/md5_test.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/msg_queue.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msg_test.Po ./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/shmem_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/synch.Po ./$(DEPDIR)/synch_test.Po \
@@ -340,15 +350,20 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/api_app.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/app_ipc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/countries.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt_prog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/graphics_api.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/graphics_data.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/language.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@

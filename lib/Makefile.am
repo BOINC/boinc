@@ -9,12 +9,10 @@ EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES =				\
         api_app.C 				\
-        api_test.C				\
         boinc_api.C				\
         graphics_api.C				\
         graphics_data.C				\
         mfile.C 				\
-	x_opengl.C				\
         app_ipc.C				\
         countries.C				\
         parse.C					\
