@@ -154,7 +154,7 @@ int boinc_init(bool standalone_ /* = false */) {
 int boinc_finish(int status) {
     double cur_mem;
 
-    boinc_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
+    boinc_calling_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
     last_checkpoint_cpu_time += aid.wu_cpu_time;
     update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
 #ifdef _WIN32
@@ -430,7 +430,7 @@ bool boinc_time_to_checkpoint() {
 
 int boinc_checkpoint_completed() {
     double cur_cpu, cur_mem;
-    boinc_thread_cpu_time(cur_cpu, cur_mem);
+    boinc_calling_thread_cpu_time(cur_cpu, cur_mem);
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
     update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
