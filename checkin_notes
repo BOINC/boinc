@@ -3824,6 +3824,9 @@ Eric  March 17, 2003
       than files.  The client sets up a shared memory segment when
       starting the app. The app attaches to it and writes XML tags
       into a 4K text buffer every second.
+    - The shared memory communication has been tested by hand under
+      Windows and UNIX (Mac OS X).  We should write test scripts for
+      it to make sure.
 
     configure.in
     api/
