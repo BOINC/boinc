@@ -18622,3 +18622,10 @@ David  19 Oct 2004
         boinc_db.C,h
     sched/
         feeder.C
+
+David 19 Oct 2004
+    - in error messages from boincglut/ code,
+        use BOINCGLUT: prefix instead of GLUT:
+
+    boincglut/lib/glut/
+        glut_util.c
