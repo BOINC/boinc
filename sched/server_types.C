@@ -310,13 +310,16 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     if (send_msg_ack) {
         fputs("<message_ack/>\n", fout);
     }
+
     // changed implimentation so that messages have no flags
     // that say they are messages unless specified in the xml
     // portion in the MSG_TO_HOST object.
+
     for (i=0; i<msgs_to_host.size(); i++) {
         MSG_TO_HOST& md = msgs_to_host[i];
         fprintf(fout, "%s\n", md.xml);
     }
+    
     if (config.non_cpu_intensive) {
         fprintf(fout, "<non_cpu_intensive/>\n");
     }

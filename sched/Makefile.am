@@ -11,7 +11,10 @@ noinst_PROGRAMS = \
     make_work \
     show_shmem \
     transitioner \
-    trickle_handler \
+    message_handler \
+    send_file \
+    get_file \
+    request_file_list \
     update_stats \
     validate_test \
     validate_trivial \
@@ -99,9 +102,21 @@ transitioner_SOURCES = transitioner.C
 transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
-trickle_handler_SOURCES = trickle_handler.C
-trickle_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
-trickle_handler_LDADD = $(LDADD) $(RSA_LIBS)
+message_handler_SOURCES = trickle_handler.C
+message_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+message_handler_LDADD = $(LDADD) $(RSA_LIBS)
+
+get_file_SOURCES = trickle_handler.C
+get_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+get_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+send_file_SOURCES = trickle_handler.C
+send_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+send_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+request_file_list_SOURCES = trickle_handler.C
+request_file_list_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+request_file_list_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES =					\
         handle_request.C			\

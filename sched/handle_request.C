@@ -794,7 +794,7 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_MSG_TO_HOST mth;
     char buf[256];
-    sprintf(buf, "where hostid = %d and handled=0", reply.host.id);
+    sprintf(buf, "where hostid = %d and handled = %d", reply.host.id, 0);
     while (!mth.enumerate(buf)) {
         reply.msgs_to_host.push_back(mth);
         mth.handled = true;

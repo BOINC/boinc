@@ -54,7 +54,7 @@ int mod_n, mod_i;
 bool do_mod = false;
 
 void handle_wu(
-    DB_TRANSITIONER_ITEM_SET& transitioner, 
+    DB_TRANSITIONER_ITEM_SET& transitioner,
     std::vector<TRANSITIONER_ITEM>& items
 ) {
     int ntotal, nerrors, retval, ninprogress, nsuccess;
@@ -228,7 +228,7 @@ void handle_wu(
             for (int i=0; i<n; i++) {
                 sprintf(suffix, "%d", items.size()+i);
                 char rtfpath[256];
-                sprintf(rtfpath, "../%s", items[0].result_template_file);
+                sprintf(rtfpath, "%s", items[0].result_template_file);
                 retval = create_result(
                     items[0].id, items[0].appid, items[0].name,
                     rtfpath, suffix, key, ""
@@ -252,7 +252,7 @@ void handle_wu(
     canonical_result_index = -1;
     all_over_and_validated = true;
     for (unsigned int i=0; i<items.size(); i++) {
-        if (items[i].res_id) { 
+        if (items[i].res_id) {
             if (items[i].res_server_state == RESULT_SERVER_STATE_OVER) {
                 if (items[i].res_outcome == RESULT_OUTCOME_SUCCESS) {
                     if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
@@ -301,7 +301,7 @@ void handle_wu(
                 continue;
             }
 
-            if (items[i].res_id) { 
+            if (items[i].res_id) {
                 do_delete = false;
                 switch(items[i].res_outcome) {
                 case RESULT_OUTCOME_CLIENT_ERROR:
@@ -334,7 +334,7 @@ void handle_wu(
 
     items[0].transition_time = INT_MAX;
     for (unsigned int i=0; i<items.size(); i++) {
-        if (items[i].res_id) { 
+        if (items[i].res_id) {
             if (items[i].res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
                 x = items[i].res_sent_time + items[0].delay_bound;
                 if (x < items[0].transition_time) {
