@@ -1,22 +1,13 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- Suspend/resume not fully functional on Windows,
+- Test suspend/resume functionality on Windows,
     no way to suspend/resume on UNIX
 - "Show Graphics" menu item brings up minimized window,
     client does not remember window size/pos after close/reopen,
     window closes and does not reopen when workunit finishes
     and new workunit starts
-- Fix file transfer time counter to include suspension/exiting
-- Should include option in Windows client or installer whether to
-    run client at startup or not
 - Screensaver "blank screen" functionality not implemented
-- boinc_gui.exe priority should be lower (?),
-    launched app priorities should be very low
-- Time to completion isn't too accurate,
-    this is more of an Astropulse problem involving fraction_done
-- Multiple CPU support not functional
-- Report problems page on maggie doesn't link to anything
 - Host stats incorrectly reports number of times connected with same ip
     (unconfirmed)
 - CPU time updates infrequently (every 10 seconds),
@@ -45,9 +36,6 @@ Check for problematic HTML tags in team descriptions
 make get_local_ip_addr() work in all cases
 
 est_time_to_completion doesn't work for non-running tasks
-
-Windows client
-    make mini-logo
 
 Messages from core client
     decide what messages should be shown to user, and how
