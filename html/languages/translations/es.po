@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-03-20 22:10+0100\n"
-"Last-Translator: Alejandro Martín Covarrubias <alex.covarrubias@gmail.com>\n"
+"PO-Revision-Date: 2005-03-23 20:44+0100\n"
+"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -19,7 +19,7 @@ msgstr ""
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
 msgid "CHARSET"
-msgstr "UTF-8"
+msgstr "iso-8859-1"
 
 #########################################
 # Apps page (apps.php)
