@@ -40,8 +40,9 @@ CONFIG config;
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
+#define DEBUG_LEVEL     1
+
 #define STDERR_FILENAME "file_upload_handler.out"
-#define DEBUG
 
 #define MAX_FILES 32
 
@@ -73,7 +74,7 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<upload_when_present/>")) continue;
         if (match_tag(buf, "<url>")) continue;
         sprintf(ebuf, "FILE_INFO::parse: unrecognized: %s \n", buf);
-        write_log(ebuf);
+        write_log(ebuf, MSG_NORMAL);
     }
     return 1;
 }
@@ -90,7 +91,7 @@ int return_error(bool transient, char* message) {
         message
     );
     sprintf(buf, "%s\n", message);
-    write_log(buf);
+    write_log(buf, MSG_DEBUG);
     return 1;
 }
 
@@ -135,7 +136,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     if (bytes_left == 0) {
         fclose(out);
         sprintf(buf2, "offset == nbytes: %f\n", nbytes);
-        write_log(buf2);
+        write_log(buf2, MSG_DEBUG);
         return return_success(0);
     }
     while (1) {
@@ -166,9 +167,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool is_valid;
 
     while (fgets(buf, 256, in)) {
-#ifdef DEBUG
-        write_log(buf);
-#endif
+        write_log(buf, MSG_DEBUG);
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
@@ -237,16 +236,16 @@ int handle_get_file_size(char* file_name) {
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
         sprintf(buf, "handle_get_file_size: %s, returning error\n", file_name);
-        write_log(buf);
+        write_log(buf, MSG_NORMAL);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
         sprintf(buf, "handle_get_file_size: %s, returning zero\n", file_name);
-        write_log(buf);
+        write_log(buf, MSG_NORMAL);
         return return_success("<file_size>0</file_size>");
     } else {
         sprintf(buf, "handle_get_file_size: %s, returning %d\n",
                 file_name, (int)sbuf.st_size);
-        write_log(buf);
+        write_log(buf, MSG_NORMAL);
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
     }
@@ -260,9 +259,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool got_version = false;
 
     while (fgets(buf, 256, in)) {
-#ifdef DEBUG
-        write_log(buf);
-#endif
+        write_log(buf, MSG_DEBUG);
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
                 sprintf(buf,
@@ -312,6 +309,8 @@ int main() {
         fprintf(stderr, "Can't redirect stderr\n");
         exit(1);
     }
+
+    set_debug_level(DEBUG_LEVEL);
 
     retval = config.parse_file();
     if (retval) {
