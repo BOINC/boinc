@@ -22,8 +22,12 @@
 
 /* to allow prototypes using 'bool' in ANSI-C */
 #if (!defined __cplusplus) && (!defined bool)
-#  define bool int
-#endif
+#if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
+#define bool char
+#else
+#define bool int
+#endif /* defined(_MSC_VER) && (_MSC_VER > 1020) */
+#endif /* (!defined __cplusplus) && (!defined bool) */
 
 /* ----------------------------------------------------------------------
  * ANSI C API BEGINS HERE

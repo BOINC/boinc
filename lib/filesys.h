@@ -26,11 +26,16 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
-/* to allow prototypes using 'bool' in ANSI-C */
+/* to allow prototypes using 'bool' in ANSI-C.  Note that gcc defines
+   bool as an INT, and MS VC++ up to version 4.2 also does.  However
+   more recent versions of MS VC++ define bool as CHAR.  */
 #if (!defined __cplusplus) && (!defined bool)
-#  define bool int
-#endif
-
+#if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
+#define bool char
+#else
+#define bool int
+#endif /* defined(_MSC_VER) && (_MSC_VER > 1020) */
+#endif /* (!defined __cplusplus) && (!defined bool) */
 
 #ifdef _WIN32
 

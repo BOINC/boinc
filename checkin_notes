@@ -20732,3 +20732,23 @@ David  5 Dec 2004
         boinc_db.h
     lib/
         util.C,h
+
+Bruce 6 Dec 2004 [thanks to Bernd Machenschalk!]
+
+    - Fixed 'time to checkpoint' problem under Win32 with pure C code.
+      It turns out that MS VC++ up to version 4.2 defines bool as INT.
+      But more recent VC++ defines bool as CHAR.  This broke
+      boinc_time_to_checkpoint() under Win32, when used within pure ANSI
+      C code, if you treated the return value as a bool. So this patch
+      defines bool as char if using C under recent MS compilers.
+
+      David, a better solution for API functions that should be
+      callable from C is to make them return 'int' not 'bool'.
+      Probably ditto for Fortran. Sigh.
+
+    api/
+    boinc_api.h
+    graphics_api.h
+
+    lib/
+        filesys.h
