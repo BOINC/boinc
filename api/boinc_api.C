@@ -298,12 +298,16 @@ int boinc_worker_thread_cpu_time(double &cpu_t, double &ws_t) {
     if (retval) {
         fprintf(stderr, "error: could not get CPU time\n");
     	return ERR_GETRUSAGE;
-	}
+    }
     // Sum the user and system time spent in this process
     cpu_t = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu_t += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
     ws_t = ru.ru_idrss;     // TODO: fix this (mult by page size)
-	return 0;
+    return 0;
+}
+
+int boinc_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_thread_cpu_time(cpu, ws);
 }
 #endif
 #endif  // _WIN32
