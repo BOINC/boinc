@@ -66,7 +66,8 @@ function show_profile_summary() {
   global $user;
   global $profile_info;
   global $can_edit;
-
+  
+  
   echo "
 <table border=0 cellpadding = 1 width=100%>\n
 <tr><td><h1>$user->name</h1></td><td align=\"center\">";
@@ -85,9 +86,11 @@ echo "</td></tr>\n<tr><td colspan=\"2\">\n";
   
   echo "
 <font size=\"-1\">
-<b>Country:</b> ", $user->country, "&nbsp&nbsp<b>Language:</b> ", $profile_info['language'], "<br>
-<b>Email:</b> <a href=\"mailto:", $user->email_addr, "\">", $user->email_addr, "</a><br>
-<b>Total Credit:</b> ", $user->total_credit, "<br>";
+<b>Country:</b> ", $user->country, "&nbsp&nbsp<b>Language:</b> ", $profile_info['language'], "<br>";
+  if (!$profile_info['hide_email']) {
+      echo "<b>Email:</b> <a href=\"mailto:", $user->email_addr, "\">", $user->email_addr, "</a><br>";
+  }
+  echo "<b>Total Credit:</b> ", $user->total_credit, "<br>";
 
   if ($user->teamid) {
     $result = mysql_query("select * from team where id = $user->teamid");
