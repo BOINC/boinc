@@ -412,6 +412,7 @@ function format_credit($cobblestones) {
 }
 
 function project_is_stopped() {
+    if (file_exists("../../stop_web")) return true;
     if (file_exists("../../stop_sched")) return true;
     if (file_exists("../../stop_daemons")) return true;
     return false;
