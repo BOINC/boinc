@@ -44,7 +44,7 @@ int cleanup_result_trivial(RESULT const&, void*) {
 }
 
 int check_set(
-    vector<RESULT>& results, DB_WORKUNIT&, int& canonicalid, double& credit,
+    vector<RESULT>& results, WORKUNIT&, int& canonicalid, double& credit,
     bool& retry
 ) {
     retry = false;

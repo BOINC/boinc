@@ -464,6 +464,40 @@ struct TRANSITIONER_ITEM {
     void parse(MYSQL_ROW&);
 };
 
+struct VALIDATOR_ITEM {
+    int         id;
+    int         appid;
+    char        name[256];
+    bool        need_validate;
+    int         canonical_resultid;
+    double      canonical_credit;
+    int         min_quorum;
+    int         assimilate_state;
+    int         transition_time;
+    double      opaque;
+    int         batch;
+    int         max_success_results;
+    int         error_mask;
+
+    int         res_id;
+    char        res_name[256];
+    int         res_validate_state;
+    int         res_server_state;
+    int         res_outcome;
+    double      res_claimed_credit;
+    double      res_granted_credit;
+    char        res_xml_doc_out[LARGE_BLOB_SIZE];
+    double      res_cpu_time;
+    int         res_batch;
+    double      res_opaque;
+    int         res_exit_status;
+    int         res_hostid;
+    int         res_sent_time;
+ 
+    void        clear();
+    void        parse(MYSQL_ROW&);
+};
+
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
     DB_PLATFORM(DB_CONN* p=0);
@@ -574,6 +608,26 @@ public:
     );
     int update_result(TRANSITIONER_ITEM&);
     int update_workunit(TRANSITIONER_ITEM&);
+};
+
+// The validator uses this to get (WU, result) pairs efficiently.
+// Each call to enumerate() returns a list of the pairs for a single WU
+//
+class DB_VALIDATOR_ITEM_SET : public DB_BASE_SPECIAL {
+public:
+    DB_VALIDATOR_ITEM_SET(DB_CONN* p=0);
+    VALIDATOR_ITEM last_item;
+    int nitems_this_query;
+
+    int enumerate(
+        int appid,
+        int nresult_limit,
+        std::vector<VALIDATOR_ITEM>& items
+    );
+    int update_result(RESULT&);
+    int update_workunit(WORKUNIT&);
+    RESULT create_result(VALIDATOR_ITEM&);
+    WORKUNIT create_workunit(VALIDATOR_ITEM&);
 };
 
 // used by the feeder and scheduler for outgoing work

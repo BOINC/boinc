@@ -18195,3 +18195,18 @@ David  8 Oct 2004
 		wingui_mainwindow.cpp
 	lib/
 		prefs.C
+
+Lana    8 Oct 2004
+        - changed API check_set to take input WORKUNIT instead of
+          DB_WORKUNIT
+        - added VALIDATOR_ITEM and DB_VALIDATOR_ITEM_SET
+        - optimized validator to work with the DB_VALIDATOR_ITEM_SET
+          instead of going to the database
+
+        db/
+            boinc_db.C, .h
+        sched/
+            validator.C
+            sample_bitwise_validator.C
+            sample_trivial_validator.C
+

@@ -58,6 +58,7 @@ void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
 void MSG_FROM_HOST::clear() {memset(this, 0, sizeof(*this));}
 void MSG_TO_HOST::clear() {memset(this, 0, sizeof(*this));}
 void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
@@ -83,6 +84,8 @@ DB_MSG_FROM_HOST::DB_MSG_FROM_HOST(DB_CONN* dc) :
 DB_MSG_TO_HOST::DB_MSG_TO_HOST(DB_CONN* dc) :
     DB_BASE("msg_to_host", dc?dc:&boinc_db){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
@@ -757,7 +760,8 @@ int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update result set server_state=%d, outcome=%d, validate_state=%d, file_delete_state=%d where id=%d",
+        "update result set server_state=%d, outcome=%d, "
+        "validate_state=%d, file_delete_state=%d where id=%d",
         ti.res_server_state,
         ti.res_outcome,
         ti.res_validate_state,
@@ -771,7 +775,9 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update workunit set need_validate=%d, error_mask=%d, assimilate_state=%d, file_delete_state=%d, transition_time=%d where id=%d",
+        "update workunit set need_validate=%d, error_mask=%d, "
+        "assimilate_state=%d, file_delete_state=%d, "
+        "transition_time=%d where id=%d",
         ti.need_validate,
         ti.error_mask,
         ti.assimilate_state,
@@ -780,6 +786,215 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
         ti.id
     );
     return db->do_query(query);
+}
+
+void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    need_validate= atoi(r[i++]);
+    canonical_resultid = atoi(r[i++]);
+    canonical_credit = atof(r[i++]);
+    min_quorum = atoi(r[i++]);
+    assimilate_state = atoi(r[i++]);
+    transition_time = atoi(r[i++]);
+    opaque = atof(r[i++]);  
+    batch = atoi(r[i++]);
+    max_success_results = atoi(r[i++]);
+    error_mask = atoi(r[i++]);
+
+    res_id = atoi(r[i++]);
+    strcpy2(res_name, r[i++]);
+    res_validate_state = atoi(r[i++]);
+    res_server_state = atoi(r[i++]);
+    res_outcome = atoi(r[i++]);
+    res_claimed_credit = atof(r[i++]);          
+    res_granted_credit = atof(r[i++]);
+    strcpy2(res_xml_doc_out, r[i++]);  
+    res_cpu_time = atof(r[i++]);                
+    res_batch = atoi(r[i++]);
+    res_opaque = atof(r[i++]);
+    res_exit_status = atoi(r[i++]);
+    res_hostid = atoi(r[i++]);
+    res_sent_time = atoi(r[i++]);
+}
+
+int DB_VALIDATOR_ITEM_SET::enumerate(
+    int appid, int nresult_limit,
+    std::vector<VALIDATOR_ITEM>& items
+) {
+    int                 x;
+    char                query[MAX_QUERY_LEN];
+    char                priority[256];
+    MYSQL_ROW           row;
+    VALIDATOR_ITEM   new_item;
+
+    if (!cursor.active) {
+        strcpy(priority, "");
+        if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
+
+        sprintf(query,
+            "SELECT %s "
+            "   wu.id, "     
+            "   wu.appid, "
+            "   wu.name, "
+            "   wu.need_validate, "
+            "   wu.canonical_resultid, "
+            "   wu.canonical_credit, "
+            "   wu.min_quorum, "
+            "   wu.assimilate_state, "
+            "   wu.transition_time, "
+            "   wu.opaque, "
+            "   wu.batch, "
+            "   wu.max_success_results,"
+            "   wu.error_mask,"
+            "   res.id, "
+            "   res.name, "
+            "   res.validate_state, "
+            "   res.server_state, "
+            "   res.outcome, "
+            "   res.claimed_credit, "
+            "   res.granted_credit, "
+            "   res.xml_doc_out, "
+            "   res.cpu_time, "
+            "   res.batch, "
+            "   res.opaque, "
+            "   res.exit_status, "
+            "   res.hostid, "
+            "   res.sent_time "
+                "FROM "
+                "   workunit AS wu "
+                "       LEFT JOIN result AS res ON wu.id = res.workunitid "
+                "WHERE "
+                "   wu.appid = %d and wu.need_validate > 0 "
+                "LIMIT "
+                "   %d ",
+                priority, appid, nresult_limit);
+
+        x = db->do_query(query);
+        if (x) return mysql_errno(db->mysql);
+
+        // the following stores the entire result set in memory
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
+        cursor.active = true;
+
+        row = mysql_fetch_row(cursor.rp);
+        if (!row) {
+            mysql_free_result(cursor.rp);
+            cursor.active = false;
+            return -1;
+        }
+        last_item.parse(row);
+        nitems_this_query = 1;
+    }
+
+    items.clear();
+    while (true) {
+        items.push_back(last_item);
+        row = mysql_fetch_row(cursor.rp);
+        if (!row) {
+            mysql_free_result(cursor.rp);
+            cursor.active = false;
+
+            // if got fewer rows than requested, last group is complete
+            //
+            if (nitems_this_query < nresult_limit) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+        new_item.parse(row);
+        nitems_this_query++;
+        if (new_item.id != last_item.id) {
+            last_item = new_item;
+            return 0;
+        }
+        last_item = new_item;
+    }
+
+    return 0;
+}
+
+int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
+    char query[MAX_QUERY_LEN];
+
+    sprintf(query,
+        "update result set validate_state=%d, granted_credit=%.15e, "
+        "server_state=%d, outcome=%d "
+        "where id=%d",
+        res.validate_state,
+        res.granted_credit,
+        res.server_state,
+        res.outcome,
+        res.id
+    );
+    return db->do_query(query);
+}
+
+
+int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
+    char query[MAX_QUERY_LEN];
+
+    sprintf(query,
+        "update workunit set need_validate=%d, error_mask=%d, "
+        "assimilate_state=%d, transition_time=%d, "
+        "canonical_resultid=%d, canonical_credit=%.15e "
+        "where id=%d",
+        wu.need_validate,
+        wu.error_mask, 
+        wu.assimilate_state,
+        wu.transition_time,
+        wu.canonical_resultid, 
+        wu.canonical_credit, 
+        wu.id
+    );
+    return db->do_query(query);
+}
+
+RESULT DB_VALIDATOR_ITEM_SET::create_result(VALIDATOR_ITEM& vi) {
+    RESULT result;
+   
+    result.workunitid   = vi.id;
+    result.id           = vi.res_id;
+    result.name         = vi.res_name;
+    result.validate_state   = vi.res_validate_state;
+    result.server_state     = vi.res_server_state;
+    result.outcome          = vi.res_outcome;
+    result.claimed_credit   = vi.res_claimed_credit;
+    result.granted_credit   = vi.res_granted_credit;
+    strcpy2(result.xml_doc_out, vi.res_xml_doc_out);
+    result.cpu_time         = vi.res_cpu_time;
+    result.batch            = vi.res_batch;
+    result.opaque           = vi.res_opaque;
+    result.exit_status      = vi.res_exit_status;
+    result.hostid           = vi.res_hostid;
+    result.sent_time        = vi.res_sent_time;
+   
+    return result;
+}
+
+WORKUNIT DB_VALIDATOR_ITEM_SET::create_workunit(VALIDATOR_ITEM& vi) {
+    WORKUNIT wu;
+   
+    wu.id               = vi.id;
+    wu.appid            = vi.appid;
+    strcpy2(wu.name, vi.name);
+    wu.need_validate    = vi.need_validate;
+    wu.canonical_resultid   = vi.canonical_resultid;
+    wu.canonical_credit     = vi.canonical_credit;
+    wu.min_quorum           = vi.min_quorum;
+    wu.assimilate_state     = vi.assimilate_state;
+    wu.transition_time      = vi.transition_time;
+    wu.opaque               = vi.opaque;
+    wu.batch                = vi.batch;
+    wu.max_success_results  = vi.max_success_results;
+    wu.error_mask           = vi.error_mask;
+
+    return wu;
 }
 
 void WORK_ITEM::parse(MYSQL_ROW& r) {
