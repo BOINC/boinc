@@ -5,6 +5,9 @@ require_once("../html_user/profile.inc");
 require_once("../html_user/util.inc");
 
 
+// OK, so it's not quite the alphabet, but alphanumerabet is a bad variable name.
+$alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
+
 // Generates the html files which comprise the photo gallery.
 //   $room: which gallery to generate (user, computer).
 //   $width: the width of the table of images.
@@ -56,16 +59,16 @@ function build_picture_pages($width, $height) {
 
     page_head("User Picture Gallery: Page $page of $numPages", null, $descriptor);
 
-    fwrite($descriptor, "<h2>User Profile Pictures</h2>Last updated " . gmdate("r") . " UTC\n<p>Browse the user profiles by picture. Only user profiles with pictures are listed here.");
+    fwrite($descriptor, "<h2>User Profile Pictures</h2>Last updated " . pretty_time_str(time()) . "\n<p>Browse the user profiles by picture. Only user profiles with pictures are listed here.");
 
-    fwrite($descriptor, "<table border=1 cellpadding=5>\n");
+    fwrite($descriptor, "<table class=bordered border=1 cellpadding=5>\n");
 
     for ($row = 0; $row < $height; $row++) {
       fwrite($descriptor, "<tr>");
       for ($col = 0; $col < $width; $col++) {
 	if ($count < $numIds) {
 
-	  fwrite($descriptor, "<td align=\"center\"><a href=\"" . URL_BASE . "view_profile.php?userid=" . $userIds[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $userIds[$count] . '_sm.jpg' . "\"></a></td>");
+	  fwrite($descriptor, "<td class=bordered align=\"center\"><a href=\"" . URL_BASE . "view_profile.php?userid=" . $userIds[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $userIds[$count] . '_sm.jpg' . "\"></a></td>");
 	  $count++;
 	}
       }
@@ -147,6 +150,7 @@ function build_country_pages() {
 // Creates pages grouping users by the first letter of their names.
 
 function build_alpha_pages() {
+    global $alphabet;
 
     $query = "SELECT * FROM profile";
     $result = mysql_query($query);
@@ -174,7 +178,11 @@ function build_alpha_pages() {
     foreach ($letters as $letter) {
         // NOTE: Array indexing is case sensitive.
         $filePath = "../html_user/" . PROFILE_PATH;
-        build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter");
+        if (in_array($letter, $alphabet)) {
+            build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter");
+        } else {
+            build_profile_pages($members[$letter], "User Profiles - Names beginning with other characters", "Names beginning with other characters", 5, 2, $filePath, "profile_other");
+        }
     }
 
     build_alpha_summary_page($letters);
@@ -199,7 +207,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
         page_head($pageHead, null, $descriptor);
 
         fwrite($descriptor, "<h2>$pageTitle</h2>\n");
-        fwrite($descriptor, "Last updated " . gmdate("r") . " UTC<p>\n");
+        fwrite($descriptor, "Last updated " . pretty_time_str(time()) . "<p>\n");
 
         $offset = (($page-1) * $rowsPerPage * $colsPerPage);
 
@@ -220,7 +228,7 @@ function build_country_summary_page($countryMembers) {
   $descriptor = fopen($filename, "w");
 
   page_head("User Profiles by Country", null, $descriptor);
-  fwrite($descriptor, "<h2>User Profiles by Country</h2>Last updated " . gmdate("r") . " UTC<p>");
+  fwrite($descriptor, "<h2>User Profiles by Country</h2>Last updated " . pretty_time_str(time()) . "<p>");
 
   fwrite($descriptor, "<table border=0>\n");
   fwrite($descriptor, "<tr><td><b>Country</b></td><td align=\"center\"><b>Profiles</b></td></tr>\n");
@@ -230,7 +238,6 @@ function build_country_summary_page($countryMembers) {
     $name = get_legal_filename($country);
 
     fwrite($descriptor, "<tr>\n<td><a href=\"profile_country_" . $name . "_1.html\">$country</a></td><td align=\"center\">$numMembers</td></td>\n");
-
   }
 
   fwrite($descriptor, "</table>");
@@ -240,21 +247,23 @@ function build_country_summary_page($countryMembers) {
 }
 
 function build_alpha_summary_page($characters) {
-    // OK, so it's not quite the alphabet- alphanumerabet is a bad variable name.
-    $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
+    global $alphabet;
 
     $filename = "../html_user/profile_alpha.html";
     $descriptor = fopen($filename, "w");
 
-    // TODO: Add "Other" to handle non-alphanumeric first characters.  Will involve removing elements from $characters as we finish them.
-
     foreach ($alphabet as $character) {
         if (in_array($character, $characters)) {
             fwrite($descriptor, "<a href=" . PROFILE_PATH . "profile_" . $character . "_1.html>$character</a>&nbsp;");
-
+            unset($characters[$character]);
         } else {
             fwrite($descriptor, "$character ");
         }
+    }
+
+    // Link to the 'Other' page if necessary.
+    if (!empty($characters)) {
+        fwrite($descriptor, "<a href=" . PROFILE_PATH . "profile_other_1.html>Other</a>&nbsp;");
     }
     fclose($descriptor);
 }
