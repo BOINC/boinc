@@ -214,8 +214,21 @@ int get_host_info(HOST_INFO& host) {
     sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
     sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
     host.p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
+
+/*	There can be a variety of methods to obtain amount of
+ *		usable memory.  You will have to check your sysconf()
+ *		defines, probably in unistd.h
+ *		- 2002-11-03 hiram@users.sourceforge.net
+ */
+#if defined(_SC_USEABLE_MEMORY)
     host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
-        * (double)sysconf(_SC_PHYS_PAGES);
+	* (double)sysconf(_SC_USEABLE_MEMORY);  /*      UnixWare        */
+#elif defined(_SC_PHYS_PAGES)
+    host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
+	* (double)sysconf(_SC_PHYS_PAGES);      /*      Linux   */
+#else
+#error Need to specify a sysconf() define to obtain memory size
+#endif
 
     swaptbl_t* s;
     n = swapctl(SC_GETNSWP, 0);

@@ -80,8 +80,8 @@ int check_cache_size(int mem_size) {
         fprintf(stderr, "error: check_cache_size: negative mem_size\n");
         return ERR_NEG;
     }
-    logStride = (int)(log(STRIDE_MAX/STRIDE_MIN)/log(2))+1;
-    logCache = (int)(log(CACHE_MAX/CACHE_MIN)/log(2))+1;
+    logStride = (int)(log(STRIDE_MAX/STRIDE_MIN)/log(2.0))+1;
+    logCache = (int)(log(CACHE_MAX/CACHE_MIN)/log(2.0))+1;
     
     printf("Test will take about %.2f seconds.\n", SECS_PER_RUN*logStride*logCache);
     results = (double **)malloc(sizeof(double *)*logStride);
