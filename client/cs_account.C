@@ -114,10 +114,10 @@ int PROJECT::parse_account(FILE* in) {
                 if (got_venue_prefs) {
                     msg_printf(this, MSG_INFO, "Using separate project prefs for %s", host_venue);
                 } else {
-                    msg_printf(this, MSG_INFO, "Using your primary project prefs");
+                    msg_printf(this, MSG_INFO, "Using your default project prefs");
                 }
             } else {
-                msg_printf(this, MSG_INFO, "Using your primary project prefs");
+                msg_printf(this, MSG_INFO, "Using your default project prefs");
             }
             return 0;
         }
