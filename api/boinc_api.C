@@ -622,7 +622,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 }
 
 int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
-    FILE* f = fopen(FRACTION_DONE_FILE, "w");
+    FILE* f = fopen(FRACTION_DONE_TEMP_FILE, "w");
 
 	if (!f)
 		return -1;
@@ -637,6 +637,11 @@ int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
     );
 
     fclose(f);
+#ifdef _WIN32
+    unlink(FRACTION_DONE_FILE);
+#endif
+    rename(FRACTION_DONE_TEMP_FILE, FRACTION_DONE_FILE);
+
     return 0;
 }
 

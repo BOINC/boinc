@@ -89,6 +89,7 @@ int parse_suspend_quit_file(FILE* f, bool& suspend, bool& quit);
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 #define FRACTION_DONE_FILE  "fraction_done.xml"
+#define FRACTION_DONE_TEMP_FILE  "fraction_done.tmp"
 #define SUSPEND_QUIT_FILE  "suspend.xml"
 #define STDERR_FILE             "stderr.txt"
 
