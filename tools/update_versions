@@ -50,67 +50,117 @@ def xsort(list):
     newlist.sort()
     return newlist
 
+def add_files(app, match, exec_file, non_exec_files=[]):
+    ''' add files to app/core.
+
+    EXEC_FILE is the executable, and NON_EXEC_FILES are supporting
+    non-executable files.
+
+    MATCH is the output of re_match_exec_filename(EXEC_FILE).
+    '''
+    assert(match)
+    version_major, version_minor, platform_name = match.groups()
+    version_num = int(version_major) * 100 + int(version_minor)
+
+    file_base = os.path.basename(exec_file)
+    platforms = database.Platforms.find(name = platform_name)
+    if not platforms:
+        print >>sys.stderr, "  Unknown platform '%s' for file %s" %(platform_name, file_base)
+        continue
+    platform = platforms[0]
+
+    if app:
+        existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num)
+        if existing_versions:
+            if verbose:
+                print "  Skipping existing %s %3d: %s" %(app.name, version_num, file_base)
+            continue
+
+        print "  Found %s version %s for %s: %s" %(app, version_num, platform, file_base),
+        if non_exec_files:
+            print "(+ %d bundled file(s))"%len(non_exec_files)
+        else:
+            print
+
+        xml_doc = tools.process_app_version(
+            app = app,
+            version_num = version_num,
+            exec_files = [exec_file],
+            non_exec_files = non_exec_files
+            )
+
+        object = database.AppVersion(create_time = create_time,
+                                     app = app,
+                                     platform = platform,
+                                     version_num = version_num,
+                                     xml_doc = xml_doc)
+    else:
+        assert(not non_exec_files)      # this wouldn't make sense for core clients
+        existing_versions = database.CoreVersions.find(platform=platform, version_num=version_num)
+        if existing_versions:
+            if verbose:
+                print "  Skipping existing core version %s: %s" %(version_num, file_base)
+            continue
+
+        print "  Found core version %3d for %s: %s" %(version_num, platform, file_base)
+
+        xml_doc = tools.process_executable_file(exec_file)
+
+        object = database.CoreVersion(create_time = create_time,
+                                      platform = platform,
+                                      version_num = version_num,
+                                      xml_doc = xml_doc)
+
+    objects_to_commit.append(object)
+
+def re_match_exec_filename(file):
+    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_(.+?)(?:[.]gz|[.]exe|[.]sit)?$', file)
+
 def find_versions(app, dir):
     """Find application versions/core client versions in DIR.
 
     if app==None, then dir contains core clients; else contains application
-    versions for core client."""
+    versions.
 
-    for filepath in xsort(glob.glob(os.path.join(appdir, '*'))):
+    If directory contains sub-directories, those are scanned (non-recursively)
+    for files.  If an executable is found, the first one found
+    (alphabetically) is the main program and other files bundled as
+    non-executables.
+
+    """
+
+    for filepath in xsort(glob.glob(os.path.join(dir, '*'))):
         file = os.path.basename(filepath)
-        filepath = os.path.join(dir,file)
         if os.path.isdir(filepath):
-            continue
-        match = re.match('[^.]+_([0-9]+)[.]([0-9]+)_(.+?)(?:[.]gz|[.]exe|[.]sit)?$', file)
-        if not match:
-            print >>sys.stderr, "  Ignoring unknown file", os.path.join(filepath)
-            continue
-
-        version_major, version_minor, platform_name = match.groups()
-        version_num = int(version_major) * 100 + int(version_minor)
-
-        platforms = database.Platforms.find(name = platform_name)
-        if not platforms:
-            print >>sys.stderr, "  Unknown platform '%s' for file %s" %(platform_name, file)
-            continue
-        platform = platforms[0]
-
-        if app:
-            existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num)
-            if existing_versions:
-                if verbose:
-                    print "  Skipping existing %s %3d: %s" %(app.name, version_num, file)
+            # add executable + bundle as app/core version
+            exec_file = None
+            match = None
+            non_exec_files = []
+            dir = filepath
+            for filepath in xsort(glob.glob(os.path.join(dir, '*'))):
+                if os.path.isdir(filepath):
+                    continue
+                if not match:
+                    # no executable found yet, try this one
+                    match = re_match_exec_filename(file)
+                    if match:
+                        # found an executable matching regexp
+                        exec_file = file
+                        continue
+                non_exec_files.append(file)
+            if not match:
+                print >>sys.stderr, "  Ignoring directory", dir
                 continue
-
-            print "  Found %s version %s for %s: %s" %(app, version_num, platform, file)
-
-            xml_doc = tools.process_app_version(
-                app = app,
-                version_num = version_num,
-                exec_files = [filepath])
-
-            object = database.AppVersion(create_time = create_time,
-                                         app = app,
-                                         platform = platform,
-                                         version_num = version_num,
-                                         xml_doc = xml_doc)
+            add_files(app=app, match=match,
+                      exec_file=exec_file,
+                      non_exec_files=non_exec_files)
         else:
-            existing_versions = database.CoreVersions.find(platform=platform, version_num=version_num)
-            if existing_versions:
-                if verbose:
-                    print "  Skipping existing core version %s: %s" %(version_num, file)
+            # add a single executable as app/core version
+            match = re_match_exec_filename(file)
+            if not match:
+                print >>sys.stderr, "  Ignoring unknown file", filepath
                 continue
-
-            print "  Found core version %3d for %s: %s" %(version_num, platform, file)
-
-            xml_doc = tools.process_executable_file(filepath)
-
-            object = database.CoreVersion(create_time = create_time,
-                                          platform = platform,
-                                          version_num = version_num,
-                                          xml_doc = xml_doc)
-
-        objects_to_commit.append(object)
+            add_files(app=app, match=match, exec_file=filepath)
 
 for appdir in xsort(glob.glob(os.path.join(config.app_dir,'*'))):
     if not os.path.isdir(appdir): continue

@@ -29,7 +29,7 @@ def sign_executable(executable_path, quiet=False):
         raise SystemExit("Couldn't sign executable %s"%executable_path)
     return signature_text
 
-def process_executable_file(file, signature_text=None, quiet=False):
+def process_executable_file(file, signature_text=None, quiet=False, executable=True):
     '''Handle a new executable file to be added to the database.
 
     1. Copy file to download_dir if necessary.
@@ -48,10 +48,10 @@ def process_executable_file(file, signature_text=None, quiet=False):
     xml = '''<file_info>
     <name>%s</name>
     <url>%s</url>
-    <executable/>
 ''' %(file_base,
       os.path.join(config.config.download_url, file_base))
-
+    if executable:
+        xml += '    <executable/>\n'
     if signature_text:
         xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
     else:
@@ -60,18 +60,26 @@ def process_executable_file(file, signature_text=None, quiet=False):
     xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
     return xml
 
-def process_app_version(app, version_num, exec_files, signature_files={}, quiet=False):
+def process_app_version(app, version_num, exec_files, non_exec_files=[], signature_files={}, quiet=False):
     """Return xml for application version
 
     app             is an instance of database.App
 
     version_num     is an integer such as 102 for version 1.02
 
-    exec_files      is a list of full-path executables
+    exec_files      is a list of full-path executables.
+                    The first one is the <main_program/>
+
+    non_exec_files  is a list of full-path non-executables.
 
     signature_files is a dictionary of exec_file -> signature file mappings.
                     process_app_version() will generate a new signature for
                     any exec_files that don't have one given already.
+
+                    NOTE: using the feature of generating signature files on
+                    the same machine (requiring having the private key stored
+                    on this machine) is a SECURITY RISK (since this machine
+                    probably has network visibility)!
     """
     assert(exec_files)
     xml_doc = ''
@@ -83,13 +91,18 @@ def process_app_version(app, version_num, exec_files, signature_files={}, quiet=
             signature_text = sign_executable(exec_file, quiet=quiet)
         xml_doc += process_executable_file(exec_file, signature_text, quiet=quiet)
 
+    for non_exec_file in non_exec_files:
+        # use MD5 sum instead of RSA signature
+        xml_doc += process_executable_file(non_exec_file, signature_text=None,
+                                           executable=False, quiet=quiet)
+
     xml_doc += ('<app_version>\n'+
                      '    <app_name>%s</app_name>\n'+
                      '    <version_num>%d</version_num>\n') %(
         app.name, version_num)
 
     first = True
-    for exec_file in exec_files:
+    for exec_file in exec_files + non_exec_files:
         xml_doc += ('    <file_ref>\n'+
                          '       <file_name>%s</filename>\n') %(
             os.path.basename(exec_file))
