@@ -48,16 +48,15 @@
 #define STATFS statfs
 #endif
 
-#include <sys/stat.h>
-#if HAVE_SYS_SWAP_H
-#include <sys/swap.h>
-#endif
-
 #ifdef _WIN32
 #include <afxwin.h>
 #include <winsock.h>
 #endif
 
+#include <sys/stat.h>
+#if HAVE_SYS_SWAP_H
+#include <sys/swap.h>
+#endif
 #if HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
 #endif
@@ -144,9 +143,6 @@ void parse_meminfo(HOST_INFO& host) {
     FILE* f = fopen("/proc/meminfo", "r");
     if (!f) return;
     while (fgets(buf, 256, f)) {
-        if (strstr(buf, "Mem:") == buf) {
-            sscanf(buf, "Mem: %lf", &host.m_nbytes);
-        }
         if (strstr(buf, "Swap:") == buf) {
             sscanf(buf, "Swap: %lf", &host.m_swap);
         }
@@ -180,17 +176,6 @@ void parse_cpuinfo(HOST_INFO& host) {
 }
 #endif
 
-#if HAVE_SYS_UTSNAME_H
-// Puts the operating system name and version into the HOST_INFO structure
-//
-void get_osinfo(HOST_INFO& host) {
-    struct utsname u;
-    uname(&u);
-    safe_strcpy(host.os_name, u.sysname);
-    safe_strcpy(host.os_version, u.release);
-}
-#endif
-
 // Returns total and free space on current disk (in bytes)
 //
 void get_host_disk_info( double &total_space, double &free_space ) {
@@ -200,6 +185,8 @@ void get_host_disk_info( double &total_space, double &free_space ) {
     STATFS(".", &fs_info);
     total_space = (double)fs_info.f_bsize * (double)fs_info.f_blocks;
     free_space = (double)fs_info.f_bsize * (double)fs_info.f_bavail;
+#else
+#error Need to specify a method to obtain free/total disk space
 #endif
 }
 
@@ -213,14 +200,11 @@ int get_host_info(HOST_INFO& host) {
     parse_meminfo(host);
 #endif
 
-#if HAVE_SYS_SYSTEMINFO_H
-    char buf[256];
-
-    int i, n;
-    sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
-    sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
-    sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
+#if defined(_SC_NPROCESSORS_ONLN)
     host.p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
+#else
+#error Need to specify a sysconf() define to obtain number of processors
+#endif
 
 /*	There can be a variety of methods to obtain amount of
  *		usable memory.  You will have to check your sysconf()
@@ -237,7 +221,16 @@ int get_host_info(HOST_INFO& host) {
 #error Need to specify a sysconf() define to obtain memory size
 #endif
 
+#if HAVE_SYS_SYSTEMINFO_H
+    sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
+    sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
+    sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
+#endif
+
+#if defined(HAVE_SYS_SWAP_H) && defined(SC_GETNSWP)
+    char buf[256];
     swaptbl_t* s;
+    int i, n;
     n = swapctl(SC_GETNSWP, 0);
     s = (swaptbl_t*)malloc(n*sizeof(swapent_t) + sizeof(struct swaptable));
     for (i=0; i<n; i++) {
@@ -253,44 +246,60 @@ int get_host_info(HOST_INFO& host) {
 #if HAVE_SYS_SYSCTL_H
     int mib[2], mem_size;
     size_t len;
-    vmtotal vm_info;
+    //vmtotal vm_info;
     
+#ifdef CTL_HW
+#ifdef HW_NCPU
     // Get number of CPUs
     mib[0] = CTL_HW;
     mib[1] = HW_NCPU;
     len = sizeof(host.p_ncpus);
     sysctl(mib, 2, &host.p_ncpus, &len, NULL, 0);
+#endif
     
+#ifdef HW_MACHINE
     // Get machine
     mib[0] = CTL_HW;
     mib[1] = HW_MACHINE;
     len = sizeof(host.p_vendor);
     sysctl(mib, 2, &host.p_vendor, &len, NULL, 0);
+#endif
     
+#ifdef HW_MODEL
     // Get model
     mib[0] = CTL_HW;
     mib[1] = HW_MODEL;
     len = sizeof(host.p_model);
     sysctl(mib, 2, &host.p_model, &len, NULL, 0);
+#endif
     
+#ifdef HW_PHYSMEM
     // Get physical memory size
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);
     sysctl(mib, 2, &mem_size, &len, NULL, 0);
     host.m_nbytes = mem_size;
+#endif
+#endif
     
+#ifdef CTL_KERN
+#ifdef KERN_OSTYPE
     // Get operating system name
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSTYPE;
     len = sizeof(host.os_name);
     sysctl(mib, 2, &host.os_name, &len, NULL, 0);
+#endif
     
+#ifdef KERN_OSRELEASE
     // Get operating system version
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSRELEASE;
     len = sizeof(host.os_version);
     sysctl(mib, 2, &host.os_version, &len, NULL, 0);
+#endif
+#endif
     
     // TODO: Get virtual memory info
     /*mib[0] = CTL_VM;
@@ -304,7 +313,10 @@ int get_host_info(HOST_INFO& host) {
     get_local_ip_addr_str(host.ip_addr, sizeof(host.ip_addr));
     host.timezone = get_timezone();
 #ifdef HAVE_SYS_UTSNAME_H
-    get_osinfo(host);
+    struct utsname u;
+    uname(&u);
+    safe_strcpy(host.os_name, u.sysname);
+    safe_strcpy(host.os_version, u.release);
 #endif
 
     return 0;

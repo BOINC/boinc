@@ -95,6 +95,7 @@ public:
     bool update_prefs;
     bool start_saver;
     bool exit_when_idle;
+    bool requested_exit;
     bool use_http_proxy;
     bool use_socks_proxy;
     int proxy_server_port;

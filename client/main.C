@@ -26,6 +26,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+
 #include "boinc_api.h"
 #include "account.h"
 #include "client_state.h"
@@ -34,6 +38,8 @@
 #include "log_flags.h"
 #include "prefs.h"
 #include "util.h"
+
+void quit_client(int);
 
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
@@ -68,6 +74,10 @@ int add_new_project() {
     return 0;
 }
 
+void quit_client(int a) {
+    gstate.requested_exit = true;
+}
+
 int main(int argc, char** argv) {
     int retval;
     double dt;
@@ -77,6 +87,11 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Another copy of BOINC is already running\n");
         exit(1);
     }
+    // Handle quit signals gracefully
+    signal(SIGHUP, quit_client);
+    signal(SIGINT, quit_client);
+    signal(SIGQUIT, quit_client);
+
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
     gstate.parse_env_vars();
@@ -91,7 +106,7 @@ int main(int argc, char** argv) {
             fflush(stdout);
         }
 
-        if (gstate.time_to_exit()) {
+        if (gstate.time_to_exit() || gstate.requested_exit) {
             printf("time to exit\n");
             break;
         }

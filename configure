@@ -1515,7 +1515,7 @@ EOF
 
 fi
 
-for ac_hdr in fcntl.h malloc.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h signal.h sys/wait.h sys/file.h sys/ipc.h sys/shm.h
+for ac_hdr in fcntl.h malloc.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/swap.h sys/sysctl.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h signal.h sys/wait.h sys/file.h sys/ipc.h sys/shm.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
@@ -1888,6 +1888,8 @@ main() {
   r.ru_majflt = r.ru_minflt = 0;
   switch (fork()) {
   case 0: /* Child.  */
+    /* Unless we actually _do_ something, the kernel sometimes doesn't chalk up any system time to this process. */
+    if(fork()) { i = 123; wait(NULL); } else { i = 234; exit(0); }
     sleep(1); /* Give up the CPU.  */
     _exit(0);
   case -1: _exit(0); /* What can we do?  */
@@ -1899,7 +1901,7 @@ main() {
   }
 }
 EOF
-if { (eval echo configure:1903: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+if { (eval echo configure:1905: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
 then
   ac_cv_func_wait3_rusage=yes
 else
@@ -1924,12 +1926,12 @@ fi
 for ac_func in gethostname gettimeofday mkdir select socket strstr uname lockf flock
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
-echo "configure:1928: checking for $ac_func" >&5
+echo "configure:1930: checking for $ac_func" >&5
 if eval "test \"`echo '$''{'ac_cv_func_$ac_func'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 1933 "configure"
+#line 1935 "configure"
 #include "confdefs.h"
 /* System header to define __stub macros and hopefully few prototypes,
     which can conflict with char $ac_func(); below.  */
@@ -1952,7 +1954,7 @@ $ac_func();
 
 ; return 0; }
 EOF
-if { (eval echo configure:1956: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:1958: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_func_$ac_func=yes"
 else

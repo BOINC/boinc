@@ -88,6 +88,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(host_venue, "");
     suspend_requested = false;
     start_saver = false;
+    requested_exit = false;
 #ifdef _WIN32
     cpu_benchmarks_handle = NULL;
 #endif
