@@ -24016,7 +24016,10 @@ Rom    4 Feb 2005
     - Bug Fix: Change the transfer rate in the transfer tab to use printf instead
         instead of just setting the string.  This allows the progress to be 
         displayed in a localized fashion.
+    - Bug Fix: Add keyboard accelerators for all the setup configuration screens.
 
     clientgui/
         ViewTransfers.cpp
         ViewWork.cpp
+    win_build/installerv2/
+        BOINC.ism
