@@ -23253,3 +23253,10 @@ David  25 Jan 2005
         gui_rpc_client.C,h
     html/project.sample/
         project.inc
+
+Rom    25 Jan 2005
+    - Allow BOINC Manager to search for it's localization catalog files in
+      a sub directory called 'locale' like it does in Windows.
+
+    clientgui/
+        BOINCGUIApp.cpp
