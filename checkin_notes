@@ -7934,9 +7934,12 @@ David  28 Nov 2003
 Karl 2003-11-28
     - fixed testbase.py not working due to change in client default benchmark
     - fixed problem with app_versions due to checking major version
+    - added new columns to python database interface
 
     test/
         testbase.py
+    py/Boinc/
+        database.py
 
     - client: close write socket when done writing (but still reading) by
       using shutdown(2)
