@@ -25,6 +25,7 @@
 
 #include "boinc_db.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #include "main.h"
 #include "server_types.h"
@@ -110,6 +111,31 @@ static int possibly_send_result(
     return add_result_to_reply(result, wu, reply, platform, wreq, app, avp);
 }
 
+// returns true if the work generator can not make more work for this
+// file, false if it can.
+//
+bool work_generation_over(char *filename) {
+    char fullpath[512];
+    sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
+    return boinc_file_exists(fullpath);
+}
+
+// returns zero on success, nonzero if didn't touch file
+int touch_file(char *path) {
+    FILE *fp;
+
+    if (boinc_file_exists(path))
+        return 0;
+
+    if ((fp=fopen(path, "w"))) {
+          fclose(fp);
+	  return 0;
+    }
+
+    return -1;
+}
+
+
 // Ask the WU generator to make more WUs for this file.
 // Returns nonzero if can't make more work.
 // Returns zero if it *might* have made more work
@@ -118,36 +144,32 @@ static int possibly_send_result(
 int make_more_work_for_file(char* filename) {
     char fullpath[512];
 
-    sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
-    FILE *fp=fopen(fullpath, "r");
-    if (fp) {
+    if (work_generation_over(filename)) {
         // since we found this file, it means that no work remains for this WU.
         // So give up trying to interact with the WU generator.
-        fclose(fp);
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
-            "found %s indicating no work remaining for file %s\n", fullpath, filename
+            "work generator says no work remaining for file %s\n", filename
         );
         return -1;
     }
-
+	
     // open and touch a file in the need_work/
     // directory as a way of indicating that we need work for this file.
     // If this operation fails, don't worry or tarry!
     //
     sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
-    FILE *fp2=fopen(fullpath, "w");
-    if (!fp2) {
+    if (touch_file(fullpath)) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "unable to touch %s\n", fullpath
         );
         return -1;
     }
-    fclose(fp2);
+
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
-        "touching %s: need work for file %s\n", fullpath, filename
+        "touched %s: need work for file %s\n", fullpath, filename
     );
     sleep(config.locality_scheduling_wait_period);
     return 0;
@@ -204,8 +226,8 @@ error_exit:
 void flag_for_possible_removal(char* filename) {
     char path[256];
     sprintf(path, "../locality_scheduling/working_set_removal/%s", filename);
-    FILE *f = fopen(path, "w");
-    if (f) fclose(f);
+    touch_file(path);
+    return;
 }
 
 // The client has (or will soon have) the given file.
@@ -277,7 +299,13 @@ static int send_results_for_file(
                 work_generator_invoked = true;
             } else {
                 if (in_working_set) {
-                    flag_for_possible_removal(filename);
+		    if (work_generation_over(filename)) {
+                        flag_for_possible_removal(filename);
+		    } else {
+		    //  DAVID: if work generation is NOT over then we
+		    //  should invoke make_more_work_for_file(),
+		    //  right?  Or will this branch never happen?
+		    }
                 }
                 break;
             }
@@ -295,8 +323,8 @@ static int send_results_for_file(
             // print a message, but keep on looking
             //
             if (retval) {
-                log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                    "possibly_send_result(): %d\n", retval
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                    "Database inconsistency?  possibly_send_result() failed, returning %d\n", retval
                 );
             } else {
                 nsent++;
@@ -377,12 +405,16 @@ static int send_new_file_work(
     return 0;
 }
 
+
+// DAVID, this is missing a return value!  Am I right that this will
+// also eventually move 'non locality' work through and out of the
+// system?
 static int send_old_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
     char buf[1024], filename[256];
-    int retval, nsent;
+    int retval, extract_retval, nsent;
     DB_RESULT result;
 
     int cutoff = time(0) - config.locality_scheduling_send_timeout;
@@ -397,16 +429,30 @@ static int send_old_work(
         );
         boinc_db.commit_transaction();
         if (!retval) {
-            extract_filename(result.name, filename);
-            send_results_for_file(
-                filename, nsent,
-                sreq, reply, platform, wreq, ss, false
-            );
+	    extract_retval=extract_filename(result.name, filename);
+            if (!extract_retval) {
+                send_results_for_file(
+                    filename, nsent,
+                    sreq, reply, platform, wreq, ss, false
+                );
+            }
+	    else {
+	        // David, is this right?  Is this the only place in
+	        // the locality scheduler that non-locality work //
+	        // gets done?
+                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+		    "Note: sent NON-LOCALITY result %s\n", result.name
+	        );
+	    }
         }
 
     } else {
         boinc_db.commit_transaction();
     }
+    // DAVID, YOU CHANGED THIS FROM VOID TO INT.  IS THIS THE RIGHT
+    // RETURN VAL?  You should probably use the return value from
+    // sent_results_for_file as well.
+    return retval;
 }
 
 void send_work_locality(
@@ -414,7 +460,7 @@ void send_work_locality(
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
     unsigned int i;
-    int retval, nsent, nfiles, j, k;
+    int nsent, nfiles, j, k;
 
     nfiles = (int) sreq.file_infos.size();
     j = rand()%nfiles;
