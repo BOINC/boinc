@@ -24,11 +24,32 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "validate_util.h"
+#include "md5_file.h"
 
 using std::string;
 using std::vector;
 
-// TODO: use md5 hash
+
+class FileCache {
+    mutable string _md5sum;
+public:
+    const string filedata;
+
+    FileCache(string const& filedata0) : filedata(filedata0) {}
+
+    string const md5sum() const {
+        if (_md5sum.empty()) {
+            _md5sum = md5_string(filedata);
+        }
+        return _md5sum;
+    }
+};
+
+bool operator ==(FileCache const& f1, FileCache const& f2)
+{
+    return (f1.md5sum() == f2.md5sum() &&
+            f1.filedata == f2.filedata);
+}
 
 // read file into memory
 //
@@ -46,10 +67,8 @@ int init_result_read_file(RESULT const & result, void*& data) {
         return retval;
     }
 
-    string* s = new string;
-    data = (void*) s;
-
-    retval = read_file_string(path.c_str(), *s);
+    string filedata;
+    retval = read_file_string(path.c_str(), filedata);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -58,6 +77,8 @@ int init_result_read_file(RESULT const & result, void*& data) {
         );
         return retval;
     }
+    FileCache *f = new FileCache(filedata);
+    data = (void*) f;
 
     return 0;
 }
@@ -67,16 +88,15 @@ int check_pair_initialized_identical(
     RESULT const& /*r2*/, void* data2,
     bool& match
 ) {
-    string const* s1 = (string*) data1;
-    string const* s2 = (string*) data2;
+    FileCache const* f1 = (FileCache*) data1;
+    FileCache const* f2 = (FileCache*) data2;
 
-    match = (*s1 == *s2);
+    match = (*f1 == *f2);
     return 0;
 }
 
 int cleanup_result_string(RESULT const& /*result*/, void* data) {
-    string* s = (string*) data;
-    delete s;
+    delete (FileCache*) data;
     return 0;
 }
 

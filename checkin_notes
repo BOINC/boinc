@@ -15150,6 +15150,12 @@ Karl 2004-07-13
          validate_trivial -> sample_trivial_validator
          assimilator      -> sample_dummy_assimilator
 
+    - sample_bitwise_validator: more efficient: compare (lazily-computed)
+      md5sums before comparing file contents
+
+    - md5_file: md5_string(): new C++ version of md5_block; fixed constness
+      in md5_block, md5_file parameters
+
     sched/
         Makefile.am
         validate_util.C
@@ -15158,6 +15164,10 @@ Karl 2004-07-13
         validate_test.C      -> sample_bitwise_validator.C
         validate_trivial.C   -> sample_trivial_validator.C
         assimilate_handler.C -> sample_dummy_assimilator.C
+
+    lib/
+        md5_file.h
+        md5_file.C
 
 Karl 2004-07-13
     - updated #includes of C headers in C++ files to C++ headers

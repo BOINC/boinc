@@ -33,7 +33,7 @@
 #include "fcgi_stdio.h"
 #endif
 
-int md5_file(char* path, char* output, double& nbytes) {
+int md5_file(const char* path, char* output, double& nbytes) {
     unsigned char buf[4096];
     unsigned char binout[16];
     FILE* f;
@@ -63,7 +63,7 @@ int md5_file(char* path, char* output, double& nbytes) {
     return 0;
 }
 
-int md5_block(unsigned char* data, int nbytes, char* output) {
+int md5_block(const unsigned char* data, int nbytes, char* output) {
     unsigned char binout[16];
     int i;
 
@@ -77,3 +77,11 @@ int md5_block(unsigned char* data, int nbytes, char* output) {
     output[32] = 0;
     return 0;
 }
+
+std::string md5_string(const unsigned char* data, int nbytes)
+{
+    char output[16];
+    md5_block(data, nbytes, output);
+    return std::string(output, 16);
+}
+
