@@ -18422,3 +18422,9 @@ David  14 Oct 2004
         makefile.gui_test
     sched/
         sched_send.C
+
+Lana    14 Oct 2004
+    - improved db_purge to output to multiple archives
+
+    sched/
+        db_purge.C
