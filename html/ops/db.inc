@@ -24,42 +24,59 @@ function lookup_user_auth($auth) {
     }
 }
 
+function print_query_count($query, $nres, $start) {
+    $result = mysql_query($query);
+    $res = mysql_fetch_object($result);
+    if ($res->cnt < ($nres+$start)) {
+        $nres = $res->cnt-$start;
+    }
+    printf(
+        "<p>\n"
+        . "$res->cnt database entries match the query.  Displaying $start to " . ($start+$nres) . "."
+        . "<p>\n"
+    );
+}
+
 function show_platform($platform) {
     start_table();
     row("ID", $platform->id);
-    row("created", time_str($platform->create_time));
-    row("name", $platform->name);
-    echo "</table>";
+    row("Created", time_str($platform->create_time));
+    row("Platform Name", $platform->name);
+    row("","<a href=app_version.php?plat_id=$platform->id>Application Versions for Platform $platform->name </a>");
+    end_table();
 }
 
 function show_app($app) {
     start_table();
     row("ID", $app->id);
-    row("created", time_str($app->create_time));
-    row("name", $app->name);
-    row("result template", "<pre>".htmlspecialchars($app->result_xml_template)."</pre>");
-    echo "</table>";
+    row("Created", time_str($app->create_time));
+    row("Application Name", $app->name);
+    row("","<a href=app_version?app_id=$app->id>Application Versions for Application $app->name</a>");
+    row("","<a href=workunit.php?app_id=$app->id>Workunits for this Application</a>");
+    end_table();
 }
 
-function show_app_version($app_version) {
+function show_app_version($app_version,$show_xml_docs) {
     start_table();
     row("ID", $app_version->id);
-    row("created", time_str($app_version->create_time));
-    row("app ID", $app_version->appid);
-    row("version num", $app_version->version_num);
-    row("platform ID", $app_version->platformid);
-    row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
-    row("min_core_version", $app_version->min_core_version);
-    row("max_core_version", $app_version->max_core_version);
-    row("message", $app_version->message);
-    row("deprecated", $app_version->deprecated);
-    echo "</table>";
+    row("Created", time_str($app_version->create_time));
+    row("Application", "<a href=app.php?id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
+    row("Version num", $app_version->version_num);
+    row("Platform", "<a href=platform.php?id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
+    if ($show_xml_docs) {
+        row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
+    }
+    row("Min_core_version", $app_version->min_core_version);
+    row("Max_core_version", $app_version->max_core_version);
+    row("Message", $app_version->message);
+    row("Deprecated", $app_version->deprecated);
+    end_table();
 }
 
 function show_host($host) {
 
     echo TABLE2."\n";
-    echo "<tr>Below is information on all the hosts you have running the BOINC core client.";
+    echo "<tr>";
     echo "<p>";
     echo "<tr>".TD2.LG_FONT."<b>Host Information:</b></font></td></tr>\n";
     row("<b>IP address:   </b>", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
@@ -92,81 +109,145 @@ function show_host($host) {
     row("<b>% of time client on:   </b>", 100*$host->on_frac." %");
     row("<b>% of time host connected:   </b>", 100*$host->connected_frac." %");
     row("<b>% of time user active:   </b>", 100*$host->active_frac." %");
-    echo "</table>\n";
+    row("","<a href=result.php?host_id=$host->id>Results Assigned to Host</a>");
+    end_table();
 
 }
 
-function show_workunit($wu) {
+function show_workunit($wu,$show_xml_doc) {
     start_table();
-    row("created", time_str($wu->create_time));
-    row("name", $wu->name);
-    row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
-    row("app ID", $wu->appid);
-    row("batch", $wu->batch);
-    row("FP operations", $wu->rsc_fpops);
-    row("integer operations", $wu->rsc_iops);
-    row("memory requirement", $wu->rsc_memory);
-    row("disk requirement", $wu->rsc_disk);
-    row("dynamic results", $wu->dynamic_results?"yes":"no");
-    row("max_results", $wu->max_results);
-    row("nresults", $wu->nresults);
-    row("nresults_unsent", $wu->nresults_unsent);
-    row("nresults_done", $wu->nresults_done);
-    row("nresults_fail", $wu->nresults_fail);
-    echo "</table>";
+    row4("Created", time_str($wu->create_time), "Name", $wu->name);
+    if ($show_xml_doc) {
+        row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
+    }
+    row4("Application", "<a href=app.php?id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>",
+        "Batch", $wu->batch);
+    row4("FP Operations", $wu->rsc_fpops, "Integer Operations", $wu->rsc_iops);
+    row4("Memory Requirement", $wu->rsc_memory, "Disk Requirement", $wu->rsc_disk);
+    row4("Dynamic Results", $wu->dynamic_results?"yes":"no", "Max Results", $wu->max_results);
+    row4("Number of Results", $wu->nresults, "Number of Unsent Results", $wu->nresults_unsent);
+    row4("Number of Results Done", $wu->nresults_done, "Number of Failed Results",
+        $wu->nresults_fail);
+    row("","<a href=result.php?wu_id=$wu->id>Show Associated Results</a>");
+    end_table();
+    echo "<p>";
 }
 
 function res_state_string($s) {
     switch($s) {
-    case 1: return "inactive";
-    case 2: return "unsent";
-    case 3: return "in progress";
-    case 4: return "done";
-    case 5: return "timeout";
-    case 6: return "error";
+    case 1: return "Inactive";
+    case 2: return "Unsent";
+    case 3: return "In Progress";
+    case 4: return "Done";
+    case 5: return "Timeout";
+    case 6: return "Error";
     }
 }
 
-function show_result($result) {
+function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     start_table();
-    row("created", time_str($result->create_time));
-    row("name", $result->name);
-    row("workunit ID", $result->workunitid);
-    row("state", res_state_string($result->state));
-    row("host ID", $result->hostid);
-    row("sent", time_str($result->sent_time));
-    row("received", time_str($result->received_time));
-    row("exit status", $result->exit_status);
-    row("CPU time", $result->cpu_time);
-    row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
-    row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
-    row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
-    row("batch", $result->batch);
-    row("validated", $result->validated);
-    echo "</table>";
+    if ($show_times) {
+        row4("created", time_str($result->create_time), "sent", time_str($result->sent_time));
+        row4("received", time_str($result->received_time),"","");
+    }
+    row4("Name", $result->name, "Workunit",
+        "<a href=workunit.php?id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
+
+    row4("state", res_state_string($result->state), "Host ID",
+        "<a href=host.php?id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
+
+    row4("Exit Status", $result->exit_status, "CPU time", $result->cpu_time);
+    if ($show_xml_docs) {
+        row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
+        row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
+    }
+    if ($show_stderr) {
+        row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    }
+    row4("batch", $result->batch, "validated", $result->validated);
+    end_table();
+    echo "<p>";
 }
 
 function show_user($user) {
     start_table();
-    row("created", time_str($user->create_time));
-    row("total credit", $user->total_credit);
-    row("recent averaged credit:", $user->expavg_credit);
-    row("name", $user->name);
-    row("email address", $user->email_addr);
-    row("country", $user->country);
-    row("postal code", $user->postal_code);
-    echo "</table>\n";
+    row("Created", time_str($user->create_time));
+    row("Total Credit", $user->total_credit);
+    row("Recent Averaged Credit:", $user->expavg_credit);
+    row("Name", $user->name);
+    row("Email Address", $user->email_addr);
+    row("Country", $user->country);
+    row("Postal Code", $user->postal_code);
+    row("Team", ($user->teamid == 0 ? "None" : "<a href=team.php?id=$user->teamid>" . team_name_by_id($user->teamid) . "</a>" ));
+    row("", "<a href=host.php?user_id=$user->id>User Hosts</a>");
+    end_table();
+}
+
+function team_type_string($s) {
+    switch ($s) {
+        case 1: return "Small Company";
+        case 2: return "Medium Company";
+        case 3: return "Large Company";
+        case 4: return "Club";
+        case 5: return "Primary School";
+        case 6: return "Secondary School";
+        case 7: return "Junior College";
+        case 8: return "University or Department";
+        case 9: return "Government Agency";
+        default: return "Unknown";
+    }
 }
 
 function show_team($team) {
     start_table();
     row("ID", $team->id);
-    row("founder", $team->userid);
-    row("name", $team->name);
-    row("url", $team->url);
-    row("type", $team->type);
-    row("name_html", $team->name_html);
-    row("description", $team->description);
+    row("Team Founder", "<a href=user.php?id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
+    row("Name", $team->name);
+    row("Name (HTML Formatted)", "<pre>" . htmlspecialchars($team->name_html) . "</pre>" );
+    row("Url", "<a href=http://$team->url>" . $team->url . "</a>");
+    row("Type", team_type_string($team->type));
+    row("Description", $team->description);
+    row("", "<a href=user.php?team_id=$team->id>List All Members</a>");
+    end_table();
+}
+
+function team_name_by_id($team_id) {
+    $result = mysql_query("select * from team where id = $team_id");
+    $team = mysql_fetch_object($result);
+    return $team->name;
+}
+
+function user_name_by_id($user_id) {
+    $result = mysql_query("select * from user where id = $user_id");
+    $user = mysql_fetch_object($result);
+    return $user->name;
+}
+
+function app_name_by_id($app_id) {
+    $result = mysql_query("select * from app where id = $app_id");
+    $app = mysql_fetch_object($result);
+    return $app->name;
+}
+
+function wu_name_by_id($wu_id) {
+    $result = mysql_query("select * from workunit where id = $wu_id");
+    $wu = mysql_fetch_object($result);
+    return $wu->name;
+}
+
+function platform_name_by_id($plat_id) {
+    $result = mysql_query("select * from platform where id = $plat_id");
+    $plat = mysql_fetch_object($result);
+    return $plat->name;
+}
+
+function host_name_by_id($host_id) {
+    $result = mysql_query("select * from host where id = $host_id");
+    $host = mysql_fetch_object($result);
+    if (!strlen($host->domain_name) && !strlen($host->last_ip_addr))
+        return "(blank)";
+    else
+        return $host->domain_name . " (" . $host->last_ip_addr . ")";
 }
 
 ?>

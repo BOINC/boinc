@@ -62,6 +62,14 @@ function page_tail() {
     echo "|<a href=home.php> User Page </a>|<a href=team.php> Teams </a>|<a href=index.php> Main Project Page </a>|</td></tr></table>\n";
 }
 
+function append_sql_query($original,$addition,$first) {
+    if ($first == 1) {
+        return $original . " where " . $addition;
+    } else {
+        return $original . " and " . $addition;
+    }
+}
+
 function date_str($when) {
     return date("g:i A, l M j", $when);
 }
@@ -72,11 +80,26 @@ function time_str($x) {
 }
 
 function start_table() {
-    echo "<table width=600 border=2 cellpadding=4>";
+    echo "<table border=2 cellpadding=4 width=700>\n";
+}
+
+function end_table() {
+    echo "</table>\n";
+}
+
+function print_checkbox($text,$name,$checked) {
+    echo "<input type=checkbox name=$name"
+        . (strlen($checked) ? " checked" : "") . ">"
+        . "$text\n"
+        . "<p>\n";
+}
+
+function print_submit($text,$name) {
+    echo "<input type=submit name=\"$name\" value=\"$text\">\n";
 }
 
 function row($x, $y) {
-    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td></tr>\n";
+    echo "<tr>\n<td width=30% colspan=2 valign=top align=right>$x</td>\n<td colspan=2>$y</td>\n</tr>\n";
 }
 
 function row2($x, $y) {
@@ -85,6 +108,11 @@ function row2($x, $y) {
 
 function row3($x, $y, $z) {
     echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
+}
+
+function row4($xx, $xy, $yx, $yy) {
+    echo "<tr><td width=25% valign=top align=right>$xx</td><td width=25%>$xy</td>"
+        . "<td width=25% align=right>$yx</td><td width=%25>$yy</td></tr>\n";
 }
 
 function random_string() {
@@ -100,8 +128,10 @@ function print_page_header($title) {
     echo "<head>\n";
     echo "<title>$title</title>\n";
     echo "</head>\n";
-    echo "<body BGCOLOR=000000 TEXT=FFFFFF LINK=cc99ff VLINK=cc99ff>\n";
-    echo "<br clear=all><br>\n";
+    echo "<body TEXT=000000 BGCOLOR=FFFFFF>\n";
+    echo "<h2>$title</h2>\n";
+    echo "<a href=index.html>Return to Main Page</a>\n";
+    echo "<br clear=all>\n";
 }
 
 function print_page_end() {
