@@ -9,6 +9,8 @@ include $(top_srcdir)/Makefile.incl
 
 client-bin: @CLIENT_BIN_FILENAME@
 
+LIBS += @LINUXLIBS@
+
 bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = cpu_benchmark

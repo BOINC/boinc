@@ -137,7 +137,6 @@ dnl AC_CHECK_LIB(nsl, gethostbyaddr, [have_nsl=yes])
 dnl AM_CONDITIONAL([HAVE_NSL], [test x$have_nsl = xyes])
 dnl AC_SEARCH_LIBS(gethostbyname, nsl, , AC_SEARCH_LIBS(gethostbyname, nsl, ,, -lsocket), , )
 
-AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(z, gzopen)
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
@@ -325,12 +324,55 @@ dnl tell automake about whether to build client and/or server
 AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 
-dnl  by default, create static binaries on linux.
-dnl [if [ "$target_os" = "linux-gnu" ]; then
-dnl     STATIC_FLAGS="-static"
-dnl fi
-dnl echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
-dnl AC_SUBST(STATIC_FLAGS)
+
+##----------------------------------------------------------------------
+dnl vodoo for building portable linux-binary (client, clientgui)
+AC_ARG_ENABLE([linux-release], AS_HELP_STRING([--enable-linux-release],
+	[Try building a portable "release-candidate" for Linux: \
+	this links libstd++ statically. You will probably need gcc-3.0 for 
+	this to produce a portable linux-binary. 
+	It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
+	(Default = no)]), [], [enable_linux_release=no])
+
+dnl Some platform specific settings
+case $target in
+   *linux*) 
+	if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" != yes ); then
+	   AC_MSG_WARN([--enable-linux-release ignored.
+--------------------------------------------------
+The switch --enable-linux-release is only useful for building the client and will be ignored
+--------------------------------------------------]) 
+        fi
+	;;
+   *)	## in the non-linux case, --enable-linux-release is not allowed
+	if test "${enable_linux_release}" = yes; then
+	   AC_MSG_ERROR([
+----------------------------------------------------------------------
+Sorry, the switch --linux-release is only meaningful when compiling for Linux!
+Please don't use that switch otherwise.
+----------------------------------------------------------------------])
+	fi  
+	;; 
+esac
+
+if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" = yes ); then
+   echo "----------"
+   echo "NOTE: Building portable Linux client binaries"
+   echo "----------"
+   AC_CHECK_LIB(gcc_eh, _Unwind_Resume, [have_gcc_eh=yes], [have_gcc_eh=no])
+   if test "$have_gcc_eh" = yes; then
+      GCC_EH_LIB=-lgcc_eh
+   else
+      GCC_EH_LIB=
+   fi
+   LINUXLIBS="-nodefaultlibs -Wl,-Bstatic -lstdc++ -lgcc $GCC_EH_LIB -Wl,-Bdynamic -lpthread -lm  -lc"	
+else
+   LINUXLIBS=
+fi
+AC_SUBST(LINUXLIBS)
+
+##----------------------------------------------------------------------
+
 
 AC_CONFIG_FILES([
                  ./version.h
