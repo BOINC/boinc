@@ -17,7 +17,7 @@ echo "
     <h3>Account setup: email options</h3>
     <br>
 ";
-$prefs = null;
+$prefs = default_prefs();
 prefs_form_email($prefs, "account_setup_nonfirst_done.php");
 page_tail();
 

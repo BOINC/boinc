@@ -42,11 +42,10 @@
     $work->wu_template = "pulse_wu";
     $work->result_template = "pulse_result";
     $work->redundancy = 5;
-    $work->delay_bound = 20000;
     array_push($work->input_files, "03au00ab_20575_00000.wu");
     $work->install($project);
 
-    PassThru( "cd /mydisks/a/users/boincadm/html/sah/; ln -s ../download/ ./download");
-
+    PassThru( "cd /mydisks/a/users/boincadm/html/apt/; ln -s ../download/ ./download");
     $project->start_feeder();
+    $project->start_make_work($work);
 ?>
