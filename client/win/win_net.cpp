@@ -28,11 +28,13 @@
 #include "wingui.h"
 #include "client_state.h"
 
+#define DIAL_WAIT		60		// seconds after dial to wait (in case of cancel)
 #define CONFIRM_WAIT	60		// seconds after user says not to connect to ask again
 #define CLOSE_WAIT		5		// seconds after last call to close that the connection should be terminated
 
 int net_ref_count = -1;			// -1 closed, 0 open but not used, >0 number of users
 double net_last_req_time = 0;	// last time user was requested to connect in seconds
+double net_last_dial_time = 0;	// last time modem was dialed
 double net_close_time = 0;		// 0 don't close, >0 time when network connection should be terminated in seconds
 bool dialed = false;
 
@@ -75,6 +77,10 @@ int NetOpen( void )
 
 			// Don't Autodial if already connected to Internet by Modem or LAN 
 			if (!rc) {
+				if((double)time(NULL) < net_last_dial_time + CONFIRM_WAIT) {
+					return -1;
+				}
+				net_last_dial_time = (double)time(NULL);
 				rc = (*AutoDial)(INTERNET_AUTODIAL_FORCE_UNATTENDED, 0);
 				if (rc) {
 					dialed = true;
@@ -95,6 +101,7 @@ int NetOpen( void )
 			}
 		}
 	}
+
 
 	wVersionRequested = MAKEWORD(1, 1);
 	rc = WSAStartup(wVersionRequested, &wsdata);
