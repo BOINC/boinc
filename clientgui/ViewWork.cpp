@@ -273,6 +273,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 
 CViewWork::~CViewWork()
 {
+    EmptyCache();
 }
 
 

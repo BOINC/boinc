@@ -25,6 +25,7 @@
 #endif
 
 
+#include "LogBOINC.h"
 #include "MainFrame.h"
 #include "MainDocument.h"
 #ifndef NOTASKBAR
@@ -52,8 +53,9 @@ protected:
     wxInt32         StartupSystemIdleDetection();
     wxInt32         ShutdownSystemIdleDetection();
 
-    wxLocale*       m_pLocale;
     wxConfig*       m_pConfig;
+    wxLocale*       m_pLocale;
+    wxLogBOINC*     m_pLog;
 
     CMainFrame*     m_pFrame;
     CMainDocument*  m_pDocument;

@@ -83,6 +83,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
     char event_message[2048];
 #endif
 
+    // Cycle the log files if we need to
+    diagnostics_cycle_logs();
+
     strcpy(message, msg);
     while (strlen(message)&&message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
@@ -233,14 +236,22 @@ void boinc_init(int argc, char** argv) {
     gstate.parse_env_vars();
 
 
-    boinc_init_diagnostics(
-        BOINC_DIAG_DUMPCALLSTACKENABLED
-        | BOINC_DIAG_HEAPCHECKENABLED
-        | BOINC_DIAG_TRACETOSTDERR
-#ifdef _WIN32
-        //| BOINC_DIAG_REDIRECTSTDERR
-        //| BOINC_DIAG_REDIRECTSTDOUT
-#endif
+    // Initialize the BOINC Diagnostics Framework
+    int dwDiagnosticsFlags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDOUT;
+
+    if (gstate.redirect_io || gstate.executing_as_daemon) {
+        dwDiagnosticsFlags |= 
+            BOINC_DIAG_REDIRECTSTDERR | 
+            BOINC_DIAG_REDIRECTSTDOUT;
+    }
+
+    diagnostics_init(
+        dwDiagnosticsFlags,
+        "stdoutdae",
+        "stderrdae"
     );
 
     retval = check_unique_instance();
@@ -376,7 +387,7 @@ int main(int argc, char** argv) {
         retval = boinc_main_loop();
     }
 #else
-    boinc_main_loop();
+    retval = boinc_main_loop();
 #endif
 
 #ifdef _WIN32

@@ -2165,11 +2165,6 @@ void CMainWindow::OnTimer(UINT uEventID) {
         while(gstate.do_something(dtime()));
         NetCheck(); // check if network connection can be terminated
 
-        // TODO: check this after writing a message, not here!!!
-        if ((counter % 10) == 0) {
-            gstate.trunc_stderr_stdout();
-        }
-
         UpdateGUI(&gstate);
 
         // Start the timer again

@@ -121,6 +121,7 @@ public:
     bool network_suspended;
 	bool executing_as_daemon;
     bool size_overflow;
+    bool redirect_io;
 
 private:
     bool client_state_dirty;
@@ -231,7 +232,6 @@ public:
 
 // --------------- cs_files.C:
 public:
-    void trunc_stderr_stdout();
     bool start_new_file_xfer(PERS_FILE_XFER&);
 private:
     int make_project_dirs();

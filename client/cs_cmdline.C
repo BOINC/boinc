@@ -44,7 +44,8 @@ static void print_options(char* prog) {
         "    -update_prefs URL      contact a project to update preferences\n"
         "    -run_cpu_benchmarks    run the CPU benchmarks\n"
         "    -check_all_logins      check input from remote users\n"
-        "    -allow_remote_gui_rpc  allow remote GUI RPC connections\n",
+        "    -allow_remote_gui_rpc  allow remote GUI RPC connections\n"
+        "    -redirectio            redirect stdout and stderr to log files\n",
         prog
     );
 }
@@ -67,6 +68,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
             executing_as_daemon = true;
+        } else if (ARG(redirectio)) {
+            redirect_io = true;
         } else if (ARG(return_results_immediately)) {
             return_results_immediately = true;
         } else if (ARG(skip_cpu_benchmarks)) {

@@ -16,6 +16,7 @@ boinc_gui_SOURCES = \
     DlgAttachProject.cpp \
     DlgConnection.cpp \
     DlgOptions.cpp \
+    LogBOINC.cpp \
     MainDocument.cpp \
     MainFrame.cpp \
     stdwx.cpp \

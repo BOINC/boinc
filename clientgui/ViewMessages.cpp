@@ -197,6 +197,8 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 
 CViewMessages::~CViewMessages()
 {
+    EmptyCache();
+
     if ( m_pMessageInfoAttr )
     {
         delete m_pMessageInfoAttr;

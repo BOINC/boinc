@@ -40,83 +40,36 @@
 #include "filesys.h"
 #include "util.h"
 
-static int flags;
+
+#define MAX_STDERR_FILE_SIZE        2048*1024
+#define MAX_STDOUT_FILE_SIZE        2048*1024
+
+
+static int   flags;
+static char  stdout_log[256];
+static char  stdout_archive[256];
+static FILE* stdout_file;
+static char  stderr_log[256];
+static char  stderr_archive[256];
+static FILE* stderr_file;
+
 
 #ifdef _WIN32
+
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal );
+
 #else
+
 static void boinc_catch_signal(int signal);
-//static void boinc_quit(int sig);
+
 #endif
 
 
-// initialize the diagnostics environment.
+// stub function for initializing the diagnostics environment.
 //
 int boinc_init_diagnostics(int _flags) {
-	void* lpRetVal;
-
-    flags = _flags;
-
-    // Archive any old stderr.txt and stdout.txt files, if requested
-    if ( flags & BOINC_DIAG_ARCHIVESTDERR ) {
-        boinc_copy(BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD);
-    }
-
-    if ( flags & BOINC_DIAG_ARCHIVESTDOUT) {
-        boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD );
-    }
-
-
-    // Redirect stderr and/or stdout streams, if requested
-    if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
-        lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "a", stderr);
-	    if ( NULL == lpRetVal ) {
-            return ERR_FOPEN;
-        }
-    }
-
-    if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
-        lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "w", stderr);
-	    if ( NULL == lpRetVal ) {
-            return ERR_FOPEN;
-        }
-    }
-
-    if (flags & BOINC_DIAG_REDIRECTSTDOUT ) {
-	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "a", stdout);
-	    if ( NULL == lpRetVal ) {
-            return ERR_FOPEN;
-        }
-    }
-
-    if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
-	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "w", stdout);
-        if ( NULL == lpRetVal ) {
-            return ERR_FOPEN;
-        }
-    }
-
-
-#if defined(_WIN32) && defined(_DEBUG)
-
-    _CrtSetReportHook( boinc_message_reporting );
-
-    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
-        SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
-
-    if (flags & BOINC_DIAG_HEAPCHECKENABLED )
-        SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
-
-#endif // defined(_WIN32) && defined(_DEBUG)
-
-
-    // Install unhandled exception filters and signal traps.
-    if ( BOINC_SUCCESS != boinc_install_signal_handlers() ) {
-        return ERR_SIGNAL_OP;
-    }
-
-	return BOINC_SUCCESS;
+	return diagnostics_init( _flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR );
 }
 
 
@@ -146,6 +99,123 @@ int boinc_install_signal_handlers() {
     boinc_set_signal_handler(SIGPIPE, boinc_catch_signal);
 #endif //_WIN32
 	return 0;
+}
+
+
+// initialize the diagnostics environment.
+//
+int diagnostics_init(int _flags, char* stdout_prefix, char* stderr_prefix) {
+
+    flags = _flags;
+    snprintf(stdout_log, sizeof(stdout_log), "%s.txt", stdout_prefix);
+    snprintf(stdout_archive, sizeof(stdout_archive), "%s.old", stdout_prefix);
+    snprintf(stderr_log, sizeof(stderr_log), "%s.txt", stderr_prefix);
+    snprintf(stderr_archive, sizeof(stderr_archive), "%s.old", stderr_prefix);
+
+
+    // Check for invalid parameter combinations
+    if ( ( flags & BOINC_DIAG_REDIRECTSTDERR ) && ( flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) ) {
+        return ERR_INVALID_PARAM;
+    }
+
+    if ( ( flags & BOINC_DIAG_REDIRECTSTDOUT ) && ( flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) ) {
+        return ERR_INVALID_PARAM;
+    }
+
+
+    // Archive any old stderr.txt and stdout.txt files, if requested
+    if ( flags & BOINC_DIAG_ARCHIVESTDERR ) {
+        boinc_copy(stderr_log, stderr_archive);
+    }
+
+    if ( flags & BOINC_DIAG_ARCHIVESTDOUT) {
+        boinc_copy( stdout_log, stdout_archive );
+    }
+
+
+    // Redirect stderr and/or stdout streams, if requested
+    if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
+        stderr_file = freopen(stderr_log, "a", stderr);
+	    if ( NULL == stderr_file ) {
+            return ERR_FOPEN;
+        }
+    }
+
+    if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
+        stderr_file = freopen(stderr_log, "w", stderr);
+	    if ( NULL == stderr_file ) {
+            return ERR_FOPEN;
+        }
+    }
+
+    if (flags & BOINC_DIAG_REDIRECTSTDOUT ) {
+	    stdout_file = freopen(stdout_log, "a", stdout);
+	    if ( NULL == stdout_file ) {
+            return ERR_FOPEN;
+        }
+    }
+
+    if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
+	    stdout_file = freopen(stdout_log, "w", stdout);
+        if ( NULL == stdout_file ) {
+            return ERR_FOPEN;
+        }
+    }
+
+
+#if defined(_WIN32) && defined(_DEBUG)
+
+    _CrtSetReportHook( boinc_message_reporting );
+
+    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
+        SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
+
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED )
+        SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
+
+#endif // defined(_WIN32) && defined(_DEBUG)
+
+
+    // Install unhandled exception filters and signal traps.
+    if ( BOINC_SUCCESS != boinc_install_signal_handlers() ) {
+        return ERR_SIGNAL_OP;
+    }
+
+	return BOINC_SUCCESS;
+}
+
+
+// Cycle the log files at regular events.
+//
+int diagnostics_cycle_logs() {
+    double f_size;
+
+    fflush(stdout);
+    fflush(stderr);
+
+    // If the stderr.txt or stdout.txt files are too big, cycle them
+    //
+    if (flags & BOINC_DIAG_REDIRECTSTDERR) {
+        file_size(stderr_log, f_size);
+        if (MAX_STDERR_FILE_SIZE < f_size) {
+            fclose( stderr_file );
+            boinc_copy(stderr_log, stderr_archive);
+            stderr_file = freopen( stderr_log, "w", stderr );
+            if ( NULL == stderr_file ) return ERR_FOPEN;
+        }
+    }
+
+    if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
+        file_size(stdout_log, f_size);
+        if (MAX_STDOUT_FILE_SIZE < f_size) {
+            fclose( stdout_file );
+            boinc_copy( stdout_log, stdout_archive );
+            stdout_file = freopen( stdout_log, "w", stdout );
+            if ( NULL == stdout_file ) return ERR_FOPEN;
+        }
+    }
+
+	return BOINC_SUCCESS;
 }
 
 
@@ -494,13 +564,6 @@ void boinc_catch_signal(int signal) {
     exit(ERR_SIGNAL_CATCH);
 }
 
-
-/*
-void boinc_quit(int sig) {
-    signal(SIGQUIT, boinc_quit);    // reset signal
-    time_to_quit = true;
-}
-*/
 
 #endif
 

@@ -43,9 +43,6 @@ extern int check_unique_instance();
 extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 
-#define MAX_STDERR_FILE_SIZE        1024*1024
-#define MAX_STDOUT_FILE_SIZE        1024*1024
-
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
 #define STATE_FILE_NEXT             "client_state_next.xml"

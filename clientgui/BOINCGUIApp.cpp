@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "diagnostics.h"
 #include "MainFrame.h"
 #include "MainDocument.h"
 
@@ -53,9 +54,31 @@ bool CBOINCGUIApp::OnInit()
     m_hIdleDetectionDll = NULL;
 #endif
 
-    // Enable Trace Masks
-    //wxLog::AddTraceMask( wxT("Function Start/End") );
+    // Initialize the BOINC Diagnostics Framework
+    int dwDiagnosticsFlags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT |
+        BOINC_DIAG_TRACETOSTDOUT;
 
+    diagnostics_init(
+        dwDiagnosticsFlags,
+        "stdoutgui",
+        "stderrgui"
+    );
+
+    // Initialize the configuration storage module
+    m_pConfig = new wxConfig(GetAppName());
+    wxConfigBase::Set(m_pConfig);
+    wxASSERT(NULL != m_pConfig);
+
+    // Enable Logging and Trace Masks
+    m_pLog = new wxLogBOINC();
+    wxLog::SetActiveTarget(m_pLog);
+
+    m_pLog->AddTraceMask( wxT("Function Start/End") );
 
     // Enable the in memory virtual file system for
     //   storing images
@@ -63,10 +86,6 @@ bool CBOINCGUIApp::OnInit()
 
     // Enable known image types
     wxImage::AddHandler(new wxXPMHandler);
-
-    // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit())
-        return false;
 
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
@@ -77,10 +96,9 @@ bool CBOINCGUIApp::OnInit()
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
     m_pLocale->AddCatalog(GetAppName());
 
-    // Initialize the configuration storage module
-    m_pConfig = new wxConfig(GetAppName());
-    wxConfigBase::Set(m_pConfig);
-    wxASSERT(NULL != m_pConfig);
+    // Commandline parsing is done in wxApp::OnInit()
+    if (!wxApp::OnInit())
+        return false;
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
@@ -258,7 +276,7 @@ void CBOINCGUIApp::StartupBOINCCore()
 #ifdef __WXMSW__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute += wxT("\\boinc.exe");
+        strExecute += wxT("\\boinc.exe -redirectio");
 
         PROCESS_INFORMATION pi;
         STARTUPINFO         si;

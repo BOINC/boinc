@@ -160,6 +160,21 @@
 				RelativePath="..\clientgui\BOINCTaskCtrl.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\clientgui\DlgAbout.cpp">
 			</File>
 			<File
@@ -216,6 +231,9 @@
 						BrowseInformation="1"
 						CompileAs="2"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\clientgui\LogBOINC.cpp">
 			</File>
 			<File
 				RelativePath="..\clientgui\MainDocument.cpp">
@@ -311,6 +329,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\stackwalker_win.cpp">
+			</File>
+			<File
 				RelativePath="..\clientgui\stdwx.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -399,6 +420,9 @@
 				RelativePath="..\clientgui\BOINCTaskCtrl.h">
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\DlgAbout.h">
 			</File>
 			<File
@@ -423,6 +447,9 @@
 				RelativePath="..\lib\gui_rpc_client.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\LogBOINC.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\MainDocument.h">
 			</File>
 			<File
@@ -445,6 +472,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\resource.h">
+			</File>
+			<File
+				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\stdwx.h">

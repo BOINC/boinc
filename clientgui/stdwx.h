@@ -125,6 +125,9 @@
 
 
 // C++ headers
+#ifdef __WXMSW__
+#include <xdebug>
+#endif
 #include <algorithm>
 #include <stdexcept>
 #include <string>

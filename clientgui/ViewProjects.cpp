@@ -299,6 +299,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 CViewProjects::~CViewProjects()
 {
+    EmptyCache();
 }
 
 

@@ -48,10 +48,8 @@
 
 // filenames
 //
-#define BOINC_DIAG_STDERR                  "stderr.txt"
-#define BOINC_DIAG_STDERROLD               "stderr.old"
-#define BOINC_DIAG_STDOUT                  "stdout.txt"
-#define BOINC_DIAG_STDOUTOLD               "stdout.old"
+#define BOINC_DIAG_STDERR                  "stderr"
+#define BOINC_DIAG_STDOUT                  "stdout"
 
 
 #ifdef _WIN32
@@ -103,8 +101,10 @@ void	boinc_info_release(const char *pszFormat, ...);
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-    extern void boinc_set_signal_handler(int sig, void(*handler)(int));
-    extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+
+extern void boinc_set_signal_handler(int sig, void(*handler)(int));
+extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
@@ -135,6 +135,9 @@ extern "C" {
 extern int boinc_init_diagnostics(int flags);
 extern int boinc_finish_diag();
 extern int boinc_install_signal_handlers();
+
+extern int diagnostics_init(int flags, char* stdout_prefix, char* stderr_prefix);
+extern int diagnostics_cycle_logs();
 
 #ifdef __cplusplus
 }

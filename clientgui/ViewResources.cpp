@@ -144,6 +144,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
 CViewResources::~CViewResources()
 {
+    EmptyCache();
 }
 
 

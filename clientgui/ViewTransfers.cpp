@@ -246,6 +246,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
 CViewTransfers::~CViewTransfers()
 {
+    EmptyCache();
 }
 
 

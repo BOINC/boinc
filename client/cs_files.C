@@ -69,26 +69,6 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     return true;
 }
 
-void CLIENT_STATE::trunc_stderr_stdout() {
-    double f_size;
-
-    fflush(stdout);
-    fflush(stderr);
-
-    // If the stderr.txt or stdout.txt files are too big, reset them
-    // TODO: should we tell the user we're resetting these?
-    // TODO: should rotate files, not truncate!!
-    //
-    file_size(STDERR_FILE_NAME, f_size);
-    if (f_size > MAX_STDERR_FILE_SIZE) {
-        freopen(STDERR_FILE_NAME, "w", stderr);
-    }
-    file_size(STDOUT_FILE_NAME, f_size);
-    if (f_size > MAX_STDOUT_FILE_SIZE) {
-        freopen(STDOUT_FILE_NAME, "w", stdout);
-    }
-}
-
 // Make a directory for each of the projects in the client state
 //
 int CLIENT_STATE::make_project_dirs() {

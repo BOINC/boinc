@@ -23643,3 +23643,36 @@ David  31 Jan 2005
         main.C,h
         win/
             win_service.cpp
+
+Rom    31 Jan 2005
+    - Implement log files for the BOINC Manager
+    - Implement call stacks, and memory leak detection for the BOINC Manager
+      on Windows
+    - Implement log rotation for both the core client and manager
+    - Implement stderr and stdout redirects with the core client
+    - Make the manager start the core client with IO redirection enabled
+    - Cleanup some more memory leaks in the BOINC Manager
+    - Enabled the STL use of the debug heap on Windows
+
+    client/
+        client_state.C, .h
+        cs_cmdline.C
+        cs_files.C
+        file_names.h
+        main.C
+    client/win/
+        wingui_mainwindow.cpp
+    clientgui/
+        BOINCGUI.cpp, .h
+        LogBOINC.cpp, .h (Added)
+        Makefile.am
+        ViewProjects.cpp
+        ViewMessages.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+        stdwx.h
+    lib/
+        diagnostics.C, .h
+    win_build/
+        BOINCGUI.vcproj
