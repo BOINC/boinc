@@ -69,7 +69,7 @@ extern "C" {
 // TODO: structs? common?
 // extern int	boinc_get_init_data(APP_INIT_DATA&);
 
-    void boinc_send_trickle_up_(char* s, int len)
+    void boinc_send_trickle_up_(char* s, int s_len)
     {
         boinc_send_trickle_up(StringFromFortran(s,s_len));
     }
