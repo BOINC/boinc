@@ -22,6 +22,7 @@
 #include <ctime>
 #include <unistd.h>
 #include <cmath>
+#include <math.h>
 
 #include "util.h"
 #include "boinc_db.h"
@@ -29,6 +30,10 @@
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+extern "C" {
+    int isnan(double);
+}
 
 DB_CONN boinc_db;
 

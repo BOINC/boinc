@@ -18016,3 +18016,12 @@ David  4 Oct 2004
 
     client/win/
         wingui_mainwindow.cpp
+
+David  4 Oct 2004
+    - fix typos and compile errors
+
+    db/
+        boinc_db.C
+        db_base.h
+    client/
+        cs_scheduler.C
