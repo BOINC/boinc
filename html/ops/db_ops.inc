@@ -287,6 +287,14 @@ function validate_state_str($s) {
     return "Unknown";
 }
 
+function client_version_string($client_version_num) {
+    if ($result->client_version_num) {
+        return '---';
+    } else {
+        return sprintf("%.2f", $client_version_num/100);
+    }
+}
+
 function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     start_table();
     if (!$hide_times) {
@@ -314,6 +322,7 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     row("Validate state", validate_state_str($result->validate_state));
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
+    row("Client version", client_version_string($result->client_version_num));
     row("","<a href='show_log.php?s=$result->name'>Grep logs</a>");
     end_table();
     echo "<p>";
@@ -339,9 +348,16 @@ function show_result_short($result) {
     $cs = result_client_state_string($result->client_state);
     $oc = result_outcome_string($result->outcome);
     $received = time_str($result->received_time);
+    $version = client_version_string($result->client_version_num);
+
+    if ($result->outcome == 3) {
+        $color = 'red';
+    } else {
+        $color = 'white';
+    }
 
     echo "
-        <tr>
+        <tr bgcolor=$color>
         <td><a href=db_action.php?table=result&id=$result->id>$result->id</a></td>
         <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
         <td>$ss</td>
@@ -354,11 +370,6 @@ function show_result_short($result) {
         ";
     } else {
         echo "<td>---</td>\n";
-    }
-    if ($result->client_version_num) {
-        $version = '---';
-    } else {
-        $version = sprintf("%.2f", $result->client_version_num/100);
     }
     echo "<td>$version</td>";
     echo "<td>$received</td>";
