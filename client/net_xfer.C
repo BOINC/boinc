@@ -574,8 +574,9 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             }
         }
     } else if (want_upload) {
-        // If we've sent the current contents of
-        // the buffer, then read the next block
+        // If we've sent the current contents of the buffer,
+        // read the next block
+        //
         if (file_read_buf_len == file_read_buf_offset) {
             m = fread(file_read_buf, 1, blocksize, file);
             if (m == 0) {
@@ -637,6 +638,7 @@ void NET_XFER::update_speed() {
 }
 
 void NET_XFER::got_error() {
+    //
     error = ERR_IO;
     io_done = true;
     log_messages.printf(

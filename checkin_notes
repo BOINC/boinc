@@ -20963,3 +20963,16 @@ David  9 Dec 2004
     html/user/
         account_setup_nonfirst_done.php
         create_account_action.php
+
+David  9 Dec 2004
+    - Fix error in HTTP logic used in file uploading:
+        When we've received the HTTP header for a file upload reply,
+        don't set io_done to true;
+        otherwise we'll immediately try to read the reply body,
+        and it might not be there yet.
+
+    api/
+        Makefile.am
+    client/
+        http.C,h
+        net_xfer.C,h

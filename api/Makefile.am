@@ -17,13 +17,6 @@ graphics_api_files = 		\
 	x_opengl.h 			\
 	boinc_gl.h 
 
-# removed until build working under Linux
-# David, beware, you must ALSO list the .h files!! Else they are
-# not included in the 'make dist' tarball!
-#
-#    bmplib.C 
-#    tgalib.C
-
 if BUILD_GRAPHICS_API
 graphics_libs = libboinc_graphics_api.a
 else

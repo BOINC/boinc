@@ -120,6 +120,17 @@ the worker programs, it must also call
 then <code>boinc_init_graphics()</code>,
 and eventually <code>boinc_finish()</code>.
 
+<p>
+If the main program is responsible for reporting application status
+to the core client, it should periodically call
+<pre>
+    boinc_report_app_status(
+        double cpu_time,                // CPU time since start of WU
+        double checkpoint_cpu_time,     // CPU time at last checkpoint
+        double fraction_done
+    );
+</pre>
+
 
 ";
 page_tail();

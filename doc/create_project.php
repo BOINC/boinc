@@ -58,7 +58,7 @@ Compiling BOINC software
 How to configure and compile the BOINC software.
 </font>
 <ul>
-<li> <a href=software.php>Software prerequisites</a>
+<li> <a href=build.php>Software prerequisites</a>
 <li> <a href=road_map.php>Road map of the BOINC software</a>
 <li> <a href=build_system.php>Build system</a>
 <li> <a href=build_server.php>Building server components</a>

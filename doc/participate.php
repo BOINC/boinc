@@ -22,7 +22,10 @@ echo "
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=cpu_sched.php>CPU scheduling</a>
 <li> <a href=teams.php>Teams</a>
-<li> <a href=anonymous_platform.php>Compiling BOINC software yourself</a>
+<li> <a href=anonymous_platform.php>Compiling BOINC software</a>
+    <br>Go here if you want to run BOINC on unusual platforms,
+        or if you want to inspect the source code before
+        you run it.
 </ul>
 <p>
 <b>Graphical User Interfaces (GUIs)</b>

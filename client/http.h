@@ -56,6 +56,7 @@ struct HTTP_REPLY_HEADER {
     // a POST operation where the request comes from a combination
     // of a string and a file w/offset,
     // and the reply goes into a memory buffer
+    // Used exclusively for file upload
 
 class HTTP_OP : public PROXY {
 public:

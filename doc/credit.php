@@ -12,6 +12,8 @@ is 1/100 day of CPU time on a reference computer that does
 <li> 1,000 double-precision MIPS based on the Whetstone benchmark.
 <li> 1,000 VAX MIPS based on the Dhrystone benchmark.
 </ul>
+These benchmarks are <a href=benchmark.php>imperfect predictors</a>
+of application performance, but they're good enough.
 Eventually, credit may reflect network transfer and disk storage as well
 as computation.
 

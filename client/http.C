@@ -228,9 +228,12 @@ void HTTP_REPLY_HEADER::parse() {
 
 const unsigned int MAX_HEADER_SIZE = 1024;
 
-// Parse an http reply header into the header struct
-//
-// Returns 1 if not done yet, 0 if done (header.http_status indicates success)
+// Read an HTTP reply header into the header struct
+// Read one character at a time so we don't read anything beyond the header.
+// Parse the reply header if it's complete.
+// Returns:
+//      1 if not done yet
+//      0 if done (header.http_status indicates status)
 //
 int HTTP_REPLY_HEADER::read_reply(int socket) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
@@ -667,12 +670,13 @@ bool HTTP_OP_SET::poll(double) {
                     htp->io_ready, htp->io_done
                 );
                 if (htp->hrh.read_reply(htp->socket)) {
-                    // not done yet
+                    // reading header, not done yet
                     htp->io_ready = false;
                     break;
                 }
 
-                // TODO: handle all kinds of redirects here
+                // here we've read and parsed the header.
+                // hth.http_status tells us the HTTP status
 
                 if (htp->hrh.http_status == HTTP_STATUS_MOVED_PERM || htp->hrh.http_status == HTTP_STATUS_MOVED_TEMP) {
                     htp->close_socket();
@@ -750,7 +754,7 @@ bool HTTP_OP_SET::poll(double) {
                 case HTTP_OP_POST2:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
                     htp->io_ready = false;
-                    htp->io_done = true;
+                    htp->io_done = false;
                     break;
                 }
             }
@@ -758,10 +762,9 @@ bool HTTP_OP_SET::poll(double) {
         case HTTP_STATE_REPLY_BODY:
             if (htp->io_done) {
                 action = true;
-                switch(htp->http_op_type) {
+                switch (htp->http_op_type) {
                 case HTTP_OP_POST2:
                     read_reply(htp->socket, htp->req1, 256);
-                    // parse reply here?
                     break;
                 default:
                     fclose(htp->file);

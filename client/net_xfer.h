@@ -45,13 +45,22 @@ public:
     bool want_download;     // at most one should be true
     bool want_upload;
     bool do_file_io;
-        // whether poll() should transfer data to/from file
+        // If true: poll() should transfer data to/from file
         // (in which case "file" and blocksize are relevant)
-        // or just set io_ready
-    bool io_done;           // got error or EOF
+        // If false: set io_ready (higher layers will do I/O)
+    bool io_done;
+        // set to true when the current transfer is over:
+        // - the transfer timed out (not activity for a long time)
+        // - network connect failed
+        // - got EOF on socket read (0 bytes, select indicated I/O ready)
+        // - error on disk write (e.g. volume full)
+        // - reached end of disk file on upload
+        // - got file read error on upload
+        // - write to socket failed on upload
     FILE* file;
     bool io_ready;
-        // can read or write socket now (used if !do_file_io)
+        // Signals higher layers that they can read or write socket now
+        // (used if !do_file_io)
     int error;
     int port;
     int blocksize;

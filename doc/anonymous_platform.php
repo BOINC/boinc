@@ -6,37 +6,31 @@ BOINC applications, and the BOINC core client, are native-mode programs,
 so different versions are required for each platform
 (a 'platform' is the combination of an operating
 system and a processor type: e.g., Linux/IntelX86).
-BOINC provides two ways to make these
-programs available for different platforms.
 
-<h3>The project-compiled model</h3>
 <p>
-In this approach, the BOINC-based project
-compiles program versions for common platforms
+BOINC-based projects compile program versions for common platforms
 (Windows/Intel, Linux/Intel, Mac OS/X. etc.),
-and places them on its servers.
+and place them on its servers.
 A participant downloads the core client for his platform
-(assuming that it's supported by the project).
+(assuming that platform is supported by the project).
 When the core client requests work from the project's scheduling server,
 the client tells the server its platform,
-and the server instructs it to download
-the appropriate executables.
+and the server instructs it to download the appropriate executables.
 <p>
 This addresses the needs of most BOINC participants,
-but it's inadequate for some people:
+but it's inadequate if:
 <ul>
 <li>
-People who, for security reasons,
-want to only run executables they have compiled themselves.
+your computers have platforms not supported by the project;
 <li>
-People whose computers have platforms not supported by the project.
+for security reasons,
+you want to only run executables you have compiled yourself;
 <li>
-People who want to optimize applications for particular architectures.
+you want to optimize applications for particular architectures.
 </ul>
 
-<h3>The compile-it-yourself model</h3>
 <p>
-In this model participants compile programs themselves
+To handle these cases, BOINC lets you compile programs yourself
 rather than downloading them from the project.
 Here's how it works:
 
@@ -84,6 +78,16 @@ The server then sends whatever work is available for those applications.
 
 This model is possible only with projects that make their application
 source code available.
+
+<p>
+You may want to check out the following email lists
+(e.g. the port may already exist):
+<ul>
+<li>
+<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt@ssl.berkeley.edu</a>: discussion of porting and optimization of BOINC applications.
+<li>
+<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev@ssl.berkeley.edu</a>: discussion of development and porting of BOINC software.
+</ul>
 <p>
 ";
 page_tail();
