@@ -645,6 +645,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
 
         row = mysql_fetch_row(cursor.rp);
         if (!row) {
+            mysql_free_result(cursor.rp);
             cursor.active = false;
             return -1;
         }
@@ -657,6 +658,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
         items.push_back(last_item);
         row = mysql_fetch_row(cursor.rp);
         if (!row) {
+            mysql_free_result(cursor.rp);
             cursor.active = false;
 
             // if got fewer rows than requested, last group is complete
