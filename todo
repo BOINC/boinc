@@ -55,6 +55,8 @@ decide what to do with invalid result files in upload directory
 
 make get_local_ip_addr() work in all cases
 
+think about sh_fopen related functionality in BOINC client
+
 Implement FIFO mechanism in scheduler for results that can't be sent
 
 user profiles on web (borrow logic from SETI@home)
