@@ -139,15 +139,32 @@ function show_413($xml=false) {
     version_end($xml);
 }
 
+function show_stable($xml) {
+    show_419($xml);
+}
+
+function show_dev($xml) {
+    show_463($xml);
+    show_462($xml);
+}
+
+if ($_GET["no_header"]) {
+    show_stable(false);
+    if ($_GET["dev"]) {
+        show_dev(false);
+    }
+    exit();
+}
+
 if ($_GET["xml"]) {
     header ("Content-Type: text/xml");
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 <core_versions>
     ";
-    echo "<stable_version>4.19</stable_version>\n";
-    show_419(true);
-    echo "<development_version>4.63</development_version>\n";
-    show_463(true);
+    echo "<stable_versions/>\n";
+    show_stable(true);
+    echo "<unstable_versions/>\n";
+    show_dev(true);
     echo "</core_versions>\n";
     exit();
 }
@@ -164,7 +181,7 @@ of work that is sent to your computer.
 
 <h2>Current version</h2>
 ";
-show_419();
+show_stable(false);
 echo "
     After the download is finished:
     <ul>
@@ -196,7 +213,7 @@ if ($_GET["dev"]) {
     echo "
         <h2>Development versions (latest features, possibly buggy)</h2>
     ";
-    show_463();
+    show_dev(false);
 }
 
 

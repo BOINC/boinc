@@ -23841,3 +23841,9 @@ David  2 Feb 2005
     sched/
         sched_locality.C
         sched_send.C,h
+
+David  2 Feb 2005
+    - core client: add platform name and client version to HTTP request headers
+
+    client/
+        http.C
