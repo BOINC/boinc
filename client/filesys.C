@@ -180,6 +180,21 @@ int file_size(char* path, int& size) {
     return 0;
 }
 
+/* boinc_link creates a file (new) which contains an XML
+   reference to existing. */
+
+int boinc_link( char *existing, char *new_link ) {
+    FILE *fp;
+
+	fp = fopen( new_link, "wb" );
+	if (!fp) return ERR_FOPEN;
+	rewind( fp );
+	fprintf( fp, "<soft_link>%s</soft_link>\n", existing );
+	fclose( fp );
+
+	return 0;
+}
+
 int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;

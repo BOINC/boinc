@@ -24,6 +24,7 @@
 #include "windows_cpp.h"
 
 #ifdef _WIN32
+#include <io.h>
 #else
 #include <unistd.h>
 #include <sys/wait.h>
@@ -35,6 +36,8 @@
 #include <ctype.h>
 #include <signal.h>
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "client_types.h"
 #include "client_state.h"
@@ -95,14 +98,14 @@ int ACTIVE_TASK::init(RESULT* rp) {
 }
 
 int ACTIVE_TASK::start(bool first_time) {
-    char exec_name[256], file_path[256], link_path[256];
+    char exec_name[256], file_path[256], link_path[256],temp[256];
     char* argv[100];
     unsigned int i;
     FILE_REF file_ref;
     FILE_INFO* fip;
-    int fd, retval;
-    char prefs_path[256];
-    FILE *prefs_fd;
+    int retval;
+    char prefs_path[256],init_path[256];
+    FILE *prefs_fd,*init_file;
     APP_IN app_prefs;
 
     // These should be chosen in a better manner
@@ -111,19 +114,105 @@ int ACTIVE_TASK::start(bool first_time) {
     app_prefs.graphics.refresh_period = 5;
     app_prefs.checkpoint_period = 5;
     app_prefs.poll_period = 5;
-    //app_gfx_prefs.shared_mem_key = ftok(dirname, 'B'); // Generate a unique identifier
 
     // Write out the app prefs
     sprintf( prefs_path, "%s/%s", dirname, CORE_TO_APP_FILE );
-    prefs_fd = fopen( prefs_path, "w" );
+    prefs_fd = fopen( prefs_path, "wb" );
     if( !prefs_fd ) {
         if( log_flags.task_debug ) {
             printf( "Failed to open core to app prefs file %s.\n", prefs_path );
         }
-        exit(-1);
+        return -1;
     }
+    rewind( prefs_fd );
     write_core_file( prefs_fd,app_prefs );
     fclose(prefs_fd);
+
+    sprintf( init_path, "%s/%s", dirname, BOINC_INIT_FILE );
+    init_file = fopen( init_path, "wb" );
+    if( !init_file ) {
+        if( log_flags.task_debug ) {
+            printf( "Failed to open init file %s.\n", init_path );
+        }
+        return -1;
+    }
+    rewind( init_file );
+
+    // make a link to the executable
+    //
+    for (i=0; i<app_version->app_files.size(); i++) {
+        fip = app_version->app_files[i].file_info;
+        get_pathname(fip, file_path);
+        if (i == 0) {
+            strcpy(exec_name, fip->name);
+        }
+        if (first_time) {
+            sprintf(link_path, "%s/%s", dirname, fip->name);
+            sprintf(temp, "../../%s", file_path );
+            retval = boinc_link( temp, link_path);
+            if (log_flags.task_debug) {
+                printf("link %s to %s\n", file_path, link_path);
+            }
+            if (retval) {
+                perror("link");
+                fclose( init_file );
+                return retval;
+            }
+        }
+    }
+
+    // create symbolic links, and hook up descriptors, for input files
+    //
+    for (i=0; i<wup->input_files.size(); i++) {
+        file_ref = wup->input_files[i];
+        get_pathname(file_ref.file_info, file_path);
+        if (strlen(file_ref.open_name)) {
+            if (first_time) {
+                sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
+                sprintf(temp, "../../%s", file_path );
+                if (log_flags.task_debug) {
+                    printf("link %s to %s\n", file_path, link_path);
+                }
+                retval = boinc_link( temp, link_path);
+                if (retval) {
+                    perror("link");
+                    fclose( init_file );
+                    return retval;
+                }
+            }
+        } else {
+            sprintf( temp, "../../%s", file_path );
+            write_init_file( init_file, temp, file_ref.fd, 1 );
+        }
+    }
+
+    // hook up the output files
+    //
+    for (i=0; i<result->output_files.size(); i++) {
+        file_ref = result->output_files[i];
+        get_pathname(file_ref.file_info, file_path);
+        if (strlen(file_ref.open_name)) {
+            if (first_time) {
+                creat(file_path, 0660);
+                sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
+                sprintf(temp, "../../%s", file_path );
+                if (log_flags.task_debug) {
+                    printf("link %s to %s\n", file_path, link_path);
+                }
+                retval = boinc_link( temp, link_path);
+                if (retval) {
+                    fclose( init_file );
+                    perror("link");
+                    return retval;
+                }
+            }
+        } else {
+            sprintf( temp, "../../%s", file_path );
+            write_init_file( init_file, temp, file_ref.fd, 0 );
+        }
+    }
+
+    fclose( init_file );
 
 #ifdef unix
     pid = fork();
@@ -132,88 +221,6 @@ int ACTIVE_TASK::start(bool first_time) {
         // from here on we're running in a new process.
         // If an error happens, exit nonzero so that the core client
         // knows there was a problem.
-
-        // make a link to the executable
-        //
-        for (i=0; i<app_version->app_files.size(); i++) {
-            fip = app_version->app_files[i].file_info;
-            get_pathname(fip, file_path);
-            if (i == 0) {
-                strcpy(exec_name, fip->name);
-            }
-            if (first_time) {
-                sprintf(link_path, "%s/%s", dirname, fip->name);
-                retval = link(file_path, link_path);
-                if (log_flags.task_debug) {
-                    printf("link %s to %s\n", file_path, link_path);
-                }
-                if (retval) {
-                    perror("link");
-                    exit(retval);
-                }
-            }
-        }
-        
-        // create symbolic links, and hook up descriptors, for input files
-        //
-        for (i=0; i<wup->input_files.size(); i++) {
-            file_ref = wup->input_files[i];
-            get_pathname(file_ref.file_info, file_path);
-            if (strlen(file_ref.open_name)) {
-                if (first_time) {
-                    sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
-                    if (log_flags.task_debug) {
-                        printf("link %s to %s\n", file_path, link_path);
-                    }
-                    retval = link(file_path, link_path);
-                    if (retval) {
-                        perror("link");
-                        exit(retval);
-                    }
-                }
-            } else {
-                fd = open(file_path, O_RDONLY);
-                if (fd != file_ref.fd) {
-                    retval = dup2(fd, file_ref.fd);
-                    if (retval < 0) {
-                        fprintf(stderr, "dup2 %d %d returned %d\n", fd, file_ref.fd, retval);
-                        exit(retval);
-                    }
-                    close(fd);
-                }
-            }
-        }
-
-        // hook up the output files
-        //
-        for (i=0; i<result->output_files.size(); i++) {
-            file_ref = result->output_files[i];
-            get_pathname(file_ref.file_info, file_path);
-            if (strlen(file_ref.open_name)) {
-                if (first_time) {
-                    creat(file_path, 0660);
-                    sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
-                    if (log_flags.task_debug) {
-                        printf("link %s to %s\n", file_path, link_path);
-                    }
-                    retval = link(file_path, link_path);
-                    if (retval) {
-                        perror("link");
-                        exit(retval);
-                    }
-                }
-            } else {
-                fd = open(file_path, O_WRONLY|O_CREAT, 0660);
-                if (fd != file_ref.fd) {
-                    retval = dup2(fd, file_ref.fd);
-                    if (retval < 0) {
-                        fprintf(stderr, "dup2 %d %d returned %d\n", fd, file_ref.fd, retval);
-                        exit(retval);
-                    }
-                    close(fd);
-                }
-            }
-        }
 
         // chdir() into the slot directory
         //
@@ -230,7 +237,8 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
         if (log_flags.task_debug) print_argv(argv);
-        retval = execv(exec_name, argv);
+        boinc_resolve_link( exec_name, temp );
+        retval = execv(temp, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
         exit(1);
@@ -239,7 +247,52 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
 #ifdef _WIN32
-	//CreateProcess
+		PROCESS_INFORMATION process_info;
+		STARTUPINFO startup_info;
+		HINSTANCE inst;
+
+		memset( &process_info, 0, sizeof( process_info ) );
+		memset( &startup_info, 0, sizeof( startup_info ) );
+		startup_info.cb = sizeof(startup_info);
+		startup_info.lpReserved = NULL;
+		startup_info.lpDesktop = "";
+
+    // hook up stderr to a specially-named file (do this inside the new process)
+    //
+    //freopen(STDERR_FILE, "a", stderr);
+
+    // Need to condense argv into a single string
+    //if (log_flags.task_debug) print_argv(argv);
+    sprintf( temp, "%s/%s", dirname, exec_name );
+    boinc_resolve_link( temp, exec_name );
+    if( !CreateProcess( exec_name,
+        wup->command_line,
+        NULL, // not sure about this for security
+        NULL, // not sure about this for security
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP|NORMAL_PRIORITY_CLASS,
+        NULL,
+        dirname,
+        &startup_info,
+        &process_info ) ) {
+    state = GetLastError();
+    LPVOID lpMsgBuf;
+    FormatMessage( 
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+				FORMAT_MESSAGE_FROM_SYSTEM | 
+				FORMAT_MESSAGE_IGNORE_INSERTS,
+				NULL,
+				state,
+				0, // Default language
+				(LPTSTR) &lpMsgBuf,
+				0,
+				NULL
+				);
+			MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
+		}
+		pid_handle = process_info.hProcess;
+
+
 #endif
 
 #ifdef macintosh
@@ -264,7 +317,7 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 //
 bool ACTIVE_TASK_SET::poll() {
     int stat;
-    ACTIVE_TASK* atp;
+    ACTIVE_TASK* atp = NULL;
     char path[256];
     int n;
 
@@ -304,6 +357,10 @@ bool ACTIVE_TASK_SET::poll() {
 			// Not sure what to do here
 		}
     }
+
+	if( atp == NULL ) {
+		return false;
+	}
 #endif
 
 #ifdef unix
@@ -379,12 +436,12 @@ void ACTIVE_TASK_SET::unsuspend_all() {
 
 #ifdef _WIN32
 void ACTIVE_TASK::suspend() {
-	// figure out a way to do this
+	// figure out a way to do this, perhaps via trigger file?
 	//kill(atp->pid, SIGSTOP);
 }
 
 void ACTIVE_TASK::unsuspend() {
-	// figure out a way to do this
+	// figure out a way to do this, perhaps via trigger file?
 	//kill(atp->pid, SIGCONT);
 }
 #else
