@@ -86,9 +86,9 @@ class Thread {
         return $posts;
     }
     
-    // Returns an array containing all posts in this thread ordered hierarchically.
+    // Returns an array containing all posts in this thread ordered hierarchically.;
            
-           function getOrderedPostArray() {
+    function getOrderedPostArray() {
         $rootPosts = $this->getRootPostsArray();
         // Sort $rootPosts by date (most recent first);
         foreach($rootPosts as $post) {
@@ -206,6 +206,7 @@ class Post {
         }
         return $sortedArray;
     }
+    
 }
 
 /* group database functions */
@@ -269,5 +270,53 @@ function getPost($postID) {
     return getNextPost(sql_query($sql));
 }
 
+/* display functions */
+
+function show_posts($thread, $show_controls=true, $do_coloring=true) {
+    global $logged_in_user;
+    $n = 0;
+    $posts = $thread->getPosts();
+    while ($post = getNextPost($posts)) {
+        show_post($post, $thread, $logged_in_user, $n, $show_controls);
+	if ($do_coloring) $n = ($n+1)%2;
+    } 
+}
+
+function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
+        $user = getUser($post->user);
+        $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
+	
+        echo "
+	<tr class=\"row$n\" style=\"vertical-align:top\">
+            <td>
+                        <a name= $post->id ></a>
+			<p style=\"font-weight:bold\">
+	";
+        if ($user->has_profile) { 
+            echo "<a href=\"../view_profile.php?userid=$post->user\">$user->name</a>";
+        } else { 
+            echo $user->name; 
+        }
+        echo "
+			</p>
+			<p style=\"font-size:8pt\">
+				Joined: ", date('M j, Y', $user->create_time),
+				"<br>Posts: $user->posts
+			</p>
+		</td>
+		<td>
+			<p style=\"font-size:8pt\">
+				Posted: ", date('D M j, Y g:i a', $post->timestamp);
+        
+        if ($post->parent_post) echo " in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
+        if ($can_edit && $show_controls) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>"; 
+        if ($post->modified) echo "<br>Last Modified: ", date('D M j, Y g:i a', $post->modified);
+        echo "
+			</p>
+			<p>", nl2br(stripslashes($post->content)), "</p>";
+        if ($show_controls) {
+            echo "<p>[<a href=\"reply.php?thread=", $thread->id, "&post=", $post->id, "#input\">Reply to this post</a>]</p></td></tr>";
+        }
+}
 
 ?>
