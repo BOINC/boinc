@@ -17,11 +17,16 @@ function location_form($host) {
     return $x;
 }
 
-function show_host($host, $private) {
+function show_host($host, $private, $ipprivate) {
     start_table();
     row1("Computer information");
     if ($private) {
-        row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+        if ($ipprivate) {
+            row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+        }
+        else { 
+            row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&private=1&ipprivate=1>Show IP address</a>");
+        }
         row2("Domain name", $host->domain_name);
         $x = $host->timezone/3600;
         row2("Time zone", "UTC - $x hours");
