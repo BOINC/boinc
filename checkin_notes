@@ -23342,3 +23342,16 @@ David  27 Jan 2005
 	tools/
 		kill_wu.C
 		poll_wu.C
+
+David  27 Jan 2005
+    - API: move code to get worker thread handle,
+        and set its priority, to set_worker_timer().
+        This function is guaranteed to be always called
+        by the worker thread, and only by the worker thread.
+        Got rid of boinc_adjust_worker_thread_priority().
+    - removed LHC@home-specific function from boinc_api_fortran.C
+
+    api/
+        boinc_api.C
+        boinc_api_fortran.C
+        graphics_impl.C

@@ -59,23 +59,21 @@ extern "C" {
         *result = boinc_is_standalone();
     }
 
-    void boinc_resolve_filename_(const char* s, char* t, int* length, int s_len, int t_len)
-    {
+    void boinc_resolve_filename_(
+        const char* s, char* t, int* length, int s_len, int t_len
+    ) {
         boinc_resolve_filename(StringFromFortran(s, s_len), t, *length);
     }
 	
-	void boincrf_(const char* s, char* t, int s_len, int t_len)
-    {
+	void boincrf_(const char* s, char* t, int s_len, int t_len) {
         boinc_resolve_filename(StringFromFortran(s, s_len), t, t_len);
     }
 
-    void boinc_parse_init_data_file_()
-    {
+    void boinc_parse_init_data_file_() {
         boinc_parse_init_data_file();
     }
 
-    void boinc_write_init_data_file_()
-    {
+    void boinc_write_init_data_file_() {
         boinc_write_init_data_file_();
     }
 
@@ -108,15 +106,10 @@ extern "C" {
         boinc_wu_cpu_time(*d_out);
     }
 
-    void boinc_calling_thread_cpu_time_(double* d1_out, double* d2_out)
-    {
+    void boinc_calling_thread_cpu_time_(double* d1_out, double* d2_out) {
         boinc_calling_thread_cpu_time(*d1_out, *d2_out);
     }
 	
-	void boinc_sixtrack_progress_(int* n,int* total)
-	{
-		boinc_fraction_done(*n / *total);
-	}
 }
 
 

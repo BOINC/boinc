@@ -99,6 +99,7 @@ static int nrunning_ticks = 0;
 //HANDLE   hResumeRequest;
 static HANDLE   hSharedMem;
 HANDLE   worker_thread_handle;
+    // used to suspend worker thread, and to measure its CPU time
 static MMRESULT timer_id;
 #endif
 
@@ -111,14 +112,6 @@ static BOINC_STATUS boinc_status;
 //
 int boinc_init() {
     boinc_options_defaults(options);
-
-    // adjust the thread priority so we don't eat cycles from
-    // other programs
-    //
-#ifdef _WIN32
-    boinc_adjust_worker_thread_priority(GetCurrentThread());
-#endif
-
     return boinc_init_options(options);
 }
 
@@ -152,18 +145,6 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             boinc_exit(0);	// not un-recoverable ==> status=0
         }
     }
-
-#ifdef _WIN32
-    DuplicateHandle(
-        GetCurrentProcess(),
-        GetCurrentThread(),
-        GetCurrentProcess(),
-        &worker_thread_handle,
-        0,
-        FALSE,
-        DUPLICATE_SAME_ACCESS
-    );
-#endif
 
     retval = boinc_parse_init_data_file();
     if (retval) {
@@ -200,20 +181,6 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 
     return 0;
 }
-
-// adjust the worker thread priority to the lowest thread priority
-// available
-#ifdef _WIN32
-int boinc_adjust_worker_thread_priority(HANDLE thread_handle) {
-    if (!SetThreadPriority(thread_handle, THREAD_PRIORITY_LOWEST))
-        return ERR_THREAD;
-    return 0;
-}
-#else
-int boinc_adjust_worker_thread_priority(pthread_t thread_handle) {
-    return 0;
-}
-#endif
 
 int boinc_get_status(BOINC_STATUS& s) {
     s = boinc_status;
@@ -563,9 +530,22 @@ static void worker_timer(int a) {
 }
 
 
+// set up a periodic timer interrupt for the worker thread.
+// This is called only and always by the worker thread
+//
 int set_worker_timer() {
     int retval=0;
+
 #ifdef _WIN32
+    DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentThread(),
+        GetCurrentProcess(),
+        &worker_thread_handle,
+        0,
+        FALSE,
+        DUPLICATE_SAME_ACCESS
+    );
 
     // Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop
@@ -577,6 +557,10 @@ int set_worker_timer() {
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
     );
+
+    // lower our priority here
+    //
+    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST);
 #else
     struct sigaction sa;
     itimerval value;

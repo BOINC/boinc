@@ -100,19 +100,11 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
 
     DWORD threadId;
 
-    // Create the graphics thread, passing it the graphics info
-    // TODO: is it better to use _beginthreadex here?
+    // Create and start worker thread
     //
     worker_thread_handle = CreateThread(
         NULL, 0, foobar, 0, CREATE_SUSPENDED, &threadId
     );
-
-    // lower worker thread priority
-    //
-    boinc_adjust_worker_thread_priority(worker_thread_handle);
-
-    // Start the worker thread
-    //
     ResumeThread(worker_thread_handle);
 
 #else
