@@ -14464,3 +14464,6 @@ Karl 2004-07-02
 
     db/
         boinc_db.C
+
+    sched/
+        transitioner.C
