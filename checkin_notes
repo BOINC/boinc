@@ -10180,3 +10180,16 @@ David  Feb 28 2004
 
 	client/win/
 		wingui_mainwindow.cpp,h
+
+Rom    Feb 28 2004
+    - Added boinc_diagnostics.c,.h, boinc_exceptions.c,.h.  Not included in the build yet,
+      but needed to snapshot the source.
+    - Fixed a bug where on Windows we were not really waiting for three seconds before
+      a retry.  This is done for both reads and writes since on Windows there is a notion
+      of exclusive reads which would make successive read requests fail as well.
+
+    api/
+        boinc_diagnostics.C, .h (added)
+        boinc_exception.C, .h (added)
+    lib/
+        filesys.C

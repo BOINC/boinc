@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.34  2004/02/29 00:50:04  rwalton
+// *** empty log message ***
+//
 // Revision 1.33  2004/01/04 06:48:39  davea
 // *** empty log message ***
 //
@@ -348,7 +351,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
     f = fopen(path, mode);
 #ifdef _WIN32
-    if (!f && strchr(mode, 'r')) {
+    if ((!f) && ((strchr(mode, 'w')) || (strchr(mode, 'r')))) {
         boinc_sleep(3.0);
         f = fopen(path, mode);
     }
