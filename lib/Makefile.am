@@ -14,7 +14,7 @@ EXTRA_PROGRAMS = md5_test shmem_test msg_test
 
 ##LIBS = -lnsl -lsocket
 gui_test_SOURCES = gui_test.C gui_rpc_client.C gui_rpc_client.h
-gui_test_LDADD = $(lib_LIBRARIES)
+gui_test_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 
 lib_LIBRARIES = libboinc.a 
 
@@ -82,4 +82,4 @@ shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
 crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
 crypt_prog_DEPENDENCIES = $(LIBRSA)
-crypt_prog_LDADD = $(RSA_LIBS)
+crypt_prog_LDADD = $(RSA_LIBS) $(PTHREAD_LIBS)

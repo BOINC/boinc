@@ -255,7 +255,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
         else if (parse_double(buf, "<offset>", offset)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (match_tag(buf, "<data>")) {
-            if (nbytes < 0) {
+            if (nbytes <= 0) {
                 return return_error(ERR_PERMANENT, "nbytes missing or negative");
             }
 

@@ -1,4 +1,4 @@
-## $Id$
+
 
 include $(top_srcdir)/Makefile.incl
 
@@ -24,7 +24,7 @@ create_work_SOURCES =           \
     backend_lib.h
 
 create_work_DEPENDENCIES = $(LIBRSA)
-create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
+create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS) $(PTHREAD_LIBS)
 
 sign_executable_SOURCES =			\
         sign_executable.C			\
@@ -33,7 +33,7 @@ sign_executable_SOURCES =			\
         ../lib/crypt.C
 
 sign_executable_DEPENDENCIES = $(LIBRSA)
-sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
+sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS) $(PTHREAD_LIBS)
 
 dir_hier_path_SOURCES = \
     dir_hier_path.C \

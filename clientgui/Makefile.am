@@ -35,6 +35,7 @@ boincgui_SOURCES = \
     ../lib/util.C
 
 boincgui_CPPFLAGS = $(AM_CPPFLAGS) -O3
+boincgui_LDADD = $(PTHREAD_LIBS)
 
 all-local: client-bin
 client-bin: @CLIENT_BIN_FILENAME@

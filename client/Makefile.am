@@ -67,7 +67,7 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
-boinc_client_LDADD = $(RSA_LIBS)
+boinc_client_LDADD = $(RSA_LIBS) $(PTHREAD_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 # the following don't do anything

@@ -31,7 +31,7 @@ EXTRA_DIST = start
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
 
-LDADD = -L. -lsched $(MYSQL_LIBS)
+LDADD = -L. -lsched $(MYSQL_LIBS) $(PTHREAD_LIBS)
 
 LIB_SCHED = libsched.a
 

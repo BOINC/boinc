@@ -18941,3 +18941,25 @@ David  28 Oct 2004
         Makefile.old
     lib/
         gui_rpc_client.C,h
+
+Eric   28 Oct 2004
+    - added threading flags and libraries to compile lines.
+    - upload handler now checks for zero length
+
+    Makefile.incl
+    aclocal.m4
+    api/
+    	Makefile.am
+    apps/
+    	Makefile.am
+    client/
+      	Makefile.am
+    clientgui/
+    	Makefile.am
+    lib/
+    	Makefile.am
+    sched/
+    	Makefile.am
+    	file_upload_handler.C
+    tools/
+    	Makefile.am
