@@ -20752,3 +20752,11 @@ Bruce 6 Dec 2004 [thanks to Bernd Machenschalk!]
 
     lib/
         filesys.h
+
+David  6 Dec 2004
+	- removed references to win_config.h from VC++ project files
+
+	win_build/
+		boinc_gui.vcproj
+		boinc_guirpc_test.vcproj
+		upper_case.vcproj

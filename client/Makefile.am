@@ -80,12 +80,6 @@ cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
 
 all-local: client-bin
 
-
-win/win_config.h: $(top_srcdir)/config.h
-	grep '#define.*BOINC.*VERSION' $^ > $@
-
-version: win/win_config.h
-
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $@
@@ -124,5 +118,3 @@ EXTRA_DIST =                                    \
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@
-
-.PHONY: version

@@ -27,5 +27,3 @@ else
 fi
 
 cmd ./_autosetup -c
-cmd cd client
-cmd make win/win_config.h
