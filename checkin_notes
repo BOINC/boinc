@@ -7165,3 +7165,9 @@ Karl 2003-10-27
     - BOINC 2.07 release
     - Astropulse 2.07 release (...)
     - SETI@Home 2.01 release
+
+Karl 2003-10-17
+    - fixed bug in assuming client_state.XML always exists (it doesn't, on a
+      clean install)
+
+    - BOINC 2.08 release
