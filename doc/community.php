@@ -37,7 +37,8 @@ list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev<
     "For people developing, debugging or porting the BOINC software.
 ");
 list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc</a>",
-    "For people localizing, or translating the BOINC software.
+    "For people doing non-English translations
+    of the BOINC GUI or web interfaces.
 ");
 list_item(
     "<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>",
@@ -94,17 +95,27 @@ and from several BOINC-based projects:
 <li> SETI@home: http://setiweb.berkeley.edu/sah/rss_main.php
 </ul>
 
-<h2>Graphics</h2>
+<h2>Logo and graphics</h2>
 <p>
 The BOINC logo uses the Planet Benson font from
 <a href=http://www.larabiefonts.com>Larabie Fonts</a>.
-Hi-res logos:
+Hi-res versions of the logo:
 <a href=logo.png>PNG</a>, <a href=logo.jpg>JPEG</a>,
 <a href=logo.gif>GIFF</a>.
 
 <p>
-Check out this
-<a href=hatfield.png>BOINC logo</a>
+We like the BOINC logo but not fanatically,
+and we welcome alternative ideas.
+For example, Michael Peele contributed
+<a href=NewBOiNC.gif>this</a>,
+<a href=BOiNC3.jpg>this</a>,
+and <a href=BOiNC2.png>this</a>.
+If you have an opinion, please contact
+<a href=contact.php>David Anderson</a>.
+
+<p>
+Check out this imaginative
+<a href=hatfield.png>BOINC graphic</a>
 by Jared Hatfield, a high school student.
 
 <h2>Other</h2>

@@ -24602,3 +24602,16 @@ Rom    11 Feb 2005
 
     client/
         net_xfer.C
+
+David  11 Feb 2005
+    - core client: added a function maybe_more_data()
+        to see if there might be more data later
+        on a socket for which recv() returned -1
+
+        Previously this was done in HTTP_REPLY_HEADER::read_reply()
+        in a way that worked on Unix but not Windows,
+        and it wasn't done at all in read_reply()
+        (used to read file upload handler replies).
+
+    client/
+        http.C

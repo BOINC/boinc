@@ -247,6 +247,18 @@ void HTTP_REPLY_HEADER::parse() {
     }
 }
 
+// return true if, although the last recv() returned -1,
+// there might be more data later on the socket
+//
+inline bool maybe_more_data() {
+#ifdef _WIN32
+    if (WSAGetLastError() == WSAEWOULDBLOCK) return true;
+#else
+    if (errno == EAGAIN) return true;
+#endif
+    return false;
+}
+
 const unsigned int MAX_HEADER_SIZE = 1024;
 
 // Read an HTTP reply header into the header struct
@@ -269,7 +281,7 @@ int HTTP_REPLY_HEADER::read_reply(int socket) {
                 socket, n, errno, get_socket_error(socket)
             );
         }
-        if (n == -1 && errno == EAGAIN) {
+        if (n == -1 && maybe_more_data()) {
             return 1;
         }
 
@@ -306,9 +318,16 @@ int HTTP_REPLY_HEADER::read_reply(int socket) {
 //
 static int read_reply(int socket, char* buf, int len) {
     int i, n;
-    for (i=0; i<len-1; i++) {
+
+    i=0;
+    while (i<len-1) {
         n = recv(socket, buf+i, 1, 0);
+        if (n==1 && maybe_more_data()) {
+            boinc_sleep(0.1);
+            continue;
+        }
         if (n != 1) break;
+        i++;
     }
     buf[i] = 0;
     return 0;

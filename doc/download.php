@@ -11,7 +11,7 @@ function version_start($num, $date, $xml) {
 
 function version($platform, $filename, $xml) {
     $path = "dl/$filename";
-    $dlink = "<a href=$path>Download</a>";
+    $dlink = "<a href=http://boinc.berkeley.edu/$path>Download</a>";
     $md = md5_file($path);
     if ($xml) {
         echo "

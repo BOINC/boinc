@@ -37,13 +37,11 @@ Copy the \"scheduler_request_X.xml\" file from a client to the
 <li>
 Run the scheduler under the debugger, giving it this file as stdin,
    i.e.:
- 
-   <pre>
+".html_text(" 
    gdb cgi
    (set a breakpoint)
-   r &lt; scheduler_request_X.xml
-   </pre>
-                      
+   r < scheduler_request_X.xml
+")."
 <li>
  You may have to doctor the database as follows:
  <pre>
@@ -63,8 +61,7 @@ This will cause transcripts of all subsequent scheduler requests and
 replies to be written to the cgi-bin/ directory with separate
 small files for each request.  The file names are sched_request_H_R
 where H=hostid and R=rpc sequence number.
-This verbose debugging output can be turned off by simply removing
-the '../debug_sched()' call.
+This can be turned off by deleting the 'debug_sched' file.
 
 
 <h2>MySQL interfaces</h2>
