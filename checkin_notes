@@ -18695,8 +18695,15 @@ David  20 Oct 2004
 
 David  20 Oct 2004
     - commented out frac_rate_of_change stuff
-        (too much complexity per unit value)
+        (too complicated, not used)
 
     client/
         app.C,h
         app_control.C
+
+David  20 Oct 2004
+    - Graphics API (UNIX) change thread priority the proper way
+        (from Bruce Allen)
+
+    api/
+        graphics_api.C
