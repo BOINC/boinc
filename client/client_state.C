@@ -55,6 +55,7 @@ CLIENT_STATE::CLIENT_STATE() {
     app_started = 0;
     max_transfer_rate = 9999999;
     max_bytes = 0;
+    user_idle = true;
 }
 
 int CLIENT_STATE::init() {
