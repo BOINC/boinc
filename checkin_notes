@@ -20813,7 +20813,11 @@ Rom    6 Dec 2004
 
 Bruce  7 Dec 2004
     -  Missing close bracket
+    -  Use HAVE_STD_MIN and HAVE_STD_MAX to detect if std::min and std::max are needed.
+       Ron, please check and correct if needed -- build was broken under Linux.
     html/
         ops/
             db_update.php
+    api/
+        reduce.C
     
