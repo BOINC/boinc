@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(BOINC, 2.02)
+AC_INIT(BOINC, 2.03)
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION ---"
 
