@@ -477,7 +477,7 @@ Options:
 
    --config-file=     Use specified file instead of program-path/../config.xml
    --run-state-file=  Use specified file instead of program-path/../run_state.xml
-   --fork-delay=      Seconds to sleep between daemon forks
+   --fork-delay=      Seconds to sleep between daemon forks instead of 0.1
    --ignore-timestamps    Ignore timestamps; for cron mode, runs all tasks now
 """
     if program_name == 'start':
