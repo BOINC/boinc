@@ -6931,7 +6931,7 @@ Karl 2003-10-19
     - maybe fixed "screensaver blanks immediately" bug due to uninitialized
       variable
         - if blank time is <=0 or unset: don't blank (instead of blanking
-          immediately.)
+          immediately).
 
     client/win/
         wingui_mainwindow.cpp
