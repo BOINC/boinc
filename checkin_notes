@@ -15416,3 +15416,28 @@ Daniel 2004-07-19
         cs_apps.C
         ss_logic.C,h
 
+David  19 July 2004
+    - fix various bugs that kept test_uc.py from working
+        Project._build_sched_commandlines(): programs names have changed
+            (validate_test -> sample_bitwise_validator,
+             assimilator -> sample_dummy_assimilator)
+            ??? why does this function exist in the first place?
+        TestProject.run(): same
+        Work.install():
+            need to copy result template file to project directory
+        Added -config_dir argument to create_work
+        For some reason, the transitioner wasn't expanding UPLOAD_URL
+            in result templates, when creating new results.
+            Fixes this.
+
+    In spite of all this, test_uc.py doesn't quite work.
+    I think sample_bitwise_validator is crashing.
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        transitioner.C
+    test/
+        testbase.py
+    tools/
+        create_work.C

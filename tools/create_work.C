@@ -28,6 +28,7 @@
 //  -wu_name name
 //  -wu_template filename       relative to project root; usually in templates/
 //  -result_template filename   relative to project root; usually in templates/
+//  [ -config_dir path ]
 //            the following can be supplied in WU template; see defaults below
 //  [ -rsc_fpops_est n ]
 //  [ -rsc_fpops_bound n ]
@@ -71,6 +72,7 @@ int main(int argc, char** argv) {
     strcpy(app.name, "");
     strcpy(db_passwd, "");
     strcpy(keyfile, "");
+    char* config_dir = ".";
     i = 1;
     ninfiles = 0;
     wu.clear();
@@ -86,21 +88,6 @@ int main(int argc, char** argv) {
     wu.rsc_disk_bound = 1e8;
     wu.delay_bound = 100000;
 
-    retval = config.parse_file();
-    if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
-        exit(1);
-    } else {
-        strcpy(db_name, config.db_name);
-        strcpy(db_passwd, config.db_passwd);
-        strcpy(db_user, config.db_user);
-        strcpy(db_host, config.db_host);
-        strcpy(download_url, config.download_url);
-        strcpy(download_dir, config.download_dir);
-        strcpy(upload_url, config.upload_url);
-        sprintf(keyfile, "%s/upload_private", config.key_dir);
-    }
-
     while (i < argc) {
         if (!strcmp(argv[i], "-appname")) {
             strcpy(app.name, argv[++i]);
@@ -110,6 +97,8 @@ int main(int argc, char** argv) {
             strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
+        } else if (!strcmp(argv[i], "-config_dir")) {
+            config_dir = argv[++i];
         } else if (!strcmp(argv[i], "-rsc_fpops_est")) {
             wu.rsc_fpops_est = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops_bound")) {
@@ -151,6 +140,21 @@ int main(int argc, char** argv) {
     CHKARG_STR(result_template_file , "need -result_template");
 #undef CHKARG
 #undef CHKARG_STR
+
+    retval = config.parse_file(config_dir);
+    if (retval) {
+        fprintf(stderr, "Can't parse config file: %d\n", retval);
+        exit(1);
+    } else {
+        strcpy(db_name, config.db_name);
+        strcpy(db_passwd, config.db_passwd);
+        strcpy(db_user, config.db_user);
+        strcpy(db_host, config.db_host);
+        strcpy(download_url, config.download_url);
+        strcpy(download_dir, config.download_dir);
+        strcpy(upload_url, config.upload_url);
+        sprintf(keyfile, "%s/upload_private", config.key_dir);
+    }
 
     retval = boinc_db.open(db_name, db_host, db_user, db_passwd);
     if (retval) {

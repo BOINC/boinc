@@ -473,12 +473,12 @@ class Project:
             _check_vars(kwargs, cushion=30, max_wus=0, min_quorum=None,
                         result_template=os.path.realpath(work.result_template),
                         wu_name=work.wu_template)
-        elif progname == 'validate_test':
+        elif progname == 'sample_bitwise_validator':
             _check_vars(kwargs)
             each_app = True
         elif progname == 'file_deleter':
             _check_vars(kwargs)
-        elif progname == 'assimilator':
+        elif progname == 'sample_dummy_assimilator':
             _check_vars(kwargs)
             each_app = True
         else:

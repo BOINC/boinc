@@ -240,7 +240,7 @@ void handle_wu(
                 sprintf(rtfpath, "../%s", items[0].result_template_file);
                 retval = create_result(
                     items[0].id, items[0].appid, items[0].name,
-                    rtfpath, suffix, key, ""
+                    rtfpath, suffix, key, config.upload_url
                 );
                 if (retval) {
                     log_messages.printf(

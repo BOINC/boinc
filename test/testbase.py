@@ -335,9 +335,9 @@ class TestProject(Project):
 
     def run(self):
         self.sched_install('make_work', max_wus = self.num_wu, min_quorum = self.redundancy)
-        self.sched_install('assimilator')
+        self.sched_install('sample_dummy_assimilator')
         self.sched_install('file_deleter')
-        self.sched_install('validate_test')
+        self.sched_install('sample_bitwise_validator')
         self.sched_install('feeder')
         self.sched_install('transitioner')
         self.start_servers()
@@ -623,12 +623,9 @@ class Work:
                 verbose_echo(2, "Linking "+newhandler)
                 os.symlink(handler, newhandler)
 
+        shutil.copy(self.result_template, project.dir());
         cmd = build_command_line("create_work",
-                                 db_name             = project.config.config.db_name,
-                                 download_dir        = project.config.config.download_dir,
-                                 upload_url          = project.config.config.upload_url,
-                                 download_url        = project.config.config.download_url,
-                                 keyfile             = os.path.join(project.config.config.key_dir,'upload_private'),
+                                 config_dir          = project.dir(),
                                  appname             = self.app.name,
                                  rsc_fpops_est       = self.rsc_fpops_est,
                                  rsc_fpops_bound     = self.rsc_fpops_bound,
