@@ -58,7 +58,7 @@ double boinc_max_gfx_cpu_frac = 0.5;
 HANDLE hQuitEvent;
 #endif
 
-BOINC_MAIN_STATE* bmsp;
+BOINC_MAIN_STATE* g_bmsp;
 static WORKER_FUNC_PTR worker_main;
 
 #ifdef _WIN32
@@ -66,7 +66,7 @@ DWORD WINAPI foobar(LPVOID) {
 #else
 void* foobar(void*) {
 #endif
-    bmsp->set_worker_timer_hook();
+    g_bmsp->set_worker_timer_hook();
     worker_main();
     return 0;
 }
@@ -155,12 +155,12 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
 int boinc_init_options_graphics_impl(
     BOINC_OPTIONS& opt,
     WORKER_FUNC_PTR _worker_main,
-    BOINC_MAIN_STATE* _bmsp
+    BOINC_MAIN_STATE* bmsp
 ) {
     int retval;
 
-    bmsp = _bmsp;
-    retval = bmsp->boinc_init_options_general_hook(opt);
+    g_bmsp = bmsp;
+    retval = g_bmsp->boinc_init_options_general_hook(opt);
     if (retval) return retval;
     if (_worker_main) {
         retval = start_worker_thread(_worker_main);

@@ -47,7 +47,7 @@ How to develop or port an application program for use with BOINC.
 <li><a href=fortran.php>FORTRAN applications</a>
 <li><a href=compound_app.php>Compound applications</a>
 <li><a href=trickle_api.php>Trickle messages</a>
-<li><a href=myers.txt>A cookbook</a> (courtesy of Eric Myers from Vassar)
+<li><a href=myers.txt>App development cookbook</a> (courtesy of Eric Myers from Vassar)
 </ul>
 
 <font size=+1><b>
@@ -75,7 +75,7 @@ Creating a BOINC project
 The components of a BOINC project, and how to create them.
 </font>
 <ul>
-<li> <a href=project_cookbook.php>Cookbook</a>
+<li> <a href=project_cookbook.php>Project creation cookbook</a>
 <li> <a href=server_components.php>What is a project?</a>
 <li> <a href=database.php>The BOINC database</a>
 <li> <a href=server_dirs.php>Directory structure</a>

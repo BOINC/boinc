@@ -21492,3 +21492,14 @@ Rom    17 Dec 2004
         BOINC.vbs
 
     < Added a bunch of files required for various setup things >
+
+David  17 Dec 2004
+    - Graphics lib tweaks: changed "bmsp" to "g_bmsp".
+        This eliminates a case (in boinc_init_graphics_impl())
+        where an arg shadowed a global var.
+    - Added boinc_is_standalone() (hook version) to graphics_impl_lib.C
+
+    api/
+        graphics_impl.C,h
+        grpahics_impl_lib.C
+        x_opengl.C

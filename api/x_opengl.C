@@ -78,7 +78,7 @@ static void maybe_render() {
 }
 
 static void close_func() {
-    if (bmsp->boinc_is_standalone_hook()) {
+    if (boinc_is_standalone()) {
         exit(0);
     } else {
         set_mode(MODE_HIDE_GRAPHICS);
@@ -98,7 +98,7 @@ static void make_new_window(int mode){
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
         glutInitWindowPosition(xpos, ypos);
         glutInitWindowSize(600, 400); 
-        bmsp->boinc_get_init_data_hook(aid);
+        g_bmsp->boinc_get_init_data_hook(aid);
         if (!strlen(aid.app_name)) {
             strcpy(aid.app_name, "BOINC Application");
         }
@@ -137,12 +137,12 @@ void set_mode(int mode) {
 }
 
 static void wait_for_initial_message() {
-    bmsp->app_client_shm->shm->graphics_reply.send_msg(
+    g_bmsp->app_client_shm->shm->graphics_reply.send_msg(
         xml_graphics_modes[MODE_HIDE_GRAPHICS]
     );
     acked_graphics_mode = MODE_HIDE_GRAPHICS;
     while (1) {
-        if (bmsp->app_client_shm->shm->graphics_request.has_msg()) {
+        if (g_bmsp->app_client_shm->shm->graphics_request.has_msg()) {
             break;
         }
         sleep(1);
@@ -154,9 +154,9 @@ static void timer_handler(int) {
     GRAPHICS_MSG m;
 
     int new_mode;
-    if (bmsp->app_client_shm) {
-        if (bmsp->app_client_shm->shm->graphics_request.get_msg(buf)) {
-            bmsp->app_client_shm->decode_graphics_msg(buf, m);
+    if (g_bmsp->app_client_shm) {
+        if (g_bmsp->app_client_shm->shm->graphics_request.get_msg(buf)) {
+            g_bmsp->app_client_shm->decode_graphics_msg(buf, m);
             switch (m.mode) {
             case MODE_REREAD_PREFS:
                 //only reread graphics prefs if we have a window open
@@ -177,7 +177,7 @@ static void timer_handler(int) {
             }
         }
         if (acked_graphics_mode != current_graphics_mode) {
-            bool sent = bmsp->app_client_shm->shm->graphics_reply.send_msg(
+            bool sent = g_bmsp->app_client_shm->shm->graphics_reply.send_msg(
                 xml_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;
@@ -199,7 +199,7 @@ void restart() {
 
 void xwin_graphics_event_loop() {
     graphics_thread = pthread_self();
-    if (bmsp->boinc_is_standalone_hook()) {
+    if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
     } else {
         wait_for_initial_message();

@@ -52,4 +52,4 @@ extern "C" {
     );
 }
 
-extern BOINC_MAIN_STATE* bmsp;
+extern BOINC_MAIN_STATE* g_bmsp;
