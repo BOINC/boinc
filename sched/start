@@ -682,7 +682,7 @@ project_dir = os.path.realpath(config.config.__dict__.get('project_dir') or
 os.chdir(project_dir)
 bin_dir = get_dir('bin')
 cgi_bin_dir = get_dir('cgi_bin')
-tmp_dir = ensure_get_dir('tmp+local_hostname')
+tmp_dir = ensure_get_dir('tmp_'+local_hostname)
 log_dir = ensure_get_dir('log_'+local_hostname)
 pid_dir = ensure_get_dir('pid_'+local_hostname)
 
