@@ -17389,3 +17389,14 @@ David  13 Sept 2004
 		ss_logic.C
 
 
+David  13 Sept 2004
+	- Change CPU scheduling logic so that the min debt is subtracted
+		from the debt of all active projects.
+		i.e. debt is normalized to be zero-based.
+		This fixes a bug where the debt of projects with work
+		keeps getting bigger and bigger,
+		so that when a new project is attached or gets work,
+		it takes a long time for it to run.
+
+	client/
+		cs_apps.C

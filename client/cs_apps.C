@@ -343,10 +343,11 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
-    bool some_app_started = false;
-    double adjusted_total_resource_share;
+    bool some_app_started = false, first;
+    double total_resource_share;
     int retval, elapsed_time, j;
-    double max_debt = SECONDS_PER_DAY * ncpus;
+    //double max_debt = SECONDS_PER_DAY * ncpus;
+    double min_debt;
     double vm_limit;
     unsigned int i;
 
@@ -396,10 +397,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // compute total resource share among projects with runnable results
     //
     assign_results_to_projects();   // see which projects have work
-    adjusted_total_resource_share = 0;
+    total_resource_share = 0;
     for (i=0; i<projects.size(); i++) {
         if (projects[i]->next_runnable_result) {
-            adjusted_total_resource_share += projects[i]->resource_share;
+            total_resource_share += projects[i]->resource_share;
         }
     }
 
@@ -407,6 +408,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // reset debts for projects with no runnable results
     // reset temporary fields
     //
+    first = true;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (!p->next_runnable_result) {
@@ -414,23 +416,39 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             p->anticipated_debt = 0;
         } else {
             p->debt +=
-                (p->resource_share/adjusted_total_resource_share)
+                (p->resource_share/total_resource_share)
                 * cpu_sched_work_done_this_period
                 - p->work_done_this_period;
+            if (first) {
+                first = false;
+                min_debt = p->debt;
+            } else if (p->debt < min_debt) {
+                min_debt = p->debt;
+            }
+#if 0
             if (p->debt < -max_debt) {
                 p->debt = -max_debt;
             } else if (p->debt > max_debt) {
                 p->debt = max_debt;
             }
-            p->anticipated_debt = p->debt;
+#endif
         }
-        p->next_runnable_result = NULL;
         scope_messages.printf(
             "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
             p->project_name, p->debt
         );
-        //msg_printf(p, MSG_INFO, "debt %f", p->debt);        
+    }
 
+    // Normalize debts to zero
+    //
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->next_runnable_result) {
+            p->debt -= min_debt;
+            p->anticipated_debt = p->debt;
+            //msg_printf(p, MSG_INFO, "debt %f", p->debt);
+            p->next_runnable_result = NULL;
+        }
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt
@@ -489,10 +507,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         app_started = cpu_sched_last_time;
     }
 
-    // debts and active_tasks can only change if some project had  a runnable result
-    // (and thus if adjusted_total_resource_share is positive)
+    // debts and active_tasks can only change if some project had a runnable result
+    // (and thus if total_resource_share is positive)
     //
-    if (adjusted_total_resource_share > 0.0) {
+    if (total_resource_share > 0) {
         set_client_state_dirty("schedule_cpus");
         return true;
     } else {
