@@ -1,6 +1,9 @@
-<title>Testing BOINC</title> 
+<title>Testing BOINC</title>
 <body bgcolor=ffffff>
-<h2>Testing BOINC</h2> 
+
+  <font color=red>NOTE: this file needs to be updated, currently completely out of date</font>
+
+<h2>Testing BOINC</h2>
 
 <h3>1) PHP-based testing framework</h3>
 
@@ -88,7 +91,7 @@ class Project {                 // represents a project
     function add_user($user);   // add a User to project's DB
     function add_app($app);     // add an application
     function add_app_version($app_version);     // add an app version
-    function install(optional: $scheduler_file);         
+    function install(optional: $scheduler_file);
         //set up directories and DB. If $scheduler_file is provided, then
         //there will be installed schedulers at the directories pointed by
         //the schedulers
@@ -112,19 +115,19 @@ class Project {                 // represents a project
     // multiple cgis can be handles with passing in a file with
     // scheduler_urls to project->install. Multiple download URLS are
     // handled by adding a numer in between the download_url and the
-    // file to be downloaded in the wu_template file of the Work class 
+    // file to be downloaded in the wu_template file of the Work class
     // for example: <url><DOWNLOAD_URL/>0/<INFILE_0/></url>, in which
     // a link from project_dir/download0/ will be added to project_dir/download
     // Similiar action can be taken by modifying the result_template file
-    // of a Work class to handle multiple upload URLs: 
+    // of a Work class to handle multiple upload URLs:
     // for example: <url><UPLOAD_URL/>0</url>, in which case
     // file_upload_handler0 will be added to project_dir/cgi
- 
+
     function delete_masterindex()
-                //deletes the index.php for this project 
+                //deletes the index.php for this project
     function reestablish_masterindex()
                 //reestablished the master index.php
-    function delete_scheduler($cgi_num) 
+    function delete_scheduler($cgi_num)
                  //deletes project_dir/cgi/cgi$cgi$num
     function reinstall_scheduler($cgi_num)
                  //copies the cgi program into project_dir/cgi/cgi$cgi$num
@@ -133,10 +136,10 @@ class Project {                 // represents a project
     function reinstall_downloaddir($download_dir_num)
                  //reestablished project_dir/download$download_dir_num
     function remove_file_upload_handler($handler_num)
-                 //deletes project_dir/cgi/file_upload_handler$handler_num	
-    function reinstall_file_upload_handler($handler_num)	 
+                 //deletes project_dir/cgi/file_upload_handler$handler_num
+    function reinstall_file_upload_handler($handler_num)
                  //reinstalls project_dir/cgi/file_upload_handler$handler_num
-    function kill_file_upload_handler() //blocks until a file_upload_handler is 
+    function kill_file_upload_handler() //blocks until a file_upload_handler is
                  //running in the system, kills it and returns
 }
 
@@ -153,10 +156,10 @@ class Host {                    // represents a (virtual) host
 
     //There are two run functions, one that blocks until the client
     //being run by this host finishes execution: run() and then there
-    //run_asynch which spawns a new php process running the client 
+    //run_asynch which spawns a new php process running the client
     //and returns to the thread of execution of the parent php process
     //the php process_id of the child. This process_id can then be
-    //used for a call to pcntl_waitpid() to block until the execution 
+    //used for a call to pcntl_waitpid() to block until the execution
     //of the client.
     function run($args);
     function run_asynch($args);
@@ -164,7 +167,7 @@ class Host {                    // represents a (virtual) host
     function get_new_client_pid($client_pid)
     //returns a pid for a client process running in the system that is
     //different from $client_pid. This call blocks until such process is started.
-    
+
     function check_file_present($project, $name);
                                 // check that a file exists
 }
@@ -308,7 +311,7 @@ each project in which this host participates.
 </ul>
 <h3>2) Test applications</h3>
 <p>
-The <b>apps</b> directory contains the following test applications: 
+The <b>apps</b> directory contains the following test applications:
 <ul>
 <li>
 <b>concat</b>: concatenates its input files.
@@ -326,7 +329,7 @@ Checkpoints every 5 characters. Restartable.
 <p>
 The <b>test</b> directory contains PHP scripts, together with XML
 templates and sample input files, for initializing and testing the
-entire system: 
+entire system:
 <ul>
 <li>
 <b>test_uc.php</b>: tests I/O connection using descriptors.
@@ -344,24 +347,24 @@ You have to run the client yourself, kill and restart it a few times.
 <b>test_water.php</b>: tests some aspects of water marks.
 <li>
 <b>test_rsc.php</b>: tests that scheduling server only sends
-feasible work units. 
+feasible work units.
 <li>
 <b>test_pers.php</b>: tests the persistent file transfers for
 download and upload.
-It interrupts them in the middle and makes 
+It interrupts them in the middle and makes
 sure that the filesize never decreases along interrupted transfers.
 <li>
-<b>test_masterurl_failure.php</b>: tests the exponential backoff  
+<b>test_masterurl_failure.php</b>: tests the exponential backoff
 mechanism on the client in case of master IURL failures.
 This test is not automated.
-It has to be run, and then client.out 
-(in the host directory) must be looked at to examine whether everything 
+It has to be run, and then client.out
+(in the host directory) must be looked at to examine whether everything
 is working correctly.
 <li>
-<b>test_sched_failure.php</b>:tests the exponential backoff mechanism 
+<b>test_sched_failure.php</b>:tests the exponential backoff mechanism
 on the client in case of scheduling server failures.
 This test is not automated.
 It has to be run, and then client.out (in the host
-directory) must be looked at to examine whether everything 
+directory) must be looked at to examine whether everything
 is working correctly.
 </ul>
