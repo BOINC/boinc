@@ -824,6 +824,7 @@ bool HTTP_OP_SET::poll(double) {
                     htp->http_op_retval = 0;
                     if (htp->hrh.content_length) {
                         if ((htp->bytes_xferred-htp->file_offset) != htp->hrh.content_length) {
+							scope_messages.printf("HTTP_OP_SET::poll(): reply size: %d\n", htp->bytes_xferred-htp->file_offset);
                             htp->http_op_retval = ERR_IO;
                         }
                     }

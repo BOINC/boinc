@@ -24991,3 +24991,11 @@ David  17 Feb 2005
 
     test/
         testbase.py
+
+Rom    17 Feb 2005
+    - Add an additional HTTP trace statement to print out the reply size of
+        an HTTP operation on a failure condition.
+
+    client/
+        http.C
+
