@@ -386,7 +386,7 @@ bool ACTIVE_TASK_SET::poll() {
     LONGLONG totTime;
     bool found = false;
 
-    for (i=0; i<active_tasks.size(); i++) {
+    for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             // Get the elapsed CPU time
