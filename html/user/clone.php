@@ -18,4 +18,5 @@
         and they will automatically belong to your team
         and will have the logo in their screensaver graphics.
     ";
+    page_tail();
 ?>

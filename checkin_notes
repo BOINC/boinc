@@ -18629,3 +18629,14 @@ David 19 Oct 2004
 
     boincglut/lib/glut/
         glut_util.c
+
+David  19 Oct 2004
+    - bug fix to RSS feed <link>
+
+    html/
+        inc/
+            util.inc
+        user/
+            clone.php
+            sample_index.php
+            sample_rss_main.php

@@ -139,9 +139,12 @@ function show_combo_box($name, $filename, $selection=null) {
 
 function page_head($title, $java_onload="") {
     $styleSheet = URL_BASE . STYLESHEET;
+    $rssname = PROJECT . " RSS 2.0";
+    $rsslink = URL_BASE . "rss_main.php";
 
     echo "<html><head><title>".strip_tags($title)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
+        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
         </head>";
     if ($java_onload!=""){echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";}
     project_banner($title);

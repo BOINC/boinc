@@ -39,7 +39,6 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     <channel>
     <title>".PROJECT."</title>
     <link>".URL_BASE."</link>
-    <link rel='alternate' type='text/xml' title='".PROJECT." RSS 2.0' href='".URL_BASE."rss.php' />
     <description>".$description."</description>
     <copyright>".COPYRIGHT_HOLDER."</copyright>
     <lastBuildDate>".$create_date."</lastBuildDate>
