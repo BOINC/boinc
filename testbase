@@ -13,7 +13,7 @@ if [ -d /disks/asimov ]; then
     export PATH
 fi
 
-CHECKOUT="CVSROOT=/disks/milkyway/a/users/anderson/seti/cvsroot cvs co boinc"
+CHECKOUT="CVSROOT=/usr/local/warez/cvsroot cvs co boinc"
 TMPDIR=/tmp/testbase
 
 die()

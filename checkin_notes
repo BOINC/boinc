@@ -7402,6 +7402,9 @@ Karl 2003-11-02
     - BOINC core client release 2.09
 
 Karl 2003-11-03
+
+    - installer: ask whether BOINC should run at system startup (default yes)
+
     - Moved installation files from win_build/boinc_installer.zip to
       win_build/installer/
 
