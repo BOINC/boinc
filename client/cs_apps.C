@@ -335,7 +335,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double expected_pay_off;
     vector<ACTIVE_TASK*>::iterator iter;
-    bool some_app_started = false;
+    bool some_app_stopped = false, some_app_started = false;
     double total_resource_share = 0;
     int retval, elapsed_time;
     unsigned int i;
@@ -387,6 +387,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
             atp->preempt();
+            some_app_stopped = true;
             iter++;
         } else if (atp->scheduler_state != CPU_SCHED_RUNNING
             && atp->next_scheduler_state == CPU_SCHED_RUNNING
@@ -419,8 +420,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     }
     cpu_sched_work_done_this_period = 0;
 
-    set_client_state_dirty("schedule_cpus");
     cpu_sched_last_time = time(0);
+    if (some_app_started || some_app_stopped) {
+        set_client_state_dirty("schedule_cpus");
+    }
     if (some_app_started) {
         app_started = cpu_sched_last_time;
     }

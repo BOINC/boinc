@@ -14420,3 +14420,11 @@ Rom    1 July 2004
     db/
         db_base.C, .h
         boinc_db.C, .h
+
+Daniel 2004-07-01
+    - client: scheduler now only calls set_client_state_dirty if some
+      task was started or stopped (i.e. set of running tasks changed).
+
+    client/
+        cs_apps.C
+
