@@ -22,12 +22,12 @@
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "TaskBarIcon.h"
+#pragma implementation "BOINCTaskBar.h"
 #endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
-#include "TaskBarIcon.h"
+#include "BOINCTaskBar.h"
 #include "DlgAbout.h"
 #include "Events.h"
 

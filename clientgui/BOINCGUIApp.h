@@ -32,7 +32,7 @@
 #include "MainFrame.h"
 #include "MainDocument.h"
 #ifndef NOTASKBAR
-#include "TaskBarIcon.h"
+#include "BOINCTaskBar.h"
 #endif
 
 

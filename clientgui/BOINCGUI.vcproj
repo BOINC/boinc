@@ -154,6 +154,9 @@
 				RelativePath=".\BOINCListCtrl.cpp">
 			</File>
 			<File
+				RelativePath=".\BOINCTaskBar.cpp">
+			</File>
+			<File
 				RelativePath=".\BOINCTaskCtrl.cpp">
 			</File>
 			<File
@@ -305,7 +308,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\TaskBarIcon.cpp">
+				RelativePath=".\msw\taskbarex.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\util.C">
@@ -372,6 +375,9 @@
 				RelativePath=".\BOINCListCtrl.h">
 			</File>
 			<File
+				RelativePath=".\BOINCTaskBar.h">
+			</File>
+			<File
 				RelativePath=".\BOINCTaskCtrl.h">
 			</File>
 			<File
@@ -420,7 +426,7 @@
 				RelativePath=".\stdwx.h">
 			</File>
 			<File
-				RelativePath=".\TaskBarIcon.h">
+				RelativePath=".\msw\taskbarex.h">
 			</File>
 			<File
 				RelativePath="..\lib\util.h">

@@ -21,11 +21,11 @@
 // Revision History:
 //
 
-#ifndef _TASKBARICON_H_
-#define _TASKBARICON_H_
+#ifndef _BOINCTASKBAR_H_
+#define _BOINCTASKBAR_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "TaskBarIcon.cpp"
+#pragma interface "BOINCTaskBar.cpp"
 #endif
 
 
