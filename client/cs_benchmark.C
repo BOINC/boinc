@@ -88,9 +88,6 @@ static int bm_state;
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*5)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
-extern void guiOnBenchmarksBegin();
-extern void guiOnBenchmarksEnd();
-
 // represents a benchmark thread/process, in progress or completed
 //
 struct BENCHMARK_DESC {
@@ -195,7 +192,6 @@ void CLIENT_STATE::start_cpu_benchmarks() {
             host_info.p_ncpus, sizeof(BENCHMARK_DESC)
         );
     }
-    guiOnBenchmarksBegin();
     benchmarks_running = true;
 
     for (i=0; i<host_info.p_ncpus; i++) {
@@ -338,7 +334,6 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         host_info.p_iops = DEFAULT_IOPS;
         host_info.p_membw = DEFAULT_MEMBW;
         host_info.m_cache = DEFAULT_CACHE;
-        guiOnBenchmarksEnd();
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
     }
@@ -394,7 +389,6 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 #endif
 
         host_info.p_calculated = now;
-        guiOnBenchmarksEnd();
         benchmarks_running = false;
 	    msg_printf(NULL, MSG_INFO, "Finished CPU benchmarks");
         set_client_state_dirty("CPU benchmarks");

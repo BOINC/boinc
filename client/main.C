@@ -53,9 +53,6 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #include "client_msgs.h"
 #include "main.h"
 
-// dummies
-void guiOnBenchmarksBegin(){}
-void guiOnBenchmarksEnd(){}
 
 // This gets called when the client fails to add a project
 //
@@ -238,6 +235,11 @@ int boinc_main_loop(int argc, char** argv) {
 
     setbuf(stdout, 0);
 
+    read_log_flags();
+    gstate.parse_cmdline(argc, argv);
+    gstate.parse_env_vars();
+
+
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED
         | BOINC_DIAG_HEAPCHECKENABLED
@@ -247,6 +249,7 @@ int boinc_main_loop(int argc, char** argv) {
         //| BOINC_DIAG_REDIRECTSTDOUT
 #endif
     );
+
 
     retval = check_unique_instance();
     if (retval) {
@@ -280,9 +283,6 @@ int boinc_main_loop(int argc, char** argv) {
     }
 #endif
 
-    read_log_flags();
-    gstate.parse_cmdline(argc, argv);
-    gstate.parse_env_vars();
     retval = gstate.init();
     if (retval) {
         fprintf(stderr, "gstate.init() failed: %d\n", retval);

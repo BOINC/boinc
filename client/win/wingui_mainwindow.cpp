@@ -1618,7 +1618,6 @@ void CMainWindow::OnCommandExit()
     m_ContextMenu.DestroyMenu();
 
     // free dll and idle detection
-#ifdef ENABLEIDLE
 	if(g_hIdleDetectionDll) {
         typedef void (CALLBACK* TermFn)();
         TermFn fn;
@@ -1628,9 +1627,6 @@ void CMainWindow::OnCommandExit()
         } else {
             fn();
         }
-    }
-#endif
-	if(g_hIdleDetectionDll) {
 	    FreeLibrary(g_hIdleDetectionDll);
         g_hIdleDetectionDll = NULL;
 	}
@@ -1872,9 +1868,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     g_hIdleDetectionDll = LoadLibrary("boinc.dll");
     if(!g_hIdleDetectionDll) {
         show_message(NULL,"Can't load \"boinc.dll\", will not be able to determine idle time", MSG_ERROR);
-    }
-#ifdef ENABLEIDLE
-	else {
+    } else {
         typedef BOOL (CALLBACK* InitFn)();
         InitFn fn;
         fn = (InitFn)GetProcAddress(g_hIdleDetectionDll, "IdleTrackerInit");
@@ -1890,7 +1884,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
             }
         }
     }
-#endif
 
     UpdateGUI(&gstate);
 
@@ -2306,16 +2299,6 @@ void project_add_failed(PROJECT* project) {
     AfxMessageBox(buf);
     g_myWnd->DetachProject(project);
     // TODO: To be filled in
-}
-
-void guiOnBenchmarksBegin()
-{
-    g_myWnd->OnBenchmarksBegin();
-}
-
-void guiOnBenchmarksEnd()
-{
-    g_myWnd->OnBenchmarksEnd();
 }
 
 
