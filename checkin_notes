@@ -3788,11 +3788,17 @@ Eric  March 11, 2003
 
 Eric  March 12, 2003
     - Quit requests are now sent via the SIGQUIT signal (on UNIX)
-      or an inherited EventHandle (on Windows), rather than via
-      an XML file
+      or a named Event (on Windows), rather than via an XML file
 
     api/
         boinc_api.C,h
     client/
         app.C,h
+
+Eric  March 13, 2003
+    - Added System V message queue functions to library
+
+    lib/
+        msg_queue.C,h
+        msg_test.C
 

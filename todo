@@ -7,10 +7,8 @@ BUGS (arranged from high to low priority)
     should there be a user control for this?
 - Client treats URL "maggie/ap/" different than URL "maggie/ap",
     though this isn't really a bug it might be good to fix anyway
-- need a way to refresh prefs from client
 - global battery/user active prefs are always true in the client
 - Client should display "Upload failed" and "Download failed" when failure occurs
-- Download speed is not as fast as it should be
 - Result status should say "downloading files", "uploading files", etc.
 
 -----------------------
