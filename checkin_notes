@@ -18517,3 +18517,15 @@ David  17 Oct 2004
     */Makefile.am
     configure (removed)
     sched_fcgi/* (removed)
+
+David  18 Oct 2004
+    - add web material related to "Team account creation URL";
+        warn team founders that their project prefs are public
+
+    html/
+        inc/
+            team.inc
+        user/
+            clone.php
+            sample_rss_main.php
+            team.php

@@ -16,23 +16,27 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     <p>
     Each team has a <b>founder</b>, who may
     <ul>
-    <li> access team members' email addresses.
-    <li> edit the team's name and description,
-    <li> remove members from the team, and
-    <li> disband a team if it has no members.
+    <li> access team members' email addresses
+    <li> edit the team's name and description
+    <li> remove members from the team
+    <li> disband a team if it has no members
     </ul>
     <p>
-    <form method=get action=team_lookup.php>
+    To join a team, visit its team page and click Join.
+    <p>
+    Each team has a <a href=clone.php>Create team account URL</a>;
+    accounts created through this URL will belong to the team,
+    and will have the project preferences of its founder.
+    <hr>
+    <ul>
+    <li> <form method=get action=team_lookup.php>
     Search for teams whose name start with:
     <input name=team_name>
     <input type=submit name=search value=Search>
     </form>
-    You may join a team on its team page.
-    <p>
-    <a href=top_teams.php>Show top teams</a>
-    <p>
-    <a href=team_create_form.php>Create a team</a>
-    <p>
+    <li> <a href=top_teams.php>Show top teams</a>
+    <li> <a href=team_create_form.php>Create a team</a>
+    </ul>
 ";
     page_tail();
 

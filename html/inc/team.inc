@@ -211,20 +211,27 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
     }
+    echo "
+        <p>
+        <b>Privacy note</b>: if you create a team, your project preferences
+        (resource share, graphics preferences)
+        will be visible to the public.
+        <p>
+    ";
     start_table();
-    row2( "Team name (text version)
-        <br><font size=2>
+    row2( "Team name, text version
+        <br><font size=-2>
         Don't use any HTML tags.
         This name will be used in the searchable team list.",
         "<input name=name type=text size=50 value='$team->name'>"
     );
-    row2("Team name (HTML version)
-        <br><font size=2>
+    row2("Team name, HTML version
+        <br><font size=-2>
         You may include HTML formatting, link, and image tags.
         If you don't know HTML, just leave this box blank.",
         "<input name=name_html type=text size=50 value=\"$team->name_html\">"
     );
-    row2("URL of team web page, if any:<br><font size=2>(without \"http://\")
+    row2("URL of team web page, if any:<br><font size=-2>(without \"http://\")
         This URL will be linked to from the team's page on this site.",
         "<input name=url size=60 value='$team->url'>"
     );

@@ -31,7 +31,7 @@ require_once("../project/project_news.inc");
 // Create channel header and open XML content
 //
 $description = "BOINC project ".PROJECT.": Main page News";
-$channel_image = MASTER_URL . "/rss_image.jpg";
+$channel_image = URL_BASE . "/rss_image.jpg";
 $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
