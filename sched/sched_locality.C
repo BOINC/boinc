@@ -153,8 +153,7 @@ void make_more_work_for_file(char* filename) {
             sleep(config.locality_scheduling_wait_period);
 
             // Now look AGAIN for results which match file
-            // 'filename'. Note: result.clear() may not be
-            // needed since previous query didn't find any results.
+            // 'filename'.
             //
             sprintf(buf,
                 "where name like '%s__%%' and server_state=%d limit 1",
@@ -162,7 +161,12 @@ void make_more_work_for_file(char* filename) {
             );
             boinc_db.start_transaction();
             retval = result.lookup(buf);
-            if (!retval) {
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::DEBUG,
+                    "project didn't make NEW work for file %s in time\n", fullpath, filename
+                );
+            } else {
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
                     "success making/finding NEW work for file %s\n", fullpath, filename
