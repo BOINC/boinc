@@ -236,8 +236,12 @@ void CBOINCGUIApp::DetectDefaultDesktop()
 
 bool CBOINCGUIApp::IsBOINCCoreRunning()
 {
-    wxInt32 iMode = -1;
-    return ( 0 == m_pDocument->GetActivityRunMode(iMode));
+    wxInt32  iMode = -1;
+    wxString strMachine = wxEmptyString;
+
+    m_pDocument->GetConnectedComputerName( strMachine );
+
+    return ( 0 == m_pDocument->Connect(strMachine, FALSE));
 }
 
 
@@ -245,6 +249,7 @@ void CBOINCGUIApp::StartupBOINCCore()
 {
     if ( !IsBOINCCoreRunning() )
     {
+        wxString strDirectory = wxEmptyString;
         wxString strExecute = wxEmptyString;
         wxChar   szExecutableDirectory[4096];
 
@@ -267,16 +272,16 @@ void CBOINCGUIApp::StartupBOINCCore()
 #endif
 
         // We are only interested in the path component of the fully qualified path.
-        wxFileName::SplitPath( szExecutableDirectory, &strExecute, NULL, NULL );
+        wxFileName::SplitPath( szExecutableDirectory, &strDirectory, NULL, NULL );
 
         // Set the current directory ahead of the application launch so the core
         //   client can find its files
-        ::wxSetWorkingDirectory( strExecute );
+        ::wxSetWorkingDirectory( strDirectory );
 
 #ifdef __WXMSW__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute += wxT("\\boinc.exe -redirectio");
+        strExecute = wxT("\"") + strDirectory + wxT("\\boinc.exe\" -redirectio");
 
         PROCESS_INFORMATION pi;
         STARTUPINFO         si;
@@ -297,7 +302,7 @@ void CBOINCGUIApp::StartupBOINCCore()
             FALSE,
             CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
             NULL,
-            NULL,
+            (LPTSTR)strDirectory.c_str(),
             &si,
             &pi
         );

@@ -230,6 +230,22 @@ void boinc_init(int argc, char** argv) {
     int retval;
 
     setbuf(stdout, 0);
+    setbuf(stderr, 0);
+
+#ifdef _WIN32
+
+    TCHAR   szPath[MAX_PATH-1];
+
+    // change the current directory to the boinc install directory
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+		
+    TCHAR *pszProg = strrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+        SetCurrentDirectory(szPath);
+    }
+
+#endif
 
     read_log_flags();
     gstate.parse_cmdline(argc, argv);

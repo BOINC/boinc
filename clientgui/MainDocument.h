@@ -89,7 +89,7 @@ public:
     wxInt32                     OnExit();
     wxInt32                     OnIdle();
 
-    wxInt32                     Connect( wxString& strMachine );
+    wxInt32                     Connect( wxString& strMachine, bool bDisconnect = TRUE );
     wxInt32                     Disconnect();
     wxInt32                     GetConnectedComputerName( wxString& strMachine );
     bool                        IsConnected();

@@ -144,8 +144,6 @@ int check_unique_instance() {
     //
     HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
     if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-        UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
-        PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
         return ERR_ALREADY_RUNNING;
     }
 #else

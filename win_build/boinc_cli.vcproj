@@ -517,9 +517,6 @@
 				RelativePath="..\lib\diagnostics.C">
 			</File>
 			<File
-				RelativePath="..\lib\exception.C">
-			</File>
-			<File
 				RelativePath="..\Client\file_names.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1048,9 +1045,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\error_numbers.h">
-			</File>
-			<File
-				RelativePath="..\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\client\file_names.h">

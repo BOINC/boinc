@@ -35,9 +35,6 @@ TCHAR                   szErr[1024];
 //
 void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
 {
-    TCHAR   szPath[MAX_PATH-1];
-
-
     // SERVICE_STATUS members that don't change in example
     //
     ssStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
@@ -56,17 +53,6 @@ void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
         ERROR_SUCCESS,         // exit code
         0))                    // wait hint
         goto cleanup;
-
-
-    // change the current directory to the boinc install directory
-    if (!GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR))))
-		goto cleanup;
-		
-    TCHAR *pszProg = strrchr(szPath, '\\');
-    if (pszProg) {
-        szPath[pszProg - szPath + 1] = 0;
-        SetCurrentDirectory(szPath);
-    }
 
     dwErr = boinc_main_loop();
 

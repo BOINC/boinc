@@ -159,13 +159,16 @@ wxInt32 CMainDocument::OnIdle()
 }
 
 
-wxInt32 CMainDocument::Connect( wxString& strMachine )
+wxInt32 CMainDocument::Connect( wxString& strMachine,  bool bDisconnect )
 {
     wxInt32 iRetVal = -1;
     std::string str;
 
-    if ( IsConnected() )
+    if ( IsConnected() && bDisconnect )
         Disconnect();
+
+    if ( IsConnected() )
+        return BOINC_SUCCESS;
 
     str.clear();
 
