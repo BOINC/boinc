@@ -67,7 +67,11 @@ define("HANGUP_IF_DIALED_DESC",
     "Disconnect when done?
     <br><font size=-2>(matters only if you use a modem)</font>"
 );
-define("WORK_BUF_DESC", "Connect to network about every");
+define("WORK_BUF_DESC",
+    "Connect to network about every
+    <br><font size=-2>maximum 10 days</font>
+    "
+);
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
@@ -75,7 +79,7 @@ define("DISK_LIMIT_DESC", "Disk and memory usage");
 define("DISK_MAX_USED_GB_DESC", "Use no more than");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
 define("DISK_MAX_USED_PCT_DESC", "Use no more than");
-define("DISK_MAX_USED_PCT_DESC2", "% of total space");
+define("DISK_MAX_USED_PCT_DESC2", "% of total disk space");
 define("VM_MAX_USED_PCT_DESC", "Use no more than");
 define("VM_MAX_USED_PCT_DESC2", "% of total virtual memory");
 define("NETWORK_LIMIT_DESC", "Network usage");
@@ -380,8 +384,8 @@ function prefs_show_global($prefs) {
     row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
     row1(DISK_LIMIT_DESC);
-    row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB");
-    row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB");
+    row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB disk space");
+    row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB disk space free");
     row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row2(VM_MAX_USED_PCT_DESC, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
@@ -424,7 +428,9 @@ function subset_name($subset) {
 function prefs_display_venue($prefs, $venue, $subset) {
     $x = $prefs->$venue;
     if ($x) {
-        row1("Separate preferences for $venue");
+        row1("Separate preferences for $venue", 2, "heading2");
+        echo "<tr><td colspan=2>";
+        start_table();
         if ($subset == "global") {
             prefs_show_global($x);
         } else {
@@ -432,9 +438,11 @@ function prefs_display_venue($prefs, $venue, $subset) {
             prefs_show_project($x);
         }
         row2("<br>", "<a href=prefs_edit_form.php?venue=$venue&subset=$subset>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
+        end_table();
+        echo "</td></tr>\n";
     } else {
-        $x = subset_name($subset);
-        row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Add separate $x preferences for $venue</a>");
+        //$x = subset_name($subset);
+        row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Add separate preferences for $venue</a>", 2, "heading2");
     }
 }
 
@@ -442,11 +450,18 @@ function print_prefs_display_project($user) {
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     start_table();
+    if ($project_prefs->home || $project_prefs->work || $project_prefs->school) {
+        row1("Primary (default) preferences", 2, "heading2");
+    }
+    echo "<tr><td colspan=2>";
+    start_table("width=100% border=4");
     prefs_show_resource($project_prefs);
     prefs_show_project($project_prefs);
     prefs_show_privacy($user);
     venue_show($user);
     row2("", "<a href=prefs_edit_form.php?subset=project>Edit ".PROJECT." preferences</a>");
+    end_table();
+    echo "</td></tr>\n";
     prefs_display_venue($project_prefs, "home", "project");
     prefs_display_venue($project_prefs, "school", "project");
     prefs_display_venue($project_prefs, "work", "project");
@@ -463,16 +478,20 @@ function print_prefs_display_global($user) {
         the most recently modified preferences will be used.
         </font>
         <br><br>
-        Last modified: ", pretty_time_str($global_prefs->mod_time), "
+        Preferences last modified: ", pretty_time_str($global_prefs->mod_time), "
         <br><br>
     ";
 
     start_table();
     if ($global_prefs->home || $global_prefs->work || $global_prefs->school) {
-        row1("Primary preferences");
+        row1("Primary (default) preferences", 2, "heading2");
     }
+    echo "<tr><td colspan=2>";
+    start_table("width=100% border=4");
     prefs_show_global($global_prefs);
     row2("<br>", "<a href=prefs_edit_form.php?subset=global>Edit preferences</a>");
+    end_table();
+    echo "</td></tr>\n";
 
     prefs_display_venue($global_prefs, "home", "global");
     prefs_display_venue($global_prefs, "school", "global");
@@ -685,6 +704,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->confirm_eecutable = ($confirm_eecutable == "yes");
 
     if ($work_buf_min_days<0) $work_buf_min_days = 0;
+    if ($work_buf_min_days>10) $work_buf_min_days = 10;
     if ($max_cpus<1) $max_cpus = 1;
     if ($disk_interval<0) $disk_interval = 0;
     $prefs->work_buf_min_days = $work_buf_min_days;

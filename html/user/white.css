@@ -20,13 +20,13 @@ body {
     color: black;
 }
 
-table {
-    border: 0px;
-}
+#table {
+#    border: 0px;
+#}
 
-table.bordered {
-      border: 1px solid black;
-}
+#table.bordered {
+#      border: 1px solid black;
+#}
 
 th {
 	background-color: #ffffcc;
@@ -47,6 +47,11 @@ td.indent {
 
 td.heading {
         background-color: rgb(217,217,217);
+	    font-weight: bold;
+}
+
+td.heading2 {
+        background-color:#c0c0ff;
 	    font-weight: bold;
 }
 

@@ -202,7 +202,7 @@ function pretty_time_str($x) {
 }
 
 function start_table($extra="width=100%") {
-    echo "<table border=1 cellpadding=5 $extra>";
+    echo "<table border=0 cellpadding=5 $extra>";
 }
 
 function start_table_noborder($width="100%") {
@@ -213,8 +213,8 @@ function end_table() {
     echo "</table>\n";
 }
 
-function row1($x, $ncols=2) {
-    echo "<tr><td class=heading bgcolor=cccccc colspan=$ncols><b>$x</b></td></tr>\n";
+function row1($x, $ncols=2, $class="heading") {
+    echo "<tr><td class=$class colspan=$ncols><b>$x</b></td></tr>\n";
 }
 
 function row2($x, $y) {

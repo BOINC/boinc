@@ -21344,28 +21344,47 @@ David  15 Dec 2004
 
 Rom    16 Dec 2004
     - Bug Fix: Apparently you cannot use the default constants that are normally
-        a part of the environment for a vbs script, then in turn kept all the functions
-        from returning the proper values.
-    - Bug Fix: Use the Session.Message functionality to report errors to both the
-        log file and the UI so we can actually see something useful from dialog boxes
-        and log files.
+        a part of the environment for a vbs script,
+        then in turn kept all the functions from returning the proper values.
+    - Bug Fix: Use the Session.Message functionality to report errors
+        to both the log file and the UI so we can actually see something
+        useful from dialog boxes and log files.
     - Bug Fix: Prepopulate the service username field with the current user info
         for the service install type
-    - Bug Fix: Remove the user domain field from the service config screen to make room
-        for the local system checkbox at some point in time in the future.
-    - Bug Fix: Prevent an administrator from selecting an invalid SETUPTYPE and ALLUSERS
-        property combination.  I spent the better part of the day trying to figure out
-        how I might change the execution sequence so that changing the ALLUSERS property
-        based on the SETUPTYPE field would yield the right redirection of the default folders
-        but it seems that the folder properties are handled via the MSI engine itself
-        and without a bit more knowledge I'm not sure how to do it.  But this only affects
-        those installing via the commandline or via some mass deployment scenario and so
-        just throwing an error is okay.  The errors describe the problem and how to fix it.
+    - Bug Fix: Remove the user domain field from the service config screen
+        to make room for the local system checkbox at some point
+        in time in the future.
+    - Bug Fix: Prevent an administrator from selecting an invalid
+        SETUPTYPE and ALLUSERS property combination.
+        I spent the better part of the day trying to figure out
+        how I might change the execution sequence so that changing the
+        ALLUSERS property based on the SETUPTYPE field would yield the right
+        redirection of the default folders
+        but it seems that the folder properties are handled via the
+        MSI engine itself and without a bit more knowledge I'm not
+        sure how to do it.  But this only affects
+        those installing via the commandline or via some mass deployment
+        scenario and so just throwing an error is okay.
+        The errors describe the problem and how to fix it.
 
-        The UI handles this automatically, so the average install scenario won't have to
-        worry about this.
+        The UI handles this automatically,
+        so the average install scenario won't have to worry about this.
 
     win_build/installerv2/
         BOINC.ism
     win_build/installerv2/redist/windows
         BOINC.vbs
+
+David  16 Dec 2004
+    - User web: put a cap of 10 days on network connect period
+    - User web: organize prefs page layout so that venues
+        are grouped more clearly.
+        Still needs some work.
+
+    html/
+        inc/
+            prefs.inc
+            util.inc
+        user/
+            prefs_edit_form.php
+            white.css

@@ -23,6 +23,7 @@ if ($subset == "global") {
     echo "
         These preferences apply to all the BOINC projects
         in which you participate.
+        <br><br>
     ";
 } else {
     $prefs = prefs_parse_project($user->project_prefs);
