@@ -5637,3 +5637,12 @@ Karl 2003/08/11
         - misc fixes
 
     astropulse/result/*
+
+Karl 2003/08/12
+    - client: take into account active_task's fraction_done when calculating
+      seconds of work needed
+
+    client/
+        app.[Ch]
+        client_state.[Ch]
+        cs_scheduler.C
