@@ -69,6 +69,9 @@ int ok_to_draw = 0;
 #ifdef _WIN32
 HANDLE hGlobalDrawEvent;
 #endif
+#ifdef __APPLE_CC__
+MPQueueID drawQueue;
+#endif
 
 // read the INIT_DATA and FD_INIT files
 //

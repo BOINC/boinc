@@ -71,7 +71,6 @@ WindowPtr               boincAboutWindow;
 AGLContext		boincAGLContext;
 GLuint			monacoFontList;
 structGLWindowInfo	glInfo;
-MPQueueID drawQueue;
 
 bool user_requested_exit = false;
 
