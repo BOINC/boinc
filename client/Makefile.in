@@ -137,12 +137,12 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-MYSQL_INCLUDES = /usr/local/mysql_32bit/include
-MYSQL_INCLUDES2 = /usr/local/mysql_32bit/include/mysql
-MYSQL_INCLUDES3 = /usr/include/mysql_32bit
+MYSQL_INCLUDES = /usr/local/mysql/include
+MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
+MYSQL_INCLUDES3 = /usr/include/mysql
 
 MYSQL_LIBS = \
-        -L/usr/local/mysql_32bit/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
+        -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
         -lmysqlclient -L/usr/local/lib -lz				\
         -lm $(NETLIBS)
 
@@ -1385,7 +1385,7 @@ win/win_config.h: $(top_srcdir)/config.h
 
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
-	rm -f $^
+	rm -f $@
 	ln $^ $@
 
 @CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@

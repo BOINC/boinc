@@ -182,14 +182,13 @@ TESTS = test_sanity.py				\
 	test_masterurl_failure.py
 
 
-EXTRA_DIST = \
-        *.xml *.php *wu *result *output *input
-
 
 # TODO: phase out php stuff
-noinst_SCRIPTS = \
+EXTRA_DIST = \
+        *.xml *wu *result *output *input			\
 	db_def_to_php db_def_to_py				\
-	*.php version.inc.in boinc.py test_*.py version.py.in
+	*.php version.inc.in boinc.py test_*.py version.py.in	\
+	boinc_db.inc boinc_db.py
 
 
 BUILT_SOURCES = boinc_db.inc boinc_db.py
@@ -198,8 +197,6 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = version.inc version.py
-SCRIPTS = $(noinst_SCRIPTS)
-
 DIST_SOURCES =
 DIST_COMMON = README $(top_srcdir)/Makefile.incl Makefile.am \
 	Makefile.in version.inc.in version.py.in
@@ -333,7 +330,7 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
-all-am: Makefile $(SCRIPTS)
+all-am: Makefile
 
 installdirs:
 install: $(BUILT_SOURCES)

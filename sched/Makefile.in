@@ -135,9 +135,9 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-MYSQL_INCLUDES = /usr/local/mysql_32bit/include
-MYSQL_INCLUDES2 = /usr/local/mysql_32bit/include/mysql
-MYSQL_INCLUDES3 = /usr/include/mysql_32bit
+MYSQL_INCLUDES = /usr/local/mysql/include
+MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
+MYSQL_INCLUDES3 = /usr/include/mysql
 
 MYSQL_LIBS = \
         -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
@@ -179,7 +179,7 @@ noinst_PROGRAMS = \
 noinst_LIBRARIES = libsched.a
 
 EXTRA_PROGRAMS = fcgi
-EXTRA_DIST = wd.php wd_nresults_changing.php
+EXTRA_DIST = wd.php wd_nresults_changing.php watch_tcp start
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = watch_tcp start stop status
@@ -248,9 +248,9 @@ file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
 make_work_SOURCES = \
         make_work.C				\
         ../tools/backend_lib.C			\
-        ../tools/process_result_template.C	\
-make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+        ../tools/process_result_template.C
 
+make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 
 timeout_check_SOURCES = \
@@ -322,12 +322,9 @@ file_deleter_LDFLAGS =
 am_file_upload_handler_OBJECTS = file_upload_handler.$(OBJEXT)
 file_upload_handler_OBJECTS = $(am_file_upload_handler_OBJECTS)
 file_upload_handler_LDFLAGS =
-am__objects_1 =
 am_make_work_OBJECTS = make_work.$(OBJEXT) backend_lib.$(OBJEXT) \
-	process_result_template.$(OBJEXT) $(am__objects_1) \
-	$(am__objects_1)
+	process_result_template.$(OBJEXT)
 make_work_OBJECTS = $(am_make_work_OBJECTS)
-make_work_DEPENDENCIES =
 make_work_LDFLAGS =
 am_show_shmem_OBJECTS = show_shmem.$(OBJEXT)
 show_shmem_OBJECTS = $(am_show_shmem_OBJECTS)
