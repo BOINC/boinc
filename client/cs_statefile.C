@@ -163,6 +163,7 @@ done:
 int CLIENT_STATE::parse_venue() {
     char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
+	if (!f) return 0;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
