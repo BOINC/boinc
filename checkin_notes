@@ -9696,3 +9696,22 @@ David  Feb 3 2004
     sched/
         handle_request.C
         sched_config.C,h
+
+Karl 2004-02-03
+    - updates for html directory structure change
+
+    tools/
+        make_project
+
+    py/Boinc/
+        setup_project.py
+
+    html/
+        project.sample/  (new directory)
+            project.inc (new)
+            project_specific_prefs.inc   (new)
+
+    html/
+        user/
+            project.inc.sample (removed)
+            project_specific_prefs.inc (removed)

@@ -260,12 +260,14 @@ def install_boinc_files(dest_dir):
     def dir(*dirs):
         return apply(os.path.join,(dest_dir,)+dirs)
 
-    install_glob(srcdir('html_user/*.php'), dir('html_user/'))
-    install_glob(srcdir('html_user/*.inc'), dir('html_user/'))
-    install_glob(srcdir('html_user/class/*.inc'), dir('html_user/class/'))
-    install_glob(srcdir('html_user/include/*.inc'), dir('html_user/include/'))
-    install_glob(srcdir('html_ops/*.php'), dir('html_ops/'))
-    install_glob(srcdir('html_ops/*.inc'), dir('html_ops/'))
+    install_glob(srcdir('html/forum/*.php'), dir('html/forum/'))
+    install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
+    install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
+    install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
+    install_glob(srcdir('html/user/*.php'), dir('html/user/'))
+    install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
+    install_glob(srcdir('html/user/*.css'), dir('html/user/'))
+    install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
@@ -316,8 +318,8 @@ class Project:
         if production:
             config.one_result_per_user_per_wu = '1'
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
-        self.project_php_file                  = srcdir('html_user/project.inc.sample')
-        self.project_specific_prefs_php_file   = srcdir('html_user/project_specific_prefs.inc.sample')
+        self.project_php_file                  = srcdir('html/user/project.inc.sample')
+        self.project_specific_prefs_php_file   = srcdir('html/user/project_specific_prefs.inc.sample')
 
 
     def dir(self, *dirs):
@@ -359,8 +361,8 @@ class Project:
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
             [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
-              'html_ops', 'html_user', 'html_user/project_specific',
-              'html_user/class', 'html_user/include'
+              'html', 'html/ops', 'html/user', 'html/project',
+              'html/inc', 'html/stats', 'html/user_profile'
               ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
             [ 'cgi-bin', 'upload', self.logdir() ])
@@ -378,13 +380,15 @@ class Project:
 
         install_boinc_files(self.dir())
 
-        install_glob(srcdir('html_user/*.txt'), self.dir('html_user/'))
         install(self.project_php_file,
-                self.dir('html_user', 'project_specific', 'project.inc'))
+                self.dir('html', 'project', 'project.inc'))
         install(self.project_specific_prefs_php_file,
-                self.dir('html_user', 'project_specific', 'project_specific_prefs.inc'))
+                self.dir('html', 'project', 'project_specific_prefs.inc'))
 
-        my_symlink(self.config.config.download_dir, self.dir('html_user', 'download'))
+        my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
+        my_symlink('../forum', self.dir('html/user/forum'))
+        my_symlink('../stats', self.dir('html/user/stats'))
+        my_symlink('../user_profile', self.dir('html/user/user_profile'))
 
 
         # Copy the sched server in the cgi directory with the cgi names given
@@ -393,7 +397,7 @@ class Project:
 
         if scheduler_file:
             r = re.compile('<scheduler>([^<]+)</scheduler>', re.IGNORECASE)
-            f = open(self.dir('html_user', scheduler_file))
+            f = open(self.dir('html/user', scheduler_file))
             for line in f:
                 # not sure if this is what the scheduler file is supposed to
                 # mean
@@ -405,7 +409,7 @@ class Project:
             f.close()
         else:
             scheduler_file = 'schedulers.txt'
-            f = open(self.dir('html_user', scheduler_file), 'w')
+            f = open(self.dir('html/user', scheduler_file), 'w')
             print >>f, "<scheduler>" + self.scheduler_url.strip(), "</scheduler>"
             f.close()
 
@@ -426,13 +430,13 @@ class Project:
         if options.__dict__.get('cgi_dir'):
             force_symlink(self.dir('cgi-bin'), os.path.join(options.cgi_dir, self.short_name))
         if options.__dict__.get('html_dir'):
-            force_symlink(self.dir('html_user'), os.path.join(options.html_dir, self.short_name))
-            force_symlink(self.dir('html_ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
+            force_symlink(self.dir('html/user'), os.path.join(options.html_dir, self.short_name))
+            force_symlink(self.dir('html/ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
 
     def http_password(self, user, password):
-        'Adds http password protection to the html_ops directory'
-        passwd_file = self.dir('html_ops', '.htpassword')
-        f = open(self.dir('html_ops', '.htaccess'), 'w')
+        'Adds http password protection to the html/ops directory'
+        passwd_file = self.dir('html/ops', '.htpassword')
+        f = open(self.dir('html/ops', '.htaccess'), 'w')
         print >>f, "AuthName '%s Administration'" % self.long_name
         print >>f, "AuthType Basic"
         print >>f, "AuthUserFile %s" % passwd_file
