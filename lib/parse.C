@@ -87,7 +87,13 @@ bool parse_double(const char* buf, const char* tag, double& x) {
 //
 bool parse_str(const char* buf, const char* tag, string& dest) {
     string str;
-    char const* p = strstr(buf, tag);
+    char const* p;
+
+    // sanity check on NULL and empty cases. 
+    if (!buf || !tag || !strlen(tag))
+	return false;
+
+    p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
     ++p;

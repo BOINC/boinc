@@ -20300,3 +20300,8 @@ Karl 2004-11-27
 
     py/Boinc/
         db_base.py
+
+Bruce 2004-11-28
+    - Sanity check args to parse_str(doc, tag, ...) and return false if !doc, !tag, or !strlen(tag)
+    lib/
+      parse.C
