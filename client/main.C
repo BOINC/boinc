@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -141,6 +143,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 // and create an account file
 //
 int add_new_project() {
+#ifndef WIN32
     PROJECT project;
 
     printf("Enter the URL of the project: ");
@@ -154,6 +157,9 @@ int add_new_project() {
 
     project.tentative = true;
     return project.write_account_file();
+#else
+    return 0;
+#endif
 }
 
 #ifdef WIN32
@@ -321,11 +327,7 @@ int main(int argc, char** argv) {
 	};
 
     if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
-        if ( _stricmp( "install", argv[1]+1 ) == 0 ) {
-            CmdInstallService();
-        } else if ( _stricmp( "uninstall", argv[1]+1 ) == 0 ) {
-            CmdUninstallService();
-        } else if ( _stricmp( "win_service", argv[1]+1 ) == 0 ) {
+        if ( _stricmp( "win_service", argv[1]+1 ) == 0 ) {
 
             // allow the system to know it is running as a Windows service
             // and adjust it's diagnostics schemes accordingly.

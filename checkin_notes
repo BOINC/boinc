@@ -19289,3 +19289,13 @@ Rom    12 Nov 2004
     win_build/installerv2/redist/Windows/
         BOINC.vbs
  
+Rom    12 Nov 2004
+    - On Windows, BOINC should not prompt for a project if non exist.
+    - On Windows, remove the -install and -uninstall from the commandline since the
+      installer now takes care of it.
+
+    client/
+        main.C
+        cd_cmdline.C
+    client/win/
+        win_service.cpp

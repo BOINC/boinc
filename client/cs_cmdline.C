@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -35,10 +37,6 @@ static void print_options(char* prog) {
     printf(
         "Usage: %s [options]\n"
         "    -version               show version info\n"
-#if defined(_WIN32) && defined(_CONSOLE)
-        "    -install               install boinc as a Windows Service\n"
-        "    -uninstall             uninstall boinc as a Windows Service\n"
-#endif
         "    -exit_when_idle        Get/process/report work, then exit\n"
         "    -show_projects         show attached projects\n"
         "    -return_results_immediately   contact server when have results\n"

@@ -51,11 +51,6 @@ VOID		LogEventErrorMessage(LPTSTR lpszMsg);
 VOID		LogEventWarningMessage(LPTSTR lpszMsg);
 VOID		LogEventInfoMessage(LPTSTR lpszMsg);
 
-// Service Maintenance Routines
-VOID		CmdInstallService();
-VOID		CmdUninstallService();
-
-
 #ifdef __cplusplus
 }
 #endif
