@@ -15,12 +15,16 @@
     $app_version = new App_Version($app);
 
     $project1->resource_share = 1;
+    $project2->shmem_key = "0x12344321";
+    $project1->name = "Project1";
     $project1->add_user($user);
     $project1->add_app($app);
     $project1->add_app_version($app_version);
     $project1->install();      // must install projects before adding to hosts
 
     $project2->resource_share = 5;
+    $project2->shmem_key = "0x12345678";
+    $project2->name = "Project2";
     $project2->add_user($user);
     $project2->add_app($app);
     $project2->add_app_version($app_version);
@@ -32,10 +36,11 @@
 
     echo "adding work\n";
 
-    $work = new Work($project, $app);
+    $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
     $work->nresults = 5;
+    $work->delay_bound = 60;
     array_push($work->input_files, "input");
     $work->install($project1);
     $work->install($project2);
