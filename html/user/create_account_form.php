@@ -49,6 +49,11 @@ row2("", "<input type=submit value=\"Create account\">");
 end_table();
 echo "</form>\n";
 
+echo "If you already received an account key,
+    <a href=account_created.php>click here</a>
+    to activate your account
+";
+
 page_tail();
 
 ?>
