@@ -260,7 +260,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         // to create unique new output filenames.
         //
         if (nredundancy > ndone) {
-            n = nredundancy - ndone;
+            n = nredundancy - ndone; // TODO: subtract # in-progress?
             all_over = false;
 
             log_messages.printf(

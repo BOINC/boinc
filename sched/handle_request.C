@@ -537,7 +537,7 @@ int handle_results(
         // check it against the canonical result (if its result hasn't been
         // deleted yet).
 
-        // TODO: Fix documentation state diagrams.        
+        // TODO: Fix documentation state diagrams.
 
         // if (result.server_state == RESULT_SERVER_STATE_OVER) {
         //     result.file_delete_state = FILE_DELETE_READY;
@@ -606,6 +606,7 @@ int handle_results(
         } else {
             result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
             result.validate_state = VALIDATE_STATE_INVALID;
+            // TODO: set timeout check to NOW
         }
 
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
