@@ -38,12 +38,12 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "Release"
-# PROP Intermediate_Dir "Release"
+# PROP Output_Dir "boinc_cli_Release"
+# PROP Intermediate_Dir "boinc_cli_Release\objs"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /Zi /O2 /I "../../lib/" /I "../../api/" /I "../../RSAEuro/source/" /I "../../client/win/" /I "../../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=1 /D MINOR_VERSION=03 /D "WIN_CLI" /YX /FD /c /Tp
+# ADD CPP /nologo /MT /W3 /GX /Zi /O2 /I "../lib/" /I "../api/" /I "../RSAEuro/source/" /I "../client/win/" /I "../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=1 /D MINOR_VERSION=03 /D "WIN_CLI" /YX /FD /c /Tp
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -65,12 +65,12 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "Debug"
-# PROP Intermediate_Dir "Debug"
+# PROP Output_Dir "boinc_cli_Debug"
+# PROP Intermediate_Dir "boinc_cli_Debug\objs"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MT /W3 /GX /ZI /Od /I "../../lib/" /I "../../api/" /I "../../RSAEuro/source/" /I "../../client/win/" /I "../../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=1 /D MINOR_VERSION=03 /D "WIN_CLI" /FR /YX /FD /GZ /c /Tp
+# ADD CPP /nologo /MT /W3 /GX /ZI /Od /I "../lib/" /I "../api/" /I "../RSAEuro/source/" /I "../client/win/" /I "../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=1 /D MINOR_VERSION=03 /D "WIN_CLI" /FR /YX /FD /GZ /c /Tp
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -93,139 +93,139 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\client\account.C
+SOURCE=..\client\account.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\app.C
+SOURCE=..\Client\app.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\app_ipc.C
+SOURCE=..\lib\app_ipc.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\client_state.C
+SOURCE=..\Client\client_state.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\client_types.C
+SOURCE=..\Client\client_types.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Lib\Crypt.c
+SOURCE=..\Lib\Crypt.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\cs_apps.C
+SOURCE=..\Client\cs_apps.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\cs_files.C
+SOURCE=..\Client\cs_files.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\cs_scheduler.C
+SOURCE=..\Client\cs_scheduler.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\file_names.C
+SOURCE=..\Client\file_names.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\file_xfer.C
+SOURCE=..\Client\file_xfer.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\filesys.C
+SOURCE=..\lib\filesys.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\Hostinfo.c
+SOURCE=..\Client\Hostinfo.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\win\hostinfo_win.cpp
+SOURCE=..\Client\win\hostinfo_win.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\http.C
+SOURCE=..\Client\http.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\language.C
+SOURCE=..\lib\language.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\log_flags.C
+SOURCE=..\Client\log_flags.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\main.C
+SOURCE=..\client\main.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Lib\Md5.c
+SOURCE=..\Lib\Md5.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Lib\Md5_file.c
+SOURCE=..\Lib\Md5_file.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\net_stats.C
+SOURCE=..\Client\net_stats.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\net_xfer.C
+SOURCE=..\Client\net_xfer.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Lib\parse.C
+SOURCE=..\Lib\parse.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\pers_file_xfer.C
+SOURCE=..\Client\pers_file_xfer.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\Prefs.c
+SOURCE=..\Client\Prefs.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\scheduler_op.C
+SOURCE=..\Client\scheduler_op.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\shmem.C
+SOURCE=..\lib\shmem.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\speed_stats.C
+SOURCE=..\Client\speed_stats.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\ss_logic.C
+SOURCE=..\client\ss_logic.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\time_stats.C
+SOURCE=..\Client\time_stats.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\util.C
+SOURCE=..\lib\util.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\Version.c
+SOURCE=..\Client\Version.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\win\Win_main.cpp
+SOURCE=..\Client\win\Win_main.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\win\Win_net.cpp
+SOURCE=..\Client\win\Win_net.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -233,115 +233,115 @@ SOURCE=..\..\Client\win\Win_net.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\client\app.h
+SOURCE=..\client\app.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\app_ipc.h
+SOURCE=..\lib\app_ipc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\client_state.h
+SOURCE=..\client\client_state.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\client_types.h
+SOURCE=..\client\client_types.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\error_numbers.h
+SOURCE=..\lib\error_numbers.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\file_names.h
+SOURCE=..\client\file_names.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\file_xfer.h
+SOURCE=..\client\file_xfer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\filesys.h
+SOURCE=..\client\filesys.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\hostinfo.h
+SOURCE=..\client\hostinfo.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\http.h
+SOURCE=..\client\http.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\language.h
+SOURCE=..\lib\language.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\log_flags.h
+SOURCE=..\client\log_flags.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\md5.h
+SOURCE=..\lib\md5.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\md5_file.h
+SOURCE=..\lib\md5_file.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\message.h
+SOURCE=..\client\message.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\net_stats.h
+SOURCE=..\client\net_stats.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\net_xfer.h
+SOURCE=..\client\net_xfer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\parse.h
+SOURCE=..\lib\parse.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\pers_file_xfer.h
+SOURCE=..\Client\pers_file_xfer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\prefs.h
+SOURCE=..\client\prefs.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\scheduler_op.h
+SOURCE=..\client\scheduler_op.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\speed_stats.h
+SOURCE=..\client\speed_stats.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\ss_logic.h
+SOURCE=..\client\ss_logic.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\time_stats.h
+SOURCE=..\client\time_stats.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\util.h
+SOURCE=..\client\util.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\version.h
+SOURCE=..\client\version.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\win\Win_net.h
+SOURCE=..\Client\win\Win_net.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\win\windows_cpp.h
+SOURCE=..\Client\win\windows_cpp.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -349,7 +349,7 @@ SOURCE=..\..\Client\win\windows_cpp.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=..\RSAEuro\Release\RSAEuro.lib
+SOURCE=.\RSAEuro_Release\RSAEuro.lib
 # End Source File
 # End Group
 # End Target

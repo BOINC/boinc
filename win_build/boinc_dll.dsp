@@ -38,8 +38,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "Release"
-# PROP Intermediate_Dir "Release"
+# PROP Output_Dir "boinc_dll_Release"
+# PROP Intermediate_Dir "boinc_dll_Release\objs"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "BOINC_DLL_EXPORTS" /YX /FD /c
@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"Release/boinc.dll"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy    Release\boinc.dll    ..\boinc_gui\ 
+PostBuild_Cmds=copy     boinc_dll_Release\boinc.dll     .
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "boinc_dll - Win32 Debug"
@@ -68,8 +68,8 @@ PostBuild_Cmds=copy    Release\boinc.dll    ..\boinc_gui\
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "Debug"
-# PROP Intermediate_Dir "Debug"
+# PROP Output_Dir "boinc_dll_Debug"
+# PROP Intermediate_Dir "boinc_dll_Debug\objs"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "BOINC_DLL_EXPORTS" /YX /FD /GZ /c
@@ -87,7 +87,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 PostBuild_Desc=Copy dll to boinc_gui directory
-PostBuild_Cmds=copy    Debug\boinc.dll    ..\boinc_gui\ 
+PostBuild_Cmds=copy     boinc_dll_Debug\boinc.dll     .
 # End Special Build Tool
 
 !ENDIF 
@@ -101,11 +101,11 @@ PostBuild_Cmds=copy    Debug\boinc.dll    ..\boinc_gui\
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\client\win\win_idle_tracker.cpp
+SOURCE=..\client\win\win_idle_tracker.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\win\win_idle_tracker.def
+SOURCE=..\client\win\win_idle_tracker.def
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -113,7 +113,7 @@ SOURCE=..\..\client\win\win_idle_tracker.def
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\client\win\win_idle_tracker.h
+SOURCE=..\client\win\win_idle_tracker.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
