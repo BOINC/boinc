@@ -34,7 +34,7 @@ libsched_a_SOURCES =				\
 	../lib/messages.C			\
 	../tools/process_result_template.C	\
         ../tools/backend_lib.C			\
-	config.h				\
+	sched_config.h				\
 	sched_shmem.h				\
 	sched_util.h
 
