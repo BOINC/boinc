@@ -6948,3 +6948,26 @@ Karl 2003-10-20
         - added glut32.dll to BOINC distribution
 
     - Astropulse client release 2.05
+
+David  20 Oct 2003
+    - replace return -1's with error codes
+
+    client/
+        app.C
+        cs_benchmark.C
+        hostinfo.C
+        net_xfer.C
+    lib/
+        app_ipc.C
+        crypt.C
+        error_numbers.h
+        filesys.C
+        md5_file.C
+        parse.C
+        shmem.C
+        util.C
+    sched/
+        handle_request.C
+        sched_shmem.C
+        validate_util.C
+        wu_check.C

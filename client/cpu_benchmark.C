@@ -47,6 +47,19 @@ void stop_benchmark(int a);
 //
 static volatile bool run_benchmark;
 
+static double cpu_time() {
+    return (double)clock()/(double)CLOCKS_PER_SEC;
+}
+
+static double cpu_time_diff(double start, double end) {
+    // take wraparound into account
+    //
+    while (end < start) {
+        end += (double)(0x80000000)/(double)CLOCKS_PER_SEC;
+    }
+    return end-start;
+}
+
 //#define RUN_TEST
 
 #ifdef RUN_TEST
@@ -90,8 +103,9 @@ int check_cache_size(int mem_size) {
     int i, n, index, stride, *memBlock, logStride, logCache;
     double **results;
     int steps, tsteps, csize, limit, temp, cind, sind;
-    clock_t total_sec, sec;
-    double secs, nanosecs, temp2;
+    double start, end, elapsed;
+    //clock_t total_sec, sec;
+    double nanosecs, temp2;
     int not_found;
     if (mem_size<0) {
         msg_printf(NULL, MSG_ERROR, "check_cache_size: negative mem_size\n");
@@ -124,7 +138,7 @@ int check_cache_size(int mem_size) {
             limit = csize - stride + 1;                // cache size this loop
 
             steps = 0;
-            sec = clock();
+            start = cpu_time();
             do {                            // repeat until collect 1 second
                 for (i = SAMPLE * stride; i != 0; i--)    {    // larger sample
                     for (index = 0; index < limit; index += stride) {
@@ -132,13 +146,15 @@ int check_cache_size(int mem_size) {
                     }
                 }
                 steps++;                    // count while loop iterations
-            } while (clock() < sec+(CLOCKS_PER_SEC*SECS_PER_RUN));    // until collect 1 second
-            total_sec = clock()-sec;
+            } while (cpu_time_diff(start, cpu_time()) < SECS_PER_RUN);    // until collect 1 second
+            end = cpu_time();
+            elapsed = cpu_time_diff(start, end);
+            //total_sec = clock()-sec;
 
             // Repeat empty loop to loop subtract overhead
             tsteps = 0;                        // used to match no. while iterations
             temp = 0;
-            sec = clock();
+            start = cpu_time();
             do {                            // repeat until same no. iterations as above
                 for (i = SAMPLE * stride; i != 0; i--)    {    // larger sample
                     for (index = 0; index < limit; index += stride) {
@@ -147,15 +163,10 @@ int check_cache_size(int mem_size) {
                 }
                 tsteps++;                    // count while iterations
             } while (tsteps < steps);                    // until = no. iterations
-            total_sec -= clock()-sec;
-            
-            secs = ((double)total_sec) / CLOCKS_PER_SEC;
-            
-            if (temp == 3) {
-                printf("Howdy\n");
-            }
-            
-            nanosecs = (double) secs * 1e9 / (steps * SAMPLE * stride * ((limit - 1) / stride + 1));
+            end = cpu_time();
+            elapsed -= cpu_time_diff(start, end);
+                                    
+            nanosecs = elapsed * 1e9 / (steps * SAMPLE * stride * ((limit - 1) / stride + 1));
             results[sind][cind] = nanosecs;
             
             //if (stride==STRIDE_MIN) printf("\n");
@@ -290,7 +301,8 @@ int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
 int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     double a[NUM_DOUBLES], b[NUM_DOUBLES], dp, temp;
     int i,n,j,actual_iters, error = 0;
-    clock_t time_start, time_total;
+    double start, end, elapsed;
+    //clock_t time_start, time_total;
     
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "double_flop_test: negative iterations\n");
@@ -312,7 +324,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     
     actual_iters = 0;
     
-    time_start = clock();
+    start = cpu_time();
     
     for (n=0;(n<iterations)&&run_benchmark;n++) {
         for (j=0;j<D_LOOP_ITERS;j+=((NUM_DOUBLES*4)+1)) {
@@ -329,16 +341,10 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
         actual_iters++;
     }
     
-    time_total = clock();
-    
-    // Accomodate for the possibility of clock wraparound
-    if (time_total > time_start) {
-        time_total -= time_start;
-    } else {
-        time_total = 0; // this is just a kludge
-    }
-    
-    flops_per_sec = D_LOOP_ITERS*actual_iters/((double)time_total/CLOCKS_PER_SEC);
+    end = cpu_time();
+    elapsed = cpu_time_diff(start, end);
+        
+    flops_per_sec = D_LOOP_ITERS*actual_iters/elapsed;
     
     temp = 1;
     // Check to make sure all the values are the same as when we started
@@ -362,7 +368,8 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
 
 int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     int a[NUM_INTS], temp, actual_iters;
-    clock_t time_start, time_total;
+    //clock_t time_start, time_total;
+    double start, end, elapsed;
     int i,j,k,error = 0;
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "int_op_test: negative iterations\n");
@@ -382,7 +389,7 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
    
     actual_iters = 0;
    
-    time_start = clock();
+    start = cpu_time();
     for (i=0;(i<iterations) && run_benchmark;i++) {
         // The contents of the array "a" should be the same at the
         // beginning and end of each loop iteration.  Most compilers will
@@ -418,17 +425,10 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
         actual_iters++;
     }
 
-    // Stop the clock
-    time_total = clock();
+    end = cpu_time();
+    elapsed = cpu_time_diff(start, end);
     
-    // Accomodate for the possibility of clock wraparound
-    if (time_total > time_start) {
-        time_total -= time_start;
-    } else {
-        time_total = 0; // this is just a kludge
-    }
-    
-    iops_per_sec = I_LOOP_ITERS*actual_iters/((double)time_total/CLOCKS_PER_SEC);
+    iops_per_sec = I_LOOP_ITERS*actual_iters/elapsed;
     
     temp = 1;
     // Check to make sure all the values are the same as when we started
@@ -454,8 +454,9 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     double *a, *b, *c;
     // aVal and bVal are the values of all elements of a and b.
     double aVal, bVal;
+    double start, end, elapsed;
     // Start and stop times for the clock
-    clock_t time_start, time_total;
+    //clock_t time_start, time_total;
     int i,j,n,actual_iters, error = 0;
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "bandwidth_test: negative iterations\n");
@@ -484,8 +485,7 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     
     actual_iters = 0;
     
-    // Start the clock
-    time_start = clock();
+    start = cpu_time();
     
     // One iteration == Read of 6,000,000*sizeof(double), Write of 6,000,000*sizeof(double)
     // 6 read, 6 write operations per iteration which will preserve a and b
@@ -500,17 +500,10 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
         actual_iters++;
     }
 
-    // Stop the clock
-    time_total = clock();
-    
-    // Accomodate for the possibility of clock wraparound
-    if (time_total > time_start) {
-        time_total -= time_start;
-    } else {
-        time_total = 0; // this is just a kludge
-    }
-    
-    bytes_per_sec = 2.0*6.0*MEM_SIZE*actual_iters*sizeof(double)/((double)time_total/CLOCKS_PER_SEC);
+    end = cpu_time();
+    elapsed = cpu_time_diff(start, end);
+        
+    bytes_per_sec = 2.0*6.0*MEM_SIZE*actual_iters*sizeof(double)/elapsed;
     
     for (i=0;i<MEM_SIZE;i++) {
         if (a[i] != aVal+i || b[i] != bVal+i) error = ERR_BENCHMARK_FAILED;

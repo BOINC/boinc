@@ -24,6 +24,7 @@
 #include <stdio.h>
 
 #include "parse.h"
+#include "error_numbers.h"
 #include "boinc_db.h"
 #include "sched_config.h"
 
