@@ -68,9 +68,9 @@ dnl ], AC_DEFINE(unix, 1, [unix]))
 
 AC_DEFUN([AC_CHECK_MYSQL],[
 AC_ARG_VAR([MYSQL_CONFIG], [mysql_config program])
-dnl if test -z "$MYSQL_CONFIG"; then
+if test -z "$MYSQL_CONFIG"; then
 AC_PATH_PROG(MYSQL_CONFIG,mysql_config,,[$PATH:/usr/local/mysql/bin])
-dnl fi
+fi
 if test -z "$MYSQL_CONFIG"
 then
     AC_MSG_ERROR([mysql_config executable not found])
