@@ -13,7 +13,9 @@ libboinc_api_a_SOURCES =			\
 	../lib/shmem.C				\
 	../lib/parse.C				\
 	../lib/app_ipc.C			\
-	../lib/base64.C
+	../lib/base64.C                         \
+        ../lib/diagnostics.c                    \
+        ../lib/exception.c
 
 libboinc_graphics_api_a_SOURCES =		\
 	graphics_api.C				\

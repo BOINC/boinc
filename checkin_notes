@@ -10808,6 +10808,8 @@ Rom    Mar 24 2004
      - The new exceptions use string's, so include <string> in the exception header.
      - gcc has stronger exception enforcement than mscl
 
+    api/
+        makefile.am
     lib/
         diagnostics.c
         exception.h
