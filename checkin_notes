@@ -18922,3 +18922,11 @@ David  26 Oct 2004
             edit_forum_preferences_form.php
             forum_post.php
             forum_rate.php
+
+David  26 Oct 2004
+	- added "supports graphics" boolean to RESULT GUI RPC reply
+
+	client/
+		app.C
+	lib/
+		gui_rpc_client.C,h

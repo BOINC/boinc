@@ -341,7 +341,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <vm_size>%f</vm_size>\n"
-        "%s"
+        "%s%s"
         "</active_task>\n",
         result->project->master_url,
         result->name,
@@ -353,7 +353,8 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         fraction_done,
         current_cpu_time,
         vm_size,
-        suspended_via_gui?"    <suspended_via_gui/>\n":""
+        suspended_via_gui?"    <suspended_via_gui/>\n":"",
+        supports_graphics()?"   <supports_graphics/>\n":""
     );
     return 0;
 }

@@ -146,6 +146,7 @@ public:
     double vm_size;
     double estimated_cpu_time_remaining;
     bool suspended_via_gui;
+    bool supports_graphics;
 
     APP* app;
     WORKUNIT* wup;

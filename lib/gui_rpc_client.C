@@ -303,6 +303,10 @@ int RESULT::parse(MIOFILE& in) {
             active_task = true;
             continue;
         }
+        else if (match_tag(buf, "<supports_graphics/>")) {
+            supports_graphics = true;
+            continue;
+        }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
@@ -361,6 +365,7 @@ void RESULT::clear() {
     fraction_done = 0.0;
     estimated_cpu_time_remaining = 0.0;
     suspended_via_gui = false;
+    supports_graphics = false;
 }
 
 FILE_TRANSFER::FILE_TRANSFER() {
