@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/10/05 02:55:26  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -104,7 +107,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
     SetCurrentQuickTip(
         wxT(LINK_DEFAULT), 
-        _("No avaiable options currently defined.")
+        _("No available options currently defined.")
     );
 
     UpdateSelection();
@@ -136,8 +139,7 @@ void CViewResources::OnTaskRender(wxTimerEvent &event)
 
         wxASSERT(NULL != m_pListPane);
 
-        long lSelected = m_pListPane->GetFirstSelected();
-        if ( (-1 == lSelected) && m_bItemSelected )
+        if ( ( 0 == m_pListPane->GetSelectedItemCount() ) && m_bItemSelected )
         {
             UpdateSelection();
         }
@@ -160,7 +162,15 @@ void CViewResources::OnListRender(wxTimerEvent &event)
         wxASSERT(NULL != m_pListPane);
 
         //wxInt32 iCount = wxGetApp().GetDocument()->GetMessageCount();
-        //m_pListPane->SetItemCount(iCount);
+        //if ( iCount != m_iCount )
+        //{
+        //    m_iCount = iCount;
+        //    m_pListPane->SetItemCount(iCount);
+        //}
+        //else
+        //{
+        //    m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
+        //}
 
         m_bProcessingListRenderEvent = false;
     }
@@ -233,8 +243,7 @@ void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord 
         }
         else
         {
-            long lSelected = m_pListPane->GetFirstSelected();
-            if ( -1 == lSelected )
+            if ( 0 == m_pListPane->GetSelectedItemCount() )
             {
                 if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
                 {
@@ -261,8 +270,7 @@ void CViewResources::UpdateSelection()
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    long lSelected = m_pListPane->GetFirstSelected();
-    if ( -1 == lSelected )
+    if ( 0 == m_pListPane->GetSelectedItemCount() )
     {
         m_bTaskHeaderHidden = true;
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/10/05 02:55:26  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/09/29 22:20:43  rwalton
 // *** empty log message ***
 //
@@ -67,32 +70,19 @@
 #include "res/tips.xpm"
 
 
-#define VIEW_HEADER                 "proj"
+#define VIEW_HEADER                 wxT("proj")
 
-#define SECTION_TASK                VIEW_HEADER "task"
-#define SECTION_WEB                 VIEW_HEADER "web"
-#define SECTION_TIPS                VIEW_HEADER "tips"
+#define SECTION_TASK                wxT(VIEW_HEADER "task")
+#define SECTION_WEB                 wxT(VIEW_HEADER "web")
+#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
 
-#define BITMAP_PROJECTS             VIEW_HEADER ".xpm"
-#define BITMAP_TASKHEADER           SECTION_TASK ".xpm"
-#define BITMAP_WEBHEADER            SECTION_WEB ".xpm"
-#define BITMAP_TIPSHEADER           SECTION_TIPS ".xpm"
-#define BITMAP_BOINC                "boinc.xpm"
+#define BITMAP_PROJECTS             wxT(VIEW_HEADER ".xpm")
+#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
+#define BITMAP_WEBHEADER            wxT(SECTION_WEB ".xpm")
+#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
+#define BITMAP_BOINC                wxT("boinc.xpm")
 
-#define LINK_TASKATTACH             SECTION_TASK "attach"
-#define LINK_TASKDETACH             SECTION_TASK "detach"
-#define LINK_TASKRESET              SECTION_TASK "reset"
-#define LINK_TASKSUSPEND            SECTION_TASK "suspend"
-#define LINK_TASKRESUME             SECTION_TASK "resume"
-#define LINK_TASKUPDATE             SECTION_TASK "update"
-
-#define LINK_WEBBOINC               SECTION_WEB "boinc"
-#define LINK_WEBFAQ                 SECTION_WEB "faq"
-#define LINK_WEBPROJECT             SECTION_WEB "project"
-#define LINK_WEBTEAM                SECTION_WEB "team"
-#define LINK_WEBUSER                SECTION_WEB "user"
-
-#define LINK_DEFAULT                "default"
+#define LINK_DEFAULT                wxT("default")
 
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
@@ -101,6 +91,57 @@
 #define COLUMN_AVGCREDIT            4
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
+
+
+const wxString LINK_TASKATTACH      = wxT(SECTION_TASK "attach");
+const wxString LINKDESC_TASKATTACH  = 
+     _("<b>Attach to Project</b><br>"
+       "Selecting attach to project allows you to join other BOINC "
+       "projects.  You will need a valid project URL and Authenticator.");
+
+
+const wxString LINK_TASKDETACH      = wxT(SECTION_TASK "detach");
+const wxString LINKDESC_TASKDETACH  = 
+     _("<b>Detach from Project</b><br>"
+       "Selecting detach from project removes the computer from the currently "
+       "selected project.  You may wish to update the project first to submit "
+       "any completed work.");
+
+const wxString LINK_TASKRESET       = wxT(SECTION_TASK "reset");
+const wxString LINKDESC_TASKRESET   = 
+     _("<b>Reset Project</b><br>"
+       "Selecting reset project removes all workunits and applications from "
+       "the currently selected project.  You may wish to update the project "
+       "first to submit any completed work.");
+
+const wxString LINK_TASKSUSPEND     = wxT(SECTION_TASK "suspend");
+const wxString LINKDESC_TASKSUSPEND = 
+     _("<b>Suspend Project</b><br>"
+       "Selecting suspend project will pause the project from any additional "
+       "computation for that project until the resume project option is selected.");
+
+const wxString LINK_TASKRESUME      = wxT(SECTION_TASK "resume");
+const wxString LINKDESC_TASKRESUME  = 
+     _("<b>Resume Project</b><br>"
+       "Selecting resume project resumes computation for a project that has been"
+       "previously suspended.");
+
+const wxString LINK_TASKUPDATE      = wxT(SECTION_TASK "update");
+const wxString LINKDESC_TASKUPDATE  = 
+     _("<b>Update Project</b><br>"
+       "Selecting update project submits any outstanding work and refreshes "
+       "your credit and preferences for the currently selected project.");
+
+const wxString LINK_WEBBOINC        = wxT(SECTION_WEB "boinc");
+const wxString LINKDESC_WEBBOINC    = 
+     _("<b>BOINC Homepage</b><br>"
+       "This will open a browser window to the BOINC homepage.");
+
+const wxString LINK_WEBPROJECT      = wxT(SECTION_WEB "project");
+const wxString LINKDESC_WEBPROJECT  = 
+     _("<b>Project Homepage</b><br>"
+       "This will open a browser window to the currently selected project "
+       "homepage.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
@@ -132,12 +173,12 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
     bmpBOINC.SetMask(new wxMask(bmpBOINC, wxColour(255, 0, 255)));
 
-    m_pTaskPane->AddVirtualFile(wxT(BITMAP_PROJECTS), bmpProject, wxBITMAP_TYPE_XPM);
-    m_pTaskPane->AddVirtualFile(wxT(BITMAP_BOINC), bmpBOINC, wxBITMAP_TYPE_XPM);
+    m_pTaskPane->AddVirtualFile(BITMAP_PROJECTS, bmpProject, wxBITMAP_TYPE_XPM);
+    m_pTaskPane->AddVirtualFile(BITMAP_BOINC, bmpBOINC, wxBITMAP_TYPE_XPM);
 
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TASKHEADER), bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_WEBHEADER), bmpWeb, _("Websites"));
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TIPSHEADER), bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_WEBHEADER, bmpWeb, _("Websites"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, -1);
@@ -150,7 +191,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
-        wxT(LINK_DEFAULT), 
+        LINK_DEFAULT, 
         _("Please select a project to see additional options.")
     );
 
@@ -183,8 +224,7 @@ void CViewProjects::OnTaskRender(wxTimerEvent &event)
 
         wxASSERT(NULL != m_pListPane);
 
-        long lSelected = m_pListPane->GetFirstSelected();
-        if ( (-1 == lSelected) && m_bItemSelected )
+        if ( ( 0 == m_pListPane->GetSelectedItemCount() ) && m_bItemSelected )
         {
             UpdateSelection();
         }
@@ -204,83 +244,134 @@ void CViewProjects::OnListRender(wxTimerEvent &event)
     {
         m_bProcessingListRenderEvent = true;
 
+        wxString strBuffer;
+
         wxASSERT(NULL != m_pListPane);
 
         wxInt32 iCount = wxGetApp().GetDocument()->GetProjectCount();
-        m_pListPane->SetItemCount(iCount);
+        if ( iCount != m_iCount )
+        {
+            m_iCount = iCount;
+            m_pListPane->SetItemCount(iCount);
+        }
+        else
+        {
+            wxInt32         iRowIndex;
+            wxInt32         iColumnIndex;
+            wxInt32         iColumnTotal;
+            wxString        strDocumentText;
+            wxString        strListPaneText;
+            wxListItem      liItem;
+            bool            bNeedRefreshData;
+
+
+            liItem.SetMask(wxLIST_MASK_TEXT);
+            iColumnTotal = m_pListPane->GetColumnCount();
+
+            for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
+            {
+                bNeedRefreshData = false;
+                liItem.SetId(iRowIndex);
+
+                for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+                {
+                    strDocumentText.Clear();
+                    strListPaneText.Clear();
+
+                    switch(iColumnIndex)
+                    {
+                        case COLUMN_PROJECT:
+                            FormatProjectName(iRowIndex, strDocumentText);
+                            break;
+                        case COLUMN_ACCOUNTNAME:
+                            FormatAccountName(iRowIndex, strDocumentText);
+                            break;
+                        case COLUMN_TEAMNAME:
+                            FormatTeamName(iRowIndex, strDocumentText);
+                            break;
+                        case COLUMN_TOTALCREDIT:
+                            FormatTotalCredit(iRowIndex, strDocumentText);
+                            break;
+                        case COLUMN_AVGCREDIT:
+                            FormatAVGCredit(iRowIndex, strDocumentText);
+                            break;
+                        case COLUMN_RESOURCESHARE:
+                            FormatResourceShare(iRowIndex, strDocumentText);
+                            break;
+                        case COLUMN_STATUS:
+                            FormatStatus(iRowIndex, strDocumentText);
+                            break;
+                    }
+
+                    liItem.SetColumn(iColumnIndex);
+                    m_pListPane->GetItem(liItem);
+                    strListPaneText = liItem.GetText();
+
+                    if ( !strBuffer.IsSameAs(strListPaneText) )
+                        bNeedRefreshData = true;
+                }
+
+                if ( bNeedRefreshData )
+                {
+                    m_pListPane->RefreshItem( iRowIndex );
+                }
+            }
+        }
 
         m_bProcessingListRenderEvent = false;
     }
-    else
-    {
-        event.Skip();
-    }
+
+    event.Skip();
 }
 
 
 void CViewProjects::OnListSelected ( wxListEvent& event )
 {
+    wxLogTrace("CViewProjects::OnListSelected - Event Processed");
     UpdateSelection();
+
     event.Skip();
 }
 
 
 void CViewProjects::OnListDeselected ( wxListEvent& event )
 {
+    wxLogTrace("CViewProjects::OnListDeselected - Event Processed");
     UpdateSelection();
+
     event.Skip();
 }
 
 
-wxString CViewProjects::OnListGetItemText(long item, long column) const {
-
+wxString CViewProjects::OnListGetItemText(long item, long column) const 
+{
     wxString strBuffer;
-    float fBuffer;
-    float fBuffer2;
 
-    switch(column) {
+    switch(column)
+    {
         case COLUMN_PROJECT:
-            wxGetApp().GetDocument()->GetProjectProjectName(item, strBuffer);
+            FormatProjectName(item, strBuffer);
             break;
         case COLUMN_ACCOUNTNAME:
-            wxGetApp().GetDocument()->GetProjectAccountName(item, strBuffer);
+            FormatAccountName(item, strBuffer);
             break;
         case COLUMN_TEAMNAME:
-            wxGetApp().GetDocument()->GetProjectTeamName(item, strBuffer);
+            FormatTeamName(item, strBuffer);
             break;
         case COLUMN_TOTALCREDIT:
-            wxGetApp().GetDocument()->GetProjectTotalCredit(item, fBuffer);
-            strBuffer.Printf(wxT("%0.2f"), fBuffer);
+            FormatTotalCredit(item, strBuffer);
             break;
         case COLUMN_AVGCREDIT:
-            wxGetApp().GetDocument()->GetProjectAvgCredit(item, fBuffer);
-            strBuffer.Printf(wxT("%0.2f"), fBuffer);
+            FormatAVGCredit(item, strBuffer);
             break;
         case COLUMN_RESOURCESHARE:
-            wxGetApp().GetDocument()->GetProjectResourceShare(item, fBuffer);
-            wxGetApp().GetDocument()->GetProjectTotalResourceShare(item, fBuffer2);
-            strBuffer.Printf(wxT("%0.0f ( %0.2f%% )"), fBuffer, ((fBuffer / fBuffer2) * 100));
+            FormatResourceShare(item, strBuffer);
             break;
         case COLUMN_STATUS:
-            if      (wxGetApp().GetDocument()->IsProjectSuspended(item))
-            {
-                strBuffer = _("Project Suspended");
-            } 
-            else if (wxGetApp().GetDocument()->IsProjectRPCPending(item))
-            {
-                wxInt32 iNextRPC;
-                wxGetApp().GetDocument()->GetProjectMinRPCTime(item, iNextRPC);
-
-                wxDateTime dtNextRPC((time_t)iNextRPC);
-
-                if (dtNextRPC > wxDateTime::Now())
-                {
-                    wxTimeSpan tsNextRPC(dtNextRPC - wxDateTime::Now());
-                    strBuffer = _("Retry in ") + tsNextRPC.Format();
-                }
-            }
+            FormatStatus(item, strBuffer);
             break;
     }
+
     return strBuffer;
 }
 
@@ -297,11 +388,11 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxString strMessage;
 
 
-    if ( link.GetHref() == wxT(SECTION_TASK) )
+    if ( link.GetHref() == SECTION_TASK )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
 
 
-    if ( link.GetHref() == wxT(LINK_TASKATTACH) )
+    if ( link.GetHref() == LINK_TASKATTACH )
     {
         CDlgAttachProject* pDlg = new CDlgAttachProject(this);
         wxASSERT(NULL != pDlg);
@@ -320,7 +411,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             pDlg->Destroy();
     }
 
-    if ( link.GetHref() == wxT(LINK_TASKDETACH) )
+    if ( link.GetHref() == LINK_TASKDETACH )
     {
         iProject = m_pListPane->GetFirstSelected();
         wxGetApp().GetDocument()->GetProjectProjectName(iProject, strProjectName);
@@ -345,7 +436,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         }
     }
 
-    if ( link.GetHref() == wxT(LINK_TASKRESET) )
+    if ( link.GetHref() == LINK_TASKRESET )
     {
         iProject = m_pListPane->GetFirstSelected();
         wxGetApp().GetDocument()->GetProjectProjectName(iProject, strProjectName);
@@ -370,7 +461,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         }
     }
 
-    if ( link.GetHref() == wxT(LINK_TASKUPDATE) )
+    if ( link.GetHref() == LINK_TASKUPDATE )
     {
         iProject = m_pListPane->GetFirstSelected();
         wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
@@ -380,7 +471,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         );
     }
 
-    if ( link.GetHref() == wxT(LINK_TASKSUSPEND) )
+    if ( link.GetHref() == LINK_TASKSUSPEND )
     {
         iProject = m_pListPane->GetFirstSelected();
         wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
@@ -390,7 +481,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         );
     }
 
-    if ( link.GetHref() == wxT(LINK_TASKRESUME) )
+    if ( link.GetHref() == LINK_TASKRESUME )
     {
         iProject = m_pListPane->GetFirstSelected();
         wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
@@ -401,10 +492,10 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     }
 
 
-    if ( link.GetHref() == wxT(SECTION_WEB) )
+    if ( link.GetHref() == SECTION_WEB )
         m_bWebsiteHeaderHidden ? m_bWebsiteHeaderHidden = false : m_bWebsiteHeaderHidden = true;
 
-    if ( link.GetHref() == wxT(SECTION_TIPS) )
+    if ( link.GetHref() == SECTION_TIPS )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
 
@@ -421,164 +512,25 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( wxT(LINK_TASKATTACH) == strLink )
-        {
-            if  ( wxT(LINK_TASKATTACH) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKATTACH), 
-                    _("<b>Attach to Project</b><br>"
-                    "Selecting attach to project allows you to join other BOINC "
-                    "projects.  You will need a valid project URL and Authenticator.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_TASKDETACH) == strLink )
-        {
-            if  ( wxT(LINK_TASKDETACH) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKDETACH), 
-                    _("<b>Detach from Project</b><br>"
-                    "Selecting detach from project removes the computer from the currently "
-                    "selected project.  You may wish to update the project first to submit "
-                    "any completed work.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_TASKRESET) == strLink )
-        {
-            if  ( wxT(LINK_TASKRESET) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKRESET), 
-                    _("<b>Reset Project</b><br>"
-                    "Selecting reset project removes all workunits and applications from "
-                    "the currently selected project.  You may wish to update the project "
-                    "first to submit any completed work.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_TASKSUSPEND) == strLink )
-        {
-            if  ( wxT(LINK_TASKSUSPEND) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKSUSPEND), 
-                    _("<b>Suspend Project</b><br>"
-                    "Selecting suspend project will pause the project from any additional "
-                    "computation for that project until the resume project option is selected.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_TASKRESUME) == strLink )
-        {
-            if  ( wxT(LINK_TASKRESUME) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKRESUME), 
-                    _("<b>Resume Project</b><br>"
-                    "Selecting resume project resumes computation for a project that has been"
-                    "previously suspended.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_TASKUPDATE) == strLink )
-        {
-            if  ( wxT(LINK_TASKUPDATE) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_TASKUPDATE), 
-                    _("<b>Update Project</b><br>"
-                    "Selecting update project submits any outstanding work and refreshes "
-                    "your credit and preferences for the currently selected project.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_WEBBOINC) == strLink )
-        {
-            if  ( wxT(LINK_WEBBOINC) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_WEBBOINC), 
-                    _("<b>BOINC Homepage</b><br>"
-                    "This will open a browser window to the BOINC homepage.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_WEBFAQ) == strLink )
-        {
-            if  ( wxT(LINK_WEBFAQ) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_WEBFAQ), 
-                    _("<b>FAQ</b><br>"
-                    "This will open a browser window to the BOINC FAQ.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_WEBPROJECT) == strLink )
-        {
-            if  ( wxT(LINK_WEBPROJECT) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_WEBPROJECT), 
-                    _("<b>Project Homepage</b><br>"
-                    "This will open a browser window to the currently selected project "
-                    "homepage.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_WEBTEAM) == strLink )
-        {
-            if  ( wxT(LINK_WEBTEAM) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_WEBTEAM), 
-                    _("<b>Team Homepage</b><br>"
-                    "This will open a browser window to your team homepage for the currently "
-                    "selected project.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
-        else if ( wxT(LINK_WEBUSER) == strLink )
-        {
-            if  ( wxT(LINK_WEBUSER) != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT(LINK_WEBTEAM), 
-                    _("<b>Your Homepage</b><br>"
-                    "This will open a browser window to your homepage for the currently "
-                    "selected project.")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
+        if      ( UpdateQuickTip( strLink, LINK_TASKATTACH, LINKDESC_TASKATTACH ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_TASKDETACH, LINKDESC_TASKDETACH ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_TASKRESET, LINKDESC_TASKRESET ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_TASKSUSPEND, LINKDESC_TASKSUSPEND ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_TASKRESUME, LINKDESC_TASKRESUME ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_TASKUPDATE, LINKDESC_TASKUPDATE ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_WEBBOINC, LINKDESC_WEBBOINC ) )
+            bUpdateSelection = true;
+        else if ( UpdateQuickTip( strLink, LINK_WEBPROJECT, LINKDESC_WEBPROJECT ) )
+            bUpdateSelection = true;
         else
         {
-            long lSelected = m_pListPane->GetFirstSelected();
-            if ( -1 == lSelected )
+            if ( 0 == m_pListPane->GetSelectedItemCount() )
             {
                 if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
                 {
@@ -605,8 +557,7 @@ void CViewProjects::UpdateSelection()
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    long lSelected = m_pListPane->GetFirstSelected();
-    if ( -1 == lSelected )
+    if ( 0 == m_pListPane->GetSelectedItemCount() )
     {
         m_bTaskHeaderHidden = false;
         m_bTaskAttachToProjectHidden = false;
@@ -618,10 +569,7 @@ void CViewProjects::UpdateSelection()
 
         m_bWebsiteHeaderHidden = false;
         m_bWebsiteBOINCHidden = false;
-        m_bWebsiteFAQHidden = false;
         m_bWebsiteProjectHidden = true;
-        m_bWebsiteTeamHidden = true;
-        m_bWebsiteUserHidden = true;
 
         m_bItemSelected = false;
     }
@@ -632,7 +580,7 @@ void CViewProjects::UpdateSelection()
         m_bTaskDetachFromProjectHidden = false;
         m_bTaskResetProjectHidden = false;
 
-        if ( wxGetApp().GetDocument()->IsProjectSuspended(lSelected) )
+        if ( wxGetApp().GetDocument()->IsProjectSuspended(m_pListPane->GetFirstSelected()) )
         {
             m_bTaskSuspendProjectHidden = true;
             m_bTaskResumeProjectHidden = false;
@@ -647,10 +595,7 @@ void CViewProjects::UpdateSelection()
 
         m_bWebsiteHeaderHidden = false;
         m_bWebsiteBOINCHidden = false;
-        m_bWebsiteFAQHidden = false;
         m_bWebsiteProjectHidden = false;
-        m_bWebsiteTeamHidden = false;
-        m_bWebsiteUserHidden = false;
 
         m_bItemSelected = true;
     }
@@ -681,15 +626,111 @@ void CViewProjects::UpdateTaskPane()
     if (!m_bWebsiteHeaderHidden)
     {
         m_pTaskPane->CreateTask( wxT(LINK_WEBBOINC), wxT(BITMAP_BOINC), _("BOINC"), m_bWebsiteBOINCHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_WEBFAQ), wxT(BITMAP_BOINC), _("FAQ"), m_bWebsiteFAQHidden );
         m_pTaskPane->CreateTask( wxT(LINK_WEBPROJECT), wxT(BITMAP_PROJECTS), _("Project"), m_bWebsiteProjectHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_WEBTEAM), wxT(BITMAP_PROJECTS), _("Team"), m_bWebsiteTeamHidden );
-        m_pTaskPane->CreateTask( wxT(LINK_WEBUSER), wxT(BITMAP_PROJECTS), _("User"), m_bWebsiteUserHidden );
     }
     m_pTaskPane->EndTaskSection(m_bWebsiteHeaderHidden);
 
     m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
+}
+
+
+wxInt32 CViewProjects::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
+{
+    strBuffer.Clear();
+
+    wxGetApp().GetDocument()->GetProjectProjectName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewProjects::FormatAccountName( wxInt32 item, wxString& strBuffer ) const
+{
+    strBuffer.Clear();
+
+    wxGetApp().GetDocument()->GetProjectAccountName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewProjects::FormatTeamName( wxInt32 item, wxString& strBuffer ) const
+{
+    strBuffer.Clear();
+
+    wxGetApp().GetDocument()->GetProjectTeamName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewProjects::FormatTotalCredit( wxInt32 item, wxString& strBuffer ) const
+{
+    float fBuffer;
+
+    strBuffer.Clear();
+
+    wxGetApp().GetDocument()->GetProjectTotalCredit(item, fBuffer);
+    strBuffer.Printf(wxT("%0.2f"), fBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewProjects::FormatAVGCredit( wxInt32 item, wxString& strBuffer ) const
+{
+    float fBuffer;
+
+    strBuffer.Clear();
+
+    wxGetApp().GetDocument()->GetProjectAvgCredit(item, fBuffer);
+    strBuffer.Printf(wxT("%0.2f"), fBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewProjects::FormatResourceShare( wxInt32 item, wxString& strBuffer ) const
+{
+    float fResourceShareBuffer;
+    float fTotalResourceShareBuffer;
+
+    strBuffer.Clear();
+
+    wxGetApp().GetDocument()->GetProjectResourceShare(item, fResourceShareBuffer);
+    wxGetApp().GetDocument()->GetProjectTotalResourceShare(item, fTotalResourceShareBuffer);
+    strBuffer.Printf(wxT("%0.0f ( %0.2f%% )"), fResourceShareBuffer, ((fResourceShareBuffer / fTotalResourceShareBuffer) * 100));
+
+    return 0;
+}
+
+
+wxInt32 CViewProjects::FormatStatus( wxInt32 item, wxString& strBuffer ) const
+{
+    wxInt32 iNextRPC;
+
+    strBuffer.Clear();
+
+    if      (wxGetApp().GetDocument()->IsProjectSuspended(item))
+    {
+        strBuffer = _("Project Suspended");
+    } 
+    else if (wxGetApp().GetDocument()->IsProjectRPCPending(item))
+    {
+        wxGetApp().GetDocument()->GetProjectMinRPCTime(item, iNextRPC);
+
+        wxDateTime dtNextRPC((time_t)iNextRPC);
+        wxDateTime dtNow(wxDateTime::Now());
+
+        if (dtNextRPC > dtNow)
+        {
+            wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
+            strBuffer = _("Retry in ") + tsNextRPC.Format();
+        }
+    }
+
+    return 0;
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/10/05 02:55:26  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -49,8 +52,6 @@
 #pragma interface "MainFrame.cpp"
 #endif
 
-class CViewProjects;
-class CViewWork;
 
 class CMainFrame : public wxFrame
 {
@@ -62,14 +63,18 @@ public:
 
     ~CMainFrame(void);
 
-    void OnExit(wxCommandEvent &event);
-    void OnClose(wxCloseEvent &event);
+    void OnExit(wxCommandEvent& event);
+    void OnClose(wxCloseEvent& event);
 
-    void OnToolsOptions(wxCommandEvent &event);
-    void OnAbout(wxCommandEvent &event);
+    void OnToolsOptions(wxCommandEvent& event);
+    void OnAbout(wxCommandEvent& event);
 
-    void OnTaskPanelRender(wxTimerEvent &event);
-    void OnListPanelRender(wxTimerEvent &event);
+    void OnListCacheHint( wxListEvent& event );
+    void OnListSelected( wxListEvent& event );
+    void OnListDeselected( wxListEvent& event );
+    void OnListPanelRender(wxTimerEvent& event);
+
+    void OnTaskPanelRender(wxTimerEvent& event);
 
 private:
 
@@ -81,21 +86,17 @@ private:
 
     wxString        m_strStatusMessage;
 
-    // menu bar
     bool            CreateMenu();
     bool            DeleteMenu();
 
-    // notebook
     bool            CreateNotebook();
     template < class T >
         bool        CreateNotebookPage( T pwndNewNotebookPage );
     bool            DeleteNotebook();
 
-    // status bar
     bool            CreateStatusbar();
     bool            DeleteStatusbar();
 
-    // state management
     bool            SaveState();
     template < class T >
         bool        FireSaveStateEvent( T pPage, wxConfigBase* pConfig );
@@ -104,11 +105,17 @@ private:
     template < class T >
         bool        FireRestoreStateEvent( T pPage, wxConfigBase* pConfig );
 
-    // Render management
     template < class T >
-        void        FireTaskPanelRenderEvent( T pPage, wxTimerEvent &event );
+        void        FireListOnCacheHintEvent( T pView, wxListEvent& event );
     template < class T >
-        void        FireListPanelRenderEvent( T pPage, wxTimerEvent &event );
+        void        FireListOnSelectedEvent( T pView, wxListEvent& event );
+    template < class T >
+        void        FireListOnDeselectedEvent( T pView, wxListEvent& event );
+    template < class T >
+        void        FireListPanelRenderEvent( T pPage, wxTimerEvent& event );
+
+    template < class T >
+        void        FireTaskPanelRenderEvent( T pPage, wxTimerEvent& event );
 
 
     DECLARE_EVENT_TABLE()

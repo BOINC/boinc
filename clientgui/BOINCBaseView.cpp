@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/10/05 02:55:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/09/25 21:33:22  rwalton
 // *** empty log message ***
 //
@@ -58,15 +61,12 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 CBOINCBaseView::CBOINCBaseView()
 {
-    wxLogTrace("CBOINCBaseView::CBOINCBaseView - Function Begining");
-    wxLogTrace("CBOINCBaseView::CBOINCBaseView - Function Ending");
 }
 
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxWindowID iListWindowID) :
     wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
 {
-    wxLogTrace("CBOINCBaseView::CBOINCBaseView - Function Begining");
     wxASSERT(NULL != pNotebook);
 
     wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
@@ -86,15 +86,11 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, 
 
     itemFlexGridSizer->Add(m_pTaskPane, 0, wxGROW|wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 0, wxGROW|wxGROW|wxALL, 1);
-    
-    wxLogTrace("CBOINCBaseView::CBOINCBaseView - Function Ending");
 }
 
 
 CBOINCBaseView::~CBOINCBaseView()
 {
-    wxLogTrace("CBOINCBaseView::~CBOINCBaseView - Function Begining");
-    wxLogTrace("CBOINCBaseView::~CBOINCBaseView - Function Ending");
 }
 
 
@@ -103,8 +99,6 @@ CBOINCBaseView::~CBOINCBaseView()
 //
 wxString CBOINCBaseView::GetViewName()
 {
-    wxLogTrace("CBOINCBaseView::GetViewName - Function Begining");
-    wxLogTrace("CBOINCBaseView::GetViewName - Function Ending");
     return wxString(_T("Undefined"));
 }
 
@@ -114,11 +108,7 @@ wxString CBOINCBaseView::GetViewName()
 //
 char** CBOINCBaseView::GetViewIcon()
 {
-    wxLogTrace("CBOINCBaseView::GetViewIcon - Function Begining");
-
     wxASSERT(NULL != boinc_xpm);
-
-    wxLogTrace("CBOINCBaseView::GetViewIcon - Function Ending");
     return boinc_xpm;
 }
 
@@ -139,8 +129,6 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event)
 
 bool CBOINCBaseView::OnSaveState( wxConfigBase* pConfig )
 {
-    wxLogTrace("CBOINCBaseView::OnSaveState - Function Begining");
-
     bool bReturnValue = true;
 
     wxASSERT(NULL != pConfig);
@@ -153,14 +141,12 @@ bool CBOINCBaseView::OnSaveState( wxConfigBase* pConfig )
     if (!m_pListPane->OnSaveState( pConfig ))
         bReturnValue = false;
 
-    wxLogTrace("CBOINCBaseView::OnSaveState - Function Ending");
     return bReturnValue;
 }
 
 
-bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig ) {
-    wxLogTrace("CBOINCBaseView::OnRestoreState - Function Begining");
-
+bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig )
+{
     bool bReturnValue = true;
 
     wxASSERT(NULL != pConfig);
@@ -173,7 +159,6 @@ bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig ) {
     if (!m_pListPane->OnRestoreState( pConfig ))
         bReturnValue = false;
 
-    wxLogTrace("CBOINCBaseView::OnRestoreState - Function Ending");
     return bReturnValue;
 }
 
@@ -249,6 +234,22 @@ void CBOINCBaseView::SetCurrentQuickTip( const wxString& strQuickTip, const wxSt
 {
     m_strQuickTip = strQuickTip;
     m_strQuickTipText = strQuickTipText;
+}
+
+
+bool CBOINCBaseView::UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText )
+{
+    bool bRetVal;
+
+    bRetVal = false;
+
+    if ( (strCurrentLink == strQuickTip) && (strQuickTip != GetCurrentQuickTip()) )
+    {
+        SetCurrentQuickTip( strQuickTip, strQuickTipText );
+        bRetVal = true;
+    }
+
+    return bRetVal;
 }
 
 

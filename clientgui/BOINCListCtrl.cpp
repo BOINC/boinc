@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/10/05 02:55:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/24 22:18:54  rwalton
 // *** empty log message ***
 //
@@ -52,64 +55,32 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCListCtrl, wxListView)
 
-BEGIN_EVENT_TABLE(CBOINCListCtrl, wxListView)
-    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnCacheHint)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnDeselected)
-
-    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CBOINCListCtrl::OnCacheHint)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CBOINCListCtrl::OnSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CBOINCListCtrl::OnDeselected)
-
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnCacheHint)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnDeselected)
-
-    EVT_LIST_CACHE_HINT(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnCacheHint)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnDeselected)
-
-    EVT_LIST_CACHE_HINT(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnCacheHint)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnDeselected)
-END_EVENT_TABLE()
-
 
 CBOINCListCtrl::CBOINCListCtrl()
 {
-    wxLogTrace("CBOINCListCtrl::CBOINCListCtrl - Function Begining");
-    wxLogTrace("CBOINCListCtrl::CBOINCListCtrl - Function Ending");
 }
 
 
 CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID ) :
     wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL, wxDefaultValidator )
 {
-    wxLogTrace("CBOINCListCtrl::CBOINCListCtrl - Function Begining");
-
     m_pParentView = pView;
-
-    wxLogTrace("CBOINCListCtrl::CBOINCListCtrl - Function Ending");
 }
 
 
 CBOINCListCtrl::~CBOINCListCtrl()
 {
-    wxLogTrace("CBOINCListCtrl::~CBOINCListCtrl - Function Begining");
-    wxLogTrace("CBOINCListCtrl::~CBOINCListCtrl - Function Ending");
 }
 
 
-void CBOINCListCtrl::OnRender ( wxTimerEvent& event ) {
-    wxLogTrace("CBOINCListCtrl::OnRender - Function Begining");
-    wxLogTrace("CBOINCListCtrl::OnRender - Function Ending");
+void CBOINCListCtrl::OnRender ( wxTimerEvent& event )
+{
 }
 
 
-bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig ) {
-    wxLogTrace("CBOINCListCtrl::OnSaveState - Function Begining");
-
-    wxString    strBaseConfigLocation = wxString(_T(""));
+bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig )
+{
+    wxString    strBaseConfigLocation = wxString(wxT(""));
     wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
     wxInt32     iColumnCount = 0;
@@ -120,7 +91,7 @@ bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig ) {
 
     // Retrieve the base location to store configuration information
     // Should be in the following form: "/Projects/"
-    strBaseConfigLocation = pConfig->GetPath() + "/";
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
 
     // Convert to a zero based index
     iColumnCount = GetColumnCount() - 1;
@@ -137,21 +108,19 @@ bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig ) {
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
 
-        pConfig->Write(_T("Width"), liColumnInfo.GetWidth());
-        pConfig->Write(_T("Format"), liColumnInfo.GetAlign());
+        pConfig->Write(wxT("Width"), liColumnInfo.GetWidth());
+        pConfig->Write(wxT("Format"), liColumnInfo.GetAlign());
 
     }
 
 
-    wxLogTrace("CBOINCListCtrl::OnSaveState - Function Ending");
     return true;
 }
 
 
-bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig ) {
-    wxLogTrace("CBOINCListCtrl::OnRestoreState - Function Begining");
-
-    wxString    strBaseConfigLocation = wxString(_T(""));
+bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig )
+{
+    wxString    strBaseConfigLocation = wxString(wxT(""));
     wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
     wxInt32     iColumnCount = 0;
@@ -163,7 +132,7 @@ bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig ) {
 
     // Retrieve the base location to store configuration information
     // Should be in the following form: "/Projects/"
-    strBaseConfigLocation = pConfig->GetPath() + "/";
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
 
     // Convert to a zero based index
     iColumnCount = GetColumnCount() - 1;
@@ -180,10 +149,10 @@ bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig ) {
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
 
-        pConfig->Read(_T("Width"), &iTempValue, 80);
+        pConfig->Read(wxT("Width"), &iTempValue, 80);
         liColumnInfo.SetWidth(iTempValue);
 
-        pConfig->Read(_T("Format"), &iTempValue, 0);
+        pConfig->Read(wxT("Format"), &iTempValue, 0);
         liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
 
         SetColumn(iIndex, liColumnInfo);
@@ -191,71 +160,7 @@ bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig ) {
     }
 
 
-    wxLogTrace("CBOINCListCtrl::OnRestoreState - Function Ending");
     return true;
-}
-
-
-void CBOINCListCtrl::OnCacheHint( wxListEvent& event )
-{
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnCacheHintEvent(wxDynamicCast(m_pParentView, CViewProjects), event);
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnCacheHintEvent(wxDynamicCast(m_pParentView, CViewWork), event);
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnCacheHintEvent(wxDynamicCast(m_pParentView, CViewTransfers), event);
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnCacheHintEvent(wxDynamicCast(m_pParentView, CViewMessages), event);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnCacheHintEvent(wxDynamicCast(m_pParentView, CViewResources), event);
-    } else if (wxDynamicCast(m_pParentView, CBOINCBaseView)) {
-        FireOnCacheHintEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), event);
-    }
-}
-
-
-void CBOINCListCtrl::OnSelected( wxListEvent& event )
-{
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnSelectedEvent(wxDynamicCast(m_pParentView, CViewProjects), event);
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnSelectedEvent(wxDynamicCast(m_pParentView, CViewWork), event);
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnSelectedEvent(wxDynamicCast(m_pParentView, CViewTransfers), event);
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnSelectedEvent(wxDynamicCast(m_pParentView, CViewMessages), event);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnSelectedEvent(wxDynamicCast(m_pParentView, CViewResources), event);
-    } else if (wxDynamicCast(m_pParentView, CBOINCBaseView)) {
-        FireOnSelectedEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), event);
-    }
-}
-
-
-void CBOINCListCtrl::OnDeselected( wxListEvent& event )
-{
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnDeselectedEvent(wxDynamicCast(m_pParentView, CViewProjects), event);
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnDeselectedEvent(wxDynamicCast(m_pParentView, CViewWork), event);
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnDeselectedEvent(wxDynamicCast(m_pParentView, CViewTransfers), event);
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnDeselectedEvent(wxDynamicCast(m_pParentView, CViewMessages), event);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnDeselectedEvent(wxDynamicCast(m_pParentView, CViewResources), event);
-    } else if (wxDynamicCast(m_pParentView, CBOINCBaseView)) {
-        FireOnDeselectedEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), event);
-    }
 }
 
 
@@ -316,27 +221,6 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr( long item ) const
         return FireOnGetItemAttrEvent(wxDynamicCast(m_pParentView, CViewResources), item);
     }
     return FireOnGetItemAttrEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), item);
-}
-
-
-template < class T >
-void CBOINCListCtrl::FireOnCacheHintEvent( T pView, wxListEvent& event )
-{
-    return pView->OnListCacheHint( event );
-}
-
-
-template < class T >
-void CBOINCListCtrl::FireOnSelectedEvent( T pView, wxListEvent& event )
-{
-    return pView->OnListSelected( event );
-}
-
-
-template < class T >
-void CBOINCListCtrl::FireOnDeselectedEvent( T pView, wxListEvent& event )
-{
-    return pView->OnListDeselected( event );
 }
 
 

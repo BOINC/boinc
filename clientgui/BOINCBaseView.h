@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/10/05 02:55:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/09/25 21:33:22  rwalton
 // *** empty log message ***
 //
@@ -81,6 +84,7 @@ public:
     wxString                GetCurrentQuickTipText();
     void                    SetCurrentQuickTip( const wxString& strQuickTip, const wxString& strQuickTipText );
 
+    virtual bool            UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText );
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
 
@@ -88,6 +92,7 @@ public:
     bool                    m_bProcessingListRenderEvent;
     wxInt32                 m_iCacheFrom;
     wxInt32                 m_iCacheTo;
+    wxInt32                 m_iCount;
 
     wxString                m_strQuickTip;
     wxString                m_strQuickTipText;

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/10/05 02:55:26  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/09/28 01:19:46  rwalton
 // *** empty log message ***
 //
@@ -89,10 +92,7 @@ private:
 
     bool                    m_bWebsiteHeaderHidden;
     bool                    m_bWebsiteBOINCHidden;
-    bool                    m_bWebsiteFAQHidden;
     bool                    m_bWebsiteProjectHidden;
-    bool                    m_bWebsiteTeamHidden;
-    bool                    m_bWebsiteUserHidden;
 
     bool                    m_bTipsHeaderHidden;
 
@@ -100,6 +100,14 @@ private:
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
+
+    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatTotalCredit( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatAVGCredit( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatResourceShare( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
 };
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/10/05 02:55:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/09/21 01:26:23  rwalton
 // *** empty log message ***
 //
@@ -58,9 +61,6 @@ bool CBOINCGUIApp::OnInit()
     // Commandline parsing is done in wxApp::OnInit()
     if (!Inherited::OnInit())
         return false;
-
-    // Enable image types we use for the task panes
-    wxImage::AddHandler(new wxXPMHandler);
 
     // Enable the in memory virtual file system for
     //   storing images

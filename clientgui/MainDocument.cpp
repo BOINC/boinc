@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.18  2004/10/05 02:55:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.17  2004/10/01 00:06:32  rwalton
 // *** empty log message ***
 //
@@ -231,7 +234,7 @@ wxInt32 CMainDocument::GetProjectResourceShare(wxInt32 iIndex, float& fBuffer)
 
 wxInt32 CMainDocument::GetProjectTotalResourceShare(wxInt32 iIndex, float& fBuffer)
 {
-    fBuffer = this->m_fProjectTotalResourceShare;
+    fBuffer = m_fProjectTotalResourceShare;
     return 0;
 }
 
