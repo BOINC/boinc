@@ -22647,3 +22647,8 @@ David  13 Jan 2005
         cs_scheduler.C
         http.C
         pers_file_xfer.C
+
+Rom    13 Jan 2005 (boinc)
+    - Tag for 4.59 release, all platforms
+      boinc_core_release_4_59
+
