@@ -179,9 +179,13 @@ void CViewWork::OnListRender(wxTimerEvent &event)
     {
         m_bProcessingListRenderEvent = true;
 
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(NULL != pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(NULL != m_pListPane);
 
-        wxInt32 iCount = wxGetApp().GetDocument()->GetWorkCount();
+        wxInt32 iCount = pDoc->GetWorkCount();
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;

@@ -246,7 +246,11 @@ struct HOST_INFO {
     double d_total;
     double d_free;
 
+    HOST_INFO();
+    ~HOST_INFO();
+
     int parse(MIOFILE&);
+    void clear();
 };
 
 class CC_STATE {

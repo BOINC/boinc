@@ -519,6 +519,14 @@ void PROXY_INFO::clear() {
     socks5_user_passwd.clear();
 }
 
+HOST_INFO::HOST_INFO() {
+    clear();
+}
+
+HOST_INFO::~HOST_INFO() {
+    clear();
+}
+
 int HOST_INFO::parse(MIOFILE& in) {
     char buf[256];
 
@@ -558,6 +566,30 @@ int HOST_INFO::parse(MIOFILE& in) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
     }
     return 0;
+}
+
+void HOST_INFO::clear() {
+    timezone = 0;
+    domain_name[0] = NULL;
+    serialnum[0] = NULL;
+    ip_addr[0] = NULL;
+    p_ncpus = 0;
+    p_vendor[0] = NULL;
+    p_model[0] = NULL;
+    p_fpops = 0.0;
+    p_iops = 0.0;
+    p_membw = 0.0;
+    p_fpop_err = 0;
+    p_iop_err = 0;
+    p_membw_err = 0;
+    p_calculated = 0.0;
+    os_name[0] = NULL;
+    os_version[0] = NULL;
+    m_nbytes = 0.0;
+    m_cache = 0.0;
+    m_swap = 0.0;
+    d_total = 0.0;
+    d_free = 0.0;
 }
 
 CC_STATE::CC_STATE() {
