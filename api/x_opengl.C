@@ -24,8 +24,6 @@ extern GRAPHICS_INFO gi;
 static void timer_handler();
 void set_mode(int mode);
 
-APP_INIT_DATA aid;
-
 void keyboardU(unsigned char key, int x, int y) {
   /* This callback is invoked when a user presses a key.
    */
@@ -117,7 +115,6 @@ static void make_new_window(int mode){
   } else if(mode == MODE_WINDOW){
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(gi.xsize, gi.ysize); 
-    boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) 
       strcpy(aid.app_name, "BOINC Application");
     win = glutCreateWindow(aid.app_name); 

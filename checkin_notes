@@ -15348,3 +15348,11 @@ David  16 July 2004
         parse.C
     sched/
         db_dump.C
+
+Daniel 2004-07-16
+    - API: fixes in GL code to use APP_INIT_DATA aid from boinc_api.C
+
+    api/
+        x_opengl.C
+        windows_opengl.C
+
