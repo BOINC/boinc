@@ -39,7 +39,6 @@ How to develop or port an application program for use with BOINC.
 <ul>
 <li><a href=api.php>The BOINC API</a>
 <li><a href=graphics.php>The BOINC graphics API</a>
-<li> <a href=tools_other.php>Tools for creating applications and versions</a>
 <li><a href=dev.php>The application development process</a>
 </ul>
 <font size=+1><b>
@@ -56,6 +55,7 @@ How to install and configure the BOINC server software.
 <ul>
   <li> <a href=build_client.php>Building the core client for all platforms</a>
 </ul>
+<li> <a href=tools.php>Operational tools</a>
 <li> <a href=single_host_server.php>Setting up a single-host server</a>
 <li> <a href=database_setup.php>Setting up the BOINC database</a>
 <li> <a href=key_setup.php>Creating encryption keys</a>

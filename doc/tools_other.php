@@ -2,6 +2,9 @@
 require_once("docutil.php");
 page_head("Operational tools: applications and versions");
 echo "
+
+THIS FILE IS DEPRECATED - REMOVE SOON
+
 <p>
 BOINC provides a few tools for creating and operating projects:
 <ul>

@@ -1,7 +1,10 @@
 <? // -*- html -*-
 require_once("docutil.php");
 page_head("Setting up a single-host server");
-?>
+   ?>
+
+TODO: update stuff about make_project (don't add application/appversion in
+make_project); move it to tool_make_project.php.
 
 <p>
 BOINC provides a set of scripts for setting up
