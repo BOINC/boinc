@@ -5696,7 +5696,6 @@ Karl 2003/08/13
     _autosetup
     aclocal.m4
 
-
 Karl 2003/08/13
     - test script fixes: increase delay_bound to reasonable value since it's
       now checked by handle_request
@@ -5704,7 +5703,6 @@ Karl 2003/08/13
     test/
         testbase.py
         test_uc.py
-
 
 Karl 2003/08/13
     - create validation routines which generalize what used to be
@@ -5720,7 +5718,6 @@ Karl 2003/08/13
         validate_trivial.h  (new)
         validate_util.C     (new)
         validate_util.h     (new)
-
 
 Karl 2003/08/13
     - added '-return_results_immediately' flag to client to allow it to
