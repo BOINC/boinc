@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:14  rwalton
 // *** empty log message ***
 //
@@ -95,5 +98,27 @@ void CBaseListCtrlView::OnRender (wxTimerEvent &event) {
     wxLogTrace("CBaseListCtrlView::OnRender -                     event handler");
 
     wxLogTrace("CBaseListCtrlView::OnRender - Function Ending");
+}
+
+
+bool CBaseListCtrlView::OnSaveState() {
+    wxLogTrace("CBaseListCtrlView::OnSaveState - Function Begining");
+
+    wxLogTrace("CBaseListCtrlView::OnSaveState - ***** Warning ***** Each page is supposed to have it's own OnSaveState");
+    wxLogTrace("CBaseListCtrlView::OnSaveState -                     event handler");
+
+    wxLogTrace("CBaseListCtrlView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CBaseListCtrlView::OnRestoreState() {
+    wxLogTrace("CBaseListCtrlView::OnRestoreState - Function Begining");
+
+    wxLogTrace("CBaseListCtrlView::OnRestoreState - ***** Warning ***** Each page is supposed to have it's own OnRestoreState");
+    wxLogTrace("CBaseListCtrlView::OnRestoreState -                     event handler");
+
+    wxLogTrace("CBaseListCtrlView::OnRestoreState - Function Ending");
+    return true;
 }
 

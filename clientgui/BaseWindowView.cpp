@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:14  rwalton
 // *** empty log message ***
 //
@@ -97,4 +100,25 @@ void CBaseWindowView::OnRender (wxTimerEvent &event) {
     wxLogTrace("CBaseWindowView::OnRender - Function Ending");
 }
 
+
+bool CBaseWindowView::OnSaveState() {
+    wxLogTrace("CBaseWindowView::OnSaveState - Function Begining");
+
+    wxLogTrace("CBaseWindowView::OnSaveState - ***** Warning ***** Each page is supposed to have it's own OnSaveState");
+    wxLogTrace("CBaseWindowView::OnSaveState -                     event handler");
+
+    wxLogTrace("CBaseWindowView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CBaseWindowView::OnRestoreState() {
+    wxLogTrace("CBaseWindowView::OnRestoreState - Function Begining");
+
+    wxLogTrace("CBaseWindowView::OnRestoreState - ***** Warning ***** Each page is supposed to have it's own OnRestoreState");
+    wxLogTrace("CBaseWindowView::OnRestoreState -                     event handler");
+
+    wxLogTrace("CBaseWindowView::OnRestoreState - Function Ending");
+    return true;
+}
 

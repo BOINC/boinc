@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -45,15 +48,17 @@ class CMessagesView : public CBaseListCtrlView
     DECLARE_DYNAMIC_CLASS(CMessagesView)
 
 public:
-    CMessagesView(void);
+    CMessagesView();
     CMessagesView(wxNotebook* pNotebook);
 
-    ~CMessagesView(void);
+    ~CMessagesView();
 
-    virtual wxString GetViewName(void);
-    virtual char**   GetViewIcon(void);
+    virtual wxString GetViewName();
+    virtual char**   GetViewIcon();
 
     void OnRender(wxTimerEvent &event);
+    bool OnSaveState();
+    bool OnRestoreState();
 
 };
 

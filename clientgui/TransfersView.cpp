@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/05/27 06:17:58  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/05/24 23:50:14  rwalton
 // *** empty log message ***
 //
@@ -45,7 +48,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)
 
 
-CTransfersView::CTransfersView(void)
+CTransfersView::CTransfersView()
 {
     wxLogTrace("CTransfersView::CTransfersView - Function Begining");
 
@@ -70,7 +73,7 @@ CTransfersView::CTransfersView(wxNotebook* pNotebook) :
 }
 
 
-CTransfersView::~CTransfersView(void)
+CTransfersView::~CTransfersView()
 {
     wxLogTrace("CTransfersView::~CTransfersView - Function Begining");
 
@@ -78,7 +81,7 @@ CTransfersView::~CTransfersView(void)
 }
 
 
-wxString CTransfersView::GetViewName(void)
+wxString CTransfersView::GetViewName()
 {
     wxLogTrace("CTransfersView::GetViewName - Function Begining");
 
@@ -87,7 +90,7 @@ wxString CTransfersView::GetViewName(void)
 }
 
 
-char** CTransfersView::GetViewIcon(void)
+char** CTransfersView::GetViewIcon()
 {
     wxLogTrace("CTransfersView::GetViewIcon - Function Begining");
 
@@ -98,7 +101,20 @@ char** CTransfersView::GetViewIcon(void)
 
 void CTransfersView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CTransfersView::OnRender - Function Begining");
-
     wxLogTrace("CTransfersView::OnRender - Function Ending");
+}
+
+
+bool CTransfersView::OnSaveState() {
+    wxLogTrace("CTransfersView::OnSaveState - Function Begining");
+    wxLogTrace("CTransfersView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CTransfersView::OnRestoreState() {
+    wxLogTrace("CTransfersView::OnRestoreState - Function Begining");
+    wxLogTrace("CTransfersView::OnRestoreState - Function Ending");
+    return true;
 }
 

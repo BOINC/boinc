@@ -12699,3 +12699,17 @@ Rom    May 26 2004
 
     /
     config.guess
+
+Rom    May 26 2004
+    - NEW GUI: Implement Render and State management infrastructure.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BaseListCtrlView.cpp, .h
+        BaseWindowView.cpp, .h
+        MainFrame.cpp, .h
+        MessagesView.cpp, .h
+        ProjectsView.cpp, .h
+        ResourceUtilizationView.cpp, .h
+        TransfersView.cpp, .h
+        WorkView.cpp, .h

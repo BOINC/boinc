@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -78,7 +81,8 @@ private:
 
     // notebook
     bool            CreateNotebook();
-    bool            CreateNotebookPage(wxWindow* pwndNewNotebookPage);
+    template < class T >
+        bool        CreateNotebookPage( T pwndNewNotebookPage );
     bool            DeleteNotebook();
 
     // status bar
@@ -87,7 +91,17 @@ private:
 
     // state management
     bool            SaveState();
+    template < class T >
+        bool        FireSaveStateEvent( T pPage, wxConfigBase* pConfig );
+
     bool            RestoreState();
+    template < class T >
+        bool        FireRestoreStateEvent( T pPage, wxConfigBase* pConfig );
+
+    // Render management
+    template < class T >
+        void        FireRenderEvent( T pPage, wxTimerEvent &event );
+
 
     DECLARE_EVENT_TABLE()
 };

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/05/24 23:50:14  rwalton
 // *** empty log message ***
 //
@@ -45,7 +48,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CProjectsView, CBaseListCtrlView)
 
 
-CProjectsView::CProjectsView(void)
+CProjectsView::CProjectsView()
 {
     wxLogTrace("CProjectsView::CProjectsView - Function Begining");
 
@@ -68,7 +71,7 @@ CProjectsView::CProjectsView(wxNotebook* pNotebook) :
 }
 
 
-CProjectsView::~CProjectsView(void)
+CProjectsView::~CProjectsView()
 {
     wxLogTrace("CProjectsView::~CProjectsView - Function Begining");
 
@@ -76,7 +79,7 @@ CProjectsView::~CProjectsView(void)
 }
 
 
-wxString CProjectsView::GetViewName(void)
+wxString CProjectsView::GetViewName()
 {
     wxLogTrace("CProjectsView::GetViewName - Function Begining");
 
@@ -85,7 +88,7 @@ wxString CProjectsView::GetViewName(void)
 }
 
 
-char** CProjectsView::GetViewIcon(void)
+char** CProjectsView::GetViewIcon()
 {
     wxLogTrace("CProjectsView::GetViewIcon - Function Begining");
 
@@ -96,7 +99,20 @@ char** CProjectsView::GetViewIcon(void)
 
 void CProjectsView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CProjectsView::OnRender - Function Begining");
-
     wxLogTrace("CProjectsView::OnRender - Function Ending");
+}
+
+
+bool CProjectsView::OnSaveState() {
+    wxLogTrace("CProjectsView::OnSaveState - Function Begining");
+    wxLogTrace("CProjectsView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CProjectsView::OnRestoreState() {
+    wxLogTrace("CProjectsView::OnRestoreState - Function Begining");
+    wxLogTrace("CProjectsView::OnRestoreState - Function Ending");
+    return true;
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/05/24 23:50:14  rwalton
 // *** empty log message ***
 //
@@ -45,7 +48,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
 
 
-CMessagesView::CMessagesView(void)
+CMessagesView::CMessagesView()
 {
     wxLogTrace("CMessagesView::CMessagesView - Function Begining");
 
@@ -66,7 +69,7 @@ CMessagesView::CMessagesView(wxNotebook* pNotebook) :
 }
 
 
-CMessagesView::~CMessagesView(void)
+CMessagesView::~CMessagesView()
 {
     wxLogTrace("CMessagesView::~CMessagesView - Function Begining");
 
@@ -74,7 +77,7 @@ CMessagesView::~CMessagesView(void)
 }
 
 
-wxString CMessagesView::GetViewName(void)
+wxString CMessagesView::GetViewName()
 {
     wxLogTrace("CMessagesView::GetViewName - Function Begining");
 
@@ -83,7 +86,7 @@ wxString CMessagesView::GetViewName(void)
 }
 
 
-char** CMessagesView::GetViewIcon(void)
+char** CMessagesView::GetViewIcon()
 {
     wxLogTrace("CMessagesView::GetViewIcon - Function Begining");
 
@@ -94,7 +97,20 @@ char** CMessagesView::GetViewIcon(void)
 
 void CMessagesView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CMessagesView::OnRender - Function Begining");
-
     wxLogTrace("CMessagesView::OnRender - Function Ending");
+}
+
+
+bool CMessagesView::OnSaveState() {
+    wxLogTrace("CMessagesView::OnSaveState - Function Begining");
+    wxLogTrace("CMessagesView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CMessagesView::OnRestoreState() {
+    wxLogTrace("CMessagesView::OnRestoreState - Function Begining");
+    wxLogTrace("CMessagesView::OnRestoreState - Function Ending");
+    return true;
 }
 

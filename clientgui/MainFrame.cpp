@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.13  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.12  2004/05/24 23:50:14  rwalton
 // *** empty log message ***
 //
@@ -210,7 +213,8 @@ bool CMainFrame::CreateNotebook() {
 }
 
 
-bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
+template < class T >
+bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
     wxLogTrace("CMainFrame::CreateNotebookPage - Function Begining");
 
 
@@ -230,49 +234,8 @@ bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
         m_pNotebook->SetImageList(pImageList);
     }
     
-    if        (wxDynamicCast(pwndNewNotebookPage, CProjectsView)) {
-
-        CProjectsView* pPage = wxDynamicCast(pwndNewNotebookPage, CProjectsView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    } else if (wxDynamicCast(pwndNewNotebookPage, CWorkView)) {
-
-        CWorkView* pPage = wxDynamicCast(pwndNewNotebookPage, CWorkView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    } else if (wxDynamicCast(pwndNewNotebookPage, CTransfersView)) {
-
-        CTransfersView* pPage = wxDynamicCast(pwndNewNotebookPage, CTransfersView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    } else if (wxDynamicCast(pwndNewNotebookPage, CMessagesView)) {
-
-        CMessagesView* pPage = wxDynamicCast(pwndNewNotebookPage, CMessagesView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    } else if (wxDynamicCast(pwndNewNotebookPage, CResourceUtilizationView)) {
-
-        CResourceUtilizationView* pPage = wxDynamicCast(pwndNewNotebookPage, CResourceUtilizationView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    } else if (wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView)) {
-
-        CBaseListCtrlView* pPage = wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    } else if (wxDynamicCast(pwndNewNotebookPage, CBaseWindowView)) {
-
-        CBaseWindowView* pPage = wxDynamicCast(pwndNewNotebookPage, CBaseWindowView);
-        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
-
-    }
+    iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()), wxColour(255, 0, 255));
+    m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
 
 
     wxLogTrace("CMainFrame::CreateNotebookPage - Function Ending");
@@ -357,7 +320,77 @@ bool CMainFrame::DeleteStatusbar() {
 bool CMainFrame::SaveState() {
     wxLogTrace("CMainFrame::SaveState - Function Begining");
 
+    wxString        strBaseConfigLocation = wxString(_T("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+
+    wxASSERT(NULL != pConfig);
+    wxASSERT(NULL != m_pNotebook);
+
+
+    //
+    // Save Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write("CurrentPage", m_pNotebook->GetSelection());
+
+
+    //
+    // Save Page(s) State
+    //
+
+    wxWindow*       pwndNotebookPage = NULL;
+    wxString        strConfigLocation = wxString(_T(""));
+    int             iIndex;
+    int             iPageCount;
+
+    iPageCount = m_pNotebook->GetPageCount() - 1;
+
+    for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
+
+        pwndNotebookPage = m_pNotebook->GetPage(iIndex);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView) ||
+                 wxDynamicCast(pwndNotebookPage, CBaseWindowView));
+
+        if        (wxDynamicCast(pwndNotebookPage, CProjectsView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CProjectsView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CWorkView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CWorkView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CTransfersView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CTransfersView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CMessagesView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CMessagesView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CResourceUtilizationView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CResourceUtilizationView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CBaseListCtrlView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CBaseWindowView)) {
+            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CBaseWindowView), pConfig);
+        }
+    }
+
+
     wxLogTrace("CMainFrame::SaveState - Function Ending");
+    return true;
+}
+
+
+template < class T >
+bool CMainFrame::FireSaveStateEvent( T pPage, wxConfigBase* pConfig ) {
+    wxLogTrace("CMainFrame::FireSaveStateEvent - Function Begining");
+
+    wxString strPreviousLocation = wxString(_T(""));
+    wxString strConfigLocation = wxString(_T(""));
+
+    strPreviousLocation = pConfig->GetPath();
+    strConfigLocation = strPreviousLocation + pPage->GetViewName();
+
+    pConfig->SetPath(strConfigLocation);
+    pPage->OnSaveState();
+    pConfig->SetPath(strPreviousLocation);
+
+    wxLogTrace("CMainFrame::FireSaveStateEvent - Function Ending");
     return true;
 }
 
@@ -365,7 +398,81 @@ bool CMainFrame::SaveState() {
 bool CMainFrame::RestoreState() {
     wxLogTrace("CMainFrame::RestoreState - Function Begining");
 
+    wxString        strBaseConfigLocation = wxString(_T("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+
+    wxASSERT(NULL != pConfig);
+    wxASSERT(NULL != m_pNotebook);
+
+
+    //
+    // Restore Frame State
+    //
+    long            lCurrentPage;
+
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Read("CurrentPage", &lCurrentPage);
+    m_pNotebook->SetSelection(lCurrentPage);
+
+
+    //
+    // Restore Page(s) State
+    //
+
+    wxWindow*       pwndNotebookPage = NULL;
+    wxString        strConfigLocation = wxString(_T(""));
+    int             iIndex;
+    int             iPageCount;
+
+    iPageCount = m_pNotebook->GetPageCount() - 1;
+
+    for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
+
+        pwndNotebookPage = m_pNotebook->GetPage(iIndex);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView) ||
+                 wxDynamicCast(pwndNotebookPage, CBaseWindowView));
+
+        if        (wxDynamicCast(pwndNotebookPage, CProjectsView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CProjectsView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CWorkView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CWorkView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CTransfersView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CTransfersView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CMessagesView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CMessagesView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CResourceUtilizationView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CResourceUtilizationView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CBaseListCtrlView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView), pConfig);
+        } else if (wxDynamicCast(pwndNotebookPage, CBaseWindowView)) {
+            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CBaseWindowView), pConfig);
+        }
+    }
+
+
     wxLogTrace("CMainFrame::RestoreState - Function Ending");
+    return true;
+}
+
+
+template < class T >
+bool CMainFrame::FireRestoreStateEvent( T pPage, wxConfigBase* pConfig ) {
+    wxLogTrace("CMainFrame::FireRestoreStateEvent - Function Begining");
+
+    wxString strPreviousLocation = wxString(_T(""));
+    wxString strConfigLocation = wxString(_T(""));
+
+    strPreviousLocation = pConfig->GetPath();
+    strConfigLocation = strPreviousLocation + pPage->GetViewName();
+
+    pConfig->SetPath(strConfigLocation);
+    pPage->OnRestoreState();
+    pConfig->SetPath(strPreviousLocation);
+
+    wxLogTrace("CMainFrame::FireRestoreStateEvent - Function Ending");
     return true;
 }
 
@@ -442,55 +549,43 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
 void CMainFrame::OnFrameRender (wxTimerEvent &event) {
     wxLogTrace("CMainFrame::OnFrameRender - Function Begining");
 
-    wxWindow*       pwndCurrentlySelectedPage;
+    wxWindow*       pwndNotebookPage;
 
     wxASSERT(NULL != m_pNotebook);
 
 
-    pwndCurrentlySelectedPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(NULL != pwndCurrentlySelectedPage);
-    wxASSERT(wxDynamicCast(pwndCurrentlySelectedPage, CBaseListCtrlView) ||
-             wxDynamicCast(pwndCurrentlySelectedPage, CBaseWindowView));
+    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+    wxASSERT(NULL != pwndNotebookPage);
+    wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView) ||
+             wxDynamicCast(pwndNotebookPage, CBaseWindowView));
 
-
-    if        (wxDynamicCast(pwndCurrentlySelectedPage, CProjectsView)) {
-
-        CProjectsView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CProjectsView);
-        pPage->OnRender(event);
-
-    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CWorkView)) {
-
-        CWorkView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CWorkView);
-        pPage->OnRender(event);
-
-    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CTransfersView)) {
-
-        CTransfersView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CTransfersView);
-        pPage->OnRender(event);
-
-    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CMessagesView)) {
-
-        CMessagesView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CMessagesView);
-        pPage->OnRender(event);
-
-    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CResourceUtilizationView)) {
-
-        CResourceUtilizationView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CResourceUtilizationView);
-        pPage->OnRender(event);
-
-    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CBaseListCtrlView)) {
-
-        CBaseListCtrlView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CBaseListCtrlView);
-        pPage->OnRender(event);
-
-    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CBaseWindowView)) {
-
-        CBaseWindowView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CBaseWindowView);
-        pPage->OnRender(event);
-
+    if        (wxDynamicCast(pwndNotebookPage, CProjectsView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CProjectsView), event);
+    } else if (wxDynamicCast(pwndNotebookPage, CWorkView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CWorkView), event);
+    } else if (wxDynamicCast(pwndNotebookPage, CTransfersView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CTransfersView), event);
+    } else if (wxDynamicCast(pwndNotebookPage, CMessagesView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CMessagesView), event);
+    } else if (wxDynamicCast(pwndNotebookPage, CResourceUtilizationView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CResourceUtilizationView), event);
+    } else if (wxDynamicCast(pwndNotebookPage, CBaseListCtrlView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView), event);
+    } else if (wxDynamicCast(pwndNotebookPage, CBaseWindowView)) {
+        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CBaseWindowView), event);
     }
 
 
     wxLogTrace("CMainFrame::OnFrameRender - Function Ending");
+}
+
+
+template < class T >
+void CMainFrame::FireRenderEvent( T pPage, wxTimerEvent &event ) {
+    wxLogTrace("CMainFrame::FireRenderEvent - Function Begining");
+
+    pPage->OnRender(event);
+
+    wxLogTrace("CMainFrame::FireRenderEvent - Function Ending");
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:14  rwalton
 // *** empty log message ***
 //
@@ -62,6 +65,7 @@ bool CBOINCGUIApp::OnInit()
 
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(wxTheApp->GetAppName());
+    wxConfigBase::Set(m_pConfig);
     wxASSERT(NULL != m_pConfig);
 
     // Initialize the main document
@@ -84,9 +88,6 @@ int CBOINCGUIApp::OnExit()
 {
     if (m_pDocument)
         delete m_pDocument;
-
-    if (m_pConfig)
-        delete m_pConfig;
 
     if (m_pLocale)
         delete m_pLocale;

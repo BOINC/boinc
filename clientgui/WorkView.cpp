@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/05/27 06:17:58  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/05/24 23:50:14  rwalton
 // *** empty log message ***
 //
@@ -45,7 +48,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)
 
 
-CWorkView::CWorkView(void)
+CWorkView::CWorkView()
 {
     wxLogTrace("CWorkView::CWorkView - Function Begining");
 
@@ -71,7 +74,7 @@ CWorkView::CWorkView(wxNotebook* pNotebook) :
 }
 
 
-CWorkView::~CWorkView(void)
+CWorkView::~CWorkView()
 {
     wxLogTrace("CWorkView::~CWorkView - Function Begining");
 
@@ -79,7 +82,7 @@ CWorkView::~CWorkView(void)
 }
 
 
-wxString CWorkView::GetViewName(void)
+wxString CWorkView::GetViewName()
 {
     wxLogTrace("CWorkView::GetViewName - Function Begining");
 
@@ -88,7 +91,7 @@ wxString CWorkView::GetViewName(void)
 }
 
 
-char** CWorkView::GetViewIcon(void)
+char** CWorkView::GetViewIcon()
 {
     wxLogTrace("CWorkView::GetViewIcon - Function Begining");
 
@@ -99,7 +102,20 @@ char** CWorkView::GetViewIcon(void)
 
 void CWorkView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CWorkView::OnRender - Function Begining");
-
     wxLogTrace("CWorkView::OnRender - Function Ending");
+}
+
+
+bool CWorkView::OnSaveState() {
+    wxLogTrace("CWorkView::OnSaveState - Function Begining");
+    wxLogTrace("CWorkView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CWorkView::OnRestoreState() {
+    wxLogTrace("CWorkView::OnRestoreState - Function Begining");
+    wxLogTrace("CWorkView::OnRestoreState - Function Ending");
+    return true;
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/05/24 23:50:14  rwalton
 // *** empty log message ***
 //
@@ -45,7 +48,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CResourceUtilizationView, CBaseWindowView)
 
 
-CResourceUtilizationView::CResourceUtilizationView(void)
+CResourceUtilizationView::CResourceUtilizationView()
 {
     wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Begining");
 
@@ -67,7 +70,7 @@ CResourceUtilizationView::CResourceUtilizationView(wxNotebook* pNotebook) :
 }
 
 
-CResourceUtilizationView::~CResourceUtilizationView(void)
+CResourceUtilizationView::~CResourceUtilizationView()
 {
     wxLogTrace("CResourceUtilizationView::~CResourceUtilizationView - Function Begining");
 
@@ -75,7 +78,7 @@ CResourceUtilizationView::~CResourceUtilizationView(void)
 }
 
 
-wxString CResourceUtilizationView::GetViewName(void)
+wxString CResourceUtilizationView::GetViewName()
 {
     wxLogTrace("CResourceUtilizationView::GetViewName - Function Begining");
 
@@ -84,7 +87,7 @@ wxString CResourceUtilizationView::GetViewName(void)
 }
 
 
-char** CResourceUtilizationView::GetViewIcon(void)
+char** CResourceUtilizationView::GetViewIcon()
 {
     wxLogTrace("CResourceUtilizationView::GetViewIcon - Function Begining");
 
@@ -95,7 +98,20 @@ char** CResourceUtilizationView::GetViewIcon(void)
 
 void CResourceUtilizationView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CResourceUtilizationView::OnRender - Function Begining");
-
     wxLogTrace("CResourceUtilizationView::OnRender - Function Ending");
+}
+
+
+bool CResourceUtilizationView::OnSaveState() {
+    wxLogTrace("CResourceUtilizationView::OnSaveState - Function Begining");
+    wxLogTrace("CResourceUtilizationView::OnSaveState - Function Ending");
+    return true;
+}
+
+
+bool CResourceUtilizationView::OnRestoreState() {
+    wxLogTrace("CResourceUtilizationView::OnRestoreState - Function Begining");
+    wxLogTrace("CResourceUtilizationView::OnRestoreState - Function Ending");
+    return true;
 }
 

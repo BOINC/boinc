@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/27 06:17:57  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/21 06:27:14  rwalton
 // *** empty log message ***
 //
@@ -42,15 +45,17 @@ class CBaseWindowView : public wxPanel
     DECLARE_DYNAMIC_CLASS(CBaseWindowView)
 
 public:
-    CBaseWindowView(void);
+    CBaseWindowView();
     CBaseWindowView(wxNotebook* pNotebook);
 
-    ~CBaseWindowView(void);
+    ~CBaseWindowView();
 
-    virtual wxString GetViewName(void);
-    virtual char**   GetViewIcon(void);
+    virtual wxString GetViewName();
+    virtual char**   GetViewIcon();
 
-    void OnRender(wxTimerEvent &event);
+    virtual void OnRender(wxTimerEvent &event);
+    virtual bool OnSaveState();
+    virtual bool OnRestoreState();
 
 };
 
