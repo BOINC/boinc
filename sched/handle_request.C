@@ -531,6 +531,15 @@ int handle_results(
             continue;
         }
 
+        if (result.received_time) {
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got result twice\n",
+                host.id, result.id, result.name
+            );
+            continue;
+        }
+
         if (result.hostid != sreq.hostid) {
             log_messages.printf(
                 SchedMessages::CRITICAL,

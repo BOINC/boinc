@@ -9020,6 +9020,7 @@ David  7 Jan 2004
     - scheduling server: if get invalid hostid,
         look up user before creating new host
          (otherwise will create a host record with userid 0)
+    - if get a result that's already been received, ignore it
 
     sched/
         handle_request.C
