@@ -46,10 +46,11 @@
     $project1->stop();
     $project2->stop();
 
-    $project1->check_results_done();
+    $result->state = RESULT_STATE_DONE;
+    $project1->check_results(2, $result);
     $project1->compare_file("uc_wu_0_0", "uc_correct_output");
     $project1->compare_file("uc_wu_1_0", "uc_correct_output");
-    $project2->check_results_done();
+    $project2->check_results(2, $result);
     $project2->compare_file("uc_wu_0_0", "uc_correct_output");
     $project2->compare_file("uc_wu_1_0", "uc_correct_output");
 ?>

@@ -34,7 +34,5 @@
     $host->run("-exit_when_idle");
     $project->stop();
 
-    $x = $project->num_results_done();
-    if ($x != 0) echo "Test failed\n";
-    if ($x == 0) echo "Test succeeded\n";
+    $project->check_results(0, $result);
 ?>

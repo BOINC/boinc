@@ -32,16 +32,13 @@
     $host->run("-exit_when_idle");
     $project->stop();
 
-    $project->check_results_done();
+    $result->state = RESULT_STATE_DONE;
+    $project->check_results(2, $result);
     $project->compare_file("uc_wu_0_0", "uc_correct_output");
     $project->compare_file("uc_wu_1_0", "uc_correct_output");
 
     // make sure result files are still there
-    if (!$host->file_present($project, "uc_wu_0_0")) {
-        echo "test failed\n";
-    }
-    if (!$host->file_present($project, "uc_wu_1_0")) {
-        echo "test failed\n";
-    }
+    $host->check_file_present($project, "uc_wu_0_0");
+    $host->check_file_present($project, "uc_wu_1_0");
 
 ?>

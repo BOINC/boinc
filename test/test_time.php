@@ -35,7 +35,8 @@
     $host->run("-exit_when_idle");
     $project->stop();
 
-    $project->check_results_done();
+    $result->state = RESULT_STATE_DONE;
+    $project->check_results(1, $result);
     $project->compare_file("uccpu_wu_0_0", "uc_small_correct_output");
     $client_time = $host->read_cpu_time_file("client_time");
     $x = mysql_query("select cpu_time from result where name='uccpu_wu_0'");

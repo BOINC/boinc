@@ -10,6 +10,8 @@
 //
 // See doc/test.html for details
 
+define("RESULT_STATE_DONE", 4);
+
 // get an enviroment variable, and abort script if missing
 //
 function get_env_var($name) {
@@ -239,11 +241,30 @@ class Project {
         fclose($f);
     }
 
-    function check_results_done() {
+    function check_results($ntarget, $result) {
+        $n = 0;
         db_open($this->db_name);
-        $result = mysql_query("select * from result where state<>4");
+        $result = mysql_query("select * from result");
         while ($x = mysql_fetch_object($result)) {
-            echo "result $x->id is not done\n";
+            $n++;
+            if ($result->state != null) {
+                if ($result->state != $x->state) {
+                    echo "ERROR: result $x->id: unexpected state $x->state\n";
+                }
+            }
+            if ($result->stderr_out != null) {
+                if (substr($result->stderr_out, $x->stderr_out)==0) {
+                    echo "ERROR: result $x->id: unexpected stderr_out $x->stderr_out\n";
+                }
+            }
+            if ($result->exit_status != null) {
+                if ($result->exit_status != $x->exit_status) {
+                    echo "ERROR: result $x->id: unexpected exit_status $x->exit_status\n";
+                }
+            }
+        }
+        if ($n != $ntarget) {
+            echo "ERROR: expected $ntarget results, found $n.\n";
         }
     }
 
@@ -351,6 +372,13 @@ class Host {
         return $app_time;
     }
 
+    function check_file_present($project, $filename) {
+        $enc_url = replace($project->master_url, "/", "_");
+        $path= "$this->host_dir/projects/$enc_url/$filename";
+        if (!file_exists($path)) {
+            echo "ERROR: file $path doesn't exist\n";
+        }
+    }
 }
 
 class Work {

@@ -33,6 +33,6 @@
 
     echo "Now run the client manually; start and stop it a few times.\n";
 
-    //$project->check_results_done();
+    //$project->check_results(1, $result);
     //$project->compare_file("ucs_wu_0_0", "uc_small_correct_output");
 ?>

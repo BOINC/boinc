@@ -31,7 +31,8 @@
     $host->run("-exit_when_idle");
     $project->stop();
 
-    $project->check_results_done();
+    $result->state = RESULT_STATE_DONE;
+    $project->check_results(2, $result);
     $project->compare_file("concat_wu_0_0", "concat_correct_output");
     $project->compare_file("concat_wu_1_0", "concat_correct_output");
 ?>
