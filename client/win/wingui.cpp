@@ -38,9 +38,8 @@ void show_message(PROJECT* p, char* msg, int priority) {
 
 	if(g_myWnd) {
 		g_myWnd->MessageUser(x, message, priority);
-	} else {
-        fprintf(stderr, "%s: %s (priority: %s)\n", x, message, priority);
 	}
+    fprintf(stderr, "%s: %s (priority: %s)\n", x, message, priority);
 }
 
 int add_new_project() {
