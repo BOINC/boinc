@@ -1,8 +1,7 @@
 #! /usr/local/bin/php
 <?php
-    // This tests whether the most basic mechanisms are working
-    // Also whether stderr output is reported correctly
-
+//This tests the exponential backoff mechanism on the client in case of downloadURLs going down
+//This test is not automated. It has to be run, and then client.out (in the host directory) must be looked at to examine wether everything is working correctly.    
     include_once("test.inc");
 
     $project = new Project;
@@ -39,7 +38,14 @@
     $work->install($project);
 
     $project->start_feeder();
-    $host->run("-exit_when_idle");
+    //delete the download_dir immediately 
+    $project->delete_downloaddir();
+    $pid = $host->run_asynch("-exit_when_idle");
+    //reinstall download_dir after 100 seconds
+    $project->reinstall_downloaddir(100,null);
+    $status = 0;
+    //wait until the host has stopped running
+    pcntl_waitpid($pid,$status,0);
     $project->stop();
 
     $result->state = RESULT_STATE_DONE;

@@ -356,7 +356,7 @@ class Project {
 	    PassThru("sleep $time");
 	  }
        
-	PassThru("mv $this->project_dir/download$download_dir_num  $this->project_dir/download_moved_$download_dir_num");
+	PassThru("mv $this->project_dir/download$download_dir_num $this->project_dir/download_moved$download_dir_num");
 	 
       }
     
@@ -368,7 +368,7 @@ class Project {
 	    echo "\nsleeping for $time seconds";
 	    PassThru("sleep $time");
 	  }
-	PassThru("mv $this->project_dir/moved_download_dir$download_dir_num $this->project_dir/download$download_dir_num");
+	PassThru("mv $this->project_dir/download_moved$download_dir_num $this->project_dir/download$download_dir_num");
       }
     
     function remove_file_upload_handler($time = null,$handler_num = null)

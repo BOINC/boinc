@@ -59,7 +59,12 @@ int PERS_FILE_XFER::init(FILE_INFO* the_file, bool is_file_upload) {
 bool PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
+    struct tm *newtime;
+    time_t aclock;
 
+    time( &aclock );                 /* Get time in seconds */
+    
+    newtime = localtime( &aclock );  /* Convert time to struct */
     // Decide whether to start a new file transfer
     //
     if (!gstate.start_new_file_xfer()) {
@@ -86,8 +91,8 @@ bool PERS_FILE_XFER::start_xfer() {
         fxp = file_xfer;
         if (log_flags.file_xfer) {
             printf(
-                "started %s of %s to %s\n",
-                (is_upload ? "upload" : "download"), fip->name, fip->get_url()
+                "started %s of %s to %s at time: %s\n",
+                (is_upload ? "upload" : "download"), fip->name, fip->get_url(),asctime( newtime ) 
             );
         }
         return true;
@@ -130,7 +135,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
             if (fip->generated_locally) {
                 // If the file was generated locally (for upload), update stats
                 // and delete the local copy of the file if needed
-                gstate.net_stats.update(true, fip->nbytes, fxp->elapsed_time());
+	        gstate.net_stats.update(true, fip->nbytes, fxp->elapsed_time());
 
                 // file has been uploaded - delete if not sticky
                 if (!fip->sticky) {
@@ -199,7 +204,12 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
 //
 int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
     double exp_backoff;
+    struct tm *newtime;
+    time_t aclock;
     
+    time( &aclock );                 /* Get time in seconds */
+    
+    newtime = localtime( &aclock );  /* Convert time to struct */
     // Cycle to the next URL to try
     fip->current_url = (fip->current_url + 1)%fip->urls.size();
 
@@ -213,7 +223,11 @@ int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
         // PERS_RETRY_DELAY_MAX
         next_request_time = cur_time+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
     }
-
+    if (log_flags.file_xfer_debug) {
+      printf(
+	     "exponential back off is %f, current_time is %s\n", exp_backoff,asctime( newtime ) 
+	     );
+    }
     return 0;
 }
 
