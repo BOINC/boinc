@@ -1,0 +1,272 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC web Czech Translation\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-02-26 20:41+0100\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"Language-Team: Czech National Team\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: iso-8859-2\n"
+
+##########################################
+# Language: Czech
+# FileID  : $Id$
+# Author  : Martin Suchan
+# Email   : martin.suchan@email.cz
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+msgid "CHARSET"
+msgstr "iso-8859-2"
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Aplikace"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT nyní pou¾ívá tyto programy. Pokud se podílíte na $PROJECT, práce pro jeden nebo více tìchto programù bude pøidìlena va¹emu poèítaèi. Aktuální verze aplikace se automaticky stáhne do va¹eho poèítaèe. Nemusíte pro to nic dìlat. "
+
+msgid "APPS_PLATFORM"
+msgstr "Platforma"
+
+msgid "APPS_VERSION"
+msgstr "Souèasná verze"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Nainstalovaná"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Pravidla a pøedpisy"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Pou¾ívejte $PROJECT jen na autorizovaných poèítaèích"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Pou¾ívejte $PROJECT pouze na poèítaèích které vlastníte, nebo u kterých máte povolení jejich vlastníka. Nìkteré ¹koly nebo firmy mají pøedpisy, které zakazují pou¾ívat jejich poèítaèe na projekty jako je $PROJECT"
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Jak bude $PROJECT vyu¾ívat vá¹ poèítaè"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Pokud pou¾íváte $PROJECT, tak tento projekt vyu¾ije èást výpoèetního výkonu, místa na disku a pøipojení va¹eho poèítaèe. Mù¾ete si nastavit, kolik prostøedkù bude $PROJECT vyu¾ívat a také kdy je bude vyu¾ívat.."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Práce vykonaná va¹ím poèítaèem pøispìje k dosáhnutí cíle $PROJECT tak, jak je napsáno na jejich stránkách. Plány projektu se mohou èas od èasu mìnit."
+
+msgid "RULES_PRIVACY"
+msgstr "Ochranna soukromí"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Vá¹ úèet na $PROJECT se identifikuje podle jména, které si zvolíte. Toto jméno bude zobrazováno na stránkách $PROJECT, spolu s údaji o tom, kolik toho vá¹ poèítaè vykonal v $PROJECT. Pokud si pøejete zùstat anonymní, zvolte si takové jméno, které skryje va¹í pravou identitu."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Pokud se zúèastníte $PROJECT, informace o va¹em poèítaèi (jako typ procesoru, velikost pamìti atd.) bude zaznamenána v $PROJECT a pou¾ita pro rozhodování, jaký typ práce bude pøidìlen va¹emu poèítaèi. Tato informace bude také viditelná na stránkách $PROJECT. Nebude zobrazeno ni c (jako napø. jméno domény, IP adresa) co by odhalovalo umístìní va¹eho poèítaèe."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "Abyste se mohli podíltet v $PROJECT, musíte zadat adresu, na které pøijímáte emaily. Tato adresa nebude zobrazena na stránkách $PROJECT ani sdìlována jiným organizacím. $PROJECT vám bude zasílat emailové novinky, nicménì jejich zasílání mù¾ete kdykoliv zru¹it ."
+
+msgid "RULES_SAFE"
+msgstr "Je bezpeèné pou¾ívat $PROJECT ?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Kdykoliv stahujete programy z internetu, vystavujete se nebezpeèí, ¾e program mù¾e obsahovat nebezpeèné chyby a nebo ¾e server pro stahování byl hacknut. $PROJECT vynakládá ve¹keré úsilí k minimalizaci tìchto nebezpeèí. Programy jsme dùkladnì testovaly. Na¹e servery jsou za firewallem a nastaveny na vysokou úroveò zabezpeèení. Pro zaji¹tìní integrity programù ke sta¾ení byly ve¹keré spustitelné soubory digitálnì podepsány na zabezpeèeném poèítaèi nepøipojeném k internetu."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Pøi pou¾ití programu $PROJECT se vá¹ poèítaè mù¾e pøehøívat. Pokud se tak stane, pøestaòte pou¾ívat $PROJECT nebo pou¾ívejte %s které omezí vyu¾ití poèítaèe."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "u¾iteèné programy"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT byl vyvinut %s. BOINC byl vyvinut v University of California."
+
+msgid "RULES_LIABILITY"
+msgstr "Zodpovìdnost"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT a %s nenese ¾ádnou zodpovìdnost za ztrátu dat nebo jakoukoliv jinou pøíhodu nebo stav, který mù¾e vzniknout dùsledkem pou¾ívání $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Jiné BOINC projekty"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Ostatní projekty pou¾ívají stejné prostøedí, BOINC, jako $PROJECT. Mù¾ete zvá¾it va¹e pøispìní i do tìchto projektù. Pokud tak uèiníte, vá¹ poèítaè bude pracovat u¾iteènì i v dobì, kdy $PROJECT nebude mít co na práci."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Tyto dal¹í projekty nejsou nijak spojené s $PROJECT a nemù¾eme se nijak zaruèit za jejich bezpeènostní vlastnosti èi pøedmìt výzkumu. Pøipojte se k nim na va¹e vlastní riziko."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Vytvoøení úètu"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Pøeètìte si %s pøed vytvoøením úètu."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Pokud jste ji¾ obdr¾eli klíè k úètu, nevyplòujte tento formuláø. %s místo toho."
+
+msgid "CREATE_AC_NAME"
+msgstr "Jméno"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Va¹e identifikace na tìchto stránkách. Pou¾ijte skuteèné jméno, nebo pøezdívku."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Emailová adresa"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Zemì"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Vyberte si zemi, kterou chcete reprezentovat."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Smìrovací èíslo nebo ZIP kód"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Vytvoøit úèet"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Vytváøení úètù je zakázáno"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "Vytváøení úètù pro $PROJECT je doèasnì zakázáno. Zkuste to prosím pozdìji."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Tento úèet bude nále¾et týmu %s a bude mít nastavení projektu po jeho zakladateli."
+
+#########################################
+# Account created page (account_created.php)
+#########################################
+msgid "AC_READY_TITLE"
+msgstr "Úèet vytvoøen"
+
+msgid "AC_READY_WELCOME"
+msgstr "Blahopøeji - vá¹ $PROJECT úèet byl vytvoøen."
+
+msgid "AC_READY_PASTE"
+msgstr "Pro pokraèování zkopírujte vá¹ klíè k úètu sem:"
+
+msgid "AC_READY_CLICK"
+msgstr "a kliknìte"
+
+#########################################
+# Account setup page (account_setuo.php)
+#########################################
+#also used in account_setup_nonfirst.php:
+msgid "AC_SETUP_TITLE"
+msgstr "Nastavení úètu"
+
+msgid "AC_SETUP_USES_BOINC"
+msgstr "$PROJECT pou¾ívá systém BOINC."
+
+msgid "AC_SETUP_DIVISION"
+msgstr "BOINC vám umo¾òuje rozdìlit vá¹ poèítaèový èas mezi rùzné výpoèetní projekty."
+
+msgid "AC_SETUP_ISFIRST"
+msgstr "Je toto vá¹ první BOINC projekt?"
+
+msgid "AC_SETUP_FIRST"
+msgstr "Ano - toto je mùj první BOINC projekt"
+
+msgid "AC_SETUP_NONFIRST"
+msgstr "Ne - ji¾ se podílím i na jiném BOINC projektu"
+
+#########################################
+# First Account setup page (account_setup_first.php)
+#########################################
+msgid "AC_FIRST_TITLE"
+msgstr "Pøedvolby úètu"
+
+msgid "AC_FIRST_CONTROL"
+msgstr "Mù¾ete ovládat kdy a jak bude vá¹ poèítaè pou¾íván pro $PROJECT"
+
+msgid "AC_FIRST_DEFAULT"
+msgstr "Pro pou¾ití výchozího nastavení, skrolujte dolu a kliknìte na OK."
+
+#########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "Nastavení úètu: hotové"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Nastavení va¹eho úètu je hotové."
+
+msgid "AC_DONE_BOINC"
+msgstr "Dále si stáhnìte a nainstalujte program BOINC a øeknìte svému poèítaèi, aby pou¾íval tento úèet."
+
+msgid "AC_DONE_URL"
+msgstr "Pøi prvním spu¹tìní se vás BOINC zeptá na  <b>URL projektu</b> a <b>klíè k úètu</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Zkopírujte a vlo¾te jej odtud:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "Nyní mù¾ete %s k dokonèení instalace $PROJECT."
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "stáhnìte si program BOINC"
+
+msgid "AC_DONE_THANKS"
+msgstr "Dìkujeme za úèast v projektu $PROJECT"
+
+#########################################
+# Non-first Account setup page (account_setup_nonfirst.php)
+#########################################
+msgid "AC_NONFIRST_TITLE"
+msgstr "Nastavení úètu: rozdìlení prostøedkù"
+
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "Nyní svému poèítaèi (svým poèítaèùm) øeknìte, aby pou¾íval(y) tento úèet."
+
+msgid "AC_DONE_WIN"
+msgstr "Windows u¾ivatelé :"
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Otevøete okno aplikace BOINC dvojklikem na ikonku v systémové li¹tì. Zvolte 'Attach to Project' v nabídce Nastavení. Budete optáni na klíè k úètu a URL projektu."
+
+msgid "AC_DONE_UNIX"
+msgstr "Mac, Unix a Linux u¾ivatelé:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Ukonèete klienta BOINC. Poté spus»te klienta BOINC s parametrem -attach_project. Budete optáni na klíè k úètu a URL projektu."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "V obou pøípadech zkopírujte a vlo¾te následující:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "Toto dokonèí instalaci $PROJECT."
+
+#########################################
+# Different strange places:
+#########################################
+# account_created.php
+msgid "AC_CREATED_TITLE"
+msgstr "Nastavení va¹eho úètu"
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Volitelné"
+
