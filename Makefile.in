@@ -3,12 +3,18 @@ topsrcdir	= @top_srcdir@
 srcdir	= @srcdir@
 VPATH	= @srcdir@
 
+#
+#	The ../$(srcdir)/client/configure
+#	only works when the original configure is relative path
+#	it doesn't work when it is an absolute path
+#	This needs to be fixed
+#
 all:
 	cd db; make; cd ..; \
 	cd lib; make; cd ..; \
 	cd api; make; cd ..; \
 	cd apps; make; cd ..; \
-	cd client; $(srcdir)/client/configure make; cd ..; \
+	cd client; ../$(srcdir)/client/configure make; cd ..; \
 	cd sched; make; cd ..; \
 	cd tools; make; cd ..;
 
