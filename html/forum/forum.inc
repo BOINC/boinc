@@ -64,8 +64,8 @@ class Forum {
         	case 'activity-most':
 	            $sql = $sql . ' ORDER by activity DESC, timestamp DESC';
             	break;
-           	case 'help-question-most':
-           		$sql = $sql . ' ORDER by sufferers DESC, timestamp DESC';
+           	case 'help-activity-most':
+           		$sql = $sql . ' ORDER by activity DESC, sufferers DESC';
            		break;
     	}
         if ($min > -1) {
