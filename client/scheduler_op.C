@@ -49,7 +49,12 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     if (project) {
         retval = init_master_fetch(project);
         if (retval) {
+            msg_printf(project, MSG_ERROR,
+                "Couldn't read master page for %s: error %d",
+                project->get_project_name(), retval
+            );
             if (project->tentative) {
+                msg_printf(project, MSG_ERROR, "Detaching from project - check for URL error");
                 project_add_failed(project);
             } else {
                 project->master_fetch_failures++;

@@ -929,6 +929,8 @@ int CLIENT_STATE::report_result_error(
 // - delete all apps and app_versions
 // - garbage collect to delete unneeded files
 //
+// Note: does NOT delete persistent files or delete project dir
+//
 int CLIENT_STATE::reset_project(PROJECT* project) {
     unsigned int i;
     APP_VERSION* avp;

@@ -182,8 +182,12 @@ int NET_XFER::open_server() {
 #else
     int flags;
     flags = fcntl(fd, F_GETFL, 0);
-    if (flags < 0) return ERR_FCNTL;
-    else if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) return ERR_FCNTL;
+    if (flags < 0) {
+        return ERR_FCNTL;
+    }
+    if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) {
+        return ERR_FCNTL;
+    }
 #endif
 
     addr.sin_family = AF_INET;
