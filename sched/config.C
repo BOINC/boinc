@@ -53,7 +53,7 @@ int CONFIG::parse(FILE* in) {
 int CONFIG::parse_file() {
     FILE* f;
 
-    f = fopen("config.xml", "r");
+    f = fopen(".htconfig.xml", "r");
     if (!f) return ERR_FOPEN;
     return parse(f);
 }
