@@ -21280,3 +21280,12 @@ David  14 Dec 2004
         Makefile.am
         mem_usage.C,h (new)
         gui_rpc_client.C,h
+
+David  14 Dec 2004
+	- win compile fix
+
+	lib/
+		mem_usage.C
+	win_build/
+		upper_case.vcproj
+

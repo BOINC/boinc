@@ -235,6 +235,9 @@
 				RelativePath="..\lib\hostinfo.C">
 			</File>
 			<File
+				RelativePath="..\lib\mem_usage.C">
+			</File>
+			<File
 				RelativePath="..\lib\mfile.C">
 			</File>
 			<File
@@ -348,6 +351,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.h">
+			</File>
+			<File
+				RelativePath="..\lib\mem_usage.h">
 			</File>
 			<File
 				RelativePath="..\lib\mfile.h">
