@@ -6,7 +6,7 @@ require_once('util.inc');
 // Presentation code (HTML) shouldn't be here
 
 function db_init($pathMod='') {
-    $retval = mysql_connect();
+    $retval = mysql_pconnect();
     if (!$retval) {
         echo "Unable to connect to database - please try again later";
         exit();

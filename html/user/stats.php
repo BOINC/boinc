@@ -18,8 +18,8 @@ and the files are
 
 <p>
 This data can be summarized and represented as Web pages.
-An example is
-<a href=http://www.boinc.dk/index.php?page=statistics>here</a>.
+An example (in Danish) is at
+<a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>.
 ";
 
 page_tail();
