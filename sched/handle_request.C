@@ -611,7 +611,9 @@ int handle_results(
 		// look for exit status in stderr_out
         // TODO: return it separately
         //
-        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
+		if (!parse_int(result.stderr_out, "<exit_status>", result.exit_status)) {
+			result.exit_status = ERR_XML_PARSE;
+		}
 
         if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
