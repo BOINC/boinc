@@ -70,7 +70,7 @@
 #ifdef _WIN32
 typedef int socklen_t;
 #elif !GETSOCKOPT_SOCKLEN_T
-//typedef size_t socklen_t;
+typedef size_t socklen_t;
 #endif
 
 int get_socket_error(int fd) {
