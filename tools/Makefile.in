@@ -34,6 +34,8 @@ MYSQL_LIBS = \
 -L/sw/lib/mysql -lmysqlclient -L/usr/local/lib -lz \
 -lm $(NETLIBS)
 
+NETLIBS = -lsocket -lnsl
+
 LIBS = \
     backend_lib.o \
     process_result_template.o \
