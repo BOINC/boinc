@@ -6869,4 +6869,6 @@ Karl 2003-10-16
     py/Boinc/
         db_base.py (new)
         database.py
-
+        setup_project.py
+    test/
+        testbase.py

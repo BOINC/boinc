@@ -201,6 +201,7 @@ class Result(DatabaseObject):
                     'outcome',
                     'client_state',
                     'hostid',
+                    'userid',
                     'report_deadline',
                     'sent_time',
                     'received_time',
