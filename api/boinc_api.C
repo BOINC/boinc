@@ -39,7 +39,6 @@
 
 #include "parse.h"
 #include "error_numbers.h"
-#include "file_names.h"
 
 #include "boinc_api.h"
 
@@ -164,7 +163,7 @@ double boinc_cpu_time() {
     hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, GetCurrentProcessId());
     if (GetProcessTimes(
         hProcess, &creationTime, &exitTime, &kernelTime, &userTime)
-    ){
+    ) {
         ULARGE_INTEGER tKernel, tUser;
         LONGLONG totTime;
 

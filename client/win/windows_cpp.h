@@ -25,12 +25,11 @@
 #define HOSTTYPE "windows_intelx86"
 #define HOST "windows_intelx86"
 #define VERSION 1
+#endif
+#endif
 
 #include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
-
-#endif
-#endif
 

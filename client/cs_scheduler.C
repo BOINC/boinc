@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#include "windows_cpp.h"
 
 #include "crypt.h"
 #include "error_numbers.h"
