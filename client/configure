@@ -1548,7 +1548,7 @@ EOF
 
 fi
 
-for ac_hdr in fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h sys/mount.h
+for ac_hdr in fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h sys/mount.h sys/ipc.h sys/shm.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
