@@ -19,8 +19,16 @@
 
 // command-line version of the BOINC core client
 
+#include "boinc_api.h"
+
 #ifndef _WIN32
 #include <unistd.h>
+#endif
+
+#ifdef __APPLE_CC__
+#include "mac_carbon_include.h"
+#include <Carbon/Carbon.h>
+#include "mac_setupgl.h"
 #endif
 
 #include "client_state.h"
@@ -70,8 +78,14 @@ int main(int argc, char** argv) {
     PREFS* prefs;
     FILE* f;
     int retval;
+    bool user_requested_exit = false;
 
-    // Set the stdout buffer to 0, such that stdout output
+    // Platform specific initialization here
+#ifdef __APPLE_CC__
+    signal( SIGPIPE, SIG_IGN );
+#endif
+    
+    // Set the stdout buffer to 0, so that stdout output
     // immediately gets written out
     //
     setbuf(stdout, 0);
@@ -102,6 +116,15 @@ int main(int argc, char** argv) {
         }
     }
 
+#ifdef __APPLE_CC__
+    if (!mac_setup ())
+        return -1;
+#endif
+
+#ifdef _WIN32
+    // Windows setup here
+#endif
+
     // Initialize the client state with the preferences
     //
     gstate.init(prefs);
@@ -110,13 +133,21 @@ int main(int argc, char** argv) {
     // Run the time tests and host information check if needed
     // TODO: break time tests and host information check into two
     //       separate functions?
-    if (gstate.run_time_tests()) {
+    if(gstate.run_time_tests()) {
         gstate.time_tests();
     }
     // Restart any tasks that were running when we last quit the client
     gstate.restart_tasks();
     while (1) {
+#ifdef __APPLE_CC__
+        user_requested_exit = mac_do_event();
+#endif
 
+#ifdef _WIN32
+        // Windows event loop here
+#endif
+        
+        fflush(stdout);
         // do_something is where the meat of the clients work is done
         // it will return false if it had nothing to do,
         // in which case sleep for a second
@@ -124,14 +155,30 @@ int main(int argc, char** argv) {
         if (!gstate.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
+#ifndef __APPLE_CC__
+#ifndef _WIN32
             boinc_sleep(1);
+#endif
+#endif
         }
-
-        if (gstate.time_to_exit()) {
+        // If it's time to exit, break out of the while loop
+        if (gstate.time_to_exit() || user_requested_exit) {
             printf("time to exit\n");
             break;
         }
     }
+
+    // Platform specific cleanup here
+#ifdef __APPLE_CC__
+    mac_cleanup ();
+#endif
+    
+#ifdef _WIN32
+    // Windows cleanup here
+#endif
+    
+    // Clean everything up and gracefully exit
     gstate.exit();
+
     return 0;
 }

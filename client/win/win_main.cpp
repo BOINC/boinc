@@ -16,25 +16,39 @@
 // 
 // Contributor(s):
 //
-#ifdef HAVE_DIRENT_H
-#include <dirent.h>
-#define DIRREF DIR*
-#endif
-#ifdef _WIN32
-#include <io.h>
-struct DIR_DESC {
-    char path[256];
-	bool first;
-    void* handle;
-};
-#define DIRREF DIR_DESC*
-#endif
 
-extern DIRREF dir_open(char*);
-extern int dir_scan(char*, DIRREF);
-extern void dir_close(DIRREF);
-extern int file_delete(char*);
-extern int file_size(char*, int&);
-extern int boinc_link(char *existing, char *new_link);
-extern int clean_out_dir(char*);
-extern double dir_size(char* dirpath);
+#ifdef _WIN32
+
+#include <windows.h>
+#include <string.h>
+#include <stdio.h>
+#include <process.h>
+#include <pbt.h>
+
+#include "win_net.h"
+
+//////////////////////////////////////////////////////////////////////////////////////
+//
+// Function    : WinMain
+//
+//
+///////////////////////////////////////////////////////////////////////////////////////
+
+int main(int argc, char** argv);
+
+int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode )
+{
+	char *command_line;
+	char **argv;
+	int argc;
+
+	NetOpen();
+	//command_line = GetCommandLine();
+	//argv = CommandLineToArgvW( command_line, &argc );
+	main( argc, argv );
+
+	return 0;
+}
+
+
+#endif

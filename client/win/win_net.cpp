@@ -16,25 +16,42 @@
 // 
 // Contributor(s):
 //
-#ifdef HAVE_DIRENT_H
-#include <dirent.h>
-#define DIRREF DIR*
-#endif
-#ifdef _WIN32
-#include <io.h>
-struct DIR_DESC {
-    char path[256];
-	bool first;
-    void* handle;
-};
-#define DIRREF DIR_DESC*
-#endif
 
-extern DIRREF dir_open(char*);
-extern int dir_scan(char*, DIRREF);
-extern void dir_close(DIRREF);
-extern int file_delete(char*);
-extern int file_size(char*, int&);
-extern int boinc_link(char *existing, char *new_link);
-extern int clean_out_dir(char*);
-extern double dir_size(char* dirpath);
+#include <windows.h>
+#include <string.h>
+#include <stdio.h>
+
+#include "win_net.h"
+
+
+int NetOpen( void )
+{
+    WSADATA wsdata;
+    WORD    wVersionRequested;
+	int rc, addrlen = 16;
+
+	// TODO: return if already open
+
+	// TODO: Handle permission logic here
+
+    wVersionRequested = MAKEWORD(1,1);
+    rc = WSAStartup(wVersionRequested, &wsdata);
+
+    if (rc) 
+	{
+        //printf("WSAStartup failed: error code = %d\n", rc);
+        return -1; //CANT_CONNECT;
+    }
+
+
+	return 0;
+}
+
+
+void NetClose( void )
+{
+ 	WSACleanup();
+}
+
+
+

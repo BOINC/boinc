@@ -23,7 +23,6 @@
 
 #include "windows_cpp.h"
 #include "error_numbers.h"
-#include "filesys.h"
 
 #ifdef _WIN32
 #include <io.h>

@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <math.h>
 #include <stdlib.h>
 
@@ -133,10 +135,14 @@ int PERS_FILE_XFER::poll(unsigned int now) {
                         // Set the appropriate permissions depending on whether
                         // it's an executable or normal file
                         if (fip->executable) {
+#ifndef _WIN32
                             retval = chmod(pathname, S_IEXEC|S_IREAD|S_IWRITE);
+#endif
                         } else {
                             get_pathname(fip, pathname);
+#ifndef _WIN32
                             retval = chmod(pathname, S_IREAD|S_IWRITE);
+#endif
                         }
                         fip->file_present = true;
                     }

@@ -11,22 +11,16 @@
 #ifndef __WIN_NET_H
 #define __WIN_NET_H
 
-typedef enum ENetState {
-	NETSTATE_NONE = 0,
-	NETSTATE_WAIT,
-	NETSTATE_NOTIFY,
-	NETSTATE_PERMISSION,
-	NETSTATE_LAST
-} ENetState;
-
 extern int NetOpen( void );
 extern void NetClose( void );
-extern void NetSetState( ENetState state );
 
 
 #endif
 /*
  * $Log$
+ * Revision 1.1  2002/08/09 21:43:19  eheien
+ * Moved win files, fixed compile bugs, added user requestable quit.
+ *
  * Revision 1.1  2002/06/21 00:13:48  eheien
  * Windows networking support.
  *

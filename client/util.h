@@ -18,7 +18,13 @@
 //
 
 extern double dtime();
-extern double min( double a, double b );
-extern double max( double a, double b );
 extern void boinc_sleep( int seconds );
+
+#ifndef max
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)            (((a) < (b)) ? (a) : (b))
+#endif
 

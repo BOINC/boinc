@@ -60,9 +60,9 @@
 #include "filesys.h"
 
 #ifdef _WIN32
-static char path[256];
-static HANDLE handle;
-static int first;
+//static char path[256];
+//static HANDLE handle;
+//static int first;
 #endif
 
 char failed_file[256];
@@ -71,19 +71,19 @@ char failed_file[256];
 
 // Open a directory
 //
-DIR *dir_open(char* p) {
-    DIR *dirp;
+DIRREF dir_open(char* p) {
+    DIRREF dirp;
 
 #ifdef HAVE_DIRENT_H
     dirp = opendir(p);
     if (!dirp) return NULL;
 #endif
 #ifdef _WIN32
-    strcpy(path, p);
-    strcat(path, "\\*");
-    first = 1;
-    handle = INVALID_HANDLE_VALUE;
-    // This is probably incomplete
+	dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
+    dirp->first = true;
+	strcpy(dirp->path, p);
+	strcat(dirp->path, "\\*");
+	dirp->handle = INVALID_HANDLE_VALUE;
 #endif
 #ifdef macintosh
     SayErr("\pdir_open called (empty function)");	/* CAF Temp */
@@ -93,7 +93,7 @@ DIR *dir_open(char* p) {
 
 // Scan through a directory and return the next file name in it
 //
-int dir_scan(char* p, DIR *dirp) {
+int dir_scan(char* p, DIRREF dirp) {
 #ifdef HAVE_DIRENT_H
     while (1) {
 	dirent* dp = readdir(dirp);
@@ -109,10 +109,10 @@ int dir_scan(char* p, DIR *dirp) {
 #ifdef _WIN32
     WIN32_FIND_DATA data;
     while (1) {
-	if (first) {
-	    first = 0;
-	    handle = FindFirstFile(path, &data);
-	    if (handle == INVALID_HANDLE_VALUE) {
+	if (dirp->first) {
+	    dirp->first = false;
+	    dirp->handle = FindFirstFile(dirp->path, &data);
+	    if (dirp->handle == INVALID_HANDLE_VALUE) {
 		return -1;
 	    } else {
 		if (data.cFileName[0] == '.') continue;
@@ -120,13 +120,13 @@ int dir_scan(char* p, DIR *dirp) {
 		return 0;
 	    }
 	} else {
-	    if (FindNextFile(handle, &data)) {
+	    if (FindNextFile(dirp->handle, &data)) {
 		if (data.cFileName[0] == '.') continue;
 		if (p) strcpy(p, data.cFileName);
 		return 0;
 	    } else {
-		FindClose(handle);
-		handle = INVALID_HANDLE_VALUE;
+		FindClose(dirp->handle);
+		dirp->handle = INVALID_HANDLE_VALUE;
 		return 1;
 	    }
 	}
@@ -140,16 +140,16 @@ int dir_scan(char* p, DIR *dirp) {
 
 // Close a directory
 //
-void dir_close(DIR* dirp) {
+void dir_close(DIRREF dirp) {
 #ifdef HAVE_DIRENT_H
     if (dirp) {
 	closedir(dirp);
     }
 #endif
 #ifdef _WIN32
-    if (handle == INVALID_HANDLE_VALUE) {
-	FindClose(handle);
-	handle = INVALID_HANDLE_VALUE;
+    if (dirp->handle != INVALID_HANDLE_VALUE) {
+	FindClose(dirp->handle);
+	dirp->handle = INVALID_HANDLE_VALUE;
     }
 #endif
 #ifdef macintosh
@@ -204,14 +204,12 @@ int boinc_link(char *existing, char *new_link) {
     return 0;
 }
 
-#include <dirent.h>
-
 // Goes through directory specified by dirpath and removes all files from it
 //
 int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;
-    DIR *dirp;
+    DIRREF dirp;
     
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
@@ -237,7 +235,7 @@ double dir_size(char* dirpath) {
     char filename[256], subdir[256];
     int retval,temp;
     double cur_size = 0;
-    DIR *dirp;
+    DIRREF dirp;
 
     dirp = dir_open(dirpath);
     if (!dirp) return -1;

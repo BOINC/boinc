@@ -26,6 +26,7 @@
 #include <windows.h>
 
 #include "error_numbers.h"
+#include "util.h"
 
 /* Replacement gettimeofday 
    Sets the microseconds to clock() * 1000 which is microseconds in Windows */
@@ -41,26 +42,6 @@ void gettimeofday(timeval *t, void *tz) {
 }
 
 #endif
-
-#include "util.h"
-
-// return minimum of two double precision numbers
-double min( double a, double b ) {
-    if (a<b) {
-        return a;
-    } else {
-        return b;
-    }
-}
-
-// return maximum of two double precision numbers
-double max( double a, double b ) {
-    if (a>b) {
-        return a;
-    } else {
-        return b;
-    }
-}
 
 // return time of day as a double
 //
