@@ -77,8 +77,8 @@ int PROJECT::parse_account(FILE* in) {
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
-        else if (match_tag(buf, "<send_email\>")) continue;
-        else if (match_tag(buf, "<show_email\>")) continue;
+        else if (match_tag(buf, "<send_email/>")) continue;
+        else if (match_tag(buf, "<show_email/>")) continue;
         else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,
