@@ -397,6 +397,12 @@ if test "${enable_linux_release}" = yes; then
        BOINC_EXTRA_LIBS=`echo $BOINC_EXTRA_LIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
    done
    echo "DEBUG: final BOINC_EXTRA_LIBS= $BOINC_EXTRA_LIBS"
+
+
+   ## NOTE: it's *extremely* important to always compile with __NO_CTYPE 
+   ## defined, because this avoids GLIBC_2.3 symbols being pulled in via ctype.h-macros,
+   CPPFLAGS="$CPPFLAGS -D__NO_CTYPE"
+
 fi
 
 ## prepend BOINC_EXTRA_LIBS (mangled or not) to LIBS for standard linking
