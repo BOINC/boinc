@@ -78,12 +78,14 @@ function show_host($host, $private) {
     }
     $last_result = host_last_result($host);
     $nresults = host_nresults($host);
-    $x = "<a href=results_host.php?hostid=$host->id>$nresults</a>";
+    $nresults_success = host_nresults_success($host);
+    $nresults_valid = host_nresults_valid($host);
+    $results = "$nresults_valid / $nresults_success / <a href=results_host.php?hostid=$host->id>$nresults</a>";
     if ($last_result) {
-        $y = time_str($last_result->received_time);
-        $x = $x."<br><font size=2>Last received: $y</font>\n";
+        $date_last_result = date_str($last_result->received_time);
+        $results .= " [$date_last_result]";
     }
-    row2("Results", $x);
+    row2("Results", $results);
 
     if ($private) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
@@ -119,7 +121,7 @@ function host_table_start($title, $private) {
         <th><a href=top_hosts.php?sort_by=total_credit>Total credit</a></th>
         <th>CPU type</th>
         <th>Operating system</th>
-        <th>Results<br><font size=-2>Click for list</font></th>
+        <th>Results (Valid / Successful / Total) [Last Received]</th>
         </tr>
     ";
 }
@@ -133,6 +135,18 @@ function host_last_result($host) {
 
 function host_nresults($host) {
     $result = mysql_query("select count(*) as nresults from result where hostid=$host->id");
+    $foobar = mysql_fetch_object($result);
+    return $foobar->nresults;
+}
+
+function host_nresults_success($host) {
+    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id and outcome=1");
+    $foobar = mysql_fetch_object($result);
+    return $foobar->nresults;
+}
+
+function host_nresults_valid($host) {
+    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id and validate_state=1");
     $foobar = mysql_fetch_object($result);
     return $foobar->nresults;
 }
