@@ -44,14 +44,14 @@ require_once("db_ops.inc");
         print_checkbox("Hide XML fields", "hide_xml_docs", $hide_xml_docs);
     } else if ($table=="result") {
         echo "<tr><td align=right>Server state</td><td> ";
-        result_server_state_select();
+        server_state_select();
         echo "</td></tr>\n";
         //print_text_field( "Batch number:", "batch", $batch );
         echo "<tr><td align=right>Outcome</td><td>";
-        result_outcome_select();
+        outcome_select();
         echo "</td></tr>\n";
         echo "<tr><td align=right>Client state</td><td>";
-        result_client_state_select();
+        client_state_select();
         echo "</td></tr>\n";
 
         row2("Hide XML fields", "<input type=checkbox name=hide_xml_docs>");

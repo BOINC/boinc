@@ -205,7 +205,7 @@ function show_result_summary()
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
-        c_row2(outcome_color($ro), outcome_string($ro),
+        c_row2($outcome[$ro]?outcome_color($ro):'white', outcome_string($ro),
                link_results($outcome[$ro], $urlquery, "outcome=$ro"));
     }
     echo "</table></td>";
@@ -509,6 +509,7 @@ function host_user_link($hostid)
 
 function outcome_color($s) {
     switch($s) {
+    case 0: return 'eeeeee'; // unknown (server state not over probably)
     case 1: return '33cc33'; // "Success"
     case 3: return 'ff3333'; // "Client error"
     }
