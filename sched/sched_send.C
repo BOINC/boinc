@@ -905,7 +905,7 @@ int send_work(
             char helpful[512];
             sprintf(helpful,
                 "(won't finish in time) "
-                "Computer on %.1f%% of time, BOINC on %.1f%% of that, Einstein gets %.1f%% of that",
+                "Computer on %.1f%% of time, BOINC on %.1f%% of that, this project gets %.1f%% of that",
                 100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
             );
             USER_MESSAGE um(helpful, "high");

@@ -63,6 +63,7 @@ public:
     int min_core_client_upgrade_deadline;
     bool choose_download_url_by_timezone;
     bool cache_md5_info;
+    bool nowork_skip;
 
     int parse(char*);
     int parse_file(const char* dir=".");

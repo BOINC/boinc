@@ -48,6 +48,9 @@ htmlspecialchars("
     [ <cache_md5_info/>                                                          ]
     [ <min_core_client_version_announced> N </min_core_client_version_announced> ]
     [ <min_core_client_upgrade_deadline>  N </min_core_client_upgrade_deadline>  ]
+    [ <choose_download_url_by_timezone>  N </choose_download_url_by_timezone>  ]
+    [ <cache_md5_info>  N </cache_md5_info>  ]
+    [ <nowork_skip>  N </nowork_skip>  ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -233,6 +236,14 @@ list_item("min_core_client_upgrade_deadline",
      Unix epoch returned by time(2) until which hosts can update their
      core client.  After this time, they may be shut out of the project.
      Before this time, they will receive messages warning them to upgrade."
+);
+list_item("nowork_skip",
+    "If the scheduling server has no work,
+    it replies to RPCs without doing any database access
+    (e.g., without looking up the user or host record).
+    This reduces DB load, but it fails to update
+    preferences when users click on Update.
+    Use it if your server DB is overloaded."
 );
 list_end();
 

@@ -28,7 +28,7 @@ some projects in which to participate.
 Each project's web site lets you to create an account.
 When you create an account,
 you will be sent an email containing a URL and Account Key.
-Collect this information and skip down to the 'Project Manager'
+Collect this information and skip down to the 'Managing Projects'
 section for information on how to set up BOINC Menubar to run these projects.
 
 <h3>Returning BOINC participants</h3>
@@ -70,7 +70,7 @@ This will open up the 'Project Manager'.
   (Figure 3)
 <p>
 Click the 'Add' button.
-This will produce a new sheet in which you can paste in the URL and Account ID.
+This will produce a dialog in which you can paste in the URL and Account Key.
 
 <p>
     <img src=screenshots/projectManagerWithAddProjectSheet.jpg width=502 height=263><br>
@@ -109,7 +109,8 @@ This is particularly convenient if you want to change a project's preferences or
   (Figure 6)
 <h3>Controlling BOINC Using BOINC Menubar</h3>
 <p>
-Once BOINC Menubar has some projects to run, you can now use the menu to start and stop BOINC.
+Once BOINC Menubar has some projects to run, you can now use the menu
+to start and stop BOINC.
 <p>
 To start BOINC running, simply select 'Start' from the status menu.
 BOINC will start running in the background.
@@ -149,7 +150,8 @@ the amount will be updated next time the project contacts its web site.
     <img src=screenshots/preferencesWindow.jpg width=273 height=239><br>
   (Figure 8)
 <p>
-Select 'Start BOINC On Application Launch' if you which BOINC to start running every time you open BOINC Menubar.
+Select 'Start BOINC On Application Launch' if you want BOINC to start
+running every time you open BOINC Menubar.
 You might find this particularly useful if you want BOINC to be running all the time.
 
 <p>

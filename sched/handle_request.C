@@ -864,15 +864,21 @@ void process_request(
         warn_user_if_core_client_upgrade_scheduled(sreq, reply);
     }
   
+    if (config.locality_scheduling) {
+        have_no_work = false;
+    } else {
+        lock_sema();
+        have_no_work = ss.no_work(g_pid);
+        unlock_sema();
+    }
+
     // if there's no work, and client isn't returning results,
     // this isn't an initial RPC,
     // and client is requesting work, return without accessing DB
     //
-    lock_sema();
-    have_no_work = ss.no_work(g_pid);
-    unlock_sema();
-
-    if ((sreq.work_req_seconds > 0)
+    if (
+        config.nowork_skip
+        && (sreq.work_req_seconds > 0)
         && have_no_work
         && (sreq.results.size() == 0)
         && (sreq.hostid != 0)

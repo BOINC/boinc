@@ -25921,3 +25921,16 @@ David  12 Mar 2005
 	clientgui/
 		BOINCTaskCtrl.cpp,h
 		VewProjects.cpp
+
+David  13 Mar 2005
+    - scheduler: add nowork_skip configuration flag.
+        If set, and there's no work, return from RPC
+        without looking up user/host records.
+        (this was previously the default.  It no longer is)
+    - scheduler: if using locality scheduling, never set "have_no_work"
+    - scheduler: replace "Einstein" by "this project" in message
+
+    sched/
+        handle_request.C
+        sched_config.C,h
+        sched_send.C
