@@ -10972,3 +10972,10 @@ Rom   Mar 26 2004
         wingui_mainwindow.cpp
     lib/
         app_ipc.c
+
+Rom   Mar 26 2004
+    - Update versions started to complain about PDB files, so tell it to ignore them
+        for determining platforms
+
+    tools/
+        update_versions
