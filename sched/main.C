@@ -69,7 +69,8 @@ key_t sema_key;
 int g_pid;
 
 void send_message(char* msg, int delay) {
-    printf(
+    fprintf(
+        stdout,
         "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
@@ -173,57 +174,57 @@ int main() {
     g_pid = getpid();
 #ifdef _USING_FCGI_
     while(FCGI_Accept() >= 0) {
-    counter++;
+        counter++;
 #endif
-    if (project_stopped) {
-        send_message("Project is temporarily shut down for maintenance", 3600);
-        goto done;
-    }
-    fprintf(stdout,"Content-type: text/plain\n\n");
-    if (use_files) {
-        // the code below is convoluted because,
-        // instead of going from stdin to stdout directly,
-        // we go via a pair of disk files
-        // (this makes it easy to save the input,
-        // and to know the length of the output).
-        //
-        sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, g_pid, counter);
-        sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
-        fout = fopen(req_path, "w");
-        if (!fout) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write request file\n");
-            exit(1);
+        if (project_stopped) {
+            send_message("Project is temporarily shut down for maintenance", 3600);
+            goto done;
         }
-        copy_stream(stdin, fout);
-        fclose(fout);
-        fin = fopen(req_path, "r");
-        if (!fin) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read request file\n");
-            exit(1);
+        fprintf(stdout,"Content-type: text/plain\n\n");
+        if (use_files) {
+            // the code below is convoluted because,
+            // instead of going from stdin to stdout directly,
+            // we go via a pair of disk files
+            // (this makes it easy to save the input,
+            // and to know the length of the output).
+            //
+            sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, g_pid, counter);
+            sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
+            fout = fopen(req_path, "w");
+            if (!fout) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write request file\n");
+                exit(1);
+            }
+            copy_stream(stdin, fout);
+            fclose(fout);
+            fin = fopen(req_path, "r");
+            if (!fin) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read request file\n");
+                exit(1);
+            }
+            fout = fopen(reply_path, "w");
+            if (!fout) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write reply file\n");
+                exit(1);
+            }
+            handle_request(fin, fout, *ssp, code_sign_key);
+            fclose(fin);
+            fclose(fout);
+            fin = fopen(reply_path, "r");
+            if (!fin) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read reply file\n");
+                exit(1);
+            }
+            copy_stream(fin, stdout);
+            fclose(fin);
+            //unlink(req_path);
+            //unlink(reply_path);
+        } else {
+            handle_request(stdin, stdout, *ssp, code_sign_key);
         }
-        fout = fopen(reply_path, "w");
-        if (!fout) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write reply file\n");
-            exit(1);
-        }
-        handle_request(fin, fout, *ssp, code_sign_key);
-        fclose(fin);
-        fclose(fout);
-        fin = fopen(reply_path, "r");
-        if (!fin) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read reply file\n");
-            exit(1);
-        }
-        copy_stream(fin, stdout);
-        fclose(fin);
-        //unlink(req_path);
-        //unlink(reply_path);
-    } else {
-        handle_request(stdin, stdout, *ssp, code_sign_key);
-    }
 done:
 #ifdef _USING_FCGI_
-    continue;
+        continue;
     }
 #endif
     if (db_opened) {

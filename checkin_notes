@@ -15888,3 +15888,10 @@ David  5 Aug 2004
         Makefile.am
         dir_hier_move.C
         dir_hier_path.C
+
+Rom    5 Aug 2004
+    - Some basic cleanup work
+
+    sched/
+        handle_request.C
+        main.C
