@@ -17,15 +17,19 @@
 // Contributor(s):
 //
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #ifdef _WIN32
 #include <windows.h>
-#include "gl/gl.h"
-#include "gl/glu.h"
-#include "gl/glut.h"
+/* the old way... Use the defines below which should be set in 
+ * config.h 
+ * #include "gl/gl.h"
+ * #include "gl/glu.h"
+ * #include "gl/glut.h"
+*/
 #endif
 
 #ifdef HAVE_GL_H
