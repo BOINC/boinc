@@ -98,6 +98,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_STATUSICON_RESUME, OnCommandResume)
     ON_COMMAND(ID_STATUSICON_EXIT, OnCommandExit)
 	ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
+	ON_COMMAND(ID_TRANSFERS_RETRYNOW, OnCommandTransfersRetryNow)
 	ON_COMMAND(ID_MESSAGE_COPY_TO_CLIP, OnCommandMessageCopyToClip)  // Added by JBK.
     ON_WM_CREATE()
     ON_WM_RBUTTONDOWN()
@@ -1280,6 +1281,14 @@ void CMainWindow::OnCommandWorkShowGraphics()
 	}
 }
 
+void CMainWindow::OnCommandTransfersRetryNow()
+{
+	PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(m_nContextItem);
+	if (pfx) {
+		pfx->next_request_time = 0;
+	}
+}
+
 //////////
 // CMainWindow::OnCommandShow
 // arguments:	void
@@ -1738,10 +1747,10 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	CMenu* pContextMenu = NULL;
-	GetCursorPos(&point);
 	CRect rt;
 	CListCtrl* pMenuCtrl = NULL;
 	int nMenuId = -1;
+	GetCursorPos(&point);
 
 	if(m_ProjectListCtrl.IsWindowVisible()) {
 		pMenuCtrl = &m_ProjectListCtrl;
@@ -1757,27 +1766,63 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 		nMenuId = MESSAGE_MENU;
 	}
 
+	// " pMenuCtrl->OnLButtonDown(nFlags, point) "
+	/*{
+		_AFX_THREAD_STATE* pThreadState = _afxThreadState.GetData();
+		pMenuCtrl->SendMessage(WM_LBUTTONUP, pThreadState->m_lastSentMsg.wParam,
+			pThreadState->m_lastSentMsg.lParam);
+		pMenuCtrl->SendMessage(WM_LBUTTONDOWN, pThreadState->m_lastSentMsg.wParam,
+			pThreadState->m_lastSentMsg.lParam);
+		pMenuCtrl->SendMessage(WM_LBUTTONUP, pThreadState->m_lastSentMsg.wParam,
+			pThreadState->m_lastSentMsg.lParam);
+		pMenuCtrl->SendMessage(WM_LBUTTONDOWN, nFlags, MAKELPARAM(point.x,point.y));
+	}*/
+
+
     if(pMenuCtrl) {
+		pMenuCtrl->SetFocus();
+		// clear all other items - this must be done first
+		int indexSelected = -1;
 		for(int i = 0; i < pMenuCtrl->GetItemCount(); i ++) {
 			pMenuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
 			pMenuCtrl->ClientToScreen(&rt);
 			if(rt.PtInRect(point)) {
-				pContextMenu = m_ContextMenu.GetSubMenu(nMenuId);
-				if(pContextMenu) {
-					if (nMenuId == RESULT_MENU) {
-						pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_GRAYED); //disable
-						RESULT *rp = (RESULT *)pMenuCtrl->GetItemData(i);
-						if (rp) {
-							ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(rp);
-							if (atp && atp->supports_graphics())
-								pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_ENABLED); // enable
-						}
-					}
-					pContextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
-					m_nContextItem = i;
-				}
+				indexSelected = i;
 				break;
 			}
+		}
+		if (indexSelected == -1)
+			return;
+
+		bool shouldSetNewSelection = nMenuId != MESSAGE_MENU || 
+			!pMenuCtrl->GetItemState(indexSelected, LVIS_SELECTED);
+
+		if(shouldSetNewSelection) {
+			for(int i = 0; i < pMenuCtrl->GetItemCount(); i ++) {
+				pMenuCtrl->SetItemState(i, 0, LVIS_SELECTED);
+			}
+			pMenuCtrl->SetItemState(indexSelected, LVIS_SELECTED, LVIS_SELECTED);
+		}
+
+		pContextMenu = m_ContextMenu.GetSubMenu(nMenuId);
+		if(pContextMenu) {
+			if (nMenuId == RESULT_MENU) {
+				pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_GRAYED); //disable
+				RESULT *rp = (RESULT *)pMenuCtrl->GetItemData(indexSelected);
+				if (rp) {
+					ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(rp);
+					if (atp && atp->supports_graphics())
+						pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_ENABLED); // enable
+				}
+			} else if (nMenuId == XFER_MENU) {
+				// enable "retry now" only if currently waiting to retry
+				PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(indexSelected);
+				pContextMenu->EnableMenuItem(ID_TRANSFERS_RETRYNOW,
+					pfx && (pfx->next_request_time > time(0) ?
+							MF_ENABLED : MF_GRAYED));
+			}
+			pContextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+			m_nContextItem = indexSelected;
 		}
 	}
 	//CWnd::OnRButtonDown(nFlags, point);

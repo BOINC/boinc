@@ -50,8 +50,8 @@
 #define STATUS_MENU			0			// submenus for context menus
 #define PROJECT_MENU		1
 #define RESULT_MENU			2
-#define MESSAGE_MENU		3			// Added by JBK
-#define XFER_MENU			4
+#define XFER_MENU			3
+#define MESSAGE_MENU		4
 
 
 #define PROJECT_ID			0			// child control ids
@@ -145,6 +145,7 @@ protected:
 	afx_msg void			OnCommandProjectDetach();
 	afx_msg void			OnCommandProjectReset();
 	afx_msg void			OnCommandWorkShowGraphics();
+	afx_msg void            OnCommandTransfersRetryNow();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
 	afx_msg void OnCommandRunBenchmarks();
