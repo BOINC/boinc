@@ -87,6 +87,16 @@ void parse_display_args(char** argv, DISPLAY_INFO& di) {
     }
 }
 
+void show_error(int retval) {
+    switch(retval) {
+    case ERR_AUTHENTICATOR:
+        fprintf(stderr, "Authentication failure\n");
+        break;
+    default:
+        fprintf(stderr, "Error %d\n", retval);
+    }
+}
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     unsigned int i;
@@ -121,7 +131,7 @@ int main(int argc, char** argv) {
     if (passwd) {
         retval = rpc.authorize(passwd);
         if (retval) {
-            fprintf(stderr, "can't authorize\n");
+            fprintf(stderr, "Authorization failure: %d\n", retval);
             exit(1);
         }
     }
@@ -293,7 +303,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "unrecognized command %s\n", argv[i]);
     }
     if (retval) {
-        fprintf(stderr, "Operation failed: %d\n", retval);
+        show_error(retval);
     }
 
 #ifdef _WIN32

@@ -474,6 +474,7 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
         return;
     }
     fout.printf("<authorized/>\n");
+    auth_needed = false;
 }
 
 int GUI_RPC_CONN::handle_rpc() {
@@ -510,9 +511,9 @@ int GUI_RPC_CONN::handle_rpc() {
         "<client_version>%d</client_version>\n",
         gstate.version()
     );
-    if (match_tag(request_msg, "<auth1>")) {
+    if (match_tag(request_msg, "<auth1")) {
         handle_auth1(mf);
-    } else if (match_tag(request_msg, "<auth2>")) {
+    } else if (match_tag(request_msg, "<auth2")) {
         handle_auth2(request_msg, mf);
     } else if (auth_needed) {
         auth_failure(mf);

@@ -45,6 +45,8 @@
 using std::string;
 using std::vector;
 
+//#define DEBUG
+
 DISPLAY_INFO::DISPLAY_INFO() {
     memset(this, 0, sizeof(DISPLAY_INFO));
 }
@@ -1001,8 +1003,8 @@ int RPC_CLIENT::authorize(char* passwd) {
 
     sprintf(buf, "%s%s", nonce, passwd);
     md5_block((const unsigned char*)buf, strlen(buf), nonce_hash);
-    sprintf(buf, "<nonce_hash>%s</nonce_hash>\n", nonce_hash);
-    retval = rpc.do_rpc("<auth2/>\n");
+    sprintf(buf, "<auth2/>\n<nonce_hash>%s</nonce_hash>\n", nonce_hash);
+    retval = rpc.do_rpc(buf);
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "<authorized/>")) {
@@ -1058,11 +1060,17 @@ int RPC::do_rpc(const char* req) {
     int retval;
 
     if (rpc_client->sock == 0) return ERR_CONNECT;
+#ifdef DEBUG
+    puts(req);
+#endif
     retval = rpc_client->send_request(req);
     if (retval) return retval;
     retval = rpc_client->get_reply(mbuf);
     if (retval) return retval;
     fin.init_buf(mbuf);
+#ifdef DEBUG
+    puts(mbuf);
+#endif
     return 0;
 }
 
@@ -1079,6 +1087,9 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
     if (retval) return retval;
 
     while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "<unauthorized")) {
+            return ERR_AUTHENTICATOR;
+        }
         if (match_tag(buf, "</client_state>")) break;
         else if (parse_int(buf, "<client_version>", client_version)) continue;
         else if (match_tag(buf, "<project>")) {

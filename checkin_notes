@@ -25599,3 +25599,14 @@ David  7 Mar 2005
     lib/
         Makefile.am
         network.C,h
+
+David  7 Mar 2005
+    - Bug fixes in GUI RPC protection.
+        It works now using boinc_cmd.
+        (need to integrate in BOINC manager)
+
+    client/
+        gui_rpc_server.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C
