@@ -38,18 +38,21 @@
 #include "client_state.h"
 #include "prefs.h"
 
-// the following values determine how the client behaves
-// if there are no global prefs yet
+// The following values determine how the client behaves
+// if there are no global prefs yet.
+// These should impose minimal restrictions, so that the client
+// can do its first scheduler RPC and get the global prefs
+// from a server
 //
 void GLOBAL_PREFS::init() {
-    run_on_batteries = false;
-    run_if_user_active = false;
+    run_on_batteries = true;
+    run_if_user_active = true;
     start_hour = 0;
     end_hour = 0;
     run_minimized = false;
     run_on_startup = false;
     confirm_before_connecting = false;
-    hangup_if_dialed = true;
+    hangup_if_dialed = false;
     work_buf_max_days = 0.2;
     work_buf_min_days = 0.1;
     max_cpus = 2;
@@ -176,19 +179,25 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
     }
     PROJECT* pp = gstate.lookup_project(source_project.c_str());
     if (pp) {
-        msg_printf(NULL, MSG_INFO, "Using general preferences from %s\n", pp->get_project_name());
+        msg_printf(NULL, MSG_INFO,
+            "General prefs: from %s (last modified %s)\n",
+            pp->get_project_name(), time_to_string(mod_time)
+        );
     } else {
-        msg_printf(NULL, MSG_INFO, "Using general preferences from unknown project %s\n", source_project.c_str());
+        msg_printf(NULL, MSG_INFO,
+            "General prefs: from unknown project %s (last modified %s)\n",
+            source_project.c_str(), time_to_string(mod_time)
+        );
     }
-    msg_printf(NULL, MSG_INFO, "General preferences last updated %s\n", time_to_string(mod_time));
     if (strlen(host_venue)) {
         if (found_venue) {
-            msg_printf(NULL, MSG_INFO, "Using your general preferences for %s\n", host_venue);
+            msg_printf(NULL, MSG_INFO, "General prefs: using separate prefs for %s\n", host_venue);
         } else {
-            msg_printf(NULL, MSG_INFO, "No separate general preferences given for %s; using your default preferences\n", host_venue);
+            msg_printf(NULL, MSG_INFO,
+                "General prefs: no separate prefs for %s; using your defaults\n", host_venue);
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "Using your default general preferences\n");
+        msg_printf(NULL, MSG_INFO, "General prefs: using your defaults\n");
     }
     return 0;
 }

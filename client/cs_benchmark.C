@@ -171,7 +171,7 @@ bool CLIENT_STATE::should_run_cpu_benchmarks() {
     // (we'll just use default values in cpu_benchmarks())
     return (
         run_cpu_benchmarks ||
-        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
+        dtime() - host_info.p_calculated > BENCHMARK_PERIOD
     );
 }
 

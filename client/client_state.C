@@ -179,7 +179,7 @@ int CLIENT_STATE::init() {
     language.read_language_file(LANGUAGE_FILE_NAME);
 
     msg_printf(
-        NULL, MSG_INFO, "Starting BOINC client version %d.%02d (%s)",
+        NULL, MSG_INFO, "Starting BOINC client version %d.%02d for %s",
         core_client_major_version, core_client_minor_version, platform_name
     );
 

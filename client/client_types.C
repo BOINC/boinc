@@ -208,12 +208,12 @@ int PROJECT::parse_account(FILE* in) {
             if (strlen(gstate.host_venue)) {
                 if (!got_venue_prefs) {
                     msg_printf(this, MSG_INFO,
-                        "Project preferences for %s not found; using your default preferences",
+                        "Project prefs: no separate prefs for %s; using your defaults",
                         gstate.host_venue
                     );
                 }
             } else {
-                msg_printf(this, MSG_INFO, "Using your default project preferences");
+                msg_printf(this, MSG_INFO, "Project prefs: using your defaults");
             }
             return 0;
         }
@@ -222,7 +222,7 @@ int PROJECT::parse_account(FILE* in) {
             parse_attr(buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, gstate.host_venue)) {
                 msg_printf(this, MSG_INFO,
-                    "Using your project preferences for %s",
+                    "Project prefs: using separate prefs for %s",
                     gstate.host_venue
                 );
                 got_venue_prefs = true;

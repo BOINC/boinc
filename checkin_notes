@@ -10737,3 +10737,16 @@ Rom  Mar 23 2004
 
     api/
         boinc_api.c
+
+David  Mar 23 2004
+	- Initial global prefs (as defined in GLOBAL_PREFS::init()) should
+	    impose minimal restrictions, so that the client can do its first
+		scheduler RPC and get global prefs from a server
+    - Fix bug where benchmarks always run on Win client startup
+    - Improve startup and prefs messages
+	
+    client/
+		client_state.C
+		client_types.C
+		cs_benchmark.C
+		prefs.C
