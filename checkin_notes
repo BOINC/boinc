@@ -7667,3 +7667,8 @@ David  9 Nov 2003
 
 David  10 Nov 2003
     - released versions of Astropulse (2.10) and SETI@home (2.08) for Windows.
+
+Karl 2003-11-11
+    - compile fixes
+    lib/
+        xml_util.C
