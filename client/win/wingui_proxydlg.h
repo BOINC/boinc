@@ -19,6 +19,7 @@
 
 #ifndef __WIN_PROXYDLG_H_
 #define __WIN_PROXYDLG_H_
+#include "afxwin.h"
 
 
 // CProxyDlg dialog
@@ -42,8 +43,11 @@ protected:
 private:
     CButton m_UseHTTPProxyServerCtrl;
     CButton m_UseSOCKSProxyServerCtrl;
+	CButton m_UseHTTPProxyAuthenticationCtrl;
     CEdit   m_HTTPProxyServerAddressCtrl;
     CEdit   m_HTTPProxyServerPortCtrl;
+	CEdit   m_HTTPProxyServerUsernameCtrl;
+	CEdit   m_HTTPProxyServerPasswordCtrl;
     CEdit   m_SOCKSProxyServerAddressCtrl;
     CEdit   m_SOCKSProxyServerPortCtrl;
     CEdit   m_SOCKSProxyServerUsernameCtrl;
@@ -53,6 +57,7 @@ public:
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedUseHTTPProxyServer();
     afx_msg void OnBnClickedUseSOCKSProxyServer();
+	afx_msg void OnBnClickedUseHttpAuth();
 
 protected:
     virtual void OnOK();
@@ -60,6 +65,8 @@ protected:
 private:
     CString m_strHTTPProxyServerAddress;
     UINT    m_uiHTTPProxyServerPort;
+	CString m_strHTTPProxyServerUsername;
+	CString m_strHTTPProxyServerPassword;
     CString m_strSOCKSProxyServerAddress;
     UINT    m_uiSOCKSProxyServerPort;
     CString m_strSOCKSProxyServerUsername;

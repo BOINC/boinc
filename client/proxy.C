@@ -94,6 +94,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
         if (match_tag(buf, "</proxy_info>")) return 0;
         else if (match_tag(buf, "<use_http_proxy/>")) use_http_proxy = true;
         else if (match_tag(buf, "<use_socks_proxy/>")) use_socks_proxy = true;
+        else if (match_tag(buf, "<use_http_auth/>")) use_http_auth = true;
         else if (parse_int(buf, "<socks_version>", socks_version)) continue;
         else if (parse_str(buf, "<socks_server_name>", socks_server_name, sizeof(socks_server_name))) continue;
         else if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
@@ -101,6 +102,8 @@ int PROXY_INFO::parse(MIOFILE& in) {
         else if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
         else if (parse_str(buf, "<socks5_user_name>", socks5_user_name, sizeof(socks5_user_name))) continue;
         else if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd, sizeof(socks5_user_passwd))) continue;
+        else if (parse_str(buf, "<http_user_name>", http_user_name, sizeof(http_user_name))) continue;
+        else if (parse_str(buf, "<http_user_passwd>", http_user_passwd, sizeof(http_user_passwd))) continue;
         else scope_messages.printf("PROXY_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 0;
@@ -111,6 +114,7 @@ int PROXY_INFO::write(MIOFILE& out) {
        "<proxy_info>\n"
        "%s"
        "%s"
+       "%s"
        "    <socks_version>%d</socks_version>\n"
        "    <socks_server_name>%s</socks_server_name>\n"
        "    <socks_server_port>%d</socks_server_port>\n"
@@ -118,16 +122,21 @@ int PROXY_INFO::write(MIOFILE& out) {
        "    <http_server_port>%d</http_server_port>\n"
        "    <socks5_user_name>%s</socks5_user_name>\n"
        "    <socks5_user_passwd>%s</socks5_user_passwd>\n"
+       "    <http_user_name>%s</http_user_name>\n"
+       "    <http_user_passwd>%s</http_user_passwd>\n"
        "</proxy_info>\n",
        use_http_proxy?"    <use_http_proxy/>\n":"",
        use_socks_proxy?"    <use_socks_proxy/>\n":"",
+       use_http_auth?"    <use_http_auth/>\n":"",
        socks_version,
        socks_server_name,
        socks_server_port,
        http_server_name,
        http_server_port,
        socks5_user_name,
-       socks5_user_passwd
+       socks5_user_passwd,
+       http_user_name,
+       http_user_passwd
    );
    return 0;
 }
@@ -135,12 +144,15 @@ int PROXY_INFO::write(MIOFILE& out) {
 void PROXY_INFO::clear() {
     use_http_proxy = false;
     use_socks_proxy = false;
+	use_http_auth = false;
     strcpy(socks_server_name, "");
     strcpy(http_server_name, "");
     socks_server_port = 80;
     http_server_port = 80;
     strcpy(socks5_user_name, "");
     strcpy(socks5_user_passwd, "");
+    strcpy(http_user_name, "");
+    strcpy(http_user_passwd, "");
     socks_version = 0;
 }
 
@@ -161,8 +173,11 @@ PROXY::~PROXY() {
 
 int PROXY::set_proxy(PROXY_INFO *new_pi) {
     pi.use_http_proxy = new_pi->use_http_proxy;
+    strcpy(pi.http_user_name, new_pi->http_user_name);
+    strcpy(pi.http_user_passwd, new_pi->http_user_passwd);
     strcpy(pi.http_server_name, new_pi->http_server_name);
     pi.http_server_port = new_pi->http_server_port;
+    pi.use_http_auth = new_pi->use_http_auth;
 
     pi.use_socks_proxy = new_pi->use_socks_proxy;
     strcpy(pi.socks5_user_name, new_pi->socks5_user_name);

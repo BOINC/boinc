@@ -33,10 +33,14 @@
 #define IDC_CHECK_HTTP                  1013
 #define IDC_EDIT_HTTP_ADDR              1014
 #define IDC_EDIT_HTTP_PORT              1015
+#define IDC_CHECK_HTTP_CERT             1016
+#define IDC_CHECK_HTTP_AUTH             1016
 #define IDC_EDIT_SOCKS_NAME             1017
 #define IDC_EDIT_SOCKS_PASS             1018
 #define IDC_DONTASK                     1019
+#define IDC_EDIT_HTTP_NAME              1019
 #define IDC_STATIC_URL                  1020
+#define IDC_EDIT_HTTP_PASS              1020
 #define IDC_STATIC_AUTH                 1021
 #define IDC_CHECK_SOCKS                 1022
 #define IDC_STATIC_ASK                  1022
@@ -54,6 +58,8 @@
 #define IDC_STATIC_SOCKS_BLANK          1032
 #define IDC_STATIC_SOCKS_NAME           1033
 #define IDC_STATIC_SOCKS_PASS           1034
+#define IDC_STATIC_HTTP_NAME            1036
+#define IDC_STATIC_HTTP_PASS            1037
 #define ID_ACCT_LOGIN                   40001
 #define ID_SETTINGS_LOGIN               40001
 #define ID_HELP_ABOUT                   40002

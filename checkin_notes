@@ -13426,3 +13426,20 @@ David  June 12 2004
 
     apps/
         Makefile.am,in
+
+David  June 12 2004
+	- added support for name/passwd authentication to HTTP proxies.
+		Includes changes to the proxy settings dialog,
+		and to the HTTP_OP class
+		Courtesy of Kenichi Miyoshi and his colleagues at NTT - thanks!
+
+	client/
+		http.C,h
+		proxy.C,h
+		win/
+			boinc_gui.h,rc
+		wingui_proxydlg.cpp,h
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
+

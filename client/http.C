@@ -22,6 +22,7 @@
 #ifdef _WIN32
 #include "stdafx.h"
 #define SHUT_WR SD_SEND
+using std::string;
 #endif
 
 #ifndef _WIN32
@@ -51,6 +52,8 @@
 #include "http.h"
 
 #define HTTP_BLOCKSIZE  16384
+
+#include "..\lib\base64.h"
 
 // Breaks a HTTP url down into its server and file path components
 //
@@ -100,6 +103,24 @@ static void http_get_request_header(
     );
 }
 
+static void http_get_request_header_proxy(
+    char* buf, char* host, int port, char* file, double offset, char* encstr
+) {
+    char offset_info[256];
+    if (offset) sprintf( offset_info, "Range: bytes=%.0f-\015\012", offset );
+    sprintf(buf,
+        "GET %s HTTP/1.0\015\012"
+        "User-Agent: BOINC client\015\012"
+        "Host: %s:%d\015\012"
+        "%s"
+        "Connection: close\015\012"
+        "Accept: */*\015\012"
+		"Proxy-Authorization: Basic %s\015\012"
+        "\015\012",
+        file, host, port, offset?offset_info:"", encstr
+    );
+}
+
 // Prints an HTTP 1.1 HEAD request header into buf
 //
 static void http_head_request_header(char* buf, char* host, int port, char* file) {
@@ -111,6 +132,20 @@ static void http_head_request_header(char* buf, char* host, int port, char* file
         "Accept: */*\015\012"
         "\015\012",
         file, host, port
+    );
+}
+
+static void http_head_request_header_proxy(char* buf, char* host, int port, char* file, char* encstr
+) {
+    sprintf(buf,
+        "HEAD %s HTTP/1.0\015\012"
+        "User-Agent: BOINC client\015\012"
+        "Host: %s:%d\015\012"
+        "Connection: close\015\012"
+        "Accept: */*\015\012"
+		"Proxy-Authorization: Basic %s\015\012"
+        "\015\012",
+        file, host, port, encstr
     );
 }
 
@@ -130,6 +165,23 @@ static void http_post_request_header(
         "Content-Length: %d\015\012"
         "\015\012",
         file, host, port, size
+    );
+}
+
+static void http_post_request_header_proxy(
+    char* buf, char* host, int port, char* file, int size, char* encstr
+) {
+    sprintf(buf,
+        "POST %s HTTP/1.0\015\012"
+        "Pragma: no-cache\015\012"
+        "Cache-Control: no-cache\015\012"
+        "Host: %s:%d\015\012"
+        "Connection: close\015\012"
+        "Content-Type: application/octet-stream\015\012"
+        "Content-Length: %d\015\012"
+		"Proxy-Authorization: Basic %s\015\012"
+        "\015\012",
+        file, host, port, size, encstr
     );
 }
 
@@ -247,6 +299,7 @@ HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
+////	proxy_auth_done = false;
 }
 
 HTTP_OP::~HTTP_OP() {
@@ -257,6 +310,9 @@ HTTP_OP::~HTTP_OP() {
 int HTTP_OP::init_head(const char* url) {
     char proxy_buf[256];
     parse_url(url, url_hostname, port, filename);
+////    if(!proxy_auth_done){
+////        parse_url(url, url_hostname, port, filename);
+////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     http_op_type = HTTP_OP_HEAD;
@@ -266,7 +322,24 @@ int HTTP_OP::init_head(const char* url) {
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-    http_head_request_header(request_header, url_hostname, port, proxy_buf);
+//    http_head_request_header(request_header, url_hostname, port, proxy_buf);
+////    if(!proxy_auth_done){
+    if(!pi.use_http_auth){
+        http_head_request_header(
+            request_header, url_hostname, port, proxy_buf
+        );
+ 	}else{
+  		char	id_passwd[512];
+  		string	encstr = "";
+  		memset(id_passwd,0,sizeof(id_passwd));
+		strcpy(id_passwd,pi.http_user_name);
+		strcat(id_passwd,":");
+		strcat(id_passwd,pi.http_user_passwd);
+		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+        http_head_request_header_proxy(
+			request_header, url_hostname, port, proxy_buf, (char*)encstr.c_str() 
+        );
+  	}
     return 0;
 }
 
@@ -280,6 +353,9 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     }
     file_offset = off;
     parse_url(url, url_hostname, port, filename);
+////    if(!proxy_auth_done){
+////        parse_url(url, url_hostname, port, filename);
+////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(outfile, out);
@@ -293,7 +369,21 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-    http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
+//    http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
+////    if(!proxy_auth_done){
+	if(!pi.use_http_auth){
+        http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
+ 	}else{
+  		char	id_passwd[512];
+  		string	encstr = "";
+  		memset(id_passwd,0,sizeof(id_passwd));
+		strcpy(id_passwd,pi.http_user_name);
+		strcat(id_passwd,":");
+		strcat(id_passwd,pi.http_user_passwd);
+		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+  		http_get_request_header_proxy(request_header, url_hostname,
+  			port, proxy_buf, (int)file_offset, (char*)encstr.c_str() );
+  	}
     return 0;
 }
 
@@ -307,6 +397,9 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
 
     parse_url(url, url_hostname, port, filename);
+////    if(!proxy_auth_done){
+////        parse_url(url, url_hostname, port, filename);
+////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(infile, in);
@@ -321,9 +414,27 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-    http_post_request_header(
-        request_header, url_hostname, port, proxy_buf, content_length
-    );
+//    http_post_request_header(
+//        request_header, url_hostname, port, proxy_buf, content_length
+//    );
+////    if(!proxy_auth_done){
+	if(!pi.use_http_auth){
+        http_post_request_header(
+            request_header, url_hostname, port, proxy_buf, content_length
+        );
+ 	}else{
+  		char	id_passwd[512];
+  		string	encstr = "";
+  		memset(id_passwd,0,sizeof(id_passwd));
+		strcpy(id_passwd,pi.http_user_name);
+		strcat(id_passwd,":");
+		strcat(id_passwd,pi.http_user_passwd);
+		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+        http_post_request_header_proxy(
+            request_header, url_hostname, port, proxy_buf, content_length,
+			(char*)encstr.c_str()
+        );
+  	}
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
     return 0;
 }
@@ -338,6 +449,9 @@ int HTTP_OP::init_post2(
     char proxy_buf[256];
 
     parse_url(url, url_hostname, port, filename);
+////    if(!proxy_auth_done){
+////        parse_url(url, url_hostname, port, filename);
+////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     req1 = r1;
@@ -359,9 +473,27 @@ int HTTP_OP::init_post2(
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-    http_post_request_header(
-        request_header, url_hostname, port, proxy_buf, content_length
-    );
+//    http_post_request_header(
+//        request_header, url_hostname, port, proxy_buf, content_length
+//    );
+////    if(!proxy_auth_done){
+  	if(!pi.use_http_auth){
+        http_post_request_header(
+            request_header, url_hostname, port, proxy_buf, content_length
+        );
+ 	}else{
+  		char	id_passwd[512];
+  		string	encstr = "";
+  		memset(id_passwd,0,sizeof(id_passwd));
+		strcpy(id_passwd,pi.http_user_name);
+		strcat(id_passwd,":");
+		strcat(id_passwd,pi.http_user_passwd);
+		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+        http_post_request_header_proxy(
+            request_header, url_hostname, port, proxy_buf, content_length,
+			(char*)encstr.c_str()
+        );
+  	}
     return 0;
 }
 
@@ -589,7 +721,44 @@ bool HTTP_OP_SET::poll() {
                     }
                     break;
                 }
-                if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
+
+                if (htp->hrh.http_status == HTTP_STATUS_PROXY_AUTH_REQ) {
+                    htp->close_socket();
+////  	                if( htp->proxy_auth_done ){
+                        htp->http_op_state = HTTP_STATE_DONE;
+                        htp->http_op_retval = htp->hrh.http_status;
+                        msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): Proxy Authentication Failed\n");
+////                        htp->proxy_auth_done = false;
+                        break;
+////                    }else{
+////                        htp->proxy_auth_done = true;
+////						switch (htp->http_op_type) {
+////							case HTTP_OP_HEAD:
+////								htp->init_head("");
+////								break;
+////							case HTTP_OP_GET:
+////								htp->init_get("", htp->outfile, false);
+////								break;
+////							case HTTP_OP_POST:
+////								htp->init_post("", htp->infile, htp->outfile);
+////								break;
+////							case HTTP_OP_POST2:
+////								htp->init_post2("", htp->req1, htp->infile, htp->file_offset);
+////								break;
+////						}
+////                        retval = htp->open_server();
+////                        break;
+////                     }
+////                }else{
+////                    htp->proxy_auth_done = false;
+////                    if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
+////                        htp->http_op_state = HTTP_STATE_DONE;
+////                        htp->http_op_retval = htp->hrh.http_status;
+////                        break;
+////                    }
+                }
+
+				if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = htp->hrh.http_status;
                     break;

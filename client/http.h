@@ -32,6 +32,7 @@
 #define HTTP_STATUS_MOVED_PERM      301
 #define HTTP_STATUS_MOVED_TEMP      302
 #define HTTP_STATUS_NOT_FOUND       404
+#define HTTP_STATUS_PROXY_AUTH_REQ  407
 
 struct HTTP_REPLY_HEADER {
     int http_status;
@@ -75,6 +76,7 @@ public:
     int http_op_type;
     int http_op_retval;
         // zero if success, or a BOINC error code, or an HTTP status code
+////    bool proxy_auth_done;
 
     int init_head(const char* url);
     int init_get(const char* url, char* outfile, bool del_old_file, double offset=0);
