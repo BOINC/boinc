@@ -98,12 +98,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         x = "---";
     }
 
-    MESSAGE_DESC md;
-    md.project = p;
-    md.priority = priority;
-    md.timestamp = now;
-    md.message = message;
-    message_descs.push_back(md);
+    record_message(p, priority, now, message);
 
     switch (priority) {
     case MSG_ERROR:

@@ -13791,7 +13791,7 @@ David  16 June 2004
 		http.C
 
 Rom    16 June 2004
-    - Fix HTTP:OP bug where on an upload and the server responds with a 404
+    - Fix HTTP:OP bug where on an upload and the server responds with a 404- 
         not found for the file_upload_handler would cause the client
         to delete the result file.
 
@@ -13801,3 +13801,25 @@ Rom    16 June 2004
 Rom    June 15 2004
     - Tag for 3.09 release, all platforms
       boinc_core_release_3_09
+
+David  16 June 2004
+	- Change how messages are stored in memory in core client
+		- use a list instead of a vector, ordered new to old
+		- max of 1000 messages (MAX_SAVED_MESSAGES)
+		- add seqno to MESSAGE_DESC
+	- change GUI RPC for getting messages.
+		Instead of "offset", has a "seqno" arg.
+		If nonzero, this is the minimum seqno to return
+	- add message-storage logic to Windows client
+	
+
+	client/
+		client_msgs.C,h
+		gui_rpc_server.C
+		main.C
+		win/
+			wingui.cpp
+		lib/
+			boinc_win.h
+	win_build/
+		boinc_guirpc_test.vcproj

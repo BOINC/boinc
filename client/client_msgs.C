@@ -29,6 +29,8 @@
 #include "log_flags.h"
 #include "client_msgs.h"
 
+#define MAX_SAVED_MESSAGES 1000
+
 CLIENT_MSG_LOG log_messages;
 
 const char* CLIENT_MSG_LOG::v_format_kind(int kind) const {
@@ -65,8 +67,7 @@ bool CLIENT_MSG_LOG::v_message_wanted(int kind) const {
     }
 }
 
-
-vector<MESSAGE_DESC> message_descs;
+list<MESSAGE_DESC*> message_descs;
 
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message
@@ -87,4 +88,21 @@ void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
     va_end(ap); // Results are stored in text
 
     show_message(p, buf, priority);
+}
+
+// stash message in memory
+//
+void record_message(PROJECT* p, int priority, int now, char* message) {
+    MESSAGE_DESC* mdp = new MESSAGE_DESC;
+    static int seqno = 1;
+    mdp->project = p;
+    mdp->priority = priority;
+    mdp->timestamp = now;
+    mdp->seqno = seqno++;
+    mdp->message = message;
+    while (message_descs.size() > MAX_SAVED_MESSAGES) {
+        delete message_descs.back();
+        message_descs.pop_back();
+    }
+    message_descs.push_front(mdp);
 }

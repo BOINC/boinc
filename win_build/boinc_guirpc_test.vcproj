@@ -225,9 +225,6 @@
 				RelativePath="..\lib\parse.h">
 			</File>
 			<File
-				RelativePath="..\client\stdafx.h">
-			</File>
-			<File
 				RelativePath="..\lib\util.h">
 			</File>
 		</Filter>

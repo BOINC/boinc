@@ -183,45 +183,38 @@ static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
 // if no offset is given, return last n messages
 //
 void handle_get_messages(char* buf, MIOFILE& fout) {
-    int nmessages=-1, offset=-1, j;
-    unsigned int i;
+    int nmessages=-1, seqno=-1, j;
 
     parse_int(buf, "<nmessages>", nmessages);
-    parse_int(buf, "<offset>", offset);
+    parse_int(buf, "<seqno>", seqno);
     if (nmessages < 0) {
         fout.printf("<error>No nmessages given</error>\n");
         return;
     }
 
-    if (offset > (int)message_descs.size()) {
-        offset = message_descs.size();
-    }
-    if (offset < 0) {
-        offset = message_descs.size()-nmessages;
-        if (offset < 0) {
-            offset = 0;
-        }
-    }
-
     fout.printf("<msgs>\n");
-    j = 0;
-    for (i=offset; i<message_descs.size()&&j<nmessages; i++, j++) {
-        MESSAGE_DESC& md = message_descs[i];
+    list<MESSAGE_DESC*>::const_iterator iter;
+    for (iter=message_descs.begin(), j=0;
+        iter != message_descs.end() && j<nmessages;
+        iter++, j++
+    ) {
+        MESSAGE_DESC* mdp = *iter;
+        if (seqno && mdp->seqno < seqno) break;
         fout.printf(
             "<msg>\n"
-            " <i>%d</i>\n"
             " <pri>%d</pri>\n"
+            " <seqno>%d</seqno>\n"
             " <body>\n%s\n</body>\n"
             " <time>%d</time>\n",
-            i,
-            md.priority,
-            md.message.c_str(),
-            md.timestamp
+            mdp->priority,
+            mdp->seqno,
+            mdp->message.c_str(),
+            mdp->timestamp
         );
-        if (md.project) {
+        if (mdp->project) {
             fout.printf(
                 " <project>%s</project>\n",
-                md.project->get_project_name()
+                mdp->project->get_project_name()
             );
         }
         fout.printf("</msg>\n");
