@@ -26,6 +26,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "error_numbers.h"
 
 typedef enum tag_xml_encoding {
@@ -500,7 +501,7 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements);
  
 template <typename T>
 std::string x_csv_encode(const T *bin, size_t nelements) {
-  std::ostringstream rv();
+  std::ostringstream rv("");
   size_t lastlen=0,i;
   bool ischar=(sizeof(T)==1);
   rv << std::endl << xml_indent(2);
@@ -512,7 +513,7 @@ std::string x_csv_encode(const T *bin, size_t nelements) {
       lastlen=rv.str().size();
     }
   }
-  rv << bin[i] << std::endl << xml_indent(-2);
+  rv << bin[i] << "\n" << xml_indent(-2);
   return rv.str();
 }
 
@@ -766,9 +767,6 @@ std::vector<T> xml_decode_field(const std::string &input, const char *tag) {
    if (!length) {
      length=endt-start;
    }
-   if (length!=(endt-start)) {
-     throw ERR_XML_PARSE;
-   }
    return (xml_decode_string<T>(&(input[start]),length,encoding));
 }
 
@@ -808,6 +806,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.7  2003/10/22 17:43:10  korpela
+// *** empty log message ***
+//
 // Revision 1.6  2003/10/22 15:24:10  korpela
 // *** empty log message ***
 //
