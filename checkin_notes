@@ -5131,9 +5131,9 @@ John Brian	2003/06/30
         ap_graphics.C
 
 
-Karl    2003/06/30
-    - schedulers: improved logging facilities. Use a library for common
-      object files.
+Karl 2003/06/30
+    - schedulers: improved logging facilities.
+    - Use a library for common object files.
     - changed timestamp() to be numeric, similar to ISO 8601
 
     lib/
