@@ -75,7 +75,7 @@ function display_team_page($team) {
     echo "</tr>";
 
     $query = sprintf(
-        "select * from user where teamid = %d",
+        "select * from user where teamid = %d order by expavg_credit desc",
         $team->id
     );
     $result = mysql_query($query);
