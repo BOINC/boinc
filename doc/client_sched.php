@@ -245,6 +245,7 @@ results for project P to avoid starvation.
 Let
 <blockquote>
 ETTRC(RS, k)
+<br>
 [<u>e</u>stimated <u>t</u>ime <u>t</u>o <u>r</u>esult <u>c</u>ount]
 </blockquote>
 
@@ -260,8 +261,8 @@ Let
 <blockquote>
 ETTPRC(P, k) = ETTRC(P.runnable_results, k)
 <br>
-(<u>e</u>stimated <u>t</u>ime <u>t</u>o <u>p</u>roject <u>r</u>esult
-<u>c</u>ount)
+[<u>e</u>stimated <u>t</u>ime <u>t</u>o <u>p</u>roject <u>r</u>esult
+<u>c</u>ount]
 </blockquote>
 
 <p>
@@ -271,7 +272,7 @@ min { ETTPRC(P, min_results(P)-1) } over all P.
 </blockquote>
 
 <p>
-It is time to get work for project P when
+It is time to get work when, for any project P,
 <blockquote>
 ETTPRC(P, min_results(P)-1) < T
 </blockquote>
@@ -347,12 +348,20 @@ Let S = ETTPRC(RS(P), min_results(P)-1).
 <li>
 If S < T
 <ol>
-<li>If S == 0: urgency = NEED_WORK_IMMEDIATELY
-<li>else: urgency = max(urgency, NEED_WORK)
+<li>
+If S == 0: urgency = NEED_WORK_IMMEDIATELY
+<li>
+else: urgency = max(urgency, NEED_WORK)
 </ol>
-<li>P.work_request = max(0, (2T - S) * avg_proc_rate(P))
+<li>
+P.work_request = max(0, (2T - S) * avg_proc_rate(P))
 </ol>
-<li>If urgency == DONT_NEED_WORK: reset P.work_request = 0 for each P
+<li>
+If urgency == DONT_NEED_WORK
+<ol>
+<li>
+For each project P: P.work_request = 0
+</ol>
 <li>
 Return urgency
 </ol>
