@@ -115,7 +115,8 @@ class App_Version {
 }
 
 class Project {
-    var $name;
+    var $short_name;
+    var $long_name;
     var $users;
     var $apps;
     var $app_versions;
@@ -140,9 +141,12 @@ class Project {
     var $start_result_retry;
     var $start_validate;
     var $project_php_file;
+    var $make_work_wu_template;
+    var $make_work_result_template;
 
     function Project() {
-        $this->name = "test";
+        $this->short_name = "test";
+        $this->long_name = "test";
         $this->users = array();
         $this->apps = array();
         $this->app_versions = array();
@@ -181,12 +185,12 @@ class Project {
     function install($scheduler_file = null) {
         $source_dir = $this->source_dir;
         $base_dir = get_env_var("BOINC_PROJECTS_DIR");
-        $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->name;
-        $this->download_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/download";
+        $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->short_name;
+        $this->download_url = get_env_var("BOINC_HTML_URL")."/".$this->short_name."/download";
         $this->upload_url = $cgi_url."/file_upload_handler";
         $this->scheduler_url = $cgi_url."/cgi";
-        $this->project_dir = $base_dir."/".$this->name;
-        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/index.php";
+        $this->project_dir = $base_dir."/".$this->short_name;
+        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->short_name."/index.php";
         PassThru("rm -rf $this->project_dir");
         PassThru("mkdir $this->project_dir");
             // make the CGI writeable in case scheduler writes req/reply files
@@ -209,13 +213,13 @@ class Project {
         //
         $this->user_name = get_env_var("BOINC_USER_NAME");
         if (!$this->db_name)
-            $this->db_name = $this->user_name."_".$this->name;
+            $this->db_name = $this->user_name."_".$this->short_name;
         run_db_script("drop.sql", $this->db_name);
         run_db_script("schema.sql", $this->db_name);
         run_db_script("constraints.sql", $this->db_name);
 
         db_open($this->db_name);
-        db_query("insert into project(name) values('$this->name')");
+        db_query("insert into project(short_name, long_name) values('$this->short_name', '$this->long_name')");
 
         for ($i=0; $i<sizeof($this->users); $i++) {
             $user = $this->users[$i];
@@ -338,7 +342,8 @@ class Project {
             fputs($f, "<start>file_deleter -asynch >> file_deleter.out 2>&1</start>\n");
         }
         if ($this->start_make_work) {
-            fputs($f, "<start>make_work -asynch -result_template $result_template_path -wu_name $work->wu_template >> make_work.out 2>&1</start>\n");
+            $result_template_path = realpath($this->make_work_result_template);
+            fputs($f, "<start>make_work -asynch -result_template $result_template_path -wu_name $this->make_work_wu_template >> make_work.out 2>&1</start>\n");
         }
         if ($this->start_result_retry) {
             fputs($f, "<start>result_retry -asynch >> result_retry.out 2>&1</start>\n");
@@ -374,18 +379,18 @@ class Project {
         $cgi_url = get_env_var("BOINC_CGI_URL");
         $html_dir = get_env_var("BOINC_HTML_DIR");
         $html_url = get_env_var("BOINC_HTML_URL");
-        PassThru("rm -f $cgi_dir/$this->name");
-        PassThru("ln -s $this->project_dir/cgi $cgi_dir/$this->name");
-        PassThru("rm -f $html_dir/$this->name");
-        PassThru("ln -s $this->project_dir/html_user $html_dir/$this->name");
-        $x = "ln -s $this->project_dir/html_ops ".$html_dir."/".$this->name."_admin";
+        PassThru("rm -f $cgi_dir/$this->short_name");
+        PassThru("ln -s $this->project_dir/cgi $cgi_dir/$this->short_name");
+        PassThru("rm -f $html_dir/$this->short_name");
+        PassThru("ln -s $this->project_dir/html_user $html_dir/$this->short_name");
+        $x = "ln -s $this->project_dir/html_ops ".$html_dir."/".$this->short_name."_admin";
         PassThru($x);
 
         // show the URLs for user and admin sites
         //
-        echo "The master URL for project $this->name is $this->master_url\n";
-        $admin_url = $html_url."/".$this->name."/html_ops/index.html";
-        echo "The admin URL for project $this->name is $admin_url\n";
+        echo "The master URL for project $this->long_name is $this->master_url\n";
+        $admin_url = $html_url."/".$this->short_name."/html_ops/index.html";
+        echo "The admin URL for project $this->long_name is $admin_url\n";
     }
     
     // moves the master web page to temp
@@ -615,7 +620,7 @@ class Host {
         echo "creating account files\n";
         for ($i=0; $i<sizeof($this->projects); $i++) {
             $project = $this->projects[$i];
-            $encoded_name = strtr($project->name, "/", "_");
+            $encoded_name = strtr($project->master_url, "/", "_");
             echo "writing $this->host_dir/account_$encoded_name.xml\n";
             $f = fopen($this->host_dir."/account_$encoded_name.xml", "w");
             fputs($f, "<account>\n");

@@ -7,7 +7,8 @@
     include_once("test.inc");
 
     $project = new Project;
-    $project->name = "sah";
+    $project->short_name = "sah";
+    $project->long_name = "SETI@home II";
 
     $platform = new Platform("windows_intelx86", "Windows");
 
@@ -21,7 +22,7 @@
     $core_app_version = new App_Version($core_app);
     $core_app_version->platform = $platform;
     $core_app_version->exec_dir = "../apps";
-    $core_app_version->exec_name = "BOINC_0.13.exe";
+    $core_app_version->exec_name = "BOINC_0.13a.exe";
 
     $project->add_app($app);
     $project->add_app_version($app_version);
@@ -31,6 +32,8 @@
     $project->start_feeder = true;
     $project->start_file_deleter = false;
     $project->start_make_work = true;
+    $project->make_work_wu_template = "pulse_wu";
+    $project->make_work_result_template = "pulse_result";
     $project->start_result_retry = false;
     $project->start_validate = false;
     $project->shmem_key = 0x31415928;
@@ -45,7 +48,6 @@
     array_push($work->input_files, "03au00ab_20575_00000.wu");
     $work->install($project);
 
-    PassThru( "cd /mydisks/a/users/boincadm/html/sah/; ln -s ../download/ ./download");
     $project->start_feeder();
     $project->start_make_work($work);
 ?>

@@ -156,13 +156,13 @@ function print_login_form_aux($next_url) {
     ";
 }
 
-function print_login_form($next_url) {
+function print_login_form() {
     page_head("Please log in");
-    parse_str(getenv("QUERY_STRING"));
     echo "
         <h3>Please log in</h3>
         This function requires that you log in.
     ";
+    $next_url = $_SERVER[REQUEST_URI];
     print_login_form_aux($next_url);
     page_tail();
 }

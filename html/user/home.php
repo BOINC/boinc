@@ -14,6 +14,6 @@
         show_user_page_private($user);
         page_tail();
     } else {
-        print_login_form($_SERVER[REQUEST_URI]);
+        print_login_form();
     }
 ?>

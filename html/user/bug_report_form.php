@@ -47,5 +47,6 @@ echo"
     </td></tr></table>
     </form>
     ";
+page_tail();
 
 ?>
