@@ -107,7 +107,7 @@ CLIENT_STATE::CLIENT_STATE() {
 	executing_as_windows_service = false;
     cpu_sched_last_time = 0;
     cpu_sched_work_done_this_period = 0;
-    must_schedule_cpus = false;
+    must_schedule_cpus = true;
 }
 
 #if 0

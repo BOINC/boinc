@@ -17743,3 +17743,14 @@ Rom    24 Sept 2004
         client_state.C
     clientgui/
         <Numerous Files>
+
+David  24 Sept 2004
+	- support for <non_cpu_intensive/> projects.
+		The flag is parsed from scheduler and stored in state file
+		Non-CPU-intensive projects are treated specially
+		by the CPU scheduler: their results are always scheduled.
+
+	client/
+		client_state.C,h
+		client_types.C
+		cs_apps.C

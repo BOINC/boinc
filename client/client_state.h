@@ -209,6 +209,7 @@ private:
     bool schedule_cpus();
     bool handle_finished_apps();
     void handle_file_xfer_apps();
+    int schedule_result(RESULT*);
 
 // --------------- cs_benchmark.C:
 public:

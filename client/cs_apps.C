@@ -277,45 +277,54 @@ void CLIENT_STATE::assign_results_to_projects() {
     }
 }
 
+// if there's not an active task for the result, make one
+//
+int CLIENT_STATE::schedule_result(RESULT* rp) {
+    ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
+    if (!atp) {
+        atp = new ACTIVE_TASK;
+        atp->init(rp);
+        atp->slot = active_tasks.get_free_slot();
+        get_slot_dir(atp->slot, atp->slot_dir);
+        active_tasks.active_tasks.push_back(atp);
+    }
+    atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
+    return 0;
+}
+
 // Schedule an active task for the project with the largest anticipated debt
 // among those that have a runnable result.
 // Return true iff a task was scheduled.
 //
 bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     PROJECT *best_project = NULL;
-    double best_debt = 0.; // initial value doesn't matter
+    double best_debt = 0;
     bool first = true;
     unsigned int i;
 
     for (i=0; i<projects.size(); i++) {
-        if (!projects[i]->next_runnable_result) continue;
+        PROJECT* p = projects[i];
+        if (!p->next_runnable_result) continue;
+        if (p->non_cpu_intensive) continue;
         if (!input_files_available(projects[i]->next_runnable_result)) {
             report_result_error(
-                *(projects[i]->next_runnable_result), ERR_FILE_MISSING,
+                *(p->next_runnable_result), ERR_FILE_MISSING,
                 "One or more missing files"
             );
-            projects[i]->next_runnable_result = NULL;
+            p->next_runnable_result = NULL;
             continue;
         }
-        if (first || projects[i]->anticipated_debt > best_debt) {
+        if (first || p->anticipated_debt > best_debt) {
             first = false;
-            best_project = projects[i];
-            best_debt = best_project->anticipated_debt;
+            best_project = p;
+            best_debt = p->anticipated_debt;
         }
     }
     if (!best_project) return false;
 
-    ACTIVE_TASK *atp = lookup_active_task_by_result(best_project->next_runnable_result);
-    if (!atp) {
-        atp = new ACTIVE_TASK;
-        atp->init(best_project->next_runnable_result);
-        atp->slot = active_tasks.get_free_slot();
-        get_slot_dir(atp->slot, atp->slot_dir);
-        active_tasks.active_tasks.push_back(atp);
-    }
+    schedule_result(best_project->next_runnable_result);
     best_project->anticipated_debt -= expected_pay_off;
-    best_project->next_runnable_result = false;
-    atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
+    best_project->next_runnable_result = 0;
     return true;
 }
 
@@ -391,7 +400,9 @@ bool CLIENT_STATE::schedule_cpus() {
     assign_results_to_projects();   // see which projects have work
     total_resource_share = 0;
     for (i=0; i<projects.size(); i++) {
-        if (projects[i]->next_runnable_result) {
+        p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->next_runnable_result) {
             total_resource_share += projects[i]->resource_share;
         }
     }
@@ -403,6 +414,7 @@ bool CLIENT_STATE::schedule_cpus() {
     first = true;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
+        if (p->non_cpu_intensive) continue;
         if (!p->next_runnable_result) {
             p->debt = 0;
             p->anticipated_debt = 0;
@@ -417,13 +429,6 @@ bool CLIENT_STATE::schedule_cpus() {
             } else if (p->debt < min_debt) {
                 min_debt = p->debt;
             }
-#if 0
-            if (p->debt < -max_debt) {
-                p->debt = -max_debt;
-            } else if (p->debt > max_debt) {
-                p->debt = max_debt;
-            }
-#endif
         }
         scope_messages.printf(
             "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
@@ -435,6 +440,7 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
+        if (p->non_cpu_intensive) continue;
         if (p->next_runnable_result) {
             p->debt -= min_debt;
             p->anticipated_debt = p->debt;
@@ -448,10 +454,20 @@ bool CLIENT_STATE::schedule_cpus() {
     for (i=0; i<results.size(); i++) {
         results[i]->already_selected = false;
     }
+
     expected_pay_off = cpu_sched_work_done_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
         assign_results_to_projects();
         if (!schedule_largest_debt_project(expected_pay_off)) break;
+    }
+
+    // schedule non CPU intensive tasks
+    //
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->non_cpu_intensive && p->next_runnable_result) {
+            schedule_result(p->next_runnable_result);
+        }
     }
 
     // preempt, start, and resume tasks
