@@ -127,7 +127,7 @@ function split_munged_email_addr($addr, $auth, &$email) {
 //
 function lookup_user_munged_email($email) {
     $pattern = escape_pattern("@".$email."_");
-    $q = "select * from user where email_addr like '$esc_email_addr%'";
+    $q = "select * from user where email_addr like '$pattern%'";
     $result = mysql_query($q);
     $found = false;
     while ($user = mysql_fetch_object($result)) {
