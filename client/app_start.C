@@ -223,7 +223,7 @@ static int setup_file(
 //
 // Current dir is top-level BOINC dir
 //
-// postcondition: ACTIVE_TASK::state is set correctly
+// postcondition: ACTIVE_TASK::task_state is set correctly
 //
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], buf[256], exec_path[256];
@@ -236,7 +236,7 @@ int ACTIVE_TASK::start(bool first_time) {
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
     if (result->aborted_via_gui) {
-        state = PROCESS_ABORTED;
+        task_state = PROCESS_ABORTED;
         return 0;
     }
 
@@ -350,7 +350,7 @@ int ACTIVE_TASK::start(bool first_time) {
         char szError[1024];
         windows_error_string(szError, sizeof(szError));
 
-        state = PROCESS_COULDNT_START;
+        task_state = PROCESS_COULDNT_START;
         gstate.report_result_error(*result, "CreateProcess() failed - %s", szError);
         msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", szError);
         return ERR_EXEC;
@@ -378,7 +378,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     pid = fork();
     if (pid == -1) {
-        state = PROCESS_COULDNT_START;
+        task_state = PROCESS_COULDNT_START;
         gstate.report_result_error(*result, "fork() failed: %s", strerror(errno));
         msg_printf(wup->project, MSG_ERROR, "fork() failed: %s", strerror(errno));
         return ERR_FORK;
@@ -424,7 +424,7 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
 #endif
-    state = PROCESS_EXECUTING;
+    task_state = PROCESS_EXECUTING;
     return 0;
 }
 
@@ -435,7 +435,7 @@ int ACTIVE_TASK::resume_or_start() {
     char* str = "??";
     int retval;
 
-    switch (state) {
+    switch (task_state) {
     case PROCESS_UNINITIALIZED:
         if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
             if (!boinc_file_exists(slot_dir)) {
@@ -449,7 +449,7 @@ int ACTIVE_TASK::resume_or_start() {
             str = "Restarting";
         }
         if (retval) {
-            state = PROCESS_COULDNT_START;
+            task_state = PROCESS_COULDNT_START;
             return retval;
         }
         break;
@@ -461,7 +461,7 @@ int ACTIVE_TASK::resume_or_start() {
                 MSG_ERROR,
                 "ACTIVE_TASK::resume_or_start(): could not unsuspend active_task"
             );
-            state = PROCESS_COULDNT_START;
+            task_state = PROCESS_COULDNT_START;
             return retval;
         }
         str = "Resuming";
@@ -471,7 +471,7 @@ int ACTIVE_TASK::resume_or_start() {
         break;
     default:
         msg_printf(result->project, MSG_ERROR,
-            "resume_or_start(): unexpected process state %d", state
+            "resume_or_start(): unexpected process state %d", task_state
         );
         return 0;
     }

@@ -78,9 +78,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     app_version = NULL;
     pid = 0;
     slot = 0;
-    state = PROCESS_UNINITIALIZED;
+    task_state = PROCESS_UNINITIALIZED;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
-    exit_status = 0;
     signal = 0;
     strcpy(slot_dir, "");
     is_ss_app = false;
@@ -344,7 +343,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "</active_task>\n",
         result->project->master_url,
         result->name,
-        state,
+        task_state,
         app_version->version_num,
         slot,
         scheduler_state,

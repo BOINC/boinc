@@ -88,10 +88,9 @@ public:
     APP_VERSION* app_version;
     PROCESS_ID pid;
     int slot;   // which slot (determines directory)
-    int state;
+    int task_state;
     int scheduler_state;
     int next_scheduler_state; // temp
-    int exit_status;
     int signal;
     double fraction_done;
         // App's estimate of how much of the work unit is done.

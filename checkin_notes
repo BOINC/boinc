@@ -23130,3 +23130,18 @@ David  21 Jan 2005
         cs_account.C
         cs_apps.C
         gui_rpc_server.C
+
+David  21 Jan 2005
+    - rename ACTIVE_TASK::state to task_state
+        (to avoid confusion with RESULT::state)
+    - remove ACTIVE_TASK::exit_status
+        (just use RESULT::exit_status)
+    - when start result aborted via GUI, set its exit status accordingly
+    - CLIENT_STATE::app_finished():
+        don't deal with output files if task was aborted via GUI
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        cs_apps.C

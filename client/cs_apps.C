@@ -80,50 +80,55 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     bool had_error = false;
 
-    if (at.exit_status != 0) {
-        had_error = true;
-    }
+    // scan the output files, check if missing or too big
+    // Don't bother doing this if result was aborted via GUI
 
-    for (i=0; i<rp->output_files.size(); i++) {
-        fip = rp->output_files[i].file_info;
-        get_pathname(fip, path);
-        retval = file_size(path, size);
-        if (retval) {
-            // an output file is unexpectedly absent.
-            //
-            fip->status = retval;
-            had_error = true;
-        } else if (size > fip->max_nbytes) {
-            // Note: this is only checked when the application finishes.
-            // The total disk space is checked while the application is running.
-            //
-            msg_printf(
-                rp->project, MSG_INFO,
-                "Output file %s for result %s exceeds size limit.",
-                fip->name, rp->name
-            );
-            msg_printf(
-                rp->project, MSG_INFO,
-                "File size: %f bytes.  Limit: %f bytes",
-                size, fip->max_nbytes
-            );
+    if (rp->exit_status != ERR_ABORTED_VIA_GUI) {
+        for (i=0; i<rp->output_files.size(); i++) {
+            fip = rp->output_files[i].file_info;
+            get_pathname(fip, path);
+            retval = file_size(path, size);
+            if (retval) {
+                // an output file is unexpectedly absent.
+                //
+                fip->status = retval;
+                had_error = true;
+            } else if (size > fip->max_nbytes) {
+                // Note: this is only checked when the application finishes.
+                // The total disk space is checked while the application is running.
+                //
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "Output file %s for result %s exceeds size limit.",
+                    fip->name, rp->name
+                );
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "File size: %f bytes.  Limit: %f bytes",
+                    size, fip->max_nbytes
+                );
 
-            fip->delete_file();
-            fip->status = ERR_FILE_TOO_BIG;
-            had_error = true;
-        } else {
-            if (!fip->upload_when_present && !fip->sticky) {
-                fip->delete_file();     // sets status to NOT_PRESENT
+                fip->delete_file();
+                fip->status = ERR_FILE_TOO_BIG;
+                had_error = true;
             } else {
-                retval = md5_file(path, fip->md5_cksum, fip->nbytes);
-                if (retval) {
-                    fip->status = retval;
-                    had_error = true;
+                if (!fip->upload_when_present && !fip->sticky) {
+                    fip->delete_file();     // sets status to NOT_PRESENT
                 } else {
-                    fip->status = FILE_PRESENT;
+                    retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+                    if (retval) {
+                        fip->status = retval;
+                        had_error = true;
+                    } else {
+                        fip->status = FILE_PRESENT;
+                    }
                 }
             }
         }
+    }
+
+    if (rp->exit_status != 0) {
+        had_error = true;
     }
 
     if (had_error) {
@@ -165,7 +170,7 @@ bool CLIENT_STATE::handle_finished_apps(double now) {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        switch (atp->state) {
+        switch (atp->task_state) {
         case PROCESS_EXITED:
         case PROCESS_WAS_SIGNALED:
         case PROCESS_EXIT_UNKNOWN:
@@ -176,7 +181,7 @@ bool CLIENT_STATE::handle_finished_apps(double now) {
             );
             scope_messages.printf(
                 "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
-                atp->pid, atp->exit_status
+                atp->pid, atp->result->exit_status
             );
             app_finished(*atp);
             active_tasks.remove(atp);
@@ -262,7 +267,7 @@ void CLIENT_STATE::assign_results_to_projects() {
         );
         assert(next_atp != NULL);
 
-        if ((next_atp->state == PROCESS_UNINITIALIZED && atp->process_exists())
+        if ((next_atp->task_state == PROCESS_UNINITIALIZED && atp->process_exists())
             || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
             && atp->scheduler_state == CPU_SCHED_SCHEDULED)
         ) {

@@ -57,9 +57,12 @@ using std::vector;
 #include "app.h"
 
 bool ACTIVE_TASK::process_exists() {
-    if (state == PROCESS_EXECUTING) return true;
-    if (state == PROCESS_SUSPENDED) return true;
-    if (state == PROCESS_ABORT_PENDING) return true;
+    switch (task_state) {
+    case PROCESS_EXECUTING:
+    case PROCESS_SUSPENDED:
+    case PROCESS_ABORT_PENDING:
+        return true;
+    }
     return false;
 }
 
@@ -151,7 +154,7 @@ bool ACTIVE_TASK::has_task_exited() {
     }
 #endif
     if (exited) {
-        state = PROCESS_EXITED;
+        task_state = PROCESS_EXITED;
     }
     return exited;
 }
@@ -197,11 +200,11 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = checkpoint_cpu_time;
-    if (state == PROCESS_ABORT_PENDING) {
-        state = PROCESS_ABORTED;
+    if (task_state == PROCESS_ABORT_PENDING) {
+        task_state = PROCESS_ABORTED;
+        result->exit_status = ERR_ABORTED_VIA_GUI;
     } else {
-        state = PROCESS_EXITED;
-        exit_status = exit_code;
+        task_state = PROCESS_EXITED;
 
         if (exit_code) {
             char szError[1024];
@@ -226,7 +229,7 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
                 return true;
             }
         }
-        result->exit_status = exit_status;
+        result->exit_status = exit_code;
     }
 
     if (app_client_shm.shm) {
@@ -245,18 +248,18 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = checkpoint_cpu_time;
-    if (state == PROCESS_ABORT_PENDING) {
-        state = PROCESS_ABORTED;
+    if (task_state == PROCESS_ABORT_PENDING) {
+        task_state = PROCESS_ABORTED;
     } else {
         if (WIFEXITED(stat)) {
-            state = PROCESS_EXITED;
-            exit_status = WEXITSTATUS(stat);
+            task_state = PROCESS_EXITED;
+            result->exit_status = WEXITSTATUS(stat);
 
-            if (exit_status) {
+            if (result->exit_status) {
                 gstate.report_result_error(
                     *result,
                     "process exited with code %d (0x%x)",
-                    exit_status, exit_status
+                    result->exit_status, result->exit_status
                 );
             } else {
                 // check for cases where an app exits
@@ -265,7 +268,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                 //
                 if (pending_suspend_via_quit) {
                     pending_suspend_via_quit = false;
-                    state = PROCESS_UNINITIALIZED;
+                    task_state = PROCESS_UNINITIALIZED;
 
                     // destroy shm, since restarting app will re-create it
                     //
@@ -279,16 +282,15 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                     // and arrange for it to get restarted.
                     //
                     scheduler_state = CPU_SCHED_PREEMPTED;
-                    state = PROCESS_UNINITIALIZED;
+                    task_state = PROCESS_UNINITIALIZED;
                     detach_and_destroy_shmem();
                     limbo_message(*this);
                     return true;
                 }
             }
-            result->exit_status = exit_status;
             scope_messages.printf(
                 "ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
-                exit_status
+                result->exit_status
             );
         } else if (WIFSIGNALED(stat)) {
             int got_signal = WTERMSIG(stat);
@@ -303,20 +305,22 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
             case SIGTERM:
             case SIGSTOP:
                 scheduler_state = CPU_SCHED_PREEMPTED;
-                state = PROCESS_UNINITIALIZED;
+                task_state = PROCESS_UNINITIALIZED;
                 limbo_message(*this);
                 return true;
             }
-            exit_status = stat;
-            result->exit_status = exit_status;
-            state = PROCESS_WAS_SIGNALED;
+            result->exit_status = stat;
+            task_state = PROCESS_WAS_SIGNALED;
             signal = got_signal;
             gstate.report_result_error(
                 *result, "process got signal %d", signal
             );
-            scope_messages.printf("ACTIVE_TASK::handle_exited_app(): process got signal %d\n", signal);
+            scope_messages.printf(
+                "ACTIVE_TASK::handle_exited_app(): process got signal %d\n",
+                signal
+            );
         } else {
-            state = PROCESS_EXIT_UNKNOWN;
+            task_state = PROCESS_EXIT_UNKNOWN;
             result->state = PROCESS_EXIT_UNKNOWN;
         }
     }
@@ -517,7 +521,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
-        if (atp->state != PROCESS_EXECUTING) continue;
+        if (atp->task_state != PROCESS_EXECUTING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
         else if (atp->check_max_mem_exceeded()) return true;
         else if (now>last_disk_check_time + gstate.global_prefs.disk_interval) {
@@ -533,11 +537,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // This is done when app has exceeded CPU, disk, or mem limits
 //
 int ACTIVE_TASK::abort_task(char* msg) {
-    if (state == PROCESS_EXECUTING || state == PROCESS_SUSPENDED) {
-        state = PROCESS_ABORT_PENDING;
+    if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
+        task_state = PROCESS_ABORT_PENDING;
         kill_task();
     } else {
-        state = PROCESS_ABORTED;
+        task_state = PROCESS_ABORTED;
     }
     gstate.report_result_error(*result, msg);
     return 0;
@@ -713,7 +717,7 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state != PROCESS_EXECUTING) continue;
+        if (atp->task_state != PROCESS_EXECUTING) continue;
         if (leave_apps_in_memory) {
             atp->suspend();
         } else {
@@ -731,7 +735,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->state == PROCESS_UNINITIALIZED) {
+        if (atp->task_state == PROCESS_UNINITIALIZED) {
             if (atp->start(false)) {
                 msg_printf(
                     atp->wup->project,
@@ -739,7 +743,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
                     "ACTIVE_TASK_SET::unsuspend_all(): could not restart active_task"
                 );
             }
-        } else if (atp->state == PROCESS_SUSPENDED) {
+        } else if (atp->task_state == PROCESS_SUSPENDED) {
             atp->unsuspend();
         }
     }
@@ -753,7 +757,7 @@ bool ACTIVE_TASK_SET::is_task_executing() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state == PROCESS_EXECUTING) {
+        if (atp->task_state == PROCESS_EXECUTING) {
             return true;
         }
     }
@@ -797,7 +801,7 @@ int ACTIVE_TASK::suspend() {
         "<suspend/>",
         app_client_shm.shm->process_control_request
     );
-    state = PROCESS_SUSPENDED;
+    task_state = PROCESS_SUSPENDED;
     return 0;
 }
 
@@ -809,7 +813,7 @@ int ACTIVE_TASK::unsuspend() {
         "<resume/>",
         app_client_shm.shm->process_control_request
     );
-    state = PROCESS_EXECUTING;
+    task_state = PROCESS_EXECUTING;
     return 0;
 }
 
