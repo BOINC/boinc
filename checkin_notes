@@ -8559,3 +8559,10 @@ Karl 2003-12-18
     win_build/
         *.dsp
         *.dsw
+
+Jeff 18 Dec 2003
+    - Surrounded the base64 prototypes in parse.h with an #ifndef _WIN32.  Windows
+      compiles were failing on it.
+
+    lib/
+        parse.h
