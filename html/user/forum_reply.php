@@ -70,45 +70,39 @@ page_tail();
 function show_message_row($thread, $category, $post=NULL) {
     global $logged_in_user;
 
-    echo "
-    <tr class=\"message\" style=\"vertical-align:top\">
-        <td>
-        <a name=\"input\"></a>
-        <p style=\"font-weight:bold\">
-    ";
-
-    echo "
-        Write your message here:
-        </td>
-        <td>
-    ";
+    $x1 = "Message:".html_info().post_warning();
+    $x2 = "";
     if ($post) {
-        echo " reply to <a href=#$post->id>Message ID $post->id</a>:";
+        $x2 .=" reply to <a href=#$post->id>Message ID $post->id</a>:";
     }
     if ($category->is_helpdesk) {
-        echo "<br><b>
+        $x2 .= "<br><b>
             Please use this form ONLY to answer or
             discuss this particular question or problem.
         ";
     }
-    echo "<form action='forum_reply.php?thread=", $thread->id;
+    $x2 .= "<form action=forum_reply.php?thread=$thread->id";
 
     if ($post) {
-        echo "&post=", $post->id;
+        $x2 .= "&post=$post->id";
     }
 
-    echo "' method=post><textarea name=\"content\" rows=\"18\" cols=\"80\">";
-    if ($post) echo quote_text(stripslashes($post->content), 80);
-    if ($logged_in_user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
-    echo "</textarea><p>
-        <input type=\"submit\" value=\"Post reply\">
+    $x2 .= " method=post><textarea name=content rows=18 cols=80>";
+    if ($post) $x2 .= quote_text(stripslashes($post->content), 80);
+    if ($logged_in_user->no_signature_by_default==0){
+        $enable_signature="checked=\"true\"";
+    } else {
+        $enable_signature="";
+    }
+    $x2 .= "</textarea><p>
+        <input type=submit value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
         <input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this reply                                
 
         </form>
     ";
 
-    echo "</td></tr>\n";
+    row2($x1, $x2);
 }
 
 function quote_text($text, $cols) {

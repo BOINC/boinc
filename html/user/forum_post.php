@@ -27,10 +27,7 @@ if ($title && $content) {
         $forumid, $logged_in_user->id, $title, $content, $add_signature
     );
     if (!$threadID) {
-        page_head("Can't create thread");
-        echo "Title is possibly missing";
-        page_tail();
-        exit();
+        error_page("Can't create thread (title may be missing)");
     }
 
     $thread->id=$threadID;
@@ -49,8 +46,8 @@ if ($category->is_helpdesk) {
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
 if ($category->is_helpdesk) {
-    echo "<p>The <b>Questions and problems</b> area is designed to help you
-        get questions answered and problems solved by other users.
+    echo "<p>The <b>Questions and problems</b> area let you
+        get help from other users.
         If you have a question or problem:
         <ul>
         <li>
@@ -64,7 +61,7 @@ if ($category->is_helpdesk) {
         If your question has not already been asked,
         fill out and submit this form.
         </ul>
-        The goal is to prevent questions from being asked repeatedly.
+        This will prevent questions from being asked repeatedly.
     ";
 }
 
@@ -89,7 +86,7 @@ if ($category->is_helpdesk) {
 
 $y = "<input type=text name=title size=62>";
 row2($x, $y);
-$x = "Message".html_info();
+$x = "Message".html_info().post_warning();
 
 if ($category->is_helpdesk) {
     $x .= " If you are having software problems,

@@ -24838,3 +24838,14 @@ David  15 Feb 2005
             team_display.php
             team_quit_form.php
             userw.php
+
+David  15 Feb 2005
+    - User web: add warning telling message-board posters
+        not to be obscene or threatening
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_post.php
+            forum_reply.php
