@@ -92,6 +92,7 @@ public:
     bool user_idle;
     bool suspend_requested;
     bool update_prefs;
+	bool start_saver;
     bool exit_when_idle;
     bool use_http_proxy;
     bool use_socks_proxy;

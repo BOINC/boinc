@@ -100,7 +100,6 @@ int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int) {
 
 void RunSaver( void ) {
 	int BOINC_SS_START_MSG;
-	int BOINC_GFX_MODE_MSG;
 	int oldval;
 	char client_path[256], client_dir[256];
     PROCESS_INFORMATION process_info;
@@ -108,8 +107,8 @@ void RunSaver( void ) {
 	HANDLE boinc_mutex;
 
 	// If BOINC isn't running, then start it up!
-	boinc_mutex = CreateMutex(NULL, false, "BOINC_MUTEX");
-	if(boinc_mutex != 0) {
+	boinc_mutex = CreateMutex(NULL, false, RUN_MUTEX);
+	if(boinc_mutex != NULL && GetLastError() != ERROR_ALREADY_EXISTS) {
 		CloseHandle(boinc_mutex);
 		// Get the path to the client
 		UtilGetRegStr( "ClientPath", client_path );
@@ -123,29 +122,19 @@ void RunSaver( void ) {
 
 		// Start the client in the background
 		oldval = CreateProcess(  client_path,	// path to the client
-						"boinc -min -saver",	// start it in the background
-						NULL,					// no process security attributes
-						NULL,					// no thread security attribute
-						FALSE,					// doesn't inherit handles
-						CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-						NULL,					// same environment
-						client_dir,				// start in the standard client directory
-						&startup_info,
-						&process_info );
+					"boinc -saver",				// start the screensaver
+					NULL, NULL,					// no process, thread security attributes
+					FALSE,						// doesn't inherit handles
+					CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+					NULL,						// same environment
+					client_dir,					// start in the standard client directory
+					&startup_info,
+					&process_info );
 	}
 
-	// Set a flag in the system to indicate that we're in screensaver mode
-	SystemParametersInfo(SPI_SCREENSAVERRUNNING,1,&oldval,0);
+	BOINC_SS_START_MSG = RegisterWindowMessage( START_SS_MSG );
 
-	BOINC_SS_START_MSG = RegisterWindowMessage( "BOINC_SS_START" );
-	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
-
-	PostMessage(HWND_BROADCAST, BOINC_GFX_MODE_MSG, 0, MODE_FULLSCREEN);
-
-	// We should go into a wait state here
-
-	// Unset the system screensaver flag
-	SystemParametersInfo(SPI_SCREENSAVERRUNNING,0,&oldval,0);
+	PostMessage(HWND_BROADCAST, BOINC_SS_START_MSG, 0, 0);
 }
 
 void DoPreviewWindow(HWND hparwnd)

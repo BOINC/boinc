@@ -33,14 +33,18 @@ CMainWindow* g_myWnd = NULL;
 //				otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
-	if(CreateMutex(NULL, false, "BOINC_MUTEX") == 0 || GetLastError() == ERROR_ALREADY_EXISTS) {
-		UINT nShowMsg = RegisterWindowMessage("BOINC_SHOW_MESSAGE");
+	if(CreateMutex(NULL, false, RUN_MUTEX) == 0 || GetLastError() == ERROR_ALREADY_EXISTS) {
+		UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
 		PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
 		return FALSE;
 	}
     m_pMainWnd = new CMainWindow();
 	if(gstate.projects.size() == 0) {
 		((CMainWindow*)m_pMainWnd)->SendMessage(WM_COMMAND, ID_SETTINGS_LOGIN);
+	}
+	if(gstate.start_saver) {
+		UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
+		((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
 	}
     return TRUE;
 }
@@ -101,6 +105,9 @@ CMainWindow::CMainWindow()
     CreateEx(0, strWndClass, WND_TITLE, WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, NULL);
+
+	m_nScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
+	m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
 }
 
 //////////
@@ -904,15 +911,11 @@ void CMainWindow::PostNcDestroy()
 // function:	handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	UINT uShowMsg = RegisterWindowMessage("BOINC_SHOW_MESSAGE");
-	if(uShowMsg == message) {
+	if(m_nShowMsg == message) {
 		ShowWindow(SW_SHOW);
 		SetForegroundWindow();
 		return 0;
-	}
-
-	int nGraphicsMsg = RegisterWindowMessage("BOINC_GFX_MODE");
-	if(nGraphicsMsg == message) {
+	} else if(m_nScreenSaverMsg == message) {
 		m_pSSWnd->SetMode(MODE_FULLSCREEN);
 		return 0;
 	}

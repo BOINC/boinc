@@ -84,6 +84,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(socks_user_name,"");
     strcpy(socks_user_passwd,"");
     suspend_requested = false;
+	start_saver = false;
 #ifdef _WIN32
     time_tests_handle = NULL;
 #endif
@@ -1127,6 +1128,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             giveup_after = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-min")) {
             global_prefs.run_minimized = true;
+        } else if (!strcmp(argv[i], "-saver")) {
+			start_saver = true;
 
         // the above options are private (i.e. not shown by -help)
 

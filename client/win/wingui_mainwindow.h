@@ -64,7 +64,6 @@
 #define XFER_COLS			7
 #define MESSAGE_COLS		3
 
-
 //////////
 // class:		CMyApp
 // parent:		CWinApp
@@ -111,6 +110,8 @@ protected:
 	int						m_nRefreshCount;		// countdown for GUI refreshing
 	UINT					m_nTimerID;				// ID of current GUI timer	
 	CSSWindow*				m_pSSWnd;				// default graphics window
+	UINT					m_nScreenSaverMsg;		// ID of screensaver message
+	UINT					m_nShowMsg;				// ID of show window request message
 
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);
