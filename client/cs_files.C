@@ -102,6 +102,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
+    int retval;
 
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
@@ -115,7 +116,8 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
-            pers_xfers->insert( fip->pers_file_xfer );
+            retval = pers_xfers->insert(fip->pers_file_xfer);
+            //if (retval) gstate.report_project_error( *fip->result, retval, "" );	// *******
             action = true;
         } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
 
@@ -125,7 +127,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
             fip->pers_file_xfer = pfx;
-            pers_xfers->insert(fip->pers_file_xfer);
+            retval = pers_xfers->insert(fip->pers_file_xfer);
             action = true;
         }
     }

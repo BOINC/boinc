@@ -359,7 +359,10 @@ int CLIENT_STATE::parse_state_file() {
                 // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
                 if (fip->pers_file_xfer) {
                     fip->pers_file_xfer->init(fip, fip->upload_when_present);
-                    pers_xfers->insert( fip->pers_file_xfer );
+                    retval = pers_xfers->insert( fip->pers_file_xfer );
+                    if (retval) {
+                        // TODO: What should we do here?
+                    }
                 }
             } else {
                 delete fip;

@@ -53,7 +53,10 @@ int SCHEDULER_OP::init_get_work() {
     else {
         project = gstate.next_project_master_pending();
         if (project) {
-            init_master_fetch(project);
+            if (retval=init_master_fetch(project)) {
+                sprintf(err_msg, "init_master_fetch failed, error %d\n", retval);
+                backoff(project, err_msg);
+            }
         }
     }
 
@@ -83,8 +86,8 @@ int SCHEDULER_OP::init_op_project(double ns) {
     // and just get its master file.
     //
     if (project->scheduler_urls.size() == 0) {
-        init_master_fetch(project);
-        return 0;
+        retval = init_master_fetch(project);
+        return retval;
     }
     url_index = 0;
     retval = gstate.make_scheduler_request(project, ns);
@@ -107,8 +110,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     if (n > RETRY_CAP) n = RETRY_CAP;
     
     // we've hit the limit on master_url fetches
-    if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP)
-    {
+    if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
@@ -132,28 +134,27 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 //
 
 int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
-  if (log_flags.sched_op_debug) {
-    printf(error_msg);
-  }
-  
-  if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP)
-    {
-      project->master_url_fetch_pending = true;
-      set_min_rpc_time(p);
-      return 0;
+    if (log_flags.sched_op_debug) {
+        printf(error_msg);
+    }
+    
+    if (project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
+        project->master_url_fetch_pending = true;
+        set_min_rpc_time(p);
+        return 0;
     } 
-  // if nrpc failures a multiple of master_fetch_period, then  set master_url_fetch_pending and initialize again 
-  if (project->nrpc_failures == MASTER_FETCH_PERIOD) {
-    project->master_url_fetch_pending = true;
-    project->min_rpc_time = 0;
-    project->nrpc_failures = 0;
-    project->master_fetch_failures++;
-  }
-
-  p->nrpc_failures++;
-  set_min_rpc_time(p);
-
-  return 0;
+    // if nrpc failures a multiple of master_fetch_period, then  set master_url_fetch_pending and initialize again 
+    if (project->nrpc_failures == MASTER_FETCH_PERIOD) {
+        project->master_url_fetch_pending = true;
+        project->min_rpc_time = 0;
+        project->nrpc_failures = 0;
+        project->master_fetch_failures++;
+    }
+    
+    p->nrpc_failures++;
+    set_min_rpc_time(p);
+    
+    return 0;
 }
 
 // low-level routine to initiate an RPC
@@ -304,7 +305,8 @@ bool SCHEDULER_OP::poll() {
             }
             project = gstate.next_project_master_pending();
             if (project) {
-                init_master_fetch(project);
+                if (retval = init_master_fetch(project))
+                    backoff(project, "Master file fetch failed\n");
             } else {
                 state = SCHEDULER_OP_STATE_IDLE;
                 if (log_flags.sched_op_debug) {
@@ -387,7 +389,12 @@ bool SCHEDULER_OP::poll() {
         if (scheduler_op_done) {
            project = gstate.next_project_master_pending();
             if (project) {
-                init_master_fetch(project);
+                if (retval = init_master_fetch(project)) {
+                    if (log_flags.sched_op_debug) {
+                        printf("Scheduler op: init_master_fetch failed.\n" );
+                    }
+                    backoff(project, "Scheduler op: init_master_fetch failed.\n" );
+                }
             } else {
                 state = SCHEDULER_OP_STATE_IDLE;
                 if (log_flags.sched_op_debug) {
