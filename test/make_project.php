@@ -7,7 +7,8 @@
     include_once("test.inc");
 
     $project = new Project;
-    $project->name = "project_name_here";
+    $project->short_name = "project_name";
+    $project->long_name = "Your Project";
 
     $platform = new Platform("windows_intelx86", "Windows");
 

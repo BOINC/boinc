@@ -20,7 +20,7 @@
 // add.C - add items to the DB
 //
 // usages:
-// add project -project_name x
+// add project -project_short_name x -project_long_name x
 //      add project
 // add app -app_name x
 //      add application
@@ -57,7 +57,8 @@ int version, retval, nexec_files;
 double nbytes;
 bool signed_exec_files;
 char buf[256], md5_cksum[64];
-char *db_name=0, *db_passwd=0, *app_name=0, *platform_name=0, *project_name=0;
+char *db_name=0, *db_passwd=0, *app_name=0, *platform_name=0;
+char *project_short_name=0, *project_long_name=0;
 char* user_friendly_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
@@ -68,12 +69,13 @@ char *message=0, *message_priority=0;
 void add_project() {
     int retval;
 
-    if (!project_name) {
-        fprintf( stderr, "Project name not specified.\n" );
+    if (!project_short_name || !project_long_name) {
+        fprintf( stderr, "Project name (long or short) not specified.\n" );
         exit(1);
     }
     memset(&project, 0, sizeof(project));
-    strcpy(project.name, project_name);
+    strcpy(project.short_name, project_short_name);
+    strcpy(project.long_name, project_long_name);
     retval = db_project_new(project);
     if (retval) {
         boinc_db_print_error("db_project_new");
@@ -265,9 +267,12 @@ int main(int argc, char** argv) {
             db_name = argv[++i];
         } else if (!strcmp(argv[i], "-db_passwd")) {
             db_passwd = argv[++i];
-        } else if (!strcmp(argv[i], "-project_name")) {
+        } else if (!strcmp(argv[i], "-project_long_name")) {
             i++;
-            project_name = argv[i];
+            project_long_name = argv[i];
+        } else if (!strcmp(argv[i], "-project_short_name")) {
+            i++;
+            project_short_name = argv[i];
         } else if (!strcmp(argv[i], "-app_name")) {
             i++;
             app_name = argv[i];

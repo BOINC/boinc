@@ -146,8 +146,8 @@ function add_user($global_prefs_file) {
     PassThru($cmd);
 }
 
-function add_project($name) {
-    PassThru("../tools/add project -project_name '$name'");
+function add_project($short_name,$long_name) {
+    PassThru("../tools/add project -project_short_name '$short_name' -project_long_name '$long_name'");
 }
 
 function add_platform($platform) {
