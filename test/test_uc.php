@@ -39,7 +39,7 @@
     $work->install($project);
 
     $project->start_feeder();
-    $host->run("-exit_when_idle");
+    $host->run("-exit_when_idle -no_time_test");
     $project->stop();
     $project->validate($app, 2);
 
