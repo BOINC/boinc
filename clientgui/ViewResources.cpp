@@ -67,8 +67,7 @@ CViewResources::CViewResources()
 CViewResources::CViewResources(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, ID_LIST_RESOURCEUTILIZATIONVIEW)
 {
-    m_bProcessingTaskRenderEvent = false;
-    m_bProcessingListRenderEvent = false;
+    m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -145,25 +144,78 @@ void CViewResources::OnListRender(wxTimerEvent &event)
     {
         m_bProcessingListRenderEvent = true;
 
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(NULL != pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(NULL != m_pListPane);
 
-        //wxInt32 iCount = wxGetApp().GetDocument()->GetMessageCount();
-        //if ( iCount != m_iCount )
-        //{
-        //    m_iCount = iCount;
-        //    m_pListPane->SetItemCount(iCount);
-        //}
-        //else
-        //{
-        //    m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
-        //}
+        wxInt32 iCount = pDoc->GetResourceCount();
+        if ( iCount != m_iCount )
+        {
+            m_iCount = iCount;
+            if ( 0 >= iCount )
+                m_pListPane->DeleteAllItems();
+            else
+                m_pListPane->SetItemCount(iCount);
+        }
+        else
+        {
+            if ( 1 <= m_iCacheTo )
+            {
+                wxInt32         iRowIndex        = 0;
+                wxInt32         iColumnIndex     = 0;
+                wxInt32         iColumnTotal     = 0;
+                wxString        strDocumentText  = wxEmptyString;
+                wxString        strListPaneText  = wxEmptyString;
+                bool            bNeedRefreshData = false;
+                wxListItem      liItem;
+
+                liItem.SetMask(wxLIST_MASK_TEXT);
+                iColumnTotal = m_pListPane->GetColumnCount();
+
+                for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
+                {
+                    bNeedRefreshData = false;
+                    liItem.SetId(iRowIndex);
+
+                    for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+                    {
+                        strDocumentText.Empty();
+                        strListPaneText.Empty();
+
+                        switch(iColumnIndex)
+                        {
+                            case COLUMN_PROJECT:
+                                FormatProjectName( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_DISKSPACE:
+                                FormatDiskSpace( iRowIndex, strDocumentText );
+                                break;
+                        }
+
+                        liItem.SetColumn(iColumnIndex);
+                        m_pListPane->GetItem(liItem);
+                        strListPaneText = liItem.GetText();
+
+                        if ( !strDocumentText.IsSameAs(strListPaneText) )
+                            bNeedRefreshData = true;
+                    }
+
+                    if ( bNeedRefreshData )
+                    {
+                        m_pListPane->RefreshItem( iRowIndex );
+                    }
+                }
+            }
+        }
 
         m_bProcessingListRenderEvent = false;
     }
-    else
-    {
-        event.Skip();
-    }
+
+    m_pListPane->Refresh();
+
+    event.Skip();
 }
 
 
@@ -193,7 +245,23 @@ void CViewResources::OnListDeselected ( wxListEvent& event )
 
 wxString CViewResources::OnListGetItemText( long item, long column ) const
 {
-    wxString strBuffer;
+    wxString       strBuffer = wxEmptyString;
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    switch(column)
+    {
+        case COLUMN_PROJECT:
+            if (item == m_iCacheFrom) pDoc->CachedStateLock();
+            FormatProjectName( item, strBuffer );
+            break;
+        case COLUMN_DISKSPACE:
+            FormatDiskSpace( item, strBuffer );
+            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
+            break;
+    }
     return strBuffer;
 }
 
@@ -207,12 +275,11 @@ void CViewResources::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
     if ( link.GetHref() == wxT(SECTION_TASK) )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
-
-    if ( link.GetHref() == wxT(SECTION_TIPS) )
+    else if ( link.GetHref() == wxT(SECTION_TIPS) )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
-
     UpdateSelection();
+    m_pListPane->Refresh();
 }
 
 
@@ -294,5 +361,61 @@ void CViewResources::UpdateTaskPane()
     m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
+}
+
+
+wxInt32 CViewResources::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetResourceProjectName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewResources::FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const
+{
+    float          fBuffer = 0;
+    double         xTera = 1099511627776.0;
+    double         xGiga = 1073741824.0;
+    double         xMega = 1048576.0;
+    double         xKilo = 1024.0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetResourceDiskspace( item, fBuffer );
+
+    if      ( fBuffer >= xTera )
+    {
+        strBuffer.Printf( wxT("%0.2f TB"), fBuffer/xTera);
+    }
+    else if ( fBuffer >= xGiga )
+    {
+        strBuffer.Printf( wxT("%0.2f GB"), fBuffer/xGiga);
+    }
+    else if ( fBuffer >= xMega )
+    {
+        strBuffer.Printf( wxT("%0.2f MB"), fBuffer/xMega);
+    }
+    else if ( fBuffer >= xKilo )
+    {
+        strBuffer.Printf( wxT("%0.2f KB"), fBuffer/xKilo);
+    }
+    else
+    {
+        strBuffer.Printf( wxT("%0.0f bytes"), fBuffer);
+    }
+
+    return 0;
 }
 

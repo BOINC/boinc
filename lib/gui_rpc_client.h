@@ -54,6 +54,7 @@ public:
     double user_expavg_credit;
     double host_total_credit;      // as reported by server
     double host_expavg_credit;     // as reported by server
+    double disk_usage;
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
     int master_fetch_failures;

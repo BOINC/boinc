@@ -124,6 +124,7 @@ public:
     // Work Tab
     //
 private:
+
     RESULTS                     results;
 
     wxInt32                     CachedResultsStatusUpdate();
@@ -198,6 +199,22 @@ public:
 
     wxInt32                     TransferRetryNow( wxInt32 iIndex );
     wxInt32                     TransferAbort( wxInt32 iIndex );
+
+
+    //
+    // Resources Tab
+    //
+private:
+
+    PROJECTS                    resource_status;
+
+    wxInt32                     CachedResourceStatusUpdate();
+
+public:
+
+    wxInt32                     GetResourceCount();
+    wxInt32                     GetResourceProjectName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetResourceDiskspace( wxInt32 iIndex, float& fBuffer );
 
 };
 

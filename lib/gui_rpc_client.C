@@ -88,6 +88,7 @@ int PROJECT::parse(MIOFILE& in) {
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        else if (parse_double(buf, "<disk_usage>", disk_usage)) continue;
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_int(buf, "<min_rpc_time>", min_rpc_time)) continue;
@@ -157,6 +158,7 @@ void PROJECT::clear() {
     user_expavg_credit = 0.0;
     host_total_credit = 0.0;
     host_expavg_credit = 0.0;
+    disk_usage = 0.0;
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
@@ -1091,7 +1093,7 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
 
     p.clear();
 
-    retval = rpc.do_rpc("<get_file_transfers/>\n");
+    retval = rpc.do_rpc("<get_disk_usage/>\n");
     if (retval) return retval;
 
     while (rpc.fin.fgets(buf, 256)) {

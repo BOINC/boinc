@@ -1226,3 +1226,67 @@ wxInt32 CMainDocument::TransferAbort( wxInt32 iIndex )
     return iRetVal;
 }
 
+
+wxInt32 CMainDocument::CachedResourceStatusUpdate()
+{
+    wxInt32 retval = 0;
+
+    retval = rpc.get_disk_usage(resource_status);
+    if (retval)
+    {
+        wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", retval);
+        resource_status.clear();
+    }
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::GetResourceCount()
+{
+    wxInt32 iCount = 0;
+
+    CachedStateUpdate();
+    CachedResourceStatusUpdate();
+
+    if ( !resource_status.projects.empty() )
+        iCount = resource_status.projects.size();
+
+    return iCount;
+}
+
+
+wxInt32 CMainDocument::GetResourceProjectName( wxInt32 iIndex, wxString& strBuffer )
+{
+    PROJECT* pProject = NULL;
+    PROJECT* pStateProject = NULL;
+
+    if ( !resource_status.projects.empty() )
+        pProject = resource_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+    {
+        pStateProject = state.lookup_project( pProject->master_url );
+        if ( NULL != pStateProject )
+        {
+            strBuffer = pStateProject->project_name.c_str();
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetResourceDiskspace( wxInt32 iIndex, float& fBuffer )
+{
+    PROJECT* pProject = NULL;
+
+    if ( !resource_status.projects.empty() )
+        pProject = resource_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+        fBuffer = pProject->disk_usage;
+
+    return 0;
+}
+

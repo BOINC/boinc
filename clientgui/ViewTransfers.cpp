@@ -166,9 +166,13 @@ void CViewTransfers::OnListRender(wxTimerEvent &event)
     {
         m_bProcessingListRenderEvent = true;
 
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(NULL != pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(NULL != m_pListPane);
 
-        wxInt32 iCount = wxGetApp().GetDocument()->GetTransferCount();
+        wxInt32 iCount = pDoc->GetTransferCount();
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;

@@ -65,6 +65,9 @@ private:
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
 
+    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const;
+
 };
 
 
