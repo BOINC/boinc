@@ -28,6 +28,7 @@
 //
 // The return for this information request looks like
 //
+// <status>0</status>
 // <nbytes>1234</nbytes>
 //
 // Where nbytes will be 0 if the file doesn't exist
@@ -164,8 +165,10 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             sprintf( path, "%s/%s", BOINC_UPLOAD_DIR, file_name );
             retval = stat( path, &sbuf );
             if (retval && errno != ENOENT) print_status( -1, "cannot open file" );
-            else if (retval) printf("Content-type: text/plain\n\n<nbytes>0</nbytes>\n");
-            else printf("Content-type: text/plain\n\n<nbytes>%d</nbytes>\n", (int)sbuf.st_size);
+            else if (retval) printf("Content-type: text/plain\n\n<nbytes>0</nbytes>\n"
+                                    "<status>0</status>\n");
+            else printf("Content-type: text/plain\n\n<nbytes>%d</nbytes>\n"
+                        "<status>0</status>\n", (int)sbuf.st_size);
             exit(0);
         }
         else if (parse_double(buf, "<offset>", offset)) continue;

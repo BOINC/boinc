@@ -92,7 +92,7 @@ bool CLIENT_STATE::start_file_xfers() {
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         pfx = fip->pers_file_xfer;
-        if (!fip->generated_locally && !fip->file_present && !pfx) {
+        if (!fip->generated_locally && fip->status == FILE_NOT_PRESENT && !pfx) {
             // Set up the persistent file transfer object.  This will start
             // the download when there is available bandwidth
             //
@@ -102,7 +102,7 @@ bool CLIENT_STATE::start_file_xfers() {
             // Pop PERS_FILE_XFER onto pers_file_xfer stack
             if (fip->pers_file_xfer) pers_xfers->insert( fip->pers_file_xfer );
             action = true;
-        } else if ( fip->upload_when_present && fip->file_present && !fip->uploaded && !pfx ) {
+        } else if ( fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded && !pfx ) {
             // Set up the persistent file transfer object.  This will start
             // the upload when there is available bandwidth
             //

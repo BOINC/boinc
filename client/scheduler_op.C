@@ -369,12 +369,16 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     code_sign_key_signature = 0;
 
     p = fgets(buf, 256, in);
-    if (!match_tag(buf, "<scheduler_reply>")) {
+    // First part of content should either be tag (HTTP 1.0) or 
+    // hex length of response (HTTP 1.1)
+    if (!match_tag(buf, "<scheduler_reply>") && !sscanf(buf,"%x",&retval)) {
         fprintf(stderr, "SCHEDULER_REPLY::parse(): bad first tag %s\n", buf);
         return ERR_XML_PARSE;
     }
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</scheduler_reply>")) {
+        if (match_tag(buf, "<scheduler_reply>")) {
+            // Do nothing
+        } else if (match_tag(buf, "</scheduler_reply>")) {
             return 0;
         } else if (parse_int(buf, "<hostid>", hostid)) {
             continue;

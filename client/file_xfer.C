@@ -21,6 +21,7 @@
 
 #include "util.h"
 #include "file_names.h"
+#include "filesys.h"
 #include "log_flags.h"
 #include "file_xfer.h"
 #include "error_numbers.h"
@@ -44,8 +45,6 @@ FILE_XFER::~FILE_XFER() {
 #if 0
 // Is there any reason to keep this around?
 int FILE_XFER::init_download(char* url, char* outfile) {
-    int file_size;
-
     if(url==NULL) {
         fprintf(stderr, "error: FILE_XFER.init_download: unexpected NULL pointer url\n");
         return ERR_NULL;
@@ -55,9 +54,6 @@ int FILE_XFER::init_download(char* url, char* outfile) {
         return ERR_NULL;
     }
 
-    if (file_size(outfile, &file_size)) {
-        file_size = 0;
-    }
     return HTTP_OP::init_get(url, outfile, file_size);
 }
 
@@ -76,9 +72,14 @@ int FILE_XFER::init_upload(char* url, char* infile) {
 #endif
 
 int FILE_XFER::init_download(FILE_INFO& file_info) {
+    int f_size;
+
     fip = &file_info;
     get_pathname(fip, pathname);
-    return HTTP_OP::init_get(fip->get_url(), pathname, false);
+    if (file_size(pathname, f_size)) {
+        f_size = 0;
+    }
+    return HTTP_OP::init_get(fip->get_url(), pathname, false, f_size);
 }
 
 // for uploads, we need to build a header with xml_signature etc.
@@ -86,23 +87,38 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 // Do this in memory.
 //
 int FILE_XFER::init_upload(FILE_INFO& file_info) {
+    // If upload_offset < 0, we need to query the upload handler
+    // for the offset information
+    // TODO: give priority to URL of unfinished upload if there
+    // are multiple choices
+    //
     fip = &file_info;
     get_pathname(fip, pathname);
-    sprintf(header,
-        "<file_info>\n"
-        "%s"
-        "<xml_signature>\n"
-        "%s"
-        "</xml_signature>\n"
-        "</file_info>\n"
-        "<nbytes>%f</nbytes>\n"
-        "<offset>0</offset>\n"
-        "<data>\n",
-        file_info.signed_xml,
-        file_info.xml_signature,
-        file_info.nbytes
-    );
-    return HTTP_OP::init_post2(fip->get_url(), header, pathname, 0);
+
+    if (file_info.upload_offset < 0) {
+        sprintf(header,
+            "<file_size_req>%s</file_size_req>\n",
+            file_info.name
+        );
+        return HTTP_OP::init_post2(fip->get_url(), header, NULL, 0);
+    } else {
+        sprintf(header,
+            "<file_info>\n"
+            "%s"
+            "<xml_signature>\n"
+            "%s"
+            "</xml_signature>\n"
+            "</file_info>\n"
+            "<nbytes>%f</nbytes>\n"
+            "<offset>%.0f</offset>\n"
+            "<data>\n",
+            file_info.signed_xml,
+            file_info.xml_signature,
+            file_info.nbytes,
+            file_info.upload_offset
+        );
+        return HTTP_OP::init_post2(fip->get_url(), header, pathname, fip->upload_offset);
+    }
 }
 
 // Returns the total time that the file xfer has taken

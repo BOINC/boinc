@@ -91,14 +91,19 @@ struct APP {
     int write(FILE*);
 };
 
+#define FILE_NOT_PRESENT    0
+#define FILE_PRESENT        1
+#define FILE_FAILURE        2
+
 class FILE_INFO {
 public:
     char name[256];
     char md5_cksum[33];
     double max_nbytes;
     double nbytes;
+    double upload_offset;
     bool generated_locally; // file is produced by app
-    bool file_present;
+    int status;
     bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
     bool upload_when_present;
@@ -117,6 +122,7 @@ public:
 
     FILE_INFO();
     ~FILE_INFO();
+    int parse_server_response(char*);
     int parse(FILE*, bool from_server);
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file
@@ -170,16 +176,21 @@ struct WORKUNIT {
     int write(FILE*);
 };
 
+#define RESULT_NEW              0  // New result, files still need to be downloaded
+#define RESULT_FILES_DOWNLOADED 1  // Files are downloaded, result can be computed
+#define RESULT_COMPUTE_DONE     2  // Computation is done, files to be uploaded
+#define RESULT_READY_TO_ACK     3  // Files are uploaded, notify scheduling server
+#define RESULT_SERVER_ACK       4  // Received an ack from server, result is done
+
 struct RESULT {
     char name[256];
     char wu_name[256];
     int report_deadline;
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
-    bool is_compute_done;   // computation finished
-    bool is_server_ack;     // ack received from scheduling server
     double final_cpu_time;
-    int exit_status;
+    int state;             // status of this result
+    int exit_status;        // return value from the application
     char stderr_out[STDERR_MAX_LEN];
     APP* app;
     WORKUNIT* wup;

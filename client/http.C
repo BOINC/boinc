@@ -69,11 +69,7 @@ static void parse_url(char* url, char* host, char* file) {
     strcpy(host, buf);
 }
 
-// Note: HTTP 1.1 keeps connection open.
-// We use 1.0 so we don't have to count bytes.
-//
-
-// Prints an HTTP 1.0 GET request header into buf
+// Prints an HTTP 1.1 GET request header into buf
 //
 static void http_get_request_header(
     char* buf, char* host, char* file, double offset
@@ -92,19 +88,21 @@ static void http_get_request_header(
     }
     if (offset) {
         sprintf(buf,
-            "GET /%s;byte-range %12.0f- HTTP/1.0\015\012"
+            "GET /%s HTTP/1.1\015\012"
             "User-Agent: BOINC client\015\012"
             "Host: %s:80\015\012"
+            "Range: bytes=%.0f-\015\012"
+            "Connection: close\015\012"
             "Accept: */*\015\012"
             "\015\012",
-            file, offset,
-            host
+            file, host, offset
         );
     } else {
         sprintf(buf,
-            "GET /%s HTTP/1.0\015\012"
+            "GET /%s HTTP/1.1\015\012"
             "User-Agent: BOINC client\015\012"
             "Host: %s:80\015\012"
+            "Connection: close\015\012"
             "Accept: */*\015\012"
             "\015\012",
             file,
@@ -113,7 +111,7 @@ static void http_get_request_header(
     }
 }
 
-// Prints an HTTP 1.0 HEAD request header into buf
+// Prints an HTTP 1.1 HEAD request header into buf
 //
 static void http_head_request_header(char* buf, char* host, char* file) {
     if(buf==NULL) {
@@ -126,16 +124,17 @@ static void http_head_request_header(char* buf, char* host, char* file) {
         fprintf(stderr, "error: http_head_request_header: unexpected NULL pointer file\n");
     }
     sprintf(buf,
-        "HEAD /%s HTTP/1.0\015\012"
+        "HEAD /%s HTTP/1.1\015\012"
         "User-Agent: BOINC client\015\012"
         "Host: %s:80\015\012"
+        "Connection: close\015\012"
         "Accept: */*\015\012"
         "\015\012",
         file, host
     );
 }
 
-// Prints an HTTP 1.0 POST request header into buf
+// Prints an HTTP 1.1 POST request header into buf
 //
 static void http_post_request_header(
     char* buf, char* host, char* file, int size
@@ -153,10 +152,11 @@ static void http_post_request_header(
         fprintf(stderr, "error: http_post_request_header: negative size\n");
     }
     sprintf(buf,
-        "POST /%s HTTP/1.0\015\012"
+        "POST /%s HTTP/1.1\015\012"
         "Pragma: no-cache\015\012"
         "Cache-Control: no-cache\015\012"
         "Host: %s:80\015\012"
+        //"Connection: close\015\012"
         "Content-Type: application/octet-stream\015\012"
         "Content-Length: %d\015\012"
         "\015\012",
@@ -187,22 +187,24 @@ void http_put_request_header(
     }
     if (offset) {
         sprintf(buf,
-            "PUT /%s;byte-range %d- HTTP/1.0\015\012"
+            "PUT /%s HTTP/1.1\015\012"
             "Pragma: no-cache\015\012"
             "Cache-Control: no-cache\015\012"
             "Host: %s:80\015\012"
+            "Range: bytes=%d-\015\012"
+            "Connection: close\015\012"
             "Content-Type: application/octet-stream\015\012"
             "Content-Length: %d\015\012"
             "\015\012",
-            file, offset,
-            host, size
+            file, host, offset, size
         );
     } else {
         sprintf(buf,
-            "PUT /%s HTTP/1.0\015\012"
+            "PUT /%s HTTP/1.1\015\012"
             "Pragma: no-cache\015\012"
             "Cache-Control: no-cache\015\012"
             "Host: %s:80\015\012"
+            "Connection: close\015\012"
             "Content-Type: application/octet-stream\015\012"
             "Content-Length: %d\015\012"
             "\015\012",
@@ -384,10 +386,6 @@ int HTTP_OP::init_post2(
 	fprintf(stderr, "error: HTTP_OP.init_post2: unexpected NULL pointer r1\n");
         return ERR_NULL;
     }
-    if(in==NULL) {
-        fprintf(stderr, "error: HTTP_OP.init_post2: unexpected NULL pointer in\n");
-        return ERR_NULL;
-    }
     if(offset<0) {
         fprintf(stderr, "error: HTTP_OP.init_post2: negative offset\n");
         return ERR_NEG;
@@ -395,11 +393,13 @@ int HTTP_OP::init_post2(
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     req1 = r1;
-    strcpy(infile, in);
-    file_offset = offset;
-    retval = file_size(infile, content_length);
-    if (retval) return retval;
-    content_length -= (int)offset;
+    if (in) {
+        strcpy(infile, in);
+        file_offset = offset;
+        retval = file_size(infile, content_length);
+        if (retval) return retval;
+        content_length -= (int)offset;
+    }
     content_length += strlen(req1);
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
@@ -517,17 +517,24 @@ bool HTTP_OP_SET::poll() {
                 action = true;
                 n = send(htp->socket, htp->req1, strlen(htp->req1), 0);
                 htp->http_op_state = HTTP_STATE_REQUEST_BODY;
-                htp->file = fopen(htp->infile, "r");
-                if (!htp->file) {
-                    fprintf(stderr, "HTTP_OP: no input file %s\n", htp->infile);
+                // If there's a file we also want to send, then start transferring
+                // it, otherwise, go on to the next step
+                if (htp->infile && strlen(htp->infile) > 0) {
+                    htp->file = fopen(htp->infile, "r");
+                    if (!htp->file) {
+                        fprintf(stderr, "HTTP_OP: no input2 file %s\n", htp->infile);
+                        htp->io_done = true;
+                        htp->http_op_retval = ERR_FOPEN;
+                        htp->http_op_state = HTTP_STATE_DONE;
+                        break;
+                    }
+                    fseek(htp->file, (long)htp->file_offset, SEEK_SET);
+                    htp->do_file_io = true;
+                } else {
                     htp->io_done = true;
-                    htp->http_op_retval = ERR_FOPEN;
-                    htp->http_op_state = HTTP_STATE_DONE;
-                    break;
+                    htp->do_file_io = false;
                 }
-                fseek(htp->file, (long)htp->file_offset, SEEK_SET);
                 htp->io_ready = false;
-                htp->do_file_io = true;
             }
             break;
         case HTTP_STATE_REQUEST_BODY:
@@ -551,7 +558,6 @@ bool HTTP_OP_SET::poll() {
                 read_http_reply_header(htp->socket, htp->hrh);
                 // TODO: handle all kinds of redirects here
                 if (htp->hrh.status == 301 || htp->hrh.status == 302) {
-                    fprintf( stderr, "Redirect to %s\n", htp->hrh.redirect_location );
                     // Close the old socket
                     htp->close_socket();
                     switch (htp->http_op_type) {
@@ -567,7 +573,7 @@ bool HTTP_OP_SET::poll() {
                             break;
                         case HTTP_OP_POST2:
                             // TODO: Change offset to correct value
-                            htp->init_post2( htp->hrh.redirect_location, htp->req1, htp->infile,0 );
+                            htp->init_post2( htp->hrh.redirect_location, htp->req1, htp->infile, 0 );
                             break;
                     }
                     // Open connection to the redirected server
@@ -593,7 +599,7 @@ bool HTTP_OP_SET::poll() {
                     // Append to a file if it already exists, otherwise
                     // create a new one.  init_get should have already
                     // deleted the file if necessary
-                    htp->file = fopen(htp->outfile, "w");
+                    htp->file = fopen(htp->outfile, "a");
                     if (!htp->file) {
                         fprintf(stderr,
                             "HTTP_OP: can't open output file %s\n",
@@ -623,6 +629,7 @@ bool HTTP_OP_SET::poll() {
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST2:
                     read_reply(htp->socket, htp->req1, 256);
+                    // parse reply here?
                     break;
                 default:
                     action = true;

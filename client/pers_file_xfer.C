@@ -110,16 +110,31 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                             fip->get_url(), fxp->file_xfer_retval );
                 }
                 if (fip->generated_locally) {
-                    // If the file was generated locally (for upload), update stats
-                    // and delete the local copy of the file if needed
-                    //
-                    gstate.update_net_stats(true, fip->nbytes, fxp->elapsed_time());
+                    // If this was a file size query, redo the transfer with
+                    // the information
+                    if (fip->upload_offset<0) {
+                        // Parse the server's response
+                        // TODO: handle error response
+                        fip->parse_server_response( fxp->req1 );
 
-                    // file has been uploaded - delete if not sticky
-                    if (!fip->sticky) {
-                        fip->delete_file();
+                        // Reset the file transfer so we start the actual transfer
+                        fxp = NULL;
+                    } else {
+                        // Parse the server's response
+                        // TODO: handle error response
+                        fip->parse_server_response( fxp->req1 );
+
+                        // If the file was generated locally (for upload), update stats
+                        // and delete the local copy of the file if needed
+                        //
+                        gstate.update_net_stats(true, fip->nbytes, fxp->elapsed_time());
+
+                        // file has been uploaded - delete if not sticky
+                        if (!fip->sticky) {
+                            fip->delete_file();
+                        }
+                        fip->uploaded = true;
                     }
-                    fip->uploaded = true;
                 } else {
                     // Otherwise we downloaded the file.  Update stats, verify
                     // the file with RSA or MD5, and change permissions
@@ -144,24 +159,33 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                             retval = chmod(pathname, S_IREAD|S_IWRITE);
 #endif
                         }
-                        fip->file_present = true;
+                        fip->status = FILE_PRESENT;
                     }
                 }
                 xfer_done = true;
                 pers_xfer_retval = 0;
             } else {
                 // file xfer failed.
-                // Cycle to the next URL to try
-                fip->current_url = (fip->current_url + 1)%fip->urls.size();
+                // If it was a bad range request, delete the file and start over
+                if (fxp->file_xfer_retval == 416) {
+                    fip->delete_file();
+                    // TODO: remove fxp from file_xfer_set here and at other
+                    // necessary places
+                    fxp = NULL;
+                } else {
+                    // Cycle to the next URL to try
+                    fip->current_url = (fip->current_url + 1)%fip->urls.size();
 
-                // If we reach the URL that we started at, then we have tried all
-                // servers without success
-                if( fip->current_url == fip->start_url ) {
-                    nretry++;
-                    exp_backoff = exp(((double)rand()/(double)RAND_MAX)*nretry);
-                    // Do an exponential backoff of e^nretry seconds, keeping within the bounds
-                    // of PERS_RETRY_DELAY_MIN and PERS_RETRY_DELAY_MAX
-                    next_request_time = now+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
+                    // If we reach the URL that we started at, then we have tried all
+                    // servers without success
+                    if( fip->current_url == fip->start_url ) {
+                        nretry++;
+                        exp_backoff = exp(((double)rand()/(double)RAND_MAX)*nretry);
+                        // Do an exponential backoff of e^nretry seconds, keeping
+                        // within the bounds of PERS_RETRY_DELAY_MIN and
+                        // PERS_RETRY_DELAY_MAX
+                        next_request_time = now+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
+                    }
                 }
                 
                 // See if it's time to give up on the persistent file xfer

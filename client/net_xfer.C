@@ -308,26 +308,26 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 #else
     n = read(socket, buf, blocksize);
 #endif
-        if (log_flags.net_xfer_debug) {
-            printf("read %d bytes from socket %d\n", n, socket);
-        }
-	if (n == 0) {
-	    io_done = true;
-            want_download = false;
-	    goto done;
-	} else if (n < 0) {
-	    io_done = true;
-	    error = ERR_READ;
-	    goto done;
-	} else {
-            nbytes_transferred += n;
-	    m = fwrite(buf, 1, n, file);
-	    if (n != m) {
-		io_done = true;
-		error = ERR_FWRITE;
-		goto done;
-	    }
+    if (log_flags.net_xfer_debug) {
+        printf("read %d bytes from socket %d\n", n, socket);
+    }
+    if (n == 0) {
+        io_done = true;
+        want_download = false;
+        goto done;
+    } else if (n < 0) {
+        io_done = true;
+        error = ERR_READ;
+        goto done;
+    } else {
+        nbytes_transferred += n;
+        m = fwrite(buf, 1, n, file);
+        if (n != m) {
+            io_done = true;
+            error = ERR_FWRITE;
+            goto done;
 	}
+    }
     } else if (want_upload) {
 	m = fread(buf, 1, blocksize, file);
         if (m == 0) {

@@ -228,6 +228,16 @@ FILE_INFO::FILE_INFO() {
 FILE_INFO::~FILE_INFO() {
 }
 
+int FILE_INFO::parse_server_response(char *buf) {
+    int status = -1;
+    
+    parse_double(buf, "<nbytes>", upload_offset);
+    parse_int(buf, "<status>", status);
+    // TODO: decide what to do with error string
+    //if (!parse_str(buf, "<error>", upload_offset) ) return -1;
+
+    return status;
+}
 // If from server, make an exact copy of everything
 // except the start/end tags and the <xml_signature> element.
 //
@@ -244,8 +254,9 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     strcpy(md5_cksum, "");
     max_nbytes = 0;
     nbytes = 0;
+    upload_offset = -1;
     generated_locally = false;
-    file_present = false;
+    status = FILE_NOT_PRESENT;
     executable = false;
     uploaded = false;
     upload_when_present = false;
@@ -286,7 +297,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
         else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
-        else if (match_tag(buf, "<file_present/>")) file_present = true;
+        else if (parse_int(buf, "<status>", status)) continue;
         else if (match_tag(buf, "<executable/>")) executable = true;
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
@@ -328,7 +339,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
     );
     if (!to_server) {
         if (generated_locally) fprintf(out, "    <generated_locally/>\n");
-        if (file_present) fprintf(out, "    <file_present/>\n");
+        fprintf(out, "    <status>%d</status>\n", status);
         if (executable) fprintf(out, "    <executable/>\n");
         if (uploaded) fprintf(out, "    <uploaded/>\n");
         if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
@@ -547,8 +558,7 @@ void RESULT::clear() {
     report_deadline = 0;
     output_files.clear();
     is_active = false;
-    is_compute_done = false;
-    is_server_ack = false;
+    state = RESULT_NEW;
     final_cpu_time = 0;
     exit_status = 0;
     strcpy(stderr_out, "");
@@ -602,6 +612,7 @@ int RESULT::parse_state(FILE* in) {
         }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>" )) {
             while (fgets(buf, 256, in)) {
                 if (match_tag(buf, "</stderr_out>")) break;
@@ -645,8 +656,10 @@ int RESULT::write(FILE* out, bool to_server) {
     }
     if (!to_server) {
         fprintf(out,
+            "    <state>%d</state>\n"
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%d</report_deadline>\n",
+            state,
             wu_name,
             report_deadline
         );
@@ -665,9 +678,9 @@ int RESULT::write(FILE* out, bool to_server) {
     return 0;
 }
 
-// this is called only after is_compute_done is true.
-// returns true if the result and it's associated files
-// were successfully uploaded
+// this is called only after the result state reaches
+// COMPUTE_DONE is true.  Returns true if the result
+// and it's associated files were successfully uploaded
 //
 bool RESULT::is_upload_done() {
     unsigned int i;

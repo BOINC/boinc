@@ -63,7 +63,7 @@ double CLIENT_STATE::current_water_days() {
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->is_compute_done) continue;
+        if (rp->state > RESULT_COMPUTE_DONE) continue;
         // TODO: subtract time already finished for WUs in progress
         seconds_remaining += rp->wup->seconds_to_complete;
     }
@@ -244,10 +244,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     host_info.write(f);
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->project == p && !rp->is_server_ack) {
-            if (rp->is_upload_done()) {
-                rp->write(f, true);
-            }
+        if (rp->project == p && rp->state == RESULT_READY_TO_ACK) {
+            rp->write(f, true);
         }
     }
     fprintf(f, "</scheduler_request>\n");
@@ -265,7 +263,9 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
-        if (r->is_compute_done && r->is_upload_done() && !r->is_server_ack) {
+        // If we've completed computation but haven't finished reporting the
+        // results to the server, return the project for this result
+        if (r->state == RESULT_READY_TO_ACK) {
             if (r->project->min_rpc_time < now) {
                 return r->project;
             }
@@ -561,6 +561,7 @@ void CLIENT_STATE::handle_scheduler_reply(
             *rp = sr.results[i];
             retval = link_result(project, rp);
             if (!retval) results.push_back(rp);
+            rp->state = RESULT_NEW;
         }
     }
 
@@ -572,7 +573,7 @@ void CLIENT_STATE::handle_scheduler_reply(
             printf("got ack for result %s\n", sr.result_acks[i].name);
         }
         if (rp) {
-            rp->is_server_ack = true;
+            rp->state = RESULT_SERVER_ACK;
         } else {
             fprintf(stderr,
                 "ERROR: got ack for result %s, can't find\n",

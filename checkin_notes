@@ -1569,3 +1569,32 @@ Barry        August 12, 2002
 
     html_user/
         index.php
+
+Eric Heien   August 12, 2002
+    - Added concept of result state.  This replaces the old boolean
+      flags and represents what phase of the computation pipeline
+      each result is currently at (downloading, computing, uploading,
+      etc).
+    - Added file upload/download resumption.  For downloads, this
+      involves checking how big the local file is, then asking
+      the server for the remainder of it.  For uploads, this
+      involves asking the file_upload_handler how much of a certain
+      file it already has, then sending the remainder of it.
+      Both ul and dl resumption need to be thoroughly tested.
+
+    client/
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        http.C
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+    sched/
+        file_upload_handler.C
+

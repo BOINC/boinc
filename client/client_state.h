@@ -100,6 +100,7 @@ private:
     bool start_file_xfers();
     void print_counts();
     bool garbage_collect();
+    bool update_results();
 
     // stuff related to scheduler RPCs
     //

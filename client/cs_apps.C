@@ -38,7 +38,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     for (i=0; i<rp->output_files.size(); i++) {
         fip = rp->output_files[i].file_info;
-        fip->file_present = true;
+        fip->status = FILE_PRESENT;
         if (!fip->upload_when_present && !fip->sticky) {
             fip->delete_file();
         } else {
@@ -48,7 +48,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     }
 
     at.result->is_active = false;
-    at.result->is_compute_done = true;
+    at.result->state = RESULT_COMPUTE_DONE;
     update_avg_cpu(at.result->project);
     at.result->project->exp_avg_cpu += at.result->final_cpu_time;
     return 0;
@@ -95,12 +95,12 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     avp = wup->avp;
     for (i=0; i<avp->app_files.size(); i++) {
         fip = avp->app_files[i].file_info;
-        if (!fip->file_present) return false;
+        if (fip->status != FILE_PRESENT) return false;
     }
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
-        if (!fip->file_present) return false;
+        if (fip->status != FILE_PRESENT) return false;
     }
     return true;
 }
@@ -127,7 +127,7 @@ bool CLIENT_STATE::start_apps() {
         // isn't done yet, the application isn't currently computing
         // the result, and all the input files for the result are
         // locally available
-        if (!rp->is_compute_done && !rp->is_active && input_files_available(rp)) {
+        if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active ) {
             if (log_flags.task_debug) {
                 printf("starting application for result %s\n", rp->name);
             }

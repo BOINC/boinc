@@ -193,6 +193,7 @@ bool CLIENT_STATE::do_something() {
         action |= start_apps();
         action |= handle_running_apps();
         action |= start_file_xfers();
+        action |= update_results();
         write_state_file_if_needed();
     }
     if (!action) time_stats.update(true, !activities_suspended);
@@ -244,6 +245,12 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 retval = link_file_info(project, fip);
                 if (!retval) file_infos.push_back(fip);
+                // If the file had a failure before, there's no reason
+                // to start another file transfer
+                if (fip->status == FILE_FAILURE) {
+                    if (fip->pers_file_xfer) delete fip->pers_file_xfer;
+                    fip->pers_file_xfer = NULL;
+                }
                 // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
                 if (fip->pers_file_xfer) {
                     fip->pers_file_xfer->init( fip, fip->upload_when_present );
@@ -276,6 +283,7 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);
+                rp->state = RESULT_NEW;
             } else {
 		fprintf(stderr, "error: link_result failed\n");
                 delete rp;
@@ -643,15 +651,16 @@ bool CLIENT_STATE::garbage_collect() {
     while (pers_iter != pers_xfers->pers_file_xfers.end()) {
         pfxp = *pers_iter;
         if (pfxp->xfer_done) {
-            // TODO: *** Set the exit status of the related result
-            // to ERR_GIVEUP.  The failure will be reported to the
+            // Set the status of the related file info to
+            // FILE_FAILURE.  The failure will be reported to the
             // server and related file infos, results, and workunits
             // will be deleted if necessary
+            if (pfxp->pers_xfer_retval == ERR_GIVEUP) {
+                pfxp->fip->status = FILE_FAILURE;
+            }
 
             pers_iter = pers_xfers->pers_file_xfers.erase(pers_iter);
-            if (pfxp->fip) {
-                pfxp->fip->pers_file_xfer = NULL;
-            }
+            pfxp->fip->pers_file_xfer = NULL;
             delete pfxp;
 
             // Update the client_state file
@@ -668,7 +677,7 @@ bool CLIENT_STATE::garbage_collect() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
-        if (rp->is_server_ack) {
+        if (rp->state == RESULT_SERVER_ACK) {
             if (log_flags.state_debug) printf("deleting result %s\n", rp->name);
             delete rp;
             result_iter = results.erase(result_iter);
@@ -676,7 +685,16 @@ bool CLIENT_STATE::garbage_collect() {
         } else {
             rp->wup->ref_cnt++;
             for (i=0; i<rp->output_files.size(); i++) {
-                rp->output_files[i].file_info->ref_cnt++;
+                // If one of the file infos had a failure, mark the result
+                // as done and report the error.  The result, workunits, and
+                // file infos will be cleaned up after the server is notified
+                if (rp->output_files[i].file_info->status == FILE_FAILURE) {
+                    if (rp->state < RESULT_READY_TO_ACK) {
+                        rp->state = RESULT_READY_TO_ACK;
+                    }
+                } else {
+                    rp->output_files[i].file_info->ref_cnt++;
+                }
             }
             result_iter++;
         }
@@ -723,6 +741,56 @@ bool CLIENT_STATE::garbage_collect() {
 
     // TODO: delete obsolete APP_VERSIONs
 
+    return action;
+}
+
+// update the state of results
+//
+bool CLIENT_STATE::update_results() {
+    RESULT* rp;
+    vector<RESULT*>::iterator result_iter;
+    bool action = false;
+    
+    // delete RESULTs that have been finished and reported;
+    // reference-count files referred to by other results
+    //
+    result_iter = results.begin();
+    while (result_iter != results.end()) {
+        rp = *result_iter;
+        switch (rp->state) {
+            case RESULT_NEW:
+                if (input_files_available(rp)) {
+                    rp->state = RESULT_FILES_DOWNLOADED;
+                    action = true;
+                }
+                break;
+            case RESULT_FILES_DOWNLOADED:
+                // The transition to COMPUTE_DONE is performed
+                // in app_finished()
+                break;
+            case RESULT_COMPUTE_DONE:
+                // Once the computation has been done, check
+                // that the necessary files have been uploaded
+                // before moving on
+                if (rp->is_upload_done()) {
+                    rp->state = RESULT_READY_TO_ACK;
+                    action = true;
+                }
+                break;
+            case RESULT_READY_TO_ACK:
+                // The transition to SERVER_ACK is performed in
+                // handle_scheduler_reply()
+                break;
+            case RESULT_SERVER_ACK:
+                // The result has been received by the scheduling
+                // server.  It will be deleted on the next
+                // garbage collection, which we trigger by
+                // setting action to true
+                action = true;
+                break;
+        }
+        result_iter++;
+    }
     return action;
 }
 
