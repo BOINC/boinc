@@ -16851,3 +16851,7 @@ Rom    31 Aug 2004
     lib/
         error_numbers.h
         shmem.C, .h
+
+Rom    31 Aug 2004
+    - Tag for 4.06 release, all platforms
+      boinc_core_release_4_06
