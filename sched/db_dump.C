@@ -62,6 +62,7 @@
 #include "util.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "parse.h"
 
 #define LOCKFILE "db_dump.out"
 
@@ -388,16 +389,27 @@ void core_versions() {
     while (!platform.enumerate("order by name")) {
         DB_CORE_VERSION core_version;
         char query_buf[256];
-        sprintf(query_buf, "where platformid=%d order by version_num desc");
+        sprintf(query_buf, "where platformid=%d order by version_num desc", platform.id);
         if (!core_version.enumerate(query_buf)) {
+            char url[256] = "";
+            parse_str(core_version.xml_doc, "<url>", url, sizeof(url));
+
             fprintf(f,
                     "   <core_version>\n"
-                    "      <platform id=%d>%s</platform>\n"
+                    "      <id>%d</id>\n"
+                    "      <platform id=%d name=\"%s\">%s</platform>\n"
                     "      <version>%d</version>\n"
+                    "      <create_time>%d</create_time>\n"
                     "      <url>%s</url>\n"
-                    "   </core_version>\n");
+                    "   </core_version>\n",
+                    core_version.id,
+                    platform.id, platform.name, platform.user_friendly_name,
+                    core_version.version_num,
+                    core_version.create_time,
+                    url);
         }
     }
+    fprintf(f, "</core_versions>\n");
 }
 
 int tables_file() {
