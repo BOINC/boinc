@@ -14,7 +14,7 @@ function show_user_stats_private($user) {
     row1("Account statistics");
     row2(PROJECT." member since", time_str($user->create_time));
     row2("Total credit", format_credit($user->total_credit));
-    row2("Pending credit", format_credit(pending_credit($user)));
+    row2("Pending credit", "<a href=pending.php>View</a>");
     row2("Recent average credit", format_credit($user->expavg_credit));
     $team_header = "Team<br><font size=-2><a href=team.php>Change</a></font>";
     if ($user->teamid) {

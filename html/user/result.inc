@@ -37,17 +37,21 @@ function validate_state_str($s) {
     case 0: return "Initial";
     case 1: return "Valid";
     case 2: return "Invalid";
+    case 3: return "Check skipped";
     }
     return "unknown";
 }
 
-function result_table_start($show_wu_link, $show_host_link) {
+function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
     start_table();
     echo "
         <tr>
     ";
+    if ($show_result_link) {
+        echo "<th>Result ID<br><font size=-2>click for details</a></th>\n";
+    }
     if ($show_wu_link) {
-        echo "<th>Work unit</th>\n";
+        echo "<th>Work unit ID<br><font size=-2>click for details</font></th>\n";
     }
     if ($show_host_link) {
         echo "<th>Host</th>\n";
@@ -71,7 +75,9 @@ function result_table_start($show_wu_link, $show_host_link) {
     ";
 }
 
-function show_result_row($result, $show_wu_link, $show_host_link) {
+function show_result_row(
+    $result, $show_wu_link, $show_host_link, $show_result_link
+) {
     $s = time_str($result->sent_time);
     $r = time_str($result->received_time);
     $ss = result_server_state_string($result->server_state);
@@ -80,6 +86,9 @@ function show_result_row($result, $show_wu_link, $show_host_link) {
     echo "
         <tr>
     ";
+    if ($show_result_link) {
+        echo "<td><a href=result.php?resultid=$result->id>$result->id</a></td>\n";
+    }
     if ($show_wu_link) {
         echo "<td><a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a></td>\n";
     }
@@ -103,6 +112,80 @@ function show_result_row($result, $show_wu_link, $show_host_link) {
         <td>$result_granted_credit</td>
         </tr>
     ";
+}
+
+function client_version_string($client_version_num) {
+    if (!$client_version_num) {
+        return '---';
+    } else {
+        return sprintf("%.2f", $client_version_num/100);
+    }
+}
+function exit_status_string($result) {
+    $x = $result->exit_status;
+    if ($x == 0) {
+        $y = parse_element($result->stderr_out, "<exit_status>");
+        if ($y) {
+            $x = (int)$y;
+        }
+    }
+    return sprintf("%d (0x%x)", $x, $x);
+}
+
+function server_state_string($s) {
+    switch($s) {
+    case 1: return "Inactive";
+    case 2: return "Unsent";
+    case 4: return "In Progress";
+    case 5: return "Over";
+    }
+    return "Unknown";
+}
+
+function outcome_string($s) {
+    switch($s) {
+    case 1: return "Success";
+    case 2: return "Couldn't send";
+    case 3: return "Client error";
+    case 4: return "No reply";
+    case 5: return "Didn't need";
+    }
+    return "Unknown";
+}
+
+function client_state_string($s) {
+    switch($s) {
+    case 0: return "New";
+    case 1: return "Downloading";
+    case 2: return "Downloaded";
+    case 3: return "Computing";
+    case 4: return "Uploading";
+    case 5: return "Done";
+    }
+    return "Unknown";
+}
+
+function show_result($result) {
+    start_table();
+    row2("Result ID", $result->id);
+    row2("Name", $result->name);
+    row2("Workunit", "<a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a>");
+    row2("Created", time_str($result->create_time));
+    row2("Sent", time_str($result->sent_time));
+    row2("Received", time_str($result->received_time));
+    row2("Server state", server_state_string($result->server_state));
+    row2("Outcome", outcome_string($result->outcome));
+    row2("Client state", client_state_string($result->client_state));
+    row2("Exit status", exit_status_string($result));
+    row2("Host ID", "<a href=host.php?hostid$result->hostid>$result->hostid</a>");
+    row2("Report deadline", time_str($result->report_deadline));
+    row2("CPU time", $result->cpu_time);
+    row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    row2("Validate state", validate_state_str($result->validate_state));
+    row2("claimed credit", $result->claimed_credit);
+    row2("Granted credit", $result->granted_credit);
+    row2("Client version", client_version_string($result->client_version_num));
+    end_table();
 }
 
 ?>

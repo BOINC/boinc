@@ -6,20 +6,16 @@
 
     db_init();
     $hostid = $_GET["hostid"];
-    $private = $_GET["private"];
     $ipprivate = $_GET["ipprivate"];
-    $result = mysql_query("select * from host where id = $hostid");
-    $host = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $host = lookup_host($hostid);
     if (!$host) {
         echo "Couldn't find computer";
         exit();
     }
-    if ($private) {
-        $user = get_logged_in_user();
-        if (!$user || $user->id != $host->userid) {
-            $private = false;
-        }
+    $private = false;
+    $user = get_logged_in_user();
+    if ($user || $user->id == $host->userid) {
+        $private = true;
     }
 
     page_head("Computer summary", $user);

@@ -24,7 +24,7 @@
 
     $retval = mysql_query("update host set venue='$venue' where id = $hostid");
     if ($retval) {
-        Header("Location: show_host_detail.php?hostid=$hostid&private=1");
+        Header("Location: show_host_detail.php?hostid=$hostid");
     } else {
         db_error_page();
     }

@@ -25,7 +25,7 @@ function show_host($host, $private, $ipprivate) {
             row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
         }
         else { 
-            row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&private=1&ipprivate=1>Show IP address</a>");
+            row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>Show IP address</a>");
         }
         row2("Domain name", $host->domain_name);
         $x = $host->timezone/3600;
@@ -110,7 +110,7 @@ function host_table_start($title, $private, $show_owner) {
     start_table();
     row1($title, 7);
     echo "<tr>";
-    echo "<th>ID<br><font size=-2>Click for more info</font></th>\n";
+    echo "<th>Host ID<br><font size=-2>Click for more info</font></th>\n";
     if ($private) {
         echo "<th>Name</th>\n
         ";
@@ -121,8 +121,8 @@ function host_table_start($title, $private, $show_owner) {
         }
     }
     echo "
-        <th><a href=top_hosts.php?sort_by=expavg_credit>Recent average credit</a></th>
-        <th><a href=top_hosts.php?sort_by=total_credit>Total credit</a></th>
+        <th>Recent average credit</th>
+        <th>Total credit</th>
         <th>CPU type</th>
         <th>Operating system</th>
         <th>Results</th>
@@ -145,18 +145,14 @@ function show_host_row($host, $i, $private, $show_owner) {
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
 
-    echo "<tr>";
+    echo "<tr><td>
+        <a href=show_host_detail.php?hostid=$host->id>$host->id</a>
+        </td>
+    ";
     if ($private) {
-        echo "<td>
-            <a href=show_host_detail.php?hostid=$host->id&private=1>$host->id</a>
-            </td>
-        ";
         echo "<td> $host->domain_name";
     } else {
-        echo "<td>
-            <a href=show_host_detail.php?hostid=$host->id>$host->id</a>
-            </td>
-            <td>$i</td>\n
+        echo "<td>$i</td>\n
         ";
         if ($show_owner) {
             if ($user->show_hosts) {

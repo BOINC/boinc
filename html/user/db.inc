@@ -44,6 +44,16 @@ function lookup_user_id($id) {
     return null;
 }
 
+function lookup_host($id) {
+    $result = mysql_query("select * from host where id='$id'");
+    if ($result) {
+        $host = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $host;
+    }
+    return null;
+}
+
 function lookup_wu($id) {
     $result = mysql_query("select * from workunit where id='$id'");
     if ($result) {

@@ -12,21 +12,33 @@
     $userid = $_GET["userid"];
     $offset = $_GET["offset"];
     if (!$offset) $offset=0;
+
+    $user = get_logged_in_user();
+
     if ($hostid) {
+        $host = lookup_host($hostid);
+        if (!$host || $host->userid != $user->id) {
+            echo "No access";
+            exit();
+        }
         $type = "host";
         $clause = "hostid=$hostid";
     } else {
+        if ($userid != $user->id) {
+            echo "No access";
+            exit();
+        }
         $type = "user";
         $clause = "userid=$userid";
     }
     page_head("Results for $type");
     echo "<h3>Results for $type</h3>\n";
-    result_table_start(true, false);
+    result_table_start(true, false, true);
     $i = 1;
     $query = "select * from result where $clause order by id desc limit $results_per_page offset $offset";
     $result = mysql_query($query);
     while ($res = mysql_fetch_object($result)) {
-        show_result_row($res, true, false);
+        show_result_row($res, true, false, true);
         $i++;
     }
     mysql_free_result($result);

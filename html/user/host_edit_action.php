@@ -57,6 +57,6 @@ function fail($msg) {
     if (!$result) {
         fail("Couldn't delete host");
     }
-    Header("Location: show_host_detail.php?hostid=$targetid&private=1");
+    Header("Location: show_host_detail.php?hostid=$targetid");
 
 ?>

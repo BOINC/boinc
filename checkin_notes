@@ -8928,3 +8928,34 @@ Gary    5 Jan 2004
     - BOINC release 2.17 for windows, linux, solaris, mac os x
       (os x version supports both 10.2 <jaguar> and 10.3 <panther>)
 
+David  6 Jan 2004
+    - When showing a user's posts, break into groups of 10
+    - Don't show pending credit directly in user page.
+        Give a link to a separate page that shows pending results
+        and their claimed credit
+    - When show list of results, add linked ID column allowing user
+        to see details of result (e.g. stderr_out)
+    - removed "private" arg for show_host_detail.php.
+        If the host belongs to logged-in user, show private info
+    - removed alternative sorting options for host lists
+        (there was a bug where a user host list
+        linked to top_hosts.php)
+    - added a couple of "repair" scripts
+
+    html_user/
+        db.inc
+        host.inc
+        host_edit_action.php
+        host_venue_action.php
+        pending.php (new)
+        repair.php (new)
+        result.inc
+        result.php
+        results.php
+        show_host_detail.php
+        user.inc
+        util.inc
+        workunit.php
+        forum/
+            repair.php (new)
+            user_posts.php

@@ -297,6 +297,18 @@ function parse_element($xml, $tag) {
     return $element;
 }
 
+if (!function_exists("file_get_contents")) {
+function file_get_contents($path) {
+    $x = "";
+    $f = fopen($path, "r");
+    if ($f) {
+        while (!feof($f)) $x .= fread($f, 4096);
+        fclose($f);
+    }
+    return $x;
+}
+}
+
 // look for a particular element in the ../config.xml file
 //
 function parse_config($tag, $pathMod='') {
