@@ -4795,9 +4795,15 @@ Karl    2003/06/17
         version.py.in
 
 Tim     June 18, 2003
+    - Windows GUI
+        updated icons
     - project preference
         implemented account mirroring
 
+    client/win/res/
+        icon.ico
+        iconhigh.ico
+        iconsmall.ico
     html_user/
         create_account_action.php
         create_account_form.php
