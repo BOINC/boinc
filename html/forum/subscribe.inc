@@ -21,6 +21,7 @@ function subscribe($thread, $user=null) {
     if (mysql_num_rows($result) > 0) {
         // TODO: Specific "error" page for this case.
         show_result_page("subscribe", true, $thread);
+        exit();
     }
     
     $sql = "INSERT INTO subscriptions SET userid = " . $user->id . ", threadid = " . $thread->id;
@@ -77,22 +78,24 @@ function show_result_page($action, $success, $thread) {
     
 }
 
-function notify_subscribers($thread) {
-    $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $thread->id;
+function notify_subscribers($threadID) {
+    $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $threadID;
     $result = mysql_query($sql);
     
     while ($row = mysql_fetch_assoc($result)) {
-        send_notice_email($row['userid'], $thread);
+        send_notice_email($row['userid'], $threadID);
     }
     
 }
 
-function send_notice_email($userId, $thread) {
+function send_notice_email($userId, $threadID) {
+		$thread = getThread($threadID);
+	
     $result = mysql_query("SELECT * FROM user WHERE id = $userId");
     $row = mysql_fetch_assoc($result);
     
     $title = PROJECT . ": A user has posted to your subscribed thread.";
-    $link = URL_BASE . "forum/thread.php?id=" . $thread->id;
+    $link = URL_BASE . "forum/thread.php?id=" . $threadID;
     $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
         ."To view the updated thread, direct your web browser to the following URL:\n\n$link";
            
