@@ -25,6 +25,8 @@ John Kirby
 <br>
 Eric Korpela
 <br>
+Janus Kristensen
+<br>
 Tim Lan
 <br>
 Oliver Wang

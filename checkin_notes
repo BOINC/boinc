@@ -7949,3 +7949,9 @@ Karl 2003-11-28
 
     client/
         http.C
+
+David  28 Nov 2003
+    - print "expected X, got Y" msg only if md5 computation succeeded
+
+    client/
+        cs_files.C

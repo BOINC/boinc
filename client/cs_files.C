@@ -110,14 +110,19 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
         }
     } else if (strlen(file_info.md5_cksum)) {
         retval = md5_file(pathname, cksum, file_info.nbytes);
-        if (strcmp(cksum, file_info.md5_cksum) || retval) {
+        if (retval) {
             msg_printf(project, MSG_ERROR,
-                "verify_downloaded_file(): %s: MD5 check failed\n",
-                pathname
+                "verify_downloaded_file(): %s: MD5 computation failed: %d\n",
+                pathname, retval
+            );
+            return retval;
+        }
+        if (strcmp(cksum, file_info.md5_cksum)) {
+            msg_printf(project, MSG_ERROR,
+                "verify_downloaded_file(): %s: MD5 check failed\n", pathname
             );
             msg_printf(project, MSG_ERROR,
-                "expected %s, got %s\n",
-                file_info.md5_cksum, cksum
+                "expected %s, got %s\n", file_info.md5_cksum, cksum
             );
             return ERR_MD5_FAILED;
         }

@@ -40,6 +40,10 @@ Information about BOINC is available in the following languages:
 <ul>
     <li><a href=http://boinc.astroseti.org><font size=-2>boinc.astroseti.org</font></a>
 </ul>
+<li> Turkish
+<ul>
+    <li><a href=http://www.turksetiteam.org/boinc/index.html><font size=-2>www.turksetiteam.org</a>
+</ul>
 </ul>
 If you'd like to add a web site to this list, please
 <a href=mailto:davea@ssl.berkeley.edu>contact us</a>.

@@ -25,7 +25,8 @@ require_once("download.inc");
     echo "
         <p>
         <font size=-1>
-        *BOINC is distributed computing software
+        <a href=http://boinc.berkeley.edu>BOINC</a>
+        is distributed computing software
         developed at the University of California by
         the SETI@home project.
         </font>

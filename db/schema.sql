@@ -1,6 +1,7 @@
 /* If you add/change anything, update
    boinc_db.C,h
    and if needed:
+   py/Boinc/database.py
    html_user/
        create_account_action.php
        team_create_action.php
