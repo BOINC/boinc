@@ -93,7 +93,7 @@ extern bool get_matrix_invert(float[16]);
 extern bool get_matrix(double src[16]);
 extern bool get_projection(double src[16]);
 extern bool get_viewport(int view[4]);
-extern void get_2d_positions(float p1,float p2,float p3,
+extern void get_2d_positions(double p1, double p2, double p3,
 	double model[16], double proj[16], int viewport[4], double proj_pos[3]
 );
 
@@ -166,22 +166,23 @@ public:
 
 // ----- STARFIELDS
 //
-#define COS_30 0.8720254037f
-#define XY_HEIGHT 1656.85f
+// stars have their own coord system
+// x = -1..1
+// y = -1..1
+// z = 0..zmax
+// the projection plane is z=1,
+// and the square +- 1/zmax is mapped to the window
+//
 
 struct STAR {
-	float x,y,z,v;
+	double x, y, z;
 };
 
 class STARFIELD {
-	float camera[3];
-	float eye[3];
-	float up[3];
-	float right[3];
-    float speed;
-	float size;
+    double zmax, zmaxinv;
+    double speed;
+	int nstars;
 	void replace_star(int);
-	bool is_visible(int,double[16],double[16],int[4]);
     STAR* stars;
 public:
     STARFIELD();

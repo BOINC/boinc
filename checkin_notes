@@ -12293,3 +12293,29 @@ Karl 2004-04-12
 
 David  May 14 2004
     - various web fixes
+
+David  May 15 2004
+	- small trickle-down fixes
+	client/
+		cs_trickle.C
+		scheduler_op.C
+
+David  May 15 2004
+	- Massive simplification of STARFIELD implementation.
+		Instead of using the same 3D coordinate space as other stuff,
+		stars now have their own -1..1 type coordinate space,
+		and we do the perspective transformation ourselves.
+		This eliminates the need for all the is_visible() crap.
+
+		The goal was to get rid of the hang/crash when the user
+		moves the viewpoint too far away,
+		but I ended up rewriting the (crufty) code.
+
+		Got rid of get_matrix_invert()
+
+	- Moved glFlush() from REDUCED_ARRAY::draw() to SAH_GFX_BASE::render
+		(or whatever the app's render routine is)
+
+	api/
+		gutil.C,h
+		reduce.C

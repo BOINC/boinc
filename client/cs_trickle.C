@@ -102,6 +102,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     string body;
     int retval, send_time;
 
+    strcpy(result_name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</trickle_down>")) {
             RESULT* rp = lookup_result(project, result_name);

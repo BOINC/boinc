@@ -77,6 +77,8 @@
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
 
+// call this to draw 3D stuff with shaded color
+//
 void mode_shaded(GLfloat* color) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
@@ -90,28 +92,30 @@ void mode_shaded(GLfloat* color) {
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 }
 
+// call this to use textures (turn off lighting)
+//
 void mode_texture() {
-#if 0
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-    glDisable(GL_LIGHTING);
-    glDisable(GL_LIGHT0);
-#endif
+
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
 }
 
+// call this to draw unshaded color
+//
 void mode_unshaded() {
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glShadeModel (GL_SMOOTH);
+    glShadeModel(GL_SMOOTH);
     glDepthMask(GL_TRUE);
 }
 
+// call this to render 2D stuff, with 0..1x0..1 getting mapped
+// to the full window.  You must call ortho_done() when done.
+//
 void mode_ortho() {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -129,6 +133,8 @@ void mode_ortho() {
 	scale_screen(viewport[2],viewport[3]);
 }
 
+// uh, what are the magic numbers 3 and 4????
+//
 void mode_ortho_ratio() {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -156,7 +162,7 @@ void ortho_done() {
 bool get_matrix(double src[16]) {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glGetDoublev(GL_MODELVIEW_MATRIX,src);
+	glGetDoublev(GL_MODELVIEW_MATRIX, src);
 	glPopMatrix();
 
 	return true;
@@ -165,7 +171,7 @@ bool get_matrix(double src[16]) {
 bool get_projection(double src[16]) {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	glGetDoublev(GL_PROJECTION_MATRIX,src);
+	glGetDoublev(GL_PROJECTION_MATRIX, src);
 	glPopMatrix();
 	return true;
 }
@@ -176,112 +182,17 @@ bool get_viewport(int view[4]) {
 	return true;
 }
 
-void get_2d_positions(float p1,float p2,float p3,
+void get_2d_positions(double x, double y, double z,
 	double model[16], double proj[16], int viewport[4], double proj_pos[3]
 ) {
-	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);
-}
-
-bool get_matrix_invert(float src[16]) {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glGetFloatv(GL_MODELVIEW_MATRIX,src);
-	glPopMatrix();
-
-	float tmp[12]; /* temp array for pairs */
-	float dst[16]; /* array of destination matrix */
-	float det; /* determinant */
-
-	int i;
-
-	/* calculate pairs for first 8 elements (cofactors) */
-	tmp[0] = src[10] * src[15];
-	tmp[1] = src[11] * src[14];
-	tmp[2] = src[9] * src[15];
-	tmp[3] = src[11] * src[13];
-	tmp[4] = src[9] * src[14];
-	tmp[5] = src[10] * src[13];
-	tmp[6] = src[8] * src[15];
-	tmp[7] = src[11] * src[12];
-	tmp[8] = src[8] * src[14];
-	tmp[9] = src[10] * src[12];
-	tmp[10] = src[8] * src[13];
-	tmp[11] = src[9] * src[12];
-
-	/* calculate first 8 elements (cofactors) */
-	dst[0] = tmp[0]*src[5] + tmp[3]*src[6] + tmp[4]*src[7];
-	dst[0] -= tmp[1]*src[5] + tmp[2]*src[6] + tmp[5]*src[7];
-	dst[1] = tmp[1]*src[4] + tmp[6]*src[6] + tmp[9]*src[7];
-	dst[1] -= tmp[0]*src[4] + tmp[7]*src[6] + tmp[8]*src[7];
-	dst[2] = tmp[2]*src[4] + tmp[7]*src[5] + tmp[10]*src[7];
-	dst[2] -= tmp[3]*src[4] + tmp[6]*src[5] + tmp[11]*src[7];
-	dst[3] = tmp[5]*src[4] + tmp[8]*src[5] + tmp[11]*src[6];
-	dst[3] -= tmp[4]*src[4] + tmp[9]*src[5] + tmp[10]*src[6];
-	dst[4] = tmp[1]*src[1] + tmp[2]*src[2] + tmp[5]*src[3];
-	dst[4] -= tmp[0]*src[1] + tmp[3]*src[2] + tmp[4]*src[3];
-	dst[5] = tmp[0]*src[0] + tmp[7]*src[2] + tmp[8]*src[3];
-	dst[5] -= tmp[1]*src[0] + tmp[6]*src[2] + tmp[9]*src[3];
-	dst[6] = tmp[3]*src[0] + tmp[6]*src[1] + tmp[11]*src[3];
-	dst[6] -= tmp[2]*src[0] + tmp[7]*src[1] + tmp[10]*src[3];
-	dst[7] = tmp[4]*src[0] + tmp[9]*src[1] + tmp[10]*src[2];
-	dst[7] -= tmp[5]*src[0] + tmp[8]*src[1] + tmp[11]*src[2];
-
-	/* calculate pairs for second 8 elements (cofactors) */
-	tmp[0] = src[2]*src[7];
-	tmp[1] = src[3]*src[6];
-	tmp[2] = src[1]*src[7];
-	tmp[3] = src[3]*src[5];
-	tmp[4] = src[1]*src[6];
-	tmp[5] = src[2]*src[5];
-	tmp[6] = src[0]*src[7];
-	tmp[7] = src[3]*src[4];
-	tmp[8] = src[0]*src[6];
-	tmp[9] = src[2]*src[4];
-	tmp[10] = src[0]*src[5];
-	tmp[11] = src[1]*src[4];
-
-	/* calculate second 8 elements (cofactors) */
-	dst[8] = tmp[0]*src[13] + tmp[3]*src[14] + tmp[4]*src[15];
-	dst[8] -= tmp[1]*src[13] + tmp[2]*src[14] + tmp[5]*src[15];
-	dst[9] = tmp[1]*src[12] + tmp[6]*src[14] + tmp[9]*src[15];
-	dst[9] -= tmp[0]*src[12] + tmp[7]*src[14] + tmp[8]*src[15];
-	dst[10] = tmp[2]*src[12] + tmp[7]*src[13] + tmp[10]*src[15];
-	dst[10]-= tmp[3]*src[12] + tmp[6]*src[13] + tmp[11]*src[15];
-	dst[11] = tmp[5]*src[12] + tmp[8]*src[13] + tmp[11]*src[14];
-	dst[11]-= tmp[4]*src[12] + tmp[9]*src[13] + tmp[10]*src[14];
-	dst[12] = tmp[2]*src[10] + tmp[5]*src[11] + tmp[1]*src[9];
-	dst[12]-= tmp[4]*src[11] + tmp[0]*src[9] + tmp[3]*src[10];
-	dst[13] = tmp[8]*src[11] + tmp[0]*src[8] + tmp[7]*src[10];
-	dst[13]-= tmp[6]*src[10] + tmp[9]*src[11] + tmp[1]*src[8];
-	dst[14] = tmp[6]*src[9] + tmp[11]*src[11] + tmp[3]*src[8];
-	dst[14]-= tmp[10]*src[11] + tmp[2]*src[8] + tmp[7]*src[9];
-	dst[15] = tmp[10]*src[10] + tmp[4]*src[8] + tmp[9]*src[9];
-	dst[15]-= tmp[8]*src[9] + tmp[11]*src[10] + tmp[5]*src[8];
-
-	/* calculate determinant */
-	det=src[0]*dst[0]+src[1]*dst[1]+src[2]*dst[2]+src[3]*dst[3];
-
-	/* calculate matrix inverse */
-	if(det == 0) return false;
-	det = 1.0f/det;
-	for (i = 0; i < 16; i++) {
-	 dst[i] *= det;
-	}
-
-	for (i = 0; i < 4; i++) {
-	 src[i*4] = dst[i*4];
-	 src[i*4+1] = dst[i*4+1];
-	 src[i*4+2] = dst[i*4+2];
-	 src[i*4+3] = dst[i*4+3];
-	}
-
-	return true;
+	gluProject(x, y, z,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);
 }
 
 void mode_lines() {
     glEnable(GL_BLEND);
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
+    // the following seem to have no effect
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     //glDepthMask(GL_TRUE);
     //glEnable(GL_LINE_SMOOTH);
@@ -319,6 +230,7 @@ float frand() {
     return rand()/(float)RAND_MAX;
 }
 
+#if 0
 void set_viewport_full(int w, int h) {
 	glViewport(0,0,w,h);
 }
@@ -335,6 +247,7 @@ void set_viewport_fixed(int w,int h) {
         glViewport((int)(w/2.0f-(h*aspect_ratio/2.0f)),0,(int)(h*aspect_ratio),(h));
     }	
 }
+#endif
 
 void scale_screen(int w, int h) {
 	double aspect_ratio = 4.0/3.0;
@@ -914,111 +827,56 @@ void crossProd(float a[3], float b[3], float out[3]) {
 	normalize(out);
 }
 
+// ------------  STARFIELD STUFF --------------------
+//
 STARFIELD::STARFIELD() {
     stars = NULL;
+    zmax = 8;
+    zmaxinv = 1/zmax;
 }
 
 //
 //
 void STARFIELD::build_stars(int sz, float sp) {	
-	float modelview[16];	
-	int i=0;
-	float fov=45.0f;	
-	double proj[16];
-	double model[16];
-	int view[] = {0,0,1,1};
+	int i;
 
 	speed=sp;
-	size=sz;
+	nstars=sz;
 
     if (stars) free(stars);
-    stars = (STAR*)calloc(sizeof(STAR), (long unsigned int)size);
+    stars = (STAR*)calloc(sizeof(STAR), (long unsigned int)nstars);
 
-	if(get_matrix_invert(modelview)==false)
-		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
-	
-
-	eye[0]=modelview[2];
-	eye[1]=modelview[6];
-	eye[2]=modelview[10];
-
-	up[0]=eye[0];
-	up[1]=eye[2];
-	up[2]=-eye[1];
-
-	camera[0]=modelview[3];
-	camera[1]=modelview[7];
-	camera[2]=modelview[11];
-
-	crossProd(eye,up,right);
-			
-	get_matrix(model);
-	get_projection(proj);		
-	glMatrixMode(GL_MODELVIEW);
-
-	for(i=0;i<size;i++) {				
-		replace_star(i);		
-		while(!is_visible(i,model,proj,view)) replace_star(i);
+	for (i=0; i<nstars; i++) {				
+		replace_star(i);
 	}	
 }
 
-bool STARFIELD::is_visible(int i,double model[16],double proj[16],int view[4]) {	
-	bool inside;
-	
-	double out[3];
-	get_2d_positions(stars[i].x,stars[i].y,stars[i].z,model,proj,view,out);
-	if(out[0]>0 && out[0]<1 && 
-	   out[1]>0 && out[1]<1 && out[2]<1) inside=true;
-	else inside=false;
 
-	if(speed>0)	return inside;
-	else {
-		float dist;
-		float d[3] = {
-            (camera[0]-stars[i].x),
-			(camera[1]-stars[i].y),
-		   	(camera[2]-stars[i].z)
-        };
-
-		dist=(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);				
-		return(inside && dist<MAX_DRAW_DISTANCE);
-	}	
-}
-
+// draw the starfield,
+// move stars
+//
 void STARFIELD::update_stars(float dt) {
 	glMatrixMode(GL_MODELVIEW);
-	float dist;
-	double model[16];
-	double proj[16];
-	int view[] = {0,0,1,1};
+    int i;
 	
 	GLfloat mat_emission[] = {1, 1, 1, 1};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
-
 	glColor3f(1.0, 1.0, 1.0);	
 
-	get_matrix(model);
-	get_projection(proj);			
-	glMatrixMode(GL_MODELVIEW);	
+	for (i=0; i<nstars; i++) {
+		stars[i].z -= speed*dt;
+        if (stars[i].z < 0) stars[i].z += zmax;
+        if (stars[i].z > zmax) stars[i].z -= zmax;
 
-	for(int i=0;i<size;i++) {				
-		while(!is_visible(i,model,proj,view)) replace_star(i); 										
-	
-		stars[i].x+=(eye[0])*stars[i].v*speed*dt;
-		stars[i].y+=(eye[1])*stars[i].v*speed*dt;
-		stars[i].z+=(eye[2])*stars[i].v*speed*dt;
+        double x = stars[i].x/stars[i].z;
+        double y = stars[i].y/stars[i].z;
+        x = (x*zmax+1)/2;
+        y = (y*zmax+1)/2;
 
-		float d[3] = {(camera[0]-stars[i].x),
-					  (camera[1]-stars[i].y),
-				   	  (camera[2]-stars[i].z)};
-
-		dist=sqrt(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);		
-
-		if(dist>800) glPointSize(1);
-		else glPointSize(2);
-
+        if (stars[i].z > zmax/2) glPointSize(1);
+        else glPointSize(2);
 		glBegin(GL_POINTS);
-		glVertex3f(stars[i].x,stars[i].y,stars[i].z);
+		glVertex2f(x, y);
 		glEnd();
 	}
 
@@ -1026,18 +884,10 @@ void STARFIELD::update_stars(float dt) {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );
 }
 
-void STARFIELD::replace_star(int i) {	
-	//generate random point in rectangle 2000 units across		
-	float x = XY_HEIGHT*frand()-(XY_HEIGHT/2.0f);
-	float y = XY_HEIGHT*frand()-(XY_HEIGHT/2.0f);
-	float z = -frand()*2000;						
-
-	stars[i].x=eye[0]*z + up[0]*y + right[0]*x;
-	stars[i].y=eye[1]*z + up[1]*y + right[1]*x;
-	stars[i].z=eye[2]*z + up[2]*y + right[2]*x;
-	
-	float v = frand();
-	stars[i].v=v;
+void STARFIELD::replace_star(int i) {
+    stars[i].x = frand()*2-1;
+    stars[i].y = frand()*2-1;
+    stars[i].z = frand()*zmax;
 }
 
 // ------------  TEXTURE STUFF --------------------

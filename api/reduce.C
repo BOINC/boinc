@@ -623,7 +623,6 @@ void REDUCED_ARRAY::draw(int r0, int rn) {
         }
     }
     ndrawn_rows = rn;
-    glFlush();
 }
 
 void REDUCED_ARRAY::draw_all() {

@@ -668,7 +668,11 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (parse_str(buf, "<cross_project_id>", project->cross_project_id, sizeof(project->cross_project_id))) {
             continue;
         } else if (match_tag(buf, "<trickle_down>")) {
-            gstate.handle_trickle_down(project, in);
+            retval = gstate.handle_trickle_down(project, in);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "handle_trickle_down failed: %d\n", retval);
+            }
+            continue;
         } else if (strlen(buf)>1){
             msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
