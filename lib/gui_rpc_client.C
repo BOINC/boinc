@@ -334,6 +334,7 @@ void RESULT::print() {
 void RESULT::clear() {
     name.clear();
     wu_name.clear();
+    project_url.clear();
     report_deadline = 0;
     ready_to_report = false;
     got_server_ack = false;
@@ -629,6 +630,16 @@ PROJECT* CC_STATE::lookup_project(string& str) {
     return 0;
 }
 
+APP* CC_STATE::lookup_app(string& project_url, string& str) {
+    unsigned int i;
+    for (i=0; i<apps.size(); i++) {
+        if (apps[i]->project->master_url != project_url) continue;
+        if (apps[i]->name == str) return apps[i];
+    }
+    printf("CAN'T FIND APP %s\n", str.c_str());
+    return 0;
+}
+
 APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
@@ -636,6 +647,17 @@ APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
         if (apps[i]->name == str) return apps[i];
     }
     printf("CAN'T FIND APP %s\n", str.c_str());
+    return 0;
+}
+
+APP_VERSION* CC_STATE::lookup_app_version(
+    string& project_url, string& str, int version_num
+) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        if (app_versions[i]->project->master_url != project_url) continue;
+        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];
+    }
     return 0;
 }
 
@@ -650,6 +672,16 @@ APP_VERSION* CC_STATE::lookup_app_version(
     return 0;
 }
 
+WORKUNIT* CC_STATE::lookup_wu(string& project_url, string& str) {
+    unsigned int i;
+    for (i=0; i<wus.size(); i++) {
+        if (wus[i]->project->master_url != project_url) continue;
+        if (wus[i]->name == str) return wus[i];
+    }
+    printf("CAN'T FIND WU %s\n", str.c_str());
+    return 0;
+}
+
 WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
@@ -657,6 +689,16 @@ WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
         if (wus[i]->name == str) return wus[i];
     }
     printf("CAN'T FIND WU %s\n", str.c_str());
+    return 0;
+}
+
+RESULT* CC_STATE::lookup_result(string& project_url, string& str) {
+    unsigned int i;
+    for (i=0; i<results.size(); i++) {
+        if (results[i]->project->master_url != project_url) continue;
+        if (results[i]->name == str) return results[i];
+    }
+    printf("CAN'T FIND RESULT %s\n", str.c_str());
     return 0;
 }
 

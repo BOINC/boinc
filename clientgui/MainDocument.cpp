@@ -482,7 +482,7 @@ wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
 
     if ( NULL != pResult )
     {
-        pStateResult = state.lookup_result( pResult->name );
+        pStateResult = state.lookup_result( pResult->project_url, pResult->name );
         if ( NULL != pStateResult )
         {
             pProject = pStateResult->project;
@@ -500,21 +500,9 @@ wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
 wxInt32 CMainDocument::GetWorkProjectURL(wxInt32 iIndex, wxString& strBuffer)
 {
     RESULT* pResult = results.results.at( iIndex );
-    RESULT* pStateResult = NULL;
-    PROJECT* pProject = NULL;
 
     if ( NULL != pResult )
-    {
-        pStateResult = state.lookup_result( pResult->name );
-        if ( NULL != pStateResult )
-        {
-            pProject = pStateResult->project;
-            if ( NULL != pProject )
-            {
-                strBuffer = pProject->master_url.c_str();
-            }
-        }
-    }
+        strBuffer = pResult->project_url.c_str();
 
     return 0;
 }
@@ -529,7 +517,7 @@ wxInt32 CMainDocument::GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffe
 
     if ( NULL != pResult )
     {
-        pStateResult = state.lookup_result( pResult->name );
+        pStateResult = state.lookup_result( pResult->project_url, pResult->name );
         if ( NULL != pStateResult )
         {
             pWorkunit = pStateResult->wup;
@@ -557,7 +545,7 @@ wxInt32 CMainDocument::GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffe
 
     if ( NULL != pResult )
     {
-        pStateResult = state.lookup_result( pResult->name );
+        pStateResult = state.lookup_result( pResult->project_url, pResult->name );
         if ( NULL != pStateResult )
         {
             pWorkunit = pStateResult->wup;
@@ -625,7 +613,7 @@ wxInt32 CMainDocument::GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer)
 
         if ( fBuffer < 0 )
         {
-            pStateResult = state.lookup_result( pResult->name );
+            pStateResult = state.lookup_result( pResult->project_url, pResult->name );
             if ( NULL != pStateResult )
             {
                 pWorkunit = pStateResult->wup;
