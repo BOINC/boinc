@@ -33,14 +33,15 @@ if ($_POST['recommend']) {
 }
 
 $result = mysql_query("SELECT * FROM profile WHERE userid = $user->id");
-if ($result) {
-  $profile_info = mysql_fetch_array($result, MYSQL_ASSOC);
-}
-else {
-  profile_error_page("No profile exists for that user, or there was a database error.<p>");
-  exit();
-}
 
+if (mysql_num_rows($result) > 0) {
+   $profile_info = mysql_fetch_array($result, MYSQL_ASSOC);
+} else {
+    // TODO: Standardize this to a global error page.
+   echo "No user profile exists for that user ID.";
+   exit();
+}
+    
 $logged_in_user = get_logged_in_user(false);  // (false) since anyone can look at profiles.
 $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
