@@ -24,25 +24,7 @@
 #pragma interface "DlgAttachProject.cpp"
 #endif
 
-/*!
- * Includes
- */
 
-////@begin includes
-////@end includes
-
-/*!
- * Forward declarations
- */
-
-////@begin forward declarations
-////@end forward declarations
-
-/*!
- * Control identifiers
- */
-
-////@begin control identifiers
 #define ID_DIALOG 10000
 #define SYMBOL_CDLGATTACHPROJECT_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
 #define SYMBOL_CDLGATTACHPROJECT_TITLE _("Attach to Project")
@@ -51,19 +33,11 @@
 #define SYMBOL_CDLGATTACHPROJECT_POSITION wxDefaultPosition
 #define ID_PROJECTADDRESS 10001
 #define ID_PROJECTACCOUNTKEY 10002
-////@end control identifiers
-
-/*!
- * Compatibility
- */
 
 #ifndef wxCLOSE_BOX
 #define wxCLOSE_BOX 0x1000
 #endif
 
-/*!
- * CDlgAttachProject class declaration
- */
 
 class CDlgAttachProject: public wxDialog
 {    
@@ -81,21 +55,11 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CDlgAttachProject event handler declarations
-
-////@end CDlgAttachProject event handler declarations
-
-////@begin CDlgAttachProject member function declarations
-
-////@end CDlgAttachProject member function declarations
-
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CDlgAttachProject member variables
     wxTextCtrl* m_ProjectAddressCtrl;
     wxTextCtrl* m_ProjectAccountKeyCtrl;
-////@end CDlgAttachProject member variables
 };
 
 #endif

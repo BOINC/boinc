@@ -136,7 +136,16 @@
 				RelativePath=".\BOINCGUIApp.cpp">
 			</File>
 			<File
-				RelativePath=".\DlgHelpAbout.cpp">
+				RelativePath=".\DlgAbout.cpp">
+			</File>
+			<File
+				RelativePath=".\DlgAttachProject.cpp">
+			</File>
+			<File
+				RelativePath=".\DlgConnection.cpp">
+			</File>
+			<File
+				RelativePath=".\DlgOptions.cpp">
 			</File>
 			<File
 				RelativePath=".\MainDocument.cpp">
@@ -192,7 +201,16 @@
 				RelativePath=".\BOINCGUIApp.h">
 			</File>
 			<File
-				RelativePath=".\DlgHelpAbout.h">
+				RelativePath=".\DlgAbout.h">
+			</File>
+			<File
+				RelativePath=".\DlgAttachProject.h">
+			</File>
+			<File
+				RelativePath=".\DlgConnection.h">
+			</File>
+			<File
+				RelativePath=".\DlgOptions.h">
 			</File>
 			<File
 				RelativePath=".\Events.h">

@@ -18,74 +18,42 @@
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgToolsOptions.h"
+#pragma implementation "DlgOptions.h"
 #endif
 
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include "stdwx.h"
+#include "DlgOptions.h"
 
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
 
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
+IMPLEMENT_CLASS( CDlgOptions, wxDialog )
 
-////@begin includes
-////@end includes
+BEGIN_EVENT_TABLE( CDlgOptions, wxDialog )
 
-#include "DlgToolsOptions.h"
+    EVT_NOTEBOOK_PAGE_CHANGED( ID_NOTEBOOK, CDlgOptions::OnNotebookPageChanged )
+    EVT_UPDATE_UI( ID_NOTEBOOK, CDlgOptions::OnNotebookUpdate )
 
-////@begin XPM images
-////@end XPM images
+    EVT_CHECKBOX( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnablehttpproxyctrlClick )
+    EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnablehttpproxyctrlUpdate )
 
-/*!
- * CDlgToolsOptions type definition
- */
-
-IMPLEMENT_CLASS( CDlgToolsOptions, wxDialog )
-
-/*!
- * CDlgToolsOptions event table definition
- */
-
-BEGIN_EVENT_TABLE( CDlgToolsOptions, wxDialog )
-
-////@begin CDlgToolsOptions event table entries
-    EVT_NOTEBOOK_PAGE_CHANGED( ID_NOTEBOOK, CDlgToolsOptions::OnNotebookPageChanged )
-    EVT_UPDATE_UI( ID_NOTEBOOK, CDlgToolsOptions::OnNotebookUpdate )
-
-    EVT_CHECKBOX( ID_ENABLEHTTPPROXYCTRL, CDlgToolsOptions::OnEnablehttpproxyctrlClick )
-    EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgToolsOptions::OnEnablehttpproxyctrlUpdate )
-
-    EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgToolsOptions::OnEnablesocksproxyctrlClick )
-    EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgToolsOptions::OnEnablesocksproxyctrlUpdate )
-
-////@end CDlgToolsOptions event table entries
+    EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnablesocksproxyctrlClick )
+    EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnablesocksproxyctrlUpdate )
 
 END_EVENT_TABLE()
 
-/*!
- * CDlgToolsOptions constructors
- */
 
-CDlgToolsOptions::CDlgToolsOptions( )
+CDlgOptions::CDlgOptions( )
 {
 }
 
-CDlgToolsOptions::CDlgToolsOptions( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+
+CDlgOptions::CDlgOptions( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, id, caption, pos, size, style);
 }
 
-/*!
- * CDlgToolsOptions creator
- */
 
-bool CDlgToolsOptions::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool CDlgOptions::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-////@begin CDlgToolsOptions member initialisation
     m_EnableHTTPProxyCtrl = NULL;
     m_HTTPAddressCtrl = NULL;
     m_HTTPPortCtrl = NULL;
@@ -96,9 +64,7 @@ bool CDlgToolsOptions::Create( wxWindow* parent, wxWindowID id, const wxString& 
     m_SOCKSPortCtrl = NULL;
     m_SOCKSUsernameCtrl = NULL;
     m_SOCKPasswordCtrl = NULL;
-////@end CDlgToolsOptions member initialisation
 
-////@begin CDlgToolsOptions creation
     SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
 
@@ -106,19 +72,14 @@ bool CDlgToolsOptions::Create( wxWindow* parent, wxWindowID id, const wxString& 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-////@end CDlgToolsOptions creation
+
     return TRUE;
 }
 
-/*!
- * Control creation for CDlgToolsOptions
- */
 
-void CDlgToolsOptions::CreateControls()
+void CDlgOptions::CreateControls()
 {    
-////@begin CDlgToolsOptions content construction
-
-    CDlgToolsOptions* item1 = this;
+    CDlgOptions* item1 = this;
 
     wxBoxSizer* item2 = new wxBoxSizer(wxVERTICAL);
     item1->SetSizer(item2);
@@ -244,75 +205,52 @@ void CDlgToolsOptions::CreateControls()
     wxButton* item39 = new wxButton;
     item39->Create( item1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     item37->Add(item39, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-////@end CDlgToolsOptions content construction
 }
 
-/*!
- * wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED event handler for ID_NOTEBOOK
- */
 
-void CDlgToolsOptions::OnNotebookPageChanged( wxNotebookEvent& event )
+void CDlgOptions::OnNotebookPageChanged( wxNotebookEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
-/*!
- * wxEVT_UPDATE_UI event handler for ID_NOTEBOOK
- */
 
-void CDlgToolsOptions::OnNotebookUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnNotebookUpdate( wxUpdateUIEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
-/*!
- * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
- */
 
-void CDlgToolsOptions::OnEnablehttpproxyctrlClick( wxCommandEvent& event )
+void CDlgOptions::OnEnablehttpproxyctrlClick( wxCommandEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
-/*!
- * wxEVT_UPDATE_UI event handler for ID_ENABLEHTTPPROXYCTRL
- */
 
-void CDlgToolsOptions::OnEnablehttpproxyctrlUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnEnablehttpproxyctrlUpdate( wxUpdateUIEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
-/*!
- * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLESOCKSPROXYCTRL
- */
 
-void CDlgToolsOptions::OnEnablesocksproxyctrlClick( wxCommandEvent& event )
+void CDlgOptions::OnEnablesocksproxyctrlClick( wxCommandEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
-/*!
- * wxEVT_UPDATE_UI event handler for ID_ENABLESOCKSPROXYCTRL
- */
 
-void CDlgToolsOptions::OnEnablesocksproxyctrlUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnEnablesocksproxyctrlUpdate( wxUpdateUIEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
-/*!
- * Should we show tooltips?
- */
 
-bool CDlgToolsOptions::ShowToolTips()
+bool CDlgOptions::ShowToolTips()
 {
     return TRUE;
 }

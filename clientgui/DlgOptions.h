@@ -24,26 +24,7 @@
 #pragma interface "DlgOptions.cpp"
 #endif
 
-/*!
- * Includes
- */
 
-////@begin includes
-#include "wx/notebook.h"
-////@end includes
-
-/*!
- * Forward declarations
- */
-
-////@begin forward declarations
-////@end forward declarations
-
-/*!
- * Control identifiers
- */
-
-////@begin control identifiers
 #define ID_TOOLSOPTIONSDIALOG 10000
 #define SYMBOL_CDLGTOOLSOPTIONS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
 #define SYMBOL_CDLGTOOLSOPTIONS_TITLE _("Options")
@@ -64,37 +45,27 @@
 #define ID_SOCKSPORTCTRL 10014
 #define ID_SOCKSUSERNAMECTRL 10015
 #define ID_SOCKSPASSWORDCTRL 10016
-////@end control identifiers
-
-/*!
- * Compatibility
- */
 
 #ifndef wxCLOSE_BOX
 #define wxCLOSE_BOX 0x1000
 #endif
 
-/*!
- * CDlgToolsOptions class declaration
- */
 
-class CDlgToolsOptions: public wxDialog
+class CDlgOptions: public wxDialog
 {    
-    DECLARE_CLASS( CDlgToolsOptions )
+    DECLARE_CLASS( CDlgOptions )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CDlgToolsOptions( );
-    CDlgToolsOptions( wxWindow* parent, wxWindowID id = SYMBOL_CDLGTOOLSOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGTOOLSOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGTOOLSOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGTOOLSOPTIONS_SIZE, long style = SYMBOL_CDLGTOOLSOPTIONS_STYLE );
+    CDlgOptions( );
+    CDlgOptions( wxWindow* parent, wxWindowID id = SYMBOL_CDLGTOOLSOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGTOOLSOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGTOOLSOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGTOOLSOPTIONS_SIZE, long style = SYMBOL_CDLGTOOLSOPTIONS_STYLE );
 
     /// Creation
     bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGTOOLSOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGTOOLSOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGTOOLSOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGTOOLSOPTIONS_SIZE, long style = SYMBOL_CDLGTOOLSOPTIONS_STYLE );
 
     /// Creates the controls and sizers
     void CreateControls();
-
-////@begin CDlgToolsOptions event handler declarations
 
     /// wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED event handler for ID_NOTEBOOK
     void OnNotebookPageChanged( wxNotebookEvent& event );
@@ -114,16 +85,9 @@ public:
     /// wxEVT_UPDATE_UI event handler for ID_ENABLESOCKSPROXYCTRL
     void OnEnablesocksproxyctrlUpdate( wxUpdateUIEvent& event );
 
-////@end CDlgToolsOptions event handler declarations
-
-////@begin CDlgToolsOptions member function declarations
-
-////@end CDlgToolsOptions member function declarations
-
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CDlgToolsOptions member variables
     wxCheckBox* m_EnableHTTPProxyCtrl;
     wxTextCtrl* m_HTTPAddressCtrl;
     wxTextCtrl* m_HTTPPortCtrl;
@@ -134,7 +98,6 @@ public:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKPasswordCtrl;
-////@end CDlgToolsOptions member variables
 };
 
 #endif

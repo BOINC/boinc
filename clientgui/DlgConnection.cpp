@@ -21,65 +21,31 @@
 #pragma implementation "DlgConnection.h"
 #endif
 
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-
-////@begin includes
-////@end includes
-
+#include "stdwx.h"
 #include "DlgConnection.h"
 
-////@begin XPM images
-////@end XPM images
-
-/*!
- * CDlgConnection type definition
- */
 
 IMPLEMENT_CLASS( CDlgConnection, wxDialog )
 
-/*!
- * CDlgConnection event table definition
- */
-
 BEGIN_EVENT_TABLE( CDlgConnection, wxDialog )
-
-////@begin CDlgConnection event table entries
-////@end CDlgConnection event table entries
 
 END_EVENT_TABLE()
 
-/*!
- * CDlgConnection constructors
- */
 
 CDlgConnection::CDlgConnection( )
 {
 }
+
 
 CDlgConnection::CDlgConnection( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, id, caption, pos, size, style);
 }
 
-/*!
- * CDlgConnection creator
- */
 
 bool CDlgConnection::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-////@begin CDlgConnection member initialisation
-////@end CDlgConnection member initialisation
 
-////@begin CDlgConnection creation
     SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
 
@@ -87,18 +53,13 @@ bool CDlgConnection::Create( wxWindow* parent, wxWindowID id, const wxString& ca
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-////@end CDlgConnection creation
+
     return TRUE;
 }
 
-/*!
- * Control creation for CDlgConnection
- */
 
 void CDlgConnection::CreateControls()
 {    
-////@begin CDlgConnection content construction
-
     CDlgConnection* item1 = this;
 
     wxBoxSizer* item2 = new wxBoxSizer(wxVERTICAL);
@@ -126,13 +87,8 @@ void CDlgConnection::CreateControls()
     wxButton* item8 = new wxButton;
     item8->Create( item1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     item6->Add(item8, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-////@end CDlgConnection content construction
 }
 
-/*!
- * Should we show tooltips?
- */
 
 bool CDlgConnection::ShowToolTips()
 {

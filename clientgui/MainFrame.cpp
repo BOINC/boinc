@@ -18,16 +18,17 @@
 //
 
 #include "stdwx.h"
-#include "boincguiapp.h"
-#include "mainframe.h"
-#include "baselistctrlview.h"
-#include "basewindowview.h"
-#include "messagesview.h"
-#include "projectsview.h"
-#include "resourceutilizationview.h"
-#include "transfersview.h"
-#include "workview.h"
-#include "events.h"
+#include "BOINCGUIApp.h"
+#include "MainFrame.h"
+#include "BaseListCtrlView.h"
+#include "BaseWindowView.h"
+#include "MessagesView.h"
+#include "ProjectsView.h"
+#include "ResourceUtilizationView.h"
+#include "TransfersView.h"
+#include "WorkView.h"
+#include "Events.h"
+#include "DlgAbout.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
@@ -205,6 +206,12 @@ bool CMainFrame::DeleteStatusbar() {
 
 
 void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
+    CDlgAbout* pDlg = new CDlgAbout(this);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        delete pDlg;
 }
 
 

@@ -21,67 +21,33 @@
 #pragma implementation "DlgAttachProject.h"
 #endif
 
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-
-////@begin includes
-////@end includes
-
+#include "stdwx.h"
 #include "DlgAttachProject.h"
 
-////@begin XPM images
-////@end XPM images
-
-/*!
- * CDlgAttachProject type definition
- */
 
 IMPLEMENT_CLASS( CDlgAttachProject, wxDialog )
 
-/*!
- * CDlgAttachProject event table definition
- */
-
 BEGIN_EVENT_TABLE( CDlgAttachProject, wxDialog )
-
-////@begin CDlgAttachProject event table entries
-////@end CDlgAttachProject event table entries
 
 END_EVENT_TABLE()
 
-/*!
- * CDlgAttachProject constructors
- */
 
 CDlgAttachProject::CDlgAttachProject( )
 {
 }
+
 
 CDlgAttachProject::CDlgAttachProject( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, id, caption, pos, size, style);
 }
 
-/*!
- * CDlgAttachProject creator
- */
 
 bool CDlgAttachProject::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-////@begin CDlgAttachProject member initialisation
     m_ProjectAddressCtrl = NULL;
     m_ProjectAccountKeyCtrl = NULL;
-////@end CDlgAttachProject member initialisation
 
-////@begin CDlgAttachProject creation
     SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
 
@@ -89,17 +55,13 @@ bool CDlgAttachProject::Create( wxWindow* parent, wxWindowID id, const wxString&
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-////@end CDlgAttachProject creation
+
     return TRUE;
 }
 
-/*!
- * Control creation for CDlgAttachProject
- */
 
 void CDlgAttachProject::CreateControls()
 {    
-////@begin CDlgAttachProject content construction
 
     CDlgAttachProject* item1 = this;
 
@@ -143,12 +105,7 @@ void CDlgAttachProject::CreateControls()
     item11->Create( item1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     item9->Add(item11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-////@end CDlgAttachProject content construction
 }
-
-/*!
- * Should we show tooltips?
- */
 
 bool CDlgAttachProject::ShowToolTips()
 {
