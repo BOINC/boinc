@@ -15445,6 +15445,7 @@ David  19 July 2004
 Karl 2004-07-20
     - fixed bug in md5_string() that caused sample_bitwise_validator to
       segfault.
+    - test_uc.py passes again.
 
     lib/
         md5_file.C
