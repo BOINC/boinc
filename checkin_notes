@@ -12493,4 +12493,10 @@ Rom    May 21 2004
         cs_benchmark.C
         dhrystone.C
         whetstone.C
-    
+
+Rom    May 22 2004
+    - Somehow the boinc release build switched over to using shared libraries on
+      Windows instead of static, so now i'm switching it back to static libraries.
+
+    win_build/
+        boinc_gui.vcproj
