@@ -657,7 +657,7 @@ void process_request(
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "  [HOST#%d] Resetting nresults_today\n", reply.host.id);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "[HOST#%d] Resetting nresults_today\n", reply.host.id);
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
@@ -669,7 +669,7 @@ void process_request(
         sprintf(reply.message, "platform '%s' not found", sreq.platform_name);
         strcpy(reply.message_priority, "low");
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "  [HOST#%d] platform '%s' not found\n",
+            SCHED_MSG_LOG::CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
         );
         return;
