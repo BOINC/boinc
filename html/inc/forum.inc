@@ -332,7 +332,7 @@ function createThread($forumID, $ownerID, $title, $content, $add_signature=false
     $content = addslashes(sanitize_html(stripslashes($content)));
 
     $title = trim($title);
-    if (strlen($title) == 0) {
+    if (strlen(strip_tags($title)) == 0) {
         return 0;
     }
 
@@ -341,7 +341,7 @@ function createThread($forumID, $ownerID, $title, $content, $add_signature=false
     if (!$result) return false;
     $threadID = mysql_insert_id();
 
-    $postID = addPost($threadID, $ownerID, NULL, $content, $add_signature);
+    addPost($threadID, $ownerID, NULL, $content, $add_signature);
 
     $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $ownerID . " LIMIT 1";
     mysql_query($sql);
@@ -378,8 +378,6 @@ function addPost($threadID, $userID, $parentID, $content, $add_signature=false) 
     }
     $result = mysql_query($sql);
     if (!$result) return false;
-    //return ($post->id = mysql_insert_id());
-    mysql_insert_id();
     return true;
 }
 

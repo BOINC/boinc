@@ -6,9 +6,9 @@ require_once('../inc/util.inc');
 db_init();
 
 if (empty($_GET['id'])) {
-	// TODO: Standard error page
-	echo "No thread was specified.<br>";
-	exit();
+    // TODO: Standard error page
+    echo "No thread was specified.<br>";
+    exit();
 }
 
 $_GET['id'] = stripslashes(strip_tags($_GET['id']));
@@ -32,23 +32,23 @@ $logged_in_user = get_logged_in_user(false);
 $logged_in_user = getForumPreferences($logged_in_user);
 
 if ($category->is_helpdesk) {
-	if (!$sort_style) {
-    	    $sort_style = getSortStyle($logged_in_user,"answer");
-	} else {
-    	    setSortStyle($logged_in_user,"answer", $sort_style);
-	}
-	page_head(PROJECT.': Questions and problems : '.$thread->title);	
+    if (!$sort_style) {
+        $sort_style = getSortStyle($logged_in_user,"answer");
+    } else {
+        setSortStyle($logged_in_user,"answer", $sort_style);
+    }
+    page_head(PROJECT.': Questions and problems : '.$thread->title);    
 } else {
-	if (!$sort_style) {
-    	    $sort_style = getSortStyle($logged_in_user,"thread");
-	} else {
-    	    setSortStyle($logged_in_user,"thread", $sort_style);
-	}
-	if ($logged_in_user->jump_to_unread){
-	    page_head(PROJECT.': Message boards : '.$thread->title, 'jumpToUnread();');
-	} else {
-	    page_head(PROJECT.': Message boards : '.$thread->title);
-	}
+    if (!$sort_style) {
+        $sort_style = getSortStyle($logged_in_user,"thread");
+    } else {
+        setSortStyle($logged_in_user,"thread", $sort_style);
+    }
+    if ($logged_in_user->jump_to_unread){
+        page_head(PROJECT.': Message boards : '.$thread->title, 'jumpToUnread();');
+    } else {
+        page_head(PROJECT.': Message boards : '.$thread->title);
+    }
 }
 
 // TODO: Constant for default sort style and filter values.
@@ -69,34 +69,34 @@ show_forum_title($forum, $thread, $category->is_helpdesk);
 
 echo "
     <form action=\"forum_thread.php\">
-	<input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
-	<table width=\"100%\" cellspacing=0 cellpadding=0>
+    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
+    <table width=\"100%\" cellspacing=0 cellpadding=0>
     <tr>
     <td align=\"left\">
 ";
 
 $link = "<a href=\"forum_reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
-	$link = $link . "&helpdesk=1#input\">Answer this question";
+    $link = $link . "&helpdesk=1#input\">Answer this question";
 } else {
-	$link = $link . "#input\">Reply to this thread";
+    $link = $link . "#input\">Reply to this thread";
 }
 
 echo $link, "</a><br>";
 
 if ($is_subscribed) {
-	if ($category->is_helpdesk) {
-    	echo "You are subscribed to this question.  ";
-	} else {
-		echo "You are subscribed to this thread.  ";
-	}
-	echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=$thread->id\">Click here to unsubscribe</a>.";
+    if ($category->is_helpdesk) {
+        echo "You are subscribed to this question.  ";
+    } else {
+        echo "You are subscribed to this thread.  ";
+    }
+    echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=$thread->id\">Click here to unsubscribe</a>.";
 } else {
-	if ($category->is_helpdesk) {
-    	echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this question</a>";
-	} else {
-		echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this thread</a>";
-	}
+    if ($category->is_helpdesk) {
+        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this question</a>";
+    } else {
+        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this thread</a>";
+    }
 }
 
 echo "</td>";
@@ -114,9 +114,9 @@ echo "<input type=submit value=OK>\n</td>";
 echo "</tr>\n</table>\n</form>\n";
 
 if ($category->is_helpdesk) {
-	$headings = array("Author", "Question");
+    $headings = array("Author", "Question");
 } else {
-	$headings = array("Author", "Message");
+    $headings = array("Author", "Message");
 }
 
 start_forum_table($headings);
@@ -127,9 +127,9 @@ echo "<p>";
 
 $link = "<a href=\"forum_reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
-	$link = $link . "&helpdesk=1#input\">Answer this question";
+    $link = $link . "&helpdesk=1#input\">Answer this question";
 } else {
-	$link = $link . "#input\">Reply to this thread";
+    $link = $link . "#input\">Reply to this thread";
 }
 
 echo $link, "</a><br>\n</p>";

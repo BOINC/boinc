@@ -22434,6 +22434,8 @@ David  9 Jan 2005
 
 David  9 Jan 2005
     - user profile fixes
+    - disallow thread titles consisting only of HTML tags
 
     html/inc/
+        forum.inc
         profile.inc
