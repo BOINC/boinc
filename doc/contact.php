@@ -43,6 +43,7 @@ show_name("John Kirby");
 show_name("Eric Korpela");
 show_name("Janus Kristensen");
 show_name("Tim Lan");
+show_name("Gilson Laurent");
 show_name("Sebastian Masch");
 show_name("Kenichi Miyoshi");
 show_name("Jakob Pedersen");

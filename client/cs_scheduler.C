@@ -370,9 +370,7 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
             --num_results_to_skip;
             continue;
         }
-        if (rp->wup) { // just being paranoid...
-            est += estimate_cpu_time(*rp->wup) * (1.0 - get_fraction_done(rp));
-        }
+        est += rp->estimated_cpu_time_remaining();
     }
     est /= avg_proc_rate(p);
     return est;

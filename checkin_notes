@@ -18640,3 +18640,18 @@ David  19 Oct 2004
             clone.php
             sample_index.php
             sample_rss_main.php
+
+David  20 Oct 2004
+    - added <estimated_cpu_time_remaining> to GUI RPC reply for results
+    - fix XML errors in GUI RPC replies (from Gilson Laurent)
+    - consolidated logic for estimated remaining CPU time
+        (don't do this in GUI)
+
+    client/
+        app.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        gui_rpc_server.C
+        win/
+            wingui_mainwindow.cpp

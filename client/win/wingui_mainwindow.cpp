@@ -445,17 +445,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
             }
 
             // to completion
-            double tocomp;
-            if(!at) {
-                if(re->state < RESULT_COMPUTE_ERROR)
-                    tocomp = gstate.estimate_cpu_time(*re->wup);
-                else
-                    tocomp = 0;
-            } else {
-                tocomp = at->est_time_to_completion();
-                if (tocomp < 0)
-                    tocomp = gstate.estimate_cpu_time(*re->wup);
-            }
+            double tocomp = re->estimated_cpu_time_to_completion();
             if (tocomp > 0) {
                 cpuhour = (int)(tocomp / (60 * 60));
                 cpumin = (int)(tocomp / 60) % 60;

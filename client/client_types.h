@@ -337,6 +337,8 @@ struct RESULT {
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(std::string&);
     void reset_files();
+    double estimated_cpu_time();
+    double estimated_cpu_time_remaining();
 };
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info);

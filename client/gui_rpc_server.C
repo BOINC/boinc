@@ -215,7 +215,7 @@ static void handle_get_run_mode(char* , MIOFILE& fout) {
         fout.printf("<auto/>\n");
         break;
     default:
-        fout.printf("<error>Unknown run mode<error/>\n");
+        fout.printf("<error>Unknown run mode</error>\n");
     }
     fout.printf("</run_mode>\n");
 }
@@ -242,7 +242,7 @@ static void handle_get_network_mode(char* , MIOFILE& fout) {
         fout.printf("<never/>\n");
         break;
     default:
-        fout.printf("<error>Unknown network mode<error/>\n");
+        fout.printf("<error>Unknown network mode</error>\n");
     }
     fout.printf("</network_mode>\n");
 }

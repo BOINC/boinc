@@ -274,15 +274,14 @@ int ACTIVE_TASK::move_trickle_file() {
     return 0;
 }
 
-// Returns the estimated time to completion (in seconds) of this task,
+// Returns the estimated CPU time to completion (in seconds) of this task,
 // based on current reported CPU time and fraction done
 //
-double ACTIVE_TASK::est_time_to_completion() {
+double ACTIVE_TASK::est_cpu_time_to_completion() {
     if (fraction_done <= 0 || fraction_done > 1 || frac_rate_of_change <= 0) {
         return -1;
     }
     return (current_cpu_time / fraction_done) - current_cpu_time;
-    //return (1.0-fraction_done)/frac_rate_of_change;
 }
 
 // size of output files and files in slot dir

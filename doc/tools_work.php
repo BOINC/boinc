@@ -24,7 +24,6 @@ A WU template file has the form
     </file_ref>
     [ ... ]
     [ <command_line>-flags xyz</command_line> ]
-    [ <env_vars>name=val&name=val</env_vars> ]
     [ <rsc_fpops_est>x</rsc_fpops_est> ]
     [ <rsc_fpops_bound>x</rsc_fpops_bound> ]
     [ <rsc_memory_bound>x</rsc_memory_bounds> ]
@@ -44,9 +43,6 @@ list_item(htmlspecialchars("<file_info>, <file_ref>"),
 "Each pair describes an <a href=files.php>input file</a>");
 list_item(htmlspecialchars("<command_line>"),
 "The command-line arguments to be passed to the main program.");
-list_item(htmlspecialchars("<env_vars>"),
-"A list of environment variables in the form
-name=value&name=value&name=value.");
 list_item("Other elements",
     "<a href=work.php>Work unit attributes</a>"
 );

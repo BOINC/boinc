@@ -1191,14 +1191,16 @@ int RESULT::write_gui(MIOFILE& out) {
         "    <final_cpu_time>%f</final_cpu_time>\n"
         "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n"
-        "    <report_deadline>%d</report_deadline>\n",
+        "    <report_deadline>%d</report_deadline>\n"
+        "    <estimated_cpu_time_remaining>%f</estimated_cpu_time_remaining>\n",
         name,
         wu_name,
         project->master_url,
         final_cpu_time,
         exit_status,
         state,
-        report_deadline
+        report_deadline,
+        estimated_cpu_time_remaining()
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
@@ -1259,4 +1261,22 @@ void RESULT::reset_files() {
         fip->update_time();
 #endif
     }
+}
+
+// estimate how long a result will take on this host
+//
+double RESULT::estimated_cpu_time() {
+    return wup->rsc_fpops_est/gstate.host_info.p_fpops;
+}
+
+double RESULT::estimated_cpu_time_remaining() {
+    double x=-1;
+
+    if (state >= RESULT_COMPUTE_ERROR) return -1;
+    ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
+    if (atp) {
+        x = atp->est_cpu_time_to_completion();
+        if (x >= 0) return x;
+    }
+    return estimated_cpu_time();
 }

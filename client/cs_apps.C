@@ -542,15 +542,6 @@ void CLIENT_STATE::set_ncpus() {
     if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
 }
 
-// estimate how long a WU will take on this host
-//
-double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
-    double x;
-
-    x = wu.rsc_fpops_est/host_info.p_fpops;
-    return x;
-}
-
 inline double force_fraction(double f) {
     if (f < 0) return 0;
     if (f > 1) return 1;
