@@ -167,16 +167,16 @@ public:
             ifstream f(cp_filename.c_str(), ios::binary);
             if (!f) {
                 cerr << "Error opening for input \"" << cp_filename << "\"\n";
-                return true;
+                return false;
             }
             i->file->input(f);
             if (!f) {
                 cerr << "Error reading \"" << cp_filename << "\"\n";
-                return true;
+                return false;
             }
         }
         // success
-        return false;
+        return true;
     }
 
     void write()
@@ -232,3 +232,26 @@ public:
         }
     }
 };
+
+/* usage in astropulse:
+
+AtomicFileSet files;
+
+void init()
+{
+    files.add("ap_state.dat",
+              new BoincRawDataCheckpointFile(client.state, sizeof(client.state)));
+    files.add("pulse.out", new BoincStreamCheckpointFile);
+    if (files.read()) {
+        // resuming
+    } else {
+        // new run
+    }
+}
+
+void checkpoint()
+{
+    files.write();
+}
+
+*/
