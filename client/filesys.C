@@ -35,15 +35,21 @@
 
 #include <time.h>
 #include <string.h>
-
-#ifdef unix
 #include <stdlib.h>
+
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#ifdef HAVE_DIRENT_H
 #include <dirent.h>
-#include <time.h>
+#endif
+#ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
+
 #ifdef _WIN32
 #include <io.h>
 #include <winsock.h>
@@ -53,7 +59,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 
-#ifdef unix
+#ifdef HAVE_DIRENT_H
 DIR* dirp;
 #endif
 
@@ -68,7 +74,7 @@ char failed_file[256];
 // routines for enumerating the entries in a directory
 
 int dir_open(char* p) {
-#ifdef unix
+#ifdef HAVE_DIRENT_H
     dirp = opendir(p);
     if (!dirp) return ERR_OPENDIR;
 #endif
@@ -85,7 +91,7 @@ int dir_open(char* p) {
 }
 
 int dir_scan(char* p) {
-#ifdef unix
+#ifdef HAVE_DIRENT_H
     while (1) {
 	dirent* dp = readdir(dirp);
 	if (dp) {
@@ -132,7 +138,7 @@ int dir_scan(char* p) {
 }
 
 void dir_close() {
-#ifdef unix
+#ifdef HAVE_DIRENT_H
     if (dirp) {
 	closedir(dirp);
 	dirp = 0;
@@ -153,7 +159,7 @@ int file_delete(char* path) {
     int retval,i;
 
     for (i=0; i<2; i++) {
-#ifdef unix
+#ifdef HAVE_UNISTD_H
         retval = unlink(path);
 #endif
 #if ( defined(_WIN32) || defined(macintosh) )

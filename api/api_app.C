@@ -20,7 +20,7 @@
 // test program for MFILE class
 
 #include <stdlib.h>
-#ifdef UNIX
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 
@@ -87,7 +87,7 @@ int recover(char* file, unsigned long int* i) {
 
 int timer(int secs, int usecs) {
     int retval=0;
-#ifdef unix
+#ifdef HAVE_SYS_TIME_H
     itimerval value;
     value.it_value.tv_sec=secs;
     value.it_value.tv_usec=usecs;

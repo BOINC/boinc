@@ -709,7 +709,7 @@ Michael Gary 	7/03/2002
     - api test is now more thorough, tests time accounting and restarting
     - added app_completed function to api
     - api_test.C was moved to api_app.C
-    - removed #ifdef solaris from hostinfo_unix.C
+    - removed #ifdef solaris and #ifdef unix from all files
 
     api/
         Makefile.in
@@ -722,8 +722,14 @@ Michael Gary 	7/03/2002
         ta_correct_f
         test_api.php
     client/
+        app.C
         hostinfo_unix.C
         configure
+        configure.in
+        filesys.C
     doc/
         api.html
+    configure
+    configure.in
+
 

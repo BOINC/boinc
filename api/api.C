@@ -28,7 +28,7 @@
 #else
 #include <unistd.h>
 #endif
-#ifdef UNIX
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 #include <signal.h>
@@ -271,13 +271,13 @@ bool _checkpoint = false;
 
 double get_cpu_time() {
     int retval, pid = getpid();
-#ifdef unix
+#ifdef HAVE_SYS_RESOURCE_H
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
     if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
     return (double)ru.ru_utime.tv_sec + (
 	((double)ru.ru_utime.tv_usec) / ((double)1000000.0)
-    ); //this should be a decimal, but isn't
+    );
 #else
     return 0;
 #endif
@@ -331,7 +331,7 @@ int set_timer(double period) {
     sa.sa_handler = on_timer;
     sa.sa_flags = 0;
     sigaction(SIGVTALRM, &sa, NULL);
-#ifdef unix
+#ifdef HAVE_SYS_TIME_H
     itimerval value;
     value.it_value.tv_sec = (int)period;
     value.it_value.tv_usec = ((int)(period*1000000))%1000000;

@@ -21,7 +21,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
 #if HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #endif
@@ -29,16 +32,27 @@
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
 #endif
+
 #ifdef _WIN32
 #include <windows.h>
-#else
+#endif
+
 #if HAVE_SYS_SYSTEMINFO_H
 #include <sys/systeminfo.h>
 #endif
+#if HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#if HAVE_NETDB_H
 #include <netdb.h>
+#endif
+#if HAVE_ARPA_INET_H
 #include <arpa/inet.h>
+#endif
+#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
 
@@ -155,21 +169,22 @@ void parse_cpuinfo(HOST_INFO& host) {
     }
     fclose(f);
 }
+#endif
 
+#if HAVE_SYS_UTSNAME_H
 void get_osinfo(HOST_INFO& host) {
     struct utsname u;
     uname(&u);
     strcpy(host.os_name, u.sysname);
     strcpy(host.os_version, u.release);
 }
-
 #endif
 
 int get_host_info(HOST_INFO& host) {
     host.m_nbytes = 0;
     host.m_cache = 0;
     host.m_swap = 0;
-#ifdef HAVE_SYS_SYSTEMINFO_H
+#if HAVE_SYS_SYSTEMINFO_H
     struct statvfs foo;
     char buf[256];
 
@@ -211,6 +226,8 @@ int get_host_info(HOST_INFO& host) {
 #ifdef linux			    
     parse_cpuinfo(host);
     parse_meminfo(host);
+#endif
+#ifdef HAVE_SYS_UTSNAME_H
     get_osinfo(host);
 #endif
     get_timezone(host.timezone);

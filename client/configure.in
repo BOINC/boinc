@@ -37,7 +37,7 @@ AC_CHECK_LIB(stdc++, cerr)
 dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h)
+AC_CHECK_HEADERS(fcntl.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h sys/resource.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

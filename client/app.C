@@ -219,7 +219,8 @@ int ACTIVE_TASK::start(bool first_time) {
 
     fclose( init_file );
 
-#ifdef unix
+#ifdef HAVE_UNISTD_H
+#ifdef HAVE_SYS_TYPES_H
     pid = fork();
     if (pid == 0) {
         
@@ -249,6 +250,7 @@ int ACTIVE_TASK::start(bool first_time) {
         exit(1);
     }
     if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
+#endif
 #endif
 
 #ifdef _WIN32
