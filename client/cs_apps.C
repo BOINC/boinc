@@ -341,9 +341,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     unsigned int i;
 
     elapsed_time = time(NULL) - cpu_sched_last_time;
-    if (elapsed_time < cpu_sched_period
-        && !have_free_cpu()
-        && !must_reschedule
+    if ((elapsed_time < cpu_sched_period
+         && !have_free_cpu()
+         && !must_reschedule)
+        || projects.size() < 1
     ) {
         return false;
     }
