@@ -5,9 +5,9 @@ include_once("util.inc");
 include_once("login.inc");
 include_once("prefs.inc");
 
-$project = db_init();
-$head = sprintf("Create User Account for %s", $project);
-page_head($head);
+db_init();
+
+page_head("Create Account");
 print_create_account_form();
 page_tail();
 

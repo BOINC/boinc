@@ -6,7 +6,7 @@
 
     db_init();
     $user = get_user_from_cookie();
-
+    
     $query = sprintf(
         "select * from team where id = %d",
         $HTTP_POST_VARS["id"]
@@ -40,7 +40,7 @@
         }
     } else {
         page_head("Unable to remove $user->name");
-        echo "$user->name is not a member of this $team_name.\n";
+        echo "$user->name is not a member of $team_name.\n";
     }
 
 page_tail();

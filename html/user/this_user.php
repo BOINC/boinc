@@ -5,7 +5,7 @@
     db_init();
     $user = get_user_from_cookie();
     if ($user) {
-        show_user_page($user, $project);
+        show_user_page($user);
     } else {
         echo "Not logged in";
     }

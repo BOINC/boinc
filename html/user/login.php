@@ -1,8 +1,7 @@
 <?php
     require_once("util.inc");
     require_once("login.inc");
-    $head = sprintf("Login to %s", db_init());
-    page_head($head);
+    db_init();
+    page_head("Log in");
     print_login_form();
-    page_tail();
 ?>

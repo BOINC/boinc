@@ -10,7 +10,7 @@
     $words = preg_split("/[\s,]+/", $team_name);
     $length = count($words);
     $name_lc = strtolower($team_name);
-
+     
     $query = sprintf(
         "select * from team where name_lc like '%s'",
         "%$name_lc%"
@@ -20,6 +20,8 @@
     if ($result_list) {
         $total = 0;
         echo "<h2>Search results for '$team_name'</h2>";
+        echo "<p>";
+        echo "You may view these teams' members, statistics, and information.";
         echo "<ul>";
         while ($team_possible = mysql_fetch_object($result_list)) {
             if ($total >= 100) {

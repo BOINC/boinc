@@ -32,7 +32,7 @@
             $team_name = $team->name;
             page_head("$team_name disbanded");
             echo "<h2>Disband Complete</h2>";
-            echo "You have disbanded $team_name";
+            echo "You have disbanded $team_name.";
         } else {
             page_head("Error");
             echo "Couldn't disband team - please try later.\n";

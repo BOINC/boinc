@@ -24,8 +24,8 @@ if (!$team) {
     page_head("Permission denied");
     echo "Only a team's founder may view a team's email list.";
 } else {
-    page_head("Team Email List");
-    echo "<h2>Team Email List</h2>";
+    page_head("$team->name Email List");
+    echo "<h2>Email List for $team->name</h2>";
     echo "<table border=1><tr><th>Name</th>";
     echo "<th>Email Address</th></tr>";
     $query = sprintf(
