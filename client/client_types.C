@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -140,7 +140,7 @@ int PROJECT::parse_account(FILE* in) {
 
         if (match_tag(buf, "</account>")) return 0;
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
-            case_format_url(master_url);
+            canonicalize_master_url(master_url);
             continue;
         }
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
@@ -656,10 +656,10 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else if (parse_str(buf, "<command_line>", command_line, sizeof(command_line))) continue;
         else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
-        else if (parse_double(buf, "<rsc_fpops>", rsc_fpops)) continue; 
-        else if (parse_double(buf, "<rsc_iops>", rsc_iops)) continue; 
-        else if (parse_double(buf, "<rsc_memory>", rsc_memory)) continue; 
-        else if (parse_double(buf, "<rsc_disk>", rsc_disk)) continue; 
+        else if (parse_double(buf, "<rsc_fpops>", rsc_fpops)) continue;
+        else if (parse_double(buf, "<rsc_iops>", rsc_iops)) continue;
+        else if (parse_double(buf, "<rsc_memory>", rsc_memory)) continue;
+        else if (parse_double(buf, "<rsc_disk>", rsc_disk)) continue;
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);
@@ -703,7 +703,7 @@ int WORKUNIT::write(FILE* out) {
 
 bool WORKUNIT::had_failure(int& failnum) {
     unsigned int i;
-     
+
     for (i=0;i<input_files.size();i++) {
         if (input_files[i].file_info->had_failure(failnum)) {
             return true;

@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -160,6 +160,79 @@ void dir_close(DIRREF dirp) {
 #endif
 }
 
+DirScanner::DirScanner(string const& path) {
+#ifdef HAVE_DIRENT_H
+    dirp = opendir(path.c_str());
+#endif
+
+#ifdef _WIN32
+    first = true;
+    handle = INVALID_HANDLE_VALUE;
+    if(!is_dir((char*)path.c_str())) {
+        return;
+    }
+    dir = path + "\\*";
+#endif
+}
+
+// Scan through a directory and return the next file name in it
+//
+bool DirScanner::scan(string& s) {
+#ifdef HAVE_DIRENT_H
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (dp) {
+            if (dp->d_name[0] == '.') continue;
+            s = dp->d_name;
+            return true;
+        } else {
+            return false;
+        }
+    }
+#endif
+#ifdef _WIN32
+    WIN32_FIND_DATA data;
+    while (1) {
+        if (first) {
+            first = false;
+            handle = FindFirstFile(path.c_str(), &data);
+            if (handle == INVALID_HANDLE_VALUE) {
+                return false;
+            } else {
+                if (data.cFileName[0] == '.') continue;
+                s = data.cFileName;
+                return true;
+            }
+        } else {
+            if (FindNextFile(handle, &data)) {
+                if (data.cFileName[0] == '.') continue;
+                s = data.cFileName;
+                return true;
+            } else {
+                FindClose(handle);
+                handle = INVALID_HANDLE_VALUE;
+                return false;
+            }
+        }
+    }
+#endif
+}
+
+// Close a directory
+DirScanner::~DirScanner() {
+#ifdef HAVE_DIRENT_H
+    if (dirp) {
+        closedir(dirp);
+    }
+#endif
+#ifdef _WIN32
+    if (handle != INVALID_HANDLE_VALUE) {
+        FindClose(handle);
+    }
+#endif
+}
+
+
 // Delete the file located at path
 //
 int file_delete(char* path) {
@@ -196,7 +269,7 @@ int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;
     DIRREF dirp;
-    
+
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
@@ -309,7 +382,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
 #else
 #ifdef STATFS
     struct STATFS fs_info;
-    
+
     STATFS(".", &fs_info);
     total_space = (double)fs_info.f_bsize * (double)fs_info.f_blocks;
     free_space = (double)fs_info.f_bsize * (double)fs_info.f_bavail;

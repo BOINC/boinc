@@ -4992,3 +4992,24 @@ Karl    2003/06/23
         client_state.C
     db/
         boinc_db.h
+
+Karl    2003/06/23
+    - Make sure the user can't add one project twice (by one having a trailing
+      slash).
+        Canonicalize master urls to have a trailing '/' and remove double
+        slashes.  Ensure account filenames and directories do not have the
+        trailing '_'.  For many users their account files already have
+        trailing '_'s so if such files are found, rename them and their
+        corresponding project directories on startup.  Created C++ string
+        versions of some functions for easier/safer/more efficient string
+        manipulation.
+
+    client/
+        account.C
+        client_types.C
+        file_names.C
+    lib/
+        filesys.C
+        filesys.h
+        util.C
+        util.h

@@ -27,6 +27,8 @@
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
+#include <string>
+using namespace std;
 
 #ifdef _WIN32
 #include <time.h>
@@ -357,19 +359,43 @@ void escape_url_readable(char *in, char* out) {
     out[y] = 0;
 }
 
-// Convert the first part of a URL (before the "://") to lowercase
-//
-void case_format_url(char *url) {
-    char *sep, *p;
-
-    sep = strstr(url, "://");
-    if (sep) {
-        p = url;
-        while (*p && p != sep) {
-            *p = tolower(*p);
-            p++;
-        }
+inline void replace_string(string& s, string const& src,
+                           string const& dest, string::size_type start=0)
+{
+    string::size_type p;
+    while ( (p=s.find(src, start)) != string::npos ) {
+        s.replace(p, src.length(), dest);
+        start = p + dest.length();
     }
+}
+
+// Canonicalize a master url.
+//   - Convert the first part of a URL (before the "://") to lowercase
+//   - Remove double slashes
+//   - Add a trailing slash if necessary
+//
+void canonicalize_master_url(string& url) {
+    string::size_type p = url.find("://");
+    // lowercase http://
+    if (p != string::npos) {
+        transform(url.begin(), url.begin()+p, url.begin(), tolower);
+        p += 3;
+    } else {
+        p = 0;
+    }
+    // remove double slashes
+    replace_string(url, "//", "/", p);
+
+    // ensure trailing slash
+    if (url[url.length()-1] != '/') {
+        url += '/';
+    }
+}
+
+void canonicalize_master_url(char *xurl) {
+    string url = xurl;
+    canonicalize_master_url(url);
+    strcpy(xurl, url.c_str());
 }
 
 void safe_strncpy(char* dst, char* src, int len) {
