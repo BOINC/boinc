@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -55,7 +55,7 @@ struct FILE_INFO {
 };
 
 int FILE_INFO::parse(FILE* in) {
-    char buf[256], ebuf[256];
+    char buf[256];
     int retval;
 
     memset(this, 0, sizeof(FILE_INFO));
@@ -73,14 +73,12 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<generated_locally/>")) continue;
         if (match_tag(buf, "<upload_when_present/>")) continue;
         if (match_tag(buf, "<url>")) continue;
-        sprintf(ebuf, "FILE_INFO::parse: unrecognized: %s \n", buf);
-        write_log(ebuf, MSG_NORMAL);
+        write_log(MSG_NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
     }
     return 1;
 }
 
 int return_error(bool transient, char* message) {
-    char buf[256];
     printf(
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
@@ -89,9 +87,10 @@ int return_error(bool transient, char* message) {
         "</data_server_reply>\n",
         transient?1:-1,
         message
-    );
-    sprintf(buf, "%s\n", message);
-    write_log(buf, MSG_DEBUG);
+        );
+    write_log(MSG_DEBUG, "Returning error to client: %s (%s)\n", message,
+              (transient?"transient":"permanent")
+        );
     return 1;
 }
 
@@ -125,9 +124,9 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     }
 
     // TODO: use a 64-bit variant
-    
+
     retval = fseek(out, (long)offset, SEEK_CUR);
-  
+
     if (retval) {
         fclose(out);
         return return_error(ERR_TRANSIENT, "can't fseek file");
@@ -135,8 +134,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
         fclose(out);
-        sprintf(buf2, "offset == nbytes: %f\n", nbytes);
-        write_log(buf2, MSG_DEBUG);
+        write_log(MSG_DEBUG, "offset == nbytes: %f\n", nbytes);
         return return_success(0);
     }
     while (1) {
@@ -179,7 +177,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool is_valid;
 
     while (fgets(buf, 256, in)) {
-        write_log(buf, MSG_DEBUG);
+        // TODO: indent
+        write_log(MSG_DEBUG, buf);
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
@@ -189,7 +188,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
-                fprintf(stderr,
+                write_log(MSG_NORMAL,
                     "signed xml:\n%s"
                     "signature:\n%s",
                     file_info.signed_xml, file_info.xml_signature
@@ -248,17 +247,14 @@ int handle_get_file_size(char* file_name) {
     sprintf(path, "%s/%s", config.upload_dir, file_name );
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
-        sprintf(buf, "handle_get_file_size: %s, returning error\n", file_name);
-        write_log(buf, MSG_NORMAL);
+        write_log(MSG_NORMAL, "handle_get_file_size: %s, returning error\n", file_name);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
-        sprintf(buf, "handle_get_file_size: %s, returning zero\n", file_name);
-        write_log(buf, MSG_NORMAL);
+        write_log(MSG_NORMAL, "handle_get_file_size: %s, returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
     } else {
-        sprintf(buf, "handle_get_file_size: %s, returning %d\n",
+        write_log(MSG_NORMAL, "handle_get_file_size: %s, returning %d\n",
                 file_name, (int)sbuf.st_size);
-        write_log(buf, MSG_NORMAL);
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
     }
@@ -272,7 +268,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool got_version = false;
 
     while (fgets(buf, 256, in)) {
-        write_log(buf, MSG_DEBUG);
+        // TODO: indent
+        write_log(MSG_DEBUG, buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
                 sprintf(buf,
@@ -336,7 +333,7 @@ int main() {
         return_error(ERR_TRANSIENT, "can't read key file");
         exit(1);
     }
-    
+
     handle_request(stdin, key);
     return 0;
 }
