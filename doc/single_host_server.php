@@ -61,10 +61,10 @@ enabled, with a max shared segment size of at least 32 MB.
   The php scripts need access to the database, so the user that Apache runs
   under needs SELECT,INSERT,UPDATE,DELETE to the database just created.
 </P>
-At this point you need to add platform(s), application(s), application
-version(s), and core version(s). See <a href=tool_add.php>Add tool</a>
-documentation and the <a href=tool_update_versions.php>update_versions
-tool</a> documentation..
+At this point you need to add platform(s) and application(s) to the database
+using the <a href=tool_add.php>add</a> tool, and add core versions and
+application versions using the <a
+href=tool_update_versions.php>update_versions</a> tool.
 
 <h3>Directory structure</h3>
 
