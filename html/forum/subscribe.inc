@@ -18,7 +18,7 @@ function subscribe($thread, $user=null) {
     $result = sql_query($sql);
     
     // If they're already subscribed, don't add them again;
-    if (sql_num_rows($result > 0)) {
+    if (sql_num_rows($result) > 0) {
         // TODO: Specific "error" page for this case.
         show_result_page("subscribe", true, $thread);
     }
