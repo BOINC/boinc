@@ -112,8 +112,16 @@ function write_fd($fd, $str) {
     }
 }
 
-function page_head($title, $user=null, $fd=null) {
-    write_fd($fd, "<html>\n<head><title>$title</title>\n</head>\n<body bgcolor=ffffff>\n");
+function page_head($title, $user=null, $fd=null, $styleSheet=null) {
+    if ($user == NULL) {
+        $user = get_logged_in_user(false);
+    }
+    
+    write_fd($fd, "<html><head><title>$title</title>\n");
+    if ($styleSheet) {
+        write_fd($fd, "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">");
+    }
+    write_fd($fd, "</head>\n<body bgcolor=ffffff>\n");
     project_banner($user, $fd);
 }
 
@@ -378,7 +386,7 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $total_chars = 0;
     $count = 0;
     $result = '';
-    
+
     do {
         if ($count > 0) {
             $result = $result . ' ' . $words[$count];
@@ -388,11 +396,11 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
         $total_chars += strlen($words[$count]) + 1;
         $count++;
     } while ($count < count($words) && ($total_chars + strlen($words[$count])) <= $max_chars);
-    
+
     if ($ellipsis && ($count < count($words))) {
         $result = $result . '...';
     }
-    
+
     return $result;
 }
 
@@ -403,7 +411,7 @@ function doError($msg, $info = '') {
     page_head('Error');
     echo '<p class="title">'.$msg.'</p>';
     echo '<p>The error has been recorded, and the website administrator will investigate the issue as soon as possible.  We sincerely apologize for the inconvenience.</p>';
-    
+
     //doFooter();
     page_tail();
     exit();
