@@ -156,12 +156,12 @@ void SetMode(int mode) {
 
 	if(!wglMakeCurrent(hDC, hRC)) {
 		ReleaseDC(hWnd, hDC);
-		wglDeleteContext(hRC);
+		wglDeleteContext(hRC); 
 		return;
 	}
 
 	width = WindowRect.right-WindowRect.left;
-	height = WindowRect.bottom-WindowRect.top;
+	height = WindowRect.bottom-WindowRect.top;	
 
 	SetTimer(hWnd, 1, 100, NULL);
 
@@ -172,7 +172,6 @@ void SetMode(int mode) {
 		ShowWindow(hWnd, SW_HIDE);
 	}	
 
-	ReSizeGLScene(width, height);	
 	InitGL();
 
 #ifdef DRAW_WITH_DLL
@@ -180,11 +179,8 @@ void SetMode(int mode) {
 #else
 	app_init_gl();
 #endif
-	
 
-	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
-
-
+	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);	
 }
 
 // message handler (includes timer, Windows msgs)
@@ -231,7 +227,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			EndPaint(hWnd, &ps);
 			return 0;
 		case WM_SIZE:
-			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
+			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));			
 			return 0;
 		case WM_TIMER:
 			if (app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {

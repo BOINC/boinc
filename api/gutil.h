@@ -56,11 +56,20 @@ extern void draw_text_new(
     float* pos, float height, float width, float spacing, char *text
 );
 
+extern void draw_text_new_right(
+    float* pos, float height, float width, float spacing, char *text
+);
+
+extern void draw_text_new_3d(
+    float* pos, float height, float width, float spacing, char *text
+);
+
 extern void draw_rotated_text(
 	float* pos, float height, float width, float spacing, char *text, float rotation, float* rotation_vector
 );
 
 extern float text_width(char* text);
+extern float text_width_new(char* text);
 extern void draw_text_panel(
     float* _pos, float* size, float margin, COLOR color,
     float char_height, float line_width, float line_spacing,
@@ -92,6 +101,16 @@ public:
     void draw(float);
 };
 
+//2d progress bar
+class PROGRESS_2D {
+    float pos[3];
+    float color[4], inner_color[4];
+    float len, width, inner_width;
+public:
+    PROGRESS_2D(float* pos, float len, float width, float inner_width, float* c, float* ic);
+    void draw(float);
+};
+
 // a graph drawn as a ribbon in 3D
 //
 class GRAPH_2D {
@@ -103,7 +122,7 @@ class GRAPH_2D {
     void draw_y(int);
 public:
     GRAPH_2D(float* pos, float* size, float* color, float* tick_color);
-    void draw(float* data, int len);
+    void draw(float* data, int len);	
     void add_tick(float x, float yfrac);
 };
 
@@ -131,14 +150,18 @@ public:
 
 // ----- STUFF RELATED TO STARFIELDS
 //
+
+#define PI 3.14159265358979323846264
+#define TAN22_5 0.41421356237309504880
+#define MAX_STARFIELD_SIZE 10000
+
 struct Star {	
-	float x,y,z,v;	
-	Star* next;	
+	float x,y,z,v;		
 };
 
 extern void build_stars(int, float);
-extern void update_stars(int, float);
-extern void replaceStar(Star* tmpStar);
+extern void update_stars(int, float,float);
+extern void replaceStar(int);
 
 
 // ----- STUFF RELATED TO TEXTURES AND IMAGES
@@ -149,7 +172,6 @@ extern void replaceStar(Star* tmpStar);
 #define IMAGE_TYPE_TGA      3
 
 struct TEXTURE_DESC {
-    bool present;
     unsigned int id;
     double xsize;          // size of underlying image
     double ysize;

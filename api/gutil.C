@@ -324,10 +324,20 @@ GLfloat text_width(char* text) {
     return sum/STROKE_SCALE;
 }
 
+GLfloat text_width_new(char* text) {
+	GLfloat sum=0;
+	char* p;
+	float w=.01; //FIND OUT WHAT IT IS
+	for(p=text;*p;p++) {
+		sum += w;
+	}
+	return sum;
+}
+
 static void draw_text_line_aux(char *text) {
     char *p;
     for (p = text; *p; p++) {
-        glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);		
     }
 }
 
@@ -335,6 +345,7 @@ static void draw_text_start(GLfloat* pos, GLfloat char_height, GLfloat line_widt
     glLineWidth(line_width);
     glPushMatrix();	
     glTranslatef(pos[0], pos[1], pos[2]);
+	glRasterPos3d(pos[0],pos[1],pos[2]);
     float w = char_height/STROKE_SCALE;
     glScalef(w, w, w);	
     
@@ -417,7 +428,7 @@ void draw_text(
     }
 }
 
-void draw_text_new(
+void draw_text_new_3d(
 	GLfloat* _pos, GLfloat char_height, GLfloat line_width,
     GLfloat line_spacing, char* text)
 {
@@ -428,15 +439,66 @@ void draw_text_new(
     strcpy(buf, text);
 
     p = buf;
+	glPushMatrix();	
+    glTranslatef(pos[0], pos[1], pos[2]);
     while (*p) {
         q = strchr(p, '\n');
+        if (q) *q = 0;
+//		glRasterPos3d(pos[0],pos[1],pos[2]);    
+		print_text(listBase[0], p);
+        pos[1] -= line_spacing;
+        if (!q) break;		
+        p = q+1;
+    }
+	glPopMatrix();
+}
+
+void draw_text_new(
+    GLfloat* _pos, GLfloat char_height, GLfloat line_width,
+    GLfloat line_spacing, char* text)
+{
+	char *q, *p;
+	char buf[4096];
+	GLfloat pos[3];
+	memcpy(pos,_pos,sizeof(pos));
+	strcpy(buf,text);
+	p=buf;
+
+	while(*p)
+	{
+		q = strchr(p, '\n');
         if (q) *q = 0;
 		glRasterPos3d(pos[0],pos[1],pos[2]);
 		print_text(listBase[0], p);
         pos[1] -= line_spacing;
         if (!q) break;
         p = q+1;
-    }
+	}
+}
+
+void draw_text_new_right(
+    GLfloat* _pos, GLfloat char_height, GLfloat line_width,
+    GLfloat line_spacing, char* text)
+{
+	char *q, *p;
+	char buf[4096];
+	GLfloat pos[3];
+	memcpy(pos,_pos,sizeof(pos));
+	strcpy(buf,text);
+	p=buf;
+	float l;
+
+	while(*p)
+	{
+		q = strchr(p, '\n');
+        if (q) *q = 0;
+		l=text_width_new(p);
+		glRasterPos3d(pos[0]-l,pos[1],pos[2]);
+		print_text(listBase[0], p);
+        pos[1] -= line_spacing;
+        if (!q) break;
+        p = q+1;
+	}
 }
 
 void MOVING_TEXT_PANEL::init(
@@ -552,6 +614,37 @@ void PROGRESS::draw(float x) {
     drawCylinder(false, pos, len, rad);
 }
 
+PROGRESS_2D::PROGRESS_2D(
+	GLfloat* p, GLfloat l, GLfloat w, GLfloat in, GLfloat* c, GLfloat* ic
+) {
+    memcpy(pos, p, sizeof(pos));
+    len  = l;
+    width = w;
+    inner_width = in;
+    memcpy(color, c, sizeof(color));
+    memcpy(inner_color, ic, sizeof(inner_color));
+}
+
+//pos specifies top left of graph
+void PROGRESS_2D::draw(float x) {
+	glBegin(GL_QUADS);
+	glColor4d(color[0],color[1],color[2],color[3]);
+	glVertex3d(pos[0],pos[1],pos[2]);
+	glVertex3d(pos[0],pos[1]-width,pos[2]);
+	glVertex3d(pos[0]+len,pos[1]-width,pos[2]);
+	glVertex3d(pos[0]+len,pos[1],pos[2]);
+	glEnd();
+
+	float dif=width-inner_width;
+    glBegin(GL_QUADS);
+	glColor4d(inner_color[0],inner_color[1],inner_color[2],inner_color[3]);
+	glVertex3d(pos[0],pos[1]-(dif/2.),pos[2]);
+	glVertex3d(pos[0],pos[1]-(inner_width+dif/2.),pos[2]);
+	glVertex3d(pos[0]+x*len,pos[1]-(inner_width+dif/2.),pos[2]);
+	glVertex3d(pos[0]+x*len,pos[1]-(dif/2.),pos[2]);
+	glEnd();
+}
+
 GRAPH_2D::GRAPH_2D(float* p, float* s, float* c, float* tc) {
     memcpy(pos, p, sizeof(pos));
     memcpy(size, s, sizeof(size));
@@ -655,58 +748,15 @@ float white[4] = {1., 1., 1., 1.};
 
 
 //star drawing functions -<oliver wang>-
-#define PI 3.14159265358979323846264
-
-//pointer to the begining of the list
-Star* stars = new Star;
+Star stars[MAX_STARFIELD_SIZE];
 
 //makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
 void build_stars(int size, float speed)
 {
-	int i=0;	
-	Star* tmpStar = stars;		
-	float fov=45.0f;
-	while(i<size)
-	{
-		
-		float z = -frand()*1000;
-		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
-		float beta = asin(z/1000.0f);
-		float x = 1000.0f * cos(beta) * cos(alpha);
-		float y = 1000.0f * cos(beta) * sin(alpha);				
-
-		tmpStar->x=x;
-		tmpStar->y=y;
-		tmpStar->z=z;		
-		
-		float v = (float)((rand()%1000)/1000.0f);
-		tmpStar->v=v;
-
-		tmpStar->next = new Star;		
-		tmpStar=tmpStar->next;
-		i++;	
-	}	
-	tmpStar->next=NULL;
-	tmpStar=NULL;
-}
-
-//moves stars towards the eye vector, and replaces ones that go behind z=0
-
-float dotProd(float a, float b, float c, float x, float y, float z)
-{
-	return(a*x+b*y+c*z);
-}
-
-void update_stars(int number, float speed)
-{
 	float modelview[16];
-
-	float dist;
 	float eye[3];
 	float camera[3];
 	
-	Star* tmpStar = stars;	
-
 	if(get_matrix_invert(modelview)==false)
 		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
 
@@ -718,56 +768,111 @@ void update_stars(int number, float speed)
 	camera[1]=modelview[6];
 	camera[2]=modelview[10];
 
-	while(tmpStar!=NULL)		
+	int i=0;	
+	float fov=45.0f;
+	for(i=0;i<size;i++)
+	{		
+#if 0
+		float z = -frand()*2000;		
+		float x = 2.0f*-z*TAN22_5*frand();		
+		float y = 2.0f*-z*TAN22_5*frand();
+		
+		x-=-z*TAN22_5;
+		y-=-z*TAN22_5;
+		
+		stars[i].x=x;
+		stars[i].y=y;
+		stars[i].z=z;		
+#endif
+		//old version
+		float z = -frand()*1000;
+		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
+		float beta = asin(z/1000.0f);
+		float x = 1000.0f * cos(beta) * cos(alpha);
+		float y = 1000.0f * cos(beta) * sin(alpha);				
+		stars[i].x=x;
+		stars[i].y=y;
+		stars[i].z=z;
+	
+		float v = frand();
+		stars[i].v=v;
+	}	
+}
+
+//moves stars towards the eye vector, and replaces ones that go behind z=0
+
+float dotProd(float a, float b, float c, float x, float y, float z)
+{
+	return(a*x+b*y+c*z);
+}
+
+void update_stars(int size, float speed, float dt)
+{
+	float modelview[16];
+
+	float dist;
+	float eye[3];
+	float camera[3];
+	
+	if(get_matrix_invert(modelview)==false)
+		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
+
+	eye[0]=modelview[2];
+	eye[1]=modelview[6];
+	eye[2]=modelview[10];
+
+	camera[0]=modelview[2];
+	camera[1]=modelview[6];
+	camera[2]=modelview[10];
+
+	GLfloat mat_emission[] = {1, 1, 1, 1};
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
+
+	glColor3f(1.0, 1.0, 1.0);
+
+	for(int i=0;i<size;i++)
 	{	
-		dist=sqrt((camera[0]-tmpStar->x)*(camera[0]-tmpStar->x) + 
-				  (camera[1]-tmpStar->y)*(camera[1]-tmpStar->y) + 
-				  (camera[2]-tmpStar->z)*(camera[2]-tmpStar->z));
+		dist=sqrt((camera[0]-stars[i].x)*(camera[0]-stars[i].x) + 
+				  (camera[1]-stars[i].y)*(camera[1]-stars[i].y) + 
+				  (camera[2]-stars[i].z)*(camera[2]-stars[i].z));
 
 		
-		if(dotProd(eye[0],eye[1],eye[2],tmpStar->x,tmpStar->y,tmpStar->z)>0) // behind camera
+		if(dotProd(eye[0],eye[1],eye[2],stars[i].x,stars[i].y,stars[i].z)>0) // behind camera
 		{
-			replaceStar(tmpStar);
+//			replaceStar(i);
 			continue;
 		}		
 		
-		tmpStar->x+=(eye[0])*tmpStar->v*speed;
-		tmpStar->y+=(eye[1])*tmpStar->v*speed;
-		tmpStar->z+=(eye[2])*tmpStar->v*speed;
+		stars[i].x+=(eye[0])*stars[i].v*speed*dt;
+		stars[i].y+=(eye[1])*stars[i].v*speed*dt;
+		stars[i].z+=(eye[2])*stars[i].v*speed*dt;
 
 		
 		//grow objects as the approach you
 		if(dist>900) glPointSize(1.0f);
 		else if(dist>600) glPointSize(2.0f);
-		//else if(dist>30) glPointSize(3.0f);				
-
-		GLfloat mat_emission[] = {1, 1, 1, 1};
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
-
-		glColor3f(1.0, 1.0, 1.0);
+		
 		glBegin(GL_POINTS);
-		glVertex3f(tmpStar->x,tmpStar->y,tmpStar->z);
+		glVertex3f(stars[i].x,stars[i].y,stars[i].z);	
 		glEnd();
+	}	
 
-		GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };	
-		glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );
-		tmpStar=tmpStar->next;		
-	}
+	GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };	
+	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );		
 }
 
-void replaceStar(Star* star) {
+void replaceStar(int i) {
 	float z = -frand()*1000;
 	float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
 	float beta = asin(z/1000.0f);
 	float x = 1000.0f * cos(beta) * cos(alpha);
 	float y = 1000.0f * cos(beta) * sin(alpha);				
-	star->x=x;
-	star->y=y;
-	star->z=z;
-	star->x=x;
+	stars[i].x=x;
+	stars[i].y=y;
+	stars[i].z=z;	
 	
 	float v = (float)((rand()%1000)/1000.0f);
-	star->v=v;		
+	stars[i].v=v;		
 }
 
 // ------------ OLD TEXTURE STUFF --------------------
@@ -905,6 +1010,7 @@ void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 	jpeg_start_decompress(cinfo);
 
 	pImageData->rowSpan = cinfo->image_width * cinfo->num_components;
+	//pImageData->rowSpan = cinfo->output_width * cinfo->output_components;
 	pImageData->sizeX   = cinfo->image_width;
 	pImageData->sizeY   = cinfo->image_height;
 	pImageData->data = new unsigned char[pImageData->rowSpan * pImageData->sizeY];
@@ -1059,23 +1165,20 @@ static int getFileType(char* file) {
 }
 
 int create_texture(char* filename, TEXTURE_DESC& td) {
-    int retval=-1;
-
     switch (getFileType(filename)) {
     case IMAGE_TYPE_JPG:
-        retval = CreateTextureJPG(filename, td); 
+        return CreateTextureJPG(filename, td); 
         break;
     case IMAGE_TYPE_PPM:
-        retval = CreateTexturePPM(filename, td);    
+        return CreateTexturePPM(filename, td);    
         break;
     case IMAGE_TYPE_BMP:
-        retval = CreateTextureBMP(filename, td);
+        return CreateTextureBMP(filename, td);
         break;
     case IMAGE_TYPE_TGA:
-        retval = CreateTextureTGA(filename, td);
+        return CreateTextureTGA(filename, td);
         break;
     }
-    if (!retval) td.present = true;
     return -1;
 }
 
