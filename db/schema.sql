@@ -169,6 +169,7 @@ create table workunit (
     max_error_results   integer     not null,
     max_total_results   integer     not null,
     max_success_results integer     not null,
+    result_template     blob,
     primary key (id)
 );
 

@@ -304,6 +304,7 @@ struct WORKUNIT {
         // (need this in case results never returned
     int max_success_results;    // WU error if < #success results
         // without consensus (i.e. WU is nondeterministic)
+    char result_template[MAX_BLOB_SIZE];
 
     // the following not used in the DB
     char app_name[256];

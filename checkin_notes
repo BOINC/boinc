@@ -5798,3 +5798,20 @@ David  Aug 15 2003
 
 David  Aug 15 2003
     - changed "timeout_check" to "transitioner"
+
+David  Aug 15 2003
+    - changed logic so that create_work doesn't create any results;
+        this is left to the transitioner, since it does this anyway.
+        This required adding a result_template field to the workunit table,
+        which is the original result template macro-substituted
+        with the upload URL
+    
+        db/
+            boinc_db.C,h
+            schema.sql
+        sched/
+            make_work.C
+            transitioner.C
+        tools/
+            backend_lib.C,h
+            process_result_template.C

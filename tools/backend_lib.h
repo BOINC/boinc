@@ -26,7 +26,12 @@ extern int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
-    char* upload_url, char* download_url
+    char* upload_url
+);
+
+extern int process_result_template_upload_url_only(
+    char* result_template,
+    char* upload_url
 );
 
 extern int read_file(FILE*, char* buf);
@@ -37,7 +42,7 @@ extern int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key);
 extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 extern int create_result(
     DB_WORKUNIT& wu, char* result_template_filename, char* suffix,
-    R_RSA_PRIVATE_KEY& key, char* upload_url, char* download_url
+    R_RSA_PRIVATE_KEY& key, char* upload_url
 );
 
 extern int create_work(

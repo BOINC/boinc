@@ -188,7 +188,7 @@ void make_work() {
         sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
             wu, result_template, suffix, key,
-            config.upload_url, config.download_url
+            config.upload_url
         );
         log_messages.printf(SchedMessages::DEBUG, "[%s_%s] Added result\n", wu.name, suffix);
         nresults_left--;

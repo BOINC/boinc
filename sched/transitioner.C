@@ -291,6 +291,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 wu.id, wu.name, n
             );
             for (i=0; i<n; i++) {
+#if 0
                 result = results[0];
                 make_unique_name(result.name);
                 initialize_result(result, wu);
@@ -303,6 +304,18 @@ void handle_wu(DB_WORKUNIT& wu) {
                         SchedMessages::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.insert() %d\n",
                         wu.id, wu.name, result.id, result.name, retval
+                    );
+                    break;
+                }
+#endif
+                sprintf(suffix, "%d", results.size()+i);
+                strcpy(result_template, wu.result_template);
+                retval = create_result(wu, result_template, suffix, key, "");
+                if (retval) {
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[WU#%d %s] create_result() %d\n",
+                        wu.id, wu.name, retval
                     );
                     break;
                 }

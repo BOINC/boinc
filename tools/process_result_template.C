@@ -113,7 +113,7 @@ int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
-    char* upload_url, char* download_url
+    char* upload_url
 ) {
     char* p,*q;
     char temp[MAX_BLOB_SIZE];
@@ -142,4 +142,26 @@ int process_result_template(
         break;
     }
     return add_signatures(result_template, key);
+}
+
+// macro-substitute a result template only for UPLOAD_URL_MACRO
+//
+int process_result_template_upload_url_only(
+    char* result_template,
+    char* upload_url
+) {
+    char *p;
+    char temp[MAX_BLOB_SIZE];
+
+    while (1) {
+        p = strstr(result_template, UPLOAD_URL_MACRO);
+        if (p) {
+            strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
+            strcpy(p, upload_url);
+            strcat(p, temp);
+            continue;
+        }
+        break;
+    }
+    return 0;
 }

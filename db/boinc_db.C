@@ -581,7 +581,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
         "workseq_next=%d, opaque=%d, "
         "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
-        "max_total_results=%d, max_success_results=%d",
+        "max_total_results=%d, max_success_results=%d, "
+        "result_template='%s'",
         id, create_time, appid,
         name, xml_doc, batch,
         rsc_fpops, rsc_iops, rsc_memory, rsc_disk,
@@ -594,7 +595,8 @@ void DB_WORKUNIT::db_print(char* buf){
         target_nresults,
         max_error_results,
         max_total_results,
-        max_success_results
+        max_success_results,
+        result_template
     );
 }
 
@@ -626,6 +628,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     max_error_results = atoi(r[i++]);
     max_total_results = atoi(r[i++]);
     max_success_results = atoi(r[i++]);
+    strcpy2(result_template, r[i++]);
 }
 
 void DB_RESULT::db_print(char* buf){
