@@ -140,15 +140,11 @@ Cancel=CANCEL
 Title=RESET PROJECT
 Are you sure you want to reset the project =ARE YOU SURE YOU WANT TO RESET THE PROJECT 
 ?=???
-Reset=RESET
-Cancel=CANCEL
 
 [DIALOG-DETACH]
 Title=DETACH PROJECT
 Are you sure you want to detach from the project =ARE YOU SURE YOU WANT TO DETACH FROM THE PROJECT 
 ?=???
-Detach=DETACH
-Cancel=CANCEL
 
 [DIALOG-ABOUT]
 Title=Boinc Beta Version
