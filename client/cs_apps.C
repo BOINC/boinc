@@ -351,7 +351,7 @@ bool CLIENT_STATE::schedule_cpus() {
         must_schedule_cpus = false;
     } else {
         elapsed_time = time(0) - cpu_sched_last_time;
-        if (elapsed_time < global_prefs.cpu_sched_period) {
+        if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
     }

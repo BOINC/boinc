@@ -45,7 +45,7 @@ struct GLOBAL_PREFS {
     bool hangup_if_dialed;
     double work_buf_min_days;
     int max_cpus;
-    int cpu_sched_period;
+    double cpu_scheduling_period_minutes;
     double disk_interval;
     double disk_max_used_gb;
     double disk_max_used_pct;
