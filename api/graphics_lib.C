@@ -46,7 +46,7 @@ void* graphics_lib_handle=NULL;
 
 int boinc_init_graphics_lib(WORKER_FUNC_PTR worker, char* argv0) {
     BOINC_OPTIONS opt;
-    options_defaults(opt);
+    boinc_options_defaults(opt);
     return boinc_init_options_graphics_lib(opt, worker, argv0);
 }
 

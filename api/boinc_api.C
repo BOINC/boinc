@@ -64,7 +64,7 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-APP_INIT_DATA  aid;
+static APP_INIT_DATA  aid;
 
 APP_CLIENT_SHM       *app_client_shm      = 0;
 static double         timer_period        = 1.0;
@@ -112,20 +112,10 @@ static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
 static BOINC_OPTIONS options;
 static BOINC_STATUS boinc_status;
 
-void options_defaults(BOINC_OPTIONS& b) {
-    b.main_program = true;
-    b.check_heartbeat = true;
-    b.handle_trickle_ups = true;
-    b.handle_trickle_downs = true;
-    b.handle_process_control = true;
-    b.send_status_msgs = true;
-    b.direct_process_action = true;
-}
-
 // the following 2 functions are used when there's no graphics
 //
 int boinc_init() {
-    options_defaults(options);
+    boinc_options_defaults(options);
     return boinc_init_options(options);
 }
 

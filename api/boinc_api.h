@@ -91,8 +91,6 @@ extern bool boinc_time_to_checkpoint();
 
 #include "app_ipc.h"
 
-extern APP_INIT_DATA aid;
-
 extern int boinc_init_options(BOINC_OPTIONS&);
 extern int boinc_get_status(BOINC_STATUS&);
 extern int boinc_resolve_filename_s(const char*, std::string&);
@@ -110,6 +108,16 @@ extern HANDLE worker_thread_handle;
 #endif
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int set_worker_timer(void);
+
+inline void boinc_options_defaults(BOINC_OPTIONS& b) {
+    b.main_program = true;
+    b.check_heartbeat = true;
+    b.handle_trickle_ups = true;
+    b.handle_trickle_downs = true;
+    b.handle_process_control = true;
+    b.send_status_msgs = true;
+    b.direct_process_action = true;
+}
 
 
 /////////// IMPLEMENTATION STUFF ENDS HERE

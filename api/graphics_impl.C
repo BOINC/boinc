@@ -76,7 +76,7 @@ void* foobar(void*) {
 //
 int boinc_init_graphics_impl(WORKER_FUNC_PTR worker, BOINC_MAIN_STATE* bmsp) {
     BOINC_OPTIONS opt;
-    options_defaults(opt);
+    boinc_options_defaults(opt);
     return boinc_init_options_graphics_impl(opt, worker, bmsp);
 }
 

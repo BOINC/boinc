@@ -23,6 +23,7 @@ static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
 static void set_mode(int mode);
+static APP_INIT_DATA aid;
 
 // This callback is invoked when a user presses a key.
 //
