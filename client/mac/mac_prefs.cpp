@@ -66,33 +66,33 @@ CantInstallDialogHandler:
 // Dialog event handler
 //
 pascal OSStatus PrefsDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData) {
-OSStatus 		result = eventNotHandledErr;
-HICommand		command;
-bool		stopModalLoop = FALSE;
-
-// Get the HI Command
-GetEventParameter (event, kEventParamDirectObject, typeHICommand, NULL,
-                   sizeof (HICommand), NULL, &command);
-// Look for OK and Cancel commands
-switch (command.commandID) {
-    case kHICommandOK:		// 'ok  '
-        //HandleResponse(TRUE);
-        stopModalLoop = TRUE;
-        result = noErr;
-        break;
-    case kHICommandCancel:		// 'not!'
-        //HandleResponse(FALSE);
-        stopModalLoop = TRUE;
-        result = noErr;
-        break;
-}
-
-// Stop the modal loop.
-if (stopModalLoop) {
-    QuitAppModalLoopForWindow((WindowRef)userData);
-}
-
-//Return how we handled the event.
-return result;
+    OSStatus 		result = eventNotHandledErr;
+    HICommand		command;
+    bool		stopModalLoop = FALSE;
+    
+    // Get the HI Command
+    GetEventParameter (event, kEventParamDirectObject, typeHICommand, NULL,
+                    sizeof (HICommand), NULL, &command);
+    // Look for OK and Cancel commands
+    switch (command.commandID) {
+        case kHICommandOK:		// 'ok  '
+            //HandleResponse(TRUE);
+            stopModalLoop = TRUE;
+            result = noErr;
+            break;
+        case kHICommandCancel:		// 'not!'
+            //HandleResponse(FALSE);
+            stopModalLoop = TRUE;
+            result = noErr;
+            break;
+    }
+    
+    // Stop the modal loop.
+    if (stopModalLoop) {
+        QuitAppModalLoopForWindow((WindowRef)userData);
+    }
+    
+    //Return how we handled the event.
+    return result;
 }
 

@@ -54,7 +54,6 @@
 #define RESULT_ID			1
 #define XFER_ID				2
 #define MESSAGE_ID			3
-#define MAX_LIST_ID			4			// for column titles
 #define USAGE_ID			4
 #define TAB_ID				5
 
@@ -62,11 +61,6 @@
 #define RESULT_COLS			7
 #define XFER_COLS			6
 #define MESSAGE_COLS		3
-#define MAX_COLS			7
-
-#define MAX_TABS			5
-#define MAX_USAGE_STR		5
-#define MAX_MISC_STR		13
 
 
 //////////

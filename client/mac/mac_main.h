@@ -18,23 +18,65 @@
 //
 
 #include <Carbon/Carbon.h>
+#include "error_numbers.h"
+#include "filesys.h"
+
+#define kBOINCDataBrowserSig	'duff'
+
+#define TAB_ID 	 	128
+#define TAB_SIGNATURE	'tabs'
+
+enum {
+    kBOINCCommandJoin = 'join',
+    kBOINCCommandQuitProject = 'qprj',
+    kBOINCCommandSuspend = 'susp',
+    kBOINCCommandResume = 'resm'
+};
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void InitMainWindow(void);
-void GUIRedraw();
-void DisplayBOINCStatusWindow (int left, int top, int width, int height);
-pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
-pascal OSStatus MainWinEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
-pascal void BOINCPollLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
-pascal void BOINCIdleDetect(EventLoopTimerRef inTimer, void* timeData);
-int SaveBOINCPreferences( void );
-int ReadBOINCPreferences( void );
-int mac_setup (void);
-void mac_cleanup (void);
+extern void InitMainWindow(void);
+extern OSStatus AddDockMenu( void );
+extern OSStatus AddColumnToList( ControlRef theList, char *columnName, DataBrowserPropertyID propertyID, DataBrowserPropertyType propertyType );
+extern bool CheckIfIdle (void);
+extern pascal void BOINCPollLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
+extern pascal void BOINCIdleDetect(EventLoopTimerRef inTimer, void* timeData);
+extern pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
+extern pascal OSStatus MainWinEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
+extern int mac_setup (void);
+extern void mac_cleanup (void);
+extern void SelectItemOfTabControl(ControlRef myTabControl);
+extern pascal OSStatus TabEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *inUserData);
+extern void InstallTabHandler(WindowRef window);
+extern void GUIRedraw(void);
+extern OSStatus BOINCCarbonProjectCallback( ControlRef browser, DataBrowserItemID itemID,
+    DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean changeValue);
+extern OSStatus BOINCCarbonWorkCallback( ControlRef browser, DataBrowserItemID itemID,
+    DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean changeValue);
+extern OSStatus BOINCCarbonTransferCallback( ControlRef browser, DataBrowserItemID itemID,
+    DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean changeValue);
+extern OSStatus BOINCCarbonMessageCallback( ControlRef browser, DataBrowserItemID itemID,
+    DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean changeValue);
+extern OSStatus SaveBOINCPreferences( void );
+extern OSStatus ReadBOINCPreferences( void );
+
+//void DisplayBOINCStatusWindow (int left, int top, int width, int height);
 
 #ifdef __cplusplus
 }
 #endif
+
+
+static const EventTypeSpec  appEventList[] = { {kEventClassCommand, kEventCommandProcess} };
+
+static const EventTypeSpec  winEventList[] = { {kEventClassWindow, kEventWindowBoundsChanged} };
+
+typedef struct MESSAGE {
+    char project[256];
+    char msg[256];
+    UInt32 timestamp;
+};
+
+typedef struct MESSAGE MESSAGE;
