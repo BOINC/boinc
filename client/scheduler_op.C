@@ -180,8 +180,8 @@ int SCHEDULER_OP::start_rpc() {
         printf("--------- END ---------\n");
         fclose(f);
     }
-    if (gstate.use_proxy) {
-        http_op.use_proxy = true;
+    if (gstate.use_http_proxy) {
+        http_op.use_http_proxy = true;
         strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
         http_op.proxy_server_port = gstate.proxy_server_port;
     }
@@ -206,8 +206,8 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     if (log_flags.sched_op_debug) {
         printf("Fetching master file for %s\n", project->master_url);
     }
-    if (gstate.use_proxy) {
-        http_op.use_proxy = true;
+    if (gstate.use_http_proxy) {
+        http_op.use_http_proxy = true;
         strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
         http_op.proxy_server_port = gstate.proxy_server_port;
     }

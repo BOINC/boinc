@@ -90,7 +90,6 @@ int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
 //
 int NET_XFER::open_server() {
     sockaddr_in addr;
-    hostent* hep;
     int fd=0, ipaddr, retval=0;
 
     retval = get_ip_addr(hostname, ipaddr);

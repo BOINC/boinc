@@ -67,7 +67,7 @@ public:
     int http_op_state;     // values below
     int http_op_type;
     int http_op_retval;
-    bool use_proxy;
+    bool use_http_proxy;
     int proxy_server_port;
     char proxy_server_name[256];
 
