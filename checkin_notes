@@ -493,3 +493,22 @@ David A     June 13 2002
         Makefile.in
     sched/
         file_upload_handler.C
+
+Eric H       June 19, 2002
+    - Removed redundant files
+
+    sched/
+        parse.C (removed)
+        parse.h (removed)
+        
+Eric H       June 20, 2002
+    - added soft link support via XML tags
+    - fixed Windows ASCII/binary bug
+    - Fixed some bad indenting
+
+    api/
+        api.C
+        api.h
+    lib/
+        md5_file.C
+    
