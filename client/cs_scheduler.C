@@ -306,8 +306,9 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     f = fopen(SCHED_OP_RESULT_FILE, "r");
     if (!f) return ERR_FOPEN;
-    retval = sr.parse(f);       // check return?
+    retval = sr.parse(f);
     fclose(f);
+    if (retval) return retval;
 
     if (strlen(sr.project_name)) {
         strcpy(project->project_name, sr.project_name);
