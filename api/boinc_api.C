@@ -58,7 +58,6 @@ MMRESULT timer_id;
 HANDLE hGlobalDrawEvent,hQuitEvent;
 extern HANDLE graphics_threadh;
 extern BOOL    win_loop_done;
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #endif
 
 #ifdef HAVE_GL_LIB
