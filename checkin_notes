@@ -5723,8 +5723,16 @@ Karl 2003/08/13
 Karl 2003/08/13
     - added '-return_results_immediately' flag to client to allow it to
       ignore the report deadline when deciding when to report a result
+      (mainly for testing)
 
     client/
         cs_scheduler.C
         client_state.C
         client_state.h
+
+Karl,Dave 2003/08/14
+
+    - rewriting scheduler
+    - tagged old code as SCHEDULER_V1
+
+    sched/
