@@ -523,7 +523,7 @@ inline bool now_between_two_hours(int start_hour, int end_hour)
     }
 
     time_t now = time(0);
-    struct tm *tmp = localtime(&t);
+    struct tm *tmp = localtime(&now);
     int hour = tmp->tm_hour;
     if (start_hour < end_hour) {
         return (hour >= start_hour && hour < end_hour);
@@ -546,7 +546,7 @@ int CLIENT_STATE::check_suspend_activities() {
 
     // user_idle and suspend_requested are set in the Mac/Win GUI code
     //
-    if (!user_idle) {
+    if (!global_prefs.run_if_user_active && !user_idle) {
         should_suspend = true;
         susp_msg = "Suspending activity - user is active";
     }
@@ -570,7 +570,7 @@ int CLIENT_STATE::check_suspend_activities() {
     if (should_suspend) {
         if (!activities_suspended) {
             active_tasks.suspend_all();
-            msg_printf(NULL, MSG_INFO, susp_msg);
+            msg_printf(NULL, MSG_INFO, const_cast<char*>(susp_msg));
         }
     } else {
         if (activities_suspended) {

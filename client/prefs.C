@@ -49,7 +49,7 @@ void GLOBAL_PREFS::init() {
     disk_max_used_gb = 1;
     disk_max_used_pct = 0.5;
     disk_min_free_gb = 0.1;
-    idle_time_to_run = 0;
+    idle_time_to_run = 3;
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
     max_memory_mbytes = 128;
@@ -73,6 +73,10 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
+
+	// we need to re-init() because otherwise boolean values 
+	// previously true will remain true even if they are changed to false.
+	init();
 
     while (fgets(buf, 256, in)) {
         if (in_venue) {

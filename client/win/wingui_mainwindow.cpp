@@ -1910,7 +1910,8 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 // function:	check user's idle time for suspension of apps
 void CMainWindow::CheckIdle() {
 	if (gstate.global_prefs.idle_time_to_run > 0) {
-		if (GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
+		//msg_printf(NULL, "idle seconds: %d\n", GetUserIdleTime() / 1000);
+		if (GetUserIdleTime() / 1000 > 60 * gstate.global_prefs.idle_time_to_run) {
 			gstate.user_idle = true;
 		} else {
 			gstate.user_idle = false;
