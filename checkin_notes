@@ -23922,6 +23922,12 @@ David  3 Feb 2005
 Rom    3 Feb 2005
     - Bug Fix: Fix a localization problem where the application version
         number was being localized when it shouldn't be.
+    - Bug Fix: The dwBlankTime variable is initialized at screensaver
+        startup instead of when BOINC is notified to start the screensaver.
+        This should fix the case where the blank time is longer than
+        the project cycle time.
 
+    client/win/
+        win_screensaver.cpp, .h
     clientgui/
         ViewWork.cpp

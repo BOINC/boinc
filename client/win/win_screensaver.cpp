@@ -139,6 +139,7 @@ CScreensaver::CScreensaver()
 	m_bBOINCCoreNotified = FALSE;
     m_bResetCoreState = TRUE;
     m_dwBOINCTimerCounter = 0;
+    m_dwBlankTime = 0;
 
     m_bBOINCConfigChecked = FALSE;
     m_bBOINCStartupConfigured = FALSE;
@@ -155,6 +156,7 @@ CScreensaver::CScreensaver()
 HRESULT CScreensaver::Create( HINSTANCE hInstance )
 {
     HRESULT hr;
+    BOOL    bReturnValue;
 
     m_hInstance = hInstance;
 
@@ -169,6 +171,17 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
 
     // Enumerate Monitors
     EnumMonitors();
+
+
+    // Retrieve the blank screen timeout
+	// make sure you check return value of registry queries
+	// in case the item in question doesn't happen to exist.
+	bReturnValue = UtilGetRegKey( REG_BLANK_TIME, m_dwBlankTime );
+	if ( bReturnValue < 0 ) m_dwBlankTime = 0;
+
+    // Calculate the estimated blank time by adding the current time
+    //   and and the user specified time which is in minutes
+    m_dwBlankTime = time(0) + (m_dwBlankTime * 60);
 
 
     // Create the screen saver window(s)
@@ -275,7 +288,6 @@ VOID CScreensaver::StartupBOINC()
 		{
             TCHAR szCurrentWindowStation[MAX_PATH];
             TCHAR szCurrentDesktop[MAX_PATH];
-            DWORD dwBlankTime;
             BOOL  bReturnValue;
             int   iReturnValue;
 
@@ -310,22 +322,12 @@ VOID CScreensaver::StartupBOINC()
                 }
             }
 
-            // Retrieve the blank screen timeout
-			// make sure you check return value of registry queries
-			// in case the item in question doesn't happen to exist.
-			bReturnValue = UtilGetRegKey( REG_BLANK_TIME, dwBlankTime );
-			if ( bReturnValue < 0 ) dwBlankTime = 0;
-
-            // Calculate the estimated blank time by adding the current time
-            //   and and the user specified time which is in minutes
-            dwBlankTime = time(0) + (dwBlankTime * 60);
-
 			// Tell the boinc client to start the screen saver
             BOINCTRACE(
                 _T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankTime = '%d'.\n"),
-                szCurrentWindowStation, szCurrentDesktop, dwBlankTime
+                szCurrentWindowStation, szCurrentDesktop, m_dwBlankTime
             );
-            iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
+            iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, m_dwBlankTime);
             BOINCTRACE(_T("CScreensaver::StartupBOINC - set_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
 
 			// We have now notified the boinc client

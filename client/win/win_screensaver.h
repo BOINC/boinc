@@ -168,6 +168,7 @@ protected:
 	BOOL					m_bBOINCCoreNotified;
     BOOL                    m_bResetCoreState;
     DWORD                   m_dwBOINCTimerCounter;
+    DWORD                   m_dwBlankTime;
 
     BOOL                    m_bBOINCConfigChecked;
     BOOL                    m_bBOINCStartupConfigured;
