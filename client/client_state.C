@@ -342,7 +342,7 @@ bool CLIENT_STATE::do_something(double now) {
 		start_cpu_benchmarks();
     }
 
-    check_suspend_activities(reason);
+    check_suspend_activities(now, reason);
     if (reason) {
         if (!activities_suspended) {
             suspend_activities(reason);
@@ -367,7 +367,7 @@ bool CLIENT_STATE::do_something(double now) {
         return gui_rpcs.poll(dtime());
     }
 
-    check_suspend_network(reason);
+    check_suspend_network(now, reason);
     if (reason) {
         if (!network_suspended) {
             suspend_network(reason);

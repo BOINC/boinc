@@ -131,8 +131,12 @@ inline bool now_between_two_hours(int start_hour, int end_hour) {
 // See if (on the basis of user run request and prefs)
 // we should suspend activities.
 //
-void CLIENT_STATE::check_suspend_activities(int& reason) {
+void CLIENT_STATE::check_suspend_activities(double now, int& reason) {
+    static double last_time = 0;
     reason = 0;
+
+    if (now - last_time < 5.0) return;
+    last_time = now;
 
     // Don't work while we're running CPU benchmarks
     //
@@ -204,8 +208,12 @@ int CLIENT_STATE::resume_activities() {
     return 0;
 }
 
-void CLIENT_STATE::check_suspend_network(int& reason) {
+void CLIENT_STATE::check_suspend_network(double now, int& reason) {
+    static double last_time=0;
     reason = 0;
+
+    if (now - last_time < 5.0) return;
+    last_time = now;
 
     if (user_network_request == USER_RUN_REQUEST_ALWAYS) return;
     if (user_network_request == USER_RUN_REQUEST_NEVER) {

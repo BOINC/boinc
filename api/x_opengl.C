@@ -21,7 +21,6 @@ static int acked_graphics_mode;
 static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
-extern int userclose;
 extern void graphics_thread_init();
 static void set_mode(int mode);
 
@@ -68,22 +67,6 @@ void keyboardD(unsigned char key, int x, int y) {
     }
 }
 
-#if 0
-void onIdle(){
-    static double oldTime = 0;
-    double currentTime = dtime();
-    
-    if (userclose == 1){
-        userclose = 0;
-        set_mode(MODE_HIDE_GRAPHICS);
-    }
-    if (currentTime - oldTime > .001){
-        timer_handler();
-        oldTime = currentTime;
-    }
-}
-#endif
-
 static void maybe_render() {
     int width, height;
     if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
@@ -106,9 +89,13 @@ static void close_func() {
 static void make_new_window(int mode){
 	char* args[] = {"foobar", 0};
 	int one=1;
+    static bool first = false;
 
     if (mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
-		glutInit(&one, args);
+        if (first) {
+            glutInit(&one, args);
+            first = false;
+        }
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
         glutInitWindowPosition(xpos, ypos);
         glutInitWindowSize(600, 400); 
@@ -167,12 +154,6 @@ static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
     GRAPHICS_MSG m;
 
-#if 0
-    if (userclose) {
-        close_func();
-        userclose = false;
-    }
-#endif
     int new_mode;
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
@@ -221,11 +202,6 @@ void xwin_graphics_event_loop() {
     graphics_thread = pthread_self();
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
-#if 0
-        if (userclose) {
-            return;
-        }
-#endif
     } else {
         wait_for_initial_message();
         timer_handler(0);
@@ -233,8 +209,7 @@ void xwin_graphics_event_loop() {
     }
     int retval = setjmp(jbuf);
     if (retval) {
-        fprintf(stderr, "graphics thread restarted\n");
-        fflush(stderr);
+        //fprintf(stderr, "graphics thread restarted\n"); fflush(stderr);
         set_mode(MODE_HIDE_GRAPHICS);
     }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);

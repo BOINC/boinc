@@ -279,7 +279,7 @@ int boinc_main_loop(int argc, char** argv) {
         dt = dtime();
         if (!gstate.do_something(dt)) {
             dt = dtime();
-            gstate.net_sleep(1.);
+            gstate.net_sleep(0.1);
             dt = dtime() - dt;
             log_messages.printf(CLIENT_MSG_LOG::DEBUG_TIME, "SLEPT %f SECONDS\n", dt);
             fflush(stdout);

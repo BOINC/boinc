@@ -276,16 +276,11 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                     // The process looks like it exited normally
                     // but there's no "finish file".
                     // Assume it was externally killed,
-                    // and just leave it there
-                    // (assume user is about to exit core client)
+                    // and arrange for it to get restarted.
                     //
-#if 0
-                    state = PROCESS_IN_LIMBO;
-#else
                     scheduler_state = CPU_SCHED_PREEMPTED;
                     state = PROCESS_UNINITIALIZED;
                     detach_and_destroy_shmem();
-#endif
                     limbo_message(*this);
                     return true;
                 }
@@ -300,14 +295,15 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
 
             // if the process was externally killed, allow it to restart.
             //
-            switch(got_signal) {
+            switch (got_signal) {
             case SIGHUP:
             case SIGINT:
             case SIGQUIT:
             case SIGKILL:
             case SIGTERM:
             case SIGSTOP:
-                state = PROCESS_IN_LIMBO;
+                scheduler_state = CPU_SCHED_PREEMPTED;
+                state = PROCESS_UNINITIALIZED;
                 limbo_message(*this);
                 return true;
             }

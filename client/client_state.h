@@ -186,7 +186,13 @@ private:
 // --------------- cs_apps.C:
 public:
     bool must_schedule_cpus;
-        // set when a result is newly runnable or finished
+        // Reschedule CPUs ASAP.  Set when:
+        // - core client starts (CS::init())
+        // - an app exits (ATS::check_app_exited())
+        // - a result's input files finish downloading (CS::update_results())
+        // - an app fails to start (CS::schedule_cpus())
+        // - any project op is done via RPC (suspend/resume)
+        // - any result op is done via RPC (suspend/resume)
     int restart_tasks();
     int quit_activities();
     void set_ncpus();
@@ -238,10 +244,10 @@ public:
     int allowed_disk_usage(double&);
     int allowed_project_disk_usage(double&);
 private:
-    void check_suspend_activities(int&);
+    void check_suspend_activities(double, int&);
     int suspend_activities(int reason);
     int resume_activities();
-    void check_suspend_network(int&);
+    void check_suspend_network(double, int&);
     int suspend_network(int reason);
     int resume_network();
     void install_global_prefs();

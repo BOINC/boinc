@@ -19819,3 +19819,20 @@ David  18 Nov 2004
             team_display.php
             team_email_lsit.php
             top_*.php
+
+David  18 Nov 2004
+    - UNIX app graphics: only call glutInit() once (avoid error msg)
+    - UNIX: if app exits with external signal, restart it
+    - check_suspend_activities(), check_suspend_network():
+        don't do anything more than once every 5 seconds
+    - call do_something() every 0.1 second,
+        to improve response time to GUI RPCs
+
+    api/
+        x_opengl.C
+    client/
+        app_control.C
+        app_graphics.C
+        client_state.C,h
+        cs_prefs.C
+        main.C
