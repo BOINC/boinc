@@ -45,7 +45,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     HRESULT hr;
     CScreensaver BOINCSS;
 
-    // Initialize Diagnostics
+#ifdef _DEBUG
+    // Initialize Diagnostics when compiled for debug
     try {
         boinc_init_diagnostics (
             BOINC_DIAG_DUMPCALLSTACKENABLED | 
@@ -60,7 +61,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         MessageBox(NULL, e.what(), "BOINC SCreensaver Diagnostic Error", MB_OK);
     }
-
+#endif
 
     if( FAILED( hr = BOINCSS.Create( hInstance ) ) )
     {
