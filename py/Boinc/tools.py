@@ -1,5 +1,6 @@
 ## $Id$
 
+import boinc_path_config
 import configxml
 import os, md5, shutil
 

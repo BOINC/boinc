@@ -59,7 +59,7 @@ def find_versions(app, dir):
         filepath = os.path.join(dir,file)
         if os.path.isdir(filepath):
             continue
-        match = re.match('[^.]+_([0-9]+)[.]([0-9]+)_(.+)(?:[.]gz|[.]exe|[.]sit)$', file)
+        match = re.match('[^.]+_([0-9]+)[.]([0-9]+)_(.+)(?:[.]gz|[.]exe|[.]sit)?$', file)
         if not match:
             print >>sys.stderr, "  Ignoring unknown file", os.path.join(filepath)
             continue

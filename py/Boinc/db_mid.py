@@ -30,7 +30,8 @@ class front_App:
 
 class front_AppVersion:
     def __repr__(self):
-        return '<AppVersion#%s %s %s>'%(self.id, self.app.name, self.version_num)
+        return '<AppVersion#%s %s %s %s>'%(self.id, self.app.name,
+                                           self.version_num, self.platform.name)
 
 class front_User:
     def __repr__(self):
