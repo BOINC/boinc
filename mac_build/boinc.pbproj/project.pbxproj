@@ -320,6 +320,7 @@
 				DD095F5307D883AD00362260,
 				DD095F5407D883AF00362260,
 				DD095F5807D883C000362260,
+				DD2D25CD07FAB41700151141,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -680,6 +681,30 @@
 		};
 		DD09609207D8840900362260 = {
 			fileRef = DDBE3E1607C954300042BE67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD2D25CB07FAB41700151141 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = DlgSelectComputer.cpp;
+			path = ../../boinc/clientgui/DlgSelectComputer.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD2D25CC07FAB41700151141 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DlgSelectComputer.h;
+			path = ../../boinc/clientgui/DlgSelectComputer.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD2D25CD07FAB41700151141 = {
+			fileRef = DD2D25CB07FAB41700151141;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2137,6 +2162,8 @@
 				DD81C43507C5D2240098A04D,
 				DD81C3FF07C5D1020098A04D,
 				DD81C43907C5D2240098A04D,
+				DD2D25CB07FAB41700151141,
+				DD2D25CC07FAB41700151141,
 				DD81C44D07C5D2470098A04D,
 				DD81C41407C5D13E0098A04D,
 				DD81C45007C5D2470098A04D,
