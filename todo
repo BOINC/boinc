@@ -4,13 +4,13 @@ BUGS (arranged from high to low priority)
 - Suspend/resume not fully functional on Windows, no way to suspend/resume on UNIX
 - Currently, if there are multiple CPUs they work on the same result
 - "Show Graphics" menu item brings up minimized window, client does not remember window size/pos after close/reopen, window closes and does not reopen when workunit finishes and new workunit starts
-- No easy way to quit/add projects on UNIX
+- No easy way to quit projects on UNIX
+- Write a README file
+- Screensaver "blank screen" functionality not implemented
 - "ACTIVE_TASK.check_app_status_files: could not delete slots\0\fraction_done.xml: -110" appears in stderr.txt on Windows
 - "no work available" appears sporadically though work is eventually assigned, not sure if it is assigned immediately or on next RPC
 - Should include option in Windows client or installer whether to run client at startup or not
 - Scheduler reply includes blank lines that XML parser complains about
-- boinc_gui.exe priority should be lower (?), launched app priorities should be very low
-- on final panel of install, add checkbox to let user view readme
 - Time to completion isn't too accurate, this is more of an Astropulse problem involving fraction_done
 - Report problems page on maggie doesn't link to anything
 - Host stats incorrectly reports number of times connected with same ip (unconfirmed)

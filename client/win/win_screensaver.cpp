@@ -109,7 +109,7 @@ void RunSaver( void ) {
 	BOINC_SS_START_MSG = RegisterWindowMessage( "BOINC_SS_START" );
 	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
 
-	PostMessage(HWND_BROADCAST, BOINC_GFX_MODE_MSG, 0, MODE_WINDOW);
+	PostMessage(HWND_BROADCAST, BOINC_GFX_MODE_MSG, 0, MODE_FULLSCREEN);
 
 	// We should go into a wait state here
 
