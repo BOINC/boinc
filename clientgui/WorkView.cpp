@@ -18,7 +18,7 @@
 //
 
 #include "stdwx.h"
-#include ".\workview.h"
+#include "WorkView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)

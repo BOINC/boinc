@@ -27,7 +27,7 @@
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdwx.h"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"/>
 			<Tool
@@ -248,10 +248,31 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;xrc"
 			UniqueIdentifier="{08DB1F42-8D4B-491a-870C-2A991D5ED0DB}">
 			<File
-				RelativePath=".\res\boincguiApp.ico">
+				RelativePath=".\res\BOINCGUIApp.ico">
 			</File>
 			<File
-				RelativePath=".\boincguiApp.rc">
+				RelativePath=".\BOINCGUIApp.rc">
+			</File>
+			<File
+				RelativePath=".\res\BOINCGUIApp.xpm">
+			</File>
+			<File
+				RelativePath=".\res\boincsm.xpm">
+			</File>
+			<File
+				RelativePath=".\res\mess.xpm">
+			</File>
+			<File
+				RelativePath=".\res\proj.xpm">
+			</File>
+			<File
+				RelativePath=".\res\result.xpm">
+			</File>
+			<File
+				RelativePath=".\res\usage.xpm">
+			</File>
+			<File
+				RelativePath=".\res\xfer.xpm">
 			</File>
 		</Filter>
 	</Files>

@@ -42,6 +42,7 @@
 #include <wx/config.h>   // configuration support
 #include <wx/intl.h>     // internationalization
 #include <wx/listctrl.h> // list control support
+#include <wx/msgdlg.h>   // messagebox dialog
 #include <wx/notebook.h> // notebook support
 #include <wx/toolbar.h>  // toolbars support
 #include <wx/settings.h> // system settings

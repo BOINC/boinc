@@ -23,7 +23,7 @@
 //
 
 #include "stdwx.h"
-#include ".\basewindowview.h"
+#include "BaseWindowView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBaseWindowView, wxPanel)

@@ -18,7 +18,7 @@
 //
 
 #include "stdwx.h"
-#include ".\resourceutilizationview.h"
+#include "ResourceUtilizationView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CResourceUtilizationView, CBaseWindowView)

@@ -29,15 +29,16 @@ public:
 
     ~CMainFrame(void);
 
-    void OnClose (wxCloseEvent &event);
-    void OnIdle (wxIdleEvent &event);
+    void OnClose(wxCloseEvent &event);
+    void OnIdle(wxIdleEvent &event);
 
-    void OnAbout (wxCommandEvent &event);
-    void OnExit (wxCommandEvent &event);
-    void OnStatusbar (wxCommandEvent &event);
+    void OnExit(wxCommandEvent &event);
+    void OnToolsOptions(wxCommandEvent &event);
+    void OnAbout(wxCommandEvent &event);
+    void OnStatusbar(wxCommandEvent &event);
 
-    void OnToolbarsUI (wxUpdateUIEvent &event);
-    void OnStatusbarUI (wxUpdateUIEvent &event);
+    void OnToolbarsUI(wxUpdateUIEvent &event);
+    void OnStatusbarUI(wxUpdateUIEvent &event);
 
 private:
 

@@ -23,7 +23,7 @@
 //
 
 #include "stdwx.h"
-#include ".\baselistctrlview.h"
+#include "BaseListCtrlView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBaseListCtrlView, wxListCtrl)

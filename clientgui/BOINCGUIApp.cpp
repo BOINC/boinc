@@ -19,9 +19,9 @@
 
 #include "stdwx.h"
 
-#include "boincguiapp.h"
-#include "mainframe.h"
-#include "maindocument.h"
+#include "BOINCGUIApp.h"
+#include "MainFrame.h"
+#include "MainDocument.h"
 
 
 IMPLEMENT_APP(CBOINCGUIApp)

@@ -29,7 +29,9 @@
 #include "WorkView.h"
 #include "Events.h"
 #include "DlgAbout.h"
+#include "DlgOptions.h"
 
+#include "res/BOINCGUIApp.xpm"
 
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
@@ -38,6 +40,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_CLOSE       (                       CMainFrame::OnClose)
     EVT_IDLE        (                       CMainFrame::OnIdle)
     EVT_MENU        (wxID_EXIT,             CMainFrame::OnExit)
+    EVT_MENU        (ID_TOOLSOPTIONS,       CMainFrame::OnToolsOptions)
     EVT_MENU        (wxID_ABOUT,            CMainFrame::OnAbout)
     EVT_MENU        (ID_STATUSBAR,          CMainFrame::OnStatusbar)
     EVT_UPDATE_UI   (ID_STATUSBAR,          CMainFrame::OnStatusbarUI)
@@ -90,7 +93,7 @@ bool CMainFrame::CreateMenu() {
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
-    menuTools->Append(wxID_EXIT, _("&Options"));
+    menuTools->Append(ID_TOOLSOPTIONS, _("&Options"));
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
@@ -217,6 +220,16 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
 
 void CMainFrame::OnClose(wxCloseEvent &event) {
     Destroy();
+}
+
+
+void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
+    CDlgOptions* pDlg = new CDlgOptions(this);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        delete pDlg;
 }
 
 

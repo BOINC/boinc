@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include "mainframe.h"
-#include "maindocument.h"
+#include "MainFrame.h"
+#include "MainDocument.h"
 
 
 class CBOINCGUIApp : public wxApp

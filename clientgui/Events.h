@@ -21,6 +21,6 @@
 
 enum {
     ID_STATUSBAR = wxID_HIGHEST + 1,
-
+    ID_TOOLSOPTIONS
 } enumEvents;
 

@@ -18,7 +18,7 @@
 //
 
 #pragma once
-#include "baselistctrlview.h"
+#include "BaseListCtrlView.h"
 
 class CMessagesView : public CBaseListCtrlView
 {

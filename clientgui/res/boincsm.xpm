@@ -1,7 +1,7 @@
 /* XPM */
 static char *boincsm_xpm[] = {
 "50 50 84 1",
-" 	c #848484",
+" 	c None",
 ".	c #94B5D6",
 "X	c #9CCEFF",
 "o	c #8C9CB5",

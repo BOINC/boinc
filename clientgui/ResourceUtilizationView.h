@@ -18,7 +18,7 @@
 //
 
 #pragma once
-#include "basewindowview.h"
+#include "BaseWindowView.h"
 
 class CResourceUtilizationView : public CBaseWindowView
 {

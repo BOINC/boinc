@@ -18,7 +18,7 @@
 //
 
 #include "stdwx.h"
-#include ".\projectsview.h"
+#include "ProjectsView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsView, CBaseListCtrlView)

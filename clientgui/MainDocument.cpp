@@ -18,7 +18,7 @@
 //
 
 #include "stdwx.h"
-#include ".\maindocument.h"
+#include "MainDocument.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)

@@ -18,8 +18,7 @@
 //
 
 #pragma once
-#include "mainframe.h"
-#include "baselistctrlview.h"
+#include "BaseListCtrlView.h"
 
 class CTransfersView : public CBaseListCtrlView
 {

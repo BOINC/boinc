@@ -18,7 +18,7 @@
 //
 
 #include "stdwx.h"
-#include ".\transfersview.h"
+#include "TransfersView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)

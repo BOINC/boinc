@@ -18,7 +18,7 @@
 //
 
 #include "stdwx.h"
-#include ".\messagesview.h"
+#include "MessagesView.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
