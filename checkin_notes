@@ -19893,11 +19893,16 @@ Bruce  19 Nov 2004 UTC
 
 Bruce  20 Nov 2004 UTC
 
-    - Added static volatile const char *BOINCrcsid="$Id$"; string to
+    - Added static volatile const char *BOINCrcsid="$Id:..."; string to
       the top of all .C files.  This means that 'string' or 'ident'
       run on an executable will tell you the exact file versions used
-      in building it, since CVS replaces $Id$ with a complete version ID
+      in building it, since CVS replaces $Id:... with a complete version ID
       string.  Declaration is volatile so that the compiler won't remove
       it even under agressive optimizations.
+    - Fixed initialization bug where calling boinc_init_graphics() would not initialize
+      options correctly, creating lockfile/finished havoc in graphics APP.  Thanks Reinhard!
+      David, please bless this.
 
     ALL files of form *.C affected.
+    api/
+     boinc_api.C

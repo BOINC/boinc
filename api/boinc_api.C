@@ -111,13 +111,13 @@ static BOINC_OPTIONS options;
 static BOINC_STATUS boinc_status;
 
 void BOINC_OPTIONS::defaults() {
-    options.main_program = true;
-    options.check_heartbeat = true;
-    options.handle_trickle_ups = true;
-    options.handle_trickle_downs = true;
-    options.handle_process_control = true;
-    options.send_status_msgs = true;
-    options.direct_process_action = true;
+    main_program = true;
+    check_heartbeat = true;
+    handle_trickle_ups = true;
+    handle_trickle_downs = true;
+    handle_process_control = true;
+    send_status_msgs = true;
+    direct_process_action = true;
 }
 
 // the following 2 functions are used when there's no graphics
