@@ -457,6 +457,12 @@ void canonicalize_master_url(char *xurl) {
     strcpy(xurl, url.c_str());
 }
 
+bool invalid_url(char* p) {
+    if (strstr(p, "http://") != p) return true;
+    if (strlen(p) == strlen("http://")) return true;
+    return false;
+}
+
 void safe_strncpy(char* dst, const char* src, int len) {
     strncpy(dst, src, len);
     dst[len-1]=0;

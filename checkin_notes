@@ -15014,3 +15014,21 @@ David  9 July 2004
         gui_test.C
     tools/
         create_work.C
+
+David  11 July 2004
+	- changes in core client related to attaching to projects
+		- commented out "maybe_rename_old_filename_format()" stuff.
+			Not needed, and contains hazardous asserts
+		- CLIENT_STATE::add_project()
+			- check that master URL starts with http://,
+				and has other chars after that
+				[WHY WASN'T THIS BEING DONE??]
+			- check that authenticator is non-null
+
+	client/
+		cs_account.C
+		win/
+			wingui_dialog.cpp
+	lib/
+		error_numbers.h
+		util.C,h

@@ -136,4 +136,4 @@
 #define ERR_RESULT_START    -185
 #define ERR_RESULT_DOWNLOAD -186
 #define ERR_RESULT_UPLOAD   -187
-
+#define ERR_INVALID_URL     -189

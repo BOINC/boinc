@@ -35,7 +35,8 @@
 
 using std::string;
 
-static inline string filename_to_project_dirname(const string& filename) {
+#if 0
+static string filename_to_project_dirname(const string& filename) {
     assert(starts_with(filename, "account_"));
     assert(ends_with(filename, ".xml"));
     return string(PROJECTS_DIR) + PATH_SEPARATOR + filename.substr(8,filename.size()-12);
@@ -66,6 +67,7 @@ static bool maybe_rename_old_filename_format(string& filename) {
     }
     return false;
 }
+#endif
 
 int CLIENT_STATE::parse_account_files() {
     string name;
@@ -75,10 +77,12 @@ int CLIENT_STATE::parse_account_files() {
     DirScanner dir(".");
     while (dir.scan(name)) {
         if (is_account_file((char*)name.c_str())) {
+#if 0
             if (maybe_rename_old_filename_format(name)) {
                 msg_printf(NULL, MSG_ERROR, "Warning: not adding project %s", name.c_str());
                 continue;       // Error occurred renaming
             }
+#endif
             f = fopen(name.c_str(), "r");
             if (!f) continue;
             project = new PROJECT;
@@ -90,14 +94,26 @@ int CLIENT_STATE::parse_account_files() {
     return 0;
 }
 
-int CLIENT_STATE::add_project(const char* master_url, const char* authenticator) {
-    char path[256], canonical_master_url[256];
+int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
+    char path[256], canonical_master_url[256], auth[256];
     PROJECT* project;
     FILE* f;
     int retval;
 
     safe_strcpy(canonical_master_url, master_url);
+    strip_whitespace(canonical_master_url);
     canonicalize_master_url(canonical_master_url);
+    if (invalid_url(canonical_master_url)) {
+        msg_printf(0, MSG_ERROR, "Invalid project URL: %s", canonical_master_url);
+        return ERR_INVALID_URL;
+    }
+
+    safe_strcpy(auth, _auth);
+    strip_whitespace(auth);
+    if (!strlen(auth)) {
+        msg_printf(0, MSG_ERROR, "Invalid account ID: %s", auth);
+        return ERR_AUTHENTICATOR;
+    }
 
     // check if this project is already running
     //
@@ -110,8 +126,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* authenticator)
     //
     project = new PROJECT;
     strcpy(project->master_url, canonical_master_url);
-    strcpy(project->authenticator, authenticator);
-    strip_whitespace(project->authenticator);
+    strcpy(project->authenticator, auth);
 
     project->tentative = true;
     retval = project->write_account_file();
