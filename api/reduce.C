@@ -240,6 +240,8 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #if 0
     // draw a black line on front and right edge of each quad
     //
+	glLineWidth(4.0);
+	glDisable(GL_LINE_SMOOTH);
     glBegin(GL_LINES);
     glColor4f(0., 0., 0., 1.0);
     for (i=0; i<rdimx-1; i++) {
@@ -328,7 +330,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)
 			//draw lines
 			
 			mode_unshaded();    
-			glLineWidth(.8f);
+			glLineWidth(.5f);			
 			glBegin(GL_LINES);
 			glColor4f(0,0,0,1);
 			for (i=0; i<rdimx; i++) {
