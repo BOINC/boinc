@@ -15,26 +15,26 @@ PROGS = cgi feeder show_shmem
 all: $(PROGS)
 
 CGI_OBJS = \
-    handle_request.o \
-    main.o \
-    sched_shmem.o \
-    server_types.o \
+    ../sched/handle_request.o \
+    ../sched/main.o \
+    ../sched/sched_shmem.o \
+    ../sched/server_types.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o \
-    parse.o \
+    ../parse.o \
     ../tools/process_result_template.o
 
 FEEDER_OBJS = \
-    feeder.o \
-    sched_shmem.o \
+    ../sched/feeder.o \
+    ../sched/sched_shmem.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o
 
 SHOW_SHMEM_OBJS = \
-    show_shmem.o \
-    sched_shmem.o \
+    ../sched/show_shmem.o \
+    ../sched/sched_shmem.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o
@@ -47,13 +47,17 @@ MYSQL_LIBS = \
 
 .C.o:
 	rm -f ../lib/parse.o
+	rm -f ../sched/feeder.o \
+	      ../sched/main.o \
+	      ../sched/server_types.o \
+	      ../sched/sched_shmem.o \
+	      ../sched/show_shmem.o
 	$(CC) -c -o $*.o $<
 .c.o:
 	$(CC) -c -o $*.o $<
 
 cgi: $(CGI_OBJS)
-	$(CC) $(CGI_OBJS) $(MYSQL_LIBS) $(CLIBS) -o cgi
-	rm -f ../lib/parse.o
+	$(CC) $(CGI_OBJS) $(MYSQL_LIBS) $(CLIBS) -o fcgi
 
 feeder: $(FEEDER_OBJS)
 	$(CC) $(FEEDER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o feeder
@@ -68,3 +72,9 @@ include dependencies
 
 clean:
 	rm -f $(PROGS) *.o core dependencies config.cache
+	rm -f ../sched/feeder.o \
+	      ../sched/main.o \
+	      ../sched/server_types.o \
+	      ../sched/sched_shmem.o \
+	      ../sched/show_shmem.o
+	rm -f ../lib/parse.o
