@@ -350,7 +350,7 @@ If S < T
 <li>If S == 0: urgency = NEED_WORK_IMMEDIATELY
 <li>else: urgency = max(urgency, NEED_WORK)
 </ol>
-<li>P.work_request = (2T - S) * avg_proc_rate(P)
+<li>P.work_request = max(0, (2T - S) * avg_proc_rate(P))
 </ol>
 <li>If urgency == DONT_NEED_WORK: reset P.work_request = 0 for each P
 <li>
@@ -395,9 +395,9 @@ compute_work_request():
             else:
                 urgency = max(NEED_WORK, urgency)
         P.work_request =
-            (2*T - est_time_to_starvation)*avg_proc_rate(P)
+            max(0, (2*T - est_time_to_starvation)*avg_proc_rate(P))
     
-    if urgnecy == DONT_NEED_WORK:
+    if urgency == DONT_NEED_WORK:
         foreach project P:
             P.work_request = 0
 
