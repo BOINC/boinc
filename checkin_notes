@@ -22065,3 +22065,13 @@ David  1 Jan 2005
 		backend_lib.C
 		dir_hier_move.C
 		dir_hier_path.C
+
+David  3 Jan 2005
+    - split the implementation of REDUCE into 2 parts,
+        one for the app's main program and one for the shared library
+
+    api/
+        Makefile.am
+        reduce.C (removed)
+        reduce_lib.C (new)
+        reduce_main.C (new)

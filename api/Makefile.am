@@ -9,25 +9,29 @@ AM_LDFLAGS = @GLUT_LIBS@
 api_files= \
 	boinc_api.C
 
+# graphics library for monolithic apps
 graphics_api_files = 	\
 	graphics_api.C 		\
 	graphics_data.C 	\
     graphics_impl.C     \
-	reduce.C			\
+	reduce_main.C		\
+    reduce_lib.C        \
 	gutil.C	            \
 	x_opengl.C
 
+# library for main-program part of split apps
 graphics_lib_files =    \
     graphics_lib.C      \
     graphics_data.C     \
-    reduce.C
+    reduce_main.C
 
+# library for shared-library part of split apps
 graphics_impl_files =   \
 	graphics_data.C 	\
     graphics_impl.C     \
     graphics_impl_lib.C \
 	gutil.C	            \
-	reduce.C			\
+	reduce_lib.C		\
 	x_opengl.C
 
 EXTRA_DIST =            \
