@@ -897,10 +897,12 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 
 void CMainWindow::CheckAppWnd()
 {
-	if(m_dwAppId == 0) {
+	CWnd* pAppWnd;
+
+	if (m_dwAppId == 0) {
 		if(gstate.active_tasks.active_tasks.size() == 0) return;
 		m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
-		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+		pAppWnd = GetWndFromProcId(m_dwAppId);
 		if(pAppWnd) {
 			int mode = m_pSSWnd->SendMessage(m_nGetMsg, 0, 0);
 			pAppWnd->PostMessage(m_nSetMsg, LOWORD(mode), HIWORD(mode));
@@ -909,7 +911,7 @@ void CMainWindow::CheckAppWnd()
 			m_dwAppId = 0;
 		}
 	} else {
-		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+		pAppWnd = GetWndFromProcId(m_dwAppId);
 		if(!pAppWnd || !IsWindow(pAppWnd->m_hWnd)) {
 			m_dwAppId = 0;
 			if(gstate.active_tasks.active_tasks.size() > 0) {

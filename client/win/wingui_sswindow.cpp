@@ -58,7 +58,8 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 	m_nMode = nMode;
 
 	if(GetSafeHwnd()) {
-		if(m_nPrevMode != MODE_FULLSCREEN) GetWindowRect(&m_Rect);
+		if((m_nPrevMode != MODE_FULLSCREEN) && (m_nPrevMode != MODE_BLANK_SCREEN))
+			GetWindowRect(&m_Rect);
 		DestroyWindow();
 	}
 
@@ -66,7 +67,7 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 	DWORD dwExStyle;
 	DWORD dwStyle;
 
-	if (nMode == MODE_FULLSCREEN) {
+	if (nMode == MODE_FULLSCREEN || nMode == MODE_BLANK_SCREEN) {
 		HDC screenDC=::GetDC(NULL);
 		WindowRect.left = WindowRect.top = 0;
 		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
@@ -75,10 +76,6 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 		dwExStyle=WS_EX_TOPMOST;
 		dwStyle=WS_POPUP;
 		while(ShowCursor(false) >= 0);
-//		UtilGetRegKey("Blank", m_bBlankScreen);
-//		UtilGetRegKey("Blank Time", m_nBlankTime);
-//		m_nBlankTime *= 60;
-//		m_nBlankTime += time(0);
 	} else {
 		if(m_Rect.IsRectEmpty()) m_Rect.SetRect(CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT);
 		WindowRect = m_Rect;
@@ -91,9 +88,9 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect,
 		NULL, 0, NULL);
 
-	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
+	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW || nMode == MODE_BLANK_SCREEN) {
 		ShowWindow(SW_SHOW);
-		if(nMode == MODE_FULLSCREEN) SetForegroundWindow();
+		if(nMode == MODE_FULLSCREEN || nMode == MODE_BLANK_SCREEN) SetForegroundWindow();
 	} else {
 		ShowWindow(SW_HIDE);
 	}
@@ -147,10 +144,11 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(m_nMode == MODE_FULLSCREEN) SetMode(m_nPrevMode, MODE_DEFAULT);
+			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANK_SCREEN)
+				SetMode(m_nPrevMode, MODE_DEFAULT);
 			return 0;
 		case WM_MOUSEMOVE:
-			if(m_nMode == MODE_FULLSCREEN) {
+			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANK_SCREEN) {
 				GetCursorPos(&mousePos);
 				if(mousePos != m_MousePos) SetMode(m_nPrevMode, MODE_DEFAULT);
 			}
@@ -198,6 +196,11 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_nPosX = m_nPosY = 0;
 	m_nDX = m_nDY = 5;
 
+	UtilGetRegKey("Blank", m_bBlankScreen);
+	UtilGetRegKey("Blank Time", m_uBlankTime);
+	m_uBlankTime *= 10;
+	m_uBlankTime += time(0);
+
     return 0;
 }
 
@@ -234,9 +237,25 @@ void CSSWindow::OnPaint()
 		m_nPosY += m_nDY;
 		if (m_nPosX <= winRect.left || (m_nPosX+32) >= winRect.right) m_nDX *= -1;
 		if (m_nPosY <= winRect.top || (m_nPosY+32) >= winRect.bottom) m_nDY *= -1;
+		if (m_nPosX < winRect.left) m_nPosX = winRect.left;
+		if ((m_nPosX+32) > winRect.right) m_nPosX = winRect.right-32;
+		if (m_nPosY < winRect.top) m_nPosY = winRect.top;
+		if ((m_nPosY+32) > winRect.bottom) m_nPosY = winRect.bottom-32;
 	}
 
 	EndPaint(&ps);
+}
+
+//////////
+// CSSWindow::BlankScreen
+// arguments:	null
+// returns:		null
+// function:	returns true if we should go into blank screen mode
+bool CSSWindow::BlankScreen()
+{
+	return	(m_bBlankScreen) &&
+			(m_nMode == MODE_FULLSCREEN) &&
+			(time(0) >= m_uBlankTime);
 }
 
 //////////

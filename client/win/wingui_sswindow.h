@@ -37,6 +37,7 @@ public:
 	void					SetMode(int, int);
 	int						GetMode();
 	int						GetPrevMode();
+	bool					BlankScreen();
 
 private:
 	int						m_nMode;
@@ -45,6 +46,8 @@ private:
 	CRect					m_Rect;
 	UINT					m_uSetMsg;
 	UINT					m_uGetMsg;
+	unsigned long			m_bBlankScreen;
+	unsigned long			m_uBlankTime;
 
 	HICON					m_hBOINCIcon;
 	int						m_nPosX, m_nPosY;
@@ -56,7 +59,6 @@ private:
 
 	void					PaintDefault();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	bool					BlankScreen();
 
     afx_msg int				OnCreate(LPCREATESTRUCT);
     afx_msg void			OnDestroy();
