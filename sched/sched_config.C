@@ -28,6 +28,10 @@
 
 #include "sched_config.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 const char* CONFIG_FILE = "config.xml";
 
 int SCHED_CONFIG::parse(char* buf) {

@@ -42,6 +42,10 @@ using namespace std;
 #include "sched_msgs.h"
 #include "sched_send.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 // Look up the host and its user, and make sure the authenticator matches.
 // If no host ID is supplied, or if RPC seqno mismatch,
 // create a new host record and return its ID

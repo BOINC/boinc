@@ -19,6 +19,10 @@
 
 #include "sched_msgs.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 SCHED_MSG_LOG log_messages;
 
 const char* SCHED_MSG_LOG::v_format_kind(int kind) const {

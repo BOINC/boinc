@@ -31,6 +31,10 @@
 #include "sched_shmem.h"
 #include "sched_util.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 void SCHED_SHMEM::init() {
     memset(this, 0, sizeof(SCHED_SHMEM));
     ss_size = sizeof(SCHED_SHMEM);

@@ -34,6 +34,10 @@ using namespace std;
 #include "sched_msgs.h"
 #include "sched_send.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 
