@@ -993,12 +993,22 @@ void CMainFrame::OnRefreshState( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshState - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    static bool bAlreadyRunningLoop = false;
 
-    if ( NULL != pDoc )
+    if (!bAlreadyRunningLoop)
     {
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        pDoc->OnRefreshState();
+        bAlreadyRunningLoop = true;
+
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+
+        if ( NULL != pDoc )
+        {
+            wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+            pDoc->OnRefreshState();
+        }
+
+        bAlreadyRunningLoop = false;
+
     }
 
     event.Skip();
@@ -1011,109 +1021,118 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
-    wxGetApp().UpdateSystemIdleDetection();
+    static bool bAlreadyRunningLoop = false;
 
-    if ( IsShown() )
+    if (!bAlreadyRunningLoop)
     {
-        CMainDocument* pDoc = wxGetApp().GetDocument();
-        if ( NULL != pDoc )
+        bAlreadyRunningLoop = true;
+
+        wxGetApp().UpdateSystemIdleDetection();
+
+        if ( IsShown() )
         {
-            wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-            // Update the menu bar
-            wxMenuBar*     pMenuBar      = GetMenuBar();
-            wxInt32        iActivityMode = -1;
-            wxInt32        iNetworkMode  = -1;
-
-            wxASSERT(NULL != pMenuBar);
-            wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
-
-            if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNALWAYS, NULL ) )
-                pMenuBar->Check( ID_ACTIVITYRUNALWAYS, false );
-
-            if ( NULL != pMenuBar->FindItem( ID_ACTIVITYSUSPEND, NULL ) )
-                pMenuBar->Check( ID_ACTIVITYSUSPEND, false );
-
-            if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNBASEDONPREPERENCES, NULL ) )
-                pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
-
-            if ( 0 == pDoc->GetActivityRunMode( iActivityMode ) )
+            CMainDocument* pDoc = wxGetApp().GetDocument();
+            if ( NULL != pDoc )
             {
-                if ( CMainDocument::MODE_ALWAYS == iActivityMode )
-                    pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-                if ( CMainDocument::MODE_NEVER == iActivityMode )
-                    pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
+                // Update the menu bar
+                wxMenuBar*     pMenuBar      = GetMenuBar();
+                wxInt32        iActivityMode = -1;
+                wxInt32        iNetworkMode  = -1;
 
-                if ( CMainDocument::MODE_AUTO == iActivityMode )
-                    pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
-            }
+                wxASSERT(NULL != pMenuBar);
+                wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-            if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNALWAYS, NULL ) )
-                pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
+                if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNALWAYS, NULL ) )
+                    pMenuBar->Check( ID_ACTIVITYRUNALWAYS, false );
 
-            if ( NULL != pMenuBar->FindItem( ID_NETWORKSUSPEND, NULL ) )
-                pMenuBar->Check( ID_NETWORKSUSPEND, false );
+                if ( NULL != pMenuBar->FindItem( ID_ACTIVITYSUSPEND, NULL ) )
+                    pMenuBar->Check( ID_ACTIVITYSUSPEND, false );
 
-            if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNBASEDONPREPERENCES, NULL ) )
-                pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+                if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNBASEDONPREPERENCES, NULL ) )
+                    pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
 
-            if ( 0 == pDoc->GetNetworkRunMode( iNetworkMode ) )
-            {
-                if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
-                    pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
-
-                if ( CMainDocument::MODE_NEVER == iNetworkMode )
-                    pMenuBar->Check( ID_NETWORKSUSPEND, true );
-
-                if ( CMainDocument::MODE_AUTO == iNetworkMode )
-                    pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
-            }
-
-            // Update the statusbar
-            wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
-            if ( pDoc->IsConnected() )
-            {
-                m_pStatusbar->m_pbmpConnected->Show();
-                m_pStatusbar->m_ptxtConnected->Show();
-                m_pStatusbar->m_pbmpDisconnect->Hide();
-                m_pStatusbar->m_ptxtDisconnect->Hide();
-
-                wxString strBuffer = wxEmptyString;
-                wxString strConnectedMachine = wxEmptyString;
-                wxString strStatusText = wxEmptyString;
-                wxString strTitle = m_strBaseTitle;
-                wxString strLocale = setlocale(LC_NUMERIC, NULL);
- 
-                pDoc->GetConnectedComputerName( strConnectedMachine );
-                if ( strConnectedMachine.empty() )
+                if ( 0 == pDoc->GetActivityRunMode( iActivityMode ) )
                 {
-                    strTitle += wxT(" - (localhost)");
-                    strConnectedMachine += wxT("localhost");
+                    if ( CMainDocument::MODE_ALWAYS == iActivityMode )
+                        pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+
+                    if ( CMainDocument::MODE_NEVER == iActivityMode )
+                        pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
+
+                    if ( CMainDocument::MODE_AUTO == iActivityMode )
+                        pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+                }
+
+                if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNALWAYS, NULL ) )
+                    pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
+
+                if ( NULL != pMenuBar->FindItem( ID_NETWORKSUSPEND, NULL ) )
+                    pMenuBar->Check( ID_NETWORKSUSPEND, false );
+
+                if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNBASEDONPREPERENCES, NULL ) )
+                    pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+
+                if ( 0 == pDoc->GetNetworkRunMode( iNetworkMode ) )
+                {
+                    if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
+                        pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
+
+                    if ( CMainDocument::MODE_NEVER == iNetworkMode )
+                        pMenuBar->Check( ID_NETWORKSUSPEND, true );
+
+                    if ( CMainDocument::MODE_AUTO == iNetworkMode )
+                        pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
+                }
+
+                // Update the statusbar
+                wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
+                if ( pDoc->IsConnected() )
+                {
+                    m_pStatusbar->m_pbmpConnected->Show();
+                    m_pStatusbar->m_ptxtConnected->Show();
+                    m_pStatusbar->m_pbmpDisconnect->Hide();
+                    m_pStatusbar->m_ptxtDisconnect->Hide();
+
+                    wxString strBuffer = wxEmptyString;
+                    wxString strConnectedMachine = wxEmptyString;
+                    wxString strStatusText = wxEmptyString;
+                    wxString strTitle = m_strBaseTitle;
+                    wxString strLocale = setlocale(LC_NUMERIC, NULL);
+     
+                    pDoc->GetConnectedComputerName( strConnectedMachine );
+                    if ( strConnectedMachine.empty() )
+                    {
+                        strTitle += wxT(" - (localhost)");
+                        strConnectedMachine += wxT("localhost");
+                    }
+                    else
+                    {
+                        strStatusText += strConnectedMachine;
+                    }
+
+                    setlocale(LC_NUMERIC, "C");
+                    strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
+                    setlocale(LC_NUMERIC, strLocale.c_str());
+
+                    strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strConnectedMachine.c_str());
+                    strStatusText.Printf(_("Connected to %s (%s)"), strConnectedMachine.c_str(), strBuffer.c_str());
+
+                    SetTitle( strTitle );
+                    m_pStatusbar->m_ptxtConnected->SetLabel( strStatusText );
                 }
                 else
                 {
-                    strStatusText += strConnectedMachine;
+                    m_pStatusbar->m_pbmpConnected->Hide();
+                    m_pStatusbar->m_ptxtConnected->Hide();
+                    m_pStatusbar->m_pbmpDisconnect->Show();
+                    m_pStatusbar->m_ptxtDisconnect->Show();
                 }
-
-                setlocale(LC_NUMERIC, "C");
-                strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
-                setlocale(LC_NUMERIC, strLocale.c_str());
-
-                strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strConnectedMachine.c_str());
-                strStatusText.Printf(_("Connected to %s (%s)"), strConnectedMachine.c_str(), strBuffer.c_str());
-
-                SetTitle( strTitle );
-                m_pStatusbar->m_ptxtConnected->SetLabel( strStatusText );
-            }
-            else
-            {
-                m_pStatusbar->m_pbmpConnected->Hide();
-                m_pStatusbar->m_ptxtConnected->Hide();
-                m_pStatusbar->m_pbmpDisconnect->Show();
-                m_pStatusbar->m_ptxtDisconnect->Show();
             }
         }
+
+        bAlreadyRunningLoop = false;
     }
 
     event.Skip();
@@ -1126,20 +1145,29 @@ void CMainFrame::OnListPanelRender( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function Begin"));
 
-    if ( IsShown() )
+    static bool bAlreadyRunningLoop = false;
+
+    if (!bAlreadyRunningLoop)
     {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
+        bAlreadyRunningLoop = true;
 
-        wxASSERT(NULL != m_pNotebook);
+        if ( IsShown() )
+        {
+            wxWindow*       pwndNotebookPage = NULL;
+            CBOINCBaseView* pView = NULL;
 
-        pwndNotebookPage = m_pNotebook->GetPage( m_pNotebook->GetSelection() );
-        wxASSERT(NULL != pwndNotebookPage);
+            wxASSERT(NULL != m_pNotebook);
 
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
+            pwndNotebookPage = m_pNotebook->GetPage( m_pNotebook->GetSelection() );
+            wxASSERT(NULL != pwndNotebookPage);
 
-        pView->FireOnListRender( event );
+            pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+            wxASSERT(NULL != pView);
+
+            pView->FireOnListRender( event );
+        }
+
+        bAlreadyRunningLoop = false;
     }
 
     event.Skip();
