@@ -109,7 +109,7 @@ class SqlQueryString {
             return "select * from $this->table $this->query";
         }
     }
-    
+
     function get_url_query($query_extra) {
         $q = join_query_string($this->query, $query_extra);
         $s = "db_action.php?table=$this->table$this->urlquery";
@@ -434,9 +434,13 @@ function show_workunit($wu, $hide_xml_doc) {
     row("Error mask", wu_error_mask_str($wu->error_mask));
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
-    row("","<a href=db_action.php?table=result&workunitid=$wu->id>Show associated results</a>");
+    // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
     row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
     end_table();
+
+    $_GET = array('workunitid' => $wu->id);
+    show_result_summary();
+
     echo "<p>";
 }
 
@@ -504,7 +508,7 @@ function host_user_link($hostid)
     if (!$result) return $h;
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
-    return "$h <small>(<a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
+    return "$h<br><small>(<a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
 }
 
 function outcome_color($s) {
@@ -516,8 +520,25 @@ function outcome_color($s) {
     return 'white';
 }
 
-function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
+function credit_str($c) {
+    if ($c) {
+        return sprintf("%.3f", $c);
+    } else {
+        return '---';
+    }
+}
+
+function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times)
+{
+    $wu_name = wu_name_by_id($result->workunitid);
+
+    echo "<h2>$result->name</h2>";
+    echo "<p>WU: <a href=db_action.php?table=workunit&id=$result->workunitid>$wu_name</a>";
+    
     start_table();
+
+
+
     if (!$hide_times) {
         row("Created", time_str($result->create_time));
         row("Sent", time_str($result->sent_time));
@@ -559,6 +580,9 @@ function result_short_header() {
         <th>host (user)</th>
         <th>client ver</th>
         <th>received</th>
+        <th>CPU hours</th>
+        <th>claimed<br>credit</th>
+        <th>granted<br>credit</th>
         </tr>
     ";
 }
@@ -574,6 +598,9 @@ function show_result_short($result) {
     $version = client_version_string($result->client_version_num);
     $outcome_color = outcome_color($result->outcome);
     $host_user = host_user_link($result->hostid);
+    $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
+    $claimed_credit = credit_str($result->claimed_credit);
+    $granted_credit = credit_str($result->granted_credit);
 
     echo "
         <tr>
@@ -584,6 +611,9 @@ function show_result_short($result) {
         <td>$host_user</td>
         <td>$version</td>
         <td>$received</td>
+        <td>$cpu_hours</td>
+        <td>$claimed_credit</td>
+        <td>$granted_credit</td>
         </tr>
     ";
 }
