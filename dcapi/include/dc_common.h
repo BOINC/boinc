@@ -68,6 +68,8 @@ typedef int DC_FileMode;
 #define DC_FILE_REMOTE            (3)      /* HTTP files physically not present */
 #define DC_FILE_PERSISTENT_CLIENT (1 << 7) /* FLAG: Persistent on client */
 
+#define DC_OUTFILE_OPTIONAL       (1 << 8) /* FLAG: Output file is optional */  
+
 /* Default name of the configuration file */
 #define DC_CONFIG_FILE		"dc-api.conf"
 
