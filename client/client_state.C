@@ -294,7 +294,7 @@ int CLIENT_STATE::time_tests() {
                 fpop_test_secs
             );
         }
-        host_info.p_fpops = run_double_prec_test(fpop_test_secs); //these are not
+        host_info.p_fpops = run_double_prec_test(fpop_test_secs);
 
         if (log_flags.measurement_debug) {
             printf(

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /ZI /Od /I "../../lib/" /I "../../api/" /I "../../RSAEuro/source/" /I "../../client/win/" /I "../../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=0 /D MINOR_VERSION=17 /D "WIN_CLI" /YX /FD /c /Tp
+# ADD CPP /nologo /MT /W3 /GX /Zi /O2 /I "../../lib/" /I "../../api/" /I "../../RSAEuro/source/" /I "../../client/win/" /I "../../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=0 /D MINOR_VERSION=17 /D "WIN_CLI" /YX /FD /c /Tp
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
