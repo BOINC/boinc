@@ -1492,9 +1492,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	}
 
 	// update xfers
-	Syncronize(&m_XferListCtrl, (vector<void*>*)(&cs->file_xfers->file_xfers));
+	Syncronize(&m_XferListCtrl, (vector<void*>*)(&cs->pers_xfers->pers_file_xfers));
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
-		FILE_XFER* fi = (FILE_XFER*)m_XferListCtrl.GetItemData(i);
+		PERS_FILE_XFER* fi = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!fi) {
 			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			m_XferListCtrl.SetItemProgress(i, 2, 100);
@@ -1509,14 +1509,27 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		m_XferListCtrl.SetItemText(i, 1, fi->fip->name);
 
 		// progress
-		m_XferListCtrl.SetItemProgress(i, 2, 100 * (fi->nbytes_xfered / fi->fip->nbytes));
+		if(fi->fxp) {
+			m_XferListCtrl.SetItemProgress(i, 2, 100 * (fi->fxp->nbytes_xfered / fi->fip->nbytes));
+		} else {
+			m_XferListCtrl.SetItemProgress(i, 2, 0);
+		}
 
 		// size
-		buf.Format("%0.0f/%0.0fKB", fi->nbytes_xfered / 1024, fi->fip->nbytes / 1024);
+		if(fi->fxp) {
+			buf.Format("%0.0f/%0.0fKB", fi->fxp->nbytes_xfered / 1024, fi->fip->nbytes / 1024);
+		} else {
+			buf.Format("%0.0f/%0.0fKB", 0, fi->fip->nbytes / 1024);
+		}
 		m_XferListCtrl.SetItemText(i, 3, buf.GetBuffer(0));
 
 		// time
-		double xtime = (double)time(0) - fi->start_time;
+		double xtime;
+		if(fi->fxp) {
+			xtime = (double)time(0) - fi->fxp->start_time;
+		} else {
+			xtime = 0;
+		}
 		int xhour = (int)(xtime / (60 * 60));
 		int xmin = (int)(xtime / 60) % 60;
 		int xsec = (int)(xtime) % 60;
