@@ -43,6 +43,10 @@ case "result_outcome":
         <p>
     ";
     start_table();
+    row2_plain("<b>Unknown</b>",
+        "The result was sent to a client, but the client has not
+        yet completed the work and reported the outcome."
+    );
     row2_plain("<b>Success</b>",
         "A client completed the result successfully."
     );
@@ -75,6 +79,11 @@ case "result_client_state":
         <p>
     ";
     start_table();
+    row2_plain("<b>New</b>",
+        "The client has not yet completed the work.  Since the
+        processing is not over, the the final client state at
+        outcome is not yet known."
+    );
     row2_plain("<b>Done</b>",
         "No error occurred."
     );
