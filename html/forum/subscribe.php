@@ -2,11 +2,13 @@
 require_once('subscribe.inc');
 require_once('../util.inc');
 
+db_init('../');
+
 $action = $_GET['action'];
 $thread = $_GET['thread'];
 
 if ($thread && $action) {
-    $result = sql_query("SELECT * FROM thread WHERE id = $thread");
+    $result = mysql_query("SELECT * FROM thread WHERE id = $thread");
     $thread = mysql_fetch_object($result);
     $user = get_logged_in_user($true, '../');
     

@@ -1,31 +1,34 @@
 <?php
-require_once('../include.php');
+
+require_once('../include/template.inc');
 require_once('forum.inc');
-require_once('subscribe.inc');
 require_once('../util.inc');
 
+require_once('subscribe.inc');
+
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
-        $_GET['thread'] = stripslashes(strip_tags($_GET['thread']));
+	$_GET['thread'] = stripslashes(strip_tags($_GET['thread']));
         
-        if (!empty($_GET['post'])) {
-            $parent_post = $_GET['post'];
-        } else {
-            $parent_post = NULL;
-        }
+  if (!empty($_GET['post'])) {
+    $parent_post = $_GET['post'];
+  } else {
+    $parent_post = NULL;
+  }
 
 	$user = get_logged_in_user(true, '../');
 
 	$thread = getThread($_GET['thread']);
 	$thread->reply($user->id, $_POST['content'], $parent_post);
         
-        notify_subscribers($thread);
+	notify_subscribers($thread);
         
 	header('Location: thread.php?id='.$thread->id);
 }
 
-if (empty($_SESSION['authenticator']))
-    get_logged_in_user(true, '../');
+$logged_in_user = get_logged_in_user(true, '../');
 
+//if (empty($_SESSION['authenticator']))
+//    get_logged_in_user(true, '../');
         
 doHeader('Forum');
 
@@ -42,38 +45,18 @@ if (!empty($_GET['helpdesk'])) {
 $thread = getThread($_GET['thread']);
 $forum = getForum($thread->forum);
 
-$logged_in_user = get_logged_in_user(true);
+show_forum_title($forum, $thread, $helpdesk);
 
-?>
-
-<p>
-	<span class="title"><?php echo $thread->title ?></span>
-	<br><a href="index.php"><?php echo $cfg['sitename'] ?> Forum</a> -> <a href="forum.php?id=<?php echo $forum->id ?>"><?php echo $forum->title ?></a>
-</p>
-
-<p style="text-align:center">
-	<table class="content" border="0" cellpadding="5" cellspacing="0" width="100%">
-		<tr>
-			<th style="width: 150px">Author</th>
-			<th>Message</th>
-		</tr>
-<?php
+start_forum_table(array("Author", "Message"), array(150, NULL));
 
 // TODO: Use the same sorting method that the user had in the thread view.
-//show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true, $is_helpdesk=false)
 
 show_posts($thread, 'modified-new',-2, false, false, $helpdesk);
 show_message_row($thread, $post);
-?>
 
-        </table>
-</p>
+end_forum_table();
 
-<?php
 doFooter();
-?>
-
-<?php
 
 function show_message_row($thread, $post=NULL) {
     global $logged_in_user;

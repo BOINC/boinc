@@ -1,7 +1,8 @@
 <?php
-require_once('../include.php');
+
 require_once('forum.inc');
 require_once('../util.inc');
+require_once('../include/template.inc');
 
 if ($_POST['submit']) {
     
@@ -13,39 +14,49 @@ if ($_POST['submit']) {
     header('Location: thread.php?id='.$thread->id);
 }
 
+$logged_in_user = get_logged_in_user();
+
 doHeader('Forum');
 
-$logged_in_user = get_logged_in_user();
-$post = getPost($_GET['id']);
+if (!empty($_GET['id'])) {
+	$post = getPost($_GET['id']);
+	$thread = getThread($post->thread);
+	$forum = getForum($thread->forum);
+	$category = getCategory($forum->category);
+} else {
+	// TODO: Standard error page
+	echo "No post was specified.<br>";
+	exit();
+}
+
 if ($logged_in_user->id != $post->user) {
     // Can't edit other's posts.
     echo "You are not authorized to edit this post.";
     exit();
 }
-?>
 
-<p>
-	<span class="title">Edit Post</span>
-	<br><a href="index.php"><?php echo $cfg['sitename'] ?> Forum</a>
-</p>
+show_forum_title($forum, $thread, $category->is_helpdesk);
 
-<p style="text-align:center">
-	<form action="edit.php?id=<?php echo $post->id ?>" method="POST">
-		<table class="content" border="0" cellpadding="5" cellspacing="0" width="100%">
+echo "<form action=\"edit.php?id=", $post->id, "\" method=\"POST\">";
+
+start_forum_table(array("Edit Your Post"), array(NULL), 2);
+
+echo "
 			<tr>
-				<th colspan="2">Edit Your Post</th>
-			</tr>
-                        <tr>
-				<td style="vertical-align:top"><b>Message content</b></td>
-				<td><textarea name="content" rows="12" cols="54"><?php echo $post->content ?></textarea></td>
+				<td style=\"vertical-align:top\"><b>Message content</b></td>
+				<td><textarea name=\"content\" rows=12 cols=80>", $post->content, "</textarea></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="text-align:center">
-					<input type="submit" name="submit" value="submit">
+				<td colspan=2 style=\"text-align:center\">
+					<input type=\"submit\" name=\"submit\" value=\"submit\">
 				</td>
 			</tr>
-		</table>
-	</form>
-</p>
+";
 
-<?php doFooter() ?>
+end_forum_table();
+
+echo "</form>";
+
+doFooter();
+
+?>
