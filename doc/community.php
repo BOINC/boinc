@@ -20,41 +20,37 @@ in various languages.
 See also
 <a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>GUIs and add-on software for BOINC</a>.
 
-<h2>Mailing lists</h2>
+<h2>Email lists</h2>
 
-The follow mailing lists are available.
+The follow email lists are available.
 Click to subscribe or post to a list.
-<dl>
-<dt>
-<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_projects>boinc_projects</a>
-<dd>
-This list is for people operating BOINC projects.
-Use it to ask questions, report bugs, or request enhancements to
-the BOINC server software.
-Announcements of modifications and upgrades to BOINC will posted here.
+";
+list_start();
+list_item(
+    "<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_projects>boinc_projects</a>",
+    "For people operating BOINC projects.
+    Use it to ask questions, report bugs, or request enhancements to
+    the BOINC server software.
+    Announcements of modifications and upgrades to BOINC will posted here.
+");
+list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a>",
+    "For people developing, debugging or porting the BOINC software.
+");
+list_item(
+    "<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>",
+    "For people developing web sites showing statistics for BOINC projects."
+);
 
-<dt>
-<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a>
-<dd>
-This list is for people developing, debugging or porting the BOINC software.
+list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs</a>",
+    "Summaries of BOINC CVS checkins are posted to this list.
+    No other posts, please."
+);
 
-<dt>
-<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>
-<dd>
-This list is for people developing web sites showing statistics
-for BOINC projects.
-
-<dt>
-<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs</a>
-<dd>
-Summaries of BOINC CVS checkins are posted to this list.
-
-<dt>
-<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>
-<dd>
-This list is for people porting and optimizing BOINC applications.
-
-</dl>
+list_item("<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>",
+    "For people porting and optimizing BOINC applications."
+);
+list_end();
+echo "
 <h2>Getting source code</h2>
 <p>
 At any given point there are two different versions
@@ -94,18 +90,26 @@ RSS-based news feeds are available from BOINC
 and from several BOINC-based projects:
 <ul>
 <li> BOINC: http://boinc.berkeley.edu/rss_main.php
-<li> BOINC alpha test: http://setiboinc.ssl.berkeley.edu/boinc_alpha/rss_main.php
-<li> BOINC beta test: http://setiboinc.ssl.berkeley.edu/ap/rss_main.php
+<li> SETI@home: http://setiweb.berkeley.edu/sah/rss_main.php
 </ul>
+
+<h2>Graphics</h2>
+<p>
+The BOINC logo uses the Planet Benson font from
+<a href=http://www.larabiefonts.com>Larabie Fonts</a>.
+Hi-res logos:
+<a href=logo.png>PNG</a>, <a href=logo.jpg>JPEG</a>,
+<a href=logo.gif>GIFF</a>.
+
+<p>
+Check out this
+<a href=hatfield.png>BOINC logo</a>
+by Jared Hatfield, a high school student.
+
 <h2>Other</h2>
 A good summary of distributed computing projects,
 including those based on BOINC, is at
 <a href=http://www.aspenleaf.com/distributed/>www.aspenleaf.com</a>.
-<p>
-For inquiries about BOINC, contact Dr. David P. Anderson,
-the director of the BOINC project, at davea at ssl.berkeley.edu.
-If you have problems with the BOINC software for Windows please email
-Rom Walton: rwalton at ssl.berkeley.edu.
 
 ";
 

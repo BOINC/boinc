@@ -182,6 +182,8 @@ echo "
 
     <p>
     <a href=download.php?dev=1>Show development versions also</a>.
+    <p>
+    Get data in <a href=download.php?xml=1>XML format</a>.
 ";
 
 if ($_GET["dev"]) {

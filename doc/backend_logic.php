@@ -33,7 +33,7 @@ echo "
 <pre>
 // gets run when either
 // - a result becomes done (via timeout or client reply)
-// - the WU error mask is set (e.g. by validater)
+// - the WU error mask is set (e.g. by validator)
 // - assimilation is finished
     for each WU with now > transition_time:
 

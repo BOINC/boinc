@@ -26,12 +26,13 @@ function page_head($title) {
 }
 
 function page_tail() {
+    $y = date("Y ");
     echo "
         <hr size='0' noshade/>
         <p align='center'>
         <a href='/'>Return to BOINC main page</a>
         <br/><br/>
-        Copyright &copy; 2004 University of California
+        Copyright &copy; $y University of California
         </p>
         </body>
         </html>

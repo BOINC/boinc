@@ -141,13 +141,20 @@ dir_hier_path filename
 </pre>
 It prints the full pathname.
 Run this in the project's root directory.
+For example:
+<pre>
+cp test_workunits/12ja04aa `bin/dir_hier_path 12ja04aa`
+</pre>
+copies an input file from the test_workunits directory
+to the download directory hierarchy.
 
 
 <h2>Creating workunit records</h2>
 <p>
 Workunits can be created using either a script
-(using the <code>create_work</code>program)
+(using the <code>create_work</code> program)
 or a program (using the <code>create_work()</code> function).
+The input files must already be in the download directory.
 <p>
 The utility program is
 <pre>
@@ -158,8 +165,6 @@ create_work
                                         // relative to project root
     -result_template filename           // result template filename
                                         // relative to project root
-    [ -config_dir path ]                // where 'config.xml' is;
-                                        // default = '.'
     [ -batch n ]
     [ -priority n ]
 
@@ -178,9 +183,7 @@ create_work
     infile_1 ... infile_m           // input files
 </pre>
 The workunit parameters are documented <a href=work.php>here</a>.
-If the -config_dir option is not used,
-the program must be run in the project root directory;
-it looks for <b>config.xml</b> there, and uses its contents.
+The program must be run in the project root directory.
 
 <p>
 The C++ library (crypt.C, backend_lib.C,h) provides the functions:

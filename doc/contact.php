@@ -1,13 +1,32 @@
 <?php
 require_once("docutil.php");
-page_head("Acknowledgements");
+page_head("Personnel");
 echo "
 
-The BOINC project is based at the Space Sciences Laboratory
+The BOINC project is based at the
+<a href=http://ssl.berkeley.edu>Space Sciences Laboratory</a>
 at the University of California, Berkeley.
+Project staff include:
+<dl>
+<dt> <b>Dr. David P. Anderson</b>
+<dd>
+Director and architect.  Contact him at davea at ssl.berkeley.edu.
+
+<dt><b>Rom Walton</b>
+<dd>
+Developer (mostly Windows).
+Contact him at rwalton at ssl.berkeley.edu.
+
+<dt><b>Jeff Cobb</b>
+<dd>Developer and system administrator
+<dt><b>Matt Lebofsky</b>
+<dd>Developer and system administrator
+<dt><b>Court Cannick</b>
+<dd>System administrator
+</dl>
 
 <p>
-BOINC developers (many of them volunteers) include:
+Other BOINC developers (many of them volunteers) include:
 <p>
 ";
 $i = 0;
@@ -84,12 +103,6 @@ echo "
 </table>
 <p>
 Many thanks to Komori Hitoshi for proof-reading this web site.
-<p>
-The BOINC logo uses the Planet Benson font from
-<a href=http://www.larabiefonts.com>Larabie Fonts</a>.
-Hi-res logos:
-<a href=logo.png>PNG</a>, <a href=logo.jpg>JPEG</a>,
-<a href=logo.gif>GIFF</a>.
 ";
 page_tail();
 ?>

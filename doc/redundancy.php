@@ -44,7 +44,7 @@ the new result is compared with the canonical result;
 this determines whether the user gets credit.
 
 <li> <b>Assimilation:</b>
-This is the mechanism by which the project is notifed of the completion
+This is the mechanism by which the project is notified of the completion
 (success or unsuccessful) of a work unit.
 It is performed exactly once per work unit.
 If the work unit was completed successfully
@@ -69,7 +69,7 @@ max_delay =  10
 BOINC automatically creates three results,
 which are sent at various times.
 At time 8, two successful results have returned
-so the validater is invoked.
+so the validator is invoked.
 It finds a consensus, so the work unit is assimilated.
 At time 10 result 3 arrives;
 validation is performed again,

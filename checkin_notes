@@ -23706,3 +23706,11 @@ David  1 Feb 2005
 
     sched/
         server_types.C
+
+David  1 Feb 2005
+    - MFILE's buffer was not being maintained as NULL-terminated.
+        This caused problems with GUI RPC, where the buffer was
+        transferred to code that expected it to be NULL-terminated
+
+    lib/
+        mfile.C,h

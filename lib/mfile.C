@@ -61,13 +61,14 @@ int MFILE::vprintf(const char* format, va_list ap) {
 
     k = vsprintf(buf2, format, ap);
     n = (int)strlen(buf2);
-    buf = (char*)realloc(buf, len+n);
+    buf = (char*)realloc(buf, len+n+1);
     if (!buf) {
         errno = ERR_MALLOC;
         return -1;
     }
     strncpy(buf+len, buf2, n);
     len += n;
+    buf[len] = 0;
     return k;
 }
 
@@ -82,36 +83,39 @@ int MFILE::printf(const char* format, ...) {
 }
 
 size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
-    buf = (char *)realloc( buf, len+(size*nitems) );
+    buf = (char *)realloc( buf, len+(size*nitems)+1 );
     if (!buf) {
         errno = ERR_MALLOC;
         return 0;
     }
     memcpy( buf+len, ptr, size*nitems );
     len += (int)size*(int)nitems;
+    buf[len] = 0;
     return nitems;
 }
 
 int MFILE::_putchar(char c) {
-    buf = (char*)realloc(buf, len+1);
+    buf = (char*)realloc(buf, len+1+1);
     if (!buf) {
         errno = ERR_MALLOC;
         return EOF;
     }
     buf[len] = c;
     len++;
+    buf[len] = 0;
     return c;
 }
 
 int MFILE::puts(const char* p) {
     int n = (int)strlen(p);
-    buf = (char*)realloc(buf, len+n);
+    buf = (char*)realloc(buf, len+n+1);
     if (!buf) {
         errno = ERR_MALLOC;
         return EOF;
     }
     strncpy(buf+len, p, n);
     len += n;
+    buf[len] = 0;
     return n;
 }
 

@@ -61,12 +61,9 @@ language("Finnish", array(
         "BOINC instructions in Finnish")
 ));
 language("French", array(
-    site(
-    "http://www.boinc-fr.net",
-        "www.boinc-fr.net"),
-    site(
-    "http://boinc-quebec.org",
-        "boinc-quebec.org")
+    site("http://boincfrance.org", "BOINCFRANCE.ORG"),
+    site("http://www.boinc-fr.net", "www.boinc-fr.net"),
+    site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
     site("http://www.boinc.de/", "www.boinc.de"),
@@ -74,9 +71,9 @@ language("German", array(
     site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),
     site( "http://www.emuleatboinc.de/board", "Official eMule @ BOINC Team Page")
 ));
-//list_item("Italian",
-//    "<a href=http://boinc.homeunix.org/>boinc.homeunix.org</a>"
-//);
+language("Italian", array(
+    site("http://it.groups.yahoo.com/group/BOINC-ITALIA/", "BOINC-ITALIA")
+));
 language("Japanese", array(
     site(
     "http://boinc.oocp.org/",

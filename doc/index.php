@@ -56,7 +56,7 @@ section(
     "community.php"
 );
 section(
-    "Acknowledgements",
+    "Personnel",
     "contact.php"
 );
 echo "
