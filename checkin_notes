@@ -24641,3 +24641,8 @@ Janus 12 Feb 2005
              forum_moderate_thread_action.php (new)
              forum_thread.php
 
+David  12 Feb 2005
+    - fix to the 11/feb fix
+
+    client/
+        http.C

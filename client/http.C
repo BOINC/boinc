@@ -322,7 +322,7 @@ static int read_reply(int socket, char* buf, int len) {
     i=0;
     while (i<len-1) {
         n = recv(socket, buf+i, 1, 0);
-        if (n==1 && maybe_more_data()) {
+        if (n==-1 && maybe_more_data()) {
             boinc_sleep(0.1);
             continue;
         }
