@@ -51,7 +51,7 @@ language("Dutch", array(
     )
 ));
 language("English", array(
-    site("http://83.72.130.163/esea/", "Earth Space Exploration Agency"),
+    site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),
     site("http://boinc.mundayweb.com", "boinc.mundayweb.com - stats counters and more")
     //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
 ));
@@ -71,6 +71,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.boincfun.tk/", "BOINCfun"),
     site("http://www.setigermany.de", "SETI.Germany"),
     site("http://home.arcor.de/tim222/", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),

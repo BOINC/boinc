@@ -21,7 +21,7 @@ and for automatic startup of the core client, are
 <h3>command-line options</h3>
 ";
 list_start();
-list_item("-attach_project URL account_key",
+list_item("<nobr>-attach_project URL account_key</nobr>",
     "Attach this computer to a new project."
 );
 list_item("-show_projects",

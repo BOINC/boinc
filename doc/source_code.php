@@ -35,10 +35,6 @@ Browse the CVS repository via a
 <p>
 Source code for a typical BOINC application,
 SETI@home, is <a href=http://setiweb.ssl.berkeley.edu/sah/sah_porting.php>here</a>.
-<h2>Bug database</h2>
-<p>
-<a href=http://setiathome.berkeley.edu/taskbase>View database of bugs and feature requests</a>
-<p>
 
 ";
 

@@ -35,10 +35,10 @@ downloading them from the project.  Here's how it works:
 
 <ul>
 <li>
-<a href=community.php>Download</a> the source code for the BOINC core
+<a href=source_code.php>Download</a> the source code for the BOINC core
 client and the project's applications, and compile them on your computer
 (instructions for compiling the core client are <a
-href=build_client.php>here</a>).  Steffen M&omul;ller has made <a
+href=build_client.php>here</a>).  Steffen M&ouml;ller has made <a
 href=http://bioinformatics.pzr.uni-rostock.de/~moeller/debian/boinc/>Debian
 packages</a>.  Or download executables from a server of your choosing.
 

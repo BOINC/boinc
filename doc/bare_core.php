@@ -14,10 +14,13 @@ if your browser has not done it for you.
 <li> chmod +x the executable.
 <li> put the executable into a separate directory (say, boinc/).
 <li> run the executable.
+    The first time you run it you'll need to attach it to a project, e.g.:
+    <pre>
+    boinc_client -attach_project http://setiathome.berkeley.edu df0d93e384a2700f70e0bc45a1b2c96c
+    </pre>
 </ul>
 <p>
-Instructions on running the core client
-(command-line options, etc.) are
+Instructions on running the core client (command-line options, etc.) are
 <a href=client_unix.php>here</a>.
 <p>
 You'll probably want to arrange
@@ -25,8 +28,19 @@ to run the executable each time your machine boots or you log on.
 Some examples follow.
 
 <h2>Automatic startup on Unix</h2>
-A set of instructions for running BOINC on Unix systems is
-<a href=http://noether.vassar.edu/~myers/help/boinc/unix.html>here</a>.
+<p>
+Users have contributed scripts for automatic
+startup of BOINC on various versions of Unix:
+
+<ul>
+<li>
+<a href=http://noether.vassar.edu/~myers/help/boinc/unix.html>Red Hat Linux</a>.
+(includes general instructions for installing on Unix systems).
+<li>
+<a href=autostart_unix.txt>Linux with KDE</a>.
+<li>
+<a href=autostart_dennett.txt>Red Hat 9, should also work on Solaris</a>
+</ul>
 
 <h2>Automatic startup on Mac OS X</h2>
 <p>
@@ -42,7 +56,7 @@ the name of Boinc file in the second line to the version you downloaded):
 
 <pre>
 cd myapplications/boinc
-/boinc_4.19_powerpc-apple-darwin
+./boinc_4.19_powerpc-apple-darwin
 </pre>
 
 <li> Convert this into plain text format by clicking on Format and then on
@@ -72,7 +86,7 @@ PS: You can use the
 <a href=client_unix.php>core client command-line options</a> in your script.
 An example:
 <pre>
-/boinc_4.19_powerpc-apple-darwin -return_results_immediately
+./boinc_4.19_powerpc-apple-darwin -return_results_immediately
 </pre>
 
 

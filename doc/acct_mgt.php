@@ -163,18 +163,26 @@ list_item("URL", "project_url/am_get_info.php");
 list_item("input", "account_key");
 list_item("output",
 	html_text("<am_get_info_reply>
+    <success/>
     <name>NAME</name>
     <country>COUNTRY</country>
     <postal_code>POSTAL_CODE</postal_code>
     <global_prefs>
-    GLOBAL_PREFS
+        GLOBAL_PREFS
     </global_prefs>
     <project_prefs>
-    PROJECT_PREFS
+        PROJECT_PREFS
     </project_prefs>
     <url>URL</url>
     <send_email>SEND_EMAIL</send_email>
     <show_hosts>SHOW_HOSTS</show_hosts>
+    <teamid>N</teamid>
+</am_get_info_reply>
+
+or
+
+<am_get_info_reply>
+    <error>MSG</error>
 </am_get_info_reply>
     ")
 );
@@ -195,11 +203,12 @@ list_item("input",
     <br>[ url ]
     <br>[ send_email ]
     <br>[ show_hosts ]
+    <br>[ teamid ]  <i>zero means quit current team, if any</i>
     "
 );
 list_item("output",
     html_text("<am_set_info_reply>
-    [ <error>MSG</error ]
+    [ <error>MSG</error> ]
     [ <success/> ]
 </am_set_info_reply>")
 );

@@ -38,6 +38,7 @@ function version(
     $s = number_format(filesize($path)/1000000, 2);
 
     if ($xml) {
+        $issues = htmlspecialchars($issues);
         echo "
 <version>
     <platform>$platform</platform>
@@ -156,23 +157,21 @@ version(
     <li/> The BOINC screensaver conflicts with Microsoft Intellitype software.
     <li/>
     Applications that were built before October 2004 do not
-    display screensaver graphics
-    with the Service or Shared install type,
-    or the Single-user install type with the password protect screensaver
+    display screensaver graphics with the Service or Shared installation,
+    or the Single-user installation with the password protect screensaver
     option on NT based machines.
-    <li/>
+    <li>
     If BOINC runs at the same time as Windows XP 3D screensavers,
     the system becomes sluggish and unresponsive.
-    <li/>
-    Dial-up systems should choose the single-user install mode. The daemon cannot
-    display dialogs in the other install types which causes the client to stall
-    and become unresponsive.
-    <li/>
-    ATI Graphics card users should go to the S@H Q&A section and click on 
-    <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>this</a>
-    thread, once there could you fill in the requested information and click on the
-    \"I also have this question\" button.  Thanks in advance.
-    </ul>
+    <li>
+    Dial-up users should choose the single-user installation.
+    <li>
+    Graphics sometimes do not work with ATI Graphics card.
+    If you have this problem,
+    please visit
+    <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>the SETI@home Q&A area</a>,
+    fill in the requested information, and click on the
+    \"I also have this question\" button.
     </ul>
     If you experience any of these problems,
     we recommend using BOINC version 4.19.
@@ -186,8 +185,8 @@ version(
     "25 Jan 2005",
     win_old(),
     "<ul>
-    <li/> Doesn't work with some HTTP proxies (fixed in later versions).
-    <li/>
+    <li> Doesn't work with some HTTP proxies (fixed in later versions).
+    <li>
     If BOINC runs at the same time as Windows XP 3D screensavers,
     the system becomes sluggish and unresponsive.
     </ul>
@@ -201,27 +200,22 @@ version(
     "24 Mar 2005",
     win_new(),
     "<ul>
-    <li/>
+    <li>
     This release should workaround the Intellisense/Intellipoint issue of
     closing down any application while Windows is in screensaver mode.
-    <li/>
+    <li>
     Applications that were built before October 2004 do not
     display screensaver graphics
     with the Service or Shared install type,
     or the Single-user install type with the password protect screensaver
     option on NT based machines.
-    <li/>
+    <li>
     If BOINC runs at the same time as Windows XP 3D screensavers,
     the system becomes sluggish and unresponsive.
-    <li/>
-    Dial-up systems should choose the single-user install mode. The daemon cannot
-    display dialogs in the other install types which causes the client to stall
-    and become unresponsive.
-    <li/>
-    ATI Graphics card users should go to the S@H Q&A section and click on 
-    <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>this</a>
-    thread, once there could you fill in the requested information and click on the
-    \"I also have this question\" button.  Thanks in advance.
+    <li>
+    Same issues for dialup users as 4.25.
+    <li>
+    Same issues for ATI graphics cards as 4.25.
     </ul>
     "
 );
