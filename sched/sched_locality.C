@@ -185,7 +185,7 @@ static void send_new_file_work(
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
-                "bad filename: %s", result.name
+                "bad filename: %s\n", result.name
             );
             continue;
         }
