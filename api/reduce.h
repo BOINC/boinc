@@ -77,4 +77,5 @@ public:
     void draw_axes();
 	void draw_axis_labels();
 	void draw_labels();	
+	void draw_3dlabels();	
 };

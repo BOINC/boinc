@@ -328,7 +328,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)
 			
 
 			//draw lines
-			
+			/*
 			mode_unshaded();    
 			glLineWidth(.5f);			
 			glBegin(GL_LINES);
@@ -391,7 +391,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)
 				glVertex3f(x1, y0, z1);
 				glVertex3f(x1, y0, z0);
 		*/
-			}
+	//		}
 			glEnd();	
 		break;
 		case TYPE_SURFACE:
@@ -893,5 +893,95 @@ void REDUCED_ARRAY::draw_labels()
 	ortho_done();
 }
 
+
+void REDUCED_ARRAY::draw_3dlabels()
+{	
+	double model[16];	
+	double proj[16];
+	double z_pos[3];
+	double x_pos[3];
+	double p_pos[3];
+	double xzmin_corner[3];
+	double zmax_corner[3];
+	double xmax_corner[3];
+
+	float arrowh = .35f;
+	float arroww = .05f;
+
+	glLineWidth(1.4f);
+	glBegin(GL_LINES);
+	glColor3f(1,1,1);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1],draw_pos[2]+draw_size[2]-.5f);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f);
+	glEnd();
+
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.2f+arrowh,draw_pos[2]+draw_size[2]-.5f);
+
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f+arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f+arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f+arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f+arroww);
+	glVertex3f(draw_pos[0]+draw_size[0]+.4f-arroww,draw_pos[1]+1.2f,draw_pos[2]+draw_size[2]-.5f-arroww);
+	glEnd();
+
+	int viewport[4];
+			
+	get_matrix(model);				
+	get_projection(proj);
+	get_viewport(viewport);
+
+	float offset = 0;
+
+	char* zlabel = "Time(sec)";
+	char* xlabel = "Frequency(HZ)";
+	char* plabel = "Power";
+
+	char* zmax = "107.4";
+	char* zmin = "0";
+
+	char* xmax = "9765.620";
+	char* xmin = "0.0";
+
+	float left_of_z = -0.1f;
+	float left_of_z2 = -0.04f;
+	float below_x = -.03f;
+	float center_x = -.06f;
+	
+	float w=.3f;
+	float l=1.0f;
+	float h=.3f;
+	float s=.3f;
+	mode_unshaded();	
+	glColor3d(1,1,1);	
+	float zpos[3]={draw_pos[0]-.5,draw_pos[1],draw_pos[2]+(draw_size[2]/2.0f)};
+	float xpos[3]={draw_pos[0]+draw_size[0]/2.0f,draw_pos[1]-.2,draw_pos[2]+draw_size[2]};
+	float ppos[3]={draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.5f/2.3f,draw_pos[2]+draw_size[2]-.5f};
+
+	glPushMatrix();	
+	float r[3] = {0,1,0};
+    draw_rotated_text(zpos,h,w,s,zlabel,90.0f,r);
+	
+	glPopMatrix();
+    
+	draw_text_line(xpos, w, l, xlabel);	
+    draw_text_line(ppos, w, l, plabel);	
+	
+/*	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+  	
+	glRasterPos3d(zpos[0],zpos[1],zpos[2]);
+	print_text(listBase[0], zlabel);
+
+	glRasterPos3d(xpos[0],xpos[1],xpos[2]);
+	print_text(listBase[0], xlabel);
+
+	glRasterPos3d(ppos[0],ppos[1],ppos[2]);
+	print_text(listBase[0], plabel);
+
+	glPopMatrix();
+*/
+}
 
 

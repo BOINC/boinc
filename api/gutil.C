@@ -17,8 +17,7 @@
 // Contributor(s):
 //
 
-//#include "config.h"
-#define HAVE_GLUT_H
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
