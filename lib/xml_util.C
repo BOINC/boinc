@@ -549,12 +549,14 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   }
   unsigned int ival=bin[i];
   rv << ival << std::endl << xml_indent(-2);
-  rv << ival;
   return rv.str();
 }
 
 //
 // $Log$
+// Revision 1.16  2003/10/23 19:58:20  jeffc
+// jeffc - bug fix in csv encode routine
+//
 // Revision 1.15  2003/10/23 19:18:38  jeffc
 // jeffc - put back in line feeds - no longer using parese_str().
 //
