@@ -45,8 +45,8 @@ while ($app = mysql_fetch_object($result)) {
         <li><a href=pass_percentage_by_platform.php?appid=$app->id&nsecs=86400>last 24 hours - pass percentage by platform</a>
         <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=86400>last 24 hours - failure by platform</a>
         <li><a href=result_summary.php?appid=$app->id&nsecs=604800>last week</a>
-        <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=604800>last week - pass percentage by platform</a>
-        <li><a href=pass_percentage_by_platform.php?appid=$app->id&nsecs=604800>last week - failure by platform</a>
+        <li><a href=pass_percentage_by_platform.php?appid=$app->id&nsecs=604800>last week - pass percentage by platform</a>
+        <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=604800>last week - failure by platform</a>
         </ul>
     ";
 }
