@@ -23,15 +23,16 @@ echo "
     To use the defaults settings,
     scroll to the bottom and click OK.
 ";
-$prefs = default_prefs();
-global_prefs_update($user, $prefs);
-project_prefs_update($user, $prefs);
+$global_prefs = default_prefs_global();
+global_prefs_update($user, $global_prefs);
+$project_prefs = default_prefs_project();
+project_prefs_update($user, $project_prefs);
 
 echo "<form action=account_setup_first_action.php>
     <table cellpadding=6>
 ";
-prefs_form_global($user, $prefs);
-prefs_form_email($prefs);
+prefs_form_global($user, $global_prefs);
+prefs_form_email($project_prefs);
 venue_form($user);
 
 echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>

@@ -49,6 +49,12 @@ function element_start_project($parser, $name, $attrs) {
     global $in_project_specific;
 
     switch($name) {
+    case "home":
+    case "school":
+    case "work":
+        $top_parse_result = $parse_result;
+        $parse_result = null;
+        break;
     case "project_specific":
         $in_project_specific = 1;
         $text = "";
@@ -84,6 +90,12 @@ function element_end_project($parser, $name) {
     global $in_project_specific;
 
     switch($name) {
+    case "home":
+    case "school":
+    case "work":
+        $top_parse_result->$name = $parse_result;
+        $parse_result = $top_parse_result;
+        break;
     case "project_specific":
         $parse_result->project_specific = $text;
         $in_project_specific = false;

@@ -16,11 +16,11 @@ page_head("Account setup: resource share", $user);
 echo "
     <h3>Account setup</h3>
 ";
-$prefs = prefs_parse($user->project_prefs);
+$project_prefs = prefs_parse_project($user->project_prefs);
 echo "<form action=account_setup_nonfirst_action.php>
     <table cellpadding=6>
 ";
-prefs_form_resource($prefs);
+prefs_form_resource($project_prefs);
 
 venue_form($user);
 
