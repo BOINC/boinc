@@ -11985,3 +11985,14 @@ Rom    May 3 2004
         db_ops.inc
         failure_result_summary_by_platform.php
         index.php
+
+Rom    May 3 2004
+    - Fix a screensaver bug where if BOINC was suspended it would get stuck
+      trying to bring up graphics for a suspended application.
+    - Remove obselete db_ops.inc and util_ops.inc file from the ops directory.
+
+    client/
+        ss_logic.c
+    html/ops/
+        db_ops.inc (remove)
+        util_ops.inc (remove)
