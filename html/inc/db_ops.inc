@@ -313,8 +313,8 @@ SELECT
                end
            else host.os_version
        end AS OS_Version,
-       exit_status AS Exit_Status,
-       COUNT(*) AS Error_Count
+       exit_status,
+       COUNT(*) AS error_count
 FROM   result
            left join host on result.hostid = host.id 
 WHERE
