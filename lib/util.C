@@ -217,14 +217,13 @@ double dtime() {
 // do sanity check on a time, replace with now if bad
 // We switched to using all UNIX times on 12/1/04.
 // During the transition, times in client_state.xml may be
-// in Windows (1601-based or whatever) format.
+// in Windows (1601-based) format.  Fix them here.
 //
 void validate_time(double& t) {
     if (t==0) return;
     double now = dtime();
     if (t > now+86400*1000) {
         t -=  EPOCHFILETIME_SEC;
-;
     }
 }
 

@@ -463,7 +463,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
             // report deadline
             if (re->report_deadline) {
-                strBuf = GetStrTime(re->report_deadline);
+                strBuf = GetStrTime((__time64_t)re->report_deadline);
             } else {
                 strBuf = "---";
             }
