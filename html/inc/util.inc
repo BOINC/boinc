@@ -11,10 +11,10 @@ function send_auth_email($email_addr, $auth) {
 
 ".PROJECT." URL:          ".MASTER_URL."
 
-Your account key:            $auth\n
+Your account ID:             $auth\n
 
 Please save this email.
-You will need your account key to log in to the ".PROJECT." web site."
+You will need your account ID to log in to the ".PROJECT." web site."
     );
 }
 
@@ -234,14 +234,14 @@ function print_login_form_aux($next_url, $user) {
     ";
     start_table();
     row1("Log in");
-    row2("Your account key:
+    row2("Your account ID:
         <br><font size=-2>
-        If you don't know your account key,
+        If you don't know your account ID,
         <a href=get_passwd.php>click here</a>.
         </font>",
         "<input name=authenticator size=40>"
     );
-    row2("Remember account key on this computer",
+    row2("Remember account ID on this computer",
         "<input type=checkbox name=send_cookie>"
     );
     row2("",

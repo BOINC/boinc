@@ -17,7 +17,7 @@
     if (!$user) {
         page_head("Log in");
         echo "
-            We have no account with the account key '$authenticator'.
+            We have no account with the account ID '$authenticator'.
             <br>Click <b>Back</b> to try again.
         ";
         echo "<<".MASTER_URL.">>\n";

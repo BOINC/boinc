@@ -10260,3 +10260,17 @@ David  Mar 3 2004
 	client/
 		parse.C
 		util.C
+
+David  Mar 3 2004
+    - "account key" -> "account ID" in the PHP code
+
+    html/
+        inc/
+            util.inc
+        user/
+            account_created.php
+            accountsetup_nonfirst_done.php
+            create_account_form.php
+            get-passwd.php
+            login_action.php
+            mail_passwd.php

@@ -22,7 +22,7 @@ echo "
     <p><b>Read the <a href=info.php>Rules and Policies</a>
     before creating an account.</b></p>
 
-    <p>If you already received an account key, do not submit this form.
+    <p>If you already received an account ID, do not submit this form.
     <a href=account_created.php>Activate your account</a> instead.</p>
 
     <form action=create_account_action.php method=post>

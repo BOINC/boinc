@@ -23,7 +23,7 @@ if (!$user) {
         Try reentering your email address.<p>
     ";
 } else {
-    echo "Your account key has been emailed to ".$email_addr.".<p>";
+    echo "Your account ID has been emailed to ".$email_addr.".<p>";
 }
 
 page_tail();
