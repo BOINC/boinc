@@ -40,6 +40,8 @@ Stephen Pellicer
 <br>
 Jens Seidler
 <br>
+Christian Soettrup
+<br>
 Rom Walton
 <br>
 Oliver Wang

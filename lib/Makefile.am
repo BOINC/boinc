@@ -31,10 +31,8 @@ libboinc_a_SOURCES =				\
 	md5_file.h				\
 	msg_queue.h				\
     parse.C					\
-	parse.h					\
 	shmem.C					\
-	shmem.h					\
-	synch.h					\
+	synch.C					\
     util.C					\
 	util.h					\
 	xml_util.C              \

@@ -199,10 +199,8 @@ libboinc_a_SOURCES = \
 	md5_file.h				\
 	msg_queue.h				\
     parse.C					\
-	parse.h					\
 	shmem.C					\
-	shmem.h					\
-	synch.h					\
+	synch.C					\
     util.C					\
 	util.h					\
 	xml_util.C              \
@@ -232,7 +230,8 @@ am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
 	app_ipc.$(OBJEXT) base64.$(OBJEXT) diagnostics.$(OBJEXT) \
 	exception.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
 	md5.$(OBJEXT) md5_file.$(OBJEXT) parse.$(OBJEXT) \
-	shmem.$(OBJEXT) util.$(OBJEXT) xml_util.$(OBJEXT)
+	shmem.$(OBJEXT) synch.$(OBJEXT) util.$(OBJEXT) \
+	xml_util.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT) \
 	synch_test$(EXEEXT)

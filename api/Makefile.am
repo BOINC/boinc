@@ -9,13 +9,14 @@ libboinc_api_a_SOURCES =			\
 	boinc_api.h				\
 	mfile.C					\
 	reduce.h				\
-	../lib/util.C				\
-	../lib/shmem.C				\
-	../lib/parse.C				\
 	../lib/app_ipc.C			\
 	../lib/base64.C                         \
-        ../lib/diagnostics.C                    \
-        ../lib/exception.C
+    ../lib/diagnostics.C                    \
+    ../lib/exception.C          \
+	../lib/parse.C				\
+	../lib/shmem.C				\
+	../lib/synch.C				\
+	../lib/util.C
 
 libboinc_graphics_api_a_SOURCES =		\
 	graphics_api.C				\
@@ -35,7 +36,7 @@ nographics:
 
 EXTRA_PROGRAMS = api_app api_test
 
-api_app_SOURCES = api_app.C mfile.C boinc_api.C ../lib/parse.C
+api_app_SOURCES = api_app.C mfile.C boinc_api.C ../lib/parse.C ../lib/synch.C
 api_test_SOURCES = boinc_api.C api_test.C ../lib/parse.C
 
 all = libboinc_api.a

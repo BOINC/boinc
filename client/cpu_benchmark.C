@@ -551,11 +551,11 @@ int set_benchmark_timer(double num_secs) {
     if (speed_timer_id == NULL) return ERR_TIMER_INIT;
 #else
     itimerval value;
-    sighandler_t sig_retval;
     int retval;
 
-    sig_retval = signal(SIGALRM, stop_benchmark);
-    if (sig_retval == SIG_ERR) return ERR_TIMER_INIT;
+    if (signal(SIGALRM, stop_benchmark) == SIG_ERR) {
+        return ERR_TIMER_INIT;
+    }
     value.it_value.tv_sec = (int)num_secs;
     value.it_value.tv_usec = ((int)(num_secs*1000000))%1000000;
     value.it_interval = value.it_value;

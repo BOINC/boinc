@@ -11053,3 +11053,13 @@ Rom   Mar 29 2004
 
     html/user/
         host_edit_action.php
+
+David  Mar 28 2004
+    - Fix compile/link errors I introduced on Friday (sorry!!)
+
+    api/
+        Makefile.in
+        boinc_api.C
+    client/
+        Makefile.in
+        cpu_benchmark.C

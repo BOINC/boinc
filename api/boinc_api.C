@@ -54,6 +54,7 @@ using namespace std;
 #include "shmem.h"
 #include "util.h"
 #include "filesys.h"
+#include "synch.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
 #include "boinc_api.h"
@@ -97,13 +98,13 @@ static int		set_timer(double period);
 static bool core_client_is_running() {
     int retval;
     bool running = true;
-    retval = lock_semaphore(core_semaphore_key);
+    retval = lock_semaphore(aid.core_semaphore_key);
     if (!retval) {
         // we got the semaphore - core client must not be running.
         // release semaphore so that other apps can get it
         //
         running = false;
-        unlock_semaphore(core_semaphore_key);
+        unlock_semaphore(aid.core_semaphore_key);
     }
     return running;
 }
@@ -409,6 +410,7 @@ static void setup_shared_mem() {
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
     hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
     if (hSharedMem == NULL) {
+        delete app_client_shm;
         app_client_shm = NULL;
     }
 #endif
@@ -416,6 +418,7 @@ static void setup_shared_mem() {
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
     if (attach_shmem(aid.shm_key, (void**)&app_client_shm->shm)) {
+        delete app_client_shm;
         app_client_shm = NULL;
     }
 #endif
@@ -434,6 +437,8 @@ static void cleanup_shared_mem() {
     detach_shmem(app_client_shm->shm);
 #endif
 #endif
+    delete app_client_shm;
+    app_client_shm = NULL;
 }
 
 
