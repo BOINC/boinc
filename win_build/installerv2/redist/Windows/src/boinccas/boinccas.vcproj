@@ -161,6 +161,9 @@
 				RelativePath=".\CAVerifyServiceExecutionRight.cpp">
 			</File>
 			<File
+				RelativePath=".\CAVerifyServicePassword.cpp">
+			</File>
+			<File
 				RelativePath=".\lkuprid.cpp">
 			</File>
 			<File
@@ -220,6 +223,9 @@
 			</File>
 			<File
 				RelativePath=".\CAVerifyServiceExecutionRight.h">
+			</File>
+			<File
+				RelativePath=".\CAVerifyServicePassword.h">
 			</File>
 			<File
 				RelativePath=".\lkuprid.h">

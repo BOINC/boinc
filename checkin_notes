@@ -25486,3 +25486,10 @@ David  3 Mar 2005
         ops/
             db_update.php
     
+Rom    3 Mar 2005
+    - Bug Fix: Fix the rest of the custom actions
+    - Bug Fix: Hide password values from the log files
+    - Bug Fix: Enable Next by default on the Service Config page
+
+    win_build/installerv2/
+        < numerous files and folders >

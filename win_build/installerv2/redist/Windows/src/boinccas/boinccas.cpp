@@ -210,6 +210,17 @@ UINT BOINCCABase::OnInitialize()
     MsiRecordSetString (m_phLogInfoRec, 0, _T("Custom Message : Action Name: [1] Description: [2] Error Code: [3] "));
     MsiRecordSetString (m_phLogInfoRec, 1, m_strActionName.c_str());
 
+
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        _T("Starting Custom Action")
+        );
+        
+
     return ERROR_SUCCESS;
 }
 
@@ -366,7 +377,8 @@ UINT BOINCCABase::OnExecution()
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::GetProperty( 
     const tstring strPropertyName, 
-    tstring&      strPropertyValue
+    tstring&      strPropertyValue,
+    bool          bDisplayValue
     )
 {
     LPTSTR  lpszBuffer = NULL;
@@ -397,7 +409,11 @@ UINT BOINCCABase::GetProperty(
     free( lpszBuffer );
 
     strMessage  = _T("Successfully retrieved '") + strPropertyName;
-    strMessage += _T("' with a value of '") + strPropertyValue;
+    strMessage += _T("' with a value of '");
+    if (bDisplayValue)
+        strMessage += strPropertyValue;
+    else
+        strMessage += _T("<Value Hidden>");
     strMessage += _T("'");
 
     LogMessage(
@@ -422,7 +438,8 @@ UINT BOINCCABase::GetProperty(
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::SetProperty( 
     const tstring strPropertyName, 
-    const tstring strPropertyValue
+    const tstring strPropertyValue,
+    bool          bDisplayValue
     )
 {
     tstring strMessage;
@@ -442,7 +459,11 @@ UINT BOINCCABase::SetProperty(
     }
 
     strMessage  = _T("Successfully set '") + strPropertyName;
-    strMessage += _T("' to a value of '") + strPropertyValue;
+    strMessage += _T("' to a value of '");
+    if (bDisplayValue)
+        strMessage += strPropertyValue;
+    else
+        strMessage += _T("<Value Hidden>");
     strMessage += _T("'");
 
     LogMessage(
@@ -455,6 +476,32 @@ UINT BOINCCABase::SetProperty(
     );
 
     return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    DisplayMessage
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::DisplayMessage(
+    const UINT         uiPushButtonStyle,       // push button sstyle to use in message box
+    const UINT         uiIconStyle,             // icon style to use in message box
+    const tstring      strMessage               // message
+    )
+{
+    UINT        uiReturnValue = 0;
+
+    uiReturnValue = ::MessageBox(
+        NULL, 
+        strMessage.c_str(), 
+        _T("Installer Message"),
+        uiPushButtonStyle | uiIconStyle | MB_SETFOREGROUND | MB_SERVICE_NOTIFICATION
+        );
+
+    return uiReturnValue;
 }
 
 
@@ -527,9 +574,9 @@ UINT BOINCCABase::LogMessage(
     case INSTALLMESSAGE_USER:
 
         PMSIHANDLE phLogErrorRec = MsiCreateRecord(2);
-        assert(NULL != phLogErrorRec);
 
-        MsiRecordSetInteger(phLogErrorRec, 1, uiErrorNumber);
+        MsiRecordSetString (phLogErrorRec, 0, _T("[1]"));
+        MsiRecordSetString (phLogErrorRec, 1, strMessage.c_str());
 
         // Return value to indicate which button is 
         // pushed on message box

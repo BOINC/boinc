@@ -77,7 +77,7 @@ UINT CAValidateServiceAccount::OnExecution()
     uiReturnValue = GetProperty( _T("SERVICE_DOMAIN"), strInitialServiceDomain );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("SERVICE_PASSWORD"), strInitialServicePassword );
+    uiReturnValue = GetProperty( _T("SERVICE_PASSWORD"), strInitialServicePassword, false );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("SERVICE_DOMAINUSERNAME"), strInitialServiceDomainUsername );

@@ -58,14 +58,22 @@ public:
     // MSI Property Management
     UINT GetProperty( 
         const tstring      strPropertyName, 
-        tstring&           strPropertyValue
+        tstring&           strPropertyValue,
+        bool               bDisplayValue = true
         );
 
     UINT SetProperty( 
         const tstring      pszPropertyName, 
-        const tstring      pszPropertyValue
+        const tstring      pszPropertyValue,
+        bool               bDisplayValue = true
         );
 
+    // MSI UI Dialog Management
+    UINT DisplayMessage(
+        const UINT         uiPushButtonStyle,       // push button sstyle to use in message box
+        const UINT         uiIconStyle,             // icon style to use in message box
+        const tstring      strMessage               // message
+        );
 
     // MSI Logging Management
     UINT LogProgress(

@@ -20,9 +20,9 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CAVerifyServiceExecutionRight.h"
+#include "CAVerifyServicePassword.h"
 
-#define CUSTOMACTION_NAME               _T("CAVerifyServiceExecutionRight")
+#define CUSTOMACTION_NAME               _T("CAVerifyServicePassword")
 #define CUSTOMACTION_PROGRESSTITLE      _T("")
 
 
@@ -33,7 +33,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAVerifyServiceExecutionRight::CAVerifyServiceExecutionRight(MSIHANDLE hMSIHandle) :
+CAVerifyServicePassword::CAVerifyServicePassword(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -45,7 +45,7 @@ CAVerifyServiceExecutionRight::CAVerifyServiceExecutionRight(MSIHANDLE hMSIHandl
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAVerifyServiceExecutionRight::~CAVerifyServiceExecutionRight()
+CAVerifyServicePassword::~CAVerifyServicePassword()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -58,72 +58,65 @@ CAVerifyServiceExecutionRight::~CAVerifyServiceExecutionRight()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CAVerifyServiceExecutionRight::OnExecution()
+UINT CAVerifyServicePassword::OnExecution()
 {
-    tstring strNTVersion;
-    tstring strNTProductType;
-    ULONG   ulNTVersion = 0;
-    ULONG   ulNTProductType = 0;
+    tstring strServicePassword;
+    tstring strServicePasswordConfirmation;
     UINT    uiReturnValue = 0;
 
 
-    uiReturnValue = GetProperty( _T("VersionNT"), strNTVersion );
+    uiReturnValue = GetProperty( _T("SERVICE_PASSWORD"), strServicePassword, false );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("MsiNTProductType"), strNTProductType );
+    uiReturnValue = GetProperty( _T("SERVICE_CONFIRMPASSWORD"), strServicePasswordConfirmation, false );
     if ( uiReturnValue ) return uiReturnValue;
 
 
-    ulNTVersion = _tstol(strNTVersion.c_str());
-    ulNTProductType = _tstol(strNTProductType.c_str());
-
-
-    if ( (400 == ulNTVersion) && (2 == ulNTProductType) )
+    if ( strServicePassword != strServicePasswordConfirmation )
     {
-        // NT 4.0 Domain Controller Detected
         DisplayMessage(
             MB_OK, 
-            MB_ICONWARNING,
-            _T("Setup has detected you are attempting to install on a Windows NT 4.0 domain controller, you'll need to manually grant the selected user the permission to 'Logon As a Service' through the User Manager for Domains.")
+            MB_ICONERROR,
+            _T("The password and confirm password editboxes must match.")
             );
-        SetProperty(_T("SERVICE_GRANTEXECUTIONRIGHT"), _T("0"));
+
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
     }
     else
     {
-        uiReturnValue = DisplayMessage(
-            MB_YESNO, 
-            MB_ICONQUESTION,
-            _T("Setup may need to grant the selected username permission to 'Logon As a Service', is it okay to do so?")
-            );
-
-        if ( IDYES == uiReturnValue )
+        if ( strServicePassword.empty() )
         {
-            SetProperty(_T("SERVICE_GRANTEXECUTIONRIGHT"), _T("1"));
+            DisplayMessage(
+                MB_OK, 
+                MB_ICONERROR,
+                _T("The selected password cannot be null, please choose a password to continue.")
+                );
+
+            uiReturnValue = ERROR_INSTALL_USEREXIT;
         }
         else
         {
-            SetProperty(_T("SERVICE_GRANTEXECUTIONRIGHT"), _T("0"));
+            SetProperty(_T("RETURN_VERIFYSERVICEPASSWORD"), _T("1"));
+            uiReturnValue = ERROR_SUCCESS;
         }
     }
 
-    SetProperty(_T("RETURN_VERIFYSERVICEEXECUTIONRIGHT"), _T("1"));
-
-    return ERROR_SUCCESS;
+    return uiReturnValue;
 }
 
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    VerifyServiceExecutionRight
+// Function:    VerifyServicePassword
 //
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall VerifyServiceExecutionRight(MSIHANDLE hInstall)
+UINT __stdcall VerifyServicePassword(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CAVerifyServiceExecutionRight* pCA = new CAVerifyServiceExecutionRight(hInstall);
+    CAVerifyServicePassword* pCA = new CAVerifyServicePassword(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
