@@ -74,7 +74,8 @@ class AppVersion(DatabaseObject):
                     'platformid',
                     'xml_doc',
                     'min_core_version',
-                    'max_core_version' ])
+                    'max_core_version',
+                    'deprecated' ])
 
 class User(DatabaseObject):
     _table = DatabaseTable(

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.30  2003/12/24 21:49:34  boincadm
+// *** empty log message ***
+//
 // Revision 1.29  2003/12/23 19:21:51  boincadm
 // *** empty log message ***
 //
@@ -179,15 +182,10 @@ void DB_APP_VERSION::db_print(char* buf){
     sprintf(buf,
         "id=%d, create_time=%d, appid=%d, version_num=%d, platformid=%d, "
         "xml_doc='%s', "
-        "min_core_version=%d, max_core_version=%d",
-        id,
-        create_time,
-        appid,
-        version_num,
-        platformid,
+        "min_core_version=%d, max_core_version=%d, deprecated=%d",
+        id, create_time, appid, version_num, platformid,
         xml_doc,
-        min_core_version,
-        max_core_version
+        min_core_version, max_core_version, deprecated
     );
 }
 
@@ -202,6 +200,7 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     strcpy2(xml_doc, r[i++]);
     min_core_version = atoi(r[i++]);
     max_core_version = atoi(r[i++]);
+    deprecated = atoi(r[i++]);
 }
 
 void DB_USER::db_print(char* buf){

@@ -111,31 +111,28 @@ double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
     return x;
 }
 
-// if a host has active_frac < 0.5, assume 0.5 so we don't deprive it of work.
+// if a host has active_frac < 0.1, assume 0.1 so we don't deprive it of work.
 //
-const double HOST_ACTIVE_FRAC_MIN = 0.5;
+const double HOST_ACTIVE_FRAC_MIN = 0.1;
 
 // estimate the number of seconds that a workunit requires running 100% on a
 // single CPU of this host.
 //
 // TODO: improve this.  take memory bandwidth into account
-// Also take "on fraction" etc. into account
 //
-inline double estimate_duration(WORKUNIT& wu, HOST& host) {
+inline double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
     if (host.p_fpops <= 0) host.p_fpops = 1e9;
     if (wu.rsc_fpops_est <= 0) wu.rsc_fpops_est = 1e12;
     return wu.rsc_fpops_est/host.p_fpops;
 }
 
-// estimate the amount of real time for this WU based on active_frac and #cpus.
+// estimate the amount of real time for this WU based on active_frac
 //
 inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
-    if (host.p_ncpus < 1) host.p_ncpus = 1;
+    return estimate_cpu_duration(wu, host)
+        / max(HOST_ACTIVE_FRAC_MIN, host.active_frac)
+    ;
 
-    return double(
-        estimate_duration(wu, host)
-        * max(HOST_ACTIVE_FRAC_MIN, host.active_frac)
-        * host.p_ncpus);
 }
 
 // return true if the WU can be executed on the host
@@ -795,7 +792,7 @@ static void scan_work_array(
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.update();
 
-        wu_seconds_filled = estimate_duration(wu, reply.host);
+        wu_seconds_filled = estimate_cpu_duration(wu, reply.host);
         log_messages.printf(
             SchedMessages::NORMAL,
             "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",

@@ -57,6 +57,7 @@ create table app_version (
     xml_doc             blob,
     min_core_version    integer     not null,
     max_core_version     integer    not null,
+    deprecated          integer     not null,
     primary key (id)
 );
 

@@ -91,6 +91,7 @@ int SCHED_SHMEM::scan_tables() {
     n = 0;
     while (!app_version.enumerate()) {
         if (app_version.version_num/100 != MAJOR_VERSION) continue;
+        if (app_version.deprecated) continue;
         app_versions[n++] = app_version;
         if (n == MAX_APP_VERSIONS) overflow("app_versions");
     }
