@@ -93,6 +93,8 @@ static volatile const char *BOINCrcsid="$Id$";
 #include "sched_util.h"
 #include "sched_msgs.h"
 
+#define ENUM_LIMIT 1000
+
 // The following parameters determine the feeder's policy
 // for purging "infeasible" results,
 // i.e. those that are hard to send to any client.
@@ -192,7 +194,7 @@ static int remove_infeasible(int i) {
 #endif
 
 static void scan_work_array(
-    DB_WORK_ITEM& wi, int limit,
+    DB_WORK_ITEM& wi,
     int& nadditions, int& ncollisions, int& ninfeasible,
     bool& no_wus
 ) {
@@ -214,7 +216,7 @@ static void scan_work_array(
             break;
 #endif
         case WR_STATE_EMPTY:
-            retval = wi.enumerate(limit, random_order);
+            retval = wi.enumerate(ENUM_LIMIT, random_order);
             if (retval) {
 
                 // if we already restarted the enum on this array scan,
@@ -224,13 +226,13 @@ static void scan_work_array(
                     log_messages.printf(SCHED_MSG_LOG::DEBUG,
                         "already restarted enum on this array scan\n"
                     );
-                    break;
+                    return;
                 }
 
                 // restart the enumeration
                 //
                 restarted_enum = true;
-                retval = wi.enumerate(limit, random_order);
+                retval = wi.enumerate(ENUM_LIMIT, random_order);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG,
                     "restarting enumeration\n"
                 );
@@ -239,7 +241,7 @@ static void scan_work_array(
                         "enumeration restart returned nothing\n"
                     );
                     no_wus = true;
-                    break;
+                    return;
                 }
             }
 
@@ -317,8 +319,7 @@ void feeder_loop() {
         no_wus = false;
 
         scan_work_array(
-            wi, 1000, nadditions, ncollisions, ninfeasible, no_wus
-            //wi, 10000, nadditions, ncollisions, ninfeasible, no_wus
+            wi, nadditions, ncollisions, ninfeasible, no_wus
         );
 
         ssp->ready = true;

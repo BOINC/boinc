@@ -287,7 +287,7 @@ def install_boinc_files(dest_dir):
     force_symlink(dir('bin', 'start'), dir('bin', 'status'))
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'create_work', 'add', 'xadd', 'dbcheck_files_exist',
-          'update_versions', 'upgrade', 'parse_config', 'grep_logs', 'db_query',
+          'update_versions', 'parse_config', 'grep_logs', 'db_query',
           'watch_tcp', 'sign_executable' ])
     map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
         [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',

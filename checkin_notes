@@ -20206,5 +20206,23 @@ David  23 Nov 2004
         make_project
 
 Bruce  24 Nov 2004 UTC
-    - Added const char RCSID string to all *.c files, so that 'ident' and 'strings' can identify
-      file version numbers.
+    - Added const char RCSID string to all *.c files,
+        so that 'ident' and 'strings' can identify file version numbers.
+
+David  24 Nov 2004
+    - Fix the "upgrade" script.
+        You now run it in the source directory, not the project dir.
+        It now takes the project name (and optional root path) as arg
+    - Don't run "start" at the conclusion of upgrade
+    - make_project: don't copy upgrade to project/bin
+    - feeder: if restart enum in the middle of a scan,
+        return and sleep; don't keep trying 100 times
+    - feeder: make enum limit a #define
+        (should be a cmdline arg too)
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        feeder.C
+    tools/
+        upgrade

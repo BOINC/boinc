@@ -3,25 +3,55 @@
 # $Id$
 
 '''
+Usage: upgrade [options] project_name
+Options:
+  --project_root    default: HOME/projects/
 
-This program upgrades the project with current source/build files.
-Useful if you are a BOINC developer or closely following BOINC development.
+Copy source/build files to a project tree,
+overwriting what's already there.
+Run it in the source directory (tools/upgrade).
 
 '''
 
 import boinc_path_config
 from Boinc import boinc_project_path, tools
 from Boinc.setup_project import *
-import os
+import os, getopt
 
-if not tools.query_noyes("Update project executables and PHP files (overwrite existing files)"):
+def usage():
+    print "Usage: upgrade [--project_root] project_name"
     raise SystemExit
 
-INSTALL_DIR = os.environ.get('INSTALL_DIR') or \
-    boinc_project_path.PROGRAM_PARENT_DIR
+def syntax_error(str):
+    raise SystemExit('%s; See "%s --help" for help\n' % (str, sys.argv[0]))
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], ['help', 'project_root='])
+except getopt.GetopError, e:
+    syntax_error(e)
+
+home = os.path.expanduser('~')
+
+options.project_root = os.path.join(home, 'projects')
+
+for o,a in opts:
+    if o == '--help':   usage()
+    elif o == '--project_root': options.project_root = a
+    else:
+        raise SystemExit('internal error o=%s'%o)
+
+if len(args) == 1:
+    project_shortname = args[0]
+else:
+    syntax_error('No project name')
+
+INSTALL_DIR = os.path.join(options.project_root, project_shortname)
+
+if not tools.query_noyes("Overwrite files in "+INSTALL_DIR):
+    raise SystemExit
 
 if os.system(os.path.join(INSTALL_DIR,'bin/stop')):
-    raise SystemExit("Couldn't stop BOINC!")
+    raise SystemExit("Couldn't stop project!")
 
 print "Upgrading files... "
 
@@ -30,8 +60,9 @@ init()
 install_boinc_files(INSTALL_DIR)
 
 print "Upgrading files... done"
-print
-# print "Run `start' to resume BOINC."
+print "You may need to do database upgrades also."
+print "(see html/ops/db_update.php)"
+print "Run `start' to restart the project."
 
-if os.system(os.path.join(INSTALL_DIR,'bin/start')):
-    raise SystemExit("Couldn't start BOINC!")
+#if os.system(os.path.join(INSTALL_DIR,'bin/start')):
+#    raise SystemExit("Couldn't start BOINC!")
