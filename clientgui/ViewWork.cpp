@@ -681,7 +681,9 @@ wxInt32 CViewWork::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
 wxInt32 CViewWork::FormatApplicationName( wxInt32 item, wxString& strBuffer ) const
 {
     wxInt32        iBuffer = 0;
-    wxString       strTemp = wxEmptyString;
+    wxString       strTempName = wxEmptyString;
+    wxString       strTempMajor = wxEmptyString;
+    wxString       strTempMinor = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -689,10 +691,18 @@ wxInt32 CViewWork::FormatApplicationName( wxInt32 item, wxString& strBuffer ) co
 
     strBuffer.Clear();
 
-    pDoc->GetWorkApplicationName(item, strTemp);
+    pDoc->GetWorkApplicationName(item, strTempName);
     pDoc->GetWorkApplicationVersion(item, iBuffer);
 
-    strBuffer.Printf(wxT("%s %.2f"), strTemp.c_str(), iBuffer/100.0);
+    // The fancy math way of doing this causes the decimal point to be localized,
+    //   which in German is a comma instead of a period.
+    strTempMajor.Printf( wxT("%d"), iBuffer );
+    strTempMajor = strTempMajor.Left( strTempMajor.Len() - 2 );
+
+    strTempMinor.Printf( wxT("%d"), iBuffer );
+    strTempMinor = strTempMinor.Right( 2 );
+
+    strBuffer.Printf(wxT("%s %s.%s"), strTempName.c_str(), strTempMajor.c_str(), strTempMinor.c_str());
 
     return 0;
 }

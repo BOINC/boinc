@@ -23918,3 +23918,10 @@ David  3 Feb 2005
 
     client/
         http.C
+
+Rom    3 Feb 2005
+    - Bug Fix: Fix a localization problem where the application version
+        number was being localized when it shouldn't be.
+
+    clientgui/
+        ViewWork.cpp
