@@ -5409,10 +5409,10 @@ Karl 2003/07/27
     sched/timeout_check.C
 
 Karl 2003/07/28
-    fixed "work between X:00 and Y:00" bug
-    added idle_time_to_run and run_if_user_active checking
-    changed country "none" to "none or international"
+    - fixed "work between X:00 and Y:00" bug
+    - added idle_time_to_run and run_if_user_active checking
+    - changed country "none" to "none or international"
+    - show "Suspended" in GUI if suspended. Preliminary work to cleanup files,transfers
 
     html_user/*
     client/*
-

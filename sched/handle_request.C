@@ -760,7 +760,8 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
 inline static const char* get_remote_addr()
 {
-    return getenv("REMOTE_ADDR");
+    const char * r = getenv("REMOTE_ADDR");
+    return r ? r : "?.?.?.?";
 }
 
 void process_request(
