@@ -126,14 +126,12 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     return 0;
 }
 
-// return the next project after "old" that is eligible for a
-// scheduler RPC
-// It excludes projects that have (p->master_url_fetch_pending) set to
-// true.
-// Such projects will be returned by next_project_master_pending
-// routine.
+// return the next project after "old" that
+// 1) is eligible for a scheduler RPC
+// 2) has work_request > 0
+// 3) has master_url_fetch_pending == false
 //
-PROJECT* CLIENT_STATE::next_project(PROJECT *old) {
+PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
     PROJECT *p;
     time_t now = time(0);
     unsigned int i;
@@ -153,11 +151,14 @@ PROJECT* CLIENT_STATE::next_project(PROJECT *old) {
     return 0;
 }
 
-// Prepare the scheduler request.  This writes the request to a
-// file (SCHED_OP_REQUEST_FILE) which is later sent to the scheduling server
+// Write a scheduler request to a disk file
+// (later sent to the scheduling server)
 //
 int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
-    FILE* f = boinc_fopen(SCHED_OP_REQUEST_FILE, "wb");
+    char buf[1024];
+
+    get_sched_request_filename(*p, buf);
+    FILE* f = boinc_fopen(buf, "wb");
     MIOFILE mf;
     unsigned int i;
     RESULT* rp;
@@ -457,7 +458,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = find_project_with_overdue_results();
         if (p) {
-            scheduler_op->init_return_results(p, p->work_request);
+            scheduler_op->init_return_results(p);
             action = true;
         } else if (!(exit_when_idle && contacted_sched_server) && urgency != DONT_NEED_WORK) {
             if (urgency == NEED_WORK) {
@@ -476,7 +477,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             scheduler_op->init_get_work();
             action = true;
         } else if ((p=next_project_sched_rpc_pending())) {
-            scheduler_op->init_return_results(p, p->work_request);
+            scheduler_op->init_return_results(p);
             action = true;
         }
         break;
@@ -500,15 +501,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     int retval;
     unsigned int i;
     bool signature_valid, need_to_install_prefs=false;
-    char buf[256];
+    char buf[256], filename[256];
 
     nresults = 0;
     contacted_sched_server = true;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    scope_messages.printf_file(SCHED_OP_RESULT_FILE, "reply: ");
 
-    f = fopen(SCHED_OP_RESULT_FILE, "r");
+    get_sched_reply_filename(*project, filename);
+    scope_messages.printf_file(filename, "reply: ");
+
+    f = fopen(filename, "r");
     if (!f) return ERR_FOPEN;
     retval = sr.parse(f, project);
     fclose(f);

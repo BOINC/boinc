@@ -75,7 +75,9 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     return false;
 }
 
-// try to get enough work to bring us up to max buffer level
+// try to get some work, from any project from which we need it
+// PRECONDITION: compute_work_requests() has been called
+// to fill in PROJECT::work_request
 //
 int SCHEDULER_OP::init_get_work() {
     int retval;
@@ -83,7 +85,7 @@ int SCHEDULER_OP::init_get_work() {
     double ns;
 
     must_get_work = true;
-    project = gstate.next_project(0);
+    project = gstate.next_project_need_work(0);
     if (project) {
         // for new work fetch policy
         ns = project->work_request;
@@ -104,12 +106,13 @@ int SCHEDULER_OP::init_get_work() {
 }
 
 // report results for a particular project.
-// also get work from that project if below max buffer level
+// PRECONDITION: compute_work_requests() has been called
+// to fill in PROJECT::work_request
 //
-int SCHEDULER_OP::init_return_results(PROJECT* p, double ns) {
+int SCHEDULER_OP::init_return_results(PROJECT* p) {
     must_get_work = false;
     project = p;
-    return init_op_project(ns);
+    return init_op_project(p->work_request);
 }
 
 // try to initiate an RPC to the current project.
@@ -204,9 +207,11 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
 
 // low-level routine to initiate an RPC
 // If successful, creates an HTTP_OP that must be polled
+// PRECONDITION: the request file has been created
 //
 int SCHEDULER_OP::start_rpc() {
     int retval;
+    char request_file[1024], reply_file[1024];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
@@ -218,12 +223,14 @@ int SCHEDULER_OP::start_rpc() {
         );
     }
 
-    scope_messages.printf_file(SCHED_OP_REQUEST_FILE, "req:");
+    get_sched_request_filename(*project, request_file);
+    get_sched_reply_filename(*project, reply_file);
+
+    scope_messages.printf_file(request_file, "req:");
 
     http_op.set_proxy(&gstate.pi);
     retval = http_op.init_post(
-        scheduler_url, SCHED_OP_REQUEST_FILE,
-        SCHED_OP_RESULT_FILE
+        scheduler_url, request_file, reply_file
     );
     if (retval) return retval;
     retval = http_ops->insert(&http_op);
@@ -389,7 +396,8 @@ bool SCHEDULER_OP::poll() {
                 err_url = project->master_url;
             }
 
-            // If don't have any schedulers for this project,
+            // Done with master file fetch.
+            // If tentative project and don't have any schedulers,
             // it may be the wrong URL.  notify the user
             //
             if (!err && project->scheduler_urls.size() == 0) {
@@ -442,7 +450,7 @@ bool SCHEDULER_OP::poll() {
                     backoff(project, "No schedulers responded");
                     if (must_get_work) {
                         int urgency = gstate.compute_work_requests();
-                        project = gstate.next_project(project);
+                        project = gstate.next_project_need_work(project);
                         if (project && urgency != DONT_NEED_WORK) {
                             retval = init_op_project(project->work_request);
                         } else {
@@ -507,7 +515,7 @@ bool SCHEDULER_OP::poll() {
                 if (must_get_work) {
                     int urgency = gstate.compute_work_requests();
                     if (urgency != DONT_NEED_WORK) {
-                        project = gstate.next_project(project);
+                        project = gstate.next_project_need_work(project);
                         if (project) {
                             retval = init_op_project(project->work_request);
                         } else {

@@ -253,7 +253,7 @@ private:
 public:
     double work_needed_secs();
     PROJECT* next_project_master_pending();
-    PROJECT* next_project(PROJECT*);
+    PROJECT* next_project_need_work(PROJECT*);
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     int compute_work_requests();

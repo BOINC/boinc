@@ -55,6 +55,7 @@
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
 #define SCHEDULER_OP_STATE_IDLE         0
+    // invariant: in this state, our HTTP_OP is not in the HTTP_OP_SET
 #define SCHEDULER_OP_STATE_GET_MASTER   1
 #define SCHEDULER_OP_STATE_RPC          2
 
@@ -71,7 +72,7 @@ struct SCHEDULER_OP {
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
     int init_get_work();
-    int init_return_results(PROJECT*, double nsecs);
+    int init_return_results(PROJECT*);
     int init_op_project(double ns);
     int init_master_fetch(PROJECT*);
     int set_min_rpc_time(PROJECT*);

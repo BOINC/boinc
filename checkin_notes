@@ -17529,7 +17529,7 @@ David  21 Sept 2004
         handle_request.C
         sched_send.C
 
-David  21 Sept 2004
+David  22 Sept 2004
     Various cleanups; first try on project-overwrite bug
     (I don't think these have anything to do with it, however).
     Client now compiles with gcc -Wall -W -Werror
@@ -17568,3 +17568,17 @@ Rom    22 Sept 2004
 
     clientgui/
         <various files>
+
+David 22 Sept 2004
+    - store scheduler requests and replies in files whose names
+        include the project master URL.
+        This will hopefully prevent RPCs from clobbering each other.
+        The question of why concurrent RPC is happening is unresolved.
+    - rename next_project() to next_project_need_work()
+    - remove redundant time argument from SCHEDULER_OP::init_return_results()
+
+    client/
+        client_state.h
+        cs_scheduler.C
+        file_names.C,h
+        scheduler_op.C,h
