@@ -11,7 +11,7 @@ To create a BOINC server you must have the following software installed:
 If Apache is configured to run with Fast CGI, rename fcgi to cgi in
 the "boinc/sched" directory, replacing the existing cgi.
 <p>
-Add the following (with appropriate changes) to your .tcshrc
+Add the following environment variables (with appropriate changes) to your .tcshrc
 <pre>
 # These 5 are used at compile time
 setenv BOINC_DB_NAME        boinc_barry
@@ -40,7 +40,7 @@ changed you must recompile the scheduler by going into the sched/ directory, typ
 After setting your necessary environment variables you must edit your httpd.conf to
 configure Apache.
 
-Add the following lines where aliases are placed.
+Add the following lines (with appropriate changes) where aliases are placed.
 
 <pre>
 Alias /barry/ "/disks/philmor/a/users/barry/"
@@ -57,7 +57,8 @@ This allows you to resolve URL's and path names that go to your home directory.
 This way you can have your upload and download directories, key directory, and cgi
 directory in your home directory and still have them reacheable through the web.
 <p>
-In addition add the following lines where script aliases are placed.
+In addition add the following lines (with appropriate changes) where script 
+aliases are placed.
 
 <pre>
 ScriptAlias /barry-cgi/ "/disks/philmor/a/users/barry/cgi/"
@@ -82,7 +83,15 @@ Unzip and untar the BOINC release.  Type
 "configure", "make", and "make install".  "make" will compile all the source 
 code and "make install" will install a BOINC server in the INSTALL_DIR (currently
 set to /usr/local/boinc/) specified in the Makefile.
-<br>
+
+<p>
+Go into the boinc/test directory, and type
+<h4>
+test_uc.php
+</h4>
+This script runs a test case that initializes the database with a
+user account, application and workunits, runs the client, and checks the
+results. 
 
 <h4>
 BOINC_DB_NAME
@@ -98,7 +107,7 @@ BOINC_KEY
 This should be set to any 32 bit hex value desired. To run
 multiple BOINC projects on one machine, each project needs to have
 a different BOINC_KEY compiled into it.  The BOINC_KEY is used to create
-a shared memory segment.  Each project must have a different shared memory segment.
+a shared memory segment.  Each project has a different shared memory segment.
 <h4>
 BOINC_KEY_DIR
 </h4>
@@ -114,7 +123,7 @@ that this directory is different from the BOINC_DOWNLOAD_DIR.
 BOINC_DOWNLOAD_DIR
 </h4>
 This is where clients will download project applications and other necessary files to run
-those applications from.  It is important that this directory is differet from
+those applications from.  It is important that this directory is different from
 the BOINC_UPLOAD_DIR.
 <h4>
 BOINC_UPLOAD_URL
@@ -149,12 +158,4 @@ It is not critical for the running of BOINC.  Normally, each
 project will be identified by a BOINC_MASTER_URL.  The client will
 go to this URL and will be told where to go to get work from the
 scheduler.
-<p>
-Go into the boinc/test directory, and type
-<h4>
-test_uc.php
-</h4>
-This script runs a test case that initializes the database with a
-user account, application and workunits, runs the client, and checks the
-results. 
 </td></tr></table>
