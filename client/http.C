@@ -94,8 +94,7 @@ void get_user_agent_string(char* p) {
     );
 }
 
-// Prints an HTTP 1.1 GET request header into buf
-// Hopefully there won't be chunked transfers in a GET
+// create an HTTP 1.0 GET request header
 //
 static void http_get_request_header(
     char* buf, char* host, int port, char* file, double offset
@@ -140,7 +139,7 @@ static void http_get_request_header_proxy(
     );
 }
 
-// Prints an HTTP 1.1 HEAD request header into buf
+// create an HTTP 1.0 HEAD request header
 //
 static void http_head_request_header(
     char* buf, char* host, int port, char* file
@@ -175,8 +174,7 @@ static void http_head_request_header_proxy(
     );
 }
 
-// Prints an HTTP 1.0 POST request header into buf
-// Use HTTP 1.0 so we don't have to deal with chunked transfers
+// create an HTTP 1.0 POST request header
 //
 static void http_post_request_header(
     char* buf, char* host, int port, char* file, int size

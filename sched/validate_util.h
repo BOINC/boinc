@@ -28,7 +28,7 @@ typedef int (*init_result_f)(RESULT const&, void*&);
 typedef int (*check_pair_with_data_f)(RESULT &, void*, RESULT const&, void*, bool&);
 typedef int (*cleanup_result_f)(RESULT const&, void*);
 extern int get_output_file_path(RESULT const& result, std::string& path);
-extern double median_mean_credit(std::vector<RESULT> const& results);
+extern double median_mean_credit(std::vector<RESULT>& results);
 
 int generic_check_set(
     std::vector<RESULT>& results, int& canonicalid, double& credit,

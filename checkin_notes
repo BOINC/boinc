@@ -25718,3 +25718,11 @@ David  9 Mar 2005
 
     sched/
         db_dump.C
+
+David  9 Mar 2005
+    - compile fix
+
+    client/
+        http.C
+    sched/
+        validate_util.h
