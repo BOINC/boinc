@@ -22,7 +22,7 @@ if (!empty($_GET['post'])) {
         exit();
     }
 
-    $user = get_logged_in_user($true);
+    $user = get_logged_in_user(true);
     $user = getForumPreferences($user);
     
     if (getHasRated($user,$postId)){

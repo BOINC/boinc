@@ -129,6 +129,11 @@ function update_10_25_2004() {
         "alter table forum_preferences add high_rating_threshold integer not null"
     );
 }
+
+function update_10_26_2004() {
+    mysql_query("alter table forum_preferences modify jump_to_unread tinyint(1) unsigned not null default 0");
+}
+
 //update_10_25_2004();
 
 ?>

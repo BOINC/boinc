@@ -26,6 +26,8 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
         exit();
     }
 
+    $thread->id=$threadID;
+    setThreadLastVisited($logged_in_user,$thread);
 	header('Location: forum_thread.php?id=' . $threadID);
 }
 

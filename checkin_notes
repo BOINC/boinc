@@ -18907,3 +18907,18 @@ David  26 Oct 2004
 	api/
 		boinc_api.C,h
 		graphics_api.C
+
+David  26 Oct 2004
+    - forum updates (from Jans)
+
+    NOTE: run the DB update to get the right default behavior
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_form.php
+            forum_post.php
+            forum_rate.php

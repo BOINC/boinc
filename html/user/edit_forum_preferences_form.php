@@ -94,7 +94,7 @@ row2("Signature for message boards".
 if ($user->signature!=""){
 row2("Signature preview".
     "<br><font size=-2>This is how your signature will look in the forums</font>",
-    sanitize_html(stripslashes($user->signature))
+    nl2br(sanitize_html(stripslashes($user->signature)))
 );
 }
 row2("", "<input type=submit value='Update info'>");
