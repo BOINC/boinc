@@ -504,55 +504,57 @@ void REDUCED_ARRAY::draw_axis_labels()
 }
 
 void REDUCED_ARRAY::draw_axes() {
-	/* box
+
+	float adj=-.18f;
+	// box
 	mode_unshaded();
 	
-	glLineWidth(1.0);
-	glEnable(GL_LINE_SMOOTH);
+	glLineWidth(.5);
+//	glEnable(GL_LINE_SMOOTH);
 	glBegin(GL_LINES);
-	glColor4d(1,1,1,.9);	
+	glColor4d(1,1,1,.5);	
 	
 	//base square
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 
 	//top square
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj);
 	
 	//connecting lines
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]);
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj);
 	glEnd();
 
-*/
+
 	mode_unshaded();
 	
 	glLineWidth(1.0);
@@ -560,7 +562,7 @@ void REDUCED_ARRAY::draw_axes() {
 	glBegin(GL_LINES);
 	glColor4d(1,1,1,1);	
 	
-	float adj=-.18f;
+	
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
@@ -589,38 +591,71 @@ void REDUCED_ARRAY::draw_axes() {
 
 void REDUCED_ARRAY::draw_labels()
 {	
-	float model[16];	
+	double model[16];	
+	double proj[16];
+	double z_pos[3];
+	double x_pos[3];
+	double xzmin_corner[3];
+	double zmax_corner[3];
+	double xmax_corner[3];
+
+	int viewport[4];
+		
 	glMatrixMode(GL_MODELVIEW);
-	get_matrix_invert(model);
-//	get_matrix(model);
+	get_matrix(model);				
+	get_projection(proj);		
+	get_viewport(viewport);    
+
+	float offset = 0;
+
+	char* zlabel = "Time(sec)";
+	char* xlabel = "Frequency(HZ)";
+
+	char* zmax = "107.4";
+	char* zmin = "0";
+
+	char* xmax = "9765.620";
+	char* xmin = "0.0";
+
+	float left_of_z = -0.1f;
+	float left_of_z2 = -0.04f;
+	float below_x = -.03f;
+	float center_x = -.06f;
+
+	
+	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2]+(draw_size[2]/2.0f),
+			   model, proj, viewport,z_pos);
+	
+	get_2d_positions(draw_pos[0]+draw_size[0]/2.0f,draw_pos[1],draw_pos[2]+draw_size[2],
+			   model, proj, viewport,x_pos);
+
+	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2]+draw_size[2],
+			   model, proj, viewport,xzmin_corner);
+
+	get_2d_positions(draw_pos[0]+draw_size[0],draw_pos[1],draw_pos[2]+draw_size[2],
+			   model, proj, viewport,xmax_corner);
+
+	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2],
+			   model, proj, viewport,zmax_corner);
+	
 	mode_ortho();	
 
-	float w = .05f;
-	float pos[3];
-	pos[0]=draw_pos[0]*model[0]+draw_pos[1]*model[4]+draw_pos[2]*model[8];
-	pos[1]=draw_pos[0]*model[1]+draw_pos[1]*model[5]+draw_pos[2]*model[9];
-	pos[2]=draw_pos[0]*model[2]+draw_pos[1]*model[6]+draw_pos[2]*model[10];
-	//convert to 2d space
-	if(pos[2]>0)
-	{
-		pos[0]=pos[0]/pos[2];
-		pos[1]=pos[1]/pos[2];
-		pos[2]=1;
-	}	
-
-	//scale to [-1,1]
-	pos[0]=pos[0]/4.0f;
-	pos[1]=pos[1]/4.0f;
-	pos[2]=1;
-	
-	char buf[512];
-	sprintf(buf,"%f,%f,%f",pos[0],pos[1],pos[2]);	
-	//MessageBox(NULL,buf,"F",0);
-
-	mode_unshaded();
-	glColor3d(1,1,1);
-	glLineWidth(2);
-	draw_text_line(pos, w, 2, "Time");	
+	float w=.015f;
+	float l=1.0f;
+	mode_unshaded();	
+	glColor3d(1,1,1);	
+	float zpos[3]={(float)z_pos[0]/(float)(viewport[2]) + left_of_z,(float)z_pos[1]/(float)(viewport[3]),(float)z_pos[2]};
+	float xpos[3]={(float)x_pos[0]/(float)(viewport[2]) + center_x,(float)x_pos[1]/(float)(viewport[3])+below_x,(float)x_pos[2]};
+	float xminpos[3]={(float)xzmin_corner[0]/(float)(viewport[2]),(float)xzmin_corner[1]/(float)(viewport[3])+below_x,(float)xzmin_corner[2]};
+	float xmaxpos[3]={(float)xmax_corner[0]/(float)(viewport[2]),(float)xmax_corner[1]/(float)(viewport[3])+below_x,(float)xmax_corner[2]};
+	float zminpos[3]={(float)xzmin_corner[0]/(float)(viewport[2])+left_of_z2,(float)xzmin_corner[1]/(float)(viewport[3]),(float)xzmin_corner[2]};
+	float zmaxpos[3]={(float)zmax_corner[0]/(float)(viewport[2])+left_of_z2,(float)zmax_corner[1]/(float)(viewport[3]),(float)zmax_corner[2]};
+	draw_text_line(zpos, w, l, zlabel);	
+	draw_text_line(xpos, w, l, xlabel);	
+//	draw_text_line(xminpos, w, l, xmin);	
+//	draw_text_line(xmaxpos, w, l, xmax);	
+//	draw_text_line(zminpos, w, l, zmin);	
+//	draw_text_line(zmaxpos, w, l, zmax);	
 
 	ortho_done();
 }

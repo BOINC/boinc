@@ -108,6 +108,7 @@ int boinc_init_opengl() {
 }
 
 int boinc_finish_opengl() {
+	
     return 0;
 }
 

@@ -67,7 +67,11 @@ extern void mode_unshaded();
 extern void mode_lines();
 extern void ortho_done();
 extern bool get_matrix_invert(float[16]);
-extern bool get_matrix(float[16]);
+extern bool get_matrix(double src[16]);
+extern bool get_projection(double src[16]);
+extern bool get_viewport(int view[4]);
+extern void get_2d_positions(float p1,float p2,float p3,
+					  double model[16], double proj[16], int viewport[4], double proj_pos[3]);
 
 // draw a progress bar as an opaque cylinder within a translucent cylinder
 //
@@ -102,7 +106,6 @@ extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
 extern int init_texture(char* filename);
 extern void draw_texture(float* pos, float* size);
 
-
 //stars
 struct Star
 {	
@@ -113,3 +116,12 @@ struct Star
 extern void build_stars();
 extern void update_stars();
 extern void replaceStar(Star* tmpStar);
+
+#include "jpeglib.h"
+#include "bmplib.h"
+#define MAX_TEXTURES 16
+extern UINT g_Texture[MAX_TEXTURES];
+extern bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID);
+extern bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID);
+extern bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID);
+extern tImageJPG *LoadJPG(const char *filename);

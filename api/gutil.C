@@ -129,14 +129,39 @@ void ortho_done()
 	glPopMatrix();
 }
 
-bool get_matrix(float src[16])
+bool get_matrix(double src[16])
 {
+	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glGetFloatv(GL_MODELVIEW_MATRIX,src);	
+	glGetDoublev(GL_MODELVIEW_MATRIX,src);	
 	glPopMatrix();
 
 	return true;
 }
+
+bool get_projection(double src[16])
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glGetDoublev(GL_PROJECTION_MATRIX,src);
+	glPopMatrix();
+	return true;
+}
+
+bool get_viewport(int view[4])
+{
+	glGetIntegerv(GL_VIEWPORT,view);
+	return true;
+}
+
+void get_2d_positions(float p1,float p2,float p3,
+					  double model[16], double proj[16], int viewport[4], double proj_pos[3])
+{
+	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);	
+}
+
+
+
 
 bool get_matrix_invert(float src[16])
 {
@@ -712,6 +737,7 @@ void draw_texture(float* p, float* size) {
 //pointer to the begining of the list
 Star* stars = new Star;
 
+//makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
 void build_stars()
 {
 	int i=0;	
@@ -740,7 +766,7 @@ void build_stars()
 	tmpStar=NULL;
 }
 
-
+//moves stars towards the eye vector, and replaces ones that go behind z=0
 void update_stars()
 {
 	float modelview[16];	
@@ -812,4 +838,108 @@ void replaceStar(Star* star)
 	star->v=v;		
 }
 
+//jpg texture support
+//this is the array that will contain pointers to texture pixel data
+UINT g_Texture[MAX_TEXTURES];
+
+void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData)
+{	
+	jpeg_read_header(cinfo, TRUE);
+	jpeg_start_decompress(cinfo);
+
+	pImageData->rowSpan = cinfo->image_width * cinfo->num_components;
+	pImageData->sizeX   = cinfo->image_width;
+	pImageData->sizeY   = cinfo->image_height;
+	pImageData->data = new unsigned char[pImageData->rowSpan * pImageData->sizeY];
+		
+	unsigned char** rowPtr = new unsigned char*[pImageData->sizeY];
+	for (int i = 0; i < pImageData->sizeY; i++)
+		rowPtr[i] = &(pImageData->data[i*pImageData->rowSpan]);
+
+	int rowsRead = 0;
+	while (cinfo->output_scanline < cinfo->output_height) 
+	{
+		rowsRead += jpeg_read_scanlines(cinfo, &rowPtr[rowsRead], cinfo->output_height - rowsRead);
+	}
+	delete [] rowPtr;
+	jpeg_finish_decompress(cinfo);
+}
+
+tImageJPG *LoadJPG(const char *filename)
+{
+	struct jpeg_decompress_struct cinfo;
+	tImageJPG *pImageData = NULL;
+	FILE *pFile;
+	
+	if((pFile = fopen(filename, "rb")) == NULL) 
+	{
+		MessageBox(NULL, "Unable to load JPG File!", "Error", MB_OK);
+		return NULL;
+	}
+		
+	jpeg_error_mgr jerr;	
+	cinfo.err = jpeg_std_error(&jerr);	
+	jpeg_create_decompress(&cinfo);	
+	jpeg_stdio_src(&cinfo, pFile);	
+	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));	
+	DecodeJPG(&cinfo, pImageData);	
+	jpeg_destroy_decompress(&cinfo);	
+	fclose(pFile);	
+	return pImageData;
+}
+
+bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID)
+{
+	if(!strFileName) return false;	
+	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
+	if(pImage == NULL)
+		exit(0);
+	glGenTextures(1, &textureArray[textureID]);
+	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);	
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+	
+	if (pImage)										
+	{
+		if (pImage->data)							
+		{
+			free(pImage->data);						
+		}
+
+		free(pImage);					
+	}
+	return true;
+}
+
+bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID)
+{
+	DIB_BITMAP image; 
+	if(image.loadBMP(strFileName) == false)
+		return false;
+	
+	glGenTextures(1, &textureArray[textureID]);	
+	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(), 
+					  image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
+					  image.getLinePtr(0));
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+	return true;
+}
+
+bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
+{
+	unsigned char* pixels;
+    int width, height;    
+    if(read_ppm_file(strFileName, width, height, &pixels)==-1) return false;
+    
+    glGenTextures(1, &textureArray[textureID]);
+    glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
+
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+	return true;
+}
 
