@@ -46,6 +46,7 @@ How to develop or port an application program for use with BOINC.
 <li><a href=fortran.php>FORTRAN applications</a>
 <li><a href=compound_app.php>Compound applications</a>
 <li><a href=trickle_api.php>Trickle messages</a>
+<li><a href=myers.txt>A cookbook</a> (courtesy Eric Myers from Vassar)
 </ul>
 
 <font size=+1><b>

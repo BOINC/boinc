@@ -67,6 +67,35 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 #endif
 }
 
+static void handle_get_project_status(MIOFILE& fout) {
+    unsigned int i;
+    fout.printf("<projects>\n");
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->write_state(fout);
+    }
+    fout.printf("</projects>\n");
+}
+
+static void handle_get_disk_usage(MIOFILE& fout) {
+    unsigned int i;
+    double size;
+
+    fout.printf("<projects>\n");
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        gstate.project_disk_usage(p, size);
+        fout.printf(
+            "<project>\n"
+            "  <master_url>%s</master_url>\n"
+            "  <disk_usage>%f</disk_usage>\n"
+            "</project>\n",
+            p->master_url, size
+        );
+    }
+    fout.printf("</projects>\n");
+}
+
 static PROJECT* get_project(char* buf, MIOFILE& fout) {
 	string url;
 	if (!parse_str(buf, "<project_url>", url)) {
@@ -281,6 +310,10 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.write_tasks_gui(mf);
 	} else if (match_tag(request_msg, "<get_file_transfers>")) {
         gstate.write_file_transfers_gui(mf);
+	} else if (match_tag(request_msg, "<get_project_status>")) {
+		handle_get_project_status(mf);
+	} else if (match_tag(request_msg, "<get_disk_usage>")) {
+		handle_get_disk_usage(mf);
 	} else if (match_tag(request_msg, "<result_show_graphics>")) {
 		handle_result_show_graphics(request_msg, mf);
 	} else if (match_tag(request_msg, "<project_reset>")) {
@@ -365,8 +398,7 @@ int GUI_RPC_CONN_SET::init() {
     lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
         msg_printf(NULL, MSG_ERROR,
-            "GUI RPC failed to initialize socket (retval = '%d')\n",
-            lsock
+            "GUI RPC failed to create socket: %d\n", lsock
         );
         return ERR_SOCKET;
     }
@@ -380,17 +412,12 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        msg_printf(NULL, MSG_ERROR,
-            "GUI RPC bind failed (retval = '%d')\n", retval
-        );
+        msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
         return ERR_BIND;
     }
     retval = listen(lsock, 999);
     if (retval) {
-        msg_printf(NULL, MSG_ERROR,
-            "GUI RPC listen failed (retval = '%d')\n",
-            retval
-        );
+        msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d\n", retval);
         return ERR_LISTEN;
     }
     return 0;

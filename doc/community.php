@@ -35,6 +35,16 @@ This list is for people developing, debugging or porting the BOINC software.
 </dl>
 <h2>Getting source code</h2>
 <p>
+At any given point there are two different versions
+of the BOINC source code (maintained as separate CVS projects):
+<ul>
+<li> <b>boinc</b> is the development version.
+It may be unstable,
+and it may not be compatible with publicly-deployed BOINC projects.
+<li> <b>boinc_public</b> is the stable version.
+It generally is the version being used
+(on both client and server) by public BOINC projects.
+</ul>
 You can get the BOINC source code in several ways:
 <ul>
 <li>

@@ -72,14 +72,22 @@ int CLIENT_STATE::allowed_disk_usage(double& size) {
 }
 
 int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
-    char buf[256],buf2[256];
+    char buf[256];
+    unsigned int i;
+    double s;
 
-    // TODO: replace the following with a function
+    get_project_dir(p, buf);
+    dir_size(buf, size);
 
-    escape_project_url(p->master_url, buf);
-    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        if (atp->wup->project != p) continue;
+        get_slot_dir(atp->slot, buf);
+        dir_size(buf, s);
+        size += s;
+    }
 
-    return dir_size(buf2, size);
+    return 0;
 }
 
 int CLIENT_STATE::total_disk_usage(double& size) {

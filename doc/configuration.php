@@ -27,6 +27,7 @@ htmlspecialchars("
     [ <one_result_per_user_per_wu/> ]
     [ <disable_account_creation/> ]
     [ <max_wus_to_send>10</max_wus_to_send ]
+    [ <enforce_delay_bound/> ]
     <!-- optional; defaults as indicated: -->
     <project_dir>../</project_dir>     <!-- relative to location of 'start' -->
     <bin_dir>bin</bin_dir>             <!-- relative to project_dir -->
@@ -71,6 +72,8 @@ list_item("cgi_url", "URL of scheduling server");
 list_item("one_result_per_user_per_wu", "If present, send at most one result of a given workunit to a given user");
 list_item("disable_account_creation", "If present, disallow account creation");
 list_item("max_wus_to_send", "Maximum results sent per scheduler RPC");
+list_item("enforce_delay_bound", "Don't send results to hosts
+    too slow to complete them within delay bound");
 list_end();
 echo "
 <b>Tasks</b> are periodic, short-running jobs.

@@ -30,7 +30,9 @@ static/dynamic linking
 
 <h2>Cross-language issues</h2>
 <p>
-How to access BOINC API from C, FORTRAN?
+The BOINC API is implemented in C++.
+Information about using it from C and FORTRAN is
+<a href=fortran.php>here</a>.
 ";
 page_tail();
 ?>
