@@ -2,6 +2,8 @@
 require_once('../include.php');
 require_once('forum.inc');
 
+define("EXCERPT_LENGTH", "120");
+
 // Number of forum topics per page.
 $n = 50;
 
@@ -114,9 +116,11 @@ endif;
 		$threads = $forum->getThreads($_GET['start'], $n, $sort_style);
 		while($thread = getNextThread($threads)):
 			$user = getUser($thread->owner);
+			$first_post = getFirstPost($thread->id);
+			$excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
 			?>
 			<tr style="font-size:8pt; text-align:center">
-				<td class="col1" style="font-size:10pt; text-align:left"><a href="thread.php?id=<?php echo $thread->id ?>"><b><?php echo stripslashes($thread->title) ?></b></a></td>
+				<td class="col1" style="font-size:10pt; text-align:left"><a href="thread.php?id=<?php echo $thread->id ?>"><b><?php echo stripslashes($thread->title) ?></b></a><br><?php if ($forum->is_helpdesk) { echo stripslashes($excerpt); } ?></td>
 				<?php
 					if ($forum->is_helpdesk) {
 						echo "<td class=\"col2\">", $thread->replies, "</td>";
