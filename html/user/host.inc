@@ -115,8 +115,8 @@ function host_table_start($title, $private) {
         echo "<th>Owner</th>\n";
     }
     echo "
-        <th>Recent average credit</th>
-        <th>Total credit</th>
+        <th><a href=top_hosts.php?sort_by=expavg_credit>Recent average credit</a></th>
+        <th><a href=top_hosts.php?sort_by=total_credit>Total credit</a></th>
         <th>CPU type</th>
         <th>Operating system</th>
         <th>Results<br><font size=-2>Click for list</font></th>

@@ -102,8 +102,8 @@ function user_table_start() {
     echo "
         <tr>
         <th>Name</th>
-        <th>Recent average credit</th>
-        <th>Total credit</th>
+        <th><a href=top_users.php?sort_by=expavg_credit>Recent average credit</a></th>
+        <th><a href=top_users.php?sort_by=total_credit>Total credit</a></th>
         <th>Country</th>
         <th>Participant since</th>
         </tr>

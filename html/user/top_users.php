@@ -7,7 +7,13 @@
     db_init();
     $numusers = 100;
     page_head("Top $numusers users");
-    $result = mysql_query("select * from user order by expavg_credit desc,total_credit desc limit $numusers");
+    $sort_by = $_GET["sort_by"];
+    if ($sort_by == "total_credit") {
+        $sort_by = "total_credit desc, total_credit desc";
+    } else {
+        $sort_by = "expavg_credit desc, total_credit desc";
+    }
+    $result = mysql_query("select * from user order by $sort_by limit $numusers");
     user_table_start();
     while ($user = mysql_fetch_object($result)) {
         show_user_row($user);

@@ -6228,4 +6228,7 @@ Karl 2003/09/07
     - changed all user-visible cobblestone numbers to use a new
       format_credit() function which does sprintf %.3f
 
+    - allow sorting top_{team,user,host}s.php by either expavg_credit or
+      total_credit (default expavg_credit)
+
     html_user/*.php, *.inc
