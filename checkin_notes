@@ -19065,3 +19065,14 @@ Karl 2004-11-02
         upgrade
     py/Boinc/
         BOINC_path_config.py.in
+
+David  3 Nov 2004
+    - change trivial validator to not require majority
+        (this apparently applies even to error results; should fix this)
+    - avoid crash if get ack for non-existent result
+        (from Volker Hatzenberger)
+
+    client/
+        cs_scheduler.C
+    sched/
+        sample_trivial_validator.C

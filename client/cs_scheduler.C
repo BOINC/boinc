@@ -759,12 +759,15 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     for (i=0; i<sr.result_acks.size(); i++) {
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
-        scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): got ack for result %s\n", sr.result_acks[i].name);
+        scope_messages.printf(
+            "CLIENT_STATE::handle_scheduler_reply(): got ack for result %s\n",
+            sr.result_acks[i].name
+        );
         if (rp) {
             rp->got_server_ack = true;
         } else {
             msg_printf(project, MSG_ERROR,
-                "Got ack for result %s, can't find", rp->name
+                "Got ack for result %s, can't find", sr.result_acks[i]
             );
         }
     }

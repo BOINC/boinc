@@ -48,11 +48,12 @@ int check_set(
     bool& retry
 ) {
     retry = false;
-    return generic_check_set_majority(
+    return generic_check_set(
         results, canonicalid, credit,
         init_result_trivial,
         check_pair_initialized_trivial,
-        cleanup_result_trivial
+        cleanup_result_trivial,
+        1
     );
 }
 
