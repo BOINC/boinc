@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+// Main program for the Windows command-line client
+
 #include <afxwin.h>
 
 #include "win_net.h"

@@ -19,16 +19,12 @@
 
 // command-line version of the BOINC core client
 
-#include "boinc_api.h"
+// This file contains no GUI-related code,
+// and is not included in the source code for Mac or Win GUI clients
 
-#ifndef _WIN32
 #include <unistd.h>
-#endif
 
-#ifdef _WIN32
-#include "win/wingui.h"
-#endif
-
+#include "boinc_api.h"
 #include "account.h"
 #include "client_state.h"
 #include "error_numbers.h"
@@ -47,18 +43,6 @@ void show_message(char* message, char* priority) {
         printf("BOINC core client: %s (priority: %s)\n", message, priority);
     }
 }
-
-#ifdef _WIN32
-
-int get_initial_project() {
-	CLoginDialog dlg(IDD_LOGIN);
-	int retval = dlg.DoModal();
-	if (retval != IDOK) return -1;
-    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
-    return 0;
-}
-
-#else
 
 // Prompt user for project URL and authenticator,
 // and create an account file
@@ -84,8 +68,6 @@ int get_initial_project() {
     write_account_file(master_url, authenticator);
     return 0;
 }
-
-#endif
 
 #ifdef __APPLE_CC__
 #include "mac_main.h"

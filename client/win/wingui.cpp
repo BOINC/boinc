@@ -7,6 +7,22 @@
 CMainWindow* myWnd;
 CMyApp myApp;
 
+void show_message(char* message, char* priority) {
+    if (!strcmp(priority, "high")) {
+        fprintf(stderr, "BOINC core client: %s (priority: %s)\n", message, priority);
+    } else {
+        printf("BOINC core client: %s (priority: %s)\n", message, priority);
+    }
+}
+
+int get_initial_project() {
+	CLoginDialog dlg(IDD_LOGIN);
+	int retval = dlg.DoModal();
+	if (retval != IDOK) return -1;
+    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
+    return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////
 // CProgressHeaderCtrl message map and member functions
 
