@@ -21,7 +21,8 @@ $logged_in_user = get_logged_in_user(false);
 <br><a href="index.php"><?php echo $cfg['sitename'] ?> Forum</a> -> <a href="forum.php?id=<?php echo $forum->id ?>"><?php echo $forum->title ?></a>
 </p>
 <p>
-<a href=reply.php?thread=<?php echo $thread->id ?>>Reply to this topic</a>
+<a href=reply.php?thread=<?php echo $thread->id ?>#input>Reply to this thread</a><br>
+<a href=subscribe.php?thread=<?php echo $thread->id ?>>Subscribe to this thread</a>
 </p>
 <p style="text-align:center">
 	<table class="content" border="0" cellpadding="5" cellspacing="0" width="100%">
