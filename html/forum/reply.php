@@ -98,11 +98,9 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
         echo "&post=", $post->id;
     }
     
-    if ($post) $content = quote_text($post->content, 60);
-
     echo "' method=\"post\">
-	    <textarea name=\"content\" rows=\"12\" cols=\"80\">";
-    //if ($content) echo $content;
+	    <textarea name=\"content\" rows=\"18\" cols=\"80\">";
+    if ($post) echo quote_text($post->content, 80);
     echo "</textarea><p>
 	    <input type=\"submit\" value=\"Post reply\"></p>
 	</form>
@@ -111,16 +109,33 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
     echo "</td></tr>";
 }
 
-// TODO: Finish this.
-
 function quote_text($text, $cols) {
-    $quoteChar = "> ";
-    $width = $cols - strlen($quoteChar);
-    $wrapped = wordwrap($text, $width);
+    $quoteChar = ">";
+        
+    $lines = explode("\n", $text);
     
-    for ($i = 0; $i < strlen($wrapped); $i++) {
+    $lineChars = strlen($quoteChar);
+    $final = $quoteChar;
+    
+    for ($i = 0; $i < count($lines); $i++) {
+        $words = explode(" ", $lines[$i]);
+        
+        
+        for ($j = 0; $j < count($words); $j++) {            
+            $wordLen = strlen($words[$j]);
+        
+            if (($lineChars + $wordLen) >= $cols) {
+                $final = $final . "\n" . $quoteChar;
+                $lineChars = strlen($quoteChar);
+            }
+            $final = $final . " " . $words[$j]; 
+            $lineChars += $wordLen + 1;    
+        }
+        
+        $final = $final . "\n" . $quoteChar;
+        $lineChars = strlen($quoteChar);
     }
     
-    return $wrapped;
+    return $final;
 }
 ?>
