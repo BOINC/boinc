@@ -122,11 +122,13 @@ int main(int argc, char** argv) {
             do_update_users = true;
         } else if (!strcmp(argv[i], "-update_hosts")) {
             do_update_hosts = true;
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         } else {
             sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
-            write_log(buf);
+            write_log(buf, MSG_CRITICAL);
         }
     }
 

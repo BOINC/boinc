@@ -27,8 +27,15 @@ using namespace std;
 #include "sched_util.h"
 #include "server_types.h"
 
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
+int debug_level = 0;
+
+void write_log(char* p, int msg_level) {
+    if (msg_level <= debug_level)
+        fprintf(stderr, "%s: %s", timestamp(), p);
+}
+
+void set_debug_level(int new_level) {
+    debug_level = new_level;
 }
 
 void check_stop_trigger() {

@@ -55,7 +55,7 @@ int wu_delete_files(WORKUNIT& wu) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
                 sprintf(logbuf, "deleting %s\n", pathname);
-                write_log(logbuf);
+                write_log(logbuf, MSG_NORMAL);
                 unlink(pathname);
             }
         }
@@ -82,7 +82,7 @@ int result_delete_files(RESULT& result) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
                 sprintf(logbuf, "deleting %s\n", pathname);
-                write_log(logbuf);
+                write_log(logbuf, MSG_NORMAL);
                 unlink(pathname);
             }
         }
@@ -131,15 +131,17 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else {
             sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
-            write_log(buf);
+            write_log(buf, MSG_CRITICAL);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log("Can't parse config file\n");
+        write_log("Can't parse config file\n", MSG_CRITICAL);
         exit(1);
     }
 
@@ -157,7 +159,7 @@ int main(int argc, char** argv) {
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log("can't open DB\n");
+        write_log("can't open DB\n", MSG_CRITICAL);
         exit(1);
     }
     if (one_pass) {

@@ -39,7 +39,12 @@
 
 #define STOP_TRIGGER_FILENAME "stop_server"
 
-extern void write_log(char*);
+#define MSG_CRITICAL 0
+#define MSG_NORMAL   1
+#define MSG_DEBUG    2
+
+extern void write_log(char*, int);
+extern void set_debug_level(int);
 extern void check_stop_trigger();
 extern void update_average(double, double, double&, double&);
 

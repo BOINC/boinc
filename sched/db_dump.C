@@ -548,6 +548,8 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dir")) {
             strcpy(dir, argv[++i]);
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-gzip")) {
             zip_files = true;
             strcpy( zip_cmd, "gzip -fq" );

@@ -55,7 +55,7 @@ bool do_pass(APP& app) {
             "Assimilating WU %s, assim state %d\n",
             wu.name, wu.assimilate_state
         );
-        write_log(buf);
+        write_log(buf, MSG_DEBUG);
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -125,17 +125,19 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else {
             sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
-            write_log(buf);
+            write_log(buf, MSG_CRITICAL);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log("Can't parse config file\n");
+        write_log("Can't parse config file\n", MSG_CRITICAL);
         exit(1);
     }
 
@@ -153,13 +155,13 @@ int main(int argc, char** argv) {
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log("Can't open DB\n");
+        write_log("Can't open DB\n", MSG_CRITICAL);
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
-        write_log("Can't find app\n");
+        write_log("Can't find app\n", MSG_CRITICAL);
         exit(1);
     }
     if (one_pass) {

@@ -22,4 +22,3 @@
 
 extern DB_PROJECT gproject;
 extern CONFIG config;
-extern void write_log(char*);

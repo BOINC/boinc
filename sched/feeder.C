@@ -128,7 +128,7 @@ try_again:
                     // there's no point in doing it again.
                     //
                     if (restarted_enum) {
-                        write_log("already restarted enum on this pass\n");
+                        write_log("already restarted enum on this pass\n", MSG_DEBUG);
                         break;
                     }
 
@@ -136,9 +136,9 @@ try_again:
                     //
                     restarted_enum = true;
                     retval = result.enumerate(clause);
-                    write_log("restarting enumeration\n");
+                    write_log("restarting enumeration\n", MSG_DEBUG);
                     if (retval) {
-                        write_log("enumeration restart returned nothing\n");
+                        write_log("enumeration restart returned nothing\n", MSG_NORMAL);
                         no_wus = true;
                         break;
                     }
@@ -151,12 +151,12 @@ try_again:
                 retval = result.lookup_id(result.id);
                 if (retval) {
                     sprintf(buf, "can't reread result %s\n", result.name);
-                    write_log(buf);
+                    write_log(buf, MSG_NORMAL);
                     goto try_again;
                 }
                 if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
                     sprintf(buf, "RESULT STATE CHANGED: %s\n", result.name);
-                    write_log(buf);
+                    write_log(buf, MSG_NORMAL);
                     goto try_again;
                 }
                 collision = false;
@@ -171,11 +171,11 @@ try_again:
                 }
                 if (!collision) {
                     sprintf(buf, "adding result %d in slot %d\n", result.id, i);
-                    write_log(buf);
+                    write_log(buf, MSG_DEBUG);
                     retval = wu.lookup_id(result.workunitid);
                     if (retval) {
                         sprintf(buf, "can't read workunit %d: %d\n", result.workunitid, retval);
-                        write_log(buf);
+                        write_log(buf, MSG_CRITICAL);
                         continue;
                     }
                     ssp->wu_results[i].result = result;
@@ -187,18 +187,18 @@ try_again:
         }
         ssp->ready = true;
         if (nadditions == 0) {
-            write_log("no results added\n");
+            write_log("no results added\n", MSG_DEBUG);
             sleep(1);
         } else {
             sprintf(buf, "added %d results to array\n", nadditions);
-            write_log(buf);
+            write_log(buf, MSG_DEBUG);
         }
         if (no_wus) {
-            write_log("feeder: no results available\n");
+            write_log("feeder: no results available\n", MSG_DEBUG);
             sleep(5);
         }
         if (ncollisions) {
-            write_log("feeder: some results already in array - sleeping\n");
+            write_log("feeder: some results already in array - sleeping\n", MSG_DEBUG);
             sleep(5);
         }
         fflush(stdout);
@@ -217,13 +217,15 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file();
     if (retval) {
-        write_log("can't parse config file\n");
+        write_log("can't parse config file\n", MSG_CRITICAL);
         exit(1);
     }
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         }
     }
 
@@ -241,12 +243,12 @@ int main(int argc, char** argv) {
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
-        write_log("can't destroy shmem\n");
+        write_log("can't destroy shmem\n", MSG_CRITICAL);
         exit(1);
     }
     retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), &p);
     if (retval) {
-        write_log("can't create shmem\n");
+        write_log("can't create shmem\n", MSG_CRITICAL);
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
@@ -254,7 +256,7 @@ int main(int argc, char** argv) {
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         sprintf(buf, "boinc_db_open: %d\n", retval);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
     ssp->scan_tables();

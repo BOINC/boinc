@@ -96,13 +96,13 @@ void make_work() {
    
     retval = config.parse_file();
     if (retval) {
-        write_log("can't read config file\n");
+        write_log("can't read config file\n", MSG_CRITICAL);
         exit(1);
     }
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log("can't open db\n");
+        write_log("can't open db\n", MSG_CRITICAL);
         exit(1);
     }
 
@@ -110,7 +110,7 @@ void make_work() {
     retval = wu.lookup(buf);
     if (retval) {
         sprintf(buf, "can't find wu %s\n", wu_name);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
@@ -119,13 +119,13 @@ void make_work() {
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
-        write_log("can't read key\n");
+        write_log("can't read key\n", MSG_CRITICAL);
         exit(1);
     }
     
     retval = read_filename(result_template_file, result_template);
     if (retval) {
-        write_log("can't open result template\n");
+        write_log("can't open result template\n", MSG_CRITICAL);
         exit(1);
     }
     nresults_left = 0;
@@ -133,7 +133,7 @@ void make_work() {
         sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
         retval = result.count(n, buf);
         if (retval) {
-            write_log("can't count results\n");
+            write_log("can't count results\n", MSG_CRITICAL);
             exit(1);
         }
         if (n > cushion) {
@@ -162,12 +162,12 @@ void make_work() {
                     );
                     sprintf(command,"cp %s %s", pathname, new_pathname);
                     if (system(command)) {
-                        write_log("system() error\n");
+                        write_log("system() error\n", MSG_CRITICAL);
                         perror(command);
                         exit(1);
                     }
                     sprintf(buf, "%s\n", command);
-                    write_log(buf);
+                    write_log(buf, MSG_NORMAL);
                     strcpy(new_buf, starting_xml);
                     replace_file_name(
                         new_buf, file_name, new_file_name, config.download_url
@@ -183,7 +183,7 @@ void make_work() {
             retval = wu.insert();
             wu.id = boinc_db_insert_id();
             sprintf(buf, "Created new WU: %s\n", wu.name);
-            write_log(buf);
+            write_log(buf, MSG_DEBUG);
         }
         sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
@@ -191,7 +191,7 @@ void make_work() {
             config.upload_url, config.download_url
         );
         sprintf(buf, "added result: %s_%s\n", wu.name, suffix);
-        write_log(buf);
+        write_log(buf, MSG_DEBUG);
         nresults_left--;
         check_stop_trigger();
     }
@@ -211,17 +211,19 @@ int main(int argc, char** argv) {
             redundancy = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-wu_name")) {
             strcpy(wu_name, argv[++i]);
         }
     }
 
     if (!strlen(result_template_file)) {
-        write_log("missing -result_template\n");
+        write_log("missing -result_template\n", MSG_CRITICAL);
         exit(1);
     }
     if (!strlen(wu_name)) {
-        write_log("missing -wu_name\n");
+        write_log("missing -wu_name\n", MSG_CRITICAL);
         exit(1);
     }
 

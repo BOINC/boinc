@@ -39,6 +39,9 @@ using namespace std;
 #include "server_types.h"
 #include "handle_request.h"
 #include "main.h"
+#include "sched_util.h"
+
+#define DEBUG_LEVEL  1
 
 #define STDERR_FILENAME "cgi_out"
 #define REQ_FILE_PREFIX "boinc_req_"
@@ -63,9 +66,11 @@ int main() {
         exit(1);
     }
 
+    set_debug_level(DEBUG_LEVEL);
+
     retval = config.parse_file();
     if (retval) {
-        write_log("Can't parse config file\n");
+        write_log("Can't parse config file\n", MSG_CRITICAL);
         exit(1);
     }
 
@@ -73,35 +78,35 @@ int main() {
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
         sprintf(buf, "Can't read code sign key file (%s)\n", path);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
     retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
-        write_log("Can't attach shmem\n");
+        write_log("Can't attach shmem\n", MSG_CRITICAL);
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     if (retval) {
-        write_log("shmem has wrong struct sizes - recompile\n");
+        write_log("shmem has wrong struct sizes - recompile\n", MSG_CRITICAL);
         exit(1);
     }
 
     for (i=0; i<10; i++) {
         if (ssp->ready) break;
-        write_log("waiting for ready flag\n");
+        write_log("waiting for ready flag\n", MSG_DEBUG);
         sleep(1);
     }
     if (!ssp->ready) {
-        write_log("feeder doesn't seem to be running\n");
+        write_log("feeder doesn't seem to be running\n", MSG_CRITICAL);
         exit(1);
     }
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log("can't open database\n");
+        write_log("can't open database\n", MSG_CRITICAL);
         exit(1);
     }
 
@@ -110,7 +115,7 @@ int main() {
         found = true;
     }
     if (!found) {
-        write_log("can't find project\n");
+        write_log("can't find project\n", MSG_CRITICAL);
         exit(1);
     }
 
@@ -131,19 +136,19 @@ int main() {
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
         fout = fopen(req_path, "w");
         if (!fout) {
-            write_log("can't write request file\n");
+            write_log("can't write request file\n", MSG_CRITICAL);
             exit(1);
         }
         copy_stream(stdin, fout);
         fclose(fout);
         fin = fopen(req_path, "r");
         if (!fin) {
-            write_log("can't read request file\n");
+            write_log("can't read request file\n", MSG_CRITICAL);
             exit(1);
         }
         fout = fopen(reply_path, "w");
         if (!fout) {
-            write_log("can't write reply file\n");
+            write_log("can't write reply file\n", MSG_CRITICAL);
             exit(1);
         }
         handle_request(fin, fout, *ssp, code_sign_key);
@@ -151,7 +156,7 @@ int main() {
         fclose(fout);
         fin = fopen(reply_path, "r");
         if (!fin) {
-            write_log("can't read reply file\n");
+            write_log("can't read reply file\n", MSG_CRITICAL);
             exit(1);
         }
         copy_stream(fin, stdout);

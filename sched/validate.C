@@ -97,14 +97,14 @@ void handle_wu(DB_WORKUNIT& wu) {
         sprintf(buf,
             "validating WU %s; already have canonical result\n", wu.name
         );
-        write_log(buf);
+        write_log(buf, MSG_NORMAL);
 
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
         //
         retval = canonical_result.lookup_id(wu.canonical_resultid);
         if (retval) {
-            write_log("can't read canonical result\n");
+            write_log("can't read canonical result\n", MSG_NORMAL);
             // Mark this WU as validated, otherwise we'll keep checking it
             goto mark_validated;
         }
@@ -123,7 +123,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                         "validate: pair_check failed for result %d\n",
                         result.id
                     );
-                    write_log(buf);
+                    write_log(buf, MSG_DEBUG);
                     continue;
                 } else {
                     if (match) {
@@ -137,12 +137,12 @@ void handle_wu(DB_WORKUNIT& wu) {
                 }
                 retval = result.update();
                 if (retval) {
-                    write_log("Can't update result\n");
+                    write_log("Can't update result\n", MSG_CRITICAL);
                     continue;
                 }
                 retval = grant_credit(result, result.granted_credit);
                 if (retval) {
-                    write_log("Can't grant credit\n");
+                    write_log("Can't grant credit\n", MSG_NORMAL);
                     continue;
                 }
             }
@@ -154,7 +154,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Try to get one
 
         sprintf(buf, "validating WU %s; no canonical result\n", wu.name);
-        write_log(buf);
+        write_log(buf, MSG_DEBUG);
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -165,11 +165,11 @@ void handle_wu(DB_WORKUNIT& wu) {
             }
         }
         sprintf(buf, "found %d successful results\n", results.size());
-        write_log(buf);
+        write_log(buf, MSG_DEBUG);
         if (results.size() >= (unsigned int)min_quorum) {
             retval = check_set(results, canonicalid, credit);
             if (!retval && canonicalid) {
-                write_log("found a canonical result\n");
+                write_log("found a canonical result\n", MSG_DEBUG);
                 wu.canonical_resultid = canonicalid;
                 wu.canonical_credit = credit;
                 wu.assimilate_state = ASSIMILATE_READY;
@@ -186,14 +186,14 @@ void handle_wu(DB_WORKUNIT& wu) {
                             sprintf(buf,
                                 "validate: grant_credit %d\n", retval
                             );
-                            write_log(buf);
+                            write_log(buf, MSG_DEBUG);
                         }
                         result.granted_credit = credit;
                         sprintf(buf,
                             "updating result %d to %d; credit %f\n",
                             result.id, result.validate_state, credit
                         );
-                        write_log(buf);
+                        write_log(buf, MSG_NORMAL);
                     }
 
                     // don't send any unsent results
@@ -210,7 +210,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                             sprintf(buf,
                                 "validate: boinc_db_result_update %d\n", retval
                             );
-                            write_log(buf);
+                            write_log(buf, MSG_CRITICAL);
                         }
                     }
                 }
@@ -225,7 +225,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     retval = wu.update();
     if (retval) {
         sprintf(buf, "db_workunit_update: %d\n", retval);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
     }
 }
 
@@ -254,7 +254,7 @@ int main_loop(bool one_pass) {
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         sprintf(buf, "boinc_db_open: %d\n", retval);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
@@ -262,7 +262,7 @@ int main_loop(bool one_pass) {
     retval = app.lookup(buf);
     if (retval) {
         sprintf(buf, "can't find app %s\n", app.name);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
@@ -292,26 +292,28 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app_name, argv[++i]);
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-quorum")) {
             min_quorum = atoi(argv[++i]);
         } else {
             sprintf(buf, "unrecognized arg: %s\n", argv[i]);
-            write_log(buf);
+            write_log(buf, MSG_CRITICAL);
         }
     }
 
     if (min_quorum < 1 || min_quorum > 10) {
         sprintf(buf, "bad min_quorum: %d\n", min_quorum);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
     sprintf(buf, "starting validator; min_quorum %d\n", min_quorum);
-    write_log(buf);
+    write_log(buf, MSG_NORMAL);
 
     retval = config.parse_file();
     if (retval) {
-        write_log("Can't parse config file\n");
+        write_log("Can't parse config file\n", MSG_CRITICAL);
         exit(1);
     }
 
