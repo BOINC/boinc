@@ -49,12 +49,6 @@
 #include "error_numbers.h"
 #include "filesys.h"
 
-#ifdef _WIN32
-//static char path[256];
-//static HANDLE handle;
-//static int first;
-#endif
-
 char failed_file[256];
 
 // routines for enumerating the entries in a directory
@@ -165,7 +159,7 @@ int file_delete(char* path) {
     retval = remove(path);
 #endif
     if (retval) {
-        strcpy(failed_file, path);
+        safe_strncpy(failed_file, path, sizeof(failed_file));
         return ERR_UNLINK;
     }
     return 0;

@@ -173,7 +173,7 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
     p = strstr(buf, start);
     p += strlen(start);
     q = strstr(p, end);
-    strcpy(temp, q);
+    safe_strncpy(temp, q, sizeof(temp));
     strcpy(p, replacement);
     strcat(p, temp);
 }

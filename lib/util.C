@@ -230,7 +230,7 @@ static char x2c(char *what) {
     return(digit);
 }
 
-static void c2x(char *what) {
+void c2x(char *what) {
     char buf[3];
     char num = atoi(what);
     char d1 = num / 16;
