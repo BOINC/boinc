@@ -52,7 +52,6 @@
 
 // get domain name and IP address of this host
 //
-#ifdef _WIN32
 int get_local_network_info(
     char* domain_name, int domlen, char* ip_addr, int iplen
 ) {
@@ -71,7 +70,7 @@ int get_local_network_info(
     return 0;
 }
 
-#else
+#if 0
 
 // NEW POLICY: on UNIX, get just the hostname.
 // the rest (domain name, IP address) is a can of worms,

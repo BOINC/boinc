@@ -13982,3 +13982,13 @@ David  2004.06.18
     client/
         client_state.h
         cs_scheduler.C
+
+David  2004.06.18
+    - Aaargh!  I forgot that gethostbyname() is unavoidably used
+        when contacting servers, so all this ping stuff
+        is a total waste of time!
+        Changed things back to the way they were originally.
+
+    client/
+        hostinfo_network.C
+        net_xfer.C
