@@ -130,6 +130,7 @@ protected:
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg void			OnClose();
+    afx_msg void			OnDestroy();
 	afx_msg void			OnCommandSettingsQuit();
 	afx_msg void			OnCommandSettingsLogin();
 	afx_msg void			OnCommandSettingsProxyServer();

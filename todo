@@ -12,9 +12,6 @@ icon the window is still minimized - a bit confusing.
 
 4. two Solaris Sun Solaris 1.01 clients in the astropulse download page.
 
-5. 1.01 install - failed with ugly -115 error (trying to overwrite the
-boinc .dll file) because BOINC was already running during install.
-
 6. get preferences works, but is slightly confusing - you have to go to
 projects, right click on "get preferences", and then exit/restart boinc
 before I get to see my new pretty underwater colors.
@@ -59,7 +56,6 @@ deleted.
     in transfers tab when failure occurs
 - GUI: Result status should say "downloading files", "uploading files", etc.
 - message window should reposition to bottom when new message
-- show_message should expect \n, discard it if GUI
 - Win GUI: line between menus and tabs
 - "show graphics" should not use right-click
 - win GUI: reduce flicker?

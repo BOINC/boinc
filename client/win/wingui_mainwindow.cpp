@@ -64,6 +64,7 @@ int CMyApp::ExitInstance()
 
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
+	ON_WM_DESTROY()
     ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
     ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
@@ -97,12 +98,31 @@ END_MESSAGE_MAP()
 // function:	registers window class, creates and poisitions window.
 CMainWindow::CMainWindow()
 {
+    WNDCLASS wndcls;
+
+    memset(&wndcls, 0, sizeof(WNDCLASS));   // start with NULL defaults
+    wndcls.style = 0;
+    //wndcls.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
+    wndcls.lpfnWndProc = ::DefWindowProc;
+    wndcls.hInstance = AfxGetInstanceHandle();
+    wndcls.hIcon = g_myApp.LoadIcon(IDI_ICON);
+    wndcls.hCursor = g_myApp.LoadStandardCursor(IDC_ARROW);
+    wndcls.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
+    wndcls.lpszMenuName = NULL;
+
+    // Specify class name for using FindWindow in the installer
+    wndcls.lpszClassName = _T("BOINCWindowClass");
+
+    // Register the new class and exit if it fails
+    if(!AfxRegisterClass(&wndcls)) return;
+
 	// register window class
-    CString strWndClass = AfxRegisterWndClass (0, g_myApp.LoadStandardCursor(IDC_ARROW),
-        (HBRUSH)(COLOR_3DFACE+1), g_myApp.LoadIcon(IDI_ICON));
+    //CString strWndClass = AfxRegisterWndClass (0, g_myApp.LoadStandardCursor(IDC_ARROW),
+    //    (HBRUSH)(COLOR_3DFACE+1), g_myApp.LoadIcon(IDI_ICON));
 
 	// create and position window
-    CreateEx(0, strWndClass, WND_TITLE, WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
+    CreateEx(0, wndcls.lpszClassName, WND_TITLE,
+		WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, NULL);
 
@@ -981,6 +1001,16 @@ void CMainWindow::OnClose()
 }
 
 //////////
+// CMainWindow::OnDestroy
+// arguments:	void
+// returns:		void
+// function:	quits the program
+void CMainWindow::OnDestroy()
+{
+	OnCommandExit();
+}
+
+//////////
 // CMainWindow::OnCommandSettingsLogin
 // arguments:	void
 // returns:		void
@@ -1276,7 +1306,10 @@ void CMainWindow::OnCommandExit()
 	SaveUserSettings();
 	SaveListControls();
 
-	delete m_pSSWnd;
+	// This was causing trouble in the installer because the SS window
+	// would recieve the WM_DESTROY message first, thereby causing
+	// this delete to access already freed memory
+	//delete m_pSSWnd;
 
 	CWnd::OnClose();
 }
