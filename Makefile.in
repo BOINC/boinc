@@ -36,14 +36,16 @@ ARCHIVE_TARGETS = \
         client/*.C client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
         client/mac/*.h client/mac/*.cpp \
-        client/win/*.h client/win/*.cpp client/win/*.rc client/win/*.aps \
+        client/win/*.h client/win/*.cpp client/win/*.rc \
         client/win/*.def client/win/res/*.* \
+        client/translation/* \
         apps/*.C apps/*.in \
         db/*.sql db/*.h db/*.C db/*.in db/init_db \
         doc/*.* \
-        html_ops/*.* html_ops/str* html_ops/sam*/*a* \
+        html_ops/*.* \
         html_user/*.* \
         lib/*.C lib/*.c lib/*.h lib/*.in \
+        stripchart/* stripchart/samples/* \
         sched/*.C sched/*.h sched/*.in \
         sched_fcgi/*.C sched_fcgi/*.h sched_fcgi/*.in \
         test/*.xml test/*.php test/*wu test/*result test/*output \
