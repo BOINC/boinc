@@ -1,0 +1,34 @@
+<?
+require_once("docutil.php");
+page_head("Back end examples");
+echo "
+<p>
+Here are some examples of the 'back ends' that could be used by
+various types of project. 
+<p>
+<b>SETI@home with local data servers</b> 
+<ul>
+<li> A <b>splitter program</b> generates data files. For each data
+file, calls the BOINC server library to create a workunit record and
+several result records, and stores the data file on disk of a data
+server.
+<li> A <b>garbage collector</b> program deletes data files for which
+enough results have been returned.
+Generates new result records as needed.
+<li> A <b>result handler</b> program checks for new results. Parses
+result files, and transfers contents to a separate 'science database'.
+Does redundancy checking, and marks result records as valid or invalid.
+</ul>
+<p>
+<b>SETI@home with remote data servers</b> 
+<p>
+As above, but the splitter program writes data files to DLT tape.
+The result records are generated, using the URL of a selected data
+server.
+The tape is mailed to the data server.
+An operator at the data
+server transfers the files to disk, than uses a web control panel to
+mark the batch as ready, which marks the result records as ready. 
+";
+page_tail();
+?>

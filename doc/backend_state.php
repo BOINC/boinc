@@ -1,0 +1,116 @@
+<?
+require_once("docutil.php");
+page_head("Work unit and results states");
+echo "
+
+<p>
+The processing of workunits and results involves several independent activities.
+To keep track of these activities,
+workunit and result database records have several parameters and state fields,
+and their processing can be expressed in terms of state machines.
+
+<hr>
+<h3>Workunit.delay_bound</h3>
+An upper bound for the interval between when a scheduler
+sends an instance of this WU to a host
+when the host sends the completion message.
+It should be several times the execution time on an average host.
+If it's exceeded, the server 'gives up' on the result
+and may delete its input files.
+If the result is returned later,
+it will still be validated and credited.
+
+<h3>Workunit.canonical_resultid</h3>
+The ID of the canonical result for this workunit, or zero.
+
+<h3>Workunit.timeout_check_time</h3>
+The next time to check for timeouts on this WU
+(e.g. to give up on results and create new ones).
+<center>
+<br><img src=wu_timeout.png>
+</center>
+</center>
+
+<h3>Workunit.file_delete_state</h3>
+Indicates whether input files should be deleted.
+<center>
+<br><img src=wu_file_delete.png>
+</center>
+
+<h3>Workunit.assimilate_state</h3>
+Indicates whether the workunit should be assimilated.
+<center>
+<br><img src=wu_assimilate.png>
+</center>
+
+<h3>Workunit.need_validate</h3>
+Indicates that the workunit has a result that needs validation.
+<center>
+<br><img src=wu_need_validate.png>
+</center>
+
+<h3>Workunit.error_mask</h3>
+A bit mask for error conditions.
+<center>
+<br><img src=wu_error_mask.png>
+</center>
+
+</ul>
+Workunit invariants:
+<ul>
+<li> eventually either canonical_resultid or error_mask is set
+<li> eventually timeout_check_time=0
+<li> WUs are eventually assimilated
+<li> input files are eventually deleted,
+but only when all results have state=OVER
+(since may need to validate results that arrive after assimilation)
+and wu.assimilate_state = DONE
+(since project may want to do something with WU in error case)
+</ul>
+
+
+<hr>
+
+<h3>Result.report_deadline</h3>
+give up on result (and possibly delete input files)
+if don't get reply by this time.
+<p>
+Assignment: when send result; now + WU.delay_bound
+
+<h3>Result.server_state</h3>
+<center>
+<br><img src=result_server_state.png>
+</center>
+
+<h3>Result.outcome</h3>
+SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED.
+Defined if server_state = OVER.
+
+<h3>Result.client_state</h3>
+Records the client state (upload, process, or download)
+where an error occurred.
+Defined if outcome is CLIENT_ERROR.
+
+<h3>Result.file_delete_state</h3>
+<br><img src=result_file_delete.png>
+
+<h3>Result.validate_state</h3>
+<br><img src=result_validate.png>
+
+<p>
+Result invariants:
+<ul>
+<li> eventually server_state = OVER.
+<li> output files are eventually deleted.
+Non-canonical results can be deleted as soon as the WU is assimilated.
+Canonical results can be deleted only when all results have server_state=OVER.
+If a result reply arrives after its timeout,
+the output files can be immediately deleted.
+How do we delete output files that arrive REALLY late?
+(e.g. uploaded after all results have timed out, and never reported)?
+Let X = create time of oldest unassimilated WU.
+Any output files created before X can be deleted.
+</ul>
+";
+page_tail();
+?>

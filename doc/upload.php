@@ -1,0 +1,107 @@
+<?
+require_once("docutil.php");
+page_head("Data server protocol");
+echo "
+
+Core client communicate with data servers using HTTP.
+A data server is typically implemented using
+a web server together with a BOINC-supplied CGI program,
+<b>file_upload_handler</b>.
+
+<h3>Download</h3>
+<p>
+File download is done by a GET request
+to a URL from the FILE_INFO element.
+The file offset, if any, is given in <b>Range:</b> attribute
+of the HTTP header.
+
+<h3>Upload</h3>
+<p>
+File upload is done using POST operations to a CGI program.
+A security mechanism prevents unauthorized
+upload of large amounts of data to the server.
+Two RPC operations are used.
+<p>
+<b>1) Get file size</b>
+<p>
+The request message has the form:
+<pre>
+&lt;data_server_request>
+    &lt;core_client_major_version>1&lt;/core_client_major_version>
+    &lt;core_client_minor_version>1&lt;/core_client_minor_version>
+    &lt;get_file_size>filename&lt;/get_file_size>
+&lt;/data_server_request>
+</pre>
+
+<p>
+The reply message has the form:
+<pre>
+&lt;data_server_reply>
+    &lt;status>x&lt;/status>
+    [ &lt;message>text&lt;/message>
+    | &lt;file_size>nbytes&lt;/file_size> ]
+&lt;/data_server_reply>
+</pre>
+Status is
+<ul>
+<li> 0 on success.
+Nbytes is 0 if the file doesn't exist.
+<li> 1 on transient error.
+The client should try another data server, or try this one later.
+<li> -1 on permanent error.
+The client should give up on the result.
+</ul>
+In the error cases, the &lt;file_size> element is omitted
+and the &lt;message> element gives an explanation.
+<p>
+<b>2) Upload file</b>
+<p>
+Request message format:
+<pre>
+&lt;data_server_request>
+&lt;core_client_major_version>1&lt;/core_client_major_version>
+&lt;core_client_minor_version>1&lt;/core_client_minor_version>
+&lt;file_upload>
+&lt;file_info>
+   ...
+&lt;xml_signature>
+   ...
+&lt;/xml_signature>
+&lt;/file_info>
+&lt;nbytes>x&lt;/nbytes>
+&lt;offset>x&lt;/offset>
+&lt;data>
+... (nbytes bytes of data; may include non-ASCII data)
+&lt;/data>
+</pre>
+<p>
+The &lt;file_info> element is the exact text sent from the
+scheduling server to the client.
+It includes a signature based on the project's file upload
+authentication key pair.
+&lt;nbytes> is the amount of data being uploaded.
+&lt;offset> is the offset within the file.
+<p>
+Reply message format:
+<pre>
+&lt;data_server_reply>
+    &lt;status>x&lt;/status>
+    &lt;message>text&lt;/message>
+&lt;/data_server_reply>
+</pre>
+Status is
+<ul>
+<li> 0 on success.
+<li> 1 on transient error.
+The client should try another data server, or try this one later.
+<li> -1 on permanent error.
+The client should give up on the result.
+</ul>
+In the error cases, the &lt;message> element gives an explanation.
+<p>
+TODO: if there's an error in the header
+(bad signature, or file is too large)
+the client should learn this without actually uploading the file.
+";
+page_tail();
+?>
