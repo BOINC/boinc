@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/05/29 06:56:59  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/05/29 06:39:27  rwalton
 // *** empty log message ***
 //
@@ -181,10 +184,10 @@ bool CBaseListCtrlView::OnRestoreState( wxConfigBase* pConfig ) {
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
 
-        pConfig->Read(_T("Width"), &iTempValue);
+        pConfig->Read(_T("Width"), &iTempValue, 80);
         liColumnInfo.SetWidth(iTempValue);
 
-        pConfig->Read(_T("Format"), &iTempValue);
+        pConfig->Read(_T("Format"), &iTempValue, 0);
         liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
 
         SetColumn(iIndex, liColumnInfo);
