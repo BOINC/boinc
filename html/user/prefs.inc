@@ -146,6 +146,9 @@ function element_end_global($parser, $name) {
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = true;
         break;
+    case "hangup_if_dialed":
+        $parse_result->hangup_if_dialed = true;
+        break;
     case "work_buf_min_days":
         $parse_result->work_buf_min_days = $text;
         break;
@@ -189,6 +192,7 @@ function default_prefs_global() {
     $p->run_on_batteries = false;
     $p->run_if_user_active = true;
     $p->confirm_before_connecting = false;
+    $p->hangup_if_dialed = true;
     $p->work_buf_min_days = 1;
     $p->work_buf_max_days = 3;
     $p->disk_max_used_gb = 100;
@@ -215,6 +219,7 @@ function initialize_prefs_before_parsing_global() {
     $p->run_on_batteries = false;
     $p->run_if_user_active = false;
     $p->confirm_before_connecting = false;
+    $p->hangup_if_dialed = false;
     return $p;
 }
 
@@ -257,6 +262,7 @@ function prefs_show_global($prefs) {
     row2("Work if computer on batteries?", $prefs->run_on_batteries?"Yes":"No");
     row2("Work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
     row2("Confirm before connecting to network?", $prefs->confirm_before_connecting?"Yes":"No");
+    row2("Disconnect when connection complete?", $prefs->hangup_if_dialed?"Yes":"No");
     row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
     row2("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
     row2("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
@@ -372,13 +378,24 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $x = "Ask you before connecting to Internet?
+    $x = "Should ".PROJECT." ask you before connecting to Internet?
         <br><font size=-1>(This matters only if you use a modem)</font>
     ";
     $y = "Yes <input type=radio name=confirm_before_connecting value=yes "
         .($prefs->confirm_before_connecting?"checked":"")
         ."> No <input type=radio name=confirm_before_connecting value=no "
         .($prefs->confirm_before_connecting?"":"checked")
+        .">
+    ";
+    row2($x, $y);
+
+    $x = "Should ".PROJECT." disconnect when done if it connected?
+        <br><font size=-1>(This matters only if you use a modem)</font>
+    ";
+    $y = "Yes <input type=radio name=hangup_if_dialed value=yes "
+        .($prefs->hangup_if_dialed?"checked":"")
+        ."> No <input type=radio name=hangup_if_dialed value=no "
+        .($prefs->hangup_if_dialed?"":"checked")
         .">
     ";
     row2($x, $y);
@@ -489,6 +506,7 @@ function prefs_global_parse_form(&$prefs) {
     $run_on_batteries = $_GET["run_on_batteries"];
     $run_if_user_active = $_GET["run_if_user_active"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
+    $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
     $work_buf_max_days = $_GET["work_buf_max_days"];
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
@@ -500,6 +518,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
+    $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
 
     if ($work_buf_min_days<0) $work_buf_min_days = 0;
     if ($work_buf_max_days<0) $work_buf_max_days = 0;
@@ -550,6 +569,9 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
+    }
+    if ($prefs->hangup_if_dialed) {
+        $xml = $xml."<hangup_if_dialed/>\n";
     }
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
