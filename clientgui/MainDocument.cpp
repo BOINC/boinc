@@ -748,7 +748,7 @@ bool CMainDocument::IsWorkActive(wxInt32 iIndex)
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
-        bRetVal = pResult->current_cpu_time > 0.0;
+        bRetVal = pResult->active_task;
 
     return bRetVal;
 }

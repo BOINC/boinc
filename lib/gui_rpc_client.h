@@ -136,6 +136,7 @@ public:
     int signal;
     int active_task_state;
     // the following defined if active
+    bool active_task;
     std::string stderr_out;
     int app_version_num;
     double checkpoint_cpu_time;

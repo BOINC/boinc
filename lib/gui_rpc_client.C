@@ -297,6 +297,10 @@ int RESULT::parse(MIOFILE& in) {
             suspended_via_gui = true;
             continue;
         }
+        else if (match_tag(buf, "<active_task>")) {
+            active_task = true;
+            continue;
+        }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
@@ -344,7 +348,8 @@ void RESULT::clear() {
     scheduler_state = 0;
     exit_status = 0;
     signal = 0;
-    active_task_state= 0;
+    active_task_state = 0;
+    active_task = false;
     stderr_out.clear();
     app_version_num = 0;
     checkpoint_cpu_time = 0.0;
