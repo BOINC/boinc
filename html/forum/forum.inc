@@ -53,6 +53,7 @@ class Forum {
             $sql = $sql . ' ORDER BY replies DESC';
             break;
         case 'activity-most':
+            $sql = $sql . ' ORDER by activity DESC, views DESC';
             break;
         }
         if ($min > -1) {
