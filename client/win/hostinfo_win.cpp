@@ -34,11 +34,11 @@ int get_timezone(void) {
 
 // Gets windows specific host information (not complete)
 //
-int get_host_info(HOST_INFO& host) {
+int HOST_INFO::get_host_info() {
 
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
-    //   into host.os_name.
+    //   into os_name.
 
     OSVERSIONINFOEX osvi;
     BOOL bOsVersionInfoEx;
@@ -62,19 +62,19 @@ int get_host_info(HOST_INFO& host) {
 
             // Test for the specific product family.
             if ( osvi.dwMajorVersion >= 6 )
-                strcpy( host.os_name, "Microsoft Windows Longhorn " );
+                strcpy(os_name, "Microsoft Windows Longhorn " );
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
-                strcpy( host.os_name, "Microsoft Windows 2003 " );
+                strcpy(os_name, "Microsoft Windows 2003 " );
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
-                strcpy( host.os_name, "Microsoft Windows XP " );
+                strcpy(os_name, "Microsoft Windows XP " );
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
-                strcpy( host.os_name, "Microsoft Windows 2000 " );
+                strcpy(os_name, "Microsoft Windows 2000 " );
 
             if ( osvi.dwMajorVersion <= 4 )
-                strcpy( host.os_name, "Microsoft Windows NT " );
+                strcpy(os_name, "Microsoft Windows NT " );
 
             // Test for specific product on Windows NT 4.0 SP6 and later.
             if( bOsVersionInfoEx )
@@ -83,11 +83,11 @@ int get_host_info(HOST_INFO& host) {
                 if ( osvi.wProductType == VER_NT_WORKSTATION )
                 {
                     if( osvi.dwMajorVersion == 4 )
-                        strcat( host.os_name, "Workstation 4.0 " );
+                        strcat(os_name, "Workstation 4.0 " );
                     else if( osvi.wSuiteMask & VER_SUITE_PERSONAL )
-                        strcat( host.os_name, "Home Edition " );
+                        strcat(os_name, "Home Edition " );
                     else
-                        strcat( host.os_name, "Professional Edition " );
+                        strcat(os_name, "Professional Edition " );
                 }
             
                 // Test for the server type.
@@ -96,29 +96,29 @@ int get_host_info(HOST_INFO& host) {
                     if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
                     {
                         if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
-                            strcat( host.os_name, "Datacenter Server Edition " );
+                            strcat(os_name, "Datacenter Server Edition " );
                         else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
-                            strcat( host.os_name, "Enterprise Server Edition " );
+                            strcat(os_name, "Enterprise Server Edition " );
                         else if ( osvi.wSuiteMask == VER_SUITE_BLADE )
-                            strcat( host.os_name, "Web Server Edition " );
+                            strcat(os_name, "Web Server Edition " );
                         else
-                            strcat( host.os_name, "Standard Server Edition " );
+                            strcat(os_name, "Standard Server Edition " );
                     }
                     else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
                     {
                         if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
-                            strcat( host.os_name, "Datacenter Server Edition " );
+                            strcat(os_name, "Datacenter Server Edition " );
                         else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
-                            strcat( host.os_name, "Advanced Server Edition " );
+                            strcat(os_name, "Advanced Server Edition " );
                         else
-                            strcat( host.os_name, "Standard Server Edition " );
+                            strcat(os_name, "Standard Server Edition " );
                     }
                     else  // Windows NT 4.0 
                     {
                         if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
-                            strcat( host.os_name, "Server 4.0, Enterprise Edition " );
+                            strcat(os_name, "Server 4.0, Enterprise Edition " );
                         else
-                            strcat( host.os_name, "Server 4.0 " );
+                            strcat(os_name, "Server 4.0 " );
                     }
                 }
             }
@@ -143,14 +143,14 @@ int get_host_info(HOST_INFO& host) {
                 RegCloseKey( hKey );
 
                 if ( lstrcmpi( "WINNT", szProductType) == 0 )
-                    strcat( host.os_name, "Workstation " );
+                    strcat(os_name, "Workstation " );
                 if ( lstrcmpi( "LANMANNT", szProductType) == 0 )
-                    strcat( host.os_name, "Server " );
+                    strcat(os_name, "Server " );
                 if ( lstrcmpi( "SERVERNT", szProductType) == 0 )
-                    strcat( host.os_name, "Advanced Server " );
+                    strcat(os_name, "Advanced Server " );
 
-                sprintf( host.os_name, "%s%d.%d ",
-                    host.os_name,
+                sprintf(os_name, "%s%d.%d ",
+                    os_name,
                     osvi.dwMajorVersion,
                     osvi.dwMinorVersion );
             }
@@ -168,23 +168,23 @@ int get_host_info(HOST_INFO& host) {
                     0, KEY_QUERY_VALUE, &hKey );
                 if( lRet == ERROR_SUCCESS )
                 {
-                    sprintf( host.os_name, "%sService Pack 6a (Build %d)",
-                        host.os_name,
+                    sprintf(os_name, "%sService Pack 6a (Build %d)",
+                        os_name,
                         osvi.dwBuildNumber & 0xFFFF );
                 }
                 else // Windows NT 4.0 prior to SP6a
                 {
                     if ( strlen(osvi.szCSDVersion) > 0 )
                     {
-                        sprintf( host.os_name, "%s%s (Build %d)",
-                            host.os_name,
+                        sprintf(os_name, "%s%s (Build %d)",
+                            os_name,
                             osvi.szCSDVersion,
                             osvi.dwBuildNumber & 0xFFFF);
                     }
                     else
                     {
-                        sprintf( host.os_name, "%s(Build %d)",
-                            host.os_name,
+                        sprintf(os_name, "%s(Build %d)",
+                            os_name,
                             osvi.dwBuildNumber & 0xFFFF);
                     }
                 }
@@ -195,15 +195,15 @@ int get_host_info(HOST_INFO& host) {
             {
                 if ( strlen(osvi.szCSDVersion) > 0 )
                 {
-                    sprintf( host.os_name, "%s%s (Build %d)",
-                        host.os_name,
+                    sprintf(os_name, "%s%s (Build %d)",
+                        os_name,
                         osvi.szCSDVersion,
                         osvi.dwBuildNumber & 0xFFFF);
                 }
                 else
                 {
-                    sprintf( host.os_name, "%s(Build %d)",
-                        host.os_name,
+                    sprintf(os_name, "%s(Build %d)",
+                        os_name,
                         osvi.dwBuildNumber & 0xFFFF);
                 }
             }
@@ -215,27 +215,27 @@ int get_host_info(HOST_INFO& host) {
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0)
             {
-                strcpy( host.os_name, "Microsoft Windows 95 " );
+                strcpy(os_name, "Microsoft Windows 95 " );
                 if ( osvi.szCSDVersion[1] == 'C' || osvi.szCSDVersion[1] == 'B' )
-                   strcat( host.os_name, "OSR2 " );
+                   strcat( os_name, "OSR2 " );
             } 
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
             {
-                strcpy( host.os_name, "Microsoft Windows 98 " );
+                strcpy( os_name, "Microsoft Windows 98 " );
                 if ( osvi.szCSDVersion[1] == 'A' )
-                    strcat( host.os_name, "SE " );
+                    strcat( os_name, "SE " );
             } 
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90)
             {
-                strcpy( host.os_name, "Microsoft Windows Millennium Edition" );
+                strcpy( os_name, "Microsoft Windows Millennium Edition" );
             } 
             break;
 
         case VER_PLATFORM_WIN32s:
 
-            strcpy( host.os_name, "Microsoft Win32s" );
+            strcpy( os_name, "Microsoft Win32s" );
             break;
     }
 
@@ -246,51 +246,51 @@ int get_host_info(HOST_INFO& host) {
         osvi.dwMajorVersion,
         osvi.dwMinorVersion);
 
-	safe_strncpy( host.os_version, Version, sizeof(host.os_version) );
+	safe_strncpy( os_version, Version, sizeof(os_version) );
 
     SYSTEM_INFO SystemInfo;
     memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
     ::GetSystemInfo( &SystemInfo );
 
-    host.p_ncpus = SystemInfo.dwNumberOfProcessors;
+    p_ncpus = SystemInfo.dwNumberOfProcessors;
 
     switch ( SystemInfo.wProcessorArchitecture ) {
         case PROCESSOR_ARCHITECTURE_INTEL:
         switch ( SystemInfo.dwProcessorType ) {
             case PROCESSOR_INTEL_386:
-                strcpy( host.p_model, "80386" );
+                strcpy( p_model, "80386" );
                 break;
             case PROCESSOR_INTEL_486:
-                strcpy( host.p_model, "80486" );
+                strcpy( p_model, "80486" );
                 break;
             case PROCESSOR_INTEL_PENTIUM:
-                strcpy( host.p_model, "Pentium" );
+                strcpy( p_model, "Pentium" );
                 break;
             default:
-                strcpy( host.p_model, "x86" );
+                strcpy( p_model, "x86" );
                 break;
             }
         break;
 
         case PROCESSOR_ARCHITECTURE_MIPS:
-            strcpy( host.p_model, "MIPS" );
+            strcpy( p_model, "MIPS" );
             break;
 
         case PROCESSOR_ARCHITECTURE_ALPHA:
-            strcpy( host.p_model, "Alpha" );
+            strcpy( p_model, "Alpha" );
             break;
 
         case PROCESSOR_ARCHITECTURE_PPC:
-            strcpy( host.p_model, "Power PC" );
+            strcpy( p_model, "Power PC" );
             break;
 
         case PROCESSOR_ARCHITECTURE_UNKNOWN:
         default:
-            strcpy( host.p_model, "Unknown" );
+            strcpy( p_model, "Unknown" );
             break;
     }
         
-	get_filesystem_info(host.d_total, host.d_free);
+	get_filesystem_info(d_total, d_free);
     
 	// Open the WinSock dll so we can get host info
     WORD    wVersionRequested;
@@ -299,20 +299,20 @@ int get_host_info(HOST_INFO& host) {
 	WSAStartup(wVersionRequested, &wsdata);
 
 	// Get host name/ip info
-    get_local_domain_name(host.domain_name, sizeof(host.domain_name));
-    get_local_ip_addr_str(host.ip_addr, sizeof(host.ip_addr));
+    get_local_domain_name(domain_name, sizeof(domain_name));
+    get_local_ip_addr_str(ip_addr, sizeof(ip_addr));
 
 	// Close the WinSock dll
 	WSACleanup();
 
-	host.timezone = get_timezone();
+	timezone = get_timezone();
 
 	MEMORYSTATUS mStatus;
 	ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
 	mStatus.dwLength = sizeof(MEMORYSTATUS);
 	GlobalMemoryStatus(&mStatus);
-	host.m_nbytes = (double)mStatus.dwTotalPhys;
-	host.m_swap = (double)mStatus.dwTotalPageFile;
+	m_nbytes = (double)mStatus.dwTotalPhys;
+	m_swap = (double)mStatus.dwTotalPageFile;
 	
 	// gets processor vendor name from registry, works for intel
 	char vendorName[256], procNameString[256];
@@ -338,15 +338,15 @@ int get_host_info(HOST_INFO& host) {
 		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
 		if (retval == ERROR_SUCCESS) gotMHz = true;
 	}
-	if (gotProcName) safe_strncpy( host.p_vendor, procNameString, sizeof(host.p_vendor) );
-	else if (gotMHz) sprintf( host.p_vendor, "%s %dMHz", vendorName, procSpeed );
-	else safe_strncpy( host.p_vendor, vendorName, sizeof(host.p_vendor) );
+	if (gotProcName) safe_strncpy( p_vendor, procNameString, sizeof(p_vendor) );
+	else if (gotMHz) sprintf( p_vendor, "%s %dMHz", vendorName, procSpeed );
+	else safe_strncpy( p_vendor, vendorName, sizeof(p_vendor) );
 
 	RegCloseKey(hKey);
     return 0;
 }
 
-bool host_is_running_on_batteries() {
+bool HOST_INFO::host_is_running_on_batteries() {
 	SYSTEM_POWER_STATUS pStatus;
 	ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
 	if (!GetSystemPowerStatus(&pStatus)) {

@@ -11173,5 +11173,7 @@ David  Mar 31 2004
         cs_prefs.C
         hostinfo.C,h
         hostinfo_unix.C
+		win/
+			hostinfo_win.cpp
     lib/
         app_ipc.C
