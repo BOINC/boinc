@@ -31,7 +31,6 @@
     #include <Events.h>
     #include <Gestalt.h>
     #include <LowMem.h>
-    #include <PictUtils.h>
     #include <TextEdit.h>
     #include <ToolUtils.h>
     #include <QDOffscreen.h>
@@ -60,8 +59,7 @@ static const EventTypeSpec  appEventList[] =
 WindowRef               appGLWindow;
 EventLoopTimerRef 	boincTimer;
 EventLoopTimerUPP	boincTimerUPP;
-EventHandlerUPP 	appCommandProcessor;
-WindowPtr               boincAboutWindow;
+EventHandlerUPP 	appCommandProcessor,winCommandProcessor;
 AGLContext		boincAGLContext;
 GLuint			main_font;
 structGLWindowInfo	glInfo;
@@ -78,18 +76,8 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     EventLoopTimerRef boincYieldTimer;
     short i,fNum;
     long response;
-    MenuHandle menu;
     
     InitCursor();
-    
-    // add quit if not under Mac OS X
-    err = Gestalt (gestaltMenuMgrAttr, &response);
-    if ((err == noErr) && !(response & gestaltMenuMgrAquaLayoutMask)) {
-        menu = NewMenu (128, "\pFile");			// new menu
-        InsertMenu (menu, 0);				// add menu to end
-    
-        AppendMenu (menu, "\pQuit/Q"); 			// add quit
-    }
 
     SetRect( &winRect, 100, 100, 100+xsize, 100+ysize );
     
@@ -100,6 +88,13 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     appCommandProcessor = NewEventHandlerUPP(MainAppEventHandler);
     err = InstallApplicationEventHandler(appCommandProcessor, GetEventTypeCount(appEventList),
                                             appEventList, 0, NULL);
+
+    // Window-level event handler installer
+    /*winCommandProcessor = NewEventHandlerUPP(MainWinEventHandler);
+    err = InstallWindowEventHandler(appGLWindow, 0,
+                                kEventDurationMillisecond*10,		// Every 10 ms
+                                boincYieldUPP, NULL, &boincYieldTimer);*/
+
 
     // Install preemption
     boincYieldUPP = NewEventLoopTimerUPP(YieldProcessor);
@@ -119,13 +114,6 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     ShowWindow(appGLWindow);
     SetPortWindowPort (appGLWindow);
     
-    glInfo.fAcceleratedMust = false; 	// must renderer be accelerated?
-    glInfo.VRAM = 0 * 1048576;		// minimum VRAM (if not zero this is always a required minimum)
-    glInfo.textureRAM = 0 * 1048576;	// minimum texture RAM (if not zero this is always a required minimum)
-    if (!CheckMacOSX ()) // this is false on Mac OS 9 since Mac OS 9 does not support dragging conttexts with shared txtures between to different vendor's renderers.
-        glInfo.fDraggable = false; 		// should a pixel format that supports all monitors be chosen?
-    else
-        glInfo.fDraggable = true; 		// should a pixel format that supports all monitors be chosen?
     glInfo.fmt = 0;					// output pixel format
     
     i = 0;
@@ -137,7 +125,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     glInfo.aglAttributes [i++] = 16;
     glInfo.aglAttributes [i++] = AGL_NONE;
     
-    BuildGLFromWindow (appGLWindow, &boincAGLContext, &glInfo, NULL );
+    BuildGLonWindow (appGLWindow, &boincAGLContext, &glInfo);
     if (!boincAGLContext) {
         DestroyGLFromWindow (&boincAGLContext, &glInfo);
     } else {
@@ -155,6 +143,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
         glReportError ();
         
         InitGL();
+        app_init_gl();
 
         glClear (GL_COLOR_BUFFER_BIT);
         glReportError ();
@@ -229,13 +218,16 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
             switch (aCommand.commandID)
             {
                 case kHICommandQuit:
-                    QuitApplicationEventLoop();
+                    //QuitApplicationEventLoop();
+                    HideWindow(appGLWindow);
                     result = noErr;
                     break;
                 case kHICommandMaximizeWindow:	// 'mini'
                 case kHICommandZoomWindow:	// 'zoom'
                     GetWindowPortBounds (appGLWindow, &rectPort);
                     ReSizeGLScene(rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
+                    InitGL();
+                    app_init_gl();
                     glReportError ();
                     break;
                 case kHICommandHide:		// 'hide'
