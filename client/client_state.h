@@ -195,7 +195,7 @@ public:
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     void set_client_state_dirty(char*);
-    int report_result_error(RESULT &res, int err_num, char *err_msg);
+    int report_result_error(RESULT &res, int err_num, const char *err_msg);
         // flag a result as having an error
     int add_project(char* master_url, char* authenticator);
     int reset_project(PROJECT*);

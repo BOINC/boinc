@@ -1224,6 +1224,7 @@ bool CLIENT_STATE::garbage_collect() {
     vector<FILE_INFO*>::iterator fi_iter;
     vector<APP_VERSION*>::iterator avp_iter;
     bool action = false, found;
+    string error_msgs;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
 
@@ -1262,7 +1263,8 @@ bool CLIENT_STATE::garbage_collect() {
                     // the wu corresponding to this result
                     // had an error downloading some input file(s).
                     //
-                    report_result_error(*rp, 0, "Couldn't get input files");
+                    rp->wup->get_file_errors(error_msgs);
+                    report_result_error(*rp, 0, error_msgs.c_str());
                 }
             }
             rp->wup->ref_cnt++;
@@ -1586,7 +1588,7 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 //    or it gets signaled.
 //
 int CLIENT_STATE::report_result_error(
-    RESULT& res, int err_num, char *err_msg
+    RESULT& res, int err_num, const char *err_msg
 ) {
     char buf[MAX_BLOB_LEN];
     unsigned int i;

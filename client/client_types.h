@@ -154,6 +154,8 @@ public:
     char xml_signature[MAX_BLOB_LEN];
     char file_signature[MAX_BLOB_LEN];
     bool approval_required;     // true if the file requires user approval
+    string error_msg;       // if permanent error occurs during file xfer,
+                            // it's recorded here
 
     FILE_INFO();
     ~FILE_INFO();
@@ -218,6 +220,7 @@ struct WORKUNIT {
     int parse(FILE*);
     int write(FILE*);
     bool had_failure(int& failnum);
+    void get_file_errors(string&);
 };
 
 struct RESULT {

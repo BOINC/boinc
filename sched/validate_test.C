@@ -54,10 +54,11 @@ int init_result_read_file(RESULT const& result, void*& data)
     return 0;
 }
 
-int check_pair_initialized_identical(RESULT const& /*r1*/, void* data1,
-                                     RESULT const& /*r2*/, void* data2,
-                                     bool& match)
-{
+int check_pair_initialized_identical(
+    RESULT const& /*r1*/, void* data1,
+    RESULT const& /*r2*/, void* data2,
+    bool& match
+) {
     string const* s1 = (string*) data1;
     string const* s2 = (string*) data2;
 
@@ -65,8 +66,7 @@ int check_pair_initialized_identical(RESULT const& /*r1*/, void* data1,
     return 0;
 }
 
-int cleanup_result_string(RESULT const& /*result*/, void* data)
-{
+int cleanup_result_string(RESULT const& /*result*/, void* data) {
     string* s = (string*) data;
     delete s;
     return 0;
@@ -74,19 +74,21 @@ int cleanup_result_string(RESULT const& /*result*/, void* data)
 
 // See if there's a strict majority under equality.
 //
-int check_set(vector<RESULT>& results, int& canonicalid, double& credit)
-{
-    return generic_check_set_majority(results, canonicalid, credit,
-                                      init_result_read_file,
-                                      check_pair_initialized_identical,
-                                      cleanup_result_string);
+int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
+    return generic_check_set_majority(
+        results, canonicalid, credit,
+        init_result_read_file,
+        check_pair_initialized_identical,
+        cleanup_result_string
+    );
 }
 
-int check_pair(RESULT const& r1, RESULT const& r2, bool& match)
-{
-    return generic_check_pair(r1, r2, match,
-                              init_result_read_file,
-                              check_pair_initialized_identical,
-                              cleanup_result_string);
+int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
+    return generic_check_pair(
+        r1, r2, match,
+        init_result_read_file,
+        check_pair_initialized_identical,
+        cleanup_result_string
+    );
 }
 

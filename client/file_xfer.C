@@ -223,7 +223,7 @@ bool FILE_XFER_SET::poll() {
                     }
                 }
             } else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
-				fxp->file_xfer_err_msg = "Existing file too large; can't resume";
+				fxp->fip->error_msg = "Existing file too large; can't resume";
 			}
         }
     }

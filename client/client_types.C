@@ -378,7 +378,7 @@ int FILE_INFO::set_permissions() {
 // except the start/end tags and the <xml_signature> element.
 //
 int FILE_INFO::parse(FILE* in, bool from_server) {
-    char buf[256];
+    char buf[256], buf2[1024];
     STRING256 url;
     PERS_FILE_XFER *pfxp;
     int retval;
@@ -460,6 +460,9 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
                 sizeof(signed_xml)
             );
             continue;
+        } else if (match_tag(buf, "<error_msg>")) {
+            copy_element_contents(in, "</error_msg>", buf2, sizeof(buf2));
+            error_msg = buf2;
         } else {
             msg_printf(NULL, MSG_ERROR, "FILE_INFO::parse(): unrecognized: %s\n", buf);
         }
@@ -513,6 +516,9 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (strlen(xml_signature)) {
             fprintf(out, "    <xml_signature>\n%s    </xml_signature>\n", xml_signature);
         }
+    }
+    if (!error_msg.empty()) {
+        fprintf(out, "    <error_msg>\n%s</error_msg>\n", error_msg.c_str());
     }
     fprintf(out, "</file_info>\n");
     return 0;
@@ -731,6 +737,19 @@ bool WORKUNIT::had_failure(int& failnum) {
         }
     }
     return false;
+}
+
+void WORKUNIT::get_file_errors(string& str) {
+    int x;
+    unsigned int i;
+    FILE_INFO* fip;
+    str = "couldn't get input files:\n";
+    for (i=0;i<input_files.size();i++) {
+        fip = input_files[i].file_info;
+        if (fip->had_failure(x)) {
+            str = str + fip->name + ": " + fip->error_msg + "\n";
+        }
+    }
 }
 
 int RESULT::parse_ack(FILE* in) {

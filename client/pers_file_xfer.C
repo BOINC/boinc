@@ -239,18 +239,18 @@ bool PERS_FILE_XFER::poll(time_t now) {
             giveup();
         } else {
             if (log_flags.file_xfer) {
-				if (fxp->file_xfer_err_msg.empty()) {
-					msg_printf(
-						fip->project, MSG_INFO, "Failed %s of %s",
-						is_upload?"upload":"download", fip->name
-						);
-				} else {
-					msg_printf(
-						fip->project, MSG_INFO, "Failed %s of %s: %s",
-						is_upload?"upload":"download", fip->name,
-						fxp->file_xfer_err_msg.c_str()
-						);
-				}
+                if (fip->error_msg.empty()) {
+                    msg_printf(
+                        fip->project, MSG_INFO, "Failed %s of %s",
+                        is_upload?"upload":"download", fip->name
+                    );
+                } else {
+                    msg_printf(
+                        fip->project, MSG_INFO, "Failed %s of %s: %s",
+                        is_upload?"upload":"download", fip->name,
+                        fip->error_msg.c_str()
+                    );
+                }
             }
             handle_xfer_failure();
         }

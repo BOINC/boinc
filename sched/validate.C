@@ -19,8 +19,8 @@
 
 //
 // validate - check and validate new results, and grant credit
-//   -app appname
-//   -quorum n      // example WUs only with this many done results
+//  -app appname
+//  [-d debug_level]
 //  [-one_pass]     // make one pass through WU table, then exit
 //  [-asynch]       // fork, run in separate process
 //

@@ -403,7 +403,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
                 if (n) {
                     scope_messages.printf(
                         "NET_XFER_SET::do_select(): socket %d connection to %s failed\n",
-                        nxp->hostname, fd
+                        fd, nxp->hostname
                     );
                     nxp->error = ERR_CONNECT;
                     nxp->io_done = true;

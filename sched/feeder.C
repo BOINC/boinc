@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-// feeder [-asynch]
+// feeder [-asynch] [-d debug_level]
 //
 // Creates a shared memory segment containing DB info,
 // including results/workunits to send.

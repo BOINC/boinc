@@ -5955,3 +5955,15 @@ David  Aug 30 2003
 
     db/
        db_base.C,h (new)
+
+David  Sept 1 2003
+    - Client: keep error messages about failed file transfers
+        in the FILE_INFO object (and save them in client_state.xml),
+        so that they can be reported to server.
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        file_xfer.C,h
+        net_xfer.C
+        pers_file_xfer.C
