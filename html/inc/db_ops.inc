@@ -248,6 +248,9 @@ function show_result_summary() {
     for ($fds=0; $fds<3; $fds++) {
         $delete_state[$fds] = 0;
     }
+    for ($vs=0; $vs<4; $vs++) {
+	$validate_state[$vs]=0;
+    }
 
     $_GET['table'] = 'result';
     $_GET['sort_by'] = ''; // ignore sort
@@ -330,8 +333,10 @@ if ($query_wuid)
         $client_state[4] = $res->clientstate_uploading;
         $client_state[5] = $res->clientstate_uploaded;
 
-        $nvalid          = $res->validate_valid;
-        $ninvalid        = $res->validate_invalid;
+        $validate_state[0] = $res->validate_init;
+        $validate_state[1] = $res->validate_valid;
+        $validate_state[2] = $res->validate_invalid;
+        $validate_state[3] = $res->validate_skipped;
 
         $file_delete[0]  = $res->filedeletestate_init;
         $file_delete[1]  = $res->filedeletestate_ready;
@@ -370,8 +375,10 @@ if ($query_wuid)
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
-    c_row2($nvalid?validate_color(1):'', "Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
-    c_row2($ninvalid?validate_color(2):'', "Invalid", link_results("$ninvalid", $urlquery, "validate_state=2", "outcome=1"));
+    for ($vs=0; $vs<4; $vs++) {
+	c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($vs),
+		link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
+    }
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
