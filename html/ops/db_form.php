@@ -17,10 +17,17 @@ echo "<!--\$Id$ -->\n";
         ";
     }
     function print_query_field() {
+        $currenttime=time();
+        $hourago=$currenttime-3600;
+        $dayago=$currenttime-24*3600;
+	$weekago=$currenttime-7*24*3600;
         echo "
             <tr>
             <td align=right>Additional clauses</td>
             <td><input name=clauses size=100></td>
+            </tr><tr>
+            <td align=right>Unix times</td>
+            <td>Now:<b> $currenttime</b> Hour ago: $hourago Day ago: $dayago Week ago: $weekago</td>
             </tr>
         ";
     }

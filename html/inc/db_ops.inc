@@ -669,9 +669,6 @@ function show_workunit($wu) {
     $_GET = array('workunitid' => $wu->id);
     show_result_summary();
 
-    $currenttime=time();
-    echo "Current unix time is <b>$currenttime</b><br>"; 
-
     start_table();
     row("Created", time_str($wu->create_time));
     row("Transition Time", time_str($wu->transition_time));
