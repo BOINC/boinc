@@ -68,6 +68,7 @@
 
 #include "app.h"
 #include "boinc_api.h"
+#include "graphics_api.h"
 
 // take a string containing some space separated words.
 // return an array of pointers to the null-terminated words.
@@ -137,9 +138,10 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF file_ref;
     FILE_INFO* fip;
     int retval;
-    char init_data_path[256], fd_init_path[256];
+    char init_data_path[256], graphics_data_path[256], fd_init_path[256];
     FILE *f;
     APP_INIT_DATA aid;
+	GRAPHICS_INFO gi;
 
     if (first_time) {
         checkpoint_cpu_time = 0;
@@ -148,9 +150,10 @@ int ACTIVE_TASK::start(bool first_time) {
     starting_cpu_time = checkpoint_cpu_time;
     fraction_done = 0;
 
-    //app_prefs.graphics.xsize = 640;
-    //app_prefs.graphics.ysize = 480;
-    //app_prefs.graphics.refresh_period = 5;
+    gi.xsize = 640;
+    gi.ysize = 480;
+	gi.graphics_mode = MODE_WINDOW;
+    gi.refresh_period = 0.1;
 
     memset(&aid, 0, sizeof(aid));
 
@@ -168,6 +171,17 @@ int ACTIVE_TASK::start(bool first_time) {
         return ERR_FOPEN;
     }
     retval = write_init_data_file(f, aid);
+    fclose(f);
+
+    sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
+    f = fopen(graphics_data_path, "w");
+    if (!f) {
+        if (log_flags.task_debug) {
+            printf("Failed to open core to app graphics prefs file %s.\n", graphics_data_path);
+        }
+        return ERR_FOPEN;
+    }
+    retval = write_graphics_file(f, gi);
     fclose(f);
 
     sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);

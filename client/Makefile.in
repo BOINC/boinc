@@ -53,7 +53,8 @@ OBJS = \
     ../lib/crypt.o \
     ../lib/util.o \
     ../RSAEuro/source/rsaeuro.a \
-    ../api/boinc_api.o
+    ../api/boinc_api.o \
+    ../api/graphics_api.o
 
 TEST_NET_XFER_OBJS = \
     http.o \
