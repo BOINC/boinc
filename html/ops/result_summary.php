@@ -8,7 +8,8 @@
         if ($n == 0) {
             return "0";
         } else {
-            return "<a href=db_action.php?table=result&$query&sort_by=received_time&detail=low>$n</a>";
+            return "<a href=db_action.php?table=result&$query&detail=low>$n</a>";
+            // &sort_by=received_time
         }
     }
 
@@ -46,9 +47,14 @@
     }
     mysql_free_result($result);
 
-    echo "<table width=100%><tr valign=top>";
+    echo "<table width=100%>";
+    echo "<tr valign=top>";
+    echo "<td><h3>All results</h3></td>";
+    echo "<td><h3>'Over' results</h3></td>";
+    echo "<td><h3>'Client error' results</h3></td>";
+    echo "</tr>";
+    echo "<tr valign=top>";
     echo "<td><table border=2 cellpadding=4\n";
-    echo "<h3>&nbsp;</h3>";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         row2(result_server_state_string($ss), 
@@ -57,7 +63,6 @@
     echo "</table></td>";
     
     echo "<td><table border=2 cellpadding=4\n";
-    echo "<h3>'Over' results:</h3>";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
         c_row2(outcome_color($ro), result_outcome_string($ro),
@@ -66,7 +71,6 @@
     echo "</table></td>";
     
     echo "<td><table border=2 cellpadding=4\n";
-    echo "<h3>'Client error' results:</h3>";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         row2(result_client_state_string($cs), 
