@@ -63,6 +63,18 @@ function clear_data_dirs() {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_UPLOAD_DIR;
 
+    $BOINC_DOWNLOAD_DIR = getenv("BOINC_DOWNLOAD_DIR");
+    if ($BOINC_DOWNLOAD_DIR == null) {
+        echo "Must define BOINC_DOWNLOAD_DIR\n";
+        $bad = true;
+    }
+    $BOINC_UPLOAD_DIR = getenv("BOINC_UPLOAD_DIR");
+    if ($BOINC_UPLOAD_DIR == null) {
+        echo "Must define BOINC_UPLOAD_DIR\n";
+        $bad = true;
+    }
+    if ($bad) exit();
+ 
     PassThru("rm -f $BOINC_DOWNLOAD_DIR/*");
     PassThru("rm -f $BOINC_UPLOAD_DIR/*");
 }
