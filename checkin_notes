@@ -18725,10 +18725,12 @@ Rom    21 Oct 2004 (boinc)
       boinc_core_release_4_50
 
 David 21 Oct 2004
-    - compile fix
+    - compile fixes
         To initialize a char[256], use strcpy(x, ""), not x[0] = NULL.
 
     client/
         app_control.C
+    clientgui/
+        ViewProjects.cpp
     lib/
         gui_rpc_client.C
