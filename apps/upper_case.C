@@ -138,10 +138,20 @@ int main(int argc, char **argv) {
     char resolved_name[512];
     MFILE out;
     FILE* state, *in;
+    bool standalone = false;
 
     my_start_time = time(0);
 
-    retval = boinc_init();
+    for (i=0; i<argc; i++) {
+        fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
+        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
+        if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
+        if (!strcmp(argv[i], "-signal")) raise_signal = true;
+        if (!strcmp(argv[i], "-exit")) random_exit = true;
+        if (!strcmp(argv[i], "-standalone")) standalone = true;
+    }
+
+    retval = boinc_init(standalone);
     if (retval) exit(retval);
 
     boinc_mask();       // mask clock signal since we're about to do I/O
@@ -158,13 +168,6 @@ int main(int argc, char **argv) {
     // );
 
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
-    for (i=0; i<argc; i++) {
-        fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
-        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
-        if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
-        if (!strcmp(argv[i], "-signal")) raise_signal = true;
-        if (!strcmp(argv[i], "-exit")) random_exit = true;
-    }
     boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     in = fopen(resolved_name, "r");
     if (in == NULL) {

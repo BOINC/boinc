@@ -183,7 +183,7 @@ int HTTP_REPLY_HEADER::read_reply(int socket) {
             scope_messages.printf(
                 "HTTP_REPLY_HEADER::read_reply(): recv() on socket %d returned %d errno %d sockerr %d\n",
                 socket, n, errno, get_socket_error(socket)
-                );
+            );
         }
         if (n == -1 && errno == EAGAIN) {
             return 1;
