@@ -179,7 +179,7 @@ noinst_PROGRAMS = \
     make_work \
     show_shmem \
     transitioner \
-    message_handler \
+    trickle_handler \
     update_stats \
     validate_test \
     validate_trivial \
@@ -271,9 +271,9 @@ transitioner_SOURCES = transitioner.C
 transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
-message_handler_SOURCES = message_handler.C
-message_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
-message_handler_LDADD = $(LDADD) $(RSA_LIBS)
+trickle_handler_SOURCES = trickle_handler.C
+trickle_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+trickle_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES = \
         handle_request.C			\
@@ -324,7 +324,7 @@ noinst_PROGRAMS = assimilator$(EXEEXT) cgi$(EXEEXT) feeder$(EXEEXT) \
 	db_dump$(EXEEXT) file_deleter$(EXEEXT) \
 	file_upload_handler$(EXEEXT) make_work$(EXEEXT) \
 	show_shmem$(EXEEXT) transitioner$(EXEEXT) \
-	message_handler$(EXEEXT) update_stats$(EXEEXT) \
+	trickle_handler$(EXEEXT) update_stats$(EXEEXT) \
 	validate_test$(EXEEXT) validate_trivial$(EXEEXT) \
 	wu_check$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
@@ -370,9 +370,6 @@ file_upload_handler_LDFLAGS =
 am_make_work_OBJECTS = make_work.$(OBJEXT)
 make_work_OBJECTS = $(am_make_work_OBJECTS)
 make_work_LDFLAGS =
-am_message_handler_OBJECTS = message_handler.$(OBJEXT)
-message_handler_OBJECTS = $(am_message_handler_OBJECTS)
-message_handler_LDFLAGS =
 am_show_shmem_OBJECTS = show_shmem.$(OBJEXT)
 show_shmem_OBJECTS = $(am_show_shmem_OBJECTS)
 show_shmem_LDADD = $(LDADD)
@@ -380,6 +377,9 @@ show_shmem_LDFLAGS =
 am_transitioner_OBJECTS = transitioner.$(OBJEXT)
 transitioner_OBJECTS = $(am_transitioner_OBJECTS)
 transitioner_LDFLAGS =
+am_trickle_handler_OBJECTS = trickle_handler.$(OBJEXT)
+trickle_handler_OBJECTS = $(am_trickle_handler_OBJECTS)
+trickle_handler_LDFLAGS =
 am_update_stats_OBJECTS = update_stats.$(OBJEXT)
 update_stats_OBJECTS = $(am_update_stats_OBJECTS)
 update_stats_LDADD = $(LDADD)
@@ -434,9 +434,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/filesys.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/handle_request.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/make_work.Po ./$(DEPDIR)/md5.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/message_handler.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/msg_log.Po ./$(DEPDIR)/parse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/msg_log.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_msgs.Po ./$(DEPDIR)/sched_send.Po \
@@ -445,6 +444,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/server_types.Po ./$(DEPDIR)/shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/show_shmem.Po ./$(DEPDIR)/synch.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/transitioner.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/trickle_handler.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/update_stats.Po ./$(DEPDIR)/util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/validate.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/validate_test.Po \
@@ -464,12 +464,12 @@ DIST_SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) \
 	$(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) \
 	$(feeder_SOURCES) $(file_deleter_SOURCES) \
 	$(file_upload_handler_SOURCES) $(make_work_SOURCES) \
-	$(message_handler_SOURCES) $(show_shmem_SOURCES) \
-	$(transitioner_SOURCES) $(update_stats_SOURCES) \
+	$(show_shmem_SOURCES) $(transitioner_SOURCES) \
+	$(trickle_handler_SOURCES) $(update_stats_SOURCES) \
 	$(validate_test_SOURCES) $(validate_trivial_SOURCES) \
 	$(wu_check_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(message_handler_SOURCES) $(show_shmem_SOURCES) $(transitioner_SOURCES) $(update_stats_SOURCES) $(validate_test_SOURCES) $(validate_trivial_SOURCES) $(wu_check_SOURCES)
+SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(show_shmem_SOURCES) $(transitioner_SOURCES) $(trickle_handler_SOURCES) $(update_stats_SOURCES) $(validate_test_SOURCES) $(validate_trivial_SOURCES) $(wu_check_SOURCES)
 
 all: all-am
 
@@ -555,15 +555,15 @@ file_upload_handler$(EXEEXT): $(file_upload_handler_OBJECTS) $(file_upload_handl
 make_work$(EXEEXT): $(make_work_OBJECTS) $(make_work_DEPENDENCIES) 
 	@rm -f make_work$(EXEEXT)
 	$(CXXLINK) $(make_work_LDFLAGS) $(make_work_OBJECTS) $(make_work_LDADD) $(LIBS)
-message_handler$(EXEEXT): $(message_handler_OBJECTS) $(message_handler_DEPENDENCIES) 
-	@rm -f message_handler$(EXEEXT)
-	$(CXXLINK) $(message_handler_LDFLAGS) $(message_handler_OBJECTS) $(message_handler_LDADD) $(LIBS)
 show_shmem$(EXEEXT): $(show_shmem_OBJECTS) $(show_shmem_DEPENDENCIES) 
 	@rm -f show_shmem$(EXEEXT)
 	$(CXXLINK) $(show_shmem_LDFLAGS) $(show_shmem_OBJECTS) $(show_shmem_LDADD) $(LIBS)
 transitioner$(EXEEXT): $(transitioner_OBJECTS) $(transitioner_DEPENDENCIES) 
 	@rm -f transitioner$(EXEEXT)
 	$(CXXLINK) $(transitioner_LDFLAGS) $(transitioner_OBJECTS) $(transitioner_LDADD) $(LIBS)
+trickle_handler$(EXEEXT): $(trickle_handler_OBJECTS) $(trickle_handler_DEPENDENCIES) 
+	@rm -f trickle_handler$(EXEEXT)
+	$(CXXLINK) $(trickle_handler_LDFLAGS) $(trickle_handler_OBJECTS) $(trickle_handler_LDADD) $(LIBS)
 update_stats$(EXEEXT): $(update_stats_OBJECTS) $(update_stats_DEPENDENCIES) 
 	@rm -f update_stats$(EXEEXT)
 	$(CXXLINK) $(update_stats_LDFLAGS) $(update_stats_OBJECTS) $(update_stats_LDADD) $(LIBS)
@@ -642,7 +642,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/make_work.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/message_handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
@@ -656,6 +655,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/show_shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transitioner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trickle_handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/update_stats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/validate.Po@am__quote@
