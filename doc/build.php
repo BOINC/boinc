@@ -2,7 +2,8 @@
 
 require_once("docutil.php");
 page_head("Software prerequisites");
-echo "
+?>
+
 <h2>Unix</h2>
 We develop on Solaris 2.6-2.9, Red Hat 8 and Enterprise Edition,
 Mac OS X, and Debian Linux stable and unstable,
@@ -34,9 +35,8 @@ Other Unix-like systems should work without too much configuration.
 <tr>
     <td>Python 2.2+
         <br>
-            <a href=http://sourceforge.net/projects/mysql-python>MySQLdb module 0.9.2 or 0.9.3</a>
-            (or possibly 1.x, but not 0.9.1;
-             see <a href=install_python_mysqldb.txt>installation instructions</a>)
+            <a href=http://sourceforge.net/projects/mysql-python>MySQLdb module 0.9.2+</a>
+            (see <a href=install_python_mysqldb.txt>installation instructions</a>)
         <br>xml module
         <br>packages: python-mysqldb, python-xml
     </td>
@@ -193,6 +193,7 @@ or (Redhat) go to System Settings/Add Software.
     with value 'c:\wx' (or wherever you installed it).
     Then restart Visual Studio.
 </ul>
-";
+
+<?
 page_tail();
 ?>
