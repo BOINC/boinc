@@ -20,7 +20,7 @@
 #include <dirent.h>
 #endif
 
-extern int dir_open(char*,DIR*);
+extern DIR *dir_open(char*);
 extern int dir_scan(char*,DIR*);
 extern void dir_close(DIR*);
 extern int file_delete(char*);
