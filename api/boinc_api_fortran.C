@@ -51,7 +51,7 @@ extern "C" {
         *result = boinc_is_standalone();
     }
 
-    void boinc_resolve_filename_(const char* s, int s_len, char* t, int t_len)
+    void boinc_resolve_filename_(const char* s, char* t, int s_len, int t_len)
     {
         boinc_resolve_filename(StringFromFortran(s, s_len), t, t_len);
     }
