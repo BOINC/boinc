@@ -504,8 +504,8 @@ int CLIENT_STATE::current_disk_usage(double& size) {
 double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
     double x;
 
-    x = wu.rsc_fpops/host_info.p_fpops;
-    x += wu.rsc_iops/host_info.p_iops;
+    x = abs(wu.rsc_fpops/host_info.p_fpops);
+    x += abs(wu.rsc_iops/host_info.p_iops);
     return x;
 }
 

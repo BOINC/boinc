@@ -342,16 +342,11 @@ double double_flop_test(int iterations, int print_debug) {
     temp = 1;
     // Check to make sure all the values are the same as when we started
     for (i=0;i<NUM_DOUBLES;i++) {
-        if ((float)a[i] != (float)temp) {
-            calc_error = 1;
-        }
-        
+        if ((double)a[i] != (float)temp) calc_error = 1;
         temp /= 2;
     }
     
-    if (calc_error) {
-        n_ops_per_sec *= -1;
-    }
+    if (calc_error) n_ops_per_sec *= -1;
     
     if (print_debug) {
         for (i=0;i<NUM_DOUBLES;i++) {
@@ -441,16 +436,11 @@ double int_op_test(int iterations, int print_debug) {
     temp = 1;
     // Check to make sure all the values are the same as when we started
     for (i=0;i<NUM_INTS;i++) {
-        if (a[i] != temp) {
-            calc_error = 1;
-        }
-        
+        if (a[i] != temp) calc_error = 1;
         temp *= 2;
     }
     
-    if (calc_error) {
-        n_ops_per_sec *= -1;
-    }
+    if (calc_error) n_ops_per_sec *= -1;
     
     if (print_debug) {
         for (i=0;i<NUM_INTS;i++) {
@@ -530,14 +520,10 @@ double bandwidth_test(int iterations, int print_debug) {
     
     copy_error = 0;
     for (i=0;i<MEM_SIZE;i++) {
-        if (a[i] != aVal+i || b[i] != bVal+i) {
-            copy_error = 1;
-        }
+        if (a[i] != aVal+i || b[i] != bVal+i) copy_error = 1;
     }
     
-    if (copy_error) {
-        n_bytes_per_sec *= -1;
-    }
+    if (copy_error) n_bytes_per_sec *= -1;
     
     free(a);
     free(b);
