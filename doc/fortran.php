@@ -1,8 +1,11 @@
 <?php
 require_once("docutil.php");
-page_head("FORTRAN applications");
-echo "
+page_head("FORTRAN applications");?>
+
 <h2>How to use BOINC with FORTRAN and Visual Developer Studio</h2>
+
+<p><font color=red>2004-06-16 note: this page is outdated (functions are now
+declared <code>extern"C"</code> so no C++ mangling is done</font></p>
 
 <p>
 Note: a working example similar to the following
@@ -22,7 +25,7 @@ For every BOINC function you want to call from fortran you must add an
 interface and subroutine:
 <pre>
 INTERFACE
-  SUBROUTINE boinc_finish(status)	
+  SUBROUTINE boinc_finish(status)
   END SUBROUTINE boinc_finish
 END INTERFACE
 </pre>
@@ -39,7 +42,7 @@ You do this by adding the statement:
  !DEC$ ATTRIBUTES C :: boinc_finish
 </pre>
 Because BOINC is compiled as C++ files
-the FORTRAN compiler will not be able to find 
+the FORTRAN compiler will not be able to find
 the standard function name in the object file,
 you therefore have to add an alias for
 the function giving the real function name:
@@ -64,7 +67,7 @@ INTERFACE
   SUBROUTINE boinc_finish(status)
     !DEC$ ATTRIBUTES C :: boinc_finish
     !DEC$ ATTRIBUTES ALIAS : '?boinc_finish@@YAHH@Z' :: boinc__finish
-    INTEGER status	
+    INTEGER status
   END SUBROUTINE boinc_finish
 END INTERFACE
 
@@ -73,7 +76,8 @@ You can now call the BOINC function in FORTRAN.
 <pre>
 call boinc_finish(0)
 </pre>
-";
+
+<?php
 page_tail();
 
 ?>
