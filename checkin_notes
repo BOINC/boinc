@@ -23995,3 +23995,13 @@ Rom    4 Feb 2005
 
     client/win/
         win_screensaver.cpp
+
+Eric K	4 Feb 2005
+    - Added diagnostics.[Ch] to the gui build.  (Builds were failing because it
+      was missing)
+    - Added function xwin_glut_is_initialized() so applications can tell if glut
+      is initialized.
+
+    clientgui/Makefile.am
+    api/
+    	x_opengl.[Ch]
