@@ -1,5 +1,7 @@
 <?php
 
+// Place your version in project_specific/project_specific_presf.inc
+
 // Functions to display and edit project-specific prefs go here
 
 // The code here is a sample.  Projects must supply their own.

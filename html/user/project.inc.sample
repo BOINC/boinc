@@ -2,6 +2,7 @@
 
 // This is a sample project file.
 // Modify it to suit your project.
+// Put your version in html_user/project_specific/project.inc
 
 require_once("util.inc");
 

@@ -430,8 +430,8 @@ class Project:
         self.key_dir       = os.path.join(self.project_dir , 'keys')
         self.user_name     = USER_NAME
         self.db_name       = self.user_name + '_' + self.short_name
-        self.project_php_file       = None
-        self.project_prefs_php_file = None
+        self.project_php_file                  = 'html_user/project.inc.sample'
+        self.project_specific_prefs_php_file   = 'html_user/project_specific_prefs.inc.sample'
 
         self.core_versions = core_versions or [CoreVersion()]
         self.app_versions  = app_versions or [AppVersion(App(appname))]
@@ -459,6 +459,7 @@ class Project:
     def chmod(self, dir):
         os.chmod(self.dir(dir), 0777)
     def copy(self, source, dest):
+        '''SOURCE is relative to SOURCE_DIR; DEST is relative to project dir'''
         install_function(self.srcdir(source), self.dir(dest))
     def copyglob(self, source, dest = None, failok=False):
         dest = self.dir(dest or os.path.join(source, ''))
@@ -502,12 +503,11 @@ class Project:
         self.copyglob('html_user')
         self.copyglob('html_ops')
         self.copy('tools/country_select', 'html_user/')
-        if self.project_php_file:
-            self.copy(os.path.join('html_user', self.project_php_file),
-                      os.path.join('html_user', 'project.inc'))
-        if self.project_prefs_php_file:
-            self.copy(os.path.join('html_user', self.project_prefs_php_file),
-                      os.path.join('html_user', 'project_specific_prefs.inc'))
+        self.mkdir('html_user/project_specific')
+        self.copy(self.project_php_file,
+                  os.path.join('html_user', 'project_specific', 'project.inc'))
+        self.copy(self.project_specific_prefs_php_file,
+                  os.path.join('html_user', 'project_specific', 'project_specific_prefs.inc'))
 
         my_symlink(self.download_dir, self.dir('html_user', 'download'))
 
