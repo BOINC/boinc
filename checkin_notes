@@ -18179,3 +18179,9 @@ David  7 Oct 2004
 
     py/Boinc/
         db_base.py
+
+David  8 Oct 2004
+    - Add confirm before delete prefs
+
+    html/user/
+        prefs_remove.php
