@@ -69,7 +69,8 @@ static bool got_md5_info(
     char *md5data,
     double *nbytes
 ) {
-  
+    bool retval=false;
+#ifndef _USING_FCGI_
     // look for file named FILENAME.md5 containing md5sum and length.
     // If found, and newer mod time than file, read md5 sum and file
     // length from it.
@@ -77,7 +78,6 @@ static bool got_md5_info(
     FILE *fp;
     char md5name[512];
     struct stat md5stat, filestat;
-    bool retval=false;
     char endline='\0';
 
     sprintf(md5name, "%s.md5", path);
@@ -110,7 +110,7 @@ static bool got_md5_info(
         unlink(md5name);
         retval=false;
     }
-
+#endif
     return retval;
 }
 

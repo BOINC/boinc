@@ -333,6 +333,7 @@ URLTYPE* read_download_list() {
     
     if (cached) return cached;
     
+#ifndef _USING_FCGI_
     if (!(fp=fopen("../download_servers", "r"))) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -385,6 +386,7 @@ URLTYPE* read_download_list() {
             SCHED_MSG_LOG::DEBUG, "zone=%d name=%s\n", cached[i].zone, cached[i].name
         );
     }
+#endif
     return cached;
 }
 

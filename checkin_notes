@@ -24417,3 +24417,17 @@ Rom    9 Feb 2005
 
     clientgui/
         ViewWork.cpp
+
+David  9 Feb 2005
+    - scheduler changes to get the FCGI version to compile.
+        Problem: the FCGI library inexplicably doesn't provide
+        a version of fscanf().
+        Some of Bruce's recent additions
+        (timezone-dependent URL, MD5 caching) use fscanf().
+        I commented them out with the _USING_FCGI_ symbol.
+        This shouldn't affect anyone since E@h doesn't use FCGI.
+
+    sched/
+        sched_send.C
+    tools/
+        backend_lib.C
