@@ -44,6 +44,9 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
+#ifdef __WXMSW__
+    void OnShutdown( wxTaskBarIconExEvent& event );
+#endif
 
     void OnIdle( wxIdleEvent& event );
     void OnClose( wxCloseEvent& event );

@@ -1,0 +1,8 @@
+;
+; Module definition file for the shutdown.dll
+;
+
+LIBRARY    shutdown
+
+EXPORTS
+	ShutdownBOINCManager	PRIVATE

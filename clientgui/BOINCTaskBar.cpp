@@ -38,6 +38,11 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
+
+#ifdef __WXMSW__
+    EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
+#endif
+
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
@@ -53,7 +58,7 @@ END_EVENT_TABLE ()
 
 
 CTaskBarIcon::CTaskBarIcon() : 
-    wxTaskBarIconEx()
+    wxTaskBarIconEx( wxT("BOINCManagerSystray") )
 {
     m_iconTaskBarIcon = wxIcon( boinc_xpm );
     m_dtLastHoverDetected = wxDateTime( (time_t)0 );
@@ -146,17 +151,38 @@ void CTaskBarIcon::OnAbout( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CTaskBarIcon::OnExit( wxCommandEvent& WXUNUSED(event) )
+void CTaskBarIcon::OnExit( wxCommandEvent& event )
 {
-    ResetTaskBar();
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
-    CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxCloseEvent eventClose;
 
-    if ( NULL != pFrame )
-        pFrame->Close(true);
+    OnClose( eventClose );
+
+    if ( eventClose.GetSkipped() ) event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
+
+
+#ifdef __WXMSW__
+
+
+void CTaskBarIcon::OnShutdown( wxTaskBarIconExEvent& event )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
+
+    wxCloseEvent eventClose;
+
+    OnClose( eventClose );
+
+    if ( eventClose.GetSkipped() ) event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
+}
+
+
+#endif
 
 
 void CTaskBarIcon::OnIdle( wxIdleEvent& event )
@@ -168,6 +194,8 @@ void CTaskBarIcon::OnIdle( wxIdleEvent& event )
 
 void CTaskBarIcon::OnClose( wxCloseEvent& event )
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
+
     ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
@@ -178,6 +206,8 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
         pFrame->Close(true);
 
     event.Skip();
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function End"));
 }
 
 

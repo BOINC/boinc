@@ -20,7 +20,10 @@
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
 
 wxChar *wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
+wxChar *wxTaskBarExWindow = (wxChar*) wxT("wxTaskBarExWindow");
+
 const UINT WM_TASKBARCREATED   = ::RegisterWindowMessage(wxT("TaskbarCreated"));
+const UINT WM_TASKBARSHUTDOWN  = ::RegisterWindowMessage(wxT("TaskbarShutdown"));
 
 wxList wxTaskBarIconEx::sm_taskBarIcons;
 bool   wxTaskBarIconEx::sm_registeredClass = FALSE;
@@ -34,6 +37,7 @@ DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN )
 
 IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIconEx, wxEvtHandler)
 
@@ -51,7 +55,18 @@ wxTaskBarIconEx::wxTaskBarIconEx(void)
     AddObject(this);
 
     if (RegisterWindowClass())
-        m_hWnd = CreateTaskBarWindow();
+        m_hWnd = CreateTaskBarWindow( wxTaskBarExWindow );
+}
+
+wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle )
+{
+    m_hWnd = 0;
+    m_iconAdded = FALSE;
+
+    AddObject(this);
+
+    if (RegisterWindowClass())
+        m_hWnd = CreateTaskBarWindow( szWindowTitle );
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx(void)
@@ -73,8 +88,12 @@ wxTaskBarIconEx::~wxTaskBarIconEx(void)
 // Events
 void wxTaskBarIconEx::OnClose(wxCloseEvent& event)
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnClose - Function Begin"));
+
     ::DestroyWindow((HWND) m_hWnd);
     m_hWnd = 0;
+
+    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnClose - Function End"));
 }
 
 void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& event)
@@ -293,12 +312,12 @@ bool wxTaskBarIconEx::RegisterWindowClass()
     return( (rc != 0) );
 }
 
-WXHWND wxTaskBarIconEx::CreateTaskBarWindow()
+WXHWND wxTaskBarIconEx::CreateTaskBarWindow( wxChar* szWindowTitle )
 {
     HINSTANCE hInstance = GetModuleHandle(NULL);
 
     HWND hWnd = CreateWindowEx (0, wxTaskBarExWindowClass,
-            wxT("wxTaskBarExWindow"),
+            szWindowTitle,
             WS_OVERLAPPED,
             0,
             0,
@@ -327,82 +346,108 @@ bool wxTaskBarIconEx::IsBalloonsSupported()
 
 long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam )
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::WindowProc - Function Begin"));
+
     wxEventType eventType = 0;
+    long        lReturnValue = 0;     
 
-    if (msg != sm_taskbarMsg)
-        return DefWindowProc((HWND) hWnd, msg, wParam, lParam);
-
-    switch (lParam)
+    if      ( WM_CLOSE == msg )
     {
-        case WM_LBUTTONDOWN:
-            eventType = wxEVT_TASKBAR_LEFT_DOWN;
-            break;
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_CLOSE Detected"));
+ 
+        wxCloseEvent eventClose(wxEVT_CLOSE_WINDOW, hWnd);
+        ProcessEvent(eventClose);
 
-        case WM_LBUTTONUP:
-            eventType = wxEVT_TASKBAR_LEFT_UP;
-            break;
+        if ( !eventClose.GetSkipped() )
+            lReturnValue = DefWindowProc((HWND) hWnd, msg, wParam, lParam);
+        else
+            lReturnValue = 0;
+    }
+    else if ( WM_TASKBARCREATED == msg )
+    {
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARCREATED Detected"));
+        eventType = wxEVT_TASKBAR_CREATED;
+    }
+    else if ( WM_TASKBARSHUTDOWN == msg )
+    {
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARSHUTDOWN Detected"));
+        eventType = wxEVT_TASKBAR_SHUTDOWN;
+    }
+    if (msg != sm_taskbarMsg)
+        lReturnValue = DefWindowProc((HWND) hWnd, msg, wParam, lParam);
 
-        case WM_RBUTTONDOWN:
-            eventType = wxEVT_TASKBAR_RIGHT_DOWN;
-            break;
+    if ( 0 == eventType )
+    {
+        switch (lParam)
+        {
+            case WM_LBUTTONDOWN:
+                eventType = wxEVT_TASKBAR_LEFT_DOWN;
+                break;
 
-        case WM_RBUTTONUP:
-            eventType = wxEVT_TASKBAR_RIGHT_UP;
-            break;
+            case WM_LBUTTONUP:
+                eventType = wxEVT_TASKBAR_LEFT_UP;
+                break;
 
-        case WM_LBUTTONDBLCLK:
-            eventType = wxEVT_TASKBAR_LEFT_DCLICK;
-            break;
+            case WM_RBUTTONDOWN:
+                eventType = wxEVT_TASKBAR_RIGHT_DOWN;
+                break;
 
-        case WM_RBUTTONDBLCLK:
-            eventType = wxEVT_TASKBAR_RIGHT_DCLICK;
-            break;
+            case WM_RBUTTONUP:
+                eventType = wxEVT_TASKBAR_RIGHT_UP;
+                break;
 
-        case WM_MOUSEMOVE:
-            eventType = wxEVT_TASKBAR_MOVE;
-            break;
+            case WM_LBUTTONDBLCLK:
+                eventType = wxEVT_TASKBAR_LEFT_DCLICK;
+                break;
 
-        case WM_CONTEXTMENU:
-            eventType = wxEVT_TASKBAR_CONTEXT_MENU;
-            break;
+            case WM_RBUTTONDBLCLK:
+                eventType = wxEVT_TASKBAR_RIGHT_DCLICK;
+                break;
 
-        case NIN_SELECT:
-            eventType = wxEVT_TASKBAR_SELECT;
-            break;
+            case WM_MOUSEMOVE:
+                eventType = wxEVT_TASKBAR_MOVE;
+                break;
 
-        case NIN_KEYSELECT:
-            eventType = wxEVT_TASKBAR_KEY_SELECT;
-            break;
+            case WM_CONTEXTMENU:
+                eventType = wxEVT_TASKBAR_CONTEXT_MENU;
+                break;
 
-        case NIN_BALLOONSHOW:
-            eventType = wxEVT_TASKBAR_BALLOON_SHOW;
-            break;
+            case NIN_SELECT:
+                eventType = wxEVT_TASKBAR_SELECT;
+                break;
 
-        case NIN_BALLOONHIDE:
-            eventType = wxEVT_TASKBAR_BALLOON_HIDE;
-            break;
+            case NIN_KEYSELECT:
+                eventType = wxEVT_TASKBAR_KEY_SELECT;
+                break;
 
-        case NIN_BALLOONTIMEOUT:
-            eventType = wxEVT_TASKBAR_BALLOON_TIMEOUT;
-            break;
+            case NIN_BALLOONSHOW:
+                eventType = wxEVT_TASKBAR_BALLOON_SHOW;
+                break;
 
-        case NIN_BALLOONUSERCLICK:
-            eventType = wxEVT_TASKBAR_BALLOON_USERCLICK;
-            break;
+            case NIN_BALLOONHIDE:
+                eventType = wxEVT_TASKBAR_BALLOON_HIDE;
+                break;
 
-        default:
-            if ( WM_TASKBARCREATED == lParam )
-                eventType = wxEVT_TASKBAR_CREATED;
-            break;
+            case NIN_BALLOONTIMEOUT:
+                eventType = wxEVT_TASKBAR_BALLOON_TIMEOUT;
+                break;
+
+            case NIN_BALLOONUSERCLICK:
+                eventType = wxEVT_TASKBAR_BALLOON_USERCLICK;
+                break;
+        }
     }
 
     if (eventType)
     {
         wxTaskBarIconExEvent event(eventType, this);
         ProcessEvent(event);
+
+        lReturnValue = 0;
     }
 
-    return 0;
+    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::WindowProc - Function End"));
+    return lReturnValue;
 }
 
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam )

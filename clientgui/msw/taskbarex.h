@@ -26,7 +26,10 @@ class wxTaskBarIconExEvent;
 class wxTaskBarIconEx: public wxEvtHandler {
     DECLARE_DYNAMIC_CLASS(wxTaskBarIconEx)
 public:
+
     wxTaskBarIconEx(void);
+    wxTaskBarIconEx( wxChar* szWindowTitle );
+
     virtual ~wxTaskBarIconEx(void);
 
     enum ICONTYPES
@@ -69,7 +72,7 @@ public:
     static void AddObject(wxTaskBarIconEx* obj);
     static void RemoveObject(wxTaskBarIconEx* obj);
     static bool RegisterWindowClass();
-    static WXHWND CreateTaskBarWindow();
+    static WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
     static bool IsBalloonsSupported();
     long WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam );
 
@@ -114,6 +117,7 @@ DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW, 1561 )
 DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE, 1562 )
 DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT, 1563 )
 DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK, 1564 )
+DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN, 1565 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_TASKBAR_CREATED(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_CREATED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
@@ -124,6 +128,7 @@ END_DECLARE_EVENT_TYPES()
 #define EVT_TASKBAR_BALLOON_HIDE(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_HIDE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_TASKBAR_BALLOON_TIMEOUT(fn)      DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_TIMEOUT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_TASKBAR_CONTEXT_USERCLICK(fn)    DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_USERCLICK, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_TASKBAR_SHUTDOWN(fn)             DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_SHUTDOWN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif

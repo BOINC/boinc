@@ -99,6 +99,7 @@ bool CBOINCGUIApp::OnInit()
     wxLog::SetActiveTarget(m_pLog);
 
     m_pLog->AddTraceMask( wxT("Function Start/End") );
+    m_pLog->AddTraceMask( wxT("Function Status") );
 
     // Enable the in memory virtual file system for
     //   storing images

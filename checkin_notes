@@ -24291,3 +24291,30 @@ David  8 Feb 2005
         setup_project.py
     tools/
         make_project
+
+Rom    8 Feb 2005
+    - Bug Fix: Add the ability for setup to shutdown any running instances
+        of the BOINC Manager during install and uninstall.
+    - Bug Fix: Change "Launch the program" to "Launch the BOINC Manager"
+    - Bug Fix: Fix a number of event bubble up issues with the base
+        wxTaskBarEx class, the sample format provided with the wxWidget
+        framework leads down the wrong path if you try to extend the class.
+    - Bug Fix: Add another custom action dll to do the actual shutdown
+        of the BOINC Manager
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp, .h
+    clientgui/msw/
+        taskbarex.cpp, .h
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/Windows/src/ShutdownBOINCManager
+        ShutdownBOINCManager.cpp ( added )
+        ShutdownBOINCManager.def ( added )
+        ShutdownBOINCManager.sln ( added )
+        ShutdownBOINCManager.vcproj ( added )
+        stdafx.cpp, .h ( added )
+    win_build/installerv2/Windows/x86/
+        shutdown.dll
+    
