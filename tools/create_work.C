@@ -97,13 +97,13 @@ int main(int argc, char** argv) {
             nresults = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-rsc_fpops")) {
             i++;
-            wu.rsc_fpops = atof(argv[i+1]);
+            wu.rsc_fpops = atof(argv[i]);
         } else if (!strcmp(argv[i], "-rsc_iops")) {
             i++;
-            wu.rsc_iops = atof(argv[i+1]);
+            wu.rsc_iops = atof(argv[i]);
         } else if (!strcmp(argv[i], "-rsc_memory")) {
             i++;
-            wu.rsc_memory = atof(argv[i+1]);
+            wu.rsc_memory = atof(argv[i]);
         } else if (!strcmp(argv[i], "-rsc_disk")) {
             i++;
             wu.rsc_disk = atof(argv[i]);
@@ -156,6 +156,7 @@ int main(int argc, char** argv) {
 
 
     FILE* fkey = fopen(keyfile, "r");
+    rewind(fkey);
     if (!fkey) {
         printf("create_work: can't open key file (%s)\n", keyfile);
         exit(1);
