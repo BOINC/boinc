@@ -11274,3 +11274,7 @@ David  April 2 2004
     cs_scheduler.C
     hostinfo_unix.C
     main.C
+
+Jeff  April 2 2004
+     - tagged as seti_boinc_app_release_2_32 and released to alpha.
+
