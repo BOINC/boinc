@@ -176,10 +176,11 @@ bool FILE_XFER_SET::poll() {
                 printf("http op done; retval %d\n", fxp->http_op_retval);
             }
             if (fxp->http_op_retval == 0) {
+
                 // If this was a file size query, restart the transfer
                 // using the remote file size information
+                //
                 if (fxp->file_size_query) {
-                    // Parse the server's response.
                     retval = fxp->parse_server_response(fxp->fip->upload_offset);
 
                     if (retval) {

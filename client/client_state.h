@@ -114,7 +114,6 @@ private:
         // if nonzero, exit this many seconds after starting an app
     time_t app_started;
         // when the most recent app was started
-    int max_transfer_rate, max_bytes;
 
     int parse_account_files();
     int parse_state_file();
@@ -139,6 +138,7 @@ private:
     void print_summary();
     bool garbage_collect();
     bool update_results();
+    void install_global_prefs();
 
     // stuff related to scheduler RPCs
     //
@@ -165,7 +165,7 @@ private:
     bool scheduler_rpc_poll();
     void update_avg_cpu(PROJECT*);
     double estimate_duration(WORKUNIT*);
-    double current_water_days();
+    double current_work_buf_days();
 
     // the following could be eliminated by using map instead of vector
     //

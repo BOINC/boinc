@@ -57,7 +57,7 @@ int main() {
         "\015\012";
 
     while (1) {
-        nxs.poll(100000, n);
+        nxs.poll();
         switch(nxp->net_xfer_state) {
         case UNCONNECTED:
             if(nxp->is_connected) {

@@ -44,7 +44,7 @@ int main() {
     NET_XFER_SET nxs;
     HTTP_OP_SET hos(&nxs);
     FILE_XFER_SET fxs(&hos);
-    int retval, n;
+    int retval;
     FILE_XFER* fx1=0, *fx2 = 0;
     bool do_upload = true;
     bool do_download = false;
@@ -102,7 +102,7 @@ int main() {
     }
 
     while (1) {
-	nxs.poll(100000, n);
+	nxs.poll();
 	hos.poll();
         fxs.poll();
 	if (fx1 && fx1->file_xfer_done) {

@@ -76,8 +76,6 @@ CLIENT_STATE::CLIENT_STATE() {
     platform_name = HOST;
     exit_after_app_start_secs = 0;
     app_started = 0;
-    max_transfer_rate = 999999999;
-    max_bytes = 0;
     user_idle = true;
     use_http_proxy = false;
     use_socks_proxy = false;
@@ -92,6 +90,13 @@ CLIENT_STATE::CLIENT_STATE() {
     time_tests_id = 0;
 }
 
+void CLIENT_STATE::install_global_prefs() {
+    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
+    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
+    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
+    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
+}
+
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -104,6 +109,7 @@ int CLIENT_STATE::init() {
     if (retval) {
         printf("No global preferences file; will use defaults.\n");
     }
+    install_global_prefs();
 
     // parse account files.
     // If there are none, prompt user for project URL and create file
@@ -397,7 +403,6 @@ int CLIENT_STATE::net_sleep(double x) {
 // (in which case should call this again immediately)
 //
 bool CLIENT_STATE::do_something() {
-    int nbytes=0;
     bool action = false, x;
 
     if (check_time_tests() == TIME_TESTS_RUNNING) return false;
@@ -405,20 +410,15 @@ bool CLIENT_STATE::do_something() {
     check_suspend_activities();
 
     print_log("Polling; active layers:\n");
+    net_stats.poll(*net_xfers);
     if (activities_suspended) {
         print_log("None (suspended)\n");
     } else {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
 
-        if (max_bytes > 0) {
-            net_xfers->poll(max_bytes, nbytes);
-        }
-        if (nbytes) {
-            max_bytes -= nbytes;
-            action=true;
-            print_log("net_xfers\n");
-        }
+        x = net_xfers->poll();
+        if (x) { action=true; print_log("net_xfers\n"); }
 
         x = http_ops->poll();
         if (x) {action=true; print_log("http_ops\n"); }
@@ -454,13 +454,12 @@ bool CLIENT_STATE::do_something() {
         if (x) {action=true; print_log("update_results\n"); }
 
         if (write_state_file_if_needed()) {
-            fprintf(stderr, "CLIENT_STATE::do_something(): could not write state file");
+            fprintf(stderr, "Couldn't write state file");
         }
     }
     print_log("End poll\n");
     if (!action) {
         time_stats.update(true, !activities_suspended);
-        max_bytes = max_transfer_rate;
     }
     return action;
 }
@@ -1120,48 +1119,25 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
-            continue;
-        }        
-        if (!strcmp(argv[i], "-no_time_test")) {
+        } else if (!strcmp(argv[i], "-no_time_test")) {
             run_time_test = false;
-            continue;
-        }
-        if (!strcmp(argv[i], "-exit_after_app_start")) {
+        } else if (!strcmp(argv[i], "-exit_after_app_start")) {
             exit_after_app_start_secs = atoi(argv[++i]);
-            continue;
-        }
-
-        if (!strcmp(argv[i], "-giveup_after")) {
+        } else if (!strcmp(argv[i], "-giveup_after")) {
             giveup_after = atoi(argv[++i]);
-            continue;
-        }
-
-        if (!strcmp(argv[i], "-limit_transfer_rate")) {
-            max_transfer_rate = atoi(argv[++i]);
-            continue;
-        }
-
-        if (!strcmp(argv[i], "-min")) {
+        } else if (!strcmp(argv[i], "-min")) {
             global_prefs.run_minimized = true;
-            continue;
-        }
-        
+
         // the above options are private (i.e. not shown by -help)
 
-        if (!strcmp(argv[i], "-update_prefs")) {
+        } else if (!strcmp(argv[i], "-update_prefs")) {
             update_prefs = true;
-        }
-
-        if (!strcmp(argv[i], "-add_new_project")) {
+        } else if (!strcmp(argv[i], "-add_new_project")) {
             add_new_project();
-        }
-
-        if (!strcmp(argv[i], "-version")) {
+        } else if (!strcmp(argv[i], "-version")) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOST );
             exit(0);
-        }
-
-        if (!strcmp(argv[i], "-help")) {
+        } else if (!strcmp(argv[i], "-help")) {
             printf(
                 "Usage: %s [options]\n"
                 "    -version                show version info\n"
@@ -1169,6 +1145,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                 argv[0]
             );
             exit(0);
+        } else {
+            printf("Unknown option: %s\n", argv[i]);
+            exit(1);
         }
     }
 }

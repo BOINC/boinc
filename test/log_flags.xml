@@ -10,4 +10,5 @@
     <time_debug/>
     <http_debug/>
     <measurement_debug/>
+    <net_xfer_debug/>
 </log_flags>

@@ -47,7 +47,7 @@
 
 // estimate the days of work remaining
 //
-double CLIENT_STATE::current_water_days() {
+double CLIENT_STATE::current_work_buf_days() {
     unsigned int i;
     RESULT* rp;
     double seconds_remaining=0;
@@ -62,12 +62,12 @@ double CLIENT_STATE::current_water_days() {
     return (seconds_remaining / SECONDS_PER_DAY);
 }
 
-// seconds of work needed to come up to high-water mark
+// seconds of work needed to come up to the max buffer level
 //
 double CLIENT_STATE::work_needed_secs() {
-    double x = current_water_days();
-    if (x > global_prefs.high_water_days) return 0;
-    return (global_prefs.high_water_days - x)*SECONDS_PER_DAY;
+    double x = current_work_buf_days();
+    if (x > global_prefs.work_buf_max_days) return 0;
+    return (global_prefs.work_buf_max_days - x)*SECONDS_IN_DAY;
 }
 
 // update exponentially-averaged CPU times of all projects
@@ -267,15 +267,15 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 bool CLIENT_STATE::scheduler_rpc_poll() {
     double work_secs;
     PROJECT* p;
-    bool action=false, below_low_water, should_get_work;
+    bool action=false, below_work_buf_min, should_get_work;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
         if (exit_when_idle && contacted_sched_server) {
             should_get_work = false;
         } else {
-            below_low_water = (current_water_days() <= global_prefs.low_water_days);
-            should_get_work = below_low_water && some_project_rpc_ok();
+            below_work_buf_min = (current_work_buf_days() <= global_prefs.work_buf_min_days);
+            should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
             compute_resource_debts();
@@ -381,6 +381,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         );
         fclose(f);
         global_prefs.parse_file();
+        install_global_prefs();
     }
 
     // deal with project preferences (should always be there)

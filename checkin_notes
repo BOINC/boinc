@@ -3411,8 +3411,9 @@ David  Feb 22
         test.inc
 
 Seth  Feb 24
-    - changed windows graphics handling. client now has a child window in which all graphics
-        are displayed.  when an app is running, this window sends a message to the app telling 
+    - changed windows graphics handling.
+        client now has a child window in which all graphics are displayed.
+        when an app is running, this window sends a message to the app telling 
         it to draw on the window.
     
     api/
@@ -3421,3 +3422,48 @@ Seth  Feb 24
         wingui.C,h
         wingui_mainwindow.C,h
         wingui_sswindow.C,h (new)
+
+David  Feb 25 2003
+    - Implemented network throughput limits, part of global prefs.
+        There are separate limits for upload and download.
+        Implementation: the NET_XFER_SET objects now has fields for
+        1) the max # bytes/sec up and down (from global prefs)
+        2) the limit on bytes that can be xferred this second
+            Can go negative.  If it's negative, don't include
+            sockets in select().
+            Replenish every second.
+        This replaces an implementation that didn't work
+    - Reimplemented the way network throughput is measured.
+        The old way measured throughput for each file xfer, and kept an average.
+        This doesn't work with multiple simultaneous xfers.
+        The new way uses a NET_STATS::poll() function.
+        If there has been an active file xfer during the last poll period
+        (new logic in NET_XFER_SET lets you find this out)
+        then you add the duration of the polling period,
+        and the number of bytes transferred.
+        The reported throughput is averaged with throughput
+        from previous sessions of the core client.
+    - Increased file xfer blocksize from 4KB to 16KB
+    - Got rid of dynamic buffer allocation in NET_XFER
+    - Renamed "water days" to "work buf days" everywhere
+    NOTE:
+        clock() measure calling process CPU time, not time of day.
+        Use time(0) if you want time of day.
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        file_xfer.C
+        http.C
+        main.C
+        net_stats.C,h
+        net_xfer.C,h
+        pers_file_xfer.C
+        prefs.C,h
+        scheduler_op.C
+        test_file_xfer.C
+        test_http.C
+        test_net_xfer.C
+    test/
+        test.inc
+        test_uc.php

@@ -37,7 +37,7 @@ int main() {
     NET_XFER_SET nxs;
     HTTP_OP_SET hos(&nxs);
     HTTP_OP *op1=0, *op2=0, *op3=0;
-    int retval, n;
+    int retval;
 
 #ifdef _WIN32
     NetOpen();
@@ -71,7 +71,7 @@ int main() {
     hos.insert(op3);
 
     while (1) {
-	nxs.poll(100000, n);
+	nxs.poll();
 	hos.poll();
 	if (op1 && op1->http_op_done()) {
 	    printf("op1 done; status %d\n", op1->hrh.status);

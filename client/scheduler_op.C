@@ -38,7 +38,7 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     http_ops = h;
 }
 
-// try to get enough work to bring us up to high-water mark
+// try to get enough work to bring us up to max buffer level
 //
 int SCHEDULER_OP::init_get_work() {
     int retval;
@@ -69,7 +69,7 @@ int SCHEDULER_OP::init_get_work() {
 }
 
 // report results for a particular project.
-// also get work from that project if below high-water mark
+// also get work from that project if below max buffer level
 //
 int SCHEDULER_OP::init_return_results(PROJECT* p, double ns) {
     must_get_work = false;

@@ -22,17 +22,29 @@
 //
 
 #include <stdio.h>
+#include "net_xfer.h"
+
+// there's one of these each for upload and download
+//
+struct NET_INFO {
+    double delta_t;         // elapsed time of file transfer activity
+                            // in this session of client
+    double delta_nbytes;    // bytes transferred in this session
+    double last_bytes;
+    double starting_throughput; // throughput at start of session
+
+    void update(double dt, double nb, bool active);
+    double throughput();
+};
 
 class NET_STATS {
-    int last_update_up;
-    int last_update_down;
 public:
-    double bwup;
-    double bwdown;
+    double last_time;
+    NET_INFO up;
+    NET_INFO down;
 
     NET_STATS();
-    void update(bool is_upload, double nbytes, double nsecs);
-        // report a file transfer
+    void poll(NET_XFER_SET&);
     
     int write(FILE*, bool to_server);
     int parse(FILE*);

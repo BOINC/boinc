@@ -17,55 +17,70 @@
 // Contributor(s):
 //
 
+// NET_STATS estimates average network throughput,
+// i.e. the average total throughput in both the up and down directions.
+// Here's how it works: NET_STATS::poll() is called every second or so.
+// If there are any file transfers active,
+// it increments elapsed time and byte counts,
+// and maintains an exponential average of throughput.
+
 #include <string.h>
 
 #include "math.h"
 #include "parse.h"
 #include "time.h"
 
+#include "util.h"
 #include "error_numbers.h"
 #include "net_stats.h"
 
-// Is this a reasonable cutoff?
-#define SMALL_FILE_CUTOFF 32000
+#define EXP_DECAY_RATE (1./SECONDS_PER_DAY)
 
 NET_STATS::NET_STATS() {
-    last_update_up = 0;
-    last_update_down = 0;
-    bwup = 0;
-    bwdown = 0;
+    last_time = 0;
+    memset(&up, 0, sizeof(up));
+    memset(&down, 0, sizeof(down));
 }
 
-// Update network statistics
-void NET_STATS::update(bool is_upload, double nbytes, double nsecs) {
-    double w1, w2, bw;
-
-    // ignore small files since their transfer times don't
-    // reflect steady-state behavior
-
-    if (nbytes < SMALL_FILE_CUTOFF) return;
-
-    // The weight of the new item is a function of its size
-
-    w1 = 1 - exp(-nbytes/1.e7);
-    w2 = 1 - w1;
-    bw = nbytes/nsecs;
-
-    if (is_upload) {
-        if (!last_update_up) {
-            bwup = bw;
-        } else {
-            bwup = w1*bw + w2*bwup;
-        }
-        last_update_up = time(0);
-    } else {
-        if (!last_update_down) {
-            bwdown = bw;
-        } else {
-            bwdown = w1*bw + w2*bwdown;
-        }
-        last_update_down = time(0);
+void NET_INFO::update(double dt, double nb, bool active) {
+    if (active) {
+        delta_t += dt;
+        delta_nbytes += nb-last_bytes;
     }
+    last_bytes = nb;
+}
+
+double NET_INFO::throughput() {
+    double x, tp;
+    if (starting_throughput > 0) {
+        if (delta_t > 0) {
+            x = exp(delta_t*EXP_DECAY_RATE);
+            tp = delta_nbytes/delta_t;
+            return x*starting_throughput + (1-x)*tp;
+        } else {
+            return starting_throughput;
+        }
+    } else if (delta_t > 0) {
+        return delta_nbytes/delta_t;
+    }
+    return 0;
+}
+
+void NET_STATS::poll(NET_XFER_SET& nxs) {
+    double t, dt;
+    bool upload_active, download_active;
+
+    t = dtime();
+    if (last_time == 0) {
+        dt = 0;
+    } else {
+        dt = t - last_time;
+    }
+    last_time = t;
+
+    nxs.check_active(upload_active, download_active);
+    up.update(dt, nxs.bytes_up, upload_active);
+    down.update(dt, nxs.bytes_down, download_active);
 }
 
 // Write XML based network statistics
@@ -74,18 +89,11 @@ int NET_STATS::write(FILE* out, bool to_server) {
     fprintf(out,
         "<net_stats>\n"
         "    <bwup>%f</bwup>\n"
-        "    <bwdown>%f</bwdown>\n",
-        bwup,
-        bwdown
+        "    <bwdown>%f</bwdown>\n"
+        "</net_stats>\n",
+        up.throughput(),
+        down.throughput()
     );
-    if (!to_server) {
-        fprintf(out,
-            "    <last_update_up>%d</last_update_up>\n"
-            "    <last_update_down>%d</last_update_down>\n",
-            last_update_up, last_update_down
-        );
-    }
-    fprintf(out, "</net_stats>\n");
     return 0;
 }
 
@@ -93,14 +101,19 @@ int NET_STATS::write(FILE* out, bool to_server) {
 //
 int NET_STATS::parse(FILE* in) {
     char buf[256];
+    double bwup, bwdown;
 
     memset(this, 0, sizeof(NET_STATS));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</net_stats>")) return 0;
-        else if (parse_double(buf, "<bwup>", bwup)) continue;
-        else if (parse_double(buf, "<bwdown>", bwdown)) continue;
-        else if (parse_int(buf, "<last_update_up>", last_update_up)) continue;
-        else if (parse_int(buf, "<last_update_down>", last_update_down)) continue;
+        else if (parse_double(buf, "<bwup>", bwup)) {
+            up.starting_throughput = bwup;
+            continue;
+        }
+        else if (parse_double(buf, "<bwdown>", bwdown)) {
+            down.starting_throughput = bwdown;
+            continue;
+        }
         else fprintf(stderr, "NET_STATS::parse(): unrecognized: %s\n", buf);
     }
     return 1;

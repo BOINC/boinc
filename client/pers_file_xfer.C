@@ -32,15 +32,14 @@
 
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URLs is given.
-
+//
 // For download, the object attempts to download the file
 // from any of the URLs.
 // If one fails or is not available, try another,
 // using an exponential backoff policy to avoid flooding servers.
-
+//
 // For upload, try to upload the file to the first URL;
 // if that fails try the others.
-//
 
 PERS_FILE_XFER::PERS_FILE_XFER() {
     nretry = 0;
@@ -65,11 +64,9 @@ bool PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
     struct tm *newtime;
-    time_t aclock;
+    time_t now;
 
-    time( &aclock );                 /* Get time in seconds */
-    
-    newtime = localtime( &aclock );  /* Convert time to struct */
+
     // Decide whether to start a new file transfer
     //
     if (!gstate.start_new_file_xfer()) {
@@ -103,14 +100,17 @@ bool PERS_FILE_XFER::start_xfer() {
                 printf( "file_xfer insert failed\n" );
             }
             fxp->file_xfer_retval = retval;
-            handle_xfer_failure(aclock);
+            handle_xfer_failure(now);
             fxp = NULL;
             return false;
         }
         if (log_flags.file_xfer) {
+            now = time(0);
+            newtime = localtime(&now);
             printf(
                 "started %s of %s to %s at time: %s\n",
-                (is_upload ? "upload" : "download"), fip->name, fip->get_url(),asctime( newtime ) 
+                (is_upload ? "upload" : "download"), fip->name, fip->get_url(),
+                asctime(newtime) 
             );
         }
         return true;
@@ -143,7 +143,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
         }
     }
 
-    if(dtime() - last_time <= 2) {
+    if (dtime() - last_time <= 2) {
         time_so_far += dtime() - last_time;
     }
     last_time = dtime();
@@ -157,25 +157,23 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
         }
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
+            //
             if (fip->generated_locally) {
-                // If the file was generated locally (for upload), update stats
-                // and delete the local copy of the file if needed
-                gstate.net_stats.update(true, fip->nbytes, time_so_far);
-
                 // file has been uploaded - delete if not sticky
+                //
                 if (!fip->sticky) {
                     fip->delete_file();
                 }
                 fip->uploaded = true;
                 xfer_done = true;
             } else {
-                // Otherwise we downloaded the file.  Update stats, verify
-                // the file with RSA or MD5, and change permissions
-                gstate.net_stats.update(false, fip->nbytes, time_so_far);
+
+                // verify the file with RSA or MD5, and change permissions
+                //
                 get_pathname(fip, pathname);
                 retval = verify_downloaded_file(pathname, *fip);
                 if (retval) {
-                    fprintf(stdout, "checksum or signature error for %s\n", fip->name);
+                    printf("checksum or signature error for %s\n", fip->name);
                     fip->status = retval;
                 } else {
                     if (log_flags.file_xfer_debug) {
@@ -183,6 +181,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                     }
                     // Set the appropriate permissions depending on whether
                     // it's an executable or normal file
+                    //
                     retval = fip->set_permissions();
                     fip->status = FILE_PRESENT;
                 }
@@ -191,7 +190,8 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
         } else {
             handle_xfer_failure(now);
         }
-        // remove fxp from file_xfer_set here and deallocate it
+        // remove fxp from file_xfer_set and deallocate it
+        //
         gstate.file_xfers->remove(fxp);
         delete fxp;
         fxp = NULL;
@@ -215,11 +215,11 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
     // See if it's time to give up on the persistent file xfer
     //
     if ((cur_time - first_request_time) > gstate.giveup_after) {
-        // Set the associated files status to a ERR_GIVEUP_DOWNLOAD and ERR_GIVEUP_UPLOAD failure
-        if(is_upload)
+        if (is_upload) {
             fip->status = ERR_GIVEUP_UPLOAD;
-        else
+        } else {
             fip->status = ERR_GIVEUP_DOWNLOAD;
+        }
         xfer_done = true;
     }
     if (log_flags.file_xfer_debug) {
@@ -238,23 +238,29 @@ int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
     time( &aclock );                 /* Get time in seconds */
     
     newtime = localtime( &aclock );  /* Convert time to struct */
+
     // Cycle to the next URL to try
+    //
     fip->current_url = (fip->current_url + 1)%fip->urls.size();
 
     // If we reach the URL that we started at, then we have tried all
     // servers without success
+    //
     if (fip->current_url == fip->start_url) {
         nretry++;
         exp_backoff = exp(((double)rand()/(double)RAND_MAX)*nretry);
-        // Do an exponential backoff of e^nretry seconds, keeping
-        // within the bounds of PERS_RETRY_DELAY_MIN and
+
+        // Do an exponential backoff of e^nretry seconds,
+        // keeping within the bounds of PERS_RETRY_DELAY_MIN and
         // PERS_RETRY_DELAY_MAX
+        //
         next_request_time = cur_time+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
     }
     if (log_flags.file_xfer_debug) {
-      printf(
-         "exponential back off is %d, current_time is %s\n", (int) exp_backoff,asctime( newtime ) 
-         );
+        printf(
+            "exponential back off is %d, current_time is %s\n",
+            (int) exp_backoff,asctime(newtime) 
+        );
     }
     return 0;
 }

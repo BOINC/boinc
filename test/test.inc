@@ -243,7 +243,11 @@ class Project {
             if ($user->project_prefs) {
                 $pp = "<project_preferences>\n$user->project_prefs</project_preferences>\n";
             }
-            db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', 'foobar', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '$user->global_prefs', '$pp', 0, 'home')");
+            $gp = null;
+            if ($user->global_prefs) {
+                $gp = "<global_preferences>\n$user->global_prefs</global_preferences>\n";
+            }
+            db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', 'foobar', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '$gp', '$pp', 0, 'home')");
         }
 
         echo "adding apps\n";

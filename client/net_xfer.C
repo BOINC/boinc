@@ -104,7 +104,7 @@ int NET_XFER::open_server() {
         NetClose();
 #endif
         return -1;
-	}
+    }
 
 #ifdef _WIN32
     unsigned long one = 1;
@@ -128,13 +128,13 @@ int NET_XFER::open_server() {
             NetClose();
             return -1;
         }
-		if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), WM_TIMER, FD_READ|FD_WRITE )) {
-			errno = WSAGetLastError();
-			if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
-				closesocket(fd);
-				NetClose();
-				return -1;
-			}
+        if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), WM_TIMER, FD_READ|FD_WRITE )) {
+            errno = WSAGetLastError();
+            if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
+                closesocket(fd);
+                NetClose();
+                return -1;
+            }
         }
 #else
         if (errno != EINPROGRESS) {
@@ -152,7 +152,7 @@ int NET_XFER::open_server() {
 
 void NET_XFER::close_socket() {
 #ifdef _WIN32
-	NetClose();
+    NetClose();
     if (socket) closesocket(socket);
 #else
     if (socket) close(socket);
@@ -174,6 +174,17 @@ void NET_XFER::init(char* host, int p, int b) {
     blocksize = b;
     xfer_speed = 0;
     last_speed_update = 0;
+}
+
+NET_XFER_SET::NET_XFER_SET() {
+    max_bytes_sec_up = 0;
+    max_bytes_sec_down = 0;
+    bytes_left_up = 0;
+    bytes_left_down = 0;
+    bytes_up = 0;
+    bytes_down = 0;
+    up_active = false;
+    down_active = false;
 }
 
 // Insert a NET_XFER object into the set
@@ -205,46 +216,45 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 }
 
 // Transfer data to/from active streams
-// Nonblocking; keep doing I/O until would block.
-// Transfer at most max_bytes bytes.
-// TODO: implement other bandwidth constraints (ul/dl ratio, time of day)
+// Nonblocking; keep doing I/O until would block, or we hit rate limits,
+// or about .5 second goes by
 //
-int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
-    int n, retval;
+bool NET_XFER_SET::poll() {
+    double bytes_xferred;
+    int retval;
     struct timeval timeout;
+    time_t t = time(0);
+    bool action = false;
 
-    bytes_transferred = 0;
     while (1) {
-		timeout.tv_sec = timeout.tv_usec = 0;
-        retval = do_select(max_bytes, n, timeout);
-        if (retval) return retval;
-        if (n == 0) break;
-        max_bytes -= n;
-        bytes_transferred += n;
-        if (max_bytes < 0) break;
+        timeout.tv_sec = timeout.tv_usec = 0;
+        retval = do_select(bytes_xferred, timeout);
+        if (retval) break;
+        if (bytes_xferred == 0) break;
+        action = true;
+        if (time(0) != t) break;
     }
-    return 0;
+    return action;
 }
 
 // Wait at most x seconds for network I/O to become possible,
-// then do some of it.
+// then do a limited amount (one block per socket) of it.
 //
 int NET_XFER_SET::net_sleep(double x) {
-    int n, retval;
+    int retval;
+    double bytes_xferred;
     struct timeval timeout;
 
     timeout.tv_sec = (int)x;
     timeout.tv_usec = (int)(1000000*(x - (int)x));
-    retval = do_select(100000000, n, timeout);
+    retval = do_select(bytes_xferred, timeout);
     return retval;
 }
 
-// do a select and do I/O on as many sockets as possible.
+// do a select and do I/O on as many sockets as possible,
+// subject to rate limits
 // 
-int NET_XFER_SET::do_select(
-    int max_bytes, int& bytes_transferred, timeval& timeout
-) {
-    struct timeval zeros;
+int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
@@ -253,14 +263,23 @@ int NET_XFER_SET::do_select(
 #elif GETSOCKOPT_SOCKLEN_T
     socklen_t intsize = sizeof(int);
 #else
-    //int intsize = sizeof(int);
     socklen_t intsize = sizeof(int);
 #endif
+
+    time_t t = time(0);
+    if (t != last_time) {
+        last_time = t;
+        if (bytes_left_up < max_bytes_sec_up) {
+            bytes_left_up += max_bytes_sec_up;
+        }
+        if (bytes_left_down < max_bytes_sec_down) {
+            bytes_left_down += max_bytes_sec_down;
+        }
+    }
 
     bytes_transferred = 0;
 
     fd_set read_fds, write_fds, error_fds;
-    memset(&zeros, 0, sizeof(zeros));
 
     FD_ZERO(&read_fds);
     FD_ZERO(&write_fds);
@@ -273,13 +292,20 @@ int NET_XFER_SET::do_select(
         if (!nxp->is_connected) {
             FD_SET(net_xfers[i]->socket, &write_fds);
         } else if (net_xfers[i]->want_download) {
-            FD_SET(net_xfers[i]->socket, &read_fds);
+            if (bytes_left_down > 0) {
+                FD_SET(net_xfers[i]->socket, &read_fds);
+            } else {
+                if (log_flags.net_xfer_debug) printf("Throttling download\n");
+            }
         } else if (net_xfers[i]->want_upload) {
-            FD_SET(net_xfers[i]->socket, &write_fds);
+            if (bytes_left_up > 0) {
+                FD_SET(net_xfers[i]->socket, &write_fds);
+            } else {
+                if (log_flags.net_xfer_debug) printf("Throttling upload\n");
+            }
         }
         FD_SET(net_xfers[i]->socket, &error_fds);
     }
-    //n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &zeros);
     n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
     if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
     if (n == 0) return 0;
@@ -287,6 +313,8 @@ int NET_XFER_SET::do_select(
 
     // if got a descriptor, find the first one in round-robin order
     // and do I/O on it
+    // TODO: use round-robin order
+    //
     for (i=0; i<net_xfers.size(); i++) {
         nxp = net_xfers[i];
         fd = nxp->socket;
@@ -313,11 +341,17 @@ int NET_XFER_SET::do_select(
                     bytes_transferred += 1;
                 }
             } else if (nxp->do_file_io) {
-                if (max_bytes > 0) {
-                    retval = nxp->do_xfer(n);
-                    max_bytes -= n;
-                    bytes_transferred += n;
-                    nxp->update_speed(n);
+                retval = nxp->do_xfer(n);
+                nxp->update_speed(n);
+                bytes_transferred += n;
+                if (nxp->want_download) {
+                    down_active = true;
+                    bytes_left_down -= n;
+                    bytes_down += n;
+                } else {
+                    up_active = true;
+                    bytes_left_up -= n;
+                    bytes_up += n;
                 }
             } else {
                 nxp->io_ready = true;
@@ -325,7 +359,11 @@ int NET_XFER_SET::do_select(
         } else if (FD_ISSET(fd, &error_fds)) {
             if (log_flags.net_xfer_debug) printf("got error on socket %d\n", fd);
             nxp = lookup_fd(fd);
-            nxp->got_error();
+            if (nxp) {
+                nxp->got_error();
+            } else {
+                fprintf(stderr, "do_select(): nxp not found\n");
+            }
         }
     }
     return 0;
@@ -346,11 +384,10 @@ NET_XFER* NET_XFER_SET::lookup_fd(int fd) {
 //
 int NET_XFER::do_xfer(int& nbytes_transferred) {
     int n, m, nleft, offset;
-    char* buf = (char*)malloc(blocksize);
+    char buf[MAX_BLOCKSIZE];
 
     nbytes_transferred = 0;
 
-    if (!buf) return ERR_MALLOC;
     if (want_download) {
 #ifdef _WIN32
         n = recv(socket, buf, blocksize, 0);
@@ -363,11 +400,9 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
         if (n == 0) {
             io_done = true;
             want_download = false;
-            goto done;
         } else if (n < 0) {
             io_done = true;
             error = ERR_READ;
-            goto done;
         } else {
             nbytes_transferred += n;
             m = fwrite(buf, 1, n, file);
@@ -375,7 +410,6 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
                 fprintf(stdout, "Error: incomplete disk write\n");
                 io_done = true;
                 error = ERR_FWRITE;
-                goto done;
             }
         }
     } else if (want_upload) {
@@ -383,11 +417,11 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
         if (m == 0) {
             want_upload = false;
             io_done = true;
-            goto done;
+            return 0;
         } else if (m < 0) {
             io_done = true;
             error = ERR_FREAD;
-            goto done;
+            return 0;
         }
         nleft = m;
         offset = 0;
@@ -403,19 +437,17 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             if (n < 0) {
                 error = ERR_WRITE;
                 io_done = true;
-                goto done;
+                break;
             } else if (n < nleft) {
                 fseek( file, n+nbytes_transferred-blocksize, SEEK_CUR );
                 nbytes_transferred += n;
-                goto done;
+                break;
             }
             nleft -= n;
             offset += n;
             nbytes_transferred += n;
         }
     }
-done:
-    free(buf);
     return 0;
 }
 
@@ -423,10 +455,10 @@ done:
 // Decay speed by 1/e every second
 //
 void NET_XFER::update_speed(int nbytes) {
-    clock_t now,delta_t;
+    time_t now, delta_t;
     double x;
 
-    now = clock();
+    now = time(0);
     if (last_speed_update==0) last_speed_update = now;
     delta_t = now-last_speed_update;
     if (delta_t<=0) delta_t = 0;
@@ -441,4 +473,24 @@ void NET_XFER::got_error() {
     if (log_flags.net_xfer_debug) {
         printf("IO error on socket %d\n", socket);
     }
+}
+
+// return true if an upload is currently in progress
+// or has been since the last call to this.
+// Similar for download.
+//
+void NET_XFER_SET::check_active(bool& up, bool& down) {
+    unsigned int i;
+    NET_XFER* nxp;
+
+    up = up_active;
+    down = down_active;
+    for (i=0; i<net_xfers.size(); i++) {
+        nxp = net_xfers[i];
+        if (nxp->is_connected && nxp->do_file_io) {
+            nxp->want_download?down=true:up=true;
+        }
+    }
+    up_active = false;
+    down_active = false;
 }

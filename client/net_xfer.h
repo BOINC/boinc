@@ -27,6 +27,8 @@
 // The following classes provide an interface for polling
 // (non-blocking) network I/O.
 
+#define MAX_BLOCKSIZE   16384
+
 // represents a network connection, either being accessed directly
 // or being transferred to/from a file
 //
@@ -62,15 +64,31 @@ public:
     void got_error();
 };
 
+// bandwidth limitation is implemented at this level, as follows:
+// There are limits max_bytes_sec_up and max_bytes_sec_down.
+// We keep track of the last time and bytes_left_up and bytes_left_down;
+// Each second we reset these to zero.
+
 class NET_XFER_SET {
     vector<NET_XFER*> net_xfers;
 public:
+    NET_XFER_SET();
+    double max_bytes_sec_up, max_bytes_sec_down;
+        // user-specified limits on throughput
+    double bytes_left_up, bytes_left_down;
+        // bytes left to transfer in the current second
+    double bytes_up, bytes_down;
+        // total bytes transferred
+    bool up_active, down_active;
+        // has there been transfer activity since last call to check_active()?
+    time_t last_time;
     int insert(NET_XFER*);
     int remove(NET_XFER*);
-    int poll(int max_bytes, int& bytes_transferred);
+    bool poll();
     int net_sleep(double);
-    int do_select(int max_bytes, int& bytes_transferred, struct timeval& timeout);
+    int do_select(double& bytes_transferred, struct timeval& timeout);
     NET_XFER* lookup_fd(int);   // lookup by fd
+    void check_active(bool&, bool&);
 };
 
 #endif

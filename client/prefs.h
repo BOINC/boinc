@@ -40,12 +40,14 @@ struct GLOBAL_PREFS {
     bool run_minimized;
     bool run_on_startup;
     bool hangup_if_dialed;
-    double high_water_days;
-    double low_water_days;
+    double work_buf_max_days;
+    double work_buf_min_days;
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;
     double idle_time_to_run;
+    double max_bytes_sec_up;
+    double max_bytes_sec_down;
 
     GLOBAL_PREFS();
     int parse(FILE*);

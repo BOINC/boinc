@@ -40,12 +40,14 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
     run_on_startup = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
-    high_water_days = 3;
-    low_water_days = 1;
+    work_buf_max_days = 3;
+    work_buf_min_days = 1;
     disk_max_used_gb = 1;
     disk_max_used_pct = 0.5;
     disk_min_free_gb = 0.1;
     idle_time_to_run = 0;
+    max_bytes_sec_up = 1e9;
+    max_bytes_sec_down = 1e9;
 };
 
 // Parse XML global prefs
@@ -71,9 +73,9 @@ int GLOBAL_PREFS::parse(FILE* in) {
         } else if (match_tag(buf, "<run_on_startup/>")) {
             run_on_startup = true;
             continue;
-        } else if (parse_double(buf, "<high_water_days>", high_water_days)) {
+        } else if (parse_double(buf, "<work_buf_max_days>", work_buf_max_days)) {
             continue;
-        } else if (parse_double(buf, "<low_water_days>", low_water_days)) {
+        } else if (parse_double(buf, "<work_buf_min_days>", work_buf_min_days)) {
             continue;
         } else if (parse_double(buf, "<disk_max_used_gb>", disk_max_used_gb)) {
             continue;
@@ -82,6 +84,10 @@ int GLOBAL_PREFS::parse(FILE* in) {
         } else if (parse_double(buf, "<disk_min_free_gb>", disk_min_free_gb)) {
             continue;
         } else if (parse_double(buf, "<idle_time_to_run>", idle_time_to_run)) {
+            continue;
+        } else if (parse_double(buf, "<max_bytes_sec_up>", max_bytes_sec_up)) {
+            continue;
+        } else if (parse_double(buf, "<max_bytes_sec_down>", max_bytes_sec_down)) {
             continue;
         }
     }

@@ -39,7 +39,7 @@
 #include "log_flags.h"
 #include "http.h"
 
-#define HTTP_BLOCKSIZE  4096
+#define HTTP_BLOCKSIZE  16384
 
 // Breaks a url down into its server and file path components
 // TODO: deal with alternate protocols (ftp, gopher, etc) or disallow
