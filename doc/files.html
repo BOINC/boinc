@@ -1,35 +1,83 @@
-<h2>Compute model: files</h2>
+<h2>Compute model: storage</h2>
 
+<h3>Files</h3>
 <p>
-<b>Files</b> are inputs and outputs to applications,
-and the executable application programs.
-Each file has a <b>name</b> that is unique within the project.
-A file may also have one or more URLs,
-indicating where it is (or will be) located on data servers.
-Once a file is created (on the project server or on a participant host)
-it is immutable.
-
+The BOINC storage model is based on <b>files</b>.
+The inputs and outputs of applications,
+and the applications executables, are files.
 <p>
-Files have the following Boolean attributes:
+A file is described by an XML element of the form
+<pre>
+&lt;file_info>
+    &lt;name>foobar&lt;/name>
+    &lt;url>http://a.b.c/foobar&lt;/url>
+    &lt;url>http://x.y.z/foobar&lt;/url>
+    ...
+    &lt;md5_cksum>123123123123&lt;/md5_cksum>
+    &lt;nbytes>134423&lt;/nbytes>
+    [ &lt;executable/> ]
+    [ &lt;upload_when_present/> ]
+    [ &lt;sticky/> ]
+&lt;/file_info>
+</pre>
+The components are as follows:
 <ul>
-<li> Sticky
-<li> Upload-when-present
+<li>
+The <b>&lt;name></b> element gives the file's name,
+which must be unique within the project.
+
+<li> Each <b>&lt;url></b> element gives a URL
+where the file is (or will be) located on a data server.
+<li> The <b>&lt;md5_cksum></b> element
+is the MD5 checksum of the file,
+providing protection against corruption and spoofing.
+<li> The <b>&lt;nbytes></b> element is the size of the file in bytes
+(may be greater than 2^32).
+<li> The <b>&lt;sticky></b> element, if present,
+indicates that the file should be retained on the client
+after its initial use.
+<li> The <b>&lt;upload_when_present></b> element, if present,
+indicates that the file should be uploaded after it is created.
+<li> The <b>&lt;executable></b> element,
+if present, indicates that the file protections
+should be set to allow execution.
 </ul>
 
-Some files originate on hosts;
-i.e. as output files of applications.
-If the Upload-when-present flag is set,
-the file (when available) is uploaded to one of its URLs.
-If the Sticky flag is set, the file remains on the host
-(where, e.g., it will serve as input to a later computation).
+These attributes allow the specification of various types of files:
+for example, input or output files that are retained for
+use as input to later computations.
 
 <p>
-Other files originate in the back-end servers,
-and are placed on data servers.
-If the Sticky flag is set,
-the file is retained and a participant host after it is used.
+Once a file is created (on a data server or a participant host)
+it is immutable.
 
+<h3>File references</h3>
 <p>
-The core agent and scheduling server exchange descriptions of files.
-These descriptions include an MD5 checksum of the file,
-providing protection against corruption and spoofing.
+Files may be associated with
+<a href=work.html>workunits</a>,
+<a href=result.html>results</a> and
+<a href=app.html>application versions</a>.
+Each such association is represented by an XML element of the form
+
+<pre>
+&lt;file_ref>
+    &lt;file_name>foobar&lt;/file_name>
+    [ &lt;open_name>input&lt;/open_name> ]
+    [ &lt;fd>2&lt;/fd> ]
+    [ &lt;main_program/> ]
+&lt;/file_ref>
+</pre>
+
+The components are as follows:
+<ul>
+<li> The <b>&lt;file_name></b> element specifies a file.
+<li> The <b>&lt;open_name></b> element, if present,
+is the name by which the application will refer to the file
+(in a call to <b>fopen()</b>, for example).
+<li> The <b>&lt;fd></b> element, if present,
+indicates the file descriptor number by which the application
+will access the file.
+<li> The <b>&lt;main_program></b> element is used for
+files associated with application versions.
+It indicates that this file is the application's main program.
+</ul>

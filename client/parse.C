@@ -17,6 +17,13 @@
 // Contributor(s):
 //
 
+// A very crude interface for parsing XML files;
+// assumes all elements are either single-line or
+// have start and end tags on separate lines.
+// This is meant to be used ONLY for parsing XML files produced
+// by the BOINC scheduling server or client.
+// Could replace this with a more general parser.
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -44,10 +51,25 @@ bool parse_double(char* buf, char* tag, double& x) {
 bool parse_str(char* buf, char* tag, char* x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
+    p = strchr(p, '>');
     char* q = strchr(p+1, '<');
     *q = 0;
-    strcpy(x, p+strlen(tag));
+    strcpy(x, p+1);
     return true;
+}
+
+void parse_attr(char* buf, char* name, char* out) {
+    char* p, *q;
+
+    strcpy(out, "");
+    p = strstr(buf, name);
+    if (!p) return;
+    p = strchr(p, '"');
+    if (!p) return;
+    q = strchr(p+1, '"');
+    if (!q) return;
+    *q = 0;
+    strcpy(out, p+1);
 }
 
 void copy_stream(FILE* in, FILE* out) {

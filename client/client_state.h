@@ -47,6 +47,8 @@ private:
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
 
+    int version;
+    char* platform_name;
     HTTP_OP scheduler_op;
     PROJECT* scheduler_op_project;
     NET_XFER_SET* net_xfers;
@@ -68,7 +70,7 @@ private:
     int write_state_file_if_needed();
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);
-    int link_io_file_desc(PROJECT*, IO_FILE_DESC*);
+    int link_file_ref(PROJECT*, FILE_REF*);
     int link_app_version(PROJECT*, APP_VERSION*);
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);

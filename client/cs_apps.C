@@ -82,8 +82,14 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
+    APP_VERSION* avp;
 
-    if (!wup->avp->file_info->file_present) return false;
+    avp = wup->avp;
+    for (i=0; i<avp->app_files.size(); i++) {
+        fip = avp->app_files[i].file_info;
+        if (!fip->file_present) return false;
+    }
+
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
         if (!fip->file_present) return false;

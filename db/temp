@@ -1,5 +1,0 @@
-struct ENUM {
-    int active;
-    MYSQL_RES *rp;
-};
-

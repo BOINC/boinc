@@ -85,7 +85,7 @@ void struct_to_str(void* vp, char* q, int type) {
         avp = (APP_VERSION*)vp;
         sprintf(q,
             "id=%d, create_time=%d, appid=%d, version_num=%d, platformid=%d, "
-            "url='%s', md5_cksum='%s', nbytes=%f, "
+            "xml_doc='%s', "
             "min_core_version=%d, max_core_version=%d, "
             "message='%s', deprecated=%d",
             avp->id,
@@ -93,9 +93,7 @@ void struct_to_str(void* vp, char* q, int type) {
             avp->appid,
             avp->version_num,
             avp->platformid,
-            avp->url,
-            avp->md5_cksum,
-            avp->nbytes,
+            avp->xml_doc,
             avp->min_core_version,
             avp->max_core_version,
             avp->message,
@@ -243,9 +241,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	avp->appid = atoi(r[i++]);
 	avp->version_num = atoi(r[i++]);
 	avp->platformid = atoi(r[i++]);
-        strcpy(avp->url, r[i++]);
-        strcpy(avp->md5_cksum, r[i++]);
-	avp->nbytes = atof(r[i++]);
+        strcpy(avp->xml_doc, r[i++]);
 	avp->min_core_version = atoi(r[i++]);
 	avp->max_core_version = atoi(r[i++]);
         strcpy(avp->message, r[i++]);

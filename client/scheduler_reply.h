@@ -23,7 +23,8 @@
 struct SCHEDULER_REPLY {
     int hostid;
     int request_delay;
-    char error_message[256];
+    char message[1024];
+    char message_priority[256];
     PREFS prefs;
     vector<APP> apps;
     vector<FILE_INFO> file_infos;

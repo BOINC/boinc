@@ -78,7 +78,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
     request_delay = 0;
     hostid = 0;
-    strcpy(error_message, "");
+    strcpy(message, "");
+    strcpy(message_priority, "");
     send_prefs = false;
 }
 
@@ -95,8 +96,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     if (request_delay) {
         fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
     }
-    if (strlen(error_message)) {
-        fprintf(fout, "<error_message>%s</error_message>\n", error_message);
+    if (strlen(message)) {
+        fprintf(fout,
+            "<message priority=\"%s\">%s</message>\n",
+            message_priority,
+            message
+        );
     }
 
     if (hostid) {
@@ -193,25 +198,7 @@ int APP::write(FILE* fout) {
 }
 
 int APP_VERSION::write(FILE* fout, APP& app) {
-    fprintf(fout,
-        "<file_info>\n"
-        "    <name>%s_%d</name>\n"
-        "    <executable/>\n"
-        "    <url>%s</url>\n"
-        "    <md5_cksum>%s</md5_cksum>\n"
-        "</file_info>\n"
-        "<app_version>\n"
-        "    <app_name>%s</app_name>\n"
-        "    <file_name>%s_%d</file_name>\n"
-        "    <version_num>%d</version_num>\n"
-        "</app_version>\n",
-        app.name, id,
-        url,
-        md5_cksum,
-        app.name,
-        app.name, id,
-        version_num
-    );
+    fputs(xml_doc, fout);
     return 0;
 }
 

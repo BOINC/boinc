@@ -44,7 +44,8 @@ struct SCHEDULER_REQUEST {
 
 struct SCHEDULER_REPLY {
     int request_delay;          // don't request again until this time elapses
-    char error_message[256];    // if present, don't return anything else
+    char message[1024];
+    char message_priority[256];
     int hostid;                 // send this only if nonzero.
                                 // this tells client to reset rpc_seqno
     bool send_prefs;

@@ -1,54 +1,41 @@
-- test environment-var mechanism
-
-- design alpha/beta/prod mechanism for core and apps
-    Should have flag in host record
-    (maybe separate flags for core/app).
-    Project should control which hosts are alpha/beta.
-    Test.
-
-- include shared memory allocation with key data values (current running projects, est. time, etc) to allow easier development of third party addons (Eric)
+HIGH-PRIORITY (must be done to support SETI@home)
 
 - test versioning mechanisms for core
-    message, deprecation
+    send messages if either
+    1) some WU couldn't be sent because core is too old
+    2) no WUs could be sent because core is too old
 
 - test incompatible-core mechanism for apps
+    same as above?
 
 - test reporting of app errors
 
-- test sticky files
-
 - test checksumming of executables
 
-- test on a multiprocessor
-
-- mechanism for returning app stderr output to server? store in blob?
-
-- define logging system on client
-
 - proxy support
-
-- put core client version in client state file
 
 - add country, postal code to user
     collect on login
 
 - implement scheme for distributing scheduling server addresses
-    each project provides a URL for file with list of address,
+    each project provides a URL for file with list of scheduler address,
     and email address of "problems" contact
 
-- server-side estimates of WU time requirements
-    - DB entry for WU has int/FP/RAM/disk/net
+- implement and test hi/lo water mark scheme
+    - core client must estimate how much work it has left,
+        based on %done (if available) and time estimates
 
-- server sends only feasible WUs
-    - limit by RAM, disk
-    - test
+- CPU accounting in the presence of checkpoint/restart
+    core client periodically gets CPU time, accumulates in state file
 
-- review and complete documentation
+- scalable/efficient server architecture: alternatives
+    use our own process framework, shared memory for result/WU lists
+    use fast CGI w/ shared mem
 
-- define a notion of "app preferences": arbitrary XML edited on server,
-    passed to app client.
-    This could be used to e.g. select a color scheme for graphics
-    Could pass entire prefs?
+- measure hardware parameters: CPU speed, #CPUs, memory, disk
+    - define CPU benchmarks
+    - do this for other platforms
+    - Get info periodically rather than always at startup
 
 - core client / app trigger file interface
     core->app
@@ -86,12 +73,66 @@
         capable of offscreen drawing.
         OpenGL version?
 
-- CPU accounting in the presence of checkpoint/restart
-    core client periodically gets CPU time, accumulates in state file
+- GUI and screensaver around core client
+    design default (core client) display
+    screensaver options
+        move around screen?
+    system tray icon behavior
 
-- hi/lo water mark scheme
-    - core client must estimate how much work it has left,
-        based on %done (if available) and time estimates
+
+- get idle-only behavior without screensaver
+
+- Network retry policies
+    can't download file: when to give up? how to retry?
+        exponential backoff
+    can't upload file: when to give up/retry?
+    can't connect to sched server
+    error return from sched server
+
+- sched server should return total credit info (user, team?)
+    could display in default core client display
+
+- edit user account
+
+- team system
+--------------------------
+MEDIUM-PRIORITY (must be done for CM)
+
+- review and complete documentation
+
+- test sticky files
+
+- test multiple-file applications
+    change add.C to support multi-file applications
+
+- implement WU/result sequences
+
+--------------------------
+LOW-PRIORITY
+
+- implement checkpoint/restart for file transfers
+    use features of HTTP 1.1
+    Return an error to server if transfer fails
+    (store in DB in server)
+
+- implement and test the batch mechanism
+
+- test environment-var mechanism
+
+- test alpha/beta/prod for apps
+
+- test on a multiprocessor
+
+- define logging system on client
+
+- server-side estimates of WU time requirements
+    - DB entry for WU has int/FP/RAM/disk/net
+
+- server sends only feasible WUs
+    - limit by RAM, disk
+    - test
+
+- implement file upload/download requests
 
 - preferences
     finish PHP web interface
@@ -107,52 +148,24 @@
             implement in client
         control over priorities?
     
-- scalable/efficient server architecture: alternatives
-    use our own process framework, shared memory for result/WU lists
-    use fast CGI w/ shared mem
-
-- add size to FILE_INFO
-    server, client sides
-
-- implement checkpoint/restart for file transfers
-    use features of HTTP 1.1
-
-- measure bandwidth on each network xfer
-    maintain exponential average, weighted by #bytes xferred
-
-- measure hardware parameters: CPU speed, #CPUs, memory, disk
-    - define CPU benchmarks
-    - do this for other platforms
-    - Get info periodically rather than always at startup
+- define a notion of "app preferences": arbitrary XML edited on server,
+    passed to app client.
+    This could be used to e.g. select a color scheme for graphics
+    Could pass entire prefs?
 
 - NET_XFER_SET:: do_select: prevent one stream from starving others
-
-- GUI and screensaver around core client
-    design default (core client) display
-    screensaver options
-        move around screen?
-    system tray icon behavior
-
-- get idle-only behavior without screensaver
-
-- Network retry policies
-    can't download file: when to give up? how to retry?
-        exponential backoff
-    can't upload file: when to give up/retry?
-    can't connect to sched server
-    error return from sched server
-
-- implement WU/result sequences
 
 - add the ability to store input data directly in WU,
     and output directly in result (blob).
     For projects with small data.
 
-- implement file upload/download requests
+--------------------------
+DONE (may need test)
 
-- sched server should return total credit info (user, team?)
-    could display in default core client display
+- mechanism for returning app stderr output to server? store in blob?
 
-- edit user account
+- add size to FILE_INFO
+    server, client sides
 
-- team system
+- measure bandwidth on each network xfer
+    maintain exponential average, weighted by #bytes xferred

@@ -85,31 +85,34 @@ struct FILE_INFO {
     int delete_file();      // attempt to delete the underlying file
 };
 
-struct APP_VERSION {
-    char app_name[256];
-    char file_name[256];
-    int version_num;
-    APP* app;
-    PROJECT* project;
-    FILE_INFO* file_info;
-
-    int parse(FILE*);
-    int write(FILE*);
-};
-
-// describes a connection between a file and an application.
-// Either the app will use open() or fopen() to access the file
+// Describes a connection between a file and a workunit, result, or application.
+// In the first two cases,
+// the app will either use open() or fopen() to access the file
 // (in which case "open_name" is the name it will use)
 // or the app will be connected by the given fd (in which case fd is nonzero)
 //
-struct IO_FILE_DESC {
+struct FILE_REF {
     char file_name[256];
     char open_name[256];
     int fd;
+    bool main_program;
     FILE_INFO* file_info;
 
     int parse(FILE*, char*);
     int write(FILE*, char*);
+};
+
+struct APP_VERSION {
+    char app_name[256];
+    //char file_name[256];
+    int version_num;
+    APP* app;
+    PROJECT* project;
+    //FILE_INFO* file_info;
+    vector<FILE_REF> app_files;
+
+    int parse(FILE*);
+    int write(FILE*);
 };
 
 struct WORKUNIT {
@@ -121,7 +124,7 @@ struct WORKUNIT {
         // (TODO: use alpha/beta/prod scheme)
     char command_line[256];
     char env_vars[256];         // environment vars in URL format
-    vector<IO_FILE_DESC> input_files;
+    vector<FILE_REF> input_files;
     PROJECT* project;
     APP* app;
     APP_VERSION* avp;
@@ -134,7 +137,7 @@ struct WORKUNIT {
 struct RESULT {
     char name[256];
     char wu_name[256];
-    vector<IO_FILE_DESC> output_files;
+    vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
     bool is_compute_done;   // computation finished
     bool is_server_ack;     // ack received from scheduling server

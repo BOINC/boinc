@@ -27,7 +27,8 @@
 int SCHEDULER_REPLY::parse(FILE* in) {
     char buf[256];
 
-    strcpy(error_message, "");
+    strcpy(message, "");
+    strcpy(message_priority, "");
     request_delay = 0;
     hostid = 0;
 
@@ -70,7 +71,8 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             RESULT result;
             result.parse(in, "</result_ack>");
             result_acks.push_back(result);
-        } else if (parse_str(buf, "<error_message>", error_message)) {
+        } else if (parse_str(buf, "<message", message)) {
+            parse_attr(buf, "priority", message_priority);
             continue;
         } else {
             fprintf(stderr, "SCHEDULER_REPLY::parse: unrecognized %s\n", buf);

@@ -1,7 +1,7 @@
 <h2>Introduction</h2>
 
 <p>
-Berkeley Open Infrastructure for Network Computing (BOINC)
+Berkeley Open Infrastructure for Distributed Computing (BOINC)
 is a software platform for public-participation
 distributed computing projects like distributed.net and SETI@home.
 BOINC is distributed under the Mozilla license.
@@ -20,16 +20,17 @@ Participants can control how their resources are divided among the projects.
 
 <li> BOINC supports applications that produce or consume large amounts of data.
 It allows data distribution and collection to be
-spread across large numbers of servers,
-and it allows participant hosts to transfer data transparently
-over long time periods.
+spread across many servers,
+and it allows participant hosts to do large data transfers unobtrusively.
 
 <li> BOINC supports applications with extreme requirements for
 memory or other resources.
-Work is dispatched only to hosts able to handle it.
+Work units are dispatched only to hosts able to handle them.
 
-<li> BOINC applications can be developed in any compiled language
-(C, C++, Fortran).
+<li> BOINC applications can be developed in any language
+(C++, Fortran, Perl).
+An application can consist of several files
+(e.g. several programs and a coordinating script).
 New versions of applications can be released without participant download.
 Separate alpha, beta, and production versions
 are distributed to the appropriate set of hosts.

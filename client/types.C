@@ -176,17 +176,23 @@ int FILE_INFO::delete_file() {
 
 int APP_VERSION::parse(FILE* in) {
     char buf[256];
+    FILE_REF file_ref;
 
     strcpy(app_name, "");
-    strcpy(file_name, "");
+    //strcpy(file_name, "");
     version_num = 0;
     app = NULL;
     project = NULL;
-    file_info = NULL;
+    //file_info = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app_version>")) return 0;
         else if (parse_str(buf, "<app_name>", app_name)) continue;
-        else if (parse_str(buf, "<file_name>", file_name)) continue;
+        //else if (parse_str(buf, "<file_name>", file_name)) continue;
+        else if (match_tag(buf, "<file_ref>")) {
+            file_ref.parse(in, "</file_ref>");
+            app_files.push_back(file_ref);
+            continue;
+        }
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else fprintf(stderr, "APP_VERSION::parse(): unrecognized: %s\n", buf);
     }
@@ -194,34 +200,44 @@ int APP_VERSION::parse(FILE* in) {
 }
 
 int APP_VERSION::write(FILE* out) {
+    unsigned int i;
     fprintf(out,
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
-        "    <file_name>%s</file_name>\n"
-        "    <version_num>%d</version_num>\n"
-        "</app_version>\n",
-        app_name, file_name, version_num
+        //"    <file_name>%s</file_name>\n"
+        "    <version_num>%d</version_num>\n",
+        app_name,
+        //file_name,
+        version_num
+    );
+    for (i=0; i<app_files.size(); i++) {
+        app_files[i].write(out, "file_assoc");
+    }
+    fprintf(out,
+        "</app_version>\n"
     );
     return 0;
 }
 
-int IO_FILE_DESC::parse(FILE* in, char* end_tag) {
+int FILE_REF::parse(FILE* in, char* end_tag) {
     char buf[256];
 
     strcpy(file_name, "");
     strcpy(open_name, "");
     fd = -1;
+    main_program = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, end_tag)) return 0;
         else if (parse_str(buf, "<file_name>", file_name)) continue;
         else if (parse_str(buf, "<open_name>", open_name)) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
-        else fprintf(stderr, "IO_FILE_DESC::parse(): unrecognized: %s\n", buf);
+        else if (match_tag(buf, "<main_program/>")) main_program = true;
+        else fprintf(stderr, "FILE_REF::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
 
-int IO_FILE_DESC::write(FILE* out, char* tag) {
+int FILE_REF::write(FILE* out, char* tag) {
     fprintf(out, "    <%s>\n", tag);
     if (strlen(open_name)) {
         fprintf(out, "        <open_name>%s</open_name>\n", open_name);
@@ -233,13 +249,16 @@ int IO_FILE_DESC::write(FILE* out, char* tag) {
     if (fd >= 0) {
         fprintf(out, "        <fd>%d</fd>\n", fd);
     }
+    if (main_program) {
+        fprintf(out, "        <main_program/>\n");
+    }
     fprintf(out, "    </%s>\n", tag);
     return 0;
 }
 
 int WORKUNIT::parse(FILE* in) {
     char buf[256];
-    IO_FILE_DESC ifd;
+    FILE_REF file_ref;
 
     strcpy(name, "");
     strcpy(app_name, "");
@@ -255,8 +274,8 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_str(buf, "<command_line>", command_line)) continue;
         else if (parse_str(buf, "<env_vars>", env_vars)) continue;
         else if (match_tag(buf, "<input_file>")) {
-            ifd.parse(in, "</input_file>");
-            input_files.push_back(ifd);
+            file_ref.parse(in, "</input_file>");
+            input_files.push_back(file_ref);
             continue;
         }
         else fprintf(stderr, "WORKUNIT::parse(): unrecognized: %s\n", buf);
@@ -284,7 +303,7 @@ int WORKUNIT::write(FILE* out) {
 
 int RESULT::parse(FILE* in, char* end_tag) {
     char buf[256];
-    IO_FILE_DESC ifd;
+    FILE_REF file_ref;
 
     strcpy(name, "");
     strcpy(wu_name, "");
@@ -302,8 +321,8 @@ int RESULT::parse(FILE* in, char* end_tag) {
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<wu_name>", wu_name)) continue;
         else if (match_tag(buf, "<output_file>")) {
-            ifd.parse(in, "</output_file>");
-            output_files.push_back(ifd);
+            file_ref.parse(in, "</output_file>");
+            output_files.push_back(file_ref);
             continue;
         }
         else if (parse_double(buf, "<cpu_time>", cpu_time)) continue;

@@ -1,7 +1,13 @@
 <h2>The BOINC client/server protocol</h2>
 
+<h3>Protocol nucleus</h3>
 <p>
 The core client communicates with scheduling servers using HTTP.
+The following "nucleus" of the protocol should be considered immutable.
+This will allow any version of the core client to talk to
+any version of the scheduling server,
+and for the server, if needed,
+to tell the core client that it's out of date.
 The form of the request is:
 <pre>
 &lt;scheduler_request>
@@ -20,39 +26,46 @@ The form of the reply is:
 &lt;scheduler_reply>
     [ &lt;message priority="low"> arbitrary text &lt;/message> ... ]
     [ &lt;request_delay>3600&lt;/request_delay> ]
+    [ &lt;redirect>URL&lt;/redirect> ]
     ... other elements
 &lt;/scheduler_reply>
 </pre>
 
-<p>
-The "message" element provides message for the core client.
-If the priority is "high", the core client should do what it can
-to ensure the the participant sees the message
-(e.g., display it in a modal dialog).
+<p
+Each <b>message</b> element is a message to the participant.
+<ul>
+<li>
+If the priority is "high", the core client should try
+to ensure that the participant sees the message;
+for example, by displaying it in a popup window.
+It should not, however, wait for user input, as this
+could starve other projects.
 This should be reserved for situations where definitive action
 is required, e.g. the user must download a new version of the
 core client in order to continue participating in this project.
+<li>
 If the priority is "low" (default) the core client should
-allow the participant to see the message, but not require it;
-e.g., by writing the message to a log file.
-
+allow the participant to see the message, but should not require it.
+For example, it could the message to a log file.
+</ul>
 <p>
 A reply message can contain multiple message elements.
 
 <p>
-The optional "request_delay" tag instructs the client
+A <b>request_delay</b> element instructs the client
 to not issue another request until the indicated number
 of seconds has elapsed.
-
 <p>
-The above portion of the protocol should be considered immutable.
-This will allow any version of the core client to talk to
-any version of the scheduling server,
-and for the server, if needed,
-to tell the core client that it's hopelessly out of date.
+A <b>redirect</b> element gives the URL for a scheduling
+server for this project.
+If present, the core client should replace its list
+of scheduling servers for this project.
+The reply may contain multiple <b>redirect</b> elements.
+
+
+<h3>Extensible protocol</h3>
+<p>
 The remaining protocol may evolve over time.
-
-<p>
 Request elements include
 
 <pre>

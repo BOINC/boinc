@@ -9,50 +9,49 @@ David A.	April 11 2002
     - Pass in platform name, version number from Makefile
 	(platform name comes from configure)
 
-David A.	April 12 2002
-    - Think through application-version logic.  Here's how it works:
-	On the server side, WUs don't have a version number,
-	either in the DB or in the XML doc.
-	When the server sends a WU,
-	it precedes it with an <app> tag containing a version number.
-	This instructs the client to process all WUs included in
-	the reply using that app version.
-	On the client side, WU records DO have a version number
-	(obtained as above).
-    - Change the "add" program so that command-line arguments are named
-	(e.g., "-app_name" foo instead of just "foo")
-	Modify test scripts accordingly.
-    - Have the scheduler read static tables (platform, app, app_version)
-	into memory at the beginning (new class: DB_CACHE)
-	This is a first step towards making the server efficient
-	(also need to convert it to fast CGI)
-    - Have the scheduler use files of the form
-	/tmp/boinc_req_PID and /tmp/boinc_reply_PID
-	rather than fixed-named files
-    - Have the scheduler send back error message when it can't open files
-	
-    client
-	Makefile.in
-	client_state.C
-	cs_scheduler.C
-	hostinfo_unix.C
-	types.C,h
-    db
-	db.h
-	db_mysql.C
-    html_user
-	db.inc
-    sched
-	handle_request.C,h
-	main.C
-	server_types.C,h
-    test
-	*wu
-	init.inc
-    tools
-	add.C
-David A.	April 15, 2002
-    Change name from BOINC to BONC :-(
+David A.        May 15 2002
+    - Allow applications to have multiple files
+        (e.g. scripts, libraries, pre- and post-processing programs).
+        The app_version table now has an xml_doc field,
+        which contains a list of <file_info> and <file_ref> elements.
+        Note: the utility for adding applications (tools/add.C)
+        still handles only single-file applications.
+    - Changed IO_FILE_DESC to FILE_REF since it now represents
+        an association of a file to workunit, result or application
 
-David A.	April 25, 2002
-    Change name from BONC back to BOINC :-)
+    client
+        app.C
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        main.C
+        message.h (new)
+        parse.C,h
+        scheduler_reply.C,h
+        types.C,h
+        Makefile.in
+    db
+        db.h
+        db_mysql.C
+        schema.sql
+    doc
+        app.html (new)
+        files.html
+        index.html
+        intro.html
+        project.gif
+        project.html
+        project.png
+        protocol.html
+        result.html (new)
+        work.html
+    html_user
+        db.inc
+    sched
+        handle_request.C
+        server_types.C,h
+    test
+        test_uc.php
+        init.inc
+    tools
+        add.C

@@ -1,10 +1,10 @@
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
-    -DHOSTTYPE=\"@host@\" \
+    -DHOST=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = g++ $(CFLAGS) -I ../lib
+CC = @CC@ $(CFLAGS) -I ../lib
 
 CLIBS = @LIBS@
 
@@ -35,7 +35,6 @@ OBJS = \
     time_stats.o \
     types.o \
     util.o \
-    version.o \
     ../lib/md5_file.o \
     ../lib/md5.o
 
@@ -74,7 +73,7 @@ tar:
 	tar cf boinc_client.tar *.C *.h Makefile.in
 
 clean:
-	rm -f *.o $(PROGS) core dependencies config.cache
+	rm -f *.o $(PROGS) core dependencies Makefile config.cache
 
 dependencies: *.C
 	$(CC) -M *.C > dependencies

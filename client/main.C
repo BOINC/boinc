@@ -17,12 +17,22 @@
 // Contributor(s):
 //
 
+// command-line version of the BOINC core client
+
 #include <unistd.h>
 
 #include "accounts.h"
 #include "file_names.h"
 #include "log_flags.h"
 #include "client_state.h"
+
+void show_message(char* message, char* priority) {
+    if (!strcmp(priority, "high")) {
+        fprintf(stderr, "BOINC core client: %s\n", message);
+    } else {
+        printf("BOINC core client: %s\n", message);
+    }
+}
 
 int main(int argc, char** argv) {
     CLIENT_STATE cs;

@@ -71,9 +71,16 @@ struct APP_VERSION {
     int appid;
     int version_num;
     int platformid;
-    char url[256];
-    char md5_cksum[256];
-    double nbytes;
+
+    // describes app files. format:
+    // <file_info>...</file_info>
+    // ...
+    // <file_assocs>
+    //    <io_file_desc>...</io_file_desc>
+    //    ...
+    // </file_assocs>
+    //
+    char xml_doc[MAX_BLOB_SIZE];
 
     // The following defined for apps other than core client.
     // They let you handle backwards-incompatible changes to

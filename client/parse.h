@@ -23,5 +23,6 @@ extern bool parse(char*, char*);
 extern bool parse_int(char*, char*, int&);
 extern bool parse_double(char*, char*, double&);
 extern bool parse_str(char*, char*, char*);
+extern void parse_attr(char* buf, char* attrname, char* out);
 extern bool match_tag(char*, char*);
 extern void copy_stream(FILE* in, FILE* out);

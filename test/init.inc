@@ -1,16 +1,15 @@
 <?php
 
-define("HOME", "/disks/jill/a/inet_services/boinc_www/share/htdocs");
-define("DOWNLOAD_DIR", "$HOME/download");
-define("UPLOAD_DIR", "$HOME/upload");
-define("PLATFORM_NAME", "sparc-sun-solaris2.7");
-define("DOWNLOAD_URL", "http://localhost/download/");
+define("HOME", "home/david");
+define("DOWNLOAD_DIR", "$HOME/html/download");
+define("UPLOAD_DIR", "$HOME/html/upload");
+define("PLATFORM_NAME", "i686-pc-linux-gnu");
 define("VERSION", "1");
 define("CORE_CLIENT", "boinc_".VERSION."_".PLATFORM_NAME);
-define("PROJECTS", "localhost zoot");
+define("PROJECTS", "localhost.localdomain zoot");
     // directories to empty
-define("EMAIL_ADDR", "david@localhost");
-define("URL_BASE", "http://localhost/download");
+define("EMAIL_ADDR", "david@localhost.localdomain");
+define("URL_BASE", "http://localhost.localdomain/download");
     // data server URL root
 
 include_once("../html_user/db.inc");
@@ -47,10 +46,14 @@ function add_platform() {
     PassThru("../tools/add platform -platform_name ".PLATFORM_NAME);
 }
 
-function add_core_client() {
+function add_core_client_message($message, $priority) {
     PassThru("../tools/add app -app_name core_client -version ".VERSION);
-    PassThru("../tools/add app_version -app_name core_client -platform_name ".PLATFORM_NAME." -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir ".DOWNLOAD_DIR." -url_base ".URL_BASE);
+    PassThru("../tools/add app_version -app_name core_client -platform_name ".PLATFORM_NAME." -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir ".DOWNLOAD_DIR." -url_base ".URL_BASE." -message '$message' -message_priority '$priority'");
     PassThru("cp ../client/".CORE_CLIENT." ".DOWNLOAD_DIR);
+}
+
+function add_core_client() {
+    add_core_client_message("", "");
 }
 
 function add_app($name) {
@@ -60,7 +63,7 @@ function add_app($name) {
 }
 
 function create_work($x) {
-    PassThru("../tools/create_work $x -download_url " .DOWNLOAD_URL);
+    PassThru("../tools/create_work $x");
 }
 
 function run_client() {

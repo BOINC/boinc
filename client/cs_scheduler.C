@@ -25,8 +25,8 @@
 #include "file_names.h"
 #include "parse.h"
 #include "log_flags.h"
+#include "message.h"
 #include "scheduler_reply.h"
-#include "version.h"
 
 #include "client_state.h"
 
@@ -104,8 +104,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-	gplatform_name,
-	gversion,
+	platform_name,
+	version,
         work_req
     );
 
@@ -210,6 +210,10 @@ void CLIENT_STATE::handle_scheduler_reply(PROJECT* project) {
 
     f = fopen(SCHED_OP_RESULT_FILE, "r");
     retval = sr.parse(f);
+
+    if (strlen(sr.message)) {
+        show_message(sr.message, sr.message_priority);
+    }
 
     // copy new entities to client state
     //

@@ -1,75 +1,55 @@
 <body bgcolor=ffffff>
-<h2>Compute model: workunits and results</h2>
+<h2>Compute model: workunits</h2>
 
 <p>
 A <b>workunit</b> describes a computation to be performed.
+Workunits are maintained in the <b>workunit</b> table in the BOINC DB.
 The attributes of a workunit include:
 <ul>
-<li> The application it's associated with.
+<li> Its application.
 <li> Its name (unique across all workunits in the project).
-<li> A list of its input files.
-Each has an <b>input file association</b>
-that specifies the filename or file descriptor number
-by which the application will refer to the file.
-<li> The command-line arguments to be passed to the application.
-<li> The environment variables to be set for the application.
+<li> An XML document describing its input files and other parameters
+(see below).
 <li> The estimated resource requirements of the work unit
 (computation, memory, disk space, network traffic).
+<li> Counts of how many times this workunit should be dispatched,
+how many times it has been dispatched, how many results have
+been returned, and how many failures have occurred.
 </ul>
-
+<p>
+The inputs of a workunit are described by an XML document of the form
+<pre>
+[ &lt;file_info>...&lt;/file_info> ]
+[ ... ]
+&lt;workunit>
+    &lt;name>foobar&lt;/name>
+    &lt;app_name>blah&lt;/app_name>
+    [ &lt;command_line>-flags xyz&lt;/command_line> ]
+    [ &lt;env_vars>name=val&name=val&lt;/env_vars> ]
+    [ &lt;file_ref>...&lt;/file_ref> ]
+    [ ... ]
+&lt;workunit>
+</pre>
+The components are:
+<ul>
+<li> The <b>&lt;name></b> element is the name of the workunit.
+<li> The <b>&lt;app_name></b> element is the name of the application.
+<li> The <b>&lt;command_line></b> element, if present,
+is the command-line arguments to be passed to the main program.
+<li> The <b>&lt;env_vars></b> element, if present,
+is a list of environment variables to be passed to the main program.
+<li> Each <b>&lt;file_ref></b> element describes a
+<a href=files.html>reference</a> to an input file,
+each of which is described by a <b>&lt;file_info></b> element.
+</ul>
 <p>
 A workunit is associated with an application,
 not with a particular version or set of versions.
 If the format of your input data changes in a way that
 is incompatible with older versions,
 you must create a new application.
-This can often be avoided by using XML-like data representations.
+This can often be avoided by using XML data format.
 <p>
 
-A <b>result</b> describes a particular instance of a computation,
-either to be performed or already performed.
-The attributes of a result include:
-<ul>
-<li> The workunit it's associated with.
-<li> Its name (unique across all results in the project).
-<li> A list of its output files.
-Each has an <b>output file association</b>
-that specifies the filename or file descriptor number
-by which the application will refer to the file.
-<li> Its <b>state</b>.  Values include:
-<ul>
-<li> Inactive (not ready to dispatch)
-<li> Unsent (ready to dispatch, but not dispatched)
-<li> In progress (dispatched, not done)
-<li> Done successfully
-<li> Timed out
-<li> Done with error
-</ul>
-</ul>
-<p>
-Several results may be associated with a single workunit.
-Results may be generated in either of two ways
-(selected as part of the application):
-<ul>
-<li> <b>Advance generation</b> of results.
-One or more result records are stored in the database
-when the workunit is produced.
-The scheduling server dispatches each result to a single participant host.
-When all result records have been dispatched,
-participants hosts are "turned away".
-<li> <b>On-demand generation</b> of results.
-The application specifies a "result template",
-which has place-holder tokens for the output filenames.
-The scheduling server, in response to a host request,
-generates a new result record and sends the result template.
-The host generates unique output filenames,
-and returns them along when it the computation is done.
-</ul>
-<p>
-
-<hr>
-The following diagram illustrates the relationship between
-workunits, results, files, and I/O assocations.
-<p>
-
-<img src=work.gif>
+The <a href=tools.html>create_work</a> utility program
+provides a simplified interface for creating workunits.

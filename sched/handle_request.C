@@ -77,20 +77,22 @@ int authenticate_user(
     if (sreq.hostid) {
         retval = db_host(sreq.hostid, host);
         if (retval) {
-            strcpy(reply.error_message, "invalid hostid");
+            strcpy(reply.message, "Can't find host record");
+            strcpy(reply.message_priority, "low");
             return -1;
         }
         retval = db_user(host.userid, user);
         if (retval) {
-            strcpy(reply.error_message, "internal error - no such user");
+            strcpy(reply.message, "Can't find user record");
+            strcpy(reply.message_priority, "low");
             return -1;
         }
         if (strcmp(sreq.authenticator, user.authenticator)) {
-            strcpy(reply.error_message,
+            strcpy(reply.message,
                "Invalid or missing authenticator.  "
-               "Visit this project's web site to request your authenticator, "
-               "then cut and paste it into your accounts file."
+               "Visit this project's web site to get an authenticator."
             );
+            strcpy(reply.message_priority, "low");
             return -1;
         }
 
@@ -107,7 +109,8 @@ int authenticate_user(
         strcpy(user.authenticator, sreq.authenticator);
         retval = db_user_lookup_auth(user);
         if (retval) {
-            strcpy(reply.error_message, "invalid or missing authenticator");
+            strcpy(reply.message, "Invalid or missing authenticator");
+            strcpy(reply.message_priority, "low");
             return -1;
         }
 new_host:
@@ -120,7 +123,8 @@ new_host:
         host.rpc_time = time(0);
         retval = db_host_new(host);
         if (retval) {
-            strcpy(reply.error_message, "DB operation failed");
+            strcpy(reply.message, "server database error");
+            strcpy(reply.message_priority, "low");
             db_print_error("db_host_new");
             return -1;
         }
@@ -304,7 +308,8 @@ int send_work(
     }
 
     if (nresults == 0) {
-        strcpy(reply.error_message, "no work available");
+        strcpy(reply.message, "no work available");
+        strcpy(reply.message_priority, "low");
         reply.request_delay = 10;
     }
     return 0;
@@ -330,7 +335,8 @@ void process_request(
     platform = db.lookup_platform(sreq.platform_name);
     if (!platform) {
         sprintf(buf, "platform %s not found", sreq.platform_name);
-        strcpy(reply.error_message, buf);
+        strcpy(reply.message, buf);
+        strcpy(reply.message_priority, "low");
         return;
     }
 

@@ -24,7 +24,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/time.h>
 #include <sys/resource.h>
 #include <fcntl.h>
 #include <ctype.h>
@@ -91,7 +90,8 @@ int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], link_path[256];
     char* argv[100];
     unsigned int i;
-    IO_FILE_DESC ifd;
+    FILE_REF file_ref;
+    FILE_INFO* fip;
     int fd, retval;
 
 
@@ -104,28 +104,34 @@ int ACTIVE_TASK::start(bool first_time) {
         // knows there was a problem.
 
         // make a link to the executable
-        get_pathname(app_version->file_info, file_path);
-        strcpy(exec_name, app_version->file_info->name);
-        if (first_time) {
-            sprintf(link_path, "%s/%s", dirname, exec_name);
-            retval = link(file_path, link_path);
-            if (log_flags.task_debug) {
-                printf("link %s to %s\n", file_path, link_path);
+        //
+        for (i=0; i<app_version->app_files.size(); i++) {
+            fip = app_version->app_files[i].file_info;
+            get_pathname(fip, file_path);
+            if (i == 0) {
+                strcpy(exec_name, fip->name);
             }
-            if (retval) {
-                perror("link");
-                exit(retval);
+            if (first_time) {
+                sprintf(link_path, "%s/%s", dirname, fip->name);
+                retval = link(file_path, link_path);
+                if (log_flags.task_debug) {
+                    printf("link %s to %s\n", file_path, link_path);
+                }
+                if (retval) {
+                    perror("link");
+                    exit(retval);
+                }
             }
         }
         
         // create symbolic links, and hook up descriptors, for input files
         //
         for (i=0; i<wup->input_files.size(); i++) {
-            ifd = wup->input_files[i];
-            get_pathname(ifd.file_info, file_path);
-            if (strlen(ifd.open_name)) {
+            file_ref = wup->input_files[i];
+            get_pathname(file_ref.file_info, file_path);
+            if (strlen(file_ref.open_name)) {
                 if (first_time) {
-                    sprintf(link_path, "%s/%s", dirname, ifd.open_name);
+                    sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
                     if (log_flags.task_debug) {
                         printf("link %s to %s\n", file_path, link_path);
                     }
@@ -137,10 +143,10 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
             } else {
                 fd = open(file_path, O_RDONLY);
-                if (fd != ifd.fd) {
-                    retval = dup2(fd, ifd.fd);
+                if (fd != file_ref.fd) {
+                    retval = dup2(fd, file_ref.fd);
                     if (retval < 0) {
-                        fprintf(stderr, "dup2 %d %d returned %d\n", fd, ifd.fd, retval);
+                        fprintf(stderr, "dup2 %d %d returned %d\n", fd, file_ref.fd, retval);
                         exit(retval);
                     }
                     close(fd);
@@ -151,12 +157,12 @@ int ACTIVE_TASK::start(bool first_time) {
         // hook up the output files
         //
         for (i=0; i<result->output_files.size(); i++) {
-            ifd = result->output_files[i];
-            get_pathname(ifd.file_info, file_path);
-            if (strlen(ifd.open_name)) {
+            file_ref = result->output_files[i];
+            get_pathname(file_ref.file_info, file_path);
+            if (strlen(file_ref.open_name)) {
                 if (first_time) {
                     creat(file_path, 0660);
-                    sprintf(link_path, "%s/%s", dirname, ifd.open_name);
+                    sprintf(link_path, "%s/%s", dirname, file_ref.open_name);
                     if (log_flags.task_debug) {
                         printf("link %s to %s\n", file_path, link_path);
                     }
@@ -168,10 +174,10 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
             } else {
                 fd = open(file_path, O_WRONLY|O_CREAT, 0660);
-                if (fd != ifd.fd) {
-                    retval = dup2(fd, ifd.fd);
+                if (fd != file_ref.fd) {
+                    retval = dup2(fd, file_ref.fd);
                     if (retval < 0) {
-                        fprintf(stderr, "dup2 %d %d returned %d\n", fd, ifd.fd, retval);
+                        fprintf(stderr, "dup2 %d %d returned %d\n", fd, file_ref.fd, retval);
                         exit(retval);
                     }
                     close(fd);

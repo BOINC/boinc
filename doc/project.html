@@ -1,12 +1,9 @@
 <h2>Projects and applications</h2>
 <p>
-A <b>project</b> is an organization
-(e.g., an academic research project) that uses BOINC to get computing power.
+A <b>project</b> is an organization that uses BOINC.
 Projects are independent;
 each one manages its own applications, databases and servers,
 and is not affected by the status of other projects.
-
-<p>
 The components of a project are shown below.
 <br>
 <img vspace=10 src=project.png>
@@ -14,11 +11,17 @@ The components of a project are shown below.
 <p>
 The server side of a project consists of two parts:
 <ul>
-<li> A <b>project back end</b> part that generates
-computation input files, and handles the output of computations,
-in a way that depends on the particular application.
+<li> A <b>project back end</b> that supplies
+applications and work units,
+and that handles the computational results.
+Input and output files are distributed by <b>data servers</b>,
+which are HTTP servers able to handle uploads.
+These servers need not be owned or operated by the project.
+A project might, for example, recruit other organizations to
+donate network bandwidth by hosting data servers;
+data could be moved on tape between the project back end and the data servers.
 <li> A <b>BOINC server complex</b>
-that handles data distribution and collection.
+that manages data distribution and collection.
 </ul>
 
 The BOINC server complex includes the following components:
@@ -26,23 +29,7 @@ The BOINC server complex includes the following components:
 <li> A <b>scheduling server</b> that communicates with participant hosts.
 <li> A relational database storing information
 about work, results, and participants.
-<li> C and scripting-language interfaces for
-communication with the project back end.
+<li> Utility programs and libraries that allow the
+project back end to interact with the server complex.
 <li> Web interfaces for participants and developers.
 </ul>
-
-<p>
-Input and output files are distributed by <b>data servers</b>,
-which are HTTP servers able to handle uploads.
-These servers need not be owned or operated by the project.
-A project might, for example, recruit other organizations to
-donate network bandwidth by hosting data servers;
-data could be moved on tape between the project back end and the data servers.
-
-<h3>Applications and platforms</h3>
-<p>
-A project can operate one or more <b>applications</b>.
-Versions of an application are compiled for various <b>platforms</b>
-(Windows/Intel, Linux/Intel, MacOS/PPC, etc.).
-The BOINC core client is available for many platforms;
-a project can compile an application for any or all of these.

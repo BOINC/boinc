@@ -37,6 +37,8 @@ CLIENT_STATE::CLIENT_STATE() {
     exit_when_idle = false;
     contacted_sched_server = false;
     activities_suspended = false;
+    version = VERSION;
+    platform_name = HOST;
 }
 
 int CLIENT_STATE::init(ACCOUNTS& accounts) {
@@ -139,7 +141,7 @@ int CLIENT_STATE::parse_state_file() {
 
     if (!f) {
         if (log_flags.state_debug) {
-            printf("can't open state file: %s\n", STATE_FILE_NAME);
+            printf("No state file; will create one\n");
         }
         return ERR_FOPEN;
     }
@@ -187,6 +189,11 @@ int CLIENT_STATE::parse_state_file() {
             net_stats.parse(f);
         } else if (match_tag(buf, "<active_task_set>")) {
             active_tasks.parse(f, this);
+        } else if (match_tag(buf, "<platform_name>")) {
+            // should match out current platform name
+        } else if (match_tag(buf, "<version>")) {
+            // could put logic here to detect incompatible state files
+            // after core client update
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
         }
@@ -246,6 +253,12 @@ int CLIENT_STATE::write_state_file() {
         }
     }
     active_tasks.write(f);
+    fprintf(f,
+        "<platform_name>%s</platform_name>\n"
+        "<version>%d</version>\n",
+        platform_name,
+        version
+    );
     fprintf(f, "</client_state>\n");
     fclose(f);
     retval = rename(STATE_FILE_TEMP, STATE_FILE_NAME);
@@ -307,7 +320,7 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
 }
 
 // functions to create links between state objects
-// (which, in their XML form, refer to one another by name)
+// (which, in their XML form, reference one another by name)
 //
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
     app->project = p;
@@ -322,6 +335,10 @@ int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
 int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     APP* app;
     FILE_INFO* fip;
+    FILE_REF file_ref;
+    unsigned int i;
+
+    avp->project = p;
 
     app = lookup_app(p, avp->app_name);
     if (!app) {
@@ -330,30 +347,34 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         );
         return 1;
     }
-    fip = lookup_file_info(p, avp->file_name);
-    if (!fip) {
-        fprintf(stderr,
-            "app_version refers to nonexistent file: %s\n", avp->file_name
-        );
-        return 1;
-    }
-    avp->project = p;
     avp->app = app;
-    avp->file_info = fip;
+
+    for (i=0; i<avp->app_files.size(); i++) {
+        file_ref = avp->app_files[i];
+        fip = lookup_file_info(p, file_ref.file_name);
+        if (!fip) {
+            fprintf(stderr,
+                "app_version refers to nonexistent file: %s\n",
+                file_ref.file_name
+            );
+            return 1;
+        }
+        avp->app_files[i].file_info = fip;
+    }
     return 0;
 }
 
-int CLIENT_STATE::link_io_file_desc(PROJECT* p, IO_FILE_DESC* ifd) {
+int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
     FILE_INFO* fip;
 
-    fip = lookup_file_info(p, ifd->file_name);
+    fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
         fprintf(stderr,
-            "I/O desc links to nonexistent file: %s\n", ifd->file_name
+            "I/O desc links to nonexistent file: %s\n", file_refp->file_name
         );
         return 1;
     }
-    ifd->file_info = fip;
+    file_refp->file_info = fip;
     return 0;
 }
 
@@ -382,7 +403,7 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     wup->app = app;
     wup->avp = avp;
     for (i=0; i<wup->input_files.size(); i++) {
-        retval = link_io_file_desc(p, &wup->input_files[i]);
+        retval = link_file_ref(p, &wup->input_files[i]);
         if (retval) return retval;
     }
     return 0;
@@ -401,7 +422,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     rp->wup = wup;
     rp->app = wup->app;
     for (i=0; i<rp->output_files.size(); i++) {
-        retval = link_io_file_desc(p, &rp->output_files[i]);
+        retval = link_file_ref(p, &rp->output_files[i]);
         if (retval) return retval;
     }
     return 0;

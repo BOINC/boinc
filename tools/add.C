@@ -48,10 +48,12 @@ int main(int argc, char** argv) {
     USER user;
     PREFS prefs;
     int i, version, retval;
-    char buf[256];
+    double nbytes;
+    char buf[256], md5_cksum[64];
     char *app_name=0, *platform_name=0, *exec_dir=0, *exec_file=0;
     char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
     char *prefs_file=0, *download_dir, *url_base;
+    char *message=0, *message_priority=0;
 
     db_open("boinc");
     for (i=2; i<argc; i++) {
@@ -94,6 +96,12 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-version")) {
             i++;
             version = atoi(argv[i]);
+        } else if (!strcmp(argv[i], "-message")) {
+            i++;
+            message = argv[i];
+        } else if (!strcmp(argv[i], "-message_priority")) {
+            i++;
+            message_priority = argv[i];
         }
     }
     if (!strcmp(argv[1], "app")) {
@@ -117,7 +125,6 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(argv[1], "app_version")) {
         memset(&app_version, 0, sizeof(app_version));
-        sprintf(app_version.url, "%s/%s", url_base, exec_file);
 
         strcpy(app.name, app_name);
         retval = db_app_lookup_name(app);
@@ -134,6 +141,8 @@ int main(int argc, char** argv) {
         }
         app_version.platformid = platform.id;
         app_version.version_num = version;
+        if (message) strcpy(app_version.message, message);
+        if (message_priority) strcpy(app_version.message, message_priority);
 
         // copy executable to download directory
         //
@@ -151,7 +160,35 @@ int main(int argc, char** argv) {
         // compute checksum of executable
         //
         sprintf(buf, "%s/%s", exec_dir, exec_file);
-        md5_file(buf, app_version.md5_cksum, app_version.nbytes);
+        md5_file(buf, md5_cksum, nbytes);
+
+        // generate the XML doc directly.
+        // TODO: use a template, as in create_work
+        //
+        sprintf(app_version.xml_doc,
+            "<file_info>\n"
+            "    <name>%s</name>\n"
+            "    <url>%s/%s</url>\n"
+            "    <executable/>\n"
+            "    <md5_cksum>%s</md5_cksum>\n"
+            "    <nbytes>%f</nbytes>\n"
+            "</file_info>\n"
+            "<app_version>\n"
+            "    <app_name>%s</app_name>\n"
+            "    <version_num>%d</version_num>\n"
+            "    <file_ref>\n"
+            "        <file_name>%s</file_name>\n"
+            "        <main_program/>\n"
+            "    </file_ref>\n"
+            "</app_version>\n",
+            exec_file,
+            url_base, exec_file,
+            md5_cksum,
+            nbytes,
+            app_name,
+            version,
+            exec_file
+        );
 
         app_version.create_time = time(0);
         retval = db_app_version_new(app_version);

@@ -39,8 +39,11 @@ function show_app_version($app_version) {
     row("app ID", $app_version->appid);
     row("version num", $app_version->version_num);
     row("platform ID", $app_version->platformid);
-    row("url", $app_version->url);
-    row("MD5", $app_version->md5_cksum);
+    row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
+    row("min_core_version", $app_version->min_core_version);
+    row("max_core_version", $app_version->max_core_version);
+    row("message", $app_version->message);
+    row("deprecated", $app_version->deprecated);
     echo "</table>";
 }
 
