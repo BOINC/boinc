@@ -1,15 +1,14 @@
 <?php
 require_once("docutil.php");
 
-page_head("Creating busy work");
+page_head("Creating work on demand");
 echo "
 <p>
 The daemon program
 <pre>
-busy_work -wu_name name -cushion N
+make_work -wu_name name -cushion N
 </pre>
-creates an endless supply of work.
-Specifically, it creates copies of the given work unit
+creates copies of the given work unit
 as needed to maintain a supply of at least N unsent results.
 
 <p>

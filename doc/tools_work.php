@@ -30,7 +30,7 @@ and deletes files.
 
 <p>
 During the testing phase of a project,
-you can use the <a href=busy_work.php>busy_work</a> daemon
+you can use the <a href=busy_work.php>make_work</a> daemon
 to replicate a given workunit as needed to maintain
 a constant supply of work.
 This is useful while testing and debugging the application.

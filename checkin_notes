@@ -22463,3 +22463,11 @@ David  9 Jan 2005
         db_base.C,h
     sched/
         transitioner.C
+
+David  10 Jan 2005
+    - client: fix bug where "requesting more work" messages
+        are generate every second when all projects are suspended
+
+    client/
+        client_types.h
+        cs_scheduler.C

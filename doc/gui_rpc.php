@@ -103,16 +103,12 @@ list_item_func(
 	"Get proxy settings"
 );
 list_item_func(
-    "get_messages(
-    int seqno,
-    vector<MESSAGE_DESC>&
-)",
-    "Returns a list of (user-level) messages.
+    "get_messages(int seqno, MESSAGES&)",
+    "Returns a list of messages to be displayed to the user.
     Each message has a sequence number (1, 2, ...),
-    a priority (1=informational, 2=error)
-    and a timestamp.
-    The RPC requests the messages with sequence numbers greater than M.
-    They are returned in order of increasing sequence number."
+    a priority (1=informational, 2=error) and a timestamp.
+    The RPC requests the messages with sequence numbers greater than 'seqno',
+    in order of increasing sequence number."
 );
 list_item_func(
     "file_transfer_op(FILE_TRANSFER&, char* op)",

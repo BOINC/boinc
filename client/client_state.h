@@ -268,7 +268,7 @@ private:
 
     PROJECT* find_project_with_overdue_results();
     PROJECT* next_project_sched_rpc_pending();
-    bool some_project_rpc_ok();
+    //bool some_project_rpc_ok();
     bool scheduler_rpc_poll(double);
     double ettprc(PROJECT*, int);
     double avg_proc_rate(PROJECT*);

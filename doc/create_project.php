@@ -21,6 +21,7 @@ BOINC's abstractions of data and computation.
 <li><a href=redundancy.php>Redundancy and errors</a>
 <li><a href=homogeneous_redundancy.php>Homogeneous redundancy</a>
 <li><a href=work_distribution.php>Work distribution</a>
+<li><a href=sched_locality.php>Locality scheduling</a>
 <li><a href=trickle.php>Trickle messages</a>
 <!--
 <li><a href=batch.php>Batches</a>
@@ -66,6 +67,7 @@ How to configure and compile the BOINC software.
 <li> <a href=build_client.php>Building the core client</a>
 <li> <a href=test.php>Test applications and scripts</a>
 <li> <a href=http://noether.vassar.edu/~myers/help/boinc/boinc-on-redhat.html>Compiling BOINC on Red Hat Linux 7.x</a> (by Eric Myers)
+<li> <a href=ssl_build.txt>Build instructions for SSL (Secure Socket Layer) client</a>
 </ul>
 
 <font size=+1><b>
@@ -143,6 +145,7 @@ Communicating with participants
 </font>
 <ul>
 <li> <a href=web.php>Managing the project web site</a>
+<li> <a href=gui_urls.php>Add project-specific links to the client GUI</a>
 </ul>
 ";
 page_tail();

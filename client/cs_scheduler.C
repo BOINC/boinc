@@ -318,6 +318,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     return 0;
 }
 
+#if 0
 // return true if we're allowed to do a scheduler RPC to at least one project
 //
 bool CLIENT_STATE::some_project_rpc_ok() {
@@ -329,6 +330,7 @@ bool CLIENT_STATE::some_project_rpc_ok() {
     }
     return false;
 }
+#endif
 
 // return the average number of CPU seconds completed by the client
 // for project p in a second of (wall-clock) time
@@ -388,12 +390,14 @@ int CLIENT_STATE::compute_work_requests() {
     //
     for (i=0; i<projects.size(); ++i) {
         PROJECT *p = projects[i];
-        int min_results = proj_min_results(p, ncpus);
-        double estimated_time_to_starvation = ettprc(p, min_results-1);
 
         p->work_request = 0;
         if (p->min_rpc_time >= now) continue;
         if (p->dont_request_more_work) continue;
+        if (p->suspended_via_gui) continue;
+
+        int min_results = proj_min_results(p, ncpus);
+        double estimated_time_to_starvation = ettprc(p, min_results-1);
 
         // determine urgency
         //

@@ -1,6 +1,10 @@
 Boinc Core Client - HTTPS implementation
 ========================================
 
+This document describes how to compile a BOINC client
+that uses Secure Socket Layer (SSL) to communicate with servers.
+This is not currently supported.
+
 BUILD PROCEDURES
 
 1    Build OpenSSL Static library which works with Boinc Client on Windows

@@ -23,38 +23,43 @@ computer resources
 <table width=100% border=0 cellspacing=0 cellpadding=10>
 <tr>
 <td valign=top width=40%>
-<a href=intro.php>Overview of BOINC</a>
+";
 
-<br><br>
-<a href=participate.php>Participate</a>
-<br>
-&nbsp;&nbsp;&nbsp;
-<font size=-2>
-Donate computing power to BOINC-based projects.</font>
+function section($title, $url, $subtitle=null) {
+    echo "<a href=$url><font size=+1 >$title</font></a>\n";
+    if ($subtitle) {
+        echo "<br> &nbsp;&nbsp;&nbsp;$subtitle\n";
+    }
+    echo "<br><br>\n";
+}
 
-<br><br>
-<a href=create_project.php>Create a BOINC project</a>
-<br>
-&nbsp;&nbsp;&nbsp;
-<font size=-2>
-Use BOINC to develop distributed applications
-</font>
+section("
+    Overview", "intro.php"
+);
+section(
+    "Participate", "participate.php",
+    "Donate computing power to BOINC-based projects"
+);
 
-<br><br>
-<a href=boinc_dev.php>BOINC development</a>
-<br>
-&nbsp;&nbsp;&nbsp;
-<font size=-2>
-Help debug and enhance BOINC software.
-</font>
-
-<br><br>
-<a href=community.php>Community and resources</a>
-
-<br><br>
-<a href=contact.php>Acknowledgements</a>
-
-<br><br>
+section(
+    "Create a BOINC project",
+    "create_project.php",
+    "Use BOINC to develop distributed applications"
+);
+section(
+    "Software development",
+    "boinc_dev.php",
+    "Help debug and enhance BOINC software"
+);
+section(
+    "Community and resources",
+    "community.php"
+);
+section(
+    "Acknowledgements",
+    "contact.php"
+);
+echo "
 <hr noshade size=0>
 <img align=left src=nsf.gif>
 BOINC is supported by the

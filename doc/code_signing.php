@@ -38,11 +38,12 @@ Unix/Linux, but it should be easy to compile
 crypt_prog for Windows too).
 
 <li>
-Run 'crypt_prog -gen_key' to create a code-signing key pair.
+Run 'crypt_prog -genkey' to create a code-signing key pair.
 Copy the public key to your server.
 Keep the private key on the code-signing machine,
-and also make a permanent, secure copy of the key pair
-(e.g. on a CD-ROM that you keep locked up).
+make a permanent, secure copy of the key pair
+(e.g. on a CD-ROM that you keep locked up),
+and delete all other copies of the private key.
 
 <li>
 To sign an executable file, move it to the code-signing machine,

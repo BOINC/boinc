@@ -5,9 +5,9 @@ echo "
 The following functions can be used in your validator and assimilator code:
 <hr>
 
-<pre>
+".html_text("
 int get_output_file_path(RESULT const&, std::string&);
-</pre>
+"),"
 Returns the path of a result's output file
 (parses result.xml_doc_out and computes the file's position in the
  <a href=hier_dir.php>hierarchical directory structure</a>).
@@ -17,9 +17,9 @@ Note: this function doesn't handle multiple output files
 (if there are multiple files, it returns the path of the first one).
 If your application has multiple output files, see below.
 <hr>
-<pre>
+".html_text("
 int try_fopen(char* path, FILE*& f, char* mode);
-</pre>
+")."
 Open a file, distinguishing between recoverable and nonrecoverable errors.
 Returns zero on success.
 Returns ERR_FOPEN if the directory is present but not the file
@@ -27,9 +27,9 @@ Returns ERR_FOPEN if the directory is present but not the file
 Returns ERR_OPENDIR if the directory is not there
 (this is generally a recoverable error, like NFS mount failure).
 <hr>
-<pre>
+".html_text("
 double median_mean_credit(vector<RESULT> const& results);
-</pre>
+")."
 Given a vector of N correct results, computes a canonical credit as follows:
 <ul>
 <li> if N==1, return that result's claimed credit
@@ -42,14 +42,12 @@ and return the average of the rest.
 If your application has multiple output files
 you'll need to generalize get_output_file_path().
 To do this you'll need to know the following:
-</b>
 
 <p>
 The database field 'result.xml_doc_out'
 describes a result's output files.
 It has the form
-<pre>
-",htmlspecialchars("
+".html_text("
 <file_info>...</file_info>
 [ ... ]
 <result>
@@ -60,7 +58,6 @@ It has the form
     [ ... ]
 </result>
 "),"
-</pre>
 The components are:
 <ul>
 <li> The <b>&lt;name></b> element is the result name.

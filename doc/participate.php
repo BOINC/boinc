@@ -11,8 +11,8 @@ echo "
 <li> <a href=download.php>Download client software</a>
 <li> Installing and running the BOINC client
 <ul>
-<li> <a href=client_windows.php>Windows GUI</a>
-<li> <a href=service.php>Windows service</a>
+<li> <a href=manager.php>The BOINC manager</a>
+<li> <a href=win_install.php>The Windows installer</a>
 <li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
 <li> <a href=client_mac.php>Installing BOINC on Mac OS/X</a>
 </ul>

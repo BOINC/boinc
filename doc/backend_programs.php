@@ -26,9 +26,9 @@ It is application-specific, and uses
 for registering the workunits in the database.
 <p>
 During testing, you can create a single workunit using
-<a href=tools_work.php#cmdline>create_work</a>,
+<a href=tools_work.php>create_work</a>,
 then use the daemon program
-<a href=tools_work.php#make_work>make_work</a>
+<a href=tools_work.php>make_work</a>
 to copy this workunit as needed to maintain a given supply of work.
 
 <h3>Transitioner</h3>

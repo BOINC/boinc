@@ -1,0 +1,17 @@
+To start, unzip the file. You will find:
+
+app/sfe1    # containing the simple (silly) FORTRAN example sfi1
+       # cboincfinish.cpp, cboincinit.cpp and
+       # cboincresolvefilename.cpp are the wrappers
+       # sfe1.f90 and strlng.f90 are part of the example code. sfe1 call the
+       # wrappers listed above
+include       # containing *.h and the new file C_boinc.h
+lib           # containing the final BOINC libraries CBOINC.lib and
+              # CBOINC_D.lib (debug version)
+src           # containing the original BOINC source needed and C_boinc.cpp
+              # (my C API)
+win_BOINC/CBOINC/CBOINC.dsw   # project workspace with library source
+                              # and example source (START FROM HERE!!!)
+testSFE1      # test directory for testing the example (nothing important!)
+
+To compile, I used VS 6 and Intel Visual Fortran 7.1.

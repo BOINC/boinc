@@ -34,8 +34,7 @@ If assimilate_handler() returns zero,
 the workunit record will be marked as assimilated.
 If assimilate_handler() returns nonzero,
 the assimilator will log an error message and exit.
-Typically you should return nonzero for any recoverable error,
-to stop the assimilator from running.
+Typically the function should return nonzero for any error condition.
 This way the system administrator can fix the problem before any completed
 or erroneous workunits are mis-handled by BOINC.
 <p>

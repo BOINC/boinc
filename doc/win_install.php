@@ -5,17 +5,18 @@ require_once("docutil.php");
 page_head("Windows installation options");
 echo "
 
-<h2>Components</h2>
+BOINC's Windows installer installs several programs:
 
 <ul>
 <li> <b>core client</b>: the program that manages file transfers
 and execution of applications.
-<li> <b>applications</b>: project-specific programs run by the core client.
 <li> <b>manager</b>: the GUI to the core client.
 <li> <b>screensaver</b>: a program that runs when the machine is idle.
 Typically it sends a message to the core client,
 telling it to do screensaver graphics.
 </ul>
+
+BOINC can be installed in any of several 'modes':
 
 <h2>Single-user mode</h2>
 <p>
@@ -72,6 +73,10 @@ Files are accessable only to the installing user.
 
 <h2>Service graphical mode</h2>
 <p>
+<b>NOTE: this mode is not implemented and may never be,
+because of technical difficulties
+and the undesirability of running BOINC under the 'local system' account.</b>
+<p>
 This is for PCs that have multiple users,
 all of whom want to see graphics and have control over BOINC.
 BOINC should run when no one is logged in.
@@ -91,10 +96,6 @@ or (via the core client) has an application do the graphics.
 In this case the application must switch to the same
 window station and desktop as the screensaver.
 
-<p>
-<b>NOTE: this is not implemented and may never be,
-because of technical difficulties
-and the undesirability of running BOINC as 'local system'.</b>
 
 <h2>Customizing the installer</h2>
 <p>
