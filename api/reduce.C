@@ -647,7 +647,7 @@ void REDUCED_ARRAY::draw_axis_labels() {
 void REDUCED_ARRAY::draw_axes() {
 
 	//float adj2=-.18f;
-	float adj2=-(draw_size[2]*1)/rdimy;
+	float adj2=0.0f;//-(draw_size[2]*1)/rdimy;
 	float adj=0.0f;
 
 	float adj3=0;
@@ -739,12 +739,30 @@ void REDUCED_ARRAY::draw_labels() {
 	double z_pos[3];
 	double x_pos[3];
 	double p_pos[3];
-	double xzmin_corner[3];
-	double zmax_corner[3];
-	double xmax_corner[3];
 
 	float arrowh = .35f;
 	float arroww = .05f;
+
+	float ch = .015f;
+	float lw = .02f;			
+	float ls = 0;
+
+	float wd=.015f;
+	float l=1.0f;
+	char* zlabel = "Time(sec)";
+	char* xlabel = "Frequency(HZ)";
+	char* plabel = "Power";
+
+	char* zmax = "107.4";
+	char* zmin = "0";
+
+	char* xmax = "9765.620";
+	char* xmin = "0.0";
+
+	float left_of_z = -0.1f;
+	float left_of_z2 = -0.04f;
+	float below_x = -.03f;
+	float center_x = -.06f;
 
 	glLineWidth(1.4f);
 	glBegin(GL_LINES);
@@ -764,28 +782,35 @@ void REDUCED_ARRAY::draw_labels() {
 	glEnd();
 
 	int viewport[4];
-			
-	get_matrix(model);				
-	get_projection(proj);
+	get_matrix(model);
+	get_projection(proj);	
 	get_viewport(viewport);
+	int w = viewport[2];
+	int h = viewport[3];
 
-	float offset = 0;
-
-	char* zlabel = "Time(sec)";
-	char* xlabel = "Frequency(HZ)";
-	char* plabel = "Power";
-
-	char* zmax = "107.4";
-	char* zmin = "0";
-
-	char* xmax = "9765.620";
-	char* xmin = "0.0";
-
-	float left_of_z = -0.1f;
-	float left_of_z2 = -0.04f;
-	float below_x = -.03f;
-	float center_x = -.06f;
+	glPushMatrix();
+	//unscale modelview matrix
 	
+	double aspect_ratio = 4.0/3.0;	
+	if ((double)h*aspect_ratio > (double)w) 
+	{
+		model[1]*=1.0f/((w/aspect_ratio)/h);    
+		model[5]*=1.0f/((w/aspect_ratio)/h);
+		model[9]*=1.0f/((w/aspect_ratio)/h);
+	}
+	else 
+	{   
+		model[0]*=1.0f/((h*aspect_ratio)/w);    
+		model[4]*=1.0f/((h*aspect_ratio)/w);
+		model[8]*=1.0f/((h*aspect_ratio)/w);
+    }	
+
+	//project to ortho coordinates		
+	viewport[0]=0;
+	viewport[1]=0;
+	viewport[2]=1;
+	viewport[3]=1;
+
 	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2]+(draw_size[2]/2.0f),
         model, proj, viewport,z_pos
     );
@@ -794,58 +819,24 @@ void REDUCED_ARRAY::draw_labels() {
         model, proj, viewport,x_pos
     );
 
-	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2]+draw_size[2],
-        model, proj, viewport,xzmin_corner
-    );
-
 	get_2d_positions(draw_pos[0]+draw_size[0],draw_pos[1],draw_pos[2]+draw_size[2],
-        model, proj, viewport,xmax_corner
-    );
-
-	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2],
-        model, proj, viewport,zmax_corner
-    );
-
-	get_2d_positions(draw_pos[0]+draw_size[0]+.4f,draw_pos[1]+1.5f/2.3f,draw_pos[2]+draw_size[2]-.5f,
         model, proj, viewport,p_pos
     );
-	
-	mode_ortho();	
+	glPopMatrix();
 
-	float w=.015f;
-	float l=1.0f;
+	mode_ortho();
 	mode_unshaded();	
 	glColor3d(1,1,1);	
-	float zpos[3]={(float)z_pos[0]/(float)(viewport[2]) + left_of_z,(float)z_pos[1]/(float)(viewport[3]),(float)z_pos[2]};
-	float xpos[3]={(float)x_pos[0]/(float)(viewport[2]) + center_x,(float)x_pos[1]/(float)(viewport[3])+below_x,(float)x_pos[2]};
-	float xminpos[3]={(float)xzmin_corner[0]/(float)(viewport[2]),(float)xzmin_corner[1]/(float)(viewport[3])+below_x,(float)xzmin_corner[2]};
-	float xmaxpos[3]={(float)xmax_corner[0]/(float)(viewport[2]),(float)xmax_corner[1]/(float)(viewport[3])+below_x,(float)xmax_corner[2]};
-	float zminpos[3]={(float)xzmin_corner[0]/(float)(viewport[2])+left_of_z2,(float)xzmin_corner[1]/(float)(viewport[3]),(float)xzmin_corner[2]};
-	float zmaxpos[3]={(float)zmax_corner[0]/(float)(viewport[2])+left_of_z2,(float)zmax_corner[1]/(float)(viewport[3]),(float)zmax_corner[2]};
-	float ppos[3]={(float)p_pos[0]/(float)(viewport[2])+.02f,(float)p_pos[1]/(float)(viewport[3]),(float)p_pos[2]};
-//  draw_text_line(zpos, w, l, zlabel);	
-//  draw_text_line(xpos, w, l, xlabel);	
-//	draw_text_line(xminpos, w, l, xmin);	
-//	draw_text_line(xmaxpos, w, l, xmax);	
-//	draw_text_line(zminpos, w, l, zmin);	
-//	draw_text_line(zmaxpos, w, l, zmax);	
+
+	float zpos[3]={(float)z_pos[0],(float)z_pos[1],(float)z_pos[2]};
+	float xpos[3]={(float)x_pos[0],(float)x_pos[1],(float)x_pos[2]};
+	float ppos[3]={(float)p_pos[0],(float)p_pos[1],(float)p_pos[2]};		
+
+	draw_text_right(zpos,ch,lw,ls,zlabel);
+	draw_text(xpos,ch,lw,ls,xlabel);
+	draw_text(ppos,ch,lw,ls,plabel);
 	
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-  	
-	glRasterPos3d(zpos[0],zpos[1],0);//zpos[2]);
-	print_text(zlabel);
-
-	glRasterPos3d(xpos[0],xpos[1],0);//xpos[2]);
-	print_text(xlabel);
-
-	glRasterPos3d(ppos[0],ppos[1],0);//xpos[2]);
-	print_text(plabel);
-
-	glPopMatrix();
-	
-	ortho_done();
+	ortho_done();		
 }
 
 

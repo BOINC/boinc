@@ -249,27 +249,15 @@ GLenum InitGL(GLvoid) {
 }
 
 // Resize And Initialize The GL Window
-// TODO: why is 4/3 hardwired here?
+// 
 GLenum ReSizeGLScene(GLsizei width, GLsizei height) {
     GLenum err;
-#if 0
-    double aspect_ratio = 4.0/3.0;
-
-    if (height<=0) height=1;
-    if (width<=0) width=1;
-
-    if (height*aspect_ratio > width) {
-        glViewport(0,0,(int)width,(int)(width/aspect_ratio));
-    } else {
-        glViewport(0,0,(int)(height*aspect_ratio),(height));
-    }
-#endif
 	glViewport(0,0,(int)width,(int)(height));
+
     err = glGetError();
     if (err) return err;
 
 	app_resize(width,height);
-    
     return GL_NO_ERROR;
 }
 #endif

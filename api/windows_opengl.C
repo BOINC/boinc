@@ -187,6 +187,8 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
     static bool visible = true;
 
 	switch(uMsg) {
+	case WM_ERASEBKGND:								// Check To See If Windows Is Trying To Erase The Background
+			return 0;	
     case WM_SHOWWINDOW:
         // this is an attempt to avoid wasting CPU time on rendering
         // when the window is minimized or hidden.

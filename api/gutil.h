@@ -34,6 +34,11 @@ struct COLOR {
 extern void HLStoRGB( double H, double L, double S, COLOR& c);
 
 extern float frand();
+extern void set_viewport_full(int w, int h);
+extern void set_viewport_fixed(int w, int h);
+extern void scale_screen(int w,int h);
+extern void center_screen(int w,int h);
+
 
 extern void drawSphere(float* pos, float rad);
 extern void drawCylinder(bool vertical, float* pos, float len, float rad);
@@ -56,7 +61,7 @@ extern void draw_text_new(
     float* pos, float height, float width, float spacing, char *text
 );
 
-extern void draw_text_new_right(
+extern void draw_text_right(
     float* pos, float height, float width, float spacing, char *text
 );
 
@@ -159,17 +164,26 @@ public:
 
 // ----- STUFF RELATED TO STARFIELDS
 //
+#define COS_30 0.8720254037f
+#define XY_HEIGHT 1656.85f
 
 struct STAR {
 	float x,y,z,v;
 };
 
 class STARFIELD {
-    void replace_star(int, bool,float[3],float[3],float[3],float[3]);
+	float camera[3];
+	float eye[3];
+	float up[3];
+	float right[3];
+    float speed;
+	float size;
+	void replace_star(int);
+	bool is_visible(int);
     STAR* stars;
-public:
+public:	
     void build_stars(int, float);
-    void update_stars(int, float, float);
+    void update_stars(float);
 };
 
 

@@ -6844,3 +6844,13 @@ David  16 Oct 2003
 David  16 Oct 2003
     - moved client/win/windows_cpp.h to client/cpp.h,
         since it's included (and needed) in UNIX as well as Windows
+
+Oliver 16 Oct 2003
+	- Implemented scaling factor to center objects
+	- Fixed starfields
+	- Right justified text
+
+	api/		
+		graphics_api.C
+		gutil.C,h
+		windows_opengl.C
