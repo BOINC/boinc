@@ -994,11 +994,7 @@ int CLIENT_STATE::report_result_error(
 
     va_list va;
     va_start(va, format);
-#ifdef _WIN32
-    _vsnprintf(err_msg, sizeof(err_msg), format, va);
-#else
     vsnprintf(err_msg, sizeof(err_msg), format, va);
-#endif
     va_end(va);
 
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
