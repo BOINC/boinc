@@ -17129,3 +17129,53 @@ Rom    8 Sep 2004
 
     client/
         file_names.C
+
+Jeff  09 Sep 2004
+    - Change to the validator to handle the case where one or more of the result files
+      for a WU's result set are missing.  Before this change this state would result
+      in this WU and it's results never getting looked at again.  No science, no
+      credit.
+
+      This is coordinated seti_boinc / boinc change.  This note is repeated in
+      the seti_boinc checkin_notes.
+
+      seti_boinc changes:
+        - get_result_file(), if it cannot read the result file, tries to read the
+          directory where the result file should be.  If it can read the directory,
+          it returns ERR_FOPEN, as before.  If it cannot read the directory, it
+          resturns ERR_OPENDIR.   ERR_OPENDIR in this context signals a possibly
+          transient problem.  Upon a successful result read, it sets sah_result.have_result
+          (a new data member as of this change) to true.
+        - check_set(), upon return from get_result_file() :
+                - sets result.validate_state to VALIDATE_STATE_ERROR (a new state
+                  as of this change) and retval to zero if there is a nonzero
+                  retval from check_set() and it is not ERR_OPENDIR.  It then
+                  continues.
+                - otherwise just continues.
+          check_set() then determines if any IO errors brought the result count
+          below wu.min_quorum.  If not, it continues.  Otherwise it returns.
+          In all subsequent logic any results for which sah_result.have_result == false
+          are skipped.  Note that the result and the sah_result vectors are associated.
+
+        validate/
+                sah_result.h
+                sah_validate.cpp
+                sah_boinc_db.cpp
+
+        boinc changes:
+          - new validate state VALIDATE_STATE_ERROR.
+          - in the enumeration for check_set(), we now include a clause to check for
+            VALIDATE_STATE_INIT in order to ignore results set to VALIDATE_STATE_ERROR.
+            This enumeration query now matches that for check_pair().
+          Note that the only possible retvals from check_set() are now zero or
+          ERR_OPENDIR.
+          Note that logic to retry possibly transient errors still needs to be done.
+          Also left to be done is a transitioner change to subtract the number of
+          results in state VALIDATE_STATE_ERROR from the count of active results.
+          The latter change is needed to stimulate the production of additional results
+          for the affected WU.
+
+        sched/
+                validator.C
+        db/
+                boinc_db.h
