@@ -519,7 +519,7 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
         //
-        if (wreq.insufficient_disk || wreq.insufficient_speed) {
+        if (wreq.insufficient_disk || wreq.insufficient_speed || wreq.insufficient_mem) {
             return false;
         }
     }

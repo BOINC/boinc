@@ -292,3 +292,6 @@ void process_wu_timezone(
         wu3=wu2;
     }
 }
+
+const char *BOINC_RCSID_28b6ac7093 = "$Id$";
+

@@ -24530,3 +24530,21 @@ Rom    10 Feb 2005
 
     win_build/installerv2/redist/windows/
         BOINC.vbs
+
+Bruce  10 Feb 2005
+    - Sched locality change: if the host does not have enough memory to satisfy
+      a work request, do not search for or send further work.  This is the same
+      way that disk space limits are handled.  This is necessary since otherwise
+      a host with small memory will endlessly trigger the WU generator, churning
+      out infeasible WUs.
+    - Added boolean arg to host_has_file() following David A's advice. This
+      eliminates the 'expensive' copy of a large data structure. The bool arg
+      makes host_has_file() skip the final WU in the vector in hunting for a file.
+    - Better log message for setting coredump size.
+I   - Added RCSID tag to sched_timezone.C
+    sched/
+        sched_send.C
+        sched_locality.C
+        main.C
+        sched_timezone.C
+

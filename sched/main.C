@@ -159,6 +159,11 @@ int main() {
                 log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                     "Unable to set current resource limit for core dump size to max value.\n"
                 );
+            }
+            else {
+                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                    "Set limit for core dump size to max value.\n"
+                );
             }   
         }
     }

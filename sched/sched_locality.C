@@ -45,9 +45,10 @@
 bool host_has_file(
     SCHEDULER_REQUEST& request,
     SCHEDULER_REPLY& reply,
-    char *filename
+    char *filename,
+    bool skip_last_wu
 ) {
-    int i;
+    int i, uplim;
     bool has_file=false;
 
     // loop over files already on host to see if host already has the
@@ -72,7 +73,12 @@ bool host_has_file(
     // loop over files being sent to host to see if this file has
     // already been counted.
     //
-    for (i=0; i<(int)reply.wus.size(); i++) {
+    uplim=(int)reply.wus.size();
+    if (skip_last_wu) {
+        uplim--;
+    }
+
+    for (i=0; i<uplim; i++) {
         char wu_filename[256];
 
         if (extract_filename(reply.wus[i].name, wu_filename)) {
@@ -116,10 +122,8 @@ int decrement_disk_space_locality(
     SCHEDULER_REPLY& reply
 ) {
     char filename[256], path[512];
-    int i, filesize;
-    int retval_dir;
+    int filesize;
     struct stat buf;
-    SCHEDULER_REPLY reply_copy=reply;
 
     // get filename from WU name
     //
@@ -137,8 +141,7 @@ int decrement_disk_space_locality(
     // corresponds to the one that we are (possibly) going to send!
     // So make a copy and pop the current WU off the end.
 
-    reply_copy.wus.pop_back();    
-    if (!host_has_file(request, reply_copy, filename))
+    if (!host_has_file(request, reply, filename, true))
         return 1;
 
     // If we are here, then the host ALREADY has the file, or its size
