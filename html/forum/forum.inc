@@ -19,7 +19,7 @@ $forum_sort_styles['replies-most'] = "Most replies first";
 $thread_sort_styles['date-old'] = "Oldest first";
 $thread_sort_styles['date-new'] = "Newest first";
 $thread_sort_styles['rating-high'] = "Highest rated first";
-				
+
 $thread_filter_styles['2'] = "\"Very helpful\"";
 $thread_filter_styles['1'] = "At least \"helpful\"";
 $thread_filter_styles['0'] = "At least \"neutral\"";
@@ -49,11 +49,11 @@ function getHelpDeskCategories() {
 
 function getForums($categoryID) {
 	$sql = 'SELECT * FROM forum WHERE category = ' . $categoryID . ' ORDER BY orderID ASC';
-  return mysql_query($sql);	
+  return mysql_query($sql);
 }
 
 function getThreads($forumID, $min = -1, $nRec = -1, $sort_style='modified-new') {
-	$sql = 'SELECT * FROM thread WHERE forum = ' . $forumID; 
+	$sql = 'SELECT * FROM thread WHERE forum = ' . $forumID;
 	switch($sort_style) {
 		case 'modified-new':
 			$sql = $sql . ' ORDER BY timestamp DESC';
@@ -82,7 +82,7 @@ function getThreads($forumID, $min = -1, $nRec = -1, $sort_style='modified-new')
 	} else if ($nRec > -1) {
 		$sql .= ' LIMIT '.$nRec;
   }
-	
+
   return mysql_query($sql);
 }
 
@@ -175,40 +175,40 @@ function incThreadViews($threadID) {
 /* Forum modifying functions. */
 
 function createThread($forumID, $ownerID, $title, $content) {
-	
+
         $title = addslashes(htmlentities($title));
         $content = addslashes(htmlentities($content));
-        
+
         $sql = "INSERT INTO thread (forum, owner, title, timestamp) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP())";
         $result = mysql_query($sql);
         if (!$result)
             return false;
         $threadID = mysql_insert_id();
-        
+
         $postID = addPost($threadID, $ownerID, NULL, $content);
-        
+
         $sql = "UPDATE user SET posts = posts + 1 WHERE id = " . $ownerID . " LIMIT 1";
         mysql_query($sql);
-        
+
         $sql = "UPDATE forum SET threads = threads + 1, posts = posts + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $forumID . " LIMIT 1";
         mysql_query($sql);
-        
+
         return $threadID;
 }
 
 function replyToThread($threadID, $userID, $content, $parent_post=NULL) {
-      $thread = getThread($threadID);  
-	
+      $thread = getThread($threadID);
+
 			$content = addslashes(htmlentities($content));
-        
+
         addPost($threadID, $userID, $parent_post, $content);
-        
+
         $sql = "UPDATE user SET posts = posts + 1 WHERE id = " . $userID . " LIMIT 1";
         mysql_query($sql);
-                
+
         $sql = "UPDATE thread SET replies = replies + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $threadID . " LIMIT 1";
         mysql_query($sql);
-        
+
         $sql = "UPDATE forum SET posts = posts + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $thread->forum . " LIMIT 1";
         mysql_query($sql);
     }
@@ -239,8 +239,8 @@ function updatePost($postID, $content) {
 
 function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true, $is_helpdesk=false) {
     global $logged_in_user;
-    $n = 0;
-    
+    $n = 1;
+
     if ($show_controls && !$is_helpdesk) {
         $controls = FORUM_CONTROLS;
     } else if ($show_controls && $is_helpdesk) {
@@ -248,16 +248,16 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     } else {
         $controls = NO_CONTROLS;
     }
-    
+
     $posts = getPosts($thread->id, -1, -1, $sort_style);
     $firstPost = getFirstPost($thread->id);
-    
+
     if ($is_helpdesk) {
         if ($firstPost) {
             show_post($firstPost, $thread, $logged_in_user, $n, $controls, true);
     	}
     }
-    
+
     while ($post = mysql_fetch_object($posts)) {
         if ($post->score >= $filter) {
             if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
@@ -265,36 +265,36 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
             	if ($do_coloring) $n = ($n+1)%2;
             }
         }
-    } 
+    }
 }
 
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false) {
 	global $post_ratings;
-	
+
 	$user = lookup_user_id($post->user);
 	$sql = "SELECT * FROM profile WHERE userid = " . $user->id;
 	$result2 = mysql_query($sql);
 	$user->has_profile = (mysql_num_rows($result2) > 0);
-	
+
 	$can_edit = $logged_in_user && $user->id == $logged_in_user->id;
-	
+
 	echo "
 			<tr class=\"row$n\" style=\"vertical-align:top\">
 				<td>
 					<a name= $post->id ></a>
 					<p style=\"font-weight:bold\">
 	";
-	
-	if ($user->has_profile) { 
+
+	if ($user->has_profile) {
 		echo "<a href=\"../view_profile.php?userid=$post->user\">", $user->name, "</a>";
-	} else { 
-		echo $user->name; 
+	} else {
+		echo $user->name;
 	}
-  
+
 	echo "
 				</p>
 				<p style=\"font-size:8pt\">
-					Joined: ", date('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, " 
+					Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "
 				</p>
 			</td>
 			<td>
@@ -307,15 +307,15 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 			<table width=100% cellspacing=0 cellpadding=0>
 				<tr valign=\"top\">
 					<td align=\"left\" style=\"border:0px\"><p style=\"font-size:8pt\">
-						Posted: ", date('D M j, Y g:i a', $post->timestamp)
+						Posted: ", pretty_time_str($post->timestamp);
 	;
-        
+
 	if ($post->parent_post) echo " in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
-	if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>"; 
-	if ($post->modified) echo "<br>Last Modified: ", date('D M j, Y g:i a', $post->modified);
-	
+	if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>";
+	if ($post->modified) echo "<br>Last Modified: ", pretty_time_Str($post->modified);
+
 	echo "</p>\n</td>\n";
-        
+
 	if ($controls == FORUM_CONTROLS) {
 		echo "<td align=\"right\" style=\"border:0px\">Rate this post:";
 		show_combo_from_array("rating", $post_ratings, "0");
@@ -337,7 +337,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
 	echo "</tr>\n</table>\n";
 
-	if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {            
+	if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
 		echo "</form>";
 	}
 	echo "<p>", nl2br(stripslashes($post->content)), "</p>";
@@ -351,15 +351,15 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 	} else {
 		echo " / Rating: ", $post->score, "</i></td>";
 	}
-	
+
 	if ($controls == FORUM_CONTROLS) {
 		echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
 	} else if ($controls == HELPDESK_CONTROLS && !$separate) {
 		echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
-	}	
+	}
 
 	echo "</tr></table></td></tr>";
-  
+
 	if ($separate) {
 		echo "
 			</table>
@@ -377,10 +377,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 function start_forum_table($headings, $widths, $span=NULL) {
 	echo "
 		<p style=\"text-align:center\">
-			<table class=\"content\" border=0 cellpadding=5 cellspacing=0 width=100%>
+			<table order=0 cellpadding=5 cellspacing=0 width=100%>
 				<tr>
 	";
-	
+
 	for ($i = 0; $i < count($headings); $i++) {
 		$cell = "<th";
 		if ($span) {
@@ -400,9 +400,9 @@ function end_forum_table() {
 	echo "</table></p>\n";
 }
 
-function show_combo_from_array($name, $array, $selection) {			
+function show_combo_from_array($name, $array, $selection) {
 	echo "<select name=\"$name\">";
-	
+
 	foreach ($array as $key => $value) {
 		echo "<option ";
 		if ($key == $selection) {
@@ -441,5 +441,5 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
 	}
 	echo "</p>\n";
 }
-		
+
 ?>
