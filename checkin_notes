@@ -16684,3 +16684,8 @@ Rom    24 Aug 2004
 
     client/
         client_state.C
+
+Rom    24 Aug 2004
+    - Tag for 4.04 release, all platforms
+      boinc_release_4_04
+
