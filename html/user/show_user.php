@@ -8,7 +8,6 @@
     require_once("../inc/db.inc");
     require_once("../inc/user.inc");
     require_once("../inc/forum.inc");
-    require_once("../project/project_callbacks.inc");
     db_init();
 
     $user = lookup_user_id($id);
@@ -37,9 +36,7 @@
             start_table();
             show_user_summary_public($user);
             end_table();
-	    if (function_exists('project_user_summary_callback')) {
-	        echo "<p>".project_user_summary_callback($user)."</p>";
-	    }
+	        project_user_summary($user);
             page_tail(true);
         } else {
             page_head("Can't find user");

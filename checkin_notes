@@ -25673,3 +25673,28 @@ David  8 Mar 2005
         cs_trickle.C
     lib/
         util.C,h
+
+David  8 Mar 2005
+    - user web: got rid of the "project_callbacks.inc" file.
+        "project.inc" is already being used for this purposes.
+        The project-specific functions must be defined there,
+        perhaps empty.
+        Also removed _callback from function names - they're
+        not callbacks in the conventional sense.
+        Also, these functions are expected to print, not return a string
+        (so they can call row2() and stuff like that)
+    - if a WU is pending validation, show that
+    - change CHARSET of english translation to UTF-8
+
+    html/
+        inc/
+            user.inc
+        languages/translations/
+            en.po
+        project.sample/
+            project.inc
+            project_callbacks.inc (removed)
+        user/
+            home.php
+            show_user.php
+            workunit.php

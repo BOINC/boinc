@@ -3,7 +3,6 @@
     require_once("../inc/user.inc");
     require_once("../inc/db.inc");
     require_once("../inc/forum.inc");
-    require_once("../project/project_callbacks.inc");
 
     // show the home page of whoever's logged in
 
@@ -12,9 +11,7 @@
     $user = getForumPreferences($user);
     page_head("Your account");
     show_user_page_private($user);
-    if (function_exists('project_user_page_private_callback')) {
-	echo "<p>".project_user_page_private_callback($user)."</p>";
-    }
+	project_user_page_private($user);
 
     page_tail();
 ?>

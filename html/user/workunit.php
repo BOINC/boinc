@@ -3,7 +3,6 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/result.inc");
-require_once("../project/project_callbacks.inc");
 
 db_init();
 $wuid = get_int("wuid");
@@ -26,10 +25,11 @@ if ($wu->canonical_resultid) {
 if ($wu->error_mask) {
     row2("errors", wu_error_mask_str($wu->error_mask));
 }
-echo "</table>\n";
-if (function_exists('project_workunit_callback')) {
-    echo "<p>".project_workunit_callback($wu)."</p>";
-} 
+if ($wu->need_validate) {
+    row2("validation", "Pending");
+}
+end_table();
+project_workunit($wu);
 
 result_table_start(false, true, true);
 $result = mysql_query("select * from result where workunitid=$wuid");

@@ -66,4 +66,34 @@ function show_profile_question2() {
     ";
 }
 
+function project_workunit($wu){
+    echo "This is displayed on the workunit page";
+}
+
+function project_user_summary($user){
+    echo "Text here will go to the user summary page";
+}
+
+function project_user_page_private($user){
+    echo "Whatever is here is added to the private account page";
+}
+
+function project_user_credit($user){
+    if ($user->seti_nresults) {
+        row2(
+            "SETI@home classic workunits
+            <br><font size=-2>as of 14 May 2004</font>",
+            number_format($user->seti_nresults)
+        );
+    }
+    if ($user->seti_total_cpu) {
+        $x = number_format($user->seti_total_cpu/3600)." hours";
+        row2(
+            "SETI@home classic CPU time
+            <br><font size=-2>as of 14 May 2004</font>",
+            $x
+        );
+    }
+}
+
 ?>

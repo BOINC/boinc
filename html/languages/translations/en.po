@@ -8,7 +8,7 @@
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
 msgid "CHARSET"
-msgstr "iso-8859-1"
+msgstr "UTF-8"
 
 #########################################
 # Apps page (apps.php)

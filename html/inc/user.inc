@@ -14,9 +14,7 @@ function pending_credit($user) {
 function show_credit($user) {
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
-    if (function_exists('project_user_credit_callback')) {
-	echo "<p>".project_user_credit_callback($user)."</p>";
-    }
+	project_user_credit($user);
 }
 
 // show dynamic user info (private)
