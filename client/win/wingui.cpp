@@ -1,27 +1,11 @@
-#include <afxwin.h>
+// includes
 
-#include "log_flags.h"
-#include "client_state.h"
-#include "resource.h"
-#include "win_net.h"
 #include "wingui.h"
 
-#define ID_TIMER			104
+// globals
 
-#define EDGE_BUFFER			2			// buffer pixels around edge of client
-
-// global vars
-
-CMainWindow* main_window;
+CMainWindow* myWnd;
 CMyApp myApp;
-
-int initialize_prefs() {
-	CLoginDialog dlg(IDD_LOGIN);
-	int retval = dlg.DoModal();
-	if (retval != IDOK) return -1;
-//	write_initial_prefs();
-    return 0;
-}
 
 /////////////////////////////////////////////////////////////////////////
 // CProgressHeaderCtrl message map and member functions
@@ -432,7 +416,7 @@ CMainWindow::CMainWindow()
 
 	// register window class
     CString strWndClass = AfxRegisterWndClass (0, myApp.LoadStandardCursor(IDC_ARROW),
-        (HBRUSH)(COLOR_3DFACE+1), myApp.LoadStandardIcon(IDI_APPLICATION));
+        (HBRUSH)(COLOR_3DFACE+1), myApp.LoadIcon(IDI_ICONSM));
 
 	// create and position window
     CreateEx(0, strWndClass, "BOINC", WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW,
@@ -480,9 +464,10 @@ void CMainWindow::OnCommandFileClose()
 
 void CMainWindow::OnCommandHelpAbout()
 {
-    //CDialog dlg(IDD_ABOUTBOX);
-    //int retval = dlg.DoModal();
+    CDialog dlg(IDD_ABOUTBOX);
+    int retval = dlg.DoModal();
 
+	/*
 	// add some random info
 	CString strText;
 	for (int j=0;j < 5;j++) {
@@ -497,6 +482,7 @@ void CMainWindow::OnCommandHelpAbout()
 		m_CtrlProjects.SetItemText(i, 3, strText);
 		m_CtrlProjects.SetItemProgress(i, 3, rand()%100);
 	}
+	*/
 }
 
 int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
@@ -506,7 +492,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
     CClientDC dc(this);
-    main_window = this;
+    myWnd = this;
 
 	// load main menu
 	m_MainMenu.LoadMenu(IDR_MAINFRAME);
@@ -547,8 +533,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     freopen("stdout.txt", "w", stdout);
     freopen("stderr.txt", "w", stderr);
     read_log_flags();
-    //int retval = gstate.init();
-    //if (retval) exit(retval);
+    int retval = gstate.init();
+    if (retval) exit(retval);
     SetTimer(ID_TIMER, 1000, TimerProc);
 	m_bCreated = true;
     return 0;

@@ -1,9 +1,28 @@
+#ifndef __WINGUI_H_
+#define __WINGUI_H_
+
+// includes
+
+#include <afxwin.h>
 #include <afxcmn.h>
 #include <afxtempl.h>
 #include <afxcoll.h>
+#include "log_flags.h"
+#include "client_state.h"
+#include "account.h"
+#include "resource.h"
+#include "win_net.h"
 
-#define SORT_ASCEND		0
-#define SORT_DESCEND	1
+// constants
+
+#define SORT_ASCEND			0			// sorting orders
+#define SORT_DESCEND		1
+
+#define EDGE_BUFFER			2			// buffer pixels around edge of client
+
+#define ID_TIMER			104			// timer id
+
+// classes
 
 class CProgressBarCtrl : public CProgressCtrl
 {
@@ -106,3 +125,4 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
+#endif
