@@ -97,6 +97,10 @@ echo "
         transition_time = MAX_INT
         for all results IN_PROGRESS
             transition_time = min(transition_time, result.report_deadline)
+
+        // if transitioner is way behind schedule,
+        // don't repeatedly handle this WU
+        transition_time = max(transition_time, now+delay_bound)
 </pre>
 
 <h3>Validator</h3>

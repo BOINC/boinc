@@ -67,10 +67,11 @@ int handle_wu(
 ) {
     int ntotal, nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover;
-    int canonical_result_index;
+    int canonical_result_index, j;
     char suffix[256];
     time_t now = time(0), x;
     bool all_over_and_validated, have_result_to_validate, do_delete;
+    unsigned int i;
 
     // count up the number of results in various states,
     // and check for timed-out results
@@ -85,32 +86,37 @@ int handle_wu(
     have_result_to_validate = false;
     int rs, max_result_suffix = -1;
 
-    for (unsigned int i=0; i<items.size(); i++) {
-        if (!items[i].res_id) continue;
+    TRANSITIONER_ITEM& wu_item = items[0];
+
+    for (i=0; i<items.size(); i++) {
+        TRANSITIONER_ITEM& res_item = items[i];
+
+        if (!res_item.res_id) continue;
         ntotal++;
-        rs = result_suffix(items[i].res_name);
+        rs = result_suffix(res_item.res_name);
         if (rs > max_result_suffix) max_result_suffix = rs;
-        switch (items[i].res_server_state) {
+        switch (res_item.res_server_state) {
         case RESULT_SERVER_STATE_UNSENT:
             nunsent++;
             break;
         case RESULT_SERVER_STATE_IN_PROGRESS:
-            if (items[i].res_report_deadline < now) {
+            if (res_item.res_report_deadline < now) {
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
-                    items[0].id, items[0].name, items[i].res_id, items[i].res_name,
-                    items[i].res_report_deadline, (int)now
+                    wu_item.id, wu_item.name, res_item.res_id, res_item.res_name,
+                    res_item.res_report_deadline, (int)now
                 );
-                items[i].res_server_state = RESULT_SERVER_STATE_OVER;
-                items[i].res_outcome = RESULT_OUTCOME_NO_REPLY;
-                retval = transitioner.update_result(items[i]);
+                res_item.res_server_state = RESULT_SERVER_STATE_OVER;
+                res_item.res_outcome = RESULT_OUTCOME_NO_REPLY;
+                retval = transitioner.update_result(res_item);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                        items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
-                        );
+                        "[WU#%d %s] [RESULT#%d %s] update_result(): %d\n",
+                        wu_item.id, wu_item.name, res_item.res_id,
+                        res_item.res_name, retval
+                    );
                 }
                 nover++;
             } else {
@@ -119,17 +125,17 @@ int handle_wu(
             break;
         case RESULT_SERVER_STATE_OVER:
             nover++;
-            switch (items[i].res_outcome) {
+            switch (res_item.res_outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
-                    items[0].id, items[0].name, items[i].res_id, items[i].res_name
+                    wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                 );
                 ncouldnt_send++;
                 break;
             case RESULT_OUTCOME_SUCCESS:
-                if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
+                if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
                     have_result_to_validate = true;
                 }
                 nsuccess++;
@@ -145,19 +151,19 @@ int handle_wu(
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
         "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d)\n",
-        items[0].id, items[0].name, ntotal,
+        wu_item.id, wu_item.name, ntotal,
         nunsent, ninprogress, nover, nsuccess, nerrors, ncouldnt_send
     );
 
     // trigger validation if we have a quorum
     // and some result hasn't been validated
     //
-    if (nsuccess >= items[0].min_quorum && have_result_to_validate) {
-        items[0].need_validate = true;
+    if (nsuccess >= wu_item.min_quorum && have_result_to_validate) {
+        wu_item.need_validate = true;
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] need_validate:=>true [nsuccess=%d >= min_quorum=%d]\n",
-            items[0].id, items[0].name, nsuccess, items[0].min_quorum
+            wu_item.id, wu_item.name, nsuccess, wu_item.min_quorum
         );
     }
 
@@ -165,98 +171,99 @@ int handle_wu(
     // NOTE: check on max # of success results is done in validater
     //
     if (ncouldnt_send > 0) {
-        items[0].error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
+        wu_item.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
     }
 
-    if (nerrors > items[0].max_error_results) {
+    if (nerrors > wu_item.max_error_results) {
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] WU has too many errors (%d errors for %d results)\n",
-            items[0].id, items[0].name, nerrors, (int)items.size()
+            wu_item.id, wu_item.name, nerrors, (int)items.size()
         );
-        items[0].error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
+        wu_item.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
     }
-    if ((int)items.size() > items[0].max_total_results) {
+    if ((int)items.size() > wu_item.max_total_results) {
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] WU has too many total results (%d)\n",
-            items[0].id, items[0].name, (int)items.size()
+            wu_item.id, wu_item.name, (int)items.size()
         );
-        items[0].error_mask |= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
+        wu_item.error_mask |= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
     }
 
     // if this WU had an error, don't send any unsent results,
     // and trigger assimilation if needed
     //
-    if (items[0].error_mask) {
-        for (unsigned int i=0; i<items.size(); i++) {
-            if (items[i].res_id) {
+    if (wu_item.error_mask) {
+        for (i=0; i<items.size(); i++) {
+            TRANSITIONER_ITEM& res_item = items[i];
+            if (res_item.res_id) {
                 bool update_result = false;
-                if (items[i].res_server_state == RESULT_SERVER_STATE_UNSENT) {
+                if (res_item.res_server_state == RESULT_SERVER_STATE_UNSENT) {
                     log_messages.printf(
                         SCHED_MSG_LOG::NORMAL,
                         "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
-                        items[0].id, items[0].name, items[i].res_id, items[i].res_name
+                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                     );
-                    items[i].res_server_state = RESULT_SERVER_STATE_OVER;
-                    items[i].res_outcome = RESULT_OUTCOME_DIDNT_NEED;
+                    res_item.res_server_state = RESULT_SERVER_STATE_OVER;
+                    res_item.res_outcome = RESULT_OUTCOME_DIDNT_NEED;
                     update_result = true;
                 }
-                if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
-                    items[i].res_validate_state = VALIDATE_STATE_NO_CHECK;
+                if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
+                    res_item.res_validate_state = VALIDATE_STATE_NO_CHECK;
                     update_result = true;
                 }
                 if (update_result) {
-                    retval = transitioner.update_result(items[i]);
+                    retval = transitioner.update_result(res_item);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::CRITICAL,
                             "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                            items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
+                            wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
                         );
                     }
                 }
             }
         }
-        if (items[0].assimilate_state == ASSIMILATE_INIT) {
-            items[0].assimilate_state = ASSIMILATE_READY;
+        if (wu_item.assimilate_state == ASSIMILATE_INIT) {
+            wu_item.assimilate_state = ASSIMILATE_READY;
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "[WU#%d %s] error_mask:%d assimilate_state:INIT=>READY\n",
-                items[0].id, items[0].name, items[0].error_mask
-                );
+                wu_item.id, wu_item.name, wu_item.error_mask
+            );
         }
-    } else if (items[0].assimilate_state == ASSIMILATE_INIT) {
+    } else if (wu_item.assimilate_state == ASSIMILATE_INIT) {
         // If no error, generate new results if needed.
         // NOTE: n must be signed
         //
-        int n = items[0].target_nresults - nunsent - ninprogress - nsuccess;
+        int n = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
         string values;
         char value_buf[MAX_QUERY_LEN];
         if (n > 0) {
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
-                items[0].id, items[0].name, n, items[0].target_nresults, nunsent, ninprogress, nsuccess
+                wu_item.id, wu_item.name, n, wu_item.target_nresults, nunsent, ninprogress, nsuccess
             );
-            for (int i=0; i<n; i++) {
-                sprintf(suffix, "%d", max_result_suffix+i+1);
+            for (j=0; j<n; j++) {
+                sprintf(suffix, "%d", max_result_suffix+j+1);
                 char rtfpath[256];
-                sprintf(rtfpath, "../%s", items[0].result_template_file);
+                sprintf(rtfpath, "../%s", wu_item.result_template_file);
 #ifdef BATCH_INSERT
                 retval = create_result(
-                    items[0].id, items[0].appid, items[0].name,
+                    wu_item.id, wu_item.appid, wu_item.name,
                     rtfpath, suffix, key, config.upload_url, value_buf
                 );
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] create_result() %d\n",
-                        items[0].id, items[0].name, retval
+                        wu_item.id, wu_item.name, retval
                     );
                     return retval;
                 }
-                if (i==0) {
+                if (j==0) {
                     values = value_buf;
                 } else {
                     values += ",";
@@ -264,14 +271,14 @@ int handle_wu(
                 }
 #else
                 retval = create_result(
-                    items[0].id, items[0].appid, items[0].name,
+                    wu_item.id, wu_item.appid, wu_item.name,
                     rtfpath, suffix, key, config.upload_url, 0
                 );
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] create_result() %d\n",
-                        items[0].id, items[0].name, retval
+                        wu_item.id, wu_item.name, retval
                     );
                     return retval;
                 }
@@ -284,7 +291,7 @@ int handle_wu(
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[WU#%d %s] insert_batch() %d\n",
-                    items[0].id, items[0].name, retval
+                    wu_item.id, wu_item.name, retval
                 );
                 return retval;
             }
@@ -298,48 +305,50 @@ int handle_wu(
     //
     canonical_result_index = -1;
     all_over_and_validated = true;
-    for (unsigned int i=0; i<items.size(); i++) {
-        if (items[i].res_id) {
-            if (items[i].res_server_state == RESULT_SERVER_STATE_OVER) {
-                if (items[i].res_outcome == RESULT_OUTCOME_SUCCESS) {
-                    if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
+    for (i=0; i<items.size(); i++) {
+        TRANSITIONER_ITEM& res_item = items[i];
+        if (res_item.res_id) {
+            if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
+                if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
+                    if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
                         all_over_and_validated = false;
                     }
                 }
             } else {
                 all_over_and_validated = false;
             }
-            if (items[i].res_id == items[0].canonical_resultid) {
+            if (res_item.res_id == wu_item.canonical_resultid) {
                 canonical_result_index = i;
             }
         }
     }
-    if (items[0].canonical_resultid && (canonical_result_index == -1)) {
+    if (wu_item.canonical_resultid && (canonical_result_index == -1)) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] can't find canonical result\n",
-            items[0].id, items[0].name
+            wu_item.id, wu_item.name
         );
     }
 
     // if WU is assimilated, trigger file deletion
     //
-    if (items[0].assimilate_state == ASSIMILATE_DONE) {
+    if (wu_item.assimilate_state == ASSIMILATE_DONE) {
         // can delete input files if all results OVER
         //
-        if (all_over_and_validated && items[0].file_delete_state == FILE_DELETE_INIT) {
-            items[0].file_delete_state = FILE_DELETE_READY;
+        if (all_over_and_validated && wu_item.file_delete_state == FILE_DELETE_INIT) {
+            wu_item.file_delete_state = FILE_DELETE_READY;
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] ASSIMILATE_DONE: file_delete_state:=>READY\n",
-                items[0].id, items[0].name
+                wu_item.id, wu_item.name
             );
         }
 
         // output of error results can be deleted immediately;
         // output of success results can be deleted if validated
         //
-        for (unsigned int i=0; i<items.size(); i++) {
+        for (i=0; i<items.size(); i++) {
+            TRANSITIONER_ITEM& res_item = items[i];
 
             // can delete canonical result outputs only if all successful
             // results have been validated
@@ -348,30 +357,30 @@ int handle_wu(
                 continue;
             }
 
-            if (items[i].res_id) {
+            if (res_item.res_id) {
                 do_delete = false;
-                switch(items[i].res_outcome) {
+                switch(res_item.res_outcome) {
                 case RESULT_OUTCOME_CLIENT_ERROR:
                     do_delete = true;
                     break;
                 case RESULT_OUTCOME_SUCCESS:
-                    do_delete = (items[i].res_validate_state != VALIDATE_STATE_INIT);
+                    do_delete = (res_item.res_validate_state != VALIDATE_STATE_INIT);
                     break;
                 }
-                if (do_delete && items[i].res_file_delete_state == FILE_DELETE_INIT) {
+                if (do_delete && res_item.res_file_delete_state == FILE_DELETE_INIT) {
                     log_messages.printf(
                         SCHED_MSG_LOG::NORMAL,
                         "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
-                        items[0].id, items[0].name, items[i].res_id, items[i].res_name
+                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                     );
-                    items[i].res_file_delete_state = FILE_DELETE_READY;
+                    res_item.res_file_delete_state = FILE_DELETE_READY;
 
-                    retval = transitioner.update_result(items[i]);
+                    retval = transitioner.update_result(res_item);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::CRITICAL,
                             "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                            items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
+                            wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
                         );
                     }
                 }
@@ -379,23 +388,39 @@ int handle_wu(
         }
     }
 
-    items[0].transition_time = INT_MAX;
-    for (unsigned int i=0; i<items.size(); i++) {
-        if (items[i].res_id) {
-            if (items[i].res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
-                x = items[i].res_sent_time + items[0].delay_bound;
-                if (x < items[0].transition_time) {
-                    items[0].transition_time = x;
+    wu_item.transition_time = INT_MAX;
+    for (i=0; i<items.size(); i++) {
+        TRANSITIONER_ITEM& res_item = items[i];
+        if (res_item.res_id) {
+            if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
+                x = res_item.res_sent_time + wu_item.delay_bound;
+                if (x < wu_item.transition_time) {
+                    wu_item.transition_time = x;
                 }
             }
         }
     }
 
-    retval = transitioner.update_workunit(items[0]);
+    // If transition time is in the past,
+    // the system is bogged down and behind schedule.
+    // Make sure we don't process this WU again for at least a day.
+    //
+    if (wu_item.transition_time < now + wu_item.delay_bound) {
+        wu_item.transition_time = now + wu_item.delay_bound;
+    }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[WU#%d %s] setting transition_time to %d\n",
+        wu_item.id, wu_item.name, wu_item.transition_time
+    );
+
+    retval = transitioner.update_workunit(wu_item);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "[WU#%d %s] workunit.update() == %d\n", items[0].id, items[0].name, retval
+            "[WU#%d %s] workunit.update() == %d\n",
+            wu_item.id, wu_item.name, retval
         );
         return retval;
     }
@@ -415,16 +440,21 @@ bool do_pass() {
     while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, items)) {
         did_something = true;
 
-        // if we are assigned a transitioner number, then limit which records we should
-        //   look at. It'll be less expensive to do the check here that in the DB.
-        if ((mod_n == 0) || ((mod_n != 0) && (mod_i == (items[0].id % mod_n)))) {
+        TRANSITIONER_ITEM& wu_item = items[0];
+
+        // if we are assigned a transitioner number,
+        // limit which records we should looked at.
+        // It'll be less expensive to do the check here than in the DB.
+        // ??? why ???
+        //
+        if ((mod_n == 0) || ((mod_n != 0) && (mod_i == (wu_item.id % mod_n)))) {
             if (config.use_transactions) {
                 retval = boinc_db.start_transaction();
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] transitioner.start_transaction() == %d\n",
-                        items[0].id, items[0].name, retval
+                        wu_item.id, wu_item.name, retval
                     );
                 }
             }
@@ -434,7 +464,7 @@ bool do_pass() {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[WU#%d %s] handle_wu: %d; quitting\n",
-                    items[0].id, items[0].name, retval
+                    wu_item.id, wu_item.name, retval
                 );
                 exit(1);
             }
@@ -445,7 +475,7 @@ bool do_pass() {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] transitioner.commit_transaction() == %d\n",
-                        items[0].id, items[0].name, retval
+                        wu_item.id, wu_item.name, retval
                     );
                 }
             }

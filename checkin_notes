@@ -16353,3 +16353,12 @@ David  13 Aug 2004
         scheduler_op.C
     sched/
         server_types.C
+
+David  13 Aug 2004
+    - transitioner: don't set wu.transition.time to anything less
+        than now + wu.delay_bound.
+        This prevents the transitioner from repeatedly handling a WU
+        in the case where it's behind schedule
+
+    sched/
+        transitioner.C
