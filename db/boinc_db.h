@@ -470,6 +470,8 @@ struct TRANSITIONER_ITEM {
     int res_validate_state;
     int res_file_delete_state;
     int res_sent_time;
+    int res_hostid;
+
     void clear();
     void parse(MYSQL_ROW&);
 };
