@@ -195,6 +195,12 @@ double CLIENT_STATE::allowed_disk_usage() {
     return min(min(global_prefs.disk_max_used_gb*1e9, percent_space), min_val);
 }
 
+double CLIENT_STATE::current_disk_usage() {
+	double sz = 0;
+	sz = dir_size(".");
+	return sz;
+}
+
 // See if (on the basis of user prefs) we should suspend activities.
 // If so, suspend tasks
 //
