@@ -8447,3 +8447,14 @@ David  12 Dec 2003
         setup_project.py
     sched/
         update_stats.C
+
+David  12 Dec 2003
+	- Core client: print host ID (per project) in startup messages
+	- calculate file transfer speeds correctly
+	    (e.g. use doubles for time, not int)
+		Show latest transfer speed in message when transfer finishes
+
+	client/
+		client_state.C
+		net_xfer.C,h
+		pers_file_xfer.C

@@ -230,6 +230,14 @@ int CLIENT_STATE::init() {
         }
     }
 
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->hostid) {
+            msg_printf(p, MSG_INFO, "Host ID is %d", p->hostid);
+        } else {
+            msg_printf(p, MSG_INFO, "Host ID not assigned yet");
+        }
+    }
     // Read the global preferences file, if it exists.
     // Do this after reading the state file so we know our venue
     //
