@@ -57,6 +57,11 @@ bool CBOINCGUIApp::OnInit()
     wxASSERT(NULL != m_pLocale);
 
     m_pLocale->Init();
+#ifdef __WXMSW__
+    // In Windows local information is stored relative to the executable,
+    //   in the Unix world it may be different.
+    m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
+#endif
     m_pLocale->AddCatalog(GetAppName());
 
     // Initialize the configuration storage module
