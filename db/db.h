@@ -122,6 +122,7 @@ struct USER {
 
 struct TEAM {
     int id;
+    unsigned int create_time;
     int userid;             // User ID of team founder
     char name[256];
     char name_lc[256];      // Team name in lowercase (used for searching)
@@ -129,8 +130,10 @@ struct TEAM {
     int type;               // Team type (see above)
     char name_html[256];
     char description[MAX_BLOB_SIZE];
-    int nusers;
+    int nusers;             // UNDEFINED BY DEFAULT
     char country[256];
+    double total_credit;    // UNDEFINED BY DEFAULT
+    double expavg_credit;   // UNDEFINED BY DEFAULT
 };
 
 struct HOST {
@@ -322,18 +325,33 @@ extern int db_app_version_enum(APP_VERSION&);
 extern int db_user_new(USER&);
 extern int db_user(int, USER&);
 extern int db_user_update(USER&);
+extern int db_user_count(int&);
 extern int db_user_lookup_auth(USER&);
 extern int db_user_lookup_email_addr(USER&);
+extern int db_user_enum_id(USER&);
+extern int db_user_enum_total_credit(USER&);
+extern int db_user_enum_expavg_credit(USER&);
+extern int db_user_enum_teamid(USER&);
 
 extern int db_team(int, TEAM&);
 extern int db_team_new(TEAM&);
 extern int db_team_update(TEAM&);
+extern int db_team_count(int&);
 extern int db_team_lookup_name(TEAM&);
 extern int db_team_lookup_name_lc(TEAM&);
+extern int db_team_enum(TEAM&);
+extern int db_team_enum_id(TEAM&);
+extern int db_team_enum_total_credit(TEAM&);
+extern int db_team_enum_expavg_credit(TEAM&);
 
 extern int db_host_new(HOST& p);
 extern int db_host(int, HOST&);
 extern int db_host_update(HOST&);
+extern int db_host_count(int&);
+extern int db_host_enum_id(HOST&);
+extern int db_host_enum_userid(HOST&);
+extern int db_host_enum_total_credit(HOST&);
+extern int db_host_enum_expavg_credit(HOST&);
 
 extern int db_workunit_new(WORKUNIT& p);
 extern int db_workunit(int id, WORKUNIT&);

@@ -69,6 +69,8 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+Implement FIFO mechanism in scheduler for results that can't be sent
+
 user profiles on web (borrow logic from SETI@home)
 
 Devise system for porting applications

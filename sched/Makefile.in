@@ -110,8 +110,11 @@ RESULT_RETRY_OBJS = \
     ../RSAEuro/source/rsaeuro.a
 
 DB_DUMP_OBJS = \
-    ../db/db_mysql.fcgi.o \
-    ../db/mysql_util.fcgi.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/parse.o \
+    ../lib/util.o \
+    config.o \
     db_dump.o
     
 FCGI_OBJS = \
@@ -175,6 +178,9 @@ file_deleter: $(FILE_DELETER_OBJS)
 
 assimilator: $(ASSIMILATOR_OBJS)
 	$(CC) $(ASSIMILATOR_OBJS) $(MYSQL_LIBS) $(CLIBS) -o assimilator
+
+db_dump: $(DB_DUMP_OBJS)
+	$(CC) $(DB_DUMP_OBJS) $(MYSQL_LIBS) $(CLIBS) -o db_dump
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

@@ -49,20 +49,21 @@ create table user (
     expavg_time     double      not null,
     global_prefs    blob,
     project_prefs   blob,
-    teamid	    integer	not null,
+    teamid          integer not null,
     primary key (id)
 );
 
 create table team (
-    id		    integer     not null auto_increment,
-    userid	    integer	not null,
-    name	    varchar(254) not null,
-    name_lc	    varchar(254),
-    url		    varchar(254),
-    type	    integer	not null,
-    name_html	    varchar(254),
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    userid          integer not null,
+    name            varchar(254) not null,
+    name_lc         varchar(254),
+    url             varchar(254),
+    type            integer not null,
+    name_html       varchar(254),
     description     blob,
-    nusers          integer     not null,
+    nusers          integer     not null,   /* temp */
     country         varchar(254),
     total_credit    double      not null,   /* temp */
     expavg_credit   double      not null,   /* temp */

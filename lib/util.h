@@ -25,6 +25,8 @@ extern void boinc_sleep( int seconds );
 extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
 extern double drand();
+extern void unescape_url(char *url);
+extern void escape_url(char *in, char*out);
 
 #ifndef max
 #define max(a,b)            (((a) > (b)) ? (a) : (b))

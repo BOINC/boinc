@@ -173,11 +173,12 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
     case TYPE_TEAM:
         tp = (TEAM*)vp;
         sprintf(q,
-            "id=%d, userid=%d, name='%s', "
+            "id=%d, create_time=%d, userid=%d, name='%s', "
             "name_lc='%s', url='%s', "
             "type=%d, name_html='%s', description='%s', nusers=%d, "
-            "country='%s'",
+            "country='%s', total_credit=%f, expavg_credit=%f",
             tp->id,
+            tp->create_time,
             tp->userid,
             tp->name,
             tp->name_lc,
@@ -186,7 +187,9 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             tp->name_html,
             tp->description,
             tp->nusers,
-            tp->country
+            tp->country,
+            tp->total_credit,
+            tp->expavg_credit
         );
         break;
     case TYPE_HOST:
@@ -352,6 +355,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         tp = (TEAM*)tp;
         memset(tp, 0, sizeof(TEAM));
         tp->id = atoi(r[i++]);
+        tp->create_time = atoi(r[i++]);
         tp->userid = atoi(r[i++]);
         strcpy2(tp->name, r[i++]);
         strcpy2(tp->name_lc, r[i++]);
@@ -360,6 +364,8 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         strcpy2(tp->description, r[i++]);
         tp->nusers = atoi(r[i++]);
         strcpy2(tp->country, r[i++]);
+        tp->total_credit = atof(r[i++]);
+        tp->expavg_credit = atof(r[i++]);
         break;
     case TYPE_HOST:
         hp = (HOST*)vp;
@@ -557,11 +563,39 @@ int db_user_lookup_auth(USER& p) {
     return boinc_db.db_lookup(&p, TYPE_USER, buf);
 }
 
+int db_user_count(int& n) {
+    return boinc_db.db_count(&n, "*", TYPE_USER);
+}
+
 int db_user_lookup_email_addr(USER& p) {
     char buf[256];
 
     sprintf(buf, "email_addr='%s'", p.email_addr);
     return boinc_db.db_lookup(&p, TYPE_USER, buf);
+}
+
+int db_user_enum_id(USER& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by id");
+}
+int db_user_enum_total_credit(USER& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by total_credit desc");
+}
+
+int db_user_enum_expavg_credit(USER& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_USER, "order by expavg_credit desc");
+}
+
+int db_user_enum_teamid(USER& p) {
+    static ENUM e;
+    char buf[256];
+
+    if (!e.active) {
+        sprintf(buf, "where teamid=%d", p.teamid);
+    }
+    return boinc_db.db_enum(e, &p, TYPE_USER, buf);
 }
 
 ////////// TEAM /////////
@@ -578,6 +612,10 @@ int db_team_update(TEAM& p) {
     return boinc_db.db_update(&p, TYPE_TEAM);
 }
 
+int db_team_count(int& n) {
+    return boinc_db.db_count(&n, "*", TYPE_TEAM);
+}
+
 int db_team_lookup_name(TEAM& p) {
     char buf[256];
 
@@ -592,6 +630,26 @@ int db_team_lookup_name_lc(TEAM& p) {
     return boinc_db.db_lookup(&p, TYPE_TEAM, buf);
 }
 
+int db_team_enum(TEAM& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_TEAM);
+}
+
+int db_team_enum_id(TEAM& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by id");
+}
+
+int db_team_enum_total_credit(TEAM& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by total_credit desc");
+}
+
+int db_team_enum_expavg_credit(TEAM& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by expavg_credit desc");
+}
+
 ////////// HOST /////////
 
 int db_host_new(HOST& p) {
@@ -602,8 +660,37 @@ int db_host(int i, HOST& p) {
     return boinc_db.db_lookup_id(i, &p, TYPE_HOST);
 }
 
+int db_host_count(int& n) {
+    return boinc_db.db_count(&n, "*", TYPE_HOST);
+}
+
 int db_host_update(HOST& p) {
     return boinc_db.db_update(&p, TYPE_HOST);
+}
+
+int db_host_enum_id(HOST& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_HOST, "order by id");
+}
+
+int db_host_enum_userid(HOST& p) {
+    static ENUM e;
+    char buf[256];
+
+    if (!e.active) {
+        sprintf(buf, "where userid=%d", p.userid);
+    }
+    return boinc_db.db_enum(e, &p, TYPE_HOST, buf);
+}
+
+int db_host_enum_total_credit(HOST& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_HOST, "order by total_credit desc");
+}
+
+int db_host_enum_expavg_credit(HOST& p) {
+    static ENUM e;
+    return boinc_db.db_enum(e, &p, TYPE_HOST, "order by expavg_credit desc");
 }
 
 ////////// WORKUNIT /////////

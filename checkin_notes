@@ -3043,3 +3043,24 @@ David   Jan 29 2003
     sched/
         db_dump.C (new)
         Makefile.in
+
+David  Jan 30 2003
+    - continued work on db_dump
+    - added doc for db_dump
+    - added create_time field to team table
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+    doc/
+        db_dump.html (new)
+        stripchart.html (new)
+        stripchart_data.html (new)
+    html_user/
+        team_create_action.php
+    lib/
+        util.C,h
+    sched/
+        Makefile.in
+        db_dump.C

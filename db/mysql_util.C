@@ -192,7 +192,8 @@ int MYSQL_DB::db_query_int(int* ip, char* query) {
 
 int MYSQL_DB::db_count(int* np, char* what, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
-    sprintf(buf, "select count(%s) from %s %s", what, table_name[type], clause);
+    sprintf(buf, "select count(%s) from %s ", what, table_name[type]);
+    if (clause) strcat(buf, clause);
     return db_query_int(np, buf);
 }
 

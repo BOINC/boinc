@@ -140,7 +140,7 @@ int parse_command_line(char* p, char** argv) {
         } else {
             if (space) {
                 *pp++ = p;
-		argc++;
+                argc++;
                 space = false;
             }
         }
@@ -180,3 +180,62 @@ int lock_file(char* filename) {
 double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
+
+static char x2c(char *what) {
+    register char digit;
+    
+    digit = (what[0] >= 'A' ? ((what[0] & 0xdf) - 'A')+10 : (what[0] - '0'));
+    digit *= 16;
+    digit += (what[1] >= 'A' ? ((what[1] & 0xdf) - 'A')+10 : (what[1] - '0'));
+    return(digit);
+}
+
+static void c2x(char *what) {
+    char buf[3];
+    char num = atoi(what);
+    char d1 = num / 16;
+    char d2 = num % 16;
+    int abase1, abase2;
+    if (d1 < 10) abase1 = 48;
+    else abase1 = 55;
+    if (d2 < 10) abase2 = 48;
+    else abase2 = 55;
+    buf[0] = d1+abase1;
+    buf[1] = d2+abase2;
+    buf[2] = 0;
+
+    strcpy(what, buf);
+}
+
+void unescape_url(char *url) {
+    register int x,y;
+    
+    for(x=0,y=0;url[y];++x,++y) {
+        if((url[x] = url[y]) == '%') {
+            url[x] = x2c(&url[y+1]);
+            y+=2;
+        }
+    }
+    url[x] = '\0';
+}
+
+void escape_url(char *in, char*out) {
+    int x, y;
+    for (x=0, y=0; in[x]; ++x) {
+        if (isalnum(in[x])) {
+            out[y] = in[x];
+            ++y;
+        } else {
+            out[y] = '%';
+            ++y;
+            out[y] = 0;
+            char buf[256];
+            sprintf(buf, "%d", (char)in[x]);
+            c2x(buf);
+            strcat(out, buf);
+            y += 2;
+        }
+    }
+    out[y] = 0;
+}
+
