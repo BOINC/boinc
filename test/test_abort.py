@@ -15,7 +15,7 @@ class WorkAbort(WorkUC):
 class ResultAbort(ResultUCError):
     def __init__(self):
         ResultUCError.__init__(self)
-        self.stderr_out.append('<message>Output file exceeded size limit</message>')
+        self.stderr_out.append('<message>Output file exceeded size limit')
 
 class ProjectAbort(ProjectUC):
     def __init__(self):

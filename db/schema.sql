@@ -64,6 +64,7 @@ create table user (
     url             varchar(254),
     send_email      smallint    not null,
     show_hosts      smallint    not null,
+    posts           integer unsigned not null,
     primary key (id)
 );
 

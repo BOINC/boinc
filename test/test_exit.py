@@ -14,7 +14,7 @@ class WorkExit(WorkUC):
 class ResultExit(ResultUCError):
     def __init__(self):
         ResultUCError.__init__(self)
-        self.stderr_out.append('<message>process exited with a nonzero exit code')
+        self.stderr_out.append('<message>process exited with a non-zero exit code')
 
 class ProjectExit(ProjectUC):
     def __init__(self):

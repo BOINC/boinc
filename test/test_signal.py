@@ -15,7 +15,7 @@ class ResultSignal(ResultUCError):
     def __init__(self):
         ResultUCError.__init__(self)
         self.stderr_out.append('SIGHUP: terminal line hangup')
-        self.stderr_out.append('<message>process exited with a nonzero exit code')
+        self.stderr_out.append('<message>process exited with a non-zero exit code')
 
 class ProjectSignal(ProjectUC):
     def __init__(self):
