@@ -258,6 +258,7 @@ int CLIENT_STATE::init() {
     if (update_prefs) {
         for (i=0; i<projects.size(); i++) {
             projects[i]->sched_rpc_pending = true;
+			projects[i]->min_rpc_time = 0;
         }
     }
 

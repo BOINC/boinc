@@ -84,9 +84,6 @@ Delete files if needed to honor disk usage constraint
     should include per-result constraints (e.g. giant stderr files)
     inform user if files deleted
 
-- "Connect Now" command should apply to a particular project,
-    and should override the backoff on that project
-
 implement server watchdogs
 
 -----------------------

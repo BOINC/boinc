@@ -1066,7 +1066,10 @@ void CMainWindow::OnCommandProjectGetPrefs()
 {
 	PROJECT *proj;
 	proj = GetProjectFromContextMenu();
-	if (proj) proj->sched_rpc_pending = true;
+	if (proj) {
+		proj->sched_rpc_pending = true;
+		proj->min_rpc_time = 0;
+	}
 }
 
 //////////
