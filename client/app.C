@@ -642,7 +642,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
     // TODO: calculate working set size elsewhere
     if (working_set_size > max_mem_usage || working_set_size/1048576 > gstate.global_prefs.max_memory_mbytes) {
         msg_printf(result->project, MSG_INFO, "Aborting result %s: exceeded memory limit %f\n",
-            result->name, min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576);
+            result->name, min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576));
         abort();
         return true;
     }
