@@ -190,9 +190,9 @@ class SqlQueryString {
         $this->addeq('teamid');
         $this->addeq('exit_status');
         if ($_GET['nsecs']) {
-            $_GET['received_time'] = time() - $_GET['nsecs'];
+            $_GET['mod_time'] = date("YmdHis",time() - $_GET['nsecs']);
         }
-        $this->addgt('received_time');
+        $this->addgt('mod_time');
         $this->addeq_not_CHOOSE_ALL('server_state');
         $this->addeq_not_CHOOSE_ALL('outcome');
         $this->addeq_not_CHOOSE_ALL('client_state');
@@ -210,10 +210,10 @@ function link_results($n, $mq, $query, $clauses) {
         return "0";
     } else {
         if(strlen($clauses)) {
-            return "<a href=db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=received_time&detail=low>$n</a>";
+            return "<a href=db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=mod_time&detail=low>$n</a>";
         }
         else {
-            return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=received_time&detail=low>$n</a>";
+            return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=mod_time&detail=low>$n</a>";
         }
         
     }
@@ -267,7 +267,8 @@ function show_result_summary() {
 
     $query_appid = $_GET['appid'];
     if ($_GET['nsecs']) {
-        $query_received_time = time() - $_GET['nsecs'];
+        //$query_mod_time = time() - $_GET['nsecs'];
+		$query_mod_time = $_GET['nsecs'];
     }
     $query_wuid = $_GET['workunitid'];
 
@@ -312,8 +313,8 @@ FROM result WHERE
     if ($query_wuid) {
         $main_query .= "workunitid=$query_wuid and ";
     }
-    if ($query_received_time) {
-        $main_query .= "mod_time > DATE_SUB( NOW(), INTERVAL $query_received_time SECOND ) and ";
+    if ($query_mod_time) {
+        $main_query .= "mod_time > DATE_SUB( NOW()+0, INTERVAL $query_mod_time SECOND )+0 and ";
     }
 
     $main_query .= "1=1";
@@ -690,33 +691,38 @@ function show_workunit($wu) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Transition Time", time_str($wu->transition_time));
+	row("Last time modified",mysqltime_str($wu->mod_time));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
-    row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
+    row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");
     row("Batch", $wu->batch);
     row("Estimated FP Operations", $wu->rsc_fpops_est);
     row("Max FP Operations", $wu->rsc_fpops_bound);
     row("Max Memory Usage", $wu->rsc_memory_bound);
     row("Max Disk Usage", $wu->rsc_disk_bound);
-    row("Need validate?", $wu->need_validate?"yes":"no");
+    row("Need validate?", ($wu->need_validate?"yes [":"no [").$wu->need_validate."]");
     row("Canonical resultid",
-            "<a href=db_action.php?table=result&id=$wu->canonical_resultid>".$wu->canonical_resultid."</a>");
+            "<a href=\"db_action.php?table=result&id=$wu->canonical_resultid\">".$wu->canonical_resultid."</a>");
     row("Canonical credit", $wu->canonical_credit);
-    row("Timeout check time", time_str($wu->timeout_check_time));
+    //row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", "$wu->delay_bound" . " =  " . time_diff($wu->delay_bound) );
     row("Error mask", wu_error_mask_str($wu->error_mask));
-    row("File delete state", file_delete_state_str($wu->file_delete_state));
-    row("Assimilation state", assimilate_state_str($wu->assimilate_state));
+    row("File delete state", file_delete_state_str($wu->file_delete_state)." [".$wu->file_delete_state."]");
+    row("Assimilation state", assimilate_state_str($wu->assimilate_state)." [".$wu->assimilate_state."]");
     // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
     row("min quorum", $wu->min_quorum);
     row("target results", $wu->target_nresults);
     row("max error results", $wu->max_error_results);
     row("max total results", $wu->max_total_results);
     row("max success results", $wu->max_success_results);
-    row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
-    row("result template", "<pre>".htmlspecialchars($wu->result_template)."</pre>");
+    row("result template file",$wu->result_template_file);
+    row("hr_class", $wu->hr_class);
+    row("opaque", $wu->opaque);
+    row("Priority", $wu->priority);
     end_table();
-
+    echo "<div align=\"center\">";
+    echo "<a href='show_log.php?s=$wu->name'>GREP LOGS FOR THIS WORKUNIT</a>";
+    echo "</div>";
     echo "<p>";
 }
 

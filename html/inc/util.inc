@@ -200,7 +200,22 @@ function time_str($x) {
 function pretty_time_str($x) {
     return time_str($x);
 }
-
+// Converts a mysql-Timestamp to a user readable format
+// @return String A user readable DateTime-String in UTC
+// @param Integer $x The mysql-Timestamp to convert
+function mysqltime_str($x) {
+	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
+	$year = substr($x,0,4);
+	$month = substr($x,5,2);
+	$day = substr($x,8,2);
+	$hour = substr($x,11,2);
+	$minute = substr($x,14,2);
+	$second = substr($x,17,2);
+	//make a Unix-Timestamp
+        // echo "Time string is " . "$x";
+	$time = mktime($hour,$minute,$second,$month,$day,$year);
+	return time_str($time);
+}
 function start_table($extra="width=100%") {
     echo "<table border=1 cellpadding=5 $extra>";
 }
