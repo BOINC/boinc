@@ -29,16 +29,28 @@ TEXT_TABLE user_info;
 int m_cxChar;
 int m_cyChar;
 
-char* result_titles[] = {"Project", "Application", "CPU time", "status"};
-int result_widths[] = {12, 20, 12, 18};
+char* result_titles[] = {"Project", "Application", "Name", "CPU time", "Status"};
+int result_widths[] = {12, 20, 15, 12, 18};
 char* file_xfer_titles[] = {"Project", "File", "Size", "direction"};
 int file_xfer_widths[] = {12, 20, 12, 12};
 char* disk_usage_titles[] = {"Project", "space used"};
 int disk_usage_widths[] = {12, 20};
-char* project_titles[] = {"Project", "total CPU", "share"};
-int project_widths[] = {12, 15, 15};
-char* user_info_titles[] = {"Name", "Team", "Total credit", "Recent credit"};
-int user_info_widths[] = {20, 20, 15, 15};
+char* project_titles[] = {"Project", "account", "total credit", "avg. credit", "target share"};
+int project_widths[] = {15, 15, 15, 15, 15};
+
+void size_string(double nbytes, char* buf) {
+    if (nbytes > 1e12) {
+        sprintf(buf, "%4.2f TB", nbytes/1e12);
+    } else if (nbytes > 1e9) {
+        sprintf(buf, "%4.2f GB", nbytes/1e9);
+    } else if (nbytes > 1e6) {
+        sprintf(buf, "%4.2f MB", nbytes/1e6);
+    } else if (nbytes > 1e3) {
+        sprintf(buf, "%4.2f KB", nbytes/1e3);
+    } else {
+        sprintf(buf, "%4f bytes", nbytes);
+    }
+}
 
 void show_message(char* p, char* prior) {
     //MessageBox(NULL, p, prior, MB_OK);
@@ -53,54 +65,135 @@ int initialize_prefs() {
     return 0;
 }
 
-void show_result(TEXT_LINE& line, RESULT& result) {
+void show_result(TEXT_TABLE& table, int row, RESULT& result) {
     char buf[256];
-    line.set_field(0, result.project->project_name);
-    line.set_field(1, result.app->name);
+    table.set_field(row, 0, result.project->project_name);
+    table.set_field(row, 1, result.app->name);
+    table.set_field(row, 2, result.name);
     sprintf(buf, "%f", result.final_cpu_time);
-    line.set_field(2, buf);
+    table.set_field(row, 3, buf);
 	switch(result.state) {
 	case RESULT_NEW:
-        line.set_field(3, "New"); break;
+        table.set_field(row, 4, "New"); break;
 	case RESULT_FILES_DOWNLOADED:
-        line.set_field(3, "Ready to run"); break;
+        table.set_field(row, 4, "Ready to run"); break;
 	case RESULT_COMPUTE_DONE:
-        line.set_field(3, "Computation done"); break;
+        table.set_field(row, 4, "Computation done"); break;
     case RESULT_READY_TO_ACK:
-        line.set_field(3, "Results uploaded"); break;
+        table.set_field(row, 4, "Results uploaded"); break;
     case RESULT_SERVER_ACK:
-        line.set_field(3, "Acknowledged"); break;
+        table.set_field(row, 4, "Acknowledged"); break;
 	}
 }
 
-void show_file_xfer(TEXT_LINE& line, FILE_XFER& fx) {
+void show_file_xfer(TEXT_TABLE& table, int row, FILE_XFER& fx) {
     char buf[256];
 
-    line.set_field(0, fx.fip->project->project_name);
-    line.set_field(1, fx.fip->name);
-    sprintf(buf, "%f", fx.fip->nbytes);
-    line.set_field(2, buf);
-    line.set_field(3, fx.fip->generated_locally?"upload":"download");
+    table.set_field(row, 0, fx.fip->project->project_name);
+    table.set_field(row, 1, fx.fip->name);
+    size_string(fx.fip->nbytes, buf);
+    table.set_field(row, 2, buf);
+    table.set_field(row, 3, fx.fip->generated_locally?"upload":"download");
+}
+
+void show_project(TEXT_TABLE& table, int row, PROJECT& project) {
+    char buf[256];
+
+    table.set_field(row, 0, project.project_name);
+    table.set_field(row, 1, project.user_name);
+    sprintf(buf, "%f", project.total_credit);
+    table.set_field(row, 2, buf);
+    sprintf(buf, "%f", project.expavg_credit);
+    table.set_field(row, 3, buf);
+    sprintf(buf, "%f", project.resource_share);
+    table.set_field(row, 4, buf);
 }
 
 void update_gui(CLIENT_STATE& cs) {
     int i, n;
 
-    n = min(results.nlines, cs.results.size());
+    n = min(results.nrows, cs.results.size());
     for (i=0; i<n; i++) {
-        show_result(results.lines[i+1], *cs.results[i]);
+        show_result(results, i, *cs.results[i]);
     }
-    for (i=n; i<results.nlines; i++) {
-        results.blank_line(i);
+    for (i=n; i<results.nrows; i++) {
+        results.blank_row(i);
     }
 
-    n = min(file_xfers.nlines, cs.file_xfers->file_xfers.size());
+    n = min(file_xfers.nrows, cs.file_xfers->file_xfers.size());
     for (i=0; i<n; i++) {
-        show_file_xfer(file_xfers.lines[i], *cs.file_xfers->file_xfers[i]);
+        show_file_xfer(file_xfers, i, *cs.file_xfers->file_xfers[i]);
     }
-    for (i=n; i<file_xfers.nlines; i++) {
-        file_xfers.blank_line(i);
+    for (i=n; i<file_xfers.nrows; i++) {
+        file_xfers.blank_row(i);
     }
+
+    n = min(projects.nrows, cs.projects.size());
+    for (i=0; i<n; i++) {
+        show_project(projects, i, *cs.projects[i]);
+    }
+    for (i=n; i<projects.nrows; i++) {
+        projects.blank_row(i);
+    }
+}
+
+// ----------- TEXT_TABLE ------------
+
+void TEXT_TABLE::create(char* title, int nc, int sl, int nr, char** titles, int* w) {
+    int i, j, col, rcol;
+    CRect rect;
+    char* text;
+
+    ncols = nc;
+    nrows = nr;
+    nlines = nrows+1;
+
+    rect.SetRect (m_cxChar * BOX_LEFT, m_cyChar * sl, m_cxChar * BOX_RIGHT, m_cyChar * (sl+nlines+2));
+    group_box.Create (title,  WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
+        rect, main_window, (UINT) -1);
+    group_box.SetFont (&m_fontMain, FALSE);
+
+    for (i=0; i<nlines; i++) {
+        col = TEXT_LEFT;
+        for (j=0; j<ncols; j++) {
+            rcol = col + w[j];
+            rect.SetRect (m_cxChar * col, m_cyChar * (sl+i+1), m_cxChar * rcol, m_cyChar * (sl+i+2));
+            text = (i==0)?titles[j]:"";
+            lines[i].fields[j].Create(text, WS_CHILD|WS_VISIBLE|SS_LEFT, rect, main_window);
+            lines[i].fields[j].SetFont (&m_fontMain, FALSE);
+            col = rcol;
+        }
+    }
+}
+
+void TEXT_TABLE::set_field(int row, int col, char* text) {
+    if (row >= nrows) return;
+    lines[row+1].set_field(col, text);
+}
+
+void TEXT_TABLE::blank_row(int row) {
+    int i;
+
+    if (row >= nrows) return;
+    for (i=0; i<ncols; i++) {
+        lines[row+1].set_field(i, "");
+    }
+}
+
+void TEXT_LINE::set_field(int field, char* text) {
+    fields[field].SetWindowText(text);
+}
+
+void make_menus(CMenu* main_menu) {
+    CMenu popup;
+
+    main_menu->CreateMenu();
+    popup.CreatePopupMenu();
+    popup.AppendMenu(MF_STRING, IDM_CLOSE, "&Close");
+    main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&File");
+    popup.CreatePopupMenu();
+    popup.AppendMenu(MF_STRING, IDM_LOGIN, "&Login");
+    main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&Account");
 }
 
 // ------------ CLoginDialog -------------
@@ -123,62 +216,6 @@ void CLoginDialog::OnOK() {
 BEGIN_MESSAGE_MAP (CLoginDialog, CDialog)
     ON_BN_CLICKED(IDC_LOGIN_OK, OnOK)
 END_MESSAGE_MAP()
-
-// ----------- TEXT_TABLE ------------
-
-void TEXT_TABLE::create(char* title, int nf, int sl, int nl, char** titles, int* w) {
-    int i, j, col, rcol;
-    CRect rect;
-    char* text;
-
-    nfields = nf;
-    nlines = nl;
-
-    rect.SetRect (m_cxChar * BOX_LEFT, m_cyChar * sl, m_cxChar * BOX_RIGHT, m_cyChar * (sl+nl+2));
-    group_box.Create (title,  WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
-        rect, main_window, (UINT) -1);
-    group_box.SetFont (&m_fontMain, FALSE);
-
-    for (i=0; i<nl; i++) {
-        col = TEXT_LEFT;
-        for (j=0; j<nf; j++) {
-            rcol = col + w[j];
-            rect.SetRect (m_cxChar * col, m_cyChar * (sl+i+1), m_cxChar * rcol, m_cyChar * (sl+i+2));
-            text = (i==0)?titles[j]:"xxx";
-            lines[i].fields[j].Create(text, WS_CHILD|WS_VISIBLE|SS_LEFT, rect, main_window);
-            lines[i].fields[j].SetFont (&m_fontMain, FALSE);
-            col = rcol;
-        }
-    }
-}
-
-void TEXT_TABLE::set_field(int line, int field, char* text) {
-    lines[line].set_field(field, text);
-}
-
-void TEXT_TABLE::blank_line(int line) {
-    int i;
-
-    for (i=0; i<nfields; i++) {
-        lines[line].set_field(i, "");
-    }
-}
-
-void TEXT_LINE::set_field(int field, char* text) {
-    fields[field].SetWindowText(text);
-}
-
-void make_menus(CMenu* main_menu) {
-    CMenu popup;
-
-    main_menu->CreateMenu();
-    popup.CreatePopupMenu();
-    popup.AppendMenu(MF_STRING, IDM_CLOSE, "&Close");
-    main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&File");
-    popup.CreatePopupMenu();
-    popup.AppendMenu(MF_STRING, IDM_LOGIN, "&Login");
-    main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&Account");
-}
 
 /////////////////////////////////////////////////////////////////////////
 // CMyApp member functions
@@ -264,11 +301,10 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     SetMenu(&main_menu);
     main_menu.Detach();
 
-    results.create("Work units", 4, 1, 5, result_titles, result_widths);
-    file_xfers.create("File transfers", 4, 9, 4, file_xfer_titles, file_xfer_widths);
-    disk_usage.create("Disk usage", 2, 16, 3, disk_usage_titles, disk_usage_widths);
-    projects.create("Projects", 3, 22, 3, project_titles, project_widths);
-    user_info.create("User info", 4, 28, 2, user_info_titles, user_info_widths);
+    results.create("Work units", 5, 1, 4, result_titles, result_widths);
+    file_xfers.create("File transfers", 4, 9, 3, file_xfer_titles, file_xfer_widths);
+    disk_usage.create("Disk usage", 2, 16, 2, disk_usage_titles, disk_usage_widths);
+    projects.create("Projects", 5, 22, 2, project_titles, project_widths);
 
     NetOpen();
     freopen("stdout.txt", "w", stdout);

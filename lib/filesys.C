@@ -17,8 +17,6 @@
 // Contributor(s):
 //
 
-#include "windows_cpp.h"
-
 #include <stdio.h>
 #include <fcntl.h>
 

@@ -1805,3 +1805,22 @@ David   August 28, 2002
         Makefile.in
         backend_lib.C,h
         grant_credit.C (new)
+
+David   August 30 2002
+    - improved Win GUI
+    - print error if file validate failure
+    - fix lib Makefile.in
+
+    client/
+        client_state.C
+        cs_files.C
+        pers_file_xfer.C
+    client/win/
+        wingui.cpp,h
+    lib/
+        Makefile.in
+        countries.C
+        crypt.C
+        error_numbers.h
+        filesys.C
+        md5_file.C

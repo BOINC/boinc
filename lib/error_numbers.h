@@ -47,3 +47,4 @@
 #define ERR_RSA_FAILED -119
 #define ERR_OPEN       -120
 #define ERR_DUP2       -121
+#define ERR_NO_SIGNATURE    -22

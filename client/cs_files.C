@@ -60,6 +60,10 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     int retval;
 
     if (file_info.signature_required) {
+        if (!file_info.file_signature) {
+            fprintf(stdout, "ERROR: file %s missing signature\n", file_info.name);
+            return ERR_NO_SIGNATURE;
+        }
         project = file_info.project;
         retval = verify_file2(
             pathname, file_info.file_signature, project->code_sign_key, verified

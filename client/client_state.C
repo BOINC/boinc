@@ -784,7 +784,6 @@ bool CLIENT_STATE::update_results() {
         }
         result_iter++;
     }
-    if (log_flags.state_debug && action) printf("update_results\n");
     return action;
 }
 

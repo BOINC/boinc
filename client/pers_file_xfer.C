@@ -145,7 +145,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                 get_pathname(fip, pathname);
                 retval = verify_downloaded_file(pathname, *fip);
                 if (retval) {
-                    fprintf(stderr, "checksum or signature error for %s\n", fip->name);
+                    fprintf(stdout, "checksum or signature error for %s\n", fip->name);
                     fip->status = retval;
                 } else {
                     if (log_flags.file_xfer_debug) {
@@ -159,7 +159,6 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                 xfer_done = true;
             }
         } else {
-            // file xfer failed.
             handle_xfer_failure(now);
         }
         // remove fxp from file_xfer_set here and deallocate it
@@ -189,6 +188,9 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
         // Set the associated files status to a ERR_GIVEUP failure
         fip->status = ERR_GIVEUP;
         xfer_done = true;
+    }
+    if (log_flags.file_xfer_debug) {
+        printf("Error: transfer failure for %s: %d\n", fip->name, fip->status);
     }
 }
 

@@ -7,7 +7,7 @@ INSTALL_DIR = $(INSTALL_DIR)
 
 VERSION = 1
 
-CFLAGS = -g
+CFLAGS = -g -Wall @DEFS@
 
 CC = @CC@ $(CFLAGS) -I ../RSAEuro/source
 
@@ -15,7 +15,9 @@ PROGS = md5_test shmem_test synch_test crypt_prog
 
 OBJS = \
     countries.o \
-    parse.o
+    parse.o \
+    filesys.o \
+    util.o
 
 MD5_OBJS = \
     md5.o \
