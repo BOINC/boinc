@@ -100,7 +100,7 @@ function write_fd($fd, $str) {
 }
 
 function page_head($title, $user=null, $fd=null) {
-    write_fd($fd, "<head><title>$title</title><body bgcolor=ffffff>\n");
+    write_fd($fd, "<head><title>$title</title></head><body bgcolor=ffffff>\n");
     project_banner($user, $fd);
 }
 
@@ -109,7 +109,7 @@ function page_tail($fd=null) {
 
     // put your copyright notice etc. here
 
-    write_fd($fd, "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n");
+    write_fd($fd, "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n</body>");
 }
 
 function db_error_page() {
