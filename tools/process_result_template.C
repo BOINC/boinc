@@ -87,7 +87,6 @@ int process_result_template(
             fprintf(out, "</file_info>\n");
             continue;
         }
-
         while (1) {
             found = false;
             p = strstr(buf, OUTFILE_MACRO);
@@ -105,14 +104,14 @@ int process_result_template(
             if (p) {
                 found = true;
                 strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
-                strcpy(p, UPLOAD_URL);
+                strcpy(p, getenv("BOINC_UPLOAD_URL"));
                 strcat(p, temp);
             }
             p = strstr(buf, DOWNLOAD_URL_MACRO);
             if (p) {
                 found = true;
                 strcpy(temp, p+strlen(DOWNLOAD_URL_MACRO));
-                strcpy(p, DOWNLOAD_URL);
+                strcpy(p, getenv("BOINC_DOWNLOAD_URL"));
                 strcat(p, temp);
             }
             p = strstr(buf, WU_NAME_MACRO);

@@ -227,7 +227,7 @@ void add_user() {
 int main(int argc, char** argv) {
     int i;
 
-    db_open("boinc");
+    db_open(getenv("BOINC_DB_NAME"));
     for (i=2; i<argc; i++) {
         if (!strcmp(argv[i], "-app_name")) {
             i++;

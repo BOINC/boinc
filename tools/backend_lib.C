@@ -95,14 +95,14 @@ static int process_wu_template(
         if (p) {
             found = true;
             strcpy(buf, p+strlen(UPLOAD_URL_MACRO));
-            strcpy(p, UPLOAD_URL);
+            strcpy(p, getenv("BOINC_UPLOAD_URL"));
             strcat(p, buf);
         }
         p = strstr(out, DOWNLOAD_URL_MACRO);
         if (p) {
             found = true;
             strcpy(buf, p+strlen(DOWNLOAD_URL_MACRO));
-            strcpy(p, DOWNLOAD_URL);
+            strcpy(p, getenv("BOINC_DOWNLOAD_URL"));
             strcat(p, buf);
         }
         p = strstr(out, MD5_MACRO);
