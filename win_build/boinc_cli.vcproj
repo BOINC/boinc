@@ -490,6 +490,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\cs_trickle.C">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.C">
 			</File>
 			<File
