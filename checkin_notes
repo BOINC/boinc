@@ -23893,3 +23893,11 @@ Rom    3 Feb 2005
 
     client/win/
         win_idle_tracker.cpp
+
+Bruce  3 Feb 2005
+    - core client: add platform name and client version to HTTP request headers
+      when going via a proxy server.  See David's change just above from 2 Feb.
+                                                                                                                      
+    client/
+        http.C
+

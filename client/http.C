@@ -113,14 +113,16 @@ static void http_get_request_header_proxy(
     if (offset) sprintf( offset_info, "Range: bytes=%.0f-\015\012", offset );
     sprintf(buf,
         "GET %s HTTP/1.0\015\012"
-        "User-Agent: BOINC client\015\012"
+        "User-Agent: BOINC client (%s %d.%02d)\015\012"
         "Host: %s:%d\015\012"
         "%s"
         "Connection: close\015\012"
         "Accept: */*\015\012"
         "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
-        file, host, port, offset?offset_info:"", encstr
+        file,
+        HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION,
+        host, port, offset?offset_info:"", encstr
     );
 }
 
