@@ -38,7 +38,7 @@ CONFIG config;
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
-    bool no_delete;
+    bool no_delete=false;
 
     safe_strcpy(buf, wu.xml_doc);
 
@@ -67,7 +67,7 @@ int wu_delete_files(WORKUNIT& wu) {
 int result_delete_files(RESULT& result) {
     char* p;
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
-    bool no_delete;
+    bool no_delete=false;
 
     safe_strcpy(buf, result.xml_doc_in);
     p = strtok(buf,"\n");

@@ -244,7 +244,8 @@ int handle_get_file_size(char* file_name) {
         write_log(buf);
         return return_success("<file_size>0</file_size>");
     } else {
-        sprintf(buf, "handle_get_file_size: %s, returning %d\n", file_name, sbuf.st_size);
+        sprintf(buf, "handle_get_file_size: %s, returning %d\n",
+                file_name, (int)sbuf.st_size);
         write_log(buf);
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);

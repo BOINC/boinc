@@ -302,7 +302,7 @@ bool SCHEDULER_OP::poll() {
     vector<STRING256> urls;
     bool changed, scheduler_op_done;
     bool action = false, err = false;
-    char err_msg[256],*err_url;
+    char err_msg[256],*err_url=NULL;
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:

@@ -146,7 +146,7 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
 //
 void CLIENT_STATE::compute_resource_debts() {
     unsigned int i, j;
-    PROJECT* p, *pbest;
+    PROJECT* p, *pbest=NULL;
     double best;
 
     for (i=0; i<projects.size(); i++) {

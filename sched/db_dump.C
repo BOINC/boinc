@@ -232,7 +232,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 void team_total_credit() {
     DB_TEAM team;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!team.enumerate("order by total_credit desc")) {
@@ -261,7 +261,7 @@ void team_total_credit() {
 void team_expavg_credit() {
     DB_TEAM team;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!team.enumerate("order by expavg_credit desc")) {
@@ -290,7 +290,7 @@ void team_expavg_credit() {
 void team_id() {
     DB_TEAM team;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!team.enumerate("order by id")) {
@@ -319,7 +319,7 @@ void team_id() {
 void user_total_credit() {
     DB_USER user;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!user.enumerate("order by total_credit desc")) {
@@ -348,7 +348,7 @@ void user_total_credit() {
 void user_expavg_credit() {
     DB_USER user;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!user.enumerate("order by expavg_credit desc")) {
@@ -377,7 +377,7 @@ void user_expavg_credit() {
 void user_id() {
     DB_USER user;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!user.enumerate("order by id")) {
@@ -406,7 +406,7 @@ void user_id() {
 void host_total_credit() {
     DB_HOST host;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!host.enumerate("order by total_credit desc")) {
@@ -435,7 +435,7 @@ void host_total_credit() {
 void host_expavg_credit() {
     DB_HOST host;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!host.enumerate("order by expavg_credit desc")) {
@@ -464,7 +464,7 @@ void host_expavg_credit() {
 void host_id() {
     DB_HOST host;
     FILE* f = NULL;
-    int nfile=0, nrec;
+    int nfile=0, nrec=0;
     char buf[256], cmd_line[256];
 
     while (!host.enumerate("order by id")) {

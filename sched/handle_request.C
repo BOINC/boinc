@@ -415,7 +415,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
 // If DB has more recent global prefs than client's, send them.
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    unsigned int req_mod_time, db_mod_time;
+    unsigned int req_mod_time=0, db_mod_time=0;
     bool need_update;
     DB_USER user;
 

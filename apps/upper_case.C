@@ -77,7 +77,7 @@ APP_INIT_DATA uc_aid;
 int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
     char resolved_name[512],res_name2[512];
-    FILE *app_time, *client_time;
+    FILE *app_time=NULL, *client_time=NULL;
 
     if (cpu_time) {
         app_time = fopen("app.time", "w"), 

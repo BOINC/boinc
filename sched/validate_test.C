@@ -42,11 +42,11 @@ int get_output_file_path(RESULT& result, char* path) {
 // See if there's a strict majority under equality.
 //
 int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
-    int i, j, n, neq, retval, ilow, ihigh, canonical;
+    int i, j, n, neq=0, retval, ilow, ihigh, canonical;
     char* files[100];
     char path[256];
     bool found;
-    double c, low, high;
+    double c, low=0.0, high=0.0;
 
     canonical = 0;
     n = results.size();
