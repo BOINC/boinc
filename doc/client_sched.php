@@ -204,13 +204,18 @@ foreach task T
 <h2>Work fetch policy</h2>
 
 <p>
+The CPU scheduler is at its best when projects always have runnable
+results.
+When the CPU scheduler chooses to run a project without a runnable
+result, we say the CPU scheduler is 'starved'.
+
+<p>
 The work fetch policy has the following goal:
 
 <ul>
 <li>
 Maintain sufficient work so that the CPU scheduler
-is never 'starved' (i.e. a result is available for
-a particular project when one is needed).
+is never starved.
 <li>
 More specifically:
 given a 'connection period' parameter T (days),
