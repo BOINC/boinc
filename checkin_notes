@@ -9048,3 +9048,15 @@ David  8 Jan 2004
         feeder.C
         handle_request.C
         sched_shmem.h
+
+Gary	8 Jan 2004
+	- Fixed problem in windows client where user prefs were
+	  being ignored at startup as a side-effect of the previous
+	  initial startup fix. Now initial startup works and user
+      prefs are honored at startup.
+
+    client/
+        Prefs.C
+    client/win
+        wingui_mainwindow.cpp,h
+
