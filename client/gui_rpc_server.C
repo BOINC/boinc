@@ -30,6 +30,7 @@
 #include <string.h>
 #endif
 
+#include "util.h"
 #include "parse.h"
 #include "client_state.h"
 

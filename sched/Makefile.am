@@ -38,6 +38,7 @@ libsched_a_SOURCES =				\
 	../db/db_base.C				\
     ../lib/util.C				\
     ../lib/crypt.C				\
+    ../lib/filesys.C				\
     ../lib/parse.C				\
     ../lib/base64.C				\
     ../lib/shmem.C				\

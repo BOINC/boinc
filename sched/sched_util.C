@@ -23,6 +23,7 @@ using namespace std;
 #include <csignal>
 #include <cstdarg>
 #include <unistd.h>
+#include <math.h>
 
 #include "parse.h"
 #include "util.h"
@@ -77,30 +78,3 @@ bool is_stopfile_present() {
     }
     return false;
 }
-
-
-// decay an exponential average of credit per day,
-// and possibly add an increment for new credit
-//
-void update_average(
-    double credit_assigned_time,        // when work was started for new credit
-                                        // (or zero if no new credit)
-    double credit,                      // amount of new credit
-    double& avg,                        // average credit per day (in and out)
-    double& avg_time                    // when average was last computed
-) {
-    double now = dtime();
-
-    if (avg_time) {
-        double diff = now - avg_time;
-        double diff_days = diff/SECONDS_IN_DAY;
-        double weight = exp(-diff*LOG2/AVG_HALF_LIFE);
-        avg *= weight;
-        avg += (1-weight)*(credit/diff_days);
-    } else {
-        double dd = (now - credit_assigned_time)/SECONDS_IN_DAY;
-        avg = credit/dd;
-    }
-    avg_time = now;
-}
-

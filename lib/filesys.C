@@ -400,6 +400,30 @@ int boinc_rmdir(const char* name) {
 #endif
 }
 
+int lock_file(char* filename) {
+    int retval;
+
+    // some systems have both!
+#ifdef HAVE_FLOCK
+    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = flock(lock, LOCK_EX|LOCK_NB);
+#elif HAVE_LOCKF
+    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = lockf(lock, F_TLOCK, 1);
+    // must leave fd open
+#endif
+
+#ifdef _WIN32
+    HANDLE hfile = CreateFile(
+        filename, GENERIC_WRITE,
+        0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
+    );
+    if (hfile == INVALID_HANDLE_VALUE) retval = 1;
+    else retval = 0;
+#endif
+    return retval;
+}
+
 #ifdef _WIN32
 void full_path(char* relname, char* path) {
     _getcwd(path, 256);

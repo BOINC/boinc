@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include "util.h"
+#include "messages.h"
 #include "client_types.h"
 
 // Show a message, preceded by timestamp and project name

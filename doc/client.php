@@ -115,7 +115,7 @@ The work manager's menu items are as follows:
 
 <p>
 Menu names and other text in the work manager can be displayed in
-<a href=gui_languages.php>languages other than English</a>.
+<a href=language.php>languages other than English</a>.
 <p>
 The <b>BOINC screensaver</b> can be selected using the Display Properties dialog.
 The BOINC screensaver draws graphics from a running application,

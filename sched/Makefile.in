@@ -207,6 +207,7 @@ libsched_a_SOURCES = \
 	../db/db_base.C				\
     ../lib/util.C				\
     ../lib/crypt.C				\
+    ../lib/filesys.C				\
     ../lib/parse.C				\
     ../lib/base64.C				\
     ../lib/shmem.C				\
@@ -292,10 +293,10 @@ libsched_a_LIBADD =
 am_libsched_a_OBJECTS = sched_shmem.$(OBJEXT) sched_util.$(OBJEXT) \
 	sched_config.$(OBJEXT) sched_messages.$(OBJEXT) \
 	boinc_db.$(OBJEXT) db_base.$(OBJEXT) util.$(OBJEXT) \
-	crypt.$(OBJEXT) parse.$(OBJEXT) base64.$(OBJEXT) \
-	shmem.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) \
-	messages.$(OBJEXT) process_result_template.$(OBJEXT) \
-	backend_lib.$(OBJEXT)
+	crypt.$(OBJEXT) filesys.$(OBJEXT) parse.$(OBJEXT) \
+	base64.$(OBJEXT) shmem.$(OBJEXT) md5.$(OBJEXT) \
+	md5_file.$(OBJEXT) messages.$(OBJEXT) \
+	process_result_template.$(OBJEXT) backend_lib.$(OBJEXT)
 libsched_a_OBJECTS = $(am_libsched_a_OBJECTS)
 EXTRA_PROGRAMS = fcgi$(EXEEXT)
 noinst_PROGRAMS = assimilator$(EXEEXT) cgi$(EXEEXT) feeder$(EXEEXT) \
@@ -385,6 +386,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-server_types.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/feeder.Po ./$(DEPDIR)/file_deleter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/file_upload_handler.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/handle_request.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/make_work.Po ./$(DEPDIR)/md5.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/messages.Po \
@@ -444,6 +446,7 @@ boinc_db.$(OBJEXT): ../db/boinc_db.C
 db_base.$(OBJEXT): ../db/db_base.C
 util.$(OBJEXT): ../lib/util.C
 crypt.$(OBJEXT): ../lib/crypt.C
+filesys.$(OBJEXT): ../lib/filesys.C
 parse.$(OBJEXT): ../lib/parse.C
 base64.$(OBJEXT): ../lib/base64.C
 shmem.$(OBJEXT): ../lib/shmem.C
@@ -549,6 +552,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/feeder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_deleter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_upload_handler.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/handle_request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/make_work.Po@am__quote@
@@ -688,6 +692,28 @@ crypt.obj: ../lib/crypt.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/crypt.Po' tmpdepfile='$(DEPDIR)/crypt.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`
+
+filesys.o: ../lib/filesys.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.o -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/filesys.Tpo" "$(DEPDIR)/filesys.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/filesys.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='filesys.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C
+
+filesys.obj: ../lib/filesys.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.obj -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/filesys.Tpo" "$(DEPDIR)/filesys.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/filesys.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='filesys.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`
 
 parse.o: ../lib/parse.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parse.o -MD -MP -MF "$(DEPDIR)/parse.Tpo" \

@@ -316,7 +316,7 @@ inline double force_fraction(double f) {
     return f;
 }
 
-double CLIENT_STATE::get_percent_done(RESULT* result) {
+double CLIENT_STATE::get_fraction_done(RESULT* result) {
     ACTIVE_TASK* atp = active_tasks.lookup_result(result);
     return atp ? force_fraction(atp->fraction_done) : 0.0;
 }

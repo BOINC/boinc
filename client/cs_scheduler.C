@@ -83,7 +83,7 @@ void CLIENT_STATE::current_work_buf_days(double& work_buf, int& nactive_results)
 
         // TODO: subtract time already finished for WUs in progress
 
-        seconds_remaining += estimate_cpu_time(*rp->wup) * (1.0-get_percent_done(rp));
+        seconds_remaining += estimate_cpu_time(*rp->wup) * (1.0-get_fraction_done(rp));
     }
     x = seconds_remaining / SECONDS_PER_DAY;
     x /= host_info.p_ncpus;
@@ -114,7 +114,7 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
     double deltat = now - p->exp_avg_mod_time;
     if (deltat > 0) {
         if (p->exp_avg_cpu != 0) {
-            p->exp_avg_cpu *= exp(deltat*EXP_DECAY_RATE);
+            p->exp_avg_cpu *= exp(-deltat*EXP_DECAY_RATE);
         }
         p->exp_avg_mod_time = now;
     }

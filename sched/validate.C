@@ -74,12 +74,12 @@ int grant_credit(DB_RESULT& result, double credit) {
     if (retval) return retval;
 
     user.total_credit += credit;
-    update_average(result.sent_time, credit, user.expavg_credit, user.expavg_time);
+    update_average(result.sent_time, credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
     retval = user.update();
     if (retval) return retval;
 
     host.total_credit += credit;
-    update_average(result.sent_time, credit, host.expavg_credit, host.expavg_time);
+    update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
     retval = host.update();
     if (retval) return retval;
 
@@ -87,7 +87,7 @@ int grant_credit(DB_RESULT& result, double credit) {
         retval = team.lookup_id(user.teamid);
         if (retval) return retval;
         team.total_credit += credit;
-        update_average(result.sent_time, credit, team.expavg_credit, team.expavg_time);
+        update_average(result.sent_time, credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
         retval = team.update();
         if (retval) return retval;
     }

@@ -179,7 +179,7 @@ public:
     int cleanup_and_exit();
     int set_nslots();
     double estimate_cpu_time(WORKUNIT&);
-    double get_percent_done(RESULT* result);
+    double get_fraction_done(RESULT* result);
     bool input_files_available(RESULT*);
 private:
     int nslots;

@@ -17,6 +17,7 @@
 // Contributor(s):
 //
 
+#include "util.h"
 #include "sched_util.h"
 #include "validate_util.h"
 

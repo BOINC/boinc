@@ -49,6 +49,7 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
+#include "util.h"
 #include "cpu_benchmark.h"
 #include "client_state.h"
 

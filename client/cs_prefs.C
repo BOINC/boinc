@@ -25,6 +25,7 @@
 #include "stdafx.h"
 #endif
 
+#include "util.h"
 #include "filesys.h"
 #include "file_names.h"
 #include "cpu_benchmark.h"

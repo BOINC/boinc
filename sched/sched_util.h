@@ -20,31 +20,20 @@
 #ifndef SCHED_UTIL_H
 #define SCHED_UTIL_H
 
-#include <math.h>
-#include "util.h"
+#include "messages.h"
 
 // "average credit" uses an exponential decay so that recent
 // activity is weighted more heavily.
-// AVG_HALF_LIFE is the "half-life" period:
+// CREDIT_HALF_LIFE is the "half-life" period:
 // the average decreases by 1/2 if idle for this period.
 //
-// After a period of T, average credit is multiplied by
-// exp(-T*log(2)/AHL)
-//
-// When new credit is granted, the average credit is incremented
-// by the new credit's average rate,
-// i.e. the amount divided by the time since it was started
-
-#define LOG2 M_LN2
-    // log(2)
 #define SECONDS_IN_DAY (3600*24)
-#define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
+#define CREDIT_HALF_LIFE  (SECONDS_IN_DAY*7)
 
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_trigger();
 extern bool is_stopfile_present();
-extern void update_average(double, double, double&, double&);
 extern void install_stop_signal_handler();
 extern bool caught_stop_signal;
 

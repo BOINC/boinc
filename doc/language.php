@@ -5,9 +5,15 @@ echo "
     Menu names and other text in the work manager are stored in
     a file called <i>language.ini</i>.
     The release uses American English.
-    Other languages are available
-    <a href=http://216.198.119.31/BOINC/language_ini/language.htm>here</a>
+    Many other languages are available;
+    a complete list is
+    <a href=http://www.boinc.dk/index.php?page=download_languages>here</a>
     (thanks to Robi Buechler and other volunteers for this).
+
+    <p>
+    The BOINC distribution now includes all current language files.
+    To use a particular language file,
+    just rename it to 'language.ini'.
 ";
 page_tail();
 ?>

@@ -34,7 +34,7 @@ using namespace std;
 #include "sched_send.h"
 
 const int MIN_SECONDS_TO_SEND = 0;
-const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
+const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 
 const double MIN_POSSIBLE_RAM = 64000000;
 

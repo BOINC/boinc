@@ -236,30 +236,6 @@ int parse_command_line(char* p, char** argv) {
     return argc;
 }
 
-int lock_file(char* filename) {
-    int retval;
-
-    // some systems have both!
-#ifdef HAVE_FLOCK
-    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = flock(lock, LOCK_EX|LOCK_NB);
-#elif HAVE_LOCKF
-    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = lockf(lock, F_TLOCK, 1);
-    // must leave fd open
-#endif
-
-#ifdef _WIN32
-    HANDLE hfile = CreateFile(
-        filename, GENERIC_WRITE,
-        0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
-    );
-    if (hfile == INVALID_HANDLE_VALUE) retval = 1;
-    else retval = 0;
-#endif
-    return retval;
-}
-
 static char x2c(char *what) {
     register char digit;
 
@@ -607,3 +583,34 @@ char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSiz
 }
 
 #endif
+
+
+// Update an estimate of "units per day" of something (credit or CPU time).
+// The estimate is exponentially averaged with a given half-life
+// (i.e. if no new work is done, the average will decline by 50% in this time).
+// This function can be called either with new work,
+// or with zero work to decay an existing average.
+//
+void update_average(
+    double work_start_time,       // when new work was started
+                                    // (or zero if no new work)
+    double work,                    // amount of new work
+    double half_life,
+    double& avg,                    // average work per day (in and out)
+    double& avg_time                // when average was last computed
+) {
+    double now = dtime();
+
+    if (avg_time) {
+        double diff = now - avg_time;
+        double diff_days = diff/SECONDS_PER_DAY;
+        double weight = exp(-diff*M_LN2/half_life);
+        avg *= weight;
+        avg += (1-weight)*(work/diff_days);
+    } else {
+        double dd = (now - work_start_time)/SECONDS_PER_DAY;
+        avg = work/dd;
+    }
+    avg_time = now;
+}
+

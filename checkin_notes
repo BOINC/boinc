@@ -11386,3 +11386,33 @@ David  April 4 2004
 
 	client/
 		app.C
+
+David  April 6 2004
+    - move update_average() from sched_util.C to util.C
+        (and give it a half-life arg)
+    - move Messages class declaration out of util.h into its own file
+    - move file_lock() from util.C to filesys.C
+    - client: rename get_percent_done() to get_fraction_done
+        (uh... percents are 0..100; fracs are 0..1)
+
+    client/
+        client_state.h
+        cs_apps.C
+        cs_benchmark.C
+        cs_cmdline.C
+        cs_prefs.C
+        cs_scheduler.C
+        gui_rpc_server.C
+        message.h
+    lib/
+        filesys.C,h
+        messages.C
+        messages.h (new)
+        util.C,h
+    sched/
+        Makefile.am
+        sched_send.C
+        sched_util.C,h
+        update_stats.C
+        validate.C
+        validate_test.C
