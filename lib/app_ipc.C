@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "parse.h"
+#include "error_numbers.h"
 #include "util.h"
 
 #include "app_ipc.h"
@@ -207,5 +208,41 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
         else fprintf(stderr, "parse_graphics_file: unrecognized %s", buf);
     }
     return -1;
+}
+
+// create a file (new_link) which contains an XML
+// reference to existing file.
+//
+int boinc_link(char *existing, char *new_link) {
+    FILE *fp;
+
+    fp = fopen(new_link, "w");
+    if (!fp) return ERR_FOPEN;
+    fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
+    fclose(fp);
+
+    return 0;
+}
+
+// resolve XML soft link
+//
+int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
+    FILE *fp;
+    char buf[512];
+
+    safe_strncpy(physical_name, virtual_name, len);
+
+    // Open the file and load the first line
+    fp = fopen(virtual_name, "r");
+    if (!fp) return 0;
+
+    fgets(buf, 512, fp);
+    fclose(fp);
+
+    // If it's the <soft_link> XML tag, return its value,
+    // otherwise, return the original file name
+    //
+    parse_str(buf, "<soft_link>", physical_name, len);
+    return 0;
 }
 

@@ -39,6 +39,15 @@
 #include <sys/resource.h>
 #endif
 
+#ifdef HAVE_SYS_STATVFS_H
+#include <sys/statvfs.h>
+#endif
+#ifdef HAVE_SYS_STATVFS_H
+#define STATFS statvfs
+#else
+#define STATFS statfs
+#endif
+
 #ifdef _WIN32
 #include <io.h>
 #include <winsock.h>
@@ -177,21 +186,7 @@ int file_size(char* path, double& size) {
     return 0;
 }
 
-// create a file (new_link) which contains an XML
-// reference to existing file.
-//
-int boinc_link(char *existing, char *new_link) {
-    FILE *fp;
-
-    fp = fopen(new_link, "w");
-    if (!fp) return ERR_FOPEN;
-    fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
-    fclose(fp);
-
-    return 0;
-}
-
-// Goes through directory specified by dirpath and removes all files from it
+// removes all files from specified directory
 //
 int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
@@ -217,8 +212,7 @@ int clean_out_dir(char* dirpath) {
     return 0;
 }
 
-// Goes recursively through directory specified by dirpath and returns the
-// total size of files in it and its subdirectories
+// return total size of files in directory and its subdirectories
 //
 int dir_size(char* dirpath, double& size) {
     char filename[256], subdir[256];
@@ -282,3 +276,42 @@ void full_path(char* relname, char* path) {
     strcat(path, relname);
 }
 #endif
+
+
+// get total and free space on current filesystem (in bytes)
+//
+int get_filesystem_info(double &total_space, double &free_space) {
+#ifdef _WIN32
+	FreeFn pGetDiskFreeSpaceEx;
+	pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetDiskFreeSpaceExA");
+	if(pGetDiskFreeSpaceEx) {
+		ULARGE_INTEGER TotalNumberOfFreeBytes;
+		ULARGE_INTEGER TotalNumberOfBytes;
+		pGetDiskFreeSpaceEx(NULL, NULL, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
+		unsigned int uMB;
+		uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
+		free_space = uMB * 1024.0 * 1024.0;
+		uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
+		total_space = uMB * 1024.0 * 1024.0;
+	} else {
+		DWORD dwSectPerClust;
+		DWORD dwBytesPerSect;
+		DWORD dwFreeClusters;
+		DWORD dwTotalClusters;
+		GetDiskFreeSpace(NULL, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
+		free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
+		total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
+	}
+#else
+#ifdef STATFS
+    struct STATFS fs_info;
+    
+    STATFS(".", &fs_info);
+    total_space = (double)fs_info.f_bsize * (double)fs_info.f_blocks;
+    free_space = (double)fs_info.f_bsize * (double)fs_info.f_bavail;
+#else
+#error Need to specify a method to obtain free/total disk space
+#endif
+#endif
+    return 0;
+}

@@ -38,7 +38,6 @@ extern int dir_scan(char*, DIRREF, int);
 extern void dir_close(DIRREF);
 extern int file_delete(char*);
 extern int file_size(char*, double&);
-extern int boinc_link(char *existing, char *new_link);
 extern int clean_out_dir(char*);
 extern int dir_size(char* dirpath, double&);
 extern int boinc_rename(char* old, char* newf);
@@ -47,3 +46,4 @@ extern int boinc_rmdir(char*);
 #ifdef _WIN32
 extern void full_path(char* relname, char* path);
 #endif
+extern int get_filesystem_info(double& total, double& free);

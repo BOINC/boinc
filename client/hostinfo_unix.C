@@ -32,20 +32,11 @@
 #ifdef HAVE_SYS_MOUNT_H
 #include <sys/mount.h>
 #endif
-#ifdef HAVE_SYS_STATVFS_H
-#include <sys/statvfs.h>
-#endif
 #ifdef HAVE_SYS_VFS_H
 #include <sys/vfs.h>
 #endif
 #ifdef HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
-#endif
-
-#ifdef HAVE_SYS_STATVFS_H
-#define STATFS statvfs
-#else
-#define STATFS statfs
 #endif
 
 #ifdef _WIN32
@@ -74,6 +65,7 @@
 #endif
 
 #include "client_types.h"
+#include "filesys.h"
 #include "error_numbers.h"
 #include "util.h"
 
@@ -92,7 +84,7 @@ char* ip_addr_string(int ip_addr) {
 
 // Returns the number of seconds difference from UTC
 //
-int get_timezone( void ) {
+int get_timezone() {
     tzset();
     // TODO: take daylight savings time into account
 #ifdef HAVE_GMTOFF
@@ -161,24 +153,10 @@ void parse_cpuinfo(HOST_INFO& host) {
 }
 #endif
 
-// Returns total and free space on current disk (in bytes)
-//
-void get_host_disk_info( double &total_space, double &free_space ) {
-#ifdef STATFS
-    struct STATFS fs_info;
-    
-    STATFS(".", &fs_info);
-    total_space = (double)fs_info.f_bsize * (double)fs_info.f_blocks;
-    free_space = (double)fs_info.f_bsize * (double)fs_info.f_bavail;
-#else
-#error Need to specify a method to obtain free/total disk space
-#endif
-}
-
-// General function to get all relevant host information
+// get all relevant host information
 //
 int get_host_info(HOST_INFO& host) {
-    get_host_disk_info( host.d_total, host.d_free );
+    get_filesystem_info(host.d_total, host.d_free);
 
 #ifdef linux
     parse_cpuinfo(host);

@@ -287,28 +287,6 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     return 0;
 }
 
-// resolve XML soft links
-//
-int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
-    FILE *fp;
-    char buf[512];
-
-    safe_strncpy(physical_name, virtual_name, len);
-
-    // Open the file and load the first line
-    fp = fopen(virtual_name, "r");
-    if (!fp) return 0;
-
-    fgets(buf, 512, fp);
-    fclose(fp);
-
-    // If it's the <soft_link> XML tag, return its value,
-    // otherwise, return the original file name
-    //
-    parse_str(buf, "<soft_link>", physical_name, len);
-    return 0;
-}
-
 bool boinc_time_to_checkpoint() {
 #ifdef __APPLE_CC__
     YieldToAnyThread();

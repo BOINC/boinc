@@ -8,6 +8,7 @@
 // - main init file
 // - fd init file
 // - graphics init file
+// - conversion of symbolic links
 
 // Shared memory is arranged as follows:
 // 4 1K segments
@@ -91,5 +92,6 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define STDERR_FILE           "stderr.txt"
 
 extern char* xml_graphics_modes[5];
+extern int boinc_link(char* existing, char* new_link);
 
 #endif

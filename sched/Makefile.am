@@ -9,6 +9,7 @@ noinst_PROGRAMS =						\
         assimilator db_dump update_stats start_servers
 
 EXTRA_PROGRAMS = fcgi
+EXTRA_DIST = watch_tcp wd.php wd_nresults_changing.php
 
 cgi_SOURCES =					\
         handle_request.C			\
