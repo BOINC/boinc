@@ -19738,6 +19738,18 @@ Rom    17 Nov 2004
     - Bug Fix: Configure the screensaver so that is can reestablish a connection
         to the CC in case the core client is shutdown in the background, and
         restarted.
+    - Bug Fix: Use the project name in the system status message instead of the
+        result name.
+    - Bug Fix: Screensaver now works even when BOINC is running as a service.
+        NOTE: This currently only works if the account is LocalSystem and
+        Interact with Desktop is checked.
+    - Bug Fix: When the service account is switched to an account that cannot
+        support interact with desktop make sure the screensaver can display
+        the project status.
+    - Bug Fix: If we have to report back that graphics are not supported in
+        the current configuration, don't create the window, it only makes
+        the system jittery.  I suspect it has something to do with the
+        possibility of garbage UI events being sent to the application.
     - Remove remain screensaver logic from the old GUI.
 
     api/
@@ -19749,28 +19761,6 @@ Rom    17 Nov 2004
         wingui_mainwindow.cpp
     lib/
         gui_rpc_client.h
-
-Rom    17 Nov 2004
-    - Bug Fix: Use the project name in the system status message instead of the
-        result name.
-
-    client/win/
-        win_screensaver.cpp, .h
-
-Rom    17 Nov 2004
-    - Bug Fix: Screensaver now works even when BOINC is running as a service.
-        NOTE: This currently only works if the account is LocalSystem and
-        Interact with Desktop is checked.
-    - Bug Fix: When the service account is switched to an account that cannot
-        support interact with desktop make sure the screensaver can display
-        the project status.
-    - Bug Fix: If we have to report back that graphics are not supported in
-        the current configuration, don't create the window, it only makes
-        the system jittery.  I suspect it has something to do with the
-        possibility of garbage UI events being sent to the application.
-
-    api/
-        windows_opengl.C
 
 Bruce  18 Nov 2004
     - Bug fixes (thanks to Jens Seidler): set cross project id (CPID) to random value
