@@ -24595,3 +24595,10 @@ Janus 11 Feb 2005
         languages/translations/
                 en.po
 
+Rom    11 Feb 2005
+    - Bug Fix: Check to see if the hostname given to us is in dotted decimal
+        notation, if so, convert it into an ip address, otherwise pass it to
+        a name resolution service.
+
+    client/
+        net_xfer.C

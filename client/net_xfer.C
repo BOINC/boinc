@@ -117,13 +117,24 @@ int NET_XFER::get_ip_addr(int &ip_addr) {
 }
 
 int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
-    hostent* hep;
 
 #ifdef WIN32
     int retval;
     retval = NetOpen();
     if (retval) return retval;
 #endif
+
+	// Check to see if the hostname is in Internet Standard dotted notation, 
+	// if so, return that address instead of hitting the various
+	// name resolution services.
+	int temp_ip_addr = inet_addr(hostname);
+	if (-1 != temp_ip_addr) {
+		ip_addr = temp_ip_addr;
+		return 0;
+	}
+
+	// The hostname is really a name that we must resolve.
+    hostent* hep;
     hep = gethostbyname(hostname);
     if (!hep) {
         char msg[256];
