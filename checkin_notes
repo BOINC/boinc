@@ -16541,3 +16541,16 @@ Daniel 2004-08-20
 Rom    20 Aug 2004
     - Tag for 4.03 release, all platforms
       boinc_release_4_03
+
+David  20 Aug 2004
+    - handle_exited_app():
+        Returning early in all cases of exiting with zero status
+        caused core client not to read stderr_out file
+        or clean out slot dir.
+        This made test_uc.py fail.
+
+        DANIEL: please examine this and see if you agree,
+        and get test_uc.py working any time you do a major checkin
+
+    client/
+        app_control.C

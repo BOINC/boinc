@@ -186,8 +186,6 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
         state = PROCESS_EXITED;
         exit_status = exit_code;
 
-        //if a nonzero error code, then report it
-        //
         if (exit_code) {
             char szError[1024];
             gstate.report_result_error(
@@ -204,10 +202,12 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
                     detach_shmem(shm_handle, app_client_shm.shm);
                     app_client_shm.shm = NULL;
                 }
-            } else if (!finish_file_present()) {
-                state = PROCESS_IN_LIMBO;
+                return true;
             }
-            return true;
+            if (!finish_file_present()) {
+                state = PROCESS_IN_LIMBO;
+                return true;
+            }
         }
         result->exit_status = exit_status;
         result->active_task_state = PROCESS_EXITED;
@@ -230,9 +230,6 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
             state = PROCESS_EXITED;
             exit_status = WEXITSTATUS(stat);
 
-            // If exit_status is nonzero,
-            // then we don't need to upload the output files
-            //
             if (exit_status) {
                 gstate.report_result_error(
                     *result, 0,
@@ -240,6 +237,10 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                     exit_status, exit_status
                 );
             } else {
+                // check for cases where an app exits
+                // without it being done from core client's point of view;
+                // in these cases, don't clean out slot dir
+                //
                 if (pending_suspend_via_quit) {
                     pending_suspend_via_quit = false;
                     state = PROCESS_UNINITIALIZED;
@@ -251,7 +252,9 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                         app_client_shm.shm = NULL;
                     }
                     destroy_shmem(shm_key);
-                } else if (!finish_file_present()) {
+                    return true;
+                }
+                if (!finish_file_present()) {
                     // The process looks like it exited normally
                     // but there's no "finish file".
                     // Assume it was externally killed,
@@ -259,8 +262,8 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                     // (assume user is about to exit core client)
                     //
                     state = PROCESS_IN_LIMBO;
+                    return true;
                 }
-                return true;
             }
             result->exit_status = exit_status;
             result->active_task_state = PROCESS_EXITED;
