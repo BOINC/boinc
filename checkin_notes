@@ -11074,3 +11074,20 @@ Rom   Mar 29 2004
     win_build/
         boinc_cli.vcproj
         boinc_gui.vcproj
+
+David  Mar 29 2004
+	- Don't use semaphores for multiple-copy exclusion on Unix.
+		Semaphores don't work better than lockfile.
+	- Fix bugs in global preferences.
+		- GLOBAL_PREFS::parse() now sets all booleans to false
+		- removed confused should_request_global_prefs() from Win client.
+
+	client/
+		main.C
+		prefs.C
+		win/
+			wingui_mainwindow.cpp,h
+	lib/
+		filesys.C
+	tools/
+		create_work.C

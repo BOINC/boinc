@@ -87,6 +87,14 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
 
 	init();
 
+    // set all booleans to false here
+    run_on_batteries = false;
+    run_if_user_active = false;
+    confirm_before_connecting = false;
+    run_minimized = false;
+    run_on_startup = false;
+    hangup_if_dialed = false;
+
     while (fgets(buf, 256, in)) {
         if (in_venue) {
             if (match_tag(buf, "</venue>")) {

@@ -1811,15 +1811,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
             return 0;
     }
 
-	// Do we need to fetch global prefs? If global prefs
-    // are missing, always request them at startup. They
-	// will override the settings here.
-	if (should_request_global_prefs()) {
-		gstate.global_prefs.run_on_batteries = true;
-		gstate.global_prefs.run_if_user_active = true;
-		gstate.global_prefs.idle_time_to_run = 0.0;
-	}
-
 	LPSTR command_line;
     char* argv[100];
     int argc;
@@ -2239,24 +2230,6 @@ LRESULT CMainWindow::OnTaskbarCreated(WPARAM wParam, LPARAM lParam)
 
 	SetStatusIcon(dwTempIconStatus);
     return TRUE;
-}
-
-
-//////////
-// CMainWindow::should_request_global_prefs
-// arguments:   void
-// returns:     true, if the global preferences file is missing
-//              false if it is not
-// function:    checks for existence of the client global preferences
-//              file.
-inline bool CMainWindow::should_request_global_prefs()
-{
-	bool missing = false;
-
-    if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME))
-		missing = true;
-
-    return missing;
 }
 
 void create_curtain() {

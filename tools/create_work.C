@@ -23,9 +23,9 @@
 //  -wu_template filename
 //  -result_template filename
 //  [ -db_name x ]          // read the following from config.xml if available
-//  [ -db_user x ]
 //  [ -db_passwd x ]
-//  [ -db_host x ]
+//  [ -db_user x]
+//  [ -db_host x]
 //  [ -upload_url x ]
 //  [ -download_url x ]
 //  [ -download_dir x ]
@@ -45,7 +45,9 @@
 //
 // Create a workunit and results.
 // Input files must be in the download dir.
-// template-doc is an XML WU description file
+// template-doc is an XML WU description file, with the following macros:
+// INFILEn  gets replaced by the name of input file n
+// MD5n     gets replaced by the MD5 checksum of input file n
 //
 
 #include <stdio.h>
@@ -68,8 +70,7 @@ int main(int argc, char** argv) {
     char** infiles = NULL;
     int i, ninfiles, sequence=0;
     R_RSA_PRIVATE_KEY key;
-    char download_dir[256], db_name[256], db_passwd[256];
-    char db_user[256], db_host[256];
+    char download_dir[256], db_name[256], db_passwd[256],db_user[256],db_host[256];
     char upload_url[256], download_url[256];
     char buf[256];
     SCHED_CONFIG config;
@@ -77,8 +78,6 @@ int main(int argc, char** argv) {
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
-    strcpy(db_user, "");
-    strcpy(db_host, "");
     strcpy(keyfile, "");
     i = 1;
     ninfiles = 0;
@@ -101,8 +100,8 @@ int main(int argc, char** argv) {
     } else {
         strcpy(db_name, config.db_name);
         strcpy(db_passwd, config.db_passwd);
-        strcpy(db_user, config.db_user);
-        strcpy(db_host, config.db_host);
+	strcpy(db_user, config.db_user);
+	strcpy(db_host, config.db_host);
         strcpy(download_url, config.download_url);
         strcpy(download_dir, config.download_dir);
         strcpy(upload_url, config.upload_url);
@@ -186,7 +185,7 @@ int main(int argc, char** argv) {
 
     if (boinc_db.open(db_name, db_host, db_user, db_passwd)) {
         fprintf(stderr, "create_work: error opening database.\n" );
-        exit(0);
+        exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
@@ -237,7 +236,10 @@ int main(int argc, char** argv) {
             upload_url,
             download_url
         );
-        if (retval) fprintf(stderr, "create_work: %d\n", retval);
+        if (retval) {
+		fprintf(stderr, "create_work: %d\n", retval);
+		exit(1);
+	}
     }
     boinc_db.close();
 }

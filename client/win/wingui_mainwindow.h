@@ -141,7 +141,6 @@ protected:
 	void					ClearProjectItems(char *);
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
-	bool					should_request_global_prefs();
 
     afx_msg void			OnClose();
     afx_msg void			OnDestroy();

@@ -21,7 +21,7 @@ Information about BOINC is available in the following languages:
 <li> Italian
     <br><a href=http://boinc.homeunix.org/><font size=-2>boinc.homeunix.org</font></a>
 <li> Japanese
-    <br><a href=http://members.fortunecity.com/je2bwm/indexj.html#next2ads><font size=-2>fortunecity.com</font></a> (by Komori Hitoshi)
+    <br><a href=http://je2bwm.hp.infoseek.co.jp/boinc/indexj.html#next2ads><font size=-2>fortunecity.com</font></a> (by Komori Hitoshi)
 <li> Russian
     <br><a href=http://www.boinc.narod.ru><font size=-2>www.boinc.narod.ru</font></a>
 <li> Turkish

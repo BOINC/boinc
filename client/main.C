@@ -194,7 +194,7 @@ int main_loop(int argc, char** argv) {
     double dt;
 
     setbuf(stdout, 0);
-#if 0
+#if 1
     if (lock_file(LOCK_FILE_NAME)) {
         fprintf(stderr, "Another copy of BOINC is already running\n");
         exit(1);

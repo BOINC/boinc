@@ -245,6 +245,9 @@ DirScanner::~DirScanner() {
 int boinc_delete_file(const char* path) {
     int retval;
 
+    if (!boinc_file_exists(path)) {
+        return 0;
+    }
 #ifdef HAVE_UNISTD_H
     retval = unlink(path);
 #endif
@@ -353,11 +356,10 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 int boinc_file_exists(const char* path) {
    struct stat buf;
 
-   if (0 == stat(path, &buf)) {
-       return true;
+   if (stat(path, &buf)) {
+       return false;
    }
-
-   return false;
+   return true;
 }
 
 
