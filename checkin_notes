@@ -21426,3 +21426,24 @@ Rom    16 Dec 2004
 
     client/win/
         hostinfo_win.cpp
+
+Rom    16 Dec 2004
+    - Bug Fix: Make sure that BOINC Manager can be started after setup completes
+    - Bug Fix: Make sure the read me can be displayed after setup completes
+    - Bug Fix: Do not display the options for launching the BOINC Manager or
+        the readme during an uninstall operation
+    - Bug Fix: Make sure permissions are updated during install based on
+        the selected install type
+    - Bug Fix: Only create the startup shortcut when the ENABLELAUNHCATLOGON
+        property is set.
+    - Bug Fix: Only enable the screensaver when the ENABLESCREENSAVER property
+        is set.
+
+    Note: The screensaver and shortcut properties had been implemented awhile
+      ago, but the MSI package was doing something goofy with them.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
+ 

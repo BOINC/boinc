@@ -41,122 +41,6 @@ Const msiDoActionStatusFinished    = 5
  
 
 ''
-'' Detect the previous version of BOINC if it was installed with the old installer
-''
-Function DetectOldInstaller()
-    On Error Resume Next
-
-	Dim oShell
-    Dim oRecord
-	Dim strUninstallValue
-
-	Set oShell = CreateObject("WScript.Shell")
-    Set oRecord = Installer.CreateRecord(1)
-
-    strUninstallValue = oShell.RegRead("HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\BOINC\UninstallString")
-	If (Err.Number <> 0) Then
-        oRecord.IntegerData(1) = 25000
-        Message msiMessageTypeInfo, oRecord
-
-	    DetectOldInstaller = msiDoActionStatusSuccess
-	    Exit Function
-	Else
-	    oRecord.IntegerData(1) = 25001
-        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
-	End If
-
-    DetectOldInstaller = msiDoActionStatusFailure 
-End Function
-
-
-''
-'' Detect the username of the user executing setup, and populate
-''   SERVICE_USERNAME if it is empty
-''
-Function DetectUsername()
-    On Error Resume Next
-
-	Dim oNetwork
-    Dim oRecord
-	Dim strValue
-	Dim strNewValue
-	Dim strUserName
-	Dim strUserDomain
-	Dim strUserComputerName
-
-	Set oNetwork = CreateObject("WScript.Network")
-    Set oRecord = Installer.CreateRecord(2)
-
-    strValue = Property("SERVICE_USERNAME")
-    If ( Len(strValue) = 0 ) Then
-        strUserName = oNetwork.UserName
-        If ( Err.Number <> 0 ) Then
-            DetectUsername = msiDoActionStatusFailure
-            Exit Function
-        End If
-        
-        strUserDomain = oNetwork.UserDomain
-        If ( Err.Number <> 0 ) Then
-            DetectUsername = msiDoActionStatusFailure
-            Exit Function
-        End If
-        
-        strComputerName = oNetwork.ComputerName
-        If ( Err.Number <> 0 ) Then
-            DetectUsername = msiDoActionStatusFailure
-            Exit Function
-        End If
-                   
-        If ( strUserDomain = strComputerName ) Then
-            strNewValue = ".\" & strUserName
-        Else
-            strNewValue = strUserDomain & "\" & strUserName
-        End If
-                      
-        Property("SERVICE_USERNAME") = strNewValue
-    End If
-
-    DetectUsername = msiDoActionStatusSuccess
-End Function
-
-
-''
-'' If we are the 'Shared' SETUPTYPE then we must change ALLUSERS = 1
-''
-Function ValidateSetupType()
-    On Error Resume Next
-
-    Dim strSetupType
-    Dim oRecord
-
-    Set oRecord = Installer.CreateRecord(1)
-
-    strSetupType = Property("SETUPTYPE")
-    If (Len(strSetupType) <> 0) Then
-        If ( strSetupType = "Single" ) Then
-            If (Property("ALLUSERS") <> "0") Then
-			    oRecord.IntegerData(1) = 25002
-			    Message msiMessageTypeFatalExit, oRecord
-
-		        ValidateSetupType = msiDoActionStatusFailure
-				Exit Function
-            End If
-        Else
-            If (Property("ALLUSERS") <> "1") Then
-			    oRecord.IntegerData(1) = 25005
-			    Message msiMessageTypeFatalExit, oRecord
-
-		        ValidateSetupType = msiDoActionStatusFailure
-				Exit Function
-            End If
-        End If
-    End If
-                                     
-	ValidateSetupType = msiDoActionStatusSuccess
-End Function
-
-
-''
 '' This function is called right after all the files have been copied to the
 '' destination folder and before the BOINC service is started.  We basically
 '' copy all the account files from the source path to the destination path.
@@ -194,5 +78,155 @@ Function CopyAccountFiles()
 		End If
 	End If
 
+    Set oFSO = Nothing
+    Set oRecord = Nothing
+    
 	CopyAccountFiles = msiDoActionStatusFailure
 End Function
+
+
+''
+'' Detect the previous version of BOINC if it was installed with the old installer
+''
+Function DetectOldInstaller()
+    On Error Resume Next
+
+	Dim oShell
+    Dim oRecord
+	Dim strUninstallValue
+
+	Set oShell = CreateObject("WScript.Shell")
+    Set oRecord = Installer.CreateRecord(1)
+
+    strUninstallValue = oShell.RegRead("HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\BOINC\UninstallString")
+	If (Err.Number <> 0) Then
+        oRecord.IntegerData(1) = 25000
+        Message msiMessageTypeInfo, oRecord
+
+	    DetectOldInstaller = msiDoActionStatusSuccess
+	    Exit Function
+	Else
+	    oRecord.IntegerData(1) = 25001
+        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+	End If
+
+    Set oShell = Nothing
+    Set oRecord = Nothing
+
+    DetectOldInstaller = msiDoActionStatusFailure 
+End Function
+
+
+''
+'' Detect the username of the user executing setup, and populate
+''   SERVICE_USERNAME if it is empty
+''
+Function DetectUsername()
+    On Error Resume Next
+
+	Dim oNetwork
+	Dim strValue
+	Dim strNewValue
+	Dim strUserName
+	Dim strUserDomain
+	Dim strUserComputerName
+
+	Set oNetwork = CreateObject("WScript.Network")
+
+    strValue = Property("SERVICE_USERNAME")
+    If ( Len(strValue) = 0 ) Then
+        strUserName = oNetwork.UserName
+        If ( Err.Number <> 0 ) Then
+            DetectUsername = msiDoActionStatusFailure
+            Exit Function
+        End If
+        
+        strUserDomain = oNetwork.UserDomain
+        If ( Err.Number <> 0 ) Then
+            DetectUsername = msiDoActionStatusFailure
+            Exit Function
+        End If
+        
+        strComputerName = oNetwork.ComputerName
+        If ( Err.Number <> 0 ) Then
+            DetectUsername = msiDoActionStatusFailure
+            Exit Function
+        End If
+                   
+        If ( strUserDomain = strComputerName ) Then
+            strNewValue = ".\" & strUserName
+        Else
+            strNewValue = strUserDomain & "\" & strUserName
+        End If
+                      
+        Property("SERVICE_USERNAME") = strNewValue
+    End If
+
+    Set oNetwork = Nothing
+
+    DetectUsername = msiDoActionStatusSuccess
+End Function
+
+
+''
+'' Launch the BOINC Readme when requested to do so
+''
+Function LaunchReadme()
+    On Error Resume Next
+
+	Dim oShell
+    Dim oRecord
+    Dim strFileToLaunch
+
+	Set oShell = CreateObject("WScript.Shell")
+    Set oRecord = Installer.CreateRecord(0)
+
+    oRecord.StringData(0) = Property("READMEFILETOLAUNCHATEND")
+    strFileToLaunch = "notepad.exe " & FormatRecord(oRecord)
+
+    oShell.Run(strFileToLaunch)
+
+    Set oShell = Nothing
+    Set oRecord = Nothing
+
+	LaunchReadme = msiDoActionStatusSuccess
+End Function
+
+
+''
+'' If we are the 'Shared' SETUPTYPE then we must change ALLUSERS = 1
+''
+Function ValidateSetupType()
+    On Error Resume Next
+
+    Dim strSetupType
+    Dim oRecord
+
+    Set oRecord = Installer.CreateRecord(1)
+
+    strSetupType = Property("SETUPTYPE")
+    If (Len(strSetupType) <> 0) Then
+        If ( strSetupType = "Single" ) Then
+            If (Property("ALLUSERS") <> "") Then
+			    oRecord.IntegerData(1) = 25002
+			    Message msiMessageTypeFatalExit, oRecord
+
+		        ValidateSetupType = msiDoActionStatusFailure
+				Exit Function
+            End If
+        Else
+            If (Property("ALLUSERS") <> "1") Then
+			    oRecord.IntegerData(1) = 25005
+			    Message msiMessageTypeFatalExit, oRecord
+
+		        ValidateSetupType = msiDoActionStatusFailure
+				Exit Function
+            End If
+        End If
+    End If
+                                     
+    Set oRecord = Nothing
+
+	ValidateSetupType = msiDoActionStatusSuccess
+End Function
+
