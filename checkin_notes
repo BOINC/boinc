@@ -3569,3 +3569,23 @@ David  Feb 28 2003
 
     client/
         client_types.C,h
+    
+David  Mar 2 2003
+    - added code to garbage-collect APP_VERSIONs:
+        delete any APP_VERSION that's not referenced and for which
+        there's a later version of the same app.
+        Also garbage-collect executable files
+        (previously, they were never deleted).
+    - fixed minor bug (file offset on redirected POST2 HTTP op)
+    - added network bandwidth limits to global prefs web interface
+
+    todo
+    client/
+        client_state.C,h
+        cs_files.C
+        hostinfo_unix.C
+        http.C,h
+    html_user/
+        prefs.inc
+    sched/
+        handle_request.C

@@ -41,9 +41,7 @@
 
 #define HTTP_BLOCKSIZE  16384
 
-// Breaks a url down into its server and file path components
-// TODO: deal with alternate protocols (ftp, gopher, etc) or disallow
-// them and parse accordingly
+// Breaks a HTTP url down into its server and file path components
 //
 void parse_url(char* url, char* host, int &port, char* file) {
     char* p;
@@ -121,42 +119,6 @@ static void http_post_request_header(
     );
 }
 
-#if 0
-// Do we still need this?
-//
-void http_put_request_header(
-    char* buf, char* host, char* file, int size, int offset
-) {
-    if (offset) {
-        sprintf(buf,
-            "PUT /%s HTTP/1.1\015\012"
-            "Pragma: no-cache\015\012"
-            "Cache-Control: no-cache\015\012"
-            "Host: %s:80\015\012"
-            "Range: bytes=%d-\015\012"
-            "Connection: close\015\012"
-            "Content-Type: application/octet-stream\015\012"
-            "Content-Length: %d\015\012"
-            "\015\012",
-            file, host, offset, size
-        );
-    } else {
-        sprintf(buf,
-            "PUT /%s HTTP/1.1\015\012"
-            "Pragma: no-cache\015\012"
-            "Cache-Control: no-cache\015\012"
-            "Host: %s:80\015\012"
-            "Connection: close\015\012"
-            "Content-Type: application/octet-stream\015\012"
-            "Content-Length: %d\015\012"
-            "\015\012",
-            file,
-            host, size
-        );
-    }
-}
-#endif
-
 // Parse an http reply header into the header struct
 //
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
@@ -191,7 +153,7 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
                     header.redirect_location[n] = p[n];
                     n++;
                 }
-                p[n] = '\0';
+                header.redirect_location[n] = 0;
             }
             return 0;
         }
@@ -231,7 +193,7 @@ HTTP_OP::HTTP_OP() {
 HTTP_OP::~HTTP_OP() {
 }
 
-// Initialize HTTP HEAD operation to url
+// Initialize HTTP HEAD operation
 //
 int HTTP_OP::init_head(char* url) {
     char proxy_buf[256];
@@ -248,7 +210,7 @@ int HTTP_OP::init_head(char* url) {
     return 0;
 }
 
-// Initialize HTTP GET operation to url
+// Initialize HTTP GET operation
 //
 int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
     char proxy_buf[256];
@@ -271,7 +233,7 @@ int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
     return 0;
 }
 
-// Initialize HTTP POST operation to url
+// Initialize HTTP POST operation
 //
 int HTTP_OP::init_post(char* url, char* in, char* out) {
     int retval;
@@ -301,7 +263,7 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     return 0;
 }
 
-// Initialize HTTP POST operation to url including file offset
+// Initialize HTTP POST operation
 //
 int HTTP_OP::init_post2(
     char* url, char* r1, char* in, double offset
@@ -337,26 +299,6 @@ int HTTP_OP::init_post2(
     return 0;
 }
 
-#if 0
-// not currently used
-int HTTP_OP::init_put(char* url, char* in, int off) {
-    int retval;
-
-    offset = off;
-    parse_url(url, hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
-    strcpy(infile, in);
-    retval = file_size(infile, content_length);
-    if (retval) return retval;
-    http_op_type = HTTP_OP_PUT;
-    http_op_state = HTTP_STATE_CONNECTING;
-    http_put_request_header(
-        request_header, hostname, filename, content_length, offset
-    );
-    return 0;
-}
-#endif
-
 // Returns true if the HTTP operation is complete
 //
 bool HTTP_OP::http_op_done() {
@@ -367,7 +309,7 @@ HTTP_OP_SET::HTTP_OP_SET(NET_XFER_SET* p) {
     net_xfers = p;
 }
 
-// Inserts an HTTP_OP into the set
+// Adds an HTTP_OP to the set
 //
 int HTTP_OP_SET::insert(HTTP_OP* ho) {
     int retval;
@@ -388,8 +330,6 @@ bool HTTP_OP_SET::poll() {
         htp = http_ops[i];
         switch(htp->http_op_state) {
         case HTTP_STATE_CONNECTING:
-            // If the op is in the connecting state, and we notice it is done
-            // connecting, move it to the HTTP_STATE_REQUEST_HEADER state
             if (htp->is_connected) {
                 htp->http_op_state = HTTP_STATE_REQUEST_HEADER;
                 htp->want_upload = true;
@@ -399,7 +339,10 @@ bool HTTP_OP_SET::poll() {
         case HTTP_STATE_REQUEST_HEADER:
             if (htp->io_ready) {
                 action = true;
-                n = send(htp->socket, htp->request_header, strlen(htp->request_header), 0);
+                n = send(
+                    htp->socket, htp->request_header,
+                    strlen(htp->request_header), 0
+                );
                 if (log_flags.http_debug) {
                     printf(
                         "wrote HTTP header to socket %d: %d bytes\n%s",
@@ -409,7 +352,6 @@ bool HTTP_OP_SET::poll() {
                 htp->io_ready = false;
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST:
-                //case HTTP_OP_PUT:
                     htp->http_op_state = HTTP_STATE_REQUEST_BODY;
                     htp->file = fopen(htp->infile, "rb");
                     if (!htp->file) {
@@ -438,8 +380,7 @@ bool HTTP_OP_SET::poll() {
                 action = true;
                 n = send(htp->socket, htp->req1, strlen(htp->req1), 0);
                 htp->http_op_state = HTTP_STATE_REQUEST_BODY;
-                // If there's a file we also want to send, then start transferring
-                // it, otherwise, go on to the next step
+
                 if (htp->infile && strlen(htp->infile) > 0) {
                     htp->file = fopen(htp->infile, "rb");
                     if (!htp->file) {
@@ -480,27 +421,28 @@ bool HTTP_OP_SET::poll() {
                 action = true;
                 if (log_flags.http_debug) printf("got reply header; %x io_done %d\n", (unsigned int)htp, htp->io_done);
                 read_http_reply_header(htp->socket, htp->hrh);
+
                 // TODO: handle all kinds of redirects here
+
                 if (htp->hrh.status == HTTP_STATUS_MOVED_PERM || htp->hrh.status == HTTP_STATUS_MOVED_TEMP) {
-                    // Close the old socket
                     htp->close_socket();
                     switch (htp->http_op_type) {
                         case HTTP_OP_HEAD:
-                            htp->init_head( htp->hrh.redirect_location );
+                            htp->init_head(htp->hrh.redirect_location);
                             break;
                         case HTTP_OP_GET:
-                            // *** Not sure if delete_old_file should be true
-                            htp->init_get( htp->hrh.redirect_location, htp->outfile, true );
+                            htp->init_get(htp->hrh.redirect_location, htp->outfile, false);
                             break;
                         case HTTP_OP_POST:
-                            htp->init_post( htp->hrh.redirect_location, htp->infile, htp->outfile );
+                            htp->init_post(htp->hrh.redirect_location, htp->infile, htp->outfile);
                             break;
                         case HTTP_OP_POST2:
-                            // TODO: Change offset to correct value
-                            htp->init_post2( htp->hrh.redirect_location, htp->req1, htp->infile, 0 );
+                            htp->init_post2(htp->hrh.redirect_location, htp->req1, htp->infile, htp->file_offset);
                             break;
                     }
+
                     // Open connection to the redirected server
+                    //
                     htp->open_server();
                     break;
                 }
@@ -522,10 +464,6 @@ bool HTTP_OP_SET::poll() {
                 case HTTP_OP_GET:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
                   
-                    // TODO:
-                    // Append to a file if it already exists, otherwise
-                    // create a new one.  init_get should have already
-                    // deleted the file if necessary
                     htp->file = fopen(htp->outfile, "ab");
                     if (!htp->file) {
                         fprintf(stderr,
@@ -544,11 +482,6 @@ bool HTTP_OP_SET::poll() {
                     htp->io_ready = false;
                     htp->io_done = true;
                     break;
-#if 0
-                case HTTP_OP_PUT:
-                    htp->http_op_state = HTTP_STATE_DONE;
-                    htp->http_op_retval = 0;
-#endif
                 }
             }
             break;

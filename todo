@@ -1,13 +1,10 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- Test suspend/resume functionality on Windows,
-    no way to suspend/resume on UNIX
 - "Show Graphics" menu item brings up minimized window,
     client does not remember window size/pos after close/reopen,
     window closes and does not reopen when workunit finishes
     and new workunit starts
-- Screensaver "blank screen" functionality not implemented
 - CPU time updates infrequently (every 10 seconds),
     should there be a user control for this?
 - Client treats URL "maggie/ap/" different than URL "maggie/ap",
@@ -21,6 +18,8 @@ BUGS (arranged from high to low priority)
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
+
+- Implement Screensaver "blank screen" functionality
 
 multiple preference sets
 
@@ -36,6 +35,8 @@ Messages from core client
 -----------------------
 THINGS TO TEST (preferably with test scripts)
 -----------------------
+- Test suspend/resume functionality on Windows,
+    no way to suspend/resume on UNIX
 - verify that if file xfer is interrupted, it resumes at right place
     (and progress bar is correct)
 - result reissue
@@ -47,10 +48,6 @@ MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
 make get_local_ip_addr() work in all cases
-
-implement max bytes/sec network preferences
-implement bandwidth limiting
-    current code assumes 1-second poll loop; wrong
 
 Implement FIFO mechanism in scheduler for results that can't be sent
 

@@ -170,6 +170,7 @@ struct APP_VERSION {
     APP* app;
     PROJECT* project;
     vector<FILE_REF> app_files;
+    int ref_cnt;
 
     int parse(FILE*);
     int write(FILE*);

@@ -42,7 +42,6 @@ struct HTTP_REPLY_HEADER {
 // For the first 4, data source/sink are files
 #define HTTP_OP_GET     1
 #define HTTP_OP_POST    2
-//#define HTTP_OP_PUT     3
 #define HTTP_OP_HEAD    4
 #define HTTP_OP_POST2   5
     // a POST operation where the request comes from a combination
@@ -77,7 +76,6 @@ public:
     int init_post2(
         char* url, char* req1, char* infile, double offset
     );
-    //int init_put(char* url, char* infile, int offset=0);
     bool http_op_done();
 };
 

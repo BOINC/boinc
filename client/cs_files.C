@@ -39,16 +39,15 @@
 #include "client_state.h"
 #include "error_numbers.h"
 
-// Decide whether to start a new file transfer
+// Decide whether to consider starting a new file transfer
+// TODO: limit the number of file xfers in some way
 //
 bool CLIENT_STATE::start_new_file_xfer() {
-    // TODO: limit the number of file xfers in some way
     return true;
 }
 
 
-// Make a directory for each of the projects present
-// in the client state
+// Make a directory for each of the projects in the client state
 //
 int CLIENT_STATE::make_project_dirs() {
     unsigned int i;
@@ -102,7 +101,6 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
-    int retval;
 
     // Look for FILE_INFOs for which we should start a transfer,
     // and make PERS_FILE_XFERs for them
@@ -115,15 +113,14 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
-            retval = pers_xfers->insert(fip->pers_file_xfer);
-                // TODO: return error?
+            pers_xfers->insert(fip->pers_file_xfer);
             action = true;
         } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
 
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
             fip->pers_file_xfer = pfx;
-            retval = pers_xfers->insert(fip->pers_file_xfer);
+            pers_xfers->insert(fip->pers_file_xfer);
             action = true;
         }
     }

@@ -94,7 +94,6 @@ char* ip_addr_string(int ip_addr) {
 //
 int get_timezone( void ) {
     tzset();
-    // TODO: get this to work on all platforms
     // TODO: take daylight savings time into account
 #ifdef HAVE_GMTOFF
     time_t cur_time;
@@ -136,7 +135,8 @@ bool host_is_running_on_batteries() {
 
 #ifdef linux
 
-// Determine the memory specifications for this host, including RAM and swap space
+// Determine the memory sizes for this host,
+// including RAM and swap space
 //
 void parse_meminfo(HOST_INFO& host) {
     char buf[256];

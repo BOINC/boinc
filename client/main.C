@@ -48,7 +48,6 @@ void show_message(PROJECT *p, char* message, char* priority) {
 
 // Prompt user for project URL and authenticator,
 // and create an account file
-// TODO: use better input method here, backspace doesn't always seem to work
 //
 int add_new_project() {
     char master_url[256];
@@ -62,11 +61,6 @@ int add_new_project() {
         "Paste the account key here: "
     );
     scanf("%s", authenticator);
-
-    // TODO: might be a good idea to verify the account key
-    // by doing an RPC to a scheduling server.
-    // But this would require fetching and parsing the master file,
-    // so to heck with it.
 
     write_account_file(master_url, authenticator);
     return 0;

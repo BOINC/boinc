@@ -215,8 +215,9 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         retval = db_user_lookup_auth(reply.user);
         if (retval) {
             strcpy(reply.message,
-                "Invalid or missing authenticator.  "
-                "Visit this project's web site to get an authenticator.");
+                "Invalid or missing account ID.  "
+                "Visit this project's web site to get an account ID."
+            );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             sprintf(buf, "Bad authenticator: %s\n", sreq.authenticator);
@@ -280,7 +281,8 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.connected_frac = sreq.host.connected_frac;
     host.active_frac = sreq.host.active_frac;
     host.p_ncpus = sreq.host.p_ncpus;
-    strncpy(host.p_vendor, sreq.host.p_vendor, sizeof(host.p_vendor));    // unlikely this will change
+    strncpy(host.p_vendor, sreq.host.p_vendor, sizeof(host.p_vendor));
+        // unlikely this will change
     strncpy(host.p_model, sreq.host.p_model, sizeof(host.p_model));
     host.p_fpops = sreq.host.p_fpops;
     host.p_iops = sreq.host.p_iops;

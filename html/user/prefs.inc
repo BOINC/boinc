@@ -37,7 +37,7 @@ global $text;
 global $parse_result;
 global $in_project_specific;
 
-// the following will parse either global or project prefs
+// the following parses either global or project prefs
 // TODO: split up into separate functions
 //
 function element_start($parser, $name, $attrs) {
@@ -93,6 +93,12 @@ function element_end($parser, $name) {
     case "disk_min_free_gb":
         $parse_result->disk_min_free_gb = $text;
         break;
+    case "max_bytes_sec_down":
+        $parse_result->max_bytes_sec_down = $text;
+        break;
+    case "max_bytes_sec_up":
+        $parse_result->max_bytes_sec_up = $text;
+        break;
     case "resource_share":
         $parse_result->resource_share = $text;
         break;
@@ -135,6 +141,8 @@ function default_prefs() {
     $p->disk_max_used_gb = 100;
     $p->disk_max_used_pct = 50;
     $p->disk_min_free_gb = 1;
+    $p->max_bytes_sec_down = 0;
+    $p->max_bytes_sec_up = 0;
 
     $p->resource_share = 100;
     $p->show_email = false;
@@ -146,7 +154,7 @@ function default_prefs() {
 
 // state of prefs before parsing; initialize all booleans to false
 //
-function initial_prefs() {
+function initialize_prefs_before_parsing() {
     $p = default_prefs();
     $p->show_email = false;
     $p->send_email = false;
@@ -161,7 +169,7 @@ function initial_prefs() {
 function prefs_parse($prefs_xml) {
     global $parse_result;
     
-    $parse_result = initial_prefs();
+    $parse_result = initialize_prefs_before_parsing();
 
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
@@ -173,16 +181,20 @@ function prefs_parse($prefs_xml) {
 
 ////////////////////////////////////////////
 //
-// display preference subsets, with Edit buttons
+// display preference subsets
 //
 function prefs_show_global($prefs) {
-    row2("Work if computer on batteries:", $prefs->run_on_batteries?"Yes":"No");
-    row2("Work if computer in use:", $prefs->run_if_user_active?"Yes":"No");
-    row2("Confirm before connecting to network:", $prefs->confirm_before_connecting?"Yes":"No");
+    row2("Work if computer on batteries?", $prefs->run_on_batteries?"Yes":"No");
+    row2("Work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
+    row2("Confirm before connecting to network?", $prefs->confirm_before_connecting?"Yes":"No");
     row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
     row2("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
     row2("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
     row2("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
+    $x = $prefs->max_bytes_sec_down;
+    row2("Maximum bytes/sec download:", $x?"$x":"No limit");
+    $x = $prefs->max_bytes_sec_up;
+    row2("Maximum bytes/sec upload:", $x?"$x":"No limit");
 }
 
 function prefs_show_resource($prefs) {
@@ -264,14 +276,22 @@ function prefs_form_global($user, $prefs) {
         <td align=right valign=top>Use no more than</td>
         <td><input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes</td>
         </tr>
-        <tr>
-        <td align=right valign=top>Leave at least</td>
-        <td><input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free</td>
-        </tr>
+        <tr><td align=right valign=top>Leave at least</td>
+        <td><input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free</td></tr>
         <tr>
         <td align=right valign=top>Use no more than</td>
         <td><input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> % of total space</td>
         </tr>
+    ";
+    $d = $prefs->max_bytes_sec_down;
+    $dt = $d?"$d":"";
+    $u = $prefs->max_bytes_sec_up;
+    $ut = $u?"$u":"";
+    echo "
+        <tr><td align=right valign=top>Maximum bytes/sec download</td>
+        <td><input size=7 name=max_bytes_sec_down value='$dt'></td></tr>
+        <tr><td align=right valign=top>Maximum bytes/sec upload</td>
+        <td><input size=7 name=max_bytes_sec_up value='$ut'></td></tr>
     ";
 }
 
@@ -350,6 +370,8 @@ function prefs_global_parse_form(&$prefs) {
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
     $disk_max_used_pct = $_GET["disk_max_used_pct"];
     $disk_min_free_gb = $_GET["disk_min_free_gb"];
+    $max_bytes_sec_down = $_GET["max_bytes_sec_down"];
+    $max_bytes_sec_up = $_GET["max_bytes_sec_up"];
 
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
@@ -368,6 +390,8 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_max_used_pct = $disk_max_used_pct;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
+    $prefs->max_bytes_sec_down = $max_bytes_sec_down;
+    $prefs->max_bytes_sec_up = $max_bytes_sec_up;
 }
 
 function prefs_resource_parse_form(&$prefs) {
@@ -407,7 +431,9 @@ function global_prefs_make_xml($prefs) {
     $xml = $xml
         ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
         ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
-        ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n";
+        ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n"
+        ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
+        ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
     $xml = $xml."</global_preferences>\n";
     return $xml;
 }

@@ -575,9 +575,7 @@ int CLIENT_STATE::parse_state_file() {
             // could put logic here to detect incompatible state files
             // after core client update
         } else if (match_tag(buf, "<core_client_major_version>")) {
-            // TODO: handle old client state file if different version
         } else if (match_tag(buf, "<core_client_minor_version>")) {
-            // TODO: handle old client state file if different version
         } else if (match_tag(buf, "<confirm_before_connect/>")) {
             global_prefs.confirm_before_connecting = true;
         } else if (match_tag(buf, "<hangup_if_dialed/>")) {
@@ -590,8 +588,6 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
-            retval = ERR_XML_PARSE;
-            goto done;
         }
     }
 done:
@@ -678,8 +674,8 @@ int CLIENT_STATE::write_state_file() {
     return 0;
 }
 
-// TODO: write no more often than X seconds
 // Write the client_state.xml file if necessary
+// TODO: write no more often than X seconds
 //
 int CLIENT_STATE::write_state_file_if_needed() {
     int retval;
@@ -937,18 +933,20 @@ void CLIENT_STATE::print_summary() {
 // delete unneeded records and files
 //
 bool CLIENT_STATE::garbage_collect() {
-    unsigned int i;
+    unsigned int i, j;
     int failnum;
     FILE_INFO* fip;
     RESULT* rp;
     WORKUNIT* wup;
+    APP_VERSION* avp, *avp2;
     vector<RESULT*>::iterator result_iter;
     vector<WORKUNIT*>::iterator wu_iter;
     vector<FILE_INFO*>::iterator fi_iter;
-    bool action = false;
+    vector<APP_VERSION*>::iterator avp_iter;
+    bool action = false, found;
   
 
-    // zero references counts on WUs and FILE_INFOs
+    // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
     for (i=0; i<workunits.size(); i++) {
         wup = workunits[i];
         wup->ref_cnt = 0;
@@ -956,6 +954,10 @@ bool CLIENT_STATE::garbage_collect() {
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         fip->ref_cnt = 0;
+    }
+    for (i=0; i<app_versions.size(); i++) {
+        avp = app_versions[i];
+        avp->ref_cnt = 0;
     }
     
     // delete RESULTs that have been finished and reported;
@@ -1010,7 +1012,7 @@ bool CLIENT_STATE::garbage_collect() {
     }
 
     // delete WORKUNITs not referenced by any result;
-    // reference-count files referred to by other WUs
+    // reference-count files and APP_VERSIONs referred to by other WUs
     //
     wu_iter = workunits.begin();
     while (wu_iter != workunits.end()) {
@@ -1026,18 +1028,56 @@ bool CLIENT_STATE::garbage_collect() {
             for (i=0; i<wup->input_files.size(); i++) {
                 wup->input_files[i].file_info->ref_cnt++;
             }
+            wup->avp->ref_cnt++;
             wu_iter++;
         }
     }
 
-    // delete FILE_INFOs (and corresponding files)
-    // that are not referenced by any WORKUNIT or RESULT,
-    // and are not sticky.
+    // go through APP_VERSIONs;
+    // delete any not referenced by any WORKUNIT
+    // and having a more recent version.
+    //
+    avp_iter = app_versions.begin();
+    while (avp_iter != app_versions.end()) {
+        avp = *avp_iter;
+        if (avp->ref_cnt == 0) {
+            found = false;
+            for (j=0; j<app_versions.size(); j++) {
+                avp2 = app_versions[j];
+                if (avp2->app==avp->app && avp2->version_num>avp->version_num) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                delete avp;
+                avp_iter = app_versions.erase(avp_iter);
+                action = true;
+            } else {
+                avp_iter++;
+            }
+        } else {
+            avp_iter++;
+        }
+    }
+
+    // Then go through remaining APP_VERSIONs,
+    // bumping refcnt of associated files.
+    //
+    for (i=0; i<app_versions.size(); i++) {
+        avp = app_versions[i];
+        for (j=0; j<avp->app_files.size(); j++) {
+            avp->app_files[i].file_info->ref_cnt++;
+        }
+    }
+
+    // delete FILE_INFOs (and corresponding files) that are not sticky
+    // and are not referenced by any WORKUNIT, RESULT or APP_VERSION
     //
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
-        if (fip->ref_cnt==0 && !fip->sticky && !fip->executable) {
+        if (fip->ref_cnt==0 && !fip->sticky) {
             fip->delete_file();
             if (log_flags.state_debug) printf("deleting file %s\n", fip->name);
             delete fip;
@@ -1047,8 +1087,6 @@ bool CLIENT_STATE::garbage_collect() {
             fi_iter++;
         }
     }
-
-    // TODO: delete obsolete APP_VERSIONs
 
     if (action && log_flags.state_debug) {
         print_summary();
