@@ -1196,7 +1196,7 @@ static void append_wu_file_info(GString *tmpl, int idx, DC_PhysicalFile *file)
     if (file != NULL && file->persistentonclient == 1) 
     {
         g_string_append(tmpl, "\t<sticky/>\n");
-        g_string_append(tmpl, "\t<nodelete/>\n");
+        g_string_append(tmpl, "\t<no_delete/>\n");
     }
 	g_string_append(tmpl, "</file_info>\n");
 }
@@ -1208,7 +1208,7 @@ static void append_wu_remote_file_info(GString *tmpl, int idx, DC_RemoteFile *fi
     if (file != NULL && file->persistentonclient == 1) 
     {
         g_string_append(tmpl, "\t<sticky/>\n");
-        g_string_append(tmpl, "\t<nodelete/>\n");
+        g_string_append(tmpl, "\t<no_delete/>\n");
     }
 	gchar **alts = replace_regex(file->url);
 	if (!alts)
