@@ -173,7 +173,7 @@ int generic_check_set(
                 matches[j] = true;
             }
         }
-        if (neq > min_valid) {
+        if (neq >= min_valid) {
             // set validate state for each result
             for (j = 0; j != n; ++j) {
                 results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
