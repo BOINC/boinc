@@ -34,17 +34,18 @@ class CSSWindow : public CWnd
 {
 public:
 							CSSWindow();
-	void					SetMode(int);
+	void					SetMode(int, int);
 	int						GetMode();
+	int						GetPrevMode();
 
 private:
 	int						m_nMode;
 	int						m_nPrevMode;
-	unsigned long			m_bBlankScreen;
-	unsigned long			m_uBlankTime;
-	UINT					m_uPaintMsg;
 	CPoint					m_MousePos;
 	CRect					m_Rect;
+	UINT					m_uSetMsg;
+	UINT					m_uGetMsg;
+
 	HDC hdc;
 	HGLRC hrc;
 

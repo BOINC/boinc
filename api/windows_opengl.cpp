@@ -31,15 +31,17 @@
 #include <stdio.h>
 
 #include "graphics_api.h"
-#include "util.h"
 #include "win_idle_tracker.h"
 
 HWND		hWnd=NULL;		// Holds Our Window Handle
 HINSTANCE	hInstance;		// Holds The Instance Of The Application
+RECT		rect = {50, 50, 50+640, 50+480};
+int			nPrevMode = MODE_NO_GRAPHICS;
+int			nMode = MODE_NO_GRAPHICS;
+POINT		mousePos;
+
 BOOL		win_loop_done;
-BOOL		has_failed = false;
-BOOL		painting = false;
-UINT		BOINC_PAINT;
+UINT		SET_MODE, GET_MODE;
 
 extern bool using_opengl;
 extern HANDLE hQuitEvent;
@@ -49,101 +51,164 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
+void SetMode(int mode, int pmode)
+{
+	RECT WindowRect = {0,0,0,0};
+
+	if(pmode == MODE_DEFAULT) nPrevMode = nMode;
+	else nPrevMode = pmode;
+	nMode = mode;
+
+	if(hWnd) {
+		if(nPrevMode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
+		KillTimer(hWnd, 1);
+		DestroyWindow(hWnd);
+	}
+
+	DWORD dwExStyle;
+	DWORD dwStyle;
+
+	if (nMode == MODE_FULLSCREEN) {
+		HDC screenDC=GetDC(NULL);
+		WindowRect.left = WindowRect.top = 0;
+		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
+		WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
+		ReleaseDC(NULL, screenDC);
+		dwExStyle=WS_EX_TOPMOST;
+		dwStyle=WS_POPUP;
+		while(ShowCursor(false) >= 0);
+	} else {
+		WindowRect = rect;
+		dwExStyle=WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
+		dwStyle=WS_OVERLAPPEDWINDOW;
+		while(ShowCursor(true) < 0);
+	}
+
+	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", "BOINC Graphics",
+		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
+		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
+		NULL, NULL, hInstance, NULL);
+
+	SetTimer(hWnd, 1, 100, NULL);
+
+	GetCursorPos(&mousePos);
+
+	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
+		1,											// Version Number
+		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
+		PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
+		PFD_DOUBLEBUFFER,							// Format Must Support OpenGL
+		PFD_TYPE_RGBA,								// Request An RGBA Format
+		16,											// Select Our Color Depth
+		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
+		0,											// No Alpha Buffer
+		0,											// Shift Bit Ignored
+		0,											// No Accumulation Buffer
+		0, 0, 0, 0,									// Accumulation Bits Ignored
+		16,											// 16Bit Z-Buffer (Depth Buffer)  
+		0,											// No Stencil Buffer
+		0,											// No Auxiliary Buffer
+		PFD_MAIN_PLANE,								// Main Drawing Layer
+		0,											// Reserved
+		0, 0, 0										// Layer Masks Ignored
+	};
+
+	HDC hdc = GetDC(hWnd);
+	int PixelFormat;
+	PixelFormat = ChoosePixelFormat(hdc, &pfd);
+	SetPixelFormat(hdc, PixelFormat, &pfd);
+	ReleaseDC(hWnd, hdc);
+
+	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
+		ShowWindow(hWnd, SW_SHOW);
+		if(nMode == MODE_FULLSCREEN) SetForegroundWindow(hWnd);
+	} else {
+		ShowWindow(hWnd, SW_HIDE);
+	}
+	SetFocus(hWnd);
+
+	PostMessage(HWND_BROADCAST, RegisterWindowMessage( "BOINC_APP_MODE" ), nMode, GetCurrentProcessId());
+}
+
 LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 							UINT	uMsg,			// Message For This Window
 							WPARAM	wParam,			// Additional Message Information
 							LPARAM	lParam)			// Additional Message Information
 {
-	if (uMsg == BOINC_PAINT) {
-		if(has_failed) return 0;
-		if(painting) return 0;
-		painting = true;
-
-		HWND bwnd;
-		if(!(bwnd = (HWND)lParam)) {
-			has_failed = true;
+	switch(uMsg) {
+		case WM_KEYDOWN:
+		case WM_KEYUP:
+		case WM_LBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_RBUTTONDOWN:
+			if(nMode == MODE_FULLSCREEN) SetMode(nPrevMode, MODE_DEFAULT);
 			return 0;
-		}
-
-		HDC bdc;
-		if(!(bdc = GetDC(bwnd))) {
-			has_failed = true;
+		case WM_MOUSEMOVE:
+			if(nMode == MODE_FULLSCREEN) {
+				POINT cPos;
+				GetCursorPos(&cPos);
+				if(cPos.x != mousePos.x || cPos.y != mousePos.y) SetMode(nPrevMode, MODE_DEFAULT);
+			}
 			return 0;
-		}
-
-		RECT rt;
-		GetClientRect(bwnd, &rt);
-		int width = rt.right - rt.left;
-		int height = rt.bottom - rt.top;
-
-		PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
-			1,											// Version Number
-			PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-			PFD_DOUBLEBUFFER,							// Format Must Support OpenGL
-			PFD_TYPE_RGBA,								// Request An RGBA Format
-			16,											// Select Our Color Depth
-			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-			0,											// No Alpha Buffer
-			0,											// Shift Bit Ignored
-			0,											// No Accumulation Buffer
-			0, 0, 0, 0,									// Accumulation Bits Ignored
-			16,											// 16Bit Z-Buffer (Depth Buffer)  
-			0,											// No Stencil Buffer
-			0,											// No Auxiliary Buffer
-			PFD_MAIN_PLANE,								// Main Drawing Layer
-			0,											// Reserved
-			0, 0, 0										// Layer Masks Ignored
-		};
-
-		int PixelFormat;
-		if(!(PixelFormat = ChoosePixelFormat(bdc, &pfd))) {
-			ReleaseDC(bwnd, bdc);
-			has_failed = true;
+		case WM_CLOSE:
+			SetMode(MODE_NO_GRAPHICS, MODE_DEFAULT);
 			return 0;
-		}
-
-		if(!SetPixelFormat(bdc, PixelFormat, &pfd)) {
-			ReleaseDC(bwnd, bdc);
-			has_failed = true;
+		case WM_PAINT:
+			PAINTSTRUCT ps;
+			RECT winRect;
+			HDC pdc;
+			pdc = BeginPaint(hWnd, &ps);
+			GetClientRect(hWnd, &winRect);
+			FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+			EndPaint(hWnd, &ps);
 			return 0;
-		}
+		case WM_TIMER:
+			HDC hdc = GetDC(hWnd);
 
-		HGLRC hRC;
-		if(!(hRC = wglCreateContext(bdc))) {
-			ReleaseDC(bwnd, bdc);
-			has_failed = true;
-			return 0;
-		}
+			HGLRC hRC;
+			if(!(hRC = wglCreateContext(hdc))) {
+				ReleaseDC(hWnd, hdc);
+				return 0;
+			}
 
-		if(!wglMakeCurrent(bdc, hRC)) {
-			ReleaseDC(bwnd, bdc);
+			if(!wglMakeCurrent(hdc, hRC)) {
+				ReleaseDC(hWnd, hdc);
+				wglDeleteContext(hRC);
+				return 0;
+			}
+
+			RECT rt;
+			GetClientRect(hWnd, &rt);
+			int width = rt.right-rt.left;
+			int height = rt.bottom-rt.top;
+
+			ReSizeGLScene(width, height);
+			InitGL();
+			app_init_gl();
+
+			app_render(width, height, time(0));
+
+			SwapBuffers(hdc);
+
+			if(!wglMakeCurrent(NULL, NULL)) {
+				ReleaseDC(hWnd, hdc);
+				wglDeleteContext(hRC);
+			}
+
 			wglDeleteContext(hRC);
-			has_failed = true;
+			ReleaseDC(hWnd, hdc);
 			return 0;
-		}
+	}
 
-		ReSizeGLScene(width, height);
-		InitGL();
-		app_init_gl();
+	if(uMsg == SET_MODE) {
+		SetMode(wParam, lParam);
+		return 0;
+	}
 
-		app_render(width, height, dtime());
-
-		SwapBuffers(bdc);
-
-		if(!wglMakeCurrent(NULL, NULL)) {
-			ReleaseDC(bwnd, bdc);
-			wglDeleteContext(hRC);
-			has_failed = true;
-		}
-
-		if(!ReleaseDC(bwnd, bdc)) has_failed = true;
-		if(!wglDeleteContext(hRC)) has_failed = true;
-
-		painting = false;
-		return 1;
+	if(uMsg == GET_MODE) {
+		return MAKELONG(nMode, nPrevMode);
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -153,23 +218,14 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG					msg;		// Windows Message Structure
 
+	double start = (double)time(0);
+
 	// Register window class and graphics mode message
 	reg_win_class();
-	BOINC_PAINT = RegisterWindowMessage( "BOINC_PAINT" );
+	GET_MODE = RegisterWindowMessage( "BOINC_APP_GET" );
+	SET_MODE = RegisterWindowMessage( "BOINC_APP_SET" );
 
-	// Create Our OpenGL Window
-	hWnd = CreateWindowEx(WS_EX_APPWINDOW|WS_EX_WINDOWEDGE,							// Extended Style For The Window
-								"BOINC_OpenGL",						// Class Name
-								"BOINC App",								// Window Title
-								WS_OVERLAPPEDWINDOW |							// Defined Window Style
-								WS_CLIPSIBLINGS |					// Required Window Style
-								WS_CLIPCHILDREN,					// Required Window Style
-								0, 0, 100, 100,
-								NULL,								// No Parent Window
-								NULL,								// No Menu
-								hInstance,							// Instance
-								NULL);								// Dont Pass Anything To WM_CREATE
-	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 100, 100, SWP_HIDEWINDOW);
+	SetMode(MODE_NO_GRAPHICS, MODE_NO_GRAPHICS);
 
 	win_loop_done = false;
 	using_opengl = true;

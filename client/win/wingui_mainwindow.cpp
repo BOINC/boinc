@@ -109,6 +109,8 @@ CMainWindow::CMainWindow()
 	m_nScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
 	m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
 	m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
+	m_nSetMsg = RegisterWindowMessage(APP_SET_MSG);
+	m_nGetMsg = RegisterWindowMessage(APP_GET_MSG);
 }
 
 //////////
@@ -893,6 +895,37 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 	}
 }
 
+void CMainWindow::CheckAppWnd()
+{
+	if(m_dwAppId == 0) {
+		if(gstate.active_tasks.active_tasks.size() == 0) return;
+		m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
+		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+		if(pAppWnd) {
+			int mode = m_pSSWnd->SendMessage(m_nGetMsg, 0, 0);
+			pAppWnd->PostMessage(m_nSetMsg, LOWORD(mode), HIWORD(mode));
+			m_pSSWnd->SendMessage(m_nSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
+		} else {
+			m_dwAppId = 0;
+		}
+	} else {
+		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+		if(!pAppWnd || !IsWindow(pAppWnd->m_hWnd)) {
+			m_dwAppId = 0;
+			if(gstate.active_tasks.active_tasks.size() > 0) {
+				m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
+			}
+			pAppWnd = GetWndFromProcId(m_dwAppId);
+			if(!pAppWnd || !IsWindow(pAppWnd->m_hWnd)) {
+				m_dwAppId = 0;
+				pAppWnd = m_pSSWnd;
+			}
+			pAppWnd->PostMessage(m_nSetMsg, LOWORD(m_AppMode), HIWORD(m_AppMode));
+		}
+		return;
+	}
+}
+
 //////////
 // CMainWindow::PostNcDestroy
 // arguments:	void
@@ -917,10 +950,20 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		SetForegroundWindow();
 		return 0;
 	} else if(m_nScreenSaverMsg == message) {
-		m_pSSWnd->SetMode(MODE_FULLSCREEN);
+		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+		if(pAppWnd) {
+			pAppWnd->SendMessage(m_nSetMsg, MODE_FULLSCREEN, MODE_DEFAULT);
+			return 0;
+		}
+		m_pSSWnd->SetMode(MODE_FULLSCREEN, MODE_DEFAULT);
 		return 0;
 	} else if(m_nNetActivityMsg == message) {
-		while(gstate.net_sleep(0));
+		for(int ii = 0; ii < 100; ii ++) {
+			if(!gstate.net_sleep(0)) break;
+		}
+		return 0;
+	} else if(message == RegisterWindowMessage("BOINC_APP_MODE")) {
+		if(lParam == m_dwAppId) m_AppMode = wParam;
 		return 0;
 	}
 
@@ -1006,7 +1049,12 @@ void CMainWindow::OnCommandHelpAbout()
 //				broadcasting a message
 void CMainWindow::OnCommandFileShowGraphics()
 {
-	m_pSSWnd->SetMode(MODE_WINDOW);
+	CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+	if(pAppWnd) {
+		pAppWnd->SendMessage(m_nSetMsg, MODE_WINDOW, MODE_DEFAULT);
+		return;
+	}
+	m_pSSWnd->SetMode(MODE_WINDOW, MODE_DEFAULT);
 }
 
 //////////
@@ -1234,7 +1282,8 @@ void CMainWindow::OnCommandExit()
 	// quit
 	gstate.cleanup_and_exit();
 	PostQuitMessage(0);
-	KillTimer(m_nTimerID);
+	KillTimer(m_nGuiTimerID);
+	KillTimer(m_nAppTimerID);
 
 	// status icon in taskbar
 	SetStatusIcon(ICON_OFF);
@@ -1291,6 +1340,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_bRequest = false;
 	m_nContextItem = -1;
 	m_pSSWnd = new CSSWindow();
+	m_dwAppId = 0;
 
 	// load menus
 	m_ContextMenu.LoadMenu(IDR_CONTEXT);
@@ -1419,7 +1469,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		return 0;
 	}
 
-	m_nTimerID = SetTimer(ID_TIMER, TIMEOUT_WAIT, (TIMERPROC) NULL);
+	m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
+	m_nAppTimerID = SetTimer(APP_TIMER, APP_WAIT, (TIMERPROC) NULL);
 
 	// load dll and start idle detection
 	m_hIdleDll = LoadLibrary("boinc.dll");
@@ -1651,32 +1702,36 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 //				and updates gui display.
 void CMainWindow::OnTimer(UINT uEventID)
 {
-	// stop the timer while we do processing
-	KillTimer(m_nTimerID);
+	if(uEventID == m_nGuiTimerID) {
+		// stop the timer while we do processing
+		KillTimer(m_nGuiTimerID);
 
-	// update state and gui
-	while(gstate.do_something());
-	NetCheck(); // need to check if network connection can be terminated
-	fflush(stdout);
-	fflush(stderr);
-	if(!IsSuspended()) {
-		// check user's idle time for suspension of apps
-		if (gstate.global_prefs.idle_time_to_run > 0) {
-			if (GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
-				gstate.user_idle = true;
+		// update state and gui
+		while(gstate.do_something());
+		NetCheck(); // need to check if network connection can be terminated
+		fflush(stdout);
+		fflush(stderr);
+		if(!IsSuspended()) {
+			// check user's idle time for suspension of apps
+			if (gstate.global_prefs.idle_time_to_run > 0) {
+				if (GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
+					gstate.user_idle = true;
+				} else {
+					gstate.user_idle = false;
+				}
 			} else {
-				gstate.user_idle = false;
+				gstate.user_idle = true;
 			}
-		} else {
-			gstate.user_idle = true;
+
+			UpdateGUI(&gstate);
 		}
 
-		// m_nRefreshCount is used so we only update the GUI once a
-		// second regardless of the TIMEOUT_WAIT value
-		if (m_nRefreshCount == 0)
-			UpdateGUI(&gstate);
+		// Start the timer again
+		m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
 	}
-	m_nRefreshCount = (m_nRefreshCount+1)%(1000/TIMEOUT_WAIT);
-	// Start the timer again
-	m_nTimerID = SetTimer(ID_TIMER, TIMEOUT_WAIT, (TIMERPROC) NULL);
+
+	if(uEventID == m_nAppTimerID) {
+		CheckAppWnd();
+	}
+
 }
