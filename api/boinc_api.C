@@ -143,6 +143,7 @@ int boinc_init(bool is_worker /* = true */) {
     } else {
         retval = setup_shared_mem();
         if (retval) {
+            fprintf(stderr, "Can't set up shared mem: %d\n", retval);
             standalone = true;
         }
     }
@@ -321,6 +322,7 @@ int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
 
 static void handle_core_app_msgs() {
     char buf[MSG_CHANNEL_SIZE];
+
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
             heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
@@ -347,18 +349,15 @@ static void handle_core_app_msgs() {
         }
 #else
         if (match_tag(buf, "<suspend/>")) {
-            fprintf(stderr, "got suspend\n"); fflush(stderr);
             while (1) {
                 if (app_client_shm->shm->process_control_request.get_msg(buf)) {
-                    fprintf(stderr, "got %s\n", buf);
-                    fflush(stderr);
                     if (match_tag(buf, "<resume/>")) {
                         break;
                     }
                 }
-                fprintf(stderr, "no msg- sleep\n"); fflush(stderr);
                 boinc_sleep(1.0);
             }
+            heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
         }
 #endif
         if (match_tag(buf, "<quit/>")) {

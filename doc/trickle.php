@@ -42,9 +42,9 @@ so they may not be delivered immediately after being generated.
 
 
 <p>
-To handle trickle-down messages a project must include the line
+To handle trickle-down messages, a project must include the line
 <pre>
-&lt;trickle_down/>
+&lt;msg_to_host/>
 </pre>
 in the <a href=configuration.php>configuration</a> (config.xml) file.
 

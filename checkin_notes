@@ -14847,3 +14847,21 @@ Daniel 2004-07-08
         filesys.C
         util.C
 
+David  8 July 2004
+    - got the new core/app interface working on Unix.
+        I looked into implementing the management functions
+        using a thread (with pthreads).
+        But the pthreads interface is kinda bizarre.
+        E.g. you can't suspend another thread.
+        You can send it a signal - but the signal handler
+        is not allowed to make any pthreads calls!  WTF???
+    - Added suspend/resume GUI RPCs;
+        changed gui_test to take a cmdline arg: -state -suspend -resume
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C
+        gui_test.C

@@ -42,7 +42,7 @@
 using std::string;
 using std::vector;
 
-int RPC_CLIENT::init(char* path) {
+int RPC_CLIENT::init() {
     int retval;
     sockaddr_in addr;
     addr.sin_family = AF_INET;
@@ -186,6 +186,17 @@ int RPC_CLIENT::project_update(PROJECT&) {
 }
 
 int RPC_CLIENT::set_run_mode(int mode) {
+    char *p, buf[256];
+    char* mbuf;
+    switch (mode) {
+    case RUN_MODE_ALWAYS: p="<always/>"; break;
+    case RUN_MODE_NEVER: p="<never/>"; break;
+    case RUN_MODE_AUTO: p="<auto/>"; break;
+    }
+    sprintf(buf, "<set_run_mode>\n%s\n</set_run_mode>\n", p);
+    send_request(buf);
+    get_reply(mbuf);
+    if (mbuf) free(mbuf);
     return 0;
 }
 

@@ -133,11 +133,11 @@ static void handle_project_update(char* buf, MIOFILE& fout) {
 }
 
 static void handle_set_run_mode(char* buf, MIOFILE& fout) {
-	if (match_tag(buf, "<always>")) {
+	if (match_tag(buf, "<always")) {
 		gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
-	} else if (match_tag(buf, "<never>")) {
+	} else if (match_tag(buf, "<never")) {
 		gstate.user_run_request = USER_RUN_REQUEST_NEVER;
-	} else if (match_tag(buf, "<auto>")) {
+	} else if (match_tag(buf, "<auto")) {
 		gstate.user_run_request = USER_RUN_REQUEST_AUTO;
 	} else {
 		fout.printf("<error>Missing mode</error>\n");

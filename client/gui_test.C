@@ -23,8 +23,9 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_net.h"
-using std::vector;
 #endif
+#include <vector>
+using std::vector;
 
 #ifndef _WIN32
 #include <stdio.h>
@@ -35,14 +36,12 @@ using std::vector;
 
 #ifdef _WIN32
 
-int WinsockInitialize()
-{
+int WinsockInitialize() {
     WSADATA wsdata;
     return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
 }
 
-int WinsockCleanup()
-{
+int WinsockCleanup() {
     return WSACleanup();
 }
 
@@ -64,16 +63,27 @@ int main(int argc, char** argv) {
         return ERR_IO;
     }
 #endif
+    rpc.init();
 
-    rpc.init("gui_rpc");
-    rpc.get_state();
-    rpc.print();
-    rpc.get_messages(20, 0, message_descs);
-    for (i=0; i<message_descs.size(); i++) {
-        MESSAGE_DESC& md = message_descs[i];
-        printf("%s %d %d %s\n",
-            md.project.c_str(), md.priority, md.timestamp, md.body.c_str()
-        );
+    if (argc < 2) {
+        printf("usage: [-state] [-suspend] [-resume]\n");
+        exit(1);
+    }
+
+    if (!strcmp(argv[1], "-state")) {
+        rpc.get_state();
+        rpc.print();
+        rpc.get_messages(20, 0, message_descs);
+        for (i=0; i<message_descs.size(); i++) {
+            MESSAGE_DESC& md = message_descs[i];
+            printf("%s %d %d %s\n",
+                md.project.c_str(), md.priority, md.timestamp, md.body.c_str()
+            );
+        }
+    } else if (!strcmp(argv[1], "-suspend")) {
+        rpc.set_run_mode(RUN_MODE_NEVER);
+    } else if (!strcmp(argv[1], "-resume")) {
+        rpc.set_run_mode(RUN_MODE_ALWAYS);
     }
 
 #ifdef _WIN32

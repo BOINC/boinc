@@ -28,6 +28,10 @@
 
 #define GUI_RPC_PORT 31416
 
+#define RUN_MODE_ALWAYS 0
+#define RUN_MODE_NEVER  1
+#define RUN_MODE_AUTO   2
+
 struct PROJECT;
 
 struct FILE_INFO {
@@ -179,7 +183,7 @@ public:
     void link();
 
     ~RPC_CLIENT();
-    int init(char*);
+    int init();
     int get_state();
     int result_show_graphics(RESULT&);
     int project_reset(PROJECT&);

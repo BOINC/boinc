@@ -76,6 +76,7 @@
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"
+#include "app_ipc.h"
 
 #include "client_msgs.h"
 #include "app.h"
@@ -474,11 +475,16 @@ int ACTIVE_TASK::start(bool first_time) {
     // Set up core/app shared memory seg
     //
     shm_key = aid.shm_key;
-    if (!create_shmem(
-        shm_key, APP_CLIENT_SHMEM_SIZE, (void**)&app_client_shm.shm)
-    ) {
-        app_client_shm.reset_msgs();
+    retval = create_shmem(
+        shm_key, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
+    );
+    if (retval) {
+        msg_printf(
+            wup->project, MSG_ERROR, "Can't create shared mem: %d", retval
+        );
+        return retval;
     }
+    app_client_shm.reset_msgs();
 
     pid = fork();
     if (pid == -1) {
@@ -1523,6 +1529,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 
     strcpy(result_name, "");
     strcpy(project_master_url, "");
+    scheduler_state = CPU_SCHED_RUNNING;
+
     while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task>")) {
             project = gstate.lookup_project(project_master_url);

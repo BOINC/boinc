@@ -5,9 +5,9 @@ page_head("Trickle message API");
 echo "
 <h3>API (application)</h3>
 <pre>
-<code>int boinc_send_trickle_up(char*)</code>
+<code>int boinc_send_trickle_up(char* variety, char* text)</code>
 </pre>
-sends a trickle message.
+sends a trickle message of the given variety.
 Returns zero if success.
 <p>
 <pre>
