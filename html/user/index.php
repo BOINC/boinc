@@ -54,6 +54,9 @@ if (project_is_stopped()) {
         <li><a href=top_hosts.php>Top hosts</a>
         <li><a href=top_teams.php>Top teams</a>
         </ul>
+        <p>
+        <h3>Powered by <a href=http://boinc.berkeley.edu><img align=middle border=0 src=http://boinc.berkeley.edu/boinc_logo_trans.gif></a>
+        </h3>
     ";
 }
 echo "

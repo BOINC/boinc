@@ -13,7 +13,7 @@
     echo "<tr><th>Result ID</th><th>Claimed credit</th></tr>\n";
     while ($result = mysql_fetch_object($res)) {
         if ($result->claimed_credit > 0) {
-            echo "<tr><td>$result->id</td><td>",format_credit($result->claimed_credit), "</td></tr>\n";
+            echo "<tr><td><a href=result.php?resultid=$result->id>$result->id</a></td><td>",format_credit($result->claimed_credit), "</td></tr>\n";
             $sum += $result->claimed_credit;
         }
     }

@@ -9394,6 +9394,23 @@ David  Jan 19 2004 (from Rom Walton)
 		boinc_cli.vcproj
 		boinc_ss.vcproj
 
+David  Jan 19 2004
+    - modify logic of file_upload_handler so that it always
+        returns an HTML header, regardless of whether
+        request message is missing or malformed
+    - hyperlink results on pending credit page
+    - fix bug in parsing of exit status in result stderr_out
+    - include "validate_trivial" in install_boinc_files()
+
+    html_user/
+        index.php
+        pending.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        file_upload_handler.C
+        handle_request.C
+
 David  Jan 20 2004
     - added basic support for GUI RPCs in the core client.
         This allows GUIs to be implemented in a separate process.

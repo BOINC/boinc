@@ -22,6 +22,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.55  2004/01/22 01:35:09  boincadm
+// *** empty log message ***
+//
 // Revision 1.54  2004/01/15 21:24:55  boincadm
 // *** empty log message ***
 //
@@ -40,6 +43,7 @@
 #include <errno.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#include <signal.h>
 #endif
 
 #include "parse.h"
@@ -76,6 +80,7 @@ int FILE_INFO::parse(FILE* in) {
     memset(this, 0, sizeof(FILE_INFO));
     signed_xml = strdup("");
     while (fgets(buf, 256, in)) {
+        log_messages.printf(SchedMessages::DEBUG, buf, "FILE_INFO::parse: ");
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
             retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
@@ -93,9 +98,10 @@ int FILE_INFO::parse(FILE* in) {
     return 1;
 }
 
-inline static const char* get_remote_addr()
-{
-    return getenv("REMOTE_ADDR");
+inline static const char* get_remote_addr() {
+    char* p = getenv("REMOTE_ADDR");
+    if (p) return p;
+    return "Unknown remote address";
 }
 
 int return_error(bool transient, const char* message, ...) {
@@ -111,7 +117,7 @@ int return_error(bool transient, const char* message, ...) {
 
     va_list va;
     va_start(va, message);
-    char buf[1024];
+    char buf[10240];
     vsprintf(buf, message, va);
     va_end(va);
 
@@ -139,6 +145,7 @@ int return_success(char* text) {
 #define BLOCK_SIZE  16382
 
 // read from socket, write to file
+// ALWAYS returns an HTML reply
 //
 int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     unsigned char buf[BLOCK_SIZE];
@@ -185,7 +192,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         if (bytes_left == 0) break;
     }
     fclose(out);
-    return 0;
+    return return_success(0);
 }
 
 // read from socket, discard data
@@ -199,6 +206,8 @@ void copy_socket_to_null(FILE* in) {
     }
 }
 
+// ALWAYS generates an HTML reply
+//
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256], path[256];
     FILE_INFO file_info;
@@ -207,7 +216,6 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool is_valid;
 
     while (fgets(buf, 256, in)) {
-        log_messages.printf_multiline(SchedMessages::DEBUG, buf, "handle_file_upload: ");
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
@@ -221,8 +229,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     "verify_string() = %d, is_valid = %d\n",
                     retval, is_valid
                 );
-                log_messages.printf_multiline(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
-                log_messages.printf_multiline(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
+                log_messages.printf(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
+                log_messages.printf(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
                 return return_error(ERR_PERMANENT, "invalid signature");
             }
             continue;
@@ -267,19 +275,20 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     SchedMessages::CRITICAL,
                     "ERROR: offset >= nbytes!!\n"
                 );
-                return_success(0);
-                break;
+                return return_success(0);
             }
-            retval = copy_socket_to_file(in, path, offset, nbytes);
-            if (!retval) {
-                return_success(0);
-            }
-            break;
+            return copy_socket_to_file(in, path, offset, nbytes);
+        } else {
+            log_messages.printf(SchedMessages::CRITICAL,
+                "unrecognized: %s", buf
+            );
         }
     }
-    return 0;
+    return return_error(ERR_PERMANENT, "Missing <data> tag");
 }
 
+// always returns HTML reply
+//
 int handle_get_file_size(char* file_name) {
     struct stat sbuf;
     char path[256], buf[256];
@@ -307,39 +316,56 @@ int handle_get_file_size(char* file_name) {
     return 0;
 }
 
+// always generates an HTML reply
+//
 int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
     char file_name[256];
-    int major;
+    int major, minor, retval=0;
     bool got_version = false;
+    bool did_something = false;
 
     while (fgets(buf, 256, in)) {
-        log_messages.printf_multiline(SchedMessages::DEBUG, buf, "handle_request: ");
+        log_messages.printf(SchedMessages::DEBUG, buf, "handle_request: ");
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
-                return return_error(ERR_PERMANENT,
+                retval = return_error(ERR_PERMANENT,
                     "Core client has major version %d; "
                     "expected %d.",
                     major, MAJOR_VERSION
                 );
+                break;
             } else {
                 got_version = true;
             }
+        } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
+            continue;
         } else if (match_tag(buf, "<file_upload>")) {
             if (!got_version) {
-                return return_error(ERR_PERMANENT, "Missing version");
+                retval = return_error(ERR_PERMANENT, "Missing version");
             } else {
-                return handle_file_upload(in, key);
+                retval = handle_file_upload(in, key);
             }
+            did_something = true;
+            break;
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
             if (!got_version) {
-                return return_error(ERR_PERMANENT, "Missing version");
+                retval = return_error(ERR_PERMANENT, "Missing version");
             } else {
-                return handle_get_file_size(file_name);
+                retval = handle_get_file_size(file_name);
             }
+            did_something = true;
+            break;
+        } else {
+            log_messages.printf(SchedMessages::DEBUG, "handle_request: unrecognized %s\n", buf);
         }
     }
-    return 0;
+    if (!did_something) {
+        log_messages.printf(SchedMessages::CRITICAL, "handle_request: no command\n");
+        return return_error(ERR_PERMANENT, "no command");
+    }
+
+    return retval;
 }
 
 int get_key(R_RSA_PUBLIC_KEY& key) {
@@ -355,17 +381,38 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     return 0;
 }
 
+void boinc_catch_signal(int x) {
+}
+
+void installer() {
+    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
+    signal(SIGINT, boinc_catch_signal);  // interrupt program
+    signal(SIGQUIT, boinc_catch_signal);         // quit program
+    signal(SIGILL, boinc_catch_signal);  // illegal instruction
+    signal(SIGTRAP, boinc_catch_signal);  // illegal instruction
+    signal(SIGABRT, boinc_catch_signal); // abort(2) call
+    signal(SIGFPE, boinc_catch_signal);  // bus error
+    signal(SIGKILL, boinc_catch_signal);  // bus error
+    signal(SIGBUS, boinc_catch_signal);  // bus error
+    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
+    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
+    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGTERM, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGSTOP, boinc_catch_signal); // write on a pipe with no reader
+}
+
 int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
 
     get_log_path(log_path);
-
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file\n");
         exit(1);
     }
+
+    //installer();
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 

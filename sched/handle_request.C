@@ -579,11 +579,6 @@ int handle_results(
             }
         }
 
-        // look for exit status in stderr_out
-        // TODO: return separately
-        //
-        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
-
         // update the result record in DB
         //
         result.hostid = reply.host.id;
@@ -603,6 +598,11 @@ int handle_results(
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
+        // look for exit status in stderr_out
+        // TODO: return separately
+        //
+        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
+
         result.teamid = reply.user.teamid;
         retval = result.update();
         if (retval) {
