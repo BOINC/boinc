@@ -22,6 +22,7 @@ libboinc_a_SOURCES =				\
     md5.c					\
     md5_file.C				\
     mfile.C                 \
+    miofile.C               \
     parse.C					\
 	shmem.C					\
     util.C
