@@ -127,4 +127,6 @@ extern int dir_hier_url(
     const char* filename, const char* root, int fanout, char* result
 );
 
+extern int try_fopen(char* path, FILE*& f, char* mode);
+
 #endif

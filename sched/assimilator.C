@@ -17,7 +17,10 @@
 // Contributor(s):
 //
 
-// assimilator [ -noinsert ]
+// This is a framework for an assimilator.
+// You need to link with with an (application-specific) function
+// assimilate_handler()
+// in order to make a complete program.
 //
 
 #include <cstring>

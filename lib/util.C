@@ -765,3 +765,34 @@ int dir_hier_url(
     sprintf(result, "%s/%x/%s", root, sum, filename);
     return 0;
 }
+
+// try to open a file.
+// On failure:
+//   return ERR_FOPEN if the dir is there but not file
+//     (this is generally a nonrecoverable failure)
+//   return ERR_OPENDIR if dir is not there.
+//     (this is generally a recoverable error,
+//     like NFS mount failure, that may go away later)
+//
+int try_fopen(char* path, FILE*& f, char* mode) {
+    char* p;
+    DIR* d;
+    char dirpath[256];
+
+    f = fopen(path, mode);
+    if (!f) {
+        p = strrchr(path, '/');
+        if (p) {
+            strncpy(dirpath, path, (int)(p-path));
+        } else {
+            strcpy(dirpath, ".");
+        }
+        if ((d = opendir(dirpath)) == NULL) {
+            return ERR_OPENDIR;
+        } else {
+            closedir(d);
+            return ERR_FOPEN;
+        }
+    }
+    return 0;
+}
