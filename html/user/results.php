@@ -13,14 +13,13 @@
     $offset = $_GET["offset"];
     if (!$offset) $offset=0;
 
-    $user = get_logged_in_user();
-
     if ($hostid) {
         $host = lookup_host($hostid);
         $type = "host";
         $link = "<a href=show_host_detail.php?hostid=$hostid>host $hostid</a>";
         $clause = "hostid=$hostid";
     } else {
+        $user = get_logged_in_user();
         if ($userid != $user->id) {
             echo "No access";
             exit();

@@ -233,27 +233,33 @@ $countries = array(
     "Yemen",
     "Zambia",
     "Zimbabwe"
-    );
+);
 
 function print_country_select($selected_country="None") {
-   global $countries;
+    global $countries;
 
-   //See if we can find the user's country and select it as default:
-   $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);
-   $geoip_country = geoip_country_name_by_addr($gi,$_SERVER["REMOTE_ADDR"]);
-   geoip_close($gi);
+    //See if we can find the user's country and select it as default:
+    $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);
+    $geoip_country = geoip_country_name_by_addr($gi,$_SERVER["REMOTE_ADDR"]);
+    geoip_close($gi);
 
-   if ($selected_country=="") $selected_country="None";
-   if ($selected_country=="None" and $geoip_country!=""){
-       $selected_country=$geoip_country;
-   }
-   echo "selected: $selected_country\n";
+    if ($selected_country=="") $selected_country="None";
+    if ($selected_country=="None" and $geoip_country!=""){
+        $selected_country=$geoip_country;
+    }
+    echo "selected: $selected_country\n";
 
-   $numCountries = count($countries);
-   for ($i=0; $i<$numCountries; $i++) {
-       $country = $countries[$i];
-       $selected = ($selected_country == $country ? "selected":"");
-       echo "<option value=\"$country\" $selected>$country</option>\n";
-   }
+    $numCountries = count($countries);
+    for ($i=0; $i<$numCountries; $i++) {
+        $country = $countries[$i];
+        $selected = ($selected_country == $country ? "selected":"");
+        echo "<option value=\"$country\" $selected>$country</option>\n";
+    }
 } 
+
+function is_valid_country($country) {
+    global $countries;
+    return in_array($country, $countries);
+}
+
 ?>

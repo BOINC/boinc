@@ -11718,3 +11718,23 @@ David  April 20 2004
 		file_names.C
 	lib/
 		filesys.C
+
+David  April 21 2004
+    - Web: page_head() no longer checks for logged-in user.
+        Pages that care about that must do it separately,
+        and can pass the user into page_head() if they want.
+    - added is_valid_country() function
+    - don't get logged-in user for pages that don't show sensitive info
+        (results, workunit, host).
+        This also makes these pages cacheable.
+
+    html/
+        forum/
+            edit.php
+        inc/
+            countries.php
+            util.inc
+        user/
+            result.php
+            results.php
+            show_host_detail.php

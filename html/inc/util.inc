@@ -122,11 +122,7 @@ function write_fd($fd, $str) {
     }
 }
 
-function page_head($title, $user=null, $fd=null, $get_user=true) {
-    if ($user == NULL && $get_user) {
-        $user = get_logged_in_user(false);
-    }
-
+function page_head($title, $user=null, $fd=null) {
     $styleSheet = URL_BASE . STYLESHEET;
 
     write_fd($fd, "<html><head><title>$title</title>\n");
