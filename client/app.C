@@ -832,7 +832,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                             atp->pending_suspend_via_quit = false;
                             atp->state = PROCESS_UNINITIALIZED;
                             if (atp->app_client_shm.shm) {
-                                detach_shmm(atp->shm_handle, atp->app_client_shm.shm);
+                                detach_shmem(atp->shm_handle, atp->app_client_shm.shm);
                                 atp->app_client_shm.shm = NULL;
                             }
                         } else if (!atp->finish_file_present()) {
