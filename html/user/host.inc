@@ -132,7 +132,7 @@ function show_host_row($host, $i, $private) {
     ";
     if ($private) {
         echo"<td>
-            <a href=show_host_detail.php?hostid=$host->id>
+            <a href=show_host_detail.php?hostid=$host->id&private=1>
             $host->domain_name</a></td>
         ";
     } else {

@@ -70,7 +70,7 @@ function project_specific_prefs_edit($prefs) {
         ";
     }
     echo "<tr>
-        <td align=right>URL of background (PPM format)</td>
+        <td align=right>URL of background (PPM format)<br><font size=-1>This will show up as the background in the Astropulse animation. The file must be in PPM format, and the number of pixels in the height and the width must both be in powers of 2 (e.g. 128, 512, etc.).</font></td>
         <td><input size=60 name=background value='$prefs->background'></td>
         </tr>
     ";
@@ -144,7 +144,7 @@ function project_specific_prefs_parse_form() {
 // show non-editable version of prefs
 //
 function project_specific_prefs_show($prefs) {
-    row2("Color scheme", $prefs->color_scheme);
+    row2("Color scheme<br><font size=-1>This determines how the Astropulse graphics are displayed</font>", $prefs->color_scheme);
     if ($prefs->color_scheme == "Custom") {
         $dim = $prefs->two_dim?"2":"3";
         row2("Start hue", $prefs->start_hue);
@@ -155,7 +155,7 @@ function project_specific_prefs_show($prefs) {
         row2("Graph dimension", $dim);
     }
     if (strlen($prefs->background)) {
-        row2("Background", $prefs->background);
+        row2("Background<br><font size=-1>This image will show up as the background in the Astropulse animation.</font>", $prefs->background);
     } else {
         row2("Background", "none");
     }

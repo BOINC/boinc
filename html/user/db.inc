@@ -6,11 +6,14 @@
 function db_init() {
     $retval = mysql_pconnect();
     if (!$retval) {
-        echo "Database error - please try again later";
+        echo "Unable to connect to database - please try again later";
         exit();
     }
     $db_name = parse_config("<db_name>");
-    if(!mysql_select_db($db_name)) return -1;
+    if(!mysql_select_db($db_name)) {
+	    echo "Unable to select database - please try again later";
+	    exit();
+    }
 
     return 0;
 }
