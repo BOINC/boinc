@@ -6785,3 +6785,17 @@ Karl 2003-10-14
         - fixed "ln -s start stop" bug
 
     */Makefile.am
+
+Karl 2003-10-14
+    - replaced C country_select program with a php function
+
+    lib/
+        countries.C (removed)
+
+    tools/
+        country_select.C (removed)
+        Makefile.am
+
+    html_user/
+        countries.inc (added)
+        util.inc

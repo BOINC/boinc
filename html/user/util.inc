@@ -1,6 +1,7 @@
 <?php
 
-    require_once("project_specific/project.inc");
+require_once("project_specific/project.inc");
+require_once("countries.inc");
 
 // Sends the authenticator to the given email address
 //
@@ -218,8 +219,13 @@ function random_string() {
 
 // TODO: we should write this funciton in php --quarl
 function print_country_select($country="None") {
-    $x = posix_getcwd();
-    PassThru("LD_LIBRARY_PATH=/usr/local/gcc/lib $x/country_select '$country'");
+    global $countries;
+    $numCountries = count($countries);
+    for ($i=0; $i<$numCountries; $i++) {
+        $country = $countries[i];
+        $selected = $countries[i] == $country ? "selected":"";
+        echo "<option value='$country' $selected>$country</option>\n",
+    }
 }
 
 function print_login_form_aux($next_url, $user, $pathMod='') {
