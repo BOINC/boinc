@@ -534,7 +534,8 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
     if (config.daily_result_quota) {
-        if (host.nresults_today >= config.daily_result_quota) {
+        int n_cpus=host.p_ncpus<4?host.p_ncpus:4;
+        if (host.nresults_today >= config.daily_result_quota*n_cpus) {
             wreq.daily_result_quota_exceeded = true;
             return false;
         }
@@ -880,10 +881,13 @@ int send_work(
             reply.insert_message(um);
         }
         if (reply.wreq.insufficient_speed) {
-            USER_MESSAGE um(
-                "(there was work but your computer would not finish it before it is due",
-                "high"
-            );
+            char helpful[512];
+            sprintf(helpful,
+                "(there was work, but your computer would not finish it before it is due) "
+                "Your computer is on %.1f%% of the time, and runs BOINC %.1f%% of that time. "
+                "This project has %.1f%% of those cycles (other BOINC projects get the rest)",
+                100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction);
+            USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
             if (!config.ignore_delay_bound && sreq.resource_share_fraction<1.0) {
                 USER_MESSAGE um3 (
@@ -895,7 +899,7 @@ int send_work(
         }
         if (reply.wreq.homogeneous_redundancy_reject) {
             USER_MESSAGE um(
-                "(there was work but it was committed to other platforms",
+                "(there was work but it was committed to other platforms)",
                 "high"
             );
             reply.insert_message(um);

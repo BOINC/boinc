@@ -24968,3 +24968,14 @@ David  17 Feb 2005
 
 	client/
 		app_start.C
+
+Bruce 17 Feb 2005
+    - make daily_result_quota be PER CPU with a hardwired limit of
+      4 CPUS.
+    - Improved error messages if users are being denied work because of
+      lack of CPU.  The message reports back their on fraction, active
+      fraction, and resouce share fraction, as percentages.
+
+    sched/
+        sched_send.C
+
