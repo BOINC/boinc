@@ -11738,3 +11738,11 @@ David  April 21 2004
             result.php
             results.php
             show_host_detail.php
+
+Rom    April 22 2004
+    - Integrate in Sebastian Masch's ACPI code that works with multiple
+        AC Adapter types
+    - Integrate back in the APM code that works with the Linux 2.6 kernels
+
+    client/
+        hostinfo_unix.c
