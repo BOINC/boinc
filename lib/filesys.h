@@ -21,7 +21,7 @@
 using std::string;
 #ifdef HAVE_DIRENT_H
 #include <dirent.h>
-#define DIRREF DIR*
+typedef DIR *DIRREF;
 #endif
 #ifdef _WIN32
 #include <io.h>
@@ -30,7 +30,7 @@ struct DIR_DESC {
     bool first;
     void* handle;
 };
-#define DIRREF DIR_DESC*
+typedef DIR_DESC *DIRREF;
 #define PATH_SEPARATOR "\\"
 #else
 #define PATH_SEPARATOR "/"
