@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -124,27 +124,33 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-sequence")) {
             sequence = atoi(argv[++i]);
         } else {
+            if (!strncmp("-",argv[i],1)) {
+                fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
+                exit(1);
+            }
             infiles = argv+i;
             ninfiles = argc - i;
             break;
         }
         i++;
     }
-    if (
-        !strlen(app.name)
-        || !strlen(wu.name)
-        || !strlen(wu_template_file )
-        || !strlen(result_template_file)
-        || wu.delay_bound==0
-        || wu.min_quorum == 0
-        || wu.target_nresults == 0
-        || wu.max_error_results == 0
-        || wu.max_total_results == 0
-        || wu.max_success_results == 0
-    ) {
-        fprintf(stderr, "create_work: bad cmdline\n");
-        exit(1);
-    }
+
+#define CHKARG(x,m) do { if (!(x)) { fprintf(stderr, "create_work: bad command line: "m"\n"); exit(1); } } while (0)
+#define CHKARG_STR(v,m) CHKARG(strlen(v),m)
+
+    CHKARG_STR(app.name             , "need -appname");
+    CHKARG_STR(wu.name              , "need -wuname");
+    CHKARG_STR(wu_template_file     , "need -wu_template");
+    CHKARG_STR(result_template_file , "need -result_template");
+    CHKARG(wu.delay_bound           , "need -delay_bound");
+    CHKARG(wu.min_quorum            , "need -min_quorum");
+    CHKARG(wu.target_nresults       , "need -target_nresults");
+    CHKARG(wu.max_error_results     , "need -max_error_results");
+    CHKARG(wu.max_total_results     , "need -max_total_results");
+    CHKARG(wu.max_success_results   , "need -max_success_results");
+#undef CHKARG
+#undef CHKARG_STR
+
     if (boinc_db_open(db_name, db_passwd)) {
         fprintf(stderr, "create_work: error opening database.\n" );
         exit(0);

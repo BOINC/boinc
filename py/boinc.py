@@ -245,6 +245,11 @@ def query_noyes(str):
     print str, "[y/N] ",
     return raw_input().strip().lower().startswith('y')
 
+def build_command_line(cmd, **kwargs):
+    for (key, value) in kwargs.items():
+        cmd += " -%s '%s'" %(key,value)
+    return cmd
+
 class Platform:
     def __init__(self, name, user_friendly_name=None):
         self.name = name
@@ -287,6 +292,8 @@ class Project:
         self.shmem_key      = generate_shmem_key()
         self.resource_share = resource_share or 1
         self.redundancy     = redundancy or 2
+        # this 'redundancy' number is used to set WU's min_quorum,
+        # target_nresults, etc.
         self.output_level   = 3
 
         self.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
@@ -413,8 +420,7 @@ class Project:
         map(lambda (s): install(builddir('sched',s), self.dir('cgi-bin',s)),
             [ 'cgi', 'file_upload_handler'])
         map(lambda (s): install(builddir('sched',s), self.dir('bin',s)),
-            [ 'make_work',
-              'feeder', 'timeout_check', 'validate_test',
+            [ 'make_work', 'feeder', 'transitioner', 'validate_test',
               'file_deleter', 'assimilator' ])
         map(lambda (s): install(srcdir('sched',s), self.dir('bin',s)),
             [ 'start', 'stop', 'status',
@@ -439,20 +445,23 @@ class Project:
         db.close()
 
         for platform in self.platforms:
-            run_tool("add platform -db_name %s -platform_name %s -user_friendly_name '%s'" %(
-                self.db_name, platform.name, platform.user_friendly_name))
+            cmd = build_command_line("add platform",
+                                     db_name = self.db_name,
+                                     platform_name = platform.name,
+                                     user_friendly_name = platform.user_friendly_name)
+            run_tool(cmd)
 
         verbose_echo(1, "Setting up database: adding %d core version(s)" % len(self.core_versions))
         for core_version in self.core_versions:
-            run_tool(("add core_version -db_name %s -platform_name %s" +
-                      " -version %s -download_dir %s -download_url %s -exec_dir %s" +
-                      " -exec_files %s") %
-                     (self.db_name, core_version.platform.name,
-                      core_version.version,
-                      self.download_dir,
-                      self.download_url,
-                      core_version.exec_dir,
-                      core_version.exec_name))
+            cmd = build_command_line("add core_version",
+                                     db_name = self.db_name,
+                                     platform_name = core_version.platform.name,
+                                     version = core_version.version,
+                                     download_dir = self.download_dir,
+                                     download_url = self.download_url,
+                                     exec_dir = core_version.exec_dir,
+                                     exec_files = core_version.exec_name)
+            run_tool(cmd)
 
         verbose_echo(1, "Setting up database: adding %d app version(s)" % len(self.app_versions))
         for app_version in self.app_versions:
@@ -527,15 +536,15 @@ class Project:
         each_app = False
         if progname == 'feeder':
             _check_vars(kwargs)
-        elif progname == 'timeout_check':
-            _check_vars(kwargs, app=self.app.name, nerror=5, ndet=5, nredundancy=5)
+        elif progname == 'transitioner':
+            _check_vars(kwargs)
         elif progname == 'make_work':
             work = kwargs.get('work', self.work)
             _check_vars(kwargs, cushion=None, redundancy=self.redundancy,
                         result_template=os.path.realpath(work.result_template),
                         wu_name=work.wu_template)
         elif progname == 'validate_test':
-            _check_vars(kwargs, quorum=self.redundancy)
+            _check_vars(kwargs)
             each_app = True
         elif progname == 'file_deleter':
             _check_vars(kwargs)
@@ -544,7 +553,7 @@ class Project:
             each_app = True
         else:
             raise SystemExit("test script error: invalid progname '%s'"%progname)
-        cmdline = ' '.join(map(lambda k: '-%s %s'%(k,kwargs[k]), kwargs.keys()))
+        cmdline = apply(build_command_line, [''], kwargs)
         if each_app:
             return map(lambda av: '-app %s %s'%(av.app.name,cmdline), self.app_versions)
         else:

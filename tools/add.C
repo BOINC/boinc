@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -30,7 +30,7 @@
 // add app_version
 //      -app_name x -platform_name y -version a
 //      -download_dir d -download_url e
-//      -exec_dir b 
+//      -exec_dir b
 //      [ -exec_files file1 file2 ... ]
 //      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
 //      create DB record
@@ -334,6 +334,7 @@ int main(int argc, char** argv) {
     int i, retval;
 
     for (i=2; i<argc; i++) {
+    next_arg:
         if (!strcmp(argv[i], "-db_name")) {
             db_name = argv[++i];
         } else if (!strcmp(argv[i], "-db_passwd")) {
@@ -355,6 +356,7 @@ int main(int argc, char** argv) {
             i++;
             nexec_files = 0;
             while (i < argc) {
+                if (!strncmp(argv[i],"-",1)) goto next_arg;
                 exec_files[nexec_files++] = argv[i++];
             }
             break;
@@ -363,6 +365,7 @@ int main(int argc, char** argv) {
             i++;
             nexec_files = 0;
             while (i < argc) {
+                if (!strncmp(argv[i],"-",1)) goto next_arg;
                 exec_files[nexec_files] = argv[i++];
                 signature_files[nexec_files] = argv[i++];
                 nexec_files++;

@@ -14,15 +14,6 @@
 
 @SET_MAKE@
 
-# MYSQL_INCLUDES = /usr/local/mysql/include
-# MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
-# MYSQL_INCLUDES3 = /usr/include/mysql
-
-# MYSQL_LIBS =								\
-#         -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
-#         -lmysqlclient -L/usr/local/lib -lz				\
-#         -lm $(NETLIBS)
-
 # Note: MYSQL_CFLAGS and MYSQL_LIBS set by configure from mysql_config
 
 srcdir = @srcdir@

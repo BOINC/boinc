@@ -356,7 +356,7 @@ class Host:
         self.log_flags = 'log_flags.xml'
         self.host_dir = os.path.join(options.hosts_dir, self.name)
         self.defargs = "-exit_when_idle -skip_cpu_benchmarks -debug_fake_exponential_backoff -return_results_immediately"
-        # self.defargs = "-exit_when_idle -skip_cpu_benchmarks -sched_retry_delay_min 1"
+        # self.defargs = "-exit_when_idle -skip_cpu_benchmarks -sched_retry_delay_bin 1"
 
     def add_user(self, user, project):
         self.users.append(user)
@@ -414,15 +414,21 @@ class Host:
                               filename))
 
 class Work:
-    def __init__(self, redundancy=1):
+    def __init__(self, redundancy=None, **kwargs):
         self.input_files = []
         self.rsc_iops = 1.8e12
         self.rsc_fpops = 1e13
         self.rsc_memory = 1e7
         self.rsc_disk = 1e7
-        self.delay_bound = 1000
-        self.redundancy = redundancy
+        self.delay_bound = 86400
+        redundancy = redundancy or 2
+        self.min_quorum = redundancy
+        self.target_nresults = redundancy
+        self.max_error_results = redundancy * 2
+        self.max_total_results = redundancy * 4
+        self.max_success_results = redundancy * 2
         self.app = None
+        self.__dict__.update(kwargs)
 
     def install(self, project):
         verbose_echo(1, "Installing work <%s> in project '%s'" %(
@@ -453,12 +459,25 @@ class Work:
                 verbose_echo(2, "Linking "+newhandler)
                 os.symlink(handler, newhandler)
 
-        cmd = "create_work -db_name %s -download_dir %s -upload_url %s -download_url %s -keyfile %s -appname %s -rsc_iops %.0f -rsc_fpops %.0f -rsc_disk %.0f -wu_template %s -result_template %s -redundancy %s -wu_name %s -delay_bound %d" % (
-            project.db_name, project.download_dir, project.upload_url,
-            project.download_url, os.path.join(project.key_dir,'upload_private'),
-            self.app.name, self.rsc_iops, self.rsc_fpops, self.rsc_disk,
-            self.wu_template, self.result_template, self.redundancy, self.wu_template,
-            self.delay_bound)
+        cmd = build_command_line("create_work",
+                                 db_name             = project.db_name,
+                                 download_dir        = project.download_dir,
+                                 upload_url          = project.upload_url,
+                                 download_url        = project.download_url,
+                                 keyfile             = os.path.join(project.key_dir,'upload_private'),
+                                 appname             = self.app.name,
+                                 rsc_iops            = self.rsc_iops,
+                                 rsc_fpops           = self.rsc_fpops,
+                                 rsc_disk            = self.rsc_disk,
+                                 wu_template         = self.wu_template,
+                                 result_template     = self.result_template,
+                                 min_quorum          = self.min_quorum,
+                                 target_nresults     = self.target_nresults,
+                                 max_error_results   = self.max_error_results,
+                                 max_total_results   = self.max_total_results,
+                                 max_success_results = self.max_success_results,
+                                 wu_name             = self.wu_template,
+                                 delay_bound         = self.delay_bound)
 
         for input_file in self.input_files:
             cmd += ' ' + input_file

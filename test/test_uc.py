@@ -21,20 +21,12 @@ class UserUC(User):
 </venue>"""
 
 class WorkUC(Work):
-    def __init__(self, redundancy=2):
+    def __init__(self, **kwargs):
         Work.__init__(self)
         self.wu_template = "uc_wu"
         self.result_template = "uc_result"
-        self.redundancy = redundancy
-        self.delay_bound = 86400*3 # 5*redundancy
         self.input_files = ['input']
-        # # Say that 1 WU takes 1 day on a ref comp
-        #    - note: for test_1sec these values are too high so if you want to
-        #            add these back, make them smaller of make test_1sec
-        #            request more work
-        # self.rsc_fpops = 86400*1e9/2
-        # self.rsc_iops = 86400*1e9/2
-        # self.rsc_disk = 10e8
+        self.__dict__.update(kwargs)
 
 class ResultUC:
     def __init__(self):
@@ -74,6 +66,7 @@ class ProjectUC(TestProject):
         self.check_results(result)
         self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=self.redundancy)
         self.sched_run('assimilator')
+        self.sched_run('transitioner')
         self.sched_run('file_deleter')
         self.check_deleted("download/input")
         self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)

@@ -12,13 +12,12 @@ class WorkConcat(Work):
         self.wu_template = "concat_wu"
         self.result_template = "concat_result"
         self.input_files = ['input']*2
-        self.delay_bound = 86400*3
 
 class ProjectConcat(TestProject):
     def __init__(self, works=None, users=None, hosts=None, redundancy=2):
         TestProject.__init__(self,
                              appname = 'concat',
-                             works = works or [WorkConcat()],
+                             works = works or [WorkConcat(redundancy=redundancy)],
                              users = users,
                              hosts = hosts,
                              redundancy=redundancy)
