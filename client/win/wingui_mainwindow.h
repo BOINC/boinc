@@ -147,6 +147,7 @@ protected:
 	afx_msg void			OnCommandWorkShowGraphics();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
+	afx_msg void OnCommandRunBenchmarks();
 	afx_msg void			OnCommandConnectionHangupIfDialed();
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();
 	afx_msg void			OnCommandShow();
@@ -164,6 +165,11 @@ protected:
 	afx_msg void			OnTimer(UINT); 
 
     DECLARE_MESSAGE_MAP()
+
+public:
+	void OnBenchmarksBegin();
+	void OnBenchmarksEnd();
+
 };
 
 // globals

@@ -53,6 +53,7 @@
 #include "speed_stats.h"
 #include "client_state.h"
 #include "log_flags.h"
+#include "maybe_gui.h"
 
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
@@ -281,18 +282,7 @@ int CLIENT_STATE::init() {
     // running CPU benchmarks is slow, so do it infrequently
     //
     if (should_run_cpu_benchmarks()) {
-        cpu_benchmarks_start = time(0);
-        msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
-#ifdef _WIN32
-        cpu_benchmarks_handle = CreateThread(
-            NULL, 0, win_cpu_benchmarks, NULL, 0, &cpu_benchmarks_id
-        );
-#else
-        cpu_benchmarks_id = fork();
-        if (cpu_benchmarks_id == 0) {
-            _exit(cpu_benchmarks());
-        }
-#endif
+		fork_run_cpu_benchmarks();
     }
 
     set_nslots();
@@ -307,6 +297,22 @@ int CLIENT_STATE::init() {
     restart_tasks();
 
     return 0;
+}
+
+void CLIENT_STATE::fork_run_cpu_benchmarks()
+{
+	cpu_benchmarks_start = time(0);
+	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
+#ifdef _WIN32
+    cpu_benchmarks_handle = CreateThread(
+        NULL, 0, win_cpu_benchmarks, NULL, 0, &cpu_benchmarks_id
+    );
+#else
+    cpu_benchmarks_id = fork();
+    if (cpu_benchmarks_id == 0) {
+        _exit(cpu_benchmarks());
+    }
+#endif
 }
 
 int CLIENT_STATE::set_nslots() {
@@ -359,6 +365,10 @@ int CLIENT_STATE::cpu_benchmarks() {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
     scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running CPU benchmarks.\n");
 
+#ifdef _WIN32
+	guiOnBenchmarksBegin();
+#endif
+
     clear_host_info(host_info);
     ++log_messages;
     if (skip_cpu_benchmarks) {
@@ -382,6 +392,12 @@ int CLIENT_STATE::cpu_benchmarks() {
 
         // need to check cache!!
         host_info.m_cache = 1e6;
+
+		msg_printf(NULL, MSG_INFO, "Benchmark results: FP: %f%s;  INT: %f%s;  Mem BW: %f%s",
+			host_info.p_fpops, (host_info.p_fpop_err?" [ERROR]":""),
+			host_info.p_iops,  (host_info.p_iops?" [ERROR]":""),
+			host_info.p_membw, (host_info.p_membw?" [ERROR]":"")
+			);
     }
 
     host_info.p_calculated = (double)time(0);
@@ -389,7 +405,9 @@ int CLIENT_STATE::cpu_benchmarks() {
     if(!finfo) return ERR_FOPEN;
     host_info.write_cpu_benchmarks(finfo);
     fclose(finfo);
-
+#ifdef _WIN32
+	guiOnBenchmarksEnd();
+#endif
     --log_messages;
     return 0;
 }
@@ -419,6 +437,7 @@ int CLIENT_STATE::check_cpu_benchmarks() {
             return CPU_BENCHMARKS_RUNNING;
         }
         CloseHandle(cpu_benchmarks_handle);
+		guiOnBenchmarksEnd();
 #else
         int exit_code = 0;
         retval = waitpid(cpu_benchmarks_id, &exit_code, WNOHANG);

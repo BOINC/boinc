@@ -197,6 +197,8 @@ BEGIN
         MENUITEM "&Suspend",                    ID_FILE_SUSPEND
         MENUITEM "&Resume",                     ID_FILE_RESUME
         MENUITEM SEPARATOR
+        MENUITEM "Run &Benchmarks",             ID_FILE_RUN_BENCHMARKS
+        MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_FILE_EXIT
     END
     POPUP "&Settings"
