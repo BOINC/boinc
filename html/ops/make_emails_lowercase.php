@@ -1,9 +1,5 @@
 <?php
-
-echo "
-       <!-- Script for repairing user database if some email addresses in lower case and/or some CPID=0 -->\n
-       <!-- \$Id$ -->\n
-";
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // (0) This script corrects email addresses in the user database that are
 //     not completely lowercase.  It also fixes cross_project_id values that
@@ -21,14 +17,17 @@ echo "
 
 
 require_once("../inc/util_ops.inc");
-require_once("../inc/util.inc");
-
-echo "
-      <HTML><HEAD><TITLE>User database repair script. Lowercae(email_addr) and set CPID!=0</TITLE></HEAD><BODY>\n
-";
+require_once("../inc/db_ops.inc");
 
 db_init();
+$confirm = $_GET['confirm'];
+$update_needed = false;
 
+admin_page_head("Repair emails and CPID=0");
+
+echo "<br>
+    Script for repairing user database if some email addresses in lower case and/or some CPID=0<br>
+    <b>Attention this runs an expensive query on the database</b><br><br>\n";
 $query = "select count(*) from user";
 if (!($result = mysql_query($query))) {
   echo "No rows found in USER database table";
@@ -64,17 +63,22 @@ while ($user = mysql_fetch_object($result)) {
   
   if (strcmp($email_addr, $new_email) || strcmp($newcpid,$cpid)) {
     $update="update user set email_addr='$new_email', cross_project_id='$newcpid' where id='$id'";
-    // modify line that follows to enable changes to user database: change (1) to (0)
-    if (1)
-      echo "QUERY WOULD BE [$id] $query <br/>[Modify html/ops/make_emails_lowercase.php to enable changes]<br/>";
+    if ($confirm != "yes") {
+      echo "QUERY WOULD BE [$id] $query <br/>[click the link at the bottom to enable]<br/>";
+      $update_needed = TRUE;
+    }
     else {
       mysql_query($update);
       echo "Doing $update<br/>\n";
     }
   }
 }
+if ($confirm != "yes" && $update_needed) {
+    echo "You can enable the changes by <a href=\"make_emails_lowercase.php?confirm=yes\">click</a>";
+} else {
+    echo "No updates needed.";
+}
 mysql_free_result($result);
 
-echo "
-      </BODY></HTML>\n 
-";
+admin_page_tail();
+?>

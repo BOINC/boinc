@@ -1,25 +1,28 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // create an account with given email address
 //
-function add_account($email_addr, $user_name, $munge) {
-    $user.authenticator = random_string();
-    $user.name = $user_name;
+function create_account($email_addr, $user_name, $munge) {
+    $user = array();
+    $user->authenticator = random_string();
+    $user->name = $user_name;
     if ($munge) {
-        $email_addr = munge_email_addr($email_addr, $authenticator);
+        $email_addr = munge_email_addr($email_addr, $user->authenticator);
     }
-    $user.email_addr = $email_addr;
-    $user.cross_project_id = random_string();
+    $user->email_addr = $email_addr;
+    $user->cross_project_id = random_string();
     $t = time();
-    $query = "insert into user (create_time, email_addr, name, authenticator, cross_project_id) values ($t, '$user.email_addr', '$user.name', '$user.authenticator', '$user.cross_project_id')";
+    $query = "insert into user (create_time, email_addr, name, authenticator, cross_project_id) values ($t, '$user->email_addr', '$user->name', '$user->authenticator', '$user->cross_project_id')";
     $result = mysql_query($query);
-    if ($result) return user;
+    if ($result) return $user;
     return false;
 }
 
 require_once("../inc/util_ops.inc");
-require_once("../inc/util.inc");
+require_once("../inc/email.inc");
 
+admin_page_head("Create User Account");
 db_init();
 $email_addr = trim($_GET["email_addr"]);
 $email_addr = strtolower($email_addr);
@@ -39,7 +42,7 @@ if (!$user) {
     exit();
 }
 
-$url = URL_BASE."/account_created.php?email_addr=".urlencode($email_addr);
+$url = URL_BASE."account_created.php?email_addr=".urlencode($email_addr);
 echo "
     <h2>Account created for:<br/>
     $user_name<br/>
@@ -49,23 +52,7 @@ echo "
     <a href=\"$url\"> $url </a>
 ";
 
-send_auth_email($email_addr, $user.authenticator);
+send_auth_email($user, true, false);
 
-mail($email_addr, PROJECT. " account created",
-"This email confirms the creation of your ".PROJECT." account.
-
-".PROJECT." URL:         ".MASTER_URL."
-
-Your account ID:          $authenticator\n
-
-Please save this email.
-You will need your account Id to log in to the ".PROJECT." web site.
-
-To finish registration, you must confirm. Please go to:
-$url
-"
-);
-
-
-
+admin_page_tail();
 ?>

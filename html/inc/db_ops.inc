@@ -1,5 +1,5 @@
 <?php
-echo "<!--\$Id$ -->\n";
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 define("NVALIDATE_STATES", 5);
 
@@ -29,8 +29,8 @@ function print_describe_table_onecol($table, $which, $columns) {
   $width=100.0/$actualcolumns;
 
   //  echo "<td><table border='2' width=\"$width%\">\n";
-  echo "<td><table border='1' width=\"100%\">\n";
-  echo "<tr><th align='left'>NAME</th><th align='left'>Type</th><th align='left'>Bytes</th>\n";
+  echo "<td><table border=\"1\" width=\"100%\">\n";
+  echo "<tr><th align=\"left\">NAME</th><th align=\"left\">Type</th><th align=\"left\">Bytes</th>\n";
   for ($count=$bot; $count<$top; $count++) {
     if ($count<$fields) {
       $name= mysql_field_name($result, $count);
@@ -50,7 +50,7 @@ function print_describe_table_onecol($table, $which, $columns) {
 function print_describe_table($table, $how_many_columns) {
   // Number of columns for showing table description
   echo "<h2>Description of <b>$table</b> table fields:</h2>\n";
-  echo "<table border='0' width='100%'>\n\t<tr>";
+  echo "<table border=\"0\" width=\"100%\">\n\t<tr>";
   for ($i=1; $i<=$how_many_columns; $i++) {
     print_describe_table_onecol($table, $i, $how_many_columns);
   }
@@ -58,6 +58,31 @@ function print_describe_table($table, $how_many_columns) {
   return 0;
 }
 
+function print_detail_field() {
+    echo "<tr><td align=\"right\">Detail level</td><td>";
+    echo "<select name=\"detail\">
+        <option value=\"low\">low
+        <option value=\"high\">high
+        </select>
+        </td></tr>
+    ";
+}
+
+function print_query_field() {
+    $currenttime=time();
+    $hourago=$currenttime-3600;
+    $dayago=$currenttime-24*3600;
+    $weekago=$currenttime-7*24*3600;
+    echo "
+        <tr>
+        <td align=\"right\">Additional clauses</td>
+        <td><input name=\"clauses\" size=\"100\"></td>
+        </tr><tr>
+        <td align=\"right\">Unix times</td>
+        <td>Now:<b> $currenttime</b> Hour ago: $hourago Day ago: $dayago Week ago: $weekago</td>
+        </tr>
+    ";
+}
 
 function join_query_string($s1, $s2) {
     if ($s1) {
@@ -68,6 +93,14 @@ function join_query_string($s1, $s2) {
         }
     } else {
         return $s2;
+    }
+}
+
+function append_sql_query($original,$addition,$first) {
+    if ($first == 1) {
+        return $original . " where " . $addition;
+    } else {
+        return $original . " and " . $addition;
     }
 }
 
@@ -82,7 +115,7 @@ function join_query_string($s1, $s2) {
 // hostid
 // userid
 // teamid
-// nsecs            (received_time > now - nsecs)
+// nsecs            (modified_time > now - nsecs)
 // received_time    (> x)
 // server_state     (== x if z nonzero)
 // outcome          (== x if z nonzero)
@@ -148,11 +181,17 @@ class SqlQueryString {
             $this->urlquery .= "&$name=".urlencode($value);
         }
     }
-    function addsort($name) {
+    function addsort($name, $order) {
         $value = $_GET[$name];
+        $order = $_GET[$order];
         if (strlen($value)) {
-            $this->query .= " order by $value desc";
-            $this->urlquery .= "&$name=".urlencode($value);
+            if ($order == 'asc') {
+                $this->query .= " order by $value asc";
+                $this->urlquery .= "&sort_by_order=".urlencode($order);
+            } else {
+                $this->query .= " order by $value desc";
+                $this->urlquery .= "&$name=".urlencode($value);
+            }
         }
     }
 
@@ -177,8 +216,8 @@ class SqlQueryString {
         }
     }
 
-    function get_url($base) {
-        $s = "db_action.php?table=$this->table$this->urlquery";
+    function get_url($base = "db_action.php") {
+        $s = $base . "?table=$this->table$this->urlquery";
         return $s;
     }
 
@@ -203,7 +242,7 @@ class SqlQueryString {
         if ($clauses) {
             $this->addclause($clauses);
         }
-        $this->addsort('sort_by');
+        $this->addsort('sort_by', 'sort_by_order');
     }
 }
 
@@ -213,10 +252,10 @@ function link_results($n, $mq, $query, $clauses) {
         return "0";
     } else {
         if(strlen($clauses)) {
-            return "<a href=db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=mod_time&detail=low>$n</a>";
+            return "<a href=\"db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=mod_time&detail=low\">$n</a>";
         }
         else {
-            return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=mod_time&detail=low>$n</a>";
+            return "<a href=\"db_action.php?table=result&query=$mq&$query&sort_by=mod_time&detail=low\">$n</a>";
         }
         
     }
@@ -228,7 +267,6 @@ function result_error_mask_str($x){
     switch($x){
     case 0: return "";
     case -100: return "ERR_SELECT";
-    case -101: return "ERR_MALOC";
     case -102: return "ERR_READ";
     case -103: return "ERR_WRITE";
     case -104: return "ERR_FREAD";
@@ -240,7 +278,6 @@ function result_error_mask_str($x){
     case -110: return "ERR_UNLINK";
     case -111: return "ERR_OPENDIR";
     case -112: return "ERR_XML_PARSE";
-    case -113: return "ERR_GETHOSTBYNAME";
     case -113: return "ERR_GETHOSTBYNAME";
     case -114: return "ERR_GIVEUP_DOWNLOAD";
     case -115: return "ERR_GIVEUP_UPLOAD";
@@ -322,7 +359,10 @@ function result_error_mask_str($x){
     case -192: return "ERR_MKDIR";
     case -193: return "ERR_INVALID_EVENT";
     case -194: return "ERR_ALREADY_RUNNING";
-    default: return "Unknown error number please look at lib/error_numbers.h";
+    case -195: return "ERR_NO_APP_VERSION";  
+    case -196: return "ERR_WU_USER_RULE";    
+    case -197: return "ERR_ABORTED_VIA_GUI"; 
+    default: return "Unknown error number";
     }
 }
 // Determines if in stderr_out is an error reported and prints as human readable String
@@ -417,6 +457,7 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '2' then 1 else 0 end) AS validate_invalid,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '3' then 1 else 0 end) AS validate_nocheck,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '4' then 1 else 0 end) AS validate_inconclusive,
+       SUM(case when server_state = '5' and outcome = '1' and validate_state = '5' then 1 else 0 end) AS validate_too_late,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '0' then 1 else 0 end) AS filedeletestate_init,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '1' then 1 else 0 end) AS filedeletestate_ready,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '2' then 1 else 0 end) AS filedeletestate_done,
@@ -476,6 +517,7 @@ FROM result WHERE
         $validate_state[2] = $res->validate_invalid;
         $validate_state[3] = $res->validate_nocheck;
         $validate_state[4] = $res->validate_inconclusive;
+        $validate_state[5] = $res->validate_too_late;
 
         $file_delete[0]  = $res->filedeletestate_init;
         $file_delete[1]  = $res->filedeletestate_ready;
@@ -487,14 +529,14 @@ FROM result WHERE
 
 
     echo "<table>";
-    echo "<tr valign=top>";
+    echo "<tr valign=\"top\">";
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '', '') . "</h2></td>";
     echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5", '') . "</h2></td>";
     echo "<td><h2>" . link_results("'Success' results", $urlquery, "outcome=1", '') . "</h2></td>";
     echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3", '') . "</h2></td>";
     echo "</tr>";
-    echo "<tr valign=top>";
-    echo "<td><table border=2 cellpadding=4\n";
+    echo "<tr valign=\"top\">";
+    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         row2(server_state_string($ss),
@@ -502,7 +544,7 @@ FROM result WHERE
     }
     echo "</table></td>";
 
-    echo "<td><table border=2 cellpadding=4\n";
+    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
 
     for ($ro=0; $ro<7; $ro++) {
@@ -512,14 +554,14 @@ FROM result WHERE
     }
     echo "</table></td>";
 
-    echo "<td><table border=2 cellpadding=4\n";
+    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
     for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
         c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($vs),
         link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
     }
     echo "</table>";
-    echo "<table border=2 cellpadding=4\n";
+    echo "<table border=\"2\" cellpadding=\"4\"\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
   
     for ($fds=0; $fds<3; $fds++) {
@@ -530,7 +572,7 @@ FROM result WHERE
     link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
     echo "</table></td>";
 
-    echo "<td><table border=2 cellpadding=4\n";
+    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         row2(client_state_string($cs),
@@ -544,64 +586,72 @@ FROM result WHERE
 
 function server_state_select() {
     echo "
-        <select name=server_state>
-        <option value='CHOOSE_ALL' selected> Any
+        <select name=\"server_state\">
+        <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=1; $i<6; $i++) {
-        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.server_state_string($i)."</option>\n";
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.server_state_string($i)."</option>\n";
     }
     echo "</select>\n";
 }
 
 function outcome_select() {
     echo "
-        <select name=outcome>
-        <option value='CHOOSE_ALL' selected> Any
+        <select name=\"outcome\">
+        <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=0; $i<7; $i++) {
-        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.outcome_string($i)."</option>\n";
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.outcome_string($i)."</option>\n";
     }
     echo "</select>\n";
 }
 
 function validate_state_select() {
     echo "
-        <select name=validate_state>
-        <option value='CHOOSE_ALL' selected> Any
-    ";
+        <select name=\"validate_state\">
+        <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
+        ";
     for($i=0; $i<NVALIDATE_STATES; $i++) {
-        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($i)."</option>\n";
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($i)."</option>\n";
     }
     echo "</select>\n";
 }
 
 function client_state_select() {
     echo "
-        <select name=client_state>
-        <option value='CHOOSE_ALL' selected> Any
+        <select name=\"client_state\">
+        <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=0; $i<6; $i++) {
-        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".client_state_string($i)."</option>\n";
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".client_state_string($i)."</option>\n";
     }
     echo "</select>\n";
 }
 
 function result_sort_select() {
     echo "
-        <select name=sort_by>
-        <option value=''>None
-        <option value=id>ID
-        <option value=sent_time>Sent time
-        <option value=mod_time>Modification time
-        <option value=received_time>Received time
-        <option value=exit_status>Exit status
-        <option value=hostid>Host ID
-        <option value=userid>User ID
-        <option value=app_version_num>App Version Number
-        <option value=cpu_time>CPU time
-        <option value=workunitid>Work Unit ID
+        <select name=\"sort_by\">
+        <option value=\"\">None
+        <option value=\"id\">ID
+        <option value=\"sent_time\">Sent time
+        <option value=\"mod_time\">Modification time
+        <option value=\"received_time\">Received time
+        <option value=\"exit_status\">Exit status
+        <option value=\"hostid\">Host ID
+        <option value=\"userid\">User ID
+        <option value=\"app_version_num\">App Version Number
+        <option value=\"cpu_time\">CPU time
+        <option value=\"workunitid\">Work Unit ID
         </select>
     ";
+}
+
+function sort_order_select() {
+    echo "
+        <select name=\"sort_by_order\">
+        <option value=\"asc\">Ascending
+        <option value=\"desc\" selected>Descending
+        </select>\n";
 }
 
 function table_title($table) {
@@ -614,6 +664,7 @@ function table_title($table) {
     case "result": return "Results";
     case "team": return "Teams";
     case "user": return "Users";
+    case "profile": return "Profiles";
     default: return "????";
     }
 }
@@ -624,7 +675,7 @@ function show_platform($platform) {
     row("Created", time_str($platform->create_time));
     row("Name", $platform->name);
     row("User friendly name", $platform->user_friendly_name);
-    row("","<a href=db_action.php?table=app_version&platformid=$platform->id>App versions for this platform</a>");
+    row("","<a href=\"db_action.php?table=app_version&platformid=$platform->id\">App versions for this platform</a>");
     end_table();
 }
 
@@ -636,8 +687,8 @@ function show_app($app) {
     row("User-friendly name", $app->user_friendly_name);
     row("Deprecated", $app->deprecated);
     row("Homogeneous redundancy", $app->homogeneous_redundancy);
-    row("","<a href=db_action.php?table=app_version&appid=$app->id>App Versions for this application</a>");
-    row("","<a href=db_action.php?table=workunit&appid=$app->id&detail=low>Workunits for this application</a>");
+    row("","<a href=\"db_action.php?table=app_version&appid=$app->id\">App Versions for this application</a>");
+    row("","<a href=\"db_action.php?table=workunit&appid=$app->id&detail=low\">Workunits for this application</a>");
     end_table();
 }
 
@@ -645,9 +696,9 @@ function show_app_version($app_version) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
-    row("Application", "<a href=db_action.php?table=app&id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
+    row("Application", "<a href=\"db_action.php?table=app&id=$app_version->appid\">" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
-    row("Platform", "<a href=db_action.php?table=platform&id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
+    row("Platform", "<a href=\"db_action.php?table=platform&id=$app_version->platformid\">" . platform_name_by_id($app_version->platformid) . "</a>" );
     row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     row("Min_core_version", $app_version->min_core_version);
     row("Max_core_version", $app_version->max_core_version);
@@ -672,10 +723,10 @@ function show_app_version_short($app_version) {
     $y = platform_name_by_id($app_version->platformid);
     echo "
         <tr>
-        <td><a href=db_action.php?table=app_version&id=$app_version->id>$app_version->id</a></td>
-        <td><a href=db_action.php?table=app?id=$app_version->appid>$x</a></td>
+        <td><a href=\"db_action.php?table=app_version&id=$app_version->id\">$app_version->id</a></td>
+        <td><a href=\"db_action.php?table=app?id=$app_version->appid\">$x</a></td>
         <td>$app_version->version_num</td>
-        <td><a href=db_action.php?table=platform&id=$app_version->platformid>$y</a></td>
+        <td><a href=\"db_action.php?table=platform&id=$app_version->platformid\">$y</a></td>
         </tr>
     ";
 }
@@ -695,7 +746,7 @@ function host_short_header() {
 function show_host_short($host) {
     echo "
         <tr>
-        <td><a href=db_action.php?table=host&id=$host->id>$host->id</a></td>
+        <td><a href=\"db_action.php?table=host&id=$host->id\">$host->id</a></td>
         <td>$host->last_ip_addr</td>
         <td>$host->domain_name</td>
         <td>$host->p_vendor $host->p_model</td>
@@ -752,7 +803,7 @@ function show_host($host) {
     row("% of time host connected", 100*$host->connected_frac." %");
     row("% of time user active", 100*$host->active_frac." %");
     row("# of results today", $host->nresults_today);
-    row("Results", "<a href=db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time>click here</a>");
+    row("Results", "<a href=\"db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time\">click here</a>");
     end_table();
 
 }
@@ -783,7 +834,7 @@ function wu_error_mask_str($s) {
         $x = $x."Unrecognized Error: $s<br>";
     }
     if (strlen($x)) {
-        $x="<font color='ff3333'>".$x."</font>";
+        $x="<font color=\"ff3333\">".$x."</font>";
     } else {
         $x="<br>";
     }
@@ -847,7 +898,7 @@ function show_workunit($wu) {
     row("Priority", $wu->priority);
     end_table();
     echo "<div align=\"center\">";
-    echo "<a href='show_log.php?s=$wu->name'>GREP LOGS FOR THIS WORKUNIT</a>";
+    echo "<a href=\"show_log.php?s=$wu->name\">GREP LOGS FOR THIS WORKUNIT</a>";
     echo "</div>";
     echo "<p>";
 }
@@ -866,12 +917,12 @@ function workunit_short_header() {
 
 function show_workunit_short($wu) {
     if ($wu->canonical_resultid) {
-        $cr = "<a href=db_action.php?table=result&id=$wu->canonical_resultid>$wu->canonical_resultid</a>";
+        $cr = "<a href=\"db_action.php?table=result&id=$wu->canonical_resultid\">$wu->canonical_resultid</a>";
     } else {
         $cr = "none";
     }
     $wu_link = "<a href=\"db_action.php?table=workunit&id=".$wu->id."&detail=high\">".$wu->id."</a>";
-    $cr = $cr. " <a href=db_action.php?table=result&workunitid=$wu->id&detail=low>all</a>";
+    $cr = $cr. " <a href=\"db_action.php?table=result&workunitid=$wu->id&detail=low\">all</a>";
     $e = wu_error_mask_str($wu->error_mask);
     $f = file_delete_state_str($wu->file_delete_state);
     $a = assimilate_state_str($wu->assimilate_state);
@@ -933,6 +984,7 @@ function validate_state_str($s) {
     case 2: return "Invalid";
     case 3: return "Skipped";
     case 4: return "Inconclusive";
+    case 5: return "Too late";
     }
     echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
@@ -942,7 +994,7 @@ function host_user_link($hostid)
 {
     if (!$hostid) return '----';
 
-    $h = "<a href=db_action.php?table=host&id=$hostid>$hostid</a>";
+    $h = "<a href=\"db_action.php?table=host&id=$hostid\">$hostid</a>";
     $result = mysql_query("select userid from host where id='$hostid' limit 1");
     if (!$result) return $h;
     $host = mysql_fetch_object($result);
@@ -952,7 +1004,7 @@ function host_user_link($hostid)
     if (!$result) return $h;
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
-    return "$h<br><small>(<a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
+    return "$h<br><small>(<a href=\"db_action.php?table=user&id=$user->id\">$user->name</a>)</small>";
 }
 
 function validate_color($validate_state) {
@@ -1037,7 +1089,7 @@ function result_short_header() {
         <th>exit<br>status</th>
         <th>host<br>(user)</th>
         <th>client<br>ver</th>
-        <th>received <i>or</i> <font color='33cc33'>deadline</font></th>
+        <th>received <i>or</i> <font color=\"33cc33\">deadline</font></th>
         <th>CPU<br>hours</th>
         <th>claimed<br>credit</th>
         <th>granted<br>credit</th>
@@ -1060,9 +1112,9 @@ function show_result_short($result) {
         // in green if in the future or in red if in the past.
         $timenow=time();
         if ($result->report_deadline>=$timenow) {
-            $colortag="<font color='33cc33'>";
+            $colortag="<font color=\"33cc33\">";
         } else {
-            $colortag="<font color='ff3333'>";
+            $colortag="<font color=\"ff3333\">";
         }
         $received = $colortag . time_str($result->report_deadline) . "</font>";
     }
@@ -1077,8 +1129,8 @@ function show_result_short($result) {
 
     echo "
         <tr>
-        <td><a href=db_action.php?table=result&id=$result->id>$result->id</a></td>
-        <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
+        <td><a href=\"db_action.php?table=result&id=$result->id\">$result->id</a></td>
+        <td><a href=\"db_action.php?table=workunit&id=$result->workunitid\">$result->workunitid</a></td>
         <td>$ss</td>
         <td bgcolor=$outcome_color>$oc</td>
         <td bgcolor=$validate_color>$vs</td>
@@ -1107,9 +1159,76 @@ function show_user($user) {
     row("Average credit", $user->expavg_credit);
     row("Last average time", time_str($user->expavg_time));
     row("Default venue", $user->venue);
-    row("Hosts", "<a href=db_action.php?table=host&userid=$user->id&detail=low>click</a>");
+    row("Hosts", "<a href=\"db_action.php?table=host&userid=$user->id&detail=low\">click</a>");
     row("Cross project ID", $user->cross_project_id);
     end_table();
+}
+
+function show_user_summary($maxuser) {
+    $top_country = array();
+    $top_language = array();
+    $stats_res = mysql_query("select max(id) as maxuser,
+                              SUM(case when has_profile = '1' then 1 else 0 end) as profuser,
+                              SUM(case when teamid != '0' then 1 else 0 end) as teamuser
+                              from user");
+    $stats = mysql_fetch_assoc($stats_res);
+    if ($maxuser > $stats['maxuser']) {
+        $maxuser = $stats['maxuser'];
+    }
+    $user_res = mysql_query("select * from user order by posts desc limit ".$maxuser);
+    $profile_res = mysql_query("select * from profile order by posts desc limit ".$maxuser);
+    for ($i=1;$i<=$maxuser;$i++) {
+        $user = mysql_fetch_object($user_res);
+        $top10poster[$i] = $user;
+        $top_country[$user->country] += 1;
+    }
+    for ($i=1;$i<=$maxuser;$i++) {
+        $profile = mysql_fetch_object($profile_res);    
+        if ($profile->language != '') {
+            $top_language[$profile->language] += 1;
+        }
+    }
+    mysql_free_result($user_res);
+    mysql_free_result($profile_res);
+    mysql_free_result($stats_res);
+    echo "<table>
+          <tr valign=\"top\">
+            <td><h2>General</h2></td>
+            <td><h2>top10 Poster</h2></td>
+            <td><h2>top$maxuser Countries</h2></td>
+            <td><h2>top$maxuser Languages</h2></td>
+          </tr>";
+    echo "<tr valign=\"top\">";
+    echo "<td><table border=\"1\">
+          <tr><th>&nbsp;</th><th>&nbsp;</th></tr>";
+    row2_plain("Users:", $stats['maxuser']);
+    row2_plain("Profiles:", $stats['profuser']);
+    row2_plain("Team members:", $stats['teamuser']);
+    echo "</table></td>";
+    echo "<td><table border=\"2\">\n";
+    echo "<tr><th>User</th><th># posts</th></tr>\n";
+    for ($p=1; $p<=10; $p++) {
+        row2_plain(user_links_ops($top10poster[$p]),
+             $top10poster[$p]->posts);
+    }
+    echo "</table></td>";
+    echo "<td><table border=\"2\">\n";
+    echo "<tr><th>Country</th><th># users</th></tr>\n";
+    arsort($top_country);
+    
+    foreach ($top_country as $key => $value) {
+        row2_plain($key, $value);
+        }
+    echo "</table></td>";
+    echo "<td><table border=\"2\">\n";
+    echo "<tr><th>Language</th><th># users</th></tr>\n";
+    arsort($top_language);
+    foreach ($top_language as $key => $value) {
+        row2_plain($key, $value);
+        }
+    echo "</table></td>";
+
+    echo "</tr></table></td></tr>";
 }
 
 function team_type_string($s) {
@@ -1128,13 +1247,13 @@ function team_type_string($s) {
 function show_team($team) {
     start_table();
     row("ID", $team->id);
-    row("Team Founder", "<a href=db_action.php?table=user&id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
+    row("Team Founder", "<a href=\"db_action.php?table=user&id=$team->userid\">" . user_name_by_id($team->userid) . "</a>");
     row("Name", $team->name);
     row("Name (HTML Formatted)", "<pre>" . htmlspecialchars($team->name_html) . "</pre>" );
-    row("Url", "<a href=http://$team->url>" . $team->url . "</a>");
+    row("Url", "<a href=\"http://$team->url\">" . $team->url . "</a>");
     row("Type", team_type_string($team->type));
     row("Description", $team->description);
-    row("", "<a href=db_action.php?table=user&teamid=$team->id>List All Members</a>");
+    row("", "<a href=\"db_action.php?table=user&teamid=$team->id\">List All Members</a>");
     end_table();
 }
 
