@@ -371,28 +371,33 @@ int CLIENT_STATE::current_disk_usage(double& size) {
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
+    char susp_msg[256];
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
-        printf("suspending - on batteries\n");
+        sprintf(susp_msg, "Suspending activity - on batteries");
         should_suspend = true;
     }
 
-    // TODO: is the following set anywhere??
+    // user_idle and suspend_requested are set in the Mac/Win GUI code
     if (!user_idle) {
         should_suspend = true;
+        sprintf(susp_msg, "Suspending activity - user is active");
     }
     if (suspend_requested) {
         should_suspend = true;
+        sprintf(susp_msg, "Suspending activity - user request");
     }
 
     if (should_suspend) {
         if (!activities_suspended) {
             if (log_flags.task_debug) printf("SUSPENDING ACTIVITIES\n");
             active_tasks.suspend_all();
+            show_message(NULL, susp_msg, MSG_INFO);
         }
     } else {
         if (activities_suspended) {
             if (log_flags.task_debug) printf("UNSUSPENDING ACTIVITIES\n");
             active_tasks.unsuspend_all();
+            show_message(NULL, "Resuming activity", MSG_INFO);
         }
     }
     activities_suspended = should_suspend;
@@ -599,6 +604,8 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
         } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
         } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
+        } else if (match_tag(buf, "<suspend_requested/>")) {
+            suspend_requested = true;
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
@@ -682,6 +689,10 @@ int CLIENT_STATE::write_state_file() {
         socks_user_name,
         socks_user_passwd
     );
+    // Save user suspend requests
+    if (suspend_requested) {
+        fprintf(f, "<suspend_requested/>\n");
+    }
     if (strlen(host_venue)) {
         fprintf(f, "<host_venue>%s</host_venue>\n", host_venue);
     }

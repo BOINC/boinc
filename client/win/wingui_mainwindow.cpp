@@ -418,7 +418,7 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 // function:	tells if the window is suspended
 BOOL CMainWindow::IsSuspended()
 {
-	return m_bSuspend;
+	return gstate.suspend_requested;
 }
 
 //////////
@@ -595,13 +595,6 @@ void CMainWindow::SaveUserSettings()
 	int colorder[MAX_COLS];
 	int i;
 
-	// save suspend
-	if(m_bSuspend) {
-		WritePrivateProfileString("WINDOW", "suspend", "yes", szPath);
-	} else {
-		WritePrivateProfileString("WINDOW", "suspend", "no", szPath);
-	}
-
 	// save window size/position
 	CRect rt;
 	GetWindowRect(&rt);
@@ -669,11 +662,6 @@ void CMainWindow::LoadUserSettings()
 	strcat(szPath, INI_FILE_NAME);
 	int i, nBuf;
 	int colorder[MAX_COLS];
-
-	// load suspend
-	GetPrivateProfileString("WINDOW", "suspend", "no", szVal, 256, szPath);
-	if(!strcmp(szVal, "no")) OnCommandResume();
-	else OnCommandSuspend();
 
 	// load window size/position
 	CRect rt;
@@ -1448,11 +1436,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// take care of other things
 	// 
 	// Redirect stdout and stderr to files
-    freopen(STDOUT_FILE_NAME, "w", stdout);
-    freopen(STDERR_FILE_NAME, "w", stderr);
+	freopen(STDOUT_FILE_NAME, "w", stdout);
+	freopen(STDERR_FILE_NAME, "w", stderr);
 
 	// Check what (if any) activities should be logged
-    read_log_flags();
+	read_log_flags();
 
 	LoadUserSettings();
 	LoadListControls();
@@ -1462,8 +1450,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	int argc;
 
 	command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
-    gstate.parse_cmdline(argc, argv);
+	argc = parse_command_line( command_line, argv );
+	gstate.parse_cmdline(argc, argv);
 
     int retval = gstate.init();
     if (retval) {
@@ -1523,6 +1511,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	} else {
 		ShowWindow(SW_SHOW);
 	}
+
+	if(gstate.suspend_requested) OnCommandResume();
+	else OnCommandSuspend();
 
     return 0;
 }

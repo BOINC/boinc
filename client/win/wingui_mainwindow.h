@@ -108,7 +108,6 @@ protected:
 	int						m_nIconState;			// state of the status icon
 	BOOL					m_bMessage;				// does the user have a new message?
 	BOOL					m_bRequest;				// does the user have a net connection request?
-	BOOL					m_bSuspend;				// should apps be suspended?
 	int						m_nContextItem;			// item selected for context menu
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	
 	UINT					m_nAppTimerID;			// ID of current GUI timer	

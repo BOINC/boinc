@@ -28,21 +28,26 @@
 
 enum {
     kBOINCCommandJoin = 'join',
+    kBOINCShowGraphics = 'sgfx',
+    kBOINCClearMessages = 'clms',
+    kBOINCClearInactive = 'clin',
     kBOINCCommandQuitProject = 'qprj',
     kBOINCCommandSuspend = 'susp',
-    kBOINCCommandResume = 'resm'
+    kBOINCCommandResume = 'resu'
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void InitMainWindow(void);
+extern OSStatus InitMainWindow(void);
 extern OSStatus AddDockMenu( void );
+extern OSStatus AddFileMenu( void );
 extern OSStatus AddColumnToList( ControlRef theList, char *columnName, DataBrowserPropertyID propertyID, DataBrowserPropertyType propertyType );
 extern bool CheckIfIdle (void);
 extern pascal void BOINCPollLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 extern pascal void BOINCIdleDetect(EventLoopTimerRef inTimer, void* timeData);
+extern void SuspendBOINC( bool suspend );
 extern pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 extern pascal OSStatus MainWinEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 extern int mac_setup (void);
