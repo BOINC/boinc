@@ -344,19 +344,17 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
             break;
 
         default:
+            if ( WM_TASKBARCREATED == lParam )
+                eventType = wxEVT_TASKBAR_CREATED;
             break;
     }
 
-    if ( WM_TASKBARCREATED == lParam )
+    if (eventType)
     {
-        eventType = wxEVT_TASKBAR_CREATED;
-    }
-
-    if (eventType) {
         wxTaskBarIconExEvent event(eventType, this);
-
         ProcessEvent(event);
     }
+
     return 0;
 }
 
