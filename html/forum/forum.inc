@@ -1,20 +1,39 @@
 <?php
 
-require_once('../include/database.inc');
+require_once('../db.inc');
 
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
 define('HELPDESK_CONTROLS', 2);
 
-define ('SOLUTION', 'This solved my problem');
-define ('SUFFERER', 'I also have this problem');
+define ('SOLUTION', 'This answered my question');
+define ('SUFFERER', 'I also have this question');
 define ('OFF_TOPIC', 'Off-topic');
+
+$forum_sort_styles['modified-new'] = "Most recent post first";
+$forum_sort_styles['modified-old'] = "Least recent post first";
+$forum_sort_styles['activity-most'] = "Most recent activity first";
+$forum_sort_styles['views-most'] = "Most views first";
+$forum_sort_styles['replies-most'] = "Most replies first";
+
+$thread_sort_styles['date-old'] = "Oldest first";
+$thread_sort_styles['date-new'] = "Newest first";
+$thread_sort_styles['rating-high'] = "Highest rated first";
+				
+$thread_filter_styles['2'] = "\"Very helpful\"";
+$thread_filter_styles['1'] = "At least \"helpful\"";
+$thread_filter_styles['0'] = "At least \"neutral\"";
+$thread_filter_styles['-1'] = "At least \"unhelpful\"";
+$thread_filter_styles['-2'] = "All posts";
+
+db_init('../');
 
 class Category {
     var $id;
     var $name;
+    var $is_helpdesk;
 
-    function Category($id = -1, $name = '') {
+    function Category($id = -1, $name = '', $is_helpdesk = 0) {
         $vars = get_class_vars('Category');
         foreach ($vars as $var => $value)
             $this->$var = $$var;
@@ -22,7 +41,7 @@ class Category {
 
     function getForums() {
         $sql = 'SELECT * FROM forum WHERE category = '.$this->id.' ORDER BY orderID ASC';
-        return sql_query($sql);
+        return mysql_query($sql);
     }
 }
 
@@ -43,7 +62,6 @@ class Forum {
             $this->$var = $$var;
     }
     
-    // TODO: Could define a function to take a $sort_style and return the associated ORDER BY sql;
     // TODO: Make sure sorting still works properly when there are enough threads to span multiple pages.
                  
     function getThreads($min = -1, $nRec = -1, $sort_style='modified-new') {
@@ -74,7 +92,7 @@ class Forum {
                 $sql .= ', '.$nRec;
         } elseif ($nRec > -1)
               $sql .= ' LIMIT '.$nRec;
-        return sql_query($sql);
+        return mysql_query($sql);
     }
 }
 
@@ -96,7 +114,7 @@ class Thread {
             $this->$var = $$var;
     }
     
-    // TODO: Constant for the defauly sort style.
+    // TODO: Constant for the default sort style.
     function getPosts($min = -1, $nRec = -1, $sort_style="date-old") {
         $sql = 'SELECT *, (score * votes) AS rating FROM post WHERE thread = '.$this->id;
         switch($sort_style) {
@@ -120,12 +138,12 @@ class Thread {
                 $sql .= ', '.$nRec;
         } elseif ($nRec > -1)
               $sql .= ' LIMIT '.$nRec;
-        return sql_query($sql);
+        return mysql_query($sql);
     }
     
     function getRootPostsArray() {
         $sql = 'SELECT * FROM post WHERE (thread = '.$this->id.') AND (parent_post IS NULL) ORDER BY id ASC';
-        $result = sql_query($sql);
+        $result = mysql_query($sql);
         
         if (mysql_num_rows($result) == 0) return NULL;
         
@@ -152,10 +170,10 @@ class Thread {
         $content = addslashes(htmlentities($content));
         
         $sql = "INSERT INTO thread (forum, owner, title, timestamp) VALUES (".$this->forum.", ".$this->owner.", '".$title."', UNIX_TIMESTAMP())";
-        $result = sql_query($sql);
+        $result = mysql_query($sql);
         if (!$result)
             return false;
-        $this->id = sql_insert_id();
+        $this->id = mysql_insert_id();
         
         $post = new Post();
         $post->thread = $this->id;
@@ -164,10 +182,10 @@ class Thread {
         $postID = $post->insert();
         
         $sql = "UPDATE user SET posts = posts + 1 WHERE id = ".$this->owner." LIMIT 1";
-        sql_query($sql);
+        mysql_query($sql);
         
         $sql = "UPDATE forum SET threads = threads + 1, posts = posts + 1, timestamp = UNIX_TIMESTAMP() WHERE id = ".$this->forum." LIMIT 1";
-        sql_query($sql);
+        mysql_query($sql);
         
         return $thread->id;
     }
@@ -183,18 +201,18 @@ class Thread {
         $postID = $post->insert();
         
         $sql = "UPDATE user SET posts = posts + 1 WHERE id = ".$user." LIMIT 1";
-        sql_query($sql);
+        mysql_query($sql);
                 
         $sql = "UPDATE thread SET replies = replies + 1, timestamp = UNIX_TIMESTAMP() WHERE id = ".$this->id." LIMIT 1";
-        sql_query($sql);
+        mysql_query($sql);
         
         $sql = "UPDATE forum SET posts = posts + 1, timestamp = UNIX_TIMESTAMP() WHERE id = ".$this->forum." LIMIT 1";
-        sql_query($sql);
+        mysql_query($sql);
     }
     
     function incView() {
         $sql = "UPDATE thread SET views = views + 1 WHERE id = ".$this->id." LIMIT 1";
-        sql_query($sql);
+        mysql_query($sql);
     }
 }
 
@@ -221,15 +239,15 @@ class Post {
         } else {
             $sql = "INSERT INTO post (thread, user, timestamp, content) VALUES (".$this->thread.", ".$this->user.", UNIX_TIMESTAMP(), '".$this->content."')";
         }
-        $result = sql_query($sql);
+        $result = mysql_query($sql);
         if (!$result)
             return false;
-        return ($this->id = sql_insert_id());
+        return ($this->id = mysql_insert_id());
     }
     
     function update($content) {
         $sql = "UPDATE post SET content = \"$content\", modified = UNIX_TIMESTAMP() WHERE id = " . $this->id;
-        $result = sql_query($sql);
+        $result = mysql_query($sql);
         if (!$result)
             return false;
         return true;
@@ -237,12 +255,12 @@ class Post {
     
     function getImmediateChildren() {
         $sql = "SELECT * FROM post WHERE parent_post = " . $this->id . " ORDER BY timestamp DESC";
-        return sql_query($sql);
+        return mysql_query($sql);
     }
     
     function getChildPostArray() {
         $sql = "SELECT * FROM post WHERE parent_id = ".$this->id;
-        $result = sql_query($sql);
+        $result = mysql_query($sql);
         
         // Base case
                if (mysql_num_rows($result) == 0) return array($this);
@@ -267,22 +285,32 @@ class Post {
 /* group database functions */
 
 function getCategories() {
-    $langID = (!empty($_SESSION['lang']['id']))?$_SESSION['lang']['id']:1;
-    $sql = "SELECT * FROM category WHERE lang = ".$langID." ORDER BY orderID ASC";
-    return sql_query($sql);
+  $langID = (!empty($_SESSION['lang']['id']))?$_SESSION['lang']['id']:1;
+  $sql = "SELECT * FROM category WHERE lang = ".$langID." AND is_helpdesk = 0 ORDER BY orderID ASC";
+  return mysql_query($sql);
+}
+
+function getHelpDeskCategories() {
+	$sql = "SELECT * FROM category WHERE is_helpdesk = 1 ORDER BY orderID ASC";
+  return mysql_query($sql);
+}
+
+function getForums($categoryID) {
+	$sql = 'SELECT * FROM forum WHERE category = ' . $categoryID . ' ORDER BY orderID ASC';
+  return mysql_query($sql);	
 }
 
 function getNextCategory($result) {
-    $category = sql_fetch_array($result);
+    $category = mysql_fetch_array($result);
     if (!$category)
         return false;
     foreach ($category as $var => $value)
         $category[$var] = stripslashes($value);
-    return new Category($category['id'], $category['name']);
+    return new Category($category['id'], $category['name'], $category['is_helpdesk']);
 }
 
 function getNextForum($result) {
-    $forum = sql_fetch_array($result);
+    $forum = mysql_fetch_array($result);
     if (!$forum)
         return false;
     foreach ($forum as $var => $value)
@@ -291,7 +319,7 @@ function getNextForum($result) {
 }
 
 function getNextThread($result) {
-    $thread = sql_fetch_array($result);
+    $thread = mysql_fetch_array($result);
     if (!$thread)
         return false;
     foreach ($thread as $var => $value)
@@ -300,7 +328,7 @@ function getNextThread($result) {
 }
 
 function getNextPost($result) {
-    $post = sql_fetch_array($result);
+    $post = mysql_fetch_array($result);
     if (!$post)
         return false;
     foreach ($post as $var => $value)
@@ -310,19 +338,24 @@ function getNextPost($result) {
 
 /* specific database functions */
 
+function getCategory($categoryID) {
+	$sql = "SELECT * FROM category WHERE id = ".$categoryID;
+    return getNextCategory(mysql_query($sql));
+}
+
 function getForum($forumID) {
     $sql = "SELECT * FROM forum WHERE id = ".$forumID;
-    return getNextForum(sql_query($sql));
+    return getNextForum(mysql_query($sql));
 }
 
 function getThread($threadID) {
     $sql = "SELECT * FROM thread WHERE id = ".$threadID;
-    return getNextThread(sql_query($sql));
+    return getNextThread(mysql_query($sql));
 }
 
 function getPost($postID) {
     $sql = "SELECT * FROM post WHERE id = ".$postID;
-    return getNextPost(sql_query($sql));
+    return getNextPost(mysql_query($sql));
 }
 
 // Returns the post that started the thread with id = $threadId
@@ -366,7 +399,11 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 }
 
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false) {
-        $user = getUser($post->user);
+        $user = lookup_user_id($post->user);
+        $sql = "SELECT * FROM profile WHERE userid = " . $user->id;
+        $result2 = mysql_query($sql);
+        $user->has_profile = (mysql_num_rows($result2) > 0);
+        
         $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 	
         echo "
@@ -376,14 +413,14 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 					<p style=\"font-weight:bold\">
 		";
         if ($user->has_profile) { 
-            echo "<a href=\"../view_profile.php?userid=$post->user\">$user->name</a>";
+            echo "<a href=\"../view_profile.php?userid=$post->user\">", $user->name, "</a>";
         } else { 
             echo $user->name; 
         }
         echo "
 			</p>
 			<p style=\"font-size:8pt\">
-				Joined: ", date('M j, Y', $user->create_time), "<br>Posts: $user->posts
+				Joined: ", date('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, " 
 			</p>
 		</td>
 		<td>
@@ -467,4 +504,71 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         }
 }
 
+function start_forum_table($headings, $widths, $span=NULL) {
+	echo "
+		<p style=\"text-align:center\">
+			<table class=\"content\" border=0 cellpadding=5 cellspacing=0 width=100%>
+				<tr>
+	";
+	
+	for ($i = 0; $i < count($headings); $i++) {
+		$cell = "<th";
+		if ($span) {
+			$cell = $cell . " colspan=$span";
+		}
+		if ($widths[$i]) {
+			$cell = $cell . " style=\"width: " . $widths[$i] . "px\">";
+		} else {
+			$cell = $cell . ">";
+		}
+		echo $cell, $headings[$i], "</th>\n";
+	}
+	echo "</tr>\n";
+}
+
+function end_forum_table() {
+	echo "</table></p>\n";
+}
+
+function show_combo_from_array($name, $array, $selection) {			
+	echo "<select name=\"$name\">";
+	
+	foreach ($array as $key => $value) {
+		echo "<option ";
+		if ($key == $selection) {
+			echo "selected ";
+		}
+		echo "value=\"", $key, "\">", $value, "</option>";
+	}
+	echo "</select>";
+}
+
+function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
+	echo "<p>\n";
+	if (!$forum && !$thread) {
+		echo "<p class=\"title\">", PROJECT;
+		if ($helpdesk) {
+			echo " Help Desk</p>";
+		} else {
+			echo " Forum</p>";
+		}
+	} else if ($forum && !$thread) {
+		echo "<span class=\"title\">", $forum->title, "</span><br>";
+		if ($helpdesk) {
+			echo "<a href=\"help_desk.php\">", PROJECT, " Help Desk</a>";
+		} else {
+			echo "<a href=\"index.php\">", PROJECT, " Forum</a>";
+		}
+	} else if ($forum && $thread) {
+		echo "<span class=\"title\">", $thread->title, "</span><br>";
+		if ($helpdesk) {
+			echo "<a href=\"help_desk.php\">", PROJECT, " Help Desk</a> -> <a href=\"forum.php?id=", $forum->id, "\">", $forum->title, "</a>";
+		} else {
+			echo "<a href=\"index.php\">", PROJECT, " Forum</a> -> <a href=\"forum.php?id=", $forum->id, "\">", $forum->title, "</a>";
+		}
+	} else {
+		echo "Invalid input to show_forum_title<br>";
+	}
+	echo "</p>\n";
+}
 ?>
