@@ -31,9 +31,6 @@ Several files are used.
 (Once, at start of app)
 <ul>
 <li> Symbolic link files
-<li> <b>fd_init.xml</b>:
-specifies the mappings of file descriptors (stdin/stdout/stderr)
-to physical files.
 
 <li> <b>init_data.xml</b>: this contains the initialization data
 returned by <tt>boinc_init()</tt> (see above),

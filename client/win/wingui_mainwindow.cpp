@@ -2288,30 +2288,6 @@ void project_add_failed(PROJECT* project) {
     // TODO: To be filled in
 }
 
-// This gets called when the client doesn't have enough disk space to continue
-// running its active tasks. Notify user which project is the greatest offender
-// of their data share
-//
-void data_overflow_notify(PROJECT* project) {
-    char buf[512];
-    if(project == NULL) {
-        sprintf( buf,
-            "Your disk size preferenecs are too small.\n"
-            "BOINC no longer has space to run computation.\n"
-            "Please visit your project's website and change your\n"
-            "general prefs to accomidate the size of the project.\n"
-            );
-    } else {
-        sprintf( buf,
-            "Your disk size preferenecs are too small.\n"
-            "BOINC no longer has space to run %s.\n"
-            "Please visit %s and change your\n"
-            "General Prefs to accomidate the size of the project.\n",
-            project->project_name, project->master_url);
-    }
-    AfxMessageBox(buf);
-}
-
 void guiOnBenchmarksBegin()
 {
     g_myWnd->OnBenchmarksBegin();

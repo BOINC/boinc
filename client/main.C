@@ -74,31 +74,6 @@ void project_add_failed(PROJECT* project) {
     exit(1);
 }
 
-// This gets called when the client doesn't have enough disk space to continue
-// running its active tasks. Notify user which project is the greatest offender
-// of their data share
-//
-void data_overflow_notify(PROJECT* project) {
-    if(project == NULL) {
-        printf(
-            "Your disk space parameters are too small.\n"
-            "BOINC no longer has space to run computation.\n"
-            "Please visit your project's website and change your\n"
-            "General Prefs to accomidate the size of the project.\n"
-            );
-    } else {
-        printf(
-            "Your disk space parameters are too small.\n"
-            "BOINC no longer has space to run %s.\n"
-            "Please visit %s and change your\n"
-            "General Prefs to accomidate the size of the project.\n",
-            project->project_name, project->master_url
-            );
-    }
-    gstate.quit_activities();
-    exit(1);
-}
-
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
 //

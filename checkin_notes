@@ -15914,34 +15914,27 @@ Brian  5 Aug 2004
     - Uploaded a tool that sends a request for a host to delete a local file
 
     client/
-	Makefile.am
-	gui_titles.h
-	scheduler_op.C
-	scheduler_op.h
-	main.C
-	gui_titles.C
-	file_names.h
-	cs_statefile.C
-	cs_scheduler.C
-	cs_files.C
-	client_types.h
-	client_types.C
-	client_state.h
-	client_state.C
-	cs_apps.C
-	cs_data.C (new file)
+        Makefile.am
+        gui_titles.h
+        scheduler_op.C,h
+        main.C
+        gui_titles.C
+        file_names.h
+        cs_statefile.C
+        cs_scheduler.C
+        cs_files.C
+        client_types.C,h
     sched/
-	server_types.h
-	server_types.C
-	handle_request.C
-	sched_send.C
-	delete_file.C
-	get_file.C
-	request_file_list.C
-	send_file.C
-	Makefile.am
+        server_types.C,h
+        handle_request.C
+        sched_send.C
+        delete_file.C
+        get_file.C
+        request_file_list.C
+        send_file.C
+        Makefile.am
     db/
-	boinc_db.h
+        boinc_db.h
 
 Rom    5 Aug 2004
     - Possible fix for segfaults on Linux platforms with the scheduler.
@@ -16192,3 +16185,17 @@ David  11 Aug 2004
         app_start.C
     lib/
         app_ipc.C,h
+
+David  11 Aug 2004
+    - check for disk space overflow only every few hours
+        (not every second!!  It traverses the entire BOINC directory,
+         which could contain thousands of files)
+    - Write out-of-disk-space messages using msg_printf(),
+        (not a pop-up dialog)
+    - fix spelling errors in error messages (ouch!)
+
+    TODO: the disk-space logic needs review
+
+    client/
+        cs_data.C
+        main.C
