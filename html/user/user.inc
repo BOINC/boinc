@@ -111,7 +111,7 @@ function user_table_start() {
     ";
 }
 
-function show_user_row($i,$user) {
+function show_user_row($user, $i) {
     printf(
         "<tr class=row1>
         <td>%d</td>

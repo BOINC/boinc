@@ -17,7 +17,7 @@
     user_table_start();
     $i = 0;
     while ($user = mysql_fetch_object($result)) {
-        show_user_row(++$i, $user);
+        show_user_row($user, ++$i);
     }
     echo "</table>\n";
     page_tail();
