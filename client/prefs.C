@@ -39,10 +39,9 @@
 #include "prefs.h"
 
 // The following values determine how the client behaves
-// if there are no global prefs yet.
-// These should impose minimal restrictions, so that the client
-// can do its first scheduler RPC and get the global prefs
-// from a server
+// if there are no global prefs yet (e.g. on our very first RPC).
+// - Should impose minimal restrictions, so that the client can do the RPC
+// and get the global prefs from the server
 //
 void GLOBAL_PREFS::init() {
     run_on_batteries = true;
@@ -55,7 +54,7 @@ void GLOBAL_PREFS::init() {
     hangup_if_dialed = false;
     work_buf_max_days = 0.2;
     work_buf_min_days = 0.1;
-    max_cpus = 2;
+    max_cpus = 1;
     disk_interval = 60;
     disk_max_used_gb = 1;
     disk_max_used_pct = 0.5;

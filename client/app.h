@@ -111,7 +111,7 @@ public:
     int kill_task();                    // send a SIGKILL signal or equivalent
     int suspend();                      // send a SIGSTOP signal or equivalent
     int unsuspend();                    // send a SIGCONT signal or equivalent
-    int abort_task();                   // flag as abort pending and send kill signal
+    int abort_task(char*);       // flag as abort pending and send kill signal
     bool task_exited();                 // return true if this task has exited
 
     bool check_max_cpu_exceeded();

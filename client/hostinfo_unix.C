@@ -122,7 +122,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             // Supposedly we're on batteries if the 5th entry is zero.
             //
             fscanf(f, "%10s %d.%d %x %x",
-                &apm_driver_version,
+                apm_driver_version,
                 &apm_major_version,
                 &apm_minor_version,
                 &apm_flags,

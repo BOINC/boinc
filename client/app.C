@@ -651,9 +651,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 if (atp->state == PROCESS_ABORT_PENDING) {
                     atp->state = PROCESS_ABORTED;
                     atp->result->active_task_state = PROCESS_ABORTED;
-                    gstate.report_result_error(
-                        *(atp->result), 0, "process was aborted by core client"
-                    );
                 } else {
                     atp->state = PROCESS_EXITED;
                     atp->exit_status = exit_code;
@@ -695,9 +692,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
             atp->result->active_task_state = PROCESS_ABORTED;
-            gstate.report_result_error(
-                *(atp->result), 0, "process was aborted by core client"
-            );
         } else {
             if (WIFEXITED(stat)) {
                 atp->state = PROCESS_EXITED;
@@ -750,7 +744,7 @@ bool ACTIVE_TASK::check_max_cpu_exceeded() {
             "Aborting result %s: exceeded CPU time limit %f\n",
             result->name, max_cpu_time
 		);
-        abort_task();
+        abort_task("Maximum CPU time exceeded");
         return true;
     }
     return false;
@@ -774,7 +768,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 				"Aborting result %s: exceeded disk limit: %f > %f\n",
                 result->name, disk_usage, max_disk_usage
             );
-            abort_task();
+            abort_task("Maximum disk usage exceeded");
             return true;
         }
     }
@@ -793,7 +787,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
             result->name,
             min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
         );
-        abort_task();
+        abort_task("Maximum memory usage exceeded");
         return true;
     }
     return false;
@@ -823,11 +817,9 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 }
 
 // If process is running, send it a kill signal
-// This is done when
-// 1) project is reset or detached
-// 2) app has exceeded CPU, disk, or mem limits
+// This is done when app has exceeded CPU, disk, or mem limits
 //
-int ACTIVE_TASK::abort_task() {
+int ACTIVE_TASK::abort_task(char* msg) {
     if (state == PROCESS_RUNNING) {
         state = PROCESS_ABORT_PENDING;
         result->active_task_state = PROCESS_ABORT_PENDING;
@@ -835,6 +827,7 @@ int ACTIVE_TASK::abort_task() {
     } else {
         state = PROCESS_ABORTED;
     }
+    gstate.report_result_error(*result, ERR_RSC_LIMIT_EXCEEDED, msg);
     return 0;
 }
 

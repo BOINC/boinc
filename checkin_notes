@@ -11177,3 +11177,23 @@ David  Mar 31 2004
 			hostinfo_win.cpp
     lib/
         app_ipc.C
+
+David  Mar 31 2004
+    - call set_nslots() whenever there are new global prefs,
+        in case max_cpus has changed.
+        E.g. on a multiproc machine, if max_cpus is increased from 1 to 2,
+        it should start a new app.
+    - Call report_result_error() immediately when abort a client
+        due to excess CPU/disk/mem usage,
+        to ensure that the result is marked as erroneous,
+        and to make the error message more specific.
+        (Currently this is called after process is reaped,
+        but this may never happen).
+
+    client/
+        app.C,h
+        cs_prefs.C
+        hostinfo_unix.C
+        prefs.C
+    lib/
+        error_numbers.h

@@ -35,6 +35,10 @@ void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
     net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
     net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
+
+    // max_cpus may have changed, so update nslots
+    //
+    set_nslots();
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.
@@ -173,10 +177,14 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     }
     if (strlen(host_venue)) {
         if (found_venue) {
-            msg_printf(NULL, MSG_INFO, "General prefs: using separate prefs for %s\n", host_venue);
+            msg_printf(NULL, MSG_INFO,
+                "General prefs: using separate prefs for %s\n", host_venue
+            );
         } else {
             msg_printf(NULL, MSG_INFO,
-                "General prefs: no separate prefs for %s; using your defaults\n", host_venue);
+                "General prefs: no separate prefs for %s; using your defaults\n",
+                host_venue
+            );
         }
     } else {
         msg_printf(NULL, MSG_INFO, "General prefs: using your defaults\n");
