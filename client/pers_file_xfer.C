@@ -198,7 +198,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
             //
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Successfully finished %s of %s",
+                    fip->project, MSG_INFO, "Finished %s of %s",
                     is_upload?"upload":"download", fip->name
                     );
             }

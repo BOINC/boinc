@@ -150,7 +150,7 @@ public:
     APP_VERSION* lookup_app_version(APP*, int);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int detach_project(PROJECT*);
-    int report_result_error(RESULT &res, int err_num, const char *err_msg);
+    int report_result_error(RESULT &res, int err_num, const char *format, ...);
         // flag a result as having an error
     void set_client_state_dirty(char*);
     int reset_project(PROJECT*);

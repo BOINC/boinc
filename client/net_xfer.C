@@ -322,7 +322,6 @@ static void double_to_timeval(double x, timeval& t) {
 
 // Wait at most x seconds for network I/O to become possible,
 // then do up to about .5 seconds of I/O.
-// This is used only by the cmdline client, to sleep without slowing down I/O.
 //
 int NET_XFER_SET::net_sleep(double x) {
     int retval;

@@ -38,6 +38,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdarg.h>
 
 #include "parse.h"
 #include "util.h"
@@ -857,9 +858,9 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 //    or it gets signaled.
 //
 int CLIENT_STATE::report_result_error(
-    RESULT& res, int err_num, const char *err_msg
+    RESULT& res, int err_num, const char* format, ...
 ) {
-    char buf[MAX_BLOB_LEN];
+    char buf[MAX_BLOB_LEN],  err_msg[MAX_BLOB_LEN];
     unsigned int i;
     int failnum;
 
@@ -870,6 +871,11 @@ int CLIENT_STATE::report_result_error(
     }
 
     res.ready_to_report = true;
+
+    va_list va;
+    va_start(va, format);
+    _vsnprintf(err_msg, sizeof(err_msg), format, va);
+    va_end(va);
 
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);

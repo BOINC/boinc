@@ -322,7 +322,7 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpDesktop = "";
 
     sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
-    quitRequestEvent = CreateEvent(0, TRUE, FALSE, buf);
+    quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
 
     // create core/app share mem segment
     //
@@ -589,7 +589,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     if (exit_code) {
                         gstate.report_result_error(
                             *(atp->result), 0,
-                            "process exited with a non-zero exit code"
+                            "process exited with code %d", exit_code
                         );
                     }
                 }
@@ -645,7 +645,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 if(atp->exit_status) {
                     gstate.report_result_error(
                         *(atp->result), 0,
-                        "process exited with a non-zero exit code"
+                        "process exited with code %d", atp->exit_status
                     );
                 }
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);

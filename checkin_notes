@@ -7216,3 +7216,17 @@ Karl 2003-10-29
     */Makefile.am
     tools/
         make_project
+
+David  28 Oct 2003
+	- On call to CreateEvent() to make "event" object for
+		core client to ask app to quit (Windows)
+		changed ManualReset argument to false.
+		This fixes a bug where, after resetting a project,
+		all apps get quit signal immediately
+	- Change CLIENT_STATE::report_result_error() so that it
+		takes a format string and varargs
+
+	client/
+		app.C
+		client_state.C,h
+		pers_file_xfer.C
