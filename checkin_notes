@@ -9195,3 +9195,12 @@ David  Jan 14 2004
 
 	client/win/
 		wingui_mainwindow.cpp,h
+
+David  Jan 14 2004
+	- windows console version works again (from Rom Walton)
+
+	client/
+		main.C
+		net_xfer.C
+	win_build/
+		boinc_cli.vcproj

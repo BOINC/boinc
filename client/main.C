@@ -22,6 +22,11 @@
 // This file contains no GUI-related code,
 // and is not included in the source code for Mac or Win GUI clients
 
+#ifdef WIN32
+#include <afxwin.h>
+#include "stackwalker.h"
+#endif
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -141,22 +146,50 @@ void quit_client(int a) {
     gstate.requested_exit = true;
 }
 
-#ifndef _WIN32
 void susp_client(int a) {
     gstate.active_tasks.suspend_all();
     msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
-    signal(SIGTSTP, SIG_DFL);
+#ifndef _WIN32
+	signal(SIGTSTP, SIG_DFL);
     raise(SIGTSTP);
+#endif
 }
 
 void resume_client(int a) {
     gstate.active_tasks.unsuspend_all();
     msg_printf(NULL, MSG_INFO, "Resuming activity");
 }
+
+#ifdef _WIN32
+BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
+	BOOL bReturnStatus = FALSE;
+	switch( dwCtrlType ){
+        case CTRL_C_EVENT:
+			if(gstate.activities_suspended)
+                resume_client(NULL);
+			else
+                susp_client(NULL);
+			bReturnStatus =  TRUE;
+            break;
+		case CTRL_BREAK_EVENT:
+        case CTRL_CLOSE_EVENT:
+        case CTRL_LOGOFF_EVENT:
+        case CTRL_SHUTDOWN_EVENT:
+			quit_client(NULL);
+            bReturnStatus =  TRUE;
+            break;
+	}
+	return bReturnStatus;
+}
 #endif
 
 int main(int argc, char** argv) {
-    int retval;
+
+#ifdef WIN32
+	InitAllocCheck();
+#endif
+
+	int retval;
     double dt;
 
     setbuf(stdout, 0);
@@ -165,13 +198,8 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    read_log_flags();
-    gstate.parse_cmdline(argc, argv);
-    gstate.parse_env_vars();
-    retval = gstate.init();
-    if (retval) exit(retval);
-
-#ifndef _WIN32
+// Unix/Linux console controls
+#ifndef WIN32
     // Handle quit signals gracefully
     signal(SIGHUP, quit_client);
     signal(SIGINT, quit_client);
@@ -182,6 +210,25 @@ int main(int argc, char** argv) {
     signal(SIGTSTP, susp_client);
     signal(SIGCONT, resume_client);
 #endif
+
+// Windows console controls
+#ifdef WIN32
+    if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
+        fprintf(stderr, "Failed to register the console control handler\n");
+        exit(1);
+	} else {
+		printf(
+			"\nTo pause/resume tasks hit CTRL-C, to exit hit CTRL-BREAK\n"
+		);
+	}
+#endif
+
+	read_log_flags();
+    gstate.parse_cmdline(argc, argv);
+    gstate.parse_env_vars();
+    retval = gstate.init();
+    if (retval) exit(retval);
+
 
     while (1) {
         if (!gstate.do_something()) {
@@ -207,5 +254,10 @@ int main(int argc, char** argv) {
         }
     }
     gstate.cleanup_and_exit();
-    return 0;
+
+#ifdef WIN32
+	DeInitAllocCheck();
+#endif
+
+	return 0;
 }

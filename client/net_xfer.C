@@ -18,7 +18,7 @@
 //
 // Revision History:
 // $Log$
-// Revision 1.78  2004/01/10 06:40:44  davea
+// Revision 1.79  2004/01/15 01:42:48  davea
 // *** empty log message ***
 //
 // Revision 1.77  2003/12/12 23:13:01  davea
@@ -100,7 +100,7 @@ typedef size_t socklen_t;
 int get_socket_error(int fd) {
     socklen_t intsize = sizeof(int);
     int n;
-#ifdef _WIN32
+#ifdef WIN32
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
 #elif __APPLE__
     getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
@@ -113,7 +113,7 @@ int get_socket_error(int fd) {
 int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
     hostent* hep;
 
-#ifdef _WIN32
+#ifdef WIN32
     int retval;
     retval = NetOpen();
     if (retval) return retval;
@@ -124,7 +124,7 @@ int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
         int n;
 
         n = sprintf(msg, "Can't resolve hostname %s ", hostname);
-#ifdef _WIN32
+#ifdef WIN32
 
         switch (WSAGetLastError()) {
         case WSANOTINITIALISED:
@@ -194,13 +194,13 @@ int NET_XFER::open_server() {
 
     fd = ::socket(AF_INET, SOCK_STREAM, 0);
     if (fd < 0) {
-#ifdef _WIN32
+#ifdef WIN32
         NetClose();
 #endif
         return ERR_SOCKET;
     }
 
-#ifdef _WIN32
+#ifdef WIN32
     unsigned long one = 1;
     ioctlsocket(fd, FIONBIO, &one);
 #else
@@ -219,14 +219,14 @@ int NET_XFER::open_server() {
     addr.sin_addr.s_addr = ((long)ipaddr);
     retval = connect(fd, (sockaddr*)&addr, sizeof(addr));
     if (retval) {
-#ifdef _WIN32
+#ifdef WIN32
         errno = WSAGetLastError();
         if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
             closesocket(fd);
             NetClose();
             return ERR_CONNECT;
         }
-#ifndef WIN_CLI
+#ifndef WIN32 && _CONSOLE
         if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), g_myWnd->m_nNetActivityMsg, FD_READ|FD_WRITE )) {
             errno = WSAGetLastError();
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
@@ -251,7 +251,7 @@ int NET_XFER::open_server() {
 }
 
 void NET_XFER::close_socket() {
-#ifdef _WIN32
+#ifdef WIN32
     NetClose();
     if (socket) closesocket(socket);
 #else
@@ -364,7 +364,7 @@ int NET_XFER_SET::net_sleep(double x) {
 //
 int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     int n, fd, retval, nsocks_queried;
-	unsigned int i;
+    unsigned int i;
     NET_XFER *nxp;
     struct timeval tv;
 
@@ -517,7 +517,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
 
     if (want_download) {
-#ifdef _WIN32
+#ifdef WIN32
         n = recv(socket, buf, blocksize, 0);
 #else
         n = read(socket, buf, blocksize);
@@ -558,7 +558,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
         }
         nleft = file_read_buf_len - file_read_buf_offset;
         while (nleft) {
-#ifdef _WIN32
+#ifdef WIN32
             n = send(socket, file_read_buf+file_read_buf_offset, nleft, 0);
             would_block = (WSAGetLastError() == WSAEWOULDBLOCK);
 #else

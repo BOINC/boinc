@@ -22,7 +22,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WIN_CLI"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -46,7 +46,7 @@
 				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd,libcmt,libcd"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_cli.pdb"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -980,6 +980,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\win\Stackwalker.cpp">
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1027,29 +1030,6 @@
 			</File>
 			<File
 				RelativePath="..\Client\Version.c">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Client\win\Win_main.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -1169,6 +1149,9 @@
 			</File>
 			<File
 				RelativePath="..\client\ss_logic.h">
+			</File>
+			<File
+				RelativePath="..\client\win\Stackwalker.h">
 			</File>
 			<File
 				RelativePath="..\client\time_stats.h">
