@@ -43,7 +43,6 @@ bool do_pass(APP& app) {
     DB_RESULT canonical_result, result;
     bool did_something = false;
     char buf[MAX_BLOB_SIZE];
-    unsigned int i;
 
     check_stop_trigger();
 

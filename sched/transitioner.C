@@ -46,101 +46,6 @@ using namespace std;
 int startup_time;
 CONFIG config;
 R_RSA_PRIVATE_KEY key;
-// char app_name[256];
-
-// The scheme for generating unique output filenames is as follows.
-// If the original filename is of the form x__y,
-// then y is replaced with a string of the form time_seqno,
-// where "time" is when this program started up.
-// NOTE: if you ever need to start up multiple copies of this,
-// you'll need to add a PID in there somewhere.
-//
-// If the original filename doesn't have __, add a string
-// of the form __time_seqno
-
-void make_unique_name(char* name) {
-    char buf[256], *p;
-    static int seqno;
-
-    sprintf(buf, "%d_%d", startup_time, seqno++);
-    p = strstr(name, "__");
-    if (p) {
-        strcpy(p+2, buf);
-    } else {
-        strcat(name, "__");
-        strcat(name, buf);
-    }
-}
-
-// convert a result's XML document to generate new output filenames.
-// The input has the form
-// <file_info>
-//    <name>xxx</name>
-//    ...
-// </file_info>
-// ...
-// <result>
-//    <file_ref>
-//       <file_name>xxx</file_name>
-//       ...
-//    </file_ref>
-//    ...
-// </result>
-//
-// Look for <name>...</name> elements within <file_info>
-// and make a unique name based on it;
-// apply the same conversion to the <file_name> element later on.
-//
-// TODO: this is ad-hoc.  Would be nice to use some generic
-// XML parsing routines, or XSLT or something.
-//
-int assign_new_names(char* in) {
-    char *p = in, *n1, *n2, *r;
-    char name[256], newname[256], element[256], buf[MAX_BLOB_SIZE];
-    int len;
-
-    // notice where the <result> is so we don't try to convert
-    // the result name
-    //
-    r = strstr(in, "<result>");
-
-    while (1) {
-        n1 = strstr(p, "<name>");
-        if (!n1) break;
-
-        if (n1 > r) break;      // don't go past <result>
-
-        n1 += strlen("<name>");
-        n2 = strstr(p, "</name>");
-        if (!n2) {
-            log_messages.printf(SchedMessages::CRITICAL, "assign_new_names(): malformed XML:\n%s", in);
-            return 1;
-        }
-        len = n2 - n1;
-        memcpy(name, n1, len);
-        name[len] = 0;
-        strcpy(newname, name);
-        make_unique_name(newname);
-        strcpy(buf, n2);
-        strcpy(n1, newname);
-        strcat(n1, buf);
-
-        // replace the name in the <file_name> element
-        //
-        sprintf(element, "<file_name>%s</file_name>", name);
-        n2 = strstr(n1, element);
-        if (!n2) {
-            log_messages.printf(SchedMessages::CRITICAL, "assign_new_names(): no <file_name>:\n%s", in);
-            return 1;
-        }
-        strcpy(buf, n2+strlen(element));
-        sprintf(element, "<file_name>%s</file_name>", newname);
-        strcpy(n2, element);
-        strcat(n2, buf);
-        p = n1;
-    }
-    return 0;
-}
 
 void handle_wu(DB_WORKUNIT& wu) {
     vector<RESULT> results;
@@ -149,7 +54,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     int nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover;
     unsigned int i, n;
-    char buf[256];
+    char buf[256], suffix[256], result_template[MAX_BLOB_SIZE];
     time_t now = time(0), x;
     bool all_over, have_result_to_validate, do_delete;
 
@@ -291,24 +196,6 @@ void handle_wu(DB_WORKUNIT& wu) {
                 wu.id, wu.name, n
             );
             for (i=0; i<n; i++) {
-#if 0
-                result = results[0];
-                make_unique_name(result.name);
-                initialize_result(result, wu);
-                remove_signatures(result.xml_doc_in);
-                assign_new_names(result.xml_doc_in);
-                add_signatures(result.xml_doc_in, key);
-                retval = result.insert();
-                if (retval) {
-                    log_messages.printf(
-                        SchedMessages::CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] result.insert() %d\n",
-                        wu.id, wu.name, result.id, result.name, retval
-                    );
-                    break;
-                }
-#endif
-                char suffix[256];
                 sprintf(suffix, "%d", results.size()+i);
                 strcpy(result_template, wu.result_template);
                 retval = create_result(wu, result_template, suffix, key, "");
