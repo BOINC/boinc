@@ -1,4 +1,27 @@
 -----------------------
+BUGS (arranged from high to low priority)
+-----------------------
+- Suspend/resume not fully functional on Windows, no way to suspend/resume on UNIX
+- Currently, if there are multiple CPUs they work on the same result
+- "Show Graphics" menu item brings up minimized window, client does not remember window size/pos after close/reopen, window closes and does not reopen when workunit finishes and new workunit starts
+- No easy way to quit/add projects on UNIX
+- "ACTIVE_TASK.check_app_status_files: could not delete slots\0\fraction_done.xml: -110" appears in stderr.txt on Windows
+- "no work available" appears sporadically though work is eventually assigned, not sure if it is assigned immediately or on next RPC
+- Should include option in Windows client or installer whether to run client at startup or not
+- Scheduler reply includes blank lines that XML parser complains about
+- Client should put up a join project dialog on initial run
+- boinc_gui.exe priority should be lower (?), launched app priorities should be very low
+- on final panel of install, add checkbox to let user view readme
+- Time to completion isn't too accurate, this is more of an Astropulse problem involving fraction_done
+- Report problems page on maggie doesn't link to anything
+- Host stats incorrectly reports number of times connected with same ip (unconfirmed)
+- CPU time updates infrequently (every 10 seconds), should there be a user control for this?
+- Client treats URL "maggie/ap/" different than URL "maggie/ap", though this isn't really a bug it might be good to fix anyway
+- Astropulse uses a lot of memory (~70 MB) b/c of the dispersion table, should this be decreased?
+- CPU time for a completed workunit is incorrect (unconfirmed)
+- client died quickly on Mandrake 9.0 linux (unconfirmed)
+
+-----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
 make get_local_ip_addr() work in all cases
