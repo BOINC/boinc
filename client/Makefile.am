@@ -40,8 +40,9 @@ boinc_client_SOURCES =					\
     ../lib/util.C				
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_LDADD = $(RSA_LIBS)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
+boinc_client_LDADD = $(RSA_LIBS)
+boinc_client_LDFLAGS = -static -static-libgcc
 
 speed_stats_SOURCES = speed_stats.C
 speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
