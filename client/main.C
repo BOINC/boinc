@@ -42,9 +42,9 @@ void show_message(PROJECT *p, char* message, int priority) {
     const char* proj = p?p->project_name:"BOINC";
     switch (priority) {
     case MSG_ERROR:
-        fprintf(stderr, "%s [%s] %s", timestamp(), proj, message);
+        fprintf(stderr, "%s [%s] %s\n", timestamp(), proj, message);
     default:
-        printf("%s [%s] %s", timestamp(), proj, message);
+        printf("%s [%s] %s\n", timestamp(), proj, message);
     }
 }
 

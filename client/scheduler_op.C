@@ -502,6 +502,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     global_prefs_xml = 0;
     project_prefs_xml = 0;
     safe_strncpy(user_name, "", sizeof(user_name));
+    safe_strncpy(team_name, "", sizeof(team_name));
     user_total_credit = 0;
     user_expavg_credit = 0;
     safe_strncpy(host_venue, "", sizeof(host_venue));
