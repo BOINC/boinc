@@ -354,7 +354,6 @@ if ($query_wuid)
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
-    // row2("Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
     row2("Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
     row2("Invalid", link_results("$ninvalid", $urlquery, "validate_state=2", "outcome=1"));
     echo "</table>";
