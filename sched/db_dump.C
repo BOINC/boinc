@@ -116,7 +116,7 @@ public:
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "db_dump: Couldn't open %s for output\n", filename.c_str());
         }
         fprintf(f,
-            "<?xml version=\"1.0\"?>\n<%s>\n", tag.c_str()
+            "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
         );
     }
     void close() {

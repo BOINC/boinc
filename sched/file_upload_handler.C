@@ -22,6 +22,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.57  2004/05/05 00:50:32  boincadm
+// *** empty log message ***
+//
 // Revision 1.56  2004/04/08 08:15:20  davea
 // *** empty log message ***
 //
@@ -333,6 +336,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     while (fgets(buf, 256, in)) {
         log_messages.printf(SCHED_MSG_LOG::DEBUG, buf, "handle_request: ");
         if (parse_int(buf, "<core_client_major_version>", major)) {
+#if 0
+    // for now, allow old versions
             if (major != MAJOR_VERSION) {
                 retval = return_error(ERR_PERMANENT,
                     "Core client has major version %d; "
@@ -340,9 +345,9 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     major, MAJOR_VERSION
                 );
                 break;
-            } else {
-                got_version = true;
             }
+#endif
+            got_version = true;
         } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
             continue;
         } else if (match_tag(buf, "<file_upload>")) {

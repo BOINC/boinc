@@ -47,8 +47,7 @@ if (project_is_stopped()) {
         <li><a href=".URL_BASE."profile_menu.php>User profiles</a>
         <li><a href=".URL_BASE."forum/>Message boards</a>
         <li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
-        <li>  User-supplied FAQs by
-            <a href=http://homepage.mac.com/pauldbuck/>Paul D. Buck</a> and
+        <li>  User-supplied FAQ by
             <a href=http://users.iafrica.com/c/ch/chrissu/boinc-README.html>Chris Sutton</a>
 
 

@@ -12021,16 +12021,28 @@ Rom    May 4 2004
         db_ops.inc
 
 Rom    May 4 2004
-     - Include a link on the failure page that'll bring up a report with only those
-       failures
+     - Include a link on the failure page that'll bring up a report
+         with only those failures
 
     html/inc/
         db_ops.inc
+    
+David  May 4 2004
+    - file upload handler: accept any major version
+    - scheduler: if wrong major version, don't set "nucleus only" flag
+        (this prevents acking of results)
+    - db_dump: put encoding=iso-8859-1 into header
+
+    sched/
+        db_dump.C
+        file_upload_handler.C
+        handle_request.C
 
 Rom    May 4 2004
-     - Touchup on the os_name and os_version fields in the host table.  This will
-       cause some merging woes but should fix things in the long run as version
-       changes and service packs won't block a host merger.
+     - Touchup on the os_name and os_version fields in the host table.
+       This will cause some merging woes but should fix things
+       in the long run as version changes and service packs
+       won't block a host merger.
 
     client/win/
         hostinfo_win.C
