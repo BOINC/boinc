@@ -122,7 +122,6 @@ void CTaskBarIcon::OnMouseMove( wxEvent& event )
 
 void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 {
-    // File menu
     wxMenu* menu = new wxMenu;
     wxASSERT( NULL != menu );
 
