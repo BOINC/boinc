@@ -25,7 +25,6 @@
 #ifdef WIN32
 #include "boinc_win.h"
 #include "win_service.h"
-#include "win_net.h"
 #include "win_util.h"
 
 typedef BOOL (CALLBACK* IdleTrackerInit)();
@@ -47,6 +46,8 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #include "util.h"
 #include "prefs.h"
 #include "filesys.h"
+#include "network.h"
+
 
 #include "client_state.h"
 #include "file_names.h"

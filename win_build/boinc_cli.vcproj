@@ -1015,6 +1015,9 @@
 				RelativePath="..\client\win\boinc_cli.h">
 			</File>
 			<File
+				RelativePath="..\lib\boinc_win.h">
+			</File>
+			<File
 				RelativePath="..\client\client_msgs.h">
 			</File>
 			<File
