@@ -300,7 +300,7 @@ void CBOINCGUIApp::StartupBOINCCore()
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute += wxT("/boinc");
-        m_lBOINCCoreProccessId = ::wxExecute( strExecute );
+        m_lBOINCCoreProcessId = ::wxExecute( strExecute );
 
 #endif
 
