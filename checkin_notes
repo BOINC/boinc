@@ -12742,3 +12742,9 @@ David  May 27 2004
         handle_request.C
         sched_config.C,h
         sched_send.C
+
+David  May 27 2004
+    - update comments in 'start'
+
+    sched/
+        start

@@ -3,52 +3,9 @@
 ## $Id$
 
 '''
-A program to start/stop BOINC server daemons and run periodic tasks
-
-START parses config.xml and runs <daemon> and <task> entries.
-A config.xml file looks like this:
-
-<boinc>
-  <config>
-    <host>main_host</host>
-    ...
-    <!-- optional; defaults as indicated: -->
-    <project_dir>../</project_dir>     <!-- relative to location of "start" -->
-    <bin_dir>bin</bin_dir>             <!-- relative to project_dir -->
-    <cgi_bin_dir>cgi-bin</cgi_dir>
-    <log_dir>log</log_dir>
-    <pid_dir>pid</pid_dir>
-     ...
-  </config>
-  <daemons>
-    <daemon>
-      [ <host>foobar</host> ]
-      [ <disabled/> ]
-      <cmd>feeder -d 3</cmd>
-    </daemon>
-  </daemons>
-  <tasks>
-    <task>
-      [ <host>foobar</host> ]
-      [ <disabled/> ]
-      <cmd>get_load</cmd>
-      <output>get_load.out</output>
-      <period>5 min</period>
-    </task>
-    <task>
-      <cmd>echo "HI" | mail quarl</cmd>
-      <output>/dev/null</output>
-      <period>1 day</period>
-    </task>
-  </tasks>
-</boinc>
-
-Tasks:
-These are periodic, short-running jobs.
-CMD and PERIOD are required.
-OUTPUT specifies the file to output and by default is COMMAND_BASE_NAME.out.
-Commands are run in the <bin_dir> directory
-which is a path relative to <project_dir> and output to <log_dir>.
+A program to start/stop BOINC server daemons and run periodic tasks.
+Parses config.xml and runs <daemon> and <task> entries.
+The format of config.xml is described in boinc/doc/configuration.php.
 
 The main script is "start"; sym-link or hard-link "start" to "stop", "cron".
 Invocation methods:
@@ -102,14 +59,14 @@ Looks like this:
 
 
 Daemons:
-  Writes a PID to pid_dir_HOST/command.pid.
+  Writes a PID to pid_HOST/command.pid.
 
 Tasks:
   Writes a timestamp to run_state_HOST.xml
   to remember when the task was last run.
 
 Both:
-  A lock file (pid_dir_HOST/command.lock)
+  A lock file (pid_HOST/command.lock)
   prevents tasks and daemons from being run
   again when they are currently running.
 
