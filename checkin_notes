@@ -18713,3 +18713,9 @@ David  21 Oct 2004
 
     client/
         gui_rpc_server.C
+
+David  21 Oct 2004
+    - fix for result_show_graphics RPC
+
+    lib/
+        gui_rpc_client.C

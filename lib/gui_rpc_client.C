@@ -1094,19 +1094,20 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
 }
 
 int RPC_CLIENT::show_graphics(
-    char* project, char* result_name, bool full_screen
+    char* project_url, char* result_name, bool full_screen
 ) {
     char buf[1024];
     RPC rpc(this);
 
-    if (project) {
+    if (project_url) {
         sprintf(buf, "<result_show_graphics>\n"
-            "<project_url>%s</project_url>\n"
-            "<result_name>%s</result_name>\n"
+            "   <project_url>%s</project_url>\n"
+            "   <result_name>%s</result_name>\n"
             "%s"
             "</result_show_graphics>\n",
+            project_url,
             result_name,
-            full_screen?"<full_screen/>\n":""
+            full_screen?"   <full_screen/>\n":""
         );
     } else {
         sprintf(buf,
