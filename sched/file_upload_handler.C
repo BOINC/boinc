@@ -58,7 +58,6 @@ int FILE_INFO::parse(FILE* in) {
 }
 
 int print_status(int status, char* message) {
-    assert(message!=NULL);
     printf("Content-type: text/plain\n\n<status>%d</status>\n", status);
     if (message) printf("<error>%s</error>\n", message);
 #if 0
@@ -154,7 +153,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 return -1;
             }
 
-            sprintf(path, "%s/%s", getenv("BOINC_UPLOAD_DIR"), file_info.name);
+            sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             break;
         }
@@ -166,7 +165,7 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     FILE* f;
     int retval;
     char buf[256];
-    sprintf(buf, "%s/upload_public", getenv("BOINC_KEY_DIR"));
+    sprintf(buf, "%s/upload_public", BOINC_KEY_DIR);
     f = fopen(buf, "r");
     if (!f) return -1;
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
