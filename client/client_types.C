@@ -986,6 +986,7 @@ int WORKUNIT::parse(MIOFILE& in) {
                     return ERR_XML_PARSE;
                 }
             }
+            strip_whitespace(command_line);
             continue;
         }
         //else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;

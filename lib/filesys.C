@@ -474,14 +474,16 @@ typedef int HANDLE;
 HANDLE app_lockfile_handle;
 
 int lock_file(char* filename) {
-    int retval;
+    int retval=0;
 #ifdef _WIN32
     app_lockfile_handle = CreateFile(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
 	);
-    if (app_lockfile_handle == INVALID_HANDLE_VALUE) 
+    if (app_lockfile_handle == INVALID_HANDLE_VALUE) {
       retval = 1;
+    }
+
     // some systems have both!
 #elif defined(HAVE_LOCKF) && !defined(__APPLE__)
     app_lockfile_handle = open(filename, O_WRONLY|O_CREAT, 0644);
@@ -493,10 +495,10 @@ int lock_file(char* filename) {
 #else
     no file lock mechanism;
 #endif
-    
-#ifndef NDEBUG
-    if ( retval != 0 )
-      {
+
+#if 0
+//#ifndef NDEBUG
+    if ( retval != 0 ) {
 	struct flock lck;
 	perror ("DEBUG: Failed to get lock on application-lockfile");
 	lck.l_whence = 0;
@@ -504,14 +506,14 @@ int lock_file(char* filename) {
 	lck.l_len = 0L;
 	lck.l_type = F_WRLCK;
 	(void) fcntl(app_lockfile_handle, F_GETLK, &lck);
-	if (lck.l_type != F_UNLCK) 
+    if (lck.l_type != F_UNLCK) {
 	  fprintf(stdout, "DEBUG: Lock-info: pid = %d type = %c start = %8ld len = %8ld\n", lck.l_pid, 
 		  (lck.l_type == F_WRLCK) ? 'W' : 'R', lck.l_start, lck.l_len);
-	else
+    } else {
 	  fprintf(stdout, "DEBUG: fcntl() says it's unlocked though....strange.\n");
-
+    }
 	fflush(stdout);
-      }
+    }
 #endif // defined NDEBUG
 
     return retval;

@@ -22618,30 +22618,30 @@ Bruce  13 Jan 2005
         sched_locality.C
 
 David  13 Jan 2005
-	- Core client: when get a workunit from scheduler,
-		clear errors (e.g. download failures)
-		for all files associated with this WU
-		(this is down in a new function WORKUNIT::clear_errors())
-		Without this, if a file common to multiple WUs had a download
-		failure, all WUs would fail until user resets project!!
-	- Giant bug in HTTP file transfer:
-		If a network connection failed in the middle,
-		it wasn't being distinguished from a completed download;
-		the file size would be checked at the PERS_FILE_XFER level,
-		and it would get a "bad file size" fatal error.
-		Fix: when get EOF from a network connection reading HTTP reply,
-		compare the bytes transferred with the content-length
-		from HTTP header.
-		If not equal, classify it as an error.
-		This will cause higher levels to view it as a transient error,
-		and restart the download later.
-	- PERS_FILE_XFER::poll():
-		the check for actual file size == desired file size
-		was inexplicably being done even for file uploads,
-		and even in cases where another error had occurred.
-		Do it only for download success cases.
+    - Core client: when get a workunit from scheduler,
+        clear errors (e.g. download failures)
+        for all files associated with this WU
+        (this is down in a new function WORKUNIT::clear_errors())
+        Without this, if a file common to multiple WUs had a download
+        failure, all WUs would fail until user resets project!!
+    - Giant bug in HTTP file transfer:
+        If a network connection failed in the middle,
+        it wasn't being distinguished from a completed download;
+        the file size would be checked at the PERS_FILE_XFER level,
+        and it would get a "bad file size" fatal error.
+        Fix: when get EOF from a network connection reading HTTP reply,
+        compare the bytes transferred with the content-length
+        from HTTP header.
+        If not equal, classify it as an error.
+        This will cause higher levels to view it as a transient error,
+        and restart the download later.
+    - PERS_FILE_XFER::poll():
+        the check for actual file size == desired file size
+        was inexplicably being done even for file uploads,
+        and even in cases where another error had occurred.
+        Do it only for download success cases.
 
-		
+        
     client/
         client_types.C,h
         cs_scheduler.C
@@ -23032,3 +23032,14 @@ David  20 Jan 2005
 
     sched/
         sched_locality.C
+
+David  20 Jan 2005
+	- client: strip whitespace from command lines
+		(prevents buildup of CRLFs in state file)
+	- in filesys.C, replaced #ifndef NDEBUG with #if 0
+		to fix Windows compile
+
+    client/
+        client_types.C
+    lib/
+        filesys.C
