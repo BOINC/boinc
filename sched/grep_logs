@@ -68,8 +68,9 @@ while (<ARGV>) {
                 print "\n\n$ARGV:\n";
             }
             $nlines = 0;
+            $. = 0;
         }
-        my $n = sprintf("%05d", $nlines);
+        my $n = sprintf("%05d", $.);
                 
         if ($html) {
             s%.*debug.*%<font color=grey>$&</font>%i;
