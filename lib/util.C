@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -444,4 +444,40 @@ int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, do
     }
 
     return (int) rand_range(MIN, rmax);
+}
+
+string timediff_format(long tdiff)
+{
+    char buf[256];
+
+    int sex = tdiff % 60;
+    tdiff /= 60;
+    if (!tdiff) {
+        sprintf(buf, "%d seconds", sex);
+        return buf;
+    }
+
+    int min = tdiff % 60;
+    tdiff /= 60;
+    if (!tdiff) {
+        sprintf(buf, "%d minutes and %d seconds", min, sex);
+        return buf;
+    }
+
+    int hours = tdiff % 24;
+    tdiff /= 24;
+    if (!tdiff) {
+        sprintf(buf, "%d hours, %d minutes, and %d seconds", hours, min, sex);
+        return buf;
+    }
+
+    int days = tdiff % 7;
+    tdiff /= 7;
+    if (!tdiff) {
+        sprintf(buf, "%d days, %d hours, %d minutes, and %d seconds", days, hours, min, sex);
+        return buf;
+    }
+
+    sprintf(buf, "%d weeks, %d days, %d hours, %d minutes, and %d seconds", tdiff, days, hours, min, sex);
+    return buf;
 }

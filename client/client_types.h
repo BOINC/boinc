@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -71,14 +71,16 @@ public:
     int hostid;
     double host_total_credit;      // as reported by server
     double host_expavg_credit;     // as reported by server
-    unsigned int host_create_time; // as reported by server 
+    unsigned int host_create_time; // as reported by server
     double exp_avg_cpu;         // exponentially weighted CPU time
     int exp_avg_mod_time;       // last time average was changed
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
     int master_fetch_failures;
-    int min_rpc_time;           // earliest time to contact any server
-                                // of this project (or zero)
+    time_t min_rpc_time;           // earliest time to contact any server
+                                  // of this project (or zero)
+    time_t min_report_min_rpc_time; // when to next report on min_rpc_time
+                                    // (or zero)
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences
@@ -99,6 +101,11 @@ public:
     int parse_account(FILE*);
     int parse_state(FILE*);
     int write_state(FILE*);
+
+    // set min_rpc_time and have_reported_min_rpc_time
+    void set_min_rpc_time(time_t future_time);
+    // returns true if min_rpc_time > now; may print a message
+    bool waiting_until_min_rpc_time(time_t now);
 };
 
 struct APP {
@@ -212,9 +219,9 @@ struct RESULT {
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
     bool ready_to_ack;      // all the files have been uploaded or there
-                            // was an error and we are ready to report this to 
+                            // was an error and we are ready to report this to
                             // the server
-    bool server_ack;        // received the ack for the report of 
+    bool server_ack;        // received the ack for the report of
                             // the status of the result from server
     double final_cpu_time;
     int state;              // state of this result, see above
@@ -223,7 +230,7 @@ struct RESULT {
                 // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
     string stderr_out;
-    
+
     APP* app;
     WORKUNIT* wup;
     PROJECT* project;

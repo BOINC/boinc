@@ -5243,3 +5243,21 @@ Karl 2003/07/02
     configure.ac
     client/
         Makefile.am
+
+Karl 2003/07/02
+    - changed when "deferring communication" messages are printed so that user
+      sees them on client startup and every hour.  Also format the message as
+      "X hours, X minutes, X seconds", etc.
+
+    lib/
+        util.h
+        util.c
+
+    client/
+        client_types.C
+        client_types.h
+        cs_scheduler.C
+        scheduler_op.C
+        scheduler_op.h
+
+        

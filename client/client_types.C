@@ -56,6 +56,7 @@ void PROJECT::init() {
     strcpy(code_sign_key, "");
     nrpc_failures = 0;
     min_rpc_time = 0;
+    min_report_min_rpc_time = 0;
     master_fetch_failures = 0;
     resource_debt = 0;
     debt_order = 0;
@@ -179,6 +180,7 @@ int PROJECT::parse_state(FILE* in) {
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
     min_rpc_time = 0;
+    min_report_min_rpc_time = 0;
     nrpc_failures = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
@@ -214,7 +216,7 @@ int PROJECT::parse_state(FILE* in) {
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        else if (parse_int(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
         else fprintf(stderr, "PROJECT::parse_state(): unrecognized: %s\n", buf);

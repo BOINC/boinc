@@ -44,6 +44,8 @@
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
 
+const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
+
 // estimate the days of work remaining
 //
 double CLIENT_STATE::current_work_buf_days() {
@@ -82,6 +84,28 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
     }
 }
 
+void PROJECT::set_min_rpc_time(time_t future_time)
+{
+    min_rpc_time = future_time;
+    min_report_min_rpc_time = 0; // report immediately
+}
+
+// Return true iff we should not contact the project yet.  Print a message to
+// the user if we haven't recently
+bool PROJECT::waiting_until_min_rpc_time(time_t now)
+{
+    if (min_rpc_time > now ) {
+        if (now >= min_report_min_rpc_time) {
+            min_report_min_rpc_time = now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
+            msg_printf(this, MSG_ERROR,
+                       "Deferring communication with project for %s\n",
+                       timediff_format(min_rpc_time - now).c_str());
+        }
+        return true;
+    }
+    return false;
+}
+
 // find a project that needs its master file parsed
 //
 PROJECT* CLIENT_STATE::next_project_master_pending() {
@@ -91,7 +115,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->min_rpc_time > now ) continue;
+        if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->master_url_fetch_pending) {
             return p;
         }
@@ -106,7 +130,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     time_t now = time(0);
 
     for (i=0; i<projects.size(); i++) {
-        if (projects[i]->min_rpc_time > now) continue;
+        if (projects[i]->waiting_until_min_rpc_time(now)) continue;
         if (projects[i]->sched_rpc_pending) {
             return projects[i];
         }
@@ -128,7 +152,7 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->master_url_fetch_pending) continue;
-        if (p->min_rpc_time > now ) continue;
+        if (p->waiting_until_min_rpc_time(now)) continue;
         if (old && p->debt_order <= old->debt_order) continue;
         if (p->debt_order < best) {
             pbest = p;
@@ -258,7 +282,8 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         r = results[i];
         // If we've completed computation but haven't finished reporting the
         // results to the server, return the project for this result
-        if (r->ready_to_ack && (r->project->min_rpc_time < now)) {
+        if (r->project->waiting_until_min_rpc_time(now)) continue;
+        if (r->ready_to_ack) {
             return r->project;
         }
     }

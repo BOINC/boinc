@@ -154,10 +154,9 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
             gstate.retry_base_period
         );
     }
-    p->min_rpc_time = time(0) + exp_backoff;
-    msg_printf(p, MSG_ERROR,
-        "Deferring communication with project for %d seconds\n", exp_backoff
-    );
+    p->set_min_rpc_time(time(0) + exp_backoff);
+    // note: we don't need to print a message now, it will be printed the
+    // next time p->waiting_until_min_rpc_time() is called.
     return 0;
 }
 

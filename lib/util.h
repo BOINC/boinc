@@ -25,6 +25,8 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdarg>
+#include <string>
+using std::string;
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern void get_byte_string(double nbytes, double total_bytes, char* str, int len);
@@ -42,14 +44,9 @@ extern void safe_strncpy(char*, char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* timestamp();
+string timediff_format(long tdiff);
 
-#ifndef max
-#define max(a,b)            (((a) > (b)) ? (a) : (b))
-#endif
-
-#ifndef min
-#define min(a,b)            (((a) < (b)) ? (a) : (b))
-#endif
+// NOTE: use #include <functional>   to get max,min
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments
