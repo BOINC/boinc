@@ -1,4 +1,5 @@
-;; -*- tab-width: 4 ; indent-tabs-mode: nil; -*-
+;; -*- mode: text; tab-width: 4; indent-tabs-mode: nil; -*-
+
 David A.        April 10 2002
     Initial checkin of all files.
     The system is fairly feature-complete and
@@ -21184,3 +21185,9 @@ David  13 Dec 2004
         graphics_impl.C,h
         graphics_lib.C
         x_opengl.C
+
+Karl 2004-12-13
+    - Fixed testbase to work with Python 2.4.
+
+    test/
+        testbase.py

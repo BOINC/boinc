@@ -783,7 +783,7 @@ def test_done():
         verbose_echo(0, "ERRORS.COUNT: %d" % errors.count)
         if options.delete_testbed == 'always':
             delete_test()
-        sys.exit(int(errors.count))
+        return int(errors.count)
     else:
         verbose_echo(1, "Passed test!")
         if options.echo_overwrite:
@@ -792,6 +792,11 @@ def test_done():
             delete_test()
         if options.echo_overwrite:
             print
-        sys.exit(0)
+        return 0
 
-atexit.register(test_done)
+# Note: this bypasses other cleanup functions - if something goes wrong during
+# exit, this may be the culprit.
+def osexit_test_done():
+    os._exit(test_done())
+
+atexit.register(osexit_test_done)
