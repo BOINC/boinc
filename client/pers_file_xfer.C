@@ -148,7 +148,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
             if (fip->generated_locally) {
                 // If the file was generated locally (for upload), update stats
                 // and delete the local copy of the file if needed
-	        gstate.net_stats.update(true, fip->nbytes, fxp->elapsed_time());
+                gstate.net_stats.update(true, fip->nbytes, time_so_far);
 
                 // file has been uploaded - delete if not sticky
                 if (!fip->sticky) {
@@ -159,7 +159,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
             } else {
                 // Otherwise we downloaded the file.  Update stats, verify
                 // the file with RSA or MD5, and change permissions
-                gstate.net_stats.update(false, fip->nbytes, fxp->elapsed_time());
+                gstate.net_stats.update(false, fip->nbytes, time_so_far);
                 get_pathname(fip, pathname);
                 retval = verify_downloaded_file(pathname, *fip);
                 if (retval) {

@@ -34,8 +34,6 @@
 
 class FILE_XFER : public HTTP_OP {
 public:
-    double start_time;
-    double end_time;
     FILE_INFO* fip;
     char pathname[256];
     char header[4096];
@@ -49,7 +47,6 @@ public:
     int init_upload(FILE_INFO&);
     bool file_xfer_done;
     int file_xfer_retval;
-    double elapsed_time();
 };
 
 class FILE_XFER_SET {

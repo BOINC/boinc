@@ -30,8 +30,6 @@
 FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
     file_xfer_retval = 0;
-    start_time = 0;
-    end_time = 0;
     fip = NULL;
     strcpy(pathname,"");
     strcpy(header,"");
@@ -126,12 +124,6 @@ int FILE_XFER::parse_server_response(double &nbytes) {
     return status;
 }
 
-// Returns the total time that the file xfer has taken
-//
-double FILE_XFER::elapsed_time() {
-    return end_time - start_time;
-}
-
 // Create a new empty FILE_XFER_SET
 //
 FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
@@ -147,7 +139,6 @@ int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     // This could be made more accurate by omitting the connection
     // setup and initial request times.
     //
-    fxp->start_time = dtime();
     retval = http_ops->insert(fxp);
     if (retval) return retval;
     file_xfers.push_back(fxp);
@@ -186,7 +177,6 @@ bool FILE_XFER_SET::poll() {
         fxp = file_xfers[i];
         if (fxp->http_op_done()) {
             action = true;
-            fxp->end_time = dtime();
             fxp->file_xfer_done = true;
             if (log_flags.file_xfer_debug) {
                 printf("http op done; retval %d\n", fxp->http_op_retval);
