@@ -13952,9 +13952,13 @@ Karl 2004-06-18
 
     */Makefile.am
 
-Rom    June 17 2004
+Rom    June 18 2004
     - Update screensaver logic to determine the difference between 'no work avaliable'
       and the active tasks cannot display graphics.
 
     client/
         ss_logic.C
+
+Rom    June 18 2004
+    - Tag for 3.15 release, all platforms
+      boinc_core_release_3_15
