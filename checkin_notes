@@ -16156,3 +16156,18 @@ David  11 Aug 2004
             top_host.php
             top_team.php
             top_user.php
+
+David  11 Aug 2004
+    - Divided app.C (which was getting too big) into:
+        app.C: constructor/destructor, XML write/parse
+        app_control.C: process control
+        app_graphics.C: graphics interactions
+        app_start.C: initialization/execution
+
+    client/
+        Makefile.am
+        app.C
+        app_control.C (new)
+        app_graphics.C (new)
+        app_start.C (new)
+        cs_apps.C

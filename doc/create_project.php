@@ -46,7 +46,21 @@ How to develop or port an application program for use with BOINC.
 <li><a href=fortran.php>FORTRAN applications</a>
 <li><a href=compound_app.php>Compound applications</a>
 <li><a href=trickle_api.php>Trickle messages</a>
-<li><a href=myers.txt>A cookbook</a> (courtesy Eric Myers from Vassar)
+<li><a href=myers.txt>A cookbook</a> (courtesy of Eric Myers from Vassar)
+</ul>
+
+<font size=+1><b>
+Managing distributed data
+</b></font>
+<br> &nbsp; &nbsp; &nbsp;
+<font size=-1>
+Using disk space on participant hosts
+</font>
+<ul>
+<li> <a href=get_file_list.php>Uploading file lists</a>
+<li> <a href=get_file.php>Uploading files</a>
+<li> <a href=send_file.php>Downloading files</a>
+<li> <a href=delete_file.php>Deleting files</a>
 </ul>
 
 <font size=+1><b>
