@@ -104,8 +104,9 @@ int main(int argc, char** argv) {
             boinc_sleep(1);
         }
         if (cs.time_to_exit()) {
-            exit(0);
+            break;
         }
     }
+    cs.exit_tasks();
     return 0;
 }

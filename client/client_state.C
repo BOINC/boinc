@@ -46,6 +46,7 @@ CLIENT_STATE::CLIENT_STATE() {
     activities_suspended = false;
     version = VERSION;
     platform_name = HOST;
+    exit_after = -1;
 }
 
 int CLIENT_STATE::init(PREFS* p) {
@@ -140,6 +141,7 @@ bool CLIENT_STATE::do_something() {
         write_state_file_if_needed();
     }
     if (!action) time_stats.update(true, !activities_suspended);
+    if (exit_after > 0) exit_after--;
     return action;
 }
 
@@ -259,6 +261,11 @@ int CLIENT_STATE::make_slot_dirs() {
     for (i=0; i<nslots; i++) {
         make_slot_dir(i);
     }
+    return 0;
+}
+
+int CLIENT_STATE::exit_tasks() {
+    active_tasks.exit_tasks();
     return 0;
 }
 
@@ -599,15 +606,22 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
+	    continue;
         }
         if (!strcmp(argv[i], "-no_time_test")) {
             run_time_test = false;
-        }
+	    continue;
+        };
+        if (!strcmp(argv[i], "-exit_after")) {
+	    exit_after = atoi(argv[i+1]);
+	    continue;
+	};
     }
 }
 
 bool CLIENT_STATE::time_to_exit() {
-    if (!exit_when_idle) return false;
+    if (!exit_when_idle && (exit_after != 0)) return false;
     if (results.size() == 0 && contacted_sched_server) return true;
+    if (exit_after == 0) return true;
     return false;
 }

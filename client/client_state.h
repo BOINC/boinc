@@ -35,10 +35,12 @@ public:
     CLIENT_STATE();
     int init(PREFS*);
     int restart_tasks();
+    int exit_tasks();
     bool do_something();
     void parse_cmdline(int argc, char** argv);
     bool time_to_exit();
     bool run_time_tests();
+    int time_tests();
 
 private:
     vector<PROJECT*> projects;
@@ -65,6 +67,7 @@ private:
     bool run_time_test;
     bool contacted_sched_server;
     bool activities_suspended;
+    int exit_after;
 
     int parse_state_file();
     int write_state_file();
@@ -93,7 +96,6 @@ private:
     void handle_scheduler_reply(SCHEDULER_OP&);
     double estimate_duration(WORKUNIT*);
     double current_water_days();
-    int time_tests();
 
     // the following could be eliminated by using map instead of vector
     //

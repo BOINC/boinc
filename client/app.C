@@ -32,6 +32,8 @@
 #include <sys/resource.h>
 #endif
 #include <sys/types.h>
+#include <sys/signal.h>
+#include <sys/procset.h>
 #include <fcntl.h>
 #include <ctype.h>
 #include <signal.h>
@@ -305,6 +307,13 @@ int ACTIVE_TASK::start(bool first_time) {
     return 0;
 }
 
+void ACTIVE_TASK::request_exit(int seconds) {
+    int retval;
+    retval = sigsend(P_PID, pid, SIGTERM);
+    sleep(seconds);
+    if(retval) sigsend(P_PID, pid, SIGKILL);
+}
+
 int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
     int retval;
 
@@ -437,6 +446,15 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     }
 }
 
+void ACTIVE_TASK_SET::exit_tasks() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        atp->request_exit(0);
+    }
+}
+
 #ifdef _WIN32
 void ACTIVE_TASK::suspend() {
     prev_cpu_time = cpu_time;
@@ -513,7 +531,7 @@ bool ACTIVE_TASK::update_time() {
 
 bool ACTIVE_TASK_SET::poll_time() {
     ACTIVE_TASK* atp;
-    int i;
+    unsigned int i;
     bool updated;
     for(i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];

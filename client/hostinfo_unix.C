@@ -169,8 +169,10 @@ void get_osinfo(HOST_INFO& host) {
 int get_host_info(HOST_INFO& host) {
     host.m_nbytes = 0;
     host.m_cache = 0;
+    host.m_swap = 0;
 #ifdef solaris
     struct statvfs foo;
+    char buf[256];
 
     memset(&host, 0, sizeof(host));
     

@@ -93,6 +93,7 @@ public:
     void suspend_all();
     void unsuspend_all();
     int restart_tasks();
+    void exit_tasks();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);
