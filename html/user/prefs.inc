@@ -172,8 +172,8 @@ function prefs_show_work($prefs) {
     row("<b>Work if computer on batteries:   </b>", $batteries);
     row("<b>Work if computer in use:   </b>", $in_use);
     row("<b>Confirm before connecting to network:   </b>", $confirm);
-    row("<b>Minimum amount of work to buffer:   </b>", "$prefs->low_water_days hours");
-    row("<b>Maximum amount of work to buffer:   </b>", "$prefs->high_water_days hours");
+    row("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days hours");
+    row("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days hours");
     echo "<tr><td><a href=prefs_edit_work_form.php>Edit work preferences</a></td></tr>\n";
     echo "</table>\n";
 }
@@ -239,11 +239,11 @@ function prefs_form_work($user, $prefs) {
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Minimum amount of work<br>to buffer (in hours)</b></td>\n";
+    echo   "        <td align=right><b>Minimum amount of work to<br>buffer (days)</b> - this is the<br>minimum amount of work to stay on<br>disk so if your computer is<br>disconnected from the Internet<br>for an extended amount of time<br>you can still do work</td>\n";
     printf("        <td><input size=5 name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Maximum amount of work<br>to buffer (in hours)</b></td>\n";
+    echo   "        <td align=right><b>Maximum amount of work to<br>buffer (days)</b> - this is the<br>maximum amount of work to stay on<br>disk so if your computer is<br>disconnected from the Internet<br>for an extended amount of time<br>you can still do work</td>\n";
     printf("        <td><input size=5 name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    </table>\n";
@@ -255,7 +255,7 @@ function prefs_form_disk($user, $prefs) {
     echo   "<form action=prefs_edit_disk_action.php>\n";
     echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC(in MB)</b></td>\n";
+    echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC (in MB)</b></td>\n";
     echo   "        <td><input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
@@ -283,7 +283,7 @@ function prefs_form_projects($prefs) {
     echo "<hr><a href=prefs_add_project_form.php>Add project</a>\n";
     echo "<p>";
     echo "<table width=780><tr><td>";
-    echo "Whenever you join a new project, remember to add that project with the authenticator that you get from that project to your home project (the first project) you joined.";
+    echo "Whenever you join a new project, remember to add that project with the authenticator that you get from that project to your home project (the first project you joined).";
     echo "</td></tr></table>";
 }
 
@@ -303,7 +303,7 @@ function prefs_form_project($project, $action) {
     echo   "        <td><input size=32 name=authenticator value='$project->authenticator'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Resource share:</b></td>\n";
+    echo   "        <td align=right><b>Resource share:</b><br>if projects contend<br>for resources, the amount<br>allocated to a project<br>is proportional to<br>this number</td>\n";
     echo   "        <td><input name=resource_share value='$project->resource_share'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
