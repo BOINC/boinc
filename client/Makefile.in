@@ -183,54 +183,57 @@ bin_PROGRAMS = boinc_client
 EXTRA_PROGRAMS = cpu_benchmark
 
 boinc_client_SOURCES = \
-    app.C                                       \
-    check_state.C                               \
-    client_msgs.C                               \
-    client_state.C                              \
-    client_types.C                              \
-    cs_account.C                                \
-    cs_apps.C                                   \
-    cs_benchmark.C                              \
-    cs_cmdline.C                                \
-    cs_data.C                                   \
-    cs_files.C                                  \
-    cs_prefs.C                                  \
-    cs_scheduler.C                              \
-    cs_statefile.C                              \
-    cs_trickle.C                                \
-    dhrystone.C                                 \
-    file_names.C                                \
-    file_xfer.C                                 \
-    gui_rpc_server.C                            \
-    hostinfo_network.C                          \
-    hostinfo_unix.C                             \
-    http.C                                      \
-    log_flags.C                                 \
-    main.C                                      \
-    net_stats.C                                 \
-    net_xfer.C                                  \
-    pers_file_xfer.C                            \
-    prefs.C                                     \
-    proxy.C                                     \
-    scheduler_op.C                              \
-    ss_logic.C                                  \
-    time_stats.C                                \
-    whetstone.C                                 \
-    ../lib/app_ipc.C                            \
-    ../lib/base64.C                             \
-    ../lib/crypt.C                              \
-    ../lib/diagnostics.C                        \
-    ../lib/exception.C                          \
-    ../lib/filesys.C                            \
-    ../lib/hostinfo.C                           \
-    ../lib/language.C                           \
-    ../lib/md5_file.C                           \
-    ../lib/md5.c                                \
-    ../lib/mfile.C                              \
-    ../lib/miofile.C                            \
-    ../lib/msg_log.C                            \
-    ../lib/parse.C                              \
-    ../lib/shmem.C                              \
+    app.C \
+    app_control.C \
+    app_graphics.C \
+    app_start.C \
+    check_state.C \
+    client_msgs.C \
+    client_state.C \
+    client_types.C \
+    cs_account.C \
+    cs_apps.C \
+    cs_benchmark.C \
+    cs_cmdline.C \
+    cs_data.C \
+    cs_files.C \
+    cs_prefs.C \
+    cs_scheduler.C \
+    cs_statefile.C \
+    cs_trickle.C \
+    dhrystone.C \
+    file_names.C \
+    file_xfer.C \
+    gui_rpc_server.C \
+    hostinfo_network.C \
+    hostinfo_unix.C \
+    http.C \
+    log_flags.C \
+    main.C \
+    net_stats.C \
+    net_xfer.C \
+    pers_file_xfer.C \
+    prefs.C \
+    proxy.C \
+    scheduler_op.C \
+    ss_logic.C \
+    time_stats.C \
+    whetstone.C \
+    ../lib/app_ipc.C \
+    ../lib/base64.C \
+    ../lib/crypt.C \
+    ../lib/diagnostics.C \
+    ../lib/exception.C \
+    ../lib/filesys.C \
+    ../lib/hostinfo.C \
+    ../lib/language.C \
+    ../lib/md5_file.C \
+    ../lib/md5.c \
+    ../lib/mfile.C \
+    ../lib/miofile.C \
+    ../lib/msg_log.C \
+    ../lib/parse.C \
+    ../lib/shmem.C \
     ../lib/util.C
 
 
@@ -244,10 +247,10 @@ cpu_benchmark_SOURCES = whetstone.C dhrystone.C
 cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
 
 EXTRA_DIST = \
-	*.h                                         \
-	mac/*.h mac/*.cpp                           \
-    win/*.h win/*.cpp win/*.rc                  \
-    win/*.def win/res/*.*                       \
+	*.h \
+	mac/*.h mac/*.cpp \
+    win/*.h win/*.cpp win/*.rc \
+    win/*.def win/res/*.* \
     translation/*/*
 
 subdir = client
@@ -259,6 +262,9 @@ bin_PROGRAMS = boinc_client$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
+	boinc_client-app_control.$(OBJEXT) \
+	boinc_client-app_graphics.$(OBJEXT) \
+	boinc_client-app_start.$(OBJEXT) \
 	boinc_client-check_state.$(OBJEXT) \
 	boinc_client-client_msgs.$(OBJEXT) \
 	boinc_client-client_state.$(OBJEXT) \
@@ -307,7 +313,10 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/boinc_client-app.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-app_control.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-app_graphics.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-app_ipc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-app_start.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-base64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-check_state.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_msgs.Po \
@@ -404,6 +413,9 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 boinc_client-app.$(OBJEXT): app.C
+boinc_client-app_control.$(OBJEXT): app_control.C
+boinc_client-app_graphics.$(OBJEXT): app_graphics.C
+boinc_client-app_start.$(OBJEXT): app_start.C
 boinc_client-check_state.$(OBJEXT): check_state.C
 boinc_client-client_msgs.$(OBJEXT): client_msgs.C
 boinc_client-client_state.$(OBJEXT): client_state.C
@@ -466,7 +478,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app_control.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app_graphics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app_ipc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app_start.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-base64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-check_state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_msgs.Po@am__quote@
@@ -563,6 +578,72 @@ boinc_client-app.obj: app.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app.Po' tmpdepfile='$(DEPDIR)/boinc_client-app.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app.obj `if test -f 'app.C'; then $(CYGPATH_W) 'app.C'; else $(CYGPATH_W) '$(srcdir)/app.C'`
+
+boinc_client-app_control.o: app_control.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app_control.o -MD -MP -MF "$(DEPDIR)/boinc_client-app_control.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-app_control.o `test -f 'app_control.C' || echo '$(srcdir)/'`app_control.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-app_control.Tpo" "$(DEPDIR)/boinc_client-app_control.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-app_control.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_control.C' object='boinc_client-app_control.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app_control.Po' tmpdepfile='$(DEPDIR)/boinc_client-app_control.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_control.o `test -f 'app_control.C' || echo '$(srcdir)/'`app_control.C
+
+boinc_client-app_control.obj: app_control.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app_control.obj -MD -MP -MF "$(DEPDIR)/boinc_client-app_control.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-app_control.obj `if test -f 'app_control.C'; then $(CYGPATH_W) 'app_control.C'; else $(CYGPATH_W) '$(srcdir)/app_control.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-app_control.Tpo" "$(DEPDIR)/boinc_client-app_control.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-app_control.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_control.C' object='boinc_client-app_control.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app_control.Po' tmpdepfile='$(DEPDIR)/boinc_client-app_control.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_control.obj `if test -f 'app_control.C'; then $(CYGPATH_W) 'app_control.C'; else $(CYGPATH_W) '$(srcdir)/app_control.C'`
+
+boinc_client-app_graphics.o: app_graphics.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app_graphics.o -MD -MP -MF "$(DEPDIR)/boinc_client-app_graphics.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-app_graphics.o `test -f 'app_graphics.C' || echo '$(srcdir)/'`app_graphics.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-app_graphics.Tpo" "$(DEPDIR)/boinc_client-app_graphics.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-app_graphics.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_graphics.C' object='boinc_client-app_graphics.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app_graphics.Po' tmpdepfile='$(DEPDIR)/boinc_client-app_graphics.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_graphics.o `test -f 'app_graphics.C' || echo '$(srcdir)/'`app_graphics.C
+
+boinc_client-app_graphics.obj: app_graphics.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app_graphics.obj -MD -MP -MF "$(DEPDIR)/boinc_client-app_graphics.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-app_graphics.obj `if test -f 'app_graphics.C'; then $(CYGPATH_W) 'app_graphics.C'; else $(CYGPATH_W) '$(srcdir)/app_graphics.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-app_graphics.Tpo" "$(DEPDIR)/boinc_client-app_graphics.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-app_graphics.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_graphics.C' object='boinc_client-app_graphics.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app_graphics.Po' tmpdepfile='$(DEPDIR)/boinc_client-app_graphics.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_graphics.obj `if test -f 'app_graphics.C'; then $(CYGPATH_W) 'app_graphics.C'; else $(CYGPATH_W) '$(srcdir)/app_graphics.C'`
+
+boinc_client-app_start.o: app_start.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app_start.o -MD -MP -MF "$(DEPDIR)/boinc_client-app_start.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-app_start.o `test -f 'app_start.C' || echo '$(srcdir)/'`app_start.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-app_start.Tpo" "$(DEPDIR)/boinc_client-app_start.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-app_start.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_start.C' object='boinc_client-app_start.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app_start.Po' tmpdepfile='$(DEPDIR)/boinc_client-app_start.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_start.o `test -f 'app_start.C' || echo '$(srcdir)/'`app_start.C
+
+boinc_client-app_start.obj: app_start.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app_start.obj -MD -MP -MF "$(DEPDIR)/boinc_client-app_start.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-app_start.obj `if test -f 'app_start.C'; then $(CYGPATH_W) 'app_start.C'; else $(CYGPATH_W) '$(srcdir)/app_start.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-app_start.Tpo" "$(DEPDIR)/boinc_client-app_start.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-app_start.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_start.C' object='boinc_client-app_start.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-app_start.Po' tmpdepfile='$(DEPDIR)/boinc_client-app_start.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_start.obj `if test -f 'app_start.C'; then $(CYGPATH_W) 'app_start.C'; else $(CYGPATH_W) '$(srcdir)/app_start.C'`
 
 boinc_client-check_state.o: check_state.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-check_state.o -MD -MP -MF "$(DEPDIR)/boinc_client-check_state.Tpo" \

@@ -555,39 +555,3 @@ void CLIENT_STATE::handle_file_xfer_apps() {
         }
     }
 }
-
-// return the next graphics-capable app.
-// always try to choose a new project
-// preferences goes to apps with pre-ss mode WINDOW, then apps with pre-ss mode HIDE
-//
-ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
-    static int project_index=0;
-    unsigned int i, j;
-    ACTIVE_TASK *atp;
-    PROJECT *p;
-
-    // loop through all projects starting with the one at project_index
-    //
-    for (i=0; i<projects.size(); ++i) {
-        project_index %= projects.size();
-        p = projects[project_index++];
-
-        for (j=0; j<active_tasks.active_tasks.size(); ++j) {
-            atp = active_tasks.active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-            if (atp->result->project != p) continue;
-            if (atp->graphics_mode_before_ss == MODE_WINDOW) {
-                return atp;
-            }
-        }
-        for (j=0; j<active_tasks.active_tasks.size(); ++j) {
-            atp = active_tasks.active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-            if (atp->result->project != p) continue;
-            if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
-                return atp;
-            }
-        }
-    }
-    return NULL;
-}

@@ -1,0 +1,570 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
+// initialization and starting of applications
+
+#include "cpp.h"
+
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#if HAVE_SYS_IPC_H
+#include <sys/ipc.h>
+#endif
+#include <unistd.h>
+#endif
+
+using std::vector;
+
+#include "filesys.h"
+#include "error_numbers.h"
+#include "util.h"
+#include "shmem.h"
+#include "client_msgs.h"
+#include "client_state.h"
+#include "file_names.h"
+
+#include "app.h"
+
+// ways an active task can be started by the client
+//
+#define TASK_RESUME     0   // process suspended; call unsuspend()
+#define TASK_RESTART    1   // process initialized; call start(false)
+#define TASK_START      2   // process uninitialized; call start(true)
+
+// value for setpriority(2)
+static const int PROCESS_IDLE_PRIORITY = 19;
+
+// Goes through an array of strings, and prints each string
+//
+static int debug_print_argv(char** argv) {
+    int i;
+
+    log_messages.printf(CLIENT_MSG_LOG::DEBUG_TASK, "Arguments:");
+    ++log_messages;
+    for (i=0; argv[i]; i++) {
+        log_messages.printf(
+            CLIENT_MSG_LOG::DEBUG_TASK,
+            "argv[%d]: %s\n", i, argv[i]
+        );
+    }
+    --log_messages;
+
+    return 0;
+}
+
+int ACTIVE_TASK::link_user_files() {
+    PROJECT* project = wup->project;
+    unsigned int i;
+    FILE_REF fref;
+    FILE_INFO* fip;
+    char link_path[256], buf[256], file_path[256];
+    int retval;
+
+    for (i=0; i<project->user_files.size(); i++) {
+        fref = project->user_files[i];
+        fip = fref.file_info;
+        if (fip->status != FILE_PRESENT) continue;
+        get_pathname(fip, file_path);
+        sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
+        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+        retval = boinc_link(buf, link_path);
+        if (retval) return retval;
+    }
+    return 0;
+}
+
+// write the app init file.
+// This is done before starting the app,
+// and when project prefs have changed during app execution
+//
+int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
+    FILE *f;
+    char init_data_path[256], project_dir[256], project_path[256];
+    int retval;
+
+    memset(&aid, 0, sizeof(aid));
+
+    aid.core_version = gstate.core_client_major_version*100 + gstate.core_client_minor_version;
+    safe_strcpy(aid.app_name, wup->app->name);
+    safe_strcpy(aid.user_name, wup->project->user_name);
+    safe_strcpy(aid.team_name, wup->project->team_name);
+    if (wup->project->project_specific_prefs.length()) {
+        strcpy(aid.project_preferences, wup->project->project_specific_prefs.c_str());
+    }
+    get_project_dir(wup->project, project_dir);
+    relative_to_absolute(project_dir, project_path);
+    strcpy(aid.project_dir, project_path);
+    relative_to_absolute("", aid.boinc_dir);
+    strcpy(aid.authenticator, wup->project->authenticator);
+    aid.slot = slot;
+    strcpy(aid.wu_name, wup->name);
+    aid.user_total_credit = wup->project->user_total_credit;
+    aid.user_expavg_credit = wup->project->user_expavg_credit;
+    aid.host_total_credit = wup->project->host_total_credit;
+    aid.host_expavg_credit = wup->project->host_expavg_credit;
+    aid.checkpoint_period = gstate.global_prefs.disk_interval;
+    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+    aid.fraction_done_start = 0;
+    aid.fraction_done_end = 1;
+#ifndef _WIN32
+    aid.shm_key = 0;
+#endif
+    // wu_cpu_time is the CPU time at start of session,
+    // not the checkpoint CPU time
+    // At the start of an episode these are equal, but not in the middle!
+    //
+    aid.wu_cpu_time = episode_start_cpu_time;
+
+    sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
+    f = boinc_fopen(init_data_path, "w");
+    if (!f) {
+        msg_printf(wup->project, MSG_ERROR,
+            "Failed to open core-to-app prefs file %s",
+            init_data_path
+        );
+        return ERR_FOPEN;
+    }
+
+    // make a unique key for core/app shared memory segment
+    //
+#ifdef _WIN32
+    int     i = 0;
+    char    szSharedMemoryName[256];
+    HANDLE  hSharedMemoryHandle;
+
+    do {
+        memset(szSharedMemoryName, '\0', sizeof(szSharedMemoryName));
+        sprintf(szSharedMemoryName, "boinc_%d", slot);
+        i++;
+    } while((!(hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL))) || (1024 < i));
+
+    if (hSharedMemoryHandle)
+        CloseHandle(hSharedMemoryHandle);
+
+    if (1024 < i)
+        return ERR_SEMOP;
+
+    strcpy(aid.comm_obj_name, szSharedMemoryName);
+#elif HAVE_SYS_IPC_H
+    aid.shm_key = ftok(init_data_path, slot);
+#else
+#error shared memory key generation unimplemented
+#endif
+
+    aid.host_info = gstate.host_info;
+    retval = write_init_data_file(f, aid);
+    fclose(f);
+    return retval;
+}
+
+// Start a task in a slot directory.
+// This includes setting up soft links,
+// passing preferences, and starting the process
+//
+// Current dir is top-level BOINC dir
+//
+int ACTIVE_TASK::start(bool first_time) {
+    char exec_name[256], file_path[256], link_path[256], buf[256], exec_path[256];
+    unsigned int i;
+    FILE_REF file_ref;
+    FILE_INFO* fip;
+    int retval;
+    char graphics_data_path[256], fd_init_path[256];
+    FILE *f;
+    GRAPHICS_INFO gi;
+    APP_INIT_DATA aid;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+    scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
+
+    if (first_time) {
+        checkpoint_cpu_time = 0;
+    }
+    current_cpu_time = checkpoint_cpu_time;
+    episode_start_cpu_time = checkpoint_cpu_time;
+    cpu_time_at_last_sched = checkpoint_cpu_time;
+    fraction_done = 0;
+
+    gi.xsize = 800;
+    gi.ysize = 600;
+    gi.refresh_period = 0.1;
+
+    retval = write_app_init_file(aid);
+    if (retval) return retval;
+
+    sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
+    f = boinc_fopen(graphics_data_path, "w");
+    if (!f) {
+        msg_printf(wup->project, MSG_ERROR,
+            "Failed to open core-to-app graphics prefs file %s",
+            graphics_data_path
+        );
+        return ERR_FOPEN;
+    }
+    retval = write_graphics_file(f, &gi);
+    fclose(f);
+
+    sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
+    f = boinc_fopen(fd_init_path, "w");
+    if (!f) {
+        msg_printf(wup->project, MSG_ERROR, "Failed to open init file %s", fd_init_path);
+        return ERR_FOPEN;
+    }
+
+    // make soft links to the executable(s)
+    //
+    for (i=0; i<app_version->app_files.size(); i++) {
+        FILE_REF fref = app_version->app_files[i];
+        fip = fref.file_info;
+        get_pathname(fip, file_path);
+        if (fref.main_program) {
+            safe_strcpy(exec_name, fip->name);
+            safe_strcpy(exec_path, file_path);
+        }
+        if (first_time) {
+            sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+            retval = boinc_link(buf, link_path);
+            scope_messages.printf("ACTIVE_TASK::start(): Linking %s to %s\n", file_path, link_path);
+            if (retval) {
+                msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
+                fclose(f);
+                return retval;
+            }
+        }
+    }
+
+    // create symbolic links, and hook up descriptors, for input files
+    //
+    for (i=0; i<wup->input_files.size(); i++) {
+        file_ref = wup->input_files[i];
+        get_pathname(file_ref.file_info, file_path);
+        if (strlen(file_ref.open_name)) {
+            if (first_time) {
+                sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
+                sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+                scope_messages.printf("ACTIVE_TASK::start(): link %s to %s\n", file_path, link_path);
+                if (file_ref.copy_file) {
+                    retval = boinc_copy(file_path, link_path);
+                    if (retval) {
+                        msg_printf(wup->project, MSG_ERROR, "Can't copy %s to %s", file_path, link_path);
+                        fclose(f);
+                        return retval;
+                    }
+                } else {
+                    retval = boinc_link(buf, link_path);
+                    if (retval) {
+                        msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
+                        fclose(f);
+                        return retval;
+                    }
+                }
+            }
+        } else {
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+            retval = write_fd_init_file(f, buf, file_ref.fd, true);
+            if (retval) return retval;
+        }
+    }
+
+    // hook up the output files using BOINC soft links
+    //
+    for (i=0; i<result->output_files.size(); i++) {
+        file_ref = result->output_files[i];
+        get_pathname(file_ref.file_info, file_path);
+        if (strlen(file_ref.open_name)) {
+            if (first_time) {
+                sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
+                sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+                scope_messages.printf("ACTIVE_TASK::start(): link %s to %s\n", file_path, link_path);
+                retval = boinc_link(buf, link_path);
+                if (retval) {
+                    msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
+                    fclose(f);
+                    return retval;
+                }
+            }
+        } else {
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+            retval = write_fd_init_file(f, buf, file_ref.fd, false);
+            if (retval) return retval;
+        }
+    }
+
+    fclose(f);
+
+    link_user_files();
+
+#ifdef _WIN32
+    PROCESS_INFORMATION process_info;
+    STARTUPINFO startup_info;
+    char slotdirpath[256];
+    char cmd_line[512];
+
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
+    startup_info.cb = sizeof(startup_info);
+    startup_info.lpReserved = NULL;
+    startup_info.lpDesktop = "";
+
+    sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
+    quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
+
+    // create core/app share mem segment
+    //
+    sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
+    shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
+        (void **)&app_client_shm.shm
+    );
+    if (shm_handle == NULL) return ERR_SHMGET;
+    app_client_shm.reset_msgs();
+
+    // NOTE: in Windows, stderr is redirected within boinc_init();
+
+    sprintf(cmd_line, "%s %s", exec_path, wup->command_line);
+    relative_to_absolute(slot_dir, slotdirpath);
+    if (!CreateProcess(exec_path,
+        cmd_line,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+        NULL,
+        slotdirpath,
+        &startup_info,
+        &process_info
+    )) {
+        char szError[1024];
+        windows_error_string(szError, sizeof(szError));
+
+        state = PROCESS_COULDNT_START;
+        result->active_task_state = PROCESS_COULDNT_START;
+        gstate.report_result_error(*result, ERR_EXEC, "CreateProcess() failed - %s", szError);
+        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", szError);
+        return ERR_EXEC;
+    }
+    pid = process_info.dwProcessId;
+    pid_handle = process_info.hProcess;
+    thread_handle = process_info.hThread;
+#else
+    char* argv[100];
+
+    // Set up core/app shared memory seg
+    //
+    shm_key = aid.shm_key;
+    retval = create_shmem(
+        shm_key, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
+    );
+    if (retval) {
+        msg_printf(
+            wup->project, MSG_ERROR, "Can't create shared mem: %d", retval
+        );
+        return retval;
+    }
+    app_client_shm.reset_msgs();
+
+    pid = fork();
+    if (pid == -1) {
+        state = PROCESS_COULDNT_START;
+        result->active_task_state = PROCESS_COULDNT_START;
+        gstate.report_result_error(*result, -1, "fork(): %s", strerror(errno));
+        msg_printf(wup->project, MSG_ERROR, "fork(): %s", strerror(errno));
+        return ERR_FORK;
+    }
+    if (pid == 0) {
+        // from here on we're running in a new process.
+        // If an error happens, exit nonzero so that the core client
+        // knows there was a problem.
+
+        // chdir() into the slot directory
+        //
+        retval = chdir(slot_dir);
+        if (retval) {
+            perror("chdir");
+            _exit(retval);
+        }
+
+        // hook up stderr to a specially-named file
+        //
+        freopen(STDERR_FILE, "a", stderr);
+
+        argv[0] = exec_name;
+        parse_command_line(wup->command_line, argv+1);
+        debug_print_argv(argv);
+        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
+        retval = execv(buf, argv);
+        msg_printf(wup->project, MSG_ERROR,
+            "execv(%s) failed: %d\n", buf, retval
+        );
+        perror("execv");
+        _exit(errno);
+    }
+
+    scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
+
+    // set idle process priority
+#ifdef HAVE_SETPRIORITY
+    if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
+        perror("setpriority");
+    }
+#endif
+
+#endif
+    state = PROCESS_RUNNING;
+    result->active_task_state = PROCESS_RUNNING;
+    scheduler_state = CPU_SCHED_RUNNING;
+    return 0;
+}
+
+// Resume the task if it was previously running
+// Otherwise, start it
+//
+int ACTIVE_TASK::resume_or_start() {
+    static const char process_start_types[3][15] = {
+        "Resuming",
+        "Restarting",
+        "Starting"
+    };
+    int retval;
+    int task_start_type;
+
+    if (state == PROCESS_RUNNING) {
+#if _WIN32
+        unsigned long exit_code;
+        GetExitCodeProcess(pid_handle, &exit_code);
+        if (exit_code != STILL_ACTIVE) {
+            handle_exited_app(exit_code);
+        }
+#else
+        int exited_pid;
+        int stat;
+        struct rusage rs;
+
+        if ((exited_pid = wait4(0, &stat, WNOHANG, &rs)) == pid) {
+            handle_exited_app(stat, rs);
+        }
+#endif
+    }
+    if (state == PROCESS_UNINITIALIZED) {
+        if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
+            if (!boinc_file_exists(slot_dir)) {
+                make_slot_dir(slot);
+            }
+            retval = clean_out_dir(slot_dir);
+            retval = start(true);
+            task_start_type = TASK_START;
+        } else {
+            retval = start(false);
+            task_start_type = TASK_RESTART;
+        }
+        if (retval) return retval;
+    } else {
+        retval = unsuspend();
+        if (retval) {
+            msg_printf(
+                wup->project,
+                MSG_ERROR,
+                "ACTIVE_TASK::resume_or_start(): could not unsuspend active_task"
+            );
+            return retval;
+        }
+        scheduler_state = CPU_SCHED_RUNNING;
+        task_start_type = TASK_RESUME;
+    }
+    msg_printf(result->project, MSG_INFO,
+        "%s computation for result %s using %s version %.2f",
+        process_start_types[task_start_type],
+        result->name,
+        app_version->app->name,
+        app_version->version_num/100.
+    );
+    return 0;
+}
+
+// Restart active tasks without wiping and reinitializing slot directories
+// Called at init, with max_tasks = ncpus
+//
+int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
+    vector<ACTIVE_TASK*>::iterator iter;
+    ACTIVE_TASK* atp;
+    RESULT* result;
+    int retval, num_tasks_started;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+
+    num_tasks_started = 0;
+    iter = active_tasks.begin();
+    while (iter != active_tasks.end()) {
+        atp = *iter;
+        result = atp->result;
+        atp->init(atp->result);
+        get_slot_dir(atp->slot, atp->slot_dir);
+        if (!gstate.input_files_available(result)) {
+            msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); missing files\n");
+            atp->result->active_task_state = PROCESS_COULDNT_START;
+            gstate.report_result_error(
+                *(atp->result), ERR_FILE_MISSING,
+                "One or more missing files"
+            );
+            iter = active_tasks.erase(iter);
+            delete atp;
+            continue;
+        }
+
+        if (atp->scheduler_state != CPU_SCHED_RUNNING
+            || num_tasks_started >= max_tasks
+        ) {
+            msg_printf(atp->wup->project, MSG_INFO,
+                "Deferring computation for result %s",
+                atp->result->name
+            );
+
+            atp->scheduler_state = CPU_SCHED_PREEMPTED;
+            iter++;
+            continue;
+        }
+
+        result->is_active = true;
+
+        msg_printf(atp->wup->project, MSG_INFO,
+            "Resuming computation for result %s using %s version %.2f",
+            atp->result->name,
+            atp->app_version->app->name,
+            atp->app_version->version_num/100.
+        );
+        retval = atp->start(false);
+
+        if (retval) {
+            msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
+            atp->result->active_task_state = PROCESS_COULDNT_START;
+            gstate.report_result_error(
+                *(atp->result), retval,
+                "Couldn't restart the app for this result: %d", retval
+            );
+            iter = active_tasks.erase(iter);
+            delete atp;
+        } else {
+            ++num_tasks_started;
+            iter++;
+        }
+    }
+    return 0;
+}
+
