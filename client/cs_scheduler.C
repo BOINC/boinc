@@ -187,7 +187,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         core_client_minor_version,
         work_req
     );
-    if (p->code_sign_key) {
+    if (strlen(p->code_sign_key)) {
         fprintf(f, "<code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
 

@@ -182,7 +182,7 @@ int PROJECT::write_state(FILE* out) {
         nrpc_failures,
         min_rpc_time
     );
-    if (code_sign_key) {
+    if (strlen(code_sign_key)) {
         fprintf(out,
             "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
         );
