@@ -5,24 +5,17 @@
 # Scans apps dir for current core client and application versions and updates
 # the database as appropriate.
 
+try:
+    import versions_config
+except ImportError:
+    raise SystemExit("""
+    Couldn't import versions_config.  You must create this file.  See
+    tools/versions_config.py.sample.
+    """)
+
 class Project:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
-
-PROJECTS_ROOT = '~/projects/'
-URL_ROOT = 'http://setiboinc.ssl.berkeley.edu/'
-# syntax: (directory_name, db_name, url_name, [('AppName','app_exe_name')])
-PROJECTS = [ Project(directory_name ='AstroPulse_Beta',
-                     db_name        ='ap',
-                     url_name       ='ap',
-                     applications   =[Project(appname='AstroPulse', exe_prefix='ap')]),
-             Project(directory_name ='client_test',
-                     db_name        ='boinc_client_test',
-                     url_name       ='client_test',
-                     applications   =[])
-             ]
-APPS_DIR = '../apps'
-KEY_DIR = '~/keys/'
 
 DUPLICATE_PLATFORM_EXECUTABLES = {'sparc-sun-solaris2.8':'sparc-sun-solaris2.7'}
 
@@ -85,6 +78,12 @@ def show_clients(app):
     for platform_name in xsort(client_map.keys()):
         print '    ', platform_name.ljust(20), client_map[platform_name]
 
+def get_version(exec_name):
+    m = re.search('([0-9]+)[.]([0-9]+)', exec_name)
+    if not m:
+        raise SystemExit("Couldn't find version number in executable '%s'"%exec_name)
+    return int(m.group(1))*100 + int(m.group(2))
+
 tried_apps_dirs = [ APPS_DIR ]
 if not os.path.isdir(APPS_DIR):
     APPS_DIR = os.path.join(program_path, APPS_DIR)
@@ -106,7 +105,7 @@ get_clients(BoincCoreApp,
 
 for project in PROJECTS:
     for app in project.applications:
-        get_clients(app, app.exe_prefix+'_'+version_string+'*')
+        get_clients(app, app.exe_prefix+'*')
 
 for project in PROJECTS:
     directory_name = project.directory_name
@@ -145,9 +144,10 @@ add core_version -db_name %(db_name)s \
         client_map = app.client_versions
         for platform_name in xsort(client_map.keys()):
             exec_file = os.path.split(client_map[platform_name])[1]
+            a_version_num = get_version(exec_file)
             download_dir = get_download_dir(directory_name)
             download_url = get_download_url(url_name)
-            print "  Adding ", platform_name.ljust(20), os.path.join(download_dir,exec_file)
+            print "  Adding ", platform_name.ljust(20), a_version_num, os.path.join(download_dir,exec_file)
             os.system("""
 add app_version -db_name %(db_name)s \
     -app_name '%(appname)s' \
@@ -156,6 +156,6 @@ add app_version -db_name %(db_name)s \
     -download_url %(download_url)s \
     -code_sign_keyfile %(code_sign_file)s \
     -exec_dir %(APPS_DIR)s \
-    -version %(version_num)d \
+    -version %(a_version_num)d \
     -exec_files %(exec_file)s
 """ %locals())
