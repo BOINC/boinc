@@ -219,6 +219,7 @@ void CBOINCGUIApp::DetectDisplayInfo() {
 #ifdef __WXMSW__
     wxChar szWindowStation[256];
     memset(szWindowStation, 0, sizeof(szWindowStation)/sizeof(wxChar));
+    wxChar szDesktop[256];
     memset(szDesktop, 0, sizeof(szDesktop)/sizeof(wxChar));
 
     if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) ) {

@@ -333,10 +333,13 @@ VOID CScreensaver::StartupBOINC()
 			// Tell the boinc client to start the screen saver
             BOINCTRACE(_T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankScreen = '%d', BlankTime = '%d'.\n"), szCurrentWindowStation, szCurrentDesktop, m_dwBlankScreen, m_dwBlankTime);
 
+            DISPLAY_INFO di;
+            strcpy(di.window_station, szCurrentWindowStation);
+            strcpy(di.desktop, szCurrentDesktop);
             if ( 0 == m_dwBlankScreen )
-                iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, 0);
+                iReturnValue = rpc.set_screensaver_mode(true, 0, di);
             else
-                iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, m_dwBlankTime);
+                iReturnValue = rpc.set_screensaver_mode(true, m_dwBlankTime, di);
 
             BOINCTRACE(_T("CScreensaver::StartupBOINC - set_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
 
@@ -363,8 +366,9 @@ VOID CScreensaver::ShutdownBOINC()
 {
 	if( m_bCoreNotified )
 	{
+        DISPLAY_INFO di;
 		// Tell the boinc client to stop the screen saver
-        rpc.set_screensaver_mode(false, NULL, NULL, 0.0);
+        rpc.set_screensaver_mode(false, 0.0, di);
 
         // We have now notified the boinc client
 		m_bCoreNotified = FALSE;
