@@ -102,5 +102,5 @@ fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 start:  
 	ln -s $(srcdir)/start start
 
-status stop: start
+status stop: 
 	ln -s start $@
