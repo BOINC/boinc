@@ -606,10 +606,12 @@ int WORKUNIT::parse(FILE* in) {
     strcpy(env_vars, "");
     app = NULL;
     project = NULL;
-    rsc_fpops = 0;
-    rsc_iops = 0;
-    rsc_memory = 0;
-    rsc_disk = 0;
+    // Default these to very large values (1 week on a 1 cobblestone machine)
+    // so we don't keep asking the server for more work
+    rsc_fpops = 1e9*SECONDS_PER_DAY*7;
+    rsc_iops = 1e9*SECONDS_PER_DAY*7;
+    rsc_memory = 4e9*SECONDS_PER_DAY*7;
+    rsc_disk = 1024*1024*1024;        // 1 GB
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
