@@ -29,9 +29,11 @@
 #include "graphics_impl.h"
 #include "graphics_lib.h"
 
-#define BOINC_STRLEN 512
+static BOINC_MAIN_STATE boinc_main_state;
 
 void* graphics_lib_handle=NULL;
+
+#define BOINC_STRLEN    512
 
 // This routine never returns.
 // If a problem arises, it calls boinc_finish(nonzero).
@@ -57,8 +59,11 @@ int boinc_init_options_graphics_lib(
     void *handle;
     int retval;
     char *errormsg;
-
     BIOGI_FUNC_PTR boinc_init_options_graphics_impl_hook;
+
+    boinc_main_state.boinc_init_options_general_hook = boinc_init_options_general;
+    boinc_main_state.boinc_is_standalone_hook = boinc_is_standalone;
+    boinc_main_state.app_client_shm = app_client_shm;
 
     // figure out name of executable, and append .so
     //
@@ -111,11 +116,11 @@ int boinc_init_options_graphics_lib(
         goto no_graphics;
     }
 
-    // here's where we start the graphics thread and the worker
-    // thread.  Normally this function should not return.
+    // here's where we start the graphics thread and the worker thread.
+    // Normally this function should not return.
     //
     retval = boinc_init_options_graphics_impl_hook(
-        opt, worker, boinc_init_options_general
+        opt, worker, &boinc_main_state
     );
     
     if (retval) {

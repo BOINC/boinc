@@ -58,8 +58,7 @@ double boinc_max_gfx_cpu_frac = 0.5;
 HANDLE hQuitEvent;
 #endif
 
-bool graphics_inited = false;
-
+BOINC_MAIN_STATE* bmsp;
 static WORKER_FUNC_PTR worker_main;
 
 #ifdef _WIN32
@@ -75,10 +74,10 @@ void* foobar(void*) {
 // the following function can be in a shared library,
 // so it calls boinc_init_options_general() via a pointer instead of directly
 //
-int boinc_init_graphics_impl(WORKER_FUNC_PTR worker, BIOG_FUNC_PTR init_func) {
+int boinc_init_graphics_impl(WORKER_FUNC_PTR worker, BOINC_MAIN_STATE* bmsp) {
     BOINC_OPTIONS opt;
     options_defaults(opt);
-    return boinc_init_options_graphics_impl(opt, worker, init_func);
+    return boinc_init_options_graphics_impl(opt, worker, bmsp);
 }
 
 int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
@@ -156,17 +155,17 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
 int boinc_init_options_graphics_impl(
     BOINC_OPTIONS& opt,
     WORKER_FUNC_PTR _worker_main,
-    BIOG_FUNC_PTR init_func
+    BOINC_MAIN_STATE* _bmsp
 ) {
     int retval;
 
-    retval = init_func(opt);
+    bmsp = _bmsp;
+    retval = bmsp->boinc_init_options_general_hook(opt);
     if (retval) return retval;
     if (_worker_main) {
         retval = start_worker_thread(_worker_main);
         if (retval) return retval;
     }
-    graphics_inited = true;
 #ifdef _WIN32
     win_graphics_event_loop();
 	fprintf(stderr, "Graphics event loop returned\n");

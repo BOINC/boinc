@@ -39,7 +39,6 @@ typedef void (*WORKER_FUNC_PTR)();
 extern int boinc_init_graphics(WORKER_FUNC_PTR);
 
 // Functions that must be supplied by the app
-// application needs to define mouse, keyboard handlers
 //
 extern void app_graphics_render(int xs, int ys, double time_of_day);
 extern void app_graphics_init(void);

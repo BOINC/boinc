@@ -21164,3 +21164,23 @@ David  12 Dec 2004
         graphics_api.h
         graphics_impl.C,h
         graphics_lib.C,h
+
+David  13 Dec 2004
+    - bug fixes for graphics lib stuff.
+        Code in the app's graphics shared library (including x_opengl.C)
+        must not directly reference variables in the main program
+        (e.g. app_client_shm) because it will have "shadow" copies of them.
+
+        Changed the graphics_impl interface so that the shared library
+        function gets passed a pointer to a structure (BOINC_MAIN_STATE)
+        containing everything it will need to access.
+
+        This is a first pass.  May need to add more to BOINC_MAIN_STATE.
+        And should clean up .h file structure so that compiler will
+        enforce constraints.
+
+    api/
+        graphics_api.C,h
+        graphics_impl.C,h
+        graphics_lib.C
+        x_opengl.C

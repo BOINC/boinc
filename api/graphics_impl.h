@@ -23,11 +23,19 @@
 typedef int (*BIOG_FUNC_PTR)(BOINC_OPTIONS&);
     // ptr to a function like boinc_init_options_general()
 
-typedef int (*BIOGI_FUNC_PTR)(BOINC_OPTIONS&, WORKER_FUNC_PTR, BIOG_FUNC_PTR);
+// stuff in the main program that the library need to access
+//
+struct BOINC_MAIN_STATE {
+    BIOG_FUNC_PTR boinc_init_options_general_hook;
+    bool (*boinc_is_standalone_hook)();
+    APP_CLIENT_SHM* app_client_shm;
+};
+
+typedef int (*BIOGI_FUNC_PTR)(BOINC_OPTIONS&, WORKER_FUNC_PTR, BOINC_MAIN_STATE*);
     // ptr to a function like boinc_init_options_graphics_impl()
 
 extern int boinc_init_graphics_impl(
-    WORKER_FUNC_PTR worker, BIOG_FUNC_PTR init_func
+    WORKER_FUNC_PTR worker, BOINC_MAIN_STATE*
 );
 
 // This extern C is needed to make this code work correctly,
@@ -41,6 +49,8 @@ extern "C" {
     extern int boinc_init_options_graphics_impl(
         BOINC_OPTIONS& opt,
         WORKER_FUNC_PTR _worker_main,
-        BIOG_FUNC_PTR init_func
+        BOINC_MAIN_STATE*
     );
 }
+
+extern BOINC_MAIN_STATE* bmsp;

@@ -5,11 +5,12 @@
 #include <pthread.h> 
 #include "x_opengl.h"
 
-#include "boinc_gl.h"
-#include "boinc_api.h"
-#include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
+
+#include "boinc_gl.h"
+#include "graphics_api.h"
+#include "graphics_impl.h"
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
@@ -21,12 +22,17 @@ static int acked_graphics_mode;
 static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
-extern void graphics_thread_init();
 static void set_mode(int mode);
 
+// This callback is invoked when a user presses a key.
+//
+void keyboardD(unsigned char key, int x, int y) {
+    if (current_graphics_mode == MODE_FULLSCREEN) {
+        set_mode(MODE_HIDE_GRAPHICS);
+    }
+}
+
 void keyboardU(unsigned char key, int x, int y) {
-    // This callback is invoked when a user presses a key.
-    //
     if (current_graphics_mode == MODE_FULLSCREEN) {
         set_mode(MODE_HIDE_GRAPHICS);
     }
@@ -59,14 +65,6 @@ void mouse_click_move(int x, int y){
     }
 }
 
-void keyboardD(unsigned char key, int x, int y) {
-    // This callback is invoked when a user presses a key.
-    //
-    if (current_graphics_mode == MODE_FULLSCREEN) {
-        set_mode(MODE_HIDE_GRAPHICS);
-    }
-}
-
 static void maybe_render() {
     int width, height;
     if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
@@ -79,7 +77,7 @@ static void maybe_render() {
 }
 
 static void close_func() {
-    if (boinc_is_standalone()) {
+    if (bmsp->boinc_is_standalone_hook()) {
         exit(0);
     } else {
         set_mode(MODE_HIDE_GRAPHICS);
@@ -138,12 +136,12 @@ void set_mode(int mode) {
 }
 
 static void wait_for_initial_message() {
-    app_client_shm->shm->graphics_reply.send_msg(
+    bmsp->app_client_shm->shm->graphics_reply.send_msg(
         xml_graphics_modes[MODE_HIDE_GRAPHICS]
     );
     acked_graphics_mode = MODE_HIDE_GRAPHICS;
     while (1) {
-        if (app_client_shm->shm->graphics_request.has_msg()) {
+        if (bmsp->app_client_shm->shm->graphics_request.has_msg()) {
             break;
         }
         sleep(1);
@@ -155,9 +153,9 @@ static void timer_handler(int) {
     GRAPHICS_MSG m;
 
     int new_mode;
-    if (app_client_shm) {
-        if (app_client_shm->shm->graphics_request.get_msg(buf)) {
-            app_client_shm->decode_graphics_msg(buf, m);
+    if (bmsp->app_client_shm) {
+        if (bmsp->app_client_shm->shm->graphics_request.get_msg(buf)) {
+            bmsp->app_client_shm->decode_graphics_msg(buf, m);
             switch (m.mode) {
             case MODE_REREAD_PREFS:
                 //only reread graphics prefs if we have a window open
@@ -178,7 +176,7 @@ static void timer_handler(int) {
             }
         }
         if (acked_graphics_mode != current_graphics_mode) {
-            bool sent = app_client_shm->shm->graphics_reply.send_msg(
+            bool sent = bmsp->app_client_shm->shm->graphics_reply.send_msg(
                 xml_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;
@@ -188,8 +186,8 @@ static void timer_handler(int) {
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 }
 
-jmp_buf jbuf;
-pthread_t graphics_thread;
+static jmp_buf jbuf;
+static pthread_t graphics_thread;
 
 void restart() {
     if (pthread_equal(pthread_self(), graphics_thread)) {
@@ -200,7 +198,7 @@ void restart() {
 
 void xwin_graphics_event_loop() {
     graphics_thread = pthread_self();
-    if (boinc_is_standalone()) {
+    if (bmsp->boinc_is_standalone_hook()) {
         set_mode(MODE_WINDOW);
     } else {
         wait_for_initial_message();
