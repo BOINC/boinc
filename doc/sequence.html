@@ -1,0 +1,59 @@
+Long computations
+
+Heartbeat: make sure that host is still working on it
+Termination: check results, stop computation if needed
+Restart: restart sequence on another host if first fails
+
+optional:
+
+Rate adjustment: if host is too slow, move sequence elsewhere
+Redundancy checking: relocate sequence if error
+
+---------------
+
+
+A sequence is a method of executing lengthy computations, usually on 
+the order of one or more months.  A sequence is represented by a chain 
+of results.  Each result has a successor, except for the last one in 
+the chain.
+
+Calculation of a sequence begins when a host is assigned the first 
+result in the chain.  The host computes and uploads the data for the 
+result, and is assigned the next result in the sequence.  If the host 
+is assigned several successive elements in the sequence all at once, it 
+can start processing result N+1 before finishing the upload of result 
+N, thereby always keeping the processor busy.
+
+If a result is marked as restartable, the host must upload data for 
+that result which is sufficient to restart the computation at that 
+point on a different host.  It is up to the work generator to ensure 
+that this is the case by setting the upload flag in the proper file 
+info objects.  The first result in the sequence is by definition 
+restartable.  If a host completes result N+1 before finishing the 
+upload of data for result N, the data for both results will be uploaded.
+
+The server has the ability to terminate a sequence prematurely.  A host 
+will receive credit for the the portion of the sequence that was 
+completed.  If a host fails to return a result in the sequence before 
+its deadline passes, the sequence will be reassigned to a new host, 
+starting at the last available restartable result.
+
+Examples:
+climateprediction.net (known computation length, large state files)
+Let's say a simulation takes 6 months.  Suppose we want a small 
+progress report from the user every 3 days, so we generate 6*30/3 = 60 
+results per sequence.  The scheduling server ensures that each host has 
+at least 2 elements of the sequence at a time, so that it doesn't have 
+to wait for data upload in order to continue.  If we want a full state 
+save every 3 weeks, we make every 7th result restartable and set the 
+XML file infos so that the large state files will be uploaded.
+
+Folding@home (unknown computation length, small state files)
+For Folding@home things would be slightly different, since we don't 
+know in advance how long a computation will take.  The server generates 
+a large group of trajectory sequences, but only creates 2 or 3 results 
+in each sequence.  The backend work generator periodically checks how 
+much of each sequence has been completed, and extends any sequences 
+that are nearing completion unless it has been decided to permanently 
+terminate them (i.e. because a more promising trajectory has been 
+found).

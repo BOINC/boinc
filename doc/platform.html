@@ -1,0 +1,115 @@
+<title>Platforms</title> 
+<body bgcolor=ffffff>
+<h2>Platforms</h2> 
+
+<b>Goals</b>
+<p>
+BOINC is intended to accommodate participant hosts
+with a wide range of operating systems and hardware architectures.
+For example, the hosts may run many versions of Windows
+(95, 98, ME, 2000, XP) on many processors
+(486, Pentium, AMD) with many architectural extensions
+(ATI or NVidia graphics coprocessors).
+BOINC addresses the following goals:
+<ul>
+<li> The system should avoid sending code that the host can't execute.
+
+<li> Applications should be able to exploit specific architectural features,
+i.e. to use nonstandard instructions or coprocessors if available.
+<li>
+Enough architectural information should be stored on the server
+so that statistics can be broken down
+according to specific features.
+<li> Simplicity.
+The combinatorial explosion of versions and architectures should be
+excluded from the internals of BOINC.
+</ul>
+
+<b>Design</b>
+<p>
+A <b>platform</b> is a compilation target.
+A set of platforms is maintained in the BOINC database of each project.
+Each platform has a <b>name</b> and a <b>description</b> of
+the range of architectures it can handle.
+Each BOINC program (core client and application) is linked to a platform.
+<p>
+At the minimum, a platform is a combination
+of a CPU architecture and an operating system.
+Examples might include:
+
+<p>
+<table cellpadding=8 border=1>
+<tr><th>name</th><th>description</th></tr>
+<tr><td>windows_intelx86</td><td>Microsoft Windows (95 or later) running on an Intel x86-compatible processor</td></tr>
+<tr><td>linux_xxx</td><td>Linux running on an Intel x86-compatible processor</td></tr>
+<tr><td>macos_ppc</td><td>Mac OS 9.0 or later running on Motorola PowerPC</td></tr>
+<tr><td>sparc_solaris</td><td>Solaris 2.1 or later running on a SPARC-compatible processor</td></tr>
+</table>
+
+<p>
+
+The name of a platform should specify a particular version (e.g. of an OS)
+only if it uses features new to that version.
+For example, the platform <b>sparc_solaris2.8</b> should apply
+ONLY to SPARC machines running Solaris 2.8 or greater.
+
+<p>
+For simplicity, platforms are assumed to be mutually exclusive:
+i.e. an application for platform X is not assumed to work
+on a host running core client platform Y if X <> Y.
+The BOINC scheduling server will send work to a host only
+if there is an application version for the same platform.
+
+<p>
+There should be as few platforms as possible.
+For example, suppose that there are both Solaris2.6
+and Solaris2.7 platforms.
+Then any host running the Solaris2.6 core client will
+only be able to run Solaris2.6 applications.
+Application developers will have to create versions
+for both 2.6 and 2.7, even if they're identical.
+
+<p>
+<b>Handling architectural diversity</b>
+
+<p>
+BOINC allows applications to exploit specific architectures,
+but shifts the burden of recognizing the the architecture
+to the application developer.
+
+<p>
+In other words, if you want to make a version of your application
+that can use the AMD 3DNow instruction set,
+<i>don't</i> create a new <b>windows_amd_3dnow</b> platform.
+Instead, make a version for the <b>windows_intelx86</b> platform
+that recognizes when it's running a a 3DNow machine,
+and branches to the appropriate code.
+<p>
+It is, however, desirable to report architecture back to the
+BOINC server.
+This makes it possible, for example, to report average or total
+performance statistics for 3DNow hosts constrasted
+with other Intel-compatible hosts.
+This is done using the <b>boinc_architecture()</b>
+function from <a href=api.html>the BOINC API</a>.
+This passes a string (project-specific, but typically in XML)
+to the core client, which records it in the
+<b>architecture_xml</b> field of the <b>result</b> database record.
+For example, the application might pass a description like
+<pre>
+    <
+</pre>
+
+
+<b>Avoiding platform anarchy</b>
+<p>
+Each BOINC project is free to create its own platforms.
+To avoid anarchy, however,
+
+
+<b>Tools</b>
+Each
+Platforms are maintained in the <b>platform</b> table in the BOINC DB,
+and can be created using the <a href=tools_other.html>add</a> utility. 
+
+<p>
