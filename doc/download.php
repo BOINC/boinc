@@ -39,6 +39,7 @@ function show_425($xml=false) {
     version_start("4.25", "3 Mar 2005", $xml);
     version("Windows", "boinc_4.25_windows_intelx86.exe", $xml);
     version("Mac OS X", "boinc_4.25_powerpc-apple-darwin.gz", $xml);
+    version("Linux/x86", "boinc_4.25_i686-pc-linux-gnu.sh", $xml);
     version("Solaris/SPARC", "boinc_4.25_sparc-sun-solaris2.7.sh", $xml);
     version_end($xml);
 }
@@ -104,7 +105,6 @@ function show_stable($xml) {
 
 function show_dev($xml) {
     show_425($xml);
-    show_424($xml);
 }
 
 if ($_GET["no_header"]) {
