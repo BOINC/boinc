@@ -36,11 +36,11 @@
 
 // constants related to scheduler RPC policy
 
-#define MASTER_FETCH_PERIOD     5
+#define MASTER_FETCH_PERIOD     10
     // fetch and parse master URL if nrpc_failures is a multiple of this
-#define RETRY_BASE_PERIOD       1
+#define RETRY_BASE_PERIOD       100
     // after failure, back off 2^nrpc_failures times this times random
-#define RETRY_CAP               5
+#define RETRY_CAP               10
     // cap on nrpc_failures in the above formula
 
 #define SCHEDULER_OP_STATE_IDLE         0
