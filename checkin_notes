@@ -15582,3 +15582,9 @@ David  21 July 2004
         boinc_db.C,h
     sched/
         handle_request.C
+
+Jeff  21 July 2004
+    - only grab 1000 Wus at a time in do_validate_scan() 
+
+    sched/
+	validator.C
