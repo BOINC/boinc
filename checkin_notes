@@ -12634,3 +12634,9 @@ David  May 24 2004
 	client/
 		dhrystone.C
 		whetstone.C
+
+David  May 25 2004
+    - added -noinsert option to assimilator
+
+    sched/
+        assimilator.C

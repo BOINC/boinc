@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+// assimilator [ -noinsert ]
+//
+
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,6 +38,7 @@
 #define PIDFILE  "assimilator.pid"
 
 SCHED_CONFIG config;
+bool noinsert = false;
 
 #define SLEEP_INTERVAL 10
 
@@ -92,6 +96,8 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
+        } else if (!strcmp(argv[i], "-noinsert")) {
+            noinsert = true;
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
