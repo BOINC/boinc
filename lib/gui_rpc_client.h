@@ -343,7 +343,7 @@ public:
 
     RPC_CLIENT();
     ~RPC_CLIENT();
-    int init(char* host);
+    int init(const char* host);
     void close();
     int get_state(CC_STATE&);
     int get_results(RESULTS&);

@@ -890,7 +890,7 @@ void RPC_CLIENT::close() {
 #endif
 }
 
-int RPC_CLIENT::init(char* host) {
+int RPC_CLIENT::init(const char* host) {
     int retval;
     sockaddr_in addr;
     addr.sin_family = AF_INET;

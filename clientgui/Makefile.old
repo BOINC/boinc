@@ -40,3 +40,8 @@ boincmgr: $(OBJS)
 
 .cpp.o:
 	$(CXX) -c $(CFLAGS) `wx-config --cxxflags` $<
+
+dependencies: *.cpp *.h
+	$(CXX) -M $(CFLAGS) `wx-config --cxxflags` *.cpp > dependencies
+
+include dependencies

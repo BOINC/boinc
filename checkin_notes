@@ -18930,3 +18930,11 @@ David  26 Oct 2004
 		app.C
 	lib/
 		gui_rpc_client.C,h
+
+David  28 Oct 2004
+    - client GUI: makefile fix, compile fix
+
+    clientgui/
+        Makefile.old
+    lib/
+        gui_rpc_client.C,h
