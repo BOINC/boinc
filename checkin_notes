@@ -4856,3 +4856,18 @@ David  June 18 2003
         host.inc
         result.inc (new)
         results_host.php (new)
+
+David  June 19 2003
+    - added admin web interface for looking at status of recent results
+    - set result.received_time whenever the server_state becomes DONE
+        (this makes it possible to enumerate all results that have
+        become done recently, including timeouts and other errors)
+    
+    html_ops/
+        index.html (removed)
+        index.php
+        result_summary.php (new)
+    sched/
+        handle_request.C
+        validate.C
+        timeout_check.C

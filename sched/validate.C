@@ -201,6 +201,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                     if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                         update_result = true;
                         result.server_state = RESULT_SERVER_STATE_OVER;
+                        result.received_time = time(0);
                         result.outcome = RESULT_OUTCOME_DIDNT_NEED;
                     }
 
@@ -325,7 +326,7 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of validate is already running\n", MSG_NORMAL);
+        fprintf(stderr, "Another copy of validate is already running\n");
         exit(1);
     }
 
