@@ -287,7 +287,9 @@ function hour_select($x, $name) {
 function prefs_show_global($prefs) {
     row2("Work if computer on batteries?", $prefs->run_on_batteries?"Yes":"No");
     row2("Work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
-    row2("Idle time before running", "$prefs->idle_time_to_run minutes".($prefs->run_if_user_active?" (ignored)":""));
+    if (!$prefs->run_if_user_active) {
+        row2("Idle time before running", "$prefs->idle_time_to_run minutes");
+    }
     if ($prefs->start_hour == $prefs->end_hour) {
         $x = "no restriction";
     } else {
