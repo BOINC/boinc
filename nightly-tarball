@@ -19,3 +19,11 @@ CVSROOT=/usr/local/warez/cvsroot                                               \
     FILENAME_ZIP="boinc-cvs-TODAY.zip"                                         \
     DESTINATION="/disks/milkyway/a/users/anderson/boinc/doc/source/nightly/"   \
     /disks/philmor/a/users/quarl/bin/export-tarball
+
+CVSROOT=/usr/local/warez/cvsroot                                               \
+    CHECKOUT='cvs export -r HEAD boinc_public'                                 \
+    DIR=boinc_public                                                           \
+    FILENAME_TGZ="boinc_public-cvs-TODAY.tar.gz"                               \
+    FILENAME_ZIP="boinc_public-cvs-TODAY.zip"                                  \
+    DESTINATION="/disks/milkyway/a/users/anderson/boinc/doc/source/nightly/"   \
+    /disks/philmor/a/users/quarl/bin/export-tarball
