@@ -587,6 +587,7 @@ function result_sort_select() {
         <option value=''>None
         <option value=id>ID
         <option value=sent_time>Sent time
+        <option value=mod_time>Modification time
         <option value=received_time>Received time
         <option value=exit_status>Exit status
         <option value=hostid>Host ID
