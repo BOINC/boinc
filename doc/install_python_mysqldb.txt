@@ -1,9 +1,14 @@
 ;; $Id$
 
-To run the test scripts in test/ you need a Python extension module called
-"MySQLdb".  You can get the source here:
+Various BOINC tools depend on a Python extension module called "MySQLdb".  You
+can get the source here:
 
 http://sourceforge.net/projects/mysql-python
+
+WARNING: currently (2003/08/28) BOINC requires version 0.9.2 of
+Python-MySQLdb, however this could be backported to 0.9.1 in the future as
+many Linux distributions seem to have 0.9.1.
+
 
 INSTALLATION INSTRUCTIONS
 =========================
@@ -32,6 +37,9 @@ Debian Linux: shared module
 
 Red Hat Linux: shared module
 ----------------------------
+    WARNING: The RPM on SourceForge is currently (2003/08/28) for Python 1.5
+    and will likely not work for your system; instead see below.
+
     1. Download MySQL-python
        $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2-1.i386.rpm
 

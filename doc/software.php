@@ -17,20 +17,23 @@ Required to run automated tests, create a project and other various tools:
 <ul>
   <li><b>Python</b> 2.2+
     <ul>
-      <li>Python module <a href=z><b>MySQLdb</b></a> (<a href=z>installation instructions</a>)
-      <li>Python module <a href=z><b>xmlzzzz</b></a>
+      <li>Python module <a
+          href=http://sourceforge.net/projects/mysql-python><b>MySQLdb</b></a>
+          0.9.2 (0.9.1 currently won't work; see <a href=install_python_mysqldb.txt>installation instructions</a>)
+      <li>Python module <a href=http://pyxml.sourceforge.net/><b>xml</b></a> (part of most distributions)
     </ul>
 </ul>
 
 Required on the <b>database</b> server:
 <ul>
-  <li><b>MySQL</b> 3.25+ or 4.0+: other SQL server can be ported.
+  <li><b>MySQL server</b> 3.25+ or 4.0+: other SQL server can be ported.
 </ul>
 
 Required on the <b>master/scheduler</b> server(s):
 <ul>
   <li><b>Apache</b> or other webserver
   <li><b>PHP</b> 4.0
+  <li><b>MySQL client</b>
 </ul>
 
 Optional, required only if you change <code>*/Makefile.am</code>:
@@ -43,7 +46,7 @@ Optional, required only if you change <code>*/Makefile.am</code>:
 <small>
   On Debian Linux you can install all of the above software using
   <blockquote>
-    <code>apt-get install g++ python python-mysqldb python-xml mysql apache php automake autoconf</code>
+    <code>apt-get install g++ python python-mysqldb python-xml mysql-server mysql-client apache php automake autoconf</code>
   </blockquote>
 </small>
 
