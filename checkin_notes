@@ -20363,6 +20363,10 @@ Jeff  29 Nov 2004
         assimilator.C
 
 Bruce 30 Nov 2004
+    - Fixed errors in db_purge.  If -max argument >= 1000, then it didn't
+      work because purged_workunits was reset to zero in do_pass(). Also, 
+      max_number_workunits_to_purge was un-initialized if no -max argument
+      was given.  David, please double-check these changes.
     - Show all possible validate states on ops result summary page
     html/inc
         db_ops.inc

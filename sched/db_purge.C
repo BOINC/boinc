@@ -1,3 +1,4 @@
+ /* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
@@ -63,8 +64,13 @@ FILE            *wu_index_stream;
 FILE            *re_index_stream;
 int             time_int;
 
-int             purged_workunits= 0, purged_results= 0, 
-                max_number_workunits_to_purge;
+// These is used if limiting the total number of workunits to eliminate
+int purged_workunits= 0;
+
+// If non-negative, maximum number of workunits to purge. Since all
+// results associated with a purged workunit are also purged, this
+// also limits the number of purged results.
+int max_number_workunits_to_purge=-1;
 
 
 int open_archive(char* filename_prefix, FILE*& f){
@@ -270,8 +276,12 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 bool do_pass() {
     int retval= 0;
   
-    purged_workunits= 0;
-    purged_results= 0;
+    // The number of workunits/results purged in a single pass of
+    // do_pass().  Since do_pass() may be invoked multiple times,
+    // corresponding global variables store global totals.
+    //
+    int do_pass_purged_workunits = 0;
+    int do_pass_purged_results = 0;
 
     check_stop_daemons();
 
@@ -283,13 +293,15 @@ bool do_pass() {
     //
     sprintf(buf, "where file_delete_state=%d limit %d", FILE_DELETE_DONE,
             DB_QUERY_LIMIT);
-    int n=0;
+
+    int n=0; // cleared in purge_and_archive_results, but avoid
+             // compiler complaints about uninitialized
     while (!wu.enumerate(buf)) {
         did_something = true;
         
         retval = purge_and_archive_results(wu, n);
-        purged_results += n;
-        
+        do_pass_purged_results += n;
+
         retval= archive_wu(wu);
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -308,15 +320,17 @@ bool do_pass() {
         log_messages.printf(SCHED_MSG_LOG::DEBUG,"Purged workunit [%d] from database\n", wu.id);
 
         purged_workunits++;
-        
-        if (purged_workunits >= max_number_workunits_to_purge)
+        do_pass_purged_workunits++;
+
+
+        if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)
             break;
 
     }
     
     log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Archived %d workunits and %d results\n",
-        purged_workunits,purged_results
+        do_pass_purged_workunits,do_pass_purged_results
     );
 
     return did_something;
@@ -336,6 +350,10 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-max")) {
+            // This is the limit on the maximum number of workunits to
+            // purge.  Since all results associated with those WU are
+            // also purged, it indirectly controls that number as
+            // well.
             max_number_workunits_to_purge= atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -408,7 +426,7 @@ int main(int argc, char** argv) {
         do_pass();
     } else {
         while (1) {
-            if (purged_workunits >= max_number_workunits_to_purge)
+            if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)
                 break;
             if (!do_pass()) 
                 sleep(10);
