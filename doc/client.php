@@ -114,12 +114,8 @@ The work manager's menu items are as follows:
 </ul>
 
 <p>
-Menu names and other text in the work manager are stored in
-a file called <i>language.ini</i>.
-The release uses American English.
-Other languages are available
-<a href=http://216.198.119.31/BOINC/language_ini/language.htm>here</a>
-(thanks to Robi Buechler and other volunteers for this).
+Menu names and other text in the work manager can be displayed in
+<a href=gui_languages.php>languages other than English</a>.
 <p>
 The <b>BOINC screensaver</b> can be selected using the Display Properties dialog.
 The BOINC screensaver draws graphics from a running application,

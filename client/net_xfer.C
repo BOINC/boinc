@@ -563,8 +563,10 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             would_block = (errno == EAGAIN);
 #endif
             if (would_block && n < 0) n = 0;
-            scope_messages.printf("NET_XFER::do_xfer(): wrote %d bytes to socket %d%s\n", n, socket,
-                                  (would_block?", would have blocked":""));
+            scope_messages.printf(
+                "NET_XFER::do_xfer(): wrote %d bytes to socket %d%s\n",
+                n, socket, (would_block?", would have blocked":"")
+            );
             if (n < 0 && !would_block) {
                 error = ERR_WRITE;
                 io_done = true;
@@ -606,8 +608,9 @@ void NET_XFER::update_speed(int nbytes) {
 void NET_XFER::got_error() {
     error = ERR_IO;
     io_done = true;
-    log_messages.printf(ClientMessages::DEBUG_NET_XFER,
-                        "IO error on socket %d\n", socket);
+    log_messages.printf(
+        ClientMessages::DEBUG_NET_XFER, "IO error on socket %d\n", socket
+    );
 }
 
 // return true if an upload is currently in progress
