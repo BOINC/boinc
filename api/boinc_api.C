@@ -197,8 +197,9 @@ void boinc_catch_signal(int signal) {
             fprintf( stderr, "unknown signal %d", signal );
             break;
     }
+    fprintf( stderr, "\nExiting...\n" );
 #endif
-    exit(signal);
+    exit(ERR_SIGNAL_CATCH);
 }
 
 int boinc_finish(int status) {

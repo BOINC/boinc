@@ -28,6 +28,7 @@
 
 #include "filesys.h"
 #include "boinc_api.h"
+#include "util.h"
 
 int run_slow = 0;
 

@@ -23,6 +23,7 @@
 //            debugging
 // -cpu_time: app will chew up some CPU cycles after each character,
 //            used for testing CPU time reporting
+// -signal:   app will raise SIGHUP signal (for testing signal handler)
 //
 // This version does one char/second,
 // and writes its state to disk every so often
@@ -32,6 +33,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 #ifndef _WIN32
 #include <unistd.h>
 #endif
@@ -71,7 +73,7 @@ char the_char[10];
 double xPos=0, yPos=0;
 double xDelta=0.03, yDelta=0.07;
 
-int run_slow=1,cpu_time=0;
+int run_slow=0,cpu_time=0,raise_signal=0;
 time_t my_start_time;
 APP_INIT_DATA uc_aid;
 
@@ -155,6 +157,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
         if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
         if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
+        if (!strcmp(argv[i], "-signal")) raise_signal = 1;
     }
     in = fopen(resolved_name, "r");
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
@@ -200,6 +203,10 @@ int main(int argc, char **argv) {
 
         if (run_slow) {
             boinc_sleep(1);
+        }
+
+        if (raise_signal) {
+            raise(SIGHUP);
         }
 
         if (boinc_time_to_checkpoint()) {
