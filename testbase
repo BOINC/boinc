@@ -9,7 +9,7 @@
 # on our Solaris servers, cvs is in /opt/misc/bin
 
 if [ -d /disks/asimov ]; then
-    PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS:/disks/philmor/a/users/quarl/bin:/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:/usr/ccs/bin:/disks/asimov/a/lang/gcc/bin:/disks/asimov/a/apps/gnu/H-sparc-sun-solaris2/bin:/disks/milkyway/a/users/anderson/seti/bin:/disks/cyclops/c/users/seti/s4/siren/bin:/disks/cyclops/c/users/seti/s4/siren/scripts:/disks/cyclops/c/users/seti/s4/siren/scripts/s4pipeline:/opt/misc/bin:/usr/ucb:/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/dt/bin:/opt/misc/rsi/idl/bin:/opt/misc/lib/teTeX/bin:.:/usr/local/sbin:/usr/local/bin:/sbin:/usr/games
+    PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:/disks/philmor/a/users/quarl/local/bin:/disks/philmor/a/users/quarl/bin:/usr/local/gcc/bin:/usr/local/gdb/bin:/usr/ccs/bin:/usr/local/cygnus:/disks/milkyway/a/users/anderson/seti/bin:/disks/cyclops/c/users/seti/s4/siren/bin:/disks/cyclops/c/users/seti/s4/siren/scripts:/disks/cyclops/c/users/seti/s4/siren/scripts/s4pipeline:/opt/misc/bin:/usr/ucb:/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/dt/bin:/opt/misc/rsi/idl/bin:/opt/misc/lib/teTeX/bin:/disks/asimov/a/lang/gcc/bin:.:/usr/local/sbin:/usr/local/bin:/sbin:/usr/games
     export PATH
 fi
 
