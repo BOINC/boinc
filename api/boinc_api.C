@@ -369,7 +369,6 @@ double boinc_cpu_time() {
     return cpu_secs;
 #else
 #ifdef _WIN32
-//#ifdef WINNT_CLOCK
     HANDLE hProcess;
     FILETIME creationTime,exitTime,kernelTime,userTime;
 
@@ -396,8 +395,7 @@ double boinc_cpu_time() {
         return cpu_secs;
     }
     CloseHandle(hProcess);
-    // ... fall through
-//#endif  // WINNT_CLOCK
+
 	// TODO: Handle timer wraparound
     static bool first=true;
     static DWORD first_count = 0;
