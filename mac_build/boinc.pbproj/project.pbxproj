@@ -321,6 +321,7 @@
 				DD095F5407D883AF00362260,
 				DD095F5807D883C000362260,
 				DD2D25CD07FAB41700151141,
+				DDEF38900802B73500E87552,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2191,6 +2192,8 @@
 				DD81C46307C5D29F0098A04D,
 				DD81C42307C5D1D70098A04D,
 				DD81C47207C5D2BF0098A04D,
+				DDEF388E0802B73500E87552,
+				DDEF388F0802B73500E87552,
 				DD81C42207C5D1D70098A04D,
 				DD81C47107C5D2BF0098A04D,
 				DD81C42107C5D1D70098A04D,
@@ -3447,6 +3450,30 @@
 			path = /System/Library/Frameworks/IOKit.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
+		};
+		DDEF388E0802B73500E87552 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ViewStatistics.cpp;
+			path = ../clientgui/ViewStatistics.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDEF388F0802B73500E87552 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ViewStatistics.h;
+			path = ../clientgui/ViewStatistics.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDEF38900802B73500E87552 = {
+			fileRef = DDEF388E0802B73500E87552;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DDF3028907CCCE2C00701169 = {
 			isa = PBXFileReference;
