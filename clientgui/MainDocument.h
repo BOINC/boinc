@@ -243,21 +243,33 @@ private:
 
 public:
 
-    wxInt32                     GetProxyInfo();
-    wxInt32                     SetProxyInfo();
+    wxInt32                     GetProxyConfiguration();
+    wxInt32                     GetProxyHTTPProxyEnabled( bool& bEnabled );
+    wxInt32                     GetProxyHTTPAuthenticationEnabled( bool& bEnabled );
+    wxInt32                     GetProxyHTTPServerName( wxString& strServerName );
+    wxInt32                     GetProxyHTTPServerPort( wxInt32& iPortNumber );
+    wxInt32                     GetProxyHTTPUserName( wxString& strUserName );
+    wxInt32                     GetProxyHTTPPassword( wxString& strPassword );
+    wxInt32                     GetProxySOCKSProxyEnabled( bool& bEnabled );
+    wxInt32                     GetProxySOCKSVersion( wxInt32& iVersion );
+    wxInt32                     GetProxySOCKSServerName( wxString& strServerName );
+    wxInt32                     GetProxySOCKSServerPort( wxInt32& iPortNumber );
+    wxInt32                     GetProxySOCKSUserName( wxString& strUserName );
+    wxInt32                     GetProxySOCKSPassword( wxString& strPassword );
 
-    bool use_http_proxy;
-    bool use_socks_proxy;
-    bool use_http_authentication;
-    int socks_version;
-    std::string socks_server_name;
-    std::string http_server_name;
-    int socks_server_port;
-    int http_server_port;
-    std::string http_user_name;
-    std::string http_user_passwd;
-    std::string socks5_user_name;
-    std::string socks5_user_passwd;
+    wxInt32                     SetProxyConfiguration();
+    wxInt32                     SetProxyHTTPProxyEnabled( const bool bEnabled );
+    wxInt32                     SetProxyHTTPAuthenticationEnabled( const bool bEnabled );
+    wxInt32                     SetProxyHTTPServerName( const wxString& strServerName );
+    wxInt32                     SetProxyHTTPServerPort( const wxInt32 iPortNumber );
+    wxInt32                     SetProxyHTTPUserName( const wxString& strUserName );
+    wxInt32                     SetProxyHTTPPassword( const wxString& strPassword );
+    wxInt32                     SetProxySOCKSProxyEnabled( const bool bEnabled );
+    wxInt32                     SetProxySOCKSVersion( const wxInt32 iVersion );
+    wxInt32                     SetProxySOCKSServerName( const wxString& strServerName );
+    wxInt32                     SetProxySOCKSServerPort( const wxInt32 iPortNumber );
+    wxInt32                     SetProxySOCKSUserName( const wxString& strUserName );
+    wxInt32                     SetProxySOCKSPassword( const wxString& strPassword );
 
 };
 

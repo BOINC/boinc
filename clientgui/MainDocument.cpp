@@ -1379,7 +1379,7 @@ wxInt32 CMainDocument::GetResourceDiskspace( wxInt32 iIndex, float& fBuffer )
 }
 
 
-wxInt32 CMainDocument::GetProxyInfo()
+wxInt32 CMainDocument::GetProxyConfiguration()
 {
     wxInt32 retval = 0;
 
@@ -1394,7 +1394,91 @@ wxInt32 CMainDocument::GetProxyInfo()
 }
 
 
-wxInt32 CMainDocument::SetProxyInfo()
+wxInt32 CMainDocument::GetProxyHTTPProxyEnabled( bool& bEnabled )
+{
+    bEnabled = proxy_info.use_http_authentication;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxyHTTPAuthenticationEnabled( bool& bEnabled )
+{
+    bEnabled = proxy_info.use_http_authentication;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxyHTTPServerName( wxString& strServerName )
+{
+    strServerName = proxy_info.http_server_name.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxyHTTPServerPort( wxInt32& iPortNumber )
+{
+    iPortNumber = proxy_info.http_server_port;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxyHTTPUserName( wxString& strUserName )
+{
+    strUserName = proxy_info.http_user_name.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxyHTTPPassword( wxString& strPassword )
+{
+    strPassword = proxy_info.http_user_passwd.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxySOCKSProxyEnabled( bool& bEnabled )
+{
+    bEnabled = proxy_info.use_socks_proxy;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxySOCKSVersion( wxInt32& iVersion )
+{
+    iVersion = proxy_info.socks_version;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxySOCKSServerName( wxString& strServerName )
+{
+    strServerName = proxy_info.socks_server_name.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxySOCKSServerPort( wxInt32& iPortNumber )
+{
+    iPortNumber = proxy_info.socks_server_port;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxySOCKSUserName( wxString& strUserName )
+{
+    strUserName = proxy_info.socks5_user_name.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProxySOCKSPassword( wxString& strPassword )
+{
+    strPassword = proxy_info.socks5_user_passwd.c_str();
+    return 0;
+}
+
+    
+wxInt32 CMainDocument::SetProxyConfiguration()
 {
     wxInt32 retval = 0;
 
@@ -1409,7 +1493,86 @@ wxInt32 CMainDocument::SetProxyInfo()
 }
 
 
+wxInt32 CMainDocument::SetProxyHTTPProxyEnabled( const bool bEnabled )
+{
+    proxy_info.use_http_authentication = bEnabled;
+    return 0;
+}
 
 
+wxInt32 CMainDocument::SetProxyHTTPAuthenticationEnabled( const bool bEnabled )
+{
+    proxy_info.use_http_authentication = bEnabled;
+    return 0;
+}
 
+
+wxInt32 CMainDocument::SetProxyHTTPServerName( const wxString& strServerName )
+{
+    proxy_info.http_server_name = strServerName.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxyHTTPServerPort( const wxInt32 iPortNumber )
+{
+    proxy_info.http_server_port = iPortNumber;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxyHTTPUserName( const wxString& strUserName )
+{
+    proxy_info.http_user_name = strUserName.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxyHTTPPassword( const wxString& strPassword )
+{
+    proxy_info.http_user_passwd = strPassword.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxySOCKSProxyEnabled( const bool bEnabled )
+{
+    proxy_info.use_socks_proxy = bEnabled;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxySOCKSVersion( const wxInt32 iVersion )
+{
+    proxy_info.socks_version = iVersion;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxySOCKSServerName( const wxString& strServerName )
+{
+    proxy_info.socks_server_name = strServerName.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxySOCKSServerPort( const wxInt32 iPortNumber )
+{
+    proxy_info.socks_server_port = iPortNumber;
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxySOCKSUserName( const wxString& strUserName )
+{
+    proxy_info.socks5_user_name = strUserName.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::SetProxySOCKSPassword( const wxString& strPassword )
+{
+    proxy_info.socks5_user_passwd = strPassword.c_str();
+    return 0;
+}
 

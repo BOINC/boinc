@@ -79,6 +79,7 @@ bool CBOINCGUIApp::OnInit()
     wxASSERT(NULL != m_pTaskBarIcon);
 
     SetTopWindow(m_pFrame);
+    m_pFrame->Show();
 
     return true;
 }

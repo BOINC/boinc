@@ -80,6 +80,7 @@
 #include <wx/mimetype.h>
 #include <wx/event.h>
 #include <wx/utils.h>
+#include <wx/settings.h>
 #include <wx/taskbar.h>
 
 // Standard Libraries

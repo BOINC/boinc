@@ -184,7 +184,6 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
         wxString strMessage      = wxEmptyString;
         wxString strBuffer       = wxEmptyString;
         wxString strProjectName  = wxEmptyString;
-        wxString strResultName   = wxEmptyString;
         float    fProgress       = 0;
         bool     bIsActive       = false;
         bool     bIsExecuting    = false;
@@ -206,10 +205,9 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
             if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
 
             pDoc->GetWorkProjectName( iIndex, strProjectName );
-            pDoc->GetWorkName( iIndex, strResultName );
             pDoc->GetWorkFractionDone( iIndex, fProgress );
 
-            strBuffer.Printf(wxT( "%s: %s: %.2f%%\n"), strProjectName.c_str(), strResultName.c_str(), fProgress * 100 );
+            strBuffer.Printf(wxT( "%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100 );
             strMessage += strBuffer;
         }
 
@@ -224,6 +222,7 @@ void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
 
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenu*        menu          = new wxMenu;
+    wxMenuItem*    menuItem      = NULL;
     wxInt32        iActivityMode = -1;
     wxInt32        iNetworkMode  = -1;
 
@@ -231,7 +230,21 @@ void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != menu);
 
-    menu->Append( wxID_OPEN, _("&Open"), wxEmptyString );
+#ifdef __WXMSW__
+
+    wxFont font = wxSystemSettings::GetFont( wxSYS_DEFAULT_GUI_FONT );
+    font.SetWeight( wxBOLD );
+
+    menuItem = new wxMenuItem( menu, wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString );
+    menuItem->SetFont( font );
+
+    menu->Append( menuItem );
+
+#else
+
+    menu->Append( wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString );
+
+#endif
     menu->AppendSeparator();
     menu->AppendRadioItem( ID_TB_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString );
     menu->AppendRadioItem( ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString );
