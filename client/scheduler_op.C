@@ -566,6 +566,10 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
     if (code_sign_key_signature) free(code_sign_key_signature);
 }
 
+// parse a scheduler reply.
+// Some of the items go into the SCHEDULER_REPLY object.
+// Others are copied straight to the PROJECT
+//
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], *p;
     int retval, x;

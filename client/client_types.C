@@ -458,7 +458,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         deletion_policy_expire?"    <deletion_policy_expire/>\n":""
     );
 #endif
-    if (!gui_rpc) {
+    if (gui_rpc) {
+        out.printf("%s", gui_urls.c_str());
+    } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
                 "    <scheduler_url>%s</scheduler_url>\n",

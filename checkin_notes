@@ -17830,3 +17830,11 @@ David  27 Sept 2004
     sched/
         handle_request.C
         server_types.C,h
+
+David  27 Sept 2004
+    - still more GUI URL changes
+
+    client/
+        client_types.C
+    lib/
+        gui_rpc_client.h

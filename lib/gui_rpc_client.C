@@ -80,6 +80,10 @@ int PROJECT::parse(MIOFILE& in) {
             tentative = true;
             continue;
         }
+        else if (match_tag(buf, "<gui_urls>")) {
+            copy_element_contents(in, "</gui_urls>", gui_urls);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -99,6 +103,7 @@ void PROJECT::print() {
     printf("   master fetch pending: %s\n", master_url_fetch_pending?"yes":"no");
     printf("   scheduler RPC pending: %s\n", sched_rpc_pending?"yes":"no");
     printf("   tentative: %s\n", tentative?"yes":"no");
+    printf("   gui_urls: %s\n", gui_urls.c_str());
 }
 
 void PROJECT::clear() {
@@ -117,6 +122,7 @@ void PROJECT::clear() {
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
+    gui_urls = "";
 }
 
 APP::APP() {
