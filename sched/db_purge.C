@@ -72,7 +72,7 @@ int open_archive(char* filename_prefix, FILE*& f){
 
     sprintf(path,"../archives/%s_%d.xml", filename_prefix, time_int);
 
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Opening archive %s\n", path);
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Opening archive %s\n", path);
     
     if ((f = fopen( path,"a+")) == NULL) {  
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s\n", path);
@@ -253,11 +253,11 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     while (!result.enumerate(buf)) {
        retval= archive_result(result);
        if (retval) return retval;
-       log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Archived result [%d] to a file\n", result.id);
+       log_messages.printf(SCHED_MSG_LOG::DEBUG,"Archived result [%d] to a file\n", result.id);
         
        retval= result.delete_from_db();
        if (retval) return retval;
-       log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged result [%d] from database\n", result.id);
+       log_messages.printf(SCHED_MSG_LOG::DEBUG,"Purged result [%d] from database\n", result.id);
 
        number_results++;
     }
@@ -268,7 +268,10 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 //
 bool do_pass() {
     int retval= 0;
-   
+  
+    purged_workunits= 0;
+    purged_results= 0;
+
     check_stop_daemons();
 
     bool did_something = false;
@@ -293,7 +296,7 @@ bool do_pass() {
             );
             exit(1);
         }
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Archived workunit [%d] to a file\n", wu.id);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,"Archived workunit [%d] to a file\n", wu.id);
         
         //purge workunit from DB        
         retval= wu.delete_from_db();
@@ -301,7 +304,7 @@ bool do_pass() {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't delete workunit [%d] from database:%d\n", wu.id, retval);
             exit(1);
         }
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged workunit [%d] from database\n", wu.id);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,"Purged workunit [%d] from database\n", wu.id);
 
         purged_workunits++;
         
@@ -310,7 +313,7 @@ bool do_pass() {
 
     }
     
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+    log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Archived %d workunits and %d results\n",
         purged_workunits,purged_results
     );
@@ -368,7 +371,7 @@ int main(int argc, char** argv) {
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
         config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
         exit(1);
     }
     install_stop_signal_handler();
@@ -406,7 +409,8 @@ int main(int argc, char** argv) {
         while (1) {
             if (purged_workunits >= max_number_workunits_to_purge)
                 break;
-            if (!do_pass()) sleep(10);
+            if (!do_pass()) 
+                sleep(10);
         }
     }    
             
