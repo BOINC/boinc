@@ -177,8 +177,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool is_valid;
 
     while (fgets(buf, 256, in)) {
-        // TODO: indent
-        write_log(MSG_DEBUG, buf);
+        write_log_multiline(MSG_DEBUG, buf);
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
@@ -188,11 +187,10 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
-                write_log(MSG_NORMAL,
-                    "signed xml:\n%s"
-                    "signature:\n%s",
-                    file_info.signed_xml, file_info.xml_signature
-                );
+                write_log(MSG_NORMAL, "signed xml:\n");
+                write_log_multiline(MSG_NORMAL, file_info.signed_xml);
+                write_log(MSG_NORMAL, "signature:\n");
+                write_log_multiline(MSG_NORMAL, file_info.xml_signature);
                 return return_error(ERR_PERMANENT, "invalid signature");
             }
             continue;
@@ -268,8 +266,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool got_version = false;
 
     while (fgets(buf, 256, in)) {
-        // TODO: indent
-        write_log(MSG_DEBUG, buf);
+        write_log_multiline(MSG_DEBUG, buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
                 sprintf(buf,
