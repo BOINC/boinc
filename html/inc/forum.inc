@@ -65,7 +65,7 @@ $thread_filter_styles['-2'] = "All posts";
 $post_ratings['2'] = "Very helpful (+2)";
 $post_ratings['1'] = "Helpful (+1)";
 $post_ratings['0'] = "Neutral";
-$post_ratings['-1'] = "Unhelpful (-1)";
+$post_ratings['-1'] = "Not helpful (-1)";
 $post_ratings['-2'] = "Off topic (-2)";
 
 function getCategories() {

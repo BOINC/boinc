@@ -133,6 +133,11 @@ function start_cache($max_age, $params=""){
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",time()+$max_age) . " GMT");
             Header("Cache-Control: public, max-age=" . $max_age); 
+
+            // allow the calling page to see cache period
+            //
+            global $cached_max_age;
+            $cached_max_age = $max_age;
         } else {
             // Otherwise serve the cached version and exit
             //

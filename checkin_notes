@@ -21910,3 +21910,10 @@ David  27 Dec 2004
     sched/
         main.C
         sched_send.C
+
+David  27 Oct 2004
+    - web fixes from Eric Myers
+
+    html/inc
+        cache.inc
+        forum.inc
