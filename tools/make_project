@@ -204,7 +204,7 @@ project = Project(project_shortname, project_longname,
 project.install_project()
 
 project.sched_install('feeder')
-project.sched_install('timeout_check')
+project.sched_install('transitioner')
 project.sched_install('validate_test')
 project.sched_install('assimilator')
 project.sched_install('file_deleter')
