@@ -6,3 +6,9 @@ sign_executable
 transitioner
 trickle_handler
 wu_check
+Makefile.in
+db_purge
+delete_file
+get_file
+request_file_list
+send_file

@@ -1,1 +1,4 @@
 sign_executable
+Makefile.in
+dir_hier_move
+dir_hier_path
