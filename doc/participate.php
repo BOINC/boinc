@@ -15,7 +15,7 @@ echo "
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=language.php>Language customization</a>
-<li> <a href=anonymous_platform.php>Compiling applications yourself</a>
+<li> <a href=anonymous_platform.php>Compiling BOINC software yourself</a>
 </ul>
 <p>
 <b>Third-party software and web sites</b>
@@ -23,6 +23,7 @@ echo "
 <li> <a href=gui_rpc.php>Framework for separate GUIs</a>
 <li> <a href=guis.php>Separate GUIs</a>
 <li> <a href=db_dump.php>Downloading statistics data</a>
+<li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 ";
 page_tail();

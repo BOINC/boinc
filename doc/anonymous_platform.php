@@ -1,13 +1,13 @@
 <?
 require_once("docutil.php");
-page_head("Compiling applications yourself");
+page_head("Compiling BOINC software yourself");
 echo "
 BOINC applications, and the BOINC core client, are native-mode programs,
 so different versions are required for each platform
 (a 'platform' is the combination of an operating
 system and a processor type: e.g., Linux/IntelX86).
-BOINC provides two ways to deal with the problem
-of making programs available for different platforms.
+BOINC provides two ways to make these
+programs available for different platforms.
 
 <h3>The project-compiled model</h3>
 <p>
@@ -22,8 +22,8 @@ the client tells the server its platform,
 and the server instructs it to download
 the appropriate executables.
 <p>
-Although this addresses the needs of most BOINC participants,
-there are two groups for whom it is inadequate:
+This addresses the needs of most BOINC participants,
+but it's inadequate for some people:
 <ul>
 <li>
 People who, for security reasons,
@@ -31,6 +31,8 @@ want to only run executables they have compiled themselves.
 <li>
 People whose computers have platforms not supported by the project
 (projects are generally resource-limited and cannot support all platforms).
+<li>
+People who want to optimize applications for particular architectures.
 </ul>
 
 <h3>The compile-it-yourself model</h3>

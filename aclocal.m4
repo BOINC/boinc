@@ -1104,8 +1104,8 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
 #
 # Revision Log:
 # $Log$
-# Revision 1.64  2004/01/22 02:00:00  korpela
-# Added strlcat check.
+# Revision 1.65  2004/02/03 01:04:38  davea
+# *** empty log message ***
 #
 # Revision 1.1  2003/12/11 18:38:24  korpela
 # Added checked macro files into boinc

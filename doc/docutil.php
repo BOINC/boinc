@@ -31,7 +31,7 @@ function page_tail() {
         <center>
         <a href=index.html>Return to BOINC main page</a>
         <br><br>
-        Copyright &copy; 2003 University of California
+        Copyright &copy; 2004 University of California
     ";
 }
 
