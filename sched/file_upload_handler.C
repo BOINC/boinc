@@ -197,6 +197,15 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 return -1;
             }
 
+            // make sure filename is legit
+            if (strstr(file_info.name, "..")) {
+                fprintf(stderr,
+                    "file_upload_handler: .. found in filename: %s\n",
+                    file_info.name
+                );
+                return -1;
+            }
+
             sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (retval) {
