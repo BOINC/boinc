@@ -2952,3 +2952,11 @@ David  Jan 14 2003
         road_map.html
         single_host_server.html
         test.html
+
+David  Jan 14 2003
+    - Added log writes to sched server in some error cases
+    - Removed -use_files flag to sched server.  Use compile-time flag instead.
+    
+    sched/
+        handle_request.C
+        main.C

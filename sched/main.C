@@ -20,7 +20,6 @@
 // The BOINC scheduling server.
 //
 // command-line options:
-//  -use_files      // use disk files for req/reply msgs (for debugging)
 
 #include <iostream>
 #include <vector>
@@ -43,6 +42,7 @@ using namespace std;
 #define STDERR_FILENAME "cgi_out"
 #define REQ_FILE_PREFIX "boinc_req_"
 #define REPLY_FILE_PREFIX "boinc_reply_"
+bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 PROJECT gproject;
 CONFIG config;
@@ -54,7 +54,7 @@ void write_log(char* p) {
     fprintf(stderr, "%s: %s", timestr, p);
 }
 
-int main(int argc, char** argv) {
+int main() {
     FILE* fin, *fout;
     int i, retval, pid;
     char buf[256], req_path[256], reply_path[256], path[256];
@@ -62,18 +62,11 @@ int main(int argc, char** argv) {
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
-    bool found, use_files=false;
+    bool found;
 
     if (!freopen(STDERR_FILENAME, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         exit(1);
-    }
-
-
-    for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-use_files")) {
-            use_files = true;
-        }
     }
 
     retval = config.parse_file();

@@ -110,9 +110,15 @@ int add_wu_to_reply(
     WORKUNIT wu2;
 
     app = ss.lookup_app(wu.appid);
-    if (!app) return -1;
+    if (!app) {
+        write_log("Can't find app\n");
+        return -1;
+    }
     app_version = ss.lookup_app_version(app->id, platform.id, app->min_version);
-    if (!app_version) return -1;
+    if (!app_version) {
+        write_log("Can't find app version\n");
+        return -1;
+    }
 
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
@@ -124,7 +130,10 @@ int add_wu_to_reply(
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, seconds_to_complete, *app);
-    if (retval) return retval;
+    if (retval) {
+        write_log("insert_wu_tags failed\n");
+        return retval;
+    }
     reply.insert_workunit_unique(wu2);
     return 0;
 }
@@ -421,9 +430,12 @@ int send_work(
 
         // the following should be a critical section
         //
-        if (!ss.wu_results[i].present || 
-            !wu_is_feasible(ss.wu_results[i].workunit, reply.host) 
-        ) {
+        if (!ss.wu_results[i].present) {
+            continue;
+        }
+        if (!wu_is_feasible(ss.wu_results[i].workunit, reply.host)) {
+            sprintf(buf, "WU %s is infeasible\n", ss.wu_results[i].workunit.name);
+            write_log(buf);
             continue;
         }
 
