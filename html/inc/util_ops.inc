@@ -24,9 +24,7 @@ define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
 
 function boinc_real_escape_string($unstripped) {
-  if (1) {
-    // valid for PHP>=4.3.0, 5.  If there is a run-time php_version() function please use it
-    // instead of this hack!
+  if (version_compare(phpversion(),"4.3.0")>=0) {
     return mysql_real_escape_string($unstripped);
   } else {
     return str_replace("\'", "'", str_replace("\\\"", "'", $unstripped));
