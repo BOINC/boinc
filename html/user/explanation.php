@@ -1,5 +1,5 @@
 <?php
-require_once("project.inc");
+require_once("project_specific/project.inc");
 require_once("util.inc");
  ?> 
 <html>
