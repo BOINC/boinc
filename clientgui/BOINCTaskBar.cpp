@@ -202,11 +202,11 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
     ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-
     if ( NULL != pFrame )
+    {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         pFrame->Close(true);
+    }
 
     event.Skip();
     
