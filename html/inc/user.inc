@@ -137,6 +137,7 @@ function show_user_page_private($user) {
     row1("Other");
     row2("", "<a href=logout.php>Log out</a>");
     row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
+    row2("Cross-project ID", $user->cross_project_id);
     end_table();
 }
 

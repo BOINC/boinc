@@ -16658,3 +16658,15 @@ David  23 Aug 2004
         gui_rpc_server.C
     lib/
         app_ipc.C,h
+
+David  23 Aug 2004
+    - web: add cross-project ID to user page
+    - db_dump: add NO_SORT option (default)
+
+    html/
+        inc/
+            user.inc
+        user/
+            prefs_edit_form.php
+        sched/
+            db_dump.C

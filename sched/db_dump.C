@@ -68,9 +68,10 @@ using std::vector;
 #define COMPRESSION_GZIP    1
 #define COMPRESSION_ZIP     2
 
-#define SORT_ID             0
-#define SORT_TOTAL_CREDIT   1
-#define SORT_EXPAVG_CREDIT  2
+#define SORT_NONE           0
+#define SORT_ID             1
+#define SORT_TOTAL_CREDIT   2
+#define SORT_EXPAVG_CREDIT  3
 
 #define TABLE_USER  0
 #define TABLE_TEAM  1
@@ -140,7 +141,7 @@ int ENUMERATION::parse(FILE* in) {
     int retval, i;
 
     table = -1;
-    sort = SORT_ID;
+    sort = SORT_NONE;
     strcpy(filename, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</enumeration>")) {
@@ -613,6 +614,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
     }
     switch(sort) {
+    case SORT_NONE:
+        strcpy(clause, "where total_credit > 0");
+        break;
     case SORT_ID:
         strcpy(clause, "where total_credit > 0 order by id");
         break;
