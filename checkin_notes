@@ -16732,3 +16732,9 @@ Jeff  	25 Aug 2004
 
     sched/
 	file_deleter.C
+
+David  27 Aug 2004
+    - add "use bytes" pragma to grep_logs (from Carl C.)
+
+    tools/
+        grep_logs

@@ -5,6 +5,7 @@
 
 use strict;
 use warnings;
+use bytes;
 
 my $html = 0;
 my $lines = 0;
