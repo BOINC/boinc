@@ -272,6 +272,8 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
     install_glob(srcdir('html/user/*.png'), dir('html/user/'))
+    install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
+    install_glob(srcdir('html/languages/language_interface'), dir('html/languages/'))
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
@@ -385,17 +387,36 @@ class Project:
             raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dir())
 
         verbose_echo(1, "Setting up server: creating directories");
+
+        map(lambda dir: os.mkdir(self.dir(dir)),
+            [ '', 'cgi-bin', 'bin', 'templates', 'upload', 'download',
+                'apps', self.logdir(),
+                'html',
+                'html/cache',
+                'html/inc',
+                'html/languages',
+                'html/languages/compiled',
+                'html/languages/translations',
+                'html/ops',
+                'html/project',
+                'html/stats',
+                'html/user',
+                'html/user_profile',
+                'html/user_profile/images'
+              ])
+
+        # make directories writeable to Apache.
         # make the CGI writeable in case scheduler writes req/reply files
         # TODO: that is a security risk; don't do this in the future - write
         # req/reply files somewhere else
-        map(lambda dir: os.mkdir(self.dir(dir)),
-            [ '', 'cgi-bin', 'bin', 'templates', 'upload', 'download', 'apps', self.logdir(),
-              'html', 'html/cache', 'html/ops', 'html/user', 'html/project',
-              'html/inc', 'html/stats', 'html/stats_tmp', 'html/user_profile',
-              'html/user_profile/images'
-              ])
+        #
         map(lambda dir: os.chmod(self.dir(dir), 0777),
-            [ 'cgi-bin', 'upload', self.logdir() ])
+            [ 'cgi-bin', 'upload', self.logdir(),
+                'html/cache',
+                'html/languages',
+                'html/languages/compiled',
+                'html/user_profile/images'
+            ])
 
         if not self.keys_exist():
             if self.query_create_keys():

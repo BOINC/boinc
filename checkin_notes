@@ -24274,3 +24274,20 @@ David  8 Feb 2005
 	client/
 		client_types.C
 		cs_scheduler.C
+
+David  8 Feb 2005
+    Stuff related to web-site translations:
+
+    - removed blank lines from language_interface;
+        these caused bad entries in language_interface.inc
+    - make_project: create additional directories
+        (html/languages, /compiled, /translations)
+        and make them writeable to all
+    - make_project and upgrade: copy language files too
+
+    html/languages/
+        language_interface
+    py/Boinc/
+        setup_project.py
+    tools/
+        make_project

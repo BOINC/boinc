@@ -61,17 +61,6 @@ By default, directory options will be queried if they do not exist yet.
 
 """ %locals()
 
-# Project-specific directory structure that you probably don't need to change:
-
-#    --bin_dir        default: PROJECT_ROOT/bin
-#    --cgi_bin_dir    default: PROJECT_ROOT/cgi-bin
-#    --html_user_dir  default: PROJECT_ROOT/html_user
-#    --html_ops_dir   default: PROJECT_ROOT/html_ops
-#    --download_dir   default: PROJECT_ROOT/download
-#    --upload_dir     default: PROJECT_ROOT/upload
-#    --log_dir        default: PROJECT_ROOT/log
-#    --pid_dir        default: PROJECT_ROOT/pid
-
 def syntax_error(str):
     raise SystemExit('%s; See "%s --help" for help\n' % (str,sys.argv[0]))
 
@@ -95,14 +84,6 @@ try:
                                  'html_user_url=',
                                  'html_ops_url=',
                                  'cgi_url=',
-                                 # 'bin_dir=',
-                                 # 'cgi_bin_dir=',
-                                 # 'html_user_dir=',
-                                 # 'html_ops_dir=',
-                                 # 'download_dir=',
-                                 # 'upload_dir=',
-                                 # 'log_dir=',
-                                 # 'pid_dir='
                                  ])
 except getopt.GetoptError, e:
     syntax_error(e)
@@ -129,14 +110,6 @@ for o,a in opts:
     elif o == '--db_name':       options.db_name        = a
     elif o == '--db_user':       options.db_user        = a
     elif o == '--db_passwd':     options.db_passwd      = a
-    # elif o == '--bin_dir':       options.bin_dir        = a
-    # elif o == '--cgi_bin_dir':   options.cgi_bin_dir    = a
-    # elif o == '--html_user_dir': options.html_user_dir  = a
-    # elif o == '--html_ops_dir':  options.html_ops_dir   = a
-    # elif o == '--download_dir':  options.download_dir   = a
-    # elif o == '--upload_dir':    options.upload_dir     = a
-    # elif o == '--log_dir':       options.log_dir        = a
-    # elif o == '--pid_dir':       options.pid_dir        = a
     else:
         raise SystemExit('internal error o=%s'%o)
 
