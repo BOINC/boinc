@@ -5737,6 +5737,7 @@ Karl 2003/08/14
     - scheduler: renamed config.h to sched_config.h to avoid conflict with
       default autoconf config.h
     - api: added MFILE::ftell() function
+    - cleaned up boinc configure/makefiles
 
     Astropulse/
         configure.ac, configure (added)
