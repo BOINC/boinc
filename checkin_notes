@@ -17732,3 +17732,14 @@ David  24 Sept 2004
     tools/
         backend_lib.C,h
         process_result_template.C
+
+Rom    24 Sept 2004
+    - NEWGUI: Hook up the rest of the html panes for the transfers, messages, work,
+      and resources tabs.
+    - Kick start the CPU scheduler on startup by setting must_reschedule_cpus to true,
+      in case the scheduler is stuck in a funky state.
+
+    client/
+        client_state.C
+    clientgui/
+        <Numerous Files>

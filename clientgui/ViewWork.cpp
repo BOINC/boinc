@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/24 22:19:01  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/24 02:01:53  rwalton
 // *** empty log message ***
 //
@@ -36,10 +39,11 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
 #include "ViewWork.h"
 #include "Events.h"
 
-#include "res/boinc.xpm"
 #include "res/result.xpm"
 #include "res/task.xpm"
 #include "res/tips.xpm"
@@ -59,7 +63,6 @@
 #define LINK_TASKABORT              SECTION_TASK "abort"
 
 #define LINK_DEFAULT                "default"
-#define LINK_BLANK                  "blank"
 
 #define COLUMN_PROJECT              0
 #define COLUMN_APPLICATION          1
@@ -181,23 +184,7 @@ void CViewWork::OnListDeselected ( wxListEvent& event )
 }
 
 
-void CViewWork::OnListActivated ( wxListEvent& event )
-{
-    wxLogTrace("CViewWork::OnListActivated - Processing Event...");
-    UpdateSelection();
-    event.Skip();
-}
-
-
-void CViewWork::OnListFocused ( wxListEvent& event )
-{
-    wxLogTrace("CViewWork::OnListFocused - Processing Event...");
-    UpdateSelection();
-    event.Skip();
-}
-
-
-wxString CViewWork::OnListGetItemText(long item, long column) const
+wxString CViewWork::OnListGetItemText( long item, long column ) const
 {
     wxString strBuffer;
     switch(column) {
@@ -246,7 +233,7 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
 
-    UpdateTaskPane();
+    UpdateSelection();
 }
 
 
@@ -254,7 +241,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 {
     if ( NULL != cell->GetLink() )
     {
-        bool        bUpdateTaskPane = false;
+        bool        bUpdateSelection = false;
         wxString    strLink;
 
         strLink = cell->GetLink()->GetHref();
@@ -270,7 +257,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
                       "currently selected result.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_TASKSHOWGRAPHICS) == strLink )
@@ -284,7 +271,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
                       "to see how the active result will look while in screensaver mode.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_TASKABORT) == strLink )
@@ -298,7 +285,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
                       "Doing this will keep you from being granted any credit for this result.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else
@@ -313,26 +300,14 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
                         _("Please select a result to see additional options.")
                     );
 
-                    bUpdateTaskPane = true;
-                }
-            }
-            else
-            {
-                if  ( wxT(LINK_BLANK) != GetCurrentQuickTip() )
-                {
-                    SetCurrentQuickTip(
-                        wxT(LINK_BLANK), 
-                        wxT("")
-                    );
-
-                    bUpdateTaskPane = true;
+                    bUpdateSelection = true;
                 }
             }
         }
 
-        if ( bUpdateTaskPane )
+        if ( bUpdateSelection )
         {
-            UpdateTaskPane();
+            UpdateSelection();
         }
     }
 }

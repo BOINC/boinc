@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/24 22:18:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/24 02:01:45  rwalton
 // *** empty log message ***
 //
@@ -63,8 +66,6 @@ public:
     virtual void            OnListCacheHint( wxListEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
-    virtual void            OnListActivated( wxListEvent& event );
-    virtual void            OnListFocused( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;

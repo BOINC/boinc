@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/24 22:18:56  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/24 02:01:50  rwalton
 // *** empty log message ***
 //
@@ -36,11 +39,29 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
 #include "ViewMessages.h"
 #include "Events.h"
 
 #include "res/mess.xpm"
+#include "res/task.xpm"
+#include "res/tips.xpm"
 
+
+#define VIEW_HEADER                 "mess"
+
+#define SECTION_TASK                VIEW_HEADER "task"
+#define SECTION_TIPS                VIEW_HEADER "tips"
+
+#define BITMAP_MESSAGE              VIEW_HEADER ".xpm"
+#define BITMAP_TASKHEADER           SECTION_TASK ".xpm"
+#define BITMAP_TIPSHEADER           SECTION_TIPS ".xpm"
+
+#define LINK_TASKCOPYALL            SECTION_TASK "copyall"
+#define LINK_TASKCOPYMESSAGE        SECTION_TASK "copymessage"
+
+#define LINK_DEFAULT                "default"
 
 #define COLUMN_PROJECT              0
 #define COLUMN_TIME                 1
@@ -49,14 +70,9 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE(CViewMessages, CBOINCBaseView)
-END_EVENT_TABLE()
-
 
 CViewMessages::CViewMessages()
 {
-    wxLogTrace("CViewMessages::CViewMessages - Function Begining");
-    wxLogTrace("CViewMessages::CViewMessages - Function Ending");
 }
 
 
@@ -68,16 +84,36 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    wxBitmap bmpMessage(mess_xpm);
+    wxBitmap bmpTask(task_xpm);
+    wxBitmap bmpTips(tips_xpm);
+
+    bmpMessage.SetMask(new wxMask(bmpMessage, wxColour(255, 0, 255)));
+    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
+    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
+
+    m_pTaskPane->AddVirtualFile(wxT(BITMAP_MESSAGE), bmpMessage, wxBITMAP_TYPE_XPM);
+
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TASKHEADER), bmpTask, _("Tasks"));
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TIPSHEADER), bmpTips, _("Quick Tips"));
+
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, -1);
+
+    m_bTipsHeaderHidden = false;
+
+    SetCurrentQuickTip(
+        wxT(LINK_DEFAULT), 
+        _("Please select a message to see additional options.")
+    );
+
+    UpdateSelection();
 }
 
 
 CViewMessages::~CViewMessages()
 {
-    wxLogTrace("CViewMessages::~CViewMessages - Function Begining");
-    wxLogTrace("CViewMessages::~CViewMessages - Function Ending");
 }
 
 
@@ -104,6 +140,12 @@ void CViewMessages::OnRender(wxTimerEvent &event)
         wxASSERT(NULL != m_pListPane);
         m_pListPane->SetItemCount(iProjectCount);
 
+        long lSelected = m_pListPane->GetFirstSelected();
+        if ( (-1 == lSelected) && m_bItemSelected )
+        {
+            UpdateSelection();
+        }
+
         m_bProcessingRenderEvent = false;
     }
     else
@@ -113,7 +155,23 @@ void CViewMessages::OnRender(wxTimerEvent &event)
 }
 
 
-wxString CViewMessages::OnGetItemText(long item, long column) const
+void CViewMessages::OnListSelected ( wxListEvent& event )
+{
+    wxLogTrace("CViewMessages::OnListSelected - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+void CViewMessages::OnListDeselected ( wxListEvent& event )
+{
+    wxLogTrace("CViewMessages::OnListDeselected - Processing Event...");
+    UpdateSelection();
+    event.Skip();
+}
+
+
+wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
     wxString strBuffer;
     switch(column) {
@@ -133,14 +191,132 @@ wxString CViewMessages::OnGetItemText(long item, long column) const
 }
 
 
-int CViewMessages::OnGetItemImage(long item) const
+wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 {
-    return -1;
+    return NULL;
 }
 
 
-wxListItemAttr* CViewMessages::OnGetItemAttr(long item) const
+void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
-    return NULL;
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    wxString strMessage;
+
+    if ( link.GetHref() == wxT(SECTION_TASK) )
+        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+
+    if ( link.GetHref() == wxT(SECTION_TIPS) )
+        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
+
+
+    UpdateSelection();
+}
+
+
+void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    if ( NULL != cell->GetLink() )
+    {
+        bool        bUpdateSelection = false;
+        wxString    strLink;
+
+        strLink = cell->GetLink()->GetHref();
+
+        if      ( wxT(LINK_TASKCOPYALL) == strLink )
+        {
+            if  ( wxT(LINK_TASKCOPYALL) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKCOPYALL), 
+                    _("<b>Copy All</b><br>"
+                      "Selecting copy all, copies all the messages to the system clipboard.")
+                );
+
+                bUpdateSelection = true;
+            }
+        }
+        else if ( wxT(LINK_TASKCOPYMESSAGE) == strLink )
+        {
+            if  ( wxT(LINK_TASKCOPYMESSAGE) != GetCurrentQuickTip() )
+            {
+                SetCurrentQuickTip(
+                    wxT(LINK_TASKCOPYMESSAGE), 
+                    _("<b>Copy Message</b><br>"
+                      "Selecting copy message, copies the single message to the system clipboard.")
+                );
+
+                bUpdateSelection = true;
+            }
+        }
+        else
+        {
+            long lSelected = m_pListPane->GetFirstSelected();
+            if ( -1 == lSelected )
+            {
+                if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
+                {
+                    SetCurrentQuickTip(
+                        wxT(LINK_DEFAULT), 
+                        _("Please select a message to see additional options.")
+                    );
+
+                    bUpdateSelection = true;
+                }
+            }
+        }
+
+        if ( bUpdateSelection )
+        {
+            UpdateSelection();
+        }
+    }
+}
+
+
+void CViewMessages::UpdateSelection()
+{
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    long lSelected = m_pListPane->GetFirstSelected();
+    if ( -1 == lSelected )
+    {
+        m_bTaskHeaderHidden = false;
+        m_bTaskCopyAllHidden = false;
+        m_bTaskCopyMessageHidden = true;
+
+        m_bItemSelected = false;
+    }
+    else
+    {
+        m_bTaskHeaderHidden = false;
+        m_bTaskCopyAllHidden = false;
+        m_bTaskCopyMessageHidden = false;
+
+        m_bItemSelected = true;
+    }
+    UpdateTaskPane();
+}
+
+
+void CViewMessages::UpdateTaskPane()
+{
+    wxASSERT(NULL != m_pTaskPane);
+
+    m_pTaskPane->BeginTaskPage();
+
+    m_pTaskPane->BeginTaskSection( wxT(SECTION_TASK), wxT(BITMAP_TASKHEADER), m_bTaskHeaderHidden );
+    if (!m_bTaskHeaderHidden)
+    {
+        m_pTaskPane->CreateTask( wxT(LINK_TASKCOPYALL), wxT(BITMAP_MESSAGE), _("Copy All"), m_bTaskCopyAllHidden );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKCOPYMESSAGE), wxT(BITMAP_MESSAGE), _("Copy Message"), m_bTaskCopyMessageHidden );
+    }
+    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+
+    m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+
+    m_pTaskPane->EndTaskPage();
 }
 

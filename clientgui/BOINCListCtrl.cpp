@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/24 22:18:54  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/24 02:01:46  rwalton
 // *** empty log message ***
 //
@@ -53,32 +56,22 @@ BEGIN_EVENT_TABLE(CBOINCListCtrl, wxListView)
     EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnCacheHint)
     EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnDeselected)
-    EVT_LIST_ITEM_ACTIVATED(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnActivated)
-    EVT_LIST_ITEM_FOCUSED(ID_LIST_PROJECTSVIEW, CBOINCListCtrl::OnFocused)
 
     EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CBOINCListCtrl::OnCacheHint)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CBOINCListCtrl::OnSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CBOINCListCtrl::OnDeselected)
-    EVT_LIST_ITEM_ACTIVATED(ID_LIST_WORKVIEW, CBOINCListCtrl::OnActivated)
-    EVT_LIST_ITEM_FOCUSED(ID_LIST_WORKVIEW, CBOINCListCtrl::OnFocused)
 
     EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnCacheHint)
     EVT_LIST_ITEM_SELECTED(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnDeselected)
-    EVT_LIST_ITEM_ACTIVATED(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnActivated)
-    EVT_LIST_ITEM_FOCUSED(ID_LIST_TRANSFERSVIEW, CBOINCListCtrl::OnFocused)
 
     EVT_LIST_CACHE_HINT(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnCacheHint)
     EVT_LIST_ITEM_SELECTED(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnDeselected)
-    EVT_LIST_ITEM_ACTIVATED(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnActivated)
-    EVT_LIST_ITEM_FOCUSED(ID_LIST_MESSAGESVIEW, CBOINCListCtrl::OnFocused)
 
     EVT_LIST_CACHE_HINT(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnCacheHint)
     EVT_LIST_ITEM_SELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnDeselected)
-    EVT_LIST_ITEM_ACTIVATED(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnActivated)
-    EVT_LIST_ITEM_FOCUSED(ID_LIST_RESOURCEUTILIZATIONVIEW, CBOINCListCtrl::OnFocused)
 END_EVENT_TABLE()
 
 
@@ -266,48 +259,6 @@ void CBOINCListCtrl::OnDeselected( wxListEvent& event )
 }
 
 
-void CBOINCListCtrl::OnActivated( wxListEvent& event )
-{
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnActivatedEvent(wxDynamicCast(m_pParentView, CViewProjects), event);
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnActivatedEvent(wxDynamicCast(m_pParentView, CViewWork), event);
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnActivatedEvent(wxDynamicCast(m_pParentView, CViewTransfers), event);
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnActivatedEvent(wxDynamicCast(m_pParentView, CViewMessages), event);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnActivatedEvent(wxDynamicCast(m_pParentView, CViewResources), event);
-    } else if (wxDynamicCast(m_pParentView, CBOINCBaseView)) {
-        FireOnActivatedEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), event);
-    }
-}
-
-
-void CBOINCListCtrl::OnFocused( wxListEvent& event )
-{
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnFocusedEvent(wxDynamicCast(m_pParentView, CViewProjects), event);
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnFocusedEvent(wxDynamicCast(m_pParentView, CViewWork), event);
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnFocusedEvent(wxDynamicCast(m_pParentView, CViewTransfers), event);
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnFocusedEvent(wxDynamicCast(m_pParentView, CViewMessages), event);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnFocusedEvent(wxDynamicCast(m_pParentView, CViewResources), event);
-    } else if (wxDynamicCast(m_pParentView, CBOINCBaseView)) {
-        FireOnFocusedEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), event);
-    }
-}
-
-
 wxString CBOINCListCtrl::OnGetItemText( long item, long column ) const
 {
     wxASSERT(NULL != m_pParentView);
@@ -386,20 +337,6 @@ template < class T >
 void CBOINCListCtrl::FireOnDeselectedEvent( T pView, wxListEvent& event )
 {
     return pView->OnListDeselected( event );
-}
-
-
-template < class T >
-void CBOINCListCtrl::FireOnActivatedEvent( T pView, wxListEvent& event )
-{
-    return pView->OnListActivated( event );
-}
-
-
-template < class T >
-void CBOINCListCtrl::FireOnFocusedEvent( T pView, wxListEvent& event )
-{
-    return pView->OnListFocused( event );
 }
 
 

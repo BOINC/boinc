@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/24 22:18:58  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/24 02:01:51  rwalton
 // *** empty log message ***
 //
@@ -42,6 +45,8 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
 #include "ViewProjects.h"
 #include "DlgAttachProject.h"
 #include "Events.h"
@@ -77,7 +82,6 @@
 #define LINK_WEBUSER                SECTION_WEB "user"
 
 #define LINK_DEFAULT                "default"
-#define LINK_BLANK                  "blank"
 
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
@@ -201,22 +205,6 @@ void CViewProjects::OnListDeselected ( wxListEvent& event )
 }
 
 
-void CViewProjects::OnListActivated ( wxListEvent& event )
-{
-    wxLogTrace("CViewProjects::OnListActivated - Processing Event...");
-    UpdateSelection();
-    event.Skip();
-}
-
-
-void CViewProjects::OnListFocused ( wxListEvent& event )
-{
-    wxLogTrace("CViewProjects::OnListFocused - Processing Event...");
-    UpdateSelection();
-    event.Skip();
-}
-
-
 wxString CViewProjects::OnListGetItemText(long item, long column) const {
     wxString strBuffer;
     switch(column) {
@@ -318,7 +306,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
 
-    UpdateTaskPane();
+    UpdateSelection();
 }
 
 
@@ -326,7 +314,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
 {
     if ( NULL != cell->GetLink() )
     {
-        bool        bUpdateTaskPane = false;
+        bool        bUpdateSelection = false;
         wxString    strLink;
 
         strLink = cell->GetLink()->GetHref();
@@ -342,7 +330,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "projects.  You will need a valid project URL and Authenticator.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_TASKDETACH) == strLink )
@@ -357,7 +345,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "any completed work.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_TASKUPDATE) == strLink )
@@ -371,7 +359,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "your credit and preferences for the currently selected project.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_TASKRESET) == strLink )
@@ -386,7 +374,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "first to submit any completed work.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_WEBBOINC) == strLink )
@@ -399,7 +387,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "This will open a browser window to the BOINC homepage.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_WEBFAQ) == strLink )
@@ -412,7 +400,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "This will open a browser window to the BOINC FAQ.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_WEBPROJECT) == strLink )
@@ -426,7 +414,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "homepage.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_WEBTEAM) == strLink )
@@ -440,7 +428,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "selected project.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else if ( wxT(LINK_WEBUSER) == strLink )
@@ -454,7 +442,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                     "selected project.")
                 );
 
-                bUpdateTaskPane = true;
+                bUpdateSelection = true;
             }
         }
         else
@@ -469,26 +457,14 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                         _("Please select a project to see additional options.")
                     );
 
-                    bUpdateTaskPane = true;
-                }
-            }
-            else
-            {
-                if  ( wxT(LINK_BLANK) != GetCurrentQuickTip() )
-                {
-                    SetCurrentQuickTip(
-                        wxT(LINK_BLANK), 
-                        wxT("")
-                    );
-
-                    bUpdateTaskPane = true;
+                    bUpdateSelection = true;
                 }
             }
         }
 
-        if ( bUpdateTaskPane )
+        if ( bUpdateSelection )
         {
-            UpdateTaskPane();
+            UpdateSelection();
         }
     }
 }

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/24 22:18:53  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/24 02:01:44  rwalton
 // *** empty log message ***
 //
@@ -183,22 +186,6 @@ void CBOINCBaseView::OnListSelected ( wxListEvent& event )
 void CBOINCBaseView::OnListDeselected ( wxListEvent& event )
 {
     wxLogTrace("CBOINCBaseView::OnListDeselected - Processing Event...");
-    UpdateSelection();
-    event.Skip();
-}
-
-
-void CBOINCBaseView::OnListActivated ( wxListEvent& event )
-{
-    wxLogTrace("CBOINCBaseView::OnListActivated - Processing Event...");
-    UpdateSelection();
-    event.Skip();
-}
-
-
-void CBOINCBaseView::OnListFocused ( wxListEvent& event )
-{
-    wxLogTrace("CBOINCBaseView::OnListFocused - Processing Event...");
     UpdateSelection();
     event.Skip();
 }

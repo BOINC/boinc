@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/24 22:18:59  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/24 02:01:52  rwalton
 // *** empty log message ***
 //
@@ -44,8 +47,6 @@
 
 
 #include "BOINCBaseView.h"
-#include "BOINCTaskCtrl.h"
-#include "BOINCListCtrl.h"
 
 class CViewProjects : public CBOINCBaseView
 {
@@ -64,8 +65,6 @@ public:
 
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
-    virtual void            OnListActivated( wxListEvent& event );
-    virtual void            OnListFocused( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
@@ -92,6 +91,7 @@ private:
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
+
 };
 
 
