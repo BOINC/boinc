@@ -14,7 +14,7 @@ int DB_CONN::open(char* dbname, char* dbpassword) {
     mysql = mysql_init(0);
     if (!mysql) return 0;
     mysql = mysql_real_connect(mysql, 0, 0, dbpassword, dbname, 0, 0, 0);
-    return (mysql != 0);
+    return (mysql == 0);
 }
 
 void DB_CONN::close() {
