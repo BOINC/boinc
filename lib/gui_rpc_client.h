@@ -182,7 +182,7 @@ class PROXY_INFO {
 public:
     bool use_http_proxy;
     bool use_socks_proxy;
-    bool use_http_authenticaton;
+    bool use_http_authentication;
     int socks_version;
     std::string socks_server_name;
     std::string http_server_name;
@@ -267,6 +267,7 @@ public:
 
 class RPC_CLIENT {
     int sock;
+public:
     int send_request(char*);
     int get_reply(char*&);
 
@@ -294,4 +295,14 @@ public:
     int get_messages(int nmessages, int seqno, MESSAGES&);
     int retry_file_transfer(FILE_TRANSFER&);
     char* mode_name(int mode);
+};
+
+struct RPC {
+    char* mbuf;
+    MIOFILE fin;
+    RPC_CLIENT* rpc_client;
+
+    RPC(RPC_CLIENT*);
+    ~RPC();
+    int do_rpc(char*);
 };

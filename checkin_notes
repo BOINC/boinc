@@ -17754,3 +17754,10 @@ David  24 Sept 2004
 		client_state.C,h
 		client_types.C
 		cs_apps.C
+
+David  25 Sept 2004
+    - Made GUI RPC client code a bit nicer by adding RPC class
+
+    lib/
+        gui_rpc_client.C,h
+        gui_test.C

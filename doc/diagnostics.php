@@ -34,8 +34,9 @@ list_start();
 list_item(
     "BOINC_DIAG_DUMPCALLSTACKENABLED",
     "If the application crashes, write a symbolic call stack to stderr.
-    If you use this in a Windows app, you must include
-    lib/stackwalker_win.cpp."
+    If you use this in a Windows app,
+    you must include lib/stackwalker_win.cpp in the compile,
+    and you must include the .pdb (symbol) file in your app version bundle."
 );
 list_item(
     "BOINC_DIAG_HEAPCHECKENABLED",

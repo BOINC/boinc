@@ -239,48 +239,28 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
 static void handle_get_network_mode(char* , MIOFILE& fout) {
     fout.printf("<network_mode>\n");
     switch (gstate.user_network_request) {
-        case USER_RUN_REQUEST_ALWAYS:
-            fout.printf("<always/>\n");
-            break;
-        case USER_RUN_REQUEST_NEVER:
-            fout.printf("<never/>\n");
-            break;
-        default:
-            fout.printf("<error>Unknown network mode<error/>\n");
+    case USER_RUN_REQUEST_ALWAYS:
+        fout.printf("<always/>\n");
+        break;
+    case USER_RUN_REQUEST_NEVER:
+        fout.printf("<never/>\n");
+        break;
+    default:
+        fout.printf("<error>Unknown network mode<error/>\n");
     }
     fout.printf("</network_mode>\n");
 }
 
 static void handle_run_benchmarks(char* , MIOFILE& fout) {
-    // TODO: suspend activities; make sure run at right priority
-    //
     gstate.start_cpu_benchmarks();
     fout.printf("<success/>\n");
 }
 
 static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
-    string socks_proxy_server_name,http_proxy_server_name;
-    int socks_proxy_server_port,http_proxy_server_port;
-    if (!parse_str(buf, "<socks_proxy_server_name>", socks_proxy_server_name)) {
-        fout.printf("<error>SOCKS proxy server name missing</error>\n");
-        return;
-    }
-    if (!parse_int(buf, "<socks_proxy_server_port>", socks_proxy_server_port)) {
-        fout.printf("<error>SOCKS proxy server port missing</error>\n");
-        return;
-    }
-    if (!parse_str(buf, "<http_proxy_server_name>", http_proxy_server_name)) {
-        fout.printf("<error>HTTP proxy server name missing</error>\n");
-        return;
-    }
-    if (!parse_int(buf, "<http_proxy_server_port>", http_proxy_server_port)) {
-        fout.printf("<error>HTTP proxy server port missing</error>\n");
-        return;
-    }
-    safe_strcpy(gstate.pi.socks_server_name, socks_proxy_server_name.c_str());
-    gstate.pi.socks_server_port = socks_proxy_server_port;
-    safe_strcpy(gstate.pi.http_server_name, http_proxy_server_name.c_str());
-    gstate.pi.http_server_port = http_proxy_server_port;
+    MIOFILE in;
+    in.init(buf);
+    gstate.pi.parse(in);
+    gstate.set_client_state_dirty("Set proxy settings RPC");
     fout.printf("<success/>\n");
 }
 

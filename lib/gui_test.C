@@ -58,7 +58,7 @@ void usage() {
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     unsigned int i;
-    vector<MESSAGE_DESC> message_descs;
+    MESSAGES messages;
     int retval;
     char* hostname=0;
 
@@ -96,10 +96,10 @@ int main(int argc, char** argv) {
         if (i != argc-3) usage();
         int nmsgs = atoi(argv[++i]);
         int seqno = atoi(argv[++i]);
-        retval = rpc.get_messages(nmsgs, seqno, message_descs);
+        retval = rpc.get_messages(nmsgs, seqno, messages);
         if (!retval) {
-            for (i=0; i<message_descs.size(); i++) {
-                MESSAGE_DESC& md = message_descs[i];
+            for (i=0; i<messages.messages.size(); i++) {
+                MESSAGE& md = *messages.messages[i];
                 printf("%s %d %d %s\n",
                     md.project.c_str(), md.priority,
                     md.timestamp, md.body.c_str()

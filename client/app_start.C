@@ -344,7 +344,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     app_client_shm.reset_msgs();
 
-    // NOTE: in Windows, stderr is redirected within boinc_init();
+    // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
     sprintf(cmd_line, "%s %s", exec_path, wup->command_line);
     relative_to_absolute(slot_dir, slotdirpath);

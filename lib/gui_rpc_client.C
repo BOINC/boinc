@@ -411,7 +411,10 @@ PROXY_INFO::~PROXY_INFO() {
 }
 
 int PROXY_INFO::parse(MIOFILE& in) {
-    char buf[256];
+    char buf[4096];
+    use_http_proxy = false;
+    use_socks_proxy = false;
+    use_http_authentication = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) return 0;
         else if (parse_int(buf, "<socks_version>", socks_version)) continue;
@@ -432,7 +435,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
             continue;
         }
         else if (match_tag(buf, "<use_http_auth/>")) {
-            use_http_authenticaton = true;
+            use_http_authentication = true;
             continue;
         }
     }
@@ -445,7 +448,7 @@ void PROXY_INFO::print() {
 void PROXY_INFO::clear() {
     use_http_proxy = false;
     use_socks_proxy = false;
-    use_http_authenticaton = false;
+    use_http_authentication = false;
     socks_version = 0;
     socks_server_name.clear();
     http_server_name.clear();
@@ -720,39 +723,54 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
     return 0;
 }
 
+RPC::RPC(RPC_CLIENT* rc) {
+    mbuf = 0;
+    rpc_client = rc;
+}
+
+RPC::~RPC() {
+    if (mbuf) free(mbuf);
+}
+
+int RPC::do_rpc(char* req) {
+    int retval;
+
+    retval = rpc_client->send_request(req);
+    if (retval) return retval;
+    retval = rpc_client->get_reply(mbuf);
+    if (retval) return retval;
+    fin.init_buf(mbuf);
+}
+
 int RPC_CLIENT::get_state(CC_STATE& state) {
     char buf[256];
     PROJECT* project;
-    char* mbuf=0;
+    RPC rpc(this);
     int retval;
 
     state.clear();
 
-    retval = send_request("<get_state/>\n");
+    retval = rpc.do_rpc("<get_state/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</client_state>")) break;
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT();
-            project->parse(fin);
+            project->parse(rpc.fin);
             state.projects.push_back(project);
             continue;
         }
         else if (match_tag(buf, "<app>")) {
             APP* app = new APP();
-            app->parse(fin);
+            app->parse(rpc.fin);
             app->project = project;
             state.apps.push_back(app);
             continue;
         }
         else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* app_version = new APP_VERSION();
-            app_version->parse(fin);
+            app_version->parse(rpc.fin);
             app_version->project = project;
             app_version->app = state.lookup_app(app_version->app_name);
             state.app_versions.push_back(app_version);
@@ -760,7 +778,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
         }
         else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wu = new WORKUNIT();
-            wu->parse(fin);
+            wu->parse(rpc.fin);
             wu->project = project;
             wu->app = state.lookup_app(wu->app_name);
             wu->avp = state.lookup_app_version(wu->app_name, wu->version_num);
@@ -769,7 +787,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
         }
         else if (match_tag(buf, "<result>")) {
             RESULT* result = new RESULT();
-            result->parse(fin);
+            result->parse(rpc.fin);
             result->project = project;
             result->wup = state.lookup_wu(result->wu_name);
             result->app = result->wup->app;
@@ -777,118 +795,98 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             continue;
         }
     }
-    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::get_results(RESULTS& t) {
     char buf[256];
-    char* mbuf=0;
     int retval;
+    RPC rpc(this);
 
-    retval = send_request("<get_results/>\n");
+    retval = rpc.do_rpc("<get_results/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</results>")) break;
         else if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT();
-            rp->parse(fin);
+            rp->parse(rpc.fin);
             t.results.push_back(rp);
             continue;
         }
     }
-    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
     char buf[256];
-    char* mbuf=0;
     int retval;
+    RPC rpc(this);
 
-    retval = send_request("<get_file_transfers/>\n");
+    retval = rpc.do_rpc("<get_file_transfers/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</file_transfers>")) break;
         else if (match_tag(buf, "<file_transfer>")) {
             FILE_TRANSFER* fip = new FILE_TRANSFER();
-            fip->parse(fin);
+            fip->parse(rpc.fin);
             t.file_transfers.push_back(fip);
             continue;
         }
     }
-    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::get_project_status(PROJECTS& p) {
     char buf[256];
-    char* mbuf=0;
+    RPC rpc(this);
     int retval;
 
     p.clear();
 
-    retval = send_request("<get_project_status/>\n");
+    retval = rpc.do_rpc("<get_project_status/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</projects>")) break;
         else if (match_tag(buf, "<project>")) {
             PROJECT* project = new PROJECT();
-            project->parse(fin);
+            project->parse(rpc.fin);
             p.projects.push_back(project);
             continue;
         }
     }
-    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
     char buf[256];
-    char* mbuf=0;
+    RPC rpc(this);
     int retval;
 
     p.clear();
 
-    retval = send_request("<get_file_transfers/>\n");
+    retval = rpc.do_rpc("<get_file_transfers/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</projects>")) break;
         else if (match_tag(buf, "<project>")) {
             PROJECT* project = new PROJECT();
-            project->parse(fin);
+            project->parse(rpc.fin);
             p.projects.push_back(project);
             continue;
         }
     }
-    if (mbuf) free(mbuf);
     return 0;
 }
 
-int RPC_CLIENT::show_graphics(char* project, char* result_name, bool full_screen) {
-    char buf[256];
-    char* mbuf=0;
-    int retval;
+int RPC_CLIENT::show_graphics(
+    char* project, char* result_name, bool full_screen
+) {
+    char buf[1024];
+    RPC rpc(this);
 
     if (project) {
         sprintf(buf, "<result_show_graphics>\n"
@@ -905,18 +903,12 @@ int RPC_CLIENT::show_graphics(char* project, char* result_name, bool full_screen
             full_screen?"<full_screen/>\n":""
         );
     }
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::project_reset(char* url) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf,
         "<project_reset>\n"
@@ -924,18 +916,12 @@ int RPC_CLIENT::project_reset(char* url) {
         "</project_reset>\n",
         url
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::project_attach(char* url, char* auth) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf,
         "<project_attach>\n"
@@ -944,18 +930,12 @@ int RPC_CLIENT::project_attach(char* url, char* auth) {
         "</project_attach>\n",
         url, auth
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::project_detach(char* url) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf,
         "<project_detach>\n"
@@ -963,18 +943,12 @@ int RPC_CLIENT::project_detach(char* url) {
         "</project_detach>\n",
         url
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::project_update(char* url) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf,
         "<project_update>\n"
@@ -982,12 +956,7 @@ int RPC_CLIENT::project_update(char* url) {
         "</project_update>\n",
         url
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 char* RPC_CLIENT::mode_name(int mode) {
@@ -1002,32 +971,22 @@ char* RPC_CLIENT::mode_name(int mode) {
 
 int RPC_CLIENT::set_run_mode(int mode) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf, "<set_run_mode>\n%s\n</set_run_mode>\n", mode_name(mode));
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::get_run_mode(int& mode) {
     char buf[256];
-    char* mbuf=0;
+    RPC rpc(this);
     int retval;
 
-    retval = send_request("<get_run_mode/>\n");
+    retval = rpc.do_rpc("<get_run_mode/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
     mode = -1;
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
         if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
         if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
@@ -1037,8 +996,7 @@ int RPC_CLIENT::get_run_mode(int& mode) {
 
 int RPC_CLIENT::set_network_mode(int mode) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf,
         "<set_network_mode>\n"
@@ -1046,28 +1004,19 @@ int RPC_CLIENT::set_network_mode(int mode) {
         "</set_network_mode>\n",
         mode_name(mode)
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::get_network_mode(int& mode) {
     char buf[256];
-    char* mbuf=0;
+    RPC rpc(this);
     int retval;
 
-    retval = send_request("<get_network_mode/>\n");
+    retval = rpc.do_rpc("<get_network_mode/>\n");
     if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
 
     mode = -1;
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
         if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
         if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
@@ -1076,55 +1025,45 @@ int RPC_CLIENT::get_network_mode(int& mode) {
 }
 
 int RPC_CLIENT::run_benchmarks() {
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
-    retval = send_request("<run_benchmarks/>\n");
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc("<run_benchmarks/>\n");
 }
 
 int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
     char buf[256];
-    char* mbuf=0;
-    int retval;
+    RPC rpc(this);
 
     sprintf(buf,
         "<set_proxy_settings>\n%s%s"
-        "    <socks_server_name>%s</socks_server_name>\n"
-        "    <socks_server_port>%d</socks_server_port>\n"
-        "    <http_server_name>%s</http_server_name>\n"
-        "    <http_server_port>%d</http_server_port>\n"
-        "    <http_user_name>%d</http_user_name>\n"
-        "    <http_user_passwd>%d</http_user_passwd>\n"
-        "    <socks5_user_name>%d</socks5_user_name>\n"
-        "    <socks5_user_passwd>%d</socks5_user_passwd>\n",
+        "    <proxy_info>\n"
+        "        <socks_server_name>%s</socks_server_name>\n"
+        "        <socks_server_port>%d</socks_server_port>\n"
+        "        <http_server_name>%s</http_server_name>\n"
+        "        <http_server_port>%d</http_server_port>\n"
+        "        <http_user_name>%d</http_user_name>\n"
+        "        <http_user_passwd>%d</http_user_passwd>\n"
+        "        <socks5_user_name>%d</socks5_user_name>\n"
+        "        <socks5_user_passwd>%d</socks5_user_passwd>\n"
+        "    </proxy_info>\n"
+        "</set_proxy_settings>\n",
         pi.use_http_proxy?"   <use_http_proxy/>\n":"",
         pi.use_socks_proxy?"   <use_socks_proxy/>\n":"",
-        pi.socks_server_name,
+        pi.socks_server_name.c_str(),
         pi.socks_server_port,
-        pi.http_server_name,
+        pi.http_server_name.c_str(),
         pi.http_server_port,
-        pi.http_user_name,
-        pi.http_user_passwd,
-        pi.socks5_user_name,
-        pi.socks5_user_passwd
+        pi.http_user_name.c_str(),
+        pi.http_user_passwd.c_str(),
+        pi.socks5_user_name.c_str(),
+        pi.socks5_user_passwd.c_str()
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    if (mbuf) free(mbuf);
-    return 0;
+    return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::get_messages( int nmessages, int seqno, MESSAGES& msgs
-) {
-    char buf[256];
-    char* mbuf;
+int RPC_CLIENT::get_messages( int nmessages, int seqno, MESSAGES& msgs) {
+    char buf[4096];
+    RPC rpc(this);
     int retval;
 
     msgs.clear();
@@ -1136,32 +1075,25 @@ int RPC_CLIENT::get_messages( int nmessages, int seqno, MESSAGES& msgs
         "</get_messages>\n",
         nmessages, seqno
     );
-    retval = send_request(buf);
+    retval = rpc.do_rpc(buf);
     if (retval) return retval;
 
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    MIOFILE fin;
-    fin.init_buf(mbuf);
-
-    while (fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</msgs>")) break;
         else if (match_tag(buf, "<msg>")) {
             MESSAGE* message = new MESSAGE();
-            message->parse(fin);
+            message->parse(rpc.fin);
             msgs.messages.push_back(message);
             continue;
         }
     }
 
-    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::retry_file_transfer(FILE_TRANSFER& ft) {
-    char buf[256];
-    char* mbuf=0;
-    int retval;
+    char buf[4096];
+    RPC rpc(this);
 
     sprintf(buf,
         "<retry_file_transfer>\n"
@@ -1171,9 +1103,5 @@ int RPC_CLIENT::retry_file_transfer(FILE_TRANSFER& ft) {
         ft.project->master_url.c_str(),
         ft.name.c_str()
     );
-    retval = send_request(buf);
-    if (retval) return retval;
-    retval = get_reply(mbuf);
-    if (retval) return retval;
-    return 0;
+    return rpc.do_rpc(buf);
 }
