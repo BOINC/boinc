@@ -40,6 +40,7 @@ FEEDER_OBJS = \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/parse.o \
+    ../lib/util.o \
     ../lib/shmem.o
 
 SHOW_SHMEM_OBJS = \
@@ -66,6 +67,7 @@ VALIDATE_OBJS = \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/util.o \
     ../lib/parse.o
 
 FILE_DELETER_OBJS = \
@@ -73,6 +75,7 @@ FILE_DELETER_OBJS = \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/util.o \
     ../lib/parse.o
 
 ASSIMILATOR_OBJS = \
@@ -81,6 +84,7 @@ ASSIMILATOR_OBJS = \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/util.o \
     ../lib/parse.o
 
 MAKE_WORK_OBJS = \
@@ -90,6 +94,7 @@ MAKE_WORK_OBJS = \
     ../db/mysql_util.o \
     ../tools/backend_lib.o \
     ../tools/process_result_template.o \
+    ../lib/util.o \
     ../lib/parse.o \
     ../lib/md5_file.o \
     ../lib/md5.o \
@@ -101,6 +106,7 @@ RESULT_RETRY_OBJS = \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/util.o \
     ../lib/parse.o \
     ../lib/md5_file.o \
     ../lib/md5.o \

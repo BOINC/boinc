@@ -36,10 +36,12 @@ using namespace std;
 #include <sys/time.h>
 
 #include "db.h"
+#include "util.h"
 #include "backend_lib.h"
 #include "config.h"
 
-#define TRIGGER_FILENAME      "stop_server"
+#define TRIGGER_FILENAME        "stop_server"
+#define LOCKFILE                "result_retry.out"
 
 int max_errors = 999;
 int max_done = 999;
@@ -335,19 +337,6 @@ int main(int argc, char** argv) {
     bool asynch = false, one_pass=false;
     char path[256];
 
-    retval = config.parse_file();
-    if (retval) {
-        fprintf(stderr, "can't read config file\n");
-        exit(1);
-    }
-
-    sprintf(path, "%s/upload_private", config.key_dir);
-    retval = read_key_file(path, key);
-    if (retval) {
-        fprintf(stderr, "can't read key\n");
-        exit(1);
-    }
-
     startup_time = time(0);
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-app")) {
@@ -364,6 +353,25 @@ int main(int argc, char** argv) {
             nredundancy = atoi(argv[++i]);;
         }
     }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of result_retry is already running\n");
+        exit(1);
+    }
+
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "can't read config file\n");
+        exit(1);
+    }
+
+    sprintf(path, "%s/upload_private", config.key_dir);
+    retval = read_key_file(path, key);
+    if (retval) {
+        fprintf(stderr, "can't read key\n");
+        exit(1);
+    }
+
     if (asynch) {
         if (fork()) {
             exit(0);

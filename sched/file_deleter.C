@@ -27,7 +27,10 @@
 
 #include "db.h"
 #include "parse.h"
+#include "util.h"
 #include "config.h"
+
+#define LOCKFILE "file_deleter.out"
 
 CONFIG config;
 
@@ -134,6 +137,11 @@ int main(int argc, char** argv) {
             sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
             write_log(buf);
         }
+    }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of file deleter is running\n");
+        exit(1);
     }
 
     retval = config.parse_file();

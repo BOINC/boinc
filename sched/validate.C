@@ -46,7 +46,10 @@ using namespace std;
 #include <vector>
 
 #include "db.h"
+#include "util.h"
 #include "config.h"
+
+#define LOCKFILE "validate.out"
 
 extern int check_set(vector<RESULT>&, int& canonical, double& credit);
 extern int check_pair(RESULT&, RESULT&, bool&);
@@ -329,6 +332,11 @@ int main(int argc, char** argv) {
             sprintf(buf, "unrecognized arg: %s\n", argv[i]);
             write_log(buf);
         }
+    }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of validate is already running\n");
+        exit(1);
     }
 
     if (min_quorum < 1 || min_quorum > 10) {

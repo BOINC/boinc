@@ -25,8 +25,11 @@
 
 #include "db.h"
 #include "parse.h"
+#include "util.h"
 #include "config.h"
 #include "assimilate_handler.h"
+
+#define ASSIMILATOR_LOCKFILE "assimilator.out"
 
 CONFIG config;
 
@@ -129,6 +132,11 @@ int main(int argc, char** argv) {
             sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
             write_log(buf);
         }
+    }
+
+    if (lock_file(ASSIMILATOR_LOCKFILE)) {
+        fprintf(stderr, "Another copy of assimilator is already running\n");
+        exit(1);
     }
 
     retval = config.parse_file();

@@ -61,6 +61,8 @@
 #include "util.h"
 #include "config.h"
 
+#define LOCKFILE "db_dump.out"
+
 #define NRECS_PER_FILE_SUMMARY 1000
 #define NRECS_PER_FILE_DETAIL 100
 
@@ -522,6 +524,12 @@ int main(int argc, char** argv) {
             strcpy(dir, argv[++i]);
         }
     }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of db_dump is already running\n");
+        exit(1);
+    }
+
     retval = config.parse_file();
     if (retval) {
         fprintf(stderr, "Can't parse config file\n");

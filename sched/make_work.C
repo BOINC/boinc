@@ -36,11 +36,13 @@
 
 #include "db.h"
 #include "crypt.h"
+#include "util.h"
 #include "backend_lib.h"
 #include "config.h"
 #include "parse.h"
 
 #define TRIGGER_FILENAME    "stop_server"
+#define LOCKFILE            "make_work.out"
 
 int cushion = 10;
 int redundancy = 10;
@@ -220,6 +222,11 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-wu_name")) {
             strcpy(wu_name, argv[++i]);
         }
+    }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of make_work is already running\n");
+        exit(1);
     }
 
     if (!strlen(result_template_file)) {

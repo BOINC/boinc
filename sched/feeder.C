@@ -54,12 +54,14 @@
 
 #include "db.h"
 #include "shmem.h"
+#include "util.h"
 #include "config.h"
 #include "sched_shmem.h"
 
 #define RESULTS_PER_ENUM    100
 #define STOP_SERVER_FILENAME    "stop_server"
 #define REREAD_DB_FILENAME      "reread_db"
+#define LOCKFILE                "feeder.out"
 
 CONFIG config;
 
@@ -218,6 +220,11 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         }
+    }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of feeder is already running\n");
+        exit(1);
     }
 
     if (asynch) {
