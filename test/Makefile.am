@@ -24,5 +24,5 @@ EXTRA_DIST =							\
 
 $(TESTS): $(top_srcdir)/py/Boinc/version.py $(top_srcdir)/py/Boinc/boinc_db.py
 
-$(srcdir)/boinc_db.inc: $(top_srcdir)/boinc_db.h $(top_srcdir)/lib/result_state.h
+$(srcdir)/boinc_db.inc: $(top_srcdir)/db/boinc_db.h $(top_srcdir)/lib/result_state.h
 	cat $^ | $(srcdir)/db_def_to_php > $@
