@@ -175,6 +175,60 @@ static void handle_set_proxy_settings(char* buf, FILE* fout) {
     fprintf(fout, "<success/>\n");
 }
 
+// params:
+// <nmessages>x</nmessages>
+//    return at most this many messages
+// <offset>n</offset>
+//    start at message n.
+// if no offset is given, return last n messages
+//
+void handle_get_messages(char* buf, FILE* fout) {
+    int nmessages=-1, offset=-1, j;
+    unsigned int i;
+
+    parse_int(buf, "<nmessages>", nmessages);
+    parse_int(buf, "<offset>", offset);
+    if (nmessages < 0) {
+        fprintf(fout, "<error>No nmessages given</error>\n");
+        return;
+    }
+
+    if (offset > (int)message_descs.size()) {
+        offset = message_descs.size();
+    }
+    if (offset < 0) {
+        offset = message_descs.size()-nmessages;
+        if (offset < 0) {
+            offset = 0;
+        }
+    }
+
+    fprintf(fout, "<msgs>\n");
+    j = 0;
+    for (i=offset; i<message_descs.size()&&j<nmessages; i++, j++) {
+        MESSAGE_DESC& md = message_descs[i];
+        fprintf(fout,
+            "<msg>\n"
+            " <i>%d</i>\n"
+            " <pri>%d</pri>\n"
+            " <body>%s</body>\n"
+            " <time>%d</time>\n",
+            i,
+            md.priority,
+            md.message.c_str(),
+            md.timestamp
+        );
+        if (md.project) {
+            fprintf(fout,
+                " <project>%s</project>",
+                md.project->get_project_name()
+            );
+        }
+        fprintf(fout, "</msg>\n");
+    }
+    fprintf(fout, "</msgs>\n");
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char buf[1024];
     int n;
@@ -205,11 +259,13 @@ int GUI_RPC_CONN::handle_rpc() {
 		handle_run_benchmarks(buf, fout);
 	} else if (match_tag(buf, "<set_proxy_settings>")) {
 		handle_set_proxy_settings(buf, fout);
+	} else if (match_tag(buf, "<get_messages>")) {
+		handle_get_messages(buf, fout);
     } else {
         fprintf(fout, "<unrecognized/>\n");
     }
     fflush(fout);
-   return 0;
+    return 0;
 }
 
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {

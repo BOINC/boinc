@@ -11214,3 +11214,24 @@ David  Mar 31 2004
 		boinc_api.C
 		graphics_api.C
 		windows_opengl.C
+
+David  April 1 2004
+    - Client: add a mechanism for suspending/resume network activity,
+        exactly parallel to the one existing mechanism for
+        suspending/resuming all (CPU+network) activity.
+        Initially this will be used to provide a GUI control.
+        Eventually we might have preference that control network
+        independently (time of day, only if idle, etc.)
+    - Client: save all messages in memory.
+        Implement GUI RPCs for getting ranges of messages.
+
+    client/
+        client_state.C,h
+        cs_prefs.C
+        gui_rpc_client.h
+        gui_rpc_server.C
+        main.C
+        message.C,h
+    lib/
+        messages.C
+        util.C,h

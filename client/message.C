@@ -27,6 +27,8 @@
 
 #include "message.h"
 
+vector<MESSAGE_DESC> message_descs;
+
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message
 // TODO: add translation functionality

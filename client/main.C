@@ -79,6 +79,8 @@ void project_add_failed(PROJECT* project) {
 void show_message(PROJECT *p, char* msg, int priority) {
     char* x;
     char message[1024];
+    time_t now = time(0);
+    char* time_string = time_to_string(now);
 #if defined(WIN32) && defined(_CONSOLE)
     char event_message[2048];
 #endif
@@ -93,34 +95,39 @@ void show_message(PROJECT *p, char* msg, int priority) {
     } else {
         x = "---";
     }
+
+    MESSAGE_DESC md;
+    md.project = p;
+    md.priority = priority;
+    md.timestamp = now;
+    md.message = msg;
+    message_descs.push_back(md);
+
     switch (priority) {
     case MSG_ERROR:
-        fprintf(stderr, "%s [%s] %s\n", timestamp(), x, message);
-        printf("%s [%s] %s\n", timestamp(), x, message);
-		if (gstate.executing_as_windows_service)
-		{
+        fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
+        printf("%s [%s] %s\n", time_string, x, message);
+		if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
-		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
+		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
 			LogEventErrorMessage(event_message);
 #endif
 		}
 		break;
     case MSG_WARNING:
-        printf("%s [%s] %s\n", timestamp(), x, message);
-		if (gstate.executing_as_windows_service)
-		{
+        printf("%s [%s] %s\n", time_string,  x, message);
+		if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
-		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
+		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
 			LogEventWarningMessage(event_message);
 #endif
 		}
 		break;
     case MSG_INFO:
-        printf("%s [%s] %s\n", timestamp(), x, message);
-		if (gstate.executing_as_windows_service)
-		{
+        printf("%s [%s] %s\n", time_string,  x, message);
+		if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
-		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
+		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
 			LogEventInfoMessage(event_message);
 #endif
 		}

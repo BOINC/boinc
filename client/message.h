@@ -20,18 +20,31 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include <vector>
+
 #include "util.h"
+#include "client_types.h"
 
 // Show a message, preceded by timestamp and project name
 // priorities:
 
 #define MSG_INFO    1
-    // cmdline: write to stdout
+    // write to stdout
     // GUI: write to msg window
 #define MSG_ERROR   2
-    // cmdline: write to stderr
+    // write to stderr
     // GUI: write to msg window in bold or red
 #define MSG_WARNING 3
+    // deprecated - do not use
+
+struct MESSAGE_DESC {
+    PROJECT* project;
+    int priority;
+    int timestamp;
+    string message;
+};
+
+extern vector<MESSAGE_DESC> message_descs;
 
 extern void show_message(class PROJECT *p, char* message, int priority);
 
@@ -59,6 +72,7 @@ extern ClientMessages log_messages;
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments
+//
 #if !defined(__GNUC__) && !defined(__attribute__)
 #define __attribute__(x) /*nothing*/
 #endif

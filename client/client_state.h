@@ -86,6 +86,9 @@ public:
     int file_xfer_giveup_period;
     bool user_idle;
     int user_run_request;
+        // values above (USER_RUN_REQUEST_*)
+    int user_network_request;
+        // same, just for network
     bool started_by_screensaver;
     bool exit_when_idle;
     bool return_results_immediately;
@@ -110,6 +113,7 @@ public:
 	bool previous_activities_suspended;
 		// if activities were suspended in the previous check_suspend();
 		// this is needed to update GUI windows after suspension and close transfers/files.
+    bool network_suspended;
 	bool executing_as_windows_service;
 
 private:
@@ -219,6 +223,9 @@ private:
     void check_suspend_activities(int&);
     int suspend_activities(int reason);
     int resume_activities();
+    void check_suspend_network(int&);
+    int suspend_network(int reason);
+    int resume_network();
     void install_global_prefs();
     void show_global_prefs_source(bool);
 

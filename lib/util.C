@@ -425,12 +425,6 @@ char* time_to_string(time_t x) {
     return buf;
 }
 
-// return current time of day as ASCII string, no CR
-//
-char* timestamp() {
-    return time_to_string(time(0));
-}
-
 // set by command line
 bool debug_fake_exponential_backoff = false;
 double debug_total_exponential_backoff = 0;

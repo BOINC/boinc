@@ -73,6 +73,7 @@ CLIENT_STATE::CLIENT_STATE() {
     file_xfer_giveup_period = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
+    network_suspended = false;
     previous_activities_suspended = false;
     core_client_major_version = MAJOR_VERSION;
     core_client_minor_version = MINOR_VERSION;
@@ -86,6 +87,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(detach_project_url, "");
     strcpy(host_venue, "");
     user_run_request = USER_RUN_REQUEST_AUTO;
+    user_network_request = USER_RUN_REQUEST_AUTO;
     started_by_screensaver = false;
     requested_exit = false;
     master_fetch_period = MASTER_FETCH_PERIOD;
@@ -298,7 +300,7 @@ int CLIENT_STATE::init() {
 int CLIENT_STATE::net_sleep(double x) {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
     scope_messages.printf("CLIENT_STATE::net_sleep(%f)\n", x);
-    if (activities_suspended) {
+    if (activities_suspended || network_suspended) {
         boinc_sleep(x);
         return 0;
     } else {
@@ -341,14 +343,39 @@ bool CLIENT_STATE::do_something() {
         return false;
     }
 
+    check_suspend_network(reason);
+    if (reason) {
+        if (!network_suspended) {
+            suspend_network(reason);
+        }
+    } else {
+        if (network_suspended) {
+            resume_network();
+        }
+    }
+    network_suspended = (reason != 0);
+
     scope_messages.printf("CLIENT_STATE::do_something(): Begin poll:\n");
     ++scope_messages;
 
     ss_logic.poll();
     if (activities_suspended) {
-        scope_messages.printf("CLIENT_STATE::do_something(): No active tasks! (suspended)\n");
+        scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
+        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
+        POLL_ACTION(garbage_collect        , garbage_collect        );
+        POLL_ACTION(update_results         , update_results         );
+#ifndef _WIN32
+        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+#endif
+    } else if (network_suspended) {
+        scope_messages.printf("CLIENT_STATE::do_something(): network suspended\n");
+        POLL_ACTION(net_xfers              , net_xfers->poll        );
+        POLL_ACTION(http_ops               , http_ops->poll         );
+        POLL_ACTION(active_tasks           , active_tasks.poll      );
+        POLL_ACTION(start_apps             , start_apps             );
+        POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );

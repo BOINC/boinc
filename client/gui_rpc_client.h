@@ -139,6 +139,15 @@ public:
     ~RPC_CLIENT();
     int init(char*);
     int get_state();
+    int result_show_graphics(RESULT&);
+    int project_reset(PROJECT&);
+    int project_attach(char* url, char* auth);
+    int project_detach(PROJECT&);
+    int project_update(PROJECT&);
+    int set_run_mode(int mode);
+    int run_benchmarks();
+    int set_proxy_settings(PROXY_INFO&);
+    int get_messages(int nmessages, int offset, vector<MESSAGE_DESC>&);
     void print();
 };
 

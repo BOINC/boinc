@@ -115,8 +115,6 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         reason |= SUSPEND_REASON_BATTERIES;
     }
 
-    // user_idle is set in the Mac/Win GUI code
-    //
     if (!global_prefs.run_if_user_active && !user_idle) {
         reason |= SUSPEND_REASON_USER_ACTIVE;
     }
@@ -130,7 +128,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
 
 int CLIENT_STATE::suspend_activities(int reason) {
     string s_reason;
-    s_reason = "Suspending computation and file transfer";
+    s_reason = "Suspending computation and network activity";
     if (reason & SUSPEND_REASON_BATTERIES) {
         s_reason += " - on batteries";
     }
@@ -158,6 +156,32 @@ int CLIENT_STATE::suspend_activities(int reason) {
 int CLIENT_STATE::resume_activities() {
     msg_printf(NULL, MSG_INFO, "Resuming activity");
     active_tasks.unsuspend_all();
+    return 0;
+}
+
+void CLIENT_STATE::check_suspend_network(int& reason) {
+    reason = 0;
+
+    if (user_network_request == USER_RUN_REQUEST_ALWAYS) return;
+    if (user_network_request == USER_RUN_REQUEST_NEVER) {
+        reason |= SUSPEND_REASON_USER_REQ;
+        return;
+    }
+    return;
+}
+
+int CLIENT_STATE::suspend_network(int reason) {
+    string s_reason;
+    s_reason = "Suspending network activity";
+    if (reason & SUSPEND_REASON_USER_REQ) {
+        s_reason += " - user request";
+    }
+    msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
+    pers_file_xfers->suspend();
+    return 0;
+}
+
+int CLIENT_STATE::resume_network() {
     return 0;
 }
 

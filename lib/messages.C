@@ -61,16 +61,14 @@ using namespace std;
 
 // See sched/sched_messages.C and client/client_messages.C for those classes.
 
-Messages::Messages(FILE* output_)
-{
+Messages::Messages(FILE* output_) {
     output = output_;
     indent_level = 0;
     spaces[0] = 0;
     strcpy(spaces+1, "                                                                              ");
 }
 
-void Messages::enter_level(int diff)
-{
+void Messages::enter_level(int diff) {
     assert (indent_level >= 0);
     spaces[indent_level] = ' ';
     indent_level += diff*2;
@@ -78,16 +76,17 @@ void Messages::enter_level(int diff)
     assert (indent_level >= 0);
 }
 
-void Messages::vprintf(int kind, const char* format, va_list va)
-{
+void Messages::vprintf(int kind, const char* format, va_list va) {
+    const char* now_timestamp = time_to_string(time(0));
     if (!v_message_wanted(kind)) return;
-    fprintf(output, "%s [%s]%s ", timestamp(), v_format_kind(kind), spaces);
+    fprintf(output, "%s [%s]%s ", now_timestamp, v_format_kind(kind), spaces);
     vfprintf(output, format, va);
 }
 
 // break a multi-line string into lines (so that we show prefix on each line)
-void Messages::vprintf_multiline(int kind, const char* str, const char* prefix_format, va_list va)
-{
+void Messages::vprintf_multiline(
+    int kind, const char* str, const char* prefix_format, va_list va
+) {
     if (!v_message_wanted(kind)) return;
     if (str == NULL) return;
 
@@ -95,7 +94,7 @@ void Messages::vprintf_multiline(int kind, const char* str, const char* prefix_f
     if (prefix_format) {
         vsprintf(sprefix, prefix_format, va);
     }
-    const char* now_timestamp = timestamp();
+    const char* now_timestamp = time_to_string(time(0));
     const char* skind = v_format_kind(kind);
 
     string line;
@@ -113,15 +112,16 @@ void Messages::vprintf_multiline(int kind, const char* str, const char* prefix_f
     }
 }
 
-void Messages::vprintf_file(int kind, const char* filename, const char* prefix_format, va_list va)
-{
+void Messages::vprintf_file(
+    int kind, const char* filename, const char* prefix_format, va_list va
+) {
     if (!v_message_wanted(kind)) return;
 
     char sprefix[256] = "";
     if (prefix_format) {
         vsprintf(sprefix, prefix_format, va);
     }
-    const char* now_timestamp = timestamp();
+    const char* now_timestamp = time_to_string(time(0));
     const char* skind = v_format_kind(kind);
 
     ifstream f(filename);
@@ -133,24 +133,25 @@ void Messages::vprintf_file(int kind, const char* filename, const char* prefix_f
     }
 }
 
-void Messages::printf(int kind, const char* format, ...)
-{
+void Messages::printf(int kind, const char* format, ...) {
     va_list va;
     va_start(va, format);
     vprintf(kind, format, va);
     va_end(va);
 }
 
-void Messages::printf_multiline(int kind, const char* str, const char* prefix_format, ...)
-{
+void Messages::printf_multiline(
+    int kind, const char* str, const char* prefix_format, ...
+) {
     va_list va;
     va_start(va, prefix_format);
     vprintf_multiline(kind, str, prefix_format, va);
     va_end(va);
 }
 
-void Messages::printf_file(int kind, const char* filename, const char* prefix_format, ...)
-{
+void Messages::printf_file(
+    int kind, const char* filename, const char* prefix_format, ...
+) {
     va_list va;
     va_start(va, prefix_format);
     vprintf_file(kind, filename, prefix_format, va);
@@ -162,24 +163,25 @@ void Messages::printf_file(int kind, const char* filename, const char* prefix_fo
 // corresponding Messages functions with the same name, passing the KIND that
 // was specified on creation of the ScopeMessages object.
 
-void ScopeMessages::printf(const char* format, ...)
-{
+void ScopeMessages::printf(const char* format, ...) {
     va_list va;
     va_start(va, format);
     messages.vprintf(kind, format, va);
     va_end(va);
 }
 
-void ScopeMessages::printf_multiline(const char* str, const char* prefix_format, ...)
-{
+void ScopeMessages::printf_multiline(
+    const char* str, const char* prefix_format, ...
+) {
     va_list va;
     va_start(va, prefix_format);
     messages.vprintf_multiline(kind, str, prefix_format, va);
     va_end(va);
 }
 
-void ScopeMessages::printf_file(const char* filename, const char* prefix_format, ...)
-{
+void ScopeMessages::printf_file(
+    const char* filename, const char* prefix_format, ...
+) {
     va_list va;
     va_start(va, prefix_format);
     messages.vprintf_file(kind, filename, prefix_format, va);
