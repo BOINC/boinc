@@ -17242,3 +17242,13 @@ David  9 Sept 2004
 
     sched/
         transitioner.C
+
+David  9 Sept 2004
+    - preliminary support for "locality scheduling" (for Einstein@home).
+        
+    client/
+        client_types.h
+        sc_scheduler.C
+    sched/
+        sched_send.C,h
+        server_types.h
