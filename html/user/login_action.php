@@ -29,9 +29,9 @@
         $_SESSION["authenticator"] = $authenticator;
         $next_url = $_POST["next_url"];
         if (strlen($next_url) == 0) $next_url = "home.php";
-        if ($_GET['send_cookie']) {
+        Header("Location: $next_url");
+        if ($_POST['send_cookie']) {
             setcookie('auth', $authenticator, time()+3600*24*365);
         }
-        Header("Location: $next_url");
     }
 ?>

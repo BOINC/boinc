@@ -64,6 +64,9 @@ function get_profile_from_userid($userid) {
 
 function get_logged_in_user($must_be_logged_in=true, $pathMod="") {
     $authenticator = init_session();
+    if (!$authenticator) {
+        $authenticator = $_COOKIE['auth'];
+    }
     $user = get_user_from_auth($authenticator);
     if ($must_be_logged_in) {
         require_login($user, $pathMod);
