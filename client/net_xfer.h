@@ -21,6 +21,7 @@
 #define _NET_XFER_
 
 #include <stdio.h>
+#include <time.h>
 #include <vector>
 
 // The following classes provide an interface for polling

@@ -116,7 +116,7 @@ void CProgressBarCtrl::OnPaint()
 	pOldFont = cdc.SelectObject(GetParent()->GetFont());
 	crOldColor = cdc.SetTextColor(m_crText);
 	nOldMode = cdc.SetBkMode(TRANSPARENT);
-	cdc.DrawText(strProg, &rt, DT_CENTER|DT_VCENTER);
+	cdc.DrawText(strProg, &rt, DT_CENTER|DT_VCENTER|DT_END_ELLIPSIS);
 	cdc.SelectObject(pOldFont);
 	cdc.SetTextColor(crOldColor);
 	cdc.SetBkMode(nOldMode);
