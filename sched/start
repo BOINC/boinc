@@ -23,12 +23,14 @@ A config.xml file looks like this:
   <daemons>
     <daemon>
       [ <host>foobar</host> ]
+      [ <disabled>1</disabled> ]
       <cmd>feeder -d 3</cmd>
     </daemon>
   </daemons>
   <tasks>
     <task>
       [ <host>foobar</host> ]
+      [ <disabled>1</disabled> ]
       <cmd>get_load</cmd>
       <output>get_load.out</output>
       <period>5 min</period>
@@ -72,8 +74,8 @@ The process ID is recorded in the <pid_dir> directory
 and the process is sent a SIGHUP in a DISABLE operation.
 
 Both tasks and daemons can run on a different host (specified by <host>).
-The default is the project's main host,
-which is specified in config.host
+The default is the project's main host, which is specified in config.host
+A daemon or task can be turned off by adding the <disabled/> element.
 
 IMPLEMENTATION:
 
@@ -142,19 +144,29 @@ def get_host_list():
             hosts.append(host)
     return hosts
 
-def assign_default_host():
+def assign_task_defaults():
     '''
-    Set the "host" attribute of tasks and daemons for which it's not specified
+    Set the "host" and "disabled" attribute of tasks and daemons
 
     '''
     for task in config.tasks:
         host = task.__dict__.get('host')
         if not host:
             task.host = config.config.host
+        disabled = task.__dict__.get('disabled')
+        if disabled:
+            task.disabled = 1
+        else:
+            task.disabled = 0
     for task in config.daemons:
         host = task.__dict__.get('host')
         if not host:
             task.host = config.config.host
+        disabled = task.__dict__.get('disabled')
+        if disabled:
+            task.disabled = 1
+        else:
+            task.disabled = 0
 
 def get_dir(name):
     return config.config.__dict__.get(name+'_dir') or os.path.join(project_dir,name)
@@ -421,12 +433,16 @@ def run_daemons():
     for task in config.daemons:
         if task.host != local_hostname:
             continue;
+        if task.disabled:
+            continue;
         run_daemon(task)
 
 def run_tasks():
     if verbose: print "Running tasks"
     for task in config.tasks:
         if task.host != local_hostname:
+            continue;
+        if task.disabled:
             continue;
         run_task(task)
 
@@ -508,7 +524,7 @@ def command_status():
         print "BOINC is DISABLED"
     if verbose:
         print
-        print "DAEMON  pid  status   lock file  commandline"
+        print "DAEMON  pid  status    lockfile disabled  commandline"
         n = 0
         for task in config.daemons:
             if task.host != local_hostname:
@@ -525,9 +541,15 @@ def command_status():
                 lu = " locked "
             else:
                 lu = "UNLOCKED"
-            print "  %2d"%n, " %5d"%pid, rs, lu, " ", task.cmd
+
+            if task.disabled:
+                d = " yes    "
+            else:
+                d = " no     "
+
+            print "  %2d"%n, " %5d"%pid, rs, lu, d, " ", task.cmd
         print
-        print "TASK       last run       period          next run        lock file  commandline"
+        print "TASK       last run       period          next run        lock file   disabled  commandline"
         n = 0
         for task in config.tasks:
             if task.host != local_hostname:
@@ -542,8 +564,13 @@ def command_status():
                 lu = " LOCKED "
             else:
                 lu = "unlocked"
+
+            if task.disabled:
+                d = " yes    "
+            else:
+                d = " no     "
             print "  %2d"%n, last_run.center(20), task.period.ljust(10), \
-                  next_run.center(20), lu, " ", task.cmd
+                  next_run.center(20), lu, d, " ", task.cmd
         pass
 
 def command_show_config():
@@ -553,7 +580,6 @@ def command_show_config():
 # ------------- main program begins here ---------------------
 
 local_hostname = socket.gethostname()
-print '-------- start ---------'
 print 'local hostname: ', local_hostname
 cwd = os.getcwd()
 program_name = os.path.basename(sys.argv[0])
@@ -651,7 +677,6 @@ cgi_bin_dir = get_dir('cgi_bin')
 log_dir = ensure_get_dir('log_'+local_hostname)
 pid_dir = ensure_get_dir('pid_'+local_hostname)
 
-print 'default host: ', config.config.host
 is_main_host = config.config.host == local_hostname
 
 start_lockfile = os.path.join(pid_dir, 'start.lock.'+local_hostname)
@@ -659,7 +684,7 @@ if lock_file(start_lockfile):
     print >>sys.stderr, "start is currently running!"
     sys.exit(1)
 
-assign_default_host()
+assign_task_defaults()
 apply(command)
 run_state.write()
 

@@ -8773,3 +8773,11 @@ David  23 Dec 2003
 Gary    25 Dec 2003
     - BOINC release 2.16 for windows, Linux, solaris, mac os x 10.3
        (os x 10.2 compatability will come soon)
+
+David  30 Dec 2003
+    - added optional <disabled>1</disabled> flag to daemons and tasks
+        in config.xml.  (would prefer "<disabled/>", but couldn't
+        figure out how to get the minidom parser to recognize)
+
+    sched/
+        start
