@@ -23223,3 +23223,9 @@ David  24 Jan 2005
         scheduler_op.C
     lib/
         error_numbers.h
+
+Rom    20 Jan 2005 (boinc)
+    - Tag for 4.62 release, all platforms
+      boinc_core_release_4_62
+
+      NOTE: 4.61 was eaten up in setup testing.
