@@ -6806,6 +6806,8 @@ Karl 2003-10-14
     - added Rank column to top users; made presentation consistent for top
       teams/users/hosts
 
+    - show number of results valid, successful, total (instead of just total)
+
     html_user/
         top_teams.php
         top_users.php
