@@ -690,6 +690,10 @@ PROGRESS_2D::PROGRESS_2D(
     memcpy(inner_color, ic, sizeof(inner_color));
 }
 
+void PROGRESS_2D::set_pos(float* p) {
+    memcpy(pos, p, sizeof(pos));
+}
+
 //pos specifies top left of graph
 void PROGRESS_2D::draw(float x) {
 	glBegin(GL_QUADS);

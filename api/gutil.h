@@ -105,8 +105,9 @@ public:
 class PROGRESS_2D {
     float color[4], inner_color[4];
     float len, width, inner_width;
-public:
 	float pos[3];
+public:
+    void set_pos(float*);
     PROGRESS_2D(float* pos, float len, float width, float inner_width, float* c, float* ic);
     void draw(float);
 };
