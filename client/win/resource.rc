@@ -228,7 +228,7 @@ BEGIN
     POPUP "Project"
     BEGIN
         MENUITEM "&Web site",                   ID_PROJECT_WEB_SITE
-        MENUITEM "Get &preferences",            ID_PROJECT_GET_PREFS
+        MENUITEM "GET PREFERENCES",             ID_PROJECT_GET_PREFS
         MENUITEM "&Detach...",                  ID_PROJECT_DETACH
         MENUITEM "&Reset project...",           ID_PROJECT_RESET
     END
