@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # $Id$
 # cgi/php web server
@@ -175,7 +175,7 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         else:
             raise SystemExit('need fork()')
 
-def serve(bind='', port=8000, handler=PHPHTTPRequestHandler):
+def serve(bind='localhost', port=8000, handler=PHPHTTPRequestHandler):
     httpd = BaseHTTPServer.HTTPServer((bind,port), handler)
     httpd.serve_forever()
 
