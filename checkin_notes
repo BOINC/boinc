@@ -20446,3 +20446,15 @@ David  1 Dec 2004
             html.php
     sched/
         validator.C
+
+Bruce 2 Dec 2004
+	- For unreturned results, show reporting deadline on user page.
+	- Add additional state possibilities.
+	- Explain validate error state.
+
+	html/
+		inc/
+			resuls.inc
+		user/
+			explain_state.php
+ 
