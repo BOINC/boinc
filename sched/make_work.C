@@ -156,7 +156,7 @@ void make_work() {
             while (p) {
                 if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
                     sprintf(
-                        new_file_name, "%s_%d_%d", file_name, start_time, i++
+                        new_file_name, "%s_%d_%d", file_name, start_time, seqno++
                     );
                     sprintf(pathname, "%s/%s", config.download_dir, file_name);
                     sprintf(
@@ -166,7 +166,7 @@ void make_work() {
                     if (system(command)) {
                         fprintf(stderr, "make_work: ERROR\n");
                         perror(command);
-                        exit();
+                        exit(1);
                     }
                     strcpy(new_buf, starting_xml);
                     replace_file_name(
@@ -177,7 +177,7 @@ void make_work() {
                 p = strtok(0, "\n");
             }
             nresults_left = redundancy;
-            sprintf(wu.name, "wu_%d_%d", start_time, seqno);
+            sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
             wu.id = 0;
             wu.create_time = time(0);
             retval = db_workunit_new(wu);

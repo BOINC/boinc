@@ -10,27 +10,26 @@ alter table app_version
     add unique(appid, platformid, version_num);
 
 alter table user
-    add unique(email_addr);
-alter table user
-    add unique(authenticator);
-alter table user
-    add index ind_tid (teamid);
-create index user_avg on user(expavg_credit);
+    add unique(email_addr),
+    add unique(authenticator),
+    add index ind_tid (teamid),
+    add index user_avg (expavg_credit);
 
 alter table team
     add unique(name);
 
 alter table workunit
-    add unique(name);
-create index wu_val on workunit(appid, need_validate);
-create index wu_retry on workunit(appid, retry_check_time);
-create index wu_filedel on workunit(file_delete_state);
-create index wu_assim on workunit(appid, assimilate_state);
+    add unique(name),
+    add index wu_val (appid, need_validate),
+    add index wu_retry (appid, retry_check_time),
+    add index wu_filedel (file_delete_state),
+    add index wu_assim (appid, assimilate_state);
 
 alter table result
-    add unique(name);
-create index res_wuid on result(workunitid);
-create index ind_res_st on result(server_state);
-create index res_filedel on result(file_delete_state);
+    add unique(name),
+    add index res_wuid (workunitid),
+    add index ind_res_st (server_state),
+    add index res_filedel (file_delete_state);
 
-create index host_avg on host(expavg_credit);
+alter table host
+    add index host_avg (expavg_credit);
