@@ -8,11 +8,10 @@ function send_verify_email($user, $email_addr, $key) {
     mail(
         $email_addr,
         PROJECT." account email change",
-"You have asked that the email address of your PROJECT account
-be changed to $email_addr.
+"You have asked that the email address of your " . PROJECT . " account be changed to $email_addr.
 To confirm this change, please visit the following URL:
-".(URL_BASE || MASTER_URL)."/confirm_email_change.php?id=$user->id&str=$key"
-    );
+". URL_BASE ."confirm_email_change.php?id=$user->id&str=$key"
+        );  // Changed from (URL_BASE || MASTER_URL)
 }
 
     db_init();
