@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-
 #endif
 
 #include "miofile.h"
@@ -32,26 +31,8 @@
 #define RUN_MODE_NEVER  1
 #define RUN_MODE_AUTO   2
 
-struct FILE_TRANSFER {
-    std::string name;
-    bool generated_locally;
-    bool uploaded;
-    bool upload_when_present;
-    bool sticky;
-    bool pers_xfer_active;
-    bool xfer_active;
-    int num_retries;
-    double bytes_xferred;
-    double file_offset;
-    double xfer_speed;
-    std::string hostname;
-    struct PROJECT* project;
-
-    int parse(MIOFILE&);
-    void print();
-};
-
-struct PROJECT {
+class PROJECT {
+public:
     std::string master_url;
     double resource_share;
     std::string project_name;
@@ -70,29 +51,44 @@ struct PROJECT {
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
 
+    PROJECT();
+    ~PROJECT();
+
     int parse(MIOFILE&);
     void print();
+    void clear();
 };
 
-struct APP {
+class APP {
+public:
     std::string name;
     PROJECT* project;
 
+    APP();
+    ~APP();
+
     int parse(MIOFILE&);
     void print();
+    void clear();
 };
 
-struct APP_VERSION {
+class APP_VERSION {
+public:
     std::string app_name;
     int version_num;
     APP* app;
     PROJECT* project;
 
+    APP_VERSION();
+    ~APP_VERSION();
+
     int parse(MIOFILE&);
     void print();
+    void clear();
 };
 
-struct WORKUNIT {
+class WORKUNIT {
+public:
     std::string name;
     std::string app_name;
     int version_num;
@@ -104,11 +100,16 @@ struct WORKUNIT {
     APP* app;
     APP_VERSION* avp;
 
+    WORKUNIT();
+    ~WORKUNIT();
+
     int parse(MIOFILE&);
     void print();
+    void clear();
 };
 
-struct RESULT {
+class RESULT {
+public:
     std::string name;
     std::string wu_name;
     int report_deadline;
@@ -130,69 +131,155 @@ struct RESULT {
     WORKUNIT* wup;
     PROJECT* project;
 
+    RESULT();
+    ~RESULT();
+
     int parse(MIOFILE&);
     void print();
+    void clear();
 };
 
-struct PROXY_INFO {
-    bool use_http_proxy;
-    bool use_socks_proxy;
-    int socks_version;
-    char socks_server_name[256];
-    char http_server_name[256];
-    int socks_server_port;
-    int http_server_port;
-    char http_user_name[256];
-    char http_user_passwd[256];
-    char socks5_user_name[256];
-    char socks5_user_passwd[256];
+class FILE_TRANSFER {
+public:
+    std::string name;
+    bool generated_locally;
+    bool uploaded;
+    bool upload_when_present;
+    bool sticky;
+    bool pers_xfer_active;
+    bool xfer_active;
+    int num_retries;
+    double bytes_xferred;
+    double file_offset;
+    double xfer_speed;
+    std::string hostname;
+    PROJECT* project;
+
+    FILE_TRANSFER();
+    ~FILE_TRANSFER();
+
+    int parse(MIOFILE&);
+    void print();
+    void clear();
 };
 
-struct MESSAGE_DESC {
+class MESSAGE {
+public:
     std::string project;
     int priority;
     int timestamp;
     std::string body;
+
+    MESSAGE();
+    ~MESSAGE();
+
+    int parse(MIOFILE&);
+    void print();
+    void clear();
 };
 
-struct CC_STATE {
+class PROXY_INFO {
+public:
+    bool use_http_proxy;
+    bool use_socks_proxy;
+    bool use_http_authenticaton;
+    int socks_version;
+    std::string socks_server_name;
+    std::string http_server_name;
+    int socks_server_port;
+    int http_server_port;
+    std::string http_user_name;
+    std::string http_user_passwd;
+    std::string socks5_user_name;
+    std::string socks5_user_passwd;
+
+    PROXY_INFO();
+    ~PROXY_INFO();
+
+    int parse(MIOFILE&);
+    void print();
+    void clear();
+};
+
+class CC_STATE {
+public:
     std::vector<PROJECT*> projects;
     std::vector<APP*> apps;
     std::vector<APP_VERSION*> app_versions;
     std::vector<WORKUNIT*> wus;
     std::vector<RESULT*> results;
 
-    void link();
+    CC_STATE();
+    ~CC_STATE();
+
     APP* lookup_app(std::string&);
     WORKUNIT* lookup_wu(std::string&);
     APP_VERSION* lookup_app_version(std::string&, int);
     RESULT* lookup_result(std::string&);
+
     void print();
+    void clear();
 };
 
-struct RESULTS {
+class PROJECTS {
+public:
+    std::vector<PROJECT*> projects;
+
+    PROJECTS();
+    ~PROJECTS();
+
+    void print();
+    void clear();
+};
+
+class RESULTS {
+public:
     std::vector<RESULT*> results;
+
+    RESULTS();
+    ~RESULTS();
+
     void print();
+    void clear();
 };
 
-struct FILE_TRANSFERS {
+class FILE_TRANSFERS {
+public:
     std::vector<FILE_TRANSFER*> file_transfers;
+
+    FILE_TRANSFERS();
+    ~FILE_TRANSFERS();
+
     void print();
+    void clear();
+};
+
+class MESSAGES {
+public:
+    std::vector<MESSAGE*> messages;
+
+    MESSAGES();
+    ~MESSAGES();
+
+    void print();
+    void clear();
 };
 
 class RPC_CLIENT {
     int sock;
     int send_request(char*);
     int get_reply(char*&);
+
 public:
 
+    RPC_CLIENT();
     ~RPC_CLIENT();
     int init(char* host);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
-    int get_project_status(std::vector<PROJECT>&);
-    int get_disk_usage(std::vector<PROJECT>&);
+    int get_project_status(PROJECTS&);
+    int get_disk_usage(PROJECTS&);
     int show_graphics(char* project, char* result_name, bool full_screen);
     int project_reset(char*);
     int project_attach(char* url, char* auth);
@@ -204,6 +291,7 @@ public:
     int get_network_mode(int& mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
-    int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
+    int get_messages(int nmessages, int seqno, MESSAGES&);
     int retry_file_transfer(FILE_TRANSFER&);
+    char* mode_name(int mode);
 };

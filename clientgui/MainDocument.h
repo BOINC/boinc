@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/09/14 15:52:06  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/09/10 23:17:08  rwalton
 // *** empty log message ***
 //
@@ -63,7 +66,7 @@ private:
     CC_STATE                    state;
     RESULTS                     results;
     FILE_TRANSFERS              ft;
-    std::vector<MESSAGE_DESC>   message_descs;
+    MESSAGES                    messages;
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
     bool                        m_bCachedStateLocked;
