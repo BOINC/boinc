@@ -41,6 +41,7 @@ How to develop or port an application program for use with BOINC.
 </font>
 <ul>
 <li><a href=api.php>The BOINC API</a>
+<li><a href=diagnostics.php>The BOINC diagnostics API</a>
 <li><a href=graphics.php>The BOINC graphics API</a>
 <li><a href=app_dev.php>Application development</a>
 <li><a href=fortran.php>FORTRAN applications</a>

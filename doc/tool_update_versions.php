@@ -42,6 +42,15 @@ Recommended code-signing practices are described
 <a href=code_signing.php>here</a>.
 
 
+<h3>Minimum core version</h3>
+Application versions have a field <code>min_core_version</code> which,
+if nonzero, indicates the minimum core client version number
+to which the application version should be sent.
+Update_versions, by default, sets this to the largest
+core client version number in the database.
+You can disable this by editing update_versions,
+or by manually changing the app_version record.
+
 <h3>Multiple-file application versions</h3>
 
 Application versions can consist of multiple files.
