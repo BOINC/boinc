@@ -38,6 +38,7 @@
         }
         $_SESSION["authenticator"] = $user->authenticator;
         $next_url = $HTTP_POST_VARS["next_url"];
+        if (strlen($next_url) == 0) $next_url = "home.php";
         Header("Location: $next_url");
     }
 ?>
