@@ -12394,10 +12394,18 @@ David  May 19 2004
 	- Added code for Dhrystone benchmark.
 		Use the "VAX MIPS" result as integer benchmark.
 		It's somewhat higher than the benchmark we've been using.
-	- Switch to using Whetstone and Dhrystone instead of our home-brew benchmarks.
+	- Switch to using Whetstone and Dhrystone instead of home-brew benchmarks.
 
 	client/
 		cpu_benchmark.C,h
 		cs_benchmark.C
 		dhrystone.C (new)
 		whetstone.C
+
+David  May 19 2004
+    - Since new benchmarks are higher than old ones,
+        redefine a cobblestone as 100 * (fpops + iops)/2
+        (omit memory bandwidth, use 100 instead of 300)
+
+    sched/
+        handle_request.C

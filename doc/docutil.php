@@ -16,7 +16,7 @@ function page_head($title) {
         <table width=100%>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><img src=boinc.gif>
+        <td align=right><a href=.><img src=boinc.gif></a>
             <br>
             <nobr><font size=2>Last modified $d</font></nobr>
         </td>

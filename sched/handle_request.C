@@ -42,7 +42,7 @@ using namespace std;
 #include "sched_msgs.h"
 #include "sched_send.h"
 
-const double COBBLESTONE_FACTOR = 300.0;
+const double COBBLESTONE_FACTOR = 100.0;
 
 // Look up the host and its user, and make sure the authenticator matches.
 // If no host ID is supplied, or if RPC seqno mismatch,
@@ -199,8 +199,8 @@ make_new_host:
 //
 static void compute_credit_rating(HOST& host) {
     host.credit_per_cpu_sec =
-        (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9 + fabs(host.p_membw)/4e9)
-        * COBBLESTONE_FACTOR / (3 * SECONDS_PER_DAY);
+        (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9)
+        * COBBLESTONE_FACTOR / (2 * SECONDS_PER_DAY);
 }
 
 // Update host record based on request.
