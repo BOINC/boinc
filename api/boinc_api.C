@@ -46,6 +46,18 @@ HANDLE hGlobalDrawEvent;
 #include <fcntl.h>
 #include <sys/types.h>
 
+#ifdef BOINC_APP_GRAPHICS
+#ifdef __APPLE_CC__
+    #include <OpenGL/gl.h>
+#endif
+
+#ifdef _WIN32
+#include <gl\gl.h>            // Header File For The OpenGL32 Library
+#include <gl\glu.h>            // Header File For The GLu32 Library
+#include <gl\glaux.h>        // Header File For The Glaux Library
+#endif
+#endif
+
 #include "parse.h"
 #include "error_numbers.h"
 #include "graphics_api.h"
@@ -304,6 +316,7 @@ double boinc_cpu_time() {
     HANDLE hProcess;
     FILETIME creationTime,exitTime,kernelTime,userTime;
 
+    // TODO: Could we speed this up by retaining the process handle?
     hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, GetCurrentProcessId());
     if (GetProcessTimes(
         hProcess, &creationTime, &exitTime, &kernelTime, &userTime)
