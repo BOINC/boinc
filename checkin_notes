@@ -10340,3 +10340,17 @@ Rom    Mar 4 2004 (from John Keck)
     client/
         client_state.h
         cs_scheduler.c
+
+Rom    Mar 4 2004
+    - More Windows header file cleanup.
+
+    api/
+        boinc_api.c
+        mfile.c
+    client/
+        <Header files>
+    lib/
+        filesys.h
+        language.h
+        parse.h
+        util.h

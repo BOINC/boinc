@@ -39,9 +39,9 @@
 //
 #ifndef _CONSOLE
 
-//#ifndef VC_EXTRALEAN
-//#define VC_EXTRALEAN
-//#endif
+#ifndef VC_EXTRALEAN
+#define VC_EXTRALEAN
+#endif
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxcmn.h>         // MFC support for Windows Common Controls

@@ -17,8 +17,11 @@
 // Contributor(s):
 //
 
-#include "client_state.h"
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
 
+#include "client_state.h"
 #include "ss_logic.h"
 
 extern void create_curtain();

@@ -21,6 +21,10 @@
 // when to compute, how much disk to use, etc.
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
 #include "filesys.h"
 #include "file_names.h"
 #include "cpu_benchmark.h"

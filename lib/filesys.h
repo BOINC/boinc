@@ -26,7 +26,6 @@
 
 #ifdef _WIN32
 
-#include "stdafx.h"
 struct DIR_DESC {
     char path[256];
     bool first;

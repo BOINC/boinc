@@ -26,10 +26,6 @@
 #ifndef _LOGFLAGS_H_
 #define _LOGFLAGS_H_
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <stdio.h>
 #endif

@@ -22,8 +22,6 @@
 
 // includes
 
-#include "stdafx.h"
-
 #include "file_names.h"
 #include "filesys.h"
 #include "log_flags.h"

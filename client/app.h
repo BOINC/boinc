@@ -20,10 +20,6 @@
 #ifndef _TASK_
 #define _TASK_
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <stdio.h>
 #include <vector>

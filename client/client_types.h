@@ -27,10 +27,6 @@
 
 #include "cpp.h"
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <stdio.h>
 #include <sys/time.h>

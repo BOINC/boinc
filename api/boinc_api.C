@@ -37,9 +37,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <string>
 #include <signal.h>
 #include <fcntl.h>
+#include <algorithm>
 #include <sys/types.h>
+
+using namespace std;
 
 #include "parse.h"
 #include "shmem.h"

@@ -21,10 +21,13 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <string>
 #include <errno.h>
 #if HAVE_MALLOC_H
 #include <malloc.h>
 #endif
+
+using namespace std;
 
 #include "filesys.h"
 #include "error_numbers.h"

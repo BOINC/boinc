@@ -38,10 +38,6 @@
 #ifndef _SS_LOGIC_
 #define _SS_LOGIC_
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <time.h>
 #endif

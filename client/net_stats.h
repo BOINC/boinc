@@ -21,10 +21,6 @@
 // namely exponentially weighted averages of upload and download speeds
 //
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <stdio.h>
 #endif

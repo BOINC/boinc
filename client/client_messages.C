@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
 #include "message.h"
 #include "log_flags.h"
 

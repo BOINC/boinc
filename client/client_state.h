@@ -20,10 +20,6 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <vector>
 #include <time.h>

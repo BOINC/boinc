@@ -20,10 +20,6 @@
 #ifndef _PERS_FILE_XFER_H
 #define _PERS_FILE_XFER_H
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
-
 #ifndef _WIN32
 #include <time.h>
 #endif

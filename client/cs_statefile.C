@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
 #include "parse.h"
 #include "error_numbers.h"
 #include "filesys.h"
