@@ -10794,3 +10794,10 @@ Rom    Mar 24 2004
         boinc_gui.vcproj
         boinc_ss.vcproj
         upper_case.vcproj
+
+kevin    Mar 24 2004
+	(class boinc_base_exception): changed order of
+	initialization in constructor so that initialization matches
+	declaration. 
+	lib/
+		exception.h 
