@@ -38,7 +38,7 @@
 class CLIENT_STATE {
 public:
     CLIENT_STATE();
-    int init(PREFS*);
+    int init();
     int restart_tasks();
     int exit();
     bool do_something();

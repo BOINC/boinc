@@ -48,3 +48,4 @@ public:
 };
 
 extern LOG_FLAGS log_flags;
+extern void read_log_flags();

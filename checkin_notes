@@ -1598,3 +1598,15 @@ Eric Heien   August 12, 2002
     sched/
         file_upload_handler.C
 
+David    August 12 2002
+    - Cleaned up initialization code:
+	main.C is now used ONLY for CLI versions
+	(remove this file from GUI projects)
+	Factored out initialization code that is common to
+	both GUI and CLI versions.
+
+    client/
+	client_state.C,h
+	log_flags.C,h
+	main.C
+	prefs.h

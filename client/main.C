@@ -25,9 +25,6 @@
 #include <unistd.h>
 #endif
 
-#ifdef __APPLE_CC__
-#include "mac_main.h"
-#endif
 
 #include "client_state.h"
 #include "error_numbers.h"
@@ -72,109 +69,46 @@ int initialize_prefs() {
     return 0;
 }
 
-int main(int argc, char** argv) {
-    PREFS* prefs;
-    FILE* f;
-    int retval;
-    bool user_requested_exit = false;
-
-    // Platform specific initialization here
 #ifdef __APPLE_CC__
-    signal( SIGPIPE, SIG_IGN );
-#endif
-    
-    // Set the stdout buffer to 0, so that stdout output
-    // immediately gets written out
-    //
-    setbuf(stdout, 0);
-
-    // Read log flags preferences, used mainly for debugging
-    //
-    f = fopen(LOG_FLAGS_FILE, "r");
-    if (f) {
-        log_flags.parse(f);
-        fclose(f);
-    }
-
-    // Read the user preferences file, if it exists.  If it doesn't,
-    // prompt user for project URL via initialize_prefs()
-    //
-    prefs = new PREFS;
-    retval = prefs->parse_file();
-    if (retval) {
-        retval = initialize_prefs();
-        if (retval) {
-            printf("can't initialize prefs.xml\n");
-            exit(retval);
-        }
-        retval = prefs->parse_file();
-        if (retval) {
-            printf("can't initialize prefs.xml\n");
-            exit(retval);
-        }
-    }
-
-#ifdef __APPLE_CC__
-    if (!mac_setup ())
-        return -1;
-    
-    ExitToShell();
-#endif
-
-#ifdef _WIN32
-    // Windows setup here
-#endif
-
-    // Initialize the client state with the preferences
-    //
-    gstate.init(prefs);
-
-    gstate.parse_cmdline(argc, argv);
-    // Run the time tests and host information check if needed
-    // TODO: break time tests and host information check into two
-    //       separate functions?
-    if(gstate.run_time_tests()) {
-        gstate.time_tests();
-    }
-    // Restart any tasks that were running when we last quit the client
-    gstate.restart_tasks();
+#include "mac_main.h"
+mac_main() {
+    signal(SIGPIPE, SIG_IGN);
+    read_log_flags();
+    if (!mac_setup ()) return -1;
+    retval = gstate.init();
+    if (retval) exit(retval);
     while (1) {
-#ifdef _WIN32
-        // Windows event loop here
+        if (!gstate.do_something()) {
+	}
+        if (gstate.time_to_exit() || user_requested_exit) {
+	    break;
+	}
+    }
+    mac_cleanup ();
+}
 #endif
-        
+
+int main(int argc, char** argv) {
+    int retval;
+
+    setbuf(stdout, 0);
+    read_log_flags();
+    gstate.parse_cmdline(argc, argv);
+    retval = gstate.init();
+    if (retval) exit(retval);
+    while (1) {
         fflush(stdout);
-        // do_something is where the meat of the clients work is done
-        // it will return false if it had nothing to do,
-        // in which case sleep for a second
-        //
         if (!gstate.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
-#ifndef __APPLE_CC__
-#ifndef _WIN32
             boinc_sleep(1);
-#endif
-#endif
         }
-        // If it's time to exit, break out of the while loop
-        if (gstate.time_to_exit() || user_requested_exit) {
+
+        if (gstate.time_to_exit()) {
             printf("time to exit\n");
             break;
         }
     }
-
-    // Platform specific cleanup here
-#ifdef __APPLE_CC__
-    mac_cleanup ();
-#endif
-    
-#ifdef _WIN32
-    // Windows cleanup here
-#endif
-    
-    // Clean everything up and gracefully exit
     gstate.exit();
-
     return 0;
 }

@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "error_numbers.h"
+#include "file_names.h"
 #include "parse.h"
 
 #include "log_flags.h"
@@ -88,4 +89,14 @@ int LOG_FLAGS::parse(FILE* in) {
         else fprintf(stderr, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
+}
+
+void read_log_flags() {
+    FILE* f;
+
+    f = fopen(LOG_FLAGS_FILE, "r");
+    if (f) {
+        log_flags.parse(f);
+        fclose(f);
+    }
 }

@@ -55,22 +55,37 @@ CLIENT_STATE::CLIENT_STATE() {
     app_started = 0;
 }
 
-int CLIENT_STATE::init(PREFS* p) {
-    nslots = 1;
+int CLIENT_STATE::init() {
     unsigned int i;
-    if (p==NULL) {
-        fprintf(stderr, "error: CLIENT_STATE.init: unexpected NULL pointer p\n");
-        return ERR_NULL;
+    int retval;
+
+    nslots = 1;
+
+    // Read the user preferences file, if it exists.  If it doesn't,
+    // prompt user for project URL via initialize_prefs()
+    //
+    prefs = new PREFS;
+    retval = prefs->parse_file();
+    if (retval) {
+        retval = initialize_prefs();
+        if (retval) {
+            printf("can't initialize prefs.xml\n");
+            return retval;
+        }
+        retval = prefs->parse_file();
+        if (retval) {
+            printf("can't initialize prefs.xml\n");
+            return retval;
+        }
     }
-    prefs = p;
 
     // Initialize the random number generator
-    srand( clock() );
+    srand(clock());
 
     // copy all PROJECTs from the prefs to the client state.
     //
-    for (i=0; i<p->projects.size(); i++) {
-        projects.push_back(p->projects[i]);
+    for (i=0; i<prefs->projects.size(); i++) {
+        projects.push_back(prefs->projects[i]);
     }
 
     // Then parse the client state file,
@@ -83,10 +98,20 @@ int CLIENT_STATE::init(PREFS* p) {
         print_counts();
     }
     
-    // Finally, set up the project and slot directories
+    // set up the project and slot directories
     //
     make_project_dirs();
     make_slot_dirs();
+
+    // Run the time tests and host information check if needed
+    // TODO: break time tests and host information check into two
+    //       separate functions? 
+    if (gstate.run_time_tests()) {
+        gstate.time_tests();
+    }
+    
+    // Restart any tasks that were running when we last quit the client
+    gstate.restart_tasks();
 
     return 0;
 }

@@ -60,5 +60,7 @@ struct PREFS {
 };
 
 extern int write_initial_prefs(char* master_url, char* authenticator);
+extern int initialize_prefs();
+    // the implementation is different between CLI and GUI
 
 #endif
