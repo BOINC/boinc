@@ -254,3 +254,10 @@ double dir_size(char* dirpath) {
     dir_close(dirp);
     return cur_size;
 }
+
+int boinc_rename(char* old, char* newf) {
+#ifdef _WIN32
+    unlink(newf);
+#endif
+    return rename(old, newf);
+}

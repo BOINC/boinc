@@ -40,13 +40,11 @@ int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
 
     fprintf(stderr, "APP: concat_slow checkpointing\n");
 
-    // hopefully atomic part starts here
     retval = mf.flush();
     if (retval) return retval;
     boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
-    retval = rename(resolved_name, res_name2);
+    retval = boinc_rename(resolved_name, res_name2);
     if (retval) return retval;
-    // hopefully atomic part ends here
 
     return 0;
 }

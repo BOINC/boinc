@@ -38,3 +38,4 @@ extern int file_size(char*, int&);
 extern int boinc_link(char *existing, char *new_link);
 extern int clean_out_dir(char*);
 extern double dir_size(char* dirpath);
+extern int boinc_rename(char* old, char* newf);

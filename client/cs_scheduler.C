@@ -366,8 +366,8 @@ void CLIENT_STATE::handle_scheduler_reply(
         fclose(f);
         if (new_prefs->looks_reasonable(*project)) {
             make_prefs_backup_name(*prefs, prefs_backup);
-            rename(PREFS_FILE_NAME, prefs_backup);
-            rename(PREFS_TEMP_FILE_NAME, PREFS_FILE_NAME);
+            boinc_rename(PREFS_FILE_NAME, prefs_backup);
+            boinc_rename(PREFS_TEMP_FILE_NAME, PREFS_FILE_NAME);
             for (i=0; i<new_prefs->projects.size(); i++) {
                 pp = new_prefs->projects[i];
                 sp = lookup_project(pp->master_url);

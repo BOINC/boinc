@@ -379,7 +379,7 @@ int CLIENT_STATE::write_state_file() {
     );
     fprintf(f, "</client_state>\n");
     fclose(f);
-    retval = rename(STATE_FILE_TEMP, STATE_FILE_NAME);
+    retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
     if (log_flags.state_debug) {
         printf("Done writing state file\n");
     }
@@ -393,9 +393,9 @@ int CLIENT_STATE::write_state_file() {
 int CLIENT_STATE::write_state_file_if_needed() {
     int retval;
     if (client_state_dirty) {
+        client_state_dirty = false;
         retval = write_state_file();
         if (retval) return retval;
-        client_state_dirty = false;
     }
     return 0;
 }
