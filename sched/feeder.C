@@ -259,6 +259,9 @@ try_again:
                     );
                     continue;
                 }
+                if (!ssp->have_app(wu.appid)) {
+                    continue;
+                }
                 wu_result.resultid = result.id;
                 wu_result.workunit = wu;
                 wu_result.state = WR_STATE_PRESENT;

@@ -13902,6 +13902,15 @@ Rom    June 17 2004
     - Tag for 3.13 release, all platforms
       boinc_core_release_3_13
 
+David  17 June 2004
+    - enforce the application.deprecated flag in the scheduler.
+        When scanning the database, the feeder ignores deprecated apps
+        and any associated app versions and workunit/results
+
+    sched/
+        feeder.C
+        sched_shmem.C,h
+
 Daniel 17 June 2004
     - Determine utmp location at compile time
 

@@ -67,6 +67,15 @@ static void overflow(char* table) {
     );
 }
 
+bool SCHED_SHMEM::have_app(int appid) {
+    int i;
+
+    for (i=0; i<napps; i++) {
+        if (apps[i].id == appid) return true;
+    }
+    return false;
+}
+
 int SCHED_SHMEM::scan_tables() {
     DB_PLATFORM platform;
     DB_APP app;
@@ -83,6 +92,7 @@ int SCHED_SHMEM::scan_tables() {
 
     n = 0;
     while (!app.enumerate()) {
+        if (app.deprecated) continue;
         apps[n++] = app;
         if (n == MAX_APPS) overflow("apps");
     }
@@ -92,6 +102,7 @@ int SCHED_SHMEM::scan_tables() {
     while (!app_version.enumerate()) {
         if (app_version.version_num/100 != MAJOR_VERSION) continue;
         if (app_version.deprecated) continue;
+        if (!have_app(app_version.appid)) continue;
         app_versions[n++] = app_version;
         if (n == MAX_APP_VERSIONS) overflow("app_versions");
     }
