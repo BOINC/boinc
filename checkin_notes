@@ -20847,9 +20847,11 @@ Bruce   7 Dec 2004
       compression options are 'efficient' in that they do not write an uncompressed
       file then compress -- they go straight to compressed.  SIGHUP and lockfile
       shutdown signals are properly caught and close compressed files and DB cleanly.
+    - Typo killed feeder with bad MySQL syntax
 
     sched/
         db_purge.C
+        feeder.C
 
 Rom    7 Dec 2004
     - Checkin changes suggested by Bruce Allen and Bernd Machenschalk related to

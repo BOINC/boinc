@@ -375,9 +375,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-random_order")) {
-            order_clause = "order by random";
+            order_clause = "order by random ";
         } else if (!strcmp(argv[i], "-priority_order")) {
-            order_clause = "order by priority desc";
+            order_clause = "order by priority desc ";
         }
     }
 
