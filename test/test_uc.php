@@ -54,6 +54,7 @@
     $work->install($project);
 
     $project->start_servers();
+    sleep(1);       // make sure feeder has a chance to run
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
     $project->stop();

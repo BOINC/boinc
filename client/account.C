@@ -128,7 +128,6 @@ int CLIENT_STATE::change_project(
     }
     return 0;
 }
-#endif
 
 // TODO: see if any activities are in progress for this project, and stop them
 //
@@ -167,3 +166,4 @@ int CLIENT_STATE::quit_project(PROJECT* project) {
     }
     return 0;
 }
+#endif

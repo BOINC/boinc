@@ -58,7 +58,7 @@ void project_add_failed(PROJECT* project) {
             project->master_url
         );
     }
-    gstate.quit_project(project);
+    gstate.detach_project(project);
     exit(1);
 }
 

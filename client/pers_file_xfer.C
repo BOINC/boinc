@@ -377,6 +377,9 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
         }
         iter++;
     }
-    show_message(pfx->fip->project, "PERS_FILE_XFER_SET::remove(): not found", MSG_ERROR);
+    show_message(
+        pfx->fip->project,
+        "PERS_FILE_XFER_SET::remove(): not found", MSG_ERROR
+    );
     return 1;
 }

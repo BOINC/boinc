@@ -615,10 +615,11 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 project->copy_state_fields(temp_project);
             } else {
-                fprintf(stderr,
-                    "Project %s found in state file but not prefs.\n",
+                sprintf(buf,
+                    "Missing account file for project %s.  Please attach to project.\n",
                     temp_project.master_url
                 );
+                show_message(NULL, buf, MSG_ERROR);
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
@@ -885,12 +886,13 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
     return 0;
 }
 
-// Find the active task for a given workunit
+// Find the active task for a given result
 //
-ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep)
-{
-    for(unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
-        if(active_tasks.active_tasks[i]->result == rep) return active_tasks.active_tasks[i];
+ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
+    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
+        if (active_tasks.active_tasks[i]->result == rep) {
+            return active_tasks.active_tasks[i];
+        }
     }
     return NULL;
 }
@@ -1473,5 +1475,112 @@ int CLIENT_STATE::report_result_error(
             }
         }
     }
+    return 0;
+}
+
+// "Reset" a project: (clear error conditions)
+// - stop all active tasks
+// - stop all file transfers
+// - stop scheduler RPC if any
+// - delete all workunits and results
+// - delete all apps and app_versions
+// - garbage collect to delete unneeded files
+//
+int CLIENT_STATE::reset_project(PROJECT* project) {
+    unsigned int i;
+    APP_VERSION* avp;
+    APP* app;
+    ACTIVE_TASK* atp;
+    vector<APP*>::iterator app_iter;
+    vector<APP_VERSION*>::iterator avp_iter;
+    RESULT* rp;
+    PERS_FILE_XFER* pxp;
+
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
+        if (atp->result->project == project) {
+            atp->abort();
+            active_tasks.remove(atp);
+        }
+    }
+
+    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
+        pxp = pers_xfers->pers_file_xfers[i];
+        if (pxp->fip->project == project) {
+            if (pxp->fxp) {
+                file_xfers->remove(pxp->fxp);
+            }
+            pers_xfers->remove(pxp);
+        }
+    }
+
+    if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE
+        && scheduler_op->project == project
+    ) {
+        http_ops->remove(&scheduler_op->http_op);
+    }
+
+    for (i=0; i<results.size(); i++) {
+        rp = results[i];
+        rp->server_ack = true;
+    }
+
+    avp_iter = app_versions.begin();
+    while (avp_iter != app_versions.end()) {
+        avp = *avp_iter;
+        if (avp->project == project) {
+            avp_iter = app_versions.erase(avp_iter);
+        } else {
+            avp_iter++;
+        }
+    }
+
+    app_iter = apps.begin();
+    while (app_iter != apps.end()) {
+        app = *app_iter;
+        if (app->project == project) {
+            app_iter = apps.erase(app_iter);
+        } else {
+            app_iter++;
+        }
+    }
+
+    garbage_collect();
+    return 0;
+}
+
+// "Detach" a project:
+// - Reset (see above)
+// - delete all file infos
+// - delete account file
+// - delete account directory
+//
+int CLIENT_STATE::detach_project(PROJECT* project) {
+    reset_project(project);
+    vector<PROJECT*>::iterator iter;
+    PROJECT* p;
+    char path[256];
+    int retval;
+
+    // find project and remove it from the vector
+    //
+    for (iter = projects.begin(); iter != projects.end(); iter++) {
+        p = *iter;
+        if (p == project) {
+            projects.erase(iter);
+            break;
+        }
+    }
+
+    // delete account file
+    //
+    get_account_filename(project->master_url, path);
+    retval = file_delete(path);
+
+    // remove project directory and its contents
+    //
+    remove_project_dir(*project);
+    delete project;
+
     return 0;
 }

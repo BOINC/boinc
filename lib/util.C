@@ -297,6 +297,8 @@ void safe_strncpy(char* dst, char* src, int len) {
     dst[len-1]=0;
 }
 
+// return current time of day as ASCII string, no CR
+//
 char* timestamp() {
     time_t now = time(0);
     char* p = ctime(&now);

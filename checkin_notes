@@ -4143,3 +4143,19 @@ Erik  May 13 2003
         filesys.C,y
     test/
         test_uc.php
+
+Erik  May 15 2003
+    - added function to "reset" project (stop all current activities
+        and delete everything except sticky files)
+    - added function to "detach" from project (the above, plus
+        deleting all files, the account file, and the project)
+
+    client/
+        account.C
+        client_state.C,h
+        main.C
+        pers_file_xfer.C
+    lib/
+        util.C
+    test/
+        test_uc.php
