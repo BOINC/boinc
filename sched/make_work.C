@@ -191,6 +191,7 @@ void make_work() {
         sprintf(buf, "added result: %s_%s\n", wu.name, suffix);
         write_log(buf);
         nresults_left--;
+        check_stop_trigger();
     }
 }
 
@@ -204,6 +205,8 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-cushion")) {
             cushion = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-redundancy")) {
+            redundancy = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-wu_name")) {
