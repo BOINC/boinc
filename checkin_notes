@@ -4723,9 +4723,15 @@ Tim    June 16, 2003
 Tim     June 17, 2003
     - application graphics file
         added timestamp to astropulse appfile
+        modified APP_FILE struct to include timestamp handling
+        scheduler sends "openname_timestamp" as name
         open_name (if available) is used when creating a slot directory
 
     client\
         app.c
     html_user\
         project_specific_prefs_ap.inc
+    sched\
+        handle_request.c
+        server_types.c
+        server_types.h

@@ -374,6 +374,7 @@ int APP_FILE::parse(char*& in) {
         if (match_tag(buf, "</app_file>")) return 0;
         else if (parse_str(buf, "<url>", url, sizeof(url))) continue;
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
+        else if (parse_int(buf, "<timestamp>", timestamp)) continue;
         else {
             sprintf(ebuf, "APP_FILE::parse(): unrecognized %s\n", buf);
             write_log(ebuf, MSG_NORMAL);
