@@ -694,14 +694,6 @@ function validate_state_str($s) {
     return "Unknown";
 }
 
-function client_version_string($client_version_num) {
-    if (!$client_version_num) {
-        return '---';
-    } else {
-        return sprintf("%.2f", $client_version_num/100);
-    }
-}
-
 function host_user_link($hostid)
 {
     if (!$hostid) return '----';
@@ -795,7 +787,7 @@ function show_result_short($result) {
         $oc = "$oc ($cs)";
     }
     $received = time_str($result->received_time);
-    $version = client_version_string($result->client_version_num);
+    $version = $result->app_version_num;
     $outcome_color = outcome_color($result->outcome);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
