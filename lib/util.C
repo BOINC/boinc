@@ -781,6 +781,7 @@ int try_fopen(char* path, FILE*& f, char* mode) {
 
     f = fopen(path, mode);
     if (!f) {
+	memset(dirpath, '\0', sizeof(dirpath));
         p = strrchr(path, '/');
         if (p) {
             strncpy(dirpath, path, (int)(p-path));
