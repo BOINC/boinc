@@ -305,6 +305,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	CString strBuf;
     float totalres;
 	int i, n;
+    string appname;
 
 	// If we failed to set the taskbar icon before, keep trying!
 	if (m_nDesiredIconState != m_nIconState)
@@ -384,8 +385,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		        m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
 
 		    // application
-            if (m_ResultListCtrl.GetItemText(i, 1) != re->app->name)
-		        m_ResultListCtrl.SetItemText(i, 1, re->app->name);
+            re->get_app_version_string(appname);
+            if (strcmp(m_ResultListCtrl.GetItemText(i, 1), appname.c_str())) {
+		        m_ResultListCtrl.SetItemText(i, 1, appname.c_str());
+            }
 
 		    // name
             if (m_ResultListCtrl.GetItemText(i, 2) != re->name)

@@ -107,7 +107,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_request_time = time(0);
     graphics_acked_mode = MODE_UNSUPPORTED;
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
-    last_status_msg_time = 0;
     current_cpu_time = working_set_size = 0;
 
 	fraction_done = 0;
@@ -582,16 +581,18 @@ void ACTIVE_TASK_SET::free_mem() {
 // Do period checks on running apps:
 // - get latest CPU time and % done info
 // - check if any has exited, and clean up
-// - see if any has exceeded its CPU or disk space limits, and abort
+// - see if any has exceeded its CPU or disk space limits, and abort it
 //
 bool ACTIVE_TASK_SET::poll() {
     bool action;
 
-    get_cpu_times();
     action = check_app_exited();
     if (action) return true;
     action = check_rsc_limits_exceeded();
     if (action) return true;
+    if (get_status_msgs()) {
+        gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
+    }
     return false;
 }
 
@@ -896,7 +897,9 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     }
     wait_for_exit(5, proj);
 
-    get_cpu_times();
+    // get final checkpoint_cpu_times
+    //
+    get_status_msgs();
 
     return 0;
 }
@@ -1109,55 +1112,70 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
-// See if the app has generated a new fraction-done message in shared mem.
-// If so read it and return true.
+// compute frac_rate_of_change
 //
-int ACTIVE_TASK::get_cpu_time_via_shmem(double now) {
+void ACTIVE_TASK::estimate_frac_rate_of_change(double now) {
+    if (last_frac_update == 0) {
+        last_frac_update = now;
+        last_frac_done = fraction_done;
+        recent_change = 0;
+    } else {
+        recent_change += (fraction_done - last_frac_done);
+        int tdiff = (int)(now-last_frac_update);
+        if (tdiff>0) {
+            double recent_frac_rate_of_change = max(0.0, recent_change) / tdiff;
+            if (frac_rate_of_change == 0) {
+                frac_rate_of_change = recent_frac_rate_of_change;
+            } else {
+                double x = exp(-1*log(2.0)/20.0);
+                frac_rate_of_change = frac_rate_of_change*x + recent_frac_rate_of_change*(1-x);
+            }
+            last_frac_update = now;
+            last_frac_done = fraction_done;
+            recent_change = 0;
+        }
+    }
+}
+
+// See if the app has placed a new message in shared mem
+// (with CPU done, frac done etc.)
+// If so parse it and return true.
+//
+bool ACTIVE_TASK::get_status_msg() {
     char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
-        last_status_msg_time = (time_t)now;
+//        last_status_msg_time = (time_t)now;
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<working_set_size>", working_set_size);
-
-        if (last_frac_update == 0) {
-            last_frac_update = now;
-            last_frac_done = fraction_done;
-            recent_change = 0;
-        } else {
-            recent_change += (fraction_done - last_frac_done);
-            int tdiff = (int)(now-last_frac_update);
-            if (tdiff>0) {
-                double recent_frac_rate_of_change = max(0.0, recent_change) / tdiff;
-                if (frac_rate_of_change == 0) {
-                    frac_rate_of_change = recent_frac_rate_of_change;
-                } else {
-                    double x = exp(-1*log(2.0)/20.0);
-                    frac_rate_of_change = frac_rate_of_change*x + recent_frac_rate_of_change*(1-x);
-                }
-                last_frac_update = now;
-                last_frac_done = fraction_done;
-                recent_change = 0;
-            }
-        }
-
-        return 0;
+        return true;
     }
-    return -1;
+    return false;
 }
 
-// get CPU times of active tasks
+// check for CPU-time msgs from active tasks.
+// Return true if any of them has changed its checkpoint_cpu_time
+// (since in that case we need to write state file)
 //
-void ACTIVE_TASK_SET::get_cpu_times() {
+bool ACTIVE_TASK_SET::get_status_msgs() {
     unsigned int i;
     ACTIVE_TASK *atp;
-    double now = dtime();
+    double now = dtime(), old_time;
+    bool action = false;
+
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->get_cpu_time_via_shmem(now);
+        old_time = atp->checkpoint_cpu_time;
+        if(atp->get_status_msg()) {
+            atp->estimate_frac_rate_of_change(now);
+            if (old_time != atp->checkpoint_cpu_time) {
+                action = true;
+            }
+        }
     }
+    return action;
 }
 
 // Returns the estimated time to completion (in seconds) of this task,

@@ -7803,3 +7803,27 @@ David  25 Nov 2003
         software.php
     sched/
         db_dump.C
+
+David  25 Nov 2003
+    - Changes to a running app's checkpoint_cpu_time
+		(as conveyed in shared-memory msgs)
+		were not triggering state file writes.
+		As a result the CPU time of a result was, in general,
+		returning to zero after a reboot.
+	- ACTIVE_TASK_SET::poll(): if any task's checkpoint_cpu_time has changed,
+		trigger a client state file write
+	- renamed ACTIVE_TASK_SET::get_cpu_times() -> get_status_msgs()
+		Also, this function now returns boolean:
+		whether any checkpoint_cpu_time has changed
+	- renamed ACTIVE_TASK::get_cpu_time_via_shmem() -> get_status_msg()
+		(since the message includes more than just CPU time)
+	- removed ACTIVE_TASK.last_status_msg_time (not used)
+	- factored out logic to compute frac_rate_of_change
+		and put it in a separate function (ACTIVE_TASK::estimate_frac_rate_of_change())
+	- print app version for results in GUI
+
+	client/
+		app.C,h
+		client_types.C,h
+		win/
+			wingui_mainwindow.cpp

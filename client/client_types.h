@@ -253,6 +253,7 @@ struct RESULT {
     int parse_ack(FILE*);
     int write(FILE*, bool to_server);
     bool is_upload_done();    // files uploaded?
+    void get_app_version_string(string&);
 };
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info);

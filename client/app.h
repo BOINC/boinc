@@ -91,7 +91,7 @@ public:
     double max_mem_usage;   // abort if memory usage exceeds this
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
-    time_t last_status_msg_time;
+//    time_t last_status_msg_time;
 
     // info related to app's graphics mode (win, screensaver, etc.)
     int graphics_requested_mode;        // our last request to this app
@@ -118,7 +118,8 @@ public:
     bool check_max_disk_exceeded();
     bool check_max_mem_exceeded();
 
-    int get_cpu_time_via_shmem(double);
+    void estimate_frac_rate_of_change(double);
+    bool get_status_msg();
     double est_time_to_completion();
     bool read_stderr_file();
     bool supports_graphics();
@@ -145,7 +146,7 @@ public:
     int exit_tasks(PROJECT* p=0);
     void kill_tasks(PROJECT* p=0);
     int abort_project(PROJECT*);
-    void get_cpu_times();
+    bool get_status_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
     int get_free_slot(int total_slots);
