@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Which applications are suitable for BOINC?");
 echo "

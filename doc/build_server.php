@@ -1,9 +1,8 @@
-<? // -*- html -*-
-   // $Id$
-   require_once("docutil.php");
-   page_head("Building the server");
-?>
+<?php
+require_once("docutil.php");
+page_head("Building the server");
 
+echo"
 See the <a href=software.php>Software Prerequisites</a>.
 
 <h2>Overview</h2>
@@ -36,6 +35,6 @@ You may need to install additional packages
 (often you can use something called "mysql-dev" or "mysql-devel")
 or fiddle with Makefiles.
 
-<?
+";
    page_tail();
 ?>

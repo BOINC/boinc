@@ -1,4 +1,4 @@
-<?
+<?php
 
 function last_mod() {
     return date("g:i A, F d Y", filemtime($_SERVER["SCRIPT_FILENAME"]));

@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Core client: finite-state machine (FSM) structure");
 echo "

@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Scheduler RPC timing and retry policies");
 echo "

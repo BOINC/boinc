@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once("docutil.php");
 require_once("../html/inc/news.inc");

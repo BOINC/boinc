@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Language customization of the work manager");
 echo "

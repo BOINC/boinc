@@ -1,8 +1,7 @@
-<?
+<?php
    require_once("docutil.php");
    page_head("Testing BOINC");
-?>
-
+echo "
 See the section on testing in <a href=software.php>Software Prerequisites</a>.
 Note that a web server with PHP is required for
 running a real server, but that requires a lot of path and permissions
@@ -26,7 +25,7 @@ Full test suite:
 </blockquote>
 
 
-After two or three minutes you should see "Passed Test".
+After two or three minutes you should see 'Passed Test'.
 During the test you should see various progress status indicators
 (resize your window so that the status indicator line fits on one line).
 
@@ -218,10 +217,10 @@ Apache configuration:
         &lt;/Limit&gt;
     &lt;/Directory&gt;
 
-    ScriptAlias /quarl/boinc_cgi/ "/disks/philmor/a/users/quarl/proj/test-boinc/boinc_cgi/"
-    Alias /quarl/ "/disks/philmor/a/users/quarl/proj/test-boinc/"
+    ScriptAlias /quarl/boinc_cgi/ \"/disks/philmor/a/users/quarl/proj/test-boinc/boinc_cgi/\"
+    Alias /quarl/ \"/disks/philmor/a/users/quarl/proj/test-boinc/\"
 </pre>
 
-<? page_tail(); ?>
-
-
+";
+page_tail();
+?>

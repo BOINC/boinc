@@ -1,9 +1,8 @@
-<? // -*- html -*-
-   // $Id$
-   require_once("docutil.php");
-   page_head("Python scripting framework");
-?>
+<?php
+require_once("docutil.php");
+page_head("Python scripting framework");
 
+echo "
 See the section on Python in the <a href=software.php>Software
 Prerequisites</a>.
 
@@ -100,7 +99,7 @@ details.
       defines database backend functions and database operations; see below.
   </td></tr>
   <tr><td><code>db_mid.py</code></td><td>
-      "middle-end": optional mix-in to ease debugging by allowing printing of
+      'middle-end': optional mix-in to ease debugging by allowing printing of
       database objects directly
   </td></tr>
   <tr><td><code>util.py</code></td><td>
@@ -142,7 +141,7 @@ Table classes have a <code>find</code> function that builds and executes a
 MySQL query based on its arguments:
 <pre>
   # this could return any number (0, 1, 2, ...) of platforms
-  # executes 'select * from platform where user_friendly_name="commodore 64"'
+  # executes 'select * from platform where user_friendly_name='commodore 64''
   list_of_platforms_called_c64 = database.<b>Platforms.find(
       user_friendly_name = 'Commodore 64')</b>
 </pre>
@@ -162,7 +161,7 @@ modify them directly.
 
 <pre>
   user_quarl = database.users.find(email_addr='quarl@quarl.org')[0]
-  print "name =", <b>user_quarl.name</b>
+  print 'name =', <b>user_quarl.name</b>
   <b>user_quarl.postal_code</b> = 97404
 </pre>
 
@@ -184,16 +183,16 @@ this):
 
 To remove an object, call <code>remove()</code>:
 <pre>
-  team_eric_test = database.Teams(name="Eric's Test Team")[0]
+  team_eric_test = database.Teams(name=\"Eric's Test Team\")[0]
   team_eric_test<b>.remove()</b>
   #                        OR
-  for team in database.Teams(name="Eric's Test Team"):
+  for team in database.Teams(name=\"Eric's Test Team\"):
       team.remove()
   #                        OR
-  map(database.Team.remove,database.Teams(name="Eric's Test Team"))
+  map(database.Team.remove,database.Teams(name=\"Eric's Test Team\"))
 </pre>
 
-To access objects related by id, access the field name without "id" suffix:
+To access objects related by id, access the field name without \"id\" suffix:
 (the <code>result</code> table has columns '<code>workunitid</code>' and
 '<code>hostid</code>'; the <code>host</code> table has
 column <code>userid</code>)
@@ -201,7 +200,7 @@ column <code>userid</code>)
   wu_1234 = database.Workunits.find(name='1234.wu')[0]
   results_of_wu_1234 = database.Results.find(<b>workunit=</b>wu_1234)
   for result in results_of_wu_1234:
-      os.system("echo 'you are crunching %s' | mail '%s'" %(
+      os.system(\"echo 'you are crunching %s' | mail '%s'\" %(
                  result.name, <b>result.host.user</b>.email_addr))
 </pre>
 
@@ -220,8 +219,7 @@ column <code>userid</code>)
   <tr><td>result</td><td>Results</td><td>Result</td></tr>
   <tr><td>workseq</td><td>Workseqs</td><td>Workseq</td></tr>
 </table>
-
-<?
+";
   page_tail();
 ?>
 

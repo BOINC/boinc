@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Screensaver/core/app interaction (graphics)");
 echo "

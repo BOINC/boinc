@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Web sites related to BOINC");
 echo "

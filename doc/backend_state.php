@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Workunit and result state transitions");
 echo "

@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("boinc_news.inc");
 require_once("../html/inc/news.inc");
 echo "

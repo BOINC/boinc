@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("Compiling BOINC software yourself");
 echo "

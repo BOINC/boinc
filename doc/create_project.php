@@ -1,8 +1,8 @@
-<? // -*-html -*-
+<?php
 require_once("docutil.php");
 page_head("Creating BOINC projects");
-?>
 
+echo "
 <font size=+1><b>
 Designing distributed computations with BOINC
 </b></font>
@@ -112,6 +112,6 @@ Tools for monitoring a BOINC project
 <li> <a href=stripchart.php>Stripcharts: a tool for viewing time-varying data </a>
 <li> <a href=stripchart_data.php>Recording data for Stripcharts</a>
 </ul>
-<?
+";
 page_tail();
 ?>

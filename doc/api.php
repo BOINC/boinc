@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("docutil.php");
 page_head("The BOINC application programming interface (API)");
 echo "
