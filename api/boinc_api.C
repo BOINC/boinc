@@ -143,9 +143,9 @@ int boinc_init() {
         fclose(f);
     }
 #else
-    strcpy(aid.app_preferences, "");
-    strcpy(aid.user_name, "John Smith");
-    strcpy(aid.team_name, "The A-Team");
+    safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
+    safe_strncpy(aid.user_name, "John Smith", sizeof(aid.user_name));
+    safe_strncpy(aid.team_name, "The A-Team", sizeof(aid.team_name));
     aid.wu_cpu_time = 1000;
     aid.user_total_credit = 1000;
     aid.user_expavg_credit = 500;
@@ -198,36 +198,36 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
     char  status[256];
     
     switch (exceptionCode) {
-        case STATUS_WAIT_0: strcpy(status,"Wait 0"); break;
-        case STATUS_ABANDONED_WAIT_0: strcpy(status,"Abandoned Wait 0"); break;
-        case STATUS_USER_APC: strcpy(status,"User APC"); break;
-        case STATUS_TIMEOUT: strcpy(status,"Timeout"); break;
-        case STATUS_PENDING: strcpy(status,"Pending"); break;
+        case STATUS_WAIT_0: safe_strncpy(status,"Wait 0",sizeof(status)); break;
+        case STATUS_ABANDONED_WAIT_0: safe_strncpy(status,"Abandoned Wait 0",sizeof(status)); break;
+        case STATUS_USER_APC: safe_strncpy(status,"User APC",sizeof(status)); break;
+        case STATUS_TIMEOUT: safe_strncpy(status,"Timeout",sizeof(status)); break;
+        case STATUS_PENDING: safe_strncpy(status,"Pending",sizeof(status)); break;
         case STATUS_SEGMENT_NOTIFICATION: return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_GUARD_PAGE_VIOLATION: strcpy(status,"Guard Page Violation"); break;
-        case STATUS_DATATYPE_MISALIGNMENT: strcpy(status,"Data Type Misalignment"); break;
+        case STATUS_GUARD_PAGE_VIOLATION: safe_strncpy(status,"Guard Page Violation",sizeof(status)); break;
+        case STATUS_DATATYPE_MISALIGNMENT: safe_strncpy(status,"Data Type Misalignment",sizeof(status)); break;
         case STATUS_BREAKPOINT: return DBG_EXCEPTION_NOT_HANDLED;
         case STATUS_SINGLE_STEP: return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_ACCESS_VIOLATION: strcpy(status,"Access Violation"); break;
-        case STATUS_IN_PAGE_ERROR: strcpy(status,"In Page Error"); break;
-        case STATUS_NO_MEMORY: strcpy(status,"No Memory"); break;
-        case STATUS_ILLEGAL_INSTRUCTION: strcpy(status,"Illegal Instruction"); break;
-        case STATUS_NONCONTINUABLE_EXCEPTION: strcpy(status,"Noncontinuable Exception"); break;
-        case STATUS_INVALID_DISPOSITION: strcpy(status,"Invalid Disposition"); break;
-        case STATUS_ARRAY_BOUNDS_EXCEEDED: strcpy(status,"Array Bounds Exceeded"); break;
-        case STATUS_FLOAT_DENORMAL_OPERAND: strcpy(status,"Float Denormal Operand"); break;
-        case STATUS_FLOAT_DIVIDE_BY_ZERO: strcpy(status,"Divide by Zero"); break;
-        case STATUS_FLOAT_INEXACT_RESULT: strcpy(status,"Float Inexact Result"); break;
-        case STATUS_FLOAT_INVALID_OPERATION: strcpy(status,"Float Invalid Operation"); break;
-        case STATUS_FLOAT_OVERFLOW: strcpy(status,"Float Overflow"); break;
-        case STATUS_FLOAT_STACK_CHECK: strcpy(status,"Float Stack Check"); break;
-        case STATUS_FLOAT_UNDERFLOW: strcpy(status,"Float Uderflow"); break;
-        case STATUS_INTEGER_DIVIDE_BY_ZERO: strcpy(status,"Integer Divide by Zero"); break;
-        case STATUS_INTEGER_OVERFLOW: strcpy(status,"Integer Overflow"); break;
-        case STATUS_PRIVILEGED_INSTRUCTION: strcpy(status,"Privileged Instruction"); break;
-        case STATUS_STACK_OVERFLOW: strcpy(status,"Stack Overflow"); break;
-        case STATUS_CONTROL_C_EXIT: strcpy(status,"Ctrl+C Exit"); break;
-        default: strcpy(status,"Unknown exception"); break;
+        case STATUS_ACCESS_VIOLATION: safe_strncpy(status,"Access Violation",sizeof(status)); break;
+        case STATUS_IN_PAGE_ERROR: safe_strncpy(status,"In Page Error",sizeof(status)); break;
+        case STATUS_NO_MEMORY: safe_strncpy(status,"No Memory",sizeof(status)); break;
+        case STATUS_ILLEGAL_INSTRUCTION: safe_strncpy(status,"Illegal Instruction",sizeof(status)); break;
+        case STATUS_NONCONTINUABLE_EXCEPTION: safe_strncpy(status,"Noncontinuable Exception",sizeof(status)); break;
+        case STATUS_INVALID_DISPOSITION: safe_strncpy(status,"Invalid Disposition",sizeof(status)); break;
+        case STATUS_ARRAY_BOUNDS_EXCEEDED: safe_strncpy(status,"Array Bounds Exceeded",sizeof(status)); break;
+        case STATUS_FLOAT_DENORMAL_OPERAND: safe_strncpy(status,"Float Denormal Operand",sizeof(status)); break;
+        case STATUS_FLOAT_DIVIDE_BY_ZERO: safe_strncpy(status,"Divide by Zero",sizeof(status)); break;
+        case STATUS_FLOAT_INEXACT_RESULT: safe_strncpy(status,"Float Inexact Result",sizeof(status)); break;
+        case STATUS_FLOAT_INVALID_OPERATION: safe_strncpy(status,"Float Invalid Operation",sizeof(status)); break;
+        case STATUS_FLOAT_OVERFLOW: safe_strncpy(status,"Float Overflow",sizeof(status)); break;
+        case STATUS_FLOAT_STACK_CHECK: safe_strncpy(status,"Float Stack Check",sizeof(status)); break;
+        case STATUS_FLOAT_UNDERFLOW: safe_strncpy(status,"Float Underflow",sizeof(status)); break;
+        case STATUS_INTEGER_DIVIDE_BY_ZERO: safe_strncpy(status,"Integer Divide by Zero",sizeof(status)); break;
+        case STATUS_INTEGER_OVERFLOW: safe_strncpy(status,"Integer Overflow",sizeof(status)); break;
+        case STATUS_PRIVILEGED_INSTRUCTION: safe_strncpy(status,"Privileged Instruction",sizeof(status)); break;
+        case STATUS_STACK_OVERFLOW: safe_strncpy(status,"Stack Overflow",sizeof(status)); break;
+        case STATUS_CONTROL_C_EXIT: safe_strncpy(status,"Ctrl+C Exit",sizeof(status)); break;
+        default: safe_strncpy(status,"Unknown exception",sizeof(status)); break;
     }
     // TODO: also output info in CONTEXT structure?
     fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n");
@@ -289,7 +289,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
     FILE *fp;
     char buf[512];
 
-    strcpy(physical_name, virtual_name);
+    safe_strncpy(physical_name, virtual_name, len);
 
     // Open the file and load the first line
     fp = fopen(virtual_name, "r");
@@ -537,7 +537,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     memset(&ai, 0, sizeof(ai));
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<app_preferences>")) {
-            strcpy(ai.app_preferences, "");
+            safe_strncpy(ai.app_preferences, "", sizeof(ai.app_preferences));
             while (fgets(buf, 256, f)) {
                 if (match_tag(buf, "</app_preferences>")) break;
                 strcat(ai.app_preferences, buf);
