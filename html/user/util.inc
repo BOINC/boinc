@@ -218,12 +218,12 @@ function random_string() {
 }
 
 // TODO: we should write this funciton in php --quarl
-function print_country_select($country="None") {
+function print_country_select($selected_country="None") {
     global $countries;
     $numCountries = count($countries);
     for ($i=0; $i<$numCountries; $i++) {
         $country = $countries[$i];
-        $selected = $countries[$i] == $country ? "selected":"";
+        $selected = ($selected_country == $country ? "selected":"");
         echo "<option value='$country' $selected>$country</option>\n";
     }
 }
