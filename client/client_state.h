@@ -230,6 +230,9 @@ private:
     int resume_network();
     void install_global_prefs();
     void show_global_prefs_source(bool);
+#ifndef _WIN32
+    void check_idle();
+#endif
 
 // --------------- cs_scheduler.C:
 public:

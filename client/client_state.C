@@ -328,7 +328,9 @@ int CLIENT_STATE::net_sleep(double x) {
 bool CLIENT_STATE::do_something() {
     int actions = 0, reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
-
+#ifndef _WIN32
+    check_idle();
+#endif
     check_suspend_activities(reason);
     if (reason) {
         if (!activities_suspended) {

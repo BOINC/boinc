@@ -25,6 +25,15 @@
 #include "stdafx.h"
 #endif
 
+#ifndef _WIN32
+#if HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#if HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#endif
+
 #include "util.h"
 #include "filesys.h"
 #include "file_names.h"
@@ -91,6 +100,22 @@ inline bool now_between_two_hours(int start_hour, int end_hour) {
         return !(hour >= end_hour && hour < start_hour);
     }
 }
+
+#ifndef _WIN32
+// returns true iff device was last accessed before t
+// or if an error occurred looking at the device.
+inline bool device_idle(time_t t, char *device) {
+    struct stat sbuf;
+    return stat(device, &sbuf) || (sbuf.st_atime < t);
+}
+
+void CLIENT_STATE::check_idle() {
+    time_t idle_time =
+        time(NULL) - (long) (60 * global_prefs.idle_time_to_run);
+    user_idle = device_idle(idle_time, "/dev/kbd")
+        && device_idle(idle_time, "/dev/mouse");
+}
+#endif
 
 // See if (on the basis of user run request and prefs)
 // we should suspend activities.
