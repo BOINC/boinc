@@ -40,6 +40,8 @@
 #include <stdio.h>
 #include <vector>
 
+#include "client_types.h"
+
 class CLIENT_STATE;
 
 // The following classes provide an interface for task execution

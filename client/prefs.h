@@ -20,6 +20,9 @@
 #ifndef _PREFS_
 #define _PREFS_
 
+#include <vector>
+#include "client_types.h"
+
 // Implementation notes on preferences:
 //
 // Preferences are edited and stored on BOINC servers.
@@ -36,9 +39,11 @@
 // When an application is run, the core client checks for project-specific
 // preferences and puts them in a file "prefs.xml" in the slot directory.
 
+// The following structure is a parsed version of the prefs file
+//
 struct PREFS {
-    char* prefs_xml;
     int mod_time;
+    vector<PROJECT*> projects;
     bool dont_run_on_batteries;
     bool dont_run_if_user_active;
     bool confirm_before_connecting;
@@ -50,7 +55,10 @@ struct PREFS {
 
     PREFS();
     int parse(FILE*);
-    int write(FILE*);
+    int parse_file();
+    bool looks_reasonable(PROJECT& project);
 };
+
+extern int write_initial_prefs(char* master_url, char* authenticator);
 
 #endif

@@ -24,8 +24,8 @@
 
 #include "windows_cpp.h"
 
-#ifndef _TYPES_
-#define _TYPES_
+#ifndef _CLIENT_TYPES_
+#define _CLIENT_TYPES_
 
 #include <vector>
 #include <stdio.h>
@@ -42,22 +42,34 @@ struct STRING256 {
 
 class PROJECT {
 public:
-    char name[256];             // descriptive.  not unique
-    char domain[256];           // can't have any slashes
-    char scheduler_url[256];    // POST here
-    char url_source[256];       // GET here to find latest scheduler_url
-    char email_addr[256];       // user's account on this project
+    // the following items come from prefs.xml
+    // They are a function only of the user and the project
+    //
+    char master_url[256];
     char authenticator[256];    // user's authenticator on this project
+    char* project_specific_prefs;
+    double resource_share;      // project's resource share
+                                // relative to other projects.  Arbitrary scale.
+
+    // the following items come from client_state.xml
+    // They may depend on the host as well as user and project
+    //
+    vector<STRING256> scheduler_urls;       // where to find scheduling servers
+    char project_name[256];             // descriptive.  not unique
+    char user_name[256];
     int rpc_seqno;
     int hostid;
     int next_request_time;      // don't contact server until this time
-    double resource_share;      // determines project's resource share
-                                // relative to other projects.  Arbitrary scale.
     double exp_avg_cpu;         // exponentially weighted cpu time
     int exp_avg_mod_time;       // last time average was changed
 
-    int parse(FILE*);
-    int write(FILE*);
+    PROJECT();
+    ~PROJECT();
+    void copy_state_fields(PROJECT&);
+    void copy_prefs_fields(PROJECT&);
+    int parse_prefs(FILE*);
+    int parse_state(FILE*);
+    int write_state(FILE*);
 };
 
 struct APP {

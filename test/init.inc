@@ -79,11 +79,11 @@ function clear_data_dirs() {
     PassThru("rm -f $BOINC_UPLOAD_DIR/*");
 }
 
-function init_client_dirs($account_file) {
+function init_client_dirs($prefs_file) {
     PassThru("rm -f client_state.xml");
     PassThru("rm -rf ".PROJECTS);
     PassThru("rm -rf slots");
-    PassThru("cp $account_file account.xml");
+    PassThru("cp $prefs_file prefs.xml");
 }
 
 function copy_to_download_dir($f) {

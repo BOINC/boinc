@@ -522,3 +522,55 @@ Eric H       June 20, 2002
         win_main.cpp (changed from win_main.C)
         windows_cpp.h
 
+David A     June 20 2002
+    - Replaced the "accounts.xml" file with the user preferences ("prefs.xml").
+        All non-host-specific project info is stored in this file;
+        all host-specific project info is in client_state.xml.
+        The PROJECT class is a union of the two.
+        The logic for dealing with inconsistencies between
+        prefs.xml and client_state.xml, and with updating in-memory
+        and on-disk project lists in response to an update from a server,
+        are a little tricky and are described in the code.
+    - The prefs file can be overwritten by <preferences> in a scheduling
+        server reply.  To prevent buggy servers from zeroing out
+        users' project lists, the client makes sure there's at least
+        one project, and backs up the old prefs.xml into a timestamped file.
+    - The command-line client, if prefs.xml is absent,
+        prompts the user for a project URL and authenticator,
+        and creates an initial prefs.xml.
+    - Each project now has a "master URL", with is its home page
+        and also contains <scheduler> elements giving the URLs of
+        its scheduling servers.
+    - Added a class SCHEDULER_OP which encapsulates fetching and
+        parsing a project's master page (if necessary),
+        then making an RPC to one of its scheduling servers.
+        TODO: add retry and failure logic.
+    - A project can have more than one scheduling server.
+        TODO: use all of them.
+    - Project directories are stored in URL-encoded form.
+        This allows project master URLs to have slashes, which is a necessity.
+        
+    client/
+        Makefile.in
+        accounts.C,h (deleted)
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        file_names.C,h
+        main.C
+        prefs.C,h
+        scheduler_op.C,h (new)
+        scheduler_reply.C,h (deleted)
+    doc/
+        project.html
+    lib/
+        parse.C,h
+    sched/
+        server_types.C
+    test/
+        account1.xml, account2.xml (deleted)
+        init.inc
+        prefs1.xml, prefs2.xml (new)
+        test_*.php

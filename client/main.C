@@ -23,10 +23,11 @@
 #include <unistd.h>
 #endif
 
-#include "accounts.h"
+#include "client_state.h"
+#include "error_numbers.h"
 #include "file_names.h"
 #include "log_flags.h"
-#include "client_state.h"
+#include "prefs.h"
 #include "util.h"
 
 void show_message(char* message, char* priority) {
@@ -37,24 +38,60 @@ void show_message(char* message, char* priority) {
     }
 }
 
+// Prompt user for project URL and authenticator,
+// and create a prototype prefs file
+//
+int initialize_prefs() {
+    char master_url[256];
+    char authenticator[256];
+
+    printf("Enter the URL of the project: ");
+    scanf("%s", master_url);
+    printf(
+        "You should have already registered with the project\n"
+        "and received an account ID by email.\n"
+        "Paste this ID here: "
+    );
+    scanf("%s", authenticator);
+
+    // TODO: might be a good idea to verify the ID here
+    // by doing an RPC to a scheduling server.
+    // But this would require fetching and parsing the master file
+
+    write_initial_prefs(master_url, authenticator);
+    return 0;
+}
+
 int main(int argc, char** argv) {
     CLIENT_STATE cs;
-    ACCOUNTS accounts;
+    PREFS* prefs;
     FILE* f;
     int retval;
+
+    setbuf(stdout, 0);
 
     f = fopen(LOG_FLAGS_FILE, "r");
     if (f) {
         log_flags.parse(f);
+        fclose(f);
     }
 
-    retval = accounts.parse_file();
+    prefs = new PREFS;
+    retval = prefs->parse_file();
     if (retval) {
-        fprintf(stderr, "Can't read accounts file: %d\n", retval);
-        exit(retval);
+        retval = initialize_prefs();
+        if (retval) {
+            printf("can't initialize prefs.xml\n");
+            exit(retval);
+        }
+        retval = prefs->parse_file();
+        if (retval) {
+            printf("can't initialize prefs.xml\n");
+            exit(retval);
+        }
     }
 
-    cs.init(accounts);
+    cs.init(prefs);
     cs.parse_cmdline(argc, argv);
     cs.restart_tasks();
     while (1) {
@@ -67,6 +104,5 @@ int main(int argc, char** argv) {
             exit(0);
         }
     }
-
-	return 0;
+    return 0;
 }

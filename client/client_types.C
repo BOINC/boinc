@@ -26,65 +26,120 @@
 
 #include "client_types.h"
 
-int PROJECT::parse(FILE* in) {
-    char buf[256];
+PROJECT::PROJECT() {
+}
 
-    strcpy(name, "");
-    strcpy(domain, "");
-    strcpy(scheduler_url, "");
-    strcpy(url_source, "");
-    strcpy(email_addr, "");
+PROJECT::~PROJECT() {
+    if (project_specific_prefs) {
+        free(project_specific_prefs);
+    }
+}
+
+// parse project fields from prefs.xml
+//
+int PROJECT::parse_prefs(FILE* in) {
+    char buf[256], *p;
+    int retval;
+
+    strcpy(master_url, "");
     strcpy(authenticator, "");
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</project>")) return 0;
+        else if (parse_str(buf, "<master_url>", master_url)) continue;
+        else if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        else if (parse_double(buf, "<resource_share>", resource_share)) continue;
+        else if (match_tag(buf, "<project_specific>")) {
+            retval = dup_element_contents(in, "</project_specific>", &p);
+            if (retval) return ERR_XML_PARSE;
+            project_specific_prefs = p;
+            continue;
+        }
+        else fprintf(stderr, "PROJECT::parse_prefs(): unrecognized: %s\n", buf);
+    }
+    return ERR_XML_PARSE;
+}
+
+// parse project fields from client_state.xml
+//
+int PROJECT::parse_state(FILE* in) {
+    char buf[256];
+    STRING256 string;
+
+    strcpy(project_name, "");
+    strcpy(user_name, "");
     next_request_time = 0;
     resource_share = 1;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<domain>", domain)) continue;
-        else if (parse_str(buf, "<scheduler_url>", scheduler_url)) continue;
-        else if (parse_str(buf, "<url_source>", url_source)) continue;
-        else if (parse_str(buf, "<email_addr>", email_addr)) continue;
-        else if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        else if (parse_str(buf, "<scheduler_url>", string.text)) {
+            scheduler_urls.push_back(string);
+            continue;
+        }
+        else if (parse_str(buf, "<project_name>", project_name)) continue;
+        else if (parse_str(buf, "<user_name>", user_name)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
-        else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
-        else fprintf(stderr, "PROJECT::parse(): unrecognized: %s\n", buf);
+        else fprintf(stderr, "PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
 
-int PROJECT::write(FILE* out) {
+int PROJECT::write_state(FILE* out) {
+    unsigned int i;
+
     fprintf(out,
         "<project>\n"
-        "    <name>%s</name>\n"
-        "    <domain>%s</domain>\n"
-        "    <scheduler_url>%s</scheduler_url>\n"
-        "    <url_source>%s</url_source>\n"
-        "    <email_addr>%s</email_addr>\n"
-        "    <authenticator>%s</authenticator>\n",
-        name, domain, scheduler_url, url_source, email_addr, authenticator
     );
+    for (i=0; i<scheduler_urls.size(); i++) {
+        fprintf(out,
+            "    <scheduler_url>%s</scheduler_url>\n",
+            scheduler_urls[i].text
+        );
+    }
     fprintf(out,
+        "    <master_url>%s</master_url>\n"
+        "    <project_name>%s</project_name>\n"
+        "    <user_name>%s</user_name>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"
         "    <next_request_time>%d</next_request_time>\n"
-        "    <resource_share>%f</resource_share>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
         "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
         "</project>\n",
+        master_url,
+        project_name,
+        user_name,
         rpc_seqno,
         hostid,
         next_request_time,
-        resource_share,
         exp_avg_cpu,
         exp_avg_mod_time
     );
     return 0;
+}
+
+void PROJECT::copy_state_fields(PROJECT& p) {
+    scheduler_urls = p.scheduler_urls;
+    project_name = p.project_name;
+    user_name = p.user_name;
+    rpc_seqno = p.rpc_seqno;
+    hostid = p.hostid;
+    next_request_time = p.next_request_time;
+    exp_avg_cpu = p.exp_avg_cpu;
+    exp_avg_mod_time = p.exp_avg_mod_time;
+}
+
+void PROJECT::copy_prefs_fields(PROJECT& p) {
+    authenticator = p.authenticator;
+    if (p.project_specific_prefs) {
+        project_specific_prefs = strdup(p.project_specific_prefs);
+    }
+    resource_share = p.resource_share;
 }
 
 int APP::parse(FILE* in) {

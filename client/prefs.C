@@ -24,27 +24,35 @@
 #include <stdlib.h>
 
 #include "parse.h"
+
 #include "error_numbers.h"
+#include "file_names.h"
 
 #include "prefs.h"
 
 PREFS::PREFS() {
-    memset(this, 0, sizeof(PREFS));
+    mod_time = 0;
+    dont_run_on_batteries = false;
+    dont_run_if_user_active = false;
+    confirm_before_connecting = false;
+    high_water_days = false;
+    low_water_days = false;
+    disk_max_used_gb = 0;
+    disk_max_used_pct = 0;
+    disk_min_free_gb = 0;
 };
 
 int PREFS::parse(FILE* in) {
     char buf[256];
+    PROJECT* project;
 
-    memset(this, 0, sizeof(PREFS));
-    prefs_xml = strdup("<preferences>\n");
     while (fgets(buf, 256, in)) {
-        prefs_xml = (char*) realloc(
-            prefs_xml, strlen(prefs_xml) + strlen(buf) + 1
-        );
-        strcat(prefs_xml, buf);
-
         if (match_tag(buf, "</preferences>")) return 0;
-        else if (match_tag(buf, "<dont_run_on_batteries/>")) {
+        else if (match_tag(buf, "<project>")) {
+            project = new PROJECT;
+            project->parse_prefs(in);
+            projects.push_back(project);
+        } else if (match_tag(buf, "<dont_run_on_batteries/>")) {
             dont_run_on_batteries = true;
             continue;
         } else if (match_tag(buf, "<dont_run_if_user_active/>")) {
@@ -68,7 +76,34 @@ int PREFS::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int PREFS::write(FILE* out) {
-    if (prefs_xml) fputs(prefs_xml, out);
+int PREFS::parse_file() {
+    FILE* f;
+    int retval;
+
+    f = fopen(PREFS_FILE_NAME, "r");
+    if (!f) return ERR_FOPEN;
+    retval = parse(f);
+    fclose(f);
+    return retval;
+}
+
+int write_initial_prefs(char* master_url, char* authenticator) {
+    FILE* f = fopen(PREFS_FILE_NAME, "w");
+    if (!f) return ERR_FOPEN;
+    fprintf(f,
+        "<preferences>\n"
+        "    <mod_time>1</mod_time>\n"
+        "    <high_water_days>2</high_water_days>\n"
+        "    <low_water_days>1</low_water_days>\n"
+        "    <project>\n"
+        "        <master_url>%s</master_url>\n"
+        "        <authenticator>%s</authenticator>\n"
+        "        <resource_share>1</resource_share>\n"
+        "    </project>\n"
+        "</preferences>\n",
+        master_url,
+        authenticator
+    );
+    fclose(f);
     return 0;
 }

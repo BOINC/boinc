@@ -2,27 +2,51 @@ Abstractions
 
 --------------------
 Client files
-two files:
+two main files:
 
-account.xml
-    list of projects; for each:
-        user ID
-        password
-    preferences
+prefs.xml
+    user preferences.
+    includes list of projects; for each:
+        master URL
+        authenticator
+        project-specific prefs
+        resource share
+    prefs mod time
 
 client_state.xml
     hostid
-    rpc_seqno (per project)
+    per-project info
+        list of sched servers for project
+        project name
+        hostid
+        next_request_time
+        rpc_seqno (specific to this host)
+        work info
     files, WUs, results etc.
 
-NOTE: to "clone" an installation on a new computer,
-just need to copy the core client (or run the installer)
-then copy the account.xml file.
+NOTES
+- On startup, if there's no prefs.xml, the client prompts
+  for a master URL and authenticator,
+  and creates an initial prefs.xml with a zero mod time
+  (so that any web-created prefs file will override)
+- We need to safeguard against a buggy scheduling server
+  sending back an incomplete or empty prefs file.
+  Suggestions:
+    1) verify that at least the responding project is present in the prefs;
+       (or contain at least 1 project)
+    2) back up the old prefs file (prefs.xml.date)
+- prefs.xml has priority over client_state.xml
+  If there's a project in prefs with no counterpart in client_state,
+  a new entry in client_state is created.
+  Entries in client_state absent from prefs are deleted.
 
-NOTE: a scheduler request can specify that no client_state.xml
-was found, so a new host record should be created.
-If a scheduler gets a request with an unexpected seqno,
-it sends back a reply saying
+- to "clone" an installation on a new computer,
+  just need to copy the core client (or run the installer)
+  then copy the account.xml file.
+
+- a scheduler request can specify that no client_state.xml
+  was found, so a new host record should be created.
+
 --------------------
 When does client contact scheduling server?
 Each result has a max notification delay,
@@ -283,3 +307,18 @@ data servers have to store old and new during transitions
     validate signature of <result>
     verify that filename is in list of file_infos
     verify that total size is within limit
+
+----------------------------
+Project main URL scheme
+
+Each project advertises (and is identified by) a "root URL".
+This URL returns a browser-visible "root page" describing the project,
+linking to the registration, etc.
+It also contains (in elements inside HTML comments)
+one or more <scheduler_server_url> elements,
+each containing the URL of a scheduling server
+
+When the core client initially runs, it fetches and parses
+the root page, and records the scheduling server URLs.
+Whenever it can't contact any scheduling server, it reloads
+the root page; the scheduling server URLs may have changed.

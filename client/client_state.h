@@ -19,21 +19,21 @@
 
 #include <vector>
 
-#include "client_types.h"
 #include "app.h"
-#include "net_xfer.h"
-#include "http.h"
+#include "client_types.h"
 #include "file_xfer.h"
 #include "hostinfo.h"
-#include "prefs.h"
-#include "time_stats.h"
+#include "http.h"
 #include "net_stats.h"
-#include "accounts.h"
+#include "net_xfer.h"
+#include "prefs.h"
+#include "scheduler_op.h"
+#include "time_stats.h"
 
 class CLIENT_STATE {
 public:
     CLIENT_STATE();
-    int init(ACCOUNTS&);
+    int init(PREFS*);
     int restart_tasks();
     bool do_something();
     void parse_cmdline(int argc, char** argv);
@@ -49,14 +49,13 @@ private:
 
     int version;
     char* platform_name;
-    HTTP_OP scheduler_op;
-    PROJECT* scheduler_op_project;
     NET_XFER_SET* net_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;
+    SCHEDULER_OP* scheduler_op;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
-    PREFS prefs;
+    PREFS* prefs;
     TIME_STATS time_stats;
     NET_STATS net_stats;
     unsigned int nslots;
@@ -89,7 +88,7 @@ private:
     void print_counts();
     bool garbage_collect();
     int make_scheduler_request(PROJECT*, int);
-    void handle_scheduler_reply(PROJECT*);
+    void handle_scheduler_reply(SCHEDULER_OP&);
     double estimate_duration(WORKUNIT*);
     double current_water_days();
 

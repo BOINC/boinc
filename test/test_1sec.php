@@ -9,7 +9,7 @@
     check_env_vars();
     clear_db();
     clear_data_dirs();
-    init_client_dirs("account2.xml");
+    init_client_dirs("prefs2.xml");
     add_platform();
     add_core_client();
     add_user(null);

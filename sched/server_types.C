@@ -60,6 +60,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         else if (match_tag(buf, "<preferences>")) {
             while (fgets(buf, 256, fin)) {
+                if (strstr(buf, "</preferences>")) break;
                 prefs_xml = (char*)realloc(
                     prefs_xml, strlen(prefs_xml) + strlen(buf)+1
                 );

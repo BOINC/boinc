@@ -18,6 +18,7 @@
 //
 
 #include "client_types.h"
+#include "prefs.h"
 
 // get the pathname (relative to client home dir) of a project file
 //
@@ -30,11 +31,14 @@ extern void get_slot_dir(int slot, char* path);
 
 extern int make_project_dir(PROJECT&);
 extern int make_slot_dir(int);
+extern int make_prefs_backup_name(PREFS&, char*);
 
-#define STATE_FILE_TEMP     "state_file_temp.xml"
-#define STATE_FILE_NAME     "client_state.xml"
-#define ACCOUNT_FILE_NAME    "account.xml"
-#define SCHED_OP_REQUEST_FILE "sched_request.xml"
-#define SCHED_OP_RESULT_FILE "sched_reply.xml"
-#define LOG_FLAGS_FILE      "log_flags.xml"
-#define STDERR_FILE         "stderr"
+#define STATE_FILE_TEMP         "state_file_temp.xml"
+#define STATE_FILE_NAME         "client_state.xml"
+#define PREFS_FILE_NAME         "prefs.xml"
+#define MASTER_FILE_NAME        "master.html"
+#define PREFS_TEMP_FILE_NAME    "prefs_temp.xml"
+#define SCHED_OP_REQUEST_FILE   "sched_request.xml"
+#define SCHED_OP_RESULT_FILE    "sched_reply.xml"
+#define LOG_FLAGS_FILE          "log_flags.xml"
+#define STDERR_FILE             "stderr"

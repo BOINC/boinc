@@ -108,7 +108,12 @@ bool CLIENT_STATE::start_apps() {
     bool action = false;
 
     for (i=0; i<results.size(); i++) {
-        if (active_tasks.active_tasks.size() == nslots) return 0;
+        if (active_tasks.active_tasks.size() == nslots) {
+            if (log_flags.task_debug) {
+                printf("start_apps(): all slots full\n");
+            }
+            return 0;
+        }
         rp = results[i];
         if (!rp->is_compute_done && !rp->is_active && input_files_available(rp)) {
             if (log_flags.task_debug) {

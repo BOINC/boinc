@@ -26,3 +26,4 @@ extern bool parse_str(char*, char*, char*);
 extern void parse_attr(char* buf, char* attrname, char* out);
 extern bool match_tag(char*, char*);
 extern void copy_stream(FILE* in, FILE* out);
+extern int dup_element_contents(FILE* in, char* end_tag, char** pp);

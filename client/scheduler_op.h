@@ -17,15 +17,48 @@
 // Contributor(s):
 //
 
+#ifndef _SCHEDULER_OP_
+#define _SCHEDULER_OP_
+
+// Logic for communicating with a scheduling server.
+// If we don't yet have the addresses a scheduling server,
+// we have to get the file from the project's master URL
+// and parse if for <scheduler> elements
+
+// TODO: try alternate scheduling servers;
+// implement backoff and give-up policies
+
 #include "client_types.h"
+#include "http.h"
 #include "prefs.h"
+
+#define SCHEDULER_OP_STATE_IDLE         0
+#define SCHEDULER_OP_STATE_GET_MASTER   1
+#define SCHEDULER_OP_STATE_RPC          2
+#define SCHEDULER_OP_STATE_DONE         3
+
+struct SCHEDULER_OP {
+    int state;
+    int scheduler_op_retval;
+    HTTP_OP http_op;
+    HTTP_OP_SET* http_ops;
+    PROJECT* project;
+    char scheduler_url[256];
+
+    SCHEDULER_OP(HTTP_OP_SET*);
+    int poll();
+    int start_op(PROJECT*);
+    int start_rpc();
+    int parse_master_file();
+};
 
 struct SCHEDULER_REPLY {
     int hostid;
     int request_delay;
     char message[1024];
     char message_priority[256];
-    PREFS prefs;
+    int prefs_mod_time;
+    char* prefs_xml;
     vector<APP> apps;
     vector<FILE_INFO> file_infos;
     vector<APP_VERSION> app_versions;
@@ -35,3 +68,5 @@ struct SCHEDULER_REPLY {
 
     int parse(FILE*);
 };
+
+#endif

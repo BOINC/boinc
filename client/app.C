@@ -75,7 +75,7 @@ void parse_command_line(char* p, char** argv) {
 static void print_argv(char** argv) {
     int i;
     for (i=0; argv[i]; i++) {
-        printf("argv[%d]: %s\n", i, argv[i]);
+        fprintf(stderr, "argv[%d]: %s\n", i, argv[i]);
     }
 }
 
@@ -495,13 +495,13 @@ int ACTIVE_TASK_SET::restart_tasks() {
 int ACTIVE_TASK::write(FILE* fout) {
     fprintf(fout,
         "<active_task>\n"
-        "    <project_domain>%s</project_domain>\n"
+        "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <cpu_time>%f</cpu_time>\n"
         "</active_task>\n",
-        result->project->domain,
+        result->project->master_url,
         result->name,
         app_version->version_num,
         slot,
@@ -511,20 +511,20 @@ int ACTIVE_TASK::write(FILE* fout) {
 }
 
 int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
-    char buf[256], result_name[256], project_domain[256];
+    char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0;
     PROJECT* project;
 
     strcpy(result_name, "");
-    strcpy(project_domain, "");
+    strcpy(project_master_url, "");
     cpu_time = 0;
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</active_task>")) {
-            project = cs->lookup_project(project_domain);
+            project = cs->lookup_project(project_master_url);
             if (!project) {
                 fprintf(stderr,
                     "ACTIVE_TASK::parse(): project not found: %s\n",
-                    project_domain
+                    project_master_url
                 );
                 return -1;
             }
@@ -544,7 +544,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
             return 0;
         }
         else if (parse_str(buf, "<result_name>", result_name)) continue;
-        else if (parse_str(buf, "<project_domain>", project_domain)) continue;
+        else if (parse_str(buf, "<project_master_url>", project_master_url)) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_double(buf, "<cpu_time>", cpu_time)) continue;

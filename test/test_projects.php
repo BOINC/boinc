@@ -8,7 +8,7 @@
     check_env_vars();
     clear_db();
     clear_data_dirs();
-    init_client_dirs("account2.xml");
+    init_client_dirs("prefs2.xml");
     copy_to_download_dir("small_input");
     add_platform();
     add_core_client();

@@ -17,6 +17,15 @@
 // Contributor(s):
 //
 
+// This file contains high-level logic for communicating with
+// scheduling servers:
+// - what project to ask for work
+// - how much work to ask for
+// - merging the result of a scheduler RPC into the client state
+
+// Note: code for actually doing a scheduler RPC is elsewhere,
+// namely scheduler_op.C
+
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
@@ -30,7 +39,7 @@
 #include "parse.h"
 #include "log_flags.h"
 #include "message.h"
-#include "scheduler_reply.h"
+#include "scheduler_op.h"
 
 #include "client_state.h"
 
@@ -60,7 +69,7 @@ double CLIENT_STATE::current_water_days() {
 }
 
 bool CLIENT_STATE::need_work() {
-    return (current_water_days() <= prefs.low_water_days);
+    return (current_water_days() <= prefs->low_water_days);
 }
 
 void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
@@ -97,7 +106,7 @@ PROJECT* CLIENT_STATE::choose_project() {
         if (time(0) < p->next_request_time) continue;
         if (p->exp_avg_cpu == 0) return p;
         ratio = p->resource_share/p->exp_avg_cpu;
-        if (ratio > best_ratio) {
+        if (ratio >= best_ratio) {
             best_ratio = ratio;
             bestp = p;
         }
@@ -127,10 +136,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
         work_req
     );
 
-    fprintf(f,
-        "    <prefs_mod_time>%d</prefs_mod_time>\n",
-        prefs.mod_time
-    );
+    FILE* fprefs = fopen(PREFS_FILE_NAME, "r");
+    copy_stream(fprefs, f);
+    fclose(fprefs);
 
     time_stats.write(f, true);
     net_stats.write(f, true);
@@ -145,76 +153,87 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
     }
     fprintf(f, "</scheduler_request>\n");
     fclose(f);
-    if (log_flags.sched_ops) {
-        printf("Sending request to scheduler: %s\n", p->scheduler_url);
-    }
-    if (log_flags.sched_op_debug) {
-        f = fopen(SCHED_OP_REQUEST_FILE, "r");
-        printf("--------- SCHEDULER REQUEST ---------\n");
-        copy_stream(f, stdout);
-        printf("--------- END ---------\n");
-        fclose(f);
-    }
     return 0;
 }
 
-// manage the task of maintaining a supply of work.
+// manage the task of maintaining an adequate supply of work.
 //
-// todo: determine how to calculate current_water_level
 bool CLIENT_STATE::get_work() {
-    PROJECT* p;
-    int retval;
+    PROJECT* project;
+    int retval, work_secs;
     bool action=false;
 
     if (need_work()) {
-        if (scheduler_op.http_op_state == HTTP_STATE_IDLE) {
+        switch(scheduler_op->state) {
+        case SCHEDULER_OP_STATE_IDLE:
             // if no scheduler request pending, start one
             //
-            p = choose_project();
-            if (!p) {
+            project = choose_project();
+            if (!project) {
                 if (log_flags.sched_op_debug) {
                     printf("all projects temporarily backed off\n");
                 }
                 return false;
             }
-            retval = make_scheduler_request(p, 
-		  (int)(prefs.high_water_days - current_water_days())*86400);
-            scheduler_op.init_post(
-                p->scheduler_url, SCHED_OP_REQUEST_FILE, SCHED_OP_RESULT_FILE
-            );
-            scheduler_op_project = p;
-            http_ops->insert(&scheduler_op);
-            p->rpc_seqno++;
+            work_secs =
+                (int) (prefs->high_water_days - current_water_days())*86400;
+            retval = make_scheduler_request(project, work_secs);
+            if (retval) {
+                fprintf(stderr, "make_scheduler_request: %d\n", retval);
+                break;
+            }
+
+            scheduler_op->start_op(project);
             action = true;
-        } else {
-            if (scheduler_op.http_op_state == HTTP_STATE_DONE) {
+            break;
+        default:
+            scheduler_op->poll();
+            if (scheduler_op->state == SCHEDULER_OP_STATE_DONE) {
+                scheduler_op->state = SCHEDULER_OP_STATE_IDLE;
                 action = true;
-                http_ops->remove(&scheduler_op);
-                scheduler_op.http_op_state = HTTP_STATE_IDLE;
-                int retval = scheduler_op.http_op_retval;
-                if (!retval) {
-                    handle_scheduler_reply(scheduler_op_project);
-                    client_state_dirty = true;
-                } else {
+                if (scheduler_op->scheduler_op_retval) {
+                    fprintf(stderr,
+                        "scheduler RPC to %s failed: %d\n",
+                        scheduler_op->project->master_url,
+                        scheduler_op->scheduler_op_retval
+                    );
                     if (log_flags.sched_ops) {
                         printf("HTTP work request failed: %d\n", retval);
                     }
+                    break;
+                } else {
+                    handle_scheduler_reply(*scheduler_op);
+                    client_state_dirty = true;
                 }
             }
+            break;
         }
     }
     return action;
 }
 
-void CLIENT_STATE::handle_scheduler_reply(PROJECT* project) {
+// see whether a new preferences set, obtained from
+// the given project, looks "reasonable".
+// Currently this is primitive: just make sure there's at least 1 project
+//
+bool PREFS::looks_reasonable(PROJECT& project) {
+    if (projects.size() > 0) return true;
+    return false;
+}
+
+void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
     SCHEDULER_REPLY sr;
     FILE* f;
     int retval;
     unsigned int i;
+    char prefs_backup[256];
+    PROJECT *project, *pp, *sp;
+    PREFS* new_prefs;
 
+    project = sched_op.project;
     contacted_sched_server = true;
     if (log_flags.sched_ops) {
-        printf("Got reply from scheduler %s\n", project->scheduler_url);
+        printf("Got reply from scheduler %s\n", sched_op.scheduler_url);
     }
     if (log_flags.sched_op_debug) {
         f = fopen(SCHED_OP_RESULT_FILE, "r");
@@ -242,9 +261,59 @@ void CLIENT_STATE::handle_scheduler_reply(PROJECT* project) {
         project->rpc_seqno = 0;
     }
 
-    if (sr.prefs.mod_time > prefs.mod_time && strlen(sr.prefs.prefs_xml)) {
-        if (prefs.prefs_xml) free(prefs.prefs_xml);
-        prefs = sr.prefs;
+    // if the scheduler reply includes preferences
+    // that are newer than what we have on disk, then
+    // - verify that the new prefs look reasonable;
+    //   they should include at least one project.
+    // - rename the current prefs file
+    // - copy new preferences to prefs.xml
+    // - copy any new projects into the CLIENT_STATE structure
+    // - update the preferences info of projects already in CLIENT_STATE
+    //
+    // There may be projects in CLIENT_STATE that are not in the new prefs;
+    // i.e. the user has dropped out of these projects.
+    // We'll continue with any ongoing work for these projects,
+    // but they'll be dropped the next time the client starts up.
+    //
+
+    if (sr.prefs_mod_time > prefs->mod_time) {
+        f = fopen(PREFS_TEMP_FILE_NAME, "w");
+        fprintf(f,
+            "<preferences>\n"
+            "    <prefs_mod_time>%d</prefs_mod_time>\n"
+            "    <from_project>%s</from_project>\n"
+            "    <from_scheduler>%s</from_scheduler>\n",
+            sr.prefs_mod_time,
+            project->master_url,
+            sched_op.scheduler_url
+        );
+        fputs(sr.prefs_xml, f);
+        fprintf(f,
+            "</preferences>\n"
+        );
+        fclose(f);
+        f = fopen(PREFS_TEMP_FILE_NAME, "r");
+        new_prefs = new PREFS;
+        new_prefs->parse(f);
+        fclose(f);
+        if (new_prefs->looks_reasonable(*project)) {
+            make_prefs_backup_name(*prefs, prefs_backup);
+            rename(PREFS_FILE_NAME, prefs_backup);
+            rename(PREFS_TEMP_FILE_NAME, PREFS_FILE_NAME);
+            for (i=0; i<new_prefs->projects.size(); i++) {
+                pp = new_prefs->projects[i];
+                sp = lookup_project(pp->master_url);
+                if (sp) {
+                    sp->copy_prefs_fields(*pp);
+                } else {
+                    projects.push_back(pp);
+                }
+            }
+            delete prefs;
+            prefs = new_prefs;
+        } else {
+            fprintf(stderr, "New preferences don't look reasonable, ignoring\n");
+        }
     }
 
     for (i=0; i<sr.apps.size(); i++) {
@@ -308,5 +377,8 @@ void CLIENT_STATE::handle_scheduler_reply(PROJECT* project) {
             );
         }
     }
-    print_counts();
+    if (log_flags.state_debug) {
+        printf("State after handle_scheduler_reply():\n");
+        print_counts();
+    }
 }

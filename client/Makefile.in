@@ -19,7 +19,6 @@ PROGS = $(CLIENT_PROG) test_net_xfer test_http test_file_xfer
 all: $(PROGS)
 
 OBJS = \
-    accounts.o \
     app.o \
     client_state.o \
     client_types.o \
@@ -36,7 +35,7 @@ OBJS = \
     net_stats.o \
     net_xfer.o \
     prefs.o \
-    scheduler_reply.o \
+    scheduler_op.o \
     speed_stats.o \
     time_stats.o \
     util.o \

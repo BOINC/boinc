@@ -35,6 +35,7 @@ CLIENT_STATE::CLIENT_STATE() {
     net_xfers = new NET_XFER_SET;
     http_ops = new HTTP_OP_SET(net_xfers);
     file_xfers = new FILE_XFER_SET(http_ops);
+    scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
     contacted_sched_server = false;
@@ -43,41 +44,27 @@ CLIENT_STATE::CLIENT_STATE() {
     platform_name = HOST;
 }
 
-int CLIENT_STATE::init(ACCOUNTS& accounts) {
+int CLIENT_STATE::init(PREFS* p) {
     nslots = 1;
-    PROJECT* p1, *p2;
     unsigned int i;
 
-    parse_state_file();
+    prefs = p;
 
-    // copy projects from the login file to the state.
+    // copy all PROJECTs from the prefs to the client state.
     //
-
-    for (i=0; i<accounts.projects.size(); i++) {
-        p1 = accounts.projects[i];
-        p2 = lookup_project(p1->domain);
-        if (p2) {
-            if (strcmp(p1->email_addr, p2->email_addr)
-                || strcmp(p1->authenticator, p2->authenticator)
-            ) {
-                fprintf(stderr,
-                    "Your account file doesn't match your client state file.\n"
-                    "You should probably delete the client state file.\n"
-                );
-            }
-        } else {
-            p2 = new PROJECT;
-            *p2 = *p1;
-            projects.push_back(p2);
-        }
+    for (i=0; i<p->projects.size(); i++) {
+        projects.push_back(p->projects[i]);
     }
 
-    // Error out if there are any projects in the state file
-    // not in the project file.
+    // Then parse the client state file,
+    // ignoring any <project> tags (and associated stuff)
+    // for projects not in the prefs
     //
-    // TODO
+    parse_state_file();
 
-    print_counts();
+    if (log_flags.state_debug) {
+        print_counts();
+    }
     make_project_dirs();
     make_slot_dirs();
 
@@ -92,7 +79,7 @@ int CLIENT_STATE::init(ACCOUNTS& accounts) {
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
-    if (prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
+    if (prefs->dont_run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
 
@@ -138,7 +125,7 @@ bool CLIENT_STATE::do_something() {
 int CLIENT_STATE::parse_state_file() {
     char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
-    PROJECT* project;
+    PROJECT* project=0, *p2;
     int retval;
 
     if (!f) {
@@ -154,37 +141,72 @@ int CLIENT_STATE::parse_state_file() {
             return 0;
         } else if (match_tag(buf, "<project>")) {
             project = new PROJECT;
-            project->parse(f);
-            projects.push_back(project);
+            project->parse_state(f);
+            p2 = lookup_project(project->master_url);
+            if (p2) {
+                p2->copy_state_fields(*project);
+                p2->scheduler_urls = project->scheduler_urls;
+                p2->project_name = project->project_name;
+                p2->user_name = project->user_name;
+                p2->rpc_seqno = project->rpc_seqno;
+                p2->hostid = project->hostid;
+                p2->next_request_time = project->next_request_time;
+                p2->exp_avg_cpu = project->exp_avg_cpu;
+                p2->exp_avg_mod_time = project->exp_avg_mod_time;
+            } else {
+                fprintf(stderr,
+                    "Project %s found in state file but not prefs.\n",
+                    project->master_url
+                );
+                project = 0;
+            }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
             app->parse(f);
-            retval = link_app(project, app);
-            if (!retval) apps.push_back(app);
+            if (project) {
+                retval = link_app(project, app);
+                if (!retval) apps.push_back(app);
+            } else {
+                delete app;
+            }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
             fip->parse(f);
-            retval = link_file_info(project, fip);
-            if (!retval) file_infos.push_back(fip);
+            if (project) {
+                retval = link_file_info(project, fip);
+                if (!retval) file_infos.push_back(fip);
+            } else {
+                delete fip;
+            }
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
             avp->parse(f);
-            retval = link_app_version(project, avp);
-            if (!retval) app_versions.push_back(avp);
+            if (project) {
+                retval = link_app_version(project, avp);
+                if (!retval) app_versions.push_back(avp);
+            } else {
+                delete avp;
+            }
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
             wup->parse(f);
-            retval = link_workunit(project, wup);
-            if (!retval) workunits.push_back(wup);
+            if (project) {
+                retval = link_workunit(project, wup);
+                if (!retval) workunits.push_back(wup);
+            } else {
+                delete wup;
+            }
         } else if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
             rp->parse(f, "</result>");
-            retval = link_result(project, rp);
-            if (!retval) results.push_back(rp);
+            if (project) {
+                retval = link_result(project, rp);
+                if (!retval) results.push_back(rp);
+            } else {
+                delete rp;
+            }
         } else if (match_tag(buf, "<host_info>")) {
             host_info.parse(f);
-        } else if (match_tag(buf, "<prefs>")) {
-            prefs.parse(f);
         } else if (match_tag(buf, "<time_stats>")) {
             time_stats.parse(f);
         } else if (match_tag(buf, "<net_stats>")) {
@@ -233,12 +255,11 @@ int CLIENT_STATE::write_state_file() {
     }
     fprintf(f, "<client_state>\n");
     host_info.write(f);
-    prefs.write(f);
     time_stats.write(f, false);
     net_stats.write(f, false);
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
-        p->write(f);
+        p->write_state(f);
         for (i=0; i<apps.size(); i++) {
             if (apps[i]->project == p) apps[i]->write(f);
         }
@@ -274,9 +295,9 @@ int CLIENT_STATE::write_state_file() {
     return 0;
 }
 
-PROJECT* CLIENT_STATE::lookup_project(char* domain) {
+PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
     for (unsigned int i=0; i<projects.size(); i++) {
-        if (!strcmp(domain, projects[i]->domain)) {
+        if (!strcmp(master_url, projects[i]->master_url)) {
             return projects[i];
         }
     }

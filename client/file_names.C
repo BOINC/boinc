@@ -25,12 +25,54 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
+#include <ctype.h>
 
 #include "file_names.h"
 
+static void c2x(char *what) {
+    char buf[3];
+    char num = atoi(what);
+    char d1 = num / 16;
+    char d2 = num % 16;
+    int abase1, abase2;
+    if (d1 < 10) abase1 = 48;
+    else abase1 = 55;
+    if (d2 < 10) abase2 = 48;
+    else abase2 = 55;
+    buf[0] = d1+abase1;
+    buf[1] = d2+abase2;
+    buf[2] = 0;
+
+    strcpy(what, buf);
+}
+
+static void escape_url(char *in, char* out) {
+    int x, y;
+    for (x=0, y=0; in[x]; ++x) {
+        if (isalnum(in[x])) {
+            out[y] = in[x];
+            ++y;
+        }
+        else {
+            out[y] = '%';
+            ++y;
+            out[y] = 0;
+            char buf[256];
+            sprintf(buf, "%d", (char)in[x]);
+            c2x(buf);
+            strcat(out, buf);
+            y += 2;
+        }
+    }
+    out[y] = 0;
+}
+
 void get_pathname(FILE_INFO* fip, char* path) {
     PROJECT* p = fip->project;
-    sprintf(path, "%s/%s", p->domain, fip->name);
+    char buf[256];
+
+    escape_url(p->master_url, buf);
+    sprintf(path, "%s/%s", buf, fip->name);
 }
 
 void get_slot_dir(int slot, char* path) {
@@ -42,7 +84,10 @@ void get_slot_dir(int slot, char* path) {
 // Double check permissions for CreateDirectory
 
 int make_project_dir(PROJECT& p) {
-    CreateDirectory(p.domain, NULL);
+    char buf[256];
+
+    escape_url(p.master_url, buf);
+    CreateDirectory(buf, NULL);
     return 0;
 }
 
@@ -57,7 +102,10 @@ int make_slot_dir(int slot) {
 #else
 
 int make_project_dir(PROJECT& p) {
-    mkdir(p.domain, 0777);
+    char buf[256];
+
+    escape_url(p.master_url, buf);
+    mkdir(buf, 0777);
     return 0;
 }
 
@@ -66,6 +114,11 @@ int make_slot_dir(int slot) {
     mkdir("slots", 0777);
     get_slot_dir(slot, buf);
     mkdir(buf, 0777);
+    return 0;
+}
+
+int make_prefs_backup_name(PREFS& prefs, char* name) {
+    sprintf(name, "prefs_backup_%d", prefs.mod_time);
     return 0;
 }
 
