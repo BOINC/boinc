@@ -94,6 +94,9 @@ and regards results as equivalent only if they agree byte for byte.
 regards any two results as equivalent if their CPU time
 exceeds a given minimum.
 </ul>
+<p>
+A placeholder, validator_placeholder.C is also provided.  You can replace
+this file with your own code and 'make' will correctly build and link it.
 
 ";
 page_tail();
