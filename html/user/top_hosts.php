@@ -35,8 +35,15 @@
     top_host_table_start($sort_by);
     $i = $offset+1;
     while ($host = mysql_fetch_object($result)) {
-        show_host_row($host, $i, false, true);
-        $i++;
+        if ($sort_by == "total_credit") {
+            show_host_row($host, $i, false, true);
+            $i++;
+        } else {
+            if (!host_inactive_ndays($host, 7)) {
+                show_host_row($host, $i, false, true);
+                $i++;
+            }
+        }
     }
     mysql_free_result($result);
     echo "</table>\n";

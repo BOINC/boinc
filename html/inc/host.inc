@@ -1,5 +1,7 @@
 <?php
 
+require_once("../inc/credit.inc");
+
 function location_form($host) {
     $none = "selected";
     if ($host->venue == "home") $h = "selected";
@@ -219,39 +221,58 @@ function hosts_compatible($host1, $host2) {
     return true;
 }
 
+// recompute host's average credit by scanning results.
+// Could be expensive if lots of results!
+//
 function host_update_credit($hostid) {
-    $t = 0;
+    $total = 0;
     $avg = 0;
-    $now = time();
     $avg_time = 0;
-    $half_life = 86400*7;
     $r = mysql_query("select * from result where hostid=$hostid order by received_time");
     while ($result = mysql_fetch_object($r)) {
         if ($result->granted_credit <= 0) continue;
-        $t += $result->granted_credit;
+        $total += $result->granted_credit;
 
-        // the following taken from lib/util.C
-        //
-        if ($avg_time) {
-            $diff = $result->received_time - $avg_time;
-            if ($diff <=0) $diff = 3600;
-            $diff_days = $diff/86400;
-            $weight = exp(-$diff*M_LN2/$half_life);
-            $avg *= $weight;
-            $avg += (1-$weight)*($result->granted_credit/$diff_days);
-        } else {
-            $dd = ($result->received_time - $result->sent_time)/86400;
-            $avg = $result->granted_credit/$dd;
-        }
-        $avg_time = $result->received_time;
+        update_average(
+            $result->received_time,
+            $result->sent_time,
+            $result->granted_credit,
+            $avg,
+            $avg_time
+        );
+
         echo "<br>$avg\n";
     }
     mysql_free_result($r);
 
-    $diff = $now - $avg_time;
-    $weight = exp(-$diff*M_LN2/$half_life);
-    $avg *= $weight;
-    mysql_query("update host set total_credit=$t, expavg_credit=$avg where id=$hostid");
+    // do a final decay
+    //
+    $now = time();
+    update_average(now, 0, 0, $avg, $avg_time);
+
+    mysql_query("update host set total_credit=$total, expavg_credit=$avg, expavg_time=$now where id=$hostid");
+}
+
+// decay a host's average credit
+//
+function host_decay_credit($host) {
+    $avg = $host->expavg_credit;
+    $avg_time = $host->expavg_time;
+    $now = time(0);
+    update_average($now, 0, 0, $avg, $avg_time);
+    mysql_query("update host set expavg_credit=$avg, expavg_time=$now where id=$host->id");
+
+}
+// if the host hasn't received new credit for ndays,
+// decay its average and return true
+//
+function host_inactive_ndays($host, $ndays) {
+    $diff = time() - $host->expavg_time;
+    if ($diff > $ndays*86400) {
+        host_decay_credit($host);
+        return true;
+    }
+    return false;
 }
 
 ?>

@@ -274,4 +274,26 @@ function team_edit_form($team, $label, $url) {
     echo "</form>\n";
 }
 
+// decay a team's average credit
+//
+function team_decay_credit($team) {
+    $avg = $team->expavg_credit;
+    $avg_time = $team->expavg_time;
+    $now = time(0);
+    update_average($now, 0, 0, $avg, $avg_time);
+    mysql_query("update team set expavg_credit=$avg, expavg_time=$now where id=$team->id");
+
+}
+// if the team hasn't received new credit for ndays,
+// decay its average and return true
+//
+function team_inactive_ndays($team, $ndays) {
+    $diff = time() - $team->expavg_time;
+    if ($diff > $ndays*86400) {
+        team_decay_credit($team);
+        return true;
+    }
+    return false;
+}
+
 ?>

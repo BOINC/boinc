@@ -700,6 +700,9 @@ int boinc_calling_thread_cpu_time(double &cpu_t, double &ws_t) {
 // This function can be called either with new work,
 // or with zero work to decay an existing average.
 //
+// NOTE: if you change this, also change update_average in
+// html/inc/credit.inc
+//
 void update_average(
     double work_start_time,       // when new work was started
                                     // (or zero if no new work)

@@ -188,4 +188,26 @@ function show_user_row($user, $i) {
     ";
 }
 
+// decay a user's average credit
+//
+function user_decay_credit($user) {
+    $avg = $user->expavg_credit;
+    $avg_time = $user->expavg_time;
+    $now = time(0);
+    update_average($now, 0, 0, $avg, $avg_time);
+    mysql_query("update user set expavg_credit=$avg, expavg_time=$now where id=$user->id");
+
+}
+// if the user hasn't received new credit for ndays,
+// decay its average and return true
+//
+function user_inactive_ndays($user, $ndays) {
+    $diff = time() - $user->expavg_time;
+    if ($diff > $ndays*86400) {
+        user_decay_credit($user);
+        return true;
+    }
+    return false;
+}
+
 ?>

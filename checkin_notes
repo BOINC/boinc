@@ -18978,3 +18978,28 @@ David  29 Oct 2004
 
     html/inc/
         result.inc
+
+David  1 Nov 2004
+    - Fixed the display of top users/hosts/teams ordered by average credit.
+        This code wasn't taking into account how long ago
+        the average credit was computed.
+        The fix: add functions user_inactive_days() (host/team also)
+        If the user's expavg_time is older than a week,
+        call user_decay_credit() to decay the average credit.
+    - create a PHP function update_average(),
+        exactly the same as the C++ function.
+    - add a "Generated on" line at the bottom of cached pages
+
+    html/
+        inc/
+            cache.inc
+            credit.inc (new)
+            host.inc
+            team.inc
+            user.inc
+        user/
+            top_hosts.php
+            top_teams.php
+            top_users.php
+        lib/
+            util.C

@@ -36,8 +36,15 @@
     user_table_start($sort_by);
     $i = 1 + $offset;
     while ($user = mysql_fetch_object($result)) {
-        show_user_row($user, $i);
-        $i++;
+        if ($sort_by == "total_credit") {
+            show_user_row($user, $i);
+            $i++;
+        } else {
+            if (!user_inactive_ndays($user, 7)) {
+                show_user_row($user, $i);
+                $i++;
+            }
+        }
     }
     echo "</table>\n";
 

@@ -39,8 +39,15 @@
     team_table_start($sort_by);
     $i = $offset + 1;
     while ($team = mysql_fetch_object($result)) {
-        show_team_row($team, $i);
-        $i++;
+        if ($sort_by == "total_credit") {
+            show_team_row($team, $i);
+            $i++;
+        } else {
+            if (!team_inactive_ndays($team, 7)) {
+                show_team_row($team, $i);
+                $i++;
+            }
+        }
     }
     mysql_free_result($result);
     echo "</table>\n<p>\n";
