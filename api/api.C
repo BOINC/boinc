@@ -144,49 +144,49 @@ void parse_app_file(FILE* f, APP_OUT& ao) {
 }
 
 void write_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
-	if( input_file ) {
-		fprintf( f, "<fdesc_dup_infile>%s</fdesc_dup_infile>\n", file_name );
-		fprintf( f, "<fdesc_dup_innum>%d</fdesc_dup_innum>\n", fdesc );
-	} else {
-		fprintf( f, "<fdesc_dup_outfile>%s</fdesc_dup_outfile>\n", file_name );
-		fprintf( f, "<fdesc_dup_outnum>%d</fdesc_dup_outnum>\n", fdesc );
-	}
+    if( input_file ) {
+        fprintf( f, "<fdesc_dup_infile>%s</fdesc_dup_infile>\n", file_name );
+        fprintf( f, "<fdesc_dup_innum>%d</fdesc_dup_innum>\n", fdesc );
+    } else {
+        fprintf( f, "<fdesc_dup_outfile>%s</fdesc_dup_outfile>\n", file_name );
+        fprintf( f, "<fdesc_dup_outnum>%d</fdesc_dup_outnum>\n", fdesc );
+    }
 }
 
 void parse_init_file(FILE* f) {
     char buf[256],filename[256];
-	int filedesc,fd,retval;
+    int filedesc,fd,retval;
 
     while (fgets(buf, 256, f)) {
         if (parse_str(buf, "<fdesc_dup_infile>", filename)) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_innum>", filedesc)) {
-					fd = open(filename, O_RDONLY);
-					if (fd != filedesc) {
-						retval = dup2(fd, filedesc);
-						if (retval < 0) {
-							fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
-							exit(retval);
-						}
-						close(fd);
-					}
-				}
+                    fd = open(filename, O_RDONLY);
+                    if (fd != filedesc) {
+                        retval = dup2(fd, filedesc);
+                        if (retval < 0) {
+                            fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
+                            exit(retval);
+                        }
+                        close(fd);
+                    }
+                }
             }
             continue;
         }
         else if (parse_str(buf, "<fdesc_dup_outfile>", filename)) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_outnum>", filedesc)) {
-					fd = open(filename, O_WRONLY|O_CREAT, 0660);
-					if (fd != filedesc) {
-						retval = dup2(fd, filedesc);
-						if (retval < 0) {
-							fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
-							exit(retval);
-						}
-						close(fd);
-					}
-				}
+                    fd = open(filename, O_WRONLY|O_CREAT, 0660);
+                    if (fd != filedesc) {
+                        retval = dup2(fd, filedesc);
+                        if (retval < 0) {
+                            fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
+                            exit(retval);
+                        }
+                        close(fd);
+                    }
+                }
             }
             continue;
         }
@@ -207,7 +207,7 @@ void boinc_init(APP_IN& ai) {
         unlink(CORE_TO_APP_FILE);
     }
 
-	f = fopen( BOINC_INIT_FILE, "r" );
+    f = fopen( BOINC_INIT_FILE, "r" );
     if (f) {
         parse_init_file(f);
         unlink(BOINC_INIT_FILE);
@@ -231,25 +231,25 @@ void boinc_poll(APP_IN& ai, APP_OUT& ao) {
 
 int boinc_resolve_link(char *file_name, char *resolved_name) 
 {
-	FILE *fp;
-	char buf[512];
+    FILE *fp;
+    char buf[512];
 
-	// Open the file and load the first line
-	fp = fopen( file_name, "r" );
-	if (!fp) {
-            strcpy( resolved_name, file_name );
-            return -1;
-        }
-	rewind( fp );
-	fgets(buf, 512, fp);
-	fclose( fp );
+    // Open the file and load the first line
+    fp = fopen( file_name, "r" );
+    if (!fp) {
+        strcpy( resolved_name, file_name );
+        return -1;
+    }
+    rewind( fp );
+    fgets(buf, 512, fp);
+    fclose( fp );
 
-	// If it's the <soft_link> XML tag, return it's value,
-	// otherwise, return the original file name
-	if( !parse_str( buf, "<soft_link>", resolved_name ) ) {
-		strcpy( resolved_name, file_name );
-	}
+    // If it's the <soft_link> XML tag, return it's value,
+    // otherwise, return the original file name
+    if( !parse_str( buf, "<soft_link>", resolved_name ) ) {
+        strcpy( resolved_name, file_name );
+    }
 
-	return 0;
+    return 0;
 }
 
