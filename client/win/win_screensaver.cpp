@@ -288,19 +288,13 @@ INT CScreensaver::Run()
 //-----------------------------------------------------------------------------
 VOID CScreensaver::StartupBOINC()
 {
-    int iStatus = 0;
-
 	if( m_SaverMode != sm_preview )
 	{
         if( (NULL != m_Monitors[0].hWnd) && (m_bCoreNotified == FALSE) )
 		{
-            TCHAR szCurrentWindowStation[MAX_PATH];
-            TCHAR szCurrentDesktop[MAX_PATH];
-            BOOL  bReturnValue;
-            int   iReturnValue;
-
-            memset(szCurrentWindowStation, 0, sizeof(szCurrentWindowStation)/sizeof(TCHAR));
-            memset(szCurrentDesktop, 0, sizeof(szCurrentDesktop)/sizeof(TCHAR));
+            DISPLAY_INFO di;
+            BOOL         bReturnValue;
+            int          iReturnValue;
 
             if (!m_bIs9x)
             {
@@ -308,8 +302,8 @@ VOID CScreensaver::StartupBOINC()
                 bReturnValue = GetUserObjectInformation( 
                     GetProcessWindowStation(), 
                     UOI_NAME, 
-                    szCurrentWindowStation,
-                    (sizeof(szCurrentWindowStation) / sizeof(TCHAR)),
+					di.window_station,
+                    sizeof(di.window_station),
                     NULL
                 );
                 if (!bReturnValue)
@@ -320,8 +314,8 @@ VOID CScreensaver::StartupBOINC()
                 bReturnValue = GetUserObjectInformation( 
                     GetThreadDesktop(GetCurrentThreadId()), 
                     UOI_NAME, 
-                    szCurrentDesktop,
-                    (sizeof(szCurrentDesktop) / sizeof(TCHAR)),
+					di.desktop,
+					sizeof(di.desktop),
                     NULL
                 );
                 if (!bReturnValue)
@@ -331,11 +325,8 @@ VOID CScreensaver::StartupBOINC()
             }
 
 			// Tell the boinc client to start the screen saver
-            BOINCTRACE(_T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankScreen = '%d', BlankTime = '%d'.\n"), szCurrentWindowStation, szCurrentDesktop, m_dwBlankScreen, m_dwBlankTime);
+			BOINCTRACE(_T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankScreen = '%d', BlankTime = '%d'.\n"), di.window_station, di.desktop, m_dwBlankScreen, m_dwBlankTime);
 
-            DISPLAY_INFO di;
-            strcpy(di.window_station, szCurrentWindowStation);
-            strcpy(di.desktop, szCurrentDesktop);
             if ( 0 == m_dwBlankScreen )
                 iReturnValue = rpc.set_screensaver_mode(true, 0, di);
             else
