@@ -8355,7 +8355,7 @@ Eric K.  12/11/2003
    m4/sah_namespace.m4
    m4/sah_header_stdcxx.m4
 
-David  11 Dec 1003
+David  11 Dec 2003
     - Add <db_host> element to config file and SCHED_CONFIG.
         Add db_host argument to DB_CONN::open()
         All server programs can now be run on different machine from MySQL
@@ -8401,3 +8401,22 @@ David  11 Dec 1003
         update_stats.C
         validate.C
         wu_check.C
+
+Gary	11 Dec 2003
+	- changed the way tab windows are hidden/shown in windows gui,
+      to fix intermittent window repainting bug.
+        old:
+           <hide all windows by setting turning off WS_VISIBLE style>
+	       <show selected window by turning on WS_VISIBLE style>
+           <redraw window>
+           The trouble with this technique is that it does not
+           activate the window, so it will only work if the
+           window becomes active *before* the redraw takes place.
+        new:
+           <hide all visible windows via ShowWindow(SW_HIDE)>
+           <redraw selected window >
+           <show selected window via ShowWindow(SW_SHOW)>
+
+    client/win/
+		wingui_mainwindow.cpp
+           
