@@ -87,7 +87,7 @@ struct GLOBAL_PREFS {
 struct GUI_URLS {
     char* text;
     void init();
-    void get_gui_urls(USER& user, TEAM& team, HOST& host, char*);
+    void get_gui_urls(USER& user, HOST& host, TEAM& team, char*);
 };
 
 struct SCHEDULER_REQUEST {

@@ -43,6 +43,7 @@ extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element_contents(
     char* buf, char* start, char* end, char* replacement
 );
+extern bool remove_element(char* buf, char* start, char* end);
 extern bool str_replace(char* str, char* old, char* neww);
 extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(std::string&, std::string&);

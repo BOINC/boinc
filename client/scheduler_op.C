@@ -635,6 +635,13 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &project_prefs_xml
             );
             if (retval) return ERR_XML_PARSE;
+        } else if (match_tag(buf, "<gui_urls>")) {
+            std::string foo;
+            retval = copy_element_contents(in, "</gui_urls>", foo);
+            if (!retval) {
+                project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
+            }
+            continue;
 #if 0
         } else if (match_tag(buf, "<deletion_policy_priority/>")) {
             project->deletion_policy_priority = true;

@@ -372,7 +372,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         );
     }
 
-    gui_urls.get_gui_urls(user, team, host, buf);
+    gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);
 
 end:
@@ -566,7 +566,7 @@ void GUI_URLS::init() {
     read_file_malloc("../gui_urls.xml", text);
 }
 
-void GUI_URLS::get_gui_urls(USER& user, TEAM& team, HOST& host, char* buf) {
+void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
     bool found;
     char userid[256], teamid[256], hostid[256];
     strcpy(buf, "");
@@ -574,13 +574,23 @@ void GUI_URLS::get_gui_urls(USER& user, TEAM& team, HOST& host, char* buf) {
     strcpy(buf, text);
 
     sprintf(userid, "%d", user.id);
-    sprintf(teamid, "%d", team.id);
     sprintf(hostid, "%d", host.id);
+    if (user.teamid) {
+        sprintf(teamid, "%d", team.id);
+    } else {
+        strcpy(teamid, "0");
+        while (remove_element(buf, "<ifteam>", "</ifteam>") {
+            continue;
+        }
+
+    }
     while (1) {
         found = false;
         found |= str_replace(buf, "<userid/>", userid);
+        found |= str_replace(buf, "<user_name/>", user.name);
         found |= str_replace(buf, "<hostid/>", hostid);
         found |= str_replace(buf, "<teamid/>", teamid);
+        found |= str_replace(buf, "<team_name/>", team.name);
         found |= str_replace(buf, "<authenticator/>", user.authenticator);
         if (!found) break;
     }

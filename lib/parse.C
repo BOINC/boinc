@@ -225,6 +225,18 @@ void replace_element_contents(
     strcat(p, temp);
 }
 
+// if the string contains a substring of the form X...Y,
+// remove the first such.
+bool remove_element(char* buf, char* start, char* end) {
+    char* p, *q;
+    p = strstr(buf, start);
+    if (!p) return false;
+    q = strstr(p+strlen(start), end);
+    if (!q) return false;
+    strcpy(p, q+strlen(end));
+    return true;
+}
+
 // replace a substring.  Do at most one instance.
 //
 bool str_replace(char* str, char* substr, char* replacement) {

@@ -17813,6 +17813,20 @@ David  26 Sept 2004
         db_dump.C
         sched_send.C
 
-Rom    14 Sep 2004 (boinc_public)
+Rom    27 Sep 2004 (boinc_public)
     - Tag for 4.10 release, all platforms
       boinc_core_release_4_10
+
+David  27 Sept 2004
+    - more support for GUI URLs.
+        The core client should now parse them from scheduler reply,
+        and save them in account file.
+
+    client/
+        client_types.C,h
+        scheduler_op.C
+    lib/
+        parse.C,h
+    sched/
+        handle_request.C
+        server_types.C,h

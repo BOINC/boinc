@@ -51,6 +51,12 @@ using namespace std;
 // If no host ID is supplied, or if RPC seqno mismatch,
 // create a new host record and return its ID
 //
+// POSTCONDITION:
+// If this returns zero, then:
+// - reply.host contains a valid host record (possibly new)
+// - reply.user contains a valid user record
+// - if user has team, reply.team contains team record
+//
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
     char buf[256];

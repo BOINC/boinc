@@ -139,6 +139,9 @@ public:
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
 #if 0
+                                        // deletion policy, least recently used
+    bool deletion_policy_priority;       // deletion policy, priority of files
+    bool deletion_policy_expire;         // deletion policy, delete expired files first
     double share_size;          // size allocated by the resource share
                                 // used for enforcement of boundaries but isn't one itself
     double size;                // the total size of all the files in all subfolder
@@ -152,6 +155,8 @@ public:
     std::string project_specific_prefs;
         // without enclosing <project_specific> tags
         // Does not include <venue> elements
+    std::string gui_urls;
+        // GUI URLs, with enclosing <gui_urls> tags
     double resource_share;
         // project's resource share relative to other projects.
 
@@ -193,11 +198,6 @@ public:
         // send the list of permanent files associated/with the project
         // in the next scheduler reply
     bool suspended_via_gui;
-#if 0
-                                        // deletion policy, least recently used
-    bool deletion_policy_priority;       // deletion policy, priority of files
-    bool deletion_policy_expire;         // deletion policy, delete expired files first
-#endif
 
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
@@ -215,8 +215,10 @@ public:
     // the following used by work-fetch algorithm
     double work_request;        // how much work a project needs (secs)
 
-    // the following used in disk-space management
+#if 0
+    // used in disk-space management (temp)
     bool checked;
+#endif
 
     PROJECT();
     ~PROJECT();
@@ -228,7 +230,9 @@ public:
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
+#if 0
     bool associate_file(FILE_INFO*);
+#endif
 
     // set min_rpc_time and have_reported_min_rpc_time
     void set_min_rpc_time(time_t future_time);

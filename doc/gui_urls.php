@@ -21,12 +21,22 @@ with the following form:
         <description>Get help about SETI@home</description>
         <url>http://foo.project.com/help.php</url>
     </gui_url>
+    <ifteam>
+        <gui_url>
+            <name>Team</name>
+            <description>Info about <team_name/></description>
+            <url>http://foo.project.com/team.php?teamid=<teamid/></url>
+        </gui_url>
+    </ifteam>
     ...
 </gui_urls>
 "),"
 <p>
 Each entry describes a GUI URL.
-The elements are:
+Team-specific entries should be enclosed in
+<code>&lt;ifteam></code>.
+<p>
+The components of a <code>&lt;gui_url></code> element are:
 ";
 list_start();
 list_item("name", "A short name, used e.g. as a menu item");
@@ -38,7 +48,9 @@ All items are macro-substituted as follows:
 ";
 list_start();
 list_item(htmlspecialchars("<userid/>"), "The user ID");
+list_item(htmlspecialchars("<user_name/>"), "The user name");
 list_item(htmlspecialchars("<teamid/>"), "The team ID");
+list_item(htmlspecialchars("<team_name/>"), "The team name");
 list_item(htmlspecialchars("<hostid/>"), "The host ID");
 list_item(htmlspecialchars("<authenticator/>"), "The user's account ID");
 list_end();

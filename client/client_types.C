@@ -55,6 +55,7 @@ void PROJECT::init() {
     size = 0;
 #endif
     project_specific_prefs = "";
+    gui_urls = "";
     resource_share = 100;
     strcpy(project_name, "");
     strcpy(user_name, "");
@@ -135,6 +136,7 @@ int PROJECT::write_account_file() {
     fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
         project_prefs.c_str()
     );
+    fprintf(f, gui_urls.c_str());
     fprintf(f, "</account>\n");
     fclose(f);
     retval = boinc_rename(TEMP_FILE_NAME, path);
@@ -277,6 +279,13 @@ int PROJECT::parse_account(FILE* in) {
             continue;
         }
 #endif
+        else if (match_tag(buf, "<gui_urls>")) {
+            string foo;
+            retval = copy_element_contents(in, "</gui_urls>", foo);
+            if (retval) return retval;
+            gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
+            continue;
+        }
         else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,
