@@ -2128,3 +2128,15 @@ Eric  October 13, 2002
         file_names.C
         scheduler_op.C
 
+Eric  October 14, 2002
+    - Added initial support for Mac OpenGL graphics, still needs to
+      be polished and tested (particularly multithreaded aspect)
+
+    api/
+        mac_app_opengl.c,h
+        mac_carbon_dsp.c,h
+        mac_carbon_gl.c,h
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+
