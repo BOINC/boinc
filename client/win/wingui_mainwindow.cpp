@@ -1099,7 +1099,10 @@ void CMainWindow::OnCommandSettingsLogin()
     CLoginDialog dlg(IDD_LOGIN, "", "");
     int nResult = dlg.DoModal();
 	if(nResult == IDOK) {
-	    gstate.add_project(dlg.m_strUrl.GetBuffer(0), dlg.m_strAuth.GetBuffer(0));
+	    gstate.add_project(
+			dlg.m_strUrl.GetBuffer(dlg.m_strUrl.GetLength()+10), 
+			dlg.m_strAuth.GetBuffer(0));
+		dlg.m_strUrl.ReleaseBuffer(); // might have been changed by canonicalize_url()
 	}
 }
 
