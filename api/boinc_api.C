@@ -89,7 +89,7 @@ int boinc_init() {
         fprintf(stderr, "boinc_init(): can't open graphics data file\n");
         return ERR_FOPEN;
     }
-    retval = parse_graphics_file(f, gi);
+    retval = parse_graphics_file(f, &gi);
     if (retval) {
         fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
         return retval;

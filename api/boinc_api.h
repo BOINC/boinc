@@ -87,7 +87,7 @@ int write_fraction_done_file(FILE*, double, double);
 int parse_fraction_done_file(FILE*, double&, double&);
 
 #define INIT_DATA_FILE    "init_data.xml"
-#define GRAPHICS_DATA_FILE    "graphics_data.xml"
+#define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 #define CHECKPOINT_CPU_FILE     "checkpoint_cpu.xml"
 #define FRACTION_DONE_FILE  "fraction_done.xml"
