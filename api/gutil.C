@@ -934,19 +934,38 @@ void STARFIELD::build_stars(int sz, float sp) {
 
 bool STARFIELD::is_visible(int i)
 {	
-	float dist;
-	float d[3] = {(camera[0]-stars[i].x),
-			      (camera[1]-stars[i].y),
-		   	      (camera[2]-stars[i].z)};
-	dist=sqrt(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);		
-	normalize(d);
+	bool inside;
+	double model[16];
+	double proj[16];
+	int view[4];
+	get_matrix(model);
+	get_projection(proj);	
+	glMatrixMode(GL_MODELVIEW);
+	view[0]=0;
+	view[1]=0;
+	view[2]=1;
+	view[3]=1;
+	
+	double out[3];
+	get_2d_positions(stars[i].x,stars[i].y,stars[i].z,model,proj,view,out);
+	if(out[0]>0 && out[0]<1 && 
+	   out[1]>0 && out[1]<1 && out[2]<1) inside=true;
+	else inside=false;
 
-	//note returns a cone, not a pyramid
-	//fix: project to up-eye plane & right-eye plane
-	if(speed<0)
-		return(dotProd(eye[0],eye[1],eye[2],d[0],d[1],d[2]) > COS_30 && dist<1500.f);		
+	if(speed>0)
+	{
+		return inside;
+	}
 	else
-		return(dotProd(eye[0],eye[1],eye[2],d[0],d[1],d[2]) > COS_30);	
+	{
+		float dist;
+		float d[3] = {(camera[0]-stars[i].x),
+			          (camera[1]-stars[i].y),
+		   	          (camera[2]-stars[i].z)};
+
+		dist=sqrt(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);				
+		return(inside && dist<1500);
+	}	
 }
 
 void STARFIELD::update_stars(float dt)
