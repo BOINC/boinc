@@ -17,11 +17,8 @@
 
     if ($hostid) {
         $host = lookup_host($hostid);
-        // if (!$host || $host->userid != $user->id) {
-        //     echo "No access";
-        //     exit();
-        // }
         $type = "host";
+        $link = "<a href=show_host_detail.php?hostid=$hostid>host $hostid</a>";
         $clause = "hostid=$hostid";
     } else {
         if ($userid != $user->id) {
@@ -29,10 +26,11 @@
             exit();
         }
         $type = "user";
+        $link = "user";
         $clause = "userid=$userid";
     }
     page_head("Results for $type");
-    echo "<h3>Results for $type</h3>\n";
+    echo "<h3>Results for $link</h3>\n";
     result_table_start(true, false, true);
     $i = 0;
     $query = "select * from result where $clause order by id desc limit $offset,".($results_per_page+1);
