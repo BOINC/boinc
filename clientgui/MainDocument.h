@@ -233,6 +233,32 @@ public:
     wxInt32                     GetResourceProjectName( wxInt32 iIndex, wxString& strBuffer );
     wxInt32                     GetResourceDiskspace( wxInt32 iIndex, float& fBuffer );
 
+
+	//
+	// Proxy Configuration
+	//
+private:
+
+	PROXY_INFO					proxy_info;
+
+public:
+
+    wxInt32                     GetProxyInfo();
+    wxInt32                     SetProxyInfo();
+
+    bool use_http_proxy;
+    bool use_socks_proxy;
+    bool use_http_authentication;
+    int socks_version;
+    std::string socks_server_name;
+    std::string http_server_name;
+    int socks_server_port;
+    int http_server_port;
+    std::string http_user_name;
+    std::string http_user_passwd;
+    std::string socks5_user_name;
+    std::string socks5_user_passwd;
+
 };
 
 #endif

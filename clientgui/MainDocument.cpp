@@ -1378,3 +1378,38 @@ wxInt32 CMainDocument::GetResourceDiskspace( wxInt32 iIndex, float& fBuffer )
     return 0;
 }
 
+
+wxInt32 CMainDocument::GetProxyInfo()
+{
+    wxInt32 retval = 0;
+
+	retval = rpc.get_proxy_settings(proxy_info);
+    if (retval)
+    {
+        wxLogTrace("CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", retval);
+        proxy_info.clear();
+    }
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::SetProxyInfo()
+{
+    wxInt32 retval = 0;
+
+	retval = rpc.set_proxy_settings(proxy_info);
+    if (retval)
+    {
+        wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", retval);
+        proxy_info.clear();
+    }
+
+    return retval;
+}
+
+
+
+
+
+

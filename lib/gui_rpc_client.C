@@ -1277,6 +1277,16 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
     return rpc.do_rpc(buf);
 }
 
+int RPC_CLIENT::get_proxy_settings(PROXY_INFO& p) {
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<get_proxy_settings/>");
+    if (retval) return retval;
+
+    return p.parse(rpc.fin);
+}
+
 int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
     char buf[4096];
     RPC rpc(this);
