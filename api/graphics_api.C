@@ -45,8 +45,10 @@ HANDLE graphics_threadh=NULL;
 #include "mac_app_opengl.h"
 #endif
 
-
+#ifdef _WIN32
 HANDLE hQuitEvent;
+#endif
+
 GRAPHICS_INFO gi;
 bool graphics_inited = false;
 
