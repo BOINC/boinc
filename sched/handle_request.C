@@ -641,10 +641,10 @@ void process_request(
     }
 
     last_rpc_time = reply.host.rpc_time;
-    last_rpc_time_tm = localtime(&reply.host.rpc_time));
+    last_rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time));
 
     reply.host.rpc_time = time(0);
-    rpm_time_tm = localtime(&reply.host.rpc_time);
+    rpm_time_tm = localtime((const time_t*)&reply.host.rpc_time);
 
     if (last_rpc_time_tm->tm_yday != rpm_time_tm->tm_yday) {
         reply.host.nresults_today = 0;
