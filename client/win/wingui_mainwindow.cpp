@@ -752,9 +752,15 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
     BOOL success = false;
     NOTIFYICONDATA icon_data;
 
-    if(dwMessage != ICON_OFF && dwMessage != ICON_NORMAL && dwMessage != ICON_HIGHLIGHT) {
+    if((dwMessage != ICON_OFF) &&
+	   (dwMessage != ICON_NORMAL) &&
+	   (dwMessage != ICON_HIGHLIGHT) &&
+	   (dwMessage != ICON_ERROR) &&
+	   (dwMessage != ICON_INFO)
+	){
         return false;
     }
+
     // if icon is in that state already, there is nothing to do
     if(dwMessage == m_nIconState) return true;
     m_nDesiredIconState = dwMessage;
@@ -777,6 +783,20 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
         }
     } else if(dwMessage == ICON_HIGHLIGHT) {
         icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONHIGHLIGHT);
+        if(m_nIconState == ICON_OFF) {
+            success = Shell_NotifyIcon(NIM_ADD, &icon_data);
+        } else {
+            success = Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+        }
+    } else if(dwMessage == ICON_ERROR) {
+        icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONERROR);
+        if(m_nIconState == ICON_OFF) {
+            success = Shell_NotifyIcon(NIM_ADD, &icon_data);
+        } else {
+            success = Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+        }
+    } else if(dwMessage == ICON_INFO) {
+        icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONINFO);
         if(m_nIconState == ICON_OFF) {
             success = Shell_NotifyIcon(NIM_ADD, &icon_data);
         } else {
@@ -1572,7 +1592,7 @@ void CMainWindow::OnCommandExit()
 // returns:     0 if successful, otherwise -1
 // function:    copies the selected message(s) to the clipboard as
 //              formatted text
-int CMainWindow::OnCommandMessageCopyToClip()
+void CMainWindow::OnCommandMessageCopyToClip()
 {
     HGLOBAL hClipboardData;
     POSITION pos;
@@ -1581,7 +1601,7 @@ int CMainWindow::OnCommandMessageCopyToClip()
     CString strData = "";
 
     if (!OpenClipboard())
-        return -1;
+        goto END_ONCOMMANDMESSAGECOPYTOCLIP;
     EmptyClipboard();
 
     /* Get strings from selected items:
@@ -1593,7 +1613,7 @@ int CMainWindow::OnCommandMessageCopyToClip()
 
     pos = m_MessageListCtrl.GetFirstSelectedItemPosition();
     if (pos == NULL) {
-        if(m_nContextItem < 0 || m_nContextItem > m_MessageListCtrl.GetItemCount()) return -1;
+        if(m_nContextItem < 0 || m_nContextItem > m_MessageListCtrl.GetItemCount()) goto END_ONCOMMANDMESSAGECOPYTOCLIP;
 
         // TODO: Allow arbitrary # of columns instead of hardcoding 3, if possible.
         for (int i = 0; i < NUM_COLS-1; i++) {
@@ -1627,7 +1647,9 @@ int CMainWindow::OnCommandMessageCopyToClip()
     SetClipboardData(CF_TEXT,hClipboardData);
 
     CloseClipboard();
-    return 0;
+
+END_ONCOMMANDMESSAGECOPYTOCLIP:;
+
 }
 
 //////////

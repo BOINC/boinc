@@ -36,6 +36,8 @@
 #define ICON_OFF			0			// remove icon
 #define ICON_NORMAL			1			// normal icon
 #define ICON_HIGHLIGHT		2			// highlighted icon
+#define ICON_ERROR			3			// error icon
+#define ICON_INFO			4			// info icon
 
 #define DEF_COL_WIDTH		80			// default width of list columns
 
@@ -160,7 +162,7 @@ protected:
 	afx_msg void OnCommandRunRequestNever();
 
 	afx_msg void			OnCommandExit();
-	afx_msg int				OnCommandMessageCopyToClip();
+	afx_msg void			OnCommandMessageCopyToClip();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
 	afx_msg void			OnRButtonDown(UINT, CPoint);

@@ -8566,3 +8566,17 @@ Jeff 18 Dec 2003
 
     lib/
         parse.h
+
+David  19 Dec 2003
+	- new system tray icons, for "new message" and "new error message" situations,
+		contributed by Rom Walton.
+		NOTE: these are not actually used;
+		we need to add flags for when they should be displayed
+
+	client/win/
+		resource.h
+		resource.rc
+		wingui_mainwindow.cpp,h
+		res/
+			iconerror.ico (new)
+			iconinfo.ico (new)
