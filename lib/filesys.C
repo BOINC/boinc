@@ -465,12 +465,12 @@ int lock_file(char* filename) {
     int retval;
 
     // some systems have both!
-#ifdef HAVE_FLOCK
-    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = flock(lock, LOCK_EX|LOCK_NB);
-#elif HAVE_LOCKF
+#ifdef HAVE_LOCKF
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
     retval = lockf(lock, F_TLOCK, 1);
+#elif HAVE_FLOCK
+    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = flock(lock, LOCK_EX|LOCK_NB);
     // must leave fd open
 #endif
 

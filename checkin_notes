@@ -17710,3 +17710,10 @@ David  24 Sept 2004
         db_base.C,h
     sched/
         db_dump.C
+
+David  24 Sept 2004
+    - use lockf() in preference to flock(), since the former supports NFS
+        (from James Drews)
+    
+    lib/
+        filesys.C
