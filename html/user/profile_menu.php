@@ -68,9 +68,14 @@ function execute_command() {
       $userIds[] = $row[0];
     }
 
+    if (count($userIds) == 0) {
+      echo "No profiles matched your query.<br>";
+      exit();
+    }
+
     shuffle($userIds);
     
-    header("Location: " . MASTER_URL . "view_profile.php?userid=" . $userIds[0]);
+    header("Location: " . URL_BASE . "view_profile.php?userid=" . $userIds[0]);
     exit();
   }
   
