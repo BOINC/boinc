@@ -53,12 +53,17 @@ boinc_client_LDFLAGS = $(STATIC_FLAGS)
 speed_stats_SOURCES = speed_stats.C
 speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
 
-all-local: @CLIENT_BIN_FILENAME@
+all-local: client-bin-gz
+client-bin: @CLIENT_BIN_FILENAME@.gz
+client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
-	rm -f @CLIENT_BIN_FILENAME@
-	ln boinc_client @CLIENT_BIN_FILENAME@
+	rm -f $^
+	ln boinc_client $^
+
+@CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
+	gzip -c $^ > $@
 
 ## these source files need to be specified because no rule on unix uses them.
 EXTRA_DIST =					\
