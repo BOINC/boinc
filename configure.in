@@ -39,4 +39,4 @@ AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
 AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname)
 
-AC_OUTPUT(apps/Makefile db/Makefile sched/Makefile lib/Makefile client/Makefile tools/Makefile Makefile api/Makefile)
+AC_OUTPUT(RSAEuro/source/Makefile apps/Makefile db/Makefile sched/Makefile lib/Makefile client/Makefile tools/Makefile Makefile api/Makefile)

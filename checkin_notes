@@ -1241,3 +1241,12 @@ Michael Gary	7/18/2002
     client/
         Makefile.in
 
+Eric Heien   7/18/2002
+    -  Fixed RSAEuro makefile so that it doesn't require gcc.  This was
+       causing problems when porting.
+
+    RSAEuro/source/
+        Makefile (removed)
+        Makefile.in (added)
+    configure
+    configure.in
