@@ -5410,5 +5410,8 @@ Karl 2003/07/27
 
 Karl 2003/07/28
     fixed "work between X:00 and Y:00" bug
+    added idle_time_to_run and run_if_user_active checking
+
     html_user/*
+    client/*
 
