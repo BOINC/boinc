@@ -137,12 +137,12 @@ void set_mode(int mode) {
 }
 
 static void wait_for_initial_message() {
-    g_bmsp->app_client_shm->shm->graphics_reply.send_msg(
+    (*g_bmsp->app_client_shmp)->shm->graphics_reply.send_msg(
         xml_graphics_modes[MODE_HIDE_GRAPHICS]
     );
     acked_graphics_mode = MODE_HIDE_GRAPHICS;
     while (1) {
-        if (g_bmsp->app_client_shm->shm->graphics_request.has_msg()) {
+        if ((*g_bmsp->app_client_shmp)->shm->graphics_request.has_msg()) {
             break;
         }
         sleep(1);
@@ -154,9 +154,9 @@ static void timer_handler(int) {
     GRAPHICS_MSG m;
 
     int new_mode;
-    if (g_bmsp->app_client_shm) {
-        if (g_bmsp->app_client_shm->shm->graphics_request.get_msg(buf)) {
-            g_bmsp->app_client_shm->decode_graphics_msg(buf, m);
+    if (*g_bmsp->app_client_shmp) {
+        if ((*g_bmsp->app_client_shmp)->shm->graphics_request.get_msg(buf)) {
+            (*g_bmsp->app_client_shmp)->decode_graphics_msg(buf, m);
             switch (m.mode) {
             case MODE_REREAD_PREFS:
                 //only reread graphics prefs if we have a window open
@@ -177,7 +177,7 @@ static void timer_handler(int) {
             }
         }
         if (acked_graphics_mode != current_graphics_mode) {
-            bool sent = g_bmsp->app_client_shm->shm->graphics_reply.send_msg(
+            bool sent = (*g_bmsp->app_client_shmp)->shm->graphics_reply.send_msg(
                 xml_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;

@@ -30,7 +30,7 @@ struct BOINC_MAIN_STATE {
     bool (*boinc_is_standalone_hook)();
     int (*boinc_get_init_data_hook)(APP_INIT_DATA&);
     int (*set_worker_timer_hook)();
-    APP_CLIENT_SHM* app_client_shm;
+    APP_CLIENT_SHM** app_client_shmp;
 };
 
 extern int boinc_init_graphics_impl(

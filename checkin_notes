@@ -21597,3 +21597,14 @@ Rom    18 Dec 2004
     client/win/
         win_screensaver.cpp
 
+David  18 Dec 2004
+    - BOINC_MAIN_STATE.app_client_shm was being copied
+        from the variable app_client_shm before the variable was initialized.
+        Fix this by changing BOINC_MAIN_STATE to point to the variable
+        rather than having a copy of it.
+
+    api/
+        graphics_api.C
+        graphics_impl.h
+        graphics_lib.C
+        x_opengl.C
