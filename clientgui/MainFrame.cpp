@@ -345,13 +345,13 @@ bool CMainFrame::CreateStatusbar()
     m_pbmpConnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(connect_xpm));
     m_pbmpConnected->Hide();
 
-    m_ptxtConnected = new wxStaticText(m_pStatusbar, -1, _("Connected to BOINC"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE );
+    m_ptxtConnected = new wxStaticText(m_pStatusbar, -1, _(""), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
     m_ptxtConnected->Hide();
 
     m_pbmpDisconnect = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
     m_pbmpDisconnect->Hide();
 
-    m_ptxtDisconnect = new wxStaticText(m_pStatusbar, -1, _("Disconnected from BOINC"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE );
+    m_ptxtDisconnect = new wxStaticText(m_pStatusbar, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
     m_ptxtDisconnect->Hide();
 
     SendSizeEvent();
@@ -959,6 +959,9 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
+    wxString strTitle = wxEmptyString;
+    wxString strStatusText = wxEmptyString;
+
     if ( IsShown() )
     {
         wxString       strConnectedMachine = wxEmptyString;
@@ -976,13 +979,24 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                 m_pbmpDisconnect->Hide();
                 m_ptxtDisconnect->Hide();
 
+                strStatusText =  _("Connected to ");
+                strTitle = m_strBaseTitle;
+                
                 pDoc->GetConnectedComputerName( strConnectedMachine );
                 if ( strConnectedMachine.empty() )
-                    strConnectedMachine = m_strBaseTitle + wxT(" - (localhost)");
+                {
+                    strTitle += wxT(" - (localhost)");
+                    strStatusText += wxT("(localhost)");
+                }
                 else
-                    strConnectedMachine = m_strBaseTitle + wxT(" - (") + strConnectedMachine + wxT(")");
+                {
+                    strTitle += wxT(" - (") + strConnectedMachine + wxT(")");
+                    strStatusText += wxT("(") + strConnectedMachine + wxT(")");
+                }
 
-                SetTitle( strConnectedMachine );
+                SetTitle( strTitle );
+                m_ptxtConnected->SetLabel( strStatusText );
+
             }
             else
             {
