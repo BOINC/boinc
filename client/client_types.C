@@ -700,9 +700,11 @@ int RESULT::write(FILE* out, bool to_server) {
     fprintf(out,
         "<result>\n"
         "    <name>%s</name>\n"
-        "    <final_cpu_time>%f</final_cpu_time>\n",
+        "    <final_cpu_time>%f</final_cpu_time>\n"
+        "    <state>%d</state>\n",
         name,
-        final_cpu_time
+        final_cpu_time,
+        state
     );
     n = strlen(stderr_out);
     if (n) {
@@ -718,10 +720,8 @@ int RESULT::write(FILE* out, bool to_server) {
     }
     if (!to_server) {
         fprintf(out,
-            "    <state>%d</state>\n"
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%d</report_deadline>\n",
-            state,
             wu_name,
             report_deadline
         );
