@@ -344,7 +344,7 @@ void xml_escape(char* in, string& out) {
 }
 
 void xml_unescape(string& in, string& out) {
-    int i;
+    size_t i;
     out = "";
     for (i=0; i<(int)in.length();) {
         if (in.substr(i, 4) == "&lt;") {
@@ -357,7 +357,7 @@ void xml_unescape(string& in, string& out) {
             char c = atoi(in.substr(i+2, 3).c_str());
             out += c;
             i = in.find(";", i);
-            if (i==(int)std::string::npos) break;
+            if (i==std::string::npos) break;
             i++;
         } else {
             out += in[i];

@@ -368,8 +368,8 @@ bool starts_with(const char* str, const char* prefix) {
 }
 
 bool ends_with(const char* str, const char* suffix) {
-    int nsuff = strlen(suffix);
-    int nstr = strlen(str);
+    size_t nsuff = strlen(suffix);
+    size_t nstr = strlen(str);
 
     if (nsuff > nstr) return false;
     if (strcmp(str+nstr-nsuff, suffix)) return false;
@@ -377,7 +377,7 @@ bool ends_with(const char* str, const char* suffix) {
 }
 
 void unescape_url(char *url) {
-    register int x,y;
+    int x,y;
 
     for (x=0,y=0;url[y];++x,++y) {
         if ((url[x] = url[y]) == '%') {
@@ -465,7 +465,7 @@ void canonicalize_master_url(char* url) {
 //
 bool valid_master_url(char* buf) {
     char* p, *q;
-    int n;
+    size_t n;
 
     p = strstr(buf, "http://");
     if (p != buf) return false;
