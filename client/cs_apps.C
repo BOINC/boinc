@@ -276,15 +276,9 @@ void CLIENT_STATE::assign_results_to_projects() {
     // mark selected results, so CPU scheduler won't try to consider
     // a result more than once (i.e. for running on another CPU)
     //
-    // also reset debts for projects that are starved (have no
-    // runnable result)
-    //
     for (unsigned int i=0; i<projects.size(); ++i) {
-        if (projects[i]->next_runnable_result != NULL)
+        if (projects[i]->next_runnable_result != NULL) {
             projects[i]->next_runnable_result->already_selected = true;
-        else {
-            projects[i]->debt = 0;
-            projects[i]->anticipated_debt = 0;
         }
     }
 }
@@ -344,6 +338,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     bool some_app_started = false;
     double total_resource_share = 0;
     int retval, elapsed_time;
+    double max_debt = SECONDS_PER_DAY * ncpus;
     unsigned int i;
 
     elapsed_time = time(NULL) - cpu_sched_last_time;
@@ -366,15 +361,36 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
-    // adjust project debts, reset temporary fields
-    for (i=0; i < projects.size(); ++i) {
-        total_resource_share += projects[i]->resource_share;
-    }
+    // compute total resource share among projects with runnable results
+    //
+    assign_results_to_projects(); // do this to see which projects have work
     for (i=0; i < projects.size(); ++i) {
         PROJECT *p = projects[i];
-        p->debt += (p->resource_share/total_resource_share) * cpu_sched_work_done_this_period
-            - p->work_done_this_period;
-        p->anticipated_debt = p->debt;
+        if (p->next_runnable_result != NULL) {
+            total_resource_share += projects[i]->resource_share;
+        }
+    }
+
+    // adjust project debts
+    // reset debts for projects with no runnable results
+    // reset temporary fields
+    for (i=0; i < projects.size(); ++i) {
+        PROJECT *p = projects[i];
+        if (p->next_runnable_result == NULL) {
+            p->debt = 0;
+            p->anticipated_debt = 0;
+        } else {
+            p->debt +=
+                (p->resource_share/total_resource_share)
+                * cpu_sched_work_done_this_period
+                - p->work_done_this_period;
+            if (p->debt < -max_debt) {
+                p->debt = -max_debt;
+            } else if (p->debt > max_debt) {
+                p->debt = max_debt;
+            }
+            p->anticipated_debt = p->debt;
+        }
         p->next_runnable_result = NULL;
     }
 

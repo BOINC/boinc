@@ -14723,3 +14723,16 @@ Rom    6 July 2004
         db_base.C
     sched/
         handle_request.C
+
+Daniel 2004-07-06
+    - CPU scheduler only considers resource shares for projects that have
+        a runnable result.
+    - Bound debt to [-1 day * ncpus, 1 day * ncpus]
+    - deleted some dead code
+
+    client/
+        app.C
+        cs_apps.C
+        cs_trickle.C
+
+

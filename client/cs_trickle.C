@@ -100,7 +100,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     char buf[256];
     char result_name[256], path[256];
     string body;
-    int retval, send_time;
+    int send_time;
 
     strcpy(result_name, "");
     while (fgets(buf, 256, in)) {

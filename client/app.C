@@ -121,7 +121,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_request_time = time(0);
     graphics_acked_mode = MODE_UNSUPPORTED;
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
-    current_cpu_time = working_set_size = 0;
 
     fraction_done = 0;
     frac_rate_of_change = 0;
