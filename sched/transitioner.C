@@ -108,6 +108,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
                 result.update();
+                nover++;
             } else {
                 ninprogress++;
             }
@@ -183,17 +184,14 @@ void handle_wu(DB_WORKUNIT& wu) {
         if (wu.assimilate_state == ASSIMILATE_INIT) {
             wu.assimilate_state = ASSIMILATE_READY;
         }
-    } else {
+    } else if (wu.assimilate_state == ASSIMILATE_INIT) {
         // If no error, generate new results if needed.
-        // Munge the XML of an existing result
-        // to create unique new output filenames.
-        //
-        n = wu.target_nresults - nunsent - ninprogress;
+        n = wu.target_nresults - nunsent - ninprogress - nsuccess;
         if (n > 0) {
             log_messages.printf(
                 SchedMessages::NORMAL,
-                "[WU#%d %s] Generating %d more results\n",
-                wu.id, wu.name, n
+                "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
+                wu.id, wu.name, n, wu.target_nresults, nunsent, ninprogress, nsuccess
             );
             for (i=0; i<n; i++) {
                 sprintf(suffix, "%d", results.size()+i);

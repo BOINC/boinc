@@ -190,7 +190,7 @@ def _gen_key(key):
 
 def get_int(s):
     '''Convert a string to an int; return 0 on error.'''
-    try: return int(sys.argv[1])
+    try: return int(s)
     except: return 0
 
 def unique(list):
@@ -237,7 +237,7 @@ def num_results_over(db):
 def num_wus(db, q=""):
     return db_query(db, "select count(*) from workunit "+q)[0]['count(*)']
 def num_wus_assimilated(db):
-    return num_wus(db, "where assimilate_state=%d"%ASSIMILATE_INIT)
+    return num_wus(db, "where assimilate_state=%d"%ASSIMILATE_DONE)
 
 def query_yesno(str):
     '''Query user; default Yes'''
@@ -288,7 +288,7 @@ class Project:
                  project_dir=None, master_url=None, cgi_url=None,
                  core_versions=None, key_dir=None,
                  apps=None, app_versions=None,
-                 resource_share=None, redundancy=None):
+                 resource_share=None):
         init()
         self.config_options = []
         self.config_daemons = []
@@ -297,9 +297,6 @@ class Project:
         self.db_passwd      = ''
         self.shmem_key      = generate_shmem_key()
         self.resource_share = resource_share or 1
-        self.redundancy     = redundancy or 2
-        # this 'redundancy' number is used to set WU's min_quorum,
-        # target_nresults, etc.
         self.output_level   = 3
 
         self.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')

@@ -178,32 +178,62 @@ def dict_match(dic, resultdic):
                 format = "result %s: unexpected %s '%s' (expected '%s')"
             error( format % (id, key, found, expected))
 
+class Result:
+    def __init__(self):
+        self.server_state = RESULT_SERVER_STATE_OVER
+        self.client_state = RESULT_FILES_UPLOADED
+        self.outcome      = RESULT_OUTCOME_SUCCESS
+
+class ResultComputeError:
+    def __init__(self):
+        self.server_state = RESULT_SERVER_STATE_OVER
+        self.client_state = RESULT_COMPUTE_DONE
+        self.outcome      = RESULT_OUTCOME_CLIENT_ERROR
+
 class ProjectList(list):
-    def run(self):   map(lambda i: i.run(), self)
-    def check(self): map(lambda i: i.check(), self)
-    def stop(self):  map(lambda i: i.maybe_stop(), self)
+    def install(self): map(lambda i: i.install(), self)
+    def run(self):     map(lambda i: i.run(), self)
+    def check(self):   map(lambda i: i.check(), self)
+    def stop(self):    map(lambda i: i.maybe_stop(), self)
     def get_progress(self):
-        s = "Running core client - results [done/total]:"
-        for db in self.dbs:
-            s += " [%d/%d]" % (num_results_over(db), num_results(db))
-        return s
+        return "RUNNING " + ' | '.join(
+            map(lambda project: project.short_name+project.progress_meter_status(),
+                self))
     def start_progress_meter(self):
-        self.dbs = map(lambda i: i.db_open(), self)
+        for project in self:
+            project.progress_meter_ctor()
         self.rm = ResultMeter(self.get_progress)
     def stop_progress_meter(self):
         self.rm.stop()
+        for project in self:
+            project.progress_meter_dtor()
 
 all_projects = ProjectList()
 
+DEFAULT_NUM_WU = 10
+DEFAULT_REDUNDANCY = 5
+
+def get_redundancy_args(num_wu = None, redundancy = None):
+    num_wu = num_wu or sys.argv[1:] and get_int(sys.argv[1]) or DEFAULT_NUM_WU
+    redundancy = redundancy or sys.argv[2:] and get_int(sys.argv[2]) or DEFAULT_REDUNDANCY
+    return (num_wu, redundancy)
+
 class TestProject(Project):
-    def __init__(self, works, users=None, hosts=None,
-                 add_to_list=True, **kwargs):
+    def __init__(self, works, expected_result,
+                 num_wu=None, redundancy=None,
+                 users=None, hosts=None,
+                 add_to_list=True,
+                 **kwargs):
         test_init()
         if add_to_list:
             all_projects.append(self)
 
         kwargs['short_name'] = kwargs.get('short_name') or 'test_'+kwargs['appname']
         kwargs['long_name'] = kwargs.get('long_name') or 'Project ' + kwargs['short_name'].replace('_',' ').capitalize()
+        (num_wu, redundancy) = get_redundancy_args(num_wu, redundancy)
+        self.num_wu = num_wu
+        self.redundancy = redundancy
+        self.expected_result = expected_result
         self.works = works
         self.users = users or [User()]
         self.hosts = hosts or [Host()]
@@ -211,7 +241,6 @@ class TestProject(Project):
         self.work  = self.works[0]
         self.user  = self.users[0]
         self.host  = self.hosts[0]
-
         apply(Project.__init__, [self], kwargs)
         self.started = False
 
@@ -263,6 +292,40 @@ class TestProject(Project):
         self.install_project_users()
         self.install_works()
         self.install_hosts()
+
+    def run(self):
+        self.sched_install('make_work', max_wus = self.num_wu)
+        self.sched_install('assimilator')
+        # self.sched_install('file_deleter')
+        self.sched_install('validate_test')
+        self.sched_install('feeder')
+        self.sched_install('transitioner')
+        self.start_servers()
+        verbose_sleep("Sleeping to allow server daemons to initialize", 10)
+
+    def check(self):
+        verbose_sleep("Sleeping to allow server daemons to finish", 5)
+        # TODO:     self.check_outputs(output_expected,  ZZZ, YYY)
+        self.check_results(self.expected_result, self.num_wu*self.redundancy)
+        self.sched_run('file_deleter')
+        self.check_deleted("download/input")
+        # TODO: use generator/iterator whatever to check all files deleted
+        # self.check_deleted("upload/uc_wu_%d_0", count=self.num_wu)
+
+    def progress_meter_ctor(self):
+        self.db = self.db_open()
+    def progress_meter_status(self):
+        return "WUs [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%dtotal]" % (
+            num_wus_assimilated(self.db), num_wus(self.db), self.num_wu,
+            num_results_unsent(self.db),
+            num_results_in_progress(self.db),
+            num_results_over(self.db),
+            num_results(self.db))
+    def progress_meter_dtor(self):
+        self.db.close()
+        self.db = None
+    def is_test_done(self):
+        return num_wus_assimilated(self.db) >= num_wu
 
     def _disable(self, *path):
         '''Temporarily disable a file to test exponential backoff'''
@@ -414,14 +477,15 @@ class Host:
                               filename))
 
 class Work:
-    def __init__(self, redundancy=None, **kwargs):
+    def __init__(self, redundancy, **kwargs):
         self.input_files = []
         self.rsc_iops = 1.8e12
         self.rsc_fpops = 1e13
         self.rsc_memory = 1e7
         self.rsc_disk = 1e7
         self.delay_bound = 86400
-        redundancy = redundancy or 2
+        if not isinstance(redundancy, int):
+            raise TypeError
         self.min_quorum = redundancy
         self.target_nresults = redundancy
         self.max_error_results = redundancy * 2
@@ -506,14 +570,15 @@ class ResultMeter:
 def run_check_all():
     '''Run all projects, run all hosts, check all projects, stop all projects.'''
     atexit.register(all_projects.stop)
+    all_projects.install()
     all_projects.run()
     all_projects.start_progress_meter()
     if os.environ.get('TEST_STOP_BEFORE_HOST_RUN'):
         raise SystemExit, 'Stopped due to $TEST_STOP_BEFORE_HOST_RUN'
     all_hosts.run()
     all_projects.stop_progress_meter()
-    all_projects.check()
     all_projects.stop()
+    all_projects.check()
 
 def delete_test():
     '''Delete all test data'''

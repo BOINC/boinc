@@ -1,3 +1,10 @@
+#!/bin/sh
+echo 'this file is obsolete. remove from cvs when ready.'
+exit 1
+
+
+
+
 #!/usr/bin/env python
 
 ## $Id$
@@ -29,7 +36,7 @@ class ProjectBackend(ProjectUC):
         db = self.db_open()
         while True:
             wus_assimilated = num_wus_assimilated(db)
-            verbose_echo(1, "Running: WUs [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%d]" % (
+            verbose_echo(1, "Running: WUs [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%dtotal]" % (
                 wus_assimilated, num_wus(db), num_wu,
                 num_results_unsent(db),
                 num_results_in_progress(db),

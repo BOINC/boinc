@@ -47,11 +47,11 @@
 
 int max_wus = 0;
 int cushion = 30;
-int min_quorum = 5;
-int target_nresults = 10;
-int max_error_results = 5;
-int max_total_results = 20;
-int max_success_results = 10;
+// int min_quorum = 0;
+// int target_nresults = 0;
+// int max_error_results = 0;
+// int max_total_results = 0;
+// int max_success_results = 0;
 
 char wu_name[256], result_template_file[256];
 
@@ -213,11 +213,11 @@ void make_work() {
         sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
         wu.id = 0;
         wu.create_time = time(0);
-        wu.min_quorum = min_quorum;
-        wu.target_nresults = target_nresults;
-        wu.max_error_results = max_error_results;
-        wu.max_total_results = max_total_results;
-        wu.max_success_results = max_success_results;
+        // wu.min_quorum = min_quorum;
+        // wu.target_nresults = target_nresults;
+        // wu.max_error_results = max_error_results;
+        // wu.max_total_results = max_total_results;
+        // wu.max_success_results = max_success_results;
         strcpy(wu.result_template, result_template);
         process_result_template_upload_url_only(wu.result_template, config.upload_url);
         wu.transition_time = time(0);
@@ -245,17 +245,30 @@ int main(int argc, char** argv) {
             strcpy(wu_name, argv[++i]);
         } else if (!strcmp(argv[i], "-max_wus")) {
             max_wus = atoi(argv[++i]);
+        // } else if (!strcmp(argv[i], "-min_quorum")) {
+        //     min_quorum = atoi(argv[++i]);
+        // } else if (!strcmp(argv[i], "-target_nresults")) {
+        //     target_nresults = atoi(argv[++i]);
+        // } else if (!strcmp(argv[i], "-max_error_results")) {
+        //     max_error_results = atoi(argv[++i]);
+        // } else if (!strcmp(argv[i], "-max_total_results")) {
+        //     max_total_results = atoi(argv[++i]);
+        // } else if (!strcmp(argv[i], "-max_success_results")) {
+        //     max_success_results = atoi(argv[++i]);
         }
     }
 
-    if (!strlen(result_template_file)) {
-        log_messages.printf(SchedMessages::CRITICAL, "missing -result_template\n");
-        exit(1);
-    }
-    if (!strlen(wu_name)) {
-        log_messages.printf(SchedMessages::CRITICAL, "missing -wu_name\n");
-        exit(1);
-    }
+#define CHKARG(x,m) do { if (!(x)) { fprintf(stderr, "make_work: bad command line: "m"\n"); exit(1); } } while (0)
+#define CHKARG_STR(v,m) CHKARG(strlen(v),m)
+    CHKARG_STR(result_template_file , "need -result_template_file");
+    CHKARG_STR(wu_name              , "need -wu_name");
+    // CHKARG(min_quorum, "need -min_quorum");
+    // CHKARG(target_nresults, "need -target_nresults");
+    // CHKARG(max_error_results, "need -max_error_results");
+    // CHKARG(max_total_results, "need -max_total_results");
+    // CHKARG(max_success_results, "need -max_success_results");
+#undef CHKARG
+#undef CHKARG_STR
 
     if (asynch) {
         if (fork()) {
@@ -269,8 +282,9 @@ int main(int argc, char** argv) {
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
-
+    // log_messages.printf(SchedMessages::NORMAL, "Starting: min_quorum=%d target_nresults=%d max_error_results=%d max_total_results=%d max_success_results=%d\n",
+    //                     min_quorum, target_nresults, max_error_results, max_total_results, max_success_results);
+    log_messages.printf(SchedMessages::NORMAL, "Starting");
     install_sigint_handler();
 
     srand48(getpid() + time(0));

@@ -21,68 +21,46 @@ class UserUC(User):
 </venue>"""
 
 class WorkUC(Work):
-    def __init__(self, **kwargs):
-        Work.__init__(self)
+    def __init__(self, redundancy, **kwargs):
+        Work.__init__(self, redundancy=redundancy)
         self.wu_template = "uc_wu"
         self.result_template = "uc_result"
         self.input_files = ['input']
         self.__dict__.update(kwargs)
 
-class ResultUC:
+class ResultUC(Result):
     def __init__(self):
-        self.server_state = RESULT_SERVER_STATE_OVER
-        self.client_state = RESULT_FILES_UPLOADED
-        self.outcome      = RESULT_OUTCOME_SUCCESS
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+
 APP: upper_case: argv[[]0[]] is upper_case
 APP: upper_case ending, wrote \\d+ chars"""])
-        # self.exit_status = 0
 
-class ResultUCError:
+class ResultComputeErrorUC(ResultComputeError):
     def __init__(self):
-        self.server_state = RESULT_SERVER_STATE_OVER
-        self.client_state = RESULT_COMPUTE_DONE
-        self.outcome      = RESULT_OUTCOME_CLIENT_ERROR
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+"""])
 
+## TODO: check that uc_wu_%d_0 matches uc_correct_output BEFORE deleted by
+## file deleter!
+
 class ProjectUC(TestProject):
-    def __init__(self, works=None, users=None, hosts=None,
+    def __init__(self,
+                 num_wu=None, redundancy=None,
+                 expect_success=True,
+                 works=None, users=None, hosts=None,
                  short_name=None, long_name=None,
-                 redundancy=2, resource_share=1):
+                 resource_share=1):
+        (num_wu, redundancy) = get_redundancy_args(num_wu, redundancy)
         TestProject.__init__(self,
                              appname = 'upper_case',
+                             num_wu=num_wu, redundancy=redundancy,
+                             expected_result = (expect_success and ResultUC() or ResultComputeErrorUC()),
                              works = works or [WorkUC(redundancy=redundancy)],
                              users = users or [UserUC()],
                              hosts = hosts,
                              short_name=short_name, long_name=long_name,
-                             redundancy=redundancy, resource_share=resource_share
+                             resource_share=resource_share
                              )
-
-    def check(self, result=ResultUC()):
-        '''Check results uploaded correctly'''
-        self.sched_run('validate_test')
-        self.check_results(result)
-        self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=self.redundancy)
-        self.sched_run('assimilator')
-        self.sched_run('transitioner')
-        self.sched_run('file_deleter')
-        self.check_deleted("download/input")
-        self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)
-
-    def check_client_error(self, result=ResultUCError()):
-        '''Check no results uploaded'''
-        self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)
-        self.sched_run('validate_test')
-        self.check_results(result)
-        self.sched_run('assimilator')
-        self.sched_run('file_deleter')
-
-    def run(self):
-        self.install()
-        self.sched_install('feeder')
-        self.start_servers()
 
 if __name__ == '__main__':
     test_msg("standard upper_case application");
