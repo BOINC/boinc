@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -74,11 +74,30 @@ bool parse_str(const char* buf, const char* tag, char* dest, int len) {
     char* p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
-    char* q = strchr(p+1, '<');
+    ++p;
+    while (isspace(*p)) ++p;
+    char* q = strchr(p, '<');
     if (!q) return false;
+    while (isspace(*(q-1))) --q;
+    char save_q = *q;
     *q = 0;
-    safe_strncpy(dest, p+1, len);
-    *q = '<';
+    safe_strncpy(dest, p, len);
+    *q = save_q;
+    return true;
+}
+
+// parse a string of the form <tag>string</tag>
+//
+bool parse_str(const char* buf, const char* tag, string& dest) {
+    char const* p = strstr(buf, tag);
+    if (!p) return false;
+    p = strchr(p, '>');
+    ++p;
+    while (isspace(*p)) ++p;
+    char const* q = strchr(p, '<');
+    if (!q) return false;
+    while (isspace(*(q-1))) --q;
+    dest.assign(p, q-p);
     return true;
 }
 
@@ -251,7 +270,7 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
     do {
       j=field.rfind(">",j-1);
       start_pos=field.rfind(tag,j);
-      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/')) { 
+      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/')) {
         start_pos=field.rfind("<",start_pos);
       } else {
 	start_pos=std::string::npos;

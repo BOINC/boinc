@@ -249,7 +249,7 @@ def num_wus():
 def num_wus_assimilated():
     return database.Workunits.count(assimilate_state = ASSIMILATE_DONE)
 def num_wus_to_transition():
-    return database.Workunits.count(_extra_params = 'transition_time<%d'%(time.time()+30*86400))
+    return database.Workunits.count(_extra_params = ['transition_time<%d'%(time.time()+30*86400)])
 
 def build_command_line(cmd, **kwargs):
     for (key, value) in kwargs.items():
@@ -308,10 +308,11 @@ class Project:
         config.download_url  = os.path.join(config.master_url, 'download')
         config.cgi_url       = cgi_url or os.path.join(options.cgi_url, self.short_name)
         config.upload_url    = os.path.join(config.cgi_url     , 'file_upload_handler')
-        self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
         config.download_dir  = os.path.join(self.project_dir , 'download')
         config.upload_dir    = os.path.join(self.project_dir , 'upload')
         config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
+        config.app_dir       = os.path.join(self.project_dir, 'apps')
+        self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
         self.project_php_file                  = srcdir('html_user/project.inc.sample')
         self.project_specific_prefs_php_file   = srcdir('html_user/project_specific_prefs.inc.sample')
 

@@ -20,6 +20,9 @@
 #ifndef _SCHED_CONFIG_
 #define _SCHED_CONFIG_
 
+#include <fstream>
+using std::istream;
+
 // parsed version of server configuration file
 //
 class SCHED_CONFIG {
@@ -34,7 +37,7 @@ public:
     char upload_dir[256];
     char user_name[256];
 
-    int parse(FILE*);
+    int parse(istream& f);
     int parse_file(char* dir=".");
 };
 

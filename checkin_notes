@@ -6511,6 +6511,7 @@ Karl 2003/10/02
 Karl 2003/10/02
     - made C parsing of config.xml more flexible (allow multiple tags per
       line or tags on multiple lines)
+    - made config.xml and run_state.xml pretty
 
     sched/
         sched_config.C
@@ -6519,3 +6520,5 @@ Karl 2003/10/02
         parse.C
         parse.h
 
+    py/
+        configxml.py

@@ -120,7 +120,7 @@ class XMLConfig:
         except IOError, e:
             if not failopen_ok:
                 # raise
-                raise SystemExit("%s: Couldn't parse XML config\n%s: %s"%(sys.argv[0],sys.argv[0],e))
+                raise Exception("%s: Couldn't parse XML config\n%s: %s"%(sys.argv[0],sys.argv[0],e))
             print >>sys.stderr, "Warning:", e
             # self.xml = xml.dom.minidom.Document()
             self._init_empty_xml()
@@ -133,7 +133,7 @@ class XMLConfig:
         self._set_elements()
         if not output:
             output = open(self.filename,'w')
-        self.xml.writexml(output)
+        self.xml.writexml(output, "", "  ", "\n")
         print >>output
         return self
     def _set_elements(self):

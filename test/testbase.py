@@ -242,6 +242,8 @@ class TestProject(Project):
 
         kwargs['short_name'] = kwargs.get('short_name') or 'test_'+appname
         kwargs['long_name'] = kwargs.get('long_name') or 'Project ' + kwargs['short_name'].replace('_',' ').capitalize()
+        apply(Project.__init__, [self], kwargs)
+
         (num_wu, redundancy) = get_redundancy_args(num_wu, redundancy)
         self.resource_share = resource_share or 1
         self.num_wu = num_wu
@@ -253,9 +255,8 @@ class TestProject(Project):
 
         self.platforms     = [Platform()]
         self.core_versions = core_versions or [CoreVersion(self.platforms[0])]
-        self.app_versions  = app_versions or [AppVersion(App(appname),
-                                                         self.platforms[0],
-                                                         appname)]
+        self.app_versions  = app_versions or [
+            AppVersion(App(appname), self.platforms[0], appname)]
         self.apps          = apps or unique(map(lambda av: av.app, self.app_versions))
         # convenience vars:
         self.app_version   = self.app_versions[0]
@@ -265,7 +266,6 @@ class TestProject(Project):
         self.work  = self.works[0]
         self.user  = self.users[0]
         self.host  = self.hosts[0]
-        apply(Project.__init__, [self], kwargs)
         self.started = False
 
     def init_install(self):
@@ -433,10 +433,12 @@ class CoreVersion(database.CoreVersion):
         database.CoreVersion.__init__(self)
         self.version_num = 1
         self.platform = platform
+    def commit(self):
         self.xml_doc = tools.process_executable_file(
             os.path.join(boinc_path_config.TOP_BUILD_DIR,'client',
                          options.client_bin_filename),
             quiet=True)
+        database.CoreVersion.commit(self)
 
 class User(database.User):
     def __init__(self):
@@ -457,12 +459,15 @@ class AppVersion(database.AppVersion):
         self.app = app
         self.version_num = 1
         self.platform = platform
-        self.xml_doc = tools.process_app_version(
-            app, self.version_num,
-            [os.path.join(boinc_path_config.TOP_BUILD_DIR,'apps',exec_file)],
-            quiet=True)
         self.min_core_version = 1
         self.max_core_version = 999
+        self._exec_file=exec_file
+    def commit(self):
+        self.xml_doc = tools.process_app_version(
+            self.app, self.version_num,
+            [os.path.join(boinc_path_config.TOP_BUILD_DIR,'apps',self._exec_file)],
+            quiet=True)
+        database.AppVersion.commit(self)
 
 class HostList(list):
     def run(self, asynch=False): map(lambda i: i.run(asynch=asynch), self)

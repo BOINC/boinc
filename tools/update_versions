@@ -6,7 +6,7 @@
 Scans apps dir for current core client and application versions and updates
 the database as appropriate.
 
-config.xml must contain an <apps_dir> which specifies the directory to search.
+config.xml must contain an <app_dir> which specifies the directory to search.
 
 apps/boinc/ contains core client versions.
 apps/APPLICATION_NAME/ contains application versions for each application.
