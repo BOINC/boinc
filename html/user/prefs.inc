@@ -196,7 +196,7 @@ function prefs_show_project($project) {
     row("<b>Email Address:   </b>", $project->email_addr);
     row("<b>Authenticator:   </b>", $project->authenticator);
     row("<b>Resource Share:   </b>", $project->resource_share);
-    row("<b>Project Specific:   </b>", htmlspecialchars($project->project_specific));
+    row("<b>Project Specific Preferences:   </b>", htmlspecialchars($project->project_specific));
 }
 
 function prefs_show_projects($prefs) {
@@ -281,6 +281,8 @@ function prefs_form_projects($prefs) {
         echo "</table>";
     }
     echo "<hr><a href=prefs_add_project_form.php>Add project</a>\n";
+    echo "<p>";
+    echo "Whenever you join a new project, remember to add that project with the authenticator that you get from that project to your home project (the first project) you joined.";
     echo "<br>";
 }
 

@@ -81,13 +81,13 @@ function show_host($host) {
     row("<b>Total Disk Space:   </b>", "$x GB");
     $x = $host->d_free/(1024*1024*1024);
     row("<b>Free Disk Space:   </b>", "$x GB");
-    row("<b>Avg Network Bandwidth:<br>(upstream)   </b>", "$host->n_bwup bytes/sec");
-    row("<b>Avg Network Bandwidth:<br>(downstream)   </b>", "$host->n_bwdown bytes/sec");
-    row("<b>RPC seqno:   </b>", $host->rpc_seqno);
-    row("<b>RPC time:   </b>", time_str($host->rpc_time));
-    row("<b>On fraction:   </b>", $host->on_frac);
-    row("<b>Connected fraction:   </b>", $host->connected_frac);
-    row("<b>Active fraction:   </b>", $host->active_frac);
+    row("<b>Avg network bandwidth:<br>(upstream)   </b>", "$host->n_bwup bytes/sec");
+    row("<b>Avg network bandwidth:<br>(downstream)   </b>", "$host->n_bwdown bytes/sec");
+    row("<b>Number of times client has contacted server:   </b>", $host->rpc_seqno);
+    row("<b>Last time contacted server:   </b>", time_str($host->rpc_time));
+    row("<b>% of time client on:   </b>", 100*$host->on_frac." %");
+    row("<b>% of time client connected:   </b>", 100*$host->connected_frac." %");
+    row("<b>% of time client active:   </b>", 100*$host->active_frac." %");
     echo "</table>\n";
 
 
