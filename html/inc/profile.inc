@@ -1,4 +1,5 @@
 <?php
+echo "<!--\$Id$ -->\n";
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
