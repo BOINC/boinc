@@ -173,36 +173,49 @@ static double estimate_wallclock_duration(
     ;
 }
 
-// return false if the WU can't be executed on the host
-// because of insufficient memory, CPU speed, or resource share
+// return false if the WU can't be executed on the host because either
+// 1) the host doesn't have enough memory;
+// 2) the host doesn't have enough disk space;
+// 3) based on CPU speed, resource share and estimated delay,
+//    the host probably won't get the result done within the delay bound
 //
-static bool wu_is_feasible(
-    WORKUNIT& wu, HOST& host, WORK_REQ& wreq,
-    double resource_share_fraction, double estimated_delay
+// NOTE: This is a "fast" check; no DB access allowed.
+// In particular it doesn't enforce the one-result-per-user-per-wu rule
+//
+bool wu_is_feasible(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
-    double m_nbytes = host.m_nbytes;
+    double m_nbytes = reply.host.m_nbytes;
     if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
+
+    if (wu.rsc_disk_bound > reply.wreq.disk_available) {
+        reply.wreq.insufficient_disk = true;
+        return false;
+    }
 
     if (wu.rsc_memory_bound > m_nbytes) {
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG, "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
-            wu.id, wu.name, wu.rsc_memory_bound, host.id, m_nbytes
+            wu.id, wu.name, wu.rsc_memory_bound, reply.host.id, m_nbytes
         );
-        wreq.insufficient_mem = true;
+        reply.wreq.insufficient_mem = true;
         return false;
     }
 
     if (config.enforce_delay_bound) {
-        double wu_wallclock_time =
-            estimate_wallclock_duration(wu, host, resource_share_fraction);
-        double host_remaining_time = estimated_delay;
+        double wu_wallclock_time = estimate_wallclock_duration(
+            wu, reply.host, request.resource_share_fraction
+        );
+        double host_remaining_time = request.estimated_delay;
 
         if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG, "[WU#%d %s] needs requires %d seconds on [HOST#%d]; delay_bound is %d\n",
-                wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound
+                SCHED_MSG_LOG::DEBUG,
+                "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d\n",
+                wu.id, wu.name, (int)wu_wallclock_time, reply.host.id,
+                wu.delay_bound
             );
-            wreq.insufficient_speed = true;
+            reply.wreq.insufficient_speed = true;
             return false;
         }
     }
@@ -687,7 +700,10 @@ void unlock_sema() {
 
 bool SCHEDULER_REPLY::work_needed() {
     if (wreq.seconds_to_fill <= 0) return false;
-    if (wreq.disk_available <= 0) return false;
+    if (wreq.disk_available <= 0) {
+        wreq.insufficient_disk = true;
+        return false;
+    }
     if (wreq.nresults >= config.max_wus_to_send) return false;
     if (config.daily_result_quota) {
         if (host.nresults_today >= config.daily_result_quota) {
@@ -708,7 +724,12 @@ int add_result_to_reply(
     retval = add_wu_to_reply(wu, reply, platform, app, avp);
     if (retval) return retval;
 
-    reply.wreq.disk_available -= wu.rsc_disk_bound;
+    // If using locality scheduling, there are probably many
+    // result that use same file, so don't decrement available space
+    //
+    if (!config.locality_scheduling) {
+        reply.wreq.disk_available -= wu.rsc_disk_bound;
+    }
 
     // update the result in DB
     //
@@ -773,8 +794,6 @@ static void scan_work_array(
     APP_VERSION* avp;
     bool found;
 
-    if (reply.wreq.disk_available < 0) reply.wreq.insufficient_disk = true;
-
     lock_sema();
     
     rnd_off = rand() % ss.nwu_results;
@@ -796,12 +815,6 @@ static void scan_work_array(
             continue;
         }
 
-        if (wu_result.workunit.rsc_disk_bound > reply.wreq.disk_available) {
-            reply.wreq.insufficient_disk = true;
-            wu_result.infeasible_count++;
-            continue;
-        }
-
         // don't send if we're already sending a result for same WU
         //
         if (config.one_result_per_user_per_wu) {
@@ -813,10 +826,7 @@ static void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (!wu_is_feasible(
-            wu, reply.host, reply.wreq, sreq.resource_share_fraction,
-            sreq.estimated_delay
-        )) {
+        if (!wu_is_feasible(wu, sreq, reply)) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name
@@ -986,9 +996,6 @@ int send_work(
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply, platform, ss);
-        if (reply.wreq.disk_available < 0) {
-            reply.wreq.insufficient_disk = true;
-        }
     } else {
         // give priority to results that were infeasible for some other host
         //

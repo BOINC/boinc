@@ -23802,14 +23802,42 @@ Bruce  2 Feb 2005
         backend_lib.C
 
 Rom    2 Feb 2005
-    - Bug Fix: Adjust the manager so that it'll set it's current directory to that
-        of it's installed location.  This will fix the bug of the log files ending
+    - Bug Fix: Adjust the manager so that it'll set it's current directory
+        to that of its installed location.
+        This will fix the bug of the log files ending
         up where the installer is executed from.
-    - Bug Fix: Remove the message cache from the message view in the manager.  This
-        should clear up a crashing problem that seems to strike the Win9x platform.
+    - Bug Fix: Remove the message cache from the message view in the manager.
+        This should clear up a crashing problem that seems to
+        strike the Win9x platform.
 
     clientgui/
         BOINCGUIApp.cpp
         ViewMessages.cpp, .h
 
+David  2 Feb 2005
+    - Scheduler: make things more uniform between locality
+        and non-locality (work array) scheduling.
+        Both cases use the following functions:
+        1) call wu_is_feasible() to see if the host has enough
+            disk, memory, and CPU speed to handle a result.
+            (added this to locality scheduling)
+        2) call add_result_to_reply() when you decide to send a result.
+            This updates database and SCHED_REPLY.
+    - If using locality scheduling, add_result_to_reply() doesn't
+        decrement wreq.disk_available,
+        since several results may involve the same file.
+        BRUCE: we need to decrement disk_available in
+        the locality scheduling code.
+    - add disk space check to wu_is_feasible()
+        (and removed it from scan_work_array())
+    - simplified the args of wu_is_feasible()
+    - work_needed(): if wreq.disk_available is <= zero,
+        set the wreq.insufficient_disk flag and return false.
+        NOTE: this and wu_is_feasible() are now the only places
+        where we disk space is checked
 
+    lib/
+        error_numbers.h
+    sched/
+        sched_locality.C
+        sched_send.C,h

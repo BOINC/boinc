@@ -79,6 +79,7 @@ static int get_app_version(
 
 // Try to send the client this result
 // This can fail because:
+// - result needs more disk/mem/speed than host has
 // - already sent a result for this WU
 // - no app_version available
 //
@@ -94,9 +95,14 @@ static int possibly_send_result(
     APP* app;
     APP_VERSION* avp;
 
+    retval = wu.lookup_id(result.workunitid);
+    if (retval) return retval;
+
+    if (!wu_is_feasible(wu, sreq, reply)) {
+        return ERR_INSUFFICIENT_RESOURCE;
+    }
+
     if (config.one_result_per_user_per_wu) {
-        retval = wu.lookup_id(result.workunitid);
-        if (retval) return retval;
         sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
         retval = result2.count(count, buf);
         if (retval) return retval;

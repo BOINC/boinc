@@ -34,3 +34,5 @@ extern bool find_app_version(
 );
 
 extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
+
+extern bool wu_is_feasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);

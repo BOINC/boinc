@@ -31,7 +31,7 @@ echo "
 ";
 
 language("Chinese", array(
-    site("http://www.equn.com/boinchina", "www.equn.com/boinchina")
+    site("http://boinc.equn.com/", "boinc.equn.com")
 ));
 language("Czech", array(
     site("http://www.boinc.cz/", "www.boinc.cz")
