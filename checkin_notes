@@ -21608,3 +21608,9 @@ David  18 Dec 2004
         graphics_impl.h
         graphics_lib.C
         x_opengl.C
+
+David  19 Dec 2004
+	- fix compile of old Win GUI
+
+	client/win/
+		wingui_mainwindow.cpp
