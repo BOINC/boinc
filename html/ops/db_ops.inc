@@ -466,7 +466,7 @@ function host_user_link($hostid)
     if (!$result) return $h;
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
-    return "$h <small>(a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
+    return "$h <small>(<a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
 }
 
 function outcome_color($s) {
