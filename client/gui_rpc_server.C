@@ -251,7 +251,7 @@ int GUI_RPC_CONN::handle_rpc() {
     if (n <= 0) return -1;
     request_msg[n] = 0;
 
-    scope_messages.printf("GUI RPC Command = '%s'\n", buf);
+    scope_messages.printf("GUI RPC Command = '%s'\n", request_msg);
 
     if (match_tag(request_msg, "<get_state")) {
         gstate.write_state(mf);

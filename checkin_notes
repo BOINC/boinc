@@ -13524,3 +13524,9 @@ Daniel 14 June 2004
         migrate_tables.php
         profile_ops.php
 
+Rom    14 June 2004
+    - Add check for minor version change which will cause the client to
+      rerun the benchmark code.
+
+    client/
+        client_state.C

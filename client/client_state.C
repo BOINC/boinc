@@ -242,6 +242,14 @@ int CLIENT_STATE::init() {
         }
     }
 
+    if ((core_client_major_version == old_major_version) && (core_client_minor_version != old_minor_version)) {
+        msg_printf(NULL, MSG_INFO,
+            "Version Change Detected (%d.%02d -> %d.%02d); running cpu benchmarks\n",
+            old_major_version, old_minor_version, core_client_major_version, core_client_minor_version
+        );
+        run_cpu_benchmarks = true;
+    }
+
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->hostid) {
