@@ -14,6 +14,8 @@ define('MAX_DESC_LENGTH', 90);
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
 
+define('UOTD_THRESHOLD', 7);
+
 $user = NULL;
 $profile_info = NULL;
 
@@ -338,100 +340,59 @@ Your profile was successfully entered into our database.<br><br>
 //   $numToDisplay indicates how many profiles to display in this table
 //   $cols indicates how many profile summaries should be written per row
 //   $descriptor is an optional file descriptor to write the table to.
-//   $pathMod is an optional path which is prepended to the image path.  Useful
-//     when the image path is not relative to the directory from which this
-//     function is called.
 
-function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null, $pathMod=null) {
+function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null) {
 
-  // TODO: Would be nice if we could open a stream to stdout to avoid
-  // all the redundant $descriptor checks.  Once the server is running
-  // PHP 5+, might want to try switching over to fprintf(...).
+    write_fd($descriptor, "<table border=1 cellpadding=5>\n");
 
-  if ($descriptor) {
-    fwrite($descriptor, "<table border=1 cellpadding=5>\n");
-  } else {
-    echo "<table border=1 cellpadding=5>";
-  }
-
-  $rows = ceil($numToDisplay / $cols);
-  $count = $offset;
-  $numMembers = count($members);
-
-  for ($row = 0; $row < $rows; $row++) {
-    if ($count >= $numMembers) {
-      break;
+    $rows = ceil($numToDisplay / $cols);
+    $count = $offset;
+    $numMembers = count($members);
+    
+    for ($row = 0; $row < $rows; $row++) {
+        if ($count >= $numMembers) {
+            break;
+        }
+        
+        write_fd($descriptor, "<tr>\n");
+        
+        for ($col = 0; $col < $cols; $col++) {
+            if ($count < $numMembers) {
+                write_fd($descriptor, "<td width=7% height=64><center>");
+                
+                // Only link an image if the user has uploaded one.;
+                $sql = "SELECT * FROM profile WHERE userid = " . $members[$count];
+                $result = mysql_query($sql);
+                $profile = mysql_fetch_assoc($result);
+                
+                if ($profile['has_picture']) {
+                    write_fd($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . URL_BASE . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
+                    
+                } else {
+                    write_fd($descriptor, "&nbsp;");
+                }
+                
+                write_fd($descriptor, "</center></td><td width=33% height=64>\n". get_profile_summary($profile). "</td>");
+                $count++;
+            } else {
+                write_fd($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
+            }
+        }
+        write_fd($descriptor, "</tr>\n");
     }
+    write_fd($descriptor, "</table>\n");
 
-    if ($descriptor) {
-      fwrite($descriptor, "<tr>\n");
-    } else {
-      echo "<tr>";
-    }
-
-    // Formatting is a table with $col columns of user summaries.
-    for ($col = 0; $col < $cols; $col++) {
-      if ($count < $numMembers) {
-	if ($descriptor) {
-	  fwrite($descriptor, "<td width=7% height=64><center>");
-	} else {
-	  echo "<td width=7% height=64><center>";
-	}
-
-	// Only link an image if one exists.
-	if (file_exists($pathMod . IMAGE_PATH . $members[$count] . '_sm.jpg')) {
-	  if ($descriptor) {
-	    fwrite($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
-	  } else {
-	    echo "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>";
-	  }
-
-	} else {
-	  if ($descriptor) {
-	    fwrite($descriptor, "&nbsp;");
-	  } else {
-	    echo "&nbsp;";
-	  }
-	}
-	if ($descriptor) {
-	  fwrite($descriptor, "</center></td><td width=33% height=64>");
-	  fwrite($descriptor, get_profile_summary($members[$count]));
-	  fwrite($descriptor, "</td>");
-	} else {
-	  echo "</center></td><td width=33% height=64>\n", get_profile_summary($members[$count]), "</td>";
-	}
-
-	$count++;
-      }
-      else {
-	// Empty entry
-	if ($descriptor) {
-	  fwrite($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
-	} else {
-	  echo "<td width=7% height=64></td><td width=33% height=64></td>";
-	}
-      }
-    }
-    if ($descriptor) {
-      fwrite($descriptor, "</tr>\n");
-    } else {
-      echo "</tr>";
-    }
-  }
-  if ($descriptor) {
-    fwrite($descriptor, "</table>\n");
-  } else {
-    echo "</table>";
-  }
 }
 
 // Generates a string containing:
-//   1) the name of the user with ID == $userid, with a link to a view of their profile;
+//   1) the name of the user with ID == $userid, with a link to a view of their profile
 //   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
 
-function get_profile_summary($userid) {
-  $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
-  $result2 = mysql_query("SELECT name FROM user WHERE id = $userid");
+function get_profile_summary($profile) {
+  $sql = "SELECT * FROM profile WHERE userid = " . $profile['userid'];
+  $result = mysql_query($sql);
+  $sql = "SELECT name FROM user WHERE id = " . $profile['userid'];
+  $result2 = mysql_query($sql);
 
   if (!$result || !$result2) {
     echo "Database error!";  // Change this to a standard error page.
@@ -448,19 +409,15 @@ function get_profile_summary($userid) {
 
   if (strlen($row['response1']) != 0) {
     $temp = $row['response1'];
+    $description = "(\"" . sub_sentence(strip_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
 
-    $description = "(\"" . substr(strip_tags($temp), 0, MAX_DESC_LENGTH);
-    if (strlen($row['response1']) >= MAX_DESC_LENGTH) {
-      $description = $description . "...";
-    }
-    $description = $description . "\")";
   }
 
-  $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $userid . "\">" . $row2['name'] . "</a> " . $description;
+  $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $profile['userid'] . "\">" . $row2['name'] . "</a> " . $description;
   return $summary;
 }
 
-// Displays a users profile (if they have one);
+// Displays a user's profile (if they have one);
 
 function show_profile($userid, $verify_mode=false) {
     if (!$userid) {
@@ -523,10 +480,10 @@ function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
   echo "</td></tr>\n<tr><td colspan=\"2\">\n";
 
   // Only display an image if the user has uploaded one;
-  if (!$verify_mode && file_exists(IMAGE_PATH . $user->id . '_sm.jpg')) {
-    echo "<a href=\"" , IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
-  } else if ($verify_mode && file_exists('../html_user/' . IMAGE_PATH . $user->id . '_sm.jpg')) {
-    echo "<a href=\"" , IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
+  if (!$verify_mode && $profile_info['has_picture']) {
+    echo "<a href=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
+  } else if ($verify_mode && $profile_info['has_picture']) {
+    echo "<a href=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
   }
 
   echo "
