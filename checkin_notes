@@ -17719,7 +17719,7 @@ David  24 Sept 2004
         filesys.C
 
 David  24 Sept 2004
-    - added a <dont_generate_file_upload_certificates/> option to config.xml.
+    - added a <dont_generate_upload_certificates/> option to config.xml.
         If set, no upload certificates will be generated for results.
         This will make the transitioner run faster.
         If you use this, you must set <ignore_upload_certificates/>
