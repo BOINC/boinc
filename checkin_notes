@@ -9814,3 +9814,27 @@ Rom    Feb 5 2004
     
     client/win/
         win_screensaver.cpp
+    
+David  Feb 5 2004
+    - db_dump: files ordered by ID now have a fixed-size ID range,
+        not a fixed # of elements
+    - Changed FEASIBLE_COUNT parameters to very large values,
+        so that results are never classified as COULDNT_SEND.
+        This mechanism is not needed for SETI@home (all results are the same)
+        and is occasionally screwing things up.
+        Can revisit this later.
+    - Make "host" web links consistent ("---" if ID is zero)
+    - In UOTD browse, show only profiles w/ pics
+
+    html/
+        inc/
+            host.inc
+            result.inc
+            util.inc
+        ops/
+            profile_ops.php
+    sched/
+        db_dump.C
+        feeder.C
+        handle_request.C
+        sched_shmem.h

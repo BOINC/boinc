@@ -26,11 +26,20 @@
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    1000
 #define MAX_WU_RESULTS      1000
-#define MAX_INFEASIBLE_THRESHOLD    20
+
+// the following parameters apply to results in the work array
+//
+#define MAX_INFEASIBLE_THRESHOLD    2000
+    // if a result's infeasible_count exceeds this,
+    // count it as "possibly infeasible" (see the following)
+    // TODO: lower this to 20 or so
 #define MAX_INFEASIBLE      500
-    // if # of elements in work array that were infeasible
-    // for at least MAX_INFEASIBLE_THRESHOLD hosts exceeds this,
-    // classify some of them as COULDNT_SEND
+    // if # of possibly infeasibly results exceeds this,
+    // classify some of them as COULDNT_SEND and remove from array
+#define MAX_INFEASIBLE_COUNT    5000
+    // a result's infeasible_count exceeds this,
+    // classify as COULDNT_SEND and remove it from array
+    // TODO: lower this to 50 or so
 
 // a workunit/result pair
 struct WU_RESULT {

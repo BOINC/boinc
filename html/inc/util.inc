@@ -466,4 +466,13 @@ function user_links($user, $dir='') {
     }
     return $x;
 }
+
+function host_link($hostid) {
+    if ($hostid) {
+        return "<a href=show_host_detail.php?hostid=$hostid>$hostid</a>";
+    } else {
+        return "---";
+    }
+}
+
 ?>

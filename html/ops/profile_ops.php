@@ -21,7 +21,7 @@ if (array_key_exists('num', $_GET) && array_key_exists('set', $_GET)) {
         $sql = $sql . "WHERE (uotd_time IS NULL) AND (verification = 1) ";
         break;
     case 'unrated':
-        $sql = $sql . "WHERE (uotd_time IS NULL) AND (verification = 0) ORDER BY recommend DESC, reject ASC ";
+        $sql = $sql . "WHERE (uotd_time IS NULL) AND (has_picture>0) and (verification = 0) ORDER BY recommend DESC ";
         break;
     case 'rejected':
         $sql = $sql . "WHERE (uotd_time IS NULL) AND (verification = -1 ) ";

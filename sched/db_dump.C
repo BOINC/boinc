@@ -84,6 +84,7 @@ char* file_path(char* filename) {
 }
 
 // class that automatically compresses on close
+//
 class ZFILE {
 protected:
     string tag;     // enclosing XML tag
@@ -128,17 +129,25 @@ public:
     }
 };
 
-// class that automatically opens a new file every N records
+// class that automatically opens a new file every N IDs
+//
 class NUMBERED_ZFILE : public ZFILE {
     const char* filename_format;
-    int nrec_max;
-    int nfile, nrec;
+    int nids_per_file;
+    int last_filenum;
+    //int nrec_max;
+    //int nfile, nrec;
 public:
-    NUMBERED_ZFILE(string tag_, const char* filename_format_, int nrec_max_)
-        : ZFILE(tag_), filename_format(filename_format_), nrec_max(nrec_max_), nfile(0), nrec(0)
+    NUMBERED_ZFILE(string tag_, const char* filename_format_, int nids_per_file_)
+        : ZFILE(tag_), filename_format(filename_format_),
+        nids_per_file(nids_per_file_), last_filenum(-1)
+        
+        //nrec_max(nrec_max_), nfile(0), nrec(0)
     {
     }
 
+    void set_id(int);
+#if 0
     NUMBERED_ZFILE& operator ++() {
         if (!f || nrec >= nrec_max) {
             open(filename_format, nfile);
@@ -148,7 +157,17 @@ public:
         ++nrec;
         return *this;
     }
+#endif
+
 };
+
+void NUMBERED_ZFILE::set_id(int id) {
+    int filenum = id/nids_per_file;
+    if (!f || (filenum != last_filenum)) {
+        open(filename_format, filenum);
+        last_filenum = filenum;
+    }
+}
 
 void string_replace(string& str, string& old, string& newstr) {
     string::size_type oldlen = old.size();
@@ -288,7 +307,9 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
     if (detail && user.show_hosts) {
         sprintf(buf, "where userid=%d", user.id);
         while (!host.enumerate(buf)) {
-            write_host(host, f, false, false);
+            if (host.total_credit > 0) {
+                write_host(host, f, false, false);
+            }
         }
     }
     fprintf(f,
@@ -363,8 +384,10 @@ void team_total_credit() {
     DB_TEAM team;
     NUMBERED_ZFILE f("teams", "team_total_credit_%d", nrecs_per_file_summary);
 
+    int i=0;
     while (!team.enumerate("order by total_credit desc")) {
-        write_team(team, ++f, false);
+        f.set_id(i++);
+        write_team(team, f, false);
     }
 }
 
@@ -372,8 +395,10 @@ void team_expavg_credit() {
     DB_TEAM team;
     NUMBERED_ZFILE f("teams", "team_expavg_credit_%d", nrecs_per_file_summary);
 
+    int i=0;
     while (!team.enumerate("order by expavg_credit desc")) {
-        write_team(team, ++f, false);
+        f.set_id(i++);
+        write_team(team, f, false);
     }
 }
 
@@ -382,7 +407,8 @@ void team_id() {
     NUMBERED_ZFILE f("teams", "team_id_%d", nrecs_per_file_detail);
 
     while (!team.enumerate("order by id")) {
-        write_team(team, ++f, true);
+        f.set_id(team.id);
+        write_team(team, f, true);
     }
 }
 
@@ -390,8 +416,10 @@ void user_total_credit() {
     DB_USER user;
     NUMBERED_ZFILE f("users", "user_total_credit_%d", nrecs_per_file_summary);
 
+    int i=0;
     while (!user.enumerate("order by total_credit desc")) {
-        write_user(user, ++f, false, true);
+        f.set_id(i++);
+        write_user(user, f, false, true);
     }
 }
 
@@ -399,8 +427,10 @@ void user_expavg_credit() {
     DB_USER user;
     NUMBERED_ZFILE f("users", "user_expavg_credit_%d", nrecs_per_file_summary);
 
+    int i=0;
     while (!user.enumerate("order by expavg_credit desc")) {
-        write_user(user, ++f, false, true);
+        f.set_id(i++);
+        write_user(user, f, false, true);
     }
 }
 
@@ -409,7 +439,8 @@ void user_id() {
     NUMBERED_ZFILE f("users", "user_id_%d", nrecs_per_file_detail);
 
     while (!user.enumerate("order by id")) {
-        write_user(user, ++f, true, true);
+        f.set_id(user.id);
+        write_user(user, f, true, true);
     }
 }
 
@@ -417,8 +448,10 @@ void host_total_credit() {
     DB_HOST host;
     NUMBERED_ZFILE f("hosts", "host_total_credit_%d", nrecs_per_file_summary);
 
+    int i=0;
     while (!host.enumerate("order by total_credit desc")) {
-        write_host(host, ++f, false, true);
+        f.set_id(i++);
+        write_host(host, f, false, true);
     }
 }
 
@@ -426,8 +459,10 @@ void host_expavg_credit() {
     DB_HOST host;
     NUMBERED_ZFILE f("hosts", "host_expavg_credit_%d", nrecs_per_file_summary);
 
+    int i=0;
     while (!host.enumerate("order by expavg_credit desc")) {
-        write_host(host, ++f, false, true);
+        f.set_id(i++);
+        write_host(host, f, false, true);
     }
 }
 
@@ -436,7 +471,8 @@ void host_id() {
     NUMBERED_ZFILE f("hosts", "host_id_%d", nrecs_per_file_detail);
 
     while (!host.enumerate("order by id")) {
-        write_host(host, ++f, true, true);
+        f.set_id(host.id);
+        write_host(host, f, true, true);
     }
 }
 

@@ -727,9 +727,9 @@ static void scan_work_array(
     if (wreq.disk_available < 0) wreq.insufficient_disk = true;
 
     for (i=0; i<ss.nwu_results; i++) {
-
         if (wreq.seconds_to_fill <= 0) break;
         if (wreq.disk_available <= 0) break;
+        if (wreq.nresults >= config.max_wus_to_send) break;
 
         WU_RESULT& wu_result = ss.wu_results[i];
 
@@ -880,7 +880,6 @@ static void scan_work_array(
         wreq.seconds_to_fill -= wu_seconds_filled;
 
         wreq.nresults++;
-        if (wreq.nresults >= config.max_wus_to_send) break;
     }
 }
 

@@ -92,8 +92,6 @@
 #include "sched_shmem.h"
 #include "sched_util.h"
 
-#define MAX_INFEASIBLE_COUNT    50
-
 #define REREAD_DB_FILENAME      "reread_db"
 #define LOCKFILE                "feeder.out"
 #define PIDFILE                 "feeder.pid"

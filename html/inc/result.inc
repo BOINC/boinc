@@ -93,11 +93,7 @@ function show_result_row(
         echo "<td><a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a></td>\n";
     }
     if ($show_host_link) {
-        if ($result->hostid) {
-            echo "<td><a href=show_host_detail.php?hostid=$result->hostid>$result->hostid</a></td>\n";
-        } else {
-            echo "<td>---</td>\n";
-        }
+        echo "<td>", host_link($result->hostid), "</td>\n";
     }
     $result_claimed_credit = format_credit($result->claimed_credit);
     $result_granted_credit = format_credit($result->granted_credit);
@@ -177,7 +173,7 @@ function show_result($result) {
     row2("Outcome", outcome_string($result->outcome));
     row2("Client state", client_state_string($result->client_state));
     row2("Exit status", exit_status_string($result));
-    row2("Host ID", "<a href=host.php?hostid$result->hostid>$result->hostid</a>");
+    row2("Host ID", host_link($result->hostid));
     row2("Report deadline", time_str($result->report_deadline));
     row2("CPU time", $result->cpu_time);
     row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");

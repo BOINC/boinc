@@ -152,10 +152,7 @@ function show_host_row($host, $i, $private, $show_owner) {
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
 
-    echo "<tr><td>
-        <a href=show_host_detail.php?hostid=$host->id>$host->id</a>
-        </td>
-    ";
+    echo "<tr><td>", host_link($host->id), "</td>\n";
     if ($private) {
         echo "<td> $host->domain_name";
     } else {
