@@ -11,7 +11,10 @@
         exit("Error: couldn't get log_dir from config file.");
     }
 
-    if (!$f || !preg_match("/^ *([a-z_*]+[.]out *)+$/", $f)) {
+    $f = $_GET["f"];
+    $s = $_GET["s"];
+
+    if (!$f || !preg_match("/^ *([a-z_*]+[.](log|out) *)+$/", $f)) {
         $f = '*.log';
     }
 
