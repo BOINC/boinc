@@ -36,12 +36,6 @@ struct WORK_REQ {
     double disk_available;
     int nresults;
     int core_client_version;
-    bool use_time_stats;
-        // whether to use on_frac and active_frac in delay estimate.
-        // initially false, so people can get 1 result even if
-        // they've been idle for a while.
-        // set to true after 1st result
-
     // the following flags are set whenever a result is infeasible;
     // used to construct explanatory message to user
     //

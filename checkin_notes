@@ -24787,3 +24787,35 @@ David  15 Feb 2005
 
     py/Boinc/
         setup_project.py
+
+Bruce 15 Feb 2005
+    - Scheduler changes (global):
+    - Ignore CPU limitations and resource share entirely, IF
+      a host:
+        (1) has no work for this project
+        (2) has no results in this sched reply
+      This ensures that any host that wants to do work will at least
+      get *something*. It liberalizes slightly David A's approach
+      from 14 Feb 2005. Eliminate use_time_stats from wreq structure.
+    - Scheduler changes (locality scheduling only):
+    - Improve return value info for some functions.
+    - Modify send_old_work() to accept a t_min < t < t_max time range
+    - New sched locality algorithm to send work to hosts with no files.
+      Send oldest result in the time range A < t < B where
+      B = locality_scheduling_timeout/2
+      A = B - rand*locality_scheduling_timeout/2
+      Here rand is a uniformly distributed random number in [0,1].
+    - When an unsent result is older than locality_scheduling_timeout, no
+      longer send it to the FIRST host that requests work.  Instead send
+      it to the first host which has a connection speed > 100kb/s.
+    - Fix file deletion.  Previously we were deleting files from hosts
+      when they got no work for that file.  But this might have been
+      because the work was infeasible (cpu time).  Now delete files
+      from host ONLY if there is no work remaining for that file.
+
+    sched/
+        sched_locality.C
+        sched_send.C
+        server_types.h
+ 
+    

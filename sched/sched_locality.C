@@ -230,8 +230,12 @@ static int possibly_send_result(
     APP_VERSION* avp;
 
     retval = wu.lookup_id(result.workunitid);
-    if (retval) return retval;
+    if (retval) return ERR_DB_NOT_FOUND;
 
+    // wu_is_infeasible() returns a bitmask of potential reasons
+    // why the WU is not feasible.  These are defined in sched_send.h.
+    // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
+    // 
     if (wu_is_infeasible(wu, sreq, reply)) {
         return ERR_INSUFFICIENT_RESOURCE;
     }
@@ -239,14 +243,14 @@ static int possibly_send_result(
     if (config.one_result_per_user_per_wu) {
         sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
         retval = result2.count(count, buf);
-        if (retval) return retval;
+        if (retval) return ERR_DB_NOT_FOUND;
         if (count > 0) return ERR_WU_USER_RULE;
     }
 
     retval = get_app_version(
         wu, app, avp, sreq, reply, platform, ss
     );
-    if (retval) return retval;
+    if (retval) return ERR_NO_APP_VERSION;
 
     return add_result_to_reply(result, wu, sreq, reply, platform, app, avp);
 }
@@ -405,7 +409,7 @@ static int send_results_for_file(
         prev_result.id = 0;
     } else {
         retval_lookup = prev_result.lookup_id(maxid);
-        if (retval_lookup) return retval_lookup;
+        if (retval_lookup) return ERR_DB_NOT_FOUND;
     }
 
     nsent = 0;
@@ -532,7 +536,7 @@ static int send_results_for_file(
 
             // if no app version, give up completely
             //
-            if (retval_send == ERR_NO_APP_VERSION) return retval_send;
+            if (retval_send == ERR_NO_APP_VERSION) return ERR_NO_APP_VERSION;
 
             // if we couldn't send it for other reason, something's wacky;
             // print a message, but keep on looking.
@@ -561,7 +565,7 @@ static int send_results_for_file(
         } // query_retval
 
     } // loop over 0<i<100
-    return 0;
+    return 0;   
 }
 
 
@@ -679,7 +683,7 @@ static int send_new_file_work_working_set(
 // prototype
 static int send_old_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss, int timeout);
+    SCHED_SHMEM& ss, int t_min, int t_max);
 
 // The host doesn't have any files for which work is available.
 // Pick new file to send.  Returns nonzero if no work is available.
@@ -690,24 +694,34 @@ static int send_new_file_work(
 ) {
 
     while (reply.work_needed(true)) {
-        int random_time=6*3600+rand()%(6*3600);
+        double frac=((double)rand())/(double)RAND_MAX;
 
-        // send work that's been hanging around the queue for more than 6
-        // to 12 hours
+        int now   = time(0);
+        int end   = now - config.locality_scheduling_send_timeout/2;
+        int start = end - (int)(0.5*frac*config.locality_scheduling_send_timeout);
+
+        // send work that's been hanging around the queue for an
+        // interval that which (1) starts at a random time between
+        // timeout and timeout/2 ago, and (2) continues until
+        // timeout/2 ago.  We might consider enclosing this in a while
+        // loop and trying several times.
+        //
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "send_new_file_work() trying to send results created > %.1f hours ago\n", ((double)random_time)/3600.0);
-        send_old_work(sreq, reply, platform, ss, random_time);
+            "send_new_file_work(): try to send old work\n"
+        );
+
+        send_old_work(sreq, reply, platform, ss, start, end);
     
         if (reply.work_needed(true)) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "send_new_file_work() trying to send from working set\n"
+                "send_new_file_work(): try to send from working set\n"
             );
             send_new_file_work_working_set(sreq, reply, platform, ss);
         }    
 
         if (reply.work_needed(true)) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "send_new_file_work() trying deterministic method\n"
+                "send_new_file_work(): try deterministic method\n"
             );
             if (send_new_file_work_deterministic(sreq, reply, platform, ss)) {
                 // if no work remains at all,
@@ -724,26 +738,40 @@ static int send_new_file_work(
 // DAVID, this is missing a return value!  Am I right that this will
 // also eventually move 'non locality' work through and out of the
 // system?
+//
+// This looks for work created in the range t_min < t < t_max.  Use
+// t_min=INT_MIN if you wish to leave off the left constraint.
+//
 static int send_old_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss, int timeout
+    SCHED_SHMEM& ss, int t_min, int t_max
 ) {
     char buf[1024], filename[256];
     int retval, extract_retval, nsent;
     DB_RESULT result;
+    int now=time(0);
 
-    int cutoff = time(0) - timeout;
     boinc_db.start_transaction();
-    sprintf(buf, "where server_state=%d and create_time<%d limit 1",
-        RESULT_SERVER_STATE_UNSENT, cutoff
-    );
+
+    if (t_min != INT_MIN) {
+        sprintf(buf, "where server_state=%d and %d<create_time and create_time<%d limit 1",
+            RESULT_SERVER_STATE_UNSENT, t_min, t_max
+        );
+    }
+    else {
+        sprintf(buf, "where server_state=%d and create_time<%d limit 1",
+            RESULT_SERVER_STATE_UNSENT, t_max
+        );
+    }
+
     retval = result.lookup(buf);
     if (!retval) {
         retval = possibly_send_result(result, sreq, reply, platform, ss);
         boinc_db.commit_transaction();
         if (!retval) {
+            double age=(now-result.create_time)/3600.0;
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "send_old_work(%s) send laggard result [RESULT#%d]\n", result.name, result.id
+                "send_old_work(%s) sent result created %.1f hours ago [RESULT#%d]\n", result.name, age, result.id
             );
             extract_retval=extract_filename(result.name, filename);
             if (!extract_retval) {
@@ -763,6 +791,24 @@ static int send_old_work(
     } else {
         boinc_db.commit_transaction();
     }
+
+    if (retval) {
+        double older=(now-t_max)/3600.0;
+        if (t_min != INT_MIN) {
+            double young=(now-t_min)/3600.0;
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "send_old_work() no feasible result younger than %.1f hours and older than %.1f hours\n",
+                young, older
+            );
+        }
+        else {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "send_old_work() no feasible result older than %.1f hours\n",
+                older
+            );
+        }
+    }
+
     // DAVID, YOU CHANGED THIS FROM VOID TO INT.  IS THIS THE RIGHT
     // RETURN VAL?  You should probably use the return value from
     // sent_results_for_file as well.
@@ -791,10 +837,13 @@ void send_work_locality(
         nfiles=1;
     j = rand()%nfiles;
 
-    // send old work if there is any
+    // send old work if there is any. send this only to hosts which have
+    // high-bandwidth connections, since asking dial-up users to upload
+    // (presumably large) data files is onerous.
     //
-    if (config.locality_scheduling_send_timeout) {
-        send_old_work(sreq, reply, platform, ss, config.locality_scheduling_send_timeout);
+    if (config.locality_scheduling_send_timeout && sreq.host.n_bwdown>100000) {
+        int until=time(0)-config.locality_scheduling_send_timeout;
+        send_old_work(sreq, reply, platform, ss, INT_MIN, until);
     }
 
     // send work for existing files
@@ -807,9 +856,13 @@ void send_work_locality(
             fi.name, nsent, sreq, reply, platform, ss, false
         );
 
-        // if we couldn't send any work for this file, tell client to delete it
+        // if we couldn't send any work for this file, and we STILL need work,
+        // then it must be that there was no additional work remaining for this
+        // file which is feasible for this host.  In this case, delete the file.
+        // If the work was not sent for other (dynamic) reason such as insufficient
+        // cpu, then DON'T delete the file.
         //
-        if (nsent == 0) {
+        if (nsent == 0 && reply.work_needed(true)) {
             reply.file_deletes.push_back(fi);
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
@@ -829,7 +882,8 @@ void send_work_locality(
 
 // (1) If there is an (one) unsent result which is older than
 // (1) config.locality_scheduling_send_timeout (7 days) and is
-// (1) feasible for the host, sent it.
+// (1) feasible for the host, and host has a fast network
+// (1) connection (100kb/s) then send it.
 
 // (2) If we did send a result in the previous step, then send any
 // (2) additional results that are feasible for the same input file.
@@ -839,9 +893,11 @@ void send_work_locality(
 // (3) the host, send them.  If there are no results that are feasible
 // (3) for the host, delete the input file from the host.
 
-// (4) If additional results are needed, and there is (one) unsent
-// (4) result which is older than 2 hours and is feasible for the
-// (4) host, send it.
+// (4) If additional results are needed, send the oldest result
+// (4) created between times A and B, where
+// (4) A=random time between locality_scheduling_send timeout and
+// (4) locality_timeout/2 in the past, and B=locality_timeout/2 in 
+// (4) the past.
 
 // (5) If we did send a result in the previous step, then send any
 // (5) additional results that are feasible for the same input file.

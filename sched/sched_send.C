@@ -178,15 +178,11 @@ static double estimate_wallclock_duration(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
     double running_frac;
-    if (reply.wreq.use_time_stats) {
-        running_frac = reply.host.active_frac * reply.host.on_frac;
-        if (running_frac < HOST_ACTIVE_FRAC_MIN) {
-            running_frac = HOST_ACTIVE_FRAC_MIN;
-        }
-        if (running_frac > 1) running_frac = 1;
-    } else {
-        running_frac = 1;
+    running_frac = reply.host.active_frac * reply.host.on_frac;
+    if (running_frac < HOST_ACTIVE_FRAC_MIN) {
+        running_frac = HOST_ACTIVE_FRAC_MIN;
     }
+    if (running_frac > 1) running_frac = 1;
     double ecd = estimate_cpu_duration(wu, reply);
     double ewd = ecd/(running_frac*request.resource_share_fraction);
 #if 0
@@ -231,13 +227,13 @@ int wu_is_infeasible(
         reason |= INFEASIBLE_DISK;
     }
 
-    if (!config.ignore_delay_bound) {
+    if (!config.ignore_delay_bound && 0.0<request.estimated_delay) {
         double ewd = estimate_wallclock_duration(wu, request, reply);
         if (request.estimated_delay + ewd > wu.delay_bound) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
-                "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d\n",
-                wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound
+                "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (request.estimated_delay is %f)\n",
+                wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound, request.estimated_delay
             );
             reply.wreq.insufficient_speed = true;
             reason |= INFEASIBLE_CPU;
@@ -383,7 +379,6 @@ int add_wu_to_reply(
 
     // switch to tighter policy for estimating delay
     //
-    reply.wreq.use_time_stats = true;
     return 0;
 }
 
@@ -808,7 +803,6 @@ int send_work(
     reply.wreq.daily_result_quota_exceeded = false;
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
-    reply.wreq.use_time_stats = false;
     reply.wreq.nresults = 0;
 
     log_messages.printf(
@@ -878,6 +872,7 @@ int send_work(
                 "(there was work but your computer doesn't have enough memory)",
                 "high"
             );
+            reply.request_delay = 24*3600;
             reply.insert_message(um);
         }
         if (reply.wreq.insufficient_speed) {
@@ -886,6 +881,13 @@ int send_work(
                 "high"
             );
             reply.insert_message(um);
+            if (!config.ignore_delay_bound && sreq.resource_share_fraction<1.0) {
+                 USER_MESSAGE um(
+                    "Review preferences for this project's Resource Share",
+                    "high"
+                );
+                reply.insert_message(um);
+            }
         }
         if (reply.wreq.homogeneous_redundancy_reject) {
             USER_MESSAGE um(
