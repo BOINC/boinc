@@ -164,12 +164,12 @@ void make_more_work_for_file(char* filename) {
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
-                    "project didn't make NEW work for file %s in time\n", fullpath, filename
+                    "project didn't make NEW work for file %s in time\n", filename
                 );
             } else {
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
-                    "success making/finding NEW work for file %s\n", fullpath, filename
+                    "success making/finding NEW work for file %s\n", filename
                 );
             }
         } else {
