@@ -19418,3 +19418,13 @@ David  14 Nov 2004
             forum_show.inc
         ops/
             cancel_wu_action.php
+
+David  14 Nov 2004
+    - improve account-creation email msg
+    - login_action.php allows authenticator to be passed as GET arg
+
+    html/
+        inc/
+            util.inc
+        user/
+            login_action.php

@@ -5,7 +5,14 @@
 
     init_session();
     db_init();
-    $authenticator = trim($_POST["authenticator"]);
+
+    // First see if key is in URL; if not then check for form data
+    //
+    $authenticator = trim($_GET["key"]);
+    if (!$authenticator) {
+       $authenticator = trim($_POST["authenticator"]);
+    }
+
     if (strlen($authenticator)) {
         $query = "select * from user where authenticator='$authenticator'";
     }

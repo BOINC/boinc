@@ -25,15 +25,32 @@ function db_init() {
 // Sends the authenticator to the given email address
 //
 function send_auth_email($email_addr, $auth) {
-    $subject = PROJECT." new account confirmation";
-    $body = "This email confirms the creation of your ".PROJECT." account.
-".PROJECT." URL:          ".MASTER_URL."
+    $user = get_user_from_auth($auth);
+    $subject = PROJECT." new account confirmation for $user->name";
+    $headers = "From: ". EMAIL_FROM;
+    $body = "Welcome to ".PROJECT."
+        
+This email confirms your account with ".PROJECT.":
 
-Your account ID:             $auth\n
+    Project URL:         ".MASTER_URL."
 
-Please save this email.
-You will need your account ID to log in to the ".PROJECT." web site.";
-    return mail($email_addr, $subject, $body);
+    Account ID:          $auth
+
+    User name:           $user->name
+    E-mail:              $email_addr
+
+You will need the Project URL and Account ID to attach the 
+BOINC client to the project.    
+
+You will need  your Account ID to login to the ".PROJECT." web site,
+or you can use this direct link:
+
+".URL_BASE."login_action.php?key=$auth
+
+Please save this email.    For further information and assistance
+with ".PROJECT." go to ".MASTER_URL."
+";
+    return mail($email_addr, $subject, $body, $headers);
 }
 
 function email_sent_message($email_addr) {
