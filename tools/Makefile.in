@@ -185,6 +185,7 @@ create_work_SOURCES = \
     create_work.C               \
     backend_lib.C               \
     process_result_template.C   \
+    ../lib/filesys.C            \
     ../lib/md5_file.C           \
     ../lib/md5.c                \
     ../lib/parse.C              \
@@ -212,6 +213,7 @@ sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 dir_hier_path_SOURCES = \
     dir_hier_path.C \
     ../sched/sched_config.C     \
+    ../lib/filesys.C            \
     ../lib/parse.C \
     ../lib/util.C
 
@@ -219,6 +221,7 @@ dir_hier_path_SOURCES = \
 dir_hier_move_SOURCES = \
     dir_hier_move.C \
     ../sched/sched_config.C     \
+    ../lib/filesys.C            \
     ../lib/parse.C \
     ../lib/filesys.C \
     ../lib/util.C
@@ -232,20 +235,22 @@ bin_PROGRAMS = create_work$(EXEEXT) sign_executable$(EXEEXT) \
 PROGRAMS = $(bin_PROGRAMS)
 
 am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
-	process_result_template.$(OBJEXT) md5_file.$(OBJEXT) \
-	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
-	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
+	process_result_template.$(OBJEXT) filesys.$(OBJEXT) \
+	md5_file.$(OBJEXT) md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) \
+	boinc_db.$(OBJEXT) db_base.$(OBJEXT) crypt.$(OBJEXT) \
+	sched_config.$(OBJEXT)
 create_work_OBJECTS = $(am_create_work_OBJECTS)
 create_work_LDFLAGS =
 am_dir_hier_move_OBJECTS = dir_hier_move.$(OBJEXT) \
-	sched_config.$(OBJEXT) parse.$(OBJEXT) filesys.$(OBJEXT) \
-	util.$(OBJEXT)
+	sched_config.$(OBJEXT) filesys.$(OBJEXT) parse.$(OBJEXT) \
+	filesys.$(OBJEXT) util.$(OBJEXT)
 dir_hier_move_OBJECTS = $(am_dir_hier_move_OBJECTS)
 dir_hier_move_LDADD = $(LDADD)
 dir_hier_move_DEPENDENCIES =
 dir_hier_move_LDFLAGS =
 am_dir_hier_path_OBJECTS = dir_hier_path.$(OBJEXT) \
-	sched_config.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT)
+	sched_config.$(OBJEXT) filesys.$(OBJEXT) parse.$(OBJEXT) \
+	util.$(OBJEXT)
 dir_hier_path_OBJECTS = $(am_dir_hier_path_OBJECTS)
 dir_hier_path_LDADD = $(LDADD)
 dir_hier_path_DEPENDENCIES =
@@ -317,6 +322,7 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+filesys.$(OBJEXT): ../lib/filesys.C
 md5_file.$(OBJEXT): ../lib/md5_file.C
 md5.$(OBJEXT): ../lib/md5.c
 parse.$(OBJEXT): ../lib/parse.C
@@ -328,7 +334,6 @@ sched_config.$(OBJEXT): ../sched/sched_config.C
 create_work$(EXEEXT): $(create_work_OBJECTS) $(create_work_DEPENDENCIES) 
 	@rm -f create_work$(EXEEXT)
 	$(CXXLINK) $(create_work_LDFLAGS) $(create_work_OBJECTS) $(create_work_LDADD) $(LIBS)
-filesys.$(OBJEXT): ../lib/filesys.C
 dir_hier_move$(EXEEXT): $(dir_hier_move_OBJECTS) $(dir_hier_move_DEPENDENCIES) 
 	@rm -f dir_hier_move$(EXEEXT)
 	$(CXXLINK) $(dir_hier_move_LDFLAGS) $(dir_hier_move_OBJECTS) $(dir_hier_move_LDADD) $(LIBS)
@@ -385,6 +390,28 @@ distclean-depend:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'`
+
+filesys.o: ../lib/filesys.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.o -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/filesys.Tpo" "$(DEPDIR)/filesys.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/filesys.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='filesys.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C
+
+filesys.obj: ../lib/filesys.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.obj -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/filesys.Tpo" "$(DEPDIR)/filesys.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/filesys.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='filesys.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`
 
 md5_file.o: ../lib/md5_file.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md5_file.o -MD -MP -MF "$(DEPDIR)/md5_file.Tpo" \
@@ -539,28 +566,6 @@ sched_config.obj: ../sched/sched_config.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/sched_config.Po' tmpdepfile='$(DEPDIR)/sched_config.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sched_config.obj `if test -f '../sched/sched_config.C'; then $(CYGPATH_W) '../sched/sched_config.C'; else $(CYGPATH_W) '$(srcdir)/../sched/sched_config.C'`
-
-filesys.o: ../lib/filesys.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.o -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/filesys.Tpo" "$(DEPDIR)/filesys.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/filesys.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='filesys.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C
-
-filesys.obj: ../lib/filesys.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT filesys.obj -MD -MP -MF "$(DEPDIR)/filesys.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/filesys.Tpo" "$(DEPDIR)/filesys.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/filesys.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='filesys.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/filesys.Po' tmpdepfile='$(DEPDIR)/filesys.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \

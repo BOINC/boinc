@@ -12,6 +12,7 @@ create_work_SOURCES =           \
     create_work.C               \
     backend_lib.C               \
     process_result_template.C   \
+    ../lib/filesys.C            \
     ../lib/md5_file.C           \
     ../lib/md5.c                \
     ../lib/parse.C              \
@@ -37,12 +38,14 @@ sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 dir_hier_path_SOURCES = \
     dir_hier_path.C \
     ../sched/sched_config.C     \
+    ../lib/filesys.C            \
     ../lib/parse.C \
     ../lib/util.C
 
 dir_hier_move_SOURCES = \
     dir_hier_move.C \
     ../sched/sched_config.C     \
+    ../lib/filesys.C            \
     ../lib/parse.C \
     ../lib/filesys.C \
     ../lib/util.C
