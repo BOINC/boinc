@@ -64,7 +64,7 @@ replies to be written to the cgi-bin/ directory with separate
 small files for each request.  The file names are sched_request_H_R
 where H=hostid and R=rpc sequence number.
 This verbose debugging output can be turned off by simply removing
-the '../debug_sheck()' call.
+the '../debug_sched()' call.
 
 
 touch a file called 'debug_sched' in
