@@ -299,7 +299,7 @@ class DatabaseObject:
         self.__dict__.update(self._table.defdict)  # set defaults to None
         # set this first so that if we get a DatabaseInconsistency we can see
         # the id
-        self.id = dict['id']
+        self.id = dict.get('id')
         for (key, value) in dict.items():
             if key == 'id':
                 # self.id = value
@@ -366,29 +366,26 @@ class DatabaseObject:
 class Project(DatabaseObject):
     _table = DatabaseTable(
         table = 'project',
-        columns = [ 'id', 'short_name', 'long_name' ] )
+        columns = [ 'short_name', 'long_name' ] )
 
 class Platform(DatabaseObject):
     _table = DatabaseTable(
         table = 'platform',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'name',
                     'user_friendly_name' ])
 
 class Platform(DatabaseObject):
     _table = DatabaseTable(
         table = 'platform',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'name',
                     'user_friendly_name' ])
 
 class CoreVersion(DatabaseObject):
     _table = DatabaseTable(
         table = 'core_version',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'version_num',
                     'platformid',
                     'xml_doc',
@@ -398,16 +395,14 @@ class CoreVersion(DatabaseObject):
 class App(DatabaseObject):
     _table = DatabaseTable(
         table = 'app',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'name',
                     'min_version' ])
 
 class AppVersion(DatabaseObject):
     _table = DatabaseTable(
         table = 'app_version',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'appid',
                     'version_num',
                     'platformid',
@@ -418,8 +413,7 @@ class AppVersion(DatabaseObject):
 class User(DatabaseObject):
     _table = DatabaseTable(
         table = 'user',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'email_addr',
                     'name',
                     'authenticator',
@@ -440,8 +434,7 @@ class User(DatabaseObject):
 class Team(DatabaseObject):
     _table = DatabaseTable(
         table = 'team',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'userid',
                     'name',
                     'name_lc',
@@ -454,12 +447,10 @@ class Team(DatabaseObject):
                     'total_credit',
                     'expavg_credit' ])
 
-
 class Host(DatabaseObject):
     _table = DatabaseTable(
         table = 'host',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'userid',
                     'rpc_seqno',
                     'rpc_time',
@@ -499,8 +490,7 @@ class Host(DatabaseObject):
 class Workunit(DatabaseObject):
     _table = DatabaseTable(
         table = 'workunit',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'appid',
                     'name',
                     'xml_doc',
@@ -529,8 +519,7 @@ class Workunit(DatabaseObject):
 class Result(DatabaseObject):
     _table = DatabaseTable(
         table = 'result',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'workunitid',
                     'server_state',
                     'outcome',
@@ -556,8 +545,7 @@ class Result(DatabaseObject):
 class Workseq(DatabaseObject):
     _table = DatabaseTable(
         table = 'workseq',
-        columns = [ 'id',
-                    'create_time',
+        columns = [ 'create_time',
                     'state',
                     'hostid',
                     'wuid_last_done',
