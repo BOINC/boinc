@@ -63,22 +63,22 @@ const wxString LINKDESC_DEFAULT         =
 const wxString LINK_TASKSUSPEND         = wxT(SECTION_TASK "suspend");
 const wxString LINKDESC_TASKSUSPEND     = 
      _("<b>Suspend</b><br>"
-       "Click <b>Suspend</b> to suspend the result.");
+       "Suspend the result.");
 
 const wxString LINK_TASKRESUME          = wxT(SECTION_TASK "resume");
 const wxString LINKDESC_TASKRESUME      = 
      _("<b>Resume</b><br>"
-       "Click <b>Resume</b> to resume a suspended result.");
+       "Resume a suspended result.");
 
 const wxString LINK_TASKSHOWGRAPHICS    = wxT(SECTION_TASK "showgraphics");
 const wxString LINKDESC_TASKSHOWGRAPHICS= 
      _("<b>Show graphics</b><br>"
-       "Click <b>Show graphics</b> to show application graphics in a window.");
+       "Show application graphics in a window.");
 
 const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
 const wxString LINKDESC_TASKABORT       = 
      _("<b>Abort result</b><br>"
-       "Click <b>Abort result</b> to delete the result from the work queue. "
+       "Delete the result from the work queue. "
        "This will prevent you from being granted credit for the result.");
 
 
@@ -242,7 +242,7 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         {
             iAnswer = wxMessageBox(
                 _("Are you sure you wish to display graphics on a remote machine?"),
-                _("Show Graphics"),
+                _("Show graphics"),
                 wxYES_NO | wxICON_QUESTION, 
                 this
             );
@@ -400,8 +400,8 @@ void CViewWork::UpdateTaskPane()
     {
         m_pTaskPane->CreateTask( LINK_TASKSUSPEND, BITMAP_RESULTS, _("Suspend"), m_bTaskSuspendHidden );
         m_pTaskPane->CreateTask( LINK_TASKRESUME, BITMAP_RESULTS, _("Resume"), m_bTaskResumeHidden );
-        m_pTaskPane->CreateTask( LINK_TASKSHOWGRAPHICS, BITMAP_RESULTS, _("Show Graphics"), m_bTaskShowGraphicsHidden );
-        m_pTaskPane->CreateTask( LINK_TASKABORT, BITMAP_RESULTS, _("Abort Result"), m_bTaskAbortHidden );
+        m_pTaskPane->CreateTask( LINK_TASKSHOWGRAPHICS, BITMAP_RESULTS, _("Show graphics"), m_bTaskShowGraphicsHidden );
+        m_pTaskPane->CreateTask( LINK_TASKABORT, BITMAP_RESULTS, _("Abort result"), m_bTaskAbortHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 

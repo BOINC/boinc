@@ -60,13 +60,15 @@ const wxString LINKDESC_DEFAULT         =
 
 const wxString LINK_TASKCOPYALL         = wxT(SECTION_TASK "copyall");
 const wxString LINKDESC_TASKCOPYALL     = 
-     _("<b>Copy All</b><br>"
-       "Clicking copy all, copies all the messages to the system clipboard.");
+     _("<b>Copy all</b><br>"
+       "Copy all the messages to the system clipboard.");
 
 const wxString LINK_TASKCOPYMESSAGE     = wxT(SECTION_TASK "copymessage");
 const wxString LINKDESC_TASKCOPYMESSAGE = 
-     _("<b>Copy Selection</b><br>"
-       "Clicking <b>copy selection</b> copies the selected message(s) to the system clipboard.<br><br>You can select multiple items by holding down the shift key or control key while clicking on the next desired message.");
+     _("<b>Copy selection</b><br>"
+       "Copy the selected message(s) to the system clipboard.  "
+       "You can select multiple items by holding down the shift key "
+       " or control key while clicking on the next desired message.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
@@ -387,8 +389,8 @@ void CViewMessages::UpdateTaskPane()
     m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, BITMAP_MESSAGE, _("Copy All"), m_bTaskCopyAllHidden );
-        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy Selection"), m_bTaskCopyMessageHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, BITMAP_MESSAGE, _("Copy all"), m_bTaskCopyAllHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy selection"), m_bTaskCopyMessageHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 

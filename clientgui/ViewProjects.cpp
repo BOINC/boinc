@@ -67,9 +67,10 @@ const wxString LINKDESC_DEFAULT         =
 
 const wxString LINK_TASKATTACH      = wxT(SECTION_TASK "attach");
 const wxString LINKDESC_TASKATTACH  = 
-     _("<b>Attach to project</b><br>"
-       "Join a BOINC project.  "
-       "You will need a project URL and account key.");
+     _("<b>Attach to new project</b><br>"
+       "Attach this computer to a BOINC project.  "
+       "You'll need a project URL and account key "
+       "(visit the project's web site to get these).");
 
 const wxString LINK_TASKDETACH      = wxT(SECTION_TASK "detach");
 const wxString LINKDESC_TASKDETACH  = 
@@ -516,12 +517,12 @@ void CViewProjects::UpdateTaskPane()
     m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKATTACH, BITMAP_PROJECTS, _("Attach to Project"), m_bTaskAttachHidden );
-        m_pTaskPane->CreateTask( LINK_TASKDETACH, BITMAP_PROJECTS, _("Detach from Project"), m_bTaskDetachHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESET, BITMAP_PROJECTS, _("Reset Project"), m_bTaskResetHidden );
-        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, BITMAP_PROJECTS, _("Suspend Project"), m_bTaskSuspendHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESUME, BITMAP_PROJECTS, _("Resume Project"), m_bTaskResumeHidden );
-        m_pTaskPane->CreateTask( LINK_TASKUPDATE, BITMAP_PROJECTS, _("Update Project"), m_bTaskUpdateHidden );
+        m_pTaskPane->CreateTask( LINK_TASKATTACH, BITMAP_PROJECTS, _("Attach to new project"), m_bTaskAttachHidden );
+        m_pTaskPane->CreateTask( LINK_TASKDETACH, BITMAP_PROJECTS, _("Detach from project"), m_bTaskDetachHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESET, BITMAP_PROJECTS, _("Reset project"), m_bTaskResetHidden );
+        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, BITMAP_PROJECTS, _("Suspend project"), m_bTaskSuspendHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESUME, BITMAP_PROJECTS, _("Resume project"), m_bTaskResumeHidden );
+        m_pTaskPane->CreateTask( LINK_TASKUPDATE, BITMAP_PROJECTS, _("Update project"), m_bTaskUpdateHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
