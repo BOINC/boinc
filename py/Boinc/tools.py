@@ -100,7 +100,7 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
 def process_app_version(app, version_num, exec_files,
                         non_exec_files=[],
                         signature_files={},
-                        file_ref_extra={},
+                        file_ref_infos={},
                         quiet=False):
     """Return xml for application version
 
