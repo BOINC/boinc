@@ -25504,3 +25504,25 @@ David  3 Mar 2005
         http.C
     html/user/
         mail_passwd.C
+
+Janus  4 Mar 2005
+    - Added optional project-specific callback functions for:
+      + Workunit info page
+      + User info page
+      + User account page
+      + Additional credit (old seti and old climateprediction)
+      These can be found in the project_callbacks.inc-file in the 
+      project directory.
+      In the future you won't have to manually patch the CVS to edit
+      these pages - simply add stuff to these callback functions.
+
+    /html/
+        inc/
+            home.php
+        user/
+            show_user.php
+            home.php
+            workunit.php
+        project-sample/
+            project_callbacks.inc (new)
+
