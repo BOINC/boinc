@@ -25421,3 +25421,10 @@ David  1 Mar 2005
 
 	client/
 		client_types.C
+
+David  1 Mar 2005
+    -  fix for update_versions in case of single-file app
+        with signature included (from John Flynn III)
+
+    tools/
+        update_versions

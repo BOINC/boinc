@@ -166,22 +166,22 @@ def find_versions(app, dir):
 
 # Process an app that is a single file only,
 # possibly with a signature file included.
-# Could also be the core client.
 #
 def find_versions__process_single_file(app, match, filepath):
-    '''add a single executable as app/core version'''
+    '''add a single executable as app version'''
     # Find signature file, if it exists.
     signature_files={}
-    exec_files={}
+    exec_files=[]
     sig_file = filepath + ".sig"
     if os.path.isfile(sig_file):
         signature_files[filepath] = sig_file
+    exec_files.insert(0, filepath)
 
     add_files(
         app             = app,
-        match            = match,
-        exec_files        = filepath,
-        signature_files  = signature_files,
+        match           = match,
+        exec_files      = exec_files,
+        signature_files = signature_files,
         )
 
 
