@@ -11,7 +11,7 @@ function send_verify_email($user, $email_addr, $key) {
 "You have asked that the email address of your PROJECT account
 be changed to $email_addr.
 To confirm this change, please visit the following URL:
-".MASTER_URL."/confirm_email_change.php?id=$user->id&str=$key"
+".(URL_BASE || MASTER_URL)."/confirm_email_change.php?id=$user->id&str=$key"
     );
 }
 
