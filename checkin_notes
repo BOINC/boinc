@@ -5270,3 +5270,16 @@ David  July 2 2003
     client/
         *.C
         message.C (new)
+
+David  July 3 2003
+    - added "custom signup page" feature
+
+    html_user/
+        clone.php (new)
+        create_account_action.php
+        create_account_form.php
+        index.php
+        project_ap.inc
+        team.php
+        user.inc
+        util.inc

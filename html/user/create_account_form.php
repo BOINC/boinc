@@ -12,6 +12,8 @@ if (parse_config("<disable_account_creation/>")) {
     exit();
 }
 
+$userid = $_GET["userid"];
+
 page_head("Create account");
 
 echo "<h3>Create an account with ".PROJECT."</h3>
@@ -22,9 +24,11 @@ echo "<h3>Create an account with ".PROJECT."</h3>
     <p>
 ";
 
-if (!empty($_GET['mirror']))
-	echo '<input type="hidden" name="mirror" value="'.$_GET['mirror'].'">';
-
+if ($userid) {
+    echo "
+        <input type=hidden name=userid value=$userid>
+    ";
+}
 
 start_table();
 row2("<b>Name</b>

@@ -23,6 +23,7 @@
 <li><a href=team.php>Teams</a> - create or join a team
 <li><a href=download.php>Download BOINC</a>
 <li><a href=bug_report_form.php>Report problems</a>
+<li><a href=clone.php>Create a custom signup page</a>
 </ul>
 <h3>Project totals and leader boards</h3>
 <ul>
