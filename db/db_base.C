@@ -218,7 +218,9 @@ int DB_BASE::enumerate(char* clause, bool use_use_result) {
     if (!row) {
         mysql_free_result(cursor.rp);
         cursor.active = false;
-        return 1;
+        int x = mysql_errno(db->mysql);
+        if (x) return x;
+        return ERR_DB_NOT_FOUND;
     } else {
         db_parse(row);
     }

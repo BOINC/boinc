@@ -22680,7 +22680,7 @@ David  13 Jan 2005
         db_update.php
 
 Rom    13 Jan 2005
-    - Checkin the changes nessassary to hide threads in the forum code.
+    - Checkin the changes necessary to hide threads in the forum code.
       By: Rob Ogilvie
     - Hidden threads should not be visible through a direct call
 
@@ -22688,3 +22688,28 @@ Rom    13 Jan 2005
         forum.inc
     html/user/
         forum_thread.php
+
+David  13 Jan 2005
+    - modified DB_BASE::enumerate() so that it returns:
+        - zero if returning a row
+        - ERR_DB_NOT_FOUND if reached end of result set
+        - other values indicated DB errors (e.g. lost connection to server)
+
+        Strange as it may seem, until now we didn't have a way of
+        knowing that enumerate() had errored out.
+        As a result, e.g., db_dump would happily generate
+        a zero-entry user or host file
+        if the DB happened to disconnect during the select.
+    - changed db_dump.C to check error returns from enumerate(),
+        and exit() on DB failure
+    - changed xml_escape() to completely remove
+        control characters except for 9, 10, 13
+
+    db/
+        db_base.C
+    lib/
+        error_numbers.h
+        parse.C
+    sched/
+        db_dump.C
+

@@ -315,9 +315,18 @@ void xml_escape(string& in, string& out) {
             out += "&lt;";
         } else if (in[i] == '&') {
             out += "&amp;";
-        } else if (x < 32 || x>127) {
+        } else if (x>127) {
             sprintf(buf, "&#%d;", x);
             out += buf;
+        } else if (x<32) {
+            switch(x) {
+            case 9:
+            case 10:
+            case 13:
+                sprintf(buf, "&#%d;", x);
+                out += buf;
+                break;
+            }
         } else {
             out += in[i];
         }

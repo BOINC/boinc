@@ -284,7 +284,12 @@ void NUMBERED_ZFILE::set_id(int id) {
 }
 void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
+    string p_vendor, p_model, os_name, os_version;
 
+    xml_escape(host.p_vendor, p_vendor);
+    xml_escape(host.p_model, p_model);
+    xml_escape(host.os_name, os_name);
+    xml_escape(host.os_version, os_version);
     fprintf(f,
         "<host>\n"
         "    <id>%d</id>\n",
@@ -315,10 +320,10 @@ void write_host(HOST& host, FILE* f, bool detail) {
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
-        host.p_vendor,
-        host.p_model,
-        host.os_name,
-        host.os_version
+        p_vendor.c_str(),
+        p_model.c_str(),
+        os_name.c_str(),
+        os_version.c_str()
     );
     if (detail) {
         fprintf(f,
@@ -411,10 +416,16 @@ void write_user(USER& user, FILE* f, bool detail) {
     if (detail && user.show_hosts) {
         DB_HOST host;
         sprintf(buf, "where userid=%d", user.id);
-        while (!host.enumerate(buf)) {
+        while (1) {
+            retval = host.enumerate(buf)
+            if (retval) break;
             if (host.total_credit > 0) {
                 write_host(host, f, false);
             }
+        }
+        if (retval != ERR_DB_NOT_FOUND) {
+            boinc_db.print_error("host enum");
+            exit(retval);
         }
     }
 #endif
@@ -428,6 +439,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     char buf[256];
     string name;
     string url, name_html, description;
+    int retval;
 
     xml_escape(team.name, name);
 
@@ -480,8 +492,14 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     );
     if (detail) {
         sprintf(buf, "where teamid=%d", team.id);
-        while (!user.enumerate(buf)) {
+        while (1) {
+            retval = user.enumerate(buf);
+            if (retval) break;
             write_user(user, f, false);
+        }
+        if (retval != ERR_DB_NOT_FOUND) {
+            boinc_db.print_error("user enum");
+            exit(retval);
         }
     }
     fprintf(f,
@@ -607,7 +625,7 @@ int tables_file(char* dir) {
 
 int ENUMERATION::make_it_happen(char* output_dir) {
     unsigned int i;
-    int n;
+    int n, retval;
     DB_USER user;
     DB_TEAM team;
     DB_HOST host;
@@ -644,7 +662,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     switch(table) {
     case TABLE_USER:
         n = 0;
-        while (!user.enumerate(clause, true)) {
+        while (1) {
+            retval = user.enumerate(clause, true);
+            if (retval) break;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -657,10 +677,16 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                 }
             }
         }
+        if (retval != ERR_DB_NOT_FOUND) {
+            boinc_db.print_error("user enum");
+            exit(retval);
+        }
         break;
     case TABLE_HOST:
         n = 0;
-        while(!host.enumerate(clause)) {
+        while(1) {
+            retval = host.enumerate(clause);
+            if (retval) break;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -673,10 +699,16 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                 }
             }
         }
+        if (retval != ERR_DB_NOT_FOUND) {
+            boinc_db.print_error("host enum");
+            exit(retval);
+        }
         break;
     case TABLE_TEAM:
         n = 0;
-        while(!team.enumerate(clause)) {
+        while(1) {
+            retval = team.enumerate(clause);
+            if (retval) break;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -688,6 +720,10 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                     write_team(team, out.nzfile->f, out.detail);
                 }
             }
+        }
+        if (retval != ERR_DB_NOT_FOUND) {
+            boinc_db.print_error("team enum");
+            exit(retval);
         }
         break;
     }
