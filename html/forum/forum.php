@@ -38,7 +38,7 @@ $forum = getForum($_GET['id']);
 <select name="sort">
   <option <?php if ($sort_style == 'modified-new') echo 'selected' ?> value="modified-new">Most recent post first</option>
   <option <?php if ($sort_style == 'modified-old') echo 'selected' ?> value="modified-old">Least recent post first</option>
-  <!--<option <?php if ($sort_style == 'activity-most') echo 'selected' ?> value="activity-most">Most recent activity first</option>-->
+  <option <?php if ($sort_style == 'activity-most') echo 'selected' ?> value="activity-most">Most recent activity first</option>
   <option <?php if ($sort_style == 'views-most') echo 'selected' ?> value="views-most">Most views first</option>
   <option <?php if ($sort_style == 'replies-most') echo 'selected' ?> value="replies-most">Most replies first</option>
 </select>
