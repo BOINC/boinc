@@ -337,13 +337,17 @@ int handle_results(
             result.received_time = time(0);
             result.client_state = rp->client_state;
             result.cpu_time = rp->cpu_time;
+	    result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+	    result.validate_state = VALIDATE_STATE_NEED_CHECK;
             if (result.client_state != CLIENT_DONE) {
+	      
+	        result.validate_state = VALIDATE_STATE_INVALID; //so we won't try to validate this result anymore
                 result.server_state = RESULT_SERVER_STATE_ERROR;
             } else {
                 result.server_state = RESULT_SERVER_STATE_DONE;
             }
-            result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
-            result.validate_state = VALIDATE_STATE_NEED_CHECK;
+
+         
             strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
             strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
             retval = db_result_update(result);

@@ -39,7 +39,7 @@
 
     $project->start_feeder();
     //delete the download_dir immediately 
-    $project->remove_file_upload_handler()
+    $project->remove_file_upload_handler();
     $pid = $host->run_asynch("-exit_when_idle");
   
     //reinstall download_dir after 100 seconds

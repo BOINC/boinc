@@ -400,6 +400,10 @@ class Project {
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
     }
 
+    function result_retry($app){
+       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror 10 -ndet 10 -nredundancy 10  > result_retry_out");
+    }
+
     function start_result_retry($app){
        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror 10 -ndet 10 -nredundancy 10 -asynch > result_retry_out");
     }
@@ -421,13 +425,21 @@ class Project {
     function validate($app, $quorum) {
         PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum > validate_out");
     }
-
+   
+    function start_file_delete(){
+        PassThru("cd $this->project_dir/cgi; ./file_deleter -asynch > file_deleter_out");
+    }
+	
     // do one pass of file_deleter
     //
     function file_delete() {
         PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass > file_deleter_out");
     }
-
+    
+    function start_assimilate($app) {
+        PassThru("cd $this->project_dir/cgi; ./assimilator -asynch -app $app->name > assimilator_out");
+    }
+    
     // do one pass of assimilator
     //
     function assimilate($app) {

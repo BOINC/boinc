@@ -313,13 +313,15 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // master file parse failed.  treat like RPC error
                     //
+		    project->master_fetch_failures++;
                     backoff(project, "Master file parse failed\n");
                     get_master_success = false;
-					err_url = project->master_url;
+		    err_url = project->master_url;
                }
             } else {
                 // fetch of master file failed.  Treat like RPC error
                 //
+	        project->master_fetch_failures++;
                 backoff(project, "Master file fetch failed\n");
                 get_master_success = false;
                 err_url = project->master_url;
@@ -327,6 +329,7 @@ bool SCHEDULER_OP::poll() {
             project = gstate.next_project_master_pending();
             if (project) {
                 if ((retval = init_master_fetch(project))) {
+		    project->master_fetch_failures++;
                     backoff(project, "Master file fetch failed\n");
                     get_master_success = false;
                     err_url = project->master_url;
