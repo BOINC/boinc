@@ -20,13 +20,20 @@
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
 
 wxChar *wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
+const UINT WM_TASKBARCREATED   = ::RegisterWindowMessage(_T("TaskbarCreated"));
 
 wxList wxTaskBarIconEx::sm_taskBarIcons;
 bool   wxTaskBarIconEx::sm_registeredClass = FALSE;
 UINT   wxTaskBarIconEx::sm_taskbarMsg = 0;
 
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_CREATED )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_CONTEXT_MENU )
-
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SELECT )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_KEY_SELECT )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
 
 IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIconEx, wxEvtHandler)
 
@@ -316,9 +323,42 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
             eventType = wxEVT_TASKBAR_MOVE;
             break;
 
+        case WM_CONTEXTMENU:
+            eventType = wxEVT_TASKBAR_CONTEXT_MENU;
+            break;
+
+        case NIN_SELECT:
+            eventType = wxEVT_TASKBAR_SELECT;
+            break;
+
+        case NIN_KEYSELECT:
+            eventType = wxEVT_TASKBAR_KEY_SELECT;
+            break;
+
+        case NIN_BALLOONSHOW:
+            eventType = wxEVT_TASKBAR_BALLOON_SHOW;
+            break;
+
+        case NIN_BALLOONHIDE:
+            eventType = wxEVT_TASKBAR_BALLOON_HIDE;
+            break;
+
+        case NIN_BALLOONTIMEOUT:
+            eventType = wxEVT_TASKBAR_BALLOON_TIMEOUT;
+            break;
+
+        case NIN_BALLOONUSERCLICK:
+            eventType = wxEVT_TASKBAR_BALLOON_USERCLICK;
+            break;
+
         default:
             break;
-        }
+    }
+
+    if ( WM_TASKBARCREATED == lParam )
+    {
+        eventType = wxEVT_TASKBAR_CREATED;
+    }
 
     if (eventType) {
         wxTaskBarIconExEvent event(eventType, this);
