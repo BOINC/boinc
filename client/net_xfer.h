@@ -52,7 +52,7 @@ public:
     char hostname[256];
     int port;
     int blocksize;
-    double xfer_speed;      // in bytes per second
+    double xfer_speed,recent_bytes;      // in bytes per second
     clock_t last_speed_update;
 	double bytes_xferred;
 

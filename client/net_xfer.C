@@ -173,6 +173,7 @@ void NET_XFER::init(char* host, int p, int b) {
     port = p;
     blocksize = b;
     xfer_speed = 0;
+    recent_bytes = 0;
     last_speed_update = 0;
 }
 
@@ -455,19 +456,22 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 }
 
 // Update the transfer speed for this NET_XFER
-// Decay speed by 1/e every second
+// Decay speed by 1/2 every 3 seconds
 //
 void NET_XFER::update_speed(int nbytes) {
     time_t now, delta_t;
     double x;
 
     now = time(0);
+    recent_bytes += nbytes;
     if (last_speed_update==0) last_speed_update = now;
     delta_t = now-last_speed_update;
-    if (delta_t<=0) delta_t = 0;
-    x = exp(-(double)delta_t/(double)CLOCKS_PER_SEC);
-    xfer_speed = (x*xfer_speed)+nbytes;
+    if (delta_t<=0) return;
+    x = exp(-delta_t*log(2)/3.0);
+    xfer_speed *= x;
+    xfer_speed += recent_bytes*(1-x);
     last_speed_update = now;
+    recent_bytes = 0;
 }
 
 void NET_XFER::got_error() {

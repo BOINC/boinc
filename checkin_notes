@@ -3467,3 +3467,32 @@ David  Feb 25 2003
     test/
         test.inc
         test_uc.php
+
+Eric  Feb 25, 2003
+    - Added net transfer progress.  Tracks number of bytes transferred
+       for file uploads and downloads.
+    - Fixed Windows battery status bug.
+    - Net transfer speed measurement in bytes/sec. The measurement decays by
+       1/2 every 3 seconds.
+    - Added PHP function to password protect project admin pages via .htaccess.
+    - Altered show_message function to specify the project a message is
+       associated with.
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        file_xfer.C
+        net_xfer.C,h
+        pers_file_xfer.C
+        mac/
+            mac_main.cpp
+        main.C
+        message.h
+        scheduler_op.C
+        win/
+            wingui_mainwindow.cpp
+            wingui.cpp
+            hostinfo_win.cpp
+    test/
+        test.inc
+
