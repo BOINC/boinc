@@ -1227,7 +1227,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
 
@@ -1271,7 +1271,7 @@ ps-am:
 uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
 .PHONY: CTAGS GTAGS all all-am all-local check check-am clean \
-	clean-binPROGRAMS clean-generic ctags distclean \
+	clean-binPROGRAMS clean-generic clean-local ctags distclean \
 	distclean-compile distclean-depend distclean-generic \
 	distclean-tags distdir dvi dvi-am info info-am install \
 	install-am install-binPROGRAMS install-data install-data-am \
@@ -1302,6 +1302,9 @@ all-local: @CLIENT_BIN_FILENAME@
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f @CLIENT_BIN_FILENAME@
 	ln boinc_client @CLIENT_BIN_FILENAME@
+
+clean-local:
+	rm @CLIENT_BIN_FILENAME@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
