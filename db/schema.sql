@@ -225,14 +225,22 @@ create table result (
     primary key (id)
 );
 
-create table trickle (
+create table trickle_up (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
-    client_create_time  integer     not null,
+    send_time           integer     not null,
+    resultid            integer     not null,
+    appid               integer     not null,
+    handled             smallint    not null,
+    xml                 text,
+    primary key (id)
+);
+
+create table trickle_down (
+    id                  integer     not null auto_increment,
+    create_time         integer     not null,
     resultid            integer     not null,
     hostid              integer     not null,
-    userid              integer     not null,
-    appid               integer     not null,
     handled             smallint    not null,
     xml                 text,
     primary key (id)
