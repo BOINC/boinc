@@ -116,10 +116,10 @@ int get_local_network_info(
     int retval;
 
     if (gethostname(hostname, 256)) return ERR_GETHOSTBYNAME;
-    sprintf(buf, "ping -c 1 -w 1 %s > %s", hostname, TEMP_FILE_NAME);
+    sprintf(buf, "ping -c 1 -w 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
     retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
     if (retval) {
-        sprintf(buf, "ping -c 1 %s > %s", hostname, TEMP_FILE_NAME);
+        sprintf(buf, "ping -c 1 %s > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
         return try_ping(buf, domain_name, domlen, ip_addr, iplen);
     }
     return 0;

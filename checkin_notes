@@ -13912,11 +13912,13 @@ David  17 June 2004
         sched_shmem.C,h
 
 Daniel 17 June 2004
-    - Determine utmp location at compile time
+    - Determine utmp location at compile time so idle checking works on MacOSX
+    - get_local_network_info(): Redirect ping stderr to /dev/null
 
     config.h.in
     configure
     configure.ac
     client/
         hostinfo_unix.C
+        hostinfo_network.C
 
