@@ -1,5 +1,11 @@
 #! /bin/tcsh
 
-mysql < drop.sql
-mysql < schema.sql
-mysql < constraints.sql
+sed -e s/BOINC_DB_NAME/$BOINC_DB_NAME/g drop.sql > drop_temp.sql
+sed -e s/BOINC_DB_NAME/$BOINC_DB_NAME/g schema.sql > schema_temp.sql
+sed -e s/BOINC_DB_NAME/$BOINC_DB_NAME/g constraints.sql > constraints_temp.sql
+
+mysql < drop_temp.sql
+mysql < schema_temp.sql
+mysql < constraints_temp.sql
+
+rm -f drop_temp.sql schema_temp.sql constraints_temp.sql
