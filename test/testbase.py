@@ -662,6 +662,10 @@ class ResultMeter:
         if self.pid:
             atexit.register(self.stop)
             return
+        # re-open database
+        from Boinc import db_base, database
+        db_base.dbconnection = None
+        database.connect()
         prev_s = None
         while True:
             s = apply(func, args)

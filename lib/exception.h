@@ -26,6 +26,7 @@ using namespace std;
 using std::exception;
 #endif
 
+#include <exception>
 
 // BOINC Base Exception Class
 //

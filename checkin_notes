@@ -13020,5 +13020,8 @@ Karl 2004-04-04
 
     - simplified code in ProjectList
 
+    - fixed MySQL access concurrency bug that caused test scripts to fail
+      sometimes (re-open new database connection)
+
     test/
         testbase.py
