@@ -303,7 +303,6 @@ Function VerifyServiceExecutionRight()
     Dim oRecordRightPrompt
     Dim oRecordBDCPrompt
     Dim iFunctionReturnValue
-    Dim strGrantValue
 
     Set oRecordRightPrompt = Installer.CreateRecord(2)
     Set oRecordBDCPrompt = Installer.CreateRecord(2)
@@ -311,13 +310,7 @@ Function VerifyServiceExecutionRight()
     oRecordRightPrompt.IntegerData(1) = 25008
     oRecordBDCPrompt.IntegerData(1) = 25009
 
-    strGrantValue = "0"
 
-    iFunctionReturnValue = Message(msiMessageTypeUser Or vbExclamation Or vbYesNo, oRecordRightPrompt)
-    If ( msiMessageStatusYes = iFunctionReturnValue ) Then
-        strGrantValue = "1"    
-    End If
-    
     ''    
     '' Check if we are running on Windows NT 4.0 and we are either
     ''   a primary domain controller or backup domain controller
@@ -325,11 +318,15 @@ Function VerifyServiceExecutionRight()
     If ( 400 = Property("VersionNT") ) Then
         If ( 2 = Property("MsiNTProductType") ) Then
 		    Message msiMessageTypeUser Or vbExclamation Or vbOKOnly, oRecordBDCPrompt
-    	 	strGrantValue = "0"    
+    	 	Property("SERVICE_GRANTEXECUTIONRIGHT") = "0"    
         End If
-    End If  
+    Else  
+    	iFunctionReturnValue = Message(msiMessageTypeUser Or vbExclamation Or vbYesNo, oRecordRightPrompt)
+    	If ( msiMessageStatusYes = iFunctionReturnValue ) Then
+        	Property("SERVICE_GRANTEXECUTIONRIGHT") = "1"
+    	End If
+    End If
 
-    Property("SERVICE_GRANTEXECUTIONRIGHT") = strGrantValue    
 	VerifyServiceExecutionRight = msiDoActionStatusSuccess
 End Function
 

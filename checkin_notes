@@ -24523,3 +24523,10 @@ Rom    10 Feb 2005
         BOINCGUIApp.cpp
         BOINCTaskBar.cpp
         MainFrame.cpp
+
+Rom    10 Feb 2005
+    - Bug Fix: Reorder the logic for NT 4.0 domain controllers one more
+        time.  Damn variant variable types.
+
+    win_build/installerv2/redist/windows/
+        BOINC.vbs
