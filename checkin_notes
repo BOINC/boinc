@@ -8691,3 +8691,5 @@ David  23 Dec 2003
         http.C
     doc/
         (various)
+    lib/
+        filesys.C,h
