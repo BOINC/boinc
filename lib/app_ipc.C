@@ -68,7 +68,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
+#ifndef _WIN32
         "<shm_key>%d</shm_key>\n"
+#endif
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n",
         ai.wu_cpu_time,
@@ -76,7 +78,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.user_expavg_credit,
         ai.host_total_credit,
         ai.host_expavg_credit,
+#ifndef _WIN32
         ai.shm_key,
+#endif
         ai.checkpoint_period,
         ai.fraction_done_update_period
     );
@@ -104,7 +108,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
+#ifndef _WIN32
         else if (parse_int(buf, "<shm_key>", ai.shm_key)) continue;
+#endif
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
         else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);

@@ -93,7 +93,7 @@ static void		cleanup_shared_mem();
 static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t);
 static int		set_timer(double period);
 
-
+#ifndef _WIN32
 static bool core_client_is_running() {
     int retval;
     bool running = true;
@@ -107,6 +107,7 @@ static bool core_client_is_running() {
     }
     return running;
 }
+#endif
 
 // Standard BOINC APIs
 //

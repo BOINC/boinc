@@ -39,6 +39,8 @@ BOOL		win_loop_done;
 
 static bool visible = true;
 
+void KillWindow();
+
 void SetupPixelFormat(HDC hDC) {
    int nPixelFormat;
 
@@ -128,8 +130,12 @@ static void make_new_window(int mode) {
 	width = WindowRect.right-WindowRect.left;
 	height = WindowRect.bottom-WindowRect.top;
 
-	ShowWindow(hWnd, SW_SHOW);
-	SetFocus(hWnd);
+	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
+		ShowWindow(hWnd, SW_SHOW);
+		SetFocus(hWnd);
+	} else {
+		KillWindow();
+	}	
 	
     app_graphics_init();
 }
@@ -195,7 +201,7 @@ LRESULT CALLBACK WndProc(
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		if(current_graphics_mode == MODE_FULLSCREEN) {
-		    KillWindow();
+			SetMode(MODE_HIDE_GRAPHICS);
 			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 		}
 		return 0;
@@ -204,7 +210,7 @@ LRESULT CALLBACK WndProc(
 			POINT cPos;
 			GetCursorPos(&cPos);
 			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-    		    KillWindow();
+			    SetMode(MODE_HIDE_GRAPHICS);
 				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 			}
 		}
@@ -279,11 +285,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
         if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
             switch (msg) {
             case GRAPHICS_MSG_SET_MODE:
-                if (new_mode == MODE_HIDE_GRAPHICS) {
-                    KillWindow();
-                } else {
-                    SetMode(new_mode);
-                }
+                SetMode(new_mode);
                 break;
             case GRAPHICS_MSG_REREAD_PREFS:
 				// only reread graphics prefs if we have a window open

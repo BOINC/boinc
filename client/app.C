@@ -207,7 +207,9 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     aid.host_expavg_credit = wup->project->host_expavg_credit;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+#ifndef _WIN32
     aid.shm_key = 0;
+#endif
     // when writing the wu_cpu_time to the app init file
     // use the total cpu time from the start of the session
     // (starting_cpu_time) rather than the total cpu time

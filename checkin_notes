@@ -10956,3 +10956,19 @@ David  Mar 26 2004
     html/inc/
         forum.inc
         util.inc
+
+Rom   Mar 26 2004
+    - Fix a minor bug where after the screen saver shutdown BOINC would fire-up
+        a new SAH Window
+    - Fix a few build breaks in the Windows CC
+    - Tag for a 2.31 release.
+
+    api/
+        boinc_api.c
+        windows_opengl.c
+    client/
+        app.c
+    client/win/
+        wingui_mainwindow.cpp
+    lib/
+        app_ipc.c

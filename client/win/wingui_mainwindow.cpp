@@ -48,7 +48,7 @@ BOOL CMyApp::InitInstance()
             BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
             BOINC_DIAG_TRACETOSTDERR;
 
-        boinc_init_diag(dwDiagnosticsFlags);
+        boinc_init_diagnostics(dwDiagnosticsFlags);
     }
     catch (boinc_runtime_base_exception e)
     {
