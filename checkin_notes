@@ -7475,8 +7475,9 @@ David  5 Nov 2003
 		verify that the corresponding result is in the right state
 		(RESULT_FILES_DOWNLOADED, with got_server_ack and ready_to_report false)
 	- when parse a RESULT in state file,
-		make sure it's consistent: in particular, if got_server_ack or ready_to_report
-		is true, the state must be RESULT_FILES_UPLOADED
+		make sure it's consistent: in particular,
+        if got_server_ack or ready_to_report is true,
+        the state must be RESULT_FILES_UPLOADED
 	- CLIENT_STATE::detach_project(): delete all the project's FILE_INFOs
 		(reset_project() doesn't do this)
 
@@ -7486,3 +7487,12 @@ David  5 Nov 2003
 		client_types.C
 	lib/
 		error_numbers.h
+
+David  5 Nov 2003
+    - improve clarity of messages about prefs
+        (e.g. say "your defaults" instead of just "defaults")
+
+    client/
+        client_state.C
+        client_types.C
+        prefs.C

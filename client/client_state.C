@@ -235,7 +235,7 @@ int CLIENT_STATE::init() {
     //
     retval = global_prefs.parse_file(host_venue);
     if (retval) {
-        msg_printf(NULL, MSG_INFO, "Using default preferences");
+        msg_printf(NULL, MSG_INFO, "No general preferences found - using BOINC defaults");
     }
     install_global_prefs();
 
