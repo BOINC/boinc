@@ -74,8 +74,6 @@ void PROJECT::init() {
     min_rpc_time = 0;
     min_report_min_rpc_time = 0;
     master_fetch_failures = 0;
-    resource_debt = 0;
-    debt_order = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
@@ -88,7 +86,6 @@ void PROJECT::init() {
     send_file_list = false;
     deletion_policy_priority = false;
     deletion_policy_expire = false;
-    checked = false;
 }
 
 PROJECT::~PROJECT() {

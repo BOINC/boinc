@@ -232,8 +232,10 @@ bool CLIENT_STATE::have_free_cpu() {
 //
 void CLIENT_STATE::assign_results_to_projects() {
 
-    // Before assigning a result to an active task, check if that result is a file xfer
-    // this will be appearent by the lack of files associated with the workunit's app
+    // Before assigning a result to an active task,
+    // check if that result is a file xfer;
+    // this will be appearent by the lack of files
+    // associated with the workunit's app
     // Running this function will find these results and mark them as completed.
     //
     handle_file_xfer_apps();
@@ -246,9 +248,12 @@ void CLIENT_STATE::assign_results_to_projects() {
             p->next_runnable_result = atp->result;
             continue;
         }
+
         // any next_runnable_result assigned so far should have an active task
+        //
         ACTIVE_TASK *next_atp = lookup_active_task_by_result(p->next_runnable_result);
         //assert(next_atp != NULL);
+
         if ((next_atp->state == PROCESS_UNINITIALIZED
             && atp->state == PROCESS_RUNNING) ||
             (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
@@ -284,8 +289,8 @@ void CLIENT_STATE::assign_results_to_projects() {
 }
 
 // Schedule an active task for the project with the largest anticipated debt
-// among those that have a runnable result. Return true iff a task was
-// scheduled.
+// among those that have a runnable result.
+// Return true iff a task was scheduled.
 //
 bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     PROJECT *best_project = NULL;
@@ -327,9 +332,9 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 
 // Schedule active tasks to be run and preempted.
 //
-// This is called in the do_something() loop
+// This is called every second in the do_something() loop
 // (with must_reschedule=false)
-// and whenever all the files for a result finish downloading
+// and whenever all the input files for a result finish downloading
 // (with must_reschedule=true)
 //
 bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
@@ -344,7 +349,9 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double vm_limit;
     unsigned int i;
 
-    elapsed_time = time(NULL) - cpu_sched_last_time;
+    // Reschedule every cpu_sched_period seconds or as needed
+    //
+    elapsed_time = time(0) - cpu_sched_last_time;
     if ((elapsed_time < cpu_sched_period
          && !have_free_cpu()
          && !must_reschedule)
@@ -355,9 +362,12 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     }
 
     // tell app doing screensaver (fullscreen) graphics to stop
+    // TODO: this interrupts the graphics, even if it's
+    // the only app running.  DO THIS A DIFFERENT WAY
+    //
     ss_logic.reset();
 
-    // finish work accounting for active tasks, reset temporary fields
+    // do work accounting for active tasks, reset temporary fields
     //
     for (i=0; i < active_tasks.active_tasks.size(); ++i) {
         atp = active_tasks.active_tasks[i];

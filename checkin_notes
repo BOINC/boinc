@@ -16600,3 +16600,10 @@ David  21 Aug 2004
         feeder.C
         sched_send.C
         sched_shmem.h
+
+David  21 Aug 2004
+    - removed old commented-out code
+
+    client/
+        client_types.C,h
+        cs_apps.C

@@ -194,6 +194,7 @@ public:
     
     // the following fields used by CPU scheduler
     double debt;                // how much CPU time we owe this project (secs)
+
     // the following items are transient; not saved in state file
     double anticipated_debt;    // expected debt by the end of the preemption period
     double work_done_this_period; // how much CPU time has been devoted to this
@@ -202,11 +203,9 @@ public:
     
     // the following used by work-fetch algorithm
     double work_request;        // how much work a project needs (secs)
-    // the following soon to be deprecated
-    double resource_debt;       // How much CPU time we owe this project
-                                // (arbitrary scale)
-    int debt_order;             // 0 == largest debt
-    bool checked;                // used for flagging
+
+    // the following used in disk-space management
+    bool checked;
 
     PROJECT();
     ~PROJECT();
