@@ -22130,6 +22130,10 @@ Rom    6 Jan 2005
         framework to do this, but the call to wxProcess::Exists causes
         an assert on Windows if the process doesn't exist.  And sometimes
         crashes in a release build.
+    - Bug Fix: When syncing the views cache make sure there is at least
+        one item to syncronize, otherwise we'll reference a NULL pointer
+        and blow up.  This fixes the crashing bug when you startup and
+        shutdown the core client in the background.
 
     client/win/
         wingui_mainwindow.cpp

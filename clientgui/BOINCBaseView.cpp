@@ -229,14 +229,15 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
                     }
                 }
 
-                m_pListPane->SetItemCount(iDocCount);
+                m_pListPane->SetItemCount( iDocCount );
             }
         }
 
-        SyncronizeCache();
+        if ( iCacheCount )
+            SyncronizeCache();
 
-        if (EnsureLastItemVisible())
-            m_pListPane->EnsureVisible(iDocCount);
+        if ( EnsureLastItemVisible() )
+            m_pListPane->EnsureVisible( iDocCount );
 
         m_bProcessingListRenderEvent = false;
     }
