@@ -75,13 +75,15 @@ int boinc_init_diag( int dwDiagnosticsFlags ) {
 
     // Archive any old stderr.txt and stdout.txt files, if requested
     if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_ARCHIVESTDERR ) {
-	    if ( 0 != boinc_copy( BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD ) )
-		    BOINCFILEERROR( "Failed to archive existing stderr.txt file" );
+        if (boinc_copy( BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD)) {
+		    //BOINCFILEERROR( "Failed to archive existing stderr.txt file" );
+        }
     }
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_ARCHIVESTDOUT ) {
-	    if ( 0 != boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD ) )
-		    BOINCFILEERROR( "Failed to archive existing stdout.txt file" );
+    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_ARCHIVESTDOUT) {
+        if (boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD )) {
+		    //BOINCFILEERROR( "Failed to archive existing stdout.txt file" );
+        }
     }
 
     

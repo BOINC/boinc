@@ -10874,3 +10874,13 @@ David  Mar 24 2004
         diagnostics.C,h
         error_numbers.h
         sighandle.C,h (removed)
+
+David  Mar 24 2004
+	- get the above stuff working on Windows
+
+	client/
+		app.C
+		cs_apps.C
+	lib/
+		diagnostics.C,h
+		error_numbers.h

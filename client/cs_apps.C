@@ -226,8 +226,9 @@ bool CLIENT_STATE::start_apps() {
     RESULT* rp;
     int open_slot;
 
-    while ((open_slot = active_tasks.get_free_slot(nslots)) >= 0 &&
-        (rp = next_result_to_start()) != NULL
+    while ((open_slot = active_tasks.get_free_slot(nslots)) >= 0
+        && (rp = next_result_to_start())
+        && input_files_available(rp)
     ){
         int retval;
         // Start the application to compute a result if:

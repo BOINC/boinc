@@ -67,6 +67,9 @@ void	boinc_info_release(const char *pszFormat, ...);
 
 #endif // _DEBUG
 
+#else   // non-Win starts here
+extern void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
+extern void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
 #endif // _WIN32
 
 
@@ -120,10 +123,8 @@ void	boinc_info_release(const char *pszFormat, ...);
 //
 extern int boinc_init_diag(int);
 extern int boinc_finish_diag();
-
 extern int boinc_install_signal_handlers();
-extern void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
-extern void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
+
 
 // Diagnostic Flags
 //

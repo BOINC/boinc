@@ -1120,8 +1120,9 @@ int ACTIVE_TASK_SET::restart_tasks() {
                 *(atp->result), ERR_FILE_MISSING,
                 "One or more missing files"
             );
-            active_tasks.erase(iter);
+            iter = active_tasks.erase(iter);
             delete atp;
+            continue;
         }
         result->is_active = true;
         msg_printf(atp->wup->project, MSG_INFO,
@@ -1138,7 +1139,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
                 *(atp->result), retval,
                 "Couldn't restart the app for this result: %d", retval
             );
-            active_tasks.erase(iter);
+            iter = active_tasks.erase(iter);
             delete atp;
         } else {
             iter++;
