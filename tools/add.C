@@ -35,6 +35,12 @@
 //      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
 //      create DB record
 //      copy exec to data directory
+// add core_version
+//      -platform_name x -version n
+//      [ -message 'foo' ] [ -message_priority 'foo']
+//      -download_dir d -download_url e
+//      -exec_dir b
+//      -exec_files file1
 // add user -email_addr x -name y -authenticator a
 //      [ -global_prefs_file y ]
 
