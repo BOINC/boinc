@@ -61,7 +61,7 @@
 #include "sched_shmem.h"
 
 #define RESULTS_PER_ENUM    100
-#define TRIGGER_FILENAME    "stop_server"
+#define TRIGGER_FILENAME    "feeder_trigger"
 
 CONFIG config;
 
@@ -84,6 +84,8 @@ int check_trigger(SCHED_SHMEM* ssp) {
         fprintf(stderr, "feeder: unknown command in trigger file: %s\n", buf);
         exit(0);
     }
+    unlink(TRIGGER_FILENAME);
+
     return 0;
 }
 
