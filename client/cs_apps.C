@@ -127,7 +127,7 @@ bool CLIENT_STATE::handle_running_apps() {
 bool CLIENT_STATE::input_files_available(RESULT* rp) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
-    unsigned int i;es
+    unsigned int i;
     APP_VERSION* avp;
     avp = wup->avp;
     for (i=0; i<avp->app_files.size(); i++) {

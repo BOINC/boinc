@@ -413,7 +413,7 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
                 atp->result->exit_status = atp->exit_status;
-		atp->result->active_task_state = PROCESS_EXITED;
+                atp->result->active_task_state = PROCESS_EXITED;
                 CloseHandle(atp->pid_handle);
                 CloseHandle(atp->thread_handle);
                 atp->read_stderr_file();
@@ -443,13 +443,13 @@ bool ACTIVE_TASK_SET::poll() {
         atp->state = PROCESS_EXITED;
         atp->exit_status = WEXITSTATUS(stat);
         atp->result->exit_status = atp->exit_status;
-	atp->result->active_task_state = PROCESS_EXITED;
+        atp->result->active_task_state = PROCESS_EXITED;
         if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
     } else if (WIFSIGNALED(stat)) {
         atp->state = PROCESS_WAS_SIGNALED;
         atp->signal = WTERMSIG(stat);
         atp->result->signal = atp->signal;
-	atp->result->active_task_state = PROCESS_WAS_SIGNALED;
+        atp->result->active_task_state = PROCESS_WAS_SIGNALED;
         if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
     } else {
         atp->state = PROCESS_EXIT_UNKNOWN;
@@ -457,7 +457,7 @@ bool ACTIVE_TASK_SET::poll() {
     }
 #endif
 
-	atp->read_stderr_file();
+    atp->read_stderr_file();
     clean_out_dir(atp->slot_dir);
 
     return true;
@@ -475,9 +475,9 @@ bool ACTIVE_TASK::read_stderr_file() {
         n = fread(result->stderr_out, 1, STDERR_MAX_LEN, f);
         result->stderr_out[n] = 0;
         fclose(f);
-		return true;
+            return true;
     }
-	return false;
+    return false;
 }
 
 // Find the ACTIVE_TASK in the current set with the matching PID
@@ -629,9 +629,9 @@ bool ACTIVE_TASK::check_app_status_files() {
 // active task, based on current reported CPU time and fraction done
 //
 double ACTIVE_TASK::est_time_to_completion() {
-	if(fraction_done <= 0 || fraction_done > 1) {
-		return -1;
-	}
+    if(fraction_done <= 0 || fraction_done > 1) {
+        return -1;
+    }
     return (current_cpu_time / fraction_done) - current_cpu_time;
 }
 

@@ -57,13 +57,13 @@ CLIENT_STATE::CLIENT_STATE() {
     max_transfer_rate = 9999999;
     max_bytes = 0;
     user_idle = true;
-	suspend_requested = false;
+    suspend_requested = false;
 }
 
 int CLIENT_STATE::init() {
     int retval;
 
-    srand(clock());
+    srand(time(NULL));
 
     // TODO: set this to actual # of CPUs (or less, depending on prefs?)
     //
@@ -216,9 +216,9 @@ int CLIENT_STATE::check_suspend_activities() {
     if (!user_idle) {
         should_suspend = true;
     }
-	if(suspend_requested) {
+    if(suspend_requested) {
         should_suspend = true;
-	}
+    }
 
     if (should_suspend) {
         if (!activities_suspended) {
@@ -266,7 +266,7 @@ bool CLIENT_STATE::do_something() {
         x = file_xfers->poll();
         if (x) {action=true; print_log("file_xfers::poll\n"); }
 
-       x = active_tasks.poll();
+        x = active_tasks.poll();
         if (x) {action=true; print_log("active_tasks::poll\n"); }
 
         x = active_tasks.poll_time();
@@ -411,6 +411,10 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<version>")) {
             // could put logic here to detect incompatible state files
             // after core client update
+        } else if (match_tag(buf, "<core_client_major_version>")) {
+            // TODO: handle old client state file if different version
+        } else if (match_tag(buf, "<core_client_minor_version>")) {
+            // TODO: handle old client state file if different version
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
             retval = ERR_XML_PARSE;
@@ -749,16 +753,13 @@ bool CLIENT_STATE::garbage_collect() {
         } else {
             // See if the files for this result's workunit had
             // any errors (MD5, RSA, etc)
-	  if(rp->wup->had_failure(failnum))
-            {
-               
-	      // If we don't already have an error for this file
-	      if (rp->state < RESULT_READY_TO_ACK) {
-		report_project_error(*rp,failnum,"The work_unit corresponding to this result had an error");
-	      }
-	      
-	    } else {
-	      rp->wup->ref_cnt++;
+            if(rp->wup->had_failure(failnum)) {
+                // If we don't already have an error for this file
+                if (rp->state < RESULT_READY_TO_ACK) {
+                    report_project_error(*rp,failnum,"The work_unit corresponding to this result had an error");
+                }
+            } else {
+                rp->wup->ref_cnt++;
             }
             for (i=0; i<rp->output_files.size(); i++) {
                 // If one of the file infos had a failure,
@@ -766,11 +767,10 @@ bool CLIENT_STATE::garbage_collect() {
                 // The result, workunits, and file infos
                 // will be cleaned up after the server is notified
                 //
-	      if(rp->output_files[i].file_info->had_failure(failnum))
-		{
-		  if (rp->state < RESULT_READY_TO_ACK) {
-		    report_project_error(*rp,failnum,"The outputfile corresponding to this result had an error");
-		  }
+                if(rp->output_files[i].file_info->had_failure(failnum)) {
+                    if (rp->state < RESULT_READY_TO_ACK) {
+                        report_project_error(*rp,failnum,"The outputfile corresponding to this result had an error");
+                    }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
                 }

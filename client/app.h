@@ -78,7 +78,7 @@ public:
 
     bool check_app_status_files();
     double est_time_to_completion();
-	bool read_stderr_file();
+    bool read_stderr_file();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);
