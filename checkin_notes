@@ -2196,3 +2196,26 @@ David  Oct 18, 2002
     sched/
         feeder.C
         make_work.C
+
+David  Oct 20, 2002
+    - Pin down exactly what credit is, both in the docs and the code
+    - Show credit in admin PHP pages.
+    - NOTE: multi-word titles (e.g. in admin pages) should
+        have only the first letter capitalized
+
+    todo
+    client/
+        client_state.C
+        speed_stats.C
+    doc/
+        credit.html (new)
+        participation.html
+        validation.html
+    html_ops/
+        db.inc
+        db.php
+        index.html
+        util.inc
+    sched/
+        handle_request.C
+        validate.C

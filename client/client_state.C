@@ -167,13 +167,13 @@ int CLIENT_STATE::time_tests() {
     }
     host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
 #else
-    host_info.p_fpops = 1000000000;
-    host_info.p_iops = 1000000000;
-    host_info.p_membw = 1000000000;
-    host_info.m_cache = 1000000;
+    host_info.p_fpops = 1e9;
+    host_info.p_iops = 1e9;
+    host_info.p_membw = 4e9;
+    host_info.m_cache = 1e6;
 #endif
 
-    host_info.p_calculated = (double)time(0); //set time calculated
+    host_info.p_calculated = (double)time(0);
     return 0;
 }
 

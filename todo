@@ -1,3 +1,57 @@
+CPU benchmarking
+    This should be done by a pseudo-application
+    rather than by the core client.
+    This would eliminate the GUI-starvation problem,
+    and would make it possible to have architecture-specific
+    benchmarking programs (e.g. for graphics coprocessor)
+    or project-specific programs.
+
+Testing framework
+    better mechanisms to model server/client/communication failure
+    better mechanisms to simulate large load
+    do client/server on separate hosts?
+
+Add "garbage-collect state" fields to WU, result
+    whether deletion of files is OK, is done
+
+investigate binary diff mechanism for updating persistent files
+
+use FTP instead of HTTP for file xfer??
+    measure speed diff
+
+catch signals in applications (API) to return better info
+    in case of crash (seg fault addr, etc.)
+
+Delete files if needed to honor disk usage constraint
+    inform user if this happens
+
+implement max bytes/sec network preferences
+
+Local scheduling
+    more intelligent decision about when/what to work on
+    - monitor VM situation, run small-footprint programs
+        even if user active
+    - monitor network usage, do net xfers if network idle
+        even if user active
+
+The following would require client to accept connections:
+    - clients can act as proxy scheduling server
+    - exiting client can pass work to another client
+    - client can transfer files to other clients
+
+User/host "reputation"
+    keep track of % results bad, %results claimed > 2x granted credit
+    both per-host and per-user.
+    Make these visible to project, to that user (only)
+
+Storage validation
+    periodic rehash of persistent files;
+    compare results between hosts
+
+Include account ID in URL for file xfers
+    This would let you verify network xfers by scanning web logs
+    (could use that to give credit for xfers)
+
 Global preferences
     implement disk usage prefs
     time-of-day prefs?
@@ -35,8 +89,8 @@ Messages from core client
     decide what messages should be shown to user, and how
     log file?  GUI?  dialog?
 
-Host performance measurement
-    review CPU tests - do they do what we want?
+CPU benchmarking
+    review CPU benchmarks - do they do what we want?
     what to do when tests show hardware problem?
     How should we weight factors for credit?
     run CPU tests unobtrusively, periodically

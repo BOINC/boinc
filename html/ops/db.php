@@ -126,7 +126,7 @@
     if (strlen($nresults)) {
         $entries_to_show = $nresults;
     } else {
-        $entries_to_show = 5;
+        $entries_to_show = 10;
     }
 
     if (strlen($show_more)) {
@@ -159,47 +159,48 @@
                 );
         }
     } else if ($show=="workunit") {
-        print_text_field( "Workunits in Batch Number:", "batch", $batch );
-        print_text_field( "Number of Results Done:", "nres_done", $nres_done );
-        print_text_field( "Number of Results Failed:", "nres_fail", $nres_fail );
-        print_text_field( "Number of Results Unsent:", "nres_unsent", $nres_unsent );
-        print_checkbox("Show XML Docs", "show_xml_docs", $show_xml_docs);
+        print_text_field( "Workunits in batch number:", "batch", $batch );
+        print_text_field( "Number of results done:", "nres_done", $nres_done );
+        print_text_field( "Number of results failed:", "nres_fail", $nres_fail );
+        print_text_field( "Number of results unsent:", "nres_unsent", $nres_unsent );
+        print_checkbox("Show XML fields", "show_xml_docs", $show_xml_docs);
     } else if ($show=="result") {
-        printf( "Result State: <select name=result_state>\n"
-                . "<option value=\"0\"" . ($rstate == 0 ? "selected" : "") . "> All\n"
-            );
+        printf(
+            "Result State: <select name=result_state>\n"
+            . "<option value=\"0\"" . ($rstate == 0 ? "selected" : "") . "> All\n"
+        );
         for( $i=1;$i<=6;$i++ ) {
             printf( "<option value=\"$i\"" . ($rstate == $i ? "selected" : "") . ">" . res_state_string($i) . "\n" );
         }
         printf( "</select>\n<p>\n" );
-        print_text_field( "Result in Batch Number:", "batch", $batch );
-        print_text_field( "Result has Exit Code:", "exit_status", $exit_status );
+        print_text_field( "Result in batch number:", "batch", $batch );
+        print_text_field( "Result has exit code:", "exit_status", $exit_status );
 
-        print_checkbox("Show XML Docs", "show_xml_docs", $show_xml_docs);
-        print_checkbox("Show Result stderr", "show_stderr", $show_stderr);
-        print_checkbox("Show Times", "show_times", $show_times);
+        print_checkbox("Show XML fields", "show_xml_docs", $show_xml_docs);
+        print_checkbox("Show result stderr", "show_stderr", $show_stderr);
+        print_checkbox("Show times", "show_times", $show_times);
         printf( "Sort by:<br>\n" );
         print_radio_button("None", "sort_by", "0", $sort_by == "0");
-        print_radio_button("Creation Time", "sort_by", "1", $sort_by == "1");
-        print_radio_button("Sent Time", "sort_by", "2", $sort_by == "2");
-        print_radio_button("Received Time", "sort_by", "3", $sort_by == 3);
+        print_radio_button("Creation time", "sort_by", "1", $sort_by == "1");
+        print_radio_button("Sent time", "sort_by", "2", $sort_by == "2");
+        print_radio_button("Received time", "sort_by", "3", $sort_by == 3);
         printf("<br>\n");
     } else if ($show=="team") {
     } else if ($show=="user") {
     } else {
-        echo "<br><a href=db.php?show=platform>Platform</a>\n";
-        echo "<br><a href=db.php?show=app>App</a>\n";
-        echo "<br><a href=db.php?show=app_version>App Version</a>\n";
-        echo "<br><a href=db.php?show=host>Host</a>\n";
-        echo "<br><a href=db.php?show=workunit>Workunit</a>\n";
-        echo "<br><a href=db.php?show=result>Result</a>\n";
-        echo "<br><a href=db.php?show=team>Team</a>\n";
-        echo "<br><a href=db.php?show=user>User</a>\n";
+        echo "<br><a href=db.php?show=platform>Platforms</a>\n";
+        echo "<br><a href=db.php?show=app>Apps</a>\n";
+        echo "<br><a href=db.php?show=app_version>App versions</a>\n";
+        echo "<br><a href=db.php?show=host>Hosts</a>\n";
+        echo "<br><a href=db.php?show=workunit>Workunits</a>\n";
+        echo "<br><a href=db.php?show=result>Results</a>\n";
+        echo "<br><a href=db.php?show=team>Teams</a>\n";
+        echo "<br><a href=db.php?show=user>Users</a>\n";
         print_page_end();
         return;
     }
 
-    print_text_field( "Number of Entries to Show:", "nresults", $entries_to_show );
+    print_text_field( "Number of entries to show:", "nresults", $entries_to_show );
     printf( "<input type=hidden name=last_pos value=\"" . ($entries_to_show+$start_at) . "\">\n" );
     print_form_end();
 

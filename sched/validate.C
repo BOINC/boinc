@@ -108,9 +108,9 @@ bool do_validate_scan(APP& app, int min_quorum) {
 
     wu.appid = app.id;
     while(!db_workunit_enum_app_need_validate(wu)) {
-        printf("validating WU %s\n", wu.name);
         found = true;
         if (wu.canonical_resultid) {
+            printf("validating WU %s; already have canonical result\n", wu.name);
 
             // Here if WU already has a canonical result.
             // Get unchecked results and see if they match the canonical result
@@ -138,17 +138,21 @@ bool do_validate_scan(APP& app, int min_quorum) {
                 } else {
                     if (match) {
                         result.validate_state = VALIDATE_STATE_VALID;
+                        result.granted_credit = wu.canonical_credit;
+                        printf("setting result %d to valid; credit %f\n", result.id, result.granted_credit);
                     } else {
                         result.validate_state = VALIDATE_STATE_INVALID;
+                        printf("setting result %d to invalid\n", result.id);
                     }
                 }
-                printf("setting result %d to %d\n", result.id, result.validate_state);
                 retval = db_result_update(result);
-                retval = grant_credit(result, wu.canonical_credit);
+                retval = grant_credit(result, result.granted_credit);
             }
         } else {
             // Here if WU doesn't have a canonical result yet.
             // Try to get one
+
+            printf("validating WU %s; no canonical result\n", wu.name);
 
             vector<RESULT> results;
             result.workunitid = wu.id;
@@ -161,6 +165,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
             if (results.size() >= (unsigned int)min_quorum) {
                 retval = check_set(results, canonicalid, credit);
                 if (!retval && canonicalid) {
+                    printf("found a canonical result\n");
                     wu.canonical_resultid = canonicalid;
                     wu.canonical_credit = credit;
                     for (i=0; i<results.size(); i++) {
@@ -173,7 +178,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
                             }
                             results[i].granted_credit = credit;
                         }
-                        printf("updating result %d to %d\n", results[i].id, results[i].validate_state);
+                        printf("updating result %d to %d; credit %f\n", results[i].id, results[i].validate_state, credit);
                         retval = db_result_update(results[i]);
                         if (retval) {
                             fprintf(stderr,
@@ -218,6 +223,7 @@ int main_loop() {
         did_something = do_validate_scan(app, min_quorum);
         if (!did_something) {
             printf("sleeping\n");
+            fflush(stdout);
             sleep(1);
         }
     }

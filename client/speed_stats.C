@@ -51,20 +51,20 @@ void run_test_suite(double num_secs_per_test) {
     printf(
         "Running tests.  This will take about %.1lf seconds.\n\n",
         num_secs_per_test*3
-   );
+    );
     
     printf(
         "Speed: %.5lf million flops/sec\n\n",
         run_double_prec_test(num_secs_per_test)/1000000
-   );
+    );
     printf(
         "Speed: %.5lf million integer ops/sec\n\n",
         run_int_test(num_secs_per_test)/1000000
-   );
+    );
     printf(
         "Speed: %.5lf MB/sec\n\n",
         12*sizeof(double)*run_mem_bandwidth_test(num_secs_per_test)/1000000
-   );
+    );
 }
 
 #endif
@@ -361,7 +361,7 @@ clock_t double_flop_test(int iterations, int print_debug) {
     
     if (print_debug) {
         for (i=0;i<NUM_DOUBLES;i++) {
-            printf("%3d: %.50lf\n", i, a[i]);
+            printf("%3d: %.50f\n", i, a[i]);
         }
     }
     

@@ -1,28 +1,12 @@
-<title>Accounting and result validation</title>
+<title>Validation of results and credit</title>
 <body bgcolor=ffffff>
-<h2>Accounting and result validation</h2>
+<h2>Validation of results and credit</h2>
 <p>
-Participants are given <b>credit</b> for the computations performed
-by their hosts.
-These credits are used to generate web-site "leaderboards" showing
-individuals, teams, and categories (countries, CPU types, etc.)
-ranked by credit.
-It is expected that some users will attempt to get
-undeserved credit.
-<p>
-BOINC's unit of credit is CPU time times a weighted average
-of FP and integer speed and memory bandwidth.
-In principle it should reflect network transfer and disk storage as well.
-But it's hard to verify these activities,
-so for now they aren't included.
-<p>
-The core client reports the CPU time and the
-CPU metrics on which credit is based.
-These numbers can't be trusted in general.
-<p>
+Communication from the core client can easily be altered or forged.
+Some users will attempt to get undeserved credit
+by falsifying their CPU metrics or CPU times.
 Output files may be wrong.
-This can happen because of hardware
-failures, or because of tampering.
+This can result from tampering or hardware failures.
 <p>
 Both problems - credit-cheating and wrong results - can be addressed
 by <b>redundant computing</b> and <b>result validation</b>.

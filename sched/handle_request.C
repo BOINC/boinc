@@ -203,9 +203,7 @@ new_host:
 //
 static void compute_credit_rating(HOST& host) {
     host.credit_per_cpu_sec = 
-        host.p_fpops
-        + host.p_iops
-        + 0.1*host.p_membw;
+        (host.p_fpops/1e9 + host.p_iops/1e9 + host.p_membw/4e9)/3;
 }
 
 // Update host record based on request.
