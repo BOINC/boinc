@@ -2574,7 +2574,7 @@ Eric   Dec 8, 2002
         scheduler_op.C
 
 Hamid  Dec 9,2002	
-    - added field client_state to result, which is what is reported back to the sched server as the state of the client in regards to this result when the RPC was made
+    - added field client_state to result
 
     - added some more functionality to repor_project_error()
       It now adds the following info to stderr_out of the result:
@@ -2597,7 +2597,12 @@ Hamid  Dec 9,2002
 	"<couldnt_start>%d</couldnt_start>\n"
 	
 
-    - The error mechanism right now is such that any failures regarding file_infos (download, upload or whatever) are recorded in the status of the file_infos and then garbage collect called report_project_error. However errors regarding starting and ending active tasks are reported from app.C and cs_apps.C.
+    - The error mechanism right now is such that any failures
+    regarding file_infos (download, upload or whatever)
+    are recorded in the status of the file_infos and then garbage collect
+    called report_project_error.
+    However errors regarding starting and ending active tasks
+    are reported from app.C and cs_apps.C.
 
 Seth  Dec 9, 2002
 	- time tests run in their own thread when needed, if they are global state
@@ -2692,7 +2697,8 @@ David   Dec 17 2002
 Seth Dec 18 2002
 	- net_xfers in windows will get permission before connecting if needed
 	- added global pref for whether or not to hang up the modem if BOINC dialed
-	- client state saves global prefs confirm_before_connecting and hangup_if_dialed locally for now
+	- client state saves global prefs confirm_before_connecting
+        and hangup_if_dialed locally for now
 	- wingui split into different files, bug fixes
 
 	client/
@@ -2747,14 +2753,16 @@ David   Dec 19 2002
 
 Hamid   Dec 19 2002
 
-    -Edited make_work.C, now when a new work_unit is created, it's input files are copied along with it, with some random numbers added to the end, so for each new work_unit there are a set of associated new input files
+    -Edited make_work.C, now when a new work_unit is created,
+        it's input files are copied along with it,
+        with some random numbers added to the end,
+        so for each new work_unit there are a set of associated new input files
 
     -fixed a little bug in file_deleter
 
     -note: strtok() changes the original string passed to it, kind of dangerous to use
  
     -from parse.h : replace_element() is now in use ( I used it for make_work.C)
-
 
 David  Dec 19 2002
     - added -add_new_project option to command line version
@@ -3223,4 +3231,22 @@ David  Feb 12 2003
         make_project.php
         make_project_ap.php (new)
         make_project_sah.php (new)
+        test.inc
+
+David  Feb 14 2003
+    - Added "long_name" field to project table (display this in GUI)
+        Can have spaces, special chars etc.
+    - fixed bugs in prefs updating
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_user/
+        prefs.inc
+    sched/
+        server_types.C
+    test/
+        make_project_ap.php
+        make_project_sah.php
         test.inc
