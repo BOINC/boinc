@@ -69,7 +69,7 @@ while (<ARGV>) {
             }
             $nlines = 0;
         }
-        my $n = sprintf("%05d", $.);
+        my $n = sprintf("%05d", $nlines);
                 
         if ($html) {
             s%.*debug.*%<font color=grey>$&</font>%i;
