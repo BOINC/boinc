@@ -57,6 +57,9 @@ all-local: client-bin-gz
 client-bin: @CLIENT_BIN_FILENAME@.gz
 client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 
+win/win_config.h: $(top_srcdir)/config.h
+	grep '#define.*VERSION' $^ > $@
+
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $^
