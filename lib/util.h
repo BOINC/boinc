@@ -26,6 +26,7 @@ extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
 extern double drand();
 extern void c2x(char *what);
+extern void strip_whitespace(char *str);
 extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
 extern void safe_strncpy(char*, char*, int);

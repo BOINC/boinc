@@ -248,6 +248,18 @@ void c2x(char *what) {
     strcpy(what, buf);
 }
 
+void strip_whitespace(char *str) {
+    int read_pos, write_pos;
+    read_pos = write_pos = 0;
+    while(str[read_pos] != 0) {
+        if (!isspace(str[read_pos])) {
+            str[write_pos] = str[read_pos];
+            write_pos++;
+        }
+        read_pos++;
+    }
+}
+
 void unescape_url(char *url) {
     register int x,y;
     
