@@ -446,7 +446,9 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 }
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
-	MSG			msg;		// Windows Message Structure
+	MSG					msg;		// Windows Message Structure
+	clock_t				next_redraw=0;
+	GRAPHICS_INFO		gfx_info = *(GRAPHICS_INFO*)gi;
 
 	fullscreen=FALSE;							// Windowed Mode
 
@@ -455,30 +457,29 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
 
 	// Create Our OpenGL Window
-	if (!CreateGLWindow("BOINC App Window",((GRAPHICS_INFO*)gi)->xsize,
-		((GRAPHICS_INFO*)gi)->ysize,16,false)) {
+	if (!CreateGLWindow("BOINC App Window",gfx_info.xsize,
+		gfx_info.ysize,16,false)) {
 		return -1;					// Quit this thread if window was not created
 	}
 
 	// Initialize the graphics refresh timer
-	gfx_timer = SetTimer(NULL, GFX_TIMER_ID,
-		(int)(((GRAPHICS_INFO*)gi)->refresh_period*1000),
+	gfx_timer = SetTimer(NULL, GFX_TIMER_ID, (int)(gfx_info.refresh_period*1000),
 		(TIMERPROC)NULL);
 	cur_gfx_mode = MODE_NO_GRAPHICS;
 	using_opengl = true;
-	ChangeMode(MODE_WINDOW);
 
 	while(!win_loop_done)					// Loop That Runs While done=FALSE
 	{
 		if (GetMessage(&msg,NULL,0,0)) {	// Is There A Message Waiting?
 			if (msg.message==WM_TIMER) {
-				if (active) {	// only draw if the window is visible
+				if (active && (clock() > next_redraw)) {	// only draw if the window is visible and enough time has passed
 					// Draw The Scene
 					RECT win_rect;
 					GetWindowRect(hWnd,&win_rect);
 					app_render(win_rect.right-win_rect.left,win_rect.bottom-win_rect.top,
 						time(NULL));
 					SwapBuffers(hDC);        // This seems to take lots of CPU time
+					next_redraw = clock()+(int)(gfx_info.refresh_period*CLOCKS_PER_SEC);
 				}
 			} else {
 				TranslateMessage(&msg);			// Translate The Message
