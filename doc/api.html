@@ -1,30 +1,173 @@
-<h2>The BOINC application library</h2>
+<h2>The BOINC Application Programming Interface</h2>
 
+<h3>Porting Your Application to BOINC</h3>
 <p>
-BOINC supplies a library that can be optionally used for
-application development.
-This library includes the following:
+
+Porting an application to function on the BOINC platform is fairly
+easy.  The BOINC API provides a set of C/C++ functions which should be
+called as described below to ensure proper integration with the BOINC
+core client.  If the provided BOINC API is not used, users should
+write their own.  The only aspect of the API that is required is
+to resolve BOINC soft links, ignoring the rest of the features should
+still allow the application to function, albeit somewhat unpredictably.
+<ol>
+<li>
+<b>BOINC Initialization</b>
+<br>
+Functions:
 <ul>
-<li> <b>Communication with the core client</b>.
-Functions for parsing an initialization file
-containing the checkpoint period.
-Functions for checking for trigger files saying
-when to exit, when to suspend computation,
-and when to generate graphics.
-Functions for writing files to report percentage done,
-and to report errors.
-<li> <b>Checkpoint/restart support</b>.
-Simple support for writing output into memory buffers,
-then appending them to output files and
-writing the checkpoint file (almost atomic).
-<li> <b>Using the api </b>.
-The application, if using the api, should call time_to_checkpoint()
-inside of the innermost loop, and, if time_to_checkpoint()
-returns true, the client should run a checkpoint, then call
-checkpoint_completed(). This will ensure proper cpu time
-accounting and write trigger files for the core client. All
-input and output should be written through MFILEs, using the
-associated i/o functions and flushing MFILEs at each checkpoint
-to ensure data is saved. When the application has completed it 
-should call app_completed(), then exit.
+	<li>
+	<tt>void boinc_init(APP_IN& ai, int opengl_support);</tt>
+	</li>
 </ul>
+<br>
+When the application starts, it should call <tt>boinc_init</tt> before
+performing any computation.  <tt>boinc_init</tt> performs several important
+functions necessary for proper communication between the application and
+the core client.  First, it reads the general preferences from the BOINC
+core client, which contain information about graphics, checkpointing,
+and CPU time.  Based on these preferences, it initializes timers for
+graphics redraw and checkpoint purposes, and prepares the OpenGL window
+(if desired) for graphics display.  If the application supports OpenGL
+graphics, <tt>opengl_support</tt> should be 1 and an appropriate <tt>draw_gl</tt>
+function should be included in the application.  If the application does not
+support OpenGL graphics, <tt>opengl_support</tt> should be 0 and an empty
+<tt>draw_gl</tt> should be included.
+<p>
+</li>
+<li>
+<b>Resolving BOINC Soft Links</b>
+<br>
+Functions:
+<ul>
+	<li>
+	<tt>int boinc_resolve_link(char *file_name, char *resolved_name);</tt>
+	</li>
+</ul>
+<br>
+Because there are many different ways of creating file links depending on
+the platform and file system, BOINC uses a simple XML based linking scheme.
+An example of a link would be a file containing only the following XML tag:
+<p>
+<tt>&lt;soft_link&gt;../../myproject.com/workunit_12345&lt;/soft_link&gt;</tt>
+</p>
+As an example, if the code currently uses <tt>fopen</tt> in this manner:
+<p>
+<tt>
+file = fopen("my_file", "r");
+</tt>
+</p>
+then the proper way to use <tt>boinc_resolve_link</tt> would be as follows:
+<p>
+<tt>
+char resolved_name[512];<br>
+boinc_resolve_link("my_file",resolved_name);<br>
+file = fopen(resolved_name,"r");<br>
+</tt>
+<p>
+The application should call <tt>boinc_resolve_link</tt> every time it needs
+to access a file.
+</li>
+<li>
+<b>OpenGL Graphics in BOINC</b>
+<br>
+Functions:
+<ul>
+	<li>
+	<tt>void draw_opengl();</tt>
+	</li><li>
+	<tt>void gl_done();</tt>
+	</li>
+</ul>
+<br>
+BOINC provides functionality which automatically sets up an OpenGL window, the
+application porter needs only write a <tt>draw_gl</tt> function.  The <tt>draw_gl</tt>
+function is called when graphics need to be drawn to the screen.  At the completion
+of the <tt>draw_gl</tt> function, <tt>gl_done</tt> should be called to ensure the
+graphics are properly blitted to the screen.  If a non-OpenGL graphics library
+is to be used, it is the applications responsibility to set it up and use the
+refresh period passed via <tt>boinc_init</tt> in <tt>APP_IN</tt>.
+<p>
+</li>
+<li>
+<b>The MFILE Class</b>
+<br>
+Functions:
+<ul>
+	<li>
+	<tt>int MFILE::open(char* path, char* mode);</tt>
+	</li><li>
+    <tt>int MFILE::_putchar(char);</tt>
+	</li><li>
+    <tt>int MFILE::puts(char*);</tt>
+	</li><li>
+    <tt>int MFILE::printf(char* format, ...);</tt>
+	</li><li>
+    <tt>size_t MFILE::write(const void *,size_t,size_t);</tt>
+	</li><li>
+    <tt>int MFILE::close();</tt>
+	</li><li>
+    <tt>int MFILE::flush();</tt>
+	</li>
+</ul>
+<br>
+The MFILE class provides (nearly) atomic file writing.  Most modern operating systems
+do not write information to files immediately, it is often buffered for a period and
+parts of the buffer are slowly written out.  If an application unexpectedly quits
+(due to power failure, a crash, etc), the
+contents of a file may be missing or partially complete.  It is also wise to call
+<tt>flush</tt> for each MFILE when checkpointing, since the application state
+at a checkpoint should be restartable.
+<p>
+</li>
+<li>
+<b>Checkpointing and Saving State</b>
+<br>
+Functions:
+<ul>
+	<li>
+	<tt>bool time_to_checkpoint( void );</tt>
+	</li><li>
+	<tt>void checkpoint_completed(APP_OUT&);</tt>
+	</li>
+</ul>
+<br>
+Most distributed computations require a significant amount of time
+(several hours or more) for each unit of work.  For this reason, it is
+wise to periodically write out the current
+state of the computation to disk in case of an unexpected quit or
+shutdown.  This is known as "checkpointing".  Your application should
+call <tt>time_to_checkpoint</tt> whenever it reaches a point where it can safely
+save the state of the
+computation, usually (indicate common places here).  The state of the computation
+should include everything required to start the computation again at the same
+place it was checkpointed.  For example, if the application contains a main loop
+which is run many times during the course of the computation, checkpointing could
+simply save the current iteration of the loop (reword this).  If <tt>time_to_checkpoint</tt>
+returns true, then go ahead and save the state, flush the MFILEs, etc.  When the
+checkpoint is complete call <tt>checkpoint_completed</tt>, which will take care of
+extra housecleaning and communication with the core client.  If possible, the APP_OUT
+structure passed to <tt>checkpoint_completed</tt> should contain a rough estimate of the
+percentage complete.  When your
+application starts up, it should read the state file to determine where
+to begin computation.  The period between checkpoints is user controllable (though
+the default is x seconds), so it is
+unwise to write your application assuming a specific checkpointing period.
+<p>
+</li>
+<li>
+<b>Cleaning Up</b>
+<br>
+Functions:
+<ul>
+	<li>
+	<tt>int app_completed(APP_OUT& ao);</tt>
+	</li>
+</ul>
+<br>
+When the application has completed it should call <tt>app_completed()</tt>, then exit.
+<tt>app_completed()</tt> will take care of BOINC related housekeeping, such as telling
+the core client that the application has completed, and closing OpenGL windows.
+<p>
+</li>
+</ol>
