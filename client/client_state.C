@@ -797,6 +797,8 @@ bool CLIENT_STATE::time_to_exit() {
 }
 
 void CLIENT_STATE::set_client_state_dirty(char* source) {
-    printf("set dirty: %s\n", source);
+    if (log_flags.state_debug) {
+        printf("set dirty: %s\n", source);
+    }
     client_state_dirty = true;
 }

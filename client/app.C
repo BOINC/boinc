@@ -651,7 +651,7 @@ bool ACTIVE_TASK_SET::poll_time() {
 // Gets the next available free slot, or returns -1 if all slots are full
 //
 int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
-    int start_slot,i;
+    int i;
     char *slot_status;
 
     if (active_tasks.size() >= total_slots)

@@ -432,11 +432,11 @@ bool HTTP_OP_SET::poll() {
                     printf("finished sending request body\n");
                 }
                 htp->http_op_state = HTTP_STATE_REPLY_HEADER;
-				if (htp->file) {
+                if (htp->file) {
                     fclose(htp->file);
-				} else {
-					printf("HTTP_OP_SET::poll(): unexpected NULL file\n");
-				}
+                } else {
+                    printf("HTTP_OP_SET::poll(): unexpected NULL file\n");
+                }
                 htp->file = 0;
                 htp->do_file_io = false;
                 htp->want_upload = false;
