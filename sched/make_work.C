@@ -183,7 +183,7 @@ void make_work() {
             wu.create_time = time(0);
             retval = wu.insert();
             wu.id = boinc_db_insert_id();
-            log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name, wu.id);
+            log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);
         }
         sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
