@@ -41,13 +41,12 @@ SCHED_CONFIG config;
 
 int delete_host_file(int host_id, const char* file_name) {
     DB_MSG_TO_HOST mth;
-    char msg_text[400];
-    sprintf(msg_text, "<delete_file_info>%s</delete_file_info>\n", file_name);
+    sprintf(mth.xml, "<delete_file_info>%s</delete_file_info>\n", file_name);
+    sprintf(mth.variety, "delete_file");
     int retval;
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = host_id;
-    strcpy(mth.variety, msg_text);
     mth.handled = false;
     retval = mth.insert();
     if (retval) {
