@@ -5511,3 +5511,7 @@ David  Aug 1 2003
     client/
         app.C
         client_state.C
+
+Karl 2003/08/01
+    - increased MAX_APP_VERSIONS from 100 to 500
+    sched/*
