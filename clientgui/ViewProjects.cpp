@@ -296,6 +296,8 @@ void CViewProjects::OnListRender(wxTimerEvent &event)
         m_bProcessingListRenderEvent = false;
     }
 
+    m_pListPane->Refresh();
+
     event.Skip();
 }
 

@@ -128,6 +128,10 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if (retval)
             wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
 
+        retval = rpc.get_host_info(host);
+        if (retval)
+            wxLogTrace("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
+
         pFrame->UpdateStatusbar( strEmpty );
     }
 
@@ -472,15 +476,43 @@ wxInt32 CMainDocument::GetWorkCount()
 
 wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
+    RESULT* pStateResult = NULL;
     PROJECT* pProject = NULL;
 
     if ( NULL != pResult )
     {
-        pProject = pResult->project;
-        if ( NULL != pProject )
+        pStateResult = state.lookup_result( pResult->name );
+        if ( NULL != pStateResult )
         {
-            strBuffer = pProject->project_name.c_str();
+            pProject = pStateResult->project;
+            if ( NULL != pProject )
+            {
+                strBuffer = pProject->project_name.c_str();
+            }
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkProjectURL(wxInt32 iIndex, wxString& strBuffer)
+{
+    RESULT* pResult = results.results.at( iIndex );
+    RESULT* pStateResult = NULL;
+    PROJECT* pProject = NULL;
+
+    if ( NULL != pResult )
+    {
+        pStateResult = state.lookup_result( pResult->name );
+        if ( NULL != pStateResult )
+        {
+            pProject = pStateResult->project;
+            if ( NULL != pProject )
+            {
+                strBuffer = pProject->master_url.c_str();
+            }
         }
     }
 
@@ -490,19 +522,24 @@ wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
 
 wxInt32 CMainDocument::GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
+    RESULT* pStateResult = NULL;
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
     if ( NULL != pResult )
     {
-        pWorkunit = pResult->wup;
-        if ( NULL != pWorkunit )
+        pStateResult = state.lookup_result( pResult->name );
+        if ( NULL != pStateResult )
         {
-            pAppVersion = pWorkunit->avp;
-            if ( NULL != pAppVersion )
+            pWorkunit = pStateResult->wup;
+            if ( NULL != pWorkunit )
             {
-                strBuffer = pAppVersion->app_name.c_str();
+                pAppVersion = pWorkunit->avp;
+                if ( NULL != pAppVersion )
+                {
+                    strBuffer = pAppVersion->app_name.c_str();
+                }
             }
         }
     }
@@ -513,19 +550,24 @@ wxInt32 CMainDocument::GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffe
 
 wxInt32 CMainDocument::GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
+    RESULT* pStateResult = NULL;
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
     if ( NULL != pResult )
     {
-        pWorkunit = pResult->wup;
-        if ( NULL != pWorkunit )
+        pStateResult = state.lookup_result( pResult->name );
+        if ( NULL != pStateResult )
         {
-            pAppVersion = pWorkunit->avp;
-            if ( NULL != pAppVersion )
+            pWorkunit = pStateResult->wup;
+            if ( NULL != pWorkunit )
             {
-                iBuffer = pAppVersion->version_num;
+                pAppVersion = pWorkunit->avp;
+                if ( NULL != pAppVersion )
+                {
+                    iBuffer = pAppVersion->version_num;
+                }
             }
         }
     }
@@ -536,7 +578,7 @@ wxInt32 CMainDocument::GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffe
 
 wxInt32 CMainDocument::GetWorkName(wxInt32 iIndex, wxString& strBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
         strBuffer = pResult->name.c_str();
@@ -547,7 +589,7 @@ wxInt32 CMainDocument::GetWorkName(wxInt32 iIndex, wxString& strBuffer)
 
 wxInt32 CMainDocument::GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
         fBuffer = pResult->current_cpu_time;
@@ -556,9 +598,52 @@ wxInt32 CMainDocument::GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer)
 }
 
 
+wxInt32 CMainDocument::GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer)
+{
+    RESULT* pResult = results.results.at( iIndex );
+    RESULT* pStateResult = NULL;
+    WORKUNIT* pWorkunit = NULL;
+
+    fBuffer = 0.0;
+
+    if ( NULL != pResult )
+    {
+        if ( !IsWorkActive(iIndex) )
+        {
+            if ( GetWorkState(iIndex) < RESULT_COMPUTE_ERROR )
+                fBuffer = -1.0;
+            else
+                fBuffer = 0.0;
+        }
+        else
+        {
+            if ( pResult->fraction_done <= 0 || pResult->fraction_done > 1 )
+                fBuffer = -1.0;
+            else
+                fBuffer = ( pResult->current_cpu_time / pResult->fraction_done ) - pResult->current_cpu_time;
+        }
+
+        if ( fBuffer < 0 )
+        {
+            pStateResult = state.lookup_result( pResult->name );
+            if ( NULL != pStateResult )
+            {
+                pWorkunit = pStateResult->wup;
+                if ( NULL != pWorkunit )
+                {
+                    fBuffer = pWorkunit->rsc_fpops_est / host.p_fpops;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
+
 wxInt32 CMainDocument::GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
         fBuffer = pResult->final_cpu_time;
@@ -569,7 +654,7 @@ wxInt32 CMainDocument::GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer)
 
 wxInt32 CMainDocument::GetWorkFractionDone(wxInt32 iIndex, float& fBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
         fBuffer = pResult->fraction_done;
@@ -580,7 +665,7 @@ wxInt32 CMainDocument::GetWorkFractionDone(wxInt32 iIndex, float& fBuffer)
 
 wxInt32 CMainDocument::GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
         iBuffer = pResult->report_deadline;
@@ -592,7 +677,7 @@ wxInt32 CMainDocument::GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer)
 wxInt32 CMainDocument::GetWorkState(wxInt32 iIndex)
 {
     wxInt32 iBuffer = 0;
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
         iBuffer = pResult->state;
@@ -601,17 +686,82 @@ wxInt32 CMainDocument::GetWorkState(wxInt32 iIndex)
 }
 
 
+wxInt32 CMainDocument::GetWorkSchedulerState(wxInt32 iIndex)
+{
+    wxInt32 iBuffer = 0;
+    RESULT* pResult = results.results.at( iIndex );
+
+    if ( NULL != pResult )
+        iBuffer = pResult->scheduler_state;
+
+    return iBuffer;
+}
+
+
+bool CMainDocument::IsWorkAcknowledged(wxInt32 iIndex)
+{
+    RESULT* pResult = results.results.at( iIndex );
+    return pResult->got_server_ack;
+}
+
+
 bool CMainDocument::IsWorkActive(wxInt32 iIndex)
 {
-    RESULT* pResult = state.results.at( iIndex );
-    return pResult->suspended_via_gui;
+    RESULT* pResult = results.results.at( iIndex );
+    return pResult->current_cpu_time > 0.0;
+}
+
+
+bool CMainDocument::IsWorkReadyToReport(wxInt32 iIndex)
+{
+    RESULT* pResult = results.results.at( iIndex );
+    return pResult->ready_to_report;
 }
 
 
 bool CMainDocument::IsWorkSuspended(wxInt32 iIndex)
 {
-    RESULT* pResult = state.results.at( iIndex );
+    RESULT* pResult = results.results.at( iIndex );
     return pResult->suspended_via_gui;
+}
+
+
+wxInt32 CMainDocument::WorkSuspend( wxString& strProjectURL, wxString& strResultName )
+{
+    PROJECT p;
+    RESULT r;
+    p.master_url = strProjectURL;
+    r.name = strResultName;
+    r.project = &p;
+    return rpc.result_op(r, wxT("suspend"));
+}
+
+
+wxInt32 CMainDocument::WorkResume( wxString& strProjectURL, wxString& strResultName )
+{
+    PROJECT p;
+    RESULT r;
+    p.master_url = strProjectURL;
+    r.name = strResultName;
+    r.project = &p;
+    return rpc.result_op(r, wxT("resume"));
+}
+
+
+wxInt32 CMainDocument::WorkShowGraphics( wxString& strProjectURL, wxString& strResultName, bool bFullScreen )
+{
+    return rpc.show_graphics( (char*)strProjectURL.c_str(), (char*)strResultName.c_str(), bFullScreen );
+}
+
+
+wxInt32 CMainDocument::WorkAbort( wxString& strProjectURL, wxString& strResultName )
+{
+    PROJECT p;
+    RESULT r;
+    p.master_url = strProjectURL;
+    r.name = strResultName;
+    r.project = &p;
+    return rpc.result_op(r, wxT("abort"));
 }
 
 

@@ -43,6 +43,24 @@ public:
     wxInt32                     OnExit();
     wxInt32                     OnIdle();
 
+    enum RESULTTYPES
+    {
+        RESULT_NEW = 0,
+        RESULT_FILES_DOWNLOADING = 1,
+        RESULT_FILES_DOWNLOADED = 2,
+        RESULT_COMPUTE_ERROR = 3,
+        RESULT_FILES_UPLOADING = 4,
+        RESULT_FILES_UPLOADED = 5
+    };
+
+    enum CPUSCHEDTYPES
+    {
+        CPU_SCHED_UNINITIALIZED = 0,
+        CPU_SCHED_PREEMPTED = 1,
+        CPU_SCHED_SCHEDULED = 2
+    };
+
+
     //
     // Global
     //
@@ -50,6 +68,7 @@ private:
 
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
+    HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
     bool                        m_bCachedStateLocked;
@@ -113,16 +132,26 @@ public:
 
     wxInt32                     GetWorkCount();
     wxInt32                     GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetWorkProjectURL(wxInt32 iIndex, wxString& strBuffer);
     wxInt32                     GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffer);
     wxInt32                     GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffer);
     wxInt32                     GetWorkName(wxInt32 iIndex, wxString& strBuffer);
     wxInt32                     GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer);
+    wxInt32                     GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer);
     wxInt32                     GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer);
     wxInt32                     GetWorkFractionDone(wxInt32 iIndex, float& fBuffer);
     wxInt32                     GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer);
     wxInt32                     GetWorkState(wxInt32 iIndex);
+    wxInt32                     GetWorkSchedulerState(wxInt32 iIndex);
+    bool                        IsWorkAcknowledged(wxInt32 iIndex);
     bool                        IsWorkActive(wxInt32 iIndex);
+    bool                        IsWorkReadyToReport(wxInt32 iIndex);
     bool                        IsWorkSuspended(wxInt32 iIndex);
+
+    wxInt32                     WorkSuspend( wxString& strProjectURL, wxString& strResultName );
+    wxInt32                     WorkResume( wxString& strProjectURL, wxString& strResultName );
+    wxInt32                     WorkShowGraphics( wxString& strProjectURL, wxString& strResultName, bool bFullScreen );
+    wxInt32                     WorkAbort( wxString& strProjectURL, wxString& strResultName );
 
 
     //

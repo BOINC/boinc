@@ -85,7 +85,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
 
     m_pFrameTaskPanelRenderTimer->Start(1000);       // Send event every 1 second
-    m_pFrameListPanelRenderTimer->Start(2000);       // Send event every 2 seconds
+    m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
 
     SetStatusBarPane(0);
 

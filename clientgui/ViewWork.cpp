@@ -32,7 +32,6 @@
 #include "BOINCListCtrl.h"
 #include "ViewWork.h"
 #include "Events.h"
-#include "result_state.h"
 
 #include "res/result.xpm"
 #include "res/task.xpm"
@@ -255,10 +254,10 @@ void CViewWork::OnListRender(wxTimerEvent &event)
 
         m_bProcessingListRenderEvent = false;
     }
-    else
-    {
-        event.Skip();
-    }
+
+    m_pListPane->Refresh();
+
+    event.Skip();
 }
 
 
@@ -326,17 +325,81 @@ wxString CViewWork::OnListGetItemText( long item, long column ) const
 
 void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
+    wxInt32  iAnswer        = 0; 
+    wxInt32  iProjectIndex  = 0; 
+    wxString strProjectURL  = wxEmptyString;
+    wxString strResultName  = wxEmptyString;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    wxString strMessage;
-
-    if ( link.GetHref() == SECTION_TASK )
+    if      ( link.GetHref() == SECTION_TASK )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+    else if ( link.GetHref() == LINK_TASKSUSPEND )
+    {
+        iProjectIndex = m_pListPane->GetFirstSelected();
+        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
+        pDoc->GetWorkName(iProjectIndex, strResultName);
 
-    if ( link.GetHref() == SECTION_TIPS )
+        pDoc->WorkSuspend(
+            strProjectURL,
+            strResultName
+        );
+    }
+    else if ( link.GetHref() == LINK_TASKRESUME )
+    {
+        iProjectIndex = m_pListPane->GetFirstSelected();
+        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
+        pDoc->GetWorkName(iProjectIndex, strResultName);
+
+        pDoc->WorkResume(
+            strProjectURL,
+            strResultName
+        );
+    }
+    else if ( link.GetHref() == LINK_TASKSHOWGRAPHICS )
+    {
+        iProjectIndex = m_pListPane->GetFirstSelected();
+        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
+        pDoc->GetWorkName(iProjectIndex, strResultName);
+
+        pDoc->WorkShowGraphics(
+            strProjectURL,
+            strResultName,
+            false
+        );
+    }
+    else if ( link.GetHref() == LINK_TASKABORT )
+    {
+        iProjectIndex = m_pListPane->GetFirstSelected();
+        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
+        pDoc->GetWorkName(iProjectIndex, strResultName);
+
+        strMessage.Printf(
+            _("Are you sure you wish to abort this result '%s'?"), 
+            strResultName.c_str());
+
+        iAnswer = wxMessageBox(
+            strMessage,
+            _("Abort Result"),
+            wxYES_NO | wxICON_QUESTION, 
+            this
+        );
+
+        if ( wxYES == iAnswer )
+        {
+            pDoc->WorkAbort(
+                strProjectURL,
+                strResultName
+            );
+        }
+    }
+    else if ( link.GetHref() == SECTION_TIPS )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
-
 
     UpdateSelection();
 }
@@ -385,6 +448,10 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 
 void CViewWork::UpdateSelection()
 {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -408,7 +475,7 @@ void CViewWork::UpdateSelection()
     else
     {
         m_bTaskHeaderHidden = false;
-        if ( wxGetApp().GetDocument()->IsWorkSuspended(m_pListPane->GetFirstSelected()) )
+        if ( pDoc->IsWorkSuspended(m_pListPane->GetFirstSelected()) )
         {
             m_bTaskSuspendHidden = true;
             m_bTaskResumeHidden = false;
@@ -418,8 +485,6 @@ void CViewWork::UpdateSelection()
             m_bTaskSuspendHidden = false;
             m_bTaskResumeHidden = true;
         }
-        m_bTaskSuspendHidden = false;
-        m_bTaskResumeHidden = false;
         m_bTaskShowGraphicsHidden = false;
         m_bTaskAbortHidden = false;
 
@@ -520,7 +585,7 @@ wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
     }
     else
     {
-        if(pDoc->GetWorkState(item) < RESULT_COMPUTE_ERROR)
+        if(pDoc->GetWorkState(item) < CMainDocument::RESULT_COMPUTE_ERROR)
             fBuffer = 0;
         else 
             pDoc->GetWorkFinalCPUTime(item, fBuffer);
@@ -555,16 +620,15 @@ wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 
     if (!pDoc->IsWorkActive(item))
     {
-        if(pDoc->GetWorkState(item) < RESULT_COMPUTE_ERROR)
-            strBuffer = wxT("0%%");
+        if( pDoc->GetWorkState(item) < CMainDocument::RESULT_COMPUTE_ERROR )
+            strBuffer = wxT("0.00%");
         else 
-            strBuffer = wxT("100%%");
+            strBuffer = wxT("100.00%");
     }
     else
     {
-        fBuffer = 0;
         pDoc->GetWorkFractionDone(item, fBuffer);
-        strBuffer.Printf(wxT("%.0f%%"), fBuffer * 100);
+        strBuffer.Printf(wxT("%.2f%%"), fBuffer * 100);
     }
 
     return 0;
@@ -573,6 +637,24 @@ wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 
 wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const
 {
+    float          fBuffer = 0;
+    int            cpuhour = 0;
+    int            cpumin = 0;
+    int            cpusec = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetWorkEstimatedCPUTime(item, fBuffer);
+
+    cpuhour = (int)(fBuffer / (60 * 60));
+    cpumin = (int)(fBuffer / 60) % 60;
+    cpusec = (int)(fBuffer) % 60;
+
+    strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), cpuhour, cpumin, cpusec);
 
     return 0;
 }
@@ -600,6 +682,81 @@ wxInt32 CViewWork::FormatReportDeadline( wxInt32 item, wxString& strBuffer ) con
 
 wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
 {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    switch( pDoc->GetWorkState(item) )
+    {
+        case CMainDocument::RESULT_NEW:
+            strBuffer = _("New"); 
+            break;
+        case CMainDocument::RESULT_FILES_DOWNLOADING:
+            if (pDoc->IsWorkReadyToReport(item))
+            {
+                strBuffer = _("Download failed");
+            }
+            else
+            {
+                strBuffer = _("Downloading");
+            }
+            break;
+        case CMainDocument::RESULT_FILES_DOWNLOADED:
+            if ( pDoc->IsWorkActive(item) )
+            {
+                wxInt32 iSchedulerState = pDoc->GetWorkSchedulerState(item);
+                if      ( CMainDocument::CPU_SCHED_SCHEDULED == iSchedulerState )
+                {
+                    strBuffer = _("Running");
+                }
+                else if ( CMainDocument::CPU_SCHED_PREEMPTED == iSchedulerState )
+                {
+                    strBuffer = _("Paused");
+                }
+                else if ( CMainDocument::CPU_SCHED_UNINITIALIZED == iSchedulerState )
+                {
+                    strBuffer = _("Ready to run");
+                }
+            }
+            else
+            {
+                strBuffer = _("Ready to run");
+            }
+            break;
+        case CMainDocument::RESULT_COMPUTE_ERROR:
+            strBuffer = _("Computation error");
+            break;
+        case CMainDocument::RESULT_FILES_UPLOADING:
+            if ( pDoc->IsWorkReadyToReport(item) )
+            {
+                strBuffer = _("Upload failed");
+            }
+            else
+            {
+                strBuffer = _("Uploading");
+            }
+            break;
+        default:
+            if      ( pDoc->IsWorkAcknowledged(item) ) 
+            {
+                strBuffer = _("Acknowledged");
+            }
+            else if ( pDoc->IsWorkReadyToReport(item) )
+            {
+                strBuffer = _("Ready to report");
+            }
+            else
+            {
+                strBuffer.Format(_("Error: invalid state '%d'"), pDoc->GetWorkState(item));
+            }
+            break;
+    }
+    //if (gstate.activities_suspended) {
+    //    strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
+    //}
 
     return 0;
 }

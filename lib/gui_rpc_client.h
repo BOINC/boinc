@@ -130,6 +130,7 @@ public:
     bool got_server_ack;
     double final_cpu_time;
     int state;
+    int scheduler_state;
     int exit_status;
     int signal;
     int active_task_state;

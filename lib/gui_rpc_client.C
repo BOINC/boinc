@@ -298,6 +298,7 @@ int RESULT::parse(MIOFILE& in) {
         }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
+        else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (parse_int(buf, "<signal>", signal)) continue;
         else if (parse_int(buf, "<active_task_state>", active_task_state)) continue;
@@ -337,6 +338,7 @@ void RESULT::clear() {
     got_server_ack = false;
     final_cpu_time = 0.0;
     state = 0;
+    scheduler_state = 0;
     exit_status = 0;
     signal = 0;
     active_task_state= 0;
@@ -345,6 +347,7 @@ void RESULT::clear() {
     checkpoint_cpu_time = 0.0;
     current_cpu_time = 0.0;
     fraction_done = 0.0;
+    suspended_via_gui = false;
 }
 
 FILE_TRANSFER::FILE_TRANSFER() {
@@ -918,6 +921,8 @@ int RPC_CLIENT::get_results(RESULTS& t) {
     int retval;
     RPC rpc(this);
 
+    t.clear();
+
     retval = rpc.do_rpc("<get_results/>\n");
     if (retval) return retval;
 
@@ -937,6 +942,8 @@ int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
     char buf[256];
     int retval;
     RPC rpc(this);
+
+    t.clear();
 
     retval = rpc.do_rpc("<get_file_transfers/>\n");
     if (retval) return retval;
@@ -1243,7 +1250,6 @@ int RPC_CLIENT::result_op(RESULT& result, char* op) {
 }
 
 int RPC_CLIENT::get_host_info(HOST_INFO& h) {
-    char buf[4096];
     RPC rpc(this);
     int retval;
 
