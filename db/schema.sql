@@ -399,6 +399,7 @@ create table forum_preferences (
     rated_posts         varchar(254) not null,
     low_rating_threshold integer not null,
     high_rating_threshold integer not null,
+    ignorelist          varchar(254) not null,
     primary key (userid)
 ) type=MyISAM; 
 

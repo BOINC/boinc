@@ -210,6 +210,10 @@ function update_1_3_2005() {
     mysql_query("alter table result drop index app_mod_time");
 }
 
+function update_1_7_2005() {
+    mysql_query("alter table forum_preferences add ignorelist varchar(254) not null");
+}
+
 //update_10_25_2004();
 
 ?>

@@ -70,7 +70,7 @@ function display_team_page($team, $offset, $sort_by) {
     echo "</table>";
     echo "<p>";
     start_table();
-    row1("Team members", 4);
+    row1("Active members", 4);
     echo "<tr>
         <th>Name</th>
     ";

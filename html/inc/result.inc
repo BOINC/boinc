@@ -127,8 +127,6 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
         <th>Sent</th>
         <th>Time reported
             <br>or deadline
-            <br>(<font color='33cc33'>future</font> |
-            <font color='ff3333'>past</font>)
 	    <br><font size=-2><a href=\"explain_state.php?field=result_time\">explain</a>
         </th>
         <th>Server state

@@ -35,7 +35,7 @@ function show_credit($user) {
 //
 function show_user_stats_private($user) {
     row1("Account statistics");
-    row2(PROJECT." member since", time_str($user->create_time));
+    row2(PROJECT." member since", date_str($user->create_time));
     show_credit($user);
     row2("Pending credit", "<a href=pending.php>View</a>");
     if ($user->teamid) {
@@ -110,8 +110,7 @@ function show_user_info_private($user) {
 // show summary of dynamic and static info (public)
 //
 function show_user_summary_public($user) {
-    row1("Account data for $user->name");
-    row2(PROJECT." member since", time_str($user->create_time));
+    row2(PROJECT." member since", date_str($user->create_time));
     row2("Country", $user->country);
     if (strlen($user->url)) {
         row2("URL", "<a href=http://$user->url>http://$user->url</a>");

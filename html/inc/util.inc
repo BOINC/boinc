@@ -187,13 +187,11 @@ function time_diff($x) {
 
 function date_str($x) {
     if ($x == 0) return "---";
-    // return date("g:i A, l M j", $when);
-    return strftime("%Y-%m-%d", $x);
+    return gmdate('j M Y', $x);
 }
 
 function time_str($x) {
     if ($x == 0) return "---";
-    //return strftime("%j %m-%d %H:%M:%S", $x)";
     return gmdate('j M Y G:i:s', $x) . " UTC";
 }
 

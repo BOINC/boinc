@@ -22311,3 +22311,25 @@ David  7 Jan 2005
 
 	api/
 		boinc_api.C
+
+David  7 Jan 2005
+    - add "ignorelist" field to forum_preferences
+    - add script for correcting team.nusers
+        (can drift away from correct value for some reason)
+    - User web mods:
+        - improve result field explanations
+        - user date_str() instead of time_str() when showing signup date
+
+    db/
+        schema.sql
+    html/
+        inc/
+            result.inc
+            team.inc
+            user.inc
+            util.inc
+        ops/
+            db_update.php
+            team_repair.php (new)
+        user/
+            explain_state.php
