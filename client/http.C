@@ -70,6 +70,7 @@ static void parse_url(char* url, char* host, char* file) {
 }
 
 // Prints an HTTP 1.1 GET request header into buf
+// Hopefully there won't be chunked transfers in a GET
 //
 static void http_get_request_header(
     char* buf, char* host, char* file, double offset
@@ -134,7 +135,8 @@ static void http_head_request_header(char* buf, char* host, char* file) {
     );
 }
 
-// Prints an HTTP 1.1 POST request header into buf
+// Prints an HTTP 1.0 POST request header into buf
+// Use HTTP 1.0 so we don't have to deal with chunked transfers
 //
 static void http_post_request_header(
     char* buf, char* host, char* file, int size
@@ -152,7 +154,7 @@ static void http_post_request_header(
         fprintf(stderr, "error: http_post_request_header: negative size\n");
     }
     sprintf(buf,
-        "POST /%s HTTP/1.1\015\012"
+        "POST /%s HTTP/1.0\015\012"
         "Pragma: no-cache\015\012"
         "Cache-Control: no-cache\015\012"
         "Host: %s:80\015\012"
@@ -629,6 +631,7 @@ bool HTTP_OP_SET::poll() {
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST2:
                     read_reply(htp->socket, htp->req1, 256);
+                    fprintf( stderr, "%s\n", htp->req1 );
                     // parse reply here?
                     break;
                 default:

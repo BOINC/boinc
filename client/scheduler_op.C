@@ -371,7 +371,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     p = fgets(buf, 256, in);
     // First part of content should either be tag (HTTP 1.0) or 
     // hex length of response (HTTP 1.1)
-    if (!match_tag(buf, "<scheduler_reply>") && !sscanf(buf,"%x",&retval)) {
+    if (!match_tag(buf, "<scheduler_reply>")) {
         fprintf(stderr, "SCHEDULER_REPLY::parse(): bad first tag %s\n", buf);
         return ERR_XML_PARSE;
     }
