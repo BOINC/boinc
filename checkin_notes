@@ -5466,3 +5466,9 @@ Karl 2003/07/30-31
     Client/*    
     client/win/*
     client/translations/*
+
+Karl 2003/07/31
+    - fixed screensaver "freezing" (on blanking) bug
+
+    client/ss_logic.C, win/*
+
