@@ -25860,16 +25860,16 @@ Charlie    11 Mar 2005
     and then launches embedded Core Client.
 
     client/
-    hostinfo_unix.C
-    client/main.C
-   clientgui/
-    BOINCGUIApp.cpp
-   lib/
-    hostinfo.h
+        hostinfo_unix.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp
+    lib/
+        hostinfo.h
     mac_build/
-    boinc.proj/boinc.proj (directory & file both removed)
-    boinc.proj.zip (new)
-    info.plist (new)
+        boinc.proj/boinc.proj (directory & file both removed)
+        boinc.proj.zip (new)
+        info.plist (new)
         HowToBuildBOINC_XCode.rtf
 
 Rom    11 Mar 2005
@@ -26410,3 +26410,21 @@ David  30 Mar 2005
 		BOINCTaskCtrl.cpp
 	lib/
 		network.h
+
+David  30 Mar 2005
+    - Apparently, even though the port number 1043 is assigned to BOINC
+        (see http://www.iana.org/assignments/port-numbers)
+        Microsoft IIS binds to it on some systems.
+        So...
+        core client: if can't bind to 1043, bind to 31416
+        BOINC mgr: if can't connect to 31416, connect to 1043
+
+        If something is bound to 31416 we're screwed.
+        Thanks a lot, Microsoft!
+
+    client/
+        gui_rpc_server.C,h
+    lib/
+        gui_rpc_client.C,h
+    sched/
+        sched_util.C

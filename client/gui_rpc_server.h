@@ -48,3 +48,8 @@ public:
 };
 
 #define GUI_RPC_PORT 1043
+
+// Some messed-up systems (like Windows) bind to 1043, who knows why
+// If this is the case, we'll use the following instead
+//
+#define GUI_RPC_PORT_ALT 31416

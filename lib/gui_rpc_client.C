@@ -950,7 +950,7 @@ int RPC_CLIENT::init(const char* host) {
     int retval;
     sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(GUI_RPC_PORT);
+    addr.sin_port = htons(GUI_RPC_PORT_ALT);
 
     if (host) {
         hostent* hep = gethostbyname(host);
@@ -974,12 +974,16 @@ int RPC_CLIENT::init(const char* host) {
     }
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
+        addr.sin_port = htons(GUI_RPC_PORT);
+        retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+        if (retval) {
 #ifdef _WIN32
-        printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
+            printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
 #endif
-        perror("connect");
-        close();
-        return ERR_CONNECT;
+            perror("connect");
+            close();
+            return ERR_CONNECT;
+        }
     }
     return 0;
 }

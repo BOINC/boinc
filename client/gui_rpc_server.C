@@ -677,10 +677,14 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), (socklen_t)sizeof(addr));
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
-        boinc_close_socket(lsock);
-        lsock = -1;
-        return ERR_BIND;
+        addr.sin_port = htons(GUI_RPC_PORT_ALT);
+        retval = bind(lsock, (const sockaddr*)(&addr), (socklen_t)sizeof(addr));
+        if (retval) {
+            msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
+            boinc_close_socket(lsock);
+            lsock = -1;
+            return ERR_BIND;
+        }
     }
     retval = listen(lsock, 999);
     if (retval) {

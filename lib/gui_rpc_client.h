@@ -28,6 +28,7 @@
 #include "miofile.h"
 
 #define GUI_RPC_PORT                         1043
+#define GUI_RPC_PORT_ALT                     31416
 
 #define RUN_MODE_ALWAYS                      0
 #define RUN_MODE_NEVER                       1

@@ -73,7 +73,7 @@ void check_stop_daemons() {
         exit(0);
     }
     if (boinc_file_exists(STOP_DAEMONS_FILENAME)) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Quitting due to stop trigger\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Quitting because trigger file '%s' is present\n", STOP_DAEMONS_FILENAME);
         exit(0);
     }
 }
