@@ -1300,10 +1300,6 @@ CMainWindow::CMainWindow()
     CreateEx(0, strWndClass, WND_TITLE, WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, NULL);
-
-    CRect rect(0, 0, 600, 400);
-    CalcWindowRect(&rect);
-    SetWindowPos(NULL, 0, 0, rect.Width(), rect.Height(), SWP_NOZORDER|SWP_NOMOVE|SWP_NOREDRAW);
 }
 
 //////////
@@ -1577,6 +1573,60 @@ BOOL CMainWindow::IsSuspended()
 }
 
 //////////
+// CMainWindow::ShowTab
+// arguments:	nTab: tab number to show
+// returns:		void
+// function:	handles everything necessary to switch to a new tab
+void CMainWindow::ShowTab(int nTab)
+{
+	m_TabCtrl.SetCurSel(nTab);
+
+	// make the selected control visible, all the rest invisible
+	if(nTab == PROJECT_ID) {
+		m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+	} else if(nTab == RESULT_ID) {
+		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ResultListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+	} else if(nTab == XFER_ID) {
+		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_XferListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+	} else if(nTab == MESSAGE_ID) {
+		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		if(m_bMessage) {
+			m_bMessage = false;
+			SetStatusIcon(ICON_NORMAL);
+		}
+		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+	} else if(nTab == USAGE_ID) {
+		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+	}
+	m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+	RedrawWindow();
+}
+
+//////////
 // CMainWindow::SetStatusIcon
 // arguments:	dwMessage: hide or show the icon
 // returns:		void
@@ -1630,13 +1680,29 @@ void CMainWindow::SaveUserSettings()
 	int colorder[MAX_COLS];
 	int i;
 
+	// save window size/position
+	CRect rt;
+	GetWindowRect(&rt);
+	strVal.Format("%d", rt.left);
+	WritePrivateProfileString("WINDOW", "xposition", strVal, szPath);
+	strVal.Format("%d", rt.top);
+	WritePrivateProfileString("WINDOW", "yposition", strVal, szPath);
+	strVal.Format("%d", rt.Width());
+	WritePrivateProfileString("WINDOW", "width", strVal, szPath);
+	strVal.Format("%d", rt.Height());
+	WritePrivateProfileString("WINDOW", "height", strVal, szPath);
+
+	// save selected tab
+	strVal.Format("%d", m_TabCtrl.GetCurSel());
+	WritePrivateProfileString("WINDOW", "selection", strVal, szPath);
+
 	// save project columns
 	m_ProjectListCtrl.GetColumnOrderArray(colorder, PROJECT_COLS);
 	WritePrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), szPath);
 	for(i = 0; i < m_ProjectListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
 		strKey.Format("projects-%d", i);
 		strVal.Format("%d", m_ProjectListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
+		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
 	}
 
 	// save result columns
@@ -1645,7 +1711,7 @@ void CMainWindow::SaveUserSettings()
 	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
 		strKey.Format("results-%d", i);
 		strVal.Format("%d", m_ResultListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
+		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
 	}
 
 	// save xfer columns
@@ -1654,7 +1720,7 @@ void CMainWindow::SaveUserSettings()
 	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
 		strKey.Format("xfers-%d", i);
 		strVal.Format("%d", m_XferListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
+		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
 	}
 
 	// save xfer columns
@@ -1663,7 +1729,7 @@ void CMainWindow::SaveUserSettings()
 	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
 		strKey.Format("messages-%d", i);
 		strVal.Format("%d", m_MessageListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
+		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
 	}
 }
 
@@ -1680,6 +1746,22 @@ void CMainWindow::LoadUserSettings()
 	strcat(szPath, "\\boinc.ini");
 	int i, nBuf;
 	int colorder[MAX_COLS];
+
+	// load window size/position
+	CRect rt;
+	nBuf = GetPrivateProfileInt("WINDOW", "xposition", 100, szPath);
+	rt.left = nBuf;
+	nBuf = GetPrivateProfileInt("WINDOW", "yposition", 100, szPath);
+	rt.top = nBuf;
+	nBuf = GetPrivateProfileInt("WINDOW", "width", 600, szPath);
+	rt.right = nBuf + rt.left;
+	nBuf = GetPrivateProfileInt("WINDOW", "height", 400, szPath);
+	rt.bottom = nBuf + rt.top;
+	SetWindowPos(&wndNoTopMost, rt.left, rt.top, rt.Width(), rt.Height(), SWP_SHOWWINDOW);
+
+	// load selected tab
+	nBuf = GetPrivateProfileInt("WINDOW", "selection", 0, szPath);
+	ShowTab(nBuf);
 
 	// load project columns
 	if(GetPrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), szPath)) {
@@ -2277,50 +2359,7 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	// notification from tab control, user is changing the selection
 	if(phdn->hdr.code == TCN_SELCHANGE) {
 		int newTab = m_TabCtrl.GetCurSel();
-
-		// make the selected control visible, all the rest invisible
-		if(newTab == PROJECT_ID) {
-			m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
-			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		} else if(newTab == RESULT_ID) {
-			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
-			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ResultListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		} else if(newTab == XFER_ID) {
-			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
-			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_XferListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		} else if(newTab == MESSAGE_ID) {
-			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
-			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			if(m_bMessage) {
-				m_bMessage = false;
-				SetStatusIcon(ICON_NORMAL);
-			}
-			m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		} else if(newTab == USAGE_ID) {
-			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
-			m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		}
-		m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		RedrawWindow();
+		ShowTab(newTab);
 	}
 	return CWnd::OnNotify(wParam, lParam, pResult);
 }

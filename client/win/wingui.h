@@ -247,6 +247,7 @@ protected:
 	BOOL					m_bSuspend;				// should apps be suspended?
 	int						m_nContextItem;			// item selected for context menu
 
+    void					ShowTab(int);
     void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
