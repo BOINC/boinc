@@ -54,38 +54,24 @@ int closeFile(FILE *stream) {
 	return fclose(stream);
 }
 
-int openArchivesForWriting(){
-	int retval=0;
 	//open archive files for purged workunits with the name- archive_workunitTIMESTAMP.xml
 	//open archive files for purged results with the name- archive_resultTIMESTAMP.xml
-    mkdir("..//archives",0777);
-	
-	time_t now;
-	time(&now);
-    
-	char wu_archive_file_name[60];
-	char re_archive_file_name[50];
 
-    sprintf(wu_archive_file_name,"..//archives//archive_workunit%d.xml",now);
-	sprintf(re_archive_file_name,"..//archives//archive_result%d.xml",now);
+FILE* open_archive(char* filename){
+	int retval=0;
+	char path[256];
+    FILE* f;
+
+    sprintf(path,"../archives/%s_%d.xml", filename, time(0));
 	
-	if ((wu_stream = fopen( wu_archive_file_name,"a")) == NULL) {  
-		fprintf(stdout,"DB_PURGE: Can't open archive file %s\n",wu_archive_file_name);
-		exit (1);
+	if ((f = fopen( wu_archive_file_name,"a")) == NULL) {  
+		fprintf(stdout,"DB_PURGE: Can't open archive file %s\n", wu_archive_file_name);
+		return 0;
 	}
-	fprintf(wu_stream,
-         "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
-    fprintf(stdout, "DB_PURGE: Opened workunit archive %s\n", wu_archive_file_name);
-		
-	if ((re_stream = fopen( re_archive_file_name,"a")) == NULL) {  
-		fprintf(stdout,"DB_PURGE: Can't open archive file %s\n",re_archive_file_name);
-		exit (1);
-	}
-	fprintf(re_stream,
-         "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
-    fprintf(stdout, "DB_PURGE: Opened result archive %s\n", re_archive_file_name);
-	
-	return retval;
+	fprintf(f,
+        "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
+    );
+	return f;
 }
 
 
@@ -96,6 +82,8 @@ int archive_result(DB_RESULT result) {
         result.id
     );
     
+    escape_xml(stderr_out);
+
  	fprintf(
  			re_stream,
             "  <create_time>%d</create_time>\n"
@@ -232,34 +220,24 @@ void cleanUpResources() {
     boinc_db.close();
 }
 
-int purge_and_archive_results(int wu_id) {
+int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 	int retval= 0;
     DB_RESULT result;
-	int number_results=0;
  	char buf[256];
     
-    //select all results for workunit with workunitid=wu_id
-    sprintf(buf, "where workunitid=%d", wu_id);
+	number_results=0;
+
+    sprintf(buf, "where workunitid=%d", wu.id);
  	while (!result.enumerate(buf)) {
-		//archive result in XML archive
         retval= archive_result(result);
-		if (retval) {
-        	fprintf(stdout,"DB_PURGE: Failed to write to XML file result:%d\n", result.id);
-        	exit(1);
-    	}
-    	fprintf(stdout,"DB_PURGE: Archived result [%d] to a file\n", result.id);
+		if (retval) return retval;
     	
-    	//purge result from DB        
         retval= result.delete_from_db();
-	    if (retval) {
-        	fprintf(stdout,"DB_PURGE: Can't delete result [%d] from database:%d\n", result.id, retval);
-        	exit(1);
-    	}
-    	fprintf(stdout,"DB_PURGE: Purged result [%d] from database\n", result.id);
- 		
+		if (retval) return retval;
+
  		number_results++;
- 	}	
-	return number_results;
+ 	}
+    return 0;
 }
 
 
@@ -282,9 +260,11 @@ int main(int argc, char** argv) {
     }
 	fprintf(stdout, "DB_PURGE: Opened DB\n");
 
-	retval= openArchivesForWriting();
-	if (retval) {
-        fprintf(stdout, "DB_PURGE: Can't open archives\n");
+    mkdir("../archives", 0777);
+	wu_stream = open_archive("wuarchive");
+	re_stream = open_archive("resultarchive");
+	if (!wu_stream || !re_stream) {
+        fprintf(stdout, "Can't open archives\n");
         exit(1);
     }
 	
@@ -292,16 +272,15 @@ int main(int argc, char** argv) {
 	DB_WORKUNIT wu;
     char buf[256];
     
-    //select all workunits with file_delete_state='DONE'
+    // select all workunits with file_delete_state='DONE'
+    //
     sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_DONE);
  	while (!wu.enumerate(buf)) {
- 		//for each workunit
         did_something = true;
         
-        //purge from DB and archive results in XML file for that workunit
-        purged_results= purged_results + purge_and_archive_results(wu.get_id());
+        retval = purge_and_archive_results(wu, n);
+        purged_results += n;
         
-        //archive workunit in XML archive
         retval= archive_wu(wu);
 		if (retval) {
         	fprintf(stdout,"DB_PURGE: Failed to write to XML file workunit:%d\n", wu.id);
