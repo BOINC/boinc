@@ -35,7 +35,7 @@
 #include "util.h"
 #include "win_idle_tracker.h"
 
-static HDC			hdc;
+static HDC			hDC;
 static HGLRC		hRC;
 static HWND			hWnd=NULL;		// Holds Our Window Handle
 static HINSTANCE	hInstance;		// Holds The Instance Of The Application
@@ -54,6 +54,31 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
+bool KillWindow() {
+	if (hRC) {											// Do We Have A Rendering Context?
+		if (!wglMakeCurrent(NULL,NULL)) {				// Are We Able To Release The DC And RC Contexts?
+			return false;
+		}
+		if (!wglDeleteContext(hRC)) {					// Are We Able To Delete The RC?
+			return false;
+		}
+		hRC=NULL;										// Set RC To NULL
+	}
+
+	if (hDC && !ReleaseDC(hWnd,hDC)) {					// Are We Able To Release The DC
+		hDC=NULL;										// Set DC To NULL
+		return false;
+	}
+
+	KillTimer(hWnd, 1);
+
+	if (hWnd && !DestroyWindow(hWnd)) {					// Are We Able To Destroy The Window?
+		return false;
+		hWnd=NULL;										// Set hWnd To NULL
+	}
+	return true;
+}
+
 // switch to the given graphics mode.  This is called:
 // - on initialization
 // - when get mode change msg (via shared mem)
@@ -65,14 +90,9 @@ void SetMode(int mode) {
 	DWORD dwExStyle;
 	DWORD dwStyle;
 
-	if(hWnd) {
-		if (hRC) wglDeleteContext(hRC);
-		if (hdc) ReleaseDC(hWnd, hdc);
+	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
 
-		if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
-		KillTimer(hWnd, 1);
-		DestroyWindow(hWnd);
-	}
+	KillWindow();
 
 	current_graphics_mode = mode;
 
@@ -92,12 +112,12 @@ void SetMode(int mode) {
 		while(ShowCursor(true) < 0);
 	}
 
+	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);		// Adjust Window To True Requested Size
+
 	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", "BOINC Graphics",
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
 		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
 		NULL, NULL, hInstance, NULL);
-
-	SetTimer(hWnd, 1, 100, NULL);
 
 	GetCursorPos(&mousePos);
 
@@ -123,18 +143,18 @@ void SetMode(int mode) {
 		0, 0, 0										// Layer Masks Ignored
 	};
 
-	hdc = GetDC(hWnd);
+	hDC = GetDC(hWnd);
 	int PixelFormat;
-	PixelFormat = ChoosePixelFormat(hdc, &pfd);
-	SetPixelFormat(hdc, PixelFormat, &pfd);
+	PixelFormat = ChoosePixelFormat(hDC, &pfd);
+	SetPixelFormat(hDC, PixelFormat, &pfd);
 
-	if(!(hRC = wglCreateContext(hdc))) {
-		ReleaseDC(hWnd, hdc);
+	if(!(hRC = wglCreateContext(hDC))) {
+		ReleaseDC(hWnd, hDC);
 		return;
 	}
 
-	if(!wglMakeCurrent(hdc, hRC)) {
-		ReleaseDC(hWnd, hdc);
+	if(!wglMakeCurrent(hDC, hRC)) {
+		ReleaseDC(hWnd, hDC);
 		wglDeleteContext(hRC);
 		return;
 	}
@@ -142,9 +162,7 @@ void SetMode(int mode) {
 	width = WindowRect.right-WindowRect.left;
 	height = WindowRect.bottom-WindowRect.top;
 
-	ReSizeGLScene(width, height);
-	InitGL();
-	app_init_gl();
+	SetTimer(hWnd, 1, 100, NULL);
 
 	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
@@ -152,6 +170,10 @@ void SetMode(int mode) {
 	} else {
 		ShowWindow(hWnd, SW_HIDE);
 	}
+
+	ReSizeGLScene(width, height);
+	InitGL();
+	app_init_gl();
 
 	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
 }
@@ -214,7 +236,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 			app_render(width, height, dtime());
 
-			SwapBuffers(hdc);
+			SwapBuffers(hDC);
 			return 0;
 	}
 
@@ -275,7 +297,7 @@ BOOL reg_win_class() {
 	WNDCLASS	wc;						// Windows Class Structure
 
 	hInstance			= GetModuleHandle(NULL);				// Grab An Instance For Our Window
-	wc.style			= 0;	// Redraw On Size, And Own DC For Window.
+	wc.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraw On Size, And Own DC For Window.
 	wc.lpfnWndProc		= (WNDPROC) WndProc;					// WndProc Handles Messages
 	wc.cbClsExtra		= 0;									// No Extra Window Data
 	wc.cbWndExtra		= 0;									// No Extra Window Data
