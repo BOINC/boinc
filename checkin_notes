@@ -16705,3 +16705,6 @@ David  24 Aug 2004
         app_control.C
         app_graphics.C
 
+Rom    24 Aug 2004
+    - Tag for 4.05 release, all platforms
+      boinc_release_4_05
