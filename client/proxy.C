@@ -18,12 +18,16 @@
 //
 
 #include "cpp.h"
+
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+
+#ifndef _WIN32
 #include <cstring>
 #include <sstream>
 
-#ifdef _WIN32
-#include "winsock.h"
-#endif
 #if HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
@@ -35,6 +39,7 @@
 #endif
 #if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #endif
 
 #include "error_numbers.h"

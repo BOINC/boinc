@@ -11048,7 +11048,7 @@ Rom   Mar 28 2004
         <deleted old layout>
         <created new layout>
 
-Rom   Mar 29 2004
+Rom   Mar 28 2004
     - Issue fix that Janus gave for the parsing error.
 
     html/user/
@@ -11063,3 +11063,14 @@ David  Mar 28 2004
     client/
         Makefile.in
         cpu_benchmark.C
+
+Rom   Mar 29 2004
+    - Fix BOINC_GUI so it'll build again.
+
+    client/
+        proxy.c
+    client/win/
+        wingui_dialog.cpp
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj

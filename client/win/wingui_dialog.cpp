@@ -170,13 +170,13 @@ BOOL CProxyDialog::OnInitDialog()
 
 	// fill in http
 	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
-	if(pBtn) pBtn->SetCheck(gstate.use_http_proxy?BST_CHECKED:BST_UNCHECKED);
-	SetDlgItemText(IDC_EDIT_HTTP_ADDR, gstate.proxy_server_name);
+	if(pBtn) pBtn->SetCheck(gstate.pi.use_http_proxy?BST_CHECKED:BST_UNCHECKED);
+    SetDlgItemText(IDC_EDIT_HTTP_ADDR, gstate.pi.http_server_name);
 	CString portBuf;
-	if(gstate.proxy_server_port > 0) portBuf.Format("%d", gstate.proxy_server_port);
+    if(gstate.pi.http_server_port > 0) portBuf.Format("%d", gstate.pi.http_server_port);
 	else portBuf.Format("80");
 	SetDlgItemText(IDC_EDIT_HTTP_PORT, portBuf.GetBuffer(0));
-	EnableHttp(gstate.use_http_proxy);
+    EnableHttp(gstate.pi.use_http_proxy);
 	
 	// fill in socks
 	pBtn = (CButton*)GetDlgItem(IDC_CHECK_SOCKS);
@@ -260,16 +260,16 @@ void CProxyDialog::OnOK()
 	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
 	if(pBtn) {
 		if(pBtn->GetCheck() == BST_CHECKED) {
-			gstate.use_http_proxy = true;
+			gstate.pi.use_http_proxy = true;
 		} else {
-			gstate.use_http_proxy = false;
+			gstate.pi.use_http_proxy = false;
 		}
 	}
 	GetDlgItemText(IDC_EDIT_HTTP_ADDR, strbuf);
-	safe_strncpy(gstate.proxy_server_name, strbuf.GetBuffer(0),
-		sizeof(gstate.proxy_server_name));
+    safe_strncpy(gstate.pi.http_server_name, strbuf.GetBuffer(0),
+        sizeof(gstate.pi.http_server_name));
 	GetDlgItemText(IDC_EDIT_HTTP_PORT, strbuf);
-	gstate.proxy_server_port = atoi(strbuf.GetBuffer(0));
+    gstate.pi.http_server_port = atoi(strbuf.GetBuffer(0));
 	CDialog::OnOK();
 }
 

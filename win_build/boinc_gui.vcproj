@@ -935,6 +935,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\proxy.C">
+			</File>
+			<File
 				RelativePath="..\Client\scheduler_op.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1348,6 +1351,9 @@
 				RelativePath="..\client\prefs.h">
 			</File>
 			<File
+				RelativePath="..\client\proxy.h">
+			</File>
+			<File
 				RelativePath="..\client\scheduler_op.h">
 			</File>
 			<File
@@ -1403,10 +1409,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1426,10 +1432,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

@@ -932,6 +932,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\proxy.C">
+			</File>
+			<File
 				RelativePath="..\Client\scheduler_op.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1179,6 +1182,9 @@
 			</File>
 			<File
 				RelativePath="..\client\prefs.h">
+			</File>
+			<File
+				RelativePath="..\client\proxy.h">
 			</File>
 			<File
 				RelativePath="..\client\scheduler_op.h">
