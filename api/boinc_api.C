@@ -59,6 +59,7 @@ int boinc_init() {
 
 #ifdef _WIN32
     freopen(STDERR_FILE, "a", stderr);
+    fprintf(stderr, "in boinc_init()\n");
 #endif
 
     f = fopen(INIT_DATA_FILE, "r");
