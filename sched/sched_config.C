@@ -53,6 +53,9 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<non_cpu_intensive/>")) {
         non_cpu_intensive = true;
     }
+    if (match_tag(buf, "<homogeneous_redundancy/>")) {
+        homogeneous_redundancy = true;
+    }
     if (match_tag(buf, "<trickle_down/>")) {
         trickle_down = true;
     }

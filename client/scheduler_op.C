@@ -673,6 +673,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 msg_printf(project, MSG_ERROR, "handle_trickle_down failed: %d\n", retval);
             }
             continue;
+        } else if (match_tag(buf, "<non_cpu_intensive/>")) {
+            continue;
         } else if (strlen(buf)>1){
             msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }

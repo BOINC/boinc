@@ -163,6 +163,16 @@ int DB_BASE::enumerate(char* clause) {
     return 0;
 }
 
+// call this to end an enumeration before reaching end
+//
+int DB_BASE::end_enumerate() {
+    if (cursor.active) {
+        mysql_free_result(cursor.rp);
+        cursor.active = false;
+    }
+    return 0;
+}
+
 int DB_BASE::get_integer(char* query, int& n) {
     int retval;
     MYSQL_ROW row;

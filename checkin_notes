@@ -12333,3 +12333,17 @@ David  May 17 2004
         sched_shmem.h
         sched_send.C
         show_shmem.C
+
+David  May 18 2004
+    - Added the "homogeneous redundancy" feature courtesy of Michela Taufer.
+        This lets a project say that results for a given
+        workunit should be sent only to hosts with the same
+        OS name + CPU vendor.
+        Enabled it by putting <homogeneous_redundancy/> in config.xml
+    - parse <non_cpu_intensive/> in scheduler replies
+
+    client/
+        scheduler_op.C
+    sched/
+        sched_config.C,h
+        sched_send.C

@@ -54,6 +54,7 @@ public:
     int lookup_id(int id);
     int lookup(char*);
     int enumerate(char* clause="");
+    int end_enumerate();
     int count(int&, char* clause="");
     int sum(double&, char* field, char* clause="");
     int get_double(char* query, double&);

@@ -40,6 +40,7 @@ public:
     int min_sendwork_interval;
     int max_wus_to_send;
     bool non_cpu_intensive;
+    bool homogeneous_redundancy;
 
     int parse(char*);
     int parse_file(char* dir=".");

@@ -53,6 +53,7 @@ struct WORK_REQ {
     bool insufficient_mem;
     bool insufficient_speed;
     bool no_app_version;
+    bool homogeneous_redundancy_reject;
     bool outdated_core;
 };
 
@@ -142,7 +143,8 @@ inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
 
 }
 
-// return true if the WU can be executed on the host
+// return false if the WU can't be executed on the host
+// because of insufficient memory or CPU speed
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host, WORK_REQ& wreq) {
     double m_nbytes = host.m_nbytes;
@@ -347,6 +349,48 @@ static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
     return false;
 }
 
+// return true if we've already sent a result of this WU to a different platform
+// (where "platform" is os_name + p_vendor;
+// may want to sharpen this for Unix)
+//
+static bool already_sent_to_different_platform(
+    WORK_REQ& wreq, SCHEDULER_REQUEST& sreq, WORKUNIT& workunit
+) {
+    DB_RESULT result;
+    DB_HOST host;
+    char buf[256];
+    bool found = false;
+    int retval;
+
+    sprintf(buf, "where workunitid=%d", workunit.id);
+    while (!result.enumerate(buf)) {
+        if (result.hostid) {
+            sprintf(buf, "where id=%d", result.hostid);
+            retval = host.lookup(buf);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "send_work: host lookup failed (%d)\n", retval
+                );
+                found = true;
+                break;
+            }
+            if (strcmp(host.os_name, sreq.host.os_name)
+                || strcmp(host.p_vendor, sreq.host.p_vendor)
+            ){
+                wreq.homogeneous_redundancy_reject = true;
+                found = true;
+                break;
+            }
+            // already sent to same platform - don't need to keep looking
+            //
+            break;
+        }
+    }
+    result.end_enumerate();
+    return found;
+}
+
 void lock_sema() {
     lock_semaphore(sema_key);
 }
@@ -479,6 +523,16 @@ static void scan_work_array(
             }
         }
 
+        // if desired, make sure redundancy is homogeneous
+        //
+        if (config.homogeneous_redundancy) {
+            if (already_sent_to_different_platform(
+                wreq, sreq, wu_result.workunit
+            )) {
+                goto dont_send;
+            }
+        }
+
         result.id = wu_result.resultid;
 
         // mark slot as empty AFTER we've copied out of it
@@ -582,6 +636,7 @@ int send_work(
     wreq.insufficient_mem = false;
     wreq.insufficient_speed = false;
     wreq.no_app_version = false;
+    wreq.homogeneous_redundancy_reject = false;
     wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
     wreq.nresults = 0;
@@ -635,6 +690,11 @@ int send_work(
         if (wreq.insufficient_mem) {
             strcat(reply.message,
                 " (there was work but your computer would not finish it before it is due"
+            );
+        }
+        if (wreq.homogeneous_redundancy_reject) {
+            strcat(reply.message,
+                " (there was work but it was committed to other platforms"
             );
         }
         if (wreq.outdated_core) {
