@@ -37,7 +37,7 @@ int MFILE::open(char* path, char* mode) {
 
 int MFILE::printf(char* format, ...) {
     va_list ap;
-    char buf2[4096];
+    char buf2[20000];
     int n, k;
 
     va_start(ap, format);
