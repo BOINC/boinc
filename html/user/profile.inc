@@ -287,11 +287,21 @@ function getImages($fileName) {
 }
 
 function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeight) {
-
-    ($origWidth > $origHeight)? $scalar = ($origWidth / $targetWidth) : $scalar = ($height / $targetHeight);
-
-    $destWidth = $origWidth / $scalar;
-    $destHeight = $origHeight / $scalar;
+    
+    // If the image is already smaller than the target dimensions, just return it.
+    if ($origWidth <= $targetWidth && $origHeight <= $targetHeight) {
+        return $image;
+    }
+    
+    ($origWidth > $origHeight)? $scalar = ($origWidth / $targetWidth) : $scalar = ($origHeight / $targetHeight);
+    
+    if ($scalar != 0) {
+        $destWidth = $origWidth / $scalar;
+        $destHeight = $origHeight / $scalar;
+    } else {
+        $destWidth = $origWidth;
+        $destHeight = $origHeight;
+    }
     
     $newImage = ImageCreateTrueColor($destWidth, $destHeight);
 
