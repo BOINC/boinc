@@ -10,8 +10,8 @@ This data can be imported and used to produce
 web sites that show statistics and leaderboards
 for one or more BOINC projects.
 Examples of such sites are listed at
-<a href=http://setiboinc.ssl.berkeley.edu/ap/stats.php>
-http://setiboinc.ssl.berkeley.edu/ap/stats.php</a>.
+<a href=http://setiweb.ssl.berkeley.edu/ap/stats.php>
+http://setiweb.ssl.berkeley.edu/ap/stats.php</a>.
 
 <p>
 Statistics data is exported in XML-format files.

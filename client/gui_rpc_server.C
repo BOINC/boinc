@@ -477,7 +477,7 @@ bool GUI_RPC_CONN_SET::poll() {
                 msg_printf(
                     NULL, MSG_ERROR,
                     "GUI RPC request from non-allowed address %s\n",
-                    inet_ntoa(ia)
+                    inet_ntoa(htonl(ia))
                 );
 #ifdef _WIN32
                 closesocket(sock);

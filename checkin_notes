@@ -16371,10 +16371,18 @@ Noaa  13 Aug 2004
 	Graphics.Readme
 
 Rom   13 Aug 2004
-    - Needed to backout the newer style of determining disk free space on the clients
-      since all the clients currently reporting to us are 3.x clients and still using
-      the original scheme.
+    - Needed to backout the newer style of determining disk free space
+        on the clients since all the clients currently reporting to us
+        are 3.x clients and still using the original scheme.
 
     sched/
         sched_send.C
         server_types.C, .h
+
+David  13 Aug 2004
+    - bad IP address display on GUI RPC reject
+
+    client/
+        gui_rpc_server.C
+    sched/
+        request_file_list.C

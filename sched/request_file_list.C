@@ -26,11 +26,10 @@
 // Create a msg_to_host_that requests the list of permanant files
 // associated with the project
 
-#if HAVE_UNISTD_H
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#endif
+#include <time.h>
 
 #include "boinc_db.h"
 #include "sched_config.h"
@@ -71,10 +70,9 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
-    // get arguments
     for(i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
-            if(!strcmp(argv[++i], "all")) {
+            if (!strcmp(argv[++i], "all")) {
                 host_id = 0;
             } else {
                 host_id = atoi(argv[i]);
@@ -87,34 +85,29 @@ int main(int argc, char** argv) {
         }
     }
 
-    // if no arguments are given, error and exit
     if (host_id == 0) {
         fprintf(stderr, "request_file_list: bad command line, requires a valid host_id\n");
         exit(1);
     }
 
-    // parse the configuration file to get database information
     retval = config.parse_file("..");
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);
     }
 
-    // open the database
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
         fprintf(stderr, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
-    // run the get file routine
-    if(host_id == 0) {
+    if (host_id == 0) {
         retval = request_files_from_all();
     } else {
         retval = request_file_list(host_id);
     }
-    // close the database
+
     boinc_db.close();
-    // return with error code if any
     return retval;
 }
