@@ -41,7 +41,8 @@ private:
 	int						m_nMode;
 	int						m_nPrevMode;
 	unsigned long			m_bBlankScreen;
-	unsigned long			m_nBlankTime;
+	unsigned long			m_uBlankTime;
+	UINT					m_uPaintMsg;
 	CPoint					m_MousePos;
 	CRect					m_Rect;
 	HDC hdc;

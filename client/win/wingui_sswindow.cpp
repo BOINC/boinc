@@ -40,6 +40,7 @@ CSSWindow::CSSWindow()
 	int nX = rand() % 50;
 	int nY = rand() % 50;
 	m_Rect.SetRect(0+nX,0+nY,640+nX,480+nY);
+	m_uPaintMsg = RegisterWindowMessage("BOINC_PAINT");
 }
 
 // CMainWindow::ChangeMode
@@ -74,9 +75,9 @@ void CSSWindow::SetMode(int nMode)
 		dwStyle=WS_POPUP;
 		while(ShowCursor(false) >= 0);
 		UtilGetRegKey("Blank", m_bBlankScreen);
-		UtilGetRegKey("Blank Time", m_nBlankTime);
-		m_nBlankTime *= 60;
-		m_nBlankTime += time(0);
+		UtilGetRegKey("Blank Time", m_uBlankTime);
+		m_uBlankTime *= 60;
+		m_uBlankTime += time(0);
 	} else {
 		if(m_Rect.IsRectEmpty()) m_Rect.SetRect(CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT);
 		WindowRect = m_Rect;
@@ -214,7 +215,7 @@ bool CSSWindow::BlankScreen()
 {
 	return	(m_bBlankScreen) &&
 			(m_nMode == MODE_FULLSCREEN) &&
-			(time(0) >= m_nBlankTime);
+			(time(0) >= m_uBlankTime);
 }
 
 //////////
@@ -230,11 +231,10 @@ void CSSWindow::OnTimer()
 		return;
 	}
 	if(gstate.active_tasks.active_tasks.size() != 0) {
-		UINT uPaintMsg = RegisterWindowMessage("BOINC_PAINT");
 		CWnd* pAppWnd = GetWndFromProcId(gstate.active_tasks.active_tasks[0]->pid);
 		SetWindowText(gstate.active_tasks.active_tasks[0]->wup->app_name);
 		if(pAppWnd) {
-			if(!pAppWnd->SendMessage(uPaintMsg, 0, (LPARAM)GetSafeHwnd())) {
+			if(!pAppWnd->SendMessage(m_uPaintMsg, 0, (LPARAM)GetSafeHwnd())) {
 				PaintDefault();
 			}
 		} else {
