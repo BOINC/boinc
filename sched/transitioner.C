@@ -143,6 +143,11 @@ void handle_wu(DB_WORKUNIT& wu) {
     //
     if (nsuccess >= wu.min_quorum && have_result_to_validate) {
         wu.need_validate = true;
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "[WU#%d %s] need_validate:=>true [nsuccess=%d >= min_quorum=%d]\n",
+            wu.id, wu.name, nsuccess, wu.min_quorum
+        );
     }
 
     // check for WU error conditions
@@ -195,6 +200,11 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
         if (wu.assimilate_state == ASSIMILATE_INIT) {
             wu.assimilate_state = ASSIMILATE_READY;
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "[WU#%d %s] error_mask:%d assimilate_state:INIT=>READY\n",
+                wu.id, wu.name, wu.error_mask
+                );
         }
     } else if (wu.assimilate_state == ASSIMILATE_INIT) {
         // If no error, generate new results if needed.
