@@ -9,6 +9,7 @@ define('AVATAR_HEIGHT',100);
 define('ST_ADMIN', 'Project administrator');
 define('ST_MODERATOR', 'Forum moderator');
 define('ST_DEV', 'Developer');
+define('ST_TEST', 'Tester');
 define('ST_VOLDEV', 'Volunteer developer');
 define('ST_SCIENT', 'Project scientist');
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
@@ -478,6 +479,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->special_user==3) $fstatus=ST_DEV;                                                //talking to.
         if ($user->special_user==4) $fstatus=ST_VOLDEV;
         if ($user->special_user==5) $fstatus=ST_SCIENT;
+        if ($user->special_user==6) $fstatus=ST_TEST;
         /*...*/
     } else {
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
