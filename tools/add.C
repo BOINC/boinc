@@ -305,7 +305,7 @@ int main(int argc, char** argv) {
             prefs_file = argv[i];
         } else if (!strcmp(argv[i], "-download_url")) {
             i++;
-            url_base = argv[i];
+            download_url = argv[i];
         } else if (!strcmp(argv[i], "-download_dir")) {
             i++;
             download_dir = argv[i];
