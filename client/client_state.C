@@ -1581,7 +1581,7 @@ int CLIENT_STATE::report_result_error(
 
     sprintf(
         buf,
-        "<message>%s</message>\n"
+        "<message>%s\n</message>\n"
         "<active_task_state>%d</active_task_state>\n"
         "<exit_status>%d</exit_status>\n"
         "<signal>%d</signal>\n",

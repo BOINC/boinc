@@ -505,7 +505,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     atp->state = PROCESS_ABORTED;
                     atp->result->active_task_state = PROCESS_ABORTED;
                     gstate.report_result_error(
-                        *(atp->result), 0, "process was aborted\n"
+                        *(atp->result), 0, "process was aborted"
                     );
                 } else {
                     atp->state = PROCESS_EXITED;
@@ -516,7 +516,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     if (exit_code) {
                         gstate.report_result_error(
                             *(atp->result), 0,
-                            "process exited with a non zero exit code\n"
+                            "process exited with a non zero exit code"
                         );
                     }
                 }
@@ -557,7 +557,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             atp->state = PROCESS_ABORTED;
             atp->result->active_task_state = PROCESS_ABORTED;
             gstate.report_result_error(
-                *(atp->result), 0, "process was aborted\n"
+                *(atp->result), 0, "process was aborted"
             );
         } else {
             if (WIFEXITED(stat)) {
@@ -572,7 +572,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 if(atp->exit_status) {
                     gstate.report_result_error(
                         *(atp->result), 0,
-                        "process exited with a nonzero exit code\n"
+                        "process exited with a nonzero exit code"
                     );
                 }
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);
@@ -582,7 +582,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 atp->result->signal = atp->signal;
                 atp->result->active_task_state = PROCESS_WAS_SIGNALED;
                 gstate.report_result_error(
-                    *(atp->result), 0, "process was signaled\n"
+                    *(atp->result), 0, "process was signaled"
                 );
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process was signaled: %d\n", atp->signal);
             } else {
@@ -914,7 +914,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
             atp->result->active_task_state = PROCESS_COULDNT_START;
             gstate.report_result_error(
                 *(atp->result), retval,
-                "Couldn't restart the app for this result.\n"
+                "Couldn't restart the app for this result."
             );
             active_tasks.erase(iter);
         } else {

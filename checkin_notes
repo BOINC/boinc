@@ -5515,3 +5515,7 @@ David  Aug 1 2003
 Karl 2003/08/01
     - increased MAX_APP_VERSIONS from 100 to 500
     sched/*
+
+Karl 2003/08/01
+    - fixed \n s in client messages
+    client/*
