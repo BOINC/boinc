@@ -145,7 +145,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(attach_project)) {
             add_new_project();
         } else if (ARG(version)) {
-            printf(BOINC_STRING_VERSION " " HOSTTYPE "\n");
+            printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
             exit(0);
         } else if (ARG(allow_remote_gui_rpc)) {
             allow_remote_gui_rpc = true;
