@@ -101,17 +101,16 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h)
+AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h)
 SAH_GRX_INCLUDES
 AC_LANG_PUSH(C++)
 SAH_HEADER_STDCXX
 SAH_CHECK_NAMESPACES
 AH_TEMPLATE([HAVE_STD_MIN],[Define to 1 if min is in namespace std::])
 AH_TEMPLATE([HAVE_STD_MAX],[Define to 1 if max is in namespace std::])
-AH_TEMPLATE([HAVE_STD_TRANSFORM],[Define to 1 if transform is in namespace std::
-])
-SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *)
-0,(char *)0,(int(*)(int))malloc)']],std)
+AH_TEMPLATE([HAVE_STD_LOCALE],[Define to 1 if locale is in namespace std::])
+AH_TEMPLATE([HAVE_STD_TRANSFORM],[Define to 1 if transform is in namespace std:: ])
+SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *) 0,(char *)0,(int(*)(int))malloc)'] ['locale("")']],std)
 AC_LANG_POP
 dnl TODO: use compiler to test these; there probably exists an autoconf macro already!
 case "$target" in

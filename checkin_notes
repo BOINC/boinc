@@ -14889,3 +14889,19 @@ David  8 July 2004
             index.php
         user/
             download.php
+
+Daniel 2004-07-08
+    - Changed OpenBSD- and NetBSD-specific #ifdef's to be determined
+      by autoconf. No idea if this works on OpenBSD/NetBSD yet.
+
+    Makefile.in
+    aclocal.m4
+    config.h.in
+    configure
+    configure.ac
+    lib/
+        filesys.C
+        util.C
+    */
+        Makefile.in
+
