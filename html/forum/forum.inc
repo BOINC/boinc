@@ -429,7 +429,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
         if ($helpdesk) {
             echo "<a href=help_desk.php>", " Questions and problems</a> : ";
         } else {
-            echo "<a href=index.php>", " Messages boards</a> : ";
+            echo "<a href=index.php>", " Message boards</a> : ";
         }
         echo "<a href=\"forum.php?id=", $forum->id, "\">", $forum->title, "</a> : ";
         echo $thread->title;
