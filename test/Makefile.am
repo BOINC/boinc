@@ -17,7 +17,7 @@ TESTS = test_sanity.py				\
 
 EXTRA_DIST =							\
         *.xml *wu *result *output *input			\
-	test_*.py						\
+	test*.py						\
 	db_def_to_php *.php version.inc.in boinc_db.inc 	\
 	test*.inc init.inc boinc_db.inc
 
