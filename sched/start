@@ -88,6 +88,7 @@ verbose_daemon_run = 0
 # fork. this is just a safety measure in case anything doesn't play nice if
 # starting simultaneously.  also it keeps output in sequence.
 fork_delay = 0.1
+ignore_timestamps = False
 
 def get_dir(name):
     return config.config.__dict__.get(name+'_dir') or os.path.join(project_dir,name)
@@ -123,8 +124,8 @@ def ensure_dir(filename):
     except OSError:
         return
 
-def timestamp():
-    return time.strftime('%Y/%m/%d %H:%M:%S')
+def timestamp(t = None):
+    return time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(t or time.time()))
 
 def safe_read_int(filename):
     try:
@@ -213,6 +214,13 @@ def double_fork():
 def write_pid_file(pidfile):
     print >>open(pidfile,'w'), os.getpid()
 
+def is_pid_running(pid):
+    try:
+        os.kill(pid,0)
+        return True
+    except OSError:
+        return False
+
 # if we ever want to use this on windows see:
 #    http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/65203
 # returns 0 on success, -1 on error
@@ -225,6 +233,12 @@ def lock_file(filename):
         return fcntl.flock(file.fileno(), fcntl.LOCK_EX|fcntl.LOCK_NB)
     except IOError:
         return -1
+
+def is_lock_file_locked(filename):
+    if lock_file(filename):
+        return True
+    else:
+        os.unlink(filename)
 
 def contains_shell_characters(command):
     return ('"' in command or "'" in command or
@@ -248,11 +262,47 @@ def exec_command_string(command):
     os._exit(1)
 
 def lookup_task_run_state(task):
-    # TODO
-    pass
+    for run_state_task in run_state.tasks:
+        if run_state_task.cmd == task.cmd:
+            return run_state_task
+    run_state_task = newConfigDict('task')
+    run_state_task.cmd = task.cmd
+    run_state_task.last_run = 0
+    run_state.tasks.append(run_state_task)
+    return run_state_task
+
+def interpret_period(str):
+    ''' "5 min" -> 5*60 ; "1 hour" -> 1*60*60;  "2" -> 2*60 '''
+    s = str.strip().split()
+    try:
+        num = int(s[0])
+        if len(s) == 1:
+            return num*60
+        if len(s) == 2:
+            u = s[1].lower()
+            if u.startswith('s'):
+                return num
+            if u.startswith('m'):
+                return num*60
+            if u.startswith('h'):
+                return num*60*60
+            if u.startswith('d'):
+                return num*60*60*24
+            if u.startswith('w'):
+                return num*60*60*24*7
+            if u.startswith('mo'):
+                return num*60*60*24*30
+    except ValueError:
+        pass
+    raise SystemExit('Invalid task period "%s"'%str)
+
+
+def when_will_task_next_run(task, task_run_state):
+    return task_run_state.last_run + interpret_period(task.period)
 
 def time_to_run_task(task, task_run_state):
-    return (time.time() >= task_run_state.last_run + interpret_period(task.period))
+    return (ignore_timestamps or
+            (time.time() >= when_will_task_next_run(task,task_run_state)))
 
 def update_task_timestamp(task_run_state):
     task_run_state.last_run = time.time()
@@ -360,18 +410,46 @@ def command_status():
     else:
         print "BOINC is DISABLED"
     if verbose:
-        # TODO: for each daemon and task, show:
-        #    - lock file exists/locked, ctime?
-        #    - pid file exists, ctime, pid ?
-        #    - process running? (use kill(0))
-        #    - timestamp (task)
-        #    - next run in how long? (task)
+        print
+        print "DAEMON  pid  status  lockfile    commandline"
+        n = 0
+        for task in config.daemons:
+            n += 1
+            pid = safe_read_int(get_daemon_pid_name(task)) or 0
+            if not pid:
+                rs = "           "
+            elif is_pid_running(pid):
+                rs = " running "
+            else:
+                rs = "NOT FOUND"
+            if is_lock_file_locked(get_task_lock_name(task)):
+                lu = " locked "
+            else:
+                lu = "UNLOCKED"
+            print "  %2d"%n, " %5d"%pid, rs, lu, " ", task.cmd
+        print
+        print "TASK   last-run  next-run  lockfile   commandline"
+        n = 0
+        for task in config.tasks:
+            n += 1
+            task_run_state = lookup_task_run_state(task)
+            last_run = task_run_state.last_run and timestamp(task_run_state.last_run) or '?'
+            when_next_run = when_will_task_next_run(task, lookup_task_run_state(task))
+            next_run = (when_next_run <=time.time()) and 'NOW' or timestamp(when_next_run)
+            if is_lock_file_locked(get_task_lock_name(task)):
+                lu = "[ locked ]"
+            else:
+                lu = "[UNLOCKED]"
+            print "  %2d"%n, last_run, next_run, lu, task.cmd
         pass
 
 def command_show_config():
+    # TODO: - all config items (e.g. where's logdir?)
+    raise SystemExit('TODO')
+
+def command_run_tasks_now():
     # TODO
-    # - all config items (e.g. where's logdir?)
-    pass
+    raise SystemExit('TODO')
 
 program_name = os.path.basename(sys.argv[0])
 if program_name == 'start':
@@ -386,16 +464,20 @@ def help():
     print >>sys.stderr, """   Starts or stops BOINC daemons and tasks.
 
 Commands:
-   --enable  (-e)   Set BOINC to ENABLED mode and start daemons
-   --cron    (-c)   If ENABLED, start daemons and run tasks
-                    Intended to be run from real cron every 5 min.
-   --disable (-d)   Set BOINC to DISABLED mode and stop daemons
-   --status  (-s)   Show status.
-   --show-config    Show configuration.
+   --enable  (-e)     Set BOINC to ENABLED mode and start daemons
+   --cron    (-c)     If ENABLED, start daemons and run tasks
+                      Intended to be run from real cron every 5 min.
+   --disable (-d)     Set BOINC to DISABLED mode and stop daemons
+   --status  (-s)     Show status.
+   --show-config      Show configuration.
 
 Options:
-   --quiet   (-q)   Operate quietly, even if STDOUT is a tty.
-   --verbose (-v)   Operate verbosely, even if STDOUT is not a tty.
+   --quiet   (-q)     Operate quietly, even if STDOUT is a tty.
+   --verbose (-v)     Operate verbosely, even if STDOUT is not a tty.
+
+   --fork-delay=N     Seconds to sleep between daemon forks
+   --ignore-timestamps    Ignore timestamps; for cron mode, runs all tasks now
+
 """
     if program_name == 'start':
         print >>sys.stderr, "Based on the invocation name as `start', the default action is --enable."
@@ -408,7 +490,8 @@ try:
                                ('enable', 'cron', 'disable',
                                 'start', 'stop', 'kill', 'status',
                                 'show-config',
-                                'fork_delay=',
+                                'ignore-timestamps',
+                                'fork-delay=',
                                 'quiet', 'verbose', 'help'))
 except Exception, e:
     print >>sys.stderr, e
@@ -431,7 +514,9 @@ for opt,v in opts:
         command = command_status
     elif opt == '--show-config':
         command = command_show_config
-    elif opt == '--fork_delay':
+    elif opt == '--ignore-timestamps':
+        ignore_timestamps = True
+    elif opt == '--fork-delay':
         fork_delay = v
     else: assert(False)
 
