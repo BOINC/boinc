@@ -10443,3 +10443,44 @@ Rom    Mar 11 2004 (for Thomas Horsten)
     client/
         hostinfo_unix.cpp
 
+Jeff  Mar 13 2004
+    - Another static/dynamic linking proplem fixed by an ugly collect2
+      hack.  It turns out that a statically linked linux client gets the 
+      following warning at build time:
+
+	hostinfo.C:230: warning: Using 'gethostbyname' in statically 
+	linked applications requires at runtime the shared libraries 
+	from the glibc version used for linking
+
+      and sure enough, when such a client is run on a linux platform
+      with a incompatible glibc, we saw the following:
+
+	2004-03-12 11:07:57 [BOINC] Can't resolve hostname setiboinc 
+	2004-03-12 11:07:57 [BOINC] Can't resolve hostname setiboinc 
+	2004-03-12 11:07:57 [http://setiboinc/ap/] Couldn't read master 
+	  page for http://setiboinc/ap/: error -113
+	2004-03-12 11:07:57 [http://setiboinc/ap/] Couldn't read master 
+	  page for http://setiboinc/ap/: error -113
+	2004-03-12 11:07:57 [http://setiboinc/ap/] Detaching from project - 
+	  check for URL error
+	2004-03-12 11:07:57 [http://setiboinc/ap/] Detaching from project - 
+	  check for URL error 
+
+      So we needed to link dynamically to libc but statically to libstdc++
+      (for reasons described elsewhere in these notes).  The only way found
+      so far to do this is via a hand crafted collect2 line.  
+
+      We should make the collect2 scripts adapt to the environment in
+      which they ar run.  Or, better, figure out how to do this all
+      within configure/make.
+
+    - bumped version to 2.28.
+
+    configure.ac
+    configure
+    client
+	Makefile.am
+	Makefile.in
+	collect2_line_linux.csh		new file
+	collect2_line_solaris.csh	new file
+	collect2_line			removed
