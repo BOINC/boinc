@@ -1,4 +1,4 @@
 #define MAJOR_VERSION 3
-#define MINOR_VERSION 6
-#define PACKAGE_VERSION "3.06"
-#define VERSION "3.06"
+#define MINOR_VERSION 7
+#define PACKAGE_VERSION "3.07"
+#define VERSION "3.07"
