@@ -134,7 +134,8 @@ int result_delete_files(RESULT& result) {
                     ++count_deleted;
                     log_messages.printf(SCHED_MSG_LOG::NORMAL,
                         "[%s] unlinked %s; retval %d %s\n",
-                         result.name, filename, retval, (retval && errno)?strerror(errno):""
+                         result.name, pathname, retval,
+                         (retval && errno)?strerror(errno):""
                     );
                 }
             }

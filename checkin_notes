@@ -24387,3 +24387,16 @@ Eric K. 9 Feb 2005
         Makefile.am
     lib/
         std_fixes.h
+
+David  9 Feb 2005
+    - locality scheduling: move check for transient infeasibility
+        to SCHEDULER_REPLY::work_needed() for uniformity
+    - scheduler: if request has different CPID, accept it
+        whether or not it's greater than current one
+    - file deleter: show full path in error messages
+
+    sched/
+        handle_request.C
+        sched_locality.C
+        sched_send.C
+        server_types.h

@@ -278,15 +278,8 @@ static int send_results_for_file(
     for (i=0; i<100; i++) {     // avoid infinite loop
         int query_retval;
 
-        if (!reply.work_needed()) break;
+        if (!reply.work_needed(true)) break;
 
-        // if we've failed to send a result because of a transient condition,
-        // leave loop to preserve invariant
-        //
-        if (reply.wreq.insufficient_disk || reply.wreq.insufficient_speed) {
-            break;
-        }
-    
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "in_send_results_for_file(%s, %d) prev_result.id=%d\n", filename, i, prev_result.id
         );
@@ -519,7 +512,7 @@ static int send_new_file_work_deterministic(
 
     // continue deterministic search at lexically first possible
     // filename, continue to randomly choosen one
-    if (!getfile_retval && reply.work_needed()) {
+    if (!getfile_retval && reply.work_needed(true)) {
         send_new_file_work_deterministic_seeded(sreq, reply, platform, ss, nsent, "", start_filename);
         if (nsent) {
             return 0;
@@ -562,7 +555,7 @@ static int send_new_file_work(
     SCHED_SHMEM& ss
 ) {
 
-    while (reply.work_needed()) {
+    while (reply.work_needed(true)) {
         int random_time=6*3600+rand()%(6*3600);
 
         // send work that's been hanging around the queue for more than 6
@@ -571,14 +564,14 @@ static int send_new_file_work(
             "send_new_file_work() trying to send results created > %.1f hours ago\n", ((double)random_time)/3600.0);
         send_old_work(sreq, reply, platform, ss, random_time);
     
-        if (reply.work_needed()) {
+        if (reply.work_needed(true)) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "send_new_file_work() trying to send from working set\n"
             );
             send_new_file_work_working_set(sreq, reply, platform, ss);
         }    
 
-        if (reply.work_needed()) {
+        if (reply.work_needed(true)) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "send_new_file_work() trying deterministic method\n"
             );
@@ -674,7 +667,7 @@ void send_work_locality(
     //
     for (i=0; i<(int)sreq.file_infos.size(); i++) {
         k = (i+j)%nfiles;
-        if (!reply.work_needed()) break;
+        if (!reply.work_needed(true)) break;
         FILE_INFO& fi = sreq.file_infos[k];
         send_results_for_file(
             fi.name, nsent, sreq, reply, platform, ss, false
@@ -693,7 +686,7 @@ void send_work_locality(
 
     // send new files if needed
     //
-    if (reply.work_needed()) {
+    if (reply.work_needed(true)) {
         send_new_file_work(sreq, reply, platform, ss);
     }
 }

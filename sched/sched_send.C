@@ -748,7 +748,15 @@ void unlock_sema() {
 // and we haven't exceeded result per RPC limit,
 // and we haven't exceeded results per day limit
 //
-bool SCHEDULER_REPLY::work_needed() {
+bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
+    if (locality_sched) {
+        // if we've failed to send a result because of a transient condition,
+        // return false to preserve invariant
+        //
+        if (wreq.insufficient_disk || wreq.insufficient_speed) {
+            return false;
+        }
+    }
     if (wreq.seconds_to_fill <= 0) return false;
     if (wreq.disk_available <= 0) {
         wreq.insufficient_disk = true;
