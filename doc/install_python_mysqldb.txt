@@ -37,14 +37,11 @@ Debian Linux: shared module
 
 Red Hat Linux: shared module
 ----------------------------
-    WARNING: The RPM on SourceForge is currently (2003/08/28) for Python 1.5
-    and will likely not work for your system; instead see below.
-
     1. Download MySQL-python
-       $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2-1.i386.rpm
+       $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python2-0.9.2-1.i386.rpm
 
     2. Install
-       # rpm -i MySQL-python-0.9.2-1.i386.rpm
+       # rpm -i MySQL-python2-0.9.2-1.i386.rpm
 
 Other Unix/Linux: shared module
 -------------------------------
