@@ -387,7 +387,7 @@ bool ACTIVE_TASK_SET::poll() {
     LONGLONG totTime;
     bool found = false;
 
-    for (i=0; i<active_tasks.size(); i++) {
+    for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             // Get the elapsed CPU time
@@ -406,7 +406,7 @@ bool ACTIVE_TASK_SET::poll() {
                 if (atp->state == PROCESS_ABORT_PENDING) {
                     atp->state = PROCESS_ABORTED;
 		    atp->result->active_task_state = PROCESS_ABORTED;
-		    gstate.report_project_error(atp.result,0,"process was aborted\n");
+		    gstate.report_project_error(*(atp->result),0,"process was aborted\n");
                 } else {
                     atp->state = PROCESS_EXITED;
                     atp->exit_status = exit_code;
@@ -415,7 +415,7 @@ bool ACTIVE_TASK_SET::poll() {
 		    //if a nonzero error code, then report it
 		    if(exit_code)
 		      {
-			gstate.report_project_error(atp.result,0,"process exited with a non zero exit code\n");
+			gstate.report_project_error(*(atp->result),0,"process exited with a non zero exit code\n");
 		      }
                 }
                 CloseHandle(atp->pid_handle);
@@ -535,7 +535,7 @@ void ACTIVE_TASK_SET::suspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->suspend());
+        if(atp->suspend())
 	{
 	 fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
 	} 
@@ -564,7 +564,7 @@ void ACTIVE_TASK_SET::exit_tasks() {
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->request_exit());
+        if(atp->request_exit())
 	{
 	  fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
 	}
