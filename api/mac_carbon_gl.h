@@ -122,6 +122,24 @@ void DoUpdate (AGLContext aglContext);
 
 extern WindowRef appGLWindow;
 
+
+// structures (public) -----------------------------------------------
+
+enum { fadeTicks = 10 };
+
+// public function declarations -------------------------------------
+
+OSStatus StartDSp (void);
+void ShutdownDSp (void);
+
+CGrafPtr GetDSpDrawable (DSpContextReference dspContext);
+void DestroyDSpContext (DSpContextReference* pdspContext);
+
+OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, long fadeTicks); 
+OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeTicks);
+
+extern Boolean gDSpStarted;
+
 #ifdef __cplusplus
 }
 #endif
