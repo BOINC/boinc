@@ -67,7 +67,7 @@ void renderBitmapString(float x, float y, void *font, char *string);
 
 #define CHECKPOINT_FILE "upper_case_state"
 
-char the_char[10];
+char display_buf[10];
 double xPos=0, yPos=0;
 double xDelta=0.03, yDelta=0.07;
 
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
 
     my_start_time = time(0);
 
-    strcpy(the_char, "(none)\0");
+    strcpy(display_buf, "(none)\0");
     retval = boinc_init();
     if (retval) exit(retval);
 
@@ -157,7 +157,6 @@ int main(int argc, char **argv) {
     //     "<app prefs>\n%s\n</app_prefs>\n", uc_aid.app_preferences
     // );
 
-    boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
@@ -166,12 +165,18 @@ int main(int argc, char **argv) {
         if (!strcmp(argv[i], "-signal")) raise_signal = 1;
         if (!strcmp(argv[i], "-exit")) random_exit = 1;
     }
+    boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     in = fopen(resolved_name, "r");
-    boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
     if (in == NULL) {
-        fprintf( stderr, "Couldn't find input file.\n" );
+        fprintf(
+            stderr,
+            "Couldn't find input file, resolved name %s.\n",
+            resolved_name
+        );
         exit(-1);
     }
+
+    boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
     state = fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
@@ -184,14 +189,16 @@ int main(int argc, char **argv) {
         retval = out.open(resolved_name, "w");
     }
     if (retval) {
-        fprintf(stderr, "APP: upper_case output open failed %d\n", retval);
+        fprintf(stderr, "APP: upper_case output open failed:\n");
+        fprintf(stderr, "resolved name %s, retval %d\n", resolved_name, retval);
+        perror("open");
         exit(1);
     }
     time_file.open("time.xml", "w");
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
-        sprintf(the_char, "%c -> %c", c, toupper(c));
+        sprintf(display_buf, "%c -> %c", c, toupper(c));
         c = toupper(c);
         out._putchar(c);
         nchars++;
@@ -260,14 +267,13 @@ extern GLuint main_font;
 void app_init_gl() {
 }
 
-bool app_render(int xs, int ys, double time_of_day)
-{
+bool app_render(int xs, int ys, double time_of_day) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
     glLoadIdentity();                                    // Reset The Current Modelview Matrix
     glColor3f(1,1,1);
 
     glRasterPos2f(xPos, yPos);
-    glPrint(main_font, the_char);
+    glPrint(main_font, display_buf);
 
     xPos += xDelta;
     yPos += yDelta;
