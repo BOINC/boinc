@@ -98,20 +98,20 @@ void make_work() {
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_CRITICAL, "can't read config file\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't open db\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't open db\n");
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", wu_name);
     retval = wu.lookup(buf);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't find wu %s\n", wu_name);
+        log_messages.printf(SchedMessages::CRITICAL, "can't find wu %s\n", wu_name);
         exit(1);
     }
 
@@ -120,13 +120,13 @@ void make_work() {
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't read key\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't read key\n");
         exit(1);
     }
 
     retval = read_filename(result_template_file, result_template);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't open result template\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't open result template\n");
         exit(1);
     }
     nresults_left = 0;
@@ -136,7 +136,7 @@ void make_work() {
         sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
         retval = result.count(n, buf);
         if (retval) {
-            write_log(MSG_CRITICAL, "can't count results\n");
+            log_messages.printf(SchedMessages::CRITICAL, "can't count results\n");
             exit(1);
         }
         if (n > cushion) {
@@ -164,11 +164,11 @@ void make_work() {
                     );
                     sprintf(command,"ln %s %s", pathname, new_pathname);
                     if (system(command)) {
-                        write_log(MSG_CRITICAL, "system() error\n");
+                        log_messages.printf(SchedMessages::CRITICAL, "system() error\n");
                         perror(command);
                         exit(1);
                     }
-                    write_log(MSG_NORMAL, "%s\n", command);
+                    log_messages.printf(SchedMessages::NORMAL, "%s\n", command);
                     strcpy(new_buf, starting_xml);
                     replace_file_name(
                         new_buf, file_name, new_file_name, config.download_url
@@ -183,14 +183,14 @@ void make_work() {
             wu.create_time = time(0);
             retval = wu.insert();
             wu.id = boinc_db_insert_id();
-            write_log(MSG_DEBUG, "Created new WU: %s\n", wu.name);
+            log_messages.printf(SchedMessages::DEBUG, "Created new WU: %s\n", wu.name);
         }
         sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
             wu, result_template, suffix, key,
             config.upload_url, config.download_url
         );
-        write_log(MSG_DEBUG, "added result: %s_%s\n", wu.name, suffix);
+        log_messages.printf(SchedMessages::DEBUG, "added result: %s_%s\n", wu.name, suffix);
         nresults_left--;
     }
 }
@@ -210,18 +210,18 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-wu_name")) {
             strcpy(wu_name, argv[++i]);
         }
     }
 
     if (!strlen(result_template_file)) {
-        write_log(MSG_CRITICAL, "missing -result_template\n");
+        log_messages.printf(SchedMessages::CRITICAL, "missing -result_template\n");
         exit(1);
     }
     if (!strlen(wu_name)) {
-        write_log(MSG_CRITICAL, "missing -wu_name\n");
+        log_messages.printf(SchedMessages::CRITICAL, "missing -wu_name\n");
         exit(1);
     }
 
@@ -233,11 +233,11 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of make_work is already running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of make_work is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
-    write_log(MSG_NORMAL, "Starting\n");
+    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     install_sigint_handler();
 

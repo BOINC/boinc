@@ -52,10 +52,7 @@ bool do_pass(APP& app) {
     while (!wu.enumerate(buf)) {
         did_something = true;
 
-        write_log(MSG_DEBUG,
-                  "Assimilating WU %s, assim state %d\n",
-                  wu.name, wu.assimilate_state
-            );
+        log_messages.printf(SchedMessages::DEBUG, "[%s] assimilating; state=%d\n", wu.name, wu.assimilate_state);
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -126,17 +123,17 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else {
-            write_log(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SchedMessages::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -148,22 +145,22 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Not starting; another copy of assimilator is already running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Not starting; another copy of assimilator is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
 
-    write_log(MSG_NORMAL, "Starting\n");
+    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't open DB\n");
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't find app\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't find app\n");
         exit(1);
     }
     install_sigint_handler();

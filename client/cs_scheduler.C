@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -34,7 +34,6 @@
 #include "parse.h"
 #include "util.h"
 
-#include "log_flags.h"
 #include "account.h"
 #include "message.h"
 #include "scheduler_op.h"
@@ -84,7 +83,7 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
 }
 
 // find a project that needs its master file parsed
-// 
+//
 PROJECT* CLIENT_STATE::next_project_master_pending() {
     unsigned int i;
     PROJECT* p;
@@ -101,7 +100,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 }
 
 // find a project that needs to contact its scheduling server
-// 
+//
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
     time_t now = time(0);
@@ -343,13 +342,9 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     nresults = 0;
     contacted_sched_server = true;
-    if (log_flags.sched_op_debug) {
-        f = fopen(SCHED_OP_RESULT_FILE, "r");
-        printf("------------- SCHEDULER REPLY ----------\n");
-        copy_stream(f, stdout);
-        fclose(f);
-        printf("------------- END ----------\n");
-    }
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+
+    scope_messages.printf_file(SCHED_OP_RESULT_FILE, "CLIENT_STATE::handle_scheduler_reply(): reply: ");
 
     f = fopen(SCHED_OP_RESULT_FILE, "r");
     if (!f) return ERR_FOPEN;
@@ -514,9 +509,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     for (i=0; i<sr.result_acks.size(); i++) {
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
-        if (log_flags.sched_op_debug) {
-            printf("got ack for result %s\n", sr.result_acks[i].name);
-        }
+        scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): got ack for result %s\n", sr.result_acks[i].name);
         if (rp) {
             rp->server_ack = true;
         } else {
@@ -528,9 +521,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     project->sched_rpc_pending = false;
     set_client_state_dirty("handle_scheduler_reply");
-    if (log_flags.state_debug) {
-        printf("State after handle_scheduler_reply():\n");
-        print_summary();
-    }
+    scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): State after handle_scheduler_reply():\n");
+    print_summary();
     return 0;
 }

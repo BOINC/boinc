@@ -553,7 +553,7 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-dir")) {
             strcpy(dir, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-gzip")) {
             zip_files = true;
             strcpy( zip_cmd, "gzip -fq" );
@@ -568,31 +568,31 @@ int main(int argc, char** argv) {
     }
 
     if (nrecs_per_file_summary <= 0 || nrecs_per_file_detail <= 0) {
-        write_log(MSG_NORMAL, "Too few records per file.\n");
+        log_messages.printf(SchedMessages::NORMAL, "Too few records per file.\n");
         exit(1);
     }
 
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of db_dump is already running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of db_dump is already running\n");
         exit(1);
     }
-    write_log(MSG_NORMAL, "Starting\n");
+    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_NORMAL, "Can't parse config file\n");
+        log_messages.printf(SchedMessages::NORMAL, "Can't parse config file\n");
         exit(1);
     }
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_NORMAL, "Can't open DB\n");
+        log_messages.printf(SchedMessages::NORMAL, "Can't open DB\n");
         exit(1);
     }
 
     if (strlen(dir)) {
         retval = chdir(dir);
         if (retval) {
-            write_log(MSG_NORMAL, "can't chdir to %s\n", dir);
+            log_messages.printf(SchedMessages::NORMAL, "can't chdir to %s\n", dir);
             exit(1);
         }
     }

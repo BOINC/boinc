@@ -55,7 +55,7 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
-                write_log(MSG_NORMAL, "deleting %s\n", pathname);
+                log_messages.printf(SchedMessages::NORMAL, "deleting %s\n", pathname);
                 unlink(pathname);
             }
         }
@@ -81,7 +81,7 @@ int result_delete_files(RESULT& result) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
-                write_log(MSG_NORMAL, "deleting %s\n", pathname);
+                log_messages.printf(SchedMessages::NORMAL, "deleting %s\n", pathname);
                 unlink(pathname);
             }
         }
@@ -130,15 +130,15 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            write_log(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SchedMessages::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -150,15 +150,15 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of file deleter is running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of file deleter is running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
-    write_log(MSG_NORMAL, "Starting\n");
+    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't open DB\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't open DB\n");
         exit(1);
     }
     install_sigint_handler();

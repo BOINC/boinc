@@ -17,12 +17,14 @@
 // Contributor(s):
 //
 
+#ifndef UTIL_H
+#define UTIL_H
+
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
-
-#ifndef _UTIL_H_
-#define _UTIL_H_
+#include <cstdio>
+#include <cstdarg>
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern void get_byte_string(double nbytes, double total_bytes, char* str, int len);
@@ -48,6 +50,53 @@ extern char* timestamp();
 #ifndef min
 #define min(a,b)            (((a) < (b)) ? (a) : (b))
 #endif
+
+
+// use ClientMessages or SchedMessages
+class Messages {
+    int debug_level;
+    int indent_level;
+    char spaces[80];
+    FILE* output;
+public:
+
+    Messages(FILE* output);
+    void enter_level(int = 1);
+    void leave_level() { enter_level(-1); }
+    Messages& operator++() { enter_level(); return *this; }
+    Messages& operator--() { leave_level(); return *this; }
+
+    void printf(int kind, const char* format, ...);
+    void printf_multiline(int kind, const char* str, const char* prefix_format, ...);
+    void printf_file(int kind, const char* filename, const char* prefix_format, ...);
+
+    void vprintf(int kind, const char* format, va_list va);
+    void vprintf_multiline(int kind, const char* str, const char* prefix_format, va_list va);
+    void vprintf_file(int kind, const char* filename, const char* prefix_format, va_list va);
+
+protected:
+
+    virtual const char* v_format_kind(int kind) const = 0;
+    virtual bool v_message_wanted(int kind) const = 0;
+};
+
+// automatically ++/--Messages on scope entry / exit
+class ScopeMessages
+{
+    Messages& messages;
+    int kind;
+public:
+    ScopeMessages(Messages& messages_, int kind_) : messages(messages_), kind(kind_)
+    { ++messages; }
+    ~ScopeMessages() { --messages; }
+    ScopeMessages& operator++() { ++messages; return *this; }
+    ScopeMessages& operator--() { --messages; return *this; }
+
+    void printf(const char* format, ...);
+    void printf_multiline(const char* str, const char* prefix_format, ...);
+    void printf_file(const char* filename, const char* prefix_format, ...);
+};
+
 
 #define SECONDS_PER_DAY 86400
 

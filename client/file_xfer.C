@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -23,7 +23,6 @@
 #include "file_names.h"
 #include "client_state.h"
 #include "filesys.h"
-#include "log_flags.h"
 #include "message.h"
 #include "file_xfer.h"
 #include "parse.h"
@@ -128,7 +127,7 @@ int FILE_XFER::parse_server_response(double &nbytes) {
     } else {
         status = ERR_UPLOAD_TRANSIENT;
     }
- 
+
     if (parse_str(req1, "<message>", buf, sizeof(buf))) {
         msg_printf(fip->project, MSG_ERROR, "Error on file upload: %s", buf);
     }
@@ -180,14 +179,14 @@ bool FILE_XFER_SET::poll() {
     FILE_XFER* fxp;
     bool action = false;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
+
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
         if (fxp->http_op_done()) {
             action = true;
             fxp->file_xfer_done = true;
-            if (log_flags.file_xfer_debug) {
-                printf("http op done; retval %d\n", fxp->http_op_retval);
-            }
+            scope_messages.printf("FILE_XFER_SET::poll(): http op done; retval %d\n", fxp->http_op_retval);
             fxp->file_xfer_retval = fxp->http_op_retval;
             if (fxp->file_xfer_retval == 0) {
                 if (fxp->is_upload) {

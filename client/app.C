@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -66,7 +66,6 @@
 #include "client_types.h"
 #include "filesys.h"
 #include "file_names.h"
-#include "log_flags.h"
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"
@@ -75,12 +74,16 @@
 
 // Goes through an array of strings, and prints each string
 //
-static int print_argv(char** argv) {
+static int debug_print_argv(char** argv) {
     int i;
 
+    log_messages.printf(ClientMessages::DEBUG_TASK, "Arguments:");
+    ++log_messages;
     for (i=0; argv[i]; i++) {
-        fprintf(stderr, "argv[%d]: %s\n", i, argv[i]);
+        log_messages.printf(ClientMessages::DEBUG_TASK,
+                            "argv[%d]: %s\n", i, argv[i]);
     }
+    --log_messages;
 
     return 0;
 }
@@ -110,7 +113,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = gstate.estimate_cpu_time(*rp->wup)*2;
     max_disk_usage = rp->wup->rsc_disk;
     max_mem_usage = rp->wup->rsc_memory;
-    
+
     return 0;
 }
 
@@ -130,6 +133,9 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE *f;
     APP_INIT_DATA aid;
     GRAPHICS_INFO gi;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+    scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
     if (first_time) {
         checkpoint_cpu_time = 0;
@@ -182,7 +188,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     retval = write_init_data_file(f, aid);
     if (retval) return retval;
-    
+
     fclose(f);
 
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
@@ -216,9 +222,7 @@ int ACTIVE_TASK::start(bool first_time) {
             sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
             sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
             retval = boinc_link(buf, link_path);
-            if (log_flags.task_debug) {
-                printf("link %s to %s\n", file_path, link_path);
-            }
+            scope_messages.printf("ACTIVE_TASK::start(): Linking %s to %s\n", file_path, link_path);
             if (retval) {
                 msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
                 fclose(f);
@@ -236,9 +240,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (first_time) {
                 sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
                 sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
-                if (log_flags.task_debug) {
-                    printf("link %s to %s\n", file_path, link_path);
-                }
+                scope_messages.printf("ACTIVE_TASK::start(): link %s to %s\n", file_path, link_path);
                 if (file_ref.copy_file) {
                     retval = boinc_copy(file_path, link_path);
                     if (retval) {
@@ -271,9 +273,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (first_time) {
                 sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
                 sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
-                if (log_flags.task_debug) {
-                    printf("link %s to %s\n", file_path, link_path);
-                }
+                scope_messages.printf("ACTIVE_TASK::start(): link %s to %s\n", file_path, link_path);
                 retval = boinc_link(buf, link_path);
                 if (retval) {
                     msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
@@ -351,7 +351,7 @@ int ACTIVE_TASK::start(bool first_time) {
     thread_handle = process_info.hThread;
 #else
     char* argv[100];
-    
+
     // Set up core/app shared memory seg
     //
     shm_key = aid.shm_key;
@@ -360,7 +360,7 @@ int ACTIVE_TASK::start(bool first_time) {
     ) {
         app_client_shm.reset_msgs();
     }
-            
+
     pid = fork();
     if (pid == 0) {
         // from here on we're running in a new process.
@@ -381,15 +381,15 @@ int ACTIVE_TASK::start(bool first_time) {
 
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
-        if (log_flags.task_debug) print_argv(argv);
+        debug_print_argv(argv);
         sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
         exit(1);
     }
-    
-    if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
+
+    scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
 #endif
     state = PROCESS_RUNNING;
     result->active_task_state = PROCESS_RUNNING;
@@ -488,6 +488,9 @@ bool ACTIVE_TASK_SET::poll() {
 
 bool ACTIVE_TASK_SET::check_app_exited() {
     ACTIVE_TASK* atp;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+
 #ifdef _WIN32
     unsigned long exit_code;
     bool found = false;
@@ -541,10 +544,10 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
     pid = wait4(0, &stat, WNOHANG, &rs);
     if (pid > 0) {
-        if (log_flags.task_debug) printf("process %d is done\n", pid);
+        scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process %d is done\n", pid);
         atp = lookup_pid(pid);
         if (!atp) {
-            fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
+            fprintf(stderr, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
             return true;
         }
         double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
@@ -572,9 +575,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                         "process exited with a nonzero exit code\n"
                     );
                 }
-                if (log_flags.task_debug) {
-                    printf("process exited: status %d\n", atp->exit_status);
-                }
+                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);
             } else if (WIFSIGNALED(stat)) {
                 atp->state = PROCESS_WAS_SIGNALED;
                 atp->signal = WTERMSIG(stat);
@@ -583,9 +584,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 gstate.report_result_error(
                     *(atp->result), 0, "process was signaled\n"
                 );
-                if (log_flags.task_debug) {
-                    printf("process was signaled: %d\n", atp->signal);
-                }
+                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process was signaled: %d\n", atp->signal);
             } else {
                 atp->state = PROCESS_EXIT_UNKNOWN;
                 atp->result->state = PROCESS_EXIT_UNKNOWN;
@@ -683,7 +682,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
 // The application has done something wrong.
 // May as well send it a kill signal.
-// 
+//
 int ACTIVE_TASK::abort() {
     state = PROCESS_ABORT_PENDING;
     result->active_task_state = PROCESS_ABORT_PENDING;
@@ -741,7 +740,7 @@ int ACTIVE_TASK_SET::exit_tasks() {
     }
 
     get_cpu_times();
-    
+
     return 0;
 }
 
@@ -814,7 +813,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
                 "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task"
             );
         }
-    } 
+    }
 }
 
 // initiate exit of all currently running tasks
@@ -891,6 +890,8 @@ int ACTIVE_TASK_SET::restart_tasks() {
     ACTIVE_TASK* atp;
     int retval;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         atp = *iter;
@@ -898,9 +899,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
         get_slot_dir(atp->slot, atp->slot_dir);
         atp->result->is_active = true;
         retval = atp->start(false);
-        if (log_flags.task) {
-            msg_printf(atp->wup->project, MSG_INFO, "Restarting computation for result %s", atp->result->name);
-        }
+        scope_messages.printf("ACTIVE_TASK_SET::restart_tasks(): Restarting computation for result %s", atp->result->name);
         if (retval) {
             msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
             atp->result->active_task_state = PROCESS_COULDNT_START;
@@ -921,7 +920,7 @@ int ACTIVE_TASK::get_cpu_time_via_os() {
     FILETIME creation_time, exit_time, kernel_time, user_time;
     ULARGE_INTEGER tKernel, tUser;
     LONGLONG totTime;
-    
+
     // Get the elapsed CPU time
     if (GetProcessTimes(pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
         tKernel.LowPart = kernel_time.dwLowDateTime;

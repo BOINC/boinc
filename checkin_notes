@@ -5177,3 +5177,47 @@ David  July 1 2003
         db_action.php
         db_form.php
         index.php
+
+Karl    2003/07/01
+    - redesigned logging facilities for both scheduler servers and client
+
+    client/
+        Makefile.am
+        app.C
+        client_messages.C (added)
+        client_state.C
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        http.C
+        main.C
+        message.h
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+
+    lib/
+        messages.C (added)
+        util.h
+
+    sched/
+        Makefile.am
+        assimilate_handler.C
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        make_work.C
+        sched_messages.C (added)
+        sched_util.C
+        sched_util.h
+        server_types.C
+        start_servers.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+        validate_test.C

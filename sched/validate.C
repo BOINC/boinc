@@ -95,7 +95,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     char buf[256];
 
     if (wu.canonical_resultid) {
-        write_log(MSG_NORMAL,
+        log_messages.printf(SchedMessages::NORMAL,
                   "validating WU %s; already have canonical result\n", wu.name
             );
 
@@ -104,7 +104,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         retval = canonical_result.lookup_id(wu.canonical_resultid);
         if (retval) {
-            write_log(MSG_NORMAL, "can't read canonical result\n");
+            log_messages.printf(SchedMessages::NORMAL, "can't read canonical result\n");
             // Mark this WU as validated, otherwise we'll keep checking it
             goto mark_validated;
         }
@@ -119,7 +119,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             ) {
                 retval = check_pair(result, canonical_result, match);
                 if (retval) {
-                    write_log(MSG_DEBUG,
+                    log_messages.printf(SchedMessages::DEBUG,
                               "validate: pair_check failed for result %d\n", result.id);
                     continue;
                 } else {
@@ -134,12 +134,12 @@ void handle_wu(DB_WORKUNIT& wu) {
                 }
                 retval = result.update();
                 if (retval) {
-                    write_log(MSG_CRITICAL, "Can't update result\n");
+                    log_messages.printf(SchedMessages::CRITICAL, "Can't update result\n");
                     continue;
                 }
                 retval = grant_credit(result, result.granted_credit);
                 if (retval) {
-                    write_log(MSG_NORMAL, "Can't grant credit\n");
+                    log_messages.printf(SchedMessages::NORMAL, "Can't grant credit\n");
                     continue;
                 }
             }
@@ -150,7 +150,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Here if WU doesn't have a canonical result yet.
         // Try to get one
 
-        write_log(MSG_DEBUG, "validating WU %s; no canonical result\n", wu.name);
+        log_messages.printf(SchedMessages::DEBUG, "validating WU %s; no canonical result\n", wu.name);
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -160,11 +160,11 @@ void handle_wu(DB_WORKUNIT& wu) {
                 results.push_back(result);
             }
         }
-        write_log(MSG_DEBUG, "found %d successful results\n", results.size());
+        log_messages.printf(SchedMessages::DEBUG, "found %d successful results\n", results.size());
         if (results.size() >= (unsigned int)min_quorum) {
             retval = check_set(results, canonicalid, credit);
             if (!retval && canonicalid) {
-                write_log(MSG_DEBUG, "found a canonical result\n");
+                log_messages.printf(SchedMessages::DEBUG, "found a canonical result\n");
                 wu.canonical_resultid = canonicalid;
                 wu.canonical_credit = credit;
                 wu.assimilate_state = ASSIMILATE_READY;
@@ -178,10 +178,10 @@ void handle_wu(DB_WORKUNIT& wu) {
                         update_result = true;
                         retval = grant_credit(result, credit);
                         if (retval) {
-                            write_log(MSG_DEBUG, "validate: grant_credit %d\n", retval );
+                            log_messages.printf(SchedMessages::DEBUG, "validate: grant_credit %d\n", retval );
                         }
                         result.granted_credit = credit;
-                        write_log(MSG_NORMAL,
+                        log_messages.printf(SchedMessages::NORMAL,
                                   "updating result %d to %d; credit %f\n",
                                   result.id, result.validate_state, credit );
                     }
@@ -198,7 +198,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                     if (update_result) {
                         retval = result.update();
                         if (retval) {
-                            write_log(MSG_CRITICAL, "validate: boinc_db_result_update %d\n", retval );
+                            log_messages.printf(SchedMessages::CRITICAL, "validate: boinc_db_result_update %d\n", retval );
                         }
                     }
                 }
@@ -212,7 +212,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     wu.need_validate = 0;
     retval = wu.update();
     if (retval) {
-        write_log(MSG_CRITICAL, "db_workunit_update: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "db_workunit_update: %d\n", retval);
     }
 }
 
@@ -240,14 +240,14 @@ int main_loop(bool one_pass) {
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_CRITICAL, "boinc_db_open: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "boinc_db_open: %d\n", retval);
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't find app %s\n", app.name);
+        log_messages.printf(SchedMessages::CRITICAL, "can't find app %s\n", app.name);
         exit(1);
     }
 
@@ -277,22 +277,22 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app_name, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-quorum")) {
             min_quorum = atoi(argv[++i]);
         } else {
-            write_log(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SchedMessages::CRITICAL, "unrecognized arg: %s\n", argv[i]);
         }
     }
 
     if (min_quorum < 1 || min_quorum > 10) {
-        write_log(MSG_CRITICAL, "bad min_quorum: %d\n", min_quorum);
+        log_messages.printf(SchedMessages::CRITICAL, "bad min_quorum: %d\n", min_quorum);
         exit(1);
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -304,11 +304,11 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of validate is already running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of validate is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
-    write_log(MSG_NORMAL, "Starting validator; min_quorum %d\n", min_quorum);
+    log_messages.printf(SchedMessages::NORMAL, "Starting validator; min_quorum %d\n", min_quorum);
 
     install_sigint_handler();
 

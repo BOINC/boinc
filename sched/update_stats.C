@@ -123,11 +123,11 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-update_hosts")) {
             do_update_hosts = true;
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         } else {
-            write_log(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SchedMessages::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
@@ -139,28 +139,28 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of update_stats is already running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of update_stats is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
-    write_log(MSG_NORMAL, "Starting\n");
+    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Can't open DB\n");
         exit(1);
     }
 
     if (do_update_users) {
         retval = update_users();
         if (retval) {
-            write_log(MSG_CRITICAL, "update_users failed: %d\n", retval);
+            log_messages.printf(SchedMessages::CRITICAL, "update_users failed: %d\n", retval);
             exit(1);
         }
     }
@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
     if (do_update_hosts) {
         retval = update_hosts();
         if (retval) {
-            write_log(MSG_CRITICAL, "update_hosts failed: %d\n", retval);
+            log_messages.printf(SchedMessages::CRITICAL, "update_hosts failed: %d\n", retval);
             exit(1);
         }
     }
@@ -176,7 +176,7 @@ int main(int argc, char** argv) {
     if (do_update_teams) {
         retval = update_teams();
         if (retval) {
-            write_log(MSG_CRITICAL, "update_teams failed: %d\n", retval);
+            log_messages.printf(SchedMessages::CRITICAL, "update_teams failed: %d\n", retval);
             exit(1);
         }
     }

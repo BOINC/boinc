@@ -30,74 +30,15 @@ using namespace std;
 #include "sched_util.h"
 #include "server_types.h"
 
-int debug_level = 0;
-
-inline const char* msg_level_dscription(int msg_level)
-{
-    switch (msg_level) {
-    case MSG_CRITICAL: return "CRITICAL";
-    case MSG_NORMAL:   return "NORMAL";
-    case MSG_DEBUG:    return "DEBUG";
-    default:           return "*** internal error; unknown msg_level ***";
-    }
-}
-
-void write_log(int msg_level, const char* p, ...) {
-    if (debug_level < msg_level) return;
-    if (p == NULL) return;
-
-    va_list     ap;
-    va_start(ap, p);
-    fprintf(stderr, "%s [%s]: ", timestamp(), msg_level_dscription(msg_level));
-    vfprintf(stderr, p, ap);
-    va_end(ap);
-}
-
-void write_log_line(int msg_level, const char* p, ...) {
-    if (debug_level < msg_level) return;
-    if (p == NULL) return;
-
-    va_list     ap;
-    va_start(ap, p);
-    fprintf(stderr, "%s [%s]: ", timestamp(), msg_level_dscription(msg_level));
-    vfprintf(stderr, p, ap);
-    fprintf(stderr, "\n");
-    va_end(ap);
-}
-
-// break a multi-line string into lines (so that we show prefix on each line)
-void write_log_multiline(int msg_level, const char* p) {
-    if (debug_level < msg_level) return;
-    if (p == NULL) return;
-
-    string line;
-    while (*p) {
-        if (*p == '\n') {
-            write_log(msg_level, "   %s\n", line.c_str());
-            line.erase();
-        } else {
-            line += *p;
-        }
-        ++p;
-    }
-    if (!line.empty()) {
-        write_log(msg_level, "  %s\n", line.c_str());
-    }
-}
-
 void write_pid_file(const char* filename)
 {
     FILE* fpid = fopen(filename, "w");
     if (!fpid) {
-        write_log(MSG_NORMAL, "Couldn't write pid\n");
+        log_messages.printf(SchedMessages::NORMAL, "Couldn't write pid\n");
         return;
     }
     fprintf(fpid, "%d\n", getpid());
     fclose(fpid);
-}
-
-void set_debug_level(int new_level) {
-    debug_level = new_level;
 }
 
 // sig_int will be set to true if SIGINT is caught.
@@ -116,12 +57,12 @@ void install_sigint_handler()
 
 void check_stop_trigger() {
     if (sig_int) {
-        write_log(MSG_CRITICAL, "Quitting due to SIGINT\n");
+        log_messages.printf(SchedMessages::CRITICAL, "Quitting due to SIGINT\n");
         exit(0);
     }
     FILE* f = fopen(STOP_TRIGGER_FILENAME, "r");
     if (f) {
-        write_log(MSG_NORMAL, "Quitting due to stop trigger\n");
+        log_messages.printf(SchedMessages::NORMAL, "Quitting due to stop trigger\n");
         exit(0);
     }
 }

@@ -17,10 +17,11 @@
 // Contributor(s):
 //
 
-#ifndef _SCHED_UTIL_
-#define _SCHED_UTIL_
+#ifndef SCHED_UTIL_H
+#define SCHED_UTIL_H
 
 #include <math.h>
+#include "util.h"
 
 // "average credit" uses an exponential decay so that recent
 // activity is weighted more heavily.
@@ -39,18 +40,28 @@
 
 #define STOP_TRIGGER_FILENAME "stop_server"
 
-#define MSG_CRITICAL 0
-#define MSG_NORMAL   1
-#define MSG_DEBUG    2
-
-void write_log(int, char const*, ...);
-void write_log_multiline(int msg_level, const char* p);
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_trigger();
 extern void update_average(double, double, double&, double&);
 extern void install_sigint_handler();
 extern bool sig_int;
+
+
+class SchedMessages : public Messages {
+    int debug_level;
+    const char* v_format_kind(int kind) const;
+    bool v_message_wanted(int kind) const;
+public:
+    enum Kind {
+        CRITICAL,
+        NORMAL,
+        DEBUG
+    };
+    SchedMessages(): Messages(stderr) {}
+    void set_debug_level(int new_level) { debug_level = new_level; }
+};
+extern SchedMessages log_messages;
 
 #endif
 

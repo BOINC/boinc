@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -100,9 +100,9 @@ int SCHEDULER_OP::init_op_project(double ns) {
     int retval;
     char err_msg[256];
 
-    if (log_flags.sched_op_debug) {
-        printf("init_op_project: starting op for %s\n", project->master_url);
-    }
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+
+    scope_messages.printf("SCHEDULER_OP::init_op_project(): starting op for %s\n", project->master_url);
 
     // if project has no schedulers, skip everything else
     // and just get its master file.
@@ -138,12 +138,12 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     int n = p->nrpc_failures;
     if (n > gstate.retry_cap) n = gstate.retry_cap;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+
     // we've hit the limit on master_url fetches
     //
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
-        if (log_flags.sched_op_debug) {
-            printf("we've hit the limit on master_url fetches\n");
-        }
+        scope_messages.printf("SCHEDULER_OP::set_min_rpc_time(): we've hit the limit on master_url fetches\n");
         exp_backoff = calculate_exponential_backoff("scheduler_op/master_url",
             p->master_fetch_failures, gstate.sched_retry_delay_min,
             gstate.master_fetch_interval
@@ -188,8 +188,9 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
 // If successful, creates an HTTP_OP that must be polled
 //
 int SCHEDULER_OP::start_rpc() {
-    FILE *f;
     int retval;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
 
     safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
     if (log_flags.sched_ops) {
@@ -198,13 +199,9 @@ int SCHEDULER_OP::start_rpc() {
             "Sending request to scheduler: %s\n", scheduler_url
         );
     }
-    if (log_flags.sched_op_debug) {
-        f = fopen(SCHED_OP_REQUEST_FILE, "r");
-        printf("--------- SCHEDULER REQUEST ---------\n");
-        copy_stream(f, stdout);
-        printf("--------- END ---------\n");
-        fclose(f);
-    }
+
+    scope_messages.printf_file(SCHED_OP_REQUEST_FILE, "SCHEDULER_OP::start_rpc(): request xml: ");
+
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;
         safe_strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
@@ -227,10 +224,10 @@ int SCHEDULER_OP::start_rpc() {
 int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     int retval;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+
     project = p;
-    if (log_flags.sched_ops) {
-        printf("Fetching master file for %s\n", project->master_url);
-    }
+    scope_messages.printf("SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n", project->master_url);
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;
         safe_strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
@@ -251,6 +248,8 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     STRING256 str;
     FILE* f;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+
     f = fopen(MASTER_FILE_NAME, "r");
     if (!f) {
         msg_printf(project, MSG_ERROR, "Can't open master file\n");
@@ -263,9 +262,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
         }
     }
     fclose(f);
-    if (log_flags.sched_op_debug) {
-        printf("Parsed master file; got %d scheduler URLs\n", (int)urls.size());
-    }
+    scope_messages.printf("SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n", (int)urls.size());
 
     // couldn't find any urls in the master file?
     //
@@ -313,6 +310,8 @@ bool SCHEDULER_OP::poll() {
     bool action = false, err = false;
     char err_msg[256],*err_url=NULL;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
         // here we're fetching the master file for a project
@@ -323,12 +322,8 @@ bool SCHEDULER_OP::poll() {
             gstate.set_client_state_dirty("master URL fetch done");
             http_ops->remove(&http_op);
             if (http_op.http_op_retval == 0) {
-                if (log_flags.sched_op_debug) {
-                    printf(
-                        "Got master file from %s; parsing\n",
-                        project->master_url
-                    );
-                }
+                scope_messages.printf("SCHEDULER_OP::poll(): Got master file from %s; parsing\n",
+                                      project->master_url);
                 retval = parse_master_file(urls);
                 if (retval) {
                     // master file parse failed.
@@ -381,9 +376,7 @@ bool SCHEDULER_OP::poll() {
             //
             if (!check_master_fetch_start()) {
                 state = SCHEDULER_OP_STATE_IDLE;
-                if (log_flags.sched_op_debug) {
-                    printf("Scheduler_op: return to idle state\n");
-                }
+                scope_messages.printf("SCHEDULER_OP::poll(): return to idle state\n");
             }
 
         }
@@ -483,16 +476,12 @@ bool SCHEDULER_OP::poll() {
             if (project) {
                 retval = init_master_fetch(project);
                 if (retval) {
-                    if (log_flags.sched_op_debug) {
-                        printf("Scheduler op: init_master_fetch failed.\n" );
-                    }
+                    scope_messages.printf("SCHEDULER_OP::poll(): init_master_fetch failed.\n" );
                     backoff(project, "Scheduler op: init_master_fetch failed.\n" );
                 }
             } else {
                 state = SCHEDULER_OP_STATE_IDLE;
-                if (log_flags.sched_op_debug) {
-                    printf("Scheduler_op: return to idle state\n");
-                }
+                scope_messages.printf("SCHEDULER_OP::poll(): return to idle state\n");
             }
         }
         break;

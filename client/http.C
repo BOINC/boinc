@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -36,9 +36,9 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
-#include "log_flags.h"
 #include "http.h"
 #include "util.h"
+#include "message.h"
 
 #define HTTP_BLOCKSIZE  16384
 
@@ -128,6 +128,9 @@ static void http_post_request_header(
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     int i, n;
     char buf[1024], *p;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+
     if (socket<0) {
         fprintf(stderr, "error: read_http_reply_header: negative socket\n");
         return ERR_NEG;
@@ -138,7 +141,8 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     for (i=0; i<1024; i++) {
         n = recv(socket, buf+i, 1, 0);
         if (strstr(buf, "\r\n\r\n") || strstr(buf, "\n\n")) {
-            if (log_flags.http_debug) printf("reply header on socket %d:\n%s", socket, buf);
+            // scope_messages.printf("read_http_reply_header(): reply header on socket %d:\n", socket);
+            scope_messages.printf_multiline(buf, "read_http_reply_header(): header: ");
             p = strchr(buf, ' ');
             if (p) {
                 header.status = atoi(p+1);
@@ -244,6 +248,8 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     double size;
     char proxy_buf[256];
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     safe_strcpy(infile, in);
@@ -260,10 +266,8 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     }
     http_post_request_header(
         request_header, hostname, port, proxy_buf, content_length
-    );
-    if (log_flags.http_debug) {
-        printf("init_post: %x io_done %d\n", (unsigned int)this, io_done);
-    }
+        );
+    scope_messages.printf("HTTP_OP::init_post(): %x io_done %d\n", (unsigned int)this, io_done);
     return 0;
 }
 
@@ -330,6 +334,8 @@ bool HTTP_OP_SET::poll() {
     int n, retval;
     bool action = false;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+
     for (i=0; i<http_ops.size(); i++) {
         htp = http_ops[i];
         switch(htp->http_op_state) {
@@ -351,13 +357,10 @@ bool HTTP_OP_SET::poll() {
                 n = send(
                     htp->socket, htp->request_header,
                     strlen(htp->request_header), 0
-                );
-                if (log_flags.http_debug) {
-                    printf(
-                        "wrote HTTP header to socket %d: %d bytes\n%s",
-                        htp->socket, n, htp->request_header
                     );
-                }
+                scope_messages.printf("HTTP_OP_SET::poll(): wrote HTTP header to socket %d: %d bytes\n",
+                                      htp->socket, n);
+                scope_messages.printf_multiline(htp->request_header, "HTTP_OP_SET::poll(): request header: ");
                 htp->io_ready = false;
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST:
@@ -411,9 +414,7 @@ bool HTTP_OP_SET::poll() {
         case HTTP_STATE_REQUEST_BODY:
             if (htp->io_done) {
                 action = true;
-                if (log_flags.http_debug) {
-                    printf("finished sending request body\n");
-                }
+                scope_messages.printf("HTTP_OP_SET::poll(): finished sending request body\n");
                 htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                 if (htp->file) {
                     fclose(htp->file);
@@ -428,7 +429,7 @@ bool HTTP_OP_SET::poll() {
         case HTTP_STATE_REPLY_HEADER:
             if (htp->io_ready) {
                 action = true;
-                if (log_flags.http_debug) printf("got reply header; %x io_done %d\n", (unsigned int)htp, htp->io_done);
+                scope_messages.printf("HTTP_OP_SET::poll(): got reply header; %x io_done %d\n", (unsigned int)htp, htp->io_done);
                 read_http_reply_header(htp->socket, htp->hrh);
 
                 // TODO: handle all kinds of redirects here
@@ -498,7 +499,7 @@ bool HTTP_OP_SET::poll() {
         case HTTP_STATE_REPLY_BODY:
             if (htp->error) {
                 action = true;
-                if (log_flags.http_debug) printf("net_xfer returned error %d\n", htp->error);
+                scope_messages.printf("HTTP_OP_SET::poll(): net_xfer returned error %d\n", htp->error);
                 htp->http_op_state = HTTP_STATE_DONE;
                 htp->http_op_retval = htp->error;
             }
@@ -514,7 +515,7 @@ bool HTTP_OP_SET::poll() {
                     htp->file = 0;
                     break;
                 }
-                if (log_flags.http_debug) printf("got reply body\n");
+                scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
                 htp->http_op_state = HTTP_STATE_DONE;
                 htp->http_op_retval = 0;
             }

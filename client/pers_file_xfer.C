@@ -26,10 +26,10 @@
 #include "client_types.h"
 #include "error_numbers.h"
 #include "file_names.h"
-#include "log_flags.h"
 #include "md5_file.h"
 #include "parse.h"
 #include "util.h"
+#include "log_flags.h"
 
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URLs is given.
@@ -63,6 +63,8 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
 int PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
 
     // Decide whether to start a new file transfer
     //
@@ -109,9 +111,7 @@ int PERS_FILE_XFER::start_xfer() {
         msg_printf(fip->project, MSG_INFO, "Started %s of %s",
             (is_upload ? "upload" : "download"), fip->name);
     }
-    if (log_flags.file_xfer_debug) {
-        msg_printf(fip->project, MSG_INFO, "URL: %s",fip->get_url());
-    }
+    scope_messages.printf("PERS_FILE_XFER::start_xfer(): URL: %s",fip->get_url());
     return 0;
 }
 
@@ -122,6 +122,8 @@ int PERS_FILE_XFER::start_xfer() {
 bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
     char pathname[256];
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
 
     if (xfer_done) {
         return false;
@@ -154,10 +156,8 @@ bool PERS_FILE_XFER::poll(time_t now) {
             msg_printf(fip->project, MSG_INFO, "Finished %s of %s",
                 is_upload?"upload":"download", fip->name);
         }
-        if (log_flags.file_xfer_debug) {
-            msg_printf(fip->project, MSG_INFO, "file transfer status %d",
-                fxp->file_xfer_retval);
-        }
+        scope_messages.printf("PERS_FILE_XFER::poll(): file transfer status %d",
+                              fxp->file_xfer_retval);
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
             //
@@ -179,9 +179,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     msg_printf(fip->project, MSG_ERROR, "Checksum or signature error for %s", fip->name);
                     fip->status = retval;
                 } else {
-                    if (log_flags.file_xfer_debug) {
-                        msg_printf(fip->project, MSG_INFO, "MD5 checksum validated for %s", pathname);
-                    }
+                    scope_messages.printf("PERS_FILE_XFER::poll(): MD5 checksum validated for %s", pathname);
                     // Set the appropriate permissions depending on whether
                     // it's an executable or normal file
                     //
@@ -246,6 +244,8 @@ void PERS_FILE_XFER::retry_or_backoff() {
     time_t now;
     int backoff = 0;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
+
     now = time(0);
     // newtime = localtime(&now);
 
@@ -270,10 +270,8 @@ void PERS_FILE_XFER::retry_or_backoff() {
         //         fip->name, this, nretry,
         //         backoff, now, next_request_time);
     }
-    if (log_flags.file_xfer_debug) {
-        msg_printf(fip->project, MSG_INFO, "Backing off %d seconds on transfer of file %s",
-            backoff, fip->name);
-    }
+    scope_messages.printf("PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s",
+                          backoff, fip->name);
 }
 
 // Parse XML information about a single persistent file transfer

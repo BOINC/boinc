@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -50,9 +50,9 @@
 #include "file_names.h"
 #include "hostinfo.h"
 #include "http.h"
-#include "log_flags.h"
 #include "speed_stats.h"
 #include "client_state.h"
+#include "log_flags.h"
 
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
@@ -211,9 +211,7 @@ int CLIENT_STATE::init() {
     clear_host_info(host_info);
     parse_state_file();
 
-    if (log_flags.state_debug) {
-        print_summary();
-    }
+    print_summary();
 
     if (show_projects) {
         printf("projects:\n");
@@ -358,41 +356,28 @@ int CLIENT_STATE::cpu_benchmarks() {
     double iop_test_secs = 3.3;
     double mem_test_secs = 3.3;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
+    scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running CPU benchmarks.\n");
+
     clear_host_info(host_info);
-    if (log_flags.measurement_debug) {
-        printf("Running CPU benchmarks.\n");
-    }
+    ++log_messages;
     if (skip_cpu_benchmarks) {
-        if (log_flags.measurement_debug) {
-            msg_printf(0, MSG_INFO, "Skipping CPU benchmarks\n");
-        }
+        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
         host_info.p_fpops = 1e9;
         host_info.p_iops = 1e9;
         host_info.p_membw = 4e9;
         host_info.m_cache = 1e6;
     } else {
-        if (log_flags.measurement_debug) {
-            printf(
-                "Running floating point test for about %.1f seconds.\n",
-                fpop_test_secs
-            );
-        }
+        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
+                              fpop_test_secs);
         host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
 
-        if (log_flags.measurement_debug) {
-            printf(
-                "Running integer test for about %.1f seconds.\n",
-                iop_test_secs
-            );
-        }
+        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
+                              iop_test_secs);
         host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
 
-        if (log_flags.measurement_debug) {
-            printf(
-                "Running memory bandwidth test for about %.1f seconds.\n",
-                mem_test_secs
-            );
-        }
+        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
+                              mem_test_secs);
         host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
 
         // need to check cache!!
@@ -405,6 +390,7 @@ int CLIENT_STATE::cpu_benchmarks() {
     host_info.write_cpu_benchmarks(finfo);
     fclose(finfo);
 
+    --log_messages;
     return 0;
 }
 
@@ -574,12 +560,6 @@ int CLIENT_STATE::check_suspend_activities() {
     return 0;
 }
 
-static void print_log(char* p) {
-    if (log_flags.poll_debug) {
-        printf(p);
-    }
-}
-
 // sleep up to x seconds,
 // but if network I/O becomes possible,
 // wake up and do as much as limits allow.
@@ -600,67 +580,59 @@ int CLIENT_STATE::net_sleep(double x) {
 // (in which case should call this again immediately)
 //
 bool CLIENT_STATE::do_something() {
-    bool action = false, x;
+    int actions = 0;
 
     check_suspend_activities();
 
     if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) return false;
 
-    print_log("Polling; active layers:\n");
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_POLL);
+    scope_messages.printf("CLIENT_STATE::do_evil(): Begin poll:\n");
+    ++scope_messages;
     net_stats.poll(*net_xfers);
     ss_logic.poll();
 
-    x = scheduler_rpc_poll();
-    if (x) {action=true; print_log("scheduler_rpc\n"); }
+#define POLL_ACTION(name, func)                                                \
+    do { if (func()) {                                                         \
+            ++actions;                                                         \
+            scope_messages.printf("CLIENT_STATE::do_evil(): active task: " #name "\n"); \
+        } } while(0)
+
+    POLL_ACTION(scheduler_rpc, scheduler_rpc_poll);
 
     if (activities_suspended) {
-        print_log("None (suspended)\n");
+        scope_messages.printf("CLIENT_STATE::do_evil(): No active tasks! (suspended)\n");
     } else {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
 
-        x = net_xfers->poll();
-        if (x) { action=true; print_log("net_xfers\n"); }
+        POLL_ACTION(net_xfers              , net_xfers->poll        );
+        POLL_ACTION(http_ops               , http_ops->poll         );
+        POLL_ACTION(file_xfers             , file_xfers->poll       );
+        POLL_ACTION(active_tasks           , active_tasks.poll      );
+        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
+        POLL_ACTION(start_apps             , start_apps             );
+        POLL_ACTION(pers_xfers             , pers_xfers->poll       );
+        POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
+        POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
+        POLL_ACTION(garbage_collect        , garbage_collect        );
+        POLL_ACTION(update_results         , update_results         );
 
-        x = http_ops->poll();
-        if (x) {action=true; print_log("http_ops\n"); }
-
-        x = file_xfers->poll();
-        if (x) {action=true; print_log("file_xfers\n"); }
-
-        x = active_tasks.poll();
-        if (x) {action=true; print_log("active_tasks::poll\n"); }
-
-        x = scheduler_rpc_poll();
-        if (x) {action=true; print_log("scheduler_rpc\n"); }
-
-        x = start_apps();
-        if (x) {action=true; print_log("start_apps\n"); }
-
-        x = pers_xfers->poll();
-        if (x) {action=true; print_log("pers_xfers\n"); }
-
-        x = handle_finished_apps();
-        if (x) {action=true; print_log("handle_finished_apps\n"); }
-
-        x = handle_pers_file_xfers();
-        if (x) {action=true; print_log("handle_pers_file_xfers\n"); }
-
-        x = garbage_collect();
-        if (x) {action=true; print_log("garbage_collect\n"); }
-
-        x = update_results();
-        if (x) {action=true; print_log("update_results\n"); }
+#undef POLL_ACTION
 
         if (write_state_file_if_needed()) {
             msg_printf(NULL, MSG_ERROR, "Couldn't write state file");
         }
     }
-    print_log("End poll\n");
-    if (!action) {
+    --log_messages;
+    scope_messages.printf("CLIENT_STATE::do_evil(): End poll: %d tasks active\n",
+                          actions);
+    if (actions > 0) {
+        return true;
+    } else {
         time_stats.update(true, !activities_suspended);
+        return false;
     }
-    return action;
 }
 
 // Parse the client_state.xml file
@@ -672,10 +644,9 @@ int CLIENT_STATE::parse_state_file() {
     int retval=0;
     int failnum;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
     if (!f) {
-        if (log_flags.state_debug) {
-            printf("No state file; will create one\n");
-        }
+        scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
 
         // avoid warning messages about version
         //
@@ -807,9 +778,8 @@ int CLIENT_STATE::write_state_file() {
     FILE* f = fopen(STATE_FILE_TEMP, "w");
     int retval;
 
-    if (log_flags.state_debug) {
-        printf("Writing state file\n");
-    }
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
+    scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
     if (!f) {
         msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);
         return ERR_FOPEN;
@@ -883,9 +853,7 @@ int CLIENT_STATE::write_state_file() {
     fprintf(f, "</client_state>\n");
     fclose(f);
     retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
-    if (log_flags.state_debug) {
-        printf("Done writing state file\n");
-    }
+    scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
     if (retval) return ERR_RENAME;
     return 0;
 }
@@ -1114,40 +1082,43 @@ void CLIENT_STATE::print_summary() {
     int t;
     if (!log_flags.state_debug) return;
 
-    printf("Client state summary:\n");
-    printf("  %d projects\n", (int)projects.size());
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
+    scope_messages.printf("CLIENT_STATE::print_summary(): Client state summary:\n");
+    ++log_messages;
+    scope_messages.printf("%d projects:\n", (int)projects.size());
     for (i=0; i<projects.size(); i++) {
-        printf("    %s", projects[i]->master_url);
         t = projects[i]->min_rpc_time;
         if (t) {
-            printf(" min RPC %d seconds from now", (int)(t-time(0)));
+            scope_messages.printf("    %s min RPC %d seconds from now\n", projects[i]->master_url, (int)(t-time(0)));
+        } else {
+            scope_messages.printf("    %s\n", projects[i]->master_url);
         }
-        printf("\n");
     }
-    printf("  %d file_infos\n", (int)file_infos.size());
+    scope_messages.printf("%d file_infos:\n", (int)file_infos.size());
     for (i=0; i<file_infos.size(); i++) {
-        printf("    %s status:%d %s\n", file_infos[i]->name, file_infos[i]->status, file_infos[i]->pers_file_xfer?"active":"inactive");
+        scope_messages.printf("    %s status:%d %s\n", file_infos[i]->name, file_infos[i]->status, file_infos[i]->pers_file_xfer?"active":"inactive");
     }
-    printf("  %d app_versions\n", (int)app_versions.size());
+    scope_messages.printf("%d app_versions\n", (int)app_versions.size());
     for (i=0; i<app_versions.size(); i++) {
-        printf("    %s %d\n", app_versions[i]->app_name, app_versions[i]->version_num);
+        scope_messages.printf("    %s %d\n", app_versions[i]->app_name, app_versions[i]->version_num);
     }
-    printf("  %d workunits\n", (int)workunits.size());
+    scope_messages.printf("%d workunits\n", (int)workunits.size());
     for (i=0; i<workunits.size(); i++) {
-        printf("    %s\n", workunits[i]->name);
+        scope_messages.printf("    %s\n", workunits[i]->name);
     }
-    printf("  %d results\n", (int)results.size());
+    scope_messages.printf("%d results\n", (int)results.size());
     for (i=0; i<results.size(); i++) {
-        printf("    %s state:%d\n", results[i]->name, results[i]->state);
+        scope_messages.printf("    %s state:%d\n", results[i]->name, results[i]->state);
     }
-    printf("  %d persistent file xfers\n", (int)pers_xfers->pers_file_xfers.size());
+    scope_messages.printf("%d persistent file xfers\n", (int)pers_xfers->pers_file_xfers.size());
     for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        printf("    %s http op state: %d\n", pers_xfers->pers_file_xfers[i]->fip->name, (pers_xfers->pers_file_xfers[i]->fxp?pers_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
+        scope_messages.printf("    %s http op state: %d\n", pers_xfers->pers_file_xfers[i]->fip->name, (pers_xfers->pers_file_xfers[i]->fxp?pers_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
     }
-    printf("  %d active tasks\n", (int)active_tasks.active_tasks.size());
+    scope_messages.printf("%d active tasks\n", (int)active_tasks.active_tasks.size());
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        printf("    %s\n", active_tasks.active_tasks[i]->result->name);
+        scope_messages.printf("    %s\n", active_tasks.active_tasks[i]->result->name);
     }
+    --log_messages;
 }
 
 // delete unneeded records and files
@@ -1164,6 +1135,8 @@ bool CLIENT_STATE::garbage_collect() {
     vector<FILE_INFO*>::iterator fi_iter;
     vector<APP_VERSION*>::iterator avp_iter;
     bool action = false, found;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
 
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
     for (i=0; i<workunits.size(); i++) {
@@ -1186,7 +1159,7 @@ bool CLIENT_STATE::garbage_collect() {
     while (result_iter != results.end()) {
         rp = *result_iter;
         if (rp->server_ack) {
-            if (log_flags.state_debug) printf("deleting result %s\n", rp->name);
+            scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting result %s\n", rp->name);
             delete rp;
             result_iter = results.erase(result_iter);
             action = true;
@@ -1236,9 +1209,7 @@ bool CLIENT_STATE::garbage_collect() {
     while (wu_iter != workunits.end()) {
         wup = *wu_iter;
         if (wup->ref_cnt == 0) {
-            if (log_flags.state_debug) {
-                printf("deleting workunit %s\n", wup->name);
-            }
+            scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting workunit %s\n", wup->name);
             delete wup;
             wu_iter = workunits.erase(wu_iter);
             action = true;
@@ -1297,7 +1268,7 @@ bool CLIENT_STATE::garbage_collect() {
         fip = *fi_iter;
         if (fip->ref_cnt==0 && !fip->sticky) {
             fip->delete_file();
-            if (log_flags.state_debug) printf("deleting file %s\n", fip->name);
+            scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting file %s\n", fip->name);
             delete fip;
             fi_iter = file_infos.erase(fi_iter);
             action = true;
@@ -1306,7 +1277,7 @@ bool CLIENT_STATE::garbage_collect() {
         }
     }
 
-    if (action && log_flags.state_debug) {
+    if (action) {
         print_summary();
     }
 
@@ -1502,9 +1473,7 @@ bool CLIENT_STATE::time_to_exit() {
 }
 
 void CLIENT_STATE::set_client_state_dirty(char* source) {
-    if (log_flags.state_debug) {
-        printf("set dirty: %s\n", source);
-    }
+    log_messages.printf(ClientMessages::DEBUG_STATE, "set dirty: %s\n", source);
     client_state_dirty = true;
 }
 
@@ -1588,7 +1557,7 @@ int CLIENT_STATE::report_result_error(
             }
         }
     }
-	
+
 	res.stderr_out = res.stderr_out.substr(0,MAX_BLOB_LEN-1);
     return 0;
 }

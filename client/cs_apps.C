@@ -30,11 +30,10 @@
 
 #include "md5_file.h"
 #include "error_numbers.h"
-#include "log_flags.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "shmem.h"
-
+#include "log_flags.h"
 #include "client_state.h"
 
 // Make a directory for each available slot
@@ -152,6 +151,8 @@ bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         switch (atp->state) {
@@ -160,12 +161,8 @@ bool CLIENT_STATE::handle_finished_apps() {
             break;
         default:
             msg_printf(atp->wup->project, MSG_INFO, "Computation for result %s finished", atp->wup->name);
-            if (log_flags.task_debug) {
-                printf(
-                    "task finished; pid %d, status %d\n",
-                    atp->pid, atp->exit_status
-                );
-            }
+            scope_messages.printf("CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
+                                  atp->pid, atp->exit_status);
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;

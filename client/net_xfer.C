@@ -61,7 +61,6 @@
 #include <string.h>
 
 #include "error_numbers.h"
-#include "log_flags.h"
 #include "net_xfer.h"
 #include "util.h"
 #include "client_types.h"
@@ -333,6 +332,8 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     socklen_t intsize = sizeof(int);
 #endif
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
+
     // if a second has gone by, do rate-limit accounting
     //
     time_t t = time(0);
@@ -364,19 +365,19 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
             if (bytes_left_down > 0) {
                 FD_SET(nxp->socket, &read_fds);
             } else {
-                if (log_flags.net_xfer_debug) printf("Throttling download\n");
+                scope_messages.printf("NET_XFER_SET::do_select(): Throttling download\n");
             }
         } else if (nxp->want_upload) {
             if (bytes_left_up > 0) {
                 FD_SET(nxp->socket, &write_fds);
             } else {
-                if (log_flags.net_xfer_debug) printf("Throttling upload\n");
+                scope_messages.printf("NET_XFER_SET::do_select(): Throttling upload\n");
             }
         }
         FD_SET(nxp->socket, &error_fds);
     }
     n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
-    if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
+    scope_messages.printf("NET_XFER_SET::do_select(): select returned %d\n", n);
     if (n == 0) return 0;
     if (n < 0) return ERR_SELECT;
 
@@ -397,15 +398,11 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
 #endif
                 if (n) {
-                    if (log_flags.net_xfer_debug) {
-                        printf("socket %d connect failed\n", fd);
-                    }
+                    scope_messages.printf("NET_XFER_SET::do_select(): socket %d connect failed\n", fd);
                     nxp->error = ERR_CONNECT;
                     nxp->io_done = true;
                 } else {
-                    if (log_flags.net_xfer_debug) {
-                        printf("socket %d is connected\n", fd);
-                    }
+                    scope_messages.printf("NET_XFER_SET::do_select(): socket %d is connected\n", fd);
                     nxp->is_connected = true;
                     bytes_transferred += 1;
                 }
@@ -432,7 +429,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
                 nxp->io_ready = true;
             }
         } else if (FD_ISSET(fd, &error_fds)) {
-            if (log_flags.net_xfer_debug) printf("got error on socket %d\n", fd);
+            scope_messages.printf("NET_XFER_SET::do_select(): got error on socket %d\n", fd);
             nxp = lookup_fd(fd);
             if (nxp) {
                 nxp->got_error();
@@ -465,15 +462,15 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 
     nbytes_transferred = 0;
 
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
+
     if (want_download) {
 #ifdef _WIN32
         n = recv(socket, buf, blocksize, 0);
 #else
         n = read(socket, buf, blocksize);
 #endif
-        if (log_flags.net_xfer_debug) {
-            printf("read %d bytes from socket %d\n", n, socket);
-        }
+        scope_messages.printf("NET_XFER::do_xfer(): read %d bytes from socket %d\n", n, socket);
         if (n == 0) {
             io_done = true;
             want_download = false;
@@ -517,10 +514,8 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             would_block = (errno == EAGAIN);
 #endif
             if (would_block && n < 0) n = 0;
-            if (log_flags.net_xfer_debug) {
-                printf("wrote %d bytes to socket %d%s\n", n, socket,
-                    (would_block?", would have blocked":""));
-            }
+            scope_messages.printf("NET_XFER::do_xfer(): wrote %d bytes to socket %d%s\n", n, socket,
+                                  (would_block?", would have blocked":""));
             if (n < 0 && !would_block) {
                 error = ERR_WRITE;
                 io_done = true;
@@ -563,9 +558,8 @@ void NET_XFER::update_speed(int nbytes) {
 void NET_XFER::got_error() {
     error = ERR_IO;
     io_done = true;
-    if (log_flags.net_xfer_debug) {
-        printf("IO error on socket %d\n", socket);
-    }
+    log_messages.printf(ClientMessages::DEBUG_NET_XFER,
+                        "IO error on socket %d\n", socket);
 }
 
 // return true if an upload is currently in progress
