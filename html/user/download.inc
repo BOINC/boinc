@@ -22,7 +22,7 @@ function print_download_links() {
     start_table();
 
     echo "<tr><th>Computer type</th><td>Version</th></tr>\n";
-    $result = mysql_query("select * from platform");
+    $result = mysql_query("select * from platform order by name");
     while ($platform = mysql_fetch_object($result)) {
         platform_downloads($platform);
     }
