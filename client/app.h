@@ -135,9 +135,8 @@ public:
     int graphics_mode_acked;            // mode acked by app
     int graphics_mode_before_ss;        // mode before last screensaver request
     bool is_ss_app;
-    char window_station[256];
-    char desktop[256];
-    void request_graphics_mode(int, char*, char*);
+    GRAPHICS_MSG graphics_msg;
+    void request_graphics_mode(GRAPHICS_MSG&);
     int request_reread_prefs();
     void check_graphics_mode_ack();
     int link_user_files();

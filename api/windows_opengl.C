@@ -32,9 +32,7 @@ static POINT	 mousePos;
 static HDC       myhDC;
 BOOL		     win_loop_done;
 
-
-static char      szWindowStation[256];
-static char      szDesktop[256];
+static GRAPHICS_MSG     graphics_msg;
 static HWINSTA   hOriginalWindowStation = NULL;
 static HDESK     hOriginalDesktop = NULL;
 static HWINSTA   hInteractiveWindowStation = NULL;
@@ -113,28 +111,31 @@ static void make_new_window() {
     if (!boinc_is_standalone()){
         GetDesktopWindow();
 
-        if ( NULL == hOriginalWindowStation ) {
+        if (NULL == hOriginalWindowStation) {
             hOriginalWindowStation = GetProcessWindowStation();
-            if ( NULL == hOriginalWindowStation ) {
+            if (NULL == hOriginalWindowStation) {
                 BOINCTRACE(_T("Failed to retrieve the orginal window station\n"));
             }
         }
 
-        if ( NULL == hOriginalDesktop ) {
-            hOriginalDesktop = GetThreadDesktop( GetCurrentThreadId() );
-            if ( NULL == hOriginalDesktop ) {
+        if (NULL == hOriginalDesktop) {
+            hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
+            if (NULL == hOriginalDesktop) {
                 BOINCTRACE(_T("Failed to retrieve the orginal desktop\n"));
             }
         }
 
-        hInteractiveWindowStation = OpenWindowStation( szWindowStation, FALSE, GENERIC_READ | GENERIC_EXECUTE );
-        if ( NULL == hInteractiveWindowStation ) {
+        hInteractiveWindowStation = OpenWindowStation(
+            graphics_msg.window_station, FALSE, GENERIC_READ | GENERIC_EXECUTE
+        );
+        if (NULL == hInteractiveWindowStation) {
             BOINCTRACE(_T("Failed to retrieve the required window station\n"));
-        }
-        else
-        {
-            hInteractiveDesktop = OpenDesktop( szDesktop, NULL, FALSE, GENERIC_READ | DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_WRITEOBJECTS );
-            if ( NULL == hInteractiveDesktop ){
+        } else {
+            hInteractiveDesktop = OpenDesktop(
+                graphics_msg.desktop, NULL, FALSE,
+                GENERIC_READ | DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_WRITEOBJECTS
+            );
+            if (NULL == hInteractiveDesktop) {
                 BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
             } else {
                 SetProcessWindowStation(hInteractiveWindowStation);
@@ -353,8 +354,8 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
             //fprintf(stderr, "%d got graphics request: %s\n", time(0), buf); fflush(stderr);
-            new_mode = app_client_shm->decode_graphics_msg(buf, szWindowStation, sizeof(szWindowStation), szDesktop, sizeof(szDesktop));
-            switch (new_mode) {
+            app_client_shm->decode_graphics_msg(buf, graphics_msg);
+            switch (graphics_msg.mode) {
             case MODE_REREAD_PREFS:
 				// only reread graphics prefs if we have a window open
 				//
@@ -369,7 +370,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
             case MODE_WINDOW:
             case MODE_FULLSCREEN:
             case MODE_BLANKSCREEN:
-                set_mode(new_mode);
+                set_mode(graphics_msg.mode);
                 break;
             }
         }

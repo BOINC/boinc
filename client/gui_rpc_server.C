@@ -115,24 +115,17 @@ static PROJECT* get_project(char* buf, MIOFILE& fout) {
 
 static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
     string result_name;
-    string window_station;
-    string desktop;
+    GRAPHICS_MSG gm;
     ACTIVE_TASK* atp;
-    int mode;
 
     if (match_tag(buf, "<full_screen/>")) {
-        mode = MODE_FULLSCREEN;
+        gm.mode = MODE_FULLSCREEN;
     } else {
-        mode = MODE_WINDOW;
+        gm.mode = MODE_WINDOW;
     }
 
-    if (match_tag(buf, "<window_station>")) {
-        parse_str(buf, "<window_station>", window_station);
-    }
-
-    if (match_tag(buf, "<desktop>")) {
-        parse_str(buf, "<desktop>", desktop);
-    }
+    parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
+    parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
 
     if (parse_str(buf, "<result_name>", result_name)) {
         PROJECT* p = get_project(buf, fout);
@@ -150,12 +143,12 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
             fout.printf("<error>Result not active</error>\n");
             return;
         }
-        atp->request_graphics_mode(mode, (char*)window_station.c_str(), (char*)desktop.c_str());
+        atp->request_graphics_mode(gm);
     } else {
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
             atp = gstate.active_tasks.active_tasks[i];
             if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-                atp->request_graphics_mode(mode, (char*)window_station.c_str(), (char*)desktop.c_str());
+                atp->request_graphics_mode(gm);
         }
     }
     fout.printf("<success/>\n");
@@ -416,20 +409,13 @@ static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
 
 static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     double blank_time = 0.0;
-    string window_station;
-    string desktop;
+    GRAPHICS_MSG gm;
 
-    if (match_tag(buf, "<blank_time")) {
-        parse_double(buf, "<blank_time>", blank_time);
-    }
-    if (match_tag(buf, "<desktop")) {
-        parse_str(buf, "<desktop>", desktop);
-    }
-    if (match_tag(buf, "<window_station")) {
-        parse_str(buf, "<window_station>", window_station);
-    }
+    parse_double(buf, "<blank_time>", blank_time);
+    parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
+    parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
     if (match_tag(buf, "<enabled")) {
-        gstate.ss_logic.start_ss( (char*)window_station.c_str(), (char*)desktop.c_str(), blank_time );
+        gstate.ss_logic.start_ss(gm, blank_time );
     } else {
         gstate.ss_logic.stop_ss();
     }

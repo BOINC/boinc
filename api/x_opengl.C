@@ -160,6 +160,7 @@ static void wait_for_initial_message() {
 
 static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
+    GRAPHICS_MSG m;
 
     if (userclose) {
         close_func();
@@ -168,8 +169,8 @@ static void timer_handler(int) {
     int new_mode;
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
-            new_mode = app_client_shm->decode_graphics_msg(buf);
-            switch (new_mode) {
+            app_client_shm->decode_graphics_msg(buf, m);
+            switch (m.mode) {
             case MODE_REREAD_PREFS:
                 //only reread graphics prefs if we have a window open
                 //
@@ -184,7 +185,7 @@ static void timer_handler(int) {
             case MODE_WINDOW:
             case MODE_FULLSCREEN:
             case MODE_BLANKSCREEN:
-                set_mode(new_mode);
+                set_mode(m.mode);
                 break;
             }
         }

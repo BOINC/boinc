@@ -19567,25 +19567,30 @@ David  16 Nov 2004
         gui_rpc_client.C
 
 Rom    17 Nov 2004
-    - Update screensaver so that it'll work across Window Station and Desktop boundries.
-      Note: The screensaver will now work with the password checkbox enabled on NT
-            machines.
-    - Update screensaver so that it reports all error conditions that the old GUI used
-        to report.
-    - Update screensaver so that if BOINC isn't running and graphics capable apps
+    - Update screensaver so that it'll work across
+        Window Station and Desktop boundries.
+        Note: The screensaver will now work with the password checkbox
+        enabled on NT machines.
+    - Update screensaver so that it reports all error conditions
+        that the old GUI used to report.
+    - Update screensaver so that if BOINC isn't running
+        and graphics capable apps
         it'll display the result name and percent completed.
-      NOTE: this hasn't been tested yet.
+        NOTE: this hasn't been tested yet.
     - Updated BOINC Manager with some const changes.
-    - Updated BOINC Manager so that it can detect which Window Station and Desktop it is
-        currently executing in, and pass that info off to BOINC when needed.
-    - Updated the CC so that it doesn't try to act like a screensaver anymore, so now we
-        can have a unified screensaver experience.
-    - Updated the CC to pass the Window Station and Desktop information to the science
-        application so it can transition into the screensaver desktop when the user
+    - Updated BOINC Manager so that it can detect which Window Station
+        and Desktop it is currently executing in,
+        and pass that info off to BOINC when needed.
+    - Updated the CC so that it doesn't try to act like a screensaver anymore,
+        so now we can have a unified screensaver experience.
+    - Updated the CC to pass the Window Station and Desktop information
+        to the science application so it can transition into the screensaver
+        desktop when the user
         has the password checkbox checked on NT based platforms.
-    - Updated the shared memory structures for passing the extra information that is now
-        needed.
-    - Updated the GUI RPC's to require Window Station and Desktop information when needed.
+    - Updated the shared memory structures for passing the extra information
+        that is now needed.
+    - Updated the GUI RPC's to require Window Station and Desktop information
+        when needed.
 
     NOTE: A lot of this stuff hasn't been tested on Win9x yet.
 
@@ -19615,8 +19620,8 @@ Rom    17 Nov 2004
 Bruce 17 Nov 2004
      - Fixed RESULT form on ops page so that it now covers correctly
        all possible states (including ones with value 0) and
-       eliminated the 'Unknown' values that previously appeared on the
-       form.  These were in error.  This is a clean fix, by defining (for example)
+       eliminated the 'Unknown' values that previously appeared on the form.
+       These were in error.  This is a clean fix, by defining (for example)
        outcome='CHOOSE_ALL', eg a non-numerical value, for the 'select ALL' case.
      - Added a select menu for validate_state to the RESULT form.
      - In forms for outcome, validate_state, client_state and server_state, indicate
@@ -19625,3 +19630,26 @@ Bruce 17 Nov 2004
         db_ops.inc
     html/ops/
         db_form.php
+
+David  17 Nov 2004
+    - Slight repackaging of Rom's last checkin:
+        - Define a structure GRAPHICS_MSG that includes
+            mode, window_station and desktop.
+            Pass around references to this struct
+            instead of the items separately.
+        - Revert to a single array "xml_graphics_modes"
+    - comment out BOINCTRACE calls.  These don't work on Linux
+
+    api/
+        windows_opengl.C
+        x_opengl.C
+    client/
+        app.h
+        app_control.C
+        app_graphics.C
+        client_state.C
+        gui_rpc_server.C
+        ss_logic.C,h
+    lib/
+        app_ipc.C,h
+        gui_rpc_client.C

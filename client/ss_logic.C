@@ -35,7 +35,7 @@ SS_LOGIC::SS_LOGIC() {
 // this is called when the core client receives a message
 // from the screensaver module.
 //
-void SS_LOGIC::start_ss(char* window_station, char* desktop, double new_blank_time) {
+void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
     ACTIVE_TASK* atp;
 
     if (do_ss) return;
@@ -45,10 +45,11 @@ void SS_LOGIC::start_ss(char* window_station, char* desktop, double new_blank_ti
     gstate.active_tasks.save_app_modes();
     gstate.active_tasks.hide_apps();
 
+    m.mode = MODE_FULLSCREEN;
     if (!gstate.activities_suspended) {
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
-            atp->request_graphics_mode(MODE_FULLSCREEN, window_station, desktop);
+            atp->request_graphics_mode(m);
             atp->is_ss_app = true;
             ack_deadline = time(0) + 5;
             ss_status = SS_STATUS_ENABLED;
@@ -66,9 +67,12 @@ void SS_LOGIC::stop_ss() {
 // If an app is acting as screensaver, tell it to stop.
 //
 void SS_LOGIC::reset() {
+    GRAPHICS_MSG m;
+
+    m.mode = MODE_HIDE_GRAPHICS;
     ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
     if (atp) {
-        atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
+        atp->request_graphics_mode(m);
         atp->is_ss_app = false;
     }
 }
@@ -77,6 +81,8 @@ void SS_LOGIC::reset() {
 //
 void SS_LOGIC::poll() {
     ACTIVE_TASK* atp;
+    GRAPHICS_MSG m;
+
 
 #if 0
     // if you want to debug screensaver functionality...
@@ -106,7 +112,8 @@ void SS_LOGIC::poll() {
         if (atp) {
             if (atp->graphics_mode_acked != MODE_FULLSCREEN) {
                 if (time(0)>ack_deadline) {
-                    atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
+                    m.mode = MODE_HIDE_GRAPHICS;
+                    atp->request_graphics_mode(m);
                     atp->is_ss_app = false;
                     ss_status = SS_STATUS_NOTGRAPHICSCAPABLE;
                 }

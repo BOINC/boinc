@@ -38,7 +38,7 @@ public:
 
     SS_LOGIC();
 
-    void start_ss(char* window_station, char* desktop, double blank_time);
+    void start_ss(GRAPHICS_MSG&, double blank_time);
     void stop_ss();
     void poll();
     void reset();

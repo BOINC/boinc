@@ -124,11 +124,19 @@ struct MSG_QUEUE {
 
 #include <cstdio>
 
+struct GRAPHICS_MSG {
+    int mode;
+    char window_station[256];
+    char desktop[256];
+
+    GRAPHICS_MSG();
+};
+
 class APP_CLIENT_SHM {
 public:
     SHARED_MEM *shm;
 
-    int decode_graphics_msg(char*, char*, size_t, char*, size_t);
+    int decode_graphics_msg(char*, GRAPHICS_MSG&);
     void reset_msgs();        // resets all messages and clears their flags
 
     APP_CLIENT_SHM();
@@ -200,8 +208,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define STDOUT_FILE           "stdout.txt"
 #define LOCKFILE               "boinc_lockfile"
 
-extern char* xml_encode_graphics_modes[NGRAPHICS_MSGS];
-extern char* xml_decode_graphics_modes[NGRAPHICS_MSGS];
+extern char* xml_graphics_modes[NGRAPHICS_MSGS];
 int boinc_link(const char* existing, const char* new_link);
 
 #endif
