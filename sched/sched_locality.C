@@ -334,6 +334,11 @@ static int send_results_for_file(
             // if we couldn't send it for other reason, something's wacky;
             // print a message, but keep on looking
             //
+
+            // David, we DO arrive here at times!  The reason is as follows, I
+            // think.  You are missing a boinc_db.start_transaction *after* calling make_more_work_for_file()
+            // above.  This means that possibly_send_result is not bracketed in a start/end transaction
+            // pair. Remember that make_more_work_for_file() sleeps AND modifies the DB.
             if (retval) {
                 log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                     "Database inconsistency?  possibly_send_result() failed, returning %d\n", retval
