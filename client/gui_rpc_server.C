@@ -273,6 +273,7 @@ int GUI_RPC_CONN::handle_rpc() {
     mf.printf("\003");
     m.get_buf(p, n);
     send(sock, p, n, 0);
+    if (p) free(p);
 
     return 0;
 }

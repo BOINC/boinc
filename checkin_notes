@@ -13872,3 +13872,17 @@ Rom    June 16 2004
 
     client/
         cs_scheduler.C
+
+David  June 17 2004
+    - Fix bonehead mistake in ping/hostname code
+        (thanks to Rob Oglivie)
+    - Fix memory leak in GUI RPC
+        (thanks to Sebastian Masch)
+
+    client/
+        gui_rpc_client.C
+        gui_rpc_server.C
+        hostinfo_network.C
+    lib/
+        app_ipc.h
+        mfile.h

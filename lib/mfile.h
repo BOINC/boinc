@@ -46,6 +46,9 @@ public:
     int flush();
     long tell() const;
     void get_buf(char*&, int&);
+        // get the MFILE's internal buffer and its length.
+        // The caller assumes ownership of the buffer and must free() it.
+        // The MFILE's buffer is set to empty
 };
 
 #endif

@@ -29,7 +29,7 @@ function page_tail() {
     echo "
         <hr size=0 noshade>
         <center>
-        <a href=index.html>Return to BOINC main page</a>
+        <a href=/>Return to BOINC main page</a>
         <br><br>
         Copyright &copy; 2004 University of California
     ";

@@ -25,6 +25,7 @@ show_name("David Anderson");
 show_name("Noaa Avital");
 show_name("Brian Boshes");
 show_name("Karl Chen");
+show_name("Pietro Cicotti");
 show_name("Seth Cooper");
 show_name("James Drews");
 show_name("Michael Gary");

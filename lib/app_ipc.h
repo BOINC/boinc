@@ -34,15 +34,36 @@
 // Shared memory is arranged as follows:
 // 4 1K segments
 // First byte of each segment is nonzero if
-// segment contains unread data, remaining 1023
-// bytes contain data
+// segment contains unread data,
+// remaining 1023 bytes contain data
 
 #define SHM_SEG_SIZE            1024
 #define NUM_SEGS                4
+
+// The following 2 segs are used by the timer interrupt handler
+// in the running application
 #define CORE_APP_WORKER_SEG     0
+    // <heartbeat/> every second
+    // [ <have_new_trickle_down> ]
 #define APP_CORE_WORKER_SEG     1
+    // status message every so often, of the form
+    // <current_cpu_time>...
+    // <checkpoint_cpu_time>...
+    // <working_set_size>...
+    // <fraction_done> ...
+    // [ <have_new_trickle_up/> ]
+
+// The following 2 segs are used by the graphics thread
+// in the running application
 #define CORE_APP_GFX_SEG        2
+    // request a graphics mode:
+    // <mode_hide_graphics/>
+    // ...
+    // <mode_blankscreen/>
 #define APP_CORE_GFX_SEG        3
+    // acknowledge graphics mode
+    // same msgs as above
+
 #define APP_CLIENT_SHMEM_SIZE   (sizeof(char)*NUM_SEGS*SHM_SEG_SIZE)
 
 #define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1

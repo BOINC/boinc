@@ -74,6 +74,8 @@ int RPC_CLIENT::send_request(char* p) {
     return 0;
 }
 
+// get reply from server.  Caller must free buf
+//
 int RPC_CLIENT::get_reply(char*& mbuf) {
     char buf[1025];
     MFILE mf;
@@ -156,6 +158,7 @@ int RPC_CLIENT::get_state() {
             continue;
         }
     }
+    if (mbuf) free(mbuf);
     return 0;
 }
 
@@ -229,6 +232,7 @@ int RPC_CLIENT::get_messages(
             msgs.push_back(md);
         }
     }
+    if (mbuf) free(mbuf);
     return 0;
 }
 
