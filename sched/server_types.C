@@ -68,6 +68,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
+        else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
@@ -184,6 +185,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     if (request_delay) {
         fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %d\n", request_delay);
     }
     if (strlen(message)) {
         fprintf(fout,

@@ -24,3 +24,6 @@
 extern DB_PROJECT gproject;
 extern SCHED_CONFIG config;
 extern key_t sema_key;
+
+extern void send_shut_message();
+extern int open_database();

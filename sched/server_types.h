@@ -55,6 +55,7 @@ struct GLOBAL_PREFS {
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];
+    char cross_project_id[256];
     int hostid;                 // zero if first RPC
     int core_client_major_version;
     int core_client_minor_version;

@@ -11842,3 +11842,19 @@ Rom    April 28 2004
     win_build/
         boinc_cli.vcproj
 
+David  April 30 2004
+    - scheduler: connect to DB after checking major version#
+    - scheduler: request 24-hour delay if bad major version#
+    - scheduler: request 1 hr delay if project is shut down
+    - scheduler: parse <cross_project_id> from client
+    - print expanded error in PHP when can't connect to DB
+
+    html/
+        inc/
+            db.inc
+        user/
+            create_account_action.php
+    sched/
+        handle_request.C
+        main.C,h
+        server_types.C,h

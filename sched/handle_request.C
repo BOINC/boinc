@@ -490,6 +490,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.hostid, sreq.authenticator,
             MAJOR_VERSION, sreq.core_client_major_version
         );
+        reply.request_delay = 3600*24;
         return true;
     }
     return false;
@@ -566,6 +567,14 @@ void process_request(
     // if different major version of BOINC, just send a message
     //
     if (wrong_major_version(sreq, reply)) return;
+
+    // now open the database
+    //
+    retval = open_database();
+    if (retval) {
+        send_shut_message();
+        return;
+    }
 
     retval = authenticate_user(sreq, reply);
     if (retval) return;

@@ -33,6 +33,7 @@ using namespace std;
 #include "boinc_db.h"
 #include "parse.h"
 #include "filesys.h"
+#include "error_numbers.h"
 #include "shmem.h"
 #include "util.h"
 
@@ -64,8 +65,30 @@ void send_shut_message() {
         "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">Project is temporarily shut down for maintenance</message>\n"
+        "    <request_delay>3600</request_delay>\n"
         "</scheduler_reply>\n"
     );
+}
+
+int open_database() {
+    int retval;
+    bool found;
+
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open database\n");
+        return retval;
+    } else {
+        found = false;
+        while (!gproject.enumerate("")) {
+            found = true;
+        }
+        if (!found) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find project\n");
+            return ERR_DB_NOT_FOUND;
+        }
+    }
+    return 0;
 }
 
 int main() {
@@ -76,7 +99,6 @@ int main() {
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
-    bool found;
     bool project_stopped = false;
 
     get_log_path(path);
@@ -133,21 +155,6 @@ int main() {
         }
         if (!ssp->ready) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "feeder doesn't seem to be running\n");
-            exit(1);
-        }
-    }
-
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open database\n");
-        project_stopped = true;
-    } else {
-        found = false;
-        while (!gproject.enumerate("")) {
-            found = true;
-        }
-        if (!found) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find project\n");
             exit(1);
         }
     }

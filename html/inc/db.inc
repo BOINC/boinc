@@ -14,8 +14,8 @@ function db_init() {
 	$pass = parse_config("<db_passwd>");
     $retval = mysql_pconnect("localhost", $user, $pass);
     if (!$retval) {
-        echo "Unable to connect to database - please try again later";
-		echo mysql_error();
+        echo "Unable to connect to database - please try again later\n";
+		echo "Error: ", mysql_errno(), mysql_error();
         exit();
     }
     $db_name = parse_config("<db_name>");
