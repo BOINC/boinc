@@ -210,6 +210,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_MESSAGE_COPY_TO_CLIP, OnCommandMessageCopyToClip)  // Added by JBK.
 
     ON_MESSAGE(STATUS_ICON_ID, OnStatusIcon)
+    ON_MESSAGE(WM_QUERYENDSESSION, OnSystemLogoff)
 
     ON_REGISTERED_MESSAGE(WM_BSHOWWINDOW, OnShowWindow)
     ON_REGISTERED_MESSAGE(WM_BNETACTIVITY, OnNetworkActivity)
@@ -2237,6 +2238,19 @@ LRESULT CMainWindow::OnTaskbarCreated(WPARAM wParam, LPARAM lParam)
 
 	SetStatusIcon(dwTempIconStatus);
     return TRUE;
+}
+
+//////////
+// CMainWindow::OnSystemLogoff
+// function:    
+// arguments:   
+// returns:     
+LRESULT CMainWindow::OnSystemLogoff(WPARAM wParam, LPARAM lParam)
+{
+	// The system has notified us that the user is logging off or the
+    //   system is shutting down, so lets go ahead and shut ourselves
+    //   down.
+    return PostMessage(WM_COMMAND, ID_STATUSICON_EXIT, NULL);
 }
 
 void create_curtain() {

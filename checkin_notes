@@ -14766,3 +14766,15 @@ Daniel 2004-07-06
         cs_prefs.C
         scheduler_op.C
 
+Rom    6 July 2004
+    - Added event handler so we are notified of a system shutdown/logoff which will
+      allow us to shutdown gacefully instead of the OS terminating us.
+    - Do a little clean up work with the resource files in the hope that visual studio
+      won't remove the win_config.h reference the next time the resources are modified.
+
+    client/win/
+        boinc_cli.rc
+        boinc_dll.rc
+        boinc_gui.rc
+        boinc_ss.rc
+        wingui_mainwindow.cpp, .h

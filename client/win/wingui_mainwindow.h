@@ -183,6 +183,7 @@ protected:
     afx_msg LRESULT         OnStartScreensaver( WPARAM, LPARAM );
     afx_msg LRESULT         OnEndScreensaver( WPARAM, LPARAM );
     afx_msg LRESULT         OnTaskbarCreated( WPARAM, LPARAM );
+    afx_msg LRESULT         OnSystemLogoff( WPARAM, LPARAM );
 
 	CString m_MenuLabelRetryNow, m_MenuLabelGetPreferences;
 	CString m_DialogResetQuery, m_DialogDetachQuery;
