@@ -155,6 +155,11 @@ END
 
 IDB_LOGO                BITMAP  DISCARDABLE     "res\\boinc.bmp"
 IDB_LOGOSM              BITMAP  DISCARDABLE     "res\\boincsm.bmp"
+IDB_PROJ                BITMAP  DISCARDABLE     "res\\proj.bmp"
+IDB_RESULT              BITMAP  DISCARDABLE     "res\\result.bmp"
+IDB_USAGE               BITMAP  DISCARDABLE     "res\\usage.bmp"
+IDB_XFER                BITMAP  DISCARDABLE     "res\\xfer.bmp"
+IDB_MESS                BITMAP  DISCARDABLE     "res\\mess.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
