@@ -32,14 +32,14 @@ CMyApp myApp;
 #define MAX_ID				3
 
 #define PROJECT_COLS		5
-#define RESULT_COLS			5
+#define RESULT_COLS			6
 #define XFER_COLS			4
-#define MAX_COLS			5
+#define MAX_COLS			6
 
 char* column_titles[MAX_ID][MAX_COLS] = {
-	{"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share"},
-	{"Project",	"Application",	"Name",			"CPU time",		"Status"},
-	{"Project",	"File",			"Size",			"Direction",	NULL}
+	{"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",		NULL},
+	{"Project",	"Application",	"Name",			"CPU time",		"Progress",			"Status"},
+	{"Project",	"File",			"Progress",		"Direction",	NULL,					NULL}
 };
 
 void show_message(char* message, char* priority) {
@@ -237,6 +237,29 @@ BOOL CProgressListCtrl::SetColumnWidth(int nCol, int cx)
 		m_ColWidths.SetAtGrow(nCol, cx);
 		return CListCtrl::SetColumnWidth(nCol, cx);
 	}
+}
+
+//////////
+// CProgressListCtrl::DeleteItem
+// arguments:	nItem: item index
+// returns:		true if sucessful, false otherwise
+// function:	deletes given item from the list control
+BOOL CProgressListCtrl::DeleteItem(int nItem)
+{
+	CString str;
+	CProgressCtrl* progCtrl = NULL;
+
+	// go through all the subitems and see if they have a progess control
+	for(int si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
+		str.Format("%d:%d", nItem, si);
+		progCtrl = NULL;
+		m_Progs.Lookup(str, (CObject*&)progCtrl);
+		if(progCtrl) {
+			m_Progs.RemoveKey(str);
+			delete progCtrl;
+		}
+	}
+	return CListCtrl::DeleteItem(nItem);
 }
 
 //////////
@@ -978,12 +1001,22 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	}
 	for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
 		PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
+
+		// project
 		m_ProjectListCtrl.SetItemText(i, 0, pr->project_name);
+
+		// account
 		m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
+
+		// total credit
 		buf.Format("%0.2f", pr->user_total_credit);
 		m_ProjectListCtrl.SetItemText(i, 2, buf);
+
+		// avg credit
 		buf.Format("%0.2f", pr->user_expavg_credit);
 		m_ProjectListCtrl.SetItemText(i, 3, buf);
+
+		// resource share
 		if(totalres <= 0) {
 			m_ProjectListCtrl.SetItemProgress(i, 4, 100);
 		} else {
@@ -995,18 +1028,34 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	Syncronize(&m_ResultListCtrl, (vector<void*>*)(&cs->results));
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
+
+		// project
 		m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
+
+		// application
 		m_ResultListCtrl.SetItemText(i, 1, re->app->name);
+
+		// name
 		m_ResultListCtrl.SetItemText(i, 2, re->name);
-		buf.Format("%0.2f", re->final_cpu_time);
+
+		// cpu time
+		int cpuhour = (int)(re->final_cpu_time / (60 * 60));
+		int cpumin = (int)(re->final_cpu_time / 60) % 60;
+		int cpusec = (int)(re->final_cpu_time) % 60;
+		buf.Format("%0.2dh%0.2dm%0.2ds", cpuhour, cpumin, cpusec);
 		m_ResultListCtrl.SetItemText(i, 3, buf);
-		/*
-		if(re->wup->seconds_to_complete <= 0) {
-			m_ResultListCtrl.SetItemProgress(i, 3, 100);
+
+		// progress
+		ACTIVE_TASK* at = gstate.lookup_active_task_by_workunit(re->wup);
+		if(!at) {
+			buf.Format("no active task");
 		} else {
-			m_ResultListCtrl.SetItemProgress(i, 3, (100 * re->final_cpu_time) / re->wup->seconds_to_complete);
+//			at->check_app_status_files();
+			buf.Format("%d%%", (int)(at->fraction_done * 100));
 		}
-		*/
+		m_ResultListCtrl.SetItemText(i, 4, buf);
+
+		// status
 		switch(re->state) {
 			case RESULT_NEW:
 				buf.Format("%s", "New"); break;
@@ -1021,24 +1070,32 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 			default:
 				buf.Format("%s", "Error: invalid state"); break;
 		}
-		m_ResultListCtrl.SetItemText(i, 4, buf);
+		m_ResultListCtrl.SetItemText(i, 5, buf);
 	}
 
 	// update xfers
 	Syncronize(&m_XferListCtrl, (vector<void*>*)(&cs->file_xfers->file_xfers));
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		FILE_XFER* fi = (FILE_XFER*)m_XferListCtrl.GetItemData(i);
+
+		// project
 		m_XferListCtrl.SetItemText(i, 0, fi->fip->project->project_name);
+
+		// file
 		m_XferListCtrl.SetItemText(i, 1, fi->fip->name);
-		buf.Format("%0.2f", fi->fip->nbytes);
-		m_XferListCtrl.SetItemText(i, 2, buf);
-		/*
-		if(fi->fip->max_nbytes <= 0) {
-			m_ProjectListCtrl.SetItemProgress(i, 2, 100);
+
+		// progress
+		int xferbytes, retval;
+		retval = file_size(fi->pathname, xferbytes);
+		if(retval) {
+			buf.Format("error");
+			xferbytes = 0;
 		} else {
-			m_ProjectListCtrl.SetItemProgress(i, 2, (100 * fi->fip->nbytes) / fi->fip->max_nbytes);
+			buf.Format("%d", xferbytes);
 		}
-		*/
+		m_XferListCtrl.SetItemProgress(i, 2, 100 * (xferbytes / fi->fip->nbytes));
+
+		// direction
 		m_XferListCtrl.SetItemText(i, 3, fi->fip->generated_locally?"Upload":"Download");
 	}
 
@@ -1109,14 +1166,14 @@ void CMainWindow::SaveUserSettings()
 		valbuf.Format("%d", m_ProjectListCtrl.GetColumnWidth(i));
 		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
 	}
-	m_ResultListCtrl.GetColumnOrderArray(colorder, PROJECT_COLS);
+	m_ResultListCtrl.GetColumnOrderArray(colorder, RESULT_COLS);
 	WritePrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), path);
 	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
 		keybuf.Format("results-%d", i);
 		valbuf.Format("%d", m_ResultListCtrl.GetColumnWidth(i));
 		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
 	}
-	m_XferListCtrl.GetColumnOrderArray(colorder, PROJECT_COLS);
+	m_XferListCtrl.GetColumnOrderArray(colorder, XFER_COLS);
 	WritePrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), path);
 	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
 		keybuf.Format("xfers-%d", i);

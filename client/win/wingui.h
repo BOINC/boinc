@@ -95,6 +95,7 @@ class CProgressListCtrl : public CListCtrl
 {
 public:
 							CProgressListCtrl();
+	BOOL					DeleteItem(int);
 	void					SetItemProgress(int, int, int);
 	void					RepositionProgress();
 	int						InsertColumn(int, LPCTSTR, int, int, int);
