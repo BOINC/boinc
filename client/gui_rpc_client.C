@@ -46,13 +46,13 @@ int RPC_CLIENT::init(char* path) {
     sock = socket(AF_INET, SOCK_STREAM, 0);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        retval = WSAGetLastError();
+        printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
         perror("connect");
         exit(1);
     }
 #ifdef _WIN32
-    fin = fdopen(dup(_open_osfhandle(sock, _O_RDONLY)), "r");
-    fout = fdopen(_open_osfhandle(sock, _O_WRONLY), "w");
+    fin = fdopen(dup(_open_osfhandle(sock, _O_RDONLY | _O_BINARY)), "r");
+    fout = fdopen(_open_osfhandle(sock, _O_WRONLY | _O_BINARY), "w");
 #else
     fin = fdopen(dup(sock), "r");
     fout = fdopen(sock, "w");

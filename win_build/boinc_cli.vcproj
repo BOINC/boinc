@@ -24,6 +24,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
+				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="FALSE"
@@ -36,7 +37,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -44,7 +45,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
 				OutputFile=".\Build\Debug/boinc_cli.exe"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""

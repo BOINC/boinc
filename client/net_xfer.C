@@ -514,7 +514,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
     if (want_download) {
-#ifdef WIN32
+#ifdef _WIN32
         n = recv(socket, buf, blocksize, 0);
 #else
         n = read(socket, buf, blocksize);

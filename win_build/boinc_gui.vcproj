@@ -97,6 +97,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
+				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -108,7 +109,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -116,7 +117,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="nafxcwd.lib atlsd.lib libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib comdlg32.lib comctl32.lib shell32.lib shlwapi.lib ole32.lib oleaut32.lib oleacc.lib winspool.lib oldnames.lib uuid.lib"
 				OutputFile=".\Build\Debug/boinc_gui.exe"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\boinc_dll\Debug"
 				IgnoreAllDefaultLibraries="TRUE"
@@ -1366,10 +1367,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1389,10 +1390,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

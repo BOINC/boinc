@@ -13251,3 +13251,14 @@ David  10 June 2004
         setup_project.py
     sched/
         start
+
+Rom    10 June 2004
+    - Fix a few bugs on the Windows platform so that the GUI RPC's will now
+      work on Windows.  I've tested it with telnet, the new GUI will follow
+
+    client/
+        gui_rpc_client.C
+        gui_rpc_server.C, .h
+        net_xfer.C
+    win_build
+        *.vcproj

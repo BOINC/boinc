@@ -21,6 +21,7 @@ class GUI_RPC_CONN {
 public:
     int sock;
     FILE* fout;
+    char buffer[262144];
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
     int handle_rpc();

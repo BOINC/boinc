@@ -41,8 +41,11 @@
 
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
+    
 #ifdef _WIN32
-    fout = fdopen(dup(_open_osfhandle(sock, _O_WRONLY)), "w");
+    fout = fdopen(dup(_open_osfhandle(sock, _O_RDWR | _O_BINARY)), "w");
+    setvbuf(fout, buffer, _IOFBF, 262144);
+    memset(buffer, NULL, 262144);
 #else
     fout = fdopen(dup(sock), "w");
 #endif
@@ -243,10 +246,14 @@ int GUI_RPC_CONN::handle_rpc() {
 	// so that the core client won't hang because
 	// of malformed request msgs
 	//
-    n = read(sock, buf, 1024);
+#ifdef _WIN32
+        n = recv(sock, buf, 1024, 0);
+#else
+        n = read(sock, buf, 1024);
+#endif
     if (n <= 0) return -1;
     buf[n] = 0;
-    printf("got %s\n", buf);
+    msg_printf( NULL, MSG_ERROR, "GUI RPC Command = '%s'\n", buf);
     if (match_tag(buf, "<get_state")) {
         gstate.write_state(fout);
 	} else if (match_tag(buf, "<result_show_graphics>")) {
@@ -270,7 +277,13 @@ int GUI_RPC_CONN::handle_rpc() {
     } else {
         fprintf(fout, "<unrecognized/>\n");
     }
+
+#ifdef WIN32
+    send(sock, fout->_base, strlen(fout->_base), NULL);
+#else
     fflush(fout);
+#endif
+
     return 0;
 }
 
@@ -345,6 +358,7 @@ bool GUI_RPC_CONN_SET::poll() {
 
     if (lsock >= 0) {
         unsigned int i;
+        char buf[256];
         fd_set read_fds, error_fds;
         int sock, retval;
         vector<GUI_RPC_CONN*>::iterator iter;
@@ -381,6 +395,13 @@ bool GUI_RPC_CONN_SET::poll() {
             } else {
                 GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
                 insert(gr);
+
+                sprintf(buf, "\r\nBOINC RPC Interface %d.%.2d\r\n\r\n", MAJOR_VERSION, MINOR_VERSION);
+#ifdef WIN32
+                send(gr->sock, buf, strlen(buf), NULL);
+#else
+                write(gr->sock, buf, strlen(buf));
+#endif
             }
         }
         iter = gui_rpcs.begin();
@@ -403,6 +424,13 @@ bool GUI_RPC_CONN_SET::poll() {
                     gui_rpcs.erase(iter);
                     continue;
                 }
+
+                sprintf(buf, "\r\nBOINC RPC Interface %d.%.2d\r\n\r\n", MAJOR_VERSION, MINOR_VERSION);
+#ifdef WIN32
+                send(gr->sock, buf, strlen(buf), NULL);
+#else
+                write(gr->sock, buf, strlen(buf));
+#endif
             }
             iter++;
         }
