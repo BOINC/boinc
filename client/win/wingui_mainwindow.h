@@ -112,7 +112,9 @@ protected:
 	HINSTANCE				m_hIdleDll;				// handle to dll for user idle
 	int						m_nIconState;			// state of the status icon
 	int						m_nDesiredIconState;	// desired state of the status icon
+	int						m_nToggleIconState;		// next icon state
 	BOOL					m_bMessage;				// does the user have a new message?
+	int						m_nMessage;				// desired message type
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	int						m_nContextItem;			// item selected for context menu
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	

@@ -311,7 +311,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
     if (m_nDesiredIconState != m_nIconState)
         SetStatusIcon(m_nDesiredIconState);
 
-    switch (m_TabCtrl.GetCurFocus()) {
+	switch (m_TabCtrl.GetCurSel()) {
 
     case PROJECT_ID:
 
@@ -645,13 +645,49 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
     }
 
     // make icon flash if needed
-    if(m_bMessage || m_bRequest) {
-        if(m_nIconState == ICON_NORMAL) {
-            SetStatusIcon(ICON_HIGHLIGHT);
-        } else if(m_nIconState == ICON_HIGHLIGHT) {
-            SetStatusIcon(ICON_NORMAL);
-        }
-    }
+	TCITEM tcItem;
+    memset(&tcItem, 0, sizeof(TCITEMW));   // start with NULL defaults
+
+	if(m_bMessage || m_bRequest) {
+		if(m_bRequest){
+			if(m_nToggleIconState == ICON_NORMAL){
+	            SetStatusIcon(ICON_NORMAL);
+				m_nToggleIconState = ICON_HIGHLIGHT;
+			} else {
+	            SetStatusIcon(ICON_HIGHLIGHT);
+				m_nToggleIconState = ICON_NORMAL;
+			}
+		} else {
+			if(m_nToggleIconState == ICON_NORMAL){
+
+				SetStatusIcon(ICON_NORMAL);
+				tcItem.mask = TCIF_STATE;
+				tcItem.dwStateMask = TCIS_HIGHLIGHTED;
+				m_TabCtrl.SetItem(3, &tcItem);
+
+				switch(m_nMessage)
+				{
+				case MSG_INFO: m_nToggleIconState = ICON_INFO; break;
+				case MSG_ERROR: m_nToggleIconState = ICON_ERROR; break;
+				}
+
+			} else {
+
+				SetStatusIcon(m_nToggleIconState);
+				tcItem.mask = TCIF_STATE;
+				tcItem.dwState = TCIS_HIGHLIGHTED;
+				tcItem.dwStateMask = TCIS_HIGHLIGHTED;
+				m_TabCtrl.SetItem(3, &tcItem);
+
+				m_nToggleIconState = ICON_NORMAL;
+			}
+		}
+	} else {
+		SetStatusIcon(ICON_NORMAL);
+		tcItem.mask = TCIF_STATE;
+		tcItem.dwStateMask = TCIS_HIGHLIGHTED;
+		m_TabCtrl.SetItem(3, &tcItem);
+	}
 }
 
 //////////
@@ -661,21 +697,26 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 // returns:     void
 // function:    if message is MSG_ERROR priority, flashes the status icon,
 //              then adds to message edit control.
-void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
+void CMainWindow::MessageUser(char* szProject, char* szMessage, int nPriority)
 {
     if(!m_MessageListCtrl.GetSafeHwnd()) return;
 
     int nNewPos = m_MessageListCtrl.GetItemCount();
     m_MessageListCtrl.InsertItem(nNewPos, szProject);
-
-    m_MessageListCtrl.Scroll(CSize(0, m_MessageListCtrl.ApproximateViewRect().cy));
-
     m_MessageListCtrl.SetItemText(nNewPos, 1, GetStrTime());
     m_MessageListCtrl.SetItemText(nNewPos, 2, szMessage);
 
+	m_MessageListCtrl.Scroll(CSize(0, m_MessageListCtrl.ApproximateViewRect().cy));
+
     // set status icon to flash
-    if((szPriority == MSG_ERROR) && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
-        m_bMessage = true;
+    if((m_TabCtrl.GetCurSel() != MESSAGE_ID) || (GetForegroundWindow() != this)) {
+        m_bMessage = TRUE;
+
+		if (nPriority == MSG_ERROR){
+            m_nMessage = nPriority;
+		} else if ((nPriority == MSG_INFO) && (m_nMessage != MSG_ERROR)){
+            m_nMessage = nPriority;
+		}
     }
 }
 
@@ -706,7 +747,7 @@ BOOL CMainWindow::RequestNetConnect()
 // function:    handles everything necessary to switch to a new tab
 void CMainWindow::ShowTab(int nTab)
 {
-    m_TabCtrl.SetCurSel(nTab);
+	m_TabCtrl.SetCurSel(nTab);
 
     // hide all windows except the newly selected control
     m_ProjectListCtrl.ShowWindow(SW_HIDE);
@@ -971,7 +1012,7 @@ void CMainWindow::LoadUserSettings()
 
     // load selected tab
     nBuf = GetPrivateProfileInt("WINDOW", "selection", 0, szPath);
-    ShowTab(nBuf);
+	ShowTab(nBuf);
 
     LoadColumns(m_ProjectListCtrl, "projects", szPath);
     LoadColumns(m_ResultListCtrl,  "results", szPath);
@@ -1987,8 +2028,9 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 //              gets the focus, selects the message tab
 void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 {
-    if(m_TabCtrl.GetSafeHwnd() && m_bMessage) {
-        ShowTab(MESSAGE_ID);
+	
+    if(m_TabCtrl.GetSafeHwnd() && m_bMessage && (pOldWnd == NULL)) {
+		ShowTab(MESSAGE_ID);
         m_bMessage = false;
         SetStatusIcon(ICON_NORMAL);
     }

@@ -7868,15 +7868,15 @@ David  25 Nov 2003
     sched/
         db_dump.C
 
-Gary	25 Nov 2003
+Gary    25 Nov 2003
     - BOINC release 2.11 for windows, Linux, solaris2.7, solaris2.8
 
-Gary	26 Nov 2003
+Gary    26 Nov 2003
     - BOINC release 2.12 for windows, Linux, solaris2.7, solaris2.8
       fixes problem with windows release 2.11 installer
       no change to Solaris/Linux clients
 
-Gary	26 Nov 2003
+Gary    26 Nov 2003
     - Changed Network Bandwith limits display & entry units to be
       expressed in terms of Kbytes instead of bytes. Values are
       still stored in db as bytes.
@@ -7896,28 +7896,28 @@ David  27 Nov 2003
         constraints.sql
 
 David  28 Nov 2003
-	- Fixed various problems with project preferences.
-		(overrides yesterday's non-fix)
-		PROJECT now has separate fields for
-			project_prefs (entire prefs, include venue variants)
-			project_specific_prefs (only project specific,
-				and only for current venue).
-		These had been confused before.
-		The account_*.xml file has the project_prefs,
-		enclosed in a <project_preferences> element
-	- updated document about account files
-	- Changed project prefs from char[MAX_BLOB_LEN] to string,
-		and added variant of copy_element_contents() for string.
+    - Fixed various problems with project preferences.
+        (overrides yesterday's non-fix)
+        PROJECT now has separate fields for
+            project_prefs (entire prefs, include venue variants)
+            project_specific_prefs (only project specific,
+                and only for current venue).
+        These had been confused before.
+        The account_*.xml file has the project_prefs,
+        enclosed in a <project_preferences> element
+    - updated document about account files
+    - Changed project prefs from char[MAX_BLOB_LEN] to string,
+        and added variant of copy_element_contents() for string.
 
-	client/
-		app.C
-		client_types.C,h
-		cs_scheduler.C
-		scheduler_ops.C
-	doc/
-		client_files.php
-	lib/
-		parse.C,h
+    client/
+        app.C
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_ops.C
+    doc/
+        client_files.php
+    lib/
+        parse.C,h
 
 Karl 2003-11-28
     - fixed unix help for -update_prefs
@@ -7926,11 +7926,11 @@ Karl 2003-11-28
         cs_cmdline.C
 
 David  2003-11-28
-	- changed date/time display in Windows to yyyy-mm-dd hh:mm:ss
+    - changed date/time display in Windows to yyyy-mm-dd hh:mm:ss
 
-	client/win/
-		wingui_mainwindow.cpp
-		
+    client/win/
+        wingui_mainwindow.cpp
+        
 David  28 Nov 2003
     - added "signature" field to user table;
         when making forum postings,
@@ -8105,7 +8105,7 @@ David  3 Dec 2003
     sched/
         db_dump.C
 
-Gary	04 Dec 2003
+Gary    04 Dec 2003
     - fixed a bug in app.C which caused the checkpoint_cpu_time to
       nearly double in certain cases. This was most obvious in the
       windows core client.
@@ -8115,10 +8115,10 @@ Gary	04 Dec 2003
           new:
              aid.wu_cpu_time = starting_cpu_time;
 
-	client/
-		app.C
+    client/
+        app.C
 
-Gary	04 Dec 2003
+Gary    04 Dec 2003
     - BOINC release 2.13 for windows, Linux, solaris2.7, solaris2.8
 
 David  4 Dec 2003
@@ -8146,12 +8146,12 @@ David  4 Dec 2003
             index.php
             reply.php
 
-Gary	05 Dec 2003
-	- in check_app_exited() look for most recent checkpoint_cpu_time
+Gary    05 Dec 2003
+    - in check_app_exited() look for most recent checkpoint_cpu_time
       and use it to calculate final_cpu_time for result.
 
-	client/
-		app.C
+    client/
+        app.C
 
 David  5 Dec 2003
     - On Windows, removed the shutdown() in http.C;
@@ -8302,10 +8302,10 @@ Jeff 09 Dec 2003
       client/
         collect2_line   (new file)
 
-Gary	09 Dec 2003
+Gary    09 Dec 2003
     - BOINC release 2.14 for windows, Linux, solaris2.7, solaris2.8
 
-Gary	09 Dec 2003
+Gary    09 Dec 2003
     - fixed typo in Network Bandwidth limits display (was missing /s)
 
     html_user/
@@ -8342,10 +8342,10 @@ David  9 Dec 2003
 
 Eric K.  12/11/2003
 
-	Added check for strlcpy() to configure.ac and definition of
-	strlcpy() to std_fixes.h.
-	Added C++ header and namespace checks to m4 and config.h
-	Added include of "std_fixes.h" to boinc_db.C
+    Added check for strlcpy() to configure.ac and definition of
+    strlcpy() to std_fixes.h.
+    Added C++ header and namespace checks to m4 and config.h
+    Added include of "std_fixes.h" to boinc_db.C
 
    aclocal.m4
    configure.ac 
@@ -8402,12 +8402,12 @@ David  11 Dec 2003
         validate.C
         wu_check.C
 
-Gary	11 Dec 2003
-	- changed the way tab windows are hidden/shown in windows gui,
+Gary    11 Dec 2003
+    - changed the way tab windows are hidden/shown in windows gui,
       to fix intermittent window repainting bug.
         old:
            <hide all windows by setting turning off WS_VISIBLE style>
-	       <show selected window by turning on WS_VISIBLE style>
+           <show selected window by turning on WS_VISIBLE style>
            <redraw window>
            The trouble with this technique is that it does not
            activate the window, so it will only work if the
@@ -8418,7 +8418,7 @@ Gary	11 Dec 2003
            <show selected window via ShowWindow(SW_SHOW)>
 
     client/win/
-		wingui_mainwindow.cpp
+        wingui_mainwindow.cpp
 
 David  12 Dec 2003
     - changed "opaque" fields from int to double
@@ -8449,28 +8449,28 @@ David  12 Dec 2003
         update_stats.C
 
 David  12 Dec 2003
-	- Core client: print host ID (per project) in startup messages
-	- calculate file transfer speeds correctly
-	    (e.g. use doubles for time, not int)
-		Show latest transfer speed in message when transfer finishes
+    - Core client: print host ID (per project) in startup messages
+    - calculate file transfer speeds correctly
+        (e.g. use doubles for time, not int)
+        Show latest transfer speed in message when transfer finishes
 
-	client/
-		client_state.C
-		net_xfer.C,h
-		pers_file_xfer.C
+    client/
+        client_state.C
+        net_xfer.C,h
+        pers_file_xfer.C
 
-Gary	12 Dec 2003
-	- fixed bug that caused 'Progress' and 'To completion' columns to reset to
+Gary    12 Dec 2003
+    - fixed bug that caused 'Progress' and 'To completion' columns to reset to
       0.00% and init completion time at end of WU.
 
     client/win/
-		wingui_mainwindow.cpp
+        wingui_mainwindow.cpp
 
 David  12 Dec 2003
-	- fixed bug that caused est. time to completion to not update
+    - fixed bug that caused est. time to completion to not update
 
-	client/
-		app.C
+    client/
+        app.C
 
 David  14 Dec 2003
     - added "has_profile" flag to user table;
@@ -8525,22 +8525,22 @@ Gary    15 Dec 2003
     win_build/installer/Script Files/
         setup.rul
 
-Gary	16 Dec 2003
-	- fixed bug in windows Boinc_gui core client, which caused the
-	  horizontal scroll bar on the Messages tab to be moved to the
-	  extreme right whenever new messages were written.
+Gary    16 Dec 2003
+    - fixed bug in windows Boinc_gui core client, which caused the
+      horizontal scroll bar on the Messages tab to be moved to the
+      extreme right whenever new messages were written.
 
     client/win/
-		wingui_mainwindow.cpp
+        wingui_mainwindow.cpp
 
 Eric K. 17 Dec 2003
-	- Added include of unistd.h to get definition of gethostname() on
-	  Solaris 7
+    - Added include of unistd.h to get definition of gethostname() on
+      Solaris 7
 
     sched/
-    		file_upload_handler.C
+            file_upload_handler.C
 
-Gary	17 Dec 2003
+Gary    17 Dec 2003
     - BOINC release 2.15 for windows, Linux, solaris, mac os x
 
 David  17 Dec 2003
@@ -8587,3 +8587,9 @@ Karl 2003-12-19
     lib/
         parse.h
         base64.C
+        
+David  20 Dec 2003
+    - Changes by Rom Walton to flash system tray icon when new message
+
+    client/win/
+        wingui_mainwindow.cpp,h
