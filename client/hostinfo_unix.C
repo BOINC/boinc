@@ -122,21 +122,23 @@ char* ip_addr_string(int ip_addr) {
 //
 int get_timezone( void ) {
     tzset();
+    // TODO: get this to work on all platforms
     // TODO: take daylight savings time into account
-#ifdef mac
-    time_t cur_time;
-    struct tm *time_data;
+#ifdef HAVE_GMTOFF
+    //time_t cur_time;
+    //struct tm *time_data;
 
-    cur_time = time(NULL);
-    time_data = localtime( &cur_time );
-    return time_data->tm_gmtoff;
+    //cur_time = time(NULL);
+    //time_data = localtime( &cur_time );
+    //return time_data->tm_gmtoff;
 #else
 #ifdef __timezone
-    return __timezone;
+    //return __timezone;
 #else
-    return timezone;
+    //return timezone;
 #endif
 #endif
+    return 0;
 }
 
 // Returns true if the host is currently running off battery power
