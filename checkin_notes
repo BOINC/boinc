@@ -18197,16 +18197,13 @@ David  8 Oct 2004
 		prefs.C
 
 Lana    8 Oct 2004
-        - changed API check_set to take input WORKUNIT instead of
-          DB_WORKUNIT
-        - added VALIDATOR_ITEM and DB_VALIDATOR_ITEM_SET
-        - optimized validator to work with the DB_VALIDATOR_ITEM_SET
-          instead of going to the database
+    - changed check_set() to take input WORKUNIT instead of DB_WORKUNIT
+    - added VALIDATOR_ITEM and DB_VALIDATOR_ITEM_SET
+    - optimized validator to use DB_VALIDATOR_ITEM_SET
 
-        db/
-            boinc_db.C, .h
-        sched/
-            validator.C
-            sample_bitwise_validator.C
-            sample_trivial_validator.C
-
+    db/
+        boinc_db.C, .h
+    sched/
+        validator.C
+        sample_bitwise_validator.C
+        sample_trivial_validator.C

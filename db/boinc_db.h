@@ -465,34 +465,8 @@ struct TRANSITIONER_ITEM {
 };
 
 struct VALIDATOR_ITEM {
-    int         id;
-    int         appid;
-    char        name[256];
-    bool        need_validate;
-    int         canonical_resultid;
-    double      canonical_credit;
-    int         min_quorum;
-    int         assimilate_state;
-    int         transition_time;
-    double      opaque;
-    int         batch;
-    int         max_success_results;
-    int         error_mask;
-
-    int         res_id;
-    char        res_name[256];
-    int         res_validate_state;
-    int         res_server_state;
-    int         res_outcome;
-    double      res_claimed_credit;
-    double      res_granted_credit;
-    char        res_xml_doc_out[LARGE_BLOB_SIZE];
-    double      res_cpu_time;
-    int         res_batch;
-    double      res_opaque;
-    int         res_exit_status;
-    int         res_hostid;
-    int         res_sent_time;
+    WORKUNIT wu;
+    RESULT res;
  
     void        clear();
     void        parse(MYSQL_ROW&);
@@ -626,8 +600,6 @@ public:
     );
     int update_result(RESULT&);
     int update_workunit(WORKUNIT&);
-    RESULT create_result(VALIDATOR_ITEM&);
-    WORKUNIT create_workunit(VALIDATOR_ITEM&);
 };
 
 // used by the feeder and scheduler for outgoing work

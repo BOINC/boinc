@@ -791,34 +791,32 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
 void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     clear();
-    id = atoi(r[i++]);
-    appid = atoi(r[i++]);
-    strcpy2(name, r[i++]);
-    need_validate= atoi(r[i++]);
-    canonical_resultid = atoi(r[i++]);
-    canonical_credit = atof(r[i++]);
-    min_quorum = atoi(r[i++]);
-    assimilate_state = atoi(r[i++]);
-    transition_time = atoi(r[i++]);
-    opaque = atof(r[i++]);  
-    batch = atoi(r[i++]);
-    max_success_results = atoi(r[i++]);
-    error_mask = atoi(r[i++]);
+    wu.id = atoi(r[i++]);
+    strcpy2(wu.name, r[i++]);
+    wu.canonical_resultid = atoi(r[i++]);
+    wu.canonical_credit = atof(r[i++]);
+    wu.min_quorum = atoi(r[i++]);
+    wu.assimilate_state = atoi(r[i++]);
+    wu.transition_time = atoi(r[i++]);
+    wu.opaque = atof(r[i++]);  
+    wu.batch = atoi(r[i++]);
+    wu.max_success_results = atoi(r[i++]);
+    wu.error_mask = atoi(r[i++]);
 
-    res_id = atoi(r[i++]);
-    strcpy2(res_name, r[i++]);
-    res_validate_state = atoi(r[i++]);
-    res_server_state = atoi(r[i++]);
-    res_outcome = atoi(r[i++]);
-    res_claimed_credit = atof(r[i++]);          
-    res_granted_credit = atof(r[i++]);
-    strcpy2(res_xml_doc_out, r[i++]);  
-    res_cpu_time = atof(r[i++]);                
-    res_batch = atoi(r[i++]);
-    res_opaque = atof(r[i++]);
-    res_exit_status = atoi(r[i++]);
-    res_hostid = atoi(r[i++]);
-    res_sent_time = atoi(r[i++]);
+    res.id = atoi(r[i++]);
+    strcpy2(res.name, r[i++]);
+    res.validate_state = atoi(r[i++]);
+    res.server_state = atoi(r[i++]);
+    res.outcome = atoi(r[i++]);
+    res.claimed_credit = atof(r[i++]);          
+    res.granted_credit = atof(r[i++]);
+    strcpy2(res.xml_doc_out, r[i++]);  
+    res.cpu_time = atof(r[i++]);                
+    res.batch = atoi(r[i++]);
+    res.opaque = atof(r[i++]);
+    res.exit_status = atoi(r[i++]);
+    res.hostid = atoi(r[i++]);
+    res.sent_time = atoi(r[i++]);
 }
 
 int DB_VALIDATOR_ITEM_SET::enumerate(
@@ -838,9 +836,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
         sprintf(query,
             "SELECT %s "
             "   wu.id, "     
-            "   wu.appid, "
             "   wu.name, "
-            "   wu.need_validate, "
             "   wu.canonical_resultid, "
             "   wu.canonical_credit, "
             "   wu.min_quorum, "
@@ -864,14 +860,15 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.exit_status, "
             "   res.hostid, "
             "   res.sent_time "
-                "FROM "
-                "   workunit AS wu "
-                "       LEFT JOIN result AS res ON wu.id = res.workunitid "
-                "WHERE "
-                "   wu.appid = %d and wu.need_validate > 0 "
-                "LIMIT "
-                "   %d ",
-                priority, appid, nresult_limit);
+            "FROM "
+            "   workunit AS wu "
+            "       LEFT JOIN result AS res ON wu.id = res.workunitid "
+            "WHERE "
+            "   wu.appid = %d and wu.need_validate > 0 "
+            "LIMIT "
+            "   %d ",
+            priority, appid, nresult_limit
+        );
 
         x = db->do_query(query);
         if (x) return mysql_errno(db->mysql);
@@ -953,48 +950,6 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
         wu.id
     );
     return db->do_query(query);
-}
-
-RESULT DB_VALIDATOR_ITEM_SET::create_result(VALIDATOR_ITEM& vi) {
-    RESULT result;
-   
-    result.workunitid   = vi.id;
-    result.id           = vi.res_id;
-    result.name         = vi.res_name;
-    result.validate_state   = vi.res_validate_state;
-    result.server_state     = vi.res_server_state;
-    result.outcome          = vi.res_outcome;
-    result.claimed_credit   = vi.res_claimed_credit;
-    result.granted_credit   = vi.res_granted_credit;
-    strcpy2(result.xml_doc_out, vi.res_xml_doc_out);
-    result.cpu_time         = vi.res_cpu_time;
-    result.batch            = vi.res_batch;
-    result.opaque           = vi.res_opaque;
-    result.exit_status      = vi.res_exit_status;
-    result.hostid           = vi.res_hostid;
-    result.sent_time        = vi.res_sent_time;
-   
-    return result;
-}
-
-WORKUNIT DB_VALIDATOR_ITEM_SET::create_workunit(VALIDATOR_ITEM& vi) {
-    WORKUNIT wu;
-   
-    wu.id               = vi.id;
-    wu.appid            = vi.appid;
-    strcpy2(wu.name, vi.name);
-    wu.need_validate    = vi.need_validate;
-    wu.canonical_resultid   = vi.canonical_resultid;
-    wu.canonical_credit     = vi.canonical_credit;
-    wu.min_quorum           = vi.min_quorum;
-    wu.assimilate_state     = vi.assimilate_state;
-    wu.transition_time      = vi.transition_time;
-    wu.opaque               = vi.opaque;
-    wu.batch                = vi.batch;
-    wu.max_success_results  = vi.max_success_results;
-    wu.error_mask           = vi.error_mask;
-
-    return wu;
 }
 
 void WORK_ITEM::parse(MYSQL_ROW& r) {

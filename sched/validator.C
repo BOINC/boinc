@@ -149,8 +149,9 @@ int grant_credit(RESULT& result, double credit) {
     return 0;
 }
 
-void handle_wu(DB_VALIDATOR_ITEM_SET& validator,
-            std::vector<VALIDATOR_ITEM>& items) { 
+void handle_wu(
+    DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
+) { 
     int  canonical_result_index = -1;
     bool update_result, retry;
     bool need_immediate_transition = false, need_delayed_transition = false;
@@ -158,9 +159,10 @@ void handle_wu(DB_VALIDATOR_ITEM_SET& validator,
     double credit = 0;
     unsigned int i;
     RESULT result, canonical_result;
-    WORKUNIT wu;
 
     VALIDATOR_ITEM& wu_vi = items[0];
+    WORKUNIT& wu=wu_vi.wu;
+
 
     if (wu_vi.canonical_resultid) {
         log_messages.printf(
