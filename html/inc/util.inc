@@ -137,14 +137,13 @@ function show_combo_box($name, $filename, $selection=null) {
     fclose($file);
 }
 
-function page_head($title) {
+function page_head($title, $java_onload="") {
     $styleSheet = URL_BASE . STYLESHEET;
 
     echo "<html><head><title>".strip_tags($title)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
-        </head>
-        <body bgcolor=ffffff>
-        ";
+        </head>";
+    if ($java_onload!=""){echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";}
     project_banner($title);
 }
 

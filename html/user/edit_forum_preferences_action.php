@@ -47,6 +47,9 @@
     $image_as_link = ($HTTP_POST_VARS["forum_images_as_links"]!="");
     $link_externally = ($HTTP_POST_VARS["forum_link_externally"]!="");
     $hide_avatars = ($HTTP_POST_VARS["forum_hide_avatars"]!="");
+    $hide_signatures = ($HTTP_POST_VARS["forum_hide_signatures"]!="");
+    $jump_to_unread = ($HTTP_POST_VARS["forum_jump_to_unread"]!="");
+
 
     $no_signature_by_default=($HTTP_POST_VARS["signature_enable"]=="");
     $signature = mysql_escape_string($HTTP_POST_VARS["signature"]);
@@ -67,7 +70,9 @@
             hide_avatars='".$hide_avatars."', 
             no_signature_by_default='".$no_signature_by_default."', 
             sorting='".$forum_sorting."',
-            signature='$signature' 
+            signature='$signature',
+	    jump_to_unread='".$jump_to_unread."',
+	    hide_signatures='".$hide_signatures."'
         where userid=$user->id");
     if ($result) {
     echo mysql_error();

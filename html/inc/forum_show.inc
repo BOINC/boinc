@@ -88,8 +88,6 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
 
     while ($thread = mysql_fetch_object($threads)) {
         $user = lookup_user_id($thread->owner);
-        $first_post = getFirstPost($thread->id);
-        $excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
         echo "
             <tr class=row$n style=\"font-size:8pt; text-align:center\">
             <td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
@@ -97,6 +95,8 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
         $n = ($n+1)%2;
 
         if ($category->is_helpdesk) {
+            $first_post = getFirstPost($thread->id);
+	    $excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
             echo strip_tags(stripslashes($excerpt));
             $na = $thread->sufferers + 1;
             $x = time_diff_str($first_post->timestamp, time());

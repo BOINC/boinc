@@ -9,21 +9,24 @@ $logged_in_user = getForumPreferences($logged_in_user);
 
 
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
-	$_GET['thread'] = stripslashes($_GET['thread']);
+    $_GET['thread'] = stripslashes($_GET['thread']);
 
-  if (!empty($_GET['post'])) {
-    $parent_post = $_GET['post'];
-  } else {
-    $parent_post = NULL;
-  }
+    if (!empty($_GET['post'])) {
+	$parent_post = $_GET['post'];
+    } else {
+	$parent_post = NULL;
+    }
 
     if ($_POST['add_signature']=="add_it"){
-        $forum_signature = "\n".$logged_in_user->signature;
-    }  
-	replyToThread($_GET['thread'], $logged_in_user->id, $_POST['content'].$forum_signature, $parent_post);
-	notify_subscribers($_GET['thread']);
+        //$forum_signature = "\n".$logged_in_user->signature;		//Old style: concatenate signature
+	$add_signature=true;						// New style: set a flag and concatenate later
+    }  else {
+	$add_signature=false;
+    }
 
-	header('Location: forum_thread.php?id='.$_GET['thread']);
+    replyToThread($_GET['thread'], $logged_in_user->id, $_POST['content'], $parent_post, $add_signature);
+    notify_subscribers($_GET['thread']);
+    header('Location: forum_thread.php?id='.$_GET['thread']);
 }
 
 

@@ -22,6 +22,8 @@ define('FORUM_CONTROLS', 1);
 define('HELPDESK_CONTROLS', 2);
 define("EXCERPT_LENGTH", "120");
 
+define('NEW_IMAGE', 'unread_post.png');
+define('NEW_IMAGE_HEIGHT','15');
 
 define ('SOLUTION', 'This answered my question');
 define ('SUFFERER', 'I also have this question');
@@ -202,29 +204,31 @@ function getForumPreferences($user){
     if (mysql_num_rows($result)>0) {
         $prefs=mysql_fetch_object($result);
 
-	//Todo - find out how to simply merge two objects instead of specifying all the fields manually here
-	$user->avatar=$prefs->avatar;
-	$user->hide_avatars=$prefs->hide_avatars;
-	$user->sorting=$prefs->sorting;
-	$user->images_as_links=$prefs->images_as_links;
-	$user->signature=$prefs->signature;
-	$user->posts=$prefs->posts;
-	$user->avatar_type=$prefs->avatar_type;
-	$user->no_signature_by_default=$prefs->no_signature_by_default;
-	$user->link_popup=$prefs->link_popup;
-	$user->mark_as_read_timestamp=$prefs->mark_as_read_timestamp;
-	$user->special_user=$prefs->special_user;
-	$user->forum_preferences=1;
+        //Todo - find out how to simply merge two objects instead of specifying all the fields manually here
+        $user->avatar=$prefs->avatar;
+        $user->hide_avatars=$prefs->hide_avatars;
+        $user->sorting=$prefs->sorting;
+        $user->images_as_links=$prefs->images_as_links;
+        $user->signature=$prefs->signature;
+        $user->posts=$prefs->posts;
+        $user->avatar_type=$prefs->avatar_type;
+        $user->no_signature_by_default=$prefs->no_signature_by_default;
+        $user->link_popup=$prefs->link_popup;
+        $user->mark_as_read_timestamp=$prefs->mark_as_read_timestamp;
+        $user->special_user=$prefs->special_user;
+        $user->jump_to_unread=$prefs->jump_to_unread;
+        $user->hide_signatures=$prefs->hide_signatures;
+        $user->forum_preferences=1;
     } else {
         mysql_query("insert into forum_preferences set userid='".$user->id."'");
-	$user->forum_preferences=0;
+        $user->forum_preferences=0;
     }
     return $user;
 }
 
 function getSortStyle($user,$place){
     if ($user->id!=""){
-	list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
+        list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
     } else {
         list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);
     }
@@ -233,28 +237,28 @@ function getSortStyle($user,$place){
 
 function setSortStyle($user,$place,$new_style){
     if ($user->id!=""){
-	list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
-	$$place=$new_style;
-	$user->sorting=implode("|",array($forum,$thread,$faq,$answer));
-	$sql = "UPDATE forum_preferences SET sorting = '".$user->sorting."' where userid = '".$user->id."'";
-	mysql_query($sql);
+        list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
+        $$place=$new_style;
+        $user->sorting=implode("|",array($forum,$thread,$faq,$answer));
+        $sql = "UPDATE forum_preferences SET sorting = '".$user->sorting."' where userid = '".$user->id."'";
+        mysql_query($sql);
     } else {
         list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);
-	$$place=$new_style;
+        $$place=$new_style;
         setcookie('sorting', implode("|",array($forum,$thread,$faq,$answer)), time()+3600*24*365);
-    }	
+    }        
 }
 
 function getThreadLastVisited($user, $thread){
-    if ($user->id==""){					//Disable read/unread stuff for users that are not logged in
-	$user->thread_last_visited=time();		//Always display as visited
-	return $user;
+    if ($user->id==""){                                        //Disable read/unread stuff for users that are not logged in
+        $user->thread_last_visited=time();                //Always display as visited
+        return $user;
     }
     $sql = "SELECT timestamp from forum_logging where userid='".$user->id."' and threadid='".$thread->id."'";
     $result = mysql_query($sql);
     if ($result) {
-	$data=mysql_fetch_object($result);
-	$user->thread_last_visited=$data->timestamp;
+        $data=mysql_fetch_object($result);
+        $user->thread_last_visited=$data->timestamp;
     } else {
     }
     $user->thread_last_visited= max(time()-MAX_FORUM_LOGGING_TIME,$user->thread_last_visited,$user->mark_as_read_timestamp);
@@ -278,28 +282,28 @@ function cleanup_forum_log(){
     $sql = "SELECT timestamp FROM forum_logging where userid=0 and threadid=0";
     $result=mysql_query($sql);
     if (mysql_num_rows($result)>0) {
-	$data=mysql_fetch_object($result);
-	if ($data->timestamp<time()-MAX_FORUM_LOGGING_TIME){
-	    $sql = "DELETE FROM forum_logging where timestamp<'".(time()-MAX_FORUM_LOGGING_TIME)."' and userid != 0";
-	    mysql_query($sql);
-	    echo mysql_error();
-	    $sql = "REPLACE INTO forum_logging set userid=0, threadid=0, timestamp='".time()."'";
-	    mysql_query($sql);
-	}
+        $data=mysql_fetch_object($result);
+        if ($data->timestamp<time()-MAX_FORUM_LOGGING_TIME){
+            $sql = "DELETE FROM forum_logging where timestamp<'".(time()-MAX_FORUM_LOGGING_TIME)."' and userid != 0";
+            mysql_query($sql);
+            echo mysql_error();
+            $sql = "REPLACE INTO forum_logging set userid=0, threadid=0, timestamp='".time()."'";
+            mysql_query($sql);
+        }
     } else {
-	//No cleanup timestamp found, make one:
-	$sql = "INSERT INTO forum_logging set userid=0, threadid=0, timestamp=0";
-	mysql_query($sql);
-	echo mysql_error();
+        //No cleanup timestamp found, make one:
+        $sql = "INSERT INTO forum_logging set userid=0, threadid=0, timestamp=0";
+        mysql_query($sql);
+        echo mysql_error();
     }
 }
 
 /* Forum modifying functions. */
 
-function createThread($forumID, $ownerID, $title, $content) {
+function createThread($forumID, $ownerID, $title, $content, $add_signature=false) {
 
     $title = addslashes(sanitize_html($title));
-    $content = addslashes(sanitize_html($content));
+    $content = addslashes(sanitize_html(stripslashes($content)));
 
     $title = trim($title);
     if (strlen($title) == 0) {
@@ -311,7 +315,7 @@ function createThread($forumID, $ownerID, $title, $content) {
     if (!$result) return false;
     $threadID = mysql_insert_id();
 
-    $postID = addPost($threadID, $ownerID, NULL, $content);
+    $postID = addPost($threadID, $ownerID, NULL, $content, $add_signature);
 
     $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $ownerID . " LIMIT 1";
     mysql_query($sql);
@@ -322,12 +326,12 @@ function createThread($forumID, $ownerID, $title, $content) {
     return $threadID;
 }
 
-function replyToThread($threadID, $userID, $content, $parent_post=NULL) {
+function replyToThread($threadID, $userID, $content, $parent_post=NULL, $add_signature=false) {
     $thread = getThread($threadID);
 
     $content = addslashes(sanitize_html(stripslashes($content)));
 
-    addPost($threadID, $userID, $parent_post, $content);
+    addPost($threadID, $userID, $parent_post, $content, $add_signature);
 
     $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $userID . " LIMIT 1";
     mysql_query($sql);
@@ -339,11 +343,12 @@ function replyToThread($threadID, $userID, $content, $parent_post=NULL) {
     mysql_query($sql);
 }
 
-function addPost($threadID, $userID, $parentID, $content) {
+function addPost($threadID, $userID, $parentID, $content, $add_signature=false) {
+    if ($add_signature){$sig=1;} else {$sig=0;};
     if ($parentID) {
-        $sql = "INSERT INTO post (thread, user, timestamp, content, parent_post) VALUES (" . $threadID . ", " . $userID . ", UNIX_TIMESTAMP(), '" . $content . "', " . $parentID . ")";
+        $sql = "INSERT INTO post (thread, user, timestamp, content, parent_post, signature) VALUES (" . $threadID . ", " . $userID . ", UNIX_TIMESTAMP(), '" . $content . "', " . $parentID . ", ".$sig.")";
     } else {
-        $sql = "INSERT INTO post (thread, user, timestamp, content) VALUES (" . $threadID . ", " . $userID . ", UNIX_TIMESTAMP(), '" . $content . "')";
+        $sql = "INSERT INTO post (thread, user, timestamp, content, signature) VALUES (" . $threadID . ", " . $userID . ", UNIX_TIMESTAMP(), '" . $content . "', ".$sig.")";
     }
     $result = mysql_query($sql);
     if (!$result) return false;
@@ -396,6 +401,9 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     if ($is_helpdesk) {
         if ($firstPost) {
             show_post($firstPost, $thread, $logged_in_user, $n, $controls, true);
+            if ($firstPost->timestamp>$logged_in_user->thread_last_visited){
+                $first_unread_post=$firstPost;
+            }
         }
     }
 
@@ -404,7 +412,18 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
             if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
                 show_post($post, $thread, $logged_in_user, $n, $controls, false);
                 if ($do_coloring) $n = ($n+1)%2;
+                if (($post->timestamp>$logged_in_user->thread_last_visited) && (($post->timestamp<$first_unread_post->timestamp) || $first_unread_post->timestamp==0)){
+                    $first_unread_post=$post;
+                }
             }
+        }
+    }
+    
+    if ($logged_in_user->jump_to_unread){
+        if ($first_unread_post->id!=""){
+            echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
+        } else {
+            echo "<script>function jumpToUnread(){};</script>";
         }
     }
 }
@@ -414,10 +433,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     $user = lookup_user_id($post->user);
     $user = getForumPreferences($user);
-    $data = mysql_query("SELECT userid FROM profile WHERE userid = " . $user->id);		//Lookup existance of profile for user
-    $user->has_profile = (mysql_numrows($data) > 0);						//and store this info in the user object
-    $user->has_avatar = ($user->avatar != "");							//for later access
-	
+    $data = mysql_query("SELECT userid FROM profile WHERE userid = " . $user->id);                //Lookup existance of profile for user
+    $user->has_profile = (mysql_numrows($data) > 0);                                                //and store this info in the user object
+    $user->has_avatar = ($user->avatar != "");                                                        //for later access
+        
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     echo "
@@ -428,16 +447,16 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     echo user_links($user, URL_BASE);
     
-    if ($user->special_user) {									//If this user is somehow special
-	if ($user->special_user==1) $fstatus=ST_ADMIN;						//this is displayed in the forums
-	if ($user->special_user==2) $fstatus=ST_MODERATOR;					//so that people know who they are
-	if ($user->special_user==3) $fstatus=ST_DEV;						//talking to.
-	if ($user->special_user==4) $fstatus=ST_VOLDEV;
-	if ($user->special_user==5) $fstatus=ST_SCIENT;
-	/*...*/
+    if ($user->special_user) {                                                                        //If this user is somehow special
+        if ($user->special_user==1) $fstatus=ST_ADMIN;                                                //this is displayed in the forums
+        if ($user->special_user==2) $fstatus=ST_MODERATOR;                                        //so that people know who they are
+        if ($user->special_user==3) $fstatus=ST_DEV;                                                //talking to.
+        if ($user->special_user==4) $fstatus=ST_VOLDEV;
+        if ($user->special_user==5) $fstatus=ST_SCIENT;
+        /*...*/
     } else {
-	if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
-	/*...*/
+        if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
+        /*...*/
     }
     if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
     
@@ -463,10 +482,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         <td align=left style=border:0px><font size=-2>";
 
     if ($post->timestamp>$logged_in_user->thread_last_visited){
-	echo "<a name=\"unread\"><img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\"></a>";
+        echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\">";
     }
-	
-    echo "	
+        
+    echo "        
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
@@ -502,14 +521,15 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
 
     $posttext=nl2br(stripslashes($post->content));
-    //echo $logged_in_user->images_as_links;
-    
+    if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
+        $posttext.=nl2br("\n".stripslashes($user->signature));                                //wants it to be shown for this post AND the logged in
+    }                                                                                        //user has signatures enabled: show it
+        
     if ($logged_in_user->images_as_links==1){
-	$posttext=image_as_link($posttext);
+        $posttext=image_as_link($posttext);
     }
-    //echo $logged_in_user->link_popup;
     if ($logged_in_user->link_popup==1){
-	$posttext=externalize_links($posttext);
+        $posttext=externalize_links($posttext);
     }
     
     echo "<p>", $posttext, "</p>";
@@ -551,11 +571,11 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
 function externalize_links($text){
     $i=0;$linkpos=true;
-    while (true){				//Find a link
+    while (true){                                //Find a link
         $linkpos=strpos($text,"<a ",$i);
-	if ($linkpos===false) break;
-	$out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\"";	//Replace with target='_new'
-	$i=$linkpos+3;
+        if ($linkpos===false) break;
+        $out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\"";        //Replace with target='_new'
+        $i=$linkpos+3;
     }
     $out.=substr($text,$i);
     return $out;
@@ -564,20 +584,20 @@ function externalize_links($text){
 function image_as_link($text){
 /* This function depends on sanitized HTML - always use KSES or equivalent before using this */
     $i=0;
-    while (true){							//Find an image
-	$imgpos=strpos($text,"<img ",$i);
-	if ($imgpos===false) break;
-	$out.= substr($text,$i,$imgpos-$i)."<a href=";			//Replace with link start
-	$temp1=strpos($text,"src=",$imgpos)+5;				//Find the image source
-	$temp2=strpos($text,">",$imgpos)+1;				//Or the end of the tag
-	if ($temp1<$temp2){						//If source was found within tag
-	    $temp3=strpos($text,"\"",$temp1);				//Find the end of source
-	    $out.=substr($text,$temp1,$temp3-$temp1);			//output the source
-	}
-	$out.=">[Image link]</a>";
-	$i=$temp2;							//Now move to end of tag to continue
+    while (true){                                                        //Find an image
+        $imgpos=strpos($text,"<img ",$i);
+        if ($imgpos===false) break;
+        $out.= substr($text,$i,$imgpos-$i)."<a href=";                        //Replace with link start
+        $temp1=strpos($text,"src=",$imgpos)+5;                                //Find the image source
+        $temp2=strpos($text,">",$imgpos)+1;                                //Or the end of the tag
+        if ($temp1<$temp2){                                                //If source was found within tag
+            $temp3=strpos($text,"\"",$temp1);                                //Find the end of source
+            $out.=substr($text,$temp1,$temp3-$temp1);                        //output the source
+        }
+        $out.=">[Image link]</a>";
+        $i=$temp2;                                                        //Now move to end of tag to continue
     }
-    $out.=substr($text,$i);						//Output the rest
+    $out.=substr($text,$i);                                                //Output the rest
     return $out;
 }
     

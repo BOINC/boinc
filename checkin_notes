@@ -18207,3 +18207,19 @@ Lana    8 Oct 2004
         validator.C
         sample_bitwise_validator.C
         sample_trivial_validator.C
+
+David  9 Oct 2004
+    - forum updates (from Janus Kristensen)
+
+    html/
+        inc/
+            forum.inc
+            forum_show.inc
+            util.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            forum_post.php
+            forum_reply.php
+            forum_thread.php
+            unread_post.png (new)

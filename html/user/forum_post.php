@@ -7,14 +7,18 @@ require_once('../inc/subscribe.inc');
 $logged_in_user = get_logged_in_user(true);
 $logged_in_user = getForumPreferences($logged_in_user);
 
+
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
     $_GET['id'] = stripslashes(strip_tags($_GET['id']));
 
 
     if ($_POST['add_signature']=="add_it") {
-        $forum_signature = "\n".$logged_in_user->signature;
+        //$forum_signature = "\n".$logged_in_user->signature;
+	$add_signature=true;
+    } else {
+	$add_signature=false;
     }
-    $threadID = createThread($_GET['id'], $logged_in_user->id, $_POST['title'], $_POST['content'].$forum_signature);
+    $threadID = createThread($_GET['id'], $logged_in_user->id, $_POST['title'], $_POST['content'],$add_signature);
     if (!$threadID) {
         page_head("Can't create thread");
         echo "Title is possibly missing";

@@ -41,7 +41,11 @@ if ($category->is_helpdesk) {
 	} else {
     	    setSortStyle($logged_in_user,"thread", $sort_style);
 	}
-	page_head(PROJECT.': Message boards');
+	if ($logged_in_user->jump_to_unread){
+	    page_head(PROJECT.': Message boards', 'jumpToUnread();');
+	} else {
+	    page_head(PROJECT.': Message boards');
+	}
 }
 
 // TODO: Constant for default sort style and filter values.
