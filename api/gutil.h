@@ -24,8 +24,6 @@
 #ifndef GUTIL_H
 #define GUTIL_H
 
-#include <stdio.h>
-
 struct COLOR {
     float r;
     float g;
@@ -83,7 +81,7 @@ extern void get_2d_positions(float p1,float p2,float p3,
 	double model[16], double proj[16], int viewport[4], double proj_pos[3]
 );
 
-// draw a progress bar as an opaque cylinder within a translucent cylinder
+// a progress bar represented as an opaque cylinder within a translucent cylinder
 //
 class PROGRESS {
     float pos[3];
@@ -94,7 +92,7 @@ public:
     void draw(float);
 };
 
-// draw a graph as a ribbon
+// a graph drawn as a ribbon in 3D
 //
 class GRAPH_2D {
     float pos[3], size[3];
@@ -108,6 +106,28 @@ public:
     void draw(float* data, int len);
     void add_tick(float x, float yfrac);
 };
+
+// a colored panel with some text, that can move cyclically
+//
+class MOVING_TEXT_PANEL {
+    float base_pos[3];
+    float size[3];
+    float theta;
+    float dtheta;
+    float char_height;
+    float line_width;
+    float line_spacing;
+    double margin;
+    COLOR color;
+public:
+    char text[1024];
+    float pos[3];
+    void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
+    void draw();
+    static void sort(MOVING_TEXT_PANEL* tp, int n);
+    void move(double dt);
+};
+
 
 // ----- STUFF RELATED TO STARFIELDS
 //
@@ -128,11 +148,20 @@ extern void replaceStar(Star* tmpStar);
 #define IMAGE_TYPE_BMP      2
 #define IMAGE_TYPE_TGA      3
 
+struct TEXTURE_DESC {
+    unsigned int id;
+    double xsize;          // size of underlying image
+    double ysize;
+};
+
+#if 0
 // read a portable pixmap file
 //
 extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
 extern int init_texture(char* filename);
-extern void draw_texture(float* pos, float* size);
+#endif
+
+extern void draw_texture(float* pos, float* size, TEXTURE_DESC&);
 
 struct tImageJPG {
 	int rowSpan;
@@ -141,22 +170,18 @@ struct tImageJPG {
 	unsigned char *data;
 };
 
-typedef unsigned int UINT;
-
-#define MAX_TEXTURES 16
-extern UINT g_Texture[MAX_TEXTURES];
-extern bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID);
-extern bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID);
-extern bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID);
-extern bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID);
-extern void create_texture(char* filename, int id);
+extern int CreateTextureJPG(char* strFileName, TEXTURE_DESC&);
+extern int CreateTextureBMP(char* strFileName, TEXTURE_DESC&);
+extern int CreateTexturePPM(char* strFileName, TEXTURE_DESC&);
+extern int CreateTextureTGA(char* strFileName, TEXTURE_DESC&);
+extern int create_texture(char* filename, TEXTURE_DESC&);
 extern tImageJPG *LoadJPG(const char *filename);
 
 
 // ----- STUFF RELATED TO FONTS
 //
 #define MAX_FONTS 16
-extern UINT listBase[MAX_FONTS];
+extern unsigned int listBase[MAX_FONTS];
 extern void MyCreateFont(unsigned int &base, char *fontName, int Size,int weight);
 extern void print_text(unsigned int base, char *string);
 

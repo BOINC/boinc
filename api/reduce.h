@@ -27,7 +27,12 @@
 #define REDUCE_METHOD_MAX	2		// Take the maximum of reduced elements
 #define REDUCE_METHOD_MIN	3		// Take the minimum of reduced elements
 
-enum DrawType {TYPE_QUAD,TYPE_STRIP,TYPE_WAVE,TYPE_SURFACE};
+enum GRAPH_DRAW_STYLE {
+    GRAPH_DRAW_STYLE_QUAD,
+    GRAPH_DRAW_STYLE_STRIP,
+    GRAPH_DRAW_STYLE_WAVE,
+    GRAPH_DRAW_STYLE_SURFACE
+};
 
 class REDUCED_ARRAY {
 public:
@@ -54,11 +59,12 @@ public:
     double hue0;
     double dhue;
 	float alpha;
+    GRAPH_DRAW_STYLE draw_style;
 
     REDUCED_ARRAY();
     ~REDUCED_ARRAY();
     void init(int, int);
-    void init_draw(float*, float*, double, double, float);
+    void init_draw(GRAPH_DRAW_STYLE, float*, float*, double, double, float);
     void set_max_dims(int, int);
     void reduce_source_row(float*, float*);
     void add_source_row(float*);
@@ -69,15 +75,12 @@ public:
         return rdata + j*rdimx;
     }
     void draw_row_quad(int);
-    void draw_row_rect_x(DrawType,int);
 	void draw_row_rect_x(int);
     void draw_row_rect_y(int);
     void draw_row_line(int);
 	void draw(int, int);
-    void draw(DrawType,int, int);
     void draw_new();
     void draw_all();
-    void draw_part(DrawType,double frac);
 	void draw_part(double frac);
     void draw_axes();
 	void draw_axis_labels();

@@ -80,7 +80,7 @@ void REDUCED_ARRAY::reset() {
     last_ry_count = 0;
 }
 
-void REDUCED_ARRAY::init_draw(float* p, float* s, double h0, double dh, float trans) {
+void REDUCED_ARRAY::init_draw(GRAPH_DRAW_STYLE st, float* p, float* s, double h0, double dh, float trans) {
     memcpy(draw_pos, p, sizeof(draw_pos));
     memcpy(draw_size, s, sizeof(draw_size));
     draw_deltax = draw_size[0]/rdimx;
@@ -88,6 +88,7 @@ void REDUCED_ARRAY::init_draw(float* p, float* s, double h0, double dh, float tr
     hue0 = h0;
     dhue = dh;
     alpha = trans;
+    draw_style = st;
 }
 
 // reduce a single row.  This is called only if sdimx > rdimx;
@@ -261,51 +262,14 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #endif
 }
 
-void REDUCED_ARRAY::draw_row_rect_x(int row) {
+void REDUCED_ARRAY::draw_row_rect_x(int row)  {	
 	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0;
 	int i=0; 	
 	float* row0=0;
 	int trow=row-1;
 	float* trow0=0;
-	z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
-	z1 = z0+.14f;			
-	row0 = rrow(row);
-	
-	glBegin(GL_QUADS);
-	for (i=0; i<rdimx; i++) {
-		x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
-		x1 = x0 + draw_deltax*.95f;
-		h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
-
-		y0 = draw_pos[1];
-		y1 = draw_pos[1] + draw_size[1]*h;
-
-		double hue = hue0 + (dhue*i)/rdimx;
-		if (hue > 1) hue -= 1;
-		double sat = 1.;
-		double lum = .5 + h/2;
-		COLOR color;
-		HLStoRGB(hue, lum, sat, color);
-		glColor4f(color.r, color.g, color.b, alpha);
-
-		//front
-		
-		glVertex3f(x0, y0, z0);
-		glVertex3f(x1, y0, z0);
-		glVertex3f(x1, y1, z0);
-		glVertex3f(x0, y1, z0);
-	}
-	glEnd();					
-}
-
-void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)  {	
-	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0;
-	int i=0; 	
-	float* row0=0;
-	int trow=row-1;
-	float* trow0=0;
-	switch(type) {
-	case TYPE_QUAD:
+	switch(draw_style) {
+	case GRAPH_DRAW_STYLE_QUAD:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
 		row0 = rrow(row);
@@ -429,7 +393,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)  {
 //		}
 		glEnd();	
 	break;
-	case TYPE_SURFACE:
+	case GRAPH_DRAW_STYLE_SURFACE:
 		glBegin(GL_QUAD_STRIP);
 
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
@@ -501,7 +465,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)  {
 		}
 		glEnd();
 	break;
-	case TYPE_WAVE:
+	case GRAPH_DRAW_STYLE_WAVE:
 		glLineWidth(1.0f);
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
@@ -561,7 +525,7 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)  {
 		glEnd();
 		glDisable(GL_LINE_SMOOTH);
 	break;
-	case TYPE_STRIP:
+	case GRAPH_DRAW_STYLE_STRIP:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
 		row0 = rrow(row);						
@@ -657,34 +621,6 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
 void REDUCED_ARRAY::draw_row_line(int row) {
 }
 
-void REDUCED_ARRAY::draw(DrawType type, int r0, int rn) {
-    int i;
-    mode_unshaded();
-    if (rdimx == sdimx) {
-        if (rdimy == sdimy) {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(type,i);
-            }
-        } else {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(type,i);
-            }
-        }
-    } else {
-        if (rdimy == sdimy) {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(type,i);
-            }
-        } else {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(type,i);
-            }
-        }
-    }
-    ndrawn_rows = rn;
-    glFlush();
-}
-
 void REDUCED_ARRAY::draw(int r0, int rn) {
     int i;
     mode_unshaded();
@@ -714,16 +650,11 @@ void REDUCED_ARRAY::draw(int r0, int rn) {
 }
 
 void REDUCED_ARRAY::draw_all() {
-    draw(TYPE_QUAD,0, nvalid_rows);
+    draw(0, nvalid_rows);
 }
 
 void REDUCED_ARRAY::draw_new() {
-    draw(TYPE_QUAD,ndrawn_rows, nvalid_rows);
-}
-
-void REDUCED_ARRAY::draw_part(DrawType type, double frac) {
-    int nr = (int)(nvalid_rows*frac);
-    draw(type,0, nr);
+    draw(ndrawn_rows, nvalid_rows);
 }
 
 void REDUCED_ARRAY::draw_part(double frac) {

@@ -78,8 +78,13 @@ void mode_shaded(GLfloat* color) {
 }
 
 void mode_texture() {
+#if 0
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
+    glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHT0);
+#endif
+    glEnable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
 }
@@ -434,17 +439,30 @@ void draw_text_new(
     }
 }
 
+void MOVING_TEXT_PANEL::init(
+    float* p, float* s, COLOR& c, double d, double ch, double lw, double ls, double m
+) {
+    memcpy(pos, p, sizeof(pos));
+    memcpy(base_pos, p, sizeof(base_pos));
+    memcpy(size, s, sizeof(size));
+    color = c;
+    theta = 0;
+    dtheta = d;
+    char_height = ch;
+    line_width = lw;
+    line_spacing = ls;
+    margin = m;
+    strcpy(text, "");
+}
+
 // draw a rectangle of the given color in the XY plane
 // and draw the given test in it
 //
-void draw_text_panel(
-    GLfloat* _pos, GLfloat* size, GLfloat margin, COLOR color,
-    GLfloat char_height, GLfloat line_width, GLfloat line_spacing,
-    char* text
-) {
+void MOVING_TEXT_PANEL::draw() {
+    COLOR side_color = color;
     GLfloat pos0[3], pos1[3], pos2[3], pos3[3];
-    memcpy(pos0, _pos, sizeof(pos0));
-    memcpy(pos1, _pos, sizeof(pos0));
+    memcpy(pos0, pos, sizeof(pos0));
+    memcpy(pos1, pos, sizeof(pos0));
     pos1[0] += size[0];
     memcpy(pos2, pos1, sizeof(pos0));
     pos2[1] += size[1];
@@ -460,10 +478,10 @@ void draw_text_panel(
 
     // draw flanges
     //
-    color.r /= 2;
-    color.g /= 2;
-    color.b /= 2;
-    glColor4fv(&color.r);
+    side_color.r /= 2;
+    side_color.g /= 2;
+    side_color.b /= 2;
+    glColor4fv(&side_color.r);
     GLfloat posa0[3], posa1[3], posa2[3], posa3[3];
     memcpy(posa0, pos0, sizeof(pos0));
     memcpy(posa1, pos1, sizeof(pos0));
@@ -496,6 +514,24 @@ void draw_text_panel(
     pos3[2] += 0.01;
     glColor3f(1, 1, 1);
     draw_text(pos3, char_height, line_width, line_spacing, text);
+}
+
+void MOVING_TEXT_PANEL::move(double dt) {
+    pos[0] = base_pos[0] + sin(theta);
+    pos[1] = base_pos[1];
+    pos[2] = base_pos[2] + cos(theta);
+    theta += dtheta*dt;
+}
+
+static int compare_tp(const void* p1, const void* p2) {
+    MOVING_TEXT_PANEL* tp1=(MOVING_TEXT_PANEL*)p1, *tp2 = (MOVING_TEXT_PANEL*)p2;
+    if (tp1->pos[2] > tp2->pos[2]) return 1;
+    if (tp2->pos[2] > tp1->pos[2]) return -1;
+    return 0;
+}
+
+void MOVING_TEXT_PANEL::sort(MOVING_TEXT_PANEL* tp, int n) {
+    qsort(tp, n, sizeof(MOVING_TEXT_PANEL), compare_tp);
 }
 
 PROGRESS::PROGRESS(
@@ -602,83 +638,6 @@ void GRAPH_2D::draw(float* d, int ln) {
 void GRAPH_2D::add_tick(float x, float yfrac) {
 }
 
-// read a PPM file
-// to generate PPM from JPEG:
-// mogrify -format ppm foo.jpg
-// or xv foo.jpg; right click on image, choose PPM
-//
-int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
-    FILE* f;
-    char buf[256];
-    char img_type;
-    unsigned char* array;
-    int i;
-
-    f = fopen(name, "rb");
-    if (!f) return -1;
-    do {fgets(buf, 256, f);} while (buf[0] == '#');
-    if (buf[0] != 'P') {
-        return -1;
-    }
-    img_type = buf[1];
-    do {fgets(buf, 256, f);} while (buf[0] == '#');
-    sscanf(buf, "%d %d", &w, &h);
-    do {fgets(buf, 256, f);} while (buf[0] == '#');
-    array = (unsigned char*)malloc(w*h*3);
-    switch(img_type) {  // TODO: pad image dimension to power of 2
-    case '3':
-        for (i=0; i<w*h*3; i++) {
-            fscanf(f, "%d", array+i);
-        }
-    case '6':
-        fread(array, 3, w*h, f);
-        break;
-    }
-    *arrayp = array;
-    return 0;
-}
-
-unsigned int texture_id;
-
-int init_texture(char* filename) {
-    unsigned char* pixels;
-    int width, height, retVal;
-    int err;
-    retVal = read_ppm_file(filename, width, height, &pixels);
-    if (retVal) return retVal;
-    glGenTextures(1, &texture_id);
-    err = glGetError();
-    if (err) return err;
-    glBindTexture(GL_TEXTURE_2D, texture_id);
-    err = glGetError();
-    if (err) return err;
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    err = glGetError();
-    if (err) return err;
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    err = glGetError();
-    if (err) return err;
-	//ASSERT(0);
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        3,
-        //0,
-        //0,
-        width,
-        height,
-        0,
-        GL_RGB,
-        GL_UNSIGNED_BYTE,
-        pixels    // dimension of PPM file MUST be power of 2
-    );
-    err = glGetError();
-    if (err) {
-		fprintf(stderr, "glTexImage2D returned error # %d: %s\n", err, gluErrorString(err));
-		return err;
-	}
-    return 0;
-}
 struct Vertex
 {
     float tu, tv;
@@ -694,33 +653,6 @@ Vertex g_quadVertices[] =
 };
 float white[4] = {1., 1., 1., 1.};
 
-void draw_texture(float* p, float* size) {
-    float pos[3];
-    memcpy(pos, p, sizeof(pos));
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture_id);
-    mode_shaded(white);
-#if 1
-    glBegin(GL_QUADS);
-    glTexCoord2f(0., 1.);
-    glVertex3fv(pos);
-    pos[0] += size[0];
-    glTexCoord2f(1., 1.);
-    glVertex3fv(pos);
-    pos[1] += size[1];
-    glTexCoord2f(1., 0.);
-    glVertex3fv(pos);
-    pos[0] -= size[0];
-    glTexCoord2f(0., 0.);
-    glVertex3fv(pos);
-    glEnd();
-#else
-    glInterleavedArrays( GL_T2F_V3F, 0, g_quadVertices );
-    glDrawArrays( GL_QUADS, 0, 4 );
-#endif
-
-    glDisable(GL_TEXTURE_2D);
-}
 
 //star drawing functions -<oliver wang>-
 #define PI 3.14159265358979323846264
@@ -737,7 +669,7 @@ void build_stars(int size, float speed)
 	while(i<size)
 	{
 		
-		float z = (float)(rand()%2000-1000);
+		float z = -frand()*1000;
 		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
 		float beta = asin(z/1000.0f);
 		float x = 1000.0f * cos(beta) * cos(alpha);
@@ -824,7 +756,7 @@ void update_stars(int number, float speed)
 }
 
 void replaceStar(Star* star) {
-	float z = (float)(rand()%2000-1000);
+	float z = -frand()*1000;
 	float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
 	float beta = asin(z/1000.0f);
 	float x = 1000.0f * cos(beta) * cos(alpha);
@@ -838,9 +770,135 @@ void replaceStar(Star* star) {
 	star->v=v;		
 }
 
-//jpg texture support
-//this is the array that will contain pointers to texture pixel data
-UINT g_Texture[MAX_TEXTURES];
+// ------------ OLD TEXTURE STUFF --------------------
+// read a PPM file
+// to generate PPM from JPEG:
+// mogrify -format ppm foo.jpg
+// or xv foo.jpg; right click on image, choose PPM
+//
+int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
+    FILE* f;
+    char buf[256];
+    char img_type;
+    unsigned char* array;
+    int i;
+
+    f = fopen(name, "rb");
+    if (!f) return -1;
+    do {fgets(buf, 256, f);} while (buf[0] == '#');
+    if (buf[0] != 'P') {
+        return -1;
+    }
+    img_type = buf[1];
+    do {fgets(buf, 256, f);} while (buf[0] == '#');
+    sscanf(buf, "%d %d", &w, &h);
+    do {fgets(buf, 256, f);} while (buf[0] == '#');
+    array = (unsigned char*)malloc(w*h*3);
+    switch(img_type) {  // TODO: pad image dimension to power of 2
+    case '3':
+        for (i=0; i<w*h*3; i++) {
+            fscanf(f, "%d", array+i);
+        }
+    case '6':
+        fread(array, 3, w*h, f);
+        break;
+    }
+    *arrayp = array;
+    return 0;
+}
+
+#if 0
+unsigned int texture_id;
+
+int init_texture(char* filename) {
+    unsigned char* pixels;
+    int width, height, retVal;
+    int err;
+    retVal = read_ppm_file(filename, width, height, &pixels);
+    if (retVal) return retVal;
+    glGenTextures(1, &texture_id);
+    err = glGetError();
+    if (err) return err;
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    err = glGetError();
+    if (err) return err;
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    err = glGetError();
+    if (err) return err;
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    err = glGetError();
+    if (err) return err;
+	//ASSERT(0);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        3,
+        //0,
+        //0,
+        width,
+        height,
+        0,
+        GL_RGB,
+        GL_UNSIGNED_BYTE,
+        pixels    // dimension of PPM file MUST be power of 2
+    );
+    err = glGetError();
+    if (err) {
+		fprintf(stderr, "glTexImage2D returned error # %d: %s\n", err, gluErrorString(err));
+		return err;
+	}
+    return 0;
+}
+#endif
+
+// draw a texture at a given position and size.
+// Change size if needed so aspect ratio of texture isn't changed
+//
+void draw_texture(float* p, float* size, TEXTURE_DESC& td) {
+    float pos[3];
+    double tratio, sratio, new_size;
+    memcpy(pos, p, sizeof(pos));
+    glColor4f(1.,1.,1.,1.);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, td.id);
+
+    tratio = td.xsize/td.ysize;
+    sratio = size[0]/size[1];
+
+    if (tratio > sratio) {      // texture is wider than space
+        new_size = size[0]/tratio;
+        pos[1] += (size[1]-new_size)/2;
+        size[1] = new_size;
+    }
+    if (sratio > tratio) {      // space is wider than texture
+        new_size = size[1]*tratio;
+        pos[0] += (size[0]-new_size)/2;
+        size[0] = new_size;
+    }
+
+#if 1
+    glBegin(GL_QUADS);
+    glTexCoord2f(0., 1.);
+    glVertex3fv(pos);
+    pos[0] += size[0];
+    glTexCoord2f(1., 1.);
+    glVertex3fv(pos);
+    pos[1] += size[1];
+    glTexCoord2f(1., 0.);
+    glVertex3fv(pos);
+    pos[0] -= size[0];
+    glTexCoord2f(0., 0.);
+    glVertex3fv(pos);
+    glEnd();
+#else
+    glInterleavedArrays( GL_T2F_V3F, 0, g_quadVertices );
+    glDrawArrays( GL_QUADS, 0, 4 );
+#endif
+
+    glDisable(GL_TEXTURE_2D);
+}
+
+////  --------------- NEW TEXTURE STUFF ----------------------
 
 void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {	
 	jpeg_read_header(cinfo, TRUE);
@@ -884,80 +942,88 @@ tImageJPG *LoadJPG(const char *filename) {
 	return pImageData;
 }
 
-bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID) {
-	if(!strFileName) return false;	
+int CreateTextureJPG(char* strFileName, TEXTURE_DESC& td) {
+	if(!strFileName) return -1;	
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
-	if(pImage == NULL) return false;
-	glGenTextures(1, &textureArray[textureID]);
-	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);	
+	if(pImage == NULL) return -1;
+	glGenTextures(1, &td.id);
+	glBindTexture(GL_TEXTURE_2D, td.id);	
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);	
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+    td.xsize = pImage->sizeX;
+    td.ysize = pImage->sizeY;
 	
 	if (pImage) {
 		if (pImage->data) {
 			free(pImage->data);						
 		}
-
 		free(pImage);					
 	}
-	return true;
+	return 0;
 }
 
-bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID) {
+int CreateTextureBMP(char* strFileName, TEXTURE_DESC& td) {
 #ifdef _WIN32
 	DIB_BITMAP image; 
     if(image.loadBMP(strFileName) == false) {
-		return false;
+		return -1;
     }
 
-	glGenTextures(1, &textureArray[textureID]);	
-	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+	glGenTextures(1, &td.id);	
+	glBindTexture(GL_TEXTURE_2D, td.id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(), 
         image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
         image.getLinePtr(0)
     );
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+    td.xsize = image.get_width();
+    td.ysize = image.get_height();
 #endif
-	return true;
+	return 0;
 }
 
-bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID) {
+int CreateTexturePPM(char* strFileName, TEXTURE_DESC& td) {
 #ifdef _WIN32
 	unsigned char* pixels;
-    int width, height;    
-    if (read_ppm_file(strFileName, width, height, &pixels)==-1) return false;
+    int width, height, retval;    
+    retval = read_ppm_file(strFileName, width, height, &pixels);
+    if (retval) return retval;
     
-    glGenTextures(1, &textureArray[textureID]);
-    glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+    glGenTextures(1, &td.id);
+    glBindTexture(GL_TEXTURE_2D, td.id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+    td.xsize = width;
+    td.ysize = height;
 #endif
-	return true;
+	return 0;
 }
 
-bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID) {
+int CreateTextureTGA(char* strFileName, TEXTURE_DESC& td) {
 #ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in
-		return false;
+		return -1;
 
 	tImageTGA *pImage = LoadTGA(strFileName);			// Load the image and store the data
     if(pImage == NULL) {
-		return false;
+		return -1;
     }
-	glGenTextures(1, &textureArray[textureID]);
-	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+	glGenTextures(1, &td.id);
+	glBindTexture(GL_TEXTURE_2D, td.id);
 	int textureType = GL_RGB;
 	if(pImage->channels == 4) {
 		textureType = GL_RGBA;		
 	}
 	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX, 
-					  pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
+		pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+    td.xsize = pImage->sizeX;
+    td.ysize = pImage->sizeY;
 
     if (pImage)	{									// If we loaded the image
         if (pImage->data) {							// If there is texture data
@@ -966,7 +1032,7 @@ bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID) {
 		free(pImage);								// Free the image structure
 	}
 #endif
-	return true;
+	return 0;
 }
 
 static int getFileType(char* file) {
@@ -992,26 +1058,27 @@ static int getFileType(char* file) {
     else return -1;
 }
 
-void create_texture(char* filename, int id) {
+int create_texture(char* filename, TEXTURE_DESC& td) {
     switch (getFileType(filename)) {
     case IMAGE_TYPE_JPG:
-        CreateTextureJPG(g_Texture, filename, id); 
+        return CreateTextureJPG(filename, td); 
         break;
     case IMAGE_TYPE_PPM:
-        CreateTexturePPM(g_Texture, filename, id);    
+        return CreateTexturePPM(filename, td);    
         break;
     case IMAGE_TYPE_BMP:
-        CreateTextureBMP(g_Texture, filename, id);
+        return CreateTextureBMP(filename, td);
         break;
     case IMAGE_TYPE_TGA:
-        CreateTextureTGA(g_Texture, filename, id);
+        return CreateTextureTGA(filename, td);
         break;
     }
+    return -1;
 }
 
 
 //text
-UINT listBase[MAX_FONTS];
+unsigned int listBase[MAX_FONTS];
 
 void print_text(unsigned int base, char *string)
 {   

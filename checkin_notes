@@ -6536,3 +6536,19 @@ David  Oct 4 2003
 		windows_opengl.C
 	lib/
 		xml_util.C
+
+David  Oct 6 2003
+	- Created class MOVING_TEXT_PANEL (in boinc/api/gutil.h)
+		to do Astropulse-type text display
+	- Created class TEXTURE_DESC (same place)
+		to represent an OpenGL texture (including its ID and size).
+	- Modify draw_texture() to not change the aspect ratio of the picture;
+		it shrinks the image in one dimension or the other, and centers
+		it in the allotted space
+	- Add a GRAPH_DRAW_STYLE field to REDUCED_ARRAY
+	- Eliminate methods of REDUCED_ARRAY that take a style argument
+
+	api/
+		graphics_api.C
+		gutil.C,h
+		reduce.C,h
