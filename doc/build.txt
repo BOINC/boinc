@@ -59,7 +59,9 @@ UNIX/Linux
 
 * If you modify make files: autoconf 2.57, automake 1.7
 
-* for building source distributions: tar, gzip, bzip2, zip
+* for building source distributions: perl, tar, gzip, bzip2, zip
+
+* for running server and testing: apache (or other server), php
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Windows
@@ -98,7 +100,7 @@ Build Source Release
 
 2   Make source distributions (.tar.gz, .tar.bz2, .zip)
 
-  2.1 cd boinc && ./configure && make dist-client
+  2.1 cd boinc && ./configure && make dist
 
 -------------------------------------------------------------------------
 

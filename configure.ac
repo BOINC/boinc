@@ -120,10 +120,6 @@ AC_HEADER_TIME
 AC_STRUCT_TM
 
 AC_SUBST(CLIENT_BIN_FILENAME,[boinc_${MAJOR_VERSION}.${MINOR_VERSION}_$host${EXEEXT}])
-AC_SUBST(NOT_IN_CLIENT_TARBALL, [db doc html_ops html_user lib stripchart sched test tools api])
-
-dnl this line below is set to =1 in the client distribution
-CLIENT_DISTRIBUTION=0
 
 AC_CONFIG_FILES([RSAEuro/source/Makefile
                  RSAEuro/Makefile
@@ -134,21 +130,10 @@ AC_CONFIG_FILES([RSAEuro/source/Makefile
                  lib/Makefile
                  sched/Makefile
                  tools/Makefile
-                 Makefile
+                 test/Makefile
                  test/version.inc
+                 Makefile
                  ])
-
-if [ "$CLIENT_DISTRIBUTION" = 1 ]; then
-    for dir in $NOT_IN_CLIENT_TARBALL ; do
-        ac_config_files = `echo "$ac_config_files" | sed 's/$dir[^ ]*//'`
-    done
-
-    TOP_SUBDIRS=RSAEuro lib apps client
-else
-    TOP_SUBDIRS=RSAEuro db lib api apps client sched tools
-fi
-
-AC_SUBST([TOP_SUBDIRS])
 
 AC_CONFIG_HEADER([config.h])
 

@@ -4580,3 +4580,20 @@ Karl    2003/06/06
         boinc_dev.html
         build.txt
         build_system.html (added)
+
+Karl    2003/06/07
+
+    - removed "client" distribution
+    - started "make check" targets
+    - "make distcheck" now works
+    - documentation
+
+    Makefile.am
+    Makefile.incl
+    configure.ac
+    doc/
+        build.txt
+        build_system.html
+        road_map.html
+   test/
+        Makefile.am (added)
