@@ -155,3 +155,28 @@ int CLIENT_STATE::resume_activities() {
     return 0;
 }
 
+void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
+    PROJECT* pp = lookup_project(global_prefs.source_project.c_str());
+    if (pp) {
+        msg_printf(NULL, MSG_INFO,
+            "General prefs: from %s (last modified %s)\n",
+            pp->get_project_name(), time_to_string(global_prefs.mod_time)
+        );
+    } else {
+        msg_printf(NULL, MSG_INFO,
+            "General prefs: from unknown project %s (last modified %s)\n",
+            global_prefs.source_project.c_str(),
+            time_to_string(global_prefs.mod_time)
+        );
+    }
+    if (strlen(host_venue)) {
+        if (found_venue) {
+            msg_printf(NULL, MSG_INFO, "General prefs: using separate prefs for %s\n", host_venue);
+        } else {
+            msg_printf(NULL, MSG_INFO,
+                "General prefs: no separate prefs for %s; using your defaults\n", host_venue);
+        }
+    } else {
+        msg_printf(NULL, MSG_INFO, "General prefs: using your defaults\n");
+    }
+}

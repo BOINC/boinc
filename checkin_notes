@@ -11115,3 +11115,22 @@ Rom    Mar 29 2004
 		boinc_gui.vcproj
 	win_build/installer/Script Files/
 		setup.rul
+
+David  Mar 30 2004
+    - preparation for moving prefs.C from client/ to lib/
+        (so can use in server):
+        - add bool found_venue return value from GLOBAL_PREFS::parse_file()
+        - add separate show_global_prefs_source() to print messages
+    - before sending signals to ACTIVE_TASKs, check their state
+        to avoid signaling non-existent processes
+        (this caused the Unix client to crash when reset)
+    - remove remaining semaphore-related code
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        client_state.C,h
+        cs_prefs.C
+        cs_scheduler.C
+        prefs.C,h

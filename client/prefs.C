@@ -80,10 +80,9 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 // where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
-int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
+int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
-    bool found_venue = false;
 
 	init();
 
@@ -95,6 +94,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
     run_on_startup = false;
     hangup_if_dialed = false;
 
+    found_venue = false;
     while (fgets(buf, 256, in)) {
         if (in_venue) {
             if (match_tag(buf, "</venue>")) {
@@ -185,40 +185,20 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
             msg_printf(NULL, MSG_INFO, "GLOBAL_PREFS::parse: unrecognized: %s\n", buf);
         }
     }
-    PROJECT* pp = gstate.lookup_project(source_project.c_str());
-    if (pp) {
-        msg_printf(NULL, MSG_INFO,
-            "General prefs: from %s (last modified %s)\n",
-            pp->get_project_name(), time_to_string(mod_time)
-        );
-    } else {
-        msg_printf(NULL, MSG_INFO,
-            "General prefs: from unknown project %s (last modified %s)\n",
-            source_project.c_str(), time_to_string(mod_time)
-        );
-    }
-    if (strlen(host_venue)) {
-        if (found_venue) {
-            msg_printf(NULL, MSG_INFO, "General prefs: using separate prefs for %s\n", host_venue);
-        } else {
-            msg_printf(NULL, MSG_INFO,
-                "General prefs: no separate prefs for %s; using your defaults\n", host_venue);
-        }
-    } else {
-        msg_printf(NULL, MSG_INFO, "General prefs: using your defaults\n");
-    }
     return 0;
 }
 
 // Parse global prefs file
 //
-int GLOBAL_PREFS::parse_file(char* host_venue) {
+int GLOBAL_PREFS::parse_file(
+    char* filename, char* host_venue, bool& found_venue
+) {
     FILE* f;
     int retval;
 
-    f = fopen(GLOBAL_PREFS_FILE_NAME, "r");
+    f = fopen(filename, "r");
     if (!f) return ERR_FOPEN;
-    retval = parse(f, host_venue);
+    retval = parse(f, host_venue, found_venue);
     fclose(f);
     return retval;
 }

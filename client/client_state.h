@@ -220,6 +220,7 @@ private:
     int suspend_activities(int reason);
     int resume_activities();
     void install_global_prefs();
+    void show_global_prefs_source(bool);
 
 // --------------- cs_scheduler.C:
 public:

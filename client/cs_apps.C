@@ -186,12 +186,19 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     unsigned int i;
     APP_VERSION* avp;
     FILE_REF fr;
+    PROJECT* project = rp->project;
+
     avp = wup->avp;
     for (i=0; i<avp->app_files.size(); i++) {
         fr = avp->app_files[i];
         fip = fr.file_info;
         if (fip->status != FILE_PRESENT) return false;
-        if (!fip->verify_existing_file()) return false;
+
+        // don't check file size for anonymous platform
+        //
+        if (!project->anonymous_platform) {
+            if (!fip->verify_existing_file()) return false;
+        }
     }
 
     for (i=0; i<wup->input_files.size(); i++) {

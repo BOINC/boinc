@@ -15,6 +15,9 @@ echo "
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=anonymous_platform.php>Compiling BOINC software yourself</a>
+<li> User-supplied FAQs by
+    <a href=http://homepage.mac.com/pauldbuck/>Paul D. Buck</a> and
+    <a href=http://users.iafrica.com/c/ch/chrissu/boinc-README.html>Chris Sutton</a>
 </ul>
 <p>
 <b>Third-party software and web sites</b>

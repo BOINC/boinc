@@ -20,11 +20,7 @@
 #ifndef _PREFS_
 #define _PREFS_
 
-#ifndef _WIN32
-#include <vector>
-#endif
-
-#include "client_types.h"
+#include <stdio.h>
 
 // Global preferences are edited and stored on BOINC servers.
 // The native representation of preferences is XML.
@@ -64,8 +60,8 @@ struct GLOBAL_PREFS {
 
     GLOBAL_PREFS();
     void init();
-    int parse(FILE*, char* venue);
-    int parse_file(char* venue);
+    int parse(FILE*, char* venue, bool& found_venue);
+    int parse_file(char* filename, char* venue, bool& found_venue);
 };
 
 #endif

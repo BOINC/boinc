@@ -242,9 +242,16 @@ int CLIENT_STATE::init() {
     // Read the global preferences file, if it exists.
     // Do this after reading the state file so we know our venue
     //
-    retval = global_prefs.parse_file(host_venue);
+    bool found_venue;
+    retval = global_prefs.parse_file(
+        GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
+    );
     if (retval) {
-        msg_printf(NULL, MSG_INFO, "No general preferences found - using BOINC defaults");
+        msg_printf(NULL, MSG_INFO,
+            "No general preferences found - using BOINC defaults"
+        );
+    } else {
+        show_global_prefs_source(found_venue);
     }
     install_global_prefs();
 

@@ -591,9 +591,16 @@ int CLIENT_STATE::handle_scheduler_reply(
 
 
 	if (need_to_install_prefs) {
-        retval = global_prefs.parse_file(host_venue);
-        if (retval) return retval;
-        install_global_prefs();
+        bool found_venue;
+        retval = global_prefs.parse_file(
+            GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
+        );
+        if (retval) {
+            msg_printf(NULL, MSG_ERROR, "Can't parse general preferences");
+        } else {
+            show_global_prefs_source(found_venue);
+            install_global_prefs();
+        }
     }
 
     // deal with project preferences (should always be there)

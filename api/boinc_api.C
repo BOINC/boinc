@@ -93,22 +93,6 @@ static void		cleanup_shared_mem();
 static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t);
 static int		set_timer(double period);
 
-#ifndef _WIN32
-static bool core_client_is_running() {
-    int retval;
-    bool running = true;
-    retval = lock_semaphore(aid.core_semaphore_key);
-    if (!retval) {
-        // we got the semaphore - core client must not be running.
-        // release semaphore so that other apps can get it
-        //
-        running = false;
-        unlock_semaphore(aid.core_semaphore_key);
-    }
-    return running;
-}
-#endif
-
 // Standard BOINC APIs
 //
 

@@ -553,11 +553,13 @@ pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
 #endif
 
 bool ACTIVE_TASK::task_exited() {
+    bool exited = false;
+    if (state != PROCESS_RUNNING) return true;
 #ifdef _WIN32
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
         if (exit_code != STILL_ACTIVE) {
-            return true;
+            exited = true;
         }
     }
 #else
@@ -566,13 +568,18 @@ bool ACTIVE_TASK::task_exited() {
 
     my_pid = wait4(pid, &stat, WNOHANG, &rs);
     if (my_pid == pid) {
+        exited = true;
+
+        // Is the following necessary??
         double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
         result->final_cpu_time = current_cpu_time =
             checkpoint_cpu_time = starting_cpu_time + x;
-        return true;
     }
 #endif
-    return false;
+    if (exited) {
+        state = PROCESS_EXITED;
+    }
+    return exited;
 }
 
 // Inserts an active task into the ACTIVE_TASK_SET and starts it up
@@ -964,7 +971,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
         atp = *task_iter;
         if (atp->result->project == project) {
             task_iter = active_tasks.erase(task_iter);
-                        delete atp;
+            delete atp;
         } else {
             task_iter++;
         }
@@ -1041,6 +1048,7 @@ void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
+        if (atp->state != PROCESS_RUNNING) continue;
         atp->request_exit();
     }
 }
@@ -1054,6 +1062,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
+        if (atp->state != PROCESS_RUNNING) continue;
         atp->kill_task();
     }
 }
