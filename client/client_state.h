@@ -35,6 +35,7 @@
 #include "prefs.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
+#include "file_names.h"
 
 // CLIENT_STATE is the global variables of the core client
 // Most of the state is saved to and restored from "client_state.xml"
@@ -75,6 +76,7 @@ public:
 	PROCESS_ID time_tests_id;
 #endif
 	int check_time_tests();
+    int project_disk_usage(PROJECT*, double&);
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);

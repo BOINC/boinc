@@ -279,6 +279,15 @@ int CLIENT_STATE::allowed_disk_usage(double& size) {
     return 0;
 }
 
+int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
+    char buf[256],buf2[256];
+
+    escape_project_url(p->master_url, buf);
+    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+
+    return dir_size(buf2, size);
+}
+
 int CLIENT_STATE::current_disk_usage(double& size) {
     return dir_size(".", size);
 }

@@ -79,7 +79,7 @@ static void c2x(char *what) {
 // and converting the non alphanumeric characters to %XY
 // where XY is their hexadecimal equivalent
 //
-static void escape_project_url(char *in, char* out) {
+void escape_project_url(char *in, char* out) {
     int x, y;
     char *temp;
     char buf[256];

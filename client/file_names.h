@@ -34,6 +34,7 @@ extern int remove_project_dir(PROJECT&);
 extern int make_slot_dir(int);
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(char*);
+extern void escape_project_url(char *in, char* out);
 
 #define PROJECTS_DIR            "projects"
 #define SLOTS_DIR               "slots"
