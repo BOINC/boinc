@@ -26755,6 +26755,7 @@ Rom    6 April 2005
 
 David  6 April 2005
 	- screensaver tweaks
+    - code cleanup in screensaver.cpp
 
 	client/win/
 		boinc_ss.rc
