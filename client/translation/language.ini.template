@@ -1,7 +1,8 @@
-        # Template language.ini file
+# Language translation file for <LANGUAGE>, by TRANSLATOR <EMAIL@ADDRESS>
 # $Id$
 
-# Use & for menu keys
+# Use & for menu keys, for example: "&Projects" lets you press Alt-P to
+# access the Project menu.
 
 #PROJECT_ID
 [HEADER-Projects]
