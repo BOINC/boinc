@@ -153,7 +153,7 @@ public:
     char signed_xml[MAX_BLOB_LEN];
     char xml_signature[MAX_BLOB_LEN];
     char file_signature[MAX_BLOB_LEN];
-    bool approval_required;     // true if the file requires user approval
+    bool approval_pending;     // true if the file requires user approval
     string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
 

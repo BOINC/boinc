@@ -95,20 +95,26 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
             pathname, file_info.file_signature, project->code_sign_key, verified
         );
         if (retval) {
-            msg_printf(project, MSG_ERROR, "verify_downloaded_file(): %s: internal error\n",
-                pathname);
+            msg_printf(project, MSG_ERROR,
+                "verify_downloaded_file(): %s: internal error\n",
+                pathname
+            );
             return ERR_RSA_FAILED;
         }
         if (!verified) {
-            msg_printf(project, MSG_ERROR, "verify_downloaded_file(): %s: file not verified\n",
-                pathname);
+            msg_printf(project, MSG_ERROR,
+                "verify_downloaded_file(): %s: file not verified\n",
+                pathname
+            );
             return ERR_RSA_FAILED;
         }
     } else if (strlen(file_info.md5_cksum)) {
         retval = md5_file(pathname, cksum, file_info.nbytes);
         if (strcmp(cksum, file_info.md5_cksum) || retval) {
-            msg_printf(project, MSG_ERROR, "verify_downloaded_file(): %s: MD5 check failed\n",
-                pathname);
+            msg_printf(project, MSG_ERROR,
+                "verify_downloaded_file(): %s: MD5 check failed\n",
+                pathname
+            );
             return ERR_MD5_FAILED;
         }
     }

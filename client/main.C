@@ -43,6 +43,31 @@
 void create_curtain(){}
 void delete_curtain(){}
 
+void CLIENT_STATE::approve_executables() {
+    unsigned int i;
+    char buf[256];
+
+    for (i=0; i<file_infos.size(); i++) {
+        FILE_INFO* fip = file_infos[i];
+        if (fip->approval_pending) {
+            printf(
+                "BOINC has received the executable file %s\n"
+                "from project %s.\n"
+                "Its MD5 checksum is %s\n"
+                "Should BOINC accept this file (y/n)? ",
+                fip->name,
+                fip->project->project_name,
+                fip->md5_cksum
+            );
+            scanf("%s", buf);
+            if (buf[0]=='y' || buf[0]=='Y') {
+                fip->approval_pending = false;
+                set_client_state_dirty("approve_executables");
+            }
+        }
+    }
+}
+
 // This gets called when the client fails to add a project
 //
 void project_add_failed(PROJECT* project) {
@@ -162,6 +187,11 @@ int main(int argc, char** argv) {
             log_messages.printf(ClientMessages::DEBUG_TIME, "SLEPT %f SECONDS\n", dt);
             fflush(stdout);
         }
+
+        // check for executables files that need approval;
+        // in the GUI version this is done in event loop
+        //
+        gstate.approve_executables();
 
         if (gstate.time_to_exit()) {
             msg_printf(NULL, MSG_INFO, "Time to exit");

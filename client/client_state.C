@@ -1060,7 +1060,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     app = lookup_app(p, avp->app_name);
     if (!app) {
         msg_printf(0, MSG_ERROR, "app_version refers to nonexistent app: %s\n", avp->app_name);
-        return 1;
+        return ERR_NULL;
     }
     avp->app = app;
 
@@ -1068,9 +1068,11 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         file_ref = avp->app_files[i];
         fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
-            msg_printf(0, MSG_ERROR, "app_version refers to nonexistent file: %s\n",
-                file_ref.file_name);
-            return 1;
+            msg_printf(0, MSG_ERROR,
+                "app_version refers to nonexistent file: %s\n",
+                file_ref.file_name
+            );
+            return ERR_NULL;
         }
 
         // any executable file associated with an app version must be signed
@@ -1089,7 +1091,7 @@ int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
         msg_printf(0, MSG_ERROR, "File ref refers to nonexistent file: %s\n", file_refp->file_name);
-        return 1;
+        return ERR_NULL;
     }
     file_refp->file_info = fip;
     return 0;
@@ -1104,13 +1106,15 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     app = lookup_app(p, wup->app_name);
     if (!app) {
         msg_printf(0, MSG_ERROR, "WU refers to nonexistent app: %s\n", wup->app_name);
-        return 1;
+        return ERR_NULL;
     }
     avp = lookup_app_version(app, wup->version_num);
     if (!avp) {
-        msg_printf(0, MSG_ERROR, "WU refers to nonexistent app_version: %s %d\n",
-            wup->app_name, wup->version_num);
-        return 1;
+        msg_printf(0, MSG_ERROR,
+            "WU refers to nonexistent app_version: %s %d\n",
+            wup->app_name, wup->version_num
+        );
+        return ERR_NULL;
     }
     wup->project = p;
     wup->app = app;
@@ -1130,7 +1134,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
         fprintf(stderr, "result refers to nonexistent WU: %s\n", rp->wu_name);
-        return 1;
+        return ERR_NULL;
     }
     rp->project = p;
     rp->wup = wup;
@@ -1358,7 +1362,10 @@ bool CLIENT_STATE::garbage_collect() {
         fip = *fi_iter;
         if (fip->ref_cnt==0 && fip->pers_file_xfer==NULL && !fip->sticky) {
             fip->delete_file();
-            scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting file %s\n", fip->name);
+            scope_messages.printf(
+                "CLIENT_STATE::garbage_collect(): deleting file %s\n",
+                fip->name
+            );
             delete fip;
             fi_iter = file_infos.erase(fi_iter);
             action = true;

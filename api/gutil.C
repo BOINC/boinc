@@ -729,13 +729,13 @@ void RIBBON_GRAPH::draw_y(int i) {
 
 void RIBBON_GRAPH::draw_tick(int i) {
     GLfloat pt[3];
-    double r1 = i/(double)len;
+    double r1 = ticks[i]/(double)len;
 
     pt[0] = pos[0] + r1*size[0];
     pt[1] = pos[1] + (1.-tick_yfrac)*size[1];
     pt[2] = pos[2];
     glVertex3fv(pt);
-    pt[1] = pos[1] + size[1];
+    pt[1] = pos[1] + size[1]*1.1;
     glVertex3fv(pt);
     pt[2] = pos[2] + size[2];
     glVertex3fv(pt);
@@ -763,6 +763,7 @@ void RIBBON_GRAPH::draw(float* d, int ln, bool with_ticks) {
     }
     draw_x(len-1);
     if (with_ticks) {
+        mode_shaded(tick_color);
         for (i=0; i<3; i++) {
             draw_tick(i);
         }

@@ -199,6 +199,7 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
         }
         fip = fr.file_info;
         if (fip->status != FILE_PRESENT) return false;
+        if (fip->approval_pending) return false;
     }
 
     for (i=0; i<wup->input_files.size(); i++) {

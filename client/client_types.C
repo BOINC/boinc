@@ -391,7 +391,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     generated_locally = false;
     status = FILE_NOT_PRESENT;
     executable = false;
-    approval_required = false;
+    approval_pending = false;
     uploaded = false;
     upload_when_present = false;
     sticky = false;
@@ -439,7 +439,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
         else if (parse_int(buf, "<status>", status)) continue;
         else if (match_tag(buf, "<executable/>")) executable = true;
-        else if (match_tag(buf, "<approval_required/>")) approval_required = true;
+        else if (match_tag(buf, "<approval_pending/>")) approval_pending = true;
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
@@ -467,9 +467,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             msg_printf(NULL, MSG_ERROR, "FILE_INFO::parse(): unrecognized: %s\n", buf);
         }
     }
-    if (from_server)
-        approval_required = executable;
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 // Write out XML based file info
@@ -495,7 +493,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (generated_locally) fprintf(out, "    <generated_locally/>\n");
         fprintf(out, "    <status>%d</status>\n", status);
         if (executable) fprintf(out, "    <executable/>\n");
-        if (approval_required) fprintf(out, "    <approval_required/>\n");
+        if (approval_pending) fprintf(out, "    <approval_pending/>\n");
         if (uploaded) fprintf(out, "    <uploaded/>\n");
         if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
         if (sticky) fprintf(out, "    <sticky/>\n");
@@ -586,7 +584,7 @@ int APP_VERSION::parse(FILE* in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else msg_printf(NULL, MSG_ERROR, "APP_VERSION::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 int APP_VERSION::write(FILE* out) {
@@ -633,7 +631,7 @@ int FILE_REF::parse(FILE* in) {
         else if (match_tag(buf, "<copy_file/>")) copy_file = true;
         else msg_printf(NULL, MSG_ERROR, "FILE_REF::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 int FILE_REF::write(FILE* out) {
@@ -694,7 +692,7 @@ int WORKUNIT::parse(FILE* in) {
         }
         else msg_printf(NULL, MSG_ERROR, "WORKUNIT::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 int WORKUNIT::write(FILE* out) {
@@ -761,7 +759,7 @@ int RESULT::parse_ack(FILE* in) {
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 void RESULT::clear() {
@@ -802,7 +800,7 @@ int RESULT::parse_server(FILE* in) {
         }
         else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 // parse a <result> element from state file
@@ -836,7 +834,7 @@ int RESULT::parse_state(FILE* in) {
         }
         else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 int RESULT::write(FILE* out, bool to_server) {

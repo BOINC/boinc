@@ -187,6 +187,8 @@ private:
     bool contacted_sched_server;
     void compute_resource_debts();
 public:
+    void approve_executables();
+        // get user approval of any executables for which approval is pending
     bool start_new_file_xfer();
     PROJECT* next_project(PROJECT*);
     PROJECT* next_project_master_pending();
@@ -220,6 +222,8 @@ public:
     APP_VERSION* lookup_app_version(APP*, int);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
 
+    // stuff related to data-structure integrity checking
+    //
     void check_project_pointer(PROJECT*);
     void check_app_pointer(APP*);
     void check_file_info_pointer(FILE_INFO*);
