@@ -25271,3 +25271,15 @@ Rom    24 Feb 2005
 
     lib/
         gui_rpc_client.C
+
+Janus 24 Feb 2005
+    - Web translator no longer outputs warnings to the screen - instead it logs
+      it to a file on the server. (defined in translation.inc)
+    - Added multilanguage features to the rest of the account_creation pages
+
+    /html/
+        inc/
+            translation.inc
+        user/
+            account_*_done.php
+
