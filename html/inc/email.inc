@@ -148,6 +148,29 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
 }
 
+function send_thread_moderation_email($user, $thread, $message) {
+    $body = "";
+
+    if (defined('EMAIL_FROM')) {
+        $headers = "From: ". EMAIL_FROM;
+    } else {
+        $headers ="";
+    }
+    $subject = PROJECT." forum moderation notice for $user->name";
+    $body = PROJECT." notification:
+
+This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
+    Thread:         ".$thread->title."
+    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->id."
+    
+The moderator gave this explanation to why your thread was moderated:
+".$message;
+$body .= "
+
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    return mail($user->email_addr, $subject, $body, $headers);
+
+}
 
 
 ?>

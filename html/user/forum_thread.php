@@ -108,6 +108,10 @@ if ($thread->hidden) {
 		}
 	}
 
+	if (isSpecialUser($logged_in_user,0)){	//If logged in users is moderator
+	    echo "<br><a href=\"forum_moderate_thread.php?action=hide&amp;thread=$thread->id\">Delete this thread</a>";
+	}
+
 	echo "</td>";
 
 	echo "<td align=right style=\"border:0px\">";
