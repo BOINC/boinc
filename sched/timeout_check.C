@@ -117,7 +117,7 @@ int assign_new_names(char* in) {
         n2 = strstr(p, "</name>");
         if (!n2) {
             sprintf(buf, "assign_new_names(): malformed XML:\n%s", in);
-            write_log(buf);
+            write_log(buf, MSG_CRITICAL);
             return 1;
         }
         len = n2 - n1;
@@ -135,7 +135,7 @@ int assign_new_names(char* in) {
         n2 = strstr(n1, element);
         if (!n2) {
             sprintf(buf, "assign_new_names(): no <file_name>:\n%s", in);
-            write_log(buf);
+            write_log(buf, MSG_CRITICAL);
             return 1;
         }
         strcpy(buf, n2+strlen(element));
@@ -182,7 +182,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             switch (result.outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
                 sprintf(buf, "WU %s has couldn't-send result\n", wu.name);
-                write_log(buf);
+                write_log(buf, MSG_NORMAL);
                 wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
                 wu_error = true;
                 break;
@@ -201,13 +201,13 @@ void handle_wu(DB_WORKUNIT& wu) {
     //
     if (nerrors > max_errors) {
         sprintf(buf, "WU %s has too many errors\n", wu.name);
-        write_log(buf);
+        write_log(buf, MSG_NORMAL);
         wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
         wu_error = true;
     }
     if (ndone > max_done) {
         sprintf(buf, "WU %s has too many answers\n", wu.name);
-        write_log(buf);
+        write_log(buf, MSG_NORMAL);
         wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
         wu_error = true;
     }
@@ -244,7 +244,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 retval = result.insert();
                 if (retval) {
                     sprintf(buf, "result.insert() %d\n", retval);
-                    write_log(buf);
+                    write_log(buf, MSG_CRITICAL);
                     break;
                 }
             }
@@ -273,7 +273,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     retval = wu.update();
     if (retval) {
         sprintf(buf, "workunit.update() %d\n", retval);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
     }
 }
 
@@ -301,7 +301,7 @@ void main_loop(bool one_pass) {
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         sprintf(buf, "boinc_db_open: %d\n", retval);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
@@ -309,7 +309,7 @@ void main_loop(bool one_pass) {
     retval = app.lookup(buf);
     if (retval) {
         sprintf(buf, "can't find app %s\n", app.name);
-        write_log(buf);
+        write_log(buf, MSG_CRITICAL);
         exit(1);
     }
 
@@ -339,6 +339,8 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-d")) {
+            set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-nredundancy")) {
             nredundancy = atoi(argv[++i]);;
         }
