@@ -53,6 +53,9 @@ extern void MyCreateFont(unsigned int &base, char *fontName, int Size, int weigh
 
 void SetupPixelFormat(HDC hDC);
 
+double starttime;
+double fps=60.;
+
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
@@ -160,6 +163,8 @@ void SetMode(int mode) {
 
 	SetTimer(hWnd, 1, 100, NULL);
 
+	starttime=dtime();
+
 	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
 		SetFocus(hWnd);
@@ -169,6 +174,7 @@ void SetMode(int mode) {
 
 	ReSizeGLScene(width, height);	
 	InitGL();
+
 #ifdef DRAW_WITH_DLL
 	vis_init();
 #else
@@ -177,6 +183,8 @@ void SetMode(int mode) {
 	
 
 	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
+
+
 }
 
 // message handler (includes timer, Windows msgs)
@@ -231,17 +239,20 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			}
 			if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
 
-			GetClientRect(hWnd, &rt);
-			width = rt.right-rt.left;
-			height = rt.bottom-rt.top;
+			if(dtime()-starttime>1./fps)
+			{
+				GetClientRect(hWnd, &rt);
+				width = rt.right-rt.left;
+				height = rt.bottom-rt.top;
 
 #ifdef DRAW_WITH_DLL
-			vis_render(width,height,dtime());
+				vis_render(width,height,dtime());
 #else
-			app_render(width, height, dtime());			
+				app_render(width, height, dtime());			
 #endif
-			
-			SwapBuffers(hDC);
+				starttime=dtime();
+				SwapBuffers(hDC);
+			}		
 			return 0;
 	}
 

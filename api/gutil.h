@@ -120,9 +120,7 @@ extern void build_stars(int,float);
 extern void update_stars(int,float);
 extern void replaceStar(Star* tmpStar);
 
-#include "jpeglib.h"
-#include "bmplib.h"
-#include "tgalib.h"
+#include "image_config.h"
 
 #define MAX_TEXTURES 16
 #define MAX_FONTS 16
