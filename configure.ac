@@ -66,26 +66,6 @@ dnl   yes
 dnl #endif
 dnl ], AC_DEFINE(unix, 1, [unix]))
 
-AC_DEFUN([AC_CHECK_MYSQL],[
-AC_ARG_VAR([MYSQL_CONFIG], [mysql_config program])
-if test -z "$MYSQL_CONFIG"; then
-AC_PATH_PROG(MYSQL_CONFIG,mysql_config,,[$PATH:/usr/local/mysql/bin])
-fi
-if test -z "$MYSQL_CONFIG"
-then
-    AC_MSG_ERROR([mysql_config executable not found])
-else
-    AC_MSG_CHECKING(mysql libraries)
-    MYSQL_LIBS=`${MYSQL_CONFIG} --libs`
-    AC_MSG_RESULT($MYSQL_LIBS)
-    AC_MSG_CHECKING(mysql includes)
-    MYSQL_CFLAGS=`${MYSQL_CONFIG} --cflags`
-    AC_MSG_RESULT($MYSQL_CFLAGS)
-fi
-])
-AC_SUBST(MYSQL_LIBS)
-AC_SUBST(MYSQL_CFLAGS)
-
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
@@ -113,11 +93,8 @@ dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(fcntl.h malloc.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/swap.h sys/sysctl.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h signal.h sys/wait.h sys/file.h sys/ipc.h sys/shm.h)
-
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
 AC_HEADER_TIME
+AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h)
 
 dnl TODO: use compiler to test these; there probably exists an autoconf macro already!
 case "$target" in
@@ -135,15 +112,9 @@ AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
 AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority)
 
-dnl Checks for header files.
-AC_HEADER_DIRENT
-AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/sysctl.h sys/vmmeter.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h sys/mount.h sys/ipc.h sys/shm.h)
-
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_SIZE_T
-AC_HEADER_TIME
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 

@@ -5736,6 +5736,7 @@ Karl 2003/08/14
       version number.
     - scheduler: renamed config.h to sched_config.h to avoid conflict with
       default autoconf config.h
+    - api: added MFILE::ftell() function
 
     Astropulse/
         configure.ac, configure (added)
@@ -5745,6 +5746,14 @@ Karl 2003/08/14
         */Makefile
         client/
             ap_file_io.C
+
+    sched/
+        config.h ->renamed-> sched_config.h
+        *.C
+    api/
+        boinc_api.h
+        mfile.C
+
 
 Karl,Dave 2003/08/14
 
