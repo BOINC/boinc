@@ -156,6 +156,8 @@ EXTRA_DIST = \
 	stripchart							\
         INSTALL
 
+
+UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -563,12 +565,10 @@ py html_user html_ops:
 
 all-local: html_user html_ops
 
-# the perl line below gets rid of '\r' characters because MSVC barfs at them.
-
 dist-hook:
 	rm -rf `find $(distdir) -name CVS -prune`
 	rm -rf `find $(distdir) -name .backup -prune -o -name *~`
-	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw *.dsp
+	cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
 
 client-bin:
 	cd client && make client-bin client-bin-gz
