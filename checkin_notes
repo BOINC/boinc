@@ -7755,3 +7755,10 @@ Karl 2003-11-21
     api/
         boinc_api.C
 
+
+Karl 2003-11-22
+    - made change to get_filesystem_info() that reportedly is all that's
+      needed to get BOINC working on NT4.
+
+    lib/
+        filesys.C
