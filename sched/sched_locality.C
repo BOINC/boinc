@@ -247,7 +247,8 @@ static void send_new_file_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
-    int lookup_retval, retval, lastid=0, nsent, last_wuid=0, i;
+    int lookup_retval, retval, send_retval;
+    int lastid=0, nsent, last_wuid=0, i;
     DB_RESULT result;
     char filename[256];
     char buf[256];
@@ -263,11 +264,11 @@ static void send_new_file_work(
 
         // if we see the same result twice, bail (avoid spinning)
         //
-        if (!lookup_retval && (result.id == lastid)) retval = -1;
+        if (!lookup_retval && (result.id == lastid)) lookup_retval = -1;
 
         if (!lookup_retval) {
             lastid = result.id;
-            retval = possibly_send_result(
+            send_retval = possibly_send_result(
                 result,
                 sreq, reply, platform, wreq, ss
             );
@@ -277,6 +278,7 @@ static void send_new_file_work(
         }
         boinc_db.commit_transaction();
         if (lookup_retval) break;
+        if (send_retval) continue;
 
         // try to send more result w/ same file
         //
