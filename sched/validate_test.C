@@ -57,7 +57,7 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     for (i=0; i<n; i++) {
         retval = get_output_file_path(results[i], path);
         if (retval) {
-            write_log(MSG_CRITICAL,
+            log_messages.printf(SchedMessages::CRITICAL,
                       "check_set: can't get output filename for %s\n",
                       results[i].name
                 );
@@ -65,7 +65,7 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
         }
         retval = read_file_malloc(path, files[i]);
         if (retval) {
-            write_log(MSG_CRITICAL, "read_file_malloc %s %d\n", path, retval);
+            log_messages.printf(SchedMessages::CRITICAL, "read_file_malloc %s %d\n", path, retval);
             return retval;
         }
     }
@@ -149,13 +149,13 @@ int check_pair(RESULT& r1, RESULT& r2, bool& match) {
     get_output_file_path(r1, path);
     retval = read_file_malloc(path, p1);
     if (retval) {
-        write_log(MSG_CRITICAL, "read_file_malloc %s %d\n", path, retval);
+        log_messages.printf(SchedMessages::CRITICAL, "read_file_malloc %s %d\n", path, retval);
         return retval;
     }
     get_output_file_path(r2, path);
     retval = read_file_malloc(path, p2);
     if (retval) {
-        write_log(MSG_CRITICAL, "read_file_malloc %s %d\n", path, retval);
+        log_messages.printf(SchedMessages::CRITICAL, "read_file_malloc %s %d\n", path, retval);
         return retval;
     }
     match = !strcmp(p1, p2);
