@@ -13902,3 +13902,12 @@ Rom    June 17 2004
     - Tag for 3.13 release, all platforms
       boinc_core_release_3_13
 
+Daniel 17 June 2004
+    - Determine utmp location at compile time
+
+    config.h.in
+    configure
+    configure.ac
+    client/
+        hostinfo_unix.C
+

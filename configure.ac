@@ -120,7 +120,15 @@ AC_TYPE_SIZE_T
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
-AC_CHECK_FILES(/var/run/utmp /var/adm/utmp /etc/utmp)
+dnl utmp file location
+for f in /etc/utmp /var/adm/utmp /var/run/utmp; do
+    if test -f $f; then
+        utmp_file=$f
+    fi
+done
+if test -n "$utmp_file"; then
+    AC_DEFINE_UNQUOTED(UTMP_LOCATION, "$utmp_file", utmp file location)
+fi
 
 dnl Checks for device files
 if test -e "/dev/mouse"; then

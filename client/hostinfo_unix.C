@@ -445,14 +445,14 @@ static struct utmp ut;
 
 struct utmp *getutent() {
     if (ufp == NULL) {
-#if defined(HAVE__ETC_UTMP)
-        if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
-#elif defined(HAVE__VAR_RUN_UTMP)
-        if ((ufp = fopen("/var/run/utmp", "r")) == NULL) {
-#elif defined(HAVE__RUN_ADM_UTMP)
-        if ((ufp = fopen("/var/adm/utmp", "r")) == NULL) {
-#else
+#if defined(UTMP_LOCATION)
+        if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL) {
+#elif defined(UTMP_FILE)
         if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
+#elif defined(_PATH_UTMP)
+        if ((ufp = fopen(_PATH_UTMP, "r")) == NULL) {
+#else
+        if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
 #endif
             return((struct utmp *)NULL);
         }

@@ -296,15 +296,6 @@
 /* Define to 1 if /dev/tty1 exists */
 #undef HAVE__DEV_TTY1
 
-/* Define to 1 if you have the file `AC_File'. */
-#undef HAVE__ETC_UTMP
-
-/* Define to 1 if you have the file `AC_File'. */
-#undef HAVE__VAR_ADM_UTMP
-
-/* Define to 1 if you have the file `AC_File'. */
-#undef HAVE__VAR_RUN_UTMP
-
 /* Host for this compilation */
 #undef HOSTTYPE
 
@@ -347,6 +338,9 @@
 
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
 #undef TM_IN_SYS_TIME
+
+/* utmp file location */
+#undef UTMP_LOCATION
 
 /* Version number of package */
 #undef VERSION
