@@ -17529,10 +17529,3 @@ David  21 Sept 2004
         handle_request.C
         sched_send.C
 
-Lana  21 Sept 2004
-    - fixed opening of the ops page
-
-    html/
-        inc/
-           db.inc
-           util.inc

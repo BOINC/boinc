@@ -4,6 +4,24 @@ require_once("../project/project.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
 
+function db_init() {
+    if (project_is_stopped()) {
+        echo "Project is shut down for maintenance - please try again later\n";
+        exit();
+    }
+    $retval = db_init_aux();
+    if ($retval == 1) {
+        echo "Unable to connect to database - please try again later\n";
+		echo "Error: ", mysql_errno(), mysql_error();
+        exit();
+    }
+    if ($retval == 2) {
+        echo "Unable to select database - please try again later";
+		echo mysql_error();
+        exit();
+    }
+}
+
 // Sends the authenticator to the given email address
 //
 function send_auth_email($email_addr, $auth) {
