@@ -17622,3 +17622,16 @@ Rom    22 Sept 2004
 
     clientgui/
         <various files>
+
+David  23 Sept 2004
+    - fix bug in schedule_cpus() that caused it to not reschedule
+        when a result is done.
+        Removed its "must_reschedule" argument.
+        Add a boolean CLIENT_STATE::must_reschedule_cpus
+        that is set whenever a result is newly runnable or done,
+        and that tells schedule_cpus() to do its thang regardless of time.
+
+    client/
+        app_control.C
+        client_state.C,h
+        cs_apps.C

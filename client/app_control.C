@@ -427,6 +427,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         found = true;
     }
 #endif
+    if (found) gstate.must_schedule_cpus = true;
     return found;
 }
 

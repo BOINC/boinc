@@ -108,6 +108,7 @@ CLIENT_STATE::CLIENT_STATE() {
     cpu_sched_last_time = 0;
     cpu_sched_period = 3600; // 1 hour
     cpu_sched_work_done_this_period = 0;
+    must_schedule_cpus = false;
 }
 
 #if 0
@@ -926,7 +927,7 @@ bool CLIENT_STATE::update_results() {
         case RESULT_FILES_DOWNLOADING:
             if (input_files_available(rp)) {
                 rp->state = RESULT_FILES_DOWNLOADED;
-                schedule_cpus(true);
+                must_schedule_cpus = true;
                 action = true;
             }
             break;

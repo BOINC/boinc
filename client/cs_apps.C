@@ -326,7 +326,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 // and whenever all the input files for a result finish downloading
 // (with must_reschedule=true)
 //
-bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
+bool CLIENT_STATE::schedule_cpus() {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
@@ -339,14 +339,20 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
-    // Reschedule every cpu_sched_period seconds or as needed
+    if (projects.size() == 0) return false;
+    if (results.size() == 0) return false;
+
+    // Reschedule every cpu_sched_period seconds,
+    // or if must_schedule_cpus is set
+    // (meaning a new result is available, or a CPU has been freed).
     //
-    elapsed_time = time(0) - cpu_sched_last_time;
-    if ((elapsed_time<cpu_sched_period && !must_reschedule)
-        || projects.size() < 1
-        || results.size() < 1
-    ) {
-        return false;
+    if (must_schedule_cpus) {
+        must_schedule_cpus = false;
+    } else {
+        elapsed_time = time(0) - cpu_sched_last_time;
+        if (elapsed_time<cpu_sched_period) {
+            return false;
+        }
     }
 
     // mark file xfer results as completed;

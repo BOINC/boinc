@@ -189,6 +189,8 @@ private:
     int parse_preferences_for_user_files();
 // --------------- cs_apps.C:
 public:
+    bool must_schedule_cpus;
+        // set when a result is newly runnable or finished
     int restart_tasks();
     int quit_activities();
     void set_ncpus();
@@ -205,7 +207,7 @@ private:
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
     bool start_apps();
-    bool schedule_cpus(bool must_reschedule = false);
+    bool schedule_cpus();
     bool handle_finished_apps();
     void handle_file_xfer_apps();
 
