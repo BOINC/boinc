@@ -137,14 +137,14 @@ class MOVING_TEXT_PANEL {
     float theta;
     float dtheta;
     COLOR color;
-public:
 	float char_height;
     float line_width;
-    float line_spacing;    
-    char text[1024];
-    float pos[3];
+    float line_spacing;   
+	char text[1024];
+	float pos[3];
 	float size[3];
 	double margin;
+public:	         	
     void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
     static void sort(MOVING_TEXT_PANEL* tp, int n);
