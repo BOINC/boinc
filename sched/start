@@ -387,7 +387,7 @@ def stop_daemons():
     pid_files = glob.glob(os.path.join(pid_dir, '*.pid'))
     count = 0
     pids = map(safe_read_int, pid_files)
-    map(safe_unlink, pid_file)
+    map(safe_unlink, pid_files)
     for pid in pids:
         count += stop_daemon(pid)
     for pid in pids:
