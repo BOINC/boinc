@@ -403,6 +403,8 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
 
     compute_credit_rating(host);
 
+    safe_strcpy(host.projects, sreq.projects_xml);
+
     retval = host.update();
     if (retval) {
         sprintf(buf, "host.update() failed: %d\n", retval);
