@@ -26336,6 +26336,19 @@ David  29 Mar 2005
         assimilator.C
         transitioner.C
 
+
+Rom    29 Mar 2005
+    - Implement GUI RPC authentication in the manager
+    - Implement a Select Computer MRU list so you only have to type
+        the remote computer name once.
+
+    clientgui/
+        DlgSelectComputer.cpp
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+    lib/
+        gui_rpc_client.C, .h
+
 Charlie	29 Mar 2005
 BOINC Manager: Work around apparent bug in Mac version of WxWidgets 
 which prevented the main window's size and position from being 
@@ -26360,15 +26373,3 @@ clientGUI/mac/
         SetVersion.C (add)
 mac_build/
 	boinc.pbproj/boinc.pbproj
-
-Rom    29 Mar 2005
-    - Implement GUI RPC authentication in the manager
-    - Implement a Select Computer MRU list so you only have to type
-        the remote computer name once.
-
-    clientgui/
-        DlgSelectComputer.cpp
-        MainDocument.cpp, .h
-        MainFrame.cpp, .h
-    lib/
-        gui_rpc_client.C, .h
