@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+// NOTE:  add new errors to the end of the list and don't change
+// old error numbers to avoid confusion between versions
+//
 #define ERR_SELECT          -100
 #define ERR_MALLOC          -101
 #define ERR_READ            -102
