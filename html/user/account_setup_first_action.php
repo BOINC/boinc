@@ -21,6 +21,6 @@ project_prefs_update($user, $prefs);
 venue_parse_form($user);
 venue_update($user);
 
-Header("Location: http://boinc.berkeley.edu/download.php");
+Header("Location: account_setup_first_done.php");
 
 ?>
