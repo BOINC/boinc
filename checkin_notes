@@ -5454,9 +5454,10 @@ David  July 29 2003
         index.html
         old_news.html
 
-Karl 2003/07/30
+Karl 2003/07/30-31
     - translations: refactored translation functions; added dynamic project
-      menu item. Updated translation template and fixed '\r's.
+      menu item; added missing translations for dialogs and menu
+      items. Updated translation template and fixed '\r's.
     - file & status bar menus: 'force run' / 'run based on preferences' /
       'pause' (as radio checks)
     - file menu: 'Hide'
