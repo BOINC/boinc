@@ -2,7 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="boinc_dll"
+	Name="boinc_guirpctest"
+	RootNamespace="boinc_guirpctest"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,42 +14,44 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\Build\Debug"
-			IntermediateDirectory=".\Build\Debug\boinc_dll\obj"
-			ConfigurationType="2"
+			IntermediateDirectory=".\Build\Debug\boinc_guirpctest\obj"
+			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				RuntimeTypeInfo="FALSE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="..\client\StdAfx.h"
-				PrecompiledHeaderFile=".\Build\Debug\boinc_dll\obj/boinc_dll.pch"
-				AssemblerListingLocation=".\Build\Debug\boinc_dll\obj/"
-				ObjectFile=".\Build\Debug\boinc_dll\obj/"
-				ProgramDataBaseFileName=".\Build\Debug\boinc_dll\obj/vc70.pdb"
+				PrecompiledHeaderThrough="../client/StdAfx.h"
+				PrecompiledHeaderFile=".\Build\Debug\boinc_guirpctest\obj/boinc_guirpctest.pch"
+				AssemblerListingLocation=".\Build\Debug\boinc_guirpctest\obj/"
+				ObjectFile=".\Build\Debug\boinc_guirpctest\obj/"
+				ProgramDataBaseFileName=".\Build\Debug\boinc_guirpctest\obj/vc70.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib LIBCMTD.LIB"
-				OutputFile="Build\Debug/boinc.dll"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
+				OutputFile=".\Build\Debug/boinc_guirpctest.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
-				ModuleDefinitionFile="..\client\win\win_idle_tracker.def"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Debug/boinc_dll.pdb"
-				SubSystem="2"
+				ProgramDatabaseFile=".\Build\Debug/boinc_guirpctest.pdb"
+				SubSystem="1"
 				OptimizeReferences="0"
-				ImportLibrary=".\Build\Debug/boinc.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -56,7 +59,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Build\Debug/boinc_dll.tlb"
+				TypeLibraryName=".\Build\Debug/boinc_guirpctest.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -82,47 +85,45 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\Build\Release"
-			IntermediateDirectory=".\Build\Release\boinc_dll\obj"
-			ConfigurationType="2"
+			IntermediateDirectory=".\Build\Release\boinc_guirpctest\obj"
+			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
-				EnableIntrinsicFunctions="TRUE"
-				ImproveFloatingPointConsistency="FALSE"
-				FavorSizeOrSpeed="1"
-				OptimizeForWindowsApplication="TRUE"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="..\client\StdAfx.h"
-				PrecompiledHeaderFile=".\Build\Release\boinc_dll\obj/boinc_dll.pch"
-				AssemblerListingLocation=".\Build\Release\boinc_dll\obj/"
-				ObjectFile=".\Build\Release\boinc_dll\obj/"
-				ProgramDataBaseFileName=".\Build\Release\boinc_dll\obj/"
+				PrecompiledHeaderThrough="../client/StdAfx.h"
+				PrecompiledHeaderFile=".\Build\Release\boinc_guirpctest\obj/boinc_guirpctest.pch"
+				AssemblerListingLocation=".\Build\Release\boinc_guirpctest\obj/"
+				ObjectFile=".\Build\Release\boinc_guirpctest\obj/"
+				ProgramDataBaseFileName=".\Build\Release\boinc_guirpctest\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib LIBCMT.LIB"
-				OutputFile="Build\Release/boinc.dll"
+				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib libcmt.lib libcpmt.lib oldnames.lib"
+				ShowProgress="0"
+				OutputFile=".\Build\Release/boinc_guirpctest.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
-				ModuleDefinitionFile="..\client\win\win_idle_tracker.def"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/boinc_dll.pdb"
+				ProgramDatabaseFile=".\Build\Release/boinc_guirpctest.pdb"
+				SubSystem="1"
 				OptimizeReferences="2"
-				ImportLibrary=".\Build\Release/boinc.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -130,7 +131,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Build\Release/boinc_dll.tlb"
+				TypeLibraryName=".\Build\Release/boinc_guirpctest.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -161,44 +162,63 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\client\win\win_idle_tracker.cpp">
+				RelativePath="..\client\gui_rpc_client.C">
+			</File>
+			<File
+				RelativePath="..\client\gui_test.C">
+			</File>
+			<File
+				RelativePath="..\Lib\parse.C">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;BOINC_DLL_EXPORTS;$(NoInherit)"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"
-						BrowseInformation="1"/>
+						BrowseInformation="1"
+						CompileAs="2"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="2"
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;BOINC_DLL_EXPORTS;$(NoInherit)"/>
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\win_idle_tracker.def">
+				RelativePath="..\client\stdafx.cpp">
+			</File>
+			<File
+				RelativePath="..\lib\util.C">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="..\client\win\boinc_dll.h">
+				RelativePath="..\lib\error_numbers.h">
 			</File>
 			<File
-				RelativePath="..\client\win\win_idle_tracker.h">
+				RelativePath="..\client\gui_rpc_client.h">
+			</File>
+			<File
+				RelativePath="..\lib\parse.h">
+			</File>
+			<File
+				RelativePath="..\client\stdafx.h">
+			</File>
+			<File
+				RelativePath="..\lib\util.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
-			<File
-				RelativePath="..\client\win\boinc_dll.rc">
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

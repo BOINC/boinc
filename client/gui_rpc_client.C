@@ -1,3 +1,27 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -6,6 +30,7 @@
 #include <sys/un.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#endif
 
 #include "parse.h"
 #include "error_numbers.h"
@@ -16,16 +41,24 @@ int RPC_CLIENT::init(char* path) {
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT);
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
+        retval = WSAGetLastError();
         perror("connect");
         exit(1);
     }
+#ifdef _WIN32
+    fin = fdopen(dup(_open_osfhandle(sock, _O_RDONLY)), "r");
+    fout = fdopen(_open_osfhandle(sock, _O_WRONLY), "w");
+#else
     fin = fdopen(dup(sock), "r");
     fout = fdopen(sock, "w");
+#endif
+
+    return 0;
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
@@ -35,7 +68,6 @@ RPC_CLIENT::~RPC_CLIENT() {
 
 int RPC_CLIENT::get_state() {
     char buf[256];
-    int retval;
     PROJECT* project;
 
     fprintf(fout, "<get_state/>\n");
@@ -448,3 +480,4 @@ APP_VERSION* RPC_CLIENT::lookup_app_version(string& str, int version_num) {
     }
     return 0;
 }
+

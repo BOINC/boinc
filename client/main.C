@@ -350,7 +350,7 @@ int main(int argc, char** argv) {
 		retval = boinc_main_loop(argc, argv);
 	}
 
-    if ( WinsockInitialize() != 0 ) {
+    if ( WinsockCleanup() != 0 ) {
         printf(
             "BOINC Core Client Error Message\n"
             "Failed to cleanup the Windows Sockets interface\n"

@@ -13201,3 +13201,18 @@ David  9 June 2004
             explain_state.php
             info.php
 
+Rom    9 June 2004
+    - Put together the gui rpc testing application for Windows.
+    - Fix a bug or two with yesterdays checkin.
+
+    client/
+        gui_rpc_client.C, .h
+        gui_test.C
+        main.C
+        stdafx.cpp, .h
+    lib/
+        filesys.C
+        parse.h
+    win_build/
+        *.vcproj
+   

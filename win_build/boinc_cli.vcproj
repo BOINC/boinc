@@ -32,7 +32,7 @@
 				PrecompiledHeaderFile=".\Build\Debug\boinc_cli\obj/boinc_cli.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_cli\obj/"
 				ObjectFile=".\Build\Debug\boinc_cli\obj/"
-				ProgramDataBaseFileName=".\Build\Debug\boinc_cli\obj/"
+				ProgramDataBaseFileName=".\Build\Debug\boinc_cli\obj/vc70.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"

@@ -95,7 +95,7 @@
 				PrecompiledHeaderFile=".\Build\Debug\upper_case\obj/upper_case.pch"
 				AssemblerListingLocation=".\Build\Debug\upper_case\obj/"
 				ObjectFile=".\Build\Debug\upper_case\obj/"
-				ProgramDataBaseFileName=".\Build\Debug\upper_case\obj/"
+				ProgramDataBaseFileName=".\Build\Debug\upper_case\obj/vc70.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"

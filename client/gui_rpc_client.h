@@ -17,12 +17,14 @@
 // Contributor(s):
 //
 
+#ifndef _WIN32
 #include <stdio.h>
 #include <string>
 #include <vector>
 
 using std::string;
 using std::vector;
+#endif
 
 #define GUI_RPC_PORT 31416
 

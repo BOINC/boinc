@@ -404,6 +404,7 @@ int boinc_copy(const char* orig, const char* newf) {
 
 int boinc_rename(const char* old, const char* newf) {
 #ifdef _WIN32
+    int retval=0;
     boinc_delete_file(newf);
     for (int i=0; i<5; i++) {
         retval = rename(old, newf);
