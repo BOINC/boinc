@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/29 06:39:27  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -108,8 +111,7 @@ bool CBaseListCtrlView::OnSaveState( wxConfigBase* pConfig ) {
     wxLogTrace("CBaseListCtrlView::OnSaveState - Function Begining");
 
     wxString    strBaseConfigLocation = wxString(_T(""));
-    wxString    strConfigLocation = wxString(_T(""));
-    wxListItem* pHeader = NULL;
+    wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
     wxInt32     iColumnCount = 0;
 
@@ -122,10 +124,24 @@ bool CBaseListCtrlView::OnSaveState( wxConfigBase* pConfig ) {
     strBaseConfigLocation = pConfig->GetPath() + "/";
 
     // Convert to a zero based index
-    iColumnCount = this->GetColumnCount() - 1;
+    iColumnCount = GetColumnCount() - 1;
 
+    // Which fields are we interested in?
+    liColumnInfo.SetMask( wxLIST_MASK_TEXT |
+                          wxLIST_MASK_WIDTH |
+                          wxLIST_MASK_FORMAT );
 
+    // Cycle through the columns recording anything interesting
+    for ( iIndex = 0; iIndex <= iColumnCount; iIndex++ ) {
 
+        GetColumn(iIndex, liColumnInfo);
+
+        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
+
+        pConfig->Write(_T("Width"), liColumnInfo.GetWidth());
+        pConfig->Write(_T("Format"), liColumnInfo.GetAlign());
+
+    }
 
 
     wxLogTrace("CBaseListCtrlView::OnSaveState - Function Ending");
@@ -135,6 +151,45 @@ bool CBaseListCtrlView::OnSaveState( wxConfigBase* pConfig ) {
 
 bool CBaseListCtrlView::OnRestoreState( wxConfigBase* pConfig ) {
     wxLogTrace("CBaseListCtrlView::OnRestoreState - Function Begining");
+
+    wxString    strBaseConfigLocation = wxString(_T(""));
+    wxListItem  liColumnInfo;
+    wxInt32     iIndex = 0;
+    wxInt32     iColumnCount = 0;
+    wxInt32     iTempValue = 0;
+
+
+    wxASSERT(NULL != pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + "/";
+
+    // Convert to a zero based index
+    iColumnCount = GetColumnCount() - 1;
+
+    // Which fields are we interested in?
+    liColumnInfo.SetMask( wxLIST_MASK_TEXT |
+                          wxLIST_MASK_WIDTH |
+                          wxLIST_MASK_FORMAT );
+
+    // Cycle through the columns recording anything interesting
+    for ( iIndex = 0; iIndex <= iColumnCount; iIndex++ ) {
+
+        GetColumn(iIndex, liColumnInfo);
+
+        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
+
+        pConfig->Read(_T("Width"), &iTempValue);
+        liColumnInfo.SetWidth(iTempValue);
+
+        pConfig->Read(_T("Format"), &iTempValue);
+        liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
+
+        SetColumn(iIndex, liColumnInfo);
+
+    }
 
 
     wxLogTrace("CBaseListCtrlView::OnRestoreState - Function Ending");

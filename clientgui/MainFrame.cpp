@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.15  2004/05/29 06:39:27  rwalton
+// *** empty log message ***
+//
 // Revision 1.14  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -340,7 +343,7 @@ bool CMainFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write("CurrentPage", m_pNotebook->GetSelection());
+    pConfig->Write(_T("CurrentPage"), m_pNotebook->GetSelection());
 
 
     //
@@ -421,7 +424,7 @@ bool CMainFrame::RestoreState() {
 
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Read("CurrentPage", &iCurrentPage);
+    pConfig->Read(_T("CurrentPage"), &iCurrentPage);
     m_pNotebook->SetSelection(iCurrentPage);
 
 
