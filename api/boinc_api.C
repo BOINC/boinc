@@ -59,7 +59,8 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-static APP_INIT_DATA  aid;
+APP_INIT_DATA  aid;
+
 APP_CLIENT_SHM       *app_client_shm      = 0;
 static double         timer_period        = 1.0;    // period of API timer
 // This determines the resolution of fraction done and CPU time reporting

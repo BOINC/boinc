@@ -55,6 +55,8 @@ extern "C" {
 
 } // extern "C"
 
+extern APP_INIT_DATA aid;
+
 /////////// API ENDS HERE
 
 /////////// IMPLEMENTATION STUFF BEGINS HERE

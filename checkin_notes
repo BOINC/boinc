@@ -15330,3 +15330,11 @@ Noaa	15 July 2004
 
 	client/
 		gui_test.C
+
+Daniel 2004-07-15
+    - API: made APP_INIT_DATA aid extern so apps can access it (used to set
+      fraction_done_start and fraction_done_end)
+
+    api/
+        boinc_api.C,h
+
