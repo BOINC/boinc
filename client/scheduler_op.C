@@ -518,6 +518,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     strcpy(project_name, "");
     global_prefs_xml = 0;
     project_prefs_xml = 0;
+    // const char* old_project_prefs_xml = project_prefs_xml;
     strcpy(user_name, "");
     strcpy(team_name, "");
     user_total_credit = 0;
@@ -569,7 +570,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &project_prefs_xml
             );
             if (retval) return ERR_XML_PARSE;
-            msg_printf(project, MSG_INFO, "Project preferences have been updated\n");
+            // TODO: display message below if project preferences have changed.
+            // msg_printf(project, MSG_INFO, "Project preferences have been updated\n");
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(
                 in,
