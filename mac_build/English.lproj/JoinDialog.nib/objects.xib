@@ -26,25 +26,27 @@
           <object class="IBCarbonStaticText" id="184">
             <string name="bounds">20 20 36 107 </string>
             <string name="title">Project URL:</string>
+            <string name="helpTagText">URL of the project to join</string>
           </object>
           <object class="IBCarbonEditText" id="181">
             <string name="bounds">21 123 37 413 </string>
-            <string name="title">http://setiathome.berkeley.edu/</string>
+            <ostype name="controlSignature">join</ostype>
+            <int name="controlID">128</int>
           </object>
           <object class="IBCarbonStaticText" id="186">
             <string name="bounds">50 20 66 112 </string>
-            <string name="title">Authenticator:</string>
+            <string name="title">Account Key:</string>
+            <string name="helpTagText">The account key is mailed to you when you sign up for a project</string>
           </object>
           <object class="IBCarbonEditText" id="185">
             <string name="bounds">51 123 67 413 </string>
-            <string name="title">f1a93b82d11902fdbc301058483aba11</string>
+            <ostype name="controlSignature">join</ostype>
+            <int name="controlID">129</int>
           </object>
         </array>
       </object>
       <boolean name="isResizable">FALSE</boolean>
       <int name="carbonWindowClass">4</int>
-      <int name="themeBrush">0</int>
-      <int name="windowPosition">0</int>
     </object>
     <reference idRef="181"/>
     <reference idRef="182"/>

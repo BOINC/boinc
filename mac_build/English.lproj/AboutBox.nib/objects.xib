@@ -4,15 +4,15 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="7" name="allObjects">
+  <array count="6" name="allObjects">
     <object class="IBCarbonStaticText" id="180">
       <string name="bounds">157 51 173 325 </string>
       <boolean name="small">TRUE</boolean>
-      <string name="title">Copyright © 2002, University of California Berkeley</string>
+      <string name="title">Copyright © 2003, University of California Berkeley</string>
     </object>
     <object class="IBCarbonRootControl" id="181">
       <string name="bounds">0 0 193 376 </string>
-      <array count="5" name="subviews">
+      <array count="4" name="subviews">
         <object class="IBCarbonPicture" id="185">
           <string name="bounds">14 153 64 203 </string>
           <string name="helpTagText">BOINC Logo</string>
@@ -28,11 +28,6 @@
           <string name="title">Version 0.1 (Alpha)</string>
         </object>
         <reference idRef="180"/>
-        <object class="IBCarbonStaticText" id="184">
-          <string name="bounds">120 20 149 356 </string>
-          <boolean name="small">TRUE</boolean>
-          <string name="title">Designed by David Anderson, Eric Heien, Michael Gary, and Barry Luong</string>
-        </object>
       </array>
     </object>
     <reference idRef="182"/>
@@ -44,20 +39,15 @@
       <boolean name="hasHorizontalZoom">FALSE</boolean>
       <boolean name="isResizable">FALSE</boolean>
       <boolean name="hasVerticalZoom">FALSE</boolean>
-      <int name="carbonWindowClass">6</int>
-      <int name="themeBrush">0</int>
-      <int name="windowPosition">0</int>
     </object>
-    <reference idRef="184"/>
     <reference idRef="185"/>
     <reference idRef="186"/>
   </array>
-  <array count="7" name="allParents">
+  <array count="6" name="allParents">
     <reference idRef="181"/>
     <reference idRef="183"/>
     <reference idRef="181"/>
     <reference idRef="1"/>
-    <reference idRef="181"/>
     <reference idRef="181"/>
     <reference idRef="181"/>
   </array>
