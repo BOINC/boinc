@@ -310,6 +310,7 @@ void CLIENT_STATE::check_anonymous() {
 		p->anonymous_platform = true;
 			// flag as anonymous even if can't parse file
 		retval = parse_app_info(p, f);
+		fclose(f);
 	}
 }
 
