@@ -14,7 +14,7 @@ BOINC provides tools for creating and operating projects:
       BOINC start / Super Cron program
   </td></tr>
   <tr><td><code>boinc/tools/</code></td><td> <a href=tool_add.php><code>add</code></a> </td> <td>
-      Adds objects to the database through command-line.
+      Adds objects to the database through command-line. 
   </td></tr>
   <tr><td><code>boinc/tools/</code></td><td> <a href=tool_xadd.php><code>xadd</code></a> </td> <td>
       Adds objects to the database through project.xml.
