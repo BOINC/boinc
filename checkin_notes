@@ -19906,3 +19906,13 @@ Bruce  20 Nov 2004 UTC
     ALL files of form *.C affected.
     api/
      boinc_api.C
+
+Rom    20 Nov 2004
+    - Added VM size detection for NT platforms to the BOINC API set.
+    - Changed the STARTUPINFO structure in the CC CreateProcess call to hide
+      the console window created for the science applications.
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C

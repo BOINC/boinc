@@ -620,7 +620,32 @@ bool boinc_receive_trickle_down(char* buf, int len) {
 static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
 
 #ifdef _WIN32
-    return ERR_NOT_IMPLEMENTED;
+
+    // Figure out if we're on WinNT
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx( &osvi );
+    if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT)
+    {
+        SIZE_T lpMinimumWorkingSetSize;
+        SIZE_T lpMaximumWorkingSetSize;
+
+        GetProcessWorkingSetSize(
+            GetCurrentProcess(),
+            &lpMinimumWorkingSetSize,
+            &lpMaximumWorkingSetSize
+        );
+
+        // return value is in bytes, we need to return kb
+        vm_kb = lpMinimumWorkingSetSize / 1024;
+        rs_kb = lpMaximumWorkingSetSize / 1024;
+    }
+    else
+    {
+        return ERR_NOT_IMPLEMENTED;
+    }
+
+    return 0;
 #else
 
 
