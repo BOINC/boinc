@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.15  2004/10/01 00:06:32  rwalton
+// *** empty log message ***
+//
 // Revision 1.14  2004/09/29 22:20:43  rwalton
 // *** empty log message ***
 //
@@ -80,6 +83,8 @@ public:
 private:
 
     RPC_CLIENT                  rpc;
+
+    bool                        m_bIsConnected;
 
 
     //
@@ -142,8 +147,6 @@ private:
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
     bool                        m_bCachedStateLocked;
-
-    bool                        m_bIsConnected;
 
     wxInt32                     CachedStateUpdate();
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.17  2004/10/01 00:06:32  rwalton
+// *** empty log message ***
+//
 // Revision 1.16  2004/09/30 20:32:15  davea
 // *** empty log message ***
 //
@@ -68,17 +71,6 @@
 #include "error_numbers.h"
 
 
-// Descending message sorting function
-struct MessageSorter
-{
-     bool operator()(MESSAGE* const& rpStart, MESSAGE* const& rpEnd)
-     {
-         return rpStart->seqno < rpEnd->seqno;
-     }
-};
-
-
-
 IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
@@ -95,9 +87,13 @@ CMainDocument::CMainDocument()
     }
 #endif
 
-    m_bCachedStateLocked = false;
     m_bIsConnected = false;
 
+    m_fProjectTotalResourceShare = 0.0;
+
+    m_iMessageSequenceNumber = 0;
+
+    m_bCachedStateLocked = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = 0;
 }
@@ -107,8 +103,13 @@ CMainDocument::~CMainDocument()
 {
     m_dtCachedStateTimestamp = wxDateTime::Now();
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    m_bIsConnected = false;
     m_bCachedStateLocked = false;
+
+    m_iMessageSequenceNumber = 0;
+
+    m_fProjectTotalResourceShare = 0.0;
+
+    m_bIsConnected = false;
 
 #ifdef __WIN32__
     WSACleanup();
@@ -142,7 +143,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
 
     m_fProjectTotalResourceShare = 0.0;
     for (i=0; i < (long)project_status.projects.size(); i++) {
-        m_fProjectTotalResourceShare += project_status.projects[i]->resource_share;
+        m_fProjectTotalResourceShare += project_status.projects.at( i )->resource_share;
     }
 
     return retval;
@@ -160,7 +161,7 @@ wxInt32 CMainDocument::GetProjectCount()
 
 wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         strBuffer = pProject->project_name.c_str();
 
@@ -170,7 +171,7 @@ wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer
 
 wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         strBuffer = pProject->master_url.c_str();
 
@@ -180,7 +181,7 @@ wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
 
 wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         strBuffer = pProject->user_name.c_str();
 
@@ -190,7 +191,7 @@ wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer
 
 wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         strBuffer = pProject->team_name.c_str();
 
@@ -200,7 +201,7 @@ wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
 
 wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         fBuffer = pProject->user_total_credit;
 
@@ -210,7 +211,7 @@ wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer)
 
 wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         fBuffer = pProject->user_expavg_credit;
 
@@ -220,7 +221,7 @@ wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer)
 
 wxInt32 CMainDocument::GetProjectResourceShare(wxInt32 iIndex, float& fBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         fBuffer = pProject->resource_share;
 
@@ -237,7 +238,7 @@ wxInt32 CMainDocument::GetProjectTotalResourceShare(wxInt32 iIndex, float& fBuff
 
 wxInt32 CMainDocument::GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     if ( NULL != pProject )
         iBuffer = pProject->min_rpc_time;
 
@@ -247,14 +248,14 @@ wxInt32 CMainDocument::GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer)
 
 bool CMainDocument::IsProjectSuspended(wxInt32 iIndex)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     return pProject->suspended_via_gui;
 }
 
 
 bool CMainDocument::IsProjectRPCPending(wxInt32 iIndex)
 {
-    PROJECT* pProject = project_status.projects[iIndex];
+    PROJECT* pProject = project_status.projects.at( iIndex );
     return pProject->sched_rpc_pending;
 }
 
@@ -322,15 +323,13 @@ wxInt32 CMainDocument::CachedMessageUpdate()
         m_bIsConnected = true;
     }
 
-    retval = rpc.get_messages( 255, m_iMessageSequenceNumber, messages );
+    retval = rpc.get_messages( m_iMessageSequenceNumber, messages );
     if (retval)
     {
         wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
     }
 
-    std::sort(messages.messages.begin(), messages.messages.end(), MessageSorter());
-
-    m_iMessageSequenceNumber = messages.messages[messages.messages.size()-1]->seqno;
+    m_iMessageSequenceNumber = messages.messages.at( messages.messages.size()-1 )->seqno;
 
     return retval;
 }
