@@ -20894,7 +20894,9 @@ David  8 Dec 2004
     - change makefiles so that libboinc, libboinc_api and libboinc_api_graphics
         have disjoint contents
     - change client makefile so it uses libboinc instead of separate .o files
+    - added my .vimrc
 
+    .vimrc
     api/
         Makefile.am
     apps/
