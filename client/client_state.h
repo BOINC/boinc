@@ -118,9 +118,6 @@ public:
     int sched_retry_delay_min, sched_retry_delay_max;
     int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
     bool activities_suspended;
-	bool previous_activities_suspended;
-		// if activities were suspended in the previous check_suspend();
-		// this is needed to update GUI windows after suspension and close transfers/files.
     bool network_suspended;
 	bool executing_as_windows_service;
     bool size_overflow;

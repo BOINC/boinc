@@ -79,7 +79,6 @@ CLIENT_STATE::CLIENT_STATE() {
     contacted_sched_server = false;
     activities_suspended = false;
     network_suspended = false;
-    previous_activities_suspended = false;
     core_client_major_version = BOINC_MAJOR_VERSION;
     core_client_minor_version = BOINC_MINOR_VERSION;
     platform_name = HOSTTYPE;
@@ -353,7 +352,6 @@ bool CLIENT_STATE::do_something() {
             resume_activities();
         }
     }
-    previous_activities_suspended = activities_suspended;
     activities_suspended = (reason != 0);
 
     // if we're doing CPU benchmarks, don't do much else

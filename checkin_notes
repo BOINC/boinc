@@ -18313,3 +18313,18 @@ David  12 Oct 2004
         user/
             edit_forum_preferences_action.php
             edit_forum_preferences_form.php
+
+David  12 Oct 2004
+    - API: more detailed message when do heartbeat giveup
+    - remove CLIENT_STATE::previous_activities_suspended
+    - changed work fetch policy to get T work, not 2T
+    - don't handle SIGTSTP and SIGCONT
+
+    api/
+        boinc_api.C
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        main.C
+        win/
+            wingui_mainwindow.cpp

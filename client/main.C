@@ -245,8 +245,8 @@ int boinc_main_loop(int argc, char** argv) {
 #ifdef SIGPWR
     boinc_set_signal_handler(SIGPWR, signal_handler);
 #endif
-    boinc_set_signal_handler_force(SIGTSTP, signal_handler);
-    boinc_set_signal_handler_force(SIGCONT, signal_handler);
+    //boinc_set_signal_handler_force(SIGTSTP, signal_handler);
+    //boinc_set_signal_handler_force(SIGCONT, signal_handler);
 #endif
 
 // Windows console controls

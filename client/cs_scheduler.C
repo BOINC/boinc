@@ -425,7 +425,8 @@ int CLIENT_STATE::compute_work_requests() {
         //
         p->work_request =
             max(0.0,
-                (2*work_min_period - estimated_time_to_starvation)
+                //(2*work_min_period - estimated_time_to_starvation)
+                (work_min_period - estimated_time_to_starvation)
                 * avg_proc_rate(p)
             );
     }

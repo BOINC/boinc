@@ -2151,9 +2151,7 @@ void CMainWindow::OnTimer(UINT uEventID) {
             gstate.trunc_stderr_stdout();
         }
 
-        if (!gstate.activities_suspended || !gstate.previous_activities_suspended) {
-            UpdateGUI(&gstate);
-        }
+        UpdateGUI(&gstate);
 
         // Start the timer again
         m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);

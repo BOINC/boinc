@@ -8,13 +8,10 @@ Graphics are displayed either in an application window
 or in a full-screen window (when acting as a screensaver).
 Applications that provide graphics must call
 <pre>
-    void boinc_init_graphics();
+    void boinc_init_graphics(void (*worker)());
 </pre>
-at the start and
-<pre>
-    void boinc_finish_graphics();
-</pre>
-prior to exiting.
+where <code>worker()</code> is the main function of your application.
+
 <h3>Static graphics</h3>
 <p>
 An application can display a pre-existing image file
@@ -30,17 +27,15 @@ name of the file each time.
 
 <h3>Dynamic graphics</h3>
 <p>
-The main application thread is called the <b>worker thread</b>.
-<code>boinc_init_graphics()</code> creates a second thread,
-called the <b>graphics thread</b>.
+<code>boinc_init_graphics()</code> creates a <b>worker thread</b>
+that runs the main application function.
+The original thread becomes the <b>graphics thread</b>,
+which handles GUI events and does rendering.
 The two threads communicate through application-defined
 shared memory structures.
 Typically these structures contain information about the computation,
 which is used to generate graphics.
-<br>
-<img vspace=10 src=graphics.png>
-<br>
-The worker must initialize the shared data structure
+You must initialize the shared data structure
 before calling <code>boinc_init_graphics()</code>.
 <p>
 Graphical applications must supply the following functions:
@@ -50,7 +45,7 @@ Graphical applications must supply the following functions:
 This will be called periodically in the graphics thread.
 It should generate the current graphic.
 <code>xs</code> and <code>ys</code> are the X and Y sizes of the window,
-and <tt>time_of_day</tt> is the relative time in seconds.
+and <code>time_of_day</code> is the relative time in seconds.
 The function should return true if it actually drew anything.
 It can refer to the user name, CPU time etc. obtained from
 <code>boinc_get_init_data()</code>.

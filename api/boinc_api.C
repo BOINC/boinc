@@ -450,11 +450,15 @@ static void on_timer(int a) {
         }
     }
 
-    // see if the core client has died, and we need to die too
+    // see if the core client has died, which means we need to die too
     //
     if (options.check_heartbeat && heartbeat_active) {
-        if (heartbeat_giveup_time < dtime()) {
-            fprintf(stderr, "No heartbeat from core client - exiting\n");
+        double now = dtime();
+        if (heartbeat_giveup_time < now) {
+            fprintf(stderr,
+                "No heartbeat from core client for %f sec - exiting\n",
+                now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD);
+            );
             if (options.direct_process_action) {
                 exit(0);
             } else {
