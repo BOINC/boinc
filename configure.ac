@@ -77,15 +77,15 @@ Contributor(s):
 
 AC_REVISION([$Revision$])
 
-AC_DEFUN([AC_STRIP_LEADING_ZEROS],[m4_bregexp([$*],[^0*\(..*\)],\1)])
+AC_DEFUN([KC_STRIP_LEADING_ZEROS],[m4_bregexp([$*],[^0*\(..*\)],\1)])
 
-AC_DEFUN([AC_BOINC_SET_VERSION],[dnl
-AC_SUBST([BOINC_MAJOR_VERSION],AC_STRIP_LEADING_ZEROS([$1]))
-AC_SUBST([BOINC_MINOR_VERSION],AC_STRIP_LEADING_ZEROS([$2]))
+AC_DEFUN([BOINC_SET_VERSION],[dnl
+AC_SUBST([BOINC_MAJOR_VERSION],KC_STRIP_LEADING_ZEROS([$1]))
+AC_SUBST([BOINC_MINOR_VERSION],KC_STRIP_LEADING_ZEROS([$2]))
 AC_SUBST([BOINC_VERSION_STRING],AC_PACKAGE_VERSION)
 ])
 
-AC_BOINC_SET_VERSION(translit(AC_PACKAGE_VERSION, [.], [,]))
+BOINC_SET_VERSION(translit(AC_PACKAGE_VERSION, [.], [,]))
 
 AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String representation of BOINC version number])
 AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
@@ -242,4 +242,14 @@ true || $TOP_SOURCE_DIR/test/test_sanity.py || (
 EOF
 
 )
+
+if test "${enable_server}" = yes ; then
+  cat<<EOF
+
+We recommend you run test/test_sanity.py to make sure your host is configured
+properly for building the BOINC server.
+
+EOF
+fi
+
 ]
