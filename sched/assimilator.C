@@ -80,7 +80,7 @@ bool do_pass(APP& app) {
         assimilate_handler(wu, results, canonical_result);
 
         sprintf(
-	    buf, "assimilate_state=%d, transition_time=%d", 
+            buf, "assimilate_state=%d, transition_time=%d", 
             ASSIMILATE_DONE, (int)time(0)
         );
         retval = wu.update_field(buf);
@@ -90,6 +90,9 @@ bool do_pass(APP& app) {
             );
             exit(1);
         }
+    }
+    if (did_something) {
+        boinc_db.commit_transaction();
     }
     return did_something;
 }

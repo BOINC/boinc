@@ -31,7 +31,7 @@ function show_413() {
     version_start("4.13", "13 Oct 2004");
     version("Windows", "boinc_4.13_windows_intelx86.exe");
     version("Linux/x86", "boinc_4.13_i686-pc-linux-gnu.gz");
-    version("Mac OS/X", "boinc_4.13_powerpc-apple-darwin.gz");
+    version("Mac OS X", "boinc_4.13_powerpc-apple-darwin.gz");
     version("Solaris/SPARC", "boinc_4.13_sparc-sun-solaris2.7.gz");
     version_end();
 }
@@ -46,7 +46,7 @@ Learn more about BOINC
 The BOINC core client is available for the following platforms:
 <ul>
 <li> Windows (95 and up)
-<li> Linux (on X86 and perhaps others)
+<li> Linux/x86
 <li> Solaris/SPARC
 <li> Mac OS X
 </ul>

@@ -63,7 +63,7 @@ Both quantities (total and recent average)
 are maintained for each user, host and team.
 
 <p>
-Each time new credit granted,
+Each time new credit is granted,
 the following function is used to update the
 recent average credit of the host, user and team:
 <pre>",htmlspecialchars("
@@ -106,11 +106,22 @@ Interfaces that export RAC also export that time at which it was last updated.
 To obtain the current value of RAC,
 you must 'decay' it based on the time that has elapsed
 since it was updated: <pre>", htmlspecialchars("
-    update_average(dtime(), 0, 0, expavg_credit, expavg_time);
+function decay_average(\$avg, \$avg_time, \$now = 0) {
+   \$M_LN2 = 0.693147180559945309417;
+   \$credit_half_life = 86400 * 7;
+   if (\$now == 0) {
+       \$now = time();
+   }
+   \$diff = \$now - \$avg_time;
+   \$diff_days = \$diff/86400;
+   \$weight = exp(-\$diff * \$M_LN2/\$credit_half_life);
+   \$avg *= \$weight;
+   return \$avg;
+}
 "), "</pre>
 <p>
 If you don't apply this decay,
-then inactive entities may appear to have high RAC.
+inactive entities will have incorrectly high RAC.
 
 <p>
 PHP code for the decay function can be found in

@@ -19507,3 +19507,13 @@ David  15 Nov 2004
         client_types.C
         cs_data.C
         net_xfer.h
+
+David  15 Nov 2004
+    - assimilator: after each enumeration of WUs, do a COMMIT.
+        This will hopefully fix a bug where a WU would appear
+        in an two enumerations in succession
+        (this happens when the enumerations are short,
+        i.e. when the assimilator is nearly caught up).
+
+    sched/
+        assimilator.C
