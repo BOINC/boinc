@@ -265,6 +265,8 @@ void run_test_suite( double num_secs_per_test ) {
 }
 
 // One iteration == D_LOOP_ITERS (1,000,000) floating point operations
+// If time_total is negative, there was an error in the calculation,
+// meaning there is probably something wrong with the CPU
 
 clock_t double_flop_test( int iterations, int print_debug ) {
     double a[NUM_DOUBLES],t1,t2;
@@ -314,10 +316,12 @@ clock_t double_flop_test( int iterations, int print_debug ) {
             calc_error = 1;
         }
         
-        temp /= 3;
+        temp /= 2;
     }
     
-    if( calc_error ) printf( "Calc error\n" );
+    if( calc_error ) {
+        time_total *= -1;
+    }
     
     if( print_debug ) {
         for( i=0;i<NUM_DOUBLES;i++ ) {
@@ -329,6 +333,8 @@ clock_t double_flop_test( int iterations, int print_debug ) {
 }
 
 // One iteration == 1,000,000 integer operations
+// If time_total is negative, there was an error in the calculation,
+// meaning there is probably something wrong with the CPU
 
 clock_t int_op_test( int iterations, int print_debug ) {
     int a[NUM_INTS], temp;
@@ -387,8 +393,9 @@ clock_t int_op_test( int iterations, int print_debug ) {
         temp *= 2;
     }
     
-    if( calc_error )
-        printf( "Calc error\n" );
+    if( calc_error ) {
+        time_total *= -1;
+    }
     
     if( print_debug ) {
         for( i=0;i<NUM_INTS;i++ ) {
@@ -400,6 +407,8 @@ clock_t int_op_test( int iterations, int print_debug ) {
 }
 
 // One iteration == Read of 6M*sizeof(double), Write of 6M*sizeof(double)
+// If time_total is negative, there was an error in the copying,
+// meaning there is probably something wrong with the CPU
 
 clock_t bandwidth_test( int iterations, int print_debug ) {
     // a, b, and c are arrays of doubles we will copy around to test memory bandwidth
@@ -460,7 +469,7 @@ clock_t bandwidth_test( int iterations, int print_debug ) {
     }
     
     if( copy_error ) {
-        printf( "Copy error\n" );
+        time_total *= -1;
     }
     
     free( a );
