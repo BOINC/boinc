@@ -19,7 +19,7 @@ BUGS (arranged from high to low priority)
 - make pie chart colors/labels easier to understand
 - need a way to refresh prefs from client
 - Client should display "Upload failed" and "Download failed" when failure occurs
-- columns expand when window expands
+- Win GUI: columns expand when window expands
 - Download speed is not as fast as it should be
 - Result status should say "downloading files", "uploading files", etc.
 - Change vector removal routines to use an iterator
@@ -39,6 +39,7 @@ est_time_to_completion doesn't work for non-running tasks
 Messages from core client
     decide what messages should be shown to user, and how
     log file?  GUI?  dialog?
+    Should tag messages with project they're from, if any?
 
 -----------------------
 THINGS TO TEST (preferably with test scripts)

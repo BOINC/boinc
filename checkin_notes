@@ -3250,3 +3250,11 @@ David  Feb 14 2003
         make_project_ap.php
         make_project_sah.php
         test.inc
+David  Feb 17 2003
+    - restored some of the changes for faster network throughput
+    
+    client/
+        client_state.C,h
+        main.C
+        next_xfer.C,h
+

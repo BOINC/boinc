@@ -985,10 +985,9 @@ bool CLIENT_STATE::garbage_collect() {
                     if (!rp->ready_to_ack) {
                         // had an error uploading a file for this result
                         //
-                        
                         report_project_error(*rp,0,
                             "An output file of this result had an error"
-                );
+                        );
                     }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
