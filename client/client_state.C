@@ -846,6 +846,8 @@ int CLIENT_STATE::write_state_file() {
     FILE* f = fopen(STATE_FILE_TEMP, "w");
     int retval;
 
+printf("wrote state file\n");
+
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
     if (!f) {
@@ -930,12 +932,10 @@ int CLIENT_STATE::write_state_file() {
 //
 int CLIENT_STATE::write_state_file_if_needed() {
     int retval;
-    long idle = time(0) - last_write_state_file;
-    if (client_state_dirty && idle > global_prefs.disk_interval) {
+    if (client_state_dirty) {
         client_state_dirty = false;
         retval = write_state_file();
         if (retval) return retval;
-        time(&last_write_state_file);
     }
     return 0;
 }
