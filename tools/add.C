@@ -104,15 +104,9 @@ int sign_executable(char* path, char* signature_text) {
     DATA_BLOCK signature;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
     R_RSA_PRIVATE_KEY code_sign_key;
-    FILE* fkey = fopen(code_sign_keyfile, "r");
-    if (!fkey) {
-        fprintf(stderr, "add: can't open key file (%s)\n", code_sign_keyfile);
-        exit(1);
-    }
-    retval = scan_key_hex(fkey, (KEY*)&code_sign_key, sizeof(code_sign_key));
-    fclose(fkey);
+    retval = read_key_file(code_sign_keyfile, code_sign_key);
     if (retval) {
-        fprintf(stderr, "add: can't parse key\n");
+        fprintf(stderr, "add: can't read key\n");
         exit(1);
     }
     signature.data = signature_buf;

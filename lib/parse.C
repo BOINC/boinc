@@ -144,3 +144,18 @@ int read_file_malloc(char* pathname, char*& str) {
     fclose(f);
     return 0;
 }
+
+#if 0
+// replace XML element contents.  not currently used
+//
+void replace_element(char* buf, char* start, char* end, char* replacement) {
+    char temp[MAX_BLOB_SIZE], *p, *q;
+
+    p = strstr(buf, start);
+    p += strlen(start);
+    q = strstr(p, end);
+    strcpy(temp, q);
+    strcpy(p, replacement);
+    strcat(p, temp);
+}
+#endif

@@ -18,11 +18,11 @@
 //
 
 // macro-substitute a result template file:
-// - replace OUTFILE_x with base_filename_x,
-// - WU_NAME with WU name
-// - RESULT_NAME with result name
+// - replace OUTFILE_x with base_filename_x, etc.
 // - At the end of every <file_info> element, add a signature
 //   of its contents up to that point.
+//
+// TODO - have this work in memory instead of using disk files
 
 #include <string.h>
 #include <stdlib.h>

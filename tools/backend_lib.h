@@ -29,6 +29,13 @@ extern int process_result_template(
 extern int read_file(FILE*, char* buf);
 extern int read_filename(char* path, char* buf);
 
+extern int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key);
+
+extern int create_result(
+    WORKUNIT& wu, char* result_template_filename, char* suffix,
+    R_RSA_PRIVATE_KEY& key, char* upload_url, char* download_url
+);
+
 extern int create_work(
     WORKUNIT& wu,
     char* wu_template,
@@ -41,5 +48,3 @@ extern int create_work(
     char* upload_url,
     char* download_url
 );
-
-extern int grant_credit(int resultid, double cobblestones);

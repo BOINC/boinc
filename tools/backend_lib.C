@@ -53,6 +53,22 @@ int read_filename(char* path, char* buf) {
     return retval;
 }
 
+int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key) {
+    int retval;
+    FILE* fkey = fopen(keyfile, "r");
+    if (!fkey) {
+        fprintf(stderr, "can't open key file (%s)\n", keyfile);
+        return -1;
+    }
+    retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
+    fclose(fkey);
+    if (retval) {
+        fprintf(stderr, "can't parse key\n");
+        return -1;
+    }
+    return 0;
+}
+
 // replace INFILE_x with filename from array,
 // MD5_x with checksum of file,
 //
@@ -125,7 +141,8 @@ static int process_wu_template(
 }
 
 int create_result(
-    WORKUNIT& wu, char* result_template_filename, int i, R_RSA_PRIVATE_KEY& key,
+    WORKUNIT& wu, char* result_template_filename,
+    char* result_name_suffix, R_RSA_PRIVATE_KEY& key,
     char* upload_url, char* download_url
 ) {
     RESULT r;
@@ -142,7 +159,7 @@ int create_result(
     r.workunitid = wu.id;
     r.state = RESULT_STATE_UNSENT;
     r.validate_state = VALIDATE_STATE_INITIAL;
-    sprintf(r.name, "%s_%d", wu.name, i);
+    sprintf(r.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", r.name);
 
     result_template_file = fopen(result_template_filename, "r");
@@ -177,6 +194,7 @@ int create_work(
     char* upload_url, char* download_url
 ) {
     int i, retval;
+    char suffix[256];
     assert(wu_template!=NULL);
     assert(result_template_file!=NULL);
     assert(nresults>=0);
@@ -207,8 +225,10 @@ int create_work(
 
     if (!wu.dynamic_results) {
         for (i=0; i<nresults; i++) {
+            sprintf(suffix, "%d", i);
             create_result(
-                wu, result_template_file, i, key, upload_url, download_url
+                wu, result_template_file, suffix,
+                key, upload_url, download_url
             );
         }
     }

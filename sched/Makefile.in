@@ -71,7 +71,13 @@ MAKE_WORK_OBJS = \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
-    ../lib/parse.o
+    ../tools/backend_lib.o \
+    ../tools/process_result_template.o \
+    ../lib/parse.o \
+    ../lib/md5_file.o \
+    ../lib/md5.o \
+    ../lib/crypt.o \
+    ../RSAEuro/source/rsaeuro.a
 
 FCGI_OBJS = \
     handle_request.fcgi.o \

@@ -1,10 +1,9 @@
 // make_work.C
 //
+// make_work -wu_name name -result_template filename [ -cushion n ]
+//
 // Create result records as needed to maintain a pool to send
 //
-// This reads a result record from the DB, then makes clones of it.
-// Assumes the result has a single output file,
-// so overwrites the first <name> element with a new name
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,9 +12,14 @@
 #include <time.h>
 
 #include "db.h"
+#include "crypt.h"
+#include "backend_lib.h"
 #include "config.h"
 
 #define TRIGGER_FILENAME    "stop_server"
+
+int cushion = 10;
+char wu_name[256], result_template_file[256];
 
 void check_trigger() {
     FILE* f = fopen(TRIGGER_FILENAME, "r");
@@ -23,22 +27,12 @@ void check_trigger() {
     exit(0);
 }
 
-void replace_element(char* buf, char* start, char* end, char* replacement) {
-    char temp[MAX_BLOB_SIZE], *p, *q;
-
-    p = strstr(buf, start);
-    p += strlen(start);
-    q = strstr(p, end);
-    strcpy(temp, q);
-    strcpy(p, replacement);
-    strcat(p, temp);
-}
-
 void make_work() {
     CONFIG config;
-    RESULT result;
-    int retval, i=time(0), n;
-    char buf[256];
+    int retval, i, start_time=time(0), n;
+    char keypath[256], suffix[256];
+    R_RSA_PRIVATE_KEY key;
+    WORKUNIT wu;
 
     retval = config.parse_file();
     if (retval) {
@@ -52,9 +46,17 @@ void make_work() {
         exit(1);
     }
 
-    retval = db_result(1, result);
+    strcpy(wu.name, wu_name);
+    retval = db_workunit_lookup_name(wu);
     if (retval) {
-        fprintf(stderr, "make_work: can't read result\n");
+        fprintf(stderr, "make_work: can't find wu %s\n", wu_name);
+        exit(1);
+    }
+
+    sprintf(keypath, "%s/upload_private", config.key_dir);
+    retval = read_key_file(keypath, key);
+    if (retval) {
+        fprintf(stderr, "make_work: can't read key\n");
         exit(1);
     }
 
@@ -66,22 +68,16 @@ void make_work() {
             exit(1);
         }
         printf("make_work: %d results\n", n);
-        if (n > 10) {
+        if (n > cushion) {
             sleep(1);
             continue;
         }
-        result.id = 0;
-        result.create_time = time(0);
-        sprintf(result.name, "result_%d", i++);
-        result.state = RESULT_STATE_UNSENT;
-        result.validate_state = VALIDATE_STATE_INITIAL;
-        replace_element(result.xml_doc_in, "<name>", "</name>", result.name);
-        replace_element(result.xml_doc_in, "<file_name>", "</file_name>", result.name);
-        retval = db_result_new(result);
-        if (retval) {
-            fprintf(stderr, "make_work: can't create result\n");
-            exit(1);
-        }
+
+        sprintf(suffix, "%d_%d", start_time, i++);
+        create_result(
+            wu, result_template_file, suffix, key,
+            config.upload_url, config.download_url
+        );
         printf("make_work: added a result\n");
     }
 }
@@ -94,7 +90,22 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
+        } else if (!strcmp(argv[i], "-cushion")) {
+            cushion = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-result_template")) {
+            strcpy(result_template_file, argv[++i]);
+        } else if (!strcmp(argv[i], "-wu_name")) {
+            strcpy(wu_name, argv[++i]);
         }
+    }
+
+    if (!strlen(result_template_file)) {
+        fprintf(stderr, "make_work: missing -result_template\n");
+        exit(1);
+    }
+    if (!strlen(wu_name)) {
+        fprintf(stderr, "make_work: missing -wu_name\n");
+        exit(1);
     }
 
     if (asynch) {

@@ -30,7 +30,7 @@
     $work->install($project);
 
     $project->start_feeder();
-    $project->start_make_work();
+    $project->start_make_work($work);
     $host->run("");
     //$project->stop();
 

@@ -2140,3 +2140,28 @@ Eric  October 14, 2002
         boinc.pbproj/
             project.pbxproj
 
+David  Oct 14 2002
+    - Change make_work so that it generates results with
+        valid file upload signatures.
+        Instead of directly creating new DB.result records,
+        it now calls create_result() to do the work.
+    - Changed create_result() to take a name suffix
+    - Factored key parsing into a function
+    - Removed random-WU-name feature from create_work;
+        names should be generated at a higher level
+    - added a key-generation function to test.inc
+        
+    lib/
+        parse.C
+    sched/
+        Makefile.in
+        config.C,h
+        make_work.C
+    test/
+        test.inc
+        test_loop.php
+    tools/
+        add.C
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C

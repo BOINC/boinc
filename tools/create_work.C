@@ -62,8 +62,6 @@ int main(int argc, char** argv) {
     char download_dir[256], db_name[256], db_passwd[256];
     char upload_url[256], download_url[256];
 
-    srand(time(NULL));
-    strcpy(wu_template_file, "");
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
@@ -74,8 +72,7 @@ int main(int argc, char** argv) {
     memset(&wu, 0, sizeof(wu));
     while (i < argc) {
         if (!strcmp(argv[i], "-appname")) {
-            i++;
-            strcpy(app.name, argv[i]);
+            strcpy(app.name, argv[++i]);
         } else if (!strcmp(argv[i], "-db_name")) {
             strcpy(db_name, argv[++i]);
         } else if (!strcmp(argv[i], "-db_passwd")) {
@@ -87,37 +84,25 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-download_dir")) {
             strcpy(download_dir, argv[++i]);
         } else if (!strcmp(argv[i], "-wu_name")) {
-            i++;
-            strcpy(wu.name, argv[i]);
+            strcpy(wu.name, argv[++i]);
         } else if (!strcmp(argv[i], "-wu_template")) {
-            i++;
-            strcpy(wu_template_file, argv[i]);
+            strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
-            i++;
-            strcpy(result_template_file, argv[i]);
+            strcpy(result_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-dynamic_results")) {
             wu.dynamic_results = true;
         } else if (!strcmp(argv[i], "-nresults")) {
-            i++;
-            nresults = atoi(argv[i]);
+            nresults = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops")) {
-            i++;
-            wu.rsc_fpops = atof(argv[i]);
+            wu.rsc_fpops = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_iops")) {
-            i++;
-            wu.rsc_iops = atof(argv[i]);
+            wu.rsc_iops = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_memory")) {
-            i++;
-            wu.rsc_memory = atof(argv[i]);
+            wu.rsc_memory = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_disk")) {
-            i++;
-            wu.rsc_disk = atof(argv[i]);
+            wu.rsc_disk = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-keyfile")) {
-            i++;
-            strcpy(keyfile, argv[i]);
-        } else if (!strcmp(argv[i], "-wu_name_rand")) {
-            i++;
-            sprintf(wu.name, "%s_%d", argv[i], rand());
+            strcpy(keyfile, argv[++i]);
         } else {
             infiles = argv+i;
             ninfiles = argc - i;
@@ -156,16 +141,9 @@ int main(int argc, char** argv) {
 
     wu.appid = app.id;
 
-    FILE* fkey = fopen(keyfile, "r");
-    if (!fkey) {
-        fprintf(stderr, "create_work: can't open key file (%s)\n", keyfile);
-        exit(1);
-    }
-    rewind(fkey);
-    retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
-    fclose(fkey);
+    retval = read_key_file(keyfile, key);
     if (retval) {
-        fprintf(stderr, "create_work: can't parse key\n");
+        fprintf(stderr, "create_work: can't read key");
         exit(1);
     }
 

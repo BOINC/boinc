@@ -57,6 +57,13 @@ function run_tool($cmd) {
     PassThru($cmd);
 }
 
+function create_keys() {
+    $key_dir = get_env_var("BOINC_KEY_DIR");
+    $lib_dir = get_env_var("BOINC_SRC_DIR")."/lib";
+    PassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/upload_private $key_dir/upload_public");
+    PassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/code_sign_private $key_dir/code_sign_public");
+}
+
 class App {
     var $name;
 
@@ -205,6 +212,8 @@ class Project {
         fputs($f, "    <db_passwd>$this->db_passwd</db_passwd>\n");
         fputs($f, "    <shmem_key>$this->shmem_key</shmem_key>\n");
         fputs($f, "    <key_dir>$this->key_dir</key_dir>\n");
+        fputs($f, "    <download_url>$this->download_url</download_url>\n");
+        fputs($f, "    <upload_url>$this->upload_url</upload_url>\n");
         fputs($f, "    <upload_dir>$this->project_dir/upload</upload_dir>\n");
         fputs($f, "    <user_name>$this->user_name</user_name>\n");
         fputs($f, "</config>\n");
@@ -254,8 +263,9 @@ class Project {
         PassThru("cd $this->project_dir/cgi; feeder -asynch > feeder_out");
     }
 
-    function start_make_work(){
-        PassThru("cd $this->project_dir/cgi; make_work -asynch > make_work_out");
+    function start_make_work($work){
+        $result_template_path = realpath($work->result_template);
+        PassThru("cd $this->project_dir/cgi; make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");
     }
 
     function stop() {
@@ -418,7 +428,6 @@ class Work {
     var $result_template;
     var $nresults;
     var $input_files;
-    var $randomize_name;
     var $rsc_iops;
     var $rsc_fpops;
     var $rsc_disk;
@@ -429,7 +438,6 @@ class Work {
         $this->rcs_iops = 180000000000;
         $this->rcs_fpops = 100000000000;
         $this->rcs_disk = 1000000;
-        $this->randomize_name = false;
     }
 
     function install($project) {
@@ -438,12 +446,7 @@ class Work {
             $x = $this->input_files[$i];
             PassThru("cp $x $project->project_dir/download");
         }
-        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults ";
-        if ($this->randomize_name) {
-            $cmd = $cmd." -wu_name_rand ".$this->wu_template;
-        } else {
-            $cmd = $cmd." -wu_name ".$this->wu_template;
-        }
+        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults -wu_name $this->wu_template";
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];
             $cmd = $cmd." ".$x;
