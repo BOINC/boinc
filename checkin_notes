@@ -26626,7 +26626,7 @@ David  3 April 2005
         BOINCBaseView.cpp.h
         MainDocument.cpp,h
         MainFrame.cpp
-        ViewStatistics.cpp,h
+        ViewStatistics.cpp,h (new)
     lib/
         gui_rpc_client.C,h
         util.C,h
