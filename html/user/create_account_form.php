@@ -21,7 +21,7 @@ endif;
 
 <p>If you already received an account key, do not submit this form.  <a href="account_created.php">Activate your account</a> instead.</p>
 
-<form action="create_account_form.php" method="post">
+<form action="create_account_action.php" method="post">
 	<?php if (!empty($_GET['userid'])): ?><input type="hidden" name="userid" value="<?php echo $_GET['userid'] ?>"><?php endif; ?>
 	<table class="content" border="0" cellpadding="5" cellspacing="0">
 		<tr>
