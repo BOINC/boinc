@@ -62,7 +62,7 @@ int initialize_prefs() {
     CLoginDialog dlg(IDD_LOGIN);
     int retval = dlg.DoModal();
 	if (retval != IDOK) return -1;
-    write_account_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
+    write_account_file((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
     return 0;
 }
 
