@@ -5366,4 +5366,7 @@ Karl 2003/07/22
     db/*, test/*, py/*
 
 Karl 2003/07/24
-    fixed dll problem. Release 1.06.
+    fixed dll problem. Added language.ini files from
+    http://www.boinc.dk/index.php?page=download_languages.
+
+    Release 1.06.
