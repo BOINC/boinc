@@ -25428,3 +25428,9 @@ David  1 Mar 2005
 
     tools/
         update_versions
+
+David  1 Mar 2005
+    - added host_venue to get_state GUI RPC reply
+
+    client/
+        cs_statefile.C

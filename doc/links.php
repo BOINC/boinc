@@ -50,6 +50,7 @@ language("Dutch", array(
     )
 ));
 language("English", array(
+    site("http://83.72.130.163/esea/", "Earth Space Exploration Agency"),
     site("http://boinc.mundayweb.com", "boinc.mundayweb.com - stats counters and more")
     //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
 ));

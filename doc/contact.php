@@ -50,6 +50,7 @@ show_name("Pietro Cicotti");
 show_name("Seth Cooper");
 show_name("Markku Degerholm");
 show_name("James Drews");
+show_name("John Flynn III");
 show_name("Michael Gary");
 show_name("Gary Gibson");
 show_name("Volker Hatzenberger");

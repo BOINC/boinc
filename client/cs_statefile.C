@@ -524,9 +524,12 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         cpu_sched_work_done_this_period
     );
 
-    // save proxy info
-    //
     proxy_info.write(f);
+
+    if (strlen(main_host_venue)) {
+        f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
+    }
+
     f.printf("</client_state>\n");
     return 0;
 }
