@@ -30,9 +30,9 @@
 
 ////////////////////// string defines ////////////////////////////
 
-#define UNINST_LOGFILE_NAME      "Uninst.isu"
-#define BOINC_GUI_EXE			 "boinc_gui.exe"
-#define README_TXT		  	 "readme.txt"
+#define UNINST_LOGFILE_NAME		"Uninst.isu"
+#define BOINC_GUI_EXE			"boinc_gui.exe"
+#define README_TXT				"readme.txt"
 
 //////////////////// installation declarations ///////////////////
 
@@ -53,6 +53,7 @@
      prototype SetupRegistry();
      prototype SetupFolders();
      prototype SetupStartupIcon();
+     prototype DisableLaunchBoincAtStartup();
      prototype CleanUpInstall();
      prototype SetupInstall();
      prototype SetupScreen();
@@ -133,6 +134,8 @@ program
 
     if (bLaunchBoincAtStartup) then
         SetupStartupIcon();
+    else
+        DisableLaunchBoincAtStartup();
     endif;
 
     if (bLaunchBoinc) then
@@ -435,6 +438,14 @@ function SetupFolders()
   return nResult;
  end;
 
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: SetupStartupIcon
+//
+//  Purpose: This function places a shortcut to the boinc client in the
+//           Startup menu folder.
+//
+///////////////////////////////////////////////////////////////////////////////
 function SetupStartupIcon()
  STRING svPath;
  STRING szProgram;
@@ -445,6 +456,46 @@ function SetupStartupIcon()
   szProgram = svPath + " -min";
   AddFolderIcon( FOLDER_STARTUP, "BOINC", szProgram, TARGETDIR, "", 0, "", REPLACE);
   return 0;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DisableLaunchBoincAtStartup
+//
+//  Purpose: This function removes any registry entries and/or Startup menu
+//           shortcuts that cause boinc to launch at system start. This is
+//           needed to handle the case where the user previously installed
+//           boinc with the option to launch at startup, them (re-)installs
+//           boinc without the option to launch at startup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function DisableLaunchBoincAtStartup()
+ NUMBER nResult;
+ STRING szKSuffix;   // the constant part of the registry key
+ STRING szKey;       // registry key to lookup
+ STRING szValue;     // registry key value to delete
+
+ begin
+   // added by gmg 2003-12-15
+   szValue = "boincclient";
+   szKSuffix = "\\Microsoft\\Windows\\CurrentVersion\\Run";
+
+   // delete any Startup folder icons
+   nResult = DeleteFolderIcon( FOLDER_STARTUP, "BOINC" );
+
+   // now, delete any startup info in the registry
+   // NT registry key as defined by SetupRegistry()
+   nResult = RegDBSetDefaultRoot (HKEY_CURRENT_USER);
+   szKey = "Software" + szKSuffix;
+   nResult = RegDBDeleteValue ( szKey, szValue );
+
+   // non-NT registry key as defined by SetupRegistry()
+   nResult = RegDBSetDefaultRoot (HKEY_LOCAL_MACHINE);
+   szKey = "SOFTWARE" + szKSuffix;
+   nResult = RegDBDeleteValue ( szKey, szValue );
+
+   return 0;
 end;
 
 
@@ -739,6 +790,9 @@ function DialogShowSdSelectLanguage()
  // --- include script file section ---
 
 #include "sddialog.rul"
+
+
+
 
 
 
