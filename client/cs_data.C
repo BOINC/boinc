@@ -479,7 +479,7 @@ int CLIENT_STATE::total_potential_offender(PROJECT* p, double& tps) {
 int CLIENT_STATE::total_potential_self(PROJECT* p, double& tps) {
     FILE_INFO* fip;
     unsigned int i;
-    total_potentially_offender(p, tps);
+    total_potential_offender(p, tps);
     for(i = 0; i < file_infos.size(); i++) {
         fip = file_infos[i];
         if(fip->ref_cnt == 0 && fip->project == p && fip->sticky) {
