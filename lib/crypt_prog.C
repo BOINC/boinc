@@ -43,6 +43,19 @@ void die(char* p) {
     exit(1);
 }
 
+void better_random_create(R_RANDOM_STRUCT* r) {
+    FILE* f = fopen("/dev/random", "r");
+    if (!f) {
+        fprintf(stderr, "can't open /dev/random\n");
+        exit(1);
+    }
+    fread(r->state, 16, 1, f);
+    fread(r->output, 16, 1, f);
+    fclose(f);
+    r->bytesNeeded = 0;
+    r->outputAvailable = 16;
+}
+
 int main(int argc, char** argv) {
     R_RANDOM_STRUCT randomStruct;
     R_RSA_PUBLIC_KEY public_key;
@@ -62,7 +75,9 @@ int main(int argc, char** argv) {
         printf("creating keys in %s and %s\n", argv[3], argv[4]);
         n = atoi(argv[2]);
 
-        R_RandomCreate(&randomStruct);
+        //R_RandomCreate(&randomStruct);
+
+        better_random_create(&randomStruct);
 
         protoKey.bits = n;
         protoKey.useFermat4 = 1;

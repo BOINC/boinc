@@ -18126,3 +18126,10 @@ David  6 Oct 2004
 	client/
 		ssl_http.C,h
 		ssl_net_xfer.C,h
+
+David  6 Oct 2004
+    - the key generation function of crypt_prog now uses /dev/random
+        instead of getting random seed based on time
+
+    lib/
+        crypt_prog.C
