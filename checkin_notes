@@ -10991,13 +10991,13 @@ David  Mar 26 2004
 
 Eric H   Mar 27 2004
     - added support for SOCKS4 and SOCKS5 proxy servers
-    - added a new PROXY layer between HTTP_OP and NET_XFER.  This layer takes care
-      of the state transitions involved in negotiating with a SOCKS server.  Since
-      the HTTP_OP is dependant on the completion of the proxy operation, I made
-      the layers synchronous (PROXY:poll() is called in HTTP_OP::poll() rather
-      than CLIENT_STATE::do_something()).  Support for editing SOCKS proxy server
-      information still needs to be completed in the Windows GUI.
-    - Possible future projects:  add IPv6 support, GSSAPI support, test on SOCKS4 server
+    - added a new PROXY layer between HTTP_OP and NET_XFER.
+        This layer takes care of the state transitions
+        involved in negotiating with a SOCKS server.
+        Support for editing SOCKS proxy server
+        information still needs to be completed in the Windows GUI.
+    - Possible future projects:  add IPv6 support, GSSAPI support,
+        test on SOCKS4 server
 
     client/
         Makefile.am
@@ -12687,3 +12687,8 @@ David  May 26 2004
     client/
         dhrystone.C
         whetstone.C
+
+David  May 26 2004
+    - updated config.guess
+
+    config.guess
