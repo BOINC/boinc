@@ -106,7 +106,7 @@ int main() {
     }
 
     found = false;
-    while (!db_project_enum(gproject)) {
+    while (!boinc_db_project_enum(gproject)) {
         found = true;
     }
     if (!found) {

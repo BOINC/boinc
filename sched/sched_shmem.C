@@ -72,21 +72,21 @@ int SCHED_SHMEM::scan_tables() {
     int n;
 
     n = 0;
-    while (!db_platform_enum(platform)) {
+    while (!boinc_db_platform_enum(platform)) {
         platforms[n++] = platform;
         if (n == MAX_PLATFORMS) overflow("platforms");
     }
     nplatforms = n;
 
     n = 0;
-    while (!db_app_enum(app)) {
+    while (!boinc_db_app_enum(app)) {
         apps[n++] = app;
         if (n == MAX_APPS) overflow("apps");
     }
     napps = n;
 
     n = 0;
-    while (!db_app_version_enum(app_version)) {
+    while (!boinc_db_app_version_enum(app_version)) {
         app_versions[n++] = app_version;
         if (n == MAX_APP_VERSIONS) overflow("app_versions");
     }

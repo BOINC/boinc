@@ -118,7 +118,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
             if (!ssp->wu_results[i].present) {
 try_again:
                 result.server_state = RESULT_SERVER_STATE_UNSENT;
-                retval = db_result_enum_server_state(result, RESULTS_PER_ENUM);
+                retval = boinc_db_result_enum_server_state(result, RESULTS_PER_ENUM);
                 if (retval) {
 
                     // if we already restarted the enum on this pass,
@@ -133,7 +133,7 @@ try_again:
                     //
                     restarted_enum = true;
                     result.server_state = RESULT_SERVER_STATE_UNSENT;
-                    retval = db_result_enum_server_state(result, RESULTS_PER_ENUM);
+                    retval = boinc_db_result_enum_server_state(result, RESULTS_PER_ENUM);
                     write_log("restarting enumeration\n");
                     if (retval) {
                         write_log("enumeration restart returned nothing\n");
@@ -159,7 +159,7 @@ try_again:
                 if (!collision) {
                     sprintf(buf, "adding result %d in slot %d\n", result.id, i);
                     write_log(buf);
-                    retval = db_workunit(result.workunitid, wu);
+                    retval = boinc_db_workunit(result.workunitid, wu);
                     if (retval) {
                         sprintf(buf, "can't read workunit %d: %d\n", result.workunitid, retval);
                         write_log(buf);

@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "create_work: error opening database.\n" );
         exit(0);
     }
-    retval = db_app_lookup_name(app);
+    retval = boinc_db_app_lookup_name(app);
     if (retval) {
         fprintf(stderr, "create_work: app not found\n");
         exit(1);

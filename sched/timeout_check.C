@@ -159,7 +159,7 @@ void handle_wu(WORKUNIT& wu) {
     // scan the results for the WU
     //
     result.workunitid = wu.id;
-    while (!db_result_enum_wuid(result)) {
+    while (!boinc_db_result_enum_wuid(result)) {
         results.push_back(result);
     }
 
@@ -175,7 +175,7 @@ void handle_wu(WORKUNIT& wu) {
                 result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
-                db_result_update(result);
+                boinc_db_result_update(result);
             }
             break;
         case RESULT_SERVER_STATE_OVER:
@@ -220,7 +220,7 @@ void handle_wu(WORKUNIT& wu) {
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                db_result_update(result);
+                boinc_db_result_update(result);
             }
         }
         if (wu.assimilate_state == ASSIMILATE_INIT) {
@@ -241,7 +241,7 @@ void handle_wu(WORKUNIT& wu) {
                 remove_signatures(result.xml_doc_in);
                 assign_new_names(result.xml_doc_in);
                 add_signatures(result.xml_doc_in, key);
-                retval = db_result_new(result);
+                retval = boinc_db_result_new(result);
                 if (retval) {
                     sprintf(buf, "db_result_new %d\n", retval);
                     write_log(buf);
@@ -270,7 +270,7 @@ void handle_wu(WORKUNIT& wu) {
         wu.timeout_check_time = now + wu.delay_bound;
     }
 
-    retval = db_workunit_update(wu);
+    retval = boinc_db_workunit_update(wu);
     if (retval) {
         sprintf(buf, "db_workunit_update %d\n", retval);
         write_log(buf);
@@ -285,7 +285,7 @@ bool do_pass(APP& app) {
     //
     wu.timeout_check_time = time(0);
     wu.appid = app.id;
-    while (!db_workunit_enum_timeout_check_time(wu)) {
+    while (!boinc_db_workunit_enum_timeout_check_time(wu)) {
         did_something = true;
         handle_wu(wu);
     }
@@ -306,7 +306,7 @@ void main_loop(bool one_pass) {
     }
 
     strcpy(app.name, app_name);
-    retval = db_app_lookup_name(app);
+    retval = boinc_db_app_lookup_name(app);
     if (retval) {
         sprintf(buf, "can't find app %s\n", app.name);
         write_log(buf);

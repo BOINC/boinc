@@ -76,7 +76,7 @@ void add_project() {
     memset(&project, 0, sizeof(project));
     strcpy(project.short_name, project_short_name);
     strcpy(project.long_name, project_long_name);
-    retval = db_project_new(project);
+    retval = boinc_db_project_new(project);
     if (retval) {
         boinc_db_print_error("db_project_new");
     }
@@ -93,7 +93,7 @@ void add_app() {
     strcpy(app.name, app_name);
     app.create_time = time(0);
     app.min_version = version;
-    retval = db_app_new(app);
+    retval = boinc_db_app_new(app);
     if (retval) {
         boinc_db_print_error("db_app_new");
     }
@@ -114,7 +114,7 @@ void add_platform() {
     strcpy(platform.name, platform_name);
     strcpy(platform.user_friendly_name, user_friendly_name);
     platform.create_time = time(0);
-    retval = db_platform_new(platform);
+    retval = boinc_db_platform_new(platform);
     if (retval) {
         boinc_db_print_error("db_platform_new");
     }
@@ -147,7 +147,7 @@ void add_app_version() {
         exit(1);
     }
     strcpy(app.name, app_name);
-    retval = db_app_lookup_name(app);
+    retval = boinc_db_app_lookup_name(app);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find app %s\n", app_name);
         boinc_db_print_error("db_app_lookup_name");
@@ -155,7 +155,7 @@ void add_app_version() {
     }
     app_version.appid = app.id;
     strcpy(platform.name, platform_name);
-    retval = db_platform_lookup_name(platform);
+    retval = boinc_db_platform_lookup_name(platform);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find platform %s\n", platform_name);
         boinc_db_print_error("db_platform_lookup_name");
@@ -233,7 +233,7 @@ void add_app_version() {
     strcat(app_version.xml_doc, "</app_version>\n");
 
     app_version.create_time = time(0);
-    retval = db_app_version_new(app_version);
+    retval = boinc_db_app_version_new(app_version);
     if (retval) {
         boinc_db_print_error("db_app_version_new");
         return;
@@ -255,7 +255,7 @@ void add_user() {
             return;
         }
     }
-    retval = db_user_new(user);
+    retval = boinc_db_user_new(user);
     if (retval) {
         boinc_db_print_error("db_user_new");
         return;

@@ -194,9 +194,9 @@ int create_result(
     strcpy(r.xml_doc_in, result_template_copy);
     r.random = lrand48();
 
-    retval = db_result_new(r);
+    retval = boinc_db_result_new(r);
     if (retval) {
-        fprintf(stderr, "db_result_new: %d\n", retval);
+        fprintf(stderr, "boinc_db_result_new: %d\n", retval);
     }
     return retval;
 }
@@ -228,9 +228,9 @@ int create_work(
         fprintf(stderr, "process_wu_template: %d\n", retval);
         return retval;
     }
-    retval = db_workunit_new(wu);
+    retval = boinc_db_workunit_new(wu);
     if (retval) {
-        fprintf(stderr, "create_work: db_workunit_new %d\n", retval);
+        fprintf(stderr, "create_work: boinc_db_workunit_new %d\n", retval);
         return retval;
     }
     wu.id = boinc_db_insert_id();
@@ -269,7 +269,7 @@ int create_sequence(
     int i, retval;
     WORKSEQ ws;
 
-    retval = db_workseq_new(ws);
+    retval = boinc_db_workseq_new(ws);
     if (retval) return retval;
     for (i=0; i<nsteps; i++) {
         // to be completed

@@ -38,9 +38,9 @@ int update_users() {
     USER user;
     int retval;
 
-    while (!db_user_enum_id(user)) {
+    while (!boinc_db_user_enum_id(user)) {
         update_average(0, 0, user.expavg_credit, user.expavg_time);
-        retval = db_user_update(user);
+        retval = boinc_db_user_update(user);
         if (retval) return retval;
     }
 
@@ -51,9 +51,9 @@ int update_hosts() {
     HOST host;
     int retval;
 
-    while (!db_host_enum_id(host)) {
+    while (!boinc_db_host_enum_id(host)) {
         update_average(0, 0, host.expavg_credit, host.expavg_time);
-        retval = db_host_update(host);
+        retval = boinc_db_host_update(host);
         if (retval) return retval;
     }
 
@@ -66,13 +66,13 @@ int get_team_credit(TEAM &t) {
     int retval;
 
     // count the number of users on a team
-    retval = db_user_count_team(t, nusers);
+    retval = boinc_db_user_count_team(t, nusers);
     if (retval) return retval;
 
     // get the summed credit values for a team
-    retval = db_user_sum_team_expavg_credit(t, expavg_credit);
+    retval = boinc_db_user_sum_team_expavg_credit(t, expavg_credit);
     if (retval) return retval;
-    retval = db_user_sum_team_total_credit(t, total_credit);
+    retval = boinc_db_user_sum_team_total_credit(t, total_credit);
     if (retval) return retval;
 
     t.nusers = nusers;
@@ -90,12 +90,12 @@ int update_teams() {
     TEAM team;
     int retval;
 
-    while (!db_team_enum(team)) {
+    while (!boinc_db_team_enum(team)) {
         retval = get_team_credit(team);
         if (retval) return retval;
 
         // update the team record
-        retval = db_team_update(team);
+        retval = boinc_db_team_update(team);
         if (retval) return retval;
     }
     return 0;

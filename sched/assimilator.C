@@ -49,7 +49,7 @@ bool do_pass(APP& app) {
 
     wu.appid = app.id;
     wu.assimilate_state = ASSIMILATE_READY;
-    while (!db_workunit_enum_app_assimilate_state(wu)) {
+    while (!boinc_db_workunit_enum_app_assimilate_state(wu)) {
         did_something = true;
 
         sprintf(buf,
@@ -59,7 +59,7 @@ bool do_pass(APP& app) {
         write_log(buf);
 
         result.workunitid = wu.id;
-        while (!db_result_enum_wuid(result)) {
+        while (!boinc_db_result_enum_wuid(result)) {
             results.push_back(result);
             if (result.id == wu.canonical_resultid) {
                 canonical_result = result;
@@ -86,7 +86,7 @@ bool do_pass(APP& app) {
             for (i=0; i<results.size(); i++) {
                 result = results[i];
                 result.file_delete_state = FILE_DELETE_READY;
-                db_result_update(result);
+                boinc_db_result_update(result);
             }
         } else {
             for (i=0; i<results.size(); i++) {
@@ -96,7 +96,7 @@ bool do_pass(APP& app) {
                     && (result.outcome == RESULT_OUTCOME_SUCCESS || result.outcome == RESULT_OUTCOME_CLIENT_ERROR)
                 ) {
                     result.file_delete_state = FILE_DELETE_READY;
-                    db_result_update(result);
+                    boinc_db_result_update(result);
                 }
             }
         }
@@ -105,7 +105,7 @@ bool do_pass(APP& app) {
         if (delete_inputs) {
             wu.file_delete_state = FILE_DELETE_READY;
         }
-        db_workunit_update(wu);
+        boinc_db_workunit_update(wu);
 
         // Clear out result vector so we don't reuse them in the next WU
         results.erase(results.begin(),results.end());
@@ -157,7 +157,7 @@ int main(int argc, char** argv) {
         write_log("Can't open DB\n");
         exit(1);
     }
-    retval = db_app_lookup_name(app);
+    retval = boinc_db_app_lookup_name(app);
     if (retval) {
         write_log("Can't find app\n");
         exit(1);

@@ -4035,3 +4035,15 @@ David  Apr 3 2003
         file_upload_handler.C
         handle_request.C
         server_types.C,h
+
+David  Apr 7 2003
+    - changed names of DB interface routines to get rid of conflict
+        with SETI@home DB interface
+
+    db/
+        db.h
+        db_mysql.C
+    sched/
+        *.C
+    tools/
+        *.C

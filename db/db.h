@@ -325,76 +325,76 @@ extern void boinc_db_print_error(char*);
 extern const char* boinc_db_error_string();
 extern int boinc_db_insert_id();
 
-extern int db_project_new(PROJECT& p);
-extern int db_project_enum(PROJECT& p);
+extern int boinc_db_project_new(PROJECT& p);
+extern int boinc_db_project_enum(PROJECT& p);
 
-extern int db_platform_new(PLATFORM& p);
-extern int db_platform_enum(PLATFORM& p);
-extern int db_platform_lookup_name(PLATFORM&);
+extern int boinc_db_platform_new(PLATFORM& p);
+extern int boinc_db_platform_enum(PLATFORM& p);
+extern int boinc_db_platform_lookup_name(PLATFORM&);
 
-extern int db_app_new(APP&);
-extern int db_app(int, APP&);
-extern int db_app_enum(APP&);
-extern int db_app_update(APP&);
-extern int db_app_lookup_name(APP&);
+extern int boinc_db_app_new(APP&);
+extern int boinc_db_app(int, APP&);
+extern int boinc_db_app_enum(APP&);
+extern int boinc_db_app_update(APP&);
+extern int boinc_db_app_lookup_name(APP&);
 
-extern int db_app_version_new(APP_VERSION&);
-extern int db_app_version_lookup(
+extern int boinc_db_app_version_new(APP_VERSION&);
+extern int boinc_db_app_version_lookup(
     int appid, int platformid, int version, APP_VERSION&
 );
-extern int db_app_version_enum(APP_VERSION&);
+extern int boinc_db_app_version_enum(APP_VERSION&);
 
-extern int db_user_new(USER&);
-extern int db_user(int, USER&);
-extern int db_user_update(USER&);
-extern int db_user_count(int&);
-extern int db_user_count_team(TEAM&, int&);
-extern int db_user_lookup_auth(USER&);
-extern int db_user_lookup_email_addr(USER&);
-extern int db_user_enum_id(USER&);
-extern int db_user_enum_total_credit(USER&);
-extern int db_user_enum_expavg_credit(USER&);
-extern int db_user_enum_teamid(USER&);
-extern int db_user_sum_team_expavg_credit(TEAM&,double&);
-extern int db_user_sum_team_total_credit(TEAM&,double&);
+extern int boinc_db_user_new(USER&);
+extern int boinc_db_user(int, USER&);
+extern int boinc_db_user_update(USER&);
+extern int boinc_db_user_count(int&);
+extern int boinc_db_user_count_team(TEAM&, int&);
+extern int boinc_db_user_lookup_auth(USER&);
+extern int boinc_db_user_lookup_email_addr(USER&);
+extern int boinc_db_user_enum_id(USER&);
+extern int boinc_db_user_enum_total_credit(USER&);
+extern int boinc_db_user_enum_expavg_credit(USER&);
+extern int boinc_db_user_enum_teamid(USER&);
+extern int boinc_db_user_sum_team_expavg_credit(TEAM&,double&);
+extern int boinc_db_user_sum_team_total_credit(TEAM&,double&);
 
-extern int db_team(int, TEAM&);
-extern int db_team_new(TEAM&);
-extern int db_team_update(TEAM&);
-extern int db_team_count(int&);
-extern int db_team_lookup_name(TEAM&);
-extern int db_team_lookup_name_lc(TEAM&);
-extern int db_team_enum(TEAM&);
-extern int db_team_enum_id(TEAM&);
-extern int db_team_enum_total_credit(TEAM&);
-extern int db_team_enum_expavg_credit(TEAM&);
+extern int boinc_db_team(int, TEAM&);
+extern int boinc_db_team_new(TEAM&);
+extern int boinc_db_team_update(TEAM&);
+extern int boinc_db_team_count(int&);
+extern int boinc_db_team_lookup_name(TEAM&);
+extern int boinc_db_team_lookup_name_lc(TEAM&);
+extern int boinc_db_team_enum(TEAM&);
+extern int boinc_db_team_enum_id(TEAM&);
+extern int boinc_db_team_enum_total_credit(TEAM&);
+extern int boinc_db_team_enum_expavg_credit(TEAM&);
 
-extern int db_host_new(HOST& p);
-extern int db_host(int, HOST&);
-extern int db_host_update(HOST&);
-extern int db_host_count(int&);
-extern int db_host_enum_id(HOST&);
-extern int db_host_enum_userid(HOST&);
-extern int db_host_enum_total_credit(HOST&);
-extern int db_host_enum_expavg_credit(HOST&);
+extern int boinc_db_host_new(HOST& p);
+extern int boinc_db_host(int, HOST&);
+extern int boinc_db_host_update(HOST&);
+extern int boinc_db_host_count(int&);
+extern int boinc_db_host_enum_id(HOST&);
+extern int boinc_db_host_enum_userid(HOST&);
+extern int boinc_db_host_enum_total_credit(HOST&);
+extern int boinc_db_host_enum_expavg_credit(HOST&);
 
-extern int db_workunit_new(WORKUNIT& p);
-extern int db_workunit(int id, WORKUNIT&);
-extern int db_workunit_update(WORKUNIT& p);
-extern int db_workunit_lookup_name(WORKUNIT&);
-extern int db_workunit_enum_app_need_validate(WORKUNIT&);
-extern int db_workunit_enum_timeout_check_time(WORKUNIT&);
-extern int db_workunit_enum_file_delete_state(WORKUNIT&);
-extern int db_workunit_enum_app_assimilate_state(WORKUNIT&);
+extern int boinc_db_workunit_new(WORKUNIT& p);
+extern int boinc_db_workunit(int id, WORKUNIT&);
+extern int boinc_db_workunit_update(WORKUNIT& p);
+extern int boinc_db_workunit_lookup_name(WORKUNIT&);
+extern int boinc_db_workunit_enum_app_need_validate(WORKUNIT&);
+extern int boinc_db_workunit_enum_timeout_check_time(WORKUNIT&);
+extern int boinc_db_workunit_enum_file_delete_state(WORKUNIT&);
+extern int boinc_db_workunit_enum_app_assimilate_state(WORKUNIT&);
 
-extern int db_result_new(RESULT& p);
-extern int db_result(int id, RESULT&);
-extern int db_result_update(RESULT& p);
-extern int db_result_lookup_name(RESULT& p);
-extern int db_result_enum_server_state(RESULT&, int);
-extern int db_result_enum_file_delete_state(RESULT&);
-extern int db_result_enum_wuid(RESULT&);
-extern int db_result_count_server_state(int state, int&);
+extern int boinc_db_result_new(RESULT& p);
+extern int boinc_db_result(int id, RESULT&);
+extern int boinc_db_result_update(RESULT& p);
+extern int boinc_db_result_lookup_name(RESULT& p);
+extern int boinc_db_result_enum_server_state(RESULT&, int);
+extern int boinc_db_result_enum_file_delete_state(RESULT&);
+extern int boinc_db_result_enum_wuid(RESULT&);
+extern int boinc_db_result_count_server_state(int state, int&);
 
-extern int db_workseq_new(WORKSEQ& p);
+extern int boinc_db_workseq_new(WORKSEQ& p);
 #endif

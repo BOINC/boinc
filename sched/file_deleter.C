@@ -101,19 +101,19 @@ bool do_pass() {
     check_stop_trigger();
 
     wu.file_delete_state = FILE_DELETE_READY;
-    while (!db_workunit_enum_file_delete_state(wu)) {
+    while (!boinc_db_workunit_enum_file_delete_state(wu)) {
         did_something = true;
         wu_delete_files(wu);
         wu.file_delete_state = FILE_DELETE_DONE;
-        db_workunit_update(wu);
+        boinc_db_workunit_update(wu);
     }
 
     result.file_delete_state = FILE_DELETE_READY;
-    while (!db_result_enum_file_delete_state(result)) {
+    while (!boinc_db_result_enum_file_delete_state(result)) {
         did_something = true;
         result_delete_files(result);
         result.file_delete_state = FILE_DELETE_DONE;
-        db_result_update(result);
+        boinc_db_result_update(result);
     }
     return did_something;
 }

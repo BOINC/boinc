@@ -523,27 +523,27 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 
 ////////// PROJECT /////////
 
-int db_project_new(PROJECT& p) {
+int boinc_db_project_new(PROJECT& p) {
     return boinc_db.db_new(&p, TYPE_PROJECT);
 }
 
-int db_project_enum(PROJECT& p) {
+int boinc_db_project_enum(PROJECT& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_PROJECT);
 }
 
 ////////// PLATFORM /////////
 
-int db_platform_new(PLATFORM& p) {
+int boinc_db_platform_new(PLATFORM& p) {
     return boinc_db.db_new(&p, TYPE_PLATFORM);
 }
 
-int db_platform_enum(PLATFORM& p) {
+int boinc_db_platform_enum(PLATFORM& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_PLATFORM);
 }
 
-int db_platform_lookup_name(PLATFORM& p) {
+int boinc_db_platform_lookup_name(PLATFORM& p) {
     char buf[256];
 
     sprintf(buf, "name='%s'", p.name);
@@ -552,24 +552,24 @@ int db_platform_lookup_name(PLATFORM& p) {
 
 ////////// APP /////////
 
-int db_app_new(APP& p) {
+int boinc_db_app_new(APP& p) {
     return boinc_db.db_new(&p, TYPE_APP);
 }
 
-int db_app(int id, APP& p) {
+int boinc_db_app(int id, APP& p) {
     return boinc_db.db_lookup_id(id, &p, TYPE_APP);
 }
 
-int db_app_enum(APP& p) {
+int boinc_db_app_enum(APP& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_APP);
 }
 
-int db_app_update(APP& p) {
+int boinc_db_app_update(APP& p) {
     return boinc_db.db_update(&p, TYPE_APP);
 }
 
-int db_app_lookup_name(APP& p) {
+int boinc_db_app_lookup_name(APP& p) {
     char buf[256];
 
     sprintf(buf, "name='%s'", p.name);
@@ -578,11 +578,11 @@ int db_app_lookup_name(APP& p) {
 
 ////////// APP_VERSION /////////
 
-int db_app_version_new(APP_VERSION& p) {
+int boinc_db_app_version_new(APP_VERSION& p) {
     return boinc_db.db_new(&p, TYPE_APP_VERSION);
 }
 
-int db_app_version_lookup(
+int boinc_db_app_version_lookup(
     int appid, int platformid, int version_num, APP_VERSION& p
 ) {
     char buf[256];
@@ -594,65 +594,65 @@ int db_app_version_lookup(
     return boinc_db.db_lookup(&p, TYPE_APP_VERSION, buf);
 }
 
-int db_app_version_enum(APP_VERSION& p) {
+int boinc_db_app_version_enum(APP_VERSION& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_APP_VERSION);
 }
 
 ////////// USER /////////
 
-int db_user(int i, USER& p) {
+int boinc_db_user(int i, USER& p) {
     return boinc_db.db_lookup_id(i, &p, TYPE_USER);
 }
 
-int db_user_new(USER& p) {
+int boinc_db_user_new(USER& p) {
     return boinc_db.db_new(&p, TYPE_USER);
 }
 
-int db_user_update(USER& p) {
+int boinc_db_user_update(USER& p) {
     return boinc_db.db_update(&p, TYPE_USER);
 }
 
-int db_user_lookup_auth(USER& p) {
+int boinc_db_user_lookup_auth(USER& p) {
     char buf[256];
 
     sprintf(buf, "authenticator='%s'", p.authenticator);
     return boinc_db.db_lookup(&p, TYPE_USER, buf);
 }
 
-int db_user_count(int& n) {
+int boinc_db_user_count(int& n) {
     return boinc_db.db_count(&n, "*", TYPE_USER);
 }
 
-int db_user_count_team(TEAM& p, int& n) {
+int boinc_db_user_count_team(TEAM& p, int& n) {
     char buf[256];
 
     sprintf(buf, "where teamid=%d", p.id);
     return boinc_db.db_count(&n, "*", TYPE_USER, buf);
 }
 
-int db_user_lookup_email_addr(USER& p) {
+int boinc_db_user_lookup_email_addr(USER& p) {
     char buf[256];
 
     sprintf(buf, "email_addr='%s'", p.email_addr);
     return boinc_db.db_lookup(&p, TYPE_USER, buf);
 }
 
-int db_user_enum_id(USER& p) {
+int boinc_db_user_enum_id(USER& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_USER, "order by id");
 }
-int db_user_enum_total_credit(USER& p) {
+int boinc_db_user_enum_total_credit(USER& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_USER, "order by total_credit desc");
 }
 
-int db_user_enum_expavg_credit(USER& p) {
+int boinc_db_user_enum_expavg_credit(USER& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_USER, "order by expavg_credit desc");
 }
 
-int db_user_enum_teamid(USER& p) {
+int boinc_db_user_enum_teamid(USER& p) {
     static ENUM e;
     char buf[256];
 
@@ -662,14 +662,14 @@ int db_user_enum_teamid(USER& p) {
     return boinc_db.db_enum(e, &p, TYPE_USER, buf);
 }
 
-int db_user_sum_team_expavg_credit(TEAM& p, double& n) {
+int boinc_db_user_sum_team_expavg_credit(TEAM& p, double& n) {
     char buf[256];
 
     sprintf(buf, "where teamid=%d", p.id);
     return boinc_db.db_sum(&n, "expavg_credit", TYPE_USER, buf);
 }
 
-int db_user_sum_team_total_credit(TEAM& p, double& n) {
+int boinc_db_user_sum_team_total_credit(TEAM& p, double& n) {
     char buf[256];
 
     sprintf(buf, "where teamid=%d", p.id);
@@ -678,80 +678,80 @@ int db_user_sum_team_total_credit(TEAM& p, double& n) {
 
 ////////// TEAM /////////
 
-int db_team(int i, TEAM& p) {
+int boinc_db_team(int i, TEAM& p) {
     return boinc_db.db_lookup_id(i, &p, TYPE_TEAM);
 }
 
-int db_team_new(TEAM& p) {
+int boinc_db_team_new(TEAM& p) {
     return boinc_db.db_new(&p, TYPE_TEAM);
 }
 
-int db_team_update(TEAM& p) {
+int boinc_db_team_update(TEAM& p) {
     return boinc_db.db_update(&p, TYPE_TEAM);
 }
 
-int db_team_count(int& n) {
+int boinc_db_team_count(int& n) {
     return boinc_db.db_count(&n, "*", TYPE_TEAM);
 }
 
-int db_team_lookup_name(TEAM& p) {
+int boinc_db_team_lookup_name(TEAM& p) {
     char buf[256];
 
     sprintf(buf, "name='%s'", p.name);
     return boinc_db.db_lookup(&p, TYPE_TEAM, buf);
 }
 
-int db_team_lookup_name_lc(TEAM& p) {
+int boinc_db_team_lookup_name_lc(TEAM& p) {
     char buf[256];
 
     sprintf(buf, "name_lc='%s'", p.name_lc);
     return boinc_db.db_lookup(&p, TYPE_TEAM, buf);
 }
 
-int db_team_enum(TEAM& p) {
+int boinc_db_team_enum(TEAM& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_TEAM);
 }
 
-int db_team_enum_id(TEAM& p) {
+int boinc_db_team_enum_id(TEAM& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by id");
 }
 
-int db_team_enum_total_credit(TEAM& p) {
+int boinc_db_team_enum_total_credit(TEAM& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by total_credit desc");
 }
 
-int db_team_enum_expavg_credit(TEAM& p) {
+int boinc_db_team_enum_expavg_credit(TEAM& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by expavg_credit desc");
 }
 
 ////////// HOST /////////
 
-int db_host_new(HOST& p) {
+int boinc_db_host_new(HOST& p) {
     return boinc_db.db_new(&p, TYPE_HOST);
 }
 
-int db_host(int i, HOST& p) {
+int boinc_db_host(int i, HOST& p) {
     return boinc_db.db_lookup_id(i, &p, TYPE_HOST);
 }
 
-int db_host_count(int& n) {
+int boinc_db_host_count(int& n) {
     return boinc_db.db_count(&n, "*", TYPE_HOST);
 }
 
-int db_host_update(HOST& p) {
+int boinc_db_host_update(HOST& p) {
     return boinc_db.db_update(&p, TYPE_HOST);
 }
 
-int db_host_enum_id(HOST& p) {
+int boinc_db_host_enum_id(HOST& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_HOST, "order by id");
 }
 
-int db_host_enum_userid(HOST& p) {
+int boinc_db_host_enum_userid(HOST& p) {
     static ENUM e;
     char buf[256];
 
@@ -761,38 +761,38 @@ int db_host_enum_userid(HOST& p) {
     return boinc_db.db_enum(e, &p, TYPE_HOST, buf);
 }
 
-int db_host_enum_total_credit(HOST& p) {
+int boinc_db_host_enum_total_credit(HOST& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_HOST, "order by total_credit desc");
 }
 
-int db_host_enum_expavg_credit(HOST& p) {
+int boinc_db_host_enum_expavg_credit(HOST& p) {
     static ENUM e;
     return boinc_db.db_enum(e, &p, TYPE_HOST, "order by expavg_credit desc");
 }
 
 ////////// WORKUNIT /////////
 
-int db_workunit_new(WORKUNIT& p) {
+int boinc_db_workunit_new(WORKUNIT& p) {
     return boinc_db.db_new(&p, TYPE_WORKUNIT);
 }
 
-int db_workunit(int id, WORKUNIT& p) {
+int boinc_db_workunit(int id, WORKUNIT& p) {
     return boinc_db.db_lookup_id(id, &p, TYPE_WORKUNIT);
 }
 
-int db_workunit_update(WORKUNIT& p) {
+int boinc_db_workunit_update(WORKUNIT& p) {
     return boinc_db.db_update(&p, TYPE_WORKUNIT);
 }
 
-int db_workunit_lookup_name(WORKUNIT& p) {
+int boinc_db_workunit_lookup_name(WORKUNIT& p) {
     char buf[256];
 
     sprintf(buf, "name='%s'", p.name);
     return boinc_db.db_lookup(&p, TYPE_WORKUNIT, buf);
 }
 
-int db_workunit_enum_app_need_validate(WORKUNIT& p) {
+int boinc_db_workunit_enum_app_need_validate(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
 
@@ -802,7 +802,7 @@ int db_workunit_enum_app_need_validate(WORKUNIT& p) {
     return boinc_db.db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
 
-int db_workunit_enum_file_delete_state(WORKUNIT& p) {
+int boinc_db_workunit_enum_file_delete_state(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
 
@@ -812,7 +812,7 @@ int db_workunit_enum_file_delete_state(WORKUNIT& p) {
     return boinc_db.db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
 
-int db_workunit_enum_app_assimilate_state(WORKUNIT& p) {
+int boinc_db_workunit_enum_app_assimilate_state(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
 
@@ -822,7 +822,7 @@ int db_workunit_enum_app_assimilate_state(WORKUNIT& p) {
     return boinc_db.db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
 
-int db_workunit_enum_timeout_check_time(WORKUNIT& p) {
+int boinc_db_workunit_enum_timeout_check_time(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
 
@@ -838,26 +838,26 @@ int db_workunit_enum_timeout_check_time(WORKUNIT& p) {
 
 ////////// RESULT /////////
 
-int db_result_new(RESULT& p) {
+int boinc_db_result_new(RESULT& p) {
     return boinc_db.db_new(&p, TYPE_RESULT);
 }
 
-int db_result(int i, RESULT& p) {
+int boinc_db_result(int i, RESULT& p) {
     return boinc_db.db_lookup_id(i, &p, TYPE_RESULT);
 }
 
-int db_result_update(RESULT& p) {
+int boinc_db_result_update(RESULT& p) {
     return boinc_db.db_update(&p, TYPE_RESULT);
 }
 
-int db_result_lookup_name(RESULT& p) {
+int boinc_db_result_lookup_name(RESULT& p) {
     char buf[256];
 
     sprintf(buf, "name='%s'", p.name);
     return boinc_db.db_lookup(&p, TYPE_RESULT, buf);
 }
 
-int db_result_enum_server_state(RESULT& p, int limit) {
+int boinc_db_result_enum_server_state(RESULT& p, int limit) {
     static ENUM e;
     char buf[256];
 
@@ -865,7 +865,7 @@ int db_result_enum_server_state(RESULT& p, int limit) {
     return boinc_db.db_enum(e, &p, TYPE_RESULT, buf, limit);
 }
 
-int db_result_enum_file_delete_state(RESULT& p) {
+int boinc_db_result_enum_file_delete_state(RESULT& p) {
     static ENUM e;
     char buf[256];
 
@@ -873,7 +873,7 @@ int db_result_enum_file_delete_state(RESULT& p) {
     return boinc_db.db_enum(e, &p, TYPE_RESULT, buf);
 }
 
-int db_result_enum_wuid(RESULT& p) {
+int boinc_db_result_enum_wuid(RESULT& p) {
     static ENUM e;
     char buf[256];
 
@@ -881,7 +881,7 @@ int db_result_enum_wuid(RESULT& p) {
     return boinc_db.db_enum(e, &p, TYPE_RESULT, buf);
 }
 
-int db_result_count_server_state(int state, int& n) {
+int boinc_db_result_count_server_state(int state, int& n) {
     char buf[256];
 
     sprintf(buf, " where server_state=%d", state);
@@ -890,6 +890,6 @@ int db_result_count_server_state(int state, int& n) {
 
 /////////// WORKSEQ ///////////////
 
-int db_workseq_new(WORKSEQ& p) {
+int boinc_db_workseq_new(WORKSEQ& p) {
     return boinc_db.db_new(&p, TYPE_WORKSEQ);
 }

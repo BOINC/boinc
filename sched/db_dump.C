@@ -82,7 +82,7 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     );
     if (show_user) {
         USER user;
-        db_user(host.userid, user);
+        boinc_db_user(host.userid, user);
         if (user.show_hosts) {
             fprintf(f,
                 "    <userid>%d</userid>\n",
@@ -162,7 +162,7 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
     }
     if (detail && user.show_hosts) {
         host.userid = user.id;
-        while (!db_host_enum_userid(host)) {
+        while (!boinc_db_host_enum_userid(host)) {
             write_host(host, f, false, false);
         }
     }
@@ -218,7 +218,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
             team.country
         );
         user.teamid = team.id;
-        while (!db_user_enum_teamid(user)) {
+        while (!boinc_db_user_enum_teamid(user)) {
             write_user(user, f, false, false);
         }
     }
@@ -233,7 +233,7 @@ void team_total_credit() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_team_enum_total_credit(team)) {
+    while (!boinc_db_team_enum_total_credit(team)) {
         if (!f) {
             sprintf(buf, "team_total_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -262,7 +262,7 @@ void team_expavg_credit() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_team_enum_expavg_credit(team)) {
+    while (!boinc_db_team_enum_expavg_credit(team)) {
         if (!f) {
             sprintf(buf, "team_expavg_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -291,7 +291,7 @@ void team_id() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_team_enum_id(team)) {
+    while (!boinc_db_team_enum_id(team)) {
         if (!f) {
             sprintf(buf, "team_id_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -320,7 +320,7 @@ void user_total_credit() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_user_enum_total_credit(user)) {
+    while (!boinc_db_user_enum_total_credit(user)) {
         if (!f) {
             sprintf(buf, "user_total_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -349,7 +349,7 @@ void user_expavg_credit() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_user_enum_expavg_credit(user)) {
+    while (!boinc_db_user_enum_expavg_credit(user)) {
         if (!f) {
             sprintf(buf, "user_expavg_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -378,7 +378,7 @@ void user_id() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_user_enum_id(user)) {
+    while (!boinc_db_user_enum_id(user)) {
         if (!f) {
             sprintf(buf, "user_id_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -407,7 +407,7 @@ void host_total_credit() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_host_enum_total_credit(host)) {
+    while (!boinc_db_host_enum_total_credit(host)) {
         if (!f) {
             sprintf(buf, "host_total_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -436,7 +436,7 @@ void host_expavg_credit() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_host_enum_expavg_credit(host)) {
+    while (!boinc_db_host_enum_expavg_credit(host)) {
         if (!f) {
             sprintf(buf, "host_expavg_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -465,7 +465,7 @@ void host_id() {
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!db_host_enum_id(host)) {
+    while (!boinc_db_host_enum_id(host)) {
         if (!f) {
             sprintf(buf, "host_id_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -495,11 +495,11 @@ int tables_file() {
 
     f = fopen("tables.xml", "w");
     if (!f) return -1;
-    retval = db_user_count(nusers);
+    retval = boinc_db_user_count(nusers);
     if (retval) return retval;
-    retval = db_team_count(nteams);
+    retval = boinc_db_team_count(nteams);
     if (retval) return retval;
-    retval = db_host_count(nhosts);
+    retval = boinc_db_host_count(nhosts);
     if (retval) return retval;
     fprintf(f,
         "<tables>\n"

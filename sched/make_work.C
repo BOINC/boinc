@@ -106,7 +106,7 @@ void make_work() {
     }
 
     strcpy(wu.name, wu_name);
-    retval = db_workunit_lookup_name(wu);
+    retval = boinc_db_workunit_lookup_name(wu);
     if (retval) {
         sprintf(buf, "can't find wu %s\n", wu_name);
         write_log(buf);
@@ -129,7 +129,7 @@ void make_work() {
     }
     nresults_left = 0;
     while (1) {
-        retval = db_result_count_server_state(RESULT_SERVER_STATE_UNSENT, n);
+        retval = boinc_db_result_count_server_state(RESULT_SERVER_STATE_UNSENT, n);
         if (retval) {
             write_log("can't count results\n");
             exit(1);
@@ -178,7 +178,7 @@ void make_work() {
             sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
             wu.id = 0;
             wu.create_time = time(0);
-            retval = db_workunit_new(wu);
+            retval = boinc_db_workunit_new(wu);
             wu.id = boinc_db_insert_id();
             sprintf(buf, "Created new WU: %s\n", wu.name);
             write_log(buf);
