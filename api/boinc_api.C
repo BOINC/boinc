@@ -289,7 +289,7 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
 
 bool boinc_time_to_checkpoint() {
 #ifdef __APPLE_CC__
-    YieldToAnyThread();
+    //YieldToAnyThread();
 #elif _WIN32
     DWORD eventState;
     // Check if core client has requested us to exit
@@ -552,5 +552,8 @@ int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, int ws_
         frac_done, cpu_t, cp_cpu_t, ws_t
     );
 
-    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+    if (app_client_shm)
+        return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+    else
+        return 0;
 }
