@@ -67,18 +67,18 @@ if ($logged_in_user) {
 show_forum_title($forum, $thread, $category->is_helpdesk);
 
 echo "
-    <form action=forum_thread.php>
-	<input type=hidden name=id value=", $thread->id, ">
-	<table width=100% cellspacing=0 cellpadding=0>
+    <form action=\"forum_thread.php\">
+	<input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
+	<table width=\"100%\" cellspacing=0 cellpadding=0>
     <tr>
-    <td align=left>
+    <td align=\"left\">
 ";
 
-$link = "<a href=forum_reply.php?thread=" . $thread->id;
+$link = "<a href=\"forum_reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
-	$link = $link . "&helpdesk=1#input>Answer this question";
+	$link = $link . "&helpdesk=1#input\">Answer this question";
 } else {
-	$link = $link . "#input>Reply to this thread";
+	$link = $link . "#input\">Reply to this thread";
 }
 
 echo $link, "</a><br>";
@@ -89,12 +89,12 @@ if ($is_subscribed) {
 	} else {
 		echo "You are subscribed to this thread.  ";
 	}
-	echo "<a href=forum_subscribe.php?action=unsubscribe&thread=$thread->id>Click here to unsubscribe</a>.";
+	echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=$thread->id\">Click here to unsubscribe</a>.";
 } else {
 	if ($category->is_helpdesk) {
-    	echo "<a href=forum_subscribe.php?action=subscribe&thread=$thread->id>Subscribe to this question</a>";
+    	echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this question</a>";
 	} else {
-		echo "<a href=forum_subscribe.php?action=subscribe&thread=$thread->id>Subscribe to this thread</a>";
+		echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this thread</a>";
 	}
 }
 
@@ -124,14 +124,15 @@ end_forum_table();
 
 echo "<p>";
 
-$link = "<a href=forum_reply.php?thread=" . $thread->id;
+$link = "<a href=\"forum_reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
-	$link = $link . "&helpdesk=1#input>Answer this question";
+	$link = $link . "&helpdesk=1#input\">Answer this question";
 } else {
-	$link = $link . "#input>Reply to this thread";
+	$link = $link . "#input\">Reply to this thread";
 }
 
 echo $link, "</a><br>\n</p>";
+show_forum_title($forum, $thread, $category->is_helpdesk);
 
 page_tail();
 ?>
