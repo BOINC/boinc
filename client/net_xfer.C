@@ -242,8 +242,8 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
             if (!nxp->is_connected) {
 #ifdef _WIN32
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
-#elseifdef __apple__
-		getsockopt(fd, SQL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+#elif __APPLE__
+		getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
 #else
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (unsigned int *)&intsize);
 #endif

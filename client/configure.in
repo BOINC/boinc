@@ -63,4 +63,4 @@ AC_EGREP_CPP(yes,
 #endif
 ], AC_DEFINE(unix))
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile ../RSAEuro/source/Makefile)
