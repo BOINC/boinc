@@ -206,14 +206,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
     RESULT* rp;
-    if(p==NULL) {
-        fprintf(stderr, "error: CLIENT_STATE.make_scheduler_request: unexpected NULL pointer p\n");
-        return ERR_NULL;
-    }
-    if(work_req<0) {
-        fprintf(stderr, "error: CLIENT_STATE.make_scheduler_request: negative work_req\n");
-        return ERR_NEG;
-    }
+
     if (!f) return ERR_FOPEN;
     fprintf(f,
         "<scheduler_request>\n"

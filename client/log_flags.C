@@ -38,10 +38,7 @@ LOG_FLAGS::LOG_FLAGS() {
 //
 int LOG_FLAGS::parse(FILE* in) {
     char buf[256];
-    if(in==NULL) {
-        fprintf(stderr, "error: LOG_FLAGS.parse: unexpected NULL pointer in\n");
-        return ERR_NULL;
-    }
+
     fgets(buf, 256, in);
     if (!match_tag(buf, "<log_flags>")) return ERR_XML_PARSE;
     while (fgets(buf, 256, in)) {

@@ -71,10 +71,6 @@ void NET_STATS::update(bool is_upload, double nbytes, double nsecs) {
 // Write XML based network statistics
 //
 int NET_STATS::write(FILE* out, bool to_server) {
-    if(out==NULL) {
-        fprintf(stderr, "error: NET_STATS.write: unexpected NULL pointer out\n");
-        return ERR_NULL;
-    }
     fprintf(out,
         "<net_stats>\n"
         "    <bwup>%f</bwup>\n"
@@ -97,10 +93,7 @@ int NET_STATS::write(FILE* out, bool to_server) {
 //
 int NET_STATS::parse(FILE* in) {
     char buf[256];
-    if(in==NULL) {
-        fprintf(stderr, "error: NET_STATS.parse: unexpected NULL pointer in\n");
-        return ERR_NULL;
-    }
+
     memset(this, 0, sizeof(NET_STATS));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</net_stats>")) return 0;

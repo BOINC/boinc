@@ -228,10 +228,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
 //
 int PERS_FILE_XFER::parse(FILE* fin) {
     char buf[256];
-    if(fin==NULL) {
-        fprintf(stderr, "error: PERS_FILE_XFER_SET.parse: unexpected NULL pointer fin\n");
-        return ERR_NULL;
-    }
+
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</persistent_file_xfer>")) return 0;
         else if (parse_int(buf, "<num_retries>", nretry)) continue;
@@ -245,10 +242,6 @@ int PERS_FILE_XFER::parse(FILE* fin) {
 // Write XML information about a particular persistent file transfer
 //
 int PERS_FILE_XFER::write(FILE* fout) {
-    if (fout==NULL) {
-        fprintf(stderr, "error: PERS_FILE_XFER_SET.write: unexpected NULL pointer fout\n");
-        return ERR_NULL;
-    }
     fprintf(fout,
 	"    <persistent_file_xfer>\n"
 	"        <num_retries>%d</num_retries>\n"
@@ -261,9 +254,6 @@ int PERS_FILE_XFER::write(FILE* fout) {
 }
 
 PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
-    if(p==NULL) {
-        fprintf(stderr, "error: PERS_FILE_XFER_SET: unexpected NULL pointer p\n");
-    }
     file_xfers = p;
 }
 

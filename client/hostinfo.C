@@ -28,10 +28,7 @@
 //
 int HOST_INFO::parse(FILE* in) {
     char buf[256];
-    if(in==NULL) {
-	fprintf(stderr, "error: HOST_INFO.parse: unexpected NULL pointer in\n");
-        return ERR_NULL;
-    }
+
     memset(this, 0, sizeof(HOST_INFO));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</host_info>")) return 0;
@@ -60,10 +57,6 @@ int HOST_INFO::parse(FILE* in) {
 // Write the host information, usually to the client state XML file
 //
 int HOST_INFO::write(FILE* out) {
-    if(out==NULL) {
-        fprintf(stderr, "error: HOST_INFO.write: unexpected NULL pointer out\n");
-        return ERR_NULL;
-    }
     fprintf(out,
         "<host_info>\n"
         "    <timezone>%d</timezone>\n"
