@@ -69,6 +69,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A552AF70FD084FE78F2ADA18198A4CDA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AE3740F93D234A7FBE4AD2B8FDBA3E8A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -125,6 +131,20 @@
     {
         "CustomAction"
         {
+            "{0C9D821E-95BB-411F-BE03-2864360EBF94}:_1B0AB3E95E8346018CC303E1A33132A6"
+            {
+            "Name" = "8:Launch Boinc"
+            "Condition" = "8:"
+            "Object" = "8:_A552AF70FD084FE78F2ADA18198A4CDA"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:[ProgramFilesFolder]\\[ProductName]"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_1885BCFE_C5BB_4693_B873_0B66A75267FF"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -372,7 +392,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:BOINC"
         "ProductCode" = "8:{30BA0563-FA85-413A-ABCF-E5F46E9EB78A}"
-        "PackageCode" = "8:{D9CA7AFD-62C9-4652-A83E-86853343227B}"
+        "PackageCode" = "8:{CB79496D-4C81-4746-90DD-61A57CC4F8B9}"
         "UpgradeCode" = "8:{53BBF90F-DA7D-48DA-BF22-619A4BCC28C0}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -732,6 +752,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{EB493826-9025-41CE-8F7B-8D7549FAF79B}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_A552AF70FD084FE78F2ADA18198A4CDA"
+            {
+            "SourcePath" = "8:boinc_setup_commit\\Release\\boinc_setup_commit.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release|Win32"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{F0752A09-9799-4A77-AC26-8B6C239AB1F4}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

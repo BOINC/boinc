@@ -57,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_AF716488830D4B7D9FD0171BF9F9F03E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B8065E246F8C4326947F7E4DEBBB224F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -107,17 +113,17 @@
     {
         "CustomAction"
         {
-            "{0C9D821E-95BB-411F-BE03-2864360EBF94}:_E161925FF0D4440DA8BDEACD25BD8F75"
+            "{0C9D821E-95BB-411F-BE03-2864360EBF94}:_61FEFDB59EF54E89A42DB8055113DCA7"
             {
-            "Name" = "8:Launch Boinc After Installation"
-            "Condition" = "8:bLaunchAfterInstallation"
-            "Object" = "8:_88712CCE679D49F9BE808A32135E52E0"
+            "Name" = "8:Primary Output from boinc_setup_commit (Release Win32)"
+            "Condition" = "8:"
+            "Object" = "8:_AF716488830D4B7D9FD0171BF9F9F03E"
             "FileType" = "3:2"
             "InstallAction" = "3:2"
-            "Arguments" = "8:"
+            "Arguments" = "8:/Commit"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_8974BD26_F67F_4CAA_8675_F325FAAE0411"
+            "Identifier" = "8:_EF402401_7991_4FE4_AB4C_D61D89FBAE17"
             "InstallerClass" = "11:FALSE"
             "CustomActionData" = "8:"
             }
@@ -1276,6 +1282,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{21E7357D-41D8-444C-A120-18064B497174}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_AF716488830D4B7D9FD0171BF9F9F03E"
+            {
+            "SourcePath" = "8:boinc_setup_commit\\Release\\boinc_setup_commit.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release|Win32"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{F0752A09-9799-4A77-AC26-8B6C239AB1F4}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

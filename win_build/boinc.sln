@@ -41,6 +41,10 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "boinc_setup_auto", "boinc_s
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_setup_commit", "boinc_setup_commit\boinc_setup_commit.vcproj", "{F0752A09-9799-4A77-AC26-8B6C239AB1F4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -83,6 +87,10 @@ Global
 		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Debug.Build.0 = Debug
 		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Release.ActiveCfg = Release
 		{EF0D6FA3-4BD4-4D33-AD8F-4B70CB411BD9}.Release.Build.0 = Release
+		{F0752A09-9799-4A77-AC26-8B6C239AB1F4}.Debug.ActiveCfg = Debug|Win32
+		{F0752A09-9799-4A77-AC26-8B6C239AB1F4}.Debug.Build.0 = Debug|Win32
+		{F0752A09-9799-4A77-AC26-8B6C239AB1F4}.Release.ActiveCfg = Release|Win32
+		{F0752A09-9799-4A77-AC26-8B6C239AB1F4}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
