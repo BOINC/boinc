@@ -64,8 +64,13 @@ private:
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
 
+#ifndef NOCLIPBOARD
     bool                    m_bClipboardOpen;
     wxString                m_strClipboardData;
+    bool                    OpenClipboard();
+    wxInt32                 CopyToClipboard( wxInt32 item );
+    bool                    CloseClipboard();
+#endif
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
@@ -73,11 +78,6 @@ private:
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
-
-    bool                    OpenClipboard();
-    wxInt32                 CopyToClipboard( wxInt32 item );
-    bool                    CloseClipboard();
-
 };
 
 

@@ -112,6 +112,7 @@
 
 // C++ headers
 #include <algorithm>
+#include <stdexcept>
 #include <string>
 #include <iostream>
 #include <fstream>

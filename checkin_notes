@@ -19083,3 +19083,18 @@ David  4 Nov 2004
 	configure.ac
 	client
 		Makefile.am
+
+David  5 Nov
+    - get clientgui to compile on Solaris.
+        - include <stdexcept>
+        - add NOCLIPBOARD flag in Makefile,
+            since Solaris WxWidgets doesn't seem to know about clipboard
+        NOTE: it compiles but crashes
+    - don't include boinc_api.h in util.C: ???
+
+    clientgui/
+        Makefile.old
+        ViewMessages.cpp,h
+        stdwx.h
+    lib/
+        util.C

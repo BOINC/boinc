@@ -266,6 +266,8 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
     if      ( link.GetHref() == SECTION_TASK )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+
+#ifndef NOCLIPBOARD
     else if ( link.GetHref() == LINK_TASKCOPYALL )
     {
         wxInt32 iRowCount = 0;
@@ -297,6 +299,8 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
         CloseClipboard();
     }
+#endif
+
     else if ( link.GetHref() == SECTION_TIPS )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
@@ -443,6 +447,7 @@ wxInt32 CViewMessages::FormatMessage( wxInt32 item, wxString& strBuffer ) const
 }
 
 
+#ifndef NOCLIPBOARD
 bool CViewMessages::OpenClipboard()
 {
     bool bRetVal = false;
@@ -505,3 +510,4 @@ bool CViewMessages::CloseClipboard()
     return bRetVal;
 }
 
+#endif
