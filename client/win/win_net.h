@@ -13,11 +13,15 @@
 
 extern int NetOpen( void );
 extern void NetClose( void );
+extern void NetCheck( void );
 
 
 #endif
 /*
  * $Log$
+ * Revision 1.2  2002/12/18 20:20:04  eheien
+ * confirm before connecting
+ *
  * Revision 1.1  2002/08/09 21:43:19  eheien
  * Moved win files, fixed compile bugs, added user requestable quit.
  *
