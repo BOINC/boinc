@@ -97,6 +97,7 @@ int main() {
     unsigned int counter=0;
     char* code_sign_key;
     bool project_stopped = false;
+    char *stderr_buffer;
 
 #ifndef _USING_FCGI_
     get_log_path(path, "cgi.log");
@@ -105,6 +106,16 @@ int main() {
         sprintf(buf, "Server can't open log file (%s)", path);
         send_message(buf, 3600);
         exit(0);
+    }
+    // install a larger buffer for stderr.  This ensures that
+    // log information from different scheduler requests running
+    // in parallel don't collide in the log file and appear
+    // intermingled.
+    //
+    if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "Unable to change stderr buffering preferences\n"
+        );
     }
 #endif
 
