@@ -14098,3 +14098,17 @@ Karl 2004-06-24
 
     tools/
         update_versions
+
+David  24 June 2004
+    - turn off sorting in team member display (slow query)
+    - show only up to 1000 users/teams/hosts
+    - use URL_BASE instead of MASTER_URL in page_tail()
+    - fix php typos
+
+    html/
+        inc/
+            team.inc
+            util.inc
+        user/
+            team_display.php
+            top_*.php

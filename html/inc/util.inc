@@ -116,7 +116,7 @@ function page_head($title) {
 function page_tail($is_main=false) {
     echo "<br><hr noshade size=1><center>";
     if (!$is_main) {
-        echo "<a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n";
+        echo "<a href=".URL_BASE.">Return to ".PROJECT." main page</a><br>\n";
     }
 
     // put your copyright notice etc. here

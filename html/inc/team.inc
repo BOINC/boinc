@@ -12,7 +12,7 @@ function display_team_page($team, $offset, $sort_by) {
 // set the following to turn off sorted output.
 // (or use caching)
 //
-    $nosort = false;
+    $nosort = true;
 
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc";

@@ -7,6 +7,13 @@ $offset = $_GET["offset"];
 if (!$offset) $offset=0;
 $teamid = $_GET["teamid"];
 
+if ($offset > 1000) {
+    page_head("Limit exceeded");
+    echo "Sorry, we're currently showing only the first 1000.";
+    page_tail();
+    exit();
+}
+
 $cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
 start_cache(3600, $cache_args);
 
