@@ -20644,6 +20644,7 @@ Bruce   3 Dec 2004
     -   Enabled automatic emailing of CVS diffs to the boinc_cvs email
         list.  This is done by adding a 'syncmail' script in the CVSROOT/
         directory and adding an extra line at the end of CVSROOT/loginfo.
+        Testing CVS diff mailing...
 
 Rom    3 Dec 2004
     - Add an additional header for the additional logging prototypes under
