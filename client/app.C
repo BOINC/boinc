@@ -845,8 +845,9 @@ bool ACTIVE_TASK::read_stderr_file() {
         stderr_file[n] = '\0';
         result->stderr_out += "<stderr_txt>\n";
         result->stderr_out += stderr_file;
-        result->stderr_out += "\n</stderr_txt>\n";
-        result->stderr_out = result->stderr_out.substr(0,MAX_BLOB_LEN-1);
+        const char* stderr_txt_close = "\n</stderr_txt>\n";
+        result->stderr_out = result->stderr_out.substr(0,MAX_BLOB_LEN-1-strlen(stderr_txt_close));
+        result->stderr_out += stderr_txt_close;
         return true;
     }
     return false;
@@ -957,7 +958,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
         atp = *task_iter;
         if (atp->result->project == project) {
             task_iter = active_tasks.erase(task_iter);
-			delete atp;
+                        delete atp;
         } else {
             task_iter++;
         }
@@ -1122,7 +1123,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
                 "Couldn't restart the app for this result: %d", retval
             );
             active_tasks.erase(iter);
-			delete atp;
+                        delete atp;
         } else {
             iter++;
         }
