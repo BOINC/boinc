@@ -59,6 +59,7 @@
 #endif
 
 #include <wx/debug.h>           // diagnostics support
+#include <wx/log.h>             // logging support
 #include <wx/accel.h>           // accelerator support
 #include <wx/regex.h>           // regular expression support
 #include <wx/cmdline.h>         // command line support
