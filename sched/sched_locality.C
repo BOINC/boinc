@@ -130,7 +130,7 @@ static int send_results_for_file(
         if (!wreq.work_needed(reply)) break;
         boinc_db.start_transaction();
         sprintf(buf,
-            "where name like '%s%%' and server_state=%d and id>%d limit 1",
+            "where name like '%s__%%' and server_state=%d and id>%d limit 1",
             filename, RESULT_SERVER_STATE_UNSENT, lastid
         );
         retval = result.lookup(buf);
