@@ -235,7 +235,7 @@ int CLIENT_STATE::resume_network() {
 // call this only after parsing global prefs
 //
 PROJECT* CLIENT_STATE::global_prefs_source_project() {
-    return lookup_project(global_prefs.source_project.c_str());
+    return lookup_project(global_prefs.source_project);
 }
 
 void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
@@ -248,7 +248,7 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     } else {
         msg_printf(NULL, MSG_INFO,
             "General prefs: from unknown project %s (last modified %s)\n",
-            global_prefs.source_project.c_str(),
+            global_prefs.source_project,
             time_to_string(global_prefs.mod_time)
         );
     }

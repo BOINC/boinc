@@ -18053,3 +18053,35 @@ Lana    4 Oct 2004
         validator.C
         wu_check.C
 
+David  6 Oct 2004
+	- Added some new items to the APP_INIT_DATA struct
+		(and to the init_data.xml file):
+		- global preferences
+		- user/team/host IDs
+		- proxy info
+
+	This is for the benefit of Folding@home,
+	whose application does some core-client-type stuff
+	(e.g. network communication) and therefore needs this info
+
+	- changed GLOBAL_PREFS::source_project and source_scheduler
+		from std::string to char[256]
+
+	- factored out PROXY_INFO code into lib/proxy_info.C,h
+	- moved GLOBAL_PREFS code from client/ to lib/
+
+	client/
+		app_start.C
+		client_state.C
+		cs_prefs.C
+		cs_scheduler.C
+		prefs.C,h (moved to lib)
+		proxy.C,h
+	lib/
+		app_ipc.C,h
+		prefs.C,h (moved from client)
+		proxy_info.C,h (new)
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
+		upper_case.vcproj

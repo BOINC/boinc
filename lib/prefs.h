@@ -43,7 +43,6 @@ struct GLOBAL_PREFS {
     bool run_minimized;
     bool run_on_startup;
     bool hangup_if_dialed;
-    //double work_buf_max_days;
     double work_buf_min_days;
     int max_cpus;
     int cpu_sched_period;
@@ -55,16 +54,17 @@ struct GLOBAL_PREFS {
     double idle_time_to_run;
     double max_bytes_sec_up;
     double max_bytes_sec_down;
-    int max_memory_mbytes;
+    //int max_memory_mbytes;
     int proc_priority;
     int cpu_affinity;
-    std::string source_project;
-    std::string source_scheduler;
+    char source_project[256];
+    char source_scheduler[256];
 
     GLOBAL_PREFS();
     void init();
     int parse(FILE*, char* venue, bool& found_venue);
     int parse_file(char* filename, char* venue, bool& found_venue);
+    int write(FILE*);
 };
 
 #endif

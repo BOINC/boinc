@@ -32,7 +32,6 @@
 #include "parse.h"
 
 #include "error_numbers.h"
-#include "client_msgs.h"
 #include "file_names.h"
 
 #include "client_state.h"
@@ -65,9 +64,11 @@ void GLOBAL_PREFS::init() {
     idle_time_to_run = 3;
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
-    max_memory_mbytes = 128;
+    //max_memory_mbytes = 128;
     proc_priority = 1;
     cpu_affinity = -1;
+    strcpy(source_project, "");
+    strcpy(source_scheduler, "");
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -86,11 +87,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-
 	init();
-    source_project = "";
-    source_scheduler = "";
 
     // set all booleans to false here
     run_on_batteries = false;
@@ -130,9 +127,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
         }
         if (match_tag(buf, "<global_preferences>")) {
             continue;
-        } else if (parse_str(buf, "<source_project>", source_project)) {
+        } else if (parse_str(buf, "<source_project>", source_project, sizeof(source_project))) {
             continue;
-        } else if (parse_str(buf, "<source_scheduler>", source_scheduler)) {
+        } else if (parse_str(buf, "<source_scheduler>", source_scheduler, sizeof(source_scheduler))) {
             continue;
         } else if (parse_int(buf, "<mod_time>", mod_time)) {
             continue;
@@ -192,12 +189,12 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
         } else if (parse_double(buf, "<max_bytes_sec_down>", max_bytes_sec_down)) {
             if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e12;
             continue;
+#if 0
         } else if (parse_int(buf, "<max_memory_mbytes>", max_memory_mbytes)) {
             continue;
+#endif
         } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
             continue;
-        } else {
-            scope_messages.printf("GLOBAL_PREFS::parse: unrecognized: %s\n", buf);
         }
     }
     return 0;
@@ -216,4 +213,51 @@ int GLOBAL_PREFS::parse_file(
     retval = parse(f, host_venue, found_venue);
     fclose(f);
     return retval;
+}
+
+// this is used only to write the app init data file
+//
+int GLOBAL_PREFS::write(FILE* f) {
+    fprintf(f,
+        "<global_preferences>\n"
+        "   <mod_time>%d</mod_time>\n"
+        "%s%s"
+        "   <start_hour>%d</start_hour>\n"
+        "   <end_hour>%d</end_hour>\n"
+        "%s%s%s%s%s"
+        "   <work_buf_min_days>%f</work_buf_min_days>\n"
+        "   <max_cpus>%d</max_cpus>\n"
+        "   <cpu_sched_period>%d</cpu_sched_period>\n"
+        "   <disk_interval>%f</disk_interval>\n"
+        "   <disk_max_used_gb>%f</disk_max_used_gb>\n"
+        "   <disk_max_used_pct>%f</disk_max_used_pct>\n"
+        "   <disk_min_free_gb>%f</disk_min_free_gb>\n"
+        "   <vm_max_used_pct>%f</vm_max_used_pct>\n"
+        "   <idle_time_to_run>%f</idle_time_to_run>\n"
+        "   <max_bytes_sec_up>%f</max_bytes_sec_up>\n"
+        "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
+        "</global_preferences>\n",
+        mod_time,
+        run_on_batteries?"   <run_on_batteries/>\n":"",
+        run_if_user_active?"   <run_if_user_active/>\n":"",
+        start_hour,
+        end_hour,
+        leave_apps_in_memory?"   <leave_apps_in_memory/>\n":"",
+        confirm_before_connecting?"   <confirm_before_connecting/>\n":"",
+        run_minimized?"   <run_minimized/>\n":"",
+        run_on_startup?"   <run_on_startup/>\n":"",
+        hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
+        work_buf_min_days,
+        max_cpus,
+        cpu_sched_period,
+        disk_interval,
+        disk_max_used_gb,
+        disk_max_used_pct,
+        disk_min_free_gb,
+        vm_max_used_pct,
+        idle_time_to_run,
+        max_bytes_sec_up,
+        max_bytes_sec_down
+    );
+    return 0;
 }

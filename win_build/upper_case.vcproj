@@ -264,6 +264,12 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\prefs.C">
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.C">
+			</File>
+			<File
 				RelativePath="..\lib\shmem.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -351,6 +357,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
+			</File>
+			<File
+				RelativePath="..\lib\prefs.h">
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.h">
 			</File>
 			<File
 				RelativePath="..\lib\shmem.h">

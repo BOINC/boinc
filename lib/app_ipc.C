@@ -51,7 +51,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
     }
-    if (strlen(ai.project_preferences)) {
+    if (ai.project_preferences && strlen(ai.project_preferences)) {
         fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
     if (strlen(ai.team_name)) {
@@ -105,25 +105,32 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.fraction_done_start,
         ai.fraction_done_end
     );
-    fprintf(f, "</app_init_data>\n");
     MIOFILE mf;
     mf.init_file(f);
     ai.host_info.write(mf);
+    ai.proxy_info.write(mf);
+    ai.global_prefs.write(f);
+    fprintf(f, "</app_init_data>\n");
     return 0;
 }
 
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     char buf[256];
+    int retval;
+    bool flag;
+
     memset(&ai, 0, sizeof(ai));
     ai.fraction_done_start = 0;
     ai.fraction_done_end = 1;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<project_preferences>")) {
-            safe_strncpy(ai.project_preferences, "", sizeof(ai.project_preferences));
-            while (fgets(buf, 256, f)) {
-                if (match_tag(buf, "</project_preferences>")) break;
-                safe_strcat(ai.project_preferences, buf);
-            }
+            retval = dup_element_contents(f, "</project_preferences>", &ai.project_preferences);
+            if (retval) return retval;
+            continue;
+        }
+        if (match_tag(buf, "<global_preferences>")) {
+            retval = ai.global_prefs.parse(f, "", flag);
+            if (retval) return retval;
             continue;
         }
         else if (match_tag(buf, "<host_info>")) {

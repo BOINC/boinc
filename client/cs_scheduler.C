@@ -222,7 +222,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
             copy_stream(fprefs, f);
             fclose(fprefs);
         }
-        PROJECT* pp = lookup_project(global_prefs.source_project.c_str());
+        PROJECT* pp = lookup_project(global_prefs.source_project);
         if (pp && strlen(pp->email_hash)) {
             fprintf(f,
                 "<global_prefs_source_email_hash>%s</global_prefs_source_email_hash>\n",

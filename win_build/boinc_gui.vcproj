@@ -870,30 +870,13 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Client\Prefs.c">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\lib\prefs.C">
 			</File>
 			<File
 				RelativePath="..\client\proxy.C">
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.C">
 			</File>
 			<File
 				RelativePath="..\Client\scheduler_op.C">
@@ -1304,10 +1287,13 @@
 				RelativePath="..\Client\pers_file_xfer.h">
 			</File>
 			<File
-				RelativePath="..\client\prefs.h">
+				RelativePath="..\lib\prefs.h">
 			</File>
 			<File
 				RelativePath="..\client\proxy.h">
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.h">
 			</File>
 			<File
 				RelativePath="..\client\scheduler_op.h">
@@ -1362,10 +1348,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1385,10 +1371,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

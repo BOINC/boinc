@@ -24,6 +24,8 @@
 #include <string>
 
 #include "hostinfo.h"
+#include "proxy_info.h"
+#include "prefs.h"
 
 // Communication between the core client and the BOINC app library.
 // This code is linked into both core client and app lib.
@@ -142,7 +144,10 @@ public:
 struct APP_INIT_DATA {
     int core_version;
     char app_name[256];
-    char project_preferences[65536];
+    char* project_preferences;
+    int userid;
+    int teamid;
+    int hostid;
     char user_name[256];
     char team_name[256];
     char project_dir[256];
@@ -155,6 +160,8 @@ struct APP_INIT_DATA {
     double host_total_credit;
     double host_expavg_credit;
     HOST_INFO host_info;
+    PROXY_INFO proxy_info;
+    GLOBAL_PREFS global_prefs;
 
     // Items below here are for implementation only
     // (not used by app developers)
