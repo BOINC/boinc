@@ -155,14 +155,14 @@ class SqlQueryString {
         $this->addeq('hostid');
         $this->addeq('userid');
         $this->addeq('teamid');
-        if ($_GET['nsecs']) {
+        $this->addeq('exit_status');
+       if ($_GET['nsecs']) {
             $_GET['received_time'] = time() - $_GET['nsecs'];
         }
         $this->addgt('received_time');
         $this->addeqnz('server_state');
         $this->addeqnz('outcome');
         $this->addeqnz('client_state');
-        $this->addeqnz('exit_status');
         if ($_GET['clauses']) {
             $this->addclause($_GET['clauses']);
         }
@@ -333,6 +333,9 @@ WHERE
 }
 
 function show_failure_result_summary_by_platform() {
+
+    $_GET['table'] = 'result';
+    $_GET['sort_by'] = ''; // ignore sort
 
     $query_appid = $_GET['appid'];
     $query_received_time = time() - $_GET['nsecs'];
