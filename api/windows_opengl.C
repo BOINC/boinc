@@ -2,9 +2,6 @@
 // of BOINC applications w/ graphics.
 // Platform-independent code should NOT be here.
 //
-// TODO: Is any of this related to or dependent on OpenGL??
-// Why not make it independent of OpenGL?
-//
 
 /*		This Code Was Created By Jeff Molofee 2000
  *		A HUGE Thanks To Fredric Echols For Cleaning Up
@@ -20,15 +17,6 @@
 #include "app_ipc.h"
 #include "util.h"
 #include "win_util.h"
-//#include "win_idle_tracker.h"
-
-// application needs to define mouse, keyboard handlers
-//
-extern void boinc_app_mouse_button(int x, int y, int which, bool is_down);
-extern void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right);
-extern void boinc_app_key_press(int, int);
-extern void boinc_app_key_release(int, int);
-
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 

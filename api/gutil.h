@@ -34,12 +34,8 @@ struct COLOR {
 extern void HLStoRGB( double H, double L, double S, COLOR& c);
 
 extern float frand();
-extern void set_viewport_full(int w, int h);
-extern void set_viewport_fixed(int w, int h);
 extern void scale_screen(int w,int h);
 extern void center_screen(int w,int h);
-extern void center_screen_ratio(int w,int h);
-
 
 extern void drawSphere(float* pos, float rad);
 extern void drawCylinder(bool vertical, float* pos, float len, float rad);
@@ -84,12 +80,10 @@ extern void draw_text_panel(
 
 extern void mode_texture();
 extern void mode_ortho();
-extern void mode_ortho_ratio();
 extern void mode_shaded(float*);
 extern void mode_unshaded();
 extern void mode_lines();
 extern void ortho_done();
-extern bool get_matrix_invert(float[16]);
 extern bool get_matrix(double src[16]);
 extern bool get_projection(double src[16]);
 extern bool get_viewport(int view[4]);

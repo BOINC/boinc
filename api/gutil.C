@@ -72,8 +72,6 @@
 #include "gutil.h"
 #include "filesys.h"
 
-#define MAX_DRAW_DISTANCE 2250000
-
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
 
@@ -120,36 +118,19 @@ void mode_ortho() {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
     glLoadIdentity();
-    gluOrtho2D(0,1,0,1);
+    glOrtho(0, 1, 0, 1, 0, 1);
     glMatrixMode(GL_MODELVIEW);	
 	glPushMatrix();
     glLoadIdentity();
-    gluLookAt(0.0,0.0,1.0,  // eye position
-			  0,0,0,      // where we're looking
-			  0.0, 1.0, 0.);      // up is in positive Y direction	
+    gluLookAt(
+        0.0, 0.0, 1.0,        // eye position
+		0, 0, 0,              // where we're looking
+		0.0, 1.0, 0.          // up is in positive Y direction
+    );
 	int viewport[4];
 	get_viewport(viewport);
-	center_screen(viewport[2],viewport[3]);
-	scale_screen(viewport[2],viewport[3]);
-}
-
-// uh, what are the magic numbers 3 and 4????
-//
-void mode_ortho_ratio() {
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D(0,4,0,3);
-    glMatrixMode(GL_MODELVIEW);	
-	glPushMatrix();
-    glLoadIdentity();
-    gluLookAt(0.0,0.0,1.0,  // eye position
-			  0,0,0,      // where we're looking
-			  0.0, 1.0, 0.);      // up is in positive Y direction	
-	int viewport[4];
-	get_viewport(viewport);
-	center_screen_ratio(viewport[2],viewport[3]);
-	scale_screen(viewport[2],viewport[3]);
+	center_screen(viewport[2], viewport[3]);
+	scale_screen(viewport[2], viewport[3]);
 }
 
 void ortho_done() {
@@ -178,7 +159,7 @@ bool get_projection(double src[16]) {
 
 bool get_viewport(int view[4]) {
 	glMatrixMode(GL_MODELVIEW);
-	glGetIntegerv(GL_VIEWPORT,(GLint*)view);
+	glGetIntegerv(GL_VIEWPORT, (GLint*)view);
 	return true;
 }
 
@@ -192,12 +173,6 @@ void mode_lines() {
     glEnable(GL_BLEND);
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
-    // the following seem to have no effect
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    //glDepthMask(GL_TRUE);
-    //glEnable(GL_LINE_SMOOTH);
-    //glHint(GL_LINE_SMOOTH, GL_NICEST);
-    //glDisable(GL_DEPTH_TEST);
 }
 
 static double HuetoRGB(double m1, double m2, double h ) {
@@ -230,49 +205,27 @@ float frand() {
     return rand()/(float)RAND_MAX;
 }
 
-#if 0
-void set_viewport_full(int w, int h) {
-	glViewport(0,0,w,h);
-}
-
-void set_viewport_fixed(int w,int h) {
+void scale_screen(int iw, int ih) {
 	double aspect_ratio = 4.0/3.0;
-
-    if (h<=0) h=1;
-    if (w<=0) w=1;
-
-	if (h*aspect_ratio > w) {
-        glViewport(0,(int)(h/2.0f-(w/aspect_ratio/2.0f)),(int)w,(int)(w/aspect_ratio));
-    } else {
-        glViewport((int)(w/2.0f-(h*aspect_ratio/2.0f)),0,(int)(h*aspect_ratio),(h));
-    }	
-}
-#endif
-
-void scale_screen(int w, int h) {
-	double aspect_ratio = 4.0/3.0;
-	if ((double)h*aspect_ratio > (double)w) {        
-		glScalef(1.0f,((double)w/aspect_ratio)/(double)h,1.0f);
+    double w=iw, h=ih;
+    double xs, ys;
+	if (h*aspect_ratio > w) {        
+        xs = 1.0;
+        ys = (w/aspect_ratio)/h;
     } else {        
-		glScalef(((double)h*aspect_ratio)/(double)w,1.0f,1.0f);
+		xs = (h*aspect_ratio)/w;
+        ys = 1.0;
     }		
+	glScalef(xs, ys*4./3., 1);
 }
 
-void center_screen(int w,int h) {
+void center_screen(int iw, int ih) {
 	double aspect_ratio = 4.0/3.0;
-	if ((double)h*aspect_ratio > (double)w) {        
-		glTranslatef(0.0f,((double)h/2.0f-((double)w/aspect_ratio/2.0f))/(double)h,0.0f);
+    double w=iw, h=ih;
+	if (h*aspect_ratio > w) {        
+		glTranslatef(0.0, (h/2.0-(w/aspect_ratio/2.0))/h, 0.0);
     } else {        
-		glTranslatef(((double)w/2.0f-((double)h*aspect_ratio/2.0f))/(double)w,0.0f,0.0f);
-    }		
-}
-
-void center_screen_ratio(int w,int h) {
-	double aspect_ratio = 4.0/3.0;
-	if ((double)h*aspect_ratio > (double)w) {        
-		glTranslatef(0.0f*4.0f,(((double)h/2.0f-((double)w/aspect_ratio/2.0f))/(double)h)*3.0f,0.0f);
-    } else {        
-		glTranslatef((((double)w/2.0f-((double)h*aspect_ratio/2.0f))/(double)w)*4.0f,0.0f,0.0f);
+		glTranslatef((w/2.0-(h*aspect_ratio/2.0))/w, 0.0, 0.0);
     }		
 }
 

@@ -12758,3 +12758,25 @@ David  May 27 2004
 	api/
 		graphics_api.C,h
 		windows_opengl.C
+
+David  May 27 2004
+	- added support for "static graphics":
+		applications generate graphics from a static image file
+		(part of the workunit) rather than dynamically.
+	- removed cruft from gutil.C:
+		mode_orth_ratio()
+		set_viewport_*()
+		center_screen_ratio()
+		I have no idea what these were for,
+		and perhaps neither did their author.
+		
+	- moved declarations of boinc_ap_mouse_button() etc.
+		to graphics_api.h
+	api/
+		graphics_api.h
+		gutil.C
+		static_graphics.C (new)
+		windows_opengl.C
+	doc/
+		graphics.png
+		graphics.sxd
