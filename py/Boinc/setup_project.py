@@ -277,11 +277,12 @@ def install_boinc_files(dest_dir):
         [ 'cgi', 'file_upload_handler'])
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
         [ 'make_work', 'feeder', 'transitioner', 'validate_test', 'validate_trivial',
-          'file_deleter', 'assimilator', 'db_dump', 'update_stats' ])
+          'file_deleter', 'assimilator', 'update_stats', 'db_dump' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start', 'stop', 'status', 'grep_logs' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
-        [ 'boinc_path_config.py', 'create_work', 'add', 'xadd', 'dbcheck_files_exist', 'update_versions', 'upgrade' ])
+        [ 'boinc_path_config.py', 'create_work', 'add', 'xadd', 'dbcheck_files_exist',
+          'update_versions', 'upgrade', 'parse_config', 'db_query' ])
 
 
 class Project:

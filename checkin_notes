@@ -13548,3 +13548,15 @@ Daniel 14 June 2004
         cs_scheduler.C
         hostinfo_unix.C
 
+Rom    14 June 2004
+    - Add two additional tools to the default install
+      parse_config - Parses the config file looking for the requested config
+          information.
+      db_query     - Queries the database for specific information in a
+          stripchart compatible format.
+
+    py/boinc/
+        setup_project.py
+    tools/
+        parse_config
+        db_query
