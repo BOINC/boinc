@@ -756,17 +756,12 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
         sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
         strcat(signed_xml, buf);
     }
+
+    // replace existing URLs with new ones
+    //
+    urls.clear();
     for (i=0; i<new_info.urls.size(); i++) {
-        has_url = false;
-        for (j=0; j<urls.size(); j++) {
-            if (!strcmp(urls[j].text, new_info.urls[i].text)) {
-                has_url = true;
-                break;
-            }
-        }
-        if (!has_url) {
-            urls.push_back(new_info.urls[i]);
-        }
+        urls.push_back(new_info.urls[i]);
     }
     return 0;
 }

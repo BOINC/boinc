@@ -23901,3 +23901,10 @@ Bruce  3 Feb 2005
     client/
         http.C
 
+David  3 Feb 2005
+    - when get a FILE_INFO in a scheduler RPC reply,
+        replace the current list of URLs
+        with the list in the scheduler reply
+
+    client/
+        client_types.C
