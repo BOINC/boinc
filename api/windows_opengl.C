@@ -22,6 +22,7 @@
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
+#include "win_util.h"
 //#include "win_idle_tracker.h"
 
 //remove if there are windows problems
@@ -171,10 +172,6 @@ void SetMode(int mode) {
 
 	KillWindow();
 
-    FILE* f = fopen("setmode.txt", "a");
-    fprintf(f, "mode: %d\n", mode);
-    fclose(f);
-
 	current_graphics_mode = mode;
 
     if (mode != MODE_HIDE_GRAPHICS) {
@@ -318,7 +315,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG					msg;		// Windows Message Structure
-	m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
+	m_uEndSSMsg = RegisterWindowMessage(STOP_SS_MSG);
 
 	// Register window class and graphics mode message
 	reg_win_class();

@@ -345,7 +345,6 @@ int ACTIVE_TASK::start(bool first_time) {
     STARTUPINFO startup_info;
     char slotdirpath[256];
     char cmd_line[512];
-    int win_error;
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -379,22 +378,11 @@ int ACTIVE_TASK::start(bool first_time) {
         &startup_info,
         &process_info
     )) {
-        win_error = GetLastError();
-        char *errorargs[] = {app_version->app_name,"","","",""};
-        LPVOID lpMsgBuf;
-        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
-            NULL, win_error, 0, (LPTSTR)&lpMsgBuf, 0, errorargs
-        );
-
         state = PROCESS_COULDNT_START;
         result->active_task_state = PROCESS_COULDNT_START;
-        if (win_error) {
-            gstate.report_result_error(*result, win_error, "CreateProcess(): %s", (LPTSTR)&lpMsgBuf);
-            LocalFree(lpMsgBuf);
-            return ERR_EXEC;
-        }
-        msg_printf(wup->project, MSG_ERROR, "CreateProcess: %s", (LPCTSTR)lpMsgBuf);
-        LocalFree(lpMsgBuf);
+        gstate.report_result_error(*result, ERR_EXEC, "CreateProcess() failed");
+        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed");
+        return ERR_EXEC;
     }
     pid = process_info.dwProcessId;
     pid_handle = process_info.hProcess;

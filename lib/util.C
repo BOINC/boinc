@@ -504,3 +504,18 @@ int read_file_string(const char* pathname, string& result) {
     while (f.get(c)) result += c;
     return 0;
 }
+
+#ifdef _WIN32
+// the following doesn't seem to work
+// TODO: fix it; use after e.g. CreateProcess() error
+//
+void windows_error_string(char* buf, int len) {
+	strcpy(buf, "");
+    LPVOID lpMsgBuf;
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
+        NULL, GetLastError(), 0, (LPTSTR)&lpMsgBuf, 0, NULL
+    );
+	safe_strncpy(buf, (LPCSTR)lpMsgBuf, len);
+    LocalFree(lpMsgBuf);
+}
+#endif

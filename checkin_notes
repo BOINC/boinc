@@ -9356,3 +9356,17 @@ David  Jan 18 2004
     sched/
         file_upload_handler.C
         handle_request.C
+
+David  Jan 19 2004
+	- use STOP_SS_MSG symbol instead of END_SS_MSG
+		(these redundantly refered to the same string)
+	- fixed buggy error-handling code for Win CreateProcess()
+
+	api/
+		windows_opengl.C
+	client/
+		app.C
+		win/
+			win_util.h
+	lib/util.C
+
