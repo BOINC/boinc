@@ -6,13 +6,12 @@ require_once('../inc/time.inc');
 
 db_init();
 
-page_head(PROJECT.': Questions and problems');
-
-show_forum_title(NULL, NULL, true);
+page_head("Questions and problems");
 
 echo "
     <p>
     Do a <a href=forum_text_search_form.php>keyword search</a> of messages.
+    <p>
 ";
 
 start_forum_table(array("Topic", "# Questions", "Last post"));
@@ -28,9 +27,9 @@ while ($category = mysql_fetch_object($categories)) {
 	$forums = getForums($category->id);
 	while ($forum = mysql_fetch_object($forums)) {
 		echo "
-	<tr class=\"row1\" style=\"font-size:8pt; text-align:right\">
-		<td class=indent style=\"text-align:left\">
-			<span style=\"font-size:10pt; font-weight:bold\"><a href=forum_forum.php?id=$forum->id>$forum->title</a></span>
+        <tr class=row1>
+		<td>
+			<b><a href=forum_forum.php?id=$forum->id>$forum->title</a></b>
 			<br>", $forum->description, "
 		</td>
 		<td>", $forum->threads, "</td>

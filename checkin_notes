@@ -22869,3 +22869,28 @@ Janus 18 Jan 2005
                 +forum_moderators.inc (new)
         ops/
                 update_db.php
+
+David  18 Jan 2005
+    - user web: general code cleanup,
+        and increased use of stylesheets for formatting
+        rather than hard-wired HTML
+    - use tables for profiles
+    - change way profiles are rated
+
+    html/
+        inc/
+            forum.inc
+            prefs.inc
+            profile.inc
+            util.inc
+        user/
+            forum_edit.php
+            forum_help_desk.php
+            forum_sample_index.php
+            forum_thread.php
+            profile_rate.php (new)
+            profile_search_action.php
+            view_profile.php
+            white.css
+    sched/
+        db_dump.C

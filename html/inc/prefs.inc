@@ -69,7 +69,7 @@ define("HANGUP_IF_DIALED_DESC",
 );
 define("WORK_BUF_DESC",
     "Connect to network about every
-    <br><font size=-2>maximum 10 days</font>
+    <br><font size=-2>(determines size of work cache; maximum 10 days)</font>
     "
 );
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");

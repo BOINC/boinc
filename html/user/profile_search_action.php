@@ -3,7 +3,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
-function show_profile($profile, $n) {
+function show_profile_link($profile, $n) {
     $user = lookup_user_id($profile->userid);
     echo "<br>". user_links($user)."\n";
 }
@@ -23,7 +23,7 @@ $result = mysql_query($q);
 echo "<table>";
 $n = 0;
 while ($profile = mysql_fetch_object($result)) {
-    show_profile($profile, $n+$offset+1);
+    show_profile_link($profile, $n+$offset+1);
     $n += 1;
 }
 echo "</table>";

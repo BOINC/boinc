@@ -122,14 +122,7 @@ function page_head($title, $java_onload="") {
 }
 
 function page_tail_aux($show_return, $show_date) {
-    echo "<br><hr noshade size=1><center>";
-    if ($show_return) {
-        echo "<a href=".URL_BASE.">Return to ".PROJECT." main page</a><br>\n";
-    }
-    echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
-    if ($show_date) {
-        echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"</font>\n";
-    }
+    project_footer($show_return, $show_date);
     echo "</body>\n</html>";
 }
 function page_tail_main($show_date=false) {
@@ -251,16 +244,16 @@ function end_table() {
 }
 
 function row1($x, $ncols=2, $class="heading") {
-    echo "<tr><td class=$class colspan=$ncols><b>$x</b></td></tr>\n";
+    echo "<tr><td class=$class colspan=$ncols>$x</td></tr>\n";
 }
 
 function row2($x, $y) {
     if ($x=="") $x="<br>";
     if ($y=="") $y="<br>";
-    echo "<tr><td class=fieldname bgcolor=eeeeee align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
+    echo "<tr><td width=40% class=fieldname>$x</td><td class=fieldvalue>$y</td></tr>\n";
 }
 function row2_init($x, $y) {
-    echo "<tr><td class=fieldname bgcolor=eeeeee width=40% align=right valign=top>$x</td><td valign=top><b>$y\n";
+    echo "<tr><td class=fieldname width=40%>$x</td><td valign=top><b>$y\n";
 }
 
 function row2_plain($x, $y) {

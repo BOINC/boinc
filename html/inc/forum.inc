@@ -105,33 +105,33 @@ function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $sh
     	$sql .= ' AND hidden = 0';
     }
     switch($sort_style) {
-        case 'modified-new':
-            $sql .= ' ORDER BY timestamp DESC';
-            break;
-        case 'modified-old':
-            $sql .= ' ORDER BY timestamp ASC';
-            break;
-        case 'views-most':
-            $sql .= ' ORDER BY views DESC';
-            break;
-        case 'replies-most':
-            $sql .= ' ORDER BY replies DESC';
-            break;
-        case 'create_time':
-            $sql .= ' ORDER by create_time desc';
-            break;
-        case 'timestamp':
-            $sql .= ' ORDER by timestamp desc';
-            break;
-        case 'sufferers':
-            $sql .= ' ORDER by sufferers desc';
-            break;
-        case 'activity':
-            $sql .= ' ORDER by activity desc';
-            break;
-        case 'score':
-            $sql .= ' ORDER by score desc';
-            break;
+    case 'modified-new':
+        $sql .= ' ORDER BY timestamp DESC';
+        break;
+    case 'modified-old':
+        $sql .= ' ORDER BY timestamp ASC';
+        break;
+    case 'views-most':
+        $sql .= ' ORDER BY views DESC';
+        break;
+    case 'replies-most':
+        $sql .= ' ORDER BY replies DESC';
+        break;
+    case 'create_time':
+        $sql .= ' ORDER by create_time desc';
+        break;
+    case 'timestamp':
+        $sql .= ' ORDER by timestamp desc';
+        break;
+    case 'sufferers':
+        $sql .= ' ORDER by sufferers desc';
+        break;
+    case 'activity':
+        $sql .= ' ORDER by activity desc';
+        break;
+    case 'score':
+        $sql .= ' ORDER by score desc';
+        break;
     }
     if ($min > -1) {
         $sql .= ' LIMIT '.$min;
@@ -351,7 +351,7 @@ function cleanup_forum_log(){
     }
 }
 
-/* Forum modifying functions. */
+// Forum modifying functions.
 
 function createThread($forumID, $ownerID, $title, $content, $add_signature=false) {
 
@@ -428,7 +428,7 @@ function updateThread($threadID, $title) {
    return true;
 }
 
-/* display functions */
+// display functions
 
 function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true, $is_helpdesk=false) {
     global $logged_in_user;
@@ -575,15 +575,15 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         //no special controls in forum
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
-            <td align=\"right\" style=\"border:0px\">
+            <td align=right style=\"border:0px\">
             <input type=submit name=submit value=\"", SUFFERER, "\">
             </td>
         ";
     } else if ($controls == HELPDESK_CONTROLS && !$separate) {
         echo "
-            <td align=\"right\" style=\"border:0px\">
-            <input type=\"submit\" name=\"submit\" value=\"", SOLUTION, "\">
-            <input type=\"submit\" name=\"submit\" value=\"", OFF_TOPIC, "\">
+            <td align=right style=\"border:0px\">
+            <input type=submit name=submit value=\"", SOLUTION, "\">
+            <input type=submit name=submit value=\"", OFF_TOPIC, "\">
             </td>
         ";
     }
@@ -620,9 +620,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         }
 
         if ($controls == FORUM_CONTROLS) {
-            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input\">Reply to this post</a>]</td>";
+            echo "<td align=right style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input\">Reply to this post</a>]</td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
+            echo "<td align=right style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
         }
         echo "</tr></table>";
     }
@@ -639,7 +639,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
 }
 
-/* utility functions */
+// utility functions
 
 function externalize_links($text){
     $i=0;$linkpos=true;
@@ -656,38 +656,31 @@ function externalize_links($text){
 function image_as_link($text){
 /* This function depends on sanitized HTML - always use KSES or equivalent before using this */
     $i=0;
-    while (true){                                                        //Find an image
+    while (true){                                      //Find an image
         $imgpos=strpos($text,"<img ",$i);
         if ($imgpos===false) break;
-        $out.= substr($text,$i,$imgpos-$i)."<a href=";                        //Replace with link start
-        $temp1=strpos($text,"src=",$imgpos)+5;                                //Find the image source
-        $temp2=strpos($text,">",$imgpos)+1;                                //Or the end of the tag
-        if ($temp1<$temp2){                                                //If source was found within tag
-            $temp3=strpos($text,"\"",$temp1);                                //Find the end of source
-            $out.=substr($text,$temp1,$temp3-$temp1);                        //output the source
+        $out.= substr($text,$i,$imgpos-$i)."<a href="; //Replace with link start
+        $temp1=strpos($text,"src=",$imgpos)+5;         //Find the image source
+        $temp2=strpos($text,">",$imgpos)+1;            //Or the end of the tag
+        if ($temp1<$temp2){                            //If source was found within tag
+            $temp3=strpos($text,"\"",$temp1);         //Find the end of source
+            $out.=substr($text,$temp1,$temp3-$temp1);    //output the source
         }
         $out.=">[Image link]</a>";
-        $i=$temp2;                                                        //Now move to end of tag to continue
+        $i=$temp2;                        //Now move to end of tag to continue
     }
-    $out.=substr($text,$i);                                                //Output the rest
+    $out.=substr($text,$i);                            //Output the rest
     return $out;
 }
 
 
-function start_forum_table($headings, $span=NULL) {
-    echo "
-        <p style=\"text-align:center\">
-        <table border=0 cellpadding=5 cellspacing=0 width=\"100%\">
-        <tr>
-    ";
+function start_forum_table($headings) {
+    start_table();
+    echo "<tr>";
 
-    for ($i = 0; $i < count($headings); $i++) {
-        $cell = "<th";
-        if ($span) {
-            $cell = $cell . " colspan=$span";
-        }
-        $cell = $cell . ">";
-        echo $cell, $headings[$i], "</th>\n";
+    for ($i=0; $i<count($headings); $i++) {
+        $title = $headings[$i];
+        echo "<th class=heading>$title</th>";
     }
     echo "</tr>\n";
 }
@@ -812,11 +805,11 @@ function show_post2($post, $n) {
 function show_forum_summary($forum) {
     $x = time_diff_str($forum->timestamp, time());
     echo "
-        <tr class=row1 style=\"text-align:right\">
-        <td class=indent style=\"text-align:left\">
-            <span style=\"font-weight:bold\">
-            <a href=\"forum_forum.php?id=$forum->id\">", $forum->title,
-            "</a></span>
+        <tr class=row1>
+        <td>
+            <b>
+            <a href=forum_forum.php?id=$forum->id>", $forum->title,
+            "</a></b>
             <br><font size=-2>", $forum->description, "
         </td>
         <td>", $forum->threads, "</td>

@@ -467,9 +467,11 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     //
     retval = user.lookup_id(team.userid);
     if (!retval) {
+        string fname;
+        xml_escape(user.name, fname);
         fprintf(f,
             "  <founder_name>%s</founder_name>\n",
-            user.name
+            fname.c_str()
         );
     }
 

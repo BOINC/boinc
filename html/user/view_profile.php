@@ -6,7 +6,7 @@ db_init();
 
 $userid = $_GET['userid'];
 
-// Check for recommendation or rejection votes.;
+// Check for recommendation or rejection votes
 
 if ($_POST['recommend']) {
     process_view_results("recommend", $userid);
@@ -16,5 +16,5 @@ if ($_POST['recommend']) {
     exit();
 }
 
-show_profile($userid, array_key_exists('verify', $_GET));
+show_profile($userid);
 ?>

@@ -404,126 +404,74 @@ function get_profile_summary($profile) {
 
 // Displays a user's profile (if they have one);
 
-function show_profile($userid, $verify_mode=false) {
+function show_profile($userid) {
     $user = get_user_from_id($userid);
 
     if (!$user) {
         profile_error_page("No user exists for that ID, or there was a database error.<p>");
         exit();
     }
-
-    if (!$verify_mode) {
-        $logged_in_user = get_logged_in_user(false);  // (false) since anyone can look at profiles.;
-        if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
-            $caching = true;
-            $cache_args = "userid=$userid";
-            start_cache(USER_PROFILE_TTL,$cache_args);
-        }
-    }
-
-
     $profile = get_profile($userid);
-
     if (!$profile) {
         echo "No user profile exists for that user ID.";
         exit();
     }
-    if (!$verify_mode) {
-        $logged_in_user = get_logged_in_user(false);  // (false) since anyone can look at profiles.;
+
+    $logged_in_user = get_logged_in_user(false);
+    if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
+        $caching = true;
+        $cache_args = "userid=$userid";
+        start_cache(USER_PROFILE_TTL,$cache_args);
     }
+
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
-    if (!$verify_mode) {
-        page_head("Profile: ".$user->name);
-    }
+    page_head("Profile: ".$user->name);
+
+    start_table();
 
     if ($can_edit) {
-        echo "<a href=create_profile.php>[Edit Your Profile]</a>";
+        row1("<a href=create_profile.php>Edit your profile</a>");
     }
+    
 
-    show_profile_summary($user, $profile, $can_edit, $verify_mode);
-    echo "<br><br>";
-    echo "<b>".show_profile_heading1()."</b><p>";
-    echo $profile->response1;
-    echo "<br><br>";
-    echo "<b>".show_profile_heading2()."</b><p>";
-    echo $profile->response2;
-    if (!$verify_mode) {
-        page_tail();
-    }
-    if ($caching) end_cache(USER_PROFILE_TTL,$cache_args);
-}
-
-function show_profile_summary($user, $profile, $can_edit, $verify_mode) {
-    if (!$can_edit && !$verify_mode) {
-        show_view_buttons($user->id);
-    }
-
-    // Only display an image if the user has uploaded one;
     if ($profile->has_picture) {
-        //echo "<a href=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '_sm.jpg' . "\"></a>\n";
-        echo "<br><img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">\n";
+        echo "
+            <tr><td colspan=2 align=center>
+            <img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">
+            </td></tr>
+        ";
     }
 
-    echo "
-        <br>
-        <font size=-1>
-        <b>Country:</b> ", $user->country,
-        "<br><b>Language:</b> ", $profile->language, "<br>
-    ";
-    echo "<b>Total Credit:</b> ", $user->total_credit, "<br>";
-
+    row2("Country", $user->country);
+    row2("Language", $profile->language);
+    row2("Total Credit", $user->total_credit);
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
-        echo "<b>Team:</b> <a href=team_display.php?teamid=$team->id>$team->name</a><br>";
+        row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a><br>");
     }
-    echo "
-        <b>Date Registered:</b> ", date_str($user->create_time), "
-        </font>
-        <br>\n
-    ";
-}
+    row2("Date Registered", date_str($user->create_time));
 
-function show_view_buttons($userid) {
-    echo "
-        <form action=view_profile.php?userid=$userid method=\"POST\">
-        <input type=submit name=recommend value=Recommend>
-        <font size=-1><a href=\"javascript:;\" onClick=\"window.open ('explanation.php?val=recommend','_blank','width=350,height=200,left=50,top=150,menubar=0,directories=0,scrollbars=0,resizable=0,status=0')\">what is recommend?</a></font>
-        <br>
-        <input type=submit name=reject value=\"Vote to reject\">
-        <font size=-1><a href=\"javascript:;\" onClick=\"window.open ('explanation.php?val=reject','_blank','width=350,height=200,left=50,top=150,menubar=0,directories=0,scrollbars=0,resizable=0,status=0')\">what is vote to reject?</a></font>
-        </form>
-    ";
-}
-
-function process_view_results($vote, $userid) {
-    if ($vote != "recommend" && $vote != "reject") {
-        echo "Invalid vote type.<br>";
-        exit();
+    row1(show_profile_heading1());
+    row1($profile->response1, 2, "foobar");
+    row1(show_profile_heading2());
+    row1($profile->response2, 2, "foobar");
+    if (true) {
+        row1("Your feedback on this profile");
+        row2(
+            "Recommend this profile for User of the Day:",
+            "I <a href=profile_rate.php?userid=$userid&vote=recommend>like</a> this profile"
+        );
+        row2(
+            "Alert administrators to an offensive profile:",
+            "I <a href=profile_rate.php?userid=$userid&vote=reject>don't like</a> this profile"
+        );
     }
 
-    $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
-    $profile = mysql_fetch_array($result);
-
-    $newValue = $profile[$vote] + 1;
-    $newresult = mysql_query("UPDATE profile SET $vote = $newValue WHERE userid = $userid");
-
-    page_head("Vote Recorded");
-
-    start_table_noborder();
-
-    row1("Thank you");
-
-    if ($vote == "recommend") {
-        rowify("Your recommendation has been recorded.");
-    } else {
-        rowify("Your vote to reject has been recorded.");
-    }
     end_table();
-    echo "<br><a href=\"view_profile.php?userid=", $userid ,"\">Return to profile.</a>";
-
     page_tail();
+    if ($caching) end_cache(USER_PROFILE_TTL,$cache_args);
 }
 
 // echo "<!--\$Id$ -->\n";

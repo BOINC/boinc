@@ -8,7 +8,7 @@ db_init();
 
 page_head('Message boards');
 
-show_forum_title(NULL, NULL, false);
+//show_forum_title(NULL, NULL, false);
 
 echo "<p>
     If you have a question or problem, please use the
@@ -17,6 +17,7 @@ echo "<p>
     <p>
     Do a <a href=forum_text_search_form.php>keyword search</a>
     of messages.
+    <p>
 ";
 
 function show_category($category) {

@@ -68,7 +68,6 @@ echo "<form action=forum_edit.php?id=$post->id method=POST>\n";
 
 start_table();
 row1("Edit your post");
-//start_forum_table(array("Edit your post"), array(NULL), 2);
 if ($post->parent_post==0 and $thread->owner==$logged_in_user->id) {
 	//If this is the first post enable the user to change title
     row2(
