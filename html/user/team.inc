@@ -39,6 +39,7 @@ echo "Search for a team: ";
 echo "<input name=team_name>";
 echo "<input type=submit name=search value=\"Search\">";
 echo "</form>";
+page_tail();
 }
 
 function display_team_page($team) {
@@ -73,7 +74,9 @@ echo "</ul>";
 
 echo "<br>";
 echo "<p>";
-echo "<b><p>Team Info</p></b>";
+echo "<table border=0 width=580>";
+echo "<tr bgcolor=#708090><td colspan=2><font size=+1>";
+echo "<b>Team Info:</b></font></td></tr></table>";
 echo "<table border=1>";
 if (strlen($team->description)) {
     echo "<tr><td>Description</td><td>$team->description</td></tr>";
@@ -102,8 +105,11 @@ $query = sprintf(
 );
 $result = mysql_query($query);
 $user = mysql_fetch_object($result);
-echo "$user->name</td></tr>";
-echo "</table><b><p>Team Members:</b></p>";
+echo "$user->name</td></tr></table>";
+echo "<p>";
+echo "<table border=0 width=580>";
+echo "<tr bgcolor=#708090><td colspan=2><font size=+1>";
+echo "<b>Team Members:</b></font></td></tr></table>";
 echo "<table border=\"1\" cellspacing=0 cellpadding=2><tr>";
 echo "<th>Name</th>";
 echo "<th>Total<br>Credit</th>";
@@ -127,6 +133,7 @@ for ($i = 0; $i < $team->nusers; $i++) {
     echo "</tr>";
 }
 echo "</table>";
+page_tail();
 }
 
 
@@ -188,6 +195,7 @@ echo "</td>";
 echo "</tr></table>";
 echo "<input type=submit name=new value=\"Create Team\">";
 echo "</form>";
+page_tail();
 }
 
 function print_team_join_form($id) {
@@ -224,6 +232,7 @@ echo "<form method=post action=team_join_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
 echo "<input type=submit value=\"Join Team\">";
 echo "</form>";
+page_tail();
 }
 
 function print_team_quit_form($id) {
@@ -256,6 +265,7 @@ echo "<form method=post action=team_quit_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
 echo "<input type=submit value=\"Quit Team\">";
 echo "</form>";
+page_tail();
 }
 
 function print_team_edit_form($id) {
@@ -317,6 +327,7 @@ printf("<input type=radio name=type value=9%s>Government Agency</td>", ($team->t
 echo "</tr></table>";
 echo "<input type=submit value=\"Edit Team\">";
 echo "</form>";
+page_tail();
 }
 
 function print_team_remove_inactive_form($id) {
@@ -371,6 +382,7 @@ if ($result) {
 echo "</table>";
 echo "<input type=submit value=\"Remove Users\">";
 echo "</form>";
+page_tail();
 }
 
 function print_team_disband_form($id) {
@@ -404,6 +416,7 @@ echo "<form method=post action=team_disband_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
 echo "<input type=submit value=\"Disband Team\">";
 echo "</form>";
+page_tail();
 }
 
 ?>
