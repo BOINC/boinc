@@ -12,22 +12,16 @@ class WorkAbort(WorkUC):
         WorkUC.__init__(self)
         self.result_template = "abort_result"
 
-class ResultAbort(ResultUC):
+class ResultAbort(ResultUCError):
     def __init__(self):
-        ResultUC.__init__(self)
-        self.client_state = RESULT_OUTCOME_CLIENT_ERROR
+        ResultUCError.__init__(self)
+        self.stderr_out.append('<message>Output file exceeded size limit</message>')
 
 class ProjectAbort(ProjectUC):
     def __init__(self):
         ProjectUC.__init__(self, short_name='test_abort', works=[WorkAbort()])
-
     def check(self):
-        # no results should have been uploaded
-        self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)
-        self.sched_run('validate_test')
-        self.check_results(ResultAbort())
-        self.sched_run('assimilator')
-        self.sched_run('file_deleter')
+        self.check_client_error(ResultAbort())
 
 if __name__ == '__main__':
     test_msg("result abort mechanism (disk space limit)")

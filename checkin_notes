@@ -5047,7 +5047,7 @@ Karl    2003/06/25
     - if application exceeds disk space limit, output message "Exceeded size
       limit" instead of "Couldn't upload files"
     - test that an aborted result due to file limit causes client_state =
-      RESULT_RESULT_OUTCOME_CLIENT_ERROR (currently this test FAILS!)
+      RESULT_OUTCOME_CLIENT_ERROR (currently this test FAILS!)
     - test resource limits in python
 
     db/
@@ -5089,3 +5089,26 @@ Karl    2003/06/26
         test_sanity.py
         boinc.py
         test_masterurl_failure.py (new)
+
+Karl    2003/06/26
+    - working on master url fetch failure retry policy
+    - test_signal.py. currently FAILS!
+    - test_exit.py. currently FAILS!
+        There is another bug similar to the one found by test_abort where the
+        client goes into FILES_UPLOADED even the application exited with an error.
+
+    client/
+        client_state.C
+        scheduler_op.C
+
+    lib/
+        util.C
+        util.h
+
+    test/
+        boinc.py        
+        test_masterurl_failure.py
+        test_uc.py
+        testproxy
+        test_exit.py (added)
+        test_signal.py (added)

@@ -216,6 +216,16 @@ def _check_vars(dict, **names):
 class STARTS_WITH(str):
     pass
 
+class MATCH_REGEXPS(list):
+    def match(self, text):
+        '''Returns True iff each regexp in self is in text'''
+        for r in self:
+            R = re.compile(r)
+            if not R.search(text):
+                return False
+        return True
+    pass
+
 def dict_match(dic, resultdic):
     '''match values in DIC against RESULTDIC'''
     if not isinstance(dic, dict):
@@ -229,6 +239,8 @@ def dict_match(dic, resultdic):
             continue
         if isinstance(expected,STARTS_WITH):
             match = found.startswith(expected)
+        elif isinstance(expected,MATCH_REGEXPS):
+            match = expected.match(found)
         else:
             match = found == expected
         if not match:

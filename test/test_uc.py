@@ -39,11 +39,17 @@ class WorkUC(Work):
 class ResultUC:
     def __init__(self):
         self.server_state = RESULT_SERVER_STATE_OVER
-        self.stderr_out   = STARTS_WITH("""APP: upper_case: starting, argc 1
-APP: upper_case: argv[0] is upper_case
-APP: upper_case ending, wrote """)
+        self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
+APP: upper_case: starting, argc \\d+
+APP: upper_case: argv[[]0[]] is upper_case
+APP: upper_case ending, wrote \\d+ chars"""])
         # self.exit_status = 0
 
+class ResultUCError:
+    def __init__(self):
+        self.client_state = 3 # TODO: get this from lib/result_state.h
+        self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
+APP: upper_case: starting, argc \\d+"""])
 
 class ProjectUC(Project):
     def __init__(self, works=None, users=None, hosts=None,
@@ -58,14 +64,23 @@ class ProjectUC(Project):
                          redundancy=redundancy, resource_share=resource_share
                          )
 
-    def check(self):
+    def check(self, result=ResultUC()):
+        '''Check results uploaded correctly'''
         self.sched_run('validate_test')
-        self.check_results(ResultUC())
+        self.check_results(result)
         self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=self.redundancy)
         self.sched_run('assimilator')
         self.sched_run('file_deleter')
         self.check_deleted("download/input")
         self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)
+
+    def check_client_error(self, result=ResultUCError()):
+        '''Check no results uploaded'''
+        self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)
+        self.sched_run('validate_test')
+        self.check_results(result)
+        self.sched_run('assimilator')
+        self.sched_run('file_deleter')
 
     def run(self):
         self.install()

@@ -8,6 +8,8 @@ TESTS = test_sanity.py				\
 	test_1sec.py				\
 	test_abort.py				\
 	test_rsc.py				\
+	test_exit.py				\
+	test_signal.py				\
 	test_backend.py
 
 EXTRA_DIST =					\
