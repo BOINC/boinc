@@ -138,6 +138,11 @@ void handle_wu(DB_WORKUNIT& wu) {
             // it's possible that we've deleted canonical result outputs
             //
             if (canonical_result.file_delete_state == FILE_DELETE_DONE) {
+                log_messages.printf(
+                    SchedMessages::DEBUG,
+                    "[WU#%d]: Canonical result (%d) has been deleted\n",
+                    wu.id, canonical_result.id
+                );
                 match = false;
                 retval = 0;
             } else {

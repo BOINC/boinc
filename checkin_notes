@@ -10721,3 +10721,12 @@ David  Mar 22 2004
     sched/
         handle_request.C
         server_types.C
+
+Jeff  Mar 23 2004
+    - At check_pair() time, if the validator sees that the canonical result
+      is deleted, a message is sent to the validator log.  Canonical result
+      deletion should only happen when all results for a WU are received
+      or expired.
+
+     sched/
+	validate.C
