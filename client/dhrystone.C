@@ -90,7 +90,6 @@ void dhrystone(
 
     double                  startclock, endclock;
     double                  benchtime;
-    double                  ws;
 
     register unsigned long  Run_Index;
 
@@ -113,7 +112,7 @@ void dhrystone(
 
     benchmark_wait_to_start(BM_TYPE_INT);
 
-    boinc_calling_thread_cpu_time(startclock, ws);
+    boinc_calling_thread_cpu_time(startclock);
     int bigloops = 0;
 
     do
@@ -156,7 +155,7 @@ void dhrystone(
 
     Loops *= bigloops;
 
-    boinc_calling_thread_cpu_time(endclock, ws);
+    boinc_calling_thread_cpu_time(endclock);
     benchtime = endclock - startclock;
 
     //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);

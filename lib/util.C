@@ -658,10 +658,8 @@ char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSiz
     return pszBuf;
 }
 
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws) {
-    FILETIME creationTime,exitTime,kernelTime,userTime;
-    static bool first = true;
-    static DWORD first_count = 0;
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
 
     if (GetThreadTimes(
         thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
@@ -677,27 +675,36 @@ int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws) {
 
         // Runtimes in 100-nanosecond units
         cpu = totTime / 1.e7;
-		ws = 0;
     } else {
-        if (first) {
-            first_count = GetTickCount();
-            first = false;
-        }
-        // TODO: Handle timer wraparound
-        DWORD cur = GetTickCount();
-	    cpu = ((cur - first_count)/1000.);
-	    ws = 0;
+        return -1;
     }
     return 0;
 }
 
-int boinc_calling_thread_cpu_time(double& cpu, double& ws) {
-    return boinc_thread_cpu_time(GetCurrentThread(), cpu, ws);
+static void get_elapsed_time(double& cpu) {
+    static bool first = true;
+    static DWORD first_count = 0;
+
+    if (first) {
+        first_count = GetTickCount();
+        first = false;
+    }
+    // TODO: Handle timer wraparound
+    DWORD cur = GetTickCount();
+    cpu = ((cur - first_count)/1000.);
+    ws = 0;
+}
+
+int boinc_calling_thread_cpu_time(double& cpu) {
+    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
+        get_elapsed_time(cpu);
+    }
+    return 0;
 }
 
 #else
 
-int boinc_calling_thread_cpu_time(double &cpu_t, double &ws_t) {
+int boinc_calling_thread_cpu_time(double &cpu_t) {
     int retval;
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
@@ -708,7 +715,6 @@ int boinc_calling_thread_cpu_time(double &cpu_t, double &ws_t) {
     // Sum the user and system time spent in this process
     cpu_t = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu_t += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
-    ws_t = ru.ru_idrss;     // TODO: fix this (mult by page size)
     return 0;
 }
 

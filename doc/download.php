@@ -32,9 +32,9 @@ function version_end($xml) {
     list_end();
 }
 
-function show_455($xml=false) {
-    version_start("4.55", "13 Nov 2004", $xml);
-    version("Windows", "boinc_4.55_windows_intelx86.exe", $xml);
+function show_456($xml=false) {
+    version_start("4.56", "23 Nov 2004", $xml);
+    version("Windows", "boinc_4.56_windows_intelx86.exe", $xml);
     version_end($xml);
 }
 
@@ -95,13 +95,13 @@ echo "
     BOINC can be customized for
     <a href=http://boinc.berkeley.edu/language.php>languages other than English</a>
 ";
-//echo "
-//<h2>Development version (latest features, possibly buggy)</h2>
-//";
-//show_455();
 
-//echo"<h2>Old versions</h2>\n";
-//show_405();
+if ($_GET["dev"]) {
+    echo "
+        <h2>Development version (latest features, possibly buggy)</h2>
+    ";
+    show_456();
+}
 
 
 page_tail();

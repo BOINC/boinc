@@ -15925,7 +15925,7 @@ David  5 Aug 2004
         Our plan is to use a 2-level hierarchy,
         with the fanout specified in config.xml:
         <uldl_dir_fanout>x<uldl_dir_fanout>
-        A fanout of 1000 should work OK for up to 1M files.
+        A fanout of 1024 should work OK for up to 1M files.
         A couple of utility programs in tools/:
             dir_hier_path shows where a file is
             dir_hier_move moves existing files into a hierarchy
@@ -20704,3 +20704,31 @@ Bruce   5 Dec 2004
         handle_result.C
 
 
+David 5 Dec 2004
+    - show message (DEBUG level) if > 1 result/user/WU situation occurs
+    - FreeBSD compile fixes (from J.R. Oldroyd)
+
+    client/
+        gui_rpc_server.C
+        net_xfer.C
+    sched/
+        sched_send.C
+
+
+David  5 Dec 2004
+    - Improve app CPU time reporting on Win9x (which lacks real calls).
+        Old: return elapsed time-of-day
+        New: return elapsed time-of-day during which app was not suspended
+    - remove working-set arg from get_cpu_time() functions
+        (we're not returning anything anyway)
+
+    api/
+        boinc_api.C
+        graphics_api.C
+    client/
+        dhrystone.C
+        whetstone.C
+    db/
+        boinc_db.h
+    lib/
+        util.C,h

@@ -624,8 +624,12 @@ public:
         // and various result fields
 };
 
+// Used by the scheduler to handle results reported by clients
+// The read and the update of these results are combined
+// into single SQL queries.
+
 struct SCHED_RESULT_ITEM {
-    char queried_name[256];
+    char queried_name[256];     // name as reported by client
     int id;
     char name[256];
     int workunitid;
@@ -656,6 +660,9 @@ public:
     int add_result(char* result_name);
 
     int enumerate();
+        // using a single SQL query, look up all the reported results,
+        // (based on queried_name)
+        // and fill in the rest of the entries in the results vector
 
     int lookup_result(char* result_name, SCHED_RESULT_ITEM** result);
 

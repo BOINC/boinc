@@ -47,12 +47,10 @@ using std::vector;
 
 #if defined(_WIN32)
 typedef int socklen_t;
-#elif defined ( __APPLE__)
+#elif defined( __APPLE__)
 typedef int32_t socklen_t;
-#elif !GETSOCKOPT_SOCKLEN_T
-#ifndef socklen_t
+#elif !defined(GETSOCKOPT_SOCKLEN_T) && !defined(_SOCKLEN_T_DECLARED) && !defined(socklen_t)
 typedef size_t socklen_t;
-#endif
 #endif
 
 static void boinc_close_socket(int sock) {

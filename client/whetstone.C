@@ -84,7 +84,7 @@ void whetstone(double& flops) {
 	SPDP x,y,z;
 	long j,k,l, jjj;
 	SPDP e1[4];
-	double startsec, finisec, ws;
+	double startsec, finisec;
 	double KIPS;
     int xtra, ii;
     int x100 = 10000;   // chosen to make each pass take about 1 sec
@@ -94,7 +94,7 @@ void whetstone(double& flops) {
     extern_array[11] = 1;
     benchmark_wait_to_start(BM_TYPE_FP);
 
-    boinc_calling_thread_cpu_time(startsec, ws);
+    boinc_calling_thread_cpu_time(startsec);
 
 	SPDP t =  0.49999975;
 	SPDP t0 = t;
@@ -255,7 +255,7 @@ void whetstone(double& flops) {
     }
     while (!benchmark_time_to_stop(BM_TYPE_FP));
 
-    boinc_calling_thread_cpu_time(finisec, ws);
+    boinc_calling_thread_cpu_time(finisec);
 
 	KIPS = (100.0*x100*ii)/(double)(finisec-startsec);
 #if 0

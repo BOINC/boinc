@@ -182,7 +182,7 @@ bool throttled_app_render(int x, int y, double t) {
     static double time_until_render = 0;
     static double last_now = 0;
     static double elapsed_time = 0;
-    double now, t0, t1, diff, frac, m;
+    double now, t0, t1, diff, frac;
     bool ok_to_render;
 
     ok_to_render = true;
@@ -218,11 +218,11 @@ bool throttled_app_render(int x, int y, double t) {
     //
     if (ok_to_render) {
         if (boinc_max_gfx_cpu_frac) {
-            boinc_calling_thread_cpu_time(t0, m);
+            boinc_calling_thread_cpu_time(t0);
         }
         app_graphics_render(x, y, t);
         if (boinc_max_gfx_cpu_frac) {
-            boinc_calling_thread_cpu_time(t1, m);
+            boinc_calling_thread_cpu_time(t1);
             total_render_time += t1 - t0;
         }
         return true;

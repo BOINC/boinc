@@ -68,10 +68,11 @@ using namespace std;
 APP_INIT_DATA  aid;
 
 APP_CLIENT_SHM       *app_client_shm      = 0;
-static double         timer_period        = 1.0;    // period of API timer
-// This determines the resolution of fraction done and CPU time reporting
-// to the core client, and of checkpoint enabling.
-// It doesn't influence graphics, so 1 sec is enough.
+static double         timer_period        = 1.0;
+    // period of API timer
+    // This determines the resolution of fraction done and CPU time reporting
+    // to the core client, and of checkpoint enabling.
+    // It doesn't influence graphics, so 1 sec is enough.
 static double         time_until_checkpoint;
     // time until enable checkpoint
 static double         time_until_fraction_done_update;
@@ -87,7 +88,9 @@ static bool           have_new_trickle_up = false;
 static bool           have_trickle_down   = true;
     // on first call, scan slot dir for msgs
 static double         heartbeat_giveup_time;
-static bool           heartbeat_active;             // if false, suppress heartbeat mechanism
+static bool           heartbeat_active;
+    // if false, suppress heartbeat mechanism
+static int nrunning_ticks = 0;
 
 #define HEARTBEAT_GIVEUP_PERIOD 30.0
     // quit if no heartbeat from core in this #secs
@@ -220,11 +223,10 @@ static void send_trickle_up_msg() {
 }
 
 int boinc_finish(int status) {
-    double cur_mem;
     if (options.send_status_msgs) {
-        boinc_calling_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
+        boinc_calling_thread_cpu_time(last_checkpoint_cpu_time);
         last_checkpoint_cpu_time += aid.wu_cpu_time;
-        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, 0);
     }
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
@@ -345,14 +347,16 @@ int boinc_wu_cpu_time(double& cpu_t) {
 
 #ifdef _WIN32
 
-int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
-    return boinc_thread_cpu_time(worker_thread_handle, cpu, ws);
+int boinc_worker_thread_cpu_time(double& cpu) {
+    if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
+        return nrunning_ticks * TIMER_PERIOD;   // for Win9x
+    }
 }
 
 #else
 
-int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
-    return boinc_calling_thread_cpu_time(cpu, ws);
+int boinc_worker_thread_cpu_time(double& cpu) {
+    return boinc_calling_thread_cpu_time(cpu);
 }
 
 #endif  // _WIN32
@@ -385,6 +389,7 @@ static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
         if (match_tag(buf, "<suspend/>")) {
+            boinc_status.suspended = true;
             if (options.direct_process_action) {
 #ifdef _WIN32
                 SuspendThread(worker_thread_handle);
@@ -402,26 +407,22 @@ static void handle_process_control_msg() {
                 }
                 heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 #endif
-            } else {
-                boinc_status.suspended = true;
             }
         }
 
         if (match_tag(buf, "<resume/>")) {
+            boinc_status.suspended = false;
             if (options.direct_process_action) {
 #ifdef _WIN32
                 ResumeThread(worker_thread_handle);
 #endif
-            } else {
-                boinc_status.suspended = false;
             }
         }
 
         if (match_tag(buf, "<quit/>")) {
+            boinc_status.quit_request = true;
             if (options.direct_process_action) {
                 exit(0);
-            } else {
-                boinc_status.quit_request = true;
             }
         }
     }
@@ -477,16 +478,22 @@ static void worker_timer(int a) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
-            double cur_mem;
-            boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
+            boinc_worker_thread_cpu_time(cur_cpu);
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, 0);
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
     }
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
     }
+#ifdef _WIN32
+    // poor man's CPU time accounting for Win9x
+    //
+    if (!boinc_options.suspended) {
+        nrunning_ticks++;
+    }
+#endif
 }
 
 
@@ -574,11 +581,11 @@ bool boinc_time_to_checkpoint() {
 }
 
 int boinc_checkpoint_completed() {
-    double cur_cpu, cur_mem;
-    boinc_calling_thread_cpu_time(cur_cpu, cur_mem);
+    double cur_cpu;
+    boinc_calling_thread_cpu_time(cur_cpu);
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, 0);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
 

@@ -630,13 +630,11 @@ static void scan_work_array(
                 goto dont_send;
             } else {
                 if (n>0) {
-#if 0
                     log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
+                        SCHED_MSG_LOG::DEBUG,
                         "send_work: user %d already has %d result(s) for WU %d\n",
                         reply.user.id, n, wu_result.workunit.id
                     );
-#endif
                     goto dont_send;
                 }
             }

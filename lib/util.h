@@ -111,7 +111,7 @@ char* windows_error_string(char* pszBuf, int iSize);
 char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
 );
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws);
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 #endif
 
 extern void update_average(double, double, double, double&, double&);
@@ -129,6 +129,6 @@ extern int dir_hier_url(
     const char* filename, const char* root, int fanout, char* result
 );
 
-extern int boinc_calling_thread_cpu_time(double&, double&);
+extern int boinc_calling_thread_cpu_time(double&);
 
 #endif

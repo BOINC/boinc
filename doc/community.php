@@ -45,6 +45,11 @@ This list is for people developing web sites showing statistics
 for BOINC projects.
 
 <dt>
+<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs</a>
+<dd>
+Summaries of BOINC CVS checkins are posted to this list.
+
+<dt>
 <a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>
 <dd>
 This list is for people porting and optimizing BOINC applications.

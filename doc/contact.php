@@ -47,6 +47,7 @@ show_name("Gilson Laurent");
 show_name("Bernd Machenschalk");
 show_name("Sebastian Masch");
 show_name("Kenichi Miyoshi");
+show_name("J.R. Oldroyd");
 show_name("Jakob Pedersen");
 show_name("Stephen Pellicer");
 show_name("Reinhard Prix");
