@@ -32,6 +32,9 @@ Progress=
 Size=
 Time=
 Direction=
+Speed=
+Status=
+Type=
 
 #MESSAGE_ID
 [HEADER-Messages]
@@ -61,6 +64,9 @@ Error: invalid state=
 Completed=
 Upload=
 Download=
+Retry in=
+Upload failed=
+Download failed=
 
 #menu items
 [MENU-File]
@@ -77,12 +83,6 @@ Title=Settings
 Login to Project...=
 Quit Project...=
 Proxy Server...=
-
-[MENU-Connection]
-Title=Connection
-Connect Now=
-Hangup Connection if Dialed=
-Confirm Before Connecting=
 
 [MENU-Help]
 Title=Help
