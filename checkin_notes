@@ -14192,3 +14192,24 @@ David  27 June 2004
 		zipcloak.c
 		zipnote.c
 		zipsplit.c
+
+David  27 June 2004
+	- Added core->app heartbeat mechanism so that apps will quit
+		if the core client dies
+		(i.e. if no heartbeat message arrives in 5 seconds).
+		Suppress this if app is standalone.
+		Also provide messages that let the core disable/enable
+		the mechanism (to support debugging of the core client)
+	- Added a 3rd message channel for suspend/resume/quit messages,
+		to replace signals.
+		This isn't used now.
+	- Restored code in APP_CLIENT_SHM that checks the "full" bit
+		before writing a message.
+		This may cause problems.
+
+	api/
+		boinc_api.C
+	client/
+		app.C,h
+	lib/
+		app_ipc.C,h

@@ -165,6 +165,7 @@ public:
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
     int get_free_slot(int total_slots);
+    void send_heartbeat();
 
     // screensaver-related functions
     ACTIVE_TASK* get_graphics_capable_app();

@@ -644,6 +644,7 @@ bool ACTIVE_TASK_SET::poll() {
     bool action;
 
     action = check_app_exited();
+    send_heartbeat();
     action |= check_rsc_limits_exceeded();
     if (get_status_msgs()) {
         action = true;
@@ -658,6 +659,17 @@ bool ACTIVE_TASK::finish_file_present() {
     char path[256];
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, BOINC_FINISH_CALLED_FILE);
     return boinc_file_exists(path);
+}
+
+void ACTIVE_TASK_SET::send_heartbeat() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->state == PROCESS_IN_LIMBO) continue;
+        atp->app_client_shm.send_msg("<heartbeat/>", CORE_APP_WORKER_SEG);
+    }
 }
 
 bool ACTIVE_TASK_SET::check_app_exited() {

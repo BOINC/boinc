@@ -222,12 +222,12 @@ bool APP_CLIENT_SHM::get_msg(char *msg, int seg_num) {
     return true;
 }
 
-bool APP_CLIENT_SHM::send_msg(char *msg,int seg_num) {
+bool APP_CLIENT_SHM::send_msg(char *msg, int seg_num) {
     if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
 
     // Check if there's already a message
     //
-    //if (shm[seg_num*SHM_SEG_SIZE]) return false;
+    if (shm[seg_num*SHM_SEG_SIZE]) return false;
 
     // Copy the message into shared memory
     //

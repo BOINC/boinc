@@ -74,12 +74,17 @@ static	double	      time_until_fraction_done_update;
 static	double	      fraction_done;
 static	double	      last_checkpoint_cpu_time;
 static	bool	      ready_to_checkpoint = false;
-static	bool	      this_process_active;
+//static	bool	      this_process_active;
 static	bool	      time_to_quit        = false;
 static	double	      last_wu_cpu_time;
 static	bool	      standalone          = false;
 static	double	      initial_wu_cpu_time;
 static	bool	      have_new_trickle_up = false;
+static double seconds_until_heartbeat_giveup;
+static bool heartbeat_active;   // if false, suppress heartbeat mechanism
+
+#define HEARTBEAT_GIVEUP_PERIOD 5.0
+    // quit if no heartbeat from core in this #secs
 
 #ifdef _WIN32
 HANDLE	 hErrorNotification;
@@ -139,8 +144,11 @@ int boinc_init(bool standalone_ /* = false */) {
     time_until_checkpoint = aid.checkpoint_period;
     last_checkpoint_cpu_time = aid.wu_cpu_time;
     time_until_fraction_done_update = aid.fraction_done_update_period;
-    this_process_active = true;
+    //this_process_active = true;
     last_wu_cpu_time = aid.wu_cpu_time;
+
+    heartbeat_active = !standalone;
+    seconds_until_heartbeat_giveup = HEARTBEAT_GIVEUP_PERIOD;
 
     set_timer(timer_period);
 
@@ -286,6 +294,22 @@ int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
 
 #endif  // _WIN32
 
+static void handle_core_app_msgs() {
+    char msg_buf[SHM_SEG_SIZE];
+    if (!app_client_shm->get_msg(msg_buf, CORE_APP_WORKER_SEG)) return;
+    if (match_tag(msg_buf, "<heartbeat/>")) {
+        seconds_until_heartbeat_giveup = HEARTBEAT_GIVEUP_PERIOD;
+    }
+    if (match_tag(msg_buf, "<enable_heartbeat/>")) {
+        heartbeat_active = true;
+    }
+    if (match_tag(msg_buf, "<disable_heartbeat/>")) {
+        heartbeat_active = false;
+    }
+    if (match_tag(msg_buf, "<have_trickle_down/>")) {
+    }
+}
+
 #ifdef _WIN32
 static void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
 #else
@@ -299,7 +323,23 @@ static void on_timer(int a) {
         }
     }
 
-    if (this_process_active) {
+	// handle messages from the core client
+	//
+    if (app_client_shm) {
+        handle_core_app_msgs();
+    }
+
+	// see if the core client has died, and we need to die too
+	//
+    if (heartbeat_active) {
+        seconds_until_heartbeat_giveup -= timer_period;
+        if (seconds_until_heartbeat_giveup < 0) {
+            fprintf(stderr, "No heartbeat from core client - exiting\n");
+            exit(0);
+        }
+    }
+
+    //if (this_process_active) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
@@ -309,7 +349,7 @@ static void on_timer(int a) {
             update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
-    }
+    //}
 }
 
 

@@ -24,6 +24,11 @@
 
 // Communication between the core client and the BOINC app library.
 // This code is linked into both core client and app lib.
+//
+// Some apps may involve separate "coordinator" and "worker" programs.
+// The coordinator runs one or more worker programs in sequence,
+// and don't do work themselves.
+//
 // Includes the following:
 // - shared memory (APP_CLIENT_SHM)
 // - main init file
@@ -34,19 +39,25 @@
 // Shared memory is arranged as follows:
 // 4 1K segments
 // First byte of each segment is nonzero if
-// segment contains unread data,
-// remaining 1023 bytes contain data
+// segment contains unread data.
+// This is set by the sender and cleared by the receiver.
+// The sender doesn't write if the flag is set.
+// Remaining 1023 bytes contain data.
+//
 
 #define SHM_SEG_SIZE            1024
-#define NUM_SEGS                4
+#define NUM_SEGS                6
 
 // The following 2 segs are used by the timer interrupt handler
-// in the running application
+// in the worker program
+//
 #define CORE_APP_WORKER_SEG     0
-    // <heartbeat/> every second
-    // [ <have_new_trickle_down> ]
+    // <heartbeat/>             sent every second, even while app is suspended
+    // <disable_heartbeat/>     disables heartbeat mechanism
+    // <enable_heartbeat/>      enable heartbeat mechanism (default)
+    // <have_new_trickle_down/> a new trickle-down message is available
 #define APP_CORE_WORKER_SEG     1
-    // status message every so often, of the form
+    // status message every second, of the form
     // <current_cpu_time>...
     // <checkpoint_cpu_time>...
     // <working_set_size>...
@@ -54,7 +65,8 @@
     // [ <have_new_trickle_up/> ]
 
 // The following 2 segs are used by the graphics thread
-// in the running application
+// in the worker program
+//
 #define CORE_APP_GFX_SEG        2
     // request a graphics mode:
     // <mode_hide_graphics/>
@@ -62,6 +74,18 @@
     // <mode_blankscreen/>
 #define APP_CORE_GFX_SEG        3
     // acknowledge graphics mode
+    // same msgs as above
+
+// The following 2 segs are used by the coordinator program
+// NOT IMPLEMENTED, here as a placeholder
+//
+#define CORE_APP_COORD_SEG      4
+    // control commands:
+    // <quit/>
+    // <suspend/>
+    // <resume/>
+#define APP_CORE_COORD_SEG      5
+    // acknowledge control commands
     // same msgs as above
 
 #define APP_CLIENT_SHMEM_SIZE   (sizeof(char)*NUM_SEGS*SHM_SEG_SIZE)
