@@ -76,6 +76,12 @@ function show_425_public($xml=false) {
     version_end($xml);
 }
 
+function show_427($xml=false) {
+    version_start("4.27", "16 Mar 2005", $xml);
+    version("Linux/x86", "boinc_4.27_i686-pc-linux-gnu.sh", sea(), $xml);
+    version_end($xml);
+}
+
 function show_426($xml=false) {
     version_start("4.26", "10 Mar 2005", $xml);
     version("Windows", "boinc_4.26_windows_intelx86.exe", win_new(), $xml);
@@ -161,7 +167,7 @@ function show_stable($xml) {
 }
 
 function show_dev($xml) {
-    show_426($xml);
+    show_427($xml);
     show_425($xml);
 }
 
