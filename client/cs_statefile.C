@@ -192,12 +192,12 @@ int CLIENT_STATE::parse_venue() {
 // Write the client_state.xml file
 //
 int CLIENT_STATE::write_state_file() {
-    FILE* f = boinc_fopen(STATE_FILE_TEMP, "w");
+    FILE* f = boinc_fopen(STATE_FILE_NEXT, "w");
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
     if (!f) {
-        msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);
+        msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_NEXT);
         return ERR_FOPEN;
     }
     MIOFILE mf;
@@ -205,7 +205,9 @@ int CLIENT_STATE::write_state_file() {
     int retval = write_state(mf);
     fclose(f);
     if (retval) return retval;
-    retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
+    retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
+    if (retval) return retval;
+    retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
     if (retval) return ERR_RENAME;
     return 0;

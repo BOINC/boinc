@@ -40,6 +40,8 @@ struct HTTP_REPLY_HEADER {
     std::string redirect_location;
     std::string recv_buf;
 
+    HTTP_REPLY_HEADER(){}
+    ~HTTP_REPLY_HEADER(){}
     void init();
     int read_reply(int socket);
     void parse();
@@ -70,7 +72,7 @@ public:
     char outfile[256];
     int content_length;
     double file_offset;
-    char request_header[256];
+    char request_header[4096];
     HTTP_REPLY_HEADER hrh;
     int http_op_state;     // values below
     int http_op_type;

@@ -15249,7 +15249,7 @@ Rom    July 15 2004
     - Tag for 4.00 release, all platforms
       boinc_release_4_00
 
-David
+David  15 July 2004
     - server: better messages on DB errors
     - web: cache system looks for "format=xml" in cache args,
         sends as MIME type XML if so
@@ -15305,3 +15305,17 @@ Noaa:
 		reduce.C
 		boinc_api.h
 		gutil.C
+
+
+David  15 July 2004
+	- HTTP; increase size of request header buffer from 256 to 4096
+		(fixes HTTP proxy authentication crash bug)
+	- New way of updating client_state.xml:
+		- write new file to client_state_next.xml
+		- rename client_state.xml to client_state_prev.xml
+		- rename client_state_next.xml to client_state.xml
+
+	client/
+		cs_statefile.C
+		file_names.h
+		http.h
