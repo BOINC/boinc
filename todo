@@ -30,7 +30,6 @@ BUGS (arranged from high to low priority)
 - consider warning message during windows (and perhaps other platforms)
     install that checks to see if the BOINC directory already exists,
     and if so, should the user overwrite it? or upgrade it?
-- Screensaver on win98 shows up as "boinc_ss" in the screensaver list. Should be "BOINC"
 - After running all night (on Win98) I shook the mouse to wake up the blank screen, and
     all I saw was the top half of the screen was solid gray, and the bottom half the
     bottom half of the astropulse graphics. They weren't moving. The computer was frozen.
