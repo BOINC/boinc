@@ -23328,3 +23328,10 @@ David  27 Jan 2005
 
     sched/
         server_types.C
+
+David  27 Jan 2005
+    - db_dump: instead of deleting old stats, move them to a directory 
+        whose name includes the current date
+
+    sched/
+        db_dump.C

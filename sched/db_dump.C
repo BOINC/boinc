@@ -830,16 +830,22 @@ int main(int argc, char** argv) {
 
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     system(buf);
-    sprintf(buf, "/bin/rm -rf %s", spec.final_output_dir);
+
+    // rename the old stats dir to a name that includes the date
+
+    struct tm* tmp;
+    time_t now = time(0);
+    tmp = gmtime(&now);
+    sprintf(buf, "mv %s %s_%d_%d_%d",
+        spec.final_output_dir,
+        spec.final_output_dir,
+        tmp->tm_mday,
+        tmp->tm_mon+1,
+        1900+tmp->tm_year
+    );
     retval = system(buf);
     if (retval) {
-        // for some reason the /bin/rm fails every now and then.
-        // If so try renaming it to something else
-        sprintf(buf, "mv %s %s_%d", spec.final_output_dir, spec.final_output_dir, time(0));
-        retval = system(buf);
-    }
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't remove or rename old stats\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't rename old stats\n");
         exit(1);
     }
     sprintf(buf, "mv %s %s", spec.output_dir, spec.final_output_dir);
