@@ -25402,5 +25402,14 @@ Bruce 28 Feb 2005
 
         sched/
             server_types.C
-        
-        
+
+David  1 Mar 2005
+    - core client: in garbage collection, reference-count FILE_INFOs
+        that are pointed to by FILE_XFER or PERS_FILE_XFER objects.
+        Hopefully this will prevent crashes when dealing with
+        app versions with unsigned files.
+
+    client/
+        client_state.C
+        cs_files.C
+        pers_file_xfer.C,h

@@ -205,7 +205,9 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
                 //
                 retval = fip->verify_downloaded_file();
                 if (retval) {
-                    msg_printf(fip->project, MSG_ERROR, "Checksum or signature error for %s", fip->name);
+                    msg_printf(fip->project, MSG_ERROR,
+                        "Checksum or signature error for %s", fip->name
+                    );
                     fip->status = retval;
                 } else {
                     // Set the appropriate permissions depending on whether

@@ -42,17 +42,6 @@
 
 using std::vector;
 
-// PERS_FILE_XFER represents a persistent file transfer.
-// A set of URLs is given.
-//
-// For download, the object attempts to download the file
-// from any of the URLs.
-// If one fails or is not available, try another,
-// using an exponential backoff policy to avoid flooding servers.
-//
-// For upload, try to upload the file to the first URL;
-// if that fails try the others.
-
 PERS_FILE_XFER::PERS_FILE_XFER() {
     nretry = 0;
     first_request_time = dtime();
@@ -254,16 +243,14 @@ bool PERS_FILE_XFER::poll(double now) {
             handle_xfer_failure();
         }
 
-		// fxp could have already been deallocated via check_giveup
-		// so check before trying to remove
-		//
-		if (fxp) {
-	        // remove fxp from file_xfer_set and deallocate it
-		    //
-			gstate.file_xfers->remove(fxp);
-			delete fxp;
-			fxp = NULL;
-		}
+        // fxp could have already been freed and zeroed by check_giveup
+        // so check before trying to remove
+        //
+        if (fxp) {
+            gstate.file_xfers->remove(fxp);
+            delete fxp;
+            fxp = NULL;
+        }
         return true;
     }
     return false;
@@ -391,7 +378,7 @@ void PERS_FILE_XFER::abort() {
     pers_xfer_done = true;
 }
 
-// Parse XML information about a single persistent file transfer
+// Parse XML information about a persistent file transfer
 //
 int PERS_FILE_XFER::parse(MIOFILE& fin) {
     char buf[256];
@@ -415,7 +402,7 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-// Write XML information about a particular persistent file transfer
+// Write XML information about a persistent file transfer
 //
 int PERS_FILE_XFER::write(MIOFILE& fout) {
     fout.printf(

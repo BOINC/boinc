@@ -24,16 +24,54 @@
 #include "file_xfer.h"
 
 
-// PERS_FILE_XFER represents a persistent file transfer.
-// A set of URL is given in the FILE_INFO.
-
+// PERS_FILE_XFER represents a "persistent file transfer",
+// i.e. a long-term effort to upload or download a file.
+// This may consist of several "episodes",
+// which are HTTP operations to a particular server.
+//
+// The FILE_INFO has a list of URLs.
 // For download, the object attempts to download the file
 // from any of the URLs.
 // If one fails or is not available, try another,
 // using an exponential backoff policy to avoid flooding servers.
-
+//
 // For upload, try to upload the file to the first URL;
-// if that gets transient failure, try the others.
+// if that fails try the others.
+
+// a PERS_FILE_XFER is created and added to pers_file_xfer_set
+// 1) when read from the client state file
+//   in (FILE_INFO::parse(), CLIENT_STATE::parse_state_file()
+// 2) when a FILE_INFO is ready to transfer
+//   in CLIENT_STATE::handle_pers_file_xfers()
+
+// a PERS_FILE_XFER p is removed from pers_file_xfer_set and freed
+// 1) when p->pers_xfer_done is true
+//   in CLIENT_STATE::handle_pers_file_xfers()
+
+// A FILE_XFER is created and added to file_xfer_set and linked from PFX
+// 1) in PERS_FILE_XFER::start_xfer()
+
+// A FILE_XFER is erased from file_xfer_set, unlinked from PFX and freed
+// 1) when the FILE_XFER is done, in
+//   PERS_FILE_XFER::poll()
+//   PERS_FILE_XFER::check_giveup()
+// 2) user request, in
+//   PERS_FILE_XFER::abort()
+//   PERS_FILE_XFER::suspend()
+// 3) if the FILE_XFER_SET::insert() fails
+//   PERS_FILE_XFER::start_xfer()
+// NOTE: when this is done, pers_xfer_done is set
+//
+// pointers:
+// PERS_FILE_XFER -> FILE_XFER
+//   set in PERS_FILE_XFER::start_xfer()
+//    zeroed (see above)
+// PERS_FILE_XFER -> FILE_INFO
+//   set in PERS_FILE_XFER::init()
+// FILE_INFO -> PERS_FILE_XFER
+//   set in FILE_INFO::parse(), CLIENT_STATE::handle_pers_file_xfers()
+//   zeroed in PERS_FILE_XFER destructor
+
 
 // Default values for exponential backoff
 #define PERS_RETRY_DELAY_MIN    60                // 1 minute

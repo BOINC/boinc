@@ -900,8 +900,17 @@ bool CLIENT_STATE::garbage_collect(double now) {
         }
     }
 
-    // delete FILE_INFOs (and corresponding files) that
-    // are not referenced by any WORKUNIT, RESULT or APP_VERSION
+    // reference count files involved in PERS_FILE_XFER or FILE_XFER
+    // (this seems redundant, but apparently not)
+    //
+    for (i=0; i<file_xfers->file_xfers.size(); i++) {
+        file_xfers->file_xfers[i]->fip->ref_cnt++;
+    }
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        pers_file_xfers->pers_file_xfers[i]->fip->ref_cnt++;
+    }
+
+    // delete FILE_INFOs (and corresponding files) that are not referenced
     // Don't do this if sticky and not marked for delete
     //
     fi_iter = file_infos.begin();
