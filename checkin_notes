@@ -15814,3 +15814,8 @@ Daniel 2004-08-3
         handle_request.C
         server_types.C,h
 
+Rom    3 Aug 2004
+    - Change the Secure Windows Desktop message to include an action item for those who want to fix it.
+
+    client/win/
+        boinc_ss.rc

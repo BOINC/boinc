@@ -55,8 +55,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,0,0
- PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,0,0
+ FILEVERSION 4,1,0,0
+ PRODUCTVERSION 4,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -73,12 +73,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "BOINC Screensaver"
-            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "FileVersion", "4.01"
             VALUE "InternalName", "boinc_ss"
             VALUE "LegalCopyright", "Copyright © 2003-2004 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+            VALUE "ProductVersion", "4.01"
         END
     END
     BLOCK "VarFileInfo"
@@ -136,7 +136,7 @@ BEGIN
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
                             "BOINC is not running.\n(Automatic Startup not detected)\n\nWe recommend running BOINC at startup;\nplease reinstall BOINC and select this option."
-    IDS_ERR_BOINCNOTFOUND   "Secure Windows Desktop Detected.\n\nThis configuration is currently not supported."
+    IDS_ERR_BOINCNOTFOUND   "Secure Windows Desktop Detected.\n\nYou must uncheck the password checkbox to\ndisplay the screensaver.\n\nThis will be fixed in an upcoming release."
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 
