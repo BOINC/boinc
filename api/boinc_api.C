@@ -339,6 +339,7 @@ int boinc_checkpoint_completed() {
     return 0;
 }
 
+#if 0
 void boinc_mask() {
 #ifndef _WIN32
     sighold(SIGALRM);
@@ -350,6 +351,7 @@ void boinc_unmask() {
     sigrelse(SIGALRM);
 #endif
 }
+#endif
 
 int boinc_fraction_done(double x) {
     fraction_done = x;
