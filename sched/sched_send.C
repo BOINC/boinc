@@ -350,6 +350,55 @@ static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
     return false;
 }
 
+// modified by Pietro Cicotti
+// Check that the two platform has the same architecture and operating system
+// Architectures: AMD, Intel, Macintosh
+// OS: Linux, Windows, Darwin, SunOS
+
+const int nocpu = 0;
+const int Intel = 1;
+const int AMD = 2;
+const int Macintosh = 3;
+
+const int noos = 10;
+const int Linux = 11;
+const int Windows = 12;
+const int Darwin = 13;
+const int SunOS = 14;
+
+bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
+    int h_processor = nocpu;
+    int h_system = noos;
+    int r_processor = nocpu;
+    int r_system = noos;
+
+    if ( strstr(host.p_vendor, "Intel") != NULL ) h_processor = Intel;
+    else if( strstr(host.p_vendor, "AMD") != NULL ) h_processor = AMD;
+    else if( strstr(host.p_vendor, "Macintosh") != NULL ) h_processor = Macintosh;
+    if ( strstr(sreq.host.p_vendor, "Intel") != NULL ) r_processor = Intel;
+    else if( strstr(sreq.host.p_vendor, "AMD") != NULL ) r_processor = AMD;
+    else if( strstr(sreq.host.p_vendor, "Macintosh") != NULL ) r_processor = Macintosh;
+
+    if ( strstr(host.os_name, "Linux") != NULL ) h_system = Linux;
+    else if( strstr(host.os_name, "Windows") != NULL ) h_system = Windows;
+    else if( strstr(host.os_name, "Darwin") != NULL ) h_system = Darwin;
+    else if( strstr(host.os_name, "SunOS") != NULL ) h_system = SunOS;
+    if ( strstr(sreq.host.os_name, "Linux") != NULL ) r_system = Linux;
+    else if( strstr(sreq.host.os_name, "Windows") != NULL ) r_system = Windows;
+    else if( strstr(sreq.host.os_name, "Darwin") != NULL ) r_system = Darwin;
+    else if( strstr(sreq.host.os_name, "SunOS") != NULL ) r_system = SunOS;
+
+    return ( h_processor == r_processor && h_system == r_system );
+}
+
+#if 0
+// old version, just in case
+bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
+    return !strcmp(host.os_name, sreq.host.os_name)
+        && !strcmp(host.p_vendor, sreq.host.p_vendor);
+}
+#endif
+
 // return true if we've already sent a result of this WU to a different platform
 // (where "platform" is os_name + p_vendor;
 // may want to sharpen this for Unix)
@@ -376,15 +425,13 @@ static bool already_sent_to_different_platform(
                 found = true;
                 break;
             }
-            if (strcmp(host.os_name, sreq.host.os_name)
-                || strcmp(host.p_vendor, sreq.host.p_vendor)
-            ){
-                wreq.homogeneous_redundancy_reject = true;
-                found = true;
+            if (same_platform(host, sreq)) {
+                // already sent to same platform - don't need to keep looking
+                //
                 break;
             }
-            // already sent to same platform - don't need to keep looking
-            //
+            wreq.homogeneous_redundancy_reject = true;
+            found = true;
             break;
         }
     }

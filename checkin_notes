@@ -13886,3 +13886,10 @@ David  June 17 2004
     lib/
         app_ipc.h
         mfile.h
+
+David  June 17 2004
+    - looser definition of "same platform" when using homogeneous redundancy
+        (Courtesy of Pietro Cicotti)
+
+    sched/
+        sched_send.C
