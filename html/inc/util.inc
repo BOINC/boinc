@@ -7,7 +7,12 @@ require_once("../inc/db.inc");
 
 function db_init() {
     if (project_is_stopped()) {
-        echo "Project is shut down for maintenance - please try again later\n";
+        page_head("Not available");
+        echo "This page requires database access.
+            Our database server is temporarily shut down for maintenance.
+            Please try again later.
+        ";
+        page_tail();
         exit();
     }
     $retval = db_init_aux();
