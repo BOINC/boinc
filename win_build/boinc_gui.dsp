@@ -150,6 +150,10 @@ SOURCE=..\client\gui_titles.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\HeapCheck\HeapCheck.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\Client\Hostinfo.c
 # End Source File
 # Begin Source File
@@ -227,6 +231,10 @@ SOURCE=..\client\ss_logic.C
 # Begin Source File
 
 SOURCE=..\client\win\Stackwalker.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\HeapCheck\testApp.cpp
 # End Source File
 # Begin Source File
 
@@ -322,6 +330,10 @@ SOURCE=..\client\gui_titles.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\HeapCheck\HeapCheckPrototypes.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\client\hostinfo.h
 # End Source File
 # Begin Source File
@@ -387,6 +399,10 @@ SOURCE=..\client\ss_logic.h
 # Begin Source File
 
 SOURCE=..\client\win\Stackwalker.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\HeapCheck\swaps.h
 # End Source File
 # Begin Source File
 
