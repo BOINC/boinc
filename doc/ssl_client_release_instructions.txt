@@ -11,6 +11,8 @@ Required:
        gmake
        gcc 3.3 - especially on the Mac
        autoconf (v2.54 or greater)
+       screen - this is useful for managing the builds and tests on
+                all *nix platforms
   Windows:
     Visual C++ 6.0 (soon to be VC++ .net)
     InstallShield 5.5 Pro
@@ -127,7 +129,16 @@ Build
         % make
         % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
 
-    Note: This same technique applies to building the setiathome application.
+    Note1: This same technique applies to building the setiathome application.
+    Note2: The .gz filename is longer than the maximum filename length imposed
+           by some macintosh browsers, such as IE and Safari (this limit was
+           left over from OS 9, and doesn't exist in OS X. Why the OS X browsers
+           continue to enforce it is a mystery). For the next release and going
+           forward, we should change the os x .gz file name to something shorter,
+           such as boinc_<verno>_OSX.gz (but leave the platform name the same
+           as before: powerpc-apple-darwin). This will solve a lot of download
+           problems for mac users.
+
     [bonus: automate this process]
 
 Test
