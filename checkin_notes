@@ -25255,5 +25255,14 @@ Rom    23 Feb 2005
     win_build/installerv2/redist/Windows/x86/
         getgrpname.dll
 
+Rom    23 Feb 2005
+    - Bug Fix: Installshield isn't very consistent with how it deals with
+        copied controls from one dialog to another.  It seems on my last
+        round of updates to make the checkbox controls act as integers
+        the UI didn't update properly and left me with the impression
+        that all the controls had been properly flagged as integer values.
+        It turns out they were not, so i've changed them so that they are.
 
+    win_build/installerv2/
+        BOINC.ism
     
