@@ -430,6 +430,10 @@ SOURCE=..\..\client\win\boinc.bmp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\client\win\res\boinc.bmp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\client\win\boincsm.bmp
 # End Source File
 # Begin Source File

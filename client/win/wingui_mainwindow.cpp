@@ -248,10 +248,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
 		if(!re) {
-			m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
-            if (m_ResultListCtrl.GetItemProgress(i, 4) != 100) {
+    		m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
+            if (m_ResultListCtrl.GetItemText(i, 6) != g_szMiscItems[7]) {
 			    m_ResultListCtrl.SetItemProgress(i, 4, 100);
 			    m_ResultListCtrl.SetItemText(i, 5, "00:00:00");
+                m_ResultListCtrl.SetItemText(i, 6, g_szMiscItems[7]);
             }
 			continue;
 		}
@@ -351,8 +352,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
             if (m_XferListCtrl.GetItemProgress(i, 2) != 100) {
 			    m_XferListCtrl.SetItemProgress(i, 2, 100);
-			    m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
-			    m_XferListCtrl.SetItemText(i, 5, "0.00 KBps");
+			    //m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
+			    m_XferListCtrl.SetItemText(i, 5, "---");
 			    m_XferListCtrl.SetItemText(i, 6, g_szMiscItems[7]);
             }
 			continue;

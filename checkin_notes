@@ -4636,6 +4636,17 @@ Karl    2003/06/11
     client/
         client_state.C
 
+Tim    June 11, 2003
+    - Windows GUI Enhancement
+        modified flicker-reducing checks
+    - Preference
+        fixed prompt user when downloading executable (commented out)
+
+    client/
+        file_xfer.c
+        pers_file_xfer.c
+        wingui_mainwindow.cpp
+
 Karl    2003/06/11
     - test suite overhaul 
 
@@ -4650,5 +4661,3 @@ Karl    2003/06/11
         test_sanity.php
         test_uc.php
         version.inc.in
-
-
