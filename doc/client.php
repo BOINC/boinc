@@ -128,7 +128,8 @@ Otherwise it draws the BOINC logo bouncing around the screen.
 <a name=cmdline>
 <h3>The BOINC command-line client</h3>
 <p>
-Install the BOINC client by using gunzip to decompress the executable.
+Install the BOINC client by using gunzip to decompress the application.
+Use 'chmod' to make it executable.
 Put it in a directory by itself.
 Run it manually, from your login script,
 or from system startup files.

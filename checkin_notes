@@ -9269,3 +9269,6 @@ Karl 2004-01-15
         update_stats.C
         validate.C
         wu_check.C
+
+David  Jan 16 2004
+    - released core client 2.18 for Windows

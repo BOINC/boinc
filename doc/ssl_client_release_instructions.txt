@@ -14,7 +14,7 @@ Required:
        screen - this is useful for managing the builds and tests on
                 all *nix platforms
   Windows:
-    Visual C++ 6.0 (soon to be VC++ .net)
+    Visual C++ 7.0
     InstallShield 5.5 Pro
     InstallShield Package for the Web v2
 
@@ -23,34 +23,41 @@ Required:
        build folder. This should be checked in once the required files
        are separated from the generated files)
 
+
 Administrivia:
-    Make a note in checkin_notes 
+    do this on a unix machine:
+    (note: the make in your default path must be gnu make,
+    IN BOTH YOUR NORMAL SHELL AND SH
+    or else set-version will fail towards the end)
+
+    Check out a new copy of the BOINC source tree
+    Make an entry in checkin_notes w/ platforms, version#
 
     Set the version number:
-        do this on a unix machine, preferably in a clean checkout of boinc
-            first, update the installer files for windows:
-            [this is so these files actually get into the distribution source]
-             % cd win_build/installer/Setup Files/Compressed Files/Language Independent/OS Independent
-                <edit>  readme.txt  (change version number)
-                <edit> license.txt  (change version number)
-              [bonus: automate this process]
+        see clien/win/win_config.h to find last version#
+        (or look on web site)
 
-            % ./set-version <verno>
-            (note: the make in your default path must be gnu make, or else
-                   set-version will fail towards the end)
-            % cvs ci -m 'new version'
+        % ./set-version <verno>
+        (this revises client/win/win_config.h, makefile.in's)
+        % cvs commit -m 'version <verno>'
 
     Make a source tarball and zip:
-        % make dist  (if you have problems here, such as the make choking on
-                      emacs save files, try "make -i dist")
+        % make dist
+            (if you have problems here, such as the make choking on
+            emacs save files, try "make -i dist")
         % cp boinc-<verno>.tar.gz boinc-<verno>.zip ~davea/boinc/doc/source/
 
 Build
  Windows:
     Use the HP Kayak windows box (bart) in 329 or the Dell (skinner) in 325.
 
-    bart: Open 'quarl' on the desktop.
-    skinner: Open 'build' on the desktop.
+    set up:
+        bart: Open 'quarl' on the desktop.
+        skinner: Open 'build' on the desktop.
+        other: check out new source tree; copy Media.zip into win_build/installer; unzip
+            make sure "Media" is at top level of installer
+            Right-click on top BOINC folder;
+            CVS/preferences/policy; clear "prune empty folders" checkbox
 
     Open 'BOINC'
 
@@ -59,14 +66,14 @@ Build
 
     Open 'win_build'
 
-    Open 'BOINC.dsw'
+    Open 'BOINC.sln'  (or .dsw if VC6.0)
 
     in the visual c++ menu, pick
-        Build->Clean
-        Build->Rebuild All
+        Build->Clean solution
+        Build->build solution
           the exe will be in win_build\Build\Debug
 
-    Open 'installer'
+    Open 'win_build/installer'
 
     open 'BOINC.ipr' (installshield project)
 
@@ -83,6 +90,9 @@ Build
 
         The new windows installer (BOINC_<verno>_intelx86_windows.exe)
         will be left in this folder when you exit Package for the Web
+
+    Do a CVS commit of win_build/installer/BOINC.pfw (to get version#, year)
+        (possibly)
 
     SFTP to boincadm@koloth:
 
@@ -101,12 +111,13 @@ Build
         % cd ~
         % mkdir proj
         % cd proj
-        % mkdir client-build-`<any boinc src dir>/boinc/config.guess`
-        % cd client-build-`<any boinc src dir>/boinc/config.guess`
+        % mkdir <platform name>
+        % cd <platform name>
         % cvs co boinc
         % cd boinc
         % ./configure && make
-        % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
+            (tee to a file if you want to look at logs later)
+        % scp client/boinc_<verno>_<platform>.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
 
     [bonus: automate this process]
 
@@ -122,12 +133,14 @@ Build
         % cd ~
         % mkdir proj
         % cd proj
-        % mkdir client-build-powerpc-apple-darwin
         % cvs co boinc
         % cd boinc
         % ./configure --build=powerpc-apple-darwin
         % make
-        % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
+        % cd client
+        % rename  boinc_<verno>_<plat>.gz to b_<verno>_<plat>.gz
+            (to work around Mac IE 31-char filename bug)
+        % scp b_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
 
     Note1: This same technique applies to building the setiathome application.
     Note2: The .gz filename is longer than the maximum filename length imposed
@@ -158,7 +171,7 @@ If all is well...
 Update the server:
     ssh boincadm@koloth
     cd projects/Astropulse_Beta/bin
-    ./update_versions &&
+    ./update_versions
     ./stop
     ./start
 
