@@ -49,6 +49,8 @@ bool noinsert = false;
 
 #define SLEEP_INTERVAL 10
 
+int one_pass_N_WU=0;
+
 // assimilate all WUs that need it
 // return nonzero if did anything
 //
@@ -62,7 +64,8 @@ bool do_pass(APP& app) {
 
     check_stop_daemons();
 
-    sprintf(buf, "where appid=%d and assimilate_state=%d limit 1000", app.id, ASSIMILATE_READY);
+    sprintf(buf, "where appid=%d and assimilate_state=%d limit %d", app.id, ASSIMILATE_READY,
+                  one_pass_N_WU ? one_pass_N_WU : 1000);
     while (!wu.enumerate(buf)) {
         vector<RESULT> results;     // must be inside while()!
 
@@ -133,6 +136,9 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
+        } else if (!strcmp(argv[i], "-one_pass_N_WU")) {
+            one_pass_N_WU = atoi(argv[++i]);
+            one_pass = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {

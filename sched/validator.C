@@ -21,8 +21,9 @@
 // validator - check and validate new results, and grant credit
 //  -app appname
 //  [-d debug_level]
-//  [-one_pass]     // make one pass through WU table, then exit
-//  [-asynch]       // fork, run in separate process
+//  [-one_pass_N_WU N]   // Validate only N WU in one pass, then exit
+//  [-one_pass]          // make one pass through WU table, then exit
+//  [-asynch]            // fork, run in separate process
 //
 // This program must be linked with two project-specific functions:
 // check_set() and check_pair().
@@ -465,6 +466,8 @@ void handle_wu(
     }
 }
 
+int one_pass_N_WU=0;
+
 // make one pass through the workunits with need_validate set.
 // return true if there were any
 //
@@ -475,7 +478,7 @@ bool do_validate_scan(APP& app) {
 
     // loop over entries that need to be checked
     //
-    while (!validator.enumerate(app.id, SELECT_LIMIT, items)) {
+    while (!validator.enumerate(app.id, one_pass_N_WU?one_pass_N_WU:SELECT_LIMIT, items)) {
         handle_wu(validator, items);
         found = true;
     }
@@ -525,6 +528,9 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
+        } else if (!strcmp(argv[i], "-one_pass_N_WU")) {
+            one_pass_N_WU = atoi(argv[++i]);
+            one_pass = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-app")) {
