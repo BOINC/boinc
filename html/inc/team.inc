@@ -11,6 +11,19 @@ function show_team_create_account_url($team) {
     row2("Create team account URL<br><font size=-2>Accounts created via this URL will belong to this team and will have the project preferences of its founder</font>", "<a href=$url>$url</a>");
 }
 
+function team_type_name($type) {
+    switch ($type) {
+    case 1: return "Unclassified";
+    case 2: return "Company";
+    case 3: return "Primary school";
+    case 4: return "Secondary school";
+    case 5: return "Junior college";
+    case 6: return "University or department";
+    case 7: return "Government agency";
+    }
+    return "Unknown";
+}
+
 function display_team_page($team, $offset, $sort_by) {
     $n = 20;
 
@@ -37,7 +50,12 @@ function display_team_page($team, $offset, $sort_by) {
         row2("Description", sanitize_html($team->description));
     }
     if (strlen($team->url)) {;
-        row2("Web site", "<a href=http://$team->url>http://$team->url</a>");
+        if (strstr($team->url, "http://")) {
+            $x = $team->url;
+        } else {
+            $x = "http://$team->url";
+        }
+        row2("Web site", "<a href=$x>$x</a>");
     }
     row2("Members", $team->nusers);
 
@@ -46,6 +64,7 @@ function display_team_page($team, $offset, $sort_by) {
     $user = lookup_user_id($team->userid);
     row2("Founder", user_links($user));
     row2("Country", $team->country);
+    row2("Type", team_type_name($team->type));
     row2("Join this team", "<a href=team_join_form.php?id=$team->id>Join</a>");
     show_team_create_account_url($team);
     echo "</table>";

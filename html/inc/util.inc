@@ -433,7 +433,7 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
 }
 
 function format_credit($cobblestones) {
-    return sprintf("%.2f", $cobblestones);
+    return number_format($cobblestones, 2);
 }
 
 function project_is_stopped() {

@@ -34,8 +34,19 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     <input name=team_name>
     <input type=submit name=search value=Search>
     </form>
-    <li> <a href=top_teams.php>Show top teams</a>
     <li> <a href=team_create_form.php>Create a team</a>
+    </ul>
+    Show top teams:
+    <ul>
+    <li> <a href=top_teams.php>All teams</a>
+";
+
+for ($i=1; $i<8; $i++) {
+    echo "<li> <a href=top_teams.php?type=$i>".team_type_name($i)." teams</a>
+    ";
+}
+
+echo "
     </ul>
 ";
     page_tail();

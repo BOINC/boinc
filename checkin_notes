@@ -20905,3 +20905,15 @@ David  8 Dec 2004
         Makefile.am
     lib/
         Makefile.am
+
+David  8 Dec 2004
+    - web site: added Team leaderboards broken down by type (see team.php)
+
+    html/
+        inc/
+            team.inc
+            util.inc
+        user/
+            sample_index.php
+            team.php
+            top_teams.php

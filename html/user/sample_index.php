@@ -38,7 +38,7 @@ function show_nav() {
         <ul>
         <li><a href=top_users.php>Top participants</a>
         <li><a href=top_hosts.php>Top computers</a>
-        <li><a href=top_teams.php>Top teams</a>
+        <li><a href=team.php>Top teams</a>
         <li><a href=stats.php>Other statistics</a></h3>
         </ul>
     ";
