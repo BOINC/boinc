@@ -53,7 +53,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,26,0,0
+ FILEVERSION 2,27,0,0
  PRODUCTVERSION 2,26,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -71,12 +71,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "BOINC Core Client Command Line Interface"
-            VALUE "FileVersion", "2, 26, 0, 0"
+            VALUE "FileVersion", "2, 27, 0, 0\0"
             VALUE "InternalName", "boinc_cli"
             VALUE "LegalCopyright", "Copyright © 2003-2004 University of California"
             VALUE "OriginalFilename", "boinc_cli.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", "2, 26, 0, 0"
+            VALUE "ProductVersion", "2, 27, 0, 0\0"
         END
     END
     BLOCK "VarFileInfo"
