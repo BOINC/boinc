@@ -9,6 +9,8 @@ require_once("../inc/util.inc");
 
 db_init();
 
+set_time_limit(0);
+
 function update_4_18_2004() {
     mysql_query("alter table user add cross_project_id varchar(254) not null");
     $result = mysql_query("select * from user");
@@ -170,6 +172,31 @@ function update_11_24_2004() {
     );
 }
 
+// or alternatively: (can run in parallel)
+
+function update_11_24_2004_result() {
+    mysql_query(
+        "alter table result add priority integer not null, "
+        ."add mod_time timestamp, "
+        ."drop index ind_res_st, "
+        ."add index ind_res_st(server_state, priority), "
+        ."drop index app_received_time, "
+        ."add index app_mod_time(appid, mod_time desc)"
+}
+function update_11_24_2004_workunit() {
+    mysql_query(
+        "alter table workunit "
+        ." change workseq_next hr_class integer not null, "
+        ." add priority integer not null, "
+        ." add mod_time timestamp"
+    );
+}
+function update_11_24_2004_host() {
+    mysql_query(
+        "alter table host drop column projects, "
+        ." add avg_turnaround double not null"
+    );
+}
 //update_10_25_2004();
 
 ?>
