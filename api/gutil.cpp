@@ -422,10 +422,11 @@ int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
 
 unsigned int texture_id;
 
-void init_texture(char* filename) {
+int init_texture(char* filename) {
     unsigned char* pixels;
-    int width, height;
-    read_ppm_file(filename, width, height, &pixels);
+    int width, height, retVal;
+    retVal = read_ppm_file(filename, width, height, &pixels);
+    if (retVal) return retVal;
     glGenTextures(1, &texture_id);
     glBindTexture(GL_TEXTURE_2D, texture_id);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -443,6 +444,7 @@ void init_texture(char* filename) {
         GL_UNSIGNED_BYTE,
         pixels
     );
+    return 0;
 }
 struct Vertex
 {

@@ -87,6 +87,6 @@ public:
 //
 extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
 
-extern void init_texture(char* filename);
+extern int init_texture(char* filename);
 extern void draw_texture(float* pos, float* size);
 
