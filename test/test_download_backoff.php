@@ -1,7 +1,7 @@
 #! /usr/local/bin/php
 <?php
-//This tests the exponential backoff mechanism on the client in case of downloadURLs going down
-//This test is not automated. It has to be run, and then client.out (in the host directory) must be looked at to examine wether everything is working correctly.    
+// Tests the exponential backoff mechanism on the client for failed downloads
+// This test is not automated. It has to be run, and then client.out (in the host directory) must be looked at to examine wether everything is working correctly.    
     include_once("test.inc");
 
     $project = new Project;
@@ -11,20 +11,15 @@
     $app = new App("upper_case");
     $app_version = new App_Version($app);
 
-    // the following is optional (makes client web download possible)
-    $core_app = new App("core client");
-    $core_app_version = new App_Version($core_app);
-    $project->add_app($core_app);
-    $project->add_app_version($core_app_version);
-
     $project->add_user($user);
     $project->add_app($app);
     $project->add_app_version($app_version);
 
     $project->install();      // must install projects before adding to hosts
+    $project->install_feeder();
 
     $host->log_flags = "log_flags.xml";
-    $host->add_project($project);
+    $host->add_user($user, $project);
     $host->install();
 
     echo "adding work\n";
@@ -33,13 +28,13 @@
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
     $work->redundancy = 2;
-    $work->delay_bound = 10;
     array_push($work->input_files, "input");
     $work->install($project);
 
-    $project->start_feeder();
     //delete the download_dir immediately 
     $project->delete_downloaddir();
+
+    $project->start_servers();
     $pid = $host->run_asynch("-exit_when_idle");
     echo "sleeping 100 secs\n";
     sleep(100);

@@ -5,6 +5,8 @@
 
     include_once("test.inc");
 
+    $retval = 0;
+
     $project = new Project;
     $user = new User();
     $host = new Host($user);
@@ -38,4 +40,6 @@
 
     $result->server_state = RESULT_STATE_OVER;
     $project->check_results(0, $result);
+
+    exit($retval);
 ?>
