@@ -5472,3 +5472,7 @@ Karl 2003/07/31
 
     client/ss_logic.C, win/*
 
+Karl 2003/07/31
+    - fixed astropulse memory leak
+
+    astropulse/client/*
