@@ -37,22 +37,17 @@ if (!empty($_GET['post'])) {
     $post = getPost($_GET['post']);
 }
 
-$helpdesk = false;
-
-// TODO: Just get this from the category perhaps?
-
-if (!empty($_GET['helpdesk'])) {
-	$helpdesk = true;
-}
-
 $thread = getThread($_GET['thread']);
 $forum = getForum($thread->forum);
+$category = getCategory($forum->category);
+$helpdesk = $category->is_helpdesk;
+
 
 // TODO: Write a function for this.
 if ($helpdesk) {
-	page_head('Help Desk', $logged_in_user);
+	page_head('Questions and problems', $logged_in_user);
 } else {
-	page_head('Forum', $logged_in_user);
+	page_head('Message boards', $logged_in_user);
 }
 
 show_forum_title($forum, $thread, $helpdesk);
@@ -62,13 +57,13 @@ start_forum_table(array("Author", "Message"));
 // TODO: Use the same sorting method that the user had in the thread view.
 
 show_posts($thread, 'modified-new',-2, false, false, $helpdesk);
-show_message_row($thread, $post);
+show_message_row($thread, $category, $post);
 
 end_forum_table();
 
 page_tail();
 
-function show_message_row($thread, $post=NULL) {
+function show_message_row($thread, $category, $post=NULL) {
     global $logged_in_user;
 
     echo "
@@ -85,33 +80,37 @@ function show_message_row($thread, $post=NULL) {
     }
 
     echo "
-</p>
-<p style=\"font-size:8pt\">
-Joined: ", date('M j, Y', $logged_in_user->create_time), "
-</p>
-</td>
-<td>
-	<p style=\"font-size:8pt\">Your Message";
-    if ($post) echo " in response to <a href=#$post->id>Message ID $post->id</a>";
-    echo "</p>
-	<form action='reply.php?thread=", $thread->id;
+        </td>
+        <td>
+    ";
+    if ($post) {
+        echo " to <a href=#$post->id>Message ID $post->id</a>:";
+    } else {
+        echo " your answer:";
+    }
+    if ($category->is_helpdesk) {
+        echo "<br><b>
+            Please use this form ONLY to answer or
+            discuss this particular question or problem.
+        ";
+    }
+    echo "<form action='reply.php?thread=", $thread->id;
 
     if ($post) {
         echo "&post=", $post->id;
     }
 
-    echo "' method=\"post\">
-	    <textarea name=\"content\" rows=\"18\" cols=\"80\">";
+    echo "' method=post><textarea name=\"content\" rows=\"18\" cols=\"80\"> ";
     if ($post) echo quote_text(stripslashes($post->content), 80);
     echo "</textarea><p>
-	    <input type=\"submit\" value=\"Post reply\"></p>
+	    <input type=\"submit\" value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
         <input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this reply                                
 
-	</form>
+        </form>
 	";
 
-    echo "</td></tr>";
+    echo "</td></tr>\n";
 }
 
 function quote_text($text, $cols) {

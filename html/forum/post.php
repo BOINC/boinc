@@ -40,20 +40,26 @@ if ($category->is_helpdesk) {
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
 if ($category->is_helpdesk) {
-	echo "<p>The ", PROJECT, " Help Desk is designed to help users
-        find answers to questions they might have about our project,
-        software, science, etc.<p>To ensure that this is effectively
-        achieved, please make sure to skim the questions that
-        have already been posted before posting your own.
-        If your question has already been asked by another user,
-        clicking on the \"I also have this problem\" button
-        in their post will be more effective than re-posting the question.
-        <p>If you've been unable to find your question already posted,
-        please fill in the fields below to add it to the Help Desk.</p>
+	echo "<p>The <b>Questions and problems</b> area is designed to help you
+        get questions answered and problems solved by other users.
+        If you have a question or problem:
+        <ul>
+        <li>
+        Read the existing list of questions.
+        If your question is already there,
+        click on the <b>I also have this question or problem</b> button.
+        If answers to the question have been submitted, read them.
+        If one of them answers your question, click the
+        <b>This answered my question</b> button.
+        <li>
+        If your question has not already been asked,
+        fill out and submit this form.
+        </ul>
+        The goal is to prevent questions from being asked repeatedly.
     ";
 }
 
-echo "<form action=\"post.php?id=", $_GET['id'], "\" method=\"POST\">";
+echo "<form action=\"post.php?id=", $_GET['id'], "\" method=POST>";
 
 if ($category->is_helpdesk) {
 	$cell = "Post a New Question";
@@ -65,30 +71,34 @@ start_forum_table(array($cell), 2);
 echo "<tr><td class=fieldname><b>Title</b>";
 
 if ($category->is_helpdesk) {
-	echo "<p>Try to describe your question as completely (and concisely) as you can in the space provided.</p>A brief, clear summary will help others with the same question (or an answer to your question) find your post.<p></p>";
+	echo "<p>
+        Describe your question in a few words.
+        A brief, clear summary will help others with the same
+        question (or an answer) find it.
+        <p></p>
+    ";
 }
 
 echo "
     </td>
-    <td><input type=\"text\" name=\"title\" size=62></td>
+    <td><input type=text name=title size=62></td>
     </tr>
     <tr>
     <td class=fieldname style=\"vertical-align:top\"><b>Message</b>
 ";
 
 if ($category->is_helpdesk) {
-	echo "<p>Please be as specific as possible:
-        if you are having software problems for example,
-        be sure to mention the version of the software you are running,
+	echo "<p>
+        If you are having software problems,
+        mention the version number of the software,
         your computer type, operating system, etc.
-        <p>The more detailed your description,
-        the more likely someone will be able to post an answer
-        that solves your problem.</td>
+        </td>
     ";
-}
+} else {
+    
 
 echo "
-    <td><textarea name=\"content\" rows=\"12\" cols=\"54\"></textarea></td>
+    <td><textarea name=content rows=12 cols=54></textarea></td>
     </tr>
 ";
 row2("", "<input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this post");

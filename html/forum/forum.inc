@@ -411,14 +411,14 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
     if (!$forum && !$thread) {
         echo "<p class=\"title\">";
         if ($helpdesk) {
-            echo " Help desk</p>";
+            echo " Questions and problems</p>";
         } else {
             echo " Message boards</p>";
         }
     } else if ($forum && !$thread) {
         echo "<span class=title>";
         if ($helpdesk) {
-            echo "<a href=help_desk.php>", " Help Desk</a> : ";
+            echo "<a href=help_desk.php>", " Questions and problems</a> : ";
         } else {
             echo "<a href=index.php>", " Message boards</a> : ";
         }
@@ -427,7 +427,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
     } else if ($forum && $thread) {
         echo "<span class=title>";
         if ($helpdesk) {
-            echo "<a href=help_desk.php>", " Help Desk</a> : ";
+            echo "<a href=help_desk.php>", " Questions and problems</a> : ";
         } else {
             echo "<a href=index.php>", " Messages boards</a> : ";
         }
