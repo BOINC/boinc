@@ -431,9 +431,13 @@ bool ACTIVE_TASK::task_exited() {
     }
 #else
     int my_pid, stat;
+    struct rusage rs;
 
-    my_pid = wait4(pid, &stat, WNOHANG, NULL);
+    my_pid = wait4(pid, &stat, WNOHANG, &rs);
     if (my_pid == pid) {
+        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
+        result->final_cpu_time = current_cpu_time =
+            checkpoint_cpu_time = starting_cpu_time + x;
         return true;
     }
 #endif
@@ -536,8 +540,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 #else
     int pid;
     int stat;
+    struct rusage rs;
 
-    pid = wait3(&stat, WNOHANG, 0);
+    pid = wait4(0, &stat, WNOHANG, &rs);
     if (pid > 0) {
         if (log_flags.task_debug) printf("process %d is done\n", pid);
         atp = lookup_pid(pid);
@@ -545,7 +550,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
             return true;
         }
-        atp->result->final_cpu_time = atp->checkpoint_cpu_time;
+        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
+        atp->result->final_cpu_time = atp->current_cpu_time =
+            atp->checkpoint_cpu_time = atp->starting_cpu_time + x;
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
             atp->result->active_task_state = PROCESS_ABORTED;
@@ -831,7 +838,7 @@ void ACTIVE_TASK_SET::request_tasks_exit() {
         atp = active_tasks[i];
         if(atp->request_exit()) {
             show_message(atp->wup->project,
-                "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task",
+                "ACTIVE_TASK_SET::exit_tasks(): could not request exit of active_task",
                 MSG_ERROR
             );
         }
@@ -943,15 +950,7 @@ int ACTIVE_TASK::get_cpu_time_via_os() {
         return 0;
     }
 #else
-    struct rusage rs;
-    pid_t ret_pid;
-    int stat;
-    ret_pid = wait4(pid, &stat, WNOHANG, &rs);
-    if (ret_pid > 0) {
-        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
-        current_cpu_time = checkpoint_cpu_time = starting_cpu_time + x;
-        return 0;
-    }
+    // On UNIX, we can't get CPU time before process has exited for some reason
 #endif
     return -1;
 }
