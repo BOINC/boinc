@@ -3,21 +3,21 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 $lang_language_dir = "../languages/";
 $lang_translations_dir = "translations/";
+$lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
 $lang_project_default = "en";
 
 /*************************
- * Parses the language interface file containing the tokens
+ * Parses the language interface file containing the tokens (can parse .po-style files)
  ************************/
 function parseLanguageInterface($file){
-    $interface_file=file($file);
-    for ($i=0;$i<sizeof($interface_file);$i++){				//For each line in the language interface
-	$token = ltrim(trim($interface_file[$i]));			//Get the token
-	if (substr($token,0,1)!="#" && strlen($token)>0){		//If not comment or newline
-	    if (strpos($token," ") or strpos($token, "<")){		//If token is malformed
-		echo "Unexpected letters/spaces in line ".($i+1)." - token (".$token.") malformed and not recognized<br>\n";
-	    } else {							//Else
-		$interface[] = $token;					//Store the token and number in array
+    $translation_file = file($file);
+    for ($i = 0;$i<sizeof($translation_file);$i++){
+	$entry = ltrim(trim($translation_file[$i]));
+	if (($pos=strpos($entry, "msgid"))!==false){	//If found msgid entry
+	    $token=getPOLineContent($entry);
+	    if (ltrim(trim($token))!=""){
+		$interface[]=$token;
 	    }
 	}
     }
@@ -29,10 +29,11 @@ function parseLanguageInterface($file){
  * Builds the lookup arrays from the language interface file
  * and the language files found in the $dir directory subtree
  ***************************/
-function buildLanguages($langdir,$transdir,$compdir){
+function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
+    global $lang_project_default;
     //First build the list of defines for the tokens
     //and place it in an include file in the directory
-    $interface = parseLanguageInterface($langdir."language_interface");	//Get the interface
+    $interface = parseLanguageInterface($langdir.$transdir.$lang_project_default.".po");	//Get the interface
     if (!$fh = fopen($langdir.$compdir."language_interface.inc","w")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
     fwrite($fh, "<?php\n");
     for ($i=0;$i<sizeof($interface);$i++){
@@ -40,6 +41,7 @@ function buildLanguages($langdir,$transdir,$compdir){
     }
     fwrite($fh, '?>');
     fclose($fh);
+    $real_interface_size = sizeof($interface);
     
     //Now run trough each language and recompile their
     //lookup arrays.
@@ -72,6 +74,48 @@ function buildLanguages($langdir,$transdir,$compdir){
     } else {
 	//debug("$info_dir not found or is not a directory");
     }
+
+    //Do the same again, this time for the project specific language files and instead of
+    //creating new compiled files just add to whatever existing ones
+    if (is_dir($langdir.$prjtransdir)) {
+	$interface = parseLanguageInterface($langdir.$prjtransdir.$lang_project_default.".po");	//Get the interface
+	if (!$fh = fopen($langdir.$compdir."language_interface.inc","a")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
+	fwrite($fh, "<?php\n");
+	for ($i=0;$i<sizeof($interface);$i++){
+	    fwrite($fh, "define(".$interface[$i].",".($i+$real_interface_size).");\n");		//Translate to PHP
+	}
+	fwrite($fh, '?>');
+	fclose($fh);
+        if ($dh = opendir($langdir.$prjtransdir)) {			//If dir exists
+            while (($file = readdir($dh)) !== false) {			//read contents
+                if ($file==".." or $file=="."){
+                } else if (substr($file,-3)==".po"){			//only files ending in .po
+///////////////////////////////////////////////////////////////////////////////////////////////////
+		    echo "<br>----------------<br>\nCompiling project specific $file<br>\n---------------<br>\n";
+		    $language = parseLanguage($langdir.$prjtransdir.$file, $interface);
+		    if (!$fh = fopen($langdir.$compdir.$file.".inc","a")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
+		    fwrite($fh, "<?php\n");
+		    $keys = array_keys($language);
+		    for ($i=0;$i<sizeof($interface);$i++){
+			if ($language[$keys[$i]]!="")
+			    fwrite($fh, "\$language_lookup_array[".($real_interface_size+$keys[$i])."] = \"".addslashes($language[$keys[$i]])."\";\n");		//Translate to PHP
+		    }
+		    fwrite($fh, '?>');
+		    fclose($fh);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+                } else {
+		    //debug("File $file with unknown extension found in $info_dir");
+		}
+            }
+            closedir($dh);
+        } else {
+	    //debug("$info_dir could not be opened - check permissions?");
+	}
+    } else {
+	//debug("$info_dir not found or is not a directory");
+    }
+
+
     $fh=fopen($langdir."last_compile_timer","w");			//Toucing compile timer
     fwrite($fh, time());
     fclose($fh);
@@ -82,19 +126,29 @@ function buildLanguages($langdir,$transdir,$compdir){
 /***************************
  * Have some of the files changed?
  **************************/
-function languagesNeedsRebuild($langdir,$transdir,$compdir){
-//    return true;
+function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
+//    return true;		//Uncomment this to speed up things when you know that you will manually recompile the languages when updated...
     
     
     $last_compile = filemtime($langdir."last_compile_timer");		//This file gets touched each time a compile finishes
-    if (filemtime($langdir."language_interface")>$last_compile) return true;
-    
+
     if (is_dir($langdir.$transdir)) {
         if ($dh = opendir($langdir.$transdir)) {			//If dir exists
             while (($file = readdir($dh)) !== false) {			//read contents
                 if ($file==".." or $file=="."){
                 } else if (substr($file,-3)==".po"){			//only files ending in .po
 		    if (filemtime($langdir.$transdir.$file)>$last_compile) return true;
+		}
+            }
+            closedir($dh);
+        }
+    }
+    if (is_dir($langdir.$prjtransdir)) {
+        if ($dh = opendir($langdir.$prjtransdir)) {			//If dir exists
+            while (($file = readdir($dh)) !== false) {			//read contents
+                if ($file==".." or $file=="."){
+                } else if (substr($file,-3)==".po"){			//only files ending in .po
+		    if (filemtime($langdir.$prjtransdir.$file)>$last_compile) return true;
 		}
             }
             closedir($dh);
@@ -109,7 +163,7 @@ function languagesNeedsRebuild($langdir,$transdir,$compdir){
  * The $file is parsed and validated against $interface
  *************************/
 function parseLanguage($file, $interface){
-    if (sizeof($interface)<2){ echo "<br>ERROR: No interface defined for 'compileLanguages()'"; exit;}
+    if (sizeof($interface)<1){ echo "<br>ERROR: No interface defined for 'compileLanguages()'"; exit;}
     $translation_file = file($file);
     $first_entry = true;
     for ($i = 0;$i<sizeof($translation_file);$i++){
@@ -147,7 +201,7 @@ function parseLanguage($file, $interface){
 function checkToken($current_token, $interface, $line){
     $id = array_search($current_token,$interface);
     if ($id===false){
-        echo "<br>ERROR: above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.";
+        echo "<br>WARNING: above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.";
 	return false;
     } else {
 	return $id;
@@ -160,7 +214,7 @@ function checkToken($current_token, $interface, $line){
 function checkMissingTokens($language_array, $interface){
     $diff = array_values(array_diff( array_keys($interface),array_keys($language_array)));
     for ($i=0; $i<sizeof($diff); $i++){
-	echo "<br>ERROR: Language file is missing token (".$interface[$diff[$i]].")";
+	echo "<br>WARNING: Language file is missing token (".$interface[$diff[$i]].")";
     }
 }
 
@@ -180,7 +234,7 @@ function getPOLineContent($line){
 function tr($tokennumber){
     global $language_lookup_array, $default_language_lookup_array;
     if (strval(intval($tokennumber))!=$tokennumber){
-	echo "Language token used which is not defined in language interface! DEVELOPER: please check your spelling or add the token to the interface.";
+	echo "Language token used which is not defined in language interface! DEVELOPER: please check your spelling or add the token to the interface (usually the project default language file).";
 	echo "<br>If you are a user of this system please contact an administrator right away and tell what URL you got this error on";
     }
     
@@ -196,8 +250,8 @@ function tr($tokennumber){
 }
 
 
-if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_compiled_dir) || $_GET["compile_languages"]){
-    buildLanguages($lang_language_dir,$lang_translations_dir,$lang_compiled_dir);
+if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || get_str("compile_languages")){
+    buildLanguages($lang_language_dir,$lang_translations_dir,$lang_prj_translations_dir, $lang_compiled_dir);
 }
 
 // Define some constants that the language files can use in the translation:
