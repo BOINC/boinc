@@ -80,6 +80,7 @@ static	double	      last_wu_cpu_time;
 static	bool	      standalone          = false;
 static	double	      initial_wu_cpu_time;
 static	bool	      have_new_trickle_up = false;
+static bool have_trickle_down = false;
 static double seconds_until_heartbeat_giveup;
 static bool heartbeat_active;   // if false, suppress heartbeat mechanism
 
@@ -321,6 +322,7 @@ static void handle_core_app_msgs() {
         heartbeat_active = false;
     }
     if (match_tag(msg_buf, "<have_trickle_down/>")) {
+        have_trickle_down = true;
     }
 }
 
@@ -501,3 +503,18 @@ int boinc_fraction_done(double x) {
     fraction_done = x;
     return 0;
 }
+
+bool boinc_receive_trickle_down(char* buf, int len) {
+    std::string filename;
+    if (have_trickle_down) {
+        DirScanner dirscan(".");
+        while (dirscan.scan(filename)) {
+            if (strstr(filename.c_str(), "trickle_down")) {
+                strncpy(buf, filename.c_str(), len);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+

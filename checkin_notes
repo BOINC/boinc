@@ -14444,13 +14444,17 @@ Daniel 2004-07-01
 David  1 July 2004
     - trickle message support:
         - core client: send <have_trickle_down> message to app when appropriate
+		- boinc_api: implement boinc_receive_trickle_down()
     - blind attempt to fix HTTP auth crash:
         check for empty URL on redirect
         
+	api/
+		boinc_api.C
     client/
         app.C,h
         cs_trickle.C
         hostinfo_unix.C
         http.C
     lib/
+		app_ipc.h
         error_numbers.h
