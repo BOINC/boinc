@@ -276,6 +276,8 @@ htmlspecialchars("
   <d_free>3788505088.000000</d_free>
   <n_bwup>24109.794088</n_bwup>
   <n_bwdown>57037.049858</n_bwdown>
+  <avg_turnaround>465609.562145</avg_turnaround>
+  <host_cpid>e129b5fa44ed8ba58e41c472822f2807</host_cpid>
 </host>
 "),"</pre>
 ";

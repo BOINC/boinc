@@ -240,12 +240,12 @@ int CLIENT_STATE::init() {
     host_info.clear_host_info();
     parse_state_file();
 
-    // Check to see if we can write the state file afterwords, if not,
-    // return an error
+    // Check to see if we can write the state file.
+    //
     retval = write_state_file();
     if (retval) {
         msg_printf(NULL, MSG_INFO,
-            "Couldn't modify the state file, please make sure you have permissions configured for "
+            "Couldn't modify the state file.  make sure you have permissions configured for "
             "BOINC to run on this system under this user account\n"
         );
         return retval;
@@ -285,18 +285,25 @@ int CLIENT_STATE::init() {
         }
     }
 
-    // Read the global preferences file, if it exists.
-    // Do this after reading the state file so we know our venue
+    // Read the global preferences file.
+    // 1) read the prefs file to get the source project
+    // 2) get the main host venue (venue of source project)
+    // 3) read the prefs file again, using that venue
     //
     bool found_venue;
-    retval = global_prefs.parse_file(
-        GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
-    );
+    retval = global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, "", found_venue);
     if (retval) {
         msg_printf(NULL, MSG_INFO,
             "No general preferences found - using BOINC defaults"
         );
     } else {
+        PROJECT* p = global_prefs_source_project();
+        if (p) {
+            strcpy(main_host_venue, p->host_venue);
+            retval = global_prefs.parse_file(
+                GLOBAL_PREFS_FILE_NAME, p->host_venue, found_venue
+            );
+        }
         show_global_prefs_source(found_venue);
     }
     install_global_prefs();

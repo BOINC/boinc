@@ -98,10 +98,10 @@ list_item("--get_results", "show results");
 list_item("--get_file_transfers", "show file transfers");
 list_item("--get_project_status", "show status of all projects");
 list_item("--get_disk_usage", "Show disk usage by project");
-list_item("--result
-     <br>{suspend | resume | abort | 
-     <br> {graphics_window | graphics_fullscreen} {--window_station ws --desktop dt --display dp}}
-     <br>URL result_name",
+list_item("--result URL result_name
+     <br>{suspend | resume | abort | graphics_window | graphics_fullscreen}
+     <br>{--window_station ws} {--desktop dt} {--display dp}
+     ",
      "Do operation on a result, identified by the project master URL
      and the result name.
      <ul>
@@ -115,9 +115,9 @@ list_item("--result
      </ul>
      "
 );
-list_item("--project
+list_item("--project URL
     <br>{reset | detach | update | suspend | resume | nomorework | allowmorework}
-    <br>URL",
+    ",
     "Do operation on a project, identified by its master URL.
     <ul>
     <li>reset: delete current work and get more;
@@ -131,7 +131,9 @@ list_item("--project
     "
 );
 list_item("--project_attach URL auth","Attach to an account");
-list_item("--file_transfer {retry | abort} URL filename",
+list_item("--file_transfer URL filename
+        {retry | abort}
+        ",
     "Do operation on a file transfer"
 );
 list_item("--get_run_mode","Get current run mode");

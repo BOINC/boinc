@@ -161,6 +161,9 @@ public:
     double resource_share;
         // project's resource share relative to other projects.
     char host_venue[256];
+        // logically, this belongs in the client state file
+        // rather than the account file.
+        // But we need it in the latter in order to parse prefs.
 
     // the following items come from client_state.xml
     // They may depend on the host as well as user and project

@@ -247,7 +247,7 @@ version(
     mac_simple(),
     "<ul>
      <li>
-     Adds support for HTTP and SOCKS proxies.
+     Adds support for HTTP and SOCKS proxies (see Known Issues below).
      <li>
      Adds support for  dual processor machines.
      <li>
@@ -257,7 +257,10 @@ version(
      <li>
      Various other fixes and improvements.
     ",
-    null
+    "<ul>
+     <li>
+     Proxies are still causing us problems. This feature may not be working properly yet.
+    "
 );
 version(
     "Mac",

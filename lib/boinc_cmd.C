@@ -70,11 +70,10 @@ void usage() {
     exit(1);
 }
 
-void parse_display_args(char** argv, DISPLAY_INFO& di) {
+void parse_display_args(int argc, char** argv, int& i, DISPLAY_INFO& di) {
     strcpy(di.window_station, "winsta0");
     strcpy(di.desktop, "default");
     strcpy(di.display, "");
-    int i=0;
     while (argv[i]) {
         if (!strcmp(argv[i], "--window_station")) {
             strcpy(di.window_station, argv[++i]);
@@ -95,6 +94,14 @@ void show_error(int retval) {
     default:
         fprintf(stderr, "Error %d\n", retval);
     }
+}
+
+char* next_arg(int argc, char** argv, int& i) {
+    if (i >= argc) {
+        fprintf(stderr, "Missing command-line argument\n");
+        exit(1);
+    }
+    return argv[i++];
 }
 
 int main(int argc, char** argv) {
@@ -136,132 +143,137 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (!strcmp(argv[i], "--get_state")) {
+    char* cmd = next_arg(argc, argv, i);
+    if (!strcmp(cmd, "--get_state")) {
         CC_STATE state;
         retval = rpc.get_state(state);
         if (!retval) state.print();
-    } else if (!strcmp(argv[i], "--get_results")) {
+    } else if (!strcmp(cmd, "--get_results")) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
-    } else if (!strcmp(argv[i], "--get_file_transfers")) {
+    } else if (!strcmp(cmd, "--get_file_transfers")) {
         FILE_TRANSFERS ft;
         retval = rpc.get_file_transfers(ft);
         if (!retval) ft.print();
-    } else if (!strcmp(argv[i], "--get_project_status")) {
+    } else if (!strcmp(cmd, "--get_project_status")) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);
         if (!retval) ps.print();
-    } else if (!strcmp(argv[i], "--get_disk_usage")) {
+    } else if (!strcmp(cmd, "--get_disk_usage")) {
         PROJECTS ps;
         retval = rpc.get_disk_usage(ps);
         if (!retval) ps.print();
-    } else if (!strcmp(argv[i], "--result")) {
+    } else if (!strcmp(cmd, "--result")) {
         RESULT result;
-        i++;
-        result.project_url = argv[i+1];
-        result.name = argv[i+2];
-        if (!strcmp(argv[i], "suspend")) {
+        char* project_url = next_arg(argc, argv, i);
+        char* name = next_arg(argc, argv, i);
+        result.project_url = project_url;
+        result.name = name;
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "suspend")) {
             retval = rpc.result_op(result, "suspend");
-        }
-        if (!strcmp(argv[i], "resume")) {
+        } else if (!strcmp(op, "resume")) {
             retval = rpc.result_op(result, "resume");
-        }
-        if (!strcmp(argv[i], "abort")) {
+        } else if (!strcmp(op, "abort")) {
             retval = rpc.result_op(result, "abort");
-        }
-        if (!strcmp(argv[i], "graphics_window")) {
+        } else if (!strcmp(op, "graphics_window")) {
             DISPLAY_INFO di;
-            parse_display_args(argv+i+3, di);
-            retval = rpc.show_graphics(argv[i+1], argv[i+2], false, di);
-        }
-        if (!strcmp(argv[i], "graphics_fullscreen")) {
+            parse_display_args(argc, argv, i, di);
+            retval = rpc.show_graphics(project_url, name, false, di);
+        } else if (!strcmp(op, "graphics_fullscreen")) {
             DISPLAY_INFO di;
-            parse_display_args(argv+i+3, di);
-            retval = rpc.show_graphics(argv[i+1], argv[i+2], true, di);
+            parse_display_args(argc, argv, i, di);
+            retval = rpc.show_graphics(project_url, name, true, di);
+        } else {
+            fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(argv[i], "--project")) {
+    } else if (!strcmp(cmd, "--project")) {
         PROJECT project;
-        i++;
-        project.master_url = argv[i+1];
-        if (!strcmp(argv[i], "reset")) {
+        project.master_url =  next_arg(argc, argv, i);
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "reset")) {
             retval = rpc.project_op(project, "reset");
-        }
-        if (!strcmp(argv[i], "detach")) {
+        } else if (!strcmp(op, "detach")) {
             retval = rpc.project_op(project, "detach");
-        }
-        if (!strcmp(argv[i], "update")) {
+        } else if (!strcmp(op, "update")) {
             retval = rpc.project_op(project, "update");
-        }
-        if (!strcmp(argv[i], "nomorework")) {
+        } else if (!strcmp(op, "nomorework")) {
             retval = rpc.project_op(project, "nomorework");
-        }
-        if (!strcmp(argv[i], "allowmorework")) {
+        } else if (!strcmp(op, "allowmorework")) {
             retval = rpc.project_op(project, "allowmorework");
+        } else {
+            fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(argv[i], "--project_attach")) {
-        retval = rpc.project_attach(argv[++i], argv[++i]);
-    } else if (!strcmp(argv[i], "--file_transfer")) {
+    } else if (!strcmp(cmd, "--project_attach")) {
+        char* url = next_arg(argc, argv, i);
+        char* auth = next_arg(argc, argv, i);
+        retval = rpc.project_attach(url, auth);
+    } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 
-        i++;
-        ft.project_url = argv[i+1];
-        ft.name = argv[i+2];
-        if (!strcmp(argv[i], "retry")) {
+        ft.project_url = next_arg(argc, argv, i);
+        ft.name = next_arg(argc, argv, i);
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "retry")) {
             retval = rpc.file_transfer_op(ft, "retry");
-        }
-        if (!strcmp(argv[i], "abort")) {
+        } else if (!strcmp(op, "abort")) {
             retval = rpc.file_transfer_op(ft, "abort");
+        } else {
+            fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(argv[i], "--get_run_mode")) {
+    } else if (!strcmp(cmd, "--get_run_mode")) {
         int mode;
         retval = rpc.get_run_mode(mode);
         if (!retval) {
             printf("run mode: %s\n", rpc.mode_name(mode));
         }
-    } else if (!strcmp(argv[i], "--set_run_mode")) {
-        i++;
-        if (!strcmp(argv[i], "always")) {
+    } else if (!strcmp(cmd, "--set_run_mode")) {
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "always")) {
             retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
-        } else if (!strcmp(argv[i], "auto")) {
+        } else if (!strcmp(op, "auto")) {
             retval = rpc.set_run_mode(RUN_MODE_AUTO);
-        } else if (!strcmp(argv[i], "never")) {
+        } else if (!strcmp(op, "never")) {
             retval = rpc.set_run_mode(RUN_MODE_NEVER);
+        } else {
+            fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(argv[i], "--get_network_mode")) {
+    } else if (!strcmp(cmd, "--get_network_mode")) {
         int mode;
         retval = rpc.get_network_mode(mode);
         if (!retval) {
             printf("network mode: %s\n", rpc.mode_name(mode));
         }
-    } else if (!strcmp(argv[i], "--set_network_mode")) {
-        i++;
-        if (!strcmp(argv[i], "always")) {
+    } else if (!strcmp(cmd, "--set_network_mode")) {
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "always")) {
             retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
-        } else if (!strcmp(argv[i], "auto")) {
+        } else if (!strcmp(op, "auto")) {
             retval = rpc.set_run_mode(RUN_MODE_AUTO);
-        } else if (!strcmp(argv[i], "never")) {
+        } else if (!strcmp(op, "never")) {
             retval = rpc.set_run_mode(RUN_MODE_NEVER);
+        } else {
+            fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(argv[i], "--get_proxy_settings")) {
+    } else if (!strcmp(cmd, "--get_proxy_settings")) {
         PROXY_INFO pi;
         retval = rpc.get_proxy_settings(pi);
         if (!retval) pi.print();
-    } else if (!strcmp(argv[i], "--set_proxy_settings")) {
+    } else if (!strcmp(cmd, "--set_proxy_settings")) {
         PROXY_INFO pi;
-        i++;
-        pi.http_server_name = argv[i++];
-        pi.http_server_port = atoi(argv[i++]);
-        pi.http_user_name = argv[i++];
-        pi.http_user_passwd = argv[i++];
-        pi.socks_server_name = argv[i++];
-        pi.socks_server_port = atoi(argv[i++]);
-        pi.socks_version = atoi(argv[i++]);
-        pi.socks5_user_name = argv[i++];
-        pi.socks5_user_passwd = argv[i++];
+        pi.http_server_name = next_arg(argc, argv, i);
+        pi.http_server_port = atoi(next_arg(argc, argv, i));
+        pi.http_user_name = next_arg(argc, argv, i);
+        pi.http_user_passwd = next_arg(argc, argv, i);
+        pi.socks_server_name = next_arg(argc, argv, i);
+        pi.socks_server_port = atoi(next_arg(argc, argv, i));
+        pi.socks_version = atoi(next_arg(argc, argv, i));
+        pi.socks5_user_name = next_arg(argc, argv, i);
+        pi.socks5_user_passwd = next_arg(argc, argv, i);
         retval = rpc.set_proxy_settings(pi);
-    } else if (!strcmp(argv[i], "--get_messages")) {
-        int seqno = atoi(argv[++i]);
+    } else if (!strcmp(cmd, "--get_messages")) {
+        int seqno = atoi(next_arg(argc, argv, i));
         retval = rpc.get_messages(seqno, messages);
         if (!retval) {
             unsigned int j;
@@ -273,41 +285,35 @@ int main(int argc, char** argv) {
                 );
             }
         }
-    } else if (!strcmp(argv[i], "--get_host_info")) {
+    } else if (!strcmp(cmd, "--get_host_info")) {
         HOST_INFO hi;
         retval = rpc.get_host_info(hi);
         if (!retval) hi.print();
-    } else if (!strcmp(argv[i], "--acct_mgr_rpc")) {
-        i++;
-        printf("foobar %d %d\n", i, argc);
-        if (i+3 > argc) {
-            fprintf(stderr, "missing arguments\n");
-            exit(1);
-        }
-        retval = rpc.acct_mgr_rpc(argv[i], argv[i+1], argv[i+2]);
-        printf("retval %d\n", retval);
-    } else if (!strcmp(argv[i], "--run_benchmarks")) {
+    } else if (!strcmp(cmd, "--acct_mgr_rpc")) {
+        char* url = next_arg(argc, argv, i);
+        char* name = next_arg(argc, argv, i);
+        char* passwd = next_arg(argc, argv, i);
+        retval = rpc.acct_mgr_rpc(url, name, passwd);
+    } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
-    } else if (!strcmp(argv[i], "--get_screensaver_mode")) {
+    } else if (!strcmp(cmd, "--get_screensaver_mode")) {
         int status;
         retval = rpc.get_screensaver_mode(status);
         if (!retval) printf("screensaver mode: %d\n", status);
-    } else if (!strcmp(argv[i], "--set_screensaver_mode")) {
+    } else if (!strcmp(cmd, "--set_screensaver_mode")) {
         double blank_time;
         bool enabled = false;
         DISPLAY_INFO di;
-        i++;
-        if (!strcmp(argv[i], "on")) enabled = true;
-        i++;
-        blank_time = atof(argv[i]);
-        i++;
-        parse_display_args(argv+i, di);
-        retval = rpc.set_screensaver_mode(enabled, blank_time, di);
 
-    } else if (!strcmp(argv[i], "--quit")) {
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "on")) enabled = true;
+        blank_time = atof(next_arg(argc, argv, i));
+        parse_display_args(argc, argv, i, di);
+        retval = rpc.set_screensaver_mode(enabled, blank_time, di);
+    } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {
-        fprintf(stderr, "unrecognized command %s\n", argv[i]);
+        fprintf(stderr, "unrecognized command %s\n", cmd);
     }
     if (retval) {
         show_error(retval);

@@ -26528,3 +26528,37 @@ David  2 April 2005
             translation.inc
         ops/
             repair_validator_problem.php
+
+David  3 April 2005
+    - Maintain the "main host venue" in a more robust way.
+        (Reminder: the "main host venue" is the host venue of the
+        project that supplied the most recent global prefs.
+        Host venues for each project are stored in account files.
+        The global prefs file identifies the source project.)
+
+        Old: main host venue is stored in the client state file,
+            and updated only when a scheduler RPC returns
+            global prefs with a new host venue.
+        Problem: if it's missing from the client state file
+        it may never get set to the correct value.
+
+        New: on startup, the global prefs file is parsed once
+        to obtain the source project.
+        Then main host venue is computed, based on the source
+        project and the host venue specified in its account file.
+        Then the global prefs file is parsed again, using this venue.
+    - user web: add option for columnar prefs display.
+        Append "&cols=1" to prefs.php URL
+    - boinc_cmd (command-line tool): fix bugs and improve argument checking.
+        Change syntax of some operations (see web page)
+
+    client/
+        client_state.C
+        client_types.h
+    html/
+        inc/
+            prefs_col.inc
+        user/
+            prefs.php
+    lib/
+        boinc_cmd.C
