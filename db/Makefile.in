@@ -28,7 +28,7 @@ clean:
 	rm -f dependencies *.o
 
 dependencies: @srcdir@/*.C
-        $(CC) -M @srcdir@/*.C > dependencies
+	$(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies
 

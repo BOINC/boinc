@@ -29,6 +29,6 @@ clean:
 	rm -f *.o $(PROGS) core dependencies
 
 dependencies: @srcdir@/*.C
-        $(CC) -M @srcdir@/*.C > dependencies
+	$(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies

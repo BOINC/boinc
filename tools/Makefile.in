@@ -53,7 +53,7 @@ clean:
 	rm -f *.o create_work add core country_select dependencies
 
 dependencies: @srcdir@/*.C
-        $(CC) -M @srcdir@/*.C > dependencies
+	$(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies
 

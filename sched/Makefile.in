@@ -50,7 +50,7 @@ feeder: $(FEEDER_OBJS)
 	$(CC) $(FEEDER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o feeder
 
 dependencies: @srcdir@/*.C
-        $(CC) -M @srcdir@/*.C > dependencies
+	$(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies
 
