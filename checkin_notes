@@ -513,10 +513,12 @@ Eric H       June 20, 2002
     lib/
         md5_file.C
     client/
+        client_state.C
         cs_scheduler.C
         net_xfer.C
-        win_net.C (added)
+        win_net.cpp (added)
         win_net.h (added)
-        win_main.C
+        win_main.C (changed to win_main.cpp)
+        win_main.cpp (changed from win_main.C)
         windows_cpp.h
 
