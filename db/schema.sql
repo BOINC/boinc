@@ -273,6 +273,9 @@ create table profile (
     recommend           integer     not null,
     reject              integer     not null,
     posts               integer     not null,
+    hide_email          integer,
+    uotd_time           integer,
+    verification        integer,
     primary key (userid)
 );
 

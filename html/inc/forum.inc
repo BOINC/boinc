@@ -297,7 +297,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         <p style=\"font-weight:bold\">
     ";
 
-    echo user_links($user, "../");
+    echo user_links($user, URL_BASE);
 
     echo "
         </p>

@@ -78,7 +78,7 @@ function build_picture_pages($width, $height) {
                         "<td class=bordered align=\"center\"><a href=\""
                         . URL_BASE . "view_profile.php?userid="
                         . $userIds[$count] . "\"><img src=\""
-                        . IMAGE_URL . $userIds[$count] . '_sm.jpg'
+                         . URL_BASE . IMAGE_URL . $userIds[$count] . '_sm.jpg'
                         . "\"></a></td>"
                     );
                     $count++;
@@ -102,7 +102,7 @@ function build_picture_pages($width, $height) {
 
     }
 
-    //echo "<br><br><a href=\""  .PROFILE_PATH . "user_gallery_1.html\">Go to the first generated page.</a>";
+    //echo "<br><br><a href=\""  . URL_BASE . PROFILE_URL . "user_gallery_1.html\">Go to the first generated page.</a>";
 }
 
 // Creates pages grouping user profiles by country.  Filenames are of the
@@ -159,7 +159,7 @@ function build_country_pages() {
 
     build_country_summary_page($countryMembers);
 
-    //echo "<br><a href=\"" . PROFILE_PATH . "profile_country.html\">View Summary Page</a>";
+    //echo "<br><a href=\""  . URL_BASE . PROFILE_URL . "profile_country.html\">View Summary Page</a>";
     //echo "<br><br>Done";
 
 }
@@ -284,7 +284,7 @@ function build_alpha_summary_page($characters) {
 
     foreach ($alphabet as $character) {
         if (in_array($character, $characters)) {
-            fwrite($descriptor, "<a href=" . PROFILE_PATH . "profile_" . $character . "_1.html>$character</a>&nbsp;");
+            fwrite($descriptor, "<a href=" . URL_BASE . PROFILE_URL . "profile_" . $character . "_1.html>$character</a>&nbsp;");
             unset($characters[$character]);
         } else {
             fwrite($descriptor, "$character ");
@@ -293,7 +293,7 @@ function build_alpha_summary_page($characters) {
 
     // Link to the 'Other' page if necessary.
     if (!empty($characters)) {
-        fwrite($descriptor, "<a href=" . PROFILE_PATH . "profile_other_1.html>Other</a>&nbsp;");
+        fwrite($descriptor, "<a href=" . URL_BASE . PROFILE_URL . "profile_other_1.html>Other</a>&nbsp;");
     }
     fclose($descriptor);
 }
@@ -304,7 +304,7 @@ function generate_uod_page($profile, $user) {
 
     if ($profile->has_picture) {
         fwrite($descriptor,
-            "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>"
+            "<a href=view_profile?userid=$user->id><img align=left src=" . URL_BASE . IMAGE_URL . $user->id . "_sm.jpg></a>"
         );
     }
     $x = user_links($user);

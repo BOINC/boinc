@@ -10117,11 +10117,32 @@ Jeff  Feb 19 2004
 Rom    Feb 23 2004
     - Removed stackwalkers exception description so duplicate information is not logged.
 
-	api/win/
-		stackwalker.cpp
+    api/win/
+        stackwalker.cpp
 
 Karl 2004-02-23
     - cookbook changes
 
     doc/
         project_cookbook.php
+
+Rom    Feb 23 2004
+    - New projects were failing to be able to make profiles. Added a bunch of defines
+      to project.inc that are now required.
+    - Updated the schema.sql file to include columns that are now required.
+    - Changed URL handling to include URL_BASE before quite a few relative links.
+      Basically PROFILE_PATH was being used for URL generation instead of URL_BASE + 
+      IMAGE_URL|PROFILE_URL.
+
+    db/
+        schema.sql
+    html/inc/
+        forum.inc
+        gallery.inc
+    html/project.sample/
+        project.inc
+    user/
+        profile_menu.php
+
+
+
