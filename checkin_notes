@@ -13997,3 +13997,9 @@ Rom    June 18 2004
     - Tag for 3.16 release, all platforms
       boinc_core_release_3_16
 
+
+David  2004.06.18
+	- add timestamps to messages written stdout/err.txt in Win
+
+	client/win/
+		wingui.cpp

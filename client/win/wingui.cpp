@@ -26,6 +26,7 @@
 void show_message(PROJECT* p, char* msg, int priority) {
 	char* x;
     char message[1024];
+    char* time_string = time_to_string(time(0));
 
     strcpy(message, msg);
     while (strlen(message)&&message[strlen(message)-1] == '\n') {
@@ -35,15 +36,15 @@ void show_message(PROJECT* p, char* msg, int priority) {
         x = p->get_project_name();
 	} else {
 		x = "---";
-	}
+    }
 
 	if(g_myWnd) {
 		g_myWnd->MessageUser(x, message, priority);
 	}
     if (priority == MSG_INFO) {
-        fprintf(stdout, "%s: %s\n", x, message);
+        fprintf(stdout, "%s [%s] %s\n", time_string, x, message);
     } else {
-        fprintf(stderr, "%s: %s\n", x, message);
+        fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
     }
     record_message(p, priority, time(0), message);
 }
