@@ -239,8 +239,6 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
 function show_user($user) {
     start_table();
     row("Created", time_str($user->create_time));
-    row("Total credit", $user->total_credit);
-    row("Recent averaged credit:", $user->expavg_credit);
     row("Name", $user->name);
     row("Authenticator", $user->authenticator);
     row("Email address", $user->email_addr);
