@@ -6,10 +6,10 @@ AUTOMAKE_OPTIONS = foreign
 ## make sure rebuilding uses the right aclocal-switches
 ACLOCAL_AMFLAGS = -I m4
 
-API_SUBDIRS = api lib apps zip
+API_SUBDIRS = api lib zip
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db tools test py sched
+   SERVER_SUBDIRS = db tools test py sched apps
 endif
 
 if ENABLE_CLIENT

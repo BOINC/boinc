@@ -23873,7 +23873,12 @@ Rom    2 Feb 2005
 
 Rom    2 Feb 2005
     - Use the same technique to statically link nsl and socket for the client 
-      as the clientgui.
+        as the clientgui.
+    - move the apps directory from the API_SUBDIRS variable to the
+        SERVER_SUBDIRS variable since we really don't need to build the
+        sample applications when all we really want is just the boinc client
+        tools.
 
     /
         configure.ac
+        Makefile.am
