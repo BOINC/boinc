@@ -22183,3 +22183,16 @@ Rom    7 Jan 2005
         disconnect.xpm
     clientgui/locale/
         < All PO files >
+
+Janus   7 Jan 2005
+    - Bug fix: Don't show icon column in helpdesk - icons are not used here
+    - Bug fix: Filtering can now be turned off in helpdesk
+    - Ignored userlist is now unique and sorted by userid
+      (patches from Christian Beer - thanks!)
+    - More score rounding to avoid float inaccuracy
+
+      /html/user
+        edit_forum_preferences_action.php
+      /html/inc
+        forum_show.inc
+        forum.inc
