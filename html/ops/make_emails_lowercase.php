@@ -5,6 +5,20 @@ echo "
        <!-- \$Id$ -->\n
 ";
 
+// (0) This script corrects email addresses in the user database that are
+//     not completely lowercase.  It also fixes cross_project_id values that
+//     are zero.
+// (1) these database error were probably introduced because of an omission
+//     in create_account_action.php, that has been corrected in cvs.
+// (2) accounts created in this way have cross_project_id set to zero.
+//     This error is also fixed by the html/ops/make_emails_lowercase.php
+//     script
+// (3) script is safe to run multiple times and on databases with no errors
+//     As supplied in cvs it is 'read only' and will only report problems
+//     the user database.  It won't correct them, until it is edited by hand
+//     to enable it to write changes to the database.
+// (4) Just to be safe, back up your user database before running this script.
+
 
 require_once("../inc/util_ops.inc");
 require_once("../inc/util.inc");
