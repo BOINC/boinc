@@ -524,11 +524,11 @@ int FILE_INFO::delete_file() {
     char path[256];
 
     get_pathname(this, path);
-    status = FILE_NOT_PRESENT;
     int retval = file_delete(path);
-	if (retval) {
+	if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_ERROR, "Couldn't delete file %s\n", path);
 	}
+    status = FILE_NOT_PRESENT;
 	return retval;
 }
 
