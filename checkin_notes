@@ -18553,3 +18553,10 @@ David  19 Oct 2004
     
     Makefile.am
     configure.ac
+
+David  19 Oct 2004
+	- fix bugs in GUI RPCs
+
+	client/
+		cs_apps.C
+		gui_rpc_server.C
