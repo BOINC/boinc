@@ -1,4 +1,8 @@
-#Template (empty) language.ini file
+# Template language.ini file
+# $Id$
+
+# Use & for menu keys
+
 #PROJECT_ID
 [HEADER-Projects]
 Title=Projects
@@ -91,7 +95,20 @@ Exit=
 
 [MENU-Project]
 Relogin...=
+Get preferences=
+Retry now=
+Detach...=
+Reset project...=
 Quit Project...=
+
+[MENU-Work]
+Show Graphics=
+
+[MENU-Transfers]
+Retry now=
+
+[MENU-Messages]
+Copy to clipboard=
 
 [DIALOG-LOGIN]
 Title=Login to Project

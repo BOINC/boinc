@@ -5453,3 +5453,9 @@ David  July 29 2003
     doc/
         index.html
         old_news.html
+
+Karl 2003/07/30
+    - translations: refactored translation functions; added dynamic project
+      menu item
+
+    client/win/*
