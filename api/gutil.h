@@ -42,6 +42,9 @@ extern void draw_text_line(
     GLfloat* pos, GLfloat height, GLfloat width, char *text,
     int justify=TEXT_LEFT
 );
+
+void draw_text_simple(char* text,float line_width,float char_height);
+
 extern void draw_text(
     GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text
 );
@@ -58,9 +61,13 @@ extern void draw_text_panel(
 );
 
 extern void mode_texture();
+extern void mode_ortho();
 extern void mode_shaded(GLfloat*);
 extern void mode_unshaded();
 extern void mode_lines();
+extern void ortho_done();
+extern bool get_matrix_invert(float[16]);
+extern bool get_matrix(float[16]);
 
 // draw a progress bar as an opaque cylinder within a translucent cylinder
 //
@@ -95,3 +102,14 @@ extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
 extern int init_texture(char* filename);
 extern void draw_texture(float* pos, float* size);
 
+
+//stars
+struct Star
+{	
+	float x,y,z,v;	
+	Star* next;	
+};
+
+extern void build_stars();
+extern void update_stars();
+extern void replaceStar(Star* tmpStar);

@@ -104,6 +104,147 @@ void mode_unshaded() {
     glDepthMask(GL_TRUE);
 }
 
+void mode_ortho()
+{	
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0,1,0,1);
+	//glScalef(1, -1, 1);	
+	//glTranslatef(0, -1, 0);
+	
+    glMatrixMode(GL_MODELVIEW);	
+	glPushMatrix();
+    glLoadIdentity();
+    gluLookAt(0.0,0.0,1.0,  // eye position
+			  0,0,0,      // where we're looking
+			  0.0, 1.0, 0.);      // up is in positive Y direction		
+}
+
+void ortho_done()
+{	
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+bool get_matrix(float src[16])
+{
+	glPushMatrix();
+	glGetFloatv(GL_MODELVIEW_MATRIX,src);	
+	glPopMatrix();
+
+	return true;
+}
+
+bool get_matrix_invert(float src[16])
+{
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glGetFloatv(GL_MODELVIEW_MATRIX,src);	
+	glPopMatrix();
+
+	float tmp[12]; /* temp array for pairs */	
+	float dst[16]; /* array of destination matrix */
+	float det; /* determinant */
+
+	int i;
+
+	/* calculate pairs for first 8 elements (cofactors) */
+	tmp[0] = src[10] * src[15];
+	tmp[1] = src[11] * src[14];
+	tmp[2] = src[9] * src[15];
+	tmp[3] = src[11] * src[13];
+	tmp[4] = src[9] * src[14];
+	tmp[5] = src[10] * src[13];
+	tmp[6] = src[8] * src[15];
+	tmp[7] = src[11] * src[12];
+	tmp[8] = src[8] * src[14];
+	tmp[9] = src[10] * src[12];
+	tmp[10] = src[8] * src[13];
+	tmp[11] = src[9] * src[12];
+
+	/* calculate first 8 elements (cofactors) */
+	dst[0] = tmp[0]*src[5] + tmp[3]*src[6] + tmp[4]*src[7];
+	dst[0] -= tmp[1]*src[5] + tmp[2]*src[6] + tmp[5]*src[7];
+	dst[1] = tmp[1]*src[4] + tmp[6]*src[6] + tmp[9]*src[7];
+	dst[1] -= tmp[0]*src[4] + tmp[7]*src[6] + tmp[8]*src[7];
+	dst[2] = tmp[2]*src[4] + tmp[7]*src[5] + tmp[10]*src[7];
+	dst[2] -= tmp[3]*src[4] + tmp[6]*src[5] + tmp[11]*src[7];
+	dst[3] = tmp[5]*src[4] + tmp[8]*src[5] + tmp[11]*src[6];
+	dst[3] -= tmp[4]*src[4] + tmp[9]*src[5] + tmp[10]*src[6];
+	dst[4] = tmp[1]*src[1] + tmp[2]*src[2] + tmp[5]*src[3];
+	dst[4] -= tmp[0]*src[1] + tmp[3]*src[2] + tmp[4]*src[3];
+	dst[5] = tmp[0]*src[0] + tmp[7]*src[2] + tmp[8]*src[3];
+	dst[5] -= tmp[1]*src[0] + tmp[6]*src[2] + tmp[9]*src[3];
+	dst[6] = tmp[3]*src[0] + tmp[6]*src[1] + tmp[11]*src[3];
+	dst[6] -= tmp[2]*src[0] + tmp[7]*src[1] + tmp[10]*src[3];
+	dst[7] = tmp[4]*src[0] + tmp[9]*src[1] + tmp[10]*src[2];
+	dst[7] -= tmp[5]*src[0] + tmp[8]*src[1] + tmp[11]*src[2];
+
+	/* calculate pairs for second 8 elements (cofactors) */
+	tmp[0] = src[2]*src[7];
+	tmp[1] = src[3]*src[6];
+	tmp[2] = src[1]*src[7];
+	tmp[3] = src[3]*src[5];
+	tmp[4] = src[1]*src[6];
+	tmp[5] = src[2]*src[5];
+	tmp[6] = src[0]*src[7];
+	tmp[7] = src[3]*src[4];
+	tmp[8] = src[0]*src[6];
+	tmp[9] = src[2]*src[4];
+	tmp[10] = src[0]*src[5];
+	tmp[11] = src[1]*src[4];
+
+	/* calculate second 8 elements (cofactors) */
+	dst[8] = tmp[0]*src[13] + tmp[3]*src[14] + tmp[4]*src[15];
+	dst[8] -= tmp[1]*src[13] + tmp[2]*src[14] + tmp[5]*src[15];
+	dst[9] = tmp[1]*src[12] + tmp[6]*src[14] + tmp[9]*src[15];
+	dst[9] -= tmp[0]*src[12] + tmp[7]*src[14] + tmp[8]*src[15];
+	dst[10] = tmp[2]*src[12] + tmp[7]*src[13] + tmp[10]*src[15];
+	dst[10]-= tmp[3]*src[12] + tmp[6]*src[13] + tmp[11]*src[15];
+	dst[11] = tmp[5]*src[12] + tmp[8]*src[13] + tmp[11]*src[14];
+	dst[11]-= tmp[4]*src[12] + tmp[9]*src[13] + tmp[10]*src[14];
+	dst[12] = tmp[2]*src[10] + tmp[5]*src[11] + tmp[1]*src[9];
+	dst[12]-= tmp[4]*src[11] + tmp[0]*src[9] + tmp[3]*src[10];
+	dst[13] = tmp[8]*src[11] + tmp[0]*src[8] + tmp[7]*src[10];
+	dst[13]-= tmp[6]*src[10] + tmp[9]*src[11] + tmp[1]*src[8];
+	dst[14] = tmp[6]*src[9] + tmp[11]*src[11] + tmp[3]*src[8];
+	dst[14]-= tmp[10]*src[11] + tmp[2]*src[8] + tmp[7]*src[9];
+	dst[15] = tmp[10]*src[10] + tmp[4]*src[8] + tmp[9]*src[9];
+	dst[15]-= tmp[8]*src[9] + tmp[11]*src[10] + tmp[5]*src[8];
+
+	/* calculate determinant */
+	det=src[0]*dst[0]+src[1]*dst[1]+src[2]*dst[2]+src[3]*dst[3];
+
+	/* calculate matrix inverse */
+	if(det == 0) return false;
+	det = 1.0f/det;
+	for (i = 0; i < 16; i++) {
+	 dst[i] *= det;
+	}
+
+	for (i = 0; i < 4; i++) {
+	 src[i*4] = dst[i*4];
+	 src[i*4+1] = dst[i*4+1];
+	 src[i*4+2] = dst[i*4+2];
+	 src[i*4+3] = dst[i*4+3];
+	}
+
+/*
+	char buf[512];
+	sprintf(buf,"%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n",
+		dst[0],dst[1],dst[2],dst[3],
+		dst[4],dst[5],dst[6],dst[7],
+		dst[8],dst[9],dst[10],dst[11],
+		dst[12],dst[13],dst[14],dst[15]);
+	fprintf(stderr, "%s: modelview\n", buf);
+	MessageBox(NULL,buf,"F",0);
+*/
+	return true;
+}
+
 void mode_lines() {
     glEnable(GL_BLEND);
     glDisable(GL_LIGHTING);
@@ -204,6 +345,15 @@ static void draw_text_end() {
 // draw a line of text in the XY plane at the given starting position,
 // character height, and line width.
 //
+
+void draw_text_simple(char* text,float line_width,float char_height)
+{
+    glLineWidth(line_width);    
+    float w = char_height/STROKE_SCALE;
+    glScalef(w, w, w);	
+	draw_text_line_aux(text);
+}
+
 void draw_text_line(
     GLfloat* _pos, GLfloat char_height, GLfloat line_width, char *text,
     int justify
@@ -552,3 +702,114 @@ void draw_texture(float* p, float* size) {
 
     glDisable(GL_TEXTURE_2D);
 }
+
+
+//star drawing functions -<oliver wang>-
+#define STARFIELD_SIZE 1000
+#define STAR_SPEED 40.0f
+#define PI 3.14159265358979323846264
+
+//pointer to the begining of the list
+Star* stars = new Star;
+
+void build_stars()
+{
+	int i=0;	
+	Star* tmpStar = stars;		
+	float fov=45.0f;
+	while(i<STARFIELD_SIZE)
+	{
+		float z = (float)(rand()%2000-1000);
+		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
+		float beta = asin(z/1000.0f);
+		float x = 1000.0f * cos(beta) * cos(alpha);
+		float y = 1000.0f * cos(beta) * sin(alpha);				
+
+		tmpStar->x=x;
+		tmpStar->y=y;
+		tmpStar->z=z;		
+		
+		float v = (float)((rand()%1000)/1000.0f);
+		tmpStar->v=v;
+
+		tmpStar->next = new Star;		
+		tmpStar=tmpStar->next;
+		i++;
+	}	
+	tmpStar->next=NULL;
+	tmpStar=NULL;
+}
+
+
+void update_stars()
+{
+	float modelview[16];	
+	float dist;
+	float eye[3];
+	float camera[3];
+	Star* tmpStar = stars;	
+
+	if(get_matrix_invert(modelview)==false)
+		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");		
+		
+	eye[0]=modelview[2];
+	eye[1]=modelview[6];
+	eye[2]=modelview[10];
+
+	camera[0]=modelview[2];
+	camera[1]=modelview[6];
+	camera[2]=modelview[10];
+
+	while(tmpStar!=NULL)		
+	{	
+		dist=sqrt((camera[0]-tmpStar->x)*(camera[0]-tmpStar->x) + 
+				  (camera[1]-tmpStar->y)*(camera[1]-tmpStar->y) + 
+				  (camera[2]-tmpStar->z)*(camera[2]-tmpStar->z));
+
+		if(tmpStar->z>0)  //replace it if its behind the camera
+		{
+			replaceStar(tmpStar);
+			continue;
+		}		
+
+		tmpStar->x+=(eye[0])*tmpStar->v*STAR_SPEED;
+		tmpStar->y+=(eye[1])*tmpStar->v*STAR_SPEED;
+		tmpStar->z+=(eye[2])*tmpStar->v*STAR_SPEED;
+		
+		
+		//grow objects as the approach you
+		if(dist>900) glPointSize(1.0f);
+		else if(dist>700) glPointSize(2.0f);
+		else if(dist>10) glPointSize(3.0f);				
+
+		GLfloat mat_emission[] = {1, 1, 1, 1};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
+
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_POINTS);
+		glVertex3f(tmpStar->x,tmpStar->y,tmpStar->z);
+		glEnd();
+
+		GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };	
+		glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );
+		tmpStar=tmpStar->next;		
+	}
+}
+
+void replaceStar(Star* star)
+{
+	float z = (float)(rand()%2000-1000);
+	float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
+	float beta = asin(z/1000.0f);
+	float x = 1000.0f * cos(beta) * cos(alpha);
+	float y = 1000.0f * cos(beta) * sin(alpha);				
+	star->x=x;
+	star->y=y;
+	star->z=z;
+	star->x=x;
+	
+	float v = (float)((rand()%1000)/1000.0f);
+	star->v=v;		
+}
+
+

@@ -30,6 +30,12 @@ static UINT			m_uEndSSMsg;
 
 BOOL		win_loop_done;
 
+void SetupPixelFormat(HDC hDC);
+unsigned int CreateFont(char *fontName, int fontSize);
+void PrintText(unsigned int base, char *string);
+void ClearGLFont(unsigned int base);
+unsigned int listBase;
+
 extern bool using_opengl;
 extern bool standalone;
 extern HANDLE hQuitEvent;
@@ -108,7 +114,13 @@ void SetMode(int mode) {
 	SetForegroundWindow(hWnd);
 
 	GetCursorPos(&mousePos);
-
+//
+	hDC = GetDC(hWnd);
+	SetupPixelFormat(hDC);        
+	ClearGLFont(listBase);
+	listBase = CreateFont("Arial", 24);
+//
+	/*
 	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
@@ -135,6 +147,7 @@ void SetMode(int mode) {
 	int PixelFormat;
 	PixelFormat = ChoosePixelFormat(hDC, &pfd);
 	SetPixelFormat(hDC, PixelFormat, &pfd);
+	*/
 
 	if(!(hRC = wglCreateContext(hDC))) {
 		ReleaseDC(hWnd, hDC);
@@ -317,5 +330,120 @@ BOOL unreg_win_class() {
 	}
 
 	return TRUE;
+}
+
+
+
+//my text drawing functions -<oliver wang>-
+void SetupPixelFormat(HDC hDC)
+{
+   int nPixelFormat;
+
+   static PIXELFORMATDESCRIPTOR pfd = {
+         sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
+         1,                               // always 1.
+         PFD_DRAW_TO_WINDOW |             // support window
+         PFD_SUPPORT_OPENGL |             // support OpenGl
+         PFD_DOUBLEBUFFER,                // support double buffering
+         PFD_TYPE_RGBA,                   // support RGBA
+         32,                              // 32 bit color mode
+         0, 0, 0, 0, 0, 0,                // ignore color bits
+         0,                               // no alpha buffer
+         0,                               // ignore shift bit
+         0,                               // no accumulation buffer
+         0, 0, 0, 0,                      // ignore accumulation bits.
+         16,                              // number of depth buffer bits.
+         0,                               // number of stencil buffer bits.
+         0,                               // 0 means no auxiliary buffer
+         PFD_MAIN_PLANE,                  // The main drawing plane
+         0,                               // this is reserved
+         0, 0, 0 };                       // layer masks ignored.
+
+
+   // this chooses the best pixel format and returns index.
+   nPixelFormat = ChoosePixelFormat(hDC, &pfd);
+   // This set pixel format to device context.
+   SetPixelFormat(hDC, nPixelFormat, &pfd);
+}     
+
+void PrepareWindow()
+{
+   // Always clear the screen and depth buffer then reset modleview matrix.
+
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   // Clears the screen.
+   glLoadIdentity();                   //Reset modelview matrix for new frame.
+}
+
+
+// There is a lot of new code in our render scene function.
+void RenderScene()
+{
+   glTranslatef(0.0f, 0.0f, -1.0f);// Move back 1 into the screen.
+   glColor3f(1.0f, 1.0f, 1.0f);  // Set the color of the text.
+
+   // This is the X and Y coordinate that the text will be printed at.
+   glRasterPos2f(-0.35f, 0.1f);
+   PrintText(listBase, "www.UltimateGameProgramming.com");// The string to print.
+
+   // Print second line
+   glColor3f(1.0f, 0.0f, 0.0f);
+   glRasterPos2f(-0.35f, 0.0f);
+   PrintText(listBase, "Created by the Programming Ace!");
+
+   // Print third line.
+   glColor3f(0.0f, 1.0f, 0.0f);
+   glRasterPos2f(-0.35f, -0.1f);
+   PrintText(listBase, "Order the CD for more great tutorials!");
+}
+
+unsigned int CreateFont(char *fontName, int Size)
+{
+   // windows font
+   HFONT hFont;
+   unsigned int base;
+
+   // Create space for 96 characters.
+   base = glGenLists(96);
+
+   if(stricmp(fontName, "symbol")==0)
+      {
+         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+                            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
+      }
+   else
+      {
+         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+                            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
+      }
+
+   if(!hFont)
+      return 0;
+   
+   hDC = GetDC(hWnd);
+   SelectObject(hDC, hFont);
+   wglUseFontBitmaps(hDC, 32, 96, base);
+
+   return base;
+}
+
+
+void PrintText(unsigned int base, char *string)
+{
+   if((base == 0 || string == NULL))
+      return;
+
+   glPushAttrib(GL_LIST_BIT);
+      glListBase(base - 32);
+      glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
+   glPopAttrib();
+}
+
+
+void ClearGLFont(unsigned int base)
+{
+   if(base != 0)
+      glDeleteLists(base, 96);
 }
 

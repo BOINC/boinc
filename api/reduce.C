@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -317,7 +318,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
 	
 	mode_unshaded();
     //draw lines
-	glLineWidth(.8);
+	glLineWidth(.8f);
     glBegin(GL_LINES);
 //	glEnable(GL_LINE_SMOOTH);
     glColor4f(0,0,0,1);
@@ -559,7 +560,7 @@ void REDUCED_ARRAY::draw_axes() {
 	glBegin(GL_LINES);
 	glColor4d(1,1,1,1);	
 	
-	float adj=-.18;
+	float adj=-.18f;
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
@@ -575,11 +576,51 @@ void REDUCED_ARRAY::draw_axes() {
 	glEnd();
 
     glBegin(GL_QUADS);
-    glColor4d(1,1,1,.4);
+    glColor4d(1,1,1,.3);
 
     glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
-    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);	
     glEnd();
+	glDisable(GL_LINE_SMOOTH);
+}
+
+
+void REDUCED_ARRAY::draw_labels()
+{	
+	float model[16];	
+	glMatrixMode(GL_MODELVIEW);
+	get_matrix_invert(model);
+//	get_matrix(model);
+	mode_ortho();	
+
+	float w = .05f;
+	float pos[3];
+	pos[0]=draw_pos[0]*model[0]+draw_pos[1]*model[4]+draw_pos[2]*model[8];
+	pos[1]=draw_pos[0]*model[1]+draw_pos[1]*model[5]+draw_pos[2]*model[9];
+	pos[2]=draw_pos[0]*model[2]+draw_pos[1]*model[6]+draw_pos[2]*model[10];
+	//convert to 2d space
+	if(pos[2]>0)
+	{
+		pos[0]=pos[0]/pos[2];
+		pos[1]=pos[1]/pos[2];
+		pos[2]=1;
+	}	
+
+	//scale to [-1,1]
+	pos[0]=pos[0]/4.0f;
+	pos[1]=pos[1]/4.0f;
+	pos[2]=1;
+	
+	char buf[512];
+	sprintf(buf,"%f,%f,%f",pos[0],pos[1],pos[2]);	
+	//MessageBox(NULL,buf,"F",0);
+
+	mode_unshaded();
+	glColor3d(1,1,1);
+	glLineWidth(2);
+	draw_text_line(pos, w, 2, "Time");	
+
+	ortho_done();
 }
