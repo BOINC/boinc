@@ -17,25 +17,38 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// gui_test: test program for BOINC GUI RPCs.
+// boinc_cmd: command-line interface to a BOINC core client,
+// using GUI RPCs.
 //
-// usage: gui_test [-host hostname] command
+// usage: boinc_cmd [--host hostname] command
 //
 // commands:
-// -get_state               show state
-// -get_results             show active results
-// -get_file_transfers
-// -get_messages    nmsgs seqno
-// -set_run_mode {always | auto | never}
-// -show_graphics {window | fullscreen} url result_name
-// -project_reset url
-// -project_attach url auth
-// -project_detach url
-// -project_update url
-// -project_nomorework url
-// -project_allowmorework url
-// -run_benchmarks
-// -set_proxy_settings
+// --get_state               	show entire state
+// --get_results             	show results
+// --get_file_transfers			show file transfers
+// --get_project_status			show status of all projects
+// --get_disk_usage
+// --result
+//      {suspend | resume | abort | graphics_window | graphics_fullscreen}
+//      url result_name
+// --project
+//		{reset | detach | update | suspend | resume | nomorework | allowmorework}
+//      url
+// --project_attach url auth
+// --file_transfer {retry | abort} url filename
+// --get_run_mode
+// --set_run_mode {always | auto | never}
+// --get_network_mode
+// --set_network_mode {always | auto | never}
+// --get_proxy_settings
+// --set_proxy_settings
+// --get_messages seqno			show messages > seqno
+// --get_host_info
+// --acct_mgr_rpc url name password
+// --run_benchmarks
+// --get_screensaver_mode
+// --set_screensaver_mode on|off blank_time {desktop window_station}
+// --quit
 
 
 #ifdef _WIN32
