@@ -296,7 +296,9 @@ function show_failure_result_summary_by_platform() {
     $query_received_time = time() - $_GET['nsecs'];
 
     $main_query = "
-SELECT case
+SELECT
+       app_version_num AS App_Version,
+       case
            when INSTR(host.os_name, 'Darwin') then 'Darwin'
            when INSTR(host.os_name, 'Linux') then 'Linux'
            when INSTR(host.os_name, 'Windows') then 'Windows'
@@ -311,50 +313,58 @@ SELECT case
                end
            else host.os_version
        end AS OS_Version,
-       app_version_num AS App_Version,
-       exit_status,
-       COUNT(*) AS error_count
+       exit_status AS Exit_Status,
+       COUNT(*) AS Error_Count
 FROM   result
            left join host on result.hostid = host.id 
 WHERE
-       appid = '$query_appid' and
+       appid = '3' and
        server_state = '5' and
        outcome = '3' and 
-       received_time > '$query_received_time'
+       received_time > (UNIX_TIMESTAMP() - 86400)
 GROUP BY
+       app_version_num DESC,
        OS_Name,
        OS_Version,
-       app_version_num,
        exit_status
 ";
 
     $result = mysql_query($main_query);
 
+    $table_row_background = "eeeeee";
+
     echo "<table>\n";
-    echo "<tr><th>OS Name</th><th>OS Version</th><th>App Version</th><th>Exit Status</th><th>Error Count</th></tr>\n";
+    echo "<tr><th>App Version</th><th>OS Name</th><th>OS Version</th><th>Exit Status</th><th>Error Count</th></tr>\n";
 
     while ($res = mysql_fetch_object($result)) {
+
+        if ( $table_row_background = "eeeeee" ) {
+            $table_row_background = "000000";
+        } else {
+            $table_row_background = "eeeeee";
+        }
+
 
         echo "<tr>";
 
         
-        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
-        echo $res->OS_Name;
-        echo "</td>";
-
-        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
-        echo $res->OS_Version;
-        echo "</td>";
-
-        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo "<td bgcolor=$table_row_background align=left valign=top>";
         echo $res->App_Version;
         echo "</td>";
 
-        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo $res->OS_Name;
+        echo "</td>";
+
+        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo $res->OS_Version;
+        echo "</td>";
+
+        echo "<td bgcolor=$table_row_background align=left valign=top>";
         echo exit_status_string($res);
         echo "</td>";
 
-        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo "<td bgcolor=$table_row_background align=left valign=top>";
         echo $res->error_count;
         echo "</td>";
 
