@@ -40,6 +40,8 @@ public:
 private:
 	int						m_nMode;
 	int						m_nPrevMode;
+	unsigned long			m_bBlankScreen;
+	unsigned long			m_nBlankTime;
 	CPoint					m_MousePos;
 	CRect					m_Rect;
 	HDC hdc;
@@ -48,6 +50,7 @@ private:
 
 	void					PaintDefault();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+	bool					BlankScreen();
 
     afx_msg int				OnCreate(LPCREATESTRUCT);
     afx_msg void			OnDestroy();

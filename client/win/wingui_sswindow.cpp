@@ -50,7 +50,9 @@ CSSWindow::CSSWindow()
 void CSSWindow::SetMode(int nMode)
 {
 	RECT WindowRect = {0,0,0,0};
-	m_nPrevMode = m_nMode;
+	if (nMode != MODE_BLANK_SCREEN)
+		m_nPrevMode = m_nMode;
+
 	m_nMode = nMode;
 
 	if(GetSafeHwnd()) {
@@ -62,7 +64,7 @@ void CSSWindow::SetMode(int nMode)
 	DWORD dwExStyle;
 	DWORD dwStyle;
 
-	if (nMode == MODE_FULLSCREEN) {
+	if (nMode == MODE_FULLSCREEN || nMode == MODE_BLANK_SCREEN) {
 		HDC screenDC=::GetDC(NULL);
 		WindowRect.left = WindowRect.top = 0;
 		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
@@ -71,6 +73,10 @@ void CSSWindow::SetMode(int nMode)
 		dwExStyle=WS_EX_TOPMOST;
 		dwStyle=WS_POPUP;
 		while(ShowCursor(false) >= 0);
+		UtilGetRegKey("Blank", m_bBlankScreen);
+		UtilGetRegKey("Blank Time", m_nBlankTime);
+		m_nBlankTime *= 60;
+		m_nBlankTime += time(0);
 	} else {
 		if(m_Rect.IsRectEmpty()) m_Rect.SetRect(CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT);
 		WindowRect = m_Rect;
@@ -84,7 +90,7 @@ void CSSWindow::SetMode(int nMode)
 		NULL, 0, NULL);
 	SetTimer(1, 100, NULL);
 
-	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
+	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW || nMode == MODE_BLANK_SCREEN) {
 		ShowWindow(SW_SHOW);
 		if(nMode == MODE_FULLSCREEN) SetForegroundWindow();
 	} else {
@@ -131,10 +137,11 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(m_nMode == MODE_FULLSCREEN) SetMode(m_nPrevMode);
+			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANK_SCREEN)
+				SetMode(m_nPrevMode);
 			return 0;
 		case WM_MOUSEMOVE:
-			if(m_nMode == MODE_FULLSCREEN) {
+			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANK_SCREEN) {
 				GetCursorPos(&mousePos);
 				if(mousePos != m_MousePos) SetMode(m_nPrevMode);
 			}
@@ -199,13 +206,29 @@ void CSSWindow::OnPaint()
 }
 
 //////////
+// CSSWindow::BlankScreen
+// arguments:	null
+// returns:		null
+// function:	returns true if we should go into blank screen mode
+bool CSSWindow::BlankScreen()
+{
+	return	(m_bBlankScreen) &&
+			(m_nMode == MODE_FULLSCREEN) &&
+			(time(0) >= m_nBlankTime);
+}
+
+//////////
 // CSSWindow::OnTimer
 // arguments:	null
 // returns:		null
 // function:	try to draw app graphics, otherwise draw default
 void CSSWindow::OnTimer()
 {
-	if(m_nMode == MODE_NO_GRAPHICS) return;
+	if(m_nMode == MODE_NO_GRAPHICS || m_nMode == MODE_BLANK_SCREEN) return;
+	if(BlankScreen()) {
+		SetMode(MODE_BLANK_SCREEN);
+		return;
+	}
 	if(gstate.active_tasks.active_tasks.size() != 0) {
 		UINT uPaintMsg = RegisterWindowMessage("BOINC_PAINT");
 		CWnd* pAppWnd = GetWndFromProcId(gstate.active_tasks.active_tasks[0]->pid);

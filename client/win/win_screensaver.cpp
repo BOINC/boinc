@@ -167,7 +167,7 @@ void DoPreviewWindow(HWND hparwnd)
 
 
 BOOL CALLBACK ConfigDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
-	unsigned long screen_blank, blank_time;
+	unsigned long screen_blank=0, blank_time=0;
 	char buf[256];
 
 	switch (msg) {

@@ -3529,3 +3529,17 @@ David  Feb 27 2003
         team.inc
         user.inc
         util.inc
+
+Eric   Feb 28, 2003
+    - Fixed screensaver to open client/go to full screen mode correctly.
+    - Implemented "Go to blank screen after x minutes" functionality.
+
+    api/
+        graphics_api.h
+    client/
+        client_state.C,h
+        win/
+            wingui_mainwindow.cpp,h
+            win_util.h
+            win_screensaver.cpp
+            wingui_sswindow.cpp,h
