@@ -7315,3 +7315,10 @@ David  31 Oct 2003
 	lib/
 		app_ipc.C
 		parse.C,h
+
+David  31 Oct 2003
+	- boinc_resolve_filename() (string version)
+		physical name defaults to virtual name
+
+	lib/
+		app_ipc.C
