@@ -44,7 +44,12 @@ using namespace std;
 #define DEBUG_LEVEL  999
 
 //#define STDERR_FILENAME "cgi_out"
-static const char* STDERR_FILENAME = "../log/cgi.log";
+
+void get_log_path(char* p) {
+    char buf[256];
+    gethostname(buf, 256);
+    sprintf(p, "../log_%s/cgi.log", buf);
+}
 
 #define REQ_FILE_PREFIX "boinc_req_"
 #define REPLY_FILE_PREFIX "boinc_reply_"
@@ -64,7 +69,8 @@ int main() {
     bool found;
     bool project_stopped = false;
 
-    if (!freopen(STDERR_FILENAME, "a", stderr)) {
+    get_log_path(path);
+    if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         exit(1);
     }

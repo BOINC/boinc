@@ -8165,3 +8165,28 @@ David  5 Dec 2003
         handle_reqest.C
         make_work.C
         transitioner.C
+
+David  6 Dec 2003
+    - Extend the "start" script to handle remote tasks.  Summary:
+        - config.xml has a mandatory config.host element
+            (for the project's main server)
+            and optional task.host elements (default is main host)
+        - Host X has its own run state file, run_state_X.xml
+        - Host X has its own pid directory, pid_dir_X/
+        - Host X has its own log directory, log_X/
+        - Host X has its own lock file for "start", start.lock.X
+        - run_daemons() etc. run tasks only for the current host
+        - When run on the main host, start builds a list of other hosts
+            and runs itself (with same cmdline, using ssh)
+            on each of the other hosts.
+    
+        Notes:
+        1) I didn't add <host>*</host> capability;
+            it's not clear that we need this
+        2) Output formatting could be improved
+
+    - Changed the scheduler to log to ../log_X/cgi.log (X=hostname)
+
+    sched/
+        main.C
+        start
