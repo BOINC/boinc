@@ -763,7 +763,7 @@ void ACTIVE_TASK_SET::send_heartbeats() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state == PROCESS_IN_LIMBO) {
+        if (atp->state != PROCESS_RUNNING) {
             continue;
         }
         atp->app_client_shm.shm->heartbeat.send_msg("<heartbeat/>\n");
