@@ -7944,7 +7944,8 @@ Karl 2003-11-28
         database.py
 
     - client: close write socket when done writing (but still reading) by
-      using shutdown(2)
+      using shutdown(2).  This allows the 'use_file' mechanism in
+      sched/main.C to work.
 
     client/
         http.C
