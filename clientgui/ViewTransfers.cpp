@@ -256,7 +256,7 @@ wxString CViewTransfers::GetViewName()
 }
 
 
-const char** CViewTransfers::GetViewIcon()
+char** CViewTransfers::GetViewIcon()
 {
     return xfer_xpm;
 }
@@ -544,7 +544,7 @@ void CViewTransfers::UpdateTaskPane()
     if (!m_bTaskHeaderHidden)
     {
         m_pTaskPane->CreateTask( LINK_TASKRETRY, _("Retry Now"), m_bTaskRetryHidden );
-        m_pTaskPane->CreateTask( LINK_TASKABORT, _("Abort Upload"), m_bTaskAbortHidden );
+        m_pTaskPane->CreateTask( LINK_TASKABORT, _("Abort Transfer"), m_bTaskAbortHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 

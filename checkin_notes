@@ -25089,4 +25089,9 @@ Bruce 20 Feb 2005
     sched/
         sched_locality.C
 
+Rom    21 Feb 2005
+    - Bug Fix: Fix a localization error where we were refering to
+        "Abort Transfer" as "Abort Upload"
 
+    clientgui/
+        ViewTransfers.cpp
