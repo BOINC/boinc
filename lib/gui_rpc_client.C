@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -1256,6 +1258,41 @@ int RPC_CLIENT::get_network_mode(int& mode) {
         if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
     }
     return 0;
+}
+
+int RPC_CLIENT::get_screensaver_mode(bool& enabled) {
+    char buf[256];
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<get_screensaver_mode/>\n");
+    if (retval) return retval;
+
+    enabled = false;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</screensaver_mode>")) break;
+        else if (match_tag(buf, "<enabled/>")) {
+            enabled = true;
+            continue;
+        }
+    }
+
+    return 0;
+}
+
+int RPC_CLIENT::set_screensaver_mode(bool enabled, double blank_time) {
+    char buf[256];
+    RPC rpc(this);
+
+    sprintf(buf,
+        "<set_screensaver_mode>\n"
+        "     %s\n"
+        "     <blank_time>%f</blank_time>\n"
+        "</set_screensaver_mode>\n",
+        enabled ? "<enabled/>" : "",
+        blank_time
+    );
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::run_benchmarks() {

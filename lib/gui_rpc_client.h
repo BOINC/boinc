@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -357,6 +359,8 @@ public:
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
+    int get_screensaver_mode(bool& enabled);
+    int set_screensaver_mode(bool enabled, double blank_time);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_proxy_settings(PROXY_INFO&);

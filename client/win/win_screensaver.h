@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -22,13 +24,15 @@
 #ifndef _BOINC_H
 #define _BOINC_H
 
+#include "gui_rpc_client.h"
+
+
 //-----------------------------------------------------------------------------
 // Error codes
 //-----------------------------------------------------------------------------
 
 #define SCRAPPERR_BOINCNOTDETECTED           0x82000001
 #define SCRAPPERR_BOINCNOTDETECTEDSTARTUP    0x82000002
-#define SCRAPPERR_BOINCNOTFOUND              0x82000003
 #define SCRAPPERR_NOPREVIEW                  0x8200000f
 
 
@@ -138,6 +142,8 @@ protected:
 	static INT_PTR CALLBACK ConfigureDialogProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 protected:
+    RPC_CLIENT              rpc;    
+
     SaverMode				m_SaverMode;         // sm_config, sm_full, sm_preview, etc.
     BOOL					m_bAllScreensSame;   // If TRUE, show same image on all screens
     HWND					m_hWnd;              // Focus window and device window on primary
@@ -168,7 +174,6 @@ protected:
 	BOOL					m_bLogMessagePump;
 
 	// Global Messages
-	int						BOINC_SS_START_MSG;
 	int						BOINC_SS_STOP_MSG;
 };
 

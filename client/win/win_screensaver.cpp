@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -42,8 +44,11 @@ static CScreensaver* gs_pScreensaver = NULL;
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    HRESULT hr;
+    HRESULT      hr;
+    int          retval;
+    WSADATA      wsdata;
     CScreensaver BOINCSS;
+
 
 #ifdef _DEBUG
     // Initialize Diagnostics when compiled for debug
@@ -63,13 +68,30 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 #endif
 
+
+    retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+    if (retval) 
+    {
+        BOINCTRACE("WinMain - Winsock Initialization Failure '%d'", retval);
+        return retval;
+    }
+
+
     if( FAILED( hr = BOINCSS.Create( hInstance ) ) )
     {
         BOINCSS.DisplayErrorMsg( hr );
+        WSACleanup();
         return 0;
     }
 
-    return BOINCSS.Run();
+
+    retval = BOINCSS.Run();
+
+
+    WSACleanup();
+
+
+    return retval;
 }
 
 
@@ -121,20 +143,17 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
     // Parse the command line and do the appropriate thing
     m_SaverMode = ParseCommandLine( GetCommandLine() );
 
-
-    EnumMonitors();
-
-
     // Figure out if we're on Win9x
     OSVERSIONINFO osvi; 
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx( &osvi );
     m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
 
+	// Initialize the RPC client
+    rpc.init( NULL );
 
-	// Register global messages
-	BOINC_SS_START_MSG = RegisterWindowMessage( START_SS_MSG );
-	BOINC_SS_STOP_MSG = RegisterWindowMessage( STOP_SS_MSG );
+    // Enumerate Monitors
+    EnumMonitors();
 
 
     // Create the screen saver window(s)
@@ -233,16 +252,12 @@ INT CScreensaver::Run()
 //-----------------------------------------------------------------------------
 VOID CScreensaver::StartupBOINC()
 {
-	HWND hWnd;
-	HANDLE boinc_mutex;
+    bool bScreensaverEnabled;
 
 	if( m_SaverMode != sm_preview )
 	{
-		boinc_mutex = CreateMutex(NULL, false, RUN_MUTEX);
-		if(boinc_mutex != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
+        if(rpc.get_screensaver_mode(bScreensaverEnabled) != 0)
 		{
-			CloseHandle(boinc_mutex);
-
 			// Create a screen saver window on the primary display if the boinc client crashes
 			CreateSaverWindow();
 
@@ -261,29 +276,22 @@ VOID CScreensaver::StartupBOINC()
 		}
 		else
 		{
-			hWnd = FindWindow(TEXT("BOINCWindowClass"), NULL);
-			if(NULL == hWnd)
+            if( (NULL != m_Monitors[0].hWnd) && (m_bBOINCCoreNotified == FALSE) )
 			{
-				// Create a screen saver window on the primary display if the boinc client crashes
-				CreateSaverWindow();
+                DWORD blank_time;
+                int   retval;
 
-				m_bErrorMode = TRUE;
-				m_hrError = SCRAPPERR_BOINCNOTFOUND;
+                // Retrieve the blank screen timeout
+			    // make sure you check return value of registry queries
+			    // in case the item in question doesn't happen to exist.
+			    retval = UtilGetRegKey( REG_BLANK_TIME, blank_time );
+			    if ( retval < 0 ) { blank_time=0; }
 
-				m_bBOINCCoreNotified = FALSE;
-			}
-			else
-			{
-				INTERNALMONITORINFO* pMonitorInfo;
-				pMonitorInfo = &m_Monitors[0];
-				if( (NULL != pMonitorInfo->hWnd) && (m_bBOINCCoreNotified == FALSE) )
-				{
-					// Tell the boinc client to start the screen saver
-					SendMessage(hWnd, BOINC_SS_START_MSG, NULL, NULL);
+				// Tell the boinc client to start the screen saver
+                rpc.set_screensaver_mode(true, blank_time);
 
-					// We have now notified the boinc client
-					m_bBOINCCoreNotified = TRUE;
-				}
+				// We have now notified the boinc client
+				m_bBOINCCoreNotified = TRUE;
 			}
 		}
 	}
@@ -298,13 +306,13 @@ VOID CScreensaver::StartupBOINC()
 //-----------------------------------------------------------------------------
 VOID CScreensaver::ShutdownBOINC()
 {
-	HWND hWnd;
-
 	if( m_bBOINCCoreNotified )
 	{
-		hWnd = FindWindow(TEXT("BOINCWindowClass"), NULL);
-		if(NULL != hWnd)
-			PostMessage(hWnd, BOINC_SS_STOP_MSG, NULL, NULL);
+		// Tell the boinc client to stop the screen saver
+        rpc.set_screensaver_mode(false, 0.0);
+
+        // We have now notified the boinc client
+		m_bBOINCCoreNotified = FALSE;
 	}
 }
 
@@ -570,8 +578,10 @@ HRESULT CScreensaver::CreateSaverWindow()
 					}
 					if( pMonitorInfo->hWnd == NULL )
 						return E_FAIL;
-					if( m_hWnd == NULL )
+					
+                    if( m_hWnd == NULL )
 						m_hWnd = pMonitorInfo->hWnd;
+
 					SetTimer(pMonitorInfo->hWnd, 2, 1000, NULL);
 				}
             }
@@ -757,7 +767,19 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					}
 					else
 					{
-						StartupBOINC();
+                        if (!m_bBOINCCoreNotified)
+                        {
+                            StartupBOINC();
+                        }
+                        else
+                        {
+                            bool bScreensaverEnabled = false;
+                            rpc.get_screensaver_mode( bScreensaverEnabled );
+                            if (!bScreensaverEnabled)
+                            {
+                                ShutdownSaver();
+                            }
+                        }
 					}
 					return 0; 
 			}
@@ -909,10 +931,6 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					if( m_bErrorMode )
 					{
 						UpdateErrorBox();
-					}
-					else
-					{
-						StartupBOINC();
 					}
 					return 0; 
 			}
@@ -1227,7 +1245,6 @@ BOOL CScreensaver::GetTextForError( HRESULT hr, TCHAR* pszError,
         E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
 		SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_BOINCNOTDETECTED,
 		SCRAPPERR_BOINCNOTDETECTEDSTARTUP, IDS_ERR_BOINCNOTDETECTEDSTARTUP,
-		SCRAPPERR_BOINCNOTFOUND, IDS_ERR_BOINCNOTFOUND,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);
@@ -1526,7 +1543,7 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 			{
 				BOINCTRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-				if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+				if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC Manager.lnk"), 36)))
 				{
 					BOINCTRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 					bCheckFileExists = TRUE;
@@ -1572,7 +1589,7 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 					{
 						BOINCTRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-						if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+						if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC Manager.lnk"), 36)))
 						{
 							BOINCTRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 							bCheckFileExists = TRUE;

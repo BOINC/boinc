@@ -34,7 +34,23 @@ BOOL		     win_loop_done;
 
 static bool visible = true;
 
-void KillWindow();
+void KillWindow() {
+	wglMakeCurrent(NULL,NULL);  // release GL rendering context
+	if (hRC) {
+		wglDeleteContext(hRC);
+		hRC=NULL;
+	}
+
+    if (hWnd && hDC) {
+        ReleaseDC(hWnd,hDC);
+	}
+    hDC = NULL;
+
+    if (hWnd) {
+        DestroyWindow(hWnd);
+	}
+    hWnd = NULL;
+}
 
 void SetupPixelFormat(HDC hDC) {
    int nPixelFormat;
@@ -123,24 +139,6 @@ static void make_new_window(int mode) {
 	SetFocus(hWnd);
 
     app_graphics_init();
-}
-
-void KillWindow() {
-	wglMakeCurrent(NULL,NULL);  // release GL rendering context
-	if (hRC) {
-		wglDeleteContext(hRC);
-		hRC=NULL;
-	}
-
-    if (hWnd && hDC) {
-        ReleaseDC(hWnd,hDC);
-	}
-    hDC = NULL;
-
-    if (hWnd) {
-        DestroyWindow(hWnd);
-	}
-    hWnd = NULL;
 }
 
 // switch to the given graphics mode.  This is called:
@@ -375,82 +373,3 @@ void win_graphics_event_loop() {
 	SetEvent(hQuitEvent);		// Signal the worker thread that we're quitting
 }
 
-static inline bool osIsNT()
-{
-    OSVERSIONINFO osv;
-    osv.dwOSVersionInfoSize = sizeof(osv);
-    GetVersionEx(&osv);
-    return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
-}
-
-BOOL VerifyPassword(HWND hwnd)
-{
-    // Under NT, we return TRUE immediately. This lets the saver quit, and the
-    // system manages passwords. Under '95, we call VerifyScreenSavePwd.  This
-    // checks the appropriate registry key and, if necessary, pops up a verify
-    // dialog
-
-    if (osIsNT())
-        return TRUE;
-
-    HINSTANCE hpwdcpl=::LoadLibrary("PASSWORD.CPL");
-    if (hpwdcpl==NULL) return TRUE;
-    typedef BOOL (WINAPI *VERIFYSCREENSAVEPWD)(HWND hwnd);
-    VERIFYSCREENSAVEPWD VerifyScreenSavePwd;
-    VerifyScreenSavePwd =
-        (VERIFYSCREENSAVEPWD)GetProcAddress(hpwdcpl,"VerifyScreenSavePwd");
-    if (VerifyScreenSavePwd==NULL)
-    {
-        FreeLibrary(hpwdcpl);return TRUE;
-    }
-    BOOL bres = VerifyScreenSavePwd(hwnd); 
-    FreeLibrary(hpwdcpl);
-    return bres;
-}
-
-#if 0
-float txt_widths[256];
-
-unsigned int MyCreateFont(char *fontName, int Size, int weight) {
-    // windows font
-    HFONT hFont;
-    unsigned int mylistbase =0;
-
-    // Create space for 96 characters.
-    mylistbase= glGenLists(256);
-
-    if(stricmp(fontName, "symbol")==0) {
-        hFont = CreateFont(
-            Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
-            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName
-        );
-    } else {
-        hFont = CreateFont(
-            Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
-            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName
-        );
-    }
-
-    if(!hFont) return -1;
-    SelectObject(myhDC, hFont);
-#if 1 //no idea why this has to be twice
-    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);
-    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);
-#endif
-#if 0
-    wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);
-#endif
-
-     TEXTMETRIC met;
-     GetTextMetrics(myhDC,&met);
-     GetCharWidthFloat(myhDC,met.tmFirstChar,met.tmLastChar,txt_widths);
-
-    return mylistbase;
-}
-
-float get_char_width(unsigned char c) {
-	return txt_widths[c];
-}
-#endif

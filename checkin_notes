@@ -19384,3 +19384,23 @@ Bruce Allen 13 Nov 2004
       db_ops.inc  
       profile.inc
       db_action.inc
+
+Rom    14 Nov 2004
+    - Updated the core screensaver code to use the GUI RPC's instead of passing 
+      Window messages.
+    - Added two new GUI RPC's, set_screensaver_mode, and get_screensaver_mode.
+    - Added ID tags to the top of several files.
+    - Cleanup screensaver code
+
+    api/
+        windows_opengl.C
+    client/
+        gui_rpc_server.C
+        main.C
+        ss_logic.C
+    client/win/
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+        win_util.cpp, .h
+    lib/
+        gui_rpc_client.C, .h

@@ -25,9 +25,6 @@
 #include "client_msgs.h"
 #include "ss_logic.h"
 
-extern void create_curtain();
-extern void delete_curtain();
-
 SS_LOGIC::SS_LOGIC() {
     do_ss = false;
     do_boinc_logo_ss = false;
@@ -49,7 +46,6 @@ void SS_LOGIC::start_ss(double new_blank_time) {
     blank_time = new_blank_time;
     gstate.active_tasks.save_app_modes();
     gstate.active_tasks.hide_apps();
-    create_curtain();
     if (!gstate.activities_suspended) {
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
@@ -66,7 +62,6 @@ void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
     reset();
     do_ss = do_boinc_logo_ss = do_blank = false;
-    delete_curtain();
     gstate.active_tasks.restore_apps();
 }
 

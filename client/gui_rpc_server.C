@@ -394,6 +394,24 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
     gstate.host_info.write(fout);
 }
 
+static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
+    ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
+    fout.printf("<screensaver_mode>\n");
+    if (atp) fout.printf("     <enabled/>\n");
+    fout.printf("</screensaver_mode>\n");
+}
+
+static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
+    double blank_time = 0.0;
+    if (match_tag(buf, "<blank_time")) {
+        parse_double(buf, "<blank_time>", blank_time);
+    }
+    if (match_tag(buf, "<enabled")) {
+        gstate.ss_logic.start_ss( blank_time );
+    }
+    fout.printf("<success/>\n");
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[1024];
     int n;
@@ -480,6 +498,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_op(request_msg, mf, "resume");
     } else if (match_tag(request_msg, "<get_host_info")) {
         handle_get_host_info(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_screensaver_mode")) {
+        handle_get_screensaver_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_screensaver_mode")) {
+        handle_set_screensaver_mode(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

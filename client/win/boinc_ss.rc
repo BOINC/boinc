@@ -136,7 +136,6 @@ BEGIN
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
                             "BOINC is not running.\n(Automatic Startup not detected)\n\nWe recommend running BOINC at startup;\nplease reinstall BOINC and select this option."
-    IDS_ERR_BOINCNOTFOUND   "Secure Windows Desktop Detected.\n\nYou must uncheck the password checkbox to\ndisplay the screensaver.\n\nThis will be fixed in an upcoming release."
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 

@@ -50,8 +50,6 @@
 #include "main.h"
 
 // dummies
-void create_curtain(){}
-void delete_curtain(){}
 void guiOnBenchmarksBegin(){}
 void guiOnBenchmarksEnd(){}
 
