@@ -17,6 +17,9 @@ function location_form($host) {
     return $x;
 }
 
+// show info about a host.
+// $private is true if we're showing this to the host's owner
+//
 function show_host($host, $private) {
     start_table();
     row1("Computer information");
@@ -121,7 +124,7 @@ function show_host_row($host, $i, $private) {
     ";
     if ($private) {
         echo"<td>
-            <a href=show_host_detail.php?hostid=$host->id>
+            <a href=show_host_detail.php?hostid=$host->id&private>
             $host->domain_name</a></td>
         ";
     } else {

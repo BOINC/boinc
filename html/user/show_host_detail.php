@@ -5,8 +5,8 @@
     require_once("host.inc");
 
     db_init();
-    $user = get_logged_in_user();
     $hostid = $_GET["hostid"];
+    $private = $_GET["private"];
     $result = mysql_query("select * from host where id = $hostid");
     $host = mysql_fetch_object($result);
     mysql_free_result($result);
@@ -14,11 +14,13 @@
         echo "Couldn't find computer";
         exit();
     }
-
-    $private = false;
-    if ($user && $user->id == $host->userid) {
-        $private = true;
+    if ($private) {
+        $user = get_logged_in_user();
+        if (!$user || $user->id != $host->userid) {
+            $private = false;
+        }
     }
+
     page_head("Computer summary", $user);
     show_host($host, $private);
     page_tail();

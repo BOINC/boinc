@@ -45,7 +45,7 @@
         }
     }
     if ($result) {
-        Header("Location: show_host_detail.php?hostid=$targetid");
+        Header("Location: show_host_detail.php?hostid=$targetid&private");
     } else {
         page_head("Host merge failed");
         echo "Couldn't update database - please try again later";
