@@ -46,6 +46,98 @@ enum STATUSBARFIELDS
 };
 
 
+IMPLEMENT_DYNAMIC_CLASS(CStatusBar, wxStatusBar)
+
+BEGIN_EVENT_TABLE(CStatusBar, wxStatusBar)
+    EVT_SIZE(CStatusBar::OnSize)
+END_EVENT_TABLE()
+
+
+CStatusBar::CStatusBar()
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Default Constructor Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Default Constructor Function End"));
+}
+
+
+CStatusBar::CStatusBar( wxWindow *parent ) :
+    wxStatusBar( parent, ID_STATUSBAR, wxST_SIZEGRIP, _T("statusBar") )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function Begin"));
+
+    const wxInt32 widths[] = {-1, 200, 20};
+    SetFieldsCount(WXSIZEOF(widths), widths);
+
+    m_pbmpConnected = new wxStaticBitmap(this, -1, wxIcon(connect_xpm));
+    wxASSERT(NULL != m_pbmpConnected);
+    m_pbmpConnected->Hide();
+
+    m_ptxtConnected = new wxStaticText(this, -1, _("Connected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
+    wxASSERT(NULL != m_ptxtConnected);
+    m_ptxtConnected->Hide();
+
+    m_pbmpDisconnect = new wxStaticBitmap(this, -1, wxIcon(disconnect_xpm));
+    wxASSERT(NULL != m_pbmpDisconnect);
+    m_pbmpDisconnect->Hide();
+
+    m_ptxtDisconnect = new wxStaticText(this, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
+    wxASSERT(NULL != m_ptxtDisconnect);
+    m_ptxtDisconnect->Hide();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function End"));
+}
+
+
+CStatusBar::~CStatusBar()
+{
+
+}
+
+
+void CStatusBar::OnSize(wxSizeEvent& event)
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::OnSize - Function Begin"));
+
+    if ( IsShown() )
+    {
+        wxRect rect;
+        wxSize size;
+
+        GetFieldRect(STATUS_CONNECTION_STATUS, rect);
+
+        if ( m_pbmpConnected )
+        {
+            size = m_pbmpConnected->GetSize();
+            m_pbmpConnected->Move(rect.x + 1,
+                                  rect.y + (rect.height - size.y) / 2);
+        }
+
+        if ( m_ptxtConnected )
+        {
+            m_ptxtConnected->Move((rect.x + size.x) + 2,
+                                  (rect.y + (rect.height - size.y) / 2) + 1);
+        }
+
+        if ( m_pbmpDisconnect )
+        {
+            size = m_pbmpConnected->GetSize();
+            m_pbmpDisconnect->Move(rect.x + 1,
+                                   rect.y + (rect.height - size.y) / 2);
+        }
+
+        if ( m_ptxtDisconnect )
+        {
+            m_ptxtDisconnect->Move((rect.x + size.x) + 2,
+                                   (rect.y + (rect.height - size.y) / 2) + 1);
+        }
+    }
+
+    event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::OnSize - Function End"));
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
@@ -58,7 +150,6 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
     EVT_CLOSE(CMainFrame::OnClose)
-    EVT_SIZE(CMainFrame::OnSize)
     EVT_CHAR(CMainFrame::OnChar)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
@@ -70,9 +161,6 @@ END_EVENT_TABLE ()
 CMainFrame::CMainFrame()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Default Constructor Function Begin"));
-
-    m_iSelectedLanguage = 0;
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Default Constructor Function End"));
 }
 
@@ -86,8 +174,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
-    m_pbmpConnected = NULL;
-    m_pbmpDisconnect = NULL;
+    m_iSelectedLanguage = 0;
 
     m_strBaseTitle = strTitle;
 
@@ -116,8 +203,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
     RestoreState();
 
     SetStatusBarPane(0);
-    PositionStatusBar();
-    SendSizeEvent();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -127,6 +212,7 @@ CMainFrame::~CMainFrame()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function Begin"));
 
+    wxASSERT(NULL != m_pRefreshStateTimer);
     wxASSERT(NULL != m_pFrameRenderTimer);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
     wxASSERT(NULL != m_pMenubar);
@@ -136,6 +222,10 @@ CMainFrame::~CMainFrame()
 
     SaveState();
 
+    if (m_pRefreshStateTimer) {
+        m_pRefreshStateTimer->Stop();
+        delete m_pRefreshStateTimer;
+    }
 
     if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
@@ -336,26 +426,10 @@ bool CMainFrame::CreateStatusbar()
     if (m_pStatusbar)
         return true;
 
-    const wxInt32 widths[] = {-1, 200, 20};
-
-    m_pStatusbar = CreateStatusBar(WXSIZEOF(widths), wxST_SIZEGRIP, ID_STATUSBAR);
+    m_pStatusbar = new CStatusBar( this );
     wxASSERT(NULL != m_pStatusbar);
 
-    m_pStatusbar->SetStatusWidths(WXSIZEOF(widths), widths);
-
     SetStatusBar(m_pStatusbar);
-
-    m_pbmpConnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(connect_xpm));
-    m_pbmpConnected->Hide();
-
-    m_ptxtConnected = new wxStaticText(m_pStatusbar, -1, _("Connected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
-    m_ptxtConnected->Hide();
-
-    m_pbmpDisconnect = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
-    m_pbmpDisconnect->Hide();
-
-    m_ptxtDisconnect = new wxStaticText(m_pStatusbar, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
-    m_ptxtDisconnect->Hide();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateStatusbar - Function End"));
     return true;
@@ -808,51 +882,6 @@ void CMainFrame::OnClose( wxCloseEvent& event )
 }
 
 
-void CMainFrame::OnSize( wxSizeEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSize - Function Begin"));
-
-    if ( IsShown() )
-    {
-        wxRect rect;
-        wxSize size;
-
-        wxASSERT(NULL != m_pStatusbar);
-        m_pStatusbar->GetFieldRect(STATUS_CONNECTION_STATUS, rect);
-
-        if ( m_pbmpConnected )
-        {
-            size = m_pbmpConnected->GetSize();
-            m_pbmpConnected->Move(rect.x + 1,
-                                  rect.y + (rect.height - size.y) / 2);
-        }
-
-        if ( m_ptxtConnected )
-        {
-            m_ptxtConnected->Move((rect.x + size.x) + 2,
-                                  (rect.y + (rect.height - size.y) / 2) + 1);
-        }
-
-        if ( m_pbmpDisconnect )
-        {
-            size = m_pbmpConnected->GetSize();
-            m_pbmpDisconnect->Move(rect.x + 1,
-                                   rect.y + (rect.height - size.y) / 2);
-        }
-
-        if ( m_ptxtDisconnect )
-        {
-            m_ptxtDisconnect->Move((rect.x + size.x) + 2,
-                                   (rect.y + (rect.height - size.y) / 2) + 1);
-        }
-    }
-
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSize - Function End"));
-}
-
-
 void CMainFrame::OnChar( wxKeyEvent& event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnChar - Function Begin"));
@@ -988,14 +1017,13 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             }
 
             // Update the statusbar
-            wxASSERT(wxDynamicCast(m_pbmpConnected, wxStaticBitmap));
-            wxASSERT(wxDynamicCast(m_pbmpDisconnect, wxStaticBitmap));
+            wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
             if ( pDoc->IsConnected() )
             {
-                m_pbmpConnected->Show();
-                m_ptxtConnected->Show();
-                m_pbmpDisconnect->Hide();
-                m_ptxtDisconnect->Hide();
+                m_pStatusbar->m_pbmpConnected->Show();
+                m_pStatusbar->m_ptxtConnected->Show();
+                m_pStatusbar->m_pbmpDisconnect->Hide();
+                m_pStatusbar->m_ptxtDisconnect->Hide();
 
                 wxString strBuffer = wxEmptyString;
                 wxString strConnectedMachine = wxEmptyString;
@@ -1022,14 +1050,14 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                 strStatusText += wxT(" (") + strBuffer + wxT(")");
 
                 SetTitle( strTitle );
-                m_ptxtConnected->SetLabel( strStatusText );
+                m_pStatusbar->m_ptxtConnected->SetLabel( strStatusText );
             }
             else
             {
-                m_pbmpConnected->Hide();
-                m_ptxtConnected->Hide();
-                m_pbmpDisconnect->Show();
-                m_ptxtDisconnect->Show();
+                m_pStatusbar->m_pbmpConnected->Hide();
+                m_pStatusbar->m_ptxtConnected->Hide();
+                m_pStatusbar->m_pbmpDisconnect->Show();
+                m_pStatusbar->m_ptxtDisconnect->Show();
             }
         }
     }

@@ -26,6 +26,27 @@
 #endif
 
 
+class CStatusBar : public wxStatusBar
+{
+    DECLARE_DYNAMIC_CLASS(CStatusBar)
+
+public:
+    CStatusBar();
+    CStatusBar(wxWindow *parent);
+    ~CStatusBar();
+
+    void OnSize(wxSizeEvent& event);
+
+    wxStaticBitmap* m_pbmpConnected;
+    wxStaticText*   m_ptxtConnected;
+    wxStaticBitmap* m_pbmpDisconnect;
+    wxStaticText*   m_ptxtDisconnect;
+
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+
 class CMainFrame : public wxFrame
 {
     DECLARE_DYNAMIC_CLASS(CMainFrame)
@@ -47,7 +68,6 @@ public:
     void OnAbout( wxCommandEvent& event );
 
     void OnClose( wxCloseEvent& event );
-    void OnSize( wxSizeEvent& event );
     void OnChar( wxKeyEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
@@ -60,15 +80,10 @@ private:
 
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
-    wxStatusBar*    m_pStatusbar;
+    CStatusBar*     m_pStatusbar;
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
-
-    wxStaticBitmap* m_pbmpConnected;
-    wxStaticText*   m_ptxtConnected;
-    wxStaticBitmap* m_pbmpDisconnect;
-    wxStaticText*   m_ptxtDisconnect;
 
     wxString        m_strBaseTitle;
 
