@@ -10,7 +10,9 @@ $user = get_logged_in_user();
 
 $prefs = prefs_parse_global($user->global_prefs);
 prefs_resource_parse_form($prefs);
+venue_parse_form($user);
 project_prefs_update($user, $prefs);
+venue_update($user);
 
 Header("Location: account_setup_nonfirst_done.php");
 
