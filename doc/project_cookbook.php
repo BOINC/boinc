@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Projection creation cookbook");
+page_head("Project creation cookbook");
 echo "
 <h2>Make skeletal project</h2>
 <ul>
