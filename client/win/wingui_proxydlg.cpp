@@ -167,11 +167,11 @@ void CProxyServerDlg::OnOK()
 {
     UpdateData(TRUE);
 
-    gstate.pi.use_http_proxy = (m_UseHTTPProxyServerCtrl.GetCheck() != 0);
+    gstate.pi.use_http_proxy = (m_UseHTTPProxyServerCtrl.GetCheck() != BST_UNCHECKED);
     safe_strncpy(gstate.pi.http_server_name, m_strHTTPProxyServerAddress.GetBuffer(), sizeof(gstate.pi.http_server_name));
     gstate.pi.http_server_port = m_uiHTTPProxyServerPort;
 
-    gstate.pi.use_socks_proxy = (m_UseSOCKSProxyServerCtrl.GetCheck() != 0);
+    gstate.pi.use_socks_proxy = (m_UseSOCKSProxyServerCtrl.GetCheck() != BST_UNCHECKED);
     safe_strncpy(gstate.pi.socks_server_name, m_strSOCKSProxyServerAddress.GetBuffer(), sizeof(gstate.pi.socks_server_name));
     gstate.pi.socks_server_port = m_uiSOCKSProxyServerPort;
     safe_strncpy(gstate.pi.socks5_user_name, m_strSOCKSProxyServerUsername.GetBuffer(), sizeof(gstate.pi.socks5_user_name));
