@@ -116,7 +116,7 @@ static void http_get_request_header_proxy(
         "%s"
         "Connection: close\015\012"
         "Accept: */*\015\012"
-		"Proxy-Authorization: Basic %s\015\012"
+        "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
         file, host, port, offset?offset_info:"", encstr
     );
@@ -144,7 +144,7 @@ static void http_head_request_header_proxy(char* buf, char* host, int port, char
         "Host: %s:%d\015\012"
         "Connection: close\015\012"
         "Accept: */*\015\012"
-		"Proxy-Authorization: Basic %s\015\012"
+        "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
         file, host, port, encstr
     );
@@ -180,7 +180,7 @@ static void http_post_request_header_proxy(
         "Connection: close\015\012"
         "Content-Type: application/octet-stream\015\012"
         "Content-Length: %d\015\012"
-		"Proxy-Authorization: Basic %s\015\012"
+        "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
         file, host, port, size, encstr
     );
@@ -199,7 +199,7 @@ void HTTP_REPLY_HEADER::parse() {
     istringstream h(recv_buf);
     string line, w;
 
-	if (getline(h, line)) {
+    if (getline(h, line)) {
         istringstream iline(line);
 
         iline >> w;
@@ -328,18 +328,18 @@ int HTTP_OP::init_head(const char* url) {
         http_head_request_header(
             request_header, url_hostname, port, proxy_buf
         );
- 	} else {
-  		char	id_passwd[512];
-  		string	encstr = "";
-  		memset(id_passwd,0,sizeof(id_passwd));
-		strcpy(id_passwd,pi.http_user_name);
-		strcat(id_passwd,":");
-		strcat(id_passwd,pi.http_user_passwd);
-		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+    } else {
+        char id_passwd[512];
+        string encstr = "";
+        memset(id_passwd,0,sizeof(id_passwd));
+        strcpy(id_passwd,pi.http_user_name);
+        strcat(id_passwd,":");
+        strcat(id_passwd,pi.http_user_passwd);
+        encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_head_request_header_proxy(
-			request_header, url_hostname, port, proxy_buf, (char*)encstr.c_str()
+            request_header, url_hostname, port, proxy_buf, (char*)encstr.c_str()
         );
-  	}
+    }
     return 0;
 }
 
@@ -356,9 +356,9 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(outfile, out);
-	if (off != 0){
-		bytes_xferred = off;
-	}
+    if (off != 0){
+        bytes_xferred = off;
+    }
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (pi.use_http_proxy) {
@@ -366,19 +366,21 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-	if (!pi.use_http_auth){
+    if (!pi.use_http_auth) {
         http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
- 	} else {
-  		char	id_passwd[512];
-  		string	encstr = "";
-  		memset(id_passwd,0,sizeof(id_passwd));
-		strcpy(id_passwd,pi.http_user_name);
-		strcat(id_passwd,":");
-		strcat(id_passwd,pi.http_user_passwd);
-		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
-  		http_get_request_header_proxy(request_header, url_hostname,
-  			port, proxy_buf, (int)file_offset, (char*)encstr.c_str() );
-  	}
+    } else {
+        char id_passwd[512];
+        string encstr = "";
+        memset(id_passwd,0,sizeof(id_passwd));
+        strcpy(id_passwd,pi.http_user_name);
+        strcat(id_passwd,":");
+        strcat(id_passwd,pi.http_user_passwd);
+        encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+        http_get_request_header_proxy(
+            request_header, url_hostname,
+            port, proxy_buf, (int)file_offset, (char*)encstr.c_str()
+        );
+    }
     return 0;
 }
 
@@ -408,23 +410,23 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
         sprintf(proxy_buf, "/%s", filename);
     }
 
-	if (!pi.use_http_auth){
+    if (!pi.use_http_auth) {
         http_post_request_header(
             request_header, url_hostname, port, proxy_buf, content_length
         );
- 	} else {
-  		char	id_passwd[512];
-  		string	encstr = "";
-  		memset(id_passwd,0,sizeof(id_passwd));
-		strcpy(id_passwd,pi.http_user_name);
-		strcat(id_passwd,":");
-		strcat(id_passwd,pi.http_user_passwd);
-		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+    } else {
+        char id_passwd[512];
+        string encstr = "";
+        memset(id_passwd,0,sizeof(id_passwd));
+        strcpy(id_passwd,pi.http_user_name);
+        strcat(id_passwd,":");
+        strcat(id_passwd,pi.http_user_passwd);
+        encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_post_request_header_proxy(
             request_header, url_hostname, port, proxy_buf, content_length,
-			(char*)encstr.c_str()
+            (char*)encstr.c_str()
         );
-  	}
+    }
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
     return 0;
 }
@@ -460,23 +462,23 @@ int HTTP_OP::init_post2(
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-  	if (!pi.use_http_auth){
+    if (!pi.use_http_auth) {
         http_post_request_header(
             request_header, url_hostname, port, proxy_buf, content_length
         );
- 	} else {
-  		char	id_passwd[512];
-  		string	encstr = "";
-  		memset(id_passwd,0,sizeof(id_passwd));
-		strcpy(id_passwd,pi.http_user_name);
-		strcat(id_passwd,":");
-		strcat(id_passwd,pi.http_user_passwd);
-		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
+    } else {
+        char id_passwd[512];
+        string encstr = "";
+        memset(id_passwd,0,sizeof(id_passwd));
+        strcpy(id_passwd,pi.http_user_name);
+        strcat(id_passwd,":");
+        strcat(id_passwd,pi.http_user_passwd);
+        encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_post_request_header_proxy(
             request_header, url_hostname, port, proxy_buf, content_length,
-			(char*)encstr.c_str()
+            (char*)encstr.c_str()
         );
-  	}
+    }
     return 0;
 }
 
@@ -537,27 +539,27 @@ bool HTTP_OP_SET::poll(double) {
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = htp->proxy_retval;
                     switch (htp->proxy_retval) {
-                        case ERR_SOCKS_UNKNOWN_FAILURE:
-                            msg_printf(NULL, MSG_ERROR, "An unknown SOCKS server error occurred\n");
-                            break;
-                        case ERR_SOCKS_REQUEST_FAILED:
-                            msg_printf(NULL, MSG_ERROR, "The SOCKS server denied access for this computer\n");
-                            break;
-                        case ERR_SOCKS_BAD_USER_PASS:
-                            msg_printf(NULL, MSG_ERROR, "Incorrect SOCKS user name and/or password\n");
-                            break;
-                        case ERR_SOCKS_UNKNOWN_SERVER_VERSION:
-                            msg_printf(NULL, MSG_ERROR, "The SOCKS server is using an unknown version\n");
-                            break;
-                        case ERR_SOCKS_UNSUPPORTED:
-                            msg_printf(NULL, MSG_ERROR, "The SOCKS server is using unsupported features unknown to BOINC\n");
-                            break;
-                        case ERR_SOCKS_CANT_REACH_HOST:
-                            msg_printf(NULL, MSG_ERROR, "The SOCKS server is unable to contact the host\n");
-                            break;
-                        case ERR_SOCKS_CONN_REFUSED:
-                            msg_printf(NULL, MSG_ERROR, "The connection from the SOCKS server to the host was refused\n");
-                            break;
+                    case ERR_SOCKS_UNKNOWN_FAILURE:
+                        msg_printf(NULL, MSG_ERROR, "An unknown SOCKS server error occurred\n");
+                        break;
+                    case ERR_SOCKS_REQUEST_FAILED:
+                        msg_printf(NULL, MSG_ERROR, "The SOCKS server denied access for this computer\n");
+                        break;
+                    case ERR_SOCKS_BAD_USER_PASS:
+                        msg_printf(NULL, MSG_ERROR, "Incorrect SOCKS user name and/or password\n");
+                        break;
+                    case ERR_SOCKS_UNKNOWN_SERVER_VERSION:
+                        msg_printf(NULL, MSG_ERROR, "The SOCKS server is using an unknown version\n");
+                        break;
+                    case ERR_SOCKS_UNSUPPORTED:
+                        msg_printf(NULL, MSG_ERROR, "The SOCKS server is using unsupported features unknown to BOINC\n");
+                        break;
+                    case ERR_SOCKS_CANT_REACH_HOST:
+                        msg_printf(NULL, MSG_ERROR, "The SOCKS server is unable to contact the host\n");
+                        break;
+                    case ERR_SOCKS_CONN_REFUSED:
+                        msg_printf(NULL, MSG_ERROR, "The connection from the SOCKS server to the host was refused\n");
+                        break;
                     }
                 } else {
                     htp->http_op_state = HTTP_STATE_REQUEST_HEADER;
@@ -722,7 +724,7 @@ bool HTTP_OP_SET::poll(double) {
                     break;
                 }
 
-				if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
+                if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = htp->hrh.http_status;
                     break;

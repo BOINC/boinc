@@ -114,6 +114,15 @@ public:
     bool scan(std::string& name);    // return true if file returned
 };
 
+#ifndef _WIN32
+
+// search PATH, find the directory that a program is in, if any
+//
+extern int get_file_dir(char* filename, char* dir);
+
+#endif
+
+
 #endif /* c++ */
 
 #endif /* double-inclusion protection */

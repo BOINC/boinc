@@ -73,6 +73,8 @@ before getting into the source code.
 <li> <a href=python.php>Python framework</a>
 <li> <a href=prefs_impl.php>Preferences</a>
 <li> <a href=trickle_impl.php>Trickle messages</a>
+<li> <a href=version_diff.txt>How to see what has changed
+between two versions of an executable</a>.
 </ul>
 
 ";

@@ -56,8 +56,8 @@ extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);
-std::string timediff_format(double);
-int read_file_string(const char* pathname, std::string& result);
+extern std::string timediff_format(double);
+extern int read_file_string(const char* pathname, std::string& result);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return
@@ -89,16 +89,17 @@ static inline double drand() {
 }
 
 // return a random integer in the range [rmin,rmax)
-static inline double rand_range(double rmin, double rmax)
-{
-    if (rmin < rmax)
+static inline double rand_range(double rmin, double rmax) {
+    if (rmin < rmax) {
         return drand() * (rmax-rmin) + rmin;
-    else
+    } else {
         return rmin;
+    }
 }
 
 // return a random integer in the range [MIN,min(e^n,MAX))
-double calculate_exponential_backoff(
+//
+extern double calculate_exponential_backoff(
     const char* debug_descr, int n, double MIN, double MAX,
     double factor=1.0
 );
@@ -106,12 +107,14 @@ extern bool debug_fake_exponential_backoff;
 
 
 #ifdef _WIN32
+
 #include <windows.h>
-char* windows_error_string(char* pszBuf, int iSize);
-char* windows_format_error_string(
+extern char* windows_error_string(char* pszBuf, int iSize);
+extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
 );
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
+extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
+
 #endif
 
 extern void update_average(double, double, double, double&, double&);

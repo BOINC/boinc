@@ -546,6 +546,33 @@ int get_filesystem_info(double &total_space, double &free_space) {
     return 0;
 }
 
+#ifndef _WIN32
+
+int get_file_dir(char* filename, char* dir) {
+    char buf[8192], *p, path[256];
+    struct stat sbuf;
+    int retval;
+
+    p = getenv("PATH");
+    if (!p) return ERR_NOT_FOUND;
+    strcpy(buf, p);
+
+    p = strtok(buf, ":");
+    while (p) {
+        sprintf(path, "%s/%s", p, filename);
+        retval = stat(path, &sbuf);
+        if (!retval && (sbuf.st_mode & 0111)) {
+            strcpy(dir, p);
+            return 0;
+        }
+        p = strtok(0, ":");
+    }
+    return ERR_NOT_FOUND;
+}
+
+
+#endif
+
 #ifdef __GNUC__
 static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
 #else

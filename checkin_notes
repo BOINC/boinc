@@ -20987,3 +20987,15 @@ David  9 Dec 2004
 		boinc_api.C
 	client/
 		http.C,h
+
+David  10 Dec 2004
+    - added a function get_file_dir() (in lib/filesys.C)
+        that searches the directories in the PATH env var,
+        looking for an executable file with a given name
+        (this is so boincmgr can find boinc on Unix)
+
+    client/
+        http.C
+    lib/
+        filesys.C,h
+        util.C,h

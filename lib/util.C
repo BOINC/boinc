@@ -192,7 +192,8 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
 
 #define EPOCHFILETIME_SEC (11644473600.)
 #define TEN_MILLION 10000000.
-// return time of day as a double
+
+// return time of day (seconds since 1970) as a double
 //
 double dtime() {
 #ifdef _WIN32

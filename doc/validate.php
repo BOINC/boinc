@@ -76,6 +76,8 @@ This tells the validator to write an error message and exit.
 <p>
 Neither function should delete files.
 <p>
+A more detailed description is <a href=validate_logic.txt>here</a>.
+<p>
 Two example validators are supplied
 (each implements check_set() and check_pair()):
 <ul>
