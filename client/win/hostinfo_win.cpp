@@ -269,48 +269,14 @@ int HOST_INFO::get_host_info() {
         szSKU, szServicePack, szVersion );
 
 
+    // Detect the number of CPUs
     SYSTEM_INFO SystemInfo;
     memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
     ::GetSystemInfo( &SystemInfo );
 
     p_ncpus = SystemInfo.dwNumberOfProcessors;
 
-    switch ( SystemInfo.wProcessorArchitecture ) {
-        case PROCESSOR_ARCHITECTURE_INTEL:
-        switch ( SystemInfo.dwProcessorType ) {
-            case PROCESSOR_INTEL_386:
-                strcpy( p_model, "80386" );
-                break;
-            case PROCESSOR_INTEL_486:
-                strcpy( p_model, "80486" );
-                break;
-            case PROCESSOR_INTEL_PENTIUM:
-                strcpy( p_model, "Pentium" );
-                break;
-            default:
-                strcpy( p_model, "x86" );
-                break;
-            }
-        break;
-
-        case PROCESSOR_ARCHITECTURE_MIPS:
-            strcpy( p_model, "MIPS" );
-            break;
-
-        case PROCESSOR_ARCHITECTURE_ALPHA:
-            strcpy( p_model, "Alpha" );
-            break;
-
-        case PROCESSOR_ARCHITECTURE_PPC:
-            strcpy( p_model, "Power PC" );
-            break;
-
-        case PROCESSOR_ARCHITECTURE_UNKNOWN:
-        default:
-            strcpy( p_model, "Unknown" );
-            break;
-    }
-        
+    // Detect the filesystem information
 	get_filesystem_info(d_total, d_free);
     
 	// Open the WinSock dll so we can get host info
@@ -336,7 +302,7 @@ int HOST_INFO::get_host_info() {
 	m_nbytes = (double)mStatus.dwTotalPhys;
 	m_swap = (double)mStatus.dwTotalPageFile;
 	
-	// gets processor vendor name from registry, works for intel
+	// gets processor vendor name and model name from registry, works for intel
 	char vendorName[256], procNameString[256];
 	HKEY hKey;
 	LONG retval;
@@ -354,15 +320,24 @@ int HOST_INFO::get_host_info() {
 		nameSize = sizeof(vendorName);
 		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
 		if (retval == ERROR_SUCCESS) gotVendIdent = true;
-		else strcpy( "Unknown", vendorName );
 
 		nameSize = sizeof(DWORD);
 		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
 		if (retval == ERROR_SUCCESS) gotMHz = true;
 	}
-	if (gotProcName) safe_strncpy( p_vendor, procNameString, sizeof(p_vendor) );
-	else if (gotMHz) sprintf( p_vendor, "%s %dMHz", vendorName, procSpeed );
-	else safe_strncpy( p_vendor, vendorName, sizeof(p_vendor) );
+
+    if (gotVendIdent) safe_strncpy( p_vendor, vendorName, sizeof(p_vendor) );
+    else safe_strncpy( p_vendor, "Unknown", sizeof(p_vendor) );
+
+    if (gotProcName) {
+        safe_strncpy( p_model, procNameString, sizeof(p_model) );
+    } else if (gotVendIdent && gotMHz) {
+        sprintf( p_model, "%s %dMHz", vendorName, procSpeed );
+    } else if (gotVendIdent) {
+        safe_strncpy( p_model, vendorName, sizeof(p_model) );
+    } else {
+        safe_strncpy( p_model, "Unknown", sizeof(p_model) );
+    }
 
 	RegCloseKey(hKey);
     return 0;

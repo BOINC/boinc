@@ -21411,3 +21411,18 @@ David  16 Dec 2004
     sched/
         sched_send.C
         transitioner.C
+
+Rom    16 Dec 2004
+    - Rework the CPU and Model Identification code on Windows so that
+        the specific CPU model is reported in the p_model field instead
+        of the p_vendor field.  This fixes a bug in the predictor project
+        where new processors not already known to the OS were being flagged 
+        as unknown and causing homogeneous redundancy to fail.
+
+        The vendor ID was being detected, it just wasn't being included
+        in the p_vendor field if a processor identifier was being detected.
+        The OS aparently throws in an 'Unknown CPU typ' string in the cases
+        where it cannot determine the proper string to put in the registry.
+
+    client/win/
+        host_info.cpp
