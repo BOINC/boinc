@@ -21,9 +21,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#if HAVE_SYS_SYSTEMINFO_H
-#include <sys/systeminfo.h>
-#endif
 #include <sys/types.h>
 #if HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
@@ -35,6 +32,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
+#include <sys/systeminfo.h>
 #include <sys/utsname.h>
 #include <unistd.h>
 #include <netdb.h>
@@ -166,8 +164,8 @@ void get_osinfo(HOST_INFO& host) {
 
 #endif
 
-#ifdef solaris
 int get_host_info(HOST_INFO& host) {
+#ifdef solaris
     struct statvfs foo;
 
     memset(&host, 0, sizeof(host));
@@ -198,19 +196,9 @@ int get_host_info(HOST_INFO& host) {
     for (i=0; i<n; i++) {
         host.m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
-
-    return 0;
-}
-#endif
-
-#ifdef mac
-int get_host_info(HOST_INFO &host) {
-    return 0;
-}
 #endif
 
 #ifdef linux
-int get_host_info(HOST_INFO& host) {
     memset(&host, 0, sizeof(host));
       
     get_local_domain_name(host.domain_name);
@@ -220,7 +208,9 @@ int get_host_info(HOST_INFO& host) {
     parse_meminfo(host);
     get_osinfo(host);
     get_timezone(host.timezone);
+#endif
 
     return 0;
 }
-#endif
+
+
