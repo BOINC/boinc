@@ -61,7 +61,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 // (see doc/upload.html)
 // Do this in memory.
 //
-int FILE_XFER::init_upload(FILE_INFO& file_info) {
+int FILE_XFER::init_upload(FILE_INFO& file_info) {  
     // If upload_offset < 0, we need to query the upload handler
     // for the offset information
     // TODO: give priority to unfinished upload if there are multiple choices
@@ -70,7 +70,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     get_pathname(fip, pathname);
 
     is_upload = true;
-    if (file_info.upload_offset < 0) {
+    if (file_info.upload_offset < 0) { // NOTE: Should this be <=?
         bytes_xferred = 0;
         sprintf(header,
             "<data_server_request>\n"
@@ -222,7 +222,9 @@ bool FILE_XFER_SET::poll() {
                         }
                     }
                 }
-            }
+            } else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
+				fxp->file_xfer_err_msg = "Existing file too large; can't resume";
+			}
         }
     }
     return action;

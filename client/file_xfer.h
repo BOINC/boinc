@@ -48,6 +48,7 @@ public:
     int init_upload(FILE_INFO&);
     bool file_xfer_done;
     int file_xfer_retval;
+	string file_xfer_err_msg;
 };
 
 class FILE_XFER_SET {

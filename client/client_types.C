@@ -525,7 +525,11 @@ int FILE_INFO::delete_file() {
 
     get_pathname(this, path);
     status = FILE_NOT_PRESENT;
-    return file_delete(path);
+    int retval = file_delete(path);
+	if (retval) {
+        msg_printf(project, MSG_ERROR, "Couldn't delete file %s\n", path);
+	}
+	return retval;
 }
 
 // get the currently selected url to download/upload file, or
