@@ -6,34 +6,19 @@ Matt's Bugs:
 several "show graphics" the plots become really slow). Graphics getting
 reeeeeally slow over time. Even after stop/restart.
 
-3. after minimizing and quitting, when I double click on the system tray
+2. after minimizing and quitting, when I double click on the system tray
 icon the window is still minimized - a bit confusing.
 
-4. two Solaris Sun Solaris 1.01 clients in the astropulse download page.
+3. two Solaris Sun Solaris 1.01 clients in the astropulse download page.
 
-6. get preferences works, but is slightly confusing - you have to go to
-projects, right click on "get preferences", and then exit/restart boinc
-before I get to see my new pretty underwater colors.
-
-7. after minimizing graphics window it behaves strangely - the only way
+5. after minimizing graphics window it behaves strangely - the only way
 to maximize it again is to right click and select "maximize". Even then
 the resize buttons, etc. don't work as they are supposed to.
 
-8. "suspend" seems to suspend, but after restart the CPU time jumped up
+6. "suspend" seems to suspend, but after restart the CPU time jumped up
 by a significant amount.
 
-11. When trying to detach from "http://www.lebofsky.com" I got a seg fault
-and BOINC crashed. After restarting BOINC I was able to detach from
-lebofsky.com without any ado.
-
-13. For kicks I was busy running astropulse and then chose to log on to
-project and entered the astropulse URL again. I was expecting BOINC to
-immediately come back with an error or message saying I was already logged
-on to that project. Instead, the work page went haywire - The workunits
-I was working on went to 0% done, and the status was "results uploaded"
-and many more workunits were greyed out (also status of "results uploaded").
-
-14. So I detached from astropulse and logged in again, after downloading
+7. So I detached from astropulse and logged in again, after downloading
 fresh work units they showed 0% progress but the same exact CPU time as
 the work units from the project I just detached from. I then tried 
 detaching, quitting BOINC, relogging into to astropulse and once again
@@ -41,7 +26,7 @@ the workunits showed the same CPU time as before, 0% done, and the status
 results uploaded. So it looks like a state file somewhere is not being
 deleted.
 
-15. After running all night (on Win98) I shook the mouse to wake up the
+8. After running all night (on Win98) I shook the mouse to wake up the
 blank screen, and all I saw was the top half of the screen was solid
 gray, and the bottom half the bottom half of the astropulse graphics.
 They weren't moving. The computer was frozen. I had to ctrl-alt-del
@@ -131,7 +116,7 @@ Limit frequency of disk writes
 - timezone on all platforms
 - preference propagation between projects
 - ensure cpu time doesn't reset if app is killed rather than quitting
-
+- detach/reset project (especially in CLI)
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
@@ -288,6 +273,10 @@ If a client connects to the scheduling server using default prefs,
 use the stored user prefs for determining how much work to send
 
 Windows client crashes if application fails to start up (CreateProcess)
+
+get preferences works, but is slightly confusing - you have to go to
+projects, right click on "get preferences", and then exit/restart boinc
+before I get to see my new pretty underwater colors.
 
 -----------------------
 LONG-TERM IDEAS AND PROJECTS

@@ -1582,6 +1582,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         if (atp->result->project == project) {
             atp->abort();
             active_tasks.remove(atp);
+            i--;
         }
     }
 
@@ -1592,6 +1593,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
                 file_xfers->remove(pxp->fxp);
             }
             pers_xfers->remove(pxp);
+            i--;
         }
     }
 
@@ -1640,11 +1642,12 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 // - delete account directory
 //
 int CLIENT_STATE::detach_project(PROJECT* project) {
-    reset_project(project);
     vector<PROJECT*>::iterator iter;
     PROJECT* p;
     char path[256];
     int retval;
+
+    reset_project(project);
 
     // find project and remove it from the vector
     //
