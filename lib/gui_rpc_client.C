@@ -22,6 +22,7 @@ static volatile const char *BOINCrcsid="$Id$";
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "version.h"
 #include "win_config.h"
 #endif
 

@@ -32,7 +32,7 @@ static volatile const char *BOINCrcsid="$Id$";
 #include "DlgAbout.h"
 
 #ifdef __WXMSW__
-#include "win_config.h"
+#include "version.h"
 #else
 #include "config.h"
 #endif
