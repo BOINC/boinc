@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-01-12 00:10-0800\n"
+"PO-Revision-Date: 2005-01-12 22:48+0100\n"
 "Last-Translator: Alex <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -219,14 +219,12 @@ msgid "&Help"
 msgstr "A&yuda"
 
 #: clientgui/MainFrame.cpp:348
-#, fuzzy
 msgid "Connected"
-msgstr "Conexión"
+msgstr "Conectado"
 
 #: clientgui/MainFrame.cpp:354
-#, fuzzy
 msgid "Disconnected"
-msgstr "Desconectado de BOINC"
+msgstr "Desconectado"
 
 #: clientgui/MainFrame.cpp:624
 msgid "Which computer do you wish to connect to?"
@@ -245,9 +243,8 @@ msgid "Failed to connect..."
 msgstr "Fallo al conectarse"
 
 #: clientgui/MainFrame.cpp:982
-#, fuzzy
 msgid "Connected to "
-msgstr "Conectado a BOINC"
+msgstr "Conectado a "
 
 #: clientgui/ValidateAccountKey.cpp:110
 msgid "Invalid Account Key; please enter a valid Account Key"
@@ -671,4 +668,5 @@ msgstr "Conexión"
 #: clientgui/DlgOptions.h:34
 msgid "Options"
 msgstr "Opciones"
+
 
