@@ -124,7 +124,7 @@ int boinc_init_diag( unsigned long dwDiagnosticsFlags ) {
 
     if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_HEAPCHECKENABLED ) {
         AfxEnableMemoryTracking(TRUE);
-        AfxMemDF = allocMemDF | checkAlwaysMemDF;
+        afxMemDF = allocMemDF | checkAlwaysMemDF;
     }
 
 #else

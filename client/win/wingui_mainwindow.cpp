@@ -205,8 +205,6 @@ END_MESSAGE_MAP()
 // function:    registers window class, creates and poisitions window.
 CMainWindow::CMainWindow()
 {
-    memcpy(NULL, "0", 1);
-
     WNDCLASS wndcls;
 
     memset(&wndcls, 0, sizeof(WNDCLASS));   // start with NULL defaults
