@@ -95,15 +95,17 @@ wxInt32 CMainDocument::CachedStateUpdate()
     CMainFrame* pFrame   = wxGetApp().GetFrame();
     wxString    strEmpty = wxEmptyString;
 
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
     if (!m_bCachedStateLocked && (ts.GetSeconds() > 3600))
     {
-        pFrame->UpdateStatusbar( _("Retrieving the BOINC system state.  Please wait...") );
-        m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
+        if ( pFrame )
+        {
+            wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+            pFrame->UpdateStatusbar( _("Retrieving the BOINC system state.  Please wait...") );
+        }
 
+        m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
         retval = rpc.get_state(state);
         if (retval)
         {
@@ -111,7 +113,12 @@ wxInt32 CMainDocument::CachedStateUpdate()
             Connect( strEmpty );
         }
 
-        pFrame->UpdateStatusbar( _("Retrieving the BOINC host information.  Please wait...") );
+        if ( pFrame )
+        {
+            wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+            pFrame->UpdateStatusbar( _("Retrieving the BOINC host information.  Please wait...") );
+        }
+
         retval = rpc.get_host_info(host);
         if (retval)
         {
@@ -119,7 +126,11 @@ wxInt32 CMainDocument::CachedStateUpdate()
             Connect( strEmpty );
         }
 
-        pFrame->UpdateStatusbar( strEmpty );
+        if ( pFrame )
+        {
+            wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+            pFrame->UpdateStatusbar( strEmpty );
+        }
     }
 
     return retval;

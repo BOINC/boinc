@@ -19110,3 +19110,14 @@ David  5 Nov 2004
         whetstone.C
     lib/
         util.h
+
+Rom    5 Nov 2004
+    - Fixed a crashing bug on Solaris since the Window events show up in a drastically
+        different order than on other platforms.
+    - Fixed a bug that kept the GUI from closing down during a logoff or shutdown event
+    - GUI has reached feature partity with the previous GUI.
+
+    clientgui/
+        MainDocument.cpp
+        taskbarex.cpp, .h
+        BOINCTaskBar.cpp, .h
