@@ -1,0 +1,11 @@
+# This is the list of data sources for stripchart, in the colon-delimited format:
+# full path to data file:title for the graph:column number in the data file:flags to stripchart
+#
+# examples:
+# /disks/matt/data_files/connections:connection drops:3
+# /disks/matt/data_files/connections:tcp rate:4:-b 100
+#
+# To put in a horizontal rule for ease of selection, use the line:
+# x:----------------------------------:x
+#
+/disks/matt/data_files/get_load:machine load:3

@@ -1,0 +1,1 @@
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/local/stripchart/samples/get_load >> /disks/matt/data/machine_load

@@ -1,0 +1,11 @@
+#! /bin/csh 
+
+set UPTIME = `/usr/bin/uptime | awk '{print $10}' | sed s/,//`
+if ($UPTIME == "average:") then
+  set UPTIME = `/usr/bin/uptime | awk '{print $11}' | sed s/,//`
+endif
+
+set CIVDATE = `/bin/date "+%c:%m:%d:%H:%M" | awk '{print $5}'`
+set UNIXDATE = `/usr/local/bin/perl -e 'print time()'`
+
+echo $CIVDATE $UNIXDATE $UPTIME

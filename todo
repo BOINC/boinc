@@ -45,6 +45,19 @@ Messages from core client
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+Devise system for porting applications
+    password-protected web-based interface for
+    uploading app versions and adding them to DB
+
+Figure out how to support people with computers at home/work
+    with different preferences.
+    - separate accounts, but credit funnels to 1 account?
+        (can have same email?)
+    - separate prefs under 1 account?
+        need separate DB table for prefs?
+
+Add 2-D waterfall display to Astropulse
+
 protect project admin web pages (htaccess)
 get timezone working on all platforms
 
