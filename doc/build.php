@@ -163,6 +163,13 @@ or (Redhat) go to System Settings/Add Software.
 Notes for <a href=debian_linux_install.txt>Debian Linux</a>.
 </ul>
 
+<h3>Apache notes</h3>
+<p>
+Make sure httpd.conf sets the default MIME type as follows:
+<pre>
+DefaultType application/octet-stream
+</pre>
+
 <hr>
 
 <h2>Windows</h2>

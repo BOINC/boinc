@@ -118,6 +118,11 @@ To make source distributions:
   gmake dist
 </pre>
 
+<h2>Strict warning</h2>
+To compile BOINC with strict compiler warnings, use
+<pre>
+./configure -CXXFLAGS=\"-Wall -W -Wmissing-prototypes -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common -Wnested-externs\"
+</pre>
 ";
 page_tail();
 ?>

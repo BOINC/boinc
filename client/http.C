@@ -385,7 +385,9 @@ int HTTP_OP::init_head(const char* url) {
 
 // Initialize HTTP GET operation
 //
-int HTTP_OP::init_get(const char* url, const char* out, bool del_old_file, double off) {
+int HTTP_OP::init_get(
+    const char* url, const char* out, bool del_old_file, double off
+) {
     char proxy_buf[256];
 
     if (del_old_file) {
@@ -407,7 +409,9 @@ int HTTP_OP::init_get(const char* url, const char* out, bool del_old_file, doubl
         sprintf(proxy_buf, "/%s", filename);
     }
     if (!pi.use_http_auth) {
-        http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
+        http_get_request_header(
+            request_header, url_hostname, port, proxy_buf, (int)file_offset
+        );
     } else {
         char id_passwd[512];
         string encstr = "";
@@ -779,8 +783,11 @@ bool HTTP_OP_SET::poll(double) {
                 case HTTP_OP_POST:
                     retval = unlink(htp->outfile);
                     // no error check here because file need not already exist
-                    //
+
+                    bytes_xferred = 0;
+                    file_offset = 0;
                     // fall through
+                    //
                 case HTTP_OP_GET:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
 
@@ -823,9 +830,9 @@ bool HTTP_OP_SET::poll(double) {
                     scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
                     htp->http_op_retval = 0;
                     if (htp->hrh.content_length) {
-                        if ((htp->bytes_xferred-htp->file_offset) != htp->hrh.content_length) {
+                        if ((htp->bytes_xferred - htp->file_offset) != htp->hrh.content_length) {
 							scope_messages.printf(
-								"HTTP_OP_SET::poll(): ERR_IO: bytes transfred: %d,"
+								"HTTP_OP_SET::poll(): ERR_IO: bytes_xferred: %d,"
 								"file offset: %d, expected content length: %d\n",
 								htp->bytes_xferred, htp->file_offset, htp->hrh.content_length
 							);

@@ -3,17 +3,14 @@ require_once("docutil.php");
 page_head("The make_project script");
 echo "
 <p>
-BOINC provides a script for setting up a BOINC project.
-This has been tested only on Linux and Solaris hosts;
-it may work with small modifications on Windows also.
+BOINC provides a script <code>make_project</code>
+for creating the server components of a BOINC project.
+It has been tested on Linux and Solaris.
 
-<h3>Creating the server</h3>
 <p>
 First, install all components listed in the
 <a href=build.php>Software Prerequisites</a> page.
-
-<p>
-Run the <code>make_project</code> script.
+Then run the <code>make_project</code> script.
 For example:
 <pre>
     cd tools/
@@ -23,24 +20,13 @@ creates a project with master URL
 http://&lt;hostname>/cplan/
 whose directory structure is rooted at
 \$HOME/projects/cplan.
-<pre>
-    cd tools/
-    ./make_project --base \$HOME/boinc --url_base http://boink/ cplan 'Cunning Plan'
-</pre>
-creates a project with master URL
-http://boink/cplan/ and long name <b>Cunning Plan</b>,
-rooted at \$HOME/boinc/projects/cplan.
 
 <p>
-See 'make_project --help' for more command-line options available (such as
-finer control of directory structure or clobbering an existing installation).
-
-<p>
-The script does the following:
+More specifically, <code>make_project</code> does the following:
 <ul>
 <li> Create the project directory and its subdirectories.
 <li> Create the project's encryption keys if necessary.
-NOTE: before making the project publicly visible,
+NOTE: before making the project visible to the public,
 you must move the code-signing private key
 to a highly secure (preferably non-networked) host,
 and delete it from the server host.
@@ -57,16 +43,40 @@ into /etc/apache/httpd.conf (path varies), or Include directly.
 <li>It generates a crontab line to paste.
 </ul>
 
-The PHP scripts need access to the database,
-so the user that Apache runs under needs SELECT,INSERT,UPDATE,DELETE
-to the database just created.
-
-<p>
-You should also make sure httpd.conf sets the default MIME type as follows:
+The command-line syntax is as follows:
 <pre>
-DefaultType application/octet-stream
+make_project [options] project_name [ 'Project Long Name ' ]
 </pre>
 
+Options are:
 ";
+list_start();
+list_bar("directory options");
+list_item("--project_root",
+    "Project root directory path.  Default: \$HOME/projects/PROJECT_NAME"
+);
+list_item("--key_dir", "Where keys are stored.  Default: PROJECT_ROOT/keys");
+list_item("--url_base", "Determines master URL  Default: http://\$NODENAME/");
+list_item("--no_query", "Accept all directories without querying");
+list_item("--delete_prev_inst", "Delete project-root first (from prev installation)");
+
+list_bar("URL options");
+list_item("--html_user_url", "User URL.  Default: URL_BASE/PROJECT/");
+list_item("--html_ops_url", "Admin URL.  Default: URL_BASE/PROJECT_ops/");
+list_item("--cgi_url", "CGI URL.  Default: URL_BASE/PROJECT_cgi/");
+
+list_bar("database options");
+list_item("--db_host", "Database host.  Default: none (this host)");
+list_item("--db_name", "Database name.  Default: PROJECT");
+list_item("--db_user", "Database user.  Default: this user");
+list_item("--db_passwd", "Database password.  Default: None");
+list_item("--drop_db_first", "Drop database first (from prev installation)");
+
+list_bar("debugging options");
+list_item("--verbose={0,1,2}", "default: 1");
+list_item("-v", "alias for --verbose=2");
+list_item("-h or --help", "Show options");
+
+list_end();
 page_tail();
 ?>

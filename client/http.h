@@ -48,15 +48,17 @@ struct HTTP_REPLY_HEADER {
 };
 
 #define HTTP_OP_NONE    0
-// For the first 4, data source/sink are files
 #define HTTP_OP_GET     1
+    // data sink is a file (used for file download)
 #define HTTP_OP_POST    2
+    // data source and sink are files (used for scheduler op)
 #define HTTP_OP_HEAD    4
+    // no data (used for file upload)
 #define HTTP_OP_POST2   5
     // a POST operation where the request comes from a combination
     // of a string and a file w/offset,
-    // and the reply goes into a memory buffer
-    // Used exclusively for file upload
+    // and the reply goes into a memory buffer.
+    // Used for file upload
 
 class HTTP_OP : public PROXY {
 public:

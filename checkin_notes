@@ -23392,7 +23392,7 @@ David  28 Jan 2005
         time_stats.C,h
 
 David  28 Jan 2005
-	- add notion of CONNECTED_STATE;
+	- core client: add notion of CONNECTED_STATE;
 		can be CONNECTED, NOT_CONNECTED, or UNKNOWN.
 		Implemented get_connected_state() on Windows
 	- if connected state is UNKNOWN,
@@ -24999,3 +24999,11 @@ Rom    17 Feb 2005
     client/
         http.C
 
+David  18 Feb 2005
+    - core client HTTP: in a POST operation (i.e. scheduler RPC)
+        when start to read reply body,
+        reset bytes_xferred and file_offset to zero
+        (otherwise length calculation at the end will fail)
+
+    client/
+        http.C,h
