@@ -58,6 +58,7 @@ function join_query_string($s1, $s2) {
 // server_state     (== x if z nonzero)
 // outcome          (== x if z nonzero)
 // client_state     (== x if z nonzero)
+// exit_status      (== x if z nonzero)
 // clauses          (literals added after the above)
 // sort_by          (order by x desc added after all else)
 //
@@ -161,6 +162,7 @@ class SqlQueryString {
         $this->addeqnz('server_state');
         $this->addeqnz('outcome');
         $this->addeqnz('client_state');
+        $this->addeqnz('exit_status');
         if ($_GET['clauses']) {
             $this->addclause($_GET['clauses']);
         }
@@ -335,6 +337,9 @@ function show_failure_result_summary_by_platform() {
     $query_appid = $_GET['appid'];
     $query_received_time = time() - $_GET['nsecs'];
 
+    $q = new SqlQueryString();
+    $q->process_form_items();
+
     $main_query = "
 SELECT
        app_version_num AS App_Version,
@@ -369,7 +374,9 @@ GROUP BY
        exit_status
 ";
 
+    $urlquery = $q->urlquery;
     $result = mysql_query($main_query);
+
 
     echo "<table>\n";
     echo "<tr><th>App Version</th><th>OS Name</th><th>OS Version</th><th>Exit Status</th><th>Error Count</th></tr>\n";
@@ -392,7 +399,7 @@ GROUP BY
         echo "</td>";
 
         echo "<td align=left valign=top>";
-        echo exit_status_string($res);
+        echo link_results(exit_status_string($res), $urlquery, 'exit_status=$res->exit_status');
         echo "</td>";
 
         echo "<td align=left valign=top>";

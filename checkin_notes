@@ -12019,4 +12019,11 @@ Rom    May 4 2004
 
     html/inc/
         db_ops.inc
+
+Rom    May 4 2004
+     - Include a link on the failure page that'll bring up a report with only those
+       failures
+
+    html/inc/
+        db_ops.inc
     
