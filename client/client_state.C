@@ -387,6 +387,7 @@ bool CLIENT_STATE::do_something() {
     ss_logic.poll();
     if (activities_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
+        POLL_ACTION(data_manager           , data_manager_poll      );
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
@@ -396,6 +397,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
     } else if (network_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): network suspended\n");
+        POLL_ACTION(data_manager           , data_manager_poll      );
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
@@ -404,12 +406,13 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
-        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );        
     } else {
         net_stats.poll(*net_xfers);
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
         //
+        POLL_ACTION(data_manager           , data_manager_poll      );
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
@@ -526,9 +529,16 @@ int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
     return 0;
 }
 
-int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
+int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip, bool from_server) {
 	if (lookup_file_info(p, fip->name)) return ERR_NOT_UNIQUE;
     fip->project = p;
+    if(from_server) {
+        if(p->associate_file(fip)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -842,7 +852,10 @@ bool CLIENT_STATE::garbage_collect() {
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
+        // if there was an error with a permanent file, get rid of its file_info
+        if (fip->status < 0) fip->sticky = false;
         if (fip->ref_cnt==0 && fip->pers_file_xfer==NULL && !fip->sticky) {
+            fip->project->size -= fip->nbytes;
             fip->delete_file();
             scope_messages.printf(
                 "CLIENT_STATE::garbage_collect(): deleting file %s\n",

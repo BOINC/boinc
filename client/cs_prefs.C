@@ -149,7 +149,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
     if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
         reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
-
+    
     return;
 }
 

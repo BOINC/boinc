@@ -185,6 +185,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             fip->pers_file_xfer = pfx;
             pers_file_xfers->insert(fip->pers_file_xfer);
             action = true;
+
         }
     }
 

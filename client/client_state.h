@@ -56,7 +56,8 @@ enum SUSPEND_REASON_t {
     SUSPEND_REASON_USER_ACTIVE = 2,
     SUSPEND_REASON_USER_REQ = 4,
     SUSPEND_REASON_TIME_OF_DAY = 8,
-    SUSPEND_REASON_BENCHMARKS = 16
+    SUSPEND_REASON_BENCHMARKS = 16,
+    SUSPEND_REASON_DISK_SIZE = 32
 };
 
 #define CPU_HALF_LIFE (86400*7)
@@ -122,6 +123,7 @@ public:
 		// this is needed to update GUI windows after suspension and close transfers/files.
     bool network_suspended;
 	bool executing_as_windows_service;
+    bool size_overflow;
 
 private:
     bool client_state_dirty;
@@ -169,7 +171,7 @@ public:
     int reset_project(PROJECT*);
 private:
     int link_app(PROJECT*, APP*);
-    int link_file_info(PROJECT*, FILE_INFO*);
+    int link_file_info(PROJECT*, FILE_INFO*, bool);
     int link_file_ref(PROJECT*, FILE_REF*);
     int link_app_version(PROJECT*, APP_VERSION*);
     int link_workunit(PROJECT*, WORKUNIT*);
@@ -236,6 +238,7 @@ public:
     int total_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);
+    int allowed_project_disk_usage(double&);
 private:
     void check_suspend_activities(int&);
     int suspend_activities(int reason);
@@ -311,6 +314,32 @@ public:
 
     void check_all();
 
+// ------------------ cs_data.C:
+// mechanisms for managing data saved on host
+//
+public:   
+    bool get_more_disk_space(PROJECT*, double);
+    int anything_free(double &);
+    int calc_proj_size(PROJECT*);
+    int calc_all_proj_size();
+    int compute_share_disk_size(PROJECT*);
+    int total_potentially_offender(PROJECT*, double &);
+    int total_potentially_self(PROJECT*, double &);
+    double select_delete(PROJECT*, double, int);
+    double delete_results(PROJECT*, double);
+    double compute_resource_share(PROJECT*);
+    PROJECT* greatest_offender();
+private:
+    bool data_manager_poll();
+    bool fix_data_overflow(double, double);
+    int reset_checks();
+    int delete_inactive_results(PROJECT*);
+    int unstick_result_files(RESULT*);
+    double delete_next_file(PROJECT*, int); 
+    double delete_expired(PROJECT*);
+    double offender(PROJECT*);
+    double proj_potentially_free(PROJECT*);
+    FILE_INFO* get_priority_or_lru(PROJECT*, int);
 };
 
 extern CLIENT_STATE gstate;

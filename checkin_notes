@@ -15895,3 +15895,20 @@ Rom    5 Aug 2004
     sched/
         handle_request.C
         main.C
+
+Brian  5 Aug 2004
+    - Added my data management code for client. Full documentation is avaiable
+      on the BOINC website under Disk Space Management. Major changes to the
+      client are as follows:
+		- When a file is sent to be downloaded, it is associated with a project
+		  which checks if there is enough space on disk
+		- Files are deleted when this space, as set by the user prefs, fills up
+		- Instead of sending the user prefs to the scheduling server, three 
+		  new values are sent and the server decides how much work to award
+		  each host based on these values and config.xml prefs (documented)
+		- Files have a priority and expiration date which sorts them for
+		  deletion purposes
+    - Uploaded my tools for sending and getting files to and from a host.
+    - Uploaded a tool that requests a file list from all hosts, although it has
+      not been fully implimented on the core client
+    - Uploaded a tool that sends a request for a host to delete a local file

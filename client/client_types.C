@@ -41,6 +41,7 @@
 #include "client_types.h"
 
 using std::string;
+using std::vector;
 
 PROJECT::PROJECT() {
     init();
@@ -49,6 +50,8 @@ PROJECT::PROJECT() {
 void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
+    share_size = 0;
+    size = 0;
     project_specific_prefs = "";
     resource_share = 100;
     strcpy(project_name, "");
@@ -83,6 +86,9 @@ void PROJECT::init() {
     next_runnable_result = NULL;
     work_request = 0;
     send_file_list = false;
+    deletion_policy_priority = false;
+    deletion_policy_expire = false;
+    checked = false;
 }
 
 PROJECT::~PROJECT() {
@@ -179,9 +185,16 @@ int PROJECT::parse_preferences_for_user_files() {
             fip = new FILE_INFO;
             fip->urls.push_back(url_str);
             strcpy(fip->name, filename.c_str());
-            fip->project = this;
-            fip->is_user_file = true;
-            gstate.file_infos.push_back(fip);
+            if(associate_file(fip)) {
+                fip->is_user_file = true;
+                gstate.file_infos.push_back(fip);
+            } else {
+                msg_printf(
+                NULL, MSG_INFO, "There is not enough disk space to attach file ",
+                "%s to %s, please increase data share or wait for workunits from ",
+                "other projects to complete before requesting more work", fip->name, 
+                project_name); 
+            }
         }
 
         fr.file_info = fip;
@@ -256,6 +269,14 @@ int PROJECT::parse_account(FILE* in) {
             tentative = true;
             continue;
         }
+        else if (match_tag(buf, "<deletion_policy_priority/>")) {
+            deletion_policy_priority = true;
+            continue;
+        }
+        else if (match_tag(buf, "<deletion_policy_expire>")) {
+            deletion_policy_expire = true;
+            continue;
+        }
         else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,
@@ -302,6 +323,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
+        else if (parse_double(buf, "<share_size>", share_size)) continue;
+        else if (parse_double(buf, "<size>", size)) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
         else if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
@@ -330,6 +353,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
+        else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
+        else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
         else if (parse_double(buf, "<debt>", debt)) continue;
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
@@ -353,6 +378,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
+        "    <share_size>%f</share_size>\n"
+        "    <size>%f</size>\n"
         "    <user_name>%s</user_name>\n"
         "    <team_name>%s</team_name>\n"
         "    <email_hash>%s</email_hash>\n"
@@ -371,9 +398,11 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%d</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
-        "%s%s\n",
+        "%s%s%s%s%s\n",
         master_url,
         project_name,
+        share_size,
+        size,
         u2.c_str(),
         t2.c_str(),
         email_hash,
@@ -394,7 +423,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         debt,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
-        send_file_list?"     <send_file_list/>\n":""
+        send_file_list?"    <send_file_list/>\n":"",
+        deletion_policy_priority?"    <deletion_policy_priority/>\n":"",
+        deletion_policy_expire?"    <deletion_policy_expire/>\n":""
     );
     if (gui_rpc) {
         out.printf(
@@ -424,6 +455,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     safe_strcpy(project_name, p.project_name);
+    share_size = p.share_size;
+    size = p.size;
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
     safe_strcpy(email_hash, p.email_hash);
@@ -445,6 +478,9 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     sched_rpc_pending = p.sched_rpc_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
     debt = p.debt;
+    send_file_list = p.send_file_list;
+    deletion_policy_priority = p.deletion_policy_priority;
+    deletion_policy_expire = p.deletion_policy_expire;
 }
 
 char* PROJECT::get_project_name() {
@@ -452,6 +488,23 @@ char* PROJECT::get_project_name() {
         return project_name;
     } else {
         return master_url;
+    }
+}
+
+bool PROJECT::associate_file(FILE_INFO* fip) {
+    double space_made = 0;
+    if(gstate.get_more_disk_space(this, fip->nbytes)) {
+        size += fip->nbytes;
+        return true;
+    }
+    gstate.calc_proj_size(this);
+    gstate.anything_free(space_made);
+    space_made += gstate.select_delete(this, fip->nbytes - space_made, P_HIGH);
+    if(space_made > fip->nbytes) {
+        size += fip->nbytes;
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -503,6 +556,9 @@ FILE_INFO::FILE_INFO() {
     strcpy(signed_xml, "");
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
+    priority = P_LOW;
+    time_last_used = time(0);
+    exp_date = time(0) + 60*SECONDS_PER_DAY;
 }
 
 FILE_INFO::~FILE_INFO() {
@@ -561,7 +617,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     char buf[256], buf2[1024];
     STRING256 url;
     PERS_FILE_XFER *pfxp;
-    int retval;
+    int retval, exp_days;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -593,6 +649,9 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             );
             continue;
         }
+        if (from_server) {
+            
+        }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
@@ -603,7 +662,12 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
-        else if (match_tag(buf, "<persistent_file_xfer>")) {
+        else if (parse_int(buf, "<time_last_used>", (int&)time_last_used)) continue;
+        else if (parse_int(buf, "<priority>", priority)) continue;
+        else if (parse_int(buf, "<exp_date>", (int&)exp_date)) continue;
+        else if (parse_int(buf, "<exp_days>", exp_days)) {
+                exp_date = time(0) + exp_days*SECONDS_PER_DAY;
+        } else if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
             if (!retval) {
@@ -657,7 +721,10 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
-        if (file_signature) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
+        if (file_signature) out.printf("    <file_signature>\n    %s</file_signature>\n", file_signature);
+        if (time_last_used) out.printf("    <time_last_used>%d</time_last_used>\n", time_last_used);
+        if (priority) out.printf("    <priority>%d</priority>\n", priority);
+        if (exp_date) out.printf("    <exp_date>%ld</exp_date>\n", exp_date);
     }
     for (i=0; i<urls.size(); i++) {
         out.printf("    <url>%s</url>\n", urls[i].text);
@@ -678,6 +745,8 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         out.printf("    <error_msg>\n%s</error_msg>\n", error_msg.c_str());
     }
     out.printf("</file_info>\n");
+    if (to_server)
+        update_time();
     return 0;
 }
 
@@ -783,6 +852,14 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     bool has_url;
     unsigned int i, j;
     upload_when_present = new_info.upload_when_present;
+    // check to see if the file has an upgraded priority
+    if(new_info.priority > priority) {
+        priority = new_info.priority;
+    }
+    // or longer time to expire
+    if(new_info.exp_date > exp_date) {
+        exp_date = new_info.exp_date;
+    }
     if(max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
         sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
@@ -811,6 +888,12 @@ bool FILE_INFO::had_failure(int& failnum) {
         return true;
     }
     return false;
+}
+
+// Sets the time_last_used to be equal to the current time
+int FILE_INFO::update_time() {
+    time_last_used = time(0);
+    return 0;
 }
 
 // Parse XML based app_version information, usually from client_state.xml
@@ -1219,15 +1302,23 @@ void RESULT::get_app_version_string(string& str) {
     str = app->name + string(buf);
 }
 
-// resets all FILE_INFO's in result to uploaded = false
-// used in file_xfers when an uploaded file is required
-// without calling this before sending result to be uploaded,
-// upload would terminate without sending files
+// resets all FILE_INFO's in result to uploaded = false 
+// if upload_when_present is true. Also updates the last time
+// the files associated with the result were used
 
-void RESULT::reset_result_files() {
+void RESULT::reset_files() {
     unsigned int i;
+    FILE_INFO* fip;
 
     for (i=0; i<output_files.size(); i++) {
-        output_files[i].file_info->uploaded = false;
+        fip = output_files[i].file_info;
+        if(fip->upload_when_present) {
+            fip->uploaded = false;
+        }
+        fip->update_time();
+    }
+    for(i=0; i < wup->input_files.size(); i++) {
+        fip = wup->input_files[i].file_info;
+        fip->update_time();
     }
 }

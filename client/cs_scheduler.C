@@ -161,9 +161,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     MIOFILE mf;
     unsigned int i;
     RESULT* rp;
-    FILE_INFO* fip;
     int retval;
-    double size;
+    double free;
+    double possible;
+    double total_share = 0;
     char cross_project_id[MD5_LEN];
 
     trs = total_resource_share();
@@ -202,14 +203,17 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 		}
 		fprintf(f, "    </app_versions>\n");
 	}
-    if (!project_disk_usage(p, size)) {
-        fprintf(f, "<project_disk_usage>%f</project_disk_usage>\n", size);
+    if (!anything_free(free)){
+        fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
     }
-    if (!total_disk_usage(size)) {
-        fprintf(f, "<total_disk_usage>%f</total_disk_usage>\n", size);
+    if (!total_potentially_offender(p, possible)) {
+        fprintf(f, "    <potentially_free_offender>%f</potentially_free_offender>\n", possible);
+    }
+    if (!total_potentially_self(p, possible)) {
+        fprintf(f, "    <potentially_free_self>%f</potentially_free_self>\n", possible);
     }
     if (strlen(p->code_sign_key)) {
-        fprintf(f, "<code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
+        fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
 
     // insert global preferences if present
@@ -268,17 +272,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         if (rp->project == p && rp->ready_to_report) {
             rp->write(mf, true);
         }
-    }
-    if (p->send_file_list) {
-        fprintf(f, "    <reply_file_list>\n");
-        for(i=0; i<file_infos.size(); i++) {
-            fip = file_infos[i];
-            if(fip->project == p && fip->sticky == true) {
-                fip->write(mf, true);
-            }
-        }
-        fprintf(f, "    </reply_file_list>\n");
-        p->send_file_list = false;
     }
 
     read_trickle_files(p, f);
@@ -439,7 +432,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
-        if (activities_suspended || network_suspended) break;
+        if (network_suspended) break;
         urgency = compute_work_requests();
         
         // highest priority is to report overdue results
@@ -544,6 +537,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         safe_strcpy(host_venue, sr.host_venue);
         need_to_install_prefs = true;
     }
+
+    // insert the project's deletion policy
+    if(sr.deletion_policy_priority) project->deletion_policy_priority = true;
+    if(sr.deletion_policy_expire) project->deletion_policy_expire = true;
 
 
     // if the scheduler reply includes global preferences,
@@ -652,8 +649,15 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             fip = new FILE_INFO;
             *fip = sr.file_infos[i];
-            retval = link_file_info(project, fip);
+            retval = link_file_info(project, fip, true);
             if (!retval) file_infos.push_back(fip);
+        }
+        fip->update_time();
+    }
+    for (i=0; i<sr.file_deletes.size(); i++) {
+        fip = lookup_file_info(project, sr.file_deletes[i].text);
+        if(fip) {
+            fip->sticky = false;
         }
     }
     for (i=0; i<sr.app_versions.size(); i++) {

@@ -20,6 +20,7 @@ boinc_client_SOURCES =                          \
     cs_apps.C                                   \
     cs_benchmark.C                              \
     cs_cmdline.C                                \
+    cs_data.C                                   \
     cs_files.C                                  \
     cs_prefs.C                                  \
     cs_scheduler.C                              \

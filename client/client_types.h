@@ -38,6 +38,9 @@
 #include "result_state.h"
 
 #define MAX_BLOB_LEN 4096
+#define P_LOW 1
+#define P_MEDIUM 3
+#define P_HIGH 5
 
 struct STRING256 {
     char text[256];
@@ -76,6 +79,9 @@ public:
     char signed_xml[MAX_BLOB_LEN];
     char xml_signature[MAX_BLOB_LEN];
     char file_signature[MAX_BLOB_LEN];
+    int priority;
+    time_t time_last_used;         // time of last use of FILE_INFO, update during parsing, writing, or application usage
+    time_t exp_date;
     std::string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
 
@@ -93,6 +99,7 @@ public:
     bool had_failure(int& failnum);
     bool verify_existing_file();
     int merge_info(FILE_INFO&);
+    int update_time();       // updates time last used to the current time
 };
 
 // Describes a connection between a file and a workunit, result, or application.
@@ -121,6 +128,10 @@ public:
     char master_url[256];       // url of site that contains scheduler tags
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
+    double share_size;          // size allocated by the resource share
+                                // used for enforcement of boundaries but isn't one itself
+    double size;                // the total size of all the files in all subfolder
+                                // of the project
     std::string project_prefs;
         // without the enclosing <project_preferences> tags.
         // May include <venue> elements
@@ -165,9 +176,11 @@ public:
     bool tentative;             // master URL and account ID not confirmed
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                                 // use those apps rather then getting from server
-    bool send_file_list;        
-                                // send the list of permanent files associated with the
-                                // project in the next scheduler reply for the project
+    bool send_file_list;        // send the list of permanent files associated with the
+                                // project in the next scheduler reply for the project           // deletion policy, least recently used
+    bool deletion_policy_priority;       // deletion policy, priority of files
+    bool deletion_policy_expire;         // deletion policy, delete expired files first
+
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
@@ -186,6 +199,7 @@ public:
     double resource_debt;       // How much CPU time we owe this project
                                 // (arbitrary scale)
     int debt_order;             // 0 == largest debt
+    bool checked;                // used for flagging
 
     PROJECT();
     ~PROJECT();
@@ -197,6 +211,7 @@ public:
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
+    bool associate_file(FILE_INFO*);
 
     // set min_rpc_time and have_reported_min_rpc_time
     void set_min_rpc_time(time_t future_time);
@@ -301,7 +316,7 @@ struct RESULT {
     int write_gui(MIOFILE&);
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(std::string&);
-    void reset_result_files();
+    void reset_files();
 };
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info);

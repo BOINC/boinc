@@ -382,6 +382,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\cs_data.C">
+			</File>
+			<File
 				RelativePath="..\Client\cs_files.C">
 				<FileConfiguration
 					Name="Release|Win32">
