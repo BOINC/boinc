@@ -4,23 +4,38 @@ require_once("docutil.php");
 page_head("Cross-project identification");
 
 echo "
-BOINC supports and encourages 'third-party leaderboards',
-i.e. web sites that show statistics from BOINC projects.
-Such web sites can obtain raw data via XML downloads.
 <p>
 Leaderboard sites may show statistics from several BOINC projects,
-and some people may want to see their credit
+and may want to show credit for users and/or hosts
 summed across all the projects in which they participate.
-This turns out to be a little tricky.
-When should accounts on different projects be considered equivalent?
-The simplest answer is: when they have the same email address.
-But we can't export email addresses.
-And we can't export hashed email addresses,
+
+<h2>Cross-project identification of hosts</h2>
+
+<p>
+Each host generates an <b>internal cross-project ID</b>,
+which is the MD5 of the concatenation of its
+domain name, IP address, free disk space, and a timestamp.
+This is reported to the projects that to which the host is attached.
+The projects convert it to an <b>external cross-project ID</b>
+by hashing it with the owner's email address
+(this is intended to prevent spoofing).
+The external ID is exported in statistics files.
+
+<h2>Cross-project identification of participants</h2>
+<p>
+Accounts on different projects are considered equivalent
+if they have the same email address
+(we have considered other concepts, but they all lead to extreme complexity).
+
+<p>
+Projects can't export email addresses in statistics files;
+email addresses are private.
+It's also not desirable to export hashed email addresses,
 because spammers could enumerate feasible email addresses
 and compare them with the hashed addresses.
 
 <p>
-BOINC uses the following system:
+Instead, BOINC uses the following system:
 <ul>
 <li>
 Each account is assigned a 'cross-project identifier' (CPID)

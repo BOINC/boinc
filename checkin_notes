@@ -23196,3 +23196,9 @@ Bruce 24 Jan 2005
         project.sample/
             project.inc
 
+David  24 Jan 2005
+    - Save proxy user names and passwords to disk in XML-escaped form
+        (so passwords of the form X<Y will get parsed correctly)
+
+    lib/
+        proxy_info.C

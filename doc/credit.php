@@ -4,7 +4,7 @@ page_head("Computation credit");
 echo "
 
 <p>
-Each project gives you <b>credit</b> for the computations your
+A BOINC project gives you <b>credit</b> for the computations your
 computers perform for it.
 BOINC's unit of credit, the <b>Cobblestone</b> <sup>1</sup>,
 is 1/100 day of CPU time on a reference computer that does
@@ -14,6 +14,7 @@ is 1/100 day of CPU time on a reference computer that does
 </ul>
 These benchmarks are <a href=benchmark.php>imperfect predictors</a>
 of application performance, but they're good enough.
+<p>
 Eventually, credit may reflect network transfer and disk storage as well
 as computation.
 
