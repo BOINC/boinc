@@ -3,7 +3,6 @@
     require_once("util.inc");
     require_once("team.inc");
     require_once("db.inc");
-    require_once("login.inc");
 
     db_init();
 
@@ -64,9 +63,9 @@
                 page_head("Error");
                 echo "Couldn't create team - please try later.<br>\n";
                 echo "You may need to try a different team name.\n";
+                page_tail();
             }
         }
-    page_tail();
 }
 ?>
             

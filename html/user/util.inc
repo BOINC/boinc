@@ -96,6 +96,13 @@ function print_country_select() {
     PassThru("$x/country_select");
 }
 
+function print_login_form() {
+    page_head("Please log in");
+    echo "This function requires that you be logged in.\n";
+    echo "Please <a href=login_form.php>log in</a>.";
+    page_tail();
+}
+
 // look for an element in some XML text
 //
 function parse_element($xml, $tag) {

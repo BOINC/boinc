@@ -63,6 +63,8 @@ create table team (
     name_html	    varchar(254),
     description     varchar(254),
     nusers          integer     not null,
+    total_credit    double      not null,   /* temp */
+    expavg_credit   double      not null,   /* temp */
     primary key (id)
 );
 

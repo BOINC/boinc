@@ -9,10 +9,11 @@
     $password = $HTTP_POST_VARS["password"];
     if (strlen($authenticator)) {
         $query = "select * from user where authenticator='$authenticator'";
-    }
-    $query = sprintf(
+    } else if (strlen($email_addr)) {
         $query = "select * from user where email_addr='$email_addr'";
-    );
+    } else {
+        echo "NO SELECTION";
+    }
     $result = mysql_query($query);
     if ($result) {
         $user = mysql_fetch_object($result);
@@ -21,7 +22,7 @@
     if (!$user) {
         page_head("Log in");
         echo "There is no account with the account key or email address you have entered.\n";
-        echo "Click the <b>Back</b> button to try again.\n"; 
+        echo "<b>Click <b>Back</b> to try again.\n"; 
     } else if (strlen($password)) {
         page_head("Log in");
         if ($user->web_password != $HTTP_POST_VARS["existing_password"]) {

@@ -7,7 +7,7 @@
         <tr><td align=right>
         Your account key:
         </td><td>
-        <input name=account_key size=40>
+        <input name=authenticator size=40>
         </td></tr>
 
         <tr><td align=right>
