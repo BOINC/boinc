@@ -165,11 +165,11 @@ def find_versions(app, dir):
             # ignore symlinks
             continue
         if os.path.isdir(filepath):
-            find_versions__process_bundle(filepath)
+            find_versions__process_bundle(app, filepath)
         else:
-            find_versions__process_single_file(filepath)
+            find_versions__process_single_file(app, filepath)
 
-def find_versions__process_single_file(filepath):
+def find_versions__process_single_file(app, filepath):
      '''add a single executable as app/core version'''
      match = re_match_exec_filename(filepath)
      if not match:
@@ -179,7 +179,7 @@ def find_versions__process_single_file(filepath):
                min_core_version = min_core_version
                )
 
-def find_versions__process_bundle(dir):
+def find_versions__process_bundle(app, dir):
     '''add executable + bundle as app/core version'''
     exec_file = None
     match = None
