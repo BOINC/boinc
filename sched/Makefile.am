@@ -29,6 +29,7 @@ libsched_a_SOURCES =				\
         ../lib/util.C				\
         ../lib/crypt.C				\
         ../lib/parse.C				\
+        ../lib/base64.C				\
         ../lib/shmem.C				\
         ../lib/md5.c				\
         ../lib/md5_file.C			\
