@@ -6637,3 +6637,17 @@ Oliver Oct 9 2003
 	- fixed error handling when jpeglib fails
 	api/
 		gutil.C
+
+Karl 2003/10/08
+    - fixed bug in testbase for user global prefs
+
+    test/
+        testbase.py
+
+    - fixed bug in sscan_hex_data() with \r or other whitespace
+
+    lib/
+        crypt.C
+    sched/
+        file_upload_handler.C
+

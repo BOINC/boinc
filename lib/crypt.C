@@ -17,6 +17,7 @@
 // Contributor(s):
 //
 
+#include <cctype>
 #include <stdio.h>
 #include <stdlib.h>
 #if HAVE_MALLOC_H
@@ -107,6 +108,10 @@ static int sscan_hex_data(char* p, DATA_BLOCK& x) {
 
     x.len = 0;
     while (1) {
+        if (isspace(*p)) {
+            ++p;
+            continue;
+        }
         n = sscanf(p, "%2x", &m);
         if (n <= 0) break;
         x.data[x.len++] = m;
@@ -116,7 +121,6 @@ static int sscan_hex_data(char* p, DATA_BLOCK& x) {
             return ERR_BAD_HEX_FORMAT;
         }
         p += 2;
-        if (*p == '\n') p++;
     }
     return 0;
 }
