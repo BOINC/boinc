@@ -222,8 +222,8 @@ function print_country_select($country="None") {
     global $countries;
     $numCountries = count($countries);
     for ($i=0; $i<$numCountries; $i++) {
-        $country = $countries[i];
-        $selected = $countries[i] == $country ? "selected":"";
+        $country = $countries[$i];
+        $selected = $countries[$i] == $country ? "selected":"";
         echo "<option value='$country' $selected>$country</option>\n";
     }
 }
