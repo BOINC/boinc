@@ -51,6 +51,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_gui.pdb"
 				SubSystem="2"
+				OptimizeReferences="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -124,6 +125,7 @@
 				GenerateMapFile="TRUE"
 				MapFileName=".\Build\Debug\boinc_gui\obj/boinc_gui.map"
 				SubSystem="2"
+				OptimizeReferences="0"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -1389,10 +1391,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1412,10 +1414,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

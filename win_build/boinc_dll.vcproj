@@ -47,6 +47,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_dll.pdb"
 				SubSystem="2"
+				OptimizeReferences="0"
 				ImportLibrary=".\Build\Debug/boinc.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -115,6 +116,7 @@
 				ModuleDefinitionFile="..\client\win\win_idle_tracker.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_dll.pdb"
+				OptimizeReferences="2"
 				ImportLibrary=".\Build\Release/boinc.lib"
 				TargetMachine="1"/>
 			<Tool

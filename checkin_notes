@@ -10364,10 +10364,10 @@ Rom    Mar 5 2004
       boinc.scr     (Before Changes)       244KB         88KB
       boinc.dll     (Before Changes)       136KB         44KB
 
-      boinc_gui.exe (After Changes)        1.716MB       428KB
-      boinc_cli.exe (After Changes)        624KB         412KB
-      boinc.scr     (After Changes)        188KB         116KB
-      boinc.dll     (After Changes)        140KB         58KB
+      boinc_gui.exe (After Changes)        1.716MB       332KB
+      boinc_cli.exe (After Changes)        624KB         324KB
+      boinc.scr     (After Changes)        188KB         88KB
+      boinc.dll     (After Changes)        140KB         35KB
 
     I pretty much touched all the source and header files.  This checkin should not have any
     effect on any platform other than Windows.

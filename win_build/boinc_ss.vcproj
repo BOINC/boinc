@@ -51,6 +51,7 @@
 				SubSystem="2"
 				StackReserveSize="2097152"
 				StackCommitSize="2097152"
+				OptimizeReferences="0"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -121,6 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_scr.pdb"
 				SubSystem="2"
+				OptimizeReferences="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"

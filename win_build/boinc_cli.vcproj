@@ -50,6 +50,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_cli.pdb"
 				SubSystem="1"
+				OptimizeReferences="0"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -121,6 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_cli.pdb"
 				SubSystem="1"
+				OptimizeReferences="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -1176,10 +1178,10 @@
 				RelativePath="..\client\ss_logic.h">
 			</File>
 			<File
-				RelativePath="..\client\win\Stackwalker.h">
+				RelativePath="..\api\win\Stackwalker.h">
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.h">
+				RelativePath="..\client\win\Stackwalker.h">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.h">
