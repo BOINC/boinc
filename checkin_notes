@@ -22011,3 +22011,30 @@ Bruce  30 Dec 2004
 
     tools/
         backend_lib.C
+
+Bruce  31 Dec 2004
+
+    - Some improvements on the md5-info caching.  If the 'data' file is
+      more recent than the 'md5info', then ignore md5info.  If md5info
+      has *exactly* the right format (no extra or missing characters) then
+      remove it in this case (only).  Don't write an md5info file if
+      another file is found with the same name.  Thus if someone has two
+      data files called X and X.md5, unless X.md5 has the exact correct
+      syntax for an md5-info cache file, it won't be removed or used.
+      Still disabled by default.  Use -DBOINC_CACHE_MD5 to enable it.
+
+    - Improvements to ops/ pages, from Christian Beer.  Show all fields of
+      WU.  Display status summaries based on mod-times.
+
+    - Make 'grep logs' function assume default of *.log for filenames, unless
+      specified.
+
+    tools/
+        backend_lib.C
+    html/
+        inc/
+            db_ops.inc
+            util.inc
+        ops/
+            show_log.php
+

@@ -23,6 +23,8 @@
 #include <cassert>
 #include <unistd.h>
 #include <cmath>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "boinc_db.h"
 #include "crypt.h"
@@ -58,6 +60,88 @@ int read_filename(const char* path, char* buf, int len) {
     fclose(f);
     return retval;
 }
+
+#ifdef BOINC_CACHE_MD5
+static bool got_md5_info(
+    const char *path,
+    char *md5data,
+    double *nbytes
+) {
+  
+    // look for file named FILENAME.md5 containing md5sum and length.
+    // If found, and newer mod time than file, read md5 sum and file
+    // length from it.
+  
+    FILE *fp;
+    char md5name[512];
+    struct stat md5stat, filestat;
+    bool retval=false;
+    char endline='\0';
+    
+    sprintf(md5name, "%s.md5", path);
+    
+    // get mod times for file
+    if (stat(path, &filestat))
+        return retval;
+  
+    // get mod time for md5 cache file
+    if (stat(md5name, &md5stat))
+        return retval;
+    
+    // if cached md5 newer, then open it
+    if (!(fp=fopen(md5name, "r")))
+        return retval;
+  
+    // read two quantities: md5 sum and length.  If we can't read
+    // these, or there is MORE stuff in the file' it's not an md5
+    // cache file
+    if (3 == fscanf(fp, "%s %lf%c", md5data, nbytes, &endline) &&
+        endline=='\n' &&
+        EOF==fgetc(fp)
+       )
+        retval=true; 
+    fclose(fp);
+
+    // if this is one of our cached md5 files, but it's OLDER than the
+    // data file which it supposedly corresponds to, delete it.
+    if (retval && md5stat.st_mtime<filestat.st_mtime) {
+        unlink(md5name);
+        retval=false;
+    }
+
+    return retval;
+}
+
+static void write_md5_info(
+    const char *path,
+    const char *md5,
+    double nbytes
+) {
+    // Write file FILENAME.md5 containing md5sum and length
+    FILE *fp;
+    char md5name[512];
+    struct stat statbuf;
+    int retval;
+    
+    // if file already exists with this name, don't touch it.
+    sprintf(md5name, "%s.md5", path);
+    if (!stat(md5name, &statbuf))
+        return;
+ 
+    // if can't open the file, give up
+    if (!(fp=fopen(md5name, "w")))
+        return;
+  
+    retval=fprintf(fp,"%s %.15e\n", md5, nbytes);
+    fclose(fp);
+
+    // if we didn't write properly to the file, delete it.
+    if (retval<0)
+        unlink(md5name);
+  
+    return;
+}
+#endif // BOINC_CACHE_MD5
 
 
 // process WU template
@@ -108,43 +192,20 @@ static int process_wu_template(
                         );
                         boinc_copy(top_download_path,path);
                     }
-
-                    retval=0;
 #ifdef BOINC_CACHE_MD5
-                    // see checkin-notes Dec 30 2004
-                    {
-                        // look for file named FILENAME.md5 containing
-                        // md5sum and length
-                        FILE *fp;
-                        char md5name[512];
-                        sprintf(md5name, "%s.md5", path);
-                        if ((fp=fopen(md5name, "r"))) {
-                            // found cached file info!
-                            if (2==fscanf(fp, "%s %lf", md5, &nbytes))
-                              retval=1; // indicates sucess getting cached info
-                            fclose(fp);
-                        }
-                    }
+                    // see checkin notes Dec 30 2004
+                    if (!got_md5_info(path, md5, &nbytes)) {
 #endif
-                    if (!retval) {
                         retval = md5_file(path, md5, nbytes);
                         if (retval) {
                             fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
                             return retval;
                         }
 #ifdef BOINC_CACHE_MD5
-                        else {
-                            // Write file FILENAME.md5 containing md5sum and length
-                            FILE *fp;
-                            char md5name[512];
-                            sprintf(md5name, "%s.md5", path);
-                            if ((fp=fopen(md5name, "w"))) {
-                                fprintf(fp,"%s %.15e\n", md5, nbytes);
-                                fclose(fp);
-                            }
-                        }
+                        else
+                            write_md5_info(path, md5, nbytes);
+                    }
 #endif
-                    } // (!retval)
 
                     dir_hier_url(
                         infiles[file_number], config.download_url,
