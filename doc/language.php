@@ -24,7 +24,7 @@ You might want to subscribe to the
 email list, which is devoted to discussion of BOINC-related translation.
 <li>
 To submit a new language file,
-please email it to Rom Walton (rwalton at ssl.berkeley.edu).
+please email it to boinc_loc (boinc_loc at ssl.berkeley.edu).
 </ul>
 ";
 page_tail();
