@@ -4629,3 +4629,9 @@ Karl    2003/06/09
     configure.ac
     doc/
         build_system.html
+
+Karl    2003/06/11
+    - fixed skip_cpu_benchmarks bug
+
+    client/
+        client_state.C

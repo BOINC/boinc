@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://www.mozilla.org/MPL/
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -313,7 +313,7 @@ int CLIENT_STATE::set_nslots() {
 
     retval = make_slot_dirs();
     if (retval) return retval;
-    
+
     return 0;
 }
 
@@ -321,9 +321,11 @@ int CLIENT_STATE::set_nslots() {
 // flag is set or it's been a month since we last ran
 //
 bool CLIENT_STATE::should_run_cpu_benchmarks() {
+    // Note: we if skip_cpu_benchmarks we still should "run" cpu benchmarks
+    // (we'll just use default values in cpu_benchmarks())
     return (
-        !skip_cpu_benchmarks && (run_cpu_benchmarks || 
-        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD))
+        run_cpu_benchmarks ||
+        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
     );
 }
 
@@ -399,7 +401,7 @@ int CLIENT_STATE::cpu_benchmarks() {
 int CLIENT_STATE::check_cpu_benchmarks() {
     FILE* finfo;
     int retval;
-    
+
     if (cpu_benchmarks_id) {
 #ifdef _WIN32
         DWORD exit_code = 0;
@@ -1150,7 +1152,7 @@ bool CLIENT_STATE::garbage_collect() {
     vector<FILE_INFO*>::iterator fi_iter;
     vector<APP_VERSION*>::iterator avp_iter;
     bool action = false, found;
-    
+
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
     for (i=0; i<workunits.size(); i++) {
         wup = workunits[i];
@@ -1164,7 +1166,7 @@ bool CLIENT_STATE::garbage_collect() {
         avp = app_versions[i];
         avp->ref_cnt = 0;
     }
-    
+
     // delete RESULTs that have been finished and reported;
     // reference-count files referred to by other results
     //
@@ -1299,7 +1301,7 @@ bool CLIENT_STATE::update_results() {
     RESULT* rp;
     vector<RESULT*>::iterator result_iter;
     bool action = false;
-    
+
     // delete RESULTs that have been finished and reported;
     // reference-count files referred to by other results
     //
@@ -1312,7 +1314,7 @@ bool CLIENT_STATE::update_results() {
         // setting action to true
         if (rp->server_ack)
             action = true;
-        
+
         switch (rp->state) {
         case RESULT_NEW:
             rp->state = RESULT_FILES_DOWNLOADING;
@@ -1483,20 +1485,20 @@ int CLIENT_STATE::report_result_error(
     char buf[MAX_BLOB_LEN];
     unsigned int i;
     int failnum;
-    
+
     // only do this once per result
     //
     if (res.ready_to_ack) {
         return 0;
     }
-    
+
     res.ready_to_ack = true;
 
     sprintf(buf, "Unrecoverable error for result %s", res.name);
     scheduler_op->backoff(res.project, buf);
 
     sprintf(
-        buf, 
+        buf,
         "<message>%s</message>\n"
         "<active_task_state>%d</active_task_state>\n"
         "<exit_status>%d</exit_status>\n"
@@ -1506,12 +1508,12 @@ int CLIENT_STATE::report_result_error(
         res.exit_status,
         res.signal
     );
-    
+
     if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN) {
         strcat(res.stderr_out, buf );
     }
-    
-    if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {            
+
+    if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {
         sprintf(buf,"<couldnt_start>%d</couldnt_start>\n", err_num);
         if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN) {
             strcat(res.stderr_out, buf );
@@ -1685,6 +1687,6 @@ void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
     va_start(ap, fmt); // Parses string for variables
     vsprintf(buf, fmt, ap); // And convert symbols To actual numbers
     va_end(ap); // Results are stored in text
-    
+
     show_message(p, buf, priority);
 }
