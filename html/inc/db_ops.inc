@@ -318,10 +318,10 @@ SELECT
 FROM   result
            left join host on result.hostid = host.id 
 WHERE
-       appid = '3' and
+       appid = '$query_appid' and
        server_state = '5' and
        outcome = '3' and 
-       received_time > (UNIX_TIMESTAMP() - 86400)
+       received_time > '$query_received_time'
 GROUP BY
        app_version_num DESC,
        OS_Name,
