@@ -32,6 +32,13 @@ function version_end($xml) {
     list_end();
 }
 
+function show_424($xml=false) {
+    version_start("4.24", "23 Feb 2005", $xml);
+    version("Windows", "boinc_4.24_windows_intelx86.exe", $xml);
+    version("Solaris/SPARC", "boinc_4.24_sparc-sun-solaris2.7.sh", $xml);
+    version_end($xml);
+}
+
 function show_423($xml=false) {
     version_start("4.23", "21 Feb 2005", $xml);
     version("Windows", "boinc_4.23_windows_intelx86.exe", $xml);
@@ -81,7 +88,7 @@ function show_stable($xml) {
 }
 
 function show_dev($xml) {
-    show_423($xml);
+    show_424($xml);
 }
 
 if ($_GET["no_header"]) {
