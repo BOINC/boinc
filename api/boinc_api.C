@@ -22,6 +22,8 @@
 
 #ifdef _WIN32
 #include "stdafx.h"
+#else
+#include "config.h"
 #endif
 
 #ifndef _WIN32

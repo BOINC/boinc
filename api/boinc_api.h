@@ -121,7 +121,7 @@ extern int	boinc_finish(int);
 extern bool	boinc_is_standalone();
 
 extern int	boinc_resolve_filename(const char*, char*, int len);
-extern int	boinc_resolve_filename(const char*, string&);
+extern int	boinc_resolve_filename(const char*, std::string&);
 
 extern int	boinc_parse_init_data_file();
 extern int	boinc_get_init_data(APP_INIT_DATA&);
