@@ -255,7 +255,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
     m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
-    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To completetion"), wxLIST_FORMAT_RIGHT, 100);
+    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To completion"), wxLIST_FORMAT_RIGHT, 100);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
