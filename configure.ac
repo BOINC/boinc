@@ -47,7 +47,7 @@ else
     fi
 fi
 
-if test "${enable_client}" = yes ; then
+if test "${enable_debug}" = yes ; then
     build_state='Debug'
 else
     build_state='Release'
