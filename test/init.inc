@@ -246,11 +246,15 @@ function clean_api() {
 }
 
 function compare_time() {
-    $db_time=mysql_query("select cpu_time from result where name = ucs_wu_0");
+    $epsilon = 0.0001;
+    db_init();
+    $data = mysql_query("select cpu_time from result where name = 'uccpu_wu_0'");
+    $result = mysql_fetch_object($data);
+    $db_time = $result->cpu_time;
     $time_file = fopen("time.xml", "r");
     fscanf($time_file, "%f", $app_time);
-    if($db_time != $app_time) {
-        printf("Time mismatch: app %d server %d\n", $app_time, $db_time);
+    if(abs($db_time - $app_time) > $epsilon) {
+        printf("Time mismatch: app %f server %f\n", $app_time, $db_time);
     }
     else printf("Times match\n");
     fclose($time_file);

@@ -17,7 +17,7 @@ LIBS = ../api/api.o ../lib/parse.o
 
 CLIBS = @LIBS@
 
-APPS = upper_case concat uc_slow concat_slow 1sec
+APPS = upper_case concat uc_slow concat_slow 1sec uc_cpu
 
 .C.o:
 	$(CC) -c -o $*.o $<
@@ -37,6 +37,9 @@ concat_slow: concat_slow.o
 
 uc_slow: uc_slow.o
 	$(CC) uc_slow.o $(LIBS) -o uc_slow
+
+uc_cpu: uc_cpu.o
+	$(CC) uc_cpu.o $(LIBS) -o uc_cpu
 
 1sec: 1sec.o
 	$(CC) 1sec.o $(LIBS) -o 1sec
