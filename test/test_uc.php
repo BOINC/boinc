@@ -41,6 +41,7 @@
     $project->start_feeder();
     $host->run("-exit_when_idle");
     $project->stop();
+    $project->validate($app, 2);
 
     $result->state = RESULT_STATE_DONE;
     $result->stderr_out = "APP: upper_case: starting, argc 1";

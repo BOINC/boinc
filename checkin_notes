@@ -2478,3 +2478,30 @@ David   Dec 1 2002
         server_types.C,h
     test/
         test.inc
+David   Dec 3 2002
+    - change scheduling server so that by default it doesn't
+        store request and reply messages in files;
+        add "-use_files" option to do this
+    - added validation step to test_uc.php;
+        this computes and grants credit
+    - added "-one_pass" option to validate
+    - split scheduler trigger files into two:
+        stop_server: used for all server components;
+            NOT deleted after reading
+        reread_db: used to tell feeder to reread DB
+            deleted after reading
+    - added license text to some files
+
+    sched/
+        config.C,h
+        feeder.C
+        handle_request.C
+        main.C,h
+        make_work.C
+        result_retry.C
+        sched_shmem.h
+        show_shmem.C
+        validate.C
+    test/
+        test.inc
+        test_uc.php

@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-// feeder.C [-asynch]
+// feeder [-asynch]
 //
 // Creates a shared memory segment containing DB info,
 // including results/workunits to send.
@@ -29,17 +29,14 @@
 // TODO:
 // - check for wu/results that don't get sent for a long time;
 //   generate a warning message
-// - mechanism for rereading static tables (trigger file? signal?)
 
-// Trigger file mechanism:
-// The feeder program periodically checks for a file "feeder_trigger".
-// It this file exists it contains a command to the feeder:
+// Trigger files:
+// The feeder program periodically checks for two trigger files:
 //
-// <quit/>          destroy shmem and exit
-// <reread_db/>     reread DB contents into existing shmem
-//
-// The feeder deletes the trigger file to indicate that it
-// has completed the request.
+// stop_server:  destroy shmem and exit
+//               leave trigger file there (for other daemons)
+// reread_db:    update DB contents in existing shmem
+//               delete trigger file
 
 // If you get an "Invalid argument" error when trying to run the feeder,
 // it is likely that you aren't able to allocate enough shared memory.
@@ -50,7 +47,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -61,30 +57,28 @@
 #include "sched_shmem.h"
 
 #define RESULTS_PER_ENUM    100
-#define TRIGGER_FILENAME    "stop_server"
+#define STOP_SERVER_FILENAME    "stop_server"
+#define REREAD_DB_FILENAME      "reread_db"
 
 CONFIG config;
 
-int check_trigger(SCHED_SHMEM* ssp) {
+int check_triggers(SCHED_SHMEM* ssp) {
     FILE* f;
-    char buf[256];
-    assert(ssp!=NULL);
-    f = fopen(TRIGGER_FILENAME, "r");
-    if (!f) return 0;
-    fgets(buf, 256, f);
-    fclose(f);
-    if (!strcmp(buf, "<quit/>\n")) {
+
+    f = fopen(STOP_SERVER_FILENAME, "r");
+    if (f) {
+        fclose(f);
         detach_shmem((void*)ssp);
         destroy_shmem(config.shmem_key);
         exit(0);
-    } else if (!strcmp(buf, "<reread_db/>\n")) {
+    }
+    f = fopen(REREAD_DB_FILENAME, "r");
+    if (f) {
+        fclose(f);
         ssp->init();
         ssp->scan_tables();
-    } else {
-        fprintf(stderr, "feeder: unknown command in trigger file: %s\n", buf);
-        exit(0);
+        unlink(REREAD_DB_FILENAME);
     }
-    unlink(TRIGGER_FILENAME);
 
     return 0;
 }
@@ -110,7 +104,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
     RESULT result;
     WORKUNIT wu;
     bool no_wus, collision, restarted_enum;
-    assert(ssp!=NULL);
+
     while (1) {
         nadditions = 0;
         ncollisions = 0;
@@ -181,7 +175,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
             sleep(5);
         }
         fflush(stdout);
-        check_trigger(ssp);
+        check_triggers(ssp);
         ssp->ready = true;
     }
 }
@@ -192,7 +186,8 @@ int main(int argc, char** argv) {
     bool asynch = false;
     void* p;
 
-    unlink(TRIGGER_FILENAME);
+    unlink(STOP_SERVER_FILENAME);
+    unlink(REREAD_DB_FILENAME);
 
     retval = config.parse_file();
     if (retval) {

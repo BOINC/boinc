@@ -19,8 +19,10 @@
 
 //
 // validate - check and validate new results, and grant credit
-//
-// validate -app appname -quorum n [-asynch]
+//   -app appname
+//   -quorum n      // example WUs only with this many done results
+//  [-one_pass]     // make one pass through WU table, then exit
+//  [-asynch]       // fork, run in separate process
 //
 // This program must be linked with two project-specific functions:
 //
@@ -224,7 +226,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
     return found;
 }
 
-int main_loop() {
+int main_loop(bool one_pass) {
     int retval;
     APP app;
     bool did_something;
@@ -244,22 +246,26 @@ int main_loop() {
 
     while (1) {
         did_something = do_validate_scan(app, min_quorum);
+        if (one_pass) break;
         if (!did_something) {
             printf("sleeping\n");
             fflush(stdout);
             sleep(1);
         }
     }
+    return 0;
 }
 
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false;
+    bool asynch = false, one_pass = false;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
+        } else if (!strcmp(argv[i], "-one_pass")) {
+            one_pass = true;
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app_name, argv[++i]);
         } else if (!strcmp(argv[i], "-quorum")) {
@@ -279,10 +285,9 @@ int main(int argc, char** argv) {
     }
 
     if (asynch) {
-        if (!fork()) {
-            main_loop();
+        if (fork()) {
+            exit(0);
         }
-    } else {
-        main_loop();
     }
+    main_loop(one_pass);
 }

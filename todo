@@ -1,8 +1,8 @@
-scheduler and file upload handler: return error if wrong major version
+test feeder reread-DB mechanism
 
 use PHP session mechanism instead of our own cookies
 
-use https for login (don't sent account key or password in clear)
+use https for login (don't sent account ID or password in clear)
 
 protect project admin web pages (htaccess)
 

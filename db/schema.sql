@@ -166,5 +166,5 @@ create table workseq (
     wuid_last_done  integer     not null,
     wuid_last_sent  integer     not null,
     workseqid_master integer     not null,
-    
+    primary key (id)
 );

@@ -403,8 +403,16 @@ class Project {
         PassThru("cd $this->project_dir/cgi; make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");
     }
 
+    // run the validator asynchronously
+    //
     function start_validate($app, $quorum) {
         PassThru("cd $this->project_dir/cgi; validate_test -asynch -app $app->name -quorum $quorum > validate_out");
+    }
+
+    // do one pass of validation
+    //
+    function validate($app, $quorum) {
+        PassThru("cd $this->project_dir/cgi; validate_test -one_pass -app $app->name -quorum $quorum > validate_out");
     }
 
     // this should stop the feeder and any other daemons
@@ -630,7 +638,8 @@ class Work {
             $x = $this->input_files[$i];
             PassThru("cp $x $project->project_dir/download");
         }
-        
+
+if (false) {        // doesn't belong here; needs comment
         $f = fopen($this->wu_template,"r");
         while(true) {
             $temp = fgets($f,1000);
@@ -642,8 +651,8 @@ class Work {
                     $append = substr($temp, $pos+1,strpos($temp,"/<") - $pos -1);
                 }
                 PassThru("ln -s $project->project_dir/download $project->project_dir/download$append");
-              }
-          }
+            }
+        }
         
         fclose($f);
         $source_dir = get_env_var("BOINC_SRC_DIR");
@@ -665,7 +674,8 @@ class Work {
             }
         }
         fclose($f);
-                      
+}
+
         $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults -wu_name $this->wu_template -delay_bound $this->delay_bound";
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];

@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+// The BOINC scheduling server.
+// command-line options:
+//  -use_files      // use disk files for req/reply msgs (for debugging)
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -53,7 +57,7 @@ int return_error(char* p) {
 // (this makes it easy to save the input,
 // and to know the length of the output).
 //
-int main() {
+int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval, pid;
     char req_path[256], reply_path[256], path[256];
@@ -61,8 +65,13 @@ int main() {
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
-    bool found;
+    bool found, use_files=false;
 
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-use_files")) {
+            use_files = true;
+        }
+    }
     retval = config.parse_file();
     if (retval) {
         fprintf(stderr, "Can't parse config file\n");
@@ -112,7 +121,7 @@ int main() {
 	);
         exit(1);
     }
-    //fprintf(stderr, "got ready flag\n");
+
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
 	fprintf(stderr,
@@ -140,50 +149,54 @@ int main() {
     while(FCGI_Accept() >= 0) {
     counter++;
 #endif
-    sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, pid, counter);
-    sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
     fprintf(stdout, "Content-type: text/plain\n\n");
-    fout = fopen(req_path, "w");
-    if (!fout) {
-        fprintf(stderr,
-            "BOINC scheduler (%s): can't write request file",
-            config.user_name
-        );
-        exit(1);
+    if (use_files) {
+        sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, pid, counter);
+        sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
+        fout = fopen(req_path, "w");
+        if (!fout) {
+            fprintf(stderr,
+                "BOINC scheduler (%s): can't write request file",
+                config.user_name
+            );
+            exit(1);
+        }
+        copy_stream(stdin, fout);
+        fclose(fout);
+        fin = fopen(req_path, "r");
+        if (!fin) {
+            fprintf(stderr,
+                "BOINC scheduler (%s): can't read request file",
+                config.user_name
+            );
+            exit(1);
+        }
+        fout = fopen(reply_path, "w");
+        if (!fout) {
+            fprintf(stderr,
+                "BOINC scheduler (%s): can't write reply file",
+                config.user_name
+            );
+            exit(1);
+        }
+        handle_request(fin, fout, *ssp, code_sign_key);
+        fclose(fin);
+        fclose(fout);
+        fin = fopen(reply_path, "r");
+        if (!fin) {
+            fprintf(stderr,
+                "BOINC scheduler (%s): can't read reply file",
+                config.user_name
+            );
+            exit(1);
+        }
+        copy_stream(fin, stdout);
+        fclose(fin);
+        //unlink(req_path);
+        //unlink(reply_path);
+    } else {
+        handle_request(stdin, stdout, *ssp, code_sign_key);
     }
-    copy_stream(stdin, fout);
-    fclose(fout);
-    fin = fopen(req_path, "r");
-    if (!fin) {
-        fprintf(stderr,
-            "BOINC scheduler (%s): can't read request file",
-            config.user_name
-        );
-        exit(1);
-    }
-    fout = fopen(reply_path, "w");
-    if (!fout) {
-        fprintf(stderr,
-            "BOINC scheduler (%s): can't write reply file",
-            config.user_name
-        );
-        exit(1);
-    }
-    handle_request(fin, fout, *ssp, code_sign_key);
-    fclose(fin);
-    fclose(fout);
-    fin = fopen(reply_path, "r");
-    if (!fin) {
-        fprintf(stderr,
-            "BOINC scheduler (%s): can't read reply file",
-            config.user_name
-        );
-        exit(1);
-    }
-    copy_stream(fin, stdout);
-    fclose(fin);
-    //unlink(req_path);
-    //unlink(reply_path);
 #ifdef _USING_FCGI_
     }
 #endif

@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+// Handle a scheduling server RPC
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -36,7 +38,8 @@ using namespace std;
 #include "handle_request.h"
 
 #define MIN_SECONDS_TO_SEND 0
-#define MAX_SECONDS_TO_SEND 2419200 //4 weeks
+#define SECONDS_PER_DAY (3600*24)
+#define MAX_SECONDS_TO_SEND (28*SECONDS_PER_DAY)
 #define MAX_WUS_TO_SEND     2
 
 // return true if the WU can be executed on the host
