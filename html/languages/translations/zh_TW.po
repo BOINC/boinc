@@ -1,0 +1,269 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-03-20 18:32+0800\n"
+"Last-Translator: Jose Sun <josesun@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+##########################################
+# Language: Chiense (Traditional)
+# FileID  : $Id$
+# Author  : Jose Sun
+# Email   : josesun@cpatch.org
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+msgid "CHARSET"
+msgstr "UTF-8"
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "應用程式"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT 目前有下面這些應用程式。當你參與了 $PROJECT 後，你的電腦將會被分配運行下面所列出的其中一個或多個應用程式的工作。應用程式的最新版本會被下載到你的電腦。下載的動作是全自動的；你不需要做任何動作。"
+
+msgid "APPS_PLATFORM"
+msgstr "平台"
+
+msgid "APPS_VERSION"
+msgstr "目前版本"
+
+msgid "APPS_INSTALLTIME"
+msgstr "已安裝"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "規定與政策"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "只在經批准的電腦運行 $PROJECT"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "只在你自己擁有或是得到擁有者同意的電腦上運行 $PROJECT。有些公司及學校的政策禁止在所屬的電腦上運行像 $PROJECT 這一類的專案。"
+
+msgid "RULES_COMPUTER_USE"
+msgstr "$PROJECT 如何運用你的電腦"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "當你在你的電腦上運行 $PROJECT 時，它會將一部份的電腦 CPU 運算能力、磁碟空間和網路頻寬拿來運用。你可以自己控制要分配給 $PROJECT 使用多少資源及時間長短 。"
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "你電腦完成的每項工作都幫助了 $PROJECT 早一步達成網站上所敘述的目標。而應用程式也會隨目標的改變而不時的變化。"
+
+msgid "RULES_PRIVACY"
+msgstr "隱私權政策"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "你在 $PROJECT 的帳號是以你自己選擇的名稱作為識別的依據。你的名稱會與你電腦所完成的 $PROJECT 工作摘要一起顯示在 $PROJECT 網站上。如果你不想表示身分的話，請選擇一個不會洩露你真實身分的名稱。"
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "如果你參與了 $PROJECT，有關於你電腦的資訊 (像是處理器類型、記憶體容量等等) 都會被 $PROJECT 所記錄並用來決定要分配那種類型的工作給你的電腦。這些資訊同樣也會顯示在 $PROJECT' 的網站上。但是有關於會洩露你電腦位置的資訊 (例如網域名稱或是網路位址) 將不會被顯示。"
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "要參與 $PROJECT 專案，你必須提供一個可以收取郵件的電子郵件位址。這個位址不會顯示在 $PROJECT 網站上或是分享給其他組織。$PROJECT 會定期寄送電子報； 可是你可以隨時退出。"
+
+msgid "RULES_SAFE"
+msgstr "運行 $PROJECT 安全嗎？"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "任何時候從網路上下載程式都是個冒險的行為：程式可能有著危險的錯誤或是下載伺服器已經被入侵。$PROJECT 盡力將下載程式的風險降到最低。我們的應用程式都經過謹慎的測試。我們的伺服器位於防火牆之後並且調校成高度安全性。為了確保程式下載的完整性，所有可執行檔案都經過了一台未連線到網路的安全電腦的數位簽署。"
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "$PROJECT 運行的應用程式可能會導致一些電腦產生過熱的現象。如果真的發生了這種情況，請停止運行 $PROJECT 或是使用 %s 限制 CPU 的使用。"
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "公用程式"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT 是由 %s 所開發。BOINC 則是在美國加州大學開發。"
+
+msgid "RULES_LIABILITY"
+msgstr "責任"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT 和其 %s 對你電腦的損壞、資料遺失或因參與了 $PROJECT 而導致的任何事件或情況均不負任何責任。"
+
+msgid "RULES_OTHER"
+msgstr "其他的 BOINC 專案"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "其他的專案也使用像 $PROJECT 一樣的平台 - BONIC。也許你可以考慮參與一個以上其他的專案。這樣一來，即使當 $PROJECT 沒有可分配的工作時，你的電腦仍然能有效的運行其他專案的工作。"
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "其他的專案與 $PROJECT 並無任何關聯，同時我們對其他專案的安全性和研究性質不做任何擔保。加入這些專案的風險請自行承擔。"
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "建立帳號"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "建立帳號前請先閱讀 %s。"
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "如果你已經收到帳號金鑰，請不要填寫這份表單。而應該點選 %s。"
+
+msgid "CREATE_AC_NAME"
+msgstr "名稱"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "讓我們的網站認出你。你可以使用真名或是暱稱。"
+
+msgid "CREATE_AC_EMAIL"
+msgstr "電子郵件地址"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "必須是像 'name@domain' 這樣的有效電子郵件格式。"
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "國家"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "若有的話選擇你代表的國家。"
+
+msgid "CREATE_AC_ZIP"
+msgstr "郵遞區號"
+
+msgid "CREATE_AC_CREATE"
+msgstr "建立帳號"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "帳號建立已經停止。"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "目前 $PROJECT 的帳號建立已經停止。請稍後再試一遍。"
+
+msgid "CREATE_AC_TEAM"
+msgstr "這個帳號屬於 %s  團隊並且有團隊創立者自己的專案偏好設定。"
+
+#########################################
+# Account created page (account_created.php)
+#########################################
+msgid "AC_READY_TITLE"
+msgstr "帳號已建立。"
+
+msgid "AC_READY_WELCOME"
+msgstr "恭喜你 - 你的 $PROJECT 帳號已經建立"
+
+msgid "AC_READY_PASTE"
+msgstr "請在這裡貼上你的帳號金鑰以繼續下一步："
+
+msgid "AC_READY_CLICK"
+msgstr "然後按一下"
+
+#########################################
+# Account setup page (account_setuo.php)
+#########################################
+#also used in account_setup_nonfirst.php:
+msgid "AC_SETUP_TITLE"
+msgstr "帳號設定"
+
+msgid "AC_SETUP_USES_BOINC"
+msgstr "$PROJECT 使用 BOINC 軟體系統。"
+
+msgid "AC_SETUP_DIVISION"
+msgstr "BOINC 可以讓你自行分配你電腦的運算時間給數個分散式運算專案。"
+
+msgid "AC_SETUP_ISFIRST"
+msgstr "這是你的第一個 BOINC 專案嗎？"
+
+msgid "AC_SETUP_FIRST"
+msgstr "是的 - 這是我的第一個 BONIC 專案"
+
+msgid "AC_SETUP_NONFIRST"
+msgstr "不是 - 我已經參與了一個以上其它的 BOINC 專案"
+
+#########################################
+# First Account setup page (account_setup_first.php)
+#########################################
+msgid "AC_FIRST_TITLE"
+msgstr "帳號偏好設定"
+
+msgid "AC_FIRST_CONTROL"
+msgstr "你可以控制 $PROJECT 運用你電腦的時間和方式"
+
+msgid "AC_FIRST_DEFAULT"
+msgstr "如果要套用預設的設定值，請捲動頁面到最底端並按一下 OK。"
+
+#########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "帳號設定：完成"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "你的帳號設定已經完成。"
+
+msgid "AC_DONE_BOINC"
+msgstr "下一步你必須下載和安裝 BOINC 軟體，然後告訴你的電腦使用這個帳號。"
+
+msgid "AC_DONE_URL"
+msgstr "當 BOINC 軟體第一次執行時，它會詢問你 <b>專案網址</b> 和 <b>帳號金鑰</b> 。"
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "複製下面的訊息並貼上到軟體中："
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "你現在可以 %s 以完成 $PROJECT 的安裝。"
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "下載 BOINC 軟體"
+
+msgid "AC_DONE_THANKS"
+msgstr "感謝你參與 $PROJECT 專案"
+
+#########################################
+# Non-first Account setup page (account_setup_nonfirst.php)
+#########################################
+msgid "AC_NONFIRST_TITLE"
+msgstr "帳號設定：資源分享"
+
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "下一步你必須告訴你電腦使用這個帳號。"
+
+msgid "AC_DONE_WIN"
+msgstr "Windows 使用者："
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "按兩下 BOINC 的系統匣圖示開啟 BOINC 應用程式視窗。然後從設定功能表選擇「加入新專案」。接下來程式會詢問你專案網址和帳號金鑰。"
+
+msgid "AC_DONE_UNIX"
+msgstr "Mac、Unix 和 Linux 的使用者："
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "離開 BOINC 用戶端。然後以 -attach_project 選項執行 BOINC 用戶端。接下來程式會詢問你專案網址和帳號金鑰。"
+
+msgid "AC_DONE_ANYCASE"
+msgstr "所有使用者都要複製下面的訊息並貼上到軟體中："
+
+msgid "AC_DONE_INSTALLED"
+msgstr "已經完成了 $PROJECT 的安裝。"
+
+#########################################
+# Different strange places:
+#########################################
+# account_created.php
+msgid "AC_CREATED_TITLE"
+msgstr "組態你的帳號"
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "非必要"
+
