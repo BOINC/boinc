@@ -177,6 +177,7 @@ private:
     void print_summary();
     bool garbage_collect();
     bool update_results();
+    double total_resource_share();
 
 // --------------- cs_account.C:
 public:
@@ -184,7 +185,6 @@ public:
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();
-
 // --------------- cs_apps.C:
 public:
     int restart_tasks();
@@ -193,6 +193,7 @@ public:
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
     bool input_files_available(RESULT*);
+    ACTIVE_TASK* get_next_graphics_capable_app();
 private:
     int ncpus;
     int nslots;
@@ -252,17 +253,17 @@ public:
     PROJECT* next_project(PROJECT*);
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
+    int compute_work_requests();
 private:
     SCHEDULER_OP* scheduler_op;
     bool contacted_sched_server;
-    void compute_resource_debts();
-    int compute_work_requests();
 
     PROJECT* find_project_with_overdue_results();
-    void current_work_buf_days(double& work_buf, int& nactive_results);
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
+    double ettprc(PROJECT*, int);
+    double avg_proc_rate(PROJECT*);
 
 // --------------- cs_statefile.C:
 public:

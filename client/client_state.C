@@ -1202,3 +1202,13 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
     return 0;
 }
+
+double CLIENT_STATE::total_resource_share() {
+    unsigned int i;
+
+    double x = 0;
+    for (i=0; i<projects.size(); i++) {
+        x += projects[i]->resource_share;
+    }
+    return x;
+}
