@@ -91,15 +91,15 @@ int open_database() {
 int main() {
     FILE* fin, *fout;
     int i, retval;
-    char req_path[256], reply_path[256], path[256], buf[256];
+    char req_path[256], reply_path[256], path[256];
     SCHED_SHMEM* ssp=0;
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
     bool project_stopped = false;
-    char *stderr_buffer;
 
 #ifndef _USING_FCGI_
+    char *stderr_buffer, buf[256];
     get_log_path(path, "cgi.log");
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
