@@ -2,6 +2,7 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
+require_once("../inc/team.inc");
 
 xml_header();
 
@@ -40,6 +41,7 @@ $project_prefs = process_user_text($_GET["project_prefs"]);
 $url = process_user_text($_GET["url"]);
 $send_email = process_user_text($_GET["send_email"]);
 $show_hosts = process_user_text($_GET["show_hosts"]);
+$teamid = get_int("teamid", true);
 
 $query = "";
 if ($name) {
@@ -65,6 +67,13 @@ if ($send_email != null) {
 }
 if ($show_hosts != null) {
     $query .= " show_hosts='$show_hosts', ";
+}
+
+if ($teamid) {
+    $team = lookup_team($teamid);
+    if ($team) {
+        user_join_team($team, $user);
+    }
 }
 
 $result = mysql_query("update user set $query seti_id=seti_id where id=$user->id");

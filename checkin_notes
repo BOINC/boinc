@@ -26118,3 +26118,15 @@ David  22 Mar 2005
         client_state.C,h
         cs_cmdline.C
         main.C
+
+David  23 Mar 2005
+    - user web: added "prefs" anchor to home.php so you can
+        link to Preferences from front page.
+    - add teamid to account management RPCs
+
+    html/
+        inc/
+            user.inc
+        user/
+            am_get_info.php
+            am_set_info.php

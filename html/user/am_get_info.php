@@ -48,6 +48,7 @@ $user->project_prefs
 <url>$url</url>
 <send_email>$user->send_email</send_email>
 <show_hosts>$user->show_hosts</show_hosts>
+<teamid>$user->teamid</teamid>
 ");
 
 ?>

@@ -80,7 +80,7 @@ function show_user_info_private($user) {
         row2("", "<a href=create_profile.php>Create</a>");
     }
 
-    row1("Preferences");
+    row1("<a name=prefs>Preferences");
     row2(
         "General<br><font size=-2>specify when and how BOINC uses your computer</font>",
         "<a href=prefs.php?subset=global>View or edit general preferences</a>"
