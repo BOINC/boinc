@@ -5356,3 +5356,11 @@ Karl 2003/07/18
 
     tools/
         make_project (added)
+
+Karl 2003/07/22
+    fixed 'debug assertion failure'.
+
+    Client/*
+
+    updated database schema
+    db/*, test/*, py/*
