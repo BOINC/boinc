@@ -1339,8 +1339,8 @@ bool CLIENT_STATE::update_results() {
             if (rp->is_upload_done()) {
                 rp->ready_to_ack = true;
                 rp->state = RESULT_FILES_UPLOADED;
+                action = true;
             }
-            action = true;
             break;
         case RESULT_FILES_UPLOADED:
             break;
