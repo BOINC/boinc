@@ -25863,3 +25863,8 @@ Rom    11 Mar 2005
         acct_mgr_client.C, .h (added)
         gui_rpc_client.C, .h
 
+David  11 Mar 2005
+    - fix make_project
+
+    tools/
+        make_project

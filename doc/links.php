@@ -37,6 +37,7 @@ language("Chinese", array(
     site("http://boinc.equn.com/", "boinc.equn.com")
 ));
 language("Czech", array(
+    site("http://www.boincteamcz.net/", "BOINC Team CZ"),
     site("http://www.boinc.cz/", "www.boinc.cz")
 ));
 language("Danish", array(

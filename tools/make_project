@@ -153,13 +153,13 @@ defopt('html_ops_url'  , 'URL_BASE/PROJECT_ops')
 defopt('cgi_url'       , 'URL_BASE/PROJECT_cgi')
 
 defopt('user_name'     , USER, isdir=False)
-defopt('project_root'  , 'HOME/projects/PROJECT')
-defopt('key_dir'       , 'HOME/projects/PROJECT/keys')
+defopt('project_root'  , HOME+'/projects/PROJECT')
+defopt('key_dir'       , HOME+'/projects/PROJECT/keys')
 
 defopt('db_name'       , 'PROJECT', isdir=False)
 defopt('db_user'       , 'USER_NAME', isdir=False)
 defopt('db_passwd'     , '', isdir=False)
-defopt('db_host  '     , '', isdir=False)
+defopt('db_host'       , '', isdir=False)
 
 print "Creating project '%s' (short name '%s'):" %(project_longname, project_shortname)
 for k in [
