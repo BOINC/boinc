@@ -15717,7 +15717,7 @@ Rom    July 27 2004
     sched/
         start
 
-Daniel 2004-07-27
+Daniel 2004-07-29
     - API: fixed bug that caused vm_size and resident_set_size not to be
       sent to core client
     - client: check_max_mem_exceeded() revived - currently only checks

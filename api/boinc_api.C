@@ -640,7 +640,7 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
         // real  memory, minus 3 for administrative purposes.
         //
         tmp = strtol(p, 0, 0); // in pages
-        rs_kb = (tmp + 3)<<2; // assuming 4Kb/page
+        rs_kb = ((tmp + 3)*getpagesize())>>10; // getpagesize() is bytes/page
 
         fclose(f);
         return 0;
