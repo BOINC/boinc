@@ -1,5 +1,6 @@
 #include <afxwin.h>
 
+#include "account.h"
 #include "log_flags.h"
 #include "client_state.h"
 #include "resource.h"
@@ -61,7 +62,7 @@ int initialize_prefs() {
     CLoginDialog dlg(IDD_LOGIN);
     int retval = dlg.DoModal();
 	if (retval != IDOK) return -1;
-    write_initial_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
+    write_account_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
     return 0;
 }
 
@@ -312,6 +313,7 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     read_log_flags();
     int retval = gstate.init();
     if (retval) exit(retval);
+    initialize_prefs();
     SetTimer(ID_TIMER, 1000, TimerProc);
 
     return 0;
