@@ -20755,7 +20755,12 @@ Bruce 6 Dec 2004 [thanks to Bernd Machenschalk!]
 
 David  6 Dec 2004
 	- removed references to win_config.h from VC++ project files
+    - removed stuff from Makefiles that generates client/win/win_config.h
+        (this file isn't used anymore)
 
+    set-version
+    client/
+        Makefile.am
 	win_build/
 		boinc_gui.vcproj
 		boinc_guirpc_test.vcproj
