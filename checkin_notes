@@ -4788,10 +4788,12 @@ Karl    2003/06/17
         boinc.py
         boinc_db.py
         db_def_to_py
+        testproxy
         test.inc
         test_upload_backoff.php
         test_uc.py
-        testproxy
+        test_concat.py
+        test_1sec.py
         version.py.in
 
 Tim     June 18, 2003

@@ -13,7 +13,7 @@
 
 from version import *
 from boinc_db import *
-import os, sys, time, shutil, re, atexit, traceback
+import os, sys, time, shutil, re, atexit, traceback, random
 import MySQLdb
 
 errors = 0
@@ -81,7 +81,7 @@ def proxerize(url, t):
         return url
 
 KEY_DIR      = get_env_var("BOINC_KEY_DIR")
-SHMEM_KEY    = get_env_var("BOINC_SHMEM_KEY")
+# SHMEM_KEY    = get_env_var("BOINC_SHMEM_KEY")
 PROJECTS_DIR = get_env_var("BOINC_PROJECTS_DIR")
 CGI_URL      = get_env_var("BOINC_CGI_URL")
 HTML_URL     = get_env_var("BOINC_HTML_URL")
@@ -179,6 +179,9 @@ def map_xml(dic, keys):
         s += "    <%s>%s</%s>\n" % (key, dic[key], key)
     return s[:-1]
 
+def generate_shmem_key():
+    return '0xbbbb%x' % random.randrange(0,2**16)
+
 class STARTS_WITH(str):
     pass
 
@@ -223,6 +226,7 @@ class CoreVersion:
 
 class App:
     def __init__(self, name):
+        assert(name)
         self.name = name
 
 class AppVersion:
@@ -235,17 +239,14 @@ class AppVersion:
         self.platform = Platform(PLATFORM)
 
 class Project:
-    def __init__(self):
-        self.short_name = 'test'
-        self.long_name = 'T E S T  Project'
-        self.users = []
-        self.core_versions = [CoreVersion()]
-        self.apps = []
-        self.app_versions = []
-        self.platforms = [Platform(PLATFORM)]
+    def __init__(self, works, users=None, hosts=None,
+                 short_name=None, long_name=None, core_versions=None,
+                 apps=None, app_versions=None, appname=None):
+        self.short_name = short_name or 'test_'+appname
+        self.long_name = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
         self.db_passwd = ''
         self.generate_keys = False
-        self.shmem_key = SHMEM_KEY
+        self.shmem_key = generate_shmem_key()
         self.resource_share = 1
 
         self.master_url    = os.path.join(HTML_URL         , self.short_name , '')
@@ -259,25 +260,22 @@ class Project:
         self.key_dir       = os.path.join(self.project_dir , 'keys')
         self.user_name     = USER_NAME
         self.db_name       = self.user_name + '_' + self.short_name
-        self.core_versions = []
         self.project_php_file = None
         self.project_prefs_php_file = None
 
-    def add_user(self, user):
-        self.users.append(user)
-    def add_core_version(self, core_version=None):
-        self.core_versions.append(core_version or CoreVersion())
-    def add_app(self, app):
-        self.apps.append(app)
-    def add_app_version(self, app_version):
-        self.app_versions.append(app_version)
-    def add_platform(self, platform):
-        self.platforms.append(platform)
-    def add_app_and_version(self, appname):
-        app = App(appname)
-        app_version = AppVersion(app)
-        self.add_app(app)
-        self.add_app_version(app_version)
+        self.core_versions = core_versions or [CoreVersion()]
+        self.app_versions = app_versions or [AppVersion(App(appname))]
+        self.apps = apps or unique(map(lambda av: av.app, self.app_versions))
+        self.platforms = [Platform(PLATFORM)]
+        self.works = works
+        self.users = users or [User()]
+        self.hosts = hosts or [Host()]
+        # convenience vars:
+        self.app_version = self.app_versions[0]
+        self.app = self.apps[0]
+        self.host = self.hosts[0]
+        self.work = self.works[0]
+        self.user = self.users[0]
 
     def srcdir(self, *dirs):
         return apply(os.path.join,(SRC_DIR,)+dirs)
@@ -309,7 +307,7 @@ class Project:
         except e:
             fatal_error('in mysql query "%s": %s' % (query, str(e)))
 
-    def install(self, scheduler_file = None):
+    def install_project(self, scheduler_file = None):
         verbose_echo(1, "Deleting previous test runs")
         rmtree(self.dir())
 
@@ -383,11 +381,11 @@ class Project:
         verbose_echo(1, "Setting up database: adding %d user(s)" % len(self.users))
         for user in self.users:
             if user.project_prefs:
-                pp = "<project_preferences>\n%s</project_preferences>\n" % user.project_prefs
+                pp = "<project_preferences>\n%s\n</project_preferences>\n" % user.project_prefs
             else:
                 pp = ''
             if user.global_prefs:
-                gp = "<global_preferences>\n%s</global_preferences>\n" % user.global_prefs
+                gp = "<global_preferences>\n%s\n</global_preferences>\n" % user.global_prefs
             else:
                 gp = ''
 
@@ -477,6 +475,15 @@ class Project:
 
         verbose_echo(2, "Master URL: " + self.master_url)
         verbose_echo(2, "Admin URL:  " + admin_url)
+
+    def install(self):
+        self.install_project()
+        for work in self.works:
+            work.install(self)
+        for host in self.hosts:
+            for user in self.users:
+                host.add_user(user, self)
+            host.install()
 
     def http_password(self, user, password):
         'Adds http password protection to the html_ops directory'
@@ -592,7 +599,10 @@ class Project:
 
     configlines = ''
     def append_config(self, line):
-        self.configlines += '\n' + line
+        if self.configlines:
+            self.configlines += '\n' + line
+        else:
+            self.configlines = line
         f = open(self.dir('cgi/.htconfig.xml'), 'w')
         print >>f, '<config>'
         print >>f, self.configlines
@@ -662,6 +672,8 @@ class User:
         self.name = 'John'
         self.email_addr = 'john@boinc.org'
         self.authenticator = "3f7b90793a0175ad0bda68684e8bd136"
+        self.project_prefs = None
+        self.global_prefs = None
 
 class Host:
     def __init__(self):
@@ -671,6 +683,7 @@ class Host:
         self.global_prefs = None
         self.log_flags = 'log_flags.xml'
         self.host_dir = os.path.join(HOSTS_DIR, self.name)
+        self.defargs = "-exit_when_idle -skip_cpu_benchmarks"
 
     def add_user(self, user, project):
         self.users.append(user)
@@ -692,7 +705,8 @@ class Host:
             print >>f, "<account>"
             print >>f, map_xml(project, ['master_url'])
             print >>f, map_xml(user, ['authenticator'])
-            print >>f, user.project_prefs
+            if user.project_prefs:
+                print >>f, user.project_prefs
             print >>f, "</account>"
             f.close()
 
@@ -703,16 +717,16 @@ class Host:
             shell_call("cp %s %s" % (self.global_prefs, self.dir('global_prefs.xml')))
             # shutil.copy(self.global_prefs, self.dir('global_prefs.xml'))
 
-    def run(self, args, asynch=False):
+    def run(self, args='', asynch=False):
         if asynch:
             verbose_echo(1, "Running core client asynchronously")
             pid = os.fork()
             if pid: return pid
         else:
             verbose_echo(1, "Running core client")
-        verbose_shell_call("cd %s && %s %s > client.out" % (
+        verbose_shell_call("cd %s && %s %s %s > client.out" % (
             self.dir(), os.path.join(SRC_DIR, 'client', CLIENT_BIN_FILENAME),
-            args))
+            self.defargs, args))
         if asynch: os._exit(0)
 
     def read_cpu_time_file(filename):
