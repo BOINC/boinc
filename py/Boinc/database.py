@@ -30,10 +30,11 @@ for user in database.Users.find():
 
 '''
 
+import boinc_path_config
+from Boinc import configxml
+from Boinc.util import *
+import sys, os, weakref
 import MySQLdb, MySQLdb.cursors
-import sys, os
-from util import *
-import configxml
 
 ID = '$Id$'
 
@@ -83,20 +84,8 @@ def _commit_object(tablename, paramdict, id=None):
     for key in paramdict.keys():
         value = paramdict[key]
         if value == None:
-            # minicommand = "%s = NULL"%key
             minicommand = ''
             continue
-        # elif isinstance(value, str):
-        #     minicommand = "%s='%s'" % \
-        #         (key, boincdb.escape_string(value))
-        # elif isinstance(value, int):
-        #     minicommand = "%s=%d" % (key, value)
-        # elif isinstance(value, long):
-        #     minicommand = "%s=%d" % (key, value)
-        # elif isinstance(value, float):
-        #     minicommand = "%s=%f" % (key, value)
-        # else:
-        #     raise Exception('Internal error: unknown type for key %s (value %s type %s)'%(key,value,type(value)))
         else:
             minicommand = "%s='%s'"%(key,boincdb.escape_string(str(value)))
         equalcommands.append(minicommand)
@@ -133,7 +122,7 @@ def _remove_object(command, id=None):
         cursor.execute(command)
         cursor.close()
         boincdb.commit()
-def _select_object(table, searchdict, extra_args="", extra_params=[]):
+def _select_object(table, searchdict, extra_args="", extra_params=[], select_what=None):
     assert(boincdb)
     parameters = extra_params[:]
     join = None
@@ -143,20 +132,12 @@ def _select_object(table, searchdict, extra_args="", extra_params=[]):
     if '_extra_params' in searchdict:
         parameters += searchdict['_extra_params']
         del searchdict['_extra_params']
-    command = 'SELECT %s.* from %s'%(table,table)
+    command = 'SELECT %s from %s'%((select_what or "%s.*"%table) ,table)
     if join:
         command += "," + join
     for (key,value) in searchdict.items():
         # note: if value == 0, we want to look for it.
         if value != None and value != '':
-            # ## need to use isinstance here because Department is derived from str but not str
-            # if isinstance(value, str) and key != 'coursenumber':
-            #     parameters.append('INSTR(' + key + ', ' + \
-            #     "'" + \
-            #     boincdb.escape_string(str(value)) \
-            #     + "')" )
-            # else:
-            #     parameters.append("%s='%s'"%(key,value))
             escaped_value = boincdb.escape_string(str(value))
             if key == 'text':
                 parameters.append("instr(%s,'%s')"%(key,escaped_value))
@@ -176,9 +157,16 @@ def _select_object_fetchall(*args, **kwargs):
     cursor = apply(_select_object, args, kwargs)
     results = cursor.fetchall()
     cursor.close()
-    # if debug.mysql:
-    #     print >>sys.stderr, "## results:", results
     return results
+
+def _select_count_objects(*args, **kwargs):
+    kwargs['select_what'] = 'count(*)'
+    cursor = apply(_select_object, args, kwargs)
+    result = cursor.fetchone().values()[0]
+    cursor.close()
+    return result
+
+OBJECT_CACHE_SIZE = 1024
 
 # TODO: use iterators/generators for find()
 class DatabaseTable:
@@ -191,8 +179,25 @@ class DatabaseTable:
         # self.object_class = object_class
         self.select_args  = select_args
         self.sort_results = sort_results
-        self.objects = {} # mapping from id->object
-        # TODO: use a weakref.WeakValueDictionary for self.objects?
+        ## self.objects is a mapping from id->object which weakly references
+        ## all current objects from this table.  this guarantees that if a
+        ## find() returns a row for which we already created an object in
+        ## memory, we return the same one.
+        self.objects = weakref.WeakValueDictionary()
+        ## self.object_cache is a list of the N most recently retrieved
+        ## objects.  its values aren't really used; the list is used to ensure
+        ## the strong reference count for self.objects[object] is nonzero to
+        ## ensure is lifetime.
+        ##
+        ## This means if you look up database.Apps[1]: the first lookup does a
+        ## MySQL SELECT; afterwards database.Apps[1] is free (only requires a
+        ## lookup in database.Apps.objects).  To prevent this object cache
+        ## from growing without bound, database.Apps.object is a weak-valued
+        ## dictionary.  This means that if no one refers to the object, it is
+        ## deleted from the dictionary.  database.Apps.object_cache maintains
+        ## a list of the OBJECT_CACHE_SIZE most recent lookups, which forces
+        ## their strong reference count.
+        self.object_cache = []
         self.defdict = {}
         for key in self.lcolumns:
             if key == 'id':
@@ -203,6 +208,22 @@ class DatabaseTable:
                 self.defdict[key[:-3]] = None
             else:
                 self.defdict[key] = None
+
+    def _cache(self, object):
+        """Maintain up to OBJECT_CACHE_SIZE objects in the object_cache list.
+
+        The object's existence in this cache ensures its strong reference
+        count is nonzero, so that it doesn't get implicitly dropped from
+        self.objects."""
+        if len(self.object_cache) >= OBJECT_CACHE_SIZE:
+            self.object_cache = self.object_cache[OBJECT_CACHE_SIZE/2:]
+        self.object_cache.append(object)
+
+    def count(self, **kwargs):
+        """Return the number of database objects matching keywords.
+
+        Arguments are the same format as find()."""
+
     def find(self, **kwargs):
         """Return a list of database objects matching keywords.
 
@@ -222,32 +243,32 @@ class DatabaseTable:
             limbo_object = self.object_class(id=None) # prevent possible id recursion
             limbo_object.in_limbo = 1
             self.objects[id] = limbo_object
+            self._cache(limbo_object)
         kwargs = self.dict2database_fields(kwargs)
         results = _select_object_fetchall(self.table, kwargs,
                                           extra_args=self.select_args)
-        objects = self._do_find(kwargs, results)
+        objects = map(self._create_object_from_sql_result, results)
         if self.sort_results:
             objects.sort()
         return objects
-    def _do_find(self, kwargs, results):
-        objects = []
-        for result in results:
-            id = result['id']
-            try:
-                # object already exists in cache?
-                object = self.objects[id]
-                if 'in_limbo' in object.__dict__:
-                    # we set the object cache so that we don't recurse; update
-                    # it with real values and delete the 'in limbo' flag
-                    del object.__dict__['in_limbo']
-                    object.do_init(result)
-            except KeyError:
-                # create the object - looking up instructors, etc
-                object = apply(self.object_class, [], result)
-                if object.id:
-                    self.objects[object.id] = object
-            objects.append(object)
-        return objects
+    def _create_object_from_sql_result(self, result):
+        id = result['id']
+        try:
+            # object already exists in cache?
+            object = self.objects[id]
+            if 'in_limbo' in object.__dict__:
+                # earlier we set the object cache so that we don't recurse;
+                # update it now with real values and delete the 'in limbo'
+                # flag
+                del object.__dict__['in_limbo']
+                object.do_init(result)
+        except KeyError:
+            # create the object - looking up instructors, etc
+            object = apply(self.object_class, [], result)
+            if object.id:
+                self.objects[object.id] = object
+                self._cache(object)
+        return object
     def find1(self, **kwargs):
         '''Return a single result.  Raises a DatabaseInconsistency if not
         exactly 1 result returned.'''
