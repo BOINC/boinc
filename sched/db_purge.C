@@ -31,6 +31,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -43,52 +44,47 @@ using namespace std;
 
 #include "error_numbers.h"
 
-#define WU_FILENAME_PREFIX    "wuarchive"
-#define RESULT_FILENAME_PREFIX    "resultarchive"
+#define WU_FILENAME_PREFIX              "wu_archive"
+#define RESULT_FILENAME_PREFIX          "result_archive"
+#define WU_INDEX_FILENAME_PREFIX        "wu_index"
+#define RESULT_INDEX_FILENAME_PREFIX    "result_index"
 
-#define DB_QUERY_LIMIT 1000
-#define NUMBER_RECORDS_PER_ARCHIVE_FILE 100000
-#define MAX_WORKUNITS_PURGED_IN_ONE_RUN 5 
+#define DB_QUERY_LIMIT                  1000
 
 SCHED_CONFIG    config;
 FILE            *wu_stream;
 FILE            *re_stream;
-    
-//open archive files for purged workunits with the name- wuarchive_<WORKUNIT_ID / NUMBER_RECORDS_PER_ARCHIVE_FILE>.xml
-//open archive files for purged results with the name- resultarchive_<RESULT_ID / NUMBER_RECORDS_PER_ARCHIVE_FILE>.xml
-int open_archive(char* filename_prefix, FILE*& f, int id){
+FILE            *wu_index_stream;
+FILE            *re_index_stream;
+int             time_int;
+
+int open_archive(char* filename_prefix, FILE*& f){
     int   retval=0;
     char  path[256];
 
-    sprintf(path,"../archives/%s_%d.xml", filename_prefix, 
-    	(id - (id % NUMBER_RECORDS_PER_ARCHIVE_FILE))
-    );
+    sprintf(path,"../archives/%s_%d.xml", filename_prefix, time_int);
 
     fprintf(stdout, "Opening archive %s\n", path);
     
-    if ((f = fopen( path,"a")) == NULL) {  
-        fprintf(stdout,
-            "Can't open archive file %s\n", path
-        );
-    	return ERR_FOPEN;
+    if ((f = fopen( path,"a+")) == NULL) {  
+        fprintf(stdout,"Can't open archive file %s\n", path);
+        return ERR_FOPEN;
     }
 
-    fprintf(f,
-        "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
-    );
+    //fprintf(f,
+    //    "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
+    //);
 
+    //fprintf(f,
+    //    "<%s>\n",filename_prefix
+    //);
+
+    setbuf( f, NULL ); 
     return retval;
 }
 
 
 int archive_result(DB_RESULT& result) {
-    int retval = open_archive(RESULT_FILENAME_PREFIX, re_stream, result.id);
-    if (retval) {
-        fprintf(stdout, 
-        	"Can't open result archive for result %d\n", result.id
-        );
-        exit(1);
-    }
     fprintf(re_stream,
         "<result_archive>\n"
         "    <id>%d</id>\n",
@@ -158,18 +154,16 @@ int archive_result(DB_RESULT& result) {
     fprintf(re_stream,
         "</result_archive>\n"
     );
-    fclose(re_stream);
+
+    fprintf(re_index_stream,
+        "%d     %d\n",
+        result.id, time_int
+    );
+    
     return 0;
 }
 
 int archive_wu(DB_WORKUNIT& wu) {
-    int retval = open_archive(WU_FILENAME_PREFIX, wu_stream, wu.id);
-    if (retval) {
-        fprintf(stdout, 
-        	"Can't open archive for workunit %d\n", wu.id
-        );
-	exit(1);
-    }
     fprintf(wu_stream,
         "<workunit_archive>\n"
         "    <id>%d</id>\n",
@@ -231,11 +225,14 @@ int archive_wu(DB_WORKUNIT& wu) {
     fprintf(wu_stream,
         "</workunit_archive>\n"
     );
-    
-    fclose(wu_stream);
+
+    fprintf(wu_index_stream,
+        "%d     %d\n",
+        wu.id, time_int
+    );
+
     return 0;
 }
-
 
 int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     int retval= 0;
@@ -244,24 +241,15 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     
     number_results=0;
 
-    sprintf(buf, "where workunitid=%d by id", wu.id);
+    sprintf(buf, "where workunitid=%d", wu.id);
     while (!result.enumerate(buf)) {
        retval= archive_result(result);
-       if (retval) {
-            fprintf(stdout,
-                "Failed to archive result [%d] to a file\n", result.id
-            );
-            return retval;
-       } 
-       fprintf(stdout,
-            "Archived result [%d] to a file\n", result.id
-       );
+       if (retval) return retval;
+       fprintf(stdout,"Archived result [%d] to a file\n", result.id);
         
        retval= result.delete_from_db();
        if (retval) return retval;
-       fprintf(stdout,
-             "Purged result [%d] from database\n", result.id
-       );
+       fprintf(stdout,"Purged result [%d] from database\n", result.id);
 
        number_results++;
     }
@@ -272,18 +260,25 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 int main(int argc, char** argv) {
     int purged_workunits= 0, purged_results= 0;
     int retval= 0;
-    
+    //time_t  now;
+    //struct tm tim;
+    //size_t i;
+
+    //now= time(0);
+    //tim= *(localtime(&now));
+    //i= strftime(time_int,30,"%b%d_%Y_%H:%M:%S", &tim);
+    time_int= (int)time(0);
+
     retval= config.parse_file("..");
     if (retval) {
-        fprintf(stdout, 
-        "Can't parse config file\n");
+        fprintf(stdout, "Can't parse config file\n");
         exit(1);
     }
 
     fprintf(stdout, "Starting DB Purger\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
-        config.db_passwd);
+    config.db_passwd);
     if (retval) {
         fprintf(stdout, "Can't open DB\n");
         exit(1);
@@ -292,13 +287,30 @@ int main(int argc, char** argv) {
 
     mkdir("../archives", 0777);
 
+    retval = open_archive(WU_FILENAME_PREFIX, wu_stream);
+    if (!retval) 
+        retval = open_archive(RESULT_FILENAME_PREFIX, re_stream);
+    if (!retval)  
+        retval = open_archive(RESULT_INDEX_FILENAME_PREFIX,
+        re_index_stream);
+    if (!retval) 
+        retval = open_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
+        
+
+    if (retval) {
+        fprintf(stdout, "Can't open archives\n");
+        exit(1);
+    }
+    
     bool did_something = false;
     DB_WORKUNIT wu;
     char buf[256];
     
-    sprintf(buf, "where file_delete_state=%d limit %d", 
-        FILE_DELETE_DONE, DB_QUERY_LIMIT);
-    int n= 0;
+    // select all workunits with file_delete_state='DONE'
+    //
+    sprintf(buf, "where file_delete_state=%d limit %d", FILE_DELETE_DONE,
+            DB_QUERY_LIMIT);
+    int n=0;
     while (!wu.enumerate(buf)) {
         did_something = true;
         
@@ -312,25 +324,18 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
-        fprintf(stdout,
-            "Archived workunit [%d] to a file\n", wu.id);
-              
+        fprintf(stdout,"Archived workunit [%d] to a file\n", wu.id);
+        
+        //purge workunit from DB        
         retval= wu.delete_from_db();
         if (retval) {
-            fprintf(stdout,
-                "Can't delete workunit [%d] from database:%d\n", wu.id, retval
-            );
+            fprintf(stdout,"Can't delete workunit [%d] from database:%d\n", wu.id, retval);
             exit(1);
         }
-        fprintf(stdout,
-            "Purged workunit [%d] from database\n", wu.id
-        );
+        fprintf(stdout,"Purged workunit [%d] from database\n", wu.id);
 
         purged_workunits++;
-        if (purged_workunits >= MAX_WORKUNITS_PURGED_IN_ONE_RUN)
-            break;
     }
-    boinc_db.close();
     
     if (!did_something) {
         fprintf(stdout, "Did not do anything\n");
@@ -341,4 +346,10 @@ int main(int argc, char** argv) {
         "Archived %d workunits and %d results\n",
         purged_workunits,purged_results
     );
+
+    boinc_db.close();
+    fclose(wu_stream);
+    fclose(re_stream);
+    fclose(wu_index_stream);
+    fclose(re_index_stream);
 }
