@@ -13,7 +13,10 @@
 
     if ($user) {
       	page_head("User stats for $user->name");
+      	echo("<h2>Account stats for $user->name</h2>");
+        start_table();
     	show_user_stats($user);
+        end_table();
         page_tail();
     } else {
       	page_head("Can't find user");

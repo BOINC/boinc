@@ -49,10 +49,7 @@ int redundancy = 10;
 char wu_name[256], result_template_file[256];
 
 void write_log(char* p) {
-    time_t now = time(0);
-    char* timestr = ctime(&now);
-    *(strchr(timestr, '\n')) = 0;
-    fprintf(stderr, "%s: %s", timestr, p);
+    fprintf(stderr, "%s: %s", timestamp(), p);
 }
 
 // edit a WU XML doc, replacing one filename by another

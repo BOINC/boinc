@@ -165,7 +165,6 @@ int read_file_malloc(char* pathname, char*& str) {
 }
 
 
-#if 0
 // replace XML element contents.  not currently used
 //
 void replace_element(char* buf, char* start, char* end, char* replacement) {
@@ -178,7 +177,6 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
     strcpy(p, replacement);
     strcat(p, temp);
 }
-#endif
 
 // if the given XML has an element of the form
 // <venue name="venue_name">

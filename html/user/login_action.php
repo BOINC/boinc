@@ -6,14 +6,8 @@
     $authenticator = init_session();
     db_init();
     $authenticator = trim($_POST["authenticator"]);
-    //$email_addr = $_POST["email_addr"];
-    //$password = $_POST["password"];
     if (strlen($authenticator)) {
         $query = "select * from user where authenticator='$authenticator'";
-    //} else if (strlen($email_addr)) {
-    //    $query = "select * from user where email_addr='$email_addr'";
-    //} else {
-    //    echo "NO SELECTION";
     }
     $result = mysql_query($query);
     if ($result) {
@@ -27,11 +21,6 @@
             <br>Click <b>Back</b> to try again.
         ";
         page_tail();
-    //} else if (strlen($password)) {
-    //    page_head("Log in");
-    //    if ($user->web_password != $_POST["existing_password"]) {
-    //        echo "Bad password.";
-    //    }
     } else {
         if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
             mysql_query("update user set email_addr='$email' where id=$user->id");

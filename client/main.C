@@ -38,11 +38,13 @@
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
 //
-void show_message(PROJECT *p, char* message, char* priority) {
-    if (!strcmp(priority, "high")) {
-        fprintf(stderr, "BOINC core client: %s (priority: %s)\n", message, priority);
-    } else {
-        printf("BOINC core client: %s (priority: %s)\n", message, priority);
+void show_message(PROJECT *p, char* message, int priority) {
+    const char* proj = p?p->project_name:"BOINC";
+    switch (priority) {
+    case MSG_ERROR:
+        fprintf(stderr, "%s [%s] %s", timestamp(), proj, message);
+    default:
+        printf("%s [%s] %s", timestamp(), proj, message);
     }
 }
 

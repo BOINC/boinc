@@ -1,8 +1,7 @@
 <?php
 
 function show_user_stats($user) {
-    echo TABLE2."\n";
-    echo "<tr>".TD2.LG_FONT."<b>User stats</b></font></td></tr>\n";
+    row1("Account statistics");
     $row = sprintf("%s User since", $project);
     row2($row, time_str($user->create_time));
     row2("Total credit", $user->total_credit);
@@ -14,14 +13,6 @@ function show_user_stats($user) {
     } else {
         row2("Team", "None");
     }
-    echo "</table>\n";
-}
-
-function edit_link() {
-    return "<br><font size=-1><a href=edit_user_info_form.php>edit</a></font>";
-}
-function edit_email_link() {
-    return "<br><font size=-1><a href=edit_email_form.php>edit</a></font>";
 }
 
 function show_user_profile($user) {
@@ -30,13 +21,13 @@ function show_user_profile($user) {
     } else {
         $email_text = "Verification pending";
     }
-    echo TABLE2."\n";
-    echo "<tr>".TD2.LG_FONT."<b>User information</b></font></td></tr>\n";
-    row2("Name", $user->name.edit_link());
-    row2("Email address", $email_text.edit_email_link());
-    row2("Country", $user->country.edit_link());
-    row2("Postal code", $user->postal_code.edit_link());
-    echo "</table>\n";
+    row1("Account information");
+    row2("Name", $user->name);
+    row2("Email address", $email_text);
+    row2("Country", $user->country);
+    row2("Postal code", $user->postal_code);
+    row2("", "<a href=edit_email_form.php>Edit email address</a>");
+    row2("", "<a href=edit_user_info_form.php>Edit other info</a>");
 }
 
 function show_hosts($user) {
@@ -65,14 +56,14 @@ function show_host_brief($host) {
 // it has info that other users aren't supposed to see
 
 function show_user_page_private($user) {
-    echo "<table cellpadding=4>\n";
+    start_table();
     show_user_profile($user);
     show_user_stats($user);
-    echo "</table>\n";
+    end_table();
     echo "<ul>";
     echo "<li><a href=show_hosts.php>Your computer(s)</a></li>";
-    echo "<li><a href=prefs.php?subset=global>General (BOINC) preferences</a></li>";
-    echo "<li><a href=prefs.php?subset=project>Specific ".PROJECT." preferences</a></li>";
+    echo "<li><a href=prefs.php?subset=global>General preferences</a></li>";
+    echo "<li><a href=prefs.php?subset=project>".PROJECT." preferences</a></li>";
     echo "</ul>";
 
 }

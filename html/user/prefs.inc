@@ -286,14 +286,14 @@ function prefs_show_project($prefs) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return "BOINC";
+    if ($subset == "global") return "general";
     return PROJECT;
 }
 
 function prefs_display_venue($prefs, $venue, $subset) {
     $x = $prefs->$venue;
     if ($x) {
-        row1("Separate preferences for computers at $venue");
+        row1("Separate preferences for $venue");
         if ($subset == "global") {
             prefs_show_global($x);
         } else {
@@ -303,7 +303,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
         row2("<br>", "<a href=prefs_edit_form.php?venue=$venue&subset=$subset>Edit</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
     } else {
         $x = subset_name($subset);
-        row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Click to add separate $x preferences for computers at $venue</a>");
+        row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Add separate $x preferences for $venue</a>");
     }
 }
 
@@ -326,7 +326,7 @@ function print_prefs_display_project($user) {
 function print_prefs_display_global($user) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<font size=+2>BOINC preferences</font><br><font size=-1>These apply to all BOINC projects in which you participate</font><br><br>";
+    echo "<font size=+2>General preferences</font><br><font size=-1>These apply to all BOINC projects in which you participate</font><br><br>";
 
     start_table();
     if ($global_prefs->home || $global_prefs->work || $global_prefs->school) {
@@ -390,10 +390,7 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    echo "<tr><td colspan=2>
-        You can limit the disk space used by ".PROJECT." in three different ways:
-        </td></tr>
-    ";
+    row1("Limit the disk space used by BOINC:");
 
     row2("Use no more than",
         "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes"
@@ -406,7 +403,7 @@ function prefs_form_global($user, $prefs) {
         "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> % of total space"
     );
 
-    echo "<tr><td colspan=2>You can limit BOINC's network traffic</td></tr>\n";
+    row1("Limit BOINC's network use:");
     $d = $prefs->max_bytes_sec_down;
     $dt = $d?"$d":"";
     $u = $prefs->max_bytes_sec_up;
@@ -459,7 +456,7 @@ function prefs_form_project($prefs_xml) {
 }
 
 function venue_show($user) {
-    row2("Venue", $user->venue);
+    row2("Default computer location", $user->venue);
 }
 
 function venue_form($user) {

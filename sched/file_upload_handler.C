@@ -30,6 +30,7 @@
 #include <errno.h>
 
 #include "parse.h"
+#include "util.h"
 #include "config.h"
 #include "crypt.h"
 
@@ -48,10 +49,7 @@ struct FILE_INFO {
 };
 
 void write_log(char* p) {
-    time_t now = time(0);
-    char* timestr = ctime(&now);
-    *(strchr(timestr, '\n')) = 0;
-    fprintf(stderr, "%s: %s", timestr, p);
+    fprintf(stderr, "%s: %s", timestamp(), p);
 }
 
 int FILE_INFO::parse(FILE* in) {

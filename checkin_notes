@@ -3691,3 +3691,44 @@ David  Mar 5 2003
     sched/
         Makefile.in
         server_types.C
+
+David  Mar 6 2003
+    - new show_message() conventions (not fully implemented):
+        - all error conditions should call show_message() with MSG_ERROR
+        - all log writes should use show_message() with MSG_INFO
+        TODO: change Win implementation of show_message() to
+        write to window AND to file (stderr.txt or stdout.txt)
+    - messages are now timestamped and show project name
+    - use start_table() and row2() more uniformly in user HTML
+    - user HTML: show message if can't connect to DB
+    - standardize terminology in user HTML: "general prefs",
+        "default computer location", etc.
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        main.C
+        message.h
+        scheduler_op.C
+    doc/
+        prefs.html
+    html_user/
+        add_venue_form.php
+        bug_report_form.php
+        create_account*.php
+        db.inc
+        edit_email_form.php
+        edit_user_info_form.php
+        index.php
+        login*.php
+        prefs.inc
+        prefs_edit_form.php
+        show_user.php
+        team_create_form.php
+        top_hosts.php
+        user.inc
+        util.inc
+    lib/
+        util.C,h
+    sched/
+        *.C

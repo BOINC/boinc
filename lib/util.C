@@ -283,3 +283,10 @@ void safe_strncpy(char* dst, char* src, int len) {
     strncpy(dst, src, len);
     dst[len-1]=0;
 }
+
+char* timestamp() {
+    time_t now = time(0);
+    char* p = ctime(&now);
+    *(strchr(p, '\n')) = 0;
+    return p;
+}

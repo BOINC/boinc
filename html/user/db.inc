@@ -6,9 +6,9 @@
 function db_init() {
     $retval = mysql_pconnect();
     if (!$retval) {
+        echo "Database error - please try again later";
         exit();
     }
-
     $db_name = parse_config("<db_name>");
     mysql_select_db($db_name);
 }
@@ -19,9 +19,8 @@ function lookup_user_auth($auth) {
         $user = mysql_fetch_object($result);
         mysql_free_result($result);
         return $user;
-    } else {
-        return 0;
     }
+    return null;
 }
 
 ?>

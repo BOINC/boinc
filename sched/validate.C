@@ -74,10 +74,7 @@ int min_quorum;
 #define ALPHA (LOG2/AVG_HALF_LIFE)
 
 void write_log(char* p) {
-    time_t now = time(0);
-    char* timestr = ctime(&now);
-    *(strchr(timestr, '\n')) = 0;
-    fprintf(stderr, "%s: %s", timestr, p);
+    fprintf(stderr, "%s: %s", timestamp(), p);
 }
 
 // update an exponential average of credit per second.

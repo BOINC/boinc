@@ -140,7 +140,7 @@ int CLIENT_STATE::init() {
     //
     retval = global_prefs.parse_file(host_venue);
     if (retval) {
-        printf("No global preferences file; will use defaults.\n");
+        printf("Using default preferences.\n");
     }
     install_global_prefs();
 
@@ -152,7 +152,7 @@ int CLIENT_STATE::init() {
     //
     if (gstate.should_run_time_tests()) {
         time_tests_start = time(0);
-        show_message(NULL, "Running time tests", "low");
+        show_message(NULL, "Running CPU benchmarks", MSG_INFO);
 #ifdef _WIN32
         time_tests_handle = CreateThread(
             NULL, 0, win_time_tests, NULL, 0, &time_tests_id
@@ -279,7 +279,7 @@ int CLIENT_STATE::check_time_tests() {
         GetExitCodeThread(time_tests_handle, &exit_code);
         if(exit_code == STILL_ACTIVE) {
             if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
-                show_message(NULL, "Time tests timed out, using default values", "low");
+                show_message(NULL, "CPU benchmarks timed out, using default values", MSG_ERROR);
                 TerminateThread(time_tests_handle, 0);
                 CloseHandle(time_tests_handle);
                 host_info.p_fpops = 1e9;
@@ -297,7 +297,7 @@ int CLIENT_STATE::check_time_tests() {
         retval = waitpid(time_tests_id, &exit_code, WNOHANG);
         if(retval == 0) {
             if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
-                show_message(NULL, "Time tests timed out, using default values", "low");
+                show_message(NULL, "CPU benchmarks timed out, using default values", MSG_ERROR);
                 kill(time_tests_id, SIGKILL);
                 host_info.p_fpops = 1e9;
                 host_info.p_iops = 1e9;
@@ -310,10 +310,10 @@ int CLIENT_STATE::check_time_tests() {
         }
 #endif
         time_tests_id = 0;
-        show_message(NULL, "Time tests complete", "low");
+        show_message(NULL, "CPU benchmarks complete", MSG_INFO);
         finfo = fopen(TIME_TESTS_FILE_NAME, "r");
-        if(!finfo) {
-            show_message(NULL, "Error in time tests file, using default values", "low");
+        if (!finfo) {
+            show_message(NULL, "Can't open CPU benchmark file, using default values", MSG_ERROR);
             host_info.p_fpops = 1e9;
             host_info.p_iops = 1e9;
             host_info.p_membw = 4e9;

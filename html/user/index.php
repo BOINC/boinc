@@ -22,6 +22,9 @@
 <li><a href=team.php>Teams</a> - create or join a team
 <li><a href=download.php>Download BOINC</a>
 <li><a href=bug_report_form.php>Report problems</a>
+</ul>
+<h3>Leader boards</h3>
+<ul>
 <li><a href=top_users.php>Top users</a>
 <li><a href=top_hosts.php>Top hosts</a>
 <li><a href=top_teams.php>Top teams</a>

@@ -58,10 +58,7 @@ void check_trigger() {
 }
 
 void write_log(char* p) {
-    time_t now = time(0);
-    char* timestr = ctime(&now);
-    *(strchr(timestr, '\n')) = 0;
-    fprintf(stderr, "%s: %s", timestr, p);
+    fprintf(stderr, "%s: %s", timestamp(), p);
 }
 
 // The scheme for generating unique output filenames is as follows.

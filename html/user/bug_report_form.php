@@ -31,22 +31,19 @@ page_head("Problem Report Form", $user);
 echo "
     <h3>Problem Report Form</h3>
     <form method=post action=bug_report_action.php>
-    <table>
-    <tr><td align=right>Computer type</td><td>
-    ";
+";
+start_table();
+row2_init("Computer type", "");
 print_platform_select();
-echo"
-    </td></tr>
-    <tr><td valign=top align=right>
-    Problem description:
-    </td><td>
-    <textarea name=problem rows=10 cols=80></textarea>
-    </td></tr>
-    <tr><td><br></td><td>
-    <input type=submit value=OK>
-    </td></tr></table>
-    </form>
-    ";
+echo" </td></tr>\n";
+row2("Problem description",
+    "<textarea name=problem rows=10 cols=80></textarea>"
+);
+row2("",
+    "<input type=submit value=\"Submit problem report\">"
+);
+end_table();
+echo" </form> ";
 page_tail();
 
 ?>

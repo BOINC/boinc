@@ -350,7 +350,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->user_expavg_credit = sr.user_expavg_credit;
     project->user_create_time = sr.user_create_time;
     if (strlen(sr.message)) {
-        show_message(project, sr.message, sr.message_priority);
+        int prio = (!strcmp(sr.message_priority, "high"))?MSG_ERROR:MSG_INFO;
+        show_message(project, sr.message, prio);
     }
 
     if (sr.request_delay) {

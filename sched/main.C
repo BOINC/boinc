@@ -33,6 +33,7 @@ using namespace std;
 #include "db.h"
 #include "parse.h"
 #include "shmem.h"
+#include "util.h"
 
 #include "config.h"
 #include "server_types.h"
@@ -48,10 +49,7 @@ PROJECT gproject;
 CONFIG config;
 
 void write_log(char* p) {
-    time_t now = time(0);
-    char* timestr = ctime(&now);
-    *(strchr(timestr, '\n')) = 0;
-    fprintf(stderr, "%s: %s", timestr, p);
+    fprintf(stderr, "%s: %s", timestamp(), p);
 }
 
 int main() {

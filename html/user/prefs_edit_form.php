@@ -61,7 +61,7 @@ if ($subset == "global") {
     }
 }
 
-row2("<br>", "<input type=submit value=\"OK\">");
+row2("<br>", "<input type=submit value=\"Update preferences\">");
 end_table();
 echo "</form>\n";
 

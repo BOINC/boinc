@@ -13,8 +13,8 @@
     $subset = $_GET["subset"];
 
     $x = subset_name($subset);
-    page_head("Add $x preferences for computers at $venue");
-    echo "<h2>Add $x preferences for computers at $venue</h2>";
+    page_head("Add $x preferences for $venue");
+    echo "<h2>Add $x preferences for $venue</h2>";
     echo "<form action=add_venue_action.php>
         <input type=hidden name=venue value=$venue>
         <input type=hidden name=subset value=$subset>
@@ -28,7 +28,7 @@
         prefs_form_resource($prefs);
         prefs_form_project($prefs);
     }
-    row2("","<input type=submit value=OK>");
+    row2("","<input type=submit value=\"Add preferences\">");
     end_table();
     echo "</form>\n";
     page_tail();

@@ -14,9 +14,17 @@ function show_error($str) {
     $authenticator = init_session();
     db_init();
 
+    $new_name = $HTTP_POST_VARS["new_name"];
+    if (strlen($new_name)==0) {
+        show_error("You must supply a name for your account");
+    }
+
     $new_email_addr = $HTTP_POST_VARS["new_email_addr"];
     if (!is_valid_email_addr($new_email_addr)) {
-        show_error("Invalid email address");
+        show_error("Invalid email address:
+            you must enter a valid address of the form
+            name@domain"
+        );
     }
     $query = "select * from user where email_addr='$new_email_addr'";
     $result = mysql_query($query);
@@ -28,23 +36,13 @@ function show_error($str) {
         }
     }
 
-    // web passwords disabled by default
-    if (0) {
-        if (strlen($HTTP_POST_VARS["new_password"]) == 0) {
-            show_error("Password missing");
-        }
-        if ($HTTP_POST_VARS["new_password"] != $HTTP_POST_VARS["new_password2"]) {
-            show_error("Different passwords entered");
-        }
-    }
-
     $authenticator = random_string();
     $munged_email_addr = munge_email_addr($new_email_addr, $authenticator);
     $query = sprintf(
        "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, teamid, venue) values(%d, '%s', '%s', '%s', '%s', '%s', '%s', 0, 0, 0, 0, 'home')",
         time(),
         $munged_email_addr,
-        $HTTP_POST_VARS["new_name"],
+        $new_name,
         $HTTP_POST_VARS["new_password"],
         $authenticator,
         $HTTP_POST_VARS["country"],

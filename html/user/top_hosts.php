@@ -28,6 +28,7 @@ function show_host_row($host) {
     $max_hosts_display = 100;
     db_init();
     page_head("Top hosts");
+    echo "<h2>Top hosts</h2>\n";
     $result = mysql_query("select * from host order by expavg_credit desc limit $max_hosts_display");
     host_table_start();
     while (($host = mysql_fetch_object($result)) && $max_hosts_display > 0) {

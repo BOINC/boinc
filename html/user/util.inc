@@ -43,9 +43,6 @@ You will need your account key to log in to the ".PROJECT." web site."
 //
 function init_session() {
     session_start();
-    if (!isset($_SESSION["authenticator"])) {
-	$_SESSION["authenticator"] = $authenticator;
-    }
     return $_SESSION["authenticator"];
 }
 
@@ -117,11 +114,15 @@ function end_table() {
 }
 
 function row1($x) {
-    echo "<tr><td bgcolor=dddddd colspan=2><b>$x</b></td></tr>\n";
+    echo "<tr><td bgcolor=cccccc colspan=2><b>$x</b></td></tr>\n";
 }
 
 function row2($x, $y) {
+    if ($x=="") $x="<br>";
     echo "<tr><td bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
+}
+function row2_init($x, $y) {
+    echo "<tr><td bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y\n";
 }
 
 function row3($x, $y, $z) {
@@ -132,33 +133,34 @@ function random_string() {
     return md5(uniqid(rand()));
 }
 
-function print_country_select($country) {
+function print_country_select($country="None") {
     $x = posix_getcwd();
     PassThru("$x/country_select '$country'");
 }
 
-function print_login_form_aux($next_url) {
+function print_login_form_aux($next_url, $user) {
     echo "<form method=post action=login_action.php>
         <input type=hidden name=next_url value='$next_url'>
-        <table cellpadding=8>
-        <tr><td align=right>
-        Your account key:
-        </td><td>
-        <input name=authenticator size=40>
-        </td></tr>
-
-        <tr><td align=right>
-        <br>
-        </td><td>
-        <input type=submit value='Log in'>
-        </td></tr>
-        </table>
     ";
-    echo "<font size=1>
+    start_table();
+    row1("Log in");
+    row2("Your account key:
+        <br><font size=-1>
         If you don't know your account key,
         <a href=get_passwd.php>click here</a>.
-        </font>
-    ";
+        </font>",
+        "<input name=authenticator size=40>"
+    );
+    row2("",
+        "<input type=submit value='Log in'>"
+    );
+    if ($user) {
+        row1("Log out");
+        row2("You are logged in as $user->name",
+            "<a href=logout.php>Log out</a>"
+        );
+    }
+    end_table();
 }
 
 function print_login_form() {
@@ -168,7 +170,7 @@ function print_login_form() {
         This function requires that you log in.
     ";
     $next_url = $_SERVER[REQUEST_URI];
-    print_login_form_aux($next_url);
+    print_login_form_aux($next_url, null);
     page_tail();
 }
 
