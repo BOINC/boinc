@@ -4483,3 +4483,12 @@ David  June 5 2003
         test_uc.php
     tools/
         add.C
+
+Tim    June 5, 2003
+    - Windiws GUI enhancement
+        fixed "uploading" "downloading" problem
+        fixed minor problem with updateGUI
+
+    client/
+        client_state.c
+        wingui_mainwindow.cpp

@@ -1307,10 +1307,12 @@ bool CLIENT_STATE::update_results() {
         
         switch (rp->state) {
         case RESULT_NEW:
+            rp->state = RESULT_FILES_DOWNLOADING;
+            action = true;
+            break;
+        case RESULT_FILES_DOWNLOADING:
             if (input_files_available(rp))
                 rp->state = RESULT_FILES_DOWNLOADED;
-            else
-                rp->state = RESULT_FILES_DOWNLOADING;
             action = true;
             break;
         case RESULT_FILES_DOWNLOADED:
@@ -1321,14 +1323,16 @@ bool CLIENT_STATE::update_results() {
             // Once the computation has been done, check
             // that the necessary files have been uploaded
             // before moving on
+            rp->state = RESULT_FILES_UPLOADING;
+            action = true;
+            break;
+        case RESULT_FILES_UPLOADING:
             if (rp->is_upload_done()) {
                 rp->ready_to_ack = true;
                 rp->state = RESULT_FILES_UPLOADED;
-            } else
-                rp->state = RESULT_FILES_UPLOADING;
+            }
             action = true;
             break;
-            
         case RESULT_FILES_UPLOADED:
             break;
         }
