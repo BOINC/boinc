@@ -5419,3 +5419,10 @@ Karl 2003/07/28
     html_user/*
     client/*
     sched/*
+
+Karl 2003/07/29
+    - GUI: right clicking sets list item focus
+    - added right click -> retry transfer now
+
+    client/*
+    client/win/*
