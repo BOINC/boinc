@@ -331,7 +331,7 @@ class TestProject(Project):
         while (num_wus_assimilated(db) < self.num_wu) or num_wus_to_transition(db):
             time.sleep(.5)
             if time.time() > timeout:
-                error("run_finish_wait(): timed out waiting for workunits to assimilated/transition")
+                error("run_finish_wait(): timed out waiting for workunits to assimilate/transition")
                 break
         db.close()
 
