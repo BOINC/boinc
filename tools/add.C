@@ -20,7 +20,16 @@
 // add.C - add items to the DB
 //
 // usages:
-// add project -project_short_name x -project_long_name x
+//
+// NOTE:
+//  - all commands take optional -db_name and -db_password args
+//  - all commands look for config.xml and, if found, get
+//    the db_name, db_password, up/download_dir, up/download_url
+//    from there (can override them w/ cmdline args)
+//
+// add project
+//      -project_short_name x
+//      -project_long_name x
 //      add project
 // add app -app_name x
 //      add application
@@ -29,16 +38,17 @@
 //      create DB record
 // add app_version
 //      -app_name x -platform_name y -version a
-//      -download_dir d -download_url e
+//      [ -download_dir d ]
+//      [ -download_url e ]
 //      -exec_dir b
 //      [ -exec_files file1 file2 ... ]
 //      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
-//      create DB record
-//      copy exec to data directory
+//      create DB record (w/ XML descriptor; generate signatures if needed)
+//      copy executable files from exec_dir to download_dir directory
 // add core_version
 //      -platform_name x -version n
 //      [ -message 'foo' ] [ -message_priority 'foo']
-//      -download_dir d -download_url e
+//      [ -download_dir d -download_url e ]
 //      -exec_dir b
 //      -exec_files file1
 // add user -email_addr x -name y -authenticator a
