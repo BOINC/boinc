@@ -91,7 +91,7 @@ function show_user_summary_public($user) {
 // it has info that other users aren't supposed to see
 
 function show_user_page_private($user) {
-    start_table();
+    start_table("width=80%");
     show_user_profile_private($user);  // NOTE: Will include the actual user profile.
     show_user_stats_private($user);
     end_table();
