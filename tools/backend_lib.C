@@ -62,7 +62,8 @@ int read_filename(const char* path, char* buf, int len) {
     return retval;
 }
 
-#ifdef BOINC_CACHE_MD5
+// see checkin notes Dec 30 2004
+//
 static bool got_md5_info(
     const char *path,
     char *md5data,
@@ -78,7 +79,7 @@ static bool got_md5_info(
     struct stat md5stat, filestat;
     bool retval=false;
     char endline='\0';
-    
+
     sprintf(md5name, "%s.md5", path);
     
     // get mod times for file
@@ -113,6 +114,8 @@ static bool got_md5_info(
     return retval;
 }
 
+// see checkin notes Dec 30 2004
+//
 static void write_md5_info(
     const char *path,
     const char *md5,
@@ -142,7 +145,6 @@ static void write_md5_info(
   
     return;
 }
-#endif // BOINC_CACHE_MD5
 
 
 // process WU template
@@ -193,20 +195,18 @@ static int process_wu_template(
                         );
                         boinc_copy(top_download_path,path);
                     }
-#ifdef BOINC_CACHE_MD5
-                    // see checkin notes Dec 30 2004
-                    if (!got_md5_info(path, md5, &nbytes)) {
-#endif
+
+                    if (!config.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
+
                         retval = md5_file(path, md5, nbytes);
                         if (retval) {
                             fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
                             return retval;
                         }
-#ifdef BOINC_CACHE_MD5
-                        else
+                        else if (config.cache_md5_info) {
                             write_md5_info(path, md5, nbytes);
+                        }
                     }
-#endif
 
                     dir_hier_url(
                         infiles[file_number], config.download_url,

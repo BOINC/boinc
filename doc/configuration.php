@@ -45,6 +45,7 @@ htmlspecialchars("
     [ <locality_scheduling_wait_period>  N   </locality_scheduling_wait_period> ]
     [ <min_core_client_version>          N   </min_core_client_version          ]
     [ <choose_download_url_by_timezone/>                                        ]
+    [ <cache_md5_info/>                                                         ]
 
     <!-- optional; defaults as indicated: -->
     <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
@@ -208,6 +209,13 @@ list_item("choose_download_url_by_timezone",
       have identical file hierarchies and contents, and the path to
       file and executables must start with '/download/...' as in 
       'http://einstein.phys.uwm.edu/download/123/some_file_name'."
+);
+list_item("cache_md5_info",
+     "When creating work, keep a record (in files called foo.md5) of the
+      file length and md5 sum of data files and executables.  This can
+      greatly reduce the time needed to create work, if (1) these files
+      are re-used, and (2) there are many of these files, and (3) reading
+      the files from disk is time-consuming."
 );
 list_end();
 

@@ -23783,3 +23783,22 @@ Rom    2 Feb 2005
     locale/
         <all localization files for the client are now here>
 
+Bruce  2 Feb 2005
+
+    - Made the caching of md5 info for source files a configuration option in 
+      config.xml.  Use the boolean tag <cache_md5_info> to enable it.
+      This prevents the work generation library from having to go back and
+      continuously regenerate the md5 sums of your input data files.  Note
+      that reading these from disk can be expensive if you have many such files
+      that are large and that you re-use. See check-in notes from 30/31 Dec 2004
+      for some details.
+
+    doc/
+        configuration.php
+    sched/
+        sched_config.C
+        sched_config.h
+    tools/
+        backend_lib.C
+
+

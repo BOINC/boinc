@@ -60,6 +60,7 @@ public:
     int locality_scheduling_send_timeout;
     int min_core_client_version;
     bool choose_download_url_by_timezone;
+    bool cache_md5_info;
 
     int parse(char*);
     int parse_file(char* dir=".");
