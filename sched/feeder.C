@@ -55,7 +55,7 @@
 #include "sched_shmem.h"
 
 #define RESULTS_PER_ENUM    100
-#define TRIGGER_FILENAME    "feeder_trigger"
+#define TRIGGER_FILENAME    "stop_server"
 
 CONFIG config;
 
@@ -70,7 +70,6 @@ int check_trigger(SCHED_SHMEM* ssp) {
     if (!strcmp(buf, "<quit/>\n")) {
         detach_shmem((void*)ssp);
         destroy_shmem(config.shmem_key);
-        unlink(TRIGGER_FILENAME);
         exit(0);
     } else if (!strcmp(buf, "<reread_db/>\n")) {
         ssp->init();
@@ -79,7 +78,6 @@ int check_trigger(SCHED_SHMEM* ssp) {
         fprintf(stderr, "feeder: unknown command in trigger file: %s\n", buf);
         exit(0);
     }
-    unlink(TRIGGER_FILENAME);
     return 0;
 }
 
@@ -129,6 +127,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     retval = db_result_enum_to_send(result, RESULTS_PER_ENUM);
                     printf("feeder: restarting enumeration: %d\n", retval);
                     if (retval) {
+                        printf("feeder: enumeration returned nothing\n");
                         no_wus = true;
                         break;
                     }
@@ -144,9 +143,12 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     }
                 }
                 if (!collision) {
-                    printf("feeder: adding result %d\n", result.id);
+                    printf("feeder: adding result %d in slot %d\n", result.id, i);
                     retval = db_workunit(result.workunitid, wu);
-                    if (retval) continue;
+                    if (retval) {
+                        printf("feeder: can't read workunit %d\n", result.workunitid);
+                        continue;
+                    }
                     ssp->wu_results[i].result = result;
                     ssp->wu_results[i].workunit = wu;
                     ssp->wu_results[i].present = true;
@@ -155,6 +157,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
             }
         }
         if (nadditions == 0) {
+            printf("feeder: no results added\n");
             sleep(1);
         } else {
             printf("feeder: added %d results to array\n", nadditions);
@@ -167,6 +170,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
             printf("feeder: some results already in array - sleeping\n");
             sleep(5);
         }
+        fflush(stdout);
         check_trigger(ssp);
         ssp->ready = true;
     }
@@ -177,6 +181,8 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false;
     void* p;
+
+    unlink(TRIGGER_FILENAME);
 
     retval = config.parse_file();
     if (retval) {

@@ -40,8 +40,8 @@
     $work->install($project1);
     $work->install($project2);
 
-    $project1->start();
-    $project2->start();
+    $project1->start_feeder();
+    $project2->start_feeder();
     $host->run("-exit_when_idle");
     $project1->stop();
     $project2->stop();

@@ -30,8 +30,6 @@
 
 #define INFILE_MACRO    "<INFILE_"
 #define MD5_MACRO       "<MD5_"
-#define WU_NAME_MACRO   "<WU_NAME/>"
-#define RESULT_NAME_MACRO   "<RESULT_NAME/>"
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 #define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
@@ -57,7 +55,6 @@ int read_filename(char* path, char* buf) {
 
 // replace INFILE_x with filename from array,
 // MD5_x with checksum of file,
-// WU_NAME with WU name
 //
 static int process_wu_template(
     char* wu_name, char* tmplate, char* out,
@@ -122,13 +119,6 @@ static int process_wu_template(
             strcpy(p, md5);
             strcat(p, buf);
         }
-        p = strstr(out, WU_NAME_MACRO);
-        if (p) {
-            found = true;
-            strcpy(buf, p+strlen(WU_NAME_MACRO));
-            strcpy(p, wu_name);
-            strcat(p, buf);
-        }
         if (!found) break;
     }
     return 0;
@@ -161,7 +151,7 @@ int create_result(
         result_template_file,
         tempfile,
         key,
-        base_outfile_name, wu.name, r.name,
+        base_outfile_name,
         upload_url, download_url
     );
     rewind(tempfile);

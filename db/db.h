@@ -315,5 +315,6 @@ extern int db_result_update(RESULT& p);
 extern int db_result_lookup_name(RESULT& p);
 extern int db_result_enum_to_send(RESULT&, int);
 extern int db_result_enum_wuid(RESULT&);
+extern int db_result_count_state(int state, int&);
 
 #endif

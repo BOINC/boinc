@@ -16,7 +16,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work
 
 all: $(PROGS)
 
@@ -61,6 +61,13 @@ FILE_UPLOAD_OBJS = \
 VALIDATE_OBJS = \
     validate.o \
     validate_test.o \
+    config.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/parse.o
+
+MAKE_WORK_OBJS = \
+    make_work.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -115,6 +122,9 @@ file_upload_handler: $(FILE_UPLOAD_OBJS)
 
 validate_test: $(VALIDATE_OBJS)
 	$(CC) $(VALIDATE_OBJS) $(MYSQL_LIBS) $(CLIBS) -o validate_test
+
+make_work: $(MAKE_WORK_OBJS)
+	$(CC) $(MAKE_WORK_OBJS) $(MYSQL_LIBS) $(CLIBS) -o make_work
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

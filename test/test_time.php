@@ -28,7 +28,7 @@
     array_push($work->input_files, "small_input");
     $work->install($project);
 
-    $project->start();
+    $project->start_feeder();
     $app_time = 0;
     $host->run("-exit_after 400");
     $app_time += $host->read_cpu_time_file("app.time");

@@ -13,5 +13,5 @@
     $project->add_app($app);
     $project->add_app_version($app_version);
     $project->install();
-    $project->start();
+    $project->start_feeder();
 ?>

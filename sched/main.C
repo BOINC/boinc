@@ -35,13 +35,8 @@ using namespace std;
 #include "handle_request.h"
 #include "main.h"
 
-#if 1
-#define REQ_FILE_PREFIX "/tmp/boinc_req_"
-#define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
-#else
-#define REQ_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_req_"
-#define REPLY_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_reply_"
-#endif
+#define REQ_FILE_PREFIX "boinc_req_"
+#define REPLY_FILE_PREFIX "boinc_reply_"
 
 PROJECT gproject;
 CONFIG config;

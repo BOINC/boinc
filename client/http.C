@@ -482,9 +482,8 @@ bool HTTP_OP_SET::poll() {
                     break;
                 case HTTP_OP_POST:
                     retval = unlink(htp->outfile);
-                    if (retval) {
-                        printf("ERROR: unlink %d\n", retval);
-                    }
+                    // no error check here because file need not already exist
+                    //
                     // fall through
                 case HTTP_OP_GET:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;

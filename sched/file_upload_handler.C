@@ -133,11 +133,16 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         return retval;
     }
     bytes_left = nbytes - offset;
+    if (bytes_left == 0) {
+        fprintf(stderr, "file_upload_handler: offset == nbytes!! %f\n", nbytes);
+        return 0;
+    }
     while (1) {
         m = BLOCK_SIZE;
         if (m > bytes_left) m = (int)bytes_left;
         n = fread(buf, 1, m, in);
         if (n <= 0) {
+            fprintf(stderr, "file_upload_handler: fread: asked for %d, return %d\n", m, n);
             print_status(-1, "can't fread socket");
             return -1;
         }

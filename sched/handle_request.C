@@ -46,31 +46,47 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
 }
 
 // estimate the time that a WU will take on a host
+// TODO: improve this.  take memory bandwidth into account
 //
 double estimate_duration(WORKUNIT& wu, HOST& host) {
-    if (host.p_fpops <= 0) host.p_fpops = 1;
-    if (host.p_iops <= 0) host.p_iops = 1;
-    if (wu.rsc_fpops <= 0) wu.rsc_fpops = 1;
-    if (wu.rsc_iops <= 0) wu.rsc_iops = 1;
+    if (host.p_fpops <= 0) host.p_fpops = 1e9;
+    if (host.p_iops <= 0) host.p_iops = 1e9;
+    if (wu.rsc_fpops <= 0) wu.rsc_fpops = 1e12;
+    if (wu.rsc_iops <= 0) wu.rsc_iops = 1e12;
     return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
 }
 
-// insert an element in xml_doc with an estimation of how many seconds
-// a workunit will take to complete
+// insert "text" right after "after" in the given buffer
 //
-int insert_time_tag(WORKUNIT& wu, double seconds) {
-    char *location;
+int insert_after(char* buffer, char* after, char* text) {
+    char* p;
+    char temp[MAX_BLOB_SIZE];
 
-    location = strstr(wu.xml_doc, "</workunit>");
-    if ((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
-        return -1; //not enough space to include time info
-    }
-    sprintf(location,
-        "    <seconds_to_complete>%f</seconds_to_complete>\n"
-        "</workunit>\n",
+    if (strlen(buffer) + strlen(text) > MAX_BLOB_SIZE-1) return -1;
+    p = strstr(buffer, after);
+    if (!p) return -1;
+    p += strlen(after);
+    strcpy(temp, p);
+    strcpy(p, text);
+    strcat(p, temp);
+    return 0;
+}
+
+// add elements in xml_doc:
+// WU name, and estimation of how many seconds it will take
+//
+int insert_wu_tags(WORKUNIT& wu, double seconds) {
+    char buf[256];
+    int retval;
+
+    sprintf(buf,
+        "    <seconds_to_complete>%f</seconds_to_complete>\n",
         seconds
     );
-    return 0;
+    retval = insert_after(wu.xml_doc, "<workunit>\n", buf);
+    if (retval) return retval;
+    sprintf(buf, "    <name>%s</name>\n", wu.name);
+    return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
 // add the given workunit to a reply.
@@ -84,6 +100,7 @@ int add_wu_to_reply(
     APP* app;
     APP_VERSION* app_version;
     int retval;
+    WORKUNIT wu2;
 
     app = ss.lookup_app(wu.appid);
     if (!app) return -1;
@@ -98,9 +115,10 @@ int add_wu_to_reply(
 
     // add time estimate to reply
     //
-    retval = insert_time_tag(wu, seconds_to_complete);
+    wu2 = wu;       // make copy since we're going to modify its XML field
+    retval = insert_wu_tags(wu2, seconds_to_complete);
     if (retval) return retval;
-    reply.insert_workunit_unique(wu);
+    reply.insert_workunit_unique(wu2);
     return 0;
 }
 
@@ -278,6 +296,11 @@ int handle_results(
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
+        // acknowledge the result even if we couldn't find it --
+        // don't want it to keep coming back
+        //
+        reply.result_acks.push_back(*rp);
+
         strncpy(result.name, rp->name, sizeof(result.name));
         retval = db_result_lookup_name(result);
         if (retval) {
@@ -325,12 +348,20 @@ int handle_results(
                 retval = db_workunit_update(wu);
             }
         }
-
-        // acknowledge the result even if we couldn't find it --
-        // don't want it to keep coming back
-        //
-        reply.result_acks.push_back(*rp);
     }
+    return 0;
+}
+
+int insert_name_tags(RESULT& result, WORKUNIT& wu) {
+    char buf[256];
+    int retval;
+
+    sprintf(buf, "<name>%s</name>\n", result.name);
+    retval = insert_after(result.xml_doc_in, "<result>\n", buf);
+    if (retval) return retval;
+    sprintf(buf, "<wu_name>%s</wu_name>\n", wu.name);
+    retval = insert_after(result.xml_doc_in, "<result>\n", buf);
+    if (retval) return retval;
     return 0;
 }
 
@@ -363,14 +394,22 @@ int send_work(
         ) {
             continue;
         }
+
         wu = ss.wu_results[i].workunit;
         result = ss.wu_results[i].result;
         ss.wu_results[i].present = false;
-        
+
         retval = add_wu_to_reply(wu, reply, platform, ss,
             estimate_duration(wu, reply.host)
         );
         if (retval) continue;
+
+        fprintf(stderr, "sending result name %s, id %d\n", result.name, result.id);
+        
+        retval = insert_name_tags(result, wu);
+        if (retval) {
+            fprintf(stderr, "send_work: can't insert name tags\n");
+        }
         reply.insert_result(result);
         seconds_to_fill -= (int)estimate_duration(wu, reply.host);
 

@@ -32,8 +32,6 @@
 #include "parse.h"
 #include "crypt.h"
 
-#define WU_NAME_MACRO   "<WU_NAME/>"
-#define RESULT_NAME_MACRO   "<RESULT_NAME/>"
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 #define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
@@ -41,7 +39,7 @@
 int process_result_template(
     FILE* in, FILE* out,
     R_RSA_PRIVATE_KEY& key,
-    char* base_filename, char* wu_name, char* result_name,
+    char* base_filename,
     char* upload_url, char* download_url
 ) {
     char* p,*q, *signed_xml=strdup("");
@@ -55,8 +53,6 @@ int process_result_template(
     assert(in!=NULL);
     assert(out!=NULL);
     assert(base_filename!=NULL);
-    assert(wu_name!=NULL);
-    assert(result_name!=NULL);
     while (fgets(buf, 256, in)) {
 
         // when we reach the end of a <file_info> element,
@@ -111,20 +107,6 @@ int process_result_template(
                 found = true;
                 strcpy(temp, p+strlen(DOWNLOAD_URL_MACRO));
                 strcpy(p, download_url);
-                strcat(p, temp);
-            }
-            p = strstr(buf, WU_NAME_MACRO);
-            if (p) {
-                found = true;
-                strcpy(temp, p+strlen(WU_NAME_MACRO));
-                strcpy(p, wu_name);
-                strcat(p, temp);
-            }
-            p = strstr(buf, RESULT_NAME_MACRO);
-            if (p) {
-                found = true;
-                strcpy(temp, p+strlen(RESULT_NAME_MACRO));
-                strcpy(p, result_name);
                 strcat(p, temp);
             }
             if (!found) break;

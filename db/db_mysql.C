@@ -637,3 +637,10 @@ int db_result_enum_wuid(RESULT& p) {
     if (!e.active) sprintf(buf, "where workunitid=%d", p.workunitid);
     return db_enum(e, &p, TYPE_RESULT, buf);
 }
+
+int db_result_count_state(int state, int& n) {
+    char buf[256];
+
+    sprintf(buf, " where state=%d", state);
+    return db_count(&n, "*", TYPE_RESULT, buf);
+}

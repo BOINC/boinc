@@ -6,8 +6,6 @@
     <url><UPLOAD_URL/></url>
 </file_info>
 <result>
-    <name><RESULT_NAME/></name>
-    <wu_name><WU_NAME/></wu_name>
     <file_ref>
         <file_name><OUTFILE_0/></file_name>
         <open_name>out</open_name>

@@ -2077,3 +2077,41 @@ David   Oct 3 2002
 David   Oct 3 2002
     - updated test scripts to use new framework
     - got rid of some obsolete scripts
+
+David   Oct 8 2002
+    - progress getting "make_work" (dummy work generator) to work.
+        Removed the <name> element from workunit XML,
+        and the <name> and <wu_name> elements from result XML;
+        instead, the scheduler server inserts these as it sends them.
+
+        This simplifies things a little in work generation,
+        and removes some redundancy.
+
+        Everything seems to work now except that the file upload signature
+        ends up being wrong, which is expected,
+        and it shows that the security mechanism works.
+    - added test_loop.php, which simulates a system that is complete
+        except for the validation process.
+
+    client/
+        http.C
+    db/
+        db.h
+        db_mysql.C
+    html_ops/
+        index.html
+    sched/
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        make_work.C (new)
+    test/
+        *_result
+        *_wu
+        *.php
+        test_loop.php (new)
+    tools/
+        backend_lib.C,h
+        process_result_template.C

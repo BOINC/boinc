@@ -22,7 +22,7 @@
 extern int process_result_template(
     FILE* in, FILE* out,
     R_RSA_PRIVATE_KEY& key,
-    char* base_filename, char* wu_name, char* result_name,
+    char* base_filename,
     char* upload_url, char* download_url
 );
 

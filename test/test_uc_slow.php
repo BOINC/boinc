@@ -29,7 +29,7 @@
     array_push($work->input_files, "small_input");
     $work->install($project);
 
-    $project->start();
+    $project->start_feeder();
     echo "Now run the client manually; start and stop it a few times\n";
     //compare_file("ucs_wu_0_0", "uc_small_correct_output");
 ?>

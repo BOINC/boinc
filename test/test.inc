@@ -128,7 +128,8 @@ class Project {
         $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_user/index.html";
         PassThru("rm -rf $this->project_dir");
         PassThru("mkdir $this->project_dir");
-        PassThru("mkdir $this->project_dir/cgi");
+            // make the CGI writeable in case scheduler writes req/reply files
+        PassThru("mkdir $this->project_dir/cgi; chmod uog+w $this->project_dir/cgi");
         PassThru("mkdir $this->project_dir/upload; chmod uog+w $this->project_dir/upload");
         PassThru("mkdir $this->project_dir/download");
         PassThru("mkdir $this->project_dir/keys");
@@ -174,11 +175,12 @@ class Project {
             run_tool("add app_version -db_name $this->db_name -app_name $app->name -platform_name $platform -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $source_dir/apps -exec_files $app_version->exec_name");
         }
 
-        // copy the CGI programs and feeder to the project dir,
+        // copy the server programs to the project /cgi dir,
         // and make a config file there
         //
         PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
@@ -227,16 +229,20 @@ class Project {
         // show the URLs for user and admin sites
         //
         echo "The master URL for project $this->name is $this->master_url\n";
-        $admin_url = $html_url.$this->name."/html_ops/index.html";
+        $admin_url = $html_url."/".$this->name."/html_ops/index.html";
         echo "The admin URL for project $this->name is $admin_url\n";
     }
 
-    function start(){
+    function start_feeder(){
         PassThru("cd $this->project_dir/cgi; feeder -asynch > feeder_out");
     }
 
+    function start_make_work(){
+        PassThru("cd $this->project_dir/cgi; make_work -asynch > make_work_out");
+    }
+
     function stop() {
-        $f = fopen($this->project_dir."/cgi/feeder_trigger", "w");
+        $f = fopen($this->project_dir."/cgi/stop_server", "w");
         fputs($f, "<quit/>\n");
         fclose($f);
     }
@@ -358,7 +364,7 @@ class Host {
         echo "Running core client\n";
         $source_dir = get_env_var("BOINC_SRC_DIR");
         $platform = get_env_var("BOINC_PLATFORM");
-        PassThru("cd $this->host_dir; $source_dir/client/boinc_1_$platform $args");
+        PassThru("cd $this->host_dir; $source_dir/client/boinc_1_$platform $args> client.out");
     }
 
     // read a CPU time file written by the client.

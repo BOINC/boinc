@@ -4,7 +4,6 @@
     <md5_cksum><MD5_0/></md5_cksum>
 </file_info>
 <workunit>
-    <name><WU_NAME/></name>
     <app_name>setiathome-3.06</app_name>
     <input_file>
         <file_name><INFILE_0/></file_name>

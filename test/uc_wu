@@ -4,7 +4,6 @@
     <md5_cksum><MD5_0/></md5_cksum>
 </file_info>
 <workunit>
-    <name><WU_NAME/></name>
     <app_name>upper_case</app_name>
     <file_ref>
         <file_name><INFILE_0/></file_name>

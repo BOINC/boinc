@@ -29,7 +29,7 @@
     array_push($work->input_files, "input");
     $work->install($project);
 
-    $project->start();
+    $project->start_feeder();
     $host->run("-exit_when_idle");
     $project->stop();
 

@@ -1,7 +1,7 @@
 #! /usr/local/bin/php
 <?php
-    // set up a test for the windows client
-    // set BOINC_PLATFORM to "windows_intelx86"
+    // This tests whether the most basic mechanisms are working
+    // Also whether stderr output is reported correctly
 
     include_once("test.inc");
 
@@ -16,6 +16,10 @@
     $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
 
+    $host->log_flags = "log_flags.xml";
+    $host->add_project($project);
+    $host->install();
+
     echo "adding work\n";
 
     $work = new Work($app);
@@ -26,11 +30,13 @@
     $work->install($project);
 
     $project->start_feeder();
-
-    echo "go run the client\n";
-
+    $project->start_make_work();
+    $host->run("");
     //$project->stop();
 
+    //$result->state = RESULT_STATE_DONE;
+    //$result->stderr_out = "APP: upper_case: starting, argc 1";
+    //$result->exit_status = 0;
     //$project->check_results(2, $result);
     //$project->compare_file("uc_wu_0_0", "uc_correct_output");
     //$project->compare_file("uc_wu_1_0", "uc_correct_output");
