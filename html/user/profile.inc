@@ -208,8 +208,8 @@ function process_results() {
      
             // Write the original image file to disk.
             // TODO: define a constant for image quality.
-            ImageJPEG($images[0], IMAGE_PATH . $user->id . '.jpg', 10);
-            ImageJPEG($images[1], IMAGE_PATH . $user->id . '_sm.jpg', 10);
+            ImageJPEG($images[0], IMAGE_PATH . $user->id . '.jpg');
+            ImageJPEG($images[1], IMAGE_PATH . $user->id . '_sm.jpg');
     }
     if ($profile_info) {
 
@@ -271,22 +271,6 @@ function getImages($fileName) {
         $image = scale_image($image, $width, $height, MAX_IMG_WIDTH, MAX_IMG_HEIGHT);
     }
         
-    
-    /*($width > $height)? $scalar = ($width / SMALL_IMG_WIDTH) : $scalar = ($height / SMALL_IMG_HEIGHT);
-
-    $dest_width = $width / $scalar;
-    $dest_height = $height / $scalar;
-    $horiz_offset = (SMALL_IMG_WIDTH - $dest_width) / 2;
-    $vert_offset = (SMALL_IMG_HEIGHT - $dest_height) / 2;
-
-    // TODO: Switch once GD 2.0+ is installed.
-    //$smallImage = ImageCreateTrueColor(SMALL_IMG_WIDTH, SMALL_IMG_HEIGHT);
-    $smallImage = ImageCreate(SMALL_IMG_WIDTH, SMALL_IMG_HEIGHT);
-
-    // TODO: Switch once GD 2.0+ is installed.
-    //ImageCopyResampled($smallImage, $image, $horiz_offset, $vert_offset, 0, 0, $dest_width, $dest_height, $width, $height);
-    ImageCopyResized($smallImage, $image, $horiz_offset, $vert_offset, 0, 0, $dest_width, $dest_height, $width, $height);
-    */
     /*
     echo "<br><br>Image type: $size[2]";
     echo "<br>Original width: $width";
@@ -306,18 +290,12 @@ function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeigh
 
     ($origWidth > $origHeight)? $scalar = ($origWidth / $targetWidth) : $scalar = ($height / $targetHeight);
 
-    $dest_width = $origWidth / $scalar;
-    $dest_height = $origHeight / $scalar;
-    $horiz_offset = ($targetWidth - $dest_width) / 2;
-    $vert_offset = ($targetHeight - $dest_height) / 2;
+    $destWidth = $origWidth / $scalar;
+    $destHeight = $origHeight / $scalar;
+    
+    $newImage = ImageCreateTrueColor($destWidth, $destHeight);
 
-    // TODO: Switch once GD 2.0+ is installed.
-    //$newImage = ImageCreateTrueColor($targetWidth, $targetHeight);
-    $newImage = ImageCreate($targetWidth, $targetHeight);
-
-    // TODO: Switch once GD 2.0+ is installed.
-    //ImageCopyResampled($newImage, $image, $horiz_offset, $vert_offset, 0, 0, $dest_width, $dest_height, $origWidth, $origHeight);
-    ImageCopyResized($newImage, $image, $horiz_offset, $vert_offset, 0, 0, $dest_width, $dest_height, $origWidth, $origHeight);
+    ImageCopyResampled($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
 
     return $newImage;
 }
@@ -334,6 +312,132 @@ Your profile was successfully entered into our database.<br><br>
 ";
 
     page_tail();
+}
+
+// Builds a summary table of user profiles, writing it to $descriptor if it is
+// available, or echoing if it is not.
+//
+//   $members is an array of userIDs;
+//   $offset indicates which entry to begin the table with
+//   $numToDisplay indicates how many profiles to display in this table
+//   $cols indicates how many profile summaries should be written per row
+//   $descriptor is an optional file descriptor to write the table to.
+
+function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null, $pathMod=null) {
+
+  // TODO: Would be nice if we could open a stream to stdout to avoid
+  // all the redundant $descriptor checks.  Once the server is running
+  // PHP 5+, might want to try switching over to fprintf(...).
+    
+  if ($descriptor) {
+    fwrite($descriptor, "<table border=1 cellpadding=5>\n");
+  } else {
+    echo "<table border=1 cellpadding=5>";
+  }
+  
+  $rows = ceil($numToDisplay / $cols);
+  $count = $offset;
+  $numMembers = count($members);
+  
+  for ($row = 0; $row < $rows; $row++) {
+    if ($count >= $numMembers) {
+      break;
+    }
+    
+    if ($descriptor) {
+      fwrite($descriptor, "<tr>\n"); 
+    } else {
+      echo "<tr>";
+    }
+    
+    // Formatting is a table with two columns of user summaries.
+    for ($col = 0; $col < $cols; $col++) {
+      if ($count < $numMembers) {
+	if ($descriptor) {
+	  fwrite($descriptor, "<td width=7% height=64><center>");
+	} else {
+	  echo "<td width=7% height=64><center>";
+	}
+	
+	// Only link an image if one exists.
+	if (file_exists($pathMod . IMAGE_PATH . $members[$count] . '_sm.jpg')) {
+	  if ($descriptor) {
+	    fwrite($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
+	  } else {
+	    echo "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>";
+	  }
+	  
+	} else {
+	  if ($descriptor) {
+	    fwrite($descriptor, "&nbsp;");
+	  } else {
+	    echo "&nbsp;";
+	  }
+	}
+	if ($descriptor) {
+	  fwrite($descriptor, "</center></td><td width=33% height=64>");
+	  fwrite($descriptor, get_profile_summary($members[$count]));
+	  fwrite($descriptor, "</td>");
+	} else {
+	  echo "</center></td><td width=33% height=64>\n", get_profile_summary($members[$count]), "</td>";
+	}
+	
+	$count++;
+      }
+      else {
+	// Empty entry
+	if ($descriptor) {
+	  fwrite($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
+	} else {
+	  echo "<td width=7% height=64></td><td width=33% height=64></td>";
+	}
+      }
+    }
+    if ($descriptor) {
+      fwrite($descriptor, "</tr>\n");
+    } else {
+      echo "</tr>";
+    }
+  }
+  if ($descriptor) {
+    fwrite($descriptor, "</table>\n");
+  } else {
+    echo "</table>";
+  }
+}
+
+// Generates a string containing: 
+//   1) the name of the user with ID == $userid, with a link to a view of their profile; 
+//   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
+
+function get_profile_summary($userid) {
+  $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
+  $result2 = mysql_query("SELECT name FROM user WHERE id = $userid");
+
+  if (!$result || !$result2) {
+    echo "Database error!";  // Change this to a standard error page.
+    exit();
+  }
+
+  $row = mysql_fetch_assoc($result);  
+  $row2 = mysql_fetch_assoc($result2);
+
+  mysql_free_result($result);
+  mysql_free_result($result2);
+
+  $description = "";
+
+  if (strlen($row['response1']) != 0) {
+  
+    $description = "(\"" . substr($row['response1'], 0, MAX_DESC_LENGTH);
+    if (strlen($row['response1']) >= MAX_DESC_LENGTH) {
+      $description = $description . "...";
+    }
+    $description = $description . "\")";
+  }
+
+  $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $userid . "\">" . $row2['name'] . "</a> " . $description;
+  return $summary;
 }
 
 ?>
