@@ -22,6 +22,7 @@ libsched_a_SOURCES =				\
         sched_shmem.C				\
         sched_util.C				\
         config.C				\
+	sched_messages.C			\
 	../db/boinc_db.C			\
         ../lib/util.C				\
         ../lib/crypt.C				\
@@ -29,6 +30,7 @@ libsched_a_SOURCES =				\
         ../lib/shmem.C				\
         ../lib/md5.c				\
         ../lib/md5_file.C			\
+	../lib/messages.C			\
 	config.h				\
 	sched_shmem.h				\
 	sched_util.h

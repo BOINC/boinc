@@ -190,6 +190,7 @@ libsched_a_SOURCES = \
         sched_shmem.C				\
         sched_util.C				\
         config.C				\
+	sched_messages.C			\
 	../db/boinc_db.C			\
         ../lib/util.C				\
         ../lib/crypt.C				\
@@ -197,6 +198,7 @@ libsched_a_SOURCES = \
         ../lib/shmem.C				\
         ../lib/md5.c				\
         ../lib/md5_file.C			\
+	../lib/messages.C			\
 	config.h				\
 	sched_shmem.h				\
 	sched_util.h
@@ -276,9 +278,9 @@ LIBRARIES = $(noinst_LIBRARIES)
 libsched_a_AR = $(AR) cru
 libsched_a_LIBADD =
 am_libsched_a_OBJECTS = sched_shmem.$(OBJEXT) sched_util.$(OBJEXT) \
-	config.$(OBJEXT) boinc_db.$(OBJEXT) util.$(OBJEXT) \
-	crypt.$(OBJEXT) parse.$(OBJEXT) shmem.$(OBJEXT) md5.$(OBJEXT) \
-	md5_file.$(OBJEXT)
+	config.$(OBJEXT) sched_messages.$(OBJEXT) boinc_db.$(OBJEXT) \
+	util.$(OBJEXT) crypt.$(OBJEXT) parse.$(OBJEXT) shmem.$(OBJEXT) \
+	md5.$(OBJEXT) md5_file.$(OBJEXT) messages.$(OBJEXT)
 libsched_a_OBJECTS = $(am_libsched_a_OBJECTS)
 EXTRA_PROGRAMS = fcgi$(EXEEXT)
 noinst_PROGRAMS = cgi$(EXEEXT) feeder$(EXEEXT) show_shmem$(EXEEXT) \
@@ -365,8 +367,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/file_upload_handler.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/handle_request.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/make_work.Po ./$(DEPDIR)/md5.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/parse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/messages.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sched_messages.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/server_types.Po ./$(DEPDIR)/shmem.Po \
@@ -501,8 +505,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/make_work.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_messages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/server_types.Po@am__quote@
@@ -671,6 +677,28 @@ md5_file.obj: ../lib/md5_file.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/md5_file.Po' tmpdepfile='$(DEPDIR)/md5_file.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'; fi`
+
+messages.o: ../lib/messages.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT messages.o -MD -MP -MF "$(DEPDIR)/messages.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/messages.Tpo" "$(DEPDIR)/messages.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/messages.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='messages.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/messages.Po' tmpdepfile='$(DEPDIR)/messages.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C
+
+messages.obj: ../lib/messages.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT messages.obj -MD -MP -MF "$(DEPDIR)/messages.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/messages.Tpo" "$(DEPDIR)/messages.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/messages.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='messages.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/messages.Po' tmpdepfile='$(DEPDIR)/messages.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'; fi`
 
 fcgi-handle_request.o: handle_request.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-handle_request.o -MD -MP -MF "$(DEPDIR)/fcgi-handle_request.Tpo" \
