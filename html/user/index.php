@@ -22,12 +22,12 @@
 <li><a href=".URL_BASE."home.php>User page</a> - view stats, modify preferences
 <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
 <li><a href=".URL_BASE."download.php>Download BOINC</a>
-<li><a href=".URL_BASE."bug_report_form.php>Report problems</a>
 </ul>
 <h3>Community</h3>
 <ul>
 <li><a href=".URL_BASE."profile_menu.php>User profiles</a>
 <li><a href=".URL_BASE."forum/>Forum</a>
+<li><a href=".URL_BASE."forum/help_desk.php>Help Desk / FAQ</a>
 </ul>
 <h3>Project totals and leader boards</h3>
 <ul>
