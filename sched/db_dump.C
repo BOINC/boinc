@@ -380,7 +380,7 @@ void host_id() {
 
 void core_versions() {
     ZFILE f;
-    f.open("core_versions.xml");
+    f.open("core_versions.xml", false);
     if (!f) return;
     fprintf(f, "<core_versions>\n");
 
@@ -407,7 +407,7 @@ int tables_file() {
     DB_TEAM team;
     DB_HOST host;
     ZFILE f;
-    f.open("tables.xml");
+    f.open("tables.xml", false);
     if (!f) return -1;
     retval = user.count(nusers);
     if (retval) return retval;
