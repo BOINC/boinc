@@ -15248,3 +15248,38 @@ Brian  14 July 2004
 Rom    July 15 2004
     - Tag for 4.00 release, all platforms
       boinc_release_4_00
+
+David
+    - server: better messages on DB errors
+    - web: cache system looks for "format=xml" in cache args,
+        sends as MIME type XML if so
+    - added CGI interface to get user stats as XML
+    - top_*.php: forgot to exit() in case of too-large offset
+    - xml_escape(): change \n to space
+    - db_dump: error checking; add fields to team output;
+        only output items with nonzero total_credit
+    - scheduler: we were doing an optimization of not opening the DB
+        in case there's no work and client not returning results.
+        Don't do this if this is initial request from host
+        (otherwise it won't get hostid, and will detach project)
+    - add "enforce_delay_bound" to SCHED_CONFIG
+        (NOTE TO PROJECTS: unless you pub <enforce_delay_bound/>
+        in your config.xml, the scheduler will send results
+        to hosts that are too slow to complete them within delay bound.)
+
+    db/
+        db_base.C
+    html/
+        inc/
+            cache.inc
+        user/
+            account_created.php
+            download.php
+            show_user.php
+            top_*.php
+    lib/
+        parse.C,h
+    sched/
+        db_dump.C
+        handle_request.C
+        sched_config.C,h

@@ -42,6 +42,7 @@ public:
     bool non_cpu_intensive;
     bool homogeneous_redundancy;
     bool ignore_upload_certificates;
+    bool enforce_delay_bound;
     int daily_result_quota;     // max results per host per day
 
     int parse(char*);

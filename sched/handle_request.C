@@ -829,11 +829,13 @@ void process_request(
     }
 
     // if there's no work, and client isn't returning results,
+    // this isn't an initial RPC,
     // and client is requesting work, return without accessing DB
     //
     if ((sreq.work_req_seconds > 0)
         && ss.no_work()
         && (sreq.results.size() == 0)
+        && (sreq.hostid != 0)
     ) {
         strcat(reply.message, "No work available");
         strcpy(reply.message_priority, "low");

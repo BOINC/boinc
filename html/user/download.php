@@ -36,7 +36,10 @@ require_once("../inc/download.inc");
         <p>
         If your computer is not one of the above types,
         you can
-        <a href=http://boinc.berkeley.edu/anonymous_platform.php>download and compile the BOINC software yourself</a>.
+        <ul>
+        <li> <a href=http://boinc.berkeley.edu/anonymous_platform.php>download and compile the BOINC software yourself</a> or
+        <li> <a href=download_other.php>download from a third-party site</a>.
+        </ul>
         <p>
         BOINC can be customized for
         <a href=http://boinc.berkeley.edu/language.php>languages other than English</a>

@@ -30,7 +30,7 @@ int DB_CONN::do_query(char* p) {
     int retval;
     retval = mysql_query(mysql, p);
     if (retval) {
-        fprintf(stderr, "Database error: query=%s\n", p);
+        fprintf(stderr, "Database error: %s\nquery=%s\n", error_string(), p);
     }
     return retval;
 }
@@ -53,11 +53,7 @@ int DB_CONN::insert_id() {
 }
 
 void DB_CONN::print_error(char* p) {
-    if (mysql) {
-        fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mysql));
-    } else {
-        fprintf(stderr, "%s: Database error\n", p);
-    }
+    fprintf(stderr, "%s: Database error: %s\n", p, error_string());
 }
 
 const char* DB_CONN::error_string() {
@@ -167,6 +163,10 @@ int DB_BASE::enumerate(char* clause) {
 
         x = db->do_query(query);
         if (x) return mysql_errno(db->mysql);
+
+        // can't use mysql_use_results() here; if you do,
+        // any other transactions will fail
+        //
         cursor.rp = mysql_store_result(db->mysql);
         if (!cursor.rp) return mysql_errno(db->mysql);
     }

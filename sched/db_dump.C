@@ -204,15 +204,12 @@ protected:
     int compression;
 public:
     FILE* f;
-    ZFILE(string tag_, int comp)
-        : tag(tag_), compression(comp), f(0)
-    {printf("zfile const comp %d\n", compression);}
+    ZFILE(string tag_, int comp): tag(tag_), compression(comp), f(0) {}
     ~ZFILE() { close(); }
 
     void open(const char* filename) {
         close();
 
-        printf("opening %s\n", filename);
         f = fopen(filename, "w");
         if (!f) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "db_dump: Couldn't open %s for output\n", filename);
@@ -234,16 +231,13 @@ public:
         if (f) {
             fprintf(f, "</%s>\n", tag.c_str());
             fclose(f);
-            printf("close compression: %d\n", compression);
             switch(compression) {
             case COMPRESSION_ZIP:
                 sprintf(buf, "zip -q %s", current_path);
-                printf("system: %s\n", buf);
                 system(buf);
                 break;
             case COMPRESSION_GZIP:
                 sprintf(buf, "gzip -fq %s", current_path);
-                printf("system: %s\n", buf);
                 system(buf);
                 break;
             }
@@ -278,6 +272,7 @@ void NUMBERED_ZFILE::set_id(int id) {
     }
 }
 
+#if 0
 void string_replace(string& str, string& old, string& newstr) {
     string::size_type oldlen = old.size();
     string::size_type newlen = newstr.size();
@@ -309,8 +304,11 @@ void xml_escape(char* in, string& out) {
     string_replace(out, x4, y4);
     string_replace(out, x5, y5);
 }
+#endif
 
 void write_host(HOST& host, FILE* f, bool detail) {
+    int retval;
+
     fprintf(f,
         "<host>\n"
         "    <id>%d</id>\n",
@@ -318,7 +316,11 @@ void write_host(HOST& host, FILE* f, bool detail) {
     );
     if (detail) {
         DB_USER user;
-        user.lookup_id(host.userid);
+        retval = user.lookup_id(host.userid);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "user lookup: %d\n", retval);
+            exit(1);
+        }
         if (user.show_hosts) {
             fprintf(f,
                 "    <userid>%d</userid>\n",
@@ -444,8 +446,9 @@ void write_user(USER& user, FILE* f, bool detail) {
 void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
     char buf[256];
-
     string name;
+    string url, name_html, description;
+
     xml_escape(team.name, name);
 
     fprintf(f,
@@ -463,39 +466,37 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         team.expavg_time,
         team.nusers
     );
+
+    fprintf(f,
+        " <create_time>%d</create_time>\n",
+        team.create_time
+    );
+    if (strlen(team.url)) {
+        xml_escape(team.url, url);
+        fprintf(f,
+            " <url>%s</url>\n",
+            url.c_str()
+        );
+    }
+    if (strlen(team.name_html)) {
+        xml_escape(team.name_html, name_html);
+        fprintf(f,
+            "<name_html>%s</name_html>\n",
+            name_html.c_str()
+        );
+    }
+    if (strlen(team.description)) {
+        xml_escape(team.description, description);
+        fprintf(f,
+            "<description>%s</description>\n",
+            description.c_str()
+        );
+    }
+    fprintf(f,
+        " <country>%s</country>\n",
+        team.country
+    );
     if (detail) {
-        string url, name_html, description;
-
-
-        fprintf(f,
-            " <create_time>%d</create_time>\n",
-            team.create_time
-        );
-        if (strlen(team.url)) {
-            xml_escape(team.url, url);
-            fprintf(f,
-                " <url>%s</url>\n",
-                url.c_str()
-            );
-        }
-        if (strlen(team.name_html)) {
-            xml_escape(team.name_html, name_html);
-            fprintf(f,
-                "<name_html>%s</name_html>\n",
-                name_html.c_str()
-            );
-        }
-        if (strlen(team.description)) {
-            xml_escape(team.description, description);
-            fprintf(f,
-                "<description>%s</description>\n",
-                description.c_str()
-            );
-        }
-        fprintf(f,
-            " <country>%s</country>\n",
-            team.country
-        );
         sprintf(buf, "where teamid=%d", team.id);
         while (!user.enumerate(buf)) {
             write_user(user, f, false);
@@ -635,7 +636,6 @@ int ENUMERATION::make_it_happen(char* output_dir) {
 
     for (i=0; i<outputs.size(); i++) {
         OUTPUT& out = outputs[i];
-        printf("out comp %d\n", out.compression);
         if (out.recs_per_file) {
             out.nzfile = new NUMBERED_ZFILE(
                 tag_name[table], out.compression, path, out.recs_per_file
@@ -647,19 +647,19 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     }
     switch(sort) {
     case SORT_ID:
-        strcpy(clause, "order by id");
+        strcpy(clause, "where total_credit > 0 order by id");
         break;
     case SORT_TOTAL_CREDIT:
-        strcpy(clause, "order by total_credit desc");
+        strcpy(clause, "where total_credit > 0 order by total_credit desc");
         break;
     case SORT_EXPAVG_CREDIT:
-        strcpy(clause, "order by expavg_credit desc");
+        strcpy(clause, "where total_credit > 0 order by expavg_credit desc");
         break;
     }
     switch(table) {
     case TABLE_USER:
         n = 0;
-        while(!user.enumerate(clause)) {
+        while (!user.enumerate(clause)) {
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -723,6 +723,7 @@ int main(int argc, char** argv) {
     check_stop_daemons();
     setbuf(stderr, 0);
 
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "db_dump starting\n");
     strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dump_spec")) {
@@ -783,4 +784,5 @@ int main(int argc, char** argv) {
         spec.final_output_dir, spec.output_dir, spec.final_output_dir
     );
     system(buf);
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "db_dump finished\n");
 }

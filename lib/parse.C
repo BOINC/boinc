@@ -271,10 +271,17 @@ void xml_escape(string& in, string& out) {
 			out += "&lt;";
 		} else if (in[i] == '&') {
 			out += "&amp;";
+		} else if (in[i] == '\n') {
+            out += " ";
 		} else {
 			out += in[i];
 		}
 	}
+}
+
+void xml_escape(char* in, string& out) {
+    string foo = in;
+    xml_escape(foo, out);
 }
 
 void xml_unescape(string& in, string& out) {
@@ -292,4 +299,3 @@ void xml_unescape(string& in, string& out) {
 		 }
 	 }
 }
-

@@ -18,6 +18,7 @@
         page_head("Limit exceeded");
         echo "Sorry - first 1000 only.";
         page_tail();
+        exit();
     }
 
     require_once("../inc/db.inc");

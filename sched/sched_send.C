@@ -167,16 +167,18 @@ bool wu_is_feasible(
         return false;
     }
 
-    double wu_wallclock_time = estimate_wallclock_duration(wu, host, resource_share_fraction);
-    int host_remaining_time = 0; // TODO
+    if (config.enforce_delay_bound) {
+        double wu_wallclock_time = estimate_wallclock_duration(wu, host, resource_share_fraction);
+        int host_remaining_time = 0; // TODO
 
-    if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "[WU#%d %s] needs requires %d seconds on [HOST#%d]; delay_bound is %d\n",
-            wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound
-        );
-        wreq.insufficient_speed = true;
-        return false;
+        if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG, "[WU#%d %s] needs requires %d seconds on [HOST#%d]; delay_bound is %d\n",
+                wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound
+            );
+            wreq.insufficient_speed = true;
+            return false;
+        }
     }
 
     return true;

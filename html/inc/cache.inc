@@ -24,6 +24,9 @@ function start_cache($max_age, $params=""){
    } else {
        // Otherwise serve the cached version and exit
        //
+       if (strstr($params, "format=xml")) {
+           header('Content-type: text/xml');
+       }
        readfile($path);
        exit;
    }
