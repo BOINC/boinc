@@ -537,9 +537,8 @@ int CLIENT_STATE::handle_scheduler_reply(
         need_to_install_prefs = true;
     }
 
-    // insert the project's deletion policy
-    if(sr.deletion_policy_priority) project->deletion_policy_priority = true;
-    if(sr.deletion_policy_expire) project->deletion_policy_expire = true;
+    if (sr.deletion_policy_priority) project->deletion_policy_priority = true;
+    if (sr.deletion_policy_expire) project->deletion_policy_expire = true;
 
 
     // if the scheduler reply includes global preferences,
@@ -643,7 +642,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     FILE_INFO* fip;
     for (i=0; i<sr.file_infos.size(); i++) {
         fip = lookup_file_info(project, sr.file_infos[i].name);
-        if(fip) {
+        if (fip) {
             fip->merge_info(sr.file_infos[i]);
         } else {
             fip = new FILE_INFO;
@@ -655,7 +654,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     for (i=0; i<sr.file_deletes.size(); i++) {
         fip = lookup_file_info(project, sr.file_deletes[i].text);
-        if(fip) {
+        if (fip) {
             msg_printf(project, MSG_INFO, "Deleting file: %s\n", fip->name);
             fip->sticky = false;
         }

@@ -272,26 +272,23 @@ bool PERS_FILE_XFER::poll(time_t now) {
 // urls until a good transfer is made or it completely gives up.
 //
 void PERS_FILE_XFER::check_giveup(char* why) {
-    if(fip->get_next_url(fip->upload_when_present) == NULL) {
+    if (fip->get_next_url(fip->upload_when_present) == NULL) {
         // the file has no appropriate download location
         // remove the file from the directory and delete the file xfer object
         gstate.file_xfers->remove(fxp);
         delete fxp;
         fxp = NULL;
-        // apply the correct error code
         if (is_upload) {
-                fip->status = ERR_GIVEUP_UPLOAD;
+            fip->status = ERR_GIVEUP_UPLOAD;
         } else {
-                fip->status = ERR_GIVEUP_DOWNLOAD;
+            fip->status = ERR_GIVEUP_DOWNLOAD;
         }
-        // end the xfer so it will be deleted
         xfer_done = true;
         msg_printf(
             fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
             is_upload?"upload":"download", fip->name, why
         );
         fip->error_msg = why;
-        // delete the associated file in the project directory
         fip->delete_file();
     } else {
         if (is_upload) {

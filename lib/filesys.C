@@ -103,7 +103,7 @@ DIRREF dir_open(const char* p) {
     if (!dirp) return NULL;
 #endif
 #ifdef _WIN32
-    if(!is_dir(p)) return NULL;
+    if (!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
     safe_strcpy(dirp->path, p);
@@ -181,7 +181,7 @@ DirScanner::DirScanner(string const& path) {
 #ifdef _WIN32
     first = true;
     handle = INVALID_HANDLE_VALUE;
-    if(!is_dir((char*)path.c_str())) {
+    if (!is_dir((char*)path.c_str())) {
         return;
     }
     dir = path + "\\*";
@@ -392,7 +392,7 @@ bool boinc_file_exists(const char* path) {
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32
-	if(CopyFile(orig, newf, FALSE)) {
+	if (CopyFile(orig, newf, FALSE)) {
 		return 0;
     } else {
 		return GetLastError();
@@ -504,7 +504,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
 	FreeFn pGetDiskFreeSpaceEx;
 	pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"),
                                                  "GetDiskFreeSpaceExA");
-	if(pGetDiskFreeSpaceEx) {
+	if (pGetDiskFreeSpaceEx) {
 		ULARGE_INTEGER TotalNumberOfFreeBytes;
 		ULARGE_INTEGER TotalNumberOfBytes;
 		ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;

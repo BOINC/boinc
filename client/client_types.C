@@ -185,18 +185,8 @@ int PROJECT::parse_preferences_for_user_files() {
             fip = new FILE_INFO;
             fip->urls.push_back(url_str);
             strcpy(fip->name, filename.c_str());
-            if(associate_file(fip)) {
-                fip->is_user_file = true;
-                gstate.file_infos.push_back(fip);
-            } else {
-                msg_printf(NULL, MSG_INFO,
-                    "There is not enough disk space to attach file %s to %s. "
-                    "Please increase data share or wait for workunits from "
-                    "other projects to complete before requesting more work.",
-                    fip->name, 
-                    project_name
-                ); 
-            }
+            fip->is_user_file = true;
+            gstate.file_infos.push_back(fip);
         }
 
         fr.file_info = fip;
@@ -493,18 +483,21 @@ char* PROJECT::get_project_name() {
     }
 }
 
+// comment?  what does this do?
+// Does it do a lot of disk access to do it??
+//
 bool PROJECT::associate_file(FILE_INFO* fip) {
     return 0;
 #if 0
     double space_made = 0;
-    if(gstate.get_more_disk_space(this, fip->nbytes)) {
+    if (gstate.get_more_disk_space(this, fip->nbytes)) {
         size += fip->nbytes;
         return true;
     }
     gstate.calc_proj_size(this);
     gstate.anything_free(space_made);
     space_made += gstate.select_delete(this, fip->nbytes - space_made, P_HIGH);
-    if(space_made > fip->nbytes) {
+    if (space_made > fip->nbytes) {
         size += fip->nbytes;
         return true;
     } else {
@@ -804,10 +797,10 @@ char* FILE_INFO::get_init_url(bool is_upload) {
     current_url = (int)temp;
     start_url = current_url;
     while(1) {
-        if(!is_correct_url_type(is_upload, urls[current_url])) {
+        if (!is_correct_url_type(is_upload, urls[current_url])) {
             current_url = (current_url + 1)%urls.size();
             if (current_url == start_url) {
-                msg_printf(project, MSG_ERROR, "Couldn't find suitable url for %s\n", name);
+                msg_printf(project, MSG_ERROR, "Couldn't find suitable URL for %s\n", name);
                 return NULL;
             }
         } else {
@@ -826,7 +819,7 @@ char* FILE_INFO::get_next_url(bool is_upload) {
         if (current_url == start_url) {
             return NULL;
         }
-        if(is_correct_url_type(is_upload, urls[current_url])) {
+        if (is_correct_url_type(is_upload, urls[current_url])) {
             return urls[current_url].text;
         }
     }
@@ -843,8 +836,8 @@ char* FILE_INFO::get_current_url(bool is_upload) {
 // The inclusion of this phrase indicates the url is an upload url
 // 
 bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
-    if(is_upload && !strstr(url.text, "file_upload_handler") ||
-        !is_upload && strstr(url.text, "file_upload_handler")) {
+    char* has_str = strstr(url.text, "file_upload_handler");
+    if ((is_upload && !has_str) || (!is_upload && has_str)) {
         return false;
     } else {
         return true;
@@ -859,28 +852,30 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     char buf[256];
     bool has_url;
     unsigned int i, j;
+
     upload_when_present = new_info.upload_when_present;
-    // check to see if the file has an upgraded priority
-    if(new_info.priority > priority) {
+
+    if (new_info.priority > priority) {
         priority = new_info.priority;
     }
-    // or longer time to expire
-    if(new_info.exp_date > exp_date) {
+
+    if (new_info.exp_date > exp_date) {
         exp_date = new_info.exp_date;
     }
-    if(max_nbytes <= 0 && new_info.max_nbytes) {
+    if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
         sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
         strcat(signed_xml, buf);
     }
-    for(i = 0; i < new_info.urls.size(); i++) {
+    for (i=0; i<new_info.urls.size(); i++) {
         has_url = false;
-        for(j = 0; j < urls.size(); j++) {
-            if(!strcmp(urls[j].text, new_info.urls[i].text)) {
+        for (j=0; j<urls.size(); j++) {
+            if (!strcmp(urls[j].text, new_info.urls[i].text)) {
                 has_url = true;
+                break;
             }
         }
-        if(!has_url) {
+        if (!has_url) {
             urls.push_back(new_info.urls[i]);
         }
     }
@@ -1311,8 +1306,8 @@ void RESULT::get_app_version_string(string& str) {
 }
 
 // resets all FILE_INFO's in result to uploaded = false 
-// if upload_when_present is true. Also updates the last time
-// the files associated with the result were used
+// if upload_when_present is true.
+// Also updates the last time the input files were used
 
 void RESULT::reset_files() {
     unsigned int i;
@@ -1320,12 +1315,12 @@ void RESULT::reset_files() {
 
     for (i=0; i<output_files.size(); i++) {
         fip = output_files[i].file_info;
-        if(fip->upload_when_present) {
+        if (fip->upload_when_present) {
             fip->uploaded = false;
         }
         fip->update_time();
     }
-    for(i=0; i < wup->input_files.size(); i++) {
+    for (i=0; i < wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
         fip->update_time();
     }

@@ -299,7 +299,6 @@ HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
-////	proxy_auth_done = false;
 }
 
 HTTP_OP::~HTTP_OP() {
@@ -310,9 +309,6 @@ HTTP_OP::~HTTP_OP() {
 int HTTP_OP::init_head(const char* url) {
     char proxy_buf[256];
     parse_url(url, url_hostname, port, filename);
-////    if(!proxy_auth_done){
-////        parse_url(url, url_hostname, port, filename);
-////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     http_op_type = HTTP_OP_HEAD;
@@ -322,13 +318,11 @@ int HTTP_OP::init_head(const char* url) {
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-//    http_head_request_header(request_header, url_hostname, port, proxy_buf);
-////    if(!proxy_auth_done){
-    if(!pi.use_http_auth){
+    if (!pi.use_http_auth){
         http_head_request_header(
             request_header, url_hostname, port, proxy_buf
         );
- 	}else{
+ 	} else {
   		char	id_passwd[512];
   		string	encstr = "";
   		memset(id_passwd,0,sizeof(id_passwd));
@@ -353,9 +347,6 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     }
     file_offset = off;
     parse_url(url, url_hostname, port, filename);
-////    if(!proxy_auth_done){
-////        parse_url(url, url_hostname, port, filename);
-////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(outfile, out);
@@ -369,11 +360,9 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-//    http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
-////    if(!proxy_auth_done){
-	if(!pi.use_http_auth){
+	if (!pi.use_http_auth){
         http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
- 	}else{
+ 	} else {
   		char	id_passwd[512];
   		string	encstr = "";
   		memset(id_passwd,0,sizeof(id_passwd));

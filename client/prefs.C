@@ -111,7 +111,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
                     continue;
                 }
             } else {
-                if(!in_correct_venue) continue;
+                if (!in_correct_venue) continue;
             }
         } else {
             if (match_tag(buf, "<venue")) {

@@ -343,8 +343,8 @@ void strip_whitespace(string& str) {
 void unescape_url(char *url) {
     register int x,y;
 
-    for(x=0,y=0;url[y];++x,++y) {
-        if((url[x] = url[y]) == '%') {
+    for (x=0,y=0;url[y];++x,++y) {
+        if ((url[x] = url[y]) == '%') {
             url[x] = x2c(&url[y+1]);
             y+=2;
         }

@@ -16248,3 +16248,20 @@ Rom    11 Aug 2004
         ResourceUtilizationView.cpp, .h
         TransfersView.cpp, .h
         WorkView.cpp
+
+David  12 Aug 2004
+	- removed call to associate_file() for user files.
+	- fixed some code formatting, and comments of the form
+		foo();		// call foo
+
+	client/
+		client_types.C
+		cs_apps.C
+		cs_prefs.C
+		cs_scheduler.C
+		http.C
+		pers_file_xfer.C
+		prefs.C
+	lib/
+		filesys.C
+		util.C
