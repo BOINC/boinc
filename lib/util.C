@@ -692,7 +692,6 @@ static void get_elapsed_time(double& cpu) {
     // TODO: Handle timer wraparound
     DWORD cur = GetTickCount();
     cpu = ((cur - first_count)/1000.);
-    ws = 0;
 }
 
 int boinc_calling_thread_cpu_time(double& cpu) {

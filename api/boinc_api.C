@@ -349,8 +349,9 @@ int boinc_wu_cpu_time(double& cpu_t) {
 
 int boinc_worker_thread_cpu_time(double& cpu) {
     if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
-        return nrunning_ticks * TIMER_PERIOD;   // for Win9x
+        cpu = nrunning_ticks * timer_period;   // for Win9x
     }
+    return 0;
 }
 
 #else
@@ -490,7 +491,7 @@ static void worker_timer(int a) {
 #ifdef _WIN32
     // poor man's CPU time accounting for Win9x
     //
-    if (!boinc_options.suspended) {
+    if (!boinc_status.suspended) {
         nrunning_ticks++;
     }
 #endif
@@ -644,8 +645,8 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
         );
 
         // return value is in bytes, we need to return kb
-        vm_kb = lpMinimumWorkingSetSize / 1024;
-        rs_kb = lpMaximumWorkingSetSize / 1024;
+        vm_kb = (unsigned long) (lpMinimumWorkingSetSize / 1024);
+        rs_kb = (unsigned long) (lpMaximumWorkingSetSize / 1024);
     } else {
         return ERR_NOT_IMPLEMENTED;
     }
