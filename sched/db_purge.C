@@ -449,10 +449,6 @@ bool do_pass() {
         if (max_wu_per_file && wu_stored_in_file>=max_wu_per_file) {
             close_all_archives();
             wu_stored_in_file=0;
-        } else {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "Currently open archive file contains %d workunits\n",
-            wu_stored_in_file);
         }
 
         if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)
@@ -464,6 +460,12 @@ bool do_pass() {
         "Archived %d workunits and %d results\n",
         do_pass_purged_workunits,do_pass_purged_results
     );
+
+    if (wu_stored_in_file>0) {
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "Currently open archive files contain %d workunits\n",
+            wu_stored_in_file);
+    }
 
     return did_something;
 }
