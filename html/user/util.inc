@@ -137,11 +137,11 @@ function page_head($title, $user=null, $fd=null, $styleSheet=null) {
 }
 
 function page_tail($fd=null) {
-    write_fd($fd, "<br><hr><center><a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n");
+    write_fd($fd, "<br><hr noshade size=1><center><a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n");
 
     // put your copyright notice etc. here
 
-    write_fd($fd, "<br><br>Copyright &copy; 2003 ".PROJECT."</center>\n</body>\n</html>");
+    write_fd($fd, "<br><br>Copyright &copy; 2003 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>");
 }
 
 function db_error_page() {

@@ -1,5 +1,6 @@
 <?php
 
+    include_once("db.inc");
     include_once("util.inc");
 
     $email_addr = $_GET["email_addr"];

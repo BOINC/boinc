@@ -10,7 +10,7 @@
     //$user = get_logged_in_user(false);
     //page_head("Home page", $user);
 
-    page_head("Home page");
+    page_head(PROJECT);
 
     project_intro();
 
@@ -35,7 +35,8 @@
 <li><a href=".URL_BASE."forum/>Forum</a>
 <li><a href=".URL_BASE."forum/help_desk.php>Help Desk / FAQ</a>
 </ul>
-<h3>Project totals and leader boards</h3>
+<h3><a href=stats.php>Project totals and leader boards</a></h3>
+<!--  Deprecated
 <ul>
 <li><a href=".URL_BASE."totals.php>Project totals</a>
 <li><a href=".URL_BASE."top_users.php>Top users</a>
@@ -43,6 +44,7 @@
 <li><a href=".URL_BASE."top_teams.php>Top teams</a>
 <li><a href=".URL_BASE."stats.php>XML statistics data</a>
 </ul>
+-->
 <!--
 ";
 

@@ -2,18 +2,24 @@
 require_once('db.inc');
 require_once('util.inc');
 db_init();
-page_head('XML statistics data');
+page_head('Project statistics');
 
 echo "
-    <h2>XML statistics data</h2>
-    Information about teams, users and hosts
-    is available as compressed XML files.
-    <p>
-    The format is described
-    <a href=http://boinc.berkeley.edu/db_dump.php>here</a>.
-    <p>
-    The files are
-    <a href=stats/>here</a>.
+<h2>Project statistics</h2>
+<p>
+<b>Leader boards</b> (information about work done,
+both in total and broken down by user, team, and computer)
+is not directly available on this web site.
+Instead, the raw data is available as compressed XML files.
+The format is described
+<a href=http://boinc.berkeley.edu/db_dump.php>here</a>,
+and the files are
+<a href=stats/>here</a>.
+
+<p>
+This data can be summarized and represented as Web pages.
+An example is
+<a href=http://www.boinc.dk/index.php?page=statistics>here</a>.
 ";
 
 page_tail();
