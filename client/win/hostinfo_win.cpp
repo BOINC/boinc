@@ -24,6 +24,15 @@
 double GetDiskFree();
 double GetDiskSize();
 
+// Returns the number of seconds difference from UTC
+//
+int get_timezone(void) {
+	TIME_ZONE_INFORMATION tzi;
+	ZeroMemory(&tzi, sizeof(TIME_ZONE_INFORMATION));
+	GetTimeZoneInformation(&tzi);
+	return (tzi.Bias * 60);
+}
+
 // Gets windows specific host information (not complete)
 //
 int get_host_info(HOST_INFO& host) {
@@ -94,10 +103,10 @@ int get_host_info(HOST_INFO& host) {
     char Version[ 25 ];
     Version[ 0 ] = NULL;
     sprintf(
-	Version, ": %lu.%lu", OSVersionInfo.dwMajorVersion,
+	Version, "%lu.%lu", OSVersionInfo.dwMajorVersion,
         OSVersionInfo.dwMinorVersion
     );
-    strcat( host.os_name, Version );
+	strcpy( host.os_version, Version );
 
     SYSTEM_INFO SystemInfo;
     memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
@@ -147,13 +156,38 @@ int get_host_info(HOST_INFO& host) {
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
 
+	host.timezone = get_timezone();
+
+	MEMORYSTATUS mStatus;
+	ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
+	mStatus.dwLength = sizeof(MEMORYSTATUS);
+	GlobalMemoryStatus(&mStatus);
+	host.m_nbytes = (double)mStatus.dwTotalPhys;
+	host.m_swap = (double)mStatus.dwTotalPageFile;
+	
+	// gets processor vendor name from registry, works for intel
+	char vendorName[256];
+	HKEY hKey;
+	LONG retval;
+	DWORD nameSize;
+	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
+	if(retval == ERROR_SUCCESS) {
+		nameSize = sizeof(vendorName);
+		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
+		if(retval == ERROR_SUCCESS) {
+			strcpy(host.p_vendor, vendorName);
+		}
+	}
+	RegCloseKey(hKey);
     return 0;
 }
 
 bool host_is_running_on_batteries() {
-	return false;
+	SYSTEM_POWER_STATUS pStatus;
+	ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
+	GetSystemPowerStatus(&pStatus);
+	return (pStatus.ACLineStatus != 1);
 }
-
 
 //////////
 // GetDiskFree
