@@ -100,8 +100,8 @@ double median_mean_credit(vector<RESULT>& results) {
     default:
         double sum = 0;
         for (i=0; results.size(); i++) {
-            if (i == ilow) continue;
-            if (i == ihigh) continue;
+            if (i == (unsigned int) ilow) continue;
+            if (i == (unsigned int) ihigh) continue;
             RESULT& result = results[i];
             if (result.validate_state != VALIDATE_STATE_VALID) continue;
 

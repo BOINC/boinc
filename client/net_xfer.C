@@ -36,32 +36,14 @@
 
 #include <cstdio>
 #include <cmath>
-
-#if HAVE_SYS_TIME_H
 #include <sys/time.h>
-#endif
-#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-#endif
-#if HAVE_SYS_SELECT_H
 #include <sys/select.h>
-#endif
-#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
-#endif
-#if HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
-#endif
-#if HAVE_NETDB_H
 #include <netdb.h>
-#endif
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
-
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <cerrno>

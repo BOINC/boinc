@@ -843,7 +843,7 @@ int main(int argc, char** argv) {
         tmp->tm_mday,
         tmp->tm_mon+1,
         1900+tmp->tm_year,
-        now
+        (int)now
     );
     retval = system(buf);
     if (retval) {

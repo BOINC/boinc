@@ -362,12 +362,12 @@ void strip_whitespace(string& str) {
     }
 }
 
-bool starts_with(char* str, char* prefix) {
+bool starts_with(const char* str, const char* prefix) {
     if (strstr(str, prefix) == str) return true;
     return false;
 }
 
-bool ends_with(char* str, char* suffix) {
+bool ends_with(const char* str, const char* suffix) {
     int nsuff = strlen(suffix);
     int nstr = strlen(str);
 

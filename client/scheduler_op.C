@@ -31,6 +31,7 @@
 #include "util.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #include "client_state.h"
 #include "client_types.h"
@@ -276,7 +277,7 @@ int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     get_master_filename(*project, master_filename);
-    f = fopen(master_filename, "r");
+    f = boinc_fopen(master_filename, "r");
     if (!f) {
         msg_printf(project, MSG_ERROR, "Can't open master file\n");
         return ERR_FOPEN;

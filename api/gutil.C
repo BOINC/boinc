@@ -1030,8 +1030,8 @@ int TEXTURE_DESC::CreateTextureJPG(const char* strFileName) {
 	return 0;
 }
 
-int TEXTURE_DESC::CreateTextureBMP(const char* strFileName) {
 #ifdef _WIN32
+int TEXTURE_DESC::CreateTextureBMP(const char* strFileName) {
 	DIB_BITMAP image;
     if(image.loadBMP(strFileName) == false) {
 		return -1;
@@ -1047,12 +1047,10 @@ int TEXTURE_DESC::CreateTextureBMP(const char* strFileName) {
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = image.get_width();
     ysize = image.get_height();
-#endif
 	return 0;
 }
 
 int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
-#ifdef _WIN32
 	unsigned char* pixels;
     int width, height, retval;
     retval = read_ppm_file(strFileName, width, height, &pixels);
@@ -1065,12 +1063,10 @@ int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = width;
     ysize = height;
-#endif
 	return 0;
 }
 
 int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
-#ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return -1;
 
@@ -1098,9 +1094,9 @@ int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
 		}
 		free(pImage);								// Free the image structure
 	}
-#endif
 	return 0;
 }
+#endif
 
 int TEXTURE_DESC::load_image_file(const char* filename) {
     int retval;
@@ -1114,12 +1110,14 @@ int TEXTURE_DESC::load_image_file(const char* filename) {
     present = true;
 	retval = CreateTextureJPG(filename);
     if (!retval) return 0;
+#ifdef _WIN32
     retval = CreateTexturePPM(filename);
     if (!retval) return 0;
     retval = CreateTextureBMP(filename);
     if (!retval) return 0;
     retval = CreateTextureTGA(filename);
     if (!retval) return 0;
+#endif
 
 done:
     present = false;

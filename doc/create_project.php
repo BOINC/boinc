@@ -60,7 +60,7 @@ Creating a BOINC project
 The components of a BOINC project, and how to create them.
 </font>
 <ul>
-<li> <a href=compile.php>Compile BOINC Software</a>
+<li> <a href=compile.php>Compile BOINC software</a>
 <li> <a href=project_cookbook.php>Project creation cookbook</a>
 <li> <a href=server_components.php>What is a project?</a>
 <li> <a href=database.php>The BOINC database</a>

@@ -27,7 +27,7 @@ the request message and inserts them in the trickle_up table.
 If the 'trickle_down' flag in the configuration is set,
 it scans the database for trickle-down messages for this host
 and includes them in the reply message,
-clearing the 'handled' flag in the DB record.
+setting the 'handled' flag in the DB record.
 
 <p>
 The client parses trickle-down messages

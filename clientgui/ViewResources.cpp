@@ -208,7 +208,7 @@ wxString CViewResources::OnDocGetItemText( long item, long column ) const
 }
 
 
-void CViewResources::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
+void CViewResources::OnTaskLinkClicked( const wxHtmlLinkInfo& /*link*/ )
 {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);

@@ -187,7 +187,7 @@ int PROJECT::parse_account_file() {
     FILE* f;
 
     get_account_filename(master_url, path);
-    f = fopen(path, "r");
+    f = boinc_fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = parse_account(f);
     fclose(f);
@@ -203,7 +203,7 @@ int CLIENT_STATE::parse_account_files() {
     DirScanner dir(".");
     while (dir.scan(name)) {
         if (is_account_file(name.c_str())) {
-            f = fopen(name.c_str(), "r");
+            f = boinc_fopen(name.c_str(), "r");
             if (!f) continue;
             project = new PROJECT;
             retval = project->parse_account(f);
@@ -265,7 +265,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     if (retval) return retval;
 
     get_account_filename(canonical_master_url, path);
-    f = fopen(path, "r");
+    f = boinc_fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = project->parse_account(f);
     fclose(f);

@@ -636,7 +636,7 @@ bool HTTP_OP_SET::poll(double) {
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST:
                     htp->http_op_state = HTTP_STATE_REQUEST_BODY;
-                    htp->file = fopen(htp->infile, "rb");
+                    htp->file = boinc_fopen(htp->infile, "rb");
                     if (!htp->file) {
                         msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): no input file %s\n", htp->infile);
                         htp->io_done = true;
@@ -676,7 +676,7 @@ bool HTTP_OP_SET::poll(double) {
                 htp->http_op_state = HTTP_STATE_REQUEST_BODY;
 
                 if (htp->infile && strlen(htp->infile) > 0) {
-                    htp->file = fopen(htp->infile, "rb");
+                    htp->file = boinc_fopen(htp->infile, "rb");
                     if (!htp->file) {
                         msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): no input2 file %s\n", htp->infile);
                         htp->io_done = true;

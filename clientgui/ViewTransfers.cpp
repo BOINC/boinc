@@ -344,7 +344,6 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
     wxInt32  iAnswer        = 0; 
     wxInt32  iProjectIndex  = 0; 
-    wxInt32  iWebsiteIndex  = 0; 
     wxString strName        = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();

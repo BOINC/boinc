@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
     char file_name[512];
     int i;
     int file_num,nchars,retval;
-    char *mode;
+    const char *mode;
 
     boinc_init();
     fprintf(stderr, "APP: concat: starting, argc %d\n", argc);

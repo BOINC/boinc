@@ -125,7 +125,7 @@ void read_log_flags() {
     FILE* f;
 
     if (boinc_file_exists(LOG_FLAGS_FILE)) {
-        f = fopen(LOG_FLAGS_FILE, "r");
+        f = boinc_fopen(LOG_FLAGS_FILE, "r");
         log_flags.parse(f);
         fclose(f);
     }

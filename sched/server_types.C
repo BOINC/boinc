@@ -347,9 +347,11 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         if (messages.size()>0) {
             // any newlines will break message printing under 4.19 and under!
             // replace them with spaces.
-            char *p=(char *)msg.c_str();
-            while (p && (p=strstr(p, "\n"))) {
-                *p=' ';
+            //
+            while (1) {
+                string::size_type pos = msg.find("\n", 0);
+                if (pos == string::npos) break;
+                msg.replace(pos, 1, " ");
             }
             fprintf(fout,
                 "<message priority=\"%s\">%s</message>\n",

@@ -1299,7 +1299,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::project_attach(char* url, char* auth) {
+int RPC_CLIENT::project_attach(const char* url, const char* auth) {
     char buf[256];
     RPC rpc(this);
 

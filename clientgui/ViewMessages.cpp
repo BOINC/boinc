@@ -241,8 +241,6 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 
 void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
-    wxInt32 iIndex = -1;
-
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -250,6 +248,7 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     m_bTipsHeaderHidden = false;
 
 #ifndef NOCLIPBOARD
+    wxInt32 iIndex = -1;
     if ( link.GetHref() == LINK_TASKCOPYALL )
     {
         wxInt32 iRowCount = 0;

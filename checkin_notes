@@ -25797,3 +25797,34 @@ Rom    10 Mar 2005 ( On behalf of Komori H. )
     clientgui/
         MainFrame.cpp
         BOINCTaskCtrl.cpp
+
+David  10 Mar 2005
+    - core client: replace fopen() with boinc_fopen() in several places.
+        This could solve problems where some
+        other program (backup, virus check) is scanning files
+    - fix compile warnings
+
+    api/
+        gutil.C
+    apps/
+        concat.C
+    client/
+        cs_account.C
+        http.C
+        log_flags.C
+        next_xfer.C
+        scheduler_op.C
+    clientgui/
+        ViewMessages.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+    doc/
+        manager.php (new)
+        menubar.php (new)
+    lib/
+        gui_rpc_client.C,h
+        util.C,h
+    sched/
+        db_dump.C
+        server_types.C
+        validate_util.C

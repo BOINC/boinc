@@ -389,7 +389,7 @@ public:
         DISPLAY_INFO&
     );
     int project_op(PROJECT&, const char* op);
-    int project_attach(char* url, char* auth);
+    int project_attach(const char* url, const char* auth);
     int set_run_mode(int mode);
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
