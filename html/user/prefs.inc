@@ -152,6 +152,9 @@ function element_end_global($parser, $name) {
     case "hangup_if_dialed":
         $parse_result->hangup_if_dialed = true;
         break;
+    case "confirm_executable":
+        $parse_result->confirm_executable = true;
+        break;
     case "work_buf_min_days":
         $parse_result->work_buf_min_days = $text;
         break;
@@ -205,6 +208,7 @@ function default_prefs_global() {
     $p->end_hour = 0;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
+    $p->confirm_executable = false;
     $p->work_buf_min_days = 1;
     $p->work_buf_max_days = 3;
     $p->max_cpus = 2;
@@ -232,6 +236,7 @@ function initialize_prefs_before_parsing_global() {
     $p->run_if_user_active = false;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = false;
+    $p->confirm_executable = false;
     return $p;
 }
 
@@ -285,8 +290,8 @@ function hour_select($x, $name) {
 // display preference subsets
 //
 function prefs_show_global($prefs) {
-    row2("Work if computer on batteries?", $prefs->run_on_batteries?"Yes":"No");
-    row2("Work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
+    row2("Do work if running on batteries?", $prefs->run_on_batteries?"Yes":"No");
+    row2("Do work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
     if (!$prefs->run_if_user_active) {
         row2("Idle time before running", "$prefs->idle_time_to_run minutes");
     }
@@ -299,7 +304,8 @@ function prefs_show_global($prefs) {
     }
     row2("Use my computer only between", $x);
     row2("Confirm before connecting to network?", $prefs->confirm_before_connecting?"Yes":"No");
-    row2("Disconnect when connection complete?", $prefs->hangup_if_dialed?"Yes":"No");
+    row2("Disconnect when done?", $prefs->hangup_if_dialed?"Yes":"No");
+    row2("Confirm before accepting executable?", $prefs->confirm_executable?"Yes":"No");
     row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
     row2("On multiprocessors, use at most", "$prefs->max_cpus processors");
     row2("Write to disk at most every", "$prefs->disk_interval seconds");
@@ -315,7 +321,7 @@ function prefs_show_global($prefs) {
 function prefs_show_resource($prefs) {
     row2(
         "Resource share<br>
-        <font size=-1>If you participate in multiple BOINC projects, this is the proportion of your resources used by ".PROJECT."</font>",
+        <font size=-2>If you participate in multiple BOINC projects, this is the proportion of your resources used by ".PROJECT."</font>",
         $prefs->resource_share
     );
 }
@@ -371,7 +377,7 @@ function print_prefs_display_project($user) {
 function print_prefs_display_global($user) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<font size=+2>General preferences</font><br><font size=-1>These apply to all BOINC projects in which you participate</font><br><br>";
+    echo "<font size=+2>General preferences</font><br><font size=-2>These apply to all BOINC projects in which you participate</font><br><br>";
 
     start_table();
     if ($global_prefs->home || $global_prefs->work || $global_prefs->school) {
@@ -397,8 +403,8 @@ function print_prefs_display($user) {
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs) {
-    $x = "Should ".PROJECT." run while the computer is on battery power?
-        <br><font size=-1>(This matters only for portable computers)</font>
+    $x = "Do work while the computer is on battery power?
+        <br><font size=-2>(matters only for portable computers)</font>
     ";
     $y = "Yes <input type=radio name=run_on_batteries value=yes "
         .($prefs->run_on_batteries?"checked":"")
@@ -408,7 +414,7 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $x = "Should ".PROJECT." run while you're using the computer?";
+    $x = "Do work while you're using the computer?";
     $y = "Yes <input type=radio name=run_if_user_active value=yes "
         .($prefs->run_if_user_active?"checked":"")
         ."> No <input type=radio name=run_if_user_active value=no "
@@ -417,18 +423,18 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $x = "How many minutes should ".PROJECT." wait for you to not use the computer?";
+    $x = "Do work after computer is idle for";
     $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'>
         minutes (applies only if above is No)";
     row2($x, $y);
 
-    $x = "Use my computer only between the hours of
-        <br><font size=-1>(no restriction if same times)</font>";
+    $x = "Do work only between the hours of
+        <br><font size=-2>(no restriction if same times)</font>";
     $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
     row2($x, $y);
 
-    $x = "Should ".PROJECT." ask you before connecting to Internet?
-        <br><font size=-1>(This matters only if you use a modem)</font>
+    $x = "Confirm before connecting to Internet?
+        <br><font size=-2>(matters only if you use a modem)</font>
     ";
     $y = "Yes <input type=radio name=confirm_before_connecting value=yes "
         .($prefs->confirm_before_connecting?"checked":"")
@@ -438,13 +444,24 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $x = "Should ".PROJECT." disconnect when done if it connected?
-        <br><font size=-1>(This matters only if you use a modem)</font>
+    $x = "Disconnect when done?
+        <br><font size=-2>(matters only if you use a modem)</font>
     ";
     $y = "Yes <input type=radio name=hangup_if_dialed value=yes "
         .($prefs->hangup_if_dialed?"checked":"")
         ."> No <input type=radio name=hangup_if_dialed value=no "
         .($prefs->hangup_if_dialed?"":"checked")
+        .">
+    ";
+    row2($x, $y);
+
+    $x = "Confirm before accepting executable file?
+        <br><font size=-2>(currently implemented only on Unix/Linux)</font>
+    ";
+    $y = "Yes <input type=radio name=confirm_executable value=yes "
+        .($prefs->confirm_executable?"checked":"")
+        ."> No <input type=radio name=confirm_executable value=no "
+        .($prefs->confirm_executable?"":"checked")
         .">
     ";
     row2($x, $y);
@@ -506,7 +523,7 @@ function prefs_form_privacy($user) {
 function prefs_form_resource($prefs) {
     row2(
         "<b>Resource share:</b>
-        <font size=-1><br>The proportion of your computer's resources
+        <font size=-2><br>The proportion of your computer's resources
         (processing time and disk space)
         allocated to ".PROJECT."
         relative to the other BOINC projects in which you participate.
@@ -560,6 +577,7 @@ function prefs_global_parse_form(&$prefs) {
     $idle_time_to_run = $_GET["idle_time_to_run"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
+    $confirm_executable = $_GET["confirm_executable"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
     $work_buf_max_days = $_GET["work_buf_max_days"];
     $max_cpus = $_GET["max_cpus"];
@@ -577,6 +595,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->end_hour = $_GET["end_hour"];
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
+    $prefs->confirm_eecutable = ($confirm_eecutable == "yes");
 
     if ($work_buf_min_days<0) $work_buf_min_days = 0;
     if ($work_buf_max_days<0) $work_buf_max_days = 0;
@@ -641,6 +660,9 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     if ($prefs->hangup_if_dialed) {
         $xml = $xml."<hangup_if_dialed/>\n";
+    }
+    if ($prefs->confirm_executable) {
+        $xml = $xml."<confirm_executable/>\n";
     }
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"

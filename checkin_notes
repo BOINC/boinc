@@ -6704,3 +6704,24 @@ Karl 2003/10/11
 
     sched/
         Makefile.am
+
+David  Oct 12 2003
+    - add "Confirm before accept executable" flag to global prefs
+    - Implement said flag in cmdline client:
+        - add "approval_pending" flag to FILE_INFO
+        - don't count a file as present if it has approval pending
+        - set approval pending flag on new exec files if
+            "confirm_executable" is set in global prefs
+
+        TODO: implement in Win GUI; IMPORTANT!!
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        main.C
+        prefs_file_xfer.C
+    html_user/
+        prefs.inc
+        white.css
