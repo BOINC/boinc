@@ -72,7 +72,71 @@ int nrecs_per_file_summary;
 int nrecs_per_file_detail;
 
 bool zip_files = false;
-char zip_cmd[256];
+string zip_cmd;
+
+// class that automatically compresses on close
+class ZFILE {
+protected:
+    FILE* f;
+    string filename;
+    bool zip_file;
+public:
+    ZFILE(bool zip_file_ = zip_files) : f(0), zip_file(zip_file_) {}
+    ~ZFILE() { close(); }
+
+    operator FILE* () { return f; }
+    bool operator ! () { return !f; }
+
+    void open(const char* filename_format, ...)
+    {
+        close();
+        va_list ap;
+        char filename_buf[256];
+        va_start(ap, filename_format);
+        vsprintf(filename_buf, filename_format, ap);
+        va_end(ap);
+
+        filename = filename_buf;
+
+        f = fopen(filename.c_str(), "w");
+        if (!f) {
+            fprintf(stderr, "db_dump: Couldn't open %s for output\n", filename.c_str());
+        }
+    }
+    void close()
+    {
+        if (f) {
+            fclose(f);
+            if (zip_file) {
+                string cmd = zip_cmd + ' ' + filename;
+                system(cmd.c_str());
+            }
+            f = 0;
+        }
+    }
+};
+
+// class that automatically opens a new file every N records
+class NUMBERED_ZFILE : public ZFILE {
+    const char* filename_format;
+    int nrec_max;
+    int nfile, nrec;
+public:
+    NUMBERED_ZFILE(const char* filename_format_, int nrec_max_)
+        : filename_format(filename_format_), nrec_max(nrec_max_), nfile(0), nrec(0)
+    {
+    }
+
+    NUMBERED_ZFILE& operator ++() {
+        if (!f || nrec >= nrec_max) {
+            open(filename_format, nfile);
+            ++nfile;
+            nrec = 0;
+        }
+        ++nrec;
+        return *this;
+    }
+};
 
 void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     fprintf(f,
@@ -235,262 +299,104 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 
 void team_total_credit() {
     DB_TEAM team;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("team_total_credit_%d", nrecs_per_file_summary);
 
     while (!team.enumerate("order by total_credit desc")) {
-        if (!f) {
-            sprintf(buf, "team_total_credit_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_team(team, f, false);
-        nrec++;
-        if (nrec == nrecs_per_file_summary) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_team(team, ++f, false);
     }
 }
 
 void team_expavg_credit() {
     DB_TEAM team;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("team_expavg_credit_%d", nrecs_per_file_summary);
 
     while (!team.enumerate("order by expavg_credit desc")) {
-        if (!f) {
-            sprintf(buf, "team_expavg_credit_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_team(team, f, false);
-        nrec++;
-        if (nrec == nrecs_per_file_summary) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_team(team, ++f, false);
     }
 }
 
 void team_id() {
     DB_TEAM team;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("team_id_%d", nrecs_per_file_detail);
 
     while (!team.enumerate("order by id")) {
-        if (!f) {
-            sprintf(buf, "team_id_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_team(team, f, true);
-        nrec++;
-        if (nrec == nrecs_per_file_detail) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_team(team, ++f, true);
     }
 }
 
 void user_total_credit() {
     DB_USER user;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("user_total_credit_%d", nrecs_per_file_summary);
 
     while (!user.enumerate("order by total_credit desc")) {
-        if (!f) {
-            sprintf(buf, "user_total_credit_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_user(user, f, false, true);
-        nrec++;
-        if (nrec == nrecs_per_file_summary) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_user(user, ++f, false, true);
     }
 }
 
 void user_expavg_credit() {
     DB_USER user;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("user_expavg_credit_%d", nrecs_per_file_summary);
 
     while (!user.enumerate("order by expavg_credit desc")) {
-        if (!f) {
-            sprintf(buf, "user_expavg_credit_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_user(user, f, false, true);
-        nrec++;
-        if (nrec == nrecs_per_file_summary) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_user(user, ++f, false, true);
     }
 }
 
 void user_id() {
     DB_USER user;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("user_id_%d", nrecs_per_file_detail);
 
     while (!user.enumerate("order by id")) {
-        if (!f) {
-            sprintf(buf, "user_id_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_user(user, f, true, true);
-        nrec++;
-        if (nrec == nrecs_per_file_detail) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_user(user, ++f, true, true);
     }
 }
 
 void host_total_credit() {
     DB_HOST host;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("host_total_credit_%d", nrecs_per_file_summary);
 
     while (!host.enumerate("order by total_credit desc")) {
-        if (!f) {
-            sprintf(buf, "host_total_credit_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_host(host, f, false, true);
-        nrec++;
-        if (nrec == nrecs_per_file_summary) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_host(host, ++f, false, true);
     }
 }
 
 void host_expavg_credit() {
     DB_HOST host;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("host_expavg_credit_%d", nrecs_per_file_summary);
 
     while (!host.enumerate("order by expavg_credit desc")) {
-        if (!f) {
-            sprintf(buf, "host_expavg_credit_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_host(host, f, false, true);
-        nrec++;
-        if (nrec == nrecs_per_file_summary) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
-    }
-
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+        write_host(host, ++f, false, true);
     }
 }
 
 void host_id() {
     DB_HOST host;
-    FILE* f = NULL;
-    int nfile=0, nrec=0;
-    char buf[256], cmd_line[256];
+    NUMBERED_ZFILE f("host_id_%d", nrecs_per_file_detail);
 
     while (!host.enumerate("order by id")) {
-        if (!f) {
-            sprintf(buf, "host_id_%d", nfile);
-            sprintf(cmd_line, "%s %s", zip_cmd, buf);
-            f = fopen(buf, "w");
-            nfile++;
-            nrec = 0;
-        }
-        write_host(host, f, true, true);
-        nrec++;
-        if (nrec == nrecs_per_file_detail) {
-            fclose(f);
-            if (zip_files) system(cmd_line);
-            f = 0;
-        }
+        write_host(host, ++f, true, true);
     }
+}
 
-    if (f) {
-        fclose(f);
-        if (zip_files) system(cmd_line);
+void core_versions() {
+    ZFILE f;
+    f.open("core_versions.xml");
+    if (!f) return;
+    fprintf(f, "<core_versions>\n");
+
+    DB_PLATFORM platform;
+    while (!platform.enumerate("order by name")) {
+        DB_CORE_VERSION core_version;
+        char query_buf[256];
+        sprintf(query_buf, "where platformid=%d order by version_num desc");
+        if (!core_version.enumerate(query_buf)) {
+            fprintf(f,
+                    "   <core_version>\n"
+                    "      <platform id=%d>%s</platform>\n"
+                    "      <version>%d</version>\n"
+                    "      <url>%s</url>\n"
+                    "   </core_version>\n");
+        }
     }
 }
 
@@ -500,9 +406,8 @@ int tables_file() {
     DB_USER user;
     DB_TEAM team;
     DB_HOST host;
-    FILE* f = NULL;
-
-    f = fopen("tables.xml", "w");
+    ZFILE f;
+    f.open("tables.xml");
     if (!f) return -1;
     retval = user.count(nusers);
     if (retval) return retval;
@@ -534,7 +439,6 @@ int tables_file() {
         nrecs_per_file_summary,
         nrecs_per_file_detail
     );
-    fclose(f);
     return 0;
 }
 
@@ -548,7 +452,6 @@ int main(int argc, char** argv) {
     nrecs_per_file_summary = DEFAULT_NRECS_PER_FILE_SUMMARY;
     nrecs_per_file_detail = DEFAULT_NRECS_PER_FILE_DETAIL;
     strcpy(dir, "");
-    strcpy(zip_cmd, "");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dir")) {
             strcpy(dir, argv[++i]);
@@ -556,10 +459,10 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-gzip")) {
             zip_files = true;
-            strcpy( zip_cmd, "gzip -fq" );
+            zip_cmd = "gzip -fq";
         } else if (!strcmp(argv[i], "-zip")) {
             zip_files = true;
-            strcpy( zip_cmd, "zip -q");
+            zip_cmd = "zip -q";
         } else if (!strcmp(argv[i], "-summary_recs")) {
             nrecs_per_file_summary = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-detail_recs")) {
@@ -606,4 +509,5 @@ int main(int argc, char** argv) {
     host_total_credit();
     host_expavg_credit();
     host_id();
+    core_versions();
 }
