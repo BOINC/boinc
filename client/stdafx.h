@@ -61,6 +61,10 @@
 #include <commctrl.h>
 #include <raserror.h>
 #include <mmsystem.h>
+#include <direct.h>
+#include <io.h>
+#include <crtdbg.h>
+#include <tchar.h>
 
 #include "Stackwalker.h"
 
@@ -101,15 +105,27 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <direct.h>
-#include <io.h>
-#include <crtdbg.h>
-#include <tchar.h>
 
 
 //
 // Namespace Modifiers
 //
 using namespace std;
+
+
+//
+// Unify C Runtime Library across platforms 
+//
+#ifdef _WIN32
+
+#define vsnprintf               _vsnprintf
+#define fdopen                  _fdopen
+#define dup                     _dup
+#define unlink                  _unlink
+#define strdup                  _strdup
+#define read                    _read
+#define stat                    _stat
+
+#endif
 
 #endif //_STDAFX_H_
