@@ -127,6 +127,7 @@ public:
     void kill_tasks();
     void check_apps();
     int get_free_slot(int total_slots);
+	void free_mem();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

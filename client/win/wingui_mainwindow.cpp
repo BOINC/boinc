@@ -54,6 +54,8 @@ int CMyApp::ExitInstance()
 	if (m_pMainWnd)
 		m_pMainWnd->DestroyWindow();
 
+	gstate.free_mem();
+
 	return CWinApp::ExitInstance();
 }
 
@@ -1233,6 +1235,9 @@ void CMainWindow::OnCommandExit()
 
 	SaveUserSettings();
 	SaveListControls();
+
+	delete m_pSSWnd;
+
 	CWnd::OnClose();
 }
 

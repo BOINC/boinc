@@ -59,6 +59,7 @@ public:
     NET_STATS net_stats;
 
     CLIENT_STATE();
+    void free_mem();
     int init();
     int restart_tasks();
     int cleanup_and_exit();

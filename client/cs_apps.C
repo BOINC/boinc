@@ -144,7 +144,7 @@ bool CLIENT_STATE::handle_running_apps() {
                 );
             }
             app_finished(*atp);
-            active_tasks.remove(atp);        
+            active_tasks.remove(atp);
             delete atp;
             set_client_state_dirty("handle_running_apps");
             action = true;
