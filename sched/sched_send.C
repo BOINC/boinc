@@ -81,47 +81,22 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
 // compute the max disk usage we can request of the host
 //
 double max_allowable_disk(SCHEDULER_REQUEST& req) {
+    double x1, x2, x3;
+
     HOST host = req.host;
-    GLOBAL_PREFS prefs = req.global_prefs;
-    double x1, x2, x3, x;
 
-    // fill in default values for missing prefs
-    //
-    if (prefs.disk_max_used_gb == 0) prefs.disk_max_used_gb = 0.1;   // 100 MB
-    if (prefs.disk_max_used_pct == 0) prefs.disk_max_used_pct = 10;
-    // min_free_gb can be zero
+    x1 = req.project_disk_free;
+    x2 = req.potentially_free_offender;
+    x3 = req.potentially_free_self;
 
-    // default values for BOINC disk usage (project and total) is zero
-    //
-
-    // no defaults for total/free disk space (host.d_total, d_free)
-    // if they're zero, project will get no work.
-    //
-
-    x1 = prefs.disk_max_used_gb*(1024.*1024.*1024.) - req.total_disk_usage;
-    x2 = host.d_total*prefs.disk_max_used_pct/100.;
-    x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
-
-    x = min(x1, min(x2, x3));
-    if (x < 0) {
+    if (x1 < 0) {
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
-            "disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
-            prefs.disk_max_used_gb, prefs.disk_max_used_pct,
-            prefs.disk_min_free_gb
-        );
-        log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
-            "req.total_disk_usage %f host.d_total %f host.d_free %f\n",
-            req.total_disk_usage, host.d_total, host.d_free
-        );
-        log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
-            "x1 %f x2 %f x3 %f x %f\n",
-            x1, x2, x3, x
+            "req.project_disk_free_gb %f\n",
+            x1
         );
     }
-    return x;
+    return max(max(x1,x2), x3);
 }
 
 // if a host has active_frac < 0.1, assume 0.1 so we don't deprive it of work.
