@@ -109,8 +109,7 @@ function copy_to_download_dir($f) {
 
 function add_user($prefs_file) {
     global $BOINC_EMAIL;
-
-    PassThru("sed -e s/BOINC_MASTER_URL/$BOINC_MASTER_URL/ $prefs_file > prefs_temp.xml");
+    PassThru("sed -e s/BOINC_MASTER_URL/\$BOINC_MASTER_URL/ $prefs_file > prefs_temp.xml");
     $cmd = "../tools/add user -email_addr $BOINC_EMAIL -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136 ";
     if ($prefs_file) {
         $cmd = $cmd." -prefs_file prefs_temp.xml";
