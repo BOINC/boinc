@@ -907,9 +907,15 @@ void CProgressListCtrl::OnDestroy()
 //				point: mouse's point
 // returns:		void
 // function:	stops control from highlighting items, opens links
+
+// NOTE: Removed this function to allow highlighting; unsure if this
+//       will produce unwanted side-effects. -JBK
+
+/*
 void CProgressListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 {
 }
+*/
 
 //////////
 // CProgressListCtrl::OnRButtonDown

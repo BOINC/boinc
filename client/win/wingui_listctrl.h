@@ -123,7 +123,7 @@ protected:
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
 	afx_msg void			OnCustomDraw(NMHDR*, LRESULT*);
 	afx_msg void			OnPaint();
-	afx_msg void			OnLButtonDown(UINT, CPoint);
+	//afx_msg void			OnLButtonDown(UINT, CPoint);  // Removed to allow highlighting.
 	afx_msg void			OnRButtonDown(UINT, CPoint);
     DECLARE_MESSAGE_MAP()
 };
