@@ -612,14 +612,14 @@ void update_average(
 
     if (avg_time) {
         double diff = now - avg_time;
+        if (diff==0) diff=3600;     // just in case
         double diff_days = diff/SECONDS_PER_DAY;
         double weight = exp(-diff*M_LN2/half_life);
         avg *= weight;
         avg += (1-weight)*(work/diff_days);
-    } else {
+    } else if (work) {
         double dd = (now - work_start_time)/SECONDS_PER_DAY;
         avg = work/dd;
     }
     avg_time = now;
 }
-

@@ -12115,9 +12115,9 @@ David  May 5 2004
         Makefile.am,in
 
 Rom    May 5 2004
-    - Our exit stragety should be the same for Windows and Unix.  The signal
-      handler should use the same global flags as Windows for suspending
-      and resuming activities.
+    - Our exit strategy should be the same for Windows and Unix.
+        The signal handler should use the same global flags as Windows
+        for suspending and resuming activities.
 
     client/
         main.C
@@ -12138,3 +12138,19 @@ Rom    May 6 2004
         failure_result_summary_by_platform.php
         index.php
         pass_percentage_by_platform.php
+
+David  May 10 2004
+    - extend the set of signals that are treated as "external",
+        i.e. if an app exits with one of these, put it in limbo
+        rather than treating it as error:
+        SIGHUP, SIGINT, SIGQUIT, SIGKILL, SIGTERM, SiGSTOP
+        Note: some of these should in principle never happen
+        because they're caught by the API.
+        But it doesn't hurt to be safe.
+    - update_average(): avoid divides by zero
+
+    client/
+        app.C
+    lib/
+        exception.h
+        util.C

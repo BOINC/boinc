@@ -752,7 +752,13 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
                 // if the process was externally killed, allow it to restart.
                 //
-                if (signal==SIGKILL || signal==SIGQUIT) {
+                switch(signal) {
+                case SIGHUP:
+                case SIGINT:
+                case SIGQUIT:
+                case SIGKILL:
+                case SIGTERM:
+                case SIGSTOP:
                     atp->state = PROCESS_IN_LIMBO;
                     return true;
                 }

@@ -23,6 +23,7 @@
 #ifndef _WIN32
 #include <string>
 using namespace std;
+using std::exception;
 #endif
 
 
