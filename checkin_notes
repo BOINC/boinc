@@ -23763,8 +23763,10 @@ Bruce 2 Feb 2005
       );
       Emacs experts, advice appreciated!
 
-    download/
+    doc/
         configuration.php
+        server_debug.php
+
     sched/
         sched_config.h
         sched_config.C

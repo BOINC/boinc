@@ -54,6 +54,22 @@ Run the scheduler under the debugger, giving it this file as stdin,
 This is useful for figuring out why your project is generating
 'no work available' messages.
 
+As an alternative to this, edit handle_request.C, and put
+a call to debug_sched(sreq, sreply, "../debug_sched") just
+before sreply.write(fout).
+Then, after recompiling, touch a file called 'debug_sched' in
+the project root directory.
+This will cause transcripts of all subsequent scheduler requests and
+replies to be written to the cgi-bin/ directory with separate
+small files for each request.  The file names are sched_request_H_R
+where H=hostid and R=rpc sequence number.
+This verbose debugging output can be turned off by simply removing
+the '../debug_sheck()' call.
+
+
+touch a file called 'debug_sched' in
+the project root directory.  
+
 <h2>MySQL interfaces</h2>
 You should become familiar with MySQL tools such as
 <ul>
