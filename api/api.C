@@ -21,8 +21,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef WIN32
+#include <io.h>
+#include <sys/stat.h>
+#else
 #include <unistd.h>
+#endif
 
+#include <fcntl.h>
+#include <sys/types.h>
 #include "../sched/parse.h"
 #include "api.h"
 
@@ -116,7 +123,7 @@ void parse_core_file(FILE* f, APP_IN& ai) {
         else if (parse_double(buf, "<graphics_refresh_period>", ai.graphics.refresh_period)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<poll_period>", ai.poll_period)) continue;
-        else fprintf(stderr, "read_core_file: unrecognized %s", buf);
+        else fprintf(stderr, "parse_core_file: unrecognized %s", buf);
     }
 }
 
@@ -135,6 +142,60 @@ void write_app_file(FILE* f, APP_OUT& ao) {
 void parse_app_file(FILE* f, APP_OUT& ao) {
 }
 
+void write_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
+	if( input_file ) {
+		fprintf( f, "<fdesc_dup_infile>%s</fdesc_dup_infile>\n", file_name );
+		fprintf( f, "<fdesc_dup_innum>%d</fdesc_dup_innum>\n", fdesc );
+	} else {
+		fprintf( f, "<fdesc_dup_outfile>%s</fdesc_dup_outfile>\n", file_name );
+		fprintf( f, "<fdesc_dup_outnum>%d</fdesc_dup_outnum>\n", fdesc );
+	}
+}
+
+void parse_init_file(FILE* f) {
+    char buf[256],filename[256];
+	int filedesc,fd,retval;
+
+    while (fgets(buf, 256, f)) {
+        if (parse_str(buf, "<fdesc_dup_infile>", filename)) {
+            if (fgets(buf, 256, f)) {
+                if (parse_int(buf, "<fdesc_dup_innum>", filedesc)) {
+					fd = open(filename, O_RDONLY);
+					if (fd != filedesc) {
+						retval = dup2(fd, filedesc);
+						if (retval < 0) {
+							fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
+							exit(retval);
+						}
+						close(fd);
+					}
+				}
+            }
+            continue;
+        }
+        else if (parse_str(buf, "<fdesc_dup_outfile>", filename)) {
+            if (fgets(buf, 256, f)) {
+                if (parse_int(buf, "<fdesc_dup_outnum>", filedesc)) {
+					fd = open(filename, O_WRONLY|O_CREAT, 0660);
+					if (fd != filedesc) {
+						retval = dup2(fd, filedesc);
+						if (retval < 0) {
+							fprintf(stderr, "dup2 %d %d returned %d\n", fd, filedesc, retval);
+							exit(retval);
+						}
+						close(fd);
+					}
+				}
+            }
+            continue;
+        }
+        else fprintf(stderr, "parse_init_file: unrecognized %s", buf);
+    }
+}
+
+
+/* boinc_init reads the BOINC_INIT_FILE and CORE_TO_APP_FILE files and performs the necessary initialization */
+
 void boinc_init(APP_IN& ai) {
     FILE* f;
 
@@ -143,6 +204,12 @@ void boinc_init(APP_IN& ai) {
     if (f) {
         parse_core_file(f, ai);
         unlink(CORE_TO_APP_FILE);
+    }
+
+	f = fopen( BOINC_INIT_FILE, "r" );
+    if (f) {
+        parse_init_file(f);
+        unlink(BOINC_INIT_FILE);
     }
 }
 
@@ -158,3 +225,27 @@ void boinc_poll(APP_IN& ai, APP_OUT& ao) {
     write_app_file(f, ao);
     rename("_app_temp", APP_TO_CORE_FILE);
 }
+
+/* boinc_resolve_link is used to resolve the XML soft links in a file. */
+
+int boinc_resolve_link(char *file_name, char *resolved_name) 
+{
+	FILE *fp;
+	char buf[512];
+
+	// Open the file and load the first line
+	fp = fopen( file_name, "r" );
+	if (!fp) return -1;
+	rewind( fp );
+	fgets(buf, 512, fp);
+	fclose( fp );
+
+	// If it's the <soft_link> XML tag, return it's value,
+	// otherwise, return the original file name
+	if( !parse_str( buf, "<soft_link>", resolved_name ) ) {
+		strcpy( resolved_name, file_name );
+	}
+
+	return 0;
+}
+
