@@ -20,6 +20,7 @@
 #define SCRAPPERR_BOINCNOTGRAPHICSCAPABLE         0x82000004
 #define SCRAPPERR_BOINCNOAPPSEXECUTING            0x82000005
 #define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING    0x82000006
+#define SCRAPPERR_BOINCSCREENSAVERLOADING         0x82000007
 #define SCRAPPERR_NOPREVIEW                       0x8200000f
 
 
@@ -70,6 +71,7 @@ struct INTERNALMONITORINFO
     FLOAT          heightError;
     FLOAT          xVelError;
     FLOAT          yVelError;
+    time_t         tLastRefresh;
 };
 
 
@@ -168,7 +170,6 @@ protected:
 	BOOL					m_bCoreNotified;
     BOOL                    m_bResetCoreState;
     DWORD                   m_dwTimerCounter;
-    DWORD                   m_dwPaintCounter;
     int                     m_iStatus;
     DWORD                   m_dwBlankTime;
 

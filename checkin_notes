@@ -24200,3 +24200,17 @@ Bruce 7 Feb 2005
         inc/
             db_ops.inc
             util_ops.inc
+
+Rom    7 Feb 2005
+    - Bug Fix: Introduce a new state for the screensaver where it can display
+        that it is starting up, instead of flickering between different states
+        so fast at startup.
+    - Bug Fix: Only update the status box every ten seconds instead of every
+        second.
+    - Bug Fix: Change the update timer to every 30 seconds.
+
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+

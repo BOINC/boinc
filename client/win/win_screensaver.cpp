@@ -130,7 +130,6 @@ CScreensaver::CScreensaver()
 	m_bCoreNotified = FALSE;
     m_bResetCoreState = TRUE;
     m_dwTimerCounter = 0;
-    m_dwPaintCounter = 0;
     m_iStatus = 0;
     m_dwBlankTime = 0;
 
@@ -731,46 +730,60 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					KillTimer( hWnd, 1 );
                     break;
 				case 2:
-                    // This timer is called once a second and handles drawing the error
-                    // boxes as well as the initial 4 loops through of the update
-                    // data timer.  It is necessary to call the UpdateErrorBox routine
-                    // frequently or the error box will end up being drawn outside the 
-                    // visible portion of the window.  Letting the update routine be called
-                    // four times before setting up the update timer lets the request
-                    // the initial display, then gives the core client enough time to
-                    // choose an application or report an error.
-                    if ( 3 >= m_dwTimerCounter ) m_dwTimerCounter++;
-					if ( 4 == m_dwTimerCounter )
+                    // Loop through the update loop ( Timer 3 ) up to ten times in
+                    // the begining to allow the screensaver to get its initial
+                    // state all setup.  After that the update loop will update
+                    // the data to display, if anything, every 30 seconds.
+                    //
+                    // NOTE: Sometimes it takes BOINC a few tries before it finds
+                    //   an application that it can really display.  An application
+                    //   can state that it supports graphics but still can't start
+                    //   due to permission problems when attempting to transition
+                    //   accross the window station/desktop boundry.
+                    if ( 9 >= m_dwTimerCounter )
+                        m_dwTimerCounter++;
+
+                    if      ( 8 >= m_dwTimerCounter )
+                    {
+                        if ( m_bErrorMode )
+                        {
+                            m_bErrorMode = TRUE;
+                            m_hrError = SCRAPPERR_BOINCSCREENSAVERLOADING;
+                        }
+
+						UpdateErrorBoxText();
+						UpdateErrorBox();
+                    }
+                    else if ( 9 == m_dwTimerCounter )
                     {
                         BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Starting Update Timer\n"));
     					SetTimer(hWnd, 3, 30000, NULL);
-                        m_dwTimerCounter++;
                     }
                     else
                     {
-					    if ( 5 == m_dwTimerCounter )
+                        if ( m_bErrorMode )
+					    {
+                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
+						    UpdateErrorBox();
+					    }
+                        else
                         {
-                            if( m_bErrorMode )
-					        {
-                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
-						        UpdateErrorBox();
-					        }
-                            else
-                            {
-                                InvalidateRect(hWnd, NULL, TRUE);
-                            }
-                            break;
+                            InvalidateRect( hWnd, NULL, TRUE );
+                            UpdateWindow( hWnd );
                         }
+
+                        if ( 10 >= m_dwTimerCounter )
+                            break;
                     }
-				case 3:
+
+                case 3:
                     // Except for the initial startup sequence, this is run every
                     //   30 seconds.
                     HWND hwndBOINCGraphicsWindow = NULL;
                     HWND hwndForegroundWindow = NULL;
                     int  iReturnValue = 0;
 
-
-			        // Create a screen saver window on the primary display if the boinc client crashes
+                    // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
@@ -940,12 +953,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
             }
             else
             {
-                m_dwPaintCounter++;
-                if ( 3 >= m_dwPaintCounter )
-                {
-                    DoPaint( hWnd, ps.hdc );
-                    m_dwPaintCounter = 0;
-                }
+                DoPaint( hWnd, ps.hdc );
             }
 
             EndPaint( hWnd, &ps );
@@ -1033,21 +1041,16 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					m_bWaitForInputIdle = FALSE;
 					KillTimer( hWnd, 1 );
 					break; 
-		 
-				case 2: 
-					if( m_bErrorMode )
-					{
-                        BOINCTRACE(_T("CScreensaver::GenericSaverProc - Updating Error Box\n"));
-						UpdateErrorBox();
-					}
-                    else
+                case 2:
+                    if ( 10 >= m_dwTimerCounter )
                     {
-                        InvalidateRect(hWnd, NULL, TRUE);
+                        if ( !m_bErrorMode )
+					    {
+                            InvalidateRect( hWnd, NULL, TRUE );
+                            UpdateWindow( hWnd );
+                        }
                     }
-					break; 
-				case 3: 
-					break; 
-			}
+            }
             break;
 
         case WM_DESTROY:
@@ -1544,10 +1547,11 @@ VOID CScreensaver::UpdateErrorBox()
                     (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
                     (INT)(pMonitorInfo->yError + pMonitorInfo->heightError) );
 
-                if( rcOld.left != rcNew.left || rcOld.top != rcNew.top )
+                if( ( rcOld.left != rcNew.left || rcOld.top != rcNew.top ) &&
+                    ( 10 <= (time(0) - pMonitorInfo->tLastRefresh) ) )
                 {
-                    InvalidateRect( hwnd, &rcOld, FALSE );    // Invalidate old rect so it gets erased
-                    InvalidateRect( hwnd, &rcNew, FALSE );    // Invalidate new rect so it gets drawn
+                    pMonitorInfo->tLastRefresh = time(0);
+                    InvalidateRect( hwnd, NULL, TRUE );
                     UpdateWindow( hwnd );
                 }
             }
@@ -1636,6 +1640,7 @@ BOOL CScreensaver::GetTextForError( HRESULT hr, TCHAR* pszError, DWORD dwNumChar
 		SCRAPPERR_BOINCSUSPENDED, IDS_ERR_BOINCSUSPENDED,
 		SCRAPPERR_BOINCNOAPPSEXECUTING, IDS_ERR_BOINCNOAPPSEXECUTING,
 		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING,
+		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_BOINCSCREENSAVERLOADING,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);

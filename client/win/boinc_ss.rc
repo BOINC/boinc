@@ -141,6 +141,8 @@ BEGIN
                             "BOINC is currently idle."
     IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
                             "BOINC System Status:\n\n"
+    IDS_ERR_BOINCSCREENSAVERLOADING
+                            "BOINC Screensaver Loading\n\nPlease Wait..."
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 
