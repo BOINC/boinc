@@ -143,7 +143,7 @@ function profile_error_page($str) {
   page_tail();
 }
 
-function date_str($when) {
+function date_str($x) {
     if ($x == 0) return "---";
     // return date("g:i A, l M j", $when);
     return strftime("%Y-%m-%d", $x);

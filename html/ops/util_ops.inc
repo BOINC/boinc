@@ -21,7 +21,7 @@ define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
 define("BADPASS", "The password you entered is incorrect. Click the <b>Back</b> button on your browser to re-enter your password or try again later.");
-define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields."); 
+define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields.");
 define("PROJECT", "Sample project");
 
 function get_user_from_cookie() {
@@ -57,7 +57,8 @@ function date_str($when) {
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return strftime("%T %b %e, %Y", $x);
+    // return strftime("%T %b %e, %Y", $x);
+    return strftime("%Y-%m-%d %H:%M:%S", $x);
 }
 
 function start_table() {

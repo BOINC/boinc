@@ -5527,3 +5527,9 @@ Karl 2003/08/04
     Astropulse: Fixed windows \r\n translation bug
 
     release Astropulse 1.10.
+
+Karl 2003/08/04
+    Show release date and "new" on download page.
+    Fixed date_str and changed format of timestamps to be sortable.
+
+    Html_user/*
