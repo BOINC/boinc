@@ -51,7 +51,7 @@ add.py workunit  (TODO)
 
 add.py result    (TODO) '''
 
-import sys, getopt, md5, time
+import sys, os, getopt, md5, time
 sys.path.append('../py/')
 import database, db_mid
 from util import *
@@ -61,15 +61,15 @@ database._connectp('quarl_test_upper_case','','')
 CREATE_TIME = ['?create_time', int(time.time())]
 
 class XCoreVersion(database.CoreVersion):
-    def __init__(**kwargs):
+    def __init__(self,**kwargs):
         exec_file = kwargs['exec_file']
         del kwargs['exec_file']
         kwargs['xml_doc'] = process_executable_file(exec_file)
-        apply(database.CoreVersion.__init__,[],kwargs)
+        apply(database.CoreVersion.__init__,[self],kwargs)
 
 class XAppVersion(database.AppVersion):
-    def __init__(**kwargs):
-        signature_files = kwargs['signature_files']
+    def __init__(self,**kwargs):
+        signature_files = kwargs.setdefault('signature_files',{})
         exec_files = kwargs['exec_files']
         if not exec_files:
             raise Exception('internal error: no exec_files - should have caught this earlier')
@@ -103,7 +103,7 @@ class XAppVersion(database.AppVersion):
 
         xml_doc += '</app_version>\n'
         kwargs['xml_doc'] = xml_doc
-        apply(database.AppVersion.__init__,[],kwargs)
+        apply(database.AppVersion.__init__,[self],kwargs)
 
 
 # format: [ database.Object, args, ...]
@@ -145,12 +145,14 @@ def translate_arg(object, arg, value, args_dict):
         # 'add app_version' accepts multiple '-exec_file's with
         # '-signature_file' applying to the most recent exec_file
         if arg == 'exec_file':
-            args_dict['exec_files'].append(value)
+            global most_recent_exec_file
+            most_recent_exec_file = value
+            args_dict.setdefault('exec_files',[]).append(value)
             # since this is required, set it to None so that argument checker
             # knows we got one; we'll delete it later.
             return (arg,None)
         if arg == 'signature_file':
-            args_dict['signature_files'][most_recent_exec_file] = value
+            args_dict.setdefault('signature_files',{})[most_recent_exec_file] = value
             return (None,None)
 
     return (arg,value)
@@ -181,6 +183,46 @@ def ambiguous_lookup(string, dict):
         if k.startswith(string):
             results.append(dict[key])
     return results
+
+
+def md5_file(path):
+    """Return a 16-digit MD5 hex digest of a file's contents"""
+    return md5.new(open(path).read()).hexdigest()
+
+def file_size(path):
+    """Return the size of a file"""
+    f = open(path)
+    f.seek(0,2)
+    return f.tell()
+
+def process_executable_file(file, signature_text=None):
+    '''Handle a new executable file to be added to the database.
+
+    1. Copy file to download_dir if necessary.
+    2. Return <file_info> XML.
+        - if signature_text specified, include it; else generate md5sum.
+    '''
+
+    file_dir, file_base = os.path.split(file)
+    target_path = os.path.join(config.config.download_dir, file_base)
+    if file_dir != config.config.download_dir:
+        print "Copying %s to %s"%(file_base, config.config.download_dir)
+        shutil.copy(file, target_path)
+
+    xml = '''<file_info>
+    <name>%s</name>
+    <url>%s</url>
+    <executable/>
+''' %(file_base,
+      os.path.join(config.config.download_url, file_base))
+
+    if signature_text:
+        xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
+    else:
+        xml += '    <md5_cksum>%s</md5_cksum>\n' % md5_file(target_path)
+
+    xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
+    return xml
 
 def parse_global_options(args):
     # raise SystemExit('todo')
@@ -214,8 +256,7 @@ def add_object(object, args):
             raise getopt.GetoptError('Unknown args '+' '.join(placement_args))
     except getopt.GetoptError, e:
         help_object(object, e)
-    args_dict = {}
-    args_dict.update(object.default_values)
+    args_dict = object.default_values.copy()
     for arg,value in parsed_opts:
         if not arg.startswith('--'):
             raise Exception('internal error: arg should start with "--"')
@@ -227,11 +268,13 @@ def add_object(object, args):
         if not arg in args_dict:
             help_object(object, 'required argument --%s not given'%arg)
 
+    print "## args_dict=",args_dict
+
     object = apply(object.DatabaseObject, [], args_dict)
     object.commit()
     print "Committed", object
 
-def code_sign_file(executable_path):
+def sign_executable(executable_path):
     '''Returns signed text for executable'''
     print 'Signing', executable_path
     return os.popen('sign_executable %s %s'%(executable_path,config.config.code_sign_key)).read()
@@ -303,43 +346,3 @@ if len(possible_objects) > 1:
 args = sys.argv[2:]
 parse_global_options(args)
 add_object(possible_objects[0], args)
-
-
-def md5_file(path):
-    """Return a 16-digit MD5 hex digest of a file's contents"""
-    return md5.new(open(path).read()).hexdigest()
-
-def file_size(path):
-    """Return the size of a file"""
-    f = open(path)
-    f.seek(0,2)
-    return f.tell()
-
-def process_executable_file(file, signature_text=None):
-    '''Handle a new executable file to be added to the database.
-
-    1. Copy file to download_dir if necessary.
-    2. Return <file_info> XML.
-        - if signature_text specified, include it; else generate md5sum.
-    '''
-
-    file_dir, file_base = os.path.split(file)
-    target_path = os.path.join(config.config.download_dir, file_base)
-    if file_dir != config.config.download_dir:
-        print "Copying %s to %s"%(file_base, config.config.download_dir)
-        shutil.copy(file, target_path)
-
-    xml = '''<file_info>
-    <name>%s</name>
-    <url>%s</url>
-    <executable/>
-''' %(file_base,
-      os.path.join(config.config.download_url, file_base))
-
-    if signature_text:
-        xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
-    else:
-        xml += '    <md5_cksum>%s</md5_cksum>\n' % md5_file(target_path)
-
-    xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
-    return xml
