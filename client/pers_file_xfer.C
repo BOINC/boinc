@@ -30,6 +30,7 @@
 #include "parse.h"
 #include "util.h"
 #include "log_flags.h"
+#include "filesys.h"
 
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URLs is given.
@@ -78,6 +79,31 @@ int PERS_FILE_XFER::start_xfer() {
     //
     if (!gstate.start_new_file_xfer()) {
         return ERR_IDLE_PERIOD;
+    }
+
+    // Does the file exist already? this could happen for example if we are
+    // downloading an application which exists from a previous installation,
+    // or if we get the same input file (which is unlikely outside the beta
+    // test microcosm)
+    if (!is_upload) {
+        char pathname[256];
+        get_pathname(fip, pathname);
+        double existing_size = 0;
+        if (!file_size(pathname, existing_size) && existing_size == fip->nbytes) {
+            // file exists already and has the right size
+            retval = verify_downloaded_file(pathname, *fip);
+            if (!retval) {
+                // signature and checksum match
+                retval = fip->set_permissions();
+                fip->status = FILE_PRESENT;
+                xfer_done = true;
+
+                msg_printf(
+                    fip->project, MSG_INFO, "File %s exists already, skipping download", pathname);
+                
+                return retval;
+            }
+        }
     }
 
     // Create a new FILE_XFER object and initialize a
