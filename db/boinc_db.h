@@ -371,7 +371,8 @@ struct WORKUNIT {
     // got a quorum
 #define RESULT_OUTCOME_VALIDATE_ERROR   6
     // The outcome was initially SUCCESS, but the validator
-    // had a permanent error reading a result file
+    // had a permanent error reading a result file,
+    // or the result file had a syntax error
 
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1
@@ -379,6 +380,9 @@ struct WORKUNIT {
 #define VALIDATE_STATE_NO_CHECK     3
     // WU had error, so we'll never get around to validating its results
     // This lets us avoid showing the claimed credit as "pending"
+#define VALIDATE_STATE_INCONCLUSIVE 4
+    // the validator looked this result (as part of a check_set() call)
+    // but didn't find a canonical result.
 
 struct RESULT {
     int id;

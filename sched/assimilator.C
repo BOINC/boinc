@@ -47,7 +47,7 @@ bool update_db = true;
 bool noinsert = false;
 
 
-#define SLEEP_INTERVAL 1
+#define SLEEP_INTERVAL 10
 
 // assimilate all WUs that need it
 // return nonzero if did anything
@@ -108,9 +108,11 @@ bool do_pass(APP& app) {
         boinc_db.commit_transaction();
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+    if (num_assimilated)  {
+        log_messages.printf(SCHED_MSG_LOG::NORMAL,
             "Assimilated %d workunits.\n", num_assimilated
-    );
+        );
+    }
 
     return did_something;
 }
@@ -133,16 +135,16 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else if (!strcmp(argv[i], "-dont_update_db")) {
-          // This option is for testing your assimilator.  When set,
-          // it ensures that the assimilator does not actually modify
-          // the assimilate_state of the workunits, so you can run
-          // your assimilator over and over again without affecting
-          // your project.
+            // This option is for testing your assimilator.  When set,
+            // it ensures that the assimilator does not actually modify
+            // the assimilate_state of the workunits, so you can run
+            // your assimilator over and over again without affecting
+            // your project.
             update_db = false;
         } else if (!strcmp(argv[i], "-noinsert")) {
-	   // This option is also for testing and is used to 
-	   // prevent the inserting of results into the *backend*
-	   // (as opposed to the boinc) DB.
+            // This option is also for testing and is used to 
+            // prevent the inserting of results into the *backend*
+            // (as opposed to the boinc) DB.
             noinsert = true;
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);

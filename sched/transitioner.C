@@ -71,7 +71,7 @@ int handle_wu(
     int canonical_result_index, j;
     char suffix[256];
     time_t now = time(0), x;
-    bool all_over_and_validated, have_result_to_validate, do_delete;
+    bool all_over_and_validated, have_new_result_to_validate, do_delete;
     unsigned int i;
 
     // count up the number of results in various states,
@@ -86,7 +86,7 @@ int handle_wu(
     ncouldnt_send = 0;
     nno_reply = 0;
     ndidnt_need = 0;
-    have_result_to_validate = false;
+    have_new_result_to_validate = false;
     int rs, max_result_suffix = -1;
 
     TRANSITIONER_ITEM& wu_item = items[0];
@@ -139,7 +139,7 @@ int handle_wu(
                 break;
             case RESULT_OUTCOME_SUCCESS:
                 if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
-                    have_result_to_validate = true;
+                    have_new_result_to_validate = true;
                 }
                 nsuccess++;
                 break;
@@ -168,7 +168,7 @@ int handle_wu(
     // trigger validation if we have a quorum
     // and some result hasn't been validated
     //
-    if (nsuccess >= wu_item.min_quorum && have_result_to_validate) {
+    if (nsuccess >= wu_item.min_quorum && have_new_result_to_validate) {
         wu_item.need_validate = true;
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,

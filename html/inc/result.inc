@@ -17,11 +17,12 @@ function result_granted_credit_string($result, $string_to_show) {
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
     case 1:              //Success
-       if ($result->validate_state == 0) {
-           return "pending";
-        } else {
-           return $string_to_show;
+        switch ($result->validate_state) {
+        case 0:
+        case 4:
+            return "pending";
         }
+        return $string_to_show;
     case 2: return "---"; //Couldn't send
     case 3: return "---"; //Client error
     case 4: return "---"; //No reply
@@ -70,7 +71,8 @@ function validate_state_str($s) {
     case 0: return "Initial";
     case 1: return "Valid";
     case 2: return "Invalid";
-    case 3: return "Check skipped";
+    case 3: return "WU error - check skipped";
+    case 4: return "Checked, but no consensus yet";
     }
     return "Unknown";
 }
@@ -118,10 +120,11 @@ function show_result_row(
         $r = time_str($result->received_time);
     else {
         $timenow=time();
-	if ($result->report_deadline>$timenow)
+        if ($result->report_deadline>$timenow) {
             $r = "<font color='33cc33'>" . time_str($result->report_deadline) . "</font>";
-        else
+        } else {
             $r = "<font color='ff3333'>" . time_str($result->report_deadline) . "</font>";
+        }
     }
     $ss = result_server_state_string($result->server_state);
     $out = result_outcome_string($result->outcome);

@@ -21191,3 +21191,40 @@ Karl 2004-12-13
 
     test/
         testbase.py
+
+David  13 Dec 2004
+    - Fix a bug where a result could potentially bounce back
+        and forth between the transitioner and the validator.
+        This could happen if there are min_quorum success results,
+        and there's no consensus.
+        The fix:
+        - added new value for result.validate_state:
+            VALIDATE_STATE_INCONCLUSIVE means that check_set()
+            was called for the result and it didn't find a canonical result.
+        - The transitioner sets workunit.need_validate
+            if there are min_quorum success results,
+            and at least one is VALIDATE_STATE_INIT
+            (no change - this is how it currently is)
+        - validator:
+            consider results that are both INIT and INCONCLUSIVE
+            If check_set() doesn't find a quorum,
+            set all result states to INCONCLUSIVE
+
+        Thanks to Kjell Nedrelid (Rattledagger) for finding this.
+    - added logic to admin HTML to show INCONCLUSIVE state
+    - Took boinc_real_escape_string() stuff out of HTML ops code.
+        If prevented SQL queries from working on isaac
+
+    db/
+        boinc_db.h
+    html/
+        inc/
+            db_ops.inc
+            result.inc
+            user.inc
+        ops/
+            db_action.php
+    sched/
+        assimilator.C
+        transitioner.C
+        validator.C

@@ -116,7 +116,7 @@
         }
     }
 
-    $result = mysql_query(boinc_real_escape_string($main_query));
+    $result = mysql_query($main_query);
     if ($result) {
         if ($detail == "low") {
             start_table();

@@ -1,21 +1,27 @@
 <?php
 echo "<!--\$Id$ -->\n";
 
+define("NVALIDATE_STATES", 5);
+
 // Function prints a description of $table 
+//
 function print_describe_table_onecol($table, $which, $columns) {
   $result=mysql_query("SELECT * from $table LIMIT 1");
   $fields=mysql_num_fields($result);
   
   $avgnum=(int)($fields/$columns);
-  if ($avgnum*$columns<$fields)
+  if ($avgnum*$columns<$fields) {
     $avgnum++;
+  }
 
   $actualcolumns=0;
-  while ($avgnum*$actualcolumns<$fields)
+  while ($avgnum*$actualcolumns<$fields) {
     $actualcolumns++;
+  }
 
-  if ($which>$actualcolumns)
+  if ($which>$actualcolumns) {
     return 0;
+  }
 
   $bot=($which-1)*$avgnum;
   $top=$which*$avgnum;
@@ -30,8 +36,7 @@ function print_describe_table_onecol($table, $which, $columns) {
       $name= mysql_field_name($result, $count);
       $type= mysql_field_type($result, $count);
       $length=mysql_field_len($result, $count);
-    }
-    else {
+    } else {
       $name="<br/> ";
       $type="<br/>";
       $length="<br/>";
@@ -46,8 +51,9 @@ function print_describe_table($table, $how_many_columns) {
   // Number of columns for showing table description
   echo "<h2>Description of <b>$table</b> table fields:</h2>\n";
   echo "<table border='0' width='100%'>\n\t<tr>";
-  for ($i=1; $i<=$how_many_columns; $i++)
+  for ($i=1; $i<=$how_many_columns; $i++) {
     print_describe_table_onecol($table, $i, $how_many_columns);
+  }
   echo "\t</tr>\n</table>\n";
   return 0;
 }
@@ -103,11 +109,11 @@ class SqlQueryString {
         $this->urlquery = "";
     }
     function add($clause) {
-        $cleaned=boinc_real_escape_string($clause);	
-        if (!$this->query) {	
-            $this->query .= "where $cleaned";
+        //$clause=boinc_real_escape_string($clause);
+        if (!$this->query) {
+            $this->query .= "where $clause";
         } else {
-            $this->query .= " and $cleaned";
+            $this->query .= " and $clause";
         }
     }
     function addclause($clause) {
@@ -183,7 +189,7 @@ class SqlQueryString {
         $this->addeq('userid');
         $this->addeq('teamid');
         $this->addeq('exit_status');
-       if ($_GET['nsecs']) {
+        if ($_GET['nsecs']) {
             $_GET['received_time'] = time() - $_GET['nsecs'];
         }
         $this->addgt('received_time');
@@ -222,10 +228,11 @@ function exit_status_string($result) {
             $x = (int)$y;
         }
     }
-    if (0<=$x && $x<=9)
+    if (0<=$x && $x<=9) {
         return "$x";
-    else
+    } else {
         return sprintf("%d (0x%x)", $x, $x);
+    }
 }
 
 function show_result_summary() {
@@ -251,16 +258,17 @@ function show_result_summary() {
     for ($fds=0; $fds<3; $fds++) {
         $delete_state[$fds] = 0;
     }
-    for ($vs=0; $vs<4; $vs++) {
-	$validate_state[$vs]=0;
+    for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
+        $validate_state[$vs]=0;
     }
 
     $_GET['table'] = 'result';
     $_GET['sort_by'] = ''; // ignore sort
 
     $query_appid = $_GET['appid'];
-    if ($_GET['nsecs'])
-	$query_received_time = time() - $_GET['nsecs'];
+    if ($_GET['nsecs']) {
+        $query_received_time = time() - $_GET['nsecs'];
+    }
     $query_wuid = $_GET['workunitid'];
 
     $q = new SqlQueryString();
@@ -285,6 +293,7 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '1' then 1 else 0 end) AS validate_valid,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '2' then 1 else 0 end) AS validate_invalid,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '3' then 1 else 0 end) AS validate_nocheck,
+       SUM(case when server_state = '5' and outcome = '1' and validate_state = '4' then 1 else 0 end) AS validate_inconclusive,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '0' then 1 else 0 end) AS filedeletestate_init,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '1' then 1 else 0 end) AS filedeletestate_ready,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '2' then 1 else 0 end) AS filedeletestate_done,
@@ -295,16 +304,19 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded
 FROM result WHERE 
-";
+    ";
 
-if ($query_appid)
-	$main_query .= "appid=$query_appid and ";
-if ($query_wuid)
-	$main_query .= "workunitid=$query_wuid and ";
-if ($query_received_time)
-	$main_query .= "received_time > $query_received_time and ";
+    if ($query_appid) {
+        $main_query .= "appid=$query_appid and ";
+    }
+    if ($query_wuid) {
+        $main_query .= "workunitid=$query_wuid and ";
+    }
+    if ($query_received_time) {
+        $main_query .= "received_time > $query_received_time and ";
+    }
 
-        $main_query .= "1=1";
+    $main_query .= "1=1";
 
     $urlquery = $q->urlquery;
     $result = mysql_query($main_query);
@@ -328,7 +340,7 @@ if ($query_received_time)
         $outcome[3]      = $res->outcome_failure;
         $outcome[4]      = $res->outcome_noreply;
         $outcome[5]      = $res->outcome_didntneed;
-	$outcome[6]      = $res->outcome_validateerror;
+        $outcome[6]      = $res->outcome_validateerror;
 
         $client_state[1] = $res->clientstate_downloading;
         $client_state[2] = $res->clientstate_downloaded;
@@ -339,7 +351,8 @@ if ($query_received_time)
         $validate_state[0] = $res->validate_init;
         $validate_state[1] = $res->validate_valid;
         $validate_state[2] = $res->validate_invalid;
-        $validate_state[3] = $res->validate_skipped;
+        $validate_state[3] = $res->validate_nocheck;
+        $validate_state[4] = $res->validate_inconclusive;
 
         $file_delete[0]  = $res->filedeletestate_init;
         $file_delete[1]  = $res->filedeletestate_ready;
@@ -378,20 +391,20 @@ if ($query_received_time)
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
-    for ($vs=0; $vs<4; $vs++) {
-	c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($vs),
-		link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
+    for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
+        c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($vs),
+        link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
     }
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
   
     for ($fds=0; $fds<3; $fds++) {
-	row2(file_delete_state_str($fds),
-		link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
+        row2(file_delete_state_str($fds),
+        link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
     }
     row2("Total files deleted",
-	link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
+    link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
@@ -433,7 +446,7 @@ function validate_state_select() {
         <select name=validate_state>
         <option value='CHOOSE_ALL' selected> Any
     ";
-    for($i=0; $i<4; $i++) {
+    for($i=0; $i<NVALIDATE_STATES; $i++) {
         echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($i)."</option>\n";
     }
     echo "</select>\n";
@@ -642,10 +655,11 @@ function wu_error_mask_str($s) {
     if ($s) {
         $x = $x."Unrecognized Error: $s<br>";
     }
-    if (strlen($x))
+    if (strlen($x)) {
         $x="<font color='ff3333'>".$x."</font>";
-    else
-	$x="<br>";
+    } else {
+        $x="<br>";
+    }
     return $x;
 }
 
@@ -785,6 +799,7 @@ function validate_state_str($s) {
     case 1: return "Valid";
     case 2: return "Invalid";
     case 3: return "Skipped";
+    case 4: return "Inconclusive";
     }
     echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
@@ -900,11 +915,12 @@ function show_result_short($result) {
     else {
         // result has not been received yet, so show report deadline either
         // in green if in the future or in red if in the past.
-	$timenow=time();
-	if ($result->report_deadline>=$timenow)
+        $timenow=time();
+        if ($result->report_deadline>=$timenow) {
             $colortag="<font color='33cc33'>";
-        else
+        } else {
             $colortag="<font color='ff3333'>";
+        }
         $received = $colortag . time_str($result->report_deadline) . "</font>";
     }
     $version = $result->app_version_num;
@@ -924,7 +940,7 @@ function show_result_short($result) {
         <td bgcolor=$outcome_color>$oc</td>
         <td bgcolor=$validate_color>$vs</td>
         <td>$delete_state</td>
-	<td>", exit_status_string($result), "</td>
+        <td>", exit_status_string($result), "</td>
         <td>$host_user</td>
         <td>$version</td>
         <td>$received</td>

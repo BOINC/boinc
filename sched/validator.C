@@ -200,10 +200,13 @@ void handle_wu(
         for (i=0; i<items.size(); i++) {
             RESULT& result = items[i].res;
 
-            if (!((result.validate_state == VALIDATE_STATE_INIT) &&
-                (result.server_state == RESULT_SERVER_STATE_OVER) &&
-                (result.outcome ==  RESULT_OUTCOME_SUCCESS))
-            ) {
+            if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
+            if (result.outcome !=  RESULT_OUTCOME_SUCCESS) continue;
+            switch (result.validate_state) {
+            case VALIDATE_STATE_INIT:
+            case VALIDATE_STATE_INCONCLUSIVE:
+                break;
+            default:
                 continue;
             }
 
@@ -223,7 +226,8 @@ void handle_wu(
                 update_result = true;
             }
 
-            // ?? do we need this here?
+            // this might be last result, so let validator
+            // trigger file delete etc. if needed
             //
             need_immediate_transition = true;
 
@@ -335,9 +339,10 @@ void handle_wu(
                     nsuccess_results++;
                 }
 
-                // grant credit for valid results
-                //
-                if (result.validate_state == VALIDATE_STATE_VALID) {
+                switch (result.validate_state) {
+                case VALIDATE_STATE_VALID:
+                    // grant credit for valid results
+                    //
                     update_result = true;
                     retval = grant_credit(result, credit);
                     if (retval) {
@@ -353,9 +358,14 @@ void handle_wu(
                         "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
                         result.id, result.name, result.granted_credit, result.hostid
                     );
-                }
-                if (result.validate_state == VALIDATE_STATE_INVALID) {
-                        update_result = true;
+                    break;
+                case VALIDATE_STATE_INVALID:
+                    update_result = true;
+                    break;
+                case VALIDATE_STATE_INIT:
+                    result.validate_state = VALIDATE_STATE_INCONCLUSIVE;
+                    update_result = true;
+                    break;
                 }
 
                 if (update_result) {
@@ -403,14 +413,12 @@ void handle_wu(
                 }
             } else {
                 // here if no consensus.
-                // Trigger a transition to make more results if needed
-                //
-                need_immediate_transition = true;
 
                 // check if #success results is too large
                 //
                 if (nsuccess_results > wu.max_success_results) {
                     wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
+                    need_immediate_transition = true;
                 }
 
                 // if #success results == than target_nresults,
@@ -420,6 +428,7 @@ void handle_wu(
                 //
                 if (nsuccess_results >= wu.target_nresults) {
                     wu.target_nresults = nsuccess_results+1;
+                    need_immediate_transition = true;
                 }
             }
         }
@@ -512,11 +521,11 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app_name, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
-	    boinc_validator_debuglevel=atoi(argv[++i]);
+            boinc_validator_debuglevel=atoi(argv[++i]);
             log_messages.set_debug_level(boinc_validator_debuglevel);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "unrecognized arg: %s\n", argv[i]);
-	    exit(1);
+            exit(1);
         }
     }
 
