@@ -3,9 +3,14 @@
     require_once("util.inc");
     require_once("project_specific/project.inc");
 
-    db_init();
-    $user = get_logged_in_user(false);
-    page_head("Home page", $user);
+    // don't want to use DB here, because master page won't be visible
+    // if DB is down
+    //
+    //db_init();
+    //$user = get_logged_in_user(false);
+    //page_head("Home page", $user);
+
+    page_head("Home page");
 
     project_intro();
 
