@@ -32,28 +32,30 @@
 #define ERR_RENAME          -109
 #define ERR_UNLINK          -110
 #define ERR_OPENDIR         -111
-// Unexpected XML tag or XML format
 #define ERR_XML_PARSE       -112
-// Couldn't resolve hostname
+    // Unexpected XML tag or XML format
 #define ERR_GETHOSTBYNAME   -113
-// too much time has elapsed without progress on file xfer
+    // Couldn't resolve hostname
 #define ERR_GIVEUP_DOWNLOAD -114
+    // too much time has elapsed without progress on file xfer
 #define ERR_GIVEUP_UPLOAD   -115
-// unexpected NULL pointer
 #define ERR_NULL            -116
-// unexpected negative value
+    // unexpected NULL pointer
 #define ERR_NEG             -117
-// caught buffer overflow
+    // unexpected negative value
 #define ERR_BUFF_OVERFLOW   -118
-// MD5 checksum failed for a file
+    // caught buffer overflow
 #define ERR_MD5_FAILED      -119
-// RSA key check failed for a file
+    // MD5 checksum failed for a file
 #define ERR_RSA_FAILED      -120
+    // RSA key check failed for a file
 #define ERR_OPEN            -121
 #define ERR_DUP2            -122
 #define ERR_NO_SIGNATURE    -123
-// Error creating a thread
 #define ERR_THREAD          -124
+    // Error creating a thread
 #define ERR_SIGNAL_CATCH    -125
-// The app exited due to user request and should be restarted later
 #define ERR_QUIT_REQUEST    -126
+    // The app exited due to user request and should be restarted later
+#define ERR_UPLOAD_TRANSIENT    -127
+#define ERR_UPLOAD_PERMANENT    -128
