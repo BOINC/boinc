@@ -7,18 +7,25 @@ VERSION = 1
 
 CFLAGS = -g
 
-CC = @CC@ $(CFLAGS)
+CC = @CC@ $(CFLAGS) -I ../RSAEuro/source
 
-PROGS = md5_test shmem_test synch_test
+PROGS = md5_test shmem_test synch_test crypt_prog
 
 MD5_OBJS = \
     md5.o \
     md5_file.o
 
+CRYPT_OBJS = \
+    crypt.o
+
+CRYPT_LIBS = \
+    $(MD5_OBJS) \
+    ../RSAEuro/unix/rsaeuro.a
+
 COUNTRY_OBJS = \
     countries.o
 
-all: $(PROGS) $(MD5_OBJS)
+all: $(PROGS) $(MD5_OBJS) $(CRYPT_OBJS)
 
 .C.o:
 	$(CC) -c -o $*.o $<
@@ -33,6 +40,9 @@ shmem_test: shmem_test.o shmem.o
 
 synch_test: synch_test.o synch.o
 	$(CC) synch_test.o synch.o -o synch_test
+
+crypt_prog: crypt_prog.o crypt.o 
+	$(CC) crypt_prog.o crypt.o $(CRYPT_LIBS) -o crypt_prog
 
 clean:
 	rm -f *.o $(PROGS) core dependencies

@@ -479,3 +479,17 @@ David A     June 9 2002
         test_*.php
     tools/
         add.C
+
+David A     June 13 2002
+    - added the RSAEuro library to the project,
+        and some interface routines for it.
+
+    RSAEuro/ (new)
+        source/*
+        demo/*
+    lib/
+        crypt.C,h (new)
+        crypt_prog.C
+        Makefile.in
+    sched/
+        file_upload_handler.C

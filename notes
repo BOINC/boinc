@@ -235,3 +235,51 @@ Core/App connection
         percent done
         I just checkpointed
         CPU time so far
+-------------------
+File upload security
+Each project has a "file upload key pair"
+Scheduling server has private key;
+data servers have public key.
+The key pair may be changed periodically;
+data servers have to store old and new during transitions
+
+- in DB, result XML has format
+    <result>
+        <file_info>
+            <max_size>123123</max_size>
+        </file_info>
+        ...
+    </result>
+
+- RPC reply: result XML info has format
+    <result>
+        <file_info>
+        ...
+        <expiration>...</expiration>        (added by server)
+    </result>
+    <result_signature>
+        <name>foo</name>
+        ...         (digital signature of <result> element; added by server)
+    </result_signature>
+
+- Client stores:
+    for each result (in state file, in memory)
+        exact text of <result> tag
+        signature
+
+- On file upload, client sends
+    <result> element (exact text)
+    <result_signature>
+        ...
+    </result_signature>
+    <filename>blah</filename>
+    <offset>123</offset>
+    <total_size>1234</total_size>
+    <data_start/>
+    ... data
+
+- file upload handler does:
+    parse header (up to <data_start/>)
+    validate signature of <result>
+    verify that filename is in list of file_infos
+    verify that total size is within limit
