@@ -25529,3 +25529,9 @@ Janus  4 Mar 2005
         project-sample/
             project_callbacks.inc (new)
 
+Rom    3 Mar 2005
+    - Bug Fix: Adjust the tail options for Linux with regards to
+        the self extracting archive script
+
+    sea/
+        make-sea.sh

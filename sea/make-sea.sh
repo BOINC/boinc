@@ -29,13 +29,15 @@ fi
 if [ `uname` = "Linux" ]; then
   compress=gzip
   expand=gunzip
+  tail_cmd=tail -n +4
 else
   compress=compress
   expand=uncompress
+  tail_cmd=tail +4
 fi
 
 echo '#!/bin/sh
-tail +4 < "$0" | '$expand' | tar xf - && /bin/sh '"$install $*"'
+$tail_cmd < "$0" | '$expand' | tar xf - && /bin/sh '"$install $*"'
 exit' > "$filename" &&
 $compress < "$1" >> "$filename" &&
 chmod +x "$filename"
