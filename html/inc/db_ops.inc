@@ -290,6 +290,59 @@ function show_result_summary() {
 
 }
 
+function show_failure_result_summary_by_platform() {
+
+    $query_appid = $_GET['appid'];
+    $query_received_time = time() - $_GET['nsecs'];
+
+    $main_query = "select host.os_name, host.os_version, exit_status, COUNT(*) as error_count from result left join host on result.hostid = host.id where appid = '$query_appid' and received_time > '$query_received_time' and outcome = '3' group by host.os_name, host.os_version, exit_status";
+    echo "<p>Query: <b>$main_query</b><p>\n";
+
+    $result = mysql_query($main_query);
+
+    $table_row_background = "eeeeee";
+
+    echo "<table>\n";
+    echo "<tr><th>OS Name</th><th>OS Version</th><th>Exit Status</th><th>Error Count</th></tr>\n";
+
+    while ($res = mysql_fetch_object($result)) {
+
+        if ($table_row_background == "000000") {
+            $table_row_background = "eeeeee";
+        } else {
+            $table_row_background = "000000";
+        }
+
+        echo "<tr>"
+
+        
+        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo $res->os_name;
+        echo "</td>";
+
+        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo $res->os_version;
+        echo "</td>";
+
+        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo exit_status_string($res);
+        echo "</td>";
+
+        echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
+        echo $res->error_count;
+        echo "</td>";
+
+
+        echo "</tr>\n";
+
+
+    }
+    mysql_free_result($result);
+
+    echo "</table>\n";
+
+}
+
 function server_state_select() {
     echo "
         <select name=server_state>

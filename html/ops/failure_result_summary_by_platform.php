@@ -5,7 +5,7 @@
     require_once("../inc/util_ops.inc");
 
     db_init();
-    page_head("Result summary by Operating System");
+    page_head("Result summary by Platform");
     
     show_failure_result_summary_by_platform();
 
