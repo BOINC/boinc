@@ -23773,4 +23773,13 @@ Bruce 2 Feb 2005
         sched_send.C
         handle_request.C
 
+Rom    2 Feb 2005
+    - Moved localization resources to the root of the project per a discussion with
+        Janus, basically we are going to try to have all the localization material
+        for the web/Forum and clients all in one place.
+
+    clientgui/locale/
+        <all directories and files deleted>
+    locale/
+        <all localization files for the client are now here>
 
