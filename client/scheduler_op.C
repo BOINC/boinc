@@ -282,14 +282,15 @@ bool SCHEDULER_OP::update_urls(PROJECT& project, vector<STRING256> &urls) {
 bool SCHEDULER_OP::poll() {
     int retval;
     vector<STRING256> urls;
-    bool changed, scheduler_op_done;
+    bool changed, scheduler_op_done, get_master_success;
     bool action = false;
-    char err_msg[256];
+    char err_msg[256],*err_url;
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
         // here we're fetching the master file for a project
         //
+		get_master_success = true;
         if (http_op.http_op_state == HTTP_STATE_DONE) {
             action = true;
             project->master_url_fetch_pending = false;
@@ -313,21 +314,36 @@ bool SCHEDULER_OP::poll() {
                     // master file parse failed.  treat like RPC error
                     //
                     backoff(project, "Master file parse failed\n");
-                }
+                    get_master_success = false;
+					err_url = project->master_url;
+               }
             } else {
                 // fetch of master file failed.  Treat like RPC error
                 //
                 backoff(project, "Master file fetch failed\n");
+                get_master_success = false;
+                err_url = project->master_url;
             }
             project = gstate.next_project_master_pending();
             if (project) {
-                if ((retval = init_master_fetch(project)))
+                if ((retval = init_master_fetch(project))) {
                     backoff(project, "Master file fetch failed\n");
+                    get_master_success = false;
+                    err_url = project->master_url;
+                }
             } else {
                 state = SCHEDULER_OP_STATE_IDLE;
                 if (log_flags.sched_op_debug) {
                     printf("Scheduler_op: return to idle state\n");
                 }
+            }
+            // If we haven't been able to successfully get the master URL file
+            // recently then notify the user
+            if (!get_master_success) {
+                char buf[256];
+                sprintf(buf, "Could not contact %s. Make sure this is the correct project URL.",
+                    err_url);
+                show_message( buf, "high" );
             }
         }
         break;
