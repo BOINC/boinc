@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -42,7 +42,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
     SECURITY_ATTRIBUTES security;
     HANDLE hSharedMem;
     LPVOID pMemPtr;
-    
+
     security.nLength = sizeof(security);
     security.lpSecurityDescriptor = NULL;
     security.bInheritHandle = TRUE;
@@ -124,13 +124,13 @@ int attach_shmem(key_t key, void** pp){
     assert(pp!=NULL);
     id = shmget(key, 0, 0);
     if (id < 0) {
-        sprintf(buf, "attach_shmem: shmget: key: %x mem_addr: %d", (unsigned int)key, (int)pp);
+        sprintf(buf, "attach_shmem: shmget: key: %x mem_addr: %p", (unsigned int)key, (void*)pp);
         perror(buf);
         return -1;
     }
     p = shmat(id, 0, 0);
     if ((int)p == -1) {
-        sprintf(buf, "attach_shmem: shmat: key: %x mem_addr: %d", (unsigned int)key, (int)pp);
+        sprintf(buf, "attach_shmem: shmat: key: %x mem_addr: %p", (unsigned int)key, (void*)pp);
         perror(buf);
         return -1;
     }
@@ -150,7 +150,7 @@ int shmem_info(key_t key) {
     int id;
     struct shmid_ds buf;
     char buf2[256];
-    
+
     id = shmget(key, 0, 0);
     if (id < 0) {
         sprintf(buf2, "shmem_info: shmget: key: %x", (unsigned int)key);
@@ -160,7 +160,7 @@ int shmem_info(key_t key) {
     shmctl(id, IPC_STAT, &buf);
     fprintf( stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",
             (unsigned int)key, id, buf.shm_segsz, (int)buf.shm_nattch );
-    
+
     return 0;
 }
 

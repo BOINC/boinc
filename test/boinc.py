@@ -180,7 +180,7 @@ def map_xml(dic, keys):
     return s[:-1]
 
 def generate_shmem_key():
-    return '0xbbbb%x' % random.randrange(0,2**16)
+    return '0x1111%x' % random.randrange(0,2**16)
 
 class STARTS_WITH(str):
     pass
