@@ -6,6 +6,8 @@ require_once('../inc/util.inc');
 db_init();
 
 $logged_in_user = get_logged_in_user();
+
+
 if ($_POST['submit']) {    
     
     if (empty($_GET['id'])) {
@@ -17,11 +19,16 @@ if ($_POST['submit']) {
     $post = getPost($_GET['id']);
     $thread = getThread($post->thread);
 
+    if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
+	echo "You can no longer edit this post.<br>Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
+	exit();
+    }
     if ($logged_in_user->id != $post->user) {
         // Can't edit other's posts.
         echo "You are not authorized to edit this post.";
         exit();
     }
+    
     
     updatePost($post->id, $_POST['content']);
     if ($post->parent_post==0 and $thread->owner==$logged_in_user->id){
@@ -44,6 +51,10 @@ if (!empty($_GET['id'])) {
     echo "No post was specified.<br>";
     exit();
 }
+    if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
+	echo "You can no longer edit this post.<br>Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
+	exit();
+    }
 
 if ($logged_in_user->id != $post->user) {
     // Can't edit other's posts.

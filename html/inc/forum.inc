@@ -4,19 +4,23 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once('../inc/db.inc');
 require_once('../inc/sanitize_html.inc');
 require_once('../inc/time.inc');
+require_once('../inc/forum_moderators.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
-define('ST_ADMIN', 'Project administrator');
-define('ST_MODERATOR', 'Forum moderator');
-define('ST_DEV', 'Project developer');
-define('ST_TEST', 'Project tester');
-define('ST_VOLDEV', 'Volunteer developer');
-define('ST_VOLTEST', 'Volunteer tester');
-define('ST_SCIENT', 'Project scientist');
+
+$special_user_bitfield[0]="Forum moderator";
+$special_user_bitfield[1]="Project administrator";
+$special_user_bitfield[2]="Project developer";
+$special_user_bitfield[3]="Project tester";
+$special_user_bitfield[4]="Volunteer developer";
+$special_user_bitfield[5]="Volunteer tester";
+$special_user_bitfield[6]="Project scientist";
+
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
 define('ST_NEW', 'New member');
 
+define('MAXIMUM_EDIT_TIME',3600); //Maximally allow edits of forums posts up till one hour after posting.
 
 define('FORUM_OPEN_LINK_IN_NEW_WINDOW',1);
 define('MAX_FORUM_LOGGING_TIME', 604800); //3600*24*7 - 7 days
@@ -94,10 +98,10 @@ function getForums($categoryID) {
   return mysql_query($sql);
 }
 
-function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $filteron = 1) {
-	/* Calling function:  Set $filteron to 0 if it is a moderator reading */
+function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $show_hidden = 0) {
+	/* Calling function:  Set $show_hidden to 1 if it is a moderator reading */
     $sql = 'SELECT * FROM thread WHERE forum = ' . $forumID;
-    if ($filteron) {
+    if (!$show_hidden) {
     	$sql .= ' AND hidden = 0';
     }
     switch($sort_style) {
@@ -141,10 +145,10 @@ function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $fi
     return mysql_query($sql);
 }
 
-function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp", $filteron = 1) {
-	/* Calling function: Set $filteron = 0 when it is a moderator reading */ 
+function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp", $show_hidden = false) {
+	/* Calling function: Set $show_hidden = true when it is a moderator reading */ 
     $sql = 'SELECT * FROM post WHERE thread = '. $threadID;
-    if ($filteron) {
+    if (!$show_hidden) {
     	$sql .= ' AND hidden = 0';
     }
     switch($sort_style) {
@@ -259,6 +263,11 @@ function getForumPreferences($user){
         $user->forum_preferences=0;
     }
     return $user;
+}
+
+/* Check if user has special user bit enabled */
+function isSpecialUser($user, $specialbit){
+    return (substr($user->special_user, $specialbit,1)==1);
 }
 
 function getHasRated($user, $postid){
@@ -433,7 +442,13 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
         $controls = NO_CONTROLS;
     }
 
-    $posts = getPosts($thread->id, -1, -1, $sort_style);
+    if (isSpecialUser($logged_in_user,0)){		// If logged in user is moderator
+	$show_hidden_posts = true;			// let him see all posts - including hidden ones
+    } else {
+	$show_hidden_posts = false;
+    }
+
+    $posts = getPosts($thread->id, -1, -1, $sort_style, $show_hidden_posts);
     $logged_in_user = getThreadLastVisited($logged_in_user,$thread);
     setThreadLastVisited($logged_in_user,$thread);
 
@@ -497,22 +512,19 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     echo user_links($user, URL_BASE);
 
+    global $special_user_bitfield; 
     if ($user->special_user) {                                                                        //If this user is somehow special
-        if ($user->special_user==1) $fstatus=ST_ADMIN;                                                //this is displayed in the forums
-        if ($user->special_user==2) $fstatus=ST_MODERATOR;                                        //so that people know who they are
-        if ($user->special_user==3) $fstatus=ST_DEV;                                                //talking to.
-        if ($user->special_user==4) $fstatus=ST_VOLDEV;
-        if ($user->special_user==5) $fstatus=ST_SCIENT;
-        if ($user->special_user==6) $fstatus=ST_TEST;
-        if ($user->special_user==7) $fstatus=ST_VOLTEST;
-        /*...*/
+	for ($i=0; $i<sizeof($special_user_bitfield);$i++){
+	    if (isSpecialUser($user,$i)) $fstatus.=$special_user_bitfield[$i]."<br>";
+	}
     } else {
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
+	echo "<br>";
         /*...*/
     }
     if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
 
-    echo "<br><font size=-2>";
+    echo "<font size=-2>";
     if (!$filter || !$rated_below_threshold){
         if ($user->has_avatar and $logged_in_user->hide_avatars!=1) {
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
@@ -535,7 +547,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     echo "
         <table width=\"100%\" cellpadding=0 cellspacing=0 border=0>
         <tr valign=top>
-        <td align=left style=\"border:0px\"><font size=-2>"; //cellborder=0 deleted - what did it do?
+        <td align=left style=\"border:0px\"><font size=-2>";
 
     if ($post->timestamp>$logged_in_user->thread_last_visited){
         echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\">";
@@ -544,18 +556,19 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"!\" height=\"".EMPHASIZE_IMAGE_HEIGHT."\">";
     }
 
+    if ($post->hidden) echo "<font color=red>[deleted] </font>";
     echo "
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
     if ($post->parent_post) echo " - in response to <a href=\"#$post->parent_post\">Message ID $post->parent_post</a>.";
     if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=$post->id\">[Edit this post]</a>";
+    if (isSpecialUser($logged_in_user,0)) show_post_moderation_links($post); //If user is moderator, show links
     if ($post->modified) echo "<br>Last modified: ", pretty_time_Str($post->modified);
     if ($rated_below_threshold && $filter){
         if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
         echo "<br>This post has been filtered (rating: ".($post->score * $post->votes).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
     }
-
     echo "\n</font></td>\n";
 
     if ($controls == FORUM_CONTROLS) {

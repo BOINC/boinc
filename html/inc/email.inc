@@ -121,4 +121,33 @@ function split_munged_email_addr($addr, $auth, &$email) {
     return true;
 }
 
+function send_moderation_email($user, $thread,  $post, $message) {
+    $body = "";
+
+    if (defined('EMAIL_FROM')) {
+        $headers = "From: ". EMAIL_FROM;
+    } else {
+        $headers ="";
+    }
+    $subject = PROJECT." forum moderation notice for $user->name";
+    $body = PROJECT." notification:
+
+This email is sent to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
+    Thread:         ".$thread->title."
+    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->id."
+    
+The moderator gave this explanation to why your post was moderated:
+".$message;
+$body .= "
+
+This was the contents of your post:
+".$post->content."
+
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    return mail($user->email_addr, $subject, $body, $headers);
+
+}
+
+
+
 ?>

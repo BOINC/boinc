@@ -219,6 +219,9 @@ function update_1_13_2005() {
     mysql_query("alter table post add hidden integer not null");
 }
 
+function update_1_18_2005() {
+    mysql_query("ALTER TABLE `forum_preferences` CHANGE `special_user` `special_user` CHAR( 8 ) DEFAULT '0' NOT NULL");
+}
 //update_10_25_2004();
 
 ?>
