@@ -15235,3 +15235,11 @@ Daniel 2004-07-14
     lib/
         std_fixes.h
 
+Brian  14 July 2004
+    - made a small changed that removed extra checks on downloaded files when a
+      file_xfer is completed. Was rejecting good files that had bogus md5 checksums
+	created using send_file or get_file. Extra time will have to be spend to make
+      md5 work for these two functions in the future
+
+    client/
+       pers_file_xfer.C
