@@ -1,85 +1,19 @@
-<?php
+<?php {
     require_once("util_ops.inc");
     require_once("db_ops.inc");
-
-function append_sql_query($original,$addition,$first) {
-    if ($first == 1) {
-        return $original . " where " . $addition;
-    } else {
-        return $original . " and " . $addition;
+    
+    function append_sql_query($original,$addition,$first) {
+        if ($first == 1) {
+            return $original . " where " . $addition;
+        } else {
+            return $original . " and " . $addition;
+        }
     }
-}
-
+    
     db_init();
-
+    
     parse_str(getenv("QUERY_STRING"));
-
-    $first = 1;
-
-    if (strlen($clauses)) {
-        $query = append_sql_query( $query, $clauses, $first );
-        $first = 0;
-    }
-
-    if (strlen($id)) {
-        $query = append_sql_query( $query, "id = $id", $first );
-        $first = 0;
-    }
-
-    if (strlen($plat_id)) {
-        $query = append_sql_query( $query, "platformid = $plat_id", $first );
-        $first = 0;
-    }
-
-    if (strlen($app_id)) {
-        $query = append_sql_query( $query, "appid = $app_id", $first );
-        $first = 0;
-    }
-
-    if (strlen($wu_id)) {
-        $query = append_sql_query( $query, "workunitid = $wu_id", $first );
-        $first = 0;
-    }
-
-    if (strlen($hostid)) {
-        $query = append_sql_query( $query, "hostid = $hostid", $first );
-        $first = 0;
-    }
-
-    if (strlen($userid)) {
-        $query = append_sql_query( $query, "userid = $userid", $first );
-        $first = 0;
-    }
-
-    if (strlen($team_id)) {
-        $query = append_sql_query( $query, "teamid = $team_id", $first );
-        $first = 0;
-    }
-
-    if (strlen($received_time)) {
-        $query = append_sql_query( $query, "received_time > $received_time", $first );
-        $first = 0;
-    }
-
-    if (strlen($result_server_state) && $result_server_state>0) {
-        $query = append_sql_query( $query, "server_state = $result_server_state", $first );
-        $first = 0;
-    }
-
-    if (strlen($result_outcome) && $result_outcome>0) {
-        $query = append_sql_query( $query, "outcome = $result_outcome", $first );
-        $first = 0;
-    }
-
-    if (strlen($result_client_state) && $result_client_state>0) {
-        $query = append_sql_query( $query, "client_state = $result_client_state", $first );
-        $first = 0;
-    }
-
-    if (strlen($sort_by)) {
-        $query = $query . " order by $sort_by desc";
-        $first = 0;
-    }
+    $q = build_sql_query($table);
 
     if (strlen($nresults)) {
         $entries_to_show = $nresults;
@@ -94,24 +28,16 @@ function append_sql_query($original,$addition,$first) {
     }
 
     page_head($table);
-
-
-    $count_query = "select count(*) as cnt from ".$table." ".$query;
-    $result = mysql_query($count_query);
-    $res = mysql_fetch_object($result);
-    $count = $res->cnt;
+    
+    $count = $q->count();
 
     if ($count < $start_at + $entries_to_show) {
         $entries_to_show = $count - $start_at;
     }
 
     $last = $start_at + $entries_to_show;
-
-    if ($start_at) {
-        $main_query = "select * from ".$table." ".$query. " limit ".$start_at.",".$entries_to_show;
-    } else {
-        $main_query = "select * from ".$table." ".$query. " limit ".$entries_to_show;
-    }
+    
+    $main_query = $q->get_select_query($entries_to_show, $start_at);
 
     echo "<p>Query: <b>$main_query</b><p>\n";
     echo "
@@ -119,11 +45,13 @@ function append_sql_query($original,$addition,$first) {
         Displaying $start_at to $last.<p>
     ";
 
-    $urlquery = urlencode($query);
+    $urlquery = urlencode($q->query);
     if ($last < $count) {
         echo "
-            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a>
+            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a><br>
         ";
+    } else {
+        echo "<br>";
     }
     if ($detail == "high") {
         echo "
@@ -190,4 +118,4 @@ function append_sql_query($original,$addition,$first) {
     }
 
     page_tail();
-?>
+} ?>

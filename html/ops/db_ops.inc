@@ -26,6 +26,163 @@ function lookup_user_auth($auth) {
     }
 }
 
+class SqlQueryString {
+    var $table;
+    var $query;
+    function SqlQueryString($table, $query) { $this->table = $table; $this->query = $query; }
+    function add($clause) { 
+        if (!$this->query) {
+            $this->query .= "where $clause";
+        } else {
+            $this->query .= " and $clause";
+        }
+    }
+    function addclause($clause) {
+        if ($clause) {
+            $this->add($clause);
+        }
+    }
+    function addeq($name, $value) {
+        if (strlen($value)) {
+            $this->add("$name = $value");
+        }
+    }
+    function addeqnz($name, $value) {
+        if (strlen($value) && $value > 0) {
+            $this->add("$name = $value");
+        }
+    }
+    function addgt($name, $value) {
+        if (strlen($value) && $value > 0) {
+            $this->add("$name > $value");
+        }
+    }
+    
+    function count() {
+        $count_query = "select count(*) as cnt from $this->table $this->query";
+        $result = mysql_query($count_query);
+        $res = mysql_fetch_object($result);
+        return $res->cnt;
+    }
+    
+    function get_select_query($entries_to_show, $start_at) {
+        if ($entries_to_show) {
+            if ($start_at) {
+                return "select * from $this->table $this->query limit $start_at,$entries_to_show";
+            } else {
+                return "select * from $this->table $this->query limit $entries_to_show";
+            }
+        } else {
+            return "select * from $this->table $this->query";
+        }
+    }
+}
+
+function build_sql_query($table)
+{
+    parse_str(getenv("QUERY_STRING"));
+    
+    $q = new SqlQueryString($table, $query);
+    
+    $q->addclause($clauses);
+    $q->addeq('id', $id);
+    $q->addeq('platformid', $plat_id);
+    $q->addeq('appid', $app_id);
+    $q->addeq('workunitd', $wu_id);
+    $q->addeq('hostid', $hostid);
+    $q->addeq('userid', $userid);
+    $q->addeq('teamid', $team_id);
+    if ($nsecs) {
+        $received_time = time() - $nsecs;
+    }
+    $q->addgt('received_time', $received_time);
+    $q->addeqnz('server_state', $result_server_state);
+    $q->addeqnz('outcome', $result_outcome);
+    $q->addeqnz('client_state', $result_client_state);
+
+    if (strlen($sort_by)) {
+        $q->query .= " order by $sort_by desc";
+    }
+    
+    return $q;
+}
+
+function link_results($n, $mq, $query) {
+    if ($n == '0') { // intentional compare by string 
+        return "0";
+    } else {
+        return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=received_time&detail=low>$n</a>";
+    }
+}
+
+function show_result_summary()
+{
+    $server_state = array();
+    $outcome = array();
+    $client_state = array();
+    
+    for ($ss=1; $ss<6; $ss++) {
+        $server_state[$ss] = 0;
+    }
+    for ($ro=0; $ro<6; $ro++) {
+        $outcome[$ro] = 0;
+    }
+    for ($cs=1; $cs<6; $cs++) {
+        $client_state[$cs] = 0;
+    }
+    
+    $q = build_sql_query('result');
+    $main_query = $q->get_select_query(0,0);
+    $urlquery = urlencode($q->query);
+    echo "<p>Query: <b>$main_query</b><p>\n";
+    $result = mysql_query($main_query);
+    $ntotal =0; // TODO: how to count $result?
+    while ($res = mysql_fetch_object($result)) {
+        $server_state[$res->server_state] += 1;
+        $ntotal  += 1;
+        if ($res->server_state == 5) {
+            $outcome[$res->outcome] += 1;
+            if ($res->outcome == 3) {
+                $client_state[$res->client_state] += 1;
+            }
+        }
+    }
+    mysql_free_result($result);
+
+    echo "<table>";
+    echo "<tr valign=top>";
+    echo "<td><h2>" . link_results("$ntotal results", $urlquery, '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Over' results", $urlquery, "result_server_state=5") . "</h2></td>";
+    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "result_outcome=3") . "</h2></td>";
+    echo "</tr>";
+    echo "<tr valign=top>";
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<tr><th>Server state</th><th># results</th></tr>\n";
+    for ($ss=1; $ss<6; $ss++) {
+        row2(result_server_state_string($ss), 
+             link_results($server_state[$ss],  $urlquery,"result_server_state=$ss"));
+    }
+    echo "</table></td>";
+    
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<tr><th>Outcome</th><th># results</th></tr>\n";
+    for ($ro=0; $ro<6; $ro++) {
+        c_row2(outcome_color($ro), result_outcome_string($ro),
+               link_results($outcome[$ro], $urlquery, "result_outcome=$ro"));
+    }
+    echo "</table></td>";
+    
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<tr><th>Client state</th><th># results</th></tr>\n";
+    for ($cs=1; $cs<6; $cs++) {
+        row2(result_client_state_string($cs), 
+             link_results($client_state[$cs], $urlquery, "result_client_state=$cs"));
+    }
+    print "</td></table>";
+    print "</table>";
+    
+}
+
 function result_server_state_select() {
     echo "
         <select name=result_server_state>
