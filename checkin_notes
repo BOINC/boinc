@@ -20675,3 +20675,11 @@ Rom    3 Dec 2004
 
     lib/
         diagnostics.C, .h
+
+Janus   5 Dec 2004
+    -   Added forum navigation bar on bottom of threads (users dont need 
+        to scroll up anymore to get back.
+    -   Also made forum_threads.php output HTML 4.01 transitional valid
+
+    html/user/
+        forum_threads.php
