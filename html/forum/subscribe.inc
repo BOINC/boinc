@@ -48,7 +48,7 @@ function show_result_page($action, $success, $thread) {
     } else if ($action == "unsubscribe" && $success) {
         doHeader("Unsubscription Successful");
         echo "<span class=\"title\">Unsubscription successful</span>";
-        echo "<p>You have successfully unsubscribed from <b>", $thread->title, "</b>.  You will no longer receive emails for posts to this thread.";
+        echo "<p>You have successfully unsubscribed from <b>", $thread->title, "</b>.  You will no longer receive emails for posts to this thread.</p>";
     } else if ($action == "subscribe" && !$success) {
         doHeader("Subscription Failed");
         echo "<span class=\"title\">Subscription failed</span>";
@@ -68,7 +68,10 @@ function show_result_page($action, $success, $thread) {
     } else {
         doHeader("Unknown action");
         echo "<span class=\"title\">Unknown action</span>";
+        echo "<p>The action you requested is not known</p>";
     }
+    
+    echo "<a href=\"thread.php?id=", $thread->id, "\">Return to thread</a>";
     
     doFooter();
     
