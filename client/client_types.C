@@ -940,9 +940,11 @@ int RESULT::write(FILE* out, bool to_server) {
         "<result>\n"
         "    <name>%s</name>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
+        "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n",
         name,
         final_cpu_time,
+        exit_status,
         state
     );
     n = stderr_out.length();

@@ -10047,3 +10047,29 @@ David  Feb 15 2004
     py/Boinc/
         database.py
         setup_project.py
+
+David  Feb 16 2004
+    - enable the min_core_version attribute of app_version:
+        don't send a result to a host whose core version is too low.
+        (Note: this is a no-op unless you set min_core_version
+        to something nonzero).
+        If a host isn't sent any work because of this,
+        send a message suggesting upgrade
+    - In the scheduler, parse <exit_status> from within <result>
+        Also parse it within <stderr_out> for backwards compat
+    - put an <exit_status> element at the top level of <result>,
+        not within <stderr_out>
+    - add uniqueness constraints for category and forum
+    - add a script to set up initial categories and forums
+
+    client/
+        client_state.C
+        client_types.C
+    db/
+        constraints.sql
+    html/ops/
+        create_forums.php (new)
+    sched/
+        handle_request.C
+        sched_shmem.C
+        server_types.C

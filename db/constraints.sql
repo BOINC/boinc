@@ -98,6 +98,12 @@ alter table profile
 alter table subscriptions
     add unique sub_unique(userid, threadid);
 
+alter table category
+    add unique cat1(name, is_helpdesk);
+
+alter table forum
+    add unique(category, title);
+
 alter table thread
     add fulltext index thread_title(title);
         

@@ -920,11 +920,9 @@ int CLIENT_STATE::report_result_error(
         buf,
         "<message>%s\n</message>\n"
         "<active_task_state>%d</active_task_state>\n"
-        "<exit_status>%d</exit_status>\n"
         "<signal>%d</signal>\n",
         err_msg,
         res.active_task_state,
-        res.exit_status,
         res.signal
     );
     res.stderr_out.append(buf);

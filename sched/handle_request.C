@@ -53,6 +53,7 @@ struct WORK_REQ {
     double seconds_to_fill;
     double disk_available;
     int nresults;
+    int core_client_version;
 
     // the following flags are set whenever a result is infeasible;
     // used to construct explanatory message to user
@@ -61,6 +62,7 @@ struct WORK_REQ {
     bool insufficient_mem;
     bool insufficient_speed;
     bool no_app_version;
+    bool outdated_core;
 };
 
 bool anonymous(PLATFORM& platform) {
@@ -248,6 +250,21 @@ bool find_app_version(
             app->id, platform.id, app->min_version
         );
         wreq.no_app_version = true;
+        return false;
+    }
+    return true;
+}
+
+// verify that the given APP_VERSION will work with the core client
+//
+bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
+    if (wreq.core_client_version < av.min_core_version) {
+        log_messages.printf(
+            SchedMessages::DEBUG,
+            "Outdated core version: wanted %d, got %d\n",
+            av.min_core_version, wreq.core_client_version
+        );
+        wreq.outdated_core = true;
         return false;
     }
     return true;
@@ -761,34 +778,6 @@ static void scan_work_array(
             continue;
         }
 
-        // don't send if we've already sent a result of this WU to this user
-        //
-        if (config.one_result_per_user_per_wu) {
-            sprintf(buf,
-                "where workunitid=%d and userid=%d",
-                wu_result.workunit.id, reply.user.id
-            );
-            retval = result.count(n, buf);
-            if (retval) {
-                log_messages.printf(
-                    SchedMessages::CRITICAL,
-                    "send_work: can't get result count (%d)\n", retval
-                );
-                continue;
-            } else {
-                if (n>0) {
-#if 0
-                    log_messages.printf(
-                        SchedMessages::NORMAL,
-                        "send_work: user %d already has %d result(s) for WU %d\n",
-                        reply.user.id, n, wu_result.workunit.id
-                    );
-#endif
-                    continue;
-                }
-            }
-        }
-
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
@@ -816,6 +805,39 @@ static void scan_work_array(
             if (!found) {
                 wu_result.infeasible_count++;
                 continue;
+            }
+            if (!app_core_compatible(wreq, *avp)) {
+                wu_result.infeasible_count++;
+                continue;
+            }
+        }
+
+        // Don't send if we've already sent a result of this WU to this user.
+        // NOTE: do this check last since it involves a DB access
+        //
+        if (config.one_result_per_user_per_wu) {
+            sprintf(buf,
+                "where workunitid=%d and userid=%d",
+                wu_result.workunit.id, reply.user.id
+            );
+            retval = result.count(n, buf);
+            if (retval) {
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "send_work: can't get result count (%d)\n", retval
+                );
+                continue;
+            } else {
+                if (n>0) {
+#if 0
+                    log_messages.printf(
+                        SchedMessages::NORMAL,
+                        "send_work: user %d already has %d result(s) for WU %d\n",
+                        reply.user.id, n, wu_result.workunit.id
+                    );
+#endif
+                    continue;
+                }
             }
         }
 
@@ -901,6 +923,8 @@ int send_work(
     wreq.insufficient_mem = false;
     wreq.insufficient_speed = false;
     wreq.no_app_version = false;
+    wreq.core_client_version = sreq.core_client_major_version*100
+        + sreq.core_client_minor_version;
     wreq.nresults = 0;
 
     log_messages.printf(
@@ -952,6 +976,11 @@ int send_work(
         if (wreq.insufficient_mem) {
             strcat(reply.message,
                 " (there was work but your computer would not finish it before it is due"
+            );
+        }
+        if (wreq.outdated_core) {
+            strcat(reply.message,
+                " (your core client is out of date - please upgrade)"
             );
         }
         strcpy(reply.message_priority, "low");
