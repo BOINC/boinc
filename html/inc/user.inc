@@ -14,20 +14,8 @@ function pending_credit($user) {
 function show_credit($user) {
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
-    if ($user->seti_nresults) {
-        row2(
-            "SETI@home classic workunits
-            <br><font size=-2>as of 14 May 2004</font>",
-            number_format($user->seti_nresults)
-        );
-    }
-    if ($user->seti_total_cpu) {
-        $x = number_format($user->seti_total_cpu/3600)." hours";
-        row2(
-            "SETI@home classic CPU time
-            <br><font size=-2>as of 14 May 2004</font>",
-            $x
-        );
+    if (function_exists('project_user_credit_callback')) {
+	echo "<p>".project_user_credit_callback($user)."</p>";
     }
 }
 
