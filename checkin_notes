@@ -7866,3 +7866,6 @@ David  25 Nov 2003
 
     sched/
         db_dump.C
+
+Gary	25 Nov 2003
+    - BOINC release 2.11 for windows, Linux, solaris2.7, solaris2.8
