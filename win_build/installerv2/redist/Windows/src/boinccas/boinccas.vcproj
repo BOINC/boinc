@@ -87,11 +87,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib netapi32.lib"
+				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="1"
+				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile="boinccas.def"
-				DelayLoadDLLs="netapi32.lib"
+				DelayLoadDLLs="netapi32.dll;advapi32.dll"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/boinccas.pdb"
 				SubSystem="2"
