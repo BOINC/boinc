@@ -1,3 +1,4 @@
+ /* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
@@ -45,7 +46,7 @@ int wu_delete_files(WORKUNIT& wu) {
     int count_deleted = 0, retval;
 
     safe_strcpy(buf, wu.xml_doc);
-
+    
     p = strtok(buf, "\n");
     strcpy(filename, "");
     while (p) {
@@ -60,7 +61,7 @@ int wu_delete_files(WORKUNIT& wu) {
                 retval = dir_hier_path(
                     filename, config.download_dir, config.uldl_dir_fanout,
                     pathname
-                );
+                    );
                 if (retval) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] dir_hier_path: %d\n", wu.name, retval);
                 } else {
@@ -125,6 +126,10 @@ int result_delete_files(RESULT& result) {
     return 0;
 }
 
+// set by corresponding command line arguments.
+static bool preserve_wu_files=false;
+static bool preserve_result_files=false;
+
 // return nonzero if did anything
 //
 bool do_pass() {
@@ -139,7 +144,9 @@ bool do_pass() {
     sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
     while (!wu.enumerate(buf)) {
         did_something = true;
-        wu_delete_files(wu);
+        
+        if (!preserve_wu_files)
+            wu_delete_files(wu);
         wu.file_delete_state = FILE_DELETE_DONE;
         sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
         retval= wu.update_field(buf);
@@ -154,7 +161,8 @@ bool do_pass() {
     sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
     while (!result.enumerate(buf)) {
         did_something = true;
-        result_delete_files(result);
+        if (!preserve_result_files)
+            result_delete_files(result);
         result.file_delete_state = FILE_DELETE_DONE;
         sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
         retval= result.update_field(buf);
@@ -179,6 +187,20 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-preserve_wu_files")) {
+            // This option is primarily for testing.  If enabled, the
+            // file_deleter will function 'normally' and will update
+            // the database, but will not actually delete the workunit
+            // input files.  It's equivalent to setting <no_delete/>
+            // [undocumented] for all workunit input files.
+            preserve_wu_files = true;
+        } else if (!strcmp(argv[i], "-preserve_result_files")) {
+            // This option is primarily for testing.  If enabled, the
+            // file_deleter will function 'normally' and will update
+            // the database but will not actually delete the result
+            // output files. It's equivalent to setting <no_delete/>
+            // [undocumented] for all result output files.
+            preserve_result_files = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {

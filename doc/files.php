@@ -27,6 +27,7 @@ A file is described by an XML element of the form
     [ &lt;upload_when_present/> ]
     [ &lt;sticky/> ]
     [ &lt;signature_required/> ]
+    [ &lt;no_delete/> ]
 &lt;/file_info>
 </pre>
 The elements are as follows:
@@ -58,6 +59,16 @@ the file should be retained on the client after its initial use.");
 list_item("signature_required", "If present,
 indicates that the file should be verified with an RSA signature.
 This generally only applies to executable files.");
+list_item("no_delete", "If present for an input (workunit) file,
+indicates that the file should NOT be removed from the download/
+directory when the workunit is completed.  You should use this
+if a particular input file or files are used by more than one
+workunit, or will be used by future, unqueued workunits.");
+list_item("no_delete", "If present for an output (result) file,
+indicates that the file should NOT be removed from the upload/
+directory when the corresponding workunit is completed. This is
+probably a bad idea since your upload/ directory will eventually
+overflow!");
 list_end();
 echo "
 These attributes allow the specification of various types of files: for
