@@ -52,7 +52,10 @@ bool CBOINCGUIApp::OnInit()
     m_bBOINCStartedByManager = false;
     m_bFrameVisible = true;
     m_lBOINCCoreProcessId = 0;
+#ifdef __WXMSW__
     m_hBOINCCoreProcess = NULL;
+    m_hIdleDetectionDll = NULL;
+#endif
 
     // Enable Trace Masks
     //wxLog::AddTraceMask( wxT("Function Start/End") );
