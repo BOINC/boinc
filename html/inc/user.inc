@@ -40,6 +40,7 @@ function show_user_stats_private($user) {
     }
     row2("Computers", "<a href=hosts_user.php>View</a>");
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");
+    row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
     if ($user->posts) {
         row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts messages</a>");
 

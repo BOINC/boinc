@@ -191,6 +191,12 @@ void handle_wu(DB_WORKUNIT& wu) {
             }
             if (retry) need_delayed_transition = true;
             update_result = false;
+
+            // if result had nonrecoverable error, make sure it gets updated
+            //
+            if (result.outcome != RESULT_OUTCOME_SUCCESS) {
+                update_result = true;
+            }
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
@@ -272,6 +278,23 @@ void handle_wu(DB_WORKUNIT& wu) {
                 exit(retval);
             }
             if (retry) need_delayed_transition = true;
+
+            // See if any results had nonrecoverable errors
+            //
+            for (i=0; i<results.size(); i++) {
+                result = results[i];
+                if (result.outcome != RESULT_OUTCOME_SUCCESS) {
+                    need_immediate_transition = true;
+                    retval = result.update();
+                    if (retval) {
+                        log_messages.printf(
+                            SCHED_MSG_LOG::CRITICAL,
+                            "[RESULT#%d %s] result.update() failed: %d\n",
+                            result.id, result.name, retval
+                        );
+                    }
+                }
+            }
             if (canonicalid) {
                 need_immediate_transition = true;
                 log_messages.printf(
@@ -352,8 +375,7 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     if (need_immediate_transition) {
         wu.transition_time = time(0);
-    }
-    if (need_delayed_transition) {
+    } else if (need_delayed_transition) {
         int x = time(0) + 6*3600;
         if (x < wu.transition_time) wu.transition_time = x;
     }

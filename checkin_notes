@@ -17234,6 +17234,8 @@ David  9 Sept 2004
 			userw.inc
 			wap.inc
 		user/
+			userw.php
+        ops/
 			opsw.php
 			userw.php
 
@@ -17258,3 +17260,13 @@ David  10 Sept 2004
 
 	lib/
 		util.C
+
+David  10 Sept 2004
+    - validator: slight change to check_set() and check_pair():
+        they no longer should update result records in case of
+        nonrecoverable error.
+        Just set the outcome to RESULT_OUTCOME_VALIDATE_ERROR,
+        and the framework program will do the updates.
+
+    sched/
+        validator.C
