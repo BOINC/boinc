@@ -220,6 +220,7 @@ void make_work() {
         wu.max_success_results = max_success_results;
         strcpy(wu.result_template, result_template);
         process_result_template_upload_url_only(wu.result_template, config.upload_url);
+        wu.transition_time = time(0);
         retval = wu.insert();
         wu.id = boinc_db_insert_id();
         log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);

@@ -5829,3 +5829,10 @@ Eric K  8/15/2003
     -  Prefaced transform() with std:: to get util.C to compile under windows.
 	api/util.C
 
+
+Karl 2003/08/18
+    - scheduler bug fixes
+
+    sched/
+        transitioner.C
+        make_work.C

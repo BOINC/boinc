@@ -68,13 +68,13 @@ void handle_wu(DB_WORKUNIT& wu) {
         results.push_back(result);
     }
 
-    if (results.size() == 0) {
-        log_messages.printf(
-            SchedMessages::NORMAL, "[WU#%d %s] No results\n",
-            wu.id, wu.name
-        );
-        return;
-    }
+    // if (results.size() == 0) {
+    //     log_messages.printf(
+    //         SchedMessages::NORMAL, "[WU#%d %s] No results\n",
+    //         wu.id, wu.name
+    //     );
+    //     return;
+    // }
 
     log_messages.printf(SchedMessages::DEBUG,
         "[WU#%d %s] enumerated %d results\n",
