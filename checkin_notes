@@ -11531,3 +11531,15 @@ David  April 10 2004
         sched_config.C
     zip/
         Makefile
+
+David  April 11 2004
+    - scheduler RPC: return a result's app version number
+        in a <app_version_num> field within <result>,
+        not an <app_version> field within <stderr_out>
+        Change scheduler to look in both places for now.
+
+    client/
+        client_types.C
+    sched/
+        handle_request.C
+        server_types.C

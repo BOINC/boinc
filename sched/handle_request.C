@@ -358,17 +358,18 @@ int handle_results(
         result.client_state = rp->client_state;
         result.cpu_time = rp->cpu_time;
         result.exit_status = rp->exit_status;
+        result.app_version_num = rp->app_version_num;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
         result.server_state = RESULT_SERVER_STATE_OVER;
 
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
-        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
-        // look for exit status in stderr_out
+        // look for exit status and app version in stderr_out
         // (historical - can be deleted at some point)
         //
         parse_int(result.stderr_out, "<exit_status>", result.exit_status);
+        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
         if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
             result.outcome = RESULT_OUTCOME_SUCCESS;

@@ -12,7 +12,10 @@ that project, how much work to ask for, and what to do if the RPC fails.
 The scheduler RPC policy has the following goals:
 <ul>
 <li> Make as few scheduler RPCs as possible.
-<li> Use random exponential backoff if a project's scheduling servers are down.
+<li> Use random exponential backoff
+if a project's scheduling servers are down
+(i.e. delay by a random number times 2^N,
+where N is the number of unsuccessful attempts).
 This avoids an RPC storm when the servers come back up.
 <li> Eventually re-read a project's master URL file in case its set
 of schedulers changes.
@@ -29,6 +32,8 @@ Each project is assigned a <b>resource debt</b>, computed as
 <p>
 resource_debt = resource_share / exp_avg_cpu
 <p>
+where 'exp_avg_cpu' is the CPU time used recently by the project
+(exponentially averaged).
 Resource debt is a measure of how much work the client owes the
 project, and in general the project with the greatest resource debt is
 the one from which work should be requested. 
@@ -101,8 +106,8 @@ report_result_session(project P) {
         P.min_rpc_time = exponential_backoff(P.min_rpc_failures)
 }
 </pre>
-The logic for initiating scheduler sessions is expressed in the
-following poll function:
+The logic for initiating scheduler sessions is embodied in the
+<a href=client_logic.php>scheduler_rpcs->poll()</a> function.
 <pre>
 if a scheduler RPC session is not active
     if estimated work is less than low-water mark

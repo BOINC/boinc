@@ -26,7 +26,7 @@ possibly to different data servers.
 When a file is involved in a persistent file transfer,
 the state is saved in the client state file
 in the following XML element
-(included in the <file_info> element):
+(included in the &lt;file_info> element):
 <pre>
 &lt;persistent_file_xfer>
     &lt;num_retries>2&lt;/num_retries>

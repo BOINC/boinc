@@ -967,17 +967,18 @@ int RESULT::write(FILE* out, bool to_server) {
         "    <name>%s</name>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
         "    <exit_status>%d</exit_status>\n"
+        "    <app_version_num>%d</app_version_num>\n"
         "    <state>%d</state>\n",
         name,
         final_cpu_time,
         exit_status,
+        wup->version_num,
         state
     );
     n = stderr_out.length();
     if (n) {
         fprintf(out, "<stderr_out>\n");
         if (to_server) {
-            fprintf(out, "<app_version>%d</app_version>\n", wup->version_num);
             fprintf(out,
                 "<core_client_version>%d.%.2d</core_client_version>\n",
                 gstate.core_client_major_version,

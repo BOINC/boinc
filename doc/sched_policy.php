@@ -21,13 +21,11 @@ The number of floating point and integer operations are provided by
 the project when creating the work unit, and the host calculation
 speeds are included in a scheduler request.
 <p>
-If no work is available, the scheduling server sends the message
-<tt>no work available</tt> with priority <tt>low</tt>, and
-requests that the client wait before sending another request.
-<p>
-If there is work available, but the host cannot accept it for whatever
-reason (too slow, not enough space, etc), then the scheduling server
-sends the message <tt>host unacceptable</tt> with priority <tt>low</tt>,
+If no work is available,
+or if the host cannot accept it for whatever reason
+(too slow, not enough space, etc),
+the scheduling server sends the message
+<b>no work available</b>,
 and requests that the client wait before sending another request.
 ";
 page_tail();

@@ -99,7 +99,6 @@ void update_average(
     avg_time = now;
 }
 </pre>
-This function is also invoked 
 <hr noshade size=1>
 <sup>1</sup> Named after Jeff Cobb of SETI@home
 ";

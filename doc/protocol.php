@@ -20,7 +20,7 @@ The form of the request is:</p>
     ... other elements
 &lt;/scheduler_request&gt;
 </pre>
-The 'platform' and 'version_num' elements identify the
+The 'platform' and version number elements identify the
 version of the core client originating the request.
 
 <p>

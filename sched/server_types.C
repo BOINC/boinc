@@ -383,6 +383,7 @@ int RESULT::parse_from_client(FILE* fin) {
         else if (parse_int(buf, "<state>", client_state)) continue;
         else if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (match_tag(buf, "<file_info>")) {
             safe_strcat(xml_doc_out, buf);
             while (fgets(buf, 256, fin)) {
