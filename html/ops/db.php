@@ -97,9 +97,9 @@
         $first = 0;
     }
 
-    if (strlen($exit_status)) {
-        $query = append_sql_query( $query, "exit_status = $exit_status", $first );
-        $english_query = append_sql_query( $english_query, "exit status is $exit_status", $first );
+    if (strlen($client_state)) {
+        $query = append_sql_query( $query, "client_state = $client_state", $first );
+        $english_query = append_sql_query( $english_query, "client_state is $client_state", $first );
         $first = 0;
     }
 
@@ -176,7 +176,7 @@
         }
         printf( "</select>\n<p>\n" );
         print_text_field( "Result in batch number:", "batch", $batch );
-        print_text_field( "Result has exit code:", "exit_status", $exit_status );
+        print_text_field( "Result has client_state: ", "client_state", $client_state);
 
         print_checkbox("Show XML fields", "show_xml_docs", $show_xml_docs);
         print_checkbox("Show result stderr", "show_stderr", $show_stderr);

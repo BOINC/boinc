@@ -292,7 +292,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
         // check for an error; if there is one, set error information for the currect result
         if(win_error) {
-            gstate.report_project_error(*result, win_error, (LPTSTR)&lpMsgBuf);
+            gstate.report_project_error(*result, win_error, (LPTSTR)&lpMsgBuf,CLIENT_COMPUTING);
             LocalFree(lpMsgBuf);
             return -1;
         }

@@ -25,6 +25,13 @@
 
 #include "db.h"
 
+//The following are the states that the client is in according to the result. 
+#define CLIENT_UNINITIALIZED    0
+#define CLIENT_DOWNLOADING      1
+#define CLIENT_COMPUTING        2
+#define CLIENT_UPLOADING        3
+#define CLIENT_DONE             4
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];

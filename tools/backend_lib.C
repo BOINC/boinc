@@ -155,7 +155,7 @@ void initialize_result(RESULT& result, WORKUNIT& wu) {
     result.report_deadline = time(0) + wu.delay_bound;
     result.sent_time = 0;
     result.received_time = 0;
-    result.exit_status = 0;
+    result.client_state = 0;
     result.cpu_time = 0;
     strcpy(result.xml_doc_out, "");
     strcpy(result.stderr_out, "");

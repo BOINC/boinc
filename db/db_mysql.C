@@ -213,13 +213,13 @@ void struct_to_str(void* vp, char* q, int type) {
         sprintf(q,
             "id=%d, create_time=%d, workunitid=%d, server_state=%d, "
             "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
-            "name='%s', exit_status=%d, cpu_time=%f, "
+            "name='%s', client_state=%d, cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
             "batch=%d, project_state=%d, validate_state=%d, "
             "claimed_credit=%f, granted_credit=%f",
             rp->id, rp->create_time, rp->workunitid, rp->server_state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
-            rp->name, rp->exit_status, rp->cpu_time,
+            rp->name, rp->client_state, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
             rp->batch, rp->project_state, rp->validate_state,
             rp->claimed_credit, rp->granted_credit
@@ -394,7 +394,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->sent_time = atoi(r[i++]);
         rp->received_time = atoi(r[i++]);
         strcpy2(rp->name, r[i++]);
-        rp->exit_status = atoi(r[i++]);
+        rp->client_state = atoi(r[i++]);
         rp->cpu_time = atof(r[i++]);
         strcpy2(rp->xml_doc_in, r[i++]);
         strcpy2(rp->xml_doc_out, r[i++]);

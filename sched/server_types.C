@@ -262,7 +262,7 @@ int RESULT::parse_from_client(FILE* fin) {
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</result>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        else if (parse_int(buf, "<client_state>", client_state)) continue;
         else if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
         else if (match_tag(buf, "<file_info>")) {
             strcat(xml_doc_out, buf);

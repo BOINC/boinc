@@ -243,7 +243,7 @@ struct RESULT {
     unsigned int sent_time;         // when result was sent to host
     unsigned int received_time;     // when result was received from host
     char name[256];
-    int exit_status;
+    int client_state;
     double cpu_time;                // CPU time used to complete result
     char xml_doc_in[MAX_BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[MAX_BLOB_SIZE];    // MD5s of output files

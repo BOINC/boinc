@@ -151,7 +151,7 @@ create table result (
     sent_time       integer     not null,
     received_time   integer     not null,
     name            varchar(254) not null,
-    exit_status     integer     not null,
+    client_state    integer     not null,
     cpu_time        double       not null,
     xml_doc_in      blob,
     xml_doc_out     blob,

@@ -230,7 +230,7 @@ int handle_results(
             //
             result.hostid = host.id;
             result.received_time = time(0);
-            result.exit_status = rp->exit_status;
+            result.client_state = rp->client_state;
             result.cpu_time = rp->cpu_time;
             result.state = RESULT_STATE_DONE;
             strcpy(result.stderr_out, rp->stderr_out);
@@ -245,7 +245,7 @@ int handle_results(
                 );
             } else {
                 wu.nresults_done++;
-                if (result.exit_status) wu.nresults_fail++;
+                if (result.client_state != CLIENT_DONE) wu.nresults_fail++;
                 retval = db_workunit_update(wu);
             }
         }

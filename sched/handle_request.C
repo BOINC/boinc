@@ -335,9 +335,9 @@ int handle_results(
             //
             result.hostid = reply.host.id;
             result.received_time = time(0);
-            result.exit_status = rp->exit_status;
+            result.client_state = rp->client_state;
             result.cpu_time = rp->cpu_time;
-            if (rp->exit_status) {
+            if (result.client_state != CLIENT_DONE) {
                 result.server_state = RESULT_SERVER_STATE_ERROR;
             } else {
                 result.server_state = RESULT_SERVER_STATE_DONE;
