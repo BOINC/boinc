@@ -41,6 +41,12 @@
 // The feeder deletes the trigger file to indicate that it
 // has completed the request.
 
+// If you get an "Invalid argument" error when trying to run the feeder,
+// it is likely that you aren't able to allocate enough shared memory.
+// Either increase the maximum shared memory segment size in the kernel
+// configuration, or decrease the MAX_PLATFORMS, MAX_APPS
+// MAX_APP_VERSIONS, and MAX_WU_RESULTS in sched_shmem.h
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
