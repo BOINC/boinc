@@ -286,13 +286,15 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             host_info.p_membw /= host_info.p_ncpus;
             host_info.m_cache /= host_info.p_ncpus;
         }
+        msg_printf(NULL, MSG_INFO, "Benchmark results:");
+        msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", host_info.p_ncpus);
         msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f double precision MIPS (Whetstone)%s",
-        host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":"")
+            NULL, MSG_INFO, "   %.0f double precision MIPS (Whetstone) per CPU",
+            host_info.p_fpops/1e6
         );
         msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f integer MIPS (Dhrystone)%s",
-        host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":"")
+            NULL, MSG_INFO, "   %.0f integer MIPS (Dhrystone) per CPU",
+            host_info.p_iops/1e6
         );
 #if 0
         msg_printf(

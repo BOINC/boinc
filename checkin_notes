@@ -12432,3 +12432,10 @@ David  May 19 2004
 	lib/
 		app_ipc.C
 		filesys.C
+
+David  May 20 2004
+	- In messages about benchmarks, report the number of CPUs, and
+		say that benchmark numbers are per CPU
+
+	client/
+		cs_benchmark.C
