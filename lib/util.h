@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+extern double time_t_to_jd(time_t unix_time);
+extern time_t jd_to_time_t(double jd);
+extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern double dtime();
 extern void boinc_sleep( int seconds );
 
@@ -28,3 +31,13 @@ extern void boinc_sleep( int seconds );
 #define min(a,b)            (((a) < (b)) ? (a) : (b))
 #endif
 
+#ifdef __MWERKS__
+// Note: Although Macintosh time is based on 1/1/1904, the
+//MetroWerks Standard Libraries time routines use a base of 1/1/1900.
+//#define JD0 2416480.5  /* Time at 0:00 GMT 1904 Jan 1 */
+#define JD0 2415020.5  /* Time at 0:00 GMT 1900 Jan 1 */
+#else
+#define JD0 2440587.5  /* Time at 0:00 GMT 1970 Jan 1 */
+#endif
+
+#define SECONDS_PER_DAY 86400

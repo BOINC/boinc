@@ -48,3 +48,4 @@
 #define ERR_OPEN       -120
 #define ERR_DUP2       -121
 #define ERR_NO_SIGNATURE    -122
+#define ERR_THREAD     -123

@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 
 #ifdef _WIN32
 #include <time.h>
@@ -28,6 +30,83 @@
 
 #include "error_numbers.h"
 #include "util.h"
+
+// Convert UNIX time to Julian time
+//
+double time_t_to_jd(time_t unix_time) {
+  return (((double)unix_time)/SECONDS_PER_DAY+JD0);
+}
+
+// Convert Julian time to UNIX time
+//
+time_t jd_to_time_t(double jd) {
+  return ((time_t)((jd-JD0)*SECONDS_PER_DAY));
+}
+
+// Converts a double precision time (where the value of 1 represents
+// a day) into a string.  smallest_timescale determines the smallest
+// unit of time division used
+// smallest_timescale: 0=seconds, 1=minutes, 2=hours, 3=days, 4=years
+//
+int double_to_ydhms (double x, int smallest_timescale, char *buf) {
+    double years, days, hours, minutes, seconds;
+    char year_buf[64], day_buf[16], hour_buf[16], min_buf[16], sec_buf[16];
+    
+    if (x < 0 || buf == NULL) return -1;
+    
+    years = x / 365.25;
+    days = fmod(x, 365.25);
+    hours = fmod(x*24, 24);
+    minutes = fmod(x*24*60, 60);
+    seconds = fmod(x*24*60*60, 60);
+    
+    if (smallest_timescale==4) {
+        sprintf( year_buf, "%.3f yr ", years );
+    } else if (years > 1 && smallest_timescale < 4) {
+        sprintf( year_buf, "%d yr ", (int)years );
+    } else {
+        strcpy( year_buf, "" );
+    }
+    
+    if (smallest_timescale==3) {
+        sprintf( day_buf, "%.2f day ", days );
+    } else if (days > 1 && smallest_timescale < 3) {
+        sprintf( day_buf, "%d day ", (int)days );
+    } else {
+        strcpy( day_buf, "" );
+    }
+    
+    if (smallest_timescale==2) {
+        sprintf( hour_buf, "%.2f hr ", hours );
+    } else if (hours > 1 && smallest_timescale < 2) {
+        sprintf( hour_buf, "%d hr ", (int)hours );
+    } else {
+        strcpy( hour_buf, "" );
+    }
+    
+    if (smallest_timescale==1) {
+        sprintf( min_buf, "%.2f min ", minutes );
+    } else if (minutes > 1 && smallest_timescale < 1) {
+        sprintf( min_buf, "%d min ", (int)minutes );
+    } else {
+        strcpy( min_buf, "" );
+    }
+    
+    if (smallest_timescale==0) {
+        sprintf( sec_buf, "%.2f sec ", seconds );
+    } else if (seconds > 1 && smallest_timescale < 0) {
+        sprintf( sec_buf, "%d sec ", (int)seconds );
+    } else {
+        strcpy( sec_buf, "" );
+    }
+    // the "-0.05" below is to prevent it from printing 60.0 sec
+    // when the real value is e.g. 59.91
+    //
+    sprintf(buf, "%s%s%s%s%s", year_buf, day_buf, hour_buf, min_buf, sec_buf);
+    
+    return 0;
+}
+
 
 // return time of day as a double
 //
