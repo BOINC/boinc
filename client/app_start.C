@@ -141,7 +141,7 @@ int ACTIVE_TASK::write_app_init_file() {
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
     if (wup->project->project_specific_prefs.length()) {
-        aid.project_preferences = (char*)wup->project->project_specific_prefs.c_str();
+        aid.project_preferences = strdup(wup->project->project_specific_prefs.c_str());
     }
     get_project_dir(wup->project, project_dir);
     relative_to_absolute(project_dir, project_path);

@@ -606,7 +606,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             continue;
         }
-        if (match_tag(buf, "</scheduler_reply>")) return 0;
+        if (match_tag(buf, "</scheduler_reply>")) {
+            return 0;
+        }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
 		else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;

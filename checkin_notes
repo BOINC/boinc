@@ -25007,3 +25007,15 @@ David  18 Feb 2005
 
     client/
         http.C,h
+
+David  18 Feb 2005
+	- For some reason I removed a strdup() in my 17 Feb checkin to start.C,
+		which caused memory corruption on all platforms.
+		It's back now
+	- handle </venue> in PROJECT::parse_account().
+		Gets rid of a spurious warning
+
+	client/
+		app_start.C
+		cs_account.C
+		scheduler_op.C

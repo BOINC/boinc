@@ -137,6 +137,7 @@ int PROJECT::parse_account(FILE* in) {
             }
             continue;
         }
+        else if (match_tag(buf, "</venue>")) continue;
 
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
             canonicalize_master_url(master_url);
