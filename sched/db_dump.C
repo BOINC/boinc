@@ -836,14 +836,16 @@ int main(int argc, char** argv) {
 
     struct tm* tmp;
     time_t now = time(0);
-    tmp = gmtime(&now);
-    sprintf(buf, "mv %s %s_%d_%d_%d_%d",
+    tmp = localtime(&now);
+    sprintf(buf, "mv %s %s_%d_%d_%d_%d_%d_%d",
         spec.final_output_dir,
         spec.final_output_dir,
-        tmp->tm_mday,
-        tmp->tm_mon+1,
         1900+tmp->tm_year,
-        (int)now
+        tmp->tm_mon+1,
+        tmp->tm_mday,
+        tmp->tm_hour,
+        tmp->tm_min,
+        tmp->tm_sec
     );
     retval = system(buf);
     if (retval) {
