@@ -57,7 +57,7 @@ if ($helpdesk) {
 
 show_forum_title($forum, $thread, $helpdesk);
 
-start_forum_table(array("Author", "Message"), array(150, NULL));
+start_forum_table(array("Author", "Message"));
 
 // TODO: Use the same sorting method that the user had in the thread view.
 

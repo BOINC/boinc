@@ -35,8 +35,8 @@
 <h3>Community</h3>
 <ul>
 <li><a href=".URL_BASE."profile_menu.php>User profiles</a>
-<li><a href=".URL_BASE."forum/>Forum</a>
-<li><a href=".URL_BASE."forum/help_desk.php>Help Desk / FAQ</a>
+<li><a href=".URL_BASE."forum/>Message boards</a>
+<li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
 </ul>
 <h3><a href=stats.php>Project totals and leader boards</a></h3>
 <!--  Deprecated

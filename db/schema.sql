@@ -226,6 +226,11 @@ create table workseq (
     primary key (id)
 );
 
+-- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
+-- SO NOT IN BOINC_DB.H ETC.
+
+-- represents a language (so can have message boards in different languages)
+--
 create table lang (
     id                  integer     not null auto_increment,
     name                varchar(254) not null,
@@ -233,17 +238,9 @@ create table lang (
     primary key (id)
 );
 
-create table post (
-    id                  integer     not null auto_increment,
-    thread              integer     not null,
-    user                integer     not null,
-    timestamp           integer     not null,
-    content             text        not null,
-    modified            integer     not null,
-    parent_post         integer     not null,
-    primary key (id)
-);
 
+-- user profile (description, pictures)
+--
 create table profile (
     userid              integer     not null auto_increment,
     language            varchar(254),
@@ -256,13 +253,67 @@ create table profile (
     primary key (userid)
 );
 
+-- message board category
+-- help desk is a group of categories that are handled separately
+--
+create table category (
+    id                  integer     not null auto_increment,
+    orderID             integer     not null,
+        -- order in which to display
+    lang                integer     not null,
+    name                varchar(254) binary,
+    is_helpdesk         smallint    not null,
+    primary key (id)
+);
+
+-- message board topic
+--
+create table forum (
+    id                  integer     not null auto_increment,
+    category            integer     not null,
+    orderID             integer     not null,
+    title               varchar(254) not null,
+    description         varchar(254) not null,
+    timestamp           integer     not null,
+    threads             integer     not null,
+    posts               integer     not null,
+    primary key (id)
+);
+
+-- threads in a topic
+--
 create table thread (
     id                  integer     not null auto_increment,
     forum               integer     not null,
     owner               integer     not null,
     title               varchar(254) not null,
     timestamp           integer     not null,
+        -- creation time (uh, why not call it that?)
     views               integer     not null,
+        -- number of times this has been viewed
     replies             integer     not null,
+        -- number of postings in thread
+    activity            integer     not null,
+        -- not used??  should remove references
+    sufferers           integer     not null,
+        -- in help desk: # people who indicated they had same problem
     primary key (id)
 );
+
+-- postings in a thread.
+-- Each thread has an initial post
+--
+create table post (
+    id                  integer     not null auto_increment,
+    thread              integer     not null,
+    user                integer     not null,
+    timestamp           integer     not null,
+    content             text        not null,
+    modified            integer     not null,
+        -- when last modified
+    parent_post         integer     not null,
+    score               double      not null,
+    votes               integer     not null,
+    primary key (id)
+);
+

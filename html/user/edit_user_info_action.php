@@ -12,7 +12,7 @@
     $postal_code = $HTTP_POST_VARS["postal_code"];
     $signature = $HTTP_POST_VARS["signature"];
 
-    $result = mysql_query("update user set name='$name', url='$url', country='$country', postal_code='$postal_code' signature='$signature' where id=$user->id");
+    $result = mysql_query("update user set name='$name', url='$url', country='$country', postal_code='$postal_code', signature='$signature' where id=$user->id");
     if ($result) {
         Header("Location: home.php");
     } else {

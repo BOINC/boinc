@@ -7966,3 +7966,36 @@ Karl 2003-11-28
         Makefile.am
     api/
         Makefile.am
+
+David  29 Nov 2003
+    - top hosts shows 10 hosts, lets you page forward/back
+    - Various stuff related to message boards (formerly known as Forum)
+        - don't show blue links on blue background
+        - terminology in message-board interface
+            "message boards" describes the message system
+            "questions/problems" describes the FAQ system
+        - got rid of hard-wired field widths
+        - removed "activity" stuff (wasn't being used)
+        - cleaned up names in the beta-test database
+        - Yahoo-type hierarchical page titles
+        - made "sort by" work when step through pages
+        - added category, forum tables to schema.sql
+        - added comments on PHP-only tables to schema.sql
+
+    db/
+        schema.sql
+    html_user/
+        edit_user_info_action.php
+        index.php
+        top_hosts.php
+        user.inc
+        util.inc
+        white.css
+        forum/
+            forum.inc
+            forum.php
+            help_desk.php
+            index.php
+            post.php
+            reply.php
+            thread.php

@@ -37,6 +37,10 @@ function show_user_profile_private($user) {
     row2("URL", "http://$user->url");
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
+    if ($user->signature) {
+        $x = "<pre>".htmlspecialchars($user->signature)."</pre>";
+        row2("Forums signature", $x);
+    }
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
 
     row1("Profile");

@@ -3,11 +3,11 @@ a:link {
 }
 
 a:visited {
-	color: navy;
+	color: blue;
 }
 
 a:active {
-	color: red;
+	color: blue;
 }
 
 body , table , input , select {
@@ -30,8 +30,7 @@ table.bordered {
 
 th {
     border-bottom: 2px solid white;
-	background-color: navy;
-	color: gold;
+	background-color: ffffcc;
 	font-weight: bold;
 }
 

@@ -60,7 +60,7 @@ if ($category->is_helpdesk) {
 } else {
 	$cell = "Post a New Thread / Question";
 }
-start_forum_table(array($cell), array(NULL), 2);
+start_forum_table(array($cell), 2);
 
 echo "<tr><td class=fieldname><b>Title</b>";
 
@@ -73,7 +73,7 @@ echo "
     <td><input type=\"text\" name=\"title\" size=62></td>
     </tr>
     <tr>
-    <td class=fieldname style=\"vertical-align:top\"><b>Message content</b>
+    <td class=fieldname style=\"vertical-align:top\"><b>Message</b>
 ";
 
 if ($category->is_helpdesk) {
@@ -90,14 +90,9 @@ if ($category->is_helpdesk) {
 echo "
     <td><textarea name=\"content\" rows=\"12\" cols=\"54\"></textarea></td>
     </tr>
-    <tr>
-    <td colspan=2 style=\"text-align:center\">
-     <input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this post
-                        &nbsp;&nbsp;&nbsp;
-    <input type=\"submit\" value=\"Post message\">
-    </td>
-    </tr>
 ";
+row2("", "<input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this post");
+row2("", "<input type=submit value=\"Post message\">");
 
 end_forum_table();
 

@@ -10,9 +10,9 @@ define("EXCERPT_LENGTH", "120");
 $n = 50;
 
 if (empty($_GET['id'])) {
-	// TODO: Standard error page
-	echo "Invalid forum ID.<br>";
-	exit();
+    // TODO: Standard error page
+    echo "Invalid forum ID.<br>";
+    exit();
 }
 
 /* sanitize variable */
@@ -20,26 +20,26 @@ $_GET['id'] = stripslashes(strip_tags($_GET['id']));
 $_GET['sort'] = stripslashes(strip_tags($_GET['sort']));
 
 if (!array_key_exists('start', $_GET) || $_GET['start'] < 0) {
-	$_GET['start'] = 0;
+    $_GET['start'] = 0;
 }
 
 $forum = getForum($_GET['id']);
 $category = getCategory($forum->category);
 
 if ($category->is_helpdesk) {
-	page_head('Help Desk');
-	$sort_style = 'help-activity-most';
+    page_head('Help Desk');
+    $sort_style = 'help-activity-most';
 } else {
-	page_head('Forum');
-	($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
+    page_head('Message boards : '.$forum->title);
+    ($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
 }
 
 echo "
-	<form action=\"forum.php\" method=\"get\">
-		<input type=\"hidden\" name=\"id\" value=", $forum->id, ">
-		<table width=100% cellspacing=0 cellpadding=0>
-  			<tr valign=\"bottom\">
-    			<td align=\"left\" style=\"border:0px\">
+    <form action=\"forum.php\" method=\"get\">
+    <input type=\"hidden\" name=\"id\" value=", $forum->id, ">
+    <table width=100% cellspacing=0 cellpadding=0>
+    <tr valign=\"bottom\">
+    <td align=\"left\" style=\"border:0px\">
 ";
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
@@ -47,30 +47,31 @@ show_forum_title($forum, NULL, $category->is_helpdesk);
 echo "<p>\n<a href=\"post.php?id=", $_GET['id'], "\">";
 
 if ($category->is_helpdesk) {
-	echo "Post a New Question";
+    echo "Create a new question";
 } else  {
-	echo "Post a New Thread / Question";
+    echo "Create a new thread";
 }
 
 echo "</a>\n</p>\n</td>";
 
 // Only show the sort combo box for normal forums, never for the help desk.
 if (!$category->is_helpdesk) {
-	echo "<td align=\"right\" style=\"border:0px\">";
-	show_combo_from_array("sort", $forum_sort_styles, $sort_style);
-	echo "<input type=\"submit\" value=\"Sort\">\n</td>";
+    echo "<td align=\"right\" style=\"border:0px\">";
+    show_combo_from_array("sort", $forum_sort_styles, $sort_style);
+    echo "<input type=\"submit\" value=\"Sort\">\n</td>";
 }
 
 echo "</tr>\n</table>\n</form>";
 
-// If there are more than the threshold number of threads on the page, only show the
-// first $n and display links to the rest
+// If there are more than the threshold number of threads on the page,
+// show only the first $n and display links to the rest
+//
 show_page_nav($forum);
 
 if ($category->is_helpdesk) {
-	start_forum_table(array("Question", "Answers"), array(NULL, 50));
+    start_forum_table(array("Question", "Answers"));
 } else {
-	start_forum_table(array("Titles", "Replies", "Author", "Views", "Last Post"), array(NULL, 50, 150, 50, 170));
+    start_forum_table(array("Threads", "Posts", "Author", "Views", "Last post"));
 }
 
 // TODO: Move this into its own function?
@@ -79,86 +80,105 @@ $threads = getThreads($forum->id, $_GET['start'], $n, $sort_style);
 $n = 0;
 
 while($thread = mysql_fetch_object($threads)) {
-	$user = lookup_user_id($thread->owner);
-	$first_post = getFirstPost($thread->id);
-	$excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
-	echo "
-			<tr class=\"row$n\" style=\"font-size:8pt; text-align:center\">
-				<td style=\"font-size:10pt; text-align:left\"><a href=\"thread.php?id=", $thread->id, "\"><b>", stripslashes($thread->title), "</b></a><br>
-	";
-        $n = ($n+1)%2;
+    $user = lookup_user_id($thread->owner);
+    $first_post = getFirstPost($thread->id);
+    $excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
+    echo "
+        <tr class=\"row$n\" style=\"font-size:8pt; text-align:center\">
+        <td style=\"font-size:10pt; text-align:left\"><a href=\"thread.php?id=", $thread->id, "\"><b>", stripslashes($thread->title), "</b></a><br>
+    ";
+    $n = ($n+1)%2;
 
-	if ($category->is_helpdesk) {
-		echo "<span style=\"font-size:8pt\">", stripslashes($excerpt), "</span>";
-	}
+    if ($category->is_helpdesk) {
+        echo "<span style=\"font-size:8pt\">", stripslashes($excerpt), "</span>";
+    }
 
-	echo "</td>";
-	if ($category->is_helpdesk) {
-		echo "<td>", $thread->replies, "</td>";
-	} else {
-		echo "
-			<td>", $thread->replies, "</td>
-			<td><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
-			<td>", $thread->views, "</td>
-			<td style=\"text-align:right\">", pretty_time_str($thread->timestamp), "</td>
-		";
-	}
+    echo "</td>";
+    if ($category->is_helpdesk) {
+        echo "<td>", $thread->replies, "</td>";
+    } else {
+        echo "
+            <td>", $thread->replies, "</td>
+            <td><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
+            <td>", $thread->views, "</td>
+            <td style=\"text-align:right\">", pretty_time_str($thread->timestamp), "</td>
+        ";
+    }
 
-	echo "</tr>";
+    echo "</tr>";
 }
 
 end_forum_table();
 
 if ($forum->threads > $n) {
-	echo $gotoStr;
+    echo $gotoStr;
 }
 
 page_tail();
 
 
 function show_page_nav($forum) {
-	global $n;
+    global $n;
 
-	if ($forum->threads > $n) {
-		$totalPages = floor($forum->threads / $n);
-		$curPage = floor($_GET['start'] / $n);
+    if ($forum->threads > $n) {
+        $totalPages = floor($forum->threads / $n);
+        $curPage = floor($_GET['start'] / $n);
 
-		$pages = array(0, 1, 2);
-		for ($i = -1 ; $i <= 1 ; $i++)
-			if ($curPage + $i > 0 && $curPage + $i < $totalPages - 1)
-				array_push($pages, $curPage + $i);
-		for ($i = -3 ; $i <= -1 ; $i++)
-			if ($totalPages + $i > 0)
-				array_push($pages, $totalPages + $i);
-		$pages = array_unique($pages);
-		natsort($pages);
-		$pages = array_values($pages);
+        $pages = array(0, 1, 2);
+        for ($i = -1 ; $i <= 1 ; $i++) {
+            if ($curPage + $i > 0 && $curPage + $i < $totalPages - 1) {
+                array_push($pages, $curPage + $i);
+            }
+        }
+        for ($i = -3 ; $i <= -1 ; $i++) {
+            if ($totalPages + $i > 0) {
+                array_push($pages, $totalPages + $i);
+            }
+        }
+        $pages = array_unique($pages);
+        natsort($pages);
+        $pages = array_values($pages);
 
-		$gotoStr = '<p style="text-align:right">Goto page ';
+        $gotoStr = '<p style="text-align:right">Go to page ';
 
-		if ($curPage == 0)
-			$gotoStr .= '<span style="font-size:larger; font-weight:bold">1</span>';
-		else
-			$gotoStr .= '<a href="forum.php?id='.$_GET['id'].'&start='.(($curPage-1)*$n).'">Previous</a> <a href="forum.php?id='.$_GET['id'].'&start=0">1</a>';
+        if ($curPage == 0) {
+            $gotoStr .= '<span style="font-size:larger; font-weight:bold">1</span>';
+        } else {
+            $gotoStr .= '<a href="forum.php?id='.$_GET['id'];
+            $gotoStr .= '&start='.(($curPage-1)*$n);
+            $gotoStr .= '&sort='.$_GET["sort"];
+            $gotoStr .= '">Previous</a> <a href="forum.php?id='.$_GET['id'].'&start=0">1</a>';
+        }
 
-		for ($i = 1 ; $i < count($pages)-1 ; $i++) {
-			if ($curPage == $pages[$i]) {
-				$gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
-				$gotoStr .= '<span style="font-size:larger; font-weight:bold">'.($pages[$i]+1).'</span>';
-			} else {
-				$gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
-				$gotoStr .= '<a href="forum.php?id='.$_GET['id'].'&start='.($pages[$i]*$n).'">'.($pages[$i]+1).'</a>';
-			}
-		}
+        for ($i = 1 ; $i < count($pages)-1 ; $i++) {
+            if ($curPage == $pages[$i]) {
+                $gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
+                $gotoStr .= '<span style="font-size:larger; font-weight:bold">'.($pages[$i]+1).'</span>';
+            } else {
+                $gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
+                $gotoStr .= '<a href="forum.php?id='.$_GET['id'];
+                $gotoStr .= '&start='.($pages[$i]*$n);
+                $gotoStr .= '&sort='.$_GET["sort"];
+                $gotoStr .= '">'.($pages[$i]+1).'</a>';
+            }
+        }
 
-		if ($curPage == $totalPages-1)
-			$gotoStr .= ', <span style="font-size:larger; font-weight:bold">'.$totalPages.'</span>';
-		else
-			$gotoStr .= ', <a href="forum.php?id='.$_GET['id'].'&start='.(($totalPages-1)*$n).'">'.$totalPages.'</a> <a href="forum.php?id='.$_GET['id'].'&start='.(($curPage+1)*$n).'">Next</a>';
+        if ($curPage == $totalPages-1) {
+            $gotoStr .= ', <span style="font-size:larger; font-weight:bold">'.$totalPages.'</span>';
+        } else {
+            $gotoStr .= ', <a href="forum.php?id='.$_GET['id'];
+            $gotoStr .= '&start='.(($totalPages-1)*$n);
+            $gotoStr .= '&sort='.$_GET["sort"];
+            $gotoStr .= '">'.$totalPages.'</a> ';
+            $gotoStr .= '<a href="forum.php?id='.$_GET['id'];
+            $gotoStr .= '&start='.(($curPage+1)*$n);
+            $gotoStr .= '&sort='.$_GET["sort"];
+            $gotoStr .= '">Next</a>';
+        }
 
-		$gotoStr .= '</p>';
+        $gotoStr .= '</p>';
 
-		echo $gotoStr;
-	}
+        echo $gotoStr;
+    }
 }
 ?>

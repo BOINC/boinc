@@ -52,11 +52,11 @@ if ($logged_in_user) {
 // TODO: Include this in show_forum_title?
 
 echo "
-<form action=\"thread.php\" method=\"get\">
+    <form action=\"thread.php\" method=\"get\">
 	<input type=\"hidden\" name=\"id\" value=", $thread->id, ">
 	<table width=100% cellspacing=0 cellpadding=0>
-		<tr valign=\"bottom\">
-			<td align=\"left\" style=\"border:0px\">
+    <tr valign=\"bottom\">
+    <td align=\"left\" style=\"border:0px\">
 ";
 
 show_forum_title($forum, $thread, $category->is_helpdesk);
@@ -88,10 +88,10 @@ if ($is_subscribed) {
 echo "</td>";
 
 if (!$category->is_helpdesk) {
-		echo "<td align=\"right\" style=\"border:0px\">Sort / Filter ";
-		show_combo_from_array("sort", $thread_sort_styles, $sort_style);
-		show_combo_from_array("filter", $thread_filter_styles, $filter_min);
-		echo "<input type=\"submit\" value=\"Sort\">\n</td>";
+    echo "<td align=\"right\" style=\"border:0px\">Sort / Filter ";
+    show_combo_from_array("sort", $thread_sort_styles, $sort_style);
+    show_combo_from_array("filter", $thread_filter_styles, $filter_min);
+    echo "<input type=\"submit\" value=\"Sort\">\n</td>";
 }
 
 echo "</tr>\n</table>\n</form>\n";
@@ -102,7 +102,7 @@ if ($category->is_helpdesk) {
 	$headings = array("Author", "Message");
 }
 
-start_forum_table($headings, array(150, NULL));
+start_forum_table($headings);
 show_posts($thread, $sort_style, $filter_min, true, true, $category->is_helpdesk);
 end_forum_table();
 
