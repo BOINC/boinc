@@ -7,8 +7,6 @@ BUGS (arranged from high to low priority)
     client does not remember window size/pos after close/reopen,
     window closes and does not reopen when workunit finishes
     and new workunit starts
-- "ACTIVE_TASK.check_app_status_files: could not delete
-    slots\0\fraction_done.xml: -110" appears in stderr.txt on Windows
 - Should include option in Windows client or installer whether to
     run client at startup or not
 - Screensaver "blank screen" functionality not implemented
@@ -60,6 +58,13 @@ Messages from core client
     decide what messages should be shown to user, and how
     log file?  GUI?  dialog?
 
+-----------------------
+THINGS TO TEST (preferably with test scripts)
+-----------------------
+- result reissue
+- WU failure: too many errors
+- WU failure: too many good results
+- credit is granted even if result arrives very late
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
