@@ -74,7 +74,7 @@ extern "C" {
     }
 
     void boinc_write_init_data_file_() {
-        boinc_write_init_data_file_();
+        boinc_write_init_data_file();
     }
 
 // TODO: structs? common?
