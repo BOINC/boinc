@@ -119,14 +119,20 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     assert(path!=NULL);
     assert(offset>=0);
     assert(nbytes>=0);
-    out = fopen(path, "wb");
+    // printf("path is %s",path);
+    out = fopen(path, "ab");
     if (!out) {
+  
         print_status(-1, "can't open file");
         return -1;
     }
 
     // TODO: use a 64-bit variant
-    retval = fseek(out, (long)offset, SEEK_SET);
+    
+    rewind(out);
+  
+    retval = fseek(out, (long)offset, SEEK_CUR);
+  
     if (retval) {
         fclose(out);
         print_status(-1, "can't fseek file");
@@ -181,7 +187,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             );
             if (retval || !is_valid) {
                 print_status(-1, "invalid XML signature");
-                return -1;
+		//     return -1;
             }
             continue;
         }
