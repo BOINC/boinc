@@ -6,6 +6,8 @@ $lang_translations_dir = "translations/";
 $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
 $lang_project_default = "en";
+$lang_log_level = 0;
+$lang_log_file = $lang_language_dir."translator.log";
 
 /*************************
  * Parses the language interface file containing the tokens (can parse .po-style files)
@@ -34,7 +36,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     //First build the list of defines for the tokens
     //and place it in an include file in the directory
     $interface = parseLanguageInterface($langdir.$transdir.$lang_project_default.".po");	//Get the interface
-    if (!$fh = fopen($langdir.$compdir."language_interface.inc","w")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
+    if (!$fh = fopen($langdir.$compdir."language_interface.inc","w")) { language_log("Could not access $langdir $compdir - please check permissions",2); exit;};
     fwrite($fh, "<?php\n");
     for ($i=0;$i<sizeof($interface);$i++){
 	fwrite($fh, "define(".$interface[$i].",".$i.");\n");		//Translate to PHP
@@ -51,9 +53,9 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                 if ($file==".." or $file=="."){
                 } else if (substr($file,-3)==".po"){			//only files ending in .po
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-		    echo "<br>----------------<br>\nCompiling $file<br>\n---------------<br>\n";
+		    language_log("----------------Compiling $file---------------",0);
 		    $language = parseLanguage($langdir.$transdir.$file, $interface);
-		    if (!$fh = fopen($langdir.$compdir.$file.".inc","w")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
+		    if (!$fh = fopen($langdir.$compdir.$file.".inc","w")) { language_log("ERROR: could not access $langdir $compdir - please check permissions",2); exit;};
 		    fwrite($fh, "<?php\n");
 		    $keys = array_keys($language);
 		    for ($i=0;$i<sizeof($interface);$i++){
@@ -79,7 +81,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     //creating new compiled files just add to whatever existing ones
     if (is_dir($langdir.$prjtransdir)) {
 	$interface = parseLanguageInterface($langdir.$prjtransdir.$lang_project_default.".po");	//Get the interface
-	if (!$fh = fopen($langdir.$compdir."language_interface.inc","a")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
+	if (!$fh = fopen($langdir.$compdir."language_interface.inc","a")) { language_log("ERROR: could not access $langdir $compdir - please check permissions",2); exit;};
 	fwrite($fh, "<?php\n");
 	for ($i=0;$i<sizeof($interface);$i++){
 	    fwrite($fh, "define(".$interface[$i].",".($i+$real_interface_size).");\n");		//Translate to PHP
@@ -91,9 +93,9 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                 if ($file==".." or $file=="."){
                 } else if (substr($file,-3)==".po"){			//only files ending in .po
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-		    echo "<br>----------------<br>\nCompiling project specific $file<br>\n---------------<br>\n";
+		    language_log("----------------Compiling project specific $file---------------",0);
 		    $language = parseLanguage($langdir.$prjtransdir.$file, $interface);
-		    if (!$fh = fopen($langdir.$compdir.$file.".inc","a")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
+		    if (!$fh = fopen($langdir.$compdir.$file.".inc","a")) { language_log("ERROR: could not access $langdir $compdir - please check permissions",2); exit;};
 		    fwrite($fh, "<?php\n");
 		    $keys = array_keys($language);
 		    for ($i=0;$i<sizeof($interface);$i++){
@@ -163,7 +165,7 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
  * The $file is parsed and validated against $interface
  *************************/
 function parseLanguage($file, $interface){
-    if (sizeof($interface)<1){ echo "<br>ERROR: No interface defined for 'compileLanguages()'"; exit;}
+    if (sizeof($interface)<1){ language_log("No interface defined for 'compileLanguages()'",2); exit;}
     $translation_file = file($file);
     $first_entry = true;
     for ($i = 0;$i<sizeof($translation_file);$i++){
@@ -201,7 +203,7 @@ function parseLanguage($file, $interface){
 function checkToken($current_token, $interface, $line){
     $id = array_search($current_token,$interface);
     if ($id===false){
-        echo "<br>WARNING: above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.";
+        language_log("Above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.",1);
 	return false;
     } else {
 	return $id;
@@ -214,7 +216,7 @@ function checkToken($current_token, $interface, $line){
 function checkMissingTokens($language_array, $interface){
     $diff = array_values(array_diff( array_keys($interface),array_keys($language_array)));
     for ($i=0; $i<sizeof($diff); $i++){
-	echo "<br>WARNING: Language file is missing token (".$interface[$diff[$i]].")";
+	language_log("Language file is missing token (".$interface[$diff[$i]].")",1);
     }
 }
 
@@ -234,10 +236,10 @@ function getPOLineContent($line){
 function tr($tokennumber){
     global $language_lookup_array, $default_language_lookup_array;
     if (strval(intval($tokennumber))!=$tokennumber){
-	echo "Language token used which is not defined in language interface!
-        <br>DEVELOPER: please check your spelling or add the token to the translation
-        <br>If you are a user of this system please contact an administrator
-        and tell what URL you got this error on";
+	echo "Language token used which is not defined in language interface!";
+	echo "DEVELOPER: please check your spelling or add the token to the translation.";
+	echo "<br>If you are a user of this system please contact an administrator right ";
+	echo "away and tell what URL you got this error on";
     }
     
     if (array_key_exists($tokennumber,$language_lookup_array)){		//If language has got the token
@@ -249,6 +251,19 @@ function tr($tokennumber){
     }
     
     return "[MISSING TEXT]";							//If not found there either, display "MISSING TEXT"
+}
+
+function language_log($message, $loglevel=0){
+    global $lang_log_level, $lang_log_file;
+    if ($loglevel==0) $msg = "[ Debug    ]";
+    if ($loglevel==1) $msg = "[ Warning  ]";
+    if ($loglevel==2) $msg = "[ CRITICAL ]";
+    
+    if ($loglevel>=$lang_log_level){
+	$fh = fopen($lang_log_file,"a");
+	fwrite($fh, date("Y-m-d H:m:s",time())." ".$msg." ".$message."\n");
+	fclose($fh);
+    }
 }
 
 
@@ -272,6 +287,7 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
 	}
     }
 } else {
+    language_log("Could not load language interface.",2);
     echo "ERROR: Could not load language interface. This is a fatal error, exitting."; flush; exit;
 };
 
