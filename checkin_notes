@@ -14769,10 +14769,11 @@ Daniel 2004-07-06
         scheduler_op.C
 
 Rom    6 July 2004
-    - Added event handler so we are notified of a system shutdown/logoff which will
-      allow us to shutdown gacefully instead of the OS terminating us.
-    - Do a little clean up work with the resource files in the hope that visual studio
-      won't remove the win_config.h reference the next time the resources are modified.
+    - Added event handler so we are notified of a system shutdown/logoff which
+      will allow us to shutdown gacefully instead of the OS terminating us.
+    - Do a little clean up work with the resource files in the hope that
+      visual studio won't remove the win_config.h reference the next time the
+      resources are modified.
 
     client/win/
         boinc_cli.rc
@@ -14782,20 +14783,22 @@ Rom    6 July 2004
         wingui_mainwindow.cpp, .h
 
 Rom    6 July 2004
-    - Reduce the total number of messages the system attempts to keep in the messages 
-      tab to 200.  2000 was a bit much and caused the system to spend some time processing
-      when there were quite a few messages to go through, such as in Predictor@home
-    - Moved the code that checkes the total number of messages available in the message
-      tab out of the switch/case chunk of code so that it happens more frequently
-      than when the user clicks on the messages tab, which could take awhile if there was
-      more than 1000 messages.
+    - Reduce the total number of messages the system attempts to keep in the
+      messages tab to 200.  2000 was a bit much and caused the system to spend
+      some time processing when there were quite a few messages to go through,
+      such as in Predictor@home
+    - Moved the code that checkes the total number of messages available in
+      the message tab out of the switch/case chunk of code so that it happens
+      more frequently than when the user clicks on the messages tab, which
+      could take awhile if there was more than 1000 messages.
 
     client/win/
         wingui_mainwindow.cpp, .h
 
 Rom    7 July 2004
-    - Adjust the console control handler such that when a logoff event has occurred check to
-      see if we are running as a service and if so, ignore the event, otherwise quit.
+    - Adjust the console control handler such that when a logoff event has
+      occurred check to see if we are running as a service and if so, ignore
+      the event, otherwise quit.
 
       Thanks to Fernando Vinan-Cano via John McLeod
 
@@ -14906,11 +14909,11 @@ Daniel 2004-07-08
         Makefile.in
 
 Brian  8 July 2004
-    - Fixed a small bug in allowed_disk_usage where the global_prefs.disk_max_used_pct
-      was directly multiplied with the total disk, creating a disk value that was a factor
-      of 100 off, effectively never becoming the min value returned by the function.
+    - Fixed a small bug in allowed_disk_usage where the
+      global_prefs.disk_max_used_pct was directly multiplied with the total
+      disk, creating a disk value that was a factor of 100 off, effectively
+      never becoming the min value returned by the function.
 
     client/
         cs_prefs.C
       
-
