@@ -33,6 +33,7 @@
 #include "parse.h"
 #include "util.h"
 #include "filesys.h"
+#include "sched_util.h"
 
 #include "backend_lib.h"
 

@@ -2,6 +2,7 @@
 
 #include "util.h"
 #include "sched_config.h"
+#include "sched_util.h"
 
 int main(int argc, char** argv) {
     SCHED_CONFIG config;

@@ -22291,3 +22291,17 @@ David  7 Jan 2005
     sched/
         file_deleter.C
         sched_util.C,h
+
+David  7 Jan 2005
+    - Changed Makefile.am's to use libraries (libboinc.a, libsched.a)
+        instead of listing separate .o files
+
+    Makefile.incl
+    sched/
+        Makefile.am
+        wu_check.C
+    tools/
+        Makefile.am
+        backend_lib.C
+        dir_hier_move.C
+        dir_hier_path.C

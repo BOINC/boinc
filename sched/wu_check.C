@@ -23,11 +23,14 @@
 
 #include <cstdio>
 
+#include "boinc_db.h"
+
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
-#include "boinc_db.h"
+
 #include "sched_config.h"
+#include "sched_util.h"
 
 bool repair = false;
 

@@ -28,12 +28,11 @@ noinst_PROGRAMS =                               \
 lib_LIBRARIES = libsched.a
 
 EXTRA_PROGRAMS = fcgi
-EXTRA_DIST = start
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
 
-LDADD = -L. -lsched $(MYSQL_LIBS) $(PTHREAD_LIBS)
+LDADD = -L. -lsched $(MYSQL_LIBS) $(BOINC_LIB) $(PTHREAD_LIBS)
 
 LIB_SCHED = libsched.a
 
@@ -44,17 +43,11 @@ libsched_a_SOURCES =                            \
     sched_msgs.C                                \
     ../db/boinc_db.C                            \
     ../db/db_base.C                             \
-    ../lib/util.C                               \
-    ../lib/crypt.C                              \
-    ../lib/filesys.C                            \
-    ../lib/parse.C                              \
-    ../lib/base64.C                             \
-    ../lib/shmem.C                              \
-    ../lib/md5.c                                \
-    ../lib/md5_file.C                           \
     ../lib/msg_log.C                            \
     ../tools/process_result_template.C          \
-    ../tools/backend_lib.C                      \
+    ../tools/backend_lib.C 
+
+EXTRA_DIST =    \
     assimilate_handler.h                        \
     fcgiapp.h                                   \
     fcgi_stdio.h                                \
@@ -67,6 +60,7 @@ libsched_a_SOURCES =                            \
     sched_shmem.h                               \
     sched_util.h                                \
     server_types.h                              \
+    start                                       \
     validate_util.h
 
 

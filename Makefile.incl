@@ -8,9 +8,9 @@ MYSQL_CFLAGS = @MYSQL_CFLAGS@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 
-RSA_LIBS =								\
-	-L$(top_builddir)/RSAEuro/source				\
-	-lrsaeuro
+RSA_LIBS = -L$(top_builddir)/RSAEuro/source -lrsaeuro
+SCHED_LIB = -L$(top_builddir)/sched -lsched
+BOINC_LIB = -L$(top_builddir)/lib -lboinc
 
 AM_CPPFLAGS =					\
         -I$(top_srcdir)/lib			\
@@ -24,9 +24,17 @@ AM_CPPFLAGS =					\
         $(PTHREAD_CFLAGS)		        \
         -include $(top_builddir)/config.h
 
-# this is useful as a dependency to make sure librsaeuro gets compiled before
-# programs linking to it:
-LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
+# dependencies to make sure libs gets compiled before
+# programs linking to them:
 
+LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
+
+LIBSCHED = $(top_builddir)/libsched.a
+$(LIBSCHED):
+	cd $(top_builddir)/sched; ${MAKE} libsched.a
+
+LIBBOINC = $(top_builddir)/libboinc.a
+$(LIBBOINC):
+	cd $(top_builddir)/lib; ${MAKE} libboinc.a

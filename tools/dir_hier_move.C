@@ -10,6 +10,7 @@
 
 #include "filesys.h"
 #include "util.h"
+#include "sched_util.h"
 
 int main(int argc, char** argv) {
     char* src_dir, *dst_dir;
