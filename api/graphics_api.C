@@ -46,7 +46,7 @@ HANDLE graphics_threadh=NULL;
 #endif
 
 
-
+HANDLE hQuitEvent;
 GRAPHICS_INFO gi;
 bool graphics_inited = false;
 
