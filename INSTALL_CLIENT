@@ -10,14 +10,15 @@ The installation procedure itself is broken into four steps
     4. Running the BOINC client
 
 Please note that BOINC currently only supports the targets all clean install
-uninstall and tar. Currently, BOINC is installed into the /usr/local/boinc/
+uninstall tar and zip. Currently, BOINC is installed into the /usr/local/boinc/
 directory structure. To install BOINC into a different directory structure,
 the macro INSTALL_DIR needs to be edited in the client/Makefile.in file.
 
 -------------------------------------------------------------------------------
 Downloading the Source
 
-BOINC is distributed via CVS and tarballs compressed with gzip. 
+BOINC is distributed via CVS, tarballs compressed with gzip, and Windows
+zip files.
 
 The BOINC client distribution includes the core client and the application 
 library. 
@@ -29,6 +30,12 @@ Unpack the distribution in one directory using the commands
 If installing from CVS, the boinc/client, boinc/api, boinc/lib, and 
 boinc/RSAEuro directories must be downloaded. The boinc/doc directory may be
 downloaded if documentation is desired. 
+
+If installing on Windows, unzip boinc_client.zip or boinc_client.tar.gz.
+Next, unzip win_build.zip inside the BOINC directory.
+
+If installing on Mac OS X, unzip boinc_client.zip or boinc_client.tar.gz.
+Next, unstuff mac_build.sit inside the BOINC directory.
 
 -------------------------------------------------------------------------------
 Configuration
@@ -70,9 +77,9 @@ To make the BOINC client:
 Running the BOINC client
 
 The first time the BOINC client is run, it will prompt the user for some
-information, including the master url of the project the user wishes to join,
-the username, and an authenticator. The file will then attempt to contact the
-master url to get information about scheduling servers and attempt to begin
+information, including the master url of the project the user wishes to join
+and an authenticator. The file will then attempt to contact the master url
+to get information about scheduling servers and attempt to begin
 working on the project. After this first time running, the output from the 
 BOINC client may be redirected to /dev/null. The client can accept two
 command line options, -exit_when_idle, which will cause the client to exit

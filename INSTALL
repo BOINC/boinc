@@ -21,7 +21,8 @@ Makefile.in files.
 -------------------------------------------------------------------------------
 Downloading the Source
 
-BOINC is distributed via CVS and tarballs compressed with gzip. 
+BOINC is distributed via CVS, tarballs compressed with gzip, and Windows
+zip files.
 
 The BOINC distribution includes the scheduling servers, both in CGI and FastCGI
 versions, the application library, the client, the test scripts, sample
@@ -31,7 +32,13 @@ Unpack the distribution in one directory using the commands
     % gunzip boinc.tar.gz
     % tar xf boinc.tar
 
-If installing from CVS, download the entire CVS tree. 
+If installing from CVS, download the entire CVS tree.
+
+If installing on Windows, unzip boinc.zip or boinc.tar.gz.  Next, unzip
+win_build.zip inside the BOINC directory.
+
+If installing on Mac OS X, unzip boinc.zip or boinc.tar.gz.  Next, unstuff
+mac_build.sit inside the BOINC directory.
 
 -------------------------------------------------------------------------------
 Ensuring proper programs are installed
@@ -43,7 +50,7 @@ memory segment size of at least 32 megabytes (more is reccomended).
 It is highly reccomended that PHP be installed, as the test scripts and web
 administration are written in PHP and will not be usable without PHP installed.
 
-Apache should be configured to allow POST 
+Apache should be configured to allow POST.
 
 -------------------------------------------------------------------------------
 Setting environment variables

@@ -71,13 +71,14 @@ TEST_FX_OBJS = \
     file_names.o \
     file_xfer.o
 
-TAR_TARGETS = \
+ARCHIVE_TARGETS = \
         client/*.C client/*.cpp client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
+        client/mac/*.h client/mac/*.cpp \
         lib/*.C lib/*.c lib/*.h \
         api/*.C api/*.h \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
-        INSTALL_CLIENT ACKNOWLEDGEMENTS LICENSE
+        mac_build.sit win_build.zip INSTALL_CLIENT LICENSE
 
 .C.o:
 	$(CC) -c -o $*.o $<
@@ -100,8 +101,11 @@ test_file_xfer: test_file_xfer.o $(TEST_FX_OBJS)
 	$(CC) test_file_xfer.o $(TEST_FX_OBJS) $(CLIBS) -o test_file_xfer
 
 tar:
-	cd $(topsrcdir)/..; tar cf boinc_client.tar $(TAR_TARGETS); \
+	cd $(topsrcdir)/..; tar cf boinc_client.tar $(ARCHIVE_TARGETS); \
 	    gzip boinc_client.tar;
+
+zip:
+	cd $(topsrcdir)/..; zip boinc_client.zip $(ARCHIVE_TARGETS)
 
 clean:
 	rm -f *.o $(PROGS) core dependencies Makefile config.cache

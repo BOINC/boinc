@@ -52,6 +52,8 @@ project.
 <li><a href=home.php>User home page</a></li> - view stats, modify preferences
 <li><a href=team.php>Teams</a></li> - join sample distributed computing project community
 </ul>
+<!--
 <scheduler>http://maggie.ssl.berkeley.edu/barry-cgi/cgi</scheduler>
+-->
 </td></tr></table>
 </body>

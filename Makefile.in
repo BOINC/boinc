@@ -122,9 +122,10 @@ uninstall:
 	cd tools; ${MAKE} uninstall;
 	$(RM) -r $(INSTALL_DIR)/tools;
 
-TAR_TARGETS = \
+ARCHIVE_TARGETS = \
         client/*.C client/*.cpp client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
+        client/mac/*.h client/mac/*.cpp \
         apps/*.C apps/*.h apps/*.in \
         db/*.sql db/*.h db/*.C db/*.in db/init_db \
         doc/*.* \
@@ -138,11 +139,14 @@ TAR_TARGETS = \
         tools/*.C tools/*.h tools/*.in \
         api/*.C api/*.h api/*.in \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
-        INSTALL ACKNOWLEDGEMENTS LICENSE configure install-sh \
+        mac_build.sit win_build.zip INSTALL LICENSE configure install-sh \
         *.in *.sub *.guess *.m4
 
 tar: 
-	tar cf boinc.tar $(TAR_TARGETS) ; gzip boinc.tar
+	tar cf boinc.tar $(ARCHIVE_TARGETS) ; gzip boinc.tar
+
+zip:
+	zip boinc.zip $(ARCHIVE_TARGETS)
 
 client_tar: clean
 	cd client; ./configure; ${MAKE} tar;
