@@ -2,163 +2,139 @@
 
 # $Id$
 
-# Scans apps dir for current core client and application versions and updates
-# the database as appropriate.
+"""
+Scans apps dir for current core client and application versions and updates
+the database as appropriate.
 
-try:
-    from versions_config import *
-except ImportError:
-    raise SystemExit("""
-    Couldn't import versions_config.  You must create this file.  See
-    tools/versions_config.py.sample.
-    """)
+config.xml must contain an <apps_dir> which specifies the directory to search.
 
-class Project:
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
+apps/boinc/ contains core client versions.
+apps/APPLICATION_NAME/ contains application versions for each application.
 
-# DUPLICATE_PLATFORM_EXECUTABLES = {'sparc-sun-solaris2.8':'sparc-sun-solaris2.7'}
+file names must be of the form NAME_VERSION_PLATFORM[.ext]:
+  astropulse_7.17_i686-pc-linux-gnu.gz
+  astropulse_7.17_windows_intelx86.exe
 
-BoincCoreApp = Project(appname='BOINC Core Client')
-# Note: treat Darwin (CLI) as Unix (independent of MacOSX GUI)
-platform_name_windows = 'windows_intelx86'
-platform_name_macosx = 'MacOSX'
+The name and extensions .gz, .exe, .sit are ignored.  Platform strings must
+match the names of platforms in the database.
 
-import sys, os, glob, re
-def get_download_dir(directory_name): return os.path.join(PROJECTS_ROOT,directory_name,'download')
-def get_download_url(url_name):       return os.path.join(URL_ROOT,url_name,'download')
-program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
-sys.path[0:0] = ['../py', os.path.realpath(os.path.join(program_path, '../py'))]
+"""
 
-def xsort(list):
-    newlist = list[:]
-    newlist.sort()
-    return newlist
+import boinc_path_config
+from Boinc import database, db_mid, configxml, tools
+import sys, os, glob, re, time
+
+config = configxml.default_config().config
+database.connect()
+
+create_time = int(time.time())
+
+assert(config.app_dir
+       and
+       config.download_dir
+       and
+       config.download_url
+       )
 
 def query_yesno(msg):
     '''Query y/n; default Y'''
     print msg, "[Y/n]? ",
     return not raw_input().lower().startswith('n')
 
-# def map_dupes(dict):
-#     for (platform_name,target_platform_name) in DUPLICATE_PLATFORM_EXECUTABLES.items():
-#         if target_platform_name in dict and not platform_name in dict:
-#             dict[platform_name] = dict[target_platform_name]
+objects_to_commit = []
 
-def glob_app(pattern):
-    return pattern and glob.glob(os.path.join(APPS_DIR,pattern)) or []
+def xsort(list):
+    newlist = list[:]
+    newlist.sort()
+    return newlist
 
-# unix_pattern can include others also
-def get_clients(app, unix_pattern, windows_pattern='', mac_pattern=''):
-    unix_clients, windows_clients, mac_clients = \
-                  map(glob_app, [unix_pattern, windows_pattern, mac_pattern])
-    client_list = []
-    for client in windows_clients:
-        client_list.append( (platform_name_windows,
-                             get_version(client),
-                             client) )
-    for client in mac_clients:
-        client_list.append( (platform_name_macosx,
-                             get_version(client),
-                             client) )
-    for client in unix_clients:
-        platform_name = re.sub('.*_','',client).replace('.gz','').replace('.exe','')
-        if platform_name == 'win':
-            platform_name = platform_name_windows
-        elif platform_name == 'os_x':
-            platform_name = platform_name_macosx
-        client_list.append( (platform_name_windows,
-                             get_version(client),
-                             client) )
-    app.clients = client_list
-    show_clients(app)
+def find_versions(app, dir):
+    """Find application versions/core client versions in DIR.
 
-def show_clients(app):
-    if not app.clients:
-        print "No clients found for", app.appname, "version %s in %s!"%(version_string,APPS_DIR)
-        return
-    print "Clients found for", app.appname, "version", version_string, ":"
-    for client in app.clients:
-        print '    ', client[0].ljust(20), client[1], client[2]
+    if app==None, then dir contains core clients; else contains application
+    versions for core client."""
 
-def get_version(exec_name):
-    m = re.search('([0-9]+)[.]([0-9]+)', exec_name)
-    if not m:
-        raise SystemExit("Couldn't find version number in executable '%s'"%exec_name)
-    return int(m.group(1))*100 + int(m.group(2))
-
-tried_apps_dirs = [ APPS_DIR ]
-if not os.path.isdir(APPS_DIR):
-    APPS_DIR = os.path.join(program_path, APPS_DIR)
-    tried_apps_dirs.append(APPS_DIR)
-if not os.path.isdir(APPS_DIR):
-    raise SystemExit("Couldn't find apps dir in %s"%tried_apps_dirs)
-
-APPS_DIR = os.path.realpath(APPS_DIR)
-PROJECTS_ROOT = os.path.realpath(os.path.expanduser(PROJECTS_ROOT))
-KEY_DIR = os.path.realpath(os.path.expanduser(KEY_DIR))
-
-# version_num = MAJOR_VERSION * 100 + MINOR_VERSION
-# version_string = "%d.%02d"%(MAJOR_VERSION, MINOR_VERSION)
-
-get_clients(BoincCoreApp,
-            unix_pattern='boinc_'+version_string+'*.gz',
-            windows_pattern='BOINC_'+version_string+'*.exe',
-            mac_pattern='boinc_'+version_string+'*.sit')
-
-for project in PROJECTS:
-    for app in project.applications:
-        get_clients(app, app.exe_prefix+'*')
-
-for project in PROJECTS:
-    directory_name = project.directory_name
-    db_name = project.db_name
-    url_name = project.url_name
-    print "--- database", db_name, " ---"
-    existing_count = int(os.popen("""echo 'select count(*) from core_version where version_num=%d'|mysql %s"""%(version_num, db_name)).readlines()[-1].strip() or 0)
-    if existing_count:
-        if not query_yesno("  Delete %d existing version %s clients?"%(existing_count, version_string)):
-            print "    Skipping", db_name
+    for filepath in xsort(glob.glob(os.path.join(appdir, '*'))):
+        file = os.path.basename(filepath)
+        filepath = os.path.join(dir,file)
+        if os.path.isdir(filepath):
             continue
-        print "    Deleting from core_version"
-        os.system("""echo 'delete from core_version where version_num=%d' | mysql %s"""%(version_num, db_name))
-    code_sign_file = os.path.join(KEY_DIR, 'code_sign_private')
-    client_map = BoincCoreApp.client_versions
-    for platform_name in xsort(client_map.keys()):
-        exec_file = os.path.split(client_map[platform_name])[1]
-        download_dir = get_download_dir(directory_name)
-        download_url = get_download_url(url_name)
-        print "  Adding ", platform_name.ljust(20), os.path.join(download_dir,exec_file)
-        os.system("""
-add core_version -db_name %(db_name)s \
-    -app_name 'core client' \
-    -platform_name %(platform_name)s \
-    -download_dir %(download_dir)s \
-    -download_url %(download_url)s \
-    -code_sign_keyfile %(code_sign_file)s \
-    -exec_dir %(APPS_DIR)s \
-    -version %(version_num)d \
-    -exec_files %(exec_file)s
-""" %locals())
+        match = re.match('[^.]+_([0-9]+)[.]([0-9]+)_(.+)(?:[.]gz|[.]exe|[.]sit)$', file)
+        if not match:
+            print >>sys.stderr, "  Ignoring unknown file", os.path.join(filepath)
+            continue
 
-    for app in project.applications:
-        appname = app.appname
-        print '   --- Application', appname, ' ---'
-        client_map = app.client_versions
-        for platform_name in xsort(client_map.keys()):
-            exec_file = os.path.split(client_map[platform_name])[1]
-            a_version_num = get_version(exec_file)
-            download_dir = get_download_dir(directory_name)
-            download_url = get_download_url(url_name)
-            print "  Adding ", platform_name.ljust(20), a_version_num, os.path.join(download_dir,exec_file)
-            os.system("""
-add app_version -db_name %(db_name)s \
-    -app_name '%(appname)s' \
-    -platform_name %(platform_name)s \
-    -download_dir %(download_dir)s \
-    -download_url %(download_url)s \
-    -code_sign_keyfile %(code_sign_file)s \
-    -exec_dir %(APPS_DIR)s \
-    -version %(a_version_num)d \
-    -exec_files %(exec_file)s
-""" %locals())
+        version_major, version_minor, platform_name = match.groups()
+        version_num = int(version_major) * 100 + int(version_minor)
+
+        platforms = database.Platforms.find(name = platform_name)
+        if not platforms:
+            print >>sys.stderr, "  Unknown platform '%s' for file %s" %(platform_name, file)
+            continue
+        platform = platforms[0]
+
+        if app:
+            existing_versions = database.AppVersions.find(version_num = version_num)
+            if existing_versions:
+                print "  Skipping existing %s %3d: %s" %(app.name, version_num, file)
+                continue
+
+            print "  Found %s version %s for %s: %s" %(app, version_num, platform, file)
+
+            xml_doc = tools.process_app_version(
+                app = app,
+                version_num = version_num,
+                exec_files = [filepath])
+
+            object = database.AppVersion(create_time = create_time,
+                                         app = app,
+                                         platform = platform,
+                                         version_num = version_num,
+                                         xml_doc = xml_doc)
+        else:
+            existing_versions = database.CoreVersions.find(version_num = version_num)
+            if existing_versions:
+                print "  Skipping existing core version %s: %s" %(version_num, file)
+                continue
+
+            print "  Found core version %3d for %s: %s" %(version_num, platform, file)
+
+            xml_doc = tools.process_executable_file(filepath)
+
+            object = database.CoreVersion(create_time = create_time,
+                                          platform = platform,
+                                          version_num = version_num,
+                                          xml_doc = xml_doc)
+
+        objects_to_commit.append(object)
+
+for appdir in xsort(glob.glob(os.path.join(config.app_dir,'*'))):
+    if not os.path.isdir(appdir): continue
+    dirname = os.path.basename(appdir)
+    if dirname == 'boinc':
+        print "Looking for core versions in", appdir
+        find_versions(None, appdir)
+        continue
+    appname = os.path.basename(appdir)
+    apps = database.Apps.find(name=appname)
+    if apps:
+        print "Looking for %s versions in"%apps[0], appdir
+        find_versions(apps[0], appdir)
+        continue
+
+    print "Couldn't find app '%s'" %(appname)
+
+if not objects_to_commit:
+    raise SystemExit("No new versions found!")
+
+print "Commit %d items:" %len(objects_to_commit)
+for object in objects_to_commit:
+    print "   ", object
+
+if not query_yesno("Continue"):
+    raise SystemExit
+
+for object in objects_to_commit:
+    object.commit()
+
+print "Done"

@@ -33,6 +33,7 @@ for user in database.Users.find():
 import MySQLdb, MySQLdb.cursors
 import sys, os
 from util import *
+import configxml
 
 ID = '$Id$'
 
@@ -589,20 +590,19 @@ def _connectp(dbname, user, passwd, host='localhost'):
 #     boincdb.readonly = readonly
 #     return 1
 
-def connect(config):
-    """Connect if not already connected, using config values"""
+def connect(config = None):
+    """Connect if not already connected, using config values."""
     global boincdb
     if boincdb:
         return 0
+    config = config or configxml.default_config().config
     _connectp(config.db_name,
               config.__dict__.get('db_user',''),
               config.__dict__.get('db_passwd', ''))
     return 1
 
-def connect_default_config():
-    """Connect using the default config.xml"""
-    import configxml
-    connect(configxml.default_config().config)
+# alias
+connect_default_config = connect
 
 def close():
     """Closes the connection to the sql boinc and deletes the Boincdb object."""

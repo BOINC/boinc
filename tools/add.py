@@ -33,57 +33,29 @@ add.py workunit  (TODO)
 add.py result    (TODO) '''
 
 import boinc_path_config
-from Boinc import database, db_mid, configxml
+from Boinc import database, db_mid, configxml, tools
 from Boinc.util import *
-import sys, os, getopt, md5, time, pprint, shutil
+import sys, os, getopt, time, pprint
 
 CREATE_TIME = ['?create_time', int(time.time())]
 
 class XCoreVersion(database.CoreVersion):
     def __init__(self,**kwargs):
-        exec_file = kwargs['exec_file']
+        kwargs['xml_doc'] = tools.process_executable_file(kwargs['exec_file'])
         del kwargs['exec_file']
-        kwargs['xml_doc'] = process_executable_file(exec_file)
         apply(database.CoreVersion.__init__,[self],kwargs)
 
 class XAppVersion(database.AppVersion):
     def __init__(self,**kwargs):
-        signature_files = kwargs.setdefault('signature_files',{})
-        exec_files = kwargs['exec_files']
-        if not exec_files:
-            raise Exception('internal error: no exec_files - should have caught this earlier')
+        kwargs['xml_doc'] = tools.process_app_version(
+            app = kwargs['app'],
+            version_num = int(kwargs['version_num'])
+            exec_files = kwargs['exec_files']
+            signature_files = kwargs.get('signature_files',{}))
         del kwargs['signature_files']
         del kwargs['exec_files']
         del kwargs['exec_file']
-        xml_doc = ''
-        for exec_file in exec_files:
-            signature_file = signature_files.get(exec_file)
-            if signature_file:
-                signature_text = open(signature_file).read()
-            else:
-                signature_text = sign_executable(exec_file)
-            xml_doc += process_executable_file(exec_file, signature_text)
-
-        xml_doc += ('<app_version>\n'+
-                         '    <app_name>%s</app_name>\n'+
-                         '    <version_num>%d</version_num>\n') %(
-            kwargs['app'].name, int(kwargs['version_num']))
-
-        first = True
-        for exec_file in exec_files:
-            xml_doc += ('    <file_ref>\n'+
-                             '       <file_name>%s</filename>\n') %(
-                os.path.basename(exec_file))
-            if first:
-                xml_doc += '       <main_program/>\n'
-
-            xml_doc += '    </file_ref>\n'
-            first = False
-
-        xml_doc += '</app_version>\n'
-        kwargs['xml_doc'] = xml_doc
         apply(database.AppVersion.__init__,[self],kwargs)
-
 
 # format: [ database.Object, args, ...]
 #   arg format:
@@ -167,45 +139,6 @@ def ambiguous_lookup(string, dict):
     return results
 
 
-def md5_file(path):
-    """Return a 16-digit MD5 hex digest of a file's contents"""
-    return md5.new(open(path).read()).hexdigest()
-
-def file_size(path):
-    """Return the size of a file"""
-    f = open(path)
-    f.seek(0,2)
-    return f.tell()
-
-def process_executable_file(file, signature_text=None):
-    '''Handle a new executable file to be added to the database.
-
-    1. Copy file to download_dir if necessary.
-    2. Return <file_info> XML.
-        - if signature_text specified, include it; else generate md5sum.
-    '''
-
-    file_dir, file_base = os.path.split(file)
-    target_path = os.path.join(config.config.download_dir, file_base)
-    if file_dir != config.config.download_dir:
-        print "Copying %s to %s"%(file_base, config.config.download_dir)
-        shutil.copy(file, target_path)
-
-    xml = '''<file_info>
-    <name>%s</name>
-    <url>%s</url>
-    <executable/>
-''' %(file_base,
-      os.path.join(config.config.download_url, file_base))
-
-    if signature_text:
-        xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
-    else:
-        xml += '    <md5_cksum>%s</md5_cksum>\n' % md5_file(target_path)
-
-    xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
-    return xml
-
 def parse_global_options(args):
     # raise SystemExit('todo')
     pass
@@ -254,17 +187,6 @@ def add_object(object, args):
     object.commit()
     print "Committed", object, "with args:"
     pprint.pprint(object.__dict__)
-
-def sign_executable(executable_path):
-    '''Returns signed text for executable'''
-    print 'Signing', executable_path
-    code_sign_key = os.path.join(config.config.key_dir, 'code_sign_private')
-    sign_executable_path = os.path.join(boinc_path_config.TOP_BUILD_DIR,
-                                        'tools','sign_executable')
-    if not os.path.exists(sign_executable_path):
-        raise SystemExit("tools/sign_executable not found! did you `make' it?")
-    return os.popen('%s %s %s'%(sign_executable_path,
-                                executable_path,code_sign_key)).read()
 
 class Dict:
     pass

@@ -25,6 +25,8 @@ import sys
 import xml.dom.minidom
 import boinc_project_path
 
+default_config_file = None
+
 def _append_new_element(parent_node, name):
     new_element = xml.dom.minidom.Element(name)
     if isinstance(parent_node,xml.dom.minidom.Document):
@@ -140,6 +142,10 @@ class ConfigFile(XMLConfig):
         daemons  -
     '''
     default_filename = boinc_project_path.config_xml_filename
+    def __init__(self, *args, **kwargs):
+        apply(XMLConfig.__init__,(self,)+args,kwargs)
+        global default_config_file
+        default_config_file = self
     def _get_elements(self):
         self.xml_boinc   = _get_element(self.xml,  'boinc', optional=False)
         self.xml_config  = _get_element(self.xml_boinc, 'config', optional=False)
@@ -193,12 +199,10 @@ class RunStateFile(XMLConfig):
         self.tasks.save()
     default_xml = '<boinc></boinc>'
 
-default_config_file = None
 def default_config():
-    '''Reads the default config.xml and returns it.'''
-    global default_config_file
-    if not default_config_file:
-        default_config_file = ConfigFile().read()
+    '''If any config file has been read, return it.  Else open the default one and return it.'''
+    if not default_config_file: ConfigFile().read()
+    assert(default_config_file)
     return default_config_file
 
 if __name__ == '__main__':
