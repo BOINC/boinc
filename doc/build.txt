@@ -138,15 +138,6 @@ Build Windows
     1.2.6	Build->Rebuild All
     1.2.7       Also rebuild DEBUG version if desired for future development.
 
-    1.2.8	Menu item Build->Set Active Configuration, set to "boinc_ss - Win32 Release"
-    1.2.9	Build->Rebuild All
-    1.2.10      Also rebuild DEBUG version if desired for future development.
-
-    1.2.11	Menu item Build->Set Active Configuration, set to "boinc_dll - Win32 Release"
-    1.2.12	Build->Rebuild All
-    1.2.13      Also rebuild DEBUG version if desired for future development.
-
-
 2	Make installer
 
   2.1   Unzip "boinc_installshield.zip" into a directory
