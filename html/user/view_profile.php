@@ -4,7 +4,7 @@ require_once("../inc/profile.inc");
 
 db_init();
 
-$userid = $_GET['userid'];
+$userid = get_int('userid');
 
 // Check for recommendation or rejection votes
 

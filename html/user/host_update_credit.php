@@ -1,7 +1,8 @@
 <?php
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/host.inc");
+
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/host.inc");
 
 function fail($msg) {
     echo "Error: $msg";
@@ -17,14 +18,14 @@ function get_host($hostid, $user) {
     return $host;
 }
 
-    db_init();
-    $user = get_logged_in_user();
+db_init();
+$user = get_logged_in_user();
 
-    page_head("Updating computer credit");
+page_head("Updating computer credit");
 
-    $hostid = $_GET["hostid"];
-    host_update_credit($hostid);
-    echo "<br>Host credit updated";
-    page_tail();
+$hostid = get_int("hostid");
+host_update_credit($hostid);
+echo "<br>Host credit updated";
+page_tail();
 
 ?>

@@ -4,19 +4,20 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-    db_init();
-    $user = get_logged_in_user();
+db_init();
+$user = get_logged_in_user();
 
-    $teamid = $_GET["teamid"];
-    $team = lookup_team($teamid);
-    require_founder_login($user, $team);
+$teamid get_int("teamid");
+$team = lookup_team($teamid);
+require_founder_login($user, $team);
 
-    $team_name = ereg_replace("\"", "'", $team->name);
-    $team_name_html = ereg_replace("\"", "'", $team->name_html);
-    $team_url = ereg_replace("\"", "'", $team->url);
-    $team_description = ereg_replace("\"", "'", $team->description);
-    $team_type = $team->type;
-    page_head("Edit $team_name");
-    team_edit_form($team, "Update team info", "team_edit_action.php");
-    page_tail();
+$team_name = ereg_replace("\"", "'", $team->name);
+$team_name_html = ereg_replace("\"", "'", $team->name_html);
+$team_url = ereg_replace("\"", "'", $team->url);
+$team_description = ereg_replace("\"", "'", $team->description);
+$team_type = $team->type;
+page_head("Edit $team_name");
+team_edit_form($team, "Update team info", "team_edit_action.php");
+page_tail();
+
 ?>

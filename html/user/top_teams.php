@@ -8,10 +8,9 @@ $n = 20;
 
 $sort_by = $_GET["sort_by"];
 if (!$sort_by) $sort_by = "expavg_credit";
-$offset = $_GET["offset"];
+$offset = get_int("offset", true);
 if (!$offset) $offset=0;
-$type = $_GET["type"];
-$type = $type + 0;
+$type = get_int("type", true);
 if ($type < 1 || $type > 7) {
     $type = null;
 }

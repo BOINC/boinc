@@ -1,7 +1,8 @@
 <?php
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/host.inc");
+
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/host.inc");
 
 function fail($msg) {
     echo "Error: $msg";
@@ -17,22 +18,22 @@ function get_host($hostid, $user) {
     return $host;
 }
 
-    db_init();
-    $user = get_logged_in_user();
+db_init();
+$user = get_logged_in_user();
 
-    page_head("Delete record of computer");
+page_head("Delete record of computer");
 
-    $hostid = $_GET["hostid"];
-    $host = get_host($hostid, $user);
-    if (host_nresults($host)==0) {
-        mysql_query("delete from host where id=$hostid");
-    } else {
-        fail("existing results");
-    }
-    echo "
-        Host deleted.
-        <p><a href=hosts_user.php>Return to list of your computers</a>
-    ";
-    page_tail();
+$hostid = get_int("hostid");
+$host = get_host($hostid, $user);
+if (host_nresults($host)==0) {
+    mysql_query("delete from host where id=$hostid");
+} else {
+    fail("existing results");
+}
+echo "
+    Host deleted.
+    <p><a href=hosts_user.php>Return to list of your computers</a>
+";
+page_tail();
 
 ?>
