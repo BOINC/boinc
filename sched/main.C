@@ -56,9 +56,9 @@ void get_log_path(char* p) {
     char buf[256];
     char path[256];
     gethostname(buf, 256);
-    sprintf(path, "log_%s", buf);
-    sprintf(p, "../%s/cgi.log", path);
+    sprintf(path, "../log_%s", buf);
     mkdir(path, 0777);
+    sprintf(p, "%s/cgi.log", path);
 }
 
 #define REQ_FILE_PREFIX "boinc_req_"

@@ -14165,3 +14165,10 @@ Rom    25 June 2004
 
     html/inc/
         util.inc
+
+Karl 2004-06-27
+    - fix to log directory creation from Chrischan <christian.linder@uni-bielefeld.de>
+
+    sched/
+        main.C
+
