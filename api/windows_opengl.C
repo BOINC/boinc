@@ -58,16 +58,16 @@ void KillWindow() {
 	}
     hWnd = NULL;
 
-    if (hOriginalDesktop) {
-        SetThreadDesktop(hOriginalDesktop);
-        CloseDesktop(hInteractiveDesktop);
-        hInteractiveDesktop = NULL;
-    }
-
     if (hOriginalWindowStation) {
         SetProcessWindowStation(hOriginalWindowStation);
         CloseWindowStation(hInteractiveWindowStation);
         hInteractiveWindowStation = NULL;
+    }
+
+    if (hOriginalDesktop) {
+        SetThreadDesktop(hOriginalDesktop);
+        CloseDesktop(hInteractiveDesktop);
+        hInteractiveDesktop = NULL;
     }
 }
 
@@ -197,16 +197,16 @@ static void set_mode(int mode) {
             BOINCTRACE(_T("Failed to retrieve the required window station\n"));
         } else {
             BOINCTRACE(_T("Retrieved the required window station\n"));
+            SetProcessWindowStation(hInteractiveWindowStation);
             hInteractiveDesktop = OpenDesktop(
                 graphics_msg.desktop, NULL, FALSE,
-                GENERIC_READ | GENERIC_WRITE
+                GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU
             );
             if (NULL == hInteractiveDesktop) {
                 BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
                 new_mode = MODE_UNSUPPORTED;
             } else {
                 BOINCTRACE(_T("Retrieved the required desktop\n"));
-                SetProcessWindowStation(hInteractiveWindowStation);
                 SetThreadDesktop(hInteractiveDesktop);
             }
         }

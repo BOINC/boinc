@@ -19747,3 +19747,8 @@ Rom    17 Nov 2004
     client/win/
         win_screensaver.cpp, .h
 
+Rom    17 Nov 2004
+    - Bug Fix: Screensaver now works even when BOINC is running as a service.
+
+    api/
+        windows_opengl.C
