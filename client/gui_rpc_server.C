@@ -378,9 +378,6 @@ bool GUI_RPC_CONN_SET::poll() {
                     "GUI RPC request from non-local address 0x%x\n",
                     peer_ip
                 );
-                GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
-                insert(gr);
-
             } else {
                 GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
                 insert(gr);
