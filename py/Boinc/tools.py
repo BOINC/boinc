@@ -1,8 +1,9 @@
 ## $Id$
 
 import configxml
-import os, md5, shutil
+import os, md5, shutil, binascii
 
+# from http://www.plope.com/software/uuidgen/view
 _urandomfd = None
 def urandom(n):
     """urandom(n) -> str
@@ -24,7 +25,7 @@ def urandom(n):
     return bytes
 
 def make_uuid():
-    return ''.join(['%02x' % ord(x) for x in urandom(16)])
+    return binascii.hexlify(urandom(16))
 
 def md5_file(path):
     """Return a 16-digit MD5 hex digest of a file's contents"""
