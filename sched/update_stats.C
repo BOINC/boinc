@@ -43,7 +43,10 @@ int update_users() {
     while (!user.enumerate()) {
         update_average(0, 0, user.expavg_credit, user.expavg_time);
         retval = user.update();
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL, "Can't update user %d\n", user.id);
+            return retval;
+        }
     }
 
     return 0;
@@ -56,7 +59,10 @@ int update_hosts() {
     while (!host.enumerate()) {
         update_average(0, 0, host.expavg_credit, host.expavg_time);
         retval = host.update();
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL, "Can't update host %d\n", host.id);
+            return retval;
+        }
     }
 
     return 0;
@@ -117,7 +123,10 @@ int update_teams() {
         }
 
         retval = team.update();
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL, "Can't update team %d\n", team.id);
+            return retval;
+        }
     }
     return 0;
 }

@@ -8759,3 +8759,13 @@ David  23 Dec 2003 (supplied by Rom Walton)
 				iconwarning.ico (new)
 	win_build/
 		boinc_gui.dsp
+
+David  23 Dec 2003
+    - change string-escape function in DB code to handle \ as well as '
+        (otherwise updates/inserts can fail)
+
+    db/
+        boinc_db.C
+        db_base.C,h
+    sched/
+        update_stats.C

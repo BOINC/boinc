@@ -191,14 +191,19 @@ void strcpy2(char* dest, char* src) {
 }
 #endif
 
-// convert ' to \' in place
-void escape_single_quotes(char* field) {
+// convert a string into a form that allows it to be used
+// in SQL queries delimited by single quotes
+//
+void escape_string(char* field) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     while (*p) {
         if (*p == '\'') {
             *q++ = '\\';
             *q++ = '\'';
+        } else if (*p == '\\') {
+            *q++ = '\\';
+            *q++ = '\\';
         } else {
             *q++ = *p;
         }
@@ -208,12 +213,12 @@ void escape_single_quotes(char* field) {
     strcpy(field, buf);
 }
 
-void unescape_single_quotes(char* p) {
-    char* q;
-    while (1) {
-        q = strstr(p, "\\'");
-        if (!q) break;
-        strcpy(q, q+1);
+void unescape_string(char* p) {
+    while (*p) {
+        if (*p == '\\') {
+            strcpy(p, p+1);
+        }
+        p++;
     }
 }
 

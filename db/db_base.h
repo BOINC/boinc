@@ -74,8 +74,8 @@ public:
             strlcpy(x, z, sizeof(x)); \
         } \
     }
-//void strcpy2(char* dest, char* src);
-void escape_single_quotes(char* field);
-void unescape_single_quotes(char* p);
+
+void escape_string(char* field);
+void unescape_string(char* p);
 
 #endif

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.31  2003/12/26 06:03:02  boincadm
+// *** empty log message ***
+//
 // Revision 1.30  2003/12/24 21:49:34  boincadm
 // *** empty log message ***
 //
@@ -204,14 +207,14 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
 }
 
 void DB_USER::db_print(char* buf){
-    escape_single_quotes(email_addr);
-    escape_single_quotes(name);
-    escape_single_quotes(country);
-    escape_single_quotes(postal_code);
-    escape_single_quotes(global_prefs);
-    escape_single_quotes(project_prefs);
-    escape_single_quotes(url);
-    escape_single_quotes(signature);
+    escape_string(email_addr);
+    escape_string(name);
+    escape_string(country);
+    escape_string(postal_code);
+    escape_string(global_prefs);
+    escape_string(project_prefs);
+    escape_string(url);
+    escape_string(signature);
     sprintf(buf,
         "id=%d, create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
@@ -232,14 +235,14 @@ void DB_USER::db_print(char* buf){
         seti_id, seti_nresults, seti_last_result_time,
         seti_total_cpu, signature, has_profile
     );
-    unescape_single_quotes(email_addr);
-    unescape_single_quotes(name);
-    unescape_single_quotes(country);
-    unescape_single_quotes(postal_code);
-    unescape_single_quotes(global_prefs);
-    unescape_single_quotes(project_prefs);
-    unescape_single_quotes(url);
-    unescape_single_quotes(signature);
+    unescape_string(email_addr);
+    unescape_string(name);
+    unescape_string(country);
+    unescape_string(postal_code);
+    unescape_string(global_prefs);
+    unescape_string(project_prefs);
+    unescape_string(url);
+    unescape_string(signature);
 }
 
 void DB_USER::db_parse(MYSQL_ROW &r) {
@@ -272,11 +275,11 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
 }
 
 void DB_TEAM::db_print(char* buf){
-    escape_single_quotes(name);
-    escape_single_quotes(name_lc);
-    escape_single_quotes(url);
-    escape_single_quotes(name_html);
-    escape_single_quotes(description);
+    escape_string(name);
+    escape_string(name_lc);
+    escape_string(url);
+    escape_string(name_html);
+    escape_string(description);
     sprintf(buf,
         "id=%d, create_time=%d, userid=%d, name='%s', "
         "name_lc='%s', url='%s', "
@@ -298,11 +301,11 @@ void DB_TEAM::db_print(char* buf){
         expavg_credit,
         seti_id
     );
-    unescape_single_quotes(name);
-    unescape_single_quotes(name_lc);
-    unescape_single_quotes(url);
-    unescape_single_quotes(name_html);
-    unescape_single_quotes(description);
+    unescape_string(name);
+    unescape_string(name_lc);
+    unescape_string(url);
+    unescape_string(name_html);
+    unescape_string(description);
 }
 
 void DB_TEAM::db_parse(MYSQL_ROW &r) {
@@ -325,13 +328,13 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
 }
 
 void DB_HOST::db_print(char* buf){
-    escape_single_quotes(domain_name);
-    escape_single_quotes(serialnum);
-    escape_single_quotes(last_ip_addr);
-    escape_single_quotes(p_vendor);
-    escape_single_quotes(p_model);
-    escape_single_quotes(os_name);
-    escape_single_quotes(os_version);
+    escape_string(domain_name);
+    escape_string(serialnum);
+    escape_string(last_ip_addr);
+    escape_string(p_vendor);
+    escape_string(p_model);
+    escape_string(os_name);
+    escape_string(os_version);
     sprintf(buf,
         "id=%d, create_time=%d, userid=%d, "
         "rpc_seqno=%d, rpc_time=%d, "
@@ -364,13 +367,13 @@ void DB_HOST::db_print(char* buf){
         credit_per_cpu_sec,
         venue, projects
     );
-    unescape_single_quotes(domain_name);
-    unescape_single_quotes(serialnum);
-    unescape_single_quotes(last_ip_addr);
-    unescape_single_quotes(p_vendor);
-    unescape_single_quotes(p_model);
-    unescape_single_quotes(os_name);
-    unescape_single_quotes(os_version);
+    unescape_string(domain_name);
+    unescape_string(serialnum);
+    unescape_string(last_ip_addr);
+    unescape_string(p_vendor);
+    unescape_string(p_model);
+    unescape_string(os_name);
+    unescape_string(os_version);
 }
 
 void DB_HOST::db_parse(MYSQL_ROW &r) {
@@ -478,8 +481,8 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
 }
 
 void DB_RESULT::db_print(char* buf){
-    escape_single_quotes(xml_doc_out);
-    escape_single_quotes(stderr_out);
+    escape_string(xml_doc_out);
+    escape_string(stderr_out);
     sprintf(
         buf,
         "id=%d, create_time=%d, workunitid=%d, "
@@ -501,8 +504,8 @@ void DB_RESULT::db_print(char* buf){
         claimed_credit, granted_credit, opaque, random,
         client_version_num, appid, exit_status
     );
-    unescape_single_quotes(xml_doc_out);
-    unescape_single_quotes(stderr_out);
+    unescape_string(xml_doc_out);
+    unescape_string(stderr_out);
 }
 
 void DB_RESULT::db_parse(MYSQL_ROW &r) {

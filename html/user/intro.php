@@ -18,7 +18,8 @@ echo "
     Go to the <a href=download.php>download page</a>,
     download the BOINC software for your type of computer,
     install it, and run it.
-    You will be asked to enter your account ID.
+    You will be asked to enter the project URL
+    (".MASTER_URL.") and your account ID.
     </ul>
     That's it!
     <table cellpadding=8 ><tr><td bgcolor=ffffcc>
