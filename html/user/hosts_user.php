@@ -14,7 +14,7 @@
         mysql_free_result($result);
         if ($user->show_hosts) {
             page_head("Computers belonging to $user->name");
-            host_table_start(false, false);
+            user_host_table_start(false);
         } else {
             echo "Hidden\n";
             exit();
@@ -24,7 +24,7 @@
         $user = get_logged_in_user();
         $userid = $user->id;
         page_head("Your computers");
-        host_table_start(true, false);
+        user_host_table_start(true);
         $private = true;
     }
     $i = 1;

@@ -21,12 +21,12 @@
     db_init();
     page_head("Top computers");
     if ($sort_by == "total_credit") {
-        $sort_clause = "total_credit desc, total_credit desc";
+        $sort_clause = "total_credit desc";
     } else {
-        $sort_clause = "expavg_credit desc, total_credit desc";
+        $sort_clause = "expavg_credit desc";
     }
     $result = mysql_query("select * from host order by $sort_clause limit $n offset $offset");
-    host_table_start(false, true);
+    top_host_table_start($sort_by);
     $i = $offset+1;
     while ($host = mysql_fetch_object($result)) {
         show_host_row($host, $i, false, true);

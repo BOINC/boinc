@@ -12838,3 +12838,20 @@ David  May 30 2004
     sched/
         handle_request.C
         sched_send.C
+
+David  May 30 2004
+    - Add the ability to sort by total or expavg credit in most lists
+    - Fix the "update credit" feature to use the same
+        formula used to compute expavg credit in the first place
+
+    html/
+        inc/
+            host.inc
+            team.inc
+            user.inc
+        user/
+            host_update_credit.php
+            hosts_user.php
+            top_hosts.php
+            top_teams.php
+            top_users.php

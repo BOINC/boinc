@@ -14,14 +14,14 @@
 
     page_head("Top teams");
     if ($sort_by == "total_credit") {
-        $sort_by = "total_credit desc, total_credit desc";
+        $sort_clause = "total_credit desc";
     } else {
-        $sort_by = "expavg_credit desc, total_credit desc";
+        $sort_clause = "expavg_credit desc";
     }
-    $result = mysql_query("select * from team order by $sort_by");
+    $result = mysql_query("select * from team order by $sort_clause");
     start_table();
     row1("Teams", 6);
-    team_table_start();
+    team_table_start($sort_by);
     $i = 1;
     while ($team = mysql_fetch_object($result)) {
         show_team_row($team, $i);

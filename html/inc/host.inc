@@ -116,7 +116,9 @@ function show_host($host, $private, $ipprivate) {
 
 }
 
-function host_table_start($private, $show_owner) {
+// The following is used to show a user's hosts
+//
+function user_host_table_start($private) {
     start_table();
     echo "<tr>";
     echo "<th>Computer ID<br><font size=-2>Click for more info</font></th>\n";
@@ -125,13 +127,36 @@ function host_table_start($private, $show_owner) {
         ";
     } else {
         echo "<th>Rank</th>";
-        if ($show_owner) {
-            echo "<th>Owner</th>\n";
-        }
     }
     echo "
         <th>Recent average credit</th>
         <th>Total credit</th>
+        <th>CPU type</th>
+        <th>Operating system</th>
+        </tr>
+    ";
+}
+
+// the following is used for list of top hosts
+//
+function top_host_table_start($sort_by) {
+    start_table();
+    echo "<tr>";
+    echo "<th>Computer ID<br><font size=-2>Click for more info</font></th>\n";
+    echo "<th>Rank</th>";
+    echo "<th>Owner</th>\n";
+    if ($sort_by == 'total_credit') {
+        echo "
+            <th><a href=top_hosts?sort_by=expavg_credit>Recent average credit</a></th>
+            <th>Total credit</th>
+        ";
+    } else {
+        echo "
+            <th>Recent average credit</th>
+            <th><a href=top_hosts?sort_by=total_credit>Total credit</a></th>
+        ";
+    }
+    echo "
         <th>CPU type</th>
         <th>Operating system</th>
         </tr>

@@ -132,14 +132,25 @@ function show_user_page_private($user) {
     end_table();
 }
 
-function user_table_start() {
+function user_table_start($sort_by) {
     start_table();
     echo "
         <tr>
         <th>Rank</th>
         <th>Name</th>
-        <th><a href=top_users.php?sort_by=expavg_credit>Recent average credit</a></th>
-        <th><a href=top_users.php?sort_by=total_credit>Total credit</a></th>
+    ";
+    if ($sort_by == "total_credit") {
+        echo "
+            <th><a href=top_users.php?sort_by=expavg_credit>Recent average credit</a></th>
+            <th>Total credit</th>
+        ";
+    } else {
+        echo "
+            <th>Recent average credit</th>
+            <th><a href=top_users.php?sort_by=total_credit>Total credit</a></th>
+        ";
+    }
+    echo "
         <th>Country</th>
         <th>Participant since</th>
         </tr>
