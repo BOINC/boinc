@@ -1,38 +1,30 @@
 ;; $Id$
 
+<verno> represents the new version number. At the time of this update, it
+would be 2.15, so substitute 2.15 everywhere you see <verno>
+
 Administrivia:
     Make a note in checkin_notes 
 
     Set the version number:
-        in unix, run:
-            ./set-version 2.11
-            cvs ci -m 'new version'
+        do this on a unix machine
+            first, update the installer files for windows:
+             % cd win_build/installer/Setup Files/Compressed Files/Language Independent/OS Independent
+                <edit>  readme.txt  (change version number)
+                <edit> license.txt  (change version number)
+              [bonus: automate this process]
+
+            % ./set-version <verno>
+            (note: the make in your default path must be gnu make, or else
+                   set-version will fail towards the end)
+            % cvs ci -m 'new version'
 
     Make a source tarball and zip:
-        make dist
-        cp boinc-2.11.tar.gz boinc-2.12.zip ~davea/boinc/doc/source/
+        % make dist
+        % cp boinc-<verno>.tar.gz boinc-<verno>.zip ~davea/boinc/doc/source/
         
-{Linux,Solaris2.7,Solaris2.8} release:
-    use these hosts:
-    Linux: milhouse
-    solaris2.7: milkyway
-    solaris2.8: kodos
-    
-    do a clean check out; compile; copy to koloth:
-        cd ~
-        mkdir proj
-        cd proj
-        mkdir client-build-`~quarl/proj/boinc/config.guess`
-        cd client-build-`~quarl/proj/boinc/config.guess`
-        cvs co boinc
-        cd boinc
-        ./configure && make
-        scp client/boinc_2.12_*.gz boincadm@koloth:projects/Astropulse_Beta/apps/boinc/
-
-    [bonus: automate this process]
-
 Windows:
-    Use the Windows computer in 329.
+    Use the Windows computer (bart) in 329.
 
     Open 'quarl' on the desktop.
 
@@ -44,24 +36,60 @@ Windows:
 
     Open 'BOINC.dsw'
 
-    make
+    in the visual c++ menu, pick
+        Build->Clean
+        Build->Rebuild All
+          the exe will be in win_build\Build\Debug
 
     Open 'installer'
 
-    Find the two text files *.txt and change the version number
-        [bonus: automate this process]
-
     open 'BOINC.ipr' (installshield project)
-    build default media
+
+    in the installshield menu, pick
+        Build->Media->Build Default Media
         [bonus: automate this process]
     
     open 'BOINC.pfw' (package for the web project)
-    build everything, changing the version numbers
-        [bonus: automate this process]
+       build everything, changing only the version numbers
+       [note: there are nine screens to go through. the version
+              numbers are on screen #1 and screen #9. Do not
+              change anything else]
+       [bonus: automate this process]
 
-    SFTP to boincadm@koloth
+        The new windows installer (BOINC_<verno>_intelx86_windows.exe)
+        will be left in this folder when you exit Package for the Web
 
-    copy BOINC_2.11_intelx86_windows.exe to the apps directory
+    SFTP to boincadm@koloth:
+
+    copy BOINC_<verno>_intelx86_windows.exe to the projects/AstroPulse_Beta/apps/boinc directory
+
+
+{Linux,Solaris2.7,Mac OS X} release:
+    use these hosts:
+       Linux: milhouse
+       solaris2.7: milkyway
+       Mac OS X: seti2 (the macox build should work as a command-line application in
+                     OS X 10.2 and OS X 10.3 [10.1 or earlier is not supported])
+
+    note 1: The solaris 2.7 build should be statically linked, and should support
+            solaris 2.7-2.9
+
+    note 2: The mac os x build should run on 10.2 (jaguar) and 10.3 (panther)
+            via Terminal. It is currently only run here under 10.3
+
+
+    do a clean check out; compile; copy to koloth:
+        % cd ~
+        % mkdir proj
+        % cd proj
+        % mkdir client-build-`~quarl/proj/boinc/config.guess`
+        % cd client-build-`~quarl/proj/boinc/config.guess`
+        % cvs co boinc
+        % cd boinc
+        % ./configure && make
+        % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
+
+    [bonus: automate this process]
 
 
 Update the server:
