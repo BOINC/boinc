@@ -292,7 +292,10 @@ int HTTP_OP::init_post2(
         strcpy(infile, in);
         file_offset = offset;
         retval = file_size(infile, content_length);
-        if (retval) return retval;
+        if (retval) {
+	    printf("HTTP::init_post2: couldn't get file size\n");
+	    return retval;
+	}
         content_length -= (int)offset;
     }
     content_length += strlen(req1);

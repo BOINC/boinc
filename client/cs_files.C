@@ -94,21 +94,24 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         pfx = fip->pers_file_xfer;
-        if (!fip->generated_locally && fip->status == FILE_NOT_PRESENT && !pfx) {
-            // Set up the persistent file transfer object.  This will start
-            // the download when there is available bandwidth
+	if (pfx) continue;
+        if (!fip->generated_locally && fip->status == FILE_NOT_PRESENT) {
+
+            // Set up the persistent file transfer object.
+	    // This will start the download when there is available bandwidth
             //
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
 	    pers_xfers->insert( fip->pers_file_xfer );
             action = true;
-        } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded && !pfx ) {
-            // Set up the persistent file transfer object.  This will start
-            // the upload when there is available bandwidth
+        } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
+
+            // Set up the persistent file transfer object.
+	    // This will start the upload when there is available bandwidth
             //
             pfx = new PERS_FILE_XFER;
-            pfx->init( fip, true );
+            pfx->init(fip, true);
             fip->pers_file_xfer = pfx;
             pers_xfers->insert(fip->pers_file_xfer);
             action = true;
@@ -117,8 +120,10 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
 
     for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
         pfx = pers_xfers->pers_file_xfers[i];
+
         // If the transfer finished, remove the PERS_FILE_XFER object
         // from the set and delete it
+	//
         if (pfx->xfer_done) {
             pfx->fip->pers_file_xfer = NULL;
             pers_xfers->remove(pfx);

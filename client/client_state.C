@@ -644,9 +644,11 @@ bool CLIENT_STATE::garbage_collect() {
         } else {
             rp->wup->ref_cnt++;
             for (i=0; i<rp->output_files.size(); i++) {
-                // If one of the file infos had a failure, mark the result
-                // as done and report the error.  The result, workunits, and
-                // file infos will be cleaned up after the server is notified
+                // If one of the file infos had a failure,
+		// mark the result as done and report the error.
+		// The result, workunits, and file infos
+		// will be cleaned up after the server is notified
+		//
                 if (rp->output_files[i].file_info->had_failure()) {
                     if (rp->state < RESULT_READY_TO_ACK) {
                         rp->state = RESULT_READY_TO_ACK;

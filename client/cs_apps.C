@@ -71,6 +71,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     FILE_INFO* fip;
     unsigned int i;
     char path[256];
+    int retval;
 
     for (i=0; i<rp->output_files.size(); i++) {
         fip = rp->output_files[i].file_info;
@@ -79,7 +80,12 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             fip->delete_file();
         } else {
             get_pathname(fip, path);
-            md5_file(path, fip->md5_cksum, fip->nbytes);
+            retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+	    if (retval) {
+		// an output file is unexpectedly absent.
+		// 
+		fip->status = retval;
+	    }
         }
     }
 
