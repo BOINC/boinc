@@ -22,7 +22,7 @@ must match the names of platforms in the database.
 
 import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
-import sys, os, glob, re, time
+import sys, os, re, time
 
 verbose = 0
 try:
@@ -130,7 +130,7 @@ def find_versions(app, dir):
 
     """
 
-    for filepath in xsort(glob.glob(os.path.join(dir, '*'))):
+    for filepath in os.listdir(dir):
         if os.path.islink(filepath):
             continue
         if os.path.isdir(filepath):
@@ -139,7 +139,7 @@ def find_versions(app, dir):
             match = None
             non_exec_files = []
             dir = filepath
-            for filepath in xsort(glob.glob(os.path.join(dir, '*'))):
+            for filepath in os.listdir(dir):
                 if os.path.isdir(filepath):
                     continue
                 if not match:
@@ -164,7 +164,7 @@ def find_versions(app, dir):
                 continue
             add_files(app=app, match=match, exec_file=filepath)
 
-for appdir in xsort(glob.glob(os.path.join(config.app_dir,'*'))):
+for appdir in os.listdir(config.app_dir,'*'):
     if not os.path.isdir(appdir): continue
     dirname = os.path.basename(appdir)
     if dirname == 'boinc':
