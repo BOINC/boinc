@@ -153,7 +153,8 @@ function show_workunit($wu,$show_xml_doc) {
     row("Memory Requirement", $wu->rsc_memory);
     row("Disk Requirement", $wu->rsc_disk);
     row("Need validate?", $wu->need_validate?"yes":"no");
-    row("Canonical resultid", $wu->canonical_resultid);
+    row("Canonical resultid",
+            "<a href=db.php?show=result&id=$wu->canonical_resultid>".$wu->canonical_resultid."</a>");
     row("Canonical credit", $wu->canonical_credit);
     row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", $wu->delay_bound);
