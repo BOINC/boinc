@@ -36,6 +36,11 @@
 #include "log_flags.h"
 #include "net_xfer.h"
 
+// On Macs, socklen_t isn't defined in a header file so we have to define it here
+#ifdef mac
+#define socklen_t unsigned int
+#endif
+
 int NET_XFER::open_server() {
     sockaddr_in addr;
     hostent* hep;
@@ -137,7 +142,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
-    unsigned int intsize = sizeof(int);
+    int intsize = sizeof(int);
 
     bytes_transferred = 0;
 
