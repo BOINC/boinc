@@ -80,7 +80,7 @@ deploy BOINC across a Windows network using Active Directories,
 and have all the PCs attached to a particular account.
 Here's how to do this:
 <ul>
-<li> Using ORCA, edit the installer to set the installation
+<li> Using Microsoft ORCA, edit the installer to set the installation
 parameters to what you want.
 <li> The global property ACCOUNTS_LOCATION specifies
 (either in UNC or drive:path format)
