@@ -10,11 +10,10 @@
     	$head = sprintf("Edit %s's User Information", $user->name);
     	page_head($head);
     	print_edit_user_info($user);
+        page_tail();
     } else {
-    	page_head("Edit User Information"); 
-	echo NOLOGIN;
+	print_login_form();
     }
-    page_tail();
 
 ?>
     

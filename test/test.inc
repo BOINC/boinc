@@ -54,7 +54,7 @@ function db_query($query) {
 function run_tool($cmd) {
     $tool_dir = get_env_var("BOINC_SRC_DIR")."/tools/";
     $cmd = $tool_dir.$cmd;
-    echo "$cmd\n";
+    //echo "$cmd\n";
     PassThru($cmd);
 }
 
@@ -139,9 +139,10 @@ class Project {
     function Install() {
         $base_dir = get_env_var("BOINC_PROJECTS_DIR");
         $source_dir = get_env_var("BOINC_SRC_DIR");
+        $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->name;
         $this->download_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/download";
-        $this->upload_url = get_env_var("BOINC_CGI_URL")."/".$this->name."/file_upload_handler";
-        $this->scheduler_url = get_env_var("BOINC_CGI_URL")."/".$this->name."/cgi";
+        $this->upload_url = $cgi_url."/file_upload_handler";
+        $this->scheduler_url = $cgi_url."/cgi";
         $this->project_dir = $base_dir."/".$this->name;
         $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_user/index.html";
         PassThru("rm -rf $this->project_dir");
@@ -215,6 +216,7 @@ class Project {
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/result_retry $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
+        PassThru("cp $source_dir/html_ops/stripchart.cgi $this->project_dir/cgi/");
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
         fputs($f, "    <db_name>$this->db_name</db_name>\n");
@@ -240,6 +242,7 @@ class Project {
         fputs($f, "<db_name>$this->db_name</db_name>\n");
         fputs($f, "<db_passwd>$this->db_name</db_passwd>\n");
         fputs($f, "<download_url>$this->download_url</download_url>\n");
+        fputs($f, "<cgi_url>$cgi_url</cgi_url>\n");
         fclose($f);
         PassThru("cp $this->project_dir/html_user/config.xml $this->project_dir/html_ops");
 

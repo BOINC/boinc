@@ -5,14 +5,14 @@
     require_once("edit.inc");
 
     db_init();
-    $user = get_user_From_cookie();
+    $user = get_user_from_cookie();
  
-    page_head("Change Password"); 
     if ($user) {
+        page_head("Change Password"); 
 	print_change_password($user);
+        page_tail();
     } else {
-        echo NOLOGIN;
+        print_login_form();
     }
-    page_tail();
 
 ?> 

@@ -20,7 +20,6 @@ define("BG_COLOR", " bgcolor=ffffff ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
-define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
 define("PROJECT", "Astropulse");
 
 
@@ -35,10 +34,10 @@ function get_user_from_cookie() {
 
 function show_login($user) {
     if ($user) {
-        printf("Logged in as %s.\n", $user->name);
-        printf("<br><a href=login.php>Log in as someone else.</a>\n");
+        echo "Logged in as %s.\n", $user->name;
+        echo "<br><a href=login.php>Log in as someone else.</a>\n";
     } else {
-	echo NOLOGIN;
+	echo "Not logged in";
     }
 }
 

@@ -2,7 +2,6 @@
     require_once("util.inc");
     require_once("user.inc");
     require_once("db.inc");
-    require_once("login.inc");
 
     // show the home page of whoever's logged in
 

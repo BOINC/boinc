@@ -1,7 +1,6 @@
 <?php
     require_once("db.inc");
     require_once("util.inc");
-    require_once("login.inc");
     require_once("prefs.inc");
 
     db_init();
@@ -10,10 +9,9 @@
     if ($user) {
         page_head("Preferences");
         print_prefs_display($user);
+        page_tail();
     } else {
         print_login_form();
     }
-    echo "<p>\n";
-    page_tail();
 
 ?>

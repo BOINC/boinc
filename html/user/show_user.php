@@ -2,15 +2,14 @@
     require_once("util.inc");
     require_once("user.inc");
     require_once("db.inc");
-    require_once("login.inc");
 
     db_init();
-    $user = get_user_From_cookie();
+    $user = get_user_from_cookie();
     if ($user) {
       	page_head("User stats");
     	show_user($user);
+        page_tail();
     } else {
-	echo NOLOGIN;
+	print_login_form();
     }
-    page_tail();
 ?>
