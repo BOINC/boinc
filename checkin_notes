@@ -16064,12 +16064,7 @@ Daniel 2004-08-06
 
 Noaa	6 August 2004
 
-	- added extern "C" to boinc_init_graphics and boinc_finish_graphics
-	 in graphics_api.h
 	- removed libglut.a from cvs, was accidentally in there
-
-	api/
-		graphics_api.h
 
 	boincglut/lib/glut/
 		libglut.a (removed)

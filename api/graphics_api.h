@@ -2,17 +2,17 @@
 #define BOINC_GRAPHICS_API_H
 
 // The API (functions called by the app)
-extern "C"{
+
 extern int boinc_init_graphics();
 extern int boinc_finish_graphics();
-}
+
 // Functions that must be supplied by the app
 // application needs to define mouse, keyboard handlers
 //
 extern void app_graphics_render(int xs, int ys, double time_of_day);
 extern void app_graphics_init();
     // called each time a window is opened;
-    // called in the graphics thread
+    // called in the graphics thread 
 extern void app_graphics_reread_prefs();
     // called when get REREAD_PREFS message from core client.
     // called in the graphics thread
