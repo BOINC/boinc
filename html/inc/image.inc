@@ -1,14 +1,12 @@
 <?php
 
+//Scale an image using the most powerfull GD software available on the server
+//while keeping aspect ratio the same
 function intelligently_scale_image($sourcefile, $fw, $fh) {
+    $gd_info = gd_info();
+    $newGD = (strstr($gd_info["GD Version"], "2.0")!="");
 
-	//In order to use the default built-in GD library all imageCreateTrueColor
-	//has been commented out.
-	//If you whish to enable the advanced GD features (resamples copy for instance)
-	//simply switch back to the commented functions.
-	
     list($ow, $oh, $from_type) = getimagesize($sourcefile);
-
     switch($from_type) {
     case 1: // GIF
         $srcImage = imageCreateFromGif($sourcefile);
@@ -29,12 +27,14 @@ function intelligently_scale_image($sourcefile, $fw, $fh) {
         $temph = $fh;
     }
 
-//  $tempImage = imageCreateTrueColor($tempw, $temph);
-//  imageAntiAlias($tempImage, true);
-    $tempImage = imageCreate($tempw, $temph);
-
-//  imagecopyresampled($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
-    imagecopyresized($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
+    if ($newGD){
+	$tempImage = imageCreateTrueColor($tempw, $temph);
+	imageAntiAlias($tempImage, true);
+	imagecopyresampled($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
+    } else {
+        $tempImage = imageCreate($tempw, $temph);
+        imagecopyresized($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
+    }
 
 
     // Calculate offsets
@@ -46,11 +46,14 @@ function intelligently_scale_image($sourcefile, $fw, $fh) {
         $offsetx = number_format(($tempw/2)-($fw/2), 0);
     }
 
-//  $destImage = imageCreateTrueColor($fw, $fh);
-//  imagecopyresampled($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
-
-    $destImage = imageCreate($fw, $fh);
-    imagecopyresized($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
+    if ($newGD){
+	$destImage = imageCreateTrueColor($fw, $fh);
+	imageAntiAlias($tempImage, true);
+	imagecopyresampled($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
+    } else {
+	$destImage = imageCreate($fw, $fh);
+	imagecopyresized($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
+    }
 
     return $destImage; //imageJpeg($destImage, $destfile, $jpegquality);
 }

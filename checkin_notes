@@ -25047,3 +25047,12 @@ David  19 Feb 2005
 
     html/user/
         (various files)
+
+Janus 20 Feb 2005
+    - Made the image resize script GD2-aware. It will automatically use >=GD2
+      if this is available on the webserver.
+      This will make avatars (and whatever uses the script) look much better.
+
+    html/inc/
+        image.inc
+
