@@ -56,11 +56,10 @@ page_head("Result state explanation");
 
     if ($field == "result_client_state") {
         echo "
-            The <b>client state</b> of a result is defined
-            if its outcome is <b>client error</b>.
-            It indicates the stage of processing
-            at which the error occurred.
-            It has the following values:
+        The <b>client state</b> of a result is either <b>\"Done\"</b> for a successful result; or 
+	it is defined to be one of the following values if the outcome is a client error. <br>
+	These error states indicate the stage of processing at which the client error occurred:    
+
             <dl>
             <dt> <b>Downloading</b>
             <dd> The client couldn't download the application or input files.
@@ -70,6 +69,13 @@ page_head("Result state explanation");
             <dd> The client couldn't upload the output files.
             </dl>
         ";
+    }
+    if ($field == "result_time"){
+	echo "The <b>Time reported or deadline</b>-field shows the 
+		received time if the result has been received.<br>
+		If the result has not yet been received it shows the 
+		reporting deadline in green if in the future 
+		and in red if in the past.";
     }
 
     if ($field == "validate_state") {
