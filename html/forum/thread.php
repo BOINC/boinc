@@ -47,7 +47,9 @@ if ($is_subscribed) {
 		<?php show_posts($thread) ?>
 	</table>
 </p>
-
+<p>
+<a href=reply.php?thread=<?php echo $thread->id ?>#input>Reply to this thread</a><br>
+</p>
 <?php
 doFooter();
 ?>
