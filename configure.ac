@@ -93,7 +93,7 @@ dnl find AC_SUBST in a macro unless subsequently used in a DEFINE or SUBST
 dnl outside of a macro.  Don't ask me why.
 AC_SUBST([BOINC_VERSION_STRING])
 AC_SUBST([BOINC_MAJOR_VERSION])
-AC_SUBST([BOINC_MINOR_BERSION])
+AC_SUBST([BOINC_MINOR_VERSION])
 
 AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc])
@@ -155,25 +155,48 @@ dnl check for GL library
 AX_CHECK_GL
 AX_CHECK_GLU
 AX_CHECK_GLUT
-if test "$no_gl" = yes -o "$no_glu" = yes -o "$no_glut" = yes ; then
+if test "$no_gl" = yes -o "$no_glu" = yes ; then
    have_glut=no
    AC_MSG_WARN([
 ================================================================================
-WARNING: openGL/GLUT not found.
+WARNING: openGL not found.
 
-The GL, GLU and GLUT libraries are required in order to build the graphical parts
+The GL and GLU libraries are required in order to build the graphical parts
 of the BOINC application API library.
 
 ==> only building non-graphical parts of the BOINC API Library for now.
 
 ================================================================================
        ])
-else 
+else
+if test "$no_glut" = yes ; then
+   have_glut=yes
+   build_boincglut=yes
+   GLUT_CFLAGS="-I$TOP_BUILD_DIR/boincglut/include"
+   GLUT_LIBS="-L$TOP_BUILD_DIR/boincglut/lib/glut -lboincglut"
+   AC_SUBST([GLUT_CFLAGS])
+   AC_SUBST([GLUT_LIBS])
+   AC_MSG_WARN([
+================================================================================
+WARNING: GLUT not found.
+
+The GLUT library is required in order to build the graphical parts
+of the BOINC application API library.
+
+==> we will build the boincglut library instead.
+
+================================================================================
+       ])
+       save_cflags="$CFLAGS"
+       CFLAGS="$CFLAGS $GLUT_CFLAGS"
+fi
    AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
    have_glut=yes
+   CFLAGS="$save_cflags"
 fi
 
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
+AM_CONDITIONAL(BUILD_BOINCGLUT, [ test "$build_boincglut" = yes ])
 dnl --------------------------------------------------------------------------------
 
 AC_CHECK_LIB(socket, setservent)
@@ -215,7 +238,7 @@ SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *)
 AC_LANG_POP
 dnl TODO: use compiler to test these; there probably exists an autoconf macro already!
 case "$target" in
-*-linux-* | *-sun-*)
+*-linux-* | *-sun-* | *openbsd* )
         AC_DEFINE(GETSOCKOPT_SOCKLEN_T, 1, [getsockopt uses socklen_t])
         ;;
 *sysv5OpenUNIX8*)
@@ -304,7 +327,7 @@ dnl ----------------------------------------------------------------------------
 
 dnl This is one way to set up host-specific stuff
 case "${host}" in
-      *-*-linux*)
+      *-*-linux* | *-*-solaris* )
            dnl no taskbar support in wxWidgets
  	  CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
 	  AC_SUBST(CLIENTGUIFLAGS)
