@@ -19,7 +19,7 @@
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
     $work->redundancy = 5;
-    $work->delay_bound = 7;
+    $work->delay_bound = 70;
     array_push($work->input_files, "input");
 
     $project->add_user($user);
@@ -61,8 +61,8 @@
     // Run the client until there's no more work
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
-    // Give the server 15 seconds to finish assimilating/deleting
-    sleep(15);
+    // Give the server 30 seconds to finish assimilating/deleting
+    sleep(30);
 
     // *** DO CHECKS HERE
     $result->server_state = RESULT_STATE_OVER;
