@@ -173,7 +173,7 @@ LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 noinst_PROGRAMS = \
 	cgi feeder show_shmem file_upload_handler			\
         validate_test make_work timeout_check file_deleter		\
-        assimilator db_dump update_stats start_servers
+        assimilator db_dump update_stats
 
 
 noinst_LIBRARIES = libsched.a
@@ -182,7 +182,7 @@ EXTRA_PROGRAMS = fcgi
 EXTRA_DIST = wd.php wd_nresults_changing.php
 
 # scripts that 'make install' should put in bindir
-bin_SCRIPTS = watch_tcp kill_server
+bin_SCRIPTS = watch_tcp start stop
 
 LDADD = -L. -lsched $(MYSQL_LIBS)
 
@@ -238,9 +238,9 @@ db_dump_DEPENDENCIES = $(LIB_SCHED)
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
 
-start_servers_SOURCES = start_servers.C
-start_servers_DEPENDENCIES = $(LIB_SCHED)
 
+# start_servers_SOURCES = start_servers.C
+# start_servers_DEPENDENCIES = $(LIB_SCHED)
 file_upload_handler_SOURCES = file_upload_handler.C
 file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
@@ -288,8 +288,7 @@ EXTRA_PROGRAMS = fcgi$(EXEEXT)
 noinst_PROGRAMS = cgi$(EXEEXT) feeder$(EXEEXT) show_shmem$(EXEEXT) \
 	file_upload_handler$(EXEEXT) validate_test$(EXEEXT) \
 	make_work$(EXEEXT) timeout_check$(EXEEXT) file_deleter$(EXEEXT) \
-	assimilator$(EXEEXT) db_dump$(EXEEXT) update_stats$(EXEEXT) \
-	start_servers$(EXEEXT)
+	assimilator$(EXEEXT) db_dump$(EXEEXT) update_stats$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
 am_assimilator_OBJECTS = assimilator.$(OBJEXT) \
@@ -334,10 +333,6 @@ am_show_shmem_OBJECTS = show_shmem.$(OBJEXT)
 show_shmem_OBJECTS = $(am_show_shmem_OBJECTS)
 show_shmem_LDADD = $(LDADD)
 show_shmem_LDFLAGS =
-am_start_servers_OBJECTS = start_servers.$(OBJEXT)
-start_servers_OBJECTS = $(am_start_servers_OBJECTS)
-start_servers_LDADD = $(LDADD)
-start_servers_LDFLAGS =
 am_timeout_check_OBJECTS = timeout_check.$(OBJEXT) backend_lib.$(OBJEXT) \
 	process_result_template.$(OBJEXT)
 timeout_check_OBJECTS = $(am_timeout_check_OBJECTS)
@@ -377,7 +372,6 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/server_types.Po ./$(DEPDIR)/shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/show_shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/start_servers.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/timeout_check.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/update_stats.Po ./$(DEPDIR)/util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/validate.Po \
@@ -395,11 +389,10 @@ DIST_SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) \
 	$(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) \
 	$(feeder_SOURCES) $(file_deleter_SOURCES) \
 	$(file_upload_handler_SOURCES) $(make_work_SOURCES) \
-	$(show_shmem_SOURCES) $(start_servers_SOURCES) \
-	$(timeout_check_SOURCES) $(update_stats_SOURCES) \
-	$(validate_test_SOURCES)
+	$(show_shmem_SOURCES) $(timeout_check_SOURCES) \
+	$(update_stats_SOURCES) $(validate_test_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(show_shmem_SOURCES) $(start_servers_SOURCES) $(timeout_check_SOURCES) $(update_stats_SOURCES) $(validate_test_SOURCES)
+SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(show_shmem_SOURCES) $(timeout_check_SOURCES) $(update_stats_SOURCES) $(validate_test_SOURCES)
 
 all: all-am
 
@@ -449,9 +442,6 @@ make_work$(EXEEXT): $(make_work_OBJECTS) $(make_work_DEPENDENCIES)
 show_shmem$(EXEEXT): $(show_shmem_OBJECTS) $(show_shmem_DEPENDENCIES) 
 	@rm -f show_shmem$(EXEEXT)
 	$(CXXLINK) $(show_shmem_LDFLAGS) $(show_shmem_OBJECTS) $(show_shmem_LDADD) $(LIBS)
-start_servers$(EXEEXT): $(start_servers_OBJECTS) $(start_servers_DEPENDENCIES) 
-	@rm -f start_servers$(EXEEXT)
-	$(CXXLINK) $(start_servers_LDFLAGS) $(start_servers_OBJECTS) $(start_servers_LDADD) $(LIBS)
 timeout_check$(EXEEXT): $(timeout_check_OBJECTS) $(timeout_check_DEPENDENCIES) 
 	@rm -f timeout_check$(EXEEXT)
 	$(CXXLINK) $(timeout_check_LDFLAGS) $(timeout_check_OBJECTS) $(timeout_check_LDADD) $(LIBS)
@@ -516,7 +506,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/server_types.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/show_shmem.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/start_servers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timeout_check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/update_stats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
@@ -1056,6 +1045,9 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
+
+stop:
+	ln -s start stop
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
