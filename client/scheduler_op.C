@@ -18,6 +18,7 @@
 //
 
 #include <stdio.h>
+#include <time.h>
 
 #include "client_state.h"
 #include "client_types.h"
