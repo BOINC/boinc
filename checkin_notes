@@ -7210,7 +7210,7 @@ David  28 Oct 2003
 
 Karl 2003-10-29
     - removed test_sanity check from configure
-    - updated some distribution file list
+    - updated distribution file lists
     - updated installation program to get rid of country_select
     configure.ac
     */Makefile.am
