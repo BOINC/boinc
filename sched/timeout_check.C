@@ -155,8 +155,8 @@ void handle_wu(DB_WORKUNIT& wu) {
     unsigned int now = time(0);
     bool wu_error = false, all_over;
 
+    log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] handling WU\n", wu.id, wu.name);
     ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
-    scope_messages.printf("[WU#%d %s] handling WU\n", wu.id, wu.name);
 
     // scan the results for the WU
     //
@@ -297,7 +297,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         wu.timeout_check_time = 0;
         log_messages.printf(
             SchedMessages::DEBUG,
-            "[WU#%d %s] assimilate_state == ASSIMILATE_DONE => setting file_delete_state = FILE_DELETE_READY\n",
+            "[WU#%d %s] ASSIMILATE_DONE => setting FILE_DELETE_READY\n",
             wu.id, wu.name
         );
     } else {
