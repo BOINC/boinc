@@ -72,6 +72,7 @@ void project_add_failed(PROJECT* project) {
         );
     }
     gstate.detach_project(project);
+    gstate.quit_activities();
     exit(1);
 }
 

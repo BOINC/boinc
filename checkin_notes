@@ -14701,7 +14701,11 @@ Brian  6 July 2004
 		pers_file_xfer.C,h
 		scheduler_op.C,h
 		
+Daniel 2004-07-06
+    - client: when a project fails to attach, call quit_activities()
+        before exit(1) so other running apps will terminate.
 
-
+    client/
+        main.C
 
 
