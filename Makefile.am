@@ -38,6 +38,6 @@ dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
 #	cd $(distdir) && ./_autosetup
 
-# This is a hack!
+# convenience target
 client-bin:
 	cd client && make client-bin client-bin-gz
