@@ -58,7 +58,10 @@
 #include <errno.h>
 
 #include "parse.h"
+#include "config.h"
 #include "crypt.h"
+
+CONFIG config;
 
 #define MAX_FILES 32
 
@@ -86,7 +89,7 @@ int FILE_INFO::parse(FILE* in) {
         strcatdup(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        //fprintf(stderr, "file_upload_handler (%s): FILE_INFO::parse: unrecognized: %s \n", BOINC_USER, buf);
+        //fprintf(stderr, "file_upload_handler (%s): FILE_INFO::parse: unrecognized: %s \n", config.user, buf);
     }
     return 1;
 }
@@ -97,7 +100,7 @@ int print_status(int status, char* message) {
         printf("<error>%s</error>\n", message);
         fprintf(stderr,
             "file_upload_handler (%s): status %d: %s>\n",
-            BOINC_USER, status, message
+            config.user_name, status, message
         );
     }
     return 0;
@@ -164,7 +167,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             if (retval) {
                 fprintf(stderr,
                     "file_upload_handler (%s): FILE_INFO.parse\n",
-                    BOINC_USER
+                    config.user_name
                 );
                 return retval;
             }
@@ -182,7 +185,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             struct stat sbuf;
             // TODO: check to ensure path doesn't point somewhere bad
             //
-            sprintf( path, "%s/%s", BOINC_UPLOAD_DIR, file_name );
+            sprintf(path, "%s/%s", config.upload_dir, file_name );
             retval = stat( path, &sbuf );
             if (retval && errno != ENOENT) {
                 print_status( -1, "cannot open file" );
@@ -226,12 +229,12 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 return -1;
             }
 
-            sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
+            sprintf(path, "%s/%s", config.upload_dir, file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (retval) {
                 fprintf(stderr,
                     "file_upload_handler (%s): copy_socket_to_file %d %s\n",
-                    BOINC_USER, retval, path
+                    config.user_name, retval, path
                 );
             }
             break;
@@ -244,7 +247,7 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     FILE* f;
     int retval;
     char buf[256];
-    sprintf(buf, "%s/upload_public", BOINC_KEY_DIR);
+    sprintf(buf, "%s/upload_public", config.key_dir);
     f = fopen(buf, "r");
     if (!f) return -1;
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
@@ -257,9 +260,14 @@ int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
 
+    retval = config.parse_file();
+    if (retval) {
+        print_status(-1, "can't read config file");
+        exit(0);
+    }
+
     retval = get_key(key);
     if (retval) {
-        fprintf(stderr, "file_upload_handler: can't read key file\n");
         print_status(-1, "can't read key file");
         exit(0);
     }

@@ -54,6 +54,7 @@ int db_close() {
 void db_print_error(char* p) {
     if (mp) {
         printf("<br>%s: Database error: %s\n", p, mysql_error(mp));
+        fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mp));
     }
 }
 

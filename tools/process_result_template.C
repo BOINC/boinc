@@ -41,7 +41,8 @@
 int process_result_template(
     FILE* in, FILE* out,
     R_RSA_PRIVATE_KEY& key,
-    char* base_filename, char* wu_name, char* result_name
+    char* base_filename, char* wu_name, char* result_name,
+    char* upload_url, char* download_url
 ) {
     char* p,*q, *signed_xml=strdup("");
     char buf[256], temp[256];
@@ -102,14 +103,14 @@ int process_result_template(
             if (p) {
                 found = true;
                 strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
-                strcpy(p, getenv("BOINC_UPLOAD_URL"));
+                strcpy(p, upload_url);
                 strcat(p, temp);
             }
             p = strstr(buf, DOWNLOAD_URL_MACRO);
             if (p) {
                 found = true;
                 strcpy(temp, p+strlen(DOWNLOAD_URL_MACRO));
-                strcpy(p, getenv("BOINC_DOWNLOAD_URL"));
+                strcpy(p, download_url);
                 strcat(p, temp);
             }
             p = strstr(buf, WU_NAME_MACRO);

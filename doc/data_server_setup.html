@@ -2,28 +2,20 @@
 <h2>Setting up a data server</h2>
 
 <p>
-The BOINC data server is implemented as an Apache
-or similar web server.
-Its upload function runs as a CGI program.
-It has been tested under Linux and Solaris.
+The BOINC data server is implemented using Apache
+or a similar web server.
+It is used both to upload and to download files.
+File download is handled by the web server, using GET operations.
+File upload is done by a CGI program, <b>file_upload_handler</b>.
 The host need not have access to the BOINC database.
 <p>
 You must copy the file upload authentication key
 to each data server.
 
-<h3>Compiling the file upload handler</h3>
 <p>
-The upload handler, file_upload_handler,
-is compiled by the makefile in sched/.
-The following environment variables must be defined first:
-<pre>
-setenv BOINC_UPLOAD_DIR     /users/barry/upload
-setenv BOINC_KEY_DIR        /users/barry/keys
-</pre>
-<p>
-BOINC_UPLOAD_DIR is that path of the upload directory.
-BOINC_KEY_DIR is a directory containing the
-file upload authentication public key.
+The file upload handler uses a configuration of
+the same format as used by the
+<a href=sched_server_setup.html>scheduling server</a>.
 
 <h3>Web server configuration</h3>
 <p>

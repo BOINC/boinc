@@ -20,7 +20,10 @@
 #include <vector>
 
 #include "db.h"
+#include "config.h"
 #include "parse.h"
+
+extern CONFIG config;
 
 // get the name of a result's (first) output file
 //
@@ -31,7 +34,7 @@ void get_output_file_path(RESULT& result, char* path) {
     strcpy(path, "");
     retval = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
     if (retval) return;
-    char* upload_dir = getenv("BOINC_UPLOAD_DIR");
+    char* upload_dir = config.upload_dir;
     sprintf(path, "%s/%s", upload_dir, buf);
 }
 

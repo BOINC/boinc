@@ -25,15 +25,15 @@
 
 #include "db.h"
 
-#define TYPE_PROJECT                1
-#define TYPE_PLATFORM                2
+#define TYPE_PROJECT            1
+#define TYPE_PLATFORM           2
 #define TYPE_APP                3
 #define TYPE_APP_VERSION        4
-#define TYPE_USER                5
-#define TYPE_TEAM                6
-#define TYPE_HOST                7
-#define TYPE_WORKUNIT                8
-#define TYPE_RESULT                9
+#define TYPE_USER               5
+#define TYPE_TEAM               6
+#define TYPE_HOST               7
+#define TYPE_WORKUNIT           8
+#define TYPE_RESULT             9
 
 char* table_name[] = {
     "",
@@ -230,6 +230,11 @@ void struct_to_str(void* vp, char* q, int type) {
     }
 }
 
+static void strcpy2(char* dest, char* src) {
+    if (!src) *dest = 0;
+    else strcpy(dest, src);
+}
+
 void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     PROJECT* prp;
     PLATFORM* pp;
@@ -248,23 +253,23 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         prp = (PROJECT*)vp;
         memset(prp, 0, sizeof(PROJECT));
         prp->id = atoi(r[i++]);
-        strcpy(prp->name, r[i++]);
+        strcpy2(prp->name, r[i++]);
         break;
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;
         memset(pp, 0, sizeof(PLATFORM));
         pp->id = atoi(r[i++]);
         pp->create_time = atoi(r[i++]);
-        strcpy(pp->name, r[i++]);
+        strcpy2(pp->name, r[i++]);
         break;
     case TYPE_APP:
         app = (APP*)vp;
         memset(app, 0, sizeof(APP));
         app->id = atoi(r[i++]);
         app->create_time = atoi(r[i++]);
-        strcpy(app->name, r[i++]);
+        strcpy2(app->name, r[i++]);
         app->min_version = atoi(r[i++]);
-        strcpy(app->result_xml_template, r[i++]);
+        strcpy2(app->result_xml_template, r[i++]);
         break;
     case TYPE_APP_VERSION:
         avp = (APP_VERSION*)vp;
@@ -274,10 +279,10 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         avp->appid = atoi(r[i++]);
         avp->version_num = atoi(r[i++]);
         avp->platformid = atoi(r[i++]);
-        strcpy(avp->xml_doc, r[i++]);
+        strcpy2(avp->xml_doc, r[i++]);
         avp->min_core_version = atoi(r[i++]);
         avp->max_core_version = atoi(r[i++]);
-        strcpy(avp->message, r[i++]);
+        strcpy2(avp->message, r[i++]);
         avp->deprecated = atoi(r[i++]);
         break;
     case TYPE_USER:
@@ -285,17 +290,17 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         memset(up, 0, sizeof(USER));
         up->id = atoi(r[i++]);
         up->create_time = atoi(r[i++]);
-        strcpy(up->email_addr, r[i++]);
-        strcpy(up->name, r[i++]);
-        strcpy(up->web_password, r[i++]);
-        strcpy(up->authenticator, r[i++]);
-        strcpy(up->country, r[i++]);
-        strcpy(up->postal_code, r[i++]);
+        strcpy2(up->email_addr, r[i++]);
+        strcpy2(up->name, r[i++]);
+        strcpy2(up->web_password, r[i++]);
+        strcpy2(up->authenticator, r[i++]);
+        strcpy2(up->country, r[i++]);
+        strcpy2(up->postal_code, r[i++]);
         up->total_credit = atof(r[i++]);
         up->expavg_credit = atof(r[i++]);
         up->expavg_time = atof(r[i++]);
-        strcpy(up->global_prefs, r[i++]);
-        strcpy(up->project_prefs, r[i++]);
+        strcpy2(up->global_prefs, r[i++]);
+        strcpy2(up->project_prefs, r[i++]);
         up->teamid = atoi(r[i++]);
         break;
     case TYPE_TEAM:
@@ -303,11 +308,11 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         memset(tp, 0, sizeof(TEAM));
         tp->id = atoi(r[i++]);
         tp->userid = atoi(r[i++]);
-        strcpy(tp->name, r[i++]);
-        strcpy(tp->name_lc, r[i++]);
-        strcpy(tp->url, r[i++]);
-        strcpy(tp->name_html, r[i++]);
-        strcpy(tp->description, r[i++]);
+        strcpy2(tp->name, r[i++]);
+        strcpy2(tp->name_lc, r[i++]);
+        strcpy2(tp->url, r[i++]);
+        strcpy2(tp->name_html, r[i++]);
+        strcpy2(tp->description, r[i++]);
         tp->nusers = atoi(r[i++]);
         break;
     case TYPE_HOST:
@@ -322,21 +327,21 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         hp->expavg_credit = atof(r[i++]);
         hp->expavg_time = atof(r[i++]);
         hp->timezone = atoi(r[i++]);
-        strcpy(hp->domain_name, r[i++]);
-        strcpy(hp->serialnum, r[i++]);
-        strcpy(hp->last_ip_addr, r[i++]);
+        strcpy2(hp->domain_name, r[i++]);
+        strcpy2(hp->serialnum, r[i++]);
+        strcpy2(hp->last_ip_addr, r[i++]);
         hp->nsame_ip_addr = atoi(r[i++]);
         hp->on_frac = atof(r[i++]);
         hp->connected_frac = atof(r[i++]);
         hp->active_frac = atof(r[i++]);
         hp->p_ncpus = atoi(r[i++]);
-        strcpy(hp->p_vendor, r[i++]);
-        strcpy(hp->p_model, r[i++]);
+        strcpy2(hp->p_vendor, r[i++]);
+        strcpy2(hp->p_model, r[i++]);
         hp->p_fpops = atof(r[i++]);
         hp->p_iops = atof(r[i++]);
         hp->p_membw = atof(r[i++]);
-        strcpy(hp->os_name, r[i++]);
-        strcpy(hp->os_version, r[i++]);
+        strcpy2(hp->os_name, r[i++]);
+        strcpy2(hp->os_version, r[i++]);
         hp->m_nbytes = atof(r[i++]);
         hp->m_cache = atof(r[i++]);
         hp->m_swap = atof(r[i++]);
@@ -354,8 +359,8 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->appid = atoi(r[i++]);
         wup->previous_wuid = atoi(r[i++]);
         wup->has_successor = (atoi(r[i++])!=0);
-        strcpy(wup->name, r[i++]);
-        strcpy(wup->xml_doc, r[i++]);
+        strcpy2(wup->name, r[i++]);
+        strcpy2(wup->xml_doc, r[i++]);
         wup->batch = atoi(r[i++]);
         wup->rsc_fpops = atof(r[i++]);
         wup->rsc_iops = atof(r[i++]);
@@ -382,12 +387,12 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->report_deadline = atoi(r[i++]);
         rp->sent_time = atoi(r[i++]);
         rp->received_time = atoi(r[i++]);
-        strcpy(rp->name, r[i++]);
+        strcpy2(rp->name, r[i++]);
         rp->exit_status = atoi(r[i++]);
         rp->cpu_time = atof(r[i++]);
-        strcpy(rp->xml_doc_in, r[i++]);
-        strcpy(rp->xml_doc_out, r[i++]);
-        strcpy(rp->stderr_out, r[i++]);
+        strcpy2(rp->xml_doc_in, r[i++]);
+        strcpy2(rp->xml_doc_out, r[i++]);
+        strcpy2(rp->stderr_out, r[i++]);
         rp->batch = atoi(r[i++]);
         rp->project_state = atoi(r[i++]);
         rp->validate_state = atoi(r[i++]);

@@ -51,10 +51,13 @@
 
 #include "db.h"
 #include "shmem.h"
+#include "config.h"
 #include "sched_shmem.h"
 
 #define RESULTS_PER_ENUM    100
 #define TRIGGER_FILENAME    "feeder_trigger"
+
+CONFIG config;
 
 int check_trigger(SCHED_SHMEM* ssp) {
     FILE* f;
@@ -66,7 +69,7 @@ int check_trigger(SCHED_SHMEM* ssp) {
     fclose(f);
     if (!strcmp(buf, "<quit/>\n")) {
         detach_shmem((void*)ssp);
-        destroy_shmem(BOINC_SHMEM_KEY);
+        destroy_shmem(config.shmem_key);
         unlink(TRIGGER_FILENAME);
         exit(0);
     } else if (!strcmp(buf, "<reread_db/>\n")) {
@@ -175,25 +178,31 @@ int main(int argc, char** argv) {
     bool asynch = false;
     void* p;
 
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "feeder: can't parse config file\n");
+        exit(1);
+    }
+
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         }
     }
 
-    retval = destroy_shmem(BOINC_SHMEM_KEY);
+    retval = destroy_shmem(config.shmem_key);
     if (retval) {
         fprintf(stderr, "feeder: can't destroy shmem\n");
         exit(1);
     }
-    retval = create_shmem(BOINC_SHMEM_KEY, sizeof(SCHED_SHMEM), &p);
+    retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), &p);
     if (retval) {
         fprintf(stderr, "feeder: can't create shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
-    retval = db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"));
+    retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
         fprintf(stderr, "feeder: db_open: %d\n", retval);
         exit(1);

@@ -1,6 +1,19 @@
 <title>Test applications and scripts</title> 
 <body bgcolor=ffffff>
 <h2>Test applications and scripts</h2> 
+
+<pre>
+setenv BOINC_PROJECTS_DIR   /home/david/boinc_projects
+setenv BOINC_HOSTS_DIR      /home/david/boinc_hosts
+setenv BOINC_USER_NAME      david
+setenv BOINC_SRC_DIR        /home/david/boinc_cvs/boinc
+setenv BOINC_CGI_DIR        /home/david/cgi-bin
+setenv BOINC_CGI_URL        http://localhost/cgi-bin
+setenv BOINC_HTML_DIR       /home/david/html
+setenv BOINC_HTML_URL       http://localhost
+setenv BOINC_KEY_DIR        /home/david/boinc_keys
+setenv BOINC_PLATFORM       i686-pc-linux-gnu
+</pre>
 <p>
 The <b>apps</b> directory contains the following test applications: 
 <ul>
@@ -43,12 +56,3 @@ These scripts use functions defined in the PHP include file
 You can use these functions to easily write test
 scripts for your own applications. 
 
-<pre>
-setenv BOINC_DOWNLOAD_DIR   ~/download
-setenv BOINC_UPLOAD_URL     http://maggie.ssl.berkeley.edu/barry/cgi/file_upload_handler
-setenv BOINC_DOWNLOAD_URL   http://maggie.ssl.berkeley.edu/barry/download
-setenv BOINC_PLATFORM       sparc-sun-solaris2.7
-setenv BOINC_EMAIL          barry@ssl.berkeley.edu
-setenv BOINC_USER           barry
-setenv BOINC_MASTER_URL     http:\\\\\/\\\\/maggie.ssl.berkeley.edu\\\\/~barry
-</pre>

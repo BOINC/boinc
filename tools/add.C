@@ -57,11 +57,11 @@ int version, retval, nexec_files;
 double nbytes;
 bool signed_exec_files;
 char buf[256], md5_cksum[64];
-char *app_name=0, *platform_name=0, *project_name=0;
+char *db_name=0, *db_passwd=0, *app_name=0, *platform_name=0, *project_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
 char *global_prefs_file=0, *download_dir, *download_url;
-char* code_sign_keyfile;
+char* code_sign_keyfile=0;
 char *message=0, *message_priority=0;
 
 void add_project() {
@@ -248,12 +248,12 @@ void add_user() {
 int main(int argc, char** argv) {
     int i, retval;
 
-    retval = db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"));
-    if (retval) {
-    	printf("can't open DB %s\n", getenv("BOINC_DB_NAME"));
-    }
     for (i=2; i<argc; i++) {
-        if (!strcmp(argv[i], "-project_name")) {
+        if (!strcmp(argv[i], "-db_name")) {
+            db_name = argv[++i];
+        } else if (!strcmp(argv[i], "-db_passwd")) {
+            db_passwd = argv[++i];
+        } else if (!strcmp(argv[i], "-project_name")) {
             i++;
             project_name = argv[i];
         } else if (!strcmp(argv[i], "-app_name")) {
@@ -320,6 +320,11 @@ int main(int argc, char** argv) {
             i++;
             code_sign_keyfile = argv[i];
         }
+    }
+    retval = db_open(db_name, db_passwd);
+    if (retval) {
+    	fprintf(stderr, "can't open DB %s\n", db_name);
+        exit(1);
     }
     if (!strcmp(argv[1], "project")) {
 	add_project();

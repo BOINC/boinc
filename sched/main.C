@@ -29,6 +29,8 @@ using namespace std;
 #include "db.h"
 #include "parse.h"
 #include "shmem.h"
+
+#include "config.h"
 #include "server_types.h"
 #include "handle_request.h"
 #include "main.h"
@@ -64,22 +66,29 @@ int main() {
     unsigned int counter=0;
     char* code_sign_key;
     bool found;
+    CONFIG config;
 
-    sprintf(path, "%s/code_sign_public", BOINC_KEY_DIR);
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "Can't parse config file\n");
+        exit(1);
+    }
+
+    sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
         fprintf(stderr,
             "BOINC scheduler (%s): can't read code sign key file (%s)\n",
-	    BOINC_USER, path
+	    config.user_name, path
         );
         exit(1);
     }
 
-    retval = attach_shmem(BOINC_SHMEM_KEY, &p);
+    retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
         fprintf(stderr,
 	    "BOINC scheduler (%s): can't attach shmem\n",
-	    BOINC_USER
+	    config.user_name
 	);
         exit(1);
     }
@@ -88,7 +97,7 @@ int main() {
     if (retval) {
         fprintf(stderr,
 	    "BOINC scheduler (%s): shmem has wrong struct sizes - recompile\n",
-	    BOINC_USER
+	    config.user_name
 	);
         exit(1);
     }
@@ -97,23 +106,23 @@ int main() {
         if (ssp->ready) break;
         fprintf(stderr,
 	    "BOINC scheduler (%s): waiting for ready flag\n",
-	    BOINC_USER
+	    config.user_name
 	);
         sleep(1);
     }
     if (!ssp->ready) {
         fprintf(stderr,
 	    "BOINC scheduler (%s): feeder doesn't seem to be running\n",
-	    BOINC_USER
+	    config.user_name
 	);
         exit(1);
     }
     //fprintf(stderr, "got ready flag\n");
-    retval = db_open(BOINC_DB_NAME, BOINC_DB_PASSWD);
+    retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
 	fprintf(stderr,
 	    "BOINC scheduler (%s): can't open database\n",
-	    BOINC_USER
+	    config.user_name
 	);
 	return_error("can't open database");
         exit(1);
@@ -126,7 +135,7 @@ int main() {
     if (!found) {
 	fprintf(stderr,
 	    "BOINC scheduler (%s): can't find project\n",
-	    BOINC_USER
+	    config.user_name
 	);
 	exit(1);
     }
@@ -141,24 +150,40 @@ int main() {
     fprintf(stdout, "Content-type: text/plain\n\n");
     fout = fopen(req_path, "w");
     if (!fout) {
-        exit(return_error("Compiled by BOINC_USER: can't write request file"));
+        fprintf(stderr,
+            "BOINC scheduler (%s): can't write request file",
+            config.user_name
+        );
+        exit(1);
     }
     copy_stream(stdin, fout);
     fclose(fout);
     fin = fopen(req_path, "r");
     if (!fin) {
-        exit(return_error("Compiled by BOINC_USER: can't read request file"));
+        fprintf(stderr,
+            "BOINC scheduler (%s): can't read request file",
+            config.user_name
+        );
+        exit(1);
     }
     fout = fopen(reply_path, "w");
     if (!fout) {
-        exit(return_error("Compiled by BOINC_USER: can't write reply file"));
+        fprintf(stderr,
+            "BOINC scheduler (%s): can't write reply file",
+            config.user_name
+        );
+        exit(1);
     }
     handle_request(fin, fout, *ssp, code_sign_key);
     fclose(fin);
     fclose(fout);
     fin = fopen(reply_path, "r");
     if (!fin) {
-        exit(return_error("Compiled by BOINC_USER: can't read reply file"));
+        fprintf(stderr,
+            "BOINC scheduler (%s): can't read reply file",
+            config.user_name
+        );
+        exit(1);
     }
     copy_stream(fin, stdout);
     fclose(fin);

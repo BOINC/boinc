@@ -48,7 +48,7 @@ bool match_tag(char* buf, char* tag) {
 bool parse_int(char* buf, char* tag, int& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
-    x = atoi(p+strlen(tag));
+    x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
     return true;
 }
 

@@ -19,6 +19,7 @@
 
 // create_work
 //  -appname name
+//  -download_dir x
 //  -rsc_fpops n
 //  -rsc_iops n
 //  -rsc_memory n
@@ -58,20 +59,14 @@ int main(int argc, char** argv) {
     char** infiles;
     int i, ninfiles, nresults;
     R_RSA_PRIVATE_KEY key;
-    char* boinc_download_dir = getenv("BOINC_DOWNLOAD_DIR");
+    char download_dir[256], db_name[256], db_passwd[256];
+    char upload_url[256], download_url[256];
 
     srand(time(NULL));
-    if (!boinc_download_dir) {
-        printf("must define BOINC_DOWNLOAD_DIR");
-        exit(1);
-    }
-    if (db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"))) {
-        printf( "Error opening database.\n" );
-        exit(0);
-    }
     strcpy(wu_template_file, "");
     strcpy(result_template_file, "");
     strcpy(app.name, "");
+    strcpy(db_passwd, "");
     strcpy(keyfile, "");
     nresults = 1;
     i = 1;
@@ -81,6 +76,16 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-appname")) {
             i++;
             strcpy(app.name, argv[i]);
+        } else if (!strcmp(argv[i], "-db_name")) {
+            strcpy(db_name, argv[++i]);
+        } else if (!strcmp(argv[i], "-db_passwd")) {
+            strcpy(db_passwd, argv[++i]);
+        } else if (!strcmp(argv[i], "-upload_url")) {
+            strcpy(upload_url, argv[++i]);
+        } else if (!strcmp(argv[i], "-download_url")) {
+            strcpy(download_url, argv[++i]);
+        } else if (!strcmp(argv[i], "-download_dir")) {
+            strcpy(download_dir, argv[++i]);
         } else if (!strcmp(argv[i], "-wu_name")) {
             i++;
             strcpy(wu.name, argv[i]);
@@ -123,41 +128,44 @@ int main(int argc, char** argv) {
     if (!strlen(app.name) || !strlen(wu.name) || !strlen(wu_template_file)
         || !strlen(result_template_file)
     ) {
-        printf("bad cmdline\n");
+        fprintf(stderr, "create_work: bad cmdline\n");
         exit(1);
+    }
+    if (db_open(db_name, db_passwd)) {
+        fprintf(stderr, "create_work: error opening database.\n" );
+        exit(0);
     }
     retval = db_app_lookup_name(app);
     if (retval) {
-        printf("app not found\n");
+        fprintf(stderr, "create_work: app not found\n");
         exit(1);
     }
     
     //fprintf(stderr, "wu_template = %s\n", wu_template);
     retval = read_filename(wu_template_file, wu_template);
     if (retval) {
-        fprintf(stderr, "can't open WU template\n");
+        fprintf(stderr, "create_work: can't open WU template\n");
         exit(1);
     }
 
     if (wu.dynamic_results) {
         strcpy(app.result_xml_template, result_template);
         retval = db_app_update(app);
-        if (retval) printf("db_app_update: %d\n", retval);
+        if (retval) fprintf(stderr, "create_work: db_app_update: %d\n", retval);
     }
 
     wu.appid = app.id;
 
-
     FILE* fkey = fopen(keyfile, "r");
-    rewind(fkey);
     if (!fkey) {
-        printf("create_work: can't open key file (%s)\n", keyfile);
+        fprintf(stderr, "create_work: can't open key file (%s)\n", keyfile);
         exit(1);
     }
+    rewind(fkey);
     retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
     fclose(fkey);
     if (retval) {
-        printf("can't parse key\n");
+        fprintf(stderr, "create_work: can't parse key\n");
         exit(1);
     }
 
@@ -166,10 +174,12 @@ int main(int argc, char** argv) {
         wu_template,
         result_template_file,
         nresults,
-        boinc_download_dir,
+        download_dir,
         infiles,
         ninfiles,
-        key
+        key,
+        upload_url,
+        download_url
     );
     if (retval) fprintf(stderr, "create_work: %d\n", retval);
     db_close();

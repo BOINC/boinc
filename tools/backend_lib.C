@@ -61,12 +61,13 @@ int read_filename(char* path, char* buf) {
 //
 static int process_wu_template(
     char* wu_name, char* tmplate, char* out,
-    char* dirpath, char** infiles, int n
+    char* dirpath, char** infiles, int n,
+    char* upload_url, char* download_url
 ) {
     char* p;
     char buf[MAX_BLOB_SIZE], md5[33], path[256];
     bool found;
-    int i;
+    int i, retval;
     double nbytes;
     assert(wu_name!=NULL);
     assert(tmplate!=NULL);
@@ -82,7 +83,7 @@ static int process_wu_template(
             found = true;
             i = atoi(p+strlen(INFILE_MACRO));
             if (i >= n) {
-                fprintf(stderr, "invalid file number\n");
+                fprintf(stderr, "process_wu_template: invalid file number\n");
                 return 1;
             }
             strcpy(buf, p+strlen(INFILE_MACRO)+1+2);      // assume <= 10 files
@@ -93,14 +94,14 @@ static int process_wu_template(
         if (p) {
             found = true;
             strcpy(buf, p+strlen(UPLOAD_URL_MACRO));
-            strcpy(p, getenv("BOINC_UPLOAD_URL"));
+            strcpy(p, upload_url);
             strcat(p, buf);
         }
         p = strstr(out, DOWNLOAD_URL_MACRO);
         if (p) {
             found = true;
             strcpy(buf, p+strlen(DOWNLOAD_URL_MACRO));
-            strcpy(p, getenv("BOINC_DOWNLOAD_URL"));
+            strcpy(p, download_url);
             strcat(p, buf);
         }
         p = strstr(out, MD5_MACRO);
@@ -108,11 +109,15 @@ static int process_wu_template(
             found = true;
             i = atoi(p+strlen(MD5_MACRO));
             if (i >= n) {
-                fprintf(stderr, "invalid file number\n");
+                fprintf(stderr, "process_wu_template: invalid file number\n");
                 return 1;
             }
             sprintf(path, "%s/%s", dirpath, infiles[i]);
-            md5_file(path, md5, nbytes);
+            retval = md5_file(path, md5, nbytes);
+            if (retval) {
+                fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
+                return 1;
+            }
             strcpy(buf, p+strlen(MD5_MACRO)+1+2);     // assume <= 10 files
             strcpy(p, md5);
             strcat(p, buf);
@@ -130,7 +135,8 @@ static int process_wu_template(
 }
 
 int create_result(
-    WORKUNIT& wu, char* result_template_filename, int i, R_RSA_PRIVATE_KEY& key
+    WORKUNIT& wu, char* result_template_filename, int i, R_RSA_PRIVATE_KEY& key,
+    char* upload_url, char* download_url
 ) {
     RESULT r;
     char base_outfile_name[256];
@@ -155,7 +161,8 @@ int create_result(
         result_template_file,
         tempfile,
         key,
-        base_outfile_name, wu.name, r.name
+        base_outfile_name, wu.name, r.name,
+        upload_url, download_url
     );
     rewind(tempfile);
     read_file(tempfile, r.xml_doc_in);
@@ -176,7 +183,8 @@ int create_work(
     char* infile_dir,
     char** infiles,
     int ninfiles,
-    R_RSA_PRIVATE_KEY& key
+    R_RSA_PRIVATE_KEY& key,
+    char* upload_url, char* download_url
 ) {
     int i, retval;
     assert(wu_template!=NULL);
@@ -188,20 +196,30 @@ int create_work(
 
     wu.create_time = time(0);
     retval = process_wu_template(
-        wu.name, wu_template, wu.xml_doc, infile_dir, infiles, ninfiles
+        wu.name, wu_template, wu.xml_doc, infile_dir, infiles, ninfiles,
+        upload_url, download_url
     );
-    if (retval) return retval;
+    if (retval) {
+        fprintf(stderr, "process_wu_template: %d\n", retval);
+        return retval;
+    }
     if (wu.dynamic_results) {
         wu.max_results = nresults;
     } else {
         wu.nresults_unsent = nresults;
     }
     retval = db_workunit_new(wu);
+    if (retval) {
+        fprintf(stderr, "create_work: db_workunit_new %d\n", retval);
+        return retval;
+    }
     wu.id = db_insert_id();
 
     if (!wu.dynamic_results) {
         for (i=0; i<nresults; i++) {
-            create_result(wu, result_template_file, i, key);
+            create_result(
+                wu, result_template_file, i, key, upload_url, download_url
+            );
         }
     }
     return 0;

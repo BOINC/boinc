@@ -2023,3 +2023,50 @@ David   Sept 28 2002
         server_types.C,h
     tools/
         add.C
+
+David   Oct 3 2002
+    - Changed the PHP framework for testing to facilitate
+        multi-project, multi-host tests (all on one machine).
+        See doc/test.html for details.
+    - NOTE: the BOINC-related environment variables have changed.
+        There are no longer any project-specific variables
+        (e.g. database name, shmem key)
+    - NOTE: the server programs now expect a configuration file
+        in their directory.
+    - TODO: enhance the testing framework to allow projects with
+        multiple scheduling servers or data servers
+    - TODO: enhance the testing framework to allow specification
+        of failure and recovery of servers
+    
+    - changed things so a NULL in the DB won't crash db_mysql.C
+    - parse_int() can now handle hex
+    - "add" now takes args for DB name/passwd
+    - "create_work" now takes args for DB name/passwd,
+        upload/download URL, download dir
+    
+    db/
+        db_mysql.C
+        mysql_util.C
+    doc/
+        data_server_setup.html
+        sched_server_setup.html
+        test.html
+        web_site.html
+    html_user/
+        index.html
+    lib/
+        md5_file.C
+        parse.C
+    sched/
+        Makefile.in
+        config.C,h (new)
+        feeder.C
+        file_upload_handler.C
+        main.C
+        validate.C
+        validate_test.C
+    tools/
+        add.C
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C

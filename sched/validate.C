@@ -42,9 +42,12 @@
 #include <vector>
 
 #include "db.h"
+#include "config.h"
 
 extern int check_set(vector<RESULT>, int& canonical, double& credit);
 extern int check_pair(RESULT&, RESULT&, bool&);
+
+CONFIG config;
 
 #define SECONDS_IN_DAY (3600*24)
 #define EXP_DECAY_RATE  (1./(SECONDS_IN_DAY*7))
@@ -179,7 +182,12 @@ int main(int argc, char** argv) {
     APP app;
     bool did_something;
 
-    retval = db_open(getenv("BOINC_DB_NAME"), getenv("BOINC_DB_PASSWD"));
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "Can't parse config file\n");
+        exit(1);
+    }
+    retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
         fprintf(stderr, "validate: db_open: %d\n", retval);
         exit(1);

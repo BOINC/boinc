@@ -9,12 +9,6 @@ CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/db \
     -I@top_srcdir@/lib \
     -I@top_srcdir@/tools \
-    -DBOINC_DB_NAME=\"$(BOINC_DB_NAME)\" \
-    -DBOINC_DB_PASSWD=\"$(BOINC_DB_PASSWD)\" \
-    -DBOINC_SHMEM_KEY=$(BOINC_SHMEM_KEY) \
-    -DBOINC_KEY_DIR=\"$(BOINC_KEY_DIR)\" \
-    -DBOINC_UPLOAD_DIR=\"$(BOINC_UPLOAD_DIR)\" \
-    -DBOINC_USER=\"$(BOINC_USER)\" \
     -I/usr/local/mysql/include \
     -I@top_srcdir@/RSAEuro/source \
 
@@ -22,7 +16,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler fcgi validate_test
+PROGS = cgi feeder show_shmem file_upload_handler validate_test
 
 all: $(PROGS)
 
@@ -31,6 +25,7 @@ CGI_OBJS = \
     main.o \
     sched_shmem.o \
     server_types.o \
+    config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o \
@@ -39,8 +34,10 @@ CGI_OBJS = \
 FEEDER_OBJS = \
     feeder.o \
     sched_shmem.o \
+    config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/parse.o \
     ../lib/shmem.o
 
 SHOW_SHMEM_OBJS = \
@@ -52,6 +49,7 @@ SHOW_SHMEM_OBJS = \
 
 FILE_UPLOAD_OBJS = \
     file_upload_handler.o \
+    config.o \
     ../lib/crypt.o \
     ../lib/parse.o \
     ../lib/md5.o \
@@ -61,6 +59,7 @@ FILE_UPLOAD_OBJS = \
 VALIDATE_OBJS = \
     validate.o \
     validate_test.o \
+    config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/parse.o
