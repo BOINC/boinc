@@ -1,5 +1,6 @@
 <?php
-// use this to create accounts while regular account creation is disabled
+echo "<!--\$Id$ -->";
+// use this to delete workunits that are not wanted
 
 require_once("../inc/util_ops.inc");
 

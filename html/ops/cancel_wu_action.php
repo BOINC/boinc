@@ -1,4 +1,5 @@
 <?php
+echo "<!--\$Id$ -->";
 
 // cancel a WU:
 // - mark unsent results as OVER, outcome DIDNT_NEED

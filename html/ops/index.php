@@ -3,6 +3,9 @@
 require_once("../inc/db_ops.inc");
 require_once("../inc/util_ops.inc");
 
+echo "<!--\$Id$ -->";
+
+
 $config = get_config();
 $cgi_url = parse_config($config, "<cgi_url>");
 $stripchart_cgi_url = parse_config($config, "<stripchart_cgi_url>");
