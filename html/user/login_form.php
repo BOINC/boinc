@@ -17,7 +17,7 @@
         </td></tr>
         </table>";
     echo "<font size=1>
-          If you don't know your account key, <a href=get_acct_key.php>click here</a>.<p>
+          If you don't know your account key, <a href=get_passwd.php>click here</a>.<p>
           </font>";
 
     page_tail();
