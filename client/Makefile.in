@@ -49,6 +49,7 @@ OBJS = \
     time_stats.o \
     ../lib/app_ipc.o \
     ../lib/filesys.o \
+    ../lib/language.o \
     ../lib/parse.o \
     ../lib/shmem.o \
     ../lib/md5_file.o \

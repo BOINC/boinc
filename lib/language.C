@@ -18,9 +18,8 @@
 //
 
 #include <string.h>
+#include <stdlib.h>
 
-#include "windows_cpp.h"
-#include "file_names.h"
 #include "util.h"
 #include "parse.h"
 
@@ -78,3 +77,4 @@ return_default:
 	safe_strncpy(translation,entry_name,trans_size);
 	return trans_size;
 }
+

@@ -21,6 +21,7 @@ OBJS = \
     countries.o \
     parse.o \
     filesys.o \
+    language.o \
     util.o
 
 MD5_OBJS = \
