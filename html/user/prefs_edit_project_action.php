@@ -8,6 +8,7 @@ include_once("prefs.inc");
 db_init();
 
 $user = get_user_from_cookie();
+page_head("Preferences");
 if ($user == NULL) {
     print_login_form();
 } else {
@@ -19,5 +20,7 @@ if ($user == NULL) {
     prefs_update($user, $prefs);
     print_prefs_display($prefs);
 }
+echo "<p>\n";
+page_tail();
 
 ?>

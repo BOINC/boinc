@@ -1,21 +1,27 @@
 <?php
     require_once("util.inc");
-    db_init();
+    require_once("user.inc");
+    require_once("db.inc");
     if (strlen($HTTP_POST_VARS["old"])) {
+        db_init();
         $query = sprintf(
             "select * from user where email_addr='%s'",
             $HTTP_POST_VARS["existing_email"]
         );
         $result = mysql_query($query);
-        $user = mysql_fetch_object($result);
-        mysql_free_result($result);
+        if ($result) {
+            $user = mysql_fetch_object($result);
+            mysql_free_result($result);
+        }
         if (!$user or ($user->web_password != $HTTP_POST_VARS["existing_password"])) {
             echo "We have no account with that name and password.";
         } else {
             setcookie("auth", $user->authenticator, time()+100000000);
-            echo "Logged in.";
+            page_head("User home");
+            show_user_page($user);
         }
     } else if (strlen($HTTP_POST_VARS["new"])) {
+        db_init();
         $query = sprintf(
             "select * from user where email_addr='%s'",
             $HTTP_POST_VARS["new_email_addr"]
@@ -32,20 +38,20 @@
                 $authenticator = random_string();
                 $email_addr = $HTTP_POST_VARS["new_email_addr"];
                 $query = sprintf(
-                    "insert into user values(0, %d, '%s', '%s', '%s', '%s', '%s', '%s', 0, 0, 0, 0, 0)",
+                   "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code) values(%d, '%s', '%s', '%s', '%s', '%s', %d)",
                     time(),
                     $email_addr,
                     $HTTP_POST_VARS["new_name"],
                     $HTTP_POST_VARS["new_password"],
                     $authenticator,
-                    $HTTP_POST_VARS["country"],
+                    "United States",
                     $HTTP_POST_VARS["postal_code"]
                 );
                 $result = mysql_query($query);
                 if ($result) {
                     setcookie("auth", $authenticator);
                     echo "Account created.  You are being mailed a key that you'll need to run the client.\n";
-                    mail($email_addr, "SETI@home key", "Your SETI@home key is " . $authenticator);
+                    mail($email_addr, "BOINC key", "Your BOINC key is " . $authenticator);
                 } else {
                     echo "Couldn't create account - please try later.\n";
                 }

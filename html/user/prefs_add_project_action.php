@@ -8,6 +8,7 @@ include_once("prefs.inc");
 db_init();
 
 $user = get_user_from_cookie();
+page_head("Add project");
 if ($user == NULL) {
     print_login_form();
 } else {
@@ -18,10 +19,16 @@ if ($user == NULL) {
     if ($i >= 0) {
         echo "Duplicate project URL\n";
     } else {
-        array_push($prefs->projects, $project);
+        if ($prefs->projects == null) {
+            $prefs->projects = array($project);
+        } else {
+            array_push($prefs->projects, $project);
+        }
         prefs_update($user, $prefs);
         print_prefs_display($prefs);
     }
 }
+echo "<p>\n";
+page_tail();
 
 ?>

@@ -8,6 +8,7 @@ include_once("prefs.inc");
 db_init();
 
 $user = get_user_from_cookie();
+page_head("Edit project preferences");
 if ($user == NULL) {
     print_login_form();
 } else {
@@ -16,5 +17,7 @@ if ($user == NULL) {
     $i = project_index($prefs, $master_url);
     prefs_form_project($prefs->projects[$i], "prefs_edit_project_action.php");
 }
+echo "<p>\n";
+page_tail();
 
 ?>

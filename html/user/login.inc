@@ -17,6 +17,20 @@ function print_login_form() {
         ."    <td><br></td>\n"
         ."    <td><input type=submit name=old value=\"Log in\"></td>\n"
         ."</tr>\n"
+        ."</table>\n"
+        ."</form>\n"
+        ."<table>\n"
+        ."<tr><td colspan=2>If you don't have an account:</td></tr>\n"
+        ."<tr><td><a href=create_account.php>Create a new account</a></td></tr>\n"
+        ."</table>\n"
+    );
+
+}
+
+function print_create_account_form() {
+    printf(
+        "<form method=post action=login_action.php>\n"
+        ."<table>\n"
         ."<tr><td colspan=2>To create a new account:</td></tr>\n"
         ."<tr>\n"
         ."    <td align=right>Name or nickname</td>\n"
@@ -37,6 +51,7 @@ function print_login_form() {
         ."<tr>\n"
         ."    <td align=right>Country</td>\n"
         ."    <td><select name=country>\n"
+
     );
         print_country_select();
     printf(
@@ -50,8 +65,8 @@ function print_login_form() {
         ."<tr>\n"
         ."    <td><br></td>\n"
         ."    <td><input type=submit name=new value=\"Create account\"></td>\n"
-        ."</tr>\n"
-        ."</table>\n"
+        ."</tr>\n".
+        "</table>\n"
         ."</form>\n"
     );
 }

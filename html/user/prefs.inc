@@ -265,6 +265,7 @@ function prefs_form_projects($prefs) {
         echo "<br><a href=prefs_edit_project_form.php?master_url=$project->master_url>Edit this project</a>\n";
     }
     echo "<hr><a href=prefs_add_project_form.php>Add a project</a>\n";
+    echo "<br>";
 }
 
 function prefs_form_project($project, $action) {

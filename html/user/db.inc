@@ -5,9 +5,10 @@ function db_init() {
     if (!$retval) {
         exit();
     }
-    $name = getenv("BOINC_DB_NAME");
-    if ($name == NULL) $name = "boinc";
-    mysql_select_db($name);
+    $fp = fopen(db_name, "r");
+    $db_name = fgets($fp, 1024);
+    mysql_select_db($db_name);
+    fclose($fp);
 }
 
 function lookup_user_auth($auth) {
@@ -30,7 +31,9 @@ function show_app($app) {
     row("ID", $app->id);
     row("created", time_str($app->create_time));
     row("name", $app->name);
-    row("minimum version", $app->min_version);
+    row("alpha version", $app->alpha_vers);
+    row("beta version", $app->beta_vers);
+    row("production version", $app->prod_vers);
     row("result template", "<pre>".htmlspecialchars($app->result_xml_template)."</pre>");
     echo "</table>";
 }
@@ -124,7 +127,6 @@ function show_result($result) {
     row("state", res_state_string($result->state));
     row("host ID", $result->hostid);
     row("sent", time_str($result->sent_time));
-    row("report deadline", time_str($result->report_deadline));
     row("received", time_str($result->received_time));
     row("exit status", $result->exit_status);
     row("CPU time", $result->cpu_time);

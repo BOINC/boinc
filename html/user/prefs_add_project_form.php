@@ -8,11 +8,14 @@ include_once("prefs.inc");
 db_init();
 
 $user = get_user_from_cookie();
+page_head("Add project");
 if ($user == NULL) {
     print_login_form();
 } else {
     echo "Add a project:<br>\n";
     prefs_form_project($project, "prefs_add_project_action.php");
 }
+echo "<p>\n";
+page_tail();
 
 ?>

@@ -5,9 +5,9 @@ require_once("db.inc");
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
 define("BG_COLOR", " bgcolor=cccccc ");
 define("TITLE_COLOR", " bgcolor=000000 ");
-define("TITLE_FONT", " <font color=ff7700> ");
+define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
-define("PROJECT_NAME", "SETI@home");
+define("PROJECT_NAME", "BOINC");
 
 function get_user_from_cookie() {
     $auth = "";
@@ -30,7 +30,7 @@ function show_login($user) {
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b>".PROJECT_NAME.": $title</b></font></td></tr></table>\n";
+    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.html>".PROJECT_NAME.":</a> $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {
@@ -60,6 +60,19 @@ function random_string() {
 
 function print_country_select() {
     PassThru("/home/david/boinc/tools/country_select");
+}
+
+function print_page_header($title) {
+    echo "<html>\n";
+    echo "<head>\n";
+    echo "<title>$title</title>\n";
+    echo "</head>\n";
+    echo "<body BGCOLOR=000000 TEXT=FFFFFF LINK=cc99ff VLINK=cc99ff>\n";
+    echo "<br clear=all><br>\n";
+}
+
+function print_page_end() {
+    echo "</body></html>";
 }
 
 ?>

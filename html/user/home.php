@@ -6,9 +6,11 @@
 
     db_init();
     $user = get_user_from_cookie();
+    page_head("User home");
     if ($user) {
         show_user_page($user);
     } else {
         print_login_form();
     }
+    page_tail();
 ?>
