@@ -755,20 +755,18 @@ void draw_texture(float* p, float* size) {
 
 
 //star drawing functions -<oliver wang>-
-#define STARFIELD_SIZE 1000
-#define STAR_SPEED 20.0f
 #define PI 3.14159265358979323846264
 
 //pointer to the begining of the list
 Star* stars = new Star;
 
 //makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
-void build_stars()
+void build_stars(int size, float speed)
 {
 	int i=0;	
 	Star* tmpStar = stars;		
 	float fov=45.0f;
-	while(i<STARFIELD_SIZE)
+	while(i<size)
 	{
 		
 		float z = (float)(rand()%2000-1000);
@@ -776,11 +774,7 @@ void build_stars()
 		float beta = asin(z/1000.0f);
 		float x = 1000.0f * cos(beta) * cos(alpha);
 		float y = 1000.0f * cos(beta) * sin(alpha);				
-/*
-		float z = (float)(-rand()%1000);
-		float x = (float)(rand()%(int)(2.0f*-z*tan(22.5f*PI/180.0f) - (-z*tan(22.5f*PI/180.0f))));		
-		float y = (float)(rand()%(int)(2.0f*-z*tan(22.5f*PI/180.0f) - (-z*tan(22.5f*PI/180.0f))));		
-*/
+
 		tmpStar->x=x;
 		tmpStar->y=y;
 		tmpStar->z=z;		
@@ -805,7 +799,7 @@ float dotProd(float a, float b, float c, float x, float y, float z)
 	return(a*x+b*y+c*z);
 }
 
-void update_stars()
+void update_stars(int number, float speed)
 {
 	float modelview[16];
 
@@ -814,15 +808,6 @@ void update_stars()
 	float camera[3];
 	
 	Star* tmpStar = stars;	
-
-//	double model[16];
-//	double proj[16];
-//	int viewport[4];
-//	double newpos[3];
-//	glMatrixMode(GL_MODELVIEW);
-//	get_matrix(model);
-//	get_viewport(viewport);
-//	get_projection(proj);
 
 	if(get_matrix_invert(modelview)==false)
 		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
@@ -842,21 +827,21 @@ void update_stars()
 				  (camera[2]-tmpStar->z)*(camera[2]-tmpStar->z));
 
 		
-		if(dotProd(eye[0],eye[1],eye[2],tmpStar->x,tmpStar->y,tmpStar->z)>0) // behing camera
+		if(dotProd(eye[0],eye[1],eye[2],tmpStar->x,tmpStar->y,tmpStar->z)>0) // behind camera
 		{
 			replaceStar(tmpStar);
 			continue;
 		}		
 		
-		tmpStar->x+=(eye[0])*tmpStar->v*STAR_SPEED;
-		tmpStar->y+=(eye[1])*tmpStar->v*STAR_SPEED;
-		tmpStar->z+=(eye[2])*tmpStar->v*STAR_SPEED;
+		tmpStar->x+=(eye[0])*tmpStar->v*speed;
+		tmpStar->y+=(eye[1])*tmpStar->v*speed;
+		tmpStar->z+=(eye[2])*tmpStar->v*speed;
 
 		
 		//grow objects as the approach you
 		if(dist>900) glPointSize(1.0f);
 		else if(dist>600) glPointSize(2.0f);
-		else if(dist>30) glPointSize(3.0f);				
+		//else if(dist>30) glPointSize(3.0f);				
 
 		GLfloat mat_emission[] = {1, 1, 1, 1};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
@@ -1009,8 +994,8 @@ bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID)
 	}
 	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX, 
 					  pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
-//	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-//	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
 
 	if (pImage)										// If we loaded the image
 	{
@@ -1024,7 +1009,7 @@ bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID)
 }
 
 //text
-UINT listBase[MAX_TEXTURES];
+UINT listBase[MAX_FONTS];
 
 void print_text(unsigned int base, char *string)
 {   

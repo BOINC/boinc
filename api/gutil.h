@@ -117,8 +117,8 @@ struct Star
 	Star* next;	
 };
 
-extern void build_stars();
-extern void update_stars();
+extern void build_stars(int,float);
+extern void update_stars(int,float);
 extern void replaceStar(Star* tmpStar);
 
 #include "jpeglib.h"

@@ -505,21 +505,21 @@ void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row)
 					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);					
 				}
 
-				if(row==0)
-				{					
-					float z2 = draw_pos[2] - (draw_size[2]*row)/rdimy;
-					float y2 = draw_pos[1];
-					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
-					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
-				}
-
-				if(row==rdimy-1) //last row
-				{					
-					float z2 = draw_pos[2] + (draw_size[2]*row+1)/rdimy;
-					float y2 = draw_pos[1];
-					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
-					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
-				}
+//				if(row==0)
+//				{					
+//					float z2 = draw_pos[2] - (draw_size[2]*row)/rdimy;
+//					float y2 = draw_pos[1];
+//					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
+//					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
+//				}
+//
+//				if(row==rdimy-1) //last row
+//				{					
+//					float z2 = draw_pos[2] + (draw_size[2]*row+1)/rdimy;
+//					float y2 = draw_pos[1];
+//					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
+//					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
+//				}
 				
 				glVertex3f(x0+((x1-x0)/2.0f), y1, z0);
 			}
@@ -705,17 +705,17 @@ void REDUCED_ARRAY::draw_axes() {
 	glColor4d(1,1,1,.5);	
 	
 	//base square
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
 
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
 
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
 
 	//top square
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
@@ -731,7 +731,7 @@ void REDUCED_ARRAY::draw_axes() {
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj2);
 	
 	//connecting lines
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
@@ -753,13 +753,13 @@ void REDUCED_ARRAY::draw_axes() {
 	glColor4d(1,1,1,1);	
 	
 	
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
-    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
+    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
 
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
