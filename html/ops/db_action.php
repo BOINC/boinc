@@ -1,6 +1,7 @@
 <?php
     require_once("../inc/util_ops.inc");
     require_once("../inc/db_ops.inc");
+    echo "<!--\$Id$ -->\n";
 
     function append_sql_query($original,$addition,$first) {
         if ($first == 1) {
@@ -114,7 +115,17 @@
             ";
         }
     }
-    $result = mysql_query(mysql_real_escape_string($main_query));
+
+if (1) {
+    // valid for PHP>=4.3.0, 5.  If there is a run-time php_version() function please use it
+    // instead of this hack!
+    $escapehell=mysql_real_escape_string($main_query);
+} else {
+    $escapehell=str_replace("\'", "'", $main_query);
+    $escapehell=str_replace("\\\"", "'", $escapehell);
+}
+
+    $result = mysql_query($escapehell);
     if ($result) {
         if ($detail == "low") {
             start_table();
