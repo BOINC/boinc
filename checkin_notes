@@ -6552,3 +6552,14 @@ David  Oct 6 2003
 		graphics_api.C
 		gutil.C,h
 		reduce.C,h
+
+Karl 2003/10/06
+    - client release 2.04
+
+Karl 2003/10/06
+    - log more verbose, trying to find "input files deleted for WU having
+      results IN_PROGRESS" bug
+
+    sched/
+        transitioner.C
+
