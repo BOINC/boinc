@@ -20,16 +20,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-#ifdef macintosh
-#include "seti_mac.h"
-#else
 #include <sys/stat.h>
-#endif
-
-#ifdef MAC_OS_X
-#include <sys/types.h>
-#include <sys/stat.h>
-#endif
 
 #include <time.h>
 #include <string.h>
@@ -84,9 +75,6 @@ DIRREF dir_open(char* p) {
 	strcat(dirp->path, "\\*");
 	dirp->handle = INVALID_HANDLE_VALUE;
 #endif
-#ifdef macintosh
-    SayErr("\pdir_open called (empty function)");	/* CAF Temp */
-#endif
     return dirp;
 }
 
@@ -131,10 +119,6 @@ int dir_scan(char* p, DIRREF dirp) {
 	}
     }
 #endif
-#ifdef macintosh
-	SayErr("\pdir_scan called (empty function)");	/* CAF Temp */
-	return 1;
-#endif
 }
 
 // Close a directory
@@ -151,9 +135,6 @@ void dir_close(DIRREF dirp) {
 	dirp->handle = INVALID_HANDLE_VALUE;
     }
 	free(dirp);
-#endif
-#ifdef macintosh
-    SayErr("\pdir_close called (empty function)");	/* CAF Temp */
 #endif
 }
 

@@ -360,10 +360,6 @@ double boinc_cpu_time() {
 #endif  // _WIN32
 #endif
 
-#ifdef macintosh
-    return (double) GetCPUTime() / CLOCKS_PER_SEC;
-#endif
-
     fprintf(stderr, "boinc_cpu_time(): not implemented\n");
 }
 

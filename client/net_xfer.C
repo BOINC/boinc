@@ -61,11 +61,7 @@
 #include "log_flags.h"
 #include "net_xfer.h"
 
-// On Macs, socklen_t isn't defined in a header file so we have to define it here
-#ifdef mac
-#define socklen_t unsigned int
-#endif
-//  The other option is that the socket functions require size_t instead
+//  If socklen_t isn't defined, define it here as size_t
 #if !defined(socklen_t)
 #define socklen_t size_t
 #endif
