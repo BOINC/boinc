@@ -16,11 +16,11 @@
 // 
 // Contributor(s):
 //
-// Change Log:
+// Revision History:
+//
 // $Log$
-// Revision 1.49  2003/12/01 22:53:09  korpela
-// Fixed case where socklen_t is #defined in the system headers rather than
-// typedefed.
+// Revision 1.50  2003/12/01 23:02:22  korpela
+// timezone fix for CYGWIN
 //
 //
 
