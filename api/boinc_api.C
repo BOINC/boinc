@@ -79,6 +79,12 @@ MPQueueID drawQueue;
 
 #include "boinc_api.h"
 
+#ifdef _WIN32
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+#else
+extern void boinc_catch_signal(int signal);
+#endif
+
 static APP_INIT_DATA aid;
 GRAPHICS_INFO gi;
 static double timer_period = 1.0/50.0;    // 50 Hz timer
