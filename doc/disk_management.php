@@ -357,3 +357,8 @@ such as an xml doc that can be parsed by the project.</p>
 <p>
 There also needs to be a database, separate from the scheduling database, which 
 keeps track of the files on host's clients. </p>
+
+";
+page_tail();
+?>
+
