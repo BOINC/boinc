@@ -8,10 +8,10 @@ SUBDIRS = RSAEuro db lib api apps client sched tools test py zip unzip
 # dist-hook below gets rid of CVS directories.
 
 EXTRA_DIST =								\
-	mac_build win_build						\
+	win_build						\
 	doc								\
 	stripchart							\
-        INSTALL
+    INSTALL
 
 py:
 	[ "$(srcdir)" != . ] && rm -f $@ && $(LN_S) $(srcdir)/$@ $@

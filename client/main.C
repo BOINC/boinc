@@ -46,6 +46,7 @@
 #include "prefs.h"
 #include "util.h"
 #include "client_msgs.h"
+#include "main.h"
 
 // dummies
 void create_curtain(){}
@@ -156,16 +157,30 @@ int add_new_project() {
 }
 
 #ifdef WIN32
+void quit_client() {
+    msg_printf(NULL, MSG_INFO, "Exiting - user request");
+    gstate.quit_activities();
+    gstate.requested_exit = true;
+}
+
+void suspend_client() {
+    msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
+    gstate.active_tasks.suspend_all();
+}
+
+void resume_client() {
+    msg_printf(NULL, MSG_INFO, "Resuming activity - user request");
+    gstate.active_tasks.unsuspend_all();
+}
+
 BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 	BOOL bReturnStatus = FALSE;
 	switch( dwCtrlType ){
     case CTRL_C_EVENT:
         if(gstate.activities_suspended) {
-            gstate.active_tasks.unsuspend_all();
-            msg_printf(NULL, MSG_INFO, "Resuming activity");
+            resume_client();
         } else {
-            msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
-            gstate.active_tasks.suspend_all();
+            suspend_client();
         }
         bReturnStatus =  TRUE;
         break;
@@ -173,9 +188,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
     case CTRL_CLOSE_EVENT:
     case CTRL_LOGOFF_EVENT:
     case CTRL_SHUTDOWN_EVENT:
-        msg_printf(NULL, MSG_INFO, "Exiting - user request");
-        gstate.quit_activities();
-        gstate.requested_exit = true;
+        quit_client();
         bReturnStatus =  TRUE;
         break;
 	}

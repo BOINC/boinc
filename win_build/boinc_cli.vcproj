@@ -1098,6 +1098,9 @@
 				RelativePath="..\client\log_flags.h">
 			</File>
 			<File
+				RelativePath="..\client\main.h">
+			</File>
+			<File
 				RelativePath="..\client\maybe_gui.h">
 			</File>
 			<File

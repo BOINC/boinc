@@ -23,8 +23,9 @@
 #include "stdafx.h"
 
 #include "diagnostics.h"
-#include "win_service.h"
 #include "util.h"
+#include "main.h"
+#include "win_service.h"
 
 
 // internal variables
@@ -32,13 +33,6 @@ SERVICE_STATUS          ssStatus;       // current status of the service
 SERVICE_STATUS_HANDLE   sshStatusHandle;
 DWORD                   dwErr = 0;
 TCHAR                   szErr[1024];
-
-
-// define the execution engine start point
-extern int boinc_main_loop(int argc, char** argv);
-extern void quit_client(int a);
-extern void susp_client(int a);
-extern void resume_client(int a);
 
 
 // Define API's that are going to be used through LoadLibrary calls.
@@ -142,7 +136,7 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         case SERVICE_CONTROL_STOP:
 		case SERVICE_CONTROL_SHUTDOWN:
             ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 10000);
-			quit_client(NULL);
+			quit_client();
             ReportStatus(SERVICE_STOPPED, ERROR_SUCCESS, 10000);
             return;
 
@@ -150,7 +144,7 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         //
 		case SERVICE_CONTROL_PAUSE:
             ReportStatus(SERVICE_PAUSE_PENDING, ERROR_SUCCESS, 10000);
-			susp_client(NULL);
+			susp_client();
             ReportStatus(SERVICE_PAUSED, ERROR_SUCCESS, 10000);
             return;
 
@@ -158,7 +152,7 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         //
 		case SERVICE_CONTROL_CONTINUE:
             ReportStatus(SERVICE_CONTINUE_PENDING, ERROR_SUCCESS, 10000);
-			resume_client(NULL);
+			resume_client();
             ReportStatus(SERVICE_RUNNING, ERROR_SUCCESS, 10000);
             return;
 
