@@ -35,6 +35,7 @@ struct HOST_INFO {
     char domain_name[256];
     char serialnum[256];
     char ip_addr[256];
+    char host_cpid[64];
 
     int p_ncpus;
     char p_vendor[256];
@@ -66,6 +67,7 @@ struct HOST_INFO {
     bool users_idle(bool check_all_logins, double idle_time_to_run);
     int get_host_info();
     void clear_host_info();
+    void generate_host_cpid();
 };
 
 #ifdef _WIN32

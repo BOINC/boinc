@@ -167,6 +167,7 @@ create table host (
     venue               varchar(254) not null,
     nresults_today      integer     not null,
     avg_turnaround      double      not null,
+    host_cpid           varchar(254),
 
     primary key (id)
 ) type=InnoDB;

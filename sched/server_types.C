@@ -476,6 +476,7 @@ int HOST::parse(FILE* fin) {
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
         else if (parse_str(buf, "<serialnum>", serialnum, sizeof(serialnum))) continue;
         else if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
+        else if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
         else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
         else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
         else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;

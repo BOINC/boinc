@@ -32,6 +32,7 @@
 
 #include "util.h"
 #include "parse.h"
+#include "md5_file.h"
 #include "error_numbers.h"
 
 #include "hostinfo.h"
@@ -43,6 +44,7 @@ void HOST_INFO::clear_host_info() {
     strcpy(domain_name, "");
     strcpy(serialnum, "");
     strcpy(ip_addr, "");
+    strcpy(host_cpid, "");
 
     p_ncpus = 0;
     strcpy(p_vendor, "");
@@ -77,6 +79,7 @@ int HOST_INFO::parse(MIOFILE& in) {
         else if (parse_int(buf, "<timezone>", timezone)) continue;
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
         else if (parse_str(buf, "<ip_addr>", ip_addr, sizeof(ip_addr))) continue;
+        else if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
         else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
         else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
         else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
@@ -117,6 +120,7 @@ int HOST_INFO::write(MIOFILE& out) {
         "    <timezone>%d</timezone>\n"
         "    <domain_name>%s</domain_name>\n"
         "    <ip_addr>%s</ip_addr>\n"
+        "    <host_cpid>%s</host_cpid>\n"
         "    <p_ncpus>%d</p_ncpus>\n"
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
@@ -138,6 +142,7 @@ int HOST_INFO::write(MIOFILE& out) {
         timezone,
         domain_name,
         ip_addr,
+        host_cpid,
         p_ncpus,
         p_vendor,
         p_model,
@@ -204,6 +209,16 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
         m_cache
     );
     return 0;
+}
+
+// make a host cross-project ID.
+// Should be unique across hosts with very high probability
+//
+void HOST_INFO::generate_host_cpid() {
+    char buf[1024];
+
+    sprintf(buf, "%f%s%s%f", dtime(), domain_name, ip_addr, d_free);
+    md5_block((const unsigned char*) buf, strlen(buf), host_cpid);
 }
 
 const char *BOINC_RCSID_edf7e5c147 = "$Id$";

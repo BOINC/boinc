@@ -261,6 +261,7 @@ struct HOST {
     char venue[256];        // home/work/school
     int nresults_today;     // results sent since midnight
     double avg_turnaround;  // recent average result turnaround time
+    char host_cpid[256];    // host cross-project ID
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

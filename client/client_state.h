@@ -183,6 +183,7 @@ public:
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();
+
 // --------------- cs_apps.C:
 public:
     bool must_schedule_cpus;
@@ -318,6 +319,7 @@ public:
 
     void check_all();
 
+#if 0
 // ------------------ cs_data.C:
 // mechanisms for managing data saved on host
 //
@@ -344,6 +346,8 @@ private:
     double offender(PROJECT*);
     double proj_potentially_free(PROJECT*);
     FILE_INFO* get_priority_or_lru(PROJECT*, int);
+#endif
+
 };
 
 extern CLIENT_STATE gstate;

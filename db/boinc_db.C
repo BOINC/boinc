@@ -338,6 +338,7 @@ void DB_HOST::db_print(char* buf){
     ESCAPE(domain_name);
     ESCAPE(serialnum);
     ESCAPE(last_ip_addr);
+    ESCAPE(host_cpid);
     ESCAPE(p_vendor);
     ESCAPE(p_model);
     ESCAPE(os_name);
@@ -358,7 +359,8 @@ void DB_HOST::db_print(char* buf){
         "n_bwup=%.15e, n_bwdown=%.15e, "
         "credit_per_cpu_sec=%.15e, "
         "venue='%s', nresults_today=%d, "
-        "avg_turnaround=%f",
+        "avg_turnaround=%f, "
+        "host_cpid='%s' ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -374,7 +376,8 @@ void DB_HOST::db_print(char* buf){
         n_bwup, n_bwdown,
         credit_per_cpu_sec,
         venue, nresults_today,
-        avg_turnaround
+        avg_turnaround,
+        host_cpid
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -383,6 +386,7 @@ void DB_HOST::db_print(char* buf){
     UNESCAPE(p_model);
     UNESCAPE(os_name);
     UNESCAPE(os_version);
+    UNESCAPE(host_cpid);
 }
 
 void DB_HOST::db_parse(MYSQL_ROW &r) {
@@ -426,6 +430,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     strcpy2(venue, r[i++]);
     nresults_today = atoi(r[i++]);
     avg_turnaround = atof(r[i++]);
+    strcpy2(host_cpid, r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){

@@ -361,6 +361,10 @@ int HOST_INFO::get_host_info() {
     }
 
 	RegCloseKey(hKey);
+
+    if (!strlen(host_cpid)) {
+        generate_host_cpid();
+    }
     return 0;
 }
 

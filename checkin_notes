@@ -22993,3 +22993,36 @@ Bruce 20 Jan 2005
     client/
         Makefile.am
 
+David  20 Jan 2005
+    - Added cross-project IDs for hosts.
+        This lets statistics sites show work per host, summed over projects.
+
+        Implementation:
+        Hosts generate their own "internal" CPIDs,
+        using an MD5 of time/domain/IP/disk_free.
+        This should be unique across that user's hosts.
+        It's stored in the HOST_INFO structure and sent to server.
+        The server hashes the internal CPID with the user's email address
+        and stores the resulting "external" CPID in the host table.
+        It is included by db_dump in <host> elements.
+
+    PROJECT NOTE: if you use this server code you will need
+    to apply update_1_20_2005() from html/ops/db_update.php to existing DBs
+
+    client/
+        client_stats.h
+        hostinfo_unix.C
+        win/
+            hostinfo_win.cpp
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/ops/
+        db_update.php
+    lib/
+        hostinfo.C,h
+    sched/
+        db_dump.C
+        handle_request.C
+        server_types.C
+        start

@@ -256,11 +256,16 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     return 0;
 }
 
-static int update_host_record(HOST& xhost) {
+static int update_host_record(HOST& xhost, USER& user) {
     DB_HOST host;
     int retval;
+    char buf[1024];
 
     host = xhost;
+    if (strlen(host.host_cpid)) {
+        sprintf(buf, "%s%s", host.host_cpid, user.email_addr);
+        md5_block((const unsigned char*)buf, strlen(buf), host.host_cpid);
+    }
     retval = host.update();
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.update() failed: %d\n", retval);
@@ -865,7 +870,7 @@ void process_request(
         handle_msgs_to_host(sreq, reply);
     }
 
-    update_host_record(reply.host);
+    update_host_record(reply.host, reply.user);
 
 leave:
     if (!have_no_work) {

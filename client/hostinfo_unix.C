@@ -463,6 +463,9 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a method to obtain OS name/version
 #endif
 
+    if (!strlen(host_cpid)) {
+        generate_host_cpid();
+    }
     return 0;
 }
 

@@ -233,6 +233,10 @@ function update_1_19_2005() {
     );
 }
 
+function update_1_20_2005() {
+    mysql_query("alter table host add host_cpid varchar(254)";
+}
+
 //update_10_25_2004();
 
 ?>
