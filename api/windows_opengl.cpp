@@ -37,11 +37,12 @@
 
 static HDC			hdc;
 static HGLRC		hRC;
-static HWND		hWnd=NULL;		// Holds Our Window Handle
+static HWND			hWnd=NULL;		// Holds Our Window Handle
 static HINSTANCE	hInstance;		// Holds The Instance Of The Application
-static RECT		rect = {50, 50, 50+640, 50+480};
-static int	current_graphics_mode = MODE_HIDE_GRAPHICS;
+static RECT			rect = {50, 50, 50+640, 50+480};
+static int			current_graphics_mode = MODE_HIDE_GRAPHICS;
 static POINT		mousePos;
+static UINT			m_uEndSSMsg;
 
 BOOL		win_loop_done;
 
@@ -63,7 +64,6 @@ void SetMode(int mode) {
 	int width, height;
 	DWORD dwExStyle;
 	DWORD dwStyle;
-
 
 	if(hWnd) {
 		if (hRC) wglDeleteContext(hRC);
@@ -172,13 +172,19 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(current_graphics_mode == MODE_FULLSCREEN) SetMode(MODE_HIDE_GRAPHICS);
+			if(current_graphics_mode == MODE_FULLSCREEN) {
+				SetMode(MODE_HIDE_GRAPHICS);
+				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
+			}
 			return 0;
 		case WM_MOUSEMOVE:
 			if(current_graphics_mode == MODE_FULLSCREEN) {
 				POINT cPos;
 				GetCursorPos(&cPos);
-				if(cPos.x != mousePos.x || cPos.y != mousePos.y) SetMode(MODE_HIDE_GRAPHICS);
+				if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
+					SetMode(MODE_HIDE_GRAPHICS);
+					PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
+				}
 			}
 			return 0;
 		case WM_CLOSE:
@@ -220,6 +226,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG					msg;		// Windows Message Structure
 
 	double start = (double)time(0);
+	m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
 
 	// Register window class and graphics mode message
 	reg_win_class();

@@ -17,8 +17,8 @@
 // Contributor(s):
 //
 
-#ifndef _BOINC_API
-#define _BOINC_API
+#ifndef _BOINC_API_
+#define _BOINC_API_
 
 #include <stdio.h>
 #ifdef HAVE_SYS_TIME_H
