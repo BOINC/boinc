@@ -62,6 +62,19 @@ function page_tail() {
     echo "|<a href=home.php> User Page </a>|<a href=team.php> Teams </a>|<a href=index.php> Main Project Page </a>|</td></tr></table>\n";
 }
 
+function print_form_header($table) {
+    echo "<form method=get action=db.php>\n";
+    echo "<p>\n";
+    echo "<input type=hidden name=show value=$table>\n";
+}
+
+function print_form_end() {
+    echo "<p>\n";
+    echo "<input type=submit name=\"new_query\" value=\"Query\">\n";
+    echo "<input type=submit name=\"show_more\" value=\"Show More\">\n";
+    echo "</form>\n";
+}
+
 function append_sql_query($original,$addition,$first) {
     if ($first == 1) {
         return $original . " where " . $addition;
@@ -94,8 +107,9 @@ function print_checkbox($text,$name,$checked) {
         . "<p>\n";
 }
 
-function print_submit($text,$name) {
-    echo "<input type=submit name=\"$name\" value=\"$text\">\n";
+function print_text_field($text,$name,$value) {
+    echo "$text <input type=text size=10 name=$name value=\"$value\">\n"
+         . "<p>\n";
 }
 
 function row($x, $y) {
@@ -130,7 +144,7 @@ function print_page_header($title) {
     echo "</head>\n";
     echo "<body TEXT=000000 BGCOLOR=FFFFFF>\n";
     echo "<h2>$title</h2>\n";
-    echo "<a href=index.html>Return to Main Page</a>\n";
+    echo "<a href=db.php>Return to Main Page</a>\n";
     echo "<br clear=all>\n";
 }
 

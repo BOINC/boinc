@@ -42,7 +42,7 @@ function show_platform($platform) {
     row("ID", $platform->id);
     row("Created", time_str($platform->create_time));
     row("Platform Name", $platform->name);
-    row("","<a href=app_version.php?plat_id=$platform->id>Application Versions for Platform $platform->name </a>");
+    row("","<a href=db.php?show=app_version&plat_id=$platform->id>Application Versions for Platform $platform->name </a>");
     end_table();
 }
 
@@ -51,8 +51,8 @@ function show_app($app) {
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
     row("Application Name", $app->name);
-    row("","<a href=app_version?app_id=$app->id>Application Versions for Application $app->name</a>");
-    row("","<a href=workunit.php?app_id=$app->id>Workunits for this Application</a>");
+    row("","<a href=db.php?show=app_version&app_id=$app->id>Application Versions for Application $app->name</a>");
+    row("","<a href=db.php?show=workunit&app_id=$app->id>Workunits for this Application</a>");
     end_table();
 }
 
@@ -60,9 +60,9 @@ function show_app_version($app_version,$show_xml_docs) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
-    row("Application", "<a href=app.php?id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
+    row("Application", "<a href=db.php?show=app&id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
-    row("Platform", "<a href=platform.php?id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
+    row("Platform", "<a href=db.php?show=platform&id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
     if ($show_xml_docs) {
         row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     }
@@ -119,7 +119,7 @@ function show_workunit($wu,$show_xml_doc) {
     if ($show_xml_doc) {
         row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     }
-    row4("Application", "<a href=app.php?id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>",
+    row4("Application", "<a href=db.php?show=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>",
         "Batch", $wu->batch);
     row4("FP Operations", $wu->rsc_fpops, "Integer Operations", $wu->rsc_iops);
     row4("Memory Requirement", $wu->rsc_memory, "Disk Requirement", $wu->rsc_disk);
@@ -127,7 +127,7 @@ function show_workunit($wu,$show_xml_doc) {
     row4("Number of Results", $wu->nresults, "Number of Unsent Results", $wu->nresults_unsent);
     row4("Number of Results Done", $wu->nresults_done, "Number of Failed Results",
         $wu->nresults_fail);
-    row("","<a href=result.php?wu_id=$wu->id>Show Associated Results</a>");
+    row("","<a href=db.php?show=result&wu_id=$wu->id>Show Associated Results</a>");
     end_table();
     echo "<p>";
 }
@@ -150,10 +150,10 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
         row4("received", time_str($result->received_time),"","");
     }
     row4("Name", $result->name, "Workunit",
-        "<a href=workunit.php?id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
+        "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
 
     row4("state", res_state_string($result->state), "Host ID",
-        "<a href=host.php?id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
+        "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
 
     row4("Exit Status", $result->exit_status, "CPU time", $result->cpu_time);
     if ($show_xml_docs) {
@@ -201,13 +201,13 @@ function team_type_string($s) {
 function show_team($team) {
     start_table();
     row("ID", $team->id);
-    row("Team Founder", "<a href=user.php?id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
+    row("Team Founder", "<a href=db.php?show=user&id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
     row("Name", $team->name);
     row("Name (HTML Formatted)", "<pre>" . htmlspecialchars($team->name_html) . "</pre>" );
     row("Url", "<a href=http://$team->url>" . $team->url . "</a>");
     row("Type", team_type_string($team->type));
     row("Description", $team->description);
-    row("", "<a href=user.php?team_id=$team->id>List All Members</a>");
+    row("", "<a href=db.php?show=user&team_id=$team->id>List All Members</a>");
     end_table();
 }
 
