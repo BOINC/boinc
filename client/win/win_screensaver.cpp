@@ -775,7 +775,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 		 
 				case 2:
                     HWND hwndBOINCGraphicsWindow = NULL;
-                    HWND hwndActiveWindow = NULL;
+                    HWND hwndForegroundWindow = NULL;
                     int  iReturnValue = 0;
                     int  iStatus = 0;
 
@@ -828,8 +828,8 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                     hwndBOINCGraphicsWindow = FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
                                     if ( NULL != hwndBOINCGraphicsWindow )
                                     {
-                                        hwndActiveWindow = GetForegroundWindow();
-                                        if ( hwndActiveWindow != hwndBOINCGraphicsWindow )
+                                        hwndForegroundWindow = GetForegroundWindow();
+                                        if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
                                         {
                                             SetForegroundWindow(hwndBOINCGraphicsWindow);
                                         }
