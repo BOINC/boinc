@@ -863,7 +863,7 @@ bool CLIENT_STATE::garbage_collect(double now) {
 
     // go through APP_VERSIONs;
     // delete any not referenced by any WORKUNIT
-    // and having a more recent version.
+    // and superceded by a more recent version.
     //
     avp_iter = app_versions.begin();
     while (avp_iter != app_versions.end()) {

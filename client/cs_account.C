@@ -272,6 +272,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     retval = make_project_dir(*project);
     if (retval) return retval;
     projects.push_back(project);
+    set_client_state_dirty("Add project");
     return 0;
 }
 

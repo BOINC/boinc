@@ -323,6 +323,8 @@ struct RESULT {
         //     <upload_error>x</upload_error> for each failed upload
         //
         // - <stderr_txt>X</stderr_txt>, where X is the app's stderr output
+    bool suspended_via_gui;
+    bool aborted_via_gui;
 
     APP* app;
     WORKUNIT* wup;

@@ -1111,6 +1111,8 @@ void RESULT::clear() {
     final_cpu_time = 0;
     exit_status = 0;
     stderr_out = "";
+    suspended_via_gui = false;
+    aborted_via_gui = false;
     app = NULL;
     wup = NULL;
     project = NULL;
@@ -1176,6 +1178,8 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (match_tag(buf, "<got_server_ack/>")) got_server_ack = true;
         else if (match_tag(buf, "<ready_to_report/>")) ready_to_report = true;
+        else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
+        else if (match_tag(buf, "<aborted_via_gui/>")) aborted_via_gui = true;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
@@ -1238,6 +1242,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     } else {
         if (got_server_ack) out.printf("    <got_server_ack/>\n");
         if (ready_to_report) out.printf("    <ready_to_report/>\n");
+        if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
+        if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%f</report_deadline>\n",
@@ -1275,6 +1281,8 @@ int RESULT::write_gui(MIOFILE& out) {
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
+    if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
+    if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write(out);

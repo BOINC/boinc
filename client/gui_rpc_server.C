@@ -176,6 +176,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
  		p->dont_request_more_work = false;
  	}
     gstate.must_schedule_cpus = true;
+    gstate.set_client_state_dirty("Project RPC");
     fout.printf("<success/>\n");
 }
 
@@ -204,6 +205,7 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
+    gstate.set_client_state_dirty("Set run mode RPC");
     fout.printf("<success/>\n");
 }
 
@@ -234,6 +236,7 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
+    gstate.set_client_state_dirty("Set network mode RPC");
     fout.printf("<success/>\n");
 }
 
@@ -353,6 +356,7 @@ static void handle_file_transfer_op(char* buf, MIOFILE& fout, char* op) {
         fout.printf("<error>unknown op</error>\n");
         return;
     }
+    gstate.set_client_state_dirty("File transfer RPC");
     fout.printf("<success/>\n");
 }
 
@@ -377,21 +381,21 @@ static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
         fout.printf("<error>no such result</error>\n");
         return;
     }
-    atp = gstate.lookup_active_task_by_result(rp);
-    if (!atp) {
-        fout.printf("<error>result is not active</error>\n");
-        return;
-    }
-
 
     if (!strcmp(op, "abort")) {
-        atp->abort_task("aborted via GUI RPC");
+        atp = gstate.lookup_active_task_by_result(rp);
+        if (atp) {
+            atp->abort_task("aborted via GUI RPC");
+        } else {
+            rp->aborted_via_gui = true;
+        }
     } else if (!strcmp(op, "suspend")) {
-        atp->suspended_via_gui = true;
+        rp->suspended_via_gui = true;
     } else if (!strcmp(op, "resume")) {
-        atp->suspended_via_gui = false;
+        rp->suspended_via_gui = false;
     }
     gstate.must_schedule_cpus = true;
+    gstate.set_client_state_dirty("Result RPC");
     fout.printf("<success/>\n");
 }
 

@@ -102,7 +102,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     rss_bytes = 0;
     have_trickle_down = false;
     pending_suspend_via_quit = false;
-    suspended_via_gui = false;
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -341,7 +340,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <vm_bytes>%f</vm_bytes>\n"
-        "%s%s"
+        "%s"
         "</active_task>\n",
         result->project->master_url,
         result->name,
@@ -353,7 +352,6 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         fraction_done,
         current_cpu_time,
         vm_bytes,
-        suspended_via_gui?"    <suspended_via_gui/>\n":"",
         supports_graphics()?"   <supports_graphics/>\n":""
     );
     return 0;
@@ -422,9 +420,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (match_tag(buf, "<suspended_via_gui")) {
-            suspended_via_gui = true;
-        }
         else scope_messages.printf("ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return ERR_XML_PARSE;

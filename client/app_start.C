@@ -235,6 +235,11 @@ int ACTIVE_TASK::start(bool first_time) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
+    if (result->aborted_via_gui) {
+        state = PROCESS_ABORTED;
+        return 0;
+    }
+
     if (first_time) {
         checkpoint_cpu_time = 0;
     }

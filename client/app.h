@@ -124,7 +124,6 @@ public:
     double max_mem_usage;   // abort if memory usage exceeds this
     bool have_trickle_down;
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
-    bool suspended_via_gui;
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;

@@ -80,7 +80,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     bool had_error = false;
 
-    if (at.exit_status != 0 && at.exit_status != ERR_QUIT_REQUEST) {
+    if (at.exit_status != 0) {
         had_error = true;
     }
 
@@ -130,15 +130,19 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->state = RESULT_COMPUTE_ERROR;
     } else {
         rp->state = RESULT_FILES_UPLOADING;
+
+        // if success, update average CPU time per result for project
+        //
+        PROJECT* p = rp->project;
+        update_average(
+            dtime()-rp->final_cpu_time,
+                // KLUDGE - should be result start time
+            rp->final_cpu_time,
+            CPU_HALF_LIFE,
+            p->exp_avg_cpu,
+            p->exp_avg_mod_time
+        );
     }
-    PROJECT* p = rp->project;
-    update_average(
-        dtime()-rp->final_cpu_time,    // KLUDGE - should be result start time
-        rp->final_cpu_time,
-        CPU_HALF_LIFE,
-        p->exp_avg_cpu,
-        p->exp_avg_mod_time
-    );
 
     task_cpu_time = at.current_cpu_time - at.cpu_time_at_last_sched;
     at.result->project->work_done_this_period += task_cpu_time;
@@ -241,7 +245,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     //
     for (i=0; i<active_tasks.active_tasks.size(); ++i) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
-        if (atp->suspended_via_gui) continue;
+        if (atp->result->suspended_via_gui) continue;
         if (atp->result->already_selected) continue;
         project = atp->wup->project;
         if (project->suspended_via_gui) continue;
@@ -270,13 +274,16 @@ void CLIENT_STATE::assign_results_to_projects() {
     //
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->already_selected) continue;
-        if (lookup_active_task_by_result(rp)) continue;
+
         project = rp->wup->project;
         if (project->suspended_via_gui) continue;
-        if (!project->next_runnable_result && rp->state == RESULT_FILES_DOWNLOADED){
-            project->next_runnable_result = rp;
-        }
+        if (project->next_runnable_result) continue;
+
+        if (rp->already_selected) continue;
+        if (rp->suspended_via_gui) continue;
+        if (rp->state != RESULT_FILES_DOWNLOADED) continue;
+        if (lookup_active_task_by_result(rp)) continue;
+        project->next_runnable_result = rp;
     }
 
     // mark selected results, so CPU scheduler won't try to consider

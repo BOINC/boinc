@@ -23113,3 +23113,20 @@ David  20 Jan 2005
         db_update.php
     sched/
         handle_request.C
+
+David  21 Jan 2005
+    - Make it possible to abort/suspend/resume
+        results even when they're not active (i.e. not ACTIVE_TASK exists)
+        - move suspended_via_gui flag from ACTIVE_TASK to RESULT
+        - add aborted_via_gui flag to RESULT
+        - if start a task whose result is aborted_via_gui, abort immediately
+        - suspended results aren't eligible to start
+    - GUI RPCs that modify state set dirty flag
+
+    client/
+        app.C,h
+        client_state.C
+        client_types.C,h
+        cs_account.C
+        cs_apps.C
+        gui_rpc_server.C
