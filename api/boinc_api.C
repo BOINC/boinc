@@ -57,7 +57,7 @@ MMRESULT timer_id;
 #include <gl\glaux.h>        // Header File For The Glaux Library
 HANDLE hGlobalDrawEvent,hQuitEvent;
 extern HANDLE graphics_threadh;
-extern BOOL	win_loop_done;
+extern BOOL    win_loop_done;
 #endif
 
 #ifdef HAVE_GL_LIB
@@ -66,6 +66,7 @@ extern BOOL	win_loop_done;
 #endif
 
 #include "parse.h"
+#include "util.h"
 #include "error_numbers.h"
 #include "graphics_api.h"
 
@@ -89,6 +90,7 @@ static double fraction_done;
 static bool ready_to_checkpoint = false;
 static bool ready_to_redraw = false;
 static bool this_process_active;
+static bool time_to_suspend = false,time_to_quit = false;
 int ok_to_draw = 0;
 
 // read the INIT_DATA and FD_INIT files
@@ -229,11 +231,11 @@ void boinc_catch_signal(int signal) {
 int boinc_finish(int status) {
     write_checkpoint_cpu_file(boinc_cpu_time());
 #ifdef _WIN32
-	// Stop the timer
+    // Stop the timer
     timeKillEvent(timer_id);
 #ifdef BOINC_APP_GRAPHICS
     // If the graphics thread is running, tell it to quit and wait for it
-	win_loop_done = TRUE;
+    win_loop_done = TRUE;
     if (hQuitEvent != NULL) {
         WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
     }
@@ -296,6 +298,12 @@ bool boinc_time_to_checkpoint() {
     }
 #endif  // BOINC_APP_GRAPHICS
 
+    // If the application has received a quit or suspend request
+    // it should checkpoint
+    if (time_to_quit || time_to_suspend) {
+        return true;
+    }
+
     return ready_to_checkpoint;
 }
 
@@ -303,6 +311,18 @@ int boinc_checkpoint_completed() {
     write_checkpoint_cpu_file(boinc_cpu_time());
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
+    // If it's time to quit, call boinc_finish which will
+    // exit the app properly
+    if (time_to_quit) {
+        boinc_finish(0);
+    }
+    // If we're in a suspended state, sleep until instructed otherwise
+    while (time_to_suspend) {
+        if (time_to_quit) {
+            boinc_finish(0);
+        }
+        boinc_sleep(1);  // Should this be a smaller value?
+    }
     return 0;
 }
 
@@ -403,10 +423,11 @@ void on_timer(int a) {
     if (time_until_suspend_check <= 0) {
         FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
         if(f) {
-			fclose(f);
-		}
-        time_until_suspend_check = 1;	// reset to 1 second
-	}
+            parse_suspend_quit_file(f,time_to_suspend,time_to_quit);
+            fclose(f);
+        }
+        time_until_suspend_check = 1;    // reset to 1 second
+    }
 
     if (this_process_active) {
         time_until_fraction_done_update -= timer_period;
@@ -561,18 +582,18 @@ int parse_fraction_done_file(FILE* f, double& pct, double& cpu) {
 }
 
 int write_suspend_quit_file(FILE* f, bool suspend, bool quit) {
-	if (suspend) {
-	    fprintf(f, "<suspend/>\n");
-	}
-	if (quit) {
-	    fprintf(f, "<quit/>\n");
-	}
+    if (suspend) {
+        fprintf(f, "<suspend/>\n");
+    }
+    if (quit) {
+        fprintf(f, "<quit/>\n");
+    }
     return 0;
 }
 
 int parse_suspend_quit_file(FILE* f, bool& suspend, bool& quit) {
     char buf[256];
-	
+    
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<suspend/>")) suspend = true;
         else if (match_tag(buf, "<quit/>")) quit = true;

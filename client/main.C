@@ -22,7 +22,9 @@
 // This file contains no GUI-related code,
 // and is not included in the source code for Mac or Win GUI clients
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "boinc_api.h"
 #include "account.h"
