@@ -34,18 +34,9 @@
 #include "sched_send.h"
 #include "sched_msgs.h"
 #include "sched_locality.h"
+#include "sched_util.h"
 
 #define VERBOSE_DEBUG
-
-// get filename from result name
-//
-static int extract_filename(char* in, char* out) {
-    strcpy(out, in);
-    char* p = strstr(out, "__");
-    if (!p) return -1;
-    *p = 0;
-    return 0;
-}
 
 // Find the app and app_version for the client's platform.
 //

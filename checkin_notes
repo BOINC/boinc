@@ -24437,3 +24437,28 @@ David  9 Feb 2005
 
     client/
         gui_rpc_server.C
+
+Bruce 10 Feb 2005
+      More sched locality and other scheduler changes.
+    - Address David's comment of Feb 2.  Now properly reduce the
+      disk size resource requirements of a WU being sent if the
+      file is already on the host, or already included in a previous
+      WU being sent. DAVID: please check that reply_copy.wus.pop_back()
+      is right.
+    - For this, define a function host_has_file().  This can also
+      be used in the future for more intelligent file deletion
+      schemes.
+    - Make warnings to upgrade old clients have low priority until
+      3 days before deadline.  Then high priority.
+    - Fix sign error in messages sent to users about insufficient
+      disk space.
+    - Move extract_filename() from sched_locality.C to sched_util.C
+    - Pretty up the ordered list of URLs printed for a given host.
+    - I've even tested these changes before committing them!
+
+    sched/
+        handle_request.C
+        sched_locality.C
+        sched_send.C
+        sched_util.[hC]
+

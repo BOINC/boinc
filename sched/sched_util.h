@@ -50,4 +50,8 @@ extern int dir_hier_url(
 	char* result
 );
 
+// extract filename from result name, needed for locality scheduling.
+//
+extern int extract_filename(char* in, char* out);
+
 #endif

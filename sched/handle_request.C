@@ -651,11 +651,23 @@ void warn_user_if_core_client_upgrade_scheduled(
                 sreq.core_client_major_version,
                 sreq.core_client_minor_version
             );
-            // perhaps we should make this low priority until (say)
-            // three days are left.  Then bump to high.
-            //           
-            USER_MESSAGE um(msg, "high");
-            reply.insert_message(um);
+            // make this low priority until three days are left.  Then
+            // bump to high.
+            //
+            if (days<3) {
+                USER_MESSAGE um(msg, "high");
+                reply.insert_message(um);
+            } else {
+                USER_MESSAGE um(msg, "low");
+                reply.insert_message(um);
+            }
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "Sending warning: upgrade client %d.%02d within %d days %d hours\n",
+                sreq.core_client_major_version,
+                sreq.core_client_minor_version,
+                days, hours
+            );
         }
     }
     return;
@@ -958,6 +970,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     char buf[256];
 
     if (!nfiles) {
+
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
@@ -965,7 +978,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
 
         sprintf(buf,
             "No disk space (BOINC needs %.1f MB more).  ",
-            max_allowable_disk(sreq)/1.e6
+            fabs(max_allowable_disk(sreq))/1.e6
         );
 
         if (watch_diskspace[0] != 0.0) {

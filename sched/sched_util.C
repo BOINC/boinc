@@ -197,4 +197,15 @@ int dir_hier_url(
     return 0;
 }
 
+// Locality scheduling: get filename from result name
+//
+
+int extract_filename(char* in, char* out) {
+    strcpy(out, in);
+    char* p = strstr(out, "__");
+    if (!p) return -1;
+    *p = 0;
+    return 0;
+}
+
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";
