@@ -15139,3 +15139,12 @@ Karl 2004-07-13
 
     configure [regenerated]
     */Makefile.in [regenerated]
+
+Karl 2004-07-13
+
+    - new function generic_check_set() which generalizes
+      generic_check_set_majority()
+
+    sched/
+        validate_util.C
+        validate_util.h

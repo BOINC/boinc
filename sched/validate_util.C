@@ -106,9 +106,9 @@ double median_mean_credit(vector<RESULT> const& results) {
     }
 }
 
-// Generic validation function that compares each result to each other one
-// and sees if there is a strict majority.  The comparison function is
-// similar to check_pair but takes an additional initialization parameter.
+// Generic validation function that compares each result to each other one and
+// sees if there MIN_VALID results match.  The comparison function is similar
+// to check_pair but takes an additional data parameter.
 //
 // This function takes 3 call-back functions, each of which accept a void*
 // and should return !=0 on error:
@@ -122,12 +122,13 @@ double median_mean_credit(vector<RESULT> const& results) {
 //
 // see validate_test.C example usage.
 //
-int generic_check_set_majority(
+int generic_check_set(
     vector<RESULT>& results, int& canonicalid, double& credit,
     init_result_f init_result_f,
     check_pair_with_data_f check_pair_with_data_f,
-    cleanup_result_f cleanup_result_f
-) {
+    cleanup_result_f cleanup_result_f,
+    int min_valid)
+{
     assert (!results.empty());
 
     vector<void*> data;
@@ -139,7 +140,7 @@ int generic_check_set_majority(
         if (init_result_f(results[i], data[i])) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
-                "check_set_majority: init_result([RESULT#%d %s]) failed\n",
+                "generic_check_set: init_result([RESULT#%d %s]) failed\n",
                 results[i].id, results[i].name);
             goto cleanup;
         }
@@ -158,14 +159,14 @@ int generic_check_set_majority(
             } else if (check_pair_with_data_f(results[i], data[i], results[j], data[j], match)) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
-                    "check_set_majority: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
+                    "generic_check_set: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
                     results[i].id, results[i].name, results[j].id, results[j].name);
             } else if (match) {
                 ++neq;
                 matches[j] = true;
             }
         }
-        if (neq > n/2) {
+        if (neq > min_valid) {
             // set validate state for each result
             for (j = 0; j != n; ++j) {
                 results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
@@ -182,6 +183,19 @@ cleanup:
         cleanup_result_f(results[i], data[i]);
     }
     return 0;
+}
+
+// similar to generic_check_set, but require a strict majority of results
+// (N_results / 2) to be valid
+int generic_check_set_majority(
+    vector<RESULT>& results, int& canonicalid, double& credit,
+    init_result_f init_result_f,
+    check_pair_with_data_f check_pair_with_data_f,
+    cleanup_result_f cleanup_result_f)
+{
+    generic_check_set(results, canonicalid, credit,
+                      init_result_f, check_pair_with_data_f, cleanup_result_f,
+                      results.size() / 2);
 }
 
 int generic_check_pair(

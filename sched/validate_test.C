@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+// A sample validator that grants credit if the majority of results are
+// bit-wise identical.
+
 #include "util.h"
 #include "sched_util.h"
 #include "sched_msgs.h"

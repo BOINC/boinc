@@ -17,8 +17,8 @@
 // Contributor(s):
 //
 
-// A sample validator that grants credit to any result
-// whose CPU time is above a certain minimum
+// A sample validator that grants credit to any result whose CPU time is above
+// a certain minimum
 
 #include "validate_util.h"
 
@@ -26,9 +26,6 @@ using std::vector;
 
 static const double MIN_CPU_TIME = 10000;
 
-// TODO: use md5 hash
-
-// read file into memory
 int init_result_trivial(RESULT const& result, void*& data) {
     return 0;
 }
