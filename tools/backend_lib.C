@@ -68,8 +68,7 @@ static int process_wu_template(
     bool found=false;
 
     strcpy(out, "");
-    p = strtok(tmplate, "\n");
-    while (p) {
+    for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
         if (match_tag(p, "<file_info>")) {
             file_number = -1;
             strcat(out, "<file_info>\n");
@@ -158,7 +157,6 @@ static int process_wu_template(
             strcat(out, p);
             strcat(out, "\n");
         }
-        p = strtok(0, "\n");
     }
     if (!found) {
         fprintf(stderr, "create_work: bad WU template - no <workunit>\n");

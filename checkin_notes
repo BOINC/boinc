@@ -11573,13 +11573,14 @@ David  April 13 2004
             target_nresults
             max_error_results
             max_total_results
+            max_success_results
 
             These are not copied to the output,
             but are used to populate the WORKUNIT
             (which is now passed in as an arg)
 
     The latter means that 'create_work' (the cmdline program) is simplified;
-    it can now take as few as 4 args
+    it can now take as few as 5 args
 
     tools
         backend_lib.C
