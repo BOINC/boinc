@@ -1,5 +1,6 @@
 DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
 
+Take p_ncpus into account when assigned work to a host
 File upload handler should check for disk full,
     return transient error, alert admins
 If there are no active tasks, should start downloading
