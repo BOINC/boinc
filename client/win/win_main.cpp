@@ -39,6 +39,9 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 
 	// uh, why did MS have to "improve" on char*?
 
+	// possible buffer overrun fix by asmall_uk
+	argc = min(100,argc);
+
 	for (i=0; i<argc; i++) {
 		argv[i] = (char*)args[i];
 	}
@@ -46,4 +49,10 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMod
 
 	return 0;
 }
+
+BOOL RequestNetConnect()
+{
+	return TRUE;
+}
+
 #endif
