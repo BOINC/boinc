@@ -16,6 +16,7 @@ all:
 	cd apps; make; cd ..; \
 	cd client; ../$(srcdir)/client/configure; make; cd ..; \
 	cd sched; make; cd ..; \
+	cd sched_fcgi; make; cd ..; \
 	cd tools; make; cd ..;
 
 clean:

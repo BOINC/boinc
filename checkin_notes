@@ -409,11 +409,28 @@ Eric Heien    June 07, 2002
 
 Michael Gary		June 08, 2002
     - Moved fast cgi Makefile.in to boinc/sched_fcgi
-    - Still need to modify configure to create makefiles for the fast cgi
-	version of the scheduling server
+    - make now makes fcgi in boinc/sched_fcgi
+    - Added links to existing code where necessary for making fast cgi
+	scheduling server.
 
+    configure
+    Makefile.in
     sched/
 	Makefile.nofcgi.in (removed)
 	Makefile.fcgi.in (removed)
+	Makefile.in
+	parse.C (added)
+	parse.h (added)
     sched_fcgi/ (added)
 	Makefile.in (added)
+	feeder.C (added)
+	handle_request.C (added)
+	handle_request.h (added)
+	main.C (added)
+	parse.C (added)
+	parse.h (added)
+	sched_shmem.C (added)
+	sched_shmem.h (added)
+	server_types.C (added)
+	server_types.h (added)
+	show_shmem.C (added)
