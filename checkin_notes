@@ -20562,9 +20562,13 @@ Bruce 2 Dec 2004
         output of transitioner.
     -   Fixed nasty bug in ops pages where top two WU error mask bits were
         not being shown in WU summary/detail pages.
+    -   Display some useful Unix times on db query page (helpful in formulating
+        queries.
 
     sched/
         transitioner.C
     html/
         inc/
             db_ops.inc
+        ops/
+            db_form.inc
