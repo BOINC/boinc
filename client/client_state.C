@@ -514,14 +514,33 @@ double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
     return x;
 }
 
+// returns true if start_hour == end_hour or start_hour <= now < end_hour
+inline bool now_between_two_hours(int start_hour, int end_hour)
+{
+    if (start_hour == end_hour) {
+        // always work
+        return true;
+    }
+
+    time_t now = time(0);
+    struct tm *tmp = localtime(&t);
+    int hour = tmp->tm_hour;
+    if (start_hour < end_hour) {
+        return (hour >= start_hour && hour < end_hour);
+    } else {
+        return !(hour >= end_hour && hour < start_hour);
+    }
+}
+
 // See if (on the basis of user prefs) we should suspend activities.
 // If so, suspend tasks
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
-    char susp_msg[256];
+    // char susp_msg[256];
+    const char* susp_msg;
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
-        sprintf(susp_msg, "Suspending activity - on batteries");
+        susp_msg = "Suspending activity - on batteries";
         should_suspend = true;
     }
 
@@ -529,39 +548,23 @@ int CLIENT_STATE::check_suspend_activities() {
     //
     if (!user_idle) {
         should_suspend = true;
-        sprintf(susp_msg, "Suspending activity - user is active");
+        susp_msg = "Suspending activity - user is active";
     }
     if (suspend_requested) {
         should_suspend = true;
-        sprintf(susp_msg, "Suspending activity - user request");
+        susp_msg = "Suspending activity - user request";
     }
 
-    if (global_prefs.start_hour != global_prefs.end_hour) {
-        time_t t = time(0);
-        struct tm *tmp = localtime(&t);
-        bool ok;
-        if (global_prefs.start_hour < global_prefs.end_hour) {
-            ok = false;
-            if (tmp->tm_hour >= global_prefs.start_hour && tmp->tm_hour < global_prefs.end_hour) {
-                ok = true;
-            }
-        } else {
-            ok = true;
-            if (tmp->tm_hour >= global_prefs.end_hour && tmp->tm_hour < global_prefs.start_hour) {
-                ok = false;
-            }
-        }
-        if (!ok) {
-            should_suspend = true;
-            sprintf(susp_msg, "Suspending activity - time of day");
-        }
+    if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
+        should_suspend = true;
+        susp_msg = "Suspending activity - time of day";
     }
 
     // Don't work while we're running CPU benchmarks
     //
     if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
         should_suspend = true;
-        sprintf(susp_msg, "Suspending activity - running CPU benchmarks");
+        susp_msg = "Suspending activity - running CPU benchmarks";
     }
 
     if (should_suspend) {
