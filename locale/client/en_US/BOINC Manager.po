@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-02-06 21:00-0800\n"
+"PO-Revision-Date: 2005-02-21 00:21-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,53 +14,53 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:193
+#: clientgui/BOINCGUIApp.cpp:199
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:267
+#: clientgui/BOINCGUIApp.cpp:259
 #: clientgui/DlgOptions.cpp:108
 msgid "(Automatic Detection)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:268
+#: clientgui/BOINCGUIApp.cpp:260
 msgid "(Unknown)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:269
+#: clientgui/BOINCGUIApp.cpp:261
 msgid "(User Defined)"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:319
-#: clientgui/BOINCTaskBar.cpp:326
+#: clientgui/BOINCTaskBar.cpp:355
+#: clientgui/BOINCTaskBar.cpp:362
 msgid "&Open BOINC Manager..."
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:330
+#: clientgui/BOINCTaskBar.cpp:366
 #: clientgui/MainFrame.cpp:176
 msgid "&Run always"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:331
+#: clientgui/BOINCTaskBar.cpp:367
 #: clientgui/MainFrame.cpp:181
 msgid "Run based on &preferences"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:332
+#: clientgui/BOINCTaskBar.cpp:368
 #: clientgui/MainFrame.cpp:186
 msgid "&Suspend"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:334
+#: clientgui/BOINCTaskBar.cpp:370
 msgid "&Disable BOINC network access"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:336
+#: clientgui/BOINCTaskBar.cpp:372
 #: clientgui/MainFrame.cpp:234
 msgid "&About BOINC Manager..."
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:338
+#: clientgui/BOINCTaskBar.cpp:374
 #: clientgui/MainFrame.cpp:218
 msgid "E&xit"
 msgstr ""
@@ -535,32 +535,33 @@ msgid "Retry Now"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:547
-msgid "Abort Upload"
+msgid "Abort Transfer"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:759
-#: clientgui/ViewWork.cpp:864
+#: clientgui/ViewWork.cpp:873
 msgid "Download failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:763
-#: clientgui/ViewWork.cpp:910
+#: clientgui/ViewWork.cpp:923
 msgid "Upload failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:767
-#: clientgui/ViewWork.cpp:914
+#: clientgui/ViewWork.cpp:927
 msgid "Uploading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:767
-#: clientgui/ViewWork.cpp:868
+#: clientgui/ViewWork.cpp:877
 msgid "Downloading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:774
 #: clientgui/ViewWork.cpp:887
-#: clientgui/ViewWork.cpp:937
+#: clientgui/ViewWork.cpp:900
+#: clientgui/ViewWork.cpp:950
 msgid "Suspended"
 msgstr ""
 
@@ -613,62 +614,62 @@ msgid "Are you sure you wish to display graphics on a remote machine?"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:419
-#: clientgui/ViewWork.cpp:655
+#: clientgui/ViewWork.cpp:664
 msgid "Show graphics"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewWork.cpp:447
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:451
-#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewWork.cpp:452
+#: clientgui/ViewWork.cpp:665
 msgid "Abort result"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:653
+#: clientgui/ViewWork.cpp:662
 msgid "Suspend"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:654
+#: clientgui/ViewWork.cpp:663
 msgid "Resume"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:859
+#: clientgui/ViewWork.cpp:868
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:874
+#: clientgui/ViewWork.cpp:883
 msgid "Aborted"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:881
+#: clientgui/ViewWork.cpp:894
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:891
+#: clientgui/ViewWork.cpp:904
 msgid "Paused"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:896
-#: clientgui/ViewWork.cpp:901
+#: clientgui/ViewWork.cpp:909
+#: clientgui/ViewWork.cpp:914
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:905
+#: clientgui/ViewWork.cpp:918
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:920
+#: clientgui/ViewWork.cpp:933
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:924
+#: clientgui/ViewWork.cpp:937
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:928
+#: clientgui/ViewWork.cpp:941
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""
