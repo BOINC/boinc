@@ -24105,3 +24105,19 @@ David  6 Feb 2005
 		handle_request.C
 		sched_send.C
 		server_types.C
+
+Rom    6 Feb 2005
+    - Bug Fix: Enable the user to select which language the BOINC Manager
+        should display on startup.  This is configured via the tools\options
+        dialog.
+    - Bug Fix: BOINC Manager should now remember whether it is maximized
+        or minimized, it does not remember position because wxWidgets
+        has a hard time with negitive coordinate values that multi-mon
+        configurations may have.  If you plug in a negative value for
+        x or y the client ends up off the visible part of the screen.
+
+    clientgui/
+        BOINCGUI.pjd
+        BOINCGUIApp.cpp, .h
+        DlgOptions.cpp, .h
+        MainFrame.cpp, .h

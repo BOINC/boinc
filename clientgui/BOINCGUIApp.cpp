@@ -68,6 +68,9 @@ bool CBOINCGUIApp::OnInit()
     m_hBOINCCoreProcess = NULL;
     m_hIdleDetectionDll = NULL;
 #endif
+    m_strDefaultWindowStation.Clear();
+    m_strDefaultDesktop.Clear();
+
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
@@ -89,6 +92,8 @@ bool CBOINCGUIApp::OnInit()
     wxConfigBase::Set(m_pConfig);
     wxASSERT(NULL != m_pConfig);
 
+    m_pConfig->SetPath(wxT("/"));
+
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
@@ -106,10 +111,14 @@ bool CBOINCGUIApp::OnInit()
     m_pLocale = new wxLocale();
     wxASSERT(NULL != m_pLocale);
 
-    // Locale information is stored relative to the executable,
-    m_pLocale->Init();
+    wxInt32 iSelectedLanguage = m_pConfig->Read(wxT("Language"), 0L);
+
+    // Locale information is stored relative to the executable.
+    m_pLocale->Init(iSelectedLanguage);
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
     m_pLocale->AddCatalog(GetAppName());
+
+    InitSupportedLanguages();
 
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit())
@@ -246,6 +255,27 @@ void CBOINCGUIApp::DetectDefaultDesktop()
 #endif
 
     m_strDefaultDesktop = szDesktop;
+}
+
+
+void CBOINCGUIApp::InitSupportedLanguages()
+{
+    wxInt32               iIndex = 0;
+    const wxLanguageInfo* liLanguage = NULL;
+
+    // These are just special tags so deal with them in a special way
+    m_strLanguages[wxLANGUAGE_DEFAULT]                    = _("(Automatic Detection)");
+    m_strLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
+    m_strLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
+
+    for ( iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++ )
+    {
+        liLanguage = wxLocale::GetLanguageInfo( iIndex );
+        if ( NULL != liLanguage )
+        {
+            m_strLanguages[iIndex] = liLanguage->Description;
+        }
+    }
 }
 
 

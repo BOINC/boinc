@@ -72,6 +72,9 @@ END_EVENT_TABLE ()
 CMainFrame::CMainFrame()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Default Constructor Function Begin"));
+
+    m_iSelectedLanguage = 0;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Default Constructor Function End"));
 }
 
@@ -427,9 +430,17 @@ bool CMainFrame::SaveState()
     //
     pConfig->SetPath(strBaseConfigLocation);
 
+    pConfig->Write(wxT("Language"), m_iSelectedLanguage);
+
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
-    pConfig->Write(wxT("Width"), GetSize().GetWidth());
-    pConfig->Write(wxT("Height"), GetSize().GetHeight());
+
+    pConfig->Write(wxT("WindowIconized"), IsIconized());
+    pConfig->Write(wxT("WindowMaximized"), IsMaximized());
+    if ( !IsIconized() && !IsMaximized() )
+    {
+        pConfig->Write(wxT("Width"), GetSize().GetWidth());
+        pConfig->Write(wxT("Height"), GetSize().GetHeight());
+    }
 
 
     //
@@ -472,6 +483,10 @@ bool CMainFrame::RestoreState()
     wxString        strPreviousLocation = wxEmptyString;
     wxInt32         iIndex = 0;
     wxInt32         iPageCount = 0;
+    bool            bWindowIconized = false;
+    bool            bWindowMaximized = false;
+    wxInt32         iTop = 0;
+    wxInt32         iLeft = 0;
     wxInt32         iHeight = 0;
     wxInt32         iWidth = 0;
 
@@ -488,12 +503,21 @@ bool CMainFrame::RestoreState()
 
     pConfig->SetPath(strBaseConfigLocation);
 
+    pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
+
+
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
     m_pNotebook->SetSelection(iCurrentPage);
 
+
+    pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
+    pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
     pConfig->Read(wxT("Width"), &iWidth, 800);
     pConfig->Read(wxT("Height"), &iHeight, 600);
+
     SetSize( -1, -1, iWidth, iHeight );
+    Iconize( bWindowIconized );
+    Maximize( bWindowMaximized );
 
 
     //
@@ -691,6 +715,8 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
             pDlg->m_SOCKSUsernameCtrl->SetValue( strBuffer );
         if ( 0 == pDoc->GetProxySOCKSPassword( strBuffer ) ) 
             pDlg->m_SOCKSPasswordCtrl->SetValue( strBuffer );
+
+        pDlg->m_LanguageSelectionCtrl->SetSelection( m_iSelectedLanguage );
     }
 
     iAnswer = pDlg->ShowModal();
@@ -721,6 +747,17 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
         pDoc->SetProxySOCKSPassword( strBuffer );
 
         pDoc->SetProxyConfiguration();
+
+        if ( m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection() )
+        {
+            ::wxMessageBox(
+                _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
+                _("Language Selection..."),
+                wxICON_INFORMATION
+            );
+        }
+
+        m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
     }
 
     if (pDlg)

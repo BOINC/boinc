@@ -74,6 +74,8 @@ private:
 
     wxString        m_strBaseTitle;
 
+    wxInt32         m_iSelectedLanguage;
+
 
     bool            CreateMenu();
     bool            DeleteMenu();

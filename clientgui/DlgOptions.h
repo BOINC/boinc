@@ -33,7 +33,8 @@
 #define SYMBOL_CDLGTOOLSOPTIONS_POSITION wxDefaultPosition
 #define ID_NOTEBOOK 10001
 #define ID_GENERAL 10002
-#define ID_HTTPPROXY 10003
+#define ID_LANGUAGESELECTION 10003
+#define ID_HTTPPROXY 10004
 #define ID_ENABLEHTTPPROXYCTRL 10007
 #define ID_HTTPADDRESSCTRL 10010
 #define ID_HTTPPORTCTRL 10011
@@ -88,6 +89,7 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    wxComboBox* m_LanguageSelectionCtrl;
     bool        m_bProxySectionConfigured;
     wxCheckBox* m_EnableHTTPProxyCtrl;
     wxTextCtrl* m_HTTPAddressCtrl;
