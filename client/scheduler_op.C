@@ -585,7 +585,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     code_sign_key_signature = 0;
     message_ack = false;
     project_is_down = false;
-	send_file_list = false;
+    send_file_list = false;
 
     p = fgets(buf, 256, in);
     if (!p) {

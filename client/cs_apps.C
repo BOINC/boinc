@@ -506,14 +506,14 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
 // then there is nothing to do, never start the app, close the result
 
 void CLIENT_STATE::handle_file_xfer_apps() {
-	for(vector <RESULT*>::const_iterator i = results.begin();
-		i!=results.end(); ++i)
-	{
-		RESULT* rp = *i;
-		if(rp->wup->avp->app_files.size() == 0 && rp->state == RESULT_FILES_DOWNLOADED) {
-			rp->state = RESULT_FILES_UPLOADING;
-			rp->reset_result_files();
-		}
-	}
+    for(vector <RESULT*>::const_iterator i = results.begin();
+        i!=results.end(); ++i)
+    {
+        RESULT* rp = *i;
+        if(rp->wup->avp->app_files.size() == 0 && rp->state == RESULT_FILES_DOWNLOADED) {
+            rp->state = RESULT_FILES_UPLOADING;
+            rp->reset_result_files();
+        }
+    }
 }
 

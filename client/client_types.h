@@ -90,12 +90,12 @@ public:
     int write(MIOFILE&, bool to_server);
     int delete_file();      // attempt to delete the underlying file
     char* get_init_url(bool);
-	char* get_next_url(bool);
-	char* get_current_url(bool);
-	bool is_correct_url_type(bool, STRING256);
+    char* get_next_url(bool);
+    char* get_current_url(bool);
+    bool is_correct_url_type(bool, STRING256);
     bool had_failure(int& failnum);
     bool verify_existing_file();
-	int merge_info(FILE_INFO&);
+    int merge_info(FILE_INFO&);
 };
 
 // Describes a connection between a file and a workunit, result, or application.
@@ -110,7 +110,7 @@ struct FILE_REF {
     int fd;
     bool main_program;
     FILE_INFO* file_info;
-	bool copy_file;  // if true, core client will copy the file instead of linking
+    bool copy_file;  // if true, core client will copy the file instead of linking
 
     int parse(MIOFILE&);
     int write(MIOFILE&);
@@ -166,11 +166,11 @@ public:
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
-	bool anonymous_platform;	// app_versions.xml file found in project dir;
-								// use those apps rather then getting from server
-	bool send_file_list;		
-								// send the list of permanent files associated with the
-								// project in the next scheduler reply for the project
+    bool anonymous_platform;    // app_versions.xml file found in project dir;
+                                // use those apps rather then getting from server
+    bool send_file_list;        
+                                // send the list of permanent files associated with the
+                                // project in the next scheduler reply for the project
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
@@ -182,8 +182,8 @@ public:
     double work_done_this_period; // how much CPU time has been devoted to this
                                   // project in the current period (secs)
     RESULT *next_runnable_result; // the next result to run for this project
-	
-	// the following used by work-fetch algorithm
+    
+    // the following used by work-fetch algorithm
     double work_request;        // how much work a project needs (secs)
     // the following soon to be deprecated
     double resource_debt;       // How much CPU time we owe this project
@@ -303,7 +303,7 @@ struct RESULT {
     int write(MIOFILE&, bool to_server);
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(std::string&);
-	void reset_result_files();
+    void reset_result_files();
 };
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info);

@@ -76,13 +76,13 @@ void PROJECT::init() {
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
-	anonymous_platform = false;
+    anonymous_platform = false;
     debt = 0;
     anticipated_debt = 0;
     work_done_this_period = 0;
     next_runnable_result = NULL;
     work_request = 0;
-	send_file_list = false;
+    send_file_list = false;
 }
 
 PROJECT::~PROJECT() {
@@ -292,7 +292,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     nrpc_failures = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
-	send_file_list = false;
+    send_file_list = false;
     scheduler_urls.clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
@@ -329,7 +329,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
-		else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
+        else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
         else if (parse_double(buf, "<debt>", debt)) continue;
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
@@ -399,7 +399,7 @@ int PROJECT::write_state(MIOFILE& out) {
         debt,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
-		send_file_list?"     <send_file_list/>\n":""
+        send_file_list?"     <send_file_list/>\n":""
     );
     if (strlen(code_sign_key)) {
         out.printf(
@@ -500,7 +500,7 @@ FILE_INFO::FILE_INFO() {
 
 FILE_INFO::~FILE_INFO() {
     if (pers_file_xfer) {
-		msg_printf(NULL, MSG_ERROR, "FILE_INFO::~FILE_INFO(): removing FILE_INFO when a pers_file_xfer still points to me\n");
+        msg_printf(NULL, MSG_ERROR, "FILE_INFO::~FILE_INFO(): removing FILE_INFO when a pers_file_xfer still points to me\n");
         pers_file_xfer->fip = NULL;
     }
 }
@@ -612,11 +612,11 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
                 sizeof(signed_xml)
             );
             continue;
-   	    } else if (match_tag(buf, "<file_xfer>")) {
-   	    	while (in.fgets(buf, 256)) {
-   	    		if (match_tag(buf, "</file_xfer>")) break;
-   	   	    }
-   	   	    continue;
+        } else if (match_tag(buf, "<file_xfer>")) {
+            while (in.fgets(buf, 256)) {
+                if (match_tag(buf, "</file_xfer>")) break;
+            }
+            continue;
         } else if (match_tag(buf, "<error_msg>")) {
             copy_element_contents(in, "</error_msg>", buf2, sizeof(buf2));
             error_msg = buf2;
@@ -681,11 +681,11 @@ int FILE_INFO::delete_file() {
 
     get_pathname(this, path);
     int retval = boinc_delete_file(path);
-	if (retval && status != FILE_NOT_PRESENT) {
+    if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_ERROR, "Couldn't delete file %s\n", path);
-	}
+    }
     status = FILE_NOT_PRESENT;
-	return retval;
+    return retval;
 }
 
 // If a file has multiple replicas, we want to choose
@@ -703,53 +703,53 @@ char* FILE_INFO::get_init_url(bool is_upload) {
     temp *= urls.size();
     temp /= RAND_MAX;
     current_url = (int)temp;
-	start_url = current_url;
-	while(1) {
-		if(!is_correct_url_type(is_upload, urls[current_url])) {
-			current_url = (current_url + 1)%urls.size();
-			if (current_url == start_url) {
-				msg_printf(project, MSG_ERROR, "Couldn't find suitable url for %s\n", name);
-				return NULL;
-			}
-		} else {
-			start_url = current_url;
-			return urls[current_url].text;
-		}
-	}
+    start_url = current_url;
+    while(1) {
+        if(!is_correct_url_type(is_upload, urls[current_url])) {
+            current_url = (current_url + 1)%urls.size();
+            if (current_url == start_url) {
+                msg_printf(project, MSG_ERROR, "Couldn't find suitable url for %s\n", name);
+                return NULL;
+            }
+        } else {
+            start_url = current_url;
+            return urls[current_url].text;
+        }
+    }
 }
 
 // Call this to get the next URL of the indicated type.
 // NULL return means you've tried them all.
 //
 char* FILE_INFO::get_next_url(bool is_upload) {
-	while(1) {
-	    current_url = (current_url + 1)%urls.size();
-		if (current_url == start_url) {
-			return NULL;
-		}
-		if(is_correct_url_type(is_upload, urls[current_url])) {
-			return urls[current_url].text;
-		}
-	}
+    while(1) {
+        current_url = (current_url + 1)%urls.size();
+        if (current_url == start_url) {
+            return NULL;
+        }
+        if(is_correct_url_type(is_upload, urls[current_url])) {
+            return urls[current_url].text;
+        }
+    }
 }
 
 char* FILE_INFO::get_current_url(bool is_upload) {
-	if (current_url < 0) {
-		return get_init_url(is_upload);
-	}
-	return urls[current_url].text;
+    if (current_url < 0) {
+        return get_init_url(is_upload);
+    }
+    return urls[current_url].text;
 }
 
 // Checks if the url includes the phrase "file_upload_handler"
 // The inclusion of this phrase indicates the url is an upload url
 // 
 bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
-	if(is_upload && !strstr(url.text, "file_upload_handler") ||
-		!is_upload && strstr(url.text, "file_upload_handler")) {
-		return false;
-	} else {
-		return true;
-	}
+    if(is_upload && !strstr(url.text, "file_upload_handler") ||
+        !is_upload && strstr(url.text, "file_upload_handler")) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 // merges information from a new FILE_INFO that has the same name as a 
@@ -757,27 +757,27 @@ bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
 // Potentially changes upload_when_present, max_nbytes, and signed_xml
 //
 int FILE_INFO::merge_info(FILE_INFO& new_info) {
-	char buf[256];
-	bool has_url;
-	unsigned int i, j;
-	upload_when_present = new_info.upload_when_present;
-	if(max_nbytes <= 0 && new_info.max_nbytes) {
-		max_nbytes = new_info.max_nbytes;
-		sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
-		strcat(signed_xml, buf);
-	}
-	for(i = 0; i < new_info.urls.size(); i++) {
-		has_url = false;
-		for(j = 0; j < urls.size(); j++) {
-			if(!strcmp(urls[j].text, new_info.urls[i].text)) {
-				has_url = true;
-			}
-		}
-		if(!has_url) {
-			urls.push_back(new_info.urls[i]);
-		}
-	}
-	return 0;
+    char buf[256];
+    bool has_url;
+    unsigned int i, j;
+    upload_when_present = new_info.upload_when_present;
+    if(max_nbytes <= 0 && new_info.max_nbytes) {
+        max_nbytes = new_info.max_nbytes;
+        sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
+        strcat(signed_xml, buf);
+    }
+    for(i = 0; i < new_info.urls.size(); i++) {
+        has_url = false;
+        for(j = 0; j < urls.size(); j++) {
+            if(!strcmp(urls[j].text, new_info.urls[i].text)) {
+                has_url = true;
+            }
+        }
+        if(!has_url) {
+            urls.push_back(new_info.urls[i]);
+        }
+    }
+    return 0;
 }
 
 // Returns true if the file had an unrecoverable error
@@ -847,7 +847,7 @@ int FILE_REF::parse(MIOFILE& in) {
     strcpy(open_name, "");
     fd = -1;
     main_program = false;
-	copy_file = false;
+    copy_file = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
@@ -1110,7 +1110,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
                 gstate.core_client_minor_version
             );
         }
-		out.printf(stderr_out.c_str());
+        out.printf(stderr_out.c_str());
         if (stderr_out[n-1] != '\n') {
             out.printf("\n");
         }
@@ -1175,9 +1175,9 @@ void RESULT::get_app_version_string(string& str) {
 // upload would terminate without sending files
 
 void RESULT::reset_result_files() {
-	unsigned int i;
+    unsigned int i;
 
-	for (i=0; i<output_files.size(); i++) {
-		output_files[i].file_info->uploaded = false;
-	}
+    for (i=0; i<output_files.size(); i++) {
+        output_files[i].file_info->uploaded = false;
+    }
 }

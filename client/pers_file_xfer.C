@@ -73,11 +73,11 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fip = f;
     is_upload = is_file_upload;
     xfer_done = false;
-	char* p = f->get_init_url(is_file_upload);
-	if (!p) {
-		msg_printf(NULL, MSG_ERROR, "No URL for file transfer of %s", f->name);
-		return ERR_NULL;
-	}
+    char* p = f->get_init_url(is_file_upload);
+    if (!p) {
+        msg_printf(NULL, MSG_ERROR, "No URL for file transfer of %s", f->name);
+        return ERR_NULL;
+    }
     return 0;
 }
 
@@ -203,58 +203,57 @@ bool PERS_FILE_XFER::poll(time_t now) {
     last_time = dtime();
 
     if (fxp->file_xfer_done) {
-		// check if the file was actually downloaded, if not check if there are more urls to try
-		// if there are no bytes downloaded, than the was probably a wrong url downloaded
+        // check if the file was actually downloaded, if not check if there are more urls to try
+        // if there are no bytes downloaded, than the was probably a wrong url downloaded
         get_pathname(fip, pathname);
         if (!file_size(pathname, existing_size) && existing_size == fip->nbytes) {
-			retval = verify_downloaded_file(pathname, *fip);
+            retval = verify_downloaded_file(pathname, *fip);
             if (!retval) {
-				scope_messages.printf(
-					"PERS_FILE_XFER::poll(): file transfer status %d",
-					fxp->file_xfer_retval
-				);
-				if (fxp->file_xfer_retval == 0) {
-					// The transfer finished with no errors.
-					//
-					if (log_flags.file_xfer) {
-						msg_printf(
-							fip->project, MSG_INFO, "Finished %s of %s",
-							is_upload?"upload":"download", fip->name
-						);
-						if (fxp->xfer_speed < 0) {
-							msg_printf(fip->project, MSG_INFO, "No data transferred");
-						} else {
-							msg_printf(
-								fip->project, MSG_INFO, "Approximate throughput %f bytes/sec",
-								fxp->xfer_speed
-							);
-						}
-					}
-					xfer_done = true;
-				} else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
-					if (log_flags.file_xfer) {
-						msg_printf(
-							fip->project, MSG_INFO, "Permanently failed %s of %s",
-							is_upload?"upload":"download", fip->name
-						);
-					}
-					check_giveup("server rejected file");
-				} else {
-					if (log_flags.file_xfer) {
-						msg_printf(
-							fip->project, MSG_INFO, "Temporarily failed %s of %s",
-							is_upload?"upload":"download", fip->name
-						);
-					}
-					handle_xfer_failure();
-				}
-				// remove fxp from file_xfer_set and deallocate it
-				//
-				gstate.file_xfers->remove(fxp);
-				delete fxp;
-				fxp = NULL;
+                scope_messages.printf(
+                    "PERS_FILE_XFER::poll(): file transfer status %d",
+                    fxp->file_xfer_retval
+                    );
+                if (fxp->file_xfer_retval == 0) {
+                    // The transfer finished with no errors.
+                    if (log_flags.file_xfer) {
+                        msg_printf(
+                            fip->project, MSG_INFO, "Finished %s of %s",
+                            is_upload?"upload":"download", fip->name
+                            );
+                        if (fxp->xfer_speed < 0) {
+                            msg_printf(fip->project, MSG_INFO, "No data transferred");
+                        } else {
+                            msg_printf(
+                                fip->project, MSG_INFO, "Approximate throughput %f bytes/sec",
+                                fxp->xfer_speed
+                                );
+                        }
+                    }
+                    xfer_done = true;
+                } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
+                    if (log_flags.file_xfer) {
+                        msg_printf(
+                            fip->project, MSG_INFO, "Permanently failed %s of %s",
+                            is_upload?"upload":"download", fip->name
+                            );
+                    }
+                    check_giveup("server rejected file");
+                } else {
+                    if (log_flags.file_xfer) {
+                        msg_printf(
+                            fip->project, MSG_INFO, "Temporarily failed %s of %s",
+                            is_upload?"upload":"download", fip->name
+                            );
+                    }
+                    handle_xfer_failure();
+                }
+                // remove fxp from file_xfer_set and deallocate it
+                //
+                gstate.file_xfers->remove(fxp);
+                delete fxp;
+                fxp = NULL;
 
-				return true;
+                return true;
 			}
 		}
 		check_giveup("File downloaded was not the correct file or was garbage from bad URL");
@@ -352,7 +351,8 @@ void PERS_FILE_XFER::retry_or_backoff() {
     // If we reach the URL that we started at, then we have tried all
     // servers without success
     //
-	if (fip->get_next_url(is_upload) == NULL) {
+
+    if (fip->get_next_url(is_upload) == NULL) {
         nretry++;
 
         // Do an exponential backoff of e^nretry seconds,

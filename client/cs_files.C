@@ -201,7 +201,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         //
         if (pfx->xfer_done) {
             fip = pfx->fip;
-			if (fip->generated_locally || fip->upload_when_present) {
+            if (fip->generated_locally || fip->upload_when_present) {
                 // file has been uploaded - delete if not sticky
                 //
                 if (!fip->sticky) {
