@@ -163,24 +163,37 @@ void CLIENT_STATE::parse_env_vars() {
 
     if ((p = getenv("HTTP_PROXY"))) {
         if (strlen(p) > 0) {
-            use_http_proxy = true;
-            parse_url(p, proxy_server_name, proxy_server_port, temp);
+            pi.use_http_proxy = true;
+            parse_url(p, pi.http_server_name, pi.http_server_port, temp);
         }
     }
 
-    if ((p = getenv("SOCKS_SERVER"))) {
+    pi.socks_version = 
+        getenv("SOCKS5_SERVER")?SOCKS_VERSION_5:
+        getenv("SOCKS4_SERVER")?SOCKS_VERSION_4:
+        getenv("SOCKS_SERVER")?SOCKS_VERSION_5:
+        SOCKS_VERSION_5;
+
+    if ((p = getenv("SOCKS4_SERVER"))) {
         if (strlen(p) > 0) {
-            use_socks_proxy = true;
-            parse_url(p, proxy_server_name, proxy_server_port, temp);
+            pi.use_socks_proxy = true;
+            parse_url(p, pi.socks_server_name, pi.socks_server_port, temp);
         }
     }
 
-    if ((p = getenv("SOCKS_USER"))) {
-        safe_strcpy(socks_user_name, p);
+    if ((p = getenv("SOCKS_SERVER")) || (p = getenv("SOCKS5_SERVER"))) {
+        if (strlen(p) > 0) {
+            pi.use_socks_proxy = true;
+            parse_url(p, pi.socks_server_name, pi.socks_server_port, temp);
+        }
     }
 
-    if ((p = getenv("SOCKS_PASSWD"))) {
-        safe_strcpy(socks_user_passwd, p);
+    if ((p = getenv("SOCKS5_USER")) || (p = getenv("SOCKS_USER"))) {
+        safe_strcpy(pi.socks5_user_name, p);
+    }
+
+    if ((p = getenv("SOCKS5_PASSWD"))) {
+        safe_strcpy(pi.socks5_user_passwd, p);
     }
 }
 

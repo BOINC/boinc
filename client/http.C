@@ -247,9 +247,6 @@ HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
-    use_http_proxy = false;
-    proxy_server_port = 0;
-    strcpy(proxy_server_name, "");
 }
 
 HTTP_OP::~HTTP_OP() {
@@ -260,10 +257,11 @@ HTTP_OP::~HTTP_OP() {
 int HTTP_OP::init_head(const char* url) {
     char proxy_buf[256];
     parse_url(url, url_hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    PROXY::init(url_hostname, port);
+    NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     http_op_type = HTTP_OP_HEAD;
     http_op_state = HTTP_STATE_CONNECTING;
-    if (use_http_proxy) {
+    if (pi.use_http_proxy) {
         sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
         sprintf(proxy_buf, "/%s", filename);
@@ -282,14 +280,15 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     }
     file_offset = off;
     parse_url(url, url_hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    PROXY::init(url_hostname, port);
+    NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(outfile, out);
 	if (off != 0){
 		bytes_xferred = off;
 	}
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
-    if (use_http_proxy) {
+    if (pi.use_http_proxy) {
         sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
         sprintf(proxy_buf, "/%s", filename);
@@ -308,7 +307,8 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
 
     parse_url(url, url_hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    PROXY::init(url_hostname, port);
+    NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(infile, in);
     safe_strcpy(outfile, out);
     retval = file_size(infile, size);
@@ -316,7 +316,7 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     content_length = (int)size;
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
-    if (use_http_proxy) {
+    if (pi.use_http_proxy) {
         sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
         sprintf(proxy_buf, "/%s", filename);
@@ -338,7 +338,8 @@ int HTTP_OP::init_post2(
     char proxy_buf[256];
 
     parse_url(url, url_hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    PROXY::init(url_hostname, port);
+    NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     req1 = r1;
     if (in) {
         safe_strcpy(infile, in);
@@ -353,7 +354,7 @@ int HTTP_OP::init_post2(
     content_length += strlen(req1);
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
-    if (use_http_proxy) {
+    if (pi.use_http_proxy) {
         sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
         sprintf(proxy_buf, "/%s", filename);
@@ -403,9 +404,48 @@ bool HTTP_OP_SET::poll() {
                 break;
             }
             if (htp->is_connected) {
-                htp->http_op_state = HTTP_STATE_REQUEST_HEADER;
+                htp->http_op_state = HTTP_STATE_SOCKS_CONNECT;
                 htp->want_upload = true;
                 action = true;
+            }
+            break;
+        case HTTP_STATE_SOCKS_CONNECT:
+            // Since the HTTP layer is synchronous with the proxy layer, we
+            // call proxy_poll() here instead of in do_something()
+            htp->proxy_poll();
+
+            // After negotiation with the proxy is complete, advance to
+            // the next step of the HTTP layer
+            if (htp->proxy_negotiated()) {
+                if (htp->proxy_retval) {
+                    htp->http_op_state = HTTP_STATE_DONE;
+                    htp->http_op_retval = htp->proxy_retval;
+                    switch (htp->proxy_retval) {
+                        case ERR_SOCKS_UNKNOWN_FAILURE:
+                            msg_printf(NULL, MSG_ERROR, "An unknown SOCKS server error occurred\n");
+                            break;
+                        case ERR_SOCKS_REQUEST_FAILED:
+                            msg_printf(NULL, MSG_ERROR, "The SOCKS server denied access for this computer\n");
+                            break;
+                        case ERR_SOCKS_BAD_USER_PASS:
+                            msg_printf(NULL, MSG_ERROR, "Incorrect SOCKS user name and/or password\n");
+                            break;
+                        case ERR_SOCKS_UNKNOWN_SERVER_VERSION:
+                            msg_printf(NULL, MSG_ERROR, "The SOCKS server is using an unknown version\n");
+                            break;
+                        case ERR_SOCKS_UNSUPPORTED:
+                            msg_printf(NULL, MSG_ERROR, "The SOCKS server is using unsupported features unknown to BOINC\n");
+                            break;
+                        case ERR_SOCKS_CANT_REACH_HOST:
+                            msg_printf(NULL, MSG_ERROR, "The SOCKS server is unable to contact the host\n");
+                            break;
+                        case ERR_SOCKS_CONN_REFUSED:
+                            msg_printf(NULL, MSG_ERROR, "The connection from the SOCKS server to the host was refused\n");
+                            break;
+                    }
+                } else {
+                    htp->http_op_state = HTTP_STATE_REQUEST_HEADER;
+                }
             }
             break;
         case HTTP_STATE_REQUEST_HEADER:

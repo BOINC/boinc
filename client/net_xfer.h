@@ -64,6 +64,7 @@ public:
     int file_read_buf_offset, file_read_buf_len;
 
     void init(char* host, int port, int blocksize);
+    int get_ip_addr(int &ip_addr);
     int get_ip_addr(char *hostname, int &ip_addr);
     int open_server();
     void close_socket();

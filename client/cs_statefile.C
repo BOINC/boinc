@@ -148,14 +148,9 @@ int CLIENT_STATE::parse_state_file() {
             // after core client update
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
-        } else if (match_tag(buf, "<use_http_proxy/>")) {
-            use_http_proxy = true;
-        } else if (match_tag(buf, "<use_socks_proxy/>")) {
-            use_socks_proxy = true;
-        } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
-        } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
-        } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
-        } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
+        } else if (match_tag(buf, "<proxy_info>")) {
+            retval = pi.parse(f);
+            if (retval) goto done;
         // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else {
@@ -261,20 +256,7 @@ int CLIENT_STATE::write_state(FILE* f) {
 
     // save proxy info
     //
-    fprintf(f,
-        "%s"
-        "%s"
-        "<proxy_server_name>%s</proxy_server_name>\n"
-        "<proxy_server_port>%d</proxy_server_port>\n"
-        "<socks_user_name>%s</socks_user_name>\n"
-        "<socks_user_passwd>%s</socks_user_passwd>\n",
-        use_http_proxy?"<use_http_proxy/>\n":"",
-        use_socks_proxy?"<use_socks_proxy/>\n":"",
-        proxy_server_name,
-        proxy_server_port,
-        socks_user_name,
-        socks_user_passwd
-    );
+    pi.write(f);
 #if 0
     fprintf(f, "<user_run_request>%d</user_run_request>\n", user_run_request);
 #endif

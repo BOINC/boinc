@@ -117,11 +117,7 @@ int PERS_FILE_XFER::start_xfer() {
     // download or upload for the persistent file transfer
     //
     file_xfer = new FILE_XFER;
-    if (gstate.use_http_proxy) {
-        file_xfer->use_http_proxy = true;
-        safe_strcpy(file_xfer->proxy_server_name, gstate.proxy_server_name);
-        file_xfer->proxy_server_port = gstate.proxy_server_port;
-    }
+    file_xfer->set_proxy(&gstate.pi);
     if (is_upload) {
         if (gstate.exit_before_upload) {
             exit(0);

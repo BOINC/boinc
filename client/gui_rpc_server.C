@@ -150,18 +150,28 @@ static void handle_run_benchmarks(char* buf, FILE* fout) {
 }
 
 static void handle_set_proxy_settings(char* buf, FILE* fout) {
-    string proxy_server_name;
-    int proxy_server_port;
-    if (!parse_str(buf, "<proxy_server_name>", proxy_server_name)) {
-        fprintf(fout, "<error>Proxy server name missing</error>\n");
+    string socks_proxy_server_name,http_proxy_server_name;
+    int socks_proxy_server_port,http_proxy_server_port;
+    if (!parse_str(buf, "<socks_proxy_server_name>", socks_proxy_server_name)) {
+        fprintf(fout, "<error>SOCKS proxy server name missing</error>\n");
         return;
     }
-    if (!parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
-        fprintf(fout, "<error>Proxy server port missing</error>\n");
+    if (!parse_int(buf, "<socks_proxy_server_port>", socks_proxy_server_port)) {
+        fprintf(fout, "<error>SOCKS proxy server port missing</error>\n");
         return;
     }
-    safe_strcpy(gstate.proxy_server_name, proxy_server_name.c_str());
-    gstate.proxy_server_port = proxy_server_port;
+    if (!parse_str(buf, "<http_proxy_server_name>", http_proxy_server_name)) {
+        fprintf(fout, "<error>HTTP proxy server name missing</error>\n");
+        return;
+    }
+    if (!parse_int(buf, "<http_proxy_server_port>", http_proxy_server_port)) {
+        fprintf(fout, "<error>HTTP proxy server port missing</error>\n");
+        return;
+    }
+    safe_strcpy(gstate.pi.socks_server_name, socks_proxy_server_name.c_str());
+    gstate.pi.socks_server_port = socks_proxy_server_port;
+    safe_strcpy(gstate.pi.http_server_name, http_proxy_server_name.c_str());
+    gstate.pi.http_server_port = http_proxy_server_port;
     fprintf(fout, "<success/>\n");
 }
 

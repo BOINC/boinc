@@ -46,6 +46,7 @@ public:
         DEBUG_FILE_XFER,
         DEBUG_SCHED_OP,
         DEBUG_HTTP,
+        DEBUG_PROXY,
         DEBUG_TIME,        // print message on sleep
         DEBUG_NET_XFER,
         DEBUG_MEASUREMENT, // host measurement notices

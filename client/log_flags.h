@@ -45,6 +45,7 @@ public:
     bool file_xfer_debug;
     bool sched_op_debug;
     bool http_debug;
+    bool proxy_debug;
     bool time_debug;        // print message on sleep
     bool net_xfer_debug;
     bool measurement_debug; // host measurement notices

@@ -53,6 +53,7 @@ LOG_FLAGS::LOG_FLAGS() {
     file_xfer_debug = false;
     sched_op_debug = false;
     http_debug = false;
+    proxy_debug = false;
     time_debug = false;
     net_xfer_debug = false;
     measurement_debug = false;
@@ -91,6 +92,9 @@ int LOG_FLAGS::parse(FILE* in) {
             continue;
         } else if (match_tag(buf, "<http_debug/>")) {
             http_debug = true;
+            continue;
+        } else if (match_tag(buf, "<proxy_debug/>")) {
+            proxy_debug = true;
             continue;
         } else if (match_tag(buf, "<time_debug/>")) {
             time_debug = true;

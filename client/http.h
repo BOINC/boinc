@@ -24,7 +24,7 @@
 #ifndef _HTTP_
 #define _HTTP_
 
-#include "net_xfer.h"
+#include "proxy.h"
 
 // official HTTP status codes
 #define HTTP_STATUS_OK              200
@@ -54,7 +54,7 @@ struct HTTP_REPLY_HEADER {
     // of a string and a file w/offset,
     // and the reply goes into a memory buffer
 
-class HTTP_OP : public NET_XFER {
+class HTTP_OP : public PROXY {
 public:
     HTTP_OP();
     ~HTTP_OP();
@@ -75,9 +75,6 @@ public:
     int http_op_type;
     int http_op_retval;
         // zero if success, or a BOINC error code, or an HTTP status code
-    bool use_http_proxy;
-    int proxy_server_port;
-    char proxy_server_name[256];
 
     int init_head(const char* url);
     int init_get(const char* url, char* outfile, bool del_old_file, double offset=0);
@@ -102,13 +99,14 @@ public:
 
 #define HTTP_STATE_IDLE             0
 #define HTTP_STATE_CONNECTING       1
-#define HTTP_STATE_REQUEST_HEADER   2
-#define HTTP_STATE_REQUEST_BODY1    3
+#define HTTP_STATE_SOCKS_CONNECT    2
+#define HTTP_STATE_REQUEST_HEADER   3
+#define HTTP_STATE_REQUEST_BODY1    4
     // sending the string part of a POST2 operation
-#define HTTP_STATE_REQUEST_BODY     4
-#define HTTP_STATE_REPLY_HEADER     5
-#define HTTP_STATE_REPLY_BODY       6
-#define HTTP_STATE_DONE             7
+#define HTTP_STATE_REQUEST_BODY     5
+#define HTTP_STATE_REPLY_HEADER     6
+#define HTTP_STATE_REPLY_BODY       7
+#define HTTP_STATE_DONE             8
 
 extern void parse_url(const char* url, char* host, int &port, char* file);
 

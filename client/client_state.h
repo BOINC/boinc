@@ -79,6 +79,7 @@ public:
     GUI_RPC_CONN_SET gui_rpcs;
     LANGUAGE language;
     TIME_STATS time_stats;
+    PROXY_INFO pi;
 
     int core_client_major_version;
     int core_client_minor_version;
@@ -90,18 +91,12 @@ public:
     bool return_results_immediately;
     bool show_projects;
     bool requested_exit;
-    bool use_http_proxy;
-    bool use_socks_proxy;
-    int proxy_server_port;
     char detach_project_url[256];
         // stores URL for -detach_project option
     char reset_project_url[256];
         // stores URL for -reset_project option
     char update_prefs_url[256];
         // stores URL for -update_prefs option
-    char proxy_server_name[256];
-    char socks_user_name[256];
-    char socks_user_passwd[256];
     char host_venue[256];    // venue, as reported by project that sent us
         // most recent global prefs
     bool exit_before_upload;

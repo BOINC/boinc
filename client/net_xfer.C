@@ -99,6 +99,10 @@ int get_socket_error(int fd) {
     return n;
 }
 
+int NET_XFER::get_ip_addr(int &ip_addr) {
+    return get_ip_addr(hostname,ip_addr);
+}
+
 int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
     hostent* hep;
 

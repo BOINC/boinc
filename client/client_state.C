@@ -81,14 +81,9 @@ CLIENT_STATE::CLIENT_STATE() {
     app_started = 0;
     exit_before_upload = false;
     user_idle = true;
-    use_http_proxy = false;
-    use_socks_proxy = false;
+    pi.clear();
     show_projects = false;
     strcpy(detach_project_url, "");
-    strcpy(proxy_server_name, "");
-    proxy_server_port = 80;
-    strcpy(socks_user_name, "");
-    strcpy(socks_user_passwd, "");
     strcpy(host_venue, "");
     user_run_request = USER_RUN_REQUEST_AUTO;
     started_by_screensaver = false;

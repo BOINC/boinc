@@ -37,6 +37,7 @@ boinc_client_SOURCES =			\
     net_xfer.C					\
     pers_file_xfer.C			\
     prefs.C					    \
+    proxy.C					    \
     scheduler_op.C				\
     ss_logic.C					\
     time_stats.C				\
