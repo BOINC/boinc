@@ -190,24 +190,41 @@ class ResultComputeError:
         self.client_state = RESULT_COMPUTE_DONE
         self.outcome      = RESULT_OUTCOME_CLIENT_ERROR
 
+# TODO: figure out a better way to change settings for the progress meter than
+# kill and refork
 class ProjectList(list):
-    def install(self): map(lambda i: i.install(), self)
-    def run(self):     map(lambda i: i.run(), self)
-    def check(self):   map(lambda i: i.check(), self)
-    def stop(self):    map(lambda i: i.maybe_stop(), self)
+    def __init__(self):
+        list.__init__(self)
+        self.state = '<error>'
+        self.pm_started = False
+    def install(self):         self.state = '<error>'; map(lambda i: i.install(), self)
+    def run(self):             self.set_progress_state('INIT '); map(lambda i: i.run(), self)
+    def run_init_wait(self):   map(lambda i: i.run_init_wait(), self); self.set_progress_state('RUNNING ')
+    def run_finish_wait(self): self.set_progress_state('FINISH '); map(lambda i: i.run_finish_wait(), self); self.state='DONE '
+    def check(self):           map(lambda i: i.check(), self); self.state
+    def stop(self):            map(lambda i: i.maybe_stop(), self)
     def get_progress(self):
-        return "RUNNING " + ' | '.join(
-            map(lambda project: project.short_name+project.progress_meter_status(),
+        return self.state + " " + ' | '.join(
+            map(lambda project: project.short_name+": "+project.progress_meter_status(),
                 self))
     def start_progress_meter(self):
         for project in self:
             project.progress_meter_ctor()
         self.rm = ResultMeter(self.get_progress)
+        self.pm_started = True
     def stop_progress_meter(self):
-        self.rm.stop()
-        for project in self:
-            project.progress_meter_dtor()
-
+        if self.pm_started:
+            self.rm.stop()
+            for project in self:
+                project.progress_meter_dtor()
+            self.pm_started = False
+    def restart_progress_meter(self):
+        if self.pm_started:
+            self.stop_progress_meter()
+            self.start_progress_meter()
+    def set_progress_state(self, state):
+        self.state = state
+        self.restart_progress_meter()
 all_projects = ProjectList()
 
 DEFAULT_NUM_WU = 10
@@ -301,7 +318,13 @@ class TestProject(Project):
         self.sched_install('feeder')
         self.sched_install('transitioner')
         self.start_servers()
-        verbose_sleep("Sleeping to allow server daemons to initialize", 10)
+
+    def run_init_wait(self):
+        time.sleep(5)
+    def run_finish_wait(self):
+        db = self.db_open()
+        while num_wus_assimilated(db) < num_wu:
+            time.sleep(.5)
 
     def check(self):
         verbose_sleep("Sleeping to allow server daemons to finish", 5)
@@ -315,7 +338,7 @@ class TestProject(Project):
     def progress_meter_ctor(self):
         self.db = self.db_open()
     def progress_meter_status(self):
-        return "WUs [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%dtotal]" % (
+        return "WUs: [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%dtotal]" % (
             num_wus_assimilated(self.db), num_wus(self.db), self.num_wu,
             num_results_unsent(self.db),
             num_results_in_progress(self.db),
@@ -324,8 +347,6 @@ class TestProject(Project):
     def progress_meter_dtor(self):
         self.db.close()
         self.db = None
-    def is_test_done(self):
-        return num_wus_assimilated(self.db) >= num_wu
 
     def _disable(self, *path):
         '''Temporarily disable a file to test exponential backoff'''
@@ -404,7 +425,8 @@ class User:
         self.global_prefs = None
 
 class HostList(list):
-    def run(self):   map(lambda i: i.run(), self)
+    def run(self, asynch=False): map(lambda i: i.run(asynch=asynch), self)
+    def stop(self):              map(lambda i: i.stop(), self)
 
 all_hosts = HostList()
 
@@ -457,13 +479,23 @@ class Host:
         if asynch:
             verbose_echo(1, "Running core client asynchronously")
             pid = os.fork()
-            if pid: return pid
+            if pid:
+                self.pid = pid
+                return
         else:
             verbose_echo(1, "Running core client")
         verbose_shell_call("cd %s && %s %s %s > client.out 2> client.err" % (
             self.dir(), builddir('client', options.client_bin_filename),
             self.defargs, args))
         if asynch: os._exit(0)
+    def stop(self):
+        if self.pid:
+            verbose_echo(1, "Stopping core client")
+            try:
+                os.kill(self.pid, 2)
+            except OSError:
+                verbose_echo(0, "Couldn't kill pid %d" % self.pid)
+            self.pid = 0
 
     def read_cpu_time_file(filename):
         try:
@@ -573,10 +605,14 @@ def run_check_all():
     all_projects.install()
     all_projects.run()
     all_projects.start_progress_meter()
+    all_projects.run_init_wait()
     if os.environ.get('TEST_STOP_BEFORE_HOST_RUN'):
         raise SystemExit, 'Stopped due to $TEST_STOP_BEFORE_HOST_RUN'
+    # all_hosts.run(asynch=True)
     all_hosts.run()
+    all_projects.run_finish_wait()
     all_projects.stop_progress_meter()
+    # all_hosts.stop()
     all_projects.stop()
     all_projects.check()
 
