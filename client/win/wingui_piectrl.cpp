@@ -52,6 +52,17 @@ void CPieChartCtrl::AddPiece(LPTSTR szLabel, COLORREF clr, double xValue)
 	CString strLabel;
 	strLabel.Format("%s", szLabel);
 	m_strLabels.Add(strLabel);
+	m_dwData.Add(0);
+}
+
+void CPieChartCtrl::RemovePiece(int nItem)
+{
+	if(nItem >= 0 && nItem < GetItemCount()) {
+		m_xValues.RemoveAt(nItem);
+		m_colors.RemoveAt(nItem);
+		m_strLabels.RemoveAt(nItem);
+		m_dwData.RemoveAt(nItem);
+	}
 }
 
 //////////
@@ -62,9 +73,33 @@ void CPieChartCtrl::AddPiece(LPTSTR szLabel, COLORREF clr, double xValue)
 // function:	changes the piece's value
 void CPieChartCtrl::SetPiece(int nIndex, double xValue)
 {
-	if(nIndex < 0 || nIndex >= m_xValues.GetSize()) return;
+	if(nIndex < 0 || nIndex >= GetItemCount()) return;
 	if(xValue < 0) xValue = 0;
 	m_xValues.SetAt(nIndex, xValue);
+}
+
+//////////
+// CPieChartCtrl::SetPieceLabel
+// arguments:	nIndex: index of label to set
+//				szLabel: the new label
+// returns:		void
+// function:	gives the pie piece at the given index the given label
+void CPieChartCtrl::SetPieceLabel(int nIndex, LPTSTR szLabel)
+{
+	if(nIndex < 0 || nIndex >= GetItemCount()) return;
+	CString strLabel;
+	strLabel.Format("%s", szLabel);
+	m_strLabels.SetAt(nIndex, strLabel);
+}
+
+//////////
+// CPieChartCtrl::GetItemCount
+// arguments:	void
+// returns:		the number of pieces in this pie
+// function:	finds number of pieces in the pie
+int CPieChartCtrl::GetItemCount()
+{
+	return m_xValues.GetSize();
 }
 
 //////////
@@ -121,11 +156,11 @@ void CPieChartCtrl::DrawPiePiece(CDC* pDC, double xStartAngle, double xEndAngle)
 	// set up coordinates
 	poly[0].x = cp.x; poly[0].y = cp.y;
 	EllipsePoint(&rt, xStartAngle + (xEndAngle - xStartAngle) * 0.00f, &poly[1]);
-	CirclePoint(&cp, major * 2, xStartAngle + (xEndAngle - xStartAngle) * 0.00f, &poly[2]);
-	CirclePoint(&cp, major * 2, xStartAngle + (xEndAngle - xStartAngle) * 0.25f, &poly[3]);
-	CirclePoint(&cp, major * 2, xStartAngle + (xEndAngle - xStartAngle) * 0.50f, &poly[4]);
-	CirclePoint(&cp, major * 2, xStartAngle + (xEndAngle - xStartAngle) * 0.75f, &poly[5]);
-	CirclePoint(&cp, major * 2, xStartAngle + (xEndAngle - xStartAngle) * 1.00f, &poly[6]);
+	CirclePoint(&cp, major * 5, xStartAngle + (xEndAngle - xStartAngle) * 0.00f, &poly[2]);
+	CirclePoint(&cp, major * 5, xStartAngle + (xEndAngle - xStartAngle) * 0.25f, &poly[3]);
+	CirclePoint(&cp, major * 5, xStartAngle + (xEndAngle - xStartAngle) * 0.50f, &poly[4]);
+	CirclePoint(&cp, major * 5, xStartAngle + (xEndAngle - xStartAngle) * 0.75f, &poly[5]);
+	CirclePoint(&cp, major * 5, xStartAngle + (xEndAngle - xStartAngle) * 1.00f, &poly[6]);
 	EllipsePoint(&rt, xStartAngle + (xEndAngle - xStartAngle) * 1.00f, &poly[7]);
 	
 	// filled part
@@ -287,27 +322,24 @@ void CPieChartCtrl::OnPaint()
 	GetWindowRect(&wndrect);
 	for(int i = 0; i < m_xValues.GetSize(); i ++) {
 		MemBrush.CreateSolidBrush(m_colors.GetAt(i));
+
 		pOldBrush = MemDC.SelectObject(&MemBrush);
 
-		int texti = i;
-		if(texti == 2) texti = 3;
-		else if(texti == 3) texti = 2;
-
 		// display color box and label
-		if(PIE_BUFFER + 20 + texti * 20 < wndrect.Height() / 2) {
-			textrect.SetRect(PIE_BUFFER + 0, PIE_BUFFER + texti * 20 + 4, PIE_BUFFER + 11, PIE_BUFFER + 20 + texti * 20 - 4);
+		if(PIE_BUFFER + 20 + i * 20 < wndrect.Height() / 2) {
+			textrect.SetRect(PIE_BUFFER + 0, PIE_BUFFER + i * 20 + 4, PIE_BUFFER + 11, PIE_BUFFER + 20 + i * 20 - 4);
 			MemDC.FillRect(&textrect, &MemBrush);
 			MemDC.MoveTo(textrect.left, textrect.top);
 			MemDC.LineTo(textrect.right, textrect.top);
 			MemDC.LineTo(textrect.right, textrect.bottom);
 			MemDC.LineTo(textrect.left, textrect.bottom);
 			MemDC.LineTo(textrect.left, textrect.top);
-			textrect.SetRect(PIE_BUFFER + 16, PIE_BUFFER + texti * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + texti * 20);
+			textrect.SetRect(PIE_BUFFER + 16, PIE_BUFFER + i * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + i * 20);
 			CString strBytes;
 			GetByteString(m_xValues.GetAt(i), &strBytes);
 			CString strBuf;
 			strBuf.Format("%s (%s)", m_strLabels.GetAt(i).GetBuffer(0), strBytes.GetBuffer(0));
-			MemDC.DrawText(strBuf, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT);
+			MemDC.DrawText(strBuf, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT|DT_END_ELLIPSIS);
 		}
 
 		// display pie piece

@@ -43,6 +43,7 @@ public:
 							CProgressBarCtrl();
 
 protected:
+	afx_msg void			OnPaint();
 	afx_msg void			OnLButtonDown(UINT, CPoint);
 	afx_msg void			OnLButtonUp(UINT, CPoint);
 	afx_msg void			OnRButtonDown(UINT, CPoint);

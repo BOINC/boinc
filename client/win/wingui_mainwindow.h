@@ -37,6 +37,7 @@
 
 #define DEF_COL_WIDTH		80			// default width of list columns
 
+#define TOP_BUFFER			5			// buffer pixels around edge of client
 #define EDGE_BUFFER			2			// buffer pixels around edge of client
 
 #define ID_TIMER			104			// timer id
@@ -105,12 +106,14 @@ protected:
 	BOOL					m_bSuspend;				// should apps be suspended?
 	int						m_nContextItem;			// item selected for context menu
 
+	COLORREF				GetPieColor(int);
     void					ShowTab(int);
     void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
+	void					SyncronizePie(CPieChartCtrl*, vector<PROJECT*>*);
     virtual void			PostNcDestroy();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 

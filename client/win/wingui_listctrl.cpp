@@ -23,6 +23,7 @@
 // CProgressHeaderCtrl message map and member functions
 
 BEGIN_MESSAGE_MAP(CProgressBarCtrl, CProgressCtrl)
+	ON_WM_PAINT()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_RBUTTONDOWN()
@@ -35,6 +36,34 @@ END_MESSAGE_MAP()
 // function:	void
 CProgressBarCtrl::CProgressBarCtrl()
 {
+}
+
+//////////
+// CProgressBarCtrl::OnPaint
+// arguments:	void
+// returns:		void
+// function:	writes the progress in text
+void CProgressBarCtrl::OnPaint()
+{
+	CProgressCtrl::OnPaint();
+
+	CString strProg;
+	strProg.Format("%d%%", this->GetPos());
+
+	CClientDC cdc(this);
+	CRect rt;
+	GetClientRect(&rt);
+	rt.top -= 2; rt.right += 2;
+	CFont* pOldFont = NULL;
+	int nOldMode;
+	//COLORREF crOldColor;
+	pOldFont = cdc.SelectObject(GetParent()->GetFont());
+	//crOldColor = cdc.SetTextColor(RGB(0, 0, 64));
+	nOldMode = cdc.SetBkMode(TRANSPARENT);
+	cdc.DrawText(strProg, &rt, DT_CENTER|DT_VCENTER);
+	cdc.SelectObject(pOldFont);
+	//cdc.SetTextColor(crOldColor);
+	cdc.SetBkMode(nOldMode);
 }
 
 //////////
@@ -359,7 +388,7 @@ void CProgressListCtrl::RepositionProgress()
 		m_Progs.GetNextAssoc(pos, strbuf, (CObject*&)pProgCtrl);
 		sscanf(strbuf.GetBuffer(0), "%d:%d", &nItem, &nSubItem);
 		GetSubItemRect(nItem, nSubItem, LVIR_BOUNDS, rt);
-		rt.top ++; rt.left ++;
+		rt.top ++; rt.left +=2;
 		rt.bottom --; rt.right --;
 
 		// if it's over the header, move it to where it can't be seen
@@ -601,6 +630,12 @@ void CProgressListCtrl::GetTextRect(int nItem, int nSubItem, LPRECT lpRect)
 	lpRect->bottom = bottom;
 }
 
+//////////
+// CProgressListCtrl::SetMenuItems
+// arguments:	szTitles: an array of strings which contains the column titles
+//				nLength: the length of the array
+// returns:		void
+// function:	sets up the menu for hiding and showing columns
 void CProgressListCtrl::SetMenuItems(char** szTitles, int nLength)
 {
 	if(m_PopupMenu.GetSafeHmenu()) {
@@ -826,7 +861,30 @@ BOOL CProgressListCtrl::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	// notification from header, user has double clicked a column divider
 	if(phdn->hdr.code == HDN_DIVIDERDBLCLICKA || phdn->hdr.code == HDN_DIVIDERDBLCLICKW) {
 
-		// stop the column from resizing
+		// don't resize if it's hidden
+		if(m_ColWidths.GetAt(phdn->iItem) < 0) {
+			*pResult = TRUE;
+			return TRUE;
+		}
+
+		// find longest string and resize to its length
+		char szTitle[256];
+		int nMax = 0;
+		LVCOLUMN lvcol;
+		ZeroMemory(&lvcol, sizeof(LVCOLUMN));
+		lvcol.mask = LVCF_TEXT;
+		lvcol.pszText = szTitle;
+		lvcol.cchTextMax = 256;
+		GetColumn(phdn->iItem, &lvcol);
+		nMax = GetStringWidth(szTitle) + 12;
+		for(int i = 0; i < GetItemCount(); i ++) {
+			CString strBuf;
+			strBuf = GetItemText(i, phdn->iItem);
+			int nWidth = GetStringWidth(strBuf) + 12;
+			if(nWidth > nMax) nMax = nWidth;
+		}
+		SetColumnWidth(phdn->iItem, nMax);
+
 		*pResult = TRUE;
 		return TRUE;
 	}

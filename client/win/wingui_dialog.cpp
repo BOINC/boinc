@@ -235,13 +235,13 @@ BOOL CProxyDialog::OnInitDialog()
 
 	// fill in http
 	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
-	if(pBtn) pBtn->SetCheck(gstate.use_proxy?BST_CHECKED:BST_UNCHECKED);
+	if(pBtn) pBtn->SetCheck(gstate.use_http_proxy?BST_CHECKED:BST_UNCHECKED);
 	SetDlgItemText(IDC_EDIT_HTTP_ADDR, gstate.proxy_server_name);
 	CString portBuf;
 	if(gstate.proxy_server_port > 0) portBuf.Format("%d", gstate.proxy_server_port);
 	else portBuf.Format("80");
 	SetDlgItemText(IDC_EDIT_HTTP_PORT, portBuf.GetBuffer(0));
-	EnableHttp(gstate.use_proxy);
+	EnableHttp(gstate.use_http_proxy);
 	
 	// fill in socks
 	pBtn = (CButton*)GetDlgItem(IDC_CHECK_SOCKS);
@@ -325,9 +325,9 @@ void CProxyDialog::OnOK()
 	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
 	if(pBtn) {
 		if(pBtn->GetCheck() == BST_CHECKED) {
-			gstate.use_proxy = true;
+			gstate.use_http_proxy = true;
 		} else {
-			gstate.use_proxy = false;
+			gstate.use_http_proxy = false;
 		}
 	}
 	GetDlgItemText(IDC_EDIT_HTTP_ADDR, strbuf);

@@ -41,17 +41,22 @@ class CPieChartCtrl : public CWnd
 public:
 							CPieChartCtrl();
 	void					AddPiece(LPTSTR, COLORREF, double);
+	void					RemovePiece(int);
 	void					SetPiece(int, double);
+	void					SetPieceLabel(int, LPTSTR); 
 	BOOL					Create(DWORD, const RECT&, CWnd*, UINT);
 	void					SetFont(CFont*);
 	void					SetTotal(double);
+	int						GetItemCount();
 
 protected:
 	double					m_xTotal;				// total amount of pie
 	CArray<double,double>	m_xValues;				// specific values of pieces
 	CArray<COLORREF,COLORREF>	m_colors;			// colors of pieces
 	CArray<CString,CString>		m_strLabels;		// labels of pieces
+	CArray<DWORD,DWORD>		m_dwData;				// data for pieces
 	CFont*					m_pFont;				// font for control
+
 
 	void					DrawPiePiece(CDC*, double, double);
 	void					CirclePoint(CPoint*, int, double, CPoint*);

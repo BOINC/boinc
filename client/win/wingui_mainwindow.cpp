@@ -51,7 +51,9 @@ BOOL CMyApp::InitInstance()
 		m_pMainWnd->ShowWindow(SW_SHOW);
 
 	m_pMainWnd->UpdateWindow();
-//    NetOpen();
+	if(gstate.projects.size() == 0) {
+		((CMainWindow*)m_pMainWnd)->SendMessage(WM_COMMAND, ID_SETTINGS_LOGIN);
+	}
     return TRUE;
 }
 
@@ -103,6 +105,33 @@ CMainWindow::CMainWindow()
     CreateEx(0, strWndClass, WND_TITLE, WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, NULL);
+}
+
+//////////
+// CMainWindow::GetPieColor
+// arguments:	nPiece: index of pie piece
+// returns:		the color that piece should be
+// function:	detemines colors for pie pieces in usage control
+COLORREF CMainWindow::GetPieColor(int nPiece)
+{
+	int nR = 0, nG = 0, nB = 0;
+	if(nPiece == 0) {
+		return RGB(255, 0, 255);
+	} else if(nPiece == 1) {
+		return RGB(192, 64, 192);
+	}
+	nPiece -= 2;
+	switch(nPiece % 4) {
+		case 0:
+			return RGB(0, 0, 255);
+		case 1:
+			return RGB(64, 0, 192);
+		case 2:
+			return RGB(128, 0, 128);
+		default:
+			return RGB(192, 0, 64);
+	}
+	return RGB(0, 0, 0);
 }
 
 //////////
@@ -296,10 +325,28 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	double xDiskUsed = xDiskTotal - xDiskFree;
 	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow);
 	double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
+
+	while(m_UsagePieCtrl.GetItemCount() - 4 < gstate.projects.size()) {
+		m_UsagePieCtrl.AddPiece("", GetPieColor(m_UsagePieCtrl.GetItemCount()), 0);
+	}
+
+	while(m_UsagePieCtrl.GetItemCount() - 4 > gstate.projects.size()) {
+		m_UsagePieCtrl.RemovePiece(m_UsagePieCtrl.GetItemCount() - 1);
+	}
+
 	m_UsagePieCtrl.SetTotal(xDiskTotal);
-	m_UsagePieCtrl.SetPiece(0, xDiskUsed - xDiskUsage); // Used (non-BOINC)
-	m_UsagePieCtrl.SetPiece(1, xDiskFree - (xDiskAllow - xDiskUsage)); // Free (non-BOINC)
-	m_UsagePieCtrl.SetPiece(2, xDiskAllow - xDiskUsage); // Free (non-BOINC)
+	m_UsagePieCtrl.SetPiece(0, xDiskFree - (xDiskAllow - xDiskUsage)); // Free (non-BOINC)
+	m_UsagePieCtrl.SetPiece(1, xDiskAllow - xDiskUsage); // Free (BOINC)
+	m_UsagePieCtrl.SetPiece(2, xDiskUsed - xDiskUsage); // Used (non-BOINC)
+	for(i = 0; i < gstate.projects.size(); i ++) {
+		double xUsage;
+		CString strLabel;
+		strLabel.Format("Used space: %s", gstate.projects[i]->project_name);
+		gstate.project_disk_usage(gstate.projects[i], xUsage);
+		m_UsagePieCtrl.SetPieceLabel(i + 4, strLabel.GetBuffer(0));
+		m_UsagePieCtrl.SetPiece(i + 4, xUsage);
+		xDiskUsage -= xUsage;
+	}
 	m_UsagePieCtrl.SetPiece(3, xDiskUsage); // Used (BOINC)
 	m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
@@ -324,14 +371,15 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, char* szPriority
 {
 	if(!m_MessageListCtrl.GetSafeHwnd()) return;
 
-	m_MessageListCtrl.InsertItem(0, szProject);
+	int nNewPos = m_MessageListCtrl.GetItemCount();
+	m_MessageListCtrl.InsertItem(nNewPos, szProject);
 
 	CTime curTime = CTime::GetCurrentTime();
 	CString strTime;
 	strTime = curTime.Format("%c");
-	m_MessageListCtrl.SetItemText(0, 1, strTime);
+	m_MessageListCtrl.SetItemText(nNewPos, 1, strTime);
 
-	m_MessageListCtrl.SetItemText(0, 2, szMessage);
+	m_MessageListCtrl.SetItemText(nNewPos, 2, szMessage);
 	
 	// set status icon to flash
 	if(!strcmp(szPriority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
@@ -697,6 +745,51 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 }
 
 //////////
+// CMainWindow::SyncronizePie
+// arguments:	pPie: pointer to a pie chart control
+//				pVect: pointer to a vector of projects
+// returns:		void
+// function:	like syncronize but for pie charts
+void CMainWindow::SyncronizePie(CPieChartCtrl* pPie, vector<PROJECT*>* pVect)
+{
+	/*
+	int i, j;
+
+	// add items to list that are not already in it
+	for(i = 0; i < pVect->size(); i ++) {
+		PROJECT* item = (*pVect)[i];
+		BOOL contained = false;
+		for(j = 0; j < pPie->GetItemCount(); j ++) {
+			if((DWORD)item == pPie->GetPieceData(j)) {
+				contained = true;
+				break;
+			}
+		}
+		if(!contained) {
+			pPie->AddPiece(item->project_name, RGB());
+			pPie->SetPieceData(i, (DWORD)item);
+		}
+	}
+
+	// remove items from list that are not in vector
+	// now just set the pointer to NULL but leave the item in the list
+	for(i = 0; i < pPie->GetItemCount(); i ++) {
+		DWORD item = pPie->GetItemData(i);
+		BOOL contained = false;
+		for(j = 0; j < pVect->size(); j ++) {
+			if(item == (DWORD)(*pVect)[j]) {
+				contained = true;
+				break;
+			}
+		}
+		if(!contained) {
+			pPie->SetPieceData(i, (DWORD)NULL);
+		}
+	}
+	*/
+}
+
+//////////
 // CMainWindow::PostNcDestroy
 // arguments:	void
 // returns:		void
@@ -1029,7 +1122,6 @@ void CMainWindow::OnCommandExit()
 	// quit
 	gstate.exit();
 	PostQuitMessage(0);
-	//NetClose();
 	KillTimer(ID_TIMER);
 
 	// status icon in taskbar
@@ -1051,7 +1143,7 @@ void CMainWindow::OnCommandExit()
 		TermFn fn;
 		fn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
 		if(!fn) {
-			MessageUser("", "Error in DLL \"boinc.dll\"", "low");
+			show_message("Error in DLL \"boinc.dll\"", "low");
 		} else {
 			fn();
 		}
@@ -1129,10 +1221,10 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// create usage pie control
 	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.AddPiece("Used space (Non-BOINC)", RGB(0, 0, 255), 0);
-	m_UsagePieCtrl.AddPiece("Free space (Non-BOINC)", RGB(255, 0, 255), 0);
-	m_UsagePieCtrl.AddPiece("Free space (BOINC)", RGB(192, 0, 192), 0);
-	m_UsagePieCtrl.AddPiece("Used space (BOINC)", RGB(0, 0, 192), 0);
+	m_UsagePieCtrl.AddPiece("Free space: not available for use", GetPieColor(0), 0);
+	m_UsagePieCtrl.AddPiece("Free space: available for use", GetPieColor(1), 0);
+	m_UsagePieCtrl.AddPiece("Used space: other than BOINC", GetPieColor(2), 0);
+	m_UsagePieCtrl.AddPiece("Used space: BOINC", GetPieColor(3), 0);
 
 	// set up image list for tab control
 	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, 5, 1);
@@ -1154,7 +1246,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabCtrl.InsertItem(2, "Work", 1);
 	m_TabCtrl.InsertItem(3, "Transfers", 2);
 	m_TabCtrl.InsertItem(4, "Messages", 3);
-	m_TabCtrl.InsertItem(5, "Usage", 4);
+	m_TabCtrl.InsertItem(5, "Disk", 4);
 
 	// make all fonts the same nice font
 	CFont* pFont;
@@ -1204,18 +1296,18 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// load dll and start idle detection
 	m_hIdleDll = LoadLibrary("boinc.dll");
 	if(!m_hIdleDll) {
-		MessageUser("", "Can't load \"boinc.dll\", will not be able to determine idle time", "high");
+		show_message("Can't load \"boinc.dll\", will not be able to determine idle time", "high");
 	} else {
 		typedef BOOL (CALLBACK* InitFn)();
 		InitFn fn;
 		fn = (InitFn)GetProcAddress(m_hIdleDll, "IdleTrackerInit");
 		if(!fn) {
-			MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
+			show_message("Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
 			FreeLibrary(m_hIdleDll);
 			m_hIdleDll = NULL;
 		} else {
 			if(!fn()) {
-				MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
+				show_message("Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
 				FreeLibrary(m_hIdleDll);
 				m_hIdleDll = NULL;
 			}
@@ -1337,14 +1429,14 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 	CWnd::OnSize(nType, cx, cy);
 
 	// calculate the main rect for the tab control
-	RECT rt = {EDGE_BUFFER, EDGE_BUFFER, cx-EDGE_BUFFER, cy-EDGE_BUFFER*2};
+	RECT rt = {EDGE_BUFFER, TOP_BUFFER, cx-EDGE_BUFFER, cy-EDGE_BUFFER*2};
 	RECT irt = {0, 0, 0, 0};
 	if(m_TabCtrl.GetSafeHwnd()) {
 		m_TabCtrl.MoveWindow(&rt, false);
 		m_TabCtrl.GetItemRect(0, &irt);
 
 		// calculate the rects for other controls inside the tab control
-		RECT srt = {rt.left+EDGE_BUFFER, irt.bottom+EDGE_BUFFER*2, rt.right-EDGE_BUFFER, rt.bottom-EDGE_BUFFER};
+		RECT srt = {rt.left+EDGE_BUFFER, irt.bottom+EDGE_BUFFER*2+TOP_BUFFER, rt.right-EDGE_BUFFER, rt.bottom-EDGE_BUFFER};
 		if(m_ProjectListCtrl.GetSafeHwnd()) {
 			m_ProjectListCtrl.MoveWindow(&srt, false);
 			m_ProjectListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
