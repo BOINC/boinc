@@ -36,6 +36,7 @@ reqeval_log()
 
 if [ -z "$USER" ]; then
     USER=$LOGNAME
+    export USER
 fi
 
 reqeval "rm -rf $TMPDIR"

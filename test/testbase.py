@@ -27,11 +27,10 @@ or you are running from the wrong directory.""")
 
 from boinc import *
 import atexit, traceback, signal
-
-# raise SystemExit('hi')
-# raise Exception('Hi')
+import cgiserver
 
 options.have_init_t = False
+options.echo_overwrite = False
 
 def test_init():
     if options.have_init_t: return
@@ -42,7 +41,9 @@ def test_init():
     if not os.path.exists('test_uc.py'):
         raise SystemExit('Could not find boinc_db.py anywhere')
 
-    options.auto_setup     = int(get_env_var("BOINC_TEST_AUTO_SETUP",0)) ####
+    options.program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
+
+    options.auto_setup     = int(get_env_var("BOINC_TEST_AUTO_SETUP",0))#######
     options.user_name      = get_env_var("BOINC_TEST_USER_NAME", '') or get_env_var("USER")
     options.delete_testbed = get_env_var("BOINC_TEST_DELETE", 'if-successful').lower()
     options.install_method = get_env_var("BOINC_TEST_INSTALL_METHOD", 'symlink').lower()
@@ -51,6 +52,8 @@ def test_init():
     options.drop_db_first  = True
 
     if options.auto_setup:
+        cgiserver.setup_php(program_path = options.program_path)
+
         options.auto_setup_basedir = 'run-%d'%os.getpid()
         verbose_echo(0, "Creating testbed in %s"%options.auto_setup_basedir)
         os.mkdir(options.auto_setup_basedir)
@@ -62,18 +65,18 @@ def test_init():
             os.symlink(options.auto_setup_basedir, 'run')
         except OSError:
             pass
-        options.miniserv_basedir = os.path.join(os.getcwd(), options.auto_setup_basedir)
-        options.miniserv_port    = 15000 + (os.getpid() % 1000)
-        options.miniserv_baseurl = 'http://localhost:%d/' % options.miniserv_port
-        miniserver = MiniServer(options.miniserv_port, options.miniserv_basedir)
-        miniserver.run()
-        options.projects_dir = os.path.join(options.miniserv_basedir, 'projects')
-        options.cgi_dir      = os.path.join(options.miniserv_basedir, 'cgi-bin')
-        options.html_dir     = os.path.join(options.miniserv_basedir, 'html')
-        options.hosts_dir    = os.path.join(options.miniserv_basedir, 'hosts')
-        options.cgi_url      = os.path.join(options.miniserv_baseurl, 'cgi-bin')
-        options.html_url     = os.path.join(options.miniserv_baseurl, 'html')
-        options.port         = options.miniserv_port
+        options.cgiserver_basedir = os.path.join(os.getcwd(), options.auto_setup_basedir)
+        options.cgiserver_port    = 15000 + (os.getpid() % 1000)
+        options.cgiserver_baseurl = 'http://localhost:%d/' % options.cgiserver_port
+        CgiServer = AsynchCGIServer()
+        CgiServer.serve(base_dir=options.auto_setup_basedir, port=options.cgiserver_port)
+        options.projects_dir = os.path.join(options.cgiserver_basedir, 'projects')
+        options.cgi_dir      = os.path.join(options.cgiserver_basedir, 'cgi-bin')
+        options.html_dir     = os.path.join(options.cgiserver_basedir, 'html')
+        options.hosts_dir    = os.path.join(options.cgiserver_basedir, 'hosts')
+        options.cgi_url      = os.path.join(options.cgiserver_baseurl, 'cgi-bin')
+        options.html_url     = os.path.join(options.cgiserver_baseurl, 'html')
+        options.port         = options.cgiserver_port
         map(os.mkdir, [options.projects_dir, options.cgi_dir, options.html_dir, options.hosts_dir])
     else:
         options.key_dir      = get_env_var("BOINC_TEST_KEY_DIR")
@@ -628,7 +631,7 @@ def run_check_all():
 
 def delete_test():
     '''Delete all test data'''
-    if options.auto_setup:
+    if options.auto_setup and hasattr(options,'auto_setup_basedir'):
         verbose_echo(1, "Deleting testbed %s."%options.auto_setup_basedir)
         shutil.rmtree(options.auto_setup_basedir)
 
@@ -664,54 +667,29 @@ class Proxy:
             self.pid = 0
 
 
-class MiniServer:
-    def __init__(self, port, doc_root, miniserv_root=None):
-        self.port = port
-        self.doc_root = doc_root
-        self.miniserv_root = miniserv_root or os.path.join(doc_root,'miniserv')
-        if not os.path.isdir(self.miniserv_root):
-            os.mkdir(self.miniserv_root)
-        self.config_file = os.path.join(self.miniserv_root, 'miniserv.conf')
-        self.log_file = os.path.join(self.miniserv_root, 'miniserv.log')
-        self.pid_file = os.path.join(self.miniserv_root, 'miniserv.pid')
-        print >>open(self.config_file,'w'), '''
-root=%(doc_root)s
-mimetypes=/etc/mime.types
-port=%(port)d
-addtype_cgi=internal/cgi
-addtype_php=internal/cgi
-index_docs=index.html index.htm index.cgi index.php
-logfile=%(log_file)s
-pidfile=%(pid_file)s
-logtime=168
-ssl=0
-#logout=/etc/webmin/logout-flag
-#libwrap=1
-#alwaysresolve=1
-#allow=127.0.0.1
-blockhost_time=300
-no_pam=0
-logouttime=5
-passdelay=1
-blockhost_failures=3
-log=1
-logclear=
-loghost=1
-''' %self.__dict__
 
-    def run(self):
-        verbose_echo(0,"Running miniserv on localhost:%d"%self.port)
-        if os.spawnl(os.P_WAIT, srcdir('test/miniserv.pl'), 'miniserv', self.config_file):
-            raise SystemExit("Couldn't spawn miniserv")
-        atexit.register(self.stop)
-
-    def stop(self):
-        verbose_echo(1,"Killing miniserv")
-        try:
-            pid = int(open(self.pid_file).readline())
-            os.kill(pid, signal.SIGINT)
-        except Exception, e:
-            print >>sys.stderr, "Couldn't stop miniserv:", e
+class AsynchCGIServer:
+    def __init__(self):
+        self.pid = None
+    def serve(self, port, base_dir):
+        verbose_echo(0,"Running CGI server on localhost:%d"%port)
+        self.pid = os.fork()
+        if self.pid:
+            atexit.register(self.kill)
+            return
+        ## child
+        os.chdir(base_dir)
+        sys.stderr = open('cgiserver.log', 'w')
+        cgiserver.serve(port=port)
+        os._exit(1)
+    def kill(self):
+        if self.pid:
+            verbose_echo(1,"Killing cgiserver")
+            try:
+                os.kill(self.pid, 9)
+            except Exception:
+                verbose_echo(0, "Couldn't kill cgiserver pid %d" %self.pid)
+            self.pid = None
 
 def test_msg(msg):
     print
