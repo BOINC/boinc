@@ -17058,3 +17058,22 @@ David  5 Sept 2004
         gui_rpc_server.C
     lib/
         gui_rpc_client.C,h
+
+
+David  5 Sept 2004
+    - Bug fixes for recent forum changes (from Janus K)
+
+    NOTE: if you've already added the forum_preferences table,
+        you'll need to do a DB update to add a new field
+        (see html/ops/db_update.php)
+
+    db/
+        schema.sql
+    html/
+        inc/
+            forum.inc
+        ops/
+            db_update.php
+        user/
+            forum_forum.php
+            forum_thread.php

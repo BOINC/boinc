@@ -376,6 +376,7 @@ create table forum_preferences (
     images_as_links     tinyint(1) unsigned not null default 0,
     link_popup          tinyint(1) unsigned not null default 0,
     mark_as_read_timestamp integer not null default 0,
+    special_user        integer not null default 0,
     primary key (userid)
 ) type=MyISAM; 
 

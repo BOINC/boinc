@@ -16,7 +16,7 @@ define('ST_NEW', 'New member');
 
 
 define('FORUM_OPEN_LINK_IN_NEW_WINDOW',1);
-define('MAX_FORUM_LOGGING_TIME', 172800); //3600*24*2 - 2 days
+define('MAX_FORUM_LOGGING_TIME', 604800); //3600*24*7 - 7 days
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
 define('HELPDESK_CONTROLS', 2);
@@ -213,6 +213,7 @@ function getForumPreferences($user){
 	$user->no_signature_by_default=$prefs->no_signature_by_default;
 	$user->link_popup=$prefs->link_popup;
 	$user->mark_as_read_timestamp=$prefs->mark_as_read_timestamp;
+	$user->special_user=$prefs->special_user;
 	$user->forum_preferences=1;
     } else {
         mysql_query("insert into forum_preferences set userid='".$user->id."'");
@@ -222,19 +223,33 @@ function getForumPreferences($user){
 }
 
 function getSortStyle($user,$place){
-    list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
+    if ($user->id!=""){
+	list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
+    } else {
+        list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);
+    }
     return $$place;
 }
 
 function setSortStyle($user,$place,$new_style){
-    list($forum,$thread,$faq,$answer)=explode("|",$user->forum_sorting);
-    $$place=$new_style;
-    $user->forum_sorting=implode("|",array($forum,$thread,$faq,$answer));
-    $sql = "UPDATE forum_preferences SET sorting = '".$user->forum_sorting."' where userid = '".$user->id."'";
-    mysql_query($sql);
+    if ($user->id!=""){
+	list($forum,$thread,$faq,$answer)=explode("|",$user->forum_sorting);
+	$$place=$new_style;
+	$user->forum_sorting=implode("|",array($forum,$thread,$faq,$answer));
+	$sql = "UPDATE forum_preferences SET sorting = '".$user->forum_sorting."' where userid = '".$user->id."'";
+	mysql_query($sql);
+    } else {
+        list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);
+	$$place=$new_style;
+        setcookie('sorting', implode("|",array($forum,$thread,$faq,$answer)), time()+3600*24*365);
+    }	
 }
 
 function getThreadLastVisited($user, $thread){
+    if ($user->id==""){					//Disable read/unread stuff for users that are not logged in
+	$user->thread_last_visited=time();		//Always display as visited
+	return $user;
+    }
     $sql = "SELECT timestamp from forum_logging where userid='".$user->id."' and threadid='".$thread->id."'";
     $result = mysql_query($sql);
     if ($result) {
@@ -413,12 +428,12 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     echo user_links($user, URL_BASE);
     
-    if ($user->rights) {									//If this user is somehow special
-	if ($user->rights==1) $fstatus=ST_ADMIN;						//this is displayed in the forums
-	if ($user->rights==2) $fstatus=ST_MODERATOR;						//so that people know who they are
-	if ($user->rights==3) $fstatus=ST_DEV;							//talking to.
-	if ($user->rights==4) $fstatus=ST_VOLDEV;
-	if ($user->rights==5) $fstatus=ST_SCIENT;
+    if ($user->special_user) {									//If this user is somehow special
+	if ($user->special_user==1) $fstatus=ST_ADMIN;						//this is displayed in the forums
+	if ($user->special_user==2) $fstatus=ST_MODERATOR;					//so that people know who they are
+	if ($user->special_user==3) $fstatus=ST_DEV;						//talking to.
+	if ($user->special_user==4) $fstatus=ST_VOLDEV;
+	if ($user->special_user==5) $fstatus=ST_SCIENT;
 	/*...*/
     } else {
 	if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;

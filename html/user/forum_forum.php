@@ -22,6 +22,8 @@ if (!array_key_exists('start', $_GET) || $_GET['start'] < 0) {
 
 $forum = getForum($_GET['id']);
 $category = getCategory($forum->category);
+$logged_in_user = get_logged_in_user(false);
+$logged_in_user = getForumPreferences($logged_in_user);
 
 if ($category->is_helpdesk) {
     $sort_style = $_GET['sort'];
@@ -74,7 +76,6 @@ if ($category->is_helpdesk) {
 echo "<input type=submit value=OK></td>\n";
 
 echo "</tr>\n</table>\n</form>";
-
 show_forum($category, $forum, $start, $sort_style, $logged_in_user);
 
 page_tail();

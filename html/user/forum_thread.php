@@ -29,22 +29,19 @@ $logged_in_user = get_logged_in_user(false);
 $logged_in_user = getForumPreferences($logged_in_user);
 
 if ($category->is_helpdesk) {
-	page_head(PROJECT.': Questions and problems');
 	if (!$sort_style) {
     	    $sort_style = getSortStyle($logged_in_user,"answer");
 	} else {
     	    setSortStyle($logged_in_user,"answer", $sort_style);
-	    //);setcookie('thread_sort_style', $sort_style, time()+3600*24*365);
 	}
-	
+	page_head(PROJECT.': Questions and problems');	
 } else {
-	page_head(PROJECT.': Message boards');
 	if (!$sort_style) {
     	    $sort_style = getSortStyle($logged_in_user,"thread");
 	} else {
     	    setSortStyle($logged_in_user,"thread", $sort_style);
-	    //);setcookie('thread_sort_style', $sort_style, time()+3600*24*365);
 	}
+	page_head(PROJECT.': Message boards');
 }
 
 // TODO: Constant for default sort style and filter values.

@@ -94,6 +94,12 @@ function update_9_04_2004() {
         "insert into forum_preferences (userid, signature, posts) select user.id, user.signature, user.posts from user where user.posts > 0 or user.signature<>''");
 }
 
-//update_9_04_2004();
+function update_9_05_2004() {
+    mysql_query(
+        "ALTER TABLE forum_preferences ADD special_user INT NOT NULL"
+    );
+}
+
+//update_9_05_2004();
 
 ?>
