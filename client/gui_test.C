@@ -18,7 +18,13 @@
 //
 
 // gui_test: test program for BOINC GUI RPCs.
-// Does a single RPC and shows results
+// usages:
+// -state       show state
+// -msgs        show messages
+// -show_graphics_window result_name    show graphics for result in a window
+// -show_graphics_window                show graphics for all results
+// -show_graphics_full result_name      show full-screen graphics for result
+
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -72,7 +78,8 @@ int main(int argc, char** argv) {
 
     if (!strcmp(argv[1], "-state")) {
         rpc.get_state();
-        rpc.print();
+        rpc.print_state();
+    } else if (!strcmp(argv[1], "-msgs")) {
         rpc.get_messages(20, 0, message_descs);
         for (i=0; i<message_descs.size(); i++) {
             MESSAGE_DESC& md = message_descs[i];
@@ -84,6 +91,14 @@ int main(int argc, char** argv) {
         rpc.set_run_mode(RUN_MODE_NEVER);
     } else if (!strcmp(argv[1], "-resume")) {
         rpc.set_run_mode(RUN_MODE_ALWAYS);
+    } else if (!strcmp(argv[1], "-show_graphics_window")) {
+        if (argc == 3) {
+            rpc.show_graphics(argv[2], false);
+        } else {
+            rpc.show_graphics(0, false);
+        }
+    } else if (!strcmp(argv[1], "-show_graphics_full")) {
+        rpc.show_graphics(argv[2], true);
     }
 
 #ifdef _WIN32

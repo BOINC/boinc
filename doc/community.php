@@ -64,7 +64,11 @@ and from several BOINC-based projects:
 <li> BOINC beta test: http://setiboinc.ssl.berkeley.edu/ap/rss_main.php
 </ul>
 <h2>Other</h2>
-For other information, contact Dr. David P. Anderson,
+A good summary of distributed computing projects,
+including those based on BOINC, is at
+<a href=http://www.aspenleaf.com/distributed/>www.aspenleaf.com</a>.
+<p>
+For inquiries about BOINC, contact Dr. David P. Anderson,
 the director of the BOINC project, at davea at ssl.berkeley.edu.
 If you have problems with the BOINC software for Windows please email
 Rom Walton: rwalton at ssl.berkeley.edu.

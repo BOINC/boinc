@@ -84,6 +84,11 @@ show_link(
     "http://boinc.oocp.org/"
 );
 show_link(
+    "Polish",
+    "www.boinc.pl",
+    "http://www.boinc.pl"
+);
+show_link(
     "Russian",
     "www.boinc.narod.ru",
     "http://www.boinc.narod.ru"

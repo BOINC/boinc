@@ -71,24 +71,34 @@ static PROJECT* get_project(char* buf, MIOFILE& fout) {
 
 static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 	string result_name;
+    ACTIVE_TASK* atp;
+
     PROJECT* p = get_project(buf, fout);
     if (!p) return;
 
-	if (!parse_str(buf, "<result_name>", result_name)) {
-		fout.printf("<error>Missing result name</error>\n");
-		return;
-	}
-	RESULT* rp = gstate.lookup_result(p, result_name.c_str());
-	if (!rp) {
-		fout.printf("<error>No such result</error>\n");
-		return;
-	}
-	ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
-    if (!atp) {
-		fout.printf("<error>Result not active</error>\n");
-		return;
-	}
-    atp->request_graphics_mode(MODE_WINDOW);
+	if (parse_str(buf, "<result_name>", result_name)) {
+        RESULT* rp = gstate.lookup_result(p, result_name.c_str());
+        if (!rp) {
+            fout.printf("<error>No such result</error>\n");
+            return;
+        }
+        atp = gstate.lookup_active_task_by_result(rp);
+        if (!atp || atp->scheduler_state != CPU_SCHED_RUNNING) {
+            fout.printf("<error>Result not active</error>\n");
+            return;
+        }
+        if (match_tag(buf, "<full_screen/>")) {
+            atp->request_graphics_mode(MODE_FULLSCREEN);
+        } else {
+            atp->request_graphics_mode(MODE_WINDOW);
+        }
+    } else {
+        for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+            atp = gstate.active_tasks.active_tasks[i];
+            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+            atp->request_graphics_mode(MODE_WINDOW);
+        }
+    }
 	fout.printf("<success/>\n");
 }
 
@@ -103,7 +113,7 @@ static void handle_project_reset(char* buf, MIOFILE& fout) {
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
 	string url, authenticator;
-	if (!parse_str(buf, "<url>", url)) {
+	if (!parse_str(buf, "<project_url>", url)) {
 		fout.printf("<error>Missing URL</error>\n");
 		return;
 	}

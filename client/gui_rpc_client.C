@@ -98,7 +98,7 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
 int RPC_CLIENT::get_state() {
     char buf[256];
     PROJECT* project;
-    char* mbuf;
+    char* mbuf=0;
 
     send_request("<get_state/>\n");
     get_reply(mbuf);
@@ -165,29 +165,90 @@ int RPC_CLIENT::get_state() {
     return 0;
 }
 
-int RPC_CLIENT::result_show_graphics(RESULT& result) {
+int RPC_CLIENT::show_graphics(char* result_name, bool full_screen) {
+    char buf[256];
+    char* mbuf=0;
+    if (result_name) {
+        sprintf(buf, "<result_show_graphics>\n"
+            "<result_name>%s</result_name>\n"
+            "%s"
+            "</result_show_graphics>\n",
+            result_name,
+            full_screen?"<full_screen/>\n":""
+        );
+    } else {
+        strcpy(buf, "<result_show_graphics>\n</result_show_graphics>\n");
+    }
+    send_request(buf);
+    get_reply(mbuf);
+    if (mbuf) free(mbuf);
     return 0;
 }
 
-int RPC_CLIENT::project_reset(PROJECT& project) {
+int RPC_CLIENT::project_reset(char* url) {
+    char buf[256];
+    char* mbuf=0;
+    sprintf(buf,
+        "<project_reset>\n"
+        "  <project_url>%s</project_url>\n"
+        "</project_reset>\n",
+        url
+    );
+    send_request(buf);
+    get_reply(mbuf);
+    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::project_attach(char* url, char* auth) {
+    char buf[256];
+    char* mbuf=0;
+    sprintf(buf,
+        "<project_attach>\n"
+        "  <project_url>%s</project_url>\n"
+        "  <authenticator>%s</authenticator>\n"
+        "</project_attach>\n",
+        url, auth
+    );
+    send_request(buf);
+    get_reply(mbuf);
+    if (mbuf) free(mbuf);
     return 0;
 }
 
-int RPC_CLIENT::project_detach(PROJECT&) {
+int RPC_CLIENT::project_detach(char* url) {
+    char buf[256];
+    char* mbuf=0;
+    sprintf(buf,
+        "<project_detach>\n"
+        "  <project_url>%s</project_url>\n"
+        "</project_detach>\n",
+        url
+    );
+    send_request(buf);
+    get_reply(mbuf);
+    if (mbuf) free(mbuf);
     return 0;
 }
 
-int RPC_CLIENT::project_update(PROJECT&) {
+int RPC_CLIENT::project_update(char* url) {
+    char buf[256];
+    char* mbuf=0;
+    sprintf(buf,
+        "<project_update>\n"
+        "  <project_url>%s</project_url>\n"
+        "</project_update>\n",
+        url
+    );
+    send_request(buf);
+    get_reply(mbuf);
+    if (mbuf) free(mbuf);
     return 0;
 }
 
 int RPC_CLIENT::set_run_mode(int mode) {
     char *p, buf[256];
-    char* mbuf;
+    char* mbuf=0;
     switch (mode) {
     case RUN_MODE_ALWAYS: p="<always/>"; break;
     case RUN_MODE_NEVER: p="<never/>"; break;
@@ -250,7 +311,7 @@ int RPC_CLIENT::get_messages(
     return 0;
 }
 
-void RPC_CLIENT::print() {
+void RPC_CLIENT::print_state() {
     unsigned int i;
 
     printf("======== Projects ========\n");

@@ -66,13 +66,11 @@ through award SCI/0221529.
 <h2>Status</h2>
 </center>
 <p>
-BOINC is under development.
-We are conducting a
-<a href=http://setiboinc.ssl.berkeley.edu/ap/>beta test of BOINC</a>
-using the <a href=http://setiathome.berkeley.edu>SETI@home</a> and
-Astropulse applications.
-The public release will be announced on the SETI@home web site.
-Several other distributed computing projects are evaluating BOINC.
+BOINC is being used by
+<a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>
+and <a href=http://predictor.scripps.edu>Predictor@home</a>.
+Other distributed computing projects based on BOINC
+will be launched soon.
 
 <center>
 <h2>News</h2>

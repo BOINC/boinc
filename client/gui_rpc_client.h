@@ -185,15 +185,15 @@ public:
     ~RPC_CLIENT();
     int init();
     int get_state();
-    int result_show_graphics(RESULT&);
-    int project_reset(PROJECT&);
+    int show_graphics(char* result_name, bool full_screen);
+    int project_reset(char*);
     int project_attach(char* url, char* auth);
-    int project_detach(PROJECT&);
-    int project_update(PROJECT&);
+    int project_detach(char*);
+    int project_update(char*);
     int set_run_mode(int mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
-    void print();
+    void print_state();
 };
 

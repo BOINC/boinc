@@ -14910,9 +14910,9 @@ Daniel 2004-07-08
 
 Brian  8 July 2004
     - Fixed a small bug in allowed_disk_usage where the
-      global_prefs.disk_max_used_pct was directly multiplied with the total
-      disk, creating a disk value that was a factor of 100 off, effectively
-      never becoming the min value returned by the function.
+        global_prefs.disk_max_used_pct was directly multiplied
+        by the total disk, creating a disk value that was a factor of 100 off,
+        effectively never becoming the min value returned by the function.
 
     client/
         cs_prefs.C
@@ -14963,3 +14963,13 @@ Daniel 2004-07-09
     client/
         app.C
 
+David  9 July 2004
+    - Implemented GUI RPCs for
+        - showing graphics (one result or all, window or fullscreen)
+        - project reset, attach, detach
+    - Added cmdline options to gui_test to exercise the above
+
+    client/
+        gui_rpc_client.C,h
+        gui_rpc_server.C
+        gui_test.C
