@@ -2,6 +2,14 @@
 
 require_once('../include/database.inc');
 
+define('NO_CONTROLS', 0);
+define('FORUM_CONTROLS', 1);
+define('HELPDESK_CONTROLS', 2);
+
+define ('SOLUTION', 'This solved my problem');
+define ('SUFFERER', 'I also have this problem');
+define ('OFF_TOPIC', 'Off-topic');
+
 class Category {
     var $id;
     var $name;
@@ -27,8 +35,9 @@ class Forum {
     var $timestamp;
     var $threads;
     var $posts;
+    var $is_helpdesk;
     
-    function Forum($id = -1, $category = -1, $orderID = -1, $title = '', $description = '', $timestamp = 0, $threads = 0, $posts = 0) {
+    function Forum($id = -1, $category = -1, $orderID = -1, $title = '', $description = '', $timestamp = 0, $threads = 0, $posts = 0, $is_helpdesk = 0) {
         $vars = get_class_vars('Forum');
         foreach ($vars as $var => $value)
             $this->$var = $$var;
@@ -40,22 +49,25 @@ class Forum {
     function getThreads($min = -1, $nRec = -1, $sort_style='modified-new') {
         $sql = 'SELECT * FROM thread WHERE forum = '.$this->id; 
         switch($sort_style) {
-        case 'modified-new':
-            $sql = $sql . ' ORDER BY timestamp DESC';
-            break;
-        case 'modified-old':
-            $sql = $sql . ' ORDER BY timestamp ASC';
-            break;
-        case 'views-most':
-            $sql = $sql . ' ORDER BY views DESC';
-            break;
-        case 'replies-most':
-            $sql = $sql . ' ORDER BY replies DESC';
-            break;
-        case 'activity-most':
-            $sql = $sql . ' ORDER by activity DESC, views DESC';
-            break;
-        }
+        	case 'modified-new':
+            	$sql = $sql . ' ORDER BY timestamp DESC';
+            	break;
+        	case 'modified-old':
+            	$sql = $sql . ' ORDER BY timestamp ASC';
+            	break;
+        	case 'views-most':
+	            $sql = $sql . ' ORDER BY views DESC';
+            	break;
+        	case 'replies-most':
+	            $sql = $sql . ' ORDER BY replies DESC';
+            	break;
+        	case 'activity-most':
+	            $sql = $sql . ' ORDER by activity DESC, timestamp DESC';
+            	break;
+           	case 'help-question-most':
+           		$sql = $sql . ' ORDER by sufferers DESC, timestamp DESC';
+           		break;
+    	}
         if ($min > -1) {
             $sql .= ' LIMIT '.$min;
             if ($nRec > -1)
@@ -76,8 +88,9 @@ class Thread {
     var $timestamp;
     var $views;
     var $replies;
+    var $sufferers;
     
-    function Thread($id = -1, $forum = -1, $owner = -1, $title = '', $timestamp = 0, $views = 0, $replies = 0) {
+    function Thread($id = -1, $forum = -1, $owner = -1, $title = '', $timestamp = 0, $views = 0, $replies = 0, $sufferers = 0) {
         $vars = get_class_vars('Thread');
         foreach ($vars as $var => $value)
             $this->$var = $$var;
@@ -93,6 +106,9 @@ class Thread {
         case 'date-new':
             $sql = $sql . ' ORDER BY timestamp DESC';
             break;
+        case 'score-high':
+        	$sql = $sql . ' ORDER BY score DESC';
+        	break;
         case 'rating-high':
             $sql = $sql . ' ORDER BY rating DESC';
             break;
@@ -271,7 +287,7 @@ function getNextForum($result) {
         return false;
     foreach ($forum as $var => $value)
         $forum[$var] = stripslashes($value);
-    return new Forum($forum['id'], $forum['category'], $forum['orderID'], $forum['title'], $forum['description'], $forum['timestamp'], $forum['threads'], $forum['posts']);
+    return new Forum($forum['id'], $forum['category'], $forum['orderID'], $forum['title'], $forum['description'], $forum['timestamp'], $forum['threads'], $forum['posts'], $forum['is_helpdesk']);
 }
 
 function getNextThread($result) {
@@ -280,7 +296,7 @@ function getNextThread($result) {
         return false;
     foreach ($thread as $var => $value)
         $thread[$var] = stripslashes($value);
-    return new Thread($thread['id'], $thread['forum'], $thread['owner'], $thread['title'], $thread['timestamp'], $thread['views'], $thread['replies']);
+    return new Thread($thread['id'], $thread['forum'], $thread['owner'], $thread['title'], $thread['timestamp'], $thread['views'], $thread['replies'], $thread['sufferers']);
 }
 
 function getNextPost($result) {
@@ -309,30 +325,56 @@ function getPost($postID) {
     return getNextPost(sql_query($sql));
 }
 
+// Returns the post that started the thread with id = $threadId
+function getFirstPost($threadID) {
+	$sql = "SELECT * FROM post WHERE thread = " . $threadID ." ORDER BY id ASC";
+	$result = mysql_query($sql);
+	return mysql_fetch_object($result);
+}
+
 /* display functions */
 
-function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true) {
+function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true, $is_helpdesk=false) {
     global $logged_in_user;
     $n = 0;
+    
+    if ($show_controls && !$is_helpdesk) {
+	    $controls = FORUM_CONTROLS;
+    } else if ($show_controls && $is_helpdesk) {
+	    $controls = HELPDESK_CONTROLS;
+    } else {
+	    $controls = NO_CONTROLS;
+    }
+    
     $posts = $thread->getPosts(-1, -1, $sort_style);
+    $firstPost = getFirstPost($thread->id);
+    
+    if ($is_helpdesk) {
+	    if ($firstPost) {
+	    	show_post($firstPost, $thread, $logged_in_user, $n, $controls, true);
+    	}
+    }
+    
     while ($post = getNextPost($posts)) {
         if ($post->score >= $filter) {
-            show_post($post, $thread, $logged_in_user, $n, $show_controls);
-            if ($do_coloring) $n = ($n+1)%2;
+	        if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
+            	show_post($post, $thread, $logged_in_user, $n, $controls, false);
+            	if ($do_coloring) $n = ($n+1)%2;
+        	}
         }
     } 
 }
 
-function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
+function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false) {
         $user = getUser($post->user);
         $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 	
         echo "
-	<tr class=\"row$n\" style=\"vertical-align:top\">
-            <td>
-                        <a name= $post->id ></a>
-			<p style=\"font-weight:bold\">
-	";
+			<tr class=\"row$n\" style=\"vertical-align:top\">
+				<td>
+					<a name= $post->id ></a>
+					<p style=\"font-weight:bold\">
+		";
         if ($user->has_profile) { 
             echo "<a href=\"../view_profile.php?userid=$post->user\">$user->name</a>";
         } else { 
@@ -341,25 +383,28 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
         echo "
 			</p>
 			<p style=\"font-size:8pt\">
-				Joined: ", date('M j, Y', $user->create_time),
-				"<br>Posts: $user->posts
+				Joined: ", date('M j, Y', $user->create_time), "<br>Posts: $user->posts
 			</p>
 		</td>
 		<td>
-                  <form action=\"rate.php?post=", $post->id, "\" method=\"post\">
-                    <table width=100% cellspacing=0 cellpadding=0>
-			<tr valign=\"top\">
-                            <td align=\"left\" style=\"border:0px\"><p style=\"font-size:8pt\">
-				Posted: ", date('D M j, Y g:i a', $post->timestamp);
+		";
+		if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
+			echo "<form action=\"rate.php?post=", $post->id, "\" method=\"post\">";
+		}
+		echo "
+			<table width=100% cellspacing=0 cellpadding=0>
+				<tr valign=\"top\">
+					<td align=\"left\" style=\"border:0px\"><p style=\"font-size:8pt\">
+						Posted: ", date('D M j, Y g:i a', $post->timestamp);
         
         if ($post->parent_post) echo " in response to <a href=#$post->parent_post>Message ID $post->parent_post</a>.";
-        if ($can_edit && $show_controls) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>"; 
+        if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[Edit this post]</a>"; 
         if ($post->modified) echo "<br>Last Modified: ", date('D M j, Y g:i a', $post->modified);
         echo "
 			        </p>
                             </td>
         ";
-        if ($show_controls) {
+        if ($controls == FORUM_CONTROLS) {
             echo "
                         <td align=\"right\" style=\"border:0px\">Rate this post:
                           <select name=\"rating\">
@@ -372,19 +417,54 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
                           <input type=\"submit\" value=\"Rate\">
                         </td>
             ";
+        } else if ($controls == HELPDESK_CONTROLS && $separate) {
+	     	echo "
+				<td align=\"right\" style=\"border:0px\">
+					<input type=\"submit\" name=\"submit\" value=\"", SUFFERER, "\">
+				</td>
+	        ";
+        } else if ($controls == HELPDESK_CONTROLS && !$separate) {
+	        echo "
+	        	<td align=\"right\" style=\"border:0px\">
+					<input type=\"submit\" name=\"submit\" value=\"", SOLUTION, "\">
+					<input type=\"submit\" name=\"submit\" value=\"", OFF_TOPIC, "\">
+				</td>
+			";
         }
         echo "
-                    </tr></table>
-                  </form>
-			<p>", nl2br(stripslashes($post->content)), "</p>";
+                    </tr></table>";
+        if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {            
+			echo "</form>";
+		}
+		echo "<p>", nl2br(stripslashes($post->content)), "</p>";
         echo "<table width=100% cellspacing=0 cellpadding=0>
                 <tr valign=\"bottom\">
-                  <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id, ", Rating: ", $post->score, "</i></td>";
-        if ($show_controls) {
-            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=", $thread->id, "&post=", $post->id, "#input\">Reply to this post</a>]</td>";
-
+                  <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id;
+        if ($controls == HELPDESK_CONTROLS && $separate) {
+	        echo "</i></td>";
+        } else if ($controls == HELPDESK_CONTROLS && !$separate) {
+	     	echo " / Score: ", ($post->score * $post->votes), "</i></td>";
+        } else {
+	     	echo " / Rating: ", $post->score, "</i></td>";
         }
+	        
+        if ($controls == FORUM_CONTROLS) {
+            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input\">Reply to this post</a>]</td>";
+		} else if ($controls == HELPDESK_CONTROLS && !$separate) {
+			echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=" . $thread->id . "&post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
+		}	
         echo "</tr></table></td></tr>";
+        
+        if ($separate) {
+	        echo "
+	        	</table>
+	        	<br><br>
+	        	<table class=\"content\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\" width=\"100%\">
+	        		<tr>
+	        			<th style=\"width: 150px\">Author</th>
+	        			<th>Answers</th>
+	        ";
+        }
 }
 
 ?>
