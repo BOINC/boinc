@@ -199,7 +199,7 @@ class Project {
             $app = $app_version->app;
             if ($app->name == "core client") {
                 $dir = "$source_dir/client";
-                $exec_name = sprintf("boinc_%d.%d_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform_name);
+                $exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform_name);
             } else {
                 $dir = "$source_dir/apps";
                 $exec_name = $app_version->exec_name;
@@ -433,7 +433,7 @@ class Host {
 	echo "\nRunning core client asynch\n";
 	$source_dir = get_env_var("BOINC_SRC_DIR");
 	$platform = get_env_var("BOINC_PLATFORM");
-	$exec_name = sprintf("boinc_%d.%d_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
+	$exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
 	PassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
 	exit(0);
        }
@@ -455,7 +455,7 @@ class Host {
 	  echo "\nRunning core client\n";
 	  $source_dir = get_env_var("BOINC_SRC_DIR");
 	  $platform = get_env_var("BOINC_PLATFORM");
-	  $exec_name = sprintf("boinc_%d.%d_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
+	  $exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
 	  PassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
 	}
     // read a CPU time file written by the client.
