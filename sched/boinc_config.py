@@ -104,9 +104,9 @@ def newConfigDict(name):
     return ConfigDict(xml.dom.minidom.Element(name))
 
 class ConfigDictList(list):
-    def __init__(self, dom_node=None):
+    def __init__(self, dom_node=None, item_class=ConfigDict):
         self._node = dom_node
-        list.__init__(self, map(ConfigDict, _get_child_elements(self._node)))
+        list.__init__(self, map(item_class, _get_child_elements(self._node)))
     def save(self):
         map(ConfigDict.save, self)
     def append(self, cd):
