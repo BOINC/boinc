@@ -1059,19 +1059,12 @@ wxInt32 CMainDocument::GetTransferCount()
 wxInt32 CMainDocument::GetTransferProjectName( wxInt32 iIndex, wxString& strBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
-    PROJECT* pProject = NULL;
 
     if ( !ft.file_transfers.empty() )
         pFT = ft.file_transfers.at( iIndex );
 
     if ( NULL != pFT )
-    {
-        pProject = state.lookup_project( pFT->project_url );
-        if ( NULL != pProject )
-        {
-            strBuffer = pProject->project_name.c_str();
-        }
-    }
+        strBuffer = pFT->project_name.c_str();
 
     return 0;
 }

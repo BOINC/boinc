@@ -624,11 +624,13 @@ int FILE_INFO::write_gui(MIOFILE& out) {
     out.printf(
         "<file_transfer>\n"
         "    <project_url>%s</project_url>\n"
+        "    <project_name>%s</project_name>\n"
         "    <name>%s</name>\n"
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n"
         "    <status>%d</status>\n",
 		project->master_url,
+        project->project_name,
         name,
         nbytes,
         max_nbytes,
