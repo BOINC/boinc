@@ -23,15 +23,15 @@
 <li><a href=download.php>Download BOINC</a>
 <li><a href=bug_report_form.php>Report problems</a>
 </ul>
-<h3>Leader boards</h3>
+<h3>Project totals and leader boards</h3>
 <ul>
+<li><a href=totals.php>Project totals</a>
 <li><a href=top_users.php>Top users</a>
 <li><a href=top_hosts.php>Top computers</a>
 <li><a href=top_teams.php>Top teams</a>
 </ul>
 <!--
 ";
-
 
 include 'schedulers.txt';
 

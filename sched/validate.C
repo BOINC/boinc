@@ -268,7 +268,7 @@ int main_loop(bool one_pass) {
         did_something = do_validate_scan(app, min_quorum);
         if (one_pass) break;
         if (!did_something) {
-            sleep(1);
+            sleep(5);
         }
     }
     return 0;
