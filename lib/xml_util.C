@@ -535,22 +535,26 @@ unsigned char decode_char(const char *s) {
 std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   std::ostringstream rv("");
   size_t lastlen=0,i;
-  rv << std::endl << xml_indent(2);
+  //rv << std::endl << xml_indent(2);
   for (i=0;i<(nelements-1);i++) {
     unsigned int ival=bin[i];
     rv << ival << ',';
-    if ((rv.str().size()-lastlen-xml_indent_level)>73) {
-      rv << std::endl << xml_indent();
-      lastlen=rv.str().size();
-    }
+    //if ((rv.str().size()-lastlen-xml_indent_level)>73) {
+    //  rv << std::endl << xml_indent();
+    //  lastlen=rv.str().size();
+    //}
   }
   unsigned int ival=bin[i];
-  rv << ival << std::endl << xml_indent(-2);
+  //rv << ival << std::endl << xml_indent(-2);
+  rv << ival;
   return rv.str();
 }
 
 //
 // $Log$
+// Revision 1.13  2003/10/23 00:25:15  jeffc
+// jeffc - no line feeds in CSV encoding
+//
 // Revision 1.12  2003/10/22 18:23:23  korpela
 // *** empty log message ***
 //
