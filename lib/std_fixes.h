@@ -1,7 +1,57 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.4  2003/12/11 17:55:07  korpela
+// Added definition of strlcpy() for machines without it.
+//
+//
 #ifndef _STD_FIXES_H_
 #define _STD_FIXES_H_
 
 #ifndef CONFIG_TEST
+
+#ifndef HAVE_STRLCPY
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#ifdef HAVE_STRING_H
+#include <string.h>
+#endif
+
+extern "C" {
+size_t strlcpy(char *dst, const char *src, size_t len);
+}
+
+inline size_t strlcpy(char *dst, const char *src, size_t len) {
+  strncpy(dst,src,len-1);
+  dst[len-1]=0;
+  return strlen(dst);
+}
+
+namespace std {
+  using ::strlcpy;
+}
+
+#endif
+
 #ifndef HAVE_STD_MIN
 namespace std {
 
