@@ -16,7 +16,10 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 
 	$user = get_logged_in_user(true, '../');
 
-	replyToThread($_GET['thread'], $user->id, $_POST['content'], $parent_post);
+    if ($_POST['add_signature']=="add_it"){
+        $forum_signature = "\n".$user->signature;
+    }  
+	replyToThread($_GET['thread'], $user->id, $_POST['content'].$forum_signature, $parent_post);
 	notify_subscribers($_GET['thread']);
 
 	header('Location: thread.php?id='.$_GET['thread']);
@@ -102,6 +105,9 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
     if ($post) echo quote_text(stripslashes($post->content), 80);
     echo "</textarea><p>
 	    <input type=\"submit\" value=\"Post reply\"></p>
+        &nbsp;&nbsp;&nbsp;
+        <input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this reply                                
+
 	</form>
 	";
 
