@@ -38,9 +38,9 @@ list_item("Japanese",
 list_item("Russian",
     "<a href=http://www.boinc.narod.ru>www.boinc.narod.ru</a>"
 );
-//list_item("Serbian",
-//    "<a href=http://www.boincatserbia.co.sr/>BOINC@Serbia</a>"
-//);
+list_item("Serbian",
+    "<a href=http://www.boincatserbia.co.sr/>BOINC@Serbia</a>"
+);
 list_item("Spanish",
     "<a href=http://members.lycos.co.uk/boincspain/>BOINC España</a>"
 );
