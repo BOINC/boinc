@@ -38,7 +38,7 @@ using std::min;
 
 #ifdef _WIN32
 #include <time.h>
-#include <afxwin.h>
+#include <windows.h>
 #else
 #include <sys/time.h>
 #include <unistd.h>
@@ -538,4 +538,3 @@ void windows_error_string(char* buf, int len) {
     LocalFree(lpMsgBuf);
 }
 #endif
-

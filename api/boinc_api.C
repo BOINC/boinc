@@ -27,7 +27,7 @@
 #ifdef _WIN32
 #include <io.h>
 #include <sys/stat.h>
-#include <afxwin.h>
+#include <windows.h>
 #include <winuser.h>
 #include <mmsystem.h>    // for timing
 #endif

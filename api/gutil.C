@@ -34,7 +34,7 @@
 #include "tgalib.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 #else
 #include <jpeglib.h>
 #endif

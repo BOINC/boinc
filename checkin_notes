@@ -9518,3 +9518,15 @@ David  Jan 22 2004
         gui_rpc_client.C,h
         gui_rpc_server.C
         gui_test.C
+
+David  Jan 23 2004
+	- fix problem with DLL dependency (from Rom Walton)
+
+	api/
+		boinc_api.C
+		graphics_api.C
+		gutil.C
+		windows_opengl.C
+	lib/
+		parse.C
+		util.C

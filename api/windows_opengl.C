@@ -14,7 +14,11 @@
  *		Adapted to BOINC by Eric Heien
  */
 
-#include <afxwin.h>
+//remove if there are windows problems
+#define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
+#define WIN32_EXTRA_LEAN      // Trims even farther.
+
+#include <windows.h>
 #include <stdio.h>
 #include <winuser.h>
 
@@ -25,9 +29,6 @@
 #include "win_util.h"
 //#include "win_idle_tracker.h"
 
-//remove if there are windows problems
-#define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
-#define WIN32_EXTRA_LEAN      // Trims even farther.
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 

@@ -21,7 +21,7 @@
 // This code is NOT linked into the core client.
 
 #ifdef _WIN32
-#include <afxwin.h>
+#include <windows.h>
 extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
 #else
