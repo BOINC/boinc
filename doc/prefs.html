@@ -2,8 +2,8 @@
 <body bgcolor=ffffff>
 <h2>Preferences</h2> 
 <p>
-Participants can specify <b>preferences</b> determining and limiting
-how BOINC uses their computers.
+You can specify <b>preferences</b> determining and limiting
+how BOINC uses your computers.
 Preferences are divided into three groups: 
 <ul>
 <li> <b>Work preferences</b>
@@ -13,18 +13,13 @@ while the host is being used (i.e. during keyboard and mouse input).
 <li> Whether work should be done while the computer is being powered
 by batteries (for laptop users).
 <li> Whether to wait for user confirmation before making network connections.
-<li> Minimum and maximum amounts of work to maintain on disk.
-These values are expressed as time values X and Y.
-The client will try to ensure it
-has at least enough work to keep it busy for X days, and at most Y days.
-If the host is frequently disconnected from the Internet, X
+<li> Min and max days of work to keep on disk.
+If the host is frequently disconnected from the Internet, the min
 should be at least as long as the typical period of disconnection.
-The larger the difference between X and Y, the less often
-BOINC will connect to the Internet.
+The larger the difference between min and max, the less often
+the BOINC client will connect to the Internet.
 </ul>
-<li> <b>Disk preferences</b>
-BOINC's usage of disk space can be limited in one or more of the
-following ways: 
+<li> <b>Disk-space preferences</b>
 <ul>
 <li> Maximum disk space used by BOINC.
 <li> Maximum percentage of free space used by BOINC.
@@ -43,20 +38,12 @@ the amount allocated to a project is proportional to this number.
 </ul>
 </ul>
 <p>
-Each participant has a single set of preferences.
-If you want to have different preferences for different hosts,
-you must create a separate account. 
-
-<h3>Propagation of preferences</h3> 
+You can view and edit your preferences through a web interface,
+at the site of any project in which you participate.
+Changes are automatically propagated to all your hosts;
+this is done the next time the host contacts the project's server,
+so there may be some delay.
 <p>
-The BOINC client stores a copy of the preferences.
-Whenever a host contacts a scheduling server, the request
-message includes the preferences and their last-modification time.
-If the server has a more recently modified version of the preferences,
-it returns these to the client.
-Thus a change to preferences is eventually propagated to all hosts,
-and to the databases of all enrolled projects.
-A participant may edit preferences on the web site of any enrolled project;
-however, care should be taken to ensure that a change isn't
-overwritten by an earlier change.
-The easiest way to do this is to edit preferences only at one web site. 
+Each account has a single set of preferences.
+If you want to have different preferences for different hosts,
+you must create separate accounts. 

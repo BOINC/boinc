@@ -1,20 +1,12 @@
-<title>Core Client: Debugging</title> 
+<title>Core client: debugging</title> 
 <body bgcolor=ffffff>
-<h2>Core Client: Debugging</h2>
-<h3>Core client logging and error output</h3> 
+<h2>Core client: debugging</h2>
+<h3>Logging and error output</h3> 
 <p>
 The core client writes error messages to stderr.
 This mechanism is reserved for serious problems,
 i.e. those that reflect bugs in the core
 client program or conditions that require user intervention.
-Specifically, The client verifies that arguments to functions have valid
-values, and will print a message to stderr on an invalid argument.
-These error messages are formatted as <tt>error: CLASS_NAME.function:
-error_statement argument</tt>.
-Common errors of this type include
-unexpected NULL pointer arguments and negative lengths.
-Error numbers
-are defined in <b>lib/error_numbers.h</b>. 
 <p>
 In addition, the core client can write a variety of "logging"
 information to stdout.
@@ -52,8 +44,3 @@ servers.
 <dt> &lt;measurement_debug/&gt; 
 <dd> Log debugging information host speed, platform, disk space, etc measurements.
 </dl>
-<h3>Application error output</h3> 
-<p>
-The stderr of applications is automatically directed to a file. The
-contents of this file are returned to the scheduling server and stored
-in the database. 

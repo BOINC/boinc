@@ -1,10 +1,14 @@
-<title>The BOINC Database</title> 
+<title>The BOINC database</title> 
 <body bgcolor=ffffff>
-<h2>The BOINC Database</h2> 
+<h2>The BOINC database</h2> 
 <p>
-BOINC uses a relational database to keep track of participants, work
-and result.
-The reference implementation uses MySQL, but any SQL database can be used. 
+Each BOINC project uses a relational database to keep track of
+participants, work and results.
+The BOINC release uses <a href=http://mysql.com>MySQL</a>,
+but other SQL databases can be used;
+you will need to replace the files
+db/mysql_util.C and db/db_mysql.C,
+as well as some of the PHP files in db/html_user.
 <p>
 In boinc/html_user/ there is a file called db_name containing only the
 name of the database for that project.
