@@ -109,8 +109,8 @@ int boinc_init(bool standalone_ /* = false */) {
     if (!f) {
         if (standalone) {
             safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
-            safe_strncpy(aid.user_name, "John Smith", sizeof(aid.user_name));
-            safe_strncpy(aid.team_name, "The A-Team", sizeof(aid.team_name));
+            safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
+            safe_strncpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
             aid.wu_cpu_time = 1000;
             aid.user_total_credit = 1000;
             aid.user_expavg_credit = 500;

@@ -29,7 +29,7 @@ struct CURSOR {
 
 // represents a connection to a database
 //
-class DB_CONN{
+class DB_CONN {
 public:
     DB_CONN();
     int open(char* name, char* passwd);

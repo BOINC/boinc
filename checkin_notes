@@ -6390,3 +6390,12 @@ David  Sept 27 2003
         app.C
     lib/
         app_ipc.C,h
+
+David Sept 27 2003
+    - added a program "wu_check" that sees whether input files
+        of unsent or in-progress results are actually on disk
+
+    sched/
+        Makefile.am
+        wu_check.C (new)
+

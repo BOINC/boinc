@@ -5,7 +5,7 @@ include $(top_srcdir)/Makefile.incl
 noinst_PROGRAMS =								\
 	cgi feeder show_shmem file_upload_handler				\
         validate_test validate_trivial make_work transitioner file_deleter	\
-        assimilator db_dump update_stats show_shmem
+        assimilator db_dump update_stats show_shmem wu_check
 
 noinst_LIBRARIES = libsched.a
 
@@ -51,6 +51,9 @@ cgi_DEPEDENCIES = $(LIB_SCHED)
 
 feeder_SOURCES = feeder.C
 feeder_DEPENDENCIES = $(LIB_SCHED)
+
+wu_check_SOURCES = wu_check.C
+wu_check_DEPENDENCIES = $(LIB_SCHED)
 
 show_shmem_SOURCES = show_shmem.C
 show_shmem_DEPENDENCIES = $(LIB_SCHED)

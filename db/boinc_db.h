@@ -313,9 +313,9 @@ struct WORKUNIT {
     void clear();
 };
 
-// WARNING: be Very careful about changing any states, especially for a
-// project already running - these values are entered into the database and
-// must stay consistent.
+// WARNING: be Very careful about changing any values,
+// especially for a project already running -
+// the database will become inconsistent
 
 #define RESULT_SERVER_STATE_INACTIVE       1
 #define RESULT_SERVER_STATE_UNSENT         2
