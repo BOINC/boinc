@@ -10,6 +10,9 @@ AM_CPPFLAGS = -pthread \
 
 ##noinst_PROGRAMS = test
 lib_LIBRARIES = libboinc_zip.a
+
+## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
+includedir = ${prefix}/include/BOINC/
 include_HEADERS = boinc_zip.h
 
 libboinc_zip_a_SOURCES = boinc_zip.cpp \
