@@ -7769,3 +7769,8 @@ Karl 2003-11-22
 
     client/
         cs_cmdline.C
+
+    - chmod 600 the account file.
+
+    client/
+        client_types.C
