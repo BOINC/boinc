@@ -1203,3 +1203,20 @@ Eric Heien      July 17, 2002
             mdemo.c
             randemo.c
             redemo.c
+
+Michael Gary	7/17/2002
+    - Fixed more test scripts
+    - Added a comprehensive test
+    - Added make tar_client to toplevel makefile
+    - Added installation notes for the server and the client
+    Makefile.in
+    INSTALL (added)
+    INSTALL_CLIENT (added)
+    test/
+        test_1sec.php
+        test_dynamic.php
+        test_prefs.php
+        test_projects.php
+        test_stderr.php
+        test_uc_slow.php
+        test_suite.php (added)

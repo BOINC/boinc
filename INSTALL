@@ -1,0 +1,214 @@
+Installing BOINC
+
+This document describes the generic installation procedure for BOINC
+
+The installation procedure itself is broken into seven steps
+
+    1. Downloading the Source
+    2. Ensuring proper programs are installed
+    3. Setting environment variables
+    4. Configuration
+    5. Building
+    6. Testing (optional but strongly recommended)
+    7. Final install (optional)
+
+Please note that BOINC does not support make uninstall and probably will not do
+so in the near future. Currently, BOINC is installed into the /usr/local/boinc/
+directory structure, so to uninstall, simply remove all files from this 
+location. 
+
+-------------------------------------------------------------------------------
+Downloading the Source
+
+BOINC is distributed via CVS and tarballs compressed with gzip. 
+
+The BOINC distribution includes the scheduling servers, both in CGI and FastCGI
+versions, the application library, the client, the test scripts, sample
+applications, and test scripts. 
+
+Unpack the distribution in one directory using the commands 
+    % gunzip boinc.tar.gz
+    % tar xf boinc.tar
+
+If installing from CVS, download the entire CVS tree. 
+
+-------------------------------------------------------------------------------
+Ensuring proper programs are installed
+
+In order for the BOINC server to run, Apache web server and  mySQL database 
+server must both be installed and shared memory must be enabled, with a shared
+memory segment size of at least 32 megabytes (more is reccomended). 
+
+-------------------------------------------------------------------------------
+Setting environment variables
+
+BOINC depends on several environment variables to compile and run. 
+
+BOINC_DOWNLOAD_DIR /usr/local/boinc/download
+This directory should be set to be web accessible via Apache. If you plan on 
+using a different directory, be sure to set the BOINC_DOWNLOAD_DIR properly
+so as to point to the correct directory. It is important that this directory
+is different from the BOINC_UPLOAD_DIR. 
+
+BOINC_UPLOAD_DIR /usr/local/boinc/upload
+This directory should be set to be web accessible via Apache. If you plan on 
+using a different directory, be sure to set the BOINC_UPLOAD_DIR properly
+so as to point to the correct directory. It is important that this directory is
+different from the BOINC_DOWNLOAD_DIR. 
+
+BOINC_PLATFORM_NAME
+This is set when configure is run in the client directory. It is used by the
+client to determine the name of the BOINC client. 
+
+BOINC_EMAIL mgary@ssl.berkeley.edu
+This is currently used by one of the test scripts. It is not critical for the
+running of BOINC. 
+
+BOINC_URL_BASE http://localhost/download
+This should be set to a url that points to the BOINC_DOWNLOAD_DIR. Currently, 
+this is the same as the BOINC_DOWNLOAD_URL, although it may change in the
+future. 
+
+BOINC_KEY_DIR /usr/local/boinc/key_dir
+This should be set to a directory in which the public and private keys for 
+BOINC are to be created. If you wish to place this in a different directory,
+change the variable appropriately. 
+
+BOINC_KEY 0xdadacafe
+This should be set to any 32 bit hex value desired. To run multiple instances
+of BOINC on one machine, each instance needs to have a different BOINC_KEY 
+compiled into it. 
+
+BOINC_DB_NAME boinc
+This should be set to a valid database name for mySQL. 
+
+BOINC_USER user
+This should be set to the user name of the person running BOINC. 
+
+BOINC_UPLOAD_URL http://localhost/cgi-bin/file_upload_handler
+This should be set to the url of a valid cgi directory where the BOINC 
+scheduling server cgi scripts are located. 
+
+BOINC_DOWNLOAD_URL http://localhost/download
+This should be set to the url of the BOINC_DOWNLOAD_DIR. 
+
+BOINC_MASTER_URL http:\\\/\\\/localhost\\\/index.html
+This should be set to the master url of your project. The master url is a file
+that contains xml tags with information about where scheduling servers can be
+found. A sample scheduler tag would be 
+<scheduler>http://localhost/cgi-bin/cgi</scheduler>
+where the url contained within the scheduler tags points to the BOINC 
+scheduling server cgi scripts. 
+
+-------------------------------------------------------------------------------
+Configuration
+
+Like most open source software, BOINC must be configured before it can be 
+built. This document describes the recommended configuration procedure for 
+both native and cross targets. 
+
+We use srcdir to refer to the toplevel source directory for BOINC. 
+
+In general, BOINC need not be built into a seperate directory from the source.
+
+Second, when configuring a native system, either cc or gcc must be in your path
+or you must set CC in your environment variables before running configure. 
+Otherwise, the configuration scripts may fail. 
+
+To configure BOINC: 
+
+    % cd srcdir
+    % ./configure
+
+-------------------------------------------------------------------------------
+Building
+
+Now that BOINC is configured, you are ready to build BOINC. 
+
+It is necessary to use GNU make at the moment, as the RSAEuro libraries will 
+not compiler under other versions of make. 
+
+Some commands executed when making BOINC may fail (return a nonzero status) and
+be ignored by make. The most common of these failures is when making RSAEuro.
+
+It is normal to have compiler warnings when compiling certain files. The most
+common of these warnings is statement with no effect, due to the use of assert
+in the scheduling server, and can be safely ignored. 
+
+Often, make will fail in the srcdir/sched directory with the error sh: cc not 
+found. If this occurs, simply cd to srcdir/sched and make. This should resolve
+the problem. 
+
+To make BOINC:
+
+    % cd srcdir
+    % make
+
+-------------------------------------------------------------------------------
+Testing
+
+Once BOINC has been built, environment variables are set, and permissions have
+been granted, we encourage you to run tests to ensure that BOINC is working
+properly before being installed. The tests are located in the srcdir/test/
+directory, and are all php scripts. 
+
+test_suite.php 
+This is a script that will run several of the scripts within the test 
+directory. If there are any file mismatches or errors, there has likely been an
+error in setting up BOINC. 
+
+test_uc.php
+This is a script that runs the uc application. The files should match upon
+completion of the script. 
+
+test_concat.php
+This sript is similar to the test_uc.php script, except that it runs the concat
+application. 
+
+test_water.php
+This script tests some of the water mark funtionality in the BOINC client. If 
+test_uc.php does not work, this script will also fail. 
+
+test_rsc.php
+This script tests to ensure that the server will not send unfeasable work units
+to a client. Should this script fail, it is either due to your computer having
+more than 1 terabyte of available memory and similar amounts of available disk
+space or improper configuration of BOINC. 
+
+test_api.php
+This script should run even if BOINC has been installed improperly. As long as
+a build has occurred, this script should work. This script tests the api and
+a restartible minimal application without an end-to-end test of BOINC. 
+
+test_uc_slow.php
+This script is similar to the test_uc.php script, except that it uses the 
+uc_slow application. The client must be run manually for this script. Currently
+there is a bug in BOINC that causes this script to fail. 
+
+test_stderr.php
+This script uses the uc application to check client error reporting. 
+
+-------------------------------------------------------------------------------
+Installing
+
+Now that BOINC has been built and tested, you can optionally install it in 
+/usr/local/boinc. 
+
+If the location of any of the CGI elements of the scheduling server are to be
+changed, the appropriate environment variables must be updated and the code
+must be rebuilt with
+    $ cd srcdir; make clean; configure; make
+
+You can install BOINC in /usr/local/boinc with
+
+    % cd srcdir; make install
+
+You may also want to run the test scripts now that you have installed BOINC to 
+ensure that all environment variables have been properly set and compiled into
+the code. 
+
+-------------------------------------------------------------------------------
+
+If you had any issues with BOINC, please let us know. If you come across any 
+bugs, please post them to our bugtraq or email us. 
+
