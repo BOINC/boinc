@@ -351,17 +351,17 @@ function show_result_short($result) {
     $version = client_version_string($result->client_version_num);
 
     if ($result->outcome == 3) {
-        $color = 'red';
+        $outcome_color = 'red';
     } else {
-        $color = 'white';
+        $outcome_color = 'white';
     }
 
     echo "
-        <tr bgcolor=$color>
+        <tr>
         <td><a href=db_action.php?table=result&id=$result->id>$result->id</a></td>
         <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
         <td>$ss</td>
-        <td>$oc</td>
+        <td bgcolor=$outcome_color>$oc</td>
         <td>$cs</td>
     ";
     if ($result->hostid) {
