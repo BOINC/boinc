@@ -10144,5 +10144,6 @@ Rom    Feb 23 2004
     user/
         profile_menu.php
 
-
-
+Jeff   Feb 25 2004
+    - CVS tagged as seti_boinc_app_release_2_26. This tag is a little late but
+      the sources should be little if any changed.
