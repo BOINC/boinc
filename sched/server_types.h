@@ -55,6 +55,8 @@ struct WORK_REQ {
 //
 struct FILE_INFO {
     char name[256];
+
+    int parse(FILE*);
 };
 
 struct MSG_FROM_HOST_DESC {

@@ -33,6 +33,7 @@ using namespace std;
 #include "main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
+#include "sched_locality.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -741,13 +742,18 @@ int send_work(
         wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
-    // give priority to results that were infeasible for some other host
-    //
-    wreq.infeasible_only = true;
-    scan_work_array(wreq, sreq, reply, platform, ss);
+    if (config.locality_scheduling) {
+        wreq.infeasible_only = false;
+        send_work_locality(sreq, reply, platform, wreq, ss);
+    } else {
+        // give priority to results that were infeasible for some other host
+        //
+        wreq.infeasible_only = true;
+        scan_work_array(wreq, sreq, reply, platform, ss);
 
-    wreq.infeasible_only = false;
-    scan_work_array(wreq, sreq, reply, platform, ss);
+        wreq.infeasible_only = false;
+        scan_work_array(wreq, sreq, reply, platform, ss);
+    }
 
 #if 0
     // huh???

@@ -45,6 +45,20 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
+int FILE_INFO::parse(FILE* f) {
+    char buf[256];
+
+    memset(this, 0, sizeof(FILE_INFO));
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</file_info>")) {
+            if (!strlen(name)) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (parse_str(buf, "<name>", name, 256)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 }
 
@@ -148,6 +162,13 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             retval = md.parse(fin);
             if (!retval) {
                 msgs_from_host.push_back(md);
+            }
+        }
+        else if (match_tag(buf, "<file_info>")) {
+            FILE_INFO fi;
+            retval = fi.parse(fin);
+            if (!retval) {
+                file_infos.push_back(fi);
             }
         } else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
@@ -341,6 +362,13 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     if (config.non_cpu_intensive) {
         fprintf(fout, "<non_cpu_intensive/>\n");
+    }
+
+    for (i=0; i<file_deletes.size(); i++) {
+        fprintf(fout,
+            "<delete_file_info>%s</delete_file_info>\n",
+            file_deletes[i].name
+        );
     }
 end:
     fprintf(fout,

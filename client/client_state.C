@@ -776,7 +776,7 @@ bool CLIENT_STATE::garbage_collect() {
                     *rp, 0, "WU download error: %s", error_msgs.c_str()
                 );
             } else if (wup->avp && wup->avp->had_failure(failnum)) {
-                avp->get_file_errors(error_msgs);
+                wup->avp->get_file_errors(error_msgs);
                 report_result_error(
                     *rp, 0, "app_version download error: %s", error_msgs.c_str()
                 );

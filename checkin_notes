@@ -17270,3 +17270,17 @@ David  10 Sept 2004
 
     sched/
         validator.C
+
+David  10 Sept 2004
+    - more changes for locality scheduling
+
+    client/
+        client_state.C
+        client_types.C
+        cs_scheduler.C
+    sched/
+        Makefile.am
+        sched_config.C,h
+        sched_locality.h (new)
+        sched_send.C
+        server_types.C,h

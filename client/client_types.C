@@ -481,12 +481,12 @@ char* PROJECT::get_project_name() {
     }
 }
 
+#if 0
 // comment?  what does this do?
 // Does it do a lot of disk access to do it??
 //
 bool PROJECT::associate_file(FILE_INFO* fip) {
     return 0;
-#if 0
     double space_made = 0;
     if (gstate.get_more_disk_space(this, fip->nbytes)) {
         size += fip->nbytes;
@@ -501,8 +501,8 @@ bool PROJECT::associate_file(FILE_INFO* fip) {
     } else {
         return false;
     }
-#endif
 }
+#endif
 
 int APP::parse(MIOFILE& in) {
     char buf[256];
@@ -541,6 +541,7 @@ FILE_INFO::FILE_INFO() {
     uploaded = false;
     upload_when_present = false;
     sticky = false;
+    report_on_rpc = false;
     signature_required = false;
     is_user_file = false;
     pers_file_xfer = NULL;
@@ -667,6 +668,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
+        else if (match_tag(buf, "<report_on_rpc/>")) report_on_rpc = true;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
 #if 0
         else if (parse_int(buf, "<time_last_used>", (int&)time_last_used)) continue;
@@ -729,6 +731,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (uploaded) out.printf("    <uploaded/>\n");
         if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
+        if (report_on_rpc) out.printf("    <report_on_rpc/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
 #if 0

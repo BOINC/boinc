@@ -61,6 +61,9 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<homogeneous_redundancy/>")) {
         homogeneous_redundancy  = true;
     }
+    if (match_tag(buf, "<locality_scheduling/>")) {
+        locality_scheduling  = true;
+    }
     if (match_tag(buf, "<msg_to_host/>")) {
         msg_to_host = true;
     }

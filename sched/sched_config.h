@@ -44,6 +44,7 @@ public:
     int max_wus_to_send;
     bool non_cpu_intensive;
     bool homogeneous_redundancy;
+    bool locality_scheduling;
     bool ignore_upload_certificates;
     bool enforce_delay_bound;
     bool deletion_policy_priority;

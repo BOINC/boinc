@@ -57,6 +57,7 @@ cgi_SOURCES =                                   \
     handle_request.C                            \
     main.C                                      \
     sched_send.C                                \
+    sched_locality.C                            \
     server_types.C                              \
     ../lib/synch.C
 

@@ -232,6 +232,7 @@ cgi_SOURCES = \
     handle_request.C                            \
     main.C                                      \
     sched_send.C                                \
+    sched_locality.C                            \
     server_types.C                              \
     ../lib/synch.C
 
@@ -358,7 +359,8 @@ noinst_PROGRAMS = cgi$(EXEEXT) feeder$(EXEEXT) db_dump$(EXEEXT) \
 PROGRAMS = $(noinst_PROGRAMS)
 
 am_cgi_OBJECTS = handle_request.$(OBJEXT) main.$(OBJEXT) \
-	sched_send.$(OBJEXT) server_types.$(OBJEXT) synch.$(OBJEXT)
+	sched_send.$(OBJEXT) sched_locality.$(OBJEXT) \
+	server_types.$(OBJEXT) synch.$(OBJEXT)
 cgi_OBJECTS = $(am_cgi_OBJECTS)
 cgi_LDADD = $(LDADD)
 cgi_LDFLAGS =
@@ -486,6 +488,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/sample_dummy_assimilator.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sample_trivial_validator.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sched_locality.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_msgs.Po ./$(DEPDIR)/sched_send.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po ./$(DEPDIR)/send_file.Po \
@@ -710,6 +713,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sample_dummy_assimilator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sample_trivial_validator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_config.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_locality.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_msgs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_shmem.Po@am__quote@
