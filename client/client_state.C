@@ -225,7 +225,7 @@ int CLIENT_STATE::init() {
     if (show_projects) {
         printf("projects:\n");
         for (i=0; i<projects.size(); i++) {
-            printf("URL: %s name: %s\n",
+            msg_printf(NULL, MSG_INFO, "URL: %s name: %s\n",
                 projects[i]->master_url, projects[i]->project_name
             );
         }
@@ -236,8 +236,9 @@ int CLIENT_STATE::init() {
         PROJECT* project = lookup_project(detach_project_url);
         if (project) {
             detach_project(project);
+            msg_printf(project, MSG_INFO, "detached from %s\n", detach_project_url);
         } else {
-            printf("project %s not found\n", detach_project_url);
+            msg_printf(NULL, MSG_ERROR, "project %s not found\n", detach_project_url);
         }
         exit(0);
     }
@@ -246,9 +247,9 @@ int CLIENT_STATE::init() {
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
             reset_project(project);
-            msg_printf(project, MSG_INFO, "Project has been reset");
+            msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
         } else {
-            printf("project %s not found\n", reset_project_url);
+            msg_printf(NULL, MSG_ERROR, "project %s not found\n", reset_project_url);
         }
         exit(0);
     }
@@ -258,7 +259,7 @@ int CLIENT_STATE::init() {
         if (project) {
             project->sched_rpc_pending = true;
         } else {
-            printf("project %s not found\n", update_prefs_url);
+            msg_printf(NULL, MSG_ERROR, "project %s not found\n", update_prefs_url);
         }
     }
 
@@ -520,27 +521,24 @@ int CLIENT_STATE::current_disk_usage(double& size) {
 double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
     double x;
 
-    x = wu.rsc_fpops/host_info.p_fpops;
-    x += wu.rsc_iops/host_info.p_iops;
+    x = wu.rsc_fpops_est/host_info.p_fpops;
     return x;
 }
 
-inline double force_fraction(double f)
-{
+inline double force_fraction(double f) {
     if (f < 0) return 0;
     if (f > 1) return 1;
     return f;
 }
 
-double CLIENT_STATE::get_percent_done(RESULT* result)
-{
+double CLIENT_STATE::get_percent_done(RESULT* result) {
     ACTIVE_TASK* atp = active_tasks.lookup_result(result);
     return atp ? force_fraction(atp->fraction_done) : 0.0;
 }
 
 // returns true if start_hour == end_hour or start_hour <= now < end_hour
-inline bool now_between_two_hours(int start_hour, int end_hour)
-{
+//
+inline bool now_between_two_hours(int start_hour, int end_hour) {
     if (start_hour == end_hour) {
         // always work
         return true;

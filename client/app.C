@@ -124,8 +124,8 @@ int ACTIVE_TASK::init(RESULT* rp) {
     wup = rp->wup;
     app_version = wup->avp;
     max_cpu_time = gstate.estimate_cpu_time(*rp->wup)*2;
-    max_disk_usage = rp->wup->rsc_disk;
-    max_mem_usage = rp->wup->rsc_memory;
+    max_disk_usage = rp->wup->rsc_disk_bound;
+    max_mem_usage = rp->wup->rsc_memory_bound;
 
     return 0;
 }

@@ -6045,3 +6045,31 @@ Korpela 2003/09/03
 
     api/gutil.C
     configure.ac
+
+David  Sept 3 2003
+    - Changed the way a WU's resources usage is described.
+       There are now separate estimates and bounds for FP ops.
+       Nothing about integer ops.
+       Disk and memory numbers are bounds.
+
+       This changes the client/server RPC format and the DB format,
+       so it will require a major version number increment
+    
+    client/
+        app.C
+        client_state.C
+        client_types.C,h
+        http.C
+        net_xfer.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    lib/
+        crypt.C,h
+    sched/
+        handle_request.C
+    test/
+        test_rsc.py
+        testbase.py
+    tools/
+        create_work.C

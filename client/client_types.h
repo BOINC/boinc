@@ -212,10 +212,10 @@ struct WORKUNIT {
     APP* app;
     APP_VERSION* avp;
     int ref_cnt;
-    double rsc_fpops;
-    double rsc_iops;
-    double rsc_memory;
-    double rsc_disk;
+    double rsc_fpops_est;
+    double rsc_fpops_bound;
+    double rsc_memory_bound;
+    double rsc_disk_bound;
 
     int parse(FILE*);
     int write(FILE*);

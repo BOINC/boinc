@@ -54,10 +54,8 @@ const double HOST_ACTIVE_FRAC_MIN = 0.5;
 //
 inline double estimate_duration(WORKUNIT& wu, HOST& host) {
     if (host.p_fpops <= 0) host.p_fpops = 1e9;
-    if (host.p_iops <= 0) host.p_iops = 1e9;
-    if (wu.rsc_fpops <= 0) wu.rsc_fpops = 1e12;
-    if (wu.rsc_iops <= 0) wu.rsc_iops = 1e12;
-    return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
+    if (wu.rsc_fpops_est <= 0) wu.rsc_fpops_est = 1e12;
+    return wu.rsc_fpops_est/host.p_fpops;
 }
 
 // estimate the amount of real time for this WU based on active_frac and
@@ -74,17 +72,17 @@ inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
-    if(host.d_free && wu.rsc_disk > host.d_free) {
+    if(host.d_free && wu.rsc_disk_bound > host.d_free) {
         log_messages.printf(
             SchedMessages::DEBUG, "[WU#%d %s] needs %f disk; [HOST#%d] has %f\n",
-            wu.id, wu.name, wu.rsc_disk, host.id, host.d_free
+            wu.id, wu.name, wu.rsc_disk_bound, host.id, host.d_free
         );
         return false;
     }
-    if (host.m_nbytes && wu.rsc_memory > host.m_nbytes) {
+    if (host.m_nbytes && wu.rsc_memory_bound > host.m_nbytes) {
         log_messages.printf(
             SchedMessages::DEBUG, "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
-            wu.id, wu.name, wu.rsc_memory, host.id, host.m_nbytes
+            wu.id, wu.name, wu.rsc_memory_bound, host.id, host.m_nbytes
         );
         return false;
     }
@@ -132,16 +130,16 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
     char buf[256];
 
     sprintf(buf,
-        "    <rsc_fpops>%f</rsc_fpops>\n"
-        "    <rsc_iops>%f</rsc_iops>\n"
-        "    <rsc_memory>%f</rsc_memory>\n"
-        "    <rsc_disk>%f</rsc_disk>\n"
+        "    <rsc_fpops_est>%f</rsc_fpops_est>\n"
+        "    <rsc_fpops_bound>%f</rsc_fpops_bound>\n"
+        "    <rsc_memory_bound>%f</rsc_memory_bound>\n"
+        "    <rsc_disk_bound>%f</rsc_disk_bound>\n"
         "    <name>%s</name>\n"
         "    <app_name>%s</app_name>\n",
-        wu.rsc_fpops,
-        wu.rsc_iops,
-        wu.rsc_memory,
-        wu.rsc_disk,
+        wu.rsc_fpops_est,
+        wu.rsc_fpops_bound,
+        wu.rsc_memory_bound,
+        wu.rsc_disk_bound,
         wu.name,
         app.name
     );

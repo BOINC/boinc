@@ -50,7 +50,6 @@ struct DATA_BLOCK {
 int print_hex_data(FILE* f, DATA_BLOCK&);
 int sprint_hex_data(char* p, DATA_BLOCK&);
 int scan_hex_data(FILE* f, DATA_BLOCK&);
-int sscan_hex_data(char* p, DATA_BLOCK&);
 int print_key_hex(FILE*, KEY* key, int len);
 int scan_key_hex(FILE*, KEY* key, int len);
 int sscan_key_hex(char*, KEY* key, int len);

@@ -28,10 +28,10 @@
 //  [ -download_url x ]
 //  [ -download_dir x ]
 //  [ -keyfile path ]
-//  -rsc_fpops n
-//  -rsc_iops n
-//  -rsc_memory n
-//  -rsc_disk n
+//  -rsc_fpops_est n
+//  -rsc_fpops_bound n
+//  -rsc_memory_bound n
+//  -rsc_disk_bound n
 //  -delay_bound x
 //  [ -min_quorum x ]
 //  [ -target_nresults x ]
@@ -119,14 +119,14 @@ int main(int argc, char** argv) {
             strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_fpops")) {
-            wu.rsc_fpops = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_iops")) {
-            wu.rsc_iops = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_memory")) {
-            wu.rsc_memory = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_disk")) {
-            wu.rsc_disk = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-rsc_fpops_est")) {
+            wu.rsc_fpops_est = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-rsc_fpops_bound")) {
+            wu.rsc_fpops_bound = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-rsc_memory_bound")) {
+            wu.rsc_memory_bound = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-rsc_disk_bound")) {
+            wu.rsc_disk_bound = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-keyfile")) {
             strcpy(keyfile, argv[++i]);
         } else if (!strcmp(argv[i], "-delay_bound")) {

@@ -524,10 +524,10 @@ class Host:
 class Work:
     def __init__(self, redundancy, **kwargs):
         self.input_files = []
-        self.rsc_iops = 1.8e12
-        self.rsc_fpops = 1e13
-        self.rsc_memory = 1e7
-        self.rsc_disk = 1e7
+        self.rsc_fpops_est = 1e13
+        self.rsc_fpops_bound = 4e13
+        self.rsc_memory_bound = 1e7
+        self.rsc_disk_bound = 1e7
         self.delay_bound = 86400
         if not isinstance(redundancy, int):
             raise TypeError
@@ -576,9 +576,10 @@ class Work:
                                  download_url        = project.download_url,
                                  keyfile             = os.path.join(project.key_dir,'upload_private'),
                                  appname             = self.app.name,
-                                 rsc_iops            = self.rsc_iops,
-                                 rsc_fpops           = self.rsc_fpops,
-                                 rsc_disk            = self.rsc_disk,
+                                 rsc_fpops_est       = self.rsc_fpops_est,
+                                 rsc_fpops_bound     = self.rsc_fpops_bound,
+                                 rsc_disk_bound      = self.rsc_disk_bound,
+                                 rsc_memory_bound    = self.rsc_memory_bound,
                                  wu_template         = self.wu_template,
                                  result_template     = self.result_template,
                                  min_quorum          = self.min_quorum,

@@ -501,9 +501,12 @@ bool HTTP_OP_SET::poll() {
                     }
 
                     // Open connection to the redirected server
-                    // TODO: handle return value here
                     //
-                    htp->open_server();
+                    retval = htp->open_server();
+                    if (retval) {
+                        htp->http_op_state = HTTP_STATE_DONE;
+                        htp->http_op_retval = retval;
+                    }
                     break;
                 }
                 if ((htp->hrh.status/100)*100 != HTTP_STATUS_OK) {

@@ -672,10 +672,10 @@ int WORKUNIT::parse(FILE* in) {
     project = NULL;
     // Default these to very large values (1 week on a 1 cobblestone machine)
     // so we don't keep asking the server for more work
-    rsc_fpops = 1e9*SECONDS_PER_DAY*7;
-    rsc_iops = 1e9*SECONDS_PER_DAY*7;
-    rsc_memory = 4e9*SECONDS_PER_DAY*7;
-    rsc_disk = 1024*1024*1024;        // 1 GB
+    rsc_fpops_est = 1e9*SECONDS_PER_DAY*7;
+    rsc_fpops_bound = 4e9*SECONDS_PER_DAY*7;
+    rsc_memory_bound = 1e8;
+    rsc_disk_bound = 1e9;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -683,10 +683,10 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else if (parse_str(buf, "<command_line>", command_line, sizeof(command_line))) continue;
         else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
-        else if (parse_double(buf, "<rsc_fpops>", rsc_fpops)) continue;
-        else if (parse_double(buf, "<rsc_iops>", rsc_iops)) continue;
-        else if (parse_double(buf, "<rsc_memory>", rsc_memory)) continue;
-        else if (parse_double(buf, "<rsc_disk>", rsc_disk)) continue;
+        else if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
+        else if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
+        else if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
+        else if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);
@@ -707,19 +707,19 @@ int WORKUNIT::write(FILE* out) {
         "    <version_num>%d</version_num>\n"
         "    <command_line>%s</command_line>\n"
         "    <env_vars>%s</env_vars>\n"
-        "    <rsc_fpops>%f</rsc_fpops>\n"
-        "    <rsc_iops>%f</rsc_iops>\n"
-        "    <rsc_memory>%f</rsc_memory>\n"
-        "    <rsc_disk>%f</rsc_disk>\n",
+        "    <rsc_fpops_est>%f</rsc_fpops_est>\n"
+        "    <rsc_fpops_bound>%f</rsc_fpops_bound>\n"
+        "    <rsc_memory_bound>%f</rsc_memory_bound>\n"
+        "    <rsc_disk_bound>%f</rsc_disk_bound>\n",
         name,
         app_name,
         version_num,
         command_line,
         env_vars,
-        rsc_fpops,
-        rsc_iops,
-        rsc_memory,
-        rsc_disk
+        rsc_fpops_est,
+        rsc_fpops_bound,
+        rsc_memory_bound,
+        rsc_disk_bound
     );
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);

@@ -9,7 +9,7 @@ from test_uc import *
 class WorkTooBig(WorkUC):
     def __init__(self):
         WorkUC.__init__(self)
-        self.rsc_disk = 1000000000000   # 1 TB
+        self.rsc_disk_bound = 1000000000000   # 1 TB
 
 class ResultUnsent:
     def __init__(self):

@@ -73,7 +73,7 @@ typedef int socklen_t;
 typedef size_t socklen_t;
 #endif
 
-int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
+int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
     hostent* hep;
 
 #ifdef _WIN32
@@ -121,7 +121,7 @@ int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
 
         switch (h_errno) {
         case HOST_NOT_FOUND:
-            sprintf(msg+n, "(authoritative answer not found)");
+            sprintf(msg+n, "(host not found)");
             break;
         case NO_DATA:
             sprintf(msg+n, "(valid name, no data record of requested type)");
@@ -130,7 +130,7 @@ int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
             sprintf(msg+n, "(a nonrecoverable error occurred)");
             break;
         case TRY_AGAIN:
-            sprintf(msg+n, "(nonauthoritative host not found, or server failure)");
+            sprintf(msg+n, "(host not found or server failure)");
             break;
         }
 

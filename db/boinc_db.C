@@ -414,7 +414,8 @@ void DB_WORKUNIT::db_print(char* buf){
     sprintf(buf,
         "id=%d, create_time=%d, appid=%d, "
         "name='%s', xml_doc='%s', batch=%d, "
-        "rsc_fpops=%.15e, rsc_iops=%.15e, rsc_memory=%.15e, rsc_disk=%.15e, "
+        "rsc_fpops_est=%.15e, rsc_fpops_bound=%.15e, "
+        "rsc_memory_bound=%.15e, rsc_disk_bound=%.15e, "
         "need_validate=%d, "
         "canonical_resultid=%d, canonical_credit=%.15e, "
         "transition_time=%d, delay_bound=%d, "
@@ -425,7 +426,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "result_template='%s'",
         id, create_time, appid,
         name, xml_doc, batch,
-        rsc_fpops, rsc_iops, rsc_memory, rsc_disk,
+        rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
         need_validate,
         canonical_resultid, canonical_credit,
         transition_time, delay_bound,
@@ -449,10 +450,10 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     strcpy2(name, r[i++]);
     strcpy2(xml_doc, r[i++]);
     batch = atoi(r[i++]);
-    rsc_fpops = atof(r[i++]);
-    rsc_iops = atof(r[i++]);
-    rsc_memory = atof(r[i++]);
-    rsc_disk = atof(r[i++]);
+    rsc_fpops_est = atof(r[i++]);
+    rsc_fpops_bound = atof(r[i++]);
+    rsc_memory_bound = atof(r[i++]);
+    rsc_disk_bound = atof(r[i++]);
     need_validate = atoi(r[i++]);
     canonical_resultid = atoi(r[i++]);
     canonical_credit = atof(r[i++]);
