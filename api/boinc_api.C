@@ -144,7 +144,6 @@ int boinc_init() {
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
 
-    gi.graphics_mode = MODE_WINDOW;
     gi.refresh_period = 0.1; // 1/10th of a second
     gi.xsize = 640;
     gi.ysize = 480;
@@ -186,6 +185,11 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
     PVOID exceptionAddr = ExceptionInfo->ExceptionRecord->ExceptionAddress;
     DWORD exceptionCode = ExceptionInfo->ExceptionRecord->ExceptionCode;
     char  status[256];
+    static int already_caught_signal = 0;
+
+    // If we've been in this procedure before, something went wrong so we immediately exit
+    if (already_caught_signal) _exit(ERR_SIGNAL_CATCH);
+    already_caught_signal = 1;
     
     switch (exceptionCode) {
         case STATUS_WAIT_0: safe_strncpy(status,"Wait 0",sizeof(status)); break;
@@ -224,7 +228,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
     fprintf( stderr, "Reason: %s at address 0x%p\n",status,exceptionAddr);
     fprintf( stderr, "Exiting...\n" );
     fflush(stderr);
-    exit(ERR_SIGNAL_CATCH);
+    _exit(ERR_SIGNAL_CATCH);
     return(EXCEPTION_EXECUTE_HANDLER);
 }
 #endif
@@ -499,7 +503,7 @@ int set_timer(double period) {
 }
 
 void setup_shared_mem(void) {
-	app_client_shm = new APP_CLIENT_SHM;
+    app_client_shm = new APP_CLIENT_SHM;
 #ifdef API_IGNORE_CLIENT
     app_client_shm->shm = NULL;
     fprintf( stderr, "Ignoring client, so not attaching to shared memory.\n" );
@@ -539,14 +543,14 @@ void cleanup_shared_mem(void) {
 
 
 int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t) {
-	char msg_buf[SHM_SEG_SIZE];
+    char msg_buf[SHM_SEG_SIZE];
     
     sprintf( msg_buf,
         "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n",
         frac_done, cpu_t, cp_cpu_t
-	);
+    );
 
     return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
 }

@@ -113,7 +113,7 @@ int boinc_finish_opengl() {
 
 #ifdef BOINC_APP_GRAPHICS
 
-GLvoid glPrint(GLuint font, const char *fmt, ...)	// Custom GL "Print" Routine
+GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routine
 {
     char		text[256];			// Holds Our String
     va_list		ap;				// Pointer To List Of Arguments
