@@ -62,6 +62,15 @@ function show_456($xml=false) {
     version_end($xml);
 }
 
+function show_418($xml=false) {
+    version_start("4.18", "24 Jan 2005", $xml);
+    version("Windows", "boinc_4.18_windows_intelx86.exe", $xml);
+    version("Linux/x86", "boinc_4.18_i686-pc-linux-gnu.gz", $xml);
+    version("Mac OS X", "boinc_4.18_powerpc-apple-darwin.gz", $xml);
+    version("Solaris/SPARC", "boinc_4.18_sparc-sun-solaris2.7.gz", $xml);
+    version_end($xml);
+}
+
 function show_417($xml=false) {
     version_start("4.17", "23 Jan 2005", $xml);
     version("Windows", "boinc_4.17_windows_intelx86.exe", $xml);
@@ -162,7 +171,7 @@ if ($_GET["dev"]) {
     echo "
         <h2>Development versions (latest features, possibly buggy)</h2>
     ";
-    show_417();
+    show_418();
 echo "<br>";
     show_460();
 }
