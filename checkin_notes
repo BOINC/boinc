@@ -12274,3 +12274,13 @@ David  May 12 2004
     tools/
         backend_lib.C
         process_result_template.C
+
+David  May 12 2004
+    - Added Janus Kristensen's "download network" pages
+        (for dissemination of 3rd-party add-ons)
+
+    html/
+        inc/
+            download_network.inc
+        user/
+            download_network.php

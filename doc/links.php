@@ -1,6 +1,6 @@
 <?
 require_once("docutil.php");
-page_head("Non-English pages about BOINC");
+page_head("Web sites related to BOINC");
 echo "
 Information about BOINC is available in the following languages:
 ";
@@ -37,6 +37,9 @@ list_item("Japanese",
 );
 list_item("Russian",
     "<a href=http://www.boinc.narod.ru>www.boinc.narod.ru</a>"
+);
+list_item("Spanish",
+    "<a href=http://members.lycos.co.uk/boincspain/>BOINC España</a>"
 );
 list_item("Turkish",
     "<a href=http://www.turksetiteam.org/boinc/index.html>www.turksetiteam.org</a>"
