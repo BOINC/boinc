@@ -27,12 +27,14 @@
 
 #include "shmem.h"
 
-int create_shmem(key_t key, int size, void** pp){
+int create_shmem(key_t key, int size, void** pp) {
     int id;
+    char buf[256];
     assert(pp!=NULL);
     id = shmget(key, size, IPC_CREAT|0777);
     if (id < 0) {
-        perror("create_shmem: shmget");
+        sprintf(buf, "create_shmem: shmget: key: %x size: %d", (unsigned int)key, size);
+        perror(buf);
         return -1;
     }
     return attach_shmem(key, pp);
@@ -64,17 +66,19 @@ int destroy_shmem(key_t key){
 
 int attach_shmem(key_t key, void** pp){
     void* p;
+    char buf[256];
     int id;
     assert(pp!=NULL);
-    //fprintf(stderr, "%x\n", key);
     id = shmget(key, 0, 0);
     if (id < 0) {
-        perror("attach_shmem: shmget");
+        sprintf(buf, "attach_shmem: shmget: key: %x mem_addr: %d", (unsigned int)key, (int)pp);
+        perror(buf);
         return -1;
     }
     p = shmat(id, 0, 0);
     if ((int)p == -1) {
-        perror("attach_shmem: shmat");
+        sprintf(buf, "attach_shmem: shmat: key: %x mem_addr: %d", (unsigned int)key, (int)pp);
+        perror(buf);
         return -1;
     }
     *pp = p;
@@ -87,4 +91,21 @@ int detach_shmem(void* p) {
     retval = shmdt((char *)p);
     if (retval) perror("detach_shmem: shmdt");
     return retval;
+}
+
+int shmem_info(key_t key) {
+    int id;
+    struct shmid_ds buf;
+    char buf2[256];
+    
+    id = shmget(key, 0, 0);
+    if (id < 0) {
+        sprintf(buf2, "shmem_info: shmget: key: %x", (unsigned int)key);
+        perror(buf2);
+        return -1;
+    }
+    shmctl(id, IPC_STAT, &buf);
+    fprintf( stderr, "id: %d, size: %d, nattach: %d\n", id, buf.shm_segsz, buf.shm_nattch );
+    
+    return 0;
 }

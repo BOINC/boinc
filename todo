@@ -4,7 +4,7 @@ BUGS (arranged from high to low priority)
 - window closes and does not reopen when workunit finishes
     and new workunit starts
 - CPU time updates infrequently (every 10 seconds),
-    should there be a user control for this?
+    add user control for this (HD write frequency)
 - Client treats URL "maggie/ap/" different than URL "maggie/ap",
     though this isn't really a bug it might be good to fix anyway
 - global battery/user active prefs are always true in the client
@@ -16,8 +16,6 @@ HIGH-PRIORITY (should do for beta test)
 -----------------------
 
 - Implement Screensaver "blank screen" functionality
-
-multiple preference sets
 
 implement server watchdogs
 
@@ -37,6 +35,7 @@ THINGS TO TEST (preferably with test scripts)
 - WU failure: too many errors
 - WU failure: too many good results
 - credit is granted even if result arrives very late
+- multiple preference sets
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------

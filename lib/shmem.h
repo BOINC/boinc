@@ -19,3 +19,5 @@ extern int attach_shmem(key_t, void**);
 // detach from a shared-mem segment
 //
 extern int detach_shmem(void*);
+
+extern int shmem_info(key_t key);

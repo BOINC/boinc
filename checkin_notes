@@ -3819,3 +3819,20 @@ David  Mar 15 2003
     sched/
         feeder.C
         
+Eric  March 17, 2003
+    - Changed app->client communication to use shared memory rather
+      than files.  The client sets up a shared memory segment when
+      starting the app. The app attaches to it and writes XML tags
+      into a 4K text buffer every second.
+
+    configure.in
+    api/
+        boinc_api.C,h
+    apps/
+        Makefile.in
+    client/
+        app.C,h
+        cs_apps.C
+    lib/
+        shmem.C,h
+

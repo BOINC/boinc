@@ -66,6 +66,7 @@ extern BOOL    win_loop_done;
 #endif
 
 #include "parse.h"
+#include "shmem.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "graphics_api.h"
@@ -97,6 +98,7 @@ static bool write_frac_done = false;
 static bool this_process_active;
 static bool time_to_quit = false;
 bool using_opengl = false;
+static APP_CLIENT_SHM *app_client_shm;
 
 // read the INIT_DATA and FD_INIT files
 //
@@ -165,6 +167,7 @@ int boinc_init() {
     
     boinc_install_signal_handlers();
     set_timer(timer_period);
+    setup_shared_mem();
 
     return 0;
 }
@@ -263,7 +266,7 @@ void boinc_quit(int sig) {
 
 int boinc_finish(int status) {
     last_checkpoint_cpu_time = boinc_cpu_time();
-    write_fraction_done_file(fraction_done,last_checkpoint_cpu_time,last_checkpoint_cpu_time);
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time);
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
@@ -277,6 +280,7 @@ int boinc_finish(int status) {
     }
 #endif
 #endif
+    cleanup_shared_mem();
     exit(status);
     return 0;
 }
@@ -317,13 +321,13 @@ bool boinc_time_to_checkpoint() {
     switch (eventState) {
         case WAIT_OBJECT_0:
         case WAIT_ABANDONED:
-			time_to_quit = true;
-			break;
+            time_to_quit = true;
+            break;
     }
 #endif
 
     if (write_frac_done) {
-        write_fraction_done_file(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
+        update_app_progress(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
         time_until_fraction_done_update = aid.fraction_done_update_period;
         write_frac_done = false;
     }
@@ -339,7 +343,7 @@ bool boinc_time_to_checkpoint() {
 
 int boinc_checkpoint_completed() {
     last_checkpoint_cpu_time = boinc_cpu_time();
-    write_fraction_done_file(fraction_done,last_checkpoint_cpu_time,last_checkpoint_cpu_time);
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
     // If it's time to quit, call boinc_finish which will
@@ -403,7 +407,7 @@ double boinc_cpu_time() {
         totTime = tKernel.QuadPart + tUser.QuadPart;
 
         // Runtimes in 100-nanosecond units
-        cpu_secs += totTime / 10000000.0;
+        cpu_secs += totTime / 1.e7;
 
         // Convert to seconds and return
         return cpu_secs;
@@ -503,6 +507,45 @@ int set_timer(double period) {
     return retval;
 }
 
+void setup_shared_mem(void) {
+#ifdef API_IGNORE_CLIENT
+    fprintf( stderr, "Ignoring client, so not attaching to shared memory.\n" );
+    return;
+#endif
+
+#ifdef HAVE_SYS_SHM_H
+#ifdef HAVE_SYS_IPC_H
+    if (attach_shmem(aid.shm_key, (void**)&app_client_shm)) {
+        app_client_shm = NULL;
+    }
+#endif
+#endif
+}
+
+void cleanup_shared_mem(void) {
+#ifdef HAVE_SYS_SHM_H
+#ifdef HAVE_SYS_IPC_H
+    if (app_client_shm != NULL)
+        detach_shmem(app_client_shm);
+#endif
+#endif
+}
+
+int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t) {
+    if (app_client_shm == NULL || (app_client_shm->access != APP_ACCESS_OK))
+        return -1;
+    
+    sprintf( app_client_shm->message_buf,
+        "<fraction_done>%f</fraction_done>\n"
+        "<current_cpu_time>%f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%f</checkpoint_cpu_time>\n",
+        frac_done, cpu_t, cp_cpu_t );
+    
+    app_client_shm->access = CLIENT_ACCESS_OK;
+    
+    return 0;
+}
+
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.app_preferences)) {
         fprintf(f, "<app_preferences>\n%s</app_preferences>\n", ai.app_preferences);
@@ -522,6 +565,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
+        "<shm_key>%d</shm_key>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n",
         ai.wu_cpu_time,
@@ -529,6 +573,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.user_expavg_credit,
         ai.host_total_credit,
         ai.host_expavg_credit,
+        ai.shm_key,
         ai.checkpoint_period,
         ai.fraction_done_update_period
     );
@@ -555,43 +600,10 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
+        else if (parse_int(buf, "<shm_key>", ai.shm_key)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
         else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);
-    }
-    return 0;
-}
-
-int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
-    FILE* f = fopen(FRACTION_DONE_TEMP_FILE, "w");
-
-    if (!f) return -1;
-
-    fprintf(f,
-        "<fraction_done>%f</fraction_done>\n"
-        "<cpu_time>%f</cpu_time>\n"
-        "<checkpoint_cpu_time>%f</checkpoint_cpu_time>\n",
-        pct,
-        cpu,
-        checkpoint_cpu
-    );
-
-    fclose(f);
-#ifdef _WIN32
-    unlink(FRACTION_DONE_FILE);
-#endif
-    rename(FRACTION_DONE_TEMP_FILE, FRACTION_DONE_FILE);
-
-    return 0;
-}
-
-int parse_fraction_done_file(FILE* f, double& pct, double& cpu, double& checkpoint_cpu) {
-    char buf[256];
-    while (fgets(buf, 256, f)) {
-        if (parse_double(buf, "<fraction_done>", pct)) continue;
-        else if (parse_double(buf, "<cpu_time>", cpu)) continue;
-        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu)) continue;
-        else fprintf(stderr, "parse_fraction_done_file: unrecognized %s", buf);
     }
     return 0;
 }

@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <vector>
 #include "client_types.h"
+#include "boinc_api.h"
 
 class CLIENT_STATE;
 typedef int PROCESS_ID;
@@ -55,11 +56,14 @@ class ACTIVE_TASK {
 public:
 #ifdef _WIN32
     HANDLE pid_handle, thread_handle, quitRequestEvent;
+#else
+    key_t shm_key;
 #endif
     RESULT* result;
     WORKUNIT* wup;
     APP_VERSION* app_version;
     PROCESS_ID pid;
+    APP_CLIENT_SHM *app_client_shm;
     int slot;   // which slot (determines directory)
     int state;
     int exit_status;
@@ -98,7 +102,8 @@ public:
     int suspend();
     int unsuspend();
 
-    bool check_app_status_files();
+    int get_cpu_time();
+    bool check_app_status();
     double est_time_to_completion();
     bool read_stderr_file();
 
@@ -120,6 +125,7 @@ public:
     int restart_tasks();
     void request_tasks_exit();
     void kill_tasks();
+    void check_apps();
     int get_free_slot(int total_slots);
 
     int write(FILE*);

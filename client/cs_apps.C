@@ -59,15 +59,17 @@ int CLIENT_STATE::cleanup_and_exit() {
 }
 
 int CLIENT_STATE::exit_tasks() {
+    // TODO: unsuspend active tasks so they have a chance to checkpoint
     // Send a request to the tasks to exit
     active_tasks.request_tasks_exit();
 
-    // Wait a second for them to exit normally
-    active_tasks.wait_for_exit(1);
+    // Wait a second for them to exit normally, if they don't then kill them
+    if (active_tasks.wait_for_exit(1))
+        active_tasks.kill_tasks();
 
-    // And then just kill them
-    active_tasks.kill_tasks();
-
+    // Check their final CPU time
+    active_tasks.check_apps();
+    
     return 0;
 }
 

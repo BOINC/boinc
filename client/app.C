@@ -64,6 +64,7 @@
 #include "file_names.h"
 #include "log_flags.h"
 #include "parse.h"
+#include "shmem.h"
 #include "util.h"
 
 #include "app.h"
@@ -86,6 +87,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     result = NULL;
     wup = NULL;
     app_version = NULL;
+    app_client_shm = NULL;
     pid = 0;
     slot = 0;
     state = PROCESS_UNINITIALIZED;
@@ -151,6 +153,7 @@ int ACTIVE_TASK::start(bool first_time) {
     aid.host_expavg_credit = wup->project->host_expavg_credit;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+    aid.shm_key = 0;
     aid.wu_cpu_time = checkpoint_cpu_time;
 
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
@@ -163,6 +166,9 @@ int ACTIVE_TASK::start(bool first_time) {
         show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
+#ifdef HAVE_SYS_IPC_H
+    aid.shm_key = ftok( init_data_path, slot );
+#endif
     retval = write_init_data_file(f, aid);
     if (retval) return retval;
     
@@ -321,9 +327,17 @@ int ACTIVE_TASK::start(bool first_time) {
     thread_handle = process_info.hThread;
 #else
     char* argv[100];
+    
+    // Setup shared memory to communicate between processes
+    // The app must attach to this shmem segment by calling boinc_init()
+    //
+    shm_key = aid.shm_key;
+    
+    // Destroy any shared memory still hanging around from previous runs
+    //destroy_shmem(shm_key);
+    
     pid = fork();
     if (pid == 0) {
-        
         // from here on we're running in a new process.
         // If an error happens, exit nonzero so that the core client
         // knows there was a problem.
@@ -349,6 +363,13 @@ int ACTIVE_TASK::start(bool first_time) {
         perror("execv");
         exit(1);
     }
+    
+    // Create shared memory after forking, to prevent problems with the
+    // child inheriting bad information about the segment
+    if (!create_shmem(shm_key, sizeof(APP_CLIENT_SHM), (void**)&app_client_shm)) {
+        app_client_shm->access = APP_ACCESS_OK;
+    }
+    
     if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
 #endif
     state = PROCESS_RUNNING;
@@ -415,28 +436,13 @@ bool ACTIVE_TASK_SET::poll() {
 
 #ifdef _WIN32
     unsigned long exit_code;
-    FILETIME creation_time, exit_time, kernel_time, user_time;
-    ULARGE_INTEGER tKernel, tUser;
-    LONGLONG totTime;
     bool found = false;
 
     for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
-            //
-            // Get the elapsed CPU time
-            if (GetProcessTimes(
-                atp->pid_handle, &creation_time, &exit_time,
-                &kernel_time, &user_time
-            )) {
-                tKernel.LowPart = kernel_time.dwLowDateTime;
-                tKernel.HighPart = kernel_time.dwHighDateTime;
-                tUser.LowPart = user_time.dwLowDateTime;
-                tUser.HighPart = user_time.dwHighDateTime;
-
-                // Runtimes in 100-nanosecond units
-                totTime = tKernel.QuadPart + tUser.QuadPart;
-            }
+            // Get the elapsed CPU time, checkpoint CPU time
+            atp->check_app_status();
             atp->result->final_cpu_time = atp->checkpoint_cpu_time;
             if (exit_code != STILL_ACTIVE) {
                 found = true;
@@ -469,11 +475,10 @@ bool ACTIVE_TASK_SET::poll() {
     }
     if (found) return true;
 #else
-    struct rusage rs;
     int pid;
     int stat;
 
-    pid = wait3(&stat, WNOHANG, &rs);
+    pid = wait3(&stat, WNOHANG, 0);
     if (pid > 0) {
         if (log_flags.task_debug) printf("process %d is done\n", pid);
         atp = lookup_pid(pid);
@@ -481,11 +486,11 @@ bool ACTIVE_TASK_SET::poll() {
             fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
             return true;
         }
-        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
-        atp->result->final_cpu_time = atp->starting_cpu_time + x;
+        atp->check_app_status();
+        atp->result->final_cpu_time = atp->checkpoint_cpu_time;
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
-            atp->result->active_task_state =  PROCESS_ABORTED;
+            atp->result->active_task_state = PROCESS_ABORTED;
             gstate.report_result_error(
                 *(atp->result), 0, "process was aborted\n"
             );
@@ -525,6 +530,7 @@ bool ACTIVE_TASK_SET::poll() {
             }
         }
 
+        destroy_shmem(atp->shm_key);
         atp->read_stderr_file();
         clean_out_dir(atp->slot_dir);
 
@@ -573,8 +579,8 @@ bool ACTIVE_TASK::read_stderr_file() {
 //
 int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
     bool all_exited;
-	unsigned int i,n;
-	ACTIVE_TASK *atp;
+    unsigned int i,n;
+    ACTIVE_TASK *atp;
 
     for (i=0; i<10; i++) {
         boinc_sleep(wait_time/10.0);
@@ -588,9 +594,7 @@ int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
             }
         }
 
-        if (all_exited) {
-            return 0;
-        }
+        if (all_exited) return 0;
     }
 
     return -1;
@@ -745,31 +749,71 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
-// See if the app has generated a new fraction-done file.
+int ACTIVE_TASK::get_cpu_time() {
+#ifdef _WIN32
+    FILETIME creation_time, exit_time, kernel_time, user_time;
+    ULARGE_INTEGER tKernel, tUser;
+    LONGLONG totTime;
+    
+    // Get the elapsed CPU time
+    if (GetProcessTimes( pid_handle, &creation_time, &exit_time, &kernel_time, &user_time )) {
+        tKernel.LowPart = kernel_time.dwLowDateTime;
+        tKernel.HighPart = kernel_time.dwHighDateTime;
+        tUser.LowPart = user_time.dwLowDateTime;
+        tUser.HighPart = user_time.dwHighDateTime;
+
+        // Runtimes in 100 nanosecond units
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+        current_cpu_time = checkpoint_cpu_time = starting_cpu_time + totTime/1.e7;
+        return 0;
+    }
+#else
+    struct rusage rs;
+    pid_t ret_pid;
+    int stat;
+    ret_pid = wait4(pid, &stat, WNOHANG, &rs);
+    if (ret_pid > 0) {
+        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
+        current_cpu_time = checkpoint_cpu_time = starting_cpu_time + x;
+        return 0;
+    }
+#endif
+    return -1;
+}
+
+// See if the app has generated a new fraction-done buffer.
 // If so read it and return true.
 //
-bool ACTIVE_TASK::check_app_status_files() {
-    FILE* f;
-    char path[256];
-    bool found = false;
-    int retval;
-
-    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, FRACTION_DONE_FILE);
-    f = fopen(path, "r");
-    if (f) {
-        found = true;
-        retval = parse_fraction_done_file(f, fraction_done, current_cpu_time, checkpoint_cpu_time);
-        fclose(f);
-        if (retval) return false;
-        retval = file_delete(path);
-        if (retval) {
-            fprintf(stderr,
-                "ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
-                path, retval
-            );
+bool ACTIVE_TASK::check_app_status() {
+    if (app_client_shm == NULL) {
+        fraction_done = 0;
+        get_cpu_time();
+    } else {
+        if (app_client_shm->access == CLIENT_ACCESS_OK) {
+            fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
+            
+            parse_double(app_client_shm->message_buf, "<fraction_done>", fraction_done);
+            parse_double(app_client_shm->message_buf, "<current_cpu_time>", current_cpu_time);
+            parse_double(app_client_shm->message_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
+            
+            app_client_shm->access = APP_ACCESS_OK;
+            
+            return false;
         }
     }
-    return found;
+    
+    return false;
+}
+
+// Check status of all active tasks
+//
+void ACTIVE_TASK_SET::check_apps() {
+    unsigned int i;
+    ACTIVE_TASK *atp;
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        atp->check_app_status();
+    }
 }
 
 // Returns the estimated time to completion (in seconds) of this task,
@@ -811,7 +855,7 @@ bool ACTIVE_TASK_SET::poll_time() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        updated |= atp->check_app_status_files();
+        updated |= atp->check_app_status();
     }
 
     return updated;

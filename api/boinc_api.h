@@ -28,7 +28,7 @@
 #ifndef _BOINC_API
 #define _BOINC_API
 
-#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     10
+#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
 #define DEFAULT_CHECKPOINT_PERIOD               300
 
 // MFILE supports a primitive form of checkpointing.
@@ -62,7 +62,16 @@ struct APP_INIT_DATA {
     double host_total_credit;
     double host_expavg_credit;
     double checkpoint_period;     // recommended checkpoint period
+    int shm_key;
     double fraction_done_update_period;
+};
+
+#define APP_ACCESS_OK		0
+#define CLIENT_ACCESS_OK	1
+
+struct APP_CLIENT_SHM {
+    int access;
+    char message_buf[4096];
 };
 
 extern int boinc_init();
@@ -79,20 +88,19 @@ extern int boinc_install_signal_handlers();
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
+int update_app_progress(double, double, double);
 int write_init_data_file(FILE* f, APP_INIT_DATA&);
 int parse_init_data_file(FILE* f, APP_INIT_DATA&);
 int write_fd_init_file(FILE*, char*, int, int);
 int parse_fd_init_file(FILE*);
-int write_fraction_done_file(double, double, double);
-int parse_fraction_done_file(FILE*, double&, double&, double&);
 
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
-#define FRACTION_DONE_FILE  "fraction_done.xml"
-#define FRACTION_DONE_TEMP_FILE  "fraction_done.tmp"
 #define STDERR_FILE             "stderr.txt"
 
 int set_timer(double period);
+void setup_shared_mem();
+void cleanup_shared_mem();
 
 #endif

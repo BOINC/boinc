@@ -16,7 +16,7 @@ CC = @CC@ $(CFLAGS) -I @top_srcdir@/api -I@top_srcdir@/lib
 APIOBJS = ../api/boinc_api.o ../api/graphics_api.o
 X11APIOBJS = ../api/boinc_api.x11.o ../api/graphics_api.x11.o ../api/x_opengl.x11.o
 
-LIBS = ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/util.o
+LIBS = ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/shmem.o ../lib/util.o
 
 CLIBS = @LIBS@
 
