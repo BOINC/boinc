@@ -472,6 +472,7 @@ bool SCHEDULER_OP::poll() {
                     } else {
                         project->tentative = false;
                         project->write_account_file();
+                        gstate.calc_all_proj_size();
                     }
                 } else {
                     switch (retval) {

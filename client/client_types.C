@@ -649,9 +649,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             );
             continue;
         }
-        if (from_server) {
-            
-        }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;

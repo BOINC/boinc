@@ -15940,6 +15940,8 @@ Brian  5 Aug 2004
 	request_file_list.C
 	send_file.C
 	Makefile.am
+    db/
+	boinc_db.h
 
 Rom    5 Aug 2004
     - Possible fix for segfaults on Linux platforms with the scheduler.
@@ -16028,3 +16030,16 @@ David  6 Aug 2004
         user/
             mail_passwd.php
             team_lookup.php
+
+Brian  6 Aug 2004
+    - Fixed bug that was causing problems with BOINC client
+	  Files were not being associated with projects because of small
+	  bugs in the code that were resently checked in. Sorry
+    - Changed a naming convention in a new slice added to the data pies
+	in Windows GUI.
+
+    client/
+	client_types.C
+	cs_data.C
+	scheduler_op.C
+	gui_titles.C

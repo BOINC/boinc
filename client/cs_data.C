@@ -77,6 +77,13 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
     bool deleted;
     bool tentative;
     PROJECT* p;
+
+    // Check if any projects are tentative
+    // could have new prefs in RPC
+    for(i = 0; i < projects.size(); i++) {
+        if (projects[i]->tentative) return false;
+    }
+
     // First, get accurate sizes as of right now
     calc_all_proj_size();
 
@@ -118,7 +125,7 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
     while(tdu > adu) {
         // still not enough space, projects give up non-active WUs
         if(i >= projects.size()) {
-            if(!deleted && tentative) {
+            if(!deleted) {
                 size_overflow = true;
                 data_overflow_notify(NULL);
                 return true;
@@ -126,7 +133,6 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
             i = 0;
         }
         p = projects[i];
-        if (p->tentative) tentative = true;
         deleted_space = delete_results(p, 1);
         if(deleted_space != 0) deleted = true;
         tdu -= deleted_space;
@@ -194,7 +200,7 @@ bool CLIENT_STATE::get_more_disk_space(PROJECT *p, double space_needed) {
 
     // check to see if there is enough extra space floating around
     // such will be the case after calling this after a deletion
-    if(anything_free(free_space)) {
+    if(!anything_free(free_space)) {
         total_space += free_space;
         if (total_space > space_needed) {
             return true;
@@ -236,7 +242,6 @@ bool CLIENT_STATE::get_more_disk_space(PROJECT *p, double space_needed) {
 // return the amount of disk space that was actually freed by the delete
 //
 double CLIENT_STATE::select_delete(PROJECT* p, double space_to_delete, int priority) {
-    FILE_INFO* next_file = NULL;
     double deleted_space = 0;
     double total_space = 0;
 
