@@ -7553,3 +7553,10 @@ David  6 Nov 2003
         prefs.inc
     sched/
         handle_request.C
+
+Eric  7 Nov 2003
+    - Fixed UNIX (Mac) compile problems
+
+    api/boinc_api.C
+    apps/upper_case.C
+
