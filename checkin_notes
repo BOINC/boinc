@@ -10211,3 +10211,9 @@ Rom    Mar 1 2004
         log_flags.c
     lib/
         filesys.C, .h
+
+David  Mar 1 2004
+    - compile errors
+
+    client/
+        gui_rpc_server.C

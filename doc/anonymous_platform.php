@@ -42,10 +42,11 @@ Here's how it works:
 
 <ul>
 <li>
-Download the source code for the BOINC core client,
-and for the project's applications,
-and compile them for your computer.
-Or download the programs from a server of your choosing.
+Download the source code for the BOINC core client
+and the project's applications, and compile them on your computer
+(instructions for compiling the core client are
+<a href=build_client.php>here</a>).
+Or download executables from a server of your choosing.
 <li>
 Run the core client and attach to the project.
 This will create a 'project directory'

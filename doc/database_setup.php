@@ -2,7 +2,6 @@
 require_once("docutil.php");
 page_head("Setting up a BOINC database");
 echo "
-<body bgcolor=ffffff>
 <h2>Setting up a BOINC database</h2>
 <p>
 Each BOINC project uses a relational database to keep track of

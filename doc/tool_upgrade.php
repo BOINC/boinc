@@ -10,6 +10,7 @@ echo "
     <p>
     <b>upgrade</b> does the following:
     <ul>
+    <li>
     It copies files from the source/html/* directories
     to the corresponding project directories.
     <li>

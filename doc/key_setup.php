@@ -6,7 +6,7 @@ echo "
 
 
 The following commands generate the file upload and code signing key pairs.
-BOINC_KEY_DIR is the directory where the kays will be stored.
+BOINC_KEY_DIR is the directory where the keys will be stored.
 The code signing private key should be stored only on
 a highly secure (e.g., a disconnected, physically secure) host.
 <pre>

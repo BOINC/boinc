@@ -108,7 +108,7 @@ output is as expected).
       that the filesize never decreases along interrupted transfers.</tr>
   <tr><td><code>test_masterurl_failure.py</code></td>
     <td> tests the exponential backoff
-      mechanism on the client in case of master IURL failures.  This test is
+      mechanism on the client in case of master URL failures.  This test is
       not automated.  It has to be run, and then client.out (in the host
       directory) must be looked at to examine whether everything is working
       correctly.</tr>

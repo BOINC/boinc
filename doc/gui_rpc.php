@@ -95,7 +95,7 @@ These define a class <code>GUI_RPC</code>
 that manages the establishment of the RPC pipe,
 and that parses the returned XML into a data structure
 from which the GUI can be generated.
-The project <code>gui_test.C</code> shows how to user this mechanism.
+The project <code>gui_test.C</code> shows how to use this mechanism.
 ";
 page_tail();
 ?>

@@ -1,26 +1,29 @@
-<? // -*-html -*-
+<?
 require_once("docutil.php");
 page_head("Building the BOINC core client");
-?>
+echo "
+<p>
+It may not be necessary to build the core client;
+you can get executables for many platforms at
+<a href=http://boinc.berkeley.edu>http://boinc.berkeley.edu</a>.
+<p>
+See the <a href=software.php>Software Prerequisites</a>.
 
-For each platform your project supports (e.g.: i686-pc-linux,
-sun-sparc-solaris2.7, sun-sparc-solaris2.8, intelx86_windows),
-you must compile the core client.
+<h3>Unix, Mac OS/X</h3>
+<p>
+<pre>
+   cd boinc/client
+   make
+</pre>
+The final target is <code>boinc/client/boinc_VERSION_PLATFORM.gz</code>.
 
-<ul>
-  <li><a href=build_client_unix.php>Building the core client for Unix</a>
-  <li><a href=build_client_win.php>Building the core client GUI for Windows</a>
-  <li><a href=build_client_mac.php>Building the core client GUI for Macintosh</a>
-</ul>
+<h3>Windows</h3>
 
-The BOINC server keeps track of core client platforms and versions so that
-users may download the latest version.
-For each client compiled,
-put the package in the master server's <code>boinc/apps/</code> directory
-and run <code>boinc/tools/update_versions</code>.
-For Windows and Macintosh, the files are self-extracting executables;
-for Unix they are .gz files which can be run directly after ungzipping.
+<p>
+Open boinc.dsw (MSVC6) or boinc.sln (MSVC7).
+Build either the Release or Debug version.
+This should also build libraries and screensaver.
 
-<?
+";
    page_tail();
 ?>

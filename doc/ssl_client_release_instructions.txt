@@ -1,8 +1,11 @@
-;; $Id$
+Generating and releasing core client installers
 
-<verno> represents the new version number. At the time of this update, the
-latest version was 2.17, so the new version number would be 2.18. Substitute
-2.18 everywhere you see <verno>
+
+
+<verno> represents the new version number.
+At the time of this update, the latest version was 2.17,
+so the new version number would be 2.18.
+Substitute 2.18 everywhere you see <verno>
 
 Required:
   Unix/Linux/Mac:
@@ -18,15 +21,11 @@ Required:
     InstallShield 5.5 Pro
     InstallShield Package for the Web v2
 
-     boinc\win_build\installer\Media folder
-      (copy from quarl or gmg build folders if you're starting a new
-       build folder. This should be checked in once the required files
-       are separated from the generated files)
-
+    boinc\win_build\installer\Media folder
 
 Administrivia:
     do this on a unix machine:
-    (note: the make in your default path must be gnu make,
+    (note: the make in your default path must be gmake
     IN BOTH YOUR NORMAL SHELL AND SH
     or else set-version will fail towards the end)
 
@@ -57,14 +56,11 @@ Build
     Use the HP Kayak windows box (bart) in 329 or the Dell (skinner) in 325.
 
     set up:
-        bart: Open 'quarl' on the desktop.
-        skinner: Open 'build' on the desktop.
-        other:
-            check out new source tree
-            copy Media.zip into win_build/installer; unzip
-            make sure "Media" is at top level of installer
-            Right-click on top BOINC folder;
-            CVS/preferences/policy; clear "prune empty folders" checkbox
+        check out new source tree
+        copy Media.zip into win_build/installer; unzip
+        make sure "Media" is at top level of installer
+        Right-click on top BOINC folder;
+        CVS/preferences/policy; clear "prune empty folders" checkbox
         copy "client/win/dbghelp.dll" to "win_build/Build/Debug"
 
     Open 'BOINC'

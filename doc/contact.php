@@ -8,7 +8,7 @@ at the University of California, Berkeley,
 and is led by <a href=mailto:davea@ssl.berkeley.edu>Dr. David P. Anderson</a>.
 <p>
 If you have problems with the BOINC software for Windows please email
-<a href=mailto:walton_rom@msn.com>Rom Walton</a>.
+<a href=mailto:rwalton@ssl.berkeley.edu>Rom Walton</a>.
 <p>
 BOINC developers include:
 <p>
