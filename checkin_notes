@@ -10488,3 +10488,10 @@ Jeff  Mar 14 2004
 
 Jeff  Mar 15 2004
     - CVS tagged boinc and seti_boinc as boinc_app_release_2_28.
+
+Karl 2004-04-15
+    - fixed bug when files are copied to apps/ in different order
+
+    tools/
+        update_versions
+
