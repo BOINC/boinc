@@ -260,7 +260,7 @@ class Project {
     }
 
     function start_feeder(){
-        PassThru("cd $this->project_dir/cgi; feeder -asynch > feeder_out");
+        PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
     }
 
     function start_make_work($work){
