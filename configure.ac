@@ -14,7 +14,8 @@ AC_INIT(BOINC, 1.03)
 AC_CANONICAL_SYSTEM
 
 dnl generate .tar.gz, .tar.bz2, .zip
-AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
+dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
+AM_INIT_AUTOMAKE(dist-zip)
 
 AC_CONFIG_SRCDIR(lib/shmem.C)
 

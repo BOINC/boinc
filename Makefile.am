@@ -1,5 +1,7 @@
 ## $Id$
 
+AUTOMAKE_OPTIONS = foreign
+
 SUBDIRS = RSAEuro db lib api apps client sched tools test
 
 # Putting a directory name recursively copies the entire contents - the

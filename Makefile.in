@@ -134,6 +134,8 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
+AUTOMAKE_OPTIONS = foreign
+
 SUBDIRS = RSAEuro db lib api apps client sched tools test
 
 
@@ -392,10 +394,6 @@ dist-gzip: distdir
 	$(AMTAR) chof - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)
 
-dist-bzip2: distdir
-	$(AMTAR) chof - $(distdir) | bzip2 -9 -c >$(distdir).tar.bz2
-	$(am__remove_distdir)
-
 dist-zip: distdir
 	-rm -f $(distdir).zip
 	zip -rq $(distdir).zip $(distdir)
@@ -403,7 +401,6 @@ dist-zip: distdir
 
 dist dist-all: distdir
 	$(AMTAR) chof - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
-	$(AMTAR) chof - $(distdir) | bzip2 -9 -c >$(distdir).tar.bz2
 	-rm -f $(distdir).zip
 	zip -rq $(distdir).zip $(distdir)
 	$(am__remove_distdir)
@@ -543,7 +540,7 @@ uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am check check-am clean \
 	clean-generic clean-recursive ctags ctags-recursive dist \
-	dist-all dist-bzip2 dist-gzip dist-zip distcheck distclean \
+	dist-all dist-gzip dist-zip distcheck distclean \
 	distclean-generic distclean-hdr distclean-recursive \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am dvi-recursive info info-am info-recursive install \

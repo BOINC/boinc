@@ -214,7 +214,7 @@ all: all-am
 .SUFFIXES: .C .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile.incl $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  api/Makefile
+	  $(AUTOMAKE) --gnu  api/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 api_app$(EXEEXT): $(api_app_OBJECTS) $(api_app_DEPENDENCIES) 
