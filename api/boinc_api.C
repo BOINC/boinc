@@ -19,17 +19,23 @@
 
 // API_IGNORE_CLIENT will make the app ignore the core client
 // this is useful for debugging just the application
-//#define API_IGNORE_CLIENT
+#define API_IGNORE_CLIENT
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 #ifdef WIN32
 #include <io.h>
 #include <sys/stat.h>
 #include <windows.h>
 #include <winuser.h>
 #endif
+
+#ifdef __APPLE_CC__
+#include <CoreServices/CoreServices.h>
+#endif
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -48,7 +54,7 @@
 #include "boinc_api.h"
 
 static APP_INIT_DATA aid;
-static GRAPHICS_INFO gi;
+GRAPHICS_INFO gi;
 static double timer_period = 0.1;
 static double time_until_checkpoint;
 static double time_until_fraction_done_update;
@@ -57,7 +63,7 @@ static bool ready_to_checkpoint = false;
 static bool this_process_active;
 
 #ifdef _WIN32
-DWORD WINAPI win_graphics_event_loop( LPVOID duff );
+DWORD WINAPI graphics_main( LPVOID duff );
 #endif
 
 // read the INIT_DATA and FD_INIT files
@@ -120,22 +126,6 @@ int boinc_init() {
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;
     set_timer(timer_period);
-
-#ifdef BOINC_APP_GRAPHICS
-#ifdef _WIN32
-    DWORD threadId;
-    HANDLE hThread;
-
-    // Create the graphics thread, passing it the graphics info
-    hThread = CreateThread( NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId );
-
-    // Set it to idle priority
-    SetThreadPriority (hThread, THREAD_PRIORITY_HIGHEST);
-
-    // Start the graphics thread
-    ResumeThread( hThread );
-#endif
-#endif
 
     return 0;
 }
