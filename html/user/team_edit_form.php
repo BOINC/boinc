@@ -5,19 +5,21 @@ require_once("team.inc");
 
 $authenticator = init_session();
 db_init();
-
+$user = get_user_from_auth($authenticator);
     $id = $HTTP_GET_VARS["id"];
+
     $query = "select * from team where id = $id";
     $result = mysql_query($query);
     if ($result) {
         $team = mysql_fetch_object($result);
         mysql_free_result($result);
     }
-    $team_name = $team->name;
+    require_founder_login($user, $team);
+    $team_name = ereg_replace("\"", "'", $team->name);
     $team_id = $team->id;
-    $team_name_html = $team->name_html;
-    $team_url = $team->url;
-    $team_description = $team->description;
+    $team_name_html = ereg_replace("\"", "'", $team->name_html);
+    $team_url = ereg_replace("\"", "'", $team->url);
+    $team_description = ereg_replace("\"", "'", $team->description);
     $team_type = $team->type;
     page_head("Edit $team_name");
     echo "<table width=780>
@@ -27,12 +29,12 @@ db_init();
     </td></tr></table>
     <table><tr>
     <td>Team name (plain-text version):<br><br>&nbsp;</td>
-    <td><input name=name size=50 value=$team_name>
+    <td><input name=name size=50 value=\"$team_name\">
     <br><font size=2>This name will be print as-is
     <br>and is the name you should use when searching for your team.
     </td></tr></tr>
     <td>Team name (HTML version):<br><br>&nbsp;</td>
-    <td><input name=name_html size=50 value='$team_name_html'>
+    <td><input name=name_html size=50 value=\"$team_name_html\">
     <br><font size=2>This name will be printed as HTML source, so you may include any HTML
     <br>code that you want. This will only be displayed in your team's page.
     <br>If you don't know HTML, just leave this box blank.

@@ -35,9 +35,17 @@ function send_auth_email($email_addr, $auth) {
 function init_session() {
     session_start();
     if (!isset($_SESSION["authenticator"])) {
-        $_SESSION["authenticator"] = "";
+	$_SESSION["authenticator"] = $authenticator;
     }
     return $_SESSION["authenticator"];
+}
+
+// requires that the user be logged in
+function require_login($user) {
+    if (!$user) {
+        print_login_form();
+        exit();    
+    }
 }
 
 function get_user_from_auth($auth) {
@@ -74,7 +82,7 @@ function page_head($title) {
 
 function page_tail() {
 
-    echo "<a href=index.php>Return to main ".PROJECT." page</a><br>\n";
+    echo "<br><br><a href=index.php>Return to main ".PROJECT." page</a><br>\n";
 
     // put your copyright notice etc. here
 

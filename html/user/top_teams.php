@@ -37,8 +37,8 @@ function show_team_row($team) {
         $result2 = mysql_query($query);
         $nmembers = mysql_result($result2, 0);
 
-        $total_credit = $total_credit_sum/$nmembers;
-        $expavg_credit = $expavg_credit_sum/$nmembers;
+        $total_credit = $total_credit_sum;
+        $expavg_credit = $expavg_credit_sum;
         $query = "update team set nusers=$nmembers, total_credit=$total_credit, expavg_credit=$expavg_credit where id=$team->id";
         $result2 = mysql_query($query);
     }

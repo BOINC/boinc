@@ -71,7 +71,7 @@ To join this list, go to
 
 <!--
 <?php
-include 'FILE_NAME';
+include 'schedulers.txt';
 ?>
 -->
 

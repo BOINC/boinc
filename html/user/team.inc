@@ -93,4 +93,27 @@ function display_team_page($team) {
     page_tail();
 }
 
+// requires that the team exist
+function require_team($team) {
+    if (!$team) {
+        page_head("Error");
+        echo "Team does not exist.";
+        page_tail();
+        exit();
+    }
+}
+
+// requires that the user is logged in as the founder of
+// the team trying to be edited
+function require_founder_login($user, $team) {
+    require_login($user);
+    require_team($team);
+    if ($user->id != $team->userid) {
+        page_head("Permission denied");
+        echo "Only a team's founder may edit a team.";
+        page_tail();
+        exit();
+    }
+}
+
 ?>

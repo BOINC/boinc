@@ -6,6 +6,7 @@
     // show the home page of whoever's logged in
 
     $authenticator = init_session();
+
     db_init();
     $user = get_user_from_auth($authenticator);
     if ($user) {

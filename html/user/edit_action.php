@@ -8,11 +8,8 @@
     $authenticator = init_session();
     db_init();
     $user = get_user_from_auth($authenticator);
+    require_login($user);
 
-    if (!$user) {
-        print_login_form();
-        exit();
-    }
     page_head("Updating User Account");
     $my_email = $HTTP_POST_VARS["my_email"];
     $my_name = $HTTP_POST_VARS["my_name"];

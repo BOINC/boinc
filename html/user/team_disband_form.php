@@ -5,6 +5,7 @@ require_once("team.inc");
 
 $authenticator = init_session();
 db_init();
+$user = get_user_from_auth($authenticator);
 $id = $HTTP_GET_VARS["id"];
 
     $query = sprintf(
@@ -16,6 +17,7 @@ $id = $HTTP_GET_VARS["id"];
         $team = mysql_fetch_object($result);
         mysql_free_result($result);
     }
+    require_founder_login($user, $team);
     $team_name = $team->name;
     $team_id = $team->id;
     page_head("Disband $team_name");

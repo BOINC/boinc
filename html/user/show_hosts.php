@@ -7,11 +7,9 @@
     $authenticator = init_session();
     db_init();
     $user = get_user_from_auth($authenticator);
-    if ($user) {
+    require_login($user);
+
         page_head("Hosts stats");
         show_hosts($user);
         page_tail();
-    } else {
-        print_login_form();
-    }
 ?>

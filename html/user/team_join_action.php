@@ -7,6 +7,7 @@
     $authenticator = init_session();
     db_init();
     $user = get_user_from_auth($authenticator);
+    require_login($user);
 
     $query = sprintf(
         "select * from team where id = %d",
@@ -55,7 +56,7 @@
             echo "<h2>Added to team</h2>";
             echo "You have been added to <a href=team_display.php?id=$team->id>$team_name</a>.<br>";
             echo "If you were previously a part of a team you are no longer a member of it. ";
-            echo "You may only be part of one team at a time.";
+            echo "You may only be part of one team at a time.<p>";
         } else {
             page_head("Error");
             echo "Couldn't join team - please try later.\n";

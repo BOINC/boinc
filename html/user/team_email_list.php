@@ -16,15 +16,11 @@ $query = sprintf(
 $result = mysql_query($query);
 if ($result) {
     $team = mysql_fetch_object($result);
+    mysql_free_result($result);
 }
-if (!$team) {
-    page_head("Unable to display team members' email addresses");
-    echo ("We are unable to display the email addresses of the members of that team");
-    page_tail();
-} else if ($user->id != $team->userid) {
-    page_head("Permission denied");
-    echo "Only a team's founder may view a team's email list.\n<br>\n";
-} else {
+
+    require_founder_login($user, $team);
+
     page_head("$team->name Email List");
     echo "<p>";
     echo "<table border=0 width=580>";
@@ -45,7 +41,7 @@ if (!$team) {
         } 
     }
     echo "</table>";
-}
+
 page_tail();
 
 ?>

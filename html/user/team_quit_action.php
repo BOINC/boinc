@@ -7,7 +7,8 @@
     $authenticator = init_session();
     db_init();
     $user = get_user_from_auth($authenticator);
-    
+    require_login($user);
+
     $query = sprintf(
         "select * from team where id = %d",
         $HTTP_POST_VARS["id"]

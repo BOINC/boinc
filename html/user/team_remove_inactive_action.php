@@ -13,12 +13,12 @@
         $HTTP_POST_VARS["id"]
     );
     $result = mysql_query($query);
-    $team = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if ($user->id != $team->userid) {
-        page_head("Permission denied");
-        echo "Only a team's founder may remove members from a team.";
-    } else {
+    if($result) {
+      $team = mysql_fetch_object($result);
+      mysql_free_result($result);
+    }
+    require_founder_login($user, $team);
+
         $nmembers = 0;
         $unable_to_remove = FALSE;
         $user_table_error = FALSE;
@@ -73,7 +73,6 @@
             page_head("Error");
             echo "Couldn't remove users - please try later.\n";
         }
-    }
 
 page_tail();
 

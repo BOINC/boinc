@@ -13,15 +13,12 @@
         $HTTP_POST_VARS["id"]
     );
     $result = mysql_query($query);
-    $team = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if (!$team) {
-        page_head("Error");
-        echo "The team you tried to disband does not exist.";
-    } else if ($user->id != $team->userid) {
-        page_head("Permission denied");
-        echo "Only a team's founder may disband a team.";
-    } else {
+    if ($result) {
+        $team = mysql_fetch_object($result);
+        mysql_free_result($result);
+    }
+    require_founder_login($user, $team);
+
         $query_team_table = sprintf(
             "delete from team where id = %d",
             $team->id
@@ -38,7 +35,6 @@
             page_head("Error");
             echo "Couldn't disband team - please try later.\n";
         }
-    }
 
 page_tail();
 
