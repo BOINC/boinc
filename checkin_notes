@@ -25828,3 +25828,16 @@ David  10 Mar 2005
         db_dump.C
         server_types.C
         validate_util.C
+
+David  10 Mar 2005
+    - tested and fixed bugs in the core client's support for
+        account management RPC.
+        It now can make the RPC, parse the reply,
+        and attach to the projects listed in the reply.
+
+    client/
+        acct_mgr.C,h
+        client_state.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C

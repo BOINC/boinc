@@ -45,7 +45,7 @@
 using std::string;
 using std::vector;
 
-//#define DEBUG
+#define DEBUG
 
 DISPLAY_INFO::DISPLAY_INFO() {
     memset(this, 0, sizeof(DISPLAY_INFO));
@@ -1594,7 +1594,8 @@ int RPC_CLIENT::acct_mgr_rpc(char* url, char* name, char* passwd) {
         "<acct_mgr_rpc>\n"
         "  <url>%s</url>\n"
         "  <name>%s</name>\n"
-        "  <passwd>%s</passwd>\n",
+        "  <password>%s</password>\n"
+        "</acct_mgr_rpc>\n",
         url, name, passwd
     );
     return rpc.do_rpc(buf);

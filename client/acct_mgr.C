@@ -41,16 +41,17 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
     boinc_delete_file(ACCT_MGR_REPLY_FILENAME);
     retval = http_op.init_get(buf, ACCT_MGR_REPLY_FILENAME, true);
     if (retval) return retval;
-    retval = http_ops->insert(&http_op);
+    retval = gstate.http_ops->insert(&http_op);
     if (retval) return retval;
     state = ACCT_MGR_STATE_BUSY;
+
     return 0;
 }
 
 bool ACCT_MGR::poll(double now) {
     if (state == ACCT_MGR_STATE_IDLE) return false;
     static double last_time=0;
-    if (now-last_time < 10) return false;
+    if (now-last_time < 1) return false;
     last_time = now;
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
@@ -64,9 +65,7 @@ bool ACCT_MGR::poll(double now) {
                 handle_reply();
             }
         } else {
-            msg_printf(NULL, MSG_ERROR,
-                "Account manager RPC failed"
-            );
+            msg_printf(NULL, MSG_ERROR, "Account manager RPC failed");
         }
         state = ACCT_MGR_STATE_IDLE;
     }
@@ -93,13 +92,16 @@ ACCT_MGR::ACCT_MGR() {
     state = ACCT_MGR_STATE_IDLE;
 }
 
+ACCT_MGR::~ACCT_MGR() {
+}
+
 int ACCT_MGR::parse(MIOFILE& in) {
     char buf[256];
     int retval;
 
     accounts.clear();
     while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "<accounts>")) return 0;
+        if (match_tag(buf, "</accounts>")) return 0;
         if (match_tag(buf, "<account>")) {
             ACCOUNT account;
             retval = account.parse(in);
@@ -112,19 +114,25 @@ int ACCT_MGR::parse(MIOFILE& in) {
 void ACCT_MGR::handle_reply() {
     unsigned int i;
 
+    msg_printf(NULL, MSG_INFO, "Handling account manager RPC reply");
     for (i=0; i<accounts.size(); i++) {
         ACCOUNT& acct = accounts[i];
         PROJECT* pp = gstate.lookup_project(acct.url.c_str());
         if (pp) {
             if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-                msg_printf(NULL, MSG_ERROR,
-                    "You're attached to project %s with a different account",
-                    pp->get_project_name()
+                msg_printf(pp, MSG_ERROR,
+                    "You're attached to this project with a different account"
                 );
+            } else {
+                msg_printf(pp, MSG_INFO, "Already attached");
             }
         } else {
+            msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
             gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
         }
+    }
+    if (accounts.size() == 0) {
+        msg_printf(NULL, MSG_ERROR, "No accounts reported by account manager");
     }
 }
 const char *BOINC_RCSID_8fd9e873bf="$Id$";

@@ -278,7 +278,13 @@ int main(int argc, char** argv) {
         if (!retval) hi.print();
     } else if (!strcmp(argv[i], "--acct_mgr_rpc")) {
         i++;
+        printf("foobar %d %d\n", i, argc);
+        if (i+3 > argc) {
+            fprintf(stderr, "missing arguments\n");
+            exit(1);
+        }
         retval = rpc.acct_mgr_rpc(argv[i], argv[i+1], argv[i+2]);
+        printf("retval %d\n", retval);
     } else if (!strcmp(argv[i], "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
     } else if (!strcmp(argv[i], "--get_screensaver_mode")) {

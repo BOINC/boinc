@@ -41,13 +41,14 @@ struct ACCOUNT {
 struct ACCT_MGR {
     int state;
     HTTP_OP http_op;
-    HTTP_OP_SET* http_ops;
     std::vector<ACCOUNT> accounts;
     int do_rpc(std::string url, std::string name, std::string password);
     int parse(MIOFILE&);
     bool poll(double);
     void handle_reply();
+
     ACCT_MGR();
+    ~ACCT_MGR();
 };
 
 #endif
