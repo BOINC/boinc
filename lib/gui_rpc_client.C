@@ -1258,7 +1258,7 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
     RPC rpc(this);
 
     sprintf(buf,
-        "<set_proxy_settings>\n%s%s"
+        "<set_proxy_settings>\n%s%s%s"
         "    <proxy_info>\n"
         "        <http_server_name>%s</http_server_name>\n"
         "        <http_server_port>%d</http_server_port>\n"
@@ -1266,18 +1266,21 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
         "        <http_user_passwd>%s</http_user_passwd>\n"
         "        <socks_server_name>%s</socks_server_name>\n"
         "        <socks_server_port>%d</socks_server_port>\n"
+        "        <socks_version>%d</socks_version>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
         "        <socks5_user_passwd>%s</socks5_user_passwd>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
         pi.use_http_proxy?"   <use_http_proxy/>\n":"",
         pi.use_socks_proxy?"   <use_socks_proxy/>\n":"",
+        pi.use_http_authentication?"   <use_http_auth/>\n":"",
         pi.http_server_name.c_str(),
         pi.http_server_port,
         pi.http_user_name.c_str(),
         pi.http_user_passwd.c_str(),
         pi.socks_server_name.c_str(),
         pi.socks_server_port,
+        pi.socks_version,
         pi.socks5_user_name.c_str(),
         pi.socks5_user_passwd.c_str()
     );

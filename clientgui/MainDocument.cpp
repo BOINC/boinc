@@ -1489,6 +1489,13 @@ wxInt32 CMainDocument::SetProxyConfiguration()
 {
     wxInt32 retval = 0;
 
+    if ( !proxy_info.http_user_name.empty() || !proxy_info.http_user_passwd.empty() )
+        proxy_info.use_http_authentication = true;
+
+    proxy_info.socks_version = 4;
+    if ( !proxy_info.socks5_user_name.empty() || !proxy_info.socks5_user_passwd.empty() )
+        proxy_info.socks_version = 5;
+
 	retval = rpc.set_proxy_settings( proxy_info );
     if (retval)
     {
