@@ -123,6 +123,8 @@ extern void replaceStar(Star* tmpStar);
 
 #include "jpeglib.h"
 #include "bmplib.h"
+#include "tgalib.h"
+
 #define MAX_TEXTURES 16
 #define MAX_FONTS 16
 extern UINT g_Texture[MAX_TEXTURES];
@@ -130,6 +132,7 @@ extern UINT listBase[MAX_FONTS];
 extern bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID);
 extern bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID);
 extern bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID);
+extern bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID);
 extern tImageJPG *LoadJPG(const char *filename);
 extern void print_text(unsigned int base, char *string);
 extern void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight);

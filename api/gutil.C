@@ -17,7 +17,8 @@
 // Contributor(s):
 //
 
-#include "config.h"
+//#include "config.h"
+#define HAVE_GLUT_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -976,7 +977,6 @@ bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
 	return true;
 }
-
 bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 {
 	unsigned char* pixels;
@@ -989,6 +989,37 @@ bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+	return true;
+}
+
+bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID)
+{
+	if(!strFileName)									// Return from the function if no file name was passed in
+		return false;
+
+	tImageTGA *pImage = LoadTGA(strFileName);			// Load the image and store the data
+	if(pImage == NULL)									// If we can't load the file, quit!
+		exit(0);
+	glGenTextures(1, &textureArray[textureID]);
+	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
+	int textureType = GL_RGB;
+	if(pImage->channels == 4)
+	{
+		textureType = GL_RGBA;		
+	}
+	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX, 
+					  pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
+//	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+//	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+
+	if (pImage)										// If we loaded the image
+	{
+		if (pImage->data)							// If there is texture data
+		{
+			delete[] pImage->data;					// Free the texture data, we don't need it anymore
+		}
+		free(pImage);								// Free the image structure
+	}
 	return true;
 }
 

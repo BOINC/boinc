@@ -768,7 +768,7 @@ void REDUCED_ARRAY::draw_axes() {
 	glEnd();
 
     glBegin(GL_QUADS);
-    glColor4d(1,1,1,.3);
+    glColor4d(1,1,1,.2);
 
     glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
