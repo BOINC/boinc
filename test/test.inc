@@ -252,6 +252,7 @@ class Project {
 
 class User {
     var $name;
+    var $email_addr;
     var $authenticator;
 
     function User() {

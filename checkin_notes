@@ -2065,6 +2065,9 @@ David   Oct 3 2002
         main.C
         validate.C
         validate_test.C
+    test/
+        test.inc (new)
+        test_uc.php
     tools/
         add.C
         backend_lib.C,h

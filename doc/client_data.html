@@ -57,11 +57,10 @@ and installs a pointer.
 <h3>Handling a scheduler RPC reply</h3>
 <p>
 A similar approach is used when handling the reply
-from an scheduling server RPC (CLIENT_STATE::handle_scheduler_reply).
+from a scheduling server RPC (CLIENT_STATE::handle_scheduler_reply).
 The RPC returns a interconnected set of basic objects,
 represented in a SCHEDULER_REPLY object.
 For each of these basic objects, we see (e.g. lookup_app())
-if it's alread present in the CLIENT_STATE structure.
+if it's already present in the CLIENT_STATE structure.
 If not, we create and insert a new object,
-then link it (e.g., link_app()) to establish pointers to
-associated objects in CLIENT_STATE.
+then link it (e.g., link_app()) to existing objects in CLIENT_STATE.
