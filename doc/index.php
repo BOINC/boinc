@@ -20,7 +20,7 @@ computer resources
 </center>
 
 <br clear=all>
-<table width=100% border=0 cellspacing=0 cellpadding=20>
+<table width=100% border=0 cellspacing=0 cellpadding=10>
 <tr>
 <td valign=top width=40%>
 <a href=intro.php>Overview of BOINC</a>
@@ -72,6 +72,9 @@ BOINC-based distributed computing projects include:
 <a href=http://climateprediction.net>Climateprediction.net</a>:
 Improve the accuracy of long-range climate prediction.
 <li>
+<a href=http://athome.web.cern.ch/athome/>LHC@home</a>:
+Help to build the CERN LHC accelerator.
+<li>
 <a href=http://predictor.scripps.edu>Predictor@home</a>:
 Solve biomedical questions of protein-related diseases.
 <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
@@ -80,7 +83,7 @@ looking for evidence of extraterrestrial life.
 </ul>
 We encourage you to participate in multiple projects,
 so that your computer will be kept busy even
-while a project is down or out of work.
+while projects are down or out of work.
 
 
 <center>

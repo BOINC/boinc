@@ -16861,3 +16861,13 @@ Rom    1 Sep 2004
 
     client/translations/
         <Many Files>
+
+David  1 Sep 2004
+    - fixed bug in web-caching code that caused files in html/user
+        to be randomly deleted.
+        The function clean_cache($dir) was enumerating files in $dir,
+        and doing unlink($file), but without chdir'ing into $dir
+        or concatenating $dir onto $file.
+
+    html/inc
+        cache.inc

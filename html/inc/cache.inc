@@ -45,14 +45,21 @@ function disk_usage($dir) {
     return $usage;
 }
 
-function clean_cache($max_age,$dir="../cache") {
-    if ($handle=@opendir($dir)) {
+function clean_cache($max_age, $dir) {
+    chdir($dir);
+    if ($handle=@opendir(".")) {
         while ($file=readdir($handle)) {
-            if (($file != ".") && ($file != "..")) {
-                if (@is_dir($dir."/".$file)) {
-                    clean_cache($max_age,$dir."/".$file);
-                } else {
-                    if ((time()-@filemtime($file))>$max_age) @unlink($file);
+            if ($file == ".") continue;
+            if ($file == "..") continue;
+
+            // don't let hackers trick us into deleting other files!
+            if (substr($file, "..")) continue;
+            if (@is_dir($dir."/".$file)) {
+                clean_cache($max_age, $dir."/".$file);
+            } else {
+                if ((time()-@filemtime($file))>$max_age) {
+                    //echo "unlinking $dir/$file\n";
+                    @unlink($file);
                 }
             }
         }
@@ -67,7 +74,7 @@ function start_cache($max_age, $params=""){
        $too_old=86400;
        while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
            (disk_usage("../cache") > MAX_CACHE_USAGE)) {
-           clean_cache($too_old);
+           clean_cache($too_old, "../cache");
            $too_old/=2;
        }
     }
