@@ -142,6 +142,9 @@ int main(int argc, char **argv) {
 
     my_start_time = time(0);
 
+    // NOTE: if you change output here, remember to change the output that
+    // test_uc.py pattern-matches against.
+
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;

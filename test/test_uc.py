@@ -31,8 +31,8 @@ class WorkUC(Work):
 class ResultUC(Result):
     def __init__(self):
         self.stderr_out   = MATCH_REGEXPS([
-            "<stderr_txt>\n" +
-            "APP: upper_case: starting, argc \\d+\n" +
+            "<stderr_txt>",
+            "APP: upper_case: starting, argc \\d+",
             "APP: upper_case: argv[[]0[]] is upper_case",
             "APP: upper_case ending, wrote \\d+ chars"])
 
