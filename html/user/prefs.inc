@@ -116,7 +116,7 @@ function element_end_project($parser, $name) {
         if ($in_project_specific) {
             $text = $text."</$name>\n";
         } else {
-            echo "Unknown tag: $name\n";
+            //echo "Unknown tag: $name\n";
         }
     }
 }
@@ -177,7 +177,7 @@ function element_end_global($parser, $name) {
     case "global_preferences":
         break;
     default:
-        echo "Unknown tag: $name\n";
+        //echo "Unknown tag: $name\n";
     }
 }
 
