@@ -1,7 +1,6 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- multiple preference sets
 - Test suspend/resume functionality on Windows,
     no way to suspend/resume on UNIX
 - "Show Graphics" menu item brings up minimized window,
@@ -9,30 +8,23 @@ BUGS (arranged from high to low priority)
     window closes and does not reopen when workunit finishes
     and new workunit starts
 - Screensaver "blank screen" functionality not implemented
-- Host stats incorrectly reports number of times connected with same ip
-    (unconfirmed)
 - CPU time updates infrequently (every 10 seconds),
     should there be a user control for this?
 - Client treats URL "maggie/ap/" different than URL "maggie/ap",
     though this isn't really a bug it might be good to fix anyway
-- make pie chart colors/labels easier to understand
 - need a way to refresh prefs from client
 - Client should display "Upload failed" and "Download failed" when failure occurs
 - Win GUI: columns expand when window expands
 - Download speed is not as fast as it should be
 - Result status should say "downloading files", "uploading files", etc.
-- Download progress doesn't update fast enough/at all on Win9x (is this b/c of buffered disk writing?)
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
 
-Check for problematic HTML tags in team descriptions
-    (use SETI@home code?)
+multiple preference sets
 
 implement server watchdogs
-
-make get_local_ip_addr() work in all cases
 
 est_time_to_completion doesn't work for non-running tasks
 
@@ -53,6 +45,10 @@ THINGS TO TEST (preferably with test scripts)
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
+
+make get_local_ip_addr() work in all cases
+
+zip XML stats dumps (average of 12x compression)
 
 implement max bytes/sec network preferences
 implement bandwidth limiting
