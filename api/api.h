@@ -74,6 +74,7 @@ struct APP_OUT {
     bool checkpointed;              // true iff checkpointed since last call
 };
 
+void write_core_file(FILE* f, APP_IN &ai);
 void boinc_init(APP_IN&);
 double boinc_time();
 void boinc_poll(APP_IN&, APP_OUT&);

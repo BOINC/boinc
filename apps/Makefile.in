@@ -11,7 +11,7 @@ CFLAGS = -g -Wall @DEFS@ \
 
 CC = @CC@ $(CFLAGS) -I @top_srcdir@/api
 
-LIBS = ../api/api.o
+LIBS = ../api/api.o ../lib/parse.o
 
 CLIBS = @LIBS@
 

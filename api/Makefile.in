@@ -15,7 +15,8 @@ all: $(PROGS)
 
 OBJS = \
     api_test.o \
-    api.o
+    api.o \
+    ../lib/parse.o
 
 .C.o:
 	$(CC) -c -o $*.o $<

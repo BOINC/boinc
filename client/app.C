@@ -42,9 +42,9 @@
 #include "file_names.h"
 #include "log_flags.h"
 #include "parse.h"
-#include "gfx_interface.h"
 
 #include "app.h"
+#include "api.h"
 
 // take a string containing some words.
 // return an array of pointers to the null-terminated words.
@@ -103,19 +103,26 @@ int ACTIVE_TASK::start(bool first_time) {
     int fd, retval;
     char prefs_path[256];
     FILE *prefs_fd;
-    GFX_INTERFACE *gi = new GFX_INTERFACE;
+    APP_IN app_prefs;
 
-    gi->width = 640;
-    gi->height = 480;
-    gi->depth = 32;
-    gi->fps = 5;
-    gi->draw_offscreen = 1;
-    gi->shared_mem_key = ftok(dirname, 'B'); // Generate a unique identifier
+    // These should be chosen in a better manner
+    app_prefs.graphics.xsize = 640;
+    app_prefs.graphics.ysize = 480;
+    app_prefs.graphics.refresh_period = 5;
+    app_prefs.checkpoint_period = 5;
+    app_prefs.poll_period = 5;
+    //app_gfx_prefs.shared_mem_key = ftok(dirname, 'B'); // Generate a unique identifier
 
     // Write out the app prefs
-    sprintf( prefs_path, "%s/%s", dirname, "prefs.xml" );
+    sprintf( prefs_path, "%s/%s", dirname, CORE_TO_APP_FILE );
     prefs_fd = fopen( prefs_path, "w" );
-    gi->write_prefs(prefs_fd);
+    if( !prefs_fd ) {
+        if( log_flags.task_debug ) {
+            printf( "Failed to open core to app prefs file %s.\n", prefs_path );
+        }
+        exit(-1);
+    }
+    write_core_file( prefs_fd,app_prefs );
     fclose(prefs_fd);
 
 #ifdef unix

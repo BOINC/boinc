@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "../sched/parse.h"
 #include "api.h"
@@ -146,7 +147,8 @@ void boinc_init(APP_IN& ai) {
 }
 
 double boinc_time() {
-    return double_time();
+    //return double_time();
+    return 0;
 }
 
 void boinc_poll(APP_IN& ai, APP_OUT& ao) {
