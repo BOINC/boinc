@@ -41,12 +41,12 @@ function show_error($str) {
         $project_prefs = "";
     }
 
-    $new_name = $_POST["new_name"];
+    $new_name = process_user_text($_POST["new_name"]);
     if (strlen($new_name)==0) {
         show_error("You must supply a name for your account");
     }
 
-    $new_email_addr = trim($HTTP_POST_VARS["new_email_addr"]);
+    $new_email_addr = process_user_text($HTTP_POST_VARS["new_email_addr"]);
     $new_email_addr = strtolower($new_email_addr);
     if (!is_valid_email_addr($new_email_addr)) {
         show_error("Invalid email address:
@@ -64,6 +64,14 @@ function show_error($str) {
         }
     }
 
+    $country = $_POST["country"];
+    if (!is_valid_country($country)) {
+        echo "bad country";
+        exit();
+    }
+
+    $postal_code = process_user_text($_POST["postal_code"]);
+
     $authenticator = random_string();
     $cross_project_id = random_string();
     $munged_email_addr = munge_email_addr($new_email_addr, $authenticator);
@@ -73,8 +81,8 @@ function show_error($str) {
         $munged_email_addr,
         $new_name,
         $authenticator,
-        $_POST["country"],
-        $_POST["postal_code"]
+        $country,
+        $postal_code
     );
     $result = mysql_query($query);
     if (!$result) {

@@ -21816,3 +21816,23 @@ David  25 Dec 2004
 	win_build/
 		config.h (new)
 		win-config.h (new)
+
+David  26 Dec 2004
+    - User web: define a function process_user_text() that
+        should be applied to any user-supplied text used in a SQL query.
+        It does trim(), stripslashes(), and boinc_real_escape_string()
+    - Update the account-creation and account-editing pages
+        to use the above; needs to be added a few other places too
+    - Remove the db_init() from forum.inc
+        and add db_init() as needed to .php files
+        (.inc files should NOT do db initialization)
+
+    html/
+        inc/
+            db.inc
+            forum.inc
+            util_ops.inc
+        user/
+            create_account_action.php
+            edit_user_info_action.php
+            forum*.php

@@ -4,6 +4,8 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/subscribe.inc');
 
+db_init();
+
 $logged_in_user = get_logged_in_user(true);
 $logged_in_user = getForumPreferences($logged_in_user);
 

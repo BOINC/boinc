@@ -2,15 +2,19 @@
     require_once("../inc/db.inc");
     require_once("../inc/user.inc");
     require_once("../inc/util.inc");
+    require_once("../inc/countries.inc");
 
     db_init();
     $user = get_logged_in_user();
 
-    $name = $HTTP_POST_VARS["user_name"];
-    $url = $HTTP_POST_VARS["url"];
+    $name = process_user_text($HTTP_POST_VARS["user_name"]);
+    $url = process_user_text($HTTP_POST_VARS["url"]);
     $country = $HTTP_POST_VARS["country"];
-    $postal_code = $HTTP_POST_VARS["postal_code"];
-    //$signature = $HTTP_POST_VARS["signature"];
+    if (!is_valid_country($country)) {
+        echo "bad country";
+        exit();
+    }
+    $postal_code = process_user_text($HTTP_POST_VARS["postal_code"]);
 
     $result = mysql_query("update user set name='$name', url='$url', country='$country', postal_code='$postal_code' where id=$user->id");
     if ($result) {

@@ -3,7 +3,8 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 
-/* sanitize variable */
+db_init();
+
 if (empty($_GET['id'])) {
 	// TODO: Standard error page
 	echo "No thread was specified.<br>";

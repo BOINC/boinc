@@ -5,6 +5,8 @@ require_once('../inc/util.inc');
 require_once('../inc/time.inc');
 require_once('../inc/forum_show.inc');
 
+db_init();
+
 if (empty($_GET['id'])) {
     // TODO: Standard error page
     echo "Invalid forum ID.<br>";

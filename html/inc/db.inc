@@ -85,6 +85,27 @@ function lookup_app($id) {
     return null;
 }
 
+
+// apply this to any user-supplied strings used in queries
+//
+function boinc_real_escape_string($x) {
+    //if (version_compare(phpversion(),"4.3.0")>=0) {
+        return mysql_real_escape_string($x);
+    //} else {
+    //    return str_replace("\'", "'", str_replace("\\\"", "'", $x));
+    //}
+}
+
+// process user-supplied text prior to using in query
+//
+function process_user_text($value) {
+    $value = trim($value);
+    if (get_magic_quotes_gpc()) {
+        $value = stripslashes($value);
+    }
+    return boinc_real_escape_string($value);
+}
+
 // escape a string for MySQL "like"
 //
 function escape_pattern($str) {

@@ -68,8 +68,6 @@ $post_ratings['0'] = "Neutral";
 $post_ratings['-1'] = "Unhelpful (-1)";
 $post_ratings['-2'] = "Off topic (-2)";
 
-db_init();
-
 function getCategories() {
     $langID = (!empty($_SESSION['lang']['id']))?$_SESSION['lang']['id']:1;
     $sql = "SELECT * FROM category WHERE lang = ".$langID." AND is_helpdesk = 0 ORDER BY orderID ASC";

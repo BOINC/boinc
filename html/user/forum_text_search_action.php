@@ -3,6 +3,8 @@
 require_once("../inc/forum.inc");
 require_once("../inc/time.inc");
 
+db_init();
+
 $search_string = $_GET['search_string'];
 $offset = $_GET['offset'];
 if (!$offset) $offset=0;

@@ -1,6 +1,9 @@
 <?php
+
 require_once('../inc/subscribe.inc');
 require_once('../inc/util.inc');
+
+db_init();
 
 $action = $_GET['action'];
 $thread = $_GET['thread'];

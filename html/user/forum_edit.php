@@ -3,6 +3,8 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 
+db_init();
+
 $logged_in_user = get_logged_in_user();
 if ($_POST['submit']) {    
     

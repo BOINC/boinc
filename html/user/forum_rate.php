@@ -3,6 +3,8 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 
+db_init();
+
 if (!empty($_GET['post'])) {
     $postId = $_GET['post'];
     $choice = $_POST['submit'];
