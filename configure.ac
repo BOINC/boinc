@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(BOINC, 3.19)
+AC_INIT(BOINC, 4.00)
 
 AC_ARG_ENABLE(server, 
     AC_HELP_STRING([--disable-server],
