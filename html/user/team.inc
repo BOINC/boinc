@@ -125,13 +125,14 @@ function team_table_start() {
 }
 
 function show_team_row($team, $i) {
-    echo "<tr>
-        <td>$i) <a href=team_display.php?teamid=$team->id>$team->name</a></td>
-        <td>$team->nusers</td>
-        <td>$team->expavg_credit</td>
-        <td>$team->total_credit</td>
-        <td>$team->country</td>
-    </tr>\n";
+    printf( "<tr>
+        <td>%d) <a href=team_display.php?teamid=%d>%s</a></td>
+        <td>%d</td>
+        <td>%.4f</td>
+        <td>%.4f</td>
+        <td>%s</td>
+        </tr>\n", $i, $team->id, $team->name, $team->nusers, $team->expavg_credit,
+        $team->total_credit, $team->country );
 }
 
 function team_edit_form($team, $label, $url) {
