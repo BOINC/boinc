@@ -24473,4 +24473,18 @@ Bruce 10 Feb 2005
     sched/
         main.C
 
+Eric K 10 Feb 2005
+    Fixes to get server components compiling under FCGI.
+    - Added check for _USING_FCGI_ in std_fixes.h in order to prevent 
+      redefinition of stdlib functions with LARGEFILE_BREAKS_CXX is defined.
+    - Because FCGI doesn't have fscanf() and fgetc() that work on FCGI_FILE*, 
+      the FILE pointers for these functions need to be wrapped in a call to 
+      FCGI_ToFILE().  In the case where FCGI isn't being used we define
+      FCGI_ToFILE(x) to (x).
 
+    lib/
+        std_fixes.h
+    sched/
+        sched_send.C
+    tools/
+        backend_lib.C
