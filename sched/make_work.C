@@ -38,7 +38,7 @@ void check_trigger() {
 void make_work() {
     CONFIG config;
     int retval, i, start_time=time(0), n, nresults_left;
-    char keypath[256], suffix[256];
+    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     WORKUNIT wu;
 
@@ -68,6 +68,12 @@ void make_work() {
         exit(1);
     }
 
+    retval = read_filename(result_template_file, result_template);
+    if (retval) {
+        fprintf(stderr, "make_work: can't open result template\n");
+        exit(1);
+    }
+
     nresults_left = 0;
     while (true) {
         fflush(stdout);
@@ -92,7 +98,7 @@ void make_work() {
         }
         sprintf(suffix, "%d_%d", start_time, i++);
         create_result(
-            wu, result_template_file, suffix, key,
+            wu, result_template, suffix, key,
             config.upload_url, config.download_url
         );
         printf("make_work: added a result\n");
