@@ -17,15 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifdef _DEBUG
-
-#define WINVER         0x0502
-#define _WIN32_WINNT   0x0502
-#define _WIN32_WINDOWS 0x0502
-#define _WIN32_IE      0x0502
-
-#endif
-
 #include "boinc_win.h"
 
 #include <windowsx.h>
@@ -773,23 +764,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     int  iReturnValue = 0;
                     int  iStatus = 0;
 
-#ifdef _DEBUG
-                    DWORD dwHandleCount = 0;
-                    DWORD dwGDIObjectCount = 0;
-                    DWORD dwUserObjectCount = 0;
 
-                    GetProcessHandleCount(GetCurrentProcess(), &dwHandleCount);
-                    dwGDIObjectCount = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
-                    dwUserObjectCount = GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS);
-
-                    // Detect a handle leak if any exist
-                    BOINCTRACE(
-                        _T("CScreensaver::PrimarySaverProc - Handle Count = '%d', GDI Objects = '%d', User Objects = '%d'\n"),
-                        dwHandleCount,
-                        dwGDIObjectCount,
-                        dwUserObjectCount
-                    );
-#endif
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 

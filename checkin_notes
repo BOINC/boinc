@@ -23967,3 +23967,10 @@ Rom    3 Feb 2005
 
     win_build/installerv2/
         BOINC.ism
+
+Rom    3 Feb 2005
+    - Bug Fix: Add the 'Users' group to the list of users permissioned to read
+        and execute from within the BOINC folder after a service install.
+
+    win_build/installerv2/
+        BOINC.ism
