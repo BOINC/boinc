@@ -205,6 +205,8 @@ void CTaskBarIcon::OnMouseMove( wxEvent& event )
 
 void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 {
+    ShowBalloon( wxT(""), wxT("") );
+
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenu*        menu          = new wxMenu;
     wxInt32        iActivityMode = -1;
