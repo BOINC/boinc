@@ -362,7 +362,7 @@ class Project:
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
             [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
-              'html', 'html/ops', 'html/user', 'html/project',
+              'html', 'html/cache', 'html/ops', 'html/user', 'html/project',
               'html/inc', 'html/stats', 'html/user_profile',
               'html/user_profile/images'
               ])
