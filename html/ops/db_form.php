@@ -6,6 +6,24 @@
 
     parse_str(getenv("QUERY_STRING"));
 
+    function print_detail_field() {
+        echo "<tr><td align=right>Detail level</td><td>";
+        echo "<select name=detail>
+            <option value=low>low
+            <option value=high>high
+            </select>
+            </td></tr>
+        ";
+    }
+    function print_query_field() {
+        echo "
+            <tr>
+            <td align=right>Additional clauses</td>
+            <td><input name=clauses></td>
+            </tr>
+        ";
+    }
+
     $first = 1;
 
     $title = table_title($table);
@@ -18,26 +36,12 @@
     if ($table=="platform") {
     } else if ($table=="app") {
     } else if ($table=="app_version") {
-        print_checkbox("Show XML Docs", "show_xml_docs", $show_xml_docs);
+        print_checkbox("Hide XML Docs", "hide_xml_docs", $hide_xml_docs);
     } else if ($table=="host") {
         print_checkbox("Show Aggregate Information", "show_aggregate", $show_aggregate);
-        if ($show_aggregate) {
-            $result = mysql_query("select sum(d_total) as tot_sum, sum(d_free) as free_sum, "
-                            . "sum(m_nbytes) as tot_mem " . $query);
-            $disk_info = mysql_fetch_object($result);
-            printf( "<p>\n"
-                    . "Sum of total disk space on these hosts: "
-                    . $disk_info->tot_sum/(1024*1024*1024) . " GB"
-                    . "<p>"
-                    . "Sum of available disk space on these hosts: "
-                    . $disk_info->free_sum/(1024*1024*1024) . " GB"
-                    . "<p>"
-                    . "Sum of memory on these hosts: " . $disk_info->tot_mem/(1024*1024) . " MB"
-                    . "<p>"
-                );
-        }
+        print_detail_field();
     } else if ($table=="workunit") {
-        print_checkbox("Show XML fields", "show_xml_docs", $show_xml_docs);
+        print_checkbox("Hide XML fields", "hide_xml_docs", $hide_xml_docs);
     } else if ($table=="result") {
         echo "<tr><td align=right>Server state</td><td> ";
         result_server_state_select();
@@ -50,19 +54,14 @@
         result_client_state_select();
         echo "</td></tr>\n";
 
-        row2("Show XML fields", "<input type=checkbox name=show_xml_docs>");
-        row2("Show result stderr", "<input type=checkbox name=show_stderr>");
-        row2("Show times", "<input type=checkbox name=show_times>");
+        row2("Hide XML fields", "<input type=checkbox name=hide_xml_docs>");
+        row2("Hide result stderr", "<input type=checkbox name=hide_stderr>");
+        row2("Hide times", "<input type=checkbox name=hide_times>");
         echo "<tr><td align=right>Sort by</td><td>";
         result_sort_select();
         echo "</td></tr>\n";
-        echo "<tr><td align=right>Detail level</td><td>";
-        echo "<select name=detail>
-            <option value=low>low
-            <option value=high>high
-            </select>
-            </td></tr>
-        ";
+        print_detail_field();
+        print_query_field();
 
     } else if ($table=="team") {
     } else if ($table=="user") {
@@ -71,7 +70,7 @@
         exit();
     }
 
-    row2("Number of entries to show", "<input name=nresults>");
+    row2("Number of entries to show", "<input name=nresults value='10'>");
 
     row2("", "<input type=submit value=\"OK\">\n");
     end_table();

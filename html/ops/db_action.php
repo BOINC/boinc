@@ -16,6 +16,11 @@ function append_sql_query($original,$addition,$first) {
 
     $first = 1;
 
+    if (strlen($clauses)) {
+        $query = append_sql_query( $query, $clauses, $first );
+        $first = 0;
+    }
+
     if (strlen($id)) {
         $query = append_sql_query( $query, "id = $id", $first );
         $first = 0;
@@ -38,6 +43,11 @@ function append_sql_query($original,$addition,$first) {
 
     if (strlen($hostid)) {
         $query = append_sql_query( $query, "hostid = $hostid", $first );
+        $first = 0;
+    }
+
+    if (strlen($userid)) {
+        $query = append_sql_query( $query, "userid = $userid", $first );
         $first = 0;
     }
 
@@ -103,7 +113,7 @@ function append_sql_query($original,$addition,$first) {
         $main_query = "select * from ".$table." ".$query. " limit ".$entries_to_show;
     }
 
-    echo "<p>Query is: <b>$main_query</b><p>\n";
+    echo "<p>Query: <b>$main_query</b><p>\n";
     echo "
         <p>$count database entries match the query.
         Displaying $start_at to $last.<p>
@@ -112,25 +122,47 @@ function append_sql_query($original,$addition,$first) {
     $urlquery = urlencode($query);
     if ($last < $count) {
         echo "
-            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last>Next $n</a>
+            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a>
         ";
     }
     if ($detail == "high") {
         echo "
-            <a href=db_action.php?table=$table&query=$urlquery&detail=low>Single-line</a>
+            | <a href=db_action.php?table=$table&query=$urlquery&detail=low>Less detail</a>
         ";
     }
     if ($detail == "low") {
         echo "
-            <a href=db_action.php?table=$table&query=$urlquery&detail=high>Multi-line</a>
+            | <a href=db_action.php?table=$table&query=$urlquery&detail=high>More detail</a>
         ";
     }
 
-    echo "<br><a href=index.php>Return to main admin page</a>\n";
+    echo " | <a href=index.php>Return to main admin page</a>\n";
+    echo "<p>\n";
+    if ($table == "host") {
+        if ($show_aggregate) {
+            $result = mysql_query("select sum(d_total) as tot_sum, sum(d_free) as free_sum, " . "sum(m_nbytes) as tot_mem from host" . $query);
+            $disk_info = mysql_fetch_object($result);
+            $dt = $disk_info->tot_sum/(1024*1024*1024);
+            $df = $disk_info->free_sum/(1024*1024*1024);
+            $mt = $disk_info->tot_mem/(1024*1024);
+            echo "<p>\n
+                Sum of total disk space on these hosts:
+                $dt GB
+                <p>
+                Sum of available disk space on these hosts:
+                $df GB
+                <p>
+                Sum of memory on these hosts:
+                $mt MB
+                <p>
+            ";
+        }
+    }
     if ($detail == "low") {
         start_table();
         switch($table) {
             case "result": result_short_header(); break;
+            case "host": host_short_header(); break;
         }
     }
     $result = mysql_query($main_query);
@@ -138,19 +170,23 @@ function append_sql_query($original,$addition,$first) {
         if ($detail == "low") {
             switch ($table) {
             case "result": show_result_short($res); break;
+            case "host": show_host_short($res); break;
             }
         } else {
             switch ($table) {
             case "platform": show_platform($res); break;
             case "app": show_app($res); break;
-            case "app_version": show_app_version($res,$show_xml_docs); break;
+            case "app_version": show_app_version($res, $hide_xml_docs); break;
             case "host": show_host($res); break;
-            case "workunit": show_workunit($res,$show_xml_docs); break;
-            case "result": show_result($res,$show_xml_docs,$show_stderr,$show_times); break;
+            case "workunit": show_workunit($res, $hide_xml_docs); break;
+            case "result": show_result($res, $hide_xml_docs, $hide_stderr, $hide_times); break;
             case "team": show_team($res); break;
             case "user": show_user($res); break;
             }
         }
+    }
+    if ($detail == "low") {
+        end_table();
     }
 
     page_tail();

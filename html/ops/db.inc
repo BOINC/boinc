@@ -104,14 +104,14 @@ function show_app($app) {
     end_table();
 }
 
-function show_app_version($app_version,$show_xml_docs) {
+function show_app_version($app_version, $hide_xml_docs) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
     row("Application", "<a href=db_action.php?table=app&id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
     row("Platform", "<a href=db_action.php?table=platform&id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
-    if ($show_xml_docs) {
+    if (!$hide_xml_docs) {
         row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     }
     row("Min_core_version", $app_version->min_core_version);
@@ -121,9 +121,34 @@ function show_app_version($app_version,$show_xml_docs) {
     end_table();
 }
 
+function host_short_header() {
+    echo "
+        <tr>
+        <th>host ID</th>
+        <th>IP address</th>
+        <th>name</th>
+        <th>CPU</th>
+        <th>OS</th>
+        </tr>
+    ";
+}
+
+function show_host_short($host) {
+    echo "
+        <tr>
+        <td><a href=db_action?table=host&id=$host->id>$host->id</a></td>
+        <td>$host->last_ip_addr</td>
+        <td>$host->domain_name</td>
+        <td>$host->p_vendor $host->p_model</td>
+        <td>$host->os_name $host->os_version</td>
+        </tr>
+    ";
+}
+
 function show_host($host) {
     start_table();
 
+    row("ID", $host->id);
     row("Created", time_str($host->create_time));
     row("Venue", $host->venue);
     row("Total credit", $host->total_credit);
@@ -161,7 +186,7 @@ function show_host($host) {
     row("% of time client on", 100*$host->on_frac." %");
     row("% of time host connected", 100*$host->connected_frac." %");
     row("% of time user active", 100*$host->active_frac." %");
-    row("Results", "<a href=db_action?table=result&detail=low&hostid=$host->id>click here</a>");
+    row("Results", "<a href=db_action?table=result&detail=low&hostid=$host->id&sort_by=sent_time>click here</a>");
     end_table();
 
 }
@@ -191,11 +216,11 @@ function file_delete_state_str($s) {
     }
 }
 
-function show_workunit($wu,$show_xml_doc) {
+function show_workunit($wu, $hide_xml_doc) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Name", $wu->name);
-    if ($show_xml_doc) {
+    if (!$hide_xml_doc) {
         row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     }
     row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
@@ -260,9 +285,9 @@ function validate_state_str($s) {
     return "Unknown";
 }
 
-function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
+function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     start_table();
-    if ($show_times) {
+    if (!$hide_times) {
         row("Created", time_str($result->create_time));
         row("Sent", time_str($result->sent_time));
         row("Received", time_str($result->received_time));
@@ -275,11 +300,11 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
-    if ($show_xml_docs) {
+    if (!$hide_xml_docs) {
         row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
         row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
     }
-    if ($show_stderr) {
+    if (!$hide_stderr) {
         row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     }
     row("Batch", $result->batch);
@@ -294,7 +319,7 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
 function result_short_header() {
     echo "
         <tr>
-        <th>ID</th>
+        <th>result ID</th>
         <th>WU ID</th>
         <th>server state</th>
         <th>outcome</th>
@@ -315,13 +340,22 @@ function show_result_short($result) {
         <td>$ss</td>
         <td>$oc</td>
         <td>$cs</td>
-        <td><a href=db_action.php?table=host&id=$result->hostid>$result->hostid</a></td>
+    ";
+    if ($result->hostid) {
+        echo "
+            <td><a href=db_action.php?table=host&id=$result->hostid>$result->hostid</a></td>
+        ";
+    } else {
+        echo "<td>---</td>\n";
+    }
+    echo "
         </tr>
     ";
 }
 
 function show_user($user) {
     start_table();
+    row("ID", $user->id);
     row("Created", time_str($user->create_time));
     row("Name", $user->name);
     row("Authenticator", $user->authenticator);
@@ -331,7 +365,8 @@ function show_user($user) {
     row("Total credit", $user->total_credit);
     row("Average credit", $user->expavg_credit);
     row("Last average time", time_str($user->expavg_time));
-    row("Venue", $user->venue);
+    row("Default venue", $user->venue);
+    row("Hosts", "<a href=db_action?table=host&userid=$user->id&detail=low>click</a>");
     end_table();
 }
 
