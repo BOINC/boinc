@@ -15314,8 +15314,11 @@ David  15 July 2004
 		- write new file to client_state_next.xml
 		- rename client_state.xml to client_state_prev.xml
 		- rename client_state_next.xml to client_state.xml
+	- remove references to version.* from project file
 
 	client/
 		cs_statefile.C
 		file_names.h
 		http.h
+	win_build/
+		boinc_gui.vcproj
