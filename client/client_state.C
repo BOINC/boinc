@@ -41,6 +41,7 @@ CLIENT_STATE::CLIENT_STATE() {
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
+    run_time_test = true;
     contacted_sched_server = false;
     activities_suspended = false;
     version = VERSION;
@@ -71,15 +72,25 @@ int CLIENT_STATE::init(PREFS* p) {
     make_project_dirs();
     make_slot_dirs();
 
-    // Updates computer statistics once per month
-    //
-    if(difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_IN_MONTH) { 
-        get_host_info(host_info); // this is platform dependent
-	host_info.p_fpops = run_double_prec_test(4); //these are not
-	host_info.p_iops = run_int_test(4);
-	host_info.p_membw = run_mem_bandwidth_test(4);
-        host_info.p_calculated = (double)time(0); //set time calculated
-    }
+    return 0;
+}
+
+// Returns true if time tests should be run
+//
+bool CLIENT_STATE::run_time_tests() {
+    return (run_time_test && (
+        difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_IN_MONTH
+    ));
+}
+
+// Updates computer statistics once per month
+//
+int CLIENT_STATE::time_tests() {
+    get_host_info(host_info); // this is platform dependent
+    host_info.p_fpops = run_double_prec_test(4); //these are not
+    host_info.p_iops = run_int_test(4);
+    host_info.p_membw = run_mem_bandwidth_test(4);
+    host_info.p_calculated = (double)time(0); //set time calculated
     return 0;
 }
 
@@ -588,6 +599,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
+        }
+        if (!strcmp(argv[i], "-no_time_test")) {
+            run_time_test = false;
         }
     }
 }

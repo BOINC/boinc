@@ -38,6 +38,7 @@ public:
     bool do_something();
     void parse_cmdline(int argc, char** argv);
     bool time_to_exit();
+    bool run_time_tests();
 
 private:
     vector<PROJECT*> projects;
@@ -61,6 +62,7 @@ private:
     unsigned int nslots;
     bool client_state_dirty;
     bool exit_when_idle;
+    bool run_time_test;
     bool contacted_sched_server;
     bool activities_suspended;
 
@@ -91,6 +93,7 @@ private:
     void handle_scheduler_reply(SCHEDULER_OP&);
     double estimate_duration(WORKUNIT*);
     double current_water_days();
+    int time_tests();
 
     // the following could be eliminated by using map instead of vector
     //

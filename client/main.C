@@ -93,6 +93,9 @@ int main(int argc, char** argv) {
 
     cs.init(prefs);
     cs.parse_cmdline(argc, argv);
+    if(cs.run_time_tests()) {
+        cs.time_tests();
+    }
     cs.restart_tasks();
     while (1) {
         if (!cs.do_something()) {
