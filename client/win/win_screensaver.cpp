@@ -185,7 +185,7 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
 
     // Save the value back to the registry in case this is the first
     // execution and so we need the default value later.
-	UtilSetRegKey( REG_BLANK_TIME, blank_time );
+	UtilSetRegKey( REG_BLANK_TIME, m_dwBlankTime );
 
 
     // Create the screen saver window(s)
