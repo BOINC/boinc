@@ -188,10 +188,15 @@ public:
     bool tentative;             // master URL and account ID not confirmed
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                                 // use those apps rather then getting from server
-    bool send_file_list;        // send the list of permanent files associated with the
-                                // project in the next scheduler reply for the project           // deletion policy, least recently used
+    bool non_cpu_intensive;
+    bool send_file_list;
+        // send the list of permanent files associated/with the project
+        // in the next scheduler reply
+#if 0
+                                        // deletion policy, least recently used
     bool deletion_policy_priority;       // deletion policy, priority of files
     bool deletion_policy_expire;         // deletion policy, delete expired files first
+#endif
 
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;

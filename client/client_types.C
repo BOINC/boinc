@@ -86,8 +86,10 @@ void PROJECT::init() {
     next_runnable_result = NULL;
     work_request = 0;
     send_file_list = false;
+#if 0
     deletion_policy_priority = false;
     deletion_policy_expire = false;
+#endif
 }
 
 PROJECT::~PROJECT() {
@@ -263,6 +265,7 @@ int PROJECT::parse_account(FILE* in) {
             tentative = true;
             continue;
         }
+#if 0
         else if (match_tag(buf, "<deletion_policy_priority/>")) {
             deletion_policy_priority = true;
             continue;
@@ -271,6 +274,7 @@ int PROJECT::parse_account(FILE* in) {
             deletion_policy_expire = true;
             continue;
         }
+#endif
         else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,
@@ -352,8 +356,10 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
+#if 0
         else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
         else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
+#endif
         else if (parse_double(buf, "<debt>", debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
@@ -401,7 +407,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <min_rpc_time>%d</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
         "    <resource_share>%f</resource_share>\n"
-        "%s%s%s%s%s\n",
+        "%s%s%s",
         master_url,
         project_name,
 #if 0
@@ -429,10 +435,15 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         resource_share,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
-        send_file_list?"    <send_file_list/>\n":"",
+        send_file_list?"    <send_file_list/>\n":""
+    );
+#if 0
+    out.printf(
+        "%s%s",
         deletion_policy_priority?"    <deletion_policy_priority/>\n":"",
         deletion_policy_expire?"    <deletion_policy_expire/>\n":""
     );
+#endif
     if (!gui_rpc) {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
@@ -483,8 +494,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(code_sign_key, p.code_sign_key);
     debt = p.debt;
     send_file_list = p.send_file_list;
+#if 0
     deletion_policy_priority = p.deletion_policy_priority;
     deletion_policy_expire = p.deletion_policy_expire;
+#endif
 }
 
 char* PROJECT::get_project_name() {

@@ -568,7 +568,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], *p;
-    int retval;
+    int retval, x;
     MIOFILE mf;
     char delete_file_name[256];
     mf.init_file(in);
@@ -576,28 +576,17 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     hostid = 0;
-    host_total_credit = -1;
-    host_expavg_credit = -1;
-    host_create_time = 0;
     request_delay = 0;
     strcpy(message, "");
     strcpy(message_priority, "");
-    strcpy(project_name, "");
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    strcpy(user_name, "");
-    strcpy(team_name, "");
-    user_total_credit = -1;
-    user_expavg_credit = -1;
     strcpy(host_venue, "");
-    user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
     message_ack = false;
     project_is_down = false;
     send_file_list = false;
-    deletion_policy_priority = false;     
-    deletion_policy_expire = false;
 
     p = fgets(buf, 256, in);
     if (!p) {
@@ -614,17 +603,20 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         if (match_tag(buf, "<scheduler_reply>")) {
             // Do nothing
         } else if (match_tag(buf, "</scheduler_reply>")) return 0;
-        else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-		else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
-        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
-		else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
-        else if (parse_int(buf, "<hostid>", hostid)) continue;
-        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
+		else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
+        else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
+        else if (parse_int(buf, "<user_create_time>", (int&)project->user_create_time)) continue;
+		else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
+        else if (parse_int(buf, "<hostid>", hostid)) {
+            project->hostid = hostid;
+            continue;
+        }
+        else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
-        else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
+        else if (parse_int(buf, "<host_create_time>", (int&)project->host_create_time)) continue;
         else if (parse_int(buf, "<request_delay>", request_delay)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             retval = dup_element_contents(
@@ -643,14 +635,14 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &project_prefs_xml
             );
             if (retval) return ERR_XML_PARSE;
-            // TODO: display message below if project preferences have changed.
-            // msg_printf(project, MSG_INFO, "Project preferences have been updated\n");
+#if 0
         } else if (match_tag(buf, "<deletion_policy_priority/>")) {
-            deletion_policy_priority = true;
+            project->deletion_policy_priority = true;
             continue;
         } else if (match_tag(buf, "<deletion_policy_expire>")) {
-            deletion_policy_expire = true;
+            project->deletion_policy_expire = true;
             continue;
+#endif
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(
                 in,
@@ -738,7 +730,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 msg_printf(project, MSG_ERROR, "handle_trickle_down failed: %d\n", retval);
             }
             continue;
-        } else if (match_tag(buf, "<non_cpu_intensive/>")) {
+        } else if (parse_int(buf, "<non_cpu_intensive>", x)) {
+            project->non_cpu_intensive = (!x);
             continue;
 		} else if (match_tag(buf, "<request_file_list/>")) {
 			send_file_list = true;

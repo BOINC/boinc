@@ -17659,7 +17659,17 @@ David  23 Sept 2004
 Lana    23 Sept 2004
         - Fixed setting of the default venue on account setup.
 	
-	html/
-           user/
-              account_setup_nonfirst_action.php
+	html/user/
+        account_setup_nonfirst_action.php
 
+David  23 Sept 2004
+    - to simplify things, removed a number of fields from SCHEDULER_REPLY
+        and have SCHEDULER_REPLY::parse() copy info straight into the PROJECT.
+        This eliminates a bunch of pointless copying
+    - added bool PROJECT::non_cpu_intensive
+    - commented out deletion_policy stuff
+
+    client/
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C,h

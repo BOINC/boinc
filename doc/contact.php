@@ -49,12 +49,14 @@ show_name("Michela Taufer");
 show_name("Mathias Walter");
 show_name("Rom Walton");
 show_name("Oliver Wang");
+show_name("Frank Weiler");
 echo "
 </table>
 <p>
 BOINC testers include:
 <p>
 ";
+$i = 0;
 echo "<table bgcolor=ddddff width=100% border=2 cellpadding=6>\n";
 show_name("Comatose");
 show_name("Jay Curtis");

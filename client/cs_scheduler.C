@@ -507,7 +507,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     contacted_sched_server = true;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-
     get_sched_reply_filename(*project, filename);
     scope_messages.printf_file(filename, "reply: ");
 
@@ -516,10 +515,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     retval = sr.parse(f, project);
     fclose(f);
     if (retval) return retval;
-
-    if (strlen(sr.project_name)) {
-        safe_strcpy(project->project_name, sr.project_name);
-    }
 
     if (sr.request_delay) {
         time_t x = time(0) + sr.request_delay;
@@ -539,41 +534,13 @@ int CLIENT_STATE::handle_scheduler_reply(
         return ERR_PROJECT_DOWN;
     }
 
-    if (strlen(sr.user_name)) {
-        safe_strcpy(project->user_name, sr.user_name);
-    }
-    if (strlen(sr.team_name)) {
-        safe_strcpy(project->team_name, sr.team_name);
-    }
-    if (sr.user_total_credit >= 0) {
-        project->user_total_credit = sr.user_total_credit;
-    }
-    if (sr.user_expavg_credit >= 0) {
-        project->user_expavg_credit = sr.user_expavg_credit;
-    }
-    if (sr.user_create_time > 0) {
-        project->user_create_time = sr.user_create_time;
-    }
-    if (sr.host_total_credit >= 0) {
-        project->host_total_credit = sr.host_total_credit;
-    }
-    if (sr.host_expavg_credit >= 0) {
-        project->host_expavg_credit = sr.host_expavg_credit;
-    }
     if (sr.hostid) {
-        project->hostid = sr.hostid;
-        project->host_create_time = sr.host_create_time;
         project->rpc_seqno = 0;
 	    if (strcmp(host_venue, sr.host_venue)) {
             safe_strcpy(host_venue, sr.host_venue);
             need_to_install_prefs = true;
         }
     }
-
-#if 0
-    if (sr.deletion_policy_priority) project->deletion_policy_priority = true;
-    if (sr.deletion_policy_expire) project->deletion_policy_expire = true;
-#endif
 
     // if the scheduler reply includes global preferences,
     // insert extra elements, write to disk, and parse

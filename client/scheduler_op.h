@@ -86,22 +86,15 @@ struct SCHEDULER_OP {
 
 struct SCHEDULER_REPLY {
     int hostid;
-    double host_total_credit;
-    double host_expavg_credit;
-    unsigned int host_create_time;
     int request_delay;
     char message[1024];
     char message_priority[256];
-    char project_name[256];
     char* global_prefs_xml;
         // not including <global_preferences> tags;
         // may include <venue> elements
     char* project_prefs_xml;
         // not including <project_preferences> tags
         // may include <venue> elements
-    char user_name[256],team_name[256];
-    double user_total_credit;
-    double user_expavg_credit;
     char host_venue[256];
     unsigned int user_create_time;
     std::vector<APP> apps;
@@ -116,8 +109,6 @@ struct SCHEDULER_REPLY {
     bool message_ack;
     bool project_is_down;
     bool send_file_list;      
-    bool deletion_policy_priority;       
-    bool deletion_policy_expire; 
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
