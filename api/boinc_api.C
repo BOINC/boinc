@@ -33,9 +33,6 @@
 #include <mmsystem.h>    // for timing
 
 MMRESULT timer_id;
-HANDLE hGlobalDrawEvent,hQuitEvent;
-extern HANDLE graphics_threadh;
-extern BOOL	win_loop_done;
 #endif
 
 #if HAVE_UNISTD_H
@@ -58,6 +55,9 @@ extern BOOL	win_loop_done;
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
+HANDLE hGlobalDrawEvent,hQuitEvent;
+extern HANDLE graphics_threadh;
+extern BOOL	win_loop_done;
 #endif
 
 #ifdef HAVE_GL_LIB
@@ -229,11 +229,13 @@ int boinc_finish(int status) {
 #ifdef _WIN32
 	// Stop the timer
     timeKillEvent(timer_id);
+#ifdef BOINC_APP_GRAPHICS
     // If the graphics thread is running, tell it to quit and wait for it
 	win_loop_done = TRUE;
     if (hQuitEvent != NULL) {
         WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
     }
+#endif
 #endif
     exit(status);
     return 0;
