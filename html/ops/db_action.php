@@ -28,7 +28,7 @@
         $start_at = 0;
     }
 
-    page_head($table);
+    admin_page_head($table);
 
     $count = $q->count();
 
@@ -47,7 +47,7 @@
     ";
 
     $urlquery = $q->urlquery;
-    echo "<table><tr><td width=100>";
+    echo "<table border=1><tr><td width=100>";
     if ($start_at) {
         $prev_pos = $start_at - $page_entries_to_show;
         if ($prev_pos < 0) {
@@ -171,5 +171,5 @@
         echo "<h2>No results found</h2>";
     }
 
-    page_tail();
+    admin_page_tail();
 } ?>

@@ -15,7 +15,7 @@ define("TD", "<td bgcolor=#708090>");
 define("TD2", "<td colspan=2 bgcolor=#708090>");
 define("TD3", "<td colspan=3 bgcolor=#708090>");
 
-define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
+define("TABLE", "<table cellpadding=8 border=1 width=100%>");
 define("TABLE2", "<table width=580>");
 
 define("TITLE_COLOR", " bgcolor=000000 ");
