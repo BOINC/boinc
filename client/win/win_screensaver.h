@@ -146,7 +146,8 @@ protected:
 	static INT_PTR CALLBACK ConfigureDialogProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 protected:
-    RPC_CLIENT              rpc;    
+    RPC_CLIENT              rpc;
+    CC_STATE                state;
 
     SaverMode				m_SaverMode;         // sm_config, sm_full, sm_preview, etc.
     BOOL					m_bAllScreensSame;   // If TRUE, show same image on all screens
@@ -174,6 +175,8 @@ protected:
 
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
 	BOOL					m_bBOINCCoreNotified;
+
+    BOOL                    m_bResetCoreState;
 
 };
 

@@ -122,6 +122,7 @@ CScreensaver::CScreensaver()
 
 	m_bPaintingInitialized = FALSE;
 	m_bBOINCCoreNotified = FALSE;
+    m_bResetCoreState = TRUE;
 
 	ZeroMemory( m_Monitors, sizeof(m_Monitors) );
     m_dwNumMonitors = 0;
@@ -779,6 +780,15 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                    	m_bErrorMode = FALSE;
     				m_hrError = 0;
 
+                    // Lets try and get the current state of the CC
+                    if (m_bResetCoreState)
+                    {
+                        iReturnValue = rpc.get_state( state );
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_state iReturnValue = '%d'\n"), iReturnValue);
+                        if ( 0 == iReturnValue )
+                            m_bResetCoreState = FALSE;
+                    }
+
                     // Lets try and get the current status of the CC
                     iReturnValue = rpc.get_screensaver_mode( iStatus );
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
@@ -1179,6 +1189,7 @@ VOID CScreensaver::UpdateErrorBox()
     FLOAT fTimeDelta;
 
     RESULTS  results;
+    PROJECT* pProject;
     TCHAR    szBuffer[256];
     bool     bIsActive       = false;
     bool     bIsExecuting    = false;
@@ -1209,13 +1220,21 @@ VOID CScreensaver::UpdateErrorBox()
                 bIsExecuting  = ( CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state );
                 if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
 
-                StringCbPrintf( szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
-                    _T("%s: %.2f%%\n"),
-                    results.results.at(iIndex)->name.c_str(),
-                    results.results.at(iIndex)->fraction_done * 100 
-                );
+                pProject = state.lookup_project( results.results.at( iIndex )->project_url );
+                if ( NULL != pProject )
+                {
+                    StringCbPrintf( szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
+                        _T("%s: %.2f%%\n"),
+                        pProject->project_name.c_str(),
+                        results.results.at(iIndex)->fraction_done * 100 
+                    );
 
-                StringCbCat( m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer );
+                    StringCbCat( m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer );
+                }
+                else
+                {
+                    m_bResetCoreState = TRUE;
+                }
             }
             m_szError[ sizeof(m_szError) -1 ] = '\0';
         }
