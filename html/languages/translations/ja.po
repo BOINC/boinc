@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-02-27 14:30+0900\n"
+"PO-Revision-Date: 2005-03-10 00:06:00+0900\n"
 "Last-Translator: Komori Hitoshi <je2bwm at jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #  (http://boinc.oocp.org/web_translation.html)
 # ########################################
 # msgid "CHARSET"
-# msgstr "iso-8859-1"
+# msgstr "UTF-8"
 msgid "CHARSET"
 msgstr "UTF-8"
 
