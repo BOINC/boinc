@@ -25,6 +25,7 @@
     $work->result_template = "concat_result";
     $work->nresults = 2;
     array_push($work->input_files, "input");
+    array_push($work->input_files, "input");
     $work->install($project);
 
     $project->start_feeder();
