@@ -4,12 +4,30 @@
 latest version was 2.17, so the new version number would be 2.18. Substitute
 2.18 everywhere you see <verno>
 
+Required:
+  Unix/Linux/Mac:
+    These machines should have everything you need by default, but make
+    sure you have the following:
+       gmake
+       gcc 3.3 - especially on the Mac
+       autoconf (v2.54 or greater)
+  Windows:
+    Visual C++ 6.0 (soon to be VC++ .net)
+    InstallShield 5.5 Pro
+    InstallShield Package for the Web v2
+
+     boinc\win_build\installer\Media folder
+      (copy from quarl or gmg build folders if you're starting a new
+       build folder. This should be checked in once the required files
+       are separated from the generated files)
+
 Administrivia:
     Make a note in checkin_notes 
 
     Set the version number:
-        do this on a unix machine
+        do this on a unix machine, preferably in a clean checkout of boinc
             first, update the installer files for windows:
+            [this is so these files actually get into the distribution source]
              % cd win_build/installer/Setup Files/Compressed Files/Language Independent/OS Independent
                 <edit>  readme.txt  (change version number)
                 <edit> license.txt  (change version number)
@@ -24,9 +42,10 @@ Administrivia:
         % make dist  (if you have problems here, such as the make choking on
                       emacs save files, try "make -i dist")
         % cp boinc-<verno>.tar.gz boinc-<verno>.zip ~davea/boinc/doc/source/
-        
-Windows:
-    Use the Windows computer (bart) in 329 or the Dell Celeron (skinner)in 325.
+
+Build
+ Windows:
+    Use the HP Kayak windows box (bart) in 329 or the Dell (skinner) in 325.
 
     bart: Open 'quarl' on the desktop.
     skinner: Open 'build' on the desktop.
@@ -68,7 +87,7 @@ Windows:
     copy BOINC_<verno>_intelx86_windows.exe to the projects/AstroPulse_Beta/apps/boinc directory
 
 
-{Linux, Solaris2.7} release:
+ Linux/Solaris:
     use these hosts:
        Linux: milhouse
        solaris2.7: milkyway
@@ -89,7 +108,7 @@ Windows:
 
     [bonus: automate this process]
 
-Mac OS X release:
+ Mac OS X:
     use the G3 OS X 10.2 mac in 329 (setisf2):
 
     note:  The mac os x build is identical to the unix/linux builds, except that
@@ -108,9 +127,21 @@ Mac OS X release:
         % make
         % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
 
+    Note: This same technique applies to building the setiathome application.
     [bonus: automate this process]
 
-Test the installer(s) and start the new version on each test machine.
+Test
+ Test the installer(s) and start the new version on each test machine:
+   Solaris 2.7 - milkyway
+   Solaris 2.8 - kodos
+   Solaris 2.9 - setisf1
+   Linux - shaggy
+   Mac OS X 10.2 - setisf2
+   Mac OS X 10.3 - seti2
+   WinXP - bart (329) or skinner (325)
+   Win2K - kent (Aaron's desk)
+   Win98 - marge [aka drake] (Matt's desk)
+
 If all is well...
 
 Update the server:
