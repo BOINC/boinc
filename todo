@@ -27,22 +27,6 @@ server stuff
 Add project w/ bad URL or account ID should report error
     test this on Win, UNIX
 
-Preferences
-    test time-of-day limitation
-    Limit frequency of disk writes: make sure it actually works
-    - multiple preference sets
-    - preference propagation between projects
-    - document and add to global prefs?
-        run_minimized
-        hangup_if_dialed
-    Delete files if needed to honor disk usage constraint
-        should include per-result constraints (e.g. giant stderr files)
-        inform user if files deleted
-    preference flag for confirm before accepting executable file
-    memory restrictions
-    process priority, CPU affinity
-    show disk usage as two pie charts (one for overall, one for per project)
-
 backend stuff
     - result reissue
         (timeout_check should eventually create new results)

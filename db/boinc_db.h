@@ -58,13 +58,29 @@ struct PLATFORM {
     void clear();
 };
 
+// A version of the core client
+//
+struct CORE_VERSION {
+    int id;
+    unsigned int create_time;
+    int version_num;
+    int platformid;
+    char xml_doc[MAX_BLOB_SIZE];        // a <file_info> for the download file
+    char message[256];      // if we get a request from this version,
+                            // send this message
+    bool deprecated;        // if we get a request from this version,
+                            // don't send it any work.
+
+    void clear();
+};
+
 // An application.
 //
 struct APP {
     int id;
     unsigned int create_time;
-    char name[256];     // application name, preferably short
-    int min_version;    // don't use app versions before this
+    char name[256];         // application name, preferably short
+    int min_version;        // don't use app versions before this
     int write(FILE*);
     void clear();
 };
@@ -77,7 +93,6 @@ struct APP_VERSION {
     int appid;
     int version_num;
     int platformid;
-
     char xml_doc[MAX_BLOB_SIZE];
 	// describes app files. format:
 	// <file_info>...</file_info>
@@ -95,15 +110,8 @@ struct APP_VERSION {
     // the following let you handle backwards-incompatible changes to
     // the core client / app interface
     //
-    int min_core_version;   // min core version this will run with
+    int min_core_version;   // min core version this app will run with
     int max_core_version;   // if <>0, max core version this will run with
-
-    // the following defined for core client app
-    //
-    char message[256];      // if we get a request from this version,
-                            // send this message
-    bool deprecated;        // if we get a request from this version,
-                            // don't send it any work.
 
     int write(FILE*, APP&);
     void clear();
@@ -355,7 +363,7 @@ extern int boinc_db_insert_id();
 
 struct CURSOR {
     int active;
-    MYSQL_RES *resp;
+    MYSQL_RES *rp;
 };
 
 // Base for derived classes that can access the DB
@@ -368,9 +376,9 @@ public:
     int update();
     int lookup_id(int id);
     int lookup(char*);
-    int enumerate(char* where_clause="");
-    int count(int&, char* where_clause="");
-    int sum(double&, char* field, char* where_clause="");
+    int enumerate(char* clause="");
+    int count(int&, char* clause="");
+    int sum(double&, char* field, char* clause="");
     int get_double(char* query, double&);
     int get_integer(char* query, int&);
 
@@ -394,6 +402,14 @@ public:
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
     DB_PLATFORM();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
+class DB_CORE_VERSION : public DB_BASE, public CORE_VERSION {
+public:
+    DB_CORE_VERSION();
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);

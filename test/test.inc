@@ -105,6 +105,18 @@ class Platform {
     }
 }
 
+class Core_Version {
+    var $version;
+    var $exec_dir;
+    var $exec_name;
+    var $platform;
+    function Core_Version() {
+        $this->version = 1;
+        $x = get_env_var("BOINC_PLATFORM");
+        $this->platform= new Platform($x, $x);
+    }
+}
+
 class App {
     var $name;
 
@@ -134,6 +146,7 @@ class Project {
     var $short_name;
     var $long_name;
     var $users;
+    var $core_versions;
     var $apps;
     var $app_versions;
     var $platforms;
@@ -157,6 +170,7 @@ class Project {
         $this->short_name = "test";
         $this->long_name = "test";
         $this->users = array();
+        $this->core_versions = array();
         $this->apps = array();
         $this->app_versions = array();
         $this->platforms = array();
@@ -169,6 +183,10 @@ class Project {
 
     function add_user($user) {
         array_push($this->users, $user);
+    }
+
+    function add_core_version($core_version) {
+        array_push($this->core_versions, $core_version);
     }
 
     function add_app($app) {
@@ -265,23 +283,29 @@ class Project {
             run_tool("add platform -db_name $this->db_name -platform_name $platform->name -user_friendly_name '$platform->user_friendly_name'");
         }
 
+        echo "adding core versions\n";
+        for ($i=0; $i<sizeof($this->core_versions); $i++) {
+            $core_version = $this->core_versions[$i];
+            if ($core_version->exec_dir == null) {
+                $core_version->exec_dir = "$source_dir/client";
+            }
+            if ($core_version->exec_name == null) {
+                $core_version->exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
+            }
+            $p = $core_version->platform;
+            $x = "add core_version -db_name $this->db_name -platform_name $p->name -version $core_version->version -download_dir $this->project_dir/download -download_url $this->download_url -exec_dir $core_version->exec_dir -exec_files $core_version->exec_name";
+            run_tool($x);
+        }
+
         echo "adding app versions\n";
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app_version = $this->app_versions[$i];
             $app = $app_version->app;
             if ($app_version->exec_dir == null) {
-                if ($app->name == "core client") {
-                    $app_version->exec_dir = "$source_dir/client";
-                } else {
-                    $app_version->exec_dir = "$source_dir/apps";
-                }
+                $app_version->exec_dir = "$source_dir/apps";
             }
             if (sizeof($app_version->exec_names) == 0) {
-                if ($app->name == "core client") {
-                    $app_version->exec_names[0] = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
-                } else {
-                    $app_version->exec_names[0] = $app->name;
-                }
+                $app_version->exec_names[0] = $app->name;
             }
 
             $p = $app_version->platform;
@@ -775,6 +799,7 @@ class Work {
     var $input_files;
     var $rsc_iops;
     var $rsc_fpops;
+    var $rsc_memory;
     var $rsc_disk;
     var $delay_bound;
         
@@ -783,7 +808,8 @@ class Work {
         $this->input_files = array();
         $this->rsc_iops = 1.8e12;
         $this->rsc_fpops = 1e13;
-        $this->rsc_disk = 1e6;
+        $this->rsc_memory = 1e7;
+        $this->rsc_disk = 1e7;
         $this->delay_bound = 1000;
         $this->redundancy = 1;
     }

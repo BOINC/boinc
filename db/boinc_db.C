@@ -3,7 +3,7 @@
 
 #include "boinc_db.h"
 
-#define QUERY_MAX_SIZE 8192
+#define MAX_QUERY_LEN 8192
 
 MYSQL* mysql;
 
@@ -17,75 +17,74 @@ void DB_BASE::db_print(char*) {}
 void DB_BASE::db_parse(MYSQL_ROW&) {}
 
 int DB_BASE::insert() {
-    char vals[QUERY_MAX_SIZE], query[QUERY_MAX_SIZE];
+    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
     sprintf(query, "insert into %s set %s", table_name, vals);
     return mysql_query(mysql, query);
 }
 
 int DB_BASE::update() {
-    char vals[QUERY_MAX_SIZE], query[QUERY_MAX_SIZE];
+    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
     sprintf(query, "update %s set %s where id=%d", table_name, vals, get_id());
     return mysql_query(mysql, query);
 }
 
-int DB_BASE::lookup(char* where_clause) {
-    char query[QUERY_MAX_SIZE];
+int DB_BASE::lookup(char* clause) {
+    char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
-    MYSQL_RES* resp;
+    MYSQL_RES* rp;
 
-    sprintf(query, "select * from %s %s", table_name, where_clause);
+    sprintf(query, "select * from %s %s", table_name, clause);
     retval = mysql_query(mysql, query);
     if (retval) return retval;
-    resp = mysql_store_result(mysql);
-    if (!resp) return -1;
-    row = mysql_fetch_row(resp);
+    rp = mysql_store_result(mysql);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
     if (row) db_parse(row);
-    mysql_free_result(resp);
-    if (row == 0) return -1;
-    return 0;
+    mysql_free_result(rp);
+    return (row == 0);
 }
 
 int DB_BASE::lookup_id(int id) {
-    char query[QUERY_MAX_SIZE];
+    char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
-    MYSQL_RES* resp;
+    MYSQL_RES* rp;
 
     sprintf(query, "select * from %s where id=%d", table_name, id);
     retval = mysql_query(mysql, query);
     if (retval) return retval;
-    resp = mysql_store_result(mysql);
-    if (!resp) return -1;
-    row = mysql_fetch_row(resp);
+    rp = mysql_store_result(mysql);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
     if (row) db_parse(row);
-    mysql_free_result(resp);
-    if (row == 0) return -1;
-    return 0;
+    mysql_free_result(rp);
+    return (row == 0);
 }
 
-int DB_BASE::enumerate(char* where_clause) {
-    int retval;
-    char query[QUERY_MAX_SIZE];
+int DB_BASE::enumerate(char* clause) {
+    int x;
+    char query[MAX_QUERY_LEN];
     MYSQL_ROW row;
 
     if (!cursor.active) {
         cursor.active = 1;
-        sprintf(query, "select * from %s %s", table_name, where_clause);
-        retval = mysql_query(mysql, query);
-        if (retval) return retval;
-        cursor.resp = mysql_store_result(mysql);
-        if (!cursor.resp) return -1;
+        sprintf(query, "select * from %s %s", table_name, clause);
+        x = mysql_query(mysql, query);
+        if (x) return mysql_errno(mysql);
+        cursor.rp = mysql_store_result(mysql);
+        if (!cursor.rp) return mysql_errno(mysql);
     }
-    row = mysql_fetch_row(cursor.resp);
+    row = mysql_fetch_row(cursor.rp);
     if (!row) {
-        mysql_free_result(cursor.resp);
+        mysql_free_result(cursor.rp);
         cursor.active = 0;
         return 1;
+    } else {
+        db_parse(row);
     }
-    db_parse(row);
     return 0;
 }
 
@@ -99,12 +98,9 @@ int DB_BASE::get_integer(char* query, int& n) {
     resp = mysql_store_result(mysql);
     if (!resp) return -1;
     row = mysql_fetch_row(resp);
-    if (!row || !row[0]) {
-        retval = -1;
-    } else {
-        n = atoi(row[0]);
-        retval = 0;
-    }
+    if (!row) return -1;
+    if (!row[0]) return -1;
+    n = atoi(row[0]);
     mysql_free_result(resp);
     return 0;
 }
@@ -119,25 +115,22 @@ int DB_BASE::get_double(char* query, double& x) {
     resp = mysql_store_result(mysql);
     if (!resp) return -1;
     row = mysql_fetch_row(resp);
-    if (!row || !row[0]) {
-        retval = -1;
-    } else {
-        x = atof(row[0]);
-        retval = 0;
-    }
+    if (!row) return -1;
+    if (!row[0]) return -1;
+    x = atof(row[0]);
     mysql_free_result(resp);
-    return retval;
+    return 0;
 }
 
-int DB_BASE::count(int& n, char* where_clause) {
-    char query[QUERY_MAX_SIZE];
-    sprintf(query, "select count(*) from %s %s", table_name, where_clause);
+int DB_BASE::count(int& n, char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select count(*) from %s %s", table_name, clause);
     return get_integer(query, n);
 }
 
-int DB_BASE::sum(double& x, char* field, char* where_clause) {
-    char query[QUERY_MAX_SIZE];
-    sprintf(query, "select sum(%s) from %s %s", field, table_name, where_clause);
+int DB_BASE::sum(double& x, char* field, char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select sum(%s) from %s %s", field, table_name, clause);
     return get_double(query, x);
 }
 
@@ -148,7 +141,7 @@ static void strcpy2(char* dest, char* src) {
 
 // convert ' to \' in place
 static void escape_single_quotes(char* field) {
-    char buf[QUERY_MAX_SIZE];
+    char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     while (*p) {
         if (*p == '\'') {
@@ -188,12 +181,12 @@ int boinc_db_close() {
 int boinc_db_insert_id() {
     int retval;
     MYSQL_ROW row;
-    MYSQL_RES* resp;
+    MYSQL_RES* rp;
 
     retval = mysql_query(mysql, "select LAST_INSERT_ID()");
     if (retval) return retval;
-    resp = mysql_store_result(mysql);
-    row = mysql_fetch_row(resp);
+    rp = mysql_store_result(mysql);
+    row = mysql_fetch_row(rp);
     return atoi(row[0]);
 }
 
@@ -209,6 +202,7 @@ const char* boinc_db_error_string() {
 
 void PROJECT::clear() {memset(this, 0, sizeof(*this));}
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
+void CORE_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void USER::clear() {memset(this, 0, sizeof(*this));}
@@ -220,6 +214,7 @@ void WORKSEQ::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PROJECT::DB_PROJECT() : DB_BASE("project"){}
 DB_PLATFORM::DB_PLATFORM() : DB_BASE("platform"){}
+DB_CORE_VERSION::DB_CORE_VERSION() : DB_BASE("core_version"){}
 DB_APP::DB_APP() : DB_BASE("app"){}
 DB_APP_VERSION::DB_APP_VERSION() : DB_BASE("app_version"){}
 DB_USER::DB_USER() : DB_BASE("user"){}
@@ -231,6 +226,7 @@ DB_WORKSEQ::DB_WORKSEQ() : DB_BASE("workseq"){}
 
 int DB_PROJECT::get_id() {return id;}
 int DB_PLATFORM::get_id() {return id;}
+int DB_CORE_VERSION::get_id() {return id;}
 int DB_APP::get_id() {return id;}
 int DB_APP_VERSION::get_id() {return id;}
 int DB_USER::get_id() {return id;}
@@ -272,6 +268,26 @@ void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
     strcpy2(user_friendly_name, r[i++]);
 }
 
+void DB_CORE_VERSION::db_print(char* buf) {
+    sprintf(buf,
+        "id=%d, create_time=%d, version_num=%d, platformid=%d, "
+        "xml_doc='%s', message='%s', deprecated=%d",
+        id, create_time, version_num, platformid,
+        xml_doc, message, deprecated?1:0
+    );
+}
+
+void DB_CORE_VERSION::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id=atol(r[i++]);
+    create_time = atoi(r[i++]);
+    version_num = atoi(r[i++]);
+    platformid = atoi(r[i++]);
+    strcpy2(xml_doc, r[i++]);
+    strcpy2(message, r[i++]);
+    deprecated = atoi(r[i++]);
+}
 
 void DB_APP::db_print(char* buf){
     sprintf(buf,
@@ -293,8 +309,7 @@ void DB_APP_VERSION::db_print(char* buf){
     sprintf(buf,
         "id=%d, create_time=%d, appid=%d, version_num=%d, platformid=%d, "
         "xml_doc='%s', "
-        "min_core_version=%d, max_core_version=%d, "
-        "message='%s', deprecated=%d",
+        "min_core_version=%d, max_core_version=%d",
         id,
         create_time,
         appid,
@@ -302,9 +317,7 @@ void DB_APP_VERSION::db_print(char* buf){
         platformid,
         xml_doc,
         min_core_version,
-        max_core_version,
-        message,
-        deprecated?1:0
+        max_core_version
     );
 }
 
@@ -319,8 +332,6 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     strcpy2(xml_doc, r[i++]);
     min_core_version = atoi(r[i++]);
     max_core_version = atoi(r[i++]);
-    strcpy2(message, r[i++]);
-    deprecated = atoi(r[i++]);
 }
 
 void DB_USER::db_print(char* buf){

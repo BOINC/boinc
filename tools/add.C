@@ -138,9 +138,96 @@ int sign_executable(char* path, char* signature_text) {
     return 0;
 }
 
+// copy executable file to the download dir, generate XML
+//
+static int process_executable_file(
+    char* filename, char* signature_text, char* xml_doc
+) {
+    char longbuf[MAX_BLOB_SIZE];
+    char path[256];
+
+    sprintf(path, "%s/%s", exec_dir, filename);
+    sprintf(
+        buf,
+        "cp %s %s/%s",
+        path, download_dir, filename
+    );
+    retval = system(buf);
+    if (retval) {
+        printf("failed: %s\n", buf);
+        return retval;
+    }
+
+    retval = md5_file(path, md5_cksum, nbytes);
+    if (retval) return retval;
+
+    // generate the XML doc directly.
+    // TODO: use a template, as in create_work (??)
+    //
+    sprintf(longbuf,
+        "<file_info>\n"
+        "    <name>%s</name>\n"
+        "    <url>%s/%s</url>\n"
+        "    <executable/>\n",
+        filename,
+        download_url, filename
+    );
+    strcat(xml_doc, longbuf);
+    if (signature_text) {
+        sprintf(longbuf,
+            "    <file_signature>\n%s"
+            "    </file_signature>\n",
+            signature_text
+        );
+    } else {
+        sprintf(longbuf,
+            "    <md5_cksum>%s</md5_cksum>\n",
+            md5_cksum
+        );
+    }
+    strcat(xml_doc, longbuf);
+    sprintf(longbuf,
+        "    <nbytes>%f</nbytes>\n"
+        "</file_info>\n",
+        nbytes
+    );
+    strcat(xml_doc, longbuf);
+    return 0;
+}
+
+void add_core_version() {
+    DB_CORE_VERSION core_version;
+    DB_PLATFORM platform;
+
+    core_version.clear();
+    sprintf(buf, "where name='%s'", platform_name);
+    retval = platform.lookup(buf);
+    if (retval) {
+        fprintf(stderr, "add_core_version(): can't find platform %s\n", platform_name);
+        boinc_db_print_error("platform.lookup()");
+        return;
+    }
+    core_version.platformid = platform.id;
+    core_version.version_num = version;
+    if (message) strcpy(core_version.message, message);
+    if (message_priority) strcpy(core_version.message, message_priority);
+    if (nexec_files != 1) {
+        fprintf(stderr, "add_core_version(): multiple files not allowed\n");
+        return;
+    }
+    strcpy(core_version.xml_doc, "");
+    process_executable_file(exec_files[0], NULL, core_version.xml_doc);
+    core_version.create_time = time(0);
+    retval = core_version.insert();
+    if (retval) {
+        boinc_db_print_error("core_version.insert()");
+    }
+}
+
 void add_app_version() {
     char path[256];
-    char signature_text[1024], longbuf[MAX_BLOB_SIZE];
+    char longbuf[MAX_BLOB_SIZE];
+    char signature_text[1024];
     int i;
     DB_APP app;
     DB_APP_VERSION app_version;
@@ -169,52 +256,25 @@ void add_app_version() {
     }
     app_version.platformid = platform.id;
     app_version.version_num = version;
-    if (message) strcpy(app_version.message, message);
-    if (message_priority) strcpy(app_version.message, message_priority);
 
     strcpy(app_version.xml_doc, "");
 
     // copy executables to download directory and sign them
     //
     for (i=0; i<nexec_files; i++) {
-        sprintf(
-            buf,
-            "cp %s/%s %s/%s",
-            exec_dir, exec_files[i], download_dir, exec_files[i]
-        );
-        retval = system(buf);
-        if (retval) {
-            printf("failed: %s\n", buf);
-            return;
-        }
-
         if (signed_exec_files) {
             read_filename(signature_files[i], signature_text);
         } else {
             sprintf(path, "%s/%s", exec_dir, exec_files[i]);
             sign_executable(path, signature_text);
         }
-
-        md5_file(path, md5_cksum, nbytes);
-
-        // generate the XML doc directly.
-        // TODO: use a template, as in create_work (??)
-        //
-        sprintf(longbuf,
-            "<file_info>\n"
-            "    <name>%s</name>\n"
-            "    <url>%s/%s</url>\n"
-            "    <executable/>\n"
-            "    <file_signature>\n%s"
-            "    </file_signature>\n"
-            "    <nbytes>%f</nbytes>\n"
-            "</file_info>\n",
-            exec_files[i],
-            download_url, exec_files[i],
-            signature_text,
-            nbytes
+        retval = process_executable_file(
+            exec_files[i], signature_text, app_version.xml_doc
         );
-        strcat(app_version.xml_doc, longbuf);
+        if (retval) {
+            fprintf(stderr, "process_executable_file(): %d\n", retval);
+            exit(1);
+        }
     }
 
     sprintf(longbuf,
@@ -343,6 +403,8 @@ int main(int argc, char** argv) {
         add_app();
     } else if (!strcmp(argv[1], "platform")) {
         add_platform();
+    } else if (!strcmp(argv[1], "core_version")) {
+        add_core_version();
     } else if (!strcmp(argv[1], "app_version")) {
         add_app_version();
     } else if (!strcmp(argv[1], "user")) {

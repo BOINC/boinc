@@ -4444,3 +4444,16 @@ Eric   June 4, 2003
     client/
         main.C
 
+David  June 5 2003
+    - use a separate DB table for core versions
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        download.inc
+    test/
+        test.inc
+        test_uc.php
+    tools/
+        add.C

@@ -10,15 +10,12 @@
 
     $project = new Project;
 
+    // the following is optional (makes client web download possible)
+    $core_version = new Core_Version($core_app);
+    $project->add_core_version($core_version);
+
     $app = new App("upper_case");
     $app_version = new App_Version($app);
-
-    // the following is optional (makes client web download possible)
-    $core_app = new App("core client");
-    $core_app_version = new App_Version($core_app);
-    $project->add_app($core_app);
-    $project->add_app_version($core_app_version);
-
     $project->add_app($app);
     $project->add_app_version($app_version);
 
@@ -27,6 +24,7 @@
     $user->global_prefs = "<venue name=\"home\">\n".
     "<work_buf_min_days>0</work_buf_min_days>\n".
     "<work_buf_max_days>2</work_buf_max_days>\n".
+    "<disk_interval>1</disk_interval>\n".
     "<run_on_batteries/>\n".
     "<max_bytes_sec_down>400000</max_bytes_sec_down>\n".
     "</venue>\n";
@@ -50,6 +48,7 @@
     // Say that 1 WU takes 1 day on a ref comp
     $work->rsc_fpops = 86400*1e9/2;
     $work->rsc_iops = 86400*1e9/2;
+    $work->rsc_disk = 10e8;
     array_push($work->input_files, "input");
     $work->install($project);
 

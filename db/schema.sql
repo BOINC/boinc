@@ -15,6 +15,17 @@ create table platform (
     primary key (id)
 );
 
+create table core_version (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    version_num     integer     not null,
+    platformid      integer     not null,
+    xml_doc         blob,
+    message         varchar(254),
+    deprecated      smallint    not null,
+    primary key (id)
+);
+
 create table app (
     id              integer     not null auto_increment,
     create_time     integer     not null,
@@ -32,8 +43,6 @@ create table app_version (
     xml_doc         blob,
     min_core_version integer    not null,
     max_core_version integer    not null,
-    message         varchar(254),
-    deprecated      smallint    not null,
     primary key (id)
 );
 
