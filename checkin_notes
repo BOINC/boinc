@@ -6191,4 +6191,4 @@ Karl 2003/09/05
       client version
 
     astropulse/client/
-        ap_file_io.C
+        *.C

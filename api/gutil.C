@@ -17,8 +17,6 @@
 // Contributor(s):
 //
 
-#include "config.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,7 +51,7 @@
 #include <GLUT/glut.h>
 #endif
 
-// the old way 
+// the old way
 // #ifdef __APPLE_CC__
 // #include <OpenGL/gl.h>
 // #include <GLUT/glut.h>
