@@ -248,7 +248,7 @@ int HOST_INFO::get_host_info() {
     // Get model
     mib[0] = CTL_HW;
     mib[1] = HW_MODEL;
-    len = sizeof(host.p_model);
+    len = sizeof(p_model);
     sysctl(mib, 2, &p_model, &len, NULL, 0);
 #endif
 #endif

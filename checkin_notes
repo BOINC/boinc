@@ -11266,3 +11266,11 @@ Rom    April 1 2004
 
     api/
         boinc_api.c
+
+David  April 2 2004
+    - Client: fixed for disabling network activity
+
+    cs_files.C
+    cs_scheduler.C
+    hostinfo_unix.C
+    main.C

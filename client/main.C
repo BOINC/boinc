@@ -177,20 +177,21 @@ void resume_client(int a) {
 BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 	BOOL bReturnStatus = FALSE;
 	switch( dwCtrlType ){
-        case CTRL_C_EVENT:
-			if(gstate.activities_suspended)
-                resume_client(NULL);
-			else
-                susp_client(NULL);
-			bReturnStatus =  TRUE;
-            break;
-		case CTRL_BREAK_EVENT:
-        case CTRL_CLOSE_EVENT:
-        case CTRL_LOGOFF_EVENT:
-        case CTRL_SHUTDOWN_EVENT:
-			quit_client(NULL);
-            bReturnStatus =  TRUE;
-            break;
+    case CTRL_C_EVENT:
+        if(gstate.activities_suspended) {
+            resume_client(NULL);
+        } else {
+            susp_client(NULL);
+        }
+        bReturnStatus =  TRUE;
+        break;
+    case CTRL_BREAK_EVENT:
+    case CTRL_CLOSE_EVENT:
+    case CTRL_LOGOFF_EVENT:
+    case CTRL_SHUTDOWN_EVENT:
+        quit_client(NULL);
+        bReturnStatus =  TRUE;
+        break;
 	}
 	return bReturnStatus;
 }
