@@ -165,11 +165,13 @@ void quit_client() {
 
 void suspend_client() {
     msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
+    gstate.activities_suspended = true;
     gstate.active_tasks.suspend_all();
 }
 
 void resume_client() {
     msg_printf(NULL, MSG_INFO, "Resuming activity - user request");
+    gstate.activities_suspended = false;
     gstate.active_tasks.unsuspend_all();
 }
 
