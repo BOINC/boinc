@@ -11,11 +11,11 @@ AC_PREREQ(2.57)
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.66)
 
-AC_ARG_ENABLE(client, 
+AC_ARG_ENABLE(debug, 
     AC_HELP_STRING([--enable-debug],
                    [enable tracing and debugging flags for all components]),
-    [],
-    [enable_debug=yes])
+    [enable_debug=yes],
+    [])
 
 AC_ARG_ENABLE(server, 
     AC_HELP_STRING([--disable-server],
@@ -55,7 +55,7 @@ fi
 
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
-echo "        Build Components: (${configured_to_build})"
+echo "--- Build Components: (${configured_to_build}) ---"
 
 AC_CANONICAL_SYSTEM
 
@@ -496,7 +496,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_OUTPUT
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
-echo "        Build Components: (${configured_to_build})"
+echo "--- Build Components: (${configured_to_build}) ---"
 
 [
 true || $TOP_SOURCE_DIR/test/test_sanity.py || (
