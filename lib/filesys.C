@@ -16,7 +16,12 @@
 //
 // Contributor(s):
 //
-
+// Revision History:
+// $Log$
+// Revision 1.31  2003/12/01 23:28:46  korpela
+// Fix for systems with no statvfs.h and statfs defined in sys/statfs.h
+//
+//
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -48,6 +53,9 @@
 #ifdef HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #define STATFS statvfs
+#elif defined(HAVE_SYS_STATFS_H)
+#include <sys/statfs.h>
+#define STATFS statfs
 #else
 #define STATFS statfs
 #endif
