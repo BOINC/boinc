@@ -554,6 +554,11 @@ static void print_log(char* p) {
     }
 }
 
+// sleep up to x seconds,
+// but if network I/O becomes possible,
+// wake up and do as much as limits allow.
+// If suspended, just sleep x seconds
+//
 int CLIENT_STATE::net_sleep(double x) {
     if (activities_suspended) {
         boinc_sleep(x);
@@ -719,7 +724,6 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);
-                rp->state = RESULT_NEW;
             } else {
                 fprintf(stderr, "error: link_result failed\n");
                 delete rp;
@@ -1344,8 +1348,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         // the above options are private (i.e. not shown by -help)
 
-        } else if (!strcmp(argv[i], "-attach_project")) {
-            add_new_project();
         } else if (!strcmp(argv[i], "-show_projects")) {
             show_projects = true;
         } else if (!strcmp(argv[i], "-detach_project")) {
@@ -1356,6 +1358,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             strcpy(update_prefs_url, argv[++i]);
         } else if (!strcmp(argv[i], "-run_cpu_benchmarks")) {
             run_cpu_benchmarks = true;
+        } else if (!strcmp(argv[i], "-attach_project")) {
+            add_new_project();
         } else if (!strcmp(argv[i], "-version")) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOST );
             exit(0);
@@ -1458,7 +1462,8 @@ int CLIENT_STATE::report_result_error(
     
     res.ready_to_ack = true;
 
-    scheduler_op->backoff(res.project, "Backing off because a result failed");
+    sprintf(buf, "Unrecoverable error for result %s", res.name);
+    scheduler_op->backoff(res.project, buf);
 
     sprintf(
         buf, 

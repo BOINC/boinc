@@ -136,6 +136,7 @@ done:
 int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     double x;
     int exp_backoff;
+    char buf[256];
 
     int n = p->nrpc_failures;
     if (n > RETRY_CAP) n = RETRY_CAP;
@@ -147,18 +148,16 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
             printf("we've hit the limit on master_url fetches\n");
         }
         x = exp(drand()*p->master_fetch_failures);
-        exp_backoff = (int) min((int)x,MASTER_FETCH_INTERVAL);
+        exp_backoff = (int) min((int)x, MASTER_FETCH_INTERVAL);
     } else {
         x = RETRY_BASE_PERIOD * exp(drand() * n);
-        exp_backoff =  (int)max(SCHED_RETRY_DELAY_MIN,min(SCHED_RETRY_DELAY_MAX,(int) x));
+        exp_backoff =  (int)max(SCHED_RETRY_DELAY_MIN, min(SCHED_RETRY_DELAY_MAX, (int) x));
     }
     p->min_rpc_time = time(0) + exp_backoff;
-    if (log_flags.sched_op_debug) {
-        printf(
-            "setting min RPC time for %s to %d seconds from now\n",
-            p->master_url, exp_backoff
-        );
-    }
+    sprintf(buf,
+        "Deferring communication with project for %d seconds\n", exp_backoff
+    );
+    show_message(p, buf, MSG_ERROR);
     return 0;
 }
 
@@ -169,21 +168,19 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
     
     if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         p->master_url_fetch_pending = true;
-        set_min_rpc_time(p);
-        return;
+    } else {
+        // if nrpc failures is a multiple of master_fetch_period,
+        // then set master_url_fetch_pending and initialize again
+        //
+        if (p->nrpc_failures == MASTER_FETCH_PERIOD) {
+            p->master_url_fetch_pending = true;
+            p->min_rpc_time = 0;
+            p->nrpc_failures = 0;
+            p->master_fetch_failures++;
+        }
+        
+        p->nrpc_failures++;
     }
-
-    // if nrpc failures a multiple of master_fetch_period,
-    // then set master_url_fetch_pending and initialize again
-    //
-    if (p->nrpc_failures == MASTER_FETCH_PERIOD) {
-        p->master_url_fetch_pending = true;
-        p->min_rpc_time = 0;
-        p->nrpc_failures = 0;
-        p->master_fetch_failures++;
-    }
-    
-    p->nrpc_failures++;
     set_min_rpc_time(p);
 }
 

@@ -64,7 +64,7 @@ public:
     void giveup();
     int write(FILE* fout);
     int parse(FILE* fin);
-    bool start_xfer();
+    int start_xfer();
 };
 
 class PERS_FILE_XFER_SET {

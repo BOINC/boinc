@@ -600,6 +600,7 @@ void send_code_sign_key(
 }
 
 bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    char buf[256];
     if (sreq.core_client_major_version != MAJOR_VERSION) {
         reply.nucleus_only = true;
         sprintf(reply.message,
@@ -610,7 +611,10 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.core_client_major_version
         );
         strcpy(reply.message_priority, "low");
-        write_log("wrong major version\n");
+        sprintf(buf, "Wrong major version: wanted %d, got %d\n",
+            MAJOR_VERSION, sreq.core_client_major_version
+        );
+        write_log(buf);
         return true;
     }
     return false;

@@ -112,7 +112,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
 //
 int FILE_XFER::parse_server_response(double &nbytes) {
     int status = ERR_UPLOAD_TRANSIENT, x;
-    char buf[256];
+    char buf[256], buf2[256];
 
     nbytes = -1;
     parse_double(req1, "<file_size>", nbytes);
@@ -128,7 +128,8 @@ int FILE_XFER::parse_server_response(double &nbytes) {
     }
  
     if (parse_str(req1, "<message>", buf, sizeof(buf))) {
-        show_message(fip->project, buf, MSG_ERROR);
+        sprintf(buf2, "Error on file upload: %s", buf);
+        show_message(fip->project, buf2, MSG_ERROR);
     }
 
     return status;

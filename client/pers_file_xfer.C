@@ -58,21 +58,16 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
 }
 
 // Try to start the file transfer associated with this persistent file transfer.
-// Returns true if transfer was successfully started, false otherwise
 //
-bool PERS_FILE_XFER::start_xfer() {
+int PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
-    //struct tm *newtime;
-    //time_t now;
     char buf[256];
-
-    //now = time(0);
 
     // Decide whether to start a new file transfer
     //
     if (!gstate.start_new_file_xfer()) {
-        return false;
+        return ERR_IDLE_PERIOD;
     }
     
     // Create a new FILE_XFER object and initialize a
@@ -98,36 +93,35 @@ bool PERS_FILE_XFER::start_xfer() {
             (is_upload ? "upload" : "download"), fip->get_url(), retval
         );
         show_message(fip->project, buf, MSG_ERROR);
+        return retval;
         // TODO: do we need to do anything here?
-    } else {
-        retval = gstate.file_xfers->insert(file_xfer);
-        fxp = file_xfer;
-        if (retval) {
-            if (log_flags.file_xfer) {
-                show_message(fip->project, "file_xfer insert failed", MSG_ERROR);
-            }
-            fxp->file_xfer_retval = retval;
-            handle_xfer_failure(time(0));
-            fxp = NULL;
-            return false;
-        }
-        if (log_flags.file_xfer) {
-            sprintf(buf,
-                "Started %s of %s",
-                (is_upload ? "upload" : "download"), fip->name
-            );
-            show_message(fip->project, buf, MSG_INFO);
-        }
-        if (log_flags.file_xfer_debug) {
-            sprintf(buf,
-                "URL: %s",
-                fip->get_url()
-            );
-            show_message(fip->project, buf, MSG_INFO);
-        }
-        return true;
     }
-    return false;
+    retval = gstate.file_xfers->insert(file_xfer);
+    fxp = file_xfer;
+    if (retval) {
+        if (log_flags.file_xfer) {
+            show_message(fip->project, "file_xfer insert failed", MSG_ERROR);
+        }
+        fxp->file_xfer_retval = retval;
+        handle_xfer_failure(time(0));
+        fxp = NULL;
+        return retval;
+    }
+    if (log_flags.file_xfer) {
+        sprintf(buf,
+            "Started %s of %s",
+            (is_upload ? "upload" : "download"), fip->name
+        );
+        show_message(fip->project, buf, MSG_INFO);
+    }
+    if (log_flags.file_xfer_debug) {
+        sprintf(buf,
+            "URL: %s",
+            fip->get_url()
+        );
+        show_message(fip->project, buf, MSG_INFO);
+    }
+    return 0;
 }
 
 // Poll the status of this persistent file transfer.
@@ -147,9 +141,10 @@ bool PERS_FILE_XFER::poll(time_t now) {
         // See if it's time to try again.
         //
         if (now >= next_request_time) {
-            bool ok = start_xfer();
             last_time = dtime();
-            return ok;
+            fip->upload_offset = -1;
+            retval = start_xfer();
+            return (retval == 0);
         } else {
             return false;
         }
@@ -237,8 +232,8 @@ void PERS_FILE_XFER::giveup() {
     }
     xfer_done = true;
     sprintf(buf,
-        "Giving up on file transfer for %s: %d",
-        fip->name, fip->status
+        "Giving up on %s of %s",
+        is_upload?"upload":"download", fip->name
     );
     show_message(fip->project, buf, MSG_ERROR);
 }
@@ -267,6 +262,7 @@ void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
 //
 void PERS_FILE_XFER::retry_or_backoff(time_t cur_time) {
     double exp_backoff;
+    int backoff;
     struct tm *newtime;
     time_t aclock;
     char buf[256];
@@ -289,12 +285,13 @@ void PERS_FILE_XFER::retry_or_backoff(time_t cur_time) {
         // keeping within the bounds of PERS_RETRY_DELAY_MIN and
         // PERS_RETRY_DELAY_MAX
         //
-        next_request_time = cur_time+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
+        backoff = (int)max(PERS_RETRY_DELAY_MIN, min(PERS_RETRY_DELAY_MAX, exp_backoff));
+        next_request_time = cur_time + backoff;
     }
     if (log_flags.file_xfer_debug) {
         sprintf(buf,
-            "Backing off %f seconds on transfer of file %s",
-            exp_backoff, fip->name
+            "Backing off %d seconds on transfer of file %s",
+            backoff, fip->name
         );
         show_message(fip->project, buf, MSG_INFO);
     }

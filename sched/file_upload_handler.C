@@ -32,6 +32,7 @@
 #include "parse.h"
 #include "util.h"
 #include "config.h"
+#include "sched_util.h"
 #include "crypt.h"
 
 CONFIG config;
@@ -40,7 +41,7 @@ CONFIG config;
 #define ERR_PERMANENT   false
 
 #define STDERR_FILENAME "file_upload_handler.out"
-//#define DEBUG
+#define DEBUG
 
 #define MAX_FILES 32
 
@@ -51,10 +52,6 @@ struct FILE_INFO {
     char* signed_xml;
     int parse(FILE*);
 };
-
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
 
 int FILE_INFO::parse(FILE* in) {
     char buf[256], ebuf[256];
@@ -168,12 +165,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     double nbytes=-1, offset=0;
     bool is_valid;
 
-#ifdef DEBUG
-    fprintf(stderr, "In handle_file_upload\n");
-#endif
     while (fgets(buf, 256, in)) {
 #ifdef DEBUG
-        fprintf(stderr, "%s", buf);
+        write_log(buf);
 #endif
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
@@ -204,8 +198,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             //
             if (nbytes > file_info.max_nbytes) {
                 sprintf(buf,
-                    "nbytes too large: %f > %f",
-                    nbytes, file_info.max_nbytes
+                    "file size (%d KB) exceeds limit (%d KB)",
+                    (int)(nbytes/1024), (int)(file_info.max_nbytes/1024)
                 );
                 return return_error(ERR_PERMANENT, buf);
             }
@@ -236,19 +230,22 @@ int handle_get_file_size(char* file_name) {
     char path[256], buf[256];
     int retval;
 
-#ifdef DEBUG
-    fprintf(stderr, "In handle_get_file_size\n");
-#endif
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
     //
     sprintf(path, "%s/%s", config.upload_dir, file_name );
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
+        sprintf(buf, "handle_get_file_size: %s, returning error\n", file_name);
+        write_log(buf);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
+        sprintf(buf, "handle_get_file_size: %s, returning zero\n", file_name);
+        write_log(buf);
         return return_success("<file_size>0</file_size>");
     } else {
+        sprintf(buf, "handle_get_file_size: %s, returning %d\n", file_name, sbuf.st_size);
+        write_log(buf);
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
     }
@@ -263,7 +260,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
     while (fgets(buf, 256, in)) {
 #ifdef DEBUG
-        fprintf(stderr, "%s", buf);
+        write_log(buf);
 #endif
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {

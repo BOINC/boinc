@@ -4179,3 +4179,26 @@ Erik  May 15 2003
 
     client/
         net_xfer.C
+
+Erik  May 16 2003
+    - set FILE_INFO::upload_offset to -1 before restarting file upload.
+        This forces file size check, so that upload can resume
+        with nonzero offset.
+        NOTE: THE USE OF "SPECIAL VALUES" (LIKE -1) IS DISCOURAGED
+    - don't set RESULT::state to NEW after parse.
+        This caused completed results to start over.
+    - PERS_FILE_XFER::start_xfer() is int, not bool
+    - better messages on file transfer failure and project backoff
+    - better message from scheduler if wrong major version
+    - file upload handler logging is on by default
+
+    client/
+        scheduler_op.C
+        pers_file_xfer.C,h
+        client_state.C
+        file_xfer.C
+    lib/
+        error_numbers.h
+    sched/
+        file_upload_handler.C
+        handle_request.C
