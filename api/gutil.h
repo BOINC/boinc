@@ -160,7 +160,7 @@ struct STAR {
 };
 
 class STARFIELD {
-    void replace_star(int);
+    void replace_star(int, bool);
     STAR* stars;
 public:
     void build_stars(int, float);

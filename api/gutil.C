@@ -782,6 +782,14 @@ void RIBBON_GRAPH::add_tick(float x, int index) {
 #define TAN22_5 0.41421356237309504880
 
 
+//moves stars towards the eye vector, and replaces ones that go behind z=0
+
+float dotProd(float a, float b, float c, float x, float y, float z)
+{
+	return(a*x+b*y+c*z);
+}
+
+
 //makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
 //
 void STARFIELD::build_stars(int size, float speed) {
@@ -806,38 +814,20 @@ void STARFIELD::build_stars(int size, float speed) {
 	float fov=45.0f;
 	for(i=0;i<size;i++)
 	{		
-#if 0
 		float z = -frand()*2000;		
 		float x = 2.0f*-z*TAN22_5*frand();		
 		float y = 2.0f*-z*TAN22_5*frand();
 		
 		x-=-z*TAN22_5;
 		y-=-z*TAN22_5;
-		
-		stars[i].x=x;
-		stars[i].y=y;
-		stars[i].z=z;		
-#endif
-		//old version
-		float z = -frand()*1000;
-		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
-		float beta = asin(z/1000.0f);
-		float x = 1000.0f * cos(beta) * cos(alpha);
-		float y = 1000.0f * cos(beta) * sin(alpha);				
+
 		stars[i].x=x;
 		stars[i].y=y;
 		stars[i].z=z;
-	
+
 		float v = frand();
 		stars[i].v=v;
 	}	
-}
-
-//moves stars towards the eye vector, and replaces ones that go behind z=0
-
-float dotProd(float a, float b, float c, float x, float y, float z)
-{
-	return(a*x+b*y+c*z);
 }
 
 void STARFIELD::update_stars(int size, float speed, float dt)
@@ -870,12 +860,15 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 				  (camera[1]-stars[i].y)*(camera[1]-stars[i].y) + 
 				  (camera[2]-stars[i].z)*(camera[2]-stars[i].z));
 
-		
-		if(dotProd(eye[0],eye[1],eye[2],stars[i].x,stars[i].y,stars[i].z)>0) // behind camera
-		{
- 			replace_star(i);
+
+		if(speed>0 && dotProd(eye[0],eye[1],eye[2],stars[i].x,stars[i].y,stars[i].z)>0)  {
+ 			replace_star(i,false);
 			continue;
 		}		
+		else if(speed <=0 && dist>2000) {
+			replace_star(i,true);
+			continue;
+		}
 		
 		stars[i].x+=(eye[0])*stars[i].v*speed*dt;
 		stars[i].y+=(eye[1])*stars[i].v*speed*dt;
@@ -895,18 +888,33 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );		
 }
 
-void STARFIELD::replace_star(int i) {
-	float z = -frand()*1000;
-	float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
-	float beta = asin(z/1000.0f);
-	float x = 1000.0f * cos(beta) * cos(alpha);
-	float y = 1000.0f * cos(beta) * sin(alpha);				
-	stars[i].x=x;
-	stars[i].y=y;
-	stars[i].z=z;	
-	
-	float v = (float)((rand()%1000)/1000.0f);
-	stars[i].v=v;		
+void STARFIELD::replace_star(int i, bool front) {
+	int viewport[4];
+	get_viewport(viewport);
+	if(front) {
+		float z = 0;
+		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
+		float beta = asin(z/1000.0f);
+		float x = 1000.0f * cos(beta) * cos(alpha);
+		float y = 1000.0f * cos(beta) * sin(alpha);				
+		stars[i].x=x;
+		stars[i].y=y;
+		stars[i].z=z;			
+		float v = (float)((rand()%1000)/1000.0f);
+		stars[i].v=v;
+	}
+	else {
+		float z = -frand()*2000;		
+		float x = 2.0f*-z*TAN22_5*frand();		
+		float y = 2.0f*-z*TAN22_5*frand();
+		
+		x-=-z*TAN22_5;
+		y-=-z*TAN22_5;
+
+		stars[i].x=x;
+		stars[i].y=y;
+		stars[i].z=z;
+	}	
 }
 
 // ------------  TEXTURE STUFF --------------------

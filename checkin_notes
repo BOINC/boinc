@@ -6736,3 +6736,9 @@ Karl 2003-10-13
         Makefile.am
     api/
         Makefile.am
+
+Oliver Oct 13 2003
+    - stars now draw in visible pyramid
+
+    api/
+	gutil.C,h
