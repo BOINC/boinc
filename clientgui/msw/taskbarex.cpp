@@ -38,6 +38,7 @@ DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
 IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIconEx, wxEvtHandler)
 
 BEGIN_EVENT_TABLE (wxTaskBarIconEx, wxEvtHandler)
+    EVT_CLOSE(wxTaskBarIconEx::OnClose)
     EVT_TASKBAR_CREATED(wxTaskBarIconEx::OnTaskBarCreated)
 END_EVENT_TABLE ()
 
@@ -70,6 +71,12 @@ wxTaskBarIconEx::~wxTaskBarIconEx(void)
 }
 
 // Events
+void wxTaskBarIconEx::OnClose(wxCloseEvent& event)
+{
+    ::DestroyWindow((HWND) m_hWnd);
+    m_hWnd = 0;
+}
+
 void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& event)
 {
     if (m_iconAdded)

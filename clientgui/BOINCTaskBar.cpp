@@ -171,6 +171,8 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
 
     if ( NULL != pFrame )
         pFrame->Close(true);
+
+    event.Skip();
 }
 
 

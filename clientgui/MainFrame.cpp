@@ -786,10 +786,7 @@ void CMainFrame::OnClose( wxCloseEvent& event )
     if ( !event.CanVeto() )
         Destroy();
     else
-    {
         Hide();
-        event.Veto();
-    }
 }
 
 

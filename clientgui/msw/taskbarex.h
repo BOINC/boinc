@@ -42,6 +42,7 @@ public:
     };
 
 // Events
+    virtual void OnClose( wxCloseEvent& event );
     virtual void OnTaskBarCreated( wxTaskBarIconExEvent& event );
 
 // Accessors
