@@ -187,9 +187,11 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
-    msg_printf(NULL, MSG_INFO, "Starting BOINC client version %d.%02d",
-        core_client_major_version, core_client_minor_version
-    );
+    // printing the platform name here helps bug reports because users often
+    // give us this line but don't say what platform they have
+    msg_printf(NULL, MSG_INFO, "Starting BOINC client version %d.%02d (%s)",
+               core_client_major_version, core_client_minor_version, platform_name
+        );
 
     // parse account files.
     // If there are none, prompt user for project URL and create file

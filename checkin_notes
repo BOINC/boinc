@@ -5612,3 +5612,8 @@ Karl 2003/08/10
     config.h.in
     client/
         app.C
+
+Karl 2003/08/10
+    - client: show platform name on startup
+    client/
+        client_state.C
