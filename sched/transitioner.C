@@ -161,7 +161,7 @@ int handle_wu(
 
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
-        "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d, no_reply %d, didnt_need)\n",
+        "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d, no_reply %d, didnt_need %d)\n",
         wu_item.id, wu_item.name, ntotal,
         nunsent, ninprogress, nover, nsuccess, nerrors, ncouldnt_send, nno_reply, ndidnt_need
     );
