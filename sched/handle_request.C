@@ -47,6 +47,8 @@ const int MAX_WUS_TO_SEND     = 10;
 
 const double COBBLESTONE_FACTOR = 300.0;
 
+const double MIN_POSSIBLE_RAM = 64000000;
+
 struct WORK_REQ {
     bool infeasible_only;
     double seconds_to_fill;
@@ -137,10 +139,13 @@ inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host, WORK_REQ& wreq) {
-    if (host.m_nbytes && wu.rsc_memory_bound > host.m_nbytes) {
+    double m_nbytes = host.m_nbytes;
+    if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
+
+    if (wu.rsc_memory_bound > m_nbytes) {
         log_messages.printf(
             SchedMessages::DEBUG, "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
-            wu.id, wu.name, wu.rsc_memory_bound, host.id, host.m_nbytes
+            wu.id, wu.name, wu.rsc_memory_bound, host.id, m_nbytes
         );
         wreq.insufficient_mem = true;
         return false;
@@ -719,7 +724,7 @@ static void scan_work_array(
             continue;
         }
 
-        if (wreq.infeasible_only && wu_result.infeasible_count==0) {
+        if (wreq.infeasible_only && (wu_result.infeasible_count==0)) {
             continue;
         }
 

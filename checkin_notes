@@ -9024,3 +9024,9 @@ David  7 Jan 2004
 
     sched/
         handle_request.C
+
+David  7 Jan 2004
+    - added "host delete" function (if host has zero results)
+
+    html_user/
+        host_delete.php (new)

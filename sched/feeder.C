@@ -35,24 +35,30 @@
 // When the enumerator reaches the end, it is restarted;
 // hopefully there will be some new workunits.
 // There are two complications:
+//
 //  - An enumeration may return results already in the array.
 //    So, for each result, we scan the entire array to make sure
 //    it's not there already.  Can this be streamlined?
+//
 //  - We must avoid excessive re-enumeration,
 //    especially when the number of results is less than the array size.
 //    Crude approach: if a "collision" (as above) occurred on
 //    a pass through the array, wait a long time (5 sec)
 //
 // Checking for infeasible results (i.e. can't sent to any host):
+//
 // - the "infeasible_count" field of WU_RESULT keeps track of
 //   how many times the WU_RESULT was infeasible for a host
+//
 // - the scheduler gives priority to results that have infeasible_count > 0
+//
 // - If the infeasible_count of any result exceeds MAX_INFEASIBLE_COUNT,
 //   the feeder flags the result as OVER with outcome COULDNT_SEND,
 //   and flags the WU for the transitioner.
+//
 // - the feeder tries to ensure that the number of WU_RESULTs
-//   with infeasible_count  > 0 doesn't exceed MAX_INFEASIBLE
-//   (compiled into feeder).
+//   with infeasible_count  > MAX_INFEASIBLE_THRESHOLD
+//   doesn't exceed MAX_INFEASIBLE (defined in sched_shmem.h)
 //   If it does, then the feeder picks the WU_RESULT with
 //   the largest infeasible_count, marks if COULDNT_SEND as above,
 //   and repeats this until the infeasible count is low enough again
@@ -169,7 +175,7 @@ static void scan_work_array(
         if (wu_result.present) {
             if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
                 remove_infeasible(i);
-            } else if (wu_result.infeasible_count > 0) {
+            } else if (wu_result.infeasible_count > MAX_INFEASIBLE_THRESHOLD) {
                 ninfeasible++;
             }
         } else {

@@ -100,7 +100,12 @@ function show_host($host, $private, $ipprivate) {
         row2("% of time host is connected", 100*$host->connected_frac." %");
         row2("% of time user is active", 100*$host->active_frac." %");
         row2("Location", location_form($host));
-        row2("Edit", "<a href=host_edit_form.php?hostid=$host->id>Merge this host</a>");
+        if ($nresults == 0) {
+            $x = " | <a href=host_delete.php?hostid=$host->id>Delete this host</a> ";
+        } else {
+            $x = "";
+        }
+        row2("Edit", "<a href=host_edit_form.php?hostid=$host->id>Merge this host</a> $x");
     }
     echo "</table>\n";
 
