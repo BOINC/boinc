@@ -22,17 +22,27 @@
         $result_user_table = mysql_query($query_user_table);
 	$nusers = $team->nusers;
         $new_nusers = $nusers - 1;
-        $query_team_table = sprintf(
-            "update team set nusers = %d where id = %d",
-            $new_nusers,
-            $team->id
-        );
+        if ($new_nusers) {
+            $query_team_table = sprintf(
+                "update team set nusers = %d where id = %d",
+                $new_nusers,
+                $team->id
+                );
+        } else {
+            $query_team_table = sprintf(
+                "delete from team where id = %d",
+                $team->id
+                );
+        }
         $result_team_table = mysql_query($query_team_table);
         if ($result_user_table && $result_team_table) {
             $team_name = $team->name;
             page_head("Quit $team_name");
             echo "<h2>Removed from team</h2>";
             echo "You have been removed from <a href=team_display.php?teamid=$team->id>$team_name</a>";
+            if (!$new_nusers) {
+                echo "<p>Since you were the last member of the team, it has been disbanded.";
+            }
         } else {
             page_head("Error");
             echo "Couldn't quit team - please try later.\n";

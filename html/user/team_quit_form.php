@@ -1,4 +1,4 @@
-<?php
+<?php {
 
 require_once("util.inc");
 require_once("team.inc");
@@ -31,6 +31,12 @@ $id = $_GET["id"];
     echo "<li>Quitting a team does not affect your personal credit ";
     echo "statistics in any way.";
     echo "</ul>";
+
+    if ($team->nusers <= 1) {
+        echo "<p><b>You are the only member of this team.</b>";
+        echo "<ul><li>By quitting the team you will disband it.</li></ul>";
+    }
+
     echo "</p>";
     echo "<hr>";
     echo "<form method=post action=team_quit_action.php>";
@@ -40,4 +46,4 @@ $id = $_GET["id"];
     echo "</td></tr></table>";
     page_tail();
 
-?>
+} ?>

@@ -145,11 +145,19 @@ function user_join_team($team, $user) {
         $first_team = mysql_fetch_object($result_team_other);
         $first_nusers = $first_team->nusers;
         $first_new_nusers = $first_nusers - 1;
-        $query_team_table_other = sprintf(
-            "update team set nusers = %d where id = %d",
-            $first_new_nusers,
-            $first_team->id
-        );
+        if ($first_new_nusers) {
+            $query_team_table_other = sprintf(
+                "update team set nusers = %d where id = %d",
+                $first_new_nusers,
+                $first_team->id
+                );
+        } else {
+            // no more users in this team: disband it.
+            $query_team_table_other = sprintf(
+                "delete from team where id = %d",
+                $first_team->id
+                );
+        }
         $result_team_table_other = mysql_query($query_team_table_other);
     }
     $query_user_table = sprintf(

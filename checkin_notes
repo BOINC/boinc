@@ -5586,3 +5586,9 @@ Karl 2003/08/08
       new result and then marking WU as FILE_DELETE_READY.
 
     Sched/timeout_check.C
+
+Karl 2003/08/08
+    - changed team disbanding to happen automatically when user quits it (or
+      joins a different team).
+
+    Html_user/*
