@@ -237,3 +237,8 @@ tImageTGA *LoadTGA(const char *filename)
 	// Return the TGA data (remember, you must free this data after you are done)
 	return pImageData;
 }
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

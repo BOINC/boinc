@@ -106,3 +106,9 @@ int mem_usage(double& vm_usage, double& resident_set) {
     return ERR_NOT_IMPLEMENTED;
 #endif
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

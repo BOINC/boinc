@@ -21,3 +21,9 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*worker)()) {
     init_main_state();
     return boinc_init_options_graphics_impl(opt, worker, &boinc_main_state);
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif
