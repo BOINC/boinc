@@ -41,12 +41,14 @@ downloading them from the project.  Here's how it works:
 
 <ul>
   <li>
-    <a href=community.php>Download</a> the source code for the BOINC core client
-    and the project's applications, and compile them on your computer
-    (instructions for compiling the core client are
-    <a href=build_client.php>here</a>).
-    Or download executables from a server of your choosing.
+    <a href="community.php">Download</a> the source code for the BOINC core
+    client and the project's applications, and compile them on your computer
+    (instructions for compiling the core client are <a
+    href="build_client.php">here</a>).  Steffen Moeller has made <a
+    href="http://bioinformatics.pzr.uni-rostock.de/~moeller/debian/boinc/">Debian
+    packages</a>.  Or download executables from a server of your choosing.
   </li>
+
   <li>
     Run the core client and attach to the project.  This will create a
     'project directory' (whose name is the project URL) in the BOINC

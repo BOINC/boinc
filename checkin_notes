@@ -21764,3 +21764,9 @@ David  22 Dec 2004
 
     api/
         x_opengl.C
+
+Karl 2004-12-25
+    - Link to http://bioinformatics.pzr.uni-rostock.de/~moeller/debian/boinc/
+
+    doc/
+        anonymous_platform.php
