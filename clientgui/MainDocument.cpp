@@ -77,43 +77,6 @@ CMainDocument::~CMainDocument()
 }
 
 
-wxInt32 CMainDocument::OnInit()
-{
-    wxInt32 retval = 0;
-
-    if (!m_bIsConnected)
-    {
-        retval = rpc.init(NULL);
-        if (retval)
-            wxLogTrace("CMainDocument::OnInit - RPC Initialization Failed '%d'", retval);
-    }
-
-    return retval;
-}
-
-
-wxInt32 CMainDocument::OnExit()
-{
-    wxInt32 retval = 0;
-
-    if (m_bIsConnected)
-        rpc.close();
-
-    return retval;
-}
-
-
-wxInt32 CMainDocument::OnIdle()
-{
-    if (m_bIsConnected)
-    {
-        CachedStateUpdate();
-    }
-
-    return 0;
-}
-
-
 wxInt32 CMainDocument::CachedStateUpdate()
 {
     wxInt32     retval = 0;
@@ -151,6 +114,43 @@ wxInt32 CMainDocument::CachedStateUpdate()
 }
 
 
+wxInt32 CMainDocument::OnInit()
+{
+    wxInt32 retval = 0;
+
+    if (!m_bIsConnected)
+    {
+        retval = rpc.init(NULL);
+        if (retval)
+            wxLogTrace("CMainDocument::OnInit - RPC Initialization Failed '%d'", retval);
+    }
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::OnExit()
+{
+    wxInt32 retval = 0;
+
+    if (m_bIsConnected)
+        rpc.close();
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::OnIdle()
+{
+    if (m_bIsConnected)
+    {
+        CachedStateUpdate();
+    }
+
+    return 0;
+}
+
+
 wxInt32 CMainDocument::CachedStateLock()
 {
     m_bCachedStateLocked = true;
@@ -163,6 +163,30 @@ wxInt32 CMainDocument::CachedStateUnlock()
 {
     m_bCachedStateLocked = false;
     return 0;
+}
+
+
+wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
+{
+    return rpc.get_run_mode( iMode );
+}
+
+
+wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
+{
+    return rpc.set_run_mode( iMode );
+}
+
+
+wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
+{
+    return rpc.get_network_mode( iMode );
+}
+
+
+wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
+{
+    return rpc.set_network_mode( iMode );
 }
 
 

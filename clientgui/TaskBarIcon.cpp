@@ -28,6 +28,8 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "TaskBarIcon.h"
+#include "DlgAbout.h"
+#include "Events.h"
 
 #include "res/boinc.xpm"
 
@@ -36,6 +38,10 @@ IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIcon)
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIcon)
     EVT_CLOSE(CTaskBarIcon::OnClose)
+    EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
+    EVT_MENU_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
+    EVT_MENU_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
+    EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 END_EVENT_TABLE ()
 
@@ -44,7 +50,7 @@ CTaskBarIcon::CTaskBarIcon() :
     wxTaskBarIcon()
 {
     iconTaskBarIcon = wxIcon( boinc_xpm );
-    dtLastMouseCaptureTime = wxDateTime::Now();
+    dtLastMouseCaptureTime = wxDateTime( (time_t)0 );
 
     SetIcon( iconTaskBarIcon, wxEmptyString );
 }
@@ -56,10 +62,85 @@ CTaskBarIcon::~CTaskBarIcon()
 }
 
 
+void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
+{
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
+    if ( NULL != pFrame )
+        pFrame->Show();
+}
+
+
+void CTaskBarIcon::OnActivitySelection( wxCommandEvent& event )
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    switch( event.GetId() )
+    {
+        case ID_ACTIVITYRUNALWAYS:
+            pDoc->SetActivityRunMode( CMainDocument::MODE_ALWAYS );
+            break;
+        case ID_ACTIVITYSUSPEND:
+            pDoc->SetActivityRunMode( CMainDocument::MODE_NEVER );
+            break;
+        case ID_ACTIVITYRUNBASEDONPREPERENCES:
+            pDoc->SetActivityRunMode( CMainDocument::MODE_AUTO );
+            break;
+    }
+}
+
+
+void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    switch( event.GetId() )
+    {
+        case ID_NETWORKSUSPEND:
+            if ( event.IsChecked() )
+            {
+                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+            }
+            else
+            {
+                pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
+            }
+            break;
+        case ID_NETWORKRUNALWAYS:
+        case ID_NETWORKRUNBASEDONPREPERENCES:
+        default:
+            pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+            break;
+    }
+}
+
+
+void CTaskBarIcon::OnAbout( wxCommandEvent& WXUNUSED(event) )
+{
+    CDlgAbout* pDlg = new CDlgAbout(NULL);
+    wxASSERT(NULL != pDlg);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        pDlg->Destroy();
+}
+
+
 void CTaskBarIcon::OnExit( wxCommandEvent& WXUNUSED(event) )
 {
-    CMainFrame* pFrame = NULL;
-    pFrame = wxGetApp().GetFrame();
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
     if ( NULL != pFrame )
         pFrame->Close(true);
 }
@@ -67,8 +148,10 @@ void CTaskBarIcon::OnExit( wxCommandEvent& WXUNUSED(event) )
 
 void CTaskBarIcon::OnClose( wxCloseEvent& event )
 {
-    CMainFrame* pFrame = NULL;
-    pFrame = wxGetApp().GetFrame();
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
     if ( NULL != pFrame )
         pFrame->Close(true);
 }
@@ -76,7 +159,7 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
 
 void CTaskBarIcon::OnMouseMove( wxEvent& event )
 {
-    wxTimeSpan ts(wxDateTime::Now() - dtLastMouseCaptureTime);
+   wxTimeSpan ts(wxDateTime::Now() - dtLastMouseCaptureTime);
 
     if ( ts.GetSeconds() > 5 )
     {
@@ -122,14 +205,51 @@ void CTaskBarIcon::OnMouseMove( wxEvent& event )
 
 void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 {
-    wxMenu* menu = new wxMenu;
-    wxASSERT( NULL != menu );
+    CMainDocument* pDoc          = wxGetApp().GetDocument();
+    wxMenu*        menu          = new wxMenu;
+    wxInt32        iActivityMode = -1;
+    wxInt32        iNetworkMode  = -1;
 
-    menu->Append(
-        wxID_EXIT,
-        _("E&xit"),
-        wxEmptyString
-    );
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != menu);
+
+    menu->Append( wxID_OPEN, _("&Open"), wxEmptyString );
+    menu->AppendSeparator();
+    menu->AppendRadioItem( ID_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString );
+    menu->AppendRadioItem( ID_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString );
+    menu->AppendRadioItem( ID_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString );
+    menu->AppendSeparator();
+    menu->AppendCheckItem( ID_NETWORKSUSPEND, _("&Disable BOINC Network Access"), wxEmptyString );
+    menu->AppendSeparator();
+    menu->Append( wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString );
+    menu->AppendSeparator();
+    menu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
+
+    pDoc->GetActivityRunMode( iActivityMode );
+    switch( iActivityMode )
+    {
+        case CMainDocument::MODE_ALWAYS:
+            menu->Check( ID_ACTIVITYRUNALWAYS, true );
+            break;
+        case CMainDocument::MODE_NEVER:
+            menu->Check( ID_ACTIVITYSUSPEND, true );
+            break;
+        case CMainDocument::MODE_AUTO:
+            menu->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+            break;
+    }
+
+    pDoc->GetNetworkRunMode( iNetworkMode );
+    switch( iNetworkMode )
+    {
+        case CMainDocument::MODE_NEVER:
+            menu->Check( ID_NETWORKSUSPEND, true );
+            break;
+        default:
+            menu->Check( ID_NETWORKSUSPEND, false );
+            break;
+    }
 
     PopupMenu( menu );
 
@@ -139,8 +259,10 @@ void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 
 void CTaskBarIcon::OnLButtonDClick( wxEvent& event )
 {
-    CMainFrame* pFrame = NULL;
-    pFrame = wxGetApp().GetFrame();
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
     if ( NULL != pFrame )
         pFrame->Show();
 }

@@ -46,6 +46,10 @@ public:
 #endif
     };
 
+    void OnOpen( wxCommandEvent& event );
+    void OnActivitySelection( wxCommandEvent& event );
+    void OnNetworkSelection( wxCommandEvent& event );
+    void OnAbout( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
     void OnClose( wxCloseEvent& event );
 

@@ -39,10 +39,6 @@ public:
     CMainDocument();
     ~CMainDocument();
 
-    wxInt32                     OnInit();
-    wxInt32                     OnExit();
-    wxInt32                     OnIdle();
-
     enum RESULTTYPES
     {
         RESULT_NEW = 0,
@@ -53,24 +49,18 @@ public:
         RESULT_FILES_UPLOADED = 5
     };
 
-    enum PROCESSTYPES
-    {
-        PROCESS_EXECUTING = 1,
-        PROCESS_SUSPENDED = 9,
-        PROCESS_ABORT_PENDING = 5,
-        PROCESS_EXITED = 2,
-        PROCESS_WAS_SIGNALED = 3,
-        PROCESS_EXIT_UNKNOWN = 4,
-        PROCESS_ABORTED = 6,
-        PROCESS_COULDNT_START = 7,
-        PROCESS_IN_LIMBO = 8
-    };
-
     enum CPUSCHEDTYPES
     {
         CPU_SCHED_UNINITIALIZED = 0,
         CPU_SCHED_PREEMPTED = 1,
         CPU_SCHED_SCHEDULED = 2
+    };
+
+    enum RUNMODETYPES
+    {
+        MODE_ALWAYS = RUN_MODE_ALWAYS,
+        MODE_NEVER = RUN_MODE_NEVER,
+        MODE_AUTO = RUN_MODE_AUTO
     };
 
 
@@ -92,8 +82,17 @@ private:
 
 public:
 
+    wxInt32                     OnInit();
+    wxInt32                     OnExit();
+    wxInt32                     OnIdle();
+
     wxInt32                     CachedStateLock();
     wxInt32                     CachedStateUnlock();
+
+    wxInt32                     GetActivityRunMode( wxInt32& iMode );
+    wxInt32                     SetActivityRunMode( wxInt32 iMode );
+    wxInt32                     GetNetworkRunMode( wxInt32& iMode );
+    wxInt32                     SetNetworkRunMode( wxInt32 iMode );
 
 
     //

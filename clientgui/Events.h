@@ -20,26 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.12  2004/10/22 10:02:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/10/21 14:29:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/09/25 21:33:22  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/09/24 02:01:47  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/09/21 01:26:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/07/13 06:04:28  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-//
 
 
 #ifndef _EVENTS_H_
@@ -51,6 +31,12 @@
 #define ID_FRAMENOTEBOOK                    6002
 #define ID_FRAMETASKRENDERTIMER             6003
 #define ID_FRAMELISTRENDERTIMER             6004
+#define ID_ACTIVITYRUNALWAYS                6005
+#define ID_ACTIVITYRUNBASEDONPREPERENCES    6006
+#define ID_ACTIVITYSUSPEND                  6008
+#define ID_NETWORKRUNALWAYS                 6009
+#define ID_NETWORKRUNBASEDONPREPERENCES     6010
+#define ID_NETWORKSUSPEND                   6011
 #define ID_LIST_BASE                        7000
 #define ID_LIST_PROJECTSVIEW                7000
 #define ID_LIST_WORKVIEW                    7001

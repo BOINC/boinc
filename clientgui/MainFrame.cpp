@@ -150,7 +150,7 @@ bool CMainFrame::CreateMenu()
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(  
         wxID_ABOUT,
-        _("&About BOINC..."), 
+        _("&About BOINC Manager..."), 
         _("Displays general information about BOINC and BOINC Manager")
     );
 
