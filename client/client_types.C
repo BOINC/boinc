@@ -89,6 +89,7 @@ void PROJECT::init() {
     send_file_list = false;
     non_cpu_intensive = false;
     suspended_via_gui = false;
+    dont_request_more_work = false;
 #if 0
     deletion_policy_priority = false;
     deletion_policy_expire = false;
@@ -184,6 +185,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
         else if (match_tag(buf, "<non_cpu_intensive/>")) non_cpu_intensive = true;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
+        else if (match_tag(buf, "<dont_request_more_work/>")) dont_request_more_work = true;
 #if 0
         else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
         else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
@@ -235,7 +237,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
         "    <resource_share>%f</resource_share>\n"
-        "%s%s%s%s%s",
+        "%s%s%s%s%s%s",
         master_url,
         project_name,
 #if 0
@@ -265,7 +267,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
-        suspended_via_gui?"    <suspended_via_gui/>\n":""
+        suspended_via_gui?"    <suspended_via_gui/>\n":"",
+        dont_request_more_work?"    <dont_request_more_work/>\n":""
     );
 #if 0
     out.printf(
@@ -328,6 +331,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     send_file_list = p.send_file_list;
     non_cpu_intensive = p.non_cpu_intensive;
     suspended_via_gui = p.suspended_via_gui;
+    dont_request_more_work = p.dont_request_more_work;
 #if 0
     deletion_policy_priority = p.deletion_policy_priority;
     deletion_policy_expire = p.deletion_policy_expire;

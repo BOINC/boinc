@@ -22,7 +22,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#include "win_config.h"
+#include "version.h"
 #else
 #include "config.h"
 #include <cstdlib>

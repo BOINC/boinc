@@ -199,6 +199,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_PROJECT_GET_PREFS, OnCommandProjectGetPrefs)
     ON_COMMAND(ID_PROJECT_DETACH, OnCommandProjectDetach)
     ON_COMMAND(ID_PROJECT_RESET, OnCommandProjectReset)
+	ON_COMMAND(ID_PROJECT_NOMOREWORK, OnCommandProjectNoMoreWork)
     ON_COMMAND(ID_STATUSICON_SHOW, OnCommandShow)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_EXIT, OnCommandExit)
@@ -250,6 +251,8 @@ CMainWindow::CMainWindow()
     m_MenuLabelGetPreferences = "&Update";
     m_DialogResetQuery = "Are you sure you want to reset the project %1?";
     m_DialogDetachQuery = "Are you sure you want to detach from the project %1?";
+    m_MenuLabelGetWork = "&Allow new work request";
+    m_MenuLabelNoMoreWork = "Don't request more work";
 
     // create and position window
     CreateEx(0, wndcls.lpszClassName, WND_TITLE,
@@ -1144,6 +1147,8 @@ void CMainWindow::LoadLanguage()
 
     UpdateLanguageString("MENU-Project", m_MenuLabelGetPreferences, strPath);
     UpdateLanguageString("MENU-Project", m_MenuLabelRetryNow, strPath);
+	UpdateLanguageString("MENU-Project2", m_MenuLabelGetWork, strPath);
+ 	UpdateLanguageString("MENU-Project2", m_MenuLabelNoMoreWork, strPath);
 
     UpdateLanguageString("DIALOG-RESET", m_DialogResetQuery, strPath);
     UpdateLanguageString("DIALOG-DETACH", m_DialogDetachQuery, strPath);
@@ -1397,6 +1402,23 @@ void CMainWindow::OnCommandProjectReset()
     if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
         gstate.reset_project(proj);
     }
+}
+
+// CMainWindow::OnCommandProjectNoMoreWork
+// arguments:   void
+// returns:     void
+// function:    lets the user stop/start work fetches from project
+void CMainWindow::OnCommandProjectNoMoreWork (){
+    PROJECT *proj;
+    proj = GetProjectFromContextMenu();
+    if (!proj) return;
+	if (proj->dont_request_more_work) {
+		proj->dont_request_more_work = false;
+		show_message(proj,"Allowing more work to be requested from project",MSG_INFO);
+	} else {
+		proj->dont_request_more_work = true;
+		show_message(proj,"Won't request any more work from project",MSG_INFO);
+	}
 }
 
 //////////
@@ -1973,6 +1995,8 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
                     pContextMenu->ModifyMenu(ID_PROJECT_GET_PREFS, 0, ID_PROJECT_GET_PREFS,
                         ((proj && proj->min_rpc_time > dtime()) ?
                          m_MenuLabelRetryNow : m_MenuLabelGetPreferences));
+					pContextMenu->ModifyMenu(ID_PROJECT_NOMOREWORK, 0, ID_PROJECT_NOMOREWORK,
+ 						(proj->dont_request_more_work?m_MenuLabelGetWork:m_MenuLabelNoMoreWork));
                     break;
                 }
             case RESULT_MENU:

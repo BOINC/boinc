@@ -21949,3 +21949,39 @@ Bruce 29 Dec 2004
     html/
         inc/
             db_ops.inc
+
+David  29 Dec 2004
+	- (from James Drews) Add a "don't request more work" request for projects.
+		Inhibits requesting more work,
+		but allows completion and reporting of work to continue.
+		Added a GUI RPC to do this,
+		and also a menu command in the old Win GUI.
+		Implemented using a boolean in PROJECT
+		(saved/restored in client_state.xml)
+	- Removed win_config.h and win-config.h.
+		Put all "#ifdef HAVE_*" constructs inside #ifndef _WIN32
+		Include version.h to get BOINC_MAJOR_VERSION etc.
+
+		Now - what exactly are the roles of client/cpp.h and boinc_win.h???
+
+	win_config.h (removed)
+	api/
+		boinc_api.C
+	client/
+		client_types.C,h
+		cpp.h
+		cs_scheduler.C
+		gui_rpc_server.C
+		win/
+			boinc_cli.rc
+			boinc_dll.rc
+			boinc_gui.h,rc
+			boinc_ss.rc
+			wingui_mainwindow.cpp,h
+	lib/
+		gui_rpc_client.C,h
+		gui_test.C
+		mem_usage.C
+	win_build/
+		config.h
+		win-config.h (removed)

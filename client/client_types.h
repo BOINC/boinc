@@ -201,7 +201,10 @@ public:
         // send the list of permanent files associated/with the project
         // in the next scheduler reply
     bool suspended_via_gui;
-
+ 	bool dont_request_more_work; 
+		// set the project to only return work and not request more
+ 		// for a clean exit to a project, or if a user wants to 
+ 		// pause doing work for the project
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();

@@ -32,6 +32,8 @@
 // -project_attach url auth
 // -project_detach url
 // -project_update url
+// -project_nomorework url
+// -project_allowmorework url
 // -run_benchmarks
 // -set_proxy_settings
 
@@ -136,6 +138,12 @@ int main(int argc, char** argv) {
     } else if (!strcmp(argv[i], "-project_update")) {
         project.master_url = argv[++i];
         retval = rpc.project_op(project, "update");
+    } else if (!strcmp(argv[i], "-project_nomorework")) {
+        project.master_url = argv[++i];
+        retval = rpc.project_op(project, "nomorework");
+     } else if (!strcmp(argv[i], "-project_allowmorework")) {
+        project.master_url = argv[++i];
+        retval = rpc.project_op(project, "allowmorework");
     } else if (!strcmp(argv[i], "-run_benchmarks")) {
         retval = rpc.run_benchmarks();
     }

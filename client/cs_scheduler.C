@@ -134,6 +134,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 // 1) is eligible for a scheduler RPC
 // 2) has work_request > 0
 // 3) has master_url_fetch_pending == false
+// 4) has dont_request_more_work == false
 //
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
     PROJECT *p;
@@ -149,6 +150,7 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
         if (p->master_url_fetch_pending) continue;
         if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->suspended_via_gui) continue;
+        if (p->dont_request_more_work) continue;
         if (found_old && p->work_request > 0) {
             return p;
         }
@@ -391,6 +393,7 @@ int CLIENT_STATE::compute_work_requests() {
 
         p->work_request = 0;
         if (p->min_rpc_time >= now) continue;
+        if (p->dont_request_more_work) continue;
 
         // determine urgency
         //

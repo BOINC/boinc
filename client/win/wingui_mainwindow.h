@@ -159,6 +159,7 @@ protected:
 	afx_msg void			OnCommandProjectGetPrefs();
 	afx_msg void			OnCommandProjectDetach();
 	afx_msg void			OnCommandProjectReset();
+	afx_msg void			OnCommandProjectNoMoreWork();
 	afx_msg void			OnCommandWorkShowGraphics();
 	afx_msg void            OnCommandTransfersRetryNow();
 	afx_msg void			OnCommandFileClearInactive();
@@ -187,6 +188,7 @@ protected:
 
 	CString m_MenuLabelRetryNow, m_MenuLabelGetPreferences;
 	CString m_DialogResetQuery, m_DialogDetachQuery;
+	CString m_MenuLabelGetWork, m_MenuLabelNoMoreWork;
 
     DECLARE_MESSAGE_MAP()
 

@@ -19,7 +19,7 @@
 
 #ifdef _WIN32
 #define HOSTTYPE "windows_intelx86"
-#include "win_config.h"         // version numbers from autoconf
+#include "version.h"         // version numbers from autoconf
 #endif
 
 #ifndef _WIN32

@@ -86,6 +86,7 @@ public:
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
     bool suspended_via_gui;
+	bool dont_request_more_work;
 
     PROJECT();
     ~PROJECT();

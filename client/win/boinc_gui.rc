@@ -8,7 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
-#include "win_config.h"
+#include "version.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -36,7 +36,7 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
-    "#include ""win_config.h""\r\n"
+    "#include ""version.h""\r\n"
     "\0"
 END
 
@@ -250,6 +250,7 @@ BEGIN
         MENUITEM "XXX GET PREFERENCES XXX",     ID_PROJECT_GET_PREFS
         MENUITEM "&Detach...",                  ID_PROJECT_DETACH
         MENUITEM "&Reset project...",           ID_PROJECT_RESET
+		MENUITEM "XXX NOMOREWORK XXX"			ID_PROJECT_NOMOREWORK
     END
     POPUP "Work"
     BEGIN

@@ -22,7 +22,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "version.h"
-#include "win_config.h"
 #endif
 
 #ifndef _WIN32
@@ -110,6 +109,10 @@ int PROJECT::parse(MIOFILE& in) {
             suspended_via_gui = true;
             continue;
         }
+        else if (match_tag(buf, "<dont_request_more_work/>")) {
+            dont_request_more_work = true;
+            continue;
+        }
         else if (match_tag(buf, "<tentative/>")) {
             tentative = true;
             continue;
@@ -149,6 +152,7 @@ void PROJECT::print() {
     printf("   scheduler RPC pending: %s\n", sched_rpc_pending?"yes":"no");
     printf("   tentative: %s\n", tentative?"yes":"no");
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
+    printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
     for (i=0; i<gui_urls.size(); i++) {
         gui_urls[i].print();
     }
@@ -172,6 +176,7 @@ void PROJECT::clear() {
     sched_rpc_pending = false;
     tentative = false;
     suspended_via_gui = false;
+	dont_request_more_work = false;
     gui_urls.clear();
 }
 
@@ -896,7 +901,7 @@ void RPC_CLIENT::close() {
 #else
     ::close(sock);
 #endif
-	sock = 0;
+    sock = 0;
 }
 
 int RPC_CLIENT::init(const char* host) {
@@ -931,7 +936,7 @@ int RPC_CLIENT::init(const char* host) {
         printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
 #endif
         perror("connect");
-		close();
+        close();
         return ERR_CONNECT;
     }
     return 0;
@@ -982,7 +987,7 @@ RPC::~RPC() {
 int RPC::do_rpc(char* req) {
     int retval;
 
-	if (rpc_client->sock == 0) return ERR_CONNECT;
+    if (rpc_client->sock == 0) return ERR_CONNECT;
     retval = rpc_client->send_request(req);
     if (retval) return retval;
     retval = rpc_client->get_reply(mbuf);
@@ -1173,6 +1178,10 @@ int RPC_CLIENT::project_op(PROJECT& project, char* op) {
         tag = "project_suspend";
     } else if (!strcmp(op, "resume")) {
         tag = "project_resume";
+    } else if (!strcmp(op, "allowmorework")) {
+         tag = "project_allowmorework";
+    } else if (!strcmp(op, "nomorework")) {
+         tag = "project_nomorework";
     } else {
         return -1;
     }

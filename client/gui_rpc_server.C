@@ -170,7 +170,11 @@ static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
-    }
+	} else if (!strcmp(op, "nomorework")) {
+ 		p->dont_request_more_work = true;
+ 	} else if (!strcmp(op, "allowmorework")) {
+ 		p->dont_request_more_work = false;
+ 	}
     gstate.must_schedule_cpus = true;
     fout.printf("<success/>\n");
 }
@@ -485,6 +489,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_project_op(request_msg, mf, "resume");
     } else if (match_tag(request_msg, "<set_run_mode")) {
         handle_set_run_mode(request_msg, mf);
+	} else if (match_tag(request_msg, "<project_nomorework")) {
+ 		handle_project_op(request_msg, mf, "nomorework");
+ 	} else if (match_tag(request_msg, "<project_allowmorework")) {
+ 		handle_project_op(request_msg, mf, "allowmorework");
     } else if (match_tag(request_msg, "<get_run_mode")) {
         handle_get_run_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_network_mode")) {
