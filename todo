@@ -16,6 +16,8 @@ gray, and the bottom half the bottom half of the astropulse graphics.
 They weren't moving. The computer was frozen. I had to ctrl-alt-del
 to restart.
 
+- Graphics window should open in front of others
+- Corrupted floating hover text
 - Resetting project should delete old project files
 - Test BOINC error handling on UNIX if app can't start up (use bad path name)
 - GUI client should display "Upload failed" and "Download failed"
