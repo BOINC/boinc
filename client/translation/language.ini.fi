@@ -1,0 +1,155 @@
+#Finnish language.ini file
+
+#pay attention to the NOTE in the [MENU- ] section
+
+#PROJECT_ID
+[HEADER-Projects]
+Title=Projektit
+Project=Projekti
+Account=Tili
+Total Credit=Pisteet yhteensä
+Avg. Credit=Pisteitä keskimäärin
+Resource Share=Resurssien jako
+
+#RESULT_ID
+[HEADER-Work]
+Title=Työ
+Project=Projekti
+Application=Ohjelma
+Name=Nimi
+CPU time=CPU aika
+Progress=Eteneminen
+To Completion=Aikaa valmistumiseen
+Status=Tilanne
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Tiedonsiirrot
+Project=Projekti
+File=Tiedosto
+Progress=Eteneminen
+Size=Koko
+Time=Aika
+Speed=Nopeus
+Status=Tilanne
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Viestit
+Project=Projekti
+Time=Aika
+Message=Viesti
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Kiintolevy
+Free space: not available for use=Vapaa tila: Ei vapaana käytöön
+Free space: available for use=Vapaa tila: Vapaana käyttöön
+Used space: other than BOINC=Käytetty tila: Muu kuin BOINC
+Used space: BOINC=Käytetty tila: BOINCin käytössä
+Used space:=Käytetty tila
+
+#miscellaneous text
+[HEADER-MISC]
+New=Uusi
+Running=Käynnissä
+Ready to run=Valmiina käyttöön
+Computation done=Laskentaa suoritettu
+Results uploaded=Tuloksia lähetetty
+Acknowledged=Vastaanotettu
+Error: invalid state=Virhe: virheellinen tila
+Completed=Valmiina
+Uploading=Lähettää...
+Downloading=Lataa...
+Retry in=Uusi yritys
+Upload failed=Lähettäminen epäonnistui
+Download failed=Lataaminen epäonnistui
+
+#menu items
+# NOTE: add an & (ampersand) to the letter to be used as mnemonic
+#       i.e. Show Graphics=Show &Graphics
+#                               ^^ the "G" will trigger the menu item
+#       you can compare it with a saved language.ini.XX file
+[MENU-File]
+Title=&Tiedosto
+Show Graphics=&Näytä grafiikat
+Clear Messages=&Poista viestit
+Clear Inactive=&Poista käyttämättömät
+Suspend=&Tauko
+Resume=&Jatka
+Exit=&Poistu
+
+[MENU-Work]
+Show Graphics=&Näytä grafiikat
+
+[MENU-Settings]
+Title=&Asetukset
+Login to Project...=&Tunnistaudu projektiin
+Quit Project...=&Lopeta projekti
+Proxy Server...=&Välityspalvelin
+
+[MENU-Connection]
+Title=&Yhteys
+Connect Now=&Yhdistä nyt
+Hangup Connection if Dialed=&Katkaise yhteys jos soitettu
+Confirm Before Connecting=&Vahvista ennen yhdistämistä
+
+[MENU-Help]
+Title=&Ohje
+About...=&Tietoja...
+
+[MENU-StatusIcon]
+Suspend=&Tauko
+Resume=&Jatka
+Exit=&Poistu
+
+[MENU-Project]
+Relogin...=&Uudelleen tunnistautuminen...
+Quit Project...=&Lopeta projekti...
+
+[DIALOG-LOGIN]
+Title=Tunnistaudu projektiin
+URL:=Osoite:
+Account Key:=Tilin Avain:
+OK=OK
+Cancel=Keskeytä
+The URL for the website of the project.=Projektin Web-sivun osoite.
+The authorization code recieved in your confirmation email.=Vahvistussähköpostissa saatu tunnistuskoodi.
+
+[DIALOG-QUIT]
+Title=Lopeta projekti
+URL:=Osoite:
+Account Key:=Tilin avain:
+OK=OK
+Cancel=Keskeytä
+Select the project you wish to quit.=Valitse projekti jonka haluat lopettaa.
+
+[DIALOG-CONNECT]
+Title=Yhdistä verkkoon
+BOINC needs to connect to the network.  May it do so now?=BOINCin pitäsi päästä verkkoon. Voiko se tehdä sen nyt?
+Don't ask this again (connect automatically)=Älä kysy tätä uudelleen (yhdistä automaattisesti)
+OK=OK
+Cancel=Keskeytä
+
+[DIALOG-ABOUT]
+Title=Boinc Beta Versio
+Berkeley Open Infrastructure for Network Computing=Berkeleyn avoin infrastruktuuri Verkotettuun laskentaan
+Open Beta=Avoin beta
+OK=OK
+
+[DIALOG-PROXY]
+Title=Välityspalvelimen asetus
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Jotkut organisaatiot käyttävät "HTTP-" tai "SOCKS-" (tai molempia) välityspalvelimia turvallisuuden parantamiseksi. Jos sinun pitää käyttää välityspalvelinta, täytä tiedot alle. Jos tarvitset apua, kysy järjestelmän ylläpitäjältä tai internet-palveluntarjoajalta.
+HTTP Proxy=HTTP-välityspalvelin
+Connect via HTTP Proxy Server=Yhdistä HTTP-välityspalvelimen kautta
+http://=http://
+Port Number:=Portti:
+SOCKS Proxy=SOCKS-välityspalvelin
+Connect via SOCKS Proxy Server=Yhdistä SOCKS-välityspalvelimen kautta
+SOCKS Host:=SOCKS-isäntä:
+Port Number:=Portti:
+Leave these blank if not needed=Jätä nämä tyhjäksi jos ei tarvita
+SOCKS User Name:=SOCKS-tunnus
+SOCKS Password:=SOCKS-salasana
+OK=OK
+Cancel=Keskeytä

@@ -1,0 +1,156 @@
+#Template Croatian language.ini file
+
+#pay attention to the NOTE in the [MENU- ] section
+
+#PROJECT_ID
+[HEADER-Projects]
+Title=Projekti
+Project=Projekt
+Account=Raèun
+Total Credit=Ukupno bodova
+Avg. Credit=Prosjeèno bodova
+Resource Share=Djeljenje resursa
+
+#RESULT_ID
+[HEADER-Work]
+Title=Posao
+Project=Projekt
+Application=Aplikacija
+Name=Naziv
+CPU time=Vrijeme procesora
+Progress=Napredak
+To Completion=Do završetka
+Status=Status
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Prijenosi
+Project=Projekt
+File=Datoteka
+Progress=Napredak
+Size=Velièina
+Time=Vrijeme
+Speed=Brzina
+Status=Status
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Poruke
+Project=Projekt
+Time=Vrijeme
+Message=Poruka
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Disk
+Free space: not available for use=Slobodan prostor: nije dostupan za uporabu
+Free space: available for use=Slobodan prostor: dostupan za uporabu
+Used space: other than BOINC=Zauzet prostor: ne za BOINC
+Used space: BOINC=Zauzet prostor: BOINC
+Used space:=Zauzet prostor
+
+#miscellaneous text
+[HEADER-MISC]
+New=Novo
+Running=Aktivan
+Ready to run=Spreman za rad
+Computation done=Raèun završen
+Results uploaded=Rezultati podignuti
+Acknowledged=Potvrda
+Error: invalid state=Pogreška: Pogrešno stanje
+Completed=Završeno
+Uploading=Dizanje
+Downloading=Skidanje
+Retry in=Ponavljanje za
+Upload failed=Dizanje nuspješno
+Download failed=Skidanje neuspješno
+
+#menu items
+# NOTE: add an & (ampersand) to the letter to be used as mnemonic
+#       i.e. Show Graphics=Show &Graphics
+#                               ^^ the "G" will trigger the menu item
+#       you can compare it with a saved language.ini.XX file
+[MENU-File]
+Title=&Datoteka
+Show Graphics=Pokaži &grafiku
+Clear Messages=Obriši &poruke
+Clear Inactive=&Obriši neaktivne
+Suspend=Pa&uza
+Resume=&Nastavak
+Exit=&Izlaz
+
+[MENU-Work]
+Show Graphics=Pokaži &grafiku
+
+[MENU-Settings]
+Title=P&ostavke
+Login to Project...=U&logiraj se na Projekt...
+Quit Project...=&Napusti projekt...
+Proxy Server...=&Proxy server
+
+[MENU-Connection]
+Title=&Veza
+Connect Now=&Spoji se sada
+Hangup Connection if Dialed=&Prekini vezu ako je birana
+Confirm Before Connecting=P&otvrdi prije spajanja
+
+[MENU-Help]
+Title=&Pomoæ
+About...=&O programu...
+
+[MENU-StatusIcon]
+Suspend=Pa&uza
+Resume=&Nastavak
+Exit=&Izlaz
+
+[MENU-Project]
+Relogin...=Ponovno se u&logiraj...
+Quit Project...=&Napusti projekt...
+
+[DIALOG-LOGIN]
+Title=Ulogiraj se za Projekt
+URL:=A&dresa
+Account Key:=Kljuè &Raèuna
+OK=&U redu
+Cancel=&Odustani
+The URL for the website of the project.=Adresa web stranice projekta
+The authorization code recieved in your confirmation email.=Autorizacijski kljuè primljen u potvrdnom e-mailu
+
+[DIALOG-QUIT]
+Title=Napusti projekt
+URL:=A&dresa
+Account Key:=Kljuè &Raèuna
+OK=&U redu
+Cancel=&Odustani
+Select the project you wish to quit.=Odaberi projekt koji želiš napustiti.
+
+[DIALOG-CONNECT]
+Title=Spoji se na mrežu
+BOINC needs to connect to the network.  May it do so now?=Boinc se mora spojiti na mrežu. Može li to uèiniti sada?
+Don't ask this again (connect automatically)=Ne pitaj više to pitanje(spoji se automatski)
+OK=&U redu
+Cancel=&Odustani
+
+[DIALOG-ABOUT]
+Title=BOINC Beta verzija
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Otvorena Beta verzija
+OK=&U redu
+
+[DIALOG-PROXY]
+Title=Postavke proxy servera
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Neke organizacije koriste "HTTP proxy" ili "SOCKS proxy" (ili oba) za poveæanu sigurnost. Ako morate koristiti proxy, ispunite informacije ispod. Ako trebate pomoæ, obratite se administratoru sistema ili pružatelju internet usluge.
+HTTP Proxy=HTTp Proxy
+Connect via HTTP Proxy Server=Spoji se preko HTTP Proxy servera
+http://=http://
+Port Number:=Broj porta
+SOCKS Proxy=SOCKS Proxy
+Connect via SOCKS Proxy Server=Spoji se preko SOCKS Proxy servera
+SOCKS Host:=SOCKS domaæin
+Port Number:=Broj porta
+Leave these blank if not needed=Ovo ostavit prazno ako nije potrebno
+SOCKS User Name:=SOCKS Korisnièko ime
+SOCKS Password:=SOCKS Password
+OK=&U redu
+Cancel=&Odustani
+

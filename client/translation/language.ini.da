@@ -1,0 +1,160 @@
+#Template (empty) language.ini file
+
+#pay attention to the NOTE in the [MENU- ] section
+
+#PROJECT_ID
+[HEADER-Projects]
+Title=Projekter
+Project=Projekt
+Account=Konto
+Total Credit=Enheder ialt
+Avg. Credit=Gennemsnit
+Resource Share=Resourcefordeling
+
+#RESULT_ID
+[HEADER-Work]
+Title=Arbejde
+Project=Projekt
+Application=Program
+Name=Navn
+CPU time=CPU tid
+Progress=Udført
+To Completion=Afsluttes
+Status=Status
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Overførsler
+Project=Projekt
+File=Fil
+Progress=Udført
+Size=Størrelse
+Time=Tid
+Speed=Hastighed
+Status=Status
+Type=Vej
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Beskeder
+Project=Projekt
+Time=Tid
+Message=Besked
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Diskforbrug
+Free space: not available for use=Fri plads: kan ikke bruges
+Free space: available for use=Fri plads: kan bruges
+Used space: other than BOINC=Brugt plads: Andet end BOINC
+Used space: BOINC=Brugt plads: BOINC
+Used space:=Brugt plads:
+
+#miscellaneous text
+[HEADER-MISC]
+New=Ny
+Running=Kører
+Ready to run=Klar
+Computation done=Beregninger udført
+Results uploaded=Resultater sendt
+Acknowledged=Bekræftet
+Error: invalid state=Fejl: ugyldig tilstand
+Completed=Udført
+Uploading=Uploader
+Downloading=Downloader
+Retry in=Forsøger igen om
+Upload failed=Upload mislykkedes
+Download failed=Download mislykkedes
+
+#menu items
+# NOTE: add an & (ampersand) to the letter to be used as mnemonic
+#       i.e. Show Graphics=Show &Graphics
+#                               ^^ the "G" will trigger the menu item
+#       you can compare it with a saved language.ini.XX file
+[MENU-File]
+Title=&Filer
+Show Graphics=&Vis grafik
+Clear Messages=Slet &beskeder
+Clear Inactive=Slet &inaktive
+Suspend=Stop
+Resume=Fortsæt
+Exit=Afslut
+
+[MENU-Settings]
+Title=&Indstillinger
+Login to Project...=Projekt-&login
+Quit Project...=&Afslut et projekt
+Proxy Server...=&Proxy indstillinger
+
+[MENU-Connection]
+Title=&Forbindelse
+Connect Now=Gå online
+Hangup Connection if Dialed=Gå offline hvis der ringes
+Confirm Before Connecting=Bekræft opkald
+Connect To Scheduling Server=Forbind til planlægningsserver
+
+[MENU-Work]
+Show Graphics=Vis grafik
+
+[MENU-Help]
+Title=&Hjælp
+About...=Om...
+
+[MENU-StatusIcon]
+Suspend=Stop
+Resume=Fortsæt
+Exit=Afslut
+
+[MENU-Project]
+Relogin...=Login igen
+Get preferences=Hent indstilliner
+Detach...=Afmeld
+Reset project...=Genstart projektet
+Quit Project...=Afslut projekt
+
+[DIALOG-LOGIN]
+Title=Opret forbindelse til et projekt
+URL:=URL
+Account Key:=Konto-kode
+OK=OK
+Cancel=Fortryd
+The URL for the website of the project.=Adressen til projektets website.
+The authorization code recieved in your confirmation email.=Sikkerhedskoden som du fik i din bekræftelses-email.
+
+[DIALOG-QUIT]
+Title=Afslut projekt
+URL:=URL
+Account Key:=Konto-kode
+OK=OK
+Cancel=Fortryd
+Select the project you wish to quit.=Markér det projekt, du ønsker at afslutte.
+
+[DIALOG-CONNECT]
+Title=Log på internettet
+BOINC needs to connect to the network.  May it do so now?=BOINC har brug for at logge på internettet. Må den gøre det nu?
+Don't ask this again (connect automatically)=Spørg ikke igen (Log på automatisk)
+OK=OK
+Cancel=Fortryd
+
+[DIALOG-ABOUT]
+Title=Boinc Beta Version
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Åben beta-version
+OK=OK
+
+[DIALOG-PROXY]
+Title=Proxy Server Opsætning
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Nogle firmaer og internetudbydere bruger en "HTTP proxy" eller en "SOCKS proxy" (eller begge) for at opnå bedre sikkerhed.Hvis du skal bruge denne proxy, skal du udfylde nedenstående felter. Spørg din system-administrator hvis du har brug for hjælp.
+HTTP Proxy=HTTP proxy
+Connect via HTTP Proxy Server=Opret forbindelse via HTTP proxy
+http://=http://
+Port Number:=Portnummer
+SOCKS Proxy=SOCKS proxy
+Connect via SOCKS Proxy Server=Opret forbindelse via SOCKS proxy
+SOCKS Host:=SOCKS Host
+Port Number:=Portnummer
+Leave these blank if not needed=Lad disse felter værre hvis du ikke har brug for dem.
+SOCKS User Name:=SOCKS brugernavn
+SOCKS Password:=SOCKS kode
+OK=OK
+Cancel=Fortryd

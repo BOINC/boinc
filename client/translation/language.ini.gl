@@ -1,0 +1,152 @@
+# Ficheiro de idioma galego
+# para o proxecto BOINC
+#
+# Galician language file
+# for BOINC project
+#
+#PROJECT_ID
+[HEADER-Projects]
+Title=Proxectos
+Project=Proxecto
+Account=Conta
+Total Credit=Crédito total
+Avg. Credit=Crédito medio
+Resource Share=Compartición de recursos
+
+#RESULT_ID
+[HEADER-Work]
+Title=Traballo
+Project=Proxecto
+Application=Aplicación
+Name=Nome
+CPU time=Tempo de CPU
+Progress=Progreso
+To Completion=Ata completar
+Status=Estado
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Transferencias
+Project=Proxecto
+File=Ficheiro
+Progress=Progreso
+Size=Tamaño
+Time=Tempo
+Speed=Velocidade
+Status=Estado
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Mensaxes
+Project=Proxecto
+Time=Tempo
+Message=Mensaxe
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Disco
+Free space: not available for use=Espacio libre: non dispoñible para uso
+Free space: available for use=Espacio libre: dispoñible para uso
+Used space: other than BOINC=Espacio usado: outros aparte de BOINC
+Used space: BOINC=Espacio usado: BOINC
+Used space:=Espacio usado:
+
+#miscellaneous text
+[HEADER-MISC]
+New=Novo
+Running=Activo
+Ready to run=Preparado
+Computation done=Análise acabada
+Results uploaded=Resultados enviados
+Acknowledged=Recoñecemento
+Error: invalid state=Error: estado non válido
+Completed=Completado
+Uploading=Enviando
+Downloading=Recibindo
+Retry in=Reintentar en
+Download failed=A recepción fallou
+Upload failed=O envío fallou
+
+#menu items
+[MENU-File]
+Title=&Ficheiro
+Clear Messages=Borrar &Mensaxes
+Clear Inactive=Borra &Inactivos
+Suspend=&Suspender
+Resume=&Resumir
+Exit=&Saír
+
+[MENU-Work]
+Show Graphics=Mostrar &Gráficos
+
+[MENU-Settings]
+Title=&Opcións
+Login to Project...=&Entrar no proxecto...
+Quit Project...=&Quitar proxecto...
+Proxy Server...=&Servidor Proxy...
+
+[MENU-Connection]
+Title=&Conexión
+Connect Now=&Conectar Agora
+Hangup Connection if Dialed=Cortar Conexión si se &Marcou
+Confirm Before Connecting=Confirmar &Antes de Conectar
+
+[MENU-Help]
+Title=&Axuda
+About...=&Sobre...
+
+[MENU-StatusIcon]
+Suspend=Suspender
+Resume=Resumir
+Exit=Saír
+
+[MENU-Project]
+Relogin...=&Reentrar...
+Quit Project...=&Quitar proxecto...
+
+[DIALOG-LOGIN]
+Title=Entrar no proxecto
+URL:=URL:
+Account Key:=Clave da Conta:
+OK=Aceptar
+Cancel=Cancelar
+The URL for the website of the project.=URL da páxina do proxecto.
+The authorization code recieved in your confirmation email.=Código de autorización recibido no seu correo de confirmación.
+
+[DIALOG-QUIT]
+Title=Quitar Proxecto
+URL:=URL:
+Account Key:=Clave da Conta:
+OK=Aceptar
+Cancel=Cancelar
+Select the project you wish to quit.=Seleccione o proxecto do que se desexa quitar.
+
+[DIALOG-CONNECT]
+Title=Conectar á Rede
+BOINC needs to connect to the network.  May it do so now?=
+Don't ask this again (connect automatically)=BOINC necesita conectarse á rede. ¿Pode facelo agora? 
+OK=Sí
+Cancel=Non
+
+[DIALOG-ABOUT]
+Title=Boinc Beta Version
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Beta Aberta
+OK=Aceptar
+
+[DIALOG-PROXY]
+Title=Configuración do Servidor Proxy
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Algunhas organizacións usan un "proxy HTTP" ou un "proxy SOCKS" (ou ámbolos dous) para unha maior seguridade. Si necesita usar un proxy, complete a información de abaixo. Si necesita axuda, pregunte ó seu Administrador ou Proveedor de Servicios de Internet.
+HTTP Proxy=Proxy HTTP
+Connect via HTTP Proxy Server=Conectar mediante Servidor Proxy HTTP
+http://=http://
+Port Number:=Porto:
+SOCKS Proxy=Proxy SOCKS
+Connect via SOCKS Proxy Server=Conectar mediante Servidor Proxy SOCKS
+SOCKS Host:=Socks Host:
+Port Number:=Porto:
+Leave these blank if not needed=Deixar en branco se non se necesita
+SOCKS User Name:=Nome de Usuario SOCKS
+SOCKS Password:=Clave de Acceso SOCKS
+OK=Aceptar
+Cancel=Cancelar

@@ -1,0 +1,150 @@
+# Portuguese(standard) language.ini file
+# Por Miguel Sousa: migueljorgesousa@sapo.pt
+#PROJECT_ID
+[HEADER-Projects]
+Title=Projectos
+Project=Projecto
+Account=Conta
+Total Credit=Total Crédito
+Avg. Credit=Méd. Crédito
+Resource Share=Recursos Partilhados
+
+#RESULT_ID
+[HEADER-Work]
+Title=Trabalho
+Project=Projecto
+Application=Aplicação
+Name=Nome
+CPU time=Tempo CPU
+Progress=Progresso
+To Completion=Para Completar
+Status=Estado
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Transferências
+Project=Projecto
+File=Ficheiro
+Progress=Progresso
+Size=Tamanho
+Time=Tempo
+Speed=Velocidade<---???
+Status=Estado
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Mensagens
+Project=Projecto
+Time=Tempo
+Message=Mensagem
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Disco
+Free space: not available for use=Espaço livre: não disponível para uso
+Free space: available for use=Espaço livre: disponível para uso
+Used space: other than BOINC=Espaço ocupado: outros para além BOINC
+Used space: BOINC=Espaço usado: BOINC
+Used space:=Espaço usado
+
+#miscellaneous text
+[HEADER-MISC]
+New=Novo
+Running=A correr
+Ready to run=Preparado para correr
+Computation done=Computção feita
+Results uploaded=Resultados enviados
+Acknowledged=Reconhecido
+Error: invalid state=Erro: estado inválido
+Completed=Concluído
+Uploading=A enviar
+Downloading=A receber
+Retry in=Voltar a tentar em
+Upload failed=Envio falhou
+Download failed=Recepção falhou
+
+#menu items
+[MENU-File]
+Title=&Ficheiro
+Show Graphics=Mostrar &Gráficos
+Clear Messages=Limpar &Mensagens
+Clear Inactive=Limpar &Inactivos
+Suspend=Susp&ender
+Resume=&Reiniciar
+Exit=&Sair
+
+[MENU-Settings]
+Title=&Opções
+Login to Project...=&Ligar a Projecto...
+Quit Project...=&Abandonar Projecto...
+Proxy Server...=Servidor Pro&xy...
+
+
+[MENU-Connection]
+Title=&Ligação
+Connect Now=Ligar &Agora
+Hangup Connection if Dialed=&Desligar se Marcado
+Confirm Before Connecting=&Confirmar Antes de Ligar
+
+[MENU-Help]
+Title=&Ajuda
+About...=&Sobre...
+
+[MENU-StatusIcon]
+Suspend=Susp&ender
+Resume=&Reiniciar
+Exit=&Sair
+
+[MENU-Project]
+Relogin...=&Relogin...
+Quit Project...=&Abandonar Projecto...
+
+[MENU-Work]
+Show Graphics=Mostrar &Gráficos
+
+[DIALOG-LOGIN]
+Title=Login ao Projecto
+URL:=URL:
+Account Key:=Chave de Conta
+OK=Aceitar
+Cancel=Cancelar
+The URL for the website of the project.=O URL para o website do projecto.
+The authorization code recieved in your confirmation email.=O código de autorização recebido no seu email de confirmação.
+
+[DIALOG-QUIT]
+Title=Abandonar Projecto
+URL:=URL:
+Account Key:=Chave de Conta
+OK=Aceitar
+Cancel=Cancelar
+Select the project you wish to quit.=Seleccione o projecto que deseja abandonar.
+
+[DIALOG-CONNECT]
+Title=Ligar á Rede
+BOINC needs to connect to the network.  May it do so now?=BOINC necessita ligar-se em rede. Fazê-lo agora?
+Don't ask this again (connect automatically)=Não perguntar novamente (ligar automáticamente)
+OK=Aceitar
+Cancel=Cancelar
+
+[DIALOG-ABOUT]
+Title=Boinc Versão Beta
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Open Beta
+OK=Aceitar
+
+[DIALOG-PROXY]
+Title=Configuração Servidor Proxy
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Algumas organizações usam servidores proxy "HTTP" ou "SOCKS" (ou ambos) para aumentarem a segurança. Se utiliza um servidor proxy, preencha os campos abaixo. Se necessita de ajuda contacte o seu Administrador de Sistema, ou a empresa que lhe fornece o serviço de internet.
+HTTP Proxy=HTTP Proxy
+Connect via HTTP Proxy Server=Ligar via Servidor HTTP Proxy
+http://=http://
+Port Number:=Porta n.º:
+SOCKS Proxy=SOCKS Proxy
+Connect via SOCKS Proxy Server=Ligar via servidor SOCKS Proxy
+SOCKS Host:=Socks Host:
+Port Number:=Porta n.º:
+Leave these blank if not needed=Deixar em branco se não necessário
+SOCKS User Name:=SOCKS Utilizador:
+SOCKS Password:=SOCKS Password:
+OK=Aceitar
+Cancel=Cancelar
