@@ -461,28 +461,31 @@ bool SCHEDULER_OP::poll() {
                         project->scheduler_urls[url_index].text
                     );
                 }
-                gstate.handle_scheduler_reply(project, scheduler_url, nresults);
+                retval = gstate.handle_scheduler_reply(project, scheduler_url, nresults);
 
                 // if this was a tentative project and we didn't get user name,
                 // the account ID must be bad.  Tell the user.
                 //
                 if (project->tentative) {
-                    if (strlen(project->user_name)) {
+                    if (retval || strlen(project->user_name)==0) {
+                        project_add_failed(project);
+                    } else {
                         project->tentative = false;
                         project->write_account_file();
-                    } else {
-                        project_add_failed(project);
                     }
                 } else {
-
-                    // if we asked for work and didn't get any,
-                    // back off this project
-                    //
-                    if (must_get_work && nresults==0) {
-                        backoff(project, "No work from project\n");
+                    if (retval) {
+                        backoff(project, "Can't parse scheduler reply");
                     } else {
-                        project->nrpc_failures = 0;
-                        project->min_rpc_time = 0;
+                        // if we asked for work and didn't get any,
+                        // back off this project
+                        //
+                        if (must_get_work && nresults==0) {
+                            backoff(project, "No work from project\n");
+                        } else {
+                            project->nrpc_failures = 0;
+                            project->min_rpc_time = 0;
+                        }
                     }
                 }
 

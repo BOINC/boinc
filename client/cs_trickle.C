@@ -58,7 +58,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         if (retval) continue;
         fprintf(f,
             "  <trickle_up>\n"
-            "      <result>%s</result>\n"
+            "      <result_name>%s</result_name>\n"
             "      <time>%d</time>\n"
             "      <text>\n"
             "%s\n"
