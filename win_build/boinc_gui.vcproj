@@ -95,7 +95,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
+				AdditionalIncludeDirectories="../;../lib/;../api/;../RSAEuro/source/;../client/win/;../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -146,7 +146,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories="../"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -1323,7 +1324,7 @@
 				RelativePath="..\lib\util.h">
 			</File>
 			<File
-				RelativePath="..\client\win\win_config.h">
+				RelativePath="..\win_config.h">
 			</File>
 			<File
 				RelativePath="..\Client\win\Win_net.h">
@@ -1357,10 +1358,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1380,10 +1381,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

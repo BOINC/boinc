@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../api/,../lib,../client/"
+				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -70,7 +70,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories="../"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool

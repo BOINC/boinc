@@ -19162,3 +19162,35 @@ David  9 Nov 2004
         graphics_api.C
     html/user
         top_teams.php
+
+David  9 Nov 2004
+	- GUI RPC changes:
+		- enclose requests and replies in <boinc_gui_rpc_request>
+			or <boinc_gui_rpc_reply> tags (make them more legit XML).
+		- add <version> element to both requests and replies
+		- add /003 to end of requests messages
+		NOTE: neither end currently checks for or uses these elements.
+	- add CLIENT_STATE::version() (returns version #)
+	- moved win_config.h from client/win to top level,
+		since version number is needed by components
+		other than client
+
+	win_config.h (new)
+	client/
+		app_start.C
+		client_state.C,h
+		gui_rpc_server.C
+		win/
+			win_config.h (removed)
+	lib/
+		gui_rpc_client,.C
+	win_build/
+		BOINCGUI.vcproj
+		boinc_cli.vcproj
+		boinc_dll.vcproj
+		boinc_gui.vcproj
+		boinc_guirpc_test.vcproj
+		boinc_ss.vcproj
+		upper_case.vcproj
+
+

@@ -400,6 +400,7 @@ int GUI_RPC_CONN::handle_rpc() {
     MIOFILE mf;
     MFILE m;
     char* p;
+    int client_version;
     mf.init_mfile(&m);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
@@ -418,6 +419,15 @@ int GUI_RPC_CONN::handle_rpc() {
 
     scope_messages.printf("GUI RPC Command = '%s'\n", request_msg);
 
+    // get client version.  not used for now
+    //
+    parse_int(request_msg, "<version>", client_version);
+
+    mf.printf(
+        "<boinc_gui_rpc_reply>\n"
+        "<version>%d</version>\n",
+        gstate.version()
+    );
     if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
@@ -474,7 +484,7 @@ int GUI_RPC_CONN::handle_rpc() {
         mf.printf("<error>unrecognized op</error>\n");
     }
 
-    mf.printf("\003");
+    mf.printf("</boinc_gui_rpc_reply>\n\003");
     m.get_buf(p, n);
     send(sock, p, n, 0);
     if (p) free(p);

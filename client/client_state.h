@@ -164,6 +164,7 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
+    int version();
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);

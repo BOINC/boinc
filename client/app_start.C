@@ -136,7 +136,7 @@ int ACTIVE_TASK::write_app_init_file() {
 
     memset(&aid, 0, sizeof(aid));
 
-    aid.core_version = gstate.core_client_major_version*100 + gstate.core_client_minor_version;
+    aid.core_version = gstate.version();
     safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);

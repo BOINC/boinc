@@ -93,7 +93,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./"
+				AdditionalIncludeDirectories="../,../lib/,../api/,../client,../client/win,./"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -374,7 +374,7 @@
 				RelativePath="..\lib\util.h">
 			</File>
 			<File
-				RelativePath="..\client\win\win_config.h">
+				RelativePath="..\win_config.h">
 			</File>
 		</Filter>
 		<Filter

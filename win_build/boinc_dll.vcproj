@@ -21,6 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -67,7 +68,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories="../"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool

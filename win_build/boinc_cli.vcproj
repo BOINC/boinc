@@ -22,7 +22,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
+				AdditionalIncludeDirectories="../,../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -71,7 +71,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories="../"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool

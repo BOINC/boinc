@@ -1232,3 +1232,6 @@ double CLIENT_STATE::total_resource_share() {
     return x;
 }
 
+int CLIENT_STATE::version() {
+    return core_client_major_version*100 + core_client_minor_version;
+}

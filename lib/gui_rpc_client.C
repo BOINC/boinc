@@ -928,7 +928,16 @@ int RPC_CLIENT::init(const char* host) {
 }
 
 int RPC_CLIENT::send_request(char* p) {
-    int n = send(sock, p, strlen(p), 0);
+    char buf[4096];
+    sprintf(buf,
+        "<boinc_gui_rpc_request>\n"
+        "   <version>%d</version>\n"
+        "%s"
+        "</boinc_gui_rpc_request>\n\003",
+        BOINC_MAJOR_VERSION*100 + BOINC_MINOR_VERSION,
+        p
+    );
+    int n = send(sock, buf, strlen(buf), 0);
     if (n < 0) return ERR_WRITE;
     return 0;
 }
