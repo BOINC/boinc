@@ -591,9 +591,6 @@ void CMainFrame::OnActivitySelection( wxCommandEvent& event )
             break;
     }
 
-    wxTimerEvent eventTimer;
-    OnFrameRender( eventTimer );
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnActivitySelection - Function End"));
 }
 
@@ -621,9 +618,6 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
             pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
             break;
     }
-
-    wxTimerEvent eventTimer;
-    OnFrameRender( eventTimer );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function End"));
 }
