@@ -101,3 +101,4 @@
     // scheduler request host ID doesn't match authenticator
 #define ERR_SCHED_SHMEM     -156
     // sched shmem has bad contents
+#define ERR_ASYNCSELECT     -157
