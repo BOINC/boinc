@@ -57,6 +57,14 @@ int CLIENT_STATE::exit() {
 
 int CLIENT_STATE::exit_tasks() {
     active_tasks.exit_tasks();
+
+	// for now just kill them
+    unsigned int i;
+    ACTIVE_TASK *atp;
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
+        atp->kill_task();
+    }
     return 0;
 }
 
