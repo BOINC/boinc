@@ -388,12 +388,11 @@ class Project {
 	    echo "\nsleeping for $time seconds";
 	    PassThru("sleep $time");
 	  }
-	PassThru("cp $source_dir/sched/cgi $
-this->project_dir/cgi/file_upload_handler$handler_num");
+	PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
       }
 
     //blocks until a file_upload_handler is running in the system, kills it and returns
-    function kill_file_upload_hanlder()
+    function kill_file_upload_handler()
       {
 	while(true)
 	  {

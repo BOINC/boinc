@@ -39,10 +39,11 @@
 
     $project->start_feeder();
     //delete the download_dir immediately 
-    $project->delete_downloaddir();
+    $project->remove_file_upload_handler()
     $pid = $host->run_asynch("-exit_when_idle");
+  
     //reinstall download_dir after 100 seconds
-    $project->reinstall_downloaddir(100,null);
+    $project->reinstall_file_upload_handler(20,null);
     $status = 0;
     //wait until the host has stopped running
     pcntl_waitpid($pid,$status,0);
