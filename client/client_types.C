@@ -737,8 +737,7 @@ bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
 //
 int FILE_INFO::merge_info(FILE_INFO& new_info) {
     char buf[256];
-    bool has_url;
-    unsigned int i, j;
+    unsigned int i;
 
     upload_when_present = new_info.upload_when_present;
 
