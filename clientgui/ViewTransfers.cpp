@@ -725,7 +725,7 @@ wxInt32 CViewTransfers::FormatSpeed( wxInt32 item, wxString& strBuffer ) const
         strBuffer.Printf( wxT("%0.2f KBps"), ( fTransferSpeed / 1024 ) );
     }
     else
-        strBuffer = wxT("0.00 KBps");
+        strBuffer.Printf(wxT("%.2f KBps"), 0.0);
 
     return 0;
 }

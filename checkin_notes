@@ -24005,3 +24005,18 @@ Eric K	4 Feb 2005
     clientgui/Makefile.am
     api/
     	x_opengl.[Ch]
+
+Rom    4 Feb 2005
+    - Bug Fix: Adjust the display of the app version in the work tab with a call
+        to setlocale instead if parsing a string.  It looks better, and works
+        under a larger set of conditions.
+    - Bug Fix: Change the display of the progress indictator in the work tab to
+        use printf instead of just setting the string.  This allows the progress
+        to be displayed in a localized fashion.
+    - Bug Fix: Change the transfer rate in the transfer tab to use printf instead
+        instead of just setting the string.  This allows the progress to be 
+        displayed in a localized fashion.
+
+    clientgui/
+        ViewTransfers.cpp
+        ViewWork.cpp
