@@ -88,5 +88,7 @@ function project_research_url() {
 
 }
 
+function project_community() {
+}
 
 ?>
