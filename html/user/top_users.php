@@ -32,7 +32,7 @@
         $sort_order = "expavg_credit desc";
     }
 
-    $result = mysql_query("select * from user order by $sort_order limit $n offset $offset");
+    $result = mysql_query("select * from user order by $sort_order limit $offset,$n");
     user_table_start($sort_by);
     $i = 1 + $offset;
     while ($user = mysql_fetch_object($result)) {

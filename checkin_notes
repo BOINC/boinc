@@ -16143,3 +16143,16 @@ David  11 Aug 2004
 
 	client/
 		client_types.C,h
+
+David  11 Aug 2004
+    - Change "limit x offset y" to "limit y,x" in PHP code
+        for compatibility with PHP 3.x
+        (from Kalle Happonen)
+
+    html/
+        inc/
+            team.inc
+        user/
+            top_host.php
+            top_team.php
+            top_user.php

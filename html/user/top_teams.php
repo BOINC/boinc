@@ -33,7 +33,7 @@
     } else {
         $sort_clause = "expavg_credit desc";
     }
-    $result = mysql_query("select * from team order by $sort_clause limit $n offset $offset");
+    $result = mysql_query("select * from team order by $sort_clause limit $offset,$n");
     start_table();
     row1("Teams", 6);
     team_table_start($sort_by);

@@ -31,7 +31,7 @@
     } else {
         $sort_clause = "expavg_credit desc";
     }
-    $result = mysql_query("select * from host order by $sort_clause limit $n offset $offset");
+    $result = mysql_query("select * from host order by $sort_clause limit $offset,$n");
     top_host_table_start($sort_by);
     $i = $offset+1;
     while ($host = mysql_fetch_object($result)) {
