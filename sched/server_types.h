@@ -132,6 +132,7 @@ struct SCHEDULER_REQUEST {
     ~SCHEDULER_REQUEST();
     int parse(FILE*);
     bool has_version(APP& app);
+    int write(FILE*); // write request info to file: not complete
 };
 
 // NOTE: if any field requires initialization,

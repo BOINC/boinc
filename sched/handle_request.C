@@ -922,7 +922,7 @@ void delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     return;
 }
 
-void debug_sched_reply(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger) {
+void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger) {
     char tmpfilename[256];
     FILE *fp;
 
@@ -948,6 +948,25 @@ void debug_sched_reply(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const c
 
     sreply.write(fp);
     fclose(fp);
+
+    sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+        fp=fopen(tmpfilename, "w");
+                                                                                                                                                       
+    if (!fp) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "Found %s, but can't open %s\n", trigger, tmpfilename);
+        return;
+    }
+                                                                                                                                                       
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "Found %s, so writing %s\n", trigger, tmpfilename);
+                                                                                                                                                       
+    sreq.write(fp);
+    fclose(fp);
+
+
     return;
 }
 
@@ -986,7 +1005,7 @@ void handle_request(
         delete_file_from_host(sreq, sreply);
     }
 
-    debug_sched_reply(sreq, sreply, "../debug_sched");
+    debug_sched(sreq, sreply, "../debug_sched");
     sreply.write(fout);
 }
 

@@ -23510,17 +23510,22 @@ Bruce 31 Jan 2005
     - scheduler changes: locality scheduling.  Clean up code which makes a
       deterministic search of results to delete.  Data files names can not
       contain the "~" character!
+    - modified the send_new_file_work() function to look for unsent work
+      starting with a random time 6 to 12 hours ago.
     - scheduler changes: added a simple debugging mechanism for scheduler
-      replies.  If you touch a file named 'debug_sched' in the project
-      root, then files called sched_reply_HOSTID_RPCNO will be created
+      requests/replies.  If you touch a file named 'debug_sched' in the project
+      root, then files called sched_reply_HOSTID_RPCNO and
+      sched_request_HOSTID_RPCNO will be created
       under cgi-bin/ which contain the scheduler replies.  You can turn on
       this mechanism for some time to study the scheduler replies.
-    - In a little while I will add a similar debugging feature which also
-      prints the corresponding scheduler requests.
-
+    - David, the write() function that I added to SCHEDULER_REQUEST can
+      probably be done better.  It would be nice if all the classes that
+      this includes an instance of had their own write() functions: it
+      would make debugging very easy.
 
     sched/
         handle_request.C
         sched_locality.C
-
+        server_types.h
+        server_types.C
 
