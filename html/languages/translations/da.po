@@ -1,0 +1,29 @@
+##########################################
+# Language: Danish (Dansk)
+# FileID  : $Id$
+# Author  : Janus Kristensen
+# Email   : jbk@visualgroup.dk
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/translate.html
+##########################################
+
+msgid "APPS_TITLE"
+msgstr "Applikationer"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT har i &oslash;jeblikket f&oslash;lgende applikationer. "
+"N&aring;r du deltager i $PROJECT vil arbejde fra en eller flere "
+"af disse applikationer blive tildelt din computer. "
+"Den nuv&aelig;rende version af applikationen vil blive downloadet "
+"til din computer. Dette sker automatisk - du beh&oslash;ver ikke at g&oslash;re noget."
+
+msgid "APPS_PLATFORM"
+msgstr "Platform"
+
+msgid "APPS_VERSION"
+msgstr "Nuv&aelig;rende version"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Installeret"
+

@@ -1,0 +1,29 @@
+##########################################
+# Language: English (International)
+# FileID  : $Id$
+# Author  : Janus Kristensen
+# Email   : jbk@visualgroup.dk
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/translate.html
+##########################################
+
+msgid "APPS_TITLE"
+msgstr "Applications"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT currently has the following applications. "
+"When you participate in $PROJECT, work for one or more "
+"of these applications will be assigned to your computer. "
+"The current version of the application will be downloaded "
+"to your computer. This happens automatically; you don't have to do anything. "
+
+msgid "APPS_PLATFORM"
+msgstr "Platform"
+
+msgid "APPS_VERSION"
+msgstr "Current version"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Installed"
+
