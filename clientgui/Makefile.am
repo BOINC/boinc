@@ -52,7 +52,7 @@ EXTRA_DIST = \
     DlgConnection.h \
     DlgOptions.h \
     Events.h \
-    LogBOINC.h
+    LogBOINC.h \
     MainDocument.h \
     MainFrame.h \
     resource.h \
