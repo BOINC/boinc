@@ -387,7 +387,7 @@ void on_timer(int a) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update < 0) {
             FILE* f = fopen(FRACTION_DONE_FILE, "w");
-            write_fraction_done_file(f, boinc_cpu_time(), fraction_done);
+            write_fraction_done_file(f, fraction_done, boinc_cpu_time());
             fclose(f);
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
