@@ -33,8 +33,8 @@
 
 #ifndef _WIN32
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 
 #if HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -62,10 +62,10 @@
 #endif
 
 #include <sys/types.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
+#include <cerrno>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
 
 #endif
 
@@ -76,7 +76,7 @@
 #include "client_state.h"
 #include "client_msgs.h"
 
-#if defined(_WIN32) 
+#if defined(_WIN32)
 typedef int socklen_t;
 #elif defined ( __APPLE__)
 typedef int32_t socklen_t;

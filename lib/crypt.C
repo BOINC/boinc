@@ -23,8 +23,8 @@
 
 #ifndef _WIN32
 #include <cctype>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #if HAVE_MALLOC_H
 #include <malloc.h>
 #endif

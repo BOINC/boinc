@@ -16,17 +16,17 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#include <GL/gl.h>
 #endif
 
 #ifndef _WIN32
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
+#include "boinc_gl.h"
 
 #ifdef __APPLE_CC__
-#include <OpenGL/gl.h>
 #define max(a,b)  (a>b?a:b)
 #define min(a,b)  (a>b?b:a)
 #endif
@@ -286,21 +286,21 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #endif
 }
 
-void REDUCED_ARRAY::draw_row_rect_x(int row)  {	
+void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0,xm=0;
-	int i=0; 	
+	int i=0;
 	float* row0=0;
 	int trow=row-1;
 	float* trow0=0;
-	double hue,sat,lum;		
+	double hue,sat,lum;
 	COLOR color;
 
 	switch(draw_style) {
 	case GRAPH_STYLE_RECTANGLES:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
-		z1 = z0+.14f;			
+		z1 = z0+.14f;
 		row0 = rrow(row);
-		
+
 		glBegin(GL_QUADS);
 		for (i=0; i<rdimx; i++) {
 			x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
@@ -319,7 +319,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			glColor4f(color.r, color.g, color.b, alpha);
 
 			//front
-			
+
 			glVertex3f(x0, y0, z0);
 			glVertex3f(x1, y0, z0);
 			glVertex3f(x1, y1, z0);
@@ -351,12 +351,12 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 	*/
 		}
 		glEnd();
-		
+
 
 		//draw lines
 		/*
-		mode_unshaded();    
-		glLineWidth(.5f);			
+		mode_unshaded();
+		glLineWidth(.5f);
 		glBegin(GL_LINES);
 		glColor4f(0,0,0,1);
 		for (i=0; i<rdimx; i++) {
@@ -367,7 +367,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			y1 = draw_pos[1] + draw_size[1]*h;
 
 	//front
-			
+
 			glVertex3f(x0, y0, z0);
 			glVertex3f(x0, y1, z0);
 
@@ -418,7 +418,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			glVertex3f(x1, y0, z0);
 	*/
 //		}
-		glEnd();	
+		glEnd();
 	    break;
 	case GRAPH_STYLE_SURFACE:
 		glBegin(GL_TRIANGLE_STRIP);
@@ -428,7 +428,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		row0 = rrow(row);
 		trow=row-1;
 		if(row!=0) trow0 = rrow(trow);
-					
+
 		for (i=0; i<rdimx; i++) {
 			x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
 			x1 = x0 + draw_deltax*.8f;
@@ -441,29 +441,29 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			hue = hue0 + (dhue*i)/rdimx;
 			if (hue > 1) hue -= 1;
 			sat = 1.;
-			lum = .5 + h/2;			
+			lum = .5 + h/2;
 			HLStoRGB(hue, lum, sat, color);
-			glColor4f(color.r, color.g, color.b, alpha);		
-						
+			glColor4f(color.r, color.g, color.b, alpha);
+
 			if(row!=0) {
-				float lh = (trow0[i]-rdata_min)/(rdata_max-rdata_min);				
-				float ly = draw_pos[1] + draw_size[1]*lh;					  
-				float lz = draw_pos[2] + (draw_size[2]*trow)/rdimy + .14f;				
+				float lh = (trow0[i]-rdata_min)/(rdata_max-rdata_min);
+				float ly = draw_pos[1] + draw_size[1]*lh;
+				float lz = draw_pos[2] + (draw_size[2]*trow)/rdimy + .14f;
 				glVertex3f(xm,ly,lz);
 				glVertex3f(xm,y1,z1);
 			}
-		}		
+		}
 		glEnd();
 	    break;
 	case GRAPH_STYLE_WIREFRAME:
 		glLineWidth(1.0f);
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
-		z1 = z0+.14f;			
-		row0 = rrow(row);			
-		if(row!=0) trow0 = rrow(trow);			
-		
+		z1 = z0+.14f;
+		row0 = rrow(row);
+		if(row!=0) trow0 = rrow(trow);
+
 		glEnable(GL_LINE_SMOOTH);
-		glBegin(GL_LINES);		
+		glBegin(GL_LINES);
 
 		for (i=0; i<rdimx; i++) {
 			x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
@@ -476,29 +476,29 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			hue = hue0 + (dhue*i)/rdimx;
 			if (hue > 1) hue -= 1;
 			sat = 1.;
-			lum = .5 + h/2;			
+			lum = .5 + h/2;
 			HLStoRGB(hue, lum, sat, color);
-			glColor4f(color.r, color.g, color.b, alpha);		
-			
-			if(i!=rdimx-1) glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  						
+			glColor4f(color.r, color.g, color.b, alpha);
+
+			if(i!=rdimx-1) glVertex3f(x0+((x1-x0)/2.0f), y1, z0);
 			if(row!=0)
 			{
 				float h2 = (trow0[i]-rdata_min)/(rdata_max-rdata_min);
 				float z2 = draw_pos[2] + (draw_size[2]*trow)/rdimy;
 				float y2 = draw_pos[1] + draw_size[1]*h2;
-				glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
-				glVertex3f(x0+((x1-x0)/2.0f), y2, z2);					
+				glVertex3f(x0+((x1-x0)/2.0f), y1, z0);
+				glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
 			}
 			if(i!=0) glVertex3f(x0+((x1-x0)/2.0f), y1, z0);
-		}		
+		}
 		glEnd();
 		glDisable(GL_LINE_SMOOTH);
 	    break;
 	case GRAPH_STYLE_PLANES:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
-		z1 = z0+.14f;			
-		row0 = rrow(row);						
-		i=0;			
+		z1 = z0+.14f;
+		row0 = rrow(row);
+		i=0;
 
 		x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
 		x1 = x0 + draw_deltax*.8f;
@@ -510,9 +510,9 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		hue = hue0 + (dhue*i)/rdimx;
 		if (hue > 1) hue -= 1;
 		sat = 1.;
-		lum = .5 + h/2;		
+		lum = .5 + h/2;
 		HLStoRGB(hue, lum, sat, color);
-		glColor4f(color.r, color.g, color.b, alpha);		
+		glColor4f(color.r, color.g, color.b, alpha);
 
 
 		glVertex3f(draw_pos[0],draw_pos[1],z0);
@@ -538,9 +538,9 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			glVertex3d(x1,y0,z0);
 			glVertex3d(x1,y1,z0);
 		}
-		glEnd();		
+		glEnd();
 		break;
-	default: 
+	default:
 		break;
 	}
 }
@@ -638,7 +638,7 @@ void REDUCED_ARRAY::draw_part(double frac) {
     draw(0, nr);
 }
 
-void REDUCED_ARRAY::draw_axis_labels() {	
+void REDUCED_ARRAY::draw_axis_labels() {
     GLfloat char_height = .5f;
     GLfloat line_width = 3.0f;
 	GLfloat spacing = 2.0f;
@@ -664,7 +664,7 @@ void REDUCED_ARRAY::draw_axis_labels() {
 
 	draw_rotated_text(x_text_pos,char_height,line_width,spacing,x_label,rotation,rotation_vector);
 	//draw_text_line(x_text_pos,char_height,line_width,x_label,0);
-	
+
 }
 
 void REDUCED_ARRAY::draw_axes() {
@@ -677,11 +677,11 @@ void REDUCED_ARRAY::draw_axes() {
 	float adj3=0;
 	// box
 	mode_unshaded();
-	
+
 	glLineWidth(.5);
 	glBegin(GL_LINES);
-	glColor4d(1,1,1,.5);	
-	
+	glColor4d(1,1,1,.5);
+
 	//back square
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
@@ -707,7 +707,7 @@ void REDUCED_ARRAY::draw_axes() {
 
 	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj2);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj2);
-	
+
 	//connecting lines
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
@@ -724,13 +724,13 @@ void REDUCED_ARRAY::draw_axes() {
 
 
 	mode_unshaded();
-	
+
 	glLineWidth(1.0);
 	glEnable(GL_LINE_SMOOTH);
 	glBegin(GL_LINES);
-	glColor4d(1,1,1,1);	
-	
-	
+	glColor4d(1,1,1,1);
+
+
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
@@ -743,22 +743,22 @@ void REDUCED_ARRAY::draw_axes() {
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
     glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glEnd();	
-	
+	glEnd();
+
 	glColor4d(1,1,1,.2);
-    glBegin(GL_QUADS);  
-	glVertex3f(draw_pos[0], draw_pos[1]-adj3, draw_pos[2]+draw_size[2]+adj2);		
+    glBegin(GL_QUADS);
+	glVertex3f(draw_pos[0], draw_pos[1]-adj3, draw_pos[2]+draw_size[2]+adj2);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]-adj3, draw_pos[2]+draw_size[2]+adj2);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]-adj3, draw_pos[2]+adj);
-    glVertex3f(draw_pos[0], draw_pos[1]-adj3, draw_pos[2]+adj); 
+    glVertex3f(draw_pos[0], draw_pos[1]-adj3, draw_pos[2]+adj);
     glEnd();
 
 	glDisable(GL_LINE_SMOOTH);
 }
 
 
-void REDUCED_ARRAY::draw_labels() {	
-	double model[16];	
+void REDUCED_ARRAY::draw_labels() {
+	double model[16];
 	double proj[16];
 	double z_pos[3];
 	double x_pos[3];
@@ -768,7 +768,7 @@ void REDUCED_ARRAY::draw_labels() {
 	float arroww = .05f;
 
 	float ch = .015f;
-	float lw = .02f;			
+	float lw = .02f;
 	float ls = 0;
 
 	float wd=.015f;
@@ -798,26 +798,26 @@ void REDUCED_ARRAY::draw_labels() {
 
 	int viewport[4];
 	get_matrix(model);
-	get_projection(proj);	
+	get_projection(proj);
 	get_viewport(viewport);
 	int w = viewport[2];
 	int h = viewport[3];
 
 	glPushMatrix();
 	//unscale modelview matrix
-	
-	double aspect_ratio = 4.0/3.0;	
+
+	double aspect_ratio = 4.0/3.0;
 	if ((double)h*aspect_ratio > (double)w) {
-		model[1]*=1.0f/(((double)w/aspect_ratio)/(double)h);    
+		model[1]*=1.0f/(((double)w/aspect_ratio)/(double)h);
 		model[5]*=1.0f/(((double)w/aspect_ratio)/(double)h);
 		model[9]*=1.0f/(((double)w/aspect_ratio)/(double)h);
-    } else {   
-		model[0]*=1.0f/(((double)h*aspect_ratio)/(double)w);    
+    } else {
+		model[0]*=1.0f/(((double)h*aspect_ratio)/(double)w);
 		model[4]*=1.0f/(((double)h*aspect_ratio)/(double)w);
 		model[8]*=1.0f/(((double)h*aspect_ratio)/(double)w);
-    }	
+    }
 
-	//project to ortho coordinates		
+	//project to ortho coordinates
 	viewport[0]=0;
 	viewport[1]=0;
 	viewport[2]=1;
@@ -826,7 +826,7 @@ void REDUCED_ARRAY::draw_labels() {
 	get_2d_positions(draw_pos[0],draw_pos[1],draw_pos[2]+(draw_size[2]/2.0f),
         model, proj, viewport,z_pos
     );
-	
+
 	get_2d_positions(draw_pos[0]+draw_size[0]/2.0f,draw_pos[1],draw_pos[2]+draw_size[2],
         model, proj, viewport,x_pos
     );
@@ -837,16 +837,16 @@ void REDUCED_ARRAY::draw_labels() {
 	glPopMatrix();
 
 	mode_ortho();
-	mode_unshaded();	
-	glColor3d(1,1,1);	
+	mode_unshaded();
+	glColor3d(1,1,1);
 
 	float zpos[3]={(float)z_pos[0],(float)z_pos[1],(float)z_pos[2]};
 	float xpos[3]={(float)x_pos[0],(float)x_pos[1],(float)x_pos[2]};
-	float ppos[3]={(float)p_pos[0],(float)p_pos[1],(float)p_pos[2]};		
+	float ppos[3]={(float)p_pos[0],(float)p_pos[1],(float)p_pos[2]};
 
 	draw_text_right(zpos,ch,lw,ls,zlabel);
 	draw_text(xpos,ch,lw,ls,xlabel);
 	draw_text(ppos,ch,lw,ls,ylabel);
-	
-	ortho_done();		
+
+	ortho_done();
 }

@@ -27,9 +27,7 @@
 #endif
 
 #ifndef _WIN32
-#if HAVE_SIGNAL_H
-#include <signal.h>
-#endif
+#include <csignal>
 #endif
 
 #include "md5_file.h"

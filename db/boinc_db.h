@@ -27,7 +27,7 @@
 // The parse and write functions are for use in scheduler RPC.
 // They don't necessarily serialize the entire records.
 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 
 #include "db_base.h"

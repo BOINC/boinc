@@ -24,8 +24,8 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <sys/types.h>
 #include <assert.h>
 
@@ -61,7 +61,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
     hSharedMem = CreateFileMapping(INVALID_HANDLE_VALUE, &security,
         PAGE_READWRITE, 0, size, seg_name);
     if (!hSharedMem) return NULL;
-    if (hSharedMem && (ERROR_ALREADY_EXISTS == GetLastError())) return NULL; 
+    if (hSharedMem && (ERROR_ALREADY_EXISTS == GetLastError())) return NULL;
 
     pMemPtr = MapViewOfFile( hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
     if (pp) *pp = pMemPtr;

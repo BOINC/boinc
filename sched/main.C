@@ -21,14 +21,13 @@
 //
 // command-line options:
 
-//#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
 
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
-#include <assert.h>
+#include <cassert>
 #include <sys/stat.h>
 #include <sys/types.h>
 

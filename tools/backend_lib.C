@@ -17,10 +17,10 @@
 // Contributor(s):
 //
 
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cassert>
 #include <unistd.h>
 
 #include "boinc_db.h"
@@ -55,12 +55,12 @@ int read_filename(const char* path, char* buf, int len) {
 // process WU template
 //
 static int process_wu_template(
-    WORKUNIT& wu, 
+    WORKUNIT& wu,
     char* tmplate,
-    const char* dirpath, 
-    const char** infiles, 
+    const char* dirpath,
+    const char** infiles,
     int n,
-    const char* upload_url, 
+    const char* upload_url,
     const char* download_url
 ) {
     char* p;
@@ -210,7 +210,7 @@ int create_result(
     int workunit_appid,
     char* wu_name,
     char* result_template_filename,
-    char* result_name_suffix, 
+    char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
     char* upload_url
 ) {
@@ -226,7 +226,7 @@ int create_result(
 
     retval = read_filename(result_template_filename, result_template, sizeof(result_template));
     if (retval) {
-        fprintf(stderr, "Failed to read result template file '%s': %d\n", 
+        fprintf(stderr, "Failed to read result template file '%s': %d\n",
             result_template_filename, retval);
         return retval;
     }

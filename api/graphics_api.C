@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -28,13 +28,13 @@ extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
 #endif
 
-#ifndef _WIN32
 #ifdef __APPLE_CC__
 #include "mac_app_opengl.h"
-#endif
+#ndif
 
-#include <string.h>
-#include <stdarg.h>
+#ifndef _WIN32
+#include <cstring>
+#include <cstdarg>
 
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
@@ -119,20 +119,20 @@ int boinc_init_graphics() {
     OSErr     theErr = noErr;
     ThreadID    graphicsThreadID = 0;
     ThreadEntryUPP entry_proc;
-    
+
     entry_proc = NewThreadEntryUPP( mac_graphics_event_loop );
-    
+
     // Create the thread in a suspended state
     theErr = NewThread ( kCooperativeThread, entry_proc,
         (void *)(&gi), 0, kNewSuspend | kCreateIfNeeded, NULL, &graphicsThreadID
     );
     if (theErr != noErr) return ERR_THREAD;
-    
+
     // In theory we could do customized scheduling or install thread disposal routines here
-    
+
     // Put the graphics event loop into the ready state
     SetThreadState(graphicsThreadID, kReadyThreadState, kNoThreadID);
-    
+
     YieldToAnyThread();
 #endif
 
@@ -145,7 +145,7 @@ int boinc_init_graphics() {
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &graphics_thread_attr );
 #endif
-    
+
     graphics_inited = true;
 
     return 0;
@@ -160,7 +160,7 @@ int boinc_finish_graphics() {
         }
     }
 #endif
-	
+
     return 0;
 }
 

@@ -20,17 +20,17 @@
 // See doc/upload.html for protocol spec.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <errno.h>
+#include <cerrno>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#include <signal.h>
 #endif
+#include <csignal>
 
 #include "crypt.h"
 #include "parse.h"

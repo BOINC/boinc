@@ -35,9 +35,7 @@
 #if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#if HAVE_ERRNO_H
-#include <errno.h>
-#endif
+#include <cerrno>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -339,7 +337,7 @@ int HTTP_OP::init_head(const char* url) {
 		strcat(id_passwd,pi.http_user_passwd);
 		encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_head_request_header_proxy(
-			request_header, url_hostname, port, proxy_buf, (char*)encstr.c_str() 
+			request_header, url_hostname, port, proxy_buf, (char*)encstr.c_str()
         );
   	}
     return 0;

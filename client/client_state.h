@@ -22,7 +22,7 @@
 
 #ifndef _WIN32
 #include <vector>
-#include <time.h>
+#include <ctime>
 #endif
 
 #include "app.h"

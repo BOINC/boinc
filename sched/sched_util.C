@@ -19,8 +19,8 @@
 
 using namespace std;
 
-#include <stdlib.h>
-#include <signal.h>
+#include <cstdlib>
+#include <csignal>
 #include <unistd.h>
 
 #include "filesys.h"

@@ -22,7 +22,7 @@
 #endif
 
 #ifndef _WIN32
-#include <string.h>
+#include <cstring>
 #endif
 
 #include "boinc_api.h"

@@ -24,46 +24,18 @@
 #include "jpeglib.h"
 #include "bmplib.h"
 #include "tgalib.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <glut.h>
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <setjmp.h>
-
-#ifdef HAVE_GL_H
-#include "gl.h"
-#elif defined(HAVE_GL_GL_H)
-#include <GL/gl.h>
-#elif defined(HAVE_OPENGL_GL_H)
-#include <OpenGL/gl.h>
-#else
-#endif
-
-#ifdef HAVE_GLU_H
-#include "glu.h"
-#elif defined(HAVE_GL_GLU_H)
-#include <GL/glu.h>
-#elif defined(HAVE_OPENGL_GLU_H)
-#include <OpenGL/glu.h>
-#endif
-
-#ifdef HAVE_GLUT_H
-#include "glut.h"
-#elif defined(HAVE_GL_GLUT_H)
-#include <GL/glut.h>
-#elif defined(HAVE_OPENGL_GLUT_H)
-#include <OpenGL/glut.h>
-#elif defined(HAVE_GLUT_GLUT_H)
-#include <GLUT/glut.h>
-#endif
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+#include <csetjmp>
 #include <jpeglib.h>
 #endif
+
+#include "boinc_gl.h"
 
 #include "gutil.h"
 #include "filesys.h"

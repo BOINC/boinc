@@ -19,8 +19,8 @@
 
 // show_shmem: display WU part of shared-memory structure
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <unistd.h>
 
 #include "shmem.h"

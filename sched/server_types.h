@@ -20,7 +20,7 @@
 #ifndef _SERVER_TYPES_
 #define _SERVER_TYPES_
 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 
 #include "boinc_db.h"

@@ -22,8 +22,8 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 #if HAVE_UNISTD_H
 #include <unistd.h>

@@ -22,7 +22,7 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
+#include <cstdio>
 #include <cassert>
 #endif
 

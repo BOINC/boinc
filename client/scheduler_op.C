@@ -22,10 +22,10 @@
 #endif
 
 #ifndef _WIN32
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
 #endif
 
 #include "util.h"

@@ -20,9 +20,9 @@
 
 // file_deleter: deletes files that are no longer needed
 
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
 #include <unistd.h>
 
 #include "boinc_db.h"

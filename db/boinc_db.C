@@ -21,7 +21,7 @@
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
-#include <math.h>
+#include <cmath>
 
 #include "util.h"
 #include "boinc_db.h"

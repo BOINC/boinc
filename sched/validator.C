@@ -42,7 +42,7 @@
 using namespace std;
 
 #include <unistd.h>
-#include <math.h>
+#include <cmath>
 #include <vector>
 
 #include "boinc_db.h"

@@ -29,8 +29,8 @@
 #endif
 
 #ifndef _WIN32
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <string>
 #endif
 

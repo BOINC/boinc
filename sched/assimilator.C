@@ -20,10 +20,10 @@
 // assimilator [ -noinsert ]
 //
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <unistd.h>
-#include <time.h>
+#include <ctime>
 #include <vector>
 
 #include "boinc_db.h"

@@ -2,27 +2,27 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
 #include "cpp.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 
 #include <sys/param.h>
 
@@ -143,16 +143,16 @@ bool HOST_INFO::host_is_running_on_batteries() {
         char ac_state[64];
         std::string ac_name;
         FILE* facpi;
-	
-        // we need to find the right ac adapter first 
+
+        // we need to find the right ac adapter first
         DirScanner dir("/proc/acpi/ac_adapter/");
         while (dir.scan(ac_name)) {
             if ((ac_name.c_str()==".")||(ac_name.c_str()=="..")) continue;
-	    
+
             // newer ACPI versions use "state" as filename
             sprintf(ac_state, "/proc/acpi/ac_adapter/%s/state", ac_name.c_str());
             facpi = fopen(ac_state, "r");
-            if (!facpi) { 
+            if (!facpi) {
                 // older ACPI versions use "status" instead
                 sprintf(ac_state, "/proc/acpi/ac_adapter/%s/status", ac_name.c_str());
                 facpi = fopen(ac_state, "r");
@@ -163,7 +163,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
                 fclose(facpi);
 
                 // only valid state if it contains "state" (newer) or "Status" (older)
-                if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) { 
+                if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) {
                     // on batteries if ac adapter is "off-line" (or maybe "offline")
                     retval = (strstr(buf, "off") != NULL);
                     break;
@@ -284,7 +284,7 @@ int HOST_INFO::get_host_info() {
     mib[1] = HW_MACHINE;
     len = sizeof(p_vendor);
     sysctl(mib, 2, &p_vendor, &len, NULL, 0);
-    
+
     // Get model
     mib[0] = CTL_HW;
     mib[1] = HW_MODEL;
@@ -292,7 +292,7 @@ int HOST_INFO::get_host_info() {
     sysctl(mib, 2, &p_model, &len, NULL, 0);
 #endif
 #endif
- 
+
 
 #if defined(_SC_NPROCESSORS_ONLN)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
@@ -344,7 +344,7 @@ int HOST_INFO::get_host_info() {
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // TODO: figure this out
     /*vmtotal vm_info;
-   
+
     mib[0] = CTL_VM;
     mib[1] = VM_METER;
     len = sizeof(vm_info);
@@ -354,7 +354,7 @@ int HOST_INFO::get_host_info() {
 #else
 #endif
 
-#if defined(HAVE_SYS_SYSTEMINFO_H) 
+#if defined(HAVE_SYS_SYSTEMINFO_H)
 #if defined(SI_HW_SERIAL)
     sysinfo(SI_HW_SERIAL, serialnum, sizeof(serialnum));
 #else
@@ -375,7 +375,7 @@ int HOST_INFO::get_host_info() {
     }
 #endif
 #endif
-   
+
     get_local_network_info(
         domain_name, sizeof(domain_name), ip_addr, sizeof(ip_addr)
     );
@@ -391,7 +391,7 @@ int HOST_INFO::get_host_info() {
     mib[1] = KERN_OSTYPE;
     len = sizeof(os_name);
     sysctl(mib, 2, &os_name, &len, NULL, 0);
-    
+
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSRELEASE;
     len = sizeof(os_version);

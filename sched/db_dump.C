@@ -40,9 +40,9 @@
 // ...
 // </boinc_db_dump_spec>
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -570,7 +570,7 @@ int print_app(FILE* f, APP& app) {
         fprintf(f, "            <results_over>%d</results_over>\n", n);
     }
 #endif
-    
+
     fprintf(f, "        </application>\n");
     return 0;
 }

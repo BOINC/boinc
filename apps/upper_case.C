@@ -30,30 +30,17 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <ctype.h>
-#include <time.h>
-#include <string.h>
-#include <stdlib.h>
-#include <signal.h>
+#include <cstdio>
+#include <cctype>
+#include <ctime>
+#include <cstring>
+#include <cstdlib>
+#include <csignal>
 #include <unistd.h>
 #endif
 
 #ifdef BOINC_APP_GRAPHICS
-#ifdef __APPLE_CC__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include "mac_carbon_gl.h"
-#elif _WIN32
-#include <gl\gl.h>            // Header File For The OpenGL32 Library
-#include <gl\glu.h>            // Header File For The GLu32 Library
-#include <gl\glaux.h>        // Header File For The Glaux Library
-#elif HAVE_GL_LIB
-#include <GL/glx.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
+#include "boinc_gl.h"
 #include "graphics_api.h"
 #endif
 

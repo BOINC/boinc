@@ -21,7 +21,7 @@
 #define H_CRYPT
 // some interface functions for RSAEuro
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "rsaeuro.h"
 extern "C" {

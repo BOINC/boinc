@@ -33,9 +33,7 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
-#endif
+#include <csignal>
 #include "synch.h"
 #endif
 
@@ -238,7 +236,7 @@ int boinc_main_loop(int argc, char** argv) {
 #endif
 
     boinc_init_diagnostics(
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_TRACETOSTDERR
     );

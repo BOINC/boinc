@@ -22,9 +22,9 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <time.h>
-#include <math.h>
+#include <cstdio>
+#include <ctime>
+#include <cmath>
 #endif
 
 #include "parse.h"

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 
 #include "md5_file.h"
 

@@ -127,7 +127,7 @@ int generic_check_set(
     init_result_f init_result_f,
     check_pair_with_data_f check_pair_with_data_f,
     cleanup_result_f cleanup_result_f,
-    int min_valid)
+    size_t min_valid)
 {
     assert (!results.empty());
 
@@ -193,9 +193,10 @@ int generic_check_set_majority(
     check_pair_with_data_f check_pair_with_data_f,
     cleanup_result_f cleanup_result_f)
 {
-    generic_check_set(results, canonicalid, credit,
-                      init_result_f, check_pair_with_data_f, cleanup_result_f,
-                      results.size() / 2);
+    return generic_check_set(
+        results, canonicalid, credit,
+        init_result_f, check_pair_with_data_f, cleanup_result_f,
+        results.size() / 2);
 }
 
 int generic_check_pair(

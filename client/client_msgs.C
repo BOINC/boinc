@@ -21,7 +21,7 @@
 #include "boinc_win.h"
 #endif
 #ifndef _WIN32
-#include <stdarg.h>
+#include <cstdarg>
 #include <list>
 #endif
 

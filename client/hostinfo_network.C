@@ -22,8 +22,8 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 #if HAVE_UNISTD_H
 #include <unistd.h>
@@ -151,7 +151,7 @@ int get_local_network_info(
     sprintf(buf, "/usr/sbin/ping -s %s 1 1 > %s 2>/dev/null", hostname, TEMP_FILE_NAME);
     retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
     if (!retval) return 0;
-    
+
     msg_printf(NULL, MSG_INFO, "Couldn't get hostname and IP address");
     msg_printf(NULL, MSG_INFO, "Make sure 'ping' is in your search path");
 

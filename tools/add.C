@@ -54,9 +54,9 @@
 // add user -email_addr x -name y -authenticator a
 //      [ -global_prefs_file y ]
 
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
 
 #include "boinc_db.h"
 #include "sched_config.h"

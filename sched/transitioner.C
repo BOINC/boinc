@@ -32,7 +32,7 @@ using namespace std;
 
 #include <vector>
 #include <unistd.h>
-#include <limits.h>
+#include <climits>
 #include <sys/time.h>
 
 #include "boinc_db.h"

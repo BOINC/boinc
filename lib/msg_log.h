@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <cstdarg>
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler

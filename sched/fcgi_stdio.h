@@ -1,4 +1,4 @@
-/* 
+/*
  * fcgi_stdio.h --
  *
  *      FastCGI-stdio compatibility package
@@ -12,7 +12,7 @@
  * $Id$
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 #ifndef _FCGI_STDIO
 #define _FCGI_STDIO 1

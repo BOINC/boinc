@@ -29,9 +29,7 @@
 
 #ifndef _WIN32
 
-#if HAVE_ERRNO_H
-#include <errno.h>
-#endif
+#include <cerrno>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -56,15 +54,13 @@
 #if HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
-#if HAVE_SIGNAL_H
-#include <signal.h>
-#endif
+#include <csignal>
 
-#include <ctype.h>
-#include <time.h>
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#include <cctype>
+#include <ctime>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
 
 #endif
 
@@ -1050,7 +1046,7 @@ bool ACTIVE_TASK::read_stderr_file() {
 int ACTIVE_TASK::request_reread_prefs() {
     int retval;
     APP_INIT_DATA aid;
-    
+
     link_user_files();
 
     retval = write_app_init_file(aid);
@@ -1643,7 +1639,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
 // return the next graphics-capable app
 // try to choose an app from a different project
 // preferences goes to pre-ss mode WINDOW, then apps with pre-ss mode HIDE
-// 
+//
 ACTIVE_TASK* ACTIVE_TASK_SET::get_next_graphics_capable_app() {
     static int project_index = 0;
     unsigned int i, j;

@@ -15,7 +15,7 @@
 // University of California at Berkeley. All Rights Reserved.
 //
 // Purpose:
-//   
+//
 //
 //
 // Contributor(s):
@@ -26,12 +26,9 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#ifdef HAVE_SIGNAL_H
-//#include <signal.h>
-#endif
+#include <cstdio>
+#include <cstdarg>
+#include <cstdlib>
 #include "config.h"
 #endif
 
@@ -67,7 +64,7 @@ int boinc_init_diagnostics(int _flags) {
         boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD );
     }
 
-    
+
     // Redirect stderr and/or stdout streams, if requested
     if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "a", stderr);
@@ -219,7 +216,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 	LONG  lReturnValue = NULL;
 	char  status[256];
 	char  substatus[256];
-    
+
 	static long   lDetectNestedException = 0;
 
     // If we've been in this procedure before, something went wrong so we immediately exit
@@ -241,73 +238,73 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 				}
 			}
 			break;
-        case EXCEPTION_DATATYPE_MISALIGNMENT: 
+        case EXCEPTION_DATATYPE_MISALIGNMENT:
 			safe_strncpy( status, "Data Type Misalignment", sizeof(status) );
 			break;
-        case EXCEPTION_BREAKPOINT: 
+        case EXCEPTION_BREAKPOINT:
 			safe_strncpy( status, "Breakpoint Encountered", sizeof(status) );
 			break;
-        case EXCEPTION_SINGLE_STEP: 
+        case EXCEPTION_SINGLE_STEP:
 			safe_strncpy( status, "Single Instruction Executed", sizeof(status) );
 			break;
-        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: 
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
 			safe_strncpy( status, "Array Bounds Exceeded", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_DENORMAL_OPERAND: 
+        case EXCEPTION_FLT_DENORMAL_OPERAND:
 			safe_strncpy( status, "Float Denormal Operand", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_DIVIDE_BY_ZERO: 
-			safe_strncpy( status, "Divide by Zero", sizeof(status) ); 
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+			safe_strncpy( status, "Divide by Zero", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_INEXACT_RESULT: 
-			safe_strncpy( status, "Float Inexact Result", sizeof(status) ); 
+        case EXCEPTION_FLT_INEXACT_RESULT:
+			safe_strncpy( status, "Float Inexact Result", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_INVALID_OPERATION: 
+        case EXCEPTION_FLT_INVALID_OPERATION:
 			safe_strncpy( status, "Float Invalid Operation", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_OVERFLOW: 
+        case EXCEPTION_FLT_OVERFLOW:
 			safe_strncpy( status, "Float Overflow", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_STACK_CHECK: 
+        case EXCEPTION_FLT_STACK_CHECK:
 			safe_strncpy( status, "Float Stack Check", sizeof(status) );
 			break;
-        case EXCEPTION_FLT_UNDERFLOW: 
+        case EXCEPTION_FLT_UNDERFLOW:
 			safe_strncpy( status, "Float Underflow", sizeof(status) );
 			break;
-        case EXCEPTION_INT_DIVIDE_BY_ZERO: 
+        case EXCEPTION_INT_DIVIDE_BY_ZERO:
 			safe_strncpy( status, "Integer Divide by Zero", sizeof(status) );
 			break;
-        case EXCEPTION_INT_OVERFLOW: 
+        case EXCEPTION_INT_OVERFLOW:
 			safe_strncpy( status, "Integer Overflow", sizeof(status) );
 			break;
-        case EXCEPTION_PRIV_INSTRUCTION: 
+        case EXCEPTION_PRIV_INSTRUCTION:
 			safe_strncpy( status, "Privileged Instruction", sizeof(status) );
 			break;
-        case EXCEPTION_IN_PAGE_ERROR: 
+        case EXCEPTION_IN_PAGE_ERROR:
 			safe_strncpy( status, "In Page Error", sizeof(status) );
 			break;
-        case EXCEPTION_ILLEGAL_INSTRUCTION: 
+        case EXCEPTION_ILLEGAL_INSTRUCTION:
 			safe_strncpy( status, "Illegal Instruction", sizeof(status) );
 			break;
-        case EXCEPTION_NONCONTINUABLE_EXCEPTION: 
+        case EXCEPTION_NONCONTINUABLE_EXCEPTION:
 			safe_strncpy( status, "Noncontinuable Exception", sizeof(status) );
 			break;
-        case EXCEPTION_STACK_OVERFLOW: 
+        case EXCEPTION_STACK_OVERFLOW:
 			safe_strncpy( status, "Stack Overflow", sizeof(status) );
 			break;
-        case EXCEPTION_INVALID_DISPOSITION: 
+        case EXCEPTION_INVALID_DISPOSITION:
 			safe_strncpy( status, "Invalid Disposition", sizeof(status) );
 			break;
-        case EXCEPTION_GUARD_PAGE: 
+        case EXCEPTION_GUARD_PAGE:
 			safe_strncpy( status, "Guard Page Violation", sizeof(status) );
 			break;
-        case EXCEPTION_INVALID_HANDLE: 
+        case EXCEPTION_INVALID_HANDLE:
 			safe_strncpy( status, "Invalid Handle", sizeof(status) );
 			break;
-        case CONTROL_C_EXIT: 
+        case CONTROL_C_EXIT:
 			safe_strncpy( status, "Ctrl+C Exit", sizeof(status) );
 			break;
-        default: 
+        default:
 			safe_strncpy( status, "Unknown exception", sizeof(status) );
 			break;
     }
@@ -340,8 +337,8 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 // Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
 //
-int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){ 
-	(*retVal) = 0; 
+int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
+	(*retVal) = 0;
 
 	switch(reportType){
 
@@ -349,12 +346,12 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 		case _CRT_ERROR:
 
 			OutputDebugString(szMsg);			// Reports string to the debugger output window
-			
+
             if (flags & BOINC_DIAG_TRACETOSTDERR ) {
                 fprintf( stderr, szMsg );
 			    fflush( stderr );
             }
-			
+
             if (flags & BOINC_DIAG_TRACETOSTDOUT ) {
                 fprintf( stdout, szMsg );
 			    fflush( stdout );
@@ -376,7 +373,7 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 	}
 
 	return(TRUE);
-} 
+}
 
 
 // Converts the BOINCTRACE macro into a single string and report it
@@ -385,7 +382,7 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 void boinc_trace(const char *pszFormat, ...) {
 	static char szBuffer[1024];
 
-	// Trace messages should only be reported if running as a standalone 
+	// Trace messages should only be reported if running as a standalone
 	//   application or told too.
 	if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
          (flags & BOINC_DIAG_TRACETOSTDOUT) ) {

@@ -21,8 +21,8 @@
 #include <string>
 using namespace std;
 
-#include <strings.h>
-#include <assert.h>
+// #include <strings.h>
+#include <cassert>
 
 #include "parse.h"
 #include "error_numbers.h"
@@ -319,7 +319,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         MSG_TO_HOST& md = msgs_to_host[i];
         fprintf(fout, "%s\n", md.xml);
     }
-    
+
     if (config.non_cpu_intensive) {
         fprintf(fout, "<non_cpu_intensive/>\n");
     }

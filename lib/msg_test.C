@@ -8,8 +8,8 @@
 
 #define KEY 0xb01fcafe
 
-#include <string.h>
-#include <stdio.h>
+#include <cstring>
+#include <cstdio>
 
 #include "msg_queue.h"
 

@@ -22,14 +22,14 @@
 #endif
 
 #ifndef _WIN32
-#include <stdio.h>
+#include <cstdio>
 #include <fcntl.h>
-#include <errno.h>
+#include <cerrno>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include <time.h>
-#include <string.h>
-#include <stdlib.h>
+#include <ctime>
+#include <cstring>
+#include <cstdlib>
 
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -193,7 +193,7 @@ DirScanner::DirScanner(string const& path) {
 bool DirScanner::scan(string& s) {
 #ifdef HAVE_DIRENT_H
     if (!dirp) return false;
-    
+
     while (1) {
         dirent* dp = readdir(dirp);
         if (dp) {

@@ -6,8 +6,8 @@
 
 #define KEY 0xbeefcafe
 
-#include <string.h>
-#include <stdio.h>
+#include <cstring>
+#include <cstdio>
 #include <sys/wait.h>
 #include <unistd.h>
 

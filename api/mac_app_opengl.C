@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -21,10 +21,7 @@
 #include "mac_carbon_gl.h"
 
 #ifdef __APPLE_CC__
-    #include <OpenGL/gl.h>
 #else
-    #include <gl.h>
-    
     #include <Devices.h>
     #include <Dialogs.h>
     #include <DriverServices.h>
@@ -37,8 +34,10 @@
     #include <Windows.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
+#include "boinc_gl.h"
+
+#include <cstdio>
+#include <cstring>
 
 // project includes ---------------------------------------------------------
 
@@ -76,14 +75,14 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     TimerUPP boincYieldUPP;
     EventLoopTimerRef boincYieldTimer;
     short i,fNum;
-    
+
     InitCursor();
 
     SetRect( &winRect, 100, 100, 100+xsize, 100+ysize );
-    
+
     err = CreateNewWindow ( kDocumentWindowClass, kWindowStandardDocumentAttributes, &winRect, &appGLWindow );
     if (err != noErr) return -1;
-    
+
     // Application-level event handler installer
     appCommandProcessor = NewEventHandlerUPP(MainAppEventHandler);
     err = InstallApplicationEventHandler(appCommandProcessor, GetEventTypeCount(appEventList),
@@ -107,15 +106,15 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     err = InstallEventLoopTimer(GetMainEventLoop(), 0,
                                 kEventDurationMillisecond*refresh_period*1000,
                                 boincYieldUPP, NULL, &boincYieldTimer);
-    
+
     // TODO: add an event handler for the window
     ChangeWindowAttributes( appGLWindow, kWindowStandardHandlerAttribute, 0 );
     SetWTitle (appGLWindow, "\pWindow");
     ShowWindow(appGLWindow);
     SetPortWindowPort (appGLWindow);
-    
+
     glInfo.fmt = 0;                    // output pixel format
-    
+
     i = 0;
     glInfo.aglAttributes [i++] = AGL_RGBA;
     glInfo.aglAttributes [i++] = AGL_DOUBLEBUFFER;
@@ -124,13 +123,13 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     glInfo.aglAttributes [i++] = AGL_DEPTH_SIZE;
     glInfo.aglAttributes [i++] = 16;
     glInfo.aglAttributes [i++] = AGL_NONE;
-    
+
     BuildGLonWindow (appGLWindow, &boincAGLContext, &glInfo);
     if (!boincAGLContext) {
         DestroyGLFromWindow (&boincAGLContext, &glInfo);
     } else {
         Rect rectPort;
-        
+
         GetWindowPortBounds (appGLWindow, &rectPort);
         aglSetCurrentContext (boincAGLContext);
         aglReportError ();
@@ -141,7 +140,7 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
         aglReportError ();
         ReSizeGLScene( rectPort.right - rectPort.left, rectPort.bottom - rectPort.top );
         glReportError ();
-        
+
         InitGL();
         app_init_gl();
 
@@ -149,16 +148,16 @@ int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
         glReportError ();
         aglSwapBuffers (boincAGLContext);
         aglReportError ();
-        
+
         GetFNum("\pTimes New Roman", &fNum);                                    // build font
         main_font = BuildFontGL (boincAGLContext, fNum, normal, 9);
 
         aglUpdateContext (boincAGLContext);
         aglReportError ();
-        
+
         using_opengl = true;
     }
-    
+
     return 0;
 }
 
@@ -252,10 +251,10 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
 
 pascal void *mac_graphics_event_loop ( void *data ) {
     GRAPHICS_INFO *gi = (GRAPHICS_INFO *)data;
-    
+
     InitGLWindow(gi->xsize, gi->ysize, 16, gi->refresh_period);
     RunApplicationEventLoop();
-    
+
     return NULL;
 }
 

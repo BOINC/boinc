@@ -24,8 +24,8 @@
 #endif
 
 #ifndef _WIN32
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #endif
 
 #include "error_numbers.h"
@@ -115,7 +115,7 @@ int PERS_FILE_XFER::start_xfer() {
                     fip->project, MSG_INFO,
                     "File %s exists already, skipping download", pathname
                 );
-                
+
                 return retval;
             }
         }

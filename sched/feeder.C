@@ -77,10 +77,10 @@
 // configuration, or decrease the MAX_PLATFORMS, MAX_APPS
 // MAX_APP_VERSIONS, and MAX_WU_RESULTS in sched_shmem.h
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif

@@ -42,10 +42,10 @@
 //  infile1 infile2 ...
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 
 #include "boinc_db.h"
 #include "crypt.h"

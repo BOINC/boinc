@@ -27,9 +27,9 @@
 //
 // usage: update_stats [-update_teams] [-update_users] [-update_hosts] [-asynch]
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <unistd.h>
 
 #include "boinc_db.h"

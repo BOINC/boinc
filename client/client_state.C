@@ -30,9 +30,6 @@
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
-#if HAVE_SIGNAL_H
-#include <signal.h>
-#endif
 #if HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #endif
@@ -40,10 +37,11 @@
 #include <unistd.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdarg.h>
+#include <csignal>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <cstdarg>
 #endif
 
 #include "parse.h"

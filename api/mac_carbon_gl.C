@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -50,7 +50,7 @@
     #include <gl.h>
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 // project includes ---------------------------------------------------------
 
@@ -77,18 +77,18 @@ OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLW
     GrafPtr cgrafSave = NULL;
     short numDevices;
     OSStatus err = noErr;
-    
+
     GetPort (&cgrafSave);
     SetPortWindowPort(pWindow);
 
     // check renderer VRAM and acceleration
     numDevices = FindGDHandleFromWindow (pWindow, &hGD);
-    
+
     // do agl
     if ((Ptr) kUnresolvedCFragSymbolAddress == (Ptr) aglChoosePixelFormat) {   // check for existance of OpenGL
         ReportError ("OpenGL not installed");
         return NULL;
-    }    
+    }
     // we successfully passed the renderer check
 
     pcontextInfo->fmt = aglChoosePixelFormat (NULL, 0, pcontextInfo->aglAttributes); // get an appropriate pixel format
@@ -104,10 +104,10 @@ OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLW
         ReportError ("Could not create context");
         return NULL;
     }
-    
+
     if (!aglSetDrawable (*paglContext, GetWindowPort (pWindow))) // attach the CGrafPtr to the context
         return aglReportError ();
-    
+
     if(!aglSetCurrentContext (*paglContext)) // make the context the current context
         return aglReportError ();
 
@@ -126,7 +126,7 @@ OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLW
 
 OSStatus DestroyGLFromWindow (AGLContext* paglContext, pstructGLWindowInfo pcontextInfo) {
     OSStatus err;
-    
+
     if ((!paglContext) || (!*paglContext))
         return paramErr; // not a valid context
     glFinish ();
@@ -143,7 +143,7 @@ OSStatus DestroyGLFromWindow (AGLContext* paglContext, pstructGLWindowInfo pcont
         err = aglReportError ();
     }
     pcontextInfo->fmt = 0;
-    
+
     return err;
 }
 
@@ -190,30 +190,30 @@ short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
     long greatestArea, sectArea;
     short numDevices = 0;
     GDHandle hgdNthDevice;
-    
+
     if (!pWindow || !phgdOnThisDevice)
             return NULL;
-            
+
     *phgdOnThisDevice = NULL;
-    
+
     GetPort (&pgpSave);
     SetPortWindowPort (pWindow);
-    
+
     GetWindowPortBounds (pWindow, &rectWind);
     LocalToGlobal ((Point*)& rectWind.top);    // convert to global coordinates
     LocalToGlobal ((Point*)& rectWind.bottom);
     hgdNthDevice = GetDeviceList ();
     greatestArea = 0;
-    // check window against all gdRects in gDevice list and remember 
+    // check window against all gdRects in gDevice list and remember
     //  which gdRect contains largest area of window}
     while (hgdNthDevice)
     {
         if (TestDeviceAttribute (hgdNthDevice, screenDevice)) {
             if (TestDeviceAttribute (hgdNthDevice, screenActive))
             {
-                // The SectRect routine calculates the intersection 
-                //  of the window rectangle and this gDevice 
-                //  rectangle and returns TRUE if the rectangles intersect, 
+                // The SectRect routine calculates the intersection
+                //  of the window rectangle and this gDevice
+                //  rectangle and returns TRUE if the rectangles intersect,
                 //  FALSE if they don't.
                 SectRect (&rectWind, &(**hgdNthDevice).gdRect, &rectSect);
                 // determine which screen holds greatest window area
@@ -230,7 +230,7 @@ short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
             }
         }
     }
-    
+
     SetPort (pgpSave);
     return numDevices;
 }
@@ -267,14 +267,14 @@ void DeleteFontGL (GLuint fontList)
 
 void ReportErrorNum (char * strError, long numError)
 {
-    fprintf (stderr, "%s %ld (0x%lx)\n", strError, numError, numError); 
+    fprintf (stderr, "%s %ld (0x%lx)\n", strError, numError, numError);
 }
 
 // --------------------------------------------------------------------------
 
 void ReportError (char * strError)
 {
-    fprintf (stderr, "%s\n", strError); 
+    fprintf (stderr, "%s\n", strError);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -382,12 +382,12 @@ void DoUpdate (AGLContext aglContext)
 {
     Rect    portRect;
     int        width, height;
-    
+
     if (aglContext)
     {
         aglSetCurrentContext (aglContext);
         aglUpdateContext (aglContext);
-        
+
         GetWindowBounds( appGLWindow, kWindowContentRgn, &portRect );
         width = portRect.right - portRect.left;
         height = portRect.bottom - portRect.top;
@@ -427,7 +427,7 @@ OSStatus StartDSp (void)
                 gDSpStarted = true;
         }
     }
-    return err;        
+    return err;
 }
 
 // --------------------------------------------------------------------------
@@ -479,7 +479,7 @@ void DestroyDSpContext (DSpContextReference* pdspContext)
 #pragma mark -
 //-----------------------------------------------------------------------------------------------------------------------
 
-OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeTicks) 
+OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeTicks)
 {
     OSStatus err = noErr;
     RGBColor inZeroIntensityColor;
@@ -495,7 +495,7 @@ OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeT
                 inZeroIntensityColor.green = 0x0000;
                 inZeroIntensityColor.blue = 0x0000;
         currTick = TickCount ();
-        for (x = 1; x <= fadeTicks; x++) 
+        for (x = 1; x <= fadeTicks; x++)
         {
             percent = step * x / 8;
             err = DSpContext_FadeGamma(inContext, percent, &inZeroIntensityColor);
@@ -511,7 +511,7 @@ OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeT
 
 //-----------------------------------------------------------------------------------------------------------------------
 
-OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, long fadeTicks ) 
+OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, long fadeTicks )
 {
     OSStatus err = noErr;
     RGBColor inZeroIntensityColor;
@@ -527,7 +527,7 @@ OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, long fade
         inZeroIntensityColor.green = 0x0000;
         inZeroIntensityColor.blue = 0x0000;
         currTick = TickCount ();
-        for (x = fadeTicks - 1; x >= 0; x--) 
+        for (x = fadeTicks - 1; x >= 0; x--)
         {
             percent = step * x / 8;
             err = DSpContext_FadeGamma(inContext, percent, &inZeroIntensityColor);

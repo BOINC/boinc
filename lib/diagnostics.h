@@ -69,7 +69,7 @@ void	boinc_info_release(const char *pszFormat, ...);
 #endif // _DEBUG
 
 #else   // non-Win starts here
-#include <signal.h>
+#include <csignal>
 extern void boinc_set_signal_handler(int sig, void(*handler)(int));
 extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #endif // _WIN32

@@ -1,10 +1,8 @@
 #include "x_opengl.h"
-#include <stdio.h>
+#include <cstdio>
 
 #ifdef HAVE_GL
-#include <GL/glx.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include "boinc_gl.h"
 
 #include "graphics_api.h"
 
@@ -77,7 +75,7 @@ void *p_graphics_loop( void *duff ) {
         fprintf(stderr, "glXMakeCurrent failed (window)!\n");
         return 0;
     }
-    
+
     InitGL();
 
     win_open = true;
@@ -90,7 +88,7 @@ void *p_graphics_loop( void *duff ) {
 }
 
 // How do we prevent broken pipes and broken connection error messages?
-// 
+//
 void process_input(Display *dpy) {
     XEvent event;
 
@@ -117,7 +115,7 @@ void process_input(Display *dpy) {
 GLvoid buildFont(GLvoid)
 {
     XFontStruct *font;
-    
+
     main_font = glGenLists(256);      /* storage for 256 characters */
     /* load a font with a specific name in "Host Portable Character Encoding" */
     /*font = XLoadQueryFont(dpy,

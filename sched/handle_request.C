@@ -23,12 +23,12 @@
 #include <string>
 using namespace std;
 
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <time.h>
-#include <assert.h>
-#include <math.h>
+#include <ctime>
+#include <cassert>
+#include <cmath>
 
 #include "boinc_db.h"
 #include "backend_lib.h"
