@@ -29,7 +29,7 @@
 
 #define BOINC_STRLEN 512
 
-void* graphics_lib_handle;
+void* graphics_lib_handle=NULL;
 
 typedef int (*BIOGI_FUNC)(BOINC_OPTIONS&, void(*worker)(), int (*)(BOINC_OPTIONS&));
 
