@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/05/21 06:27:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/05/17 22:15:08  rwalton
 // *** empty log message ***
 //
@@ -50,16 +53,19 @@ protected:
     void            OnInitCmdLine(wxCmdLineParser &parser);
     bool            OnCmdLineParsed(wxCmdLineParser &parser);
 
+    wxLocale*       m_pLocale;
+    wxConfig*       m_pConfig;
+
+
     CMainFrame*     m_pFrame;
     CMainDocument*  m_pDocument;
-    wxLocale*       m_pLocale;
 
 public:
 
     bool            OnInit();
 
-    CMainFrame*     GetCurrentFrame()    { return m_pFrame; };
-    CMainDocument*  GetCurrentDocument() { return m_pDocument; };
+    CMainFrame*     GetFrame()    { return m_pFrame; };
+    CMainDocument*  GetDocument() { return m_pDocument; };
 };
 
 

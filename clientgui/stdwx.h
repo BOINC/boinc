@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/05/17 22:15:10  rwalton
 // *** empty log message ***
 //
@@ -51,6 +54,7 @@
 #include <wx/regex.h>    // regular expression support
 #include <wx/settings.h> // system settings
 #include <wx/statline.h> // static line
+#include <wx/timer.h>    // timer support
 #include <wx/toolbar.h>  // toolbars support
 
 

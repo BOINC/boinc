@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -68,5 +71,12 @@ wxString CResourceUtilizationView::GetViewName(void)
 char** CResourceUtilizationView::GetViewIcon(void)
 {
     return usage_xpm;
+}
+
+
+void CResourceUtilizationView::OnRender (wxTimerEvent &event) {
+    wxLogTrace("CResourceUtilizationView::OnRender - Function Begining");
+
+    wxLogTrace("CResourceUtilizationView::OnRender - Function Ending");
 }
 

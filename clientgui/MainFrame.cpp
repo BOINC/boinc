@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -40,7 +43,6 @@
 #include "ResourceUtilizationView.h"
 #include "TransfersView.h"
 #include "WorkView.h"
-#include "Events.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgAttachProject.h"
@@ -50,19 +52,22 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
-
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_CLOSE       (                           CMainFrame::OnClose)
-    EVT_IDLE        (                           CMainFrame::OnIdle)
+
     EVT_MENU        (wxID_EXIT,                 CMainFrame::OnExit)
     EVT_MENU        (ID_COMMANDSATTACHPROJECT,  CMainFrame::OnCommandsAttachProject)
     EVT_MENU        (ID_TOOLSOPTIONS,           CMainFrame::OnToolsOptions)
     EVT_MENU        (wxID_ABOUT,                CMainFrame::OnAbout)
-END_EVENT_TABLE ()
 
+    EVT_TIMER       (ID_FRAMERENDERTIMER,       CMainFrame::OnFrameRender)
+END_EVENT_TABLE ()
 
 CMainFrame::CMainFrame()
 {
+    wxLogTrace("CMainFrame::CMainFrame - Function Begining");
+
+    wxLogTrace("CMainFrame::CMainFrame - Function Ending");
 }
 
 
@@ -70,32 +75,64 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxFrame ((wxFrame *)NULL, -1, strTitle, wxDefaultPosition, wxDefaultSize,
              wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
+    wxLogTrace("CMainFrame::CMainFrame - Function Begining");
+
+
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
 
+
     SetIcon(wxICON(APP_ICON));
+
 
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
+
+
+    m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
+    wxASSERT(NULL != m_pFrameRenderTimer);
+
+    m_pFrameRenderTimer->Start(1000);       // Send event every second
+
+
+    wxLogTrace("CMainFrame::CMainFrame - Function Ending");
 }
 
 
-CMainFrame::~CMainFrame(void)
-{
-    if (m_pMenubar)
-        wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
+CMainFrame::~CMainFrame(){
+    wxLogTrace("CMainFrame::~CMainFrame - Function Begining");
+
+
+    wxASSERT(NULL != m_pFrameRenderTimer);
+    wxASSERT(NULL != m_pMenubar);
+    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(NULL != m_pStatusbar);
+
+
+    if (m_pFrameRenderTimer) {
+        m_pFrameRenderTimer->Stop();
+        delete m_pFrameRenderTimer;
+    }
+
+    if (m_pStatusbar)
+        wxCHECK_RET(DeleteStatusbar(), _T("Failed to delete status bar."));
 
     if (m_pNotebook)
         wxCHECK_RET(DeleteNotebook(), _T("Failed to delete notebook."));
 
-    if (m_pStatusbar)
-        wxCHECK_RET(DeleteStatusbar(), _T("Failed to delete status bar."));
+    if (m_pMenubar)
+        wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
+
+
+    wxLogTrace("CMainFrame::~CMainFrame - Function Ending");
 }
 
 
 bool CMainFrame::CreateMenu() {
+    wxLogTrace("CMainFrame::CreateMenu - Function Begining");
+
 
     // File menu
     wxMenu *menuFile = new wxMenu;
@@ -121,11 +158,15 @@ bool CMainFrame::CreateMenu() {
     m_pMenubar->Append(menuHelp,      _("&Help"));
     SetMenuBar(m_pMenubar);
 
+
+    wxLogTrace("CMainFrame::CreateMenu - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::CreateNotebook() {
+    wxLogTrace("CMainFrame::CreateNotebook - Function Begining");
+
 
     // create frame panel
     wxPanel *pPanel = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize,
@@ -151,19 +192,23 @@ bool CMainFrame::CreateNotebook() {
     CreateNotebookPage(new CMessagesView(m_pNotebook));
     CreateNotebookPage(new CResourceUtilizationView(m_pNotebook));
 
+
+    wxLogTrace("CMainFrame::CreateNotebook - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
+    wxLogTrace("CMainFrame::CreateNotebookPage - Function Begining");
+
 
     wxImageList*    pImageList;
     int             iImageIndex = 0;
 
     wxASSERT(NULL != pwndNewNotebookPage);
     wxASSERT(NULL != m_pNotebook);
-    wxASSERT(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView)) ||
-             pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView)));
+    wxASSERT(wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView) ||
+             wxDynamicCast(pwndNewNotebookPage, CBaseWindowView));
 
 
     pImageList = m_pNotebook->GetImageList();
@@ -173,30 +218,59 @@ bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
         m_pNotebook->SetImageList(pImageList);
     }
     
-    if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView))) {
+    if        (wxDynamicCast(pwndNewNotebookPage, CProjectsView)) {
 
-        CBaseListCtrlView* pPage = (CBaseListCtrlView*)pwndNewNotebookPage;
-
+        CProjectsView* pPage = wxDynamicCast(pwndNewNotebookPage, CProjectsView);
         iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
         m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
 
-    } else {
+    } else if (wxDynamicCast(pwndNewNotebookPage, CWorkView)) {
 
-        if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView))) {
+        CWorkView* pPage = wxDynamicCast(pwndNewNotebookPage, CWorkView);
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
 
-            CBaseWindowView* pPage = (CBaseWindowView*)pwndNewNotebookPage;
+    } else if (wxDynamicCast(pwndNewNotebookPage, CTransfersView)) {
 
-            iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
-            m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+        CTransfersView* pPage = wxDynamicCast(pwndNewNotebookPage, CTransfersView);
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
 
-        }
+    } else if (wxDynamicCast(pwndNewNotebookPage, CMessagesView)) {
+
+        CMessagesView* pPage = wxDynamicCast(pwndNewNotebookPage, CMessagesView);
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+
+    } else if (wxDynamicCast(pwndNewNotebookPage, CResourceUtilizationView)) {
+
+        CResourceUtilizationView* pPage = wxDynamicCast(pwndNewNotebookPage, CResourceUtilizationView);
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+
+    } else if (wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView)) {
+
+        CBaseListCtrlView* pPage = wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView);
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+
+    } else if (wxDynamicCast(pwndNewNotebookPage, CBaseWindowView)) {
+
+        CBaseWindowView* pPage = wxDynamicCast(pwndNewNotebookPage, CBaseWindowView);
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+
     }
 
+
+    wxLogTrace("CMainFrame::CreateNotebookPage - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::CreateStatusbar() {
+    wxLogTrace("CMainFrame::CreateStatusbar - Function Begining");
+
 
     if (m_pStatusbar)
         return true;
@@ -206,90 +280,205 @@ bool CMainFrame::CreateStatusbar() {
     const int widths[] = {-1, 20*ch, 15};
 
     m_pStatusbar = CreateStatusBar(WXSIZEOF(widths), wxST_SIZEGRIP, ID_STATUSBAR);
+    wxASSERT(NULL != m_pStatusbar);
+
     m_pStatusbar->SetStatusWidths(WXSIZEOF(widths), widths);
 
     SetStatusBar(m_pStatusbar);
     SendSizeEvent();
 
+
+    wxLogTrace("CMainFrame::CreateStatusbar - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::DeleteMenu() {
+    wxLogTrace("CMainFrame::DeleteMenu - Function Begining");
+
+    wxLogTrace("CMainFrame::DeleteMenu - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::DeleteNotebook() {
+    wxLogTrace("CMainFrame::DeleteNotebook - Function Begining");
+
 
     wxImageList*    pImageList;
 
     wxASSERT(NULL != m_pNotebook);
 
     pImageList = m_pNotebook->GetImageList();
+
+    wxASSERT(NULL != pImageList);
+
     if (pImageList)
         delete pImageList;
 
+
+    wxLogTrace("CMainFrame::DeleteNotebook - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::DeleteStatusbar() {
+    wxLogTrace("CMainFrame::DeleteStatusbar - Function Begining");
+
 
     if (!m_pStatusbar)
         return true;
 
-    SetStatusBar (NULL);
+    SetStatusBar(NULL);
 
     delete m_pStatusbar;
 
     m_pStatusbar = NULL;
     SendSizeEvent();
 
+
+    wxLogTrace("CMainFrame::DeleteStatusbar - Function Ending");
     return true;
 }
 
 
-void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
-    CDlgAbout* pDlg = new CDlgAbout(this);
+bool CMainFrame::SaveState() {
+    wxLogTrace("CMainFrame::SaveState - Function Begining");
 
-    pDlg->ShowModal();
-
-    if (pDlg)
-        delete pDlg;
+    wxLogTrace("CMainFrame::DeleteStatusbar - Function Ending");
+    return true;
 }
 
 
-void CMainFrame::OnClose(wxCloseEvent &event) {
-    Destroy();
-}
+bool CMainFrame::RestoreState() {
+    wxLogTrace("CMainFrame::RestoreState - Function Begining");
 
-
-void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) {
-    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-
-    pDlg->ShowModal();
-
-    if (pDlg)
-        delete pDlg;
-}
-
-
-void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
-    CDlgOptions* pDlg = new CDlgOptions(this);
-
-    pDlg->ShowModal();
-
-    if (pDlg)
-        delete pDlg;
+    wxLogTrace("CMainFrame::RestoreState - Function Ending");
+    return true;
 }
 
 
 void CMainFrame::OnExit(wxCommandEvent &WXUNUSED(event)) {
+    wxLogTrace("CMainFrame::OnExit - Function Begining");
+
     Close(true);
+
+    wxLogTrace("CMainFrame::OnExit - Function Ending");
 }
 
 
-void CMainFrame::OnIdle (wxIdleEvent &event) {
+void CMainFrame::OnClose(wxCloseEvent &event) {
+    wxLogTrace("CMainFrame::OnClose - Function Begining");
+
+    Destroy();
+
+    wxLogTrace("CMainFrame::OnClose - Function Ending");
+}
+
+
+void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) {
+    wxLogTrace("CMainFrame::OnCommandsAttachProject - Function Begining");
+
+
+    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
+    wxASSERT(NULL != pDlg);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        delete pDlg;
+
+
+    wxLogTrace("CMainFrame::OnCommandsAttachProject - Function Ending");
+}
+
+
+void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
+    wxLogTrace("CMainFrame::OnToolsOptions - Function Begining");
+
+
+    CDlgOptions* pDlg = new CDlgOptions(this);
+    wxASSERT(NULL != pDlg);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        delete pDlg;
+
+
+    wxLogTrace("CMainFrame::OnToolsOptions - Function Ending");
+}
+
+
+void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
+    wxLogTrace("CMainFrame::OnAbout - Function Begining");
+
+
+    CDlgAbout* pDlg = new CDlgAbout(this);
+    wxASSERT(NULL != pDlg);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        delete pDlg;
+
+
+    wxLogTrace("CMainFrame::OnAbout - Function Ending");
+}
+
+
+void CMainFrame::OnFrameRender (wxTimerEvent &event) {
+    wxLogTrace("CMainFrame::OnFrameRender - Function Begining");
+
+    wxWindow*       pwndCurrentlySelectedPage;
+
+    wxASSERT(NULL != m_pNotebook);
+
+
+    pwndCurrentlySelectedPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+    wxASSERT(NULL != pwndCurrentlySelectedPage);
+    wxASSERT(wxDynamicCast(pwndCurrentlySelectedPage, CBaseListCtrlView) ||
+             wxDynamicCast(pwndCurrentlySelectedPage, CBaseWindowView));
+
+
+    if        (wxDynamicCast(pwndCurrentlySelectedPage, CProjectsView)) {
+
+        CProjectsView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CProjectsView);
+        pPage->OnRender(event);
+
+    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CWorkView)) {
+
+        CWorkView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CWorkView);
+        pPage->OnRender(event);
+
+    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CTransfersView)) {
+
+        CTransfersView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CTransfersView);
+        pPage->OnRender(event);
+
+    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CMessagesView)) {
+
+        CMessagesView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CMessagesView);
+        pPage->OnRender(event);
+
+    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CResourceUtilizationView)) {
+
+        CResourceUtilizationView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CResourceUtilizationView);
+        pPage->OnRender(event);
+
+    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CBaseListCtrlView)) {
+
+        CBaseListCtrlView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CBaseListCtrlView);
+        pPage->OnRender(event);
+
+    } else if (wxDynamicCast(pwndCurrentlySelectedPage, CBaseWindowView)) {
+
+        CBaseWindowView* pPage = wxDynamicCast(pwndCurrentlySelectedPage, CBaseWindowView);
+        pPage->OnRender(event);
+
+    }
+
+
+    wxLogTrace("CMainFrame::OnFrameRender - Function Ending");
 }
 

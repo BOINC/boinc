@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -35,6 +38,12 @@
 #endif
 
 
+#define ID_STATUSBAR                wxID_HIGHEST + 1
+#define ID_COMMANDSATTACHPROJECT    wxID_HIGHEST + 2
+#define ID_TOOLSOPTIONS             wxID_HIGHEST + 3
+#define ID_FRAMERENDERTIMER         wxID_HIGHEST + 4
+
+
 class CMainFrame : public wxFrame
 {
     DECLARE_DYNAMIC_CLASS(CMainFrame)
@@ -45,19 +54,21 @@ public:
 
     ~CMainFrame(void);
 
-    void OnClose(wxCloseEvent &event);
-    void OnIdle(wxIdleEvent &event);
-
     void OnExit(wxCommandEvent &event);
+    void OnClose(wxCloseEvent &event);
+
     void OnCommandsAttachProject(wxCommandEvent &event);
     void OnToolsOptions(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
+
+    void OnFrameRender(wxTimerEvent &event);
 
 private:
 
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     wxStatusBar*    m_pStatusbar;
+    wxTimer*        m_pFrameRenderTimer;
 
     wxString        m_strStatusMessage;
 
@@ -73,6 +84,10 @@ private:
     // status bar
     bool            CreateStatusbar();
     bool            DeleteStatusbar();
+
+    // state management
+    bool            SaveState();
+    bool            RestoreState();
 
     DECLARE_EVENT_TABLE()
 };

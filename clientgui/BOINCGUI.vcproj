@@ -216,9 +216,6 @@
 				RelativePath=".\DlgOptions.h">
 			</File>
 			<File
-				RelativePath=".\Events.h">
-			</File>
-			<File
 				RelativePath=".\MainDocument.h">
 			</File>
 			<File

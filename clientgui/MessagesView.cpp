@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -67,5 +70,12 @@ wxString CMessagesView::GetViewName(void)
 char** CMessagesView::GetViewIcon(void)
 {
     return mess_xpm;
+}
+
+
+void CMessagesView::OnRender (wxTimerEvent &event) {
+    wxLogTrace("CMessagesView::OnRender - Function Begining");
+
+    wxLogTrace("CMessagesView::OnRender - Function Ending");
 }
 

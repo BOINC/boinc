@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/05/21 06:27:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -46,6 +49,9 @@ public:
 
     virtual wxString GetViewName(void);
     virtual char**   GetViewIcon(void);
+
+    void OnRender(wxTimerEvent &event);
+
 };
 
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -71,5 +74,12 @@ wxString CTransfersView::GetViewName(void)
 char** CTransfersView::GetViewIcon(void)
 {
     return xfer_xpm;
+}
+
+
+void CTransfersView::OnRender (wxTimerEvent &event) {
+    wxLogTrace("CTransfersView::OnRender - Function Begining");
+
+    wxLogTrace("CTransfersView::OnRender - Function Ending");
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:08  rwalton
 // *** empty log message ***
 //
@@ -35,22 +38,28 @@
 #include "res/boinc.xpm"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CBaseListCtrlView, wxListCtrl)
+IMPLEMENT_DYNAMIC_CLASS(CBaseListCtrlView, wxListView)
 
 
 CBaseListCtrlView::CBaseListCtrlView(void)
 {
+    wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Begining");
+    wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Ending");
 }
 
 
 CBaseListCtrlView::CBaseListCtrlView(wxNotebook* pNotebook) :
-    wxListCtrl(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT, wxDefaultValidator, _T("wxListCtrl"))
+    wxListView(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT, wxDefaultValidator, _T("wxListView"))
 {
+    wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Begining");
+    wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Ending");
 }
 
 
 CBaseListCtrlView::~CBaseListCtrlView(void)
 {
+    wxLogTrace("CBaseListCtrlView::~CBaseListCtrlView - Function Begining");
+    wxLogTrace("CBaseListCtrlView::~CBaseListCtrlView - Function Ending");
 }
 
 
@@ -59,6 +68,8 @@ CBaseListCtrlView::~CBaseListCtrlView(void)
 //
 wxString CBaseListCtrlView::GetViewName(void)
 {
+    wxLogTrace("CBaseListCtrlView::GetViewName - Function Begining");
+    wxLogTrace("CBaseListCtrlView::GetViewName - Function Ending");
     return wxString(_T("Undefined"));
 }
 
@@ -68,6 +79,21 @@ wxString CBaseListCtrlView::GetViewName(void)
 //
 char** CBaseListCtrlView::GetViewIcon(void)
 {
+    wxLogTrace("CBaseListCtrlView::GetViewIcon - Function Begining");
+
+    wxASSERT(NULL != boinc_xpm);
+
+    wxLogTrace("CBaseListCtrlView::GetViewIcon - Function Ending");
     return boinc_xpm;
+}
+
+
+void CBaseListCtrlView::OnRender (wxTimerEvent &event) {
+    wxLogTrace("CBaseListCtrlView::OnRender - Function Begining");
+
+    wxLogTrace("CBaseListCtrlView::OnRender - ***** Warning ***** Each page is supposed to have it's own OnRender");
+    wxLogTrace("CBaseListCtrlView::OnRender -                     event handler");
+
+    wxLogTrace("CBaseListCtrlView::OnRender - Function Ending");
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:08  rwalton
 // *** empty log message ***
 //
@@ -42,6 +45,7 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 bool CBOINCGUIApp::OnInit()
 {
+
     SetVendorName("Space Sciences Laboratory, U.C. Berkeley");
     SetAppName("BOINC Manager");
 
@@ -51,16 +55,26 @@ bool CBOINCGUIApp::OnInit()
 
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
+    wxASSERT(NULL != m_pLocale);
+
     m_pLocale->Init();
     m_pLocale->AddCatalog(GetAppName());
 
+    // Initialize the configuration storage module
+    m_pConfig = new wxConfig(wxTheApp->GetAppName());
+    wxASSERT(NULL != m_pConfig);
+
     // Initialize the main document
     m_pDocument = new CMainDocument();
+    wxASSERT(NULL != m_pDocument);
 
     // Initialize the main gui window
     m_pFrame = new CMainFrame(GetAppName());
+    wxASSERT(NULL != m_pFrame);
+
     SetTopWindow(m_pFrame);
     m_pFrame->Show();
+
 
     return true;
 }
@@ -70,6 +84,9 @@ int CBOINCGUIApp::OnExit()
 {
     if (m_pDocument)
         delete m_pDocument;
+
+    if (m_pConfig)
+        delete m_pConfig;
 
     if (m_pLocale)
         delete m_pLocale;

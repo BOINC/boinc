@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:15  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -72,5 +75,12 @@ wxString CWorkView::GetViewName(void)
 char** CWorkView::GetViewIcon(void)
 {
     return result_xpm;
+}
+
+
+void CWorkView::OnRender (wxTimerEvent &event) {
+    wxLogTrace("CWorkView::OnRender - Function Begining");
+
+    wxLogTrace("CWorkView::OnRender - Function Ending");
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/05/21 06:27:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/05/17 22:15:08  rwalton
 // *** empty log message ***
 //
@@ -40,17 +43,23 @@ IMPLEMENT_DYNAMIC_CLASS(CBaseWindowView, wxPanel)
 
 CBaseWindowView::CBaseWindowView(void)
 {
+    wxLogTrace("CBaseWindowView::CBaseWindowView - Function Begining");
+    wxLogTrace("CBaseWindowView::CBaseWindowView - Function Ending");
 }
 
 
 CBaseWindowView::CBaseWindowView(wxNotebook* pNotebook) :
     wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER | wxTAB_TRAVERSAL, _T("wxBlankPanel"))
 {
+    wxLogTrace("CBaseWindowView::CBaseWindowView - Function Begining");
+    wxLogTrace("CBaseWindowView::CBaseWindowView - Function Ending");
 }
 
 
 CBaseWindowView::~CBaseWindowView(void)
 {
+    wxLogTrace("CBaseWindowView::~CBaseWindowView - Function Begining");
+    wxLogTrace("CBaseWindowView::~CBaseWindowView - Function Ending");
 }
 
 
@@ -59,6 +68,8 @@ CBaseWindowView::~CBaseWindowView(void)
 //
 wxString CBaseWindowView::GetViewName(void)
 {
+    wxLogTrace("CBaseWindowView::GetViewName - Function Begining");
+    wxLogTrace("CBaseWindowView::GetViewName - Function Ending");
     return wxString(_T("Undefined"));
 }
 
@@ -68,6 +79,22 @@ wxString CBaseWindowView::GetViewName(void)
 //
 char** CBaseWindowView::GetViewIcon(void)
 {
+    wxLogTrace("CBaseWindowView::GetViewIcon - Function Begining");
+
+    wxASSERT(NULL != boinc_xpm);
+
+    wxLogTrace("CBaseWindowView::GetViewIcon - Function Ending");
     return boinc_xpm;
 }
+
+
+void CBaseWindowView::OnRender (wxTimerEvent &event) {
+    wxLogTrace("CBaseWindowView::OnRender - Function Begining");
+
+    wxLogTrace("CBaseWindowView::OnRender - ***** Warning ***** Each page is supposed to have it's own OnRender");
+    wxLogTrace("CBaseWindowView::OnRender -                     event handler");
+
+    wxLogTrace("CBaseWindowView::OnRender - Function Ending");
+}
+
 
