@@ -12,7 +12,7 @@
     if ($user) {
         echo "<h3>Welcome $user->name</h3>";
         echo "If you are not $user->name or would wish to log in as another user ";
-        echo "<a href=login.php>Login here</a>.";
+        echo "<a href=login.php>login here</a>.";
     }
 ?>
 
@@ -44,9 +44,9 @@ project.
 <ul>
 <li><a href=create_account.php>Create account</a></li>
 <li><a href=download.php>Download core client</a></li>
-<li><a href=login.php>Log in</a></li>
+<li><a href=login.php>Login</a></li>
 <li><a href=home.php>User home page</a></li> - view stats, modify preferences
-<li><a href=team.php>Teams</a></li> - join sample distributed project community
+<li><a href=team.php>Teams</a></li> - join sample distributed computing project community
 </ul>
 <scheduler>http://maggie.ssl.berkeley.edu/barry-cgi/cgi</scheduler>
 </body>
