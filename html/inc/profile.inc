@@ -330,8 +330,7 @@ Your profile was successfully entered into our database.<br><br>
     page_tail();
 }
 
-// Builds a summary table of user profiles, writing it to $descriptor if it is
-// available, or echoing if it is not.
+// Builds a summary table of user profiles.
 //
 //   $members is an array of userIDs;
 //   $offset indicates which entry to begin the table with
@@ -339,10 +338,8 @@ Your profile was successfully entered into our database.<br><br>
 //   $cols indicates how many profile summaries should be written per row
 //   $descriptor is an optional file descriptor to write the table to.
 
-function show_user_table(
-    $members, $offset, $numToDisplay, $cols, $descriptor=null
-) {
-    write_fd($descriptor, "<table class=bordered border=1 cellpadding=5>\n");
+function show_user_table($members, $offset, $numToDisplay, $cols) {
+    echo "<table class=bordered border=1 cellpadding=5>\n";
 
     $rows = ceil($numToDisplay / $cols);
     $count = $offset;
@@ -353,30 +350,30 @@ function show_user_table(
             break;
         }
 
-        write_fd($descriptor, "<tr>\n");
+        echo "<tr>\n";
 
         for ($col = 0; $col < $cols; $col++) {
             if ($count < $numMembers) {
-                write_fd($descriptor, "<td class=bordered width=7% height=64><center>");
+                echo "<td class=bordered width=7% height=64><center>";
 
                 // Only link an image if the user has uploaded one.;
                 $profile = get_profile($members[$count]);
                 if ($profile->has_picture) {
-                    write_fd($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . URL_BASE . IMAGE_URL . $members[$count] . '_sm.jpg' . "\"></a>");
+                    echo "<a href=\"", URL_BASE, "view_profile.php?userid={$members[$count]}\"><img src=\"", URL_BASE, IMAGE_URL, "{$members[$count]}_sm.jpg\"></a>";
 
                 } else {
-                    write_fd($descriptor, "&nbsp;");
+                    echo "&nbsp;";
                 }
 
-                write_fd($descriptor, "</center></td><td class=bordered width=33% height=64>\n". get_profile_summary($profile). "</td>");
+                echo "</center></td><td class=bordered width=33% height=64>\n", get_profile_summary($profile), "</td>";
                 $count++;
             } else {
-                write_fd($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
+                echo "<td width=7% height=64></td><td width=33% height=64></td>";
             }
         }
-        write_fd($descriptor, "</tr>\n");
+        echo "</tr>\n";
     }
-    write_fd($descriptor, "</table>\n");
+    echo "</table>\n";
 
 }
 

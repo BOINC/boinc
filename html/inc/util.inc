@@ -102,38 +102,26 @@ function show_combo_box($name, $filename, $selection=null) {
     fclose($file);
 }
 
-// write to the given fd if non-null; else echo
-//
-function write_fd($fd, $str) {
-    if ($fd) {
-        fwrite($fd, $str);
-    } else {
-        echo $str;
-    }
-}
-
-function page_head($title, $fd=null) {
+function page_head($title) {
     $styleSheet = URL_BASE . STYLESHEET;
 
-    write_fd($fd,
-        "<html><head><title>".strip_tags($title)."</title>
+    echo "<html><head><title>".strip_tags($title)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
         </head>
         <body bgcolor=ffffff>
-        "
-    );
-    project_banner($title, $fd);
+        ";
+    project_banner($title);
 }
 
-function page_tail($is_main=false, $fd=null) {
-    write_fd($fd, "<br><hr noshade size=1><center>");
+function page_tail($is_main=false) {
+    echo "<br><hr noshade size=1><center>";
     if (!$is_main) {
-        write_fd($fd, "<a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n");
+        echo "<a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n";
     }
 
     // put your copyright notice etc. here
 
-    write_fd($fd, "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>");
+    echo "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>";
 }
 
 function db_error_page() {
@@ -347,33 +335,37 @@ function split_munged_email_addr($addr, $auth, &$email) {
 // Generates a standard set of links between associated multi-page documents.
 //  All linked files must be of the form "$filename_<page number>.html".
 
-function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
-    fwrite($descriptor, "<p>Page $currPageNum of $numPages</p>");
+function write_page_links($filename, $currPageNum, $numPages) {
+    echo "<p>Page $currPageNum of $numPages</p>";
 
     $nextPageNum = $currPageNum + 1;
     $prevPageNum = $currPageNum - 1;
 
     // Make the 'previous' and 'next' page links as appropriate.
     if ($currPageNum > 1) {
-        fwrite($descriptor, "<a href=$filename" . "_" . $prevPageNum . ".html>Previous Page</a>");
+        echo "<a href={$filename}_{$prevPageNum}.html>Previous Page</a>";
 
         if ($currPageNum != $numPages) {
-            fwrite($descriptor, " | ");
+            echo " | ";
         }
     }
     if ($currPageNum != $numPages) {
-        fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
+        //fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
+        echo "<a href={$filename}_{$nextPageNum}.html>Next Page</a>";
     }
 
-    fwrite($descriptor, "<p>Jump to Page:\n");
+    //fwrite($descriptor, "<p>Jump to Page:\n");
+    echo "<p>Jump to Page:\n";
 
     // Make the individual page links (or a bold non-link for the current page).
     //
     for ($i = 1; $i <= $numPages; $i++) {
         if ($i != $currPageNum) {
-            fwrite($descriptor, "<a href=$filename" . "_" . $i . ".html>$i</a>\n");
+            //fwrite($descriptor, "<a href=$filename" . "_" . $i . ".html>$i</a>\n");
+            echo "<a href={$filename}_{$i}.html>$i</a>\n";
         } else {
-            fwrite($descriptor, "<b>$i</b>\n");
+            //fwrite($descriptor, "<b>$i</b>\n");
+            echo "<b>$i</b>\n";
         }
     }
 
@@ -439,6 +431,19 @@ function host_link($hostid) {
     } else {
         return "---";
     }
+}
+
+function open_output_buffer() {
+    ob_start();
+    ob_implicit_flush(0);
+}
+
+function close_output_buffer($filename) {
+    $fh = fopen($filename, "w");
+    $page = ob_get_contents();
+    ob_end_clean();
+    fwrite($fh, $page);
+    fclose($fh);
 }
 
 ?>

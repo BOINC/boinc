@@ -17,16 +17,16 @@ define("COPYRIGHT_HOLDER", "Test Group");
 define("SYS_ADMIN_EMAIL", "foo@a.b.c");
 
 
-function project_banner($title, $fd) {
+function project_banner($title) {
     // Put your project title and logo here
 
-    write_fd($fd, "<link rel=stylesheet type=text/css href=white.css>
+    echo "<link rel=stylesheet type=text/css href=white.css>
         <table width=100%>
         <tr>
         <td><h2>$title</h2></td>
         <td align=right>
        </td></tr></table>
-    ");
+    ";
 }
 
 // NOTE: These functions appear here and not in profile.inc because they contain
