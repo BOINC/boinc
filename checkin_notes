@@ -22937,3 +22937,23 @@ David  18 Jan 2005
             am_confirm.php
             am_create.php
             am_query.php
+
+Bruce 19 Jan 2005
+    - Patches from Reinhard Prix to fix several problems.
+      (1) apps being suspended would call boinc_finish(nonzero) and
+          core client would treat this as app failure.  Introduce
+          a new function boinc_exit() and call that instead.
+      (2) improvements to GUI build with wxWidgets
+      (3) improved X event handling loop now ensures that X window
+          is taken away when window killed.
+    configure.ac
+    clientgui/
+        Makefile.am
+    api/
+        boinc_api.h
+        boinc_api.C
+        x_opengl.C
+    lib/
+        filesys.C
+
+

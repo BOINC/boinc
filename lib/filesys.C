@@ -463,54 +463,56 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
     return 0;
 }
 
+
+//----------------------------------------------------------------------
+// provide some file-locking mechanism to ensure only one app is running 
+// in a slot
+
+#if  (!defined _WIN32) && (!defined HANDLE)
+typedef int HANDLE;
+#endif
+HANDLE app_lockfile_handle;
+
 int lock_file(char* filename) {
     int retval;
-
 #ifdef _WIN32
-    HANDLE hfile = CreateFile(
+    app_lockfile_handle = CreateFile(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
-    );
-    if (hfile == INVALID_HANDLE_VALUE) retval = 1;
-    else 
-     // NOTE: contrary to unix, we close the file on windows, so that we can remove it later in boinc_finish().
-     // there seems to be no real file-locking done here, so this should be ok...
-      if (CloseHandle(hfile))
-	retval = 0;
-      else
-	retval = 1;
-
-// some systems have both!
+	);
+    if (app_lockfile_handle == INVALID_HANDLE_VALUE) 
+      retval = 1;
+    // some systems have both!
 #elif defined(HAVE_LOCKF) && !defined(__APPLE__)
-    int fd = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = lockf(fd, F_TLOCK, 0);
+    app_lockfile_handle = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = lockf(app_lockfile_handle, F_TLOCK, 0);
+#elif HAVE_FLOCK
+    app_lockfile_handle = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = flock(app_lockfile_handle, LOCK_EX|LOCK_NB);
+    // must leave file-handle open
+#else
+    no file lock mechanism;
+#endif
+    
 #ifndef NDEBUG
     if ( retval != 0 )
       {
 	struct flock lck;
-	fprintf(stdout, "DEBUG: Failed to get lockf on %s. Error = %d, %s\n", filename, errno, strerror(errno));
+	perror ("DEBUG: Failed to get lock on application-lockfile");
 	lck.l_whence = 0;
 	lck.l_start = 0L;
 	lck.l_len = 0L;
 	lck.l_type = F_WRLCK;
-	(void) fcntl(fd, F_GETLK, &lck);
+	(void) fcntl(app_lockfile_handle, F_GETLK, &lck);
 	if (lck.l_type != F_UNLCK) 
 	  fprintf(stdout, "DEBUG: Lock-info: pid = %d type = %c start = %8ld len = %8ld\n", lck.l_pid, 
-		    (lck.l_type == F_WRLCK) ? 'W' : 'R', lck.l_start, lck.l_len);
+		  (lck.l_type == F_WRLCK) ? 'W' : 'R', lck.l_start, lck.l_len);
 	else
 	  fprintf(stdout, "DEBUG: fcntl() says it's unlocked though....strange.\n");
 
 	fflush(stdout);
       }
 #endif // defined NDEBUG
-
-#elif HAVE_FLOCK
-    int fd = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = flock(fd, LOCK_EX|LOCK_NB);
-    // must leave fd open
-#else
-    no file lock mechanism;
-#endif
 
     return retval;
 }

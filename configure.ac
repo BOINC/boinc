@@ -307,23 +307,13 @@ WARNING: wxWidgets could not be found ==> building client without clientgui.
 fi
 
 AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
+
+if ( test "${enable_client}" = yes ) && ( test "$wxWin" = 1 ); then
+   CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
+   AC_SUBST(CLIENTGUIFLAGS)
+fi
+
 dnl --------------------------------------------------------------------------------
-
-
-dnl This is one way to set up host-specific stuff
-case "${host}" in
-      *-*-linux* | *-*-solaris* )
-           dnl no taskbar support in wxWidgets
- 	  CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
-	  AC_SUBST(CLIENTGUIFLAGS)
-	  AC_SUBST(CLIENTGUILIBS) ;;
-      *-*-darwin*)
-           dnl no taskbar support in wxWidgets
-          CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
-	  CLIENTGUILIBS="-framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System  -licon -framework WebKit";
-	  AC_SUBST(CLIENTGUIFLAGS)
-	  AC_SUBST(CLIENTGUILIBS) ;;
-esac
 
 dnl Here's another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])

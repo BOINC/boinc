@@ -36,6 +36,15 @@ static APP_INIT_DATA aid;
 extern pthread_t graphics_thread;	// thread info
 extern pthread_t worker_thread;
 
+enum 
+{ 
+  JUMP_NONE = 0,
+  JUMP_EXIT,
+  JUMP_ABORT,
+  JUMP_LAST
+}; // possible longjmp-values to signal from where we jumped:
+// 1= exit caught by atexit, 2 = signal caught by handler
+       
 
 void app_debug_msg (char *fmt, ...);
 
@@ -155,15 +164,19 @@ void KillWindow() {
 
 void set_mode(int mode) {
     if (mode == current_graphics_mode) return;
+
     app_debug_msg("set_mode(%d): current_mode = %d. Calling KillWindow(): win = %d\n", mode, current_graphics_mode, win);
     KillWindow();
     app_debug_msg("...KillWindow() survived.\n");
-    current_graphics_mode = mode;
+
     if (mode != MODE_HIDE_GRAPHICS) {
       app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode);
       make_new_window(mode);
       app_debug_msg("...make_new_window() survived.\n");
     }
+
+    current_graphics_mode = mode;
+
     return;
 } // set_mode()
 
@@ -231,10 +244,10 @@ void restart()
     {
       app_debug_msg ("exit() called from graphics-thread.\n");
 
-      // we're standalone, a glut-window was open: user must have pressed 'close', so we exit
-      if (boinc_is_standalone() && glut_is_initialized && win)
+      // if we are standalone and glut was initialized, we assume user pressed 'close', and we exit the app
+      if ( boinc_is_standalone() && glut_is_initialized )
 	{
-	  app_debug_msg("Open glut-window found... means we're exiting now.\n");
+	  app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
 	  if ( boinc_delete_file(LOCKFILE) != 0)
 	    perror ("Failed to remove lockfile..\n");
 	  return;
@@ -244,7 +257,7 @@ void restart()
       atexit(restart);
       // jump back to entry-point in xwin_graphics_event_loop();
       app_debug_msg( "Jumping back to event_loop.\n");
-      longjmp(jbuf, 1);
+      longjmp(jbuf, JUMP_EXIT);
     } // if in graphics-thread
 
   return;
@@ -262,7 +275,7 @@ void restart_sig(int signal_number)
       fprintf(stderr, "Caught SIGABRT in graphics thread\n");
       app_debug_msg ("Caught SIGABRT in graphics thread. Jumping back to xwin_graphics_event_loop()...\n");
       // jump back to entry-point in xwin_graphics_event_loop()
-      longjmp(jbuf, 1);
+      longjmp(jbuf, JUMP_ABORT);
     } // if ABRT raised in graphics-thread
   else 
     {
@@ -295,7 +308,7 @@ void restart_sig(int signal_number)
 // NOTE: this should only be called *ONCE* by an application
 void xwin_graphics_event_loop() 
 {
-  int restarted;
+  int restarted = 0;
 
   app_debug_msg ("Direct call to xwin_graphics_event_loop()\n");
 
@@ -317,54 +330,46 @@ void xwin_graphics_event_loop()
   // THIS IS THE re-entry point at exit or ABORT in the graphics-thread
   restarted = setjmp(jbuf);
 
-  if (restarted)
-    app_debug_msg("xwin_graphics_event_loop() restarted at re-entry point\n");
-  
+  // if we came here from an ABORT-signal thrown in this thread, we put this thread to sleep
+  if ( restarted == JUMP_ABORT )
+    while(1) 
+      sleep(1);
+
+  //----------------------------------------------------------------------
+  // running in standalone-mode:
   if ( boinc_is_standalone() )
     {
-      if (restarted && !win)   // now window was yet opened: just go to  sleep to avoid more trouble...
-	{
-	  app_debug_msg("Graphics exited before glut-window opened... continuing without graphics\n");
-	  while(1) sleep(1);
-	  return;	// should never arrive here
-	} // if restarted & no open windows
-
-      if ( !restarted ) // first time through here
+      if (restarted)
+	while(1) sleep(1);	// assuming glutInit() failed: put graphics-thread to sleep
+      else
 	{
 	  // open the graphics-window
 	  set_mode(MODE_WINDOW);
-	  glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
+	  glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
 	}
-    } // if standalone-mode
-  else // under BOINC: start with graphics hidden and wait for client to tell us otherwise
+    } // if boinc_is_standalone
+  //----------------------------------------------------------------------
+  // runing under BOINC-client:
+  else
     {
+      if ( !glut_is_initialized )
+	{
+	  set_mode(MODE_HIDE_GRAPHICS);
+	  while ( current_graphics_mode == MODE_HIDE_GRAPHICS )
+	    {
+	      app_debug_msg ("Graphics-thread now waiting for client-message...\n");
+	      wait_for_initial_message();
+	      app_debug_msg ("got a graphics-message from client... \n");
+	      timer_handler(0);
+	    } // while MODE_HIDE_GRAPHICS
+	} // glut_is_initialized = false
+      else
+	// here glut has been initialized previously
+	// probably the user pressed window-'close'
+	set_mode(MODE_HIDE_GRAPHICS);	// close any previously open windows
+    }// if running under BOINC
+  //----------------------------------------------------------------------
 
-      // Mac's GLUT is sufficiently "broken" that I simply don't see a way of restarting
-      // a GLUT-window after user exited once (e.g. using M-Q, or "Quit einstein" in menu).
-      // glut will segfault or similar at the attempt, so we rather don't try this in the first place.
-      // ==> If user exited glut-window once on mac, we put this thread to sleep
-      // (until somebody has a better idea / understanding of Mac's glut
-#ifdef __APPLE_CC__
-      if (restarted)
-	{
-	  app_debug_msg("Sorry. I don't know a way of restarting glut on the Mac. Putting graphics to sleep now.\n");
-	  while(1) sleep(1);
-	  return;
-	}
-#endif
-      // on Linux on the other hand, glut seems to be happily restartable after exit was caught,
-      // so we simply continue as if it was the first time...: i.e. wait for client-message, then do something.
-      app_debug_msg ("Switching graphics-mode to MODE_HIDE_GRAPHICS\n");
-      set_mode(MODE_HIDE_GRAPHICS);
-      while ( current_graphics_mode == MODE_HIDE_GRAPHICS )
-	{
-	  app_debug_msg ("Graphics-thread now waiting for client-message...\n");
-	  wait_for_initial_message();
-	  app_debug_msg ("got a graphics-message from client... \n");
-	  timer_handler(0);
-	}
-    } // ! boinc_is_standalone()
-  
   // ok we should be ready & initialized by now to call glutMainLoop()
   app_debug_msg ("now calling glutMainLoop()...\n");
   glutMainLoop();

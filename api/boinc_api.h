@@ -65,6 +65,7 @@ struct BOINC_STATUS {
 
 extern int boinc_init(void);
 extern int boinc_finish(int status);
+extern void boinc_exit (int status);
 extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_parse_init_data_file(void);
 extern int boinc_write_init_data_file(void);

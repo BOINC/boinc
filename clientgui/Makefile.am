@@ -46,7 +46,7 @@ EXTRA_DIST = BOINCBaseView.h  DlgAttachProject.h  ValidateAccountKey.h  ViewWork
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS) $(CLIENTGUILIBS)
+boinc_gui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS)
 
 all-local: client_gui-bin
 client_gui-bin: @CLIENT_GUI_BIN_FILENAME@

@@ -72,7 +72,6 @@ static double         time_until_fraction_done_update;
 static double         fraction_done;
 static double         last_checkpoint_cpu_time;
 static bool           ready_to_checkpoint = false;
-static bool           time_to_quit        = false;
 static double         last_wu_cpu_time;
 static bool           standalone          = false;
 static double         initial_wu_cpu_time;
@@ -138,7 +137,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
         if (retval) {
             fprintf(stderr, "Can't acquire lockfile - exiting\n");
-            boinc_finish(0);	// not un-recoverable ==> status=0
+            boinc_exit(0);	// not un-recoverable ==> status=0
         }
     }
 
@@ -162,7 +161,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             fprintf(stderr, "Core client has wrong major version: wanted %d, got %d\n",
                 BOINC_MAJOR_VERSION, aid.core_version/100
             );
-            boinc_finish(ERR_MAJOR_VERSION); // un-recoverable==> exit with nonzero status
+            boinc_exit(ERR_MAJOR_VERSION); // un-recoverable==> exit with nonzero status
         }
         retval = setup_shared_mem();
         if (retval) {
@@ -205,13 +204,9 @@ static void send_trickle_up_msg() {
 
 
 // NOTE: a non-zero status tells a running client that we're exiting with 
-// and "unrecoverable error", which will be reported back to server. 
-// Therefore, on "recoverable errors", use exit-status == 0 !
+// an "unrecoverable error", which will be reported back to server. 
+// A zero exit-status will tell the client we've successfully finished the result.
 int boinc_finish(int status) {
-
-    // remove the lockfile
-    if ( boinc_delete_file (LOCKFILE) != 0) 
-      perror ("boinc_finish(): failed to remove lockfile");
 
     if (options.send_status_msgs) {
         boinc_calling_thread_cpu_time(last_checkpoint_cpu_time);
@@ -235,27 +230,45 @@ int boinc_finish(int status) {
         boinc_write_init_data_file();
     }
 
+    // now remove lockfile+exit
+    boinc_exit(status);
+
+    return(0); // doh... we never get here
+} // boinc_finish()
+
+
+// exit a boinc-app 
+// this simply closes, then removes the app's lockfile and 
+// calls the appropriate exit-function
+#if  (!defined _WIN32) && (!defined HANDLE)
+typedef int HANDLE;
+#endif
+extern HANDLE app_lockfile_handle;
+
+void
+boinc_exit (int status)
+{
 #ifdef _WIN32
-    exit(status);
+  if ( !CloseHandle ( app_lockfile_handle ) )
+    perror ( "Failed to close the application-lockfile.");
 #else
-    // on Linux < 2.6, probably due to non-POSIX LinuxThreads, _Exit() fails to
-    // shut down the graphics-thread properly, while exit() does the job and does _NOT_ 
-    // seem to get tangled in exit-atexit loops... 
-#ifdef __linux__
-    exit(status);
-#else    
-    // on Mac (and supposedly other systems with POSIX-complian thread-implementations?), 
-    // calling exit() can lead to infinite exit-atexit loops, while _Exit() seems to behave nicely 
-    // This is not pretty but unless someone finds a cleaner solution, we handle the two cases
-    // separately based on these observations
-    _Exit(status);
+  if ( close ( app_lockfile_handle ) )
+    perror ( "Failed to close the application-lockfile " LOCKFILE);
 #endif
+  // remove the lockfile
+  if ( boinc_delete_file (LOCKFILE) != 0) 
+    perror ("boinc_finish(): failed to remove lockfile");
+
+  // on Mac, calling exit() can lead to infinite exit-atexit loops, while _exit() seems 
+  // to behave nicely. This is not pretty but unless someone finds a cleaner solution, 
+  // we handle the Mac-case separately .
+#ifdef __APPLE_CC__
+  _exit(status);
+#else
+  exit(status);
 #endif
 
-    fprintf(stderr, "..exit() or _Exit() returned... this is totally weird!!\n");
-    return 0;
-}
-
+} // boinc_exit()
 
 bool boinc_is_standalone() {
     return standalone;
@@ -427,7 +440,7 @@ static void handle_process_control_msg() {
                             break;
                         }
                         if (match_tag(buf, "<quit/>")) {
-			  boinc_finish(0); // NOTE: exit-status = 0 !
+			  boinc_exit(0); // NOTE: exit-status = 0 ==> recoverable exit!
                         }
                     }
                     boinc_sleep(1.0);
@@ -449,7 +462,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<quit/>")) {
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
-	      boinc_finish(0);	// NOTE: exit-status == 0!
+	      boinc_exit(0);	// NOTE: exit-status == 0!
             }
         }
     }
@@ -494,9 +507,9 @@ static void worker_timer(int a) {
                 now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
             );
             if (options.direct_process_action) {
-	      boinc_finish(0); // NOTE: exit-status == 0! (recoverable error)
+	      boinc_exit(0); // NOTE: exit-status == 0! (recoverable error)
             } else {
-                boinc_status.no_heartbeat = true;
+	      boinc_status.no_heartbeat = true;
             }
         }
     }
@@ -602,8 +615,8 @@ int boinc_time_to_checkpoint() {
 
     // If the application has received a quit request it should checkpoint
     //
-    if (time_to_quit || ready_to_checkpoint) {
-        return 1;
+    if (ready_to_checkpoint) {
+      return 1;
     }
 
     return 0;
@@ -618,12 +631,6 @@ int boinc_checkpoint_completed() {
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
 
-    // If it's time to quit, call boinc_finish which will exit the app properly
-    //
-    if (time_to_quit) {
-        fprintf(stderr, "Received quit request from core client\n");
-        boinc_finish(ERR_QUIT_REQUEST);
-    }
     return 0;
 }
 
