@@ -316,8 +316,8 @@ int boinc_resolve_link(char *file_name, char *resolved_name)
 bool _checkpoint = false;
 
 double get_cpu_time() {
-    int retval, pid = getpid();
 #ifdef HAVE_SYS_RESOURCE_H
+    int retval, pid = getpid();
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
     if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
