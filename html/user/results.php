@@ -5,6 +5,12 @@
     require_once("../inc/util.inc");
     require_once("../inc/result.inc");
 
+    if (true) {
+        page_head("Temporarily disabled");
+        page_tail();
+        exit();
+    }
+
     $results_per_page = 20;
 
     db_init();

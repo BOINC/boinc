@@ -317,14 +317,13 @@ int create_work(
         return retval;
     }
 
-    if (strlen(_result_template) > sizeof(wu.result_template)-1) {
-        fprintf(stderr, "result template is too big: %d bytes, max is %d\n",
-            strlen(_result_template), sizeof(wu.result_template)-1
+    if (strlen(result_template_filename) > sizeof(wu.result_template_file)-1) {
+        fprintf(stderr, "result template filename is too big: %d bytes, max is %d\n",
+            strlen(result_template_filename), sizeof(wu.result_template_file)-1
         );
         return ERR_BUFFER_OVERFLOW;
     }
-    safe_strncpy(wu.result_template, _result_template, sizeof(wu.result_template));
-    process_result_template_upload_url_only(wu.result_template, upload_url);
+    safe_strncpy(wu.result_template_file, result_template_filename, sizeof(wu.result_template_file));
 
     wu.transition_time = time(0);
     retval = wu.insert();

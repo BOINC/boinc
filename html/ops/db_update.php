@@ -68,6 +68,18 @@ function update_6_15_2004() {
     );
 }
 
+function update_7_02_2004() {
+    mysql_query(
+        "alter table workunit drop column result_template"
+    );
+    mysql_query(
+        "alter table workunit add column result_template_file varchar(63) not null"
+    );
+    mysql_query(
+        "update workunit set result_template_file='templates/foo.xml'"
+    );
+}
+
 update_6_15_2004();
 
 ?>

@@ -14478,3 +14478,36 @@ Daniel 2004-07-02
     client/
         cs_apps.C
 
+David  2 July 2004
+    - Changed the way result templates are stored with workunits.
+        Instead of storing them as blobs,
+        store a filename relative to project root dir.
+        This is to speed up DB.
+    - disable web command to update host credit
+    - turn off web commands to show results for host/user, and pending credit
+    - pruned command-line options from create_work.
+        You now have to run it in project root dir,
+        and it gets info from config file.
+
+    Project note: this will require either
+        1) dropping your workunit and result tables or
+        2) modifying your workunit table (see ops/db_update.php)
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        inc/
+            host.inc
+        ops/
+            db_update.php
+        user/
+            pending.php
+            results.php
+    sched/
+        feeder.C
+        transitioner.C
+    tools/
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C

@@ -4,6 +4,12 @@
 
     // show results with pending credit for this user
 
+    if (true) {
+        echo "This feature is turned off temporarily";
+        page_tail();
+        exit();
+    }
+
     db_init();
     $user = get_logged_in_user();
     page_head("Pending credit");

@@ -185,7 +185,7 @@ create table workunit (
     max_error_results   integer     not null,
     max_total_results   integer     not null,
     max_success_results integer     not null,
-    result_template     blob,
+    result_template_file varchar(63) not null,
     primary key (id)
 );
 

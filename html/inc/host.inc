@@ -110,7 +110,7 @@ function show_host($host, $private, $ipprivate) {
             $x = "";
         }
         row2("Click to", "<a href=host_edit_form.php?hostid=$host->id>merge this computer</a> $x");
-        row2("Click to", "<a href=host_update_credit.php?hostid=$host->id>recompute credit</a>");
+        //row2("Click to", "<a href=host_update_credit.php?hostid=$host->id>recompute credit</a>");
     }
     echo "</table>\n";
 

@@ -407,7 +407,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "workseq_next=%d, opaque=%f, "
         "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
         "max_total_results=%d, max_success_results=%d, "
-        "result_template='%s'",
+        "result_template_file='%s'",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -421,7 +421,7 @@ void DB_WORKUNIT::db_print(char* buf){
         max_error_results,
         max_total_results,
         max_success_results,
-        result_template
+        result_template_file
     );
 }
 
@@ -453,7 +453,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     max_error_results = atoi(r[i++]);
     max_total_results = atoi(r[i++]);
     max_success_results = atoi(r[i++]);
-    strcpy2(result_template, r[i++]);
+    strcpy2(result_template_file, r[i++]);
 }
 
 void DB_RESULT::db_print(char* buf){

@@ -17,16 +17,17 @@
 // Contributor(s):
 //
 
+// Create a workunit.
+// Input files must be in the download dir.
+// See the docs for a description of WU and result template files
+// This program must be run in the project's root directory
+//
 // create_work
 //  -appname name
 //  -wu_name name
-//  -wu_template filename
-//  -result_template filename
+//  -wu_template filename       relative to project root; usually in templates/
+//  -result_template filename   relative to project root; usually in templates/
 //            the following are read from config.xml if available
-//  [ -db_name x ]
-//  [ -db_passwd x ]
-//  [ -db_user x]
-//  [ -db_host x]
 //  [ -upload_url x ]
 //  [ -download_url x ]
 //  [ -download_dir x ]
@@ -43,10 +44,6 @@
 //  [ -max_total_results x ]
 //  [ -max_success_results x ]
 //  infile1 infile2 ...
-//
-// Create a workunit.
-// Input files must be in the download dir.
-// See the docs for a description of WU and result template files
 //
 
 #include <stdio.h>
@@ -95,7 +92,8 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file();
     if (retval) {
-        printf("Create_work: No configuration file found; using cmdline values\n");
+        fprintf(stderr, "Can't parse config file\n");
+        exit(1);
     } else {
         strcpy(db_name, config.db_name);
         strcpy(db_passwd, config.db_passwd);
@@ -110,20 +108,6 @@ int main(int argc, char** argv) {
     while (i < argc) {
         if (!strcmp(argv[i], "-appname")) {
             strcpy(app.name, argv[++i]);
-        } else if (!strcmp(argv[i], "-db_name")) {
-            strcpy(db_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-db_passwd")) {
-            strcpy(db_passwd, argv[++i]);
-        } else if (!strcmp(argv[i], "-db_user")) {
-            strcpy(db_user, argv[++i]);
-        } else if (!strcmp(argv[i], "-db_host")) {
-            strcpy(db_host, argv[++i]);
-        } else if (!strcmp(argv[i], "-upload_url")) {
-            strcpy(upload_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-download_url")) {
-            strcpy(download_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-download_dir")) {
-            strcpy(download_dir, argv[++i]);
         } else if (!strcmp(argv[i], "-wu_name")) {
             strcpy(wu.name, argv[++i]);
         } else if (!strcmp(argv[i], "-wu_template")) {
@@ -138,8 +122,6 @@ int main(int argc, char** argv) {
             wu.rsc_memory_bound = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_disk_bound")) {
             wu.rsc_disk_bound = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-keyfile")) {
-            strcpy(keyfile, argv[++i]);
         } else if (!strcmp(argv[i], "-delay_bound")) {
             wu.delay_bound = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-min_quorum")) {
@@ -185,7 +167,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    //fprintf(stderr, "wu_template = %s\n", wu_template);
     retval = read_filename(wu_template_file, wu_template, sizeof(wu_template));
     if (retval) {
         fprintf(stderr, "create_work: can't open WU template: %d\n", retval);

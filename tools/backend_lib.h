@@ -33,11 +33,6 @@ extern int process_result_template(
     char* upload_url
 );
 
-extern int process_result_template_upload_url_only(
-    char* result_template,
-    const char* upload_url
-);
-
 extern int read_file(FILE*, char* buf);
 extern int read_filename(const char* path, char* buf, int len);
 

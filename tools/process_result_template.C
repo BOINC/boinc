@@ -150,26 +150,3 @@ int process_result_template(
     }
     return add_signatures(result_template, key);
 }
-
-// macro-substitute a result template only for UPLOAD_URL_MACRO
-// This is called (from create_work()) when a WU is being created
-//
-int process_result_template_upload_url_only(
-    char* result_template,
-    const char* upload_url
-) {
-    char *p;
-    char temp[LARGE_BLOB_SIZE];
-
-    while (1) {
-        p = strstr(result_template, UPLOAD_URL_MACRO);
-        if (p) {
-            strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
-            strcpy(p, upload_url);
-            strcat(p, temp);
-            continue;
-        }
-        break;
-    }
-    return 0;
-}

@@ -296,7 +296,7 @@ void feeder_loop() {
     bool no_wus;
     char clause[256];
 
-    sprintf(clause, "where server_state=%d limit 100",
+    sprintf(clause, "where server_state=%d order by random limit 1000",
         RESULT_SERVER_STATE_UNSENT
     );
 
