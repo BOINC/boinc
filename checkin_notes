@@ -24707,3 +24707,13 @@ David  13 Feb 2005
         sched_config.C,h
         sched_send.C
         server_types.C,h
+
+David  13 Feb 2005
+    - Core client: require that all app_version files be signed
+    - update_versions: put signatures on all app_version files
+
+    client/
+        client_state.C
+        cs_files.C
+    py/Boinc/
+        tools.py

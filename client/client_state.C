@@ -608,11 +608,9 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             return ERR_NOT_FOUND;
         }
 
-        // any executable file associated with an app version must be signed
+        // any file associated with an app version must be signed
         //
-        if (fip->executable) {
-            fip->signature_required = true;
-        }
+        fip->signature_required = true;
         file_ref.file_info = fip;
     }
     return 0;

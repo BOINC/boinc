@@ -92,7 +92,8 @@ int FILE_INFO::verify_downloaded_file() {
     get_pathname(this, pathname);
     if (signature_required) {
         if (!file_signature) {
-            msg_printf(project, MSG_ERROR, "file %s missing signature", name);
+            msg_printf(project, MSG_ERROR, "Application file %s missing signature", name);
+            msg_printf(project, MSG_ERROR, "This BOINC client cannot accept unsigned application files");
             error_msg = "missing signature";
             return ERR_NO_SIGNATURE;
         }

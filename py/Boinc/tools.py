@@ -142,7 +142,7 @@ def process_app_version(
 
     signature_files is a dictionary of exec_file -> signature file mappings.
                     process_app_version() will generate a new signature for
-                    any exec_files that don't have one given already.
+                    any files that don't have one given already.
 
                     NOTE: using the feature of generating signature files on
                     the same machine (requiring having the private key stored
@@ -170,13 +170,12 @@ def process_app_version(
         xml_doc += process_app_file(exec_file, signature_text, quiet=quiet)
 
     for non_exec_file in non_exec_files:
-        # default: use MD5 sum instead of RSA signature
         signature_file = signature_files.get(non_exec_file)
         if signature_file:
             if not quiet: print 'Using signature file', signature_file
             signature_text = open(signature_file).read()
         else:
-            signature_text = None
+            signature_text = sign_executable(non_exec_file, quiet=quiet)
         xml_doc += process_app_file(
             non_exec_file, signature_text=signature_text,
             executable=False, quiet=quiet)
