@@ -17,7 +17,7 @@ if ENABLE_CLIENT
 endif
 
 if BUILD_CLIENTGUI
-   CLIENTGUI_SUBDIRS = clientgui
+   CLIENTGUI_SUBDIRS = clientgui sea
 endif
 
 # ORDER MATTERS below.  One must build dependencies FIRST, then things

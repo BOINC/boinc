@@ -22075,3 +22075,18 @@ David  3 Jan 2005
         reduce.C (removed)
         reduce_lib.C (new)
         reduce_main.C (new)
+
+Bruce 5 Jan 2005
+    - added new directory which builds a self-extracting tar
+      archive (executable shell script) for installation on
+      unix platforms.  This will only be made when building
+      the client GUI and installs both the boinc client and
+      client GUI.  Written and tested by Bernd Machenschalk.
+
+     Makefile.am
+     sea/  [New Directory]
+         make-sea.sh
+         Makefile
+         BOINC/
+             binstall.sh
+      
