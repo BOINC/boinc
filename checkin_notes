@@ -9645,8 +9645,11 @@ David  Feb 2 2004
 		e.g. user name, team name
 	- added functions xml_escape() and xml_unescape()
 		(very simple versions; just escape < and &)
+    - parse_str() does unescape
 
 	client/
 		client_types.C
 	lib/
 		parse.C,h
+    sched/
+        server_types.C

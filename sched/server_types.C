@@ -173,6 +173,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
+    string u1, u2, t1, t2;
 
     fprintf(fout,
         "<scheduler_reply>\n"
@@ -195,6 +196,8 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         gproject.long_name
     );
 
+    u1 = user.name;
+    xml_escape(u1, u2);
     fprintf(fout,
         "<user_name>%s</user_name>\n"
         "<user_total_credit>%f</user_total_credit>\n"
@@ -203,7 +206,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<host_venue>%s</host_venue>\n",
-        user.name,
+        u2.c_str(),
         user.total_credit,
         user.expavg_credit,
         user.create_time,
@@ -215,9 +218,11 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     // might want to send team credit too.
     //
     if (team.id) {
+        t1 = team.name;
+        xml_escape(t1, t2);
         fprintf(fout,
             "<team_name>%s</team_name>\n",
-            team.name
+            t2.c_str()
         );
     }
 

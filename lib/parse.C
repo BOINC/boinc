@@ -70,36 +70,29 @@ bool parse_double(const char* buf, const char* tag, double& x) {
 
 // parse a string of the form ...<tag attrs>string</tag>...;
 // returns the "string" part.
+// Does XML unescaping (replace &lt; with <)
 // "string" may not include '<'
 // Strips white space from ends.
 // Use "<tag", not "<tag>", if there might be attributes
 //
-bool parse_str(const char* buf, const char* tag, char* dest, int len) {
-    char* p = strstr(buf, tag);
-    if (!p) return false;
-    p = strchr(p, '>');
-    ++p;
-    char* q = strchr(p, '<');
-    if (!q) return false;
-    char save_q = *q;
-    *q = 0;
-    safe_strncpy(dest, p, len);
-    *q = save_q;
-    strip_whitespace(dest);
-    return true;
-}
-
-// parse a string of the form <tag>string</tag>
-//
 bool parse_str(const char* buf, const char* tag, string& dest) {
+    string str;
     char const* p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
     ++p;
     char const* q = strchr(p, '<');
     if (!q) return false;
-    dest.assign(p, q-p);
-    strip_whitespace(dest);
+    str.assign(p, q-p);
+    strip_whitespace(str);
+    xml_unescape(str, dest);
+    return true;
+}
+
+bool parse_str(const char* buf, const char* tag, char* dest, int len) {
+    string str;
+    if (!parse_str(buf, tag, str)) return false;
+    safe_strncpy(dest, str.c_str(), len);
     return true;
 }
 
@@ -294,3 +287,4 @@ void xml_unescape(string& in, string& out) {
 		 }
 	 }
 }
+
