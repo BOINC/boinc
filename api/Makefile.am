@@ -22,6 +22,7 @@ graphics_lib_files =    \
 graphics_impl_files =   \
 	graphics_data.C 	\
     graphics_impl.C     \
+    graphics_impl_lib.C \
 	gutil.C	            \
 	reduce.C			\
 	x_opengl.C

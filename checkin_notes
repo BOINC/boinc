@@ -21306,3 +21306,14 @@ Reinhard Prix 2004-12-15
       re-configuration will find the proper macro-definitions in m4.
 
     Makefile.am
+
+David  14 Dec 2004
+    - Moved boinc_get_init_data() from graphics_impl.C
+        to a new file, graphics_impl_lib.C
+        (included in libboinc_graphics_impl.a, but not in libboinc_graphics.a)
+        to resolve a duplicate-name problem
+
+    api/
+        Makefile.am
+        graphics_impl.C
+        graphics_impl_lib.C (new)
