@@ -24760,3 +24760,12 @@ David  14 Feb 2005
         app_ipc.C,h
         boinc_cmd.C
         gui_rpc_client.C,h
+
+Rom    14 Feb 2005
+    - Use the display information passed from the BOINC Manager and
+        screensaver.
+
+    client/
+        app_graphics.C
+        gui_rpc_server.C
+

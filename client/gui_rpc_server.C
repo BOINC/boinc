@@ -124,6 +124,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
     parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
+	parse_str(buf, "<display>", gm.display, sizeof(gm.display));
 
     if (parse_str(buf, "<result_name>", result_name)) {
         PROJECT* p = get_project(buf, fout);
@@ -424,6 +425,7 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     parse_double(buf, "<blank_time>", blank_time);
     parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
+	parse_str(buf, "<display>", gm.display, sizeof(gm.display));
     if (match_tag(buf, "<enabled")) {
         gstate.ss_logic.start_ss(gm, blank_time );
     } else {

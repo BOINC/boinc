@@ -38,7 +38,7 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 
     if (!app_client_shm.shm) return;
 
-    graphics_msg = m;       // save graphics_station, desktop
+    graphics_msg = m;       // save graphics_station, desktop, display
 
     strcpy(buf, xml_graphics_modes[m.mode]);
     if (strlen(m.window_station)) {
@@ -47,6 +47,10 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
     }
     if (strlen(m.desktop)) {
         sprintf(buf2, "<desktop>%s</desktop>", m.desktop);
+        strcat(buf, buf2);
+    }
+	if (strlen(m.display)) {
+		sprintf(buf2, "<display>%s</display>", m.display);
         strcat(buf, buf2);
     }
 
