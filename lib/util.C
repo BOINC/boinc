@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 
 #ifdef _WIN32
 #include <time.h>
@@ -117,3 +118,32 @@ void boinc_sleep(int seconds) {
     sleep(seconds);
 #endif
 }
+
+// take a string containing some space separated words.
+// return an array of pointers to the null-terminated words.
+// Modifies the string arg.
+// Returns argc
+// TODO: use strtok here
+int parse_command_line(char* p, char** argv) {
+    char** pp = argv;
+    bool space = true;
+    int argc=0;
+
+    while (*p) {
+        if (isspace(*p)) {
+            *p = 0;
+            space = true;
+        } else {
+            if (space) {
+                *pp++ = p;
+		argc++;
+                space = false;
+            }
+        }
+        p++;
+    }
+    *pp++ = 0;
+
+    return argc;
+}
+

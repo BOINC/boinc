@@ -70,31 +70,6 @@
 #include "boinc_api.h"
 #include "graphics_api.h"
 
-// take a string containing some space separated words.
-// return an array of pointers to the null-terminated words.
-// Modifies the string arg.
-// TODO: use strtok here
-int parse_command_line(char* p, char** argv) {
-    char** pp = argv;
-    bool space = true;
-
-    while (*p) {
-        if (isspace(*p)) {
-            *p = 0;
-            space = true;
-        } else {
-            if (space) {
-                *pp++ = p;
-                space = false;
-            }
-        }
-        p++;
-    }
-    *pp++ = 0;
-
-    return 0;
-}
-
 // Goes through an array of strings, and prints each string
 //
 static int print_argv(char** argv) {

@@ -22,6 +22,7 @@
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern double dtime();
 extern void boinc_sleep( int seconds );
+extern int parse_command_line( char *, char ** );
 
 #ifndef max
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
