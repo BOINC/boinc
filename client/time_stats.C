@@ -32,7 +32,7 @@
 // The last 30 days have a weight of 1/e;
 // everything before that has a weight of (1-1/e)
 
-#define ALPHA (SECONDS_PER_DAY*30)
+const float ALPHA = (SECONDS_PER_DAY*30);
 
 TIME_STATS::TIME_STATS() {
     last_update = 0;
