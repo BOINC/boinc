@@ -136,6 +136,9 @@ void NetSetState( ENetState state )
 
 /*
  * $Log$
+ * Revision 1.1  2002/06/21 00:29:08  eheien
+ * Fixed windows bug and changed file names to avoid compile error on UNIX.
+ *
  * Revision 1.1  2002/06/21 00:13:48  eheien
  * Windows networking support.
  *

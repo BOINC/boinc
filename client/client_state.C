@@ -221,7 +221,7 @@ int CLIENT_STATE::make_slot_dirs() {
 
 int CLIENT_STATE::write_state_file() {
     unsigned int i, j;
-    FILE* f = fopen(STATE_FILE_TEMP, "w");
+    FILE* f = fopen(STATE_FILE_TEMP, "wb");
     int retval;
 
     if (log_flags.state_debug) {
