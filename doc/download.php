@@ -32,6 +32,12 @@ function version_end($xml) {
     list_end();
 }
 
+function show_463($xml=false) {
+    version_start("4.63", "1 Feb 2005", $xml);
+    version("Windows", "boinc_4.63_windows_intelx86.exe", $xml);
+    version_end($xml);
+}
+
 function show_462($xml=false) {
     version_start("4.62", "24 Jan 2005", $xml);
     version("Windows", "boinc_4.62_windows_intelx86.exe", $xml);
@@ -140,8 +146,8 @@ if ($_GET["xml"]) {
     ";
     echo "<stable_version>4.19</stable_version>\n";
     show_419(true);
-    echo "<development_version>4.62</development_version>\n";
-    show_462(true);
+    echo "<development_version>4.63</development_version>\n";
+    show_463(true);
     echo "</core_versions>\n";
     exit();
 }
@@ -190,7 +196,7 @@ if ($_GET["dev"]) {
     echo "
         <h2>Development versions (latest features, possibly buggy)</h2>
     ";
-    show_462();
+    show_463();
 }
 
 
