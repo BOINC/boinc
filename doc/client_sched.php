@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC application programming interface (API)");
+page_head("Result scheduling");
 echo "
 <h2>Goals and motivation</h2>
 
