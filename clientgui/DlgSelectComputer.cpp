@@ -121,7 +121,7 @@ void CDlgSelectComputer::CreateControls()
 
     wxString* m_ComputerNameCtrlStrings = NULL;
     m_ComputerNameCtrl = new wxComboBox;
-    m_ComputerNameCtrl->Create( itemDialog1, ID_SELECTCOMPUTERNAME, _T(""), wxDefaultPosition, wxSize(250, -1), 0, m_ComputerNameCtrlStrings, wxCB_DROPDOWN|wxCB_SORT );
+    m_ComputerNameCtrl->Create( itemDialog1, ID_SELECTCOMPUTERNAME, _T(""), wxDefaultPosition, wxSize(250, -1), 0, m_ComputerNameCtrlStrings, wxCB_DROPDOWN );
     itemFlexGridSizer5->Add(m_ComputerNameCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText8 = new wxStaticText;

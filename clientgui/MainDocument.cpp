@@ -45,6 +45,7 @@ CMainDocument::CMainDocument()
 
     m_bIsConnected = false;
     m_strConnectedComputerName = wxEmptyString;
+    m_strConnectedComputerPassword = wxEmptyString;
 
     m_iCachedActivityRunMode = 0;
     m_iCachedNetworkRunMode = 0;
@@ -78,6 +79,7 @@ CMainDocument::~CMainDocument()
     m_iCachedActivityRunMode = 0;
     m_iCachedNetworkRunMode = 0;
 
+    m_strConnectedComputerPassword = wxEmptyString;
     m_strConnectedComputerName = wxEmptyString;
     m_bIsConnected = false;
 
@@ -90,7 +92,6 @@ CMainDocument::~CMainDocument()
 wxInt32 CMainDocument::CachedStateUpdate()
 {
     wxInt32     retval = 0;
-    wxString    strEmpty = wxEmptyString;
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
     if (!m_bCachedStateLocked && (ts.GetSeconds() > 3600))
@@ -102,7 +103,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if (retval)
         {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
-            Connect( strEmpty );
+            Connect( wxEmptyString );
         }
 
         wxLogStatus( _("Retrieving host information; please wait...") );
@@ -111,7 +112,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if (retval)
         {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
-            Connect( strEmpty );
+            Connect( wxEmptyString );
         }
 
         wxLogStatus( wxEmptyString );
@@ -132,13 +133,12 @@ wxInt32 CMainDocument::ForceCacheUpdate()
 wxInt32 CMainDocument::OnInit()
 {
     wxInt32 iRetVal = -1;
-    wxString strMachine = wxEmptyString;
 
     // attempt to lookup account management information
     acct_mgr.init();
 
     if ( !IsConnected() )
-        iRetVal = Connect( strMachine );
+        iRetVal = Connect( wxEmptyString );
 
     return iRetVal;
 }
@@ -167,10 +167,11 @@ wxInt32 CMainDocument::OnRefreshState()
 }
 
 
-wxInt32 CMainDocument::Connect( wxString& strMachine,  bool bDisconnect )
+wxInt32 CMainDocument::Connect( const wxChar* szComputer, const wxChar* szComputerPassword, bool bDisconnect )
 {
     wxInt32 iRetVal = -1;
-    std::string str;
+    std::string strComputer;
+    std::string strComputerPassword;
 
     if ( IsConnected() && bDisconnect )
         Disconnect();
@@ -178,25 +179,54 @@ wxInt32 CMainDocument::Connect( wxString& strMachine,  bool bDisconnect )
     if ( IsConnected() )
         return BOINC_SUCCESS;
 
-    str.clear();
-
-    if ( strMachine.empty() && !m_strConnectedComputerName.empty() )
-        str = m_strConnectedComputerName.c_str();
+    if ( strComputer.empty() && !m_strConnectedComputerName.empty() )
+        if (szComputer)
+            strComputer = szComputer;
+        else
+            strComputer = m_strConnectedComputerName.c_str();
     else
-        str = strMachine.c_str();
+    {
+        if (szComputer)
+            strComputer = szComputer;
+    }
 
-    if ( str.empty() )
+    if ( strComputerPassword.empty() && !m_strConnectedComputerPassword.empty() )
+        if (szComputerPassword)
+            strComputerPassword = szComputerPassword;
+        else
+            strComputerPassword = m_strConnectedComputerPassword.c_str();
+    else
+    {
+        if (szComputerPassword)
+            strComputerPassword = szComputerPassword;
+    }
+
+    if ( strComputer.empty() )
         iRetVal = rpc.init( NULL );
     else
-        iRetVal = rpc.init( str.c_str() );
+        iRetVal = rpc.init( strComputer.c_str() );
+
+    if (iRetVal)
+    {
+        wxLogTrace("CMainDocument::Connect - RPC Initialization Failed '%d'", iRetVal);
+        return iRetVal;
+    }
+
+    if ( !strComputerPassword.empty() )
+        iRetVal = rpc.authorize( strComputerPassword.c_str() );
+
+    if (iRetVal)
+    {
+        wxLogTrace("CMainDocument::Connect - RPC Authorization Failed '%d'", iRetVal);
+        return iRetVal;
+    }
 
     if ( 0 == iRetVal )
     {
         m_bIsConnected = true;
-        m_strConnectedComputerName = strMachine;
+        m_strConnectedComputerName = strComputer.c_str();
+        m_strConnectedComputerPassword = strComputerPassword.c_str();
     }
-    else
-        wxLogTrace("CMainDocument::Connect - RPC Initialization Failed '%d'", iRetVal);
 
     return iRetVal;
 }
@@ -404,14 +434,13 @@ wxInt32 CMainDocument::CoreClientQuit()
 wxInt32 CMainDocument::CachedProjectStatusUpdate()
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
     wxInt32 i = 0;
 
     iRetVal = rpc.get_project_status(project_status);
     if (iRetVal)
     {
         wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
-        Connect( strEmpty );
+        Connect( wxEmptyString );
     }
 
     m_fProjectTotalResourceShare = 0.0;
@@ -894,13 +923,12 @@ wxInt32 CMainDocument::ProjectResume( wxInt32 iIndex )
 wxInt32 CMainDocument::CachedResultsStatusUpdate()
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     iRetVal = rpc.get_results(results);
     if (iRetVal)
     {
         wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
-        Connect( strEmpty );
+        Connect( wxEmptyString );
     }
 
     return iRetVal;
@@ -1502,13 +1530,12 @@ wxInt32 CMainDocument::WorkAbort( wxInt32 iIndex )
 wxInt32 CMainDocument::CachedMessageUpdate()
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     iRetVal = rpc.get_messages( m_iMessageSequenceNumber, messages );
     if (iRetVal)
     {
         wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
-        Connect( strEmpty );
+        Connect( wxEmptyString );
     }
 
     if ( messages.messages.size() != 0 )
@@ -1914,13 +1941,12 @@ wxInt32 CMainDocument::TransferAbort( wxInt32 iIndex )
 wxInt32 CMainDocument::CachedResourceStatusUpdate()
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     iRetVal = rpc.get_disk_usage(resource_status);
     if (iRetVal)
     {
         wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
-        Connect( strEmpty );
+        Connect( wxEmptyString );
     }
 
     return iRetVal;
@@ -2087,7 +2113,6 @@ wxInt32 CMainDocument::GetProxySOCKSPassword( wxString& strPassword )
 wxInt32 CMainDocument::SetProxyConfiguration()
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     if ( !proxy_info.http_user_name.empty() || !proxy_info.http_user_passwd.empty() )
         proxy_info.use_http_authentication = true;
@@ -2100,7 +2125,7 @@ wxInt32 CMainDocument::SetProxyConfiguration()
     if (iRetVal)
     {
         wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", iRetVal);
-        Connect( strEmpty );
+        Connect( wxEmptyString );
     }
 
     return iRetVal;
@@ -2197,7 +2222,6 @@ wxInt32 CMainDocument::InitializeAccountManagerLogin( const wxString& strLogin, 
 wxInt32 CMainDocument::UpdateAccountManagerAccounts()
 {
     wxInt32     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     iRetVal = rpc.acct_mgr_rpc( 
         acct_mgr.acct_mgr.url.c_str(),
@@ -2207,7 +2231,7 @@ wxInt32 CMainDocument::UpdateAccountManagerAccounts()
     if (iRetVal)
     {
         wxLogTrace("CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
-        Connect( strEmpty );
+        Connect( wxEmptyString );
     }
 
     return iRetVal;

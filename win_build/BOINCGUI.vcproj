@@ -205,6 +205,9 @@
 				RelativePath="..\clientgui\DlgOptions.cpp">
 			</File>
 			<File
+				RelativePath="..\clientgui\DlgSelectComputer.cpp">
+			</File>
+			<File
 				RelativePath="..\lib\filesys.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -457,6 +460,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgOptions.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgSelectComputer.h">
 			</File>
 			<File
 				RelativePath="..\lib\error_numbers.h">

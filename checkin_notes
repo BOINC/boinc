@@ -26335,3 +26335,15 @@ David  29 Mar 2005
     sched/
         assimilator.C
         transitioner.C
+
+Rom    29 Mar 2005
+    - Implement GUI RPC authentication in the manager
+    - Implement a Select Computer MRU list so you only have to type
+        the remote computer name once.
+
+    clientgui/
+        DlgSelectComputer.cpp
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+    lib/
+        gui_rpc_client.C, .h

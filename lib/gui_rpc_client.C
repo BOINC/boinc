@@ -984,7 +984,7 @@ int RPC_CLIENT::init(const char* host) {
     return 0;
 }
 
-int RPC_CLIENT::authorize(char* passwd) {
+int RPC_CLIENT::authorize(const char* passwd) {
     bool found=false;
     int retval;
     char buf[256], nonce[256], nonce_hash[256];

@@ -34,6 +34,7 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgAccountManager.h"
+#include "DlgSelectComputer.h"
 
 #include "res/BOINCGUIApp.xpm"
 #include "res/connect.xpm"
@@ -179,6 +180,8 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_iSelectedLanguage = 0;
 
     m_strBaseTitle = strTitle;
+
+    m_aSelectedComputerMRU.Clear();
 
 
     SetIcon(wxICON(APP_ICON));
@@ -517,8 +520,9 @@ bool CMainFrame::SaveState()
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation = wxEmptyString;
     wxString        strPreviousLocation = wxEmptyString;
-    wxInt32         iIndex = 0;
-    wxInt32         iPageCount = 0;
+    wxString        strBuffer = wxEmptyString;
+    long            iIndex = 0;
+    long            iItemCount = 0;
 
 
     wxASSERT(NULL != pConfig);
@@ -553,9 +557,9 @@ bool CMainFrame::SaveState()
     //
  
     // Convert to a zero based index
-    iPageCount = m_pNotebook->GetPageCount() - 1;
+    iItemCount = m_pNotebook->GetPageCount() - 1;
 
-    for ( iIndex = 0; iIndex <= iPageCount; iIndex++ )
+    for ( iIndex = 0; iIndex <= iItemCount; iIndex++ )
     {   
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
@@ -570,6 +574,28 @@ bool CMainFrame::SaveState()
         pView->FireOnSaveState( pConfig );
         pConfig->SetPath(strPreviousLocation);
     }
+
+
+    //
+    // Save Computer MRU list
+    //
+    strPreviousLocation = pConfig->GetPath();
+    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
+
+    pConfig->SetPath(strConfigLocation);
+
+    iItemCount = m_aSelectedComputerMRU.GetCount() - 1;
+    for ( iIndex = 0; iIndex <= iItemCount; iIndex++ )
+    {
+        strBuffer.Printf(wxT("%d"), iIndex);
+        pConfig->Write(
+            strBuffer,
+            m_aSelectedComputerMRU.Item(iIndex)
+        );
+    }
+
+    pConfig->SetPath(strPreviousLocation);
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::SaveState - Function End"));
     return true;
@@ -586,18 +612,21 @@ bool CMainFrame::RestoreState()
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation = wxEmptyString;
     wxString        strPreviousLocation = wxEmptyString;
-    wxInt32         iIndex = 0;
-    wxInt32         iPageCount = 0;
+    wxString        strBuffer = wxEmptyString;
+    wxString        strValue = wxEmptyString;
+    long            iIndex = 0;
+    long            iPageCount = 0;
+    bool            bKeepEnumerating = false;
     bool            bWindowIconized = false;
 #if defined(__WXMSW__) || defined(__WXMAC__)
     bool            bWindowMaximized = false;
 #endif
 #ifdef __WXMAC__
-    wxInt32         iTop = 0;
-    wxInt32         iLeft = 0;
+    long            iTop = 0;
+    long            iLeft = 0;
 #endif
-    wxInt32         iHeight = 0;
-    wxInt32         iWidth = 0;
+    long            iHeight = 0;
+    long            iWidth = 0;
 
 
     wxASSERT(NULL != pConfig);
@@ -670,6 +699,28 @@ bool CMainFrame::RestoreState()
         pConfig->SetPath(strPreviousLocation);
 
     }
+
+
+    //
+    // Restore Computer MRU list
+    //
+    strPreviousLocation = pConfig->GetPath();
+    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
+
+    pConfig->SetPath(strConfigLocation);
+
+    m_aSelectedComputerMRU.Clear();
+    bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
+    while ( bKeepEnumerating )
+    {
+        pConfig->Read(strBuffer, &strValue);
+
+        m_aSelectedComputerMRU.Add(strValue);
+        bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
+    }
+
+    pConfig->SetPath(strPreviousLocation);
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::RestoreState - Function End"));
     return true;
@@ -764,25 +815,57 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSelectComputer - Function Begin"));
 
-    wxInt32        iRetVal = -1;
-    wxString       strMachine = wxEmptyString;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CDlgSelectComputer* pDlg = new CDlgSelectComputer(this);
+    long                lAnswer = 0;
+    size_t              lIndex = -1;
+    long                lRetVal = -1;
+    wxArrayString       aComputerNames;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pDlg);
 
-    strMachine = ::wxGetTextFromUser(
-        _("Which computer do you wish to connect to?"),
-        _("Select computer...")
-    );
 
-    iRetVal = pDoc->Connect( strMachine );
-    if ( !(0 == iRetVal) )
-        ::wxMessageBox(
-            _("Failed to connect to the requested computer, please check the name of the computer and try again."),
-            _("Failed to connect..."),
-            wxICON_ERROR
-        );
+    // Lets copy the template store in the system state
+    aComputerNames = m_aSelectedComputerMRU;
+
+    // Lets populate the combo control with the MRU list
+    pDlg->m_ComputerNameCtrl->Clear();
+    for ( lIndex = 0; lIndex < aComputerNames.Count(); lIndex++ )
+    {
+        pDlg->m_ComputerNameCtrl->Append(aComputerNames.Item( lIndex ));
+    }
+
+    lAnswer = pDlg->ShowModal();
+    if ( wxID_OK == lAnswer )
+    {
+        lRetVal = pDoc->Connect( pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue() );
+        if ( !(0 == lRetVal) )
+            ::wxMessageBox(
+                _("Failed to connect to the requested computer, please check the name of the computer and try again."),
+                _("Failed to connect..."),
+                wxICON_ERROR
+            );
+
+        // Insert a copy of the current combo box value to the head of the
+        //   computer names string array
+        aComputerNames.Insert( pDlg->m_ComputerNameCtrl->GetValue(), 0 );
+
+        // Loops through the computer names and remove any duplicates that
+        //   might exist with the new head value
+        for ( lIndex = 1; lIndex < aComputerNames.Count(); lIndex++ )
+        {
+            if ( aComputerNames.Item( lIndex ) == aComputerNames.Item( 0 ) )
+                aComputerNames.Remove( lIndex );
+        }
+
+        // Store the modified computer name MRU list back to the system state
+        m_aSelectedComputerMRU = aComputerNames;
+    }
+
+    if (pDlg)
+        pDlg->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSelectComputer - Function End"));
 }

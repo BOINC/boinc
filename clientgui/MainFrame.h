@@ -89,6 +89,7 @@ private:
     wxString        m_strBaseTitle;
 
     wxInt32         m_iSelectedLanguage;
+    wxArrayString   m_aSelectedComputerMRU;
 
 
     bool            CreateMenu();

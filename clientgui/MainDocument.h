@@ -75,6 +75,7 @@ private:
 
     bool                        m_bIsConnected;
     wxString                    m_strConnectedComputerName;
+    wxString                    m_strConnectedComputerPassword;
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
@@ -93,7 +94,7 @@ public:
     wxInt32                     OnExit();
     wxInt32                     OnRefreshState();
 
-    wxInt32                     Connect( wxString& strMachine, bool bDisconnect = TRUE );
+    wxInt32                     Connect( const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = TRUE );
     wxInt32                     Disconnect();
     wxInt32                     GetConnectedComputerName( wxString& strMachine );
     bool                        IsConnected();

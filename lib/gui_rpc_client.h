@@ -378,7 +378,7 @@ public:
     ~RPC_CLIENT();
     int init(const char* host);
     void close();
-    int authorize(char* passwd);
+    int authorize(const char* passwd);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
