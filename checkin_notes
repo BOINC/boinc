@@ -9850,3 +9850,10 @@ David  Feb 5 2004
         http.C,h
         net_xfer.C,h
         pers_file_xfer.C
+
+David  Feb 5 2004
+	- skip over <file_xfer> elements while parsing <file_info>
+		(they're there for the benefit of GUI RPC)
+
+	client/
+		client_types.C

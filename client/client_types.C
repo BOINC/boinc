@@ -550,6 +550,11 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
                 sizeof(signed_xml)
             );
             continue;
+   	    } else if (match_tag(buf, "<file_xfer>")) {
+   	    	while (fgets(buf, 256, in)) {
+   	    		if (match_tag(buf, "</file_xfer>")) break;
+   	   	    }
+   	   	    break;
         } else if (match_tag(buf, "<error_msg>")) {
             copy_element_contents(in, "</error_msg>", buf2, sizeof(buf2));
             error_msg = buf2;
@@ -955,7 +960,15 @@ int RESULT::write(FILE* out, bool to_server) {
         if (stderr_out[n-1] != '\n') fprintf(out, "\n");
         fprintf(out, "</stderr_out>\n");
     }
-    if (!to_server) {
+    if (to_server) {
+        for (i=0; i<output_files.size(); i++) {
+            fip = output_files[i].file_info;
+            if (fip->uploaded) {
+                retval = fip->write(out, true);
+                if (retval) return retval;
+            }
+        }
+    } else {
         if (got_server_ack) fprintf(out, "    <got_server_ack/>\n");
         if (ready_to_report) fprintf(out, "    <ready_to_report/>\n");
         fprintf(out,
@@ -967,14 +980,6 @@ int RESULT::write(FILE* out, bool to_server) {
         for (i=0; i<output_files.size(); i++) {
             retval = output_files[i].write(out);
             if (retval) return retval;
-        }
-    } else {
-        for (i=0; i<output_files.size(); i++) {
-            fip = output_files[i].file_info;
-            if (fip->uploaded) {
-                retval = fip->write(out, to_server);
-                if (retval) return retval;
-            }
         }
     }
     fprintf(out, "</result>\n");
