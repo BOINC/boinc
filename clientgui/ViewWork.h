@@ -57,7 +57,8 @@ public:
 private:
 
     bool                    m_bTaskHeaderHidden;
-    bool                    m_bTaskSuspendResumeHidden;
+    bool                    m_bTaskSuspendHidden;
+    bool                    m_bTaskResumeHidden;
     bool                    m_bTaskShowGraphicsHidden;
     bool                    m_bTaskAbortHidden;
 

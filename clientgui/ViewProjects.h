@@ -57,12 +57,12 @@ public:
 private:
 
     bool                    m_bTaskHeaderHidden;
-    bool                    m_bTaskAttachToProjectHidden;
-    bool                    m_bTaskDetachFromProjectHidden;
-    bool                    m_bTaskResetProjectHidden;
-    bool                    m_bTaskSuspendProjectHidden;
-    bool                    m_bTaskResumeProjectHidden;
-    bool                    m_bTaskUpdateProjectHidden;
+    bool                    m_bTaskAttachHidden;
+    bool                    m_bTaskDetachHidden;
+    bool                    m_bTaskResetHidden;
+    bool                    m_bTaskSuspendHidden;
+    bool                    m_bTaskResumeHidden;
+    bool                    m_bTaskUpdateHidden;
 
     bool                    m_bWebsiteHeaderHidden;
     bool                    m_bWebsiteBOINCHidden;
@@ -82,6 +82,11 @@ private:
     wxInt32                 FormatAVGCredit( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatResourceShare( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+
+    bool                    IsWebsiteLink( const wxString& strLink );
+    wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
+    wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
+    void                    ExecuteLink( const wxString& strLink );
 
 };
 

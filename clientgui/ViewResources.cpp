@@ -38,16 +38,16 @@
 #include "res/tips.xpm"
 
 
-#define VIEW_HEADER                 "resources"
+#define VIEW_HEADER                 wxT("resources")
 
-#define SECTION_TASK                VIEW_HEADER "task"
-#define SECTION_TIPS                VIEW_HEADER "tips"
+#define SECTION_TASK                wxT(VIEW_HEADER "task")
+#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
 
-#define BITMAP_RESOURCES            VIEW_HEADER ".xpm"
-#define BITMAP_TASKHEADER           SECTION_TASK ".xpm"
-#define BITMAP_TIPSHEADER           SECTION_TIPS ".xpm"
+#define BITMAP_RESOURCES            wxT(VIEW_HEADER ".xpm")
+#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
+#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
-#define LINK_DEFAULT                "default"
+#define LINK_DEFAULT                wxT("default")
 
 #define COLUMN_PROJECT              0
 #define COLUMN_DISKSPACE            1
@@ -80,8 +80,8 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
     m_pTaskPane->AddVirtualFile(wxT(BITMAP_RESOURCES), bmpResources, wxBITMAP_TYPE_XPM);
 
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TASKHEADER), bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TIPSHEADER), bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_DISKSPACE, _("Disk Space"), wxLIST_FORMAT_LEFT, -1);
@@ -89,7 +89,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
-        wxT(LINK_DEFAULT), 
+        LINK_DEFAULT, 
         _("No available options currently defined.")
     );
 
@@ -166,6 +166,11 @@ void CViewResources::OnListRender(wxTimerEvent &event)
 
 void CViewResources::OnListSelected ( wxListEvent& event )
 {
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -173,6 +178,11 @@ void CViewResources::OnListSelected ( wxListEvent& event )
 
 void CViewResources::OnListDeselected ( wxListEvent& event )
 {
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -212,18 +222,8 @@ void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord 
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( wxT("test") == strLink )
-        {
-            if  ( wxT("test") != GetCurrentQuickTip() )
-            {
-                SetCurrentQuickTip(
-                    wxT("test"), 
-                    wxT("test")
-                );
-
-                bUpdateSelection = true;
-            }
-        }
+        if      ( UpdateQuickTip( strLink, wxT("test"), wxT("test") ) )
+            bUpdateSelection = true;
         else
         {
             if ( 0 == m_pListPane->GetSelectedItemCount() )
@@ -231,7 +231,7 @@ void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord 
                 if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
                 {
                     SetCurrentQuickTip(
-                        wxT(LINK_DEFAULT), 
+                        LINK_DEFAULT, 
                         _("No avaiable options currently defined.")
                     );
 
@@ -257,6 +257,13 @@ void CViewResources::UpdateSelection()
     {
         m_bTaskHeaderHidden = true;
 
+        if ( m_bItemSelected )
+        {
+            SetCurrentQuickTip(
+                LINK_DEFAULT, 
+                wxT("")
+            );
+        }
         m_bItemSelected = false;
     }
     else
@@ -275,13 +282,13 @@ void CViewResources::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( wxT(SECTION_TASK), wxT(BITMAP_TASKHEADER), m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }

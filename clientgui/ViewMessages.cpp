@@ -216,6 +216,11 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
 
 void CViewMessages::OnListSelected ( wxListEvent& event )
 {
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -223,6 +228,11 @@ void CViewMessages::OnListSelected ( wxListEvent& event )
 
 void CViewMessages::OnListDeselected ( wxListEvent& event )
 {
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -338,6 +348,13 @@ void CViewMessages::UpdateSelection()
         m_bTaskCopyAllHidden = false;
         m_bTaskCopyMessageHidden = true;
 
+        if ( m_bItemSelected )
+        {
+            SetCurrentQuickTip(
+                LINK_DEFAULT, 
+                wxT("")
+            );
+        }
         m_bItemSelected = false;
     }
     else

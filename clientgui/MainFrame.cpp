@@ -48,6 +48,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
+    EVT_IDLE(CMainFrame::OnIdle)
     EVT_LIST_CACHE_HINT(wxID_ANY, CMainFrame::OnListCacheHint)
     EVT_LIST_ITEM_SELECTED(wxID_ANY, CMainFrame::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(wxID_ANY, CMainFrame::OnListDeselected)
@@ -86,8 +87,11 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameTaskPanelRenderTimer->Start(1000);       // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(2000);       // Send event every 2 seconds
 
+    SetStatusBarPane(0);
 
     RestoreState();
+
+    m_PostCreateInitializationCompleted = false;
 }
 
 
@@ -128,21 +132,42 @@ bool CMainFrame::CreateMenu()
 {
     // File menu
     wxMenu *menuFile = new wxMenu;
-    menuFile->Append(wxID_EXIT, _("E&xit"));
+    menuFile->Append(
+        wxID_EXIT,
+        _("E&xit"),
+        _("Exit the BOINC Manager")
+    );
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
-    menuTools->Append(ID_TOOLSOPTIONS, _("&Options"));
+    menuTools->Append( 
+        ID_TOOLSOPTIONS, 
+        _("&Options"),
+        _("Configure GUI options and proxy settings")
+    );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT, _("&About BOINC..."));
+    menuHelp->Append(  
+        wxID_ABOUT,
+        _("&About BOINC..."), 
+        _("Displays general information about BOINC and BOINC Manager")
+    );
 
     // construct menu
     m_pMenubar = new wxMenuBar;
-    m_pMenubar->Append(menuFile,      _("&File"));
-    m_pMenubar->Append(menuTools,     _("&Tools"));
-    m_pMenubar->Append(menuHelp,      _("&Help"));
+    m_pMenubar->Append(
+        menuFile,
+        _("&File")
+    );
+    m_pMenubar->Append(
+        menuTools,
+        _("&Tools")
+    );
+    m_pMenubar->Append(
+        menuHelp,
+        _("&Help")
+    );
     SetMenuBar(m_pMenubar);
 
     return true;
@@ -261,6 +286,25 @@ bool CMainFrame::DeleteStatusbar()
 
     m_pStatusbar = NULL;
     SendSizeEvent();
+
+    return true;
+}
+
+
+bool CMainFrame::UpdateStatusbar( const wxString& strStatusbarText )
+{
+    if (!m_pStatusbar)
+        return true;
+
+    if ( NULL != m_pStatusbar )
+    {
+        if ( m_pStatusbar->GetStatusText(0) != strStatusbarText )
+        {
+            SetStatusText(strStatusbarText, 0);
+        }
+    }
+
+    ::wxSafeYield( NULL, true );
 
     return true;
 }
@@ -443,6 +487,26 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event))
 
     if (pDlg)
         pDlg->Destroy();
+}
+
+
+void CMainFrame::OnIdle(wxIdleEvent& event)
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    if ( NULL != pDoc )
+    {
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        if ( false == m_PostCreateInitializationCompleted )
+        {
+            m_PostCreateInitializationCompleted = true;
+            pDoc->OnInit();
+        }
+
+        pDoc->OnIdle();
+    }
+
+    event.Skip();
 }
 
 

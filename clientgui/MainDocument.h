@@ -39,14 +39,29 @@ public:
     CMainDocument();
     ~CMainDocument();
 
+    wxInt32                     OnInit();
+    wxInt32                     OnExit();
+    wxInt32                     OnIdle();
+
     //
     // Global
     //
 private:
 
     RPC_CLIENT                  rpc;
+    CC_STATE                    state;
+    wxDateTime                  m_dtCachedStateTimestamp;
+    wxDateTime                  m_dtCachedStateLockTimestamp;
+    bool                        m_bCachedStateLocked;
 
     bool                        m_bIsConnected;
+
+    wxInt32                     CachedStateUpdate();
+
+public:
+
+    wxInt32                     CachedStateLock();
+    wxInt32                     CachedStateUnlock();
 
 
     //
@@ -71,6 +86,10 @@ public:
     wxInt32                     GetProjectResourceShare(wxInt32 iIndex,  float& fBuffer);
     wxInt32                     GetProjectTotalResourceShare(wxInt32 iIndex,  float& fBuffer);
     wxInt32                     GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer);
+    wxInt32                     GetProjectWebsiteCount(wxInt32 iIndex);
+    wxInt32                     GetProjectWebsiteName(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer);
+    wxInt32                     GetProjectWebsiteDescription(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer);
+    wxInt32                     GetProjectWebsiteLink(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer);
     bool                        IsProjectSuspended(wxInt32 iIndex);
     bool                        IsProjectRPCPending(wxInt32 iIndex);
 
@@ -103,19 +122,11 @@ public:
 
 private:
 
-    CC_STATE                    state;
     RESULTS                     results;
     FILE_TRANSFERS              ft;
-    wxDateTime                  m_dtCachedStateTimestamp;
-    wxDateTime                  m_dtCachedStateLockTimestamp;
-    bool                        m_bCachedStateLocked;
-
-    wxInt32                     CachedStateUpdate();
 
 public:
 
-    wxInt32                     CachedStateLock();
-    wxInt32                     CachedStateUnlock();
 
     wxInt32                     GetWorkCount();
     wxString                    GetWorkProjectName(wxInt32 iIndex);

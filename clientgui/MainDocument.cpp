@@ -26,6 +26,7 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "error_numbers.h"
 
@@ -76,6 +77,79 @@ CMainDocument::~CMainDocument()
 }
 
 
+wxInt32 CMainDocument::OnInit()
+{
+    wxInt32 retval = 0;
+
+    if (!m_bIsConnected)
+    {
+        retval = rpc.init(NULL);
+        if (retval)
+            wxLogTrace("CMainDocument::CachedStateUpdate - RPC Initialization Failed '%d'", retval);
+    }
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::OnExit()
+{
+    return 0;
+}
+
+
+wxInt32 CMainDocument::OnIdle()
+{
+    if (m_bIsConnected)
+    {
+        CachedStateUpdate();
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::CachedStateUpdate()
+{
+    wxInt32     retval = 0;
+    CMainFrame* pFrame   = wxGetApp().GetFrame();
+    wxString    strEmpty = wxEmptyString;
+
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
+    wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
+    if (!m_bCachedStateLocked && (ts > wxTimeSpan::Seconds(3600)))
+    {
+        pFrame->UpdateStatusbar( _("Retrieving the BOINC system state.  Please wait...") );
+        m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
+
+        retval = rpc.get_state(state);
+        if (retval)
+            wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+
+        pFrame->UpdateStatusbar( strEmpty );
+    }
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::CachedStateLock()
+{
+    m_bCachedStateLocked = true;
+    m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::CachedStateUnlock()
+{
+    m_bCachedStateLocked = false;
+    return 0;
+}
+
+
 wxInt32 CMainDocument::CachedProjectStatusUpdate()
 {
     wxInt32 retval = 0;
@@ -121,6 +195,7 @@ wxInt32 CMainDocument::GetProjectCount()
 wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         strBuffer = pProject->project_name.c_str();
 
@@ -131,6 +206,7 @@ wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer
 wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         strBuffer = pProject->master_url.c_str();
 
@@ -141,6 +217,7 @@ wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
 wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         strBuffer = pProject->user_name.c_str();
 
@@ -151,6 +228,7 @@ wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer
 wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         strBuffer = pProject->team_name.c_str();
 
@@ -161,6 +239,7 @@ wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
 wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         fBuffer = pProject->user_total_credit;
 
@@ -171,6 +250,7 @@ wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer)
 wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         fBuffer = pProject->user_expavg_credit;
 
@@ -181,6 +261,7 @@ wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer)
 wxInt32 CMainDocument::GetProjectResourceShare(wxInt32 iIndex, float& fBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         fBuffer = pProject->resource_share;
 
@@ -198,8 +279,92 @@ wxInt32 CMainDocument::GetProjectTotalResourceShare(wxInt32 iIndex, float& fBuff
 wxInt32 CMainDocument::GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer)
 {
     PROJECT* pProject = project_status.projects.at( iIndex );
+
     if ( NULL != pProject )
         iBuffer = pProject->min_rpc_time;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProjectWebsiteCount(wxInt32 iIndex)
+{
+    CachedStateUpdate();
+
+    wxInt32 iCount = 0;
+    PROJECT* pProject = state.projects.at( iIndex );
+
+    if ( NULL != pProject )
+        iCount = pProject->gui_urls.size();
+
+    return iCount;
+}
+
+
+wxInt32 CMainDocument::GetProjectWebsiteName(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer)
+{
+    wxString    strProjectURL = wxEmptyString;
+    std::string str;
+    PROJECT*    pProject      = NULL;
+    GUI_URL     Url;
+
+    CachedStateUpdate();
+
+    GetProjectProjectURL( iProjectIndex, strProjectURL );
+    str = strProjectURL.c_str();
+    pProject = state.lookup_project( str );
+
+    if ( NULL != pProject )
+    {
+        Url = pProject->gui_urls.at( iWebsiteIndex );
+        strBuffer = Url.name.c_str();
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProjectWebsiteDescription(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer)
+{
+    wxString    strProjectURL = wxEmptyString;
+    std::string str;
+    PROJECT*    pProject      = NULL;
+    GUI_URL     Url;
+
+    CachedStateUpdate();
+
+    GetProjectProjectURL( iProjectIndex, strProjectURL );
+    str = strProjectURL.c_str();
+    pProject = state.lookup_project( str );
+
+    if ( NULL != pProject )
+    {
+        Url = pProject->gui_urls.at( iWebsiteIndex );
+        strBuffer = Url.description.c_str();
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProjectWebsiteLink(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer)
+{
+    wxString    strProjectURL = wxEmptyString;
+    std::string str;
+    PROJECT*    pProject      = NULL;
+    GUI_URL     Url;
+
+    CachedStateUpdate();
+
+    GetProjectProjectURL( iProjectIndex, strProjectURL );
+    str = strProjectURL.c_str();
+    pProject = state.lookup_project( str );
+
+    if ( NULL != pProject )
+    {
+        Url = pProject->gui_urls.at( iWebsiteIndex );
+        strBuffer = Url.url.c_str();
+    }
 
     return 0;
 }
@@ -450,54 +615,5 @@ wxString CMainDocument::GetTransferStatus(wxInt32 iIndex) {
 wxString CMainDocument::GetTransferTime(wxInt32 iIndex) {
     CachedStateUpdate();
     return wxString::Format(_T(""));
-}
-
-
-wxInt32 CMainDocument::CachedStateLock() {
-    m_bCachedStateLocked = true;
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    return 0;
-}
-
-
-wxInt32 CMainDocument::CachedStateUnlock() {
-    m_bCachedStateLocked = false;
-    return 0;
-}
-
-
-wxInt32 CMainDocument::CachedStateUpdate() {
-
-    wxInt32 retval = 0;
-
-    wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
-    if (!m_bCachedStateLocked && (ts > wxTimeSpan::Seconds(300)))
-    {
-        wxLogTrace("CMainDocument::CachedStateUpdate - State Cache Updating...");
-        m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
-
-        if (!m_bIsConnected)
-        {
-            retval = rpc.init(NULL);
-            if (retval)
-                wxLogTrace("CMainDocument::CachedStateUpdate - RPC Initialization Failed '%d'", retval);
-        }
-
-        retval = rpc.get_state(state);
-        if (retval)
-            wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
-
-        retval = rpc.get_results(results);
-        if (retval)
-            wxLogTrace("CMainDocument::CachedStateUpdate - Get Results Failed '%d'", retval);
-
-        retval = rpc.get_file_transfers(ft);
-        if (retval)
-            wxLogTrace("CMainDocument::CachedStateUpdate - Get File Transfers Failed '%d'", retval);
-
-        wxLogTrace("CMainDocument::CachedStateUpdate - State Cache Updated...");
-    }
-
-    return retval;
 }
 

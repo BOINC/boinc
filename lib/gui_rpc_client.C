@@ -574,12 +574,29 @@ void CC_STATE::clear() {
     results.clear();
 }
 
+PROJECT* CC_STATE::lookup_project(string& str) {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        if (projects[i]->master_url == str) return projects[i];
+    }
+    printf("CAN'T FIND PROJECT %s\n", str.c_str());
+    return 0;
+}
+
 APP* CC_STATE::lookup_app(string& str) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
         if (apps[i]->name == str) return apps[i];
     }
     printf("CAN'T FIND APP %s\n", str.c_str());
+    return 0;
+}
+
+APP_VERSION* CC_STATE::lookup_app_version(string& str, int version_num) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];
+    }
     return 0;
 }
 
@@ -598,14 +615,6 @@ RESULT* CC_STATE::lookup_result(string& str) {
         if (results[i]->name == str) return results[i];
     }
     printf("CAN'T FIND RESULT %s\n", str.c_str());
-    return 0;
-}
-
-APP_VERSION* CC_STATE::lookup_app_version(string& str, int version_num) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];
-    }
     return 0;
 }
 

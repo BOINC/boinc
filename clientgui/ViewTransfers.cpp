@@ -188,6 +188,11 @@ void CViewTransfers::OnListRender(wxTimerEvent &event)
 
 void CViewTransfers::OnListSelected ( wxListEvent& event )
 {
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -195,6 +200,11 @@ void CViewTransfers::OnListSelected ( wxListEvent& event )
 
 void CViewTransfers::OnListDeselected ( wxListEvent& event )
 {
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -298,6 +308,13 @@ void CViewTransfers::UpdateSelection()
         m_bTaskRetryHidden = true;
         m_bTaskAbortHidden = true;
 
+        if ( m_bItemSelected )
+        {
+            SetCurrentQuickTip(
+                LINK_DEFAULT, 
+                wxT("")
+            );
+        }
         m_bItemSelected = false;
     }
     else

@@ -227,9 +227,10 @@ public:
     CC_STATE();
     ~CC_STATE();
 
+    PROJECT* lookup_project(std::string&);
     APP* lookup_app(std::string&);
-    WORKUNIT* lookup_wu(std::string&);
     APP_VERSION* lookup_app_version(std::string&, int);
+    WORKUNIT* lookup_wu(std::string&);
     RESULT* lookup_result(std::string&);
 
     void print();

@@ -40,11 +40,15 @@ public:
 
     ~CMainFrame(void);
 
+    bool UpdateStatusbar( const wxString& strStatusbarText );
+
     void OnExit(wxCommandEvent& event);
     void OnClose(wxCloseEvent& event);
 
     void OnToolsOptions(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
+
+    void OnIdle (wxIdleEvent& event);
 
     void OnListCacheHint( wxListEvent& event );
     void OnListSelected( wxListEvent& event );
@@ -61,7 +65,8 @@ private:
     wxTimer*        m_pFrameTaskPanelRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
 
-    wxString        m_strStatusMessage;
+    bool            m_PostCreateInitializationCompleted;
+
 
     bool            CreateMenu();
     bool            DeleteMenu();
