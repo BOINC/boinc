@@ -87,7 +87,7 @@ def find_versions(app, dir):
                                          version_num = version_num,
                                          xml_doc = xml_doc)
         else:
-            existing_versions = database.CoreVersions.find(version_num = version_num)
+            existing_versions = database.CoreVersions.find(platform=platform, version_num=version_num)
             if existing_versions:
                 print "  Skipping existing core version %s: %s" %(version_num, file)
                 continue
