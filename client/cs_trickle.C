@@ -116,6 +116,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
             if (!f) return ERR_FOPEN;
             fputs(body.c_str(), f);
             fclose(f);
+            atp->have_trickle_down = true;
             return 0;
         } else if (match_tag(buf, "<body>")) {
             retval = copy_element_contents(in, "</body>", body);

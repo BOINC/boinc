@@ -14441,3 +14441,16 @@ Daniel 2004-07-01
         win/
             wingui_mainwindow.cpp
 
+David  1 July 2004
+    - trickle message support:
+        - core client: send <have_trickle_down> message to app when appropriate
+    - blind attempt to fix HTTP auth crash:
+        check for empty URL on redirect
+        
+    client/
+        app.C,h
+        cs_trickle.C
+        hostinfo_unix.C
+        http.C
+    lib/
+        error_numbers.h

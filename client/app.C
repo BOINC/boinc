@@ -133,6 +133,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
     working_set_size = 0;
+    have_trickle_down = false;
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -742,11 +743,19 @@ bool ACTIVE_TASK::finish_file_present() {
 void ACTIVE_TASK_SET::send_heartbeat() {
     unsigned int i;
     ACTIVE_TASK* atp;
+    bool sent;
+    char* msg;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->state == PROCESS_IN_LIMBO) continue;
-        atp->app_client_shm.send_msg("<heartbeat/>", CORE_APP_WORKER_SEG);
+        if (atp->have_trickle_down) {
+            msg = "<heartbeat/>\n<have_trickle_down/>\n";
+        } else {
+            msg = "<heartbeat/>\n";
+        }
+        sent = atp->app_client_shm.send_msg(msg, CORE_APP_WORKER_SEG);
+        if (sent) atp->have_trickle_down = false;
     }
 }
 

@@ -110,6 +110,7 @@ public:
     double max_cpu_time;    // abort if total CPU exceeds this
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;   // abort if memory usage exceeds this
+    bool have_trickle_down;
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
 //    time_t last_status_msg_time;

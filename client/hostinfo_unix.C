@@ -141,7 +141,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
         // we try ACPI
         char buf[128];
         char ac_state[64];
-        string ac_name;
+        std::string ac_name;
         FILE* facpi;
 	
         // we need to find the right ac adapter first 

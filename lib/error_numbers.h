@@ -132,3 +132,4 @@
 #define ERR_LISTEN          -181
 #define ERR_TIMEOUT         -182
 #define ERR_PROJECT_DOWN    -183
+#define ERR_HTTP_ERROR      -184

@@ -688,18 +688,25 @@ bool HTTP_OP_SET::poll() {
 
                 if (htp->hrh.http_status == HTTP_STATUS_MOVED_PERM || htp->hrh.http_status == HTTP_STATUS_MOVED_TEMP) {
                     htp->close_socket();
+                    retval = 0;
+                    const char* new_url = htp->hrh.redirect_location.c_str();
+                    if (!new_url || !strlen(new_url)) {
+                        htp->http_op_state = HTTP_STATE_DONE;
+                        htp->http_op_retval = retval;
+                        break;
+                    }
                     switch (htp->http_op_type) {
                         case HTTP_OP_HEAD:
-                            htp->init_head(htp->hrh.redirect_location.c_str());
+                            htp->init_head(new_url);
                             break;
                         case HTTP_OP_GET:
-                            htp->init_get(htp->hrh.redirect_location.c_str(), htp->outfile, false);
+                            htp->init_get(new_url, htp->outfile, false);
                             break;
                         case HTTP_OP_POST:
-                            htp->init_post(htp->hrh.redirect_location.c_str(), htp->infile, htp->outfile);
+                            htp->init_post(new_url, htp->infile, htp->outfile);
                             break;
                         case HTTP_OP_POST2:
-                            htp->init_post2(htp->hrh.redirect_location.c_str(), htp->req1, htp->infile, htp->file_offset);
+                            htp->init_post2(new_url, htp->req1, htp->infile, htp->file_offset);
                             break;
                     }
 
