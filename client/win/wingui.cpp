@@ -26,7 +26,7 @@
 CMainWindow* myWnd = NULL;
 CMyApp myApp;
 
-#define STATUS_ICON_ID		1313
+#define STATUS_ICON_ID		(WM_USER + 1)
 
 #define PROJECT_ID			0
 #define RESULT_ID			1
@@ -688,7 +688,7 @@ void CPieChartCtrl::SetPiece(int index, float percent)
 }
 
 //////////
-// CPieChartCtrl::SetPiece
+// CPieChartCtrl::Create
 // arguments:	dwStyle: the style of control to create
 //				rect: size and position
 //				pParentWnd: control's parent window
@@ -840,6 +840,19 @@ void CPieChartCtrl::SetFont(CFont* pcf)
 }
 
 //////////
+// CPieChartCtrl::SetTag
+// arguments:	tag: the string to be set as the tag
+// returns:		void
+// function:	sets the tag for data, which is a string that will be displayed
+//				after the numbers in the label
+void CPieChartCtrl::SetTag(char* tag)
+{
+	if(tag) {
+		m_Tag.Format("%s", tag);
+	}
+}
+
+//////////
 // CPieChartCtrl::OnPaint
 // arguments:	void
 // returns:		void
@@ -896,9 +909,9 @@ void CPieChartCtrl::OnPaint()
 			textrect.SetRect(PIE_BUFFER + 15, PIE_BUFFER + i * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + i * 20);
 			CString str;
 			if(i == 0) {
-				str.Format("%s (%0.2f)", m_Labels.GetAt(i).GetBuffer(0), (1 - m_Total) * m_Base);
+				str.Format("%s (%0.2f%s)", m_Labels.GetAt(i).GetBuffer(0), (1 - m_Total) * m_Base, m_Tag.GetBuffer(0));
 			} else {
-				str.Format("%s (%0.2f)", m_Labels.GetAt(i).GetBuffer(0), m_Percents.GetAt(i) * m_Base);
+				str.Format("%s (%0.2f%s)", m_Labels.GetAt(i).GetBuffer(0), m_Percents.GetAt(i) * m_Base, m_Tag.GetBuffer(0));
 			}
 			memdc.DrawText(str, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT);
 		}
@@ -951,6 +964,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
     ON_COMMAND(ID_FILE_CLOSE, OnCommandFileClose)
     ON_COMMAND(ID_ACCT_LOGIN, OnCommandAccountLogin)
+    ON_COMMAND(ID_ACCT_QUIT, OnCommandAccountQuit)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandStatusIconHide)
     ON_COMMAND(ID_STATUSICON_QUIT, OnCommandStatusIconQuit)
@@ -1143,11 +1157,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	}
 
 	// update usage
-	int disktotal = GetDiskSize();
-	int diskfree = GetDiskFree();
-	int diskused = disktotal - diskfree;
-	int diskallow = gstate.allowed_disk_usage() / (1024 * 1024);
-	int diskusage = gstate.current_disk_usage() / (1024 * 1024);
+	double disktotal = GetDiskSize();
+	double diskfree = GetDiskFree();
+	double diskused = disktotal - diskfree;
+	double diskallow = gstate.allowed_disk_usage();
+	double diskusage = gstate.current_disk_usage();
 	m_UsagePieCtrl.SetPiece(0, 0);
 	m_UsagePieCtrl.SetPiece(1, 1.0 * (diskused - diskusage) / disktotal);
 	m_UsagePieCtrl.SetPiece(2, 1.0 * diskusage / disktotal);
@@ -1163,6 +1177,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 //				adds to message edit control.
 void CMainWindow::MessageUser(char* message, char* priority)
 {
+	CTime curTime = CTime::GetCurrentTime();
+	CString timeStr = curTime.Format("(%I:%M%p) ");
+
 	if(!strcmp(priority, "high")) {
 
 		// popup message box
@@ -1183,6 +1200,7 @@ void CMainWindow::MessageUser(char* message, char* priority)
 			}
 			text.Insert(0, "\r\n");
 			text.Insert(0, message);
+			text.Insert(0, timeStr);
 			m_MessageEditCtrl.SetWindowText(text);
 			m_MessageEditCtrl.RedrawWindow();
 		}
@@ -1306,9 +1324,9 @@ void CMainWindow::LoadUserSettings()
 //////////
 // CMainWindow::GetDiskSize
 // arguments:	void
-// returns:		total disk space in MB
+// returns:		total disk space in bytes
 // function:	calculates total disk space on current drive
-int CMainWindow::GetDiskSize()
+double CMainWindow::GetDiskSize()
 {
 	ULARGE_INTEGER TotalNumberOfBytes;
 	char path[256];
@@ -1317,7 +1335,8 @@ int CMainWindow::GetDiskSize()
 	memcpy(drive, path, 3);
 	drive[3] = 0;
 	GetDiskFreeSpaceEx(drive, NULL, &TotalNumberOfBytes, NULL);
-	return TotalNumberOfBytes.QuadPart / (1024*1024);
+	unsigned int MB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
+	return (double)MB * 1024.0 * 1024.0;
 }
 
 //////////
@@ -1325,7 +1344,7 @@ int CMainWindow::GetDiskSize()
 // arguments:	void
 // returns:		amount of free disk space in MB
 // function:	calculates free disk space on current drive
-int CMainWindow::GetDiskFree()
+double CMainWindow::GetDiskFree()
 {
 	ULARGE_INTEGER TotalNumberOfFreeBytes;
 	char path[256];
@@ -1334,7 +1353,8 @@ int CMainWindow::GetDiskFree()
 	memcpy(drive, path, 3);
 	drive[3] = 0;
 	GetDiskFreeSpaceEx(drive, NULL, NULL, &TotalNumberOfFreeBytes);
-	return TotalNumberOfFreeBytes.QuadPart / (1024*1024);
+	unsigned int MB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
+	return (double)MB * 1024.0 * 1024.0;
 }
 
 //////////
@@ -1430,6 +1450,21 @@ void CMainWindow::OnClose()
 }
 
 //////////
+// CMainWindow::OnCommandAccountQuit
+// arguments:	void
+// returns:		void
+// function:	shows the account quit dialog box
+void CMainWindow::OnCommandAccountQuit()
+{
+	MessageUser("test", "");
+    CQuitDialog dlg(IDD_QUIT);
+    int retval = dlg.DoModal();
+	if(retval == IDOK) {
+		//gstate.quit_project(dlg.m_sel); ??
+	}
+}
+
+//////////
 // CMainWindow::OnCommandAccountLogin
 // arguments:	void
 // returns:		void
@@ -1438,6 +1473,9 @@ void CMainWindow::OnCommandAccountLogin()
 {
     CLoginDialog dlg(IDD_LOGIN);
     int retval = dlg.DoModal();
+	if(retval == IDOK) {
+	    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
+	}
 }
 
 //////////
@@ -1569,7 +1607,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// create usage pie control
 	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, 0);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0, GetDiskSize() / 1024);
+	m_UsagePieCtrl.SetTag(" GB");
+	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0, GetDiskSize() / (1024.0 * 1024.0 * 1024.0));
 	m_UsagePieCtrl.AddPiece("Space used", RGB(0, 0, 255), 0, 0);
 	m_UsagePieCtrl.AddPiece("Used by BOINC", RGB(255, 255, 0), 0, 0);
 	m_UsagePieCtrl.AddPiece("Free available for BOINC", RGB(255, 128, 0), 0, 0);
@@ -1820,7 +1859,7 @@ BOOL CLoginDialog::OnInitDialog()
 	CWnd* toFocus = GetDlgItem(IDC_LOGIN_URL);
 	if(toFocus) toFocus->SetFocus();
     CenterWindow();
-    return TRUE;
+    return FALSE;
 }
 
 //////////
@@ -1833,4 +1872,59 @@ void CLoginDialog::OnOK()
     GetDlgItemText(IDC_LOGIN_URL, m_url);
     GetDlgItemText(IDC_LOGIN_AUTH, m_auth);
     CDialog::OnOK();
+}
+
+/////////////////////////////////////////////////////////////////////////
+// CQuitDialog message map and member functions
+
+BEGIN_MESSAGE_MAP(CQuitDialog, CDialog)
+    ON_BN_CLICKED(IDOK, OnOK)
+END_MESSAGE_MAP()
+
+//////////
+// CQuitDialog::CQuitDialog
+// arguments:	y: dialog box resource id
+// returns:		void
+// function:	calls parents contructor.
+CQuitDialog::CQuitDialog(UINT y) : CDialog(y)
+{
+}
+
+//////////
+// CQuitDialog::OnInitDialog
+// arguments:	void
+// returns:		true if windows needs to give dialog focus, false if dialog has taken focus
+// function:	initializes and centers dialog box
+BOOL CQuitDialog::OnInitDialog() 
+{
+    CDialog::OnInitDialog();
+	CListBox* List = (CListBox*)GetDlgItem(IDC_LIST);
+	if(List) {
+		for(int i = 0; i < gstate.projects.size(); i ++) {
+			List->AddString(gstate.projects[i]->project_name);
+		}
+		List->AddString("test1");
+		List->AddString("test2");
+		List->AddString("test3");
+		List->SetFocus();
+	}
+    CenterWindow();
+    return TRUE;
+}
+
+//////////
+// CQuitDialog::OnOK
+// arguments:	void
+// returns:		void
+// function:	sets member variables, selected project to quit
+void CQuitDialog::OnOK() 
+{
+	CString buf;
+	m_sel = -1;
+	CListBox* List = (CListBox*)GetDlgItem(IDC_LIST);
+	if(List) {
+		m_sel = List->GetCurSel();
+	}
+    if(m_sel >= 0) CDialog::OnOK();
+	else CDialog::OnCancel();
 }

@@ -143,6 +143,7 @@ public:
 	void					SetPiece(int, float);
 	BOOL					Create(DWORD, const RECT&, CWnd*, UINT);
 	void					SetFont(CFont*);
+	void					SetTag(char*);
 
 protected:
 	float					m_Total;				// total percentage taken up by pieces
@@ -151,6 +152,7 @@ protected:
 	CArray<CString,CString>			m_Labels;		// labels of pieces
 	CFont*					m_Font;					// font for control
 	float					m_Base;					// base units of pie
+	CString					m_Tag;					// tag for numbers on labels
 
 	void					DrawPiePiece(CDC*, float, float);
 	void					CirclePoint(CPoint*, int, float, CPoint*);
@@ -200,13 +202,14 @@ protected:
     void					StatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
-    int						GetDiskSize();
-    int						GetDiskFree();
+    double					GetDiskSize();
+    double					GetDiskFree();
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
 
     afx_msg void			OnClose();
+	afx_msg void			OnCommandAccountQuit();
 	afx_msg void			OnCommandAccountLogin();
 	afx_msg void			OnCommandHelpAbout();
 	afx_msg void			OnCommandFileClose();
@@ -232,6 +235,22 @@ public:
 	afx_msg BOOL			OnInitDialog();
 	CString					m_url;
 	CString					m_auth;
+
+protected:
+	afx_msg void			OnOK();
+	DECLARE_MESSAGE_MAP()
+};
+
+//////////
+// class:		CQuitDialog
+// parent:		CDialog
+// description:	gets project quit information from user.
+class CQuitDialog : public CDialog
+{
+public:
+							CQuitDialog(UINT);
+	afx_msg BOOL			OnInitDialog();
+	int						m_sel;
 
 protected:
 	afx_msg void			OnOK();

@@ -17,8 +17,10 @@
 #define IDB_XFER                        120
 #define IDB_MESS                        122
 #define IDR_STATUS_ICON                 124
+#define IDD_QUIT                        125
 #define IDC_LOGIN_URL                   1000
 #define IDC_LOGIN_AUTH                  1002
+#define IDC_LIST                        1006
 #define ID_ACCT_LOGIN                   40001
 #define ID_HELP_ABOUT                   40002
 #define ID_POPUP_1                      40003
@@ -28,14 +30,15 @@
 #define ID_STATUSICON_QUIT              40014
 #define ID_STATUSICON_HIDE              40015
 #define ID_STATUSICON_SHOW              40016
+#define ID_ACCT_QUIT                    40017
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        125
-#define _APS_NEXT_COMMAND_VALUE         40017
-#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_RESOURCE_VALUE        126
+#define _APS_NEXT_COMMAND_VALUE         40018
+#define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

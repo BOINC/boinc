@@ -54,7 +54,7 @@ END
 
 IDD_LOGIN DIALOG DISCARDABLE  0, 0, 231, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Login"
+CAPTION "Login to Project"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,174,7,50,14
@@ -73,6 +73,17 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,173,7,50,14
     LTEXT           "Info about BOINC goes here.",IDC_STATIC,56,17,96,31
     CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,13,17,33,31
+END
+
+IDD_QUIT DIALOG DISCARDABLE  0, 0, 186, 68
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Quit Project"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
+    LISTBOX         IDC_LIST,7,7,108,54,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -99,6 +110,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 58
     END
+
+    IDD_QUIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 61
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -116,7 +135,8 @@ BEGIN
     END
     POPUP "&Account"
     BEGIN
-        MENUITEM "&Login",                      ID_ACCT_LOGIN
+        MENUITEM "&Login to Project",           ID_ACCT_LOGIN
+        MENUITEM "&Quit Project",               ID_ACCT_QUIT
     END
     POPUP "&Help"
     BEGIN
