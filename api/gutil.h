@@ -128,7 +128,9 @@ extern void replaceStar(Star* tmpStar);
 #define MAX_FONTS 16
 extern UINT g_Texture[MAX_TEXTURES];
 extern UINT listBase[MAX_FONTS];
+//using indepenent jpeg group library - jpeglib.lib
 extern bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID);
+//
 extern bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID);
 extern bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID);
 extern bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID);
