@@ -129,18 +129,39 @@ bool CLIENT_STATE::run_time_tests() {
 // so it should be called very seldom
 //
 int CLIENT_STATE::time_tests() {
-    get_host_info(host_info); // this is platform dependent
 #if 0
-    host_info.p_fpops = run_double_prec_test(4); //these are not
-    host_info.p_iops = run_int_test(4);
-    host_info.p_membw = run_mem_bandwidth_test(4);
-    host_info.m_cache = check_cache_size(CACHE_MAX);
+    double fpop_test_secs = 2.0;
+    double iop_test_secs = 2.0;
+    double mem_test_secs = 2.0;
+
+    if (log_flags.measurement_debug) {
+        printf( "Running floating point test for about %.1f seconds.\n",
+                fpop_test_secs );
+    }
+    host_info.p_fpops = run_double_prec_test(fpop_test_secs); //these are not
+
+    if (log_flags.measurement_debug) {
+        printf( "Running integer test for about %.1f seconds.\n",
+                iop_test_secs );
+    }
+    host_info.p_iops = run_int_test(iop_test_secs);
+
+    if (log_flags.measurement_debug) {
+        printf( "Running memory bandwidth test for about %.1f seconds.\n",
+                mem_test_secs );
+    }
+    host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
 #else
     host_info.p_fpops = 1000000000;
     host_info.p_iops = 1000000000;
     host_info.p_membw = 1000000000;
     host_info.m_cache = 1000000;
 #endif
+    if (log_flags.measurement_debug) {
+        printf( "Getting general host information.\n" );
+    }
+    get_host_info(host_info); // this is platform dependent
+
     host_info.p_calculated = (double)time(0); //set time calculated
     return 0;
 }

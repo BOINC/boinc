@@ -32,6 +32,7 @@ LOG_FLAGS::LOG_FLAGS() {
     task = file_xfer = sched_ops = state_debug = false;
     task_debug = file_xfer_debug = sched_op_debug = false;
     http_debug = time_debug = net_xfer_debug = false;
+    measurement_debug = false;
 }
 
 // Parse log flag preferences
@@ -81,6 +82,10 @@ int LOG_FLAGS::parse(FILE* in) {
         }
         else if (match_tag(buf, "<net_xfer_debug/>")) {
             net_xfer_debug = true;
+            continue;
+        }
+        else if (match_tag(buf, "<measurement_debug/>")) {
+            measurement_debug = true;
             continue;
         }
         else if (match_tag(buf, "<poll_debug/>")) {

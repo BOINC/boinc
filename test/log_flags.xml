@@ -8,4 +8,5 @@
     <sched_op_debug/>
     <time_debug/>
     <http_debug/>
+    <measurement_debug/>
 </log_flags>
