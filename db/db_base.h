@@ -78,7 +78,7 @@ public:
         } \
     }
 
-void escape_string(char* field);
-void unescape_string(char* p);
+void escape_string(char* field, int len);
+void unescape_string(char* p, int len);
 
 #endif

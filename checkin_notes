@@ -11484,3 +11484,28 @@ David  April 9 2004
         * (new)
     unzip/
         * (new)
+
+David  April 9 2004
+    - Fixed a nasty bug that caused back-end processes
+        to corrupt records in the "result" table, and potentially others.
+        The Bug:
+            - escape_string() replaces ' and \ by \' and \\ respectively;
+                this is done so that they can be used in SQL statements, e.g.
+                update foo set blah='abc\'def';
+            - escape_string() (which can increase the length of a string)
+                didn't check the size of its output buffer
+            - The stderr_out field of results with stack traces
+                often are near their 4KB limit,
+                and have LOTS of \s (in file paths)
+            - escape_string() was writing beyond the end of the
+                stderr_out field, writing garbage into fields
+                like batch, claimed_credit, etc.
+        The Fix:
+            add a "len" argument to escape_string(),
+            and use safe_strncpy() to avoid writing off the end of the buffer.
+        
+    db/
+        boinc_db.C
+        db_base.C,h
+    html/user/
+        stats.php

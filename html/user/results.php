@@ -34,7 +34,7 @@
     page_head("Results for $type");
     echo "<h3>Results for $type</h3>\n";
     result_table_start(true, false, true);
-    $i = 1;
+    $i = 0;
     $query = "select * from result where $clause order by id desc limit $offset,".($results_per_page+1);
     $result = mysql_query($query);
     $number_of_results = mysql_affected_rows();

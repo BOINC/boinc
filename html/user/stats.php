@@ -26,10 +26,16 @@ developed by <a href=mailto:stats@boinc.dk>Janus Kristensen</a>.
 <li>
 <a href=http://www.saschapfalz.de/boincstats/boinc-stats.php>boincstats</a>,
 developed by Sascha Pfalz.
+<li>
+<a href=http://stats.boincbzh.net/BZHwds/index.php>BOINC Alliance Francophone</a>,
+developed by Vincent Mary (vincent.mary at univ-rennes1.fr).
+Supports competition between 'mini-teams'.
 </ul>
-Both systems are implemented using PHP.
-If you are interested in participating in these efforts,
-please contact the developers.
+These systems are implemented using PHP,
+and the source code may be available.
+If you are interested in running your own site or
+participating in the development efforts,
+please contact the people listed above.
 ";
 
 page_tail();

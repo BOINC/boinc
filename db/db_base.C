@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "error_numbers.h"
+#include "util.h"
 #include "db_base.h"
 
 #define MAX_QUERY_LEN 256000
@@ -204,17 +205,11 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
     return get_double(query, x);
 }
 
-#if 0
-void strcpy2(char* dest, char* src) {
-    if (!src) *dest = 0;
-    else strcpy(dest, src);
-}
-#endif
-
 // convert a string into a form that allows it to be used
-// in SQL queries delimited by single quotes
+// in SQL queries delimited by single quotes:
+// replace ' with \', \ with \\
 //
-void escape_string(char* field) {
+void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     while (*p) {
@@ -230,10 +225,13 @@ void escape_string(char* field) {
         p++;
     }
     *q = 0;
-    strcpy(field, buf);
+    safe_strncpy(field, buf, len);
 }
 
-void unescape_string(char* p) {
+// undo the above process
+// (len not used because this doesn't expand the string)
+//
+void unescape_string(char* p, int /*len*/) {
     while (*p) {
         if (*p == '\\') {
             strcpy(p, p+1);
