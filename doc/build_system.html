@@ -9,19 +9,10 @@
 
     <h2>Details of BOINC's new automake/autoconf build system</h2>
     <p>
-      The build system uses <a href=
+      The BOINC build system uses <a href=
       "http://www.gnu.org/software/autoconf/">autoconf</a> 2.57 and <a
       href="http://www.gnu.org/software/automake/automake.html">automake</a>
-      1.7.  You should modify only the <code>Makefile.am</code> files, which
-      generate the <code>Makefile.in</code> files (and
-      the <code>configure</code> script produced by autoconf will generate the
-      <code>Makefile</code>s from those). If you don't have automake (or not a
-      new enough version), the build system will warn you and continue without
-      regenerating <code>Makefile.in</code>. (When checking out from CVS or
-      extracting from a source distribution, sometimes <code>make</code> will
-      think that the <code>makefile.in</code> files need to be regenerated
-      because they have the same timestamp as <code>Makefile.am</code>. If
-      this happens just ignore the warnings.)
+      1.7.
     </p>
 
     <p>
@@ -31,6 +22,28 @@
 
     <h3>Notes</h3>
     <ul>
+      <li><b>Maintainer mode</b>
+        <p>
+          The BOINC automake files use the <i>maintainer-mode</i> setting
+          which by default disables automatic maintainer dependencies. If you
+          modify makefiles or <code>configure.ac</code> you should enable them
+          by adding the <code>--enable-maintainer-mode</code> option
+          to <code>configure</code>:
+          <pre>
+            ./configure --enable-maintainer-mode
+          </pre>
+
+          You should modify only the <code>Makefile.am</code> files, which
+          generate the <code>Makefile.in</code> files (and
+          the <code>configure</code> script produced by autoconf will generate
+          the <code>Makefile</code>s from those). If you don't have automake
+          (or not a new enough version), the build system will warn you and
+          continue without regenerating <code>Makefile.in</code>. (When
+          checking out from CVS or extracting from a source distribution,
+          sometimes <code>make</code> will think that
+          the <code>makefile.in</code> files need to be regenerated because
+          they aren't newer than the <code>Makefile.am</code> files.)
+        </p>
       <li><b>Layout</b>
         <p>
           The top-level <code>Makefile.am</code> contains the
@@ -119,7 +132,7 @@
             AC_INIT(BOINC, 1.03)
           </pre>
           in <code>configure.ac</code>.  If you change this,
-          run <code>make</code> and it will rebuild necessary files to
+          run <code>make</code> and it will rebuild any files necessary to
           propagate the version number into source files and scripts.  This is
           the only location the version number is set; all other uses of it
           come from here (no environment variables used).
