@@ -1,3 +1,4 @@
+// $Id$
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -20,10 +21,20 @@
 #include <cctype>
 #include <vector>
 #include <string>
+#include <sstream>
 #include "xml_util.h"
+
+static int xml_indent_level=0;
+
+std::string xml_indent(int i) {
+  if (i) xml_indent_level+=i;
+  xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
+  return std::string(xml_indent_level,' ');
+}
 
 // Most of these entries are for reverse translation of poorly written HTML.
 // Forward translation doesn't translate most printable characters.
+
 const xml_entity xml_trans[]= {
   { 0x07, "&bel;" },
   { 0x0a, "&lf;" },
@@ -180,6 +191,213 @@ const xml_entity xml_trans[]= {
   { 0x00, 0 }
 }; 
 
+xml_ofstream::xml_ofstream() : std::ofstream(), my_tag()  {}
+
+xml_ofstream::xml_ofstream(const char *filename, const char *tag, 
+    std::ios_base::openmode m) : std::ofstream(filename,m), my_tag(tag)
+{
+  if (is_open()) {
+    write_head();
+  }
+}
+
+xml_ostream::xml_ostream(std::ostream &o, const char *tag) 
+  : my_tag(tag), os(o) 
+{
+  write_head();
+}
+
+xml_ostream::~xml_ostream() {
+  write_foot();
+}
+
+xml_ofstream::~xml_ofstream() {
+  close();
+}
+
+void xml_ofstream::open(const char *filename, const char *tag, 
+    std::ios_base::openmode m) {
+  my_tag=std::string(tag);
+  std::ofstream::open(filename,m);
+  if (is_open()) {
+    write_head();
+  }
+}
+
+void xml_ofstream::close() {
+  write_foot();
+  std::ofstream::close();
+}
+
+void xml_ostream::write_head() {
+  xml_indent_level=0;
+  os << xml_header << std::endl;
+  os << '<' << my_tag << '>' << std::endl;
+  xml_indent(2);
+}
+
+void xml_ofstream::write_head() {
+  xml_indent_level=0;
+  *this << xml_header << std::endl;
+  *this << '<' << my_tag << '>' << std::endl;
+  xml_indent(2);
+}
+
+void xml_ostream::write_foot() {
+  xml_indent(-2);
+  os << "</" << my_tag << '>' << std::endl;
+}
+
+void xml_ofstream::write_foot() {
+  xml_indent(-2);
+  *this << "</" << my_tag << '>' << std::endl;
+}
+
+xml_ifstream::xml_ifstream() : std::ifstream(), my_tag(""), xml_start(0), 
+  xml_end(0) {}
+
+xml_ifstream::xml_ifstream(const char *filename, const char *tag, 
+    std::ios_base::openmode m) : std::ifstream(filename,m), my_tag(tag),
+    xml_start(0), xml_end(0) {
+  if (is_open()) {
+    seek_head();
+  }
+}
+
+xml_istream::xml_istream(std::istream &i, const char *tag) 
+  : my_tag(tag), is(i) {
+}
+
+xml_ifstream::~xml_ifstream() {
+  close();
+}
+
+void xml_ifstream::open(const char *filename, const char *tag, 
+    std::ios_base::openmode m) {
+  my_tag=std::string(tag);
+  std::ifstream::open(filename,m);
+  if (is_open()) {
+    seek_head();
+  }
+}
+
+void xml_istream::seek_head() {
+  std::string tmp;
+  char c;
+  unsigned int i=0;
+  bool start_found=false;
+  if (my_tag.size()) {
+    while (is) {
+        is.get(c);
+	if (c=='<') {
+	  do {
+	    is.get(c);
+	    i++;
+	  } while (c == my_tag[i-1]);
+	  if ((i==my_tag.size()) && !isalnum(c)) {
+	    start_found=true;
+	    break;
+	  }
+	}
+    }
+  } else {
+    while (is) {
+      is.get(c);
+      if (c=='<') {
+	do {
+	  is.get(c);
+          if (isalnum(c)) my_tag+=c;
+	} while (isalnum(c));
+      }
+      if (my_tag.size()) {
+	start_found=true;
+	break;
+      }
+    }
+  }
+  if (start_found) {
+    while ((c != '>') && is) is.get(c);
+  }
+}
+
+
+void xml_ifstream::seek_head() {
+  if (!xml_start) {
+    std::string tmp;
+    std::string::size_type tag_start, tag_end;
+    bool start_found=false;
+    std::ifstream::seekg(0,std::ios::beg);
+    if (my_tag.size()) {
+      do {
+        *this >> tmp;
+        if ((tag_start=tmp.find(std::string("<")+my_tag)) != std::string::npos) {
+	  tag_start=tmp.find('>');
+	  std::ifstream::seekg(tag_start-tmp.size()+my_tag.size()+2,std::ios::cur);
+	  start_found=true;
+        } else {
+          if ((tag_start=tmp.find("<")) != std::string::npos) {
+	    if (isalpha(tmp[tag_start+1])) {
+              while (isalnum(tmp[++tag_start])) my_tag+=tmp[tag_start];
+	      start_found=true;
+	      tag_start=tmp.find(">",tag_start-1);
+	      std::ifstream::seekg(tag_start-tmp.size(),std::ios::cur);
+	    }
+          }
+        }
+      } while (!start_found && !std::ifstream::eof());
+      xml_start=std::ifstream::tellg();
+    }
+    if (my_tag.size()) {
+      int nstarts=1;
+      std::string start_tag(std::string("<")+my_tag);
+      std::string end_tag(std::string("</")+my_tag);
+      do {
+	*this >> tmp;
+	if (tmp.find(start_tag)!=std::string::npos) {
+	  nstarts++;
+	}
+	if ((tag_end=tmp.find(end_tag))!=std::string::npos) {
+	  nstarts--;
+	}
+      } while (nstarts && !std::ifstream::eof());
+      std::ifstream::seekg(tag_end-tmp.size(),std::ios::cur);
+      xml_end=std::ifstream::tellg();
+    }
+  } 
+  if (xml_start) std::ifstream::seekg(xml_start,std::ios::beg);
+}
+
+xml_ifstream &xml_ifstream::seekg(pos_type p) {
+  if (xml_start) std::ifstream::seekg(xml_start+p);
+  return *this;
+}
+
+xml_ifstream &xml_ifstream::seekg(off_type o, std::ios::seekdir d) {
+  switch (d) {
+    case std::ios::beg:
+      seekg(o);
+      break;
+    case std::ios::end:
+      std::ifstream::seekg(xml_end+o);
+      break;
+    default:
+      std::ifstream::seekg(o,d);
+      break;
+  }
+  return *this;
+}
+
+std::ios::pos_type xml_ifstream::tellg() {
+  return std::ifstream::tellg()-xml_start;
+}
+	
+bool xml_ifstream::eof() {
+  if (std::ifstream::tellg() >= xml_end) {
+    return true;
+  } else {
+    return std::ifstream::tellg();
+  }
+}
 #ifdef HAVE_MAP
 #include <map>
 
@@ -201,13 +419,58 @@ void populate_decode_map() {
 }
 #endif
 
-static int xml_indent_level=0;
+const char * encode_arr="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-std::string xml_indent(int i) {
-  if (i) xml_indent_level+=i;
-  xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
-  return std::string(xml_indent_level,' ');
+const char * encode_arr85=
+"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy!#$()*+,-./:;=?@^`{|}~z_";
+
+
+bool isencchar(char c) {
+  bool rv=((c>='A') && (c<='Z'));
+  rv|=((c>='a') && (c<='z'));
+  rv|=((c>='0') && (c<='9'));
+  rv|=((c=='+') || (c=='/') || (c=='='));
+  return rv;
 }
+
+bool isencchar85(char c) {
+  bool rv=((c>='A') && (c<='Z'));
+  rv|=((c>='a') && (c<='z'));
+  rv|=((c>='0') && (c<='9'));
+  switch (c) {
+    case '!':
+    case '#':
+    case '$':
+    case '(':
+    case ')':
+    case '*':
+    case '+':
+    case ',':
+    case '-':
+    case '.':
+    case '/':
+    case ':':
+    case ';':
+    case '=':
+    case '?':
+    case '@':
+    case '^':
+    case '`':
+    case '{':
+    case '|':
+    case '}':
+    case '~':
+    case '_':
+      rv=true;
+      break;
+    default:
+      break;
+  }
+  return rv;
+}
+
+
+
 
 std::string encode_char(unsigned char c) {
 #ifdef HAVE_MAP
@@ -233,7 +496,7 @@ std::string encode_char(unsigned char c) {
   }
 }  
 
-unsigned char decode_char(const unsigned char *s) {
+unsigned char decode_char(const char *s) {
   char code[32];
   int i=0;
   while (*s && (*s != ';')) {
@@ -269,58 +532,30 @@ unsigned char decode_char(const unsigned char *s) {
   }
 }  
 
-std::vector<unsigned char> xml_decode_string(const unsigned char *input, size_t length) {
-  unsigned int i;
-  char c;
-  if (!length) {
-    // We're going to decode until we see a null.  Including the null.
-    length=strlen((const char *)input);
-  }
-  std::vector<unsigned char> rv;
-  unsigned char *p;
-  rv.reserve(length);
-  for (i=0; i<length; i++) {
-    if (input[i]=='&') {
-      rv.push_back(c=decode_char(input+i));
-      if ((c!='&') || strncmp((const char *)(input+i),"&amp;",5)) {
-	p=(unsigned char *)strchr((const char *)(input+i),';');
-	i=(p-input);
-      }
-    } else {
-      rv.push_back(input[i]);
+std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
+  std::ostringstream rv("\n");
+  size_t lastlen=0,i;
+  for (i=0;i<(nelements-1);i++) {
+    unsigned int ival=bin[i];
+    rv << ival << ',';
+    if ((rv.str().size()-lastlen)>70) {
+      rv << std::endl;
+      lastlen=rv.str().size();
     }
   }
-  return rv;
+  unsigned int ival=bin[i];
+  rv << ival << std::endl;
+  return rv.str();
 }
 
-std::string xml_encode_string(const unsigned char *input, size_t length) {
-  unsigned int i;
-  if (!length) {
-    // This is bad form.  Are you sure there are no nulls in the input?
-    length=strlen((const char *)input);
-  }
-  std::string rv;
-  rv.reserve(length);
-  for (i=0; i<length; i++) {
-    if (isprint(input[i])) {
-      switch (input[i]) {
-	case '>':
-	case '<':
-	case '&':
-	case '\'':
-	case '"': 
-	  rv+=encode_char(input[i]);
-	  break;
-        default:
-	  rv+=input[i];
-       }
-    } else {
-      char buf[16];
-      sprintf(buf,"&#%.3d;",input[i]);
-      rv+=buf;
-    }
-  }
-  return rv;
-}
+//
+// $Log$
+// Revision 1.9  2003/10/21 18:14:36  korpela
+// *** empty log message ***
+//
+//
+
+
+
 
 

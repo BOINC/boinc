@@ -247,6 +247,11 @@ char* sgets(char* buf, int len, char*& in) {
     return buf;
 }
 
+bool isxmldelim(char c) {
+  return ((c==' ') || (c=='\n') || (c=='\r') || 
+          (c==',') || (c=='<') || (c=='>'));
+}
+
 bool extract_xml_record(const std::string &field, const char *tag, std::string &record) {
     std::string::size_type start_pos,end_pos;
     char end_tag[256];
@@ -257,7 +262,7 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
     do {
       j=field.find(">",j+1);
       end_pos=field.rfind(end_tag,j);
-      if (end_pos != std::string::npos) {
+      if ((end_pos != std::string::npos) && isxmldelim(field[end_pos+1])) {
 	end_pos=j;
       }
     } while ((end_pos==std::string::npos) && (j!=std::string::npos));
@@ -272,7 +277,8 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
     do {
       j=field.rfind(">",j-1);
       start_pos=field.rfind(tag,j);
-      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/')) {
+      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/') &&
+	  isxmldelim(field[start_pos+strlen(tag)])) {
         start_pos=field.rfind("<",start_pos);
       } else {
 	start_pos=std::string::npos;
