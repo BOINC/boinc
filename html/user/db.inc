@@ -72,15 +72,20 @@ function show_host($host) {
     row("<b>Number of CPUs:   </b>", $host->p_ncpus);
     row("<b>Operating System:   </b>", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
-    row("<b>Memory:   </b>", "$x MB");
+    $y = round($x, 3);
+    row("<b>Memory:   </b>", "$y MB");
     $x = $host->m_cache/1024;
-    row("<b>Cache:   </b>", "$x KB");
+    $y = round($x);
+    row("<b>Cache:   </b>", "$y KB");
     $x = $host->m_swap/(1024*1024);
-    row("<b>Swap Space:   </b>", "$x MB");
+    $y = round($x);
+    row("<b>Swap Space:   </b>", "$y MB");
     $x = $host->d_total/(1024*1024*1024);
-    row("<b>Total Disk Space:   </b>", "$x GB");
+    $y = round($x);
+    row("<b>Total Disk Space:   </b>", "$y GB");
     $x = $host->d_free/(1024*1024*1024);
-    row("<b>Free Disk Space:   </b>", "$x GB");
+    $y = round($x);
+    row("<b>Free Disk Space:   </b>", "$y GB");
     row("<b>Avg network bandwidth:<br>(upstream)   </b>", "$host->n_bwup bytes/sec");
     row("<b>Avg network bandwidth:<br>(downstream)   </b>", "$host->n_bwdown bytes/sec");
     row("<b>Number of times client has contacted server:   </b>", $host->rpc_seqno);
@@ -89,7 +94,6 @@ function show_host($host) {
     row("<b>% of time client connected:   </b>", 100*$host->connected_frac." %");
     row("<b>% of time client active:   </b>", 100*$host->active_frac." %");
     echo "</table>\n";
-
 
 }
 

@@ -6,7 +6,9 @@ require_once("db.inc");
 function print_teams_display() {
 
 page_head("Teams");
-echo "<h2>BOINC Teams</h2>";
+echo "<table width=780>";
+echo "<tr><td><h2>BOINC Teams</h2></td></tr>";
+echo "<tr><td>";
 echo "<p>";
 echo "BOINC users may form &quot;teams&quot; - ";
 echo "for example, students in a school, employees of a company, etc. ";
@@ -39,6 +41,7 @@ echo "Search for a team: ";
 echo "<input name=team_name>";
 echo "<input type=submit name=search value=\"Search\">";
 echo "</form>";
+echo "</td></tr></table>";
 page_tail();
 }
 
@@ -57,7 +60,8 @@ echo "[<a href=team_remove_inactive_form.php?id=$team->id><b>Remove Inactive Mem
 echo "[<a href=team_disband_form.php?id=$team->id><b>Disband Team*</b></a>]  ";
 echo "[<a href=team_email_list.php?id=$team->id><b>View Team Emails*</b></a>]";
 echo "<br><font size=2>* Team founder only</font>";
-
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<ul>";
 echo "<li>Anyone may join a team at any time.</li>";
 echo "<li>Likewise, anyone may quit a team at any time.</li>"; 
@@ -71,20 +75,21 @@ echo "Then the team founder may go to the team page and disband the team. ";
 echo "A team may not be disbanded if it still has members.</li>";
 echo "<li>Finally, the team founder has access to all team members' email addresses.</li>";
 echo "</ul>";
+echo "</td></tr></table>";
 
 echo "<br>";
 echo "<p>";
 echo "<table border=0 width=580>";
 echo "<tr bgcolor=#708090><td colspan=2><font size=+1>";
 echo "<b>Team Info:</b></font></td></tr></table>";
-echo "<table border=1>";
+echo "<table>";
 if (strlen($team->description)) {
-    echo "<tr><td>Description</td><td>$team->description</td></tr>";
+    row("<b>Description:   </b>", $team->description);
 }
 if (strlen($team->url)) {;
-    echo "<tr><td>Web site</td><td> <a href=http://$team->url>click here</a></td></tr>";
+    row("<b>Web site:   </b>", "<a href=http://$team->url>click here</a>");
 }
-echo "<tr><td>Members</td><td> $team->nusers</td></tr>";
+row("<b>Members:   </b>", $team->nusers);
 
 $query = sprintf(
     "select * from user where teamid = %d",
@@ -97,23 +102,23 @@ for ($i = 0; $i < $team->nusers; $i++) {
     $total_credit = $total_credit + $user->total_credit;
 }
 
-echo "<tr><td>Total Credit</td><td> $total_credit</td></tr>";
-echo "<tr><td>Founder</td><td>";
+row("<b>Total Credit:   </b>", $total_credit);
 $query = sprintf(
     "select * from user where id = %d",
     $team->userid
 );
 $result = mysql_query($query);
 $user = mysql_fetch_object($result);
-echo "$user->name</td></tr></table>";
+row("<b>Founder:   </b>", $user->name);
+echo "</table>";
 echo "<p>";
 echo "<table border=0 width=580>";
 echo "<tr bgcolor=#708090><td colspan=2><font size=+1>";
 echo "<b>Team Members:</b></font></td></tr></table>";
-echo "<table border=\"1\" cellspacing=0 cellpadding=2><tr>";
+echo "<table border=1 cellpadding=2 width=40%><tr>";
 echo "<th>Name</th>";
-echo "<th>Total<br>Credit</th>";
-echo "<th>Average CPU time<br>per work unit</th>";
+echo "<th>Total credit</th>";
+echo "<th>Recent average CPU<br>time per work unit</th>";
 echo "<th>Country</th>";
 echo "</tr>";
 
@@ -126,10 +131,10 @@ $result = mysql_query($query);
 for ($i = 0; $i < $team->nusers; $i++) {
     $user = mysql_fetch_object($result);
     $j = $i+1;
-    echo "<tr><td>$j)$user->name";
-    echo "<td align=right>$user->total_credit</td>";
-    echo "<td align=right>$user->expavg_time</td>";
-    echo "<td align=right>$user->country</td>";
+    echo "<tr><td align=left>$j) $user->name";
+    echo "<td align=center>$user->total_credit</td>";
+    echo "<td align=center>$user->expavg_time</td>";
+    echo "<td align=center>$user->country</td>";
     echo "</tr>";
 }
 echo "</table>";
@@ -141,24 +146,27 @@ function print_team_create_form() {
 
 page_head("Create Team");
 echo "<h2>Create a BOINC Team</h2>";
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<p>";
 echo "Use this form to create a team.  ";
 echo "<p>";
 echo "You'll become the first member of the team.  ";
 echo "Then tell your friends/co-workers/etc. about the team.  ";
 echo "They may join it using the BOINC &quot;Teams&quot; page.  ";
+echo "</td></tr></table>";
 echo "<p>";
 echo "<form method=post action=team_create_action.php>";
 echo "<table>";
 echo "<tr>";
 echo "<td>Team name (plain-text version):<br><br>&nbsp;</td>";
-echo "<td><input name=name type=text size=60>";
+echo "<td><input name=name type=text size=50>";
 echo "<br><font size=2>This name will be printed as-is and is the name ";
 echo "you should use <br>when searching for your Team.";
 echo "</td>";
 echo "</tr><tr>";
 echo "<td>Team name (HTML version):<br><br>&nbsp;</td>";
-echo "<td><input name=name_html size=60>";
+echo "<td><textarea name=name_html cols=60 rows=6></textarea>";
 echo "<br><font size=2>This name will be printed as HTML source, so you may include any HTML";
 echo "<br>code that you want. This will only be displayed in your teams' page.";
 echo "<br>If you don't know HTML, just leave this box blank.";
@@ -213,6 +221,8 @@ $team_name = $team->name;
 $team_id = $team->id;
 page_head("Join $team_name");
 echo "<h2>Join $team_name</h2>";
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<p><b>Please note before joining or switching to a new team:</b>";
 echo "<ul>";
 echo "<li>If this is the first team you have ever joined ";
@@ -232,6 +242,7 @@ echo "<form method=post action=team_join_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
 echo "<input type=submit value=\"Join Team\">";
 echo "</form>";
+echo "</td></tr></table>";
 page_tail();
 }
 
@@ -250,6 +261,8 @@ $team_name = $team->name;
 $team_id = $team->id;
 page_head("Quit $team_name");
 echo "<h2>Quit $team_name</h2>";
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<p><b>Please note before quitting a team:</b>";
 echo "<ul>";
 echo "<li>By quitting a team you remove your name from the team listing.  ";
@@ -265,6 +278,7 @@ echo "<form method=post action=team_quit_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
 echo "<input type=submit value=\"Quit Team\">";
 echo "</form>";
+echo "</td></tr></table>";
 page_tail();
 }
 
@@ -287,6 +301,8 @@ $team_description = $team->description;
 $team_type = $team->type;
 page_head("Edit $team_name");
 echo "<h2>Edit $team_name</h2>";
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<p><b>Please note before editing a team:</b>";
 echo "<ul>";
 echo "<li>Only the founder may edit a team";
@@ -295,6 +311,7 @@ echo "</p>";
 echo "<hr>";
 echo "<form method=post action=team_edit_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
+echo "</td></tr></table>";
 echo "<table><tr>";
 echo "<td>Team name (plain-text version):<br><br>&nbsp;</td>";
 echo "<td><input name=name size=60 value=$team_name>";
@@ -346,6 +363,8 @@ $team_id = $team->id;
 $nusers = $team->nusers;
 page_head("Remove Members from $team_name");
 echo "<h2>Remove members from $team_name</h2>";
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<p><b>Please note:</b>";
 echo "<ul>";
 echo "<li>Only the founder may remove members from a team";
@@ -400,6 +419,8 @@ $team_name = $team->name;
 $team_id = $team->id;
 page_head("Disband $team_name");
 echo "<h2>Disband $team_name</h2>";
+echo "<table width=780>";
+echo "<tr><td>";
 echo "<p><b>Please note:</b>";
 echo "<ul>";
 echo "<li>Only the found may disband a team.";
@@ -416,6 +437,7 @@ echo "<form method=post action=team_disband_action.php>";
 echo "<input type=hidden name=id value=$team_id>";
 echo "<input type=submit value=\"Disband Team\">";
 echo "</form>";
+echo "</tr></td></table>";
 page_tail();
 }
 

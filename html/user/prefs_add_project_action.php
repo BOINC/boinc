@@ -26,6 +26,8 @@ if ($user == NULL) {
         }
         prefs_update($user, $prefs);
         prefs_form_projects($prefs);
+        echo "<p>";
+        echo "<a href=prefs.php>Back to preferences</a>\n";
     }
 }
 echo "<p>\n";
