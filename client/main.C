@@ -71,22 +71,19 @@ int initialize_prefs() {
 
 #ifdef __APPLE_CC__
 #include "mac_main.h"
-mac_main() {
+int main() {
     signal(SIGPIPE, SIG_IGN);
     read_log_flags();
+
+    if (gstate.init()) return -1;
+    
+    // mac_setup won't return until the main application loop has quit
     if (!mac_setup ()) return -1;
-    retval = gstate.init();
-    if (retval) exit(retval);
-    while (1) {
-        if (!gstate.do_something()) {
-	}
-        if (gstate.time_to_exit() || user_requested_exit) {
-	    break;
-	}
-    }
+    // Afterwards, we clean up and exit
     mac_cleanup ();
 }
-#endif
+
+#else
 
 int main(int argc, char** argv) {
     int retval;
@@ -112,3 +109,5 @@ int main(int argc, char** argv) {
     gstate.exit();
     return 0;
 }
+
+#endif

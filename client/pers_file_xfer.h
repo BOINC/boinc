@@ -44,13 +44,14 @@ class PERS_FILE_XFER {
     bool is_upload;
 
 public:
-    int pers_xfer_retval;
     bool xfer_done;
     FILE_XFER* fxp;     // nonzero if file xfer in progress
     FILE_INFO* fip;
     
     int init(FILE_INFO*, bool is_file_upload);
     bool poll(unsigned int now);
+    void handle_xfer_failure(unsigned int cur_time);
+    int retry_and_backoff(unsigned int cur_time);
     int write(FILE* fout);
     int parse(FILE* fin);
     bool start_xfer();

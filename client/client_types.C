@@ -19,6 +19,9 @@
 
 #include "windows_cpp.h"
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -211,16 +214,24 @@ FILE_INFO::FILE_INFO() {
 FILE_INFO::~FILE_INFO() {
 }
 
-int FILE_INFO::parse_server_response(char *buf) {
-    int status = -1;
-    
-    parse_double(buf, "<nbytes>", upload_offset);
-    parse_int(buf, "<status>", status);
-    // TODO: decide what to do with error string
-    //if (!parse_str(buf, "<error>", upload_offset) ) return -1;
+// Set the appropriate permissions depending on whether
+// it's an executable or normal file
+// TODO: implement Windows equivalent
+int FILE_INFO::set_permissions() {
+    int retval;
+    char pathname[256];
 
-    return status;
+    get_pathname(this, pathname);
+#ifndef _WIN32
+    if (executable) {
+        retval = chmod(pathname, S_IEXEC|S_IREAD|S_IWRITE);
+    } else {
+        retval = chmod(pathname, S_IREAD|S_IWRITE);
+    }
+#endif
+    return retval;
 }
+
 // If from server, make an exact copy of everything
 // except the start/end tags and the <xml_signature> element.
 //
@@ -347,6 +358,7 @@ int FILE_INFO::delete_file() {
     char path[256];
 
     get_pathname(this, path);
+    status = FILE_NOT_PRESENT;
     return file_delete(path);
 }
 

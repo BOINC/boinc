@@ -71,10 +71,10 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     return 0;
 }
 
-// scan all FILE_INFOs.
-// start downloads and uploads as needed.
+// scan all FILE_INFOs and PERS_FILE_XFERs.
+// start and finish downloads and uploads as needed.
 //
-bool CLIENT_STATE::start_file_xfers() {
+bool CLIENT_STATE::handle_pers_file_xfers() {
     unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
@@ -103,5 +103,18 @@ bool CLIENT_STATE::start_file_xfers() {
             action = true;
         }
     }
+
+    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
+        pfx = pers_xfers->pers_file_xfers[i];
+        // If the transfer finished, remove the PERS_FILE_XFER object
+        // from the set and delete it
+        if (pfx->xfer_done) {
+            pfx->fip->pers_file_xfer = NULL;
+            pers_xfers->remove(pfx);
+            delete pfx;
+            action = true;
+        }
+    }
+    
     return action;
 }

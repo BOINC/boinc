@@ -201,23 +201,20 @@ bool CLIENT_STATE::do_something() {
 
     check_suspend_activities();
     if (!activities_suspended) {
+        // Call these functions in bottom to top order in
+        // respect to the FSMs hierarchy
         net_xfers->poll(999999, nbytes);
         if (nbytes) action = true;
-        // If pers_xfers returns true, we've made a change to a
-        // persistent transfer which must be recorded in the
-        // client_state.xml file
-        if (pers_xfers->poll()) {
-            action = client_state_dirty = true;
-        }
         action |= http_ops->poll();
         action |= file_xfers->poll();
         action |= active_tasks.poll();
         action |= active_tasks.poll_time();
         action |= scheduler_rpc_poll();
-        action |= garbage_collect();
         action |= start_apps();
+        action |= pers_xfers->poll();
         action |= handle_running_apps();
-        action |= start_file_xfers();
+        action |= handle_pers_file_xfers();
+        action |= garbage_collect();
         action |= update_results();
         write_state_file_if_needed();
     }
@@ -649,11 +646,9 @@ void CLIENT_STATE::print_counts() {
 //
 bool CLIENT_STATE::garbage_collect() {
     unsigned int i;
-    PERS_FILE_XFER* pfxp;
     FILE_INFO* fip;
     RESULT* rp;
     WORKUNIT* wup;
-    vector<PERS_FILE_XFER*>::iterator pers_iter;
     vector<RESULT*>::iterator result_iter;
     vector<WORKUNIT*>::iterator wu_iter;
     vector<FILE_INFO*>::iterator fi_iter;
@@ -667,33 +662,6 @@ bool CLIENT_STATE::garbage_collect() {
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         fip->ref_cnt = 0;
-    }
-
-    // delete PERS_FILE_XFERs that have finished and their
-    // associated FILE_INFO and FILE_XFER objects
-    //
-    pers_iter = pers_xfers->pers_file_xfers.begin();
-    while (pers_iter != pers_xfers->pers_file_xfers.end()) {
-        pfxp = *pers_iter;
-        if (pfxp->xfer_done) {
-            // Set the status of the related file info to
-            // ERR_GIVEUP.  The failure will be reported to the
-            // server and related file infos, results, and workunits
-            // will be deleted if necessary
-            if (pfxp->pers_xfer_retval == ERR_GIVEUP) {
-                pfxp->fip->status = ERR_GIVEUP;
-            }
-
-            pers_iter = pers_xfers->pers_file_xfers.erase(pers_iter);
-            pfxp->fip->pers_file_xfer = NULL;
-            delete pfxp;
-
-            // Update the client_state file
-            client_state_dirty = true;
-            action = true;
-        } else {
-            pers_iter++;
-        }
     }
     
     // delete RESULTs that have been finished and reported;

@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-void InitToolbox(void);
+void InitMainWindow(void);
 void DisplayBOINCStatusWindow (int left, int top, int width, int height);
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 pascal void BOINCPollLoopProcessor(EventLoopTimerRef inTimer, void* timeData);

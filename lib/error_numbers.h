@@ -29,7 +29,9 @@
 #define ERR_RENAME      -109
 #define ERR_UNLINK      -110
 #define ERR_OPENDIR     -111
+// Unexpected XML tag or XML format
 #define ERR_XML_PARSE   -112
+// Couldn't resolve hostname
 #define ERR_GETHOSTBYNAME   -113
 // too much time has elapsed without progress on file xfer
 #define ERR_GIVEUP      -114

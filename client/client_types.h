@@ -123,7 +123,7 @@ public:
 
     FILE_INFO();
     ~FILE_INFO();
-    int parse_server_response(char*);
+    int set_permissions();
     int parse(FILE*, bool from_server);
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file

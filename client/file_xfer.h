@@ -40,12 +40,14 @@ public:
     char pathname[256];
     char header[4096];
     int state;
+    bool file_size_query;
 
     FILE_XFER();
     ~FILE_XFER();
 
     //int init_download(char* url, char* outfile);
     //int init_upload(char* url, char* infile);
+    int parse_server_response(double &offset);
     int init_download(FILE_INFO&);
     int init_upload(FILE_INFO&);
     bool file_xfer_done;

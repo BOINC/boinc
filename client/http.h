@@ -93,6 +93,9 @@ public:
 #define HTTP_STATE_REPLY_BODY       6
 #define HTTP_STATE_DONE             7
 
+#define HTTP_OK                     200
+#define HTTP_RANGE_REQUEST_ERROR    416
+
 extern int read_http_reply_header(int socket, HTTP_REPLY_HEADER&);
 
 #endif

@@ -50,7 +50,8 @@ public:
     double allowed_disk_usage();
     void update_net_stats(bool is_upload, double nbytes, double nsecs);
     int insert_file_xfer( FILE_XFER *fxp );
-    int giveup_after;
+    unsigned int giveup_after;
+    bool client_state_dirty;
 
     vector<PROJECT*> projects;
     vector<APP*> apps;
@@ -72,7 +73,6 @@ private:
     int version;
     char* platform_name;
     unsigned int nslots;
-    bool client_state_dirty;
     bool exit_when_idle;
     bool run_time_test;
     bool activities_suspended;
@@ -97,7 +97,7 @@ private:
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_running_apps();
-    bool start_file_xfers();
+    bool handle_pers_file_xfers();
     void print_counts();
     bool garbage_collect();
     bool update_results();
