@@ -10159,3 +10159,16 @@ David  Feb 28 2004
 
 David  Feb 28 2004
     - added some #includes for freeBSD compile
+
+David  Feb 28 2004
+	- made some stuff const
+	- added new GUI RPCs (for control)
+	- added GUI RPCs for Windows
+		NOTE: pipes don't work on Win. need to change to TCP
+
+	client/
+		client_state.C,h
+		cs_account.C
+		gui_rpc_server.C
+	doc/
+		gui_rpc.php
