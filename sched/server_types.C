@@ -342,10 +342,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
                 pri = "high";
             }
         }
-        fprintf(fout,
-            "<message priority=\"%s\">%s</message>\n",
-            pri.c_str(), msg.c_str()
-        );
+        if (messages.size()>0) {
+            fprintf(fout,
+                "<message priority=\"%s\">%s</message>\n",
+                pri.c_str(), msg.c_str()
+            );
+        }
     } else {
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
