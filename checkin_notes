@@ -6788,6 +6788,7 @@ Karl 2003-10-14
 
 Karl 2003-10-14
     - replaced C country_select program with a php function
+    - replaced "None or International" with "None" and "International"
 
     lib/
         countries.C (removed)
