@@ -31,6 +31,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #include "account.h"
@@ -68,16 +69,16 @@ CLIENT_STATE::CLIENT_STATE() {
     app_started = 0;
     max_transfer_rate = 9999999;
     max_bytes = 0;
-	minimize = false;
+    minimize = false;
     user_idle = true;
     use_proxy = false;
-	proxy_server_name[0] = 0;
-	proxy_server_port = 80;
+    proxy_server_name[0] = 0;
+    proxy_server_port = 80;
     suspend_requested = false;
 #ifdef _WIN32
-	time_tests_handle = NULL;
+    time_tests_handle = NULL;
 #endif
-	time_tests_id = 0;
+    time_tests_id = 0;
 }
 
 int CLIENT_STATE::init() {
@@ -1023,6 +1024,19 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             minimize = true;
             continue;
         };
+        
+        if (!strcmp(argv[i], "-version")) {
+            printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOST );
+            ::exit(0);
+            continue;
+        }
+
+        if (!strcmp(argv[i], "-help")) {
+            printf( "Usage: client [options]\n"
+                    "    -version                show version info\n" );
+            ::exit(0);
+            continue;
+        }
     }
 
     if ((p = getenv("HTTP_PROXY"))) {
