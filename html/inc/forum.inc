@@ -68,6 +68,14 @@ $post_ratings['0'] = "Neutral";
 $post_ratings['-1'] = "Not helpful (-1)";
 $post_ratings['-2'] = "Off topic (-2)";
 
+// process a user-supplied title to remove HTML stuff
+//
+function cleanup_title($title) {
+    $x = trim(htmlspecialchars(strip_tags($title)));
+    if (strlen($x)==0) return "(no title)";
+    else return $x;
+}
+
 function getCategories() {
     $langID = (!empty($_SESSION['lang']['id']))?$_SESSION['lang']['id']:1;
     $sql = "SELECT * FROM category WHERE lang = ".$langID." AND is_helpdesk = 0 ORDER BY orderID ASC";
@@ -226,16 +234,16 @@ function getForumPreferences($user){
         $user->jump_to_unread=$prefs->jump_to_unread;
         $user->hide_signatures=$prefs->hide_signatures;
         $user->rated_posts=$prefs->rated_posts;
-	$user->low_rating_threshold=$prefs->low_rating_threshold;
-	$user->high_rating_threshold=$prefs->high_rating_threshold;
+        $user->low_rating_threshold=$prefs->low_rating_threshold;
+        $user->high_rating_threshold=$prefs->high_rating_threshold;
         $user->ignorelist=$prefs->ignorelist;
         $user->forum_preferences=1;
-	
-	//Set defaults in certain cases:
-	if ($user->low_rating_threshold==0 and $user->high_rating_threshold==0){
-	    $user->low_rating_threshold=DEFAULT_LOW_RATING_THRESHOLD;
-	    $user->high_rating_threshold=DEFAULT_HIGH_RATING_THRESHOLD;
-	}    
+
+        //Set defaults in certain cases:
+        if ($user->low_rating_threshold==0 and $user->high_rating_threshold==0){
+            $user->low_rating_threshold=DEFAULT_LOW_RATING_THRESHOLD;
+            $user->high_rating_threshold=DEFAULT_HIGH_RATING_THRESHOLD;
+        }
     } else {
         mysql_query("insert into forum_preferences set userid='".$user->id."'");
         $user->forum_preferences=0;
@@ -272,7 +280,7 @@ function setSortStyle($user,$place,$new_style){
         list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);
         $$place=$new_style;
         setcookie('sorting', implode("|",array($forum,$thread,$faq,$answer)), time()+3600*24*365);
-    }        
+    }
 }
 
 function getThreadLastVisited($user, $thread){
@@ -331,8 +339,9 @@ function createThread($forumID, $ownerID, $title, $content, $add_signature=false
     $title = addslashes(sanitize_html($title));
     $content = addslashes(sanitize_html(stripslashes($content)));
 
-    $title = trim($title);
-    if (strlen(strip_tags($title)) == 0) {
+    $title = strip_tags(trim($title));
+    if (strlen($title) == 0) {
+        echo "empty title\n";
         return 0;
     }
 
@@ -399,7 +408,7 @@ function updateThread($threadID, $title) {
    $result = mysql_query($sql);
    if (!$result) return false;
    return true;
-} 
+}
 
 /* display functions */
 
@@ -418,8 +427,7 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     $posts = getPosts($thread->id, -1, -1, $sort_style);
     $logged_in_user = getThreadLastVisited($logged_in_user,$thread);
     setThreadLastVisited($logged_in_user,$thread);
-    
-    
+
     $firstPost = getFirstPost($thread->id);
 
     if ($is_helpdesk) {
@@ -440,7 +448,7 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
             }
         }
     }
-    
+
     if ($logged_in_user->jump_to_unread){
         if ($first_unread_post->id!=""){
             echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
@@ -451,7 +459,7 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 }
 
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false, $filter=true) {
-    global $post_ratings;						// <------ Old obsolete rating method (remove someday)
+    global $post_ratings;   // <------ Old obsolete rating method (remove someday)
 
     $user = lookup_user_id($post->user);
     $user = getForumPreferences($user);
@@ -462,15 +470,14 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     //If the user that made this post is on the list of people to ignore, change thresholds to be more strict
 
     if (in_array($user->id,explode("|",$logged_in_user->ignorelist))){
-	$user_is_on_ignorelist=true;
-	$rated_below_threshold = ($logged_in_user->high_rating_threshold>($post->score*$post->votes));
-	$rated_above_threshold = ($logged_in_user->high_rating_threshold+abs($logged_in_user->low_rating_threshold)<($post->score*$post->votes));
-    } else {											//Use normal threshold values
+        $user_is_on_ignorelist=true;
+        $rated_below_threshold = ($logged_in_user->high_rating_threshold>($post->score*$post->votes));
+        $rated_above_threshold = ($logged_in_user->high_rating_threshold+abs($logged_in_user->low_rating_threshold)<($post->score*$post->votes));
+    } else {                //Use normal threshold values
         $rated_below_threshold = ($logged_in_user->low_rating_threshold>($post->score*$post->votes));
-	$rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
+        $rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
     }
 
-        
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     echo "
@@ -480,7 +487,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     ";
 
     echo user_links($user, URL_BASE);
-    
+
     if ($user->special_user) {                                                                        //If this user is somehow special
         if ($user->special_user==1) $fstatus=ST_ADMIN;                                                //this is displayed in the forums
         if ($user->special_user==2) $fstatus=ST_MODERATOR;                                        //so that people know who they are
@@ -498,14 +505,15 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     echo "<br><font size=\"-2\">", $user->id, "</font>";                                          // Try and circumvent various forms of
                                                                                                   // of identity spoofing by displaying the
-                                                                                                  // user id of the poster, its cheep, easy, 
+                                                                                                  // user id of the poster, its cheep, easy,
                                                                                                   // and doesn't require any additional database
                                                                                                   // calls.
     if (!$filter || !$rated_below_threshold){
         echo "<p><font size=\"-2\">";
-        if ($user->has_avatar and $logged_in_user->hide_avatars!=1) 
-	    echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
-	echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</font></p>";
+        if ($user->has_avatar and $logged_in_user->hide_avatars!=1) {
+            echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
+        }
+        echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</font></p>";
     }
     echo "
         </td>
@@ -515,7 +523,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
-    
+
     echo "
         <table width=\"100%\" cellpadding=0 cellspacing=0 border=0>
         <tr valign=top>
@@ -527,8 +535,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($rated_above_threshold){
         echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"!\" height=\"".EMPHASIZE_IMAGE_HEIGHT."\">";
     }
-        
-    echo "        
+
+    echo "
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
@@ -536,14 +544,14 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=$post->id\">[Edit this post]</a>";
     if ($post->modified) echo "<br>Last modified: ", pretty_time_Str($post->modified);
     if ($rated_below_threshold && $filter){
-	if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
-	echo "<br>This post has been filtered (rating: ".($post->score * $post->votes).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
+        if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
+        echo "<br>This post has been filtered (rating: ".($post->score * $post->votes).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
     }
-    
+
     echo "\n</font></td>\n";
 
     if ($controls == FORUM_CONTROLS) {
-	//no special controls in forum
+        //no special controls in forum
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
             <td align=\"right\" style=\"border:0px\">
@@ -565,12 +573,13 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "</form>";
     }
 
-    if (!$filter || !$rated_below_threshold){							//If either filtering is turned off of this post is not below the threshold
+    //If either filtering is turned off of this post is not below the threshold
+    if (!$filter || !$rated_below_threshold){
         $posttext=nl2br(stripslashes($post->content));
         if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
             $posttext.=nl2br("\n".stripslashes($user->signature));                                //wants it to be shown for this post AND the logged in
         }                                                                                        //user has signatures enabled: show it
-            
+
         if ($logged_in_user->images_as_links==1){
             $posttext=image_as_link($posttext);
         }
@@ -588,13 +597,13 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         } else {
             echo " / Rating: ", round(intval(($post->score * $post->votes)+0.01),0), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\">-</a></font></td>";
         }
-    
+
         if ($controls == FORUM_CONTROLS) {
             echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input\">Reply to this post</a>]</td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
             echo "<td align=\"right\" style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
         }
-	echo "</tr></table>";
+        echo "</tr></table>";
     }
     echo "</td></tr>";
     if ($separate) {
@@ -642,7 +651,7 @@ function image_as_link($text){
     $out.=substr($text,$i);                                                //Output the rest
     return $out;
 }
-    
+
 
 function start_forum_table($headings, $span=NULL) {
     echo "
@@ -712,7 +721,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
             echo "<a href=\"forum_index.php\">", " Message boards</a> : ";
         }
         echo "<a href=\"forum_forum.php?id=$forum->id\">", $forum->title, "</a> : ";
-        echo strip_tags(stripslashes($thread->title));
+        echo cleanup_title($thread->title);
         echo "</span><br>";
     } else {
         echo "Invalid input to show_forum_title<br>";
@@ -726,7 +735,7 @@ function show_thread($thread, $n) {
     $forum = getForum($thread->forum);
     $category = getCategory($forum->category);
     $first_post = getFirstPost($thread->id);
-    $title = stripslashes($thread->title);
+    $title = cleanup_title($thread->title);
     $where = $category->is_helpdesk?"Questions and answers":"Message boards";
     $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
     $excerpt = sub_sentence(stripslashes($first_post->content), ' ', EXCERPT_LENGTH, true);
@@ -762,7 +771,7 @@ function show_post2($post, $n) {
     $content = nl2br(stripslashes($post->content));
     $when = time_diff_str($post->timestamp, time());
     $user = lookup_user_id($post->user);
-    $title = stripslashes($thread->title);
+    $title = cleanup_title($thread->title);
     $m = $n%2;
     echo "
         <tr class=row$m>

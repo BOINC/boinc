@@ -31,13 +31,14 @@ $category = getCategory($forum->category);
 $logged_in_user = get_logged_in_user(false);
 $logged_in_user = getForumPreferences($logged_in_user);
 
+$title = cleanup_title($thread->title);
 if ($category->is_helpdesk) {
     if (!$sort_style) {
         $sort_style = getSortStyle($logged_in_user,"answer");
     } else {
         setSortStyle($logged_in_user,"answer", $sort_style);
     }
-    page_head(PROJECT.': Questions and problems : '.$thread->title);    
+    page_head(PROJECT.': Questions and problems : '.$title);
 } else {
     if (!$sort_style) {
         $sort_style = getSortStyle($logged_in_user,"thread");
@@ -45,9 +46,9 @@ if ($category->is_helpdesk) {
         setSortStyle($logged_in_user,"thread", $sort_style);
     }
     if ($logged_in_user->jump_to_unread){
-        page_head(PROJECT.': Message boards : '.$thread->title, 'jumpToUnread();');
+        page_head(PROJECT.': Message boards : '.$title, 'jumpToUnread();');
     } else {
-        page_head(PROJECT.': Message boards : '.$thread->title);
+        page_head(PROJECT.': Message boards : '.$title);
     }
 }
 

@@ -22439,3 +22439,14 @@ David  9 Jan 2005
     html/inc/
         forum.inc
         profile.inc
+
+David  9 Oct 2005
+    - message board fixes - show thread titles using htmlspecialchars()
+        prevent invisible titles
+
+    html/
+        inc/
+            forum.inc
+            forum_show.inc
+        user/
+            forum_thread.php
