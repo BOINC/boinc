@@ -54,7 +54,7 @@ using namespace std;
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
 
-extern int check_set(vector<RESULT>&, int& canonical, double& credit);
+extern int check_set(vector<RESULT>&, DB_WORKUNIT& wu, int& canonical, double& credit);
 extern int check_pair(RESULT const&, RESULT const&, bool&);
 
 SCHED_CONFIG config;
@@ -251,9 +251,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         //     if (result.server_state == RESULT_SERVER_STATE_OVER
         //         && result.outcome == RESULT_OUTCOME_SUCCESS
         //     ) {
-        sprintf(
-            buf, "where workunitid=%d and server_state=%d and outcome=%d",
-            wu.id, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
+        sprintf(buf, "where workunitid=%d and validate_state=%d and server_state=%d and outcome=%d",
+            wu.id, VALIDATE_STATE_INIT, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
         );
         while (!result.enumerate(buf)) {
             results.push_back(result);
@@ -267,7 +266,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] Enough for quorum, checking set.\n", wu.id, wu.name
             );
-            retval = check_set(results, canonicalid, credit);
+            retval = check_set(results, wu, canonicalid, credit);
             if (!retval && canonicalid) {
                 need_transition = true;
                 log_messages.printf(
