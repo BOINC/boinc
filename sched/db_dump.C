@@ -81,8 +81,8 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
         host.id
     );
     if (show_user) {
-        USER user;
-        boinc_db_user(host.userid, user);
+        DB_USER user;
+        user.lookup_id(host.userid);
         if (user.show_hosts) {
             fprintf(f,
                 "    <userid>%d</userid>\n",
@@ -140,7 +140,9 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
 }
 
 void write_user(USER& user, FILE* f, bool detail, bool show_team) {
-    HOST host;
+    DB_HOST host;
+    char buf[256];
+
     fprintf(f,
         "<user>\n"
         " <id>%d</id>\n"
@@ -161,8 +163,8 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         );
     }
     if (detail && user.show_hosts) {
-        host.userid = user.id;
-        while (!boinc_db_host_enum_userid(host)) {
+        sprintf(buf, "where userid=%d", user.id);
+        while (!host.enumerate(buf)) {
             write_host(host, f, false, false);
         }
     }
@@ -172,7 +174,7 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
 }
 
 void write_team(TEAM& team, FILE* f, bool detail) {
-    USER user;
+    DB_USER user;
     char buf[MAX_BLOB_SIZE*2];
 
     fprintf(f,
@@ -217,8 +219,8 @@ void write_team(TEAM& team, FILE* f, bool detail) {
             " <country>%s</country>\n",
             team.country
         );
-        user.teamid = team.id;
-        while (!boinc_db_user_enum_teamid(user)) {
+        sprintf(buf, "where teamid=%d", team.id);
+        while (!user.enumerate(buf)) {
             write_user(user, f, false, false);
         }
     }
@@ -228,12 +230,12 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 }
 
 void team_total_credit() {
-    TEAM team;
+    DB_TEAM team;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_team_enum_total_credit(team)) {
+    while (!team.enumerate("order by total_credit desc")) {
         if (!f) {
             sprintf(buf, "team_total_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -257,12 +259,12 @@ void team_total_credit() {
 }
 
 void team_expavg_credit() {
-    TEAM team;
+    DB_TEAM team;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_team_enum_expavg_credit(team)) {
+    while (!team.enumerate("order by expavg_credit desc")) {
         if (!f) {
             sprintf(buf, "team_expavg_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -286,12 +288,12 @@ void team_expavg_credit() {
 }
 
 void team_id() {
-    TEAM team;
+    DB_TEAM team;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_team_enum_id(team)) {
+    while (!team.enumerate("order by id")) {
         if (!f) {
             sprintf(buf, "team_id_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -315,12 +317,12 @@ void team_id() {
 }
 
 void user_total_credit() {
-    USER user;
+    DB_USER user;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_user_enum_total_credit(user)) {
+    while (!user.enumerate("order by total_credit desc")) {
         if (!f) {
             sprintf(buf, "user_total_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -344,12 +346,12 @@ void user_total_credit() {
 }
 
 void user_expavg_credit() {
-    USER user;
+    DB_USER user;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_user_enum_expavg_credit(user)) {
+    while (!user.enumerate("order by expavg_credit desc")) {
         if (!f) {
             sprintf(buf, "user_expavg_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -373,12 +375,12 @@ void user_expavg_credit() {
 }
 
 void user_id() {
-    USER user;
+    DB_USER user;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_user_enum_id(user)) {
+    while (!user.enumerate("order by id")) {
         if (!f) {
             sprintf(buf, "user_id_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -402,12 +404,12 @@ void user_id() {
 }
 
 void host_total_credit() {
-    HOST host;
+    DB_HOST host;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_host_enum_total_credit(host)) {
+    while (!host.enumerate("order by total_credit desc")) {
         if (!f) {
             sprintf(buf, "host_total_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -431,12 +433,12 @@ void host_total_credit() {
 }
 
 void host_expavg_credit() {
-    HOST host;
+    DB_HOST host;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_host_enum_expavg_credit(host)) {
+    while (!host.enumerate("order by expavg_credit desc")) {
         if (!f) {
             sprintf(buf, "host_expavg_credit_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -460,12 +462,12 @@ void host_expavg_credit() {
 }
 
 void host_id() {
-    HOST host;
+    DB_HOST host;
     FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256], cmd_line[256];
 
-    while (!boinc_db_host_enum_id(host)) {
+    while (!host.enumerate("order by id")) {
         if (!f) {
             sprintf(buf, "host_id_%d", nfile);
             sprintf(cmd_line, "%s %s", zip_cmd, buf);
@@ -491,15 +493,18 @@ void host_id() {
 int tables_file() {
     int nusers, nteams, nhosts;
     int retval;
+    DB_USER user;
+    DB_TEAM team;
+    DB_HOST host;
     FILE* f = NULL;
 
     f = fopen("tables.xml", "w");
     if (!f) return -1;
-    retval = boinc_db_user_count(nusers);
+    retval = user.count(nusers);
     if (retval) return retval;
-    retval = boinc_db_team_count(nteams);
+    retval = team.count(nteams);
     if (retval) return retval;
-    retval = boinc_db_host_count(nhosts);
+    retval = host.count(nhosts);
     if (retval) return retval;
     fprintf(f,
         "<tables>\n"

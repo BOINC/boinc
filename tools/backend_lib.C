@@ -148,7 +148,7 @@ static int process_wu_template(
 // This is used to create clones of existing results,
 // so set only the time-varying fields
 //
-void initialize_result(RESULT& result, WORKUNIT& wu) {
+void initialize_result(DB_RESULT& result, DB_WORKUNIT& wu) {
     result.id = 0;
     result.create_time = time(0);
     result.workunitid = wu.id;
@@ -171,11 +171,11 @@ void initialize_result(RESULT& result, WORKUNIT& wu) {
 // Create a new result for the given WU.
 //
 int create_result(
-    WORKUNIT& wu, char* result_template,
+    DB_WORKUNIT& wu, char* result_template,
     char* result_name_suffix, R_RSA_PRIVATE_KEY& key,
     char* upload_url, char* download_url
 ) {
-    RESULT r;
+    DB_RESULT result;
     char base_outfile_name[256];
     char result_template_copy[MAX_BLOB_SIZE];
     int retval;
@@ -185,10 +185,10 @@ int create_result(
         rand_init = true;
         srand48(getpid() + time(0));
     }    
-    memset(&r, 0, sizeof(r));
-    initialize_result(r, wu);
-    sprintf(r.name, "%s_%s", wu.name, result_name_suffix);
-    sprintf(base_outfile_name, "%s_", r.name);
+    result.clear();
+    initialize_result(result, wu);
+    sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
+    sprintf(base_outfile_name, "%s_", result.name);
 
     strcpy(result_template_copy, result_template);
     retval = process_result_template(
@@ -197,18 +197,18 @@ int create_result(
         base_outfile_name,
         upload_url, download_url
     );
-    strcpy(r.xml_doc_in, result_template_copy);
-    r.random = lrand48();
+    strcpy(result.xml_doc_in, result_template_copy);
+    result.random = lrand48();
 
-    retval = boinc_db_result_new(r);
+    retval = result.insert();
     if (retval) {
-        fprintf(stderr, "boinc_db_result_new: %d\n", retval);
+        fprintf(stderr, "result.insert(): %d\n", retval);
     }
     return retval;
 }
 
 int create_work(
-    WORKUNIT& wu,
+    DB_WORKUNIT& wu,
     char* _wu_template,
     char* result_template_filename,
     int nresults,
@@ -234,9 +234,9 @@ int create_work(
         fprintf(stderr, "process_wu_template: %d\n", retval);
         return retval;
     }
-    retval = boinc_db_workunit_new(wu);
+    retval = wu.insert();
     if (retval) {
-        fprintf(stderr, "create_work: boinc_db_workunit_new %d\n", retval);
+        fprintf(stderr, "create_work: workunit.insert() %d\n", retval);
         return retval;
     }
     wu.id = boinc_db_insert_id();
@@ -261,7 +261,7 @@ int create_work(
 }
 
 int create_sequence(
-    WORKUNIT& wu,
+    DB_WORKUNIT& wu,
     char* wu_template,
     char* result_template_filename,
     int redundancy,
@@ -273,9 +273,9 @@ int create_sequence(
     int nsteps
 ) {
     int i, retval;
-    WORKSEQ ws;
+    DB_WORKSEQ ws;
 
-    retval = boinc_db_workseq_new(ws);
+    retval = ws.insert();
     if (retval) return retval;
     for (i=0; i<nsteps; i++) {
         // to be completed
@@ -284,7 +284,7 @@ int create_sequence(
 }
 
 int create_sequence_group(
-    WORKUNIT& wu,
+    DB_WORKUNIT& wu,
     char* wu_template,
     char* result_template_filename,
     int redundancy,

@@ -4370,7 +4370,8 @@ Eric   May 29, 2003
         language.C,h
 
 Eric   May 30, 2003
-    - nslots will now be updated correctly if user changes preferences on web site
+    - nslots will now be updated correctly
+        if user changes preferences on web site
 
     client/
         client_state.C,h
@@ -4393,8 +4394,9 @@ Karl    2003/06/02
         single_host_server.html
 
 Eric   June 3, 2002
-    - Added msg_printf function.  Use this function rather than show_message, since it
-      doesn't require a locally allocated buffer for formatted strings.
+    - Added msg_printf function.
+        Use this function rather than show_message, since it
+        doesn't require a locally allocated buffer for formatted strings.
 
     client/
         account.C
@@ -4407,3 +4409,31 @@ Eric   June 3, 2002
         pers_file_xfer.C
         scheduler_op.C
 
+David  June 4 2003
+    - Checked in Eric Korpela's rewrite of the DB interface code.
+        No more db_xxx functions; instead, use derived classes
+        with insert(), update() etc. functions
+    
+    db/
+        Makefile.in
+        boinc_db.C,h (.C new)
+        mysql_util.C,h (removed)
+        db_mysql.C (removed)
+    sched/
+        Makefile.in
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        handle_request.C
+        main.C,h
+        make_work.C
+        sched_shmem.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+    tools/
+        Makefile.in
+        add.C
+        backend_lib.C,h
+        create_work.C

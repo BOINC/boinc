@@ -45,7 +45,7 @@ using namespace std;
 #define REPLY_FILE_PREFIX "boinc_reply_"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
-PROJECT gproject;
+DB_PROJECT gproject;
 CONFIG config;
 
 int main() {
@@ -106,7 +106,7 @@ int main() {
     }
 
     found = false;
-    while (!boinc_db_project_enum(gproject)) {
+    while (!gproject.enumerate("")) {
         found = true;
     }
     if (!found) {

@@ -94,26 +94,27 @@ int result_delete_files(RESULT& result) {
 // return nonzero if did anything
 //
 bool do_pass() {
-    WORKUNIT wu;
-    RESULT result;
+    DB_WORKUNIT wu;
+    DB_RESULT result;
     bool did_something = false;
+    char buf[256];
 
     check_stop_trigger();
 
-    wu.file_delete_state = FILE_DELETE_READY;
-    while (!boinc_db_workunit_enum_file_delete_state(wu)) {
+    sprintf(buf, "where file_delete_state=%d", FILE_DELETE_READY);
+    while (!wu.enumerate(buf)) {
         did_something = true;
         wu_delete_files(wu);
         wu.file_delete_state = FILE_DELETE_DONE;
-        boinc_db_workunit_update(wu);
+        wu.update();
     }
 
-    result.file_delete_state = FILE_DELETE_READY;
-    while (!boinc_db_result_enum_file_delete_state(result)) {
+    sprintf(buf, "where file_delete_state=%d", FILE_DELETE_READY);
+    while (!result.enumerate(buf)) {
         did_something = true;
         result_delete_files(result);
         result.file_delete_state = FILE_DELETE_DONE;
-        boinc_db_result_update(result);
+        result.update();
     }
     return did_something;
 }

@@ -20,6 +20,6 @@
 #include "boinc_db.h"
 #include "config.h"
 
-extern PROJECT gproject;
+extern DB_PROJECT gproject;
 extern CONFIG config;
 extern void write_log(char*);

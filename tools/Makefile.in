@@ -46,8 +46,7 @@ LIBS = \
     ../lib/md5.o \
     ../lib/parse.o \
     ../lib/util.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o
+    ../db/boinc_db.o
 
 .C.o:
 	$(CC) -c -o $*.o $<

@@ -34,14 +34,14 @@ extern int read_filename(char* path, char* buf);
 
 extern int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key);
 
-extern void initialize_result(RESULT&, WORKUNIT&);
+extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 extern int create_result(
-    WORKUNIT& wu, char* result_template_filename, char* suffix,
+    DB_WORKUNIT& wu, char* result_template_filename, char* suffix,
     R_RSA_PRIVATE_KEY& key, char* upload_url, char* download_url
 );
 
 extern int create_work(
-    WORKUNIT& wu,
+    DB_WORKUNIT& wu,
     char* wu_template,
     char* result_template,
     int nresults,
@@ -54,7 +54,7 @@ extern int create_work(
 );
 
 extern int create_sequence_group(
-    WORKUNIT& wu,
+    DB_WORKUNIT& wu,
     char* wu_template,
     char* result_template,
     int redundancy,

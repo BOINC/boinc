@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 // Maximum allowed size for SQL based blobs (Binary Large Object)
+//
 #define MAX_BLOB_SIZE   4096
 
 // represents the project as a whole.
@@ -43,6 +44,7 @@ struct PROJECT {
     char long_name[256];
         // shown on client side, e.g. in GUI
         // can contain spaces etc.
+    void clear();
 };
 
 // A compilation target, i.e. a architecture/OS combination.
@@ -51,12 +53,12 @@ struct PROJECT {
 struct PLATFORM {
     int id;
     unsigned int create_time;
-    char name[256];             // i.e. "sparc-sun-solaris"
-    char user_friendly_name[256];             // i.e. "SPARC Solaris 2.8"
+    char name[256];                 // i.e. "sparc-sun-solaris"
+    char user_friendly_name[256];   // i.e. "SPARC Solaris 2.8"
+    void clear();
 };
 
 // An application.
-// The core client is viewed as an application; its name is "core_client".
 //
 struct APP {
     int id;
@@ -64,6 +66,7 @@ struct APP {
     char name[256];     // application name, preferably short
     int min_version;    // don't use app versions before this
     int write(FILE*);
+    void clear();
 };
 
 // A version of an application.
@@ -79,14 +82,17 @@ struct APP_VERSION {
 	// describes app files. format:
 	// <file_info>...</file_info>
 	// ...
-	// <file_assocs>
-	//    <io_file_desc>...</io_file_desc>
-	//    ...
-	// </file_assocs>
+    // <app_version>
+    //     <app_name>...</app_name>
+    //     <version_num>x</version_num>
+	//     <file_ref>
+	//        ...
+    //        [<main_program/>]
+	//     </file_ref>
+    // </app_version>
 	//
 
-    // The following defined for apps other than core client.
-    // They let you handle backwards-incompatible changes to
+    // the following let you handle backwards-incompatible changes to
     // the core client / app interface
     //
     int min_core_version;   // min core version this will run with
@@ -100,6 +106,7 @@ struct APP_VERSION {
                             // don't send it any work.
 
     int write(FILE*, APP&);
+    void clear();
 };
 
 struct USER {
@@ -122,6 +129,7 @@ struct USER {
     char url[256];                  // user's web page if any
     bool send_email;
     bool show_hosts;
+    void clear();
 };
 
 #define TEAM_TYPE_CLUB                  1
@@ -146,6 +154,7 @@ struct TEAM {
     char country[256];
     double total_credit;    // UNDEFINED BY DEFAULT
     double expavg_credit;   // UNDEFINED BY DEFAULT
+    void clear();
 };
 
 struct HOST {
@@ -198,6 +207,7 @@ struct HOST {
     int parse(FILE*);
     int parse_time_stats(FILE*);
     int parse_net_stats(FILE*);
+    void clear();
 };
 
 // values for file_delete state
@@ -210,8 +220,7 @@ struct HOST {
 #define ASSIMILATE_READY        1
 #define ASSIMILATE_DONE         2
 
-// NOTE: there is no overall state for a WU
-// (like done/not done)
+// NOTE: there is no overall state for a WU (like done/not done)
 // There's just a bunch of independent substates
 // (file delete, assimilate, and states of results, error flags)
 
@@ -261,6 +270,7 @@ struct WORKUNIT {
 
     // the following not used in the DB
     char app_name[256];
+    void clear();
 };
 
 #define RESULT_SERVER_STATE_INACTIVE       1
@@ -309,14 +319,15 @@ struct RESULT {
     int batch;
     int file_delete_state;
     int validate_state;
-    double claimed_credit;      // CPU time times host credit/sec
-    double granted_credit;      // == canonical credit of WU
-    int opaque;                 // project-specific; usually external ID
-    int random;                 // determines send order
+    double claimed_credit;          // CPU time times host credit/sec
+    double granted_credit;          // == canonical credit of WU
+    int opaque;                     // project-specific; usually external ID
+    int random;                     // determines send order
 
     // the following not used in the DB
     char wu_name[256];
     int parse_from_client(FILE*);
+    void clear();
 };
 
 #define WORKSEQ_STATE_UNASSIGNED    0
@@ -331,6 +342,7 @@ struct WORKSEQ {
     int wuid_last_done;             // last validated WU or zero
     int wuid_last_sent;             // last sent WU or zero
     int workseqid_master;           // if part of a redundant group, master ID
+    void clear();
 };
 
 extern int boinc_db_open(char* dbname, char* passwd);
@@ -339,76 +351,120 @@ extern void boinc_db_print_error(char*);
 extern const char* boinc_db_error_string();
 extern int boinc_db_insert_id();
 
-extern int boinc_db_project_new(PROJECT& p);
-extern int boinc_db_project_enum(PROJECT& p);
+#include "mysql.h"
 
-extern int boinc_db_platform_new(PLATFORM& p);
-extern int boinc_db_platform_enum(PLATFORM& p);
-extern int boinc_db_platform_lookup_name(PLATFORM&);
+struct CURSOR {
+    int active;
+    MYSQL_RES *resp;
+};
 
-extern int boinc_db_app_new(APP&);
-extern int boinc_db_app(int, APP&);
-extern int boinc_db_app_enum(APP&);
-extern int boinc_db_app_update(APP&);
-extern int boinc_db_app_lookup_name(APP&);
+// Base for derived classes that can access the DB
+// Defines various generic operations on DB tables
+//
+class DB_BASE {
+public:
+    DB_BASE(char *table_name);
+    int insert();
+    int update();
+    int lookup_id(int id);
+    int lookup(char*);
+    int enumerate(char* where_clause="");
+    int count(int&, char* where_clause="");
+    int sum(double&, char* field, char* where_clause="");
+    int get_double(char* query, double&);
+    int get_integer(char* query, int&);
 
-extern int boinc_db_app_version_new(APP_VERSION&);
-extern int boinc_db_app_version_lookup(
-    int appid, int platformid, int version, APP_VERSION&
-);
-extern int boinc_db_app_version_enum(APP_VERSION&);
+    const char *table_name;
+    CURSOR cursor;
+    virtual int get_id();
+    virtual void db_print(char*);
+    virtual void db_parse(MYSQL_ROW&);
+};
 
-extern int boinc_db_user_new(USER&);
-extern int boinc_db_user(int, USER&);
-extern int boinc_db_user_update(USER&);
-extern int boinc_db_user_count(int&);
-extern int boinc_db_user_count_team(TEAM&, int&);
-extern int boinc_db_user_lookup_auth(USER&);
-extern int boinc_db_user_lookup_email_addr(USER&);
-extern int boinc_db_user_enum_id(USER&);
-extern int boinc_db_user_enum_total_credit(USER&);
-extern int boinc_db_user_enum_expavg_credit(USER&);
-extern int boinc_db_user_enum_teamid(USER&);
-extern int boinc_db_user_sum_team_expavg_credit(TEAM&,double&);
-extern int boinc_db_user_sum_team_total_credit(TEAM&,double&);
+extern MYSQL *mysql;
 
-extern int boinc_db_team(int, TEAM&);
-extern int boinc_db_team_new(TEAM&);
-extern int boinc_db_team_update(TEAM&);
-extern int boinc_db_team_count(int&);
-extern int boinc_db_team_lookup_name(TEAM&);
-extern int boinc_db_team_lookup_name_lc(TEAM&);
-extern int boinc_db_team_enum(TEAM&);
-extern int boinc_db_team_enum_id(TEAM&);
-extern int boinc_db_team_enum_total_credit(TEAM&);
-extern int boinc_db_team_enum_expavg_credit(TEAM&);
+class DB_PROJECT : public DB_BASE, public PROJECT {
+public:
+    DB_PROJECT();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
 
-extern int boinc_db_host_new(HOST& p);
-extern int boinc_db_host(int, HOST&);
-extern int boinc_db_host_update(HOST&);
-extern int boinc_db_host_count(int&);
-extern int boinc_db_host_enum_id(HOST&);
-extern int boinc_db_host_enum_userid(HOST&);
-extern int boinc_db_host_enum_total_credit(HOST&);
-extern int boinc_db_host_enum_expavg_credit(HOST&);
+class DB_PLATFORM : public DB_BASE, public PLATFORM {
+public:
+    DB_PLATFORM();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
 
-extern int boinc_db_workunit_new(WORKUNIT& p);
-extern int boinc_db_workunit(int id, WORKUNIT&);
-extern int boinc_db_workunit_update(WORKUNIT& p);
-extern int boinc_db_workunit_lookup_name(WORKUNIT&);
-extern int boinc_db_workunit_enum_app_need_validate(WORKUNIT&);
-extern int boinc_db_workunit_enum_timeout_check_time(WORKUNIT&);
-extern int boinc_db_workunit_enum_file_delete_state(WORKUNIT&);
-extern int boinc_db_workunit_enum_app_assimilate_state(WORKUNIT&);
+class DB_APP : public DB_BASE, public APP {
+public:
+    DB_APP();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
 
-extern int boinc_db_result_new(RESULT& p);
-extern int boinc_db_result(int id, RESULT&);
-extern int boinc_db_result_update(RESULT& p);
-extern int boinc_db_result_lookup_name(RESULT& p);
-extern int boinc_db_result_enum_server_state(RESULT&, int);
-extern int boinc_db_result_enum_file_delete_state(RESULT&);
-extern int boinc_db_result_enum_wuid(RESULT&);
-extern int boinc_db_result_count_server_state(int state, int&);
+class DB_APP_VERSION : public DB_BASE, public APP_VERSION {
+public:
+    DB_APP_VERSION();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
 
-extern int boinc_db_workseq_new(WORKSEQ& p);
+class DB_USER : public DB_BASE, public USER {
+public:
+    DB_USER();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(USER& r) {USER::operator=(r);}
+};
+
+class DB_TEAM : public DB_BASE, public TEAM {
+public:
+    DB_TEAM();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
+class DB_HOST : public DB_BASE, public HOST {
+public:
+    DB_HOST();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(HOST& r) {HOST::operator=(r);}
+};
+
+class DB_RESULT : public DB_BASE, public RESULT {
+public:
+    DB_RESULT();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(RESULT& r) {RESULT::operator=(r);}
+};
+
+class DB_WORKUNIT : public DB_BASE, public WORKUNIT {
+public:
+    DB_WORKUNIT();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
+class DB_WORKSEQ : public DB_BASE, public WORKSEQ {
+public:
+    DB_WORKSEQ();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
+extern int boinc_db_open(char*, char*);
 #endif

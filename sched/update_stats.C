@@ -35,12 +35,12 @@
 #define LOCKFILE "update_stats.out"
 
 int update_users() {
-    USER user;
+    DB_USER user;
     int retval;
 
-    while (!boinc_db_user_enum_id(user)) {
+    while (!user.enumerate()) {
         update_average(0, 0, user.expavg_credit, user.expavg_time);
-        retval = boinc_db_user_update(user);
+        retval = user.update();
         if (retval) return retval;
     }
 
@@ -48,36 +48,41 @@ int update_users() {
 }
 
 int update_hosts() {
-    HOST host;
+    DB_HOST host;
     int retval;
 
-    while (!boinc_db_host_enum_id(host)) {
+    while (!host.enumerate()) {
         update_average(0, 0, host.expavg_credit, host.expavg_time);
-        retval = boinc_db_host_update(host);
+        retval = host.update();
         if (retval) return retval;
     }
 
     return 0;
 }
 
-int get_team_credit(TEAM &t) {
+int get_team_credit(TEAM& team) {
     int nusers;
     double expavg_credit, total_credit;
     int retval;
+    DB_USER user;
+    char buf[256];
 
     // count the number of users on a team
-    retval = boinc_db_user_count_team(t, nusers);
+    //
+    sprintf(buf, "where teamid=%d", team.id);
+    retval = user.count(nusers, buf);
     if (retval) return retval;
 
     // get the summed credit values for a team
-    retval = boinc_db_user_sum_team_expavg_credit(t, expavg_credit);
+    sprintf(buf, "where teamid=%d", team.id);
+    retval = user.sum(expavg_credit, "expavg_credit", buf);
     if (retval) return retval;
-    retval = boinc_db_user_sum_team_total_credit(t, total_credit);
+    retval = user.sum(total_credit, "total_credit", buf);
     if (retval) return retval;
 
-    t.nusers = nusers;
-    t.total_credit = total_credit;
-    t.expavg_credit = expavg_credit;
+    team.nusers = nusers;
+    team.total_credit = total_credit;
+    team.expavg_credit = expavg_credit;
 
     return 0;
 }
@@ -87,15 +92,15 @@ int get_team_credit(TEAM &t) {
 // This may take a while; don't do it often
 //
 int update_teams() {
-    TEAM team;
+    DB_TEAM team;
     int retval;
 
-    while (!boinc_db_team_enum(team)) {
+    while (!team.enumerate()) {
         retval = get_team_credit(team);
         if (retval) return retval;
 
         // update the team record
-        retval = boinc_db_team_update(team);
+        retval = team.update();
         if (retval) return retval;
     }
     return 0;

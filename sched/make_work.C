@@ -90,7 +90,8 @@ void make_work() {
     char new_file_name[256], new_pathname[256], command[256];
     char starting_xml[MAX_BLOB_SIZE], new_buf[MAX_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
-    WORKUNIT wu;
+    DB_WORKUNIT wu;
+    DB_RESULT result;
     int seqno = 0;
    
     retval = config.parse_file();
@@ -105,8 +106,8 @@ void make_work() {
         exit(1);
     }
 
-    strcpy(wu.name, wu_name);
-    retval = boinc_db_workunit_lookup_name(wu);
+    sprintf(buf, "where name='%s'", wu_name);
+    retval = wu.lookup(buf);
     if (retval) {
         sprintf(buf, "can't find wu %s\n", wu_name);
         write_log(buf);
@@ -129,7 +130,8 @@ void make_work() {
     }
     nresults_left = 0;
     while (1) {
-        retval = boinc_db_result_count_server_state(RESULT_SERVER_STATE_UNSENT, n);
+        sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+        retval = result.count(n, buf);
         if (retval) {
             write_log("can't count results\n");
             exit(1);
@@ -178,7 +180,7 @@ void make_work() {
             sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
             wu.id = 0;
             wu.create_time = time(0);
-            retval = boinc_db_workunit_new(wu);
+            retval = wu.insert();
             wu.id = boinc_db_insert_id();
             sprintf(buf, "Created new WU: %s\n", wu.name);
             write_log(buf);

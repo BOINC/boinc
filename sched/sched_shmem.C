@@ -66,27 +66,27 @@ static void overflow(char* table) {
 }
 
 int SCHED_SHMEM::scan_tables() {
-    PLATFORM platform;
-    APP app;
-    APP_VERSION app_version;
+    DB_PLATFORM platform;
+    DB_APP app;
+    DB_APP_VERSION app_version;
     int n;
 
     n = 0;
-    while (!boinc_db_platform_enum(platform)) {
+    while (!platform.enumerate()) {
         platforms[n++] = platform;
         if (n == MAX_PLATFORMS) overflow("platforms");
     }
     nplatforms = n;
 
     n = 0;
-    while (!boinc_db_app_enum(app)) {
+    while (!app.enumerate()) {
         apps[n++] = app;
         if (n == MAX_APPS) overflow("apps");
     }
     napps = n;
 
     n = 0;
-    while (!boinc_db_app_version_enum(app_version)) {
+    while (!app_version.enumerate()) {
         app_versions[n++] = app_version;
         if (n == MAX_APP_VERSIONS) overflow("app_versions");
     }

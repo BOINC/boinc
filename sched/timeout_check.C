@@ -147,9 +147,9 @@ int assign_new_names(char* in) {
     return 0;
 }
 
-void handle_wu(WORKUNIT& wu) {
+void handle_wu(DB_WORKUNIT& wu) {
     vector<RESULT> results;
-    RESULT result;
+    DB_RESULT result;
     int nerrors, ndone, retval;
     unsigned int i, n;
     char buf[256];
@@ -158,8 +158,8 @@ void handle_wu(WORKUNIT& wu) {
 
     // scan the results for the WU
     //
-    result.workunitid = wu.id;
-    while (!boinc_db_result_enum_wuid(result)) {
+    sprintf(buf, "where workunitid=%d", wu.id);
+    while (!result.enumerate(buf)) {
         results.push_back(result);
     }
 
@@ -175,7 +175,7 @@ void handle_wu(WORKUNIT& wu) {
                 result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
-                boinc_db_result_update(result);
+                result.update();
             }
             break;
         case RESULT_SERVER_STATE_OVER:
@@ -220,7 +220,7 @@ void handle_wu(WORKUNIT& wu) {
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                boinc_db_result_update(result);
+                result.update();
             }
         }
         if (wu.assimilate_state == ASSIMILATE_INIT) {
@@ -241,9 +241,9 @@ void handle_wu(WORKUNIT& wu) {
                 remove_signatures(result.xml_doc_in);
                 assign_new_names(result.xml_doc_in);
                 add_signatures(result.xml_doc_in, key);
-                retval = boinc_db_result_new(result);
+                retval = result.insert();
                 if (retval) {
-                    sprintf(buf, "db_result_new %d\n", retval);
+                    sprintf(buf, "result.insert() %d\n", retval);
                     write_log(buf);
                     break;
                 }
@@ -270,22 +270,22 @@ void handle_wu(WORKUNIT& wu) {
         wu.timeout_check_time = now + wu.delay_bound;
     }
 
-    retval = boinc_db_workunit_update(wu);
+    retval = wu.update();
     if (retval) {
-        sprintf(buf, "db_workunit_update %d\n", retval);
+        sprintf(buf, "workunit.update() %d\n", retval);
         write_log(buf);
     }
 }
 
 bool do_pass(APP& app) {
-    WORKUNIT wu;
+    DB_WORKUNIT wu;
+    char buf[256];
     bool did_something = false;
 
     // loop over WUs that are due to be checked
     //
-    wu.timeout_check_time = time(0);
-    wu.appid = app.id;
-    while (!boinc_db_workunit_enum_timeout_check_time(wu)) {
+    sprintf(buf, "where appid=%d and timeout_check_time>0 and timeout_check_time<%d", app.id, (int)time(0));
+    while (!wu.enumerate(buf)) {
         did_something = true;
         handle_wu(wu);
     }
@@ -293,7 +293,7 @@ bool do_pass(APP& app) {
 }
 
 void main_loop(bool one_pass) {
-    APP app;
+    DB_APP app;
     bool did_something;
     int retval;
     char buf[256];
@@ -305,8 +305,8 @@ void main_loop(bool one_pass) {
         exit(1);
     }
 
-    strcpy(app.name, app_name);
-    retval = boinc_db_app_lookup_name(app);
+    sprintf(buf, "where name='%s'", app_name);
+    retval = app.lookup(buf);
     if (retval) {
         sprintf(buf, "can't find app %s\n", app.name);
         write_log(buf);

@@ -24,7 +24,7 @@ CLIBS = @LIBS@
 .C.o:
 	$(CC) -c -o $*.o $<
 
-all: db_mysql.o mysql_util.o
+all: boinc_db.o
 
 clean:
 	rm -f dependencies *.o

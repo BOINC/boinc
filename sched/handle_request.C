@@ -252,9 +252,12 @@ int add_wu_to_reply(
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
     char buf[256];
+    DB_HOST host;
+    DB_USER user;
+    DB_TEAM team;
 
     if (sreq.hostid) {
-        retval = boinc_db_host(sreq.hostid, reply.host);
+        retval = host.lookup_id(sreq.hostid);
         if (retval) {
             strcpy(reply.message, "Can't find host record");
             strcpy(reply.message_priority, "low");
@@ -263,7 +266,9 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.hostid = 0;
             goto new_host;
         }
-        retval = boinc_db_user(reply.host.userid, reply.user);
+        reply.host = host;
+
+        retval = user.lookup_id(reply.host.userid);
         if (retval) {
             strcpy(reply.message, "Can't find user record");
             strcpy(reply.message_priority, "low");
@@ -273,6 +278,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             write_log(buf);
             return -1;
         }
+        reply.user = user;
         if (strcmp(sreq.authenticator, reply.user.authenticator)) {
             strcpy(reply.message,
                "Invalid or missing authenticator.  "
@@ -296,11 +302,14 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.host.rpc_seqno = sreq.rpc_seqno;
         reply.host.rpc_time = time(0);
     } else {
+        // here no hostid was given; we'll have to create a new host record
+        //
         strncpy(
-            reply.user.authenticator, sreq.authenticator,
-            sizeof(reply.user.authenticator)
+            user.authenticator, sreq.authenticator,
+            sizeof(user.authenticator)
         );
-        retval = boinc_db_user_lookup_auth(reply.user);
+        sprintf(buf, "where authenticator='%s'", user.authenticator);
+        retval = user.lookup(buf);
         if (retval) {
             strcpy(reply.message,
                 "Invalid or missing account ID.  "
@@ -312,31 +321,33 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             write_log(buf);
             return -1;
         }
+        reply.user = user;
 new_host:
         // reply.user is filled in and valid at this point
         //
-        reply.host = sreq.host;
-        reply.host.id = 0;
-        reply.host.create_time = time(0);
-        reply.host.userid = reply.user.id;
-        reply.host.rpc_seqno = 0;
-        reply.host.rpc_time = time(0);
-        strcpy(reply.host.venue, reply.user.venue);
-        retval = boinc_db_host_new(reply.host);
+        host = sreq.host;
+        host.id = 0;
+        host.create_time = time(0);
+        host.userid = reply.user.id;
+        host.rpc_seqno = 0;
+        host.rpc_time = time(0);
+        strcpy(host.venue, reply.user.venue);
+        retval = host.insert();
         if (retval) {
             strcpy(reply.message, "server database error");
             strcpy(reply.message_priority, "low");
-            boinc_db_print_error("db_host_new");
-            write_log("db_host_new failed\n");
+            boinc_db_print_error("host.insert()");
+            write_log("host.insert() failed\n");
             return -1;
         }
-        reply.host.id = boinc_db_insert_id();
+        host.id = boinc_db_insert_id();
+
+        reply.host = host;
         reply.hostid = reply.host.id;
         // this tells client to updates its host ID
     }
     if (reply.user.teamid) {
-        TEAM team;
-        retval = boinc_db_team(reply.user.teamid, team);
+        retval = team.lookup_id(reply.user.teamid);
         if (!retval) reply.team = team;
     }
     return 0;
@@ -353,9 +364,11 @@ static void compute_credit_rating(HOST& host) {
 // Update host record based on request.
 // Copy all fields that are determined by the client.
 //
-int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
+int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     int retval;
     char buf[256];
+    DB_HOST host;
+    host = xhost;
 
     host.timezone = sreq.host.timezone;
     strncpy(host.domain_name, sreq.host.domain_name, sizeof(host.domain_name));
@@ -388,9 +401,9 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 
     compute_credit_rating(host);
 
-    retval = boinc_db_host_update(host);
+    retval = host.update();
     if (retval) {
-        sprintf(buf, "db_host_update() failed: %d\n", retval);
+        sprintf(buf, "host.update() failed: %d\n", retval);
         write_log(buf);
     }
     return 0;
@@ -404,6 +417,8 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int req_mod_time, db_mod_time;
     bool need_update;
+    DB_USER user;
+
     reply.send_global_prefs = false;
     if (strlen(sreq.global_prefs_xml)) {
         need_update = false;
@@ -420,7 +435,8 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         if (need_update) {
             safe_strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
-            boinc_db_user_update(reply.user);
+            user = reply.user;
+            user.update();
         }
     } else {
         if (strlen(reply.user.global_prefs)) {
@@ -437,8 +453,9 @@ int handle_results(
 ) {
     unsigned int i;
     int retval;
-    RESULT result, *rp;
-    WORKUNIT wu;
+    DB_RESULT result;
+    RESULT* rp;
+    DB_WORKUNIT wu;
     char buf[256];
 
     for (i=0; i<sreq.results.size(); i++) {
@@ -453,7 +470,8 @@ int handle_results(
         write_log(buf);
 
         strncpy(result.name, rp->name, sizeof(result.name));
-        retval = boinc_db_result_lookup_name(result);
+        sprintf(buf, "where name='%s'", result.name);
+        retval = result.lookup(buf);
         if (retval) {
             sprintf(buf, "can't find result %s\n", rp->name);
             write_log(buf);
@@ -492,7 +510,7 @@ int handle_results(
         result.server_state = RESULT_SERVER_STATE_OVER;
         if (result.client_state == RESULT_FILES_UPLOADED) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
-            retval = boinc_db_workunit(result.workunitid, wu);
+            retval = wu.lookup_id(result.workunitid);
             if (retval) {
                 sprintf(buf,
                     "can't find WU %d for result %d\n",
@@ -501,7 +519,7 @@ int handle_results(
                 write_log(buf);
             } else {
                 wu.need_validate = 1;
-                retval = boinc_db_workunit_update(wu);
+                retval = wu.update();
                 if (retval) {
                     write_log("Can't update WU\n");
                 }
@@ -513,7 +531,7 @@ int handle_results(
      
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
-        retval = boinc_db_result_update(result);
+        retval = result.update();
         if (retval) {
             sprintf(buf,
                 "can't update result %d: %s\n",
@@ -545,7 +563,7 @@ int send_work(
 ) {
     int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
-    RESULT result, result_copy;
+    DB_RESULT result, result_copy;
     char buf[256];
 
     if (sreq.work_req_seconds <= 0) return 0;
@@ -608,7 +626,7 @@ int send_work(
         result.hostid = reply.host.id;
         result.sent_time = time(0);
         result.report_deadline = result.sent_time + wu.delay_bound;
-        boinc_db_result_update(result);
+        result.update();
 
         nresults++;
         if (nresults == MAX_WUS_TO_SEND) break;

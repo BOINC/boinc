@@ -62,31 +62,31 @@ int min_quorum;
 // here when a result has been validated;
 // grant credit to host and user
 //
-int grant_credit(RESULT& result, double credit) {
-    USER user;
-    HOST host;
+int grant_credit(DB_RESULT& result, double credit) {
+    DB_USER user;
+    DB_HOST host;
     int retval;
 
-    retval = boinc_db_host(result.hostid, host);
+    retval = host.lookup_id(result.hostid);
     if (retval) return retval;
-    retval = boinc_db_user(host.userid, user);
+    retval = user.lookup_id(host.userid);
     if (retval) return retval;
 
     user.total_credit += credit;
     update_average(result.sent_time, credit, user.expavg_credit, user.expavg_time);
-    retval = boinc_db_user_update(user);
+    retval = user.update();
     if (retval) return retval;
 
     host.total_credit += credit;
     update_average(result.sent_time, credit, host.expavg_credit, host.expavg_time);
-    retval = boinc_db_host_update(host);
+    retval = host.update();
     if (retval) return retval;
 
     return 0;
 }
 
-void handle_wu(WORKUNIT& wu) {
-    RESULT result, canonical_result;
+void handle_wu(DB_WORKUNIT& wu) {
+    DB_RESULT result, canonical_result;
     bool match, update_result;
     int retval, canonicalid = 0;
     double credit;
@@ -102,7 +102,7 @@ void handle_wu(WORKUNIT& wu) {
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
         //
-        retval = boinc_db_result(wu.canonical_resultid, canonical_result);
+        retval = canonical_result.lookup_id(wu.canonical_resultid);
         if (retval) {
             write_log("can't read canonical result\n");
             // Mark this WU as validated, otherwise we'll keep checking it
@@ -111,8 +111,8 @@ void handle_wu(WORKUNIT& wu) {
 
         // scan this WU's results, and check the unchecked ones
         //
-        result.workunitid = wu.id;
-        while (!boinc_db_result_enum_wuid(result)) {
+        sprintf(buf, "where workunitid=%d", wu.id);
+        while (!result.enumerate(buf)) {
             if (result.validate_state == VALIDATE_STATE_INIT 
                 && result.server_state == RESULT_SERVER_STATE_OVER
                 && result.outcome == RESULT_OUTCOME_SUCCESS
@@ -135,7 +135,7 @@ void handle_wu(WORKUNIT& wu) {
                         printf("setting result %d to invalid\n", result.id);
                     }
                 }
-                retval = boinc_db_result_update(result);
+                retval = result.update();
                 if (retval) {
                     write_log("Can't update result\n");
                     continue;
@@ -156,8 +156,8 @@ void handle_wu(WORKUNIT& wu) {
         sprintf(buf, "validating WU %s; no canonical result\n", wu.name);
         write_log(buf);
 
-        result.workunitid = wu.id;
-        while (!boinc_db_result_enum_wuid(result)) {
+        sprintf(buf, "where workunitid=%d", wu.id);
+        while (!result.enumerate(buf)) {
             if (result.server_state == RESULT_SERVER_STATE_OVER
                 && result.outcome == RESULT_OUTCOME_SUCCESS
             ) {
@@ -205,7 +205,7 @@ void handle_wu(WORKUNIT& wu) {
                     }
 
                     if (update_result) {
-                        retval = boinc_db_result_update(result);
+                        retval = result.update();
                         if (retval) {
                             sprintf(buf,
                                 "validate: boinc_db_result_update %d\n", retval
@@ -222,7 +222,7 @@ void handle_wu(WORKUNIT& wu) {
     // we've checked all results for this WU, so turn off flag
     //
     wu.need_validate = 0;
-    retval = boinc_db_workunit_update(wu);
+    retval = wu.update();
     if (retval) {
         sprintf(buf, "db_workunit_update: %d\n", retval);
         write_log(buf);
@@ -233,11 +233,12 @@ void handle_wu(WORKUNIT& wu) {
 // return true if there were any
 //
 bool do_validate_scan(APP& app, int min_quorum) {
-    WORKUNIT wu;
+    DB_WORKUNIT wu;
+    char buf[256];
     bool found=false;
 
-    wu.appid = app.id;
-    while (!boinc_db_workunit_enum_app_need_validate(wu)) {
+    sprintf(buf, "where appid=%d and need_validate<>0", app.id);
+    while (!wu.enumerate(buf)) {
         handle_wu(wu);
         found = true;
     }
@@ -246,7 +247,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
 
 int main_loop(bool one_pass) {
     int retval;
-    APP app;
+    DB_APP app;
     bool did_something;
     char buf[256];
 
@@ -257,8 +258,8 @@ int main_loop(bool one_pass) {
         exit(1);
     }
 
-    strcpy(app.name, app_name);
-    retval = boinc_db_app_lookup_name(app);
+    sprintf(buf, "where name='%s'", app_name);
+    retval = app.lookup(buf);
     if (retval) {
         sprintf(buf, "can't find app %s\n", app.name);
         write_log(buf);

@@ -104,10 +104,14 @@ int check_triggers(SCHED_SHMEM* ssp) {
 //
 void feeder_loop(SCHED_SHMEM* ssp) {
     int i, j, nadditions, ncollisions, retval;
-    RESULT result;
-    WORKUNIT wu;
+    DB_RESULT result;
+    DB_WORKUNIT wu;
     bool no_wus, collision, restarted_enum;
-    char buf[256];
+    char clause[256], buf[256];
+
+    sprintf(clause, "where server_state=%d order by random limit %d",
+        RESULT_SERVER_STATE_UNSENT, RESULTS_PER_ENUM
+    );
 
     while (1) {
         nadditions = 0;
@@ -117,8 +121,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
         for (i=0; i<ssp->nwu_results; i++) {
             if (!ssp->wu_results[i].present) {
 try_again:
-                result.server_state = RESULT_SERVER_STATE_UNSENT;
-                retval = boinc_db_result_enum_server_state(result, RESULTS_PER_ENUM);
+                retval = result.enumerate(clause);
                 if (retval) {
 
                     // if we already restarted the enum on this pass,
@@ -132,8 +135,7 @@ try_again:
                     // restart the enumeration
                     //
                     restarted_enum = true;
-                    result.server_state = RESULT_SERVER_STATE_UNSENT;
-                    retval = boinc_db_result_enum_server_state(result, RESULTS_PER_ENUM);
+                    retval = result.enumerate(clause);
                     write_log("restarting enumeration\n");
                     if (retval) {
                         write_log("enumeration restart returned nothing\n");
@@ -146,7 +148,7 @@ try_again:
                 // after the enumeration started.
                 // So read it from the DB again
                 //
-                retval = boinc_db_result(result.id, result);
+                retval = result.lookup_id(result.id);
                 if (retval) {
                     sprintf(buf, "can't reread result %s\n", result.name);
                     write_log(buf);
@@ -170,7 +172,7 @@ try_again:
                 if (!collision) {
                     sprintf(buf, "adding result %d in slot %d\n", result.id, i);
                     write_log(buf);
-                    retval = boinc_db_workunit(result.workunitid, wu);
+                    retval = wu.lookup_id(result.workunitid);
                     if (retval) {
                         sprintf(buf, "can't read workunit %d: %d\n", result.workunitid, retval);
                         write_log(buf);

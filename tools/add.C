@@ -47,11 +47,11 @@
 #include "md5_file.h"
 #include "crypt.h"
 
-APP app;
-PLATFORM platform;
-APP_VERSION app_version;
-USER user;
-PROJECT project;
+//APP app;
+//PLATFORM platform;
+//APP_VERSION app_version;
+//USER user;
+//PROJECT project;
 
 int version, retval, nexec_files;
 double nbytes;
@@ -68,39 +68,42 @@ char *message=0, *message_priority=0;
 
 void add_project() {
     int retval;
+    DB_PROJECT project;
 
     if (!project_short_name || !project_long_name) {
         fprintf( stderr, "Project name (long or short) not specified.\n" );
         exit(1);
     }
-    memset(&project, 0, sizeof(project));
+    project.clear();
     strcpy(project.short_name, project_short_name);
     strcpy(project.long_name, project_long_name);
-    retval = boinc_db_project_new(project);
+    retval = project.insert();
     if (retval) {
-        boinc_db_print_error("db_project_new");
+        boinc_db_print_error("project.insert()");
     }
 }
 
 void add_app() {
     int retval;
+    DB_APP app;
 
     if (!app_name) {
         fprintf( stderr, "Application name not specified.\n" );
         exit(1);
     }
-    memset(&app, 0, sizeof(app));
+    app.clear();
     strcpy(app.name, app_name);
     app.create_time = time(0);
     app.min_version = version;
-    retval = boinc_db_app_new(app);
+    retval = app.insert();
     if (retval) {
-        boinc_db_print_error("db_app_new");
+        boinc_db_print_error("app.insert()");
     }
 }
 
 void add_platform() {
     int retval;
+    DB_PLATFORM platform;
 
     if (!user_friendly_name) {
         fprintf( stderr, "User friendly name not specified.\n" );
@@ -110,13 +113,13 @@ void add_platform() {
         fprintf( stderr, "Platform name not specified.\n" );
         exit(1);
     }
-    memset(&platform, 0, sizeof(platform));
+    platform.clear();
     strcpy(platform.name, platform_name);
     strcpy(platform.user_friendly_name, user_friendly_name);
     platform.create_time = time(0);
-    retval = boinc_db_platform_new(platform);
+    retval = platform.insert();
     if (retval) {
-        boinc_db_print_error("db_platform_new");
+        boinc_db_print_error("platform.insert()");
     }
 }
 
@@ -139,26 +142,29 @@ void add_app_version() {
     char path[256];
     char signature_text[1024], longbuf[MAX_BLOB_SIZE];
     int i;
+    DB_APP app;
+    DB_APP_VERSION app_version;
+    DB_PLATFORM platform;
 
-    memset(&app_version, 0, sizeof(app_version));
+    app_version.clear();
 
     if (!app_name) {
         fprintf( stderr, "Application name not specified.\n" );
         exit(1);
     }
-    strcpy(app.name, app_name);
-    retval = boinc_db_app_lookup_name(app);
+    sprintf(buf, "where name='%s'", app_name);
+    retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find app %s\n", app_name);
-        boinc_db_print_error("db_app_lookup_name");
+        boinc_db_print_error("app.lookup()");
         return;
     }
     app_version.appid = app.id;
-    strcpy(platform.name, platform_name);
-    retval = boinc_db_platform_lookup_name(platform);
+    sprintf(buf, "where name='%s'", platform_name);
+    retval = platform.lookup(buf);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find platform %s\n", platform_name);
-        boinc_db_print_error("db_platform_lookup_name");
+        boinc_db_print_error("platform.lookup()");
         return;
     }
     app_version.platformid = platform.id;
@@ -233,15 +239,17 @@ void add_app_version() {
     strcat(app_version.xml_doc, "</app_version>\n");
 
     app_version.create_time = time(0);
-    retval = boinc_db_app_version_new(app_version);
+    retval = app_version.insert();
     if (retval) {
-        boinc_db_print_error("db_app_version_new");
+        boinc_db_print_error("app_version.insert()");
         return;
     }
 }
 
 void add_user() {
-    memset(&user, 0, sizeof(user));
+    DB_USER user;
+
+    user.clear();
     user.create_time = time(0);
     strcpy(user.email_addr, email_addr);
     strcpy(user.name, user_name);
@@ -255,9 +263,9 @@ void add_user() {
             return;
         }
     }
-    retval = boinc_db_user_new(user);
+    retval = user.insert();
     if (retval) {
-        boinc_db_print_error("db_user_new");
+        boinc_db_print_error("user.insert()");
         return;
     }
 }

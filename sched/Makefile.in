@@ -29,8 +29,7 @@ CGI_OBJS = \
     server_types.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/shmem.o \
     ../lib/util.o \
     ../lib/parse.o
@@ -40,8 +39,7 @@ FEEDER_OBJS = \
     sched_shmem.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/parse.o \
     ../lib/util.o \
     ../lib/shmem.o
@@ -51,8 +49,7 @@ SHOW_SHMEM_OBJS = \
     sched_shmem.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/util.o \
     ../lib/parse.o \
     ../lib/shmem.o
@@ -73,8 +70,7 @@ VALIDATE_OBJS = \
     validate_test.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/util.o \
     ../lib/parse.o
 
@@ -82,8 +78,7 @@ FILE_DELETER_OBJS = \
     file_deleter.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/util.o \
     ../lib/parse.o
 
@@ -92,8 +87,7 @@ ASSIMILATOR_OBJS = \
     assimilate_handler.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/util.o \
     ../lib/parse.o
 
@@ -101,8 +95,7 @@ MAKE_WORK_OBJS = \
     make_work.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../tools/backend_lib.o \
     ../tools/process_result_template.o \
     ../lib/util.o \
@@ -116,8 +109,7 @@ TIMEOUT_CHECK_OBJS = \
     timeout_check.o \
     sched_util.o \
     config.o \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/util.o \
     ../lib/parse.o \
     ../lib/md5_file.o \
@@ -128,8 +120,7 @@ TIMEOUT_CHECK_OBJS = \
     ../RSAEuro/source/rsaeuro.a
 
 DB_DUMP_OBJS = \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/parse.o \
     ../lib/util.o \
     sched_util.o \
@@ -137,8 +128,7 @@ DB_DUMP_OBJS = \
     db_dump.o
 
 UPDATE_STATS_OBJS = \
-    ../db/db_mysql.o \
-    ../db/mysql_util.o \
+    ../db/boinc_db.o \
     ../lib/parse.o \
     ../lib/util.o \
     sched_util.o \

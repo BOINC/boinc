@@ -54,8 +54,8 @@
 #include "backend_lib.h"
 
 int main(int argc, char** argv) {
-    APP app;
-    WORKUNIT wu;
+    DB_APP app;
+    DB_WORKUNIT wu;
     int retval;
     char wu_template[MAX_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256];
@@ -65,6 +65,7 @@ int main(int argc, char** argv) {
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256];
     char upload_url[256], download_url[256];
+    char buf[256];
 
     strcpy(result_template_file, "");
     strcpy(app.name, "");
@@ -73,7 +74,7 @@ int main(int argc, char** argv) {
     redundancy = 1;
     i = 1;
     ninfiles = 0;
-    memset(&wu, 0, sizeof(wu));
+    wu.clear();
     while (i < argc) {
         if (!strcmp(argv[i], "-appname")) {
             strcpy(app.name, argv[++i]);
@@ -130,7 +131,8 @@ int main(int argc, char** argv) {
         fprintf(stderr, "create_work: error opening database.\n" );
         exit(0);
     }
-    retval = boinc_db_app_lookup_name(app);
+    sprintf(buf, "where name='%s'", app.name);
+    retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "create_work: app not found\n");
         exit(1);

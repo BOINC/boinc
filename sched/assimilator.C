@@ -38,8 +38,8 @@ CONFIG config;
 // return nonzero if did anything
 //
 bool do_pass(APP& app) {
-    WORKUNIT wu;
-    RESULT canonical_result, result;
+    DB_WORKUNIT wu;
+    DB_RESULT canonical_result, result;
     vector<RESULT> results;
     bool did_something = false, delete_inputs, delete_outputs;
     char buf[MAX_BLOB_SIZE];
@@ -47,9 +47,8 @@ bool do_pass(APP& app) {
 
     check_stop_trigger();
 
-    wu.appid = app.id;
-    wu.assimilate_state = ASSIMILATE_READY;
-    while (!boinc_db_workunit_enum_app_assimilate_state(wu)) {
+    sprintf(buf, "where appid=%d and assimilate_state=%d", app.id, ASSIMILATE_READY);
+    while (!wu.enumerate(buf)) {
         did_something = true;
 
         sprintf(buf,
@@ -58,8 +57,8 @@ bool do_pass(APP& app) {
         );
         write_log(buf);
 
-        result.workunitid = wu.id;
-        while (!boinc_db_result_enum_wuid(result)) {
+        sprintf(buf, "where workunitid=%d", wu.id);
+        while (!result.enumerate(buf)) {
             results.push_back(result);
             if (result.id == wu.canonical_resultid) {
                 canonical_result = result;
@@ -86,7 +85,7 @@ bool do_pass(APP& app) {
             for (i=0; i<results.size(); i++) {
                 result = results[i];
                 result.file_delete_state = FILE_DELETE_READY;
-                boinc_db_result_update(result);
+                result.update();
             }
         } else {
             for (i=0; i<results.size(); i++) {
@@ -96,7 +95,7 @@ bool do_pass(APP& app) {
                     && (result.outcome == RESULT_OUTCOME_SUCCESS || result.outcome == RESULT_OUTCOME_CLIENT_ERROR)
                 ) {
                     result.file_delete_state = FILE_DELETE_READY;
-                    boinc_db_result_update(result);
+                    result.update();
                 }
             }
         }
@@ -105,7 +104,7 @@ bool do_pass(APP& app) {
         if (delete_inputs) {
             wu.file_delete_state = FILE_DELETE_READY;
         }
-        boinc_db_workunit_update(wu);
+        wu.update();
 
         // Clear out result vector so we don't reuse them in the next WU
         results.erase(results.begin(),results.end());
@@ -116,7 +115,7 @@ bool do_pass(APP& app) {
 int main(int argc, char** argv) {
     int retval;
     bool asynch = false, one_pass = false;
-    APP app;
+    DB_APP app;
     int i;
     char buf[256];
 
@@ -157,7 +156,8 @@ int main(int argc, char** argv) {
         write_log("Can't open DB\n");
         exit(1);
     }
-    retval = boinc_db_app_lookup_name(app);
+    sprintf(buf, "where name='%s'", app.name);
+    retval = app.lookup(buf);
     if (retval) {
         write_log("Can't find app\n");
         exit(1);
