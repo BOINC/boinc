@@ -402,7 +402,7 @@
 				RelativePath="..\lib\filesys.h">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_clientgui.h">
+				RelativePath="..\lib\gui_rpc_client.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\MainDocument.h">
