@@ -35,8 +35,6 @@ static volatile const char *BOINCrcsid="$Id$";
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
-wxLogStderr LogStdErr();
-
 
 bool CBOINCGUIApp::OnInit()
 {
@@ -51,6 +49,7 @@ bool CBOINCGUIApp::OnInit()
 
     // Enable Trace Masks
     wxLog::AddTraceMask( wxT("Function Start/End") );
+    wxLog::SetActiveTarget( new wxLogStderr() );
 
     // Enable the in memory virtual file system for
     //   storing images
