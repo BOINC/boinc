@@ -5535,3 +5535,12 @@ Karl 2003/08/04
 
     Html_user/*
     html_ops/*
+
+Karl 2003/08/05
+    Fixed Astropulse checkpoint-resume crash bugs: save relevant state
+    variables.  In the process got rid of single-letter variables and
+    refactored some code.
+
+    Astropulse/client/*
+
+    Release Astropulse 1.11.
