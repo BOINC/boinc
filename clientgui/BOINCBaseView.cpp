@@ -307,6 +307,7 @@ bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig )
 
 void CBOINCBaseView::OnChar( wxKeyEvent& event )
 {
+    event.Skip();
 }
 
 
@@ -467,7 +468,7 @@ wxInt32 CBOINCBaseView::SyncronizeCache()
 }
 
 
-wxInt32 CBOINCBaseView::UpdateCache( long item, long column, wxString& strNewData )
+wxInt32 CBOINCBaseView::UpdateCache( long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData) )
 {
     return -1;
 }
