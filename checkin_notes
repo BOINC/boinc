@@ -13748,3 +13748,13 @@ David  16 June 2004
 		*.C
 	lib/
 		*.C
+
+Rom    16 June 2004
+	- Additional include changes from stdafx.h to boinc_win.h
+
+	api/
+		*.C
+	client/
+		*.C
+	lib/
+		*.C

@@ -17,7 +17,8 @@
 // Contributor(s):
 //
 
-#include "stdafx.h"
+#include "boinc_win.h"
+
 #include "client_types.h"
 #include "filesys.h"
 #include "util.h"

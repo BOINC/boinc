@@ -22,20 +22,6 @@
 #ifndef _BOINC_H
 #define _BOINC_H
 
-#include "stdafx.h"
-
-#include <windowsx.h>
-#include <mmsystem.h>
-#include <regstr.h>
-#include <shlobj.h>
-#define COMPILE_MULTIMON_STUBS
-#include <multimon.h>
-#include <strsafe.h>
-
-#include "boinc_ss.h"
-#include "win_util.h"
-
-
 //-----------------------------------------------------------------------------
 // Error codes
 //-----------------------------------------------------------------------------

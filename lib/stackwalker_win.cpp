@@ -39,7 +39,7 @@
  *//////////////////////////////////////////////////////////////////////////////
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 // the form of the output file

@@ -37,7 +37,7 @@
 // e.g.: no global variables, since we run this multithreaded
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 #include <stdlib.h>

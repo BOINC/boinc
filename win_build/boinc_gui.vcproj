@@ -30,8 +30,8 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="../client/StdAfx.h"
-				PrecompiledHeaderFile=".\Build\Release\boinc_gui\obj/boinc_gui.pch"
+				PrecompiledHeaderThrough="../lib/boinc_win.h"
+				PrecompiledHeaderFile=".\Build\Release\boinc_gui\obj/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_gui\obj/"
 				ObjectFile=".\Build\Release\boinc_gui\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_gui\obj/"
@@ -1379,10 +1379,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1402,10 +1402,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

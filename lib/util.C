@@ -18,8 +18,8 @@
 //
 
 #ifdef _WIN32
-#define M_LN2      0.693147180559945309417
 #include "boinc_win.h"
+#define M_LN2      0.693147180559945309417
 #endif
 
 #ifndef _WIN32

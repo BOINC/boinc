@@ -19,6 +19,18 @@
 //     Microsoft Knowledge Base Article - 79212
 //
 
+#include "boinc_win.h"
+
+#include <windowsx.h>
+#include <mmsystem.h>
+#include <regstr.h>
+#include <shlobj.h>
+#define COMPILE_MULTIMON_STUBS
+#include <multimon.h>
+#include <strsafe.h>
+
+#include "boinc_ss.h"
+#include "win_util.h"
 #include "win_screensaver.h"
 
 //-----------------------------------------------------------------------------
