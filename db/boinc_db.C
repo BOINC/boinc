@@ -991,7 +991,7 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
 
     sprintf(query,
         "UPDATE workunit SET transition_time=%d WHERE id in (",
-        time(0)
+        (int)time(0)
     );
     for (i=0; i<results.size(); i++) {
         if (i>0) strcat(query, ",");

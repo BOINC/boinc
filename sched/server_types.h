@@ -75,9 +75,11 @@ struct SCHEDULER_REQUEST {
     double total_disk_usage;
     double project_disk_usage;
 
+#if 0
     double project_disk_free;
     double potentially_free_offender;
     double potentially_free_self;
+#endif
 
     bool anonymous_platform;
     vector<CLIENT_APP_VERSION> client_app_versions;

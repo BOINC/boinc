@@ -11,10 +11,9 @@ and one or more <b>worker programs</b>.
 The main program executes the worker programs in sequence,
 and maintains a 'main state file' that records
 which worker programs have completed.
-The main program assigns to each worker application
+The main program assigns to each worker program
 a subrange of the overall 'fraction done' range of 0..1.
-For example, if there are two subsidiary applications
-with equal runtime,
+For example, if there are two worker programs with equal runtime,
 the first would have range 0 to 0.5 and the second
 would have range 0.5 to 1.
 
@@ -22,11 +21,9 @@ would have range 0.5 to 1.
 <p>
 The BOINC API provides a number of functions,
 and in developing a compound application you must decide
-whether these functions are to be performed by
-the main or worker program.
+whether these functions are to be performed by the main or worker program.
 The functions are represented by flags in the BOINC_OPTIONS structure.
-Each flag must be set in either the main or worker programs,
-but not both.
+Each flag must be set in either the main or worker programs, but not both.
 
 <pre>
 struct BOINC_OPTIONS {
@@ -85,7 +82,7 @@ options.main_program = true;
 ...
 boinc_init_options(options)
 read main state file
-for each remaining subsidiary application:
+for each remaining worker program:
     aid.fraction_done_start = x
     aid.fraction_done_end = y
     boinc_write_init_data_file()
@@ -118,7 +115,7 @@ boinc_finish();		// this writes final CPU time to app_init.xml file
 
 <p>
 If the graphics is handled in a program that runs concurrently with
-the worker applications, it must also call
+the worker programs, it must also call
 <code>boinc_init_options()</code>, typically with all options false,
 then <code>boinc_init_graphics()</code>,
 and eventually <code>boinc_finish()</code>.

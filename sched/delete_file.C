@@ -27,11 +27,12 @@
 // Create a msg_to_host_that requests that the host delete the
 // given file from the client
 
+#include <ctime>
 #if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
-#endif
 
 #include "boinc_db.h"
 #include "sched_config.h"

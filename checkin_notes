@@ -16405,3 +16405,17 @@ David  14 Aug 2004
         net_xfer.C
     lib/
         util.C,h
+
+David  14 Aug 2004
+    - changed "engine" to "type" in schema SQL
+
+    db/
+        schema.sql
+
+David  14 Aug 2004
+    - compile fixes and more commenting-out of disk mgt code
+
+    sched/
+        delete_file.C
+        sched_send.C
+        server_types.C,h

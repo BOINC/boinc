@@ -24,11 +24,14 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
-#if HAVE_SYS_IPC_H
-#include <sys/ipc.h>
+#if HAVE_SYS_TIME_H
+#include <sys/time.h>
 #endif
 #if HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
+#endif
+#if HAVE_SYS_IPC_H
+#include <sys/ipc.h>
 #endif
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>

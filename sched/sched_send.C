@@ -763,14 +763,17 @@ int send_work(
     wreq.infeasible_only = false;
     scan_work_array(wreq, sreq, reply, platform, ss);
 
-    if(wreq.nresults == 0) {
+#if 0
+    // huh???
+    if (wreq.nresults == 0) {
         wreq.disk_available = sreq.potentially_free_offender;
         scan_work_array(wreq, sreq, reply, platform, ss);
     }
-    if(wreq.nresults == 0 && config.delete_from_self) {
+    if (wreq.nresults == 0 && config.delete_from_self) {
         wreq.disk_available = sreq.potentially_free_self;
         scan_work_array(wreq, sreq, reply, platform, ss);
     }
+#endif
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results\n",

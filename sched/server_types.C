@@ -100,9 +100,11 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
         else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
 
+#if 0
         else if (parse_double(buf, "<project_disk_free>", project_disk_free)) continue;
         else if (parse_double(buf, "<potentially_free_offender>", potentially_free_offender)) continue;
         else if (parse_double(buf, "<potentially_free_self>", potentially_free_self)) continue;
+#endif
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
@@ -277,10 +279,8 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
 
 #if 0
-    // send project deletion policy
-    //
-    if(deletion_policy_priority) fprintf(fout, "<deletion_policy_priority/>\n");
-    if(deletion_policy_expire) fprintf(fout, "<deletion_policy_expire/>\n");
+    if (deletion_policy_priority) fprintf(fout, "<deletion_policy_priority/>\n");
+    if (deletion_policy_expire) fprintf(fout, "<deletion_policy_expire/>\n");
 #endif
 
     // acknowledge results

@@ -3,7 +3,9 @@ require_once("docutil.php");
 page_head("The BOINC application programming interface (API)");
 echo "
 <p>
-The BOINC API is a set of C functions.
+The BOINC API is a set of C++ functions.
+Most of the functions have a C interface,
+so that they can be used from programs written in C and other languages.
 Unless otherwise specified,
 the functions return an integer error code; zero indicates success.
 <p>
