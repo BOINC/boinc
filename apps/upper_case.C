@@ -117,20 +117,20 @@ int main(int argc, char **argv) {
     MFILE out;
     FILE* state, *in;
     bool standalone = false;
-    unsigned long dwDiagnosticsFlags = 0;
+    int flags = 0;
 
     my_start_time = time(0);
 
 
-    dwDiagnosticsFlags = 
+    flags = 
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_REDIRECTSTDERR;
 
     if (standalone)
-        dwDiagnosticsFlags = dwDiagnosticsFlags | BOINC_DIAG_TRACETOSTDERR;
+        flags |= BOINC_DIAG_TRACETOSTDERR;
 
-    boinc_init_diag(dwDiagnosticsFlags);
+    boinc_init_diagnostics(flags);
 
 
     // NOTE: if you change output here, remember to change the output that

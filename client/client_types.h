@@ -47,7 +47,8 @@ struct STRING256 {
 
 // If the status is neither of these two,
 // it will be an error code defined in error_numbers.h,
-// indicating an unrecoverable error in the upload or download of the file
+// indicating an unrecoverable error in the upload or download of the file,
+// or that the file was too big and was deleted
 //
 #define FILE_NOT_PRESENT    0
 #define FILE_PRESENT        1

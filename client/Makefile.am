@@ -51,6 +51,7 @@ boinc_client_SOURCES =			\
     ../lib/messages.C           \
     ../lib/parse.C				\
     ../lib/shmem.C				\
+    ../lib/synch.C				\
     ../lib/util.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)

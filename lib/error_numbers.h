@@ -113,3 +113,7 @@
 	// exit_status not found in scheduler request 
 #define ERR_FILE_MISSING    -163
 #define ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED  -164
+#define ERR_SEMGET          -165
+#define ERR_SEMCTL          -166
+#define ERR_SEMOP           -167
+#define ERR_FTOK            -168

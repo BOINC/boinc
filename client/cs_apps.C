@@ -91,7 +91,9 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     bool had_error = false;
 
-    if (at.exit_status != 0 && at.exit_status != ERR_QUIT_REQUEST) had_error = true;
+    if (at.exit_status != 0 && at.exit_status != ERR_QUIT_REQUEST) {
+        had_error = true;
+    }
 
     for (i=0; i<rp->output_files.size(); i++) {
         fip = rp->output_files[i].file_info;
@@ -103,9 +105,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             fip->status = retval;
             had_error = true;
         } else if (size > fip->max_nbytes) {
-            // Note: this is only checked when the application finishes. there
-            // is also a check_max_disk_exceeded that is checked while the
-            // application is running.
+            // Note: this is only checked when the application finishes.
+            // The total disk space is checked while the application is running.
             //
             msg_printf(
                 rp->project, MSG_INFO,

@@ -10900,3 +10900,22 @@ Rom   Mar 25 2004
 
      api/
          graphics_api.C
+
+David  Mar 25 2004
+    - Unix client: use semaphore instead of lockfile to prevent multiple copies
+    - rename boinc_init_diag() to boinc_init_diagnostics()
+    - rename boinc_execution_engine() to main_loop()
+    - add get_key() (to generate IPC key unique to a directory)
+    - replaced RETSIGTYPE with void
+
+    apps/
+        upper_case.C
+    client/
+        Makefile.am
+        client_types.h
+        cs_apps.C
+        main.C
+    lib/
+        diagnostics.C,h
+        error_numbers.h
+        synch.C,h

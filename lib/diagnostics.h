@@ -23,8 +23,6 @@
 #define _BOINC_DIAGNOSTICS_
 
 
-// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
-//
 #ifdef _WIN32
 
 // Define macros for both debug and release builds.
@@ -68,13 +66,12 @@ void	boinc_info_release(const char *pszFormat, ...);
 #endif // _DEBUG
 
 #else   // non-Win starts here
-extern void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
-extern void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
+#include <signal.h>
+extern void boinc_set_signal_handler(int sig, void(*handler)(int));
+extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #endif // _WIN32
 
 
-// Diagnostics Support for All Platforms
-//
 #ifdef _DEBUG
 
 #define BOINCERROR( errmsg ) \
@@ -103,9 +100,6 @@ extern void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
 
 #endif // _DEBUG
 
-
-// Diagnostics Support for Undefined Platform
-//
 #ifndef BOINCASSERT
 #define BOINCASSERT			assert
 #endif
@@ -118,15 +112,11 @@ extern void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
 #define BOINCINFO			((int)0)
 #endif
 
-
-// Diagnostics Functions
-//
-extern int boinc_init_diag(int);
+extern int boinc_init_diagnostics(int flags);
 extern int boinc_finish_diag();
 extern int boinc_install_signal_handlers();
 
-
-// Diagnostic Flags
+// flags for boinc_init_diagnostics()
 //
 #define BOINC_DIAG_DUMPCALLSTACKENABLED     0x00000001L
 #define BOINC_DIAG_HEAPCHECKENABLED         0x00000002L
@@ -141,7 +131,7 @@ extern int boinc_install_signal_handlers();
 #define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
 
 
-// Diagnostics Contants
+// filenames
 //
 #define BOINC_DIAG_STDERR                  "stderr.txt"
 #define BOINC_DIAG_STDERROLD               "stderr.old"

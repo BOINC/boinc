@@ -35,6 +35,7 @@
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #endif
+#include "synch.h"
 #endif
 
 #include "diagnostics.h"
@@ -188,29 +189,34 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 }
 #endif
 
-int boinc_execution_engine(int argc, char** argv) {
-
+int main_loop(int argc, char** argv) {
 	int retval;
     double dt;
 
     setbuf(stdout, 0);
+#if 0
     if (lock_file(LOCK_FILE_NAME)) {
         fprintf(stderr, "Another copy of BOINC is already running\n");
         exit(1);
     }
+#else
+    key_t key;
+    char path[256];
+    getcwd(path, 256);
+    retval = get_key(path, 'a', key);
+    if (!retval) retval = create_semaphore(key);
+    if (!retval) retval = lock_semaphore(key);
+    if (retval) {
+        fprintf(stderr, "Another copy of BOINC is already running\n");
+        exit(1);
+    }
+#endif
 
-
-    // Initialize Diagnostics
-    //
-    unsigned long dwDiagnosticsFlags = 0;
-
-    dwDiagnosticsFlags = 
+    boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
         BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_TRACETOSTDERR;
-
-    boinc_init_diag(dwDiagnosticsFlags);
-
+        BOINC_DIAG_TRACETOSTDERR
+    );
 
 // Unix/Linux console controls
 #ifndef WIN32
@@ -296,10 +302,10 @@ int main(int argc, char** argv) {
 				LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
             }
         } else {
-			retval = boinc_execution_engine(argc, argv);
+			retval = main_loop(argc, argv);
 		}
     } else {
-		retval = boinc_execution_engine(argc, argv);
+		retval = main_loop(argc, argv);
 	}
 
     return retval;
@@ -311,7 +317,7 @@ int main(int argc, char** argv) {
 // For platforms other than windows just treat it as a console application
 //
 int main(int argc, char** argv) {
-	return boinc_execution_engine(argc, argv);
+	return main_loop(argc, argv);
 }
 
 #endif

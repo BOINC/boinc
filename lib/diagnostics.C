@@ -22,13 +22,13 @@
 #endif
 
 #ifndef _WIN32
-#include "config.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #ifdef HAVE_SIGNAL_H
-#include <signal.h>
+//#include <signal.h>
 #endif
+#include "config.h"
 #endif
 
 #include "diagnostics.h"
@@ -36,51 +36,33 @@
 #include "filesys.h"
 #include "util.h"
 
-// Diagnostics Global State
-//
 
-static int g_BOINCDIAG_dwDiagnosticsFlags;
-
+static int flags;
 
 #ifdef _WIN32
-
-// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
-//
-
-// Forward declare implementation specific functions - Windows Platform Only.
-LONG CALLBACK     boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-int __cdecl       boinc_message_reporting( int reportType, char *szMsg, int *retVal );
-
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal );
 #else
-
-// Diagnostics for POSIX Compatible systems.
-//
-
-// Forward declare implementation functions - POSIX Platform Only.
-extern RETSIGTYPE boinc_catch_signal(int signal);
-extern void       boinc_quit(int sig);
-
+static void boinc_catch_signal(int signal);
+//static void boinc_quit(int sig);
 #endif
 
 
-// Used to initialize the diagnostics environment.
+// initialize the diagnostics environment.
 //
-int boinc_init_diag( int dwDiagnosticsFlags ) {
-
+int boinc_init_diagnostics(int _flags) {
 	void* lpRetVal;
 
-    // Store Diagnostics Flags globally for use.
-    g_BOINCDIAG_dwDiagnosticsFlags = dwDiagnosticsFlags;
-
+    flags = _flags;
 
     // Archive any old stderr.txt and stdout.txt files, if requested
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_ARCHIVESTDERR ) {
-        if (boinc_copy( BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD)) {
+    if ( flags & BOINC_DIAG_ARCHIVESTDERR ) {
+        if (boinc_copy(BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD)) {
 		    //BOINCFILEERROR( "Failed to archive existing stderr.txt file" );
         }
     }
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_ARCHIVESTDOUT) {
+    if ( flags & BOINC_DIAG_ARCHIVESTDOUT) {
         if (boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD )) {
 		    //BOINCFILEERROR( "Failed to archive existing stdout.txt file" );
         }
@@ -88,25 +70,28 @@ int boinc_init_diag( int dwDiagnosticsFlags ) {
 
     
     // Redirect stderr and/or stdout streams, if requested
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDERR ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "a", stderr);
-	    if ( NULL == lpRetVal )
-		    BOINCFILEERROR( "Failed to reopen stderr for diagnostics redirection" );
+	    if ( NULL == lpRetVal ) {
+		    BOINCFILEERROR("Failed to reopen stderr for diagnostics redirection" );
+        }
     }
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "w", stderr);
-	    if ( NULL == lpRetVal )
-		    BOINCFILEERROR( "Failed to reopen stderr for diagnostics redirection (overwrite)" );
+	    if ( NULL == lpRetVal ) {
+		    BOINCFILEERROR("Failed to reopen stderr for diagnostics redirection (overwrite)" );
+        }
     }
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDOUT ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDOUT ) {
 	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "a", stdout);
-	    if ( NULL == lpRetVal )
+	    if ( NULL == lpRetVal ) {
 		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection" );
+        }
     }
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
 	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "w", stdout);
 	    if ( NULL == lpRetVal )
 		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection (overwrite)" );
@@ -120,10 +105,10 @@ int boinc_init_diag( int dwDiagnosticsFlags ) {
     // MFC by default, configures itself for the memory leak detection on exit
     //
 
-    //if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
+    //if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
     //    SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_HEAPCHECKENABLED ) {
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED ) {
         AfxEnableMemoryTracking(TRUE);
         afxMemDF = allocMemDF | checkAlwaysMemDF;
     }
@@ -132,10 +117,10 @@ int boinc_init_diag( int dwDiagnosticsFlags ) {
 
     _CrtSetReportHook( boinc_message_reporting );
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
+    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
         SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
 
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_HEAPCHECKENABLED )
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED )
         SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
 
 #endif // _CONSOLE
@@ -162,13 +147,9 @@ int boinc_finish_diag() {
 // Used to setup an unhandled exception filter on Windows
 //
 int boinc_install_signal_handlers() {
-
 #ifdef _WIN32
-
     SetUnhandledExceptionFilter( boinc_catch_signal );
-
 #else  //_WIN32
-
     boinc_set_signal_handler(SIGHUP, boinc_catch_signal);
     boinc_set_signal_handler(SIGINT, boinc_catch_signal);
     boinc_set_signal_handler(SIGQUIT, boinc_catch_signal);
@@ -178,10 +159,8 @@ int boinc_install_signal_handlers() {
     boinc_set_signal_handler(SIGSEGV, boinc_catch_signal);
     boinc_set_signal_handler(SIGSYS, boinc_catch_signal);
     boinc_set_signal_handler(SIGPIPE, boinc_catch_signal);
-
 #endif //_WIN32
-
-	return BOINC_SUCCESS;
+	return 0;
 }
 
 
@@ -313,7 +292,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     fflush( stderr );
 
 	// Unwind the stack and spew it to stderr
-    if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_DUMPCALLSTACKENABLED )
+    if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED )
     	StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
 
 	fprintf( stderr, "Exiting...\n" );
@@ -342,12 +321,12 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 
 			OutputDebugString(szMsg);			// Reports string to the debugger output window
 			
-            if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_TRACETOSTDERR ) {
+            if (flags & BOINC_DIAG_TRACETOSTDERR ) {
                 fprintf( stderr, "%s", szMsg );
 			    fflush( stderr );
             }
 			
-            if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_TRACETOSTDOUT ) {
+            if (flags & BOINC_DIAG_TRACETOSTDOUT ) {
                 fprintf( stdout, "%s", szMsg );
 			    fflush( stdout );
             }
@@ -368,14 +347,13 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 // Converts the BOINCTRACE macro into a single string and report it
 //   to the CRT so it can be reported via the normal means.
 //
-void boinc_trace(const char *pszFormat, ...)
-{
+void boinc_trace(const char *pszFormat, ...) {
 	static char szBuffer[1024];
 
 	// Trace messages should only be reported if running as a standalone 
 	//   application or told too.
-	if ( (g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_TRACETOSTDERR) ||
-         (g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_TRACETOSTDOUT) ) {
+	if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
+         (flags & BOINC_DIAG_TRACETOSTDOUT) ) {
 
 		memset(szBuffer, 0, sizeof(szBuffer));
 
@@ -447,7 +425,7 @@ void boinc_info_release(const char *pszFormat, ...)
 
 // Set a signal handler only if it is not currently ignored
 //
-void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int)) {
+void boinc_set_signal_handler(int sig, void(*handler)(int)) {
 #ifdef HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
@@ -468,7 +446,7 @@ void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int)) {
 
 // Set a signal handler even if it is currently ignored
 //
-void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int)) {
+void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
 #ifdef HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
@@ -483,7 +461,7 @@ void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int)) {
 }
 
 
-RETSIGTYPE boinc_catch_signal(int signal) {
+void boinc_catch_signal(int signal) {
     switch(signal) {
         case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
         case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
