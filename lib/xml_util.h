@@ -375,6 +375,7 @@ std::string x_setiathome_encode(const T *tbin, size_t n_elements) {
   const char cr=0xa;
   std::string rv("");
   rv.reserve(nbytes*4/3+nbytes*2/48);
+  rv+="\n";
   char c[5];
   for (nleft = nbytes; nleft > 0; nleft -= 3) {
     c[0] = bin[offset]&0x3f;     // 6
@@ -404,7 +405,7 @@ std::vector<T> x_setiathome_decode(const char *data, size_t nbytes) {
   std::vector<unsigned char> rv;
   rv.reserve(nbytes*3/4);
   while (p<(data+nbytes)) {
-    while (!isprint(*p)) {
+    while ((*p<0x20) || (*p>0x60)){
       *p++;
     }
     eol=strchr(p,'\n');
@@ -819,6 +820,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.13  2003/10/25 18:20:03  korpela
+// *** empty log message ***
+//
 // Revision 1.12  2003/10/24 16:58:11  korpela
 // *** empty log message ***
 //
