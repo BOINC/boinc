@@ -1,7 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "boinc_gui.h"
-#include "win_config.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -67,16 +66,17 @@ BEGIN
     LTEXT           "Account ID:",IDC_STATIC_AUTH,21,31,45,8
 END
 
-IDD_ABOUTBOX DIALOG  0, 0, 300, 67
+IDD_ABOUTBOX DIALOGEX 0, 0, 300, 67
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Boinc Beta version"
-FONT 8, "MS Sans Serif"
+CAPTION "BOINC version"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,243,7,50,14
     CTEXT           "Berkeley Open Infrastructure for Network Computing",
                     IDC_STATIC_TOP,61,17,171,14
     CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,13,17,33,31
-    CTEXT           "Open Beta",IDC_STATIC_BOTTOM,61,36,171,13
+    CTEXT           "Copyright (C) 2004 UC Berkeley Space Sciences Lab",
+                    IDC_STATIC_BOTTOM,61,36,171,13
 END
 
 IDD_QUIT DIALOG  0, 0, 186, 70
@@ -298,8 +298,8 @@ IDI_ICONWARNING         ICON                    "res\\iconwarning.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MAJOR_VERSION,MINOR_VERSION,0,0
- PRODUCTVERSION MAJOR_VERSION,MINOR_VERSION,0,0
+ FILEVERSION 3,19,0,0
+ PRODUCTVERSION 3,19,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -316,12 +316,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "boinc_gui"
-            VALUE "FileVersion", VERSION "\0"
+            VALUE "FileVersion", "3.19"
             VALUE "InternalName", "boinc_gui"
             VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", PACKAGE_VERSION "\0"
+            VALUE "ProductVersion", "3.19"
         END
     END
     BLOCK "VarFileInfo"

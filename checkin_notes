@@ -14315,6 +14315,10 @@ Karl 2004-06-30
 
     - updated 'about' dialog to remove "beta" and add UCB SSL copyright
 
+    client/
+        win/
+            boinc_gui.rc
+
     - visual studio installer projects (create MSIs)
 
       boinc_setup creates an MSI with dialogs and options (launch on bootup,
