@@ -24,7 +24,8 @@
 
 
 #ifdef _WIN32
-#include "winsock.h"
+#include "winsock2.h"
+#define SHUT_WR SD_SEND
 #endif
 #if HAVE_SYS_STAT_H
 #include <sys/stat.h>
