@@ -43,7 +43,7 @@ WHERE
        platform.deprecated <> 1 and
        appid = '$query_appid'
 GROUP BY
-       platformid;
+       platformid
 ";
 
 $result = mysql_query($app_version_query);
@@ -83,7 +83,7 @@ WHERE
 GROUP BY
        date,
        version DESC,
-       platform;
+       platform
 ";
 
 $result = mysql_query($main_query);

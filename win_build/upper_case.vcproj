@@ -21,7 +21,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
+				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
@@ -40,11 +44,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="winmm.lib opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib"
-				OutputFile=".\Build\Release/uppercase_2.06_windows_intelx86.exe"
+				OutputFile=".\Build\Release/uppercase_3.07_windows_intelx86.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/uppercase_2.06_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\Release/uppercase_3.07_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool

@@ -249,8 +249,8 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded
 FROM   result
 WHERE  
-       appid='$query_appid' and
-       received_time > '$query_received_time';
+       appid=$query_appid and
+       received_time > $query_received_time
 ";
 
     $urlquery = $q->urlquery;
