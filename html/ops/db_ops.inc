@@ -288,17 +288,17 @@ function validate_state_str($s) {
 }
 
 function client_version_string($client_version_num) {
-    if ($result->client_version_num) {
+    if (!$client_version_num) {
         return '---';
     } else {
         return sprintf("%.2f", $client_version_num/100);
     }
 }
 
-function outcome_color($outcome) {
+function outcome_color($s) {
     switch($s) {
-    case 1: return 'darkgreen'; // "Success"
-    case 3: return 'darkred'; // "Client error"
+    case 1: return '33cc33'; // "Success"
+    case 3: return 'ff0000'; // "Client error"
     }
     return 'white';
 }

@@ -39,7 +39,7 @@
     mysql_free_result($result);
 
     // start_table();
-    echo "<table width=400>";
+    echo "<table border=2 cellpadding=4 width=400\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         if ($server_state[$ss] == 0) {
@@ -60,7 +60,7 @@
         }
         $h = result_outcome_string($ro);
         $color = outcome_color($ro);
-        echo "<tr><td align=right bgcolor=$color>$h</td><td>$x</td></tr>\n";
+        echo "<tr bgcolor=$color><td align=right>$h</td><td>$x</td></tr>\n";
     }
     echo "<tr></tr>";
 
