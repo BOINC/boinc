@@ -1,15 +1,16 @@
-#Language translation file for POLISH, by Marek Czerwonka (marekz@mensa.org.pl)
+#Language translation file for POLISH, by Marek Czerwonka <marekz@mensa.org.pl>
 #co-operation: Tomasz Kokowski (Tomasz.Kokowski@put.poznan.pl)
-#BOINC (2.01) Beta
-#language.ini.pl v. 2.02, Sep 16, 2003
+#              Krzysztof Szpunar (szpunar@interia.pl)
+#based on language.ini.template,v 1.21 (modified)
+#language.ini.pl v. 2.18, 2004/01/17
 
 #PROJECT_ID
 [HEADER-Projects]
 Title=Projekty
 Project=Projekt
 Account=Uczestnik
-Total Credit=Stan konta
-Avg. Credit=Aktualny œredni przyrost
+Total Credit=Wynik ca³kowity
+Avg. Credit=Bie¿¹cy œredni wynik
 Resource Share=Przydzia³ zasobów
 
 #RESULT_ID
@@ -32,7 +33,6 @@ File=Plik
 Progress=Postêp
 Size=Rozmiar
 Time=Czas
-Direction=Kierunek
 Speed=Szybkoœæ
 Status=Status
 TYPE=Typ
@@ -57,9 +57,9 @@ BOINC Core Client=Klient BOINC
 New=Dane pobierane
 Running=Dane przetwarzane
 Ready to run=Dane oczekuj¹ce
-Computation done=Obliczenia zakoñczone
-Results uploaded=Wynik odes³any
-Acknowledged=Potwierdzono
+Computation error=B³¹d obliczeñ
+Ready to report=Gotowy do potwierdzenia
+Acknowledged=Potwierdzono otrzymanie
 Error: invalid state=B³¹d: niepoprawny status
 Completed=Przesy³anie zakoñczone
 Uploading=Odsy³anie wyniku
@@ -67,11 +67,11 @@ Downloading=Pobieranie danych
 Retry in=Próbuj ponownie za:
 Upload failed=Wysy³anie wyniku nie powiod³o siê
 Download failed=Pobieranie danych nie powiod³o siê
+Suspended=Wstrzymany
 
 #menu items
 [MENU-File]
 Title=&Plik
-Show Graphics=Poka¿ &grafikê
 Run always=Zawsze &uruchomione
 Run based on preferences=Uruchamiaj zgodnie z &preferencjami
 Suspend=&Wstrzymaj
@@ -81,7 +81,7 @@ Exit=&Zamknij
 
 [MENU-Settings]
 Title=&Ustawienia
-Login to Project...=&Zaloguj siê do Projektu
+Attach to Project...=&Przy³¹cz siê do Projektu
 Proxy Server...=Serwery Pro&xy
 
 [MENU-Help]
@@ -98,11 +98,10 @@ Exit=&Zamknij
 
 [MENU-Project]
 Web site=Strona www
-Get preferences=Pobierz preferencje
-Retry now=Próbuj ponownie pobraæ preferencje
+Update=Zaktualizuj preferencje
+Update (retry now)=Próbuj ponownie zaktualizowaæ preferencje
 Detach...=Opuœæ projekt...
 Reset project...=Zrestartuj projekt...
-Quit Project...=&Wyloguj
 
 [MENU-Work]
 Show Graphics=Poka¿ grafikê
@@ -114,21 +113,13 @@ Retry now=Próbuj ponownie teraz
 Copy to clipboard=Kopiuj do schowka
 
 [DIALOG-LOGIN]
-Title=Zaloguj siê do Projektu
+Title=Przy³¹cz siê do Projektu
 URL:=URL
 Account Key:=Kod autoryzacji
 OK=OK
 Cancel=Anuluj
 The URL for the website of the project.=Adres strony www Projektu
 The authorization code recieved in your confirmation email.=Kod autoryzacji
-
-[DIALOG-QUIT]
-Title=Wyloguj z projektu
-URL:=URL
-Account Key:=Kod autoryzacji
-OK=OK
-Cancel=Anuluj
-Select the project you wish to quit.=Wybierz Projekt z którego chcesz siê wylogowaæ
 
 [DIALOG-CONNECT]
 Title=Po³¹cz z sieci¹
@@ -146,7 +137,7 @@ Are you sure you want to detach from the project %1?=Czy jesteœ pewny, ¿e chcesz
 [DIALOG-ABOUT]
 Title=BOINC (wersja beta)
 Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
-Open Beta=Wersja beta
+Open Beta=Otwarta wersja beta
 OK=OK
 
 [DIALOG-PROXY]
@@ -160,10 +151,10 @@ SOCKS Proxy=Serwer SOCKS Proxy
 Connect via SOCKS Proxy Server=Po³¹cz za poœrednictwem serwera SOCKS
 SOCKS Host:=Serwer SOCKS:
 Port Number:=Numer portu:
-Leave these blank if not needed=Wpisz tylko w razie takiej potrzeby
+Leave these blank if not needed=Wpisz tylko w razie potrzeby
 SOCKS User Name:=U¿ytkownik:
 SOCKS Password:=Has³o:
 OK=OK
 Cancel=Anuluj
 
-#Bardzo mi siê podoba Maja. Ju¿ ona wie, ¿e to o ni¹ chodzi. A mówi³em, ¿e to tu napiszê !!! :)))
+#Nadal bardzo mi siê podoba Maja. Ju¿ ona wie, ¿e to o ni¹ chodzi :)))

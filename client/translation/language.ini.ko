@@ -1,14 +1,14 @@
-# Language translation file for Korean by 전영진 <imappak@opendev.co.kr>
+# Language translation file for Korean by imappak <imappak@opendev.co.kr>
 # $Id$
-# language.ini.Ko 2003/11/21 13:00
+# language.ini.ko 2003/11/21 13:00
 
 #PROJECT_ID
 [HEADER-Projects]
 Title=프로젝트
 Project=프로젝트
 Account=계정
-Total Credit=전체 작업시간
-Avg. Credit=평균 작업시간
+Total Credit=전체 기여도
+Avg. Credit=평균 기여도
 Resource Share=자원 공유율
 
 #RESULT_ID
@@ -83,7 +83,7 @@ Exit=종료
 [MENU-Settings]
 Title=설정
 Login to Project...=새로운 프로젝트
-Proxy Server...=프락시 서버
+Proxy Server...=프록시 서버
 
 [MENU-Help]
 Title=도움말
@@ -152,14 +152,14 @@ Open Beta=OPEN BETA
 OK=확인
 
 [DIALOG-PROXY]
-Title=프락시 서버 설정
-Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=어떤 기관/회사는 보안증진을 위해 HTTP 프락시나 SOCKS 프락시 혹은 둘모두를 사용합니다.  프락시를 사용할 필요가 있으면 아래 정보를 입력해 주세요.  도움이 필요하면 시스템 관리자나 통신회사에 문의하세요.
-HTTP Proxy=HTTP 프락시
-Connect via HTTP Proxy Server=경유할 HTTP 프락시 서버
+Title=프록시 서버 설정
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=어떤 기관/회사는 보안증진을 위해 HTTP 프록시나 SOCKS 프록시 혹은 둘모두를 사용합니다.  프록시를 사용할 필요가 있으면 아래 정보를 입력해 주세요.  도움이 필요하면 시스템 관리자나 통신회사에 문의하세요.
+HTTP Proxy=HTTP 프록시
+Connect via HTTP Proxy Server=경유할 HTTP 프록시 서버
 http://=http://
 Port Number:=포트번호:
-SOCKS Proxy=SOCKS 프락시
-Connect via SOCKS Proxy Server=경유할 SOCKS 프락시 서버
+SOCKS Proxy=SOCKS 프록시
+Connect via SOCKS Proxy Server=경유할 SOCKS 프록시 서버
 SOCKS Host:=호스트명:
 Port Number:=포트번호:
 Leave these blank if not needed=필요하지 않으면 빈칸으로 두세요.

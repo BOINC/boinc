@@ -19,6 +19,7 @@ Name=Nombre
 CPU time=Tiempo de CPU
 Progress=Progreso
 To Completion=Hasta completar
+Report Deadline=Fecha limite para informar
 Status=Estado
 
 # XFER_ID

@@ -9466,4 +9466,18 @@ Eric	Jan 21 2004
 		parse.C
 		std_fixes.h
 		
-	
+Karl 2004-01-21
+    Client translations update from Robi Beucheler
+
+    client/translation/
+        language.ini.ca
+        language.ini.es
+        language.ini.et
+        language.ini.gl
+        language.ini.hr
+        language.ini.ko
+        language.ini.pl
+        language.ini.pt
+        language.ini.template
+        language.ini.th (new)
+        language.ini.tr (new)
