@@ -24,6 +24,12 @@ msgstr "Platform"
 msgid "APPS_VERSION"
 msgstr "Nuv&aelig;rende version"
 
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Run $PROJECT only on computers that you own, "
+"or for which you have obtained the owner's permission. "
+"Some companies and schools have policies that prohibit using their computers "
+"for projects such as $PROJECT"
+
 msgid "APPS_INSTALLTIME"
 msgstr "Installeret"
 
