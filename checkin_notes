@@ -23870,3 +23870,10 @@ Rom    2 Feb 2005
 Rom    2 Feb 2005
     - Tag for 4.64 release, all platforms
       boinc_core_release_4_64
+
+Rom    2 Feb 2005
+    - Use the same technique to statically link nsl and socket for the client 
+      as the clientgui.
+
+    /
+        configure.ac

@@ -365,7 +365,32 @@ if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" = yes 
    else
       GCC_EH_LIB=
    fi
-   CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
+
+   ## list of possible libraries, which we have to link statically against 
+   ## in order to avoid portability problems
+      
+   ## extend this list as necessary if you find additional libs required on your system
+   ## ****************************************
+   blacklist="nsl socket"
+   case $target in 
+      *linux*)
+         blacklist="$blacklist z"
+         ;;
+      *)
+         ;;
+   esac
+   ## ****************************************
+
+   ## now we walk through the blacklist and turn all matching libs found in 
+   ## into a static link-command
+   CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc -lsocket -lnsl"	
+   echo "DEBUG: before mangling CLIENTLIBS='$CLIENTLIBS'" 
+   for somelib in ${blacklist}; do
+       CLIENTLIBS=`echo $CLIENTLIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
+   done
+   echo "DEBUG: final link-line for CLIENTLIBS = $CLIENTLIBS"
+
+
 else
    CLIENTLIBS=
 fi
