@@ -65,7 +65,7 @@ function row2($x, $y) {
 }
 
 function row3($x, $y, $z) {
-    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$x</td></tr>\n";
+    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
 }
 
 function random_string() {
