@@ -99,8 +99,8 @@ void NET_STATS::poll(NET_XFER_SET& nxs) {
 int NET_STATS::write(MIOFILE& out) {
     out.printf(
         "<net_stats>\n"
-        "    <bwup>%f</bwup>\n"
-        "    <bwdown>%f</bwdown>\n"
+        "    <bwup>%g</bwup>\n"
+        "    <bwdown>%g</bwdown>\n"
         "</net_stats>\n",
         up.throughput(),
         down.throughput()

@@ -43,6 +43,23 @@ int WinsockCleanup()
     return WSACleanup();
 }
 
+//
+// NetOnline - Check if network connection is live NOW
+//
+bool NetOnline( void ) {
+    typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
+    int        online = 0;
+    HMODULE libmodule = LoadLibrary("wininet.dll");        // Load library with check rtn
+    if (libmodule) {    // Find function address
+        GetStateProc GetState = (GetStateProc)
+            GetProcAddress(libmodule, "InternetGetConnectedState");
+        DWORD connectionFlags;
+        if (GetState)
+            online = (*GetState)(&connectionFlags, 0);    // Get online status
+    }
+    return (online != 0);
+}
+
 int NetOpen( void )
 {
     int rc;

@@ -91,7 +91,7 @@ show_link(
 show_link(
     "German (message board)",
     "Official eMule @ BOINC Team Page",
-    "http://www.emuleatboinc.de/Board"
+    "http://www.emuleatboinc.de/board"
 );
 //list_item("Italian",
 //    "<a href=http://boinc.homeunix.org/>boinc.homeunix.org</a>"

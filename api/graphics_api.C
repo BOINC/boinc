@@ -75,14 +75,12 @@ int boinc_init_graphics(void (*worker)()) {
     return boinc_init_options_graphics(opt, worker);
 }
 
-int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
-    boinc_init_options_general(opt);
+int start_worker_thread(void (*_worker_main)()) {
     worker_main = _worker_main;
 #ifdef _WIN32
 
     // Create the event object used to signal between the
     // worker and event threads
-
     hQuitEvent = CreateEvent(
         NULL,     // no security attributes
         TRUE,     // manual reset event
@@ -112,8 +110,6 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
     //
     ResumeThread(worker_thread_handle);
 
-    graphics_inited = true;
-    win_graphics_event_loop();
 #else
 
     pthread_t worker_thread;
@@ -147,7 +143,23 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
     retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );
+#endif
+    return 0;
+}
+
+int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
+    int retval;
+
+    boinc_init_options_general(opt);
+    if (_worker_main) {
+        retval = start_worker_thread(_worker_main);
+        if (retval) return retval;
+    }
     graphics_inited = true;
+#ifdef _WIN32
+    win_graphics_event_loop();
+	fprintf(stderr, "Graphics event loop returned\n");
+#else
     xwin_graphics_event_loop();
 	fprintf(stderr, "Graphics event loop returned\n");
     pthread_exit(0);

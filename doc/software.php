@@ -52,20 +52,24 @@ the account under which Apache runs
 Set your PATH variable to include MySQL programs
 (typically /usr/local/mysql and /usr/local/mysql/bin).
 
+<p>
 Required on other server(s):
 <ul>
   <li><b>Apache</b> or other webserver (package <code>apache2</code> or <code>apache</code>)
   <li><b>PHP</b> 4.0 (package <code>php4</code>)
   <li><b>MySQL client</b> (package <code>mysql-client</code>)
   <li><b>Python</b> 2.2+ (package <code>python2.3</code> or <code>python2.2</code>)
-    <ul>
-      <li><a href=http://sourceforge.net/projects/mysql-python><b>Python module MySQLdb</b></a>
-        0.9.2 (0.9.1 currently won't work; see <a
-              href=install_python_mysqldb.txt>installation instructions</a>)
-        (package <code>python-mysqldb</code>)
-      <li><a href=http://pyxml.sourceforge.net/><b>Python module xml</b></a>
-          (part of most Python distributions; package <code>python-xml</code>)
-    </ul>
+  <li><a href=http://sourceforge.net/projects/mysql-python><b>Python module MySQLdb</b></a>
+    0.9.2
+    (package <code>python-mysqldb</code>)
+    <br>
+    0.9.3 reportedly works also
+    <br>
+    (0.9.1 currently won't work;
+     see <a href=install_python_mysqldb.txt>installation instructions</a>;
+     1.0.0 and higher don't seem to work either)
+  <li><a href=http://pyxml.sourceforge.net/><b>Python module xml</b></a>
+      (part of most Python distributions; package <code>python-xml</code>)
 </ul>
 
 The <a href=test.php>test suite</a> simulates all servers and client on a
@@ -82,6 +86,7 @@ Optional, required only if you change <code>*/Makefile.am</code>:
 <ul>
   <li><b>automake</b> 1.7+
   <li><b>autoconf</b> 2.5+
+  <li><b>m4</b>
 </ul>
 
 <p>

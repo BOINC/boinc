@@ -20087,3 +20087,13 @@ Rom    23 Nov 2004
 Rom   23 Nov 2004 (boinc)
     - Tag for 4.56 release, all platforms
       boinc_core_release_4_56
+
+David  23 Nov 2004
+    - boinc_init_graphics_options() can be called with a NULL
+        worker_main argument.
+        This can be used by a separate graphics app.
+
+    api/
+        graphics_api.C
+    client/
+        net_stats.C
