@@ -254,13 +254,9 @@ Building client only:
 
   ./configure && cd client && make
 
-Testing (requires Python 2, MySQLdb) after build:
+Testing (requires Python 2.2, MySQLdb - see install_python_mysqldb.txt) after build:
 
   make check
 
 -------------------------------------------------------------------------
 Build X11
-
-
-
-
