@@ -316,7 +316,7 @@ class TestProject(Project):
         self.install_hosts()
 
     def run(self):
-        self.sched_install('make_work', max_wus = self.num_wu)
+        self.sched_install('make_work', max_wus = self.num_wu, min_quorum = self.redundancy)
         self.sched_install('assimilator')
         # self.sched_install('file_deleter')
         self.sched_install('validate_test')

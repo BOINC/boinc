@@ -6639,12 +6639,19 @@ Oliver Oct 9 2003
 		gutil.C
 
 Karl 2003/10/08
-    - fixed bug in testbase for user global prefs
+    - tests: fixed bug re user global prefs
+    - tests: fixed checking of result outputs
+    - tests: fixed min_quorum=2 bug
 
+    py/
+        setup_project.py
     test/
         testbase.py
+        test_uc.py
 
-    - fixed bug in sscan_hex_data() with \r or other whitespace
+    - transitioner: fixed bug in sscan_hex_data() with \r or other whitespace
+    - transitioner: log more 
+    - file_upload_handler: log more
 
     lib/
         crypt.C
