@@ -408,16 +408,20 @@ bool do_pass() {
     DB_TRANSITIONER_ITEM_SET transitioner;
     std::vector<TRANSITIONER_ITEM> items;
     bool did_something = false;
+    int transition_time;
+    int mod;
 
     check_stop_daemons();
 
     // loop over entries that are due to be checked
     //
-    while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, items)) {
+    transition_time = (int)time(0);
+    while (!transitioner.enumerate(transition_time, SELECT_LIMIT, items)) {
         did_something = true;
 
         // if we are assigned a transitioner number, then limit which records we should
         //   look at. It'll be less expensive to do the check here that in the DB.
+        mod = items[0].id % mod_n;
         if ((mod_n == 0) || ((mod_n < 0) && (mod_i == items[0].id % mod_n))) {
 
 #ifdef USE_TRANSACTIONS
