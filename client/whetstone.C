@@ -336,7 +336,8 @@ C--------------------------------------------------------------------
 		printf("C Converted Double Precision Whetstones: %.1f KIPS\n", KIPS);
 #endif
 
-    flops = KIPS*1000.;
+    // convert from thousands of instructions a second to instructions a second.
+    flops = KIPS*1000.0;
 }
 
 void
