@@ -93,6 +93,8 @@ MEDIUM-PRIORITY (must be done for CM)
 
 - implement WU/result sequences
 
+- decide on action when speed_tests detect a calculation inconsistency
+
 --------------------------
 LOW-PRIORITY
 
