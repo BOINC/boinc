@@ -20,7 +20,6 @@
 // include header
 
 #include "wingui.h"
-#include "win_idle_tracker.h"
 
 // globals
 
@@ -35,14 +34,14 @@ CMyApp myApp;
 #define MAX_ID				4
 
 #define PROJECT_COLS		5
-#define RESULT_COLS			6
+#define RESULT_COLS			7
 #define XFER_COLS			4
-#define MAX_COLS			6
+#define MAX_COLS			7
 
 char* column_titles[MAX_ID][MAX_COLS] = {
-	{"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",		NULL},
-	{"Project",	"Application",	"Name",			"CPU time",		"Progress",			"Status"},
-	{"Project",	"File",			"Progress",		"Direction",	NULL,					NULL}
+        {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	NULL,				NULL},
+        {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
+        {"Project",	"File",			"Progress",		"Total",		"Direction",		NULL,				NULL}
 };
 
 void show_message(char* message, char* priority) {
@@ -989,25 +988,26 @@ CMainWindow::CMainWindow()
 //				id: the timer's id
 //				time: milliseconds since system started
 // returns:		void
-// function:	updates client state, flushed output streams, and updates
-//				gui display.
+// function:	checks idle time, updates client state, flushed output streams,
+//				and updates gui display.
 void CALLBACK CMainWindow::TimerProc(HWND h, UINT msg, UINT id, DWORD time)
 {
-	if (gstate.global_prefs.idle_time_to_run > 0) {
-		if (GetTickCount()-IdleTrackerGetLastTickCount() > 1000*gstate.global_prefs.idle_time_to_run) {
-			gstate.user_idle = true;
-		} else {
-			gstate.user_idle = false;
-		}
-	}
-	else {
-		gstate.user_idle = true;
-	}
-
+	// update state and gui
     while(gstate.do_something());
 	fflush(stdout);
 	fflush(stderr);
 	if(myWnd) {
+		// check user's idle time for suspension of apps
+		if (gstate.global_prefs.idle_time_to_run > 0) {
+			if (myWnd->GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
+				gstate.user_idle = true;
+			} else {
+				gstate.user_idle = false;
+			}
+		} else {
+			gstate.user_idle = true;
+		}
+
 		myWnd->UpdateGUI(&gstate);
 	}
 }
@@ -1062,6 +1062,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
 		if(!re) {
+			m_XferListCtrl.SetItemProgress(i, 4, 100);
 			continue;
 		}
 
@@ -1084,11 +1085,22 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		// progress
 		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
 		if(!at) {
-			buf.Format("no active task");
-		} else {
-			buf.Format("%d%%", (int)(at->fraction_done * 100));
+			m_ResultListCtrl.SetItemProgress(i, 4, 0);
+		} else {	
+			m_ResultListCtrl.SetItemProgress(i, 4, (int)(at->fraction_done * 100));
 		}
-		m_ResultListCtrl.SetItemText(i, 4, buf);
+
+		// to completion
+		if(!at || at->fraction_done == 0) {
+			buf.Format("unable to calculate");
+		} else {
+			int tocomp = (re->final_cpu_time / at->fraction_done) - re->final_cpu_time;
+			cpuhour = (int)(tocomp / (60 * 60));
+			cpumin = (int)(tocomp / 60) % 60;
+			cpusec = (int)(tocomp) % 60;
+			buf.Format("%0.2dh%0.2dm%0.2ds", cpuhour, cpumin, cpusec);
+		}
+		m_ResultListCtrl.SetItemText(i, 5, buf);
 
 		// status
 		switch(re->state) {
@@ -1105,7 +1117,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 			default:
 				buf.Format("%s", "Error: invalid state"); break;
 		}
-		m_ResultListCtrl.SetItemText(i, 5, buf);
+		m_ResultListCtrl.SetItemText(i, 6, buf);
 	}
 
 	// update xfers
@@ -1326,6 +1338,31 @@ int CMainWindow::GetDiskFree()
 }
 
 //////////
+// CMainWindow::GetUserIdleTime
+// arguments:	void
+// returns:		time the user has been idle in milliseconds
+// function:	calls a dll function to determine the the user's idle time
+DWORD CMainWindow::GetUserIdleTime()
+{
+	if(m_IdleDll) {
+		GetFn fn;
+		fn = (GetFn)GetProcAddress(m_IdleDll, "IdleTrackerGetLastTickCount");
+		if(fn) {
+			return GetTickCount() - fn();
+		} else {
+			TermFn tfn;
+			tfn = (TermFn)GetProcAddress(m_IdleDll, "IdleTrackerTerm");
+			if(tfn) {
+				tfn();
+			}
+			AfxFreeLibrary(m_IdleDll);
+			m_IdleDll = NULL;
+		}
+	}
+	return 0;
+}
+
+//////////
 // CMainWindow::Syncronize
 // arguments:	prog: pointer to a progress list control
 //				vect: pointer to a vector of pointers
@@ -1441,6 +1478,8 @@ void CMainWindow::OnCommandStatusIconHide()
 // function:	cleans up, closes and quits everything
 void CMainWindow::OnCommandStatusIconQuit()
 {
+	// quit
+	gstate.exit();
 	PostQuitMessage(0);
 
 	// status icon in taskbar
@@ -1456,19 +1495,19 @@ void CMainWindow::OnCommandStatusIconQuit()
 	m_TabIL.DeleteImageList();
 	m_MainMenu.DestroyMenu();
 
-	// Stop user idle detection
-	IdleTrackerTerm();
-
-	/*if (boincDLL != NULL) {
-		term_proc = (INITPROC) GetProcAddress(boincDLL, "IdleTrackerTerm");
-		if (term_proc != NULL) {
-			(term_proc)();
+	// free dll and idle detection
+	if(m_IdleDll) {
+		TermFn fn;
+		fn = (TermFn)GetProcAddress(m_IdleDll, "IdleTrackerTerm");
+		if(!fn) {
+			MessageUser("Error in DLL, can't find procedure \"IdleTrackerTerm\"", "low");
+		} else {
+			fn();
 		}
+		AfxFreeLibrary(m_IdleDll);
+		m_IdleDll = NULL;
 	}
-	FreeLibrary(boincDLL);*/
 
-	// kill child processes
-	gstate.active_tasks.exit_tasks();
 	SaveUserSettings();
 	CWnd::OnClose();
 }
@@ -1587,17 +1626,25 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     if (retval) exit(retval);
     SetTimer(ID_TIMER, 1000, TimerProc);
 
-	// Start user idle detection
-	IdleTrackerInit();
-
-	//boincDLL = LoadLibrary((LPCTSTR) "boinc.dll");
-
-	/*if (boincDLL != NULL) {
-		init_proc = (INITPROC) GetProcAddress(boincDLL, "IdleTrackerInit");
-		if (init_proc != NULL) {
-			(init_proc)();
+	// load dll and start idle detection
+	m_IdleDll = AfxLoadLibrary("boinc.dll");
+	if(!m_IdleDll) {
+		MessageUser("Can't load \"boinc.dll\", will not be able to determine idle time", "high");
+	} else {
+		InitFn fn;
+		fn = (InitFn)GetProcAddress(m_IdleDll, "IdleTrackerInit");
+		if(!fn) {
+			MessageUser("Error in DLL, can't find procedure \"IdleTrackerInit\"", "low");
+			AfxFreeLibrary(m_IdleDll);
+			m_IdleDll = NULL;
+		} else {
+			if(!fn()) {
+				MessageUser("Error in DLL, can't create hooks", "low");
+				AfxFreeLibrary(m_IdleDll);
+				m_IdleDll = NULL;
+			}
 		}
-	}*/
+	}
 
 	LoadUserSettings();
 	UpdateGUI(&gstate);

@@ -53,6 +53,12 @@
 #define PIE_DEPTH			0.25		// depth of pie chart
 #define PI					3.14159		// pi
 
+// typedefs
+
+typedef BOOL (CALLBACK* InitFn)();
+typedef void (CALLBACK* TermFn)();
+typedef DWORD (CALLBACK* GetFn)();
+
 // classes
 
 //////////
@@ -189,12 +195,14 @@ protected:
 	CTabCtrl				m_TabCtrl;				// tab control for choosing display
 	CImageList				m_TabIL;				// image list for tab control
 	CBitmap					m_TabBMP[5];			// bitmaps for tab image list
+	HINSTANCE				m_IdleDll;				// handle to dll for user idle
 
     void					StatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
     int						GetDiskSize();
     int						GetDiskFree();
+	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
 
