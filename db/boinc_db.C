@@ -735,6 +735,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atoi(r[i++]);
+#if 0
     strcpy2(res_xml_doc_in, r[i++]);
     workunitid = atoi(r[i++]);
     wu_rsc_memory_bound = atof(r[i++]);
@@ -744,6 +745,34 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu_rsc_disk_bound = atof(r[i++]);
     strcpy2(wu_name, r[i++]);
     strcpy2(wu_xml_doc, r[i++]);
+#else
+    id=atol(r[i++]);
+    create_time = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    strcpy2(xml_doc, r[i++]);
+    batch = atoi(r[i++]);
+    rsc_fpops_est = atof(r[i++]);
+    rsc_fpops_bound = atof(r[i++]);
+    rsc_memory_bound = atof(r[i++]);
+    rsc_disk_bound = atof(r[i++]);
+    need_validate = atoi(r[i++]);
+    canonical_resultid = atoi(r[i++]);
+    canonical_credit = atof(r[i++]);
+    transition_time = atoi(r[i++]);
+    delay_bound = atoi(r[i++]);
+    error_mask = atoi(r[i++]);
+    file_delete_state = atoi(r[i++]);
+    assimilate_state = atoi(r[i++]);
+    workseq_next = atoi(r[i++]);
+    opaque = atof(r[i++]);
+    min_quorum = atoi(r[i++]);
+    target_nresults = atoi(r[i++]);
+    max_error_results = atoi(r[i++]);
+    max_total_results = atoi(r[i++]);
+    max_success_results = atoi(r[i++]);
+    strcpy2(result_template_file, r[i++]);
+#endif
 }
 
 int DB_WORK_ITEM::enumerate(char* clause) {
@@ -752,6 +781,7 @@ int DB_WORK_ITEM::enumerate(char* clause) {
     MYSQL_ROW row;
 
     if (!cursor.active) {
+#if 0
         sprintf(query,
             "select result.id as res_id, "
             "result.xml_doc_in as res_xml_doc_in, "
@@ -767,6 +797,14 @@ int DB_WORK_ITEM::enumerate(char* clause) {
             "where workunit.id = result.id %s",
             clause
         );
+#else
+        sprintf(query,
+            "select result.id, workunit.* from result, workunit "
+            "where workunit.id == result.workunitid "
+            "and result.server_state=2 order by result.random "
+            "limit 10"
+        );
+#endif
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
         cursor.rp = mysql_store_result(db->mysql);

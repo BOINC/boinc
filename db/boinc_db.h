@@ -589,6 +589,7 @@ public:
 // used by the feeder and scheduler for outgoing work
 //
 struct WORK_ITEM {
+#if 0
     int res_id;
     int res_server_state;
     char res_xml_doc_in[LARGE_BLOB_SIZE];
@@ -601,6 +602,10 @@ struct WORK_ITEM {
     double wu_transition_time;
     char wu_name[256];
     char wu_xml_doc[LARGE_BLOB_SIZE];
+#else
+    int res_id;
+    WORKUNIT wu;
+#endif
     void parse(MYSQL_ROW& row);
 };
 
