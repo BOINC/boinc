@@ -1,0 +1,246 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+//
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved.
+//
+// Contributor(s):
+//
+
+// The part of the BOINC API having to do with graphics.
+// This is the implementation level,
+// which doesn't directly refer to boinc_init_options()
+// and thus can be put in a shared library,
+// separate from the application.
+
+#include "config.h"
+
+#ifdef _WIN32
+#include "boinc_win.h"
+extern void win_graphics_event_loop();
+#endif
+
+#ifndef _WIN32
+#include <cstring>
+#include <cstdarg>
+#include "x_opengl.h"
+
+#ifdef HAVE_PTHREAD
+#include <pthread.h>
+#include <sched.h>
+#endif
+#endif
+
+#include "parse.h"
+#include "util.h"
+#include "app_ipc.h"
+#include "error_numbers.h"
+#include "filesys.h"
+#include "graphics_api.h"
+#include "graphics_impl.h"
+
+
+double boinc_max_fps = 30.;
+double boinc_max_gfx_cpu_frac = 0.5;
+
+#ifdef _WIN32
+HANDLE hQuitEvent;
+#endif
+
+bool graphics_inited = false;
+
+static void (*worker_main)();
+
+#ifdef _WIN32
+DWORD WINAPI foobar(LPVOID) {
+#else
+void* foobar(void*) {
+#endif
+    set_worker_timer();
+    worker_main();
+    return 0;
+}
+
+int boinc_init_graphics_impl(
+    void (*worker)(), int (*init_func)(BOINC_OPTIONS&)
+) {
+    BOINC_OPTIONS opt;
+    opt.defaults();
+    return boinc_init_options_graphics_impl(opt, worker, init_func);
+}
+
+int start_worker_thread(void (*_worker_main)()) {
+    worker_main = _worker_main;
+#ifdef _WIN32
+
+    // Create the event object used to signal between the
+    // worker and event threads
+    hQuitEvent = CreateEvent(
+        NULL,     // no security attributes
+        TRUE,     // manual reset event
+        TRUE,     // initial state is signaled
+        NULL      // object not named
+    );
+
+    DWORD threadId;
+
+    // Create the graphics thread, passing it the graphics info
+    // TODO: is it better to use _beginthreadex here?
+    //
+    worker_thread_handle = CreateThread(
+        NULL, 0, foobar, 0, CREATE_SUSPENDED, &threadId
+    );
+
+    // raise priority of graphics thread (i.e. current thread)
+    //
+    HANDLE h = GetCurrentThread();
+    SetThreadPriority(h, THREAD_PRIORITY_HIGHEST);
+
+    // lower worker thread priority
+    //
+    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST);
+
+    // Start the worker thread
+    //
+    ResumeThread(worker_thread_handle);
+
+#else
+
+    pthread_t worker_thread;
+    pthread_attr_t worker_thread_attr;
+    sched_param param;
+    int retval, currentpolicy, minpriority;
+
+    // make the worker thread low priority
+    // (current thread, i.e. graphics thread, should remain high priority)
+    //
+    retval = pthread_attr_init(&worker_thread_attr);
+    if (retval) return ERR_THREAD;
+ 
+    retval = pthread_attr_getschedparam(&worker_thread_attr, &param);
+    if (retval) return ERR_THREAD;
+ 
+    // Note: this sets the scheduling policy for the worker thread to
+    // be the same as the scheduling policy of the main thread.
+    // This may not be a wise choice.
+    //
+    retval = pthread_attr_getschedpolicy(&worker_thread_attr, &currentpolicy);
+    if (retval) return ERR_THREAD;
+ 
+    minpriority = sched_get_priority_min(currentpolicy);
+    if (minpriority == -1) return ERR_THREAD;
+ 
+    param.sched_priority = minpriority;
+    retval = pthread_attr_setschedparam(&worker_thread_attr, &param);
+    if (retval) return ERR_THREAD;
+
+    retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
+    if (retval) return ERR_THREAD;
+    pthread_attr_destroy( &worker_thread_attr );
+#endif
+    return 0;
+}
+
+int boinc_init_options_graphics_impl(
+    BOINC_OPTIONS& opt,
+    void (*_worker_main)(),
+    int (*init_func)(BOINC_OPTIONS&)
+) {
+    int retval;
+
+    retval = (*init_func)(opt);
+    if (retval) return retval;
+    if (_worker_main) {
+        retval = start_worker_thread(_worker_main);
+        if (retval) return retval;
+    }
+    graphics_inited = true;
+#ifdef _WIN32
+    win_graphics_event_loop();
+	fprintf(stderr, "Graphics event loop returned\n");
+#else
+    xwin_graphics_event_loop();
+	fprintf(stderr, "Graphics event loop returned\n");
+    pthread_exit(0);
+#endif
+
+    // normally we never get here
+    return 0;
+}
+
+#ifndef _WIN32
+extern "C" {
+void glut_quit() {
+    pthread_exit(0);
+}
+}
+#endif
+
+bool throttled_app_render(int x, int y, double t) {
+    static double total_render_time = 0;
+    static double time_until_render = 0;
+    static double last_now = 0;
+    static double elapsed_time = 0;
+    double now, t0, t1, diff, frac;
+    bool ok_to_render;
+
+    ok_to_render = true;
+    now = dtime();
+    diff = now - last_now;
+    last_now = now;
+    if (diff > 1000) diff = 0;     // handle initial case
+
+    // enforce frames/sec restriction
+    //
+    if (boinc_max_fps) {
+        time_until_render -= diff;
+        if (time_until_render < 0) {
+            time_until_render += 1./boinc_max_fps;
+        } else {
+            ok_to_render = false;
+        }
+    }
+
+    // enforce max CPU time restriction
+    //
+    if (boinc_max_gfx_cpu_frac) {
+        elapsed_time += diff;
+        if (elapsed_time) {
+            frac = total_render_time/elapsed_time;
+            if (frac > boinc_max_gfx_cpu_frac) {
+                ok_to_render = false;
+            }
+        }
+    }
+
+    // render if allowed
+    //
+    if (ok_to_render) {
+        if (boinc_max_gfx_cpu_frac) {
+            boinc_calling_thread_cpu_time(t0);
+        }
+        app_graphics_render(x, y, t);
+        if (boinc_max_gfx_cpu_frac) {
+            boinc_calling_thread_cpu_time(t1);
+            total_render_time += t1 - t0;
+        }
+        return true;
+    }
+    return false;
+}
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -21000,6 +21000,7 @@ David  10 Dec 2004
         filesys.C,h
         util.C,h
 
+
 Rom    10 Dec 2004
     - Bug Fix: Under the previous arrangement there was a timer event that would
         fire off once a second to check for the possiblility that the item in the
@@ -21023,3 +21024,47 @@ Rom    10 Dec 2004
         BOINCGUIApp.cpp
         BOINCListCtrl.cpp, .h
         MainFrame.cpp, .h
+
+
+David  10 Dec 2004
+    - Refactored the app graphics code so that it can be used in 2 ways:
+        1) Linked with the main program.
+            This works OK on Windows, but on UNIX there's the problem
+            that the app won't run unless the required libraries
+            (openGL, X11) are present.
+        2) Graphics code in a separate shared library.
+            The main program calls a new function boinc_init_graphics_lib(),
+            giving it the name of the shared library.
+            This function tries to open the library.
+            If this fails (e.g. because X11 libs aren't there)
+            it runs the application without graphics.
+            Otherwise it calls the graphics initialization routine
+            in the library, which creates the graphics thread.
+
+            This case is tricky because the library's initialization routine
+            can't directly call boinc_init() (from boinc_api.C).
+            Doing so requires boinc_api.o to be linked with the library,
+            which gives it separate copies of all the static variables.
+            This produces a situation where, e.g., there are two copies of
+            "fraction_done"; the one in the main program gets updated,
+            the one in the library remains zero and
+            gets reported to the core client.
+
+            To solve this problem, the library's initialization routine
+            takes a pointer to boinc_init() as an argument,
+            and calls it via that pointer.
+            boinc_api.o must NOT be linked with the shared library.
+            
+        Bruce Allen thought up the idea of doing graphics
+        in a separate library.
+
+        TODO: graphics_lib.C isn't finished.  Bruce?
+
+    api/
+        graphics_api.C
+            (link this with monolithic apps)
+        graphics_impl.C,h (new)
+            (link this with monolithic apps,
+             and with the shared library in the non-monolithic case)
+        graphics_lib.C,h (new)
+            (link this with the main program in the non-monolithic case)
