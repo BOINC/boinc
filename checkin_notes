@@ -15850,7 +15850,8 @@ David  4 Aug 2004
 
 Daniel 2004-08-04
     - autoconf: added HAVE__PROC_* macros
-    - client: added m_swap checking for Linux (via /proc/meminfo)
+    - client: added m_swap checking for Linux (via /proc/meminfo) and
+      MacOSX (via sysctl(3) and CTL_USER (not CTL_VM!!!))
 
     aclocal.m4
     config.h.in

@@ -358,16 +358,17 @@ int HOST_INFO::get_host_info() {
         }
         fclose(fp);
     }
-#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
-    // TODO: figure this out
-    /*vmtotal vm_info;
+#elif defined(HAVE_VMMETER_H) && defined(HAVE_SYS_SYSCTL_H) && defined(CTL_USER) && defined(VM_METER)
+    // MacOSX, I think...
+    // <http://www.osxfaq.com/man/3/sysctl.ws>
+    struct vmtotal vm_info;
 
-    mib[0] = CTL_VM;
+    mib[0] = CTL_USER;
     mib[1] = VM_METER;
     len = sizeof(vm_info);
-    sysctl(mib, 2, &vm_info, &len, NULL, 0);
-    m_swap = vm_info.t_vm;
-    */
+    if (!sysctl(mib, 2, &vm_info, &len, NULL, 0)) {
+        m_swap = 1024. * getpagesize() * (double) vm_info.t_vm;
+    }
 #else
 #endif
 
