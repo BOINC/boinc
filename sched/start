@@ -706,7 +706,6 @@ if is_main_host:
     for host in other_hosts:
         if host == local_hostname:
             continue
-        local_cmd = ' '.join(sys.argv)
         remote_cmd = [ 'ssh', host, 'cd', cwd, ' && ' ] + sys.argv
         if verbose:
             remote_cmd += [ '-v' ]

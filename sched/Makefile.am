@@ -2,19 +2,20 @@
 
 include $(top_srcdir)/Makefile.incl
 
-noinst_PROGRAMS = \
-    assimilator \
-	cgi feeder \
-    db_dump \
-    file_deleter \
-    file_upload_handler	\
-    make_work \
-    show_shmem \
-    transitioner \
-    message_handler \
-    update_stats \
-    validate_test \
-    validate_trivial \
+noinst_PROGRAMS =                               \
+    cgi                                         \
+    feeder                                      \
+    db_dump                                     \
+    file_deleter                                \
+    file_upload_handler                         \
+    make_work                                   \
+    show_shmem                                  \
+    transitioner                                \
+    message_handler                             \
+    update_stats                                \
+    sample_dummy_assimilator                    \
+    sample_bitwise_validator                    \
+    sample_trivial_validator                    \
     wu_check
 
 noinst_LIBRARIES = libsched.a
@@ -69,17 +70,17 @@ wu_check_DEPENDENCIES = $(LIB_SCHED)
 show_shmem_SOURCES = show_shmem.C
 show_shmem_DEPENDENCIES = $(LIB_SCHED)
 
-validate_test_SOURCES = validate.C validate_test.C validate_util.C validate_util.h
-validate_test_DEPENDENCIES = $(LIB_SCHED)
-
-validate_trivial_SOURCES = validate.C validate_trivial.C validate_util.C validate_util.h
-validate_trivial_DEPENDENCIES = $(LIB_SCHED)
-
 file_deleter_SOURCES = file_deleter.C
 file_deleter_DEPENDENCIES = $(LIB_SCHED)
 
-assimilator_SOURCES = assimilator.C assimilate_handler.C
-assimilator_DEPENDENCIES = $(LIB_SCHED)
+sample_bitwise_validator_SOURCES = validator.C sample_bitwise_validator.C validate_util.C validate_util.h
+sample_bitwise_validator_DEPENDENCIES = $(LIB_SCHED)
+
+sample_trivial_validator_SOURCES = validator.C sample_trivial_validator.C validate_util.C validate_util.h
+sample_trivial_validator_DEPENDENCIES = $(LIB_SCHED)
+
+sample_dummy_assimilator_SOURCES = assimilator.C sample_dummy_assimilator.C
+sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
 db_dump_SOURCES = db_dump.C
 db_dump_DEPENDENCIES = $(LIB_SCHED)

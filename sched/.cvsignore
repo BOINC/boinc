@@ -1,6 +1,8 @@
+message_handler
+sample_bitwise_validator
+sample_dummy_assimilator
+sample_trivial_validator
 sign_executable
 transitioner
 trickle_handler
-validate_trivial
 wu_check
-message_handler
