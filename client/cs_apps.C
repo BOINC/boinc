@@ -431,7 +431,9 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
-            atp->preempt(active_tasks.vm_limit_exceeded(vm_limit));
+            bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
+            preempt_by_quit |= active_tasks.vm_limit_exceeded(vm_limit);
+            atp->preempt(preempt_by_quit);
             iter++;
         } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_SCHEDULED

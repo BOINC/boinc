@@ -494,7 +494,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                     break;
                 case RESULT_FILES_DOWNLOADED:
                     if (at) {
-                        if (at->scheduler_state == CPU_SCHED_RUNNING) {
+                        if (at->scheduler_state == CPU_SCHED_SCHEDULED) {
                             strBuf.Format(g_szMiscItems[1]);
                         } else if (at->scheduler_state == CPU_SCHED_PREEMPTED) {
                             strBuf.Format(g_szMiscItems[14]);

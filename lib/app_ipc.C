@@ -47,7 +47,7 @@ char* xml_graphics_modes[NGRAPHICS_MSGS] = {
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 	string str1, str2;
-    fprintf(f, "<core_version>%d</core_version>\n", ai.core_version);
+    fprintf(f, "<app_init_data>\n<core_version>%d</core_version>\n", ai.core_version);
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
     }
@@ -105,6 +105,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.fraction_done_start,
         ai.fraction_done_end
     );
+    fprintf(f, "</app_init_data>\n");
     MIOFILE mf;
     mf.init_file(f);
     ai.host_info.write(mf);

@@ -16637,13 +16637,14 @@ David  23 Aug 2004
         ACTIVE_TASK_SET::unsuspend_all():
             Removed code that checks for process exit.
             Poll code should take care of this.
-
+	- enabled preemption by quit
     - add MSG_CHANNEL::send_msg_overwrite(): send message even
         if there's already a message there.
         Use this for process control messages.
-
     - API: if suspended, check for <quit/> messages as well as <resume/>
         (this affects Unix only)
+	- add enclosing tag for app init data file (so XML parsers accept it)
+
     api/
         boinc_api.C
     client/

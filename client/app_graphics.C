@@ -117,6 +117,7 @@ void ACTIVE_TASK_SET::graphics_poll() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (!atp->process_exists()) continue;
         if (atp->graphics_mode_requested != atp->graphics_mode_sent) {
             sent = atp->send_graphics_mode(atp->graphics_mode_requested);
             if (sent) {
