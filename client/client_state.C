@@ -95,6 +95,7 @@ CLIENT_STATE::CLIENT_STATE() {
     cpu_benchmarks_id = 0;
 }
 
+#if 0
 // Deallocate memory to prevent unneeded reporting of memory leaks
 //
 void CLIENT_STATE::free_mem() {
@@ -155,6 +156,7 @@ void CLIENT_STATE::free_mem() {
 
     active_tasks.free_mem();
 }
+#endif
 
 void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;

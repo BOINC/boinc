@@ -138,7 +138,6 @@ public:
     void kill_tasks();
     void check_apps();
     int get_free_slot(int total_slots);
-    void free_mem();
 
     // screensaver-related functions
     ACTIVE_TASK* get_graphics_capable_app();

@@ -445,6 +445,7 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
     return 0;
 }
 
+#if 0
 // Deallocate memory to prevent unneeded reporting of memory leaks
 //
 void ACTIVE_TASK_SET::free_mem() {
@@ -458,6 +459,7 @@ void ACTIVE_TASK_SET::free_mem() {
         delete at;
     }
 }
+#endif
 
 // Checks if any child processes have exited and records their final CPU time
 //

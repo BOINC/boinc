@@ -4091,6 +4091,7 @@ Erik  May 8 2003
         and if necessary it draws logo-based graphics or blanks the screen.
     - Changed ACTIVE_TASK.app_client_shm from a pointer to an object.
         NOTE: AVOID DYNAMIC ALLOCATION WHENEVER POSSIBLE
+    - got rid of free_mem() stuff
 
     client/
         Makefile.in
