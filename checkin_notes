@@ -9806,3 +9806,11 @@ Rom    Feb 4 2004
     
     html/user/
         debug.php
+
+Rom    Feb 5 2004
+    - Microsofts documentation on the matter of SHGetFolderPath seems to be wrong.
+        instead of relying on it, just do a dynamic link and call the function
+        if successful.
+    
+    client/win/
+        win_screensaver.cpp

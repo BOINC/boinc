@@ -1455,16 +1455,28 @@ void CScreensaver::DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, 
 // Name: IsConfigStatupBOINC()
 // Desc: Determine if BOINC is configured to automatically start at logon/startup.
 //-----------------------------------------------------------------------------
+
+// Define dynamically linked to function
+typedef HRESULT (STDAPICALLTYPE* MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken, DWORD dwFlags, LPSTR pszPath);
+
 BOOL CScreensaver::IsConfigStartupBOINC()
 {
-	BOOL	bRetVal;
-	BOOL    bCheckFileExists;
-	TCHAR	szBuffer[512];
-	HANDLE	hFileHandle;
+	BOOL				bRetVal;
+	BOOL				bCheckFileExists;
+	TCHAR				szBuffer[512];
+	HANDLE				hFileHandle;
+    HMODULE				hShell32;
+	MYSHGETFOLDERPATH	pfnMySHGetFolderPath = NULL;
 
 
 	// Lets set the default value to FALSE
 	bRetVal = FALSE;
+
+	// Attempt to link to dynamic function if it exists
+    hShell32 = LoadLibrary(TEXT("SHELL32.DLL"));
+	if ( NULL != hShell32 )
+		pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, TEXT("SHGetFolderPathA"));
+
 
 	// Now lets begin looking in the registry
 	if (ERROR_SUCCESS == UtilGetRegStartupStr(REG_STARTUP_NAME, szBuffer))
@@ -1476,22 +1488,25 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 		// It could be in the global startup group
 		ZeroMemory( szBuffer, 512 );
 		bCheckFileExists = FALSE;
-		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
+		if ( NULL != pfnMySHGetFolderPath )
 		{
-			TRACE(TEXT("IsConfigStartupBOINC: SHGetSpecialFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-			if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 			{
-				TRACE(TEXT("IsConfigStartupBOINC: Final SHGetSpecialFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-				bCheckFileExists = TRUE;
+				TRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+				if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+				{
+					TRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+					bCheckFileExists = TRUE;
+				}
+				else
+				{
+					TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP Append Operation\n"));
+				}
 			}
 			else
 			{
-				TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_STARTUP Append Operation\n"));
+				TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP\n"));
 			}
-		}
-		else
-		{
-			TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_STARTUP\n"));
 		}
 
 
@@ -1519,22 +1534,25 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 				// It could be in the global startup group
 				ZeroMemory( szBuffer, 512 );
 				bCheckFileExists = FALSE;
-				if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
+				if ( NULL != pfnMySHGetFolderPath )
 				{
-					TRACE(TEXT("IsConfigStartupBOINC: SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-					if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 					{
-						TRACE(TEXT("IsConfigStartupBOINC: Final SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-						bCheckFileExists = TRUE;
+						TRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+						if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+						{
+							TRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+							bCheckFileExists = TRUE;
+						}
+						else
+						{
+							TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
+						}
 					}
 					else
 					{
-						TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
+						TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP\n"));
 					}
-				}
-				else
-				{
-					TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP\n"));
 				}
 
 
@@ -1563,6 +1581,11 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 			}
 		}
 	}
+
+
+	// Free the dynamically linked to library
+	FreeLibrary(hShell32);
+
 
 	TRACE(TEXT("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
 	return bRetVal;
