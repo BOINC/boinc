@@ -156,6 +156,14 @@ int boinc_init_graphics(void (*_worker_main)()) {
     return 0;
 }
 
+#ifdef _PTHREAD_H
+extern "C" {
+void glut_quit() {
+    pthread_exit(0);
+}
+}
+#endif
+
 int boinc_finish_graphics() {
 #ifdef _WIN32
     if (graphics_inited) {
