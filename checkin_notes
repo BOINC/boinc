@@ -16087,8 +16087,12 @@ David  7 Aug 2004
         gui_rpc_server.C
 
 Daniel 2004-08-06
-    - client: check for exited apps right before (re)starting them for any
-      reason (unsuspend_all, resume_or_start)
+    - client:
+        - check for exited apps right before (re)starting them for any
+          reason (unsuspend_all(), resume_or_start())
+        - upon suspend_all(), if leave_apps_in_memory is false, quit all
+          tasks with state == PROCESS_RUNNING (not just those with
+          scheduler_state == CPU_SCHED_RUNNING, as before)
 
     client/
         app.C,h

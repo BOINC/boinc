@@ -1272,9 +1272,8 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (leave_apps_in_memory) {
-            if (atp->suspend()) {
+            if (atp->scheduler_state != CPU_SCHED_RUNNING && atp->suspend()) {
                 msg_printf(
                     atp->wup->project,
                     MSG_ERROR,
@@ -1282,7 +1281,7 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
                 );
             }
         } else {
-            if (atp->request_exit()) {
+            if (atp->state == PROCESS_RUNNING && atp->request_exit()) {
                 msg_printf(
                     atp->wup->project,
                     MSG_ERROR,
