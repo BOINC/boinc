@@ -33,9 +33,64 @@ END_MESSAGE_MAP()
 // CProgressBarCtrl::CProgressBarCtrl
 // arguments:	void
 // returns:		void
-// function:	void
+// function:	initializes color and position
 CProgressBarCtrl::CProgressBarCtrl()
 {
+	m_crText = RGB(0, 0, 0);
+	m_xPos = 0;
+}
+
+//////////
+// CProgressBarCtrl::SetPos
+// arguments:	xPos: the new position for hte progress bar
+// returns:		the previous position of the progress bar
+// function:	sets the position of the progress bar
+double CProgressBarCtrl::SetPos(double xPos)
+{
+	double oldPos = m_xPos;
+	m_xPos = xPos;
+	CProgressCtrl::SetPos((int)xPos);
+	return oldPos;
+}
+
+//////////
+// CProgressBarCtrl::GetPos
+// arguments:	void
+// returns:		the position of the progress bar
+// function:	gets the position of the progress bar
+double CProgressBarCtrl::GetPos()
+{
+	return m_xPos;
+}
+
+//////////
+// CProgressBarCtrl::SetTextColor
+// arguments:	crNew: new color for the text
+// returns:		void
+// function:	sets the color of the text in the progress bar
+void CProgressBarCtrl::SetTextColor(COLORREF crNew)
+{
+	m_crText = crNew;
+}
+
+//////////
+// CProgressBarCtrl::SetBarColor
+// arguments:	crNew: new color for the bar
+// returns:		void
+// function:	sets the color of the progress bar
+void CProgressBarCtrl::SetBarColor(COLORREF crNew)
+{
+	SendMessage(PBM_SETBARCOLOR, 0, (LPARAM)crNew);
+}
+
+//////////
+// CProgressBarCtrl::SetBkColor
+// arguments:	crNew: new color for the background
+// returns:		void
+// function:	sets the color of the background of the progress bar
+void CProgressBarCtrl::SetBkColor(COLORREF crNew)
+{
+	SendMessage(PBM_SETBKCOLOR, 0, (LPARAM)crNew);
 }
 
 //////////
@@ -45,10 +100,11 @@ CProgressBarCtrl::CProgressBarCtrl()
 // function:	writes the progress in text
 void CProgressBarCtrl::OnPaint()
 {
+	InvalidateRect(NULL, TRUE);
 	CProgressCtrl::OnPaint();
 
 	CString strProg;
-	strProg.Format("%d%%", this->GetPos());
+	strProg.Format("%0.2f%%", GetPos());
 
 	CClientDC cdc(this);
 	CRect rt;
@@ -56,13 +112,13 @@ void CProgressBarCtrl::OnPaint()
 	rt.top -= 2; rt.right += 2;
 	CFont* pOldFont = NULL;
 	int nOldMode;
-	//COLORREF crOldColor;
+	COLORREF crOldColor;
 	pOldFont = cdc.SelectObject(GetParent()->GetFont());
-	//crOldColor = cdc.SetTextColor(RGB(0, 0, 64));
+	crOldColor = cdc.SetTextColor(m_crText);
 	nOldMode = cdc.SetBkMode(TRANSPARENT);
 	cdc.DrawText(strProg, &rt, DT_CENTER|DT_VCENTER);
 	cdc.SelectObject(pOldFont);
-	//cdc.SetTextColor(crOldColor);
+	cdc.SetTextColor(crOldColor);
 	cdc.SetBkMode(nOldMode);
 }
 
@@ -300,7 +356,7 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 	m_ProjectURLs.RemoveAt(nItem);
 
 	CString strbuf;
-	CProgressCtrl* pProgCtrl = NULL;
+	CProgressBarCtrl* pProgCtrl = NULL;
 
 	// go through all the subitems and see if they have a progess control
 	for(si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
@@ -335,18 +391,18 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 // CProgressListCtrl::SetItemProgress
 // arguments:	nItem: item index
 //				nSubitem: item's subitem to set progress for
-//				nProg: position to set progress control
+//				xProg: position to set progress control
 // returns:		void
 // function:	sets the position of a progress control for a given
 //				item and subitem; if there is none there, creates a new 
 //				one, otherwise sets the progress of the one it finds.
-void CProgressListCtrl::SetItemProgress(int nItem, int nSubItem, int nProg)
+void CProgressListCtrl::SetItemProgress(int nItem, int nSubItem, double xProg)
 {
 	CRect rt;
 	CString strbuf;
-	CProgressCtrl* pProgCtrl = NULL;
-	if(nProg < 0) nProg = 0;
-	if(nProg > 100) nProg = 100;
+	CProgressBarCtrl* pProgCtrl = NULL;
+	if(xProg < 0) xProg = 0;
+	if(xProg > 100) xProg = 100;
 
 	// lookup the position of the progress control
 	strbuf.Format("%d:%d", nItem, nSubItem);
@@ -354,14 +410,15 @@ void CProgressListCtrl::SetItemProgress(int nItem, int nSubItem, int nProg)
 	if(pProgCtrl) {
 
 		// found, so just update it's progress
-		pProgCtrl->SetPos(nProg);
+		pProgCtrl->SetPos(xProg);
 	} else {
 
 		// not found, create one and put it in the map
 		GetSubItemRect(nItem, nSubItem, LVIR_BOUNDS, rt);
 		pProgCtrl = new CProgressBarCtrl();
 		pProgCtrl->Create(PBS_SMOOTH|WS_CHILD|WS_VISIBLE, rt, this, 0);
-		pProgCtrl->SetPos(nProg);
+		pProgCtrl->SetPos(xProg);
+		pProgCtrl->SetBarColor(RGB(255, 255, 128));
 		m_Progs.SetAt(strbuf, pProgCtrl);
 	}
 }
@@ -377,7 +434,7 @@ void CProgressListCtrl::RepositionProgress()
 	int nItem, nSubItem;
 	CRect rt, hrt;
 	CString strbuf;
-	CProgressCtrl* pProgCtrl = NULL;
+	CProgressBarCtrl* pProgCtrl = NULL;
     GetHeaderCtrl()->GetClientRect(hrt);
 
 	// iterate through each progress control
@@ -411,8 +468,8 @@ void CProgressListCtrl::RepositionProgress()
 void CProgressListCtrl::SwapItems(int nItem1, int nItem2)
 {
 	int nCols = GetHeaderCtrl()->GetItemCount();
-	CProgressCtrl* pProgCtrl1;
-	CProgressCtrl* pProgCtrl2;
+	CProgressBarCtrl* pProgCtrl1;
+	CProgressBarCtrl* pProgCtrl2;
 	CString StrTxt1, StrTxt2;
 	DWORD dwData1, dwData2;
 	int nSubItem;
@@ -510,8 +567,8 @@ void CProgressListCtrl::Sort(int nSubItem, int nOrder)
 {
 	int i, j, min, z;
 	CString Stri, Strj;
-	CProgressCtrl* pProgCtrli = NULL;
-	CProgressCtrl* pProgCtrlj = NULL;
+	CProgressBarCtrl* pProgCtrli = NULL;
+	CProgressBarCtrl* pProgCtrlj = NULL;
 
 	// check subitem is in bounds
 	if(nSubItem >= GetHeaderCtrl()->GetItemCount()) {
@@ -586,6 +643,18 @@ void CProgressListCtrl::SwapColumnVisibility(int nCol)
 void CProgressListCtrl::SetItemColor(int nItem, COLORREF newclr)
 {
 	m_ItemColors.SetAtGrow(nItem, newclr);
+
+	CProgressBarCtrl *pProgCtrl;
+	CString strBuf;
+	// find progress controls and set their color
+	for(int si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
+		strBuf.Format("%d:%d", nItem, si);
+		pProgCtrl = NULL;
+		m_Progs.Lookup(strBuf, (CObject*&)pProgCtrl);
+		if(pProgCtrl) {
+			pProgCtrl->SetTextColor(newclr);
+		}
+	}
 }
 
 //////////
@@ -736,7 +805,7 @@ void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 void CProgressListCtrl::OnDestroy()
 {
 	CString sKey;
-	CProgressCtrl* pProgCtrl = NULL;
+	CProgressBarCtrl* pProgCtrl = NULL;
 
 	// iterate through each progress control
 	POSITION pos = m_Progs.GetStartPosition();
@@ -913,12 +982,12 @@ void CProgressListCtrl::OnPaint()
 	CListCtrl::OnPaint();
 
 	// iterate through each progress control
-	CProgressCtrl* progCtrl = NULL;
+	CProgressBarCtrl* progCtrl = NULL;
 	CString str;
 	POSITION pos = m_Progs.GetStartPosition();
 	while (pos != NULL) {
 
-		// remove the control and delete it
+		// redraw control
 		m_Progs.GetNextAssoc(pos, str, (CObject*&)progCtrl);
 		progCtrl->RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE);
 	}

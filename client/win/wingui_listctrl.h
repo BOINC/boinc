@@ -41,8 +41,16 @@ class CProgressBarCtrl : public CProgressCtrl
 {
 public:
 							CProgressBarCtrl();
+	double					SetPos(double);
+	double					GetPos();
+	void					SetTextColor(COLORREF);
+	void					SetBarColor(COLORREF);
+	void					SetBkColor(COLORREF);
 
 protected:
+	COLORREF				m_crText;
+	double					m_xPos;
+
 	afx_msg void			OnPaint();
 	afx_msg void			OnLButtonDown(UINT, CPoint);
 	afx_msg void			OnLButtonUp(UINT, CPoint);
@@ -77,7 +85,7 @@ public:
 							CProgressListCtrl();
 							~CProgressListCtrl();
 	BOOL					DeleteItem(int);
-	void					SetItemProgress(int, int, int);
+	void					SetItemProgress(int, int, double);
 	void					RepositionProgress();
 	int						InsertColumn(int, LPCTSTR, int, int, int);
 	int						InsertItem(int, LPCTSTR);

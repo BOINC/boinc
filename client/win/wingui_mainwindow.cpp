@@ -371,7 +371,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < gstate.projects.size(); i ++) {
 		double xUsage;
 		CString strLabel;
-		strLabel.Format("%s: %s", g_szUsageItems[4], gstate.projects[i]->project_name);
+		strLabel.Format("%s %s", g_szUsageItems[4], gstate.projects[i]->project_name);
 		gstate.project_disk_usage(gstate.projects[i], xUsage);
 		m_UsagePieCtrl.SetPieceLabel(i + 4, strLabel.GetBuffer(0));
 		m_UsagePieCtrl.SetPiece(i + 4, xUsage);
