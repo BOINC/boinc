@@ -57,13 +57,13 @@ CLIENT_STATE::CLIENT_STATE() {
     max_transfer_rate = 9999999;
     max_bytes = 0;
     user_idle = true;
-	suspend_requested = false;
+    suspend_requested = false;
 }
 
 int CLIENT_STATE::init() {
     int retval;
 
-    srand(clock());
+    srand(time(NULL));
 
     // TODO: set this to actual # of CPUs (or less, depending on prefs?)
     //
@@ -410,6 +410,10 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<version>")) {
             // could put logic here to detect incompatible state files
             // after core client update
+        } else if (match_tag(buf, "<core_client_major_version>")) {
+            // TODO: handle old client state file if different version
+        } else if (match_tag(buf, "<core_client_minor_version>")) {
+            // TODO: handle old client state file if different version
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
             retval = ERR_XML_PARSE;
