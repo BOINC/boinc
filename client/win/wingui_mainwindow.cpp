@@ -18,9 +18,23 @@
 //
 
 #include "wingui_mainwindow.h"
+#include "Stackwalker.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
+
+static struct _test
+{
+  _test()
+  {
+    InitAllocCheck();
+  }
+
+  ~_test()
+  {
+    DeInitAllocCheck();
+  }
+} _myLeakFinder;
 
 /////////////////////////////////////////////////////////////////////////
 // CMyApp member functions
