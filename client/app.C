@@ -134,7 +134,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&aid, 0, sizeof(aid));
 
-    // TODO: fill in the app prefs, user name, team name, etc.
+    // TODO: fill in the app prefs, team name, etc.
+	strncpy( aid.user_name, wup->project->user_name, 256 );
+    aid.total_cobblestones = wup->project->user_total_credit;
+    aid.recent_avg_cobblestones = wup->project->user_expavg_credit;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.wu_cpu_time = checkpoint_cpu_time;
