@@ -1,7 +1,11 @@
 ## $Id$
 
-## database middle-end - defines database object classes with formatting and
-## URL info
+## database middle-end.  This file is not required for normal database use.
+## it is useful for debugging scripts; e.g.
+##
+##    print database.Users[1]
+##
+## will look prettier if you import this module.
 
 import database
 
