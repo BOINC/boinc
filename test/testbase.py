@@ -559,8 +559,8 @@ class Host:
 class Work:
     def __init__(self, redundancy, **kwargs):
         self.input_files = []
-        self.rsc_fpops_est = 1e13
-        self.rsc_fpops_bound = 4e13
+        self.rsc_fpops_est = 1e10
+        self.rsc_fpops_bound = 4e10
         self.rsc_memory_bound = 1e7
         self.rsc_disk_bound = 1e7
         self.delay_bound = 86400

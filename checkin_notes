@@ -7930,3 +7930,9 @@ David  28 Nov 2003
         edit_user_info_form.php
         index.php
         util.inc
+
+Karl 2003-11-28
+    - fixed testbase.py not working due to change in client default benchmark
+
+    test/
+        testbase.py
