@@ -24,7 +24,18 @@
 
     $retval = mysql_query("update host set venue='$venue' where id = $hostid");
     if ($retval) {
-        Header("Location: show_host_detail.php?hostid=$hostid");
+        page_head("Host venue updated");
+        echo "
+            The venue of this host has been set to <b>$venue</b>.
+            <p>
+            This change will take effect the next time
+            the host requests work from the server,
+            or when you Update this project from
+            the BOINC Manager on the host.
+            <p>
+            <a href=show_host_detail.php?hostid=$hostid>Return to host page</a>.
+        ";
+        page_tail();
     } else {
         db_error_page();
     }

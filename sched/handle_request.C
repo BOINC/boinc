@@ -296,7 +296,6 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         if (update_prefs) {
             strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
-            strncpy(reply.host.venue, sreq.host_venue, sizeof(reply.host.venue));
             reply.update_user_record = true;
         }
     } else {

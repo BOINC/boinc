@@ -79,7 +79,6 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(projects_xml, "");
     strcpy(code_sign_key, "");
     strcpy(cross_project_id, "");
-    strcpy(host_venue, "");
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
@@ -119,7 +118,6 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_double(buf, "<potentially_free_offender>", potentially_free_offender)) continue;
         else if (parse_double(buf, "<potentially_free_self>", potentially_free_self)) continue;
 #endif
-        else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
             while (fgets(buf, 256, fin)) {
@@ -276,18 +274,20 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
     if (hostid) {
         fprintf(fout,
-            "<hostid>%d</hostid>\n"
-            "<host_total_credit>%f</host_total_credit>\n"
-            "<host_expavg_credit>%f</host_expavg_credit>\n"
-            "<host_venue>%s</host_venue>\n"
-            "<host_create_time>%d</host_create_time>\n",
-            hostid,
-            host.total_credit,
-            host.expavg_credit,
-            host.venue,
-            host.create_time
+            "<hostid>%d</hostid>\n",
+            hostid
         );
     }
+    fprintf(fout,
+        "<host_total_credit>%f</host_total_credit>\n"
+        "<host_expavg_credit>%f</host_expavg_credit>\n"
+        "<host_venue>%s</host_venue>\n"
+        "<host_create_time>%d</host_create_time>\n",
+        host.total_credit,
+        host.expavg_credit,
+        host.venue,
+        host.create_time
+    );
 
     // might want to send team credit too.
     //

@@ -17925,3 +17925,21 @@ David  30 Sept 2004
 
 	client/
 		gui_rpc_server.C
+
+David  30 Sept 2004
+    - First steps in fixing the venue mess:
+        venue is passed from server to client, never the other way.
+    - always pass back host credit info in sched reply
+        (not just if new hostid - how did that happen??)
+    - add none (---) as an option for venue in web form
+    - when user change venue of host, tell them that it
+        will take effect only after a sched request
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_venue_action.php
+    sched/
+        handle_request.C
+        server_types.C,h

@@ -95,7 +95,6 @@ struct SCHEDULER_REQUEST {
     char platform_name[256];
     char cross_project_id[256];
     int hostid;                 // zero if first RPC
-    char host_venue[256];
     int core_client_major_version;
     int core_client_minor_version;
     int rpc_seqno;

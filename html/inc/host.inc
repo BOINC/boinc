@@ -1,12 +1,14 @@
 <?php
 
 function location_form($host) {
+    $none = "selected";
     if ($host->venue == "home") $h = "selected";
     if ($host->venue == "work") $w = "selected";
     if ($host->venue == "school") $s = "selected";
     $x = "<form action=host_venue_action.php>
         <input type=hidden name=hostid value=$host->id>
         <select name=venue>
+        <option value=\"\" $none>---
         <option value=home $h>Home
         <option value=work $w>Work
         <option value=school $s>School
