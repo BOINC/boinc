@@ -26131,5 +26131,13 @@ David  23 Mar 2005
             am_get_info.php
             am_set_info.php
 
+David  23 Mar 2005
+    - user web: don't delete teams even when they become empty
 
-
+    html/
+        inc/
+            team.inc
+        ops/
+            db_update.php
+        user/
+            white.css

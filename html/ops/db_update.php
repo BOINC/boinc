@@ -17,7 +17,7 @@ function do_query($query) {
     echo "Doing query:\n$query\n";
     $result = mysql_query($query);
     if (!$result) {
-        die("Failed!\n");
+        die("Failed!\n".mysql_error());
     } else {
         echo "Success.\n";
     }

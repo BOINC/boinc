@@ -290,12 +290,12 @@ function team_update_nusers($team) {
     $comp = mysql_fetch_object($res);
     if (!$comp) return;
     $n = $comp->total;
-    if ($n > 0) {
-        mysql_query("update team set nusers=$n where id=$team->id");
-    } else {
-        echo "<br>Team is empty - deleting team.\n";
-        mysql_query("delete from team where id=$team->id");
-    }
+    mysql_query("update team set nusers=$n where id=$team->id");
+
+    //if ($n == 0) {
+    //    echo "<br>Team is empty - deleting team.\n";
+    //    mysql_query("delete from team where id=$team->id");
+    //}
 }
 
 ?>
