@@ -148,6 +148,8 @@ CScreensaver::CScreensaver()
 
 	ZeroMemory( m_Monitors, sizeof(m_Monitors) );
     m_dwNumMonitors = 0;
+
+    m_tTimeTillNextContact = 0;
 }
 
 
@@ -628,7 +630,7 @@ HRESULT CScreensaver::CreateSaverWindow()
 						m_hWnd = pMonitorInfo->hWnd;
 
 					SetTimer(pMonitorInfo->hWnd, 2, 500, NULL);
-					SetTimer(pMonitorInfo->hWnd, 3, 60000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 3, 1000, NULL);
 				}
             }
     }
@@ -767,10 +769,6 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
-                    // Reset the error flags.
-                   	m_bErrorMode = FALSE;
-    				m_hrError = 0;
-
                     // Lets try and get the current state of the CC
                     if (m_bResetCoreState)
                     {
@@ -781,59 +779,93 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     }
 
                     // Lets try and get the current status of the CC
-                    iReturnValue = rpc.get_screensaver_mode( iStatus );
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
-                    if (0 == iReturnValue)
+                    if (time(0) > m_tTimeTillNextContact)
                     {
-                        if (m_bBOINCCoreNotified)
+                        iReturnValue = rpc.get_screensaver_mode( iStatus );
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
+                        if (0 != iReturnValue)
                         {
-                            switch (iStatus)
-                            {
-                                case SS_STATUS_ENABLED:
-                                    hwndBOINCGraphicsWindow = FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
-                                    if ( NULL != hwndBOINCGraphicsWindow )
-                                    {
-                                        hwndForegroundWindow = GetForegroundWindow();
-                                        if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
-                                        {
-                                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
-                                            SetForegroundWindow(hwndBOINCGraphicsWindow);
+                    	    // Attempt to reinitialize the RPC client and state
+                            rpc.close();
+                            rpc.init( NULL );
+                            m_bResetCoreState = TRUE;
 
+                            if (!m_bBOINCConfigChecked)
+                            {
+                                m_bBOINCConfigChecked = TRUE;
+                                m_bBOINCStartupConfigured = IsConfigStartupBOINC();
+                            }
+
+			                if(m_bBOINCStartupConfigured)
+			                {
+				                m_bErrorMode = TRUE;
+				                m_hrError = SCRAPPERR_BOINCNOTDETECTED;
+			                }
+			                else
+			                {
+				                m_bErrorMode = TRUE;
+				                m_hrError = SCRAPPERR_BOINCNOTDETECTEDSTARTUP;
+			                }
+
+			                m_bBOINCCoreNotified = FALSE;
+                            m_tTimeTillNextContact = time(0) + (60 * 60);
+                        }
+                        else
+                        {
+                            // Reset the error flags.
+                   	        m_bErrorMode = FALSE;
+    				        m_hrError = 0;
+
+                            if (m_bBOINCCoreNotified)
+                            {
+                                switch (iStatus)
+                                {
+                                    case SS_STATUS_ENABLED:
+                                        hwndBOINCGraphicsWindow = FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
+                                        if ( NULL != hwndBOINCGraphicsWindow )
+                                        {
                                             hwndForegroundWindow = GetForegroundWindow();
                                             if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
                                             {
-                                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
-                                                // This may be needed on Windows 2000 or better machines
-                                                DWORD dwComponents = BSM_APPLICATIONS;
-                                                BroadcastSystemMessage( 
-                                                    BSF_ALLOWSFW, 
-                                                    &dwComponents,
-                                                    WM_BOINCSFW,
-                                                    NULL,
-                                                    NULL
-                                                );
+                                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
+                                                SetForegroundWindow(hwndBOINCGraphicsWindow);
+
+                                                hwndForegroundWindow = GetForegroundWindow();
+                                                if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
+                                                {
+                                                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
+                                                    // This may be needed on Windows 2000 or better machines
+                                                    DWORD dwComponents = BSM_APPLICATIONS;
+                                                    BroadcastSystemMessage( 
+                                                        BSF_ALLOWSFW, 
+                                                        &dwComponents,
+                                                        WM_BOINCSFW,
+                                                        NULL,
+                                                        NULL
+                                                    );
+                                                }
                                             }
                                         }
-                                    }
-                                break;
-                                case SS_STATUS_BLANKED:
                                     break;
-                                case SS_STATUS_RESTARTREQUEST:
-                                    m_bBOINCCoreNotified = FALSE;
-                                    break;
-                                case SS_STATUS_BOINCSUSPENDED:
-       				                m_bErrorMode = TRUE;
-    				                m_hrError = SCRAPPERR_BOINCSUSPENDED;
-                                    break;
-                                case SS_STATUS_NOAPPSEXECUTING:
-       				                m_bErrorMode = TRUE;
-    				                m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTING;
-                                    break;
-                                case SS_STATUS_NOTGRAPHICSCAPABLE:
-                                case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
-       				                m_bErrorMode = TRUE;
-    				                m_hrError = SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING;
-                                    break;
+                                    case SS_STATUS_BLANKED:
+                                        break;
+                                    case SS_STATUS_RESTARTREQUEST:
+                                        m_bBOINCCoreNotified = FALSE;
+                                        break;
+                                    case SS_STATUS_BOINCSUSPENDED:
+       				                    m_bErrorMode = TRUE;
+    				                    m_hrError = SCRAPPERR_BOINCSUSPENDED;
+                                        break;
+                                    case SS_STATUS_NOAPPSEXECUTING:
+       				                    m_bErrorMode = TRUE;
+    				                    m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTING;
+                                        break;
+                                    case SS_STATUS_NOTGRAPHICSCAPABLE:
+                                    case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
+       				                    m_bErrorMode = TRUE;
+    				                    m_hrError = SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING;
+                                        break;
+                                }
                             }
                         }
                     }

@@ -185,6 +185,8 @@ protected:
     BOOL                    m_bResetCoreState;
     BOOL                    m_bBOINCConfigChecked;
     BOOL                    m_bBOINCStartupConfigured;
+
+    time_t                  m_tTimeTillNextContact;
 };
 
 #endif
