@@ -16265,3 +16265,17 @@ David  12 Aug 2004
 	lib/
 		filesys.C
 		util.C
+
+David  12 Aug 2004
+	- Added more error checking and reporting in parse state file
+		- check error returns of all parse functions
+		- temp_project is local to block (so get a new one)
+		- delete objects in all error cases
+	- Check and report errors in init/insert of PERS_FILE_XFER
+		while parsing state file
+	- ignore app/app_version from state file if project is anonymous platform
+	- If get error parsing host info, time/net stats etc.,
+		continue parsing rather than error out
+
+	client/
+		cs_statefile.C

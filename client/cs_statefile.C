@@ -37,7 +37,7 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 //
 int CLIENT_STATE::parse_state_file() {
     char buf[256];
-    PROJECT temp_project, *project=NULL;
+    PROJECT *project=NULL;
     int retval=0;
     int failnum;
 
@@ -57,6 +57,7 @@ int CLIENT_STATE::parse_state_file() {
     mf.init_file(f);
     fgets(buf, 256, f);
     if (!match_tag(buf, "<client_state>")) {
+        msg_printf(NULL, MSG_ERROR, "Missing open tag in state file.\n");
         retval = ERR_XML_PARSE;
         goto done;
     }
@@ -65,85 +66,181 @@ int CLIENT_STATE::parse_state_file() {
             retval = 0;
             break;
         } else if (match_tag(buf, "<project>")) {
-            temp_project.parse_state(mf);
-            project = lookup_project(temp_project.master_url);
-            if (project) {
-                project->copy_state_fields(temp_project);
+            PROJECT temp_project;
+            retval = temp_project.parse_state(mf);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse project in state file");
             } else {
-                msg_printf(NULL, MSG_ERROR, "Project %s found in state file but not prefs.\n",
-                    temp_project.master_url);
+                project = lookup_project(temp_project.master_url);
+                if (project) {
+                    project->copy_state_fields(temp_project);
+                } else {
+                    msg_printf(&temp_project, MSG_ERROR,
+                        "Project %s found in state file but not prefs",
+                        temp_project.get_project_name()
+                    );
+                }
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
-            app->parse(mf);
-            if (project) {
-                retval = link_app(project, app);
-                if (!retval) apps.push_back(app);
-            } else {
+            retval = app->parse(mf);
+            if (project && project->anonymous_platform) continue;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse app in state file");
                 delete app;
+            } else {
+                if (project) {
+                    retval = link_app(project, app);
+                    if (retval) {
+                        msg_printf(project, MSG_ERROR,
+                            "Can't link app %s in state file", app->name
+                        );
+                        delete app;
+                    } else {
+                        apps.push_back(app);
+                    }
+                } else {
+                    msg_printf(NULL, MSG_ERROR,
+                        "App %s outside project in state file", app->name
+                    );
+                    delete app;
+                }
             }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
-            fip->parse(mf, false);
-            if (project) {
-                retval = link_file_info(project, fip, false);
-                if (!retval) file_infos.push_back(fip);
-                // If the file had a failure before, there's no reason
-                // to start another file transfer
-                if (fip->had_failure(failnum)) {
-                    if (fip->pers_file_xfer) delete fip->pers_file_xfer;
-                    fip->pers_file_xfer = NULL;
-                }
-                // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
-                if (fip->pers_file_xfer) {
-                    fip->pers_file_xfer->init(fip, fip->upload_when_present);
-                    retval = pers_file_xfers->insert( fip->pers_file_xfer );
-                }
-            } else {
+            retval = fip->parse(mf, false);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse file info in state file");
                 delete fip;
+            } else {
+                if (project) {
+                    retval = link_file_info(project, fip, false);
+                    if (project->anonymous_platform && retval == ERR_NOT_UNIQUE) {
+                        continue;
+                    }
+                    if (retval) {
+                        msg_printf(project, MSG_ERROR,
+                            "Can't link file info %s in state file", fip->name
+                        );
+                        delete fip;
+                    } else {
+                        file_infos.push_back(fip);
+                        // If the file had a failure before,
+                        // don't start another file transfer
+                        if (fip->had_failure(failnum)) {
+                            if (fip->pers_file_xfer) {
+                                delete fip->pers_file_xfer;
+                                fip->pers_file_xfer = NULL;
+                            }
+                        }
+
+                        if (fip->pers_file_xfer) {
+                            retval = fip->pers_file_xfer->init(fip, fip->upload_when_present);
+                            if (retval) {
+                                msg_printf(project, MSG_ERROR,
+                                    "Can't initialize pers file xfer for %s", fip->name
+                                );
+                            }
+                            retval = pers_file_xfers->insert(fip->pers_file_xfer);
+                            if (retval) {
+                                msg_printf(project, MSG_ERROR,
+                                    "Can't insert pers file xfer for %s", fip->name
+                                );
+                            }
+                        }
+                    }
+                } else {
+                    msg_printf(NULL, MSG_ERROR, "File info outside project in state file");
+                    delete fip;
+                }
             }
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
-            avp->parse(mf);
-            if (project) {
-                retval = link_app_version(project, avp);
-                if (!retval) app_versions.push_back(avp);
-            } else {
+            retval = avp->parse(mf);
+            if (project && project->anonymous_platform) continue;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse app version in state file");
                 delete avp;
+            } else {
+                if (project) {
+                    retval = link_app_version(project, avp);
+                    if (retval) {
+                        msg_printf(project, MSG_ERROR, "Can't link app version in state file");
+                        delete avp;
+                    } else {
+                        app_versions.push_back(avp);
+                    }
+                } else {
+                    msg_printf(NULL, MSG_ERROR, "App version outside project in state file");
+                    delete avp;
+                }
             }
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
-            wup->parse(mf);
-            if (project) {
-                retval = link_workunit(project, wup);
-                if (!retval) workunits.push_back(wup);
-            } else {
+            retval = wup->parse(mf);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse workunit in state file");
                 delete wup;
+            } else {
+                if (project) {
+                    retval = link_workunit(project, wup);
+                    if (retval) {
+                        msg_printf(project, MSG_ERROR, "Can't link workunit in state file");
+                        delete wup;
+                    } else {
+                        workunits.push_back(wup);
+                    }
+                } else {
+                    msg_printf(NULL, MSG_ERROR, "Workunit outside project in state file");
+                    delete wup;
+                }
             }
         } else if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
-            rp->parse_state(mf);
-            if (project) {
-                retval = link_result(project, rp);
-                if (!retval) results.push_back(rp);
-            } else {
-                msg_printf(NULL, MSG_ERROR,
-                    "<result> found before any project\n"
-                );
+            retval = rp->parse_state(mf);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse result in state file");
                 delete rp;
+            } else {
+                if (project) {
+                    retval = link_result(project, rp);
+                    if (retval) {
+                        msg_printf(project, MSG_ERROR,
+                            "Can't link result %s in state file",
+                            rp->name
+                        );
+                        delete rp;
+                    } else {
+                        results.push_back(rp);
+                    }
+                } else {
+                    msg_printf(NULL, MSG_ERROR,
+                        "Result %s outside project in state file",
+                        rp->name
+                    );
+                    delete rp;
+                }
             }
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
-            if (retval) goto done;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse host info in state file\n");
+            }
         } else if (match_tag(buf, "<time_stats>")) {
             retval = time_stats.parse(mf);
-            if (retval) goto done;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse time stats in state file\n");
+            }
         } else if (match_tag(buf, "<net_stats>")) {
             retval = net_stats.parse(mf);
-            if (retval) goto done;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse net stats in state file\n");
+            }
         } else if (match_tag(buf, "<active_task_set>")) {
             retval = active_tasks.parse(mf);
-            if (retval) goto done;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse active tasks in state file\n");
+            }
         } else if (match_tag(buf, "<platform_name>")) {
             // should match our current platform name
         } else if (match_tag(buf, "<version>")) {
@@ -155,7 +252,9 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_double(buf, "<cpu_sched_work_done_this_period>", cpu_sched_work_done_this_period)) {
         } else if (match_tag(buf, "<proxy_info>")) {
             retval = pi.parse(mf);
-            if (retval) goto done;
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't parse proxy info in state file\n");
+            }
         // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
