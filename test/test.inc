@@ -117,10 +117,12 @@ class App_Version {
     var $app;
     var $version;
     var $exec_dir;
-    var $exec_name;
+    var $exec_names;    // array of filenames;
+                        // defaults to one element: $app->name
     var $platform;
 
     function App_Version($app) {
+        $this->exec_names = array();
         $this->app = $app;
         $this->version = 1;
         $x = get_env_var("BOINC_PLATFORM");
@@ -274,16 +276,20 @@ class Project {
                     $app_version->exec_dir = "$source_dir/apps";
                 }
             }
-            if ($app_version->exec_name == null) {
+            if (sizeof($app_version->exec_names) == 0) {
                 if ($app->name == "core client") {
-                    $app_version->exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
+                    $app_version->exec_names[0] = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
                 } else {
-                    $app_version->exec_name = $app->name;
+                    $app_version->exec_names[0] = $app->name;
                 }
             }
 
             $p = $app_version->platform;
-            run_tool("add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $p->name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $app_version->exec_dir -exec_files $app_version->exec_name");
+            $x = "add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $p->name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $app_version->exec_dir -exec_files";
+            for ($i=0; $i<sizeof($app_version->exec_names); $i++) {
+                $x = $x." ".$app_version->exec_names[$i];
+            }
+            run_tool($x);
         }
         
         // copy the user and administrative PHP files to the project dir,

@@ -36,6 +36,9 @@
 
 CONFIG config;
 
+#define ERR_TRANSIENT   true
+#define ERR_PERMANENT   false
+
 #define STDERR_FILENAME "file_upload_handler.out"
 //#define DEBUG
 
@@ -78,14 +81,15 @@ int FILE_INFO::parse(FILE* in) {
     return 1;
 }
 
-int return_error(char* message) {
+int return_error(bool transient, char* message) {
     char buf[256];
     printf(
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
-        "    <status>-1</status>\n"
+        "    <status>%d</status>\n"
         "    <message>%s</message>\n"
         "</data_server_reply>\n",
+        transient?1:-1,
         message
     );
     sprintf(buf, "%s\n", message);
@@ -98,10 +102,11 @@ int return_success(char* text) {
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
         "    <status>0</status>\n"
-        "    %s\n"
-        "</data_server_reply>\n",
-        text
     );
+    if (text) {
+        printf("    %s\n", text);
+    }
+    printf("</data_server_reply>\n");
     return 0;
 }
 
@@ -118,7 +123,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
     out = fopen(path, "ab");
     if (!out) {
-        return return_error("can't open file");
+        return return_error(ERR_TRANSIENT, "can't open file");
     }
 
     // TODO: use a 64-bit variant
@@ -127,13 +132,14 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
   
     if (retval) {
         fclose(out);
-        return return_error("can't fseek file");
+        return return_error(ERR_TRANSIENT, "can't fseek file");
     }
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
         fclose(out);
-        sprintf(buf2, "offset == nbytes: %f", nbytes);
-        return return_error(buf2);
+        sprintf(buf2, "offset == nbytes: %f\n", nbytes);
+        write_log(buf2);
+        return return_success(0);
     }
     while (1) {
         m = BLOCK_SIZE;
@@ -142,11 +148,11 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         if (n <= 0) {
             fclose(out);
             sprintf(buf2, "fread: asked for %d, got %d", m, n);
-            return return_error(buf2);
+            return return_error(ERR_TRANSIENT, buf2);
         }
         m = fwrite(buf, 1, n, out);
         if (m != n) {
-            return return_error("can't fwrite file");
+            return return_error(ERR_TRANSIENT, "can't fwrite file");
         }
         bytes_left -= n;
         if (bytes_left == 0) break;
@@ -172,7 +178,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
-                return return_error("FILE_INFO::parse");
+                return return_error(ERR_PERMANENT, "FILE_INFO::parse");
             }
             retval = verify_string(
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
@@ -183,7 +189,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     "signature:\n%s",
                     file_info.signed_xml, file_info.xml_signature
                 );
-                return return_error("invalid signature");
+                return return_error(ERR_PERMANENT, "invalid signature");
             }
             continue;
         }
@@ -191,7 +197,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (match_tag(buf, "<data>")) {
             if (nbytes < 0) {
-                return return_error("nbytes missing or negative");
+                return return_error(ERR_PERMANENT, "nbytes missing or negative");
             }
 
             // enforce limits in signed XML
@@ -201,7 +207,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     "nbytes too large: %f > %f",
                     nbytes, file_info.max_nbytes
                 );
-                return return_error(buf);
+                return return_error(ERR_PERMANENT, buf);
             }
 
             // make sure filename is legit
@@ -211,13 +217,13 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     "file_upload_handler: .. found in filename: %s",
                     file_info.name
                 );
-                return return_error(buf);
+                return return_error(ERR_PERMANENT, buf);
             }
 
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (!retval) {
-                return_success("<status>0</status>");
+                return_success(0);
             }
             break;
         }
@@ -239,11 +245,11 @@ int handle_get_file_size(char* file_name) {
     sprintf(path, "%s/%s", config.upload_dir, file_name );
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
-        return return_error("cannot open file" );
+        return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
         return return_success("<file_size>0</file_size>");
     } else {
-        sprintf(buf, "<file_size>%d</file_size>\n", (int)sbuf.st_size);
+        sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
     }
     return 0;
@@ -266,19 +272,19 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     "expected %d.",
                     major, MAJOR_VERSION
                 );
-                return return_error(buf);
+                return return_error(ERR_PERMANENT, buf);
             } else {
                 got_version = true;
             }
         } else if (match_tag(buf, "<file_upload>")) {
             if (!got_version) {
-                return return_error("Missing version");
+                return return_error(ERR_PERMANENT, "Missing version");
             } else {
                 return handle_file_upload(in, key);
             }
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
             if (!got_version) {
-                return return_error("Missing version");
+                return return_error(ERR_PERMANENT, "Missing version");
             } else {
                 return handle_get_file_size(file_name);
             }
@@ -311,13 +317,13 @@ int main() {
 
     retval = config.parse_file();
     if (retval) {
-        return_error("can't read config file");
+        return_error(ERR_TRANSIENT, "can't read config file");
         exit(1);
     }
 
     retval = get_key(key);
     if (retval) {
-        return_error("can't read key file");
+        return_error(ERR_TRANSIENT, "can't read key file");
         exit(1);
     }
     
