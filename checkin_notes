@@ -16607,3 +16607,11 @@ David  21 Aug 2004
     client/
         client_types.C,h
         cs_apps.C
+
+David  21 Aug 2004
+    - If an app fails to go into fullscreen mode,
+        mark it as MODE_UNSUPPORTED so that we don't ask it again
+
+    client/
+        cs_apps.C
+        ss_logic.C

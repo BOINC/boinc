@@ -86,54 +86,59 @@ void SS_LOGIC::poll() {
     ACTIVE_TASK* atp;
 
 #if 0
-	// if you want to debug screensaver functionality...
+    // if you want to debug screensaver functionality...
     static int foo=0;
     foo++;
     if (foo == 8) start_ss(time(0)+1000);
 #endif
 
-    if (!gstate.activities_suspended) {
-        if (do_ss) {
-            if (blank_time && (time(0) > blank_time)) {
-                if (!do_blank) {
-                    atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
-                    if (atp) {
-                        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
-                    }
-				    do_blank = true;
-                }
+    if (!do_ss) return;
+
+    if (gstate.activities_suspended) {
+        do_boinc_logo_ss = true;
+        strcpy(ss_msg, "BOINC activities suspended");
+        return;
+    }
+
+
+    // check if it's time to go to black screen
+    //
+    if (blank_time && (time(0) > blank_time)) {
+        if (!do_blank) {
+            atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
+            if (atp) {
+                atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+            }
+            do_blank = true;
+        }
+        do_boinc_logo_ss = false;
+        strcpy(ss_msg, "");
+    } else {
+        atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
+        if (atp) {
+            if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
                 do_boinc_logo_ss = false;
                 strcpy(ss_msg, "");
             } else {
-                atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
-                if (atp) {
-                    if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
-                        do_boinc_logo_ss = false;
-                        strcpy(ss_msg, "");
-                    } else {
-                        if (time(0)>ack_deadline) {
-                            do_boinc_logo_ss = true;
-                            strcpy(ss_msg, "App can't display graphics");
-                        }
-                    }
+                if (time(0)>ack_deadline) {
+                    do_boinc_logo_ss = true;
+                    strcpy(ss_msg, "App can't display graphics");
+                    atp->graphics_mode_acked = MODE_UNSUPPORTED;
+                }
+            }
+        } else {
+            atp = gstate.get_next_graphics_capable_app();
+            if (atp) {
+                atp->request_graphics_mode(MODE_FULLSCREEN);
+                ack_deadline = time(0) + 5;
+            } else {
+                do_boinc_logo_ss = true;
+                if (gstate.active_tasks.active_tasks.size()==0) {
+                    strcpy(ss_msg, "No applications are running");
                 } else {
-                    atp = gstate.get_next_graphics_capable_app();
-                    if (atp) {
-                        atp->request_graphics_mode(MODE_FULLSCREEN);
-                        ack_deadline = time(0) + 5;
-                    } else {
-                        do_boinc_logo_ss = true;
-                        if (0 == gstate.active_tasks.active_tasks.size()) {
-                            strcpy(ss_msg, "No work available");
-                        } else {
-                            strcpy(ss_msg, "No graphics-capable applications running");
-                        }
-                    }
+                    strcpy(ss_msg, "No graphics-capable applications are running");
                 }
             }
         }
-    } else {
-        do_boinc_logo_ss = true;
-        strcpy(ss_msg, "App can't display graphics, BOINC Suspended");
     }
 }

@@ -157,13 +157,14 @@ bool CLIENT_STATE::handle_finished_apps() {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         switch (atp->state) {
-        case PROCESS_UNINITIALIZED:
-        case PROCESS_RUNNING:
-        case PROCESS_ABORT_PENDING:
-        case PROCESS_IN_LIMBO:
-            break;
-        default:
-            msg_printf(atp->wup->project, MSG_INFO, "Computation for result %s finished", atp->wup->name);
+        case PROCESS_EXITED:
+        case PROCESS_WAS_SIGNALED:
+        case PROCESS_EXIT_UNKNOWN:
+        case PROCESS_COULDNT_START:
+        case PROCESS_ABORTED:
+            msg_printf(atp->wup->project, MSG_INFO,
+                "Computation for result %s finished", atp->wup->name
+            );
             scope_messages.printf(
                 "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
                 atp->pid, atp->exit_status
