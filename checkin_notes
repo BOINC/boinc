@@ -724,4 +724,6 @@ Michael Gary 	7/03/2002
     client/
         hostinfo_unix.C
         configure
+    doc/
+        api.html
 
