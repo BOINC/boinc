@@ -216,6 +216,36 @@ public:
     void clear();
 };
 
+struct HOST_INFO {
+    int timezone;    // seconds added to local time to get UTC
+    char domain_name[256];
+    char serialnum[256];
+    char ip_addr[256];
+
+    int p_ncpus;
+    char p_vendor[256];
+    char p_model[256];
+    double p_fpops;
+    double p_iops;
+    double p_membw;
+    int p_fpop_err;
+    int p_iop_err;
+    int p_membw_err;
+    double p_calculated; //needs to be initialized to zero
+
+    char os_name[256];
+    char os_version[256];
+
+    double m_nbytes;
+    double m_cache;
+    double m_swap;
+
+    double d_total;
+    double d_free;
+
+    int parse(MIOFILE&);
+};
+
 class CC_STATE {
 public:
     std::vector<PROJECT*> projects;
@@ -311,6 +341,7 @@ public:
     int get_messages(int seqno, MESSAGES&);
     int file_transfer_op(FILE_TRANSFER&, char*);
     int result_op(RESULT&, char*);
+    int get_host_info(HOST_INFO&);
     char* mode_name(int mode);
 };
 

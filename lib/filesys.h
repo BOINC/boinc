@@ -59,6 +59,7 @@ extern int dir_scan(char*, DIRREF, int);
 int dir_scan(std::string&, DIRREF);
 extern void dir_close(DIRREF);
 
+extern "C" {
 extern int boinc_delete_file(const char*);
 extern int file_size(const char*, double&);
 extern int clean_out_dir(const char*);
@@ -74,6 +75,7 @@ extern void relative_to_absolute(char* relname, char* path);
 extern int get_filesystem_info(double& total, double& free);
 extern int boinc_make_dirs(char*, char*);
 extern char boinc_failed_file[256];
+}
 
 class DirScanner {
 #ifdef _WIN32

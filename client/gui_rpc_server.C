@@ -383,6 +383,10 @@ static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
     fout.printf("<success/>\n");
 }
 
+static void handle_get_host_info(char*, MIOFILE& fout) {
+    gstate.host_info.write(fout);
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[1024];
     int n;
@@ -457,6 +461,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_op(request_msg, mf, "suspend");
     } else if (match_tag(request_msg, "<resume_result")) {
         handle_result_op(request_msg, mf, "resume");
+    } else if (match_tag(request_msg, "<get_host_info")) {
+        handle_get_host_info(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

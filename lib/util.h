@@ -41,7 +41,6 @@ extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int l
 extern double dtime();
 extern void boinc_sleep(double);
 extern int parse_command_line( char *, char ** );
-extern int lock_file(char*);
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void strip_whitespace(std::string&);

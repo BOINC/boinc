@@ -18283,3 +18283,15 @@ David  11 Oct 2004
 	lib/
 		app_ipc.C,h
 		prefs.C
+
+David  11 Oct 2004
+    - added <get_host_info/> GUI RPC
+    - put extern "C" around filesys.C functions
+        (so can use from C apps)
+
+    client/
+        gui_rpc_server.C
+    lib/
+        filesys.h
+        gui_rpc_client.C,h
+        util.h
