@@ -73,9 +73,10 @@ int insert_after(char* buffer, char* after, char* text) {
 }
 
 // add elements in xml_doc:
-// WU name, and estimation of how many seconds it will take
+// WU name, app name,
+// and estimate of how many seconds it will take on this host
 //
-int insert_wu_tags(WORKUNIT& wu, double seconds) {
+int insert_wu_tags(WORKUNIT& wu, double seconds, APP& app) {
     char buf[256];
     int retval;
 
@@ -85,7 +86,10 @@ int insert_wu_tags(WORKUNIT& wu, double seconds) {
     );
     retval = insert_after(wu.xml_doc, "<workunit>\n", buf);
     if (retval) return retval;
-    sprintf(buf, "    <name>%s</name>\n", wu.name);
+    sprintf(buf,
+        "    <name>%s</name>\n    <app_name>%s</app_name>\n",
+        wu.name, app.name
+    );
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
@@ -116,7 +120,7 @@ int add_wu_to_reply(
     // add time estimate to reply
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
-    retval = insert_wu_tags(wu2, seconds_to_complete);
+    retval = insert_wu_tags(wu2, seconds_to_complete, *app);
     if (retval) return retval;
     reply.insert_workunit_unique(wu2);
     return 0;
@@ -382,7 +386,7 @@ int send_work(
 ) {
     int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
-    RESULT result;
+    RESULT result, result_copy;
 #if 0
     APP* app;
     char prefix [256];
@@ -415,13 +419,21 @@ int send_work(
         );
         if (retval) continue;
 
-        fprintf(stderr, "sending result name %s, id %d\n", result.name, result.id);
+        fprintf(stderr,
+            "sending result name %s, id %d\n",
+            result.name, result.id
+        );
+
+        // copy the result so we don't overwrite its XML fields
+        //
+        result_copy = result;
         
-        retval = insert_name_tags(result, wu);
+        retval = insert_name_tags(result_copy, wu);
         if (retval) {
             fprintf(stderr, "send_work: can't insert name tags\n");
         }
-        reply.insert_result(result);
+        reply.insert_result(result_copy);
+
         seconds_to_fill -= (int)estimate_duration(wu, reply.host);
 
         result.state = RESULT_STATE_IN_PROGRESS;

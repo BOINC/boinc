@@ -140,6 +140,29 @@ static int process_wu_template(
     return 0;
 }
 
+// Set the time-varying fields of a result to their initial state.
+// This is used to create clones of existing results,
+// so set only the time-varying fields
+//
+void initialize_result(RESULT& result, WORKUNIT& wu) {
+    result.id = 0;
+    result.create_time = time(0);
+    result.workunitid = wu.id;
+    result.state = RESULT_STATE_UNSENT;
+    result.hostid = 0;
+    result.report_deadline = time(0) + wu.delay_bound;
+    result.sent_time = 0;
+    result.received_time = 0;
+    result.exit_status = 0;
+    result.cpu_time = 0;
+    strcpy(result.xml_doc_out, "");
+    strcpy(result.stderr_out, "");
+    result.project_state = 0;
+    result.validate_state = VALIDATE_STATE_INITIAL;
+    result.claimed_credit = 0;
+    result.granted_credit = 0;
+}
+
 // Create a new result for the given WU.
 //
 int create_result(
@@ -153,18 +176,13 @@ int create_result(
     int retval;
 
     memset(&r, 0, sizeof(r));
-    r.report_deadline = time(0) + 1000;
-        // TODO: pass this in
-    r.create_time = time(0);
-    r.workunitid = wu.id;
-    r.state = RESULT_STATE_UNSENT;
-    r.validate_state = VALIDATE_STATE_INITIAL;
+    initialize_result(r, wu);
     sprintf(r.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", r.name);
 
     strcpy(result_template_copy, result_template);
     retval = process_result_template(
-        result_template,
+        result_template_copy,
         key,
         base_outfile_name,
         upload_url, download_url
@@ -216,9 +234,13 @@ int create_work(
     }
     for (i=0; i<nresults; i++) {
         sprintf(suffix, "%d", i);
-        create_result(
+        retval = create_result(
             wu, result_template, suffix, key, upload_url, download_url
         );
+        if (retval) {
+            fprintf(stderr, "create_result: %d\n", retval);
+            break;
+        }
     }
     return 0;
 }

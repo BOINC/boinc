@@ -6,8 +6,8 @@
     <max_nbytes>100000</max_nbytes>
 </file_info>
 <result>
-    <output_file>
+    <file_ref>
         <file_name><OUTFILE_0/></file_name>
         <open_name>outfile.sah</open_name>
-    </output_file>
+    </file_ref>
 </result>

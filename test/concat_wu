@@ -9,7 +9,6 @@
     <md5_cksum><MD5_1/></md5_cksum>
 </file_info>
 <workunit>
-    <app_name>concat</app_name>
     <file_ref>
         <file_name><INFILE_0/></file_name>
         <open_name>in1</open_name>

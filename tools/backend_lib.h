@@ -19,6 +19,9 @@
 
 #include "crypt.h"
 
+extern int add_signatures(char*, R_RSA_PRIVATE_KEY&);
+extern int remove_signatures(char*);
+
 extern int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
@@ -31,6 +34,7 @@ extern int read_filename(char* path, char* buf);
 
 extern int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key);
 
+extern void initialize_result(RESULT&, WORKUNIT&);
 extern int create_result(
     WORKUNIT& wu, char* result_template_filename, char* suffix,
     R_RSA_PRIVATE_KEY& key, char* upload_url, char* download_url

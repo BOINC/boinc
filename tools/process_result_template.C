@@ -79,9 +79,10 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         retval = generate_signature(buf, signature, key);
         if (retval) return retval;
         strcpy(buf2, q2);
-        strcpy(q2, signature);
-        strcat(q2, buf2);
-        p = q2;
+        strcpy(q1, buf);
+        strcat(q1, signature);
+        strcat(q1, buf2);
+        p = q1;
     }
     return 0;
 }
@@ -115,7 +116,7 @@ int process_result_template(
     char* upload_url, char* download_url
 ) {
     char* p,*q;
-    char temp[256];
+    char temp[MAX_BLOB_SIZE];
     char num;
     int i;
 

@@ -368,7 +368,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         pers_file_xfer->write(out);
     }
     if (!to_server) {
-        if (signed_xml) {
+        if (signed_xml && xml_signature) {
             fprintf(out, "<signed_xml>\n%s</signed_xml>\n", signed_xml);
         }
         if (xml_signature) {

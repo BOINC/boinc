@@ -7,15 +7,17 @@ Workunits are maintained in the <b>workunit</b> table in the BOINC DB.
 The attributes of a workunit include:
 </p>
 <ul>
-<li> Its application.
 <li> Its name (unique across all workunits in the project).
+<li> Its application.
 <li> An XML document describing its input files and other parameters
 (see below).
 <li> The estimated resource requirements of the work unit
-(computation, memory, disk space, network traffic).
-<li> Counts of how many times this workunit should be dispatched, how
-many times it has been dispatched, how many results have been returned,
-and how many failures have occurred.
+(computation, memory, disk space).
+<li> A <b>delay bound</b>: upper bound on how long
+an instance of this work unit should take to complete.
+This limits what hosts the workunit is sent to,
+and it's used to assign result deadlines and
+times for retrying results.
 </ul>
 <p>
 The inputs to a workunit are described by an XML document of the form
@@ -23,9 +25,7 @@ The inputs to a workunit are described by an XML document of the form
 [ &lt;file_info&gt;...&lt;/file_info&gt; ]
 [ ... ]
 &lt;workunit&gt;
-    &lt;name&gt;foobar&lt;/name&gt;
     &lt;app_name&gt;blah&lt;/app_name&gt;
-    [ &lt;version_num&gt;1&lt;/version_num&gt; ]
     [ &lt;command_line&gt;-flags xyz&lt;/command_line&gt; ]
     [ &lt;env_vars&gt;name=val&amp;name=val&lt;/env_vars&gt; ]
     [ &lt;file_ref&gt;...&lt;/file_ref&gt; ]
@@ -34,10 +34,6 @@ The inputs to a workunit are described by an XML document of the form
 </pre>
 The components are: 
 <ul>
-<li> The <b>&lt;name&gt;</b> element is the name of the workunit.
-<li> The <b>&lt;app_name&gt;</b> element is the name of the
-application.
-<li> The <b>&lt;version_num&gt;</b> element is ???.
 <li> The <b>&lt;command_line&gt;</b> element, if present, is the
 command-line arguments to be passed to the main program.
 <li> The <b>&lt;env_vars&gt;</b> element, if present, is a list of
@@ -48,7 +44,7 @@ described by a <b>&lt;file_info&gt;</b> element.
 </ul>
 <p>
 A workunit is associated with an application, not with a particular
-version or set of versions???.
+version or range of versions.
 If the format of your input data changes in
 a way that is incompatible with older versions,
 you must create a new application.

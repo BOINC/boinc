@@ -9,20 +9,14 @@ The attributes of a result include:
 
 <ul>
 <li> The name of the result (unique across all results in the project). 
-<li> The name of the associated workunit. 
+<li> The associated workunit. 
 <li> The time when the completed result should be reported to a
 scheduling server.
 This is assigned by the project, and is used by
 clients to prioritize operations and to initiate scheduler RPCs.
 There is no guarantee that the result will actually be reported by this time. 
 <li> An XML document listing the names of its output files; see below. 
-<li> An XML document giving the sizes and checksums of its output
-files (filled in after the result is completed). 
-<li> The stderr output of the result. 
-<li> The host that computed the result. 
-<li> The times when the result was dispatched and received. 
-<li> The exit status of the application.
-<li> The reported CPU time. 
+<li> The time when the result was dispatched.
 <li> Its <b>state</b>. Values include: 
 <ul>
     <li> Inactive (not ready to dispatch) 
@@ -34,49 +28,41 @@ files (filled in after the result is completed).
 </ul>
 </ul>
 <p>
+The following attributes are defined after the result is completed:
+<ul>
+<li> An XML document giving the sizes and checksums of its output
+files (filled in after the result is completed). 
+<li> The stderr output of the result. 
+<li> The host that was sent the result.
+<li> The times when the result was received. 
+<li> The exit status of the application.
+<li> The reported CPU time. 
+</ul>
+<p>
 Results are normally created using the
 <a href=tools_work.html>create_work</a> utility.
 <p>
 The XML document listing the output files has the form: <pre>
-&lt;file_info&gt;...&lt;/file_info&gt;
+&lt;file_info>...&lt;/file_info>
 [ ... ]
-&lt;result&gt;
-    &lt;name&gt;foobar&lt;/name&gt;
-    &lt;wu_name&gt;blah&lt;/wu_name&gt;
-    &lt;exit_status&gt;blah&lt;/exit_status&gt;
-    &lt;file_ref&gt;...&lt;/file_ref&gt;
+&lt;result>
+    &lt;name>foobar&lt;/name>
+    &lt;wu_name>blah&lt;/wu_name>
+    &lt;exit_status>blah&lt;/exit_status>
+    &lt;file_ref>...&lt;/file_ref>
     [ ... ]
-&lt;/result&gt;
+&lt;/result>
 </pre>
 The components are: 
 <ul>
-<li> The <b>&lt;name&gt;</b> element is the result name. 
-<li> The <b>&lt;wu_name&gt;</b> element is the workunit name. 
-<li> Each <b>&lt;file_ref&gt;</b> element is an association to an
-output file, described by a corresponding <b>&lt;file_info&gt;</b> element. 
+<li> The <b>&lt;name></b> element is the result name. 
+<li> The <b>&lt;wu_name></b> element is the workunit name. 
+<li> Each <b>&lt;file_ref></b> element is an association to an
+output file, described by a corresponding <b>&lt;file_info></b> element. 
 </ul>
 <p>
 The XML document describing the sizes and checksums of the output
-files is just a list of <b>&lt;file_info&gt;</b> elements, with the
+files is just a list of <b>&lt;file_info></b> elements, with the
 <b>nbytes</b> and <b>md5_cksum</b> fields present.
 The project back end
 must parse this field to find the locations and checksums of output files. 
-<p>
-Several results may be associated with a single workunit.
-Results
-may be generated in either of two ways (selected as part of the application): 
-<ul>
-<li> <b>Advance generation</b> of results.
-One or more result records are stored in the database
-when the workunit is produced.
-The scheduling server dispatches each result to a single participant host.
-When all result records have been dispatched,
-participants hosts are "turned away". 
-<li> <b>On-demand generation</b> of results.
-The application specifies a "result template",
-which has place-holder tokens for the output filenames.
-The scheduling server, in response to a host request,
-generates a new result record and sends the result template.
-The host generates unique output filenames,
-and returns them along when it the computation is done. 
-</ul>

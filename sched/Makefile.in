@@ -16,7 +16,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry
 
 all: $(PROGS)
 
@@ -81,8 +81,16 @@ MAKE_WORK_OBJS = \
 
 RESULT_RETRY_OBJS = \
     result_retry.o \
+    config.o \
     ../db/db_mysql.o \
-    ../db/mysql_util.o
+    ../db/mysql_util.o \
+    ../lib/parse.o \
+    ../lib/md5_file.o \
+    ../lib/md5.o \
+    ../lib/crypt.o \
+    ../tools/backend_lib.o \
+    ../tools/process_result_template.o \
+    ../RSAEuro/source/rsaeuro.a
 
 FCGI_OBJS = \
     handle_request.fcgi.o \
@@ -136,6 +144,9 @@ validate_test: $(VALIDATE_OBJS)
 
 make_work: $(MAKE_WORK_OBJS)
 	$(CC) $(MAKE_WORK_OBJS) $(MYSQL_LIBS) $(CLIBS) -o make_work
+
+result_retry: $(RESULT_RETRY_OBJS)
+	$(CC) $(RESULT_RETRY_OBJS) $(MYSQL_LIBS) $(CLIBS) -o result_retry
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

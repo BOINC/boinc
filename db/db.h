@@ -197,12 +197,9 @@ struct HOST {
 
 struct WORKUNIT {
     int id;
-    unsigned int create_time;   // time of record creation
-    unsigned int check_time;    // when to check for result retury, or zero
-    int appid;                  // ID of APP record tied to this workunit
-    int previous_wuid;
-    bool has_successor;
-    char name[256];             // Name of the workunit
+    unsigned int create_time;
+    int appid;                  // associated app
+    char name[256];
     char xml_doc[MAX_BLOB_SIZE];
     int batch;
     double rsc_fpops;           // estimated # of FP operations
@@ -214,7 +211,8 @@ struct WORKUNIT {
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
     double retry_check_time;    // when to check for result retry
-    int state;                  // see above
+    int state;                  // see values above
+    int delay_bound;            // determines result deadline, retry check time
 
     // the following not used in the DB
     char app_name[256];
@@ -303,7 +301,6 @@ extern int db_workunit_new(WORKUNIT& p);
 extern int db_workunit(int id, WORKUNIT&);
 extern int db_workunit_update(WORKUNIT& p);
 extern int db_workunit_lookup_name(WORKUNIT&);
-//extern int db_workunit_enum_dynamic_to_send(WORKUNIT&, int);
 extern int db_workunit_enum_app_need_validate(WORKUNIT&);
 extern int db_workunit_enum_retry_check_time(WORKUNIT&);
 
@@ -311,7 +308,7 @@ extern int db_result_new(RESULT& p);
 extern int db_result(int id, RESULT&);
 extern int db_result_update(RESULT& p);
 extern int db_result_lookup_name(RESULT& p);
-extern int db_result_enum_to_send(RESULT&, int);
+extern int db_result_enum_state(RESULT&, int);
 extern int db_result_enum_wuid(RESULT&);
 extern int db_result_count_state(int state, int&);
 

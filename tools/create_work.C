@@ -19,16 +19,21 @@
 
 // create_work
 //  -appname name
+//  -wu_name name
+//  -wu_template filename
+//  -result_template filename
+//  -nresults n
+//  -db_name x
+//  -db_passwd x
+//  -upload_url x
+//  -download_url x
 //  -download_dir x
 //  -rsc_fpops n
 //  -rsc_iops n
 //  -rsc_memory n
 //  -rsc_disk n
-//  -wu_name name
-//  -wu_template filename
-//  -result_template filename
-//  -nresults n
 //  -keyfile path
+//  -delay_bound x
 //  infile1 infile2 ...
 //
 // Create a workunit and results.
@@ -99,6 +104,8 @@ int main(int argc, char** argv) {
             wu.rsc_disk = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-keyfile")) {
             strcpy(keyfile, argv[++i]);
+        } else if (!strcmp(argv[i], "-delay_bound")) {
+            wu.delay_bound = atoi(argv[++i]);
         } else {
             infiles = argv+i;
             ninfiles = argc - i;
@@ -106,8 +113,12 @@ int main(int argc, char** argv) {
         }
         i++;
     }
-    if (!strlen(app.name) || !strlen(wu.name) || !strlen(wu_template_file)
+    if (
+        !strlen(app.name)
+        || !strlen(wu.name)
+        || !strlen(wu_template_file )
         || !strlen(result_template_file)
+        || wu.delay_bound==0
     ) {
         fprintf(stderr, "create_work: bad cmdline\n");
         exit(1);
@@ -130,6 +141,7 @@ int main(int argc, char** argv) {
     }
 
     wu.appid = app.id;
+    wu.retry_check_time = time(0) + wu.delay_bound;
 
     retval = read_key_file(keyfile, key);
     if (retval) {

@@ -190,18 +190,18 @@ void struct_to_str(void* vp, char* q, int type) {
     case TYPE_WORKUNIT:
         wup = (WORKUNIT*)vp;
         sprintf(q,
-            "id=%d, create_time=%d, appid=%d, previous_wuid=%d, "
-            "has_successor=%d, name='%s', xml_doc='%s', batch=%d, "
+            "id=%d, create_time=%d, appid=%d, "
+            "name='%s', xml_doc='%s', batch=%d, "
             "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
             "need_validate=%d, "
             "canonical_resultid=%d, canonical_credit=%f, "
-            "retry_check_time=%f, state=%d",
-            wup->id, wup->create_time, wup->appid, wup->previous_wuid,
-            wup->has_successor?1:0, wup->name, wup->xml_doc, wup->batch,
+            "retry_check_time=%f, delay_bound=%d, state=%d",
+            wup->id, wup->create_time, wup->appid,
+            wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
             wup->need_validate,
             wup->canonical_resultid, wup->canonical_credit,
-            wup->retry_check_time, wup->state
+            wup->retry_check_time, wup->delay_bound, wup->state
         );
         break;
     case TYPE_RESULT:
@@ -350,8 +350,6 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->id = atoi(r[i++]);
         wup->create_time = atoi(r[i++]);
         wup->appid = atoi(r[i++]);
-        wup->previous_wuid = atoi(r[i++]);
-        wup->has_successor = (atoi(r[i++])!=0);
         strcpy2(wup->name, r[i++]);
         strcpy2(wup->xml_doc, r[i++]);
         wup->batch = atoi(r[i++]);
@@ -363,6 +361,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->canonical_resultid = atoi(r[i++]);
         wup->canonical_credit = atof(r[i++]);
         wup->retry_check_time = atof(r[i++]);
+        wup->delay_bound = atoi(r[i++]);
         wup->state = atoi(r[i++]);
         break;
     case TYPE_RESULT:
@@ -583,7 +582,10 @@ int db_workunit_enum_retry_check_time(WORKUNIT& p) {
     char buf[256];
 
     if (!e.active) {
-        sprintf(buf, "where retry_check_time > 0 and retry_check_time < %f", p.retry_check_time);
+        sprintf(buf,
+            "where appid=%d and retry_check_time > 0 and retry_check_time < %f",
+            p.appid, p.retry_check_time
+        );
     }
     return db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
@@ -610,11 +612,11 @@ int db_result_lookup_name(RESULT& p) {
     return db_lookup(&p, TYPE_RESULT, buf);
 }
 
-int db_result_enum_to_send(RESULT& p, int limit) {
+int db_result_enum_state(RESULT& p, int limit) {
     static ENUM e;
     char buf[256];
 
-    if (!e.active) sprintf(buf, "where state=%d", RESULT_STATE_UNSENT);
+    if (!e.active) sprintf(buf, "where state=%d", p.state);
     return db_enum(e, &p, TYPE_RESULT, buf, limit);
 }
 

@@ -116,7 +116,8 @@ void feeder_loop(SCHED_SHMEM* ssp) {
         restarted_enum = false;
         for (i=0; i<ssp->nwu_results; i++) {
             if (!ssp->wu_results[i].present) {
-                retval = db_result_enum_to_send(result, RESULTS_PER_ENUM);
+                result.state = RESULT_STATE_UNSENT;
+                retval = db_result_enum_state(result, RESULTS_PER_ENUM);
                 if (retval) {
 
                     // if we already restarted the enum on this pass,
@@ -130,7 +131,8 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     // restart the enumeration
                     //
                     restarted_enum = true;
-                    retval = db_result_enum_to_send(result, RESULTS_PER_ENUM);
+                    result.state = RESULT_STATE_UNSENT;
+                    retval = db_result_enum_state(result, RESULTS_PER_ENUM);
                     printf("feeder: restarting enumeration: %d\n", retval);
                     if (retval) {
                         printf("feeder: enumeration returned nothing\n");

@@ -54,6 +54,7 @@ function db_query($query) {
 function run_tool($cmd) {
     $tool_dir = get_env_var("BOINC_SRC_DIR")."/tools/";
     $cmd = $tool_dir.$cmd;
+    //echo $cmd;
     PassThru($cmd);
 }
 
@@ -205,6 +206,7 @@ class Project {
         PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/result_retry $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
@@ -435,6 +437,7 @@ class Work {
     var $rsc_iops;
     var $rsc_fpops;
     var $rsc_disk;
+    var $delay_bound;
 
     function Work($app) {
         $this->app = $app;
@@ -442,6 +445,7 @@ class Work {
         $this->rcs_iops = 180000000000;
         $this->rcs_fpops = 100000000000;
         $this->rcs_disk = 1000000;
+        $this->delay_bound = 1000;
     }
 
     function install($project) {
@@ -450,7 +454,7 @@ class Work {
             $x = $this->input_files[$i];
             PassThru("cp $x $project->project_dir/download");
         }
-        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults -wu_name $this->wu_template";
+        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults -wu_name $this->wu_template -delay_bound $this->delay_bound";
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];
             $cmd = $cmd." ".$x;

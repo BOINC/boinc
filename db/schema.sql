@@ -116,8 +116,6 @@ create table workunit (
     id              integer     not null auto_increment,
     create_time     integer     not null,
     appid           integer     not null,
-    previous_wuid   integer     not null,
-    has_successor   smallint    not null,
     name            varchar(254) not null,
     xml_doc         blob,
     batch           integer     not null,
@@ -129,6 +127,7 @@ create table workunit (
     canonical_resultid integer  not null,
     canonical_credit double     not null,
     retry_check_time double     not null,
+    delay_bound     integer     not null,
     state           integer     not null,
     primary key (id)
 );

@@ -113,6 +113,16 @@ function show_host($host) {
 
 }
 
+function retry_state_str($s) {
+    switch($s) {
+    case 0: return "Default";
+    case 1: return "Send failed";
+    case 2: return "Too many errors (may have bug)";
+    case 3: return "Too many done (may be nondeterministic)";
+    }
+    return "unknown";
+}
+
 function show_workunit($wu,$show_xml_doc) {
     start_table();
     row("Created", time_str($wu->create_time));
@@ -129,7 +139,10 @@ function show_workunit($wu,$show_xml_doc) {
     row("Need validate?", $wu->need_validate?"yes":"no");
     row("Canonical resultid", $wu->canonical_resultid);
     row("Canonical credit", $wu->canonical_credit);
-    row("","<a href=db.php?show=result&wu_id=$wu->id>Show Associated Results</a>");
+    row("Retry check time", time_str($wu->retry_check_time));
+    row("Retry state", retry_state_str($wu->state));
+    row("Delay bound", $wu->delay_bound);
+    row("","<a href=db.php?show=result&wu_id=$wu->id>Show associated results</a>");
     end_table();
     echo "<p>";
 }
@@ -143,6 +156,17 @@ function res_state_string($s) {
     case 5: return "Timeout";
     case 6: return "Error";
     }
+    return "unknown";
+}
+
+function validate_state_str($s) {
+    switch($s) {
+    case 0: return "Initial";
+    case 1: return "Need check";
+    case 2: return "Valid";
+    case 3: return "Invalid";
+    }
+    return "unknown";
 }
 
 function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
@@ -155,6 +179,7 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     row("Name", $result->name);
     row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
     row("state", res_state_string($result->state));
+    row("Deadline", time_str($result->report_deadline));
     row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Exit Status", $result->exit_status);
     row("CPU time", $result->cpu_time);
@@ -166,7 +191,10 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
         row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     }
     row("batch", $result->batch);
-    row("validated", $result->validated);
+    row("project state", $result->project_state);
+    row("Validate state", validate_state_str($result->validate_state));
+    row("claimed credit", $result->claimed_credit);
+    row("granted credit", $result->granted_credit);
     end_table();
     echo "<p>";
 }

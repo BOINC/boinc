@@ -2276,3 +2276,45 @@ David  Nov 5 2002
         Makefile.in
         make_work.C
         result_retry.C
+
+David  Nov 7 2002
+    - Finished and did basic testing of result retry mechanism.
+        It now correctly generates new results with unique names,
+        unique filenames, and upload signatures.
+        TODO: make a test script
+    - added DB field workunit.delay_bound:
+        determines deadlines of result, determines retry check period
+        Mandatory argument to create_work.
+    - Added DB indices for all enumeration functions
+
+    client/
+        client_types.C
+    db/
+        constraints.sql
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        result.html
+        tools_work.html
+        work.html
+    html_ops/
+        db.inc
+    sched/
+        Makefile.in
+        feeder.C
+        handle_request.C
+        result_retry.C
+    test/
+        1sec_wu
+        concat_wu
+        sah_result
+        sah_wu
+        test.inc
+        test_uc.php
+        uc_wu
+        ucs_wu
+    tools/
+        backend_lib.Ch
+        create_work.C
+        process_result_template.C
