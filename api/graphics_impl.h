@@ -18,21 +18,29 @@
 //
 
 #include "boinc_api.h"
+#include "graphics_api.h"
+
+typedef int (*BIOG_FUNC_PTR)(BOINC_OPTIONS&);
+    // ptr to a function like boinc_init_options_general()
+
+typedef int (*BIOGI_FUNC_PTR)(BOINC_OPTIONS&, WORKER_FUNC_PTR, BIOG_FUNC_PTR);
+    // ptr to a function like boinc_init_options_graphics_impl()
 
 extern int boinc_init_graphics_impl(
-    void (*worker)(), int (*init_func)(BOINC_OPTIONS&)
+    WORKER_FUNC_PTR worker, BIOG_FUNC_PTR init_func
 );
 
-// This extern C is needed, even to make this code work correctly on a 100% C++
-// platoform, app, and build.  This is because we need to dlsym() resolve this
-// function.  That does not work unless the symbol is in the library in UNMANGED
-// form.  See http://www.isotton.com/howtos/C++-dlopen-mini-HOWTO/C++-dlopen-mini-HOWTO.html
+// This extern C is needed to make this code work correctly,
+// even in a 100% C++ context.
+// This is because we need to dlsym() resolve this function.
+// That does not work unless the symbol is in the library in UNMANGLED form.
+// See http://www.isotton.com/howtos/C++-dlopen-mini-HOWTO/C++-dlopen-mini-HOWTO.html
 // for some additional discussion.
 
 extern "C" {
-    int boinc_init_options_graphics_impl(
-    BOINC_OPTIONS& opt,
-    void (*_worker_main)(),
-    int (*init_func)(BOINC_OPTIONS&)
-);
+    extern int boinc_init_options_graphics_impl(
+        BOINC_OPTIONS& opt,
+        WORKER_FUNC_PTR _worker_main,
+        BIOG_FUNC_PTR init_func
+    );
 }

@@ -33,12 +33,13 @@ extern void win_graphics_event_loop();
 #ifndef _WIN32
 #include <cstring>
 #include <cstdarg>
-#include "x_opengl.h"
 
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #include <sched.h>
 #endif
+
+#include "x_opengl.h"
 #endif
 
 #include "parse.h"
@@ -59,7 +60,7 @@ HANDLE hQuitEvent;
 
 bool graphics_inited = false;
 
-static void (*worker_main)();
+static WORKER_FUNC_PTR worker_main;
 
 #ifdef _WIN32
 DWORD WINAPI foobar(LPVOID) {
@@ -71,15 +72,16 @@ void* foobar(void*) {
     return 0;
 }
 
-int boinc_init_graphics_impl(
-    void (*worker)(), int (*init_func)(BOINC_OPTIONS&)
-) {
+// the following function can be in a shared library,
+// so it calls boinc_init_options_general() via a pointer instead of directly
+//
+int boinc_init_graphics_impl(WORKER_FUNC_PTR worker, BIOG_FUNC_PTR init_func) {
     BOINC_OPTIONS opt;
     options_defaults(opt);
     return boinc_init_options_graphics_impl(opt, worker, init_func);
 }
 
-int start_worker_thread(void (*_worker_main)()) {
+int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     worker_main = _worker_main;
 #ifdef _WIN32
 
@@ -153,12 +155,12 @@ int start_worker_thread(void (*_worker_main)()) {
 
 int boinc_init_options_graphics_impl(
     BOINC_OPTIONS& opt,
-    void (*_worker_main)(),
-    int (*init_func)(BOINC_OPTIONS&)
+    WORKER_FUNC_PTR _worker_main,
+    BIOG_FUNC_PTR init_func
 ) {
     int retval;
 
-    retval = (*init_func)(opt);
+    retval = init_func(opt);
     if (retval) return retval;
     if (_worker_main) {
         retval = start_worker_thread(_worker_main);

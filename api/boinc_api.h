@@ -20,18 +20,18 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
-/* to allow prototypes using 'bool' in ANSI-C */
+// to allow prototypes using 'bool' in ANSI-C
+//
 #if (!defined __cplusplus) && (!defined bool)
 #if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
 #define bool char
 #else
 #define bool int
-#endif /* defined(_MSC_VER) && (_MSC_VER > 1020) */
-#endif /* (!defined __cplusplus) && (!defined bool) */
+#endif // defined(_MSC_VER) && (_MSC_VER > 1020)
+#endif // (!defined __cplusplus) && (!defined bool)
 
-/* ----------------------------------------------------------------------
- * ANSI C API BEGINS HERE
- */
+// ANSI C API BEGINS HERE
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -75,28 +75,24 @@ extern int boinc_suspend_other_activities(void);
 extern int boinc_resume_other_activities(void);
 extern int boinc_report_app_status(double, double, double);
 
-/* we can use those in ANSI-C with a suitable define for 'bool' */
+// we can use those in ANSI-C with a suitable define for 'bool'
 extern bool boinc_is_standalone(void);
 extern bool boinc_receive_trickle_down(char* buf, int len);
 extern bool boinc_time_to_checkpoint();
 
 
 #ifdef __cplusplus
-} /* extern "C" { */
+} // extern "C" {
 #endif
 
-/*----------------------------------------------------------------------
- * C++ API follows 
- */
+// C++ API follows 
 #ifdef __cplusplus
 #include <string>
 
 #include "app_ipc.h"
 
-
 extern APP_INIT_DATA aid;
 
-/* C++ prototypes */
 extern int boinc_init_options(BOINC_OPTIONS&);
 extern int boinc_get_status(BOINC_STATUS&);
 extern int boinc_resolve_filename_s(const char*, std::string&);
@@ -118,6 +114,6 @@ extern int set_worker_timer(void);
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 
-#endif /* C++ part */
+#endif // C++ part
 
-#endif /* double-inclusion protection */
+#endif // double-inclusion protection

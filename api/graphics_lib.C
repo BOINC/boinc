@@ -25,13 +25,13 @@
 #include <dlfcn.h>
 
 #include "boinc_api.h"  
+#include "graphics_api.h"
+#include "graphics_impl.h"
 #include "graphics_lib.h"
 
 #define BOINC_STRLEN 512
 
 void* graphics_lib_handle=NULL;
-
-typedef int (*BIOGI_FUNC)(BOINC_OPTIONS&, void(*worker)(), int (*)(BOINC_OPTIONS&));
 
 // This routine never returns.
 // If a problem arises, it calls boinc_finish(nonzero).
@@ -42,14 +42,14 @@ typedef int (*BIOGI_FUNC)(BOINC_OPTIONS&, void(*worker)(), int (*)(BOINC_OPTIONS
 // This is the executable name, and is used to derive
 // the shared object library name: executable_name.so
 
-int boinc_init_graphics_lib(void (*worker)(), char* argv0) {
+int boinc_init_graphics_lib(WORKER_FUNC_PTR worker, char* argv0) {
     BOINC_OPTIONS opt;
     options_defaults(opt);
     return boinc_init_options_graphics_lib(opt, worker, argv0);
 }
 
 int boinc_init_options_graphics_lib(
-    BOINC_OPTIONS& opt, void (*worker)(), char* argv0
+    BOINC_OPTIONS& opt, WORKER_FUNC_PTR worker, char* argv0
 ) {
     char graphics_lib[BOINC_STRLEN];
     char resolved_name[BOINC_STRLEN];
@@ -58,7 +58,7 @@ int boinc_init_options_graphics_lib(
     int retval;
     char *errormsg;
 
-    BIOGI_FUNC boinc_init_options_graphics_impl_hook;
+    BIOGI_FUNC_PTR boinc_init_options_graphics_impl_hook;
 
     // figure out name of executable, and append .so
     //
@@ -98,7 +98,7 @@ int boinc_init_options_graphics_lib(
     // use handle from shared library to resolve the 'initialize
     // graphics' routine from shared library
     //
-    boinc_init_options_graphics_impl_hook = (BIOGI_FUNC) dlsym(
+    boinc_init_options_graphics_impl_hook = (BIOGI_FUNC_PTR) dlsym(
         graphics_lib_handle,
         "boinc_init_options_graphics_impl"
     );
@@ -106,7 +106,7 @@ int boinc_init_options_graphics_lib(
         errormsg = dlerror();
         fprintf(stderr,
             "dlsym(): no boinc_init_options_graphics_impl() in %s\n%s\n",
-		resolved_name, errormsg?errormsg:""
+            resolved_name, errormsg?errormsg:""
         );
         goto no_graphics;
     }

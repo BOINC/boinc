@@ -21155,3 +21155,12 @@ Bruce  12 Dec 2004
         graphics_lib.C
         graphics_lib.h
         graphics_impl.h
+
+David  12 Dec 2004
+    - spruced up graphics lib stuff, removed a "*" that may have caused crash.
+
+    api/
+        boinc_api.h
+        graphics_api.h
+        graphics_impl.C,h
+        graphics_lib.C,h
