@@ -575,7 +575,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 // Others are copied straight to the PROJECT
 //
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
-    char buf[256];
+    char buf[256], msg_buf[1024], pri_buf[256];
     int retval, x;
     MIOFILE mf;
     char delete_file_name[256];
@@ -586,8 +586,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 
     hostid = 0;
     request_delay = 0;
-    strcpy(message, "");
-    strcpy(message_priority, "");
     global_prefs_xml = 0;
     project_prefs_xml = 0;
     strcpy(host_venue, "");
@@ -596,6 +594,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     message_ack = false;
     project_is_down = false;
     send_file_list = false;
+    messages.clear();
 
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
@@ -722,8 +721,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             STRING256 delete_file;
             strcpy(delete_file.text, delete_file_name);
             file_deletes.push_back(delete_file);
-        } else if (parse_str(buf, "<message", message, sizeof(message))) {
-            parse_attr(buf, "priority", message_priority, sizeof(message_priority));
+        } else if (parse_str(buf, "<message", msg_buf, sizeof(msg_buf))) {
+            parse_attr(buf, "priority", pri_buf, sizeof(pri_buf));
+            USER_MESSAGE um(msg_buf, pri_buf);
+            messages.push_back(um);
             continue;
         } else if (match_tag(buf, "<message_ack/>")) {
             message_ack = true;
@@ -757,6 +758,11 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         msg_printf(project, MSG_ERROR, "No start tag in scheduler reply\n");
     }
     return ERR_XML_PARSE;
+}
+
+USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
+    message = m;
+    priority = p;
 }
 
 const char *BOINC_RCSID_11c806525b = "$Id$";

@@ -300,8 +300,6 @@ int MSG_FROM_HOST_DESC::parse(FILE* fin) {
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
     request_delay = 0;
     hostid = 0;
-    strcpy(message, "");
-    strcpy(message_priority, "");
     send_global_prefs = false;
     strcpy(code_sign_key, "");
     strcpy(code_sign_key_signature, "");
@@ -333,11 +331,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %d\n", request_delay);
     }
-    if (strlen(message)) {
+    for (i=0; i<messages.size(); i++) {
+        USER_MESSAGE& um = messages[i];
         fprintf(fout,
             "<message priority=\"%s\">%s</message>\n",
-            message_priority,
-            message
+            um.priority.c_str(),
+            um.message.c_str()
         );
     }
     if (nucleus_only) goto end;
@@ -531,6 +530,15 @@ void SCHEDULER_REPLY::insert_workunit_unique(WORKUNIT& wu) {
 
 void SCHEDULER_REPLY::insert_result(RESULT& result) {
     results.push_back(result);
+}
+
+void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
+    messages.push_back(um);
+}
+
+USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
+    message = m;
+    priority = p;
 }
 
 int APP::write(FILE* fout) {

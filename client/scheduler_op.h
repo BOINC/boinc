@@ -30,6 +30,8 @@
 //       to get work as a side-effect
 //
 
+#include <vector>
+
 #include "client_types.h"
 #include "http.h"
 #include "prefs.h"
@@ -84,11 +86,16 @@ struct SCHEDULER_OP {
     int parse_master_file(std::vector<STRING256>&);
 };
 
+struct USER_MESSAGE {
+    std::string message;
+    std::string priority;
+    USER_MESSAGE(char*, char*);
+};
+
 struct SCHEDULER_REPLY {
     int hostid;
     double request_delay;
-    char message[1024];
-    char message_priority[256];
+    std::vector<USER_MESSAGE> messages;
     char* global_prefs_xml;
         // not including <global_preferences> tags;
         // may include <venue> elements

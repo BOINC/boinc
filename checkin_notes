@@ -23583,3 +23583,17 @@ Janus 31 Jan 05
         user/
             apps.php
 
+David  31 Jan 2005
+    - Make it possible for a scheduler RPC reply to include several "messages",
+        each with its own message body and priority.
+        This involved changes to both scheduler and core client.
+        If the current core client gets several messages,
+        it will display only the last one.
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C,h
+    sched/
+        handle_request.C
+        sched_send.C
+        server_types.C,h

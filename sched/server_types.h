@@ -135,13 +135,20 @@ struct SCHEDULER_REQUEST {
     int write(FILE*); // write request info to file: not complete
 };
 
+// message intended for human eyes
+//
+struct USER_MESSAGE {
+    std::string message;
+    std::string priority;
+    USER_MESSAGE(char* m, char*p);
+};
+
 // NOTE: if any field requires initialization,
 // you must do it in the constructor.  Nothing is zeroed by default.
 //
 struct SCHEDULER_REPLY {
     int request_delay;          // don't request again until this time elapses
-    char message[1024];
-    char message_priority[256];
+    std::vector<USER_MESSAGE> messages;
     int hostid;
         // nonzero only if a new host record was created.
         // this tells client to reset rpc_seqno
@@ -173,6 +180,7 @@ struct SCHEDULER_REPLY {
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
+    void insert_message(USER_MESSAGE&);
 };
 
 #endif

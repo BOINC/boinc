@@ -795,37 +795,47 @@ int send_work(
 
     if (wreq.nresults == 0) {
         reply.request_delay = 3600;
-        strcpy(reply.message, "No work available");
+        USER_MESSAGE um("No work available", "high");
+        reply.insert_message(um);
         if (wreq.no_app_version) {
-            strcat(reply.message,
-                " (there was work for other platforms)"
-            );
+            USER_MESSAGE um("(there was work for other platforms)", "high");
+            reply.insert_message(um);
             reply.request_delay = 3600*24;
         }
         if (wreq.insufficient_disk) {
-            strcat(reply.message,
-                " (there was work but you don't have enough disk space allocated)"
+            USER_MESSAGE um(
+                "(there was work but you don't have enough disk space allocated)",
+                "high"
             );
+            reply.insert_message(um);
         }
         if (wreq.insufficient_mem) {
-            strcat(reply.message,
-                " (there was work but your computer doesn't have enough memory)"
+            USER_MESSAGE um(
+                "(there was work but your computer doesn't have enough memory)",
+                "high"
             );
+            reply.insert_message(um);
         }
         if (wreq.insufficient_speed) {
-            strcat(reply.message,
-                " (there was work but your computer would not finish it before it is due"
+            USER_MESSAGE um(
+                "(there was work but your computer would not finish it before it is due",
+                "high"
             );
+            reply.insert_message(um);
         }
         if (wreq.homogeneous_redundancy_reject) {
-            strcat(reply.message,
-                " (there was work but it was committed to other platforms"
+            USER_MESSAGE um(
+                "(there was work but it was committed to other platforms",
+                "high"
             );
+            reply.insert_message(um);
         }
         if (wreq.outdated_core) {
-            strcat(reply.message,
-                " (your core client is out of date - please upgrade)"
+            USER_MESSAGE um(
+                " (your core client is out of date - please upgrade)",
+                "high"
             );
+            reply.insert_message(um);
             reply.request_delay = 3600*24;
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
@@ -833,20 +843,14 @@ int send_work(
             );
         }
         if (wreq.daily_result_quota_exceeded) {
-            strcat(reply.message, " (daily quota exceeded)");
+            USER_MESSAGE um("(daily quota exceeded)", "high");
+            reply.insert_message(um);
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "Daily result quota exceeded for host %d\n",
                 reply.host.id
             );
         }
-
-        strcpy(reply.message_priority, "high");
-
-        log_messages.printf(
-            SCHED_MSG_LOG::NORMAL, "[HOST#%d] %s\n",
-            reply.host.id, reply.message
-        );
     }
     return 0;
 }

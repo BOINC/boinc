@@ -68,8 +68,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (sreq.hostid) {
         retval = host.lookup_id(sreq.hostid);
         if (retval) {
-            strcpy(reply.message, "Can't find host record");
-            strcpy(reply.message_priority, "low");
+            USER_MESSAGE um("Can't find host record", "low");
+            reply.insert_message(um);
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "[HOST#%d?] can't find host\n",
@@ -87,11 +87,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         sprintf(buf, "where authenticator='%s'", user.authenticator);
         retval = user.lookup(buf);
         if (retval) {
-            strcpy(reply.message,
-               "Invalid or missing account key.  "
-               "Visit this project's web site to get an account key."
+            USER_MESSAGE um("Invalid or missing account key.  "
+                "Visit this project's web site to get an account key.",
+                "low"
             );
-            strcpy(reply.message_priority, "low");
+            reply.insert_message(um);
             reply.request_delay = 3600;
             reply.nucleus_only = true;
             log_messages.printf(
@@ -142,11 +142,12 @@ lookup_user_and_make_new_host:
         sprintf(buf, "where authenticator='%s'", user.authenticator);
         retval = user.lookup(buf);
         if (retval) {
-            strcpy(reply.message,
+            USER_MESSAGE um(
                 "Invalid or missing account key.  "
-                "Visit this project's web site to get an account key."
+                "Visit this project's web site to get an account key.",
+                "low"
             );
-            strcpy(reply.message_priority, "low");
+            reply.insert_message(um);
             reply.request_delay = 3600;
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -168,8 +169,8 @@ make_new_host:
         host.fix_nans();
         retval = host.insert();
         if (retval) {
-            strcpy(reply.message, "Couldn't create host record in database");
-            strcpy(reply.message_priority, "low");
+            USER_MESSAGE um("Couldn't create host record in database", "low");
+            reply.insert_message(um);
             boinc_db.print_error("host.insert()");
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.insert() failed\n");
             return retval;
@@ -372,16 +373,16 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-	// get the result with the same name that came back from the
-	// database and point srip to it.  Quantities that MUST be
-	// read from the DB are those where srip appears as an rval.
-	// These are: id, name, server_state, received_time, hostid.
-	// // Quantities that must be WRITTEN to the DB are those for
-	// which srip appears as an lval. These are:
+        // get the result with the same name that came back from the
+        // database and point srip to it.  Quantities that MUST be
+        // read from the DB are those where srip appears as an rval.
+        // These are: id, name, server_state, received_time, hostid.
+        // // Quantities that must be WRITTEN to the DB are those for
+        // which srip appears as an lval. These are:
         // hostid,
-	// teamid, received_time, client_state, cpu_time, exit_status,
-	// app_version_num, claimed_credit, server_state, stderr_out,
-	// xml_doc_out, outcome, validate_state
+        // teamid, received_time, client_state, cpu_time, exit_status,
+        // app_version_num, claimed_credit, server_state, stderr_out,
+        // xml_doc_out, outcome, validate_state
 
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
@@ -578,22 +579,26 @@ void send_code_sign_key(
                 sprintf(path, "%s/old_key_%d", config.key_dir, i);
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
-                    strcpy(reply.message,
+                    USER_MESSAGE um(
                        "You may have an outdated code verification key.  "
                        "This may prevent you from accepting new executables.  "
-                       "If the problem persists, detach/attach the project. "
+                       "If the problem persists, detach/attach the project. ",
+                       "high"
                     );
+                    reply.insert_message(um);
                     return;
                 }
                 if (!strcmp(oldkey, sreq.code_sign_key)) {
                     sprintf(path, "%s/signature_%d", config.key_dir, i);
                     retval = read_file_malloc(path, signature);
                     if (retval) {
-                        strcpy(reply.message,
+                        USER_MESSAGE um(
                            "You may have an outdated code verification key.  "
                            "This may prevent you from accepting new executables.  "
-                           "If the problem persists, detach/attach the project. "
+                           "If the problem persists, detach/attach the project. ",
+                           "high"
                         );
+                        reply.insert_message(um);
                     } else {
                         safe_strcpy(reply.code_sign_key, code_sign_key);
                         safe_strcpy(reply.code_sign_key_signature, signature);
@@ -612,11 +617,12 @@ void send_code_sign_key(
 bool wrong_core_client_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
+    char msg[256];
     bool wrong_version = false;
     if (sreq.core_client_major_version != BOINC_MAJOR_VERSION) {
         // TODO: check for user-agent not empty and not BOINC
         wrong_version = true;
-        sprintf(reply.message,
+        sprintf(msg,
             "To participate in this project, "
             "you must use major version %d of the BOINC core client. "
             "Your core client is major version %d.",
@@ -634,7 +640,7 @@ bool wrong_core_client_version(
         int minor = config.min_core_client_version % 100;
         if (sreq.core_client_minor_version < minor) {
             wrong_version = true;
-            sprintf(reply.message,
+            sprintf(msg,
                 "To participate in this project, "
                 "you must use version %d.02%d or higher of the BOINC core client.  "
                 "Your core client is version %d.02%d.",
@@ -650,8 +656,9 @@ bool wrong_core_client_version(
         }
     }
     if (wrong_version) {
+        USER_MESSAGE um(msg, "low");
+        reply.insert_message(um);
         reply.probable_user_browser = true;
-        strcpy(reply.message_priority, "low");
         reply.request_delay = 3600*24;
         return true;
     }
@@ -740,6 +747,7 @@ void process_request(
     int current_rpc_dayofyear;
     bool ok_to_send_work = true;
     bool have_no_work;
+    char buf[256];
 
     // if different major version of BOINC, just send a message
     //
@@ -766,8 +774,8 @@ void process_request(
         && (sreq.results.size() == 0)
         && (sreq.hostid != 0)
     ) {
-        strcat(reply.message, "No work available");
-        strcpy(reply.message_priority, "low");
+        USER_MESSAGE um("No work available", "low");
+        reply.insert_message(um);
         reply.request_delay = 3600;
         if (!config.msg_to_host) {
             log_messages.printf(
@@ -820,8 +828,9 @@ void process_request(
     //
     platform = ss.lookup_platform(sreq.platform_name);
     if (!platform) {
-        sprintf(reply.message, "platform '%s' not found", sreq.platform_name);
-        strcpy(reply.message_priority, "low");
+        sprintf(buf, "platform '%s' not found", sreq.platform_name);
+        USER_MESSAGE um(buf, "low");
+        reply.insert_message(um);
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
@@ -860,10 +869,11 @@ void process_request(
                     SCHED_MSG_LOG::NORMAL,
                     "Not sending work - last RPC too recent: %f\n", diff
                 );
-                sprintf(reply.message,
+                sprintf(buf,
                     "Not sending work - last RPC too recent: %d sec", (int)diff
                 );
-                strcpy(reply.message_priority, "low");
+                USER_MESSAGE um(buf, "low");
+                reply.insert_message(um);
                 reply.request_delay = config.min_sendwork_interval;
             }
         }
@@ -897,7 +907,7 @@ extern double watch_diskspace[3];
 //
 int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     int nfiles = (int)sreq.file_infos.size();
-    char helpful_hint[256];
+    char buf[256];
                                                                                                                                                     
     if (!nfiles) {
         log_messages.printf(
@@ -905,25 +915,22 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
             "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
         );
 
-	sprintf(helpful_hint, 
-            "\nNo disk space (BOINC needs %.1f MB more)\n", max_allowable_disk(sreq)/1.e6);
-	strcat(sreply.message, helpful_hint);
+        sprintf(buf,
+            "No disk space (BOINC needs %.1f MB more).  ",
+            max_allowable_disk(sreq)/1.e6
+        );
 
-	if (watch_diskspace[0] != 0.0) {
-	    strcat(sreply.message,
-	        "Review preferences for maximum disk space used\n");
-	}
-	else if (watch_diskspace[1] != 0.0) {
-	  strcat(sreply.message,
-	      "Review preferences for maximum disk percentage used\n");
-	}
-	else if (watch_diskspace[2] != 0.0) {
-	    strcat(sreply.message,
-	        "Review preferences for minimum disk free space allowed\n");
-	}
-	strcpy(sreply.message_priority, "high");
-	sreply.request_delay = 24*3600;
-	return 1;
+        if (watch_diskspace[0] != 0.0) {
+            strcat(buf, "Review preferences for maximum disk space used.");
+        } else if (watch_diskspace[1] != 0.0) {
+            strcat(buf, "Review preferences for maximum disk percentage used.");
+        } else if (watch_diskspace[2] != 0.0) {
+            strcat(buf, "Review preferences for minimum disk free space allowed.");
+        }
+        USER_MESSAGE um(buf, "high");
+        sreply.insert_message(um);
+        sreply.request_delay = 24*3600;
+        return 1;
     }
     
     // pick a data file to delete.  Do this deterministically
@@ -947,10 +954,9 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     // that depends upon this file, before it will be removed by core client.
     //
     
-    strcat(sreply.message, "\nRemoving file ");
-    strcat(sreply.message, fi.name);
-    strcat(sreply.message, " to free up disk space\n");
-    strcpy(sreply.message_priority, "low");
+    sprintf(buf, "Removing file %s to free up disk space", fi.name);
+    USER_MESSAGE um(buf, "low");
+    sreply.insert_message(um);
     sreply.request_delay = 4*3600;
     return 0;
 }   
@@ -959,8 +965,9 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
     char tmpfilename[256];
     FILE *fp;
 
-    if (!boinc_file_exists(trigger))
-	return;
+    if (!boinc_file_exists(trigger)) {
+        return;
+    }
 
     sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
     // use _XXXXXX if you want random filenames rather than deterministic
@@ -971,34 +978,37 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
     if (!fp) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "Found %s, but can't open %s\n", trigger, tmpfilename);
+            "Found %s, but can't open %s\n", trigger, tmpfilename
+        );
         return;
     }
       
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
-        "Found %s, so writing %s\n", trigger, tmpfilename);
+        "Found %s, so writing %s\n", trigger, tmpfilename
+    );
 
     sreply.write(fp);
     fclose(fp);
 
     sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
-        fp=fopen(tmpfilename, "w");
-                                                                                                                                                       
+    fp=fopen(tmpfilename, "w");
+
     if (!fp) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "Found %s, but can't open %s\n", trigger, tmpfilename);
+            "Found %s, but can't open %s\n", trigger, tmpfilename
+        );
         return;
     }
-                                                                                                                                                       
+
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
-        "Found %s, so writing %s\n", trigger, tmpfilename);
-                                                                                                                                                       
+        "Found %s, so writing %s\n", trigger, tmpfilename
+    );
+
     sreq.write(fp);
     fclose(fp);
-
 
     return;
 }
@@ -1026,8 +1036,8 @@ void handle_request(
             get_remote_addr(), sreq.authenticator, sreq.platform_name,
             sreq.core_client_major_version, sreq.core_client_minor_version
         );
-        strcpy(sreply.message, "Incomplete request received.");
-        strcpy(sreply.message_priority, "low");
+        USER_MESSAGE um("Incomplete request received.", "low");
+        sreply.insert_message(um);
         sreply.nucleus_only = true;
     }
 
@@ -1040,8 +1050,9 @@ void handle_request(
     }
 
 #if 1
-    if (sreply.results.size()==0)
+    if (sreply.results.size()==0) {
         debug_sched(sreq, sreply, "../debug_sched");
+    }
 #endif
 
     sreply.write(fout);

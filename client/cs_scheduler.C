@@ -517,9 +517,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     fclose(f);
     if (retval) return retval;
 
-    if (strlen(sr.message)) {
-        sprintf(buf, "Message from server: %s", sr.message);
-        int prio = (!strcmp(sr.message_priority, "high"))?MSG_ERROR:MSG_INFO;
+    for (i=0; i<sr.messages.size(); i++) {
+        USER_MESSAGE& um = sr.messages[i];
+        sprintf(buf, "Message from server: %s", um.message.c_str());
+        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_ERROR:MSG_INFO;
         show_message(project, buf, prio);
     }
 
