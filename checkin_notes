@@ -5069,3 +5069,17 @@ Karl    2003/06/25
       cronjob - complains if anything fails.
 
     ./testbase (new)
+
+Karl    2003/06/26
+    - fixed bug that caused client state to transition to
+      RESULT_FILES_UPLOADING even when file info(s) had errors; now it stays
+      in RESULT_COMPUTE_DONE.
+    - test makefile should rebuild version.py and boinc_db.py if necessary
+    - test_sanity should make sure proxy setup works
+    - test_masterurl_failure
+
+    test/
+        Makefile.am
+        test_sanity.py
+        boinc.py
+        test_masterurl_failure.py

@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -93,40 +93,53 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     int retval;
     double size;
 
+    bool had_error = false;
+
     for (i=0; i<rp->output_files.size(); i++) {
         fip = rp->output_files[i].file_info;
         get_pathname(fip, path);
         retval = file_size(path, size);
         if (retval) {
             // an output file is unexpectedly absent.
-            // 
+            //
             fip->status = retval;
-        } else {
-            if (size > fip->max_nbytes) {
-                msg_printf(at.result->project, MSG_INFO, "Output file %s for result %s exceeds size limit.",
-                    fip->name, at.result->name);
+            had_error = true;
+        } else if (size > fip->max_nbytes) {
+            // Note: this is only checked when the application finishes. there
+            // is also a check_max_disk_exceeded that is checked while the
+            // application is running.
+            msg_printf(rp->project, MSG_INFO, "Output file %s for result %s exceeds size limit.",
+                       fip->name, rp->name);
 
-                fip->delete_file();
-                fip->status = ERR_FILE_TOO_BIG;
+            fip->delete_file();
+            fip->status = ERR_FILE_TOO_BIG;
+            had_error = true;
+        } else {
+            if (!fip->upload_when_present && !fip->sticky) {
+                fip->delete_file();     // sets status to NOT_PRESENT
             } else {
-                if (!fip->upload_when_present && !fip->sticky) {
-                    fip->delete_file();     // sets status to NOT_PRESENT
+                retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+                if (retval) {
+                    fip->status = retval;
+                    had_error = true;
                 } else {
-                    retval = md5_file(path, fip->md5_cksum, fip->nbytes);
-                    if (retval) {
-                        fip->status = retval;
-                    } else {
-                        fip->status = FILE_PRESENT;
-                    }
+                    fip->status = FILE_PRESENT;
                 }
             }
         }
     }
 
-    at.result->is_active = false;
-    at.result->state = RESULT_COMPUTE_DONE;
-    update_avg_cpu(at.result->project);
-    at.result->project->exp_avg_cpu += at.result->final_cpu_time;
+    rp->is_active = false;
+    if (had_error) {
+        // dead-end state indicating we had an error at end of computation;
+        // do not move to RESULT_FILES_UPLOADING
+        rp->state = RESULT_COMPUTE_DONE;
+    } else {
+        // can now upload files.
+        rp->state = RESULT_FILES_UPLOADING;
+    }
+    update_avg_cpu(rp->project);
+    rp->project->exp_avg_cpu += rp->final_cpu_time;
     return 0;
 }
 

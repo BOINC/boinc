@@ -20,6 +20,8 @@ noinst_SCRIPTS = 						\
 
 BUILT_SOURCES = boinc_db.inc boinc_db.py
 
+$(TESTS): version.py boinc_db.py
+
 boinc_db.inc: ../db/boinc_db.h
 	./db_def_to_php < ../db/boinc_db.h > boinc_db.inc
 

@@ -66,20 +66,24 @@ def verbose_sleep(msg, wait):
         verbose_echo(1, msg + ' [sleep ' + ('.'*i).ljust(wait) + ']')
         time.sleep(1)
 
-def shell_call(cmd, failok=False):
+def shell_call(cmd, doexec=False, failok=False):
+    if doexec:
+        os.execl('/bin/sh', 'sh', '-c', cmd)
+        error("Command failed: "+cmd)
+        os._exit(1)
     if os.system(cmd):
         error("Command failed: "+cmd, fatal=(not failok))
         return 1
     return 0
 
-def verbose_shell_call(cmd, failok=False):
+def verbose_shell_call(cmd, doexec=False, failok=False):
     verbose_echo(2, "   "+cmd)
-    return shell_call(cmd, failok)
+    return shell_call(cmd, doexec, failok)
 
-def proxerize(url, t):
+def proxerize(url, t=True):
     if t:
         r = re.compile('http://[^/]*/')
-        return r.sub('http://localhost:080/', url)
+        return r.sub('http://localhost:8080/', url)
     else:
         return url
 
@@ -94,8 +98,10 @@ HTML_DIR     = get_env_var("BOINC_HTML_DIR")
 HOSTS_DIR    = get_env_var("BOINC_HOSTS_DIR")
 
 def use_cgi_proxy():
+    global CGI_URL
     CGI_URL = proxerize(CGI_URL)
 def use_html_proxy():
+    global HTML_URL
     HTML_URL = proxerize(HTML_URL)
 
 def check_exists(file):
@@ -889,23 +895,32 @@ def run_check_all():
     all_projects.check()
     # all_projects.stop()
 
-proxy_pid = 0
-def start_proxy(code):
-    global proxy_pid
-    pid = os.fork()
-    if not pid:
-        os._exit(verbose_shell_call("./testproxy 8080 localhost:80 '$code' 2>testproxy.log"))
-
-    verbose_sleep("Starting proxy server", 1)
-    proxy_pid = pid
-    # check if child process died
-    (pid,status) = os.waitpid(pid, os.WNOHANG)
-    if pid:
-        fatal_error("testproxy failed")
-def stop_proxy():
-    global proxy_pid
-    if proxy_pid:
-        os.kill(2, proxy_pid)
+class Proxy:
+    def __init__(self, code, cgi=0, html=0, start=1):
+        self.pid = 0
+        self.code = code
+        if cgi:   use_cgi_proxy()
+        if html:  use_html_proxy()
+        if start: self.start()
+    def start(self):
+        self.pid = os.fork()
+        if not self.pid:
+            verbose_shell_call("exec ./testproxy 8080 localhost:80 '%s' 2>testproxy.log"%self.code,
+                               doexec=True)
+        verbose_sleep("Starting proxy server", 1)
+        # check if child process died
+        (pid,status) = os.waitpid(self.pid, os.WNOHANG)
+        if pid:
+            fatal_error("testproxy failed")
+        atexit.register(self.stop)
+    def stop(self):
+        verbose_echo(1, "Stopping proxy server")
+        if self.pid:
+            try:
+                os.kill(self.pid, 2)
+            except OSError:
+                verbose_echo(0, "Couldn't kill pid %d" % self.pid)
+            self.pid = 0
 
 def test_msg(msg):
     print

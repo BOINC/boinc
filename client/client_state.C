@@ -1344,18 +1344,20 @@ bool CLIENT_STATE::update_results() {
                 action = true;
             }
             break;
-        case RESULT_FILES_DOWNLOADED:
-            // The transition to COMPUTE_DONE is performed
-            // in app_finished()
-            break;
-        case RESULT_COMPUTE_DONE:
-            // Once the computation has been done, check
-            // that the necessary files have been uploaded
-            // before moving on
-            rp->state = RESULT_FILES_UPLOADING;
-            action = true;
-            break;
+
+            // app_finished() transitions to either RESULT_COMPUTE_DONE or
+            // RESULT_FILES_UPLOADING. RESULT_COMPUTE_DONE is a dead-end state
+            // indicating we had an error at the end of computation.
+
+        // case RESULT_FILES_DOWNLOADED:
+        //     break;
+        // case RESULT_COMPUTE_DONE:
+        //     rp->state = RESULT_FILES_UPLOADING;
+        //     action = true;
+        //     break;
         case RESULT_FILES_UPLOADING:
+            // Once the computation has been done, check that the necessary
+            // files have been uploaded before moving on
             if (rp->is_upload_done()) {
                 rp->ready_to_ack = true;
                 rp->state = RESULT_FILES_UPLOADED;
