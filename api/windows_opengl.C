@@ -60,9 +60,6 @@ extern void MyCreateFont(unsigned int &base, char *fontName, int Size, int weigh
 
 void SetupPixelFormat(HDC hDC);
 
-double starttime;
-double fps=60.;
-
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 BOOL reg_win_class();
 BOOL unreg_win_class();
@@ -168,8 +165,6 @@ void SetMode(int mode) {
 
 	SetTimer(hWnd, 1, 100, NULL);
 
-	starttime=dtime();
-
 	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
 		SetFocus(hWnd);
@@ -260,10 +255,10 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			}
 			vis_render(width,height,dtime(),data,data_size);
 #else
-			throttled_app_render(width, height, dtime());			
+            if (throttled_app_render(width, height, dtime())) {
+		    	SwapBuffers(hDC);
+            }
 #endif
-			starttime=dtime();
-			SwapBuffers(hDC);
 			return 0;
 	}
 

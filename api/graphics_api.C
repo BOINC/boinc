@@ -160,7 +160,7 @@ int boinc_finish_opengl() {
     return 0;
 }
 
-void throttled_app_render(int x, int y, double t) {
+bool throttled_app_render(int x, int y, double t) {
     static double total_render_time = 0;
     static double time_until_render = 0;
     static double last_now = 0;
@@ -212,7 +212,9 @@ void throttled_app_render(int x, int y, double t) {
             boinc_cpu_time(t1, m);
             total_render_time += t1 - t0;
         }
+        return true;
     }
+    return false;
 }
 
 #ifdef HAVE_GL_LIB

@@ -56,7 +56,6 @@
 
 #include "gutil.h"
 
-GLfloat mat_diffuse[] = {0.7, 0.5, 1.0, 0.4};
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
 
@@ -90,8 +89,7 @@ void mode_unshaded() {
     glDepthMask(GL_TRUE);
 }
 
-void mode_ortho()
-{	
+void mode_ortho() {	
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
     glLoadIdentity();
@@ -107,16 +105,14 @@ void mode_ortho()
 			  0.0, 1.0, 0.);      // up is in positive Y direction		
 }
 
-void ortho_done()
-{	
+void ortho_done() {	
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 }
 
-bool get_matrix(double src[16])
-{
+bool get_matrix(double src[16]) {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glGetDoublev(GL_MODELVIEW_MATRIX,src);	
@@ -125,8 +121,7 @@ bool get_matrix(double src[16])
 	return true;
 }
 
-bool get_projection(double src[16])
-{
+bool get_projection(double src[16]) {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glGetDoublev(GL_PROJECTION_MATRIX,src);
@@ -134,22 +129,20 @@ bool get_projection(double src[16])
 	return true;
 }
 
-bool get_viewport(int view[4])
-{
+bool get_viewport(int view[4]) {
 	glMatrixMode(GL_MODELVIEW);
 	glGetIntegerv(GL_VIEWPORT,view);
 	return true;
 }
 
 void get_2d_positions(float p1,float p2,float p3,
-					  double model[16], double proj[16], int viewport[4], double proj_pos[3])
-{
+	double model[16], double proj[16], int viewport[4], double proj_pos[3]
+) {
 	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);	
 }
 
 
-bool get_matrix_invert(float src[16])
-{
+bool get_matrix_invert(float src[16]) {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glGetFloatv(GL_MODELVIEW_MATRIX,src);	
@@ -950,8 +943,7 @@ bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID)
 	return true;
 }
 
-bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID)
-{
+bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID) {
 #ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return false;
@@ -982,6 +974,47 @@ bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID)
 #endif
 	return true;
 }
+
+static int getFileType(char* file) {
+    int l = strlen(file);
+    char f2[64];
+	int i;
+        
+    for(i=l-4;i<l;i++) {
+        f2[i-(l-4)]=file[i];
+    }
+
+    //MessageBox(NULL,f2,"D",0);    
+    
+    for(i=0;i<4;i++) {
+        f2[i]=tolower(f2[i]);
+    }
+
+    if(strncmp(f2,".jpg",4)==0) return IMAGE_TYPE_JPG;
+    else if(strncmp(f2,".ppm",4)==0) return IMAGE_TYPE_PPM;
+    else if(strncmp(f2,".bmp",4)==0) return IMAGE_TYPE_BMP;
+    else if(strncmp(f2,".tga",4)==0) return IMAGE_TYPE_TGA;
+
+    else return -1;
+}
+
+void create_texture(char* filename, int id) {
+    switch (getFileType(filename)) {
+    case IMAGE_TYPE_JPG:
+        CreateTextureJPG(g_Texture, filename, id); 
+        break;
+    case IMAGE_TYPE_PPM:
+        CreateTexturePPM(g_Texture, filename, id);    
+        break;
+    case IMAGE_TYPE_BMP:
+        CreateTextureBMP(g_Texture, filename, id);
+        break;
+    case IMAGE_TYPE_TGA:
+        CreateTextureTGA(g_Texture, filename, id);
+        break;
+    }
+}
+
 
 //text
 UINT listBase[MAX_FONTS];

@@ -16,7 +16,7 @@
 // 
 // Contributor(s):
 //
-
+#include "config.h"
 #include <cctype>
 #include <vector>
 #include <string>
@@ -182,7 +182,6 @@ const xml_entity xml_trans[]= {
 
 #ifdef HAVE_MAP
 #include <map>
-
 
 std::multimap<unsigned char,const char *> encode_map;
 std::map<std::string, unsigned char> decode_map;

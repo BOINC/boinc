@@ -17,7 +17,10 @@
 // Contributor(s):
 //
 
-//using indepenent jpeg group library - jpeglib.lib
+// various utility classes for OpenGL programming,
+// used in Astropulse and SETI@home
+// See also graphics_data.C,h
+
 #ifndef GUTIL_H
 #define GUTIL_H
 
@@ -30,10 +33,6 @@
 #else
 #include <jpeglib.h>
 #endif
-
-// various utility classes for OpenGL programming,
-// used in Astropulse and SETI@home
-// See also graphics_data.C,h
 
 struct COLOR {
     GLfloat r;
@@ -117,25 +116,32 @@ public:
     void add_tick(float x, float yfrac);
 };
 
+// ----- STUFF RELATED TO STARFIELDS
+//
+struct Star {	
+	float x,y,z,v;	
+	Star* next;	
+};
+
+extern void build_stars(int, float);
+extern void update_stars(int, float);
+extern void replaceStar(Star* tmpStar);
+
+
+// ----- STUFF RELATED TO TEXTURES AND IMAGES
+
+#define IMAGE_TYPE_JPG     0
+#define IMAGE_TYPE_PPM      1
+#define IMAGE_TYPE_BMP      2
+#define IMAGE_TYPE_TGA      3
+
 // read a portable pixmap file
 //
 extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
 extern int init_texture(char* filename);
 extern void draw_texture(float* pos, float* size);
 
-//stars
-struct Star
-{	
-	float x,y,z,v;	
-	Star* next;	
-};
-
-extern void build_stars(int,float);
-extern void update_stars(int,float);
-extern void replaceStar(Star* tmpStar);
-
-struct tImageJPG
-{
+struct tImageJPG {
 	int rowSpan;
 	int sizeX;
 	int sizeY;
@@ -145,13 +151,20 @@ struct tImageJPG
 typedef unsigned int UINT;
 
 #define MAX_TEXTURES 16
-#define MAX_FONTS 16
 extern UINT g_Texture[MAX_TEXTURES];
-extern UINT listBase[MAX_FONTS];
 extern bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID);
 extern bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID);
 extern bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID);
 extern bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID);
+extern void create_texture(char* filename, int id);
 extern tImageJPG *LoadJPG(const char *filename);
+
+
+// ----- STUFF RELATED TO FONTS
+//
+#define MAX_FONTS 16
+extern UINT listBase[MAX_FONTS];
+extern void MyCreateFont(unsigned int &base, char *fontName, int Size,int weight);
 extern void print_text(unsigned int base, char *string);
+
 #endif

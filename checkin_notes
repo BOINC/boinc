@@ -6522,3 +6522,17 @@ Karl 2003/10/02
 
     py/
         configxml.py
+
+David  Oct 4 2003
+	- throttled_app_render() returns true iff it rendered anything.
+		This lets the caller do swapbuffers only if needed
+	- app_render() now returns void
+	- added functions that read graphics files (JPEG, PPM, BMP, TGA)
+		and create textures (moved from SETI@home)
+
+	api/
+		graphics_api.C,h
+		gutil.C,h
+		windows_opengl.C
+	lib/
+		xml_util.C
