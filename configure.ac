@@ -43,7 +43,7 @@ Contributor(s):
 AC_REVISION([$Revision$])
 
 AC_SUBST(MAJOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/\..*//'`)
-AC_SUBST(MINOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/.*\.//'`)
+AC_SUBST(MINOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/.*\.0*//'`)
 
 AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number])
 AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
