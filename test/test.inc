@@ -399,19 +399,19 @@ class Project {
 
     function start_make_work($work){
         $result_template_path = realpath($work->result_template);
-        PassThru("cd $this->project_dir/cgi; make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");
+        PassThru("cd $this->project_dir/cgi; ./make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");
     }
 
     // run the validator asynchronously
     //
     function start_validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; validate_test -asynch -app $app->name -quorum $quorum > validate_out");
+        PassThru("cd $this->project_dir/cgi; ./validate_test -asynch -app $app->name -quorum $quorum > validate_out");
     }
 
     // do one pass of validation
     //
     function validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; validate_test -one_pass -app $app->name -quorum $quorum > validate_out");
+        PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum > validate_out");
     }
 
     // this should stop the feeder and any other daemons
