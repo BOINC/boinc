@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "account.h"
 #include "error_numbers.h"
@@ -53,6 +54,7 @@ CLIENT_STATE::CLIENT_STATE() {
     platform_name = HOST;
     exit_after = -1;
     app_started = 0;
+    transfer_rate = 9999999;
 }
 
 int CLIENT_STATE::init() {
@@ -240,7 +242,7 @@ bool CLIENT_STATE::do_something() {
         // respect to the FSM hierarchy
 
         net_xfers->poll(999999, nbytes);
-        if (nbytes) { action=true; print_log("net_xfers\n"); }
+        if (nbytes) { sleep(1); action=true; print_log("net_xfers\n"); }
 
         x = http_ops->poll();
         if (x) {action=true; print_log("http_ops::poll\n"); }
@@ -859,6 +861,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             giveup_after = atoi(argv[++i]);
             continue;
         };
+	
+	if (!strcmp(argv[i], "-limit_transfer_rate")) {
+            transfer_rate= atoi(argv[++i]);
+            continue;
+        };
+	
     }
 }
 
