@@ -221,7 +221,6 @@ AC_CONFIG_FILES([Makefile
 		 boincglut/lib/glut/Makefile
                  apps/Makefile
                  client/Makefile
-                 clientgui/Makefile
                  db/Makefile
                  lib/Makefile
                  sched/Makefile

@@ -18673,3 +18673,9 @@ David  20 Oct 2004
 
     api/
         graphics_api.C
+
+David  20 Oct 2004
+    - removed clientgui stuff from build
+
+    Makefile.am
+    configure.ac
