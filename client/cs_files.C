@@ -50,6 +50,9 @@ bool CLIENT_STATE::start_new_file_xfer() {
 void CLIENT_STATE::trunc_stderr_stdout() {
     double f_size;
 
+    fflush(stdout);
+    fflush(stderr);
+
     // If the stderr.txt or stdout.txt files are too big, reset them
     // TODO: should we tell the user we're resetting these?
     file_size(STDERR_FILE_NAME, f_size);

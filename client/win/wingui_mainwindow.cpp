@@ -1579,6 +1579,23 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 }
 
 //////////
+// CMainWindow::CheckIdle
+// arguments:	void
+// returns:		void
+// function:	check user's idle time for suspension of apps
+void CMainWindow::CheckIdle() {
+	if (gstate.global_prefs.idle_time_to_run > 0) {
+		if (GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
+			gstate.user_idle = true;
+		} else {
+			gstate.user_idle = false;
+		}
+	} else {
+		gstate.user_idle = true;
+	}
+}
+
+//////////
 // CMainWindow::OnTimer
 // arguments:	uEventID: timer's id
 // returns:		void
@@ -1592,25 +1609,12 @@ void CMainWindow::OnTimer(UINT uEventID)
 
 		// update state and gui
 		while(gstate.do_something());
-		NetCheck(); // need to check if network connection can be terminated
-		fflush(stdout);
-		fflush(stderr);
+		NetCheck(); // check if network connection can be terminated
 		if(!IsSuspended()) {
-			// check user's idle time for suspension of apps
-			if (gstate.global_prefs.idle_time_to_run > 0) {
-				if (GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
-					gstate.user_idle = true;
-				} else {
-					gstate.user_idle = false;
-				}
-			} else {
-				gstate.user_idle = true;
-			}
-
+			CheckIdle();
 			UpdateGUI(&gstate);
+			gstate.trunc_stderr_stdout();
 		}
-
-		gstate.trunc_stderr_stdout();
 
 		// Start the timer again
 		m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
@@ -1626,4 +1630,5 @@ void delete_curtain() {
 }
 
 void project_add_failed(PROJECT* project) {
+	// TODO: To be filled in
 }

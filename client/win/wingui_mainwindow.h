@@ -114,6 +114,7 @@ protected:
 	UINT					m_uEndSSMsg;			// ID of end screensaver request message
 
 	COLORREF				GetPieColor(int);
+	void					CheckIdle();
     void					ShowTab(int);
     void					SetStatusIcon(DWORD);
     void					SaveListControls();
