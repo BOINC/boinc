@@ -8,7 +8,7 @@ all:
 	cd lib; make; cd ..; \
 	cd api; make; cd ..; \
 	cd apps; make; cd ..; \
-	cd client; $(srcdir)client/configure make; cd ..; \
+	cd client; $(srcdir)/client/configure make; cd ..; \
 	cd sched; make; cd ..; \
 	cd tools; make; cd ..;
 
