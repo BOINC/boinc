@@ -1,4 +1,9 @@
 <?php {
+    require_once("../inc/cache.inc");
+    $sort_by = $_GET["sort_by"];
+    if (!$sort_by) $sort_by = "expavg_credit";
+    $cache_args = "sort_by=$sort_by";
+    start_cache(3600, $cache_args);
 
     require_once("../inc/db.inc");
     require_once("../inc/util.inc");
@@ -8,7 +13,6 @@
     db_init();
 
     page_head("Top teams");
-    $sort_by = $_GET["sort_by"];
     if ($sort_by == "total_credit") {
         $sort_by = "total_credit desc, total_credit desc";
     } else {
@@ -26,5 +30,7 @@
     mysql_free_result($result);
     echo "</table>\n<p>\n";
     page_tail();
+
+    end_cache($cache_args);
 
 } ?>

@@ -56,14 +56,15 @@ if (project_is_stopped()) {
     project_community();
     echo "
         </ul>
-        <h3><a href=stats.php>Project totals and leader boards</a></h3>
+        <h3>Project totals and leader boards</h3>
     ";
-    if (false) {
+    if (true) {
         echo "
             <ul>
             <li><a href=top_users.php>Top users</a>
             <li><a href=top_hosts.php>Top hosts</a>
             <li><a href=top_teams.php>Top teams</a>
+            <li><a href=stats.php>Other statistics</a></h3>
             </ul>
         ";
     }

@@ -1,15 +1,25 @@
 <?php
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/host.inc");
-
-    $n = 10;
+    require_once("../inc/cache.inc");
+    $sort_by = $_GET["sort_by"];
+    if (!$sort_by) $sort_by = "expavg_credit";
     $offset = $_GET["offset"];
     if (!$offset) $offset=0;
 
+    // don't cache offsets over 1000.  prevents DOS attack
+    //
+    if ($offset < 1000) {
+        $cache_args = "sort_by=$sort_by&offset=$offset";
+        start_cache(3600, $cache_args);
+    }
+
+    require_once("../inc/util.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/host.inc");
+
+    $n = 10;
+
     db_init();
-    page_head("Top computers");
-    $sort_by = $_GET["sort_by"];
+    page_head("Top computers", null, null, false);
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc, total_credit desc";
     } else {
@@ -26,10 +36,14 @@
     echo "</table>\n";
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=top_hosts?sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
+        echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
 
     }
     $new_offset = $offset + $n;
-    echo "<a href=top_hosts?sort_by=$sort_by&offset=$new_offset>Next $n</a>";
+    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next $n</a>";
     page_tail();
+
+    if ($offset < 1000) {
+        end_cache($cache_args);
+    }
 ?>

@@ -11585,3 +11585,18 @@ David  April 13 2004
     tools
         backend_lib.C
         create_work.C
+
+David  April 14 2004
+    - Added code (from Janus Kristensen) to cache web pages.
+        Restored leader boards (users/teams/hosts)
+        and made them cached with a refresh time of 1 hour
+
+    html/
+        inc/
+            cache.inc (new)
+        user/
+            index.php
+            stats.php
+            top_hosts.php
+            top_teams.php
+            top_users.php

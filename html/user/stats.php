@@ -7,10 +7,10 @@ page_head('Project statistics');
 echo "
 <h2>Project statistics</h2>
 <p>
-<b>Leader boards</b> (showing which
-users, teams, and computers have done the most work)
-are not directly available on this web site.
-Instead, the raw data is available as compressed XML files.
+Data describing the users, teams, and computers
+participating in this project,
+and how much work each has done,
+is available as compressed XML files.
 The format is described
 <a href=http://boinc.berkeley.edu/db_dump.php>here</a>,
 and the files are
