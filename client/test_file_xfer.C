@@ -25,37 +25,68 @@
 #include "util.h"
 
 #define DOWNLOAD_URL "http://localhost.localdomain/download/input"
-#define UPLOAD_URL "http://localhost.localdomain/upload/test_out.html"
+#define UPLOAD_URL "http://localhost.localdomain/boinc-cgi/file_upload_handler"
+
 
 int main() {
     NET_XFER_SET nxs;
     HTTP_OP_SET hos(&nxs);
     FILE_XFER_SET fxs(&hos);
     int retval, n;
+    FILE_XFER* fx1=0, *fx2 = 0;
+    bool do_upload = true;
+    bool do_download = false;
+    FILE_INFO fi1, fi2;
+    STRING256 str;
 
-    FILE_XFER* fx1 = new FILE_XFER;
-    retval = fx1->init_download(DOWNLOAD_URL, "test_fx_out");
-    if (retval) {
-        printf("init_download failed\n");
-        exit(1);
-    }
-    FILE_XFER* fx2= new FILE_XFER;
-    retval = fx2->init_upload(UPLOAD_URL, "test_fx_in");
-    if (retval) {
-        printf("init_upload failed\n");
-        exit(1);
+    if (do_download) {
+        fx1 = new FILE_XFER;
+        memset(&fi1, 0, sizeof(fi1));
+        strcpy(fi1.name, "test_fx_out");
+        strcpy(str.text, DOWNLOAD_URL);
+        fi1.urls.push_back(str);
+        retval = fx1->init_download(fi1);
+        if (retval) {
+            printf("init_download failed\n");
+            exit(1);
+        }
+        retval = fxs.insert(fx1);
+        if (retval) {
+            printf("insert failed\n");
+            exit(1);
+        }
     }
 
-    retval = fxs.insert(fx1);
-    if (retval) {
-        printf("insert failed\n");
-        exit(1);
+    if (do_upload) {
+        fx2= new FILE_XFER;
+        memset(&fi2, 0, sizeof(fi1));
+        strcpy(fi2.name, "test_fx_in");
+        strcpy(str.text, UPLOAD_URL);
+        fi2.urls.push_back(str);
+        fi2.signed_xml = \
+            "    <name>uc_wu_1_0</name>\n"
+            "    <generated_locally/>\n"
+            "    <upload_when_present/>\n"
+            "    <max_nbytes>10000</max_nbytes>\n"
+            "    <url>http://localhost/upload/uc_wu_1_0</url>\n";
+        fi2.signature = \
+            "9d1f8152371c67af1d26b25db104014dbf7e9ad3b61fc8334ee06e01c7529b1a\n"
+            "7681c3e7c7828525361a01040d1197147286085231ee5d2554e59ecb40b3e6a5\n"
+            "afbaf00ff15bc5b1acf5aa6318bc84f2671a9502ada9c2ce37a9c45480a0e3b7\n"
+            "b3dcb6c3bf09feaebc81b76063ef12b0031cf041eaef811166839533067b74f6\n"
+            ".\n";
+        retval = fx2->init_upload(fi2);
+        if (retval) {
+            printf("init_upload failed\n");
+            exit(1);
+        }
+        retval = fxs.insert(fx2);
+        if (retval) {
+            printf("insert failed\n");
+            exit(1);
+        }
     }
-    retval = fxs.insert(fx2);
-    if (retval) {
-        printf("insert failed\n");
-        exit(1);
-    }
+
 
     while (1) {
 	nxs.poll(100000, n);

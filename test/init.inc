@@ -23,6 +23,7 @@ $BOINC_UPLOAD_DIR = null;
 $BOINC_PLATFORM = null;
 $BOINC_EMAIL = null;
 $BOINC_URL_BASE = null;
+$BOINC_KEY_DIR = null;
 
 function check_env_vars() {
     global $BOINC_DOWNLOAD_DIR;
@@ -30,6 +31,7 @@ function check_env_vars() {
     global $BOINC_PLATFORM;
     global $BOINC_EMAIL;
     global $BOINC_URL_BASE;
+    global $BOINC_KEY_DIR;
 
     $bad = false;
     $BOINC_DOWNLOAD_DIR = getenv("BOINC_DOWNLOAD_DIR");
@@ -57,8 +59,14 @@ function check_env_vars() {
         echo "Must define BOINC_URL_BASE\n";
         $bad = true;
     }
+    $BOINC_KEY_DIR = getenv("BOINC_KEY_DIR");
+    if ($BOINC_KEY_DIR == null) {
+        echo "Must define BOINC_KEY_DIR\n";
+        $bad = true;
+    }
     if ($bad) exit();
 }
+
 function clear_data_dirs() {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_UPLOAD_DIR;
@@ -73,10 +81,16 @@ function clear_data_dirs() {
         echo "Must define BOINC_UPLOAD_DIR\n";
         $bad = true;
     }
+    $BOINC_KEY_DIR = getenv("BOINC_KEY_DIR");
+    if ($BOINC_KEY_DIR == null) {
+        echo "Must define BOINC_KEY_DIR\n";
+        $bad = true;
+    }
     if ($bad) exit();
  
     PassThru("rm -f $BOINC_DOWNLOAD_DIR/*");
     PassThru("rm -f $BOINC_UPLOAD_DIR/*");
+    PassThru("rm -f $BOINC_KEY_DIR/*");
 }
 
 function init_client_dirs($prefs_file) {
@@ -143,7 +157,13 @@ function add_app($name) {
 }
 
 function create_work($x) {
-    PassThru("../tools/create_work $x");
+    global $BOINC_KEY_DIR;
+    PassThru("../tools/create_work -keyfile $BOINC_KEY_DIR/upload_private $x");
+}
+
+function create_keys() {
+    global $BOINC_KEY_DIR;
+    PassThru("../lib/crypt_prog -genkey 1024 $BOINC_KEY_DIR/upload_private $BOINC_KEY_DIR/upload_public");
 }
 
 function run_client($args) {

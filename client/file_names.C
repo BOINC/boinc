@@ -71,8 +71,15 @@ void get_pathname(FILE_INFO* fip, char* path) {
     PROJECT* p = fip->project;
     char buf[256];
 
-    escape_url(p->master_url, buf);
-    sprintf(path, "%s/%s", buf, fip->name);
+    // for testing purposes, it's handy to allow a FILE_INFO without
+    // an associated PROJECT.
+    //
+    if (p) {
+        escape_url(p->master_url, buf);
+        sprintf(path, "%s/%s", buf, fip->name);
+    } else {
+        strcpy(path, fip->name);
+    }
 }
 
 void get_slot_dir(int slot, char* path) {

@@ -28,6 +28,7 @@
 //  -wu_template filename
 //  -result_template filename
 //  -nresults n
+//  -keyfile path
 //  infile1 infile2 ...
 //
 // Create a workunit and results.
@@ -43,6 +44,7 @@
 #include <time.h>
 
 #include "db.h"
+#include "crypt.h"
 #include "backend_lib.h"
 
 int main(int argc, char** argv) {
@@ -52,8 +54,10 @@ int main(int argc, char** argv) {
     char wu_template[MAX_BLOB_SIZE];
     char result_template[MAX_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256];
+    char keyfile[256];
     char** infiles;
     int i, ninfiles, nresults;
+    R_RSA_PRIVATE_KEY key;
     char* boinc_download_dir = getenv("BOINC_DOWNLOAD_DIR");
 
     srand(time(NULL));
@@ -68,6 +72,7 @@ int main(int argc, char** argv) {
     strcpy(wu_template_file, "");
     strcpy(result_template_file, "");
     strcpy(app.name, "");
+    strcpy(keyfile, "");
     nresults = 1;
     i = 1;
     ninfiles = 0;
@@ -101,7 +106,10 @@ int main(int argc, char** argv) {
             wu.rsc_memory = atof(argv[i+1]);
         } else if (!strcmp(argv[i], "-rsc_disk")) {
             i++;
-            wu.rsc_disk = atof(argv[i+1]);
+            wu.rsc_disk = atof(argv[i]);
+        } else if (!strcmp(argv[i], "-keyfile")) {
+            i++;
+            strcpy(keyfile, argv[i]);
         } else if (!strcmp(argv[i], "-wu_name_rand")) {
             i++;
             sprintf(wu.name, "%s_%d", argv[i], rand());
@@ -124,25 +132,51 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = read_file(wu_template_file, wu_template);
-    if (retval) {fprintf(stderr, "can't open WU template\n"); exit(1); }
-    retval = read_file(result_template_file, result_template);
-    if (retval) {fprintf(stderr, "can't open result template\n"); exit(1); }
+    retval = read_filename(wu_template_file, wu_template);
+    if (retval) {
+        fprintf(stderr, "can't open WU template\n");
+        exit(1);
+    }
 
-    if (wu.dynamic_results) strcpy(app.result_xml_template, result_template);
-    retval = db_app_update(app);
-    if (retval) printf("db_app_update: %d\n", retval);
+#if 0
+    retval = read_file(result_template_file, result_template);
+    if (retval) {
+        fprintf(stderr, "can't open result template\n");
+        exit(1);
+    }
+#endif
+
+    if (wu.dynamic_results) {
+        strcpy(app.result_xml_template, result_template);
+        retval = db_app_update(app);
+        if (retval) printf("db_app_update: %d\n", retval);
+    }
 
     wu.appid = app.id;
+
+
+    FILE* fkey = fopen(keyfile, "r");
+    if (!fkey) {
+        printf("create_work: can't open key file (%s)\n", keyfile);
+        exit(1);
+    }
+    retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
+    fclose(fkey);
+    if (retval) {
+        printf("can't parse key\n");
+        exit(1);
+    }
+
     retval = create_work(
         wu,
         wu_template,
-        result_template,
+        result_template_file,
         nresults,
         boinc_download_dir,
         infiles,
-        ninfiles
+        ninfiles,
+        key
     );
-    if (retval) printf("create_work: %d\n", retval);
+    if (retval) fprintf(stderr, "create_work: %d\n", retval);
     db_close();
 }

@@ -104,6 +104,7 @@ int main(int argc, char** argv) {
             boinc_sleep(1);
         }
         if (cs.time_to_exit()) {
+            printf("time to exit\n");
             break;
         }
     }

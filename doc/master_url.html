@@ -1,0 +1,27 @@
+<h2>The master URL</h2>
+
+<p>
+Each project is identified by a <b>master URL</b>.
+This URL is used to publicize the project.
+The <b>master page</b> at this URL has two functions.
+<ul>
+<li>
+It is the home page of the project;
+when viewed in a browser it describes the project
+and contains links for registering
+and for downloading the core client.
+<li>
+It contains XML tags of the form
+<pre>
+&lt;scheduler>http:host.domain.edu/cgi/scheduler&lt;scheduler>
+&lt;scheduler>http:host2.domain.edu/cgi/scheduler&lt;scheduler>
+</pre>
+that give the URLs of the project's scheduling servers.
+These tags can be embedded within HTML comments.
+The BOINC core client reads and parses the master page
+to find scheduler servers.
+If it is unable to connect to any scheduler server for a project,
+it rereads the master page.
+</ul>
+This mechanism lets a project change the locations of its scheduling servers,
+or add new servers.

@@ -167,7 +167,7 @@ void add_user() {
     strcpy(user.country, "United States");
     strcpy(user.postal_code, "94703");
     if (prefs_file) {
-        retval = read_file(prefs_file, user.prefs);
+        retval = read_filename(prefs_file, user.prefs);
         if (retval) {
             printf("read_file: %s", prefs_file);
             return;

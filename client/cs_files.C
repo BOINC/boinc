@@ -54,8 +54,8 @@ bool CLIENT_STATE::start_file_xfers() {
         fxp = fip->file_xfer;
         if (!fip->generated_locally && !fip->file_present && !fxp) {
             fxp = new FILE_XFER;
-            get_pathname(fip, pathname);
-            fxp->init_download(fip->urls[0].text, pathname);
+            //get_pathname(fip, pathname);
+            fxp->init_download(*fip);
             retval = file_xfers->insert(fxp);
             if (retval) {
                 fprintf(stderr,
@@ -66,8 +66,8 @@ bool CLIENT_STATE::start_file_xfers() {
                 fip->file_xfer = fxp;
                 if (log_flags.file_xfer) {
                     printf(
-                        "started download of %s to %s\n",
-                        fip->urls[0].text, pathname
+                        "started download of %s\n",
+                        fip->urls[0].text
                     );
                 }
             }
@@ -77,8 +77,7 @@ bool CLIENT_STATE::start_file_xfers() {
             && !fip->uploaded && !fxp
         ) {
             fxp = new FILE_XFER;
-            get_pathname(fip, pathname);
-            fxp->init_upload( fip->urls[0].text, pathname);
+            fxp->init_upload(*fip);
             retval = file_xfers->insert(fxp);
             if (retval) {
                 fprintf(stderr,
@@ -88,10 +87,7 @@ bool CLIENT_STATE::start_file_xfers() {
             } else {
                 fip->file_xfer = fxp;
                 if (log_flags.file_xfer) {
-                    printf(
-                        "started upload of %s to %s\n",
-                        pathname, fip->urls[0].text
-                    );
+                    printf("started upload to %s\n", fip->urls[0].text);
                 }
             }
             action = true;

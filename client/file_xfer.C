@@ -20,6 +20,7 @@
 #include "windows_cpp.h"
 
 #include "util.h"
+#include "file_names.h"
 #include "log_flags.h"
 #include "file_xfer.h"
 
@@ -31,12 +32,44 @@ FILE_XFER::FILE_XFER() {
 FILE_XFER::~FILE_XFER() {
 }
 
+#if 0
 int FILE_XFER::init_download(char* url, char* outfile) {
     return HTTP_OP::init_get(url, outfile);
 }
 
 int FILE_XFER::init_upload(char* url, char* infile) {
     return HTTP_OP::init_put(url, infile);
+}
+#endif
+
+int FILE_XFER::init_download(FILE_INFO& file_info) {
+    fip = &file_info;
+    get_pathname(fip, pathname);
+    return HTTP_OP::init_get((char*)(&fip->urls[0]), pathname);
+}
+
+// for uploads, we need to build a header with signature etc.
+// (see file_upload_handler.C for a spec)
+// Do this in memory.
+//
+int FILE_XFER::init_upload(FILE_INFO& file_info) {
+    fip = &file_info;
+    get_pathname(fip, pathname);
+    sprintf(header,
+        "<file_info>\n"
+        "%s"
+        "<signature>\n"
+        "%s"
+        "</signature>\n"
+        "</file_info>\n"
+        "<nbytes>%f</nbytes>\n"
+        "<offset>0</offset>\n"
+        "<data>\n",
+        file_info.signed_xml,
+        file_info.signature,
+        file_info.nbytes
+    );
+    return HTTP_OP::init_post2((char*)(&fip->urls[0]), header, pathname, 0);
 }
 
 double FILE_XFER::elapsed_time() {

@@ -21,6 +21,7 @@
 
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
 
 #ifdef _WIN32
 #include "winsock.h"
@@ -35,7 +36,7 @@
 
 #define HTTP_BLOCKSIZE  4096
 
-void parse_url(char* url, char* host, char* file) {
+static void parse_url(char* url, char* host, char* file) {
     char* p;
     char buf[256];
 
@@ -55,7 +56,9 @@ void parse_url(char* url, char* host, char* file) {
 // We use 1.0 so we don't have to count bytes.
 //
 
-void http_get_request_header(char* buf, char* host, char* file, int offset) {
+static void http_get_request_header(
+    char* buf, char* host, char* file, int offset
+) {
     if (offset) {
         sprintf(buf,
             "GET /%s;byte-range %d- HTTP/1.0\015\012"
@@ -79,7 +82,7 @@ void http_get_request_header(char* buf, char* host, char* file, int offset) {
     }
 }
 
-void http_head_request_header(char* buf, char* host, char* file) {
+static void http_head_request_header(char* buf, char* host, char* file) {
     sprintf(buf,
         "HEAD /%s HTTP/1.0\015\012"
         "User-Agent: BOINC client\015\012"
@@ -90,7 +93,9 @@ void http_head_request_header(char* buf, char* host, char* file) {
     );
 }
 
-void http_post_request_header(char* buf, char* host, char* file, int size) {
+static void http_post_request_header(
+    char* buf, char* host, char* file, int size
+) {
     sprintf(buf,
         "POST /%s HTTP/1.0\015\012"
         "Pragma: no-cache\015\012"
@@ -103,6 +108,7 @@ void http_post_request_header(char* buf, char* host, char* file, int size) {
     );
 }
 
+#if 0
 void http_put_request_header(
     char* buf, char* host, char* file, int size, int offset
 ) {
@@ -132,20 +138,17 @@ void http_put_request_header(
         );
     }
 }
+#endif
 
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
-    int i;
+    int i, n;
     char buf[1024], *p;
 
     memset(buf, 0, sizeof(buf));
     header.content_length = 0;
     header.status = 404;        // default to failure
     for (i=0; i<1024; i++) {
-#ifdef _WIN32
-        recv(socket, buf+i, 1, 0);
-#else
-        read(socket, buf+i, 1);
-#endif
+        n = recv(socket, buf+i, 1, 0);
         if (strstr(buf, "\r\n\r\n") || strstr(buf, "\n\n")) {
             if (log_flags.http_debug) printf("reply header:\n%s", buf);
             p = strchr(buf, ' ');
@@ -162,6 +165,16 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     return 1;
 }
 
+static int read_reply(int socket, char* buf, int len) {
+    int i, n;
+    for (i=0; i<len-1; i++) {
+        n = recv(socket, buf+i, 1, 0);
+        if (n != 1) break;
+    }
+    buf[i] = 0;
+    return 0;
+}
+
 HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
 }
@@ -174,16 +187,18 @@ int HTTP_OP::init_head(char* url) {
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     http_op_type = HTTP_OP_HEAD;
     http_op_state = HTTP_STATE_CONNECTING;
+    http_head_request_header(request_header, hostname, filename);
     return 0;
 }
 
 int HTTP_OP::init_get(char* url, char* out, int off) {
-    offset = off;
+    file_offset = off;
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     strcpy(outfile, out);
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
+    http_get_request_header(request_header, hostname, filename, (int)file_offset);
     return 0;
 }
 
@@ -198,9 +213,35 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     if (retval) return retval;
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
+    http_post_request_header(
+        request_header, hostname, filename, content_length
+    );
     return 0;
 }
 
+int HTTP_OP::init_post2(
+    char* url, char* r1, char* in, double offset
+) {
+    int retval;
+
+    parse_url(url, hostname, filename);
+    NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
+    req1 = r1;
+    strcpy(infile, in);
+    file_offset = offset;
+    retval = file_size(infile, content_length);
+    if (retval) return retval;
+    content_length -= (int)offset;
+    content_length += strlen(req1);
+    http_op_type = HTTP_OP_POST2;
+    http_op_state = HTTP_STATE_CONNECTING;
+    http_post_request_header(
+        request_header, hostname, filename, content_length
+    );
+    return 0;
+}
+
+#if 0
 int HTTP_OP::init_put(char* url, char* in, int off) {
     int retval;
 
@@ -212,8 +253,12 @@ int HTTP_OP::init_put(char* url, char* in, int off) {
     if (retval) return retval;
     http_op_type = HTTP_OP_PUT;
     http_op_state = HTTP_STATE_CONNECTING;
+    http_put_request_header(
+        request_header, hostname, filename, content_length, offset
+    );
     return 0;
 }
+#endif
 
 bool HTTP_OP::http_op_done() {
     return (http_op_state == HTTP_STATE_DONE);
@@ -233,7 +278,6 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
 
 bool HTTP_OP_SET::poll() {
     unsigned int i;
-    char hdr[256];
     HTTP_OP* htp;
     int n;
     bool action = false;
@@ -251,36 +295,14 @@ bool HTTP_OP_SET::poll() {
         case HTTP_STATE_REQUEST_HEADER:
             if (htp->io_ready) {
                 action = true;
-                switch(htp->http_op_type) {
-                case HTTP_OP_POST:
-                    http_post_request_header(
-                        hdr, htp->hostname, htp->filename, htp->content_length
-                    );
-                    break;
-                case HTTP_OP_GET:
-                    http_get_request_header(hdr, htp->hostname, htp->filename, htp->offset);
-                    break;
-                case HTTP_OP_HEAD:
-                    http_head_request_header(hdr, htp->hostname, htp->filename);
-                    break;
-                case HTTP_OP_PUT:
-                    http_put_request_header(
-                        hdr, htp->hostname, htp->filename, htp->content_length, htp->offset
-                    );
-                    break;
-                }
-#ifdef _WIN32
-                n = send(htp->socket, hdr, strlen(hdr), 0);
-#else
-                n = write(htp->socket, hdr, strlen(hdr));
-#endif
+                n = send(htp->socket, htp->request_header, strlen(htp->request_header), 0);
                 if (log_flags.http_debug) {
                     printf("wrote HTTP header: %d bytes\n", n);
                 }
                 htp->io_ready = false;
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST:
-                case HTTP_OP_PUT:
+                //case HTTP_OP_PUT:
                     htp->http_op_state = HTTP_STATE_REQUEST_BODY;
                     htp->file = fopen(htp->infile, "r");
                     if (!htp->file) {
@@ -298,7 +320,28 @@ bool HTTP_OP_SET::poll() {
                     htp->want_upload = false;
                     htp->want_download = true;
                     break;
+                case HTTP_OP_POST2:
+                    htp->http_op_state = HTTP_STATE_REQUEST_BODY1;
+                    break;
                 }
+            }
+            break;
+        case HTTP_STATE_REQUEST_BODY1:
+            if (htp->io_ready) {
+                action = true;
+                n = send(htp->socket, htp->req1, strlen(htp->req1), 0);
+                htp->http_op_state = HTTP_STATE_REQUEST_BODY;
+                htp->file = fopen(htp->infile, "r");
+                if (!htp->file) {
+                    fprintf(stderr, "HTTP_OP: no input file %s\n", htp->infile);
+                    htp->io_done = true;
+                    htp->http_op_retval = ERR_FOPEN;
+                    htp->http_op_state = HTTP_STATE_DONE;
+                    break;
+                }
+                fseek(htp->file, (long)htp->file_offset, SEEK_SET);
+                htp->io_ready = false;
+                htp->do_file_io = true;
             }
             break;
         case HTTP_STATE_REQUEST_BODY:
@@ -313,6 +356,7 @@ bool HTTP_OP_SET::poll() {
                 htp->do_file_io = false;
                 htp->want_upload = false;
                 htp->want_download = true;
+                htp->io_ready = false;
             }
         case HTTP_STATE_REPLY_HEADER:
             if (htp->io_ready) {
@@ -349,22 +393,35 @@ bool HTTP_OP_SET::poll() {
                     }
                     htp->do_file_io = true;
                     break;
+                case HTTP_OP_POST2:
+                    htp->http_op_state = HTTP_STATE_REPLY_BODY;
+                    htp->io_ready = false;
+                    break;
+#if 0
                 case HTTP_OP_PUT:
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = 0;
+#endif
                 }
             }
             break;
         case HTTP_STATE_REPLY_BODY:
             if (htp->io_done) {
-                action = true;
+                switch(htp->http_op_type) {
+                case HTTP_OP_POST2:
+                    read_reply(htp->socket, htp->req1, 256);
+                    break;
+                default:
+                    action = true;
+                    fclose(htp->file);
+                    htp->file = 0;
+                    break;
+                }
                 if (log_flags.http_debug) printf("got reply body\n");
-                fclose(htp->file);
-                htp->file = 0;
                 htp->http_op_state = HTTP_STATE_DONE;
                 htp->http_op_retval = 0;
-                break;
             }
+            break;
         }
     }
     return action;

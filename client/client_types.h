@@ -35,6 +35,7 @@
 #define STDERR_MAX_LEN 4096
 
 class FILE_XFER;
+class RESULT;
 
 struct STRING256 {
     char text[256];
@@ -85,8 +86,8 @@ struct APP {
 class FILE_INFO {
 public:
     char name[256];
-    //char url[256];          // TODO: allow multiple URLs
     char md5_cksum[33];
+    double max_nbytes;
     double nbytes;
     bool generated_locally; // file is produced by app
     bool file_present;
@@ -95,13 +96,16 @@ public:
     bool upload_when_present;
     bool sticky;            // don't delete unless instructed to do so
     FILE_XFER* file_xfer;   // nonzero if in the process of being up/downloaded
+    RESULT* result;         // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
     vector<STRING256> urls;
+    char* signed_xml;
+    char* signature;
 
     FILE_INFO();
     ~FILE_INFO();
-    int parse(FILE*);
+    int parse(FILE*, bool from_server);
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file
 };
@@ -168,7 +172,10 @@ struct RESULT {
     WORKUNIT* wup;
     PROJECT* project;
 
-    int parse(FILE*, char* end_tag);
+    void clear();
+    int parse_server(FILE*);
+    int parse_state(FILE*);
+    int parse_ack(FILE*);
     int write(FILE*, bool to_server);
     bool is_upload_done();    // files uploaded?
 };

@@ -1,14 +1,10 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#include "rsaeuro.h"
-extern "C" {
-#include "rsa.h"
-}
 #include "md5_file.h"
 #include "crypt.h"
 
-// print some data in hex notation.
+// write some data in hex notation.
 // NOTE: since length may not be known to the reader,
 // we follow the data with a non-hex character '.'
 //
@@ -23,6 +19,22 @@ int print_hex_data(FILE* f, DATA_BLOCK& x) {
     fprintf(f, ".\n");
 }
 
+// same, but write to buffer
+//
+int sprint_hex_data(char* p, DATA_BLOCK& x) {
+    int i;
+    char buf[16];
+
+    strcpy(p, "");
+    for (i=0; i<x.len; i++) {
+        sprintf(buf, "%02x", x.data[i]);
+        strcat(p, buf);
+        if (i%32==31) strcat(p, "\n");
+    }
+    if (x.len%32 != 0) strcat(p, "\n");
+    strcat(p, ".\n");
+}
+
 // scan data in hex notation.
 // stop when you reach a non-parsed character.
 // NOTE: buffer must be big enough.
@@ -34,6 +46,21 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
         n = fscanf(f, "%2x", x.data+x.len);
         if (n <= 0) break;
         x.len++;
+    }
+    return 0;
+}
+
+// same, but read from buffer
+//
+int sscan_hex_data(char* p, DATA_BLOCK& x) {
+    int n;
+    x.len = 0;
+    while (1) {
+        n = sscanf(p, "%2x", x.data+x.len);
+        if (n <= 0) break;
+        x.len++;
+        p += 2;
+        if (*p == '\n') p++;
     }
     return 0;
 }
@@ -52,12 +79,13 @@ int print_key_hex(FILE* f, KEY* key, int size) {
 }
 
 int scan_key_hex(FILE* f, KEY* key, int size) {
-    int len, i;
+    int len, i, n;
 
     fscanf(f, "%d", &key->bits);
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
-        fscanf(f, "%2x", key->data+i);
+        fscanf(f, "%2x", &n);
+        key->data[i] = n;
     }
     fscanf(f, ".");
     return 0;
@@ -72,14 +100,15 @@ int encrypt_private(
     R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out,
     int& nbytes_encrypted
 ) {
-    int retval, n;
+    int retval, n, modulus_len;
+    modulus_len = (key.bits+7)/8;
     n = in.len;
-    if (n >= key.bits-11) {
-        n = key.bits-11;
+    if (n >= modulus_len-11) {
+        n = modulus_len-11;
     }
     retval = RSAPrivateEncrypt(out.data, &out.len, in.data, n, &key);
-    if (retval) return retval;
-    nbytes_encrypted = n;
+    if (retval ) return retval;
+    nbytes_encrypted = retval;
     return 0;
 }
 
@@ -88,7 +117,7 @@ int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
 }
 
 int sign_file(char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
-    char md5_buf[64];
+    char md5_buf[MD5_LEN];
     double file_length;
     DATA_BLOCK in_block;
     int retval, n;
@@ -102,10 +131,26 @@ int sign_file(char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
     return 0;
 }
 
+int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
+    char md5_buf[MD5_LEN];
+    int retval, n;
+    DATA_BLOCK in_block;
+
+    md5_block(data_block.data, data_block.len, md5_buf);
+    in_block.data = (unsigned char*)md5_buf;
+    in_block.len = strlen(md5_buf);
+    retval = encrypt_private(key, in_block, signature, n);
+    if (retval) {
+        printf("sign_block: encrypt_private returned %d\n", retval);
+        return retval;
+    }
+    return 0;
+}
+
 int verify_file(
     char* path, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
 ) {
-    char md5_buf[64], clear_buf[256];
+    char md5_buf[MD5_LEN], clear_buf[256];
     double file_length;
     int n, retval;
     DATA_BLOCK clear_signature;
@@ -113,6 +158,30 @@ int verify_file(
     retval = md5_file(path, md5_buf, file_length);
     if (retval) return retval;
     n = strlen(md5_buf);
+    clear_signature.data = (unsigned char*)clear_buf;
+    clear_signature.len = 256;
+    retval = decrypt_public(key, signature, clear_signature);
+    if (retval) return retval;
+    answer = !strncmp(md5_buf, clear_buf, n);
+    return 0;
+}
+
+// verify, where both text and signature are char strings
+//
+int verify_string(
+    char* text, char* signature_text, R_RSA_PUBLIC_KEY& key, bool& answer
+) {
+    char md5_buf[MD5_LEN];
+    unsigned char signature_buf[SIGNATURE_SIZE];
+    char clear_buf[MD5_LEN];
+    int retval, n;
+    DATA_BLOCK signature, clear_signature;
+
+    retval = md5_block((unsigned char*)text, strlen(text), md5_buf);
+    if (retval) return retval;
+    n = strlen(md5_buf);
+    signature.data = signature_buf;
+    sscan_hex_data(signature_text, signature);
     clear_signature.data = (unsigned char*)clear_buf;
     clear_signature.len = 256;
     retval = decrypt_public(key, signature, clear_signature);

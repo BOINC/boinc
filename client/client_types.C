@@ -174,14 +174,17 @@ FILE_INFO::FILE_INFO() {
 FILE_INFO::~FILE_INFO() {
 }
 
-int FILE_INFO::parse(FILE* in) {
+// If from server, make an exact copy of everything
+// except the start/end tags and the signature element.
+//
+int FILE_INFO::parse(FILE* in, bool from_server) {
     char buf[256];
     STRING256 url;
 
     strcpy(name, "");
-    //strcpy(url, "");
     strcpy(md5_cksum, "");
     nbytes = 0;
+    max_nbytes = 0;
     generated_locally = false;
     file_present = false;
     executable = false;
@@ -191,21 +194,39 @@ int FILE_INFO::parse(FILE* in) {
     project = NULL;
     file_xfer = NULL;
     urls.clear();
+    if (from_server) {
+        signed_xml = strdup("");
+    } else {
+        signed_xml = 0;
+    }
+    signature = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
+        else if (match_tag(buf, "<signature>")) {
+            dup_element_contents(in, "</signature>", &signature);
+            continue;
+        }
+        if (from_server) {
+            strcatdup(signed_xml, buf);
+        }
+        if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<url>", url.text)) {
             urls.push_back(url);
             continue;
         }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
+        else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
         else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
         else if (match_tag(buf, "<file_present/>")) file_present = true;
         else if (match_tag(buf, "<executable/>")) executable = true;
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
+        else if (!from_server && match_tag(buf, "<signed_xml>")) {
+            dup_element_contents(in, "</signed_xml>", &signed_xml);
+            continue;
+        }
         else fprintf(stderr, "FILE_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 1;
@@ -217,8 +238,9 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         "<file_info>\n"
         "    <name>%s</name>\n"
         "    <md5_cksum>%s</md5_cksum>\n"
-        "    <nbytes>%f</nbytes>\n",
-        name, md5_cksum, nbytes
+        "    <nbytes>%f</nbytes>\n"
+        "    <max_nbytes>%f</max_nbytes>\n",
+        name, md5_cksum, nbytes, max_nbytes
     );
     if (!to_server) {
         if (generated_locally) fprintf(out, "    <generated_locally/>\n");
@@ -230,6 +252,14 @@ int FILE_INFO::write(FILE* out, bool to_server) {
     }
     for (i=0; i<urls.size(); i++) {
         fprintf(out, "<url>%s</url>\n", urls[i].text);
+    }
+    if (!to_server) {
+        if (signed_xml) {
+            fprintf(out, "<signed_xml>\n%s</signed_xml>\n", signed_xml);
+        }
+        if (signature) {
+            fprintf(out, "<signature>\n%s</signature>\n", signature);
+        }
     }
     fprintf(out, "</file_info>\n");
     return 0;
@@ -369,26 +399,63 @@ int WORKUNIT::write(FILE* out) {
     return 0;
 }
 
-int RESULT::parse(FILE* in, char* end_tag) {
+int RESULT::parse_ack(FILE* in) {
     char buf[256];
-    FILE_REF file_ref;
+    strcpy(name, "");
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</result_ack>")) return 0;
+        else if (parse_str(buf, "<name>", name)) continue;
+        else fprintf(stderr, "RESULT::parse(): unrecognized: %s\n", buf);
+    }
+    return 1;
+}
 
+void RESULT::clear() {
     strcpy(name, "");
     strcpy(wu_name, "");
-    strcpy(stderr_out, "");
+    output_files.clear();
     is_active = false;
     is_compute_done = false;
     is_server_ack = false;
     cpu_time = 0;
     exit_status = 0;
+    strcpy(stderr_out, "");
     app = NULL;
     wup = NULL;
     project = NULL;
+}
+
+// parse a <result> element from scheduling server.
+//
+int RESULT::parse_server(FILE* in) {
+    char buf[256];
+    FILE_REF file_ref;
+
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, end_tag)) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<wu_name>", wu_name)) continue;
-        else if (match_tag(buf, "<file_ref>")) {
+        if (match_tag(buf, "</result>")) return 0;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (match_tag(buf, "<file_ref>")) {
+            file_ref.parse(in);
+            output_files.push_back(file_ref);
+            continue;
+        }
+        else fprintf(stderr, "RESULT::parse(): unrecognized: %s\n", buf);
+    }
+    return 1;
+}
+
+// parse a <result> element from state file
+//
+int RESULT::parse_state(FILE* in) {
+    char buf[256];
+    FILE_REF file_ref;
+
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</result>")) return 0;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
             continue;

@@ -2,7 +2,8 @@
     <name><OUTFILE_0/></name>
     <generated_locally/>
     <upload_when_present/>
-    <url><UPLOAD_URL/><OUTFILE_0/></url>
+    <max_nbytes>100000</max_nbytes>
+    <url><UPLOAD_URL/></url>
 </file_info>
 <result>
     <name><RESULT_NAME/></name>

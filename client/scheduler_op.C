@@ -162,7 +162,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             apps.push_back(app);
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO file_info;
-            file_info.parse(in);
+            file_info.parse(in, true);
             file_infos.push_back(file_info);
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION av;
@@ -175,11 +175,11 @@ int SCHEDULER_REPLY::parse(FILE* in) {
         } else if (match_tag(buf, "<result>")) {
             RESULT result;      // make sure this is here so constructor
                                 // gets called each time
-            result.parse(in, "</result>");
+            result.parse_server(in);
             results.push_back(result);
         } else if (match_tag(buf, "<result_ack>")) {
             RESULT result;
-            result.parse(in, "</result_ack>");
+            result.parse_ack(in);
             result_acks.push_back(result);
         } else if (parse_str(buf, "<message", message)) {
             parse_attr(buf, "priority", message_priority);

@@ -22,6 +22,7 @@
 #include <time.h>
 
 #include "db.h"
+#include "crypt.h"
 #include "md5_file.h"
 
 #include "backend_lib.h"
@@ -33,16 +34,23 @@
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 #define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
-#define UPLOAD_URL      "http://localhost/upload/"
+#define UPLOAD_URL      "http://localhost/boinc-cgi/file_upload_handler"
 #define DOWNLOAD_URL      "http://localhost/download/"
 
-int read_file(char* path, char* buf) {
-    FILE* f = fopen(path, "r");
-    if (!f) return -1;
+int read_file(FILE* f, char* buf) {
     int n = fread(buf, 1, MAX_BLOB_SIZE, f);
     buf[n] = 0;
-    fclose(f);
     return 0;
+}
+
+int read_filename(char* path, char* buf) {
+    int retval;
+
+    FILE* f = fopen(path, "r");
+    if (!f) return -1;
+    retval = read_file(f, buf);
+    fclose(f);
+    return retval;
 }
 
 // replace INFILE_x with filename from array,
@@ -114,10 +122,13 @@ static int process_wu_template(
     return 0;
 }
 
-int create_result(WORKUNIT& wu, char* result_template, int i) {
+int create_result(
+    WORKUNIT& wu, char* result_template_filename, int i, R_RSA_PRIVATE_KEY& key
+) {
     RESULT r;
     char base_outfile_name[256];
     int retval;
+    FILE* result_template_file, *tempfile;
 
     memset(&r, 0, sizeof(r));
     r.create_time = time(0);
@@ -125,23 +136,35 @@ int create_result(WORKUNIT& wu, char* result_template, int i) {
     r.state = RESULT_STATE_UNSENT;
     sprintf(r.name, "%s_%d", wu.name, i);
     sprintf(base_outfile_name, "%s_", r.name);
-    strcpy(r.xml_doc_in, result_template);
+
+    result_template_file = fopen(result_template_filename, "r");
+    tempfile = tmpfile();
     retval = process_result_template(
-        r.xml_doc_in, base_outfile_name, wu.name, r.name
+        result_template_file,
+        tempfile,
+        key,
+        base_outfile_name, wu.name, r.name
     );
+    rewind(tempfile);
+    read_file(tempfile, r.xml_doc_in);
+    fclose(tempfile);
 
     retval = db_result_new(r);
+    if (retval) {
+        fprintf(stderr, "db_result_new: %d\n", retval);
+    }
     return retval;
 }
 
 int create_work(
     WORKUNIT& wu,
     char* wu_template,
-    char* result_template,
+    char* result_template_file,
     int nresults,
     char* infile_dir,
     char** infiles,
-    int ninfiles
+    int ninfiles,
+    R_RSA_PRIVATE_KEY& key
 ) {
     int i, retval;
 
@@ -160,7 +183,7 @@ int create_work(
 
     if (!wu.dynamic_results) {
         for (i=0; i<nresults; i++) {
-            create_result(wu, result_template, i);
+            create_result(wu, result_template_file, i, key);
         }
     }
     return 0;

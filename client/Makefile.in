@@ -56,6 +56,8 @@ TEST_HTTP_OBJS = $(TEST_NET_XFER_OBJS)
 
 TEST_FX_OBJS = \
     $(TEST_HTTP_OBJS) \
+    client_types.o \
+    file_names.o \
     file_xfer.o
 
 .C.o:

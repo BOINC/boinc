@@ -5,12 +5,18 @@ VPATH           = @srcdir@
 
 all: cgi
 
-CFLAGS = -g -Wall @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools -I/usr/local/mysql/include
+CFLAGS = -g -Wall @DEFS@ \
+    -I@top_srcdir@/db \
+    -I@top_srcdir@/lib \
+    -I@top_srcdir@/RSAEuro/source \
+    -I@top_srcdir@/tools \
+    -I/usr/local/mysql/include
+
 CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem fcgi
+PROGS = cgi feeder show_shmem file_upload_handler fcgi
 
 all: $(PROGS)
 
@@ -22,8 +28,7 @@ CGI_OBJS = \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o \
-    ../lib/parse.o \
-    ../tools/process_result_template.o
+    ../lib/parse.o
 
 FEEDER_OBJS = \
     feeder.o \
@@ -38,6 +43,14 @@ SHOW_SHMEM_OBJS = \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o
+
+FILE_UPLOAD_OBJS = \
+    file_upload_handler.o \
+    ../lib/crypt.o \
+    ../lib/parse.o \
+    ../lib/md5.o \
+    ../lib/md5_file.o \
+    ../RSAEuro/source/rsaeuro.a
 
 FCGI_OBJS = \
     handle_request.fcgi.o \
@@ -75,6 +88,9 @@ feeder: $(FEEDER_OBJS)
 
 show_shmem: $(SHOW_SHMEM_OBJS)
 	$(CC) $(SHOW_SHMEM_OBJS) $(MYSQL_LIBS) $(CLIBS) -o show_shmem
+
+file_upload_handler: $(FILE_UPLOAD_OBJS)
+	$(CC) $(FILE_UPLOAD_OBJS) $(CLIBS) -o file_upload_handler
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

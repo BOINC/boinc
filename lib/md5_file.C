@@ -32,3 +32,18 @@ int md5_file(char* path, char* output, double& nbytes) {
     fclose(f);
     return 0;
 }
+
+int md5_block(unsigned char* data, int nbytes, char* output) {
+    unsigned char binout[16];
+    int i;
+
+    md5_state_t state;
+    md5_init(&state);
+    md5_append(&state, data, nbytes);
+    md5_finish(&state, binout);
+    for (i=0; i<16; i++) {
+        sprintf(output+2*i, "%02x", binout[i]);
+    }
+    output[32] = 0;
+    return 0;
+}

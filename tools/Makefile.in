@@ -10,11 +10,16 @@ MYSQL_INC = /usr/local/mysql/include
 CFLAGS = -g -Wall @DEFS@ \
     -DHOSTTYPE=\"@host@\" \
     -DVERSION=$(VERSION) \
-    -I @top_srcdir@/lib -I @top_srcdir@/db -I $(MYSQL_INC)
+    -I @top_srcdir@/lib \
+    -I @top_srcdir@/RSAEuro/source \
+    -I @top_srcdir@/db \
+    -I $(MYSQL_INC)
 
 CC = @CC@ $(CFLAGS)
 
-CLIBS = @LIBS@
+CLIBS = @LIBS@ \
+    ../lib/crypt.o \
+    ../RSAEuro/source/rsaeuro.a
 
 OBJS = \
     backend_lib.o \
@@ -34,6 +39,7 @@ LIBS = \
     process_result_template.o \
     ../lib/md5_file.o \
     ../lib/md5.o \
+    ../lib/parse.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o
 

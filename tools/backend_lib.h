@@ -17,11 +17,16 @@
 // Contributor(s):
 //
 
+#include "crypt.h"
+
 extern int process_result_template(
-    char* tmplate, char* base_filename, char* wu_name, char* result_name
+    FILE* in, FILE* out,
+    R_RSA_PRIVATE_KEY& key,
+    char* base_filename, char* wu_name, char* result_name
 );
 
-extern int read_file(char* path, char* buf);
+extern int read_file(FILE*, char* buf);
+extern int read_filename(char* path, char* buf);
 
 extern int create_work(
     WORKUNIT& wu,
@@ -30,5 +35,6 @@ extern int create_work(
     int nresults,
     char* infile_dir,
     char** infiles,
-    int ninfiles
+    int ninfiles,
+    R_RSA_PRIVATE_KEY&
 );

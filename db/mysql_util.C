@@ -36,7 +36,7 @@ static MYSQL *mp;
 static MYSQL_RES *rp;
 static MYSQL_ROW row;
 
-#define MAX_QUERY_LEN   4096
+#define MAX_QUERY_LEN   8192
 
 int db_open(char* name) {
     mp = mysql_init(0);

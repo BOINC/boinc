@@ -9,6 +9,7 @@
     check_env_vars();
     clear_db();
     clear_data_dirs();
+    create_keys();
     init_client_dirs("prefs2.xml");
     add_platform();
     add_core_client();

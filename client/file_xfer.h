@@ -20,9 +20,14 @@
 #ifndef _FILE_XFER_
 #define _FILE_XFER_
 
-// FILE_XFER objects encapsulate the transfer of a file
-// to/from a particular server.
-// TODO: use the HTTP Range header fields to do partial xfers
+// FILE_XFER objects encapsulate the transfer of a file to/from data servers.
+// In particular it manages:
+// - the choice of data servers
+//   TODO: try servers beyond the first one
+// - the retry and give-up policies
+//   TODO: retry and eventually give up
+// - restarting partial transfers
+// - upload authentication
 
 #include "client_types.h"
 #include "http.h"
@@ -32,12 +37,17 @@ public:
     double start_time;
     double end_time;
     FILE_INFO* fip;
+    char pathname[256];
+    char header[4096];
+    int state;
 
     FILE_XFER();
     ~FILE_XFER();
 
-    int init_download(char* url, char* outfile);
-    int init_upload(char* url, char* infile);
+    //int init_download(char* url, char* outfile);
+    //int init_upload(char* url, char* infile);
+    int init_download(FILE_INFO&);
+    int init_upload(FILE_INFO&);
     bool file_xfer_done;
     int file_xfer_retval;
     double elapsed_time();

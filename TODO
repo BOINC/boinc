@@ -1,13 +1,14 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
-- Code-signing (David)
-    research tools for code-signing
+- Code-signing
+    In progress - David
 
 - Upload authentication (David)
     Each result contains a "certificate", signed with project key, giving
         - list of: file name, max size
         - min, max times to xfer
     modify put program to decrypt certificate, enforce name/size/time limits
+    In progress - David
 
 - Network retry policies (Eric?)
     can't download file: when to give up? how to retry?
@@ -16,18 +17,24 @@ HIGH-PRIORITY (must be done to support SETI@home)
     can't connect to sched server
     error return from sched server
 
-- proxy support (Open Source)
+- make scheduling server use fast CGI
+    In progress - Michael
+
+- proxy support
     HTTP, Socks
     Look at other open source code
 
 - team system (Barry)
     in PHP
+    In progress - Barry
 
 - credit display (Barry)
     in PHP
+    In progress - Barry
 
 - CPU accounting in the presence of checkpoint/restart (Michael)
     core client periodically gets CPU time, accumulates in state file
+    In progress - Michael
 
 - test versioning mechanisms for core
     Idea: need to notify user if core becomes out of date.
@@ -45,6 +52,7 @@ HIGH-PRIORITY (must be done to support SETI@home)
     - initialize rsc_fpops and rsc_iops in client WORKUNIT 
     - check server sends correct number of work units
     - check client requests correct number of seconds of work
+    In progress - Michael
 
 - measure hardware parameters: CPU speed, #CPUs, memory, disk
     - define CPU benchmarks

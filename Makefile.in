@@ -10,34 +10,34 @@ VPATH	= @srcdir@
 #	This needs to be fixed
 #
 all:
-	cd db; gmake; cd ..; \
-	cd RSAEuro/source/; gmake; cd ../../; \
-	cd lib; gmake; cd ..; \
-	cd api; gmake; cd ..; \
-	cd apps; gmake; cd ..; \
-	cd client; ../$(srcdir)/client/configure; gmake; cd ..; \
-	cd sched; gmake; cd ..; \
-	cd tools; gmake; cd ..;
+	cd RSAEuro/source; make; cd ../..; \
+	cd db; make; cd ..; \
+	cd lib; make; cd ..; \
+	cd api; make; cd ..; \
+	cd apps; make; cd ..; \
+	cd client; ../$(srcdir)/client/configure; make; cd ..; \
+	cd sched; make; cd ..; \
+	cd tools; make; cd ..;
 
 clean:
 	rm -f boinc.tar.gz config.cache; \
-	cd db; gmake clean; cd ..; \
-	cd RSAEuro/source/; gmake clean; cd ../../; \
-	cd lib; gmake clean; cd ..; \
-	cd api; gmake clean; cd ..; \
-	cd apps; gmake clean; cd ..; \
-	cd client; gmake clean; cd ..; \
-	cd sched; gmake clean; cd ..; \
-	cd tools; gmake clean; cd ..;
+	cd RSAEuro/source/; make clean; cd ../../; \
+	cd db; make clean; cd ..; \
+	cd lib; make clean; cd ..; \
+	cd api; make clean; cd ..; \
+	cd apps; make clean; cd ..; \
+	cd client; make clean; cd ..; \
+	cd sched; make clean; cd ..; \
+	cd tools; make clean; cd ..;
 
 install: all
 	-mkdir -p /usr/local/boinc;
-	cd sched; gmake install;
-	cd lib; gmake install;
-	cd api; gmake install;
-	cd apps; gmake install;
-	cd client; gmake install;
-	cd tools; gmake install;
+	cd sched; make install;
+	cd lib; make install;
+	cd api; make install;
+	cd apps; make install;
+	cd client; make install;
+	cd tools; make install;
 	cp -r test /usr/local/boinc;
 
 tar: clean

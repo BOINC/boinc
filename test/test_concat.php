@@ -9,6 +9,7 @@
     check_env_vars();
     clear_db();
     clear_data_dirs();
+    create_keys();
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("input");
     add_platform(null);

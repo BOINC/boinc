@@ -575,6 +575,18 @@ David A     June 20 2002
         prefs1.xml, prefs2.xml (new)
         test_*.php
 
+David A     June 21 2002
+    - top-level Makefile now compiles RSAEuro/,
+        and doesn't refer to sched_fcgi
+    - Added <scheduler> element to html_user/index.html,
+        making it the "master file" for test project.
+        This file must be placed in the directory referred to by
+        http://localhost/
+
+    Makefile.in
+    html_user/
+        index.html
+
 Michael Gary	June 21 2002
     - added install to the make system to put executables
         in /usr/local/boinc
@@ -732,4 +744,103 @@ Michael Gary 	7/03/2002
     configure
     configure.in
 
+David Anderson      July 4, 2002
+    - Added support for upload authentication.
+        This prevents bad guys from filling up data servers with trash.
+        In this scheme, each <file_info> element sent from
+        server to client includes a <max_nbytes> field limiting
+        the size of the file, and includes a digital signature
+        based on the project's "upload authentication" key pair.
+        File uploads, instead of being done by PUT, are now done by POST 
+        to a CGI program, "file_upload_handler".
+        The request header includes the signed <file_info>,
+        and the CGI program verifies the signature and enforces the size limit.
+
+        The affected pieces of code:
+        - Added a function create_keys() in PHP test scripts
+            to create encryption keys.  Call it from all script.
+        - Added environment var BOINC_KEY_DIR saying where keys are kept.
+        - The client must maintain an exact copy of each <file_info> XML,
+            and of the signature, so that it can send to upload server.
+        - Added a new variant of HTTP operation, HTTP_OP_POST2.
+            The existing variants all use single files for request and reply.
+            The new variant (used for file upload) has a request
+            consisting of a memory block followed by (part of) a file;
+            the reply is in memory.
+            This avoid copying possibly huge upload files.
+        - FILE_XFER objects now take a FILE_INFO as initialization argument;
+            needed to convey authentication info.
+            The upload variant creates and sends the authentication header.
+        - Result templates now include a <max_nbytes> in each
+            <file_info> element, and the URLs refer to the
+            file_upload_handler (with no filename)
+        - process_result_template() works differently, since it must
+            generate a digital signature at the end of each <file_info>
+        - create_work expects the name of a private key file.
+        - Added crypt/md5 functions to sign/verify in memory,
+            encode/decode ASCII data in memory, checksum in memory
+    - Change "gmake" to "make" in top-level makefile.
+        (alias make to gmake if this is a problem)
+
+    boinc/
+        Makefile.in
+        TODO
+    RSAEuro/source/
+        rsaeuro.h
+    client/
+        Makefile.in
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        file_names.C
+        file_xfer.C,h
+        http.C,h
+        main.C
+        scheduler_op.C
+        test_file_xfer.C
+    db/
+        mysql_util.C
+    doc/
+        index.html
+        intro.html
+        master_url.html (new)
+        project_startup.html (new)
+        tools_security.html (new)
+    html_user/
+        index.html
+    lib/
+        Makefile.in
+        crypt.C,h
+        crypt_prog.C
+        md5_file.C,h
+        parse.C,h
+    sched/
+        Makefile.in
+        file_upload_handler.C
+        server_types.C
+    test/
+        1sec_result
+        concat_result
+        init.inc
+        master.html (new)
+        sah_result
+        test_1sec.php
+        test_concat.php
+        test_dynamic.php
+        test_max_water_prefs.php
+        test_min_water_prefs.php
+        test_normal_water_prefs.php
+        test_prefs.php
+        test_projects.php
+        test_stderr.php
+        test_uc.php
+        test_uc_slow.php
+        uc_result
+        ucs_result
+    tools/
+        Makefile.in
+        add.C
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C
 

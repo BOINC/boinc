@@ -195,7 +195,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
-            fip->parse(f);
+            fip->parse(f, false);
             if (project) {
                 retval = link_file_info(project, fip);
                 if (!retval) file_infos.push_back(fip);
@@ -222,7 +222,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
-            rp->parse(f, "</result>");
+            rp->parse_state(f);
             if (project) {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);

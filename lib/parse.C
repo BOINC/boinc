@@ -87,18 +87,25 @@ void copy_stream(FILE* in, FILE* out) {
     }
 }
 
+void strcatdup(char*& p, char* buf) {
+    p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
+    if (!p) {
+        fprintf(stderr, "strcatdup: realloc failed\n");
+        exit(1);
+    }
+    strcat(p, buf);
+}
+
 int dup_element_contents(FILE* in, char* end_tag, char** pp) {
     char buf[256];
 
-    char* p = (char*)malloc(1);
-    *p = 0;
+    char* p = strdup("");
     while (fgets(buf, 256, in)) {
         if (strstr(buf, end_tag)) {
             *pp = p;
             return 0;
         }
-        p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
-        strcat(p, buf);
+        strcatdup(p, buf);
     }
     fprintf(stderr, "dup_element_contents(): no end tag\n");
     return 1;

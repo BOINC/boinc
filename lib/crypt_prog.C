@@ -1,14 +1,14 @@
 // utility program for encryption.
 //
 // -genkey n private_keyfile public_keyfile
-//                  create a key pair with n bits (512 <= n <= 2048)
+//                  create a key pair with n bits (512 <= n <= 1024)
 //                  write it in hex notation
 // -sign file private_keyfile
 //                  create a signature for a given file
 //                  write it in hex notation
 // -verify file signature_file public_keyfile
 //                  verify a signature
-// -crypt_test private_keyfile public_keyfile
+// -test_crypt private_keyfile public_keyfile
 //                  test encrypt/decrypt
 
 #include <stdio.h>
@@ -50,6 +50,7 @@ main(int argc, char** argv) {
         );
         if (retval) die("R_GeneratePEMKeys\n");
 
+        printf("creating keys in %s and %s\n", argv[3], argv[4]);
         fpriv = fopen(argv[3], "w");
         if (!fpriv) die("fopen");
         fpub = fopen(argv[4], "w");
