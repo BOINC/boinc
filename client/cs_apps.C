@@ -243,13 +243,18 @@ bool CLIENT_STATE::start_apps() {
         // 2) the application isn't currently computing the result;
         // 3) all the input files for the result are locally available
         //
-        if (log_flags.task) {
-            msg_printf(rp->project, MSG_INFO, "Starting computation for result %s", rp->name);
-        }
         rp->is_active = true;
         ACTIVE_TASK* atp = new ACTIVE_TASK;
         atp->slot = open_slot;
         atp->init(rp);
+
+        msg_printf(atp->wup->project, MSG_INFO,
+            "Starting computation for result %s using %s version %.2f",
+            atp->result->name,
+            atp->app_version->app->name,
+            atp->app_version->version_num/100.
+        );
+
         retval = active_tasks.insert(atp);
 
         // couldn't start process

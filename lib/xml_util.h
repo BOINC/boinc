@@ -216,7 +216,8 @@ template <typename T>
 std::vector<T> base64_decode(const char *data, size_t nbytes) {
   const char *p=data,*eol,*eol2;
   const char cr=0xa,lf=0xd;
-  char in[4],c[3]; 
+  char in[4],c[3];
+  int i;
   std::vector<unsigned char> rv;
   rv.reserve(nbytes*3/4);
   while (p<(data+nbytes)) {
@@ -229,7 +230,7 @@ std::vector<T> base64_decode(const char *data, size_t nbytes) {
       eol=std::min(eol,eol2);
     }
     for (;p<(eol-1);p+=4) { 
-      for (int i=0;i<4;i++) {
+      for ( i=0;i<4;i++) {
         if ((p[i]>='A') && (p[i]<='Z')) {
 	  in[i]=p[i]-'A';
 	} else if ((p[i]>='a') && (p[i]<='z')) {
@@ -249,7 +250,7 @@ std::vector<T> base64_decode(const char *data, size_t nbytes) {
       c[0]=(in[0]<<2) | ((in[1] >> 4) & 0x3);
       c[1]=(in[1]<<4) | ((in[2] >> 2) & 0xf);
       c[2]=(in[2]<<6) | in[3];
-      for (int i=0;i<3;i++) rv.push_back(c[i]);
+      for ( i=0;i<3;i++) rv.push_back(c[i]);
     }
   }
   return std::vector<T>((T *)(&(rv[0])),(T *)(&(rv[0]))+rv.size()/sizeof(T));
@@ -388,6 +389,7 @@ template <typename T>
 std::vector<T> x_setiathome_decode(const char *data, size_t nbytes) {
   const char *p=data,*eol,*eol2;
   char in[4],c[3]; 
+  int i;
   std::vector<unsigned char> rv;
   rv.reserve(nbytes*3/4);
   while (p<(data+nbytes)) {
@@ -401,11 +403,11 @@ std::vector<T> x_setiathome_decode(const char *data, size_t nbytes) {
     }
     for (;p<(eol-1);p+=4) { 
       memcpy(in,p,4);
-      for (int i=0;i<4;i++) in[i]-=0x20;
+      for ( i=0;i<4;i++) in[i]-=0x20;
       c[0]=in[0]&0x3f | in[1]<<6;
       c[1]=in[1]>>2 | in[2]<<4;
       c[2]=in[2]>>4 | in[3]<<2;
-      for (int i=0;i<3;i++) rv.push_back(c[i]);
+      for ( i=0;i<3;i++) rv.push_back(c[i]);
     }
   }
   return std::vector<T>((T *)(&(rv[0])),(T *)(&(rv[0]))+rv.size()/sizeof(T));
@@ -806,6 +808,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.10  2003/10/22 23:11:49  davea
+// *** empty log message ***
+//
 // Revision 1.9  2003/10/22 22:36:52  jeffc
 // jeffc - init xml_encode/decode_string in the definition, not the prototype
 //
