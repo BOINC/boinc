@@ -1587,16 +1587,16 @@ int RPC_CLIENT::quit() {
     return rpc.do_rpc("<quit/>\n");
 }
 
-int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* passwd) {
+int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password) {
     char buf[4096];
     RPC rpc(this);
     sprintf(buf,
         "<acct_mgr_rpc>\n"
         "  <url>%s</url>\n"
         "  <name>%s</name>\n"
-        "  <passwd>%s</passwd>\n"
+        "  <password>%s</password>\n"
         "</acct_mgr_rpc>\n",
-        url, name, passwd
+        url, name, password
     );
     return rpc.do_rpc(buf);
 }

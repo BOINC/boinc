@@ -1065,25 +1065,32 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                         pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
                 }
 
+#if 0
                 if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNALWAYS, NULL ) )
                     pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
-
+#endif
                 if ( NULL != pMenuBar->FindItem( ID_NETWORKSUSPEND, NULL ) )
                     pMenuBar->Check( ID_NETWORKSUSPEND, false );
 
+#if 0
                 if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNBASEDONPREPERENCES, NULL ) )
                     pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+#endif
 
                 if ( 0 == pDoc->GetNetworkRunMode( iNetworkMode ) )
                 {
+#if 0
                     if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
                         pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
+#endif
 
                     if ( CMainDocument::MODE_NEVER == iNetworkMode )
                         pMenuBar->Check( ID_NETWORKSUSPEND, true );
 
+#if 0
                     if ( CMainDocument::MODE_AUTO == iNetworkMode )
                         pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
+#endif
                 }
 
                 // Update the statusbar

@@ -36,6 +36,7 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
 
     if (state != ACCT_MGR_STATE_IDLE) return 0;
 
+    msg_printf(NULL, MSG_INFO, "Doing account manager RPC to %s", url.c_str());
     sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
     http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(ACCT_MGR_REPLY_FILENAME);
@@ -56,6 +57,7 @@ bool ACCT_MGR::poll(double now) {
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
         if (http_op.http_op_retval == 0) {
+            msg_printf(NULL, MSG_INFO, "Account manager RPC succeeded");
             FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
             if (f) {
                 MIOFILE mf;

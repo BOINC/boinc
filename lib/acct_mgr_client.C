@@ -118,7 +118,7 @@ ACCT_MGR_CLIENT::~ACCT_MGR_CLIENT() {
 
 int ACCT_MGR_CLIENT::init() {
     char    buf[256];
-    int     retval;
+    int     retval=0;
     MIOFILE mf;
     FILE*   acct_mgr_file;
     FILE*   acct_mgr_login_file;

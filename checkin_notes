@@ -25898,3 +25898,17 @@ David  11 Mar 2005
 
     tools/
         make_project
+
+David  11 Mar 2005
+	- BOINC manager: avoid asserts by commenting out some code
+	- fix account manager functions
+	- print messages on acct mgr RPC start/end
+
+	client/
+		acct_mgr.C
+	clientgui/
+		MainFrame.cpp
+	lib/
+		acct_mgr_client.C
+		gui_rpc_client.C
+
