@@ -2,22 +2,19 @@
 <body bgcolor=ffffff>
 <h2>Results</h2> 
 <p>
-A <b>result</b> describes an instance of a computation, either to be
-performed, in progress, or completed.
-Results are stored in the <b>result</b> table of the BOINC DB.
+A <b>result</b> describes an instance of a computation, either unstarted,
+in progress, or completed.
 The attributes of a result include:
 
-<ul>
-<li> The name of the result (unique across all results in the project). 
-<li> The associated workunit. 
-<li> The time when the completed result should be reported to a
-scheduling server.
-This is assigned by the project, and is used by
-clients to prioritize operations and to initiate scheduler RPCs.
-There is no guarantee that the result will actually be reported by this time. 
-<li> An XML document listing the names of its output files; see below. 
-<li> The time when the result was dispatched.
-<li> Its <b>state</b>. Values include: 
+<dl>
+<dt><b>name</b><dd>
+The name of the result (unique across all results in the project). 
+<dt><b>workunit name</b><dd>
+<dt><b>output files</b><dd>
+A list of the names of the output files,
+and the names by which the application refers to them.
+<dt><b>state</b><dd>
+Values include: 
 <ul>
     <li> Inactive (not ready to dispatch) 
     <li> Unsent (ready to dispatch, but not dispatched) 
@@ -26,7 +23,12 @@ There is no guarantee that the result will actually be reported by this time.
     <li> Timed out 
     <li> Done with error 
 </ul>
-</ul>
+<dt><b>host</b><dd>
+The host that executed the computation.
+<dt><b>CPU time</b><dd>
+The CPU time that was used.
+<dt><b>exit status</b><dd>
+</dl>
 <p>
 The following attributes are defined after the result is completed:
 <ul>
@@ -35,8 +37,6 @@ files (filled in after the result is completed).
 <li> The stderr output of the result. 
 <li> The host that was sent the result.
 <li> The times when the result was received. 
-<li> The exit status of the application.
-<li> The reported CPU time. 
 </ul>
 <p>
 Results are normally created using the

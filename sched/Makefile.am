@@ -4,7 +4,7 @@ include $(top_srcdir)/Makefile.incl
 
 noinst_PROGRAMS =								\
 	cgi feeder show_shmem file_upload_handler				\
-        validate_test validate_trivial make_work timeout_check file_deleter	\
+        validate_test validate_trivial make_work transitioner file_deleter	\
         assimilator db_dump update_stats
 
 noinst_LIBRARIES = libsched.a
@@ -83,9 +83,9 @@ make_work_SOURCES = make_work.C
 make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 
-timeout_check_SOURCES = timeout_check.C
-timeout_check_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
-timeout_check_LDADD = $(LDADD) $(RSA_LIBS)
+transitioner_SOURCES = transitioner.C
+transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES =					\
         handle_request.C			\
