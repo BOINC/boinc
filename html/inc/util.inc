@@ -132,7 +132,7 @@ function page_head($title, $fd=null) {
         <body bgcolor=ffffff>
         "
     );
-    project_banner($fd);
+    project_banner($title, $fd);
 }
 
 function page_tail($is_main=false, $fd=null) {
@@ -148,8 +148,7 @@ function page_tail($is_main=false, $fd=null) {
 
 function db_error_page() {
     page_head("Database error");
-    echo "<h2>Database error</h2>
-        A database error occurred while handling your request.
+    echo "A database error occurred while handling your request.
         <br>Please try again later.
         <br>If the error persists, please submit a
         <a href=bug_report_form.php>problem report</a>.
@@ -259,7 +258,6 @@ function print_login_form_aux($next_url, $user) {
 function print_login_form() {
     page_head("Please log in");
     echo "
-        <h3>Please log in</h3>
         This function requires that you log in.
     ";
     $next_url = $_SERVER['REQUEST_URI'];

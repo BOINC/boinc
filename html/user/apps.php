@@ -23,7 +23,6 @@ mysql_free_result($r2);
 
 page_head("Applications");
 echo "
-    <h2>Applications</h2>\n
     ".PROJECT." currently has the following applications.
     When you participate in ".PROJECT.", work for one or
     more of these applications will be assigned to your computer.

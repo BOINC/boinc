@@ -12182,3 +12182,12 @@ David  May 11 2004
 
     html/
         *
+
+David  May 11 2004
+    - Web: added "title" argument to project_banner().
+        Lets the project control how page titles are rendered.
+        Removed explicit <h2>title</h2>s from most pages
+
+    html/
+        inc/many
+        user/many

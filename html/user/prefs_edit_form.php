@@ -15,8 +15,6 @@ $title = "Edit ".subset_name($subset)." preferences";
 if ($venue) $title = "$title for $venue";
 page_head($title);
 
-echo "<h3>$title</h3>\n";
-
 if ($subset == "global") {
     $prefs = prefs_parse_global($user->global_prefs);
     if ($venue) {

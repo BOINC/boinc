@@ -4,7 +4,7 @@ require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 
 db_init();
-page_head('New Account');
+page_head('Create an account');
 
 if (parse_config("<disable_account_creation/>")) {
     echo "
@@ -19,7 +19,6 @@ if (parse_config("<disable_account_creation/>")) {
 }
 $userid = $_GET['userid'];
 echo "
-    <h1>Create an account with ".PROJECT." </h1>
 
     <p><b>Read the <a href=info.php>Rules and Policies</a>
     before creating an account.</b></p>
@@ -35,7 +34,6 @@ if ($userid) {
     ";
 }
 start_table();
-row1("Create account");
 row2(
     "Name<br><span class=description>Identifies you on our web site. Use your real name or a nickname.</span>",
     "<input name=new_name size=30>"

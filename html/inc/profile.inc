@@ -66,9 +66,9 @@ function show_description() {
     global $profile_info;
     global $user;
 
-    $profile_info?row1("Edit User Profile: " . $user->name):row1("Create a User Profile");
+    $profile_info?row1("Edit your profile: " . $user->name):row1("Create a profile");
     rowify("
-By creating a <b>user profile</b> you can share your opinions and background
+By creating a <b>profile</b> you can share your opinions and background
 with the entire ".PROJECT." community.
 ");
     rowify("<br>");
@@ -450,7 +450,7 @@ function show_profile($userid, $verify_mode=false) {
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     if (!$verify_mode) {
-        page_head("User Profile: ".$user->name);
+        page_head("Profile: ".$user->name);
     }
 
     if ($can_edit) {
@@ -471,7 +471,7 @@ function show_profile($userid, $verify_mode=false) {
 
 function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
     echo "
-        <h2>User profile: $user->name</h2>
+        <h2>Profile: $user->name</h2>
     ";
 
     if (!$can_edit && !$verify_mode) {

@@ -6,8 +6,6 @@ db_init();
 page_head('Rules and Policies');
 echo "
 
-<h2>Rules and Policies</h2>
-
 <h3>Run ", PROJECT, " only on authorized computers</h3>
 
 <p>

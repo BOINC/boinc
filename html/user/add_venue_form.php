@@ -12,7 +12,6 @@
 
     $x = subset_name($subset);
     page_head("Add $x preferences for $venue");
-    echo "<h2>Add $x preferences for $venue</h2>";
     echo "<form action=add_venue_action.php>
         <input type=hidden name=venue value=$venue>
         <input type=hidden name=subset value=$subset>

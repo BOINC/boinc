@@ -34,13 +34,13 @@ if (project_is_stopped()) {
         <h3>Returning participants</h3>
         <ul>
         <li><a href=".URL_BASE."login_form.php>Log in or out</a>
-        <li><a href=".URL_BASE."home.php>User page</a> - view stats, modify preferences
+        <li><a href=".URL_BASE."home.php>Your account</a> - view stats, modify preferences
         <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
         <li><a href=".URL_BASE."download.php>Download BOINC</a>
         </ul>
         <h3>Community</h3>
         <ul>
-        <li><a href=".URL_BASE."profile_menu.php>User profiles</a>
+        <li><a href=".URL_BASE."profile_menu.php>Participant profiles</a>
         <li><a href=".URL_BASE."forum/>Message boards</a>
         <li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
 
@@ -54,8 +54,8 @@ if (project_is_stopped()) {
     if (true) {
         echo "
             <ul>
-            <li><a href=top_users.php>Top users</a>
-            <li><a href=top_hosts.php>Top hosts</a>
+            <li><a href=top_users.php>Top participants</a>
+            <li><a href=top_hosts.php>Top computers</a>
             <li><a href=top_teams.php>Top teams</a>
             <li><a href=stats.php>Other statistics</a></h3>
             </ul>

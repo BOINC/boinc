@@ -394,7 +394,7 @@ function prefs_show_project($prefs) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return "general";
+    if ($subset == "global") return "General";
     return PROJECT;
 }
 
@@ -419,7 +419,6 @@ function print_prefs_display_project($user) {
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     start_table();
-    row1(PROJECT." preferences");
     prefs_show_resource($project_prefs);
     prefs_show_project($project_prefs);
     prefs_show_privacy($user);
@@ -434,7 +433,7 @@ function print_prefs_display_project($user) {
 function print_prefs_display_global($user) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<font size=+2>General preferences</font><br><font size=-2>
+    echo "<font size=-2>
         These apply to all BOINC projects in which you participate.
         <br>
         On computers attached to multiple projects,

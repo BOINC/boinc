@@ -10,7 +10,6 @@ require_once("../inc/download.inc");
     page_head("Download BOINC software");
     if (!get_logged_in_user(false)) {
         echo "
-            <h3>Download BOINC software</h3>
             <font color=ff0000>
             <b>First-time ".PROJECT." participants</b>:
             <br>Don't download BOINC software now.
@@ -22,7 +21,6 @@ require_once("../inc/download.inc");
         ";
     }
     echo "
-        <h2>Download BOINC software</h2>
         Select your computer type:<p>\n
     ";
     print_download_links();

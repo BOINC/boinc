@@ -6,7 +6,7 @@ require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 
 function display_team_page($team, $user) {
-    page_head("$team->name", $user);
+    page_head("$team->name");
     echo "<h2>Team page for ";
     if (strlen($team->name_html)) {
         echo "$team->name_html";
@@ -174,7 +174,6 @@ function team_edit_form($team, $label, $url) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
     }
     start_table();
-    row1("Create a team");
     row2( "Team name (text version)
         <br><font size=2>
         Don't use any HTML tags.

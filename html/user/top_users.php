@@ -17,9 +17,8 @@
 
     db_init();
     $numusers = 100;
-    page_head("Top $numusers users");
+    page_head("Top $numusers participants");
     $result = mysql_query("select * from user order by $sort_order limit $numusers");
-    row1("Users", 6);
     user_table_start();
     $i = 0;
     while ($user = mysql_fetch_object($result)) {

@@ -7,11 +7,10 @@ require_once("../inc/countries.inc");
 db_init();
 $user = get_logged_in_user();
 
-page_head("Edit user information");
+page_head("Edit account information");
 
 echo "<form method=post action=edit_user_info_action.php>";
 start_table();
-row1("Edit account info");
 row2("Name<br><font size=-2>real name or nickname</font>",
     "<input name=user_name size=30 value='$user->name'>"
 );
