@@ -4,22 +4,20 @@
 <p>
 The program <b>lib/crypt_prog</b> can be used for several purposes: 
 <br>
-<br>
-<b>-genkey n private_keyfile public_keyfile</b> 
-<br>
+<dl>
+<dt>crypt_prog -genkey n private_keyfile public_keyfile</b> 
+<dd>
 Create a key pair with n bits (always use 1024).
 Write the keys in encoded ASCII form to the indicated files. 
-<br>
-<b>-sign file private_keyfile</b> 
-<br>
+<dt>crypt_prog -sign file private_keyfile</b> 
+<dd>
 Create a digital signature for the given file. Write it in encoded
 ASCII to stdout. 
-<br>
-<b>-verify file signature_file public_keyfile</b> 
-<br>
+<dt>crypt_prog -verify file signature_file public_keyfile</b> 
+<dd>
 Verify a signature for the given file. 
-<br>
-<b>-test_crypt private_keyfile public_keyfile</b> 
-<br>
+<dt>crypt_prog -test_crypt private_keyfile public_keyfile</b> 
+<dd>
 Perform an internal test, checking that encryption followed by
 decryption works. 
+</dl>

@@ -1,5 +1,11 @@
 <title>Creating encryption keys</title>
 <h2>Creating encryption keys</h2>
 
-crypt_prog -genkey 1024 $BOINC_KEY_DIR/upload_private $BOINC_KEY_DIR/upload_public");
-crypt_prog -genkey 1024 $BOINC_KEY_DIR/code_sign_private $BOINC_KEY_DIR/code_sign_public");
+The following commands generate the file upload and code signing key pairs.
+BOINC_KEY_DIR is the directory where the kays will be stored.
+The code signing private key should be stored only on
+a highly secure (e.g., a disconnected, physically secure) host.
+<pre>
+crypt_prog -genkey 1024 BOINC_KEY_DIR/upload_private BOINC_KEY_DIR/upload_public
+crypt_prog -genkey 1024 BOINC_KEY_DIR/code_sign_private BOINC_KEY_DIR/code_sign_public
+</pre>

@@ -308,7 +308,7 @@ int HTTP_OP::init_post2(
 }
 
 #if 0
-// Is this still needed?
+// not currently used
 int HTTP_OP::init_put(char* url, char* in, int off) {
     int retval;
 
@@ -371,7 +371,7 @@ bool HTTP_OP_SET::poll() {
                 action = true;
                 n = send(htp->socket, htp->request_header, strlen(htp->request_header), 0);
                 if (log_flags.http_debug) {
-                    printf("wrote HTTP header: %d bytes\n", n);
+                    printf("wrote HTTP header: %d bytes\n%s", n, htp->request_header);
                 }
                 htp->io_ready = false;
                 switch(htp->http_op_type) {

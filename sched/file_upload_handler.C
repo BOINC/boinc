@@ -1,6 +1,18 @@
-// There are two possible inputs to this program.
-// One is for uploading a completed result, this looks as follows:
+// The BOINC file upload handler.
+// A CGI processor for POST requests.
+// Handles two RPC types:
+
+// 1) Get current file size
+// Request message format:
+// <file_size_req>filename</file_size_req>
 //
+// Reply message format:
+// <status>0</status>
+// <nbytes>1234</nbytes>
+// Where nbytes is 0 if the file doesn't exist
+
+// 2) Upload file
+// Request message format:
 // <file_info>
 //    ...
 // <xml_signature>
@@ -12,26 +24,9 @@
 // <data>
 // ... (data)
 //
-// The return for an uploaded result looks like
-//
-// <status>0</status>
-// or
-// <status>2</status>
-// <error>bad file size</error>
-//
-// The other kind of input is a file size request.  This is used
-// to determine how much of a file has been uploaded already.
-// This kind of request should always be made before starting
-// a file upload.
-// The input for this looks as follows:
-// <file_size_req>result_1234_file</file_size_req>
-//
-// The return for this information request looks like
-//
-// <status>0</status>
-// <nbytes>1234</nbytes>
-//
-// Where nbytes will be 0 if the file doesn't exist
+// Reply message format:
+// <status>x</status>
+// [ <error>bad file size</error> ]
 //
 
 #include <stdio.h>
