@@ -81,6 +81,7 @@ int main(int argc, char** argv) {
     }
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
+    gstate.parse_env_vars();
     retval = gstate.init();
     if (retval) exit(retval);
     while (1) {
