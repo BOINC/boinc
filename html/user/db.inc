@@ -7,6 +7,7 @@ function db_init() {
     }
     $fp = fopen(db_name, "r");
     $db_name = fgets($fp, 1024);
+    $db_name = rtrim($db_name);
     mysql_select_db($db_name);
     fclose($fp);
 }
