@@ -115,11 +115,10 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			y0 = draw_pos[1];
 			y1 = draw_pos[1] + draw_size[1]*h;
 
-			double hue = hue0 + (dhue*i)/rdimx;
+			hue = hue0 + (dhue*i)/rdimx;
 			if (hue > 1) hue -= 1;
-			double sat = 1.;
-			double lum = .5 + h/2;
-			COLOR color;
+			sat = 1.;
+			lum = .5 + h/2;
 			HLStoRGB(hue, lum, sat, color);
 			glColor4f(color.r, color.g, color.b, alpha);
 
@@ -331,11 +330,10 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			y0 = draw_pos[1];
 			y1 = draw_pos[1] + draw_size[1]*h;
 
-			double hue = hue0 + (dhue*i)/rdimx;
+			hue = hue0 + (dhue*i)/rdimx;
 			if (hue > 1) hue -= 1;
-			double sat = 1.;
-			double lum = .5 + h/2;
-			COLOR color;
+			sat = 1.;
+			lum = .5 + h/2;
 			HLStoRGB(hue, lum, sat, color);
 			glColor4f(color.r, color.g, color.b, alpha);
 
@@ -399,7 +397,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
 
 
 
-void REDUCED_ARRAY::draw_row_line(int row) {
+void REDUCED_ARRAY::draw_row_line(int ) {
 }
 
 void REDUCED_ARRAY::draw(int r0, int rn) {
@@ -451,7 +449,7 @@ void REDUCED_ARRAY::draw_axis_labels() {
 
 	float w;
 
-	char* x_label = "Time";
+	const char* x_label = "Time";
 #if 0
 	char* y_label = "Frequency";
 	char* y_begin_label = "0";

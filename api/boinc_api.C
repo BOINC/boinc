@@ -85,7 +85,9 @@ static bool           have_trickle_down   = true;
 static double         heartbeat_giveup_time;
 static bool           heartbeat_active;
     // if false, suppress heartbeat mechanism
+#ifdef _WIN32
 static int nrunning_ticks = 0;
+#endif
 
 #define HEARTBEAT_GIVEUP_PERIOD 30.0
     // quit if no heartbeat from core in this #secs
@@ -315,7 +317,7 @@ int boinc_write_init_data_file() {
 int boinc_report_app_status(
     double cpu_time,
     double checkpoint_cpu_time,
-    double fraction_done
+    double _fraction_done
 ) {
     char msg_buf[MSG_CHANNEL_SIZE];
     sprintf(msg_buf,
@@ -324,7 +326,7 @@ int boinc_report_app_status(
         "<fraction_done>%2.8f</fraction_done>\n",
         cpu_time,
         checkpoint_cpu_time,
-        fraction_done
+        _fraction_done
     );
     app_client_shm->shm->app_status.send_msg(msg_buf);
     return 0;
@@ -334,7 +336,7 @@ int boinc_report_app_status(
 // the current CPU time and fraction done
 //
 static int update_app_progress(
-    double cpu_t, double cp_cpu_t, double ws_t
+    double cpu_t, double cp_cpu_t, double /*ws_t*/
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
     double vm, rs;
@@ -466,7 +468,7 @@ static void CALLBACK worker_timer(
     UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2
 ) {
 #else
-static void worker_timer(int a) {
+static void worker_timer(int /*a*/) {
 #endif
 
     if (!ready_to_checkpoint) {

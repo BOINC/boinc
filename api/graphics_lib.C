@@ -59,7 +59,6 @@ int boinc_init_options_graphics_lib(
     char graphics_lib[BOINC_STRLEN];
     char resolved_name[BOINC_STRLEN];
     char *ptr;
-    void *handle;
     int retval;
     char *errormsg;
     BIOGI_FUNC_PTR boinc_init_options_graphics_impl_hook;

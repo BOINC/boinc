@@ -239,6 +239,7 @@ GLfloat text_width(const char* text) {
 extern float get_char_width(unsigned char c);
 #endif
 
+#if 0
 float text_width_new(const char* text) {
 	float sum=0;
 #ifdef _WIN32
@@ -248,6 +249,7 @@ float text_width_new(const char* text) {
 #endif
 	return sum;
 }
+#endif
 
 static void draw_text_line_aux(const char *text) {
     for (const char* p = text; *p; p++) {
@@ -305,7 +307,7 @@ void draw_text_line(
 
 // draw rotated text
 void draw_rotated_text(
-	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, const char *text,
+	GLfloat* pos, GLfloat height, GLfloat width, GLfloat /*spacing*/, const char *text,
 	GLfloat rotation, GLfloat* rotation_vector)
 {
 	draw_text_start(pos, height, width);
@@ -340,7 +342,7 @@ void draw_text(
 }
 
 void draw_text_new_3d(
-	GLfloat* _pos, GLfloat char_height, GLfloat line_width,
+	GLfloat* _pos, GLfloat /*char_height*/, GLfloat /*line_width*/,
     GLfloat line_spacing, const char* text
 ) {
 	char* q, *p;
@@ -365,7 +367,7 @@ void draw_text_new_3d(
 }
 
 void draw_text_new(
-    GLfloat* _pos, GLfloat char_height, GLfloat line_width,
+    GLfloat* _pos, GLfloat /*char_height*/, GLfloat /*line_width*/,
     GLfloat line_spacing, const char* text
 ) {
 	char *q, *p;
@@ -535,7 +537,7 @@ void MOVING_TEXT_PANEL::get_pos(int lineno, float* p) {
 }
 
 static int compare_tp(const void* p1, const void* p2) {
-    MOVING_TEXT_PANEL* tp1=(MOVING_TEXT_PANEL*)p1, *tp2 = (MOVING_TEXT_PANEL*)p2;
+    const MOVING_TEXT_PANEL* tp1=(const MOVING_TEXT_PANEL*)p1, *tp2 = (const MOVING_TEXT_PANEL*)p2;
     if (tp1->pos[2] > tp2->pos[2]) return 1;
     if (tp2->pos[2] > tp1->pos[2]) return -1;
     return 0;
@@ -866,7 +868,9 @@ int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
     switch(img_type) {  // TODO: pad image dimension to power of 2
     case '3':
         for (i=0; i<w*h*3; i++) {
-            fscanf(f, "%d", array+i);
+            int x;
+            fscanf(f, "%d", &x);
+            array[i] = x;
         }
     case '6':
         fread(array, 3, w*h, f);
@@ -929,7 +933,7 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
 void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 	jpeg_read_header(cinfo, TRUE);
 	jpeg_start_decompress(cinfo);
-	int rem = cinfo->output_width%4;
+	//int rem = cinfo->output_width%4;
 	pImageData->rowSpan = cinfo->output_width * cinfo->output_components;
 	pImageData->sizeX   = cinfo->output_width;
 	pImageData->sizeY   = cinfo->output_height;
