@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include <afxwin.h>
+DWORD WINAPI win_graphics_event_loop( LPVOID duff );
+#endif
+
 #ifdef BOINC_APP_GRAPHICS
 #ifdef __APPLE_CC__
     #include <OpenGL/gl.h>
@@ -33,11 +38,6 @@
 #include "error_numbers.h"
 
 #include "parse.h"
-
-#ifdef _WIN32
-#include <afxwin.h>
-DWORD WINAPI win_graphics_event_loop( LPVOID duff );
-#endif
 
 #ifdef __APPLE_CC__
 #include "mac_app_opengl.h"
