@@ -100,7 +100,11 @@ bool do_pass(APP& app) {
                 exit(1);
             }
         }
+
+        num_assimilated++;
+
     }
+
     if (did_something) {
         boinc_db.commit_transaction();
     }
