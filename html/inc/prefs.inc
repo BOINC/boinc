@@ -272,8 +272,8 @@ function default_prefs_global() {
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->confirm_executable = false;
-    $p->work_buf_min_days = 1;
-    $p->work_buf_max_days = 3;
+    $p->work_buf_min_days = .1;
+    $p->work_buf_max_days = 1;
     $p->max_cpus = 2;
     $p->disk_interval = 60;
     $p->disk_max_used_gb = 100;
