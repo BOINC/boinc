@@ -446,6 +446,46 @@ int ACTIVE_TASK::kill_task() {
 #endif
 }
 
+#if !defined(HAVE_WAIT4) && defined(HAVE_WAIT3)
+#include <map>
+struct proc_info_t {
+  int status;
+  rusage r;
+  proc_info_t() {};
+  proc_info_t(int s, const rusage &ru);
+};
+
+proc_info_t::proc_info_t(int s, const rusage &ru) : status(s), r(ru) {}
+
+pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
+  static std::map<pid_t,proc_info_t> proc_info;
+  pid_t tmp_pid=0;
+
+  if (!pid) {
+    return wait3(statusp,options,rusagep);
+  } else {
+    if (proc_info.find(pid) == proc_info.end()) {
+      do {
+        tmp_pid=wait3(statusp,options,rusagep);
+        if ((tmp_pid>0) && (tmp_pid != pid)) {
+	  proc_info[tmp_pid]=proc_info_t(*statusp,*rusagep);
+	  if (!(options && WNOHANG)) {
+	    tmp_pid=0;
+	  }
+        } else {
+	  return pid;
+        }
+      } while (!tmp_pid);
+    } else {
+      *statusp=proc_info[pid].status;
+      *rusagep=proc_info[pid].r;
+      proc_info.erase(pid);
+      return pid;
+    }
+  }    
+}
+#endif
+
 bool ACTIVE_TASK::task_exited() {
 #ifdef _WIN32
     unsigned long exit_code;
