@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.10  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -43,12 +46,19 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "ProjectsView.h"
+#include "Events.h"
 
 #include "res/proj.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsView, CBaseListCtrlView)
+
+BEGIN_EVENT_TABLE(CProjectsView, CBaseListCtrlView)
+    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CProjectsView::OnCacheHint)
+END_EVENT_TABLE()
 
 
 CProjectsView::CProjectsView()
@@ -60,9 +70,11 @@ CProjectsView::CProjectsView()
 
 
 CProjectsView::CProjectsView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook)
+    CBaseListCtrlView(pNotebook, ID_LIST_PROJECTSVIEW)
 {
     wxLogTrace("CProjectsView::CProjectsView - Function Begining");
+
+    m_bProcessingRenderEvent = false;
 
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("Account"), wxLIST_FORMAT_LEFT, -1);
@@ -100,8 +112,65 @@ char** CProjectsView::GetViewIcon()
 }
 
 
+void CProjectsView::OnCacheHint ( wxListEvent& event ) {
+    m_iCacheFrom = event.GetCacheFrom();
+    m_iCacheTo = event.GetCacheTo();
+}
+
+
 void CProjectsView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CProjectsView::OnRender - Function Begining");
+
+    if (!m_bProcessingRenderEvent)
+    {
+        wxLogTrace("CProjectsView::OnRender - Processing Render Event...");
+        m_bProcessingRenderEvent = true;
+
+        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetProjectCount();
+        SetItemCount(iProjectCount);
+
+        m_bProcessingRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
+
     wxLogTrace("CProjectsView::OnRender - Function Ending");
+}
+
+
+wxString CProjectsView::OnGetItemText(long item, long column) const {
+    wxString strBuffer;
+    switch(column) {
+        case 0:
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            strBuffer = wxGetApp().GetDocument()->GetProjectName(item);
+            break;
+        case 1:
+            strBuffer = wxGetApp().GetDocument()->GetProjectAccountName(item);
+            break;
+        case 2:
+            strBuffer = wxGetApp().GetDocument()->GetProjectTotalCredit(item);
+            break;
+        case 3:
+            strBuffer = wxGetApp().GetDocument()->GetProjectAvgCredit(item);
+            break;
+        case 4:
+            strBuffer = wxGetApp().GetDocument()->GetProjectResourceShare(item);
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            break;
+    }
+    return strBuffer;
+}
+
+
+int CProjectsView::OnGetItemImage(long item) const {
+    return -1;
+}
+
+
+wxListItemAttr* CProjectsView::OnGetItemAttr(long item) const {
+    return NULL;
 }
 

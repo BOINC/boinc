@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.9  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -56,10 +59,24 @@ public:
 
     ~CProjectsView();
 
-    virtual wxString GetViewName();
-    virtual char**   GetViewIcon();
+    virtual wxString        GetViewName();
+    virtual char**          GetViewIcon();
 
-    virtual void OnRender(wxTimerEvent &event);
+    virtual void            OnRender( wxTimerEvent& event );
+    virtual void            OnCacheHint( wxListEvent& event );
+
+private:
+
+    bool                    m_bProcessingRenderEvent;
+    wxInt32                 m_iCacheFrom;
+    wxInt32                 m_iCacheTo;
+
+    virtual wxString        OnGetItemText(long item, long column) const;
+    virtual int             OnGetItemImage(long item) const;
+    virtual wxListItemAttr* OnGetItemAttr(long item) const;
+
+
+    DECLARE_EVENT_TABLE()
 
 };
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.6  2004/07/12 08:46:25  rwalton
 // Document parsing of the <get_state/> message
 //
@@ -57,6 +60,11 @@ class CMainDocument : public CXMLParser
 
 private:
     wxSocketClient*         m_pSocket;
+    wxSocketOutputStream*   m_pSocketOutput;
+    wxSocketInputStream*    m_pSocketInput;
+    wxTextOutputStream*     m_pTextOutput;
+    wxTextInputStream*      m_pTextInput;
+
 
     wxDateTime              m_dtCachedStateTimestamp;
     wxDateTime              m_dtCachedStateLockTimestamp;
@@ -74,7 +82,7 @@ private:
     
     CProxyInfo              m_ProxyInfo;
 
-    wxInt32                 SendMessageToCore(wxString& strMessage, wxSocketInputStream** pSocketInput);
+    wxInt32                 SendMessageToCore(wxString& strMessage, wxTextInputStream** pTextInput);
 
     wxInt32                 CachedStateUpdate();
 
@@ -90,6 +98,22 @@ public:
     wxInt32                 CachedStateLock();
     wxInt32                 CachedStateUnlock();
 
+    wxInt32                 GetProjectCount();
+    wxString                GetProjectName(wxInt32 iIndex);
+    wxString                GetProjectAccountName(wxInt32 iIndex);
+    wxString                GetProjectTotalCredit(wxInt32 iIndex);
+    wxString                GetProjectAvgCredit(wxInt32 iIndex);
+    wxString                GetProjectResourceShare(wxInt32 iIndex);
+
+    wxInt32                 GetResultCount();
+    wxString                GetResultProjectName(wxInt32 iIndex);
+    wxString                GetResultApplicationName(wxInt32 iIndex);
+    wxString                GetResultName(wxInt32 iIndex);
+    wxString                GetResultCPUTime(wxInt32 iIndex);
+    wxString                GetResultProgress(wxInt32 iIndex);
+    wxString                GetResultTimeToCompletion(wxInt32 iIndex);
+    wxString                GetResultReportDeadline(wxInt32 iIndex);
+    wxString                GetResultStatus(wxInt32 iIndex);
 
 };
 

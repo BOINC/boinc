@@ -15069,3 +15069,23 @@ Daniel 2004-07-12
         app.{C,h}
         cs_apps.C
 
+Rom    12 July 2004
+    - Checkin two workable tabs for the new GUI, Project and Work, performance
+      isn't quite up to par yet.  My client_state.xml file is roughly 256kb and
+      it takes the new gui almost a minute to parse the RPC from the core client.
+
+      NOTE: The Work tab is hooked up but the I still need to massage the data
+            document-side to see things the same way as the existing GUI.
+
+    clientgui/
+        BaseListCtrlView.cpp, .h
+        BOINCGUI.vcproj
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+        MessagesView.cpp, .h
+        Project.cpp
+        ProjectsView.cpp, .h
+        ResourceUtilizationView.cpp, .h
+        TransfersView.cpp, .h
+        WorkView.cpp, .h
+        XMLParser.cpp

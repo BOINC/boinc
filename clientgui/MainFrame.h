@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.8  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -39,12 +42,6 @@
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "MainFrame.cpp"
 #endif
-
-
-#define ID_STATUSBAR                wxID_HIGHEST + 1
-#define ID_COMMANDSATTACHPROJECT    wxID_HIGHEST + 2
-#define ID_TOOLSOPTIONS             wxID_HIGHEST + 3
-#define ID_FRAMERENDERTIMER         wxID_HIGHEST + 4
 
 
 class CMainFrame : public wxFrame

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.10  2004/05/29 00:09:41  rwalton
 // *** empty log message ***
 //
@@ -43,12 +46,19 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "WorkView.h"
+#include "Events.h"
 
 #include "res/result.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)
+
+BEGIN_EVENT_TABLE(CWorkView, CBaseListCtrlView)
+    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CWorkView::OnCacheHint)
+END_EVENT_TABLE()
 
 
 CWorkView::CWorkView()
@@ -60,18 +70,20 @@ CWorkView::CWorkView()
 
 
 CWorkView::CWorkView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook)
+    CBaseListCtrlView(pNotebook, ID_LIST_WORKVIEW)
 {
     wxLogTrace("CWorkView::CWorkView - Function Begining");
+
+    m_bProcessingRenderEvent = false;
 
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("Application"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(2, _("Name"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(3, _("CPU time"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Progress"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(5, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(6, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(7, _("Status"), wxLIST_FORMAT_LEFT, -1);
 
     wxLogTrace("CWorkView::CWorkView - Function Ending");
 }
@@ -103,8 +115,74 @@ char** CWorkView::GetViewIcon()
 }
 
 
+void CWorkView::OnCacheHint ( wxListEvent& event ) {
+    m_iCacheFrom = event.GetCacheFrom();
+    m_iCacheTo = event.GetCacheTo();
+}
+
+
 void CWorkView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CWorkView::OnRender - Function Begining");
+
+    if (!m_bProcessingRenderEvent)
+    {
+        wxLogTrace("CWorkView::OnRender - Processing Render Event...");
+        m_bProcessingRenderEvent = true;
+
+        wxInt32 iResultCount = wxGetApp().GetDocument()->GetResultCount();
+        SetItemCount(iResultCount);
+
+        m_bProcessingRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
+
     wxLogTrace("CWorkView::OnRender - Function Ending");
+}
+
+
+wxString CWorkView::OnGetItemText(long item, long column) const {
+    wxString strBuffer;
+    switch(column) {
+        case 0:
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            strBuffer = wxGetApp().GetDocument()->GetResultProjectName(item);
+            break;
+        case 1:
+            strBuffer = wxGetApp().GetDocument()->GetResultApplicationName(item);
+            break;
+        case 2:
+            strBuffer = wxGetApp().GetDocument()->GetResultName(item);
+            break;
+        case 3:
+            strBuffer = wxGetApp().GetDocument()->GetResultCPUTime(item);
+            break;
+        case 4:
+            strBuffer = wxGetApp().GetDocument()->GetResultProgress(item);
+            break;
+        case 5:
+            strBuffer = wxGetApp().GetDocument()->GetResultTimeToCompletion(item);
+            break;
+        case 6:
+            strBuffer = wxGetApp().GetDocument()->GetResultReportDeadline(item);
+            break;
+        case 7:
+            strBuffer = wxGetApp().GetDocument()->GetResultStatus(item);
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            break;
+    }
+    return strBuffer;
+}
+
+
+int CWorkView::OnGetItemImage(long item) const {
+    return -1;
+}
+
+
+wxListItemAttr* CWorkView::OnGetItemAttr(long item) const {
+    return NULL;
 }
 

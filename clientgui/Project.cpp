@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.2  2004/07/12 08:46:25  rwalton
 // Document parsing of the <get_state/> message
 //
@@ -73,8 +76,8 @@ wxInt32 CProject::Parse(wxTextInputStream* input)
     wxString buf;
     while (buf = input->ReadLine()) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<master_url", master_url)) continue;
-        else if (parse_double(buf, "<resource_share", resource_share)) continue;
+        else if (parse_str(buf, "<master_url>", master_url)) continue;
+        else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (parse_str(buf, "<project_name>", project_name)) continue;
         else if (parse_str(buf, "<user_name>", user_name)) continue;
         else if (parse_str(buf, "<team_name>", team_name)) continue;

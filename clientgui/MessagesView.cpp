@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.10  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -44,11 +47,16 @@
 
 #include "stdwx.h"
 #include "MessagesView.h"
+#include "Events.h"
 
 #include "res/mess.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
+
+BEGIN_EVENT_TABLE(CMessagesView, CBaseListCtrlView)
+    EVT_LIST_CACHE_HINT(ID_LIST_MESSAGESVIEW, CMessagesView::OnCacheHint)
+END_EVENT_TABLE()
 
 
 CMessagesView::CMessagesView()
@@ -60,7 +68,7 @@ CMessagesView::CMessagesView()
 
 
 CMessagesView::CMessagesView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook)
+    CBaseListCtrlView(pNotebook, ID_LIST_MESSAGESVIEW)
 {
     wxLogTrace("CMessagesView::CMessagesView - Function Begining");
 
@@ -95,6 +103,12 @@ char** CMessagesView::GetViewIcon()
 
     wxLogTrace("CMessagesView::GetViewIcon - Function Ending");
     return mess_xpm;
+}
+
+
+void CMessagesView::OnCacheHint ( wxListEvent& event ) {
+    m_iCacheFrom = event.GetCacheFrom();
+    m_iCacheTo = event.GetCacheTo();
 }
 
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.8  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -49,16 +52,16 @@ class CBaseListCtrlView : public wxListView
 
 public:
     CBaseListCtrlView();
-    CBaseListCtrlView( wxNotebook* pNotebook );
+    CBaseListCtrlView( wxNotebook* pNotebook, wxWindowID iWindowID );
 
     ~CBaseListCtrlView();
 
-    virtual wxString GetViewName();
-    virtual char**   GetViewIcon();
+    virtual wxString    GetViewName();
+    virtual char**      GetViewIcon();
 
-    virtual void OnRender( wxTimerEvent &event );
-    virtual bool OnSaveState( wxConfigBase* pConfig );
-    virtual bool OnRestoreState( wxConfigBase* pConfig );
+    virtual void        OnRender( wxTimerEvent& event );
+    virtual bool        OnSaveState( wxConfigBase* pConfig );
+    virtual bool        OnRestoreState( wxConfigBase* pConfig );
 
 };
 

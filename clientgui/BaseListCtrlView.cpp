@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.13  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.12  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
 //
@@ -56,22 +59,22 @@
 IMPLEMENT_DYNAMIC_CLASS(CBaseListCtrlView, wxListView)
 
 
-CBaseListCtrlView::CBaseListCtrlView(void)
+CBaseListCtrlView::CBaseListCtrlView()
 {
     wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Begining");
     wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Ending");
 }
 
 
-CBaseListCtrlView::CBaseListCtrlView(wxNotebook* pNotebook) :
-    wxListView(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_VIRTUAL, wxDefaultValidator, _T("wxListView"))
+CBaseListCtrlView::CBaseListCtrlView(wxNotebook* pNotebook, wxWindowID iWindowID) :
+    wxListView(pNotebook, iWindowID, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_VIRTUAL, wxDefaultValidator, _T("wxListView"))
 {
     wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Begining");
     wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Ending");
 }
 
 
-CBaseListCtrlView::~CBaseListCtrlView(void)
+CBaseListCtrlView::~CBaseListCtrlView()
 {
     wxLogTrace("CBaseListCtrlView::~CBaseListCtrlView - Function Begining");
     wxLogTrace("CBaseListCtrlView::~CBaseListCtrlView - Function Ending");
@@ -81,7 +84,7 @@ CBaseListCtrlView::~CBaseListCtrlView(void)
 // The user friendly name of the view.
 //   If it has not been defined by the view "Undefined" is returned.
 //
-wxString CBaseListCtrlView::GetViewName(void)
+wxString CBaseListCtrlView::GetViewName()
 {
     wxLogTrace("CBaseListCtrlView::GetViewName - Function Begining");
     wxLogTrace("CBaseListCtrlView::GetViewName - Function Ending");
@@ -92,7 +95,7 @@ wxString CBaseListCtrlView::GetViewName(void)
 // The user friendly icon of the view.
 //   If it has not been defined by the view the BOINC icon is returned.
 //
-char** CBaseListCtrlView::GetViewIcon(void)
+char** CBaseListCtrlView::GetViewIcon()
 {
     wxLogTrace("CBaseListCtrlView::GetViewIcon - Function Begining");
 
@@ -103,12 +106,8 @@ char** CBaseListCtrlView::GetViewIcon(void)
 }
 
 
-void CBaseListCtrlView::OnRender (wxTimerEvent &event) {
+void CBaseListCtrlView::OnRender (wxTimerEvent& event) {
     wxLogTrace("CBaseListCtrlView::OnRender - Function Begining");
-
-    wxLogTrace("CBaseListCtrlView::OnRender - ***** Warning ***** Each page is supposed to have it's own OnRender");
-    wxLogTrace("CBaseListCtrlView::OnRender -                     event handler");
-
     wxLogTrace("CBaseListCtrlView::OnRender - Function Ending");
 }
 

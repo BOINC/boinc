@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.7  2004/07/12 08:46:25  rwalton
 // Document parsing of the <get_state/> message
 //
@@ -46,19 +49,26 @@ IMPLEMENT_DYNAMIC_CLASS(CMainDocument, CXMLParser)
 
 CMainDocument::CMainDocument()
 {
-    m_pSocket = new wxSocketClient();
+    m_pSocket = new wxSocketClient(wxSOCKET_WAITALL);
+
+    m_bCachedStateLocked = false;
+    m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    m_dtCachedStateTimestamp = 0;
 }
 
 
 CMainDocument::~CMainDocument()
 {
+    m_dtCachedStateTimestamp = wxDateTime::Now();
+    m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    m_bCachedStateLocked = false;
+
     if (m_pSocket)
         delete m_pSocket;
 }
 
 
-wxInt32 CMainDocument::SendMessageToCore(wxString& strMessage, wxSocketInputStream** pSocketInput)
-{
+wxInt32 CMainDocument::SendMessageToCore(wxString& strMessage, wxTextInputStream** pTextInput) {
     if (!m_pSocket->IsConnected())
     {
         wxIPV4address addr;
@@ -70,57 +80,160 @@ wxInt32 CMainDocument::SendMessageToCore(wxString& strMessage, wxSocketInputStre
         {
             return ERR_CONNECT;
         }
+
+        m_pSocketOutput = new wxSocketOutputStream(*m_pSocket);
+        if (!m_pSocketOutput)
+            return ERR_MALLOC;
+
+        m_pSocketInput = new wxSocketInputStream(*m_pSocket);
+        if (!m_pSocketInput)
+            return ERR_MALLOC;
+
+        m_pTextOutput = new wxTextOutputStream(*m_pSocketOutput, wxEOL_UNIX);
+        if (!m_pTextOutput)
+            return ERR_MALLOC;
+
+        m_pTextInput = new wxTextInputStream(*m_pSocketInput);
+        if (!m_pTextInput)
+            return ERR_MALLOC;
     }
 
-    wxSocketOutputStream* pSocketOutput = new wxSocketOutputStream((*m_pSocket));
-    if (!pSocketOutput)
-        return ERR_MALLOC;
+    m_pTextOutput->WriteString(strMessage);
 
-    pSocketOutput->Write("<get_state/>", sizeof("<get_state/>"));
-
-    (*pSocketInput) = new wxSocketInputStream((*m_pSocket));
-    if (!(*pSocketInput))
-        return ERR_MALLOC;
-    
-    delete pSocketOutput;
+    (*pTextInput) = m_pTextInput;
 
     return 0;
 }
 
 
-wxInt32 CMainDocument::CachedStateLock()
-{
+wxInt32 CMainDocument::CachedStateLock() {
     m_bCachedStateLocked = true;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     return 0;
 }
 
 
-wxInt32 CMainDocument::CachedStateUnlock()
-{
+wxInt32 CMainDocument::CachedStateUnlock() {
     m_bCachedStateLocked = false;
     return 0;
 }
 
 
-wxInt32 CMainDocument::CachedStateUpdate()
-{
-    wxSocketInputStream* pSocketInput = NULL;
+wxInt32 CMainDocument::GetProjectCount() {
+    CachedStateUpdate();
+    return m_Projects.GetCount();
+}
+
+
+wxString CMainDocument::GetProjectName(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return m_Projects.Item(iIndex).GetProjectName();
+}
+
+
+wxString CMainDocument::GetProjectAccountName(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return m_Projects.Item(iIndex).GetUserName();
+}
+
+
+wxString CMainDocument::GetProjectTotalCredit(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("%0.2f"), m_Projects.Item(iIndex).GetUserTotalCredit());
+}
+
+
+wxString CMainDocument::GetProjectAvgCredit(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("%0.2f"), m_Projects.Item(iIndex).GetUserExpAvgCredit());
+}
+
+
+wxString CMainDocument::GetProjectResourceShare(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("%0.2f%"), m_Projects.Item(iIndex).GetResourceShare());
+}
+
+
+wxInt32 CMainDocument::GetResultCount() {
+    CachedStateUpdate();
+    return m_Results.GetCount();
+}
+
+
+wxString CMainDocument::GetResultProjectName(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return m_Results.Item(iIndex).GetProject()->GetProjectName();
+}
+
+
+wxString CMainDocument::GetResultApplicationName(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return m_Results.Item(iIndex).GetApp()->GetName();
+}
+
+
+wxString CMainDocument::GetResultName(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return m_Results.Item(iIndex).GetName();
+}
+
+
+wxString CMainDocument::GetResultCPUTime(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("---"));
+}
+
+
+wxString CMainDocument::GetResultProgress(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("---"));
+}
+
+
+wxString CMainDocument::GetResultTimeToCompletion(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("---"));
+}
+
+
+wxString CMainDocument::GetResultReportDeadline(wxInt32 iIndex) {
+    CachedStateUpdate();
+    wxDateTime dtReportDeadline;
+    dtReportDeadline.Set((time_t)m_Results.Item(iIndex).GetReportDeadline());
+    return dtReportDeadline.Format();
+}
+
+
+wxString CMainDocument::GetResultStatus(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T("---"));
+}
+
+
+wxInt32 CMainDocument::CachedStateUpdate() {
     wxTextInputStream*   pTextInput = NULL;
     CProject*            pProject = NULL;
     wxString             strBuffer;
     wxString             strMessage;
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
-    if (!m_bCachedStateLocked || (m_bCachedStateLocked && (ts > wxTimeSpan::Seconds(1))))
+    if (!m_bCachedStateLocked && (ts > wxTimeSpan::Seconds(300)))
     {
+        wxLogTrace("CMainDocument::CachedStateUpdate - State Cache Updating...");
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
 
         strMessage = "<get_state/>";
 
-        SendMessageToCore(strMessage, &pSocketInput);
+        SendMessageToCore(strMessage, &pTextInput);
 
-        pTextInput = new wxTextInputStream((*pSocketInput));
+        m_Projects.Empty();
+        m_Apps.Empty();
+        m_AppVersions.Empty();
+        m_Workunits.Empty();
+        m_Results.Empty();
+        m_FileInfos.Empty();
+        m_ActiveTasks.Empty();
 
         while (strBuffer = pTextInput->ReadLine()) 
         {
@@ -154,8 +267,8 @@ wxInt32 CMainDocument::CachedStateUpdate()
                 CWorkunit* pWorkunit = new CWorkunit;
                 pWorkunit->Parse(pTextInput);
                 pWorkunit->SetProject(pProject);
-                pWorkunit->SetApp(LookupApp(pWorkunit->GetName()));
-                pWorkunit->SetAppVersion(LookupAppVersion(pWorkunit->GetName(), pWorkunit->GetApplicationVersion()));
+                pWorkunit->SetApp(LookupApp(pWorkunit->GetApplicationName()));
+                pWorkunit->SetAppVersion(LookupAppVersion(pWorkunit->GetApplicationName(), pWorkunit->GetApplicationVersion()));
                 m_Workunits.Add(pWorkunit);
                 continue;
             }
@@ -192,16 +305,15 @@ wxInt32 CMainDocument::CachedStateUpdate()
                 continue;
             }
         }
+
+        wxLogTrace("CMainDocument::CachedStateUpdate - State Cache Updated...");
     }
 
     return 0;
 }
 
 
-CApp* CMainDocument::LookupApp(wxString& strName)
-{
-    wxLogTrace("CMainDocument::LookupApp - Function Begining");
-
+CApp* CMainDocument::LookupApp(wxString& strName) {
     unsigned int i;
     CApp*        pApp = NULL;
 
@@ -210,16 +322,11 @@ CApp* CMainDocument::LookupApp(wxString& strName)
     }
 
     wxASSERT(NULL != pApp);
-
-    wxLogTrace("CMainDocument::LookupApp - Function Ending");
     return pApp;
 }
 
 
-CWorkunit* CMainDocument::LookupWorkunit(wxString& strName)
-{
-    wxLogTrace("CMainDocument::LookupWorkunit - Function Begining");
-
+CWorkunit* CMainDocument::LookupWorkunit(wxString& strName) {
     unsigned int i;
     CWorkunit*   pWorkunit = NULL;
 
@@ -228,16 +335,11 @@ CWorkunit* CMainDocument::LookupWorkunit(wxString& strName)
     }
 
     wxASSERT(NULL != pWorkunit);
-
-    wxLogTrace("CMainDocument::LookupWorkunit - Function Ending");
     return pWorkunit;
 }
 
 
-CResult* CMainDocument::LookupResult(wxString& strName)
-{
-    wxLogTrace("CMainDocument::LookupResult - Function Begining");
-
+CResult* CMainDocument::LookupResult(wxString& strName) {
     unsigned int i;
     CResult*     pResult = NULL;
 
@@ -246,16 +348,11 @@ CResult* CMainDocument::LookupResult(wxString& strName)
     }
 
     wxASSERT(NULL != pResult);
-
-    wxLogTrace("CMainDocument::LookupResult - Function Ending");
     return pResult;
 }
 
 
-CAppVersion* CMainDocument::LookupAppVersion(wxString& strName, int iVersionNumber)
-{
-    wxLogTrace("CMainDocument::LookupAppVersion - Function Begining");
-
+CAppVersion* CMainDocument::LookupAppVersion(wxString& strName, int iVersionNumber) {
     unsigned int i;
     CAppVersion* pAppVersion = NULL;
 
@@ -266,8 +363,6 @@ CAppVersion* CMainDocument::LookupAppVersion(wxString& strName, int iVersionNumb
     }
 
     wxASSERT(NULL != pAppVersion);
-
-    wxLogTrace("CMainDocument::LookupAppVersion - Function Ending");
     return pAppVersion;
 }
 

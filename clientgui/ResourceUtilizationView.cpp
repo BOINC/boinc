@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.10  2004/05/29 00:09:40  rwalton
 // *** empty log message ***
 //
@@ -44,11 +47,16 @@
 
 #include "stdwx.h"
 #include "ResourceUtilizationView.h"
+#include "Events.h"
 
 #include "res/usage.xpm"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CResourceUtilizationView, CBaseWindowView)
+IMPLEMENT_DYNAMIC_CLASS(CResourceUtilizationView, CBaseListCtrlView)
+
+BEGIN_EVENT_TABLE(CResourceUtilizationView, CBaseListCtrlView)
+    EVT_LIST_CACHE_HINT(ID_LIST_RESOURCEUTILIZATIONVIEW, CResourceUtilizationView::OnCacheHint)
+END_EVENT_TABLE()
 
 
 CResourceUtilizationView::CResourceUtilizationView()
@@ -60,14 +68,9 @@ CResourceUtilizationView::CResourceUtilizationView()
 
 
 CResourceUtilizationView::CResourceUtilizationView(wxNotebook* pNotebook) :
-    CBaseWindowView(pNotebook)
+    CBaseListCtrlView(pNotebook, ID_LIST_RESOURCEUTILIZATIONVIEW)
 {
     wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Begining");
-
-    SetBackgroundColour(wxColor(_T("WHITE")));
-
-    (void) new wxStaticText( this, -1,
-        wxT("This page intentionally left blank"), wxPoint(10, 10) );
 
     wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Ending");
 }
@@ -99,22 +102,14 @@ char** CResourceUtilizationView::GetViewIcon()
 }
 
 
+void CResourceUtilizationView::OnCacheHint ( wxListEvent& event ) {
+    m_iCacheFrom = event.GetCacheFrom();
+    m_iCacheTo = event.GetCacheTo();
+}
+
+
 void CResourceUtilizationView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CResourceUtilizationView::OnRender - Function Begining");
     wxLogTrace("CResourceUtilizationView::OnRender - Function Ending");
-}
-
-
-bool CResourceUtilizationView::OnSaveState( wxConfigBase* pConfig ) {
-    wxLogTrace("CResourceUtilizationView::OnSaveState - Function Begining");
-    wxLogTrace("CResourceUtilizationView::OnSaveState - Function Ending");
-    return true;
-}
-
-
-bool CResourceUtilizationView::OnRestoreState( wxConfigBase* pConfig ) {
-    wxLogTrace("CResourceUtilizationView::OnRestoreState - Function Begining");
-    wxLogTrace("CResourceUtilizationView::OnRestoreState - Function Ending");
-    return true;
 }
 

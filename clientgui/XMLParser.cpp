@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.2  2004/07/12 08:46:26  rwalton
 // Document parsing of the <get_state/> message
 //
@@ -83,14 +86,18 @@ bool CXMLParser::parse_double(const wxString &strBuffer, const wxString &strTag,
 
 bool CXMLParser::parse_str(const wxString &strBuffer, const wxString &strTag, wxString &strValue)
 {
-    wxInt32     iStart = strBuffer.First(strTag) + (wxInt32)strTag.Length();
-    wxInt32     iEnd = strValue.Find('<', true);
+    wxInt32     iStart = strBuffer.First(strTag);
+    wxInt32     iEnd = strBuffer.Find('<', true);
 
-    wxASSERT(0  != iStart);
+    if (-1 == iStart)
+        return false;
+
     wxASSERT(-1 != iEnd);
 
+    iStart += (wxInt32)strTag.Length();
+
     if ((0  != iStart) && (-1 != iEnd)) {
-        xml_unescape(strBuffer.Mid(iStart, (iStart - iEnd)), strValue);
+        xml_unescape(strBuffer.Mid(iStart, (iEnd - iStart)), strValue);
         return true;
     } else {
         return false;

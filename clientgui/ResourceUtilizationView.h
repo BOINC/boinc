@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.9  2004/05/29 00:09:41  rwalton
 // *** empty log message ***
 //
@@ -43,9 +46,9 @@
 #endif
 
 
-#include "BaseWindowView.h"
+#include "BaseListCtrlView.h"
 
-class CResourceUtilizationView : public CBaseWindowView
+class CResourceUtilizationView : public CBaseListCtrlView
 {
     DECLARE_DYNAMIC_CLASS(CResourceUtilizationView)
 
@@ -55,13 +58,20 @@ public:
 
     ~CResourceUtilizationView();
 
-    virtual wxString GetViewName();
-    virtual char**   GetViewIcon();
+    virtual wxString        GetViewName();
+    virtual char**          GetViewIcon();
 
-    void OnRender(wxTimerEvent &event);
-    bool OnSaveState( wxConfigBase* pConfig );
-    bool OnRestoreState( wxConfigBase* pConfig );
+    virtual void            OnRender(wxTimerEvent &event);
+    virtual void            OnCacheHint( wxListEvent& event );
 
+private:
+
+    bool                    m_bProcessingRenderEvent;
+    wxInt32                 m_iCacheFrom;
+    wxInt32                 m_iCacheTo;
+
+
+    DECLARE_EVENT_TABLE()
 };
 
 

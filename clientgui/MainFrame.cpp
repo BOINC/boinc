@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.17  2004/07/13 05:56:01  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.16  2004/05/29 06:58:47  rwalton
 // *** empty log message ***
 //
@@ -54,8 +57,8 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainFrame.h"
+#include "Events.h"
 #include "BaseListCtrlView.h"
-#include "BaseWindowView.h"
 #include "MessagesView.h"
 #include "ProjectsView.h"
 #include "ResourceUtilizationView.h"
@@ -112,7 +115,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(NULL != m_pFrameRenderTimer);
 
-    m_pFrameRenderTimer->Start(1000);       // Send event every second
+    m_pFrameRenderTimer->Start(5000);       // Send event every 5 seconds
 
 
     RestoreState();
@@ -232,8 +235,7 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
 
     wxASSERT(NULL != pwndNewNotebookPage);
     wxASSERT(NULL != m_pNotebook);
-    wxASSERT(wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView) ||
-             wxDynamicCast(pwndNewNotebookPage, CBaseWindowView));
+    wxASSERT(wxDynamicCast(pwndNewNotebookPage, CBaseListCtrlView));
 
 
     pImageList = m_pNotebook->GetImageList();
@@ -359,8 +361,7 @@ bool CMainFrame::SaveState() {
     for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
 
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
-        wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView) ||
-                 wxDynamicCast(pwndNotebookPage, CBaseWindowView));
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView));
 
         if        (wxDynamicCast(pwndNotebookPage, CProjectsView)) {
             FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CProjectsView), pConfig);
@@ -374,8 +375,6 @@ bool CMainFrame::SaveState() {
             FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CResourceUtilizationView), pConfig);
         } else if (wxDynamicCast(pwndNotebookPage, CBaseListCtrlView)) {
             FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView), pConfig);
-        } else if (wxDynamicCast(pwndNotebookPage, CBaseWindowView)) {
-            FireSaveStateEvent(wxDynamicCast(pwndNotebookPage, CBaseWindowView), pConfig);
         }
     }
 
@@ -441,8 +440,7 @@ bool CMainFrame::RestoreState() {
     for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
 
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
-        wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView) ||
-                 wxDynamicCast(pwndNotebookPage, CBaseWindowView));
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView));
 
         if        (wxDynamicCast(pwndNotebookPage, CProjectsView)) {
             FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CProjectsView), pConfig);
@@ -456,8 +454,6 @@ bool CMainFrame::RestoreState() {
             FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CResourceUtilizationView), pConfig);
         } else if (wxDynamicCast(pwndNotebookPage, CBaseListCtrlView)) {
             FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView), pConfig);
-        } else if (wxDynamicCast(pwndNotebookPage, CBaseWindowView)) {
-            FireRestoreStateEvent(wxDynamicCast(pwndNotebookPage, CBaseWindowView), pConfig);
         }
     }
 
@@ -556,8 +552,6 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
 
 
 void CMainFrame::OnFrameRender (wxTimerEvent &event) {
-    wxLogTrace("CMainFrame::OnFrameRender - Function Begining");
-
     wxWindow*       pwndNotebookPage;
 
     wxASSERT(NULL != m_pNotebook);
@@ -565,8 +559,7 @@ void CMainFrame::OnFrameRender (wxTimerEvent &event) {
 
     pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
     wxASSERT(NULL != pwndNotebookPage);
-    wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView) ||
-             wxDynamicCast(pwndNotebookPage, CBaseWindowView));
+    wxASSERT(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView));
 
     if        (wxDynamicCast(pwndNotebookPage, CProjectsView)) {
         FireRenderEvent(wxDynamicCast(pwndNotebookPage, CProjectsView), event);
@@ -580,21 +573,14 @@ void CMainFrame::OnFrameRender (wxTimerEvent &event) {
         FireRenderEvent(wxDynamicCast(pwndNotebookPage, CResourceUtilizationView), event);
     } else if (wxDynamicCast(pwndNotebookPage, CBaseListCtrlView)) {
         FireRenderEvent(wxDynamicCast(pwndNotebookPage, CBaseListCtrlView), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CBaseWindowView)) {
-        FireRenderEvent(wxDynamicCast(pwndNotebookPage, CBaseWindowView), event);
     }
-
-
-    wxLogTrace("CMainFrame::OnFrameRender - Function Ending");
 }
 
 
 template < class T >
 void CMainFrame::FireRenderEvent( T pPage, wxTimerEvent &event ) {
     wxLogTrace("CMainFrame::FireRenderEvent - Function Begining");
-
     pPage->OnRender(event);
-
     wxLogTrace("CMainFrame::FireRenderEvent - Function Ending");
 }
 

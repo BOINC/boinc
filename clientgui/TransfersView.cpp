@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/07/13 05:56:02  rwalton
+// Hooked up the Project and Work tab for the new GUI.
+//
 // Revision 1.10  2004/05/29 00:09:41  rwalton
 // *** empty log message ***
 //
@@ -44,11 +47,16 @@
 
 #include "stdwx.h"
 #include "TransfersView.h"
+#include "Events.h"
 
 #include "res/xfer.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)
+
+BEGIN_EVENT_TABLE(CTransfersView, CBaseListCtrlView)
+    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CTransfersView::OnCacheHint)
+END_EVENT_TABLE()
 
 
 CTransfersView::CTransfersView()
@@ -60,7 +68,7 @@ CTransfersView::CTransfersView()
 
 
 CTransfersView::CTransfersView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook)
+    CBaseListCtrlView(pNotebook, ID_LIST_TRANSFERSVIEW)
 {
     wxLogTrace("CTransfersView::CTransfersView - Function Begining");
 
@@ -69,8 +77,8 @@ CTransfersView::CTransfersView(wxNotebook* pNotebook) :
     InsertColumn(2, _("Progress"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(3, _("Size"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Time"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Speed"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(5, _("Speed"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(6, _("Status"), wxLIST_FORMAT_LEFT, -1);
 
     wxLogTrace("CTransfersView::CTransfersView - Function Ending");
 }
@@ -99,6 +107,12 @@ char** CTransfersView::GetViewIcon()
 
     wxLogTrace("CTransfersView::GetViewIcon - Function Ending");
     return xfer_xpm;
+}
+
+
+void CTransfersView::OnCacheHint ( wxListEvent& event ) {
+    m_iCacheFrom = event.GetCacheFrom();
+    m_iCacheTo = event.GetCacheTo();
 }
 
 
