@@ -24222,3 +24222,19 @@ Bruce 8 Feb 2005
     sched/
         sched_send.C
 
+Janus 8 Feb 2005
+    - Added another example of the use of the new multilanguage features for
+      the website. This time it is the "Rules and policies" page.
+    - Small correction to better allow comments and empty lines in language-
+      files and language interface.
+
+    html/
+        inc/
+             translation.inc
+        languages/
+             language_interface
+             translations/
+                en.po
+        user/
+             info.php
+
