@@ -833,6 +833,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\network.C">
+			</File>
+			<File
 				RelativePath="..\Lib\parse.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1276,6 +1279,9 @@
 				RelativePath="..\client\net_xfer.h">
 			</File>
 			<File
+				RelativePath="..\lib\network.h">
+			</File>
+			<File
 				RelativePath="..\lib\parse.h">
 			</File>
 			<File
@@ -1343,10 +1349,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1366,10 +1372,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

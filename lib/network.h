@@ -17,34 +17,14 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-class GUI_RPC_CONN {
-public:
-    int sock;
-    char nonce[256];
-    bool auth_needed;
-    GUI_RPC_CONN(int);
-    ~GUI_RPC_CONN();
-    int handle_rpc();
-    void handle_auth1(MIOFILE&);
-    void handle_auth2(char*, MIOFILE&);
-};
+extern void boinc_close_socket(int sock);
+extern int get_socket_error(int fd);
 
-// authentication for GUI RPCs:
-// 1) if a IPaddr-list file is found, accept only from those addrs
-// 2) if a password file file is found, ALSO demand password auth
-
-class GUI_RPC_CONN_SET {
-    std::vector<GUI_RPC_CONN*> gui_rpcs;
-    std::vector<int> allowed_remote_ip_addresses;
-    int lsock;
-
-    int get_allowed_hosts();
-    int get_password();
-    int insert(GUI_RPC_CONN*);
-public:
-    char password[256];
-    bool poll(double);
-    int init();
-};
-
-#define GUI_RPC_PORT 1043
+#if defined(_WIN32)
+typedef int socklen_t;
+#define SHUT_WR SD_SEND
+#elif defined( __APPLE__)
+typedef int32_t socklen_t;
+#elif !defined(GETSOCKOPT_SOCKLEN_T) && !defined(_SOCKLEN_T_DECLARED) && !defined(socklen_t)
+typedef size_t socklen_t;
+#endif

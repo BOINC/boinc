@@ -39,7 +39,7 @@ echo "
 <p>
 The command-line interface program has the following interface:
 <pre>
-boinc_cmd [--host hostname] command
+boinc_cmd [--host hostname] [--passwd passwd] command
 </pre>
 The commands are as follows:
 ";

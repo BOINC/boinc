@@ -65,5 +65,6 @@ extern void get_sched_reply_filename(PROJECT&, char*);
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
 #define FILE_LIST_NAME              "file_list.xml"
 #define ACCT_MGR_REPLY_FILENAME     "acct_mgr_reply.xml"
+#define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
 
 #endif

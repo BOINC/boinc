@@ -20,7 +20,7 @@
 // boinc_cmd: command-line interface to a BOINC core client,
 // using GUI RPCs.
 //
-// usage: boinc_cmd [--host hostname] command
+// usage: boinc_cmd [--host hostname] [--passwd passwd] command
 //
 // commands:
 // --get_state               	show entire state
@@ -92,7 +92,8 @@ int main(int argc, char** argv) {
     unsigned int i;
     MESSAGES messages;
     int retval;
-    char* hostname=0;
+    char* hostname = NULL;
+    char* passwd = NULL;
 
 #ifdef _WIN32
     WSADATA wsdata;
@@ -104,14 +105,25 @@ int main(int argc, char** argv) {
 #endif
     if (argc < 2) usage();
     i = 1;
-    if (!strcmp(argv[1], "-host")) {
-        hostname = argv[2];
-        i = 3;
+    if (!strcmp(argv[i], "--host")) {
+        hostname = argv[i+1];
+        i += 2;
+    }
+    if (!strcmp(argv[i], "--passwd")) {
+        passwd = argv[i+1];
+        i += 2;
     }
     retval = rpc.init(hostname);
     if (retval) {
         fprintf(stderr, "can't connect\n");
         exit(1);
+    }
+    if (passwd) {
+        retval = rpc.authorize(passwd);
+        if (retval) {
+            fprintf(stderr, "can't authorize\n");
+            exit(1);
+        }
     }
 
     if (!strcmp(argv[i], "--get_state")) {

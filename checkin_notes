@@ -25555,3 +25555,26 @@ Rom    5 Mar 2005
 
     client/
         client_state.C
+
+David  5 Mar 2005
+	- initial support for GUI RPC protection
+		If the core client finds a file called "gui_rpc_auth.cfg",
+		it reads a password from it, and all GUI RPC requests
+		must authenticate using a challenge/response sequence,
+		proving that they have the password without sending it.
+	- Added --passwd option to boinc_cmd
+	- Moved network-related code out of gui_rpc_server.C
+		and http.C (identical stuff) into lib/network.C,h
+
+	client/
+		file_names.h
+		gui_rpc_server.C,h
+		http.C
+		net_xfer.C,h
+	lib/
+		boinc_cmd.C
+		gui_rpc_client.C,h
+		network.C,h (new)
+	win_build/
+		boinc_cli.vcproj
+		boing_gui.vcproj

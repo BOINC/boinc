@@ -74,17 +74,11 @@
 #include "error_numbers.h"
 #include "net_xfer.h"
 #include "util.h"
+#include "network.h"
+
 #include "client_types.h"
 #include "client_state.h"
 #include "client_msgs.h"
-
-#if defined(_WIN32)
-typedef int socklen_t;
-#elif defined( __APPLE__)
-typedef int32_t socklen_t;
-#elif !defined(GETSOCKOPT_SOCKLEN_T) && !defined(_SOCKLEN_T_DECLARED) && !defined(socklen_t)
-typedef size_t socklen_t;
-#endif
 
 using std::vector;
 
@@ -92,26 +86,6 @@ using std::vector;
 // in this many seconds, error out
 #define NET_XFER_TIMEOUT    600
 
-static void boinc_close_socket(int sock) {
-#ifdef _WIN32
-    closesocket(sock);
-#else
-    close(sock);
-#endif
-}
-
-int get_socket_error(int fd) {
-    socklen_t intsize = sizeof(int);
-    int n;
-#ifdef WIN32
-    getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
-#elif __APPLE__
-    getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
-#else
-    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
-#endif
-    return n;
-}
 
 int NET_XFER::get_ip_addr(int &ip_addr) {
 

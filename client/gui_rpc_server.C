@@ -36,6 +36,8 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "parse.h"
+#include "network.h"
+#include "filesys.h"
 
 #include "file_names.h"
 #include "client_msgs.h"
@@ -44,24 +46,9 @@
 using std::string;
 using std::vector;
 
-#if defined(_WIN32)
-typedef int socklen_t;
-#elif defined( __APPLE__)
-typedef int32_t socklen_t;
-#elif !defined(GETSOCKOPT_SOCKLEN_T) && !defined(_SOCKLEN_T_DECLARED) && !defined(socklen_t)
-typedef size_t socklen_t;
-#endif
-
-static void boinc_close_socket(int sock) {
-#ifdef _WIN32
-    closesocket(sock);
-#else
-    close(sock);
-#endif
-}
-
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
+    auth_needed = false;
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
@@ -465,6 +452,30 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     }
 }
 
+static void auth_failure(MIOFILE& fout) {
+    fout.printf("<unauthorized/>\n");
+}
+
+void GUI_RPC_CONN::handle_auth1(MIOFILE& fout) {
+    sprintf(nonce, "%f", dtime());
+    fout.printf("<nonce>%s</nonce>\n", nonce);
+}
+
+void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
+    char nonce_hash[256], nonce_hash_correct[256], buf2[256];
+    if (!parse_str(buf, "<nonce_hash>", nonce_hash, 256)) {
+        auth_failure(fout);
+        return;
+    }
+    sprintf(buf2, "%s%s", nonce, gstate.gui_rpcs.password);
+    md5_block((const unsigned char*)buf2, strlen(buf2), nonce_hash_correct);
+    if (strcmp(nonce_hash, nonce_hash_correct)) {
+        auth_failure(fout);
+        return;
+    }
+    fout.printf("<authorized/>\n");
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -499,7 +510,13 @@ int GUI_RPC_CONN::handle_rpc() {
         "<client_version>%d</client_version>\n",
         gstate.version()
     );
-    if (match_tag(request_msg, "<get_state")) {
+    if (match_tag(request_msg, "<auth1>")) {
+        handle_auth1(mf);
+    } else if (match_tag(request_msg, "<auth2>")) {
+        handle_auth2(request_msg, mf);
+    } else if (auth_needed) {
+        auth_failure(mf);
+    } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
         gstate.write_tasks_gui(mf);
@@ -579,6 +596,19 @@ int GUI_RPC_CONN::handle_rpc() {
     return 0;
 }
 
+int GUI_RPC_CONN_SET::get_password() {
+    strcpy(password, "");
+    if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
+        FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
+        if (f) {
+            fgets(password, 256, f);
+            strip_whitespace(password);
+            fclose(f);
+        }
+    }
+    return 0;
+}
+
 int GUI_RPC_CONN_SET::get_allowed_hosts() {
  
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
@@ -626,9 +656,8 @@ int GUI_RPC_CONN_SET::init() {
     sockaddr_in addr;
     int retval;
 
-    // get list of hosts allowed to do GUI RPCs
-    //
     get_allowed_hosts();
+    get_password();
 
     lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
@@ -744,6 +773,9 @@ bool GUI_RPC_CONN_SET::poll(double) {
             boinc_close_socket(sock);
         } else {
             gr = new GUI_RPC_CONN(sock);
+            if (strlen(password)) {
+                gr->auth_needed = true;
+            }
             insert(gr);
         }
     }

@@ -88,7 +88,7 @@ public:
 // Each second we reset these to zero.
 
 class NET_XFER_SET {
-  std::vector<NET_XFER*> net_xfers;
+    std::vector<NET_XFER*> net_xfers;
 public:
     NET_XFER_SET();
     double max_bytes_sec_up, max_bytes_sec_down;
@@ -108,7 +108,5 @@ public:
     NET_XFER* lookup_fd(int);   // lookup by fd
     void check_active(bool&, bool&);
 };
-
-extern int get_socket_error(int fd);
 
 #endif

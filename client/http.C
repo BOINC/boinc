@@ -21,31 +21,22 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#define SHUT_WR SD_SEND
-#endif
-
-#ifndef _WIN32
+#else
 #include <cstring>
 #include <sstream>
 #include <algorithm>
-
-#if HAVE_SYS_STAT_H
 #include <sys/stat.h>
-#endif
-#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-#endif
 #include <cerrno>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #endif
 
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
-#include "client_msgs.h"
+#include "network.h"
 
+#include "client_msgs.h"
 #include "http.h"
 #include "base64.h"
 

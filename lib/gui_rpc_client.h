@@ -374,13 +374,11 @@ public:
     int client_version;
     int send_request(const char*);
     int get_reply(char*&);
-
-public:
-
     RPC_CLIENT();
     ~RPC_CLIENT();
     int init(const char* host);
     void close();
+    int authorize(char* passwd);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);

@@ -20,9 +20,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "version.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -41,6 +39,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "miofile.h"
+#include "md5_file.h"
 #include "gui_rpc_client.h"
 
 using std::string;
@@ -983,6 +982,34 @@ int RPC_CLIENT::init(const char* host) {
         return ERR_CONNECT;
     }
     return 0;
+}
+
+int RPC_CLIENT::authorize(char* passwd) {
+    bool found=false;
+    int retval;
+    char buf[256], nonce[256], nonce_hash[256];
+    RPC rpc(this);
+
+    retval = rpc.do_rpc("<auth1/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (parse_str(buf, "<nonce>", nonce, sizeof(nonce))) {
+            found = true;
+        }
+    }
+    if (!found) return ERR_AUTHENTICATOR;
+
+    sprintf(buf, "%s%s", nonce, passwd);
+    md5_block((const unsigned char*)buf, strlen(buf), nonce_hash);
+    sprintf(buf, "<nonce_hash>%s</nonce_hash>\n", nonce_hash);
+    retval = rpc.do_rpc("<auth2/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "<authorized/>")) {
+            return 0;
+        }
+    }
+    return ERR_AUTHENTICATOR;
 }
 
 int RPC_CLIENT::send_request(const char* p) {
