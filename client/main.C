@@ -59,13 +59,14 @@ int add_new_project() {
     printf(
         "You should have already registered with the project\n"
         "and received an account key by email.\n"
-        "Paste this ID here: "
+        "Paste the account key here: "
     );
     scanf("%s", authenticator);
 
-    // TODO: might be a good idea to verify the ID here
+    // TODO: might be a good idea to verify the account key
     // by doing an RPC to a scheduling server.
-    // But this would require fetching and parsing the master file
+    // But this would require fetching and parsing the master file,
+    // so to heck with it.
 
     write_account_file(master_url, authenticator);
     return 0;

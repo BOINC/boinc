@@ -65,6 +65,7 @@ CLIENT_STATE::CLIENT_STATE() {
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
+    update_prefs = false;
     run_time_test = true;
     giveup_after = PERS_GIVEUP;
     contacted_sched_server = false;
@@ -92,6 +93,7 @@ CLIENT_STATE::CLIENT_STATE() {
 
 int CLIENT_STATE::init() {
     int retval;
+    unsigned int i;
 
     srand(time(NULL));
 
@@ -135,7 +137,7 @@ int CLIENT_STATE::init() {
     // Run the time tests and host information check if needed
 
     // Getting host info is very fast, so we can do it anytime
-    get_host_info(host_info);       // this is platform dependent
+    get_host_info(host_info);
 
     if (gstate.should_run_time_tests()) {
         time_tests_start = time(NULL);
@@ -166,7 +168,16 @@ int CLIENT_STATE::init() {
     make_slot_dirs();
 
     // Restart any tasks that were running when we last quit the client
+    //
     gstate.restart_tasks();
+
+    // If we're supposed to update prefs, arrange to contact all projects
+    //
+    if (update_prefs) {
+        for (i=0; i<projects.size(); i++) {
+            projects[i]->sched_rpc_pending = true;
+        }
+    }
 
     return 0;
 }
@@ -1099,6 +1110,8 @@ bool CLIENT_STATE::update_results() {
 
 
 // Parse the command line arguments passed to the client
+// NOTE: init() has not been called at this point
+// (i.e. client_state.xml has not been parsed)
 //
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
@@ -1134,6 +1147,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         
         // the above options are private (i.e. not shown by -help)
 
+        if (!strcmp(argv[i], "-update_prefs")) {
+            update_prefs = true;
+        }
+
         if (!strcmp(argv[i], "-add_new_project")) {
             add_new_project();
         }
@@ -1145,9 +1162,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         if (!strcmp(argv[i], "-help")) {
             printf(
-                "Usage: client [options]\n"
+                "Usage: %s [options]\n"
                 "    -version                show version info\n"
-                "    -add_new_project        add project (will prompt for URL, authenticator)\n"
+                "    -add_new_project        add project (will prompt for URL, account key)\n",
+                argv[0]
             );
             exit(0);
         }
@@ -1206,36 +1224,28 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
     client_state_dirty = true;
 }
 
-// Report error back to project, setting result state to finished and backing
-// off on the project.
-// The error will appear in the stderr_out field of the result
-// state is the desired client_state of the result
-// after the call to this function.
+// Call this when a result has a nonrecoverable error.
+// The error will appear in the stderr_out field of the result.
 //
-// It goes through all input and output files for this result
-// and prints necessary error codes
-// In the case of failure to start or restart an Active_task,
-// err_num should be set.
+// It goes through the input and output files for this result
+// and generates error messages for upload/download failures.
 //
 // This function is called in the following situations:
-// 1. When the active_task could not start or restart , in which case
-// err_num should be set to the appropriate error_code.
-// 2. when we fail in downloading an input file for the work unit of res
-// or uploading the outputfiles for res,
-// in which case err_num and err_msg are irrelevant,
-// the function will take care of reporting these
+// 1. When the active_task could not start or restart,
+//    in which case err_num is set to the an OS-specific error_code.
+//    and err_msg has an OS-supplied string.
+// 2. when we fail in downloading an input file or uploading an output file,
+//    in which case err_num and err_msg are zero.
 // 3. When the active_task exits with a non_zero error code
-// or it gets signaled, relevant info is printed to stderr_out of res.
+//    or it gets signaled, relevant info is printed to stderr_out of res.
 //
 int CLIENT_STATE::report_project_error(
     RESULT& res, int err_num, char *err_msg
-    ) {
+) {
     char total_err[MAX_BLOB_LEN];
     unsigned int i;
     int failnum;
     
-    // if this result is already in a a ready_to_ack state
-    //
     if (res.ready_to_ack) {
         return 0;
     }
@@ -1244,7 +1254,8 @@ int CLIENT_STATE::report_project_error(
 
     scheduler_op->backoff(res.project, "");
 
-    sprintf( total_err, 
+    sprintf(
+        total_err, 
         "<message>%s</message>\n"
         "<active_task_state>%d</active_task_state>\n"
         "<exit_status>%d</exit_status>\n"

@@ -144,6 +144,8 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             iter = pers_xfers->pers_file_xfers.erase(iter);
             delete pfx;
             action = true;
+        } else {
+            iter++;
         }
     }
     

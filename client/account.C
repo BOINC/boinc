@@ -145,15 +145,15 @@ int CLIENT_STATE::quit_project(int index) {
     int curindex = 0;
 
     // find project and remove it from the vector
-    for(iter = projects.begin(); iter != projects.end(); iter ++) {
+    for (iter = projects.begin(); iter != projects.end(); iter++) {
         if (curindex == index) {
             project = *iter;
             projects.erase(iter);
             break;
         }
-        curindex ++;
+        curindex++;
     }
-    if(project == NULL) return -1;
+    if (project == NULL) return -1;
 
     // delete file
     char path[256];

@@ -67,6 +67,7 @@ int PROJECT::parse_account(FILE* in) {
 
 	// Assume master_url_fetch_pending, sched_rpc_pending are
 	// true until we read client_state.xml
+    //
 	master_url_fetch_pending = true;
 	sched_rpc_pending = true;
     strcpy(master_url, "");

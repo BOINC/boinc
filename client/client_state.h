@@ -91,6 +91,7 @@ public:
     unsigned int giveup_after;
     bool user_idle;
     bool suspend_requested;
+    bool update_prefs;
     bool exit_when_idle;
     bool use_http_proxy;
     bool use_socks_proxy;
