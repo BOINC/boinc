@@ -267,7 +267,7 @@ int boinc_resolve_link(char *file_name, char *resolved_name)
     return 0;
 }
 
-bool checkpoint = false;
+bool _checkpoint = false;
 
 double get_cpu_time() {
     int retval, pid = getpid();
@@ -299,12 +299,12 @@ int checkpoint_completed() {
 	fprintf(stderr, "error: could not close %s\n", APP_TO_CORE_FILE);
 	return retval;
     }
-    checkpoint = false;
+    _checkpoint = false;
     return 0;
 }
 
 void on_timer(int a) {
-    checkpoint = true;
+    _checkpoint = true;
 }
 
 int set_timer(int period) {

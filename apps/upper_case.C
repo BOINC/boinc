@@ -37,6 +37,10 @@ int main() {
         c = toupper(c);
         putchar(c);
         n++;
+        if(time_to_checkpoint()) {
+	    fflush(stdout);
+	    checkpoint_completed();
+        }
     }
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", n);
     return 0;
