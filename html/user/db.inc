@@ -10,7 +10,9 @@ function db_init() {
         exit();
     }
     $db_name = parse_config("<db_name>");
-    mysql_select_db($db_name);
+    if(!mysql_select_db($db_name)) return -1;
+
+    return 0;
 }
 
 function lookup_user_auth($auth) {

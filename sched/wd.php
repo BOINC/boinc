@@ -15,8 +15,8 @@
 
 function sound_alarm($x) {
     //echo "alarm: $x\n";
-    email("davea@ssl.berkeley.edu", "BOINC problem", $x);
-    email("eheien@ssl.berkeley.edu", "BOINC problem", $x);
+    mail("davea@ssl.berkeley.edu", "BOINC problem", $x);
+    mail("eheien@ssl.berkeley.edu", "BOINC problem", $x);
 }
 
 function check_log_file($file, $last_time) {
@@ -32,7 +32,7 @@ function check_log_file($file, $last_time) {
 
     $last_time = filemtime("watchdog_exec_time");
     if (!$last_time) {
-        alarm("foo");
+        sound_alarm("Couldn't find watchdog_exec_time");
     }
     touch("watchdog_exec_time");
 

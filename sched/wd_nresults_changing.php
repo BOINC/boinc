@@ -4,6 +4,7 @@
 // watchdog script to ensure that the number of result records
 // increases at least every X seconds (X = crontab period)
 
+include_once("db.inc");
 include_once("util.inc");
 
 function fail($x) {
@@ -42,16 +43,14 @@ function get_count_from_db() {
 }
 
     $retval = db_init();
-    if (!$retval) {
-        fail("Can't open database");
+    if ($retval != 0) {
+        fail("Can't open database\n");
     }
     $m = get_count_from_db();
-    echo "Count: $m\n";
     if ($m == false) {
-        fail("Can't get result count from DB");
+        fail("Can't get result count from DB\n");
     }
     $n = read_count_file();
-    echo "Count: $n\n";
     if ($n == false) {
         write_count_file($m);
         exit();
