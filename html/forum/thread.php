@@ -44,7 +44,7 @@ if ($is_subscribed) {
 			<th style="width: 150px">Author</th>
 			<th>Message</th>
 		</tr>
-		<?php show_posts($thread) ?>
+		<?php show_posts($thread, true, true) ?>
 	</table>
 </p>
 <p>

@@ -66,7 +66,7 @@ doFooter();
 
 <?php
 
-function show_message_row($thread, $post = NULL) {
+function show_message_row($thread, $post=NULL) {
     global $logged_in_user;
     
     echo "
@@ -119,7 +119,6 @@ function quote_text($text, $cols) {
     
     for ($i = 0; $i < count($lines); $i++) {
         $words = explode(" ", $lines[$i]);
-        
         
         for ($j = 0; $j < count($words); $j++) {            
             $wordLen = strlen($words[$j]);
