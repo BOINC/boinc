@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     char wu_template[MAX_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256];
     char keyfile[256];
-    char** infiles;
+    char** infiles = NULL;
     int i, ninfiles, redundancy, sequence=0;
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256];
@@ -137,7 +137,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "create_work: app not found\n");
         exit(1);
     }
-    
+
     //fprintf(stderr, "wu_template = %s\n", wu_template);
     retval = read_filename(wu_template_file, wu_template);
     if (retval) {

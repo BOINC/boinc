@@ -4765,3 +4765,13 @@ David  June 17 2003
         create_account_form.php
         index.php
         info.php
+
+Karl    2003/06/17
+    Fixed miscellaneous bugs, some very dangerous, from compiler warnings
+
+    lib/
+        parse.C
+        crypt.C
+    tools/
+        backend_lib.C
+        create_work.C

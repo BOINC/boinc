@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -232,7 +232,7 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
     sprintf(end_tag,"/%s",tag);
     std::string::size_type i=0,j=0;
 
-    // find the end tag 
+    // find the end tag
     do {
       j=field.find(">",j+1);
       end_pos=field.rfind(end_tag,j,j-i+1);
@@ -253,7 +253,7 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
       m=field.rfind("/",j,j-i+1);
     } while (((m!=std::string::npos) || (start_pos==std::string::npos)) && (i!=std::string::npos));
     if (i!=std::string::npos) {
-      start_pos==i;
+      start_pos=i;
     } else {
       return false;
     }
