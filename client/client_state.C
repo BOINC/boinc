@@ -763,6 +763,8 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
         } else if (match_tag(buf, "<use_http_proxy/>")) {
             use_http_proxy = true;
+        } else if (match_tag(buf, "<use_socks_proxy/>")) {
+            use_socks_proxy = true;
         } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
         } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
         } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
