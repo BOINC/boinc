@@ -25951,3 +25951,13 @@ Rom    15 Mar 2005
 
     clientgui/
         BOINCTaskCtrl.cpp
+
+David  15 Mar 2005
+    - API: change timer_period from variable to constant
+    - fix compile warnings
+
+    api/
+        boinc_api.C
+    lib/
+        boinc_cmd.C
+        parse.C

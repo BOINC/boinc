@@ -99,7 +99,7 @@ void show_error(int retval) {
 
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
-    unsigned int i;
+    int i;
     MESSAGES messages;
     int retval;
     char* hostname = NULL;
@@ -264,8 +264,9 @@ int main(int argc, char** argv) {
         int seqno = atoi(argv[++i]);
         retval = rpc.get_messages(seqno, messages);
         if (!retval) {
-            for (i=0; i<messages.messages.size(); i++) {
-                MESSAGE& md = *messages.messages[i];
+            unsigned int j;
+            for (j=0; j<messages.messages.size(); j++) {
+                MESSAGE& md = *messages.messages[j];
                 printf("%s %d %d %s\n",
                     md.project.c_str(), md.priority,
                     md.timestamp, md.body.c_str()

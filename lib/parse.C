@@ -346,7 +346,7 @@ void xml_escape(char* in, string& out) {
 void xml_unescape(string& in, string& out) {
     size_t i;
     out = "";
-    for (i=0; i<(int)in.length();) {
+    for (i=0; i<in.length();) {
         if (in.substr(i, 4) == "&lt;") {
             out += "<";
             i += 4;

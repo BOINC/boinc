@@ -64,11 +64,6 @@ using namespace std;
 static APP_INIT_DATA  aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM       *app_client_shm      = 0;
-static double         timer_period        = 1.0;
-    // period of API timer
-    // This determines the resolution of fraction done and CPU time reporting
-    // to the core client, and of checkpoint enabling.
-    // It doesn't influence graphics, so 1 sec is enough.
 static double         time_until_checkpoint;
     // time until enable checkpoint
 static double         time_until_fraction_done_update;
@@ -89,7 +84,11 @@ static bool           heartbeat_active;
 static int nrunning_ticks = 0;
 #endif
 
-
+#define TIMER_PERIOD 1.0
+    // period of API timer
+    // This determines the resolution of fraction done and CPU time reporting
+    // to the core client, and of checkpoint enabling.
+    // It doesn't influence graphics, so 1 sec is enough.
 #define HEARTBEAT_GIVEUP_PERIOD 30.0
     // quit if no heartbeat from core in this #secs
 #define HEARTBEAT_TIMEOUT_PERIOD 35.0
@@ -145,7 +144,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
         if (retval) {
             fprintf(stderr, "Can't acquire lockfile - exiting\n");
-            boinc_exit(0);	// not un-recoverable ==> status=0
+            boinc_exit(0);           // not un-recoverable ==> status=0
         }
     }
 
@@ -361,7 +360,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
 
 int boinc_worker_thread_cpu_time(double& cpu) {
     if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
-        cpu = nrunning_ticks * timer_period;   // for Win9x
+        cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
     return 0;
 }
@@ -413,7 +412,7 @@ static void handle_process_control_msg() {
                             break;
                         }
                         if (match_tag(buf, "<quit/>")) {
-			  boinc_exit(0); // NOTE: exit-status = 0 ==> recoverable exit!
+                            boinc_exit(0);
                         }
                     }
                     boinc_sleep(1.0);
@@ -435,7 +434,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<quit/>")) {
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
-	      boinc_exit(0);	// NOTE: exit-status == 0!
+                boinc_exit(0);
             }
         }
     }
@@ -450,7 +449,7 @@ static void worker_timer(int /*a*/) {
 #endif
 
     if (!ready_to_checkpoint) {
-        time_until_checkpoint -= timer_period;
+        time_until_checkpoint -= TIMER_PERIOD;
         if (time_until_checkpoint <= 0) {
             ready_to_checkpoint = true;
         }
@@ -480,15 +479,15 @@ static void worker_timer(int /*a*/) {
                 now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
             );
             if (options.direct_process_action) {
-	      boinc_exit(0); // NOTE: exit-status == 0! (recoverable error)
+                boinc_exit(0);
             } else {
-	      boinc_status.no_heartbeat = true;
+                boinc_status.no_heartbeat = true;
             }
         }
     }
 
     if (options.send_status_msgs) {
-        time_until_fraction_done_update -= timer_period;
+        time_until_fraction_done_update -= TIMER_PERIOD;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
             boinc_worker_thread_cpu_time(cur_cpu);
@@ -531,8 +530,8 @@ int set_worker_timer() {
     // than SetTimer and doesn't require an associated event loop
     //
     timer_id = timeSetEvent(
-        (int)(timer_period*1000), // uDelay
-        (int)(timer_period*1000), // uResolution
+        (int)(TIMER_PERIOD*1000), // uDelay
+        (int)(TIMER_PERIOD*1000), // uResolution
         worker_timer, // lpTimeProc
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
@@ -551,8 +550,8 @@ int set_worker_timer() {
         perror("boinc set_worker_timer() sigaction");
         return retval;
     }
-    value.it_value.tv_sec = (int)timer_period;
-    value.it_value.tv_usec = ((int)(timer_period*1000000))%1000000;
+    value.it_value.tv_sec = (int)TIMER_PERIOD;
+    value.it_value.tv_usec = ((int)(TIMER_PERIOD*1000000))%1000000;
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
