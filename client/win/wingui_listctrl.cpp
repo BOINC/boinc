@@ -296,9 +296,8 @@ int CProgressListCtrl::InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFo
 // function:	adds a new item to the list control
 int CProgressListCtrl::InsertItem(int nItem, LPCTSTR lpszItem)
 {
-	//m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
-	//CString StrEmpty;
-	//m_ProjectURLs.InsertAt(nItem, StrEmpty);
+	m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
+	CString StrEmpty;
 	return CListCtrl::InsertItem(nItem, lpszItem);
 }
 
@@ -372,6 +371,10 @@ BOOL CProgressListCtrl::SetColumnWidth(int nCol, int cx)
 BOOL CProgressListCtrl::DeleteItem(int nItem)
 {
 	int i, si;
+
+	// remove array info
+	m_ItemColors.RemoveAt(nItem);
+	CString empty;
 
 	CString strbuf;
 	CProgressBarCtrl* pProgCtrl = NULL;
@@ -495,6 +498,28 @@ void CProgressListCtrl::SwapItems(int nItem1, int nItem2)
 	// check item indicies
 	if(nItem1 >= GetItemCount() || nItem2 >= GetItemCount()) {
 		return;
+	}
+
+	// swap color data
+	bool bOk1 = false, bOk2 = false;
+	COLORREF tempclr1, tempclr2, emptyclr = RGB(0, 0, 0);
+	if(nItem1 < m_ItemColors.GetSize()) {
+		tempclr1 = m_ItemColors.GetAt(nItem1);
+		bOk1 = true;
+	}
+	if(nItem2 < m_ItemColors.GetSize()) {
+		tempclr2 = m_ItemColors.GetAt(nItem2);
+		bOk2 = true;
+	}
+	if(bOk1) {
+		m_ItemColors.SetAtGrow(nItem2, tempclr1);
+	} else {
+		m_ItemColors.SetAtGrow(nItem2, emptyclr);
+	}
+	if(bOk2) {
+		m_ItemColors.SetAtGrow(nItem1, tempclr2);
+	} else {
+		m_ItemColors.SetAtGrow(nItem1, emptyclr);
 	}
 
 	// swap indices
@@ -623,7 +648,7 @@ void CProgressListCtrl::SwapColumnVisibility(int nCol)
 // function:	causes an item to be displayed in the given color
 void CProgressListCtrl::SetItemColor(int nItem, COLORREF newclr)
 {
-	//m_ItemColors.SetAtGrow(nItem, newclr);
+	m_ItemColors.SetAtGrow(nItem, newclr);
 
 	CProgressBarCtrl *pProgCtrl;
 	CString strBuf;
@@ -788,6 +813,9 @@ void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		CFont* curFont = cdc->GetCurrentFont();
 		LOGFONT lf;
 		curFont->GetLogFont(&lf);
+		if(pLVCD->nmcd.dwItemSpec < m_ItemColors.GetSize()) {
+			pLVCD->clrText = m_ItemColors.GetAt(pLVCD->nmcd.dwItemSpec);
+		}
 		CFont* pNewFont = new CFont;
 		pNewFont->CreateFontIndirect(&lf);
 		m_OldFont = cdc->SelectObject(pNewFont);
