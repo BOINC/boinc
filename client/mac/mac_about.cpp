@@ -17,43 +17,40 @@
 // Contributor(s):
 //
 
-#include "mac_join.h"
+#include "mac_about.h"
 
-// Create, show and run modally our dialog window
+// Create, show and run our about box
 //
-OSStatus CreateJoinDialog()
+OSStatus CreateAboutWindow()
 {
     IBNibRef 		nibRef;
     EventTypeSpec 	dialogSpec = {kEventClassCommand, kEventCommandProcess };
-    WindowRef 		dialogWindow;
-    EventHandlerUPP	dialogUPP;
+    WindowRef 		aboutWindow;
+    EventHandlerUPP	aboutBoxUPP;
     OSStatus		err = noErr;
 
     // Find the dialog nib
-    err = CreateNibReference(CFSTR("JoinDialog"), &nibRef);
+    err = CreateNibReference(CFSTR("AboutBox"), &nibRef);
     require_noerr( err, CantFindDialogNib );
 
     // Load the window inside it
-    err = CreateWindowFromNib(nibRef, CFSTR("Join Dialog"), &dialogWindow);
+    err = CreateWindowFromNib(nibRef, CFSTR("About Box"), &aboutWindow);
     require_noerr( err, CantCreateDialogWindow );
 
     // We don't need the nib reference anymore.
     DisposeNibReference(nibRef);
 
     // Install our event handler
-    dialogUPP =  NewEventHandlerUPP (JoinDialogEventHandler);
-    err = InstallWindowEventHandler (dialogWindow, dialogUPP, 1, &dialogSpec, (void *) dialogWindow, NULL);
-    require_noerr( err, CantInstallDialogHandler );
+    /*dialogUPP =  NewEventHandlerUPP (JoinDialogEventHandler);
+    err = InstallWindowEventHandler (aboutWindow, aboutBoxUPP, 1, &dialogSpec, (void *) dialogWindow, NULL);
+    require_noerr( err, CantInstallDialogHandler );*/
 
     // Show the window
-    ShowWindow( dialogWindow );
+    ShowWindow( aboutWindow );
 
-    // Run modally
-    RunAppModalLoopForWindow(dialogWindow);
-
-    HideWindow(dialogWindow);
-    DisposeWindow(dialogWindow);
-    DisposeEventHandlerUPP(dialogUPP);
+    /*HideWindow(aboutWindow);
+    DisposeWindow(aboutWindow);
+    DisposeEventHandlerUPP(aboutBoxUPP);*/
 
 CantFindDialogNib:
 CantCreateDialogWindow:
@@ -62,9 +59,10 @@ CantInstallDialogHandler:
         return err;
 }
 
+
 // Dialog event handler
 //
-pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData) {
+/*pascal OSStatus AboutBoxEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData) {
     OSStatus 		result = eventNotHandledErr;
     HICommand		command;
     bool		stopModalLoop = FALSE;
@@ -95,3 +93,4 @@ pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef 
     return result;
 }
 
+*/
