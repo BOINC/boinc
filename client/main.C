@@ -155,47 +155,17 @@ int add_new_project() {
     return 0;
 }
 
-void quit_client(int signum) {
-    if (signum) {
-        msg_printf(NULL, MSG_INFO, "Received signal %d - exiting", signum);
-    } else {
-        msg_printf(NULL, MSG_INFO, "Exiting - user request");
-    }
-    gstate.quit_activities();
-    exit(0);
-}
-
-void susp_client(int signum) {
-    if (signum) {
-        msg_printf(NULL, MSG_INFO, "Received signal %d - Suspending activity", signum);
-    } else {
-        msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
-    }
-    gstate.active_tasks.suspend_all();
-#ifndef WIN32
-	signal(SIGTSTP, SIG_DFL);
-    raise(SIGTSTP);
-#endif
-}
-
-void resume_client(int signum) {
-    gstate.active_tasks.unsuspend_all();
-    if (signum) {
-        msg_printf(NULL, MSG_INFO, "Received signal %d: resuming activity", signum);
-    } else {
-        msg_printf(NULL, MSG_INFO, "Resuming activity");
-    }
-}
-
 #ifdef WIN32
 BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 	BOOL bReturnStatus = FALSE;
 	switch( dwCtrlType ){
     case CTRL_C_EVENT:
         if(gstate.activities_suspended) {
-            resume_client(0);
+            gstate.active_tasks.unsuspend_all();
+            msg_printf(NULL, MSG_INFO, "Resuming activity");
         } else {
-            susp_client(NULL);
+            msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
+            gstate.active_tasks.suspend_all();
         }
         bReturnStatus =  TRUE;
         break;
@@ -203,11 +173,38 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
     case CTRL_CLOSE_EVENT:
     case CTRL_LOGOFF_EVENT:
     case CTRL_SHUTDOWN_EVENT:
-        quit_client(NULL);
+        msg_printf(NULL, MSG_INFO, "Exiting - user request");
+        gstate.quit_activities();
+        requested_exit = true;
         bReturnStatus =  TRUE;
         break;
 	}
 	return bReturnStatus;
+}
+#else
+static void signal_handler(int signum) {
+    msg_printf(NULL, MSG_INFO, "Received signal %d", signum);
+    switch(signum) {
+    case SIGHUP:
+    case SIGINT:
+    case SIGQUIT:
+    case SIGTERM:
+        msg_printf(NULL, MSG_INFO, "Exiting - user request");
+        gstate.quit_activities();
+        exit(0);
+    case SIGSTOP:
+        msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
+        gstate.active_tasks.suspend_all();
+        signal(SIGTSTP, SIG_DFL);
+        raise(SIGTSTP);
+        break;
+    case SIGCONT:
+        msg_printf(NULL, MSG_INFO, "Resuming activity");
+        gstate.active_tasks.unsuspend_all();
+        break;
+    default:
+        msg_printf(NULL, MSG_INFO, "Signal not handled");
+    }
 }
 #endif
 
@@ -243,15 +240,15 @@ int boinc_main_loop(int argc, char** argv) {
 // Unix/Linux console controls
 #ifndef WIN32
     // Handle quit signals gracefully
-    boinc_set_signal_handler(SIGHUP, quit_client);
-    boinc_set_signal_handler(SIGINT, quit_client);
-    boinc_set_signal_handler(SIGQUIT, quit_client);
-    boinc_set_signal_handler(SIGTERM, quit_client);
+    boinc_set_signal_handler(SIGHUP, signal_handler);
+    boinc_set_signal_handler(SIGINT, signal_handler);
+    boinc_set_signal_handler(SIGQUIT, signal_handler);
+    boinc_set_signal_handler(SIGTERM, signal_handler);
 #ifdef SIGPWR
-    boinc_set_signal_handler(SIGPWR, quit_client);
+    boinc_set_signal_handler(SIGPWR, signal_handler);
 #endif
-    boinc_set_signal_handler_force(SIGTSTP, susp_client);
-    boinc_set_signal_handler_force(SIGCONT, resume_client);
+    boinc_set_signal_handler_force(SIGTSTP, signal_handler);
+    boinc_set_signal_handler_force(SIGCONT, signal_handler);
 #endif
 
 // Windows console controls
