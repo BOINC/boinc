@@ -21,34 +21,39 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/05/17 22:15:10  rwalton
 // *** empty log message ***
 //
 //
 
-
-#ifndef _PROJECTSVIEW_H_
-#define _PROJECTSVIEW_H_
+#ifndef _URLVALIDATOR_H_
+#define _URLVALIDATOR_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProjectsView.cpp"
+#pragma interface "URLValidator.cpp"
 #endif
 
 
-#include "BaseListCtrlView.h"
-
-class CProjectsView : public CBaseListCtrlView
+class CURLValidator : public wxValidator
 {
-    DECLARE_DYNAMIC_CLASS(CProjectsView)
+    DECLARE_DYNAMIC_CLASS(CURLValidator)
 
 public:
-    CProjectsView(void);
-    CProjectsView(wxNotebook* pNotebook);
+    CURLValidator(void);
+    ~CURLValidator(void);
 
-    ~CProjectsView(void);
+    virtual bool Validate(wxWindow* parent);
 
-    virtual wxString GetViewName(void);
-    virtual char**   GetViewIcon(void);
+private:
+    wxRegEx     m_reURL;
+
+    wxString*   m_pstrProtocol;
+    wxString*   m_pstrServer;
+    wxString*   m_pstrPort;
+    wxString*   m_pstrPath;
+    wxString*   m_pstrQueryString;
+    wxString*   m_pstrBookmark;
+
 };
 
 

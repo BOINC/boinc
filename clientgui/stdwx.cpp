@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -16,10 +18,13 @@
 // 
 // Contributor(s):
 //
-
-// stdafx.cpp : source file that includes just the standard includes
-// wxWindowsTemplate.pch will be the pre-compiled header
-// stdafx.obj will contain the pre-compiled type information
+// Revision History:
+//
+// $Log$
+// Revision 1.4  2004/05/17 22:15:10  rwalton
+// *** empty log message ***
+//
+//
 
 #include "stdwx.h"
 

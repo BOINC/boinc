@@ -21,36 +21,45 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/05/17 22:15:10  rwalton
 // *** empty log message ***
 //
 //
 
-
-#ifndef _PROJECTSVIEW_H_
-#define _PROJECTSVIEW_H_
-
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProjectsView.cpp"
+#pragma implementation "URLValidator.h"
 #endif
 
+#include "stdwx.h"
+#include "URLValidator.h"
 
-#include "BaseListCtrlView.h"
 
-class CProjectsView : public CBaseListCtrlView
+IMPLEMENT_DYNAMIC_CLASS(CURLValidator, wxValidator)
+
+
+CURLValidator::CURLValidator(void) :
+    wxValidator()
 {
-    DECLARE_DYNAMIC_CLASS(CProjectsView)
+    SetBellOnError(false);
 
-public:
-    CProjectsView(void);
-    CProjectsView(wxNotebook* pNotebook);
-
-    ~CProjectsView(void);
-
-    virtual wxString GetViewName(void);
-    virtual char**   GetViewIcon(void);
-};
+    // Expression From:
+    // http://msdn.microsoft.com/library/default.asp?
+    //   url=/library/en-us/script56/html/reconbackreferences.asp
+    m_reURL.Compile("/(\\w+):\\/\\/([^/:]+)(:\\d*)?([^# ]*)/");
+}
 
 
-#endif
+CURLValidator::~CURLValidator(void)
+{
+}
+
+
+bool CURLValidator::Validate(wxWindow* parent)
+{
+
+
+    return true;
+}
+
+
 

@@ -34,7 +34,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="rpcrt4.lib comctl32.lib wsock32.lib wxmswd.lib"
+				AdditionalDependencies="rpcrt4.lib comctl32.lib wsock32.lib wxmswd.lib regexd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(WXWIN)\lib;$(WXWIN)\contrib\lib"
 				GenerateDebugInformation="TRUE"
@@ -87,7 +87,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="rpcrt4.lib comctl32.lib wsock32.lib wxmsw.lib"
+				AdditionalDependencies="rpcrt4.lib comctl32.lib wsock32.lib wxmsw.lib regex.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(WXWIN)\lib;$(WXWIN)\contrib\lib"
 				GenerateDebugInformation="TRUE"
@@ -181,6 +181,9 @@
 				RelativePath=".\TransfersView.cpp">
 			</File>
 			<File
+				RelativePath=".\URLValidator.cpp">
+			</File>
+			<File
 				RelativePath=".\WorkView.cpp">
 			</File>
 		</Filter>
@@ -238,6 +241,9 @@
 			</File>
 			<File
 				RelativePath=".\TransfersView.h">
+			</File>
+			<File
+				RelativePath=".\URLValidator.h">
 			</File>
 			<File
 				RelativePath=".\WorkView.h">

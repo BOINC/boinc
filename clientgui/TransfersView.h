@@ -1,3 +1,5 @@
+// $Id$
+//
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -15,6 +17,13 @@
 // University of California at Berkeley. All Rights Reserved. 
 // 
 // Contributor(s):
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.6  2004/05/17 22:15:09  rwalton
+// *** empty log message ***
+//
 //
 
 #ifndef _TRANSFERSVIEW_H_

@@ -2,8 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by BOINCGUIApp.rc
 //
-#define IDI_MYFRAME                     1
-#define IDB_BITMAP1                     109
 
 // Next default values for new objects
 // 
