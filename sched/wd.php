@@ -14,8 +14,9 @@
 // have this program attempt to create/read a file.
 
 function sound_alarm($x) {
-    echo "alarm: $x\n";
-    //email("davea@ssl.berkeley.edu", "BOINC problem", $x);
+    //echo "alarm: $x\n";
+    email("davea@ssl.berkeley.edu", "BOINC problem", $x);
+    email("eheien@ssl.berkeley.edu", "BOINC problem", $x);
 }
 
 function check_log_file($file, $last_time) {
@@ -36,5 +37,4 @@ function check_log_file($file, $last_time) {
     touch("watchdog_exec_time");
 
     check_log_file("error_log", $last_time);
-
 ?>

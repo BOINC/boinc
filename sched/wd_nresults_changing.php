@@ -57,7 +57,7 @@ function get_count_from_db() {
         exit();
     }
     if ($n == $m) {
-        echo "fail\n";
+        //echo "fail\n";
         fail("Result count hasn't changed\n");
     }
     write_count_file($m);
