@@ -6949,6 +6949,7 @@ Karl 2003-10-20
 
     - Astropulse client release 2.05
 
+
 David  20 Oct 2003
     - replace return -1's with error codes
 
@@ -6971,3 +6972,12 @@ David  20 Oct 2003
         sched_shmem.C
         validate_util.C
         wu_check.C
+
+
+David  20 Oct 2003
+	- changed CPU benchmark code to store all times as doubles.
+		This might fix the "negative fpops/sec" bug
+
+	client
+		cpu_benchmark.C
+		cs_benchmark.C
