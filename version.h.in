@@ -1,4 +1,3 @@
-/* $Id$ */
 /* Platform independent version definitions... */
 
 #ifndef BOINC_VERSION_H
