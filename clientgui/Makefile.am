@@ -32,7 +32,9 @@ boinc_gui_SOURCES = \
     ../lib/mfile.C \
     ../lib/miofile.C \
     ../lib/parse.C \
-    ../lib/util.C
+    ../lib/util.C \
+    ../lib/md5_file.C
+    ../lib/md5.C
 
 EXTRA_DIST = BOINCBaseView.h  DlgAttachProject.h  ValidateAccountKey.h  ViewWork.h 	\
 	BOINCGUIApp.h	 DlgConnection.h     ValidateURL.h	   _wx_intellisense.h 		\
