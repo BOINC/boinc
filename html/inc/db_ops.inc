@@ -313,7 +313,7 @@ FROM result WHERE
         $main_query .= "workunitid=$query_wuid and ";
     }
     if ($query_received_time) {
-        $main_query .= "received_time > $query_received_time and ";
+        $main_query .= "mod_time > DATE_SUB( NOW(), INTERVAL $query_received_time SECOND ) and ";
     }
 
     $main_query .= "1=1";
