@@ -25,7 +25,6 @@ static volatile const char *BOINCrcsid="$Id$";
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-//#include "GL/gl.h"
 
 #include <cstring>
 #include <cstdio>
@@ -38,7 +37,7 @@ static volatile const char *BOINCrcsid="$Id$";
 #endif
 #endif
 
-#include "std_fixes.h"
+//#include "std_fixes.h"
 #include "boinc_gl.h"
 #include "gutil.h"
 #include "reduce.h"
@@ -133,18 +132,18 @@ void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
     for (i=0; i<sdimx; i++) {
         ri = (i*rdimx)/sdimx;
         switch (reduce_method) {
-            case REDUCE_METHOD_AVG:
+        case REDUCE_METHOD_AVG:
             out[ri] += in[i];
             itemp[ri]++;
             break;
-            case REDUCE_METHOD_SUM:
+        case REDUCE_METHOD_SUM:
             out[ri] += in[i];
             break;
-            case REDUCE_METHOD_MIN:
-            out[ri] = std::min(out[ri],in[i]);
+        case REDUCE_METHOD_MIN:
+            out[ri] = std::min(out[ri], in[i]);
             break;
-            case REDUCE_METHOD_MAX:
-            out[ri] = std::max(out[ri],in[i]);
+        case REDUCE_METHOD_MAX:
+            out[ri] = std::max(out[ri], in[i]);
             break;
         }
     }

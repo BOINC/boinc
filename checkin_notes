@@ -20827,3 +20827,9 @@ Rom    7 Dec 2004
 
     api/
         reduce.C
+
+David  7 Dec 2004
+	- Win compile fix - don't include std_fixes (???)
+
+	api/
+		reduce.C
