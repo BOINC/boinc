@@ -29,7 +29,7 @@
     $result = mysql_query($query);
     if ($result) {
         $teamid = mysql_insert_id();
-        Header("Location: team_display.php?teamid=$teamid);
+        Header("Location: team_display.php?teamid=$teamid");
     } else {
         page_head("Error");
         echo "Couldn't create team - please try later.<br>\n";

@@ -88,6 +88,9 @@ bool PERS_FILE_XFER::start_xfer() {
         file_xfer->proxy_server_port = gstate.proxy_server_port;
     }
     if (is_upload) {
+        if (gstate.exit_before_upload) {
+            exit(0);
+        }
         retval = file_xfer->init_upload(*fip);
     } else {
         retval = file_xfer->init_download(*fip);

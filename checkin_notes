@@ -3956,3 +3956,14 @@ David  Mar 25 2003
     html_user/
         create_account*
         util.inc
+
+David  Mar 31 2003
+    - add "-exit_before_upload" cmdline option
+
+    client/
+        client_state.C,h
+        pers_file_xfer.C
+    html_user/
+        team_create_action.php
+    test/
+        test_uc.php

@@ -104,6 +104,8 @@ public:
     char socks_user_passwd[256];
     char host_venue[256];    // venue, as reported by project that sent us
         // most recent global prefs
+    bool exit_before_upload;
+        // exit when about to upload a file
 
 private:
     bool client_state_dirty;

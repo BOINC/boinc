@@ -76,6 +76,7 @@ CLIENT_STATE::CLIENT_STATE() {
     platform_name = HOST;
     exit_after_app_start_secs = 0;
     app_started = 0;
+    exit_before_upload = false;
     user_idle = true;
     use_http_proxy = false;
     use_socks_proxy = false;
@@ -1291,6 +1292,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             global_prefs.run_minimized = true;
         } else if (!strcmp(argv[i], "-saver")) {
             start_saver = true;
+        } else if (!strcmp(argv[i], "-exit_before_upload")) {
+            exit_before_upload = true;
 
         // the above options are private (i.e. not shown by -help)
 
