@@ -131,6 +131,7 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
                 return true;
             }
             i = 0;
+            deleted = false;
         }
         p = projects[i];
         deleted_space = delete_results(p, 1);
@@ -365,7 +366,7 @@ int CLIENT_STATE::delete_inactive_results(PROJECT *p) {
     
     for(i = 0; i < results.size(); i++) {
         result = results[i];
-        if(!result->is_active || result->state < RESULT_COMPUTE_DONE) {
+        if(!result->is_active && result->state < RESULT_COMPUTE_DONE) {
             result->got_server_ack = true;
             unstick_result_files(result);
             deleted = true;

@@ -203,15 +203,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 		}
 		fprintf(f, "    </app_versions>\n");
 	}
-    if (!anything_free(free)){
-        fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
-    }
-    if (!total_potential_offender(p, possible)) {
-        fprintf(f, "    <potentially_free_offender>%f</potentially_free_offender>\n", possible);
-    }
-    if (!total_potential_self(p, possible)) {
-        fprintf(f, "    <potentially_free_self>%f</potentially_free_self>\n", possible);
-    }
+    anything_free(free);
+    fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
+    total_potential_offender(p, possible);
+    fprintf(f, "    <potentially_free_offender>%f</potentially_free_offender>\n", possible);
+    total_potential_self(p, possible);
+    fprintf(f, "    <potentially_free_self>%f</potentially_free_self>\n", possible);
     if (strlen(p->code_sign_key)) {
         fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
