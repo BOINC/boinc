@@ -22,6 +22,7 @@
 
 #include "http.h"
 #include "net_xfer.h"
+#include "util.h"
 
 #define UNCONNECTED 0
 #define WRITE_WAIT  1

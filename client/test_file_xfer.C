@@ -22,6 +22,7 @@
 
 #include "http.h"
 #include "file_xfer.h"
+#include "util.h"
 
 #define DOWNLOAD_URL "http://localhost.localdomain/download/input"
 #define UPLOAD_URL "http://localhost.localdomain/upload/test_out.html"

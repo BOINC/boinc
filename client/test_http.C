@@ -22,6 +22,7 @@
 
 #include "http.h"
 #include "net_xfer.h"
+#include "util.h"
 
 int main() {
     NET_XFER_SET nxs;

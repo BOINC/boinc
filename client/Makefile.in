@@ -49,13 +49,13 @@ TEST_NET_XFER_OBJS = \
     http.o \
     log_flags.o \
     ../lib/parse.o \
-    net_xfer.o
+    net_xfer.o \
+    util.o
 
 TEST_HTTP_OBJS = $(TEST_NET_XFER_OBJS)
 
 TEST_FX_OBJS = \
     $(TEST_HTTP_OBJS) \
-    util.o \
     file_xfer.o
 
 .C.o:
