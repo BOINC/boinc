@@ -13,7 +13,7 @@
     $platform->name = "windows_intelx86";
     $platform->user_friendly_name = "Windows";
     $app_version->platform = $platform;
-    $app_version->exec_name = "upper_case.exe";
+    array_push($app_version->exec_names, "upper_case.exe");
 
     $work = new Work($app);
     $work->wu_template = "uc_wu";

@@ -253,7 +253,7 @@ void boinc_quit(int sig) {
 #endif
 
 int boinc_finish(int status) {
-    double cur_mem;
+    int cur_mem;
 
     boinc_cpu_time(last_checkpoint_cpu_time, cur_mem);
     update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
@@ -317,7 +317,8 @@ bool boinc_time_to_checkpoint() {
 #endif
 
     if (write_frac_done) {
-        double cur_cpu, cur_mem;
+        double cur_cpu;
+        int cur_mem;
         boinc_cpu_time(cur_cpu, cur_mem);
         update_app_progress(fraction_done, cur_cpu, last_checkpoint_cpu_time, cur_mem);
         time_until_fraction_done_update = aid.fraction_done_update_period;
@@ -334,7 +335,7 @@ bool boinc_time_to_checkpoint() {
 }
 
 int boinc_checkpoint_completed() {
-    double cur_mem;
+    int cur_mem;
     boinc_cpu_time(last_checkpoint_cpu_time, cur_mem);
     update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
     ready_to_checkpoint = false;
@@ -362,7 +363,7 @@ int boinc_child_done(double cpu) {
     return 0;
 }
 
-int boinc_cpu_time(double &cpu_t, double &ws_t) {
+int boinc_cpu_time(double &cpu_t, int &ws_t) {
     double cpu_secs;
 
     // Start with the CPU time from previous runs, then
@@ -381,7 +382,7 @@ int boinc_cpu_time(double &cpu_t, double &ws_t) {
     cpu_secs += (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu_secs += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
     cpu_t = cpu_secs;
-	ws_t = getpagesize()*ru.ru_maxrss;
+    ws_t = ru.ru_idrss;
 	return 0;
 #else
 #ifdef _WIN32
@@ -553,14 +554,14 @@ void cleanup_shared_mem(void) {
 }
 
 
-int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t) {
+int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, int ws_t) {
     char msg_buf[SHM_SEG_SIZE];
     
     sprintf( msg_buf,
         "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n",
-        "<working_set_size>%10.4f</working_set_size>\n",
+        "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n"
+        "<working_set_size>%d</working_set_size>\n",
         frac_done, cpu_t, cp_cpu_t, ws_t
     );
 
