@@ -53,6 +53,8 @@ using std::string;
 
 static double trs;
 
+//#define DEBUG_SCHED   1
+
 // quantities like avg CPU time decay by a factor of e every week
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
@@ -173,7 +175,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 #if 0
     double free, possible;
 #endif
-    char cross_project_id[MD5_LEN];
 
     trs = total_resource_share();
 
@@ -238,19 +239,27 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         }
     }
 
-    // send the maximum of cross_project_id over projects
-    // with the same email hash as this one
+    // Of the projects with same email hash as this one,
+    // send the oldest cross-project ID.
+    // Use project URL as tie-breaker.
     //
-    strcpy(cross_project_id, p->cross_project_id);
+    PROJECT* winner = p;
     for (i=0; i<projects.size(); i++ ) {
         PROJECT* project = projects[i];
         if (project == p) continue;
         if (strcmp(project->email_hash, p->email_hash)) continue;
-        if (strcmp(project->cross_project_id, cross_project_id) > 0) {
-            strcpy(cross_project_id, project->cross_project_id);
+        if (project->user_create_time < winner->user_create_time) {
+            winner = project;
+        } else if (project->user_create_time == winner->user_create_time) {
+            if (strcmp(project->master_url, winner->master_url) < 0) {
+                winner = project;
+            }
         }
     }
-    fprintf(f, "<cross_project_id>%s</cross_project_id>\n", cross_project_id);
+    fprintf(f,
+        "<cross_project_id>%s</cross_project_id>\n",
+        winner->cross_project_id
+    );
 
     retval = time_stats.write(mf, true);
     if (retval) return retval;
@@ -372,8 +381,8 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
         }
         est += rp->estimated_cpu_time_remaining();
     }
-    est /= avg_proc_rate(p);
-    return est;
+    double apr = avg_proc_rate(p);
+    return est/apr;
 }
 
 // set work_request for each project and return the urgency level for
@@ -410,10 +419,12 @@ int CLIENT_STATE::compute_work_requests() {
         //
         if (estimated_time_to_starvation < work_min_period) {
             if (estimated_time_to_starvation == 0) {
-                //msg_printf(p, MSG_INFO, "is starved");
+#if DEBUG_SCHED
+                msg_printf(p, MSG_INFO, "is starved");
+#endif
                 urgency = NEED_WORK_IMMEDIATELY;
             } else {
-#if 0
+#if DEBUG_SCHED
                 msg_printf(p, MSG_INFO, "will starve in %.2f sec",
                     estimated_time_to_starvation
                 );
@@ -431,7 +442,9 @@ int CLIENT_STATE::compute_work_requests() {
             (work_min_period - estimated_time_to_starvation)
             * ncpus
         );
-        //msg_printf(p, MSG_INFO, "work req: %f sec", p->work_request);
+#if DEBUG_SCHED
+        msg_printf(p, MSG_INFO, "work req: %f sec", p->work_request);
+#endif
     }
 
     if (urgency == DONT_NEED_WORK) {

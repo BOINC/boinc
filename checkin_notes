@@ -24253,3 +24253,24 @@ David  8 Feb 2005
     sched/
         sched_locality.C
         sched_send.C,h
+
+David  8 Feb 2005
+	- Change the way user cross-project ID is maintained.
+		OLD: when the client sends a scheduler RPC to project P,
+			it sends the largest CPID among projects with same
+			email hash as P.
+			This is saved in P's database and sent in future RPC replies.
+		Problem (pointed out by John McLeod):
+			A user's CPID can change whenever he joins a new project.
+			Statistics web sites don't have permanent IDs for a user.
+		NEW: when the client sends a scheduler RPC to project P,
+			it sends the CPID of the project for which user_create_time
+			is least (i.e. the project with the oldest account).
+			Project URL is used as a tie-breaker.
+
+	- Fixed a bug where user_create_time wasn't being
+		parsed correctly from server reply.
+
+	client/
+		client_types.C
+		cs_scheduler.C
