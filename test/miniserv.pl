@@ -698,7 +698,7 @@ if ($method eq 'POST' &&
 		$v =~ s/\+/ /g; $v =~ s/%(..)/pack("c",hex($1))/ge;
 		$in{$k} = $v;
 		}
-	}
+    }
 
 # replace %XX sequences in page
 $page =~ s/%(..)/pack("c",hex($1))/ge;
@@ -1206,6 +1206,7 @@ if (&get_type($full) eq "internal/cgi") {
                         if ($full =~ /[.]php[34]?$/) {
                             $queryargs = "$full $queryargs";
                             $full = $PHP_CGI_PATH;
+                            print "Content-Type: text/html\n\n";
                         }
 			exec($full, split(/\s+/, $queryargs));
 			print STDERR "Failed to exec $full : $!\n";
