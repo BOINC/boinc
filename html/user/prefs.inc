@@ -38,7 +38,6 @@
 // Various functions are defined below for converting between these forms,
 // and also to/from HTML form elements
 
-
 include_once("project_specific/project_specific_prefs.inc");
 
 global $text;
