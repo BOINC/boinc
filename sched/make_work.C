@@ -21,6 +21,7 @@
 //      -wu_name name
 //      -result_template filename
 //      [ -cushion n ]
+//      [ -max_wus n ]
 //
 // Create WU and result records as needed to maintain a pool of work (for
 // testing purposes).
@@ -44,6 +45,7 @@
 #define LOCKFILE            "make_work.out"
 #define PIDFILE             "make_work.pid"
 
+int max_wus = 0;
 int cushion = 30;
 int min_quorum = 5;
 int target_nresults = 10;
@@ -86,17 +88,49 @@ void replace_file_name(
     }
 }
 
+char query_unsent_results[256];
+inline const char* get_query_unsent_results()
+{
+    if (query_unsent_results[0] == 0) {
+        sprintf(query_unsent_results, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+    }
+    return query_unsent_results;
+}
+
+inline int count_results(const char* query="")
+{
+    int n;
+    DB_RESULT result;
+    int retval = result.count(n, const_cast<char*>(query));
+    if (retval) {
+        log_messages.printf(SchedMessages::CRITICAL, "can't count results\n");
+        exit(1);
+    }
+    return n;
+}
+
+inline int count_workunits(const char* query="")
+{
+    int n;
+    DB_WORKUNIT workunit;
+    int retval = workunit.count(n, const_cast<char*>(query));
+    if (retval) {
+        log_messages.printf(SchedMessages::CRITICAL, "can't count workunits\n");
+        exit(1);
+    }
+    return n;
+}
+
 void make_work() {
     CONFIG config;
     char * p;
-    int retval, start_time=time(0), n;
+    int retval, start_time=time(0);
     char keypath[256], result_template[MAX_BLOB_SIZE];
     char file_name[256], buf[MAX_BLOB_SIZE], pathname[256];
     char new_file_name[256], new_pathname[256], command[256];
     char starting_xml[MAX_BLOB_SIZE], new_buf[MAX_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     DB_WORKUNIT wu;
-    DB_RESULT result;
     int seqno = 0;
 
     retval = config.parse_file();
@@ -135,13 +169,13 @@ void make_work() {
     while (1) {
         check_stop_trigger();
 
-        sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
-        retval = result.count(n, buf);
-        if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "can't count results\n");
-            exit(1);
+        int unsent_results = count_results(get_query_unsent_results());
+        int total_wus = count_workunits();
+        if (max_wus && total_wus >= max_wus) {
+            log_messages.printf(SchedMessages::NORMAL, "Reached max_wus = %d\n", max_wus);
+            exit(0);
         }
-        if (n > cushion) {
+        if (unsent_results > cushion) {
             sleep(1);
             continue;
         }
@@ -208,6 +242,8 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-wu_name")) {
             strcpy(wu_name, argv[++i]);
+        } else if (!strcmp(argv[i], "-max_wus")) {
+            max_wus = atoi(argv[++i]);
         }
     }
 

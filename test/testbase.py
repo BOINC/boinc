@@ -185,7 +185,7 @@ class ProjectList(list):
     def get_progress(self):
         s = "Running core client - results [done/total]:"
         for db in self.dbs:
-            s += " [%d/%d]" % (num_results_done(db), num_results(db))
+            s += " [%d/%d]" % (num_results_over(db), num_results(db))
         return s
     def start_progress_meter(self):
         self.dbs = map(lambda i: i.db_open(), self)

@@ -228,10 +228,16 @@ def db_query(db, query):
 
 def num_results(db, q=""):
     return db_query(db, "select count(*) from result "+q)[0]['count(*)']
-def num_wus_left(db):
+def num_results_unsent(db):
     return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_UNSENT)
-def num_results_done(db):
+def num_results_in_progress(db):
+    return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_IN_PROGRESS)
+def num_results_over(db):
     return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_OVER)
+def num_wus(db, q=""):
+    return db_query(db, "select count(*) from workunit "+q)[0]['count(*)']
+def num_wus_assimilated(db):
+    return num_wus(db, "where assimilate_state=%d"%ASSIMILATE_INIT)
 
 def query_yesno(str):
     '''Query user; default Yes'''
@@ -540,7 +546,7 @@ class Project:
             _check_vars(kwargs)
         elif progname == 'make_work':
             work = kwargs.get('work', self.work)
-            _check_vars(kwargs, cushion=None, redundancy=self.redundancy,
+            _check_vars(kwargs, cushion=30, max_wus=0,
                         result_template=os.path.realpath(work.result_template),
                         wu_name=work.wu_template)
         elif progname == 'validate_test':
