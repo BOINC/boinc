@@ -86,9 +86,10 @@ BOOL CMyApp::InitInstance()
 
 int CMyApp::ExitInstance()
 {
-	m_pMainWnd->DestroyWindow();
+	if (m_pMainWnd)
+		m_pMainWnd->DestroyWindow();
 
-	return 0;
+	return CWinApp::ExitInstance();
 }
 
 /////////////////////////////////////////////////////////////////////////
