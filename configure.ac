@@ -134,6 +134,17 @@ AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
 AC_CHECK_LIB(cygipc, shmget)
 
+dnl put double-inclusion protection into config.h
+AH_TOP([
+/* double-inclusion protection for config.h */
+#ifndef BOINC_CONFIG_H
+#define BOINC_CONFIG_H
+])
+AH_BOTTOM([
+/* end double-inclusion protection for config.h */
+#endif /* #ifndef BOINC_CONFIG_H */
+])
+
 dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC

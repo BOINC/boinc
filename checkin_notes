@@ -20036,12 +20036,15 @@ Bruce 23 Nov 2004 UTC
       causes any pain, please just modify CLIENT_BIN_FILENAME in configure.ac
     - Removed -O3 as required compilation flag in building client gui.  Only needed for
       client (to optimize benchmarking routines).
-    - Removed un-necessary zip/configure.ac and zip/Makefile and zip/config.h
+    - Removed un-necessary zip/configure.ac and zip/Makefile and zip/config.h and config.h.in
     - Added .cvsignore file for zip/ directory.
     - Modified api/boinc_gl.h to use config.h to get correct include path for glut.h
+    - Added double-inclusion protection for config.h to avoid some warning messages
 
     configure.ac
     Makefile.am
+    config.h
+    config.h.in (removed)
     clientgui/
      Makefile.am
     zip/
