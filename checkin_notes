@@ -9231,7 +9231,7 @@ Karl 2004-01-15
     - fixed database schema for new 'teamid' field
     - misc. fixes
 
-   db/
+    db/
        schema.sql
     py/Boinc/
         Makefile.am
