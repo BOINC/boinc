@@ -527,6 +527,8 @@ void setup_shared_mem(void) {
 }
 
 void cleanup_shared_mem(void) {
+    if (!app_client_shm) return;
+    
 #ifdef _WIN32
     if (app_client_shm->shm != NULL)
         detach_shmem(hSharedMem, app_client_shm->shm);
