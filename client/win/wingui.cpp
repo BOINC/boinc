@@ -26,7 +26,6 @@ void show_message(PROJECT* p, char* msg, int priority) {
 	char* x;
     char message[1024];
 
-
     strcpy(message, msg);
     if (message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
@@ -48,48 +47,10 @@ int add_new_project() {
 	return 0;
 }
 
-void GetByteString(double nbytes, CString* str) {
-	double xTera = (1024.0*1024*1024*1024);
-	double xGiga = (1024.0*1024*1024);
-	double xMega = (1024.0*1024);
-	double xKilo = (1024.0);
-    if (nbytes >= xTera) {
-        str->Format("%0.2f TB", nbytes/xTera);
-    } else if (nbytes >= xGiga) {
-        str->Format("%0.2f GB", nbytes/xGiga);
-    } else if (nbytes >= xMega) {
-        str->Format("%0.2f MB", nbytes/xMega);
-    } else if (nbytes >= xKilo) {
-        str->Format("%0.2f KB", nbytes/xKilo);
-    } else {
-        str->Format("%0.0f bytes", nbytes);
-    }
-}
-
 BOOL RequestNetConnect()
 {
 	if(g_myWnd) {
 		return g_myWnd->RequestNetConnect();
 	}
 	return FALSE;
-}
-
-BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
-{
-	DWORD* dwInfo = (DWORD*)lParam;
-	DWORD dwFoundId;
-	GetWindowThreadProcessId(hwnd, &dwFoundId);
-	if(dwFoundId == dwInfo[0]) {
-		dwInfo[1] = (DWORD)CWnd::FromHandle(hwnd);
-		return FALSE;
-	}
-	dwInfo[1] = NULL;
-	return TRUE;
-}
-
-CWnd* GetWndFromProcId(DWORD dwId)
-{
-	DWORD dwInfo[2] = {dwId, NULL};
-	EnumWindows(EnumWindowsProc, (LPARAM)dwInfo);
-	return (CWnd*)dwInfo[1];
 }

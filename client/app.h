@@ -71,6 +71,11 @@ public:
         // App's estimate of how much of the work unit is done.
         // Passed from the application via an API call;
         // will be zero if the app doesn't use this call
+    double frac_rate_of_change;
+        // How much the percent done changes per second, based
+        // on a recent exponential weighted average
+    double last_frac_done, recent_change;
+    time_t last_frac_update;
     double starting_cpu_time;
         // total CPU time at the start of current episode
     double checkpoint_cpu_time;
@@ -78,7 +83,7 @@ public:
     double current_cpu_time;
         // most recent total CPU time reported by app
     double working_set_size;
-	    // most recent size of RAM working set in bytes
+        // most recent size of RAM working set in bytes
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs
@@ -138,7 +143,7 @@ public:
     void kill_tasks();
     void get_cpu_times();
     bool check_app_exited();
-	bool check_rsc_limits_exceeded();
+    bool check_rsc_limits_exceeded();
     int get_free_slot(int total_slots);
 
     // screensaver-related functions

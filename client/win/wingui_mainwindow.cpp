@@ -396,9 +396,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		    m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
 
 		// size
-		strBuf.Format("%0.0f/%0.0fKB", xSent / 1024, pfx->fip->nbytes / 1024);
-        if (m_XferListCtrl.GetItemText(i, 3) != strBuf.GetBuffer(0))
-		    m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
+		char size_buf[256];
+		get_byte_string(xSent, pfx->fip->nbytes, size_buf, 256);
+        if (strcmp(m_XferListCtrl.GetItemText(i, 3).GetBuffer(0), size_buf))
+		    m_XferListCtrl.SetItemText(i, 3, size_buf);
 
 		// time
 		double xtime = 0;

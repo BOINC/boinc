@@ -42,9 +42,6 @@
 // functions
 
 int add_new_project();
-void GetByteString(double nbytes, CString* str);
 BOOL RequestNetConnect();
-BOOL CALLBACK			EnumWindowsProc(HWND, LPARAM);
-CWnd*					GetWndFromProcId(DWORD);
 
 #endif

@@ -20,6 +20,7 @@
 #include <time.h>
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
+extern void get_byte_string(double nbytes, double total_bytes, char* str, int len);
 extern double dtime();
 extern void boinc_sleep(double);
 extern int parse_command_line( char *, char ** );

@@ -4546,3 +4546,24 @@ Karl    2003/05/06
      sched/Makefile.in
      sched_fcgi/Makefile.in
      tools/Makefile.in
+
+Eric   June 6, 2003
+    - Removed old extraneous functions from wingui
+      (EnumWindowsProc, GetWndFromProcId)
+    - Moved GetByteString to util.C, made platform independent,
+      added "x/y KB" option
+    - Changed est_time_to_completion to use a recent exponential
+      average of change in percent done.  This is more accurate
+      than the old method.
+    - Bug fixes involving result state changes
+
+    client/
+        app.C,h
+        client_types.h
+        client_state.C
+        win/
+            wingui.cpp, h
+            wingui_mainwindow.cpp
+            wingui_piectrl.cpp
+    lib/
+        util.C,h

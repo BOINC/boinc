@@ -103,6 +103,44 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     return 0;
 }
 
+// Convert nbytes into a string.  If total_bytes is non-zero,
+// convert the two into a fractional display (i.e. 4/16 KB)
+//
+void get_byte_string(double nbytes, double total_bytes, char* str, int len) {
+    char buf[256];
+    double xTera = (1024.0*1024.0*1024.0*1024.0);
+    double xGiga = (1024.0*1024.0*1024.0);
+    double xMega = (1024.0*1024.0);
+    double xKilo = (1024.0);
+
+    if (total_bytes != 0) {
+        if (total_bytes >= xTera) {
+            sprintf(buf, "%0.2f/%0.2f TB", nbytes/xTera, total_bytes/xTera);
+        } else if (total_bytes >= xGiga) {
+            sprintf(buf, "%0.2f/%0.2f GB", nbytes/xGiga, total_bytes/xGiga);
+        } else if (total_bytes >= xMega) {
+            sprintf(buf, "%0.2f/%0.2f MB", nbytes/xMega, total_bytes/xMega);
+        } else if (total_bytes >= xKilo) {
+            sprintf(buf, "%0.2f/%0.2f KB", nbytes/xKilo, total_bytes/xKilo);
+        } else {
+            sprintf(buf, "%0.0f/%0.0f bytes", nbytes, total_bytes);
+        }
+    } else {
+        if (nbytes >= xTera) {
+            sprintf(buf, "%0.2f TB", nbytes/xTera);
+        } else if (nbytes >= xGiga) {
+            sprintf(buf, "%0.2f GB", nbytes/xGiga);
+        } else if (nbytes >= xMega) {
+            sprintf(buf, "%0.2f MB", nbytes/xMega);
+        } else if (nbytes >= xKilo) {
+            sprintf(buf, "%0.2f KB", nbytes/xKilo);
+        } else {
+            sprintf(buf, "%0.0f bytes", nbytes);
+        }
+    }
+
+    safe_strncpy(str, buf, len);
+}
 
 // return time of day as a double
 // Not necessarily in terms of UNIX time (especially on Windows)

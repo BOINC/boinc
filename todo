@@ -56,9 +56,6 @@ Windows screensaver functionality
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
-more accurate time to completion calculation
-    - perhaps use recent change in percent done?
-
 add an RPC to verify an account ID (returns DB ID for user)
     needed for multi-project stats sites
 

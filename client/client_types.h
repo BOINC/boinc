@@ -201,12 +201,15 @@ struct WORKUNIT {
     bool had_failure(int& failnum);
 };
 
+// Keep the numbers in order based on chronological order
+// A change to the numbers can cause results to be viewed as
+// errors by the server
 #define RESULT_NEW                  0   // New result, files may still need to be downloaded
-#define RESULT_FILES_DOWNLOADED     1   // Files are downloaded, result can be computed
-#define RESULT_COMPUTE_DONE         2   // Computation is done, if no error then files need to be uploaded
-#define RESULT_FILES_UPLOADED       3   // Files are uploaded, notify scheduling server
-#define RESULT_FILES_DOWNLOADING    4   // Files are being downloaded
-#define RESULT_FILES_UPLOADING      5   // Files are being uploaded
+#define RESULT_FILES_DOWNLOADING    1   // Files are being downloaded
+#define RESULT_FILES_DOWNLOADED     2   // Files are downloaded, result can be computed
+#define RESULT_COMPUTE_DONE         3   // Computation is done, if no error then files need to be uploaded
+#define RESULT_FILES_UPLOADING      4   // Files are being uploaded
+#define RESULT_FILES_UPLOADED       5   // Files are uploaded, notify scheduling server
 
 struct RESULT {
     char name[256];

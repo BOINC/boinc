@@ -335,10 +335,10 @@ void CPieChartCtrl::OnPaint()
 			MemDC.LineTo(textrect.left, textrect.bottom);
 			MemDC.LineTo(textrect.left, textrect.top);
 			textrect.SetRect(PIE_BUFFER + 16, PIE_BUFFER + i * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + i * 20);
-			CString strBytes;
-			GetByteString(m_xValues.GetAt(i), &strBytes);
+			char size_buf[256];
+			get_byte_string(m_xValues.GetAt(i), 0, size_buf, 256);
 			CString strBuf;
-			strBuf.Format("%s (%s)", m_strLabels.GetAt(i).GetBuffer(0), strBytes.GetBuffer(0));
+			strBuf.Format("%s (%s)", m_strLabels.GetAt(i).GetBuffer(0), size_buf);
 			MemDC.DrawText(strBuf, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT|DT_END_ELLIPSIS);
 		}
 
