@@ -24,13 +24,14 @@
 #ifdef WIN32
 #include <io.h>
 #include <sys/stat.h>
+#include "windows_cpp.h"
 #else
 #include <unistd.h>
 #endif
 
 #include <fcntl.h>
 #include <sys/types.h>
-#include "../sched/parse.h"
+#include "parse.h"
 #include "api.h"
 
 int MFILE::open(char* path, char* mode) {
@@ -235,7 +236,10 @@ int boinc_resolve_link(char *file_name, char *resolved_name)
 
 	// Open the file and load the first line
 	fp = fopen( file_name, "r" );
-	if (!fp) return -1;
+	if (!fp) {
+            strcpy( resolved_name, file_name );
+            return -1;
+        }
 	rewind( fp );
 	fgets(buf, 512, fp);
 	fclose( fp );
