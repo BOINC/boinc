@@ -418,7 +418,7 @@ bool do_pass() {
 
         // if we are assigned a transitioner number, then limit which records we should
         //   look at. It'll be less expensive to do the check here that in the DB.
-        if ((mod_n == 0) || ((mod_n < 0) && (mod_i == (items[0].id % mod_n)))) {
+        if ((mod_n == 0) || ((mod_n != 0) && (mod_i == (items[0].id % mod_n)))) {
 
 #ifdef USE_TRANSACTIONS
             log_messages.printf(
