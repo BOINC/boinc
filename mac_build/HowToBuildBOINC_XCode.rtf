@@ -1,0 +1,62 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9000\viewh9000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\f0\b\fs28 \cf0 Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\b0\fs24 \cf0 \
+NOTE: After building wxMac-2.5.3, make a link named wx-config in /usr/bin/ to inplace-mac-ansi-release-static-2.5 in the wx directory  ?????\
+\
+(1) Run Configure to create the correct config.h file:\
+\
+cd /Volumes/Moon/BOINC_Mac/boinc \
+./configure --disable-server --with-apple-opengl-framework\
+\
+(2) Create a  symbolic link [path]/ boinc/wx_lib pointing to \
+[path]/wxMac-2.5.3/osx-build/lib/\
+\
+(3) Create a  symbolic link [path]/ boinc/wxinclude pointing to \
+[path]/wxMac-2.5.3/include\
+\
+(4) Create a  symbolic link [path]/ boinc/jpeglib pointing to \
+your jpeg-6b directory (or whatever directory contains the jpeglib source files).  If you have the seti_boinc source directory which contains jpeglib, you can point the symbolic link there.\
+\
+For example, if the boinc, wxMac-2.5.3 and jpeg-6b directories are all in \
+    /Volumes/Moon/BOINC_Mac/    then the commands would be:\
+\
+cd /Volumes/Moon/BOINC_Mac/boinc \
+\
+ln -s /Volumes/Moon/BOINC_Mac/wxMac-2.5.3/osx-build/lib ./wx_lib\
+\
+ln -s /Volumes/Moon/BOINC_Mac/wxMac-2.5.3/include ./wxinclude\
+\
+ln -s /Volumes/Moon/BOINC_Mac/wxMac-2.5.3/osx-build/lib ./wx_lib\
+\
+ln -s /Volumes/Moon/BOINC_Mac/jpeg-6b ./jpeglib\
+\
+\
+**** Be  sure to put BOINCMgr.icns in [path]/ boinc/client/Mac/ *******\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\f0\b\fs28 \cf0 Building BOINC SETI client application
+\f1\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+1) Run Configure to create the correct config.h file:\
+\
+env PROJECTDIR=/Volumes/Moon/BOINC_Mac/seti_boinc BOINCDIR=/Volumes/Moon/BOINC_Mac/boinc LDFlags="-L/Volumes/Moon/BOINC_Mac/seti_boinc/jpeglib -ljpeg" ./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics\
+\
+(2) Copy the correct jpebglib.a into [path]/seti_boinc/jpeg/   ?????\
+\
+(3)Create a  symbolic link [path]/seti_boinc/boinc pointing to the boinc directory\
+\
+cd /Volumes/Moon/BOINC_Mac/seti_boinc \
+\
+ln -s /Volumes/Moon/BOINC_Mac/boinc ./boinc\
+\
+\
+}
