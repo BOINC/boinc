@@ -77,19 +77,19 @@ ARCHIVE_TARGETS = \
         test/*.xml test/*.php test/*wu test/*result test/*output \
         test/*.html test/*input \
         tools/*.C tools/*.h tools/*.in \
-        api/*.C api/*.h api/*.in api/*.c \
+        api/*.C api/*.h api/*.in api/*.c api/*.cpp \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
         mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.* \
         mac_build/*.lproj/*.strings \
         win_build/*.* win_build/*/*.dsp win_build/*/*.rct \
-        INSTALL LICENSE configure install-sh \
-        *.in *.sub *.guess *.m4
+        INSTALL LICENSE configure \
+        *.in *.sub *.guess
 
 tar: 
 	tar cf boinc_$(MAJOR_VERSION).$(MINOR_VERSION).tar $(ARCHIVE_TARGETS) ; gzip boinc_$(MAJOR_VERSION).$(MINOR_VERSION).tar
 
 zip:
-	zip boinc_$(MAJOR_VERSION).$(MINOR_VERSION).zip $(ARCHIVE_TARGETS)
+	zip -q boinc_$(MAJOR_VERSION).$(MINOR_VERSION).zip $(ARCHIVE_TARGETS)
 
 client_tar: clean
 	cd client; ./configure; ${MAKE} tar;
