@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Scheduling server: policy");
+page_head("Work distribution policy");
 echo "
 <p>
 The scheduling server will attempt to send enough work to exceed a

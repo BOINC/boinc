@@ -27,12 +27,28 @@ database-level problems.
 <h2>Scheduler single-stepping</h2>
 The scheduler is a CGI program.
 It reads from stdin and writes to stdout,
-so you can also run it with a command-line debugger like gdb.
-Direct a scheduler request file
-(which you can copy from a client;
-they're saved in files called sched_request_PROJECT.xml)
-to stdin, set breakpoints, and start stepping through the code.
-<p>
+so you can also run it with a command-line debugger like gdb:
+
+<ul>
+<li>
+Copy the \"scheduler_request_X.xml\" file from a client to the
+   machine running the scheduler.  (X = your project URL)
+
+<li>
+Run the scheduler under the debugger, giving it this file as stdin,
+   i.e.:
+ 
+   <pre>
+   gdb cgi
+   (set a breakpoint)
+   r &lt; scheduler_request_X.xml
+   </pre>
+                      
+<li>
+ You may have to doctor the database as follows:
+   update host set rpc_seqno=0, rpc_time=0 where hostid=N
+   to keep the scheduler from rejecting the request.
+</ul>
 This is useful for figuring out why your project is generating
 'no work available' messages.
 

@@ -20926,3 +20926,11 @@ Rom    8 Dec 2004
 
     clientgui/
         BOINCBaseView.cpp
+
+David  8 Dec 2004
+    - moved bmplib and tgalib from seti_boinc to boinc/api
+
+    api/
+        Makefile.am
+        bmplib.C,h (new)
+        tgalib.C,h (new)

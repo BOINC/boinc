@@ -5,16 +5,17 @@ echo "
 
 The <code>update_versions</code> script
 releases new application versions.
-It makes the needed database entries and copies files
-to the download directory.
+It creates database entries and copies files to the download directory.
 <p>
 To use:
 <ul>
-<li> Create an 'apps directory' under the project directory.
-Add an ", htmlspecialchars("<app_dir>"),
+<li>
+If it doesn't already exit,
+create an directory 'apps' under the project directory,
+and add an ", htmlspecialchars("<app_dir>"),
 " element to config.xml giving the path of the apps directory.
 <li> Create a subdirectory for each application,
-with the same name as the application.
+with the short name of the application.
 Put new application versions here.
 <code>update_versions</code>
 scans these directories for new application versions.
@@ -27,13 +28,14 @@ File names must be of the form <code>NAME_VERSION_PLATFORM[.ext]</code>, e.g.:
 boinc_3.17_i686-pc-linux-gnu.gz
 astropulse_7.17_windows_intelx86.exe
 </pre>
-The prefix name and extensions .gz, .exe, .sig are ignored.
 <p>
 Important notes:
 <ul>
-<li> <b>Platform strings must match the names of platforms in the database.</b>
-    If needed, <a href=tool_xadd.php>add the platform to the DB</a>.
-<li> <b>Your application must have the same major version number
+<li>
+<b>Platform strings must match the names of platforms in the database.</b>
+If needed, <a href=tool_xadd.php>add the platform to the DB</a>.
+<li>
+<b>Applications must have the same major version number
 as your BOINC server software</b>.
 </ul>
 
@@ -48,6 +50,14 @@ Recommended code-signing practices are described
 <a href=code_signing.php>here</a>.
 
 
+<p>
+If a file of the form
+<pre>
+EXEC_FILENAME.file_ref_info
+</pre>
+is found, its contents will be added to the &lt;file_info>
+element describing the file
+(you can use this for attributes like &lt;copy_file>).
 <h3>Min/max core version</h3>
 Application versions have fields <code>min_core_version</code>
 and <code>max_core_version</code> which, if nonzero,
@@ -55,7 +65,7 @@ indicates the range of core client version numbers
 to which the application version should be sent.
 Update_versions, by default, sets this to the largest
 core client version number in the database.
-To change this, you can manually edit the app_version record.
+To change this, you can manually update the app_version record.
 
 <h3>Multiple-file application versions</h3>
 

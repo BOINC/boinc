@@ -51,15 +51,10 @@ before getting into the source code.
 <li> <a href=client_app_graphic.php>Core client/application interaction (graphics)</a>
 <li> <a href=disk_management.php>Disk space management</a>
 </ul>
-<h2>Scheduling server</h2>
+<h2>Server programs</h2>
 <ul>
 <li> <a href=database.php>The BOINC database</a>
-<li> <a href=sched_policy.php>Policy</a>
-<li> <a href=sched_impl.php>Implementation</a>
-<li> <a href=sched_debug.php>Debugging</a>
-</ul>
-<h2>Back end</h2>
-<ul>
+<li> <a href=sched_policy.php>Work distribution policy</a>
 <li> <a href=backend_state.php>Backend state transitions</a>
 <li> <a href=backend_logic.php>The logic of backend programs</a>
 <li> <a href=server_debug.php>Debugging server components</a>

@@ -12,6 +12,8 @@ graphics_api_files = 		\
 	graphics_api.C 			\
 	reduce.C				\
 	gutil.C					\
+    bmplib.C                \
+    tgalib.C                \
 	graphics_data.h 	\
 	reduce.h 			\
 	x_opengl.h 			\

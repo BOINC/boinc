@@ -107,6 +107,11 @@ show_link(
     "http://www.boinc.pl"
 );
 show_link(
+    "Portuguese",
+    "Portugal@home",
+    "http://portugalathome.pt.vu/"
+);
+show_link(
     "Russian",
     "www.boinc.narod.ru",
     "http://www.boinc.narod.ru"
