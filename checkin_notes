@@ -8458,3 +8458,9 @@ David  12 Dec 2003
 		client_state.C
 		net_xfer.C,h
 		pers_file_xfer.C
+
+David  12 Dec 2003
+	- fixed bug that caused est. time to completion to not update
+
+	client/
+		app.C

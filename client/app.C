@@ -605,9 +605,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
-            atp->get_status_msg();
-            atp->result->final_cpu_time = atp->checkpoint_cpu_time;
             if (exit_code != STILL_ACTIVE) {
+                atp->get_status_msg();
+                atp->result->final_cpu_time = atp->checkpoint_cpu_time;
                 found = true;
                 if (atp->state == PROCESS_ABORT_PENDING) {
                     atp->state = PROCESS_ABORTED;
@@ -1165,7 +1165,7 @@ bool ACTIVE_TASK_SET::get_status_msgs() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         old_time = atp->checkpoint_cpu_time;
-        if(atp->get_status_msg()) {
+        if (atp->get_status_msg()) {
             atp->estimate_frac_rate_of_change(now);
             if (old_time != atp->checkpoint_cpu_time) {
                 action = true;
