@@ -77,6 +77,8 @@ downloading them from the project.  Here's how it works:
     </app_version>
 </app_info>
 ")?></pre>
+    
+    In the example XML file, "407" is the centiversion (major + minor/100).
   </li>
   <li>
     Run the core client again.  When it requests work from the scheduling
