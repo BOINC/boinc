@@ -52,7 +52,6 @@ void handle_wu(DB_WORKUNIT& wu) {
     DB_RESULT* p_canonical_result = NULL;
     int nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover;
-    unsigned int i, n;
     char suffix[256], result_template[MAX_BLOB_SIZE];
     time_t now = time(0), x;
     bool all_over, have_result_to_validate, do_delete;
@@ -83,7 +82,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     nsuccess = 0;
     ncouldnt_send = 0;
     have_result_to_validate = false;
-    for (i=0; i<results.size(); i++) {
+    for (unsigned int i=0; i<results.size(); i++) {
         DB_RESULT& result = results[i];
 
         switch (result.server_state) {
@@ -166,7 +165,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     // and trigger assimilation if needed
     //
     if (wu.error_mask) {
-        for (i=0; i<results.size(); i++) {
+        for (unsigned int i=0; i<results.size(); i++) {
             DB_RESULT& result = results[i];
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
@@ -179,14 +178,15 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     } else if (wu.assimilate_state == ASSIMILATE_INIT) {
         // If no error, generate new results if needed.
-        n = wu.target_nresults - nunsent - ninprogress - nsuccess;
+        // NOTE!! `n' must be a SIGNED integer!
+        int n = wu.target_nresults - nunsent - ninprogress - nsuccess;
         if (n > 0) {
             log_messages.printf(
                 SchedMessages::NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
                 wu.id, wu.name, n, wu.target_nresults, nunsent, ninprogress, nsuccess
             );
-            for (i=0; i<n; i++) {
+            for (int i=0; i<n; i++) {
                 sprintf(suffix, "%d", results.size()+i);
                 strcpy(result_template, wu.result_template);
                 retval = create_result(wu, result_template, suffix, key, "");
@@ -205,7 +205,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     // scan results, see if all over, look for canonical result
     //
     all_over = true;
-    for (i=0; i<results.size(); i++) {
+    for (unsigned int i=0; i<results.size(); i++) {
         DB_RESULT& result = results[i];
         if (result.server_state != RESULT_SERVER_STATE_OVER) {
             all_over = false;
@@ -247,7 +247,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         // output of error results can be deleted immediately;
         // output of success results can be deleted if validated
         //
-        for (i=0; i<results.size(); i++) {
+        for (unsigned int i=0; i<results.size(); i++) {
             DB_RESULT& result = results[i];
             // can delete canonical result outputs only if all successful
             // results have been validated
@@ -270,7 +270,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     }
 
     wu.transition_time = MAXINT;
-    for (i=0; i<results.size(); i++) {
+    for (unsigned int i=0; i<results.size(); i++) {
         DB_RESULT& result = results[i];
         if (result.server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
             x = result.sent_time + wu.delay_bound;

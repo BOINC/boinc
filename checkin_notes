@@ -6256,3 +6256,10 @@ Karl 2003/09/10
 
     Sched/
         transitioner.C
+
+Karl 2003/09/15
+    - fixed transitioner bug where usage of `unsigned int' instead of signed
+      int caused 400k results to be generated.
+
+    Sched/
+        transitioner.C
