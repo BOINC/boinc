@@ -234,21 +234,14 @@ print >>open(httpd_conf_template_filename,'w'), '''
 
     ## Settings for BOINC project %(project_longname)s
 
-    Alias /%(project_shortname)s %(proot)s/html_user
-    Alias /%(project_shortname)s_ops %(proot)s/html_ops
+    Alias /%(project_shortname)s %(proot)s/html/user
+    Alias /%(project_shortname)s_ops %(proot)s/html/ops
     ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
 
     # Note: projects/*/keys/ should NOT be readable!
 
-    <Directory "%(proot)s/html_user">
+    <Directory "%(proot)s/html">
         Options Indexes FollowSymlinks MultiViews
-        AllowOverride None
-        Order allow,deny
-        Allow from all
-    </Directory>
-
-    <Directory "%(proot)s/html_ops">
-        Options FollowSymLinks
         AllowOverride AuthConfig
         Order allow,deny
         Allow from all
