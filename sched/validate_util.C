@@ -44,7 +44,7 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     char buf[256], path[256];
     bool flag;
 
-    flag = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
+    flag = parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf));
     if (!flag) return ERR_XML_PARSE;
     dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, path);
     path_str = path;

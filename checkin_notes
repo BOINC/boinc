@@ -19539,3 +19539,9 @@ Rom    15 Nov 2004
         boinc_gui.vcproj
     win_build/installerv2/
         BOINC.ism
+
+David  16 Nov 2004
+    - Validator bug: look for file name in xml_doc_out, not xml_doc_in
+
+    sched/
+        validate_util.C
