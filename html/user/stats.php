@@ -28,7 +28,7 @@ developed by <a href=mailto:stats@boinc.dk>Janus Kristensen</a>.
 developed by Sascha Pfalz.
 <li>
 <a href=http://stats.boincbzh.net/BZHwds/index.php>BOINC Alliance Francophone</a>,
-developed by Vincent Mary (vincent.mary at univ-rennes1.fr).
+developed by Vincent Mary (email: stats at hoincbzh dot net).
 Supports competition between 'mini-teams'.
 </ul>
 These systems are implemented using PHP,
