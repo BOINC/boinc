@@ -77,6 +77,7 @@ before getting into the source code.
 <li> <a href=trickle_impl.php>Trickle messages</a>
 <li> <a href=version_diff.txt>How to see what has changed
 between two versions of an executable</a>.
+<li> <a href=acct_mgt.php>Account management systems</a>
 </ul>
 
 ";

@@ -99,8 +99,6 @@ of work that is sent to your computer.
 
 <h2>Current version</h2>
 ";
-show_414();
-echo "<br>";
 show_413();
 echo "
     After the download is finished:
@@ -128,6 +126,8 @@ if ($_GET["dev"]) {
     echo "
         <h2>Development version (latest features, possibly buggy)</h2>
     ";
+    show_414();
+echo "<br>";
     show_459();
 }
 
