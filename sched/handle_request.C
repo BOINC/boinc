@@ -148,6 +148,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                "Visit this project's web site to get an authenticator."
             );
             strcpy(reply.message_priority, "low");
+            reply.request_delay = 120;
             return -1;
         }
 
@@ -167,8 +168,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
         retval = db_user_lookup_auth(reply.user);
         if (retval) {
-            strcpy(reply.message, "Invalid or missing authenticator");
+            strcpy(reply.message,
+                "Invalid or missing authenticator.  "
+                "Visit this project's web site to get an authenticator.");
             strcpy(reply.message_priority, "low");
+            reply.request_delay = 120;
             return -1;
         }
 new_host:
