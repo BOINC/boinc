@@ -11,6 +11,13 @@ A paper about BOINC's design goals is here:
 <a href=boinc2.pdf>PDF</a> |
 <a href=http://boinc.de/madrid_de.htm>HTML/German</a> |
 <a href=http://www.seti-nl.org/content.php?c=boinc_berkeley_madrid>HTML/Dutch</a>
+<p>
+A technical paper about BOINC is
+<a href=grid_paper_04.pdf>here</a>.
+This paper appeared in the 
+5th IEEE/ACM International Workshop on Grid Computing,
+November 8, 2004, Pittsburgh, USA.
+
 
 <p>
 The BOINC's features fall into several areas:

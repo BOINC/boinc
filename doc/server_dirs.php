@@ -10,7 +10,7 @@ PROJECT/
     bin/
     cgi-bin/
     log_HOSTNAME/
-    pid/
+    pid_HOSTNAME/
     download/
     html/
         inc/
@@ -37,6 +37,11 @@ Each project directory contains:
 <li> upload: storage for data server uploads.
 </ul>
 
+<p>
+The upload and download directories
+may contain large numbers (millions) of files.
+For efficiency they are normally organized as
+a <a href=hier_dir.php>hierarchy</a> of subdirectories.
 ";
 page_tail();
 ?>

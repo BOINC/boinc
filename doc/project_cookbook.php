@@ -88,11 +88,11 @@ Troubleshooting: check the log files of all daemon processes.
 
 <h2>Develop back end components</h2>
 <ul>
-<li> Write a work generator.
-<li> Write a validator.
-<li> Write an assimilator.
-<li> Edit the configuration file to use these programs
-instead of the place-holder programs.
+<li> Write a <a href=tools_work.php>work generator</a>.
+<li> Write a <a href=validate.php>validator</a>.
+<li> Write an <a href=assimilate.php>assimilator</a>.
+<li> Edit the <a href=configuration.php>configuration file</a>
+to use these programs instead of the place-holder programs.
 <li> Make sure everything works correctly.
 </ul>
 
@@ -100,7 +100,6 @@ instead of the place-holder programs.
 <h2>Extras</h2>
 
 <ul>
-<li> Make the core client available from your site
 <li> Add message board categories: see html/ops/create_forums.php
 </ul>
 

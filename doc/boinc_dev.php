@@ -62,6 +62,7 @@ before getting into the source code.
 <ul>
 <li> <a href=backend_state.php>Backend state transitions</a>
 <li> <a href=backend_logic.php>The logic of backend programs</a>
+<li> <a href=server_debug.php>Debugging server components</a>
 </ul>
 
 <h2>Protocols</h2>
