@@ -1,7 +1,7 @@
 <?php
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-define("NVALIDATE_STATES", 5);
+define("NVALIDATE_STATES", 6);
 
 // Function prints a description of $table 
 //
