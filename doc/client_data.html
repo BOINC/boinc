@@ -5,21 +5,26 @@
 The key data structures in the core client are as follows. 
 <p>
 Basic types: 
-<pre>
-PROJECT
-APP
-FILE_INFO
-APP_VERSION
-IO_FILE_DESC
-WORKUNIT
-RESULT
-</pre>
-<pre>ACCOUNTS</pre> Contains a vector of PROJECTs, summarizing
-the accounts file. 
-<p>
+<pre>PROJECT</pre>
+<pre>APP</pre>
+<pre>FILE_INFO</pre>
+<pre>APP_VERSION</pre>
+<pre>IO_FILE_DESC</pre>
+<pre>WORKUNIT</pre>
+Contains execution information about workunit including
+command line arguments, environment variables and required
+input files.  Also points to the application, app
+version and project the workunit is associated with.
+<pre>RESULT</pre>
+Contains status information about result including
+state, total CPU time, deadline, etc.  Also points
+to the workunit, application and project the result is
+associated with.
+<pre>PREFS</pre>
+Contains a vector of PROJECTs, summarizing the prefs.xml
+file.  Also contains user preferences.
 <pre>CLIENT_STATE</pre> 
-<p>
 Contains vectors of all the basic types. These are crossed-linked
 with pointers; for example, APP_VERSION has a pointer to FILE_INFO. Also
 contains FSM sets for network connections, HTTP operations, file
-transfers, and active tasks. 
+transfers, persistent file transfers, and active tasks. 
