@@ -265,7 +265,7 @@ int boinc_rename(char* old, char* newf) {
 
 #ifdef _WIN32
 void full_path(char* relname, char* path) {
-	_getcwd(path, 256);
+    _getcwd(path, 256);
     strcat(path, PATH_SEPARATOR);
     strcat(path, relname);
 }

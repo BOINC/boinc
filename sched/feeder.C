@@ -65,7 +65,7 @@ int check_trigger(SCHED_SHMEM* ssp) {
     fclose(f);
     if (!strcmp(buf, "<quit/>\n")) {
         detach_shmem((void*)ssp);
-        destroy_shmem(BOINC_KEY);
+        destroy_shmem(BOINC_SHMEM_KEY);
         unlink(TRIGGER_FILENAME);
         exit(0);
     } else if (!strcmp(buf, "<reread_db/>\n")) {
@@ -179,12 +179,12 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = destroy_shmem(BOINC_KEY);
+    retval = destroy_shmem(BOINC_SHMEM_KEY);
     if (retval) {
         fprintf(stderr, "feeder: can't destroy shmem\n");
         exit(1);
     }
-    retval = create_shmem(BOINC_KEY, sizeof(SCHED_SHMEM), &p);
+    retval = create_shmem(BOINC_SHMEM_KEY, sizeof(SCHED_SHMEM), &p);
     if (retval) {
         fprintf(stderr, "feeder: can't create shmem\n");
         exit(1);

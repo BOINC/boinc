@@ -11,6 +11,7 @@
     create_keys();
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("input");
+    add_project("Test Project");
     add_platform("windows_intelx86");
     add_user("prefs.xml");
     add_app("upper_case", "windows_intelx86", "upper_case.exe");

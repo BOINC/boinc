@@ -12,6 +12,7 @@
     create_keys();
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("input");
+    add_project("Test Project");
     add_platform(null);
     add_user("prefs.xml");
     add_app("upper_case", null, null);

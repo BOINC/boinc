@@ -131,6 +131,10 @@ function add_prefs($file) {
     PassThru("../tools/add prefs -email_addr $BOINC_EMAIL -prefs_file $file");
 }
 
+function add_project($name) {
+    PassThru("../tools/add project -project_name '$name'");
+}
+
 function add_platform($platform) {
     global $BOINC_PLATFORM;
 

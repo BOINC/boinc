@@ -8,7 +8,7 @@ int main() {
     int retval;
     void* p;
 
-    retval = attach_shmem(BOINC_KEY, &p);
+    retval = attach_shmem(BOINC_SHMEM_KEY, &p);
     if (retval) {
         printf("can't attach shmem\n");
         exit(1);

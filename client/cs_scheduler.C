@@ -182,8 +182,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-	platform_name,
-	version,
+        platform_name,
+        version,
         work_req
     );
     if (p->code_sign_key) {
@@ -319,6 +319,9 @@ void CLIENT_STATE::handle_scheduler_reply(
     f = fopen(SCHED_OP_RESULT_FILE, "r");
     retval = sr.parse(f);
 
+    if (strlen(sr.project_name)) {
+        strcpy(project->project_name, sr.project_name);
+    }
     if (strlen(sr.message)) {
         show_message(sr.message, sr.message_priority);
     }
@@ -395,23 +398,23 @@ void CLIENT_STATE::handle_scheduler_reply(
         if (!project->code_sign_key) {
             project->code_sign_key = strdup(sr.code_sign_key);
         } else {
-	    if (sr.code_sign_key_signature) {
-		retval = verify_string2(
-		    sr.code_sign_key, sr.code_sign_key_signature,
-		    project->code_sign_key, signature_valid
-		);
-		if (!retval && signature_valid) {
-		    free(project->code_sign_key);
-		    project->code_sign_key = strdup(sr.code_sign_key);
-		} else {
-		    fprintf(stdout,
-			"New code signing key from %s doesn't validate\n",
-			project->project_name
-		    );
-		}
-	    } else {
-		fprintf(stdout, "Missing code sign key signature\n");
-	    }
+            if (sr.code_sign_key_signature) {
+                retval = verify_string2(
+                    sr.code_sign_key, sr.code_sign_key_signature,
+                    project->code_sign_key, signature_valid
+                );
+                if (!retval && signature_valid) {
+                    free(project->code_sign_key);
+                    project->code_sign_key = strdup(sr.code_sign_key);
+                } else {
+                    fprintf(stdout,
+                        "New code signing key from %s doesn't validate\n",
+                        project->project_name
+                    );
+                }
+            } else {
+                fprintf(stdout, "Missing code sign key signature\n");
+            }
         }
     }
 

@@ -32,6 +32,11 @@
 // Maximum allowed size for SQL based blobs (Binary Large Object)
 #define MAX_BLOB_SIZE   4096
 
+struct PROJECT {
+    int id;
+    char name[256];
+};
+
 // A compilation target, i.e. a architecture/OS combination.
 // Currently the core client will be given only applications
 // that match its platform exactly.
@@ -242,6 +247,9 @@ extern int db_open(char* dbname, char* passwd);
 extern int db_close();
 extern void db_print_error(char*);
 extern int db_insert_id();
+
+extern int db_project_new(PROJECT& p);
+extern int db_project_enum(PROJECT& p);
 
 extern int db_platform_new(PLATFORM& p);
 extern int db_platform_enum(PLATFORM& p);

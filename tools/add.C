@@ -20,6 +20,8 @@
 // add.C - add items to the DB
 //
 // usages:
+// add project -project_name x
+//      add project
 // add app -app_name x
 //      add application
 //      create DB record
@@ -49,16 +51,29 @@ APP app;
 PLATFORM platform;
 APP_VERSION app_version;
 USER user;
+PROJECT project;
+
 int version, retval, nexec_files;
 double nbytes;
 bool signed_exec_files;
 char buf[256], md5_cksum[64];
-char *app_name=0, *platform_name=0;
+char *app_name=0, *platform_name=0, *project_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
 char *prefs_file=0, *download_dir, *download_url;
 char* code_sign_keyfile;
 char *message=0, *message_priority=0;
+
+void add_project() {
+    int retval;
+
+    memset(&project, 0, sizeof(project));
+    strcpy(project.name, project_name);
+    retval = db_project_new(project);
+    if (retval) {
+        db_print_error("db_project_new");
+    }
+}
 
 void add_app() {
     int retval;
@@ -258,7 +273,10 @@ int main(int argc, char** argv) {
     	printf("can't open DB %s\n", getenv("BOINC_DB_NAME"));
     }
     for (i=2; i<argc; i++) {
-        if (!strcmp(argv[i], "-app_name")) {
+        if (!strcmp(argv[i], "-project_name")) {
+            i++;
+            project_name = argv[i];
+        } else if (!strcmp(argv[i], "-app_name")) {
             i++;
             app_name = argv[i];
         } else if (!strcmp(argv[i], "-platform_name")) {
@@ -323,7 +341,9 @@ int main(int argc, char** argv) {
             code_sign_keyfile = argv[i];
         }
     }
-    if (!strcmp(argv[1], "app")) {
+    if (!strcmp(argv[1], "project")) {
+	add_project();
+    } else if (!strcmp(argv[1], "app")) {
         add_app();
     } else if (!strcmp(argv[1], "platform")) {
         add_platform();

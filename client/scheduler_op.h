@@ -75,6 +75,7 @@ struct SCHEDULER_REPLY {
     int request_delay;
     char message[1024];
     char message_priority[256];
+    char project_name[256];
     int prefs_mod_time;
     char* prefs_xml;
     vector<APP> apps;

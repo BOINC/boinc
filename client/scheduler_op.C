@@ -214,7 +214,7 @@ bool SCHEDULER_OP::poll() {
         // here we're fetching the master file for a project
         //
         if (http_op.http_op_state == HTTP_STATE_DONE) {
-	    action = true;
+            action = true;
             project->master_url_fetch_pending = false;
             http_ops->remove(&http_op);
             if (http_op.http_op_retval == 0) {
@@ -265,7 +265,7 @@ bool SCHEDULER_OP::poll() {
         //
         scheduler_op_done = false;
         if (http_op.http_op_state == HTTP_STATE_DONE) {
-	    action = true;
+            action = true;
             http_ops->remove(&http_op);
             if (http_op.http_op_retval) {
                 if (log_flags.sched_op_debug) {
@@ -374,6 +374,8 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             // Do nothing
         } else if (match_tag(buf, "</scheduler_reply>")) {
             return 0;
+        } else if (parse_str(buf, "<project_name>", project_name)) {
+            continue;
         } else if (parse_int(buf, "<hostid>", hostid)) {
             continue;
         } else if (parse_int(buf, "<request_delay>", request_delay)) {
@@ -385,11 +387,11 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(in, "</code_sign_key>", &code_sign_key);
-	    //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
+            //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
             if (retval) {
-		fprintf(stderr, "error: SCHEDULER_REPLY.parse: xml parsing error\n");
+                fprintf(stderr, "error: SCHEDULER_REPLY.parse: xml parsing error\n");
                 return ERR_XML_PARSE;
-	    }
+            }
         } else if (match_tag(buf, "<code_sign_key_signature>")) {
             retval = dup_element_contents(in, "</code_sign_key_signature>", &code_sign_key_signature);
             if (retval) return ERR_XML_PARSE;

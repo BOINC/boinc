@@ -25,17 +25,19 @@
 
 #include "db.h"
 
-#define TYPE_PLATFORM	        1
-#define TYPE_APP	        2
-#define TYPE_APP_VERSION	3
-#define TYPE_USER	        4
-#define TYPE_TEAM		5
-#define TYPE_HOST	        6
-#define TYPE_WORKUNIT	        7
-#define TYPE_RESULT	        8
+#define TYPE_PROJECT	        1
+#define TYPE_PLATFORM	        2
+#define TYPE_APP	        3
+#define TYPE_APP_VERSION	4
+#define TYPE_USER	        5
+#define TYPE_TEAM		6
+#define TYPE_HOST	        7
+#define TYPE_WORKUNIT	        8
+#define TYPE_RESULT	        9
 
 char* table_name[] = {
     "",
+    "project",
     "platform",
     "app",
     "app_version",
@@ -47,6 +49,7 @@ char* table_name[] = {
 };
 
 void struct_to_str(void* vp, char* q, int type) {
+    PROJECT* prp;
     PLATFORM* pp;
     APP* app;
     APP_VERSION* avp;
@@ -58,6 +61,14 @@ void struct_to_str(void* vp, char* q, int type) {
     assert(vp!=NULL);
     assert(q!=NULL);
     switch(type) {
+    case TYPE_PROJECT:
+	prp = (PROJECT*)vp;
+	sprintf(q,
+	    "id=%d, name='%s'",
+	    prp->id,
+	    prp->name
+	);
+	break;
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;
         sprintf(q,
@@ -209,6 +220,7 @@ void struct_to_str(void* vp, char* q, int type) {
 }
 
 void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
+    PROJECT* prp;
     PLATFORM* pp;
     APP* app;
     APP_VERSION* avp;
@@ -221,6 +233,12 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     int i=0;
     assert(vp!=NULL);
     switch(type) {
+    case TYPE_PROJECT:
+        prp = (PROJECT*)vp;
+	memset(prp, 0, sizeof(PROJECT));
+	prp->id = atoi(r[i++]);
+        strcpy(prp->name, r[i++]);
+	break;
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;
 	memset(pp, 0, sizeof(PLATFORM));
@@ -359,6 +377,17 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     }
 }
 
+
+////////// PROJECT /////////
+
+int db_project_new(PROJECT& p) {
+    return db_new(&p, TYPE_PROJECT);
+}
+
+int db_project_enum(PROJECT& p) {
+    static ENUM e;
+    return db_enum(e, &p, TYPE_PROJECT);
+}
 
 ////////// PLATFORM /////////
 

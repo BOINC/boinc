@@ -16,6 +16,8 @@
 #define IDC_LOGIN_OK    3
 #endif
 
+// Global vars
+
 CMainWindow* main_window;
 CFont m_fontMain;
 CMyApp myApp;
@@ -26,6 +28,82 @@ TEXT_TABLE projects;
 TEXT_TABLE user_info;
 int m_cxChar;
 int m_cyChar;
+
+char* result_titles[] = {"Project", "Application", "CPU time", "status"};
+int result_widths[] = {12, 20, 12, 18};
+char* file_xfer_titles[] = {"Project", "File", "Size", "direction"};
+int file_xfer_widths[] = {12, 20, 12, 12};
+char* disk_usage_titles[] = {"Project", "space used"};
+int disk_usage_widths[] = {12, 20};
+char* project_titles[] = {"Project", "total CPU", "share"};
+int project_widths[] = {12, 15, 15};
+char* user_info_titles[] = {"Name", "Team", "Total credit", "Recent credit"};
+int user_info_widths[] = {20, 20, 15, 15};
+
+void show_message(char* p, char* prior) {
+    //MessageBox(NULL, p, prior, MB_OK);
+	printf("Message (%s): %s\n", prior, p);
+}
+
+int initialize_prefs() {
+    CLoginDialog dlg(IDD_LOGIN);
+    int retval = dlg.DoModal();
+    if (retval != IDOK) return -1;
+    write_initial_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
+    return 0;
+}
+
+void show_result(TEXT_LINE& line, RESULT& result) {
+    char buf[256];
+    line.set_field(0, result.project->project_name);
+    line.set_field(1, result.app->name);
+    sprintf(buf, "%f", result.final_cpu_time);
+    line.set_field(2, buf);
+    switch(result.state) {
+    case RESULT_NEW:
+        line.set_field(3, "New"); break;
+    case RESULT_FILES_DOWNLOADED:
+        line.set_field(3, "Ready to run"); break;
+    case RESULT_COMPUTE_DONE:
+        line.set_field(3, "Computation done"); break;
+    case RESULT_READY_TO_ACK:
+        line.set_field(3, "Results uploaded"); break;
+    case RESULT_SERVER_ACK:
+        line.set_field(3, "Acknowledged"); break;
+    }
+}
+
+void show_file_xfer(TEXT_LINE& line, FILE_XFER& fx) {
+    char buf[256];
+
+    line.set_field(0, fx.fip->project->project_name);
+    line.set_field(1, fx.fip->name);
+    sprintf(buf, "%f", fx.fip->nbytes);
+    line.set_field(2, buf);
+    line.set_field(3, fx.fip->generated_locally?"upload":"download");
+}
+
+void update_gui(CLIENT_STATE& cs) {
+    int i, n;
+
+    n = min(results.nlines, cs.results.size());
+    for (i=0; i<n; i++) {
+        show_result(results.lines[i+1], *cs.results[i]);
+    }
+    for (i=n; i<results.nlines; i++) {
+        results.blank_line(i);
+    }
+
+    n = min(file_xfers.nlines, cs.file_xfers->file_xfers.size());
+    for (i=0; i<n; i++) {
+        show_file_xfer(file_xfers.lines[i], *cs.file_xfers->file_xfers[i]);
+    }
+    for (i=n; i<file_xfers.nlines; i++) {
+        file_xfers.blank_line(i);
+    }
+}
+
+// ------------ CLoginDialog -------------
 
 CLoginDialog::CLoginDialog(UINT y) : CDialog(y){
 }
@@ -46,16 +124,7 @@ BEGIN_MESSAGE_MAP (CLoginDialog, CDialog)
     ON_BN_CLICKED(IDC_LOGIN_OK, OnOK)
 END_MESSAGE_MAP()
 
-char* result_titles[] = {"Project", "Application", "CPU time", "% done"};
-int result_widths[] = {12, 20, 12, 18};
-char* file_xfer_titles[] = {"Project", "File", "Size", "% done"};
-int file_xfer_widths[] = {12, 20, 12, 12};
-char* disk_usage_titles[] = {"Project", "space used"};
-int disk_usage_widths[] = {12, 20};
-char* project_titles[] = {"Project", "total CPU", "share"};
-int project_widths[] = {12, 15, 15};
-char* user_info_titles[] = {"Name", "Team", "Total credit", "Recent credit"};
-int user_info_widths[] = {20, 20, 15, 15};
+// ----------- TEXT_TABLE ------------
 
 void TEXT_TABLE::create(char* title, int nf, int sl, int nl, char** titles, int* w) {
     int i, j, col, rcol;
@@ -157,7 +226,7 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT x, UINT id, DWORD time) {
     char buf[256];
     n++;
     sprintf(buf, "%d", n);
-    results.set_field(0, 0, buf);
+    user_info.set_field(0, 0, buf);
 
 #if 1
     while (gstate.do_something()) {
@@ -167,6 +236,7 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT x, UINT id, DWORD time) {
 #endif
 	fflush(stdout);
 	fflush(stderr);
+	update_gui(gstate);
 }
 
 int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
@@ -200,27 +270,14 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     projects.create("Projects", 3, 22, 3, project_titles, project_widths);
     user_info.create("User info", 4, 28, 2, user_info_titles, user_info_widths);
 
-	NetOpen();
-	freopen("stdout.txt", "w", stdout);
-	freopen("stderr.txt", "w", stderr);
+    NetOpen();
+    freopen("stdout.txt", "w", stdout);
+    freopen("stderr.txt", "w", stderr);
     read_log_flags();
     int retval = gstate.init();
     if (retval) exit(retval);
     SetTimer(ID_TIMER, 1000, TimerProc);
 
-    return 0;
-}
-
-void show_message(char* p, char* prior) {
-    //MessageBox(NULL, p, prior, MB_OK);
-	printf("Message (%s): %s\n", prior, p);
-}
-
-int initialize_prefs() {
-    CLoginDialog dlg(IDD_LOGIN);
-    int retval = dlg.DoModal();
-	if (retval != IDOK) return -1;
-    write_initial_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
     return 0;
 }
 
@@ -238,47 +295,3 @@ void CMainWindow::OnLoginMenu() {
     int retval = dlg.DoModal();
 }
 
-void show_result(TEXT_LINE& line, RESULT& result) {
-    char buf[256];
-    line.set_field(0, result.project->project_name);
-    line.set_field(1, result.app->name);
-    sprintf(buf, "%f", result.final_cpu_time);
-    line.set_field(2, buf);
-#if 0
-    sprintf(buf, "%f", result.fraction_done);
-    line.set_field(3, buf);
-#endif
-}
-
-void show_file_xfer(TEXT_LINE& line, FILE_XFER& fx) {
-    char buf[256];
-
-    line.set_field(0, fx.fip->project->project_name);
-    line.set_field(1, fx.fip->name);
-    sprintf(buf, "%f", fx.fip->nbytes);
-    line.set_field(2, buf);
-#if 0
-    sprintf(buf, "%f", fx.fip->fraction_done*100);
-    line.set_field(3, buf);
-#endif
-}
-
-void update_gui(CLIENT_STATE& cs) {
-    int i, n;
-
-    n = min(results.nlines, cs.results.size());
-    for (i=0; i<n; i++) {
-        show_result(results.lines[i], *cs.results[i]);
-    }
-    for (i=n; i<results.nlines; i++) {
-        results.blank_line(i);
-    }
-
-    n = min(file_xfers.nlines, cs.file_xfers->file_xfers.size());
-    for (i=0; i<n; i++) {
-        show_file_xfer(file_xfers.lines[i], *cs.file_xfers->file_xfers[i]);
-    }
-    for (i=n; i<file_xfers.nlines; i++) {
-        file_xfers.blank_line(i);
-    }
-}

@@ -22,8 +22,8 @@
 #ifndef _WINDOWS_CPP
 #define _WINDOWS_CPP
 
-#define HOSTTYPE "Windows"
-#define HOST "Windows"
+#define HOSTTYPE "windows_intelx86"
+#define HOST "windows_intelx86"
 #define VERSION 1
 
 #include <iostream>

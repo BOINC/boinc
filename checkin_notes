@@ -1667,3 +1667,35 @@ David   August 24, 2002
 	filesys.C,h
     lib/
 	error_numbers.h
+
+David	August 25, 2002
+    - Implemented project name (as shown in GUI).
+	It's stored in the DB (in a single-row "project" table)
+	and sent in scheduler RPC
+    - Changed env var BOINC_KEY to BOINC_SHMEM_KEY
+	(avoid confusion w/ encryption keys)
+
+    Makefile.in
+    client/
+	cs_scheduler.C
+	filesys.C
+	scheduler_op.C,h
+	win/
+	    windows_cpp.h
+	    wingui.cpp
+    db/
+	db.h
+	db_mysql.C
+	schema.sql
+    sched/
+	Makefile.in
+	feeder.C
+	main.C
+	server_types.C
+	show_shmem.C
+    test/
+	init.inc
+	test_uc.php
+	test_uc_win.php
+    tools/
+	add.C

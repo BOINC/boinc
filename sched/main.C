@@ -27,12 +27,16 @@
 #include "shmem.h"
 #include "server_types.h"
 #include "handle_request.h"
+#include "main.h"
 
 #define REQ_FILE_PREFIX "/tmp/boinc_req_"
 #define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
+//#define REQ_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_req_"
+//#define REPLY_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_reply_"
+
+PROJECT gproject;
 
 int return_error(char* p) {
-    assert(p!=NULL);
     fprintf(stderr, "BOINC server: %s\n", p);
     printf("<error_msg>%s</error_msg>\n", p);
     return 1;
@@ -52,42 +56,74 @@ int main() {
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
+    bool found;
 
     sprintf(path, "%s/code_sign_public", BOINC_KEY_DIR);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
         fprintf(stderr,
-            "BOINC scheduler - compiled by BOINC_USER: can't read code sign key file (%s)\n", path
+            "BOINC scheduler (%s): can't read code sign key file (%s)\n",
+	    BOINC_USER, path
         );
         exit(1);
     }
 
-    retval = attach_shmem(BOINC_KEY, &p);
+    retval = attach_shmem(BOINC_SHMEM_KEY, &p);
     if (retval) {
-        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: can't attach shmem\n");
+        fprintf(stderr,
+	    "BOINC scheduler (%s): can't attach shmem\n",
+	    BOINC_USER
+	);
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     if (retval) {
-        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: shmem has wrong struct sizes - recompile\n");
+        fprintf(stderr,
+	    "BOINC scheduler (%s): shmem has wrong struct sizes - recompile\n",
+	    BOINC_USER
+	);
         exit(1);
     }
 
     for (i=0; i<10; i++) {
         if (ssp->ready) break;
-        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: waiting for ready flag\n");
+        fprintf(stderr,
+	    "BOINC scheduler (%s): waiting for ready flag\n",
+	    BOINC_USER
+	);
         sleep(1);
     }
     if (!ssp->ready) {
-        fprintf(stderr, "BOINC scheduler - Compiled by BOINC_USER: feeder doesn't seem to be running\n");
+        fprintf(stderr,
+	    "BOINC scheduler (%s): feeder doesn't seem to be running\n",
+	    BOINC_USER
+	);
         exit(1);
     }
     //fprintf(stderr, "got ready flag\n");
     retval = db_open(BOINC_DB_NAME, BOINC_DB_PASSWD);
     if (retval) {
-        exit(return_error("BOINC scheduler - Compiled by BOINC_USER: can't open database"));
+	fprintf(stderr,
+	    "BOINC scheduler (%s): can't open database\n",
+	    BOINC_USER
+	);
+	return_error("can't open database");
+        exit(1);
     }
+
+    found = false;
+    while (!db_project_enum(gproject)) {
+	found = true;
+    }
+    if (!found) {
+	fprintf(stderr,
+	    "BOINC scheduler (%s): can't find project\n",
+	    BOINC_USER
+	);
+	exit(1);
+    }
+
     pid = getpid();
 #ifdef _USING_FCGI_
     while(FCGI_Accept() >= 0) {

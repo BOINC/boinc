@@ -1,5 +1,11 @@
 use BOINC_DB_NAME
 
+create table project (
+    id              integer     not null auto_increment,
+    name            varchar(254) not null,
+    primary key (id)
+);
+
 create table platform (
     id              integer     not null auto_increment,
     create_time     integer     not null,

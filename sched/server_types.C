@@ -21,6 +21,7 @@
 #include <assert.h>
 
 #include "parse.h"
+#include "main.h"
 #include "server_types.h"
 
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
@@ -109,8 +110,11 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     assert(fout!=NULL);
     fprintf(fout,
         "<scheduler_reply>\n"
+	"<project_name>%s</project_name>\n",
+	gproject.name
     );
 
+    
     if (request_delay) {
         fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
     }
