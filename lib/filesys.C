@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -54,15 +59,10 @@
 #else
 #define STATFS statfs
 #endif
+#endif
 
 #ifdef _WIN32
-#include <windows.h>
-#include <io.h>
-#include <winsock.h>
-#include <direct.h>
-
 typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
-
 #endif
 
 #include "util.h"

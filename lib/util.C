@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -25,21 +30,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/time.h>
+#include <unistd.h>
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
 #include <algorithm>
 #include <fstream>
-
 using namespace std;
-
-#ifdef _WIN32
-#include <time.h>
-#include <windows.h>
-#include <stdio.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
 #endif
 
 #include "error_numbers.h"

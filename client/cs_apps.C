@@ -23,10 +23,13 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include <afxwin.h>
+#include "stdafx.h"
 #endif
+
+#ifndef _WIN32
 #if HAVE_SIGNAL_H
 #include <signal.h>
+#endif
 #endif
 
 #include "md5_file.h"

@@ -17,11 +17,17 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <cctype>
 #include <stdio.h>
 #include <stdlib.h>
 #if HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 #endif
 
 #include "md5_file.h"

@@ -10298,3 +10298,30 @@ Rom    Mar 3 2004
     winbuild/
         *.vcproj
         boinc.vcproj (removed)
+
+Rom    Mar 3 2004
+    - Include file overhaul for the Windows platform
+
+      Basically the linker was linking Windows GUI resources into it because of various
+      references to afxwin.h, these have now been banished from the source tree except in
+      one location.
+
+      I added a header file called stdafx.h which contains all the includes for all the
+      system header files on Windows, each source file contains a pointer to stdafx.h.
+
+      stdafx.h contains conditional logic to switch between afxwin.h and windows.h depending
+      on whether or not _CONSOLE is defined.
+
+      Compiled Source Sizes:               Debug         Release
+      boinc_gui.exe (Before Changes)       1.732MB       328KB
+      boinc_cli.exe (Before Changes)       2.080MB       Unknown
+      boinc.scr     (Before Changes)       244KB         88KB
+      boinc.dll     (Before Changes)       136KB         44KB
+
+      boinc_gui.exe (After Changes)        1.716MB       428KB
+      boinc_cli.exe (After Changes)        1.508MB       272KB
+      boinc.scr     (After Changes)        188KB         116KB
+      boinc.dll     (After Changes)        140KB         58KB
+
+    I pretty much touched all the source and header files.  This checkin should not have any
+    effect on any platform other than Windows.

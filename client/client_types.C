@@ -19,8 +19,14 @@
 
 #include "cpp.h"
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <sys/stat.h>
 #include <sys/types.h>
+#endif
 
 #include "error_numbers.h"
 #include "file_names.h"

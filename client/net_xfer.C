@@ -19,22 +19,22 @@
 
 #include "cpp.h"
 
-#include <stdio.h>
-#include <math.h>
-
 #ifdef _WIN32
+#include "stdafx.h"
 
-#ifdef _CONSOLE
-#include <windows.h>
-#else
+#ifndef _CONSOLE
 #include "wingui_mainwindow.h"
 #endif
 
-#include <winsock.h>
 #include "Win_net.h"
 #include "win_util.h"
 
 #endif
+
+#ifndef _WIN32
+
+#include <stdio.h>
+#include <math.h>
 
 #if HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -66,6 +66,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+
+#endif
 
 #include "error_numbers.h"
 #include "net_xfer.h"

@@ -18,15 +18,17 @@
 //
 
 #include "cpp.h"
+
+#ifdef _WIN32
+#include "stdafx.h"
+#define SHUT_WR SD_SEND
+#endif
+
+#ifndef _WIN32
 #include <cstring>
 #include <sstream>
 #include <algorithm>
 
-
-#ifdef _WIN32
-#include "winsock2.h"
-#define SHUT_WR SD_SEND
-#endif
 #if HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
@@ -38,6 +40,7 @@
 #endif
 #if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #endif
 
 #include "error_numbers.h"

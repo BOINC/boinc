@@ -20,10 +20,6 @@
 #ifndef __WIN_LISTCTRL_H_
 #define __WIN_LISTCTRL_H_
 
-// includes
-
-#include "wingui.h"
-
 // constants
 
 #ifndef IDC_HAND
@@ -106,9 +102,9 @@ protected:
 	CMenu					m_PopupMenu;			// context menu for header
 	CMapStringToOb			m_Progs;				// maps coordinate string to progress control
 	CProgressHeaderCtrl		m_Header;				// header for subclassing
-	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
 	int						m_nSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
 	CFont*					m_OldFont;				// old font for setting subitem font
+	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
 	CArray<COLORREF,COLORREF>	m_ItemColors;		// special colors of items
 	CArray<CString,CString>		m_ProjectURLs;		// urls for project links
 
@@ -127,5 +123,6 @@ protected:
 	afx_msg void			OnRButtonDown(UINT, CPoint);
     DECLARE_MESSAGE_MAP()
 };
+
 
 #endif

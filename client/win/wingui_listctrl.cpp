@@ -17,6 +17,7 @@
 // Contributor(s):
 //
 
+#include "stdafx.h"
 #include "wingui_listctrl.h"
 
 /////////////////////////////////////////////////////////////////////////
@@ -247,7 +248,7 @@ BEGIN_MESSAGE_MAP(CProgressListCtrl, CListCtrl)
     ON_WM_DESTROY()
     ON_WM_PAINT()
 	ON_WM_SETCURSOR()
-	ON_WM_LBUTTONDOWN()
+	//ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
 	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
 END_MESSAGE_MAP()

@@ -20,12 +20,14 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include <afxwin.h>
+#include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #include <stdio.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#endif
 
 #include "filesys.h"
 #include "error_numbers.h"

@@ -24,9 +24,11 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include <io.h>
-#include <afxwin.h>
+#include "stdafx.h"
 #endif
+
+#ifndef _WIN32
+
 #if HAVE_ERRNO_H
 #include <errno.h>
 #endif
@@ -63,6 +65,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+
+#endif
 
 #include "client_state.h"
 #include "client_types.h"

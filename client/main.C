@@ -23,17 +23,17 @@
 // and is not included in the source code for Mac or Win GUI clients
 
 #ifdef WIN32
-#include <afxwin.h>
-#include "stackwalker.h"
+#include "stdafx.h"
 #include "win_service.h"
 #endif
 
+#ifndef _WIN32
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
+#endif
 #endif
 
 #include "client_state.h"
@@ -216,10 +216,6 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 
 int boinc_execution_engine(int argc, char** argv) {
 
-#ifdef WIN32
-	InitAllocCheck();
-#endif
-
 	int retval;
     double dt;
 
@@ -285,10 +281,6 @@ int boinc_execution_engine(int argc, char** argv) {
         }
     }
     gstate.cleanup_and_exit();
-
-#ifdef WIN32
-	DeInitAllocCheck();
-#endif
 
 	return 0;
 }

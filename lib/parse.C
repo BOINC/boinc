@@ -25,14 +25,15 @@
 // Could replace this with a more general parser.
 
 #ifdef _WIN32
-#include <windows.h>
+#include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #include <string.h>
 #include <stdlib.h>
 #include <string>
-
-using namespace std;	// needed on Windows!!!
+using namespace std;
+#endif
 
 #include "error_numbers.h"
 #include "util.h"

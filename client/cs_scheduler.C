@@ -23,12 +23,15 @@
 // The scheduler RPC mechanism is in scheduler_op.C
 
 #include "cpp.h"
+
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#ifdef _WIN32
-#include <string.h>
-#else
 #include <strings.h>
 #endif
 

@@ -17,18 +17,18 @@
 // Contributor(s):
 //
 
-#include <stdio.h>
 #ifdef _WIN32
-#include <io.h>
-#include <afxwin.h>
-#include <winsock.h>
-#else
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <vector>
-#endif
 #include <string.h>
+#endif
 
 #include "parse.h"
 #include "client_state.h"

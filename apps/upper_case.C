@@ -25,16 +25,18 @@
 // -exit:     exit with status -10 (for testing exit handler)
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
-#ifndef _WIN32
 #include <unistd.h>
-#else
-#include <windows.h>
 #endif
 
 #ifdef BOINC_APP_GRAPHICS

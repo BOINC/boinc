@@ -20,6 +20,11 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdlib>
 #include <cstdio>
 #include <ctime>
@@ -29,8 +34,8 @@
 #include <cstdarg>
 #include <algorithm>
 #include <string>
-
 using std::string;
+#endif
 
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);

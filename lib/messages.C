@@ -17,12 +17,19 @@
 // Contributor(s):
 //
 
-#include "util.h"
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <cassert>
 #include <cstring>
 #include <string>
 #include <fstream>
 using namespace std;
+#endif
+
+#include "util.h"
 
 //////////////////////////////////////////////////////////////////////
 //

@@ -25,9 +25,15 @@
 // and maintains an exponential average of throughput.
 
 #include "cpp.h"
+
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <string.h>
 #include <math.h>
-
+#endif
 
 #include "parse.h"
 #include "time.h"

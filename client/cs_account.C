@@ -17,8 +17,14 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <cassert>
+#endif
 
 #include "client_state.h"
 #include "error_numbers.h"

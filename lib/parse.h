@@ -17,11 +17,17 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-
 using std::string;
+#endif
+
 
 extern bool parse(char* , char* );
 extern bool parse_int(const char* buf, const char*tag, int&);

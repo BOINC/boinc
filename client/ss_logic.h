@@ -38,7 +38,13 @@
 #ifndef _SS_LOGIC_
 #define _SS_LOGIC_
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <time.h>
+#endif
 
 class SS_LOGIC {
     time_t blank_time;          // 0 or time to blank screen

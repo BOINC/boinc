@@ -18,8 +18,15 @@
 //
 
 #include "cpp.h"
+
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <string.h>
+#endif
 
 #include "error_numbers.h"
 #include "file_names.h"

@@ -22,7 +22,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE;WINVER=0x501"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -107,14 +107,14 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib"
+				AdditionalDependencies="Advapi32.lib wsock32.lib wininet.lib winmm.lib"
 				OutputFile=".\Build\Release/boinc_cli.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd,libcd"
+				IgnoreDefaultLibraryNames="libc"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_cli.pdb"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -990,6 +990,9 @@
 				RelativePath="..\client\win\Stackwalker.cpp">
 			</File>
 			<File
+				RelativePath="..\client\stdafx.cpp">
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1170,10 +1173,10 @@
 				RelativePath="..\client\win\Stackwalker.h">
 			</File>
 			<File
-				RelativePath="..\client\time_stats.h">
+				RelativePath="..\client\stdafx.h">
 			</File>
 			<File
-				RelativePath="..\client\util.h">
+				RelativePath="..\client\time_stats.h">
 			</File>
 			<File
 				RelativePath="..\client\version.h">
@@ -1183,9 +1186,6 @@
 			</File>
 			<File
 				RelativePath="..\client\win\win_service.h">
-			</File>
-			<File
-				RelativePath="..\Client\win\windows_cpp.h">
 			</File>
 		</Filter>
 		<Filter

@@ -21,8 +21,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../api/"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="../api/;../client/"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -91,8 +91,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../api/"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="../api/;../client;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
@@ -103,6 +103,7 @@
 				ProgramDataBaseFileName=".\Build\Release\boinc_ss\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>

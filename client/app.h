@@ -21,11 +21,14 @@
 #define _TASK_
 
 #ifdef _WIN32
-#include <windows.h>
+#include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #include <stdio.h>
 #include <vector>
+#endif
+
 #include "client_types.h"
 #include "app_ipc.h"
 

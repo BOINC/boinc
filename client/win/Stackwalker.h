@@ -41,10 +41,6 @@ typedef enum eAllocCheckOutput
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern int InitAllocCheckWN(eAllocCheckOutput eOutput, LPCTSTR pszFilename, ULONG ulShowStackAtAlloc = 0);
-extern int InitAllocCheck(eAllocCheckOutput eOutput = ACOutput_Simple, BOOL bSetUnhandledExeptionFilter = TRUE, ULONG ulShowStackAtAlloc = 0);  // will create the filename by itself
-
-extern ULONG DeInitAllocCheck();
 
 extern DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile);
 

@@ -21,6 +21,13 @@
 
 #include "win_screensaver.h"
 
+//-----------------------------------------------------------------------------
+// Diagnostics Support
+//-----------------------------------------------------------------------------
+#define TRACE		__noop		// If we are compiling for a release build noop the
+								//   trace macro, otherwise use the native debugging
+								//   support in the MFC libraries
+
 
 static CScreensaver* gs_pScreensaver = NULL;
 

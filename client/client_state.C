@@ -19,6 +19,11 @@
 
 #include "cpp.h"
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -39,6 +44,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdarg.h>
+#endif
 
 #include "parse.h"
 #include "util.h"

@@ -92,7 +92,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINVER=0x501"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -1015,6 +1015,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\stdafx.cpp">
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1359,6 +1362,9 @@
 				RelativePath="..\client\win\Stackwalker.h">
 			</File>
 			<File
+				RelativePath="..\client\stdafx.h">
+			</File>
+			<File
 				RelativePath="..\client\time_stats.h">
 			</File>
 			<File
@@ -1368,7 +1374,7 @@
 				RelativePath="..\client\version.h">
 			</File>
 			<File
-				RelativePath="win_dialog.h">
+				RelativePath="..\client\win\win_config.h">
 			</File>
 			<File
 				RelativePath="..\Client\win\Win_net.h">

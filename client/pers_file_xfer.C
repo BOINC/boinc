@@ -19,8 +19,14 @@
 
 #include "cpp.h"
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <math.h>
 #include <stdlib.h>
+#endif
 
 #include "client_state.h"
 #include "client_types.h"

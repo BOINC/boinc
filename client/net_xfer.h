@@ -20,9 +20,16 @@
 #ifndef _NET_XFER_
 #define _NET_XFER_
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <time.h>
 #include <vector>
+#endif
+
 
 // The following classes provide an interface for polling
 // (non-blocking) network I/O.

@@ -23,7 +23,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -44,7 +44,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/upper_case.pdb"
+				ProgramDatabaseFile=".\Build\Release/uppercase_2.06_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -88,7 +88,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"

@@ -20,6 +20,11 @@
 
 #include "cpp.h"
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -39,6 +44,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#endif
 
 #include "error_numbers.h"
 #include "file_names.h"

@@ -2,6 +2,10 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
 // 
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
@@ -20,6 +24,21 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
+#ifdef _WIN32
+
+#include "stdafx.h"
+struct DIR_DESC {
+    char path[256];
+    bool first;
+    void* handle;
+};
+typedef DIR_DESC *DIRREF;
+#define PATH_SEPARATOR "\\"
+
+#endif
+
+#ifndef _WIN32
+
 #include <stdio.h>
 #include <string>
 using std::string;
@@ -29,18 +48,8 @@ using std::string;
 typedef DIR *DIRREF;
 #endif
 
-#ifdef _WIN32
-#include <io.h>
-struct DIR_DESC {
-    char path[256];
-    bool first;
-    void* handle;
-};
-typedef DIR_DESC *DIRREF;
-
-#define PATH_SEPARATOR "\\"
-#else
 #define PATH_SEPARATOR "/"
+
 #endif
 
 // TODO TODO TODO

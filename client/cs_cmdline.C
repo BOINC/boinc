@@ -19,7 +19,13 @@
 
 // command-line parsing, and handling of 1-time actions
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
+#endif
 
 #include "client_state.h"
 

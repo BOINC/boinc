@@ -20,11 +20,7 @@
 
 #if defined(_WIN32) && defined(_CONSOLE)
 
-#include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <process.h>
-#include <tchar.h>
+#include "stdafx.h"
 
 #include "win_service.h"
 #include "util.h"

@@ -26,7 +26,13 @@
 #ifndef _LANGUAGE_H_
 #define _LANGUAGE_H_
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
+#endif
 
 class LANGUAGE {
     char *language_file_contents;

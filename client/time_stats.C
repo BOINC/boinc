@@ -17,9 +17,15 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#endif
 
 #include "parse.h"
 #include "util.h"

@@ -19,12 +19,13 @@
 
 // interfaces for accessing shared memory segments
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <string.h>
-
-#ifdef _WIN32
-#include <windows.h>
-#endif
 
 #include <sys/types.h>
 #if HAVE_SYS_IPC_H
@@ -37,6 +38,7 @@
 #include <sys/shm.h>
 #endif
 #include <assert.h>
+#endif
 
 #include "error_numbers.h"
 #include "shmem.h"

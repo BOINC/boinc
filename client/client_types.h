@@ -26,11 +26,13 @@
 #define _CLIENT_TYPES_
 
 #include "cpp.h"
-#include <stdio.h>
 
 #ifdef _WIN32
-#include <time.h>
-#else
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
+#include <stdio.h>
 #include <sys/time.h>
 #endif
 

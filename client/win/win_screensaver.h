@@ -22,13 +22,11 @@
 #ifndef _BOINC_H
 #define _BOINC_H
 
-#include <Windows.h>
+#include "stdafx.h"
+
 #include <windowsx.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include <tchar.h>
-#include <regstr.h>
 #include <mmsystem.h>
+#include <regstr.h>
 #include <shlobj.h>
 #define COMPILE_MULTIMON_STUBS
 #include <multimon.h>
@@ -36,14 +34,6 @@
 
 #include "boinc_ss.h"
 #include "win_util.h"
-
-
-//-----------------------------------------------------------------------------
-// Diagnostics Support
-//-----------------------------------------------------------------------------
-#define TRACE		__noop		// If we are compiling for a release build noop the
-								//   trace macro, otherwise use the native debugging
-								//   support in the MFC libraries
 
 
 //-----------------------------------------------------------------------------

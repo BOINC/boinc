@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-// include header
+#include "stdafx.h"
 
 #include "wingui.h"
 #include "wingui_mainwindow.h"

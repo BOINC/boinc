@@ -22,8 +22,10 @@
 #ifndef BOINC_SHMEM_H
 #define BOINC_SHMEM_H
 
+#ifndef _WIN32
 #if HAVE_SYS_SHM_H
 #include <sys/shm.h>
+#endif
 #endif
 
 #ifdef _WIN32

@@ -17,7 +17,13 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
+#endif
 
 #include "md5.h"
 #include "md5_file.h"

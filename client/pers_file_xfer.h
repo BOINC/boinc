@@ -20,7 +20,14 @@
 #ifndef _PERS_FILE_XFER_H
 #define _PERS_FILE_XFER_H
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <time.h>
+#endif
+
 #include "client_types.h"
 #include "file_xfer.h"
 

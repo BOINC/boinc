@@ -20,7 +20,14 @@
 #ifndef _PREFS_
 #define _PREFS_
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <vector>
+#endif
+
 #include "client_types.h"
 
 // Global preferences are edited and stored on BOINC servers.

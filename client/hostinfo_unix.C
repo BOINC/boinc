@@ -19,6 +19,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.51  2004/03/04 11:41:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.50  2003/12/01 23:02:22  korpela
 // timezone fix for CYGWIN
 //
@@ -44,11 +47,6 @@
 #endif
 #ifdef HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
-#endif
-
-#ifdef _WIN32
-#include <afxwin.h>
-#include <winsock.h>
 #endif
 
 #include <sys/stat.h>

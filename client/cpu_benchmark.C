@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -27,6 +32,7 @@
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #endif
+#endif
 
 #include "error_numbers.h"
 #include "message.h"
@@ -34,7 +40,7 @@
 #include "cpu_benchmark.h"
 
 #ifdef _WIN32
-#include <afxwin.h>
+#include <windows.h>
 #include <mmsystem.h>    // for timing
 void CALLBACK stop_benchmark(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
 UINT speed_timer_id;

@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <string.h>
 
@@ -35,9 +40,6 @@
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-
-#ifdef _WIN32
-#include <winsock.h>
 #endif
 
 #include "util.h"

@@ -97,7 +97,8 @@
 				ObjectFile=".\Build\Release\boinc_dll\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_dll\obj/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool

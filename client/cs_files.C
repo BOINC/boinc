@@ -24,12 +24,14 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include <io.h>
+#include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #include <cassert>
 #include <sys/stat.h>
 #include <sys/types.h>
+#endif
 
 #include "md5_file.h"
 #include "crypt.h"

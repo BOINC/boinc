@@ -17,8 +17,9 @@
 // Contributor(s):
 //
 
+#include "stdafx.h"
+
 #include "wingui_mainwindow.h"
-#include "Stackwalker.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;

@@ -17,10 +17,7 @@
 // Contributor(s):
 //
 
-#define _WIN32_WINNT 0x0400
-
-#include <afxwin.h>
-#include <winsock.h>
+#include "stdafx.h"
 #include "client_types.h"
 #include "hostinfo.h"
 #include "filesys.h"

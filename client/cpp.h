@@ -22,8 +22,9 @@
 #include "win_config.h"         // version numbers from autoconf
 #endif
 
+#ifndef _WIN32
 #include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
-
+#endif
