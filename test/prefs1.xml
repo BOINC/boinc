@@ -4,7 +4,7 @@
     <low_water_days>1</low_water_days>
     <resource_share>1</resource_share>
     <project>
-        <master_url>http://localhost/index.html</master_url>
+        <master_url>http://maggie.ssl.berkeley.edu/index.html</master_url>
         <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
     </project>
 </preferences>
