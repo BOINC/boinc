@@ -659,29 +659,53 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<app>")) {
             APP app;
-            app.parse(mf);
-            apps.push_back(app);
+            retval = app.parse(mf);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't parse app in scheduler reply");
+            } else {
+                apps.push_back(app);
+            }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO file_info;
-            file_info.parse(mf, true);
-            file_infos.push_back(file_info);
+            retval = file_info.parse(mf, true);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't parse file info in scheduler reply");
+            } else {
+                file_infos.push_back(file_info);
+            }
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION av;
-            av.parse(mf);
-            app_versions.push_back(av);
+            retval = av.parse(mf);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't parse app version in scheduler reply");
+            } else {
+                app_versions.push_back(av);
+            }
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT wu;
-            wu.parse(mf);
-            workunits.push_back(wu);
+            retval = wu.parse(mf);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't parse work unit in scheduler reply");
+            } else {
+                workunits.push_back(wu);
+            }
         } else if (match_tag(buf, "<result>")) {
             RESULT result;      // make sure this is here so constructor
                                 // gets called each time
-            result.parse_server(mf);
-            results.push_back(result);
+            retval = result.parse_server(mf);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't parse result in scheduler reply");
+            } else {
+                results.push_back(result);
+            }
         } else if (match_tag(buf, "<result_ack>")) {
             RESULT result;
-            result.parse_ack(in);
-            result_acks.push_back(result);
+            retval = result.parse_ack(in);
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't parse result ack in scheduler reply");
+            } else {
+                result_acks.push_back(result);
+            }
         } else if (parse_str(buf, "<delete_file_info>", delete_file_name, sizeof(delete_file_name))) {
             STRING256 delete_file;
             strcpy(delete_file.text, delete_file_name);

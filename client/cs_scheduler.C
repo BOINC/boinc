@@ -578,7 +578,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
         );
         if (retval) {
-            msg_printf(NULL, MSG_ERROR, "Can't parse general preferences");
+            msg_printf(project, MSG_ERROR, "Can't parse general preferences");
         } else {
             show_global_prefs_source(found_venue);
             install_global_prefs();
@@ -593,7 +593,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (strcmp(project->project_prefs.c_str(), sr.project_prefs_xml)) {
             project->project_prefs = string(sr.project_prefs_xml);
             retval = project->write_account_file();
-            if (retval) return retval;
+            if (retval) {
+                msg_printf(project, MSG_ERROR, "Can't write account file: %d", retval);
+                return retval;
+            }
             project->parse_account_file();
             project->parse_preferences_for_user_files();
             active_tasks.request_reread_prefs(project);
@@ -617,13 +620,10 @@ int CLIENT_STATE::handle_scheduler_reply(
                 if (!retval && signature_valid) {
                     safe_strcpy(project->code_sign_key, sr.code_sign_key);
                 } else {
-                    fprintf(stdout,
-                        "New code signing key from %s doesn't validate\n",
-                        project->project_name
-                    );
+                    msg_printf(project, MSG_ERROR, "New code signing key doesn't validate");
                 }
             } else {
-                fprintf(stdout, "Missing code sign key signature\n");
+                msg_printf(project, MSG_ERROR, "Missing code sign key signature");
             }
         }
     }
@@ -636,7 +636,14 @@ int CLIENT_STATE::handle_scheduler_reply(
             app = new APP;
             *app = sr.apps[i];
             retval = link_app(project, app);
-            if (!retval) apps.push_back(app);
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't link app %s in sched reply", app->name
+                );
+                delete app;
+            } else {
+                apps.push_back(app);
+            }
         }
     }
     FILE_INFO* fip;
@@ -648,14 +655,20 @@ int CLIENT_STATE::handle_scheduler_reply(
             fip = new FILE_INFO;
             *fip = sr.file_infos[i];
             retval = link_file_info(project, fip, true);
-            if (!retval) file_infos.push_back(fip);
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't link file_info %s in sched reply", fip->name
+                );
+                delete fip;
+            } else {
+                file_infos.push_back(fip);
+            }
         }
-        fip->update_time();
     }
     for (i=0; i<sr.file_deletes.size(); i++) {
         fip = lookup_file_info(project, sr.file_deletes[i].text);
         if (fip) {
-            msg_printf(project, MSG_INFO, "Deleting file: %s\n", fip->name);
+            msg_printf(project, MSG_INFO, "Got request to delete file: %s\n", fip->name);
             fip->sticky = false;
         }
     }
@@ -666,7 +679,15 @@ int CLIENT_STATE::handle_scheduler_reply(
             avp = new APP_VERSION;
             *avp = sr.app_versions[i];
             retval = link_app_version(project, avp);
-            if (!retval) app_versions.push_back(avp);
+            if (retval) {
+                 msg_printf(project, MSG_ERROR,
+                     "Can't link app version %s %d in sched reply",
+                     avp->app_name, avp->version_num
+                 );
+                 delete avp;
+           } else {
+                app_versions.push_back(avp);
+            }
         }
     }
     for (i=0; i<sr.workunits.size(); i++) {
@@ -675,7 +696,12 @@ int CLIENT_STATE::handle_scheduler_reply(
             *wup = sr.workunits[i];
             wup->version_num = choose_version_num(wup->app_name, sr);
             retval = link_workunit(project, wup);
-            if (!retval) {
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't link workunit %s in sched reply", wup->name
+                );
+                delete wup;
+            } else {
                 workunits.push_back(wup);
             }
         }
@@ -685,12 +711,20 @@ int CLIENT_STATE::handle_scheduler_reply(
             RESULT* rp = new RESULT;
             *rp = sr.results[i];
             retval = link_result(project, rp);
-            if (!retval) results.push_back(rp);
-            rp->state = RESULT_NEW;
-            nresults++;
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't link result %s in sched reply", rp->name
+                );
+                delete rp;
+            } else {
+                results.push_back(rp);
+                rp->state = RESULT_NEW;
+                nresults++;
+            }
         } else {
-            sprintf(buf, "Already have result %s\n", sr.results[i].name);
-            show_message(project, buf, MSG_ERROR);
+            msg_printf(project, MSG_ERROR,
+                "Already have result %s\n", sr.results[i].name
+            );
         }
     }
 
@@ -702,10 +736,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             rp->got_server_ack = true;
         } else {
-            sprintf(buf, "Got ack for result %s, can't find\n",
-                sr.result_acks[i].name
+            msg_printf(project, MSG_ERROR,
+                "Got ack for result %s, can't find", rp->name
             );
-            show_message(project, buf, MSG_ERROR);
         }
     }
 

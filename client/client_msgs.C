@@ -75,7 +75,7 @@ list<MESSAGE_DESC*> message_descs;
 // TODO: add translation functionality
 //
 void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
-    char        buf[512];
+    char        buf[8192];  // output can be much longer than format
     va_list     ap;
 
     if (fmt == NULL) return;

@@ -16267,15 +16267,23 @@ David  12 Aug 2004
 		util.C
 
 David  12 Aug 2004
-	- Added more error checking and reporting in parse state file
-		- check error returns of all parse functions
+	- Improved error checking and reporting in parse state file
+		- check error returns of parse functions
 		- temp_project is local to block (so get a new one)
 		- delete objects in all error cases
-	- Check and report errors in init/insert of PERS_FILE_XFER
-		while parsing state file
-	- ignore app/app_version from state file if project is anonymous platform
-	- If get error parsing host info, time/net stats etc.,
-		continue parsing rather than error out
+		- Check and report errors in init/insert of PERS_FILE_XFER
+			while parsing state file
+		- ignore app/app_version from state file if project is anonymous platform
+		- If get error parsing host info, time/net stats etc.,
+			continue parsing rather than error out
+	- Improved error checking and reporting in parsing
+		and processing of scheduler reply
+		- check error returns of parse functions
+		- use msg_printf() instead of show_message() or fprintf(stderr)!!
+		- fix memory leaks
 
 	client/
+		client_msgs.C
+		cs_scheduler.C
 		cs_statefile.C
+		scheduler_op.C
