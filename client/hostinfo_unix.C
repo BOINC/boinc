@@ -19,6 +19,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.53  2004/03/12 23:20:04  rwalton
+// *** empty log message ***
+//
 // Revision 1.52  2004/03/12 23:09:48  rwalton
 // *** empty log message ***
 //
@@ -142,7 +145,6 @@ bool host_is_running_on_batteries() {
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
     char buf2[256];
-    int system_found=0,model_found=0;
 
     strcpy(host.p_model, "MIPS ");
 
@@ -150,20 +152,15 @@ void parse_cpuinfo(HOST_INFO& host) {
     if (!f) return;
 
     while (fgets(buf, 256, f)) {
-        if ((strstr(buf, "system type\t\t: ") == buf) &&
-           (system_found == 0)) {
-           system_found = 1;
+        if ((strstr(buf, "system type\t\t: ") == buf)) {
            strncpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor)-1);
            char * p = strchr(host.p_vendor, '\n');
            if (p) {
              *p = '\0';
            }
         }
-        if ((strstr(buf, "cpu model\t\t: ") == buf) &&
-           (model_found == 0)) {
-           model_found = 1;
-           strncpy(buf2, strchr(buf, ':') + 2,
-                   sizeof(host.p_model) - strlen(host.p_model) - 1);
+        if ((strstr(buf, "cpu model\t\t: ") == buf)) {
+           strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
            strcat(host.p_model, buf2);
            char * p = strchr(host.p_model, '\n');
            if (p) {
