@@ -205,3 +205,6 @@ int db_count(int* np, char* what, int type, char* clause) {
     return db_query_int(np, buf);
 }
 
+int db_query(char* p) {
+    return mysql_query(mp, p);
+}

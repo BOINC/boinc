@@ -115,18 +115,20 @@ function show_host($host) {
 
 function show_workunit($wu,$show_xml_doc) {
     start_table();
-    row4("Created", time_str($wu->create_time), "Name", $wu->name);
+    row("Created", time_str($wu->create_time));
+    row("Name", $wu->name);
     if ($show_xml_doc) {
         row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     }
-    row4("Application", "<a href=db.php?show=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>",
-        "Batch", $wu->batch);
-    row4("FP Operations", $wu->rsc_fpops, "Integer Operations", $wu->rsc_iops);
-    row4("Memory Requirement", $wu->rsc_memory, "Disk Requirement", $wu->rsc_disk);
-    row4("Dynamic Results", $wu->dynamic_results?"yes":"no", "Max Results", $wu->max_results);
-    row4("Number of Results", $wu->nresults, "Number of Unsent Results", $wu->nresults_unsent);
-    row4("Number of Results Done", $wu->nresults_done, "Number of Failed Results",
-        $wu->nresults_fail);
+    row("Application", "<a href=db.php?show=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
+    row("Batch", $wu->batch);
+    row("FP Operations", $wu->rsc_fpops);
+    row("Integer Operations", $wu->rsc_iops);
+    row("Memory Requirement", $wu->rsc_memory);
+    row("Disk Requirement", $wu->rsc_disk);
+    row("Need validate?", $wu->need_validate?"yes":"no");
+    row("Canonical resultid", $wu->canonical_resultid);
+    row("Canonical credit", $wu->canonical_credit);
     row("","<a href=db.php?show=result&wu_id=$wu->id>Show Associated Results</a>");
     end_table();
     echo "<p>";
@@ -146,16 +148,16 @@ function res_state_string($s) {
 function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     start_table();
     if ($show_times) {
-        row4("created", time_str($result->create_time), "sent", time_str($result->sent_time));
-        row4("received", time_str($result->received_time),"","");
+        row("created", time_str($result->create_time));
+        row("sent", time_str($result->sent_time));
+        row("received", time_str($result->received_time));
     }
-    row4("Name", $result->name, "Workunit",
-        "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-
-    row4("state", res_state_string($result->state), "Host ID",
-        "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
-
-    row4("Exit Status", $result->exit_status, "CPU time", $result->cpu_time);
+    row("Name", $result->name);
+    row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
+    row("state", res_state_string($result->state));
+    row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
+    row("Exit Status", $result->exit_status);
+    row("CPU time", $result->cpu_time);
     if ($show_xml_docs) {
         row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
         row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
@@ -163,7 +165,8 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     if ($show_stderr) {
         row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     }
-    row4("batch", $result->batch, "validated", $result->validated);
+    row("batch", $result->batch);
+    row("validated", $result->validated);
     end_table();
     echo "<p>";
 }

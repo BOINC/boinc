@@ -140,6 +140,8 @@ static int process_wu_template(
     return 0;
 }
 
+// Create a new result for the given WU.
+//
 int create_result(
     WORKUNIT& wu, char* result_template_filename,
     char* result_name_suffix, R_RSA_PRIVATE_KEY& key,
@@ -211,11 +213,6 @@ int create_work(
         fprintf(stderr, "process_wu_template: %d\n", retval);
         return retval;
     }
-    if (wu.dynamic_results) {
-        wu.max_results = nresults;
-    } else {
-        wu.nresults_unsent = nresults;
-    }
     retval = db_workunit_new(wu);
     if (retval) {
         fprintf(stderr, "create_work: db_workunit_new %d\n", retval);
@@ -223,14 +220,11 @@ int create_work(
     }
     wu.id = db_insert_id();
 
-    if (!wu.dynamic_results) {
-        for (i=0; i<nresults; i++) {
-            sprintf(suffix, "%d", i);
-            create_result(
-                wu, result_template_file, suffix,
-                key, upload_url, download_url
-            );
-        }
+    for (i=0; i<nresults; i++) {
+        sprintf(suffix, "%d", i);
+        create_result(
+            wu, result_template_file, suffix, key, upload_url, download_url
+        );
     }
     return 0;
 }

@@ -58,12 +58,6 @@ struct APP {
     unsigned int create_time;
     char name[256];     // application name, preferably short
     int min_version;    // don't use app versions before this
-    char result_xml_template[MAX_BLOB_SIZE];
-        // if any workunits have dynamic results,
-        // XML template for results comes from here
-        // The template is processed by the function
-        // process_result_template() from backend_lib.C
-
     int write(FILE*);
 };
 
@@ -207,13 +201,6 @@ struct WORKUNIT {
     double rsc_iops;            // estimated # of integer operations
     double rsc_memory;          // estimated size of RAM working set (bytes)
     double rsc_disk;            // estimated amount of disk needed (bytes)
-    bool dynamic_results;
-        // whether to create new results on demand
-    int max_results;            // 0 if no limit
-    int nresults;
-    int nresults_unsent;
-    int nresults_done;
-    int nresults_fail;
     bool need_validate;         // this WU has at least 1 result in
                                 // VALIDATE_STATE_NEED_CHECK state
     int canonical_resultid;     // ID of canonical result, or zero

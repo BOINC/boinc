@@ -2165,3 +2165,27 @@ David  Oct 14 2002
         backend_lib.C,h
         create_work.C
         process_result_template.C
+
+David  Oct 15 2002
+    - remove the idea of "dynamic result" generation
+        (remove some DB fields and code relating to it)
+    - remove the nresults_* fields from the workunit table.
+        These are redundant, and they weren't being used.
+        Furthermore, they were being updated in a way that
+        overwrote other updates.
+    - change html_ops table displays to 2 columns
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+        schema.sql
+    doc/
+        test.html
+    html_ops/
+        db.inc
+    sched/
+        handle_request.C
+    tools/
+        backend_lib.C
+        create_work.C

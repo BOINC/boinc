@@ -82,13 +82,11 @@ void struct_to_str(void* vp, char* q, int type) {
         app = (APP*)vp;
         sprintf(q,
             "id=%d, create_time=%d, name='%s', "
-            "min_version=%d, "
-            "result_xml_template='%s'",
+            "min_version=%d, ",
             app->id,
             app->create_time,
             app->name,
-            app->min_version,
-            app->result_xml_template
+            app->min_version
         );
         break;
     case TYPE_APP_VERSION:
@@ -195,17 +193,11 @@ void struct_to_str(void* vp, char* q, int type) {
             "id=%d, create_time=%d, appid=%d, previous_wuid=%d, "
             "has_successor=%d, name='%s', xml_doc='%s', batch=%d, "
             "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
-            "dynamic_results=%d, max_results=%d, "
-            "nresults=%d, nresults_unsent=%d, "
-            "nresults_done=%d, nresults_fail=%d, "
             "need_validate=%d, "
             "canonical_resultid=%d, canonical_credit=%f",
             wup->id, wup->create_time, wup->appid, wup->previous_wuid,
             wup->has_successor?1:0, wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
-            wup->dynamic_results?1:0, wup->max_results,
-            wup->nresults, wup->nresults_unsent,
-            wup->nresults_done, wup->nresults_fail,
             wup->need_validate,
             wup->canonical_resultid, wup->canonical_credit
         );
@@ -269,7 +261,6 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         app->create_time = atoi(r[i++]);
         strcpy2(app->name, r[i++]);
         app->min_version = atoi(r[i++]);
-        strcpy2(app->result_xml_template, r[i++]);
         break;
     case TYPE_APP_VERSION:
         avp = (APP_VERSION*)vp;
@@ -366,12 +357,6 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->rsc_iops = atof(r[i++]);
         wup->rsc_memory = atof(r[i++]);
         wup->rsc_disk = atof(r[i++]);
-        wup->dynamic_results = (atoi(r[i++])!=0);
-        wup->max_results = atoi(r[i++]);
-        wup->nresults = atoi(r[i++]);
-        wup->nresults_unsent = atoi(r[i++]);
-        wup->nresults_done = atoi(r[i++]);
-        wup->nresults_fail = atoi(r[i++]);
         wup->need_validate = atoi(r[i++]);
         wup->canonical_resultid = atoi(r[i++]);
         wup->canonical_credit = atof(r[i++]);
@@ -579,18 +564,6 @@ int db_workunit_lookup_name(WORKUNIT& p) {
     return db_lookup(&p, TYPE_WORKUNIT, buf);
 }
 
-#if 0
-int db_workunit_enum_dynamic_to_send(WORKUNIT& p, int limit) {
-    static ENUM e;
-    char buf[256];
-
-    if (!e.active) {
-        sprintf(buf, "where dynamic_results>0 and nresults<max_results");
-    }
-    return db_enum(e, &p, TYPE_WORKUNIT, buf, limit);
-}
-#endif
-
 int db_workunit_enum_app_need_validate(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
@@ -600,6 +573,7 @@ int db_workunit_enum_app_need_validate(WORKUNIT& p) {
     }
     return db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
+
 
 ////////// RESULT /////////
 

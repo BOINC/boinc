@@ -41,3 +41,4 @@ extern int db_enum(ENUM&, void*, int, char* clause=0, int limit=0);
 extern int db_enum_field(ENUM&, int, char*, char*);
 extern int db_query_int(int*, char*);
 extern int db_count(int*, char*, int, char*);
+extern int db_query(char*);

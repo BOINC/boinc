@@ -24,7 +24,6 @@
 //  -rsc_iops n
 //  -rsc_memory n
 //  -rsc_disk n
-//  -dynamic_results
 //  -wu_name name
 //  -wu_template filename
 //  -result_template filename
@@ -53,7 +52,6 @@ int main(int argc, char** argv) {
     WORKUNIT wu;
     int retval;
     char wu_template[MAX_BLOB_SIZE];
-    char result_template[MAX_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256];
     char keyfile[256];
     char** infiles;
@@ -89,8 +87,6 @@ int main(int argc, char** argv) {
             strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
-        } else if (!strcmp(argv[i], "-dynamic_results")) {
-            wu.dynamic_results = true;
         } else if (!strcmp(argv[i], "-nresults")) {
             nresults = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops")) {
@@ -131,12 +127,6 @@ int main(int argc, char** argv) {
     if (retval) {
         fprintf(stderr, "create_work: can't open WU template\n");
         exit(1);
-    }
-
-    if (wu.dynamic_results) {
-        strcpy(app.result_xml_template, result_template);
-        retval = db_app_update(app);
-        if (retval) fprintf(stderr, "create_work: db_app_update: %d\n", retval);
     }
 
     wu.appid = app.id;

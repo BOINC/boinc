@@ -341,19 +341,24 @@ int handle_results(
             result.validate_state = VALIDATE_STATE_NEED_CHECK;
             strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
             strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
-            db_result_update(result);
+            retval = db_result_update(result);
+            if (retval) {
+                fprintf(stderr, "can't update result %d\n", result.id);
+            }
 
             retval = db_workunit(result.workunitid, wu);
             if (retval) {
-                printf(
+                fprintf(stderr,
                     "can't find WU %d for result %d\n",
                     result.workunitid, result.id
                 );
             } else {
-                wu.nresults_done++;
-                if (result.exit_status) wu.nresults_fail++;
                 wu.need_validate = 1;
                 retval = db_workunit_update(wu);
+                if (retval) {
+                    fprintf(stderr, "Can't update WU\n");
+                }
+                fprintf(stderr, "updated WU %d\n", wu.id);
             }
         }
     }
@@ -426,44 +431,9 @@ int send_work(
         result.sent_time = time(0);
         db_result_update(result);
 
-        wu.nresults_unsent--;
-        db_workunit_update(wu);
-
         nresults++;
         if (nresults == MAX_WUS_TO_SEND) break;
     }
-
-#if 0
-    while (!db_workunit_enum_dynamic_to_send(wu, 1)) {
-        retval = add_wu_to_reply(wu, reply, platform, db);
-        if (retval) continue;
-
-        // here we have to create a new result record
-        //
-        memset(&result, 0, sizeof(result));
-        db_result_new(result);
-        result.id = db_insert_id();
-        result.create_time = time(0);
-        result.workunitid = wu.id;
-        result.state = RESULT_STATE_IN_PROGRESS;
-        result.hostid = reply.host.id;
-        result.sent_time = time(0);
-        sprintf(result.name, "result_%d", result.id);
-        app = db.lookup_app(wu.appid);
-        strncpy(result.xml_doc_in, app->result_xml_template, sizeof(result.xml_doc_in));
-        sprintf(prefix, "%s_", result.name);
-        process_result_template(
-            result.xml_doc_in, prefix, wu.name, result.name
-        );
-        db_result_update(result);
-
-        wu.nresults++;
-        db_workunit_update(wu);
-
-        reply.insert_result(result);
-        nresults++;
-    }
-#endif
 
     if (nresults == 0) {
         strcpy(reply.message, "no work available");

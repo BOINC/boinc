@@ -18,7 +18,6 @@ create table app (
     create_time     integer     not null,
     name            varchar(254) not null,
     min_version     integer     not null,
-    result_xml_template blob,
     primary key (id)
 );
 
@@ -126,12 +125,6 @@ create table workunit (
     rsc_iops        double      not null,
     rsc_memory      double      not null,
     rsc_disk        double      not null,
-    dynamic_results smallint    not null,
-    max_results     integer     not null,
-    nresults        integer     not null,
-    nresults_unsent integer     not null,
-    nresults_done   integer     not null,
-    nresults_fail   integer     not null,
     need_validate   smallint    not null,
     canonical_resultid integer  not null,
     canonical_credit double     not null,
