@@ -429,8 +429,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 					strBuf.Format(g_szMiscItems[8]);
 					break;
 				default:
-					if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
-					else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
+					if (re->got_server_ack) strBuf.Format(g_szMiscItems[5]);
+					else if (re->ready_to_report) strBuf.Format(g_szMiscItems[4]);
 					else strBuf.Format(g_szMiscItems[6]);
 					break;
 			}

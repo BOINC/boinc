@@ -17,7 +17,7 @@
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
-#include "win_idle_tracker.h"
+//#include "win_idle_tracker.h"
 
 //remove if there are windows problems
 #define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.

@@ -627,6 +627,7 @@ void REDUCED_ARRAY::draw_row_line(int row) {
 
 void REDUCED_ARRAY::draw(DrawType type, int r0, int rn) {
     int i;
+    mode_unshaded();
     if (rdimx == sdimx) {
         if (rdimy == sdimy) {
             for (i=r0; i<rn; i++) {
