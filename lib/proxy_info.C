@@ -17,12 +17,12 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <string>
-using std::string;
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
+
+#include <string>
+using std::string;
 
 #include "parse.h"
 #include "proxy_info.h"

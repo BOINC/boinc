@@ -515,15 +515,16 @@ int CLIENT_STATE::handle_scheduler_reply(
     fclose(f);
     if (retval) return retval;
 
-    if (sr.request_delay) {
-        double x = dtime() + sr.request_delay;
-        if (x > project->min_rpc_time) project->min_rpc_time = x;
-    }
-
     if (strlen(sr.message)) {
         sprintf(buf, "Message from server: %s", sr.message);
         int prio = (!strcmp(sr.message_priority, "high"))?MSG_ERROR:MSG_INFO;
         show_message(project, buf, prio);
+    }
+
+    if (sr.request_delay) {
+        double x = dtime() + sr.request_delay;
+        if (x > project->min_rpc_time) project->min_rpc_time = x;
+        return ERR_SERVER_REQ_DELAY;
     }
 
     // if project is down, return error (so that we back off)

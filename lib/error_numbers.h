@@ -143,3 +143,6 @@
 #define ERR_NO_APP_VERSION  -195
 #define ERR_WU_USER_RULE    -196
 #define ERR_ABORTED_VIA_GUI -197
+#define ERR_SERVER_REQ_DELAY      -198
+    // The server has requested a delay, so don't
+    //   modify min_rpc_time

@@ -497,6 +497,12 @@ bool SCHEDULER_OP::poll() {
                             project->min_rpc_time = 0;
                         }
                         break;
+                    case ERR_SERVER_REQ_DELAY:
+                        // The server has requested a backoff of a specified
+                        // amount, so lets honor it by not resetting the
+                        // project->min_rpc_time value.
+                        project->nrpc_failures = 0;
+                        break;
                     case ERR_PROJECT_DOWN:
                         backoff(project, "Project is down");
                         break;

@@ -23202,3 +23202,14 @@ David  24 Jan 2005
 
     lib/
         proxy_info.C
+
+Rom    24 Jan 2005
+    - When the server requests a delay, make sure we do not overwrite
+        the min_rpc_time, which has already been set to the proper
+        delay time.
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        error_numbers.h
