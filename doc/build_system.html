@@ -15,7 +15,9 @@
       1.7.  You should modify only the <code>Makefile.am</code> files, which
       generate the <code>Makefile.in</code> files (and
       the <code>configure</code> script produced by autoconf will generate the
-      <code>Makefile</code>s from those).
+      <code>Makefile</code>s from those). If you don't have automake (or not a
+      new enough version), the build system will warn you and continue without
+      regenerating <code>Makefile.in</code>.
     </p>
 
     <p>
