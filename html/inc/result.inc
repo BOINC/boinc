@@ -8,6 +8,7 @@ function result_claimed_credit_string($result, $string_to_show) {
     case 3: return $string_to_show; //Client error
     case 4: return "---"; //No reply
     case 5: return "---"; //Didn't need
+    case 6: return "---"; // Validate error
     default: return $string_to_show;
     }
 }
@@ -25,6 +26,7 @@ function result_granted_credit_string($result, $string_to_show) {
     case 3: return "---"; //Client error
     case 4: return "---"; //No reply
     case 5: return "---"; //Didn't need
+    case 6: return "---"; //Validate error
     default: return $string_to_show;
     }
 } 
@@ -33,6 +35,7 @@ function result_server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
+    case 3: return "Unsent";
     case 4: return "In Progress";
     case 5: return "Over";
     }
@@ -46,7 +49,7 @@ function result_outcome_string($s) {
     case 3: return "Client error";
     case 4: return "No reply";
     case 5: return "Didn't need";
-    case 6: return "Couldn't validate - missing file";
+    case 6: return "Validate error";
     }
     return "Unknown";
 }
@@ -88,7 +91,7 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
     }
     echo "
         <th>Sent</th>
-        <th>Received</th>
+        <th>Received <i>or</i> <font color='33cc33'>Deadline</font></th>
         <th>Server state
             <br><font size=-2><a href=explain_state.php?field=result_server_state>explain</a>
         </th>
@@ -109,7 +112,17 @@ function show_result_row(
     $result, $show_wu_link, $show_host_link, $show_result_link
 ) {
     $s = time_str($result->sent_time);
-    $r = time_str($result->received_time);
+    // if result has been received, show the received time, else show the reporting
+    // deadline in GREEN if in the future and in RED if in the past.
+    if ($result->received_time)
+        $r = time_str($result->received_time);
+    else {
+        $timenow=time();
+	if ($result->report_deadline>$timenow)
+            $r = "<font color='33cc33'>" . time_str($result->report_deadline) . "</font>";
+        else
+            $r = "<font color='ff3333'>" . time_str($result->report_deadline) . "</font>";
+    }
     $ss = result_server_state_string($result->server_state);
     $out = result_outcome_string($result->outcome);
     $cl = result_client_state_string($result->client_state);

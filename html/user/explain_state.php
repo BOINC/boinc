@@ -45,6 +45,11 @@ page_head("Result state explanation");
             <dt> <b>Didn't need</b>
             <dd> The result wasn't sent to a client because
                 enough other results were returned for this work unit.
+            <dt><b>Validate Error</b>
+            <dd> The result was found to be incorrect or erroneous.
+                 This can happen because your computer did not carry out the computations
+                 correctly, or because an error was introduced when the results were returned
+                 to the server.
             </dl>
         ";
     }
