@@ -17,6 +17,12 @@
 // Contributor(s):
 //
 
+// The structure of the memory segment shared between
+// the feeder and schedulers
+// This is essentially a cache of DB contents:
+// small static tables like app_version,
+// and a queue of results waiting to be sent.
+
 #include "boinc_db.h"
 
 // the following must be at least as large as DB tables
@@ -26,20 +32,6 @@
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    100
 #define MAX_WU_RESULTS      100
-
-// the following parameters apply to results in the work array
-//
-#define MAX_INFEASIBLE_THRESHOLD    2000
-    // if a result's infeasible_count exceeds this,
-    // count it as "possibly infeasible" (see the following)
-    // TODO: lower this to 20 or so
-#define MAX_INFEASIBLE      500
-    // if # of possibly infeasibly results exceeds this,
-    // classify some of them as COULDNT_SEND and remove from array
-#define MAX_INFEASIBLE_COUNT    5000
-    // a result's infeasible_count exceeds this,
-    // classify as COULDNT_SEND and remove it from array
-    // TODO: lower this to 50 or so
 
 #define WR_STATE_EMPTY   0
 #define WR_STATE_PRESENT 1

@@ -16578,3 +16578,21 @@ David  20 Aug 2004
         db_base.C,h
     sched/
         sched_send.C
+
+David  21 Aug 2004
+    - Fixed nasty bug in feeder that has been present since April 3 (doh!).
+        scan_work_array() scanned the work array with logic of the form
+            if (wu_result.state == PRESENT) {
+                ...
+            } else {
+                // assume wu_result.state == EMPTY
+            }
+        but with the introduction of the CHECKED_OUT state,
+        this became invalid, and the feeder was overwriting entries while they
+        were "checked out" by a scheduler.
+        Fixed this by changing if() to switch()
+    - removed commented-out code from feeder
+
+    sched/
+        feeder.C
+        sched_shmem.h

@@ -24,8 +24,6 @@
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
-// This means that the scheduler CGI program doesn't have to
-// access the DB to get this info.
 //
 // Try to keep the work array filled.
 // This is a little tricky.
@@ -94,11 +92,31 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
+// The following parameters determine the feeder's policy
+// for purging "infeasible" results,
+// i.e. those that are hard to send to any client.
+// TODO: remove these from the source code,
+// make them config.xml parameters
+
+#define MAX_INFEASIBLE_THRESHOLD    2000
+    // if a result's infeasible_count exceeds this,
+    // count it as "possibly infeasible" (see the following)
+    // TODO: lower this to 20 or so
+#define MAX_INFEASIBLE      500
+    // if # of possibly infeasibly results exceeds this,
+    // classify some of them as COULDNT_SEND and remove from array
+#define MAX_INFEASIBLE_COUNT    5000
+    // a result's infeasible_count exceeds this,
+    // classify as COULDNT_SEND and remove it from array
+    // TODO: lower this to 50 or so
+
+// Uncomment the following to enable this purging.
+//
+//#define REMOVE_INFEASIBLE_ENTRIES
+
 #define REREAD_DB_FILENAME      "reread_db"
 #define LOCKFILE                "feeder.out"
 #define PIDFILE                 "feeder.pid"
-
-//#define REMOVE_INFEASIBLE_ENTRIES
 
 SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
@@ -175,16 +193,19 @@ static void scan_work_array(
 
     for (i=0; i<ssp->nwu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.state == WR_STATE_PRESENT) {
+        switch (wu_result.state) {
+        case WR_STATE_CHECKED_OUT:
+            break;
 #ifdef REMOVE_INFEASIBLE_ENTRIES
+        case WR_STATE_PRESENT:
             if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
                 remove_infeasible(i);
             } else if (wu_result.infeasible_count > MAX_INFEASIBLE_THRESHOLD) {
                 ninfeasible++;
             }
+            break;
 #endif
-        } else {
-//try_again:
+        case WR_STATE_EMPTY:
             retval = wi.enumerate(limit);
             if (retval) {
 
@@ -214,30 +235,6 @@ static void scan_work_array(
                 }
             }
 
-#if 0
-            // We don't need to do the following because the
-            // scheduler makes this check also
-            //
-            // there's a chance this result was sent out
-            // after the enumeration started.
-            // So read it from the DB again
-            //
-            retval = result.lookup_id(result.id);
-            if (retval) {
-                log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                    "[%s] can't reread result: %d\n", result.name, retval
-                );
-                goto try_again;
-            }
-            if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
-                    "[%s] RESULT STATE CHANGED\n",
-                    result.name
-                );
-                goto try_again;
-            }
-#endif
             collision = false;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY
