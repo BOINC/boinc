@@ -8145,3 +8145,23 @@ Gary	05 Dec 2003
 	client/
 		app.C
 
+David  5 Dec 2003
+    - On Windows, removed the shutdown() in http.C;
+        this caused a problem with Norton Firewall
+    - Removed counts of done/validated results for host from user web;
+        no efficient way to get this
+    - in cgi.log, show when send an app_version
+    - make_work: maintain cushion based on unsent results for this app
+        (not total)
+    - transitioner: check trigger file every WU, not every pass
+
+    client/
+        app.C
+        http.C
+    html_user/
+        host.inc
+        profile.inc
+    sched/
+        handle_reqest.C
+        make_work.C
+        transitioner.C

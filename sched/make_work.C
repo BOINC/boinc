@@ -28,8 +28,8 @@
 //      [ -max_total_results n ]
 //      [ -max_success_results n ]
 //
-// Create WU and result records as needed to maintain a pool of work (for
-// testing purposes).
+// Create WU and result records as needed to maintain a pool of work
+// (for testing purposes).
 // Clones the WU of the given name.
 //
 
@@ -93,19 +93,10 @@ void replace_file_name(
     }
 }
 
-char query_unsent_results[256];
-inline const char* get_query_unsent_results()
-{
-    if (query_unsent_results[0] == 0) {
-        sprintf(query_unsent_results, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
-    }
-    return query_unsent_results;
-}
-
-inline int count_results(const char* query="") {
+int count_results(char* query) {
     int n;
     DB_RESULT result;
-    int retval = result.count(n, const_cast<char*>(query));
+    int retval = result.count(n, query);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't count results\n");
         exit(1);
@@ -113,7 +104,7 @@ inline int count_results(const char* query="") {
     return n;
 }
 
-inline int count_workunits(const char* query="") {
+int count_workunits(const char* query="") {
     int n;
     DB_WORKUNIT workunit;
     int retval = workunit.count(n, const_cast<char*>(query));
@@ -172,7 +163,11 @@ void make_work() {
     while (1) {
         check_stop_trigger();
 
-        int unsent_results = count_results(get_query_unsent_results());
+        sprintf(buf,
+            "where appid=%d and server_state=%d",
+            wu.appid, RESULT_SERVER_STATE_UNSENT
+        );
+        int unsent_results = count_results(buf);
         int total_wus = count_workunits();
         if (max_wus && total_wus >= max_wus) {
             log_messages.printf(SchedMessages::NORMAL, "Reached max_wus = %d\n", max_wus);

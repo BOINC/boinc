@@ -77,9 +77,7 @@ function show_host($host, $private) {
         row2("Average download rate", "Unknown");
     }
     $nresults = host_nresults($host);
-    $nresults_success = host_nresults_success($host);
-    $nresults_valid = host_nresults_valid($host);
-    $results = "$nresults_valid valid / $nresults_success successful / <a href=results.php?hostid=$host->id>$nresults</a> total";
+    $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
     row2("Results", $results);
 
     if ($private) {
@@ -127,18 +125,6 @@ function host_nresults($host) {
     return $foobar->nresults;
 }
 
-function host_nresults_success($host) {
-    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id and outcome=1");
-    $foobar = mysql_fetch_object($result);
-    return $foobar->nresults;
-}
-
-function host_nresults_valid($host) {
-    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id and validate_state=1");
-    $foobar = mysql_fetch_object($result);
-    return $foobar->nresults;
-}
-
 // If private is true, we're showing the host to its owner,
 // so it's OK to show the domain name etc.
 // If private is false, show the owner's name only if they've given permission
@@ -173,9 +159,7 @@ function show_host_row($host, $i, $private) {
     );
 
     $nresults = host_nresults($host);
-    $nresults_success = host_nresults_success($host);
-    $nresults_valid = host_nresults_valid($host);
-    echo "<td>$nresults_valid / $nresults_success / <a href=results.php?hostid=$host->id>$nresults</a>";
+    echo "<td><a href=results.php?hostid=$host->id>$nresults</a>";
     echo "</td></tr>\n";
 }
 

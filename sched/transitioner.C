@@ -340,6 +340,7 @@ bool do_pass() {
     while (!wu.enumerate(buf)) {
         did_something = true;
         handle_wu(wu);
+        check_stop_trigger();
     }
     return did_something;
 }

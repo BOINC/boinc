@@ -253,6 +253,11 @@ int add_wu_to_reply(
     reply.insert_app_unique(*app);
 
     reply.insert_app_version_unique(*avp);
+    log_messages.printf(
+        SchedMessages::DEBUG,
+        "[HOST#%d] Sending app_version %s %s %d\n",
+        reply.host.id, app->name, platform.name, avp->version_num
+    );
 
     // add time estimate to reply
     //
