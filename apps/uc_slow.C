@@ -90,12 +90,7 @@ int main() {
         out._putchar(c);
         nchars++;
 
-        n = 0;
-        while( n<100000 )
-            n++;
-
-        if( nchars % 2 == 0 )
-            sleep(1);
+        sleep(1);
 
         if (time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);

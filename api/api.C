@@ -44,14 +44,6 @@
 #include "error_numbers.h"
 
 int MFILE::open(char* path, char* mode) {
-    if(path==NULL) {
-        fprintf(stderr, "error: MFILE.open: unexpected NULL pointer path\n");
-        return ERR_NULL;
-    }
-    if(mode==NULL) {
-        fprintf(stderr, "error: MFILE.open: unexpected NULL pointer mode\n");
-        return ERR_NULL;
-    }
     buf = 0;
     len = 0;
     f = fopen(path, mode);
@@ -63,10 +55,7 @@ int MFILE::printf(char* format, ...) {
     va_list ap;
     char buf2[4096];
     int n, k;
-    if(format==NULL) {
-        fprintf(stderr, "error: MFILE.printf: unexpected NULL pointer format\n");
-        return ERR_NULL;
-    }
+
     va_start(ap, format);
     k = vsprintf(buf2, format, ap);
     va_end(ap);
@@ -92,10 +81,6 @@ int MFILE::_putchar(char c) {
 }
 
 int MFILE::puts(char* p) {
-    if(p==NULL) {
-        fprintf(stderr, "error: MFILE.puts: unexpected NULL pointer p\n");
-        return ERR_NULL;
-    }
     int n = strlen(p);
     buf = (char*)realloc(buf, len+n);
     strncpy(buf+len, p, n);
@@ -116,10 +101,7 @@ int MFILE::flush() {
     return fflush(f);
 }
 
-void write_core_file(FILE* f, APP_IN& ai) {
-    if(f==NULL) {
-        fprintf(stderr, "error: write_core_file: unexpected NULL pointer f\n");
-    }
+static void write_core_file(FILE* f, APP_IN& ai) {
     fprintf(f,
         "<graphics_xsize>%d</graphics_xsize>\n"
         "<graphics_ysize>%d</graphics_ysize>\n"
@@ -138,11 +120,8 @@ void write_core_file(FILE* f, APP_IN& ai) {
     );
 }
 
-void parse_core_file(FILE* f, APP_IN& ai) {
+static void parse_core_file(FILE* f, APP_IN& ai) {
     char buf[256];
-    if(f==NULL) {
-        fprintf(stderr, "error: parse_core_file: unexpected NULL pointer f\n");
-    }
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<app_specific_prefs>")) {
             strcpy(ai.app_preferences, "");
@@ -163,10 +142,7 @@ void parse_core_file(FILE* f, APP_IN& ai) {
     }
 }
 
-void write_app_file(FILE* f, APP_OUT& ao) {
-    if(f==NULL) {
-        fprintf(stderr, "error: write_app_file: unexpected NULL pointer f\n");
-    }
+static void write_app_file(FILE* f, APP_OUT& ao) {
     fprintf(f,
         "<percent_done>%f</percent_done>\n"
         "<cpu_time_at_checkpoint>%f</cpu_time_at_checkpoint>\n",
@@ -178,11 +154,8 @@ void write_app_file(FILE* f, APP_OUT& ao) {
     }
 }
 
-void parse_app_file(FILE* f, APP_OUT& ao) {
+static void parse_app_file(FILE* f, APP_OUT& ao) {
     char buf[256];
-    if(f==NULL) {
-        fprintf(stderr, "error: parse_app_file: unexpected NULL pointer f\n");
-    }
     while (fgets(buf, 256, f)) {
         if (parse_double(buf, "<percent_done>", ao.percent_done)) continue;
         else if (parse_double(buf, "<cpu_time_at_checkpoint>", 
@@ -192,13 +165,7 @@ void parse_app_file(FILE* f, APP_OUT& ao) {
     }
 }
 
-void write_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
-    if(f==NULL) {
-        fprintf(stderr, "error: write_init_file: unexpected NULL pointer f\n");
-    }
-    if(file_name==NULL) {
-        fprintf(stderr, "error: write_init_file: unexpected NULL pointer file_name\n");
-    }
+static void write_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
     if( input_file ) {
         fprintf( f, "<fdesc_dup_infile>%s</fdesc_dup_infile>\n", file_name );
         fprintf( f, "<fdesc_dup_innum>%d</fdesc_dup_innum>\n", fdesc );
@@ -211,9 +178,6 @@ void write_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
 void parse_init_file(FILE* f) {
     char buf[256],filename[256];
     int filedesc,fd,retval;
-    if(f==NULL) {
-        fprintf(stderr, "error: parse_init_file: unexpected NULL pointer f\n");
-    }
     while (fgets(buf, 256, f)) {
         if (parse_str(buf, "<fdesc_dup_infile>", filename)) {
             if (fgets(buf, 256, f)) {
@@ -252,8 +216,9 @@ void parse_init_file(FILE* f) {
 }
 
 
-/* boinc_init reads the BOINC_INIT_FILE and CORE_TO_APP_FILE files and performs the necessary initialization */
-
+// read the BOINC_INIT_FILE and CORE_TO_APP_FILE files
+// and performs the necessary initialization
+//
 void boinc_init(APP_IN& ai) {
     FILE* f;
 
@@ -280,20 +245,12 @@ void boinc_poll(APP_IN& ai, APP_OUT& ao) {
     rename("_app_temp", APP_TO_CORE_FILE);
 }
 
-/* boinc_resolve_link is used to resolve the XML soft links in a file. */
-
-int boinc_resolve_link(char *file_name, char *resolved_name) 
-{
+// resolve XML soft links
+//
+int boinc_resolve_link(char *file_name, char *resolved_name) {
     FILE *fp;
     char buf[512];
-    if(file_name==NULL) {
-        fprintf(stderr, "error: boinc_resolve_link: unexpected NULL pointer file_name\n");
-        return ERR_NULL;
-    }
-    if(resolved_name==NULL) {
-        fprintf(stderr, "error: boinc_resolve_link: unexpected NULL pointer resolved_name\n");
-        return ERR_NULL;
-    }
+
     // Open the file and load the first line
     fp = fopen( file_name, "r" );
     if (!fp) {
@@ -306,6 +263,7 @@ int boinc_resolve_link(char *file_name, char *resolved_name)
 
     // If it's the <soft_link> XML tag, return it's value,
     // otherwise, return the original file name
+    //
     if( !parse_str( buf, "<soft_link>", resolved_name ) ) {
         strcpy( resolved_name, file_name );
     }

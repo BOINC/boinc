@@ -1,43 +1,23 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>BOINC Graphics</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>BOINC Graphics</title> 
+
 <h2>BOINC Graphics</h2> 
 <p>
-	Applications can optionally generate graphics, which are displayed
-by the core client in either its application (window) or screensaver
-(full-screen) form. 
-</p>
-<p>
-	The graphics architecture has not been completed. It may differ
-between platforms. Some possibilities:
-</p>
-<ul>
-	<li>
-		Applications render their graphics into an offscreen buffer in
-shared memory. The core client or screensaver BLITs this to the screen.
-(Problem: no X11 toolkits let you render into memory in the client. Mesa
-does, but that forces you to use OpenGL). 
-	</li>
-	<li>
-		Applications are passed a window descriptor by the core client
-or screensaver. Problem: can you do this in Windows? in X11? 
-	</li>
-	<li>
-		Applications encode their rendering in a byte stream of some
-sort (OpenGL had something like this), and send if through a pipe to the
-core client or screensaver. 
-	</li>
-	<li>
-		Applications supply their rendering code in a separate shared
-library which is dynamically linked into the core client or screensaver,
-and which communicates with the main application through shared memory.
-This is how United Devices works. Disadvantage: complex. 
-	</li>
-</ul>
-</body>
-</html>
+Applications can optionally generate graphics,
+which are displayed by the core client in either
+its application (window) or screensaver (full-screen) form.
+
+<h3>Graphics</h3>
+<pre>
+    void init_opengl(APP_IN_GRAPHICS);
+    void draw_opengl();
+    void gl_done();
+<br>
+</pre>
+The application must supply a function
+<pre>
+    draw_gl();
+</pre>
+The <tt>draw_gl</tt> function is called when graphics
+need to be drawn to the screen.
+At the completion of the <tt>draw_gl</tt> function,
+<tt>gl_done</tt> must be called.

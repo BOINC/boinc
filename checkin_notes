@@ -1345,3 +1345,17 @@ Eric Heien  July 29 2002
         filesys.C
         filesys.h
 
+David A.    July 30 2002
+    - Revised API doc
+    - made some API implementation functions static
+        (this breaks the test program, need to discuss)
+    - removed CPU spin from uc_slow (why?)
+    
+    api/
+        api.C,h
+    apps/
+        uc_slow.C
+    doc/
+        api.html
+        graphics.html
+        index.html

@@ -1,268 +1,167 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>The BOINC Application Program Interface</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
-<h2>The BOINC Application Program Interface</h2> <h3>Porting Your
-Application to BOINC</h3> 
-<p>
-	Porting an application to function on the BOINC platform is fairly
-easy. The BOINC API provides a set of C/C++ functions which should be
-called as described below to ensure proper integration with the BOINC
-core client. If the provided BOINC API is not used, users should write
-their own. The only aspect of the API that is required is to resolve
-BOINC soft links, ignoring the rest of the features should still allow
-the application to function, albeit somewhat unpredictably. 
-</p>
-<ol>
-	<li>
-		<b>BOINC Initialization</b> 
-		<br>
-		Functions: 
-		<ul>
-			<li>
-				<tt>void boinc_init(APP_IN&amp; ai, int
-opengl_support);</tt> 
-			</li>
-		</ul>
-		<br>
-		When the application starts, it should call <tt>boinc_init</tt>
-before performing any computation. <tt>boinc_init</tt> performs several
-important functions necessary for proper communication between the
-application and the core client. First, it reads the general preferences
-from the BOINC core client, which contain information about graphics,
-checkpointing, and CPU time. Based on these preferences, it initializes
-timers for graphics redraw and checkpoint purposes, and prepares the
-OpenGL window (if desired) for graphics display. If the application
-supports OpenGL graphics, <tt>opengl_support</tt> should be 1 and an
-appropriate <tt>draw_gl</tt> function should be included in the
-application. If the application does not support OpenGL graphics,
-<tt>opengl_support</tt> should be 0 and an empty <tt>draw_gl</tt> should
-be included. 
-		<br>
-		<br>
-	</li>
-	<li>
-		<b>Resolving BOINC Soft Links</b> 
-		<br>
-		Functions: 
-		<ul>
-			<li>
-				<tt>int boinc_resolve_link(char *file_name, char
-*resolved_name);</tt> 
-			</li>
-		</ul>
-		<br>
-		Because there are many different ways of creating file links
-depending on the platform and file system, BOINC uses a simple XML based
-linking scheme. An example of a link would be a file containing only the
-following XML tag: 
-		<p>
-			<tt>&lt;soft_link&gt;../../myproject.com/workunit_12345&lt;/soft_link&gt;</tt>
+<title>The BOINC Application Program Interface (API)</title> 
+<h2>The BOINC Application Programming Interface (API)</h2>
 
-		</p>
-		As an example, if the code currently uses <tt>fopen</tt> in this
-manner: 
-		<p>
-			<tt> file = fopen("my_file", "r"); </tt> 
-		</p>
-		then the proper way to use <tt>boinc_resolve_link</tt> would be
-as follows: 
-		<p>
-			<tt> char resolved_name[512]; 
-				<br>
-				boinc_resolve_link("my_file",resolved_name); 
-				<br>
-				file = fopen(resolved_name,"r"); 
-				<br>
-			</tt> 
-			<br>
-			The application should call <tt>boinc_resolve_link</tt>
-every time it needs to access a file. 
-		</p>
-	</li>
-	<li>
-		<b>OpenGL Graphics in BOINC</b> 
-		<br>
-		Functions: 
-		<ul>
-			<li>
-				<tt>void draw_opengl();</tt> 
-			</li>
-			<li>
-				<tt>void gl_done();</tt> 
-			</li>
-		</ul>
-		<br>
-		BOINC provides functionality which automatically sets up an
-OpenGL window, the application porter needs only write a
-<tt>draw_gl</tt> function. The <tt>draw_gl</tt> function is called when
-graphics need to be drawn to the screen. At the completion of the
-<tt>draw_gl</tt> function, <tt>gl_done</tt> should be called to ensure
-the graphics are properly blitted to the screen. If a non-OpenGL
-graphics library is to be used, it is the applications responsibility to
-set it up and use the refresh period passed via <tt>boinc_init</tt> in
-<tt>APP_IN</tt>. 
-		<br>
-		<br>
-	</li>
-	<li>
-		<b>The APP_IN Structure</b> 
-		<br>
-		Members: 
-		<ul>
-			<li>
-				<tt>char app_prefrences[4096];</tt> 
-			</li>
-			<li>
-				<tt>APP_IN_GRAPHICS graphics;</tt> 
-			</li>
-			<li>
-				<tt>double checkpoint_period;</tt> 
-			</li>
-			<li>
-				<tt>double poll_period;</tt> 
-			</li>
-			<li>
-				<tt>double cpu_time;</tt> 
-			</li>
-		</ul>
-		<br>
-		The APP_IN structure is passed via <tt>boinc_init()</tt> on
-initialization. The <tt>app_preferences</tt> string contains any user
-preferences. The <tt>graphics</tt> structure contains information about
-the OpenGL graphics settings. The api will initialize timers such that
-the period of <tt>time_to_checkpoint()</tt> is
-<tt>checkpoint_period</tt>. The <tt>poll_period</tt> states how often
-the core client will poll the application for state information. The
-<tt>cpu_time</tt> member contains the number of seconds previously spent
-working on the current work unit. 
-		<br>
-		<br>
-	</li>
-	<li>
-		<b>The APP_OUT Structure</b> 
-		<br>
-		Members: 
-		<ul>
-			<li>
-				<tt>double percent_done;</tt> 
-			</li>
-			<li>
-				<tt>double cpu_time_at_checkpoint;</tt> 
-			</li>
-			<li>
-				<tt>bool checkpoint_completed;</tt> 
-			</li>
-		</ul>
-		<br>
-		The APP_OUT structure is passed via
-<tt>checkpoint_completed()</tt> and <tt>app_completed()</tt>. The only
-member expected to be filled in by the application is
-<tt>percent_done</tt>. THe other members will be filled in by the api.
-The <tt>cpu_time_at_checkpoint</tt> contains the cpu time elapsed in
-this instance of the application, which can be combined with the
-<tt>cpu_time</tt> from the APP_IN structure for total cpu time spent on
-this work unit. 
-		<br>
-		<br>
-	</li>
-	<li>
-		<b>The MFILE Class</b> 
-		<br>
-		Functions: 
-		<ul>
-			<li>
-				<tt>int MFILE::open(char* path, char* mode);</tt> 
-			</li>
-			<li>
-				<tt>int MFILE::_putchar(char);</tt> 
-			</li>
-			<li>
-				<tt>int MFILE::puts(char*);</tt> 
-			</li>
-			<li>
-				<tt>int MFILE::printf(char* format, ...);</tt> 
-			</li>
-			<li>
-				<tt>size_t MFILE::write(const void
-*,size_t,size_t);</tt> 
-			</li>
-			<li>
-				<tt>int MFILE::close();</tt> 
-			</li>
-			<li>
-				<tt>int MFILE::flush();</tt> 
-			</li>
-		</ul>
-		<br>
-		The MFILE class provides (nearly) atomic file writing. Most
-modern operating systems do not write information to files immediately,
-it is often buffered for a period and parts of the buffer are slowly
-written out. If an application unexpectedly quits (due to power failure,
-a crash, etc), the contents of a file may be missing or partially
-complete. It is also wise to call <tt>flush</tt> for each MFILE when
-checkpointing, since the application state at a checkpoint should be
-restartable. 
-		<br>
-		<br>
-	</li>
-	<li>
-		<b>Checkpointing and Saving State</b> 
-		<br>
-		Functions: 
-		<ul>
-			<li>
-				<tt>bool time_to_checkpoint( void );</tt> 
-			</li>
-			<li>
-				<tt>void checkpoint_completed(APP_OUT&amp;);</tt> 
-			</li>
-		</ul>
-		<br>
-		Most distributed computations require a significant amount of
-time (several hours or more) for each unit of work. For this reason, it
-is wise to periodically write out the current state of the computation
-to disk in case of an unexpected quit or shutdown. This is known as
-"checkpointing". Your application should call
-<tt>time_to_checkpoint</tt> whenever it reaches a point where it can
-safely save the state of the computation, usually (indicate common
-places here). The state of the computation should include everything
-required to start the computation again at the same place it was
-checkpointed. For example, if the application contains a main loop which
-is run many times during the course of the computation, checkpointing
-could simply save the current iteration of the loop (reword this). If
-<tt>time_to_checkpoint</tt> returns true, then go ahead and save the
-state, flush the MFILEs, etc. When the checkpoint is complete call
-<tt>checkpoint_completed</tt>, which will take care of extra
-housecleaning and communication with the core client. If possible, the
-APP_OUT structure passed to <tt>checkpoint_completed</tt> should contain
-a rough estimate of the percentage complete. When your application
-starts up, it should read the state file to determine where to begin
-computation. The period between checkpoints is user controllable (though
-the default is x seconds), so it is unwise to write your application
-assuming a specific checkpointing period. 
-		<br>
-		<br>
-	</li>
-	<li>
-		<b>Cleaning Up</b> 
-		<br>
-		Functions: 
-		<ul>
-			<li>
-				<tt>int app_completed(APP_OUT&amp; ao);</tt> 
-			</li>
-		</ul>
-		<br>
-		When the application has completed it should call
-<tt>app_completed()</tt>, then exit. <tt>app_completed()</tt> will take
-care of BOINC related housekeeping, such as telling the core client that
-the application has completed, and closing OpenGL windows. 
-	</li>
-</ol>
-</body>
-</html>
+The BOINC API is a library of C++ functions.
+All the functions return an integer error code; zero indicates success.
+
+<h3>Initialization and termination</h3>
+An application must call
+<pre>
+    int boinc_init(bool is_main_program, char* app_preferences)
+</pre>
+before calling other BOINC functions or doing I/O.
+<tt>is_main_program</tt> indicates whether the program
+is the application's main program (normally true - see below).
+The user's application-specific preferences, if any,
+are returned in <tt>app_preferences</tt>.
+When the application has completed successfully it must call
+<pre>
+    int boinc_finish();
+</pre>
+before exiting.
+An application that encounters a fatal error must call
+<pre>
+    void exit(int error);
+</pre>
+
+<h3>Resolving file names</h3>
+Applications that use named input or output files must call
+<pre>
+    int boinc_resolve_link(char *logical_name, char *physical_name);</tt>
+</pre>
+to convert logical file names to physical names.
+For example, instead of
+<pre>
+    f = fopen("my_file", "r");
+</pre>
+</p>
+the application might use
+<p>
+<pre>
+    char resolved_name[256];
+    retval = boinc_resolve_link("my_file", resolved_name);
+    if (retval) fail("can't resolve filename");
+    f = fopen(resolved_name, "r");
+</pre>
+<tt>boinc_resolve_link()</tt> doesn't need to be used for temporary files.
+
+<h3>Checkpointing</h3>
+
+Computations that use a significant amount of time
+per work unit may want to periodically write the current
+state of the computation to disk.
+This is known as <b>checkpointing</b>.
+The state file must include everything required
+to start the computation again at the same place it was checkpointed.
+On startup, the application
+reads the state file to determine where to begin computation.
+If the BOINC client quits or exits,
+the computation can be restarted from the most recent checkpoint.
+
+<p>
+Do use checkpoint, an application should write to output and
+state files using the <tt>MFILE</tt> class.
+<pre>
+class MFILE {
+public:
+    int open(char* path, char* mode);
+    int _putchar(char);
+    int puts(char*);
+    int printf(char* format, ...);
+    size_t write(const void* buf, size_t count);
+    int close();
+    int flush();
+};
+</pre>
+MFILE buffers data in memory
+and writes to disk only on <tt>flush()</tt> or <tt>close()</tt>.
+This lets you write output files and state files
+more or less atomically.
+Frequency of checkpointing is a user preference
+(e.g. laptop users might want to checkpoint infrequently).
+An application must call
+<pre>
+bool time_to_checkpoint();
+</pre>
+whenever it reaches a point where it is able to checkpoint.
+If this returns true,
+the application should write the state file and flush all output files,
+then call
+<pre>
+void checkpoint_completed();
+</pre>
+
+<h3>Fraction done</h3>
+The core client GUI displays the percent done of workunits in progress.
+To keep this display current, an application should
+periodically call
+<pre>
+   boinc_percent_done(double fraction_done);
+</pre>
+The <tt>fraction_done</tt> argument is a rough estimate of the
+workunit percentage complete.
+
+<h3>Multi-program applications</h3>
+Some applications consist of multiple programs:
+a <b>main program</b> that acts as coordinator,
+and one or more subsidiary programs.
+Each program should use the BOINC API as described above,
+using the appropriate argument to <tt>boinc_init()</tt>.
+<p>
+For checkpointing, each program has its own state file;
+the state file of the coordinator program records
+which subsidiary program was last active.
+<p>
+To correctly implement percent done,
+the main program should pass information to subsidiary programs
+(perhaps as command-line arguments) the starting and ending
+fractions for that program.
+
+
+<hr>
+<h3>Implementation</h3>
+<p>
+Application are executed in separate "sandbox" directories,
+allowing them to create and use temporary files without
+concern about name conflicts.
+Input and output files are kept outside the sandbox.
+The mappings from virtual to physical filenames are
+done using "symbolic link" files in the sandbox directory.
+The name of such a file is the virtual name,
+and it contains an XML tag with the physical name.
+This scheme is necessary because of the lack of filesystem links
+in Windows.
+
+<p>
+Communication between the core client and applications
+is done through XML files in the sandbox directory.
+Several files are used.
+<p>
+<b>Files created by the core client, read by the app:</b>
+<ul>
+<li> <b>boinc_init.xml</b>:
+specifies the mappings of file descriptors (stdin/stdout/stderr)
+to physical files.
+
+<li> <b>core_to_app.xml</b>
+    app prefs
+    graphics settings (x/y, refresh rate)
+    checkpoint period
+    total CPU time previous (?)
+
+</ul>
+<p>
+<b>Files created by the app, read by the core client:</b>
+<ul>
+<li>
+<b>app_to_core.xml</b>
+    percent done
+    CPU time at last checkpoint
+    checkpointed?
+
+    written by checkpoint_completed
+    read by core
+
+</ul>
+<p>
+The implementation of the API uses timers

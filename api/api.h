@@ -85,13 +85,13 @@ struct APP_OUT {
     bool checkpointed;              // true iff checkpointed since last call
 };
 
-void write_core_file(FILE* f, APP_IN &ai);
-void parse_core_file(FILE* f, APP_IN&);
-void write_init_file(FILE* f, char *file_name, int fdesc, int input_file );
-void parse_init_file(FILE* f);
+//void write_core_file(FILE* f, APP_IN &ai);
+//void parse_core_file(FILE* f, APP_IN&);
+//void write_init_file(FILE* f, char *file_name, int fdesc, int input_file );
+//void parse_init_file(FILE* f);
 void boinc_init(APP_IN&);
-void parse_app_file(FILE* f, APP_OUT&);
-void write_app_file(FILE* f, APP_OUT&);
+//void parse_app_file(FILE* f, APP_OUT&);
+//void write_app_file(FILE* f, APP_OUT&);
 void boinc_poll(APP_IN&, APP_OUT&);
 double boinc_cpu_time();
 int boinc_resolve_link(char *file_name, char *resolved_name);
