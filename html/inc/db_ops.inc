@@ -103,8 +103,8 @@ class SqlQueryString {
         $this->urlquery = "";
     }
     function add($clause) {
-        if (!$this->query) {
-            $cleaned=boinc_real_escape_string($clause);
+        $cleaned=boinc_real_escape_string($clause);	
+        if (!$this->query) {	
             $this->query .= "where $cleaned";
         } else {
             $this->query .= " and $cleaned";
@@ -236,7 +236,7 @@ function show_result_summary() {
     for ($ss=1; $ss<6; $ss++) {
         $server_state[$ss] = 0;
     }
-    for ($ro=0; $ro<6; $ro++) {
+    for ($ro=1; $ro<7; $ro++) {
         $outcome[$ro] = 0;
     }
     for ($cs=1; $cs<6; $cs++) {
@@ -254,6 +254,7 @@ function show_result_summary() {
     $q = new SqlQueryString();
     $q->process_form_items();
 
+// Important: these need to be kept consistent with db/boinc_db.h and lib/result_state.h
     $main_query = "
 SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '1' then 1 else 0 end) AS serverstate_inactive,
@@ -267,6 +268,7 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' then 1 else 0 end) AS outcome_failure,
        SUM(case when server_state = '5' and outcome = '4' then 1 else 0 end) AS outcome_noreply,
        SUM(case when server_state = '5' and outcome = '5' then 1 else 0 end) AS outcome_didntneed,
+       SUM(case when server_state = '5' and outcome = '6' then 1 else 0 end) AS outcome_validateerror,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '0' then 1 else 0 end) AS validate_init,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '1' then 1 else 0 end) AS validate_valid,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '2' then 1 else 0 end) AS validate_invalid,
@@ -313,6 +315,7 @@ if ($query_wuid)
         $outcome[3]      = $res->outcome_failure;
         $outcome[4]      = $res->outcome_noreply;
         $outcome[5]      = $res->outcome_didntneed;
+	$outcome[6]      = $res->outcome_validateerror;
 
         $client_state[1] = $res->clientstate_downloading;
         $client_state[2] = $res->clientstate_downloaded;
@@ -346,7 +349,7 @@ if ($query_wuid)
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
-    for ($ro=0; $ro<6; $ro++) {
+    for ($ro=1; $ro<7; $ro++) {
         c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
@@ -664,6 +667,7 @@ function server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
+    case 3: return "Unsent (in work seq)";
     case 4: return "In Progress";
     case 5: return "Over";
     }
@@ -677,6 +681,7 @@ function outcome_string($s) {
     case 3: return "Client error";
     case 4: return "No reply";
     case 5: return "Didn't need";
+    case 6: return "Validate error";
     }
     return "Unknown";
 }
