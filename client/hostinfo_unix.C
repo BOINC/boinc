@@ -24,12 +24,29 @@
 #include <string.h>
 #include <time.h>
 
+#include <sys/param.h>
+
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#if HAVE_SYS_STATVFS_H
+#ifdef HAVE_SYS_MOUNT_H
+#include <sys/mount.h>
+#endif
+#ifdef HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #endif
+#ifdef HAVE_SYS_VFS_H
+#include <sys/vfs.h>
+#endif
+
+#include <sys/vmmeter.h>
+
+#ifdef HAVE_SYS_STATVFS_H
+#define STATFS statvfs
+#else
+#define STATFS statfs
+#endif
+
 #include <sys/stat.h>
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
@@ -40,6 +57,9 @@
 #include <winsock.h>
 #endif
 
+#if HAVE_SYS_SYSCTL_H
+#include <sys/sysctl.h>
+#endif
 #if HAVE_SYS_SYSTEMINFO_H
 #include <sys/systeminfo.h>
 #endif
@@ -221,9 +241,9 @@ void get_osinfo(HOST_INFO& host) {
 
 int get_host_info2(HOST_INFO &host);
 
-// General function to get all relevant host information
+// Reset the host info struct to default values
 //
-int get_host_info(HOST_INFO& host) {
+void clear_host_info(HOST_INFO& host) {
     host.timezone = 0;		// seconds added to local time to get UTC
     strcpy(host.domain_name,"");
     strcpy(host.serialnum,"");
@@ -250,23 +270,31 @@ int get_host_info(HOST_INFO& host) {
 
     host.d_total = 0;
     host.d_free = 0;
+}
 
+// Returns total and free space on current disk (in bytes)
+//
+void get_host_disk_info( double &total_space, double &free_space ) {
+#ifdef STATFS
+    struct STATFS fs_info;
+    
+    STATFS(".", &fs_info);
+    total_space = (double)fs_info.f_bsize * (double)fs_info.f_blocks;
+    free_space = (double)fs_info.f_bsize * (double)fs_info.f_bavail;
+#endif
+}
+
+// General function to get all relevant host information
+//
+int get_host_info(HOST_INFO& host) {
 #ifdef _WIN32
     return get_host_info2( host );
 #endif
 
-#if HAVE_SYS_SYSTEMINFO_H
-    struct statvfs foo;
-    char buf[256];
-
-    memset(&host, 0, sizeof(host));
+    get_host_disk_info( host.d_total, host.d_free );
     
-    get_local_domain_name(host.domain_name);
-    get_local_ip_addr_str(host.ip_addr);
-
-    statvfs(".", &foo);
-    host.d_total = (double)foo.f_bsize * (double)foo.f_blocks;
-    host.d_free = (double)foo.f_bsize * (double)foo.f_bavail;
+#if HAVE_SYS_SYSTEMINFO_H
+    char buf[256];
 
     int i, n;
     sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
@@ -289,11 +317,61 @@ int get_host_info(HOST_INFO& host) {
     }
 #endif
 
+#if HAVE_SYS_SYSCTL_H
+    int mib[2], mem_size;
+    size_t len;
+    vmtotal vm_info;
+    
+    // Get number of CPUs
+    mib[0] = CTL_HW;
+    mib[1] = HW_NCPU;
+    len = sizeof(host.p_ncpus);
+    sysctl(mib, 2, &host.p_ncpus, &len, NULL, 0);
+    
+    // Get machine
+    mib[0] = CTL_HW;
+    mib[1] = HW_MACHINE;
+    len = sizeof(host.p_vendor);
+    sysctl(mib, 2, &host.p_vendor, &len, NULL, 0);
+    
+    // Get model
+    mib[0] = CTL_HW;
+    mib[1] = HW_MODEL;
+    len = sizeof(host.p_model);
+    sysctl(mib, 2, &host.p_model, &len, NULL, 0);
+    
+    // Get physical memory size
+    mib[0] = CTL_HW;
+    mib[1] = HW_PHYSMEM;
+    len = sizeof(mem_size);
+    sysctl(mib, 2, &mem_size, &len, NULL, 0);
+    host.m_nbytes = mem_size;
+    
+    // Get operating system name
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSTYPE;
+    len = sizeof(host.os_name);
+    sysctl(mib, 2, &host.os_name, &len, NULL, 0);
+    
+    // Get operating system version
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSRELEASE;
+    len = sizeof(host.os_version);
+    sysctl(mib, 2, &host.os_version, &len, NULL, 0);
+    
+    // TODO: Get virtual memory info
+    /*mib[0] = CTL_VM;
+    mib[1] = VM_METER;
+    len = sizeof(vm_info);
+    sysctl(mib, 2, &vm_info, &len, NULL, 0);
+    host.m_swap = vm_info.t_vm;*/
+#endif
+
 #ifdef linux
-    memset(&host, 0, sizeof(host)); 
     parse_cpuinfo(host);
     parse_meminfo(host);
 #endif
+
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
     host.timezone = get_timezone();

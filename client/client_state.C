@@ -136,6 +136,7 @@ int CLIENT_STATE::time_tests() {
     if (log_flags.measurement_debug) {
         printf("Getting general host information.\n");
     }
+    clear_host_info(host_info);
     get_host_info(host_info);       // this is platform dependent
 #if 0
     double fpop_test_secs = 2.0;

@@ -2115,3 +2115,16 @@ David   Oct 8 2002
     tools/
         backend_lib.C,h
         process_result_template.C
+
+Eric  October 13, 2002
+    - Now uses alternate means (statfs, sysctl) to get host information
+      on non-Linux platforms
+    - Fixed compile warnings
+
+    client/
+        client_state.C
+        hostinfo.h
+        hostinfo_unix.C
+        file_names.C
+        scheduler_op.C
+

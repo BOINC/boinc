@@ -60,5 +60,7 @@ struct HOST_INFO {
 extern bool host_is_running_on_batteries();
 
 extern int get_host_info(HOST_INFO&);
+extern void clear_host_info(HOST_INFO&);
+extern void get_host_disk_info( double &total_space, double &free_space );
 
 #endif

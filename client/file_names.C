@@ -53,7 +53,7 @@ static void c2x(char *what) {
 // Escape a URL, converting the non alphanumeric characters to
 // %XY where XY is their hexadecimal equivalent
 //
-static void escape_url(char *in, char* out) {
+/*static void escape_url(char *in, char* out) {
     int x, y;
     for (x=0, y=0; in[x]; ++x) {
         if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
@@ -72,7 +72,7 @@ static void escape_url(char *in, char* out) {
         }
     }
     out[y] = 0;
-}
+}*/
 
 // Escape a URL for the project directory, cutting off the "http://",
 // converting '\' '/' and ' ' to '_',
