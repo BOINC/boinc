@@ -17,6 +17,11 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// dir_hier_path filename
+//
+// Run this in a project's root directory.
+// Prints the absolute path of the file in the download hierarchy
+
 #include <stdio.h>
 
 #include "util.h"
@@ -35,7 +40,7 @@ int main(int argc, char** argv) {
     }
 
     dir_hier_path(argv[1], "", config.uldl_dir_fanout, true, path);
-    printf("path: %s%s\n", config.download_dir, path);
+    printf("%s%s\n", config.download_dir, path);
 }
 
 const char *BOINC_RCSID_c683969ea8 = "$Id$";

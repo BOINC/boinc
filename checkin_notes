@@ -23447,3 +23447,34 @@ Rom    29 Jan 2005
 
     lib/
         gui_rpc_client.C
+
+David  29 Jan 2005
+    - make_work: fixed a basic design problem.
+        Its main loop creates workunits until the number of
+        sendable results reaches the "cushion" level.
+        This worked OK in the old days when creating a workunit
+        created its results; but these days the transitioner does that.
+        So make_work would end up creating way more workunits
+        than it's supposed to.
+
+        The fix: estimate how many WUs to create
+        (based on wu.target_nresults).
+        Make that many, then sleep for 10 seconds
+        (give the transitioner a chance to create the results).
+
+    - Another problem: the "master WU" used by make_work could
+        get deleted by file_deleter and db_purge.
+        Kludgy but effective solution:
+        change file_deleter and db_purge to ignore WUs whose
+        name includes "nodelete".
+        Call your master WU "wu_nodelete".
+
+    - change dir_hier_path so that it just prints the pathname of the file,
+        so you can use it in scripts
+
+    sched/
+        db_purge.C
+        file_deleter.C
+        make_work.C
+    tools/
+        dir_hier_path.C

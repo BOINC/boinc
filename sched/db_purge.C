@@ -470,6 +470,7 @@ bool do_pass() {
 
     int n=0;
     while (!wu.enumerate(buf)) {
+        if (strstr(wu.name, "nodelete")) continue;
         did_something = true;
         
         // if archives have not already been opened, then open them.
