@@ -260,16 +260,20 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		}
 
 		// Set the master URL for this object
-		m_ResultListCtrl.SetProjectURL(i, re->project->master_url);
+        if (m_ResultListCtrl.GetProjectURL(i) != re->project->master_url)
+		    m_ResultListCtrl.SetProjectURL(i, re->project->master_url);
 
 		// project
-		m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
+        if (m_ResultListCtrl.GetItemText(i, 0) != re->project->project_name)
+		    m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
 
 		// application
-		m_ResultListCtrl.SetItemText(i, 1, re->app->name);
+        if (m_ResultListCtrl.GetItemText(i, 1) != re->app->name)
+		    m_ResultListCtrl.SetItemText(i, 1, re->app->name);
 
 		// name
-		m_ResultListCtrl.SetItemText(i, 2, re->name);
+        if (m_ResultListCtrl.GetItemText(i, 2) != re->name)
+		    m_ResultListCtrl.SetItemText(i, 2, re->name);
 
 		// cpu time
 		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
@@ -287,13 +291,16 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			strBuf.Format("---");
 		else
 			strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
-		m_ResultListCtrl.SetItemText(i, 3, strBuf);
+        if (m_ResultListCtrl.GetItemText(i, 3) != strBuf)
+    		m_ResultListCtrl.SetItemText(i, 3, strBuf);
 
 		// progress
 		if(!at) {
-			m_ResultListCtrl.SetItemProgress(i, 4, 0);
+            if (m_ResultListCtrl.GetItemProgress(i, 4) != 0)
+	    		m_ResultListCtrl.SetItemProgress(i, 4, 0);
 		} else {	
-			m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
+            if (m_ResultListCtrl.GetItemProgress(i, 4) != at->fraction_done * 100)
+    			m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
 		}
 
 		// to completion
@@ -307,7 +314,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		cpumin = (int)(tocomp / 60) % 60;
 		cpusec = (int)(tocomp) % 60;
 		strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
-		m_ResultListCtrl.SetItemText(i, 5, strBuf);
+        if (m_ResultListCtrl.GetItemText(i, 5) != strBuf)
+    		m_ResultListCtrl.SetItemText(i, 5, strBuf);
 
 		// status
 		switch(re->state) {
@@ -325,7 +333,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 				else strBuf.Format(g_szMiscItems[6]);
 				break;
 		}
-		m_ResultListCtrl.SetItemText(i, 6, strBuf);
+        if (m_ResultListCtrl.GetItemText(i, 6) != strBuf)
+    		m_ResultListCtrl.SetItemText(i, 6, strBuf);
 	}
 	m_ResultListCtrl.SetRedraw(TRUE);
 
@@ -335,33 +344,40 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!pfx) {
-			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
-			m_XferListCtrl.SetItemProgress(i, 2, 100);
-			m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
-			m_XferListCtrl.SetItemText(i, 5, "0.00 KBps");
-			m_XferListCtrl.SetItemText(i, 6, g_szMiscItems[7]);
+            if (m_XferListCtrl.GetItemText(i, 3) != g_szMiscItems[7]) {
+			    m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
+			    m_XferListCtrl.SetItemProgress(i, 2, 100);
+			    m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
+			    m_XferListCtrl.SetItemText(i, 5, "0.00 KBps");
+			    m_XferListCtrl.SetItemText(i, 6, g_szMiscItems[7]);
+            }
 			continue;
 		}
 
 		// Set the master URL for this object
-		m_XferListCtrl.SetProjectURL(i, pfx->fip->project->master_url);
+        if (m_XferListCtrl.GetProjectURL(i) != pfx->fip->project->master_url)
+		    m_XferListCtrl.SetProjectURL(i, pfx->fip->project->master_url);
 
 		// project
-		m_XferListCtrl.SetItemText(i, 0, pfx->fip->project->project_name);
+        if (m_XferListCtrl.GetItemText(i, 0) != pfx->fip->project->project_name)
+		    m_XferListCtrl.SetItemText(i, 0, pfx->fip->project->project_name);
 
 		// file
-		m_XferListCtrl.SetItemText(i, 1, pfx->fip->name);
+        if (m_XferListCtrl.GetItemText(i, 1) != pfx->fip->name)
+		    m_XferListCtrl.SetItemText(i, 1, pfx->fip->name);
 
 		// progress
 		double xSent = 0;
 		if (pfx->fxp) {
 			xSent = pfx->fxp->bytes_xferred;
 		}
-		m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
+        if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
+		    m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
 
 		// size
 		strBuf.Format("%0.0f/%0.0fKB", xSent / 1024, pfx->fip->nbytes / 1024);
-		m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
+        if (m_XferListCtrl.GetItemText(i, 3) != strBuf.GetBuffer(0))
+		    m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
 
 		// time
 		double xtime = 0;
@@ -370,14 +386,16 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		int xmin = (int)(xtime / 60) % 60;
 		int xsec = (int)(xtime) % 60;
 		strBuf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
-		m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
+        if (m_XferListCtrl.GetItemText(i, 4) != strBuf.GetBuffer(0))
+		    m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
 
 		// speed
 		strBuf.Format("0.00 KBps");
 		if(pfx->fxp) {
 			strBuf.Format("%0.2f KBps", pfx->fxp->xfer_speed/1024);
 		}
-		m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
+        if (m_XferListCtrl.GetItemText(i, 5) != strBuf.GetBuffer(0))
+		    m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
 
 		// status
 		if (pfx->next_request_time > time(0)) {
@@ -386,15 +404,19 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			int xmin = (int)(xtime / 60) % 60;
 			int xsec = (int)(xtime) % 60;
 			strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
-			m_XferListCtrl.SetItemText(i, 6, strBuf);
+            if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+			    m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else if (pfx->fip->status == ERR_GIVEUP_DOWNLOAD) {
 			strBuf.Format(g_szMiscItems[11]);
-			m_XferListCtrl.SetItemText(i, 6, strBuf);
+            if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+				m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else if (pfx->fip->status == ERR_GIVEUP_UPLOAD) {
 			strBuf.Format(g_szMiscItems[12]);
-			m_XferListCtrl.SetItemText(i, 6, strBuf);
+            if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+				m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else {
-			m_XferListCtrl.SetItemText(i, 6, pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+            if (m_XferListCtrl.GetItemText(i, 6) != pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9])
+				m_XferListCtrl.SetItemText(i, 6, pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
 		}
 	}
 	m_XferListCtrl.SetRedraw(TRUE);
@@ -1646,6 +1668,7 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 		}
 		if(m_MessageListCtrl.GetSafeHwnd()) {
 			m_MessageListCtrl.MoveWindow(&srt, false);
+            m_MessageListCtrl.Scroll(m_MessageListCtrl.ApproximateViewRect());
 			m_MessageListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		}
 		if(m_UsagePieCtrl.GetSafeHwnd()) {

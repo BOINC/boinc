@@ -445,6 +445,27 @@ void CProgressListCtrl::SetItemProgress(int nItem, int nSubItem, double xProg)
 }
 
 //////////
+// CProgressListCtrl::GetItemProgress
+// arguments:	nItem: item index
+//				nSubitem: item's subitem to set progress for
+// returns:		double
+// function:	returns the position of a progress control for a given
+//				item and subitem; if there is none there, return 0
+double CProgressListCtrl::GetItemProgress(int nItem, int nSubItem)
+{
+	CString strbuf;
+	CProgressBarCtrl* pProgCtrl = NULL;
+
+	// lookup the position of the progress control
+	strbuf.Format("%d:%d", nItem, nSubItem);
+	m_Progs.Lookup(strbuf, (CObject*&)pProgCtrl);
+
+	if(pProgCtrl)
+        return pProgCtrl->GetPos();
+    return 0;
+}
+
+//////////
 // CProgressListCtrl::RepositionProgress
 // arguments:	void
 // returns:		void

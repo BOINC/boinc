@@ -86,6 +86,7 @@ public:
 							~CProgressListCtrl();
 	BOOL					DeleteItem(int);
 	void					SetItemProgress(int, int, double);
+	double					GetItemProgress(int, int);
 	void					RepositionProgress();
 	int						InsertColumn(int, LPCTSTR, int, int, int);
 	int						InsertItem(int, LPCTSTR);
