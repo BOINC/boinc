@@ -22220,3 +22220,16 @@ David  7 Jan 2005
 
     html/inc
         user.inc
+
+Rom    7 Jan 2005
+    - Bug Fix: Fix compile error on Unix platforms for the BOINC Manager
+    - Bug Fix: Don't blow out of the core client when running as a service/daemon
+        and adding a project fails.  Thanks to Sebastian Masch for tracking
+        down the bug.
+
+    client/
+        client_state.C, .h
+        cs_cmdline.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp

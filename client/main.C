@@ -74,8 +74,10 @@ void project_add_failed(PROJECT* project) {
         );
     }
     gstate.detach_project(project);
-    gstate.quit_activities();
-    exit(1);
+    if (!gstate.executing_as_daemon) {
+        gstate.quit_activities();
+        exit(1);
+    }
 }
 
 // Display a message to the user.
@@ -107,7 +109,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
     case MSG_ERROR:
         fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
         printf("%s [%s] %s\n", time_string, x, message);
-        if (gstate.executing_as_windows_service) {
+        if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             // TODO: Refactor messages so that we do not overload the event log
@@ -118,7 +120,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         break;
     case MSG_WARNING:
         printf("%s [%s] %s\n", time_string,  x, message);
-        if (gstate.executing_as_windows_service) {
+        if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             // TODO: Refactor messages so that we do not overload the event log
@@ -129,7 +131,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         break;
     case MSG_INFO:
         printf("%s [%s] %s\n", time_string,  x, message);
-        if (gstate.executing_as_windows_service) {
+        if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             // TODO: Refactor messages so that we do not overload the event log
@@ -200,7 +202,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
         bReturnStatus =  TRUE;
         break;
     case CTRL_LOGOFF_EVENT:
-        if (!gstate.executing_as_windows_service) {
+        if (!gstate.executing_as_daemon) {
            quit_client();
         }
         bReturnStatus =  TRUE;
@@ -368,11 +370,11 @@ int main(int argc, char** argv) {
     };
 
     if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
-        if ( _stricmp( "win_service", argv[1]+1 ) == 0 ) {
+        if ( _stricmp( "daemon", argv[1]+1 ) == 0 ) {
 
             // allow the system to know it is running as a Windows service
             // and adjust it's diagnostics schemes accordingly.
-            gstate.executing_as_windows_service = true;
+            gstate.executing_as_daemon = true;
 
             printf( "\nStartServiceCtrlDispatcher being called.\n" );
             printf( "This may take several seconds.  Please wait.\n" );

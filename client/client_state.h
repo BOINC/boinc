@@ -119,7 +119,7 @@ public:
     int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
     bool activities_suspended;
     bool network_suspended;
-	bool executing_as_windows_service;
+	bool executing_as_daemon;
     bool size_overflow;
 
 private:

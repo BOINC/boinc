@@ -103,7 +103,7 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_retry_delay_min = PERS_RETRY_DELAY_MIN;
     pers_retry_delay_max = PERS_RETRY_DELAY_MAX;
     pers_giveup = PERS_GIVEUP;
-	executing_as_windows_service = false;
+	executing_as_daemon = false;
     cpu_sched_last_time = 0;
     cpu_sched_work_done_this_period = 0;
     must_schedule_cpus = true;

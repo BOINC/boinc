@@ -67,6 +67,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             exit_when_idle = true;
         } else if (ARG(check_all_logins)) {
             check_all_logins = true;
+        } else if (ARG(daemon)) {
+            executing_as_daemon = true;
         } else if (ARG(return_results_immediately)) {
             return_results_immediately = true;
         } else if (ARG(skip_cpu_benchmarks)) {

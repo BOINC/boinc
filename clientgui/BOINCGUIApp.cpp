@@ -310,6 +310,8 @@ void CBOINCGUIApp::StartupBOINCCore()
 }
 
 
+#ifdef __WXMSW__
+
 void CBOINCGUIApp::ShutdownBOINCCore()
 {
     wxInt32 iCount = 0;
@@ -317,20 +319,14 @@ void CBOINCGUIApp::ShutdownBOINCCore()
 
     if ( m_bBOINCStartedByManager )
     {
-#ifdef __WXMSW__
         DWORD dwExitCode;
         if ( GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
         {
             if ( STILL_ACTIVE == dwExitCode )
             {
-#else
-        if ( wxProcess::Exists( m_lBOINCCoreProcessId ) )
-        {
-#endif
                 m_pDocument->CoreClientQuit();
                 for ( iCount = 0; iCount <= 10; iCount++ )
                 {
-#ifdef __WXMSW__
                     if ( !bClientQuit && GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
                     {
                         if ( STILL_ACTIVE != dwExitCode )
@@ -339,20 +335,45 @@ void CBOINCGUIApp::ShutdownBOINCCore()
                             continue;
                         }
                     }
-#endif
                     ::wxSleep(1);
                 }
-#ifdef __WXMSW
             }
         }
-#else
-        }
-#endif
-            if ( !bClientQuit )
-                ::wxKill( m_lBOINCCoreProcessId );
-        }
+
+        if ( !bClientQuit )
+            ::wxKill( m_lBOINCCoreProcessId );
     }
 }
+
+#else
+
+void CBOINCGUIApp::ShutdownBOINCCore()
+{
+    wxInt32 iCount = 0;
+    bool    bClientQuit = false;
+
+    if ( m_bBOINCStartedByManager )
+    {
+        if ( wxProcess::Exists( m_lBOINCCoreProcessId ) )
+        {
+            m_pDocument->CoreClientQuit();
+            for ( iCount = 0; iCount <= 10; iCount++ )
+            {
+                if ( !bClientQuit && !wxProcess::Exists( m_lBOINCCoreProcessId ) )
+                {
+                    bClientQuit = true;
+                    continue;
+                }
+                ::wxSleep(1);
+            }
+        }
+
+        if ( !bClientQuit )
+            ::wxKill( m_lBOINCCoreProcessId );
+    }
+}
+
+#endif
 
 
 wxInt32 CBOINCGUIApp::StartupSystemIdleDetection()
