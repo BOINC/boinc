@@ -25,6 +25,11 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include "jpeglib.h"
+#include "bmplib.h"
+#include "tgalib.h"
+#else
+#include <jpeglib.h>
 #endif
 
 #ifdef HAVE_GL_H

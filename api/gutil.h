@@ -26,60 +26,52 @@
 
 #include <stdio.h>
 
-#ifdef _WIN32
-#include "jpeglib.h"
-#include "bmplib.h"
-#include "tgalib.h"
-#else
-#include <jpeglib.h>
-#endif
-
 struct COLOR {
-    GLfloat r;
-    GLfloat g;
-    GLfloat b;
-    GLfloat a;
+    float r;
+    float g;
+    float b;
+    float a;
 };
 
 extern void HLStoRGB( double H, double L, double S, COLOR& c);
 
 extern float frand();
 
-extern void drawSphere(GLfloat* pos, GLfloat rad);
-extern void drawCylinder(bool vertical, GLfloat* pos, GLfloat len, GLfloat rad);
+extern void drawSphere(float* pos, float rad);
+extern void drawCylinder(bool vertical, float* pos, float len, float rad);
 
 #define TEXT_LEFT       0
 #define TEXT_CENTER     1
 #define TEXT_RIGHT      2
 extern void draw_text_line(
-    GLfloat* pos, GLfloat height, GLfloat width, char *text,
+    float* pos, float height, float width, char *text,
     int justify=TEXT_LEFT
 );
 
 void draw_text_simple(char* text,float line_width,float char_height);
 
 extern void draw_text(
-    GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text
+    float* pos, float height, float width, float spacing, char *text
 );
 
 extern void draw_text_new(
-    GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text
+    float* pos, float height, float width, float spacing, char *text
 );
 
 extern void draw_rotated_text(
-	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text, GLfloat rotation, GLfloat* rotation_vector
+	float* pos, float height, float width, float spacing, char *text, float rotation, float* rotation_vector
 );
 
-extern GLfloat text_width(char* text);
+extern float text_width(char* text);
 extern void draw_text_panel(
-    GLfloat* _pos, GLfloat* size, GLfloat margin, COLOR color,
-    GLfloat char_height, GLfloat line_width, GLfloat line_spacing,
+    float* _pos, float* size, float margin, COLOR color,
+    float char_height, float line_width, float line_spacing,
     char* text
 );
 
 extern void mode_texture();
 extern void mode_ortho();
-extern void mode_shaded(GLfloat*);
+extern void mode_shaded(float*);
 extern void mode_unshaded();
 extern void mode_lines();
 extern void ortho_done();
@@ -88,16 +80,17 @@ extern bool get_matrix(double src[16]);
 extern bool get_projection(double src[16]);
 extern bool get_viewport(int view[4]);
 extern void get_2d_positions(float p1,float p2,float p3,
-					  double model[16], double proj[16], int viewport[4], double proj_pos[3]);
+	double model[16], double proj[16], int viewport[4], double proj_pos[3]
+);
 
 // draw a progress bar as an opaque cylinder within a translucent cylinder
 //
 class PROGRESS {
-    GLfloat pos[3];
-    GLfloat color[4], inner_color[4];
-    GLfloat len, rad, inner_rad;
+    float pos[3];
+    float color[4], inner_color[4];
+    float len, rad, inner_rad;
 public:
-    PROGRESS(GLfloat* pos, GLfloat len, GLfloat diam, GLfloat inner, GLfloat* c, GLfloat* ic);
+    PROGRESS(float* pos, float len, float diam, float inner, float* c, float* ic);
     void draw(float);
 };
 
