@@ -18,6 +18,7 @@
 //
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -176,3 +177,6 @@ int lock_file(char* filename) {
     return retval;
 }
 
+double drand() {
+    return (double)rand()/(double)RAND_MAX;
+}

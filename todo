@@ -1,32 +1,62 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- Suspend/resume not fully functional on Windows, no way to suspend/resume on UNIX
+- Suspend/resume not fully functional on Windows,
+    no way to suspend/resume on UNIX
 - Currently, if there are multiple CPUs they work on the same result
-- "Show Graphics" menu item brings up minimized window, client does not remember window size/pos after close/reopen, window closes and does not reopen when workunit finishes and new workunit starts
-- No easy way to quit projects on UNIX
+- "Show Graphics" menu item brings up minimized window,
+    client does not remember window size/pos after close/reopen,
+    window closes and does not reopen when workunit finishes
+    and new workunit starts
+- No easy way to quit/add projects on UNIX
 - Write a README file
+    what should it say?
+- "ACTIVE_TASK.check_app_status_files: could not delete
+    slots\0\fraction_done.xml: -110" appears in stderr.txt on Windows
+- "no work available" appears sporadically though work is eventually assigned,
+    not sure if it is assigned immediately or on next RPC
+- Should include option in Windows client or installer whether to
+    run client at startup or not
 - Screensaver "blank screen" functionality not implemented
-- "ACTIVE_TASK.check_app_status_files: could not delete slots\0\fraction_done.xml: -110" appears in stderr.txt on Windows
-- "no work available" appears sporadically though work is eventually assigned, not sure if it is assigned immediately or on next RPC
-- Should include option in Windows client or installer whether to run client at startup or not
 - Scheduler reply includes blank lines that XML parser complains about
-- Time to completion isn't too accurate, this is more of an Astropulse problem involving fraction_done
+- boinc_gui.exe priority should be lower (?),
+    launched app priorities should be very low
+- on final panel of install, add checkbox to let user view readme
+- Time to completion isn't too accurate,
+    this is more of an Astropulse problem involving fraction_done
 - Report problems page on maggie doesn't link to anything
-- Host stats incorrectly reports number of times connected with same ip (unconfirmed)
-- CPU time updates infrequently (every 10 seconds), should there be a user control for this?
-- Client treats URL "maggie/ap/" different than URL "maggie/ap", though this isn't really a bug it might be good to fix anyway
-- Astropulse uses a lot of memory (~70 MB) b/c of the dispersion table, should this be decreased?
+- Host stats incorrectly reports number of times connected with same ip
+    (unconfirmed)
+- CPU time updates infrequently (every 10 seconds),
+    should there be a user control for this?
+- Client treats URL "maggie/ap/" different than URL "maggie/ap",
+    though this isn't really a bug it might be good to fix anyway
+- Astropulse uses a lot of memory (~70 MB) b/c of the dispersion table,
+        should this be decreased?
 - CPU time for a completed workunit is incorrect (unconfirmed)
+- verify that if file xfer is interrupted, it resumes at right place
+    (and progress bar is correct)
 - client died quickly on Mandrake 9.0 linux (unconfirmed)
 - make pie chart colors/labels easier to understand
 - need a way to refresh prefs from client
 - columns expand when window expands
+- % done display screwed up in progress bar; also dark color is hard to read
+- Download speed is not as fast as it should be
+- Result status should say "downloading files", "uploading files", etc.
+- result % done should have 2 digits after dec pt
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
+
+Windows: put text (e.g. column headings, menus) in a file
+    so that people can develop alternate versions of the file
+    for different languages.
+
+Windows: use messages rather than interrupt for timing
+
 make get_local_ip_addr() work in all cases
+
 est_time_to_completion doesn't work for non-running tasks
 
 run backend programs (validate/file_deleter/assimilate)

@@ -24,6 +24,7 @@ extern double dtime();
 extern void boinc_sleep( int seconds );
 extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
+extern double drand();
 
 #ifndef max
 #define max(a,b)            (((a) > (b)) ? (a) : (b))

@@ -514,13 +514,13 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<core_client_minor_version>")) {
             // TODO: handle old client state file if different version
         } else if (match_tag(buf, "<confirm_before_connect/>")) {
-                        global_prefs.confirm_before_connecting = true;
+            global_prefs.confirm_before_connecting = true;
         } else if (match_tag(buf, "<hangup_if_dialed/>")) {
-                        global_prefs.hangup_if_dialed = true;
+            global_prefs.hangup_if_dialed = true;
         } else if (match_tag(buf, "<use_http_proxy/>")) {
-                        use_http_proxy = true;
-        } else if (parse_str(buf, "<http_proxy_server>", proxy_server_name, sizeof(proxy_server_name))) {
-        } else if (parse_int(buf, "<http_proxy_port>", proxy_server_port)) {
+            use_http_proxy = true;
+        } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
+        } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
             retval = ERR_XML_PARSE;
@@ -580,7 +580,9 @@ int CLIENT_STATE::write_state_file() {
         core_client_major_version,
         core_client_minor_version
     );
-        // save proxy info
+
+    // save proxy and preferences info
+    //
     fprintf(f,
         "%s"
         "%s"
@@ -878,11 +880,18 @@ bool CLIENT_STATE::garbage_collect() {
         } else {
             // See if the files for this result's workunit had
             // any errors (MD5, RSA, etc)
+            //
             if(rp->wup->had_failure(failnum)) {
                 // If we don't already have an error for this file
                 if (rp->state < RESULT_READY_TO_ACK) {
-                  // the result wu corresponding to this result had an error downloading some input file(s).
-                    report_project_error(*rp,0,"The work_unit corresponding to this result had an error",CLIENT_DOWNLOADING);
+                    // the wu corresponding to this result
+                    // had an error downloading some input file(s).
+                    //
+                    report_project_error(
+                        *rp,0,
+                        "The work_unit corresponding to this result had an error",
+                        CLIENT_DOWNLOADING
+                    );
                 }
             } else {
                 rp->wup->ref_cnt++;
@@ -895,9 +904,13 @@ bool CLIENT_STATE::garbage_collect() {
                 //
                 if(rp->output_files[i].file_info->had_failure(failnum)) {
                     if (rp->state < RESULT_READY_TO_ACK) {
-                      // had an error uploading a file for this result
+                        // had an error uploading a file for this result
+                        //
                         rp->client_state = CLIENT_UPLOADING;
-                        report_project_error(*rp,0,"The outputfile corresponding to this result had an error",CLIENT_UPLOADING);
+                        report_project_error(*rp,0,
+                            "An output file of this result had an error",
+                            CLIENT_UPLOADING
+                        );
                     }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;

@@ -287,8 +287,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 // Handle the reply from a scheduler
 //
-void CLIENT_STATE::handle_scheduler_reply(
-    PROJECT* project, char* scheduler_url
+int CLIENT_STATE::handle_scheduler_reply(
+    PROJECT* project, char* scheduler_url, int& nresults
 ) {
     SCHEDULER_REPLY sr;
     FILE* f;
@@ -296,6 +296,7 @@ void CLIENT_STATE::handle_scheduler_reply(
     unsigned int i;
     bool signature_valid;
 
+    nresults = 0;
     contacted_sched_server = true;
     if (log_flags.sched_op_debug) {
         f = fopen(SCHED_OP_RESULT_FILE, "r");
@@ -306,7 +307,8 @@ void CLIENT_STATE::handle_scheduler_reply(
     }
 
     f = fopen(SCHED_OP_RESULT_FILE, "r");
-    retval = sr.parse(f);
+    if (!f) return ERR_FOPEN;
+    retval = sr.parse(f);       // check return?
     fclose(f);
 
     if (strlen(sr.project_name)) {
@@ -326,10 +328,10 @@ void CLIENT_STATE::handle_scheduler_reply(
         project->min_rpc_time = time(0) + sr.request_delay;
     }
 
+    project->host_total_credit = sr.host_total_credit;
+    project->host_expavg_credit = sr.host_expavg_credit;
     if (sr.hostid) {
         project->hostid = sr.hostid;
-        project->host_total_credit = sr.host_total_credit;
-        project->host_expavg_credit = sr.host_expavg_credit;
         project->host_create_time = sr.host_create_time;
         project->rpc_seqno = 0;
     }
@@ -339,6 +341,7 @@ void CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.global_prefs_xml) {
         f = fopen(GLOBAL_PREFS_FILE_NAME, "w");
+        if (!f) return ERR_FOPEN;
         fprintf(f,
             "<global_preferences>\n"
             "    <source_project>%s</source_project>\n"
@@ -358,6 +361,7 @@ void CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_prefs_xml) {
         char path[256];
         f = fopen(TEMP_FILE_NAME, "w");
+        if (!f) return ERR_FOPEN;
         fprintf(f,
             "<account>\n"
             "    <master_url>%s</master_url>\n"
@@ -371,7 +375,9 @@ void CLIENT_STATE::handle_scheduler_reply(
         fclose(f);
         get_account_filename(project->master_url, path);
         retval = boinc_rename(TEMP_FILE_NAME, path);
+        if (retval) return ERR_RENAME;
         f = fopen(path, "r");
+        if (!f) return ERR_FOPEN;
         project->parse_account(f);
         fclose(f);
     }
@@ -455,6 +461,7 @@ void CLIENT_STATE::handle_scheduler_reply(
             retval = link_result(project, rp);
             if (!retval) results.push_back(rp);
             rp->state = RESULT_NEW;
+            nresults++;
         }
     }
 
@@ -479,4 +486,5 @@ void CLIENT_STATE::handle_scheduler_reply(
         printf("State after handle_scheduler_reply():\n");
         print_counts();
     }
+    return 0;
 }

@@ -141,7 +141,7 @@ public:
     PROJECT* next_project_master_pending();
     double work_needed_secs();
     int make_scheduler_request(PROJECT*, double);
-    void handle_scheduler_reply(PROJECT*, char* scheduler_url);
+    int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     void set_client_state_dirty(char*);
     int report_project_error( RESULT &res,int err_num, char *err_msg, int state);
         // flag a result as having an error

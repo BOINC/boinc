@@ -2802,4 +2802,23 @@ David   Dec 23 2002
         test_masterurl_failure.php
         test_sched_failure.php
 
-    
+David   Jan 2 2003
+    - Back off on a project if we make a scheduler RPC asking for work
+        and don't get any
+    - fixed "http_proxy_name" XML parsing problem in client
+    - added drand() function.
+        NOTE: always make repeated code blocks into functions
+    - make_work was using uninitialized seqno, caused negative
+        numbers in filenames
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        scheduler_op.C
+    doc/
+        credit.html
+    lib/
+        util.C,h
+    sched/
+        make_work.C
+        validate.C

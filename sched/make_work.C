@@ -46,37 +46,37 @@ int cushion = 10;
 int redundancy = 10;
 char wu_name[256], result_template_file[256];
 
-void replace_file_name(char * xml_doc, char * filename, char * new_filename,char * download_url)
-{
-  char buf[MAX_BLOB_SIZE], temp[256], download_path[256], new_download_path[256];
-  char * p;
+// edit a WU XML doc, replacing one filename by another
+// (should appear twice, within <file_info> and <file_ref>)
+// Also patch the download URL (redundant)
+//
+void replace_file_name(
+    char* xml_doc, char* filename, char* new_filename, char* download_url
+) {
+    char buf[MAX_BLOB_SIZE], temp[256], download_path[256],
+    new_download_path[256];
+    char * p;
   
-  sprintf(download_path,"%s/%s",download_url,filename);
-  sprintf(new_download_path,"%s/%s",download_url,new_filename);
-  strcpy(buf,xml_doc);
-  p = strtok(buf,"\n");
-  while (p) {
-    if (parse_str(p, "<name>", temp, sizeof(temp))) {
-      if(!strcmp(filename, temp))
-	{
-	  replace_element(xml_doc + (p - buf),"<name>","</name>",new_filename);
-	}
+    sprintf(download_path,"%s/%s", download_url, filename);
+    sprintf(new_download_path,"%s/%s", download_url, new_filename);
+    strcpy(buf, xml_doc);
+    p = strtok(buf,"\n");
+    while (p) {
+        if (parse_str(p, "<name>", temp, sizeof(temp))) {
+            if(!strcmp(filename, temp)) {
+                replace_element(xml_doc + (p - buf),"<name>","</name>",new_filename);
+            }
+        } else if (parse_str(p, "<file_name>", temp, sizeof(temp))) {
+            if(!strcmp(filename, temp)) {
+                replace_element(xml_doc + (p - buf),"<file_name>","</file_name>",new_filename);
+            }
+        } else if (parse_str(p, "<url>", temp, sizeof(temp))) {
+            if(!strcmp(temp, download_path)) {
+                replace_element(xml_doc + (p - buf),"<url>","</url>",new_download_path);
+            }
+        }
+        p = strtok(0, "\n");
     }
-    else if (parse_str(p, "<file_name>", temp, sizeof(temp))) {
-      if(!strcmp(filename, temp))
-	{
-	  replace_element(xml_doc + (p - buf),"<file_name>","</file_name>",new_filename);
-	}
-    }
-    else if (parse_str(p, "<url>", temp, sizeof(temp))) {
-      if(!strcmp(temp, download_path))
-	{
-	  replace_element(xml_doc + (p - buf),"<url>","</url>",new_download_path);
-	}
-    }
-    p = strtok(0, "\n");
-  }
- 
 }
 
 void check_trigger() {
@@ -88,12 +88,15 @@ void check_trigger() {
 void make_work() {
     CONFIG config;
     char * p;
-    int retval, i, start_time=time(0), n, nresults_left;
-    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE], file_name[256], buf[MAX_BLOB_SIZE],pathname[256],new_file_name[256],new_pathname[256],command[256], starting_xml[MAX_BLOB_SIZE],new_buf[MAX_BLOB_SIZE];
+    int retval, start_time=time(0), n, nresults_left;
+    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE];
+    char file_name[256], buf[MAX_BLOB_SIZE], pathname[256];
+    char new_file_name[256], new_pathname[256], command[256];
+    char starting_xml[MAX_BLOB_SIZE], new_buf[MAX_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     WORKUNIT wu;
+    int seqno = 0;
    
-
     retval = config.parse_file();
     if (retval) {
         fprintf(stderr,"make_work: can't read config file\n");
@@ -135,39 +138,53 @@ void make_work() {
             fprintf(stderr,"make_work: can't counts results\n");
             exit(1);
         }
-        printf("make_work: %d results\n", n);
+        printf("make_work: %d results available to send\n", n);
         if (n > cushion) {
             sleep(1);
             continue;
         }
 
+        // make a new workunit every "redundancy" results
+        //
         if (nresults_left == 0) {
-	   strcpy(buf,starting_xml);
-	   p = strtok(buf, "\n");
-	   strcpy(file_name, "");
-	
-	   while (p) {
-	     if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
-	       sprintf(new_file_name,"%s_%d_%d",file_name,start_time,i++);
-	       sprintf(pathname, "%s/%s", config.download_dir, file_name);
-	       sprintf(new_pathname,"%s/%s",config.download_dir, new_file_name);
-	       sprintf(command,"cp %s %s",pathname,new_pathname);
-	       system(command);
-	       strcpy(new_buf,starting_xml);
-	       replace_file_name(new_buf,file_name,new_file_name,config.download_url);
-	       strcpy(wu.xml_doc, new_buf);
-	     }
-	     p = strtok(0, "\n");
-	   }
-	  nresults_left = redundancy;
-	  sprintf(wu.name, "wu_%d_%d", start_time, i++);
-	  wu.id = 0;
-	  wu.create_time = time(0);
-	  retval = db_workunit_new(wu);
-	  wu.id = db_insert_id();
-	 
+            strcpy(buf, starting_xml);
+            p = strtok(buf, "\n");
+            strcpy(file_name, "");
+        
+            // make new copies of all the WU's input files
+            //
+            while (p) {
+                if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
+                    sprintf(
+                        new_file_name, "%s_%d_%d", file_name, start_time, i++
+                    );
+                    sprintf(pathname, "%s/%s", config.download_dir, file_name);
+                    sprintf(
+                        new_pathname, "%s/%s",config.download_dir, new_file_name
+                    );
+                    sprintf(command,"cp %s %s",pathname,new_pathname);
+                    if (system(command)) {
+                        fprintf(stderr, "make_work: ERROR\n");
+                        perror(command);
+                        exit();
+                    }
+                    strcpy(new_buf, starting_xml);
+                    replace_file_name(
+                        new_buf, file_name, new_file_name, config.download_url
+                    );
+                    strcpy(wu.xml_doc, new_buf);
+                }
+                p = strtok(0, "\n");
+            }
+            nresults_left = redundancy;
+            sprintf(wu.name, "wu_%d_%d", start_time, seqno);
+            wu.id = 0;
+            wu.create_time = time(0);
+            retval = db_workunit_new(wu);
+            wu.id = db_insert_id();
+         
         }
-        sprintf(suffix, "%d_%d", start_time, i++);
+        sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
             wu, result_template, suffix, key,
             config.upload_url, config.download_url
