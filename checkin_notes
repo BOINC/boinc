@@ -20810,4 +20810,10 @@ Rom    6 Dec 2004
     win_build/
         boinc.sln
         boinc_gui.vcproj
+
+Bruce  7 Dec 2004
+    -  Missing close bracket
+    html/
+        ops/
+            db_update.php
     

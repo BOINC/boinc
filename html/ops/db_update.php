@@ -182,6 +182,7 @@ function update_11_24_2004_result() {
         ."add index ind_res_st(server_state, priority), "
         ."drop index app_received_time, "
         ."add index app_mod_time(appid, mod_time desc)"
+    );
 }
 function update_11_24_2004_workunit() {
     mysql_query(
