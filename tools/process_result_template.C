@@ -125,8 +125,7 @@ int process_result_template(
 ) {
     char* p,*q;
     char temp[LARGE_BLOB_SIZE], buf[256];
-    char num;
-    int i, retval;
+    int retval;
 
     while (1) {
         p = strstr(result_template, OUTFILE_MACRO);

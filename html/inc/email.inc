@@ -44,7 +44,7 @@ in the 'Activate account' page at ".URL_BASE."account_created.php
         $subject = PROJECT." information for $user->name";
         $body = "Your ".PROJECT." account information is:
     Project URL:         ".MASTER_URL."
-    Account Key:         $auth
+    Account Key:         $user->authenticator
 
     User name:           $user->name
     E-mail:              $user->email_addr
