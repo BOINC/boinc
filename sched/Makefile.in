@@ -182,7 +182,7 @@ noinst_PROGRAMS = \
 noinst_LIBRARIES = libsched.a
 
 EXTRA_PROGRAMS = fcgi
-EXTRA_DIST = boinc_config.py wd.php wd_nresults_changing.php watch_tcp start
+EXTRA_DIST = boinc_config.py wd.php wd_nresults_changing.php watch_tcp start grep_logs
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = watch_tcp start stop status
