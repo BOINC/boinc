@@ -607,26 +607,21 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Client\Hostinfo.c">
+				RelativePath="..\lib\hostinfo.C">
+			</File>
+			<File
+				RelativePath="..\client\hostinfo_network.C">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -771,7 +766,7 @@
 				RelativePath="..\lib\mfile.C">
 			</File>
 			<File
-				RelativePath="..\client\miofile.C">
+				RelativePath="..\lib\miofile.C">
 			</File>
 			<File
 				RelativePath="..\lib\msg_log.C">
@@ -1284,7 +1279,10 @@
 				RelativePath="..\client\gui_titles.h">
 			</File>
 			<File
-				RelativePath="..\client\hostinfo.h">
+				RelativePath="..\lib\hostinfo.h">
+			</File>
+			<File
+				RelativePath="..\client\hostinfo_network.h">
 			</File>
 			<File
 				RelativePath="..\client\http.h">
@@ -1305,7 +1303,7 @@
 				RelativePath="..\lib\mfile.h">
 			</File>
 			<File
-				RelativePath="..\client\miofile.h">
+				RelativePath="..\lib\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\msg_log.h">

@@ -250,6 +250,7 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
 #error shared memory key generation unimplemented
 #endif
 
+    aid.host_info = gstate.host_info;
     retval = write_init_data_file(f, aid);
     fclose(f);
     return retval;

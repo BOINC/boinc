@@ -768,7 +768,7 @@
 				RelativePath="..\lib\mfile.C">
 			</File>
 			<File
-				RelativePath="..\client\miofile.C">
+				RelativePath="..\lib\miofile.C">
 			</File>
 			<File
 				RelativePath="..\lib\msg_log.C">
@@ -1138,7 +1138,7 @@
 				RelativePath="..\lib\mfile.h">
 			</File>
 			<File
-				RelativePath="..\client\miofile.h">
+				RelativePath="..\lib\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\msg_log.h">

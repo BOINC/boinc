@@ -19,9 +19,10 @@
 
 #include "stdafx.h"
 #include "client_types.h"
-#include "hostinfo.h"
 #include "filesys.h"
 #include "util.h"
+#include "hostinfo_network.h"
+#include "hostinfo.h"
 
 // Returns the number of seconds difference from UTC
 //

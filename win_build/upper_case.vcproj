@@ -230,7 +230,13 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\hostinfo.C">
+			</File>
+			<File
 				RelativePath="..\lib\mfile.C">
+			</File>
+			<File
+				RelativePath="..\lib\miofile.C">
 			</File>
 			<File
 				RelativePath="..\lib\parse.C">
@@ -333,7 +339,13 @@
 				RelativePath="..\api\graphics_api.h">
 			</File>
 			<File
+				RelativePath="..\lib\hostinfo.h">
+			</File>
+			<File
 				RelativePath="..\lib\mfile.h">
+			</File>
+			<File
+				RelativePath="..\lib\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">

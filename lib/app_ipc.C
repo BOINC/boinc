@@ -30,6 +30,7 @@
 #include "error_numbers.h"
 #include "util.h"
 #include "filesys.h"
+#include "miofile.h"
 
 #include "app_ipc.h"
 
@@ -89,8 +90,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n"
-        "<fraction_done_start>%f</fraction_done_start>"
-        "<fraction_done_end>%f</fraction_done_end>",
+        "<fraction_done_start>%f</fraction_done_start>\n"
+        "<fraction_done_end>%f</fraction_done_end>\n",
         ai.slot,
         ai.wu_cpu_time,
         ai.user_total_credit,
@@ -102,6 +103,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.fraction_done_start,
         ai.fraction_done_end
     );
+    MIOFILE mf;
+    mf.init_file(f);
+    ai.host_info.write(mf);
     return 0;
 }
 
@@ -117,6 +121,12 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
                 if (match_tag(buf, "</project_preferences>")) break;
                 safe_strcat(ai.project_preferences, buf);
             }
+            continue;
+        }
+        else if (match_tag(buf, "<host_info>")) {
+            MIOFILE mf;
+            mf.init_file(f);
+            ai.host_info.parse(mf);
             continue;
         }
         else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;

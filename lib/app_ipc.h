@@ -20,6 +20,8 @@
 #ifndef _APP_IPC_
 #define _APP_IPC_
 
+#include "hostinfo.h"
+
 // Communication between the core client and the BOINC app library.
 // This code is linked into both core client and app lib.
 // Includes the following:
@@ -100,6 +102,7 @@ struct APP_INIT_DATA {
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
+    HOST_INFO host_info;
 
     // Items below here are for implementation only
     // (not used by app developers)

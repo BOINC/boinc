@@ -13680,3 +13680,23 @@ David  16 June 2004
         user/
             team_display.php
             user_search_action.php
+
+David  16 June 2004
+	- Added <host_info> to app_init_data.xml file,
+		passed to applications (for Folding@home).
+		This necessitated shuffline some code to
+		move write/parse code from client/ to lib/
+
+	client/
+		app.C
+		hostinfo.C,h (moved from client/ to lib/)
+		hostinfo_network.C,h (new)
+		miofile.C,h (moved from client/ to lib/)
+		win/
+			hostinfo_win.cpp
+	lib/
+		app_ipc.C,h
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
+		upper_case.vcproj
