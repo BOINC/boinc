@@ -106,6 +106,9 @@ bool do_pass(APP& app) {
             wu.file_delete_state = FILE_DELETE_READY;
         }
         db_workunit_update(wu);
+
+        // Clear out result vector so we don't reuse them in the next WU
+        results.erase(results.begin(),results.end());
     }
     return did_something;
 }
