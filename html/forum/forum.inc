@@ -432,7 +432,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
             echo "<a href=index.php>", " Message boards</a> : ";
         }
         echo "<a href=\"forum.php?id=", $forum->id, "\">", $forum->title, "</a> : ";
-        echo $thread->title;
+        echo stripslashes($thread->title);
         echo "</span><br>";
     } else {
         echo "Invalid input to show_forum_title<br>";

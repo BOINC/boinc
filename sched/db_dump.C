@@ -75,11 +75,18 @@ int nrecs_per_file_detail;
 
 bool zip_files = false;
 string zip_cmd;
+char file_dir[256];
+
+char* file_path(char* filename) {
+    static char buf[256];
+    sprintf(buf, "%s/%s", file_dir, filename);
+    return buf;
+}
 
 // class that automatically compresses on close
 class ZFILE {
 protected:
-    string tag;
+    string tag;     // enclosing XML tag
     FILE* f;
     string filename;
     bool zip_file;
@@ -98,7 +105,7 @@ public:
         vsprintf(filename_buf, filename_format, ap);
         va_end(ap);
 
-        filename = filename_buf;
+        filename = file_path(filename_buf);
 
         f = fopen(filename.c_str(), "w");
         if (!f) {
@@ -545,16 +552,15 @@ int tables_file() {
 int main(int argc, char** argv) {
     SCHED_CONFIG config;
     int retval, i;
-    char dir[256];
 
     check_stop_trigger();
 
     nrecs_per_file_summary = DEFAULT_NRECS_PER_FILE_SUMMARY;
     nrecs_per_file_detail = DEFAULT_NRECS_PER_FILE_DETAIL;
-    strcpy(dir, "");
+    strcpy(file_dir, ".");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dir")) {
-            strcpy(dir, argv[++i]);
+            strcpy(file_dir, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-gzip")) {
@@ -592,13 +598,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    if (strlen(dir)) {
-        retval = chdir(dir);
-        if (retval) {
-            log_messages.printf(SchedMessages::NORMAL, "can't chdir to %s\n", dir);
-            exit(1);
-        }
-    }
     tables_file();
     team_total_credit();
     team_expavg_credit();

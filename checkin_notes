@@ -8226,3 +8226,11 @@ David  7 Dec 2003
         backend_lib.C
         create_work.C
         process_result_template.C
+
+David  7 Dec 2003
+    - Changed db_dump so that it doesn't chdir() into the output directory
+        (it it does, and it crashes, that makes its core file
+        visible to the world, and that may contain private info)
+
+    sched/
+        db_dump.C

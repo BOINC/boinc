@@ -43,23 +43,21 @@ if ($sort_style == NULL) {
 $is_subscribed = false;
 
 if ($logged_in_user) {
-    $result = mysql_query("SELECT * FROM subscriptions WHERE (userid = " . $logged_in_user->id . ") AND (threadid = " . $thread->id . ")");
+    $result = mysql_query("SELECT * FROM subscriptions WHERE userid = " . $logged_in_user->id . " AND threadid = " . $thread->id);
     if ($result) {
         $is_subscribed = (mysql_num_rows($result) > 0);
     }
 }
 
-// TODO: Include this in show_forum_title?
+show_forum_title($forum, $thread, $category->is_helpdesk);
 
 echo "
-    <form action=\"thread.php\" method=\"get\">
-	<input type=\"hidden\" name=\"id\" value=", $thread->id, ">
+    <form action=thread.php>
+	<input type=hidden name=id value=", $thread->id, ">
 	<table width=100% cellspacing=0 cellpadding=0>
-    <tr valign=\"bottom\">
-    <td align=\"left\" style=\"border:0px\">
+    <tr>
+    <td align=left>
 ";
-
-show_forum_title($forum, $thread, $category->is_helpdesk);
 
 $link = "<a href=reply.php?thread=" . $thread->id;
 if ($category->is_helpdesk) {
@@ -72,9 +70,9 @@ echo $link, "</a><br>";
 
 if ($is_subscribed) {
 	if ($category->is_helpdesk) {
-    	echo "You are currently subscribed to this question.  ";
+    	echo "You are subscribed to this question.  ";
 	} else {
-		echo "You are currently subscribed to this thread.  ";
+		echo "You are subscribed to this thread.  ";
 	}
 	echo "<a href=subscribe.php?action=unsubscribe&thread=$thread->id>Click here to unsubscribe</a>.";
 } else {
@@ -91,7 +89,7 @@ if (!$category->is_helpdesk) {
     echo "<td align=\"right\" style=\"border:0px\">Sort / Filter ";
     show_combo_from_array("sort", $thread_sort_styles, $sort_style);
     show_combo_from_array("filter", $thread_filter_styles, $filter_min);
-    echo "<input type=\"submit\" value=\"Sort\">\n</td>";
+    echo "<input type=submit value=OK>\n</td>";
 }
 
 echo "</tr>\n</table>\n</form>\n";
