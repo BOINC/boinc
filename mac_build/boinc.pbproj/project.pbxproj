@@ -761,8 +761,8 @@
 			);
 			isa = PBXGroup;
 			name = RSAEuro;
-			path = /Users/eheien/Desktop/boinc/lib;
-			refType = 0;
+			path = ../RSAEuro;
+			refType = 2;
 		};
 		F51DA65202DBA912010E292A = {
 			isa = PBXFileReference;
