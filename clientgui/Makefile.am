@@ -3,7 +3,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
-LIBS += @LINUXLIBS@
+LIBS += @CLIENTLIBS@
 
 bin_PROGRAMS = boinc_gui
 

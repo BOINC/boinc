@@ -132,7 +132,7 @@ dnl Checks for libraries.
 AC_CHECK_LIB(m, sin)
 AC_CHECK_LIB(cygipc, shmget)
 
-dnl  NOTE: we might want to link the following libs statically on linux
+dnl  NOTE: we might want to link the following libs statically 
 dnl for building portable binaries, so we store them in a separate variable
 dnl BOINC_EXTRA_LIBS for later post-processing instead of the default-action,
 dnl which would prepend them to LIBS
@@ -319,42 +319,44 @@ AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 
 
 dnl ======================================================================
-dnl some vodoo required for building portable linux-binary (client, clientgui)
+dnl some vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================
-AC_ARG_ENABLE([linux-release], AS_HELP_STRING([--enable-linux-release],
-	[Try building a portable "release-candidate" for Linux: \
+AC_ARG_ENABLE([client-release], AS_HELP_STRING([--enable-client-release],
+	[Try building a portable "release-candidate" (currently implemented for Linux and Solaris only): \
 	this links libstd++ statically. You will probably need gcc-3.0 for 
-	this to produce a portable linux-binary. 
+	this to produce a portable client-binary. 
 	It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
-	(Default = no)]), [], [enable_linux_release=no])
+	(Default = no)]), [], [enable_client_release=no])
 
 dnl Some platform specific settings
 case $target in
    *linux* | *sun* ) 
-	if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" != yes ); then
-	   AC_MSG_WARN([--enable-linux-release ignored.
+	if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
+	   AC_MSG_WARN([--enable-client-release ignored.
 --------------------------------------------------
-The switch --enable-linux-release is only useful for building the client and will be ignored
+The switch --enable-client-release is only useful for building the client and will be ignored
 --------------------------------------------------]) 
         else
             LDSTATIC="-Wl,-Bstatic"
 	    LDDYNAMIC="-Wl,-Bdynamic"
         fi
 	;;
-   *)	## in the non-linux case, --enable-linux-release is not allowed
-	if test "${enable_linux_release}" = yes; then
-	   AC_MSG_ERROR([
+   *)	## in the non-linux, non-solaris case, --enable-client-release is not allowed
+	if test "${enable_client_release}" = yes; then
+	   AC_MSG_WARN([
 ----------------------------------------------------------------------
-Sorry, the switch --linux-release is only meaningful when compiling for Linux!
-Please don't use that switch otherwise.
+Sorry, the switch --enable-client-release is currently only implemented
+for Linux and Solaris, and will have no effect.
 ----------------------------------------------------------------------])
 	fi  
+	LDSTATIC=
+	LDDYNAMIC=
 	;; 
 esac
 
-if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" = yes ); then
+if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" = yes ); then
    echo "----------"
-   echo "NOTE: Building portable Linux client binaries"
+   echo "NOTE: Building portable client binaries"
    echo "----------"
    AC_CHECK_LIB(gcc_eh, _Unwind_Resume, [have_gcc_eh=yes], [have_gcc_eh=no])
    if test "$have_gcc_eh" = yes; then
@@ -362,20 +364,20 @@ if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" = yes )
    else
       GCC_EH_LIB=
    fi
-   LINUXLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
+   CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
 else
-   LINUXLIBS=
+   CLIENTLIBS=
 fi
-AC_SUBST(LINUXLIBS)
+AC_SUBST(CLIENTLIBS)
 
 ## --------------------
 ## some more tweaking to turn non-standard libs into statically linked ones
 CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
 CLIENTGUILIBS=${WX_LIBS}
 
-if test "${enable_linux_release}" = yes; then
+if test "${enable_client_release}" = yes; then
    ## list of possible libraries, which we have to link statically against 
-   ## on Linux in order to avoid portability problems
+   ## in order to avoid portability problems
       
    ## extend this list as necessary if you find additional libs required on your system
    ## ****************************************
@@ -412,7 +414,6 @@ LIBS="${BOINC_EXTRA_LIBS} $LIBS"
 AC_SUBST(CLIENTGUIFLAGS)
 AC_SUBST(CLIENTGUILIBS)
 dnl ======================================================================
-
 
 AC_CONFIG_FILES([
                  ./version.h

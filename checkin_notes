@@ -23272,3 +23272,8 @@ David  26 Jan 2005
 
     sched/
         handle_request.C
+
+David  26 Jan 2005
+    - Reinhard's patch to configure.ac
+
+    configure.ac

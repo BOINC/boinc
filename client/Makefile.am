@@ -9,7 +9,7 @@ include $(top_srcdir)/Makefile.incl
 
 client-bin: @CLIENT_BIN_FILENAME@
 
-LIBS += @LINUXLIBS@
+LIBS += @CLIENTLIBS@
 
 bin_PROGRAMS = boinc_client
 
