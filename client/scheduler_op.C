@@ -130,13 +130,13 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
-        exp_backoff = (int) exp(drand()*MASTER_FETCH_INTERVAL);
-        p->min_rpc_time = time(0) + exp_backoff;
+        x = exp(drand()*p->master_fetch_failures);
+        exp_backoff = (int) min((int)x,MASTER_FETCH_INTERVAL);
     } else {
         x = RETRY_BASE_PERIOD * exp(drand() * n);
         exp_backoff =  (int)max(SCHED_RETRY_DELAY_MIN,min(SCHED_RETRY_DELAY_MAX,(int) x));
-        p->min_rpc_time = time(0) + exp_backoff;
     }
+    p->min_rpc_time = time(0) + exp_backoff;
     if (log_flags.sched_op_debug) {
         printf(
             "setting min RPC time for %s to %d seconds from now\n",
@@ -516,29 +516,18 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<scheduler_reply>")) {
             // Do nothing
-        } else if (match_tag(buf, "</scheduler_reply>")) {
-            return 0;
-        } else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) {
-            continue;
-        } else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) {
-            continue;
-        } else if (parse_double(buf, "<user_total_credit>", user_total_credit)) {
-            continue;
-        } else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) {
-            continue;
-        } else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) {
-            continue;
-        } else if (parse_int(buf, "<hostid>", hostid)) {
-            continue;
-        } else if (parse_double(buf, "<host_total_credit>", host_total_credit)) {
-            continue;
-        } else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) {
-            continue;
-        } else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) {
-            continue;
-        } else if (parse_int(buf, "<request_delay>", request_delay)) {
-            continue;
-        } else if (match_tag(buf, "<global_preferences>")) {
+        } else if (match_tag(buf, "</scheduler_reply>")) return 0;
+        else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
+        else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
+        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+        else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
+        else if (parse_int(buf, "<hostid>", hostid)) continue;
+        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
+        else if (parse_int(buf, "<request_delay>", request_delay)) continue;
+        else if (match_tag(buf, "<global_preferences>")) {
             retval = dup_element_contents(
                 in,
                 "</global_preferences>",
