@@ -6947,9 +6947,6 @@ Karl 2003-10-20
     - BOINC client release 2.05
         - added glut32.dll to BOINC distribution
 
-    - Astropulse client release 2.05
-
-
 David  20 Oct 2003
     - replace return -1's with error codes
 
@@ -6990,5 +6987,8 @@ David  20 Oct 2003
         cpu_benchmark.C,h
 
 Karl 2003-10-21
-    - BOINC client release 2.06 (Linux)
+    - BOINC client release 2.06
+
+    - Astropulse client release 2.06
+
 
