@@ -7,8 +7,17 @@
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 
 #########################################
 # Apps page (apps.php)
@@ -294,6 +303,13 @@ msgstr "In each case copy and paste the following:"
 
 msgid "AC_DONE_INSTALLED"
 msgstr "This completes the $PROJECT installation."
+
+#########################################
+# Forum sample index page
+#########################################
+
+msgid "FORUM_TITLE"
+msgstr "$PROJECT Message boards"
 
 
 #########################################
