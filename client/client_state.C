@@ -106,7 +106,6 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_giveup = PERS_GIVEUP;
 	executing_as_windows_service = false;
     cpu_sched_last_time = 0;
-    cpu_sched_period = 3600; // 1 hour
     cpu_sched_work_done_this_period = 0;
     must_schedule_cpus = false;
 }
@@ -289,9 +288,6 @@ int CLIENT_STATE::init() {
 
     // set period start time
     cpu_sched_last_time = time(NULL);
-
-    // set initial work_done_this_period so project debts are non-zero
-    cpu_sched_work_done_this_period = cpu_sched_period * ncpus;
 
     // set up the project and slot directories
     //

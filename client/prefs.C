@@ -56,7 +56,7 @@ void GLOBAL_PREFS::init() {
     //work_buf_max_days = 0.2;
     work_buf_min_days = 0.1;
     max_cpus = 1;
-    cpu_sched_period= 3600;
+    cpu_sched_period= 3600;  //1 hour   
     disk_interval = 60;
     disk_max_used_gb = 1;
     disk_max_used_pct = 50;
@@ -173,7 +173,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
         } else if (parse_double(buf, "<disk_interval>", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
             continue;
-        } else if (parse_double(buf, "<cpu_scheduling_period_minutes>", cpu_sched_period)) {
+        } else if (parse_int(buf, "<cpu_scheduling_period_minutes>", cpu_sched_period)) {
            cpu_sched_period= cpu_sched_period * 60;  
            continue;
         } else if (parse_double(buf, "<disk_max_used_gb>", disk_max_used_gb)) {

@@ -142,7 +142,6 @@ private:
     // CPU sched state
     //
     time_t cpu_sched_last_time;
-    int cpu_sched_period;
     double cpu_sched_work_done_this_period;
 
 // --------------- client_state.C:

@@ -17673,3 +17673,12 @@ David  23 Sept 2004
         client_types.C,h
         cs_scheduler.C
         scheduler_op.C,h
+
+Lana   23 Sept 2004
+     - refactored access and storage to cpu_sched_period for the project.
+       now it is being maintained in global prefs only.
+
+    client/
+        cs_statefile.C
+        cs_apps.C
+        client_state.C,h
