@@ -187,7 +187,7 @@
 #undef HAVE_WAIT3
 
 /* Host for this compilation */
-#undef HOST
+#undef HOSTTYPE
 
 /* Major part of version number */
 #undef MAJOR_VERSION
