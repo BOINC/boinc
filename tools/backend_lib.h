@@ -39,7 +39,7 @@ extern int process_result_template_upload_url_only(
 );
 
 extern int read_file(FILE*, char* buf);
-extern int read_filename(const char* path, char* buf);
+extern int read_filename(const char* path, char* buf, int len);
 
 extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 extern int create_result(

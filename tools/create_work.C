@@ -186,9 +186,9 @@ int main(int argc, char** argv) {
     }
 
     //fprintf(stderr, "wu_template = %s\n", wu_template);
-    retval = read_filename(wu_template_file, wu_template);
+    retval = read_filename(wu_template_file, wu_template, sizeof(wu_template));
     if (retval) {
-        fprintf(stderr, "create_work: can't open WU template\n");
+        fprintf(stderr, "create_work: can't open WU template: %d\n", retval);
         exit(1);
     }
 
@@ -196,7 +196,7 @@ int main(int argc, char** argv) {
 
     retval = read_key_file(keyfile, key);
     if (retval) {
-        fprintf(stderr, "create_work: can't read key");
+        fprintf(stderr, "create_work: can't read key: %d", retval);
         exit(1);
     }
 
