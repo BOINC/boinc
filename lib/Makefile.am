@@ -56,6 +56,18 @@ libboinc_a_SOURCES =        \
 	std_fixes.h  			\
 	synch.h  
 
+include_HEADERS =               \
+                app_ipc.h       \
+                diagnostics.h   \
+                filesys.h       \
+                boinc_win.h     \
+                mfile.h         \
+                util.h          \
+                hostinfo.h      \
+                proxy_info.h    \
+                prefs.h         \
+                exception.h     \
+                miofile.h 
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

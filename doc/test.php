@@ -2,7 +2,7 @@
    require_once("docutil.php");
    page_head("Testing BOINC");
 echo "
-See the section on testing in <a href=software.php>Software Prerequisites</a>.
+See the section on testing in <a href=build.php>Software Prerequisites</a>.
 Note that a web server with PHP is required for
 running a real server, but that requires a lot of path and permissions
 configuration so we opt not to use them in testing.

@@ -10,7 +10,7 @@ it may work with small modifications on Windows also.
 <h3>Creating the server</h3>
 <p>
 First, install all components listed in the
-<a href=software.php>Software Prerequisites</a> page.
+<a href=build.php>Software Prerequisites</a> page.
 
 <p>
 Run the <code>make_project</code> script.

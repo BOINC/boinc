@@ -23,16 +23,13 @@ Unpacking the BOINC source code creates the following directories:
 <dd> An RSA implementation (included for convenience; not covered
 under the BOINC public license).
 <dt> api/
-<dd> The BOINC API (parts of which are compiled
-into the core client).
+<dd> The BOINC API (for applications)
 <dt> apps/
 <dd> Some test applications.
 <dt> client/
 <dd> The BOINC core client.
 <dt> client/win/
 <dd> Core client files particular to the Windows GUI version.
-<dt> client/mac/
-<dd> Core client files particular to the Mac GUI version.
 <dt> db/
 <dd> The database schema and interface functions.
 <dt> doc/

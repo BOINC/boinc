@@ -17,7 +17,12 @@ Workunit state variables are as follows:
 list_start();
 list_item(
     "canonical_resultid",
-    "The ID of the canonical result for this workunit, or zero."
+    "The ID of the canonical result for this workunit, or zero.
+    <ul>
+    <li> Initially zero
+    <li> Set by the validator (by check_set())
+    </ul>
+    "
 );
 
 list_item("transition_time",
@@ -178,7 +183,10 @@ list_item("validate_state",
     <li> Set by validator to VALID if outcome=SUCCESS and matches canonical result
     <li> Set by validator to INVALID if outcome=SUCCESS and doesn't match canonical result
     <li> Set by validator to ERROR if outcome=SUCCESS and
-        had a permanent error trying to read an output file.
+        had a permanent error trying to read an output file,
+        or an output file had a syntax error.
+    <li> Set by validator to INCONCLUSIVE if check_set()
+        didn't find a consensus in a set of results containing this one.
     "
 );
 list_end();

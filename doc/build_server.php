@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Building the server");
 
 echo"
-See the <a href=software.php>Software Prerequisites</a>.
+See the <a href=build.php>Software Prerequisites</a>.
 
 <h2>Overview</h2>
 Download:
