@@ -90,10 +90,10 @@ int main(int argc, char** argv) {
             nresults = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-rsc_fpops")) {
             i++;
-            wu.rsc_fpops = atof(argv[i]);
+            wu.rsc_fpops = atof(argv[i+1]);
         } else if (!strcmp(argv[i], "-rsc_iops")) {
             i++;
-            wu.rsc_iops = atof(argv[i]);
+            wu.rsc_iops = atof(argv[i+1]);
         } else if (!strcmp(argv[i], "-rsc_memory")) {
             i++;
             wu.rsc_memory = atof(argv[i]);
