@@ -50,7 +50,9 @@ $logged_in_user = get_logged_in_user(false);
 					</p>
 				</td>
 				<td>
-					<p style="font-size:8pt">Posted: <?php echo date('D M j, Y g:i a', $post->timestamp) ?><?php /*if ($can_edit) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[<i>Edit this post</i>]</a>"*/ ?></p>
+					<p style="font-size:8pt">Posted: <?php echo date('D M j, Y g:i a', $post->timestamp) ?><?php if ($can_edit) echo "&nbsp;<a href=\"edit.php?id=$post->id\">[<i>Edit this post</i>]</a>" ?>
+                                        <?php if ($post->modified) echo "<br>Last Modified: ", date('D M j, Y g:i a', $post->modified) ?>
+                                        </p>
                                         
 					<p><?php echo nl2br(stripslashes($post->content)) ?></p>
 				</td>
