@@ -6471,6 +6471,17 @@ Eric   Oct 1 2003  11:15 am
        graphics_api.h
        m4/sah_grx.m4
 
+David  Oct 2 2003
+    - Added code to limit frame rate in either or both of two ways:
+        1) max frames per second
+        2) upper bound on rendering CPU time as a fraction or real time
+        NOTE: currently these limits are hardware in the code.
+        Need to put them in preferences.
+
+    api/
+        graphics_api.C,h
+        windows_opengl.C
+
 Eric   Oct 2 2003
 
       -moved xml_indent() from seti_boinc/db/sqlrow.[cpp,h] to i
@@ -6563,3 +6574,14 @@ Karl 2003/10/06
     sched/
         transitioner.C
 
+David  Oct 6 2003
+    - Don't send two results from the same WU in a single RPC
+        Note: this is a weak but possibly sufficient step towards not sending
+        multiple results from the same WU to one user.
+    - Scheduler: before updating a result, reread it from the database.
+        What's in shared memory may be way out of date.
+        E.g. it may no longer be in server state UNSENT.
+        Hopefully this fixes the missing-input-file bug!!
+    
+    sched/
+        handle_request.C

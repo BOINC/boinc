@@ -35,6 +35,8 @@
 #include <OpenGL/gl.h>
 #elif defined(HAVE_MESAGL_GL_H)
 #include <MesaGL/gl.h>
+#else
+#error No gl.h
 #endif
 #ifdef HAVE_GLU_H
 #include <glu.h>

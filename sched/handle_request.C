@@ -653,6 +653,18 @@ static int update_wu_transition_time(WORKUNIT wu, time_t x) {
     return 0;
 }
 
+// return true iff a result for same WU is already being sent
+//
+static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
+    unsigned int i;
+    for (i=0; i<reply.results.size(); i++) {
+        if (wu_result.workunit.id == reply.results[i].workunitid) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Make a pass through the wu/results array, sending work.
 // If "infeasible_only" is true, send only results that were
 // previously infeasible for some host
@@ -664,7 +676,8 @@ static void scan_work_array(
 ) {
     int i, retval;
     WORKUNIT wu;
-    DB_RESULT result, result_copy;
+    DB_RESULT result;
+    double wu_seconds_filled;
 
     for (i=0; i<ss.nwu_results && seconds_to_fill>0; i++) {
         WU_RESULT& wu_result = ss.wu_results[i];
@@ -674,12 +687,18 @@ static void scan_work_array(
         if (!wu_result.present) {
             continue;
         }
+
         if (infeasible_only && wu_result.infeasible_count==0) {
             continue;
         }
-        wu = wu_result.workunit;
 
-        double wu_seconds_filled = estimate_duration(wu, reply.host);
+        // don't send if we're already sending a result for same WU
+        //
+        if (already_in_reply(wu_result, reply)) {
+            continue;
+        }
+
+        wu = wu_result.workunit;
 
         if (!wu_is_feasible(wu, reply.host)) {
             log_messages.printf(
@@ -690,32 +709,43 @@ static void scan_work_array(
             continue;
         }
 
-        // XXX FIXME: result should be re-read from database here and checked
-        // that server_state is still UNSENT -- if no longer `UNSENT'
-        // (perhaps because the WU had an unrecoverable error), then skip it.
-        // Should handle_request or feeder take care of removing it?
-
-        result = wu_result.result;
-
+        // The following will fail if e.g. there's no app_version
+        // for the client's platform.
+        // Treat the same as the WU being infeasible
+        //
         retval = add_wu_to_reply(wu, reply, platform, ss);
         if (retval) {
             wu_result.infeasible_count++;
             continue;
         }
 
+        result = wu_result.result;
+
+        // mark slot as empty AFTER we've copied out of it
+        //
         wu_result.present = false;
 
-        log_messages.printf(
-            SchedMessages::NORMAL,
-            "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
-            reply.host.id, result.id, result.name, int(wu_seconds_filled)
-        );
+        // reread result from DB, make sure it's still unsent
+        // TODO: from here to update() should be a transaction
+        //
+        retval = result.lookup_id(result.id);
+        if (retval) continue;
+        if (result.server_state != RESULT_SERVER_STATE_UNSENT) continue;
 
+        // update the result in DB
+        //
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
         result.hostid = reply.host.id;
         result.sent_time = time(0);
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.update();
+
+        wu_seconds_filled = estimate_duration(wu, reply.host);
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
+            reply.host.id, result.id, result.name, int(wu_seconds_filled)
+        );
 
         retval = update_wu_transition_time(wu, result.report_deadline);
         if (retval) {
@@ -725,19 +755,23 @@ static void scan_work_array(
             );
         }
 
-        // copy the result so we don't overwrite its XML fields
+        // The following overwrites the result's xml_doc field.
+        // But that's OK cuz we're done with DB updates
         //
-        result_copy = result;
-
-        retval = insert_name_tags(result_copy, wu);
+        retval = insert_name_tags(result, wu);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "send_work: can't insert name tags\n");
+            log_messages.printf(
+                SchedMessages::CRITICAL, "send_work: can't insert name tags\n"
+            );
         }
-        retval = insert_deadline_tag(result_copy);
+        retval = insert_deadline_tag(result);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "send_work: can't insert deadline tag\n");
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "send_work: can't insert deadline tag\n"
+            );
         }
-        reply.insert_result(result_copy);
+        reply.insert_result(result);
 
         seconds_to_fill -= wu_seconds_filled;
 

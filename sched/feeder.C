@@ -349,12 +349,16 @@ int main(int argc, char** argv) {
         }
     }
 
-    // // Call lock_file after fork(), because file locks are not always inherited
-    // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of feeder is already running\n");
-    //     exit(1);
-    // }
-    // write_pid_file(PIDFILE);
+#if 0
+    // Call lock_file after fork(), because file locks are not always inherited
+    //
+    if (lock_file(LOCKFILE)) {
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of feeder is already running\n");
+        exit(1);
+    }
+    write_pid_file(PIDFILE);
+#endif
+
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     retval = destroy_shmem(config.shmem_key);
