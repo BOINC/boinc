@@ -4,6 +4,10 @@ include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = create_work add country_select
 
+EXTRA_DIST = make_project.py
+
+# TODO: use libboinc for these:
+
 create_work_SOURCES =				\
 	create_work.C				\
         backend_lib.C				\

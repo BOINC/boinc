@@ -135,22 +135,60 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-EXTRA_DIST = *.sql *.h init_db
-subdir = db
+MYSQL_INCLUDES = /usr/local/mysql/include
+MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
+MYSQL_INCLUDES3 = /usr/include/mysql
+
+MYSQL_LIBS = \
+        -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
+        -lmysqlclient -L/usr/local/lib -lz				\
+        -lm $(NETLIBS)
+
+
+RSA_LIBS = \
+	-L$(top_builddir)/RSAEuro/source				\
+	-lrsaeuro
+
+
+AM_CFLAGS = -g -Wall
+AM_CXXFLAGS = -g -Wall
+
+AM_CPPFLAGS = \
+        -I$(top_srcdir)/lib			\
+        -I$(top_srcdir)/api			\
+        -I$(top_srcdir)/db			\
+        -I$(top_srcdir)/RSAEuro/source		\
+        -I$(top_srcdir)/client			\
+        -I$(top_srcdir)/tools			\
+        -I$(MYSQL_INCLUDES)			\
+        -I$(MYSQL_INCLUDES2)			\
+	-I$(MYSQL_INCLUDES3)                    \
+        -include $(top_builddir)/config.h
+
+
+# this is useful as a dependency to make sure librsaeuro gets compiled before
+# programs linking to it:
+LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
+
+EXTRA_DIST = boinc.py boinc_db.py boinc_db.py.in version.py.in db_def_to_py
+subdir = py
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = version.py
 DIST_SOURCES =
-DIST_COMMON = Makefile.am Makefile.in
+DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in \
+	version.py.in
 all: all-am
 
 .SUFFIXES:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile.incl $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  db/Makefile
+	  $(AUTOMAKE) --gnu  py/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+version.py: $(top_builddir)/config.status version.py.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 tags: TAGS
 TAGS:
@@ -164,6 +202,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/..
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -272,6 +311,14 @@ uninstall-am: uninstall-info-am
 	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
 	uninstall-info-am
 
+
+$(LIBRSA):
+	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
+
+$(srcdir)/boinc_db.py: ../db/boinc_db.h ../lib/result_state.h
+	cat $^ | $(srcdir)/db_def_to_py > $@
+
+# all: $(srcdir)/boinc_db.py
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -1,4 +1,3 @@
-use BOINC_DB_NAME;
 
 alter table platform
     add unique(name);

@@ -46,6 +46,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BUILD_TOP_DIR = @BUILD_TOP_DIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -88,7 +89,6 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SOURCE_TOP_DIR = @SOURCE_TOP_DIR@
 STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
 VERSION = @VERSION@
@@ -163,7 +163,7 @@ AM_CPPFLAGS = \
         -I$(MYSQL_INCLUDES)			\
         -I$(MYSQL_INCLUDES2)			\
 	-I$(MYSQL_INCLUDES3)                    \
-        -include $(top_srcdir)/config.h
+        -include $(top_builddir)/config.h
 
 
 # this is useful as a dependency to make sure librsaeuro gets compiled before
@@ -186,22 +186,19 @@ TESTS = test_sanity.py				\
 # TODO: phase out php stuff
 EXTRA_DIST = \
         *.xml *wu *result *output *input			\
-	db_def_to_php db_def_to_py				\
-	*.php version.inc.in boinc.py test_*.py version.py.in	\
-	boinc_db.inc boinc_db.py
+	test_*.py						\
+	db_def_to_php *.php version.inc.in boinc_db.inc 	\
+	test*.inc init.inc boinc_db.inc
 
-
-BUILT_SOURCES = boinc_db.inc boinc_db.py
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = version.inc version.py
+CONFIG_CLEAN_FILES = version.inc
 DIST_SOURCES =
 DIST_COMMON = README $(top_srcdir)/Makefile.incl Makefile.am \
-	Makefile.in version.inc.in version.py.in
-all: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+	Makefile.in version.inc.in
+all: all-am
 
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile.incl $(top_srcdir)/configure.ac $(ACLOCAL_M4)
@@ -210,8 +207,6 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 version.inc: $(top_builddir)/config.status version.inc.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-version.py: $(top_builddir)/config.status version.py.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 tags: TAGS
@@ -328,13 +323,11 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
-check: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) check-am
+check: check-am
 all-am: Makefile
 
 installdirs:
-install: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) install-am
+install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -358,7 +351,6 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-generic mostlyclean-am
@@ -416,13 +408,12 @@ uninstall-am: uninstall-info-am
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
-$(TESTS): version.py boinc_db.py
+# BUILT_SOURCES = boinc_db.inc boinc_db.py
+
+$(TESTS): ../py/version.py $(top_srcdir)/py/boinc_db.py
 
 boinc_db.inc: ../db/boinc_db.h ../lib/result_state.h
 	cat $^ | ./db_def_to_php > $@
-
-boinc_db.py: ../db/boinc_db.h ../lib/result_state.h
-	cat $^ | ./db_def_to_py > $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

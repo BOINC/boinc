@@ -1,4 +1,3 @@
-use BOINC_DB_NAME
 
 create table project (
     id              integer     not null auto_increment,

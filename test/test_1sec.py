@@ -6,7 +6,6 @@
 # time is divided correctly between projects The client should do work for
 # project 2 5 times faster than for project 1
 
-from boinc import *
 from test_uc import *
 
 if __name__ == '__main__':

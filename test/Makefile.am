@@ -17,16 +17,13 @@ TESTS = test_sanity.py				\
 
 EXTRA_DIST =							\
         *.xml *wu *result *output *input			\
-	db_def_to_php db_def_to_py				\
-	*.php version.inc.in boinc.py test_*.py version.py.in	\
-	boinc_db.inc boinc_db.py
+	test_*.py						\
+	db_def_to_php *.php version.inc.in boinc_db.inc 	\
+	test*.inc init.inc boinc_db.inc
 
-BUILT_SOURCES = boinc_db.inc boinc_db.py
+# BUILT_SOURCES = boinc_db.inc boinc_db.py
 
-$(TESTS): version.py boinc_db.py
+$(TESTS): ../py/version.py $(top_srcdir)/py/boinc_db.py
 
 boinc_db.inc: ../db/boinc_db.h ../lib/result_state.h
 	cat $^ | ./db_def_to_php > $@
-
-boinc_db.py: ../db/boinc_db.h ../lib/result_state.h
-	cat $^ | ./db_def_to_py > $@

@@ -330,7 +330,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAJOR_VERSION MINOR_VERSION SOURCE_TOP_DIR MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CPP RANLIB ac_ct_RANLIB EGREP CLIENT_BIN_FILENAME STATIC_FLAGS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAJOR_VERSION MINOR_VERSION BUILD_TOP_DIR MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CPP RANLIB ac_ct_RANLIB EGREP CLIENT_BIN_FILENAME STATIC_FLAGS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1845,7 +1845,7 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-SOURCE_TOP_DIR=`pwd`
+BUILD_TOP_DIR=`pwd`
 
 
 echo "$as_me:$LINENO: checking whether to enable maintainer-specific portions of Makefiles" >&5
@@ -6658,12 +6658,12 @@ CLIENT_BIN_FILENAME=boinc_${MAJOR_VERSION}.${MINOR_VERSION}_$host${EXEEXT}
 
 # by default, create static binaries on linux.
 if [ "$target_os" = "linux-gnu" ]; then
-    STATIC_FLAGS="-static -static-libgcc"
+    STATIC_FLAGS="-static"
 fi
 echo "checking static flags... ${STATIC_FLAGS:-(none)}"
 
 
-                                                                                                                                  ac_config_files="$ac_config_files RSAEuro/source/Makefile RSAEuro/Makefile api/Makefile apps/Makefile client/Makefile db/Makefile lib/Makefile sched/Makefile tools/Makefile test/Makefile test/version.inc test/version.py Makefile"
+                                                                                                                                            ac_config_files="$ac_config_files RSAEuro/source/Makefile RSAEuro/Makefile api/Makefile apps/Makefile client/Makefile db/Makefile lib/Makefile sched/Makefile tools/Makefile test/Makefile py/Makefile test/version.inc py/version.py Makefile"
 
 
           ac_config_headers="$ac_config_headers config.h"
@@ -7241,8 +7241,9 @@ do
   "sched/Makefile" ) CONFIG_FILES="$CONFIG_FILES sched/Makefile" ;;
   "tools/Makefile" ) CONFIG_FILES="$CONFIG_FILES tools/Makefile" ;;
   "test/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
+  "py/Makefile" ) CONFIG_FILES="$CONFIG_FILES py/Makefile" ;;
   "test/version.inc" ) CONFIG_FILES="$CONFIG_FILES test/version.inc" ;;
-  "test/version.py" ) CONFIG_FILES="$CONFIG_FILES test/version.py" ;;
+  "py/version.py" ) CONFIG_FILES="$CONFIG_FILES py/version.py" ;;
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
@@ -7364,7 +7365,7 @@ s,@SET_MAKE@,$SET_MAKE,;t t
 s,@am__leading_dot@,$am__leading_dot,;t t
 s,@MAJOR_VERSION@,$MAJOR_VERSION,;t t
 s,@MINOR_VERSION@,$MINOR_VERSION,;t t
-s,@SOURCE_TOP_DIR@,$SOURCE_TOP_DIR,;t t
+s,@BUILD_TOP_DIR@,$BUILD_TOP_DIR,;t t
 s,@MAINTAINER_MODE_TRUE@,$MAINTAINER_MODE_TRUE,;t t
 s,@MAINTAINER_MODE_FALSE@,$MAINTAINER_MODE_FALSE,;t t
 s,@MAINT@,$MAINT,;t t

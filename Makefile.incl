@@ -27,7 +27,7 @@ AM_CPPFLAGS =            			\
         -I$(MYSQL_INCLUDES)			\
         -I$(MYSQL_INCLUDES2)			\
 	-I$(MYSQL_INCLUDES3)                    \
-        -include $(top_srcdir)/config.h
+        -include $(top_builddir)/config.h
 
 # this is useful as a dependency to make sure librsaeuro gets compiled before
 # programs linking to it:

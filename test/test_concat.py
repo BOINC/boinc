@@ -4,7 +4,7 @@
 
 # tests whether command-line arg passing works
 
-from boinc import *
+from testbase import *
 
 class WorkConcat(Work):
     def __init__(self, redundancy=2):
@@ -13,14 +13,14 @@ class WorkConcat(Work):
         self.result_template = "concat_result"
         self.input_files = ['input']*2
 
-class ProjectConcat(Project):
+class ProjectConcat(TestProject):
     def __init__(self, works=None, users=None, hosts=None, redundancy=2):
-        Project.__init__(self,
-                         appname = 'concat',
-                         works = works or [WorkConcat()],
-                         users = users,
-                         hosts = hosts,
-                         redundancy=redundancy)
+        TestProject.__init__(self,
+                             appname = 'concat',
+                             works = works or [WorkConcat()],
+                             users = users,
+                             hosts = hosts,
+                             redundancy=redundancy)
 
     def check(self):
         self.sched_run('validate_test')

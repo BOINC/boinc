@@ -7,7 +7,6 @@
 # on a large batch of workunits.  Confirms that credit is correctly granted
 # and that unneeded files are deleted
 
-from boinc import *
 from test_uc import *
 import time, os
 

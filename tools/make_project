@@ -1,0 +1,159 @@
+#!/usr/bin/env python
+
+# $Id$
+# Creates a new BOINC project.
+
+import sys, os, getopt
+sys.path.append('../py')
+from version import *
+from boinc import *
+
+argv0 = sys.argv[0]
+HOME = os.path.expanduser('~')
+
+HELP = """
+syntax: %(argv0)s [options] project-dir-name 'Project Long Name']
+
+Creates a new project with given name with everything running on a single
+server.
+
+Misc options:
+   --verbose={0,1,2}  default: 1
+   -v                 alias for --verbose=2
+   --no_query       accept all directories without querying
+
+Dir-options:
+   --base           default: $HOME (%(HOME)s)
+   --key_dir        default: BASE/keys
+   --project_root   default: BASE/projects/PROJECT
+   --url_base       REQUIRED; e.g.: http://maggie.ssl.berkeley.edu/
+
+   --html_user_url  default: URL_BASE/PROJECT/
+   --html_ops_url   default: URL_BASE/PROJECT_ops/
+   --cgi_url        default: URL_BASE/PROJECT_cgi/
+
+Project-specific directory structure that you probably don't need to change:
+
+   --bin_dir        default: PROJECT_ROOT/bin
+   --cgi_bin_dir    default: PROJECT_ROOT/cgi-bin
+   --html_user_dir  default: PROJECT_ROOT/html_user
+   --html_ops_dir   default: PROJECT_ROOT/html_ops
+   --download_dir   default: PROJECT_ROOT/download
+   --upload_dir     default: PROJECT_ROOT/upload
+   --log_dir        default: PROJECT_ROOT/log
+   --pid_dir        default: PROJECT_ROOT/pid
+
+E.g. if you run make_project --base $HOME/boinc --url_base http://boink/ yah 'YETI @ Home'
+
+Then upload_dir = $HOME/boinc/projects/yah/upload
+and  cgi_url    = http://boink/yah_cgi/
+
+By default, directory options will be queried if they do not exist yet.
+
+""" %locals()
+
+def syntax_error():
+    raise SystemExit('See "%s --help" for help\n' % sys.argv[0])
+
+def usage():
+    print HELP
+    raise SystemExit
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:],
+                               'hv',
+                               [ 'help',
+                                 'verbose=',
+                                 'no_query',
+                                 'base=',
+                                 'key_dir=',
+                                 'project_root=',
+                                 'url_base=',
+                                 'html_user_url=',
+                                 'html_ops_url=',
+                                 'cgi_url=',
+                                 'bin_dir=',
+                                 'cgi_bin_dir=',
+                                 'html_user_dir=',
+                                 'html_ops_dir=',
+                                 'download_dir=',
+                                 'upload_dir=',
+                                 'log_dir=',
+                                 'pid_dir=' ])
+except getopt.GetoptError:
+    syntax_error()
+
+options.url_base = None
+
+for o,a in opts:
+    if o == '-h' or o == '--help':        usage()
+    elif o == 'v':             options.echo_verbose   = 2
+    elif o == 'verbose':       options.echo_verbose   = int(a)
+    elif o == 'no_query':      options.no_query       = True
+    elif o == 'base':          options.base           = a
+    elif o == 'key_dir':       options.key_dir        = a
+    elif o == 'project_root':  options.project_root   = a
+    elif o == 'url_base':      options.url_base       = a
+    elif o == 'html_user_url': options.html_user_url  = a
+    elif o == 'html_ops_url':  options.html_ops_url   = a
+    elif o == 'cgi_url':       options.cgi_url        = a
+    elif o == 'bin_dir':       options.bin_dir        = a
+    elif o == 'cgi_bin_dir':   options.cgi_bin_dir    = a
+    elif o == 'html_user_dir': options.html_user_dir  = a
+    elif o == 'html_ops_dir':  options.html_ops_dir   = a
+    elif o == 'download_dir':  options.download_dir   = a
+    elif o == 'upload_dir':    options.upload_dir     = a
+    elif o == 'log_dir':       options.log_dir        = a
+    elif o == 'pid_dir':       options.pid_dir        = a
+    else:
+        raise SystemExit('internal error')
+
+if len(args) != 2 or not options.url_base:
+    syntax_error()
+
+(project_shortname, project_longname) = args
+
+
+
+
+
+# if BLAH:
+#     print """I created the directories BLAH and BLAH.  You need to add this (or similar) to your Apache config.httpd:
+
+#     Alias /%(project)s %(BOINC_HTML_USER_DIR)s
+#     ScriptAlias /%(project)s_cgi %(BOINC_CGI_BIN_DIR)s
+
+
+
+# # Note: projects/*/keys/ should NOT be readable!
+
+# <Directory "/disks/koloth/a/inet_services/boinc_www/share/projects/*/html_user">    Options Indexes FollowSymlinks MultiViews
+#     AllowOverride None
+#     Order allow,deny
+#     Allow from all
+# </Directory>
+
+# <Directory "/disks/koloth/a/inet_services/boinc_www/share/projects/*/html_ops">
+#     Options FollowSymLinks
+#     AllowOverride AuthConfig
+#     Order allow,deny
+#     Allow from all
+# </Directory>
+
+
+## TODO: first time: by default query all options with raw_input() ; use --no-query to use only environ vars
+
+
+## TODO: save settings to a file.
+
+
+# #options.* :
+#         KEY_DIR      = get_env_var("BOINC_TEST_KEY_DIR")
+#         PROJECTS_DIR = get_env_var("BOINC_TEST_PROJECTS_DIR")
+#         CGI_DIR      = get_env_var("BOINC_TEST_CGI_DIR")
+#         HTML_DIR     = get_env_var("BOINC_TEST_HTML_DIR")
+#         HOSTS_DIR    = get_env_var("BOINC_TEST_HOSTS_DIR")
+#         CGI_URL      = get_env_var("BOINC_TEST_CGI_URL")
+#         HTML_URL     = get_env_var("BOINC_TEST_HTML_URL")
+#         m = re.compile('http://[^/]+:(\d+)/').match(HTML_URL)
+#         PORT = m and m.group(1) or 80

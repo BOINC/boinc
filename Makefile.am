@@ -13,6 +13,11 @@ EXTRA_DIST =								\
 	stripchart							\
         INSTALL
 
+py html_user html_ops:
+	[ "$srcdir" != . ] && ln -s $srcdir/$@ $@
+
+all-local: html_user html_ops
+
 # the perl line below gets rid of '\r' characters because MSVC barfs at them.
 
 dist-hook:

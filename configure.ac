@@ -49,7 +49,7 @@ AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number]
 AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
 AC_DEFINE_UNQUOTED(HOSTTYPE, "$host", [Host for this compilation])
 
-AC_SUBST(SOURCE_TOP_DIR, `pwd`)
+AC_SUBST(BUILD_TOP_DIR, `pwd`)
 
 AM_MAINTAINER_MODE
 
@@ -129,7 +129,7 @@ AC_SUBST(CLIENT_BIN_FILENAME,[boinc_${MAJOR_VERSION}.${MINOR_VERSION}_$host${EXE
 
 # by default, create static binaries on linux.
 [if [ "$target_os" = "linux-gnu" ]; then
-    STATIC_FLAGS="-static -static-libgcc"
+    STATIC_FLAGS="-static"
 fi
 echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
 AC_SUBST(STATIC_FLAGS)
@@ -144,8 +144,9 @@ AC_CONFIG_FILES([RSAEuro/source/Makefile
                  sched/Makefile
                  tools/Makefile
                  test/Makefile
+                 py/Makefile
                  test/version.inc
-                 test/version.py
+                 py/version.py
                  Makefile
                  ])
 

@@ -6,7 +6,7 @@
 # output is reported correctly Also tests if water levels are working
 # correctly
 
-from boinc import *
+from testbase import *
 
 class UserUC(User):
     def __init__(self):
@@ -55,18 +55,18 @@ class ResultUCError:
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+"""])
 
-class ProjectUC(Project):
+class ProjectUC(TestProject):
     def __init__(self, works=None, users=None, hosts=None,
                  short_name=None, long_name=None,
                  redundancy=2, resource_share=1):
-        Project.__init__(self,
-                         appname = 'upper_case',
-                         works = works or [WorkUC(redundancy=redundancy)],
-                         users = users or [UserUC()],
-                         hosts = hosts,
-                         short_name=short_name, long_name=long_name,
-                         redundancy=redundancy, resource_share=resource_share
-                         )
+        TestProject.__init__(self,
+                             appname = 'upper_case',
+                             works = works or [WorkUC(redundancy=redundancy)],
+                             users = users or [UserUC()],
+                             hosts = hosts,
+                             short_name=short_name, long_name=long_name,
+                             redundancy=redundancy, resource_share=resource_share
+                             )
 
     def check(self, result=ResultUC()):
         '''Check results uploaded correctly'''

@@ -46,6 +46,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BUILD_TOP_DIR = @BUILD_TOP_DIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -88,7 +89,6 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SOURCE_TOP_DIR = @SOURCE_TOP_DIR@
 STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
 VERSION = @VERSION@
@@ -343,7 +343,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/test
+	$(mkinstalldirs) $(distdir)/py $(distdir)/test
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -464,7 +464,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile config.h
+all-am: Makefile config.h all-local
 installdirs: installdirs-recursive
 installdirs-am:
 
@@ -539,10 +539,10 @@ uninstall-am: uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
-.PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am check check-am clean \
-	clean-generic clean-recursive ctags ctags-recursive dist \
-	dist-all dist-gzip dist-zip distcheck distclean \
-	distclean-generic distclean-hdr distclean-recursive \
+.PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am all-local check \
+	check-am clean clean-generic clean-recursive ctags \
+	ctags-recursive dist dist-all dist-gzip dist-zip distcheck \
+	distclean distclean-generic distclean-hdr distclean-recursive \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am dvi-recursive info info-am info-recursive install \
 	install-am install-data install-data-am install-data-recursive \
@@ -556,6 +556,11 @@ uninstall-info: uninstall-info-recursive
 	ps-recursive tags tags-recursive uninstall uninstall-am \
 	uninstall-info-am uninstall-info-recursive uninstall-recursive
 
+
+py html_user html_ops:
+	[ "$srcdir" != . ] && ln -s $srcdir/$@ $@
+
+all-local: html_user html_ops
 
 # the perl line below gets rid of '\r' characters because MSVC barfs at them.
 

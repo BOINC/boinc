@@ -97,8 +97,5 @@ fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 
-stop:
-	ln -s start stop
-
-status:
-	ln -s start status
+$(srcdir)/stop $(srcdir)/status: $(srcdir)/start
+	ln -f -s start $@
