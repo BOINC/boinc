@@ -9,7 +9,7 @@ VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@
 
-CC = @CC@ $(CFLAGS) -I ../RSAEuro/source
+CC = @CC@ $(CFLAGS) -I ../RSAEuro/source -I ../api -I .
 
 CLIBS = @LIBS@
 
@@ -17,6 +17,7 @@ PROGS = md5_test shmem_test crypt_prog
 # PROGS = md5_test shmem_test msg_test synch_test crypt_prog
 
 OBJS = \
+    app_ipc.o \
     countries.o \
     parse.o \
     filesys.o \

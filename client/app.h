@@ -83,12 +83,13 @@ public:
     double max_cpu_time;
     double max_disk_usage;
 
-    APP_CLIENT_SHM *app_client_shm;		// core/app shared mem
-		// info related to app's graphics mode (win, screensaver, etc.)
-	int graphics_requested_mode;		// our last request to this app
-	int graphics_request_time;			// when we sent it
-	int graphics_acked_mode;			// most recent mode reported by app
-	int graphics_mode_before_ss;		// mode before last screensaver request
+    APP_CLIENT_SHM app_client_shm;        // core/app shared mem
+
+    // info related to app's graphics mode (win, screensaver, etc.)
+    int graphics_requested_mode;        // our last request to this app
+    int graphics_request_time;            // when we sent it
+    int graphics_acked_mode;            // most recent mode reported by app
+    int graphics_mode_before_ss;        // mode before last screensaver request
 
     ACTIVE_TASK();
     int init(RESULT*);
@@ -122,11 +123,8 @@ public:
 class ACTIVE_TASK_SET {
 public:
     vector<ACTIVE_TASK*> active_tasks;
-	// The ACTIVE_TASK_SET uses this memory segment to communicate
-	// with the default BOINC screensaver
-    APP_CLIENT_SHM *app_client_shm;
-	int blank_time, blank_screen;
-	int start_screensaver(int,int);
+    int blank_time, blank_screen;
+    int start_screensaver(int,int);
     int insert(ACTIVE_TASK*);
     int remove(ACTIVE_TASK*);
     int wait_for_exit(double);
@@ -140,7 +138,14 @@ public:
     void kill_tasks();
     void check_apps();
     int get_free_slot(int total_slots);
-	void free_mem();
+    void free_mem();
+
+    // screensaver-related functions
+    ACTIVE_TASK* get_graphics_capable_app();
+    ACTIVE_TASK* get_app_requested(int req_mode);
+    void save_app_modes();
+    void hide_apps();
+    void restore_apps();
 
     ACTIVE_TASK_SET();
 

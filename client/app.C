@@ -89,7 +89,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     result = NULL;
     wup = NULL;
     app_version = NULL;
-	app_client_shm = new APP_CLIENT_SHM;
     pid = 0;
     slot = 0;
     state = PROCESS_UNINITIALIZED;
@@ -354,9 +353,10 @@ int ACTIVE_TASK::start(bool first_time) {
     // Set up core/app shared memory seg
     //
     shm_key = aid.shm_key;
-    if (!create_shmem(shm_key, APP_CLIENT_SHMEM_SIZE,
-		(void**)&app_client_shm->shm)) {
-        app_client_shm->reset_msgs();
+    if (!create_shmem(
+        shm_key, APP_CLIENT_SHMEM_SIZE, (void**)&app_client_shm.shm)
+    ) {
+        app_client_shm.reset_msgs();
     }
             
     pid = fork();
@@ -605,11 +605,12 @@ bool ACTIVE_TASK::read_stderr_file() {
     return false;
 }
 
+#if 0
 // Send a message to this active task requesting graphics mode change
 //
 int ACTIVE_TASK::gfx_mode(int mode) {
 	if (mode < 0 || mode > 4) return -1;
-	return app_client_shm->send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
+	return app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
 }
 
 int ACTIVE_TASK_SET::start_screensaver(int use_blank_screen, int time_until_blank) {
@@ -620,6 +621,7 @@ int ACTIVE_TASK_SET::start_screensaver(int use_blank_screen, int time_until_blan
 
 	return 0;
 }
+#endif
 
 // Wait up to wait_time seconds for all processes in this set to exit
 //
@@ -832,21 +834,13 @@ int ACTIVE_TASK::get_cpu_time() {
 //
 bool ACTIVE_TASK::check_app_status() {
 	char msg_buf[SHM_SEG_SIZE];
-    if (app_client_shm == NULL) {
-        fraction_done = 0;
-        get_cpu_time();
-    } else {
-        if (app_client_shm->get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
-            fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
-            
-            parse_double(msg_buf, "<fraction_done>", fraction_done);
-            parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
-            parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-            
-            return false;
-        }
+    if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
+        fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
+        parse_double(msg_buf, "<fraction_done>", fraction_done);
+        parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
+        parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
+        return true;
     }
-    
     return false;
 }
 
@@ -902,8 +896,6 @@ bool ACTIVE_TASK_SET::poll_time() {
         atp = active_tasks[i];
         updated |= atp->check_app_status();
     }
-	if (blank_screen && (time(0) > blank_time))
-		app_client_shm->send_msg(xml_graphics_modes[MODE_BLANKSCREEN], CORE_APP_GFX_SEG);
 
     return updated;
 }
@@ -1036,4 +1028,78 @@ int ACTIVE_TASK_SET::parse(FILE* fin, CLIENT_STATE* cs) {
         }
     }
     return 0;
+}
+
+// return an app with pre-ss mode WINDOW, if there is one
+// else return an app with pre-ss mode HIDE, if there is one
+// else return NULL
+//
+ACTIVE_TASK* ACTIVE_TASK_SET::get_graphics_capable_app() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->graphics_mode_before_ss == MODE_WINDOW) {
+            return atp;
+        }
+    }
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
+            return atp;
+        }
+    }
+    return NULL;
+}
+
+// return an app (if any) with given requested mode
+//
+ACTIVE_TASK* ACTIVE_TASK_SET::get_app_requested(int req_mode) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->graphics_requested_mode == req_mode) {
+            return atp;
+        }
+    }
+    return NULL;
+}
+
+void ACTIVE_TASK_SET::save_app_modes() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        atp->graphics_mode_before_ss = atp->graphics_acked_mode;
+    }
+}
+
+void ACTIVE_TASK_SET::hide_apps() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        atp->app_client_shm.send_graphics_mode_msg(
+            CORE_APP_GFX_SEG, MODE_HIDE_GRAPHICS
+        );
+    }
+}
+
+void ACTIVE_TASK_SET::restore_apps() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->graphics_requested_mode != atp->graphics_mode_before_ss) {
+            atp->app_client_shm.send_graphics_mode_msg(
+                CORE_APP_GFX_SEG, atp->graphics_mode_before_ss
+            );
+        }
+    }
 }

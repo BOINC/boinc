@@ -114,9 +114,6 @@ int parse_fd_init_file(FILE* f) {
     return 0;
 }
 
-
-
-
 bool APP_CLIENT_SHM::pending_msg(int seg_num) {
 	if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
 	return (shm[seg_num*SHM_SEG_SIZE]?true:false);
@@ -124,22 +121,34 @@ bool APP_CLIENT_SHM::pending_msg(int seg_num) {
 
 bool APP_CLIENT_SHM::get_msg(char *msg, int seg_num) {
 	if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
+
 	// Check if there's an available message
+    //
 	if (!shm[seg_num*SHM_SEG_SIZE]) return false;
+
 	// Copy the message from shared memory
+    //
 	strncpy(msg, &shm[(seg_num*SHM_SEG_SIZE)+1], SHM_SEG_SIZE-1);
+
 	// Reset the message status flag
+    //
 	shm[seg_num*SHM_SEG_SIZE] = 0;
 	return true;
 }
 
 bool APP_CLIENT_SHM::send_msg(char *msg,int seg_num) {
 	if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
+
 	// Check if there's already a message
+    //
 	if (shm[seg_num*SHM_SEG_SIZE]) return false;
+
 	// Copy the message into shared memory
+    //
 	strncpy(&shm[(seg_num*SHM_SEG_SIZE)+1], msg, SHM_SEG_SIZE-1);
+
 	// Set the message status flag
+    //
 	shm[seg_num*SHM_SEG_SIZE] = 1;
 	return true;
 }

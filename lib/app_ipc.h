@@ -54,11 +54,12 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 
+// possible graphics modes of an application
+//
 #define MODE_UNSUPPORTED        0
 #define MODE_HIDE_GRAPHICS      1
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
-#define MODE_BLANKSCREEN        4
 
 extern char* xml_graphics_modes[5];
 

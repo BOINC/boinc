@@ -4083,3 +4083,20 @@ Erik  May 6 2003
         file_upload_handler.C
     test/
         test.inc
+
+Erik  May 8 2003
+    - Added a new class SS_LOGIC that encapsulates the core client's
+        screensaver-related logic.
+        It tries to get graphics-capable apps to provide graphics,
+        and if necessary it draws logo-based graphics or blanks the screen.
+    - Changed ACTIVE_TASK.app_client_shm from a pointer to an object.
+        NOTE: AVOID DYNAMIC ALLOCATION WHENEVER POSSIBLE
+
+    client/
+        Makefile.in
+        app.C,h
+        cs_apps.C
+        ss_logic.C,h (new)
+    lib/
+        Makefile.in
+        app_ipc.C,h

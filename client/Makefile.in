@@ -46,6 +46,7 @@ OBJS = \
     scheduler_op.o \
     speed_stats.o \
     time_stats.o \
+    ../lib/app_ipc.o \
     ../lib/filesys.o \
     ../lib/parse.o \
     ../lib/shmem.o \

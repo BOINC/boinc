@@ -110,11 +110,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 	// destroying the shared mem since we're the last one attached
 	//
 #ifdef _WIN32
-    if (at.app_client_shm)
-        detach_shmem(at.shm_handle, at.app_client_shm);
+    if (at.app_client_shm.shm) {
+        detach_shmem(at.shm_handle, at.app_client_shm.shm);
+    }
 #else
-    if (at.app_client_shm)
-        detach_shmem(at.app_client_shm);
+    if (at.app_client_shm.shm) {
+        detach_shmem(at.app_client_shm.shm);
+    }
     destroy_shmem(at.shm_key);
 #endif
     at.result->is_active = false;
