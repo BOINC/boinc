@@ -4,13 +4,14 @@
 
 function team_table_start() {
     echo VISTABLE."
-        <tr><th>Name</th><th>Average credit</th><th>Total credit</th>
+        <tr><th>Name</th><th>Members</th><th>Average credit</th><th>Total credit</th>
         <th>Founded</th></tr>";
 }
 
 function show_team_row($team) {
     echo "<tr>
         <td><a href=team_display.php?id=$team->id>$team->name</a></td>
+        <td>$team->nusers</td>
         <td>$team->expavg_credit</td>
         <td>$team->total_credit</td>
         <td>".time_str($team->create_time)."</td>
@@ -38,13 +39,13 @@ function show_team_row($team) {
 
         $total_credit = $total_credit_sum/$nmembers;
         $expavg_credit = $expavg_credit_sum/$nmembers;
-        $query = "update team set total_credit=$total_credit, expavg_credit=$expavg_credit where id=$team->id";
+        $query = "update team set nusers=$nmembers, total_credit=$total_credit, expavg_credit=$expavg_credit where id=$team->id";
         $result2 = mysql_query($query);
     }
     mysql_free_result($result);
 
     page_head("Top teams");
-    $result = mysql_query("select * from team");
+    $result = mysql_query("select * from team order by expavg_credit desc, total_credit desc");
     team_table_start();
     while ($team = mysql_fetch_object($result)) {
         show_team_row($team);

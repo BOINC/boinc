@@ -16,9 +16,9 @@ function platform_downloads($platform, $core_app) {
         $filename = parse_element($app_version->xml_doc, "<name>");
         if (!$filename) { echo "CAN'T FIND FILENAMEn $app_version->xml_doc\n";}
 	$version = sprintf(
-            "<a href=$download_url/$filename>BOINC core client, <b>version %s.</b></a>", 
+            "<a href=$download_url/$filename>BOINC core client, <b>version %s %.2f</b></a>", 
             $platform->name,
-            $app_version->version_num
+            $app_version->version_num/100
         );
 	echo "<tr><td>$version</td></tr>\n";
     	//$app_version->md5_cksum";
