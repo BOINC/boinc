@@ -2603,3 +2603,10 @@ Seth  Dec 9, 2002
 	- time tests run in their own thread when needed, if they are global state
 	  won't do anything until they are done; threads communicate by a file
 	- windows host info complete except for cache
+
+	client/
+	    client_stat.C,h
+	    file_names.h
+	    hostinfo.C,h
+	client/win/
+	    hostinfo_win.cpp
