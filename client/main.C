@@ -189,7 +189,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 }
 #endif
 
-int main_loop(int argc, char** argv) {
+int boinc_main_loop(int argc, char** argv) {
 	int retval;
     double dt;
 
@@ -302,10 +302,10 @@ int main(int argc, char** argv) {
 				LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
             }
         } else {
-			retval = main_loop(argc, argv);
+			retval = boinc_main_loop(argc, argv);
 		}
     } else {
-		retval = main_loop(argc, argv);
+		retval = boinc_main_loop(argc, argv);
 	}
 
     return retval;

@@ -54,7 +54,6 @@ using namespace std;
 #include "shmem.h"
 #include "util.h"
 #include "filesys.h"
-#include "synch.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
 #include "boinc_api.h"

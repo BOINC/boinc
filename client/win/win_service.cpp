@@ -32,7 +32,7 @@ DWORD                   dwErr = 0;
 TCHAR                   szErr[1024];
 
 // define the execution engine start point
-extern int boinc_execution_engine(int argc, char** argv);
+extern int boinc_main_loop(int argc, char** argv);
 extern void quit_client(int a);
 extern void susp_client(int a);
 extern void resume_client(int a);
@@ -82,7 +82,7 @@ void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
         0))                    // wait hint
         goto cleanup;
 
-    dwErr = boinc_execution_engine(dwArgc, lpszArgv);
+    dwErr = boinc_main_loop(dwArgc, lpszArgv);
 
 cleanup:
 

@@ -11091,3 +11091,13 @@ David  Mar 29 2004
 		filesys.C
 	tools/
 		create_work.C
+
+David  Mar 29 2004
+	- rename main_loop() to boinc_main_loop()
+
+	api/
+		boinc_api.C
+	client/
+		main.C
+		win/
+			win_service.cpp
