@@ -75,78 +75,78 @@ if ($thread->hidden) {
     ";
 
 } else {
-	
-	echo "
-		<form action=\"forum_thread.php\">
-		<input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
-		<table width=\"100%\" cellspacing=0 cellpadding=0>
-		<tr>
-		<td align=\"left\">
-	";
+    
+    echo "
+        <form action=\"forum_thread.php\">
+        <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
+        <table width=\"100%\" cellspacing=0 cellpadding=0>
+        <tr>
+        <td align=\"left\">
+    ";
 
-	$link = "<a href=\"forum_reply.php?thread=" . $thread->id;
-	if ($category->is_helpdesk) {
-		$link = $link . "&helpdesk=1#input\">Answer this question";
-	} else {
-		$link = $link . "#input\">Reply to this thread";
-	}
+    $link = "<a href=\"forum_reply.php?thread=" . $thread->id;
+    if ($category->is_helpdesk) {
+        $link = $link . "&helpdesk=1#input\">Answer this question";
+    } else {
+        $link = $link . "#input\">Reply to this thread";
+    }
 
-	echo $link, "</a><br>";
+    echo $link, "</a><br>";
 
-	if ($is_subscribed) {
-		if ($category->is_helpdesk) {
-			echo "You are subscribed to this question.  ";
-		} else {
-			echo "You are subscribed to this thread.  ";
-		}
-		echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=$thread->id\">Click here to unsubscribe</a>.";
-	} else {
-		if ($category->is_helpdesk) {
-			echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this question</a>";
-		} else {
-			echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this thread</a>";
-		}
-	}
+    if ($is_subscribed) {
+        if ($category->is_helpdesk) {
+            echo "You are subscribed to this question.  ";
+        } else {
+            echo "You are subscribed to this thread.  ";
+        }
+        echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=$thread->id\">Click here to unsubscribe</a>.";
+    } else {
+        if ($category->is_helpdesk) {
+            echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this question</a>";
+        } else {
+            echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this thread</a>";
+        }
+    }
 
-	if (isSpecialUser($logged_in_user,0)){	//If logged in users is moderator
-	    echo "<br><a href=\"forum_moderate_thread.php?action=hide&amp;thread=$thread->id\">Delete this thread</a>";
-	}
+    if (isSpecialUser($logged_in_user,0)){    //If logged in users is moderator
+        echo "<br><a href=\"forum_moderate_thread.php?action=hide&amp;thread=$thread->id\">Delete this thread</a>";
+    }
 
-	echo "</td>";
+    echo "</td>";
 
-	echo "<td align=right style=\"border:0px\">";
-	if ($category->is_helpdesk) {
-		show_select_from_array("sort", $answer_sort_styles, $sort_style);
-	} else {
-		echo "Sort ";
-		show_select_from_array("sort", $thread_sort_styles, $sort_style);
-		//show_select_from_array("filter", $thread_filter_styles, $filter_min);
-	}
-	echo "<input type=submit value=OK>\n</td>";
+    echo "<td align=right style=\"border:0px\">";
+    if ($category->is_helpdesk) {
+        show_select_from_array("sort", $answer_sort_styles, $sort_style);
+    } else {
+        echo "Sort ";
+        show_select_from_array("sort", $thread_sort_styles, $sort_style);
+        //show_select_from_array("filter", $thread_filter_styles, $filter_min);
+    }
+    echo "<input type=submit value=OK>\n</td>";
 
-	echo "</tr>\n</table>\n</form>\n";
+    echo "</tr>\n</table>\n</form>\n";
 
-	if ($category->is_helpdesk) {
-		$headings = array("Author", "Question");
-	} else {
-		$headings = array("Author", "Message");
-	}
+    if ($category->is_helpdesk) {
+        $headings = array("Author", "Question");
+    } else {
+        $headings = array("Author", "Message");
+    }
 
-	start_forum_table($headings);
-	show_posts($thread, $sort_style, $filter, true, true, $category->is_helpdesk);
-	end_forum_table();
+    start_forum_table($headings);
+    show_posts($thread, $sort_style, $filter, true, true, $category->is_helpdesk);
+    end_forum_table();
 
-	echo "<p>";
+    echo "<p>";
 
-	$link = "<a href=\"forum_reply.php?thread=" . $thread->id;
-	if ($category->is_helpdesk) {
-		$link = $link . "&helpdesk=1#input\">Answer this question";
-	} else {
-		$link = $link . "#input\">Reply to this thread";
-	}
+    $link = "<a href=\"forum_reply.php?thread=" . $thread->id;
+    if ($category->is_helpdesk) {
+        $link = $link . "&helpdesk=1#input\">Answer this question";
+    } else {
+        $link = $link . "#input\">Reply to this thread";
+    }
 
-	echo $link, "</a><br>\n</p>";
-	show_forum_title($forum, $thread, $category->is_helpdesk);
+    echo $link, "</a><br>\n</p>";
+    show_forum_title($forum, $thread, $category->is_helpdesk);
 
 }
 

@@ -9,17 +9,23 @@ db_init();
 $logged_in_user = get_logged_in_user(true);
 $logged_in_user = getForumPreferences($logged_in_user);
 
-if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
-    $_GET['id'] = stripslashes(strip_tags($_GET['id']));
+$forumid = get_int("id");
+$forum = getForum($forumid);
+if (!$forum) {
+    error_page("no such forum");
+}
 
-
+$title = post_str("title", true);
+$content = post_str("content", true);
+if ($title && $content) {
     if ($_POST['add_signature']=="add_it") {
-        //$forum_signature = "\n".$logged_in_user->signature;
-	$add_signature=true;
+        $add_signature=true;
     } else {
-	$add_signature=false;
+        $add_signature=false;
     }
-    $threadID = createThread($_GET['id'], $logged_in_user->id, $_POST['title'], $_POST['content'],$add_signature);
+    $threadID = createThread(
+        $forumid, $logged_in_user->id, $title, $content, $add_signature
+    );
     if (!$threadID) {
         page_head("Can't create thread");
         echo "Title is possibly missing";
@@ -29,30 +35,21 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
 
     $thread->id=$threadID;
     setThreadLastVisited($logged_in_user,$thread);
-	header('Location: forum_thread.php?id=' . $threadID);
+    header('Location: forum_thread.php?id=' . $threadID);
 }
 
-if (!empty($_GET['id'])) {
-	$forum = getForum($_GET['id']);
-	$category = getCategory($forum->category);
-} else {
-	echo "Forum ID missing.<br>";
-	exit();
-}
-
-
-// TODO: Write a function to do this.
+$category = getCategory($forum->category);
 
 if ($category->is_helpdesk) {
-	page_head('Help Desk');
+    page_head('Help Desk');
 } else {
-	page_head('Forum');
+    page_head('Forum');
 }
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
 if ($category->is_helpdesk) {
-	echo "<p>The <b>Questions and problems</b> area is designed to help you
+    echo "<p>The <b>Questions and problems</b> area is designed to help you
         get questions answered and problems solved by other users.
         If you have a question or problem:
         <ul>
@@ -71,19 +68,19 @@ if ($category->is_helpdesk) {
     ";
 }
 
-echo "<form action=\"forum_post.php?id=", $_GET['id'], "\" method=POST>";
+echo "<form action=forum_post.php?id=$forumid method=POST>\n";
 
 start_table();
 if ($category->is_helpdesk) {
-	row1("Submit a new question/problem");
+    row1("Submit a new question/problem");
 } else {
-	row1("Create a new thread");
+    row1("Create a new thread");
 }
 
 $x = "Title".html_info();
 
 if ($category->is_helpdesk) {
-	$x .="<br>
+    $x .="<br>
         Describe your question in a few words.
         A brief, clear summary will help others with the same
         question (or an answer) find it.
@@ -95,7 +92,7 @@ row2($x, $y);
 $x = "Message".html_info();
 
 if ($category->is_helpdesk) {
-	$x .= " If you are having software problems,
+    $x .= " If you are having software problems,
         mention the version number of the software,
         your computer type and operating system.
     ";
@@ -103,7 +100,11 @@ if ($category->is_helpdesk) {
     
 
 $y = "<textarea name=content rows=12 cols=54></textarea>";
-if ($logged_in_user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
+if ($logged_in_user->no_signature_by_default==0) {
+    $enable_signature="checked=\"true\"";
+} else {
+    $enable_signature="";
+}
 row2($x, $y);
 row2("", "<input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this post");
 row2("", "<input type=submit value=\"OK\">");

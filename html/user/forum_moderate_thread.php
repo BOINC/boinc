@@ -44,9 +44,9 @@ if ($_GET['action']=="hide") {
     "Select the reason category, optionally write a longer describtion of why you delete the thread and then press ok to delete it.");
     row2("Category",
     "<select name=\"category\">
-	<option value=\"1\">Obscene</option>
-	<option value=\"2\">Flame/Hate mail</option>
-	<option value=\"3\">Commercial spam</option>
+    <option value=\"1\">Obscene</option>
+    <option value=\"2\">Flame/Hate mail</option>
+    <option value=\"3\">Commercial spam</option>
 </select>");
 /*} elseif ($_GET['action']=="move") {
 

@@ -18,29 +18,29 @@ start_forum_table(array("Topic", "# Questions", "Last post"));
 
 $categories = getHelpDeskCategories();
 while ($category = mysql_fetch_object($categories)) {
-	echo "
-	<tr class=subtitle>
-		<td class=category colspan=4>", $category->name, "</td>
-	</tr>
-	";
+    echo "
+    <tr class=subtitle>
+        <td class=category colspan=4>", $category->name, "</td>
+    </tr>
+    ";
 
-	$forums = getForums($category->id);
-	while ($forum = mysql_fetch_object($forums)) {
-		echo "
+    $forums = getForums($category->id);
+    while ($forum = mysql_fetch_object($forums)) {
+        echo "
         <tr class=row1>
-		<td>
-			<b><a href=forum_forum.php?id=$forum->id>$forum->title</a></b>
-			<br>", $forum->description, "
-		</td>
-		<td>", $forum->threads, "</td>
-		<td>", time_diff_str($forum->timestamp, time()), "</td>
-	</tr>
-		";
-	}
+        <td>
+            <b><a href=forum_forum.php?id=$forum->id>$forum->title</a></b>
+            <br>", $forum->description, "
+        </td>
+        <td>", $forum->threads, "</td>
+        <td>", time_diff_str($forum->timestamp, time()), "</td>
+    </tr>
+        ";
+    }
 }
 
 echo "
-	</table>
+    </table>
 </p>
 ";
 

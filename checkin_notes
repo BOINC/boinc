@@ -24688,3 +24688,10 @@ David  13 Feb 2005
             login_action.php
     sched/
         handle_request.C
+
+David  13 Feb 2005
+    - code cleanup in forum code.
+        More validation of GET and POST data
+
+    html/
+        forum*.php

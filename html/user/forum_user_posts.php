@@ -7,35 +7,38 @@ require_once('../inc/user.inc');
 require_once('../inc/db.inc');
 db_init();
 
-$userid = $_GET['userid'];
-$offset = $_GET['offset'];
+$userid = get_int("userid");
+$offset = get_int("offset", true);
 if (!$offset) $offset=0;
-if (!$userid) $userid=-1;
-$hide = 1;
+$hide = true;
 $count = 10;
 
 $user = lookup_user_id($userid);
 $logged_in_user = get_logged_in_user(false);
 
 if( $logged_in_user = get_logged_in_user(false) ) {
-   $logged_in_user = getForumPreferences($logged_in_user);
-  if ( $user->id == $logged_in_user->id ||  isSpecialUser($logged_in_user,0) )  $hide = 0;
+    $logged_in_user = getForumPreferences($logged_in_user);
+    if ($user->id==$logged_in_user->id ||  isSpecialUser($logged_in_user,0)) {
+        $hide = false;
+    }
 }
 page_head("Posts by $user->name");
 
-if( $hide ) {
-  $result = mysql_query("select * from post
-     where user=$userid
-     and   hidden=0
-     order by id desc limit $offset,$count");
+if($hide) {
+    $result = mysql_query("select * from post
+        where user=$userid
+        and   hidden=0
+        order by id desc limit $offset,$count"
+    );
 } else {
-  $result = mysql_query("select * from post
-     where user=$userid
-     order by id desc limit $offset,$count");
+    $result = mysql_query("select * from post
+        where user=$userid
+        order by id desc limit $offset,$count"
+    );
 }
 $n = 0;
 start_table();
-while($post = mysql_fetch_object($result)) {
+while ($post = mysql_fetch_object($result)) {
     show_post2($post, $n+$offset+1);
     $n++;
 }

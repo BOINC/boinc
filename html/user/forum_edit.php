@@ -7,9 +7,13 @@ db_init();
 
 $logged_in_user = get_logged_in_user();
 
+$postid = get_int("id");
+$post = getPost($postid);
+if (!$post) {
+    error_page("No such post");
+}
 
 if ($_POST['submit']) {    
-    $post = getPost(get_int("id"));
     $thread = getThread($post->thread);
 
     if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
@@ -34,7 +38,6 @@ if ($_POST['submit']) {
 
 page_head('Forum');
 
-$post = getPost(get_int("id"));
 $thread = getThread($post->thread);
 $forum = getForum($thread->forum);
 $category = getCategory($forum->category);
