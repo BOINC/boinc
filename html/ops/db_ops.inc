@@ -30,7 +30,7 @@ class SqlQueryString {
     var $table;
     var $query;
     function SqlQueryString($table, $query) { $this->table = $table; $this->query = $query; }
-    function add($clause) { 
+    function add($clause) {
         if (!$this->query) {
             $this->query .= "where $clause";
         } else {
@@ -57,14 +57,14 @@ class SqlQueryString {
             $this->add("$name > $value");
         }
     }
-    
+
     function count() {
         $count_query = "select count(*) as cnt from $this->table $this->query";
         $result = mysql_query($count_query);
         $res = mysql_fetch_object($result);
         return $res->cnt;
     }
-    
+
     function get_select_query($entries_to_show, $start_at) {
         if ($entries_to_show) {
             if ($start_at) {
@@ -81,9 +81,9 @@ class SqlQueryString {
 function build_sql_query($table)
 {
     parse_str(getenv("QUERY_STRING"));
-    
+
     $q = new SqlQueryString($table, $query);
-    
+
     $q->addclause($clauses);
     $q->addeq('id', $id);
     $q->addeq('platformid', $plat_id);
@@ -103,12 +103,12 @@ function build_sql_query($table)
     if (strlen($sort_by)) {
         $q->query .= " order by $sort_by desc";
     }
-    
+
     return $q;
 }
 
 function link_results($n, $mq, $query) {
-    if ($n == '0') { // intentional compare by string 
+    if ($n == '0') { // intentional compare by string
         return "0";
     } else {
         return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=received_time&detail=low>$n</a>";
@@ -120,7 +120,7 @@ function show_result_summary()
     $server_state = array();
     $outcome = array();
     $client_state = array();
-    
+
     for ($ss=1; $ss<6; $ss++) {
         $server_state[$ss] = 0;
     }
@@ -130,7 +130,7 @@ function show_result_summary()
     for ($cs=1; $cs<6; $cs++) {
         $client_state[$cs] = 0;
     }
-    
+
     $q = build_sql_query('result');
     $main_query = $q->get_select_query(0,0);
     $urlquery = urlencode($q->query);
@@ -159,11 +159,11 @@ function show_result_summary()
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
-        row2(result_server_state_string($ss), 
+        row2(result_server_state_string($ss),
              link_results($server_state[$ss],  $urlquery,"result_server_state=$ss"));
     }
     echo "</table></td>";
-    
+
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
@@ -171,16 +171,16 @@ function show_result_summary()
                link_results($outcome[$ro], $urlquery, "result_outcome=$ro"));
     }
     echo "</table></td>";
-    
+
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
-        row2(result_client_state_string($cs), 
+        row2(result_client_state_string($cs),
              link_results($client_state[$cs], $urlquery, "result_client_state=$cs"));
     }
     print "</td></table>";
     print "</table>";
-    
+
 }
 
 function result_server_state_select() {
@@ -452,6 +452,23 @@ function client_version_string($client_version_num) {
     }
 }
 
+function host_user_link($hostid)
+{
+    if (!$hostid) return '----';
+
+    $h = "<a href=db_action.php?table=host&id=$hostid>$hostid</a>";
+    $result = mysql_query("select userid from host where id='$hostid' limit 1");
+    if (!$result) return $h;
+    $host = mysql_fetch_object($result);
+    mysql_free_result($result);
+    if (!$host->userid) return $h;
+    $result = mysql_query("select * from user where id='$host->userid' limit 1");
+    if (!$result) return $h;
+    $user = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return "$h <small>(a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
+}
+
 function outcome_color($s) {
     switch($s) {
     case 1: return '33cc33'; // "Success"
@@ -500,8 +517,7 @@ function result_short_header() {
         <th>WU ID</th>
         <th>server state</th>
         <th>outcome</th>
-        <th>client state</th>
-        <th>host</th>
+        <th>host (user)</th>
         <th>client ver</th>
         <th>received</th>
         </tr>
@@ -510,15 +526,15 @@ function result_short_header() {
 
 function show_result_short($result) {
     $ss = result_server_state_string($result->server_state);
+    $oc = result_outcome_string($result->outcome);
     if ($result->outcome == 3) {
         $cs = result_client_state_string($result->client_state);
-    } else {
-        $cs = '---';
+        $oc = "$oc ($cs)";
     }
-    $oc = result_outcome_string($result->outcome);
     $received = time_str($result->received_time);
     $version = client_version_string($result->client_version_num);
     $outcome_color = outcome_color($result->outcome);
+    $host_user = host_user_link($result->userid);
 
     echo "
         <tr>
@@ -526,18 +542,9 @@ function show_result_short($result) {
         <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
         <td>$ss</td>
         <td bgcolor=$outcome_color>$oc</td>
-        <td>$cs</td>
-    ";
-    if ($result->hostid) {
-        echo "
-            <td><a href=db_action.php?table=host&id=$result->hostid>$result->hostid</a></td>
-        ";
-    } else {
-        echo "<td>---</td>\n";
-    }
-    echo "<td>$version</td>";
-    echo "<td>$received</td>";
-    echo "
+        <td>$host_user</td>
+        <td>$version</td>
+        <td>$received</td>
         </tr>
     ";
 }
