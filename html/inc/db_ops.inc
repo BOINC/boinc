@@ -402,7 +402,8 @@ GROUP BY
         echo "</td>";
 
         echo "<td align=left valign=top>";
-        echo link_results(exit_status_string($res), $urlquery, 'exit_status=$res->exit_status');
+        $exit_status_condition = "exit_status=$res->exit_status";
+        echo link_results(exit_status_string($res), $urlquery, "$exit_status_condition");
         echo "</td>";
 
         echo "<td align=left valign=top>";
