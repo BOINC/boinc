@@ -275,7 +275,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		// to completion
 		double tocomp;
 		if(!at || at->fraction_done == 0) {
-			tocomp = re->wup->seconds_to_complete;
+			tocomp = gstate.estimate_cpu_time(*re->wup);
 		} else {
 			tocomp = at->est_time_to_completion();
 		}
