@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
     }
 #endif
     if (argc < 2) {
-        fprintf(stderr, "usage\n");
+        fprintf(stderr, "usage: [-state] [-suspend] [-resume] [-show_graphics_window result_name] [-show_graphics_window] [-show_graphics_full result_name]\n");
         exit(1);
     }
     i = 1;
