@@ -42,6 +42,7 @@ alter table result
     add index ind_res_st (server_state, random),
     add index res_filedel (file_delete_state),
     add index res_hostid (hostid),
+    add index res_wu_user (workunitid, userid),
     add index received_time (received_time);
 
 alter table host

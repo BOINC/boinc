@@ -346,11 +346,12 @@ struct RESULT {
     int server_state;               // see above
     int outcome;                    // see above; defined if server state OVER
     int client_state;               // phase that client contacted us in.
-                                    // iff it is UPLOADED then outcome is success.
+                                    // if UPLOADED then outcome is success.
                                     // error details are in stderr_out.
                                     // The values for this field are defined
                                     // in lib/result_state.h
     int hostid;                     // host processing this result
+    int userid;                     // user processing this result
     int report_deadline;            // deadline for receiving result
     int sent_time;                  // when result was sent to host
     int received_time;              // when result was received from host

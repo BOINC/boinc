@@ -674,10 +674,11 @@ static void scan_work_array(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    int i, retval;
+    int i, retval, n;
     WORKUNIT wu;
     DB_RESULT result;
     double wu_seconds_filled;
+    char buf[256];
 
     for (i=0; i<ss.nwu_results && seconds_to_fill>0; i++) {
         WU_RESULT& wu_result = ss.wu_results[i];
@@ -698,8 +699,32 @@ static void scan_work_array(
             continue;
         }
 
+        // don't send if we've already a result of this WU to this user
+        //
+        sprintf(buf,
+            "where workunitid=%d and userid=%d",
+            wu_result.workunit.id, reply.user.id
+        );
+        retval = result.count(n, buf);
+        if (retval) {
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "send_work: can't get result count (%d)\n", retval
+            );
+            continue;
+        } else {
+            if (n>0) {
+                log_messages.printf(
+                    SchedMessages::NORMAL,
+                    "send_work: user %d already has %d result for WU %d\n",
+                    reply.user.id, n, wu_result.workunit.id
+                );
+            }
+        }
+        
+        // don't sent if host can't handle it
+        //
         wu = wu_result.workunit;
-
         if (!wu_is_feasible(wu, reply.host)) {
             log_messages.printf(
                 SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
@@ -736,6 +761,7 @@ static void scan_work_array(
         //
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
         result.hostid = reply.host.id;
+        result.userid = reply.user.id;
         result.sent_time = time(0);
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.update();

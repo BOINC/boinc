@@ -181,6 +181,7 @@ create table result (
     outcome             integer     not null,
     client_state        integer     not null,
     hostid              integer     not null,
+    userid              integer     not null,
     report_deadline     integer     not null,
     sent_time           integer     not null,
     received_time       integer     not null,

@@ -444,7 +444,8 @@ void DB_RESULT::db_print(char* buf){
         buf,
         "id=%d, create_time=%d, workunitid=%d, "
         "server_state=%d, outcome=%d, client_state=%d, "
-        "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
+        "hostid=%d, userid=%d, "
+        "report_deadline=%d, sent_time=%d, received_time=%d, "
         "name='%s', cpu_time=%.15e, "
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
@@ -452,7 +453,8 @@ void DB_RESULT::db_print(char* buf){
         "client_version_num=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,
-        hostid, report_deadline, sent_time, received_time,
+        hostid, userid,
+        report_deadline, sent_time, received_time,
         name, cpu_time,
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
@@ -472,6 +474,7 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     outcome = atoi(r[i++]);
     client_state = atoi(r[i++]);
     hostid = atoi(r[i++]);
+    userid = atoi(r[i++]);
     report_deadline = atoi(r[i++]);
     sent_time = atoi(r[i++]);
     received_time = atoi(r[i++]);

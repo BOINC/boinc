@@ -6826,3 +6826,14 @@ David  15 Oct 2003
         graphics.php
     lib/
         error_numbers.h
+
+David  16 Oct 2003
+    - add "userid" to result table
+    - send at most one result per WU per user
+
+    db/
+        boinc_db.C,h
+        schema.sql
+        constraints.sql
+    sched/
+        handle_request.C
