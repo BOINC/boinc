@@ -37,6 +37,7 @@
 #include "client_types.h"
 #include "log_flags.h"
 #include "client_state.h"
+#include "filesys.h"
 #include "error_numbers.h"
 
 // Decide whether to consider starting a new file transfer
@@ -46,6 +47,20 @@ bool CLIENT_STATE::start_new_file_xfer() {
     return true;
 }
 
+void CLIENT_STATE::trunc_stderr_stdout() {
+    double f_size;
+
+    // If the stderr.txt or stdout.txt files are too big, reset them
+    // TODO: should we tell the user we're resetting these?
+    file_size(STDERR_FILE_NAME, f_size);
+    if (f_size > MAX_STDERR_FILE_SIZE) {
+        freopen(STDERR_FILE_NAME, "w", stderr);
+    }
+    file_size(STDOUT_FILE_NAME, f_size);
+    if (f_size > MAX_STDOUT_FILE_SIZE) {
+        freopen(STDOUT_FILE_NAME, "w", stderr);
+    }
+}
 
 // Make a directory for each of the projects in the client state
 //

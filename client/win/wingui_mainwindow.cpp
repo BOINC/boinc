@@ -1643,6 +1643,8 @@ void CMainWindow::OnTimer(UINT uEventID)
 			UpdateGUI(&gstate);
 		}
 
+		gstate.trunc_stderr_stdout();
+
 		// Start the timer again
 		m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
 	}

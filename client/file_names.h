@@ -39,6 +39,9 @@ extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(char*);
 extern void escape_project_url(char *in, char* out);
 
+#define MAX_STDERR_FILE_SIZE        1024*1024
+#define MAX_STDOUT_FILE_SIZE        1024*1024
+
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
 #define STATE_FILE_TEMP             "state_file_temp.xml"

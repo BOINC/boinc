@@ -86,6 +86,7 @@ public:
 #endif
     unsigned int cpu_benchmarks_start;
     int check_cpu_benchmarks();
+    void trunc_stderr_stdout();
     int project_disk_usage(PROJECT*, double&);
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
