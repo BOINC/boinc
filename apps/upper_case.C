@@ -146,8 +146,10 @@ int main(int argc, char **argv) {
     retval = boinc_init();
     if (retval) exit(retval);
 
+#ifdef BOINC_APP_GRAPHICS
     retval = boinc_init_opengl();
     if (retval) exit(retval);
+#endif
 
     boinc_get_init_data(uc_aid);
     // fprintf(stderr,
@@ -236,7 +238,9 @@ int main(int argc, char **argv) {
     time_file.flush();
     time_file.close();
 
+#ifdef BOINC_APP_GRAPHICS
     boinc_finish_opengl();
+#endif
     boinc_finish(0);
 
     return 0;

@@ -4930,3 +4930,10 @@ Karl    2003/06/20
         shmem.C
     test/
         boinc.py
+
+Karl    2003/06/20
+    - remove OpenGL(U) dependency on unix test apps
+
+    apps/
+        Makefile.am
+        upper_case.C
