@@ -29,7 +29,7 @@ while ($wu = mysql_fetch_object($result)) {
     mysql_free_result($r2);
     $nunsent = $x[0];
 
-    if ($nsuccess==3 and $nunsent==0) {
+    if ($nsuccess>=3 and $nunsent==0) {
         echo "WU $wu->id has $nsuccess success, $nunsent unsent \n";
         mysql_query("update workunit set need_validate=1 where id=$wu->id");
     }

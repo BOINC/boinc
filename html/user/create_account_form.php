@@ -17,13 +17,12 @@ if (parse_bool($config, "disable_account_creation")) {
     page_tail();
     exit();
 }
+echo "<p><b>";
+printf(tr(CREATE_AC_READ_RULES), "<a href=info.php>".tr(RULES_TITLE)."</a>");
+echo "</b></p> <p>";
+printf(tr(CREATE_AC_ALREADY_GOT), "<a href=account_created.php>".tr(AC_CREATED_TITLE)."</a>");
 echo "
-
-    <p><b>"; printf(tr(CREATE_AC_READ_RULES), "<a href=info.php>".tr(RULES_TITLE)."</a>");echo "</b></p>
-
-    <p>"; printf(tr(CREATE_AC_ALREADY_GOT), "<a href=account_created.php>".tr(AC_CREATED_TITLE)."</a>"); echo "
     </p>
-
     <form action=create_account_action.php method=post>
 ";
 $teamid = get_int("teamid", true);
@@ -34,10 +33,8 @@ if ($teamid) {
         echo "No such user";
     } else {
         echo "<b>";
-	printf(tr(CREATE_AC_TEAM), "<a href=\"show_team.php?teamid=$team->id\">$team->name</a>");
-	echo "</b>
-            <p>
-        ";
+        printf(tr(CREATE_AC_TEAM), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>");
+        echo "</b> <p> ";
         echo "
             <input type=hidden name=teamid value=$teamid>
         ";
