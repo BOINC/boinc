@@ -733,12 +733,15 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 msg_printf(project, MSG_ERROR, "handle_trickle_down failed: %d\n", retval);
             }
             continue;
-        } else if (parse_int(buf, "<non_cpu_intensive>", x)) {
-            project->non_cpu_intensive = (!x);
+        } else if (match_tag(buf, "<non_cpu_intensive/>")) {
+            project->non_cpu_intensive = true;
             continue;
-		} else if (match_tag(buf, "<request_file_list/>")) {
-			send_file_list = true;
-		} else if (strlen(buf)>1){
+        } else if (parse_int(buf, "<non_cpu_intensive>", x)) {
+            project->non_cpu_intensive = x;
+            continue;
+        } else if (match_tag(buf, "<request_file_list/>")) {
+            send_file_list = true;
+        } else if (strlen(buf)>1){
             scope_messages.printf("SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
     }

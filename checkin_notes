@@ -19998,3 +19998,10 @@ David  22 Nov 2004
     tools/
         backend_lib.C
         create_work.C
+
+Karl 2004-11-22
+    - changed parsing for <non_cpu_intensive> to accept <non_cpu_intensive/>
+      or <non_cpu_intensive>1</non_cpu_intensive>
+
+    client/
+        scheduler_op.C
