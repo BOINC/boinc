@@ -646,7 +646,6 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     int                 x;
     char                query[MAX_QUERY_LEN];
     char                priority[256];
-    char                mod[256];
     MYSQL_ROW           row;
     TRANSITIONER_ITEM   new_item;
 
