@@ -2073,3 +2073,7 @@ David   Oct 3 2002
         backend_lib.C,h
         create_work.C
         process_result_template.C
+
+David   Oct 3 2002
+    - updated test scripts to use new framework
+    - got rid of some obsolete scripts

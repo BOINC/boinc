@@ -1,5 +1,8 @@
 #! /usr/local/bin/php
 <?php
+    // This tests whether the most basic mechanisms are working
+    // Also whether stderr output is reported correctly
+
     include_once("test.inc");
 
     $project = new Project;

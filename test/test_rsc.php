@@ -1,35 +1,40 @@
 #! /usr/local/bin/php
 <?php
-    // test to make sure the scheduling server does not send back an unfeasible work unit using upper_case.
-    //
-    // You must have done "make" in all source directories
+    // test whether the scheduling server filters out
+    // work units too big for client
 
-    include_once("init.inc");
+    include_once("test.inc");
 
-    check_env_vars();
-    clear_db();
-    clear_data_dirs();
-    create_keys();
-    init_client_dirs("prefs3.xml");
-    copy_to_download_dir("input");
-    add_platform(null);
-    add_user("prefs.xml");
-    add_app("upper_case", null, null);
-    create_work("-appname upper_case -rsc_iops 180000000000.0 -rsc_fpops 0.0 -rsc_memory 1000000000000.2 -rsc_disk 1000000000000.2 -wu_name uc_wu -wu_template uc_wu -result_template uc_result -nresults 1 input");
-    start_feeder();
+    $project = new Project;
+    $user = new User();
+    $host = new Host($user);
+    $app = new App("upper_case");
+    $app_version = new App_Version($app);
 
-    //run_client("-exit_after 10");
-    printf("running client\n");
-    run_client("-exit_when_idle > client_stdout");
-    stop_feeder();
+    $project->add_user($user);
+    $project->add_app($app);
+    $project->add_app_version($app_version);
+    $project->install();      // must install projects before adding to hosts
 
-    PassThru("grep -c \"<scheduler_reply>\" client_stdout > tr_results", $retval);
-    if($retval) printf("test_rsc did not run correctly\n");
-    $f = fopen("tr_results", "r");
-    fscanf($f, "%d", $value);
-    if($value!=1) printf("test_rsc did not run correctly\n");
-    else printf("test_rsc ran correctly\n");
-    
-    PassThru("rm -f tr_results client_stdout");
-    
+    $host->log_flags = "log_flags.xml";
+    $host->add_project($project);
+    $host->install();
+
+    echo "adding work\n";
+
+    $work = new Work($app);
+    $work->wu_template = "uc_wu";
+    $work->result_template = "uc_result";
+    $work->nresults = 1;
+    $work->rsc_disk = 1000000000000;    // 1 TB
+    array_push($work->input_files, "input");
+    $work->install($project);
+
+    $project->start();
+    $host->run("-exit_when_idle");
+    $project->stop();
+
+    $x = $project->num_results_done();
+    if ($x != 0) echo "Test failed\n";
+    if ($x == 0) echo "Test succeeded\n";
 ?>

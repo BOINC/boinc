@@ -1,8 +1,9 @@
 #! /usr/local/bin/php
 <?php
-    // test the 1sec application
-    // This tests whether CPU time is divided correctly between projects
-    // TODO: make this test what it's supposed to test
+    // This tests whether the client handles multiple projects,
+    // and whether CPU time is divided correctly between projects
+    // The client should do work for project 2 5 times faster
+    // than for project 1
 
     include_once("test.inc");
 
@@ -13,11 +14,13 @@
     $app = new App("upper_case");
     $app_version = new App_Version($app);
 
+    $project1->resource_share = 1;
     $project1->add_user($user);
     $project1->add_app($app);
     $project1->add_app_version($app_version);
     $project1->install();      // must install projects before adding to hosts
 
+    $project2->resource_share = 5;
     $project2->add_user($user);
     $project2->add_app($app);
     $project2->add_app_version($app_version);

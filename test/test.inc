@@ -221,6 +221,12 @@ class Project {
         PassThru("ln -s $this->project_dir/cgi $cgi_dir/$this->name");
         PassThru("rm -f $html_dir/$this->name");
         PassThru("ln -s $this->project_dir $html_dir/$this->name");
+
+        // show the URLs for user and admin sites
+        //
+        echo "The master URL for project $this->name is $this->master_url\n;
+        $admin_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_ops/index.html";
+        echo "The admin URL for project $this->name is $admin_url\n";
     }
 
     function start(){
@@ -239,6 +245,12 @@ class Project {
         while ($x = mysql_fetch_object($result)) {
             echo "result $x->id is not done\n";
         }
+    }
+
+    function num_results_done() {
+        db_open($this->db_name);
+        $result = mysql_query("select count(*) from result where state=4");
+        return mysql_fetch_object($result);
     }
 
     function compare_file($result, $correct) {
@@ -327,6 +339,18 @@ class Host {
         $platform = get_env_var("BOINC_PLATFORM");
         PassThru("cd $this->host_dir; $source_dir/client/boinc_1_$platform $args");
     }
+
+    // read a CPU time file written by the client.
+    // This is sort of a kludge.
+    //
+    function read_cpu_time_file($file_name) {
+        $time_file = fopen($this->host_dir/$file_name, "r");
+        if($time_file == NULL) return 0;
+        fscanf($time_file, "%f", $app_time);
+        fclose($f);
+        return $app_time;
+    }
+
 }
 
 class Work {
@@ -335,10 +359,16 @@ class Work {
     var $result_template;
     var $nresults;
     var $input_files;
+    var $rsc_iops;
+    var $rsc_fpops;
+    var $rsc_disk;
 
     function Work($app) {
         $this->app = $app;
         $this->input_files = array();
+        $this->rcs_iops = 180000000000;
+        $this->rcs_fpops = 100000000000;
+        $this->rcs_disk = 1000000;
     }
 
     function install($project) {
@@ -347,7 +377,7 @@ class Work {
             $x = $this->input_files[$i];
             PassThru("cp $x $project->project_dir/download");
         }
-        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops 180000000000.0 -rsc_fpops 0.0 -wu_name $this->wu_template -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults ";
+        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_name $this->wu_template -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults ";
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];
             $cmd = $cmd." ".$x;

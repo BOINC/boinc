@@ -1,30 +1,47 @@
 #! /usr/local/bin/php
 <?php
-    // test the sticky file capability using the upper_case application
-    //
-    // You must have done "make" in all source directories
+    // test the sticky file mechanism
 
-    include_once("init.inc");
+    include_once("test.inc");
 
-    check_env_vars();
-    clear_db();
-    clear_data_dirs();
-    create_keys();
-    init_client_dirs("prefs1.xml");
-    copy_to_download_dir("input");
-    add_platform(null);
-    add_user("prefs.xml");
-    add_app("upper_case", null, null);
-    create_work("-appname upper_case -rsc_iops 180000000000.0 -rsc_fpops 0.0 -wu_name uc_wu -wu_template uc_wu_sticky -result_template uc_result_sticky -nresults 2 input input");
-    start_feeder();
-    //run_client("-exit_after 10");
-    run_client("-exit_when_idle");
-    stop_feeder();
-    check_results_done();
-    compare_file("uc_wu_0_0", "uc_correct_output");
-    compare_file("uc_wu_1_0", "uc_correct_output");
-    $f = fopen(urlencode(stripslashes($BOINC_MASTER_URL))."/uc_wu_0_0", "r");
-    $g = fopen(urlencode(stripslashes($BOINC_MASTER_URL))."/uc_wu_1_0", "r");
-    if (!$f || !$g) printf("sticky files did not work\n");
-    else printf("sticky files worked\n");
+    $project = new Project;
+    $user = new User();
+    $host = new Host($user);
+    $app = new App("upper_case");
+    $app_version = new App_Version($app);
+
+    $project->add_user($user);
+    $project->add_app($app);
+    $project->add_app_version($app_version);
+    $project->install();      // must install projects before adding to hosts
+
+    $host->log_flags = "log_flags.xml";
+    $host->add_project($project);
+    $host->install();
+
+    echo "adding work\n";
+
+    $work = new Work($app);
+    $work->wu_template = "uc_wu_sticky";
+    $work->result_template = "uc_result_sticky";
+    $work->nresults = 2;
+    array_push($work->input_files, "input");
+    $work->install($project);
+
+    $project->start();
+    $host->run("-exit_when_idle");
+    $project->stop();
+
+    $project->check_results_done();
+    $project->compare_file("uc_wu_0_0", "uc_correct_output");
+    $project->compare_file("uc_wu_1_0", "uc_correct_output");
+
+    // make sure result files are still there
+    if (!$host->file_present($project, "uc_wu_0_0")) {
+        echo "test failed\n";
+    }
+    if (!$host->file_present($project, "uc_wu_1_0")) {
+        echo "test failed\n";
+    }
+
 ?>

@@ -1,29 +1,48 @@
 #! /usr/local/bin/php
 <?php
-    // test the time reporting mechanism in the client
-    //
-    // You must have done "make" in all source directories
+    // test whether CPU time is computed correctly across restarts
 
-    include_once("init.inc");
+    include_once("test.inc");
 
+    $project = new Project;
+    $user = new User();
+    $host = new Host($user);
+    $app = new App("uc_cpu");
+    $app_version = new App_Version($app);
+
+    $project->add_user($user);
+    $project->add_app($app);
+    $project->add_app_version($app_version);
+    $project->install();      // must install projects before adding to hosts
+
+    $host->log_flags = "log_flags.xml";
+    $host->add_project($project);
+    $host->install();
+
+    echo "adding work\n";
+
+    $work = new Work($app);
+    $work->wu_template = "uccpu_wu";
+    $work->result_template = "uccpu_result";
+    $work->nresults = 1;
+    array_push($work->input_files, "small_input");
+    $work->install($project);
+
+    $project->start();
     $app_time = 0;
-    check_env_vars();
-    clear_db();
-    clear_data_dirs();
-    create_keys();
-    init_client_dirs("prefs1.xml");
-    copy_to_download_dir("small_input");
-    add_platform(null);
-    add_core_client(null);
-    add_user("prefs.xml");
-    add_app("uc_cpu", null, null);
-    create_work("-appname uc_cpu -rsc_fpops 4500000000.0 -rsc_iops 500000000.0 -wu_name uccpu_wu -wu_template uccpu_wu -result_template uccpu_result -nresults 1 small_input");
-    start_feeder();
-    run_client("-exit_after 400");
-    $app_time += get_time("app.time");
-    PassThru("cp client_state.xml client_state.xml.one");
-    run_client("-exit_when_idle");
-    $app_time += get_time("app.time");
-    compare_file("uccpu_wu_0_0", "uc_small_correct_output");
-    compare_time($app_time);
+    $host->run("-exit_after 400");
+    $app_time += $host->read_cpu_time_file("app.time");
+    $host->run("-exit_when_idle");
+    $project->stop();
+
+    $project->check_results_done();
+    $project->compare_file("uccpu_wu_0_0", "uc_small_correct_output");
+    $client_time = $host->read_cpu_time_file("client_time");
+    $x = mysql_query("select cpu_time from result where name='uccpu_wu_0'");
+    $result = mysql_fetch_object($x);
+    $db_time = $result->cpu_time;
+
+    if (abs($app_time-$client_time) > .01) echo "time mismatch\n";
+    if (abs($app_time-$db_time) > .01) echo "time mismatch\n";
+
 ?>

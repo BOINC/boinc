@@ -6,9 +6,6 @@
     PassThru("test_api.php", $retval);
     if($retval) printf("test_api.php did not run correctly\n");
 
-    //PassThru("test_dynamic.php", $retval);
-    //if($retval) printf("test_dynamic.php did not run correctly\n");
-
     //PassThru("test_projects.php", $retval);
     //if($retval) printf("test_projects.php did not run correctly\n");
 

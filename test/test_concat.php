@@ -1,7 +1,7 @@
 #! /usr/local/bin/php
 <?php
-    // test the concat application
-    //
+    // tests whether command-line arg passing works
+
     include_once("test.inc");
 
     $project = new Project;

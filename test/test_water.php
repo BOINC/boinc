@@ -2,8 +2,6 @@
 <?php
     //make sure that the scheduler sends the correct number of wu's in test_uc
 
-    include_once("init.inc");
-
     PassThru("test_uc.php | grep -c '<scheduler_request>' > tw_results", 
         $retval
     );

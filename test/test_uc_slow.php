@@ -1,30 +1,35 @@
 #! /usr/local/bin/php
+
 <?php
     // test the client checkpoint/restart mechanism,
-    // using the uc_slow application
-    //
 
-    include_once("init.inc");
+    include_once("test.inc");
 
-    check_env_vars();
-    clear_db();
-    if (true) {
-        clear_server_dirs(false);
-    } else {
-        clear_server_dirs(true);
-        create_keys();
-    }
-    clear_client_dirs();
-    init_client_dirs("prefs1.xml");
-    copy_to_download_dir("small_input");
-    add_project("Test Project");
-    add_platform(null);
-    add_user("prefs.xml");
-    add_app("upper_case", null, null);
-    add_core_client(null);
-    create_work("-appname upper_case -wu_name ucs_wu -wu_template ucs_wu -result_template ucs_result -nresults 1 small_input");
-    echo "Now run the client manually; start and stop it a few times.\n";
-    start_feeder();
-    //run_client();
+    $project = new Project;
+    $user = new User();
+    $host = new Host($user);
+    $app = new App("upper_case");
+    $app_version = new App_Version($app);
+
+    $project->add_user($user);
+    $project->add_app($app);
+    $project->add_app_version($app_version);
+    $project->install();      // must install projects before adding to hosts
+
+    $host->log_flags = "log_flags.xml";
+    $host->add_project($project);
+    $host->install();
+
+    echo "adding work\n";
+
+    $work = new Work($app);
+    $work->wu_template = "ucs_wu";
+    $work->result_template = "ucs_result";
+    $work->nresults = 1;
+    array_push($work->input_files, "small_input");
+    $work->install($project);
+
+    $project->start();
+    echo "Now run the client manually; start and stop it a few times\n";
     //compare_file("ucs_wu_0_0", "uc_small_correct_output");
 ?>
