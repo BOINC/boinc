@@ -93,4 +93,12 @@ function lookup_app($id) {
     return null;
 }
 
+// escape a string for MySQL "like"
+//
+function escape_pattern($str) {
+    $str = str_replace('_', '\\\\_', $str);
+    $str = str_replace('%', '\\\\%', $str);
+    return $str;
+}
+
 ?>

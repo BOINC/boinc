@@ -8,9 +8,8 @@
     init_session();
 
     $team_name = $_GET["team_name"];
-    $words = preg_split("/[\s,]+/", $team_name);
-    $length = count($words);
     $name_lc = strtolower($team_name);
+    $name_lc = escape_pattern($name_lc);
      
     $query = "select * from team where name like '$name_lc%'";
     $result_list = mysql_query($query);

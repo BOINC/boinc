@@ -15984,3 +15984,19 @@ David  6 Aug 2004
         create_work.C
         dir_hier_move.C
         dir_hier_path.C
+
+David  6 Aug 2004
+    - In the web "get password" function,
+        look for not just the email addr but also
+        any munged versions of the email addr.
+        So people won't see "no such account" and create a new one.
+        (from Carl Christensen)
+    - Add escape_pattern() function for escaping "like" patterns;
+        use this in team lookup also
+
+    html/
+        inc/
+            db.inc
+        user/
+            mail_passwd.php
+            team_lookup.php
