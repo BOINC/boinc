@@ -13,9 +13,7 @@ echo "
     You will receive an email containing
     your <b>account ID</b> (a long random string).
     Save this email.
-    <li> <b>Download and install BOINC.</b>
-    Download BOINC for your type of computer,
-    install it, and run it.
+    <li> <b><a href=download.php>Download</a> and install BOINC.</b>
     You will be asked to enter the project's URL and your account ID.
     </ul>
     That's it!

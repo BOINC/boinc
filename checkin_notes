@@ -19428,3 +19428,16 @@ David  14 Nov 2004
             util.inc
         user/
             login_action.php
+
+David  14 Nov 2004
+    - Fix for a validator bug pointed out by Bruce Allen:
+        After a call to check_set(),
+        update results whose outcome was changed to VALIDATE_ERROR
+        or whose validate_state was set to VALID or INVALID,
+        whether or not a canonical result was found.
+    - Add stack-trace code to Unix signal handler
+
+    lib/
+        diagnostics.C
+    sched/
+        validator.C

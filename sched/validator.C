@@ -184,13 +184,13 @@ void handle_wu(
                 canonical_result_index = i; 
             }
         }
-        if (canonical_result_index == (-1)) {
+        if (canonical_result_index == -1) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
-                "[WU#%d %s] Can't find canonical result %d; exiting\n",
+                "[WU#%d %s] Can't find canonical result %d\n",
                 wu.id, wu.name, wu.canonical_resultid
             );
-            exit(1);
+            return;
         }
 
         RESULT& canonical_result = items[canonical_result_index].res;
@@ -207,11 +207,7 @@ void handle_wu(
                 continue;
             }
 
-            need_immediate_transition = true;
-            
-            retval = check_pair(
-                result, canonical_result, retry
-            );
+            retval = check_pair(result, canonical_result, retry);
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
@@ -223,11 +219,14 @@ void handle_wu(
             if (retry) need_delayed_transition = true;
             update_result = false;
 
-            // if result had nonrecoverable error, make sure it gets updated
-            //
             if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
                 update_result = true;
             }
+
+            // ?? do we need this here?
+            //
+            need_immediate_transition = true;
+
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
@@ -255,7 +254,7 @@ void handle_wu(
                 );
             }
             if (update_result) {
-                    log_messages.printf(
+                log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
                     "[RESULT#%d %s] granted_credit %f\n", 
                     result.id, result.name, result.granted_credit
@@ -284,17 +283,18 @@ void handle_wu(
         );
         ++log_messages;
 
+        // make a vector of only successful, unvalidated results
+        //
         for (i=0; i<items.size(); i++) {
             RESULT& result = items[i].res;
 
-            if (!((result.validate_state == VALIDATE_STATE_INIT) &&
+            if ((result.validate_state == VALIDATE_STATE_INIT) &&
                 (result.server_state == RESULT_SERVER_STATE_OVER) &&
-                (result.outcome == RESULT_OUTCOME_SUCCESS))
+                (result.outcome == RESULT_OUTCOME_SUCCESS)
             ) {
-                continue;
+                results.push_back(result);
             }
 
-            results.push_back(result);
         }
 
         log_messages.printf(
@@ -319,12 +319,40 @@ void handle_wu(
             }
             if (retry) need_delayed_transition = true;
 
-            // See if any results had nonrecoverable errors
+            // update results as needed
             //
             for (i=0; i<results.size(); i++) {
+                update_result = false;
                 RESULT& result = results[i];
                 if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
                     need_immediate_transition = true;
+                    update_result = true;
+                }
+
+                // grant credit for valid results
+                //
+                if (result.validate_state == VALIDATE_STATE_VALID) {
+                    update_result = true;
+                    retval = grant_credit(result, credit);
+                    if (retval) {
+                        log_messages.printf(
+                            SCHED_MSG_LOG::DEBUG,
+                            "[RESULT#%d %s] grant_credit() failed: %d\n",
+                            result.id, result.name, retval
+                        );
+                    }
+                    result.granted_credit = credit;
+                    log_messages.printf(
+                        SCHED_MSG_LOG::NORMAL,
+                        "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
+                        result.id, result.name, result.granted_credit, result.hostid
+                    );
+                }
+                if (result.validate_state == VALIDATE_STATE_INVALID) {
+                        update_result = true;
+                }
+
+                if (update_result) {
                     retval = validator.update_result(result);
                     if (retval) {
                         log_messages.printf(
@@ -335,6 +363,7 @@ void handle_wu(
                     }
                 }
             }
+
             if (canonicalid) {
                 need_immediate_transition = true;
                 log_messages.printf(
@@ -345,55 +374,13 @@ void handle_wu(
                 wu.canonical_resultid = canonicalid;
                 wu.canonical_credit = credit;
                 wu.assimilate_state = ASSIMILATE_READY;
-                for (i=0; i<results.size(); i++) {
-                    RESULT& result = results[i];
-
-                    // skip results that had file-read errors
-                    //
-                    if (result.outcome != RESULT_OUTCOME_SUCCESS) continue;
-                    if (result.validate_state == VALIDATE_STATE_INIT) continue;
-
-                    // grant credit for valid results
-                    //
-                    if (result.validate_state == VALIDATE_STATE_VALID) {
-                        retval = grant_credit(result, credit);
-                        if (retval) {
-                            log_messages.printf(
-                                SCHED_MSG_LOG::DEBUG,
-                                "[RESULT#%d %s] grant_credit() failed: %d\n",
-                                result.id, result.name, retval
-                            );
-                        }
-                        result.granted_credit = credit;
-                        log_messages.printf(
-                            SCHED_MSG_LOG::NORMAL,
-                            "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
-                            result.id, result.name, result.granted_credit, result.hostid
-                        );
-                    }
-
-                    log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
-                        "[RESULT#%d %s] granted_credit %f\n",
-                        result.id, result.name, result.granted_credit
-                    );
-
-                    retval = validator.update_result(result);
-                    if (retval) {
-                        log_messages.printf(
-                            SCHED_MSG_LOG::CRITICAL,
-                            "[RESULT#%d %s] result.update() failed: %d\n",
-                            result.id, result.name, retval
-                        );
-                    }
-                }
 
                 // If found a canonical result, don't send any unsent results
                 //
                 for (i=0; i<items.size(); i++) {
                     RESULT& result = items[i].res;
 
-                    if (!(result.server_state == RESULT_SERVER_STATE_UNSENT)) {
+                    if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
                         continue;
                     }
 

@@ -23,6 +23,9 @@
 // Contributor(s):
 //
 
+// Stuff related to stderr/stdout direction and exception handling;
+// used by both core client and by apps
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -512,6 +515,16 @@ void boinc_catch_signal(int signal) {
             return;
         default: fprintf(stderr, "unknown signal %d", signal); break;
     }
+
+#ifdef __GLIBC__
+#include <execinfo.h>
+    void *array[64];
+    size_t size;
+    size = backtrace (array, 64);
+    fprintf(stderr, "Stack trace ($d frames):\n", size);
+    backtrace_symbols_fd(array, size, fileno(stderr));
+#endif
+
     fprintf(stderr, "\nExiting...\n");
     exit(ERR_SIGNAL_CATCH);
 }

@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Compiling BOINC software yourself");
+page_head("Compiling BOINC client software yourself");
 echo "
 BOINC applications, and the BOINC core client, are native-mode programs,
 so different versions are required for each platform
