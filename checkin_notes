@@ -9450,3 +9450,20 @@ David  Jan 21 2004
 		boinc.sln
 		boinc_cli.vcproj
 		boinc_gui.vcproj
+
+Eric	Jan 21 2004
+	- Modified match_tag to work with tags of the form "<tag>" and "tag"
+	- Added strlcat() to std_fixes.h
+	- Added check for strlcat() configure.ac
+	- fixed "#elif" without clause in main.C
+
+	configure
+	configure.ac
+	config.h.in
+	client/
+		main.C
+	lib/
+		parse.C
+		std_fixes.h
+		
+	
