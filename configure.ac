@@ -11,7 +11,19 @@ AC_PREREQ(2.57)
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(BOINC, 3.19)
 
-echo "--- Configuring BOINC AC_PACKAGE_VERSION ---"
+AC_ARG_ENABLE(server, 
+    AC_HELP_STRING([--disable-server],
+                   [Disables building the scheduling server (build only client; default builds both server and client)]),
+    [],
+    [enable_server=yes])
+
+if test "${enable_server}" = yes; then
+    echo "--- Configuring BOINC AC_PACKAGE_VERSION (server & client) ---"
+else
+    echo "--- Configuring BOINC AC_PACKAGE_VERSION (client only) ---"
+fi
+
+AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 
 AC_CANONICAL_SYSTEM
 
@@ -63,6 +75,10 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 AC_PROG_LN_S
 
+if test "${enable_server}" = yes; then
+  AC_CHECK_MYSQL
+fi
+
 dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
 AC_CHECK_LIB(m, sin)
@@ -78,7 +94,6 @@ AC_CHECK_LIB(socket, setservent)
 AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
 AC_CHECK_LIB(cygipc, shmget)
-AC_CHECK_MYSQL
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
@@ -175,7 +190,11 @@ AC_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
 
-echo "--- Configured BOINC AC_PACKAGE_VERSION ---"
+if test "${enable_server}" = yes; then
+    echo "--- Configured BOINC AC_PACKAGE_VERSION (server & client) ---"
+else
+    echo "--- Configured BOINC AC_PACKAGE_VERSION (client only) ---"
+fi
 
 [
 true || $TOP_SOURCE_DIR/test/test_sanity.py || (

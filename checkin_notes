@@ -14247,3 +14247,14 @@ Rom    27 June 2004
         db_base.C, .h
     sched/
         transitioner.C
+
+Karl 2004-06-28
+    - added configure-time option for building server+client or only client
+
+    configure.ac
+    Makefile.am
+
+    m4/
+        kc_mysql.m4
+
+    [regenerated: configure, aclocal.m4, */Makefile.in]

@@ -3,12 +3,13 @@ dnl $Id$
 
 AC_DEFUN([AC_CHECK_MYSQL],[
 AC_ARG_VAR([MYSQL_CONFIG], [mysql_config program])
+
 if test -z "$MYSQL_CONFIG"; then
-AC_PATH_PROG(MYSQL_CONFIG,mysql_config,,[$PATH:/usr/local/mysql/bin])
+  AC_PATH_PROG(MYSQL_CONFIG,mysql_config,,[$PATH:/usr/local/mysql/bin])
 fi
-if test -z "$MYSQL_CONFIG"
-then
-    AC_MSG_ERROR([mysql_config executable not found])
+
+if test -z "$MYSQL_CONFIG"; then
+    AC_MSG_ERROR([mysql_config executable not found.  To build only the client, specify --disable-server])
 else
     AC_MSG_CHECKING(mysql libraries)
     MYSQL_LIBS=`${MYSQL_CONFIG} --libs`
@@ -19,4 +20,5 @@ else
 fi
 AC_SUBST(MYSQL_LIBS)
 AC_SUBST(MYSQL_CFLAGS)
+
 ])

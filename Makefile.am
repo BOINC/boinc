@@ -3,7 +3,11 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = RSAEuro db lib api apps client sched tools test py
+if ENABLE_SERVER
+  SERVER_SUBDIRS = db lib api apps sched tools test py
+endif
+
+SUBDIRS = RSAEuro $(SERVER_SUBDIRS) client
 
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.
