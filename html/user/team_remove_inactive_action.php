@@ -45,7 +45,7 @@
     if ($new_nusers > 0) {
         $query = "update team set nusers = $new_nusers where id = $team->id";
     } else {
-        $query = "remove from team where id=$team->id";
+        $query = "delete from team where id = $team->id";
         echo "<p><b>The team has been disbanded because there are no more members.</b>";
     }
     $result = mysql_query($query);
