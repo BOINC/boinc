@@ -162,7 +162,7 @@ bool get_projection(double src[16]) {
 
 bool get_viewport(int view[4]) {
 	glMatrixMode(GL_MODELVIEW);
-	glGetIntegerv(GL_VIEWPORT,view);
+	glGetIntegerv(GL_VIEWPORT,(GLint*)view);
 	return true;
 }
 
@@ -320,9 +320,9 @@ void set_viewport_fixed(int w,int h) {
     if (w<=0) w=1;
 
 	if (h*aspect_ratio > w) {
-        glViewport(0,h/2.0f-(w/aspect_ratio/2.0f),(int)w,(int)(w/aspect_ratio));
+        glViewport(0,(int)(h/2.0f-(w/aspect_ratio/2.0f)),(int)w,(int)(w/aspect_ratio));
     } else {
-        glViewport(w/2.0f-(h*aspect_ratio/2.0f),0,(int)(h*aspect_ratio),(h));
+        glViewport((int)(w/2.0f-(h*aspect_ratio/2.0f)),0,(int)(h*aspect_ratio),(h));
     }	
 }
 
@@ -922,7 +922,7 @@ void STARFIELD::build_stars(int sz, float sp) {
 	size=sz;
 
     if (stars) free(stars);
-    stars = (STAR*)calloc(sizeof(STAR), size);
+    stars = (STAR*)calloc(sizeof(STAR), (long unsigned int)size);
 
 	if(get_matrix_invert(modelview)==false)
 		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
@@ -1222,7 +1222,7 @@ int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
 	if(pImage == NULL) return -1;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glGenTextures(1, &id);
+	glGenTextures(1, (GLuint*)&id);
 	glBindTexture(GL_TEXTURE_2D, id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
