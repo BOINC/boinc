@@ -17,14 +17,9 @@ class ResultAbort(ResultUC):
         ResultUC.__init__(self)
         self.client_state = RESULT_OUTCOME_CLIENT_ERROR
 
-class HostAbort(Host):
-    def __init__(self):
-        Host.__init__(self)
-        self.defargs += ' -sched_retry_delay_min 1 2>client.err'
-
 class ProjectAbort(ProjectUC):
     def __init__(self):
-        ProjectUC.__init__(self, works=[WorkAbort()], hosts=[HostAbort()])
+        ProjectUC.__init__(self, short_name='test_abort', works=[WorkAbort()])
 
     def check(self):
         # no results should have been uploaded

@@ -5048,6 +5048,7 @@ Karl    2003/06/25
       limit" instead of "Couldn't upload files"
     - test that an aborted result due to file limit causes client_state =
       RESULT_RESULT_OUTCOME_CLIENT_ERROR (currently this test FAILS!)
+    - test resource limits in python
 
     db/
         boinc_db.h
@@ -5058,6 +5059,7 @@ Karl    2003/06/25
     test/
         boinc.py
         test_abort.py (new)
+        test_rsc.py (new)
         test_backend.py
         test_concat.py
         test_uc.py

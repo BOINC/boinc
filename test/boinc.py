@@ -751,7 +751,7 @@ class Host:
         self.global_prefs = None
         self.log_flags = 'log_flags.xml'
         self.host_dir = os.path.join(HOSTS_DIR, self.name)
-        self.defargs = "-exit_when_idle -skip_cpu_benchmarks"
+        self.defargs = "-exit_when_idle -skip_cpu_benchmarks -sched_retry_delay_min 1"
 
     def add_user(self, user, project):
         self.users.append(user)
@@ -792,7 +792,7 @@ class Host:
             if pid: return pid
         else:
             verbose_echo(1, "Running core client")
-        verbose_shell_call("cd %s && %s %s %s > client.out" % (
+        verbose_shell_call("cd %s && %s %s %s > client.out 2> client.err" % (
             self.dir(), os.path.join(SRC_DIR, 'client', CLIENT_BIN_FILENAME),
             self.defargs, args))
         if asynch: os._exit(0)

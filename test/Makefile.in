@@ -180,6 +180,7 @@ TESTS = test_sanity.py				\
 	test_uc.py				\
 	test_concat.py				\
 	test_1sec.py				\
+	test_abort.py				\
 	test_backend.py
 
 

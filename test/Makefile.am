@@ -2,17 +2,12 @@
 
 include $(top_srcdir)/Makefile.incl
 
-# TESTS = test_sanity.php				\
-# 	test_uc.php				\
-# 	test_concat.php				\
-# 	test_1sec.php				\
-# 	test_rsc.php				\
-# 	test_backend.php
-
 TESTS = test_sanity.py				\
 	test_uc.py				\
 	test_concat.py				\
 	test_1sec.py				\
+	test_abort.py				\
+	test_rsc.py				\
 	test_backend.py
 
 EXTRA_DIST =					\
