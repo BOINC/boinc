@@ -3,24 +3,27 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 //  Additional routines to help maintain XML compliance.
 //
 // Revision History:
 // $Log$
+// Revision 1.19  2004/02/05 05:32:22  quarl
+// *** empty log message ***
+//
 // Revision 1.18  2004/01/22 17:57:41  davea
 // *** empty log message ***
 //
@@ -38,6 +41,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 #include "error_numbers.h"
 
 typedef enum tag_xml_encoding {
@@ -95,10 +99,10 @@ class xml_ostream {
 class xml_ofstream {
   public:
     xml_ofstream();
-    explicit xml_ofstream(const char *filename, const char *tag, 
+    explicit xml_ofstream(const char *filename, const char *tag,
 	std::ios_base::openmode m=std::ios_base::out|std::ios_base::binary);
     ~xml_ofstream();
-    void open(const char *p, const char *tag, 
+    void open(const char *p, const char *tag,
 	std::ios_base::openmode m=std::ios_base::out|std::ios_base::binary);
     void close();
   private:
@@ -121,7 +125,7 @@ class xml_istream {
     void seek_head();
     std::string my_tag;
     std::istream &is;
-}; 
+};
 // the xml_ifstream class is an ifstream.  When the file is opened,
 // the file pointer is set after the opening tag.  An attempt to
 // read past the closing tag will fail as if the end of the file has
@@ -129,7 +133,7 @@ class xml_istream {
 // found is the main tag.
 
 #ifndef HAVE_STD_POS_TYPE
-typedef off_t pos_type; 
+typedef off_t pos_type;
 #endif
 
 #ifndef HAVE_STD_OFF_TYPE
@@ -139,10 +143,10 @@ typedef off_t off_type;
 class xml_ifstream {
   public:
     xml_ifstream();
-    explicit xml_ifstream(const char *filename, const char *tag=0, 
+    explicit xml_ifstream(const char *filename, const char *tag=0,
 	std::ios_base::openmode m=std::ios_base::in|std::ios_base::binary);
     ~xml_ifstream();
-    void open(const char *filename, const char *tag=0, 
+    void open(const char *filename, const char *tag=0,
 	std::ios_base::openmode m=std::ios_base::in|std::ios_base::binary);
     xml_ifstream &seekg(pos_type p);
     xml_ifstream &seekg(off_type o, std::ios_base::seekdir d);
@@ -154,7 +158,7 @@ class xml_ifstream {
 	pos_type xml_start;
 	pos_type xml_end;
 	std::ifstream &ifs;
-}; 
+};
 
 #endif // 0
 
@@ -163,14 +167,14 @@ class xml_ifstream {
 static const char * const xml_header=
       "<?xml version=\"1.0\" encoding=\""XML_ENCODING"\"?>\n";
 
-// XML entity for tranlation table (not wchar_t compatible) 
+// XML entity for tranlation table (not wchar_t compatible)
 struct xml_entity {
   unsigned char c;
   const char *s;
-}; 
+};
 
 // change the xml indent level (number of spaces) by adding or subtracting
-// "i" spaces.  return a string of spaces corresponding to the current xml 
+// "i" spaces.  return a string of spaces corresponding to the current xml
 // indent level.
 std::string xml_indent(int i=0);
 static const int XML_MAX_INDENT=40;
@@ -180,7 +184,7 @@ extern int xml_indent_level;
 // decode an XML character string.  Return a the decoded string in a vector
 // (null not necessarily a terminator).
 //template <typename T>
-//std::vector<T> xml_decode_string(const char *input, size_t length=0, 
+//std::vector<T> xml_decode_string(const char *input, size_t length=0,
 //    const char *encoding="x_xml_entity");
 
 // do the same thing, but get the length and encoding type from the
@@ -190,11 +194,11 @@ std::vector<T> xml_decode_field(const std::string &input, const char *tag);
 
 // encode an XML character string.  Return the encoded string.
 //template <typename T>
-//std::string xml_encode_string(const T *input, size_t n_elements=0, 
+//std::string xml_encode_string(const T *input, size_t n_elements=0,
 //    xml_encoding encoding=_x_xml_entity);
 
 template <typename T>
-inline std::string xml_encode_string(const std::vector<T> &input, 
+inline std::string xml_encode_string(const std::vector<T> &input,
     xml_encoding encoding=_x_xml_entity) {
   return xml_encode_string<T>(&(*(input.begin())),input.size(),encoding);
 }
@@ -255,7 +259,7 @@ std::vector<T> base64_decode(const char *data, size_t nbytes) {
     if (eol && eol2) {
       eol=std::min(eol,eol2);
     }
-    for (;p<(eol-1);p+=4) { 
+    for (;p<(eol-1);p+=4) {
       for ( i=0;i<4;i++) {
         if ((p[i]>='A') && (p[i]<='Z')) {
 	  in[i]=p[i]-'A';
@@ -304,14 +308,14 @@ std::string base85_encode(const T *tbin, size_t n_elements) {
       c[0]='z';     // If the word is entirely zero use a single digit
       c[1]=0;       // zero pad of 'z'
     } else {
-      for (i=4;i<5;i--) { 
+      for (i=4;i<5;i--) {
 	c[i]=val % ((i==4)?84:85);  // First division is by 84 to prevent
 	val/= ((i==4)?84:85);       // having a pad in the final digit.
       }
       if (c[0]==83) {               // need to change a high order 'z' into
 	c[0]=84;                        // an "_" so it won't look like a zero word.
       }
-      for (i=0;i<5;i++) c[i]=encode_arr85[c[i]];  
+      for (i=0;i<5;i++) c[i]=encode_arr85[c[i]];
       for (i=5-n_pads;i<5;i++) c[i]='_'; // add pad characters
       c[5]=0;
     }
@@ -412,7 +416,7 @@ std::string x_setiathome_encode(const T *tbin, size_t n_elements) {
 template <typename T>
 std::vector<T> x_setiathome_decode(const char *data, size_t nbytes) {
   const char *p=data,*eol,*eol2;
-  char in[4],c[3]; 
+  char in[4],c[3];
   int i;
   std::vector<unsigned char> rv;
   rv.reserve(nbytes*3/4);
@@ -425,7 +429,7 @@ std::vector<T> x_setiathome_decode(const char *data, size_t nbytes) {
     if (eol && eol2) {
       eol=std::min(eol,eol2);
     }
-    for (;p<(eol-1);p+=4) { 
+    for (;p<(eol-1);p+=4) {
       memcpy(in,p,4);
       for ( i=0;i<4;i++) in[i]-=0x20;
       c[0]=in[0]&0x3f | in[1]<<6;
@@ -464,7 +468,7 @@ std::string quoted_printable_encode(const T *tbin, size_t n_elements) {
     }
   }
   return rv;
-}      
+}
 
 template <typename T>
 std::vector<T> quoted_printable_decode(const char* data, size_t nbytes) {
@@ -485,7 +489,7 @@ std::vector<T> quoted_printable_decode(const char* data, size_t nbytes) {
     }
   }
   return std::vector<T>((T *)(&(rv[0])),(T *)(&(rv[0]))+rv.size()/sizeof(T));
-}      
+}
 
 template <typename T>
 std::string x_hex_encode(const T *tbin, size_t n_elements) {
@@ -524,7 +528,7 @@ std::vector<T> x_hex_decode(const char *data, size_t nbytes) {
 
 
 std::string x_csv_encode_char(const unsigned char *bin, size_t nelements);
- 
+
 template <typename T>
 std::string x_csv_encode(const T *bin, size_t nelements) {
   std::ostringstream rv("");
@@ -553,7 +557,7 @@ std::vector<T> x_csv_decode(const char *data, size_t nbytes) {
   }
   std::istringstream in(std::string(data,nbytes));
   bool ischar=(sizeof(T)==1);
-  
+
   while (in) {
     T t;
     if (!ischar) {
@@ -616,7 +620,7 @@ std::string x_xml_entity_encode(const T *tbin, size_t n_elements) {
 	case '<':
 	case '&':
 	case '\'':
-	case '"': 
+	case '"':
 	  rv+=encode_char(input[i]);
 	  break;
         default:
@@ -669,7 +673,7 @@ std::string x_xml_cdata_encode(const T *tbin, size_t n_elements) {
   for (i=0; i<length; i++) {
     if (input[i]>0x1f) {
       switch (input[i]) {
-	case ']': 
+	case ']':
 	  if (((length-i)>1) && (input[i+1]==']') && (input[i+2]=='>')) {
 	    rv+="&&endcdt;";
 	  } else {
@@ -738,7 +742,7 @@ std::string x_uuencode(const T *data, size_t nbytes) {
 }
 
 template <typename T>
-std::vector<T> xml_decode_string(const char *input, 
+std::vector<T> xml_decode_string(const char *input,
                            size_t length=0, const char *encoding="x_xml_entity") {
   int i=_x_xml_entity;
   do {
@@ -786,7 +790,7 @@ std::vector<T> xml_decode_field(const std::string &input, const char *tag) {
        ((enc=input.find("encoding=\"",start))==std::string::npos))
           throw ERR_XML_PARSE;
    unsigned int length=0;
-   if ((len=input.find("length=",start)!=std::string::npos)) 
+   if ((len=input.find("length=",start)!=std::string::npos))
       length=atoi(&(input[len+strlen("length=")]));
    const char *encoding=input.c_str()+enc+strlen("encoding=\"");
    start=input.find('>',start)+1;
@@ -798,7 +802,7 @@ std::vector<T> xml_decode_field(const std::string &input, const char *tag) {
 
 
 template <typename T>
-std::string xml_encode_string(const T *input, 
+std::string xml_encode_string(const T *input,
                            size_t length=0, xml_encoding encoding=_x_xml_entity) {
   switch (encoding) {
     case _x_xml_entity:
@@ -836,6 +840,9 @@ extern bool extract_xml_record(const std::string &field, const char *tag, std::s
 #endif
 //
 // $Log$
+// Revision 1.19  2004/02/05 05:32:22  quarl
+// *** empty log message ***
+//
 // Revision 1.18  2004/01/22 17:57:41  davea
 // *** empty log message ***
 //
@@ -883,4 +890,4 @@ extern bool extract_xml_record(const std::string &field, const char *tag, std::s
 // Revision 1.4  2003/10/21 18:14:36  korpela
 // *** empty log message ***
 //
-// 
+//

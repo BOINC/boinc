@@ -362,7 +362,7 @@ class Project:
         map(lambda dir: os.mkdir(self.dir(dir)),
             [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
               'html', 'html/ops', 'html/user', 'html/project',
-              'html/inc', 'html/stats', 'html/user_profile', 'html/forum'
+              'html/inc', 'html/stats', 'html/user_profile', 'html/forum',
               'html/user_profile/images'
               ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
