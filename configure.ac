@@ -126,6 +126,13 @@ AC_STRUCT_TM
 
 AC_SUBST(CLIENT_BIN_FILENAME,[boinc_${MAJOR_VERSION}.${MINOR_VERSION}_$host${EXEEXT}])
 
+# by default, create static binaries on linux.
+[if [ "$target_os" = "linux-gnu" ]; then
+    STATIC_FLAGS="-static -static-libgcc"
+fi
+echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
+AC_SUBST(STATIC_FLAGS)
+
 AC_CONFIG_FILES([RSAEuro/source/Makefile
                  RSAEuro/Makefile
                  api/Makefile

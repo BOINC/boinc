@@ -5237,3 +5237,9 @@ Karl 2003/07/02
         boinc.py
         test_backend.py
 
+Karl 2003/07/02
+    - turn on static libraries only on Linux
+
+    configure.ac
+    client/
+        Makefile.am
