@@ -71,9 +71,12 @@ CLIENT_STATE::CLIENT_STATE() {
     max_bytes = 0;
     minimize = false;
     user_idle = true;
-    use_proxy = false;
-    proxy_server_name[0] = 0;
+    use_http_proxy = false;
+    use_socks_proxy = false;
+    strcpy(proxy_server_name,"");
     proxy_server_port = 80;
+    strcpy(socks_user_name,"");
+    strcpy(socks_user_passwd,"");
     suspend_requested = false;
 #ifdef _WIN32
     time_tests_handle = NULL;
@@ -498,12 +501,12 @@ int CLIENT_STATE::parse_state_file() {
             // TODO: handle old client state file if different version
         } else if (match_tag(buf, "<core_client_minor_version>")) {
             // TODO: handle old client state file if different version
-        } else if (match_tag(buf, "<prefs_confirm/>")) {
+        } else if (match_tag(buf, "<confirm_before_connect/>")) {
 			global_prefs.confirm_before_connecting = true;
         } else if (match_tag(buf, "<hangup_if_dialed/>")) {
 			global_prefs.hangup_if_dialed = true;
         } else if (match_tag(buf, "<use_http_proxy/>")) {
-			use_proxy = true;
+			use_http_proxy = true;
         } else if (parse_str(buf, "<http_proxy_server>", proxy_server_name, sizeof(proxy_server_name))) {
         } else if (parse_int(buf, "<http_proxy_port>", proxy_server_port)) {
         } else {
@@ -570,13 +573,19 @@ int CLIENT_STATE::write_state_file() {
         "%s"
         "%s"
         "%s"
-        "<http_proxy_server>%s</http_proxy_server>\n"
-        "<http_proxy_port>%d</http_proxy_port>\n",
-        use_proxy?"<use_http_proxy/>\n":"",
-		global_prefs.confirm_before_connecting?"<prefs_confirm/>\n":"",
+        "%s"
+        "<proxy_server_name>%s</proxy_server_name>\n"
+        "<proxy_server_port>%d</proxy_server_port>\n"
+        "<socks_user_name>%s</socks_user_name>\n"
+        "<socks_user_passwd>%s</socks_user_passwd>\n",
+        use_http_proxy?"<use_http_proxy/>\n":"",
+        use_socks_proxy?"<use_socks_proxy/>\n":"",
+        global_prefs.confirm_before_connecting?"<confirm_before_connect/>\n":"",
         global_prefs.hangup_if_dialed?"<hangup_if_dialed/>\n":"",
         proxy_server_name,
-        proxy_server_port
+        proxy_server_port,
+        socks_user_name,
+        socks_user_passwd
     );
     fprintf(f, "</client_state>\n");
     fclose(f);
@@ -992,7 +1001,6 @@ bool CLIENT_STATE::update_results() {
 //
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
-    char *p, temp[256];
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
@@ -1038,12 +1046,31 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             continue;
         }
     }
+}
+
+void CLIENT_STATE::parse_env_vars() {
+    char *p, temp[256];
 
     if ((p = getenv("HTTP_PROXY"))) {
         if (strlen(p) > 0) {
-            use_proxy = true;
+            use_http_proxy = true;
             parse_url(p, proxy_server_name, proxy_server_port, temp);
         }
+    }
+
+    if ((p = getenv("SOCKS_SERVER"))) {
+        if (strlen(p) > 0) {
+            use_socks_proxy = true;
+            parse_url(p, proxy_server_name, proxy_server_port, temp);
+        }
+    }
+
+    if ((p = getenv("SOCKS_USER"))) {
+        strcpy(socks_user_name, p);
+    }
+
+    if ((p = getenv("SOCKS_PASSWD"))) {
+        strcpy(socks_user_name, p);
     }
 }
 

@@ -63,6 +63,7 @@ public:
     int exit();
     bool do_something();
     void parse_cmdline(int argc, char** argv);
+    void parse_env_vars();
     bool time_to_exit();
     bool run_time_tests();
     int time_tests();
@@ -81,9 +82,12 @@ public:
 	bool minimize;  // put client in the background after it's started up
     bool user_idle;
     bool suspend_requested;
-    bool use_proxy;
+    bool use_http_proxy;
+    bool use_socks_proxy;
     int proxy_server_port;
     char proxy_server_name[256];
+    char socks_user_name[256];
+    char socks_user_passwd[256];
 
 
 private:
