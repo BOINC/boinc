@@ -189,10 +189,12 @@ function result_outcome_string($s) {
 
 function result_client_state_string($s) {
     switch($s) {
+    case 0: return "New";
     case 1: return "Downloading";
-    case 2: return "Computing";
-    case 3: return "Uploading";
-    case 4: return "Done";
+    case 2: return "Downloaded";
+    case 3: return "Computing";
+    case 4: return "Uploading";
+    case 5: return "Done";
     }
 }
 
