@@ -142,18 +142,69 @@ msgid "CREATE_AC_ALREADY_GOT"
 msgstr "If you already received an account ID, do not submit this form. "
 "%s instead."
 
+msgid "CREATE_AC_NAME"
+msgstr "Name"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Identifies you on our web site. Use your real name or a nickname."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Email Address"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Must be a valid address of the form 'name@domain'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Country"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Select the country you want to represent, if any."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Postal or ZIP Code"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Create Account"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
 msgid "AC_CREATED_TITLE"
 msgstr "Activate your account"
 
-msgid ""
-msgstr ""
 
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Optional"
