@@ -608,6 +608,7 @@ dist-all: dist-client-all
 
 dist-hook:
 	rm -rf `find $(distdir) -name CVS`
+	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw */*.dsp
 
 .PHONY: distdir-client client-dist-gzip client-dist-gzip2 client-dist-zip \
 	dist-client dist-client-all
