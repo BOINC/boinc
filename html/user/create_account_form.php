@@ -18,7 +18,6 @@ if (parse_config($config, "<disable_account_creation/>")) {
     page_tail();
     exit();
 }
-$userid = $_GET['userid'];
 echo "
 
     <p><b>Read the <a href=info.php>Rules and Policies</a>
@@ -29,18 +28,20 @@ echo "
 
     <form action=create_account_action.php method=post>
 ";
-if ($userid) {
-    $user = lookup_user_id($userid);
+$teamid = $_GET['teamid'];
+if ($teamid) {
+    $team = lookup_team($teamid);
+    $user = lookup_user_id($team->userid);
     if (!$user) {
         echo "No such user";
     } else {
-        echo "This account will have
-            the same team and project preferences as
-            <a href=show_user.php?userid=$userid>$user->name</a>.
+        echo "<b>This account will belong the team
+            <a href=show_team.php?teamid=$team->id>$team->name</a>
+            and will have the project preferences of its founder.</b>
             <p>
         ";
         echo "
-            <input type=hidden name=userid value=$userid>
+            <input type=hidden name=teamid value=$teamid>
         ";
     }
 }

@@ -26,14 +26,14 @@ function show_error($str) {
     init_session();
     db_init();
 
-    $userid = $_POST["userid"];
-    if ($userid) {
-        $clone_user = lookup_user_id($userid);
+    $teamid = $_POST["teamid"];
+    if ($teamid) {
+        $team = lookup_team($teamid);
+        $clone_user = lookup_user_id($team->userid);
         if (!$clone_user) {
             echo "User $userid not found";
             exit();
         }
-        $teamid = $clone_user->teamid;
         $project_prefs = $clone_user->project_prefs;
     } else {
         $teamid = 0;

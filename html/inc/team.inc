@@ -5,6 +5,11 @@ require_once("../inc/db.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 
+function show_team_create_account_url($team) {
+    $url = URL_BASE."create_account_form.php?teamid=$team->id";
+    row2("Create team account URL<br><font size=-2>Accounts created via this URL will belong to this team and will have the project preferences of its founder</font>", "<a href=$url>$url</a>");
+}
+
 function display_team_page($team, $offset, $sort_by) {
     $n = 20;
 
@@ -25,7 +30,6 @@ function display_team_page($team, $offset, $sort_by) {
     } else {
         page_head("$team->name");
     }
-    echo "<a href=team_join_form.php?id=$team->id>Join this team</a> ";
     start_table();
     row1("Team info");
     if (strlen($team->description)) {
@@ -41,6 +45,8 @@ function display_team_page($team, $offset, $sort_by) {
     $user = lookup_user_id($team->userid);
     row2("Founder", user_links($user));
     row2("Country", $team->country);
+    row2("Join this team", "<a href=team_join_form.php?id=$team->id>Join</a>");
+    show_team_create_account_url($team);
     echo "</table>";
     echo "<p>";
     start_table();

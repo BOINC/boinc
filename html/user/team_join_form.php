@@ -17,8 +17,7 @@ $id = $_GET["id"];
     $team_name = $team->name;
     $team_id = $team->id;
     page_head("Join $team_name");
-    echo "<h2>Join $team_name</h2>
-        <p><b>Please note:</b>
+    echo " <p><b>Please note:</b>
         <ul>
         <li> Joining a team gives its founder access to your email address.
         <li> Joining a team does not affect your account's credit.

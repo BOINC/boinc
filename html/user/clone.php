@@ -1,33 +1,20 @@
 <?php
-    require_once("../inc/db.inc");
     require_once("../inc/util.inc");
 
-    db_init();
-    $user = get_logged_in_user();
-
-    page_head("Create a custom signup page");
+    page_head("Team-based account creation");
     echo "
-        <h2>Create a custom signup page for ".PROJECT."</h2>
-        If you like, you can create a custom signup page
-        for ".PROJECT.".
-        The URL for this page is
-        <br>
-        <pre>
-        ".MASTER_URL."create_account_form.php?userid=$user->id
-        </pre>
-        Accounts created through this URL will
-        be initialized similarly to yours.
-        Specifically:
+        A <b>Create team account</b> URL is shown on every team page.
+        Accounts created through this URL
         <ul>
-        <li> They will belong to the same team as you;
-        <li> They will have the same ".PROJECT." preferences as you.
+        <li> will belong to that team and
+        <li> will have the same ".PROJECT." preferences as its founder.
         </ul>
         For example, you can create a team for your school or company,
         and set up your preferences to show an appropriate logo
         in the screensaver graphics.
         Then get your friends and coworkers to register for
-        ".PROJECT." through the URL shown above,
+        ".PROJECT." through the URL shown in the team page,
         and they will automatically belong to your team
-        and will see the same screensaver graphics.
+        and will have the logo in their screensaver graphics.
     ";
 ?>
