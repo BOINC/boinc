@@ -13513,7 +13513,10 @@ Daniel 14 June 2004
     - changed uses of mysql_fetch_assoc() to mysql_fetch_object()
     - removed utility function get_profile_from_userid() (not used
       anywhere)
+    - added proposal for new client result scheduling: please review!
 
+    doc/
+        client_sched.php
     html/inc/
         subscribe.inc
         util.inc
