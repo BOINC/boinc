@@ -86,7 +86,6 @@ public:
     int core_client_major_version;
     int core_client_minor_version;
     int file_xfer_giveup_period;
-    bool user_idle;
     int user_run_request;
         // values above (USER_RUN_REQUEST_*)
     int user_network_request;
@@ -232,9 +231,6 @@ private:
     int resume_network();
     void install_global_prefs();
     void show_global_prefs_source(bool);
-#ifndef _WIN32
-    void check_idle();
-#endif
 
 // --------------- cs_scheduler.C:
 public:

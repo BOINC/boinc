@@ -14207,6 +14207,9 @@ David  27 June 2004
 		before writing a message.
 		This may cause problems.
 
+    NOTE: this is a backwards-incompatible change to the core/app
+        interface, so it requires a major version change (will do later)
+
 	api/
 		boinc_api.C
 	client/
@@ -14258,3 +14261,21 @@ Karl 2004-06-28
         kc_mysql.m4
 
     [regenerated: configure, aclocal.m4, */Makefile.in]
+
+Daniel  29 June 2004
+    - Check user idle time only if preferences require.
+        Some users worried that we were sniffing the keyboard.
+        - get rid of the CLIENT_STATE::user_idle variable;
+            call the function directly
+        - on Windows, move logic from GUI code to non-GUI (hostinfo_win.cpp)
+    
+    client/
+        client_state.C,h
+        cs_files.C
+        cs_prefs.C
+        hostinfo_unix.C
+        win/
+            hostinfo_win.cpp
+            wingui_mainwindow.cpp,h
+    lib/
+        hostinfo.h

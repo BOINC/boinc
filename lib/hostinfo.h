@@ -20,6 +20,10 @@
 #ifndef _HOSTINFO_
 #define _HOSTINFO_
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
 #include "miofile.h"
 
 // Other host-specific info is kept in
@@ -53,12 +57,16 @@ struct HOST_INFO {
     double d_total;
     double d_free;
 
+#ifdef _WIN32
+    HINSTANCE m_hIdleDll;       // handle to DLL for user idle
+#endif
     int parse(MIOFILE&);
     int write(MIOFILE&);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
 
     bool host_is_running_on_batteries();
+    bool users_idle(bool check_all_logins, double idle_time_to_run);
     int get_host_info();
     void clear_host_info();
 };

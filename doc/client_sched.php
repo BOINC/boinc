@@ -28,8 +28,8 @@ The ratio of CPU time allocated to projects that have work,
 in a typical period of a day or two,
 should be approximately the same as the ratio of
 the user-specified resource shares.
-If a project has no work for some period,
-it does not accumulate a 'debt' of work.
+If a process has no work for some period,
+it does no accumulate a 'debt' of work.
 
 <li>
 <b>Satisfy result deadlines if possible.</b>
@@ -215,72 +215,77 @@ More specifically:
 given a 'connection period' parameter T (days),
 always maintain sufficient work so that the CPU scheduler will
 not be starved for T days,
-given average work processing.
+given average work processing rate.
 The client should contact scheduling servers only about every T days.
 <li>
 Don't fetch more work than necessary, given the above goals.
-Thus, try to maintain between T and 2T days worth of work.
+Thus, try to maintain enough work that starvation will occur
+between T and 2T days from now.
 </ul>
 
 <h3>When to get work</h3>
 
 <p>
-The CPU scheduler needs a minimum number of results from a project
-in order to respect the project's resource share.
-This is the number of active tasks that a project can potentially have
-running simultaneously, given its resource share.
-We effectively have too little work when the number of results for a
-project is less than this minimum number.
+At a given time, the CPU scheduler may need as many as
 
 <blockquote>
 min_results(P) = ceil(ncpus * P.resource_share)
 </blockquote>
 
 <p>
-The client can estimate the amount of time that will elapse until we
-have too little work for a project.
-When this length of time is less than T, it is time to get more work.
+results for project P to avoid starvation.
+The client can estimate the amount of time that will elapse until
+the number of runnable results falls below min_results(P)
+for some project P.
+When this length of time is less than T,
+it is time to get more work for project P.
 
 <h3>A sketch of the work fetch algorithm</h3>
 
+The algorithm sets P.work_request for each project P
+and returns an 'urgency level':
+
+<pre>
+NEED_WORK_IMMEDIATELY
+    CPU scheduler is currently starved (may not have idle CPU)
+NEED_WORK
+    Will starve within T days
+DONT_NEED_WORK
+    otherwise
+</pre>
+It can be called whenever the client can make a scheduler RPC.
 <p>
-This algorithm determines if a project needs more work. If a project
-does need work, then the amount of work it needs is computed.
-It is called whenever the client can make a scheduler RPC.
-<p>
 <ol>
 <li>
-For each project
+For each project P
 <ol>
 <li>
-If the number of results for the project is too few
+If the number of runnable results for P is less than min_results(P)
 <ol>
 <li>
-Set the project's work request to 2T
+Set the project's work request to 2T * P.resource_share
 <li>
-Set request urgency to NEED WORK IMMEDIATELY
+urgency  = max(urgency, NEED WORK IMMEDIATELY)
 <li>
 Continue
 </ol>
 <li>
-For all but the top (min_results - 1) results with the longest
-expected time to completion:
+Let R0...Rn-1 be P's runnable results ordered by decreasing deadline.
+Let S be the sum of estimated duration E(R) of R(min_results-1),...Rn-1,
+where E(R) is R's FLOPS estimate
+divided by this host's average processing rate times P.resource_share.
+(i.e., S is the expected time until starvation for P).
+<li>
+If S < T
 <ol>
-<li>
-Sum the expected completion time of the result scaled by the work rate
-and the project's resource share
+<li>P.work_request = (2T - S) * P.resource_share
+<li>urgency = max(urgency, NEED WORK)
 </ol>
 <li>
-If the sum S is less than T
-<ol>
-<li>Set the project's work request to 2T - S
-<li>Set request urgency to NEED WORK
+Else, P.work_request = 0
 </ol>
 <li>
-Else, set the project's work request to 0
-</ol>
-<li>
-Return the request urgency
+Return urgency
 </ol>
 
 <p>
@@ -298,6 +303,11 @@ PROJECT:
 RESULT:
     double cpu_time_remaining // temp
 
+return values:
+define DONT_NEED_WORK 0
+define NEED_WORK 1
+define NEED_WORK_IMMEDIATELY 2
+
 compute_work_request():
 
     foreach project P:
@@ -307,12 +317,11 @@ compute_work_request():
     foreach result R:
         R.cpu_time_remaining = estimate_cpu_time_remaining(R)
 
-    // we ignore the top (min_results-1) by first subtracting
-    // their cpu_time_remaining from the sum
+    // ignore the top (min_results-1) results (according to cpu
+    // time remaining) by zeroing out their cpu_time_remaining
     foreach project P:
         do min_results(P) - 1 times:
             R = argmax { R.cpu_time_remaining } over all results for P
-            P.work_remaining -= R.cpu_time_remaining
             R.cpu_time_remaining = 0
 
     foreach result R:
@@ -321,7 +330,8 @@ compute_work_request():
     foreach project P:
         if P.work_remaining < T:
             if P.work_remaining == 0:
-                // no other results besides the top (min_results-1)
+                // no other results (with non-zero cpu time remaining)
+                // besides the top (min_results-1)
                 need_work_immediately = 1
             P.work_request = 2*T - P.work_remaining / SECONDS_PER_DAY
             need_work = 1

@@ -1142,33 +1142,6 @@ void CMainWindow::LoadLanguage()
 }
 
 //////////
-// CMainWindow::GetUserIdleTime
-// arguments:   void
-// returns:     time the user has been idle in milliseconds
-// function:    calls a dll function to determine the the user's idle time
-DWORD CMainWindow::GetUserIdleTime()
-{
-    if(m_hIdleDll) {
-        typedef DWORD (CALLBACK* GetFn)();
-        GetFn fn;
-        fn = (GetFn)GetProcAddress(m_hIdleDll, "IdleTrackerGetLastTickCount");
-        if(fn) {
-            return GetTickCount() - fn();
-        } else {
-            typedef void (CALLBACK* TermFn)();
-            TermFn tfn;
-            tfn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
-            if(tfn) {
-                tfn();
-            }
-            FreeLibrary(m_hIdleDll);
-            m_hIdleDll = NULL;
-        }
-    }
-    return 0;
-}
-
-//////////
 // CMainWindow::Syncronize
 // arguments:   pProg: pointer to a progress list control
 //              pVect: pointer to a vector of pointers
@@ -2139,48 +2112,28 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 }
 
 //////////
-// CMainWindow::CheckIdle
-// arguments:   void
-// returns:     void
-// function:    check user's idle time for suspension of apps
-void CMainWindow::CheckIdle() {
-    if (gstate.global_prefs.idle_time_to_run > 0) {
-        //msg_printf(NULL, "idle seconds: %d\n", GetUserIdleTime() / 1000);
-        if (GetUserIdleTime() / 1000 > 60 * gstate.global_prefs.idle_time_to_run) {
-            gstate.user_idle = true;
-        } else {
-            gstate.user_idle = false;
-        }
-    } else {
-        gstate.user_idle = true;
-    }
-}
-
-//////////
 // CMainWindow::OnTimer
 // arguments:   uEventID: timer's id
 // returns:     void
-// function:    checks idle time, updates client state, flushed output streams,
+// function:    updates client state, flushed output streams,
 //              and updates gui display.
-void CMainWindow::OnTimer(UINT uEventID)
-{
+void CMainWindow::OnTimer(UINT uEventID) {
+    static int counter = 0;
+
     if(uEventID == m_nGuiTimerID) {
+        counter++;
         // stop the timer while we do processing
         KillTimer(m_nGuiTimerID);
 
         // update state and gui
         while(gstate.do_something());
         NetCheck(); // check if network connection can be terminated
-        if (gstate.user_run_request == USER_RUN_REQUEST_NEVER) {
-            // user suspended - don't bother checking idle
-        } else if (gstate.activities_suspended) {
-            // otherwise suspended, possibly due to not being idle
-            CheckIdle();
-        } else {
-            // active
-            CheckIdle();
+
+        // TODO: check this after writing a message, not here!!!
+        if ((counter % 10) == 0) {
             gstate.trunc_stderr_stdout();
         }
+
         if (!gstate.activities_suspended || !gstate.previous_activities_suspended) {
             UpdateGUI(&gstate);
         }

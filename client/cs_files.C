@@ -75,6 +75,8 @@ void CLIENT_STATE::trunc_stderr_stdout() {
 
     // If the stderr.txt or stdout.txt files are too big, reset them
     // TODO: should we tell the user we're resetting these?
+    // TODO: should rotate files, not truncate!!
+    //
     file_size(STDERR_FILE_NAME, f_size);
     if (f_size > MAX_STDERR_FILE_SIZE) {
         freopen(STDERR_FILE_NAME, "w", stderr);

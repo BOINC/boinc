@@ -491,13 +491,12 @@ inline bool all_logins_idle(time_t t) {
 }
 #endif
 
-void CLIENT_STATE::check_idle() {
+bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 #ifdef HAVE__DEV_TTY1
     char device_tty[] = "/dev/tty1";
 #endif
-    time_t idle_time =
-        time(NULL) - (long) (60 * global_prefs.idle_time_to_run);
-    user_idle = true
+    time_t idle_time = time(NULL) - (long) (60 * idle_time_to_run);
+    return true
 #ifdef HAVE_UTMP_H
         && (!check_all_logins || all_logins_idle(idle_time))
 #endif

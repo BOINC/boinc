@@ -127,7 +127,11 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         reason |= SUSPEND_REASON_BATTERIES;
     }
 
-    if (!global_prefs.run_if_user_active && !user_idle) {
+    if (!global_prefs.run_if_user_active
+        && !host_info.users_idle(
+            check_all_logins, global_prefs.idle_time_to_run
+        )
+    ) {
         reason |= SUSPEND_REASON_USER_ACTIVE;
     }
 

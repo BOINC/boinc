@@ -375,3 +375,24 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
 	return (pStatus.ACLineStatus != 1);
 }
+
+bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
+    if (m_hIdleDll) {
+        typedef DWORD (CALLBACK* GetFn)();
+        GetFn fn;
+        fn = (GetFn)GetProcAddress(m_hIdleDll, "IdleTrackerGetLastTickCount");
+        if (fn) {
+            return (GetTickCount() - fn()) / 1000 > 60 * idle_time_to_run;
+        } else {
+            typedef void (CALLBACK* TermFn)();
+            TermFn tfn;
+            tfn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
+            if(tfn) {
+                tfn();
+            }
+            FreeLibrary(m_hIdleDll);
+            m_hIdleDll = NULL;
+        }
+    }
+    return false;
+}

@@ -114,7 +114,6 @@ protected:
 	CTabCtrl				m_TabCtrl;				// tab control for choosing display
 	CImageList				m_TabIL;				// image list for tab control
 	CBitmap					m_TabBMP[MAX_TABS];		// bitmaps for tab image list
-	HINSTANCE				m_hIdleDll;				// handle to dll for user idle
 	int						m_nIconState;			// state of the status icon
 	int						m_nDesiredIconState;	// desired state of the status icon
 	int						m_nToggleIconState;		// next icon state
