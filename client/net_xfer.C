@@ -22,8 +22,10 @@
 #include <stdio.h>
 
 #ifdef _WIN32
-#include "winsock.h"
+#include <afxwin.h>
+#include <winsock.h>
 #include "Win_net.h"
+#include "wingui_mainwindow.h"
 #endif
 
 #if HAVE_SYS_TIME_H
@@ -124,6 +126,14 @@ int NET_XFER::open_server() {
             closesocket(fd);
             NetClose();
             return -1;
+        }
+		if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), WM_TIMER, FD_READ|FD_WRITE )) {
+			errno = WSAGetLastError();
+			if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
+				closesocket(fd);
+				NetClose();
+				return -1;
+			}
         }
 #else
         if (errno != EINPROGRESS) {

@@ -42,7 +42,7 @@
 #define EDGE_BUFFER			2			// buffer pixels around edge of client
 
 #define ID_TIMER			104			// timer id
-#define TIMEOUT_WAIT		100			// timeout sleep time (in milliseconds)
+#define TIMEOUT_WAIT		1000		// timeout sleep time (in milliseconds)
 
 #define STATUS_ICON_ID		(WM_USER + 1)	// id for notifications from status icon
 

@@ -74,7 +74,7 @@ CLIENT_STATE::CLIENT_STATE() {
     platform_name = HOST;
     exit_after_app_start_secs = 0;
     app_started = 0;
-    max_transfer_rate = 9999;
+    max_transfer_rate = 999999999;
     max_bytes = 0;
     user_idle = true;
     use_http_proxy = false;
