@@ -191,10 +191,11 @@ const xml_entity xml_trans[]= {
   { 0x00, 0 }
 }; 
 
-xml_ofstream::xml_ofstream() : std::ofstream(), my_tag()  {}
+#if 0
+xml_ofstream::xml_ofstream() : my_tag(), os()  {}
 
 xml_ofstream::xml_ofstream(const char *filename, const char *tag, 
-    std::ios_base::openmode m) : std::ofstream(filename,m), my_tag(tag)
+    std::ios_base::openmode m) : , my_tag(tag), os(filename,m)
 {
   if (is_open()) {
     write_head();
@@ -218,7 +219,7 @@ xml_ofstream::~xml_ofstream() {
 void xml_ofstream::open(const char *filename, const char *tag, 
     std::ios_base::openmode m) {
   my_tag=std::string(tag);
-  std::ofstream::open(filename,m);
+  os.open(filename,m);
   if (is_open()) {
     write_head();
   }
@@ -226,7 +227,7 @@ void xml_ofstream::open(const char *filename, const char *tag,
 
 void xml_ofstream::close() {
   write_foot();
-  std::ofstream::close();
+  os.close();
 }
 
 void xml_ostream::write_head() {
@@ -238,8 +239,8 @@ void xml_ostream::write_head() {
 
 void xml_ofstream::write_head() {
   xml_indent_level=0;
-  *this << xml_header << std::endl;
-  *this << '<' << my_tag << '>' << std::endl;
+  os << xml_header << std::endl;
+  os << '<' << my_tag << '>' << std::endl;
   xml_indent(2);
 }
 
@@ -250,10 +251,10 @@ void xml_ostream::write_foot() {
 
 void xml_ofstream::write_foot() {
   xml_indent(-2);
-  *this << "</" << my_tag << '>' << std::endl;
+  os << "</" << my_tag << '>' << std::endl;
 }
 
-xml_ifstream::xml_ifstream() : std::ifstream(), my_tag(""), xml_start(0), 
+xml_ifstream::xml_ifstream() : , my_tag(""), xml_start(0), ifs()
   xml_end(0) {}
 
 xml_ifstream::xml_ifstream(const char *filename, const char *tag, 
@@ -398,6 +399,8 @@ bool xml_ifstream::eof() {
     return std::ifstream::tellg();
   }
 }
+#endif  // 0
+
 #ifdef HAVE_MAP
 #include <map>
 
@@ -552,6 +555,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.14  2003/10/23 15:39:54  korpela
+// no message
+//
 // Revision 1.13  2003/10/23 00:25:15  jeffc
 // jeffc - no line feeds in CSV encoding
 //

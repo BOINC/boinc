@@ -59,7 +59,7 @@ const char * const xml_encoding_names[]={
   "binary"
 };
 
-
+#if 0
 
 // the xml_ostream class is an ostream, which can be constructed
 // from an existing ostream (i.e. cout).  When constructed,
@@ -81,7 +81,7 @@ class xml_ostream {
 // the xml_ofstream class is an ofstream.  When the file is opened,
 // an xml header and the opening tag are written.  Upon close,
 // the closing tag is written.
-class xml_ofstream : public std::ofstream {
+class xml_ofstream {
   public:
     xml_ofstream();
     explicit xml_ofstream(const char *filename, const char *tag, 
@@ -94,6 +94,7 @@ class xml_ofstream : public std::ofstream {
     void write_head();
     void write_foot();
     std::string my_tag;
+	std::ofstream &os;
 };
 
 // the xml_istream class is an istream that can be constructed from
@@ -115,7 +116,16 @@ class xml_istream {
 // read past the closing tag will fail as if the end of the file has
 // been reached.  If no tag is given, it will assume the first tag
 // found is the main tag.
-class xml_ifstream : public std::ifstream {
+
+#ifndef HAVE_STD_POS_TYPE
+typedef off_t pos_type; 
+#endif
+
+#ifndef HAVE_STD_OFF_TYPE
+typedef off_t off_type;
+#endif
+
+class xml_ifstream {
   public:
     xml_ifstream();
     explicit xml_ifstream(const char *filename, const char *tag=0, 
@@ -130,9 +140,12 @@ class xml_ifstream : public std::ifstream {
   private:
     void seek_head();
     std::string my_tag;
-    pos_type xml_start;
-    pos_type xml_end;
+	pos_type xml_start;
+	pos_type xml_end;
+	std::ifstream &ifs;
 }; 
+
+#endif // 0
 
 #define XML_ENCODING "iso-8859-1"
 
@@ -150,6 +163,7 @@ struct xml_entity {
 // indent level.
 std::string xml_indent(int i=0);
 extern int xml_indent_level;
+
 
 // decode an XML character string.  Return a the decoded string in a vector
 // (null not necessarily a terminator).
@@ -283,9 +297,9 @@ std::string base85_encode(const T *tbin, size_t n_elements) {
 	val/= ((i==4)?84:85);       // having a pad in the final digit.
       }
       if (c[0]==83) {               // need to change a high order 'z' into
-	c[0]=84;                    // an "_" so it won't look like a zero word.
+	c[0]=84;                        // an "_" so it won't look like a zero word.
       }
-      for (i=0;i<5;i++) c[i]=encode_arr85[c[i]];
+      for (i=0;i<5;i++) c[i]=encode_arr85[c[i]];  
       for (i=5-n_pads;i<5;i++) c[i]='_'; // add pad characters
       c[5]=0;
     }
@@ -304,7 +318,6 @@ template <typename T>
 std::vector<T> base85_decode(const char *data, size_t nbytes) {
   const char *p=data,*eol,*eol2;
   const char cr=0xa,lf=0xd;
-  char in[4],c[3]; 
   unsigned long val;
   int npads;
   std::vector<unsigned char> rv;
@@ -325,33 +338,30 @@ std::vector<T> base85_decode(const char *data, size_t nbytes) {
         case 'z': break;
         default:
           int i=5;
-	  while (i-->0) {
-	    if (p[i]!='_') break;
-            npads++;
-	  }
+	      while (i-->0) {
+	      if (p[i]!='_') break;
+              npads++;
+		  }
           for (i=0;i<std::min(eol-p,5-npads);i++) {
-	    val*=85;
-	    if ((p[i]>='0') && (p[i]<='9')) {
-	      val=p[i]-'0';
-	    } else if ((p[i]>='A') && (p[i]<='Z')) {
-	      val=p[i]-'A'+10;
-	    } else if ((p[i]>='a') && (p[i]<='y')) {
-	      val=p[i]-'a'+36;
-            } else {
-	      for (int j=62; j<85; j++) {
-		if (p[i]==encode_arr85[j]) {
-		  val=j;
-		  j=85;
-                }
-              }
-	    }
+	        val*=85;
+	        if ((p[i]>='0') && (p[i]<='9')) {
+	          val=p[i]-'0';
+			} else if ((p[i]>='A') && (p[i]<='Z')) {
+	          val=p[i]-'A'+10;
+			} else if ((p[i]>='a') && (p[i]<='y')) {
+	          val=p[i]-'a'+36;
+			} else {
+	          for (int j=62; j<85; j++) {
+		        if (p[i]==encode_arr85[j]) {
+		        val=j;
+		        j=85;
+				}
+			  }
+			}
+		  }
 	  }
-      }
-      c[0]=(in[0]<<2) | ((in[1] >> 4) & 0x3);
-      c[1]=(in[1]<<4) | ((in[2] >> 2) & 0xf);
-      c[2]=(in[2]<<6) | in[3];
-      for (int i=0;i<3;i++) rv.push_back(c[i]);
-    }
+	  rv.push_back(val);
+	}
   }
   return std::vector<T>((T *)(&(rv[0])),(T *)(&(rv[0]))+rv.size()/sizeof(T));
 }
@@ -715,7 +725,7 @@ std::string x_uuencode(const T *data, size_t nbytes) {
 
 template <typename T>
 std::vector<T> xml_decode_string(const char *input, 
-                           size_t length=0, const char *encoding="_x_xml_entity") {
+                           size_t length=0, const char *encoding="x_xml_entity") {
   int i=_x_xml_entity;
   do {
     if (!strncmp(encoding,xml_encoding_names[i],strlen(xml_encoding_names[i])))
@@ -808,6 +818,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.11  2003/10/23 15:39:54  korpela
+// no message
+//
 // Revision 1.10  2003/10/22 23:11:49  davea
 // *** empty log message ***
 //

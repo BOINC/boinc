@@ -281,6 +281,10 @@ SOURCE=..\client\log_flags.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\maybe_gui.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\md5.h
 # End Source File
 # Begin Source File
