@@ -155,26 +155,33 @@ dnl check for GL library
 AX_CHECK_GL
 AX_CHECK_GLU
 AX_CHECK_GLUT
-if test "$no_gl" = yes -o "$no_glu" = yes ; then
+if test "$no_gl" = yes -o "$no_glu" = yes -o "$no_glut" = yes; then
    have_glut=no
    AC_MSG_WARN([
 ================================================================================
-WARNING: openGL not found.
+WARNING: openGL/GLU/glut not found.
 
-The GL and GLU libraries are required in order to build the graphical parts
+The GL, GLU and glut libraries are required in order to build the graphical parts
 of the BOINC application API library.
 
 ==> only building non-graphical parts of the BOINC API Library for now.
 
+NOTE: on MacOS X/Darwin you might consider running configure withe the option
+      './configure --with-apple-opengl-framework'
+      in order to use the Mac-native openGL framework
+
 ================================================================================
        ])
 else
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
    have_glut=yes
+   echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS"
+   echo "DEBUG: GLUT_LIBS = $GLUT_LIBS"
+
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
 fi
 
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
-AM_CONDITIONAL(BUILD_BOINCGLUT, [ /bin/false ])
+
 dnl --------------------------------------------------------------------------------
 
 AC_CHECK_LIB(socket, setservent)
@@ -334,14 +341,6 @@ dnl     STATIC_FLAGS="-static"
 dnl fi
 dnl echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
 dnl AC_SUBST(STATIC_FLAGS)
-
-
-# If you still want to build boincglut, include these into the file list below
-#		 boincglut/include/Makefile
-#		 boincglut/lib/glut/Makefile
-#                boincglut/lib/Makefile
-#                boincglut/Makefile
-
 
 AC_CONFIG_FILES([
                  ./version.h

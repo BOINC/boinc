@@ -3,6 +3,9 @@
 
 include $(top_srcdir)/Makefile.incl
 
+AM_CFLAGS = @GLUT_CFLAGS@
+AM_LDFLAGS = @GLUT_LIBS@
+
 api_files= \
 	boinc_api.C
 

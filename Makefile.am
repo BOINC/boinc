@@ -16,10 +16,6 @@ if ENABLE_CLIENT
    CLIENT_SUBDIRS = client 
 endif
 
-if BUILD_BOINCGLUT
-   BOINCGLUT_SUBDIR = boincglut
-endif
-
 if BUILD_CLIENTGUI
    CLIENTGUI_SUBDIRS = clientgui
 endif

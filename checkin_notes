@@ -21911,9 +21911,20 @@ David  27 Dec 2004
         main.C
         sched_send.C
 
-David  27 Oct 2004
+David  27 Dec 2004
     - web fixes from Eric Myers
 
     html/inc
         cache.inc
         forum.inc
+
+Bruce 28 Dec 2004
+    - fixes from Reinhard Prix to disable building of boincglut under
+      Darwin/Unix.  It's only needed under Windows. Also warn user if
+      GLUT libraries missing, and then build only non-graphical client
+      side code.
+ 
+    Makefile.am
+    configure.ac
+    api/
+        configure.ac
