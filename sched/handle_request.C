@@ -1215,12 +1215,20 @@ void handle_request(
     SCHEDULER_REPLY sreply;
 
     memset(&sreq, 0, sizeof(sreq));
-    sreq.parse(fin);
-    log_messages.printf(
-        SchedMessages::NORMAL, "Handling request: IP %s, auth %s, platform %s, version %d.%d\n",
-        get_remote_addr(), sreq.authenticator, sreq.platform_name,
-        sreq.core_client_major_version, sreq.core_client_minor_version
-    );
-    process_request(sreq, sreply, ss, code_sign_key);
+    // check return of sreq.parse
+    if (sreq.parse(fin) == 0){
+    
+      log_messages.printf(
+			  SchedMessages::NORMAL, "Handling request: IP %s, auth %s, platform %s, version %d.%d\n",
+			  get_remote_addr(), sreq.authenticator, sreq.platform_name,
+			  sreq.core_client_major_version, sreq.core_client_minor_version
+			  );
+      process_request(sreq, sreply, ss, code_sign_key);
+    } else {
+      strcpy(sreply.message, "Incomplete request received.");
+      strcpy(sreply.message_priority, "low");
+      return;
+    }
+    
     sreply.write(fout);
 }
