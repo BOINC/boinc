@@ -7827,3 +7827,9 @@ David  25 Nov 2003
 		client_types.C,h
 		win/
 			wingui_mainwindow.cpp
+
+Karl 2003-11-25
+    - wrote release notes 
+    doc/
+        ssl_client_release_instructions.txt
+

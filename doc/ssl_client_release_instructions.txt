@@ -1,0 +1,73 @@
+;; $Id$
+
+Administrivia:
+    Make a note in checkin_notes 
+
+    Set the version number:
+        in unix, run:
+            ./set-version 2.11
+            cvs ci -m 'new version'
+
+    Make a source tarball and zip:
+        make dist
+        cp boinc-2.11.tar.gz boinc-2.12.zip ~davea/boinc/doc/source/
+        
+{Linux,Solaris2.7,Solaris2.8} release:
+    use these hosts:
+    Linux: milhouse
+    solaris2.7: milkyway
+    solaris2.8: kodos
+    
+    do a clean check out; compile; copy to koloth:
+        cd ~
+        mkdir proj
+        cd proj
+        mkdir client-build-`~quarl/proj/boinc/config.guess`
+        cd client-build-`~quarl/proj/boinc/config.guess`
+        cvs co boinc
+        cd boinc
+        ./configure && make
+        scp client/boinc_2.12_*.gz boincadm@koloth:projects/Astropulse_Beta/apps/boinc/
+
+    [bonus: automate this process]
+
+Windows:
+    Use the Windows computer in 329.
+
+    Open 'quarl' on the desktop.
+
+    Open 'BOINC'
+
+    Right click in the folder; select 'cvs update'
+
+    Open 'win_build'
+
+    Open 'BOINC.dsw'
+
+    make
+
+    Open 'installer'
+
+    Find the two text files *.txt and change the version number
+        [bonus: automate this process]
+
+    open 'BOINC.ipr' (installshield project)
+    build default media
+        [bonus: automate this process]
+    
+    open 'BOINC.pfw' (package for the web project)
+    build everything, changing the version numbers
+        [bonus: automate this process]
+
+    SFTP to boincadm@koloth
+
+    copy BOINC_2.11_intelx86_windows.exe to the apps directory
+
+
+Update the server:
+    ssh boincadm@koloth
+    cd projects/Astropulse_Beta/bin
+    ./update_versions &&
+    ./stop
+    ./start
+
