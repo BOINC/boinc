@@ -618,10 +618,11 @@ int handle_results(
         result.received_time = time(0);
         result.client_state = rp->client_state;
         result.cpu_time = rp->cpu_time;
+        result.exit_status = rp->exit_status;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
         result.server_state = RESULT_SERVER_STATE_OVER;
 
-		strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
+        strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
