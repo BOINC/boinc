@@ -4,25 +4,26 @@ include $(top_srcdir)/Makefile.incl
 
 noinst_LIBRARIES = libboinc_api.a
 
-libboinc_api_a_SOURCES =			\
-	boinc_api.C				\
-	boinc_api.h				\
-	graphics_api.C				\
-	graphics_api.h				\
-	graphics_data.C				\
-	graphics_data.h				\
-	gutil.C					\
-	gutil.h					\
-	mac_app_opengl.h			\
-	mac_carbon_gl.h				\
-	mfile.C					\
-	reduce.h				\
-	x_opengl.C				\
-	x_opengl.h				\
-	../lib/util.C				\
-	../lib/shmem.C				\
-	../lib/parse.C				\
+libboinc_api_a_SOURCES =						\
+	boinc_api.C									\
+	boinc_api.h									\
+	graphics_api.C								\
+	graphics_api.h								\
+	graphics_data.C								\
+	graphics_data.h								\
+	mac_app_opengl.h							\
+	mac_carbon_gl.h								\
+	mfile.C										\
+	reduce.h									\
+	x_opengl.C									\
+	x_opengl.h									\
+	../lib/util.C								\
+	../lib/shmem.C								\
+	../lib/parse.C								\
 	../lib/app_ipc.C
+
+# gutil.C					
+# gutil.h					
 
 EXTRA_PROGRAMS = api_app api_test
 
