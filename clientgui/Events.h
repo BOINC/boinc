@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/10/21 14:29:58  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/09/25 21:33:22  rwalton
 // *** empty log message ***
 //
@@ -41,8 +44,8 @@
 
 
 #define ID_STATUSBAR                        6000
-#define ID_COMMANDSATTACHPROJECT            6001
-#define ID_TOOLSOPTIONS                     6002
+#define ID_TOOLSOPTIONS                     6001
+#define ID_FRAMENOTEBOOK                    6002
 #define ID_FRAMETASKRENDERTIMER             6003
 #define ID_FRAMELISTRENDERTIMER             6004
 #define ID_LIST_PROJECTSVIEW                6005

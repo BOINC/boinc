@@ -49,6 +49,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
     EVT_IDLE(CMainFrame::OnIdle)
+    EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
     EVT_LIST_CACHE_HINT(wxID_ANY, CMainFrame::OnListCacheHint)
     EVT_LIST_ITEM_SELECTED(wxID_ANY, CMainFrame::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(wxID_ANY, CMainFrame::OnListDeselected)
@@ -91,7 +92,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
     RestoreState();
 
-    m_PostCreateInitializationCompleted = false;
+    m_bPostCreateInitializationCompleted = false;
 }
 
 
@@ -181,7 +182,7 @@ bool CMainFrame::CreateNotebook()
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
 
     // initialize notebook
-    m_pNotebook = new wxNotebook(pPanel, -1, wxDefaultPosition, wxDefaultSize,
+    m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize,
                                 wxNB_FIXEDWIDTH|wxCLIP_CHILDREN);
 
     wxNotebookSizer *pNotebookSizer = new wxNotebookSizer(m_pNotebook);
@@ -497,9 +498,9 @@ void CMainFrame::OnIdle(wxIdleEvent& event)
     if ( NULL != pDoc )
     {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        if ( false == m_PostCreateInitializationCompleted )
+        if ( false == m_bPostCreateInitializationCompleted )
         {
-            m_PostCreateInitializationCompleted = true;
+            m_bPostCreateInitializationCompleted = true;
             pDoc->OnInit();
         }
 
@@ -510,138 +511,202 @@ void CMainFrame::OnIdle(wxIdleEvent& event)
 }
 
 
+void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
+{
+    if ( (-1 != event.GetSelection()) && IsShown() )
+    {
+        wxWindow*       pwndNotebookPage;
+        wxTimerEvent    timerEvent;
+
+        wxASSERT(NULL != m_pNotebook);
+
+
+        pwndNotebookPage = m_pNotebook->GetPage( event.GetSelection() );
+        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+
+        if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), timerEvent);
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), timerEvent);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewWork), timerEvent);
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewWork), timerEvent);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), timerEvent);
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), timerEvent);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), timerEvent);
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), timerEvent);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewResources), timerEvent);
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewResources), timerEvent);
+        } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), timerEvent);
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), timerEvent);
+        }
+    }
+
+    event.Skip();
+}
+
+
 void CMainFrame::OnListCacheHint( wxListEvent& event )
 {
-    wxWindow*       pwndNotebookPage;
+    if ( IsShown() )
+    {
+        wxWindow*       pwndNotebookPage;
 
-    wxASSERT(NULL != m_pNotebook);
+        wxASSERT(NULL != m_pNotebook);
 
 
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(NULL != pwndNotebookPage);
-    wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
-    if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
-        FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
-        FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
-        FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
-        FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
-        FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
-        FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
+            FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
+            FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
+            FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
+            FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
+            FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
+            FireListOnCacheHintEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        }
     }
+
+    event.Skip();
 }
 
 
 void CMainFrame::OnListSelected( wxListEvent& event )
 {
-    wxWindow*       pwndNotebookPage;
+    if ( IsShown() )
+    {
+        wxWindow*       pwndNotebookPage;
 
-    wxASSERT(NULL != m_pNotebook);
+        wxASSERT(NULL != m_pNotebook);
 
 
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(NULL != pwndNotebookPage);
-    wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
-    if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
-        FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
-        FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
-        FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
-        FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
-        FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
-        FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
+            FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
+            FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
+            FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
+            FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
+            FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
+            FireListOnSelectedEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        }
     }
+
+    event.Skip();
 }
 
 
 void CMainFrame::OnListDeselected( wxListEvent& event )
 {
-    wxWindow*       pwndNotebookPage;
+    if ( IsShown() )
+    {
+        wxWindow*       pwndNotebookPage;
 
-    wxASSERT(NULL != m_pNotebook);
+        wxASSERT(NULL != m_pNotebook);
 
 
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(NULL != pwndNotebookPage);
-    wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
-    if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
-        FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
-        FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
-        FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
-        FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
-        FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
-        FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
+            FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
+            FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
+            FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
+            FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
+            FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
+            FireListOnDeselectedEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        }
     }
+
+    event.Skip();
 }
 
 
 void CMainFrame::OnListPanelRender ( wxTimerEvent &event )
 {
-    wxWindow*       pwndNotebookPage;
+    if ( IsShown() )
+    {
+        wxWindow*       pwndNotebookPage;
 
-    wxASSERT(NULL != m_pNotebook);
+        wxASSERT(NULL != m_pNotebook);
 
 
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(NULL != pwndNotebookPage);
-    wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
-    if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
-        FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
-        FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
-        FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
-        FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
-        FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
-        FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
+            FireListPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        }
     }
+
+    event.Skip();
 }
 
 
 void CMainFrame::OnTaskPanelRender ( wxTimerEvent &event )
 {
-    wxWindow*       pwndNotebookPage;
+    if ( IsShown() )
+    {
+        wxWindow*       pwndNotebookPage;
 
-    wxASSERT(NULL != m_pNotebook);
+        wxASSERT(NULL != m_pNotebook);
 
 
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(NULL != pwndNotebookPage);
-    wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
-    if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
-        FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
-        FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
-        FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
-        FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
-        FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
-    } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
-        FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        if        (wxDynamicCast(pwndNotebookPage, CViewProjects)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewProjects), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewWork)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewWork), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewTransfers)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewTransfers), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewMessages)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewMessages), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CViewResources)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CViewResources), event);
+        } else if (wxDynamicCast(pwndNotebookPage, CBOINCBaseView)) {
+            FireTaskPanelRenderEvent(wxDynamicCast(pwndNotebookPage, CBOINCBaseView), event);
+        }
     }
+
+    event.Skip();
 }
 
 
@@ -669,13 +734,13 @@ void CMainFrame::FireListOnDeselectedEvent( T pPage, wxListEvent& event )
 template < class T >
 void CMainFrame::FireListPanelRenderEvent( T pPage, wxTimerEvent& event )
 {
-    pPage->OnListRender(event);
+    pPage->OnListRender( event );
 }
 
 
 template < class T >
 void CMainFrame::FireTaskPanelRenderEvent( T pPage, wxTimerEvent& event )
 {
-    pPage->OnTaskRender(event);
+    pPage->OnTaskRender( event );
 }
 

@@ -442,43 +442,98 @@ wxInt32 CMainDocument::ProjectAttach( wxString& strURL, wxString& strAccountKey 
 }
 
 
-wxInt32 CMainDocument::ProjectDetach( wxString& strURL )
+wxInt32 CMainDocument::ProjectDetach( wxInt32 iIndex )
 {
-    PROJECT p;
-    p.master_url = strURL;
-    return rpc.project_op(p, wxT("detach"));
+    PROJECT* pProject = NULL;
+    wxInt32 iRetVal = -1;
+
+    if ( project_status.projects.size() != 0 )
+        pProject = project_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+        iRetVal = rpc.project_op( (*pProject), wxT("detach") );
+
+    return iRetVal;
 }
 
 
-wxInt32 CMainDocument::ProjectUpdate( wxString& strURL )
+wxInt32 CMainDocument::ProjectUpdate( wxInt32 iIndex )
 {
-    PROJECT p;
-    p.master_url = strURL;
-    return rpc.project_op(p, wxT("update"));
+    PROJECT* pProject = NULL;
+    wxInt32 iRetVal = -1;
+
+    if ( project_status.projects.size() != 0 )
+        pProject = project_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+        iRetVal = rpc.project_op( (*pProject), wxT("update") );
+
+    return iRetVal;
 }
 
 
-wxInt32 CMainDocument::ProjectReset( wxString& strURL )
+wxInt32 CMainDocument::ProjectReset( wxInt32 iIndex )
 {
-    PROJECT p;
-    p.master_url = strURL;
-    return rpc.project_op(p, wxT("reset"));
+    PROJECT* pProject = NULL;
+    wxInt32 iRetVal = -1;
+
+    if ( project_status.projects.size() != 0 )
+        pProject = project_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+        iRetVal = rpc.project_op( (*pProject), wxT("reset") );
+
+    return iRetVal;
 }
 
 
-wxInt32 CMainDocument::ProjectSuspend( wxString& strURL )
+wxInt32 CMainDocument::ProjectSuspend( wxInt32 iIndex )
 {
-    PROJECT p;
-    p.master_url = strURL;
-    return rpc.project_op(p, wxT("suspend"));
+    PROJECT* pProject = NULL;
+    PROJECT* pStateProject = NULL;
+    wxInt32 iRetVal = -1;
+
+    if ( project_status.projects.size() != 0 )
+        pProject = project_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+    {
+        iRetVal = rpc.project_op( (*pProject), wxT("suspend") );
+        if ( 0 == iRetVal )
+        {
+            pProject->suspended_via_gui = true;
+            pStateProject = state.lookup_project( pProject->master_url );
+            if ( NULL != pStateProject )
+                pStateProject->suspended_via_gui = true;
+        }
+    }
+
+    return iRetVal;
 }
 
 
-wxInt32 CMainDocument::ProjectResume( wxString& strURL )
+wxInt32 CMainDocument::ProjectResume( wxInt32 iIndex )
 {
-    PROJECT p;
-    p.master_url = strURL;
-    return rpc.project_op(p, wxT("resume"));
+    PROJECT* pProject = NULL;
+    PROJECT* pStateProject = NULL;
+    wxInt32 iRetVal = -1;
+
+    if ( project_status.projects.size() != 0 )
+        pProject = project_status.projects.at( iIndex );
+
+    if ( NULL != pProject )
+    {
+        iRetVal = rpc.project_op( (*pProject), wxT("resume") );
+        if ( 0 == iRetVal )
+        {
+            pProject->suspended_via_gui = false;
+            pStateProject = state.lookup_project( pProject->master_url );
+            if ( NULL != pStateProject )
+                pStateProject->suspended_via_gui = false;
+        }
+    }
+
+    return iRetVal;
 }
 
 
@@ -784,25 +839,57 @@ bool CMainDocument::IsWorkSuspended(wxInt32 iIndex)
 }
 
 
-wxInt32 CMainDocument::WorkSuspend( wxString& strProjectURL, wxString& strResultName )
+wxInt32 CMainDocument::WorkSuspend( wxInt32 iIndex )
 {
-    PROJECT p;
-    RESULT r;
-    p.master_url = strProjectURL;
-    r.name = strResultName;
-    r.project = &p;
-    return rpc.result_op(r, wxT("suspend"));
+    RESULT* pResult = NULL;
+    RESULT* pStateResult = NULL;
+    wxInt32 iRetVal = 0;
+
+    if ( results.results.size() != 0 )
+        pResult = results.results.at( iIndex );
+
+    if ( NULL != pResult )
+    {
+        pStateResult = state.lookup_result( pResult->project_url, pResult->name );
+        if ( NULL != pStateResult )
+        {
+            iRetVal = rpc.result_op( (*pStateResult), wxT("suspend") );
+            if ( 0 == iRetVal )
+            {
+                pResult->suspended_via_gui = true;
+                pStateResult->suspended_via_gui = true;
+            }
+        }
+    }
+
+    return iRetVal;
 }
 
 
-wxInt32 CMainDocument::WorkResume( wxString& strProjectURL, wxString& strResultName )
+wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
 {
-    PROJECT p;
-    RESULT r;
-    p.master_url = strProjectURL;
-    r.name = strResultName;
-    r.project = &p;
-    return rpc.result_op(r, wxT("resume"));
+    RESULT* pResult = NULL;
+    RESULT* pStateResult = NULL;
+    wxInt32 iRetVal = 0;
+
+    if ( results.results.size() != 0 )
+        pResult = results.results.at( iIndex );
+
+    if ( NULL != pResult )
+    {
+        pStateResult = state.lookup_result( pResult->project_url, pResult->name );
+        if ( NULL != pStateResult )
+        {
+            iRetVal = rpc.result_op( (*pStateResult), wxT("resume") );
+            if ( 0 == iRetVal )
+            {
+                pResult->suspended_via_gui = false;
+                pStateResult->suspended_via_gui = false;
+            }
+        }
+    }
+
+    return iRetVal;
 }
 
 

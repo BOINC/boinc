@@ -131,6 +131,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 {
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
+    m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -401,7 +402,6 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
-        pDoc->GetProjectProjectURL(iProjectIndex, strURL);
 
         strMessage.Printf(
             _("Are you sure you wish to detach from project '%s'?"), 
@@ -417,7 +417,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         if ( wxYES == iAnswer )
         {
             pDoc->ProjectDetach(
-                strURL 
+                iProjectIndex 
             );
         }
     }
@@ -425,7 +425,6 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
-        pDoc->GetProjectProjectURL(iProjectIndex, strURL);
 
         strMessage.Printf(
             _("Are you sure you wish to reset project '%s'?"), 
@@ -441,35 +440,32 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         if ( wxYES == iAnswer )
         {
             pDoc->ProjectReset(
-                strURL 
+                iProjectIndex 
             );
         }
     }
     else if ( link.GetHref() == LINK_TASKUPDATE )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetProjectProjectURL(iProjectIndex, strURL);
 
         pDoc->ProjectUpdate(
-            strURL 
+            iProjectIndex 
         );
     }
     else if ( link.GetHref() == LINK_TASKSUSPEND )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetProjectProjectURL(iProjectIndex, strURL);
 
         pDoc->ProjectSuspend(
-            strURL 
+            iProjectIndex 
         );
     }
     else if ( link.GetHref() == LINK_TASKRESUME )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetProjectProjectURL(iProjectIndex, strURL);
 
         pDoc->ProjectResume(
-            strURL 
+            iProjectIndex 
         );
     }
     else if ( link.GetHref() == SECTION_WEB )
@@ -496,6 +492,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
     UpdateSelection();
+    m_pListPane->Refresh();
 }
 
 

@@ -83,6 +83,7 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 {
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
+    m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);

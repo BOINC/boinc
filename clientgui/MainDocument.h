@@ -113,11 +113,11 @@ public:
     bool                        IsProjectRPCPending(wxInt32 iIndex);
 
     wxInt32                     ProjectAttach( wxString& strURL, wxString& strAccountKey );
-    wxInt32                     ProjectDetach( wxString& strURL );
-    wxInt32                     ProjectUpdate( wxString& strURL );
-    wxInt32                     ProjectReset( wxString& strURL );
-    wxInt32                     ProjectSuspend( wxString& strURL );
-    wxInt32                     ProjectResume( wxString& strURL );
+    wxInt32                     ProjectDetach( wxInt32 iIndex );
+    wxInt32                     ProjectUpdate( wxInt32 iIndex );
+    wxInt32                     ProjectReset( wxInt32 iIndex );
+    wxInt32                     ProjectSuspend( wxInt32 iIndex );
+    wxInt32                     ProjectResume( wxInt32 iIndex );
 
 
     //
@@ -148,8 +148,8 @@ public:
     bool                        IsWorkReadyToReport(wxInt32 iIndex);
     bool                        IsWorkSuspended(wxInt32 iIndex);
 
-    wxInt32                     WorkSuspend( wxString& strProjectURL, wxString& strResultName );
-    wxInt32                     WorkResume( wxString& strProjectURL, wxString& strResultName );
+    wxInt32                     WorkSuspend( wxInt32 iIndex );
+    wxInt32                     WorkResume( wxInt32 iIndex );
     wxInt32                     WorkShowGraphics( wxString& strProjectURL, wxString& strResultName, bool bFullScreen );
     wxInt32                     WorkAbort( wxString& strProjectURL, wxString& strResultName );
 

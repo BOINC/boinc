@@ -97,6 +97,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 {
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
+    m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -348,23 +349,17 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     else if ( link.GetHref() == LINK_TASKSUSPEND )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
-        pDoc->GetWorkName(iProjectIndex, strResultName);
 
         pDoc->WorkSuspend(
-            strProjectURL,
-            strResultName
+            iProjectIndex
         );
     }
     else if ( link.GetHref() == LINK_TASKRESUME )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
-        pDoc->GetWorkName(iProjectIndex, strResultName);
 
         pDoc->WorkResume(
-            strProjectURL,
-            strResultName
+            iProjectIndex
         );
     }
     else if ( link.GetHref() == LINK_TASKSHOWGRAPHICS )
@@ -408,6 +403,7 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
     UpdateSelection();
+    m_pListPane->Refresh();
 }
 
 
@@ -727,7 +723,14 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
                 }
                 else if ( CMainDocument::CPU_SCHED_PREEMPTED == iSchedulerState )
                 {
-                    strBuffer = _("Paused");
+                    if ( pDoc->IsWorkSuspended(item) )
+                    {
+                        strBuffer = _("Suspended");
+                    }
+                    else
+                    {
+                        strBuffer = _("Paused");
+                    }
                 }
                 else if ( CMainDocument::CPU_SCHED_UNINITIALIZED == iSchedulerState )
                 {

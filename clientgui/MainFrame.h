@@ -42,20 +42,22 @@ public:
 
     bool UpdateStatusbar( const wxString& strStatusbarText );
 
-    void OnExit(wxCommandEvent& event);
-    void OnClose(wxCloseEvent& event);
+    void OnExit( wxCommandEvent& event );
+    void OnClose( wxCloseEvent& event );
 
-    void OnToolsOptions(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
+    void OnToolsOptions( wxCommandEvent& event );
+    void OnAbout( wxCommandEvent& event );
 
-    void OnIdle (wxIdleEvent& event);
+    void OnIdle ( wxIdleEvent& event );
+
+    void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
     void OnListCacheHint( wxListEvent& event );
     void OnListSelected( wxListEvent& event );
     void OnListDeselected( wxListEvent& event );
-    void OnListPanelRender(wxTimerEvent& event);
 
-    void OnTaskPanelRender(wxTimerEvent& event);
+    void OnListPanelRender( wxTimerEvent& event );
+    void OnTaskPanelRender( wxTimerEvent& event );
 
 private:
 
@@ -65,7 +67,7 @@ private:
     wxTimer*        m_pFrameTaskPanelRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
 
-    bool            m_PostCreateInitializationCompleted;
+    bool            m_bPostCreateInitializationCompleted;
 
 
     bool            CreateMenu();
