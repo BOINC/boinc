@@ -50,8 +50,10 @@ PROJECT::PROJECT() {
 void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
+#if 0
     share_size = 0;
     size = 0;
+#endif
     project_specific_prefs = "";
     resource_share = 100;
     strcpy(project_name, "");
@@ -290,6 +292,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     STRING256 sched_url;
     string str1, str2;
     int retval;
+    double x;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -316,8 +319,10 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
+#if 0
         else if (parse_double(buf, "<share_size>", share_size)) continue;
         else if (parse_double(buf, "<size>", size)) continue;
+#endif
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
         else if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
@@ -350,6 +355,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
         else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
         else if (parse_double(buf, "<debt>", debt)) continue;
+        else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -372,8 +378,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
+#if 0
         "    <share_size>%f</share_size>\n"
         "    <size>%f</size>\n"
+#endif
         "    <user_name>%s</user_name>\n"
         "    <team_name>%s</team_name>\n"
         "    <email_hash>%s</email_hash>\n"
@@ -392,11 +400,14 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%d</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
+        "    <resource_share>%f</resource_share>\n"
         "%s%s%s%s%s\n",
         master_url,
         project_name,
+#if 0
         share_size,
         size,
+#endif
         u2.c_str(),
         t2.c_str(),
         email_hash,
@@ -415,17 +426,14 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_fetch_failures,
         (int)min_rpc_time,
         debt,
+        resource_share,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
         deletion_policy_priority?"    <deletion_policy_priority/>\n":"",
         deletion_policy_expire?"    <deletion_policy_expire/>\n":""
     );
-    if (gui_rpc) {
-        out.printf(
-            "    <resource_share>%f</resource_share>\n", resource_share
-        );
-    } else {
+    if (!gui_rpc) {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
                 "    <scheduler_url>%s</scheduler_url>\n",
@@ -449,8 +457,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     safe_strcpy(project_name, p.project_name);
+#if 0
     share_size = p.share_size;
     size = p.size;
+#endif
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
     safe_strcpy(email_hash, p.email_hash);

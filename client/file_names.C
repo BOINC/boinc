@@ -72,15 +72,15 @@ void get_pathname(FILE_INFO* fip, char* path) {
 void get_sched_request_filename(PROJECT& project, char* buf) {
     char url[256];
 
-    escape_project_url(project.master_url, buf);
-    sprintf(buf, "%s%s", SCHED_OP_REQUEST_BASE, url);
+    escape_project_url(project.master_url, url);
+    sprintf(buf, "%s%s.xml", SCHED_OP_REQUEST_BASE, url);
 }
 
 void get_sched_reply_filename(PROJECT& project, char* buf) {
     char url[256];
 
-    escape_project_url(project.master_url, buf);
-    sprintf(buf, "%s%s", SCHED_OP_REPLY_BASE, url);
+    escape_project_url(project.master_url, url);
+    sprintf(buf, "%s%s.xml", SCHED_OP_REPLY_BASE, url);
 }
 
 // Returns the location of a numbered slot directory

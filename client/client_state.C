@@ -875,7 +875,9 @@ bool CLIENT_STATE::garbage_collect() {
         // if there was an error with a permanent file, get rid of its file_info
         if (fip->status < 0) fip->sticky = false;
         if (fip->ref_cnt==0 && fip->pers_file_xfer==NULL && !fip->sticky) {
+#if 0
             fip->project->size -= fip->nbytes;
+#endif
             fip->delete_file();
             scope_messages.printf(
                 "CLIENT_STATE::garbage_collect(): deleting file %s\n",
