@@ -25621,3 +25621,13 @@ David  7 Mar 2005
     sched/
         db_dump.C
         validate_util.C
+
+Rom    7 Mar 2005
+    - Bug Fix: Change the state refresh functionality from an OnIdle event
+        to a specific timer event since on some platforms the on timer
+        event is called really often.
+
+    clientgui/
+        Events.h
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h

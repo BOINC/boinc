@@ -57,10 +57,10 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
-    EVT_IDLE(CMainFrame::OnIdle)
     EVT_CLOSE(CMainFrame::OnClose)
     EVT_SIZE(CMainFrame::OnSize)
     EVT_CHAR(CMainFrame::OnChar)
+    EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
     EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
@@ -102,18 +102,27 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
 
+    m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
+    wxASSERT(NULL != m_pRefreshStateTimer);
+
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(NULL != m_pFrameRenderTimer);
 
     m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
 
+    m_pRefreshStateTimer->Start(60000);              // Send event every 60 seconds
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
 
     SetStatusBarPane(0);
 
     RestoreState();
+
+    // On platforms like Linux, Solaris, and possibly others the Size event isn't
+    //   sent after creation, so lets send it so that the status bar area is
+    //   displayed correctly.
+    SendSizeEvent();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -857,26 +866,6 @@ void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& event )
 }
 
    
-void CMainFrame::OnIdle( wxIdleEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnIdle - Function Begin"));
-
-    wxGetApp().UpdateSystemIdleDetection();
-
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    if ( NULL != pDoc )
-    {
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        pDoc->OnIdle();
-    }
-
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnIdle - Function End"));
-}
-
-
 void CMainFrame::OnClose( wxCloseEvent& event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
@@ -992,9 +981,29 @@ void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
 }
 
 
+void CMainFrame::OnRefreshState( wxTimerEvent &event )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshState - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    if ( NULL != pDoc )
+    {
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        pDoc->OnRefreshState();
+    }
+
+    event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshState - Function End"));
+}
+
+
 void CMainFrame::OnFrameRender( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
+
+    wxGetApp().UpdateSystemIdleDetection();
 
     if ( IsShown() )
     {

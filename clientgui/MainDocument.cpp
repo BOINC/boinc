@@ -150,7 +150,7 @@ wxInt32 CMainDocument::OnExit()
 }
 
 
-wxInt32 CMainDocument::OnIdle()
+wxInt32 CMainDocument::OnRefreshState()
 {
     if ( IsConnected() )
         CachedStateUpdate();

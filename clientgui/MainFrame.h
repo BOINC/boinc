@@ -49,11 +49,11 @@ public:
     void OnUpdateActivitySelection( wxUpdateUIEvent& event );
     void OnUpdateNetworkSelection( wxUpdateUIEvent& event );
 
-    void OnIdle( wxIdleEvent& event );
     void OnClose( wxCloseEvent& event );
     void OnSize( wxSizeEvent& event );
     void OnChar( wxKeyEvent& event );
 
+    void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
     void OnListPanelRender( wxTimerEvent& event );
 
@@ -64,6 +64,7 @@ private:
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     wxStatusBar*    m_pStatusbar;
+    wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
 

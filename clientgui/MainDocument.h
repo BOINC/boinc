@@ -90,7 +90,7 @@ public:
 
     wxInt32                     OnInit();
     wxInt32                     OnExit();
-    wxInt32                     OnIdle();
+    wxInt32                     OnRefreshState();
 
     wxInt32                     Connect( wxString& strMachine, bool bDisconnect = TRUE );
     wxInt32                     Disconnect();
