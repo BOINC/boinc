@@ -168,6 +168,7 @@ class SqlQueryString {
         $this->addeqnz('server_state');
         $this->addeqnz('outcome');
         $this->addeqnz('client_state');
+        $this->addeqnz('validate_state');
         if ($_GET['clauses']) {
             $this->addclause($_GET['clauses']);
         }

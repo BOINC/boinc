@@ -6,7 +6,7 @@ require_once("../project/project_news.inc");
 
 page_head("News archive");
 
-show_old_news($project_news, 6);
+show_old_news($project_news, 5);
 
 page_tail();
 
