@@ -64,7 +64,6 @@ struct BOINC_STATUS {
 };
 
 extern int boinc_init(void);
-extern int boinc_init_options(BOINC_OPTIONS&);
 extern int boinc_finish(int status);
 extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_parse_init_data_file(void);
@@ -81,7 +80,6 @@ extern bool boinc_is_standalone(void);
 extern bool boinc_receive_trickle_down(char* buf, int len);
 extern bool boinc_time_to_checkpoint();
 
-extern int boinc_get_status(BOINC_STATUS&);
 
 #ifdef __cplusplus
 } /* extern "C" { */
@@ -99,6 +97,8 @@ extern int boinc_get_status(BOINC_STATUS&);
 extern APP_INIT_DATA aid;
 
 /* C++ prototypes */
+extern int boinc_init_options(BOINC_OPTIONS&);
+extern int boinc_get_status(BOINC_STATUS&);
 extern int boinc_resolve_filename_s(const char*, std::string&);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
