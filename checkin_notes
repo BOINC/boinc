@@ -13654,11 +13654,19 @@ Daniel 15 June 2004
 Karl 2004-06-16
 
     - Compile fixes
+    - Removed windows MSVC-specific pre-compiled header stuff from API
+      headers and modules, since these are compiled/included by external
+      projects and do not use the same stdafx.h.
 
     lib/
         app_ipc.h
 
-    - Return value fixes
+    api/
+        boinc_api.h
+        boinc_api.C
+        
+
+    - Fortran wrapper: Return value fixes
 
     api/
         boinc_api_fortran.C

@@ -59,47 +59,47 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-static APP_INIT_DATA		aid;
-APP_CLIENT_SHM	            *app_client_shm=0;
-static	double				timer_period = 1.0;    // period of API timer
-    // This determines the resolution of fraction done and CPU time reporting
-    // to the core client, and of checkpoint enabling.
-    // It doesn't influence graphics, so 1 sec is enough.
-static	double				time_until_checkpoint;
-    // countdown timer until enable checkpoint
-static	double				time_until_fraction_done_update;
-    // countdown timer until report fraction done to core
-static	double				fraction_done;
-static	double				last_checkpoint_cpu_time;
-static	bool				ready_to_checkpoint = false;
-static	bool				this_process_active;
-static	bool				time_to_quit = false;
-static	double				last_wu_cpu_time;
-static	bool				standalone = false;
-static	double				initial_wu_cpu_time;
-static	bool				have_new_trickle_up = false;
+static APP_INIT_DATA  aid;
+APP_CLIENT_SHM	     *app_client_shm      = 0;
+static	double	      timer_period        = 1.0;    // period of API timer
+// This determines the resolution of fraction done and CPU time reporting
+// to the core client, and of checkpoint enabling.
+// It doesn't influence graphics, so 1 sec is enough.
+static	double	      time_until_checkpoint;
+// countdown timer until enable checkpoint
+static	double	      time_until_fraction_done_update;
+// countdown timer until report fraction done to core
+static	double	      fraction_done;
+static	double	      last_checkpoint_cpu_time;
+static	bool	      ready_to_checkpoint = false;
+static	bool	      this_process_active;
+static	bool	      time_to_quit        = false;
+static	double	      last_wu_cpu_time;
+static	bool	      standalone          = false;
+static	double	      initial_wu_cpu_time;
+static	bool	      have_new_trickle_up = false;
 
 #ifdef _WIN32
-HANDLE				hErrorNotification;
-HANDLE				hQuitRequest;
-HANDLE				hSuspendRequest;
-HANDLE				hResumeRequest;
-HANDLE				hSharedMem;
-HANDLE				worker_thread_handle;
-MMRESULT			timer_id;
+HANDLE	 hErrorNotification;
+HANDLE	 hQuitRequest;
+HANDLE	 hSuspendRequest;
+HANDLE	 hResumeRequest;
+HANDLE	 hSharedMem;
+HANDLE	 worker_thread_handle;
+MMRESULT timer_id;
 #endif
 
-static int		setup_shared_mem();
-static void		cleanup_shared_mem();
-static int		update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
-static int		set_timer(double period);
+static int  setup_shared_mem();
+static void cleanup_shared_mem();
+static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
+static int  set_timer(double period);
 
 int boinc_init(bool standalone_ /* = false */) {
     FILE* f;
     int retval;
 
 #ifdef _WIN32
-	DuplicateHandle(
+    DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),
         GetCurrentProcess(),
@@ -358,7 +358,7 @@ static int setup_shared_mem() {
         fprintf(stderr, "Standalone mode, so not using shared memory.\n");
         return 0;
     }
-	app_client_shm = new APP_CLIENT_SHM;
+    app_client_shm = new APP_CLIENT_SHM;
 
 #ifdef _WIN32
     char buf[256];
