@@ -172,8 +172,8 @@ struct HOST {
     double d_total;         // Total disk space
     double d_free;
 
-    double n_bwup;          // Average upload bandwidth
-    double n_bwdown;        // Average download bandwidth
+    double n_bwup;          // Average upload bandwidth, bytes/sec
+    double n_bwdown;        // Average download bandwidth, bytes/sec
 
     // The following is derived (by server) from other fields
     double credit_per_cpu_sec;
