@@ -787,6 +787,14 @@ function show_post2($post, $n) {
     $user = lookup_user_id($post->user);
     $title = cleanup_title($thread->title);
     $m = $n%2;
+    if($post->hidden) {
+        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial spam" ); 	//Todo: factor this array out, it is also used elsewhere
+        $deleted = "<br><font color=red>[Deleted " .
+                   "by a moderator as " . $deleted_text[$post->hidden-1] .
+                   "] </font>";
+    } else {
+        $deleted = "";
+    };    
     echo "
         <tr class=row$m>
         <td>
@@ -794,7 +802,7 @@ function show_post2($post, $n) {
             <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
             <a href=\"forum_thread.php?id=$thread->id\">$title</a>
             <br>
-            Posted $when by $user->name
+            Posted $when by $user->name $deleted
             <hr>
             $content
         </td>
