@@ -59,9 +59,9 @@ public:
     
     PERS_FILE_XFER();
     int init(FILE_INFO*, bool is_file_upload);
-    bool poll(unsigned int now);
-    void handle_xfer_failure(unsigned int cur_time);
-    void retry_or_backoff(unsigned int cur_time);
+    bool poll(time_t now);
+    void handle_xfer_failure(time_t cur_time);
+    void retry_or_backoff(time_t cur_time);
     int write(FILE* fout);
     int parse(FILE* fin);
     bool start_xfer();

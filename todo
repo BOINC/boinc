@@ -54,13 +54,6 @@ Devise system for porting applications
     uploading app versions and adding them to DB
     XXX should do this manually since need to sign
 
-Figure out how to support people with computers at home/work
-    with different preferences.
-    - separate accounts, but credit funnels to 1 account?
-        (can have same email?)
-    - separate prefs under 1 account?
-        need separate DB table for prefs?
-
 Add 2-D waterfall display to Astropulse
 
 get timezone working on all platforms
@@ -86,8 +79,6 @@ Global preferences
         change global prefs at one web site,
         make sure they propagate to all hosts
     limit on frequency of disk writes?
-    max net traffic per day?
-        implement in client
 
 Per-project preferences
     test project-specific prefs

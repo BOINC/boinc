@@ -172,6 +172,7 @@ try_again:
                 }
             }
         }
+        ssp->ready = true;
         if (nadditions == 0) {
             write_log("no results added\n");
             sleep(1);
@@ -189,7 +190,6 @@ try_again:
         }
         fflush(stdout);
         check_triggers(ssp);
-        ssp->ready = true;
     }
 }
 

@@ -63,11 +63,11 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
 bool PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
-    struct tm *newtime;
-    time_t now;
+    //struct tm *newtime;
+    //time_t now;
     char buf[256];
 
-    now = time(0);
+    //now = time(0);
 
     // Decide whether to start a new file transfer
     //
@@ -107,17 +107,14 @@ bool PERS_FILE_XFER::start_xfer() {
                 show_message(fip->project, "file_xfer insert failed\n", MSG_ERROR);
             }
             fxp->file_xfer_retval = retval;
-            handle_xfer_failure(now);
+            handle_xfer_failure(time(0));
             fxp = NULL;
             return false;
         }
         if (log_flags.file_xfer) {
-            now = time(0);
-            newtime = localtime(&now);
             sprintf(buf,
-                "started %s of %s to %s at time: %s\n",
-                (is_upload ? "upload" : "download"), fip->name, fip->get_url(),
-                asctime(newtime) 
+                "started %s of %s to %s\n",
+                (is_upload ? "upload" : "download"), fip->name, fip->get_url()
             );
             show_message(fip->project, buf, MSG_INFO);
         }
@@ -130,7 +127,7 @@ bool PERS_FILE_XFER::start_xfer() {
 // If it's time to start it, then attempt to start it.
 // If it has finished or failed, then deal with it appropriately
 //
-bool PERS_FILE_XFER::poll(unsigned int now) {
+bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
     char pathname[256], buf[256];
     
@@ -142,7 +139,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
         // We must be waiting after a failure.
         // See if it's time to try again.
         //
-        if (now >= (unsigned int)next_request_time) {
+        if (now >= next_request_time) {
             bool ok = start_xfer();
             last_time = dtime();
             return ok;
@@ -216,7 +213,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
 
 // Handle a transfer failure
 //
-void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
+void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
     char buf[256];
 
     // If it was a bad range request, delete the file and start over
@@ -229,14 +226,17 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
     
     // See if it's time to give up on the persistent file xfer
     //
-    if ((cur_time - first_request_time) > gstate.giveup_after) {
+    if ((cur_time - first_request_time) > gstate.file_xfer_giveup_period) {
         if (is_upload) {
             fip->status = ERR_GIVEUP_UPLOAD;
         } else {
             fip->status = ERR_GIVEUP_DOWNLOAD;
         }
         xfer_done = true;
-        sprintf(buf, "Giving up on file transfer for %s: %d\n", fip->name, fip->status);
+        sprintf(buf,
+            "Giving up on file transfer for %s: %d\n",
+            fip->name, fip->status
+        );
         show_message(fip->project, buf, MSG_ERROR);
     }
 }
@@ -244,15 +244,14 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
-void PERS_FILE_XFER::retry_or_backoff(unsigned int cur_time) {
+void PERS_FILE_XFER::retry_or_backoff(time_t cur_time) {
     double exp_backoff;
     struct tm *newtime;
     time_t aclock;
     char buf[256];
     
-    time( &aclock );                 /* Get time in seconds */
-    
-    newtime = localtime( &aclock );  /* Convert time to struct */
+    time(&aclock);
+    newtime = localtime(&aclock);
 
     // Cycle to the next URL to try
     //
@@ -273,8 +272,8 @@ void PERS_FILE_XFER::retry_or_backoff(unsigned int cur_time) {
     }
     if (log_flags.file_xfer_debug) {
         sprintf(buf,
-            "exponential back off is %d, current_time is %s\n",
-            (int) exp_backoff,asctime(newtime) 
+            "Backing off %f seconds on transfer of file %s\n",
+            exp_backoff, fip->name
         );
         show_message(fip->project, buf, MSG_INFO);
     }

@@ -68,7 +68,7 @@ CLIENT_STATE::CLIENT_STATE() {
     exit_when_idle = false;
     update_prefs = false;
     run_time_test = true;
-    giveup_after = PERS_GIVEUP;
+    file_xfer_giveup_period = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
     core_client_major_version = MAJOR_VERSION;
@@ -1188,8 +1188,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             run_time_test = false;
         } else if (!strcmp(argv[i], "-exit_after_app_start")) {
             exit_after_app_start_secs = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-giveup_after")) {
-            giveup_after = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-file_xfer_giveup_period")) {
+            file_xfer_giveup_period = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-min")) {
             global_prefs.run_minimized = true;
         } else if (!strcmp(argv[i], "-saver")) {

@@ -137,7 +137,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     safe_strncpy(aid.user_name, wup->project->user_name, sizeof(aid.user_name));
     safe_strncpy(aid.team_name, wup->project->team_name, sizeof(aid.team_name));
-	sprintf(aid.comm_obj_name, "boinc_%d", slot);
+    sprintf(aid.comm_obj_name, "boinc_%d", slot);
     if (wup->project->project_specific_prefs) {
         extract_venue(
             wup->project->project_specific_prefs,

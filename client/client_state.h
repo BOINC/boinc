@@ -88,7 +88,7 @@ public:
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);
-    unsigned int giveup_after;
+    int file_xfer_giveup_period;
     bool user_idle;
     bool suspend_requested;
     bool update_prefs;

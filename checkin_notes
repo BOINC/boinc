@@ -3802,3 +3802,20 @@ Eric  March 13, 2003
         msg_queue.C,h
         msg_test.C
 
+David  Mar 15 2003
+    - added some state diagrams to docs
+    - changed var name from "giveup_after" to "file_xfer_giveup_period"
+        PLEASE USE MEANINGFUL NAMES, especially for global vars
+
+    todo
+    api/
+        boinc_api.h
+    client/
+        app.C
+        client_state.C,h
+        pers_file_xfer.C,h
+    doc/
+        various
+    sched/
+        feeder.C
+        
