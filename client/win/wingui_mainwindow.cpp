@@ -83,6 +83,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     //ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_FILE_RESUME, OnCommandResume)
+	ON_COMMAND(ID_FILE_RUN_BENCHMARKS, OnCommandRunBenchmarks)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
     ON_COMMAND(ID_SETTINGS_LOGIN, OnCommandSettingsLogin)
     ON_COMMAND(ID_SETTINGS_PROXYSERVER, OnCommandSettingsProxyServer)
@@ -1351,6 +1352,38 @@ void CMainWindow::OnCommandResume()
 	}
 }
 
+void CMainWindow::OnCommandRunBenchmarks()
+{
+	gstate.fork_run_cpu_benchmarks();
+}
+
+void CMainWindow::OnBenchmarksBegin()
+{
+	CMenu* pMainMenu;
+	CMenu* pFileMenu;
+	pMainMenu = GetMenu();
+	if(pMainMenu) {
+		pFileMenu = pMainMenu->GetSubMenu(0);
+	}
+	if(pFileMenu) {
+		pFileMenu->EnableMenuItem(ID_FILE_RUN_BENCHMARKS, MF_GRAYED);
+	}
+}
+
+void CMainWindow::OnBenchmarksEnd()
+{
+	CMenu* pMainMenu;
+	CMenu* pFileMenu;
+	pMainMenu = GetMenu();
+	if(pMainMenu) {
+		pFileMenu = pMainMenu->GetSubMenu(0);
+	}
+	if(pFileMenu) {
+		pFileMenu->EnableMenuItem(ID_FILE_RUN_BENCHMARKS, MF_ENABLED);
+	}
+}
+
+
 //////////
 // CMainWindow::OnCommandExit
 // arguments:	void
@@ -1939,4 +1972,14 @@ void project_add_failed(PROJECT* project) {
 	AfxMessageBox(buf);
 	g_myWnd->DetachProject(project);
 	// TODO: To be filled in
+}
+
+void guiOnBenchmarksBegin()
+{
+	g_myWnd->OnBenchmarksBegin();
+}
+
+void guiOnBenchmarksEnd()
+{
+	g_myWnd->OnBenchmarksEnd();
 }

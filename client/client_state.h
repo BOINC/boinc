@@ -80,6 +80,7 @@ public:
     int set_nslots();
     bool should_run_cpu_benchmarks();
     int cpu_benchmarks();
+	void fork_run_cpu_benchmarks();
 #ifdef _WIN32
     static DWORD WINAPI win_cpu_benchmarks(LPVOID);
     HANDLE cpu_benchmarks_handle;
