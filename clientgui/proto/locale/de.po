@@ -1,0 +1,368 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGuide\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-01-24 11:52+0100\n"
+"Last-Translator: Otto Wyss <wyo@users.sourceforge.net>\n"
+"Language-Team: wxGuide <wxguide-users@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: wxGuide\demo\src/hyperlink.cpp:79
+msgid "Failed to create wxStaticText, needed by myHyperLink!"
+msgstr "Konnte wxStaticText nicht erzeugen (wird von myHyperlink benötigt)!"
+
+#: wxGuide\demo\src/app.cpp:69
+msgid "This is a demonstration of the look and feel of an ordinary Application."
+msgstr "Dies ist eine Demonstartion für eine optisch und gefühlsmässig vernünftige Applikation"
+
+#: wxGuide\demo\src/app.cpp:93
+msgid "<untitled>"
+msgstr "<namenlos>"
+
+#: wxGuide\demo\src/app.cpp:816
+msgid "Welcome to the "
+msgstr "Willkommen zur"
+
+#: wxGuide\demo\src/app.cpp:816
+msgid " application."
+msgstr "Anwendung."
+
+#: wxGuide\demo\src/app.cpp:904
+msgid "New file command"
+msgstr "Lösch Kommando"
+
+#: wxGuide\demo\src/app.cpp:910
+msgid "New file in frame command"
+msgstr "Neues Top-Fenster-Kommando"
+
+#: wxGuide\demo\src/app.cpp:916
+#: wxGuide\demo\src/app.cpp:925
+msgid "Open files"
+msgstr "Öffne Dateien"
+
+#: wxGuide\demo\src/app.cpp:935
+msgid "Save file command"
+msgstr "Markiere alles-Kommando"
+
+#: wxGuide\demo\src/app.cpp:941
+msgid "Save file"
+msgstr "Speichere Datei"
+
+#: wxGuide\demo\src/app.cpp:943
+msgid "Save file as command"
+msgstr "Speichere-Kommando"
+
+#: wxGuide\demo\src/app.cpp:961
+msgid "Close file command"
+msgstr "Schliess-Kommando"
+
+#: wxGuide\demo\src/app.cpp:979
+#: wxGuide\demo\src/app.cpp:1071
+msgid "Preferences command"
+msgstr "Voreinstellungen-Kommando"
+
+#: wxGuide\demo\src/app.cpp:991
+msgid "Tool bar command"
+msgstr "Werkzeugleiste-Kommando"
+
+#: wxGuide\demo\src/app.cpp:1000
+msgid "Status bar command"
+msgstr "Statusleiste-Kommando"
+
+#: wxGuide\demo\src/app.cpp:1019
+msgid "Properties command"
+msgstr "Eigenschaften-Kommando"
+
+#: wxGuide\demo\src/app.cpp:1039
+msgid ""
+"There was a problem with previewing.\n"
+"                         Perhaps your current printer is not correctly?"
+msgstr ""
+"Es ist ein Problem bei der Vorschau aufgetreten.\n"
+"                      Vielleicht ist der Drucker nicht richtig gesetzt?"
+
+#: wxGuide\demo\src/app.cpp:1041
+#: wxGuide\demo\src/app.cpp:1060
+msgid "Previewing"
+msgstr "Vorschau"
+
+#: wxGuide\demo\src/app.cpp:1045
+msgid "Print Preview"
+msgstr "Druckvorschau"
+
+#: wxGuide\demo\src/app.cpp:1058
+msgid ""
+"There was a problem with printing.\n"
+"                         Perhaps your current printer is not correctly?"
+msgstr ""
+"Es ist ein Problem bei dem Drucken aufgetreten.\n"
+"                      Vielleicht ist der Drucker nicht richtig gesetzt?"
+
+#: wxGuide\demo\src/app.cpp:1089
+msgid "The position and size of the window are stored."
+msgstr "Die Position und Grösse des Fernsters ist gespeichert."
+
+#: wxGuide\demo\src/app.cpp:1090
+#: wxGuide\demo\src/app.cpp:1236
+msgid "Store window size"
+msgstr "Speichere Fenstergrösse"
+
+#: wxGuide\demo\src/app.cpp:1169
+msgid "This command is currently not implemented!"
+msgstr "Dieses Kommando ist vorläufig nicht implementiert!"
+
+#: wxGuide\demo\src/app.cpp:1169
+msgid "Unused command"
+msgstr "Unbenutztes Kommando"
+
+#: wxGuide\demo\src/app.cpp:1178
+msgid "&New\tCtrl+N"
+msgstr "&Neu\tCtrl+N"
+
+#: wxGuide\demo\src/app.cpp:1179
+msgid "New window\tCtrl+Shift+N"
+msgstr "&Neues Fenster\tCtrl+Shift+N"
+
+#: wxGuide\demo\src/app.cpp:1180
+msgid "&Open ..\tCtrl+O"
+msgstr "&Öffnen ..\tCtrl+O"
+
+#: wxGuide\demo\src/app.cpp:1181
+msgid "Open window ..\tCtrl+Shift+O"
+msgstr "&Öffnen Fenster ..\tCtrl+Shift+N"
+
+#: wxGuide\demo\src/app.cpp:1182
+msgid "&Save\tCtrl+S"
+msgstr "&Speichern\tCtrl+S"
+
+#: wxGuide\demo\src/app.cpp:1183
+msgid "Save &as ..\tCtrl+Shift+S"
+msgstr "Speichern &als ..\tCtrl+Shift+S"
+
+#: wxGuide\demo\src/app.cpp:1184
+msgid "&Close\tCtrl+W"
+msgstr "S&chliessen\tCtrl+W"
+
+#: wxGuide\demo\src/app.cpp:1189
+msgid "Propert&ies ..\tCtrl+I"
+msgstr "E&igenschaften ..\tCtrl+I"
+
+#: wxGuide\demo\src/app.cpp:1191
+msgid "Print Set&up .."
+msgstr "Drucken einrichten .."
+
+#: wxGuide\demo\src/app.cpp:1192
+msgid "Print Pre&view\tCtrl+Shift+P"
+msgstr "Druck&vorschau\tCtrl+Shift+P"
+
+#: wxGuide\demo\src/app.cpp:1193
+msgid "&Print ..\tCtrl+P"
+msgstr "&Drucken ..\tCtrl+P"
+
+#: wxGuide\demo\src/app.cpp:1195
+msgid "&Quit\tCtrl+Q"
+msgstr "&Beenden\tCtrl+Q"
+
+#: wxGuide\demo\src/app.cpp:1199
+msgid "&Undo\tCtrl+Z"
+msgstr "&Zurück\tCtrl+Z"
+
+#: wxGuide\demo\src/app.cpp:1200
+msgid "&Redo\tCtrl+Shift+Z"
+msgstr "&Wiederholen\tCtrl+Shift+Z"
+
+#: wxGuide\demo\src/app.cpp:1202
+msgid "Cu&t\tCtrl+X"
+msgstr "Ausschneiden\tCtrl+X"
+
+#: wxGuide\demo\src/app.cpp:1203
+msgid "&Copy\tCtrl+C"
+msgstr "&Kopieren\tCtrl+C"
+
+#: wxGuide\demo\src/app.cpp:1204
+msgid "&Paste\tCtrl+V"
+msgstr "&Einfügen\tCtrl+V"
+
+#: wxGuide\demo\src/app.cpp:1205
+msgid "&Delete\tDel"
+msgstr "&Löschen\tDel"
+
+#: wxGuide\demo\src/app.cpp:1207
+msgid "&Find ..\tCtrl+F"
+msgstr "&Finden ..\tCtrl+F"
+
+#: wxGuide\demo\src/app.cpp:1208
+msgid "Find &next\tF3"
+msgstr "&Weiter finden\tF3"
+
+#: wxGuide\demo\src/app.cpp:1209
+msgid "&Replace ..\tCtrl+H"
+msgstr "E&rsetzen ..\tCtrl+H"
+
+#: wxGuide\demo\src/app.cpp:1210
+msgid "Replace &again\tShift+F4"
+msgstr " &Nochmals ersetzen\tShift+F4"
+
+#: wxGuide\demo\src/app.cpp:1212
+msgid "&Goto ..\tCtrl+G"
+msgstr "&Gehe zu ..\tCtrl+G"
+
+#: wxGuide\demo\src/app.cpp:1214
+msgid "&Select all\tCtrl+A"
+msgstr "&Markiere alles\tCtrl+A"
+
+#: wxGuide\demo\src/app.cpp:1216
+msgid "Pr&eferences .."
+msgstr "&Voreinstellungen .."
+
+#: wxGuide\demo\src/app.cpp:1220
+msgid "Tool &bar"
+msgstr "Werkzeugleiste"
+
+#: wxGuide\demo\src/app.cpp:1221
+msgid "Status b&ar"
+msgstr "Statusleiste"
+
+#: wxGuide\demo\src/app.cpp:1228
+msgid "&Previous\tCtrl+Shift+Tab"
+msgstr "&Vorheriges Fenster\tCtrl+Shift+Tab"
+
+#: wxGuide\demo\src/app.cpp:1229
+msgid "&Next\tCtrl+Tab"
+msgstr "&Nächstes Fenster\tCtrl+Tab"
+
+#: wxGuide\demo\src/app.cpp:1234
+msgid "&All windows .."
+msgstr "&Alle Fenster .."
+
+#: wxGuide\demo\src/app.cpp:1240
+msgid "&Content\tF1"
+msgstr "&Inhalt\tF1"
+
+#: wxGuide\demo\src/app.cpp:1241
+msgid "&Index\tF1"
+msgstr "&Index\tF1"
+
+#: wxGuide\demo\src/app.cpp:1243
+msgid "&About ..\tShift+F1"
+msgstr "&Ueber ..\tShift+F1"
+
+#: wxGuide\demo\src/app.cpp:1247
+msgid "&File"
+msgstr "&Datei"
+
+#: wxGuide\demo\src/app.cpp:1248
+msgid "&Edit"
+msgstr "&Edit"
+
+#: wxGuide\demo\src/app.cpp:1249
+msgid "&View"
+msgstr "&Ansicht"
+
+#: wxGuide\demo\src/app.cpp:1250
+msgid "E&xtra"
+msgstr "E&xtra"
+
+#: wxGuide\demo\src/app.cpp:1251
+msgid "&Window"
+msgstr "&Fenster"
+
+#: wxGuide\demo\src/app.cpp:1252
+msgid "&Help"
+msgstr "&Hilfe"
+
+#: wxGuide\demo\src/app.cpp:1407
+msgid "Opened file: "
+msgstr "Geöffnete Datei: "
+
+#: wxGuide\demo\src/app.cpp:1555
+msgid "Activate"
+msgstr "Aktiviere"
+
+#: wxGuide\demo\src/app.cpp:1590
+msgid "About .."
+msgstr "Ueber .."
+
+#: wxGuide\demo\src/app.cpp:1594
+msgid "Written by: "
+msgstr "Geschrieben von: "
+
+#: wxGuide\demo\src/app.cpp:1598
+msgid "Version: "
+msgstr "Version: "
+
+#: wxGuide\demo\src/app.cpp:1602
+msgid "Licence type: "
+msgstr "Lizenztyp:"
+
+#: wxGuide\demo\src/app.cpp:1606
+msgid "Copyright: "
+msgstr "Copyright: "
+
+#: wxGuide\demo\src/app.cpp:1635
+#: wxGuide\demo\src/prefdlg.cpp:115
+msgid "OK"
+msgstr "OK"
+
+#: wxGuide\demo\src/app.cpp:1680
+msgid "All windows"
+msgstr "Alle Windows"
+
+#: wxGuide\demo\src/app.cpp:1690
+msgid "&OK"
+msgstr "&OK"
+
+#: wxGuide\demo\src/app.cpp:1694
+msgid "&Activate"
+msgstr "&Aktiviere"
+
+#: wxGuide\demo\src/app.cpp:1697
+msgid "&Cancel"
+msgstr "&Abbruch"
+
+#: wxGuide\demo\src/app.cpp:1741
+msgid "It is currently not allowed to drop directories"
+msgstr "Es is vorläufig nicht erlaubt, Verzeichnisse zu übergeben!"
+
+#: wxGuide\demo\src/app.cpp:1742
+msgid "Error"
+msgstr "Fehler"
+
+#: wxGuide\demo\src/prefdlg.cpp:82
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: wxGuide\demo\src/prefdlg.cpp:113
+msgid "Default"
+msgstr "Default"
+
+#: wxGuide\demo\src/prefdlg.cpp:114
+msgid "Help"
+msgstr "Hilfe"
+
+#: wxGuide\demo\src/prefdlg.cpp:117
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: wxGuide\demo\src/prefdlg.cpp:118
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: wxGuide\demo\src/prefdlg.cpp:188
+msgid "No splash on startup"
+msgstr "Keine Infos beim starten"
+
+#: wxGuide\demo\src/prefdlg.cpp:198
+msgid "Show toolbar"
+msgstr "Zeige Werkzeugleiste"
+
+#: wxGuide\demo\src/prefdlg.cpp:208
+msgid "Show statusbar"
+msgstr "Statusleiste"
+
+#: wxGuide\demo\src/prefdlg.cpp:216
+msgid "Application preferences"
+msgstr "Programm-Einstellungen"
+

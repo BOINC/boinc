@@ -11197,3 +11197,9 @@ David  Mar 31 2004
         prefs.C
     lib/
         error_numbers.h
+
+Rom    Mar 31 2004
+    - Checkin prototype of universal gui based on wxWidgets.
+
+    clientgui/proto/
+        <Multiple Files>
