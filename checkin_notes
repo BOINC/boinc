@@ -6224,6 +6224,11 @@ Karl 2003/09/07
             - new count() methods with arbitrary arguments like find()
         - misc. bug fixes
 
+        - make_project and setup_project modify database directly instead of
+          calling old_add
+
+        - make_project doesn't add platform, app, or app_version
+
 Karl 2003/09/07
     - changed all user-visible cobblestone numbers to use a new
       format_credit() function which does sprintf %.3f

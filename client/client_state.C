@@ -516,16 +516,14 @@ int CLIENT_STATE::current_disk_usage(double& size) {
     return dir_size(".", size);
 }
 
-// TODO: remove delete these
+// estimate how long a WU will take on this host
+//
+double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
+    double x;
 
-// // estimate how long a WU will take on this host
-// //
-// double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
-//     double x;
-
-//     x = wu.rsc_fpops_est/host_info.p_fpops;
-//     return x;
-// }
+    x = wu.rsc_fpops_est/host_info.p_fpops;
+    return x;
+}
 
 inline double force_fraction(double f) {
     if (f < 0) return 0;
