@@ -165,8 +165,9 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 int get_key(R_RSA_PUBLIC_KEY& key) {
     FILE* f;
     int retval;
-
-    f = fopen(strcat(getenv("BOINC_KEY_DIR"), "/upload_public"), "r");
+    char buf[256];
+    sprintf(buf, "%s/upload_public", getenv("BOINC_KEY_DIR"));
+    f = fopen(buf, "r");
     if (!f) return -1;
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
     fclose(f);
