@@ -471,17 +471,12 @@ static void worker_timer(int a) {
         }
     }
 
-    static FILE* f=0;
-    if (!f) f = fopen("foo", "w");
-    fprintf(f, "in timer\n"); fflush(f);
-
     if (options.send_status_msgs) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
             double cur_mem;
             boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
-        fprintf(f, "CPU time is %f\n", cur_cpu); fflush(f);
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
             update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
             time_until_fraction_done_update = aid.fraction_done_update_period;

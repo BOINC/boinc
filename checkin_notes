@@ -18933,7 +18933,10 @@ David  26 Oct 2004
 
 David  28 Oct 2004
     - client GUI: makefile fix, compile fix
+    - removed debugging stuff from boinc_api.C
 
+    api/
+        boinc_api.C
     clientgui/
         Makefile.old
     lib/

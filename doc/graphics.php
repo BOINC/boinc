@@ -6,11 +6,15 @@ echo"
 BOINC applications can optionally provide graphics.
 Graphics are displayed either in an application window
 or in a full-screen window (when acting as a screensaver).
-Applications that provide graphics must call
+Applications that provide graphics must call either
 <pre>
-    void boinc_init_graphics(void (*worker)());
+    int boinc_init_graphics(void (*worker)());
+        // for simple applications
+    int boinc_init_options_graphics(BOINC_OPTIONS&, void (*worker)());
+        // for compound applications
 </pre>
 where <code>worker()</code> is the main function of your application.
+Do NOT call boinc_init() or boinc_init_options().
 
 <h3>Static graphics</h3>
 <p>

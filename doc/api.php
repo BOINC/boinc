@@ -15,15 +15,25 @@ This API is described <a href=graphics.php>here</a>.
 <p>
 BOINC applications may consist of several programs that are
 executed in sequence;
-the API for this is described <a href=compound_app.php>here</a>.
+these are called <b>compound applications</b>.
+This API is described <a href=compound_app.php>here</a>.
 
 
 <h3>Initialization and termination</h3>
-The application must call
+
+<p>
+Applications should
+<a href=diagnostics.php>initialize diagnostics</a>
+before any other BOINC calls.
+<p>
+Initialization for graphical and compound applications
+are described elsewhere (see links above).
+Other applications must call
 <pre>
     int boinc_init();
 </pre>
 before calling other BOINC functions or doing I/O.
+<p>
 When the application has completed it must call
 <pre>
     int boinc_finish(int status);
