@@ -30,6 +30,7 @@
 #include "md5_file.h"
 #include "parse.h"
 #include "util.h"
+#include "filesys.h"
 
 #include "backend_lib.h"
 
@@ -69,7 +70,7 @@ static int process_wu_template(
     SCHED_CONFIG& config
 ) {
     char* p;
-    char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256];
+    char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
     char out[LARGE_BLOB_SIZE];
     int retval, file_number;
     double nbytes;
@@ -93,8 +94,14 @@ static int process_wu_template(
                     }
                     dir_hier_path(
                         infiles[file_number], config.download_dir,
-                        config.uldl_dir_fanout, path
+                        config.uldl_dir_fanout, path, true
                     );
+                    if ( ! boinc_file_exists(path) ) {
+                        sprintf(top_download_path,"%s/%s",config.download_dir,
+                            infiles[file_number]);
+			boinc_copy(top_download_path,path);
+	       	    }
+
                     retval = md5_file(path, md5, nbytes);
                     if (retval) {
                         fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
