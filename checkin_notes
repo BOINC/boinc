@@ -3854,3 +3854,19 @@ David  Mar 18 2003
         hostinfo.C
         http.C
         scheduler_op.C
+
+Eric  March 19, 2003
+    - Moved OpenGL context creation/destruction outside of drawing
+      loop.  This seems to improve speed on Windows 98.
+    - Added memory deallocation routine for client_state vectors.
+      This clears up several dozen unnecessary memory leak reports.
+
+    api/
+        windows_opengl.cpp
+    client/
+        app.C,h
+        client_state.C,h
+        cs_apps.C
+        win/
+            wingui_mainwindow.cpp
+
