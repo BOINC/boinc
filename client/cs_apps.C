@@ -157,6 +157,7 @@ bool CLIENT_STATE::handle_finished_apps() {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         switch (atp->state) {
+        case PROCESS_UNINITIALIZED:
         case PROCESS_RUNNING:
         case PROCESS_ABORT_PENDING:
         case PROCESS_IN_LIMBO:
