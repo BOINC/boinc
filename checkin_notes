@@ -16199,3 +16199,11 @@ David  11 Aug 2004
     client/
         cs_data.C
         main.C
+
+David  11 Aug 2004
+    - DB_SCHED_RESULT_ITEM_SET::update_result(): escape the
+        stderr_out and xml_doc_out fields of result
+        (they may contain single-quote)
+
+    db/
+        boinc_db.C

@@ -943,7 +943,10 @@ int DB_SCHED_RESULT_ITEM_SET::lookup_result(char* result_name, SCHED_RESULT_ITEM
 
 int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
     char query[MAX_QUERY_LEN];
+    int retval;
 
+    ESCAPE(ri.xml_doc_out);
+    ESCAPE(ri.stderr_out);
     sprintf(query,
         "UPDATE result SET "
         "    hostid=%d, "
@@ -976,7 +979,10 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         ri.teamid,
         ri.id
     );
-    return db->do_query(query);
+    retval = db->do_query(query);
+    UNESCAPE(ri.xml_doc_out);
+    UNESCAPE(ri.stderr_out);
+    return retval;
 }
 
 int DB_SCHED_RESULT_ITEM_SET::update_workunits() {

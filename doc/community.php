@@ -32,10 +32,17 @@ This list is for people operating BOINC projects.
 Use it to ask questions, report bugs, or request enhancements to
 the BOINC server software.
 Announcements of modifications and upgrades to BOINC will posted here.
+
 <dt>
 <a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a>
 <dd>
 This list is for people developing, debugging or porting the BOINC software.
+
+<dt>
+<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>
+<dd>
+This list is for people developing web sites showing statistics
+for BOINC projects.
 </dl>
 <h2>Getting source code</h2>
 <p>
