@@ -64,7 +64,7 @@ CTaskBarIcon::~CTaskBarIcon()
 
 void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(NULL != pFrame);
@@ -77,7 +77,7 @@ void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
 
 void CTaskBarIcon::OnActivitySelection( wxCommandEvent& event )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -101,7 +101,7 @@ void CTaskBarIcon::OnActivitySelection( wxCommandEvent& event )
 
 void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -131,7 +131,7 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
 
 void CTaskBarIcon::OnAbout( wxCommandEvent& WXUNUSED(event) )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CDlgAbout* pDlg = new CDlgAbout(NULL);
     wxASSERT(NULL != pDlg);
@@ -145,7 +145,7 @@ void CTaskBarIcon::OnAbout( wxCommandEvent& WXUNUSED(event) )
 
 void CTaskBarIcon::OnExit( wxCommandEvent& WXUNUSED(event) )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(NULL != pFrame);
@@ -158,7 +158,7 @@ void CTaskBarIcon::OnExit( wxCommandEvent& WXUNUSED(event) )
 
 void CTaskBarIcon::OnClose( wxCloseEvent& event )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(NULL != pFrame);
@@ -173,7 +173,7 @@ void CTaskBarIcon::OnMouseMove( wxEvent& event )
 {
    wxTimeSpan ts(wxDateTime::Now() - dtLastMouseCaptureTime);
 
-    if ( ts.GetSeconds() > 5 )
+    if ( ts.GetSeconds() >= 5 )
     {
         dtLastMouseCaptureTime = wxDateTime::Now();
 
@@ -217,7 +217,7 @@ void CTaskBarIcon::OnMouseMove( wxEvent& event )
 
 void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenu*        menu          = new wxMenu;
@@ -273,7 +273,7 @@ void CTaskBarIcon::OnRButtonDown( wxEvent& event )
 
 void CTaskBarIcon::OnLButtonDClick( wxEvent& event )
 {
-    ShowBalloon( wxT(""), wxT("") );
+    ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(NULL != pFrame);
@@ -328,3 +328,11 @@ bool CTaskBarIcon::ShowBalloon( wxString title, wxString message, unsigned int t
 
    return bRetVal;
 }
+
+
+void CTaskBarIcon::ResetTaskBar()
+{
+    ShowBalloon( wxT(""), wxT("") );
+    dtLastMouseCaptureTime = wxDateTime::Now();
+}
+

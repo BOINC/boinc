@@ -70,6 +70,8 @@ private:
     wxIcon     iconTaskBarIcon;
     wxDateTime dtLastMouseCaptureTime;
 
+    void       ResetTaskBar();
+
     DECLARE_EVENT_TABLE()
 
 };

@@ -580,10 +580,20 @@ void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 
 void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
 {
-    CDlgOptions* pDlg = new CDlgOptions(this);
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CDlgOptions*   pDlg = new CDlgOptions(this);
+    wxInt32        iAnswer = 0;
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != pDlg);
 
-    pDlg->ShowModal();
+
+    iAnswer = pDlg->ShowModal();
+    if ( wxOK == iAnswer )
+    {
+    }
+
 
     if (pDlg)
         pDlg->Destroy();
