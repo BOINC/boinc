@@ -34,9 +34,9 @@
 #include "res/boinc.xpm"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIcon)
+IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIconEx)
 
-BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIcon)
+BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU_RANGE(ID_TB_ACTIVITYRUNALWAYS, ID_TB_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
     EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
@@ -50,7 +50,7 @@ END_EVENT_TABLE ()
 
 
 CTaskBarIcon::CTaskBarIcon() : 
-    wxTaskBarIcon()
+    wxTaskBarIconEx()
 {
     iconTaskBarIcon = wxIcon( boinc_xpm );
     dtLastMouseCaptureTime = wxDateTime( (time_t)0 );
@@ -207,7 +207,7 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
             strMessage += strBuffer;
         }
 
-        ShowBalloon( strTitle, strMessage );
+        SetBalloon( iconTaskBarIcon, strTitle, strMessage );
     }
 }
 
@@ -291,55 +291,9 @@ void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
 }
 
 
-bool CTaskBarIcon::ShowBalloon( wxString title, wxString message, unsigned int timeout, ICONTYPES icon )
-{
-   if (!IsOK())
-      return false;
-
-   wxInt32 iPlatform = 0;
-   wxInt32 iMajorVersion = 0;
-   wxInt32 iMinorVersion = 0;
-   bool    bRetVal = false;
-
-   iPlatform = wxGetOsVersion( &iMajorVersion, &iMinorVersion );
-
-#ifdef __WXMSW__
-
-   if ( ( wxWINDOWS_NT == iPlatform ) && ( 5 >= iMajorVersion ) )
-   {
-        NOTIFYICONDATA notifyData;
-
-        memset(&notifyData, 0, sizeof(notifyData));
-
-        notifyData.cbSize           = sizeof(notifyData);
-        notifyData.hWnd             = (HWND) m_hWnd;
-        notifyData.uID              = 99;
-        notifyData.uCallbackMessage = sm_taskbarMsg;
-        notifyData.uFlags           = NIF_MESSAGE | NIF_INFO;
-        notifyData.dwInfoFlags      = icon | NIIF_NOSOUND;
-        notifyData.uTimeout         = timeout;
-        lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
-        lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
-
-        if (m_iconAdded)
-            bRetVal = (Shell_NotifyIcon(NIM_MODIFY, &notifyData) != 0);
-   }
-   else
-   {
-       wxString strMessage;
-       strMessage = title + wxT("\n") + message;
-       SetIcon( iconTaskBarIcon, strMessage );
-   }
-
-#endif
-
-   return bRetVal;
-}
-
-
 void CTaskBarIcon::ResetTaskBar()
 {
-    ShowBalloon( wxT(""), wxT("") );
+    SetBalloon( iconTaskBarIcon, wxT(""), wxT("") );
     dtLastMouseCaptureTime = wxDateTime::Now();
 }
 

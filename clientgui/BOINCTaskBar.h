@@ -28,23 +28,20 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
+#ifdef __WXMSW__
+#include "msw/taskbarex.h"
+#else
+#define wxTaskBarIconEx     wxTaskBarIcon
+#endif
 
-class CTaskBarIcon : public wxTaskBarIcon
+
+class CTaskBarIcon : public wxTaskBarIconEx
 {
     DECLARE_DYNAMIC_CLASS(CTaskBarIcon)
 
 public:
     CTaskBarIcon();
     ~CTaskBarIcon();
-
-    enum ICONTYPES
-    {
-#ifdef __WXMSW__
-        Info = NIIF_INFO,
-        Warning = NIIF_WARNING,
-        Error = NIIF_ERROR
-#endif
-    };
 
     void OnOpen( wxCommandEvent& event );
     void OnActivitySelection( wxCommandEvent& event );
@@ -57,13 +54,6 @@ public:
     void OnMouseMove( wxTaskBarIconEvent& event );
     void OnRButtonDown( wxTaskBarIconEvent& event );
     void OnLButtonDClick( wxTaskBarIconEvent& event );
-
-    bool ShowBalloon( 
-        wxString title, 
-        wxString message, 
-        unsigned int timeout = 5000, 
-        ICONTYPES icon = ICONTYPES::Info
-    );
 
 private:
 

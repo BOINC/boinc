@@ -27,16 +27,6 @@ UINT   wxTaskBarIconEx::sm_taskbarMsg = 0;
 
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_CONTEXT_MENU )
 
-BEGIN_EVENT_TABLE(wxTaskBarIconEx, wxEvtHandler)
-    EVT_TASKBAR_MOVE         (wxTaskBarIconEx::_OnMouseMove)
-    EVT_TASKBAR_LEFT_DOWN    (wxTaskBarIconEx::_OnLButtonDown)
-    EVT_TASKBAR_LEFT_UP      (wxTaskBarIconEx::_OnLButtonUp)
-    EVT_TASKBAR_RIGHT_DOWN   (wxTaskBarIconEx::_OnRButtonDown)
-    EVT_TASKBAR_RIGHT_UP     (wxTaskBarIconEx::_OnRButtonUp)
-    EVT_TASKBAR_LEFT_DCLICK  (wxTaskBarIconEx::_OnLButtonDClick)
-    EVT_TASKBAR_RIGHT_DCLICK (wxTaskBarIconEx::_OnRButtonDClick)
-END_EVENT_TABLE()
-
 
 IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIconEx, wxEvtHandler)
 
@@ -50,6 +40,18 @@ wxTaskBarIconEx::wxTaskBarIconEx(void)
 
     if (RegisterWindowClass())
         m_hWnd = CreateTaskBarWindow();
+
+
+    NOTIFYICONDATA notifyData;
+
+    memset(&notifyData, 0, sizeof(notifyData));
+    notifyData.cbSize           = sizeof(notifyData);
+    notifyData.hWnd             = (HWND) m_hWnd;
+    notifyData.uID              = 99;
+    notifyData.uCallbackMessage = sm_taskbarMsg;
+    notifyData.uVersion         = 0x0500;
+
+    Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx(void)
@@ -77,10 +79,11 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
     NOTIFYICONDATA notifyData;
 
     memset(&notifyData, 0, sizeof(notifyData));
-        notifyData.cbSize = sizeof(notifyData);
-        notifyData.hWnd = (HWND) m_hWnd;
-        notifyData.uCallbackMessage = sm_taskbarMsg;
-        notifyData.uFlags = NIF_MESSAGE ;
+    notifyData.cbSize = sizeof(notifyData);
+    notifyData.hWnd = (HWND) m_hWnd;
+    notifyData.uCallbackMessage = sm_taskbarMsg;
+    notifyData.uFlags = NIF_MESSAGE ;
+
     if (icon.Ok())
     {
         notifyData.uFlags |= NIF_ICON;
@@ -94,6 +97,39 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
     }
 
     notifyData.uID = 99;
+
+    if (m_iconAdded)
+        return (Shell_NotifyIcon(NIM_MODIFY, & notifyData) != 0);
+    else
+    {
+        m_iconAdded = (Shell_NotifyIcon(NIM_ADD, & notifyData) != 0);
+        return m_iconAdded;
+    }
+}
+
+bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int timeout, ICONTYPES iconballoon)
+{
+   if (!IsOK())
+      return false;
+
+    NOTIFYICONDATA notifyData;
+
+    memset(&notifyData, 0, sizeof(notifyData));
+    notifyData.cbSize           = sizeof(notifyData);
+    notifyData.hWnd             = (HWND) m_hWnd;
+    notifyData.uID              = 99;
+    notifyData.uCallbackMessage = sm_taskbarMsg;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO;
+    notifyData.dwInfoFlags      = iconballoon | NIIF_NOSOUND;
+    notifyData.uTimeout         = timeout;
+    lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
+
+    if (icon.Ok())
+    {
+        notifyData.uFlags |= NIF_ICON;
+        notifyData.hIcon = (HICON) icon.GetHICON();
+    }
 
     if (m_iconAdded)
         return (Shell_NotifyIcon(NIM_MODIFY, & notifyData) != 0);
@@ -166,44 +202,6 @@ bool wxTaskBarIconEx::PopupMenu(wxMenu *menu) //, int x, int y);
 
     return rval;
 }
-
-
-// Overridables
-void wxTaskBarIconEx::OnMouseMove(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::OnLButtonDown(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::OnLButtonUp(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::OnRButtonDown(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::OnRButtonUp(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::OnLButtonDClick(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::OnRButtonDClick(wxEvent&)
-{
-}
-
-void wxTaskBarIconEx::_OnMouseMove(wxEvent& e)      { OnMouseMove(e);     }
-void wxTaskBarIconEx::_OnLButtonDown(wxEvent& e)    { OnLButtonDown(e);   }
-void wxTaskBarIconEx::_OnLButtonUp(wxEvent& e)      { OnLButtonUp(e);     }
-void wxTaskBarIconEx::_OnRButtonDown(wxEvent& e)    { OnRButtonDown(e);   }
-void wxTaskBarIconEx::_OnRButtonUp(wxEvent& e)      { OnRButtonUp(e);     }
-void wxTaskBarIconEx::_OnLButtonDClick(wxEvent& e)  { OnLButtonDClick(e); }
-void wxTaskBarIconEx::_OnRButtonDClick(wxEvent& e)  { OnRButtonDClick(e); }
 
 
 wxTaskBarIconEx* wxTaskBarIconEx::FindObjectForHWND(WXHWND hWnd)

@@ -27,24 +27,36 @@ public:
     wxTaskBarIconEx(void);
     virtual ~wxTaskBarIconEx(void);
 
+    enum ICONTYPES
+    {
+        Info = NIIF_INFO,
+        Warning = NIIF_WARNING,
+        Error = NIIF_ERROR
+    };
+
 // Accessors
     inline WXHWND GetHWND() const { return m_hWnd; }
     inline bool IsOK() const { return (m_hWnd != 0) ; }
     inline bool IsIconInstalled() const { return m_iconAdded; }
 
 // Operations
-    bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
-    bool RemoveIcon(void);
-    bool PopupMenu(wxMenu *menu); //, int x, int y);
 
-// Overridables
-    virtual void OnMouseMove(wxEvent&);
-    virtual void OnLButtonDown(wxEvent&);
-    virtual void OnLButtonUp(wxEvent&);
-    virtual void OnRButtonDown(wxEvent&);
-    virtual void OnRButtonUp(wxEvent&);
-    virtual void OnLButtonDClick(wxEvent&);
-    virtual void OnRButtonDClick(wxEvent&);
+    bool SetIcon(
+        const wxIcon& icon,
+        const wxString& tooltip = wxEmptyString
+    );
+
+    bool SetBalloon(
+        const wxIcon& icon, 
+        const wxString title = wxEmptyString,
+        const wxString message = wxEmptyString,
+        unsigned int timeout = 10000,
+        ICONTYPES iconballoon = ICONTYPES::Info
+    );
+
+    bool RemoveIcon();
+
+    bool PopupMenu(wxMenu *menu); //, int x, int y);
 
 // Implementation
     static wxTaskBarIconEx* FindObjectForHWND(WXHWND hWnd);
@@ -62,17 +74,6 @@ protected:
     static bool     sm_registeredClass;
     static unsigned int sm_taskbarMsg;
 
-    // non-virtual default event handlers to forward events to the virtuals
-    void _OnMouseMove(wxEvent&);
-    void _OnLButtonDown(wxEvent&);
-    void _OnLButtonUp(wxEvent&);
-    void _OnRButtonDown(wxEvent&);
-    void _OnRButtonUp(wxEvent&);
-    void _OnLButtonDClick(wxEvent&);
-    void _OnRButtonDClick(wxEvent&);
-
-
-    DECLARE_EVENT_TABLE()
 };
 
 
