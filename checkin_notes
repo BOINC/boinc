@@ -25441,3 +25441,9 @@ Janus 2 Mar 2005
     html/inc/
         translation.inc
 
+David  2 Mar 2005
+    - change db_update.php script to print messages on success/failure
+        (from Eric Myers)
+
+    html/ops
+        db_update.php
