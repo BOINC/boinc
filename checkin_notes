@@ -20495,8 +20495,9 @@ Bruce	2 Dec 2004
     -   Modified admin ops pages so that workunit displays transition time,
         and target_nresults.  Results pages displays deadline not received time
         for results that are still in progress or were never received.
-
+    -   Fixed glut detection bug in configure script
     checkin-notes
+    configure.ac
     zip/
         boinc_zip.h
     html/

@@ -159,9 +159,11 @@ of the BOINC application API library.
 
 ================================================================================
        ])
-else
+else 
    AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
+   have_glut=yes
 fi
+
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
 dnl --------------------------------------------------------------------------------
 
