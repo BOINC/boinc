@@ -1,25 +1,27 @@
 # German language.ini file
 # Dies ist die Initialisierungs-Datei um BOINC Meldungen
-# und Menüs in Deutscher Sprache zu führen
+# und Menüs in deutscher Sprache zu führen 
+
 # 
 # PROJECT_ID
 [HEADER-Projects]
 Title=Projekte
 Project=Projekt
 Account=Konto
-Total Credit=Kredit Total
-Avg. Credit=Kredit Durchschn.
-Resource Share=Ressourcen verteilung
+Total Credit=ges. Guthaben
+Avg. Credit=durchschn. Guthaben
+Resource Share=Ressourcenaufteilung
 
 # RESULT_ID
 [HEADER-Work]
 Title=Arbeit
 Project=Projekt
-Application=Applikation
+Application=Anwendung
 Name=Name
-CPU time=Prozessor Zeit
-Progress=Vortschritt
-To Completion=Bis Beendigung
+CPU time=Prozessor-Zeit
+Progress=Fortschritt
+To Completion=verbleibende Zeit
+Report Deadline=Ablaufdatum
 Status=Status
 
 # XFER_ID
@@ -27,10 +29,12 @@ Status=Status
 Title=Übertragung
 Project=Projekt
 File=Datei
-Progress=Vortschritt
-Size=Grösse
+Progress=Fortschritt
+Size=Größe
 Time=Zeit
-Direction=Richtung
+Speed=Geschwindigkeit
+Status=Status
+Type=Art
 
 # MESSAGE_ID
 [HEADER-Messages]
@@ -42,93 +46,103 @@ Message=Meldung
 # USAGE_ID
 [HEADER-Disk]
 Title=Festplatte
-Free space: not available for use=Freier Speicherplatz: Nicht verfügbar
-Free space: available for use=Freier Speicherplatz: Verfügbar
-Used space: other than BOINC=Benutzter Speicherplatz: Anderweitig (nicht BOINC)
-Used space: BOINC=Benutzter Speicherplatz: BOINC
-Used space:=Benutzter Speicherplatz:
+Free space=Freier Speicherplatz
+Used space: non-BOINC=Belegter Speicherplatz: nicht BOINC
+Used space: BOINC=Belegter Speicherplatz: BOINC
+BOINC Core Client=BOINC Basis Client
 
 # miscellaneous text
 [HEADER-MISC]
 New=Neu
 Running=Aktiv
 Ready to run=Zur Ausführung bereit
-Computation done=Berechnungen beendet
-Results uploaded=Resultate zurückgesandt
+Computation error=Berechnung fehlgeschlagen
+Ready to report=Hochgeladen, meldebereit
 Acknowledged=Bestätigt
 Error: invalid state=Fehler: Ungültiger Zustand
 Completed=Fertig
-Upload=Hinaufladen
-Download=Herunterladen
+Uploading=Am hochladen
+Downloading=Am herunterladen
+Retry in=Versuch wiederholen in
+Download failed=Herunterladen fehlgeschlagen
+Upload failed=Hochladen fehlgeschlagen
+Suspended=Angehalten
+
 
 # menu items
 [MENU-File]
 Title=&Datei
-Show Graphics=&Grafik anzeigen
-Clear Messages=&Meldungen löschen
-Clear Inactive=&Inaktive löschen
-Suspend=&Unterbrechen
-Resume=&Weiterführen
+Run always=&Immer ausführen
+Run based on preferences=Ausführen nach &Voreinstellung
+Suspend=Ausführung &anhalten
+Run Benchmarks=Bench&marks starten
+Hide=&Schließen
 Exit=&Beenden
 
 [MENU-Settings]
 Title=&Einstellungen
-Login to Project...=Projekt ein&loggen...
-Quit Project...=Projekt been&den...
-Proxy Server...=Prox&y Einstellungen...
-
-[MENU-Connection]
-Title=&Verbindung
-Connect Now=&Verbinden
-Hangup Connection if Dialed=Verbindung be&enden
-Confirm Before Connecting=Bes&tätigung vor Verbinden
+Login to Project...=Projekt &anmelden...
+Proxy Server...=Pro&xy Einstellungen...
 
 [MENU-Help]
 Title=&Hilfe
 About...=&Über...
 
 [MENU-StatusIcon]
-Suspend=&Inaktiv setzen
-Resume=&Aktiv setzen
+Show=&Wiederherstellen
+Hide=&Schließen
+Run always=&Immer ausführen
+Run based on preferences=Ausführen nach &Voreinstellung
+Suspend=Ausführung &anhalten
 Exit=&Beenden
 
 [MENU-Project]
-Relogin...=Neu ein&loggen...
-Quit Project...=Projekt been&den...
+Web site=Projekt &Webseite
+Update=&Aktualisieren
+Update (retry now)=&Aktualisieren (nochmal versuchen)
+Detach...=Projekt a&bmelden
+Reset project...=Projekt &zurücksetzen
+
+[MENU-Work]
+Show Graphics=&Grafik anzeigen
+
+[MENU-Transfers]
+Retry now=&Jetzt nochmal versuchen
+
+[MENU-Messages]
+Copy to clipboard=In die Zwischenablage &kopieren
 
 [DIALOG-LOGIN]
-Title=In Projekt einloggen
-URL:=URL:
+Title=Projekt bei diesem Client anmelden
+URL:=Projekt URL:
 Account Key:=Konto Schlüssel:
 OK=Bestätigen
 Cancel=Abbrechen
 The URL for the website of the project.=Die URL zur Projekt-Webseite.
-The authorization code recieved in your confirmation email.=Der Autorisierungs-Code welcher in Ihrem Bestätiguns E-Mail zugesandt wurde.
-
-[DIALOG-QUIT]
-Title=Projekt beenden
-URL:=URL:
-Account Key:=Konto Schlüssel
-OK=Bestätigen
-Cancel=Abbrechen
-Select the project you wish to quit.=Wählen Sie das Projekt das Sie beenden wollen.
+The authorization code recieved in your confirmation email.=Der Autorisierungsschlüssel, den Sie per E-Mail erhalten haben.
 
 [DIALOG-CONNECT]
-Title=Netzwerk Verbindung
+Title=Netzwerk-Verbindung
 BOINC needs to connect to the network.  May it do so now?=BOINC benötigt eine Verbindung zum Netzwerk. Darf es sich jetzt einwählen?
-Don't ask this again (connect automatically)=Nicht mehr fragen (automatisch verbinden)
+Don't ask this again (connect automatically)=Nicht mehr nachfragen (automatisch verbinden)
 OK=Bestätigen
 Cancel=Abbrechen
+
+[DIALOG-RESET]
+Are you sure you want to reset the project %1?=Sind Sie sicher, dass Sie Projekt %1 bei diesem Client zurücksetzen wollen?
+
+[DIALOG-DETACH]
+Are you sure you want to detach from the project %1?=Sind Sie sicher, dass Sie Projekt %1 bei diesem Client abmelden wollen?
 
 [DIALOG-ABOUT]
 Title=BOINC Beta Version
 Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
-Open Beta=Offenes Beta (Open Beta)
+Open Beta=Offene Beta Version (Open Beta)
 OK=Bestätigen
 
 [DIALOG-PROXY]
 Title=Proxy Server
-Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Einige Unternehmen benutzen "HTTP Proxy" oder "SOCKS Proxy" (oder beides) für erhöhte Sicherheit. Falls Sie ein Proxy benutzen müssen, geben Sie die nötigen Daten ein. Sollten Sie Fragen haben, setzen Sie sich mit Ihrem Netzwerk Verwalter oder Ihrem Internet Provider in Verbindung.
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Einige Unternehmen benutzen aus Sicherheitsgründen "HTTP Proxy" oder "SOCKS Proxy" (oder beides). Falls Sie einen Proxy benutzen müssen, geben Sie die nötigen Daten ein. Sollten Sie Fragen haben, setzen Sie sich mit Ihrem Netzwerkadministrator oder Ihrem Internetanbieter in Verbindung.
 HTTP Proxy=HTTP Proxy
 Connect via HTTP Proxy Server=Durch HTTP Proxy Server verbinden
 http://=http://
@@ -137,8 +151,9 @@ SOCKS Proxy=SOCKS Proxy
 Connect via SOCKS Proxy Server=Durch SOCKS Proxy Server verbinden
 SOCKS Host:=SOCKS Host:
 Port Number:=Port Nummer:
-Leave these blank if not needed=Falls nicht benötigt, leer lassen
-SOCKS User Name:=SOCKS Benutzer Name:
+Leave these blank if not needed=Leer lassen, wenn nicht benötigt.
+SOCKS User Name:=SOCKS Benutzername:
 SOCKS Password:=SOCKS Passwort:
 OK=Bestätigen
 Cancel=Abbrechen
+
