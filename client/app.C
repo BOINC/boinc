@@ -23,6 +23,7 @@
 
 #include "windows_cpp.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #ifdef _WIN32
 #include <io.h>
@@ -605,6 +606,7 @@ bool ACTIVE_TASK::check_app_status_files() {
     FILE* f;
     char app_path[256];
     bool found = false;
+    int retval;
 
     sprintf(app_path, "%s/%s", dirname, CHECKPOINT_CPU_FILE);
     f = fopen(app_path, "r");
@@ -612,6 +614,10 @@ bool ACTIVE_TASK::check_app_status_files() {
         found = true;
         parse_checkpoint_cpu_file(f, checkpoint_cpu_time);
         fclose(f);
+	retval = file_delete(CHECKPOINT_CPU_FILE);
+	if (retval) {
+	    fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", CHECKPOINT_CPU_FILE);
+	}
     }
 
     sprintf(app_path, "%s/%s", dirname, FRACTION_DONE_FILE);
@@ -622,6 +628,10 @@ bool ACTIVE_TASK::check_app_status_files() {
             f, current_cpu_time, fraction_done
         );
         fclose(f);
+	retval = file_delete(app_path);
+	if (retval) {
+	    fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", FRACTION_DONE_FILE);
+	}
     }
     return found;
 }
@@ -631,7 +641,7 @@ bool ACTIVE_TASK::check_app_status_files() {
 bool ACTIVE_TASK_SET::poll_time() {
     ACTIVE_TASK* atp;
     unsigned int i;
-    bool updated;
+    bool updated = false;
 
     for(i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
