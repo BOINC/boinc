@@ -535,7 +535,7 @@ static int setup_shared_mem() {
         app_client_shm = NULL;
     }
 #else
-    if (attach_shmem(aid.shm_key, (void**)&app_client_shm->shm)) {
+    if (attach_shmem(aid.shmem_seg_name, (void**)&app_client_shm->shm)) {
         delete app_client_shm;
         app_client_shm = NULL;
     }
@@ -629,9 +629,9 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
     return ERR_NOT_IMPLEMENTED;
 #else
 
-    FILE* f;
 
 #if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)
+    FILE* f;
 
     // guess that this is solaris
     // need psinfo_t from procfs.h
@@ -652,6 +652,7 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
 #endif
 
 #if defined(HAVE__PROC_SELF_STAT)
+    FILE* f;
     // guess that this is linux
     //
     if ((f = fopen("/proc/self/stat", "r")) != 0) {
