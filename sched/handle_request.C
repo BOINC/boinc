@@ -440,6 +440,8 @@ int send_work(
     RESULT result, result_copy;
     char buf[256];
 
+    if (sreq.work_req_seconds <= 0) return 0;
+
     sprintf(buf, "got request for %d seconds of work\n", sreq.work_req_seconds);
     write_log(buf);
 
