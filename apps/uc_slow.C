@@ -30,9 +30,12 @@
 
 #define CHECKPOINT_FILE "uc_slow_state"
 
-int checkpoint(MFILE& mf, int nchars) {
+int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
-    FILE* f = fopen("temp", "w");
+    char resolved_name[512],res_name2[512];
+
+    boinc_resolve_link( "temp", resolved_name );
+    FILE* f = fopen(resolved_name, "w");
     if (!f) return 1;
     fprintf(f, "%d", nchars);
     fclose(f);
@@ -42,7 +45,8 @@ int checkpoint(MFILE& mf, int nchars) {
     // hopefully atomic part starts here
     retval = mf.flush();
     if (retval) return retval;
-    retval = rename("temp", CHECKPOINT_FILE);
+    boinc_resolve_link( CHECKPOINT_FILE, res_name2 );
+    retval = rename(resolved_name, res_name2);
     if (retval) return retval;
     // hopefully atomic part ends here
 
@@ -51,18 +55,27 @@ int checkpoint(MFILE& mf, int nchars) {
 
 int main() {
     int c, nchars = 0, retval;
+    char resolved_name[512];
     MFILE out;
     FILE* state, *in;
+    APP_IN ai;
+    APP_OUT ao;
 
-    in = fopen("in", "r");
-    state = fopen("uc_slow_state", "r");
+    boinc_init( ai );
+
+    boinc_resolve_link( "in", resolved_name );
+    in = fopen(resolved_name, "r");
+    boinc_resolve_link( CHECKPOINT_FILE, resolved_name );
+    state = fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
         printf("nchars %d\n", nchars);
         fseek(in, nchars, SEEK_SET);
-        retval = out.open("out", "a");
+        boinc_resolve_link( "out", resolved_name );
+        retval = out.open(resolved_name, "a");
     } else {
-        retval = out.open("out", "w");
+        boinc_resolve_link( "out", resolved_name );
+        retval = out.open(resolved_name, "w");
     }
     fprintf(stderr, "APP: uc_slow starting\n");
     if (retval) {
@@ -77,12 +90,14 @@ int main() {
         nchars++;
         sleep(1);
 
-        if (nchars%5 == 0) {
-            retval = checkpoint(out, nchars);
+        if (time_to_checkpoint()) {
+            retval = do_checkpoint(out, nchars);
             if (retval) {
                 fprintf(stderr, "APP: uc_slow checkpoint failed %d\n", retval);
                 exit(1);
             }
+            ao.percent_done = 1;
+            checkpoint_completed(ao);
         }
     }
     retval = out.flush();

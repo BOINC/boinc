@@ -27,6 +27,7 @@
 int main() {
     int c, n=0;
     APP_IN ai;
+    APP_OUT ao;
 
     boinc_init(ai);
     fprintf(stderr, "APP: upper_case starting\n");
@@ -39,7 +40,8 @@ int main() {
         n++;
         if(time_to_checkpoint()) {
 	    fflush(stdout);
-	    checkpoint_completed();
+            ao.percent_done = 1;
+	    checkpoint_completed(ao);
         }
     }
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", n);

@@ -15,7 +15,7 @@ LIBS = ../api/api.o ../lib/parse.o
 
 CLIBS = @LIBS@
 
-APPS = upper_case concat uc_slow 1sec
+APPS = upper_case concat uc_slow concat_slow 1sec
 
 .C.o:
 	$(CC) -c -o $*.o $<
@@ -30,6 +30,9 @@ upper_case: upper_case.o
 concat: concat.o
 	$(CC) concat.o $(LIBS) -o concat
 
+concat_slow: concat_slow.o
+	$(CC) concat_slow.o $(LIBS) -o concat_slow
+
 uc_slow: uc_slow.o
 	$(CC) uc_slow.o $(LIBS) -o uc_slow
 
@@ -41,6 +44,7 @@ install: all
 	cp upper_case /usr/local/boinc/apps/upper_case
 	cp concat /usr/local/boinc/apps/concat
 	cp uc_slow /usr/local/boinc/apps/uc_slow
+	cp concat_slow /usr/local/boinc/apps/concat_slow
 	cp 1sec /usr/local/boinc/apps/1sec
 
 clean:
