@@ -50,6 +50,7 @@
 #include <vector>
 
 #include "boinc_db.h"
+#include "filesys.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "md5_file.h"

@@ -457,7 +457,7 @@ static void on_timer(int a) {
         if (heartbeat_giveup_time < now) {
             fprintf(stderr,
                 "No heartbeat from core client for %f sec - exiting\n",
-                now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD);
+                now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
             );
             if (options.direct_process_action) {
                 exit(0);
