@@ -48,7 +48,7 @@ void show_message(char* p, char* prior) {
 int initialize_prefs() {
     CLoginDialog dlg(IDD_LOGIN);
     int retval = dlg.DoModal();
-    if (retval != IDOK) return -1;
+	if (retval != IDOK) return -1;
     write_initial_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
     return 0;
 }
@@ -59,18 +59,18 @@ void show_result(TEXT_LINE& line, RESULT& result) {
     line.set_field(1, result.app->name);
     sprintf(buf, "%f", result.final_cpu_time);
     line.set_field(2, buf);
-    switch(result.state) {
-    case RESULT_NEW:
+	switch(result.state) {
+	case RESULT_NEW:
         line.set_field(3, "New"); break;
-    case RESULT_FILES_DOWNLOADED:
+	case RESULT_FILES_DOWNLOADED:
         line.set_field(3, "Ready to run"); break;
-    case RESULT_COMPUTE_DONE:
+	case RESULT_COMPUTE_DONE:
         line.set_field(3, "Computation done"); break;
     case RESULT_READY_TO_ACK:
         line.set_field(3, "Results uploaded"); break;
     case RESULT_SERVER_ACK:
         line.set_field(3, "Acknowledged"); break;
-    }
+	}
 }
 
 void show_file_xfer(TEXT_LINE& line, FILE_XFER& fx) {

@@ -141,6 +141,7 @@ int CLIENT_STATE::time_tests() {
     host_info.p_membw = 1000000000;
     host_info.m_cache = 1000000;
 #endif
+>>>>>>> 1.37
     host_info.p_calculated = (double)time(0); //set time calculated
     return 0;
 }
@@ -154,7 +155,7 @@ double CLIENT_STATE::allowed_disk_usage() {
     // Calculate allowed disk usage based on % pref
     percent_space = host_info.d_total*prefs->disk_max_used_pct/100.0;
 
-	min_val = host_info.d_free - prefs->disk_min_free_gb*1e9;
+    min_val = host_info.d_free - prefs->disk_min_free_gb*1e9;
     // Return the minimum of the three
     return min(min(prefs->disk_max_used_gb*1e9, percent_space), min_val);
 }
@@ -191,25 +192,36 @@ int CLIENT_STATE::check_suspend_activities() {
 //
 bool CLIENT_STATE::do_something() {
     int nbytes;
-    bool action = false;
+    bool action = false, x;
 
     check_suspend_activities();
     if (!activities_suspended) {
         // Call these functions in bottom to top order in
         // respect to the FSMs hierarchy
         net_xfers->poll(999999, nbytes);
-        if (nbytes) action = true;
-        action |= http_ops->poll();
-        action |= file_xfers->poll();
-        action |= active_tasks.poll();
-        action |= active_tasks.poll_time();
-        action |= scheduler_rpc_poll();
-        action |= start_apps();
-        action |= pers_xfers->poll();
-        action |= handle_running_apps();
-        action |= handle_pers_file_xfers();
-        action |= garbage_collect();
-        action |= update_results();
+        if (nbytes) { printf("net_xfers\n"); action = true; }
+        x = http_ops->poll();
+	if (x) {action=true; printf("http_ops::poll\n"); }
+        x = file_xfers->poll();
+	if (x) {action=true; printf("file_xfers::poll\n"); }
+        x = active_tasks.poll();
+	if (x) {action=true; printf("active_tasks::poll\n"); }
+        x = active_tasks.poll_time();
+	if (x) {action=true; printf("active_tasks::poll_time\n"); }
+        x = scheduler_rpc_poll();
+	if (x) {action=true; printf("scheduler_rpc_poll\n"); }
+        x = start_apps();
+	if (x) {action=true; printf("start_apps\n"); }
+        x = pers_xfers->poll();
+	if (x) {action=true; printf("pers_xfers->poll\n"); }
+        x = handle_running_apps();
+	if (x) {action=true; printf("handle_running_apps\n"); }
+        x = handle_pers_file_xfers();
+	if (x) {action=true; printf("handle_pers_file_xfers\n"); }
+        x = garbage_collect();
+	if (x) {action=true; printf("garbage_collect\n"); }
+        x = update_results();
+	if (x) {action=true; printf("update_results\n"); }
         write_state_file_if_needed();
     }
     if (!action) time_stats.update(true, !activities_suspended);
@@ -301,7 +313,7 @@ int CLIENT_STATE::parse_state_file() {
                 if (!retval) results.push_back(rp);
                 rp->state = RESULT_NEW;
             } else {
-		fprintf(stderr, "error: link_result failed\n");
+                fprintf(stderr, "error: link_result failed\n");
                 delete rp;
             }
         } else if (match_tag(buf, "<host_info>")) {
@@ -319,7 +331,7 @@ int CLIENT_STATE::parse_state_file() {
             // after core client update
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
-	    return ERR_XML_PARSE;
+            return ERR_XML_PARSE;
         }
     }
     return 0;
@@ -559,9 +571,9 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     for (i=0; i<rp->output_files.size(); i++) {
         retval = link_file_ref(p, &rp->output_files[i]);
         if (retval) {
-	    fprintf(stderr, "error: link_result: link_file_ref failed\n");
-	    return retval;
-	}
+            fprintf(stderr, "error: link_result: link_file_ref failed\n");
+            return retval;
+        }
     }
     return 0;
 }
@@ -639,10 +651,10 @@ bool CLIENT_STATE::garbage_collect() {
             rp->wup->ref_cnt++;
             for (i=0; i<rp->output_files.size(); i++) {
                 // If one of the file infos had a failure,
-		// mark the result as done and report the error.
-		// The result, workunits, and file infos
-		// will be cleaned up after the server is notified
-		//
+                // mark the result as done and report the error.
+                // The result, workunits, and file infos
+                // will be cleaned up after the server is notified
+                //
                 if (rp->output_files[i].file_info->had_failure()) {
                     if (rp->state < RESULT_READY_TO_ACK) {
                         rp->state = RESULT_READY_TO_ACK;
@@ -761,10 +773,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
             continue;
-        }	
+        }        
         if (!strcmp(argv[i], "-no_time_test")) {
             run_time_test = false;
-	    continue;
+            continue;
         };
         if (!strcmp(argv[i], "-exit_after")) {
             exit_after = atoi(argv[i+1]);
@@ -785,7 +797,7 @@ bool CLIENT_STATE::time_to_exit() {
     if ((exit_after != -1) && app_started &&
         (difftime(time(0), app_started) >= exit_after)) return true;
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
-	return true;
+        return true;
     }
     return false;
 }
