@@ -58,9 +58,6 @@ void handle_wu(DB_WORKUNIT& wu) {
     time_t now = time(0), x;
     bool all_over, have_result_to_validate, do_delete;
 
-    log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] handling WU\n", wu.id, wu.name);
-    ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
-
     // scan the results for the WU
     //
     sprintf(buf, "where workunitid=%d", wu.id);
@@ -68,18 +65,11 @@ void handle_wu(DB_WORKUNIT& wu) {
         results.push_back(result);
     }
 
-    // if (results.size() == 0) {
-    //     log_messages.printf(
-    //         SchedMessages::NORMAL, "[WU#%d %s] No results\n",
-    //         wu.id, wu.name
-    //     );
-    //     return;
-    // }
-
-    log_messages.printf(SchedMessages::DEBUG,
-        "[WU#%d %s] enumerated %d results\n",
-        wu.id, wu.name, (int)results.size()
-    );
+    log_messages.printf(
+        SchedMessages::DEBUG, "[WU#%d %s] handling WU: enumerated %d results\n",
+        wu.id, wu.name,
+        (int)results.size());
+    ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
 
     // count up the number of results in various states,
     // and check for timed-out results

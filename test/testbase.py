@@ -43,7 +43,7 @@ def test_init():
 
     options.program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
 
-    options.auto_setup     = int(get_env_var("BOINC_TEST_AUTO_SETUP",0))#######
+    options.auto_setup     = int(get_env_var("BOINC_TEST_AUTO_SETUP",1))#######
     options.user_name      = get_env_var("BOINC_TEST_USER_NAME", '') or get_env_var("USER")
     options.delete_testbed = get_env_var("BOINC_TEST_DELETE", 'if-successful').lower()
     options.install_method = get_env_var("BOINC_TEST_INSTALL_METHOD", 'symlink').lower()
@@ -633,7 +633,10 @@ def delete_test():
     '''Delete all test data'''
     if options.auto_setup and hasattr(options,'auto_setup_basedir'):
         verbose_echo(1, "Deleting testbed %s."%options.auto_setup_basedir)
-        shutil.rmtree(options.auto_setup_basedir)
+        try:
+            shutil.rmtree(options.auto_setup_basedir)
+        except e:
+            verbose_echo(0, "Couldn't delete testbed %s: %s"%(options.auto_setup_basedir,e))
 
 class Proxy:
     def __init__(self, code, cgi=0, html=0, start=1):

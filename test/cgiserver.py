@@ -27,10 +27,9 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         if self.path.find('.php') != -1:
             self.cgi_info = os.path.split(self.path)
             return True
-        # return CGIHTTPServer.CGIHTTPRequestHandler.is_cgi(self)
 
         for p in self.cgi_directories:
-            p = os.path.join(p,'/')
+            p = os.path.join(p,'')
             if self.path.startswith(p):
                 self.cgi_info = os.path.split(self.path)
                 return True
@@ -167,82 +166,14 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                     pass
                 os.dup2(self.rfile.fileno(), 0)
                 os.dup2(self.wfile.fileno(), 1)
-                if is_php:
-                    os.chdir(self.translate_path(dir))
+                os.chdir(self.translate_path(dir)) # KC
                 os.execve(scriptfile, args, os.environ)
             except:
                 self.server.handle_error(self.request, self.client_address)
                 os._exit(127)
 
-        elif self.have_popen2 or self.have_popen3:
-            # Windows -- use popen2 or popen3 to create a subprocess
-            import shutil
-            if self.have_popen3:
-                popenx = os.popen3
-            else:
-                popenx = os.popen2
-            cmdline = scriptfile
-            if self.is_python(scriptfile):
-                interp = sys.executable
-                if interp.lower().endswith("w.exe"):
-                    # On Windows, use python.exe, not pythonw.exe
-                    interp = interp[:-5] + interp[-4:]
-                cmdline = "%s -u %s" % (interp, cmdline)
-            if '=' not in query and '"' not in query:
-                cmdline = '%s "%s"' % (cmdline, query)
-            self.log_message("command: %s", cmdline)
-            try:
-                nbytes = int(length)
-            except (TypeError, ValueError):
-                nbytes = 0
-            files = popenx(cmdline, 'b')
-            fi = files[0]
-            fo = files[1]
-            if self.have_popen3:
-                fe = files[2]
-            if self.command.lower() == "post" and nbytes > 0:
-                data = self.rfile.read(nbytes)
-                fi.write(data)
-            # throw away additional data [see bug #427345]
-            while select.select([self.rfile._sock], [], [], 0)[0]:
-                if not self.rfile._sock.recv(1):
-                    break
-            fi.close()
-            shutil.copyfileobj(fo, self.wfile)
-            if self.have_popen3:
-                errors = fe.read()
-                fe.close()
-                if errors:
-                    self.log_error('%s', errors)
-            sts = fo.close()
-            if sts:
-                self.log_error("CGI script exit status %#x", sts)
-            else:
-                self.log_message("CGI script exited OK")
-
         else:
-            # Other O.S. -- execute script in this process
-            save_argv = sys.argv
-            save_stdin = sys.stdin
-            save_stdout = sys.stdout
-            save_stderr = sys.stderr
-            try:
-                try:
-                    sys.argv = [scriptfile]
-                    if '=' not in decoded_query:
-                        sys.argv.append(decoded_query)
-                    sys.stdout = self.wfile
-                    sys.stdin = self.rfile
-                    execfile(scriptfile, {"__name__": "__main__"})
-                finally:
-                    sys.argv = save_argv
-                    sys.stdin = save_stdin
-                    sys.stdout = save_stdout
-                    sys.stderr = save_stderr
-            except SystemExit, sts:
-                self.log_error("CGI script exit status %s", str(sts))
-            else:
-                self.log_message("CGI script exited OK")
+            raise SystemExit('need fork()')
 
 def serve(bind='', port=8000, handler=PHPHTTPRequestHandler):
     setup_php(os.path.realpath(os.path.dirname(sys.argv[0])))

@@ -5873,7 +5873,7 @@ Karl 2003/08/20
         - allow for header to not have to be a single TCP message
         - parse line-by-line instead of full-header strstr for efficiency
         - compare header names case insensitively
-    - test scripts
+    - test scripts: no longer need apache or any environment variables.
 
     client/
         http.C
