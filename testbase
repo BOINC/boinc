@@ -39,6 +39,7 @@ if [ -z "$USER" ]; then
     export USER
 fi
 
+reqeval "chmod -R u+w $TMPDIR 2>/dev/null"
 reqeval "rm -rf $TMPDIR"
 reqeval "mkdir -p $TMPDIR"
 reqeval "cd $TMPDIR"
