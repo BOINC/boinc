@@ -22,7 +22,7 @@
 #endif
 
 #ifndef _WIN32
-#include "stdlib.h"
+#include "cstdlib"
 #endif
 
 #include "exception.h"
