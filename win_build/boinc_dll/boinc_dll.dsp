@@ -83,7 +83,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 PostBuild_Desc=Copy dll to boinc_gui directory
-PostBuild_Cmds=copy  Debug\boinc.dll  ..\boinc_gui\ 
+PostBuild_Cmds=copy   Debug\boinc.dll   ..\boinc_gui\ 
 # End Special Build Tool
 
 !ENDIF 
@@ -98,6 +98,10 @@ PostBuild_Cmds=copy  Debug\boinc.dll  ..\boinc_gui\
 # Begin Source File
 
 SOURCE=..\..\client\win\win_idle_tracker.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\win_idle_tracker.def
 # End Source File
 # End Group
 # Begin Group "Header Files"
