@@ -29,7 +29,12 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "DlgAbout.h"
+
+#ifdef __WXMSW__
 #include "win_config.h"
+#else
+#include "config.h"
+#endif
 
 #include "res/boincsm.xpm"
 
