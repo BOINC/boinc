@@ -170,7 +170,7 @@ function show_workunit($wu,$show_xml_doc) {
     echo "<p>";
 }
 
-function res_state_string($s) {
+function res_server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
@@ -180,6 +180,15 @@ function res_state_string($s) {
     case 6: return "Error";
     }
     return "unknown";
+}
+
+function result_client_state_str($s) {
+    switch($s) {
+    case 1: return "Downloading";
+    case 2: return "Computing";
+    case 3: return "Uploading";
+    case 4: return "Done";
+    }
 }
 
 function validate_state_str($s) {
@@ -201,10 +210,10 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     }
     row("Name", $result->name);
     row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-    row("Server state", res_state_string($result->server_state));
+    row("Server state", res_server_state_string($result->server_state));
     row("Deadline", time_str($result->report_deadline));
     row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
-    row("Client state", $result->client_state);
+    row("Client state", result_client_state_str($result->client_state));
     row("CPU time", $result->cpu_time);
     if ($show_xml_docs) {
         row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
