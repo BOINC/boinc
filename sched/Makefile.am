@@ -52,7 +52,21 @@ libsched_a_SOURCES =                            \
     ../lib/md5_file.C                           \
     ../lib/msg_log.C                            \
     ../tools/process_result_template.C          \
-    ../tools/backend_lib.C
+    ../tools/backend_lib.C                      \
+    assimilate_handler.h                        \
+    fcgiapp.h                                   \
+    fcgi_stdio.h                                \
+    handle_request.h                            \
+    main.h                                      \
+    sched_config.h                              \
+    sched_locality.h                            \
+    sched_msgs.h                                \
+    sched_send.h                                \
+    sched_shmem.h                               \
+    sched_util.h                                \
+    server_types.h                              \
+    validate_util.h
+
 
 cgi_SOURCES =                                   \
     handle_request.C                            \
