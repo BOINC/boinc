@@ -18009,3 +18009,10 @@ David  1 Oct 2004
         user.inc
     sched/
         db_dump.C
+
+David  4 Oct 2004
+    - Win GUI: don't show error box if WinsockCleanup() fails
+        (in CMyApp::ExitInstance())
+
+    client/win/
+        wingui_mainwindow.cpp

@@ -100,9 +100,7 @@ int CMyApp::ExitInstance()
     //gstate.free_mem();
 
     // Cleanup WinSock
-    if ( WinsockCleanup() != 0 ) {
-        MessageBox(NULL, "Failed to cleanup the Windows Sockets Interface", "BOINC GUI Error", MB_OK);
-    }
+    WinsockCleanup();
 
     return CWinApp::ExitInstance();
 }
