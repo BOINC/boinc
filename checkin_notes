@@ -13479,3 +13479,10 @@ Rom    13 June 2004
         setup_project.py
     sched/
         start
+
+Karl 2004-06-14
+    - 'start': simplified remote fork/exec logic, and added option for
+      parallel/sequential delegation to remote hosts (default sequential)
+
+    sched/
+        start

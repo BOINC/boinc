@@ -88,6 +88,7 @@ ignore_timestamps = False
 prune_run_state = True #
 is_main_host = False
 local_hostname = ''
+delegate_other_hosts_in_parallel = False
 
 def get_host_list():
     '''
@@ -696,18 +697,20 @@ apply(command)
 run_state.write()
 
 if is_main_host:
+    if delegate_other_hosts_in_parallel:
+        wait_mode = os.P_NOWAIT
+    else:
+        wait_mode = os.P_WAIT
+
     other_hosts = get_host_list()
     for host in other_hosts:
         if host == local_hostname:
             continue
         local_cmd = ' '.join(sys.argv)
-        remote_cmd = 'ssh '+host+' "cd '+cwd+';'+local_cmd
+        remote_cmd = [ 'ssh', host, 'cd', cwd, ' && ' ] + sys.argv
         if verbose:
-            remote_cmd += " -v"
-        remote_cmd += '"'
-        print 'running ', remote_cmd
-        pid = os.fork()
-        if pid == 0:
-           os.execl('/bin/sh', 'sh', '-c', remote_cmd)
+            remote_cmd += [ '-v' ]
+        print 'running ', ' '.join(remote_cmd)
+        os.spawnvp(wait_mode, remote_cmd[0], remote_cmd)
 
 os.unlink(start_lockfile)
