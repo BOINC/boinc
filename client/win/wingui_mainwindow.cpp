@@ -955,7 +955,7 @@ void CMainWindow::OnCommandSettingsQuit()
 		CString str;
 		str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->get_project_name());
 		if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
-			gstate.quit_project(dlg.m_nSel);
+			gstate.quit_project(gstate.projects[dlg.m_nSel]);
 		}
 	}
 }
@@ -1109,7 +1109,7 @@ void CMainWindow::OnCommandProjectQuit()
 	CString strBuf;
 	strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->get_project_name());
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
-		gstate.quit_project(i);
+		gstate.quit_project(gstate.projects[i]);
 	}
 }
 

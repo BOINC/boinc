@@ -230,7 +230,6 @@ BEGIN
     END
     POPUP "Project"
     BEGIN
-        MENUITEM "Relogin...",                  ID_PROJECT_RELOGIN
         MENUITEM "Quit Project...",             ID_PROJECT_QUIT
     END
     POPUP "Work"
