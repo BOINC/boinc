@@ -42,6 +42,7 @@
 #include "file_names.h"
 #include "log_flags.h"
 #include "parse.h"
+#include "gfx_interface.h"
 
 #include "app.h"
 
@@ -100,7 +101,16 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF file_ref;
     FILE_INFO* fip;
     int fd, retval;
+    char prefs_path[256];
+    FILE *prefs_fd;
+    GFX_INTERFACE *gi = new GFX_INTERFACE;
 
+    gi->width = 640;
+    gi->height = 480;
+    gi->depth = 32;
+    gi->fps = 5;
+    gi->draw_offscreen = 1;
+    gi->shared_mem_key = ftok(dirname, 'B'); // Generate a unique identifier
 
 #ifdef unix
     pid = fork();
@@ -131,6 +141,12 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         }
         
+        // Write out the app prefs
+        sprintf( prefs_path, "%s/%s", dirname, "prefs.xml" );
+        prefs_fd = fopen( prefs_path, "w" );
+        gi->write_prefs(prefs_fd);
+        fclose(prefs_fd);
+
         // create symbolic links, and hook up descriptors, for input files
         //
         for (i=0; i<wup->input_files.size(); i++) {

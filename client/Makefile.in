@@ -40,6 +40,7 @@ OBJS = \
     speed_stats.o \
     time_stats.o \
     util.o \
+    ../lib/gfx_interface.o \
     ../lib/parse.o \
     ../lib/md5_file.o \
     ../lib/md5.o

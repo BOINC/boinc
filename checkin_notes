@@ -394,3 +394,14 @@ Michael Gary	June 07, 2002
     lib/
 	parse.C
 
+Eric Heien    June 07, 2002
+    - Added initial functionality for passing graphics preferences between core and app
+
+    client/
+        Makefile.in
+        app.C
+    lib/
+        gfx_interface.C
+        gfx_interface.h
+
+
