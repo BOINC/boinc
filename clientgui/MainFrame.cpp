@@ -113,9 +113,11 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
 
-    SetStatusBarPane(0);
-
     RestoreState();
+
+    SetStatusBarPane(0);
+    PositionStatusBar();
+    SendSizeEvent();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -355,8 +357,6 @@ bool CMainFrame::CreateStatusbar()
     m_ptxtDisconnect = new wxStaticText(m_pStatusbar, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
     m_ptxtDisconnect->Hide();
 
-    SendSizeEvent();
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateStatusbar - Function End"));
     return true;
 }
@@ -402,8 +402,6 @@ bool CMainFrame::DeleteStatusbar()
 
     delete m_pStatusbar;
     m_pStatusbar = NULL;
-
-    SendSizeEvent();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteStatusbar - Function End"));
     return true;
