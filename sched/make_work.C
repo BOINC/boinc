@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 
 // make_work
@@ -58,7 +58,7 @@ void replace_file_name(
     char buf[MAX_BLOB_SIZE], temp[256], download_path[256],
     new_download_path[256];
     char * p;
-  
+
     sprintf(download_path,"%s/%s", download_url, filename);
     sprintf(new_download_path,"%s/%s", download_url, new_filename);
     strcpy(buf, xml_doc);
@@ -93,7 +93,7 @@ void make_work() {
     DB_WORKUNIT wu;
     DB_RESULT result;
     int seqno = 0;
-   
+
     retval = config.parse_file();
     if (retval) {
         write_log("can't read config file\n", MSG_CRITICAL);
@@ -115,14 +115,14 @@ void make_work() {
     }
 
     strcpy(starting_xml,wu.xml_doc);
-    
+
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
         write_log("can't read key\n", MSG_CRITICAL);
         exit(1);
     }
-    
+
     retval = read_filename(result_template_file, result_template);
     if (retval) {
         write_log("can't open result template\n", MSG_CRITICAL);
@@ -148,7 +148,7 @@ void make_work() {
             strcpy(buf, starting_xml);
             p = strtok(buf, "\n");
             strcpy(file_name, "");
-        
+
             // make new copies of all the WU's input files
             //
             while (p) {
@@ -160,7 +160,7 @@ void make_work() {
                     sprintf(
                         new_pathname, "%s/%s",config.download_dir, new_file_name
                     );
-                    sprintf(command,"cp %s %s", pathname, new_pathname);
+                    sprintf(command,"ln %s %s", pathname, new_pathname);
                     if (system(command)) {
                         write_log("system() error\n", MSG_CRITICAL);
                         perror(command);
