@@ -31,7 +31,7 @@ foobar
 class WorkUC(Work):
     def __init__(self, redundancy, **kwargs):
         Work.__init__(self, redundancy=redundancy)
-        self.wu_template = "uc_wu"
+        self.wu_template = "uc_wu_nodelete"
         self.result_template = "uc_result"
         self.input_files = ['input']
         self.__dict__.update(kwargs)

@@ -540,9 +540,7 @@ class Project:
             _check_vars(kwargs)
         elif progname == 'make_work':
             work = kwargs.get('work', self.work)
-            _check_vars(kwargs, cushion=30, max_wus=0, min_quorum=None,
-                        result_template=os.path.realpath(work.result_template),
-                        wu_name=work.wu_template)
+            _check_vars(kwargs, cushion=30, max_wus=0, wu_name=work.wu_template)
         elif progname == 'sample_bitwise_validator':
             _check_vars(kwargs)
             each_app = True

@@ -338,7 +338,7 @@ class TestProject(Project):
         self.install_hosts()
 
     def run(self):
-        self.sched_install('make_work', max_wus = self.num_wu, min_quorum = self.redundancy)
+        self.sched_install('make_work', max_wus = self.num_wu)
         self.sched_install('sample_dummy_assimilator')
         self.sched_install('file_deleter')
         self.sched_install('sample_bitwise_validator')
@@ -365,7 +365,7 @@ class TestProject(Project):
         # TODO:     self.check_outputs(output_expected,  ZZZ, YYY)
         self.check_results(self.expected_result, self.num_wu*self.redundancy)
         self.sched_run('file_deleter')
-        self.check_deleted("download/input")
+        # self.check_deleted("download/input")
         # TODO: use generator/iterator whatever to check all files deleted
         # self.check_deleted("upload/uc_wu_%d_0", count=self.num_wu)
 

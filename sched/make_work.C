@@ -243,12 +243,21 @@ void make_work() {
             continue;
         }
 
+        // decide how many WUs to create based on cushion
+        // and (if present) max_wus
+        //
         int nwus = (cushion-unsent_results)/wu.target_nresults+1;
+        if (max_wus) {
+            int mwlimit = max_wus - total_wus;
+            if (nwus > mwlimit) nwus = mwlimit;
+        }
+
         for (int i=0; i<nwus; i++) {
             make_new_wu(wu, starting_xml, start_time, seqno, config);
         }
 
-        // now wait a while for the transitioner to make results
+        // wait a while for the transitioner to make results
+        //
         sleep(60);
     }
 }
@@ -269,6 +278,10 @@ int main(int argc, char** argv) {
             strcpy(wu_name, argv[++i]);
         } else if (!strcmp(argv[i], "-max_wus")) {
             max_wus = atoi(argv[++i]);
+        } else {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL, "unknown argument: %s\n", argv[i]
+            );
         }
     }
 

@@ -25216,3 +25216,23 @@ David  22 Feb 2005
         scheduler_op.C
     sched/
         sched_send.C
+
+David  23 Feb 2005
+    - got test_uc.py to work again - woohoo!
+        - changed WU name to uc_wu_nodelete.
+            Otherwise the input file would get deleted
+            and subsequent WUs (created by make_work) would bomb out
+        - change make_work to strictly obey its max_wus argument.
+        - remove check that original input file is deleted, 'cuz it's not.
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        make_work.C
+    test/
+        make_project_ap.php (removed)
+        test_backend.py (removed)
+        test_uc.py
+        testbase.py
+        uc_wu (removed)
+        uc_wu_nodelete (new)
