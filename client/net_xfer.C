@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.78  2004/01/10 06:40:44  davea
+// *** empty log message ***
+//
 // Revision 1.77  2003/12/12 23:13:01  davea
 // *** empty log message ***
 //
@@ -361,7 +364,7 @@ int NET_XFER_SET::net_sleep(double x) {
 //
 int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     int n, fd, retval, nsocks_queried;
-    socklen_t i;
+	unsigned int i;
     NET_XFER *nxp;
     struct timeval tv;
 

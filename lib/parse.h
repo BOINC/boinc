@@ -42,6 +42,7 @@ extern void replace_element(char* buf, char* start, char* end, char* replacement
 extern char* sgets(char* buf, int len, char* &in);
 extern bool extract_xml_record(const std::string &field, const char *tag, std::string &record);
 
+#if 0
 class InvalidBase64Exception
 {
 };
@@ -52,3 +53,5 @@ inline string r_base64_decode (string const& from) throw(InvalidBase64Exception)
 {
     return r_base64_decode(from.c_str(), from.length());
 }
+
+#endif

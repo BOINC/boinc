@@ -174,7 +174,7 @@ int CLIENT_STATE::check_cpu_benchmarks() {
         DWORD exit_code = 0;
         GetExitCodeThread(cpu_benchmarks_handle, &exit_code);
         if(exit_code == STILL_ACTIVE) {
-            if(time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
+            if(time(0) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
                 msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
                 TerminateThread(cpu_benchmarks_handle, 0);
                 CloseHandle(cpu_benchmarks_handle);

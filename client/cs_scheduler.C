@@ -26,7 +26,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#ifdef _WIN32
+#include <string.h>
+#else
 #include <strings.h>
+#endif
 
 #include "crypt.h"
 #include "error_numbers.h"
@@ -234,7 +238,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         if (strstr(fname, "trickle_") != fname) continue;
         q = fname + strlen("trickle_");
         p = strrchr(fname, '_');
-        if (p <= q); continue;
+        if (p <= q) continue;
         *p = 0;
         strcpy(result_name, q);
         t = atoi(p+1);

@@ -9077,3 +9077,17 @@ David  9 Jan 2004
             user_posts.php
     sched/
         handle_request.C
+
+David  9 Jan 2004
+	- added project files for VC++ 7.0, and fixed a few compile warnings
+
+	client/
+		app.C
+		cs_benchmark.C
+		cs_scheduler.C
+		net_xfer.C
+		win/
+			stackwalker.h
+	win_build/
+		boinc.sln
+		*.vcproj

@@ -601,8 +601,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 #ifdef _WIN32
     unsigned long exit_code;
     bool found = false;
+	unsigned int i;
 
-    for (int i=0; i<active_tasks.size(); i++) {
+    for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
