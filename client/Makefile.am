@@ -11,13 +11,14 @@ EXTRA_PROGRAMS = speed_stats
 
 boinc_client_SOURCES =				\
     main.C					\
-    account.C					\
     app.C					\
     check_state.C           \
     client_state.C				\
     client_types.C				\
+    cs_account.C					\
     cs_apps.C					\
     cs_benchmark.C				\
+    cs_cmdline.C				\
     cs_files.C					\
     cs_prefs.C					\
     cs_scheduler.C				\

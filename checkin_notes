@@ -6895,6 +6895,7 @@ David  18 Oct 2003
 
     client/
         client_state.C,h
+        cs_account.C,h (renamed from account.C,h)
         cs_benchmark.C (new)
         cs_prefs.C (new)
         cs_statefile.C (new)

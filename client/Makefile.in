@@ -178,13 +178,14 @@ EXTRA_PROGRAMS = speed_stats
 
 boinc_client_SOURCES = \
     main.C					\
-    account.C					\
     app.C					\
     check_state.C           \
     client_state.C				\
     client_types.C				\
+    cs_account.C					\
     cs_apps.C					\
     cs_benchmark.C				\
+    cs_cmdline.C				\
     cs_files.C					\
     cs_prefs.C					\
     cs_scheduler.C				\
@@ -241,12 +242,13 @@ bin_PROGRAMS = boinc_client$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 am_boinc_client_OBJECTS = boinc_client-main.$(OBJEXT) \
-	boinc_client-account.$(OBJEXT) boinc_client-app.$(OBJEXT) \
-	boinc_client-check_state.$(OBJEXT) \
+	boinc_client-app.$(OBJEXT) boinc_client-check_state.$(OBJEXT) \
 	boinc_client-client_state.$(OBJEXT) \
 	boinc_client-client_types.$(OBJEXT) \
+	boinc_client-cs_account.$(OBJEXT) \
 	boinc_client-cs_apps.$(OBJEXT) \
 	boinc_client-cs_benchmark.$(OBJEXT) \
+	boinc_client-cs_cmdline.$(OBJEXT) \
 	boinc_client-cs_files.$(OBJEXT) boinc_client-cs_prefs.$(OBJEXT) \
 	boinc_client-cs_scheduler.$(OBJEXT) \
 	boinc_client-cs_statefile.$(OBJEXT) \
@@ -279,16 +281,17 @@ speed_stats_LDFLAGS =
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/boinc_client-account.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-app.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/boinc_client-app.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-app_ipc.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-check_state.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_messages.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_state.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_types.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-crypt.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_account.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_apps.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_benchmark.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_cmdline.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_files.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_prefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_scheduler.Po \
@@ -366,13 +369,14 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 boinc_client-main.$(OBJEXT): main.C
-boinc_client-account.$(OBJEXT): account.C
 boinc_client-app.$(OBJEXT): app.C
 boinc_client-check_state.$(OBJEXT): check_state.C
 boinc_client-client_state.$(OBJEXT): client_state.C
 boinc_client-client_types.$(OBJEXT): client_types.C
+boinc_client-cs_account.$(OBJEXT): cs_account.C
 boinc_client-cs_apps.$(OBJEXT): cs_apps.C
 boinc_client-cs_benchmark.$(OBJEXT): cs_benchmark.C
+boinc_client-cs_cmdline.$(OBJEXT): cs_cmdline.C
 boinc_client-cs_files.$(OBJEXT): cs_files.C
 boinc_client-cs_prefs.$(OBJEXT): cs_prefs.C
 boinc_client-cs_scheduler.$(OBJEXT): cs_scheduler.C
@@ -416,7 +420,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-app_ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-check_state.Po@am__quote@
@@ -424,8 +427,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_types.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-crypt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_apps.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_benchmark.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_cmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_files.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_prefs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_scheduler.Po@am__quote@
@@ -502,28 +507,6 @@ boinc_client-main.obj: main.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-main.Po' tmpdepfile='$(DEPDIR)/boinc_client-main.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-main.obj `if test -f 'main.C'; then $(CYGPATH_W) 'main.C'; else $(CYGPATH_W) '$(srcdir)/main.C'`
-
-boinc_client-account.o: account.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-account.o -MD -MP -MF "$(DEPDIR)/boinc_client-account.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-account.o `test -f 'account.C' || echo '$(srcdir)/'`account.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-account.Tpo" "$(DEPDIR)/boinc_client-account.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-account.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='account.C' object='boinc_client-account.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-account.Po' tmpdepfile='$(DEPDIR)/boinc_client-account.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-account.o `test -f 'account.C' || echo '$(srcdir)/'`account.C
-
-boinc_client-account.obj: account.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-account.obj -MD -MP -MF "$(DEPDIR)/boinc_client-account.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-account.obj `if test -f 'account.C'; then $(CYGPATH_W) 'account.C'; else $(CYGPATH_W) '$(srcdir)/account.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-account.Tpo" "$(DEPDIR)/boinc_client-account.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-account.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='account.C' object='boinc_client-account.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-account.Po' tmpdepfile='$(DEPDIR)/boinc_client-account.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-account.obj `if test -f 'account.C'; then $(CYGPATH_W) 'account.C'; else $(CYGPATH_W) '$(srcdir)/account.C'`
 
 boinc_client-app.o: app.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-app.o -MD -MP -MF "$(DEPDIR)/boinc_client-app.Tpo" \
@@ -613,6 +596,28 @@ boinc_client-client_types.obj: client_types.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-client_types.obj `if test -f 'client_types.C'; then $(CYGPATH_W) 'client_types.C'; else $(CYGPATH_W) '$(srcdir)/client_types.C'`
 
+boinc_client-cs_account.o: cs_account.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_account.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_account.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_account.o `test -f 'cs_account.C' || echo '$(srcdir)/'`cs_account.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_account.Tpo" "$(DEPDIR)/boinc_client-cs_account.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_account.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_account.C' object='boinc_client-cs_account.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_account.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_account.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_account.o `test -f 'cs_account.C' || echo '$(srcdir)/'`cs_account.C
+
+boinc_client-cs_account.obj: cs_account.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_account.obj -MD -MP -MF "$(DEPDIR)/boinc_client-cs_account.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_account.obj `if test -f 'cs_account.C'; then $(CYGPATH_W) 'cs_account.C'; else $(CYGPATH_W) '$(srcdir)/cs_account.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_account.Tpo" "$(DEPDIR)/boinc_client-cs_account.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_account.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_account.C' object='boinc_client-cs_account.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_account.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_account.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_account.obj `if test -f 'cs_account.C'; then $(CYGPATH_W) 'cs_account.C'; else $(CYGPATH_W) '$(srcdir)/cs_account.C'`
+
 boinc_client-cs_apps.o: cs_apps.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_apps.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_apps.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_apps.o `test -f 'cs_apps.C' || echo '$(srcdir)/'`cs_apps.C; \
@@ -656,6 +661,28 @@ boinc_client-cs_benchmark.obj: cs_benchmark.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_benchmark.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_benchmark.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_benchmark.obj `if test -f 'cs_benchmark.C'; then $(CYGPATH_W) 'cs_benchmark.C'; else $(CYGPATH_W) '$(srcdir)/cs_benchmark.C'`
+
+boinc_client-cs_cmdline.o: cs_cmdline.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_cmdline.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_cmdline.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_cmdline.o `test -f 'cs_cmdline.C' || echo '$(srcdir)/'`cs_cmdline.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_cmdline.Tpo" "$(DEPDIR)/boinc_client-cs_cmdline.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_cmdline.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_cmdline.C' object='boinc_client-cs_cmdline.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_cmdline.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_cmdline.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_cmdline.o `test -f 'cs_cmdline.C' || echo '$(srcdir)/'`cs_cmdline.C
+
+boinc_client-cs_cmdline.obj: cs_cmdline.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_cmdline.obj -MD -MP -MF "$(DEPDIR)/boinc_client-cs_cmdline.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-cs_cmdline.obj `if test -f 'cs_cmdline.C'; then $(CYGPATH_W) 'cs_cmdline.C'; else $(CYGPATH_W) '$(srcdir)/cs_cmdline.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cs_cmdline.Tpo" "$(DEPDIR)/boinc_client-cs_cmdline.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cs_cmdline.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cs_cmdline.C' object='boinc_client-cs_cmdline.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cs_cmdline.Po' tmpdepfile='$(DEPDIR)/boinc_client-cs_cmdline.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cs_cmdline.obj `if test -f 'cs_cmdline.C'; then $(CYGPATH_W) 'cs_cmdline.C'; else $(CYGPATH_W) '$(srcdir)/cs_cmdline.C'`
 
 boinc_client-cs_files.o: cs_files.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_files.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_files.Tpo" \

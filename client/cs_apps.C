@@ -275,3 +275,59 @@ bool CLIENT_STATE::start_apps() {
 int CLIENT_STATE::restart_tasks() {
     return active_tasks.restart_tasks();
 }
+
+int CLIENT_STATE::set_nslots() {
+    int retval;
+
+    // Set nslots to actual # of CPUs (or less, depending on prefs)
+    //
+    if (host_info.p_ncpus > 0) {
+        nslots = host_info.p_ncpus;
+    } else {
+        nslots = 1;
+    }
+    if (nslots > global_prefs.max_cpus) nslots = global_prefs.max_cpus;
+
+    retval = make_slot_dirs();
+    if (retval) return retval;
+
+    return 0;
+}
+
+// estimate how long a WU will take on this host
+//
+double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
+    double x;
+
+    x = wu.rsc_fpops_est/host_info.p_fpops;
+    return x;
+}
+
+inline double force_fraction(double f) {
+    if (f < 0) return 0;
+    if (f > 1) return 1;
+    return f;
+}
+
+double CLIENT_STATE::get_percent_done(RESULT* result) {
+    ACTIVE_TASK* atp = active_tasks.lookup_result(result);
+    return atp ? force_fraction(atp->fraction_done) : 0.0;
+}
+
+int CLIENT_STATE::latest_version_num(char* app_name) {
+    unsigned int i;
+    int best = -1;
+    APP_VERSION* avp;
+
+    for (i=0; i<app_versions.size(); i++) {
+        avp = app_versions[i];
+        if (strcmp(avp->app_name, app_name)) continue;
+        if (avp->version_num < best) continue;
+        best = avp->version_num;
+    }
+    if (best < 0) {
+        msg_printf(0, MSG_ERROR, "CLIENT_STATE::latest_version_num: no version\n");
+    }
+    return best;
+}
+

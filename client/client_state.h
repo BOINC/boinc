@@ -38,6 +38,8 @@
 #include "ss_logic.h"
 #include "time_stats.h"
 
+extern int add_new_project();
+
 #define USER_RUN_REQUEST_ALWAYS     1
 #define USER_RUN_REQUEST_AUTO       2
 #define USER_RUN_REQUEST_NEVER      3
@@ -72,41 +74,6 @@ public:
     SS_LOGIC ss_logic;
     LANGUAGE language;
 
-    CLIENT_STATE();
-    int init();
-    int restart_tasks();
-    int cleanup_and_exit();
-    bool do_something();
-        // Initiates and completes actions (file transfers, process executions)
-        // Never blocks.
-        // Returns true if it actually did something,
-        // in which case it should be called again immediately.
-    int net_sleep(double dt);
-        // sleeps until either dt seconds have elapsed,
-        // or until there's network activity.
-    void parse_cmdline(int argc, char** argv);
-    void parse_env_vars();
-    bool time_to_exit();
-    int set_nslots();
-    bool should_run_cpu_benchmarks();
-    int cpu_benchmarks();
-	void fork_run_cpu_benchmarks();
-#ifdef _WIN32
-    static DWORD WINAPI win_cpu_benchmarks(LPVOID);
-    HANDLE cpu_benchmarks_handle;
-    DWORD cpu_benchmarks_id;
-#else
-    PROCESS_ID cpu_benchmarks_id;
-#endif
-    unsigned int cpu_benchmarks_start;
-    int check_cpu_benchmarks();
-    void trunc_stderr_stdout();
-    double estimate_cpu_time(WORKUNIT&);
-    double get_percent_done(RESULT* result);
-    int project_disk_usage(PROJECT*, double&);
-    int current_disk_usage(double&);
-        // returns the total disk usage of BOINC on this host
-    int allowed_disk_usage(double&);
     int file_xfer_giveup_period;
     bool user_idle;
     int user_run_request;
@@ -137,9 +104,6 @@ public:
     int sched_retry_delay_min, sched_retry_delay_max;
     int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
 
-	bool is_suspended() const { return activities_suspended; }
-	bool was_previously_suspended() const { return previous_activities_suspended; }
-
 private:
     bool client_state_dirty;
     TIME_STATS time_stats;
@@ -148,7 +112,6 @@ private:
     int old_major_version;
     int old_minor_version;
     char* platform_name;
-    int nslots;
     bool skip_cpu_benchmarks;
         // if set, use hardwired numbers rather than running benchmarks
     bool run_cpu_benchmarks;
@@ -162,65 +125,22 @@ private:
     time_t app_started;
         // when the most recent app was started
 
-    int parse_account_files();
-    int parse_state_file();
-    int write_state_file();
-    int write_state_file_if_needed();
-    int link_app(PROJECT*, APP*);
-    int link_file_info(PROJECT*, FILE_INFO*);
-    int link_file_ref(PROJECT*, FILE_REF*);
-    int link_app_version(PROJECT*, APP_VERSION*);
-    int link_workunit(PROJECT*, WORKUNIT*);
-    int link_result(PROJECT*, RESULT*);
-    int latest_version_num(char*);
-    void check_suspend_activities(int&);
-    int suspend_activities(int reason);
-    int resume_activities();
-    int make_project_dirs();
-    int make_slot_dirs();
-    bool input_files_available(RESULT*);
-    int app_finished(ACTIVE_TASK&);
-    bool start_apps();
-    bool handle_finished_apps();
-    bool handle_pers_file_xfers();
-    void print_summary();
-    bool garbage_collect();
-    bool update_results();
-    void install_global_prefs();
 
-    // stuff related to scheduler RPCs
-    //
-    SCHEDULER_OP* scheduler_op;
-    bool contacted_sched_server;
-    void compute_resource_debts();
+// --------------- client_state.C:
 public:
+    CLIENT_STATE();
+    int init();
+    bool do_something();
+        // Initiates and completes actions (file transfers, process executions)
+        // Never blocks.
+        // Returns true if it actually did something,
+        // in which case it should be called again immediately.
+    int net_sleep(double dt);
+        // sleeps until either dt seconds have elapsed,
+        // or until there's network activity.
+    bool time_to_exit();
     void approve_executables();
         // get user approval of any executables for which approval is pending
-    bool start_new_file_xfer();
-    PROJECT* next_project(PROJECT*);
-    PROJECT* next_project_master_pending();
-    PROJECT* next_project_sched_rpc_pending();
-    double work_needed_secs();
-    int make_scheduler_request(PROJECT*, double);
-    int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
-    void set_client_state_dirty(char*);
-    int report_result_error(RESULT &res, int err_num, const char *err_msg);
-        // flag a result as having an error
-    int add_project(char* master_url, char* authenticator);
-    int reset_project(PROJECT*);
-    int detach_project(PROJECT*);
-private:
-    PROJECT* find_project_with_overdue_results();
-    RESULT* next_result_to_start() const;
-    bool some_project_rpc_ok();
-    bool scheduler_rpc_poll();
-    void update_avg_cpu(PROJECT*);
-    // double estimate_duration(WORKUNIT*);
-    double current_work_buf_days();
-
-    // the following could be eliminated by using map instead of vector
-    //
-public:
     PROJECT* lookup_project(char*);
     APP* lookup_app(PROJECT*, char*);
     FILE_INFO* lookup_file_info(PROJECT*, char* name);
@@ -228,9 +148,116 @@ public:
     WORKUNIT* lookup_workunit(PROJECT*, char*);
     APP_VERSION* lookup_app_version(APP*, int);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
+    int detach_project(PROJECT*);
+    int report_result_error(RESULT &res, int err_num, const char *err_msg);
+        // flag a result as having an error
+    void set_client_state_dirty(char*);
+private:
+    int link_app(PROJECT*, APP*);
+    int link_file_info(PROJECT*, FILE_INFO*);
+    int link_file_ref(PROJECT*, FILE_REF*);
+    int link_app_version(PROJECT*, APP_VERSION*);
+    int link_workunit(PROJECT*, WORKUNIT*);
+    int link_result(PROJECT*, RESULT*);
+    void print_summary();
+    bool garbage_collect();
+    bool update_results();
+    int reset_project(PROJECT*);
 
-    // stuff related to data-structure integrity checking
-    //
+// --------------- cs_account.C:
+private:
+    int parse_account_files();
+    int add_project(char* master_url, char* authenticator);
+
+// --------------- cs_apps.C:
+public:
+    int restart_tasks();
+    int cleanup_and_exit();
+    int set_nslots();
+    double estimate_cpu_time(WORKUNIT&);
+    double get_percent_done(RESULT* result);
+private:
+    int nslots;
+
+    int latest_version_num(char*);
+    bool input_files_available(RESULT*);
+    int app_finished(ACTIVE_TASK&);
+    bool start_apps();
+    bool handle_finished_apps();
+    RESULT* next_result_to_start() const;
+
+// --------------- cs_benchmark.C:
+public:
+    bool should_run_cpu_benchmarks();
+    int cpu_benchmarks();
+	void fork_run_cpu_benchmarks();
+#ifdef _WIN32
+    static DWORD WINAPI win_cpu_benchmarks(LPVOID);
+    HANDLE cpu_benchmarks_handle;
+    DWORD cpu_benchmarks_id;
+#else
+    PROCESS_ID cpu_benchmarks_id;
+#endif
+    unsigned int cpu_benchmarks_start;
+    int check_cpu_benchmarks();
+
+// --------------- cs_cmdline.C:
+public:
+    void parse_cmdline(int argc, char** argv);
+    void parse_env_vars();
+    void do_cmdline_actions();
+
+// --------------- cs_files.C:
+public:
+    void trunc_stderr_stdout();
+    bool start_new_file_xfer();
+private:
+    int make_project_dirs();
+    int make_slot_dirs();
+    bool handle_pers_file_xfers();
+
+// --------------- cs_prefs.C:
+public:
+    int project_disk_usage(PROJECT*, double&);
+    int current_disk_usage(double&);
+        // returns the total disk usage of BOINC on this host
+    int allowed_disk_usage(double&);
+private:
+    void check_suspend_activities(int&);
+    int suspend_activities(int reason);
+    int resume_activities();
+    void install_global_prefs();
+
+// --------------- cs_scheduler.C:
+public:
+    double work_needed_secs();
+    PROJECT* next_project_master_pending();
+    PROJECT* next_project(PROJECT*);
+    int make_scheduler_request(PROJECT*, double);
+    int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
+private:
+    SCHEDULER_OP* scheduler_op;
+    bool contacted_sched_server;
+    void compute_resource_debts();
+
+    PROJECT* find_project_with_overdue_results();
+    double current_work_buf_days();
+    void update_avg_cpu(PROJECT*);
+    PROJECT* next_project_sched_rpc_pending();
+    bool some_project_rpc_ok();
+    bool scheduler_rpc_poll();
+
+// --------------- cs_statefile.C:
+public:
+    int parse_state_file();
+    int write_state_file();
+    int write_state_file_if_needed();
+
+
+// --------------- check_state.C:
+// stuff related to data-structure integrity checking
+//
+public:
     void check_project_pointer(PROJECT*);
     void check_app_pointer(APP*);
     void check_file_info_pointer(FILE_INFO*);
@@ -251,6 +278,7 @@ public:
     void check_file_xfer(FILE_XFER&);
 
     void check_all();
+
 };
 
 extern CLIENT_STATE gstate;

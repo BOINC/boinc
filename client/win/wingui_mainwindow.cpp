@@ -442,7 +442,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 					else strBuf.Format(g_szMiscItems[6]);
 					break;
 			}
-			if (gstate.is_suspended()) {
+			if (gstate.activities_suspended) {
 				strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
 			}
             if (m_ResultListCtrl.GetItemText(i, 7) != strBuf)
@@ -530,7 +530,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			} else {
 				strBuf.Format(pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
 			}
-			if (gstate.is_suspended()) {
+			if (gstate.activities_suspended) {
 				strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
 			}
 			if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
@@ -2056,7 +2056,7 @@ void CMainWindow::OnTimer(UINT uEventID)
 		NetCheck(); // check if network connection can be terminated
 		if (gstate.user_run_request == USER_RUN_REQUEST_NEVER) {
 			// user suspended - don't bother checking idle
-		} else if (gstate.is_suspended()) {
+		} else if (gstate.activities_suspended) {
 			// otherwise suspended, possibly due to not being idle
 			CheckIdle();
 		} else {
@@ -2064,7 +2064,7 @@ void CMainWindow::OnTimer(UINT uEventID)
 			CheckIdle();
 			gstate.trunc_stderr_stdout();
 		}
-		if (!gstate.is_suspended() || !gstate.was_previously_suspended()) {
+		if (!gstate.activities_suspended || !gstate.previous_activities_suspended) {
 			UpdateGUI(&gstate);
 		}
 

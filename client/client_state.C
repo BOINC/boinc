@@ -44,7 +44,6 @@
 #include "error_numbers.h"
 #include "filesys.h"
 
-#include "account.h"
 #include "file_names.h"
 #include "hostinfo.h"
 #include "http.h"
@@ -207,47 +206,7 @@ int CLIENT_STATE::init() {
     parse_state_file();
 
     print_summary();
-
-    if (show_projects) {
-        printf("projects:\n");
-        for (i=0; i<projects.size(); i++) {
-            msg_printf(NULL, MSG_INFO, "URL: %s name: %s\n",
-                projects[i]->master_url, projects[i]->project_name
-            );
-        }
-        exit(0);
-    }
-
-    if (strlen(detach_project_url)) {
-        PROJECT* project = lookup_project(detach_project_url);
-        if (project) {
-            detach_project(project);
-            msg_printf(project, MSG_INFO, "detached from %s\n", detach_project_url);
-        } else {
-            msg_printf(NULL, MSG_ERROR, "project %s not found\n", detach_project_url);
-        }
-        exit(0);
-    }
-
-    if (strlen(reset_project_url)) {
-        PROJECT* project = lookup_project(reset_project_url);
-        if (project) {
-            reset_project(project);
-            msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
-        } else {
-            msg_printf(NULL, MSG_ERROR, "project %s not found\n", reset_project_url);
-        }
-        exit(0);
-    }
-
-    if (strlen(update_prefs_url)) {
-        PROJECT* project = lookup_project(update_prefs_url);
-        if (project) {
-            project->sched_rpc_pending = true;
-        } else {
-            msg_printf(NULL, MSG_ERROR, "project %s not found\n", update_prefs_url);
-        }
-    }
+    do_cmdline_actions();
 
     if (core_client_major_version != old_major_version) {
         msg_printf(NULL, MSG_INFO,
@@ -290,44 +249,6 @@ int CLIENT_STATE::init() {
     restart_tasks();
 
     return 0;
-}
-
-int CLIENT_STATE::set_nslots() {
-    int retval;
-
-    // Set nslots to actual # of CPUs (or less, depending on prefs)
-    //
-    if (host_info.p_ncpus > 0) {
-        nslots = host_info.p_ncpus;
-    } else {
-        nslots = 1;
-    }
-    if (nslots > global_prefs.max_cpus) nslots = global_prefs.max_cpus;
-
-    retval = make_slot_dirs();
-    if (retval) return retval;
-
-    return 0;
-}
-
-// estimate how long a WU will take on this host
-//
-double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
-    double x;
-
-    x = wu.rsc_fpops_est/host_info.p_fpops;
-    return x;
-}
-
-inline double force_fraction(double f) {
-    if (f < 0) return 0;
-    if (f > 1) return 1;
-    return f;
-}
-
-double CLIENT_STATE::get_percent_done(RESULT* result) {
-    ACTIVE_TASK* atp = active_tasks.lookup_result(result);
-    return atp ? force_fraction(atp->fraction_done) : 0.0;
 }
 
 // sleep up to x seconds,
@@ -614,23 +535,6 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     return 0;
 }
 
-int CLIENT_STATE::latest_version_num(char* app_name) {
-    unsigned int i;
-    int best = -1;
-    APP_VERSION* avp;
-
-    for (i=0; i<app_versions.size(); i++) {
-        avp = app_versions[i];
-        if (strcmp(avp->app_name, app_name)) continue;
-        if (avp->version_num < best) continue;
-        best = avp->version_num;
-    }
-    if (best < 0) {
-        msg_printf(0, MSG_ERROR, "CLIENT_STATE::latest_version_num: no version\n");
-    }
-    return best;
-}
-
 // Print debugging information about how many projects/files/etc
 // are currently in the client state record
 //
@@ -904,149 +808,6 @@ bool CLIENT_STATE::update_results() {
         result_iter++;
     }
     return action;
-}
-
-static void print_options(char* prog) {
-    printf(
-        "Usage: %s [options]\n"
-        "    -version               show version info\n"
-        "    -show_projects         show attached projects\n"
-        "    -detach_project URL    detach from a project\n"
-        "    -reset_project URL     reset (clear) a project\n"
-        "    -attach_project        attach to a project (will prompt for URL, account key)\n"
-        "    -update_prefs          contact all projects to update preferences\n"
-        "    -run_cpu_benchmarks    run the CPU benchmarks\n",
-        prog
-    );
-}
-
-// Parse the command line arguments passed to the client
-// NOTE: init() has not been called at this point
-// (i.e. client_state.xml has not been parsed)
-//
-void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
-    int i;
-    bool show_options = false;
-
-    for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-exit_when_idle")) {
-            exit_when_idle = true;
-        } else if (!strcmp(argv[i], "-return_results_immediately")) {
-            return_results_immediately = true;
-        } else if (!strcmp(argv[i], "-skip_cpu_benchmarks")) {
-            skip_cpu_benchmarks = true;
-        } else if (!strcmp(argv[i], "-exit_after_app_start")) {
-            if (i == argc-1) show_options = true;
-            else exit_after_app_start_secs = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-file_xfer_giveup_period")) {
-            if (i == argc-1) show_options = true;
-            else file_xfer_giveup_period = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-min")) {
-            global_prefs.run_minimized = true;
-        } else if (!strcmp(argv[i], "-suspend")) {
-            user_run_request = USER_RUN_REQUEST_NEVER;
-        } else if (!strcmp(argv[i], "-saver")) {
-            start_saver = true;
-        } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
-            // ignore -psn argument on Mac OS X
-        } else if (!strcmp(argv[i], "-exit_before_upload")) {
-            exit_before_upload = true;
-        // The following are only used for testing to alter scheduler/file transfer
-        // backoff rates
-        } else if (!strcmp(argv[i], "-master_fetch_period")) {
-            if (i == argc-1) show_options = true;
-            else master_fetch_period = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-retry_base_period")) {
-            if (i == argc-1) show_options = true;
-            else retry_base_period = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-retry_cap")) {
-            if (i == argc-1) show_options = true;
-            else retry_cap = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-master_fetch_retry_cap")) {
-            if (i == argc-1) show_options = true;
-            else master_fetch_retry_cap = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-master_fetch_interval")) {
-            if (i == argc-1) show_options = true;
-            else master_fetch_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-sched_retry_delay_min")) {
-            if (i == argc-1) show_options = true;
-            else sched_retry_delay_min = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-sched_retry_delay_max")) {
-            if (i == argc-1) show_options = true;
-            else sched_retry_delay_max = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-pers_retry_delay_min")) {
-            if (i == argc-1) show_options = true;
-            else pers_retry_delay_min = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-pers_retry_delay_max")) {
-            if (i == argc-1) show_options = true;
-            else pers_retry_delay_max = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-pers_giveup")) {
-            if (i == argc-1) show_options = true;
-            else pers_giveup = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-debug_fake_exponential_backoff")) {
-            debug_fake_exponential_backoff = true;
-
-        // the above options are private (i.e. not shown by -help)
-        // Public options follow.
-        // NOTE: if you change or add anything, make the same chane
-        // in show_options() (above) and in doc/client.php
-
-        } else if (!strcmp(argv[i], "-show_projects")) {
-            show_projects = true;
-        } else if (!strcmp(argv[i], "-detach_project")) {
-            if (i == argc-1) show_options = true;
-            else strcpy(detach_project_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-reset_project")) {
-            if (i == argc-1) show_options = true;
-            else strcpy(reset_project_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-update_prefs")) {
-            if (i == argc-1) show_options = true;
-            else strcpy(update_prefs_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-run_cpu_benchmarks")) {
-            run_cpu_benchmarks = true;
-        } else if (!strcmp(argv[i], "-attach_project")) {
-            add_new_project();
-        } else if (!strcmp(argv[i], "-version")) {
-            printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOSTTYPE );
-            exit(0);
-        } else if (!strcmp(argv[i], "-help")) {
-            print_options(argv[0]);
-            exit(0);
-        } else {
-            printf("Unknown option: %s\n", argv[i]);
-            show_options = true;
-        }
-    }
-    if (show_options) {
-        print_options(argv[0]);
-        exit(1);
-    }
-}
-
-void CLIENT_STATE::parse_env_vars() {
-    char *p, temp[256];
-
-    if ((p = getenv("HTTP_PROXY"))) {
-        if (strlen(p) > 0) {
-            use_http_proxy = true;
-            parse_url(p, proxy_server_name, proxy_server_port, temp);
-        }
-    }
-
-    if ((p = getenv("SOCKS_SERVER"))) {
-        if (strlen(p) > 0) {
-            use_socks_proxy = true;
-            parse_url(p, proxy_server_name, proxy_server_port, temp);
-        }
-    }
-
-    if ((p = getenv("SOCKS_USER"))) {
-        safe_strcpy(socks_user_name, p);
-    }
-
-    if ((p = getenv("SOCKS_PASSWD"))) {
-        safe_strcpy(socks_user_passwd, p);
-    }
 }
 
 // Returns true if client should exit because of debugging criteria

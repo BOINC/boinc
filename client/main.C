@@ -30,7 +30,6 @@
 #include <signal.h>
 #endif
 
-#include "account.h"
 #include "client_state.h"
 #include "error_numbers.h"
 #include "file_names.h"

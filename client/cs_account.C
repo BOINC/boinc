@@ -26,8 +26,6 @@
 #include "filesys.h"
 #include "util.h"
 
-#include "account.h"
-
 static inline string filename_to_project_dirname(const string& filename) {
     assert(starts_with(filename, "account_"));
     assert(ends_with(filename, ".xml"));
