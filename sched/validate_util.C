@@ -111,7 +111,8 @@ double median_mean_credit(vector<RESULT> const& results)
 //       read_file_string and compute an MD5. Return a void*
 //    2. check_pair_with_data - same as check_pair but with extra data from
 //       init_result
-//    3. cleanup_result - deallocate anything created by init_result
+//    3. cleanup_result - deallocate anything created by init_result.  Should
+//       do nothing with NULL data
 //
 // see validate_test.C example usage.
 //

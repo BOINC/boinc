@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -378,7 +378,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		    // progress
 		    if(!at) {
 	    		    m_ResultListCtrl.SetItemProgress(i, 4, 0);
-		    } else {	
+		    } else {
     			    m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
 		    }
 
@@ -607,7 +607,7 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 
 	m_MessageListCtrl.SetItemText(nNewPos, 1, GetStrTime());
 	m_MessageListCtrl.SetItemText(nNewPos, 2, szMessage);
-	
+
 	// set status icon to flash
 	if((szPriority == MSG_ERROR) && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
 		m_bMessage = true;
@@ -765,7 +765,7 @@ void CMainWindow::LoadListControls()
 inline void SaveColumns(CProgressListCtrl& listCtrl,
 						const char* header_name,
 						const char* szPath
-						) 
+						)
 {
 	int colOrder[MAX_COLS];
 	int itemCount = listCtrl.GetHeaderCtrl()->GetItemCount();
@@ -950,13 +950,13 @@ void CMainWindow::LoadLanguage()
 		strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
 		strSection.Format("MENU-%s", strItemNoAmp);
 		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, strPath);
-		m_MainMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem); 
+		m_MainMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem);
 		CMenu* pSubMenu = m_MainMenu.GetSubMenu(i);
 		if(!pSubMenu) continue;
 		for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
 			pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
 			if (UpdateLanguageString(strSection, strItem, strPath)) {
-				pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem); 
+				pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem);
 			}
 		}
 	}
@@ -965,13 +965,13 @@ void CMainWindow::LoadLanguage()
 		strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
 		strSection.Format("MENU-%s", strItemNoAmp);
 		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, strPath);
-		m_ContextMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem); 
+		m_ContextMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem);
 		CMenu* pSubMenu = m_ContextMenu.GetSubMenu(i);
 		if(!pSubMenu) continue;
 		for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
 			pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
 			if (UpdateLanguageString(strSection, strItem, strPath)) {
-				pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem); 
+				pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem);
 			}
 		}
 	}
@@ -1137,7 +1137,7 @@ void CMainWindow::OnCommandSettingsLogin()
     int nResult = dlg.DoModal();
 	if(nResult == IDOK) {
 	    gstate.add_project(
-			dlg.m_strUrl.GetBuffer(dlg.m_strUrl.GetLength()+10), 
+			dlg.m_strUrl.GetBuffer(dlg.m_strUrl.GetLength()+10),
 			dlg.m_strAuth.GetBuffer(0));
 		dlg.m_strUrl.ReleaseBuffer(); // might have been changed by canonicalize_url()
 	}
@@ -1374,7 +1374,7 @@ void CMainWindow::UpdateRunRequestMenu(CMenu* pMenu)
 		break;
 	}*/
 
-	// NOTE: 
+	// NOTE:
 	//     ID_FILE_RUN_REQUEST_ALWAYS, ID_FILE_RUN_REQUEST_AUTO, ID_FILE_RUN_REQUEST_NEVER
 	// and
 	//     USER_RUN_REQUEST_ALWAYS, USER_RUN_REQUEST_AUTO, USER_RUN_REQUEST_NEVER
@@ -1502,7 +1502,7 @@ void CMainWindow::OnCommandExit()
 // returns:		0 if successful, otherwise -1
 // function:	copies the selected message(s) to the clipboard as
 //				formatted text
-int CMainWindow::OnCommandMessageCopyToClip() 
+int CMainWindow::OnCommandMessageCopyToClip()
 {
 	HGLOBAL hClipboardData;
 	POSITION pos;
@@ -1513,7 +1513,7 @@ int CMainWindow::OnCommandMessageCopyToClip()
 	if (!OpenClipboard())
 		return -1;
 	EmptyClipboard();
-	
+
 	/* Get strings from selected items:
 	     - If GetFirstSelectedItem() returns null, the user
 	       right-clicked a single item without selecting it first.
@@ -1524,11 +1524,11 @@ int CMainWindow::OnCommandMessageCopyToClip()
 	pos = m_MessageListCtrl.GetFirstSelectedItemPosition();
 	if (pos == NULL) {
 		if(m_nContextItem < 0 || m_nContextItem > m_MessageListCtrl.GetItemCount()) return -1;
-		
+
 		// TODO: Allow arbitrary # of columns instead of hardcoding 3, if possible.
 		for (int i = 0; i < NUM_COLS-1; i++) {
 			strData += m_MessageListCtrl.GetItemTextOrPos(m_nContextItem, i);
-			strData += " - ";  
+			strData += " - ";
 		}
 		// Add last column here to avoid concatenating an extra delimiter to the end.
 		// NOTE: Carriage-return/Newline combination is required to separate lines
@@ -1689,7 +1689,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	SetStatusIcon(ICON_NORMAL);
 
 	// take care of other things
-	// 
+	//
 	// Redirect stdout and stderr to files
 	freopen(STDOUT_FILE_NAME, "w", stdout);
 	freopen(STDERR_FILE_NAME, "w", stderr);
@@ -1705,20 +1705,14 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	int argc;
 
 	int retval = gstate.init();
-    if (retval) {
-		OnCommandExit();
-		return 0;
+        if (retval) {
+            OnCommandExit();
+            return 0;
 	}
 
 	command_line = GetCommandLine();
 	argc = parse_command_line( command_line, argv );
 	gstate.parse_cmdline(argc, argv);
-
-    /* int retval = gstate.init();
-    if (retval) {
-		OnCommandExit();
-		return 0;
-	} */
 
 	m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
 
@@ -1844,7 +1838,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 		if (indexSelected == -1)
 			return;
 
-		bool shouldSetNewSelection = nMenuId != MESSAGE_MENU || 
+		bool shouldSetNewSelection = nMenuId != MESSAGE_MENU ||
 			!pMenuCtrl->GetItemState(indexSelected, LVIS_SELECTED);
 
 		if(shouldSetNewSelection) {
@@ -1861,12 +1855,12 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 				{
 					// if we are backing off, show "retry now", else "get preferences"
 					PROJECT *proj = (PROJECT *)pMenuCtrl->GetItemData(indexSelected);
-					pContextMenu->ModifyMenu(ID_PROJECT_GET_PREFS, 0, ID_PROJECT_GET_PREFS, 
+					pContextMenu->ModifyMenu(ID_PROJECT_GET_PREFS, 0, ID_PROJECT_GET_PREFS,
 						((proj && proj->min_rpc_time > time(0)) ?
 						 m_MenuLabelRetryNow : m_MenuLabelGetPreferences));
 					break;
 				}
-			case RESULT_MENU: 
+			case RESULT_MENU:
 				{
 					pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_GRAYED); //disable
 					RESULT *rp = (RESULT *)pMenuCtrl->GetItemData(indexSelected);
@@ -1876,8 +1870,8 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 							pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_ENABLED); // enable
 					}
 					break;
-				}	
-			case XFER_MENU: 
+				}
+			case XFER_MENU:
 				{
 					// enable "retry now" only if currently waiting to retry
 					PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(indexSelected);
