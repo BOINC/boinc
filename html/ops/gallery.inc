@@ -211,36 +211,6 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
     
 }
 
-// A generalized function to create a summary page for pages created by build_profile_pages.
-// TODO: Check paths; probably have to add some more parameters.
-
-// TODO: REMOVE
-
-function build_profile_summary_page($members, $pageHead, $pageTitle, $columnHead, $filePath, $fileName) {
-    $elements = array_keys($members);
-    
-    $filename = $filePath . $baseFileName . ".html";
-    $descriptor = fopen($filename, "w");
-    
-    page_head($pageHead, null, $descriptor);
-    fwrite($descriptor, "<h2>$pageTitle</h2>Last updated " . gmdate("r") . " UTC<p>");
-    
-    fwrite($descriptor, "<table border=0>\n");
-    fwrite($descriptor, "<tr><td><b>$columnHead</b></td><td align=\"center\"><b>Profiles</b></td></tr>\n");
-    
-    foreach ($elements as $element) {
-        $numMembers = count($members[$element]);
-        
-        fwrite($descriptor, "<tr>\n<td><a href=\"$baseFileName_" . $element . "_1.html\">$element</a></td><td align=\"center\">$numMembers</td></td>\n");
-        
-    }
-
-    fwrite($descriptor, "</table>");
-    page_tail($descriptor);
-    
-    fclose($descriptor);
-}
-
 function build_country_summary_page($countryMembers) {
   $countries = array_keys($countryMembers);
 
@@ -269,14 +239,17 @@ function build_country_summary_page($countryMembers) {
 
 function build_alpha_summary_page($characters) {
     // OK, so it's not quite the alphabet- whatever.
-    $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',0,1,2,3,4,5,6,7,8,9);
+    $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
     
-    $filename = "../html_user/" . PROFILE_PATH . "profile_alpha.html";
+    $filename = "../html_user/profile_alpha.html";
     $descriptor = fopen($filename, "w");
+    
+    // TODO: Add "other" to handle non-alphanumeric first characters.
     
     foreach ($alphabet as $character) {
         if (in_array($character, $characters)) {
-            fwrite($descriptor, "<a href=profile_$character_1.html>$character</a>&nbsp;");
+            fwrite($descriptor, "<a href=" . PROFILE_PATH . "profile_" . $character . "_1.html>$character</a>&nbsp;");
+            
         } else {
             fwrite($descriptor, "$character ");
         }
