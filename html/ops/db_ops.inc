@@ -342,6 +342,30 @@ function show_app_version($app_version, $hide_xml_docs) {
     end_table();
 }
 
+function app_version_short_header() {
+    echo "
+        <tr>
+        <th>ID</th>
+        <th>Application</th>
+        <th>Version</th>
+        <th>Platform</th>
+        </tr>
+    ";
+}
+
+function show_app_version_short($app_version) {
+    $x = app_name_by_id($app_version->appid);
+    $y = platform_name_by_id($app_version->platformid);
+    echo "
+        <tr>
+        <td><a href=db_action.php?table=app_version&id=$app_version->id>$app_version->id</a></td>
+        <td><a href=db_action.php?table=app?id=$app_version->appid>$x</a></td>
+        <td>$app_version->version_num</td>
+        <td><a href=db_action.php?table=platform&id=$app_version->platformid>$y</a></td>
+        </tr>
+    ";
+}
+
 function host_short_header() {
     echo "
         <tr>

@@ -6665,3 +6665,14 @@ David  Oct 10 2003
 
 	api/
 		gutil.C,h
+
+David  Oct 10 2003
+    - various web stuff
+    - "-repair" option for wu_check
+
+    html_ops/
+        db_action.php
+        db_form.ph
+        db_ops.inc
+    html_user/
+        white.css, black.css (new)

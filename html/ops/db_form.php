@@ -37,6 +37,7 @@ require_once("db_ops.inc");
     } else if ($table=="app") {
     } else if ($table=="app_version") {
         print_checkbox("Hide XML Docs", "hide_xml_docs", $hide_xml_docs);
+        print_detail_field();
     } else if ($table=="host") {
         print_checkbox("Show Aggregate Information", "show_aggregate", $show_aggregate);
         print_detail_field();

@@ -105,28 +105,62 @@
         if ($detail == "low") {
             start_table();
             switch($table) {
-            case "result": result_short_header(); break;
-            case "workunit": workunit_short_header(); break;
-            case "host":   host_short_header(); break;
+            case "result":
+                result_short_header();
+                break;
+            case "host":
+                host_short_header();
+                break;
+            case "app_version":
+                app_version_short_header();
+                break;
+            case "workunit":
+                workunit_short_header();
+                break;
             }
         }
         while ($res = mysql_fetch_object($result)) {
             if ($detail == "low") {
                 switch ($table) {
-                case "result":      show_result_short($res); break;
-                case "host":        show_host_short($res); break;
-                case "workunit":    show_workunit_short($res); break;
+                case "result":
+                    show_result_short($res);
+                    break;
+                case "host":
+                    show_host_short($res);
+                    break;
+                case "app_version":
+                    show_app_version_short($res);
+                    break;
+                case "workunit":
+                    show_workunit_short($res);
+                    break;
                 }
             } else {
                 switch ($table) {
-                case "platform":    show_platform($res);                                          break;
-                case "app":         show_app($res);                                               break;
-                case "app_version": show_app_version($res, $hide_xml_docs);                       break;
-                case "host":        show_host($res);                                              break;
-                case "workunit":    show_workunit($res, $hide_xml_docs);                          break;
-                case "result":      show_result($res, $hide_xml_docs, $hide_stderr, $hide_times); break;
-                case "team":        show_team($res);                                              break;
-                case "user":        show_user($res);                                              break;
+                case "platform":
+                    show_platform($res);
+                    break;
+                case "app":
+                    show_app($res);
+                    break;
+                case "app_version":
+                    show_app_version($res, $hide_xml_docs);
+                    break;
+                case "host":
+                    show_host($res);
+                    break;
+                case "workunit":
+                    show_workunit($res, $hide_xml_docs);
+                    break;
+                case "result":
+                    show_result($res, $hide_xml_docs, $hide_stderr, $hide_times);
+                    break;
+                case "team":
+                    show_team($res);
+                    break;
+                case "user":
+                    show_user($res);
+                    break;
                 }
             }
         }

@@ -41,11 +41,11 @@ int get_file_path(WORKUNIT& wu, char* path) {
     bool flag;
     flag = parse_str(wu.xml_doc, "<name>", buf, sizeof(buf));
     if (!flag) return -1;
-    sprintf(path, "%s/%s", config.upload_dir, buf);
+    sprintf(path, "%s/%s", config.download_dir, buf);
     return 0;
 }
 
-void handle_result(DB_RESULT& result) {
+int handle_result(DB_RESULT& result) {
     DB_WORKUNIT wu;
     int retval;
     char path[256];
@@ -57,14 +57,14 @@ void handle_result(DB_RESULT& result) {
             "ERROR: can't find WU %d for result %d\n",
             result.workunitid, result.id
         );
-        return;
+        return 1;
     }
     get_file_path(wu, path);
     f = fopen(path, "r");
     if (f) {
         fclose(f);
     } else {
-        printf("ERROR can't find file %s for result %d\n",
+        printf("no file %s for result %d\n",
             path, result.id
         );
         if (repair) {
@@ -74,25 +74,42 @@ void handle_result(DB_RESULT& result) {
                 result.update();
             }
         }
+        return 1;
     }
+    return 0;
 }
 
 int main(int argc, char** argv) {
     DB_RESULT result;
     char clause[256];
-    int retval;
+    int retval, n, nerr;
 
     retval = config.parse_file();
     if (retval) exit(1);
 
-    if (argc > 1 && !strcmp(argv[1], "repair")) repair = true;
+    retval = boinc_db.open(config.db_name, config.db_passwd);
+    if (retval) {
+        printf("boinc_db.open: %d\n", retval);
+        exit(1);
+    }
+    if (argc > 1 && !strcmp(argv[1], "-repair")) repair = true;
 
+    n = nerr = 0;
+    printf("Unsent results:\n");
     sprintf(clause, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
     while (!result.enumerate(clause)) {
-        handle_result(result);
+        retval = handle_result(result);
+        n++;
+        if (retval) nerr++;
     }
+    printf("%d out of %d errors\n", nerr, n);
+    n = nerr = 0;
+    printf("In progress results:\n");
     sprintf(clause, "where server_state=%d", RESULT_SERVER_STATE_IN_PROGRESS);
     while (!result.enumerate(clause)) {
-        handle_result(result);
+        retval = handle_result(result);
+        n++;
+        if (retval) nerr++;
     }
+    printf("%d out of %d errors\n", nerr, n);
 }
