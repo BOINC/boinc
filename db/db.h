@@ -191,6 +191,7 @@ struct HOST {
 struct WORKUNIT {
     int id;
     unsigned int create_time;   // time of record creation
+    unsigned int check_time;    // when to check for result retury, or zero
     int appid;                  // ID of APP record tied to this workunit
     int previous_wuid;
     bool has_successor;

@@ -29,6 +29,8 @@ Add "garbage-collect state" fields to WU, result
 
 investigate binary diff mechanism for updating persistent files
 
+verify support for > 4 GB files everywhere
+
 use FTP instead of HTTP for file xfer??
     measure speed diff
 

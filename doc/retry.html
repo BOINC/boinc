@@ -41,15 +41,20 @@ result_retry -appname name
 </pre>
 This program continually checks for workunits past their check time
 and without pending validation.
-For each such workunit, it does the following:
+For each such workunit, the program does the following:
 
 <ul>
-<li> If any result is not sent, it generates a project warning,
-and gives up on the WU (i.e., sets its check time to zero).
+<li> If any result is not sent, generate an error message,
+and give up on the WU (i.e., set its check time to zero).
+This condition indicates that either
+1) the resource requirements of the WU are too much for
+any host;
+2) there are insufficient hosts to handle the rate of work generation; or
+3) scheduling servers have been out of service.
 <li> If at least N<sub>error</sub> results have an error,
-generate a project warning and give up on the WU.
+generate an error message and give up on the WU.
 <li> If at least N<sub>det</sub> results are done,
-generate a project warning and give up on the WU.
+generate an error message and give up on the WU.
 <li> Generate N<sub>redundancy</sub> - n new results for the WU,
 where n is the number of results that are done.
 The deadline of these results is now + D<sub>result</sub>.
@@ -58,5 +63,4 @@ The deadline of these results is now + D<sub>result</sub>.
 </ul>
 
 <p>
-You should use crontab to make sure that
-<b>result_retry</b> is always running.
+Use crontab to run <b>result_retry</b> continuously.
