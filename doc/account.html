@@ -1,56 +1,38 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>Participant Accounts</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
-<h2>Participant Accounts</h2> 
+<h2>Participant accounts</h2>
+
 <p>
-	Each participant has a separate <b>account</b> with each project in
-which they participate. An account consists of: 
-</p>
+Each participant has a separate <b>account</b>
+with each project in which they participate.
+An account consists of:
+
 <ul>
-	<li>
-		An email address. 
-	</li>
-	<li>
-		A public "screen name" (real name or nickname) 
-	</li>
-	<li>
-		A web password (chosen by the user) 
-	</li>
-	<li>
-		An authenticator (a 32-byte string assigned by the project) 
-	</li>
+<li> An email address.
+<li> A public "screen name" (real name or nickname)
+<li> A web password (chosen by the user)
+<li> An authenticator (a 32-byte string assigned by the project)
 </ul>
+
 <p>
-	A participant's accounts are described in an <b>account file</b> on
-each of their hosts. This file looks like this: 
-</p>
+A participant's accounts are described in an <b>account file</b>
+on each of their hosts.
+This file looks like this:
+
 <pre>
-&lt;accounts&gt;
-    &lt;project&gt;
-        &lt;home_project/&gt;
-        &lt;domain&gt;setiathome.berkeley.edu&lt;/domain&gt;
-       
-&lt;scheduler_url&gt;http://setiathome.berkeley.edu/boinc-cgi/cgi&lt;/scheduler_url&gt;
-       
-&lt;authenticator&gt;3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator&gt;
-    &lt;/project&gt;
-    &lt;project&gt;
-        &lt;domain&gt;bio.wwu.edu&lt;/domain&gt;
-       
-&lt;scheduler_url&gt;http://bio.wwu.edu/boinc-cgi/cgi&lt;/scheduler_url&gt;
-       
-&lt;authenticator&gt;3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator&gt;
-    &lt;/project&gt;
-&lt;/accounts&gt;
-</pre> 
+&lt;accounts>
+    &lt;project>
+        &lt;home_project/>
+        &lt;domain>setiathome.berkeley.edu&lt;/domain>
+        &lt;scheduler_url>http://setiathome.berkeley.edu/boinc-cgi/cgi&lt;/scheduler_url>
+        &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
+    &lt;/project>
+    &lt;project>
+        &lt;domain>bio.wwu.edu&lt;/domain>
+        &lt;scheduler_url>http://bio.wwu.edu/boinc-cgi/cgi&lt;/scheduler_url>
+        &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
+    &lt;/project>
+&lt;/accounts>
+</pre>
+
 <p>
-	One account can be designated as the <b>home project</b>; this is
-the project where the user maintains their preferences. 
-</p>
-</body>
-</html>
+One account can be designated as the <b>home project</b>;
+this is the project where the user maintains their preferences.
