@@ -9,7 +9,6 @@ BUGS (arranged from high to low priority)
 - "no work available" appears sporadically though work is eventually assigned, not sure if it is assigned immediately or on next RPC
 - Should include option in Windows client or installer whether to run client at startup or not
 - Scheduler reply includes blank lines that XML parser complains about
-- Client should put up a join project dialog on initial run
 - boinc_gui.exe priority should be lower (?), launched app priorities should be very low
 - on final panel of install, add checkbox to let user view readme
 - Time to completion isn't too accurate, this is more of an Astropulse problem involving fraction_done
@@ -20,6 +19,9 @@ BUGS (arranged from high to low priority)
 - Astropulse uses a lot of memory (~70 MB) b/c of the dispersion table, should this be decreased?
 - CPU time for a completed workunit is incorrect (unconfirmed)
 - client died quickly on Mandrake 9.0 linux (unconfirmed)
+- make pie chart colors/labels easier to understand
+- need a way to refresh prefs from client
+- columns expand when window expands
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
