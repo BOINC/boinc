@@ -109,11 +109,43 @@ static int process_wu_template(
                         boinc_copy(top_download_path,path);
                     }
 
-                    retval = md5_file(path, md5, nbytes);
-                    if (retval) {
-                        fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
-                        return retval;
+                    retval=0;
+#ifdef BOINC_CACHE_MD5
+                    // see checkin-notes Dec 30 2004
+                    {
+                        // look for file named FILENAME.md5 containing
+                        // md5sum and length
+                        FILE *fp;
+                        char md5name[512];
+                        sprintf(md5name, "%s.md5", path);
+                        if ((fp=fopen(md5name, "r"))) {
+                            // found cached file info!
+                            if (2==fscanf(fp, "%s %lf", md5, &nbytes))
+                              retval=1; // indicates sucess getting cached info
+                            fclose(fp);
+                        }
                     }
+#endif
+                    if (!retval) {
+                        retval = md5_file(path, md5, nbytes);
+                        if (retval) {
+                            fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
+                            return retval;
+                        }
+#ifdef BOINC_CACHE_MD5
+                        else {
+                            // Write file FILENAME.md5 containing md5sum and length
+                            FILE *fp;
+                            char md5name[512];
+                            sprintf(md5name, "%s.md5", path);
+                            if ((fp=fopen(md5name, "w"))) {
+                                fprintf(fp,"%s %.15e\n", md5, nbytes);
+                                fclose(fp);
+                            }
+                        }
+#endif
+                    } // (!retval)
+
                     dir_hier_url(
                         infiles[file_number], config.download_url,
                         config.uldl_dir_fanout, url

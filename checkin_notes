@@ -21995,3 +21995,19 @@ David  29 Dec 2004
 
     api/
         x_opengl.C
+
+Bruce  30 Dec 2004
+
+    - When creating large numbers of WU which have large input files,
+      the cost of computing the md5 sums becomes expensive.  Inserted
+      a simple caching mechanism into the utility function
+      process_wu_template().  For a given filename FILENAME, this looks
+      for a file called FILENAME.md5, which contains the md5sum and
+      length.  If the file exists, these values are used.  If not, such
+      a file is created.  Since (I think) David is planning to have a
+      database for files, this mechanism will eventually be obsolete.
+      Right now it disabled by default.  Use -DBOINC_CACHE_MD5 to
+      enable it.
+
+    tools/
+        backend_lib.C
