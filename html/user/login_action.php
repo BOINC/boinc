@@ -74,7 +74,7 @@
                 $authenticator = random_string();
                 $email_addr = $HTTP_POST_VARS["new_email_addr"];
                 $query = sprintf(
-                   "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code) values(%d, '%s', '%s', '%s', '%s', '%s', %d)",
+                   "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code, global_prefs, project_prefs) values(%d, '%s', '%s', '%s', '%s', '%s', %d, '', '')",
                     time(),
                     $email_addr,
                     $HTTP_POST_VARS["new_name"],
