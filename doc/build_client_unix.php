@@ -12,10 +12,8 @@ See the <a href=software.php>Software Prerequisites</a>.
   make
 </pre>
 
-<h1>Update project database</h1>
-
-Copy boinc_x.yz_platform.gz to the boinc/apps directory and run
-boinc/tools/update_versions.
+Easy :) The final target
+is <code>boinc/client/boinc_VERSION_PLATFORM.gz</code>.
 
 <?
    page_tail();

@@ -169,7 +169,7 @@ David A.        May 29, 2002
         Got rid of the "prefs" database table;
         prefs are now just an XML and mod_time field in the user table.
         Haven't tested much yet.
-    
+
     NOTE: these new features use the XML parsing features of PHP.
     This means that, on the BOINC web server,
     you must configure PHP with the --with-xml option,
@@ -331,7 +331,7 @@ Eric Heien    June 03, 2002
 
 Michael Gary	June 04, 2002
     - Added server side water level functionality, now sends as many work units
-	as necessary to fill the time requested. 
+	as necessary to fill the time requested.
 
     sched/
 	handle_request.C
@@ -364,7 +364,7 @@ Michael Gary	June 06, 2002
     - Added rsc_fpops and rsc_iops to the client WORKUNIT struct, bun not yet
 	functional since not initialized.
     - Test scripts to check water level functionality, including minima and
-	maxima. Test scripts are based on test_prefs.php. 
+	maxima. Test scripts are based on test_prefs.php.
 
     client/
 	client_state.h
@@ -500,7 +500,7 @@ Eric H       June 19, 2002
     sched/
         parse.C (removed)
         parse.h (removed)
-        
+
 Eric H       June 20, 2002
     - added soft link support via XML tags
     - fixed Windows ASCII/binary bug
@@ -549,7 +549,7 @@ David A     June 20 2002
         TODO: use all of them.
     - Project directories are stored in URL-encoded form.
         This allows project master URLs to have slashes, which is a necessity.
-        
+
     client/
         Makefile.in
         accounts.C,h (deleted)
@@ -667,7 +667,7 @@ Michael Gary	6/27/2002
 Michael Gary	6/28/2002
     - Added an explicit test for water level
     - Added a -no_time_test argument to the boinc client to stop the time tests
-        from running. 
+        from running.
 
     client/
         main.C
@@ -681,7 +681,7 @@ Eric Heien 7/01/2002
     - Added random WU generation.
     - Added concat_slow application.
     - Altered functionality of API checkpoint_completed.
-  
+
     api/
         api.C
         api.h
@@ -751,7 +751,7 @@ David Anderson      July 4, 2002
         server to client includes a <max_nbytes> field limiting
         the size of the file, and includes a digital signature
         based on the project's "upload authentication" key pair.
-        File uploads, instead of being done by PUT, are now done by POST 
+        File uploads, instead of being done by PUT, are now done by POST
         to a CGI program, "file_upload_handler".
         The request header includes the signed <file_info>,
         and the CGI program verifies the signature and enforces the size limit.
@@ -847,13 +847,13 @@ David Anderson      July 4, 2002
 David   July 4, 2002
     - fixed compile problems on linux.
         use kill() instead of sigsend()
-    
+
     client/app.C
     sched/file_upload_handler.C
 
 Michael Gary	July 5, 2002
     - fixed fast cgi crypto
-        use fgets and sscanf instead of fscanf, which 
+        use fgets and sscanf instead of fscanf, which
         is not implemented in fcgi_stdio.h
 
     sched/Makefile.in
@@ -1016,13 +1016,13 @@ Barry Luong    July 11, 2002
           /         /   /        \   \
        boinc/   cgi/  keys/  upload/  download/
        /  \    \
-      /    \    \ 
+      /    \    \
      /      \    \
   client/ sched/  ...
 
         - sched cgi, fcgi, file_upload_handler are copied into
           ~barry/boinc_server/cgi/
-        - in httpd.conf set up cgi permissions for appropriate files and 
+        - in httpd.conf set up cgi permissions for appropriate files and
           directories
         - must define new environment variables:
           BOINC_DOWNLOAD_DIR ~/barry/boinc_server/download
@@ -1256,7 +1256,7 @@ Eric Heien   7/18/2002
 
 Michael Gary	7/23/2002
     - Added a test for sticky files. Required updating escape_url to support
-         RRC1738 (-_. no longer escaped out). 
+         RRC1738 (-_. no longer escaped out).
     client/
         file_names.C
     test/
@@ -1265,7 +1265,7 @@ Michael Gary	7/23/2002
         uc_result_sticky (added)
 
 Michael Gary	7/24/2002
-    - Added a test for the time reporting system. 
+    - Added a test for the time reporting system.
     test/
         test_time.php (added)
         init.inc
@@ -1293,7 +1293,7 @@ David   July 28 2002
             It continues to use this version for this WU,
             even if it receives a later version while the WU is in progress.
         - On the client, no version #s are associated with apps
-    
+
     PROGRAMMERS NOTE:
     - Removed checking of args in client_state.C
         This gunks up the code too much.  Let's do checking at higher level.
@@ -1354,7 +1354,7 @@ David A.    July 30 2002
     - made some API implementation functions static
         (this breaks the test program, need to discuss)
     - removed CPU spin from uc_slow (why?)
-    
+
     api/
         api.C,h
     apps/
@@ -1404,9 +1404,9 @@ David A.    August 4 2002
         "CPU time at start of current run"
         These are all kept in ACTIVE_TASK.
         RESULT now only has "final CPU time".
-    
+
     - fixed bug in dir scanning (ahem...)
-    
+
     - Coding style notes:
         - every fopen() MUST have a matching fclose() in same function
         - every malloc() MUST have a matching free() in same function
@@ -1421,7 +1421,7 @@ David A.    August 4 2002
         - no explicit argument checking.  do this at higher level
         - functions in foo.C should be declared (as extern) in foo.h,
             AND NOWHERE ELSE.
-    
+
     api/
         Makefile.in
         api.C,h (removed)
@@ -1862,7 +1862,7 @@ Eric   September 18, 2002
 David    Sept 22, 2002
     - Various changes to prevent buffer overrun in servers;
         parse_str and parse_attr now take a buffer length arg
-    
+
     api/
         boinc_api.C,h
     apps/
@@ -1909,7 +1909,7 @@ David   Sept 25 2002
         then register you for a bogus project.
 
         This change also involved the html_user files (not finished).
-    
+
     - Further work on credit-granting.
         On each RPC, the scheduler computes a "credit per CPU second"
         for the host (linear combo of FP/int/mem speeds).
@@ -2037,13 +2037,13 @@ David   Oct 3 2002
         multiple scheduling servers or data servers
     - TODO: enhance the testing framework to allow specification
         of failure and recovery of servers
-    
+
     - changed things so a NULL in the DB won't crash db_mysql.C
     - parse_int() can now handle hex
     - "add" now takes args for DB name/passwd
     - "create_work" now takes args for DB name/passwd,
         upload/download URL, download dir
-    
+
     db/
         db_mysql.C
         mysql_util.C
@@ -2150,7 +2150,7 @@ David  Oct 14 2002
     - Removed random-WU-name feature from create_work;
         names should be generated at a higher level
     - added a key-generation function to test.inc
-        
+
     lib/
         parse.C
     sched/
@@ -2573,7 +2573,7 @@ Eric   Dec 8, 2002
         pers_file_xfer.C
         scheduler_op.C
 
-Hamid  Dec 9,2002	
+Hamid  Dec 9,2002
     - added field client_state to result
 
     - added some more functionality to repor_project_error()
@@ -2588,14 +2588,14 @@ Hamid  Dec 9,2002
           "    <file_name>%s</file_name>
           "    <error_code>%d</error_code>\n"
 	  "    </download_error>\n"
-	
-      
+
+
       if upload  had failures
 	same as above
 
       if coudln't start active task for result (in which err_num should be set)
 	"<couldnt_start>%d</couldnt_start>\n"
-	
+
 
     - The error mechanism right now is such that any failures
     regarding file_infos (download, upload or whatever)
@@ -2620,10 +2620,10 @@ David  Dec 11 2002
     - Have process_wu_template() fill in the file size as well as the MD5.
         This necessitated changing the format of WU templates,
         and the way they are processed.
-    
+
     NOTE: this breaks the multiple-data-server test.
     Need to figure out another way to do that.
-    
+
     tools/
         backend_lib.C
     doc/
@@ -2634,7 +2634,7 @@ David  Dec 11 2002
 David  Dec 13 2002
     - use lock file mechanism to prevent multiple instances of
        core client from running in same directory
-    
+
     configure
     configure.in
     client/
@@ -2761,7 +2761,7 @@ Hamid   Dec 19 2002
     -fixed a little bug in file_deleter
 
     -note: strtok() changes the original string passed to it, kind of dangerous to use
- 
+
     -from parse.h : replace_element() is now in use ( I used it for make_work.C)
 
 David  Dec 19 2002
@@ -2937,10 +2937,10 @@ David  Jan 13 2003
         May need to get working on Solaris
     - Added stripchart scripts for getting DB info
         (need to macro-substitute DB name)
-    
+
     Net result: test_loop.php now works correctly and generates
     stripcharts that show an ever-growing set of results
-    
+
     client/
         client_state.C,h
         hostinfo_unix.C
@@ -2973,7 +2973,7 @@ David  Jan 14 2003
 David  Jan 14 2003
     - Added log writes to sched server in some error cases
     - Removed -use_files flag to sched server.  Use compile-time flag instead.
-    
+
     sched/
         handle_request.C
         main.C
@@ -3128,7 +3128,7 @@ David  Feb 7 2003
     - Changed account creation features quite a bit.
         It now bifurcates according to whether this is first project.
         Asks for preferences and offers download accordingly.
-    
+
     html_user/
         account_setup* (new)
 
@@ -3136,7 +3136,7 @@ David   Feb 8 2003
     - Work on account creation a bit more.
         Removed project graphics prefs.
         Added email prefs.
-    
+
     html_user/
         various
 
@@ -3146,7 +3146,7 @@ David  Feb 10 2003
     client/
         client_types.C
         net_xfer.C
-    
+
 David  Feb 10 2003
     - attempt to fix bugs by eliminating dynamic allocation
 
@@ -3253,7 +3253,7 @@ David  Feb 14 2003
 
 David  Feb 17 2003
     - restored some of the changes for faster network throughput
-    
+
     client/
         client_state.C,h
         main.C
@@ -3413,9 +3413,9 @@ David  Feb 22
 Seth  Feb 24
     - changed windows graphics handling.
         client now has a child window in which all graphics are displayed.
-        when an app is running, this window sends a message to the app telling 
+        when an app is running, this window sends a message to the app telling
         it to draw on the window.
-    
+
     api/
         windows_opengl.cpp
     client/win/
@@ -3569,7 +3569,7 @@ David  Feb 28 2003
 
     client/
         client_types.C,h
-    
+
 David  Mar 2 2003
     - added code to garbage-collect APP_VERSIONs:
         delete any APP_VERSION that's not referenced and for which
@@ -3758,8 +3758,8 @@ Eric  March 7, 2003
 
 Seth  March 10, 2003
 	- changed windows graphics handling again.  client/app messaging
-		now mainly consists of the client polling the app windows, 
-		with apps messaging the client when they change modes. 
+		now mainly consists of the client polling the app windows,
+		with apps messaging the client when they change modes.
 		moved most of this into the client's child screensaver window.
 
 	api/
@@ -3818,7 +3818,7 @@ David  Mar 15 2003
         various
     sched/
         feeder.C
-        
+
 Eric  March 17, 2003
     - Changed app->client communication to use shared memory rather
       than files.  The client sets up a shared memory segment when
@@ -4011,7 +4011,7 @@ David  Apr 3 2003
         ** USE THIS INSTEAD OF strcat()
     - changed dynamically-allocated fields of SCHEDULER_REQUEST,
         SCHEDULER_REPLY to static
-    
+
     That combination of the above fixes a bug where a long
     stderr_out could overwrite other fields of RESULT
 
@@ -4275,7 +4275,7 @@ Erik  May 19 2003
 
 Eric  May 20, 2003
     - When you create a team you automatically join it
-    
+
     html_user/
         team.inc
         team_create_action.php
@@ -4426,7 +4426,7 @@ David  June 4 2003
     - Checked in Eric Korpela's rewrite of the DB interface code.
         No more db_xxx functions; instead, use derived classes
         with insert(), update() etc. functions
-    
+
     db/
         Makefile.in
         boinc_db.C,h (.C new)
@@ -4616,10 +4616,10 @@ Karl    2003/06/09
     - refactored exponential backoff to util.h
 
     client/
-        pers_file_xfer.C 
-        scheduler_op.C 
+        pers_file_xfer.C
+        scheduler_op.C
     lib/
-        util.h   
+        util.h
         util.C
 
 Karl    2003/06/09
@@ -4655,10 +4655,10 @@ Tim    June 11, 2003
     client/
         pers_file_xfer.c
         prefs.c
-        prefs.h        
+        prefs.h
 
 Karl    2003/06/11
-    - test suite overhaul 
+    - test suite overhaul
 
     _autosetup
     configure.ac
@@ -4862,7 +4862,7 @@ David  June 19 2003
     - set result.received_time whenever the server_state becomes DONE
         (this makes it possible to enumerate all results that have
         become done recently, including timeouts and other errors)
-    
+
     html_ops/
         index.html (removed)
         index.php
@@ -4923,7 +4923,7 @@ David  June 20 2003
     - use mysql_connect() instead of mysql_pconnect() in PHP.
         The latter caused failures in mysql_select_db(),
         with "commands out of sync" error.
-    
+
     html_user/
         db.inc
     html_ops/
@@ -4970,7 +4970,7 @@ Tim     June 23, 2003
         wingui_mainwindow.cpp
 
 John Brian	2003/06/23
-    - Changed label text in "Disk" tab: 
+    - Changed label text in "Disk" tab:
         "BOINC" -> "BOINC core client"
         "PROJECT:" prepending removed
 
@@ -4980,7 +4980,7 @@ John Brian	2003/06/23
     /client/win/
         gui_titles.C
         wingui_listctrl.h
-        wingui_listctrl.cpp 
+        wingui_listctrl.cpp
 
 Karl    2003/06/23
     - changed uses of HOST to HOSTTYPE to simplify command line and fix
@@ -5031,12 +5031,12 @@ John Brian	2003/06/24
         wingui_mainwindow.h
         resource.rc
         resource.h
-        
+
 Karl    2003/06/24
     - Got test_1sec working
 
     test/
-        boinc.py        
+        boinc.py
         test.inc
         test_backend.py
         test_uc.py
@@ -5106,7 +5106,7 @@ Karl    2003/06/26
         util.h
 
     test/
-        boinc.py        
+        boinc.py
         test_masterurl_failure.py
         test_uc.py
         testproxy
@@ -5347,7 +5347,7 @@ Karl 2003/07/18
 
     py/   (added)
         Makefile.am
-        boinc.py        
+        boinc.py
         version.py.in
 
     test/
@@ -5393,7 +5393,7 @@ Karl 2003/07/25
 
     improved start/stop program
 
-    added "run benchmarks now" File menu command, and display results.    
+    added "run benchmarks now" File menu command, and display results.
 
     Fixed global preferences not being updated to/from client because of
     <mod_time> parse bug.
@@ -5463,7 +5463,7 @@ Karl 2003/07/30-31
     - file menu: 'Hide'
     - show reason for Unrecoverable error in user output
 
-    Client/*    
+    Client/*
     client/win/*
     client/translations/*
 
@@ -5577,7 +5577,7 @@ Karl 2003/08/07
         cs_apps.C
         cs_scheduler.C
         win/*
-    
+
     sched/
         handle_request.C
 
@@ -5599,7 +5599,7 @@ Karl 2003/08/08
     - client: take into account active_frac and n_cpus when requesting work.
         - removed vestigial host_info variables {active,on,connected}_frac.
     - server: take into account delay_bound, active_frac and n_cpus when
-      checking WU feasibility 
+      checking WU feasibility
 
     client/*
     sched/*
@@ -5625,7 +5625,7 @@ Karl 2003/08/10
 
     tools/
         backend_lib.C
-        
+
     db/
         boinc_db.C
         boinc_db.h
@@ -5653,7 +5653,7 @@ Karl 2003/08/12
 Karl 2003/08/12
     - Astropulse: changed timeout_check_time to time(0)+delay_bound instead
       of time(0)+1day
-    - Astropulse: rsc_fpops calculation: reduced fudge factor by 3 
+    - Astropulse: rsc_fpops calculation: reduced fudge factor by 3
 
     Astropulse/split/pulse_split.C
 
@@ -5807,7 +5807,7 @@ David  Aug 15 2003
         This required adding a result_template field to the workunit table,
         which is the original result template macro-substituted
         with the upload URL
-    
+
         db/
             boinc_db.C,h
             schema.sql
@@ -5820,7 +5820,7 @@ David  Aug 15 2003
 
 
 Chrisz  2003/8/15
-    - first init preference then parse command line 
+    - first init preference then parse command line
 
     client/win/
          wingui_mainwindow.cpp
@@ -5833,7 +5833,7 @@ Eric K  8/15/2003
 Karl 2003/08/18
     - scheduler bug fixes
     - test system update
-    - astropulse: 
+    - astropulse:
         - updated scheduler code
         - rewrote validator
         - created autoconf system to check host so that we can have separate
@@ -5855,19 +5855,19 @@ Karl 2003/08/19
 
 Karl 2003/08/20
     - changed 'active_frac' initial assumption to "on" instead of the current
-      state 
+      state
 
     client/
         time_stats.C
 
 Chrisz 2003/08/20
     - make progress and size on GUI keep old values when suspend during downloading
-    
+
     client/
         http.C
     client/win
         wingui_mainwindow.cpp
-    
+
 Karl 2003/08/20
     - rewrote header parsing to be more robust:
         - allow for header to not have to be a single TCP message
@@ -5913,7 +5913,7 @@ David  Aug 21 2003
 
 Karl 2003/08/21
     - various website and documentation fixes and updates
-    - 
+    -
 
     doc/*
     tools/
@@ -5930,3 +5930,20 @@ Chrisz 2003/08/25
 
     py/
 	boinc.py
+
+Karl 2003/08/28
+    - rewrote all documentation related to software prerequisites and
+      building server and clients.
+
+    doc/
+        boinc_dev.php
+        build_client.php           (new)
+        build_client_mac.php       (new)
+        build_client_unix.php      (new)
+        build_client_win.php       (new)
+        build_server.php
+        build_system.php
+        build.txt                  (removed)
+        create_project.php
+        single_host_server.php
+        software.php               (new)

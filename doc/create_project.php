@@ -54,9 +54,7 @@ How to install and configure the BOINC server software.
 <li> <a href=server_components.php>Server components</a>
 <li> <a href=build_server.php>Building server components</a> (<a href=build_system.php>Build system</a>)
 <ul>
-  <li> <a href=build_client_unix.php>Building the core client for Unix</a>
-  <li> <a href=build_client_win.php>Building the core client for Windows</a>
-  <li> <a href=build_client_mac.php>Building the core client for Macintosh</a>
+  <li> <a href=build_client.php>Building the core client for all platforms</a>
 </ul>
 <li> <a href=single_host_server.php>Setting up a single-host server</a>
 <li> <a href=database_setup.php>Setting up the BOINC database</a>

@@ -30,11 +30,6 @@ Open BOINC.pfw.  Accept all defaults, updating version number.
 Run a virus checker over all the individual (uncompressed)
 files as well as the final build
 
-<h1>Update project database</h1>
-
-Copy boinc_win_x.yz.exe to the boinc/apps directory and run
-boinc/tools/update_versions.
-
 
 <?
    page_tail();
