@@ -160,6 +160,17 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     return 0;
 }
 
+// read from socket, discard data
+//
+void copy_socket_to_null(FILE* in) {
+    unsigned char buf[BLOCK_SIZE];
+
+    while (1) {
+        int n = fread(buf, 1, BLOCK_SIZE, in);
+        if (n <= 0) return;
+    }
+}
+
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256], path[256];
     FILE_INFO file_info;
@@ -201,6 +212,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                     "file size (%d KB) exceeds limit (%d KB)",
                     (int)(nbytes/1024), (int)(file_info.max_nbytes/1024)
                 );
+                copy_socket_to_null(in);
                 return return_error(ERR_PERMANENT, buf);
             }
 
