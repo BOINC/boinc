@@ -28,11 +28,11 @@
 //  [ -download_url x ]
 //  [ -download_dir x ]
 //  [ -keyfile path ]
-//  -rsc_fpops_est n
-//  -rsc_fpops_bound n
-//  -rsc_memory_bound n
-//  -rsc_disk_bound n
-//  -delay_bound x
+//  [ -rsc_fpops_est n ]        // see defaults below
+//  [ -rsc_fpops_bound n ]
+//  [ -rsc_memory_bound n ]
+//  [ -rsc_disk_bound n ]
+//  [ -delay_bound x ]
 //  [ -min_quorum x ]
 //  [ -target_nresults x ]
 //  [ -max_error_results x ]
@@ -87,6 +87,11 @@ int main(int argc, char** argv) {
     wu.max_error_results = 10;
     wu.max_total_results = 20;
     wu.max_success_results = 10;
+    wu.rsc_fpops_est = 1e9;
+    wu.rsc_fpops_bound =  1e10;
+    wu.rsc_memory_bound = 1e8;
+    wu.rsc_disk_bound = 1e8;
+    wu.delay_bound = 100000;
 
     retval = config.parse_file();
     if (retval) {

@@ -12,7 +12,7 @@ apps/boinc/ contains core client versions.
 apps/APPLICATION_NAME/ contains application versions for each application.
 
 file names must be of the form NAME_VERSION_PLATFORM[.ext]:
-  astropulse_7.17_i686-pc-linux-gnu.gz
+  boinc_7.17_i686-pc-linux-gnu.gz
   astropulse_7.17_windows_intelx86.exe
 
 The prefix name and extensions .gz, .exe, .sit are ignored.  Platform strings
