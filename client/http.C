@@ -779,8 +779,13 @@ bool HTTP_OP_SET::poll(double) {
                     fclose(htp->file);
                     htp->file = 0;
                     scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
-                    htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = 0;
+                    if (htp->hrh.content_length) {
+                        if ((htp->bytes_xferred-htp->file_offset) != htp->hrh.content_length) {
+                            htp->http_op_retval = ERR_IO;
+                        }
+                    }
+                    htp->http_op_state = HTTP_STATE_DONE;
                     break;
                 }
             }

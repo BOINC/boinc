@@ -291,6 +291,7 @@ struct WORKUNIT {
     int write(MIOFILE&);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
+    void clear_errors();
 };
 
 struct RESULT {

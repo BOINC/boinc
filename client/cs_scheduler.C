@@ -727,6 +727,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             delete wup;
             continue;
         }
+        wup->clear_errors();
         workunits.push_back(wup);
     }
     for (i=0; i<sr.results.size(); i++) {

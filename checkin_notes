@@ -20230,7 +20230,7 @@ Karl 2004-11-27
 
 Bruce 2004-11-28
     - Sanity check args to parse_str(doc, tag, ...) and return false
-	  if !doc, !tag, or !strlen(tag)
+      if !doc, !tag, or !strlen(tag)
     lib/
       parse.C
 
@@ -20269,7 +20269,7 @@ Jeff  29 Nov 2004
     - Log the number of WUs assimlated at the end of each WU enumeration.
 
     sched/
-	assimilator.C
+    assimilator.C
 
 Jeff  29 Nov 2004
     - Added back the "-noinsert" option, which had somehow disappeared.
@@ -20327,27 +20327,27 @@ David  30 Nov 2004
         validator.C
 
 David  1 Dec 2004
-	- Use exclusively UNIX time (1970-origin) on Windows.
-		Previously we were using times in both this format
-		and in Windows 1601-based format.
-		This is a bug waiting to happen (in fact, it had already happened).
-	- convert a few remaining absolute times from int to double
-	- Add a function validate_time().
-		This sees if its arg is in Windows format
-		(greater than now + 1000 days)
-		and if so converts it to UNIX format.
-	- Call validate_time() after parsing all absolute times
-	- in old GUI, show %done of file uploads correctly
+    - Use exclusively UNIX time (1970-origin) on Windows.
+        Previously we were using times in both this format
+        and in Windows 1601-based format.
+        This is a bug waiting to happen (in fact, it had already happened).
+    - convert a few remaining absolute times from int to double
+    - Add a function validate_time().
+        This sees if its arg is in Windows format
+        (greater than now + 1000 days)
+        and if so converts it to UNIX format.
+    - Call validate_time() after parsing all absolute times
+    - in old GUI, show %done of file uploads correctly
 
-	NOTE: the time-checking code can be removed in the next major version
+    NOTE: the time-checking code can be removed in the next major version
 
-	client/
-		client_types.C,h
-		pers_file_xfer.C,h
-		win/
-			wingui_mainwindow.cpp
-	lib/
-		util.C,h
+    client/
+        client_types.C,h
+        pers_file_xfer.C,h
+        win/
+            wingui_mainwindow.cpp
+    lib/
+        util.C,h
 
 David  1 Dec 2004
     - UOTD screening: only show active users
@@ -20363,15 +20363,15 @@ David  1 Dec 2004
         validator.C
 
 Bruce 2 Dec 2004
-	- For unreturned results, show reporting deadline on user page.
-	- Add additional state possibilities.
-	- Explain validate error state.
+    - For unreturned results, show reporting deadline on user page.
+    - Add additional state possibilities.
+    - Explain validate error state.
 
-	html/
-		inc/
-			resuls.inc
-		user/
-			explain_state.php
+    html/
+        inc/
+            resuls.inc
+        user/
+            explain_state.php
  
 Rom    2 Dec 2004
     - Bug Fix: Each view now contains a display cache; the display cache
@@ -20402,7 +20402,7 @@ Rom    2 Dec 2004
     clientgui/msw/
         taskbarex.h
 
-Bruce	2 Dec 2004
+Bruce    2 Dec 2004
     -   Added emacs mode statement to the top of this file to eliminate tabs
         in favor of spaces!
     -   Fixed boinc_zip.h so that it works correctly under both C++ and
@@ -20669,17 +20669,17 @@ Bruce 6 Dec 2004 [thanks to Bernd Machenschalk!]
         filesys.h
 
 David  6 Dec 2004
-	- removed references to win_config.h from VC++ project files
+    - removed references to win_config.h from VC++ project files
     - removed stuff from Makefiles that generates client/win/win_config.h
         (this file isn't used anymore)
 
     set-version
     client/
         Makefile.am
-	win_build/
-		boinc_gui.vcproj
-		boinc_guirpc_test.vcproj
-		upper_case.vcproj
+    win_build/
+        boinc_gui.vcproj
+        boinc_guirpc_test.vcproj
+        upper_case.vcproj
 
 David  6 Dec 2004
     - Added priority field to workunit and result tables.
@@ -20830,10 +20830,10 @@ Rom    7 Dec 2004
         reduce.C
 
 David  7 Dec 2004
-	- Win compile fix - don't include std_fixes (???)
+    - Win compile fix - don't include std_fixes (???)
 
-	api/
-		reduce.C
+    api/
+        reduce.C
 
 Rom    7 Dec 2004
     - Fix a bug exposed by mikey2345 configuration that would create a bunch of 
@@ -20956,7 +20956,7 @@ Bruce 9 Dec 2004
     client/
         Makefile.am
     api/
-	Makefile.am
+    Makefile.am
 
 David  9 Dec 2004
     - put user name in confirmation email correctly
@@ -20979,15 +20979,15 @@ David  9 Dec 2004
         net_xfer.C,h
 
 David  9 Dec 2004
-	- Really fixed the above problem.
-		The HTTP code was looking at the wrong flag
-		(io_done, should have been io_ready)
-		in the POST2 case waiting for reply body
+    - Really fixed the above problem.
+        The HTTP code was looking at the wrong flag
+        (io_done, should have been io_ready)
+        in the POST2 case waiting for reply body
 
-	api/
-		boinc_api.C
-	client/
-		http.C,h
+    api/
+        boinc_api.C
+    client/
+        http.C,h
 
 David  10 Dec 2004
     - added a function get_file_dir() (in lib/filesys.C)
@@ -21123,16 +21123,16 @@ David  10 Dec 2004
         graphics_lib.C,h
 
 David  10 Dec 2004
-	- Added clientgui/Makefile.mac
-		Currently, to use this you have to:
-		- install Wxwidgets 2.5.3 at the same level as boinc/
-		- create clientgui/ in the wxwidgets samples directory
-		- copy the contents of boinc/clientgui there
-		- make -f Makefile.mac
+    - Added clientgui/Makefile.mac
+        Currently, to use this you have to:
+        - install Wxwidgets 2.5.3 at the same level as boinc/
+        - create clientgui/ in the wxwidgets samples directory
+        - copy the contents of boinc/clientgui there
+        - make -f Makefile.mac
 
-	clientgui/
-		Makefile.mac (new)
-		stdwx.h
+    clientgui/
+        Makefile.mac (new)
+        stdwx.h
 
 David  11 Dec 2004
     - Fixed Makefile.am for building graphics libs
@@ -21250,10 +21250,10 @@ Janus  13 Dec 2004
         edit_forum_preferences_form.php
 
 David  14 Dec 2004
-	- Win compile fix
+    - Win compile fix
 
-	api/
-		windows_opengl.C
+    api/
+        windows_opengl.C
 
 David  14 Dec 2004
     - moved mem_usage() from api/boinc_api.C to lib/mem_usage.C (new)
@@ -21282,12 +21282,12 @@ David  14 Dec 2004
         gui_rpc_client.C,h
 
 David  14 Dec 2004
-	- win compile fix
+    - win compile fix
 
-	lib/
-		mem_usage.C
-	win_build/
-		upper_case.vcproj
+    lib/
+        mem_usage.C
+    win_build/
+        upper_case.vcproj
 
 David  14 Dec 2004
     - Added code to validator to maintain host.avg_turnaround
@@ -21610,11 +21610,11 @@ David  18 Dec 2004
         x_opengl.C
 
 David  19 Dec 2004
-	- fix compile of old Win GUI
+    - fix compile of old Win GUI
     - update BOINC manager messages a little
 
-	client/win/
-		wingui_mainwindow.cpp
+    client/win/
+        wingui_mainwindow.cpp
     clientgui/
         ViewMessages.cpp
         ViewProjects.cpp
@@ -21800,22 +21800,22 @@ David  25 Dec 2004
         backend_lib.C
 
 David  25 Dec 2004
-	- bug fix (from Nikolay Saharov): if user minimized app graphics window,
-		then closed it, then did "show graphics" again,
-		the result would be a nonexistent window,
-		impossible to manipulate.
-		Fix this by using original window size if window
-		is minimized or maximized
-	- compile fixes for SETI@home on Windows
-		removed extern "C" on jpeglib.h include (why did I need this
-			in the first place??)
-	api/
-		gutil.c
-		gutil.C
-		windows_opengl.C
-	win_build/
-		config.h (new)
-		win-config.h (new)
+    - bug fix (from Nikolay Saharov): if user minimized app graphics window,
+        then closed it, then did "show graphics" again,
+        the result would be a nonexistent window,
+        impossible to manipulate.
+        Fix this by using original window size if window
+        is minimized or maximized
+    - compile fixes for SETI@home on Windows
+        removed extern "C" on jpeglib.h include (why did I need this
+            in the first place??)
+    api/
+        gutil.c
+        gutil.C
+        windows_opengl.C
+    win_build/
+        config.h (new)
+        win-config.h (new)
 
 David  26 Dec 2004
     - User web: define a function process_user_text() that
@@ -21951,40 +21951,40 @@ Bruce 29 Dec 2004
             db_ops.inc
 
 David  29 Dec 2004
-	- (from James Drews) Add a "don't request more work" request for projects.
-		Inhibits requesting more work,
-		but allows completion and reporting of work to continue.
-		Added a GUI RPC to do this,
-		and also a menu command in the old Win GUI.
-		Implemented using a boolean in PROJECT
-		(saved/restored in client_state.xml)
-	- Removed win_config.h and win-config.h.
-		Put all "#ifdef HAVE_*" constructs inside #ifndef _WIN32
-		Include version.h to get BOINC_MAJOR_VERSION etc.
+    - (from James Drews) Add a "don't request more work" request for projects.
+        Inhibits requesting more work,
+        but allows completion and reporting of work to continue.
+        Added a GUI RPC to do this,
+        and also a menu command in the old Win GUI.
+        Implemented using a boolean in PROJECT
+        (saved/restored in client_state.xml)
+    - Removed win_config.h and win-config.h.
+        Put all "#ifdef HAVE_*" constructs inside #ifndef _WIN32
+        Include version.h to get BOINC_MAJOR_VERSION etc.
 
-		Now - what exactly are the roles of client/cpp.h and boinc_win.h???
+        Now - what exactly are the roles of client/cpp.h and boinc_win.h???
 
-	win_config.h (removed)
-	api/
-		boinc_api.C
-	client/
-		client_types.C,h
-		cpp.h
-		cs_scheduler.C
-		gui_rpc_server.C
-		win/
-			boinc_cli.rc
-			boinc_dll.rc
-			boinc_gui.h,rc
-			boinc_ss.rc
-			wingui_mainwindow.cpp,h
-	lib/
-		gui_rpc_client.C,h
-		gui_test.C
-		mem_usage.C
-	win_build/
-		config.h
-		win-config.h (removed)
+    win_config.h (removed)
+    api/
+        boinc_api.C
+    client/
+        client_types.C,h
+        cpp.h
+        cs_scheduler.C
+        gui_rpc_server.C
+        win/
+            boinc_cli.rc
+            boinc_dll.rc
+            boinc_gui.h,rc
+            boinc_ss.rc
+            wingui_mainwindow.cpp,h
+    lib/
+        gui_rpc_client.C,h
+        gui_test.C
+        mem_usage.C
+    win_build/
+        config.h
+        win-config.h (removed)
 
 David  29 Dec 2004
     - (from Reinhard Prix)
@@ -22040,31 +22040,31 @@ Bruce  31 Dec 2004
 
 
 David  1 Jan 2005
-	- Deprecated the bad hash function used for the
-		upload/download directory hierarchies.
-		It wasn't uniform.
-		Use MD5 instead.
+    - Deprecated the bad hash function used for the
+        upload/download directory hierarchies.
+        It wasn't uniform.
+        Use MD5 instead.
 
-		Kept the old one around for a the time being.
-		dir_hier_path() and dir_hier_url() take a new arg
-		saying whether to use new or old hash.
-		The file_deleter and validator try the new hash, then the old.
+        Kept the old one around for a the time being.
+        dir_hier_path() and dir_hier_url() take a new arg
+        saying whether to use new or old hash.
+        The file_deleter and validator try the new hash, then the old.
 
-	doc/
-		busy_work.php (new)
-		tools_work.php
-	lib/
-		util.C,h
-	sched/
-		file_deleter.C
-		file_upload_handler.C
-		make_work.C
-		validate_util.C
-		wu_check.C
-	tools/
-		backend_lib.C
-		dir_hier_move.C
-		dir_hier_path.C
+    doc/
+        busy_work.php (new)
+        tools_work.php
+    lib/
+        util.C,h
+    sched/
+        file_deleter.C
+        file_upload_handler.C
+        make_work.C
+        validate_util.C
+        wu_check.C
+    tools/
+        backend_lib.C
+        dir_hier_move.C
+        dir_hier_path.C
 
 David  3 Jan 2005
     - split the implementation of REDUCE into 2 parts,
@@ -22276,10 +22276,10 @@ Rom    7 Jan 2005
         win_screensaver.cpp
 
 David  7 Jan 2005
-	- off-by-1 error caused trivial validator to not work
+    - off-by-1 error caused trivial validator to not work
 
-	sched/
-		validate_util.C
+    sched/
+        validate_util.C
 
 David  7 Jan 2005
     - moved dir hierarchy code from lib/util.C to sched/sched_util.C
@@ -22307,10 +22307,10 @@ David  7 Jan 2005
         dir_hier_path.C
 
 David  7 Jan 2005
-	- Win compile fix
+    - Win compile fix
 
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
 
 David  7 Jan 2005
     - add "ignorelist" field to forum_preferences
@@ -22616,3 +22616,34 @@ Bruce  13 Jan 2005
 
     sched/
         sched_locality.C
+
+David  13 Jan 2005
+	- Core client: when get a workunit from scheduler,
+		clear errors (e.g. download failures)
+		for all files associated with this WU
+		(this is down in a new function WORKUNIT::clear_errors())
+		Without this, if a file common to multiple WUs had a download
+		failure, all WUs would fail until user resets project!!
+	- Giant bug in HTTP file transfer:
+		If a network connection failed in the middle,
+		it wasn't being distinguished from a completed download;
+		the file size would be checked at the PERS_FILE_XFER level,
+		and it would get a "bad file size" fatal error.
+		Fix: when get EOF from a network connection reading HTTP reply,
+		compare the bytes transferred with the content-length
+		from HTTP header.
+		If not equal, classify it as an error.
+		This will cause higher levels to view it as a transient error,
+		and restart the download later.
+	- PERS_FILE_XFER::poll():
+		the check for actual file size == desired file size
+		was inexplicably being done even for file uploads,
+		and even in cases where another error had occurred.
+		Do it only for download success cases.
+
+		
+    client/
+        client_types.C,h
+        cs_scheduler.C
+        http.C
+        pers_file_xfer.C

@@ -200,21 +200,6 @@ bool PERS_FILE_XFER::poll(double now) {
     last_time = now;
 
     if (fxp->file_xfer_done) {
-        if (fip->nbytes) {
-            // If we know the file size, make sure that what we downloaded
-            // has the right size
-            //
-            get_pathname(fip, pathname);
-            file_size(pathname, existing_size);
-            if (existing_size != fip->nbytes) {
-                sprintf(buf,
-                    "Downloaded file had wrong size: expected %.0f, got %.0f",
-                    fip->nbytes, existing_size
-                );
-                check_giveup(buf);
-                return true;
-            }
-        }
         scope_messages.printf(
             "PERS_FILE_XFER::poll(): file transfer status %d",
             fxp->file_xfer_retval
@@ -225,7 +210,7 @@ bool PERS_FILE_XFER::poll(double now) {
                 msg_printf(
                     fip->project, MSG_INFO, "Finished %s of %s",
                     is_upload?"upload":"download", fip->name
-                    );
+                );
                 if (fxp->xfer_speed < 0) {
                     msg_printf(fip->project, MSG_INFO, "No data transferred");
                 } else {
@@ -233,6 +218,21 @@ bool PERS_FILE_XFER::poll(double now) {
                         fip->project, MSG_INFO, "Throughput %d bytes/sec",
                         (int)fxp->xfer_speed
                     );
+                }
+            }
+            if (!is_upload && fip->nbytes) {
+                // If we know the file size, make sure that what we downloaded
+                // has the right size
+                //
+                get_pathname(fip, pathname);
+                file_size(pathname, existing_size);
+                if (existing_size != fip->nbytes) {
+                    sprintf(buf,
+                        "Downloaded file had wrong size: expected %.0f, got %.0f",
+                        fip->nbytes, existing_size
+                    );
+                    check_giveup(buf);
+                    return true;
                 }
             }
             pers_xfer_done = true;

@@ -1066,6 +1066,19 @@ void WORKUNIT::get_file_errors(string& str) {
     }
 }
 
+// if any input files had download error from previous WU,
+// reset them to try download again
+//
+void WORKUNIT::clear_errors() {
+    int x;
+    unsigned int i;
+    for (i=0; i<input_files.size();i++) {
+        FILE_INFO* fip = input_files[i].file_info;
+        if (fip->had_failure(x)) {
+            fip->reset();
+        }
+    }
+}
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
 
