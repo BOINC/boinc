@@ -5,6 +5,8 @@
 #include "sched_util.h"
 #include "assimilate_handler.h"
 
+using std::vector;
+
 void assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& results, RESULT& canonical_result
 ) {

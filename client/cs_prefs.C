@@ -41,6 +41,9 @@
 #include "client_msgs.h"
 #include "client_state.h"
 
+using std::min;
+using std::string;
+
 void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
     net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;

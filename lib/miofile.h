@@ -22,7 +22,6 @@
 
 #ifndef _WIN32
 #include <string>
-using namespace std;
 #endif
 
 #include "mfile.h"
@@ -58,6 +57,6 @@ private:
 };
 
 extern int copy_element_contents(MIOFILE& in, const char* end_tag, char* p, int len);
-extern int copy_element_contents(MIOFILE& in, const char* end_tag, string&);
+extern int copy_element_contents(MIOFILE& in, const char* end_tag, std::string&);
 
 #endif

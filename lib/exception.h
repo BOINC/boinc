@@ -22,8 +22,6 @@
 
 #ifndef _WIN32
 #include <string>
-using namespace std;
-using std::exception;
 #endif
 
 #include <exception>
@@ -31,7 +29,7 @@ using std::exception;
 // BOINC Base Exception Class
 //
 
-class boinc_base_exception : public exception
+class boinc_base_exception : public std::exception
 {
 
 private:
@@ -39,15 +37,15 @@ private:
                                         //   datatype is 64bits plus the
                                         //   possible sign character and the
                                         //   NULL terminator
-    string  m_strErrorBuffer;           // the formatted error message when
+    std::string  m_strErrorBuffer;           // the formatted error message when
                                         //   asked
 
-    string  m_strErrorType;             // the error type
+    std::string  m_strErrorType;             // the error type
     long    m_lErrorValue;              // the error value
-    string  m_strErrorMessage;          // the error message
-    string  m_strErrorData;             // any relevant data associated with
+    std::string  m_strErrorMessage;          // the error message
+    std::string  m_strErrorData;             // any relevant data associated with
                                         //   the error
-    string  m_strFilename;              // the file in which the error occurred
+    std::string  m_strFilename;              // the file in which the error occurred
     long    m_lLineNumber;              // the line number in which the error
                                         //   occurred
 

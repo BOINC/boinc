@@ -22,6 +22,8 @@
 
 #include "validate_util.h"
 
+using std::vector;
+
 static const double MIN_CPU_TIME = 10000;
 
 // TODO: use md5 hash

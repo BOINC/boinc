@@ -24,7 +24,6 @@
 // _WIN32" -- if something is not working on a particular version of MSVC
 // let's find a working solution
 #include <string>
-using namespace std;
 
 #include "app_ipc.h"
 
@@ -40,7 +39,7 @@ extern "C" {
 
     extern int	boinc_resolve_filename(const char*, char*, int len);
 
-    extern int	boinc_resolve_filename_s(const char*, string&);
+    extern int	boinc_resolve_filename_s(const char*, std::string&);
 
     extern int	boinc_parse_init_data_file();
     extern int	boinc_write_init_data_file();

@@ -63,6 +63,8 @@
 #include "boinc_api.h"
 #include "mfile.h"
 
+using std::string;
+
 #define CHECKPOINT_FILE "upper_case_state"
 
 #ifdef BOINC_APP_GRAPHICS

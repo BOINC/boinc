@@ -71,7 +71,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         // set the query priority to high so the transitioner can move through
         //   even high loads
         //
-        result.is_high_priority = true;
+        result.db->is_high_priority = true;
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -368,7 +368,7 @@ bool do_pass() {
     // set the query priority to high so the transitioner can move through
     //   even high loads
     //
-    wu.is_high_priority = true;
+    wu.db->is_high_priority = true;
 
     // loop over WUs that are due to be checked
     //

@@ -22,11 +22,14 @@
 #include "sched_msgs.h"
 #include "validate_util.h"
 
+using std::string;
+using std::vector;
+
 // TODO: use md5 hash
 
 // read file into memory
 //
-int init_result_read_file(RESULT const& result, void*& data) {
+int init_result_read_file(RESULT const & result, void*& data) {
     int retval;
     string path;
 

@@ -157,7 +157,7 @@ public:
 
 class ACTIVE_TASK_SET {
 public:
-    typedef vector<ACTIVE_TASK*> active_tasks_v;
+    typedef std::vector<ACTIVE_TASK*> active_tasks_v;
     active_tasks_v active_tasks;
     int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);

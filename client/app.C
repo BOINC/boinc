@@ -80,6 +80,10 @@
 #include "client_msgs.h"
 #include "app.h"
 
+using std::vector;
+using std::max;
+
+
 // value for setpriority(2)
 static const int PROCESS_IDLE_PRIORITY = 19;
 

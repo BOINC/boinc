@@ -39,6 +39,8 @@
 #include "log_flags.h"
 #include "scheduler_op.h"
 
+using std::vector;
+
 extern void project_add_failed(PROJECT*);
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {

@@ -37,8 +37,8 @@
 struct HTTP_REPLY_HEADER {
     int http_status;
     int content_length;
-    string redirect_location;
-    string recv_buf;
+    std::string redirect_location;
+    std::string recv_buf;
 
     void init();
     int read_reply(int socket);
@@ -90,7 +90,7 @@ public:
 // represents a set of HTTP requests in progress
 //
 class HTTP_OP_SET {
-    vector<HTTP_OP*> http_ops;
+  std::vector<HTTP_OP*> http_ops;
     NET_XFER_SET* net_xfers;
 public:
     HTTP_OP_SET(NET_XFER_SET*);

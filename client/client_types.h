@@ -74,13 +74,13 @@ public:
     RESULT* result;         // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
-    vector<STRING256> urls;
+    std::vector<STRING256> urls;
     int start_url;
     int current_url;
     char signed_xml[MAX_BLOB_LEN];
     char xml_signature[MAX_BLOB_LEN];
     char file_signature[MAX_BLOB_LEN];
-    string error_msg;       // if permanent error occurs during file xfer,
+    std::string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
 
     FILE_INFO();
@@ -120,12 +120,12 @@ public:
     char master_url[256];       // url of site that contains scheduler tags
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
-    string project_prefs;
+    std::string project_prefs;
         // without the enclosing <project_preferences> tags.
         // May include <venue> elements
         // This field is used only briefly: between handling a
         // scheduler RPC reply and writing the account file
-    string project_specific_prefs;
+    std::string project_specific_prefs;
         // without enclosing <project_specific> tags
         // Does not include <venue> elements
     double resource_share;
@@ -135,7 +135,7 @@ public:
     // They may depend on the host as well as user and project
     // NOTE: if you add anything, add it to copy_state_fields() also!!!
     //
-    vector<STRING256> scheduler_urls;       // where to find scheduling servers
+    std::vector<STRING256> scheduler_urls;       // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
     char user_name[256];
     char team_name[256];
@@ -165,7 +165,7 @@ public:
 	bool anonymous_platform;	// app_versions.xml file found in project dir;
 								// use those apps rather then getting from server
     char code_sign_key[MAX_BLOB_LEN];
-    vector<FILE_REF> user_files;
+    std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
     
     // the following fields used by CPU scheduler
@@ -213,7 +213,7 @@ struct APP_VERSION {
     int version_num;
     APP* app;
     PROJECT* project;
-    vector<FILE_REF> app_files;
+    std::vector<FILE_REF> app_files;
     int ref_cnt;
 
     int parse(MIOFILE&);
@@ -228,7 +228,7 @@ struct WORKUNIT {
         // Instead, the client picks the latest app version
     char command_line[256];
     char env_vars[256];         // environment vars in URL format
-    vector<FILE_REF> input_files;
+    std::vector<FILE_REF> input_files;
     PROJECT* project;
     APP* app;
     APP_VERSION* avp;
@@ -241,14 +241,14 @@ struct WORKUNIT {
     int parse(MIOFILE&);
     int write(MIOFILE&);
     bool had_failure(int& failnum);
-    void get_file_errors(string&);
+    void get_file_errors(std::string&);
 };
 
 struct RESULT {
     char name[256];
     char wu_name[256];
     int report_deadline;
-    vector<FILE_REF> output_files;
+    std::vector<FILE_REF> output_files;
     bool is_active;
         // an app is currently running for this.
         // this is false for preempted tasks!
@@ -264,7 +264,7 @@ struct RESULT {
     int signal;             // the signal caught by the active_task,
                 // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
-    string stderr_out;
+    std::string stderr_out;
         // the concatenation of:
         //
         // - if report_result_error() is called for this result:
@@ -295,7 +295,7 @@ struct RESULT {
     int parse_ack(FILE*);
     int write(MIOFILE&, bool to_server);
     bool is_upload_done();    // files uploaded?
-    void get_app_version_string(string&);
+    void get_app_version_string(std::string&);
 };
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info);

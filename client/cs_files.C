@@ -46,6 +46,8 @@
 
 #define MAX_TRANSFERS_PER_PROJECT   2
 
+using std::vector;
+
 // Decide whether to consider starting a new file transfer
 //
 bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {

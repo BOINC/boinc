@@ -59,6 +59,9 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
+using std::string;
+using std::vector;
+
 #define LOCKFILE "db_dump.out"
 
 #define COMPRESSION_NONE    0

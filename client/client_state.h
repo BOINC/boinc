@@ -66,12 +66,12 @@ enum SUSPEND_REASON_t {
 //
 class CLIENT_STATE {
 public:
-    vector<PROJECT*> projects;
-    vector<APP*> apps;
-    vector<FILE_INFO*> file_infos;
-    vector<APP_VERSION*> app_versions;
-    vector<WORKUNIT*> workunits;
-    vector<RESULT*> results;
+  std::vector<PROJECT*> projects;
+  std::vector<APP*> apps;
+  std::vector<FILE_INFO*> file_infos;
+  std::vector<APP_VERSION*> app_versions;
+  std::vector<WORKUNIT*> workunits;
+  std::vector<RESULT*> results;
 
     NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;

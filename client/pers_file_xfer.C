@@ -40,6 +40,8 @@
 #include "client_types.h"
 #include "client_msgs.h"
 
+using std::vector;
+
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URLs is given.
 //

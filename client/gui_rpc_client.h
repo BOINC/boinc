@@ -22,8 +22,6 @@
 #include <string>
 #include <vector>
 
-using std::string;
-using std::vector;
 #endif
 
 #include "miofile.h"
@@ -33,7 +31,7 @@ using std::vector;
 struct PROJECT;
 
 struct FILE_INFO {
-    string name;
+  std::string name;
     bool generated_locally;
     bool uploaded;
     bool upload_when_present;
@@ -165,13 +163,13 @@ class RPC_CLIENT {
     int send_request(char*);
     int get_reply(char*&);
 public:
-    vector<PROJECT*> projects;
-    vector<FILE_INFO*> file_infos;
-    vector<APP*> apps;
-    vector<APP_VERSION*> app_versions;
-    vector<WORKUNIT*> wus;
-    vector<RESULT*> results;
-    vector<ACTIVE_TASK*> active_tasks;
+    std::vector<PROJECT*> projects;
+    std::vector<FILE_INFO*> file_infos;
+    std::vector<APP*> apps;
+    std::vector<APP_VERSION*> app_versions;
+    std::vector<WORKUNIT*> wus;
+    std::vector<RESULT*> results;
+    std::vector<ACTIVE_TASK*> active_tasks;
 
     APP* lookup_app(string&);
     WORKUNIT* lookup_wu(string&);
@@ -191,7 +189,7 @@ public:
     int set_run_mode(int mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
-    int get_messages(int nmessages, int seqno, vector<MESSAGE_DESC>&);
+    int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
     void print();
 };
 

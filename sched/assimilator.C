@@ -34,6 +34,8 @@
 #include "sched_msgs.h"
 #include "assimilate_handler.h"
 
+using std::vector;
+
 #define LOCKFILE "assimilator.out"
 #define PIDFILE  "assimilator.pid"
 

@@ -28,6 +28,8 @@
 #include "parse.h"
 #include "client_state.h"
 
+using std::string;
+
 // Scan project dir for file names of the form trickle_up_X_Y
 // where X is a result name and Y is a timestamp.
 // Convert them to XML (for sched request message)

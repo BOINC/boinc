@@ -14330,3 +14330,19 @@ Karl 2004-06-30
         boinc_setup.vdproj
         boinc_setup_auto.vdproj
 
+Eric K 30 June 2004
+    - Removed "using" directives from header files.  "using"
+      directives should not be used in header files for the following reasons.
+      - A "using namespace" directive cannot be revoked for any source file
+        including the header.  It forces the use of the namespace regardless of
+        the consequences.
+      - Dropping the namespace qualifier on STL templates ambiguates the
+        resolution of template functions.  (How many C libraries or headers
+        have you seen that define the function min()?)
+      - Reducing typing is not a good reason to drop namespace qualifiers any
+        more than it would be a good idea to "#define p printf"
+      - Namespaces exist for a reason.
+      - It's acceptable to have "using" directive in a source file, since it
+        won't affect other files.  It's better to have "using std::string;" 
+        directives than "using namespace std;" for hopefully obvious reasons.
+

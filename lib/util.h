@@ -28,7 +28,6 @@
 #include <cstring>
 #include <algorithm>
 #include <string>
-using namespace std;
 #endif
 
 #if !defined(HAVE_STRLCPY)
@@ -47,7 +46,7 @@ extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
-extern void strip_whitespace(string&);
+extern void strip_whitespace(std::string&);
 extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
 extern void escape_url_readable(char* in, char* out);
@@ -56,27 +55,27 @@ extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(time_t);
-string timediff_format(long tdiff);
-int read_file_string(const char* pathname, string& result);
+std::string timediff_format(long tdiff);
+int read_file_string(const char* pathname, std::string& result);
 
-inline bool ends_with(string const& s, string const& suffix) {
+inline bool ends_with(std::string const& s, std::string const& suffix) {
     return
         s.size()>=suffix.size() &&
         s.substr(s.size()-suffix.size()) == suffix;
 }
 
-inline bool starts_with(string const& s, string const& prefix) {
+inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
 
 // http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
 inline void downcase_string(
-    string::iterator begin, string::iterator end, string::iterator src
+    std::string::iterator begin, std::string::iterator end, std::string::iterator src
 ) {
 	std::transform(begin, end, src, (int(*)(int))tolower);
 }
 
-inline void downcase_string(string& w) {
+inline void downcase_string(std::string& w) {
     downcase_string(w.begin(), w.end(), w.begin());
 }
 

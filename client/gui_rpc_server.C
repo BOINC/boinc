@@ -39,6 +39,10 @@
 #include "client_msgs.h"
 #include "client_state.h"
 
+using std::string;
+using std::list;
+using std::vector;
+
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
 }

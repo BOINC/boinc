@@ -40,6 +40,8 @@
 
 #include "client_types.h"
 
+using std::string;
+
 PROJECT::PROJECT() {
     init();
 }

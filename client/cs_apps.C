@@ -44,6 +44,8 @@
 #include "client_msgs.h"
 #include "client_state.h"
 
+using std::vector;
+
 
 // Quit running applications, quit benchmarks,
 // write the client_state.xml file

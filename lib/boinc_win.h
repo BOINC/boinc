@@ -111,8 +111,6 @@
 #include <setjmp.h>
 
 
-using namespace std;
-
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
 #define fdopen                  _fdopen

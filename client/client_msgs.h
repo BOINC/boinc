@@ -32,7 +32,6 @@
 
 #include <list>
 #include <string>
-using std::string;
 
 #include "msg_log.h"
 
@@ -57,10 +56,10 @@ struct MESSAGE_DESC {
     int priority;
     int timestamp;
     int seqno;
-    string message;
+    std::string message;
 };
 
-extern list<MESSAGE_DESC*> message_descs;
+extern std::list<MESSAGE_DESC*> message_descs;
 extern void record_message(class PROJECT *p, int priority, int now, char* msg);
 
 extern void show_message(class PROJECT *p, char* message, int priority);

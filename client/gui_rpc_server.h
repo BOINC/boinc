@@ -27,7 +27,7 @@ public:
 };
 
 class GUI_RPC_CONN_SET {
-    vector<GUI_RPC_CONN*> gui_rpcs;
+  std::vector<GUI_RPC_CONN*> gui_rpcs;
     int insert(GUI_RPC_CONN*);
     int lsock;
 public:

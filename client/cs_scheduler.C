@@ -47,6 +47,9 @@
 
 #include "client_state.h"
 
+using std::vector;
+using std::string;
+
 // quantities like avg CPU time decay by a factor of e every week
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))

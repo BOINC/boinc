@@ -40,7 +40,6 @@ typedef DIR_DESC *DIRREF;
 
 #include <stdio.h>
 #include <string>
-using std::string;
 
 #ifdef HAVE_DIRENT_H
 #include <dirent.h>
@@ -57,7 +56,7 @@ typedef DIR *DIRREF;
 //
 extern DIRREF dir_open(const char*);
 extern int dir_scan(char*, DIRREF, int);
-int dir_scan(string&, DIRREF);
+int dir_scan(std::string&, DIRREF);
 extern void dir_close(DIRREF);
 
 extern int boinc_delete_file(const char*);
@@ -78,7 +77,7 @@ extern char boinc_failed_file[256];
 
 class DirScanner {
 #ifdef _WIN32
-    string dir;
+  std::string dir;
     bool first;
     void* handle;
 #endif
@@ -86,9 +85,9 @@ class DirScanner {
     DIR* dirp;
 #endif
 public:
-    DirScanner(string const& path);
+    DirScanner(std::string const& path);
     ~DirScanner();
-    bool scan(string& name);    // return true if file returned
+    bool scan(std::string& name);    // return true if file returned
 };
 
 #endif

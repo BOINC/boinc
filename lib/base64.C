@@ -23,6 +23,8 @@
 
 #include "base64.h"
 
+using std::string;
+
 // Table of characters coding the 64 values.
 static char base64_value_to_char[64] =
 {

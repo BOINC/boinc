@@ -32,6 +32,9 @@
 #include "sched_msgs.h"
 #include "validate_util.h"
 
+using std::vector;
+using std::string;
+
 extern SCHED_CONFIG config;
 
 // get the name of a result's (first) output file

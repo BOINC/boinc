@@ -22,7 +22,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #define SHUT_WR SD_SEND
-using std::string;
 #endif
 
 #ifndef _WIN32
@@ -54,6 +53,9 @@ using std::string;
 
 #define HTTP_BLOCKSIZE  16384
 
+using std::string;
+using std::istringstream;
+using std::vector;
 
 // Breaks a HTTP url down into its server and file path components
 //

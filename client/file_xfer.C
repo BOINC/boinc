@@ -32,6 +32,8 @@
 #include "parse.h"
 #include "error_numbers.h"
 
+using std::vector;
+
 FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
     file_xfer_retval = 0;

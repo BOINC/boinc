@@ -86,6 +86,8 @@ typedef size_t socklen_t;
 #endif
 #endif
 
+using std::vector;
+
 // if an active transfer doesn't get any activity
 // in this many seconds, error out
 #define NET_XFER_TIMEOUT    600

@@ -34,6 +34,8 @@
 
 #include "app_ipc.h"
 
+using std::string;
+
 char* xml_graphics_modes[NGRAPHICS_MODES] = {
     "<mode_unsupported/>",
     "<mode_hide_graphics/>",

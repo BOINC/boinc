@@ -75,12 +75,12 @@ struct SCHEDULER_OP {
     int init_op_project(double ns);
     int init_master_fetch(PROJECT*);
     int set_min_rpc_time(PROJECT*);
-    bool update_urls(PROJECT& project, vector<STRING256> &urls);
+    bool update_urls(PROJECT& project, std::vector<STRING256> &urls);
     int start_op(PROJECT*);
     bool check_master_fetch_start();
     void backoff(PROJECT* p, char *error_msg);
     int start_rpc();
-    int parse_master_file(vector<STRING256>&);
+    int parse_master_file(std::vector<STRING256>&);
 };
 
 struct SCHEDULER_REPLY {
@@ -103,12 +103,12 @@ struct SCHEDULER_REPLY {
     double user_expavg_credit;
     char host_venue[256];
     unsigned int user_create_time;
-    vector<APP> apps;
-    vector<FILE_INFO> file_infos;
-    vector<APP_VERSION> app_versions;
-    vector<WORKUNIT> workunits;
-    vector<RESULT> results;
-    vector<RESULT> result_acks;
+    std::vector<APP> apps;
+    std::vector<FILE_INFO> file_infos;
+    std::vector<APP_VERSION> app_versions;
+    std::vector<WORKUNIT> workunits;
+    std::vector<RESULT> results;
+    std::vector<RESULT> result_acks;
     char* code_sign_key;
     char* code_sign_key_signature;
     bool trickle_up_ack;
