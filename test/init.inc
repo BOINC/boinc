@@ -92,6 +92,7 @@ function clear_server_dirs($clear_key_dir) {
     global $BOINC_UPLOAD_DIR;
     global $BOINC_KEY_DIR;
 
+    $bad = false;
     if ($BOINC_DOWNLOAD_DIR == null) {
         echo "Must define BOINC_DOWNLOAD_DIR\n";
         $bad = true;
