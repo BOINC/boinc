@@ -263,6 +263,21 @@ typedef struct urltag {
 } URLTYPE;
 
 
+// Evaluate differences between time-zone.  Two time zones that differ
+// by almost 24 hours are actually very close on the surface of the
+// earth.  This function finds the 'shortest way around'
+//
+static int mod_24_hours(int x) {
+    const int twelve_hours=12*3600;
+
+    if (x < -twelve_hours)
+        x += 2*twelve_hours;
+    else if (x > twelve_hours)
+        x -= 2*twelve_hours;
+
+    return x;
+}
+
 // these global variables are needed to pass information into the
 // compare function below.
 static int tzone=0;
@@ -273,14 +288,19 @@ static int compare(const void *x, const void *y) {
     URLTYPE *b=(URLTYPE *)y;
     
     char longname[512];
-    
-    if (abs(tzone - (a->zone))<abs(tzone - (b->zone))) {
+    int diffa = mod_24_hours(tzone - (a->zone));
+    int diffb = mod_24_hours(tzone - (b->zone));
+
+    diffa = abs(diffa);
+    diffb = abs(diffb);
+
+    if (diffa < diffb) {
         return -1;
-	}
+    }
     
-    if (abs(tzone - (a->zone))>abs(tzone - (b->zone))) {
+    if (diffa > diffb) {
         return +1;
-	}
+    }
     
     // In order to ensure uniform distribution, we hash paths that are
     // equidistant from the host's timezone in a way that gives a
@@ -295,11 +315,11 @@ static int compare(const void *x, const void *y) {
     
     if (xa<xb) {
         return -1;
-	}
+    }
     
     if (xa>xb) {
         return 1;
-	}
+    }
     
     return 0;
 }

@@ -24214,3 +24214,11 @@ Rom    7 Feb 2005
         boinc_ss.rc
         win_screensaver.cpp, .h
 
+Bruce 8 Feb 2005
+    - Bug fix: method of determining which download site to point a host to
+      computing timezone differences, not taking into account the fact that
+      UTC+11 hours and UTC-11 hours are only 2 hours apart.  Duh.
+
+    sched/
+        sched_send.C
+
