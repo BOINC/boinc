@@ -186,7 +186,7 @@ class Project {
         $this->upload_url = $cgi_url."/file_upload_handler";
         $this->scheduler_url = $cgi_url."/cgi";
         $this->project_dir = $base_dir."/".$this->name;
-        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_user/index.php";
+        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/index.php";
         PassThru("rm -rf $this->project_dir");
         PassThru("mkdir $this->project_dir");
             // make the CGI writeable in case scheduler writes req/reply files
@@ -196,6 +196,7 @@ class Project {
         PassThru("mkdir $this->project_dir/keys");
         PassThru("mkdir $this->project_dir/html_ops");
         PassThru("mkdir $this->project_dir/html_user");
+        PassThru("ln -s $this->project_dir/download $this->project_dir/html_user/download");
 
         if ($this->generate_keys) {
             echo "KEY GENERATION NOT IMPLEMENTED YET\n";
