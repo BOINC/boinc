@@ -32,9 +32,6 @@
 #include <algorithm>
 #include <iterator>
 #include <iostream>
-#ifdef HAVE_STD_LOCALE
-#include <locale>
-#endif
 #include <fstream>
 #include <cctype>
 #include <sys/types.h>
@@ -397,68 +394,13 @@ void escape_url_readable(char *in, char* out) {
     }
     out[y] = 0;
 }
-#if 0
-inline void replace_string(
-    string& s, string const& src,
-    string const& dest, string::size_type start=0
-) {
-    string::size_type p;
-    while ( (p=s.find(src, start)) != string::npos ) {
-        s.replace(p, src.length(), dest);
-        start = p + dest.length();
-    }
-}
-
-#ifdef HAVE_STD_LOCALE
-// In order for toupper and tolower to work under certain conditions
-//   it needs to know about local.
-// See: http://linux-rep.fnal.gov/software/gcc/onlinedocs/libstdc++/22_locale/howto.html#7
-struct Tolower
-{
-    Tolower (std::locale const& l) : loc(l) {;}
-    char operator() (char c)  { return std::tolower(c,loc); }
-private:
-    std::locale const& loc;
-};
-#endif
 
 // Canonicalize a master url.
-//   - Convert the first part of a URL (before the "://") to lowercase
-//   - Remove double slashes
+//   - Convert the first part of a URL (before the "//") to http://,
+// or prepend it
+//   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
 //
-void canonicalize_master_url(string& url) {
-#ifdef HAVE_STD_LOCALE
-    Tolower      down ( std::locale("C") );
-#endif
-    string::size_type p = url.find("://");
-    // lowercase http://
-    if (p != string::npos) {
-#ifdef HAVE_STD_LOCALE
-        transform(url.begin(), url.begin()+p, url.begin(), down);
-#else
-        transform(url.begin(), url.begin()+p, url.begin(), tolower);
-#endif
-        p += 3;
-    } else {
-        p = 0;
-    }
-    // remove double slashes
-    replace_string(url, "//", "/", p);
-
-    // ensure trailing slash
-    if (url[url.length()-1] != '/') {
-        url += '/';
-    }
-}
-
-void canonicalize_master_url(char *xurl) {
-    string url = xurl;
-    canonicalize_master_url(url);
-    strcpy(xurl, url.c_str());
-}
-#endif
-
 void canonicalize_master_url(char* url) {
     char buf[1024];
     int n;
