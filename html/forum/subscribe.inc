@@ -6,24 +6,50 @@ require_once('forum.inc');
 
 function subscribe($thread, $user=null) {
     if (!$thread) {
-        show_result_page(false, NULL);
+        show_result_page("subscribe", false, NULL);
         exit();
     }
     
     if (!$user) {
-        $user = get_logged_in_user(true);
+        $user = get_logged_in_user(true, '../');
     }
+    
+    $sql = "SELECT * FROM subscriptions WHERE (userid = " . $user->id . ") AND (threadid = " . $thread->id . ")";
+    $result = sql_query($sql);
+    
+    // If they're already subscribed, don't add them again;
+    if (sql_num_rows($result > 0)) {
+        // TODO: Specific "error" page for this case.
+        show_result_page("subscribe", true, $thread);
+    }
+    
     $sql = "INSERT INTO subscriptions SET userid = " . $user->id . ", threadid = " . $thread->id;
-    show_result_page(sql_query($sql), $thread);
+    show_result_page("subscribe", (sql_query($sql) != null), $thread);
 }
 
-function show_result_page($success, $thread) {
-    if ($success) {
+function unsubscribe($thread, $user=null) {
+    if (!$thread) {
+        show_result_page("unsubscribe", false, NULL);
+        exit();
+    }
+    if (!$user) {
+        $user = get_logged_in_user(true, '../');
+    }
+    $sql = "DELETE FROM subscriptions WHERE (userid = ". $user->id . ") AND (threadid = " . $thread->id . ")";
+    show_result_page("unsubscribe", (sql_query($sql) != null), $thread);
+    
+}
+
+function show_result_page($action, $success, $thread) {
+    if ($action == "subscribe" && $success) {
         doHeader("Subscription Successful");
         echo "<span class=\"title\">Subscription successful</span>";
-        echo "<p>You are now subscribed to <b>", $thread->title, "</b>.  You will receive an email whenver another user posts to this thread.</p>";
-    } else {
-        // Chances are that an error of this kind will be caught at the DB level, but we'll add a case anyway.
+        echo "<p>You are now subscribed to <b>", $thread->title, "</b>.  You will receive an email whenever another user posts to this thread.</p>";
+    } else if ($action == "unsubscribe" && $success) {
+        doHeader("Unsubscription Successful");
+        echo "<span class=\"title\">Unsubscription successful</span>";
+        echo "<p>You have successfully unsubscribed from <b>", $thread->title, "</b>.  You will no longer receive emails for posts to this thread.";
+    } else if ($action == "subscribe" && !$success) {
         doHeader("Subscription Failed");
         echo "<span class=\"title\">Subscription failed</span>";
         if ($thread) {
@@ -31,6 +57,17 @@ function show_result_page($success, $thread) {
         } else {
             echo "<p>The thread you tried to subscribe to does not exist.</p>";
         }
+    } else if ($action == "unsubscribe" && !$success) {
+        doHeader("Unsubscription Failed");
+        echo "<span class=\"title\">Unsubscription failed</span>";
+        if ($thread) {
+            echo "<p>There was a problem unsubscribing you from ", $thread->title, ".  Please try again later.</p>";
+        } else {
+            echo "<p>The thread you tried to unsubscribe from does not exist.</p>";
+        }
+    } else {
+        doHeader("Unknown action");
+        echo "<span class=\"title\">Unknown action</span>";
     }
     
     doFooter();
@@ -38,7 +75,7 @@ function show_result_page($success, $thread) {
 }
 
 function notify_subscribers($thread) {
-    $sql = "SELECT * FROM subscriptions WHERE threadid = " . $thread->id;
+    $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $thread->id;
     $result = sql_query($sql);
     
     while ($row = mysql_fetch_assoc($result)) {
@@ -52,8 +89,9 @@ function send_notice_email($userId, $thread) {
     $row = mysql_fetch_assoc($result);
     
     $title = PROJECT . ": A user has posted to your subscribed thread.";
-    $body = "Another " . PROJECT . " user has posted to the thread \"" . $thread->title . "\".";
-    // Include a link to the thread here.
+    $link = URL_BASE . "forum/thread.php?id=" . $thread->id;
+    $body = "Another " . PROJECT . " user has posted to the thread \"" . $thread->title . "\".\n"
+        ."To view the updated thread, direct your web browser to the following URL:\n\n$link";
            
     mail($row['email_addr'], $title, $body);
 }
