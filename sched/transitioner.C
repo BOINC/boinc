@@ -210,7 +210,8 @@ int handle_wu(
                     res_item.res_outcome = RESULT_OUTCOME_DIDNT_NEED;
                     update_result = true;
                 }
-                if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
+                if ((res_item.res_validate_state == VALIDATE_STATE_INIT) &&
+                    (res_item.res_outcome != RESULT_OUTCOME_SUCCESS)) {
                     res_item.res_validate_state = VALIDATE_STATE_NO_CHECK;
                     update_result = true;
                 }

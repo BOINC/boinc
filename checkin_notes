@@ -18443,3 +18443,11 @@ David  15 Oct 2004
 
     client/win/
         wingui_mainwindow.cpp
+
+Lana    15 Oct 2004
+    - fixed bug in transitioner marking validate state as NO CHECK
+     for the workunits with the number of results exceeding max total
+     results
+
+     sched/
+        transitioner.C
