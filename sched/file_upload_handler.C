@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -227,8 +227,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
             log_messages.printf(SchedMessages::NORMAL,
-                                "Handling upload of %s [offset=%f, nbytes=%f]\n",
-                                path, offset, nbytes);
+                                "Handling upload of %s [offset=%.0f, nbytes=%.0f]\n",
+                                file_info.name, offset, nbytes);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (!retval) {
                 return_success(0);
@@ -250,14 +250,14 @@ int handle_get_file_size(char* file_name) {
     sprintf(path, "%s/%s", config.upload_dir, file_name );
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
-        log_messages.printf(SchedMessages::NORMAL, "handle_get_file_size: %s, returning error\n", file_name);
+        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning error\n", file_name);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
-        log_messages.printf(SchedMessages::NORMAL, "handle_get_file_size: %s, returning zero\n", file_name);
+        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
     } else {
-        log_messages.printf(SchedMessages::NORMAL, "handle_get_file_size: %s, returning %d\n",
-                file_name, (int)sbuf.st_size);
+        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
+                            file_name, (int)sbuf.st_size);
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
     }
