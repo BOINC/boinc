@@ -37,11 +37,11 @@ BEGIN_EVENT_TABLE( CDlgOptions, wxDialog )
     EVT_NOTEBOOK_PAGE_CHANGED( ID_NOTEBOOK, CDlgOptions::OnNotebookPageChanged )
     EVT_UPDATE_UI( ID_NOTEBOOK, CDlgOptions::OnNotebookUpdate )
 
-    EVT_CHECKBOX( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnablehttpproxyctrlClick )
-    EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnablehttpproxyctrlUpdate )
+    EVT_CHECKBOX( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlClick )
+    EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlUpdate )
 
-    EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnablesocksproxyctrlClick )
-    EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnablesocksproxyctrlUpdate )
+    EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlClick )
+    EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlUpdate )
 
 END_EVENT_TABLE()
 
@@ -59,6 +59,7 @@ CDlgOptions::CDlgOptions( wxWindow* parent, wxWindowID id, const wxString& capti
 
 bool CDlgOptions::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
+    m_bProxySectionConfigured = false;
     m_EnableHTTPProxyCtrl = NULL;
     m_HTTPAddressCtrl = NULL;
     m_HTTPPortCtrl = NULL;
@@ -252,28 +253,28 @@ void CDlgOptions::OnNotebookUpdate( wxUpdateUIEvent& event )
 }
 
 
-void CDlgOptions::OnEnablehttpproxyctrlClick( wxCommandEvent& event )
+void CDlgOptions::OnEnableHTTPProxyCtrlClick( wxCommandEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
 
-void CDlgOptions::OnEnablehttpproxyctrlUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnEnableHTTPProxyCtrlUpdate( wxUpdateUIEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
 
-void CDlgOptions::OnEnablesocksproxyctrlClick( wxCommandEvent& event )
+void CDlgOptions::OnEnableSOCKSProxyCtrlClick( wxCommandEvent& event )
 {
     // Insert custom code here
     event.Skip();
 }
 
 
-void CDlgOptions::OnEnablesocksproxyctrlUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate( wxUpdateUIEvent& event )
 {
     // Insert custom code here
     event.Skip();

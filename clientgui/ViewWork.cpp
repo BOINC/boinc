@@ -317,6 +317,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 void CViewWork::UpdateSelection()
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxInt32        iSelectedRow = -1;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -342,8 +343,9 @@ void CViewWork::UpdateSelection()
     }
     else
     {
+        iSelectedRow = m_pListPane->GetFirstSelected();
         m_bTaskHeaderHidden = false;
-        if ( pDoc->IsWorkSuspended(m_pListPane->GetFirstSelected()) )
+        if ( pDoc->IsWorkSuspended( iSelectedRow ) )
         {
             m_bTaskSuspendHidden = true;
             m_bTaskResumeHidden = false;
@@ -353,7 +355,10 @@ void CViewWork::UpdateSelection()
             m_bTaskSuspendHidden = false;
             m_bTaskResumeHidden = true;
         }
-        m_bTaskShowGraphicsHidden = false;
+        if ( pDoc->IsWorkGraphicsSupported( iSelectedRow ) )
+            m_bTaskShowGraphicsHidden = false;
+        else
+            m_bTaskShowGraphicsHidden = true;
         m_bTaskAbortHidden = false;
 
         m_bItemSelected = true;

@@ -933,6 +933,21 @@ bool CMainDocument::IsWorkSuspended( wxInt32 iIndex )
 }
 
 
+bool CMainDocument::IsWorkGraphicsSupported( wxInt32 iIndex )
+{
+    RESULT* pResult = NULL;
+    bool bRetVal    = false;
+
+    if ( !results.results.empty() )
+        pResult = results.results.at( iIndex );
+
+    if ( NULL != pResult )
+        bRetVal = pResult->supports_graphics;
+
+    return bRetVal;
+}
+
+
 wxInt32 CMainDocument::WorkSuspend( wxInt32 iIndex )
 {
     RESULT* pResult = NULL;

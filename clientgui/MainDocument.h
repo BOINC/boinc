@@ -165,6 +165,7 @@ public:
     bool                        IsWorkActive( wxInt32 iIndex );
     bool                        IsWorkReadyToReport( wxInt32 iIndex );
     bool                        IsWorkSuspended( wxInt32 iIndex );
+    bool                        IsWorkGraphicsSupported( wxInt32 iIndex );
 
     wxInt32                     WorkSuspend( wxInt32 iIndex );
     wxInt32                     WorkResume( wxInt32 iIndex );

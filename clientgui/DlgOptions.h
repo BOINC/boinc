@@ -78,20 +78,21 @@ public:
     void OnNotebookUpdate( wxUpdateUIEvent& event );
 
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
-    void OnEnablehttpproxyctrlClick( wxCommandEvent& event );
+    void OnEnableHTTPProxyCtrlClick( wxCommandEvent& event );
 
     /// wxEVT_UPDATE_UI event handler for ID_ENABLEHTTPPROXYCTRL
-    void OnEnablehttpproxyctrlUpdate( wxUpdateUIEvent& event );
+    void OnEnableHTTPProxyCtrlUpdate( wxUpdateUIEvent& event );
 
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLESOCKSPROXYCTRL
-    void OnEnablesocksproxyctrlClick( wxCommandEvent& event );
+    void OnEnableSOCKSProxyCtrlClick( wxCommandEvent& event );
 
     /// wxEVT_UPDATE_UI event handler for ID_ENABLESOCKSPROXYCTRL
-    void OnEnablesocksproxyctrlUpdate( wxUpdateUIEvent& event );
+    void OnEnableSOCKSProxyCtrlUpdate( wxUpdateUIEvent& event );
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    bool        m_bProxySectionConfigured;
     wxCheckBox* m_EnableHTTPProxyCtrl;
     wxTextCtrl* m_HTTPAddressCtrl;
     wxTextCtrl* m_HTTPPortCtrl;
