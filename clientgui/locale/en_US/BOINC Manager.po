@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-01-07 02:33-0800\n"
+"PO-Revision-Date: 2005-01-12 00:10-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:155
+#: clientgui/BOINCGUIApp.cpp:158
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 
@@ -217,11 +217,11 @@ msgid "&Help"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:348
-msgid "Connected to BOINC"
+msgid "Connected"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:354
-msgid "Disconnected from BOINC"
+msgid "Disconnected"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:624
@@ -238,6 +238,10 @@ msgstr ""
 
 #: clientgui/MainFrame.cpp:632
 msgid "Failed to connect..."
+msgstr ""
+
+#: clientgui/MainFrame.cpp:982
+msgid "Connected to "
 msgstr ""
 
 #: clientgui/ValidateAccountKey.cpp:110

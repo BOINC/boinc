@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-01-07 02:33-0800\n"
+"PO-Revision-Date: 2005-01-12 00:10-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:155
+#: clientgui/BOINCGUIApp.cpp:158
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Starte BOINC so, dass nur das Symbol im Infobereich der Taskleiste sichtbar ist"
 
@@ -222,11 +222,12 @@ msgid "&Help"
 msgstr "&Hilfe"
 
 #: clientgui/MainFrame.cpp:348
-msgid "Connected to BOINC"
-msgstr ""
+#, fuzzy
+msgid "Connected"
+msgstr "Verbindungen"
 
 #: clientgui/MainFrame.cpp:354
-msgid "Disconnected from BOINC"
+msgid "Disconnected"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:624
@@ -244,6 +245,11 @@ msgstr "Verbindungsversuch zum angegeben Computer fehlgeschlagen. Bitte prüfen S
 #: clientgui/MainFrame.cpp:632
 msgid "Failed to connect..."
 msgstr "Verbindung fehlgeschlagen ..."
+
+#: clientgui/MainFrame.cpp:982
+#, fuzzy
+msgid "Connected to "
+msgstr "Verbindungen"
 
 #: clientgui/ValidateAccountKey.cpp:110
 msgid "Invalid Account Key; please enter a valid Account Key"
