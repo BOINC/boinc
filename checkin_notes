@@ -22427,3 +22427,9 @@ David  8 Jan 2005
     sched/
         sched_config.C,h
         sched_locality.C
+
+David  9 Jan 2005
+    - fix memory leak in get_insert_id()
+
+    db/
+        db_base.C

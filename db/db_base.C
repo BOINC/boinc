@@ -48,15 +48,11 @@ int DB_CONN::insert_id() {
     MYSQL_ROW row;
     MYSQL_RES* rp;
 
-    if (mysql) {
-        retval = do_query("select HIGH_PRIORITY LAST_INSERT_ID()");
-    } else {
-        retval = do_query("select LAST_INSERT_ID()");
-    }
-
+    retval = do_query("select LAST_INSERT_ID()");
     if (retval) return retval;
     rp = mysql_store_result(mysql);
     row = mysql_fetch_row(rp);
+    mysql_free_result(rp);
     return atoi(row[0]);
 }
 
@@ -249,10 +245,10 @@ int DB_BASE::get_integer(char* query, int& n) {
     resp = mysql_store_result(db->mysql);
     if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
+    mysql_free_result(resp);
     if (!row) return ERR_DB_NOT_FOUND;
     if (!row[0]) return ERR_DB_NOT_FOUND;
     n = atoi(row[0]);
-    mysql_free_result(resp);
     return 0;
 }
 
@@ -266,10 +262,10 @@ int DB_BASE::get_double(char* query, double& x) {
     resp = mysql_store_result(db->mysql);
     if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
+    mysql_free_result(resp);
     if (!row) return ERR_DB_NOT_FOUND;
     if (!row[0]) return ERR_DB_NOT_FOUND;
     x = atof(row[0]);
-    mysql_free_result(resp);
     return 0;
 }
 

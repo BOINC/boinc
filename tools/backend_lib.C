@@ -156,7 +156,6 @@ static int process_wu_template(
 ) {
     char* p;
     char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
-    //char out[LARGE_BLOB_SIZE];
     std::string out;
     int retval, file_number;
     double nbytes;
