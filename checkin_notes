@@ -19475,8 +19475,24 @@ Rom    14 Nov 2004
         boinc_ss.vcproj
 
 Bruce  15 Nov 2004
-    - Work on documentation for config.xml file.  Add explanation, missing material.  More work needed.
+    - Work on documentation for config.xml file.
+        Add explanation, missing material.  More work needed.
     - Added time zone to 'last modified' date.
+
     doc/
       configuration.php
       docutil.php
+
+David  15 Nov 2004
+    - some times were being read/written as ints instead of double
+        (from Sebastian Masch)
+        This could fix a bug of giving up on uploads too soon
+        (I'm not sure why)
+
+    client/
+        client_types.C
+        pers_file_xfer.C
+        win/
+            wingui_mainwindow.cpp
+    lib/
+        gui_rpc_client.C,h

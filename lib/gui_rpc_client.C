@@ -96,7 +96,7 @@ int PROJECT::parse(MIOFILE& in) {
         else if (parse_double(buf, "<disk_usage>", disk_usage)) continue;
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        else if (parse_int(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) {
             master_url_fetch_pending = true;
             continue;

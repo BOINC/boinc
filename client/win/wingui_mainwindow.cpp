@@ -588,7 +588,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
             // status
             if (pfx->next_request_time > time(0)) {
-                double xtime = pfx->next_request_time-time(0);
+                double xtime = pfx->next_request_time-dtime();
                 int xhour = (int)(xtime / (60 * 60));
                 int xmin = (int)(xtime / 60) % 60;
                 int xsec = (int)(xtime) % 60;

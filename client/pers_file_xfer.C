@@ -55,7 +55,7 @@ using std::vector;
 
 PERS_FILE_XFER::PERS_FILE_XFER() {
     nretry = 0;
-    first_request_time = time(0);
+    first_request_time = dtime();
     next_request_time = first_request_time;
     time_so_far = 0;
     fip = NULL;

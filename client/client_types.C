@@ -166,7 +166,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
+        else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
@@ -220,7 +220,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <exp_avg_mod_time>%f</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
-        "    <min_rpc_time>%d</min_rpc_time>\n"
+        "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "%s%s%s%s%s",
@@ -246,7 +246,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         exp_avg_mod_time,
         nrpc_failures,
         master_fetch_failures,
-        (int)min_rpc_time,
+        min_rpc_time,
         debt,
         resource_share,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
