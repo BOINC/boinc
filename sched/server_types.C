@@ -62,6 +62,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     hostid = 0;
     work_req_seconds = 0;
     resource_share_fraction = 1.0;
+    estimated_delay = 0;
     strcpy(global_prefs_xml, "");
     strcpy(projects_xml, "");
     strcpy(code_sign_key, "");
@@ -91,6 +92,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
+        else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
         else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
         else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
         else if (match_tag(buf, "<global_preferences>")) {

@@ -15617,3 +15617,11 @@ Rom    22 July 2004
     sched/
         transitioner.C
 
+Daniel 2004-07-22
+    - use "estimated_delay" (sent in scheduler request by client) when
+      trying to meet wu.delay_bound.
+
+    sched/
+        sched_send.C
+        server_types.C,h
+

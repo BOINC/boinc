@@ -139,7 +139,7 @@ inline double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
     return wu.rsc_fpops_est/host.p_fpops;
 }
 
-// estimate the amount of real time for this WU based on active_frac
+// estimate the amount of real time for this WU based on active_frac,
 // and resource_share_fraction
 inline double estimate_wallclock_duration(
     WORKUNIT& wu, HOST& host, double resource_share_fraction
@@ -153,7 +153,8 @@ inline double estimate_wallclock_duration(
 // because of insufficient memory, CPU speed, or resource share
 //
 bool wu_is_feasible(
-    WORKUNIT& wu, HOST& host, WORK_REQ& wreq, double resource_share_fraction
+    WORKUNIT& wu, HOST& host, WORK_REQ& wreq,
+    double resource_share_fraction, double estimated_delay
 ) {
     double m_nbytes = host.m_nbytes;
     if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
@@ -168,8 +169,9 @@ bool wu_is_feasible(
     }
 
     if (config.enforce_delay_bound) {
-        double wu_wallclock_time = estimate_wallclock_duration(wu, host, resource_share_fraction);
-        int host_remaining_time = 0; // TODO
+        double wu_wallclock_time =
+            estimate_wallclock_duration(wu, host, resource_share_fraction);
+        double host_remaining_time = estimated_delay;
 
         if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
             log_messages.printf(
@@ -520,7 +522,8 @@ static void scan_work_array(
         //
         wu = wu_result.workunit;
         if (!wu_is_feasible(
-            wu, reply.host, wreq, sreq.resource_share_fraction
+            wu, reply.host, wreq, sreq.resource_share_fraction,
+            sreq.estimated_delay
         )) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",

@@ -62,6 +62,7 @@ struct SCHEDULER_REQUEST {
     int rpc_seqno;
     int work_req_seconds;
     double resource_share_fraction;
+    double estimated_delay;
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char projects_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
