@@ -15245,3 +15245,6 @@ Brian  14 July 2004
     client/
        pers_file_xfer.C
 
+Rom    July 15 2004
+    - Tag for 4.00 release, all platforms
+      boinc_release_4_00
