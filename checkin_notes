@@ -9544,3 +9544,11 @@ David  Jan 23 2004
         gui_rpc_client.C,h
         gui_test.C
         makefile.gui_test (new)
+
+David  Jan 24 2004
+	- add resource to let you control name of screensaver in
+		choose-screensaver popup (from Rom Walton)
+
+	client/win/
+		boinc_ss.h
+		boinc_ss.rc

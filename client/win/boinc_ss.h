@@ -3,10 +3,10 @@
 // Used by boinc_ss.rc
 //
 #define IDI_MAIN_ICON                   1
+#define IDS_DESCRIPTION                 1
 #define DLG_CONFIG                      104
 #define IDB_BOINCSPLAT                  108
 #define IDC_BLANK                       1000
-#define IDS_DESCRIPTION                 1000
 #define IDC_BLANK_TIME                  1001
 #define IDS_ERR_GENERIC                 2100
 #define IDS_ERR_NOBOINCDETECTED         2101

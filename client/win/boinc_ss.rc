@@ -129,11 +129,6 @@ IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
 
 STRINGTABLE 
 BEGIN
-    IDS_DESCRIPTION         "BOINC Screensaver"
-END
-
-STRINGTABLE 
-BEGIN
     IDS_ERR_GENERIC         "There was an unspecified problem with this screen saver."
     IDS_ERR_BOINCNOTDETECTED 
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
@@ -146,6 +141,11 @@ END
 STRINGTABLE 
 BEGIN
     IDS_ERR_NOPREVIEW       "No preview available"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_DESCRIPTION         "BOINC"
 END
 
 #endif    // English (U.S.) resources
