@@ -46,6 +46,8 @@
 
 const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 
+const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
+
 // estimate the days of work remaining
 //
 double CLIENT_STATE::current_work_buf_days() {
@@ -281,10 +283,16 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
-        // If we've completed computation but haven't finished reporting the
-        // results to the server, return the project for this result
+        // return the project for this result to report if:
+        //    - we're not backing off a scheduler request for its project
+        //    - we're ready_to_ack (compute done; files uploaded)
+        //    - we're almost at the report_deadline (6 hours)
         if (r->project->waiting_until_min_rpc_time(now)) continue;
-        if (r->ready_to_ack) {
+        // NOTE: early versions of scheduler (<2003/08/07) did not send
+        // report_deadline (in which case it is 0)
+        if (r->ready_to_ack &&
+            r->report_deadline <= now+SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT)
+        {
             return r->project;
         }
     }

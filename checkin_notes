@@ -5564,9 +5564,16 @@ David  Aug 7 2003
         workunit.php (new)
 
 Karl 2003/08/07
-    Start tasks in order of earliest report_deadline
-        - added next_result_to_start() 
+    - client: Start tasks in order of earliest report_deadline.
+        - added next_result_to_start()
+    - client: don't report a result until 6 hours before report_deadline (or
+      other reason to contact scheduler)
+    - scheduler: Send report deadline
 
     client/
         client_state.h
         cs_apps.C
+        cs_scheduler.C
+    
+    sched/
+        handle_request.C
