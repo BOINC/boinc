@@ -124,39 +124,6 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     return pbest;
 }
 
-#if 0
-// choose a project to ask for work
-//
-PROJECT* CLIENT_STATE::choose_project() {
-    PROJECT* p, *bestp;
-    unsigned int i;
-    double best_ratio, ratio;
-
-    // update the average CPU times of all projects
-    //
-    for (i=0; i<projects.size(); i++) {
-        update_avg_cpu(projects[i]);
-    }
-
-    // pick the project for which share/avg is largest
-    // (and we have permission to contact it)
-    //
-    best_ratio = 0;
-    bestp = 0;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (time(0) < p->next_request_time) continue;
-        if (p->exp_avg_cpu == 0) return p;
-        ratio = p->resource_share/p->exp_avg_cpu;
-        if (ratio >= best_ratio) {
-            best_ratio = ratio;
-            bestp = p;
-        }
-    }
-    return bestp;
-}
-#endif
-
 // Compute the "resource debt" of each project.  This is used
 // to determine what project we will focus on next, based on
 // the user specified resource share
@@ -313,76 +280,18 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     return action;
 }
 
-#if 0
-// manage the task of maintaining an adequate supply of work.
-//
-bool CLIENT_STATE::get_work() {
-    PROJECT* project;
-    int retval, work_secs;
-    bool action=false;
-
-    if (need_work()) {
-        switch(scheduler_op->state) {
-        case SCHEDULER_OP_STATE_IDLE:
-            // if no scheduler request pending, start one
-            //
-            project = choose_project();
-            if (!project) {
-                if (log_flags.sched_op_debug) {
-                    printf("all projects temporarily backed off\n");
-                }
-                return false;
-            }
-            work_secs =
-                (int) (prefs->high_water_days - current_water_days())*86400;
-            retval = make_scheduler_request(project, work_secs);
-            if (retval) {
-                fprintf(stderr, "make_scheduler_request: %d\n", retval);
-                break;
-            }
-
-            scheduler_op->start_op(project);
-            action = true;
-            break;
-        default:
-            retval = scheduler_op->poll();
-            if (scheduler_op->state == SCHEDULER_OP_STATE_DONE) {
-                scheduler_op->state = SCHEDULER_OP_STATE_IDLE;
-                action = true;
-                if (scheduler_op->scheduler_op_retval) {
-                    fprintf(stderr,
-                        "scheduler RPC to %s failed: %d\n",
-                        scheduler_op->project->master_url,
-                        scheduler_op->scheduler_op_retval
-                    );
-                    if (log_flags.sched_ops) {
-                        printf("HTTP work request failed: %d\n", retval);
-                    }
-                    break;
-                } else {
-                    handle_scheduler_reply(*scheduler_op);
-                    set_client_state_dirty();
-                }
-            }
-            break;
-        }
-    }
-    return action;
-}
-#endif
-
 // see whether a new preferences set, obtained from the given
 // project, looks "reasonable".  This is to prevent accidental or
 // intentional preferences corruption
 // Currently this is primitive: just make sure there's at least 1 project
 // TODO: figure out what else to look for here
+//
 bool PREFS::looks_reasonable(PROJECT& project) {
     if (projects.size() > 0) return true;
     return false;
 }
 
-// Parse the reply from a scheduler and configure internal structures
-// appropriately
+// Parse the reply from a scheduler
 //
 void CLIENT_STATE::handle_scheduler_reply(
     PROJECT* project, char* scheduler_url
@@ -484,23 +393,23 @@ void CLIENT_STATE::handle_scheduler_reply(
         if (!project->code_sign_key) {
             project->code_sign_key = strdup(sr.code_sign_key);
         } else {
-			if (sr.code_sign_key_signature) {
-				retval = verify_string2(
-					sr.code_sign_key, sr.code_sign_key_signature,
-					project->code_sign_key, signature_valid
-				);
-				if (!retval && signature_valid) {
-					free(project->code_sign_key);
-					project->code_sign_key = strdup(sr.code_sign_key);
-				} else {
-					fprintf(stdout,
-						"New code signing key from %s doesn't validate\n",
-						project->project_name
-					);
-				}
-			} else {
-				fprintf(stdout, "Missing code sign key signature\n");
-			}
+	    if (sr.code_sign_key_signature) {
+		retval = verify_string2(
+		    sr.code_sign_key, sr.code_sign_key_signature,
+		    project->code_sign_key, signature_valid
+		);
+		if (!retval && signature_valid) {
+		    free(project->code_sign_key);
+		    project->code_sign_key = strdup(sr.code_sign_key);
+		} else {
+		    fprintf(stdout,
+			"New code signing key from %s doesn't validate\n",
+			project->project_name
+		    );
+		}
+	    } else {
+		fprintf(stdout, "Missing code sign key signature\n");
+	    }
         }
     }
 
@@ -573,6 +482,7 @@ void CLIENT_STATE::handle_scheduler_reply(
             );
         }
     }
+    set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {
         printf("State after handle_scheduler_reply():\n");
         print_counts();

@@ -39,6 +39,17 @@
 #include "client_state.h"
 #include "error_numbers.h"
 
+// Make a directory for each of the projects present
+// in the client state
+//
+int CLIENT_STATE::make_project_dirs() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        make_project_dir(*projects[i]);
+    }
+    return 0;
+}
+
 // Verify the validity of a downloaded file, through MD5 checksum
 // or an RSA signature
 //

@@ -25,6 +25,42 @@
 
 #include "client_state.h"
 
+// Make a directory for each of the available slots specified
+// in the client state
+//
+int CLIENT_STATE::make_slot_dirs() {
+    unsigned int i;
+    for (i=0; i<nslots; i++) {
+        make_slot_dir(i);
+    }
+    return 0;
+}
+
+// Perform a graceful shutdown of the client, including quitting
+// all applications, checking their final status, and writing
+// the client_state.xml file
+//
+int CLIENT_STATE::exit() {
+    int retval;
+    active_tasks.poll_time();
+    retval = write_state_file();
+    if (retval) { 
+	fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
+        return retval;
+    }
+    retval = exit_tasks();
+    if (retval) {
+	fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
+        return retval;
+    }
+    return 0;
+}
+
+int CLIENT_STATE::exit_tasks() {
+    active_tasks.exit_tasks();
+    return 0;
+}
+
 // Handle a task that has finished.
 // Mark its output files as present, and delete scratch files.
 // Don't delete input files because they might be shared with other WUs.
@@ -73,7 +109,7 @@ bool CLIENT_STATE::handle_running_apps() {
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;
-            set_client_state_dirty();
+            set_client_state_dirty("handle_running_apps");
             action = true;
         }
     }
@@ -132,7 +168,7 @@ bool CLIENT_STATE::start_apps() {
             atp->init(rp);
             active_tasks.insert(atp);
             action = true;
-            set_client_state_dirty();
+            set_client_state_dirty("start_apps");
 	    app_started = time(0);
         }
     }

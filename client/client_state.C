@@ -331,53 +331,6 @@ int CLIENT_STATE::parse_state_file() {
     return 0;
 }
 
-// Make a directory for each of the projects present
-// in the client state
-//
-int CLIENT_STATE::make_project_dirs() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        make_project_dir(*projects[i]);
-    }
-    return 0;
-}
-
-// Make a directory for each of the available slots specified
-// in the client state
-//
-int CLIENT_STATE::make_slot_dirs() {
-    unsigned int i;
-    for (i=0; i<nslots; i++) {
-        make_slot_dir(i);
-    }
-    return 0;
-}
-
-// Perform a graceful shutdown of the client, including quitting
-// all applications, checking their final status, and writing
-// the client_state.xml file
-//
-int CLIENT_STATE::exit() {
-    int retval;
-    active_tasks.poll_time();
-    retval = write_state_file();
-    if (retval) { 
-	fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
-        return retval;
-    }
-    retval = exit_tasks();
-    if (retval) {
-	fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
-        return retval;
-    }
-    return 0;
-}
-
-int CLIENT_STATE::exit_tasks() {
-    active_tasks.exit_tasks();
-    return 0;
-}
-
 // Write the client_state.xml file
 //
 int CLIENT_STATE::write_state_file() {
@@ -431,6 +384,19 @@ int CLIENT_STATE::write_state_file() {
         printf("Done writing state file\n");
     }
     if (retval) return ERR_RENAME;
+    return 0;
+}
+
+// TODO: write no more often than X seconds
+// Write the client_state.xml file if necessary
+//
+int CLIENT_STATE::write_state_file_if_needed() {
+    int retval;
+    if (client_state_dirty) {
+        retval = write_state_file();
+        if (retval) return retval;
+        client_state_dirty = false;
+    }
     return 0;
 }
 
@@ -787,18 +753,6 @@ bool CLIENT_STATE::update_results() {
     return action;
 }
 
-// TODO: write no more often than X seconds
-// Write the client_state.xml file if necessary
-//
-int CLIENT_STATE::write_state_file_if_needed() {
-    int retval;
-    if (client_state_dirty) {
-        retval = write_state_file();
-        if (retval) return retval;
-        client_state_dirty = false;
-    }
-    return 0;
-}
 
 // Parse the command line arguments passed to the client
 //
@@ -838,6 +792,7 @@ bool CLIENT_STATE::time_to_exit() {
     return false;
 }
 
-void CLIENT_STATE::set_client_state_dirty() {
+void CLIENT_STATE::set_client_state_dirty(char* source) {
+    printf("set dirty: %s\n", source);
     client_state_dirty = true;
 }

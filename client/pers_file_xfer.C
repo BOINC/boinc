@@ -258,7 +258,7 @@ bool PERS_FILE_XFER_SET::poll() {
         action |= pers_file_xfers[i]->poll(now);
     }
 
-    if (action) gstate.set_client_state_dirty();
+    if (action) gstate.set_client_state_dirty("pers_file_xfer_set poll");
 
     return action;
 }
