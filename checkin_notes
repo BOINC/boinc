@@ -9760,3 +9760,25 @@ David  Feb 4 2004
 
 Karl 2004-02-03
     - more misc. make_project fixes
+
+David  Feb 4 2004
+    - define a destructor for ACTIVE_TASK.
+        Do all resource deallocation (close thread/proc/msg handles;
+        detach and/or destroy shmem) here.
+        This deallocation was being done piecemeal;
+        for example, it wasn't being done if the process was aborted.
+        Hence the "quit message" object was still there,
+        and when another process started in the same slot it would
+        immediately get the message (caused "reset project" problem)
+    - Eventually delete all ACTIVE_TASK objects.
+        The following removed them from the list but didn't deleting:
+        ACTIVE_TASK_SET::abort_project()
+        ACTIVE_TASK_SET::restart_tasks()  (failure case)
+    - Don't ask for work if we have any unfinished work.
+        This is a temporary kludge to prevent repeated work requests;
+        it means that min work buffer is meaningless.
+        But maybe this is OK.
+        
+    client/
+        app.h,C
+        cs_scheduler.C

@@ -16,6 +16,8 @@ create_work
     -redundancy n                   // # of results to create
     -db_name x                      // database name
     -db_passwd x                    // database password
+    -db_host x                      // database host
+    -db_user x                      // database user name
     -upload_url x                   // URL for output file upload
     -download_url x                 // base URL for input file download
     -download_dir x                 // where to move input files

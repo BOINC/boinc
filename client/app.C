@@ -118,6 +118,35 @@ ACTIVE_TASK::ACTIVE_TASK() {
 	checkpoint_cpu_time = 0;
 	current_cpu_time = 0;
 	working_set_size = 0;
+#ifdef _WIN32
+	pid_handle = 0;
+	thread_handle = 0;
+	quitRequestEvent = 0;
+	shm_handle = 0;
+#endif
+}
+
+ACTIVE_TASK::~ACTIVE_TASK() {
+#ifdef _WIN32
+	if (pid_handle) CloseHandle(pid_handle);
+	if (thread_handle) CloseHandle(thread_handle);
+	if (quitRequestEvent) CloseHandle(quitRequestEvent);
+    // detach from shared mem.
+	// This will destroy shmem seg since we're the last attachment
+    //
+    if (app_client_shm.shm) {
+        detach_shmem(shm_handle, app_client_shm.shm);
+        app_client_shm.shm = NULL;
+    }
+#else
+    // detach from and destroy share mem
+    //
+    if (atp->app_client_shm.shm) {
+        detach_shmem(atp->app_client_shm.shm);
+        atp->app_client_shm.shm = NULL;
+    }
+    destroy_shmem(atp->shm_key);
+#endif
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -598,6 +627,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
+				msg_printf(NULL, MSG_INFO, "Process exited with code %d", exit_code);
                 atp->get_status_msg();
                 atp->result->final_cpu_time = atp->checkpoint_cpu_time;
                 found = true;
@@ -621,19 +651,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                         );
                     }
                 }
-                CloseHandle(atp->pid_handle);
-                CloseHandle(atp->thread_handle);
-                CloseHandle(atp->quitRequestEvent);
                 atp->read_stderr_file();
                 clean_out_dir(atp->slot_dir);
 
-                // detach from shared mem.  This will destroy shmem seg
-                // since we're the last attachment
-                //
-                if (atp->app_client_shm.shm) {
-                    detach_shmem(atp->shm_handle, atp->app_client_shm.shm);
-                    atp->app_client_shm.shm = NULL;
-                }
             }
         }
     }
@@ -694,14 +714,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
         atp->read_stderr_file();
         clean_out_dir(atp->slot_dir);
-
-        // detach from and destroy share mem
-        //
-        if (atp->app_client_shm.shm) {
-            detach_shmem(atp->app_client_shm.shm);
-            atp->app_client_shm.shm = NULL;
-        }
-        destroy_shmem(atp->shm_key);
 
         return true;
     }
@@ -931,6 +943,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
         atp = *task_iter;
         if (atp->result->project == project) {
             task_iter = active_tasks.erase(task_iter);
+			delete atp;
         } else {
             task_iter++;
         }
@@ -1048,6 +1061,7 @@ int ACTIVE_TASK::unsuspend() {
 
 // Remove an ACTIVE_TASK from the set.
 // Do this only if you're sure that the process has exited.
+// Does NOT delete the ACTIVE_TASK object.
 //
 int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     vector<ACTIVE_TASK*>::iterator iter;
@@ -1094,6 +1108,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
                 "Couldn't restart the app for this result: %d", retval
             );
             active_tasks.erase(iter);
+			delete atp;
         } else {
             iter++;
         }

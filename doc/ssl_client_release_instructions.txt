@@ -49,15 +49,23 @@ Administrivia:
 
 Build
  Windows:
+    NOTE: currently we are distributing the debug version of the core client.
+    This is reflected in:
+        - where you copy dbghelp.dll to
+        - the "File Groups" tab of Installshield (link type)
+
     Use the HP Kayak windows box (bart) in 329 or the Dell (skinner) in 325.
 
     set up:
         bart: Open 'quarl' on the desktop.
         skinner: Open 'build' on the desktop.
-        other: check out new source tree; copy Media.zip into win_build/installer; unzip
+        other:
+            check out new source tree
+            copy Media.zip into win_build/installer; unzip
             make sure "Media" is at top level of installer
             Right-click on top BOINC folder;
             CVS/preferences/policy; clear "prune empty folders" checkbox
+        copy "client/win/dbghelp.dll" to "win_build/Build/Debug"
 
     Open 'BOINC'
 

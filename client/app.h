@@ -104,6 +104,7 @@ public:
     int link_user_files();
 
     ACTIVE_TASK();
+	~ACTIVE_TASK();
     int init(RESULT*);
 
     int start(bool first_time);         // start the task running

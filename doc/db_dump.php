@@ -21,6 +21,12 @@ To increase the efficiency of data access,
 views are broken into a number of files,
 each containing a fixed number of records.
 <p>
+For files that are ordered by ID,
+each file contains a fixed-size segment of the ID range,
+not a fixed number of records.
+If the database ID allocation has gaps,
+files will have fewer than this number of records.
+<p>
 The entries in a given file are in either 'summary' or 'detail' form.
 For example, the summary of a team gives its ID, name, and credit,
 while the detailed from also contains a list of its members.

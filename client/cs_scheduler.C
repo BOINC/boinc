@@ -427,7 +427,12 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (exit_when_idle && contacted_sched_server) {
             should_get_work = false;
         } else {
-            below_work_buf_min = (current_work_buf_days() <= global_prefs.work_buf_min_days);
+        	// TODO: the following is a kludge to prevent
+        	// repeated work requests, but it defeats the
+        	// work_buf_min concept
+        	//
+            //below_work_buf_min = (current_work_buf_days() <= global_prefs.work_buf_min_days);
+			below_work_buf_min = (current_work_buf_days() == 0);
             should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
