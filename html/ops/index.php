@@ -24,7 +24,9 @@ echo "
     <a href=result_summary.php?nsecs=86400>last 24 hours</a>
     <a href=result_summary.php?nsecs=$w>last week</a>
     <br>
-    <a href=$cgi_url/stripchart.cgi>Stripcharts</a>
+    <a href=$cgi_url/stripchart.cgi>Stripcharts</a> |
+    <a href=show_log.php>Show/Grep all logs</a> |
+    <a href=show_log.php?f=mysql*.log>Show/Grep MySQL logs</a>
 ";
 
 // TODO: Add functionality to list the number of recommends / rejects received

@@ -169,9 +169,13 @@ function build_alpha_pages() {
     $letters = array_keys($members);
     
     foreach ($letters as $letter) {
+        // TODO: Make sure array indexing is not case sensitive.
+        $letter = strtoupper($letter);
         $filePath = "../html_user/" . PROFILE_PATH;
         build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter", "../html_user/");
     }
+    
+    build_alpha_summary_page($letters);
 }
 
 // A generalized function to produce some number of pages summarizing a
@@ -209,6 +213,8 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
 
 // A generalized function to create a summary page for pages created by build_profile_pages.
 // TODO: Check paths; probably have to add some more parameters.
+
+// TODO: REMOVE
 
 function build_profile_summary_page($members, $pageHead, $pageTitle, $columnHead, $filePath, $fileName) {
     $elements = array_keys($members);
@@ -260,4 +266,22 @@ function build_country_summary_page($countryMembers) {
 
   fclose($descriptor);
 }
+
+function build_alpha_summary_page($characters) {
+    // OK, so it's not quite the alphabet- whatever.
+    $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',0,1,2,3,4,5,6,7,8,9);
+    
+    $filename = "../html_user/" . PROFILE_PATH . "profile_alpha.html";
+    $descriptor = fopen($filename, "w");
+    
+    foreach ($alphabet as $character) {
+        if (in_array($character, $characters)) {
+            fwrite($descriptor, "<a href=profile_$character_1.html>$character</a>&nbsp;");
+        } else {
+            fwrite($descriptor, "$character ");
+        }
+    }
+}
+
+
 ?>
