@@ -6903,22 +6903,22 @@ David  18 Oct 2003
         maybe_gui.h (removed)
 
 David  18 Oct 2003
-	- When reset (or detach from) a process, wait for running applications to exit
-		before doing other things (e.g., deleting files,
-		which will fail if processes have them open)
-		Implementation: exit_tasks() etc. now take a PROJECT* arg
-	- When a master file fetch fails on a tentative project (e.g. bad URL)
-		avoid a situation where we remove the HTTP_OP,
-		then detach_project() tries to remove it a second time
-	- print messages when reset/detach
+    - When reset (or detach from) a process, wait for running applications to exit
+        before doing other things (e.g., deleting files,
+        which will fail if processes have them open)
+        Implementation: exit_tasks() etc. now take a PROJECT* arg
+    - When a master file fetch fails on a tentative project (e.g. bad URL)
+        avoid a situation where we remove the HTTP_OP,
+        then detach_project() tries to remove it a second time
+    - print messages when reset/detach
 
-	client/
-		app.C,h
-		client_state.C,h
-		prefs.C
-		scheduler_op.C
-		win/
-			wingui.h
+    client/
+        app.C,h
+        client_state.C,h
+        prefs.C
+        scheduler_op.C
+        win/
+            wingui.h
 
 David  19 Oct 2003
     - fixed file names
