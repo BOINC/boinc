@@ -54,7 +54,6 @@ int mod_n, mod_i;
 bool do_mod = false;
 
 void handle_wu(
-    SCOPE_MSG_LOG& log_messages, 
     DB_TRANSITIONER_ITEM_SET& transitioner, 
     std::vector<TRANSITIONER_ITEM>& items
 ) {
@@ -355,7 +354,7 @@ void handle_wu(
 }
 
 bool do_pass() {
-    SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
+    int retval;
     DB_TRANSITIONER_ITEM_SET transitioner;
     std::vector<TRANSITIONER_ITEM> items;
     bool did_something = false;
