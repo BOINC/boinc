@@ -18,6 +18,8 @@
 //
 
 //using indepenent jpeg group library - jpeglib.lib
+#ifndef GUTIL_H
+#define GUTIL_H
 
 #include <stdio.h>
 
@@ -152,3 +154,4 @@ extern bool CreateTexturePPM(UINT textureArray[], char* strFileName, int texture
 extern bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID);
 extern tImageJPG *LoadJPG(const char *filename);
 extern void print_text(unsigned int base, char *string);
+#endif

@@ -47,6 +47,9 @@
 // There are two buffers, each with a "state" (see below).
 // In a given state, only one thread can access the data or change the state.
 //
+#ifndef GRAPHICS_DATA_H
+#define GRAPHICS_DATA_H
+
 #define GB_STATE_IDLE       0
 #define GB_STATE_GENERATING 1
 #define GB_STATE_GENERATED  2
@@ -77,3 +80,5 @@ public:
     GRAPHICS_BUFFER* get_generate_buffer(bool first);
     void generate_done(GRAPHICS_BUFFER*);
 };
+
+#endif

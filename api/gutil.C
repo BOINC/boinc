@@ -22,14 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
 #ifdef _WIN32
 #include <windows.h>
-/* the old way... Use the defines below which should be set in 
- * config.h 
- * #include "gl/gl.h"
- * #include "gl/glu.h"
- * #include "gl/glut.h"
-*/
 #endif
 
 #ifdef HAVE_GL_H
@@ -58,17 +53,6 @@
 #elif defined(HAVE_GLUT_GLUT_H)
 #include <GLUT/glut.h>
 #endif
-
-// the old way
-// #ifdef __APPLE_CC__
-// #include <OpenGL/gl.h>
-// #include <GLUT/glut.h>
-// #endif
-// #ifdef unix
-// #include <GL/gl.h>
-// #include <GL/glu.h>
-// #include <GL/glut.h>
-// #endif
 
 #include "gutil.h"
 
@@ -258,16 +242,6 @@ bool get_matrix_invert(float src[16])
 	 src[i*4+3] = dst[i*4+3];
 	}
 
-/*
-	char buf[512];
-	sprintf(buf,"%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n",
-		dst[0],dst[1],dst[2],dst[3],
-		dst[4],dst[5],dst[6],dst[7],
-		dst[8],dst[9],dst[10],dst[11],
-		dst[12],dst[13],dst[14],dst[15]);
-	fprintf(stderr, "%s: modelview\n", buf);
-	MessageBox(NULL,buf,"F",0);
-*/
 	return true;
 }
 
@@ -751,7 +725,6 @@ void draw_texture(float* p, float* size) {
     glDisable(GL_TEXTURE_2D);
 }
 
-
 //star drawing functions -<oliver wang>-
 #define PI 3.14159265358979323846264
 
@@ -782,9 +755,7 @@ void build_stars(int size, float speed)
 
 		tmpStar->next = new Star;		
 		tmpStar=tmpStar->next;
-		i++;
-		
-		
+		i++;	
 	}	
 	tmpStar->next=NULL;
 	tmpStar=NULL;

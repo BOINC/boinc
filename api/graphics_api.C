@@ -169,8 +169,8 @@ void throttled_app_render(int x, int y, double t) {
     bool ok_to_render;
 
     // the following should be passed in via prefs
-    double max_fps = 1;
-    double max_gfx_cpu_frac = 0.2;
+    double max_fps = 1000;
+    double max_gfx_cpu_frac = 1.00;
 
     ok_to_render = true;
     now = dtime();

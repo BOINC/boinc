@@ -19,6 +19,8 @@
 //     If reduced in one dimension, draw vertical rectangles.
 //     Otherwise draw quadrilaterals.
 
+#ifndef REDUCE_H
+#define REDUCE_H
 
 #define REDUCE_METHOD_AVG	0		// Take the average of reduced elements
 #define REDUCE_METHOD_SUM	1		// Take the sum of reduced elements
@@ -82,3 +84,5 @@ public:
 	void draw_labels();	
 	void draw_3dlabels();	
 };
+
+#endif

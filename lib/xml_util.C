@@ -206,7 +206,7 @@ static int xml_indent_level=0;
 
 std::string xml_indent(int i) {
   if (i) xml_indent_level+=i;
-  xml_indent_level=std::max(xml_indent_level,0);
+  xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
   return std::string(xml_indent_level,' ');
 }
 
