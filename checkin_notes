@@ -23145,3 +23145,14 @@ David  21 Jan 2005
         app_control.C
         app_start.C
         cs_apps.C
+
+David  21 Jan 2005
+	- finalize result correctly when aborted via GUI
+	- add aborted_via_gui flag to GUI RPC's version of RESULT
+		(the BOINC manager needs to look at this flag)
+
+	client/
+		app_control.C
+		app_start.C
+	lib/
+		gui_rpc_client.C,h

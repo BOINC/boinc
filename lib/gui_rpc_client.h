@@ -157,6 +157,9 @@ public:
     int exit_status;
     int signal;
     std::string stderr_out;
+    bool suspended_via_gui;
+    bool aborted_via_gui;
+
     // the following defined if active
     bool active_task;
     int active_task_state;
@@ -167,7 +170,6 @@ public:
     double vm_bytes;
     double rss_bytes;
     double estimated_cpu_time_remaining;
-    bool suspended_via_gui;
     bool supports_graphics;
 
     APP* app;

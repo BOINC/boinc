@@ -202,7 +202,6 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     result->final_cpu_time = checkpoint_cpu_time;
     if (task_state == PROCESS_ABORT_PENDING) {
         task_state = PROCESS_ABORTED;
-        result->exit_status = ERR_ABORTED_VIA_GUI;
     } else {
         task_state = PROCESS_EXITED;
 
@@ -217,13 +216,13 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
         } else {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
-                state = PROCESS_UNINITIALIZED;
+                task_state = PROCESS_UNINITIALIZED;
                 close_process_handles();
                 return true;
             }
             if (!finish_file_present()) {
                 scheduler_state = CPU_SCHED_PREEMPTED;
-                state = PROCESS_UNINITIALIZED;
+                task_state = PROCESS_UNINITIALIZED;
                 close_process_handles();
                 limbo_message(*this);
                 return true;

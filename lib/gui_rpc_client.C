@@ -308,6 +308,10 @@ int RESULT::parse(MIOFILE& in) {
             suspended_via_gui = true;
             continue;
         }
+        else if (match_tag(buf, "<aborted_via_gui/>")) {
+            aborted_via_gui = true;
+            continue;
+        }
         else if (match_tag(buf, "<active_task>")) {
             active_task = true;
             continue;
