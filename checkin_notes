@@ -14956,10 +14956,8 @@ Karl 2004-07-09
         gutil.h
 
 Daniel 2004-07-09
-    - Only send heartbeats to apps that have running processes
-        (i.e. ACTIVE_TASK::state == PROCESS_RUNNING)
-        This may include suspended/preempted apps. 
-        Otherwise, shared memory may not have been initialized.
+    - Don't send heartbeats to apps without shared memory initialized
+        (i.e. PROCESS_UNINITIALIZED)
 
     client/
         app.C
