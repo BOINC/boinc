@@ -16,42 +16,44 @@ function show_team($team) {
 
 function print_teams_display() {
     page_head("Teams");
-    echo "<table width=780>";
-    echo "<tr><td><h2>BOINC Teams</h2></td></tr>";
-    echo "<tr><td>";
-    echo "<p>";
-    echo "BOINC users may form &quot;teams&quot; - ";
-    echo "for example, students in a school, employees of a company, etc. ";
-    echo "<p>";
-    echo "Teams may compete against other teams to analyze the most data, ";
-    echo "or they may meet and discuss BOINC projects via the web. ";
-    echo "Team members may view their individual records and compare ";
-    echo "personals statistics with other team members' statistics, in addition ";
-    echo "to viewing their team's total statistics on the team's statistics page.";
-    echo "<p>";
-    echo "<br>";
-    echo "To create a team click on the below link. ";
-    echo "Team founder's have more privileges than normal team members."; 
-    echo "<p>";
-    echo "<a href=team_create_form.php>Create a new team</a>";
-    echo "<p>";
-    echo "<br>";
-    echo "<br>";
-    echo "To search for a team type in the team name below and hit the Search button. ";
-    echo "You may join teams through these team pages.";
-    echo "<p>";
-    echo "It may be more effective to type in only a portion of the team name ";
-    echo "and choose from the search results in order to assure ";
-    echo "that you do not overlook a variation of the team. ";
-    echo "(i.e. If you work for a team affiliated with Apple Computer, Inc. it will be more effective ";
-    echo "to search for \"Apple\" and to choose fromt eh search results than to search for the entire name of the company.)";
-    echo "<p>";
-    echo "<form method=post action=team_lookup.php>";
-    echo "Search for a team: ";
-    echo "<input name=team_name>";
-    echo "<input type=submit name=search value=\"Search\">";
-    echo "</form>";
-    echo "</td></tr></table>";
+?>
+<table width=780>
+<tr><td><h2>BOINC Teams</h2></td></tr>
+<tr><td>
+<p>
+BOINC users may form &quot;teams&quot; -
+for example, students in a school, employees of a company, etc.
+<p>
+Teams may compete against other teams to analyze the most data,
+or they may meet and discuss BOINC projects via the web.
+Team members may view their individual records and compare
+personals statistics with other team members' statistics, in addition
+to viewing their team's total statistics on the team's statistics page.
+<p>
+<br>
+To create a team click on the below link.
+Team founder's have more privileges than normal team members.
+<p>
+<a href=team_create_form.php>Create a new team</a>
+<p>
+<br>
+<br>
+To search for a team type in the team name below and hit the Search button.
+You may join teams through these team pages.
+<p>
+It may be more effective to type in only a portion of the team name
+and choose from the search results in order to assure
+that you do not overlook a variation of the team.
+(i.e. If you work for a team affiliated with Apple Computer, Inc. it will be more effective
+to search for \"Apple\" and to choose fromt eh search results than to search for the entire name of the company.)
+<p>
+<form method=post action=team_lookup.php>
+Search for a team:
+<input name=team_name>
+<input type=submit name=search value=\"Search\">
+</form>
+</td></tr></table>
+<?php
     page_tail();
 }
 
@@ -73,7 +75,7 @@ function display_team_page($team) {
     echo "<tr><td>";
     echo "<ul>";
     echo "<li>Anyone may join a team at any time.</li>";
-    echo "<li>Likewise, anyone may quit a team at any time.</li>"; 
+    echo "<li>Likewise, anyone may quit a team at any time.</li>";
     echo "<li>Only the team founder may edit a team's fields (i.e. name, html code, ";
     echo "description, etc.).</li>";
     echo "<li>In addition, team founder's have the right of removing inactive members ";
