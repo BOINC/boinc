@@ -22,7 +22,7 @@
 #
 
 '''
-add.py -- add items to the BOINC database.
+add items to the BOINC database.
 
 Usages:
 
@@ -51,12 +51,58 @@ add.py workunit  (TODO)
 
 add.py result    (TODO) '''
 
-import sys, getopt, md5
+import sys, getopt, md5, time
 sys.path.append('../py/')
 import database, db_mid
 from util import *
 
-CREATE_TIME = ['?create_time', time.time()]
+CREATE_TIME = ['?create_time', int(time.time())]
+
+class XCoreVersion(database.CoreVersion):
+    def __init__(**kwargs):
+        exec_file = kwargs['exec_file']
+        del kwargs['exec_file']
+        kwargs['xml_doc'] = process_executable_file(exec_file)
+        apply(database.CoreVersion.__init__,[],kwargs)
+
+class XAppVersion(database.AppVersion):
+    def __init__(**kwargs):
+        signature_files = kwargs['signature_files']
+        exec_files = kwargs['exec_files']
+        if not exec_files:
+            raise Exception('internal error: no exec_files - should have caught this earlier')
+        del kwargs['signature_files']
+        del kwargs['exec_files']
+        del kwargs['exec_file']
+        xml_doc = ''
+        for exec_file in exec_files:
+            signature_file = signature_files.get(exec_file)
+            if signature_file:
+                signature_text = open(signature_file).read()
+            else:
+                signature_text = sign_executable(exec_file)
+            xml_doc += process_executable_file(exec_file, signature_text)
+
+        xml_doc += ('<app_version>\n'+
+                         '    <app_name>%s</app_name>\n'+
+                         '    <version_num>%d</version_num>\n') %(
+            self.name, self.version_num)
+
+        first = True
+        for exec_file in exec_files:
+            xml_doc += ('    <file_ref>\n'+
+                             '         <file_name>%s</filename>\n') %(
+                os.path.basename(exec_file))
+            if first:
+                xml_doc += '       <main_program/>\n'
+
+            xml_doc += '    </file_ref>\n'
+            first = False
+
+        xml_doc += '</app_version>\n'
+        kwargs['xml_doc'] = xml_doc
+        apply(database.AppVersion.__init__,[],kwargs)
+
 
 # format: [ database.Object, args, ...]
 #   arg format:
@@ -67,14 +113,13 @@ list_objects_to_add = [
     [ database.Project,    'name', '?long_name' ],
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
     [ XCoreVersion, 'platform', 'version_num', 'exec_file',
-      ['?message',''], ['?message_priority',''],
+      ['?message',''], ['?message_priority','']],
     [ database.App,        'name', 'min_version', CREATE_TIME],
-    [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file'
-      ],
+    [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file',
       CREATE_TIME ],
     [ database.User,       'name', 'email_addr', 'authenticator',
       ['?country','United States'], ['?postal_code','94703'],
-      '?global_prefs', '?global_prefs_file'
+      '?global_prefs', '?global_prefs_file',
       CREATE_TIME ],
     # [ database.Workunit,   'zzzz' ],
     ]
@@ -124,59 +169,13 @@ def translate_database_arg(database_table, arg, value):
         raise SystemExit('Too many %s match "%s"'%(arg,value))
     return results[0]
 
-class XCoreVersion(database.CoreVersion):
-    def __init__(**kwargs):
-        exec_file = kwargs['exec_file']
-        del kwargs['exec_file']
-        kwargs['xml_doc'] = process_executable_file(exec_file)
-        apply(database.CoreVersion.__init__,[],kwargs)
-
-class XAppVersion(database.AppVersion):
-    def __init__(**kwargs):
-        signature_files = kwargs['signature_files']
-        exec_files = kwargs['exec_files']
-        if not exec_files:
-            raise Exception('internal error: no exec_files - should have caught this earlier')
-        del kwargs['signature_files']
-        del kwargs['exec_files']
-        del kwargs['exec_file']
-        xml_doc = ''
-        for exec_file in exec_files
-            signature_file = signature_files.get(exec_file)
-            if signature_file:
-                signature_text = open(signature_file).read()
-            else:
-                signature_text = sign_executable(exec_file)
-            xml_doc += process_executable_file(exec_file, signature_text)
-
-        xml_doc += ('<app_version>\n'+
-                         '    <app_name>%s</app_name>\n'+
-                         '    <version_num>%d</version_num>\n') %(
-            self.name, self.version_num)
-
-        first = True
-        for exec_file in exec_files:
-            xml_doc += ('    <file_ref>\n'+
-                             '         <file_name>%s</filename>\n') %(
-                os.path.basename(exec_file))
-            if first:
-                xml_doc += '       <main_program/>\n'
-
-            xml_doc += '    </file_ref>\n'
-            first = False
-
-        xml_doc += '</app_version>\n'
-        kwargs['xml_doc'] = xml_doc
-        apply(database.AppVersion.__init__,[],kwargs)
-
-
 def ambiguous_lookup(string, dict):
     results = []
     string = string.replace('_','')
     for key in dict:
         k = key.replace('_','')
         if k == string:
-            return [k]
+            return [dict[key]]
         if k.startswith(string):
             results.append(dict[key])
     return results
@@ -186,16 +185,16 @@ def parse_global_options(args):
     pass
 
 def dv(object,arg):
-    if arg in object.default_args:
-        return '    --%s [%s]' %(arg, object.default_args[arg])
+    if arg in object.default_values:
+        return '    --%s [%s]' %(arg, object.default_values[arg])
     else:
         return '    --%s' %arg
 
 def help_object(object, msg=None):
     if msg:
-        print >>sys.stderr, msg
+        print >>sys.stderr, "add:", msg
         print
-    print >>sys.stderr, "Syntax: add %s"%object.name
+    print >>sys.stderr, "Syntax: add.py %s"%object.name
     for arg in object.args:
         print >>sys.stderr, dv(object,arg)
     print >>sys.stderr, " Optional:"
@@ -210,8 +209,8 @@ def add_object(object, args):
                                    map(lambda s: s+'=',
                                        object.args + object.optional_args))
         if placement_args:
-            raise 'Unknown args '+' '.join(placement_args)
-    except Exception, e:
+            raise getopt.GetoptError('Unknown args '+' '.join(placement_args))
+    except getopt.GetoptError, e:
         help_object(object, e)
     args_dict = {}
     for arg,value in parsed_opts:
@@ -257,15 +256,15 @@ for o in list_objects_to_add:
         else:
             optional = False
         if optional:
-            objects.optional_args.append(arg)
+            object.optional_args.append(arg)
         else:
-            objects.args.append(arg)
+            object.args.append(arg)
         if default_value:
             object.default_values[arg] = default_value
     objects_to_add[object.name] = object
 
 if len(sys.argv) < 2:
-    print >>sys.stderr, """Syntax: add <object_to_add> <options...>
+    print >>sys.stderr, """Syntax: add.py <object_to_add> <options...>
 
 Adds an object to the BOINC database.
 
@@ -274,9 +273,12 @@ Objects to add:"""
         print >>sys.stderr, "    ", object
     print >>sys.stderr, """
 Global options:
+     --config=config.xml Path to configuration file.
+
+These override config.xml:
      --db_name           Database name
-     --db_password       Database password [optional]
-     --db_user           Database user     [optional]
+     --db_password       Database password
+     --db_user           Database user
 
 For command-line help on a particular object, use add <object> without further
 arguments.
