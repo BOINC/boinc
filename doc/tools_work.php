@@ -99,20 +99,12 @@ the ordinal number of the result (0, 1, ...).
 The utility program is
 <pre>
 create_work
-    -appname name                      // application name
-    -wu_name name                      // workunit name
-    -wu_template filename              // WU template filename
-    -result_template filename          // result template filename
-
-    // The following are normally supplied in config.xml:
-    [ -db_name x ]                     // database name
-    [ -db_passwd x ]                   // database password
-    [ -db_host x ]                     // database host
-    [ -db_user x ]                     // database user name
-    [ -upload_url x ]                  // URL for output file upload
-    [ -download_url x ]                // base URL for input file download
-    [ -download_dir x ]                // where to move input files
-    [ -keyfile x ]                     // path of upload private key
+    -appname name                       // application name
+    -wu_name name                       // workunit name
+    -wu_template filename               // WU template filename
+                                        // relative to project root
+    -result_template filename           // result template filename
+                                        // relative to project root
 
     // The following are normally supplied in the WU template:
     [ -rsc_fpops_est x ]
@@ -129,9 +121,8 @@ create_work
     infile_1 ... infile_m           // input files
 </pre>
 The workunit parameters are documented <a href=work.php>here</a>.
-Defaults for many of the optional arguments
-are taken from the <b>config.xml</b> file,
-if it's in the current directory.
+The program must be run in the project root directory;
+it looks for <b>config.xml</b> there, and uses its contents.
 
 <h3>C++ function interface</h3>
 <p>
@@ -140,16 +131,17 @@ The C++ library (backend_lib.C,h) provides the functions:
 int read_key_file(char* path, R_RSA_PRIVATE_KEY& key);
 
 int create_work(
-    WORKUNIT&,
-    char* wu_template,                  // contents, not path
-    char* result_template_filename,     // path
-    int redundancy,
-    char* infile_dir,                   // where input files are
-    char** infiles,                     // array of input file names
+    DB_WORKUNIT&,
+    const char* wu_template,                  // contents, not path
+    const char* result_template_filename,     // relative to project root
+    const char* result_template_filepath,    // absolute,
+        // or relative to current dir
+    const char* infile_dir,                   // where input files are
+    const char** infiles,                     // array of input file names
     int ninfiles
     R_RSA_PRIVATE_KEY& key,             // upload authentication key
-    char* upload_url,
-    char* download_url
+    const char* upload_url,
+    const char* download_url
 );
 </pre>
 <p>

@@ -27,9 +27,12 @@ public:
 };
 
 class GUI_RPC_CONN_SET {
-  std::vector<GUI_RPC_CONN*> gui_rpcs;
-    int insert(GUI_RPC_CONN*);
+    std::vector<GUI_RPC_CONN*> gui_rpcs;
+    std::vector<int> allowed_remote_ip_addresses;
     int lsock;
+
+    int get_allowed_hosts();
+    int insert(GUI_RPC_CONN*);
 public:
     bool poll();
     int init();

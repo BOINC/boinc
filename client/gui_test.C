@@ -18,7 +18,10 @@
 //
 
 // gui_test: test program for BOINC GUI RPCs.
-// usages:
+//
+// usage: gUi_test [-host hostname] command
+//
+// commands:
 // -state       show state
 // -msgs        show messages
 // -show_graphics_window result_name    show graphics for result in a window
@@ -40,77 +43,69 @@ using std::vector;
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
 
-#ifdef _WIN32
-
-int WinsockInitialize() {
-    WSADATA wsdata;
-    return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
-}
-
-int WinsockCleanup() {
-    return WSACleanup();
-}
-
-#endif
-
 int main(int argc, char** argv) {
-
     RPC_CLIENT rpc;
     unsigned int i;
     vector<MESSAGE_DESC> message_descs;
+    int retval;
+    char* hostname=0;
 
 #ifdef _WIN32
-    if ( WinsockInitialize() != 0 ) {
-        printf(
-            "BOINC Core Client Error Message\n"
-            "Failed to initialize the Windows Sockets interface\n"
-            "Terminating Application...\n"
-        );
-        return ERR_IO;
+    WSADATA wsdata;
+    retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+    if (retval) {
+        fprintf(stderr, "WinsockInitialize: %d\n", retval);
+        exit(1);
     }
 #endif
-    rpc.init();
-
     if (argc < 2) {
-        printf("usage: [-state] [-suspend] [-resume]\n");
+        fprintf(stderr, "usage\n");
+        exit(1);
+    }
+    i = 1;
+    if (!strcmp(argv[1], "-host")) {
+        hostname = argv[2];
+        i = 3;
+    }
+    retval = rpc.init(hostname);
+    if (retval) {
+        fprintf(stderr, "can't connect\n");
         exit(1);
     }
 
-    if (!strcmp(argv[1], "-state")) {
-        rpc.get_state();
-        rpc.print_state();
-    } else if (!strcmp(argv[1], "-msgs")) {
-        rpc.get_messages(20, 0, message_descs);
-        for (i=0; i<message_descs.size(); i++) {
-            MESSAGE_DESC& md = message_descs[i];
-            printf("%s %d %d %s\n",
-                md.project.c_str(), md.priority, md.timestamp, md.body.c_str()
-            );
+    if (!strcmp(argv[i], "-state")) {
+        retval = rpc.get_state();
+        if (!retval) rpc.print_state();
+    } else if (!strcmp(argv[i], "-msgs")) {
+        retval = rpc.get_messages(20, 0, message_descs);
+        if (!retval) {
+            for (i=0; i<message_descs.size(); i++) {
+                MESSAGE_DESC& md = message_descs[i];
+                printf("%s %d %d %s\n",
+                    md.project.c_str(), md.priority,
+                    md.timestamp, md.body.c_str()
+                );
+            }
         }
-    } else if (!strcmp(argv[1], "-suspend")) {
-        rpc.set_run_mode(RUN_MODE_NEVER);
-    } else if (!strcmp(argv[1], "-resume")) {
-        rpc.set_run_mode(RUN_MODE_ALWAYS);
-    } else if (!strcmp(argv[1], "-show_graphics_window")) {
-        if (argc == 3) {
-            rpc.show_graphics(argv[2], false);
+    } else if (!strcmp(argv[i], "-suspend")) {
+        retval = rpc.set_run_mode(RUN_MODE_NEVER);
+    } else if (!strcmp(argv[i], "-resume")) {
+        retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
+    } else if (!strcmp(argv[i], "-show_graphics_window")) {
+        if (i = argc-1) {
+            retval = rpc.show_graphics(0, false);
         } else {
-            rpc.show_graphics(0, false);
+            retval = rpc.show_graphics(argv[++i], false);
         }
-    } else if (!strcmp(argv[1], "-show_graphics_full")) {
-        rpc.show_graphics(argv[2], true);
+    } else if (!strcmp(argv[i], "-show_graphics_full")) {
+        retval = rpc.show_graphics(argv[++i], true);
+    }
+    if (retval) {
+        fprintf(stderr, "Operation failed: %d\n", retval);
     }
 
 #ifdef _WIN32
-    if ( WinsockCleanup() != 0 ) {
-        printf(
-            "BOINC Core Client Error Message\n"
-            "Failed to cleanup the Windows Sockets interface\n"
-        );
-        return ERR_IO;
-    }
+    WSACleanup();
 #endif
-
     return 0;
 }
-

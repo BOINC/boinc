@@ -183,7 +183,7 @@ public:
     void link();
 
     ~RPC_CLIENT();
-    int init();
+    int init(char* host);
     int get_state();
     int show_graphics(char* result_name, bool full_screen);
     int project_reset(char*);

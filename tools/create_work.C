@@ -20,18 +20,14 @@
 // Create a workunit.
 // Input files must be in the download dir.
 // See the docs for a description of WU and result template files
-// This program must be run in the project's root directory
+// This program must be run in the project's root directory,
+// and there must be a valid config.xml file there
 //
 // create_work
 //  -appname name
 //  -wu_name name
 //  -wu_template filename       relative to project root; usually in templates/
 //  -result_template filename   relative to project root; usually in templates/
-//            the following are read from config.xml if available
-//  [ -upload_url x ]
-//  [ -download_url x ]
-//  [ -download_dir x ]
-//  [ -keyfile path ]
 //            the following can be supplied in WU template; see defaults below
 //  [ -rsc_fpops_est n ]
 //  [ -rsc_fpops_bound n ]

@@ -83,9 +83,6 @@ version: win/win_config.h
 	rm -f $@
 	ln $? $@
 
-@CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
-	gzip -c $? > $@
-
 ## these source files need to be specified because no rule on unix uses them.
 
 EXTRA_DIST =                                    \

@@ -30,12 +30,14 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#include <arpa/inet.h>
 #endif
 
 #include "util.h"
 #include "error_numbers.h"
 #include "parse.h"
 
+#include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
 
@@ -292,6 +294,44 @@ int GUI_RPC_CONN::handle_rpc() {
     return 0;
 }
 
+int GUI_RPC_CONN_SET::get_allowed_hosts() {
+ 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+     
+    // add localhost
+    allowed_remote_ip_addresses.push_back(0x7f000001);
+     
+    NET_XFER temp; // network address resolver is in this class
+    int ipaddr;
+    char buf[256];
+ 
+    // open file remote_hosts.cfg and read in the
+    // allowed host list and resolve them to an ip address
+    //
+    FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
+    if (f != NULL) {    
+         scope_messages.printf(
+            "GUI_RPC_CONN_SET::get_allowed_hosts(): found allowed hosts list\n"
+        );
+ 
+        // read in each line, if it is not a comment
+        // then resolve the address and add to our
+        // allowed list
+        memset(buf,0,sizeof(buf));
+        while (fgets(buf, 256, f) != NULL) {
+            strip_whitespace(buf);
+            if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
+                // resolve and add
+                if (temp.get_ip_addr(buf, ipaddr) == 0) {
+                    allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
+               }
+            }
+        }
+        fclose(f);
+    }
+    return 0;
+}
+
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     gui_rpcs.push_back(p);
     return 0;
@@ -300,6 +340,10 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 int GUI_RPC_CONN_SET::init() {
 	sockaddr_in addr;
     int retval;
+
+    // get list of hosts allowed to do GUI RPCs
+    //
+    get_allowed_hosts();
 
     lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
@@ -367,11 +411,30 @@ bool GUI_RPC_CONN_SET::poll() {
             sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #endif
             int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
-            if ((!gstate.allow_remote_gui_rpc) && (peer_ip != 0x7f000001)) {
+
+            // check list of allowed remote hosts
+            bool allowed = false;
+            vector<int>::iterator remote_iter;
+ 
+            remote_iter = allowed_remote_ip_addresses.begin();
+            while (remote_iter != allowed_remote_ip_addresses.end() ) {
+                int remote_host = *remote_iter;
+                if (peer_ip == remote_host) allowed = true;
+                remote_iter++;
+            }
+             
+            // accept the connection if:
+            // 1) allow_remote_gui_rpc is set or
+            // 2) client host is included in "remote_hosts" file or
+            // 3) client is on localhost
+            //
+            if ( !(gstate.allow_remote_gui_rpc) && !(allowed)) {
+                in_addr ia;
+                ia.s_addr = peer_ip;
                 msg_printf(
                     NULL, MSG_ERROR,
-                    "GUI RPC request from non-local address 0x%x\n",
-                    peer_ip
+                    "GUI RPC request from non-allowed address %s\n",
+                    inet_ntoa(ia)
                 );
 #ifdef _WIN32
                 closesocket(sock);

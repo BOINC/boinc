@@ -14991,3 +14991,26 @@ Jeff  9 July 2004
 	backend_lib.C 
 	backend_lib.h 
 	create_work.C
+
+David  9 July 2004
+    - Integrate code (courtesy of James Drews) that lets you limit
+        the set of hosts from which the core client will accept GUI RPCs.
+        Here's how it works: make a file "remote_hosts"
+        in the BOINC directory with a list of hostnames (# for comment).
+        The core client will accept connections only from
+        localhost and from hosts in this list.
+        Note: if the -allow_remote_gui_rpc option is given,
+        ALL connections are accepted.
+    - add a "-host x" cmdline arg to gui_test
+    - add error checking to GUI_RPC_CLIENT so that it can tell
+        if its connection was rejected
+    - remove .gz target from client makefile
+
+    client/
+        Makefile.am
+        file_names.h
+        gui_rpc_client.C,h
+        gui_rpc_server.C,h
+        gui_test.C
+    tools/
+        create_work.C

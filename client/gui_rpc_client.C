@@ -32,6 +32,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#include <netdb.h>
 #endif
 
 #include "parse.h"
@@ -42,21 +43,31 @@
 using std::string;
 using std::vector;
 
-int RPC_CLIENT::init() {
+int RPC_CLIENT::init(char* host) {
     int retval;
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT);
+
+    if (host) {
+        hostent* hep = gethostbyname(host);
+        if (!hep) {
+            perror("gethostbyname");
+            return ERR_GETHOSTBYNAME;
+        }
+        addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
+    } else {
 #ifdef _WIN32
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 #else
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #endif
+    }
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock <= 0) {
         perror("socket");
-        exit(1);
+        return ERR_SOCKET;
     }
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
@@ -64,7 +75,7 @@ int RPC_CLIENT::init() {
         printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
 #endif
         perror("connect");
-        exit(1);
+        return ERR_CONNECT;
     }
     return 0;
 }
@@ -73,7 +84,8 @@ RPC_CLIENT::~RPC_CLIENT() {
 }
 
 int RPC_CLIENT::send_request(char* p) {
-    send(sock, p, strlen(p), 0);
+    int n = send(sock, p, strlen(p), 0);
+    if (n < 0) return ERR_WRITE;
     return 0;
 }
 
@@ -86,7 +98,7 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
 
     while (1) {
         n = recv(sock, buf, 1024, 0);
-        if (n <= 0) break;
+        if (n <= 0) return ERR_READ;
         buf[n]=0;
         mf.puts(buf);
         if (strchr(buf, '\003')) break;
@@ -99,9 +111,12 @@ int RPC_CLIENT::get_state() {
     char buf[256];
     PROJECT* project;
     char* mbuf=0;
+    int retval;
 
-    send_request("<get_state/>\n");
-    get_reply(mbuf);
+    retval = send_request("<get_state/>\n");
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     MIOFILE fin;
     fin.init_buf(mbuf);
 
@@ -168,6 +183,8 @@ int RPC_CLIENT::get_state() {
 int RPC_CLIENT::show_graphics(char* result_name, bool full_screen) {
     char buf[256];
     char* mbuf=0;
+    int retval;
+
     if (result_name) {
         sprintf(buf, "<result_show_graphics>\n"
             "<result_name>%s</result_name>\n"
@@ -179,8 +196,10 @@ int RPC_CLIENT::show_graphics(char* result_name, bool full_screen) {
     } else {
         strcpy(buf, "<result_show_graphics>\n</result_show_graphics>\n");
     }
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     if (mbuf) free(mbuf);
     return 0;
 }
@@ -188,14 +207,18 @@ int RPC_CLIENT::show_graphics(char* result_name, bool full_screen) {
 int RPC_CLIENT::project_reset(char* url) {
     char buf[256];
     char* mbuf=0;
+    int retval;
+
     sprintf(buf,
         "<project_reset>\n"
         "  <project_url>%s</project_url>\n"
         "</project_reset>\n",
         url
     );
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     if (mbuf) free(mbuf);
     return 0;
 }
@@ -203,6 +226,8 @@ int RPC_CLIENT::project_reset(char* url) {
 int RPC_CLIENT::project_attach(char* url, char* auth) {
     char buf[256];
     char* mbuf=0;
+    int retval;
+
     sprintf(buf,
         "<project_attach>\n"
         "  <project_url>%s</project_url>\n"
@@ -210,8 +235,10 @@ int RPC_CLIENT::project_attach(char* url, char* auth) {
         "</project_attach>\n",
         url, auth
     );
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     if (mbuf) free(mbuf);
     return 0;
 }
@@ -219,14 +246,18 @@ int RPC_CLIENT::project_attach(char* url, char* auth) {
 int RPC_CLIENT::project_detach(char* url) {
     char buf[256];
     char* mbuf=0;
+    int retval;
+
     sprintf(buf,
         "<project_detach>\n"
         "  <project_url>%s</project_url>\n"
         "</project_detach>\n",
         url
     );
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     if (mbuf) free(mbuf);
     return 0;
 }
@@ -234,14 +265,18 @@ int RPC_CLIENT::project_detach(char* url) {
 int RPC_CLIENT::project_update(char* url) {
     char buf[256];
     char* mbuf=0;
+    int retval;
+
     sprintf(buf,
         "<project_update>\n"
         "  <project_url>%s</project_url>\n"
         "</project_update>\n",
         url
     );
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     if (mbuf) free(mbuf);
     return 0;
 }
@@ -249,14 +284,18 @@ int RPC_CLIENT::project_update(char* url) {
 int RPC_CLIENT::set_run_mode(int mode) {
     char *p, buf[256];
     char* mbuf=0;
+    int retval;
+
     switch (mode) {
     case RUN_MODE_ALWAYS: p="<always/>"; break;
     case RUN_MODE_NEVER: p="<never/>"; break;
     case RUN_MODE_AUTO: p="<auto/>"; break;
     }
     sprintf(buf, "<set_run_mode>\n%s\n</set_run_mode>\n", p);
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     if (mbuf) free(mbuf);
     return 0;
 }
@@ -274,6 +313,7 @@ int RPC_CLIENT::get_messages(
 ) {
     char buf[256];
     char* mbuf;
+    int retval;
 
     sprintf(buf,
         "<get_messages>\n"
@@ -282,8 +322,11 @@ int RPC_CLIENT::get_messages(
         "</get_messages>\n",
         nmessages, seqno
     );
-    send_request(buf);
-    get_reply(mbuf);
+    retval = send_request(buf);
+    if (retval) return retval;
+
+    retval = get_reply(mbuf);
+    if (retval) return retval;
     MIOFILE fin;
     fin.init_buf(mbuf);
 
