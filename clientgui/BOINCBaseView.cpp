@@ -68,9 +68,6 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
     
-    SetSizer(itemFlexGridSizer);
-    SetAutoLayout(TRUE);
-
     m_pTaskPane = new CBOINCTaskCtrl( this, iHtmlWindowID, iHtmlWindowFlags );
     wxASSERT(NULL != m_pTaskPane);
 
@@ -79,6 +76,9 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
 
     itemFlexGridSizer->Add(m_pTaskPane, 0, wxGROW|wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 0, wxGROW|wxGROW|wxALL, 1);
+
+    SetSizer(itemFlexGridSizer);
+    SetAutoLayout(TRUE);
 }
 
 
