@@ -28,11 +28,12 @@ public:
         // the fraction of total time this host runs the core client
     double connected_frac;
         // of the time this host runs the core client,
-        // the fraction it is connected to the Internet
+        // the fraction it is connected to the Internet,
+        // or -1 if not known
     double active_frac;
         // of the time this host runs the core client,
         // the fraction it is enabled to work
-        // (due to preferences, manual suspend/resume, etc.)
+        // (as determined by preferences, manual suspend/resume, etc.)
 
     void update(double now, int connected_state, bool is_active);
 

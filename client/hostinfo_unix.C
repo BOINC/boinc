@@ -71,6 +71,12 @@
 
 using std::string;
 
+// anyone know how to see if this host has physical network connection?
+//
+int get_connected_state() {
+    return CONNECTED_STATE_UNKNOWN;
+}
+
 // functions to get name/addr of local host
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
