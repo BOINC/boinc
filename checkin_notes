@@ -21425,4 +21425,4 @@ Rom    16 Dec 2004
         where it cannot determine the proper string to put in the registry.
 
     client/win/
-        host_info.cpp
+        hostinfo_win.cpp
