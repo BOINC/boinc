@@ -83,12 +83,10 @@ AC_SUBST([BOINC_VERSION_STRING],AC_PACKAGE_VERSION)
 
 BOINC_SET_VERSION(translit(AC_PACKAGE_VERSION, [.], [,]))
 
-AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String representation of BOINC version number])
-AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
-AC_DEFINE_UNQUOTED([BOINC_MINOR_VERSION], $BOINC_MINOR_VERSION, [Minor part of BOINC version number])
 AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
-AC_SUBST([CLIENT_BIN_FILENAME],[boinc])
-AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr])
+AC_SUBST([CLIENT_BIN_FILENAME],[boinc_client_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
+AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boinc_gui_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
+AC_SUBST([EXEEXT])
 AC_SUBST([TOP_BUILD_DIR], [`pwd`])
 AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 
@@ -172,13 +170,24 @@ AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
 AC_CHECK_LIB(cygipc, shmget)
 
+AC_SUBST([BOINC_MAJOR_VERSION])
+AC_SUBST([BOINC_MINOR_VERSION])
+AC_SUBST([BOINC_VERSION_STRING])
 dnl put double-inclusion protection into config.h
 AH_TOP([
 /* double-inclusion protection for config.h */
 #ifndef BOINC_CONFIG_H
 #define BOINC_CONFIG_H
+
+#include "version.h"
+
+#ifdef _WIN32
+#include "win_config.h"
+#else
+
 ])
 AH_BOTTOM([
+#endif /* #ifndef _WIN32 */
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */
 ])
@@ -330,6 +339,7 @@ dnl AC_SUBST(STATIC_FLAGS)
 
 
 AC_CONFIG_FILES([
+                 version.h
                  api/Makefile
                  apps/Makefile
                  clientgui/Makefile

@@ -1,0 +1,17 @@
+/* $Id$ */
+/* Platform independent version definitions... */
+
+#ifndef BOINC_VERSION_H
+#define BOINC_VERSION_H
+
+/* Major part of BOINC version number */
+#define BOINC_MAJOR_VERSION @BOINC_MAJOR_VERSION@
+
+/* Minor part of BOINC version number */
+#define BOINC_MINOR_VERSION @BOINC_MINOR_VERSION@
+
+/* String representation of BOINC version number */
+#define BOINC_VERSION_STRING "@BOINC_VERSION_STRING@"
+
+#endif /* #ifndef BOINC_VERSION_H */
+
