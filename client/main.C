@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
         if (!gstate.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
-            boinc_sleep(1);
+	    //   boinc_sleep(.01);
         }
 
         if (gstate.time_to_exit()) {

@@ -197,11 +197,14 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 //
 int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
     int n, retval;
+    struct timeval timeout;
 
     bytes_transferred = 0;
     while (1) {
-        retval = do_select(max_bytes, n);
-        if (retval) return retval;
+        timeout.tv_usec = 0;
+	timeout.tv_sec = 1;
+        retval = do_select(max_bytes, n, timeout);
+	if (retval) return retval;
         if (n == 0) break;
         max_bytes -= n;
         bytes_transferred += n;
@@ -212,8 +215,8 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
 
 // do a select and do I/O on as many sockets as possible.
 // 
-int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
-    struct timeval zeros;
+int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeval timeout) {
+    
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
@@ -229,7 +232,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     bytes_transferred = 0;
 
     fd_set read_fds, write_fds, error_fds;
-    memset(&zeros, 0, sizeof(zeros));
+
 
     FD_ZERO(&read_fds);
     FD_ZERO(&write_fds);
@@ -248,7 +251,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
         }
         FD_SET(net_xfers[i]->socket, &error_fds);
     }
-    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &zeros);
+    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
     if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
     if (n == 0) return 0;
     if (n < 0) return ERR_SELECT;
