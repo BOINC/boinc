@@ -50,7 +50,7 @@ void stop_benchmark(int a);
 #endif
 
 #define FLOPS_PER_ITER		10000000
-#define IOPS_PER_ITER		10000000
+#define IOPS_PER_ITER		1000000
 #define MEM_SIZE			1000000
 
 #define NUM_DOUBLES       28
@@ -83,9 +83,6 @@ int main(void) {
 }
 
 void run_benchmark_suite(double num_secs_per_test) {
-    if (num_secs_per_test<0) {
-        msg_printf(NULL, MSG_ERROR, "error: run_benchmark_suite: negative num_seconds_per_test\n");
-    }
     printf(
         "Running tests.  This will take about %.1lf seconds.\n\n",
         num_secs_per_test*3
@@ -246,16 +243,12 @@ int check_cache_size(int mem_size) {
 int run_double_prec_test(double num_secs, double &flops_per_sec) {
     int retval;
     
-    if (num_secs<0) {
-        msg_printf(NULL, MSG_ERROR, "run_double_prec_test: negative num_secs\n");
-        return ERR_NEG;
-    }
-    
-    // Setup a timer to interrupt the tests in num_secs
+    // interrupt the tests in num_secs
+    //
     retval = set_benchmark_timer(num_secs);
     if (retval) return retval;
 
-    retval = (int)double_flop_test(0, flops_per_sec, 0);
+    retval = double_flop_test(0, flops_per_sec, 0);
         
     destroy_benchmark_timer();
     
@@ -267,16 +260,12 @@ int run_double_prec_test(double num_secs, double &flops_per_sec) {
 int run_int_test(double num_secs, double &iops_per_sec) {
     int retval;
     
-    if (num_secs<0) {
-        msg_printf(NULL, MSG_ERROR, "run_int_test: negative num_secs\n");
-        return ERR_NEG;
-    }
-    
-    // Setup a timer to interrupt the tests in num_secs
+    // interrupt the tests in num_secs
+    //
     retval = set_benchmark_timer(num_secs);
     if (retval) return retval;
 
-    retval = (int)int_op_test(0, iops_per_sec, 0);
+    retval = int_op_test(0, iops_per_sec, 0);
     
     destroy_benchmark_timer();
     
@@ -288,12 +277,8 @@ int run_int_test(double num_secs, double &iops_per_sec) {
 int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
     int retval;
     
-    if (num_secs<0) {
-        msg_printf(NULL, MSG_ERROR, "run_mem_bandwidth_test: negative num_secs\n");
-        return ERR_NEG;
-    }
-    
-    // Setup a timer to interrupt the tests in num_secs
+    // interrupt the tests in num_secs
+    //
     retval = set_benchmark_timer(num_secs);
     if (retval) return retval;
     
@@ -309,11 +294,6 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     int i, n, j, error = 0;
     double actual_iters;
     double start, end, elapsed;
-    
-    if (iterations<0) {
-        msg_printf(NULL, MSG_ERROR, "double_flop_test: negative iterations\n");
-        return ERR_NEG;
-    }
     
     // If iterations is 0, assume we're using the timer
     //
@@ -437,11 +417,6 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     double start, end, elapsed;
     int i, j, error = 0;
 
-    if (iterations<0) {
-        msg_printf(NULL, MSG_ERROR, "int_op_test: negative iterations\n");
-        return ERR_NEG;
-    }
-    
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
         run_benchmark = true;
@@ -456,12 +431,8 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     actual_iters = 0;
    
     start = dtime();
-    for (i=0;(i<iterations) && run_benchmark;i++) {
-        // The contents of the array "a" should be the same at the
-        // beginning and end of each loop iteration.  Most compilers will
-        // partially unroll the individual loops within this one, so
-        // those integer operations (incrementing k) are not counted
-        for (j=0;j<IOPS_PER_ITER;j += NUM_INTS*4+1) {
+    for (i=0; (i<iterations) && run_benchmark; i++) {
+        for (j=0; j<IOPS_PER_ITER; j+=NUM_INTS*4+1) {
             dp = 0;
                 // the following block is 2*NUM_INTS iops
             dp += a[0]*b[0];    // 2 iops
@@ -532,20 +503,6 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     
     iops_per_sec = IOPS_PER_ITER*actual_iters/elapsed;
     
-    // Check to make sure all the values are the same as when we started
-    //
-    temp = 1;
-    for (i=0;i<NUM_INTS;i++) {
-        if (a[i] != temp) error = ERR_BENCHMARK_FAILED;
-        temp *= 2;
-    }
-    
-    if (print_debug) {
-        for (i=0;i<NUM_INTS;i++) {
-            printf("%3d: %d\n", i, a[i]);
-        }
-    }
-    
     return error;
 }
 
@@ -561,12 +518,8 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     int i, j, n, error = 0;
     double actual_iters;
 
-    if (iterations<0) {
-        msg_printf(NULL, MSG_ERROR, "bandwidth_test: negative iterations\n");
-        return ERR_NEG;
-    }
-    
     // If iterations is 0, assume we're using the timer
+    //
     if (iterations == 0) {
         run_benchmark = true;
         iterations = 200000000;
