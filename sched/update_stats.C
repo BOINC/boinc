@@ -104,7 +104,8 @@ int update_teams() {
                 "update_teams: get_team_credit([TEAM#%d]) failed: %d\n",
                 team.id,
                 retval);
-            return retval;
+            //return retval;
+            continue;
         }
 
         // update the team record
