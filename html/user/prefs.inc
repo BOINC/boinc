@@ -78,6 +78,12 @@ function element_end($parser, $name) {
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = 1;
         break;
+    case "run_minimized":
+        $parse_result->run_minimized = 1;
+        break;
+    case "run_on_startup":
+        $parse_result->run_on_startup = 1;
+        break;
     case "low_water_days":
         $parse_result->low_water_days = $text;
         break;
@@ -130,6 +136,8 @@ function prefs_parse($prefs_xml) {
     $parse_result->dont_run_on_batteries = 0;
     $parse_result->dont_run_if_user_active = 0;
     $parse_result->confirm_before_connecting = 0;
+    $parse_result->run_minimized = 0;
+    $parse_result->run_on_startup = 0;
     $parse_result->low_water_days = 1;
     $parse_result->high_water_days = 3;
     $parse_result->disk_max_used_gb = 1000;
@@ -158,24 +166,17 @@ function prefs_show_global($prefs) {
     echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Global preferences</b></font>
         <br><font size=-1>These apply to all BOINC projects in which you participate</font></td></tr>\n";
-    if ($prefs->dont_run_on_batteries) {
-        $batteries = "No";
-    } else {
-        $batteries = "Yes";
-    }
-    if ($prefs->dont_run_if_user_active) {
-        $in_use = "No";
-    } else {
-        $in_use = "Yes";
-    }
-    if ($prefs->confirm_before_connecting) {
-        $confirm = "Yes";
-    } else {
-        $confirm = "No";
-    }
+    $batteries = $prefs->dont_run_on_batteries?"No":"Yes";
+    $in_use = $prefs->dont_run_if_user_active?"No":"Yes";
+    $confirm = $prefs->confirm_before_connecting?"Yes":"No";
+    $minimized = $prefs->run_minimized?"Yes":"No";
+    $startup = $prefs->run_on_startup?"Yes":"No";
+
     row2a("<b>Work if computer on batteries:   </b>", $batteries);
     row2a("<b>Work if computer in use:   </b>", $in_use);
     row2a("<b>Confirm before connecting to network:   </b>", $confirm);
+    row2a("<b>Run minimized:   </b>", $minimized);
+    row2a("<b>Run on startup:   </b>", $startup);
     row2a("<b>Minimum amount of work to buffer:   </b>", "$prefs->low_water_days days");
     row2a("<b>Maximum amount of work to buffer:   </b>", "$prefs->high_water_days days");
     
@@ -223,6 +224,14 @@ function prefs_form_global($user, $prefs) {
         <tr>\n
         <td align=right>Confirm before connecting</td>\n";
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
+    echo   "    </tr>\n
+        <tr>\n
+        <td align=right>Run minimized</td>\n";
+    printf("        <td><input type=checkbox name=run_minimized %s></td>\n", $prefs->run_minimized?"checked":"");
+    echo   "    </tr>\n
+        <tr>\n
+        <td align=right>Run on startup</td>\n";
+    printf("        <td><input type=checkbox name=run_on_startup %s></td>\n", $prefs->run_on_startup?"checked":"");
     echo   "    </tr>\n
         <tr>\n
         <td align=right>Minimum amount of work to buffer</td>\n";
@@ -277,6 +286,8 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->dont_run_on_batteries = isset($dont_run_on_batteries)?1:0;
     $prefs->dont_run_if_user_active = isset($dont_run_if_user_active)?1:0;
     $prefs->confirm_before_connecting = isset($confirm_before_connecting)?1:0;
+    $prefs->run_minimized = isset($run_minimized)?1:0;
+    $prefs->run_on_startup = isset($run_on_startup)?1:0;
     $prefs->low_water_days = $low_water_days;
     $prefs->high_water_days = $high_water_days;
     $prefs->disk_max_used_gb = $disk_max_used_gb;
@@ -290,7 +301,6 @@ function prefs_project_parse_form(&$prefs) {
     $prefs->project_specific = project_specific_prefs_parse_form();
 }
 
-
 ////////////////////////////////////////////
 //
 // convert prefs from structure to XML
@@ -298,23 +308,29 @@ function prefs_project_parse_form(&$prefs) {
 function global_prefs_make_xml($prefs) {
     $xml = "<global_preferences>\n";
     $now = time();
-    $xml = $xml."<mod_time>$now</mod_time>\n";
+    $xml = $xml."    <mod_time>$now</mod_time>\n";
     if ($prefs->dont_run_on_batteries) {
-        $xml = $xml."<dont_run_on_batteries/>\n";
+        $xml = $xml."    <dont_run_on_batteries/>\n";
     }
     if ($prefs->dont_run_if_user_active) {
-        $xml = $xml."<dont_run_if_user_active/>\n";
+        $xml = $xml."    <dont_run_if_user_active/>\n";
     }
     if ($prefs->confirm_before_connecting) {
-        $xml = $xml."<confirm_before_connecting/>\n";
+        $xml = $xml."    <confirm_before_connecting/>\n";
     }
-    $xml = $xml."<low_water_days>$prefs->low_water_days</low_water_days>
-        <high_water_days>$prefs->high_water_days</high_water_days>
-        ";
-    $xml = $xml."
-        <disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>
-        <disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>
-        <disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>";
+    if ($prefs->run_minimized) {
+        $xml = $xml."    <run_minimized/>\n";
+    }
+    if ($prefs->run_on_startup) {
+        $xml = $xml."    <run_on_startup/>\n";
+    }
+    $xml = $xml
+	."    <low_water_days>$prefs->low_water_days</low_water_days>\n"
+        ."    <high_water_days>$prefs->high_water_days</high_water_days>\n";
+    $xml = $xml
+        ."    <disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
+        ."    <disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
+        ."    <disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n";
     $xml = $xml."</global_preferences>\n";
     return $xml;
 }
