@@ -25578,3 +25578,13 @@ David  5 Mar 2005
 	win_build/
 		boinc_cli.vcproj
 		boing_gui.vcproj
+
+Bruce 7 March 2005
+      -  Fix problem with ops page.  If a clause had for example "name like '%Jim%'
+         then pushing the 'Next 20' link would break the additional clause.
+         Thanks for Christian Beer.
+
+    html/
+        inc/
+            db_ops.inc
+
