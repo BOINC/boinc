@@ -81,7 +81,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_bool(buf, "deletion_policy_expire", deletion_policy_expire);
     parse_bool(buf, "delete_from_self", delete_from_self);
 #endif
-    parse_bool(buf, "enforce_delay_bound", enforce_delay_bound);
+    parse_bool(buf, "ignore_delay_bound", ignore_delay_bound);
     parse_bool(buf, "use_transactions", use_transactions);
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);

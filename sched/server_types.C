@@ -620,6 +620,7 @@ int HOST::parse(FILE* fin) {
     char buf[256];
     int p_fpop_err, p_iop_err, p_membw_err;
 
+    p_ncpus = 1;
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;

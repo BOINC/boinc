@@ -222,16 +222,11 @@ int wu_is_infeasible(
         reason |= INFEASIBLE_DISK;
     }
 
-    // TODO: take into account delay due to other results
-    // being sent in the current RPC reply
-    //
-    if (config.enforce_delay_bound) {
+    if (!config.ignore_delay_bound) {
         double wu_wallclock_time = estimate_wallclock_duration(
             wu, reply.host, request.resource_share_fraction
         );
-        double host_remaining_time = request.estimated_delay;
-
-        if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
+        if (request.estimated_delay + wu_wallclock_time > wu.delay_bound) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d\n",
@@ -604,6 +599,7 @@ int add_result_to_reply(
     }
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
+    request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
     reply.wreq.nresults++;
     reply.host.nresults_today++;
     return 0;

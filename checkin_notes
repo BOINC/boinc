@@ -24695,3 +24695,15 @@ David  13 Feb 2005
 
     html/
         forum*.php
+
+David  13 Feb 2005
+    - scheduler: change config option from "enforce_delay_bound"
+        to "ignore_delay_bound" (i.e. the default is to enforce the bound)
+    - scheduler: in estimating result delay,
+        take into account results being included in this reply
+        (as well as work already on client)
+
+    sched/
+        sched_config.C,h
+        sched_send.C
+        server_types.C,h

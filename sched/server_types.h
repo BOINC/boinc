@@ -102,6 +102,8 @@ struct SCHEDULER_REQUEST {
 		// in "normalized CPU seconds" (see work_req.php)
     double resource_share_fraction;
     double estimated_delay;
+        // how many wall-clock seconds will elapse before
+        // host will begin any new work for this project
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
 

@@ -47,7 +47,7 @@ public:
     bool locality_scheduling;
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
-    bool enforce_delay_bound;
+    bool ignore_delay_bound;
 #if 0
     bool deletion_policy_priority;
     bool deletion_policy_expire;
