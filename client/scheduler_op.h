@@ -111,6 +111,7 @@ struct SCHEDULER_REPLY {
     vector<RESULT> result_acks;
     char* code_sign_key;
     char* code_sign_key_signature;
+    bool trickle_ack;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

@@ -8986,3 +8986,32 @@ David  7 Jan 2004
         workunit.php
     sched/
         handle_request.C
+
+David  7 Jan 2004
+    - more trickle support:
+        - server parses <trickle> elements from RPC request,
+            creates trickle records,
+            sends <trickle_ack> if it did any
+        - client scans project for trickle files,
+            adds them to RPC requests
+        - if get <trickle_ack> in RPC reply, delete trickle files
+        - parse <trickle_ack> in RPC reply
+    - use safe_strncpy for shared-mem graphics messages
+
+    client/
+        client_state.h
+        cs_scheduler.C
+        scheduler_op.C,h
+    db/
+        boinc_db.h
+    doc/
+        boinc_dev.php
+        host_id.php (new)
+        host_measure.php
+        participate.php
+    lib/
+        app_ipc.C,h
+        filesys.h
+    sched/
+        handle_request.C
+        server_types.C,h

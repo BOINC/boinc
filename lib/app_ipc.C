@@ -25,7 +25,7 @@
 
 #include "app_ipc.h"
 
-char* xml_graphics_modes[5] = {
+char* xml_graphics_modes[NGRAPHICS_MODES] = {
     "<mode_unsupported/>",
     "<mode_hide_graphics/>",
     "<mode_window/>",
@@ -155,7 +155,7 @@ bool APP_CLIENT_SHM::get_msg(char *msg, int seg_num) {
 
     // Copy the message from shared memory
     //
-    strncpy(msg, &shm[(seg_num*SHM_SEG_SIZE)+1], SHM_SEG_SIZE-1);
+    safe_strncpy(msg, &shm[(seg_num*SHM_SEG_SIZE)+1], SHM_SEG_SIZE-1);
 
     // Reset the message status flag
     //
@@ -172,7 +172,7 @@ bool APP_CLIENT_SHM::send_msg(char *msg,int seg_num) {
 
     // Copy the message into shared memory
     //
-    strncpy(&shm[(seg_num*SHM_SEG_SIZE)+1], msg, SHM_SEG_SIZE-1);
+    safe_strncpy(&shm[(seg_num*SHM_SEG_SIZE)+1], msg, SHM_SEG_SIZE-1);
 
     // Set the message status flag
     //
@@ -207,7 +207,7 @@ bool APP_CLIENT_SHM::get_graphics_msg(int seg, int& msg, int& mode) {
     int i;
 
     if (!get_msg(buf, seg)) return false;
-    for (i=0; i<5; i++) {
+    for (i=0; i<NGRAPHICS_MODES; i++) {
         if (match_tag(buf, xml_graphics_modes[i])) {
             msg = GRAPHICS_MSG_SET_MODE;
             mode = i;

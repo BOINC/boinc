@@ -55,6 +55,9 @@
 #define MODE_HIDE_GRAPHICS      1
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
+#define MODE_BLANKSCREEN        4
+
+#define NGRAPHICS_MODES  5
 
 // graphics messages
 //
@@ -123,7 +126,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 
 #define STDERR_FILE           "stderr.txt"
 
-extern char* xml_graphics_modes[5];
+extern char* xml_graphics_modes[NGRAPHICS_MODES];
 int boinc_link(const char* existing, const char* new_link);
 
 #endif

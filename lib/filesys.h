@@ -22,10 +22,12 @@
 
 #include <string>
 using std::string;
+
 #ifdef HAVE_DIRENT_H
 #include <dirent.h>
 typedef DIR *DIRREF;
 #endif
+
 #ifdef _WIN32
 #include <io.h>
 struct DIR_DESC {
@@ -34,15 +36,21 @@ struct DIR_DESC {
     void* handle;
 };
 typedef DIR_DESC *DIRREF;
+
 #define PATH_SEPARATOR "\\"
 #else
 #define PATH_SEPARATOR "/"
 #endif
 
+// TODO TODO TODO
+// remove this code - the DirScanner class does the same thing.
+// But need to rewrite a couple of places that use it
+//
 extern DIRREF dir_open(const char*);
 extern int dir_scan(char*, DIRREF, int);
 int dir_scan(string&, DIRREF);
 extern void dir_close(DIRREF);
+
 extern int boinc_delete_file(const char*);
 extern int file_size(const char*, double&);
 extern int clean_out_dir(const char*);

@@ -9,6 +9,7 @@ echo "
 <li> <a href=client.php>Running the BOINC client</a>
 <li> <a href=work_buffer.php>Work buffering</a>
 <li> <a href=prefs.php>Preferences</a>
+<li> <a href=host_id.php>Host identification</a>
 <li> <a href=startup.php>Participating in multiple projects</a>
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>

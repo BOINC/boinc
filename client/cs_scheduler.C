@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#include <strings.h>
 
 #include "crypt.h"
 #include "error_numbers.h"
@@ -214,6 +215,66 @@ void CLIENT_STATE::compute_resource_debts() {
     }
 }
 
+int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
+    char project_dir[256], *p, *q, result_name[256], fname[256];
+    char* file_contents, path[256];
+    string fn;
+    time_t t;
+    int retval;
+
+    get_project_dir(project, project_dir);
+    DirScanner ds(project_dir);
+
+    // look for file names of the form trickle_X_Y
+    // where X is a result name
+    // and Y is a timestamp
+    //
+    while (ds.scan(fn)) {
+        strcpy(fname, fn.c_str());
+        if (strstr(fname, "trickle_") != fname) continue;
+        q = fname + strlen("trickle_");
+        p = strrchr(fname, '_');
+        if (p <= q); continue;
+        *p = 0;
+        strcpy(result_name, q);
+        t = atoi(p+1);
+
+        sprintf(path, "%s%s%s", project_dir, PATH_SEPARATOR, fname);
+        retval = read_file_malloc(path, file_contents);
+        if (retval) continue;
+        fprintf(f,
+            "  <trickle>\n"
+            "      <result>%s</result>\n"
+            "      <time>%d</time>\n"
+            "      <text>\n"
+            "%s\n"
+            "      </text>\n"
+            "  </trickle>\n",
+            result_name,
+            (int)t,
+            file_contents
+        );
+        free(file_contents);
+    }
+    return 0;
+}
+
+int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
+    char project_dir[256], path[256], fname[256];
+    string fn;
+
+    get_project_dir(project, project_dir);
+    DirScanner ds(project_dir);
+
+    while (ds.scan(fn)) {
+        strcpy(fname, fn.c_str());
+        if (strstr(fname, "trickle_") != fname) continue;
+        sprintf(path, "%s%s%s", project_dir, PATH_SEPARATOR, fname);
+        boinc_delete_file(path);
+    }
+    return 0;
+}
+
 // Prepare the scheduler request.  This writes the request in XML to a
 // file (SCHED_OP_REQUEST_FILE) which is later sent to the scheduling
 // server
@@ -287,6 +348,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
             rp->write(f, true);
         }
     }
+    read_trickle_files(p, f);
     fprintf(f, "</scheduler_request>\n");
     fclose(f);
     return 0;
@@ -593,6 +655,12 @@ int CLIENT_STATE::handle_scheduler_reply(
             );
             show_message(project, buf, MSG_ERROR);
         }
+    }
+
+    // remove acked trickle files
+    //
+    if (sr.trickle_ack) {
+        remove_trickle_files(project);
     }
     project->sched_rpc_pending = false;
     set_client_state_dirty("handle_scheduler_reply");

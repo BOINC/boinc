@@ -1,6 +1,6 @@
 <?
 require_once("docutil.php");
-page_head("Measuring and distinguishing hosts");
+page_head("Host measurements");
 echo "
 <p>
 The core client measures the following aspects of each host: 
@@ -38,26 +38,6 @@ These are computed as exponentially-weighted averages; see the class NET_STATS.
 These quantities are reported in every scheduling RPC, and their latest
 values are stored in the BOINC database.
 
-<h3>Distinguishing hosts</h3> 
-<p>
-Not all systems have an application-readable globally unique ID, so
-we don't take this approach.
-When a host first contacts the scheduling
-server it is assigned a host ID, which it stores in its
-<tt>client_state.xml</tt> file. 
-
-<p>
-The BOINC database maintains the RPC sequence number for each host,
-and the host maintains the sequence number in its
-<tt>client_state.xml</tt> file.
-
-<p>
-To install the BOINC client on a large number of computers, users
-are instructed to copy only the executable and the <tt>prefs.xml</tt> file.
-If the user copies the <tt>client_state.xml</tt> file as well, the
-first RPCs from the other hosts will have a repeat sequence number;
-in this case the scheduling server creates a new host record and returns
-its ID. 
 ";
 page_tail();
 ?>

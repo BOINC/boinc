@@ -248,6 +248,8 @@ private:
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
+    int read_trickle_files(PROJECT*, FILE*);
+    int remove_trickle_files(PROJECT*);
 
 // --------------- cs_statefile.C:
 public:

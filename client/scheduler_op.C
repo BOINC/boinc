@@ -558,6 +558,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
+    trickle_ack = false;
 
     p = fgets(buf, 256, in);
     if (!p) {
@@ -650,6 +651,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (parse_str(buf, "<message", message, sizeof(message))) {
             parse_attr(buf, "priority", message_priority, sizeof(message_priority));
             continue;
+        } else if (match_tag(buf, "<trickle_ack/>")) {
+            trickle_ack = true;
         } else if (strlen(buf)>1){
             msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }

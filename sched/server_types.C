@@ -26,6 +26,7 @@ using namespace std;
 #include <assert.h>
 
 #include "parse.h"
+#include "error_numbers.h"
 #include "util.h"
 #include "main.h"
 #include "server_types.h"
@@ -40,7 +41,8 @@ SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
 int SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
     RESULT result;
-    assert(fin!=NULL);
+    int retval;
+
     strcpy(authenticator, "");
     hostid = 0;
     work_req_seconds = 0;
@@ -49,7 +51,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(code_sign_key, "");
 
     fgets(buf, 256, fin);
-    if (!match_tag(buf, "<scheduler_request>")) return 1;
+    if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
@@ -97,13 +99,36 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (match_tag(buf, "<code_sign_key>")) {
             copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
         }
+        else if (match_tag(buf, "<trickle>")) {
+            TRICKLE_DESC td;
+            retval = td.parse(fin);
+            if (!retval) {
+                trickles.push_back(td);
+            }
+        }
         else {
             log_messages.printf(SchedMessages::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
         }
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
+int TRICKLE_DESC::parse(FILE* fin) {
+    char buf[256];
+
+    trickle_text = "";
+    while (fgets(buf, 256, fin)) {
+        if (match_tag(buf, "</trickle>")) return 0;
+        if (parse_int(buf, "<time>", create_time)) continue;
+        if (match_tag(buf, "<text>")) {
+            while (fgets(buf, 256, fin)) {
+                if (match_tag(buf, "</text>")) break;
+                trickle_text += buf;
+            }
+        }
+    }
+    return ERR_XML_PARSE;
+}
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
     request_delay = 0;
@@ -118,6 +143,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&team, 0, sizeof(team));
     nucleus_only = false;
     probable_user_browser = false;
+    send_trickle_ack = false;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
@@ -233,19 +259,23 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fputs(code_sign_key_signature, fout);
         fputs("</code_sign_key_signature>\n", fout);
     }
+    if (send_trickle_ack) {
+        fputs("<trickle_ack/>\n", fout);
+    }
 end:
     fprintf(fout,
         "</scheduler_reply>\n"
-        );
+    );
     if (probable_user_browser) {
         // User is probably trying to look at cgi output with a browser.
         // Redirect them to the project home page.
 
         fprintf(fout,
-                "<HTML><HEAD><META HTTP-EQUIV=Refresh CONTENT=\"0;URL=%s\"></HEAD><BODY>\n\n"
-                "You seem to be viewing this page in a WWW browser.  Visit the <a href=\"%s\">main page</a>.\n\n"
-                "</BODY></HTML>\n",
-                "../", "../");
+            "<HTML><HEAD><META HTTP-EQUIV=Refresh CONTENT=\"0;URL=%s\"></HEAD><BODY>\n\n"
+            "You seem to be viewing this page in a WWW browser.  Visit the <a href=\"%s\">main page</a>.\n\n"
+            "</BODY></HTML>\n",
+            "../", "../"
+        );
     }
     return 0;
 }
@@ -323,7 +353,7 @@ int RESULT::parse_from_client(FILE* fin) {
             );
         }
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 // TODO: put the benchmark errors into the DB
@@ -361,7 +391,7 @@ int HOST::parse(FILE* fin) {
             log_messages.printf(SchedMessages::NORMAL, "HOST::parse(): unrecognized: %s\n", buf);
         }
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 
@@ -381,7 +411,7 @@ int HOST::parse_time_stats(FILE* fin) {
             );
         }
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 int HOST::parse_net_stats(FILE* fin) {
@@ -399,7 +429,7 @@ int HOST::parse_net_stats(FILE* fin) {
             );
         }
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 void GLOBAL_PREFS::parse(char* buf) {

@@ -992,6 +992,31 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
+void handle_trickles(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    unsigned int i;
+    DB_RESULT result;
+    DB_TRICKLE trickle;
+    int retval;
+    char buf[256];
+
+    for (i=0; i<sreq.trickles.size(); i++) {
+        reply.send_trickle_ack = true;
+        TRICKLE_DESC& td = sreq.trickles[i];
+        sprintf(buf, "where name='%s'", td.result_name);
+        retval = result.lookup(buf);
+        if (retval) continue;
+        if (reply.user.id != result.userid) continue;
+        memset(&trickle, 0, sizeof(trickle));
+        trickle.create_time = td.create_time;
+        trickle.resultid = result.id;
+        trickle.hostid = sreq.host.id;
+        trickle.userid = reply.user.id;
+        trickle.appid = result.appid;
+        safe_strcpy(trickle.xml, td.trickle_text.c_str());
+        retval = trickle.insert();
+    }
+}
+
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
     char* code_sign_key
@@ -1054,6 +1079,8 @@ void process_request(
     }
 
     send_code_sign_key(sreq, reply, code_sign_key);
+
+    handle_trickles(sreq, reply);
 }
 
 void handle_request(
