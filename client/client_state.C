@@ -1658,17 +1658,15 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 // TODO: add translation functionality
 //
 void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
-    char        buf[512], temp_buf[512];
+    char        buf[512];
     va_list     ap;
 
     if (fmt == NULL) return;
 
-    // Windows doesn't support vsnprintf, so we have to do
-    // this roundabout method to avoid buffer overruns
+    // TODO: This is vulnerable to buffer overruns - FIX IT!
     //
-    safe_strncpy(temp_buf, fmt, sizeof(temp_buf));
-    va_start(ap, temp_buf); // Parses string for variables
-    vsprintf(buf, temp_buf, ap); // And convert symbols To actual numbers
+    va_start(ap, fmt); // Parses string for variables
+    vsprintf(buf, fmt, ap); // And convert symbols To actual numbers
     va_end(ap); // Results are stored in text
     
     show_message(p, buf, priority);
