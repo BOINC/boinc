@@ -5997,3 +5997,10 @@ David Sept 2 2003
         add.py (renamed from add)
         add.C
         create_work.C
+
+David  Sept 2 2003
+    - fix omissions in parsing of general prefs
+    - show which set of general prefs was actually used
+
+    client/
+        prefs.C,h

@@ -26,6 +26,7 @@
 #include "parse.h"
 
 #include "error_numbers.h"
+#include "message.h"
 #include "file_names.h"
 
 #include "prefs.h"
@@ -67,22 +68,21 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 // <venue name="X">
 //   ...
 // </venue>
-// then parse that and ignore the rest.
+// where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
 int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
+    bool found_venue = false;
 
-	// we need to re-init() because otherwise boolean values 
-	// previously true will remain true even if they are changed to false.
 	init();
 
     while (fgets(buf, 256, in)) {
         if (in_venue) {
             if (match_tag(buf, "</venue>")) {
                 if (in_correct_venue) {
-                    return 0;
+                    break;
                 } else {
                     in_venue = false;
                     continue;
@@ -97,14 +97,23 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
                 if (!strcmp(buf2, host_venue)) {
                     init();
                     in_correct_venue = true;
+                    found_venue = true;
                 } else {
                     in_correct_venue = false;
                 }
                 continue;
             }
         }
-        if (match_tag(buf, "</global_preferences>")) {
-            return 0;
+        if (match_tag(buf, "<global_preferences>")) {
+            continue;
+        } else if (match_tag(buf, "<source_project>")) {
+            continue;
+        } else if (match_tag(buf, "<source_scheduler>")) {
+            continue;
+        } else if (parse_int(buf, "<mod_time>", mod_time)) {
+            continue;
+        } else if (match_tag(buf, "</global_preferences>")) {
+            break;
         } else if (match_tag(buf, "<run_on_batteries/>")) {
             run_on_batteries = true;
             continue;
@@ -158,9 +167,20 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
         } else if (match_tag(buf, "<confirm_executable/>")) {
             confirm_executable = true;
             continue;
+        } else {
+            msg_printf(NULL, MSG_INFO, "GLOBAL_PREFS::parse: unrecognized: %s\n", buf);
         }
     }
-    return ERR_XML_PARSE;
+    if (strlen(host_venue)) {
+        if (found_venue) {
+            msg_printf(NULL, MSG_INFO, "Using general preferences for %s\n", host_venue);
+        } else {
+            msg_printf(NULL, MSG_INFO, "Can't find general preferences for %s; using default preferences\n", host_venue);
+        }
+    } else {
+        msg_printf(NULL, MSG_INFO, "No host venue given; using default general preferences\n");
+    }
+    return 0;
 }
 
 // Parse global prefs file

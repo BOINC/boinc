@@ -34,6 +34,7 @@
 // The following structure is a parsed version of the prefs file
 //
 struct GLOBAL_PREFS {
+    int mod_time;
     bool run_on_batteries;
     bool run_if_user_active;
     int start_hour;     // 0..23; no restriction if start==end
