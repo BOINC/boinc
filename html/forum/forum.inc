@@ -34,8 +34,6 @@ $post_ratings['-2'] = "Off topic (-2)";
 
 db_init('../');
 
-/* group database functions */
-
 function getCategories() {
     $langID = (!empty($_SESSION['lang']['id']))?$_SESSION['lang']['id']:1;
     $sql = "SELECT * FROM category WHERE lang = ".$langID." AND is_helpdesk = 0 ORDER BY orderID ASC";
@@ -70,9 +68,9 @@ function getThreads($forumID, $min = -1, $nRec = -1, $sort_style='modified-new')
 //        case 'activity-most':
 //            $sql = $sql . ' ORDER by activity DESC, timestamp DESC';
 //            break;
-//        case 'help-activity-most':
-//            $sql = $sql . ' ORDER by activity DESC, sufferers DESC';
-//            break;
+        case 'help-activity-most':
+            $sql = $sql . ' ORDER by sufferers DESC';
+            break;
     }
     if ($min > -1) {
         $sql .= ' LIMIT '.$min;

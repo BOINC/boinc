@@ -8082,3 +8082,17 @@ David  3 Dec 2003
         user.inc
     sched/
         db_dump.C
+
+David  3 Dec 2003
+    - express message board times as "X days Y hours Z minutes ago"
+        instead of absolute time
+    - on FAQ entries, display #times asked and time of last answer
+
+    html_user
+        /forum/
+            forum.inc
+            forum.php
+            help_desk.php
+        time.inc (new)
+    sched/
+        db_dump.C

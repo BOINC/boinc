@@ -2,6 +2,7 @@
 
 require_once('forum.inc');
 require_once('../util.inc');
+require_once('../time.inc');
 
 page_head('Questions and problems');
 
@@ -28,7 +29,7 @@ while ($category = mysql_fetch_object($categories)) {
 			<br>", $forum->description, "
 		</td>
 		<td>", $forum->threads, "</td>
-		<td>", pretty_time_str($forum->timestamp), "</td>
+		<td>", time_diff_str($forum->timestamp, time()), "</td>
 	</tr>
 		";
 	}

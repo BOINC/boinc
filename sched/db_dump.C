@@ -486,7 +486,7 @@ int print_app(FILE* f, APP& app) {
     if (retval) return retval;
     fprintf(f, "            <results_over>%d</results_over>\n", n);
     
-    fprintf(f, "        <application>\n");
+    fprintf(f, "        </application>\n");
     return 0;
 }
 

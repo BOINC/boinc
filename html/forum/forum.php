@@ -2,6 +2,7 @@
 
 require_once('forum.inc');
 require_once('../util.inc');
+require_once('../time.inc');
 
 define("EXCERPT_LENGTH", "120");
 
@@ -91,11 +92,17 @@ while($thread = mysql_fetch_object($threads)) {
 
     if ($category->is_helpdesk) {
         echo "<span style=\"font-size:8pt\">", stripslashes($excerpt), "</span>";
+        echo "<br>Times asked: $thread->sufferers";
     }
 
     echo "</td>";
     if ($category->is_helpdesk) {
-        echo "<td>", $thread->replies, "</td>";
+        $x = time_diff_str($thread->timestamp, time());
+        echo "<td align=left>
+            Total: $thread->replies
+            <br>Last: $x
+            </td>
+        ";
     } else {
         echo "
             <td>", $thread->replies, "</td>
