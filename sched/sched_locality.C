@@ -249,9 +249,15 @@ static int send_results_for_file(
     // file, if any.  Any result that is sent will have userid field
     // set, so unsent results can not be returned by this query.
     //
+#ifdef USE_REGEXP
     sprintf(buf, "where userid=%d and name like '%s__%%'",
         reply.user.id, filename
     );
+#else
+    sprintf(buf, "where userid=%d and name>'%s__' and name<'%s__~'",
+	    reply.user.id, filename, filename
+    );
+#endif
     retval_max = result.max_id(maxid, buf);
     if (retval_max) {
         prev_result.id = 0;
@@ -276,15 +282,29 @@ static int send_results_for_file(
 
             // if one result per user per WU, insist on different WUID too
             //
+#ifdef USE_REGEXP
             sprintf(query,
                 "where name like '%s__%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
                 filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
+#else
+            sprintf(query,
+                "where name>'%s__' and name<'%s__~' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
+                filename, filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
+            );
+#endif
         } else {
+#ifdef USE_REGEXP
             sprintf(query,
                 "where name like '%s__%%' and id>%d and server_state=%d order by id limit 1 ",
                 filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
+#else
+            sprintf(query,
+                "where name>'%s__' and name<'%s__~' and id>%d and server_state=%d order by id limit 1 ",
+                filename, filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
+            );
+#endif
         }
 
         // Use a transaction so that if we get a result,
@@ -309,29 +329,42 @@ static int send_results_for_file(
 	        "make_more_work_for_file(%s, %d)=%d\n", filename, i, make_work_retval
             );
 	  
-	    // if we failed to make more work, we are finished.
-	    //
 	    if (make_work_retval) {
-	        // DAVID, I don't see how we can EVER flag this file
-	        // for removal from the advertisement list in this way
-	        // if one_result_per_user_per_wu is set.  We have not
-	        // checked that there are no more unsent results for
-	        // this file.  Only that we can't find any more
-	        // results which are suitable for this host.  But
-	        // there may be results suitable for other hosts, so
-	        // we need to continue advertising.  It only makes
-	        // sense to stop advertising the file is there are no
-	        // remaining unsent results for it (suitable for ANY
-	        // host).  Truly, we can only stop advertising a file
-	        // when all the WU for it are finished.
-	        if (!config.one_result_per_user_per_wu) {
-		    flag_for_possible_removal(filename);
-		    log_messages.printf(SCHED_MSG_LOG::DEBUG,
-		        "No remaining work for file %s (%d), flagging for removal\n", filename, i
-                    );
-                }
-		break;
-	    }
+	      // can't make any more work for this file
+
+	      if (config.one_result_per_user_per_wu) {
+
+		// do an EXPENSIVE db query 
+		char query[256];
+#ifdef USE_REGEXP
+		sprintf(query,
+		    "where server_state=%d and name like '%s__%%' limit 1",
+		    RESULT_SERVER_STATE_UNSENT, filename
+	        );
+#else
+		sprintf(query,
+		    "where server_state=%d and name>'%s__' and name<'%s__~' limit 1",
+		    RESULT_SERVER_STATE_UNSENT, filename, filename
+	        );
+#endif
+
+		// re-using result -- do I need to clear it?
+		if (!result.lookup(query)) {
+		  // some results remain -- but they are not suitable
+		  // for us because they must be for a WU that we have
+		  // already looked at.
+		  break;
+		}
+	      } // config.one_result_per_user_per_wu
+
+	      // arrive here if and only if there exist no further
+	      // unsent results for this file.
+	      flag_for_possible_removal(filename);
+	      log_messages.printf(SCHED_MSG_LOG::DEBUG,
+	          "No remaining work for file %s (%d), flagging for removal\n", filename, i
+	      );
+	      break;
+	    } // make_work_retval
 
 	    // if the user has not configured us to wait and try
 	    // again, we are finished.
@@ -342,7 +375,7 @@ static int send_results_for_file(
 	    // wait a bit and try again to find a suitable unsent result
 	    sleep(config.locality_scheduling_wait_period);
 	  
-	}
+	} // query_retval
 	else {
 	    int retval_send;
 
@@ -375,7 +408,8 @@ static int send_results_for_file(
 	        nsent++;
 	    } else if (!config.one_result_per_user_per_wu) {
 	        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-	            "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n", i, result.id, retval_send
+	            "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n",
+		    i, result.id, retval_send
                 );
             }
 
@@ -386,6 +420,7 @@ static int send_results_for_file(
     } // loop over 0<i<100
     return 0;
 }
+
 
 // Find a file with work, and send.
 // This is guaranteed to send work if ANY is available for this user.
@@ -401,23 +436,31 @@ static int send_results_for_file(
 //        //  this skips disqualified results
 //    min_filename = R.filename;
 //
-static int send_new_file_work_deterministic(
+static int send_new_file_work_deterministic_seeded(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    WORK_REQ& wreq, SCHED_SHMEM& ss
+    WORK_REQ& wreq, SCHED_SHMEM& ss, int& nsent, char *start_f, char *end_f
 ) {
     DB_RESULT result;
     char filename[256], min_filename[256], query[1024];
-    int retval, nsent;
+    int retval;
 
-    strcpy(min_filename, "");
+    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "send_new_file_work_deterministic_seeded() start=%s end=%s\n", start_f, end_f);
+
+    strcpy(min_filename, start_f);
     while (1) {
         int len;
+
+	// are we done with the search yet?
+	if (strcmp(min_filename, end_f)>0)
+	  break;
+
         sprintf(query,
             "where server_state=%d and name>'%s' order by name limit 1",
             RESULT_SERVER_STATE_UNSENT, min_filename
         );
         retval = result.lookup(query);
-        if (retval) break; // no more unsent results, return -1
+        if (retval) break; // no more unsent results or at the end of the filenames, return -1
         retval = extract_filename(result.name, filename);
         if (retval) return retval; // not locality scheduled, now what???
 
@@ -441,6 +484,39 @@ static int send_new_file_work_deterministic(
     return 0;
 }
 
+
+// Returns 0 if this has sent additional new work.  Returns non-zero
+// if it has not sent any new work.
+//
+static int send_new_file_work_deterministic(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORK_REQ& wreq, SCHED_SHMEM& ss
+) {
+  char start_filename[256];
+  int getfile_retval, nsent=0;
+
+  // get random filename as starting point for deterministic search
+  if ((getfile_retval = get_working_set_filename(start_filename)))
+    strcpy(start_filename, "");
+  
+  // start deterministic search with randomly chosen filename, go to
+  // lexical maximum
+  send_new_file_work_deterministic_seeded(sreq, reply, platform, wreq, ss, nsent, start_filename, "~~");
+  if (nsent)
+    return 0;
+
+  // continue deterministic search at lexically first possible
+  // filename, continue to randomly choosen one
+  if (!getfile_retval && wreq.work_needed(reply)) {
+    send_new_file_work_deterministic_seeded(sreq, reply, platform, wreq, ss, nsent, "", start_filename);
+    if (nsent)
+      return 0;
+  }
+
+  return 1;
+}
+
+
 static int send_new_file_work_working_set(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
@@ -460,19 +536,43 @@ static int send_new_file_work_working_set(
     );
 }
 
+// prototype
+static int send_old_work(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORK_REQ& wreq, SCHED_SHMEM& ss, int timeout);
+
 // The host doesn't have any files for which work is available.
-// Pick new file to send.
+// Pick new file to send.  Returns nonzero if no work is available.
 //
 static int send_new_file_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
-    send_new_file_work_working_set(sreq, reply, platform, wreq, ss);
+
+  while (wreq.work_needed(reply)) {
+
+    // send work that's been hanging around the queue for more than 2
+    // hours
+    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "send_new_file_work() trying to send results created>2 hours ago\n");
+    send_old_work(sreq, reply, platform, wreq, ss, 2*3600);
+    
+    if (wreq.work_needed(reply)) {
+       log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "send_new_file_work() trying to send from working set\n");
+      send_new_file_work_working_set(sreq, reply, platform, wreq, ss);
+    }    
 
     if (wreq.work_needed(reply)) {
-        send_new_file_work_deterministic(sreq, reply, platform, wreq, ss);
+      log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "send_new_file_work() trying deterministic method\n");
+      if (send_new_file_work_deterministic(sreq, reply, platform, wreq, ss)) {
+	// if no work remains at all, we learn it here and return nonzero.
+	return 1;
+      }
     }
-    return 0;
+  }
+  return 0;
 }
 
 
@@ -481,13 +581,13 @@ static int send_new_file_work(
 // system?
 static int send_old_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    WORK_REQ& wreq, SCHED_SHMEM& ss
+    WORK_REQ& wreq, SCHED_SHMEM& ss, int timeout
 ) {
     char buf[1024], filename[256];
     int retval, extract_retval, nsent;
     DB_RESULT result;
 
-    int cutoff = time(0) - config.locality_scheduling_send_timeout;
+    int cutoff = time(0) - timeout;
     boinc_db.start_transaction();
     sprintf(buf, "where server_state=%d and create_time<%d limit 1",
         RESULT_SERVER_STATE_UNSENT, cutoff
@@ -543,7 +643,7 @@ void send_work_locality(
     // send old work if there is any
     //
     if (config.locality_scheduling_send_timeout) {
-        send_old_work(sreq, reply, platform, wreq, ss);
+        send_old_work(sreq, reply, platform, wreq, ss, config.locality_scheduling_send_timeout);
     }
 
     // send work for existing files
@@ -564,8 +664,8 @@ void send_work_locality(
                 SCHED_MSG_LOG::DEBUG,
                 "[HOST#%d]: delete file %s\n", reply.host.id, fi.name
             ); 
-        }
-    }
+        } // nsent==0
+    } // loop over files already on the host
 
     // send new files if needed
     //
@@ -574,4 +674,48 @@ void send_work_locality(
     }
 }
 
+// Explanation of the logic of this scheduler:
+
+// (1) If there is an (one) unsent result which is older than
+// (1) config.locality_scheduling_send_timeout (7 days) and is
+// (1) feasible for the host, sent it.
+
+// (2) If we did send a result in the previous step, then send any
+// (2) additional results that are feasible for the same input file.
+
+// (3) If additional results are needed, step through input files on
+// (3) the host.  For each, if there are results that are feasible for
+// (3) the host, send them.  If there are no results that are feasible
+// (3) for the host, delete the input file from the host.
+
+// (4) If additional results are needed, and there is (one) unsent
+// (4) result which is older than 2 hours and is feasible for the
+// (4) host, send it.
+
+// (5) If we did send a result in the previous step, then send any
+// (5) additional results that are feasible for the same input file.
+
+// (6) If additional results are needed, select an input file name at
+// (6) random from the current input file working set advertised by
+// (6) the WU generator.  If there are results for this input file
+// (6) that are feasible for this host, send them.
+
+// (7) If additional results are needed, carry out an expensive,
+// (7) deterministic search for ANY results that are feasible for the
+// (7) host.  This search starts from a random filename advertised by
+// (7) the WU generator, but continues cyclicly to cover ALL results
+// (7) for ALL files. If a feasible result is found, send it.  Then
+// (7) send any additional results that use the same input file.  If
+// (7) there are no feasible results for the host, we are finished:
+// (7) exit.
+
+// (8) If addtional results are needed, return to step 4 above.
+
+
+
+
+
+
+
 const char *BOINC_RCSID_238cc1aec4 = "$Id$";
+
