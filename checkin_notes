@@ -19084,7 +19084,7 @@ David  4 Nov 2004
 	client
 		Makefile.am
 
-David  5 Nov
+David  5 Nov 2004
     - get clientgui to compile on Solaris.
         - include <stdexcept>
         - add NOCLIPBOARD flag in Makefile,
@@ -19098,3 +19098,15 @@ David  5 Nov
         stdwx.h
     lib/
         util.C
+
+David  5 Nov 2004
+    - move declaration of boinc_calling_thread_cpu_time()
+        from boinc_api.h to util.h
+
+    api/
+        boinc_api.h
+    client/
+        dhrystone.C
+        whetstone.C
+    lib/
+        util.h

@@ -44,7 +44,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include "boinc_api.h"
+#include "util.h"
 #include "cpu_benchmark.h"
 #include "dhrystone.h"
 

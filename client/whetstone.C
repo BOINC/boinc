@@ -32,7 +32,7 @@
 #include <ctime>
 #endif
 
-#include "boinc_api.h"
+#include "util.h"
 #include "cpu_benchmark.h"
 
 #define SPDP double
