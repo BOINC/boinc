@@ -315,9 +315,9 @@ AM_OPTIONS_WXCONFIG
 dnl check for wxWidgets
 
 if test "${enable_debug}" = yes ; then
-    AM_PATH_WXCONFIG(2.3.4, wxWin=1, --debug)
+    AM_PATH_WXCONFIG([2.3.4], [wxWin=1], [wxWin=0], --debug)
 else
-    AM_PATH_WXCONFIG(2.3.4, wxWin=1)
+    AM_PATH_WXCONFIG([2.3.4], [wxWin=1], [wxWin=0])
 fi
 
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
@@ -413,7 +413,7 @@ AC_SUBST(CLIENTLIBS)
 CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
 
 if test "${enable_debug}" = yes; then
-    CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D__WXDEBUG__ -D_DEBUG -DDEBUG"
+    CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D_DEBUG -DDEBUG"
 fi
 
 CLIENTGUILIBS=${WX_LIBS}

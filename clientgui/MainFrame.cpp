@@ -525,8 +525,10 @@ bool CMainFrame::RestoreState()
     pConfig->Read(wxT("Height"), &iHeight, 600);
 
     SetSize( -1, -1, iWidth, iHeight );
+#if defined(__WXMSW__) || defined(__WXMAC__)
     Iconize( bWindowIconized );
     Maximize( bWindowMaximized );
+#endif
 
 
     //
