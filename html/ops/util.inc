@@ -21,6 +21,8 @@ define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
+define("BADPASS", "The password you entered is incorrect. Click the <b>Back</b> button on your browser to re-enter your password or try again later.");
+define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields."); 
 
 function get_project_name() {
     $fp = fopen(db_name, "r");
@@ -113,11 +115,33 @@ function print_radio_button($text,$name,$value,$checked) {
 }
 
 function print_text_field($text,$name,$value) {
-    echo "$text <input type=text size=10 name=$name value=\"$value\">\n<p>\n";
+    echo "$text <input type=text size=10 name=$name value=\"$value\">\n"
+         . "<p>\n";
 }
 
 function row($x, $y) {
-    echo "<tr>\n<td valign=top align=right>$x</td>\n<td>$y</td>\n</tr>\n";
+    echo "<tr>\n<td width=30% colspan=2 valign=top align=right>$x</td>\n<td colspan=2>$y</td>\n</tr>\n";
+}
+
+function row2($x, $y) {
+    echo "<tr><td>$x</td><td>$y</td></tr>\n";
+}
+
+function row3($x, $y, $z) {
+    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
+}
+
+function row4($xx, $xy, $yx, $yy) {
+    echo "<tr><td width=25% valign=top align=right>$xx</td><td width=25%>$xy</td>"
+        . "<td width=25% align=right>$yx</td><td width=%25>$yy</td></tr>\n";
+}
+
+function random_string() {
+    return md5(uniqid(rand()));
+}
+
+function print_country_select() {
+    PassThru("/disks/milkyway/a/users/anderson/boinc/tools/country_select");
 }
 
 function print_page_header($title) {
@@ -127,7 +151,7 @@ function print_page_header($title) {
     echo "</head>\n";
     echo "<body TEXT=000000 BGCOLOR=FFFFFF>\n";
     echo "<h2>$title</h2>\n";
-    echo "<a href=index.html>Return to main page</a>\n";
+    echo "<a href=db.php>Return to Main Page</a>\n";
     echo "<br clear=all>\n";
 }
 

@@ -42,7 +42,7 @@ function show_platform($platform) {
     row("ID", $platform->id);
     row("Created", time_str($platform->create_time));
     row("Platform Name", $platform->name);
-    row("","<a href=db.php?show=app_version&plat_id=$platform->id>Application versions for this platform</a>");
+    row("","<a href=db.php?show=app_version&plat_id=$platform->id>Application Versions for Platform $platform->name </a>");
     end_table();
 }
 
@@ -51,8 +51,8 @@ function show_app($app) {
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
     row("Application Name", $app->name);
-    row("","<a href=db.php?show=app_version&app_id=$app->id>Application versions for this application</a>");
-    row("","<a href=db.php?show=workunit&app_id=$app->id>Workunits for this application</a>");
+    row("","<a href=db.php?show=app_version&app_id=$app->id>Application Versions for Application $app->name</a>");
+    row("","<a href=db.php?show=workunit&app_id=$app->id>Workunits for this Application</a>");
     end_table();
 }
 
@@ -78,7 +78,7 @@ function show_host($host) {
 
     row("Created", time_str($host->create_time));
     row("Total credit", $host->total_credit);
-    row("Recent average credit", $host->expavg_credit);
+    row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));
     row("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
     row("Domain name", $host->domain_name);
@@ -86,9 +86,6 @@ function show_host($host) {
     row("Time zone", "UTC - $x hours");
     row("CPU", "$host->p_vendor $host->p_model");
     row("Number of CPUs", $host->p_ncpus);
-    row("FP ops/sec", $host->p_fpops);
-    row("Int ops/sec", $host->p_iops);
-    row("Memory BW, bytes/sec", $host->p_membw);
     row("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);
@@ -125,14 +122,14 @@ function show_workunit($wu,$show_xml_doc) {
     }
     row("Application", "<a href=db.php?show=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
     row("Batch", $wu->batch);
-    row("FP operations", $wu->rsc_fpops);
-    row("Integer operations", $wu->rsc_iops);
-    row("Memory requirement", $wu->rsc_memory);
-    row("Disk requirement", $wu->rsc_disk);
+    row("FP Operations", $wu->rsc_fpops);
+    row("Integer Operations", $wu->rsc_iops);
+    row("Memory Requirement", $wu->rsc_memory);
+    row("Disk Requirement", $wu->rsc_disk);
     row("Need validate?", $wu->need_validate?"yes":"no");
     row("Canonical resultid", $wu->canonical_resultid);
     row("Canonical credit", $wu->canonical_credit);
-    row("","<a href=db.php?show=result&wu_id=$wu->id>Results for this WU</a>");
+    row("","<a href=db.php?show=result&wu_id=$wu->id>Show Associated Results</a>");
     end_table();
     echo "<p>";
 }
@@ -141,19 +138,10 @@ function res_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
-    case 3: return "In progress";
+    case 3: return "In Progress";
     case 4: return "Done";
     case 5: return "Timeout";
     case 6: return "Error";
-    }
-}
-
-function validate_state_string($s) {
-    switch($s) {
-    case 0: return "Initial";
-    case 1: return "Needs check";
-    case 2: return "Valid";
-    case 3: return "Invalid";
     }
 }
 
@@ -161,7 +149,6 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     start_table();
     if ($show_times) {
         row("created", time_str($result->create_time));
-        row("deadline", time_str($result->report_deadline));
         row("sent", time_str($result->sent_time));
         row("received", time_str($result->received_time));
     }
@@ -179,9 +166,7 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
         row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     }
     row("batch", $result->batch);
-    row("validate state", validate_state_string($result->validate_state));
-    row("claimed credit", $result->claimed_credit);
-    row("granted credit", $result->granted_credit);
+    row("validated", $result->validated);
     end_table();
     echo "<p>";
 }
@@ -219,13 +204,13 @@ function team_type_string($s) {
 function show_team($team) {
     start_table();
     row("ID", $team->id);
-    row("Team founder", "<a href=db.php?show=user&id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
+    row("Team Founder", "<a href=db.php?show=user&id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
     row("Name", $team->name);
     row("Name (HTML Formatted)", "<pre>" . htmlspecialchars($team->name_html) . "</pre>" );
     row("Url", "<a href=http://$team->url>" . $team->url . "</a>");
     row("Type", team_type_string($team->type));
     row("Description", $team->description);
-    row("", "<a href=db.php?show=user&team_id=$team->id>Members</a>");
+    row("", "<a href=db.php?show=user&team_id=$team->id>List All Members</a>");
     end_table();
 }
 
