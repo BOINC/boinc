@@ -170,10 +170,15 @@ int get_local_ip_addr_str(char* p) {
 #if HAVE_NETDB_H || _WIN32
     char buf[256];
     struct in_addr addr;
-    if (gethostname(buf, 256))
+    if (gethostname(buf, 256)) {
+        printf("gethostname() didn't return name\n");
         return -1;
+    }
     struct hostent* he = gethostbyname(buf);
-    if (!he) return -1;
+    if (!he || !he->h_addr_list[0]) {
+        printf("gethostbyname() didn't return any IP addresses\n");
+        return -1;
+    }
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     strcpy(p, inet_ntoa(addr));
 #endif

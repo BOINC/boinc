@@ -1,3 +1,5 @@
+support for HTTP and SOCKS proxies
+make get_local_ip_addr() work in all cases
 est_time_to_completion doesn't work for non-running tasks
 get timezone working on all platforms
 get benchmark working as separate process

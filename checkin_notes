@@ -2557,3 +2557,7 @@ David   Dec 5 2002
     tools/
         backend_lib.C,h
         create_work.C
+
+David  Dec 6 2002
+    - fix bugs in get_local_ip_addr()
+        (need to figure out why they were happening)
