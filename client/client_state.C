@@ -534,6 +534,16 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
     return 0;
 }
 
+// Find the active task for a given workunit
+//
+ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_workunit(WORKUNIT* wup)
+{
+	for(int i = 0; i < active_tasks.active_tasks.size(); i ++) {
+		if(active_tasks.active_tasks[i]->wup == wup) return active_tasks.active_tasks[i];
+	}
+	return NULL;
+}
+
 // functions to create links between state objects
 // (which, in their XML form, reference one another by name)
 //
@@ -920,3 +930,4 @@ int CLIENT_STATE::report_project_error( RESULT &res, int err_num, char *err_msg 
     
     return 0;
 }
+
