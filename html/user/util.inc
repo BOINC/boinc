@@ -172,7 +172,7 @@ function time_str($x) {
 
 function pretty_time_str($x) {
     if ($x == 0) return "&nbsp;";
-    return date('D M j, Y g:i a', $x);
+    return gmdate('D M j, Y g:i a', $x) . " UTC";
 }
 
 function start_table() {
