@@ -19,6 +19,9 @@
 //
 // Revision History
 // $Log$
+// Revision 1.29  2004/04/05 20:09:41  korpela
+// Rewrote extract_xml_record() to solve some problems...
+//
 // Revision 1.28  2004/03/06 09:45:25  rwalton
 // *** empty log message ***
 //
@@ -606,49 +609,51 @@ bool xml_match_tag(const std::string &s, const char* tag) {
   return xml_match_tag(s.c_str(),tag);
 }
 
+size_t xml_find_tag(const char* buf, const char* tag) {
+    const char *buf0=buf;
+    char tmp_tag[BUFSIZ]={'<',0};
+    if (tag[0] == '<') {
+      strlcpy(tmp_tag,tag,BUFSIZ);
+    } else {
+      strlcat(tmp_tag,tag,BUFSIZ);
+    }
+    char *p=tmp_tag+strlen(tmp_tag);
+    do {
+      *(p--)=0;
+    } while (isxmldelim(*p));
+    while ((buf=strstr(buf,tmp_tag))) {
+      if (isxmldelim(buf[strlen(tmp_tag)])) return buf-buf0;
+      buf++;
+    }
+    return strlen(buf0);
+}
+
+std::string::size_type xml_find_tag(const std::string &s, const char* tag) {
+  std::string::size_type p=xml_find_tag(s.c_str(),tag);
+  return (p!=strlen(s.c_str()))?p:(std::string::npos); 
+}
+
 bool extract_xml_record(const std::string &field, const char *tag, std::string &record) {
-    std::string::size_type start_pos,end_pos;
     char end_tag[256];
     sprintf(end_tag,"/%s",tag);
-    std::string::size_type j=0;
+    std::string::size_type j,k;
 
+    // find the start_tag
+    j=xml_find_tag(field,tag);
+    if (j==std::string::npos) return false;
     // find the end tag
-    do {
-      j=field.find(">",j+1);
-      end_pos=field.rfind(end_tag,j);
-      if ((end_pos != std::string::npos) && isxmldelim(field[end_pos+strlen(end_tag)+1])) {
-	end_pos=j;
-      }
-    } while ((end_pos==std::string::npos) && (j!=std::string::npos));
+    k=xml_find_tag(std::string(field,j,field.length()-j),end_tag);
+    if (k==std::string::npos) return false;
 
-    if (std::string::npos==end_pos) {
-      return false;
-    }
-
-    // find the start tag
-    j=field.rfind("<",end_pos);
-
-    do {
-      j=field.rfind(">",j-1);
-      start_pos=field.rfind(tag,j);
-      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/') &&
-	  isxmldelim(field[start_pos+strlen(tag)])) {
-        start_pos=field.rfind("<",start_pos);
-      } else {
-	start_pos=std::string::npos;
-      }
-    } while ((start_pos==std::string::npos) && (j!=std::string::npos));
-
-    if (std::string::npos==start_pos) {
-      return false;
-    }
-
-    record=std::string(field,start_pos,end_pos-start_pos+1);
+    record=std::string(field,j,k+strlen(end_tag)+1);
     return true;
 }
 
 //
 // $Log$
+// Revision 1.29  2004/04/05 20:09:41  korpela
+// Rewrote extract_xml_record() to solve some problems...
+//
 // Revision 1.28  2004/03/06 09:45:25  rwalton
 // *** empty log message ***
 //
