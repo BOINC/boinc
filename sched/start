@@ -1,0 +1,97 @@
+#!/usr/bin/env python
+
+## $Id$
+# start - a cron-like program to start/stop BOINC server daemons, and run
+#         utility tasks
+
+# The contents of this file are subject to the BOINC Public License
+# Version 1.0 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http:#boinc.berkeley.edu/license_1.0.txt
+#
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+# License for the specific language governing rights and limitations
+# under the License.
+#
+# The Original Code is the Berkeley Open Infrastructure for Network Computing.
+#
+# The Initial Developer of the Original Code is the SETI@home project.
+# Portions created by the SETI@home project are Copyright (C) 2002
+# University of California at Berkeley. All Rights Reserved.
+#
+# Contributor(s):
+#
+
+import sys, os, getopt
+from boinc_config import config
+
+verbose = os.isatty(sys.stdout.fileno())
+
+def _true_or_false(x):
+    '''Coerce value into True or False'''
+    return x and True or False
+
+def set_enable(new_state):
+    '''Set config.enable to new_state and write file, if changed.'''
+    if _true_or_false(config.enabled) != new_state:
+        config.enabled = new_state
+        config.write()
+
+def enable_start():
+    if verbose: print "Enabling servers and starting servers."
+    set_enable(True)
+    for task in config.tasks:
+        print "task: cmd=", task.cmd
+    pass
+
+def cron_start():
+    pass
+
+def disable_stop():
+    pass
+
+
+def help():
+    print >>sys.stderr, "Syntax: %s [options] [command]" % sys.argv[0]
+    print >>sys.stderr, """   Starts or stops BOINC processes.
+  Commands:
+   --enable  (-e) [def] Set BOINC to ENABLED mode and start all processes
+   --cron    (-c)       If ENABLED, run processes as necessary
+                        Intended to be run from real cron every 5 min.
+   --disable (-d)       Set BOINC to DISABLED mode and stop all processes
+
+  Options:
+   --quiet   (-q)       Operate quietly, even if STDOUT is a tty.
+   --verbose (-v)       Operate verbosely, even if STDOUT is not a tty.
+"""
+    sys.exit(1)
+
+command = enable_start
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], 'cedqvh',
+                               ('enable', 'cron', 'disable',
+                                'quiet', 'verbose', 'help'))
+except Exception, e:
+    print >>sys.stderr, e
+    print >>sys.stderr, "Use '%s --help' for help" % sys.argv[0]
+    sys.exit(1)
+for opt,v in opts:
+    if opt == '-q' or opt == '--quiet':
+        verbose = 0
+    elif opt == '-v' or opt == '--verbose':
+        verbose = 1
+    elif opt == '-h' or opt == '--help':
+        help()
+    elif opt == '-e' or opt == '--enable' or opt == '-s' or opt == '--start':
+        command = enable_start
+    elif opt == '-c' or opt == '--cron':
+        command = cron_start
+    elif opt == '-d' or opt == '--disable' or opt == '-k' or opt == '--kill':
+        command = disable_stop
+    else: assert(False)
+
+config.read()
+apply(command)
+
