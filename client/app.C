@@ -749,7 +749,11 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
     bool sent;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->state == PROCESS_IN_LIMBO) continue;
+        if (atp->state == PROCESS_IN_LIMBO
+            || atp->state == PROCESS_UNINITIALIZED
+        ) {
+            continue;
+        }
         if (atp->have_trickle_down) {
             sent = atp->app_client_shm.shm->trickle_down.send_msg("<have_trickle_down/>\n");
             if (sent) atp->have_trickle_down = false;
@@ -1436,6 +1440,11 @@ bool ACTIVE_TASK_SET::get_status_msgs() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->state == PROCESS_IN_LIMBO
+            || atp->state == PROCESS_UNINITIALIZED
+        ) {
+            continue;
+        }
         old_time = atp->checkpoint_cpu_time;
         if (atp->get_status_msg()) {
             atp->estimate_frac_rate_of_change(now);

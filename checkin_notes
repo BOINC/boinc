@@ -14956,8 +14956,9 @@ Karl 2004-07-09
         gutil.h
 
 Daniel 2004-07-09
-    - Don't send heartbeats to apps without shared memory initialized
-        (i.e. PROCESS_UNINITIALIZED)
+    - Don't send heartbeats to, send trickle downs to, or get status
+      messages from apps without shared memory initialized (i.e.
+      PROCESS_UNINITIALIZED)
 
     client/
         app.C
