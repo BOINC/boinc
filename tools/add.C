@@ -41,19 +41,167 @@
 #include "backend_lib.h"
 #include "md5_file.h"
 
+APP app;
+PLATFORM platform;
+APP_VERSION app_version;
+USER user;
+int version, retval;
+double nbytes;
+char buf[256], md5_cksum[64];
+char *app_name=0, *platform_name=0, *exec_dir=0, *exec_file=0;
+char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
+char *prefs_file=0, *download_dir, *url_base;
+char *message=0, *message_priority=0;
+
+void add_app() {
+    int retval;
+
+    memset(&app, 0, sizeof(app));
+    strcpy(app.name, app_name);
+    app.create_time = time(0);
+    app.alpha_vers = version;
+    app.beta_vers = version;
+    app.prod_vers = version;
+    retval = db_app_new(app);
+    if (retval) {
+        db_print_error("db_app_new");
+    }
+}
+
+void add_platform() {
+    int retval;
+
+    memset(&platform, 0, sizeof(platform));
+    strcpy(platform.name, platform_name);
+    platform.create_time = time(0);
+    retval = db_platform_new(platform);
+    if (retval) {
+        db_print_error("db_platform_new");
+    }
+}
+
+void add_app_version() {
+    memset(&app_version, 0, sizeof(app_version));
+
+    strcpy(app.name, app_name);
+    retval = db_app_lookup_name(app);
+    if (retval) {
+        fprintf(stderr, "can't find app %s\n", app_name);
+        db_print_error("db_app_lookup_name");
+        return;
+    }
+    app_version.appid = app.id;
+    strcpy(platform.name, platform_name);
+    retval = db_platform_lookup_name(platform);
+    if (retval) {
+        fprintf(stderr, "can't find platform %s\n", platform_name);
+        db_print_error("db_platform_lookup_name");
+        return;
+    }
+    app_version.platformid = platform.id;
+    app_version.version_num = version;
+    if (message) strcpy(app_version.message, message);
+    if (message_priority) strcpy(app_version.message, message_priority);
+
+    // copy executable to download directory
+    //
+    sprintf(
+        buf,
+        "cp %s/%s %s/%s",
+        exec_dir, exec_file, download_dir, exec_file
+    );
+    retval = system(buf);
+    if (retval) {
+        printf("failed: %s\n", buf);
+        return;
+    }
+
+    // compute checksum of executable
+    //
+    sprintf(buf, "%s/%s", exec_dir, exec_file);
+    md5_file(buf, md5_cksum, nbytes);
+
+    // generate the XML doc directly.
+    // TODO: use a template, as in create_work
+    //
+    sprintf(app_version.xml_doc,
+        "<file_info>\n"
+        "    <name>%s</name>\n"
+        "    <url>%s/%s</url>\n"
+        "    <executable/>\n"
+        "    <md5_cksum>%s</md5_cksum>\n"
+        "    <nbytes>%f</nbytes>\n"
+        "</file_info>\n"
+        "<app_version>\n"
+        "    <app_name>%s</app_name>\n"
+        "    <version_num>%d</version_num>\n"
+        "    <file_ref>\n"
+        "        <file_name>%s</file_name>\n"
+        "        <main_program/>\n"
+        "    </file_ref>\n"
+        "</app_version>\n",
+        exec_file,
+        url_base, exec_file,
+        md5_cksum,
+        nbytes,
+        app_name,
+        version,
+        exec_file
+    );
+
+    app_version.create_time = time(0);
+    retval = db_app_version_new(app_version);
+    if (retval) {
+        db_print_error("db_app_version_new");
+        return;
+    }
+}
+
+void add_user() {
+    memset(&user, 0, sizeof(user));
+    user.create_time = time(0);
+    strcpy(user.email_addr, email_addr);
+    strcpy(user.name, user_name);
+    strcpy(user.web_password, web_password);
+    strcpy(user.authenticator, authenticator);
+    strcpy(user.country, "United States");
+    strcpy(user.postal_code, "94703");
+    if (prefs_file) {
+        retval = read_file(prefs_file, user.prefs);
+        if (retval) {
+            printf("read_file: %s", prefs_file);
+            return;
+        }
+        user.prefs_mod_time = time(0);
+    } else {
+        strcpy(user.prefs,
+            "<preferences>\n"
+            "<low_water>1.2</low_water>\n"
+            "<high_water>2.5</high_water>\n"
+            "<disk_max_used_gb>0.4</disk_max_used_gb>\n"
+            "<disk_max_used_pct>50</disk_max_used_pct>\n"
+            "<disk_min_free_gb>0.4</disk_min_free_gb>\n"
+            "<project>\n"
+            "    <master_url>http://localhost.localdomain</master_url>\n"
+            "    <email_addr>david@localdomain</email_addr>\n"
+            "    <authenticator>123892398</authenticator>\n"
+            "    <resource_share>10</resource_share>\n"
+            "    <project_specific>\n"
+            "        <color-scheme>Tahiti Sunset</color-scheme>\n"
+            "    </project_specific>\n"
+            "</project>\n"
+            "</preferences>\n"
+        );
+    }
+    retval = db_user_new(user);
+    if (retval) {
+        db_print_error("db_user_new");
+        return;
+    }
+}
+
 int main(int argc, char** argv) {
-    APP app;
-    PLATFORM platform;
-    APP_VERSION app_version;
-    USER user;
-    PREFS prefs;
-    int i, version, retval;
-    double nbytes;
-    char buf[256], md5_cksum[64];
-    char *app_name=0, *platform_name=0, *exec_dir=0, *exec_file=0;
-    char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
-    char *prefs_file=0, *download_dir, *url_base;
-    char *message=0, *message_priority=0;
+    int i;
 
     db_open("boinc");
     for (i=2; i<argc; i++) {
@@ -105,145 +253,16 @@ int main(int argc, char** argv) {
         }
     }
     if (!strcmp(argv[1], "app")) {
-        memset(&app, 0, sizeof(app));
-        strcpy(app.name, app_name);
-        app.create_time = time(0);
-        app.alpha_vers = version;
-        app.beta_vers = version;
-        app.prod_vers = version;
-        retval = db_app_new(app);
-        if (retval) {
-            db_print_error("db_app_new");
-        }
+        add_app();
     } else if (!strcmp(argv[1], "platform")) {
-        memset(&platform, 0, sizeof(platform));
-        strcpy(platform.name, platform_name);
-        platform.create_time = time(0);
-        retval = db_platform_new(platform);
-        if (retval) {
-            db_print_error("db_platform_new");
-        }
+        add_platform();
     } else if (!strcmp(argv[1], "app_version")) {
-        memset(&app_version, 0, sizeof(app_version));
-
-        strcpy(app.name, app_name);
-        retval = db_app_lookup_name(app);
-        if (retval) {
-            fprintf(stderr, "can't find app %s\n", app_name);
-            db_print_error("db_app_lookup_name");
-            goto done;
-        }
-        app_version.appid = app.id;
-        strcpy(platform.name, platform_name);
-        retval = db_platform_lookup_name(platform);
-        if (retval) {
-            fprintf(stderr, "can't find platform %s\n", platform_name);
-            db_print_error("db_platform_lookup_name");
-            goto done;
-        }
-        app_version.platformid = platform.id;
-        app_version.version_num = version;
-        if (message) strcpy(app_version.message, message);
-        if (message_priority) strcpy(app_version.message, message_priority);
-
-        // copy executable to download directory
-        //
-        sprintf(
-            buf,
-            "cp %s/%s %s/%s",
-            exec_dir, exec_file, download_dir, exec_file
-        );
-        retval = system(buf);
-        if (retval) {
-            printf("failed: %s\n", buf);
-            goto done;
-        }
-
-        // compute checksum of executable
-        //
-        sprintf(buf, "%s/%s", exec_dir, exec_file);
-        md5_file(buf, md5_cksum, nbytes);
-
-        // generate the XML doc directly.
-        // TODO: use a template, as in create_work
-        //
-        sprintf(app_version.xml_doc,
-            "<file_info>\n"
-            "    <name>%s</name>\n"
-            "    <url>%s/%s</url>\n"
-            "    <executable/>\n"
-            "    <md5_cksum>%s</md5_cksum>\n"
-            "    <nbytes>%f</nbytes>\n"
-            "</file_info>\n"
-            "<app_version>\n"
-            "    <app_name>%s</app_name>\n"
-            "    <version_num>%d</version_num>\n"
-            "    <file_ref>\n"
-            "        <file_name>%s</file_name>\n"
-            "        <main_program/>\n"
-            "    </file_ref>\n"
-            "</app_version>\n",
-            exec_file,
-            url_base, exec_file,
-            md5_cksum,
-            nbytes,
-            app_name,
-            version,
-            exec_file
-        );
-
-        app_version.create_time = time(0);
-        retval = db_app_version_new(app_version);
-        if (retval) {
-            db_print_error("db_app_version_new");
-            goto done;
-        }
+        add_app_version();
     } else if (!strcmp(argv[1], "user")) {
-        memset(&user, 0, sizeof(user));
-        user.create_time = time(0);
-        strcpy(user.email_addr, email_addr);
-        strcpy(user.name, user_name);
-        strcpy(user.web_password, web_password);
-        strcpy(user.authenticator, authenticator);
-        strcpy(user.country, "United States");
-        strcpy(user.postal_code, "94703");
-        retval = db_user_new(user);
-        if (retval) {
-            db_print_error("db_user_new");
-            goto done;
-        }
-    } else if (!strcmp(argv[1], "prefs")) {
-        memset(&prefs, 0, sizeof(prefs));
-        strcpy(user.email_addr, email_addr);
-        retval = db_user_lookup_email_addr(user);
-        if (retval) {
-            db_print_error("db_user_lookup_email_addr");
-            goto done;
-        }
-        prefs.create_time = time(0);
-        prefs.modified_time = time(0);
-        prefs.userid = user.id;
-        retval = read_file(prefs_file, prefs.xml_doc);
-        if (retval) {
-            printf("read_file: %s", prefs_file);
-            goto done;
-        }
-        strcpy(prefs.name, prefs_file);
-        retval = db_prefs_new(prefs);
-        if (retval) {
-            db_print_error("db_prefs_new");
-            goto done;
-        }
-        user.default_prefsid = db_insert_id();
-        retval = db_user_update(user);
-        if (retval) {
-            db_print_error("db_user_update");
-            goto done;
-        }
+        add_user();
     } else {
         printf("Unrecognized command\n");
     }
-done:
     db_close();
     exit(0);
 }

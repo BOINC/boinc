@@ -11,8 +11,10 @@ $user = get_user_from_cookie();
 if ($user == NULL) {
     print_login_form();
 } else {
+    parse_str(getenv("QUERY_STRING"));
     $prefs = prefs_parse($user->prefs);
-    print_prefs_display($prefs);
+    $i = project_index($prefs, $master_url);
+    prefs_form_project($prefs->projects[$i], "prefs_edit_project_action.php");
 }
 
 ?>

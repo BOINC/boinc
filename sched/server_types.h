@@ -50,7 +50,7 @@ struct SCHEDULER_REPLY {
     int hostid;                 // send this only if nonzero.
                                 // this tells client to reset rpc_seqno
     bool send_prefs;
-    PREFS prefs;
+    USER user;
     vector<APP> apps;
     vector<APP_VERSION> app_versions;
     vector<WORKUNIT>wus;
@@ -65,21 +65,5 @@ struct SCHEDULER_REPLY {
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
 };
-
-#if 0
-// stores the DB tables that don't change much
-//
-class DB_CACHE {
-    vector<PLATFORM> platforms;
-    vector<APP> apps;
-    vector<APP_VERSION> app_versions;
-public:
-    DB_CACHE();
-    int read_db();
-    PLATFORM* lookup_platform(char* name);
-    APP* lookup_app(int id);
-    APP_VERSION* lookup_app_version(int appid, int platformid, int version);
-};
-#endif
 
 #endif

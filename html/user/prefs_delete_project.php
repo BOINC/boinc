@@ -12,7 +12,11 @@ if ($user == NULL) {
     print_login_form();
 } else {
     $prefs = prefs_parse($user->prefs);
-    print_prefs_display($prefs);
+    parse_str(getenv("QUERY_STRING"));
+    $i = project_index($prefs, $master_url);
+    array_splice($prefs->projects, i, 1);
+    prefs_update($user, $prefs);
+    prefs_form_projects($prefs);
 }
 
 ?>

@@ -118,7 +118,6 @@ new_host:
         host.id = 0;
         host.create_time = time(0);
         host.userid = user.id;
-        host.prefsid = user.default_prefsid;
         host.rpc_seqno = 0;
         host.rpc_time = time(0);
         retval = db_host_new(host);
@@ -176,19 +175,11 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 // If the client asked for preferences,
 // see if they have changed, and if so send.
 //
-int send_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, HOST& host) {
-    int retval;
-
+int send_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, USER& user) {
     if (sreq.want_prefs) {
-        if (host.prefsid) {
-            retval = db_prefs(host.prefsid, reply.prefs);
-            if (retval) {
-                fprintf(stderr, "can't find prefs for host %d\n", host.id);
-            } else {
-                if (reply.prefs.modified_time > sreq.prefs_mod_time) {
-                    reply.send_prefs = true;
-                }
-            }
+        if (reply.user.prefs_mod_time > sreq.prefs_mod_time) {
+            reply.user = user;
+            reply.send_prefs = true;
         }
     }
     return 0;
@@ -348,7 +339,7 @@ void process_request(
         return;
     }
 
-    send_prefs(sreq, reply, host);
+    send_prefs(sreq, reply, user);
 
     handle_results(sreq, reply, host);
 

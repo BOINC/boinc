@@ -154,8 +154,8 @@ The client sends all its results with successors
 
 scheduler algorithm:
     if there any results with predecessors
-    for which the client has all sticky files, send them in preference
-    to any other results
+    for which the client has all sticky files,
+    send them in preference to any other results
 
 
 
@@ -315,4 +315,26 @@ These files need not be associated with applications or workunits.
 Scheduler replies can include <file_info> tags
 instructing the client to upload
 
-The BOINC database does not explicitly
+--------------------------------
+Preferences
+
+CPU usage
+    don't run or communicate if on batteries
+    don't run or communicate if user is active
+    confirm before making network connection
+    minimum, maximum work buffer
+
+Disk usage
+    use at most X GB
+    leave at least X GB free
+    leave at least X% free
+
+Projects
+    For each project:
+        master URL
+        email address
+        authenticator
+        resource %
+        show email address on web site?
+        accept emails from project?
+        project-specific prefs

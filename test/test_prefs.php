@@ -11,8 +11,7 @@
     copy_to_download_dir("small_input");
     add_platform();
     add_core_client();
-    add_user();
-    add_prefs("laptop_prefs.xml");
+    add_user("laptop_prefs.xml");
     add_app("uc_slow");
     create_work("-appname uc_slow -wu_name ucs_wu -wu_template ucs_wu -result_template ucs_result -nresults 1 small_input");
     echo "Now run the client manually; start and stop it a few times.\n";

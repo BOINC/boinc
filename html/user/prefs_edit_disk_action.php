@@ -12,6 +12,8 @@ if ($user == NULL) {
     print_login_form();
 } else {
     $prefs = prefs_parse($user->prefs);
+    prefs_disk_parse_form($prefs);
+    prefs_update($user, $prefs);
     print_prefs_display($prefs);
 }
 

@@ -1,7 +1,10 @@
 <?php
 
 function db_init() {
-    mysql_pconnect();
+    $retval = mysql_pconnect();
+    if (!$retval) {
+        exit();
+    }
     mysql_select_db("boinc");
 }
 

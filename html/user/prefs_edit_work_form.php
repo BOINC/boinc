@@ -12,7 +12,7 @@ if ($user == NULL) {
     print_login_form();
 } else {
     $prefs = prefs_parse($user->prefs);
-    print_prefs_display($prefs);
+    prefs_form_work($user, $prefs);
 }
 
 ?>

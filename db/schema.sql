@@ -39,22 +39,13 @@ create table user (
     name            varchar(254),
     web_password    varchar(254),
     authenticator   varchar(254),
-    default_prefsid integer not null,
     country         varchar(254),
     postal_code     varchar(254),
     total_credit    double      not null,
     expavg_credit   double      not null,
     expavg_time     integer     not null,
-    primary key (id)
-);
-
-create table prefs (
-    id              integer     not null auto_increment,
-    create_time     integer     not null,
-    modified_time   integer     not null,
-    userid          integer     not null,
-    name            varchar(64) not null,
-    xml_doc         blob,
+    prefs           blob,
+    prefs_mod_time  integer     not null,
     primary key (id)
 );
 
@@ -62,7 +53,6 @@ create table host (
     id              integer     not null auto_increment,
     create_time     integer     not null,
     userid          integer     not null,
-    prefsid         integer     not null,
     rpc_seqno       integer     not null,
     rpc_time        integer     not null,
 

@@ -37,6 +37,7 @@ OBJS = \
     parse.o \
     prefs.o \
     scheduler_reply.o \
+    speed_stats.o \
     time_stats.o \
     types.o \
     util.o \

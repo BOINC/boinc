@@ -12,7 +12,7 @@
     copy_to_download_dir("input");
     add_platform();
     add_core_client();
-    add_user();
+    add_user(null);
     add_app("concat");
     create_work("-appname concat -wu_name concat_wu -wu_template concat_wu -result_template concat_result -nresults 2 input input");
     run_client();

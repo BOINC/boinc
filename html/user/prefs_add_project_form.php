@@ -11,8 +11,8 @@ $user = get_user_from_cookie();
 if ($user == NULL) {
     print_login_form();
 } else {
-    $prefs = prefs_parse($user->prefs);
-    print_prefs_display($prefs);
+    echo "Add a project:<br>\n";
+    prefs_form_project($project, "prefs_add_project_action.php");
 }
 
 ?>

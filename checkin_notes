@@ -160,3 +160,63 @@ Hiram C.		Sat May 25 09:20:25 PDT 2002
 	There is still cruft in this configure system.  I will continue
 	to work on it to clean it up.
 
+David A.        May 29, 2002
+    - Mostly implemented support for editing preferences,
+        including project-specific preferences.
+        Simplified the preferences scheme.
+        Abandoned the idea of multiple preference sets per user;
+        each user now has a single set of preferences.
+        Got rid of the "prefs" database table;
+        prefs are now just an XML and mod_time field in the user table.
+        Haven't tested much yet.
+    
+    NOTE: these new features use the XML parsing features of PHP.
+    This means that, on the BOINC web server,
+    you must configure PHP with the --with-xml option,
+    and you must make and install Apache.
+    Also, you probably need to use a recent version of PHP;
+    XML parsing was broken in PHP 4.0.4, but it works in 4.2.1.
+
+    client/
+        Makefile.in
+        speed_stats.C  (fixed code formatting a bit; doesn't compile on linux)
+    db/
+        Makefile.in
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        prefs.html
+    html_user/
+        db.inc
+        prefs.inc
+        prefs.php
+        prefs_action.php (removed)
+        prefs_add_project_action.php (new)
+        prefs_add_project_form.php (new)
+        prefs_delete_project.php (new)
+        prefs_delete_project_confirm.php (new)
+        prefs_edit.php (removed)
+        prefs_edit_disk_action.php (new)
+        prefs_edit_disk_form.php (new)
+        prefs_edit_project_action.php (new)
+        prefs_edit_project_form.php (new)
+        prefs_edit_projects.php (new)
+        prefs_edit_work_action.php (new)
+        prefs_edit_work_form.php (new)
+        test.php (removed)
+    sched/
+        handle_request.C
+        server_types.C,h
+    test/
+        init.inc
+        test_1sec.php
+        test_concat.php
+        test_dynamic.php
+        test_prefs.php
+        test_projects.php
+        test_stderr.php
+        test_uc.php
+        test_uc_slow.php
+    tools/
+        add.C

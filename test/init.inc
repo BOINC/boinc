@@ -80,10 +80,14 @@ function copy_to_download_dir($f) {
     PassThru("cp $f $BOINC_DOWNLOAD_DIR");
 }
 
-function add_user() {
+function add_user($prefs_file) {
     global $BOINC_EMAIL;
 
-    PassThru("../tools/add user -email_addr $BOINC_EMAIL -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136");
+    $cmd = "../tools/add user -email_addr $BOINC_EMAIL -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136 ";
+    if ($prefs_file) {
+        $cmd = $cmd." -prefs_file=$prefs_file";
+    }
+    PassThru($cmd);
 }
 
 function add_prefs($file) {

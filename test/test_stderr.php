@@ -11,7 +11,7 @@
     copy_to_download_dir("input");
     add_platform();
     add_core_client();
-    add_user();
+    add_user(null);
     add_app("upper_case");
     create_work("-appname upper_case -wu_name uc_wu -wu_template uc_wu -result_template uc_result -nresults 2 input input");
     run_client();

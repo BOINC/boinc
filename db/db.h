@@ -40,7 +40,7 @@
 //
 struct PLATFORM {
     int id;
-    int create_time;
+    unsigned int create_time;
     char name[256];
 };
 
@@ -49,7 +49,7 @@ struct PLATFORM {
 //
 struct APP {
     int id;
-    int create_time;
+    unsigned int create_time;
     char name[256];     // preferably short
     int alpha_vers;
     int beta_vers;
@@ -67,7 +67,7 @@ struct APP {
 //
 struct APP_VERSION {
     int id;
-    int create_time;
+    unsigned int create_time;
     int appid;
     int version_num;
     int platformid;
@@ -101,35 +101,26 @@ struct APP_VERSION {
 
 struct USER {
     int id;
-    int create_time;
+    unsigned int create_time;
     char email_addr[256];
     char name[256];
     char web_password[256];
     char authenticator[256];
-    int default_prefsid;
     char country[256];
     char postal_code[256];
     double total_credit;
     double expavg_credit;   // exponenially averaged credit
     int expavg_time;        // last time the above was computed
-};
-
-struct PREFS {
-    int id;
-    int create_time;
-    unsigned int modified_time;
-    int userid;
-    char name[256];
-    char xml_doc[MAX_BLOB_SIZE];
+    char prefs[MAX_BLOB_SIZE];
+    unsigned int prefs_mod_time;
 };
 
 struct HOST {
     int id;
-    int create_time;
+    unsigned int create_time;
     int userid;
-    int prefsid;
     int rpc_seqno;          // last seqno received from client
-    int rpc_time;
+    unsigned int rpc_time;
 
     // all remaining items are assigned by the client
     int timezone;
@@ -169,7 +160,7 @@ struct HOST {
 
 struct WORKUNIT {
     int id;
-    int create_time;
+    unsigned int create_time;
     int appid;
     int previous_wuid;
     bool has_successor;
@@ -201,12 +192,12 @@ struct WORKUNIT {
 
 struct RESULT {
     int id;
-    int create_time;
+    unsigned int create_time;
     int workunitid;
     int state;
     int hostid;
-    int sent_time;
-    int received_time;
+    unsigned int sent_time;
+    unsigned int received_time;
     char name[256];
     int exit_status;
     double cpu_time;
@@ -248,9 +239,6 @@ extern int db_user(int, USER&);
 extern int db_user_update(USER&);
 extern int db_user_lookup_auth(USER&);
 extern int db_user_lookup_email_addr(USER&);
-
-extern int db_prefs_new(PREFS&);
-extern int db_prefs(int, PREFS&);
 
 extern int db_host_new(HOST& p);
 extern int db_host(int, HOST&);

@@ -29,10 +29,9 @@
 #define TYPE_APP	        2
 #define TYPE_APP_VERSION	3
 #define TYPE_USER	        4
-#define TYPE_PREFS              5
-#define TYPE_HOST	        6
-#define TYPE_WORKUNIT	        7
-#define TYPE_RESULT	        8
+#define TYPE_HOST	        5
+#define TYPE_WORKUNIT	        6
+#define TYPE_RESULT	        7
 
 char* table_name[] = {
     "",
@@ -40,7 +39,6 @@ char* table_name[] = {
     "app",
     "app_version",
     "user",
-    "prefs",
     "host",
     "workunit",
     "result",
@@ -51,7 +49,6 @@ void struct_to_str(void* vp, char* q, int type) {
     APP* app;
     APP_VERSION* avp;
     USER* up;
-    PREFS* prp;
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
@@ -107,43 +104,32 @@ void struct_to_str(void* vp, char* q, int type) {
         escape(up->web_password);
 	sprintf(q,
 	    "id=%d, create_time=%d, email_addr='%s', name='%s', "
-            "web_password='%s', authenticator='%s', default_prefsid=%d, "
+            "web_password='%s', authenticator='%s', "
             "country='%s', postal_code='%s', "
-            "total_credit=%f, expavg_credit=%f, expavg_time=%d",
+            "total_credit=%f, expavg_credit=%f, expavg_time=%d, "
+            "prefs='%s', prefs_mod_time=%d",
 	    up->id,
 	    up->create_time,
 	    up->email_addr,
 	    up->name,
 	    up->web_password,
 	    up->authenticator,
-	    up->default_prefsid,
 	    up->country,
 	    up->postal_code,
 	    up->total_credit,
 	    up->expavg_credit,
-            up->expavg_time
+            up->expavg_time,
+            up->prefs,
+            up->prefs_mod_time
 	);
         unescape(up->email_addr);
         unescape(up->name);
         unescape(up->web_password);
 	break;
-    case TYPE_PREFS:
-        prp = (PREFS*)vp;
-        sprintf(q,
-            "id=%d, create_time=%d, modified_time=%d, userid=%d, "
-            "name='%s', xml_doc='%s'",
-            prp->id,
-            prp->create_time,
-            prp->modified_time,
-            prp->userid,
-            prp->name,
-            prp->xml_doc
-        );
-	break;
     case TYPE_HOST:
         hp = (HOST*)vp;
         sprintf(q,
-            "id=%d, create_time=%d, userid=%d, prefsid=%d, "
+            "id=%d, create_time=%d, userid=%d, "
             "rpc_seqno=%d, rpc_time=%d, "
             "timezone=%d, domain_name='%s', serialnum='%s', "
             "last_ip_addr='%s', nsame_ip_addr=%d, "
@@ -154,7 +140,7 @@ void struct_to_str(void* vp, char* q, int type) {
             "m_nbytes=%f, m_cache=%f, m_swap=%f, "
             "d_total=%f, d_free=%f, "
             "n_bwup=%f, n_bwdown=%f",
-            hp->id, hp->create_time, hp->userid, hp->prefsid,
+            hp->id, hp->create_time, hp->userid,
             hp->rpc_seqno, hp->rpc_time,
             hp->timezone, hp->domain_name, hp->serialnum,
             hp->last_ip_addr, hp->nsame_ip_addr,
@@ -207,7 +193,6 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     APP* app;
     APP_VERSION* avp;
     USER* up;
-    PREFS* prp;
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
@@ -256,22 +241,13 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	strcpy(up->name, r[i++]);
 	strcpy(up->web_password, r[i++]);
 	strcpy(up->authenticator, r[i++]);
-	up->default_prefsid = atoi(r[i++]);
 	strcpy(up->country, r[i++]);
 	strcpy(up->postal_code, r[i++]);
 	up->total_credit = atof(r[i++]);
 	up->expavg_credit = atof(r[i++]);
 	up->expavg_time = atoi(r[i++]);
-	break;
-    case TYPE_PREFS:
-	prp = (PREFS*)vp;
-	memset(prp, 0, sizeof(PREFS));
-	prp->id = atoi(r[i++]);
-	prp->create_time = atoi(r[i++]);
-	prp->modified_time = atoi(r[i++]);
-	prp->userid = atoi(r[i++]);
-        strcpy(prp->name, r[i++]);
-        strcpy(prp->xml_doc, r[i++]);
+        strcpy(up->prefs, r[i++]);
+	up->prefs_mod_time = atoi(r[i++]);
 	break;
     case TYPE_HOST:
 	hp = (HOST*)vp;
@@ -279,7 +255,6 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	hp->id = atoi(r[i++]);
 	hp->create_time = atoi(r[i++]);
 	hp->userid = atoi(r[i++]);
-	hp->prefsid = atoi(r[i++]);
 	hp->rpc_seqno = atoi(r[i++]);
 	hp->rpc_time = atoi(r[i++]);
 	hp->timezone = atoi(r[i++]);
@@ -445,16 +420,6 @@ int db_user_lookup_email_addr(USER& p) {
 
     sprintf(buf, "email_addr='%s'", p.email_addr);
     return db_lookup(&p, TYPE_USER, buf);
-}
-
-////////// PREFS /////////
-
-int db_prefs_new(PREFS& p) {
-    return db_new(&p, TYPE_PREFS);
-}
-
-int db_prefs(int i, PREFS& p) {
-    return db_lookup_id(i, &p, TYPE_PREFS);
 }
 
 ////////// HOST /////////

@@ -1,32 +1,68 @@
 <h2>Preferences</h2>
 
 <p>
-Participants can create "preference sets"
-describing their resource usage policy.
-A preference set includes the following:
+Participants can specify <b>preferences</b>
+determining and limiting how BOINC uses their computers.
+Preferences are divided into three groups:
 
 <ul>
+<li> Work preferences
+<ul>
 <li> Whether work (computation and network transfer)
-should be done while that host is in use
-(i.e. while keyboard and mouse events are going on).
+should be done while the host is being used
+(i.e. during keyboard and mouse input).
 
 <li> Whether work should be done while the
 computer is being powered by batteries.
 
-<li> How much disk space should be used by BOINC.
+<li> Whether to wait for user confirmation before making network connections.
 
-<li> How much network bandwidth should be used.
-
+<li> Minimum and maximum amounts of work to maintain on disk.
+If the host is frequently disconnected from the Internet,
+the minimum level should be at least as long as the
+typical period of disconnection.
+The larger the difference between minimum and maximum,
+the less often BOINC will connect to the Internet.
 </ul>
 
-<p>
-A user can maintain multiple preference sets,
-and can independently associate hosts with preference sets.
+<li> Disk preferences:
 
-<p>
-These preferences apply uniformly to all projects.
+BOINC's usage of disk space can be limited in one or more of the following ways:
+<ul>
+<li> Maximum disk space used by BOINC.
+<li> Maximum disk percentage used by BOINC.
+<li> Minimum disk space to keep free.
+</ul>
 
+<li> Project preferences (one set for each project)
+<ul>
+<li> Master URL of project
+<li> Email address
+<li> Authenticator
+<li> Resource share: if projects contend for resources,
+the amount allocated to a project is proportional to this number.
+<li> Whether to show email address on web site
+<li> Whether project should send emails to user
+<li> Whether this is the home project (see below).
+<li> Project-specific preferences
+</ul>
+</ul>
 <p>
-In addition, projects can define their own application-specific
-preferences (e.g., choice of color scheme).
-<b>This needs to be fleshed out.</b>
+Each participant has a single set of preferences.
+If you want to have different preferences for different hosts,
+you must create a separate accounts.
+
+<h3>Propagation of preferences</h3>
+<p>
+The BOINC core client on
+each host stores a copy of its user's preferences.
+Whenever a host contacts a scheduling server,
+the request message includes the preferences and their last-modification time.
+If the server has a more recently modified version of the preferences,
+it returns these to the client.
+Thus a change to preferences is quickly propagated to all hosts,
+and to the databases of all enrolled projects.
+A participant may edit preferences on the web site of any enrolled project;
+however, care should be taken to ensure that a change
+isn't overwritten by an earlier change.
+The easiest way to do this is to edit preferences only at one web site.

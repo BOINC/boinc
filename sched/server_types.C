@@ -112,14 +112,10 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     if (send_prefs) {
         fprintf(fout,
             "<prefs>\n"
-            "    <create_time>%d</create_time>\n"
-            "    <modified_time>%d</modified_time>\n"
-            "    <name>%s</name>\n",
-            prefs.create_time,
-            prefs.modified_time,
-            prefs.name
+            "    <modified_time>%d</modified_time>\n",
+            user.prefs_mod_time
         );
-        fputs(prefs.xml_doc, fout);
+        fputs(user.prefs, fout);
         fprintf(fout,
             "</prefs>\n"
         );
