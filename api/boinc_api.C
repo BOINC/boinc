@@ -88,14 +88,14 @@ GRAPHICS_INFO gi;
 static double timer_period = 1.0/50.0;    // 50 Hz timer
 static double time_until_checkpoint;
 static double time_until_fraction_done_update;
-static double time_until_suspend_check;
+static double time_until_quit_check;
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
-static bool check_susp_quit = false;
+static bool check_quit = false;
 static bool write_frac_done = false;
 static bool this_process_active;
-static bool time_to_suspend = false,time_to_quit = false;
+static bool time_to_quit = false;
 bool using_opengl = false;
 
 // read the INIT_DATA and FD_INIT files
@@ -161,7 +161,7 @@ int boinc_init() {
 #endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
-    time_until_suspend_check = 1;  // check every 1 second for suspend request from core client
+    time_until_quit_check = 1;  // check every 1 second for quit request from core client
     this_process_active = true;
     
     boinc_install_signal_handlers();
@@ -306,14 +306,14 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 }
 
 bool boinc_time_to_checkpoint() {
-    if (check_susp_quit) {
-        FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
+    if (check_quit) {
+        FILE* f = fopen(QUIT_FILE, "r");
         if(f) {
-            parse_suspend_quit_file(f,time_to_suspend,time_to_quit);
+            parse_quit_file(f,time_to_quit);
             fclose(f);
         }
-        time_until_suspend_check = 1;    // reset to 1 second
-        check_susp_quit = false;
+        time_until_quit_check = 1;    // reset to 1 second
+        check_quit = false;
     }
 
     if (write_frac_done) {
@@ -322,9 +322,9 @@ bool boinc_time_to_checkpoint() {
         write_frac_done = false;
     }
 
-    // If the application has received a quit or suspend request
-    // it should checkpoint
-    if (time_to_quit || time_to_suspend) {
+    // If the application has received a quit request it should checkpoint
+    // 
+    if (time_to_quit) {
         return true;
     }
 
@@ -340,20 +340,6 @@ int boinc_checkpoint_completed() {
     // exit the app properly
     if (time_to_quit) {
         boinc_finish(ERR_QUIT_REQUEST);
-    }
-    // If we're in a suspended state, sleep until instructed otherwise
-    while (time_to_suspend) {
-        if (time_to_quit) {
-            boinc_finish(ERR_QUIT_REQUEST);
-        }
-        boinc_sleep(1);  // Should this be a smaller value?
-        FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
-        if(f) {
-            parse_suspend_quit_file(f,time_to_suspend,time_to_quit);
-            fclose(f);
-        } else {
-            time_to_suspend = time_to_quit = false;
-        }
     }
     return 0;
 }
@@ -449,10 +435,10 @@ void on_timer(int a) {
         }
     }
 
-    if (!check_susp_quit) {
-        time_until_suspend_check -= timer_period;
-        if (time_until_suspend_check <= 0) {
-            check_susp_quit = true;
+    if (!check_quit) {
+        time_until_quit_check -= timer_period;
+        if (time_until_quit_check <= 0) {
+            check_quit = true;
         }
     }
 
@@ -575,8 +561,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
     FILE* f = fopen(FRACTION_DONE_TEMP_FILE, "w");
 
-    if (!f)
-        return -1;
+    if (!f) return -1;
 
     fprintf(f,
         "<fraction_done>%f</fraction_done>\n"
@@ -607,23 +592,17 @@ int parse_fraction_done_file(FILE* f, double& pct, double& cpu, double& checkpoi
     return 0;
 }
 
-int write_suspend_quit_file(FILE* f, bool suspend, bool quit) {
-    if (suspend) {
-        fprintf(f, "<suspend/>\n");
-    }
-    if (quit) {
-        fprintf(f, "<quit/>\n");
-    }
+int write_quit_file(FILE* f) {
+    fprintf(f, "<quit/>\n");
     return 0;
 }
 
-int parse_suspend_quit_file(FILE* f, bool& suspend, bool& quit) {
+int parse_quit_file(FILE* f, bool& quit) {
     char buf[256];
     
     while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "<suspend/>")) suspend = true;
-        else if (match_tag(buf, "<quit/>")) quit = true;
-        else fprintf(stderr, "parse_suspend_quit_file: unrecognized %s", buf);
+        if (match_tag(buf, "<quit/>")) quit = true;
+        else fprintf(stderr, "parse_quit_file: unrecognized %s", buf);
     }
     return 0;
 }

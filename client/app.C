@@ -262,7 +262,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     fclose(f);
 
-    sprintf(temp, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
+    sprintf(temp, "%s%s%s", slot_dir, PATH_SEPARATOR, QUIT_FILE);
     file_delete(temp);
 
 #ifdef _WIN32
@@ -356,13 +356,13 @@ int ACTIVE_TASK::start(bool first_time) {
 // If it doesn't exit within a set time (seconds), the process is terminated
 //
 int ACTIVE_TASK::request_exit() {
-    char susp_file[256];
+    char quit_file[256];
 
     get_slot_dir(slot, slot_dir);
-    sprintf(susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
-    FILE *fp = fopen(susp_file, "w");
+    sprintf(quit_file, "%s%s%s", slot_dir, PATH_SEPARATOR, QUIT_FILE);
+    FILE *fp = fopen(quit_file, "w");
     if (!fp) return ERR_FOPEN;
-    write_suspend_quit_file(fp, false, true);
+    write_quit_file(fp);
     fclose(fp);
     return 0;
 }
@@ -561,7 +561,7 @@ void ACTIVE_TASK_SET::suspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if(atp->suspend()) {
-            fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
+            fprintf(stderr, "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task\n");
         }
     }
 }
@@ -574,7 +574,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if(atp->unsuspend()) {
-            fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not unsuspend active_task\n");
+            fprintf(stderr, "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task\n");
         }
     } 
 }
