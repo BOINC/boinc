@@ -5680,3 +5680,19 @@ Karl 2003/08/13
 
     sched/
         validate.C
+
+Karl 2003/08/13
+    - applied FreeBSD patch & misc fixes
+
+    configure.ac
+    m4/
+        acx_pthread.m4
+    client/
+        hostinfo_unix.C
+    lib/
+        filesys.C
+        shmem.C
+
+    _autosetup
+    aclocal.m4
+

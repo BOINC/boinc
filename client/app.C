@@ -1003,26 +1003,26 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<working_set_size>", working_set_size);
 
-		if (last_frac_update == 0) {
-			last_frac_update = now;
-			last_frac_done = fraction_done;
-			recent_change = 0;
-		} else {
-			recent_change += (fraction_done - last_frac_done);
-			int tdiff = now-last_frac_update;
-			if (tdiff>0) {
-				double recent_frac_rate_of_change = max(0, recent_change) / tdiff;
-				if (frac_rate_of_change == 0) {
-					frac_rate_of_change = recent_frac_rate_of_change;
-				} else {
-					double x = exp(-1*log(2.0)/20.0);
-					frac_rate_of_change = frac_rate_of_change*x + recent_frac_rate_of_change*(1-x);
-				}
-				last_frac_update = now;
-				last_frac_done = fraction_done;
-				recent_change = 0;
-			}
-		}
+        if (last_frac_update == 0) {
+            last_frac_update = now;
+            last_frac_done = fraction_done;
+            recent_change = 0;
+        } else {
+            recent_change += (fraction_done - last_frac_done);
+            int tdiff = now-last_frac_update;
+            if (tdiff>0) {
+                double recent_frac_rate_of_change = max(0.0, recent_change) / tdiff;
+                if (frac_rate_of_change == 0) {
+                    frac_rate_of_change = recent_frac_rate_of_change;
+                } else {
+                    double x = exp(-1*log(2.0)/20.0);
+                    frac_rate_of_change = frac_rate_of_change*x + recent_frac_rate_of_change*(1-x);
+                }
+                last_frac_update = now;
+                last_frac_done = fraction_done;
+                recent_change = 0;
+            }
+        }
 
         return 0;
     }
