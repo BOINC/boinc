@@ -1,5 +1,27 @@
 <?php
 
+function result_claimed_credit_string($outcome,$string_to_show) {
+   switch($outcome) {
+   case 1: return $string_to_show; //Success
+   case 2: return "---"; //Couldn't send
+   case 3: return $string_to_show; //Client error
+   case 4: return "---"; //No reply
+   case 5: return "---"; //Didn't need
+   default: return $string_to_show;
+   }
+}
+
+function result_granted_credit_string($outcome,$string_to_show) {
+   switch($outcome) {
+   case 1: return $string_to_show; //Success
+   case 2: return "---"; //Couldn't send
+   case 3: return "-!-"; //Client error
+   case 4: return "---"; //No reply
+   case 5: return "---"; //Didn't need
+   default: return $string_to_show;
+   }
+} 
+
 function result_server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
@@ -83,6 +105,10 @@ function show_result_row(
     $ss = result_server_state_string($result->server_state);
     $out = result_outcome_string($result->outcome);
     $cl = result_client_state_string($result->client_state);
+    $result_claimed_credit = format_credit($result->claimed_credit);
+    $result_granted_credit = format_credit($result->granted_credit);
+    $result_claimed_credit = result_claimed_credit_string($result->outcome,$result_claimed_credit);
+    $result_granted_credit = result_granted_credit_string($result->outcome,$result_granted_credit); 
     echo "
         <tr>
     ";
@@ -95,8 +121,6 @@ function show_result_row(
     if ($show_host_link) {
         echo "<td>", host_link($result->hostid), "</td>\n";
     }
-    $result_claimed_credit = format_credit($result->claimed_credit);
-    $result_granted_credit = format_credit($result->granted_credit);
     echo "
         <td>$s</td>
         <td>$r</td>

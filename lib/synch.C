@@ -39,14 +39,12 @@ int create_semaphore(key_t key){
 
     id = semget(key, 1, IPC_CREAT|IPC_EXCL|0777);
     if (id < 0) {
-        perror("create_semaphore: semget");
         return ERR_SEMGET;
     }
     memset(&s, 0, sizeof(s));
     s.val = 1;
     retval = semctl(id, 0, SETVAL, s);
     if (retval) {
-        perror("create_semaphore: semctl");
         return ERR_SEMCTL;
     }
     return 0;
@@ -56,12 +54,10 @@ int destroy_semaphore(key_t key){
     int id, retval;
     id = semget(key, 0, 0);
     if (id < 0) {
-        perror("destroy_semaphore: semget");
         return ERR_SEMGET;
     }
     retval = semctl(id, 1, IPC_RMID, 0);
     if (retval) {
-        perror("destroy_semaphore: semctl");
         return ERR_SEMCTL;
     }
     return 0;
@@ -73,7 +69,6 @@ int lock_semaphore(key_t key) {
 
     id = semget(key, 0, 0);
     if (id < 0) {
-        perror("lock_semaphore: semget");
         return ERR_SEMGET;
     }
     s.sem_num = 0;
@@ -81,7 +76,6 @@ int lock_semaphore(key_t key) {
     s.sem_flg = SEM_UNDO;
     retval = semop(id, &s, 1);
     if (retval) {
-        perror("lock_semaphore: semop");
         return ERR_SEMOP;
     }
     return 0;
@@ -93,7 +87,6 @@ int unlock_semaphore(key_t key) {
 
     id = semget(key, 0, 0);
     if (id < 0) {
-        perror("unlock_semaphore: semget");
         return ERR_SEMGET;
     }
     s.sem_num = 0;
@@ -101,7 +94,6 @@ int unlock_semaphore(key_t key) {
     s.sem_flg = SEM_UNDO;
     retval = semop(id, &s, 1);
     if (retval) {
-        perror("unlock_semaphore: semop");
         return ERR_SEMOP;
     }
     return 0;

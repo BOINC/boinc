@@ -408,7 +408,6 @@ void full_path(char* relname, char* path) {
 }
 #endif
 
-
 // get total and free space on current filesystem (in bytes)
 //
 int get_filesystem_info(double &total_space, double &free_space) {

@@ -46,4 +46,9 @@ public:
     int parse_file(char* dir=".");
 };
 
+// get the project's home directory
+// (assumed to be the parent of the CWD)
+//
+void get_project_dir(char*, int);
+
 #endif

@@ -32,6 +32,7 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "parse.h"
+#include "filesys.h"
 #include "shmem.h"
 #include "util.h"
 
@@ -105,7 +106,7 @@ int main() {
         exit(1);
     }
 
-    getcwd(path, sizeof(path));
+    get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
 
     retval = attach_shmem(config.shmem_key, &p);

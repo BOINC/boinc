@@ -11324,3 +11324,18 @@ David  April 3 2004
         sched_send.C,h (new)
         sched_shmem.h
         show_shmem.C
+
+David  April 3 2004
+    - fix bugs in the above
+
+    client/
+        app.C
+    html/inc/
+        result.inc
+    lib/
+        filesys.C
+        synch.C
+    sched/
+        feeder.C
+        main.C
+        sched_config.C,h

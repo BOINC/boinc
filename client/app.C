@@ -671,7 +671,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                             exit_code, exit_code
                         );
                     } else {
-                        if (!finish_file_present()) {
+                        if (!atp->finish_file_present()) {
                             atp->state = PROCESS_IN_LIMBO;
                             return true;
                         }
@@ -719,7 +719,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                         atp->exit_status, atp->exit_status
                     );
                 } else {
-                    if (!finish_file_present()) {
+                    if (!atp->finish_file_present()) {
                         // The process looks like it exited normally
                         // but there's no "finish file".
                         // Assume it was externally killed,

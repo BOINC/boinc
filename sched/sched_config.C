@@ -81,3 +81,9 @@ int SCHED_CONFIG::parse_file(char* dir) {
     if (!f) return ERR_FOPEN;
     return parse(f);
 }
+
+void get_project_dir(char* p, int len) {
+    getcwd(p, len);
+    char* q = strrchr(p, '/');
+    if (q) *q = 0;
+}

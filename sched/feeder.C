@@ -368,7 +368,7 @@ int main(int argc, char** argv) {
 
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
-    getcwd(path, sizeof(path));
+    get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
     destroy_semaphore(sema_key);
     create_semaphore(sema_key);
