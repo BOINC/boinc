@@ -23498,3 +23498,29 @@ David  30 Jan 2005
             edit_forum_preferences_form.php
             edit_user_info_form.php
             forum_post.php
+
+Bruce 31 Jan 2005
+    - scheduler changes: if host is not getting any work because available
+      disk space is < 0, delete files which have <sticky> and <report_on_rpc>
+      set.  Note that (1) this deletion simply removes the <sticky> tag, so
+      file won't be deleted until after all WU that depend upon it are
+      completed and (2) the mechanism to determine which file to delete
+      could be improved. TODO: improve messages to hosts which have no file
+      space and ALSO have no files to delete.
+    - scheduler changes: locality scheduling.  Clean up code which makes a
+      deterministic search of results to delete.  Data files names can not
+      contain the "~" character!
+    - scheduler changes: added a simple debugging mechanism for scheduler
+      replies.  If you touch a file named 'debug_sched' in the project
+      root, then files called sched_reply_HOSTID_RPCNO will be created
+      under cgi-bin/ which contain the scheduler replies.  You can turn on
+      this mechanism for some time to study the scheduler replies.
+    - In a little while I will add a similar debugging feature which also
+      prints the corresponding scheduler requests.
+
+
+    sched/
+        handle_request.C
+        sched_locality.C
+
+

@@ -429,36 +429,35 @@ static int send_results_for_file(
 // and should be done only if we fail to send work from the working set.
 //
 // logic:
-// min_filename = ""
+// min_resultname = ""
 // loop
-//    R = first unsent result where filename>min_filename order by filename
+//    R = first unsent result where filename>min_resultname order by filename
 //        // order by filename implies order by ID
 //    send_results_for_file(R.filename)
 //        //  this skips disqualified results
-//    min_filename = R.filename;
+//    min_resultname = R.filename;
 //
 static int send_new_file_work_deterministic_seeded(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss, int& nsent, char *start_f, char *end_f
 ) {
     DB_RESULT result;
-    char filename[256], min_filename[256], query[1024];
+    char filename[256], min_resultname[256], query[1024];
     int retval;
 
     log_messages.printf(SCHED_MSG_LOG::DEBUG,
-        "send_new_file_work_deterministic_seeded() start=%s end=%s\n", start_f, end_f);
+        "send_new_file_work_deterministic_seeded() start=%s end=%s\n", start_f, end_f?end_f:"+Inf");
 
-    strcpy(min_filename, start_f);
+    strcpy(min_resultname, start_f);
     while (1) {
-        int len;
 
 	// are we done with the search yet?
-	if (strcmp(min_filename, end_f)>0)
+	if (end_f && strcmp(min_resultname, end_f)>=0)
 	  break;
 
         sprintf(query,
             "where server_state=%d and name>'%s' order by name limit 1",
-            RESULT_SERVER_STATE_UNSENT, min_filename
+            RESULT_SERVER_STATE_UNSENT, min_resultname
         );
         retval = result.lookup(query);
         if (retval) break; // no more unsent results or at the end of the filenames, return -1
@@ -472,15 +471,10 @@ static int send_new_file_work_deterministic_seeded(
         retval = send_results_for_file(
             filename, nsent, sreq, reply, platform, wreq, ss, false
         );
-        if (nsent>0) break; // agreed
-        strcpy(min_filename, filename); // logic bug here is that RESULT name and FILENAME are not same!
-	// construct the lexically maximum result name corresponding to given filename
-        strcat(min_filename,"__");
-        for (len=strlen(min_filename) ; len<255; len++)
-            min_filename[len]=0xff;  // DAVID: IS THIS MYSQL SORT ORDER FOR VARCHAR??. Probably
-                                     // 'Z' is safe, the question is, what's the 'max' mysql char?
-        min_filename[255]='\0';      // Also for varchar(254) do I want strlen()==254 or 255?
-
+        if (nsent>0) break; 
+        // construct a name which is lexically greater than the name of any result
+        // which uses this file.
+        sprintf(min_resultname, "%s__~", filename);
     }
     return 0;
 }
@@ -502,7 +496,7 @@ static int send_new_file_work_deterministic(
   
   // start deterministic search with randomly chosen filename, go to
   // lexical maximum
-  send_new_file_work_deterministic_seeded(sreq, reply, platform, wreq, ss, nsent, start_filename, "~~");
+  send_new_file_work_deterministic_seeded(sreq, reply, platform, wreq, ss, nsent, start_filename, NULL);
   if (nsent)
     return 0;
 
@@ -551,12 +545,13 @@ static int send_new_file_work(
 ) {
 
   while (wreq.work_needed(reply)) {
+    int random_time=6*3600+rand()%(6*3600);
 
-    // send work that's been hanging around the queue for more than 2
-    // hours
+    // send work that's been hanging around the queue for more than 6
+    // to 12 hours
     log_messages.printf(SCHED_MSG_LOG::DEBUG,
-        "send_new_file_work() trying to send results created>2 hours ago\n");
-    send_old_work(sreq, reply, platform, wreq, ss, 2*3600);
+        "send_new_file_work() trying to send results created > %.1f hours ago\n", ((double)random_time)/3600.0);
+    send_old_work(sreq, reply, platform, wreq, ss, random_time);
     
     if (wreq.work_needed(reply)) {
        log_messages.printf(SCHED_MSG_LOG::DEBUG,
@@ -633,10 +628,20 @@ void send_work_locality(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
-    unsigned int i;
+    int i;
     int nsent, nfiles, j, k;
 
+    // seed the random number generator
+    unsigned int seed=time(0)+getpid();
+    srand(seed); 
+
     nfiles = (int) sreq.file_infos.size();
+    for (i=0; i<nfiles; i++)
+        log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "[HOST#%d]: has file %s\n", reply.host.id, sreq.file_infos[i].name
+        );
+
     if (!nfiles)
         nfiles=1;
     j = rand()%nfiles;
@@ -649,7 +654,7 @@ void send_work_locality(
 
     // send work for existing files
     //
-    for (i=0; i<sreq.file_infos.size(); i++) {
+    for (i=0; i<(int)sreq.file_infos.size(); i++) {
         k = (i+j)%nfiles;
         if (!wreq.work_needed(reply)) break;
         FILE_INFO& fi = sreq.file_infos[k];
@@ -663,7 +668,7 @@ void send_work_locality(
             reply.file_deletes.push_back(fi);
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
-                "[HOST#%d]: delete file %s\n", reply.host.id, fi.name
+                "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi.name
             ); 
         } // nsent==0
     } // loop over files already on the host
