@@ -36,9 +36,44 @@
 #include <netinet/in.h>
 #endif
 
+#ifdef _WIN32
+#include <winsock.h>
+#endif
+
 #include "parse.h"
 #include "hostinfo.h"
 #include "error_numbers.h"
+
+// Reset the host info struct to default values
+//
+void clear_host_info(HOST_INFO& host) {
+    host.timezone = 0;		// seconds added to local time to get UTC
+    strcpy(host.domain_name,"");
+    strcpy(host.serialnum,"");
+    strcpy(host.ip_addr,"");
+
+    host.on_frac = 0;
+    host.conn_frac = 0;
+    host.active_frac = 0;
+
+    host.p_ncpus = 0;
+    strcpy(host.p_vendor,"");
+    strcpy(host.p_model,"");
+    host.p_fpops = 0;
+    host.p_iops = 0;
+    host.p_membw = 0;
+    host.p_calculated = 0;
+    
+    strcpy(host.os_name,"");
+    strcpy(host.os_version,"");
+
+    host.m_nbytes = 0;
+    host.m_cache = 0;
+    host.m_swap = 0;
+
+    host.d_total = 0;
+    host.d_free = 0;
+}
 
 // Parse the host information, usually from the client state XML file
 //

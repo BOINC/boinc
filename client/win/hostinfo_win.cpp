@@ -146,3 +146,6 @@ int get_host_info(HOST_INFO& host) {
     return 0;
 }
 
+bool host_is_running_on_batteries() {
+	return false;
+}
