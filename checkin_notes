@@ -15326,7 +15326,7 @@ David  15 July 2004
 Noaa	15 July 2004
 
 	-added printout of usabilities in gui_test.C (ie when user types
-	"gui_test" with no arguments
+	"gui_test" with no arguments)
 
 	client/
 		gui_test.C
