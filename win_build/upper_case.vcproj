@@ -26,7 +26,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./"
+				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./,.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

@@ -24,7 +24,7 @@
 				AdditionalIncludeDirectories="../"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="..\client\StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_dll\obj/boinc_dll.pch"
@@ -39,7 +39,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib LIBCMTD.LIB"
+				AdditionalDependencies="kernel32.lib user32.lib MSVCRTD.LIB"
 				OutputFile="Build\Debug/boinc.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -98,9 +98,10 @@
 				ImproveFloatingPointConsistency="FALSE"
 				FavorSizeOrSpeed="1"
 				OptimizeForWindowsApplication="TRUE"
+				AdditionalIncludeDirectories=".."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="..\lib\boinc_win.h"
@@ -115,7 +116,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib LIBCMT.LIB"
+				AdditionalDependencies="kernel32.lib user32.lib MSVCRT.LIB"
 				OutputFile="Build\Release/boinc.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -143,7 +144,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories=".."/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool

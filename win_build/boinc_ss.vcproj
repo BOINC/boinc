@@ -24,7 +24,7 @@
 				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_ss\obj/boinc_ss.pch"
@@ -40,7 +40,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="LIBCMTD.LIB winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile="Build\Debug\boinc.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -100,10 +100,10 @@
 				ImproveFloatingPointConsistency="FALSE"
 				FavorSizeOrSpeed="1"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="../api/,../lib/,../client;"
+				AdditionalIncludeDirectories="../api/,../lib/,../client,.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../client/boinc_win.h"
@@ -119,7 +119,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="LIBCMT.LIB winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile="Build\Release/boinc.scr"
 				LinkIncremental="1"
@@ -147,7 +147,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories=".."/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool

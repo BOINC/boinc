@@ -19193,4 +19193,26 @@ David  9 Nov 2004
 		boinc_ss.vcproj
 		upper_case.vcproj
 
+Rom    9 Nov 2004
+    - Add needed files by the new installer
+    - Convert the Windows binaries from static linking to dynamic linking and
+      get the installer to include the 7.1 run-times
 
+    client/win/
+        dbghelp.dll (removed)
+    win_build/
+        license.txt (removed)
+        readme.txt  (removed)
+        splash.bmp  (removed)
+        *.vcproj
+        *.sln
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/
+        setup.ico
+        setup.bmp
+    win_build/installerv2/redist/0409/
+        eula.rtf
+        readme.txt
+    win_build/installerv2/redist/Windows/x86/
+        dbghelp.dll
