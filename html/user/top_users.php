@@ -14,6 +14,7 @@
         $sort_by = "expavg_credit desc, total_credit desc";
     }
     $result = mysql_query("select * from user order by $sort_by limit $numusers");
+    row1("Users", 6);
     user_table_start();
     $i = 0;
     while ($user = mysql_fetch_object($result)) {
