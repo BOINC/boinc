@@ -143,6 +143,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                     retval = verify_downloaded_file(pathname, *fip);
                     if (retval) {
                         fprintf(stderr, "checksum or signature error for %s\n", fip->name);
+                        fip->status = retval;
                     } else {
                         if (log_flags.file_xfer_debug) {
                             printf("MD5 checksum validated for %s\n", pathname);

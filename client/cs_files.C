@@ -55,7 +55,7 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     if (file_info.signature_required) {
         if (!file_info.file_signature) {
             fprintf(stderr, "error: verify_downloaded_file: unexpected NULL pointer file_signature\n");
-            return -1;
+            return ERR_NULL;
         }
         project = file_info.project;
         retval = verify_file2(
@@ -71,11 +71,11 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
         }
         if (retval || !verified) {
             fprintf(stderr, "error: verify_file2: could not verify file\n");
-            return -1;
+            return ERR_RSA_FAILED;
         }
     } else if (file_info.md5_cksum) {
         md5_file(pathname, cksum, file_info.nbytes);
-        if (strcmp(cksum, file_info.md5_cksum)) return -1;
+        if (strcmp(cksum, file_info.md5_cksum)) return ERR_MD5_FAILED;
     }
     return 0;
 }

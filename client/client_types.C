@@ -389,6 +389,13 @@ char* FILE_INFO::get_url() {
     return urls[current_url].text;
 }
 
+// Returns true if the file had some sort of error
+// (couldn't download, RSA/MD5 check failed, etc)
+//
+bool FILE_INFO::had_failure() {
+    return (status != FILE_NOT_PRESENT && status != FILE_PRESENT);
+}
+
 // Parse XML based app_version information, usually from client_state.xml
 //
 int APP_VERSION::parse(FILE* in) {

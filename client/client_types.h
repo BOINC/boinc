@@ -91,9 +91,10 @@ struct APP {
     int write(FILE*);
 };
 
+// If the status is neither of these two, it will be
+// an error code defined in err_numbers.h
 #define FILE_NOT_PRESENT    0
 #define FILE_PRESENT        1
-#define FILE_FAILURE        2
 
 class FILE_INFO {
 public:
@@ -127,6 +128,7 @@ public:
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file
     char* get_url();
+    bool had_failure();
 };
 
 // Describes a connection between a file and a workunit, result, or application.

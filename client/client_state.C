@@ -272,7 +272,7 @@ int CLIENT_STATE::parse_state_file() {
                 if (!retval) file_infos.push_back(fip);
                 // If the file had a failure before, there's no reason
                 // to start another file transfer
-                if (fip->status == FILE_FAILURE) {
+                if (fip->had_failure()) {
                     if (fip->pers_file_xfer) delete fip->pers_file_xfer;
                     fip->pers_file_xfer = NULL;
                 }
@@ -677,11 +677,11 @@ bool CLIENT_STATE::garbage_collect() {
         pfxp = *pers_iter;
         if (pfxp->xfer_done) {
             // Set the status of the related file info to
-            // FILE_FAILURE.  The failure will be reported to the
+            // ERR_GIVEUP.  The failure will be reported to the
             // server and related file infos, results, and workunits
             // will be deleted if necessary
             if (pfxp->pers_xfer_retval == ERR_GIVEUP) {
-                pfxp->fip->status = FILE_FAILURE;
+                pfxp->fip->status = ERR_GIVEUP;
             }
 
             pers_iter = pers_xfers->pers_file_xfers.erase(pers_iter);
@@ -713,7 +713,7 @@ bool CLIENT_STATE::garbage_collect() {
                 // If one of the file infos had a failure, mark the result
                 // as done and report the error.  The result, workunits, and
                 // file infos will be cleaned up after the server is notified
-                if (rp->output_files[i].file_info->status == FILE_FAILURE) {
+                if (rp->output_files[i].file_info->had_failure()) {
                     if (rp->state < RESULT_READY_TO_ACK) {
                         rp->state = RESULT_READY_TO_ACK;
                     }
