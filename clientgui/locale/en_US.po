@@ -2,12 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-06-25 16:07-0800\n"
+"PO-Revision-Date: 2004-09-16 17:09-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/BOINCGUIApp.cpp:118
 msgid "You have specified -e on the commmand line. The application will exit now."
@@ -97,129 +102,133 @@ msgstr ""
 msgid "SOCKS Proxy"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:163
+#: clientgui/MainFrame.cpp:151
 msgid "E&xit"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:167
+#: clientgui/MainFrame.cpp:155
 msgid "&Attach to Project..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:171
+#: clientgui/MainFrame.cpp:159
 msgid "&Options"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:175
+#: clientgui/MainFrame.cpp:163
 msgid "&About BOINC..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:179
+#: clientgui/MainFrame.cpp:167
 msgid "&File"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:180
+#: clientgui/MainFrame.cpp:168
 msgid "&Commands"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:181
+#: clientgui/MainFrame.cpp:169
 msgid "&Tools"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:182
+#: clientgui/MainFrame.cpp:170
 msgid "&Help"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:67
-#: clientgui/ProjectsView.cpp:67
-#: clientgui/TransfersView.cpp:67
-#: clientgui/WorkView.cpp:67
+#: clientgui/MessagesView.cpp:83
+#: clientgui/ProjectsView.cpp:85
+#: clientgui/TransfersView.cpp:84
+#: clientgui/WorkView.cpp:87
 msgid "Project"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:68
-#: clientgui/TransfersView.cpp:71
+#: clientgui/MessagesView.cpp:84
+#: clientgui/TransfersView.cpp:88
 msgid "Time"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:69
+#: clientgui/MessagesView.cpp:85
 msgid "Message"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:88
+#: clientgui/MessagesView.cpp:96
 msgid "Messages"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:68
+#: clientgui/ProjectsView.cpp:86
 msgid "Account"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:69
+#: clientgui/ProjectsView.cpp:87
+msgid "Team"
+msgstr ""
+
+#: clientgui/ProjectsView.cpp:88
 msgid "Total Credit"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:70
+#: clientgui/ProjectsView.cpp:89
 msgid "Avg. Credit"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:71
+#: clientgui/ProjectsView.cpp:90
 msgid "Resource Share"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:90
+#: clientgui/ProjectsView.cpp:101
 msgid "Projects"
 msgstr ""
 
-#: clientgui/ResourceUtilizationView.cpp:89
+#: clientgui/ResourceUtilizationView.cpp:85
 msgid "Disk"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:68
+#: clientgui/TransfersView.cpp:85
 msgid "File"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:69
-#: clientgui/WorkView.cpp:71
+#: clientgui/TransfersView.cpp:86
+#: clientgui/WorkView.cpp:91
 msgid "Progress"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:70
+#: clientgui/TransfersView.cpp:87
 msgid "Size"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:72
+#: clientgui/TransfersView.cpp:89
 msgid "Speed"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:73
-#: clientgui/WorkView.cpp:74
+#: clientgui/TransfersView.cpp:90
+#: clientgui/WorkView.cpp:94
 msgid "Status"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:92
+#: clientgui/TransfersView.cpp:101
 msgid "Transfers"
 msgstr ""
 
-#: clientgui/WorkView.cpp:68
+#: clientgui/WorkView.cpp:88
 msgid "Application"
 msgstr ""
 
-#: clientgui/WorkView.cpp:69
+#: clientgui/WorkView.cpp:89
 msgid "Name"
 msgstr ""
 
-#: clientgui/WorkView.cpp:70
+#: clientgui/WorkView.cpp:90
 msgid "CPU time"
 msgstr ""
 
-#: clientgui/WorkView.cpp:72
+#: clientgui/WorkView.cpp:92
 msgid "To Completetion"
 msgstr ""
 
-#: clientgui/WorkView.cpp:73
+#: clientgui/WorkView.cpp:93
 msgid "Report Deadline"
 msgstr ""
 
-#: clientgui/WorkView.cpp:93
+#: clientgui/WorkView.cpp:105
 msgid "Work"
 msgstr ""
 
