@@ -59,7 +59,7 @@ double GetDiskFree();
 
 void show_message(char* message, char* priority) {
 	if(g_myWnd) {
-		g_myWnd->MessageUser("", message, priority);
+		g_myWnd->MessageUser("BOINC", message, priority);
 	}
 }
 
@@ -1573,11 +1573,7 @@ void CMainWindow::MessageUser(char* project, char* message, char* priority)
 {
 	if(!m_MessageListCtrl.GetSafeHwnd()) return;
 
-	if(strcmp(project, "")) {
-		m_MessageListCtrl.InsertItem(0, project);
-	} else {
-		m_MessageListCtrl.InsertItem(0, "BOINC");
-	}
+	m_MessageListCtrl.InsertItem(0, project);
 
 	CTime curTime = CTime::GetCurrentTime();
 	CString timeStr;
@@ -1769,7 +1765,7 @@ DWORD CMainWindow::GetUserIdleTime()
 			if(tfn) {
 				tfn();
 			}
-			AfxFreeLibrary(m_IdleDll);
+			FreeLibrary(m_IdleDll);
 			m_IdleDll = NULL;
 		}
 	}
@@ -2086,7 +2082,7 @@ void CMainWindow::OnCommandExit()
 		} else {
 			fn();
 		}
-		AfxFreeLibrary(m_IdleDll);
+		FreeLibrary(m_IdleDll);
 		m_IdleDll = NULL;
 	}
 
@@ -2217,7 +2213,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     SetTimer(ID_TIMER, 1000, TimerProc);
 
 	// load dll and start idle detection
-	m_IdleDll = AfxLoadLibrary("boinc.dll");
+	m_IdleDll = LoadLibrary("boinc.dll");
 	if(!m_IdleDll) {
 		MessageUser("", "Can't load \"boinc.dll\", will not be able to determine idle time", "high");
 	} else {
@@ -2225,12 +2221,12 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		fn = (InitFn)GetProcAddress(m_IdleDll, "IdleTrackerInit");
 		if(!fn) {
 			MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
-			AfxFreeLibrary(m_IdleDll);
+			FreeLibrary(m_IdleDll);
 			m_IdleDll = NULL;
 		} else {
 			if(!fn()) {
 				MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
-				AfxFreeLibrary(m_IdleDll);
+				FreeLibrary(m_IdleDll);
 				m_IdleDll = NULL;
 			}
 		}
@@ -2362,9 +2358,9 @@ void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		m_Message = false;
 		SetStatusIcon(ICON_NORMAL);
-		Invalidate(false);
 	}
 }
 
