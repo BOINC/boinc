@@ -6,13 +6,13 @@ all: $(sea)
 $(sea): sea.tar make-sea.sh Makefile
     ./make-sea.sh $< $@ BOINC/binstall.sh
 
-sea.tar: BOINC BOINC/boinc BOINC/boincmgr BOINC/binstall.sh
+sea.tar: BOINC/boinc BOINC/boincmgr BOINC/binstall.sh
     tar cf $@ $^
 
-BOINC/boinc: ../client/boinc_client BOINC/boinc
+BOINC/boinc: ../client/boinc BOINC
     cp $< $@
 
-BOINC/boincmgr: ../clientgui/boinc_gui BOINC/boincmgr
+BOINC/boincmgr: ../clientgui/boincmgr BOINC
     cp $< $@
 
 BOINC/binstall.sh: BOINC
