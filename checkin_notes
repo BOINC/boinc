@@ -13165,3 +13165,29 @@ David  9 June 2004
         std_fixes.h
         util.C,h
         xml_util.C,h (removed)
+
+David  9 June 2004
+    - separation of functionality:
+        update_profile_pages.php rebuilds profile directory
+            pages (gallery, alphabetic, country)
+            May want to run this infrequently.
+        update_uotd.php chooses new UOTD
+            Should run this every day
+    - database: profile.verification is not null
+
+    Note: existing projects should modify their databases;
+        see html/ops/db_update.php
+
+    db/
+        schema.sql
+    html/
+        inc/
+            *.inc
+        ops/
+            db_update.php
+            profile_ops.php
+            update_profile_pages.php
+            update_uotd.php (new)
+        user/
+            explain_state.php
+            info.php

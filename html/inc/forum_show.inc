@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Number of forum topics per page.
 $threads_per_page = 50;

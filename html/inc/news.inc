@@ -1,4 +1,4 @@
-<?
+<?php
 
 function news_item($date, $text) {
     echo "<b>$date</b>

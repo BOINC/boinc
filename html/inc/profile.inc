@@ -16,8 +16,6 @@ define('MAX_DESC_LENGTH', 90);
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
 
-define('UOTD_THRESHOLD', 7);
-
 db_init();
 
 function get_profile($userid) {
@@ -235,7 +233,8 @@ function process_create_results($user, $profile) {
             ." language = '$language',"
             ." response1 = '$response1',"
             ." response2 = '$response2',"
-            ." has_picture = '$hasPicture'";
+            ." has_picture = '$hasPicture',"
+            ." verification=0";
         $result = mysql_query($query);
         if (!$result) {
             profile_error_page("Couldn't create profile: database error");

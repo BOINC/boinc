@@ -57,6 +57,12 @@ function update_5_27_2004() {
     );
 }
 
-update_5_27_2004();
+function update_6_9_2004() {
+    mysql_query(
+        "alter table profile change verification verification integer not null"
+    );
+}
+
+update_6_9_2004();
 
 ?>

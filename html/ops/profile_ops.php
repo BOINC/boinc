@@ -40,7 +40,8 @@ if (array_key_exists('num', $_GET) && array_key_exists('set', $_GET)) {
     } else {
         $profile = mysql_fetch_assoc($result);
         if (!$profile) {
-            echo "No more profiles in this category.<p><a href=index.php>Return to ", PROJECT, " Project Management</a>";
+            echo $sql;
+            echo "<br>No more profiles in this category.<p><a href=index.php>Return to ", PROJECT, " Project Management</a>";
             exit();
         }
 

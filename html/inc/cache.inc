@@ -1,4 +1,4 @@
-<?
+<?php
 
 // mechanism for caching commonly-accessed pages
 

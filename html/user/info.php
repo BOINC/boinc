@@ -26,8 +26,8 @@ and when it uses them.
 
 <p>
 The work done by your computer contributes to the
-academic nonprofit research being performed by ", PROJECT, ".
-The current research is described <a href=", project_research_url(), ">here</a>.
+academic nonprofit research being performed by ", PROJECT, ",
+as described on its web site.
 The application programs may change from time to time.
 </p>
 

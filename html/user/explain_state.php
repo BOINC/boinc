@@ -1,5 +1,9 @@
 <?php
 
+require_once("../inc/util.inc");
+
+page_head("Result state explanation");
+
     $field = $_GET["field"];
 
     if ($field == "result_server_state") {
@@ -65,4 +69,5 @@
 
     if ($field == "validate_state") {
     }
+page_tail();
 ?>

@@ -14,5 +14,4 @@ build_country_pages();
 build_alpha_pages();
 build_picture_pages(GALLERY_WIDTH, GALLERY_HEIGHT);
 
-build_uotd_page();
 ?>

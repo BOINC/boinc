@@ -1,4 +1,6 @@
-<?
+<?php
+
+define('UOTD_THRESHOLD', 7);
 
 function uotd_thumbnail($profile, $user) {
     return "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>";
