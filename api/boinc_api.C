@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 #include <afxwin.h>
 #include <winuser.h>
-#include <mmsystem.h>	// for timing
+#include <mmsystem.h>    // for timing
 #endif
 
 #ifdef __APPLE_CC__
@@ -56,7 +56,7 @@
 
 static APP_INIT_DATA aid;
 GRAPHICS_INFO gi;
-static double timer_period = 1.0/50.0;	// 50 Hz timer
+static double timer_period = 1.0/50.0;    // 50 Hz timer
 static double time_until_checkpoint;
 static double time_until_redraw;
 static double time_until_fraction_done_update;
@@ -127,11 +127,78 @@ int boinc_init() {
 #endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
-	time_until_redraw = gi.refresh_period;
+    time_until_redraw = gi.refresh_period;
     this_process_active = true;
     set_timer(timer_period);
+    boinc_install_signal_handlers();
 
     return 0;
+}
+
+// Install signal handlers to aid in debugging
+// TODO: write Windows equivalent error handlers?
+//
+int boinc_install_signal_handlers() {
+#ifdef HAVE_SIGNAL_H
+    // terminal line hangup
+    signal( SIGHUP, boinc_catch_signal );
+    // interrupt program
+    signal( SIGINT, boinc_catch_signal );
+    // quit program
+    signal( SIGQUIT, boinc_catch_signal );
+    // illegal instruction
+    signal( SIGILL, boinc_catch_signal );
+    // abort(2) call
+    signal( SIGABRT, boinc_catch_signal );
+    // bus error
+    signal( SIGBUS, boinc_catch_signal );
+    // segmentation violation
+    signal( SIGSEGV, boinc_catch_signal );
+    // system call given invalid argument
+    signal( SIGSYS, boinc_catch_signal );
+    // write on a pipe with no reader
+    signal( SIGPIPE, boinc_catch_signal );
+#endif
+
+    return 0;
+}
+
+void boinc_catch_signal(int signal) {
+#ifdef HAVE_SIGNAL_H
+    switch(signal) {
+        case SIGHUP: // terminal line hangup
+            fprintf( stderr, "SIGHUP: terminal line hangup" );
+            break;
+        case SIGINT: // interrupt program
+            fprintf( stderr, "SIGINT: interrupt program" );
+            break;
+        case SIGQUIT: // quit program
+            fprintf( stderr, "SIGQUIT: quit program" );
+            break;
+        case SIGILL: // illegal instruction
+            fprintf( stderr, "SIGILL: illegal instruction" );
+            break;
+        case SIGABRT: // abort(2) call
+            fprintf( stderr, "SIGABRT: abort called" );
+            break;
+        case SIGBUS: // bus error
+            fprintf( stderr, "SIGBUS: bus error" );
+            break;
+        case SIGSEGV: // segmentation violation
+            fprintf( stderr, "SIGSEGV: segmentation violation" );
+            break;
+        case SIGSYS: // system call given invalid argument
+            fprintf( stderr, "SIGSYS: system call given invalid argument" );
+            break;
+        case SIGPIPE: // write on a pipe with no reader
+            fprintf( stderr, "SIGPIPE: write on a pipe with no reader" );
+            break;
+        default:
+            fprintf( stderr, "unknown signal %d", signal );
+            break;
+    }
+#endif
+    exit(signal);
 }
 
 int boinc_finish(int status) {
@@ -169,18 +236,18 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 
 
 bool boinc_time_to_checkpoint() {
-	// Tell the graphics thread it's OK to draw now
-	if (ready_to_redraw) {
-		ok_to_draw = 1;
-		// And wait for the graphics thread to notify us that it's done drawing
+    // Tell the graphics thread it's OK to draw now
+    if (ready_to_redraw) {
+        ok_to_draw = 1;
+        // And wait for the graphics thread to notify us that it's done drawing
 #ifdef _WIN32
-		ResetEvent(hGlobalDrawEvent);
-		WaitForSingleObject( hGlobalDrawEvent, INFINITE );
+        ResetEvent(hGlobalDrawEvent);
+        WaitForSingleObject( hGlobalDrawEvent, INFINITE );
 #endif
-		// Reset the refresh counter
-		time_until_redraw = gi.refresh_period;
-		ready_to_redraw = false;
-	}
+        // Reset the refresh counter
+        time_until_redraw = gi.refresh_period;
+        ready_to_redraw = false;
+    }
 
     return ready_to_checkpoint;
 }
@@ -303,19 +370,19 @@ void on_timer(int a) {
 int set_timer(double period) {
     int retval=0;
 #ifdef _WIN32
-	// Use Windows multimedia timer, since it is more accurate
-	// than SetTimer and doesn't require an associated event loop
-	retval = timeSetEvent(
-		(int)(period*1000), // uDelay
-		(int)(period*1000), // uResolution
-		on_timer, // lpTimeProc
-		NULL, // dwUser
-		TIME_PERIODIC  // fuEvent
-		);
+    // Use Windows multimedia timer, since it is more accurate
+    // than SetTimer and doesn't require an associated event loop
+    retval = timeSetEvent(
+        (int)(period*1000), // uDelay
+        (int)(period*1000), // uResolution
+        on_timer, // lpTimeProc
+        NULL, // dwUser
+        TIME_PERIODIC  // fuEvent
+        );
 
-	// Create the event object used to signal between the
-	// worker and event threads
-	hGlobalDrawEvent = CreateEvent( 
+    // Create the event object used to signal between the
+    // worker and event threads
+    hGlobalDrawEvent = CreateEvent( 
             NULL,     // no security attributes
             TRUE,    // manual reset event
             TRUE,     // initial state is signaled

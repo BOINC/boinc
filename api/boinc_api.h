@@ -72,6 +72,8 @@ extern int boinc_fraction_done(double);
 extern int boinc_child_start();
 extern int boinc_child_done(double);
 extern double boinc_cpu_time();     // CPU time for this process
+extern int boinc_install_signal_handlers();
+extern void boinc_catch_signal(int signal);
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
