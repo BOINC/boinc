@@ -149,13 +149,13 @@ function top_host_table_start($sort_by) {
     echo "<th>Owner</th>\n";
     if ($sort_by == 'total_credit') {
         echo "
-            <th><a href=top_hosts?sort_by=expavg_credit>Recent average credit</a></th>
+            <th><a href=top_hosts.php?sort_by=expavg_credit>Recent average credit</a></th>
             <th>Total credit</th>
         ";
     } else {
         echo "
             <th>Recent average credit</th>
-            <th><a href=top_hosts?sort_by=total_credit>Total credit</a></th>
+            <th><a href=top_hosts.php?sort_by=total_credit>Total credit</a></th>
         ";
     }
     echo "

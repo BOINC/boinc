@@ -15838,3 +15838,12 @@ David  4 Aug 2004
 
     sched/
         file_upload_handler.C
+
+David  4 Aug 2004
+    - fix bug in links on Top Hosts
+    - friendlier messages in RPC reply if bad code sign key
+
+    html/inc/
+        host.inc
+    sched/
+        handle_request.C

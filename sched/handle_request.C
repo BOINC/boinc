@@ -690,8 +690,9 @@ void send_code_sign_key(
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     strcpy(reply.message,
-                           "Can't update code signing key.  "
-                           "Please report this to the project administrators."
+                       "You may have an outdated code verification key.  "
+                       "This may prevent you from accepting new executables.  "
+                       "If the problem persists, detach/attach the project. "
                     );
                     return;
                 }
@@ -700,8 +701,9 @@ void send_code_sign_key(
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         strcpy(reply.message,
-                               "Can't update code signing key.  "
-                               "Please report this to the project administrators."
+                           "You may have an outdated code verification key.  "
+                           "This may prevent you from accepting new executables.  "
+                           "If the problem persists, detach/attach the project. "
                         );
                     } else {
                         safe_strcpy(reply.code_sign_key, code_sign_key);
