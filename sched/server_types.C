@@ -344,7 +344,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         }
         fprintf(fout,
             "<message priority=\"%s\">%s</message>\n",
-            msg.c_str(), pri.c_str()
+            pri.c_str(), msg.c_str()
         );
     } else {
         for (i=0; i<messages.size(); i++) {

@@ -23728,3 +23728,12 @@ Rom    1 Feb 2005
 Rom    1 Feb 2005 (boinc)
     - Tag for 4.63 release, all platforms
       boinc_core_release_4_63
+
+Bruce  2 Feb 2005
+    - Fixed trivial bug in scheduler which caused messages sent to clients
+      < 4.62 to be interchanged with their priority.  So if the message was
+      supposed to be 'No work available' with priority 'low', the actual
+      message sent was 'low'.
+
+    sched/
+        server_types.C
