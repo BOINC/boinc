@@ -84,6 +84,7 @@ int PROJECT::parse_prefs(FILE* in) {
 int PROJECT::parse_state(FILE* in) {
     char buf[256];
     STRING256 string;
+
     if(in==NULL) {
 	fprintf(stderr, "error: PROJECT.parse_state: unexpected NULL pointer in\n");
         return ERR_NULL;
@@ -171,8 +172,8 @@ int PROJECT::write_state(FILE* out) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
-    project_name = p.project_name;
-    user_name = p.user_name;
+    strcpy( project_name, p.project_name );
+    strcpy( user_name, p.user_name );
     rpc_seqno = p.rpc_seqno;
     hostid = p.hostid;
     exp_avg_cpu = p.exp_avg_cpu;
@@ -183,7 +184,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 }
 
 void PROJECT::copy_prefs_fields(PROJECT& p) {
-    authenticator = p.authenticator;
+    strcpy( authenticator, p.authenticator );
     if (p.project_specific_prefs) {
         project_specific_prefs = strdup(p.project_specific_prefs);
     }

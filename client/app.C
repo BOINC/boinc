@@ -64,6 +64,7 @@
 #include "file_names.h"
 #include "log_flags.h"
 #include "parse.h"
+#include "util.h"
 
 #include "app.h"
 #include "api.h"
@@ -374,13 +375,13 @@ void ACTIVE_TASK::request_exit(int seconds) {
 #if HAVE_SIGNAL_H
 #if HAVE_SYS_TYPES_H
     retval = kill(pid, SIGTERM);
-    sleep(seconds);
+    boinc_sleep(seconds);
     while(retval) retval=kill(pid, SIGKILL);
 #endif
 #endif
 #ifdef _WIN32
     retval = TerminateProcess(pid_handle, -1);//exit codes should be changed
-    sleep(seconds);
+    boinc_sleep(seconds);
     while(retval) retval=TerminateProcess(pid_handle, -1);
 #endif
 }

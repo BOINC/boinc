@@ -17,8 +17,16 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <stdio.h>
+#ifdef _WIN32
+#include "winsock.h"
+#include "win_net.h"
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "http.h"
 #include "net_xfer.h"
@@ -35,6 +43,9 @@ int main() {
     HTTP_REPLY_HEADER reply_header;
     int n;
 
+#ifdef _WIN32
+    NetOpen();
+#endif
     nxp = new NET_XFER;
     nxp->init("localhost.localdomain", 80, 1024);
     nxp->net_xfer_state = UNCONNECTED;
@@ -56,7 +67,11 @@ int main() {
             break;
         case WRITE_WAIT:
             if (nxp->io_ready) {
+#ifdef _WIN32
+                n = send(nxp->socket, buf, strlen(buf), 0);
+#else
                 n = write(nxp->socket, buf, strlen(buf));
+#endif
                 printf("wrote %d bytes\n", n);
                 nxp->net_xfer_state = HEADER_WAIT;
                 nxp->want_upload = false;
@@ -68,7 +83,7 @@ int main() {
             if (nxp->io_ready) {
                 read_http_reply_header(nxp->socket, reply_header);
                 nxp->net_xfer_state = BODY_WAIT;
-                nxp->file = fopen("foo", "w");
+                nxp->file = fopen("foo", "wb");
                 nxp->do_file_io = true;
             }
             break;
@@ -80,4 +95,6 @@ int main() {
     }
     nxs.remove(nxp);
     if (nxp->file) fclose(nxp->file);
+
+    return 0;
 }

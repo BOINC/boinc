@@ -20,12 +20,17 @@
 #include "windows_cpp.h"
 
 #include <string.h>
-#include <sys/stat.h>
-#include <sys/socket.h>
 
 #ifdef _WIN32
 #include "winsock.h"
-#else
+#endif
+#if HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#if HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 

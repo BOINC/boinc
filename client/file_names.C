@@ -168,6 +168,8 @@ int make_slot_dir(int slot) {
     return 0;
 }
 
+#endif
+
 // Returns a filename used for prefs backup
 //
 int make_prefs_backup_name(PREFS& prefs, char* name) {
@@ -179,4 +181,3 @@ int make_prefs_backup_name(PREFS& prefs, char* name) {
     return 0;
 }
 
-#endif

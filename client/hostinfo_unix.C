@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,6 +83,9 @@ int get_local_domain_name(char* p) {
 int get_local_ip_addr(int& p) {
     char buf[256];
     struct in_addr addr;
+
+    p = 0;
+
 #if HAVE_NETDB_H
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
@@ -95,10 +100,14 @@ int get_local_ip_addr(int& p) {
 //
 int get_local_ip_addr_str(char* p) {
     char buf[256];
+
     if(p==NULL) {
         fprintf(stderr, "error: get_local_ip_addr_str: unexpected NULL pointer p\n");
         return ERR_NULL;
     }
+
+    strcpy( p,"" );
+
 #if HAVE_NETDB_H
     struct in_addr addr;
     gethostname(buf, 256);
@@ -218,12 +227,44 @@ void get_osinfo(HOST_INFO& host) {
 }
 #endif
 
+int get_host_info2(HOST_INFO &host);
+
 // General function to get all relevant host information
 //
 int get_host_info(HOST_INFO& host) {
+    int timezone;    // seconds added to local time to get UTC
+
+    host.timezone = 0;
+    strcpy(host.domain_name,"");
+    strcpy(host.serialnum,"");
+    strcpy(host.ip_addr,"");
+
+    host.on_frac = 0;
+    host.conn_frac = 0;
+    host.active_frac = 0;
+
+    host.p_ncpus = 0;
+    strcpy(host.p_vendor,"");
+    strcpy(host.p_model,"");
+    host.p_fpops = 0;
+    host.p_iops = 0;
+    host.p_membw = 0;
+    host.p_calculated = 0;
+    
+    strcpy(host.os_name,"");
+    strcpy(host.os_version,"");
+
     host.m_nbytes = 0;
     host.m_cache = 0;
     host.m_swap = 0;
+
+    host.d_total = 0;
+    host.d_free = 0;
+
+#ifdef _WIN32
+    return get_host_info2( host );
+#endif
+
 #if HAVE_SYS_SYSTEMINFO_H
     struct statvfs foo;
     char buf[256];

@@ -353,7 +353,7 @@ bool CLIENT_STATE::get_work() {
             action = true;
             break;
         default:
-            scheduler_op->poll();
+            retval = scheduler_op->poll();
             if (scheduler_op->state == SCHEDULER_OP_STATE_DONE) {
                 scheduler_op->state = SCHEDULER_OP_STATE_IDLE;
                 action = true;

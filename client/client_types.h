@@ -35,7 +35,7 @@
 #define STDERR_MAX_LEN 4096
 
 class FILE_XFER;
-class RESULT;
+struct RESULT;
 
 struct STRING256 {
     char text[256];

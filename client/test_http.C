@@ -17,8 +17,16 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
+#ifdef _WIN32
+#include "winsock.h"
+#include "win_net.h"
+#endif
 #include <stdio.h>
+#if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "http.h"
 #include "log_flags.h"
@@ -31,6 +39,9 @@ int main() {
     HTTP_OP *op1=0, *op2=0, *op3=0;
     int retval, n;
 
+#ifdef _WIN32
+    NetOpen();
+#endif
     log_flags.http_debug = true;
     log_flags.net_xfer_debug = true;
 
@@ -78,7 +89,9 @@ int main() {
             op3 = 0;
 	}
 	if (!op1 && !op2 && !op3) break;
-	sleep(1);
+	boinc_sleep(1);
     }
     printf("all done\n");
+
+    return 0;
 }
