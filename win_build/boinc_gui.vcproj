@@ -43,11 +43,13 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib"
+				AdditionalDependencies="nafxcw.lib atls.lib libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib comdlg32.lib comctl32.lib shell32.lib shlwapi.lib ole32.lib oleaut32.lib oleacc.lib winspool.lib oldnames.lib uuid.lib"
 				OutputFile=".\Build\Release/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd"
+				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreDefaultLibraryNames=""
+				DelayLoadDLLs="oleacc.lib"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_gui.pdb"
 				SubSystem="2"
@@ -1364,10 +1366,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1387,10 +1389,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">
