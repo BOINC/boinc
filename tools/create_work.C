@@ -171,7 +171,7 @@ int main(int argc, char** argv) {
 #define CHKARG_STR(v,m) CHKARG(strlen(v),m)
 
     CHKARG_STR(app.name             , "need -appname");
-    CHKARG_STR(wu.name              , "need -wuname");
+    CHKARG_STR(wu.name              , "need -wu_name");
     CHKARG_STR(wu_template_file     , "need -wu_template");
     CHKARG_STR(result_template_file , "need -result_template");
     CHKARG(wu.delay_bound           , "need -delay_bound");
