@@ -410,10 +410,9 @@ struct RESULT {
 struct MSG_FROM_HOST {
     int id;
     int create_time;
-    int send_time;                  // when API call was made
     int hostid;
-    int variety;                    // project-defined; generally app ID
-    bool handled;                   // trickle handler has processed this
+    char variety[256];              // project-defined; what kind of msg
+    bool handled;                   // message handler has processed this
     char xml[LARGE_BLOB_SIZE];
     void clear();
 };
@@ -422,9 +421,9 @@ struct MSG_TO_HOST {
     int id;
     int create_time;
     int hostid;
-    int variety;                    // project-defined; generally app ID
+    char variety[256];              // project-defined; what kind of msg
     bool handled;                   // scheduler has sent this
-    char xml[LARGE_BLOB_SIZE];
+    char xml[LARGE_BLOB_SIZE];      // text to include in sched reply
     void clear();
 };
 

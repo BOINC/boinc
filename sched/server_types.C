@@ -147,15 +147,8 @@ int MSG_FROM_HOST_DESC::parse(FILE* fin) {
     msg_text = "";
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</msg_from_host>")) return 0;
-        if (parse_int(buf, "<time>", send_time)) continue;
-        if (match_tag(buf, "<text>")) {
-            while (fgets(buf, 256, fin)) {
-                if (match_tag(buf, "</text>")) break;
-                msg_text += buf;
-            }
-        } else {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL, "MSG_FROM_HOST_DESC::parse(): unrecognized: %s\n", buf);
-        }
+        if (parse_str(buf, "<variety>", variety, sizeof(variety))) continue;
+        msg_text += buf;
     }
     return ERR_XML_PARSE;
 }

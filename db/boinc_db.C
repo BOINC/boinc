@@ -529,11 +529,11 @@ int DB_RESULT::insert() {
 void DB_MSG_FROM_HOST::db_print(char* buf) {
     ESCAPE(xml);
     sprintf(buf,
-        "create_time=%d, send_time=%d, "
-        "hostid=%d, variety=%d, "
+        "create_time=%d, "
+        "hostid=%d, variety='%s', "
         "handled=%d, xml='%s'",
 
-        create_time, send_time,
+        create_time,
         hostid, variety,
         handled, xml
 
@@ -546,9 +546,8 @@ void DB_MSG_FROM_HOST::db_parse(MYSQL_ROW& r) {
     clear();
     id = atol(r[i++]);
     create_time = atol(r[i++]);
-    send_time = atol(r[i++]);
     hostid = atol(r[i++]);
-    variety = atol(r[i++]);
+    strcpy2(variety, r[i++]);
     handled = atoi(r[i++]);
     strcpy2(xml, r[i++]);
 }
@@ -557,7 +556,7 @@ void DB_MSG_TO_HOST::db_print(char* buf) {
     ESCAPE(xml);
     sprintf(buf,
         "create_time=%d, "
-        "hostid=%d, variety=%d, "
+        "hostid=%d, variety='%s', "
         "handled=%d, xml='%s'",
         create_time,
         hostid, variety,
@@ -572,7 +571,7 @@ void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
     id = atol(r[i++]);
     create_time = atol(r[i++]);
     hostid = atol(r[i++]);
-    variety = atol(r[i++]);
+    strcpy2(variety, r[i++]);
     handled = atol(r[i++]);
     strcpy2(xml, r[i++]);
 }

@@ -42,7 +42,7 @@ using namespace std;
 #include "sched_msgs.h"
 
 SCHED_CONFIG config;
-char app_name[256];
+char variety[256];
 
 extern int handle_trickle(MSG_FROM_HOST&);
 
@@ -57,9 +57,14 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = mfh.hostid;
-    mth.variety = mfh.variety;
+    strcpy(mth.variety, mfh.variety);
     mth.handled = false;
-    strcpy(mth.xml, mfh.xml);
+    sprintf(mth.xml,
+        "<trickle_down>\n"
+        "%s"
+        "</trickle_down>\n",
+        mfh.xml
+    );
     retval = mth.insert();
     if (retval) {
         printf("insert failed %d\n", retval);
@@ -76,7 +81,7 @@ bool do_trickle_scan(APP& app) {
     bool found=false;
     int retval;
 
-    sprintf(buf, "where variety=%d and handled=0", app.id);
+    sprintf(buf, "where variety='%s' and handled=0", variety);
     while (!mfh.enumerate(buf)) {
         retval = handle_trickle(mfh);
         if (!retval) {
@@ -97,13 +102,6 @@ int main_loop(bool one_pass) {
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "boinc_db.open failed: %d\n", retval);
-        exit(1);
-    }
-
-    sprintf(buf, "where name='%s'", app_name);
-    retval = app.lookup(buf);
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find app %s\n", app.name);
         exit(1);
     }
 
@@ -130,8 +128,8 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-app")) {
-            strcpy(app_name, argv[++i]);
+        } else if (!strcmp(argv[i], "-variety")) {
+            strcpy(variety, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {

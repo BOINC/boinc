@@ -14617,13 +14617,17 @@ David  4 July 2004
 David  7 July 2004
 	- Completed (more or less) the implementation of trickle messages.
 		Some changes:
-		- Trickle-up messages now have a "variety", specified by the application.
+		- Trickle-up messages now have a "variety",
+            specified by the application.
 			Typically it's the name of the application.
 			The trickle-up handler (on the server side) specifies what
-			variety of message is wants to handle.
+			variety of message it wants to handle.
 		- boinc_receive_trickle_down() no longer returns the message itself;
 			instead, it returns the name of the file.
 			The app must open, read and delete the file.
+
+    NOTE: the structure of the msg_to_host and msg_from_host tables
+        is changed.  Projects will want to drop and recreate these.
 
 	api/
 		boinc_api.C,h
@@ -14632,6 +14636,14 @@ David  7 July 2004
 		cs_scheduler.C
 		cs_trickle.C
 		scheduler_op.C,h
+    db/
+        boinc_db.C,h
+        schema.sql
 	lib/
 		diagnostics.h
 		filesys.C
+    sched/
+        handle_request.C
+        server_types.C,h
+        trickle_handler.C
+

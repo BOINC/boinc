@@ -550,7 +550,6 @@ inline static const char* get_remote_addr() {
 
 void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
-    DB_RESULT result;
     DB_MSG_FROM_HOST mfh;
     int retval;
     char buf[256];
@@ -558,40 +557,17 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     for (i=0; i<sreq.msgs_from_host.size(); i++) {
         reply.send_msg_ack = true;
         MSG_FROM_HOST_DESC& md = sreq.msgs_from_host[i];
-        sprintf(buf, "where name='%s'", md.result_name);
-        retval = result.lookup(buf);
-        // Method for checking if message was linked to result
-        // no longer used, may have to find new way of checking validity
-        // of message
-        /*
-        if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] msg_from_host: no result %s\n",
-                reply.host.id, md.result_name
-            );
-            continue;
-        }
-        if (reply.user.id != result.userid) {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] msg_from_host: wrong user ID %d, %d\n",
-                reply.host.id, reply.user.id, result.userid
-            );
-            continue;
-        }
-        if (reply.host.id != result.hostid) {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] msg_from_host: wrong host ID %d\n",
-                reply.host.id, result.hostid
-            );
-            continue;
-            }
-        */
         mfh.clear();
         mfh.create_time = time(0);
-        mfh.send_time = md.send_time;
+        safe_strcpy(mfh.variety, md.variety);
         mfh.hostid = reply.host.id;
         mfh.handled = false;
         safe_strcpy(mfh.xml, md.msg_text.c_str());
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL,
+            "got msg from host; variety %s text %s\n",
+            mfh.variety, mfh.xml
+        );
         retval = mfh.insert();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -605,7 +581,7 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_MSG_TO_HOST mth;
     char buf[256];
-    sprintf(buf, "where hostid = %d", reply.host.id);
+    sprintf(buf, "where hostid = %d and handled=0", reply.host.id);
     while (!mth.enumerate(buf)) {
         reply.msgs_to_host.push_back(mth);
         mth.handled = true;

@@ -223,9 +223,8 @@ create table result (
 create table msg_from_host (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
-    send_time           integer     not null,
     hostid              integer     not null,
-    variety             integer     not null,
+    variety             varchar(254) not null,
     handled             smallint    not null,
     xml                 text,
     primary key (id)
@@ -235,7 +234,7 @@ create table msg_to_host (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
     hostid              integer     not null,
-    variety             integer     not null,
+    variety             varchar(254) not null,
     handled             smallint    not null,
     xml                 text,
     primary key (id)

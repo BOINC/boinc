@@ -28,8 +28,7 @@
 #include "md5_file.h"
 
 struct MSG_FROM_HOST_DESC {
-    char result_name[256];
-    int send_time;
+    char variety[256];
     string msg_text;
     int parse(FILE*);
 };
