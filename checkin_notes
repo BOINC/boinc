@@ -11134,3 +11134,10 @@ David  Mar 30 2004
         cs_prefs.C
         cs_scheduler.C
         prefs.C,h
+
+David  Mar 30 2004
+    - don't check file size (on app startup) if it's an anonymous
+        platform project, and it's an app version file
+
+    client/
+        cs_apps.C
