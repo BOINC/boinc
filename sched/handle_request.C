@@ -615,7 +615,7 @@ void process_request(
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
-    struct tm *rpm_time_tm;
+    struct tm *rpc_time_tm;
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
     bool ok_to_send = true;
@@ -646,7 +646,7 @@ void process_request(
     last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     reply.host.rpc_time = time(0);
-    rpm_time_tm = localtime((const time_t*)&reply.host.rpc_time);
+    rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
