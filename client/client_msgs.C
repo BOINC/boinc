@@ -23,11 +23,12 @@
 #ifndef _WIN32
 #include <stdarg.h>
 #include <list>
-using std::list;
 #endif
 
 #include "log_flags.h"
 #include "client_msgs.h"
+
+using std::list;
 
 #define MAX_SAVED_MESSAGES 1000
 

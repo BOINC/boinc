@@ -25,6 +25,9 @@
 #include "hostinfo.h"
 #include "win_net.h"
 
+using std::string;
+using std::vector;
+
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
 

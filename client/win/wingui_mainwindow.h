@@ -139,7 +139,7 @@ protected:
 	PROJECT*				GetProjectFromContextMenu();
 	DWORD					GetUserIdleTime();
 	void					ClearProjectItems(char *);
-	void					Syncronize(CProgressListCtrl*, vector<void*>*);
+    void					Syncronize(CProgressListCtrl*, std::vector<void*>*);
     virtual void			PostNcDestroy();
 
     afx_msg void			OnClose();

@@ -25,11 +25,12 @@
 #include <string>
 #include <string.h>
 #include <stdarg.h>
-using namespace std;
 #endif
 
 #include "error_numbers.h"
 #include "miofile.h"
+
+using std::string;
 
 MIOFILE::MIOFILE() {
     mf = 0;

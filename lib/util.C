@@ -46,7 +46,6 @@
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
-using namespace std;
 #endif
 
 #include "error_numbers.h"
@@ -55,6 +54,8 @@ using namespace std;
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+using std::string;
 
 #if !defined(HAVE_STRLCPY)
 size_t strlcpy(char *dst, const char *src, size_t size) {

@@ -32,7 +32,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <string>
-using namespace std;
 #endif
 
 #include "error_numbers.h"
@@ -42,6 +41,8 @@ using namespace std;
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+using std::string;
 
 // return true if the tag appears in the line
 //
