@@ -44,8 +44,13 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
-    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
+
+#ifdef __WXMSW__
+    EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
+#else
+    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -212,7 +217,53 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 }
 
 
+void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
+{
+    ResetTaskBar();
+
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
+    if ( NULL != pFrame )
+        pFrame->Show();
+}
+
+
+#ifdef __WXMSW__
+
+
+void CTaskBarIcon::OnContextMenu( wxTaskBarIconExEvent& event )
+{
+    CreateContextMenu();
+}
+
+
+#else
+
+
 void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
+{
+    CreateContextMenu();
+}
+
+
+#endif
+
+
+void CTaskBarIcon::ResetTaskBar()
+{
+#ifdef __WXMSW___
+    SetBalloon( iconTaskBarIcon, wxT(""), wxT("") );
+#else
+    SetIcon( iconTaskBarIcon, wxT("") );
+#endif
+
+    dtLastMouseCaptureTime = wxDateTime::Now();
+}
+
+
+void CTaskBarIcon::CreateContextMenu()
 {
     ResetTaskBar();
 
@@ -275,25 +326,5 @@ void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
     PopupMenu( menu );
 
     delete menu;
-}
-
-
-void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
-{
-    ResetTaskBar();
-
-    CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-
-    if ( NULL != pFrame )
-        pFrame->Show();
-}
-
-
-void CTaskBarIcon::ResetTaskBar()
-{
-    SetBalloon( iconTaskBarIcon, wxT(""), wxT("") );
-    dtLastMouseCaptureTime = wxDateTime::Now();
 }
 

@@ -52,8 +52,13 @@ public:
     void OnClose( wxCloseEvent& event );
 
     void OnMouseMove( wxTaskBarIconEvent& event );
-    void OnRButtonDown( wxTaskBarIconEvent& event );
     void OnLButtonDClick( wxTaskBarIconEvent& event );
+
+#ifdef __WXMSW__
+    void OnContextMenu( wxTaskBarIconExEvent& event );
+#else
+    void OnRButtonDown( wxTaskBarIconEvent& event );
+#endif
 
 private:
 
@@ -61,6 +66,7 @@ private:
     wxDateTime dtLastMouseCaptureTime;
 
     void       ResetTaskBar();
+    void       CreateContextMenu();
 
     DECLARE_EVENT_TABLE()
 
