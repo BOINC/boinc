@@ -24179,16 +24179,24 @@ Bruce 7 Feb 2005
       * all platforms now appear in summary pages of failures
     html/
         ops/
+            cancel_wu_action.php
+            cancel_wu_form.php
+            clear_host.php
             create_account_action.ph.
             create_account_form.php
+            create_forums.php
             db_action.php
             db_form.php
             index.php
-            create_forums.php
+            failure_result_summary_by_platform.php
             forum_repair.php
             make_emails_lowercase.php
-            team_repair.php
+            pass_percentage_by_platform.php
+            profile_screen_form.php
             repair_validator_problem.php
+            result_summary.php
+            show_log.php
+            team_repair.php
         inc/
             db_ops.inc
             util_ops.inc
