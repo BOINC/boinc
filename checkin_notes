@@ -14556,3 +14556,21 @@ David  3 July 2004
         feeder.C
     db/
         boinc_db.C,h
+
+David  3 July 2004
+    - tweak DB_WORK_ITEM for performance:
+        use mysql_use_result() instead of mysql_store_result();
+        use high_priority
+        Feeder is performing well now, except that there are
+        long gaps when waiting for query to start returning
+    - Increase delay request to 1 hour when no work, bad auth etc.
+    - turn off showing results for host
+        TODO: parameterize web site feature flags
+
+    db/
+        boinc_db.C
+    html/inc/
+        host.inc
+    sched/
+        handle_request.C
+        sched_send.C

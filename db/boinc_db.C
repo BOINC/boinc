@@ -799,7 +799,7 @@ int DB_WORK_ITEM::enumerate(int limit) {
         );
 #else
         sprintf(query,
-            "select result.id, workunit.* from result left join workunit "
+            "select high_priority result.id, workunit.* from result left join workunit "
             "on workunit.id = result.workunitid "
             "where result.server_state=%d order by result.random "
             "limit %d",
@@ -808,8 +808,9 @@ int DB_WORK_ITEM::enumerate(int limit) {
 #endif
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
-        cursor.rp = mysql_store_result(db->mysql);
+        cursor.rp = mysql_use_result(db->mysql);
         if (!cursor.rp) return mysql_errno(db->mysql);
+        cursor.active = true;
     }
     row = mysql_fetch_row(cursor.rp);
     if (!row) {

@@ -74,7 +74,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             //
             strcpy(reply.message, "Can't find user record");
             strcpy(reply.message_priority, "low");
-            reply.request_delay = 120;
+            reply.request_delay = 3600;
             reply.nucleus_only = true;
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
@@ -90,7 +90,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                "Visit this project's web site to get an authenticator."
             );
             strcpy(reply.message_priority, "low");
-            reply.request_delay = 120;
+            reply.request_delay = 3600;
             reply.nucleus_only = true;
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -131,7 +131,7 @@ lookup_user_and_make_new_host:
                 "Visit this project's web site to get an account ID."
             );
             strcpy(reply.message_priority, "low");
-            reply.request_delay = 120;
+            reply.request_delay = 3600;
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#<none>] Bad authenticator '%s'\n",

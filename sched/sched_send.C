@@ -772,7 +772,7 @@ int send_work(
         }
             
         strcpy(reply.message_priority, "high");
-        reply.request_delay = 10;
+        reply.request_delay = 3600;
 
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL, "[HOST#%d] %s\n",
