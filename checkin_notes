@@ -4654,10 +4654,21 @@ Karl    2003/06/11
     configure.ac
     test/
         Makefile.am
+        db_def_to_php
+        boinc_db.inc
+        version.inc.in
         test.inc
         test_1sec.php
+        test_backend.php
         test_concat.php
+        test_download_backoff.php
+        test_limit.php
+        test_masterurl_failure.php
+        test_mdownload_backoff.php
         test_pers.php
-        test_sanity.php
+        test_rsc.php
+        test_sched_failure.php
+        test_sticky.php
+        test_time.php
         test_uc.php
-        version.inc.in
+        test_upload_backoff.php

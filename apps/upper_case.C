@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -80,7 +80,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
     FILE *app_time=NULL, *client_time=NULL;
 
     if (cpu_time) {
-        app_time = fopen("app.time", "w"), 
+        app_time = fopen("app.time", "w"),
         client_time = fopen("client.time", "w");
         boinc_get_init_data(uc_aid);
     }
@@ -139,20 +139,20 @@ int main(int argc, char **argv) {
     char resolved_name[512];
     MFILE out, time_file;
     FILE* state, *in;
-    
+
     my_start_time = time(0);
 
     strcpy(the_char, "(none)\0");
     retval = boinc_init();
     if (retval) exit(retval);
-    
+
     retval = boinc_init_opengl();
     if (retval) exit(retval);
 
     boinc_get_init_data(uc_aid);
-    fprintf(stderr,
-        "<app prefs>\n%s\n</app_prefs>\n", uc_aid.app_preferences
-    );
+    // fprintf(stderr,
+    //     "<app prefs>\n%s\n</app_prefs>\n", uc_aid.app_preferences
+    // );
 
     boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
@@ -207,8 +207,8 @@ int main(int argc, char **argv) {
         if (run_slow) {
             boinc_sleep(1.);
         }
-        
-#ifdef SIGNAL_H        
+
+#ifdef SIGNAL_H
         if (raise_signal) {
             raise(SIGHUP);
         }
@@ -235,10 +235,10 @@ int main(int argc, char **argv) {
     time_file.printf("%f\n", cur_cpu);
     time_file.flush();
     time_file.close();
-    
+
     boinc_finish_opengl();
     boinc_finish(0);
-    
+
     return 0;
 }
 
@@ -261,7 +261,7 @@ bool app_render(int xs, int ys, double time_of_day)
     yPos += yDelta;
     if (xPos < -1 || xPos > 1) xDelta *= -1;
     if (yPos < -1 || yPos > 1) yDelta *= -1;
-    
+
     glRasterPos2f(-0.9, 0.9);
     glPrint(main_font, "User: %s", uc_aid.user_name);
 

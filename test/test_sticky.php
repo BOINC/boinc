@@ -33,7 +33,7 @@
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
     $project->stop();
 
-    $result->server_state = RESULT_STATE_OVER;
+    $result->server_state = RESULT_SERVER_STATE_OVER;
     $project->check_results(2, $result);
     $project->compare_file("uc_wu_sticky_0_0", "uc_correct_output");
     $project->compare_file("uc_wu_sticky_1_0", "uc_correct_output");

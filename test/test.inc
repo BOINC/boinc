@@ -11,6 +11,7 @@
 // See doc/test.html for details
 
 include_once("version.inc");
+include_once("boinc_db.inc");
 
 ob_end_flush();         // let us see what's going on
 
@@ -106,8 +107,6 @@ function verbose_XPassThru($cmd, $failok=0)
     verbose_echo(2,"   $cmd");
     return XPassThru($cmd, $failok);
 }
-
-define("RESULT_STATE_OVER", 5);
 
 define("KEY_DIR"      , get_env_var("BOINC_KEY_DIR"));
 define("SHMEM_KEY"    , get_env_var("BOINC_SHMEM_KEY"));
@@ -771,22 +770,30 @@ class Project {
         unlink($this->project_dir."/cgi/stop_server");
     }
 
-    function check_results($ntarget, $result) {
+    function check_results($ntarget, $matchresult) {
         $n = 0;
         db_open($this->db_name);
         $result = mysql_query("select * from result");
         while ($x = mysql_fetch_object($result)) {
             $n++;
-            if ($result->server_state != null && $result->server_state != $x->server_state) {
-                error("result $x->id: unexpected state $x->server_state");
+            if ($matchresult->server_state != null && $matchresult->server_state != $x->server_state) {
+                error("result $x->id: unexpected state $x->server_state (expected $matchresult->server_state)");
             }
-            if ($result->stderr_out != null) {
-                if (substr($result->stderr_out, $x->stderr_out)==0) {
-                    error("result $x->id: unexpected stderr_out $x->stderr_out\n");
+            if ($matchresult->stderr_out != null) {
+                // need to use === to differentiate FALSE from 0. php sucks.
+                if (strpos($x->stderr_out,$matchresult->stderr_out)===FALSE) {
+                    error("result $x->id: unexpected stderr_out:
+
+$x->stderr_out
+
+expected:
+
+$matchresult->stderr_out
+");
                 }
             }
-            if ($result->exit_state != null && $result->exit_status != $x->exit_status) {
-                error("result $x->id: unexpected exit_status $x->exit_status\n");
+            if ($matchresult->exit_state != null && $matchresult->exit_status != $x->exit_status) {
+                error("result $x->id: unexpected exit_status $x->exit_status (expected $matchresult->exit_status)");
             }
         }
         if ($n != $ntarget) {
@@ -1051,6 +1058,11 @@ class Work {
         }
         run_tool($cmd);
     }
+}
+
+function test_msg($msg)
+{
+    echo "-- Testing " . $msg . ' ' . str_repeat('-', 78 - strlen($msg)-12) . "\n";
 }
 
 function test_done()

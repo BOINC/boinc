@@ -35,7 +35,7 @@
     $host->run("-exit_when_idle");
     $project->stop();
 
-    $result->server_state = RESULT_STATE_OVER;
+    $result->server_state = RESULT_SERVER_STATE_OVER;
     $project->check_results(1, $result);
     $project->compare_file("uccpu_wu_0_0", "uc_small_correct_output");
     $client_time = $host->read_cpu_time_file("client_time");

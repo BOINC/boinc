@@ -168,7 +168,12 @@ RSA_LIBS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-TESTS = test_sanity.php test_uc.php test_concat.php test_1sec.php
+TESTS = test_sanity.php 			\
+	test_uc.php 				\
+	test_concat.php 			\
+	test_1sec.php				\
+	test_rsc.php
+
 
 EXTRA_DIST = \
         *.xml *.php *wu *result *output		\
@@ -393,6 +398,9 @@ uninstall-am: uninstall-info-am
 
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
+
+boinc_db.inc: ../db/boinc_db.h
+	./db_def_to_php < ../db/boinc_db.h > boinc_db.inc
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -65,7 +65,7 @@
     sleep(30);
 
     // *** DO CHECKS HERE
-    $result->server_state = RESULT_STATE_OVER;
+    $result->server_state = RESULT_SERVER_STATE_OVER;
     $result->exit_status = 0;
     $project->check_results(500, $result);
 

@@ -1,29 +1,25 @@
-#! /usr/local/bin/php
-<?php
-    // test whether the scheduling server filters out
-    // work units too big for client
+#!/usr/local/bin/php -q
+<?php {
+    // $Id$
+
+    // test whether the scheduling server filters out work units too big for
+    // client
 
     include_once("test.inc");
 
-    $retval = 0;
+    test_msg("resource filtering for large work units");
 
     $project = new Project;
     $user = new User();
     $host = new Host($user);
-    $app = new App("upper_case");
-    $app_version = new App_Version($app);
+    $project->add_app_and_version("upper_case");
 
     $project->add_user($user);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
     $project->install_feeder();
 
-    $host->log_flags = "log_flags.xml";
     $host->add_user($user,$project);
     $host->install();
-
-    echo "adding work\n";
 
     $work = new Work($app);
     $work->wu_template = "uc_wu";
@@ -38,8 +34,8 @@
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
     $project->stop();
 
-    $result->server_state = RESULT_STATE_OVER;
-    $project->check_results(0, $result);
+    $result->server_state = RESULT_SERVER_STATE_UNSENT;
+    $project->check_results(1, $result);
 
-    exit($retval);
-?>
+    test_done();
+} ?>

@@ -9,7 +9,7 @@
 
     include_once("test.inc");
 
-    echo "-- Testing multiple projects --------------------------------------------------\n";
+    test_msg("multiple projects with resource share");
 
     $project1 = new Project;
     $project2 = new Project;
@@ -57,7 +57,7 @@
     $project1->stop(1);
     $project2->stop();
 
-    $result->server_state = RESULT_STATE_OVER;
+    $result->server_state = RESULT_SERVER_STATE_OVER;
     $project1->check_results(5, $result);
     $project1->compare_file("uc_wu_0_0", "uc_correct_output");
     $project1->compare_file("uc_wu_1_0", "uc_correct_output");

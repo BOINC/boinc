@@ -8,7 +8,7 @@
 
     include_once("test.inc");
 
-    echo "-- Testing standard upper_case application ------------------------------------\n";
+    test_msg("standard upper_case application");
 
     $project = new Project;
     $project->add_core_and_version();
@@ -48,8 +48,10 @@
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
     $project->validate(2);
-    $result->server_state = RESULT_STATE_OVER;
-    $result->stderr_out = "APP: upper_case: starting, argc 1";
+    $result->server_state = RESULT_SERVER_STATE_OVER;
+    $result->stderr_out = "APP: upper_case: starting, argc 1
+APP: upper_case: argv[0] is upper_case
+APP: upper_case ending, wrote ";
     $result->exit_status = 0;
     $project->check_results(2, $result);
     $project->compare_file("uc_wu_0_0", "uc_correct_output");

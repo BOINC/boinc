@@ -59,7 +59,7 @@
     sleep(1);       // make sure feeder has a chance to run
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
-    $result->server_state = RESULT_STATE_OVER;
+    $result->server_state = RESULT_SERVER_STATE_OVER;
     $result->stderr_out = "APP: upper_case: starting, argc 1";
     $result->exit_status = 0;
     $project->check_results(1, $result);
