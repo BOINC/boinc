@@ -652,6 +652,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<trickle_up_ack/>")) {
             trickle_up_ack = true;
+        } else if (parse_str(buf, "<email_hash>", project->email_hash, sizeof(project->email_hash))) {
+            continue;
+        } else if (parse_str(buf, "<cross_project_id>", project->cross_project_id, sizeof(project->cross_project_id))) {
+            continue;
         } else if (strlen(buf)>1){
             msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
