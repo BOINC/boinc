@@ -12,9 +12,9 @@
     init_client_dirs("account_sah.xml");
     copy_to_download_dir("work_unit.sah");
     add_platform();
-    add_core_client();
+    add_core_client(null);
     add_user(null);
-    add_app("setiathome-3.06");
+    add_app("setiathome-3.06",null,null);
     create_work("-appname setiathome-3.06 -wu_name sah_wu -wu_template sah_wu -result_template sah_result -nresults 1 work_unit.sah");
     echo "starting feeder\n";
     start_feeder();

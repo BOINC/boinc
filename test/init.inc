@@ -132,28 +132,46 @@ function add_platform($platform) {
     }
 }
 
-function add_core_client_message($message, $priority) {
+function add_core_client_message($message, $priority, $platform) {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_UPLOAD_DIR;
     global $BOINC_PLATFORM;
 
+    if( $platform == null ) {
+        $plat = $BOINC_PLATFORM;
+    } else {
+        $plat = $platform;
+    }
     PassThru("../tools/add app -app_name core_client -version ".VERSION);
-    PassThru("../tools/add app_version -app_name core_client -platform_name $BOINC_PLATFORM -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -message '$message' -message_priority '$priority'");
+    PassThru("../tools/add app_version -app_name core_client -platform_name $plat -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -message '$message' -message_priority '$priority'");
     PassThru("cp ../client/".CORE_CLIENT." $BOINC_DOWNLOAD_DIR");
 }
 
-function add_core_client() {
-    add_core_client_message("", "");
+function add_core_client($platform) {
+    add_core_client_message("", "", $platform);
 }
 
-function add_app($name) {
+function add_app($name,$platform,$exec_name) {
+    PassThru("../tools/add app -app_name $name -version ".VERSION);
+    add_app_version( $name, $platform, $exec_name );
+}
+
+function add_app_version($name,$platform,$exec_name) {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_PLATFORM;
     global $BOINC_URL_BASE;
 
-    PassThru("../tools/add app -app_name $name -version ".VERSION);
-    PassThru("../tools/add app_version -app_name $name -platform_name $BOINC_PLATFORM -version ".VERSION." -exec_dir ../apps -exec_file $name -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE");
-    PassThru("cp ../apps/$name $BOINC_DOWNLOAD_DIR");
+    if( $exec_name == null ) {
+        $exec_name = $name;
+    }
+    if( $platform == null ) {
+        $plat = $BOINC_PLATFORM;
+    } else {
+        $plat = $platform;
+    }
+
+    PassThru("../tools/add app_version -app_name $name -platform_name $plat -version ".VERSION." -exec_dir ../apps -exec_file $exec_name -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE");
+    PassThru("cp ../apps/$exec_name $BOINC_DOWNLOAD_DIR");
 }
 
 function create_work($x) {

@@ -13,9 +13,9 @@
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("input");
     add_platform(null);
-    add_core_client();
+    add_core_client(null);
     add_user(null);
-    add_app("concat");
+    add_app("concat",null,null);
     create_work("-appname concat -wu_name concat_wu -wu_template concat_wu -result_template concat_result -nresults 2 input input");
     start_feeder();
     run_client("-exit_when_idle");
