@@ -113,6 +113,29 @@ struct USER {
     int expavg_time;        // last time the above was computed
     char prefs[MAX_BLOB_SIZE];
     unsigned int prefs_mod_time;
+    int teamid;			//if the user is part of a team
+};
+
+#define TEAM_TYPE_COMPANY_SMALL		1
+#define TEAM_TYPE_COMPANY_MEDIUM	2
+#define TEAM_TYPE_COMPANY_LARGE		3
+#define TEAM_TYPE_CLUB			4
+#define TEAM_TYPE_PRIMARY		5
+#define TEAM_TYPE_SECONDARY		6
+#define TEAM_TYPE_UNIVERSITY		7
+#define TEAM_TYPE_JUNIOR_COLLEGE	8
+#define TEAM_TYPE_GOVERNMENT		9
+
+struct TEAM {
+    int id;
+    int userid;
+    char name[256];
+    char name_lc[256];
+    char url[256];
+    int type;
+    char name_html[256];
+    char description[256];
+    int nusers;
 };
 
 struct HOST {
@@ -240,6 +263,13 @@ extern int db_user(int, USER&);
 extern int db_user_update(USER&);
 extern int db_user_lookup_auth(USER&);
 extern int db_user_lookup_email_addr(USER&);
+
+extern int db_team(int, TEAM&);
+extern int db_team_new(TEAM&);
+extern int db_team_update(TEAM&);
+extern int db_team_lookup_name(TEAM&);
+extern int db_team_lookup_name_lc(TEAM&);
+extern int db_team_enum(TEAM&);
 
 extern int db_host_new(HOST& p);
 extern int db_host(int, HOST&);

@@ -1,4 +1,4 @@
-use boinc;
+use BOINC_DB_NAME
 
 create table platform (
     id              integer     not null auto_increment,
@@ -46,8 +46,23 @@ create table user (
     expavg_time     integer     not null,
     prefs           blob,
     prefs_mod_time  integer     not null,
+    teamid	    integer	not null,
     primary key (id)
 );
+
+create table team (
+    id		    integer     not null auto_increment,
+    userid	    integer	not null,
+    name	    varchar(254),
+    name_lc	    varchar(254),
+    url		    varchar(254),
+    type	    integer	not null,
+    name_html	    varchar(254),
+    description     varchar(254),
+    nusers          integer     not null,
+    primary key (id)
+);
+
 
 create table host (
     id              integer     not null auto_increment,

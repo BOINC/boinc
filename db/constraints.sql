@@ -1,4 +1,4 @@
-use boinc;
+use BOINC_DB_NAME;
 
 alter table platform
     add unique(name);
@@ -11,6 +11,9 @@ alter table app_version
 
 alter table user
     add unique(email_addr);
+
+alter table team
+    add unique(name);
 
 alter table workunit
     add unique(name);

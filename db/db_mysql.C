@@ -1,6 +1,5 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
-// compliance with the License. You may obtain a copy of the License at
 // http://www.mozilla.org/MPL/ 
 // 
 // Software distributed under the License is distributed on an "AS IS"
@@ -30,9 +29,10 @@
 #define TYPE_APP	        2
 #define TYPE_APP_VERSION	3
 #define TYPE_USER	        4
-#define TYPE_HOST	        5
-#define TYPE_WORKUNIT	        6
-#define TYPE_RESULT	        7
+#define TYPE_TEAM		5
+#define TYPE_HOST	        6
+#define TYPE_WORKUNIT	        7
+#define TYPE_RESULT	        8
 
 char* table_name[] = {
     "",
@@ -40,6 +40,7 @@ char* table_name[] = {
     "app",
     "app_version",
     "user",
+    "team",
     "host",
     "workunit",
     "result",
@@ -50,6 +51,7 @@ void struct_to_str(void* vp, char* q, int type) {
     APP* app;
     APP_VERSION* avp;
     USER* up;
+    TEAM* tp;
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
@@ -109,7 +111,7 @@ void struct_to_str(void* vp, char* q, int type) {
             "web_password='%s', authenticator='%s', "
             "country='%s', postal_code='%s', "
             "total_credit=%f, expavg_credit=%f, expavg_time=%d, "
-            "prefs='%s', prefs_mod_time=%d",
+            "prefs='%s', prefs_mod_time=%d, teamid=%d",
 	    up->id,
 	    up->create_time,
 	    up->email_addr,
@@ -122,11 +124,29 @@ void struct_to_str(void* vp, char* q, int type) {
 	    up->expavg_credit,
             up->expavg_time,
             up->prefs,
-            up->prefs_mod_time
+            up->prefs_mod_time,
+	    up->teamid
 	);
         unescape(up->email_addr);
         unescape(up->name);
         unescape(up->web_password);
+	break;
+    case TYPE_TEAM:
+	tp = (TEAM*)vp;
+	sprintf(q,
+	    "id=%d, userid=%d, name='%s', "
+	    "name_lc='%s', url='%s', "
+	    "type=%d, name_html='%s', description='%s', nusers=%d",
+	    tp->id,
+	    tp->userid,
+	    tp->name,
+	    tp->name_lc,
+	    tp->url,
+	    tp->type,
+	    tp->name_html,
+	    tp->description,
+            tp->nusers
+	);
 	break;
     case TYPE_HOST:
         hp = (HOST*)vp;
@@ -195,6 +215,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     APP* app;
     APP_VERSION* avp;
     USER* up;
+    TEAM* tp;
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
@@ -250,6 +271,19 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	up->expavg_time = atoi(r[i++]);
         strcpy(up->prefs, r[i++]);
 	up->prefs_mod_time = atoi(r[i++]);
+	up->teamid = atoi(r[i++]);
+	break;
+    case TYPE_TEAM:
+	tp = (TEAM*)tp;
+	memset(tp, 0, sizeof(TEAM));
+	tp->id = atoi(r[i++]);
+	tp->userid = atoi(r[i++]);
+	strcpy(tp->name, r[i++]);
+	strcpy(tp->name_lc, r[i++]);
+	strcpy(tp->url, r[i++]);
+	strcpy(tp->name_html, r[i++]);
+        strcpy(tp->description, r[i++]);
+        tp->nusers = atoi(r[i++]);
 	break;
     case TYPE_HOST:
 	hp = (HOST*)vp;
@@ -422,6 +456,41 @@ int db_user_lookup_email_addr(USER& p) {
 
     sprintf(buf, "email_addr='%s'", p.email_addr);
     return db_lookup(&p, TYPE_USER, buf);
+}
+
+////////// TEAM /////////
+
+int db_team(int i, TEAM& p) {
+    return db_lookup_id(i, &p, TYPE_TEAM);
+}
+
+int db_team_new(TEAM& p) {
+    return db_new(&p, TYPE_TEAM);
+}
+
+int db_team_update(TEAM& p) {
+    return db_update(&p, TYPE_TEAM);
+}
+
+int db_team_lookup_name(TEAM& p) {
+    char buf[256];
+
+    sprintf(buf, "name='%s'", p.name);
+    return db_lookup(&p, TYPE_TEAM, buf);
+}
+
+int db_team_lookup_name_lc(TEAM& p) {
+    char buf[256];
+
+    sprintf(buf, "name_lc='%s'", p.name_lc);
+    return db_lookup(&p, TYPE_TEAM, buf);
+}
+
+int db_team_enum(USER& p, int id) {
+    static ENUM e;
+    char buf[256];
+    sprintf(buf, "where teamid=%d", id);
+    return db_enum(e, &p, TYPE_USER, buf);
 }
 
 ////////// HOST /////////
