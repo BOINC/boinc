@@ -61,6 +61,7 @@ AC_PROG_CXX
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
+AC_PROG_LN_S
 
 dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
