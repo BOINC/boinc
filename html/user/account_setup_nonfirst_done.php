@@ -3,35 +3,30 @@
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
+include_once("../inc/translation.inc");
 
 db_init();
 $user = get_logged_in_user();
 
-page_head("Account setup: done");
+page_head(tr(AC_DONE_TITLE));
 echo "
-    <h3>Account setup: done</h3>
+    <h3>".tr(AC_DONE_TITLE)."</h3>
 
-    Your account setup is complete.
-    <br>Next you must tell your computer(s) to use this account.
+    ".tr(AC_DONE_COMPLETE)."
+    <br>".tr(AC_DONE_MUST_USE)."
     <ul>
-    <li><b>Windows users:</b>
-        Open the BOINC application window by
-        double-clicking the BOINC system tray icon.
-        Choose the 'Attach to Project' item in the Settings menu.
-        It will ask you for a project URL and an account key.
-    <li><b>Mac, Unix and Linux users:</b>
-        Quit the BOINC client.
-        Then run the BOINC client with the -attach_project option.
-        It will ask you for a project URL and an account key.
+    <li><b>".tr(AC_DONE_WIN)."</b>
+    ".tr(AC_DONE_WIN_TEXT)."
+    <li><b>".tr(AC_DONE_UNIX)."</b>
+    ".tr(AC_DONE_UNIX_TEXT)."
     </ul>
-    In each case copy and paste the following:
+    ".tr(AC_DONE_ANYCASE)."
     <ul>
     <li>Project URL: <b>".MASTER_URL."</b>
     <li>Account Key: $user->authenticator
     </ul>
-                            
-    This completes the ".PROJECT." installation.
-    <br>Thanks for participating in ".PROJECT.".
+    ".tr(AC_DONE_INSTALLED)."                            
+    <br>".tr(AC_DONE_THANKS)."
 ";
 
 page_tail();
