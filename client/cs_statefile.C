@@ -32,13 +32,12 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 //
 int CLIENT_STATE::parse_state_file() {
     char buf[256];
-    FILE* f = fopen(STATE_FILE_NAME, "r");
     PROJECT temp_project, *project=NULL;
     int retval=0;
     int failnum;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
-    if (!f) {
+    if (!boinc_file_exists(STATE_FILE_NAME)) {
         scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
 
         // avoid warning messages about version
@@ -47,6 +46,8 @@ int CLIENT_STATE::parse_state_file() {
         old_minor_version = MINOR_VERSION;
         return ERR_FOPEN;
     }
+
+    FILE* f = fopen(STATE_FILE_NAME, "r");
     fgets(buf, 256, f);
     if (!match_tag(buf, "<client_state>")) {
         retval = ERR_XML_PARSE;
@@ -167,8 +168,10 @@ done:
 //
 int CLIENT_STATE::parse_venue() {
     char buf[256];
+
+    if (!boinc_file_exists(STATE_FILE_NAME)) return 0;
+
     FILE* f = fopen(STATE_FILE_NAME, "r");
-	if (!f) return 0;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
@@ -177,7 +180,9 @@ int CLIENT_STATE::parse_venue() {
             break;
         }
     }
+
     fclose(f);
+
     return 0;
 }
 

@@ -328,8 +328,7 @@ int dir_size(const char* dirpath, double& size) {
     return 0;
 }
 
-// on Windows: if fopen fails, and it's an open for write,
-// try again in 3 seconds
+// on Windows: if fopen fails, try again for 5 seconds
 // (since the file might be open by FastFind, Diskeeper etc.)
 //
 FILE* boinc_fopen(const char* path, const char* mode) {
@@ -337,13 +336,30 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
     f = fopen(path, mode);
 #ifdef _WIN32
-    if ((!f) && (strchr(mode, 'w') || strchr(mode, 'a'))) {
-        boinc_sleep(3.0);
-        f = fopen(path, mode);
+    if (!f) {
+        for (int i = 0; i < 5; i++) {
+            boinc_sleep(1.0);
+            f = fopen(path, mode);
+            if (f) {
+                break;
+            }
+        }
     }
 #endif
     return f;
 }
+
+
+int boinc_file_exists(const char* path) {
+   struct stat buf;
+
+   if (0 == stat(path, &buf)) {
+       return true;
+   }
+
+   return false;
+}
+
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32

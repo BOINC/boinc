@@ -337,10 +337,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 
     // insert global preferences if present
     //
-    FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
-    if (fprefs) {
-        copy_stream(fprefs, f);
-        fclose(fprefs);
+    if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
+        FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
+        if (fprefs) {
+            copy_stream(fprefs, f);
+            fclose(fprefs);
+        }
     }
 
     fprintf(f, "<projects>\n");

@@ -831,8 +831,8 @@ bool ACTIVE_TASK::read_stderr_file() {
     int n;
 
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
-    FILE* f = fopen(path, "r");
-    if (f) {
+    if (boinc_file_exists(path)) {
+        FILE* f = fopen(path, "r");
         n = fread(stderr_file, 1, sizeof(stderr_file)-1, f);
         fclose(f);
         if (n < 0) return false;

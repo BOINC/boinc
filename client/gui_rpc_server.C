@@ -166,7 +166,7 @@ static void handle_set_proxy_settings(char* buf, FILE* fout) {
 }
 
 int GUI_RPC_CONN::handle_rpc() {
-//#ifndef _WIN32
+#ifndef _WIN32
     char buf[1024];
     int n;
 
@@ -200,7 +200,7 @@ int GUI_RPC_CONN::handle_rpc() {
         fprintf(fout, "<unrecognized/>\n");
     }
     fflush(fout);
-//#endif
+#endif
    return 0;
 }
 
@@ -224,7 +224,7 @@ void GUI_RPC_CONN_SET::init(char* path) {
 #else
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, path);
-#endif
+//#endif
 	WSADATA wsdata;
 	WORD wVersionRequested = MAKEWORD(1, 1);
 	WSAStartup(wVersionRequested, &wsdata);
@@ -244,13 +244,13 @@ void GUI_RPC_CONN_SET::init(char* path) {
         perror("listen");
         exit(1);
     }
-//#endif
+#endif
 }
 
 bool GUI_RPC_CONN_SET::poll() {
-//#ifdef _WIN32
-    //return false;
-//#else
+#ifdef _WIN32
+    return false;
+#else
     unsigned int i;
     fd_set read_fds, error_fds;
     int sock, n, retval;
@@ -298,5 +298,5 @@ bool GUI_RPC_CONN_SET::poll() {
         iter++;
     }
     return (n != 0);
-//#endif
+#endif
 }

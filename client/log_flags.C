@@ -27,6 +27,7 @@
 #include "parse.h"
 
 #include "log_flags.h"
+#include "filesys.h"
 
 LOG_FLAGS log_flags;
 
@@ -104,9 +105,10 @@ int LOG_FLAGS::parse(FILE* in) {
 void read_log_flags() {
     FILE* f;
 
-    f = fopen(LOG_FLAGS_FILE, "r");
-    if (f) {
+    if (boinc_file_exists(LOG_FLAGS_FILE)) {
+        f = fopen(LOG_FLAGS_FILE, "r");
         log_flags.parse(f);
         fclose(f);
     }
+
 }

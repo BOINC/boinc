@@ -10199,3 +10199,15 @@ David  Feb 29 2004
 
     lib/
         filesys.C
+
+Rom    Mar 1 2004
+    - Retry on all boinc_fopen operations
+    - added boinc_file_exists()
+
+    client/
+        app.c
+        cs_scheduler.c
+        cs_statefile.c
+        log_flags.c
+    lib/
+        filesys.C, .h
