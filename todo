@@ -41,6 +41,8 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+decide what to do with invalid result files in upload directory
+
 make get_local_ip_addr() work in all cases
 
 Implement FIFO mechanism in scheduler for results that can't be sent

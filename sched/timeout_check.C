@@ -171,6 +171,8 @@ void handle_wu(WORKUNIT& wu) {
         switch (result.server_state) {
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (result.report_deadline < now) {
+                // clean up any incomplete uploads
+                result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
                 db_result_update(result);

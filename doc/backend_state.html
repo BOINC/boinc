@@ -152,7 +152,7 @@ file_delete_state
     READY
         from INIT:
             scheduler: got reply and server_state = OVER
-            timeout_check: all results are OVER
+            timeout_check: all results are OVER or report_deadline has passed
             assimilator: all results are OVER or result is not canonical
         from DONE:
             scheduler: got reply and server_state = OVER
