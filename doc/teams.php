@@ -11,8 +11,10 @@ The participant who created the team is called its <b>founder</b>.
 A team is local to a project.
 There is currently no provision for teams that span projects.
 <p>
-Total and average credit is accounted for teams;
-a team's credit is the sum of the credits of its members.
+Total and average credit is accounted for teams,
+and reflects all work done by participants
+while they belong to the team
+(even if they later quit the team).
 
 <p>
 A team has the following attributes:

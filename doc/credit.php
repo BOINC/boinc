@@ -11,7 +11,7 @@ individuals, teams, and categories (countries, CPU types, etc.)
 ranked by credit.
 
 <p>
-BOINC's credit system is based on a 'reference computer' that does
+BOINC's credit system is based on a 'reference computer' that can do
 <ul>
 <li>1 billion floating-point multiplies per second
 <li>1 billion integer multiplies per second
@@ -19,7 +19,7 @@ BOINC's credit system is based on a 'reference computer' that does
 (sequential, half reads and half writes)
 </ul>
 BOINC's unit of credit, the <b>Cobblestone</b> <sup>1</sup>,
-is one day of CPU time on the reference computer.
+is 1/300 day of CPU time on the reference computer.
 
 <p>
 Each project maintains two types of credit:
@@ -28,7 +28,8 @@ Each project maintains two types of credit:
 The total number of Cobblestones performed.
 <li> <b>Recent average credit</b>:
 The average number of Cobblestones per day performed recently.
-This average decreases by a factor of two every week.
+This average decreases by a factor of two every week,
+according to algorithms given below.
 </ul>
 
 <p>
@@ -62,6 +63,39 @@ projects supply their own benchmarking functions.
 This will also handle the situation where a project's
 application does e.g. all integer arithmetic.
 </ul>
+
+<h3>How 'Recent Average Credit' is computed</h3>
+Each time new credit granted,
+the following function is used to update the
+recent average credit of the host, user and team:
+<pre>
+
+// decay an exponential average of credit per day,
+// and possibly add an increment for new credit
+//
+void update_average(
+    double credit_assigned_time,        // when work was started for new credit
+                                        // (or zero if no new credit)
+    double credit,                      // amount of new credit
+    double& avg,                        // average credit per day (in and out)
+    double& avg_time                    // when average was last computed
+) {
+    double now = dtime();
+
+    if (avg_time) {
+        double diff = now - avg_time;
+        double diff_days = diff/SECONDS_IN_DAY;
+        double weight = exp(-diff*LOG2/AVG_HALF_LIFE);
+        avg *= weight;
+        avg += (1-weight)*(credit/diff_days);
+    } else {
+        double dd = (now - credit_assigned_time)/SECONDS_IN_DAY;
+        avg = credit/dd;
+    }
+    avg_time = now;
+}
+</pre>
+
 <hr noshade size=1>
 <sup>1</sup> Named after Jeff Cobb of SETI@home
 ";

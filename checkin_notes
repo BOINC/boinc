@@ -9184,6 +9184,13 @@ David  Jan 14 2004
         start
 
 David  Jan 14 2004
+    - add <core_client_version> element to <stderr_out>
+        of results when send to server
+
+    client/
+        client_types.C
+
+David  Jan 14 2004
 	- don't blink sys tray icon more than 10 sec (from Rom Walton)
 
 	client/win/
