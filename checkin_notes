@@ -10532,3 +10532,18 @@ David  Mar 16 2004
         validate_test.C
         validate_trivial.C
 
+Rom    Mar 16 2004
+    - Add back in support for Thomas's multi-proc protection aginst strcat for
+        vendor and CPU information
+    - Included the same multi-proc stuff for the x86
+    - Add JKecks change for changing when to report results based on the amount
+        of time the machine is connected onto the Internet.
+    - Added support for keeping a backup copy of stderr.txt and stdout.txt for
+      the previous session of BOINC in case it crashes.
+    
+    client/
+        cs_scheduler.c
+        file_names.h
+        hostinfo_unix.c
+    client/win/
+        wingui_mainwindow.cpp

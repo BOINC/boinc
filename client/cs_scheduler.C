@@ -53,7 +53,15 @@
 
 const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 
-const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
+// default value to be changed in the program
+float SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
+
+// values used in adjusting the deadline to report
+// These values should be changed to produce approximately one week maximum warning
+// in the release version of the client. Recomended base=60*60*12, multiplier=14.0
+const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE = 60*60*6;
+const float DEADLINE_TO_REPORT_MULTIPLIER = 2.0;
+
 
 // estimate the days of work remaining
 //
@@ -385,8 +393,17 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
+    float fReportDeadlineToReport = 0.0;
     RESULT* r;
     time_t now = time(0);
+
+    // update deadline to report before use. connected_frac should be valid here
+    //
+    fReportDeadlineToReport =
+        (SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE *
+        DEADLINE_TO_REPORT_MULTIPLIER *
+        ((float)(1 - time_stats.connected_frac))) +
+        SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE;
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
@@ -405,7 +422,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         //
         if (r->ready_to_report &&
             (return_results_immediately ||
-             r->report_deadline <= now+SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT))
+             r->report_deadline <= (now + fReportDeadlineToReport)))
         {
             return r->project;
         }

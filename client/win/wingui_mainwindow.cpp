@@ -20,6 +20,7 @@
 #include "stdafx.h"
 
 #include "wingui_mainwindow.h"
+#include "boinc_diagnostics.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
@@ -1776,6 +1777,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 
     // take care of other things
     //
+
+    // Store old stdout and stderr so users can give us the goods
+    ::CopyFile(STDOUT_FILE_NAME, STDOUTOLD_FILE_NAME, FALSE);
+    ::CopyFile(STDERR_FILE_NAME, STDERROLD_FILE_NAME, FALSE);
+
     // Redirect stdout and stderr to files
     freopen(STDOUT_FILE_NAME, "w", stdout);
     freopen(STDERR_FILE_NAME, "w", stderr);
