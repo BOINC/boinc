@@ -48,7 +48,7 @@ function setup_form() {
         process_create_results();
         exit();
     }
-    
+
     echo "
 <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
 ";
@@ -93,9 +93,9 @@ function show_textarea($name) {
 
 function show_picture_option() {
     global $profile_info;
-    
+
     row1("Your Picture");
-    
+
     if ($profile_info['has_picture']) {
         echo "
 <tr><td colspan=2>
@@ -109,7 +109,7 @@ If you would like to replace it, please click the \"Browse\" button and select t
 you would like to use instead. (No animated GIFs, please!)    If you would rather not have a picture
 with your profile, click the \"Delete\" checkbox.    If you like your current picture, there is no need
 to do anything.<p>
-<input name=\"picture\" type=\"file\"><br> 
+<input name=\"picture\" type=\"file\"><br>
 <font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>";
         rowify("<br>");
         end_table();
@@ -121,7 +121,7 @@ Do you have a picture of yourself on your computer?
 If you would like us to include it with your profile,
 please click the \"Browse\" button and select the JPEG or PNG file
 you want to send. (No animated GIFs, please!)<br>
-<input name=\"picture\" type=\"file\"><br> 
+<input name=\"picture\" type=\"file\"><br>
 <font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>");
         rowify("<br>");
     }
@@ -131,7 +131,7 @@ function show_language_selection() {
     global $profile_info;
 
     row1("Select Your Primary Language");
-    rowify("Selecting a language will help others with the same language preference to find each others' profiles and message board postings."); 
+    rowify("Selecting a language will help others with the same language preference to find each others' profiles and message board postings.");
     echo "<tr><td>";
     if ($profile_info) {
         show_combo_box("language", LANGUAGE_FILE, $profile_info['language']);
@@ -143,12 +143,12 @@ function show_language_selection() {
 
 function show_finale() {
     global $profile_info;
-    
+
     row1("Submit Your Profile");
     $email_check = "<input type=\"checkbox\" name=\"hide_email\"";
     if ($profile_info['hide_email']) {
         $email_check = $email_check . " checked";
-    } 
+    }
     $email_check = $email_check . ">Please do NOT show my email address in my profile.";
     rowify($email_check . "<p>
             <input type=\"submit\" value=\"Submit\" name=\"submit\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type=\"reset\" value=\"Clear\" name=\"clear\">");
@@ -160,7 +160,7 @@ function show_finale() {
 function delete_user_pictures($userid) {
     $filename1 = IMAGE_PATH . $userid . '.jpg';
     $filename2 = IMAGE_PATH . $userid . '_sm.jpg';
-    
+
     if (file_exists($filename1)) {
         unlink($filename1);
     }
@@ -176,14 +176,14 @@ function process_create_results() {
     $response1 = $_POST['response1'];
     $response2 = $_POST['response2'];
     $language = $_POST['language'];
-    $delete_pic = $_POST['delete_pic']; 
+    $delete_pic = $_POST['delete_pic'];
     $hide_email = ($_POST['hide_email'] == "on");
-    
+
     if (strlen($response1)==0 &&
         strlen($response2)==0 &&
         $delete_pic != "on" &&
         $hide_email != "on" &&
-        
+
         !is_uploaded_file($_FILES['picture']['tmp_name'])
     ) {
         profile_error_page("Your profile submission was empty.");
@@ -197,11 +197,11 @@ function process_create_results() {
         $profile_info['has_picture'] = false;
     }
 
-    $profile_info ? $hasPicture = $profile_info['has_picture']: $hasPicture = false;    
+    $profile_info ? $hasPicture = $profile_info['has_picture']: $hasPicture = false;
 
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
         $hasPicture = true;
-                    
+
             /*
             echo "<br>Name: " . $_FILES['picture']['name'];
             echo "<br>Type: " . $_FILES['picture']['type'];
@@ -209,8 +209,8 @@ function process_create_results() {
             echo "<br>Temp name: " . $_FILES['picture']['tmp_name'];
             */
 
-            $images = getImages($_FILES['picture']['tmp_name']);    
-     
+            $images = getImages($_FILES['picture']['tmp_name']);
+
             // Write the original image file to disk.
             // TODO: define a constant for image quality.
             ImageJPEG($images[0], IMAGE_PATH . $user->id . '.jpg');
@@ -237,12 +237,12 @@ function process_create_results() {
     }
 
     $result = mysql_query($query);
-    
+
     if (!$result) {
         profile_error_page("Couldn't create profile: database error!");
         exit();
     }
-    
+
     show_result_page();
 }
 
@@ -277,7 +277,7 @@ function getImages($fileName) {
     if ($width > MAX_IMG_WIDTH || $height > MAX_IMG_HEIGHT) {
         $image = scale_image($image, $width, $height, MAX_IMG_WIDTH, MAX_IMG_HEIGHT);
     }
-        
+
     /*
     echo "<br><br>Image type: $size[2]";
     echo "<br>Original width: $width";
@@ -289,19 +289,19 @@ function getImages($fileName) {
     echo "<br>Vertical offset: $vert_offset";
     echo "<br><br><a href=\"images/user_profile/test.jpg\">View result</a>";
     */
-    
+
     return array($image, $smallImage);
 }
 
 function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeight) {
-    
+
     // If the image is already smaller than the target dimensions, just return it.
     if ($origWidth <= $targetWidth && $origHeight <= $targetHeight) {
         return $image;
     }
-    
+
     ($origWidth > $origHeight)? $scalar = ($origWidth / $targetWidth) : $scalar = ($origHeight / $targetHeight);
-    
+
     if ($scalar != 0) {
         $destWidth = $origWidth / $scalar;
         $destHeight = $origHeight / $scalar;
@@ -309,7 +309,7 @@ function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeigh
         $destWidth = $origWidth;
         $destHeight = $origHeight;
     }
-    
+
     $newImage = ImageCreateTrueColor($destWidth, $destHeight);
 
     ImageCopyResampled($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
@@ -348,28 +348,28 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
   // TODO: Would be nice if we could open a stream to stdout to avoid
   // all the redundant $descriptor checks.  Once the server is running
   // PHP 5+, might want to try switching over to fprintf(...).
-    
+
   if ($descriptor) {
     fwrite($descriptor, "<table border=1 cellpadding=5>\n");
   } else {
     echo "<table border=1 cellpadding=5>";
   }
-  
+
   $rows = ceil($numToDisplay / $cols);
   $count = $offset;
   $numMembers = count($members);
-  
+
   for ($row = 0; $row < $rows; $row++) {
     if ($count >= $numMembers) {
       break;
     }
-    
+
     if ($descriptor) {
-      fwrite($descriptor, "<tr>\n"); 
+      fwrite($descriptor, "<tr>\n");
     } else {
       echo "<tr>";
     }
-    
+
     // Formatting is a table with two columns of user summaries.
     for ($col = 0; $col < $cols; $col++) {
       if ($count < $numMembers) {
@@ -378,7 +378,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
 	} else {
 	  echo "<td width=7% height=64><center>";
 	}
-	
+
 	// Only link an image if one exists.
 	if (file_exists($pathMod . IMAGE_PATH . $members[$count] . '_sm.jpg')) {
 	  if ($descriptor) {
@@ -386,7 +386,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
 	  } else {
 	    echo "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>";
 	  }
-	  
+
 	} else {
 	  if ($descriptor) {
 	    fwrite($descriptor, "&nbsp;");
@@ -401,7 +401,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
 	} else {
 	  echo "</center></td><td width=33% height=64>\n", get_profile_summary($members[$count]), "</td>";
 	}
-	
+
 	$count++;
       }
       else {
@@ -426,8 +426,8 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
   }
 }
 
-// Generates a string containing: 
-//   1) the name of the user with ID == $userid, with a link to a view of their profile; 
+// Generates a string containing:
+//   1) the name of the user with ID == $userid, with a link to a view of their profile;
 //   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
 
 function get_profile_summary($userid) {
@@ -439,7 +439,7 @@ function get_profile_summary($userid) {
     exit();
   }
 
-  $row = mysql_fetch_assoc($result);  
+  $row = mysql_fetch_assoc($result);
   $row2 = mysql_fetch_assoc($result2);
 
   mysql_free_result($result);
@@ -463,21 +463,21 @@ function get_profile_summary($userid) {
 
 // Displays a users profile (if they have one);
 
-function show_profile($userid, $verify_mode=false) {    
+function show_profile($userid, $verify_mode=false) {
     if (!$userid) {
         profile_error_page("No user ID was specified.<p>");
         exit();
     }
-    
+
     $user = get_user_from_id($userid);
-    
+
     if (!$user) {
         profile_error_page("No user exists for that ID, or there was a database error.<p>");
         exit();
     }
-    
+
     $result = mysql_query("SELECT * FROM profile WHERE userid = $user->id");
-    
+
     if (mysql_num_rows($result) > 0) {
         $profile_info = mysql_fetch_array($result, MYSQL_ASSOC);
     } else {
@@ -489,11 +489,11 @@ function show_profile($userid, $verify_mode=false) {
         $logged_in_user = get_logged_in_user(false);  // (false) since anyone can look at profiles.;
     }
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
-    
+
     if (!$verify_mode) {
         page_head("User Profile: ".$user->name);
     }
-    
+
     if ($can_edit) {
         echo "<a href=create_profile.php>[Edit Your Profile]</a>";
     }
@@ -512,7 +512,7 @@ function show_profile($userid, $verify_mode=false) {
     }
 }
 
-function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {  
+function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
   echo "
 <table border=0 cellpadding = 1 width=100%>\n
 <tr><td><h1>$user->name</h1></td><td align=\"center\">";
@@ -528,7 +528,7 @@ echo "</td></tr>\n<tr><td colspan=\"2\">\n";
     echo "
 <a href=\"" , IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
   }
-  
+
   echo "
 <font size=\"-1\">
 <b>Country:</b> ", $user->country, "&nbsp&nbsp<b>Language:</b> ", $profile_info['language'], "<br>";
@@ -567,19 +567,19 @@ function process_view_results($vote, $userid) {
     echo "Invalid vote type.<br>";
     exit();
   }
-  
+
   $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
   $profile = mysql_fetch_array($result);
-  
+
   $newValue = $profile[$vote] + 1;
   $newresult = mysql_query("UPDATE profile SET $vote = $newValue WHERE userid = $userid");
-  
+
   page_head("Vote Recorded");
 
   start_table_noborder();
 
   row1("Thank you");
-  
+
   if ($vote == "recommend") {
     rowify("Your recommendation has been recorded.");
   } else {

@@ -31,7 +31,7 @@ function init_session() {
 function require_login($user, $pathMod="") {
     if (!$user) {
         print_login_form($pathMod);
-        exit();    
+        exit();
     }
 }
 
@@ -79,7 +79,7 @@ function show_login($user) {
 // output a select form item with the given name,
 // from a list of newline-delineated items from the text file.
 // If $selection is provided, and if it matches one of the entries in the file,
-// it will be selected by default.  
+// it will be selected by default.
 //
 function show_combo_box($name, $filename, $selection=null) {
     if (!file_exists($filename)) {
@@ -87,9 +87,9 @@ function show_combo_box($name, $filename, $selection=null) {
         exit();
     }
     echo "<select name=\"$name\">\n";
-  
+
     $file = fopen($filename, "r");
-  
+
     while ($line = trim(fgets($file, 1024))) {
         if ($line == $selection) {
             echo "<option SELECTED value=\"$line\">$line\n";
@@ -103,7 +103,7 @@ function show_combo_box($name, $filename, $selection=null) {
 }
 
 // write to the given fd if non-null; else echo
-// 
+//
 function write_fd($fd, $str) {
     if ($fd) {
         fwrite($fd, $str);
@@ -138,18 +138,21 @@ function db_error_page() {
 
 function profile_error_page($str) {
   page_head("Profile error");
-  echo "$str<br>\n"; 
+  echo "$str<br>\n";
   echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
   page_tail();
 }
 
 function date_str($when) {
-    return date("g:i A, l M j", $when);
+    if ($x == 0) return "---";
+    // return date("g:i A, l M j", $when);
+    return strftime("%Y-%m-%d", $x);
 }
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return strftime("%T %b %e, %Y", $x);
+    // return strftime("%T %b %e, %Y", $x);
+    return strftime("%Y-%m-%d %H:%M:%S", $x);
 }
 
 function start_table() {
@@ -329,7 +332,7 @@ function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
   // Make the 'previous' and 'next' page links as appropriate.
   if ($currPageNum > 1) {
     fwrite($descriptor, "<a href=$filename" . "_" . $prevPageNum . ".html>Previous Page</a>");
-    
+
     if ($currPageNum != $numPages) {
       fwrite($descriptor, " | ");
     }
