@@ -12,8 +12,8 @@
 
 <p>
   <code>upgrade</code> takes optional environment variables INSTALL_DIR and
-  TOP_SOURCE_DIR if the installation directory or source directory are
-  different from your previous installation.
+  TOP_SOURCE_DIR, which can be useful if the installation directory or source
+  directory are different from your previous installation.
 </p>
 
 <p>
