@@ -10919,3 +10919,8 @@ David  Mar 25 2004
         diagnostics.C,h
         error_numbers.h
         synch.C,h
+
+Jeff  Mar 26 2004
+     - Release tags.  Sources were tagged as seti_boinc_release_2_30 and then,
+       after some build problems were fixed, were tagged as seti_boinc_release_2_30a.
+       The build from this latter tag was what was released as app version 2.30.
