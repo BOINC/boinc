@@ -25126,9 +25126,10 @@ Bruce 22 Feb 2005
     - Send multi-message replies to core clients > 4.19
     - Change 'no work available' message to 'no work sent' since this is often due
       to constraints at the client end, NOT lack of work at project end.
+    - When daily result quota exceeded, tell users what its value is for that host.
 
     sched/
         sched_locality.C
         sched_send.C
         server_types.C
-
+        server_types.h

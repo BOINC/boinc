@@ -534,8 +534,12 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
     if (config.daily_result_quota) {
-        int n_cpus=host.p_ncpus<4?host.p_ncpus:4;
-        if (host.nresults_today >= config.daily_result_quota*n_cpus) {
+        if (host.p_ncpus<4) {
+             wreq.daily_result_quota=host.p_ncpus*config.daily_result_quota;
+        } else {
+             wreq.daily_result_quota=4*config.daily_result_quota;
+        }
+        if (host.nresults_today >= wreq.daily_result_quota) {
             wreq.daily_result_quota_exceeded = true;
             return false;
         }
@@ -910,7 +914,9 @@ int send_work(
             );
         }
         if (reply.wreq.daily_result_quota_exceeded) {
-            USER_MESSAGE um("(daily quota exceeded)", "high");
+            char helpful[256];
+            sprintf(helpful, "(daily quota of %d WU reached)", reply.wreq.daily_result_quota);
+            USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
