@@ -70,6 +70,9 @@ int FILE_INFO::parse(FILE* in) {
         strcatdup(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
+        if (match_tag(buf, "<generated_locally/>")) continue;
+        if (match_tag(buf, "<upload_when_present/>")) continue;
+        if (match_tag(buf, "<url>")) continue;
         sprintf(ebuf, "FILE_INFO::parse: unrecognized: %s \n", buf);
         write_log(ebuf);
     }
