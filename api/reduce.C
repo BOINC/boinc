@@ -258,7 +258,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #endif
 }
 
-void REDUCED_ARRAY::draw_row_rect_x(int row) {
+void REDUCED_ARRAY::draw_row_rect_x(int row) {	
     float z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
     float x0, x1, y0, y1;
     float* row0 = rrow(row);
@@ -394,7 +394,98 @@ void REDUCED_ARRAY::draw_part(double frac) {
     draw(0, nr);
 }
 
+
+void REDUCED_ARRAY::draw_axis_labels()
+{	
+    GLfloat char_height = .5f;
+    GLfloat line_width = 3.0f;
+	GLfloat spacing = 2.0f;
+	GLfloat rotation = -90;
+	GLfloat rotation_vector[3] = {0,0,0};
+
+	float w;
+
+	char* x_label = "Time";
+	char* y_label = "Frequency";
+	char* y_begin_label = "0";
+	char* y_end_label = "9 Khz";
+
+	float x_text_pos[3] = {0,0,0};
+	w = text_width(x_label);
+	x_text_pos[0]=draw_pos[0]-.3;//+draw_size[0];
+	x_text_pos[1]=draw_pos[1];//+draw_size[1];
+	x_text_pos[2]=draw_pos[2]+draw_size[2]-(w/2.0f);
+
+	rotation_vector[0]=0;
+	rotation_vector[1]=draw_size[1];
+	rotation_vector[2]=0;
+
+	draw_rotated_text(x_text_pos,char_height,line_width,spacing,x_label,rotation,rotation_vector);
+	//draw_text_line(x_text_pos,char_height,line_width,x_label,0);
+	
+}
+
 void REDUCED_ARRAY::draw_axes() {
+
+	mode_unshaded();
+	
+	glLineWidth(1.0);
+	glEnable(GL_LINE_SMOOTH);
+	glBegin(GL_LINES);
+	glColor4d(1,1,1,.9);	
+	
+	//base square
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
+
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+
+	//top square
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	
+	//connecting lines
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
+	glEnd();
+
+	//text
+
+
+
+//mode_texture();
+	
+	GLfloat violet[] = {0.6f, 0.3f, .8f, .7f};
+	mode_shaded(violet);
+//mode_unshaded();
+//mode_lines();
+
+	/*
     glBegin(GL_QUADS);
     glColor3d(.2, .2, .2);
 
@@ -403,4 +494,6 @@ void REDUCED_ARRAY::draw_axes() {
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
     glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
     glEnd();
+	*/
+		
 }

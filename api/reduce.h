@@ -73,4 +73,5 @@ public:
     void draw_all();
     void draw_part(double frac);
     void draw_axes();
+	void draw_axis_labels();
 };

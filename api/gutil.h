@@ -45,6 +45,11 @@ extern void draw_text_line(
 extern void draw_text(
     GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text
 );
+
+extern void draw_rotated_text(
+	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text, GLfloat rotation, GLfloat* rotation_vector
+);
+
 extern GLfloat text_width(char* text);
 extern void draw_text_panel(
     GLfloat* _pos, GLfloat* size, GLfloat margin, COLOR color,

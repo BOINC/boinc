@@ -85,7 +85,7 @@ void file_append(FILE* in, MFILE &out, int skip, int filenum) {
 #ifdef _WIN32
 #include <afxwin.h>
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPWSTR command_line;
+	LPWSTR command_line;
     LPWSTR *args;
     char* argv[100];
     int i, argc;

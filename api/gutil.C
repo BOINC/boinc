@@ -190,13 +190,14 @@ static void draw_text_line_aux(char *text) {
 
 static void draw_text_start(GLfloat* pos, GLfloat char_height, GLfloat line_width) {
     glLineWidth(line_width);
-    glPushMatrix();
+    glPushMatrix();	
     glTranslatef(pos[0], pos[1], pos[2]);
     float w = char_height/STROKE_SCALE;
-    glScalef(w, w, w);
+    glScalef(w, w, w);	
+    
 }
 
-static void draw_text_end() {
+static void draw_text_end() {	
     glPopMatrix();
 }
 
@@ -224,6 +225,17 @@ void draw_text_line(
         break;
     }
     draw_text_start(pos, char_height, line_width);
+    draw_text_line_aux(text);
+    draw_text_end();
+}
+
+// draw rotated text
+void draw_rotated_text(
+	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text, 
+	GLfloat rotation, GLfloat* rotation_vector) 
+{
+	draw_text_start(pos, height, width);
+	glRotatef(rotation,rotation_vector[0],rotation_vector[1],rotation_vector[2]);
     draw_text_line_aux(text);
     draw_text_end();
 }
