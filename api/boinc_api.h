@@ -20,10 +20,8 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
-#ifndef _WIN32
 #include <string>
 using namespace std;
-#endif
 
 #include "app_ipc.h"
 
