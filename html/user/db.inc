@@ -6,6 +6,10 @@ require_once('util.inc');
 // Presentation code (HTML) shouldn't be here
 
 function db_init($pathMod='') {
+    if (project_is_stopped()) {
+        echo "Project is shut down for maintenance - please try again later\n";
+        exit();
+    }
     $retval = mysql_pconnect();
     if (!$retval) {
         echo "Unable to connect to database - please try again later";

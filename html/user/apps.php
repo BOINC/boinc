@@ -57,6 +57,7 @@ if (0) {    // this is too inefficient
         $newest = null;
         $r2 = mysql_query("select * from app_version where appid=$app->id and platformid = $platform->id");
         while ($av = mysql_fetch_object($r2)) {
+            if ($av->deprecated) continue;
             if (!$newest || $av->version_num>$newest->version_num) {
                 $newest = $av;
             }

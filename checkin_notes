@@ -8369,7 +8369,7 @@ David  11 Dec 2003
         Such results are not counted towards pending credit.
         Transitioner: when set a WU error flag,
             change its results VALIDATE_STATE_INIT -> NO_CHECK
-    _ Add "Applications" page to web site:
+    - Add "Applications" page to web site:
         shows platforms, latest version for each app
 
     db/
@@ -8905,3 +8905,15 @@ Gary	4 Jan 2004
 
     api/
         boinc_api.C
+
+David  5 Jan 2004
+    - patch up hole in hosts_user.php that shows hosts
+        even when user doesn't want
+    - All pages check for project up before opening DB
+
+    html_user/
+        apps.php
+        db.inc
+        download.php
+        hosts_user.php
+        util.inc

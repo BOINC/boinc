@@ -1,6 +1,6 @@
 <?php
 
-require_once("../html_user/project_specific/project.inc");
+require_once("project_specific/project.inc");
 require_once("countries.inc");
 
 // Sends the authenticator to the given email address

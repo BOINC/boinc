@@ -12,8 +12,13 @@
         $result = mysql_query("select * from user where id=$userid");
         $user = mysql_fetch_object($result);
         mysql_free_result($result);
-        page_head("Computers belonging to $user->name");
-        host_table_start("Computers belonging to $user->name", false, false);
+        if ($user->show_hosts) {
+            page_head("Computers belonging to $user->name");
+            host_table_start("Computers belonging to $user->name", false, false);
+        } else {
+            echo "Hidden\n";
+            exit();
+        }
         $private = false;
     } else {
         $user = get_logged_in_user();
