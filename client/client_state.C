@@ -141,7 +141,6 @@ int CLIENT_STATE::time_tests() {
     host_info.p_membw = 1000000000;
     host_info.m_cache = 1000000;
 #endif
->>>>>>> 1.37
     host_info.p_calculated = (double)time(0); //set time calculated
     return 0;
 }
