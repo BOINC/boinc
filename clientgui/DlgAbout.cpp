@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/10/22 22:55:28  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -31,7 +34,10 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "DlgAbout.h"
+#include "win_config.h"
+
 #include "res/boincsm.xpm"
 
 
@@ -75,7 +81,7 @@ void CDlgAbout::CreateControls()
     item1->SetAutoLayout(TRUE);
 
     wxStaticText* item3 = new wxStaticText;
-    item3->Create( item1, wxID_STATIC, _T("BOINC Core Client"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+    item3->Create( item1, wxID_STATIC, wxGetApp().GetAppName(), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
     item3->SetFont(wxFont(24, wxDEFAULT, wxNORMAL, wxBOLD, FALSE, _T("")));
     item2->Add(item3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
@@ -98,7 +104,7 @@ void CDlgAbout::CreateControls()
     item7->Add(item8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item9 = new wxStaticText;
-    item9->Create( item1, wxID_STATIC, _T("2.28"), wxDefaultPosition, wxDefaultSize, 0 );
+    item9->Create( item1, wxID_STATIC, _T( BOINC_VERSION_STRING ), wxDefaultPosition, wxDefaultSize, 0 );
     item7->Add(item9, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item10 = new wxStaticText;
