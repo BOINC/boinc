@@ -288,7 +288,7 @@ be the amount of time that will elapse until the number of results in
 the set RS reaches k,
 given CPU speed, # CPUs, resource share, and active fraction.
 (The 'active fraction' is the fraction of time in which the core client
-is running.
+is running and enabled to work.
 This statistic is continually updated.)
 
 <br>
