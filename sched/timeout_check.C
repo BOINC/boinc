@@ -117,7 +117,7 @@ int assign_new_names(char* in) {
         n1 += strlen("<name>");
         n2 = strstr(p, "</name>");
         if (!n2) {
-            write_log(MSG_CRITICAL, "assign_new_names(): malformed XML:\n%s", in);
+            log_messages.printf(SchedMessages::CRITICAL, "assign_new_names(): malformed XML:\n%s", in);
             return 1;
         }
         len = n2 - n1;
@@ -134,7 +134,7 @@ int assign_new_names(char* in) {
         sprintf(element, "<file_name>%s</file_name>", name);
         n2 = strstr(n1, element);
         if (!n2) {
-            write_log(MSG_CRITICAL, "assign_new_names(): no <file_name>:\n%s", in);
+            log_messages.printf(SchedMessages::CRITICAL, "assign_new_names(): no <file_name>:\n%s", in);
             return 1;
         }
         strcpy(buf, n2+strlen(element));
@@ -181,7 +181,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         case RESULT_SERVER_STATE_OVER:
             switch (result.outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
-                write_log(MSG_NORMAL, "WU %s has couldn't-send result\n", wu.name);
+                log_messages.printf(SchedMessages::NORMAL, "WU %s has couldn't-send result\n", wu.name);
                 wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
                 wu_error = true;
                 break;
@@ -199,12 +199,12 @@ void handle_wu(DB_WORKUNIT& wu) {
     // check for too many errors or too many results
     //
     if (nerrors > max_errors) {
-        write_log(MSG_NORMAL, "WU %s has too many errors\n", wu.name);
+        log_messages.printf(SchedMessages::NORMAL, "WU %s has too many errors\n", wu.name);
         wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
         wu_error = true;
     }
     if (ndone > max_done) {
-        write_log(MSG_NORMAL, "WU %s has too many answers\n", wu.name);
+        log_messages.printf(SchedMessages::NORMAL, "WU %s has too many answers\n", wu.name);
         wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
         wu_error = true;
     }
@@ -241,7 +241,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 add_signatures(result.xml_doc_in, key);
                 retval = result.insert();
                 if (retval) {
-                    write_log(MSG_CRITICAL, "result.insert() %d\n", retval);
+                    log_messages.printf(SchedMessages::CRITICAL, "result.insert() %d\n", retval);
                     break;
                 }
             }
@@ -269,7 +269,7 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     retval = wu.update();
     if (retval) {
-        write_log(MSG_CRITICAL, "workunit.update() %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "workunit.update() %d\n", retval);
     }
 }
 
@@ -296,14 +296,14 @@ void main_loop(bool one_pass) {
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log(MSG_CRITICAL, "boinc_db_open: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "boinc_db_open: %d\n", retval);
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't find app %s\n", app.name);
+        log_messages.printf(SchedMessages::CRITICAL, "can't find app %s\n", app.name);
         exit(1);
     }
 
@@ -335,7 +335,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            set_debug_level(atoi(argv[++i]));
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-nredundancy")) {
             nredundancy = atoi(argv[++i]);;
         }
@@ -343,14 +343,14 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file();
     if (retval) {
-        write_log(MSG_CRITICAL, "can't read config file\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     sprintf(path, "%s/upload_private", config.key_dir);
     retval = read_key_file(path, key);
     if (retval) {
-        write_log(MSG_CRITICAL, "can't read key\n");
+        log_messages.printf(SchedMessages::CRITICAL, "can't read key\n");
         exit(1);
     }
 
@@ -362,11 +362,11 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of timeout_check is already running\n");
+        log_messages.printf(SchedMessages::NORMAL, "Another copy of timeout_check is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
-    write_log(MSG_NORMAL, "Starting\n");
+    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
     install_sigint_handler();
 
