@@ -489,6 +489,7 @@ int WORKUNIT::parse(FILE* in) {
     strcpy(env_vars, "");
     app = NULL;
     project = NULL;
+    seconds_to_complete = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
@@ -496,8 +497,7 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else if (parse_str(buf, "<command_line>", command_line)) continue;
         else if (parse_str(buf, "<env_vars>", env_vars)) continue;
-	else if (parse_double(buf, "<seconds_to_complete>", 
-			      seconds_to_complete)) continue; 
+        else if (parse_double(buf, "<seconds_to_complete>", seconds_to_complete)) continue; 
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);
@@ -517,8 +517,9 @@ int WORKUNIT::write(FILE* out) {
         "    <app_name>%s</app_name>\n"
         "    <version_num>%d</version_num>\n"
         "    <command_line>%s</command_line>\n"
-        "    <env_vars>%s</env_vars>\n",
-        name, app_name, version_num, command_line, env_vars
+        "    <env_vars>%s</env_vars>\n"
+        "    <seconds_to_complete>%f</seconds_to_complete>\n",
+        name, app_name, version_num, command_line, env_vars, seconds_to_complete
     );
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
