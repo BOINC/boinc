@@ -169,8 +169,8 @@ function prefs_show_work($prefs) {
     } else {
         $confirm = "No";
     }
-    row("<b>Work if on batteries:   </b>", $batteries);
-    row("<b>Work if in use:   </b>", $in_use);
+    row("<b>Work if computer on batteries:   </b>", $batteries);
+    row("<b>Work if computer in use:   </b>", $in_use);
     row("<b>Confirm before connecting to network:   </b>", $confirm);
     row("<b>Minimum amount of work to buffer:   </b>", "$prefs->low_water_days hours");
     row("<b>Maximum amount of work to buffer:   </b>", "$prefs->high_water_days hours");
@@ -183,8 +183,8 @@ function prefs_show_disk($prefs) {
     echo "<p>";
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>Disk preferences:</b></font></td></tr>\n";
-    row("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb GB");
-    row("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb GB");
+    row("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb MB");
+    row("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb MB");
     row("<b>Maximum % of disk allowed to used:   </b>", "$prefs->disk_max_used_pct %");
     echo "<tr><td><a href=prefs_edit_disk_form.php>Edit disk preferences</a></td></tr>\n";
     echo "</table>\n";
@@ -227,27 +227,27 @@ function prefs_form_work($user, $prefs) {
     echo   "<form action=prefs_edit_work_action.php>\n";
     echo   "    <table border=1 cellpadding=6>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Don't run if on batteries</td>\n";
+    echo   "        <td align=right><b>Don't run if computer is<br>on batteries</b></td>\n";
     printf("        <td><input type=checkbox name=dont_run_on_batteries %s></td>\n", $prefs->dont_run_on_batteries?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Don't run if user is active</td>\n";
+    echo   "        <td align=right><b>Don't run if user is active</b></td>\n";
     printf("        <td><input type=checkbox name=dont_run_if_user_active %s></td>\n", $prefs->dont_run_if_user_active?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Confirm before connecting</td>\n";
+    echo   "        <td align=right><b>Confirm before connecting</b></td>\n";
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Minimum work buffer (hours)</td>\n";
+    echo   "        <td align=right><b>Minimum amount of work<br>to buffer (in hours)</b></td>\n";
     printf("        <td><input name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Maximum work buffer (hours)</td>\n";
+    echo   "        <td align=right><b>Maximum amount of work<br>to buffer (in hours)</b></td>\n";
     printf("        <td><input name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
-    echo   "    <tr><td><br></td><td><input type=submit value=OK></td></tr>\n";
     echo   "    </table>\n";
+    echo   "    <input type=submit value=\"Edit Preferences\">\n";
     echo   "</form>\n";
 }
 
@@ -255,19 +255,19 @@ function prefs_form_disk($user, $prefs) {
     echo   "<form action=prefs_edit_disk_action.php>\n";
     echo   "    <table border=1 cellpadding=6>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Maximum disk space to use for BOINC</td>\n";
+    echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC(in MB)</b></td>\n";
     echo   "        <td><input name=disk_max_used_gb value='$prefs->disk_max_used_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Minimum disk space to leave free</td>\n";
+    echo   "        <td align=right><b>Minimum disk space to leave<br>free (in MB)</b></td>\n";
     echo   "        <td><input name=disk_min_free_gb value='$prefs->disk_min_free_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Maximum % of disk space to use for BOINC</td>\n";
+    echo   "        <td align=right><b>Maximum % of disk space to<br>use for BOINC</b></td>\n";
     echo   "        <td><input name=disk_max_used_pct value='$prefs->disk_max_used_pct'></td>\n";
     echo   "    </tr>\n";
-    echo   "    <tr><td><br></td><td><input type=submit value=OK></td></tr>\n";
     echo   "    </table>\n";
+    echo   "    <input type=submit value=\"Edit Preferences\">\n";
     echo   "</form>\n";
 }
 
