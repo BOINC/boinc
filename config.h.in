@@ -30,6 +30,9 @@
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
+/* Define to 1 if you have the `getutent' function. */
+#undef HAVE_GETUTENT
+
 /* Define to 1 if you have the <glaux.h> header file. */
 #undef HAVE_GLAUX_H
 
@@ -140,6 +143,9 @@
 
 /* Define to 1 if you have the `setpriority' function. */
 #undef HAVE_SETPRIORITY
+
+/* Define to 1 if you have the `setutent' function. */
+#undef HAVE_SETUTENT
 
 /* Define to 1 if you have the `sigaction' function. */
 #undef HAVE_SIGACTION

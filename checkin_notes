@@ -13639,3 +13639,14 @@ Daniel 15 June 2004
         gallery.inc
         profile.inc
 
+Daniel 15 June 2004
+    - client: put all_logins_idle under an ifdef to check for
+        availability of {set,get}utent. TODO: implement these for BSD.
+
+    aclocal.m4
+    config.h.in
+    configure
+    configure.ac
+    client/
+        hostinfo_unix.C
+

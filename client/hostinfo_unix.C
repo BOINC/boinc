@@ -435,7 +435,10 @@ inline bool user_idle(time_t t, struct utmp* u) {
     return device_idle(t, tty);
 }
 
+#ifdef HAVE_UTMP_H
 inline bool all_logins_idle(time_t t) {
+    // TODO: {get,set}utent unavailable on bsd
+#if defined(HAVE_SETUTENT) && defined(HAVE_GETUTENT)
     struct utmp* u;
     setutent();
 
@@ -444,8 +447,10 @@ inline bool all_logins_idle(time_t t) {
             return false;
         }
     }
+#endif
     return true;
 }
+#endif
 
 void CLIENT_STATE::check_idle() {
 #ifdef HAVE__DEV_TTY1
@@ -454,7 +459,9 @@ void CLIENT_STATE::check_idle() {
     time_t idle_time =
         time(NULL) - (long) (60 * global_prefs.idle_time_to_run);
     user_idle = true
+#ifdef HAVE_UTMP_H
         && (!check_all_logins || all_logins_idle(idle_time))
+#endif
 #ifdef HAVE__DEV_MOUSE
         && device_idle(idle_time, "/dev/mouse") // solaris, linux
 #endif

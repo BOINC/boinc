@@ -7316,7 +7316,9 @@ fi
 
 
 
-for ac_func in gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction
+
+
+for ac_func in gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction getutent setutent
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $ac_func" >&5

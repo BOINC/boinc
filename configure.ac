@@ -112,7 +112,7 @@ dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
-AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction)
+AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction getutent setutent)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
