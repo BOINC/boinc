@@ -7123,6 +7123,12 @@ Oliver 27 Oct 2003
 	api/
 		gutil.C,h
 
+Eric K 27 Oct 2003
+	- xml_indent() is now limited to a max of 40 spaces.
+
+        lib/
+		xml_util.h
+
 David  27 Oct 2003
     - let users see list of all their results
     - added db_dump to list of programs updated by update_project
