@@ -14,33 +14,32 @@ The attributes of a workunit include:
 <li> The estimated resource requirements of the work unit
 (computation, memory, disk space).
 <li> A <b>delay bound</b>: upper bound on how long
-an instance of this work unit should take to complete.
-This limits what hosts the workunit is sent to,
+a result associated with this work unit should take to complete.
+This determines which hosts the workunit can be sent to,
 and it's used to assign result deadlines and
 times for retrying results.
 </ul>
 <p>
 The inputs to a workunit are described by an XML document of the form
 <pre>
-[ &lt;file_info&gt;...&lt;/file_info&gt; ]
+[ &lt;file_info>...&lt;/file_info> ]
 [ ... ]
-&lt;workunit&gt;
-    &lt;app_name&gt;blah&lt;/app_name&gt;
-    [ &lt;command_line&gt;-flags xyz&lt;/command_line&gt; ]
-    [ &lt;env_vars&gt;name=val&amp;name=val&lt;/env_vars&gt; ]
-    [ &lt;file_ref&gt;...&lt;/file_ref&gt; ]
+&lt;workunit>
+    [ &lt;command_line>-flags xyz&lt;/command_line> ]
+    [ &lt;env_vars>name=val&amp;name=val&lt;/env_vars> ]
+    [ &lt;file_ref>...&lt;/file_ref> ]
     [ ... ]
-&lt;workunit&gt;
+&lt;/workunit>
 </pre>
 The components are: 
 <ul>
-<li> The <b>&lt;command_line&gt;</b> element, if present, is the
+<li> The <b>&lt;command_line></b> element, if present, is the
 command-line arguments to be passed to the main program.
-<li> The <b>&lt;env_vars&gt;</b> element, if present, is a list of
+<li> The <b>&lt;env_vars></b> element, if present, is a list of
 environment variables to be passed to the main program.
-<li> Each <b>&lt;file_ref&gt;</b> element describes a <a
+<li> Each <b>&lt;file_ref></b> element describes a <a
 href="files.html">reference</a> to an input file, each of which is
-described by a <b>&lt;file_info&gt;</b> element.
+described by a <b>&lt;file_info></b> element.
 </ul>
 <p>
 A workunit is associated with an application, not with a particular
