@@ -289,3 +289,78 @@ int CLIENT_STATE::write_state_file_if_needed() {
     return 0;
 }
 
+// look for app_versions.xml file in project dir.
+// If find, get app versions from there,
+// and use "anonymous platform" mechanism for this project
+//
+void CLIENT_STATE::check_anonymous() {
+	unsigned int i;
+	char dir[256], path[256];
+	FILE* f;
+	int retval;
+
+	for (i=0; i<projects.size(); i++) {
+		PROJECT* p = projects[i];
+		get_project_dir(p, dir);
+		sprintf(path, "%s%s%s", dir, PATH_SEPARATOR, APP_INFO_FILE_NAME);
+		f = fopen(path, "r");
+		if (!f) continue;
+        msg_printf(p, MSG_INFO, "Found app info; using anonymous platform\n");
+
+		p->anonymous_platform = true;
+			// flag as anonymous even if can't parse file
+		retval = parse_app_info(p, f);
+	}
+}
+
+int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
+	char buf[256];
+
+	while (fgets(buf, 256, in)) {
+		if (match_tag(buf, "<app_info>")) continue;
+		if (match_tag(buf, "</app_info>")) return 0;
+		if (match_tag(buf, "<file_info>")) {
+			FILE_INFO* fip = new FILE_INFO;
+			if (fip->parse(in, false)) {
+				delete fip;
+				continue;
+			}
+			if (link_file_info(p, fip)) {
+				delete fip;
+				continue;
+			}
+			fip->status = FILE_PRESENT;
+			file_infos.push_back(fip);
+			continue;
+		}
+		if (match_tag(buf, "<app>")) {
+			APP* app = new APP;
+			if (app->parse(in)) {
+				delete app;
+				continue;
+			}
+			if (lookup_app(p, app->name)) {
+				delete app;
+				continue;
+			}
+			link_app(p, app);
+			apps.push_back(app);
+			continue;
+		}
+		if (match_tag(buf, "<app_version>")) {
+			APP_VERSION* avp = new APP_VERSION;
+			if (avp->parse(in)) {
+				delete avp;
+				continue;
+			}
+			if (gstate.link_app_version(p, avp)) {
+				delete avp;
+				continue;
+			}
+			link_app_version(p, avp);
+			app_versions.push_back(avp);
+			continue;
+		}
+	}
+	return ERR_XML_PARSE;
+}

@@ -8746,19 +8746,19 @@ David  24 Dec 2003
         sched_shmem.C
 
 David  23 Dec 2003 (supplied by Rom Walton)
-	- new message class: warnings and network (with corresponding icons)
+    - new message class: warnings and network (with corresponding icons)
 
-	client/
-		message.h
-		win/
-			resource.h
-			resource.rc
-			wingui_mainwindow.cpp,h
-			res/
-				iconnetwork.ico (new)
-				iconwarning.ico (new)
-	win_build/
-		boinc_gui.dsp
+    client/
+        message.h
+        win/
+            resource.h
+            resource.rc
+            wingui_mainwindow.cpp,h
+            res/
+                iconnetwork.ico (new)
+                iconwarning.ico (new)
+    win_build/
+        boinc_gui.dsp
 
 David  23 Dec 2003
     - change string-escape function in DB code to handle \ as well as '
@@ -8779,18 +8779,18 @@ Jeff  30 Dec 2003
       that mimic the normal system versions of these functions.
 
       Functions that were changed:  * indicates a change.
-	function		successful return	failure return
-	--------------		------------------	--------------
-	MFILE::printf()		num bytes output	-1 *
-	MFILE::write()		num bytes output	-1 *
-	MFILE::putchar(c)	c     			EOF *
-	MFILE::puts(s)		strlen(s) *		EOF *
+    function        successful return    failure return
+    --------------        ------------------    --------------
+    MFILE::printf()        num bytes output    -1 *
+    MFILE::write()        num bytes output    -1 *
+    MFILE::putchar(c)    c                 EOF *
+    MFILE::puts(s)        strlen(s) *        EOF *
 
       MFILE::puts() used to return 0 on success.  I greped both astropulse
       and seti_boinc code and found no current use of this function.
 
     api/
-	mfile.C
+    mfile.C
 
 David  30 Dec 2003
     - added optional <disabled>1</disabled> flag to daemons and tasks
@@ -8853,11 +8853,11 @@ David  31 Dec 2003
     sched/
         assimilator.py
 
-Gary	31 Dec 2003
-	- Fixed error in windows client initial startup after a clean
+Gary    31 Dec 2003
+    - Fixed error in windows client initial startup after a clean
       install. Default wait time before initial server request was
       too long (3 minutes).
-	- Fixed initial screensaver blank time setting. Test for existence
+    - Fixed initial screensaver blank time setting. Test for existence
       of registry entries before writing values to dialog box.
 
     client/
@@ -8899,9 +8899,9 @@ David  3 Jan 2004
     tools/
         backend_lib.C,h
 
-Gary	4 Jan 2004
-	- Added missing sys header declaration needed to build libboinc
-	  on OSX jaguar
+Gary    4 Jan 2004
+    - Added missing sys header declaration needed to build libboinc
+      on OSX jaguar
 
     api/
         boinc_api.C
@@ -8918,11 +8918,11 @@ David  5 Jan 2004
         hosts_user.php
         util.inc
 
-Gary	5 Jan 2004
-	- changed file_delete() function calls to boinc_delete_file()
-	  as a result of the 2004-01-03 change to filesys.C,h
-	client/win
-		wingui_mainwindow.cpp
+Gary    5 Jan 2004
+    - changed file_delete() function calls to boinc_delete_file()
+      as a result of the 2004-01-03 change to filesys.C,h
+    client/win
+        wingui_mainwindow.cpp
 
 Gary    5 Jan 2004
     - BOINC release 2.17 for windows, linux, solaris, mac os x
@@ -9049,10 +9049,10 @@ David  8 Jan 2004
         handle_request.C
         sched_shmem.h
 
-Gary	8 Jan 2004
-	- Fixed problem in windows client where user prefs were
-	  being ignored at startup as a side-effect of the previous
-	  initial startup fix. Now initial startup works and user
+Gary    8 Jan 2004
+    - Fixed problem in windows client where user prefs were
+      being ignored at startup as a side-effect of the previous
+      initial startup fix. Now initial startup works and user
       prefs are honored at startup.
 
     client/
@@ -9079,18 +9079,18 @@ David  9 Jan 2004
         handle_request.C
 
 David  9 Jan 2004
-	- added project files for VC++ 7.0, and fixed a few compile warnings
+    - added project files for VC++ 7.0, and fixed a few compile warnings
 
-	client/
-		app.C
-		cs_benchmark.C
-		cs_scheduler.C
-		net_xfer.C
-		win/
-			stackwalker.h
-	win_build/
-		boinc.sln
-		*.vcproj
+    client/
+        app.C
+        cs_benchmark.C
+        cs_scheduler.C
+        net_xfer.C
+        win/
+            stackwalker.h
+    win_build/
+        boinc.sln
+        *.vcproj
 
 Karl 2004-01-12
 
@@ -9191,19 +9191,19 @@ David  Jan 14 2004
         client_types.C
 
 David  Jan 14 2004
-	- don't blink sys tray icon more than 10 sec (from Rom Walton)
+    - don't blink sys tray icon more than 10 sec (from Rom Walton)
 
-	client/win/
-		wingui_mainwindow.cpp,h
+    client/win/
+        wingui_mainwindow.cpp,h
 
 David  Jan 14 2004
-	- windows console version works again (from Rom Walton)
+    - windows console version works again (from Rom Walton)
 
-	client/
-		main.C
-		net_xfer.C
-	win_build/
-		boinc_cli.vcproj
+    client/
+        main.C
+        net_xfer.C
+    win_build/
+        boinc_cli.vcproj
 
 David  Jan 15 2004
     - factored base64 declarations
@@ -9235,7 +9235,7 @@ Karl 2004-01-15
        schema.sql
     py/Boinc/
         Makefile.am
-	database.py
+    database.py
     lib/
         Makefile.am
         base64.C
@@ -9274,72 +9274,72 @@ David  Jan 16 2004
     - released core client 2.18 for Windows
 
 David  Jan 17 2004
-	- change logic in windows_opengl.C so that an app has no window
-		when it doesn't need one.
-		In particular, it has no window when it initially runs,
-		so it won't wake up screensaver when an app starts.
-		This requires using a window-less timer 
-		to poll for messages from core client.
+    - change logic in windows_opengl.C so that an app has no window
+        when it doesn't need one.
+        In particular, it has no window when it initially runs,
+        so it won't wake up screensaver when an app starts.
+        This requires using a window-less timer 
+        to poll for messages from core client.
 
-	api/
-		windows_opengl.C
-
-David  Jan 17 2004
-	- remove win_main.cpp
-	- if result exceeds disk, show both usage and limit
-	- change title of Attach to Project dialog
-	- change debugging symbol from DEBUG to SS_DEBUG
-		(since VC7.0 equates _DEBUG and DEBUG)
-
-	client/
-		app.C
-		win_main.cpp (removed)
-		win/
-			resource.rc
-	win_build/
-		boinc_gui.vcproj
+    api/
+        windows_opengl.C
 
 David  Jan 17 2004
-	- new screensaver (from Rom Walton)
-		works correctly on multiple monitors;
-		handles password protection correctly
-	- fix compile warnings
-	- removed redundant definition of BOINC_SS_END
+    - remove win_main.cpp
+    - if result exceeds disk, show both usage and limit
+    - change title of Attach to Project dialog
+    - change debugging symbol from DEBUG to SS_DEBUG
+        (since VC7.0 equates _DEBUG and DEBUG)
 
-	client/
-		cs_benchmark.C
-		net_xfer.C
-		win/
-			Scricon3.ico (removed)
-			boinc_ss.h (new)
-			boinc_ss.rc
-			win_main.cpp (removed)
-			win_screensaver.cpp
-			win_screensaver.h (new)
-			win_util.h
-			wingui_listcrl.cpp
-			wingui_mainwindow.cpp
-			wingui_piectrl.cpp
-			res/
-				Scricon3.ico (new)
-	lib/
-		app_ipc.h
-	win_build/
-		boinc.vcproj
-		boinc_cli.vcproj
-		boinc_ss.vcproj
+    client/
+        app.C
+        win_main.cpp (removed)
+        win/
+            resource.rc
+    win_build/
+        boinc_gui.vcproj
 
 David  Jan 17 2004
-	- use TRACE() instead of fprintfs for debugging output
+    - new screensaver (from Rom Walton)
+        works correctly on multiple monitors;
+        handles password protection correctly
+    - fix compile warnings
+    - removed redundant definition of BOINC_SS_END
 
-	client/win/
-		wingui_mainwindow.cpp
+    client/
+        cs_benchmark.C
+        net_xfer.C
+        win/
+            Scricon3.ico (removed)
+            boinc_ss.h (new)
+            boinc_ss.rc
+            win_main.cpp (removed)
+            win_screensaver.cpp
+            win_screensaver.h (new)
+            win_util.h
+            wingui_listcrl.cpp
+            wingui_mainwindow.cpp
+            wingui_piectrl.cpp
+            res/
+                Scricon3.ico (new)
+    lib/
+        app_ipc.h
+    win_build/
+        boinc.vcproj
+        boinc_cli.vcproj
+        boinc_ss.vcproj
+
+David  Jan 17 2004
+    - use TRACE() instead of fprintfs for debugging output
+
+    client/win/
+        wingui_mainwindow.cpp
 
 David  Jan 18 2004
-	- fix possible memory leak in screensaver on Win9x (from Rom Walton)
+    - fix possible memory leak in screensaver on Win9x (from Rom Walton)
 
-	client/win/
-		win_screensaver.cpp,h
+    client/win/
+        win_screensaver.cpp,h
 
 David  Jan 18 2004
     - add a function HOST::fix_nans(), called before updating or inserting
@@ -9358,41 +9358,41 @@ David  Jan 18 2004
         handle_request.C
 
 David  Jan 19 2004
-	- use STOP_SS_MSG symbol instead of END_SS_MSG
-		(these redundantly refered to the same string)
-	- fixed buggy error-handling code for Win CreateProcess()
+    - use STOP_SS_MSG symbol instead of END_SS_MSG
+        (these redundantly refered to the same string)
+    - fixed buggy error-handling code for Win CreateProcess()
 
-	api/
-		windows_opengl.C
-	client/
-		app.C
-		win/
-			win_util.h
-	lib/util.C
-
-David  Jan 19 2004 (from Rom Walton)
-	- Win screensaver: check to see if BOINC is configured for 
-		automatic startup and if not make a suggestion to the user to do so.
-
-	client/win/
-		boinc_ss.h
-		boinc_ss.rc
-		win_screensaver.cpp,h
-		win_util.cpp,h
+    api/
+        windows_opengl.C
+    client/
+        app.C
+        win/
+            win_util.h
+    lib/util.C
 
 David  Jan 19 2004 (from Rom Walton)
-	- handle BOINC core client as service
+    - Win screensaver: check to see if BOINC is configured for 
+        automatic startup and if not make a suggestion to the user to do so.
 
-	client/
-		client_state.C,h
-		cs_cmdline.C
-		main.C
-		win/
-			win_net.cpp
-			win_service.cpp,h (new)
-	win_build/
-		boinc_cli.vcproj
-		boinc_ss.vcproj
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp,h
+        win_util.cpp,h
+
+David  Jan 19 2004 (from Rom Walton)
+    - handle BOINC core client as service
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        main.C
+        win/
+            win_net.cpp
+            win_service.cpp,h (new)
+    win_build/
+        boinc_cli.vcproj
+        boinc_ss.vcproj
 
 David  Jan 19 2004
     - modify logic of file_upload_handler so that it always
@@ -9442,30 +9442,30 @@ David  Jan 20 2004
         util.C,h
 
 David  Jan 21 2004
-	- get new GUI RPC stuff to compile on Win
+    - get new GUI RPC stuff to compile on Win
 
-	client/
-		gui_rpc_server.C
-	win_build/
-		boinc.sln
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    client/
+        gui_rpc_server.C
+    win_build/
+        boinc.sln
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
-Eric	Jan 21 2004
-	- Modified match_tag to work with tags of the form "<tag>" and "tag"
-	- Added strlcat() to std_fixes.h
-	- Added check for strlcat() configure.ac
-	- fixed "#elif" without clause in main.C
+Eric    Jan 21 2004
+    - Modified match_tag to work with tags of the form "<tag>" and "tag"
+    - Added strlcat() to std_fixes.h
+    - Added check for strlcat() configure.ac
+    - fixed "#elif" without clause in main.C
 
-	configure
-	configure.ac
-	config.h.in
-	client/
-		main.C
-	lib/
-		parse.C
-		std_fixes.h
-		
+    configure
+    configure.ac
+    config.h.in
+    client/
+        main.C
+    lib/
+        parse.C
+        std_fixes.h
+        
 Karl 2004-01-21
     Client translations update from Robi Beucheler
 
@@ -9483,13 +9483,13 @@ Karl 2004-01-21
         language.ini.tr (new)
 
 David  Jan 21 2004
-	- small changes to get console version to compile
+    - small changes to get console version to compile
 
-	client/
-		cs_cmdline.C
-		main.C
-	win_builc/
-		boinc_cli.vcproj
+    client/
+        cs_cmdline.C
+        main.C
+    win_builc/
+        boinc_cli.vcproj
 
 David  Jan 22 2004
     - match_tag() changes broke Win compile.
@@ -9520,16 +9520,16 @@ David  Jan 22 2004
         gui_test.C
 
 David  Jan 23 2004
-	- fix problem with DLL dependency (from Rom Walton)
+    - fix problem with DLL dependency (from Rom Walton)
 
-	api/
-		boinc_api.C
-		graphics_api.C
-		gutil.C
-		windows_opengl.C
-	lib/
-		parse.C
-		util.C
+    api/
+        boinc_api.C
+        graphics_api.C
+        gutil.C
+        windows_opengl.C
+    lib/
+        parse.C
+        util.C
 
 David  Jan 23 2004
     - Fleshed out client-side support for GUI RPCs
@@ -9546,12 +9546,12 @@ David  Jan 23 2004
         makefile.gui_test (new)
 
 David  Jan 24 2004
-	- add resource to let you control name of screensaver in
-		choose-screensaver popup (from Rom Walton)
+    - add resource to let you control name of screensaver in
+        choose-screensaver popup (from Rom Walton)
 
-	client/win/
-		boinc_ss.h
-		boinc_ss.rc
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
 
 David  Jan 26 2004
     - server-side support for anonymous platform mechanism
@@ -9574,3 +9574,23 @@ David  Jan 26 2004
     sched/
         handle_request.C
         server_types.C,h
+
+David  Jan 26 2004
+    - client-side support for anonymous platform mechanism
+        - To use this mechanism, user puts a file "app_info.xml" in a project dir.
+            This file contains <app>, <file_info>, and <app_version> elements
+            for app versions present in the project dir
+            (compiled or manually installed by the user).
+        - If this file is found, the project is marked as "anonymous_platform"
+            and app/app_version info in the state file is ignored.
+        - Scheduler RPCs for anonymous projects include a list of app_versions
+    - CLIENT_STATE::link_*(): fail if object is already in state
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        cs_statefile.C
+        file_names.h
+    lib/
+        error_numbers.h

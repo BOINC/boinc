@@ -175,9 +175,6 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
-    // printing the platform name here helps bug reports because users often
-    // give us this line but don't say what platform they have
-    //
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%02d (%s)",
         core_client_major_version, core_client_minor_version, platform_name
@@ -206,6 +203,11 @@ int CLIENT_STATE::init() {
             }
         }
     }
+
+	// check for app_info.xml file in project dirs.
+	// If find, read app info from there, set project.anonymous_platform
+	//
+	check_anonymous();
 
     // Parse the client state file,
     // ignoring any <project> tags (and associated stuff)
@@ -454,13 +456,16 @@ ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
 
 // functions to create links between state objects
 // (which, in their XML form, reference one another by name)
+// Return nonzero if already in client state.
 //
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
+	if (lookup_app(p, app->name)) return ERR_NOT_UNIQUE;
     app->project = p;
     return 0;
 }
 
 int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
+	if (lookup_file_info(p, fip->name)) return ERR_NOT_UNIQUE;
     fip->project = p;
     return 0;
 }
@@ -478,6 +483,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         return ERR_NULL;
     }
     avp->app = app;
+
+	if (lookup_app_version(app, avp->version_num)) return ERR_NOT_UNIQUE;
 
     for (i=0; i<avp->app_files.size(); i++) {
         file_ref = avp->app_files[i];

@@ -303,11 +303,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-        platform_name,
+		p->anonymous_platform?"anonymous":platform_name,
         core_client_major_version,
         core_client_minor_version,
         work_req
     );
+	if (p->anonymous_platform) {
+		fprintf(f, "    <app_versions>\n");
+		for (i=0; i<app_versions.size(); i++) {
+			APP_VERSION* avp = app_versions[i];
+			if (avp->project != p) continue;
+			avp->write(f);
+		}
+		fprintf(f, "    </app_versions>\n");
+	}
     if (!project_disk_usage(p, size)) {
         fprintf(f, "<project_disk_usage>%f</project_disk_usage>\n", size);
     }

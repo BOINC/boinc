@@ -262,6 +262,8 @@ public:
     int write_state_file();
     int write_state_file_if_needed();
     int parse_venue();
+	void check_anonymous();
+	int parse_app_info(PROJECT*, FILE*);
 
 // --------------- check_state.C:
 // stuff related to data-structure integrity checking

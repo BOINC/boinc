@@ -65,6 +65,7 @@ void PROJECT::init() {
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
+	anonymous_platform = false;
 }
 
 PROJECT::~PROJECT() {

@@ -104,3 +104,5 @@
 #define ERR_ASYNCSELECT     -157
 #define ERR_BAD_RESULT_STATE    -158
 #define ERR_DB_CANT_INIT    -159
+#define ERR_NOT_UNIQUE		-160
+	// state files had redundant entries

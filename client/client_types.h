@@ -159,6 +159,8 @@ public:
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
+	bool anonymous_platform;	// app_versions.xml file found in project dir;
+								// use those apps rather then getting from server
     char code_sign_key[MAX_BLOB_LEN];
     vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
