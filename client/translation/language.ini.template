@@ -72,10 +72,11 @@ Download failed=
 [MENU-File]
 Title=File
 Show Graphics=
-Clear Messages=
-Clear Inactive=
-Suspend=
-Resume=
+Force run=
+Run based on preferences=
+Pause=
+Run Benchmarks=
+Hide=
 Exit=
 
 [MENU-Settings]
