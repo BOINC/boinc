@@ -152,7 +152,7 @@ function prefs_parse($prefs_xml) {
 function prefs_show_work($prefs) {
 
     echo "<p>";
-    echo TABLE2."\n";
+    echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Work preferences:</b></font></td></tr>\n";
     if ($prefs->dont_run_on_batteries) {
         $batteries = "No";
@@ -172,8 +172,8 @@ function prefs_show_work($prefs) {
     row("<b>Work if computer on batteries:   </b>", $batteries);
     row("<b>Work if computer in use:   </b>", $in_use);
     row("<b>Confirm before connecting to network:   </b>", $confirm);
-    row("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days hours");
-    row("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days hours");
+    row("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days days");
+    row("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days days");
     echo "<tr><td><a href=prefs_edit_work_form.php>Edit work preferences</a></td></tr>\n";
     echo "</table>\n";
 }
@@ -181,7 +181,7 @@ function prefs_show_work($prefs) {
 function prefs_show_disk($prefs) {
 
     echo "<p>";
-    echo TABLE2."\n";
+    echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Disk preferences:</b></font></td></tr>\n";
     row("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb MB");
     row("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb MB");
@@ -202,7 +202,7 @@ function prefs_show_project($project) {
 function prefs_show_projects($prefs) {
 
     echo "<p>";
-    echo TABLE2."\n";
+    echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Project preferences:</b></font></td></tr>\n";
     for ($i=0; $i<sizeof($prefs->projects); $i++) {
         $project = $prefs->projects[$i];
