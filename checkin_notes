@@ -16677,3 +16677,10 @@ David  24 Aug 2004
     client/
         app_start.C
         cs_apps.C
+
+Rom    24 Aug 2004
+    - Fix a logic error where the benchmarks would continuously run on a 
+      core client upgrade.
+
+    client/
+        client_state.C

@@ -345,6 +345,7 @@ bool CLIENT_STATE::do_something() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
 
     if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
+        run_cpu_benchmarks = false;
 		start_cpu_benchmarks();
     }
 
