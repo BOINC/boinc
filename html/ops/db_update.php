@@ -62,7 +62,12 @@ function update_6_9_2004() {
         "alter table profile change verification verification integer not null"
     );
 }
+function update_6_15_2004() {
+    mysql_query(
+        "alter table user add index user_name(name)"
+    );
+}
 
-update_6_9_2004();
+update_6_15_2004();
 
 ?>

@@ -8,6 +8,12 @@ require_once("../inc/countries.inc");
 function display_team_page($team, $offset, $sort_by) {
     $n = 20;
 
+// there aren't indices to support sorting by credit.
+// set the following to turn off sorted output.
+// (or use caching)
+//
+    $nosort = false;
+
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc";
     } else {
@@ -42,22 +48,34 @@ function display_team_page($team, $offset, $sort_by) {
     echo "<tr>
         <th>Name</th>
     ";
-    if ($sort_by == "total_credit") {
-        echo "<th>Total credit</th>";
+    if ($nosort) {
+        echo "
+            <th>Total credit</th>
+            <th>Recent average credit</th>
+        ";
     } else {
-        echo "<th><a href=team_display.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+        if ($sort_by == "total_credit") {
+            echo "<th>Total credit</th>";
+        } else {
+            echo "<th><a href=team_display.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+        }
+        if ($sort_by == "expavg_credit") {
+            echo "<th>Recent average credit</th>";
+        } else {
+            echo "<th><a href=team_display.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+        }
     }
-    if ($sort_by == "expavg_credit") {
-        echo "<th>Recent average credit</th>";
-    } else {
-        echo "<th><a href=team_display.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
-    }
+
     echo "
         <th>Country</th>
         </tr>
     ";
 
-    $result = mysql_query("select * from user where teamid=$team->id order by $sort_clause limit $n offset $offset");
+    if ($nosort) {
+        $result = mysql_query("select * from user where teamid=$team->id limit $n offset $offset");
+    } else {
+        $result = mysql_query("select * from user where teamid=$team->id order by $sort_clause limit $n offset $offset");
+    }
 
     $j = $offset + 1;
     while ($user = mysql_fetch_object($result)) {

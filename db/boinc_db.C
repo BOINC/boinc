@@ -88,9 +88,10 @@ int DB_TRICKLE_DOWN::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
-        "id=%d, create_time=%d, name='%s', user_friendly_name='%s', "
+        "create_time=%d, name='%s', user_friendly_name='%s', "
         "deprecated=%d",
-        id, create_time, name, user_friendly_name, deprecated
+        create_time, name, user_friendly_name,
+        deprecated
     );
 }
 
@@ -106,9 +107,9 @@ void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
 
 void DB_CORE_VERSION::db_print(char* buf) {
     sprintf(buf,
-        "id=%d, create_time=%d, version_num=%d, platformid=%d, "
+        "create_time=%d, version_num=%d, platformid=%d, "
         "xml_doc='%s', message='%s', deprecated=%d",
-        id, create_time, version_num, platformid,
+        create_time, version_num, platformid,
         xml_doc, message, deprecated?1:0
     );
 }
@@ -127,9 +128,9 @@ void DB_CORE_VERSION::db_parse(MYSQL_ROW &r) {
 
 void DB_APP::db_print(char* buf){
     sprintf(buf,
-        "id=%d, create_time=%d, name='%s', min_version=%d, "
+        "create_time=%d, name='%s', min_version=%d, "
         "deprecated=%d, user_friendly_name='%s'",
-        id, create_time, name, min_version,
+        create_time, name, min_version,
         deprecated, user_friendly_name
     );
 }
@@ -147,10 +148,10 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
 
 void DB_APP_VERSION::db_print(char* buf){
     sprintf(buf,
-        "id=%d, create_time=%d, appid=%d, version_num=%d, platformid=%d, "
+        "create_time=%d, appid=%d, version_num=%d, platformid=%d, "
         "xml_doc='%s', "
         "min_core_version=%d, max_core_version=%d, deprecated=%d",
-        id, create_time, appid, version_num, platformid,
+        create_time, appid, version_num, platformid,
         xml_doc,
         min_core_version, max_core_version, deprecated
     );
@@ -180,7 +181,7 @@ void DB_USER::db_print(char* buf){
     ESCAPE(url);
     ESCAPE(signature);
     sprintf(buf,
-        "id=%d, create_time=%d, email_addr='%s', name='%s', "
+        "create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
         "country='%s', postal_code='%s', "
         "total_credit=%.15e, expavg_credit=%.15e, expavg_time=%.15e, "
@@ -190,7 +191,7 @@ void DB_USER::db_print(char* buf){
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
         "seti_total_cpu=%.15e, signature='%s', has_profile=%d, "
         "cross_project_id='%s'",
-        id, create_time, email_addr, name,
+        create_time, email_addr, name,
         authenticator,
         country, postal_code,
         total_credit, expavg_credit, expavg_time,
@@ -248,13 +249,12 @@ void DB_TEAM::db_print(char* buf){
     ESCAPE(name_html);
     ESCAPE(description);
     sprintf(buf,
-        "id=%d, create_time=%d, userid=%d, name='%s', "
+        "create_time=%d, userid=%d, name='%s', "
         "name_lc='%s', url='%s', "
         "type=%d, name_html='%s', description='%s', nusers=%d, "
         "country='%s', "
         "total_credit=%.15e, expavg_credit=%.15e, expavg_time=%.15e, "
         "seti_id=%d",
-        id,
         create_time,
         userid,
         name,
@@ -323,7 +323,7 @@ void DB_HOST::db_print(char* buf){
     ESCAPE(os_name);
     ESCAPE(os_version);
     sprintf(buf,
-        "id=%d, create_time=%d, userid=%d, "
+        "create_time=%d, userid=%d, "
         "rpc_seqno=%d, rpc_time=%d, "
         "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%.15e, "
         "timezone=%d, domain_name='%s', serialnum='%s', "
@@ -338,7 +338,7 @@ void DB_HOST::db_print(char* buf){
         "n_bwup=%.15e, n_bwdown=%.15e, "
         "credit_per_cpu_sec=%.15e, "
         "venue='%s', projects='%s', nresults_today=%d",
-        id, create_time, userid,
+        create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
         timezone, domain_name, serialnum,
@@ -408,7 +408,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
 
 void DB_WORKUNIT::db_print(char* buf){
     sprintf(buf,
-        "id=%d, create_time=%d, appid=%d, "
+        "create_time=%d, appid=%d, "
         "name='%s', xml_doc='%s', batch=%d, "
         "rsc_fpops_est=%.15e, rsc_fpops_bound=%.15e, "
         "rsc_memory_bound=%.15e, rsc_disk_bound=%.15e, "
@@ -420,7 +420,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
         "max_total_results=%d, max_success_results=%d, "
         "result_template='%s'",
-        id, create_time, appid,
+        create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
         need_validate,
@@ -473,7 +473,7 @@ void DB_RESULT::db_print(char* buf){
     ESCAPE(stderr_out);
     sprintf(
         buf,
-        "id=%d, create_time=%d, workunitid=%d, "
+        "create_time=%d, workunitid=%d, "
         "server_state=%d, outcome=%d, client_state=%d, "
         "hostid=%d, userid=%d, "
         "report_deadline=%d, sent_time=%d, received_time=%d, "
@@ -482,7 +482,7 @@ void DB_RESULT::db_print(char* buf){
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%f, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d",
-        id, create_time, workunitid,
+        create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
         report_deadline, sent_time, received_time,
@@ -536,10 +536,10 @@ int DB_RESULT::insert() {
 void DB_TRICKLE_UP::db_print(char* buf) {
     ESCAPE(xml);
     sprintf(buf,
-        "id=%d, create_time=%d, send_time=%d, "
+        "create_time=%d, send_time=%d, "
         "resultid=%d, appid=%d, hostid=%d, "
         "handled=%d, xml='%s'",
-        id, create_time, send_time,
+        create_time, send_time,
         resultid, appid, hostid,
         handled, xml
     );
@@ -562,10 +562,10 @@ void DB_TRICKLE_UP::db_parse(MYSQL_ROW& r) {
 void DB_TRICKLE_DOWN::db_print(char* buf) {
     ESCAPE(xml);
     sprintf(buf,
-        "id=%d, create_time=%d, "
+        "create_time=%d, "
         "resultid=%d, hostid=%d, "
         "handled=%d, xml='%s'",
-        id, create_time,
+        create_time,
         resultid, hostid,
         handled, xml
     );

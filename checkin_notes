@@ -13670,3 +13670,13 @@ Karl 2004-06-16
     api/
         boinc_api_fortran.C
 
+David  16 June 2004
+    - make team pages cached
+    - enable user name search
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_display.php
+            user_search_action.php

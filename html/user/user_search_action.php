@@ -16,12 +16,8 @@ $count = 10;
 
 page_head("Search results");
 
-echo "Name search is disabled";
-page_tail();
-exit();
-
 echo "<h2>User names containing '$search_string'</h2>\n";
-$q = "select * from user where name like '%$search_string%' limit $offset,$count";
+$q = "select * from user where name like '$search_string%' limit $offset,$count";
 $result = mysql_query($q);
 echo "<table>";
 $n = 0;

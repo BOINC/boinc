@@ -21,6 +21,7 @@ alter table user
     add unique(email_addr),
     add unique(authenticator),
     add index ind_tid (teamid),
+    add index user_name(name),
     add index user_tot (total_credit desc),
         -- db_dump.C
     add index user_avg (expavg_credit desc);
