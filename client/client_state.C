@@ -884,11 +884,20 @@ int CLIENT_STATE::write_state_file_if_needed() {
 }
 
 // See if the project specified by master_url already exists
-// in the client state record.
+// in the client state record.  Ignore any trailing "/" characters
 //
 PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
+    int len1, len2;
+    char *mu;
+
+    len1 = strlen(master_url);
+    if (master_url[strlen(master_url)-1] == '/') len1--;
+
     for (unsigned int i=0; i<projects.size(); i++) {
-        if (!strcmp(master_url, projects[i]->master_url)) {
+        mu = projects[i]->master_url;
+        len2 = strlen(mu);
+        if (mu[strlen(mu)-1] == '/') len2--;
+        if (!strncmp(master_url, projects[i]->master_url, max(len1,len2))) {
             return projects[i];
         }
     }
