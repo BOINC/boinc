@@ -5358,9 +5358,12 @@ Karl 2003/07/18
         make_project (added)
 
 Karl 2003/07/22
-    fixed 'debug assertion failure'.
+    fixed 'debug assertion failure'. Release 1.05.
 
     Client/*
 
     updated database schema
     db/*, test/*, py/*
+
+Karl 2003/07/24
+    fixed dll problem. Release 1.06.
