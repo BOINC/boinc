@@ -648,7 +648,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                         gstate.report_result_error(
                             *(atp->result), 0,
                             "%s - exit code %d (0x%x)",
-                            windows_error_string(szError, sizeof(szError)),
+                            windows_format_error_string(exit_code, szError, sizeof(szError)),
 							exit_code, exit_code
                         );
                     }

@@ -152,6 +152,7 @@ extern bool debug_fake_exponential_backoff;
 #ifdef _WIN32
 
 char* windows_error_string( char* pszBuf, int iSize );
+char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSize );
 
 #endif
 

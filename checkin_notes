@@ -9923,3 +9923,12 @@ David  Feb 6 2004
 		boinc_cli.vcproj
 		boinc_gui.vcproj
 
+Rom    Feb 6 2004
+    - When reporting exit codes of the project application to the DB, use the exit code
+        that was reported from the application instead of the value from GetLastError()
+
+    lib/
+        util.c,h
+    client/
+        app.c
+
