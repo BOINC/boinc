@@ -20,15 +20,12 @@
 // Code that's in the BOINC app library (but NOT in the core client)
 // graphics-related code goes in graphics_api.C, not here
 
-#ifdef _WIN32
-#include "stdafx.h"
-#endif
+// Note: don't use stdafx.h here since this file is used by external projects
 
-#ifndef _WIN32
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstdarg>
+#include <cstring>
 #include <string>
 #include <fcntl.h>
 #include <algorithm>
@@ -41,11 +38,9 @@
 #endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
-#endif
 
 #include "config.h"
 using namespace std;
-#endif
 
 #include "diagnostics.h"
 #include "parse.h"
