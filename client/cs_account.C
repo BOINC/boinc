@@ -54,9 +54,6 @@ int PROJECT::write_account_file() {
     get_account_filename(master_url, path);
     f = boinc_fopen(TEMP_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
-#ifndef _WIN32
-    chmod(TEMP_FILE_NAME, 0600);
-#endif
 
     fprintf(f,
         "<account>\n"

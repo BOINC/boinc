@@ -16,12 +16,13 @@ and add an ", htmlspecialchars("<app_dir>"),
 " element to config.xml giving the path of the apps directory.
 <li> Create a subdirectory for each application,
 with the short name of the application.
-Put new application versions here.
+Put new application files here (see below).
 <code>update_versions</code>
 scans these directories for new application versions.
-<li> Run bin/update_versions
+<li> From the project's root directory, run bin/update_versions
 </ul>
-<p>
+
+<h3>Single-file application versions</h3>
 
 File names must be of the form <code>NAME_VERSION_PLATFORM[.ext]</code>, e.g.:
 <pre>
@@ -72,24 +73,6 @@ If your application includes executable files other than
 the main file, make sure that their protection flags
 include the user execute (u+x) bit.
 
-
-<h2>Releasing core client versions</h2>
-
-The same mechanism is used to release core client versions:
-Create a subdirectory 'boinc' in the apps directory,
-put new core client installer files there, and run update_versions.
-
-<p>
-<b>NOTE</b>: the files distributed in this way are installers, not executables.
-Instructions for creating installers are
-<a href=ssl_client_release_instructions.txt>here</a>.
-<p>
-<b>NOTE</b>: in the interests of consistency,
-we recommend that BOINC projects not distribute core client versions,
-but rather set the 'Download BOINC' link on their web page
-to point to the download page on the main BOINC site.
-Use this URL: <a href='http://setiweb.ssl.berkeley.edu/sah/download_boinc.php'>
-http://setiweb.ssl.berkeley.edu/sah/download_boinc.php</a>
 
 ";
    page_tail();

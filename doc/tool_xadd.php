@@ -1,12 +1,17 @@
 <?php
-   require_once("docutil.php");
-   page_head("xadd - tool for adding database items");
+
+require_once("docutil.php");
+page_head("xadd - tool for adding database items");
 
 echo "
 <b>xadd</b> adds platform and application records to the BOINC database.
-Information is read from an XML file,
-<b>project.xml</b>.
-This file should be in the project's root directory.
+Information is read from an XML file <b>project.xml</b>
+in the project's root directory.
+Run <code>xadd</code> from the project root directory, i.e.:
+<pre>
+cd ~/projects/project_name
+bin/xadd
+</pre>
 
 <p>
 The contents of <b>project.xml</b> should look like this:
@@ -30,10 +35,9 @@ The contents of <b>project.xml</b> should look like this:
 The 'name' of each item should be short
 and without spaces or other special characters.
 The 'user friendly name' (shown to end users) has no restrictions.
+An example project.xml file is in source/tools/.
 <p>
-An example of projects.xml is in tools/ in the source tree.
-<p>
-This tool only adds new items;
+<code>xadd</code> only adds new items;
 entries that conflict with existing database entries are ignored.
 ";
 page_tail();

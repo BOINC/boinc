@@ -26002,3 +26002,9 @@ Rom    16 Mar 2005
 
     lib/
         diagnostics.C, .h
+
+David  17 Mar 2005
+    - on Unix, create files with group/other permissions as well as user.
+
+    client/
+        client_types.C

@@ -82,7 +82,7 @@ BOINC-based distributed computing projects include:
 <a href=http://climateprediction.net>Climateprediction.net</a>:
 Improve the accuracy of long-term climate prediction.
 <li>
-<a href=http://www.physics2005.org/events/einsteinathome/index.html>Einstein@home</a>:
+<a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
 search data from the Laser Interferometer Gravitational wave Observatory (LIGO)
 in the US and from the GEO 600 gravitational wave observatory in Germany for signals coming from rapidly rotating neutron stars, known as pulsars.
 <li>
