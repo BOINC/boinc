@@ -52,6 +52,7 @@ inline float safe_atof(const char* s) {
 struct CURSOR {
     bool active;
     MYSQL_RES *rp;
+    CURSOR() { active = false; rp = NULL; }
 };
 
 // represents a connection to a database

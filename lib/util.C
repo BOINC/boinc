@@ -50,6 +50,7 @@
 
 #include "error_numbers.h"
 #include "util.h"
+#include "boinc_api.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"

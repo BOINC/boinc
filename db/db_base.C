@@ -65,7 +65,6 @@ const char* DB_CONN::error_string() {
 }
 
 DB_BASE::DB_BASE(DB_CONN& p, char *tn) : db(&p), table_name(tn) {
-    cursor.active = false;
     is_high_priority = false;
 }
 
@@ -252,7 +251,6 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
 
 
 DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN& p) : db(&p) {
-    cursor.active = false;
 }
 
 int DB_BASE_SPECIAL::start_transaction() {
@@ -265,7 +263,7 @@ int DB_BASE_SPECIAL::commit_transaction() {
 
 // convert a string into a form that allows it to be used
 // in SQL queries delimited by single quotes:
-// replace ' with \', \ with \\  
+// replace ' with \', \ with \\
 //
 void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];

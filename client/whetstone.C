@@ -31,7 +31,7 @@
 #include <time.h>
 #endif
 
-#include "util.h"
+#include "boinc_api.h"
 #include "cpu_benchmark.h"
 
 #define SPDP double
@@ -71,7 +71,7 @@ void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2)
 
 void whetstone(double& flops) {
 	long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
-	SPDP x,y,z;              
+	SPDP x,y,z;
 	long j,k,l;
 	SPDP e1[4];
 	double startsec, finisec, ws;
@@ -86,10 +86,10 @@ void whetstone(double& flops) {
     boinc_calling_thread_cpu_time(startsec, ws);
 
 	SPDP t =  0.49999975;
-	SPDP t0 = t;        
+	SPDP t0 = t;
 	SPDP t1 = 0.50000025;
 	SPDP t2 = 2.0;
-		
+
 	n1 = 12*x100;
 	n2 = 14*x100;
 	n3 = 345*x100;
@@ -123,14 +123,14 @@ void whetstone(double& flops) {
 		  }
 		t = 1.0 - t;
 	      }
-	    t =  t0;                    
+	    t =  t0;
 	 }
 
 	/* Section 2, Array as parameter */
 
 	 {
 	    for (ix=0; ix<xtra; ix++)
-	      { 
+	      {
 		for(i=0; i<n2; i++)
 		  {
 		     pa(e1,t,t2);
@@ -174,7 +174,7 @@ void whetstone(double& flops) {
 		  }
 	      }
 	 }
-     
+
 	/* Section 5, Trig functions */
 	x = 0.5;
 	y = 0.5;
@@ -190,7 +190,7 @@ void whetstone(double& flops) {
 	      }
 	    t = t0;
 	 }
-  
+
 	/* Section 6, Procedure calls */
 	x = 1.0;
 	y = 1.0;
@@ -204,7 +204,7 @@ void whetstone(double& flops) {
 		  }
 	      }
 	 }
-  
+
 	/* Section 7, Array refrences */
 	j = 0;
 	k = 1;
@@ -221,7 +221,7 @@ void whetstone(double& flops) {
 		  }
 	      }
 	 }
-	
+
 	/* Section 8, Standard functions */
 	x = 0.75;
 	 {

@@ -611,7 +611,7 @@ struct WORK_ITEM {
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM();
-    CURSOR cursor;
+    // CURSOR cursor;
     int enumerate(int limit);
         // used by feeder
     int read_result();

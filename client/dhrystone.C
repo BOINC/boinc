@@ -44,7 +44,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "util.h"
+#include "boinc_api.h"
 #include "cpu_benchmark.h"
 
 #define structassign(d, s)      d = s
@@ -85,7 +85,7 @@ typedef struct  Record {
 #define FALSE           0
 
 
- 
+
 /*
  * Package 1
  */
@@ -134,14 +134,14 @@ void dhrystone(
 
     unsigned long         Loops;
     DS_DATA dd;
-                          
+
     double                  startclock, endclock;
     double                  benchtime;
     double                  ws;
-        
+
     register unsigned long  Run_Index;
 
- 
+
   Next_Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));
   Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));
 
@@ -154,7 +154,7 @@ void dhrystone(
   strcpy (Str_1_Loc, "DHRYSTONE PROGRAM, 1'ST STRING");
 
   Arr_2_Glob [8][7] = 10;
-    
+
     Loops = 160000;       // determines runtime
 
 
@@ -205,7 +205,7 @@ void dhrystone(
 
     boinc_calling_thread_cpu_time(endclock, ws);
     benchtime = endclock - startclock;
-    
+
     //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);
 
     Dhrystones_Per_Second = (double) Loops / benchtime;
@@ -399,7 +399,7 @@ bool Func_2(DS_DATA& dd, Str_30  Str_1_Par_Ref, Str_30  Str_2_Par_Ref) {
   } /* if Ch_Loc */
 }
 
-bool Func_3(Enumeration Enum_Par_Val) 
+bool Func_3(Enumeration Enum_Par_Val)
 {
   Enumeration Enum_Loc;
 
