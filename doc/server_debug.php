@@ -55,7 +55,7 @@ This is useful for figuring out why your project is generating
 'no work available' messages.
 
 As an alternative to this, edit handle_request.C, and put
-a call to debug_sched(sreq, sreply, "../debug_sched") just
+a call to debug_sched(sreq, sreply, \"../debug_sched\") just
 before sreply.write(fout).
 Then, after recompiling, touch a file called 'debug_sched' in
 the project root directory.
