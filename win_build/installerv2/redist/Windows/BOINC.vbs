@@ -248,13 +248,7 @@ Function PopulateServiceAccount()
         End If
     End If
         
-    If ( strUserDomain = Property("ComputerName") ) Then
-        strDomainUsername = ".\" & strUserName
-    Else
-        strDomainUsername = strUserDomain & "\" & strUserName
-    End If
-                      
-    Property("SERVICE_DOMAINUSERNAME") = strDomainUsername
+    Property("SERVICE_DOMAINUSERNAME") = strUserDomain & "\" & strUserName
 
     Set oNetwork = Nothing
 

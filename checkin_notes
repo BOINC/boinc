@@ -22440,7 +22440,7 @@ David  9 Jan 2005
         forum.inc
         profile.inc
 
-David  9 Oct 2005
+David  9 Jan 2005
     - message board fixes - show thread titles using htmlspecialchars()
         prevent invisible titles
 
@@ -22450,3 +22450,7 @@ David  9 Oct 2005
             forum_show.inc
         user/
             forum_thread.php
+
+Rom    9 Jan 2005 (boinc)
+    - Tag for 4.58 release, all platforms
+      boinc_core_release_4_58
