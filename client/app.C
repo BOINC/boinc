@@ -293,7 +293,7 @@ int ACTIVE_TASK::start(bool first_time) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    HINSTANCE inst;
+    //HINSTANCE inst;
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -309,7 +309,7 @@ int ACTIVE_TASK::start(bool first_time) {
     //if (log_flags.task_debug) print_argv(argv);
     //
     sprintf( temp, "%s/%s", dirname, exec_name );
-    boinc_resolve_link( temp, exec_name );
+    boinc_resolve_filename( temp, exec_name );
     if( !CreateProcess( exec_name,
         wup->command_line,
         NULL, // not sure about this for security
@@ -383,7 +383,6 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 // Checks if any child processes have exited and records their final CPU time
 //
 bool ACTIVE_TASK_SET::poll() {
-    int stat;
     ACTIVE_TASK* atp = NULL;
     char path[256];
     int n;
@@ -409,10 +408,10 @@ bool ACTIVE_TASK_SET::poll() {
                 // Runtimes in 100-nanosecond units
                 totTime = tKernel.QuadPart + tUser.QuadPart;
 
-                atp->result->cpu_time = (totTime / 10000000.0);
+                atp->result->final_cpu_time = (totTime / 10000000.0);
             } else {
                 // This probably isn't correct
-                atp->result->cpu_time = ((double)clock())/CLOCKS_PER_SEC;
+                atp->result->final_cpu_time = ((double)clock())/CLOCKS_PER_SEC;
             }
             if (exit_code != STILL_ACTIVE) {
                 // Not sure how to incorporate the other states (WAS_SIGNALED, etc)
@@ -435,6 +434,7 @@ bool ACTIVE_TASK_SET::poll() {
 #if HAVE_SYS_TIME_H
     struct rusage rs;
     int pid;
+    int stat;
 
     pid = wait3(&stat, WNOHANG, &rs);
     if (pid <= 0) return false;
