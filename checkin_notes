@@ -12003,3 +12003,12 @@ Rom    May 3 2004
 
     html/inc/
         db_ops.inc
+
+Rom    May 4 2004
+    - Fixup new report so it gives a quick roll-up of information, i.e. strips
+      Linux kernel version down to just major, minor, and revision and shortens
+      the Windows on_name down to just 'Windows'
+
+    html/inc/
+        db_ops.inc
+    
