@@ -119,6 +119,7 @@ import boinc_path_config
 from Boinc import configxml
 import sys, os, getopt, time, glob, fcntl, signal, socket
 
+right_now = int(time.time())
 verbose = os.isatty(sys.stdout.fileno())
 verbose_daemon_run = 0
 # how long (in seconds) parent should wait before continuing after a fork.
@@ -211,7 +212,7 @@ def ensure_dir(filename):
         return
 
 def timestamp(t = None):
-    return time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(t or time.time()))
+    return time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(t or right_now))
 
 def safe_read_int(filename):
     try:
@@ -397,10 +398,10 @@ def when_will_task_next_run(task, task_run_state):
 
 def time_to_run_task(task, task_run_state):
     return (ignore_timestamps
-        or (time.time() >= when_will_task_next_run(task,task_run_state)))
+        or (right_now >= when_will_task_next_run(task,task_run_state)))
 
 def update_task_timestamp(task_run_state):
-    task_run_state.last_run = time.time()
+    task_run_state.last_run = right_now
 
 def run_task(task):
     '''Fork and exec command without stdout/err redirection'''
@@ -571,7 +572,7 @@ def command_status():
             when_last_run = float(task_run_state.last_run)
             last_run = when_last_run and timestamp(when_last_run) or '?'
             when_next_run = when_will_task_next_run(task, lookup_task_run_state(task))
-            next_run = (when_next_run <=time.time()) and 'NOW' or timestamp(when_next_run)
+            next_run = (when_next_run <= right_now) and 'NOW' or timestamp(when_next_run)
             if is_lock_file_locked(get_task_lock_name(task)):
                 lu = " LOCKED "
             else:
