@@ -84,7 +84,7 @@ void add_platform() {
 void add_app_version() {
     char path[256];
     DATA_BLOCK signature;
-    unsigned char signature_buf[SIGNATURE_SIZE];
+    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
     char signature_text[1024];
 
     memset(&app_version, 0, sizeof(app_version));

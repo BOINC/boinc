@@ -46,7 +46,7 @@ int process_result_template(
 ) {
     char* p,*q, *signed_xml=strdup("");
     char buf[256], temp[256];
-    unsigned char signature_buf[SIGNATURE_SIZE];
+    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
     DATA_BLOCK block, signature;
     char num;
     int i;
@@ -68,7 +68,7 @@ int process_result_template(
             block.data = (unsigned char*)signed_xml;
             block.len = strlen(signed_xml);
             signature.data = signature_buf;
-            signature.len = SIGNATURE_SIZE;
+            signature.len = SIGNATURE_SIZE_BINARY;
             sign_block(block, key, signature);
             fprintf(out, "<xml_signature>\n");
             print_hex_data(out, signature);

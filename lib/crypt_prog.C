@@ -19,7 +19,7 @@
 #include "crypt.h"
 
 void die(char* p) {
-    fputs(p, stderr);
+    fprintf(stderr, "Error: %s\n", p);
     exit(1);
 }
 

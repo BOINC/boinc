@@ -53,7 +53,7 @@ int FILE_INFO::parse(FILE* in) {
         strcatdup(signed_xml, buf);
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        //fprintf(stderr, "FILE_INFO::parse: unrecognized: %s \n", buf);
+        //fprintf(stderr, "file_upload_handler: FILE_INFO::parse: unrecognized: %s \n", buf);
     }
     return 1;
 }
@@ -177,15 +177,16 @@ int main() {
 
     retval = get_key(key);
     if (retval) {
-        fprintf(stderr, "can't read key file\n");
+        fprintf(stderr, "file_upload_handler: can't read key file\n");
         print_status(-1, "can't read key file");
         exit(0);
     }
     
     retval = handle_request(stdin, key);
     if (retval) {
-        fprintf(stderr, "handle_request: %d\n", retval);
+        fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
     } else {
+        fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
         print_status(0, 0);
     }
     return 0;

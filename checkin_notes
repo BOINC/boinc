@@ -917,3 +917,19 @@ David A.    July 7, 2002
     tools/
         add.C
         process_result_template.C
+
+David A.    July 8, 2002
+    - fix compile errors
+    - fix bugs in FCGI version of scan_hex_data stuff
+
+    client/
+        client_types.C
+    lib/
+        crypt.C
+        crypt_prog.C
+    sched/
+        file_upload_handler.C
+    tools/
+        Makefile.in
+        add.C
+        process_result_template.C

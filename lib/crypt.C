@@ -4,6 +4,10 @@
 #include "md5_file.h"
 #include "crypt.h"
 
+// NOTE: the fast CGI I/O library doesn't have fscanf(),
+// so some of the following have been modified to use
+// fgets() and sscanf() instead
+
 // write some data in hex notation.
 // NOTE: since length may not be known to the reader,
 // we follow the data with a non-hex character '.'
@@ -37,20 +41,32 @@ int sprint_hex_data(char* p, DATA_BLOCK& x) {
 
 // scan data in hex notation.
 // stop when you reach a non-parsed character.
-// NOTE: buffer must be big enough.
+// NOTE: buffer must be big enough; no checking is done.
 //
 int scan_hex_data(FILE* f, DATA_BLOCK& x) {
     int n;
     x.len = 0;
-    char *retval, buf[3];
+#if _USING_FCGI_
+    char *p, buf[256];
+    int i, j, n;
     while (1) {
-        retval = fgets(buf, 2, f);
-	if(retval == NULL) break;
-        sscanf(buf, "%2x", x.data+x.len);
-        //n = fscanf(f, "%2x", x.data+x.len);
-        //if (n <= 0) break;
+        p = fgets(buf, 256, f);
+	if (!p) return -1;
+        n = strlen(p)/2;
+        if (n == 0) break;
+        for (i=0; i<n; i++) {
+            sscanf(buf+i*2, "%2x", &j);
+            x.data[x.len] = j;
+            x.len++;
+        }
+    }
+#else
+    while (1) {
+        n = fscanf(f, "%2x", x.data+x.len);
+        if (n <= 0) break;
         x.len++;
     }
+#endif
     return 0;
 }
 
@@ -89,27 +105,38 @@ int print_key_hex(FILE* f, KEY* key, int size) {
 
 int scan_key_hex(FILE* f, KEY* key, int size) {
     int len, i, n;
-    int num_bits,nbytes_read=0;
-    char buf[size+1];
+    int num_bits;
 
-    //fscanf(f, "%d", &num_bits);
-    fgets(buf, size, f);
+#if _USING_FCGI_
+    char buf[256];
+    int j = 0, b;
+    fgets(buf, 256, f);
     sscanf(buf, "%d", &num_bits);
     key->bits = num_bits;
     len = size - sizeof(key->bits);
-    for (i=0; i<len; i++) {
-        if( !nbytes_read ) {
-            fgets(buf, size, f);
-            nbytes_read = strlen(buf);
+    while (1) {
+        p = fgets(buf, 256, f);
+	if (!p) return -1;
+        n = strlen(p)/2;
+        if (n == 0) break;
+        for (i=0; i<n; i++) {
+            sscanf(buf+i*2, "%2x", &b);
+            if (j >= len) return -1;
+            key->data[j++] = b;
         }
-        //fscanf(f, "%2x", &n);
-        sscanf(buf, "%2x", &n);
-        key->data[i] = n;
-        nbytes_read -= 2;
     }
     fgets(buf, size, f);
-    //fscanf(f, ".");
     sscanf(buf, ".");
+#else
+    fscanf(f, "%d", &num_bits);
+    key->bits = num_bits;
+    len = size - sizeof(key->bits);
+    for (i=0; i<len; i++) {
+        fscanf(f, "%2x", &n);
+        key->data[i] = n;
+    }
+    fscanf(f, ".");
+#endif
     return 0;
 }
 

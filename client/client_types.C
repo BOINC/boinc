@@ -77,6 +77,7 @@ int PROJECT::parse_state(FILE* in) {
             scheduler_urls.push_back(string);
             continue;
         }
+        else if (parse_str(buf, "<master_url>", master_url)) continue;
         else if (parse_str(buf, "<project_name>", project_name)) continue;
         else if (parse_str(buf, "<user_name>", user_name)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
@@ -124,7 +125,7 @@ int PROJECT::write_state(FILE* out) {
     );
     if (code_sign_key) {
         fprintf(out,
-            "    </code_sign_key>\n%s</code_sign_key>\n", code_sign_key
+            "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
         );
     }
     fprintf(out,
