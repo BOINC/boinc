@@ -4602,8 +4602,12 @@ Tim    June 9, 2003
     - Windows GUI Enhancement
         disk usage now displayed in two separate pie charts
         improved the separation line between menu and tabs
+    - Preference
+        prompt user when downloading executable (commented out)
 
     client/
+        file_xfer.c
         gui_titles.c
+        pers_file_xfer.c
         wingui_mainwindow.h
         wingui_mainwindow.cpp

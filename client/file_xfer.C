@@ -44,6 +44,15 @@ FILE_XFER::~FILE_XFER() {
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     double f_size;
 
+    /*
+    if (file_info.executable) {
+        char msg[256];
+        sprintf(msg, "BOINC is about to download the executable file \"%s\" for project \"%s\". Would you like to accept this file?\n\r\n\rPlease note that this file is necessary for running the project. Should you decide to decline this download, project \"%s\" will not run correctly.\r\n\r\nFile signature:\r\n\r\n%s", file_info.name, file_info.project->project_name, file_info.project->project_name, file_info.file_signature);
+        if (AfxMessageBox(msg, MB_ICONQUESTION|MB_YESNO|MB_APPLMODAL|MB_DEFBUTTON2, 0) == IDNO)
+            return -1;
+    }
+    */
+
     is_upload = false;
     fip = &file_info;
     get_pathname(fip, pathname);
@@ -51,6 +60,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
         f_size = 0;
     }
     bytes_xferred = f_size;
+
     return HTTP_OP::init_get(fip->get_url(), pathname, false, (int)f_size);
 }
 
