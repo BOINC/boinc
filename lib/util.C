@@ -407,7 +407,7 @@ void canonicalize_master_url(string& url) {
     string::size_type p = url.find("://");
     // lowercase http://
     if (p != string::npos) {
-        std::transform(url.begin(), url.begin()+p, url.begin(), tolower);
+        transform(url.begin(), url.begin()+p, url.begin(), tolower);
         p += 3;
     } else {
         p = 0;
