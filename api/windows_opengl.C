@@ -23,6 +23,16 @@
 #define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
 #define WIN32_EXTRA_LEAN      // Trims even farther.
 
+//#define DRAW_WITH_DLL
+
+#ifdef DRAW_WITH_DLL
+__declspec(dllimport) void vis_render(int,int,double);
+__declspec(dllimport) void vis_unload();
+__declspec(dllimport) void vis_init();
+#pragma comment(lib,"../../vis_dll/debug/vis.lib")
+#endif
+
+
 static HDC			hDC;
 static HGLRC		hRC;
 static HWND			hWnd=NULL;		// Holds Our Window Handle
@@ -49,7 +59,11 @@ BOOL reg_win_class();
 BOOL unreg_win_class();
 
 bool KillWindow() {	
-	if(hDC) app_unload_gl();
+#ifdef DRAW_WITH_DLL
+	if(hDC) vis_unload();
+#else
+	//if(hDC) app_unload_gl();
+#endif
 
 	if (hRC) {											// Do We Have A Rendering Context?
 		if (!wglMakeCurrent(NULL,NULL)) {				// Are We Able To Release The DC And RC Contexts?
@@ -152,7 +166,11 @@ void SetMode(int mode) {
 
 	ReSizeGLScene(width, height);	
 	InitGL();
+#ifdef DRAW_WITH_DLL
+	vis_init();
+#else
 	app_init_gl();
+#endif
 	
 
 	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
@@ -214,8 +232,12 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			width = rt.right-rt.left;
 			height = rt.bottom-rt.top;
 
-			app_render(width, height, dtime());
-
+#ifdef DRAW_WITH_DLL
+			vis_render(width,height,dtime());
+#else
+			app_render(width, height, dtime());			
+#endif
+			
 			SwapBuffers(hDC);
 			return 0;
 	}

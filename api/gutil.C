@@ -71,8 +71,6 @@
 
 #include "gutil.h"
 
-extern HDC myhDC;
-
 GLfloat mat_diffuse[] = {0.7, 0.5, 1.0, 0.4};
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
