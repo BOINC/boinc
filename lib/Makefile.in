@@ -20,7 +20,7 @@ CRYPT_OBJS = \
 
 CRYPT_LIBS = \
     $(MD5_OBJS) \
-    ../RSAEuro/unix/rsaeuro.a
+    ../RSAEuro/source/rsaeuro.a
 
 COUNTRY_OBJS = \
     countries.o
