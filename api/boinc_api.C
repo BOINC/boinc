@@ -39,6 +39,7 @@
 
 #include "parse.h"
 #include "error_numbers.h"
+#include "file_names.h"
 
 #include "boinc_api.h"
 
