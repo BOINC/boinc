@@ -13797,3 +13797,7 @@ Rom    16 June 2004
 
     client/
         pers_file_xfer.C
+
+Rom    June 15 2004
+    - Tag for 3.09 release, all platforms
+      boinc_core_release_3_09
