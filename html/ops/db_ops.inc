@@ -26,6 +26,19 @@ function lookup_user_auth($auth) {
     }
 }
 
+function join_query_string($s1, $s2)
+{
+    if ($s1) {
+        if ($s2) {
+            return "$s1&s2";
+        } else {
+            return $s1;
+        }
+    } else {
+        return $s2;
+    }
+}
+
 class SqlQueryString {
     var $table;
     var $query;
@@ -33,7 +46,7 @@ class SqlQueryString {
     function SqlQueryString() {
         $this->table = $_GET['table'];
         $this->query = $_GET['query'];
-        $this->urlquery = "table=$this->table&query=$this->query";
+        $this->urlquery = "";
     }
     function add($clause) {
         if (!$this->query) {
@@ -68,10 +81,18 @@ class SqlQueryString {
             $this->urlquery .= "&$name=".urlencode($value);
         }
     }
+    function addsort($name) {
+        $value = $_GET[$name];
+        if (strlen($value)) {
+            $this->query .= " order by $value desc";
+            $this->urlquery .= "&$name=".urlencode($value);
+        }
+    }
 
     function count() {
         $count_query = "select count(*) as cnt from $this->table $this->query";
         $result = mysql_query($count_query);
+        if (!$result) return 0;
         $res = mysql_fetch_object($result);
         mysql_free_result($result);
         return $res->cnt;
@@ -88,6 +109,15 @@ class SqlQueryString {
             return "select * from $this->table $this->query";
         }
     }
+    
+    function get_url_query($query_extra) {
+        $q = join_query_string($this->query, $query_extra);
+        $s = "db_action.php?table=$this->table$this->urlquery";
+        if ($q) {
+            $s = "$s&query=$q";
+        }
+        return $s;
+    }
 }
 
 function build_sql_query()
@@ -96,22 +126,19 @@ function build_sql_query()
 
     $q->addeq('id');
     $q->addeq('platformid');
-    $q->addeq('appid'_id);
+    $q->addeq('appid');
     $q->addeq('workunitid');
     $q->addeq('hostid');
     $q->addeq('userid');
     $q->addeq('teamid');
-    if ($nsecs) {
-        $received_time = time() - $nsecs;
+    if ($_GET['nsecs']) {
+        $_GET['received_time'] = time() - $_GET['nsecs'];
     }
     $q->addgt('received_time');
     $q->addeqnz('server_state');
     $q->addeqnz('outcome');
     $q->addeqnz('client_state');
-
-    if (strlen($sort_by)) {
-        $q->query .= " order by $sort_by desc";
-    }
+    $q->addsort('sort_by');
 
     return $q;
 }
@@ -140,7 +167,9 @@ function show_result_summary()
         $client_state[$cs] = 0;
     }
 
-    $q = build_sql_query('result');
+    $_GET['table'] = 'result';
+    $_GET['sort_by'] = ''; // ignore sort
+    $q = build_sql_query();
     $main_query = $q->get_select_query(0,0);
     $urlquery = $q->urlquery;
     echo "<p>Query: <b>$main_query</b><p>\n";

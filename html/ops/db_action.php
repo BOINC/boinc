@@ -12,8 +12,8 @@
 
     db_init();
 
-    parse_str(getenv("QUERY_STRING"));
-    $q = build_sql_query($table);
+    parse_str(getenv("QUERY_STRING")); // 'TODO: remove';
+    $q = build_sql_query();
 
     if (strlen($nresults)) {
         $entries_to_show = $nresults;
@@ -100,35 +100,39 @@
             ";
         }
     }
-    if ($detail == "low") {
-        start_table();
-        switch($table) {
+    $result = mysql_query($main_query);
+    if ($result) {
+        if ($detail == "low") {
+            start_table();
+            switch($table) {
             case "result": result_short_header(); break;
             case "host":   host_short_header(); break;
+            }
         }
-    }
-    $result = mysql_query($main_query);
-    while ($res = mysql_fetch_object($result)) {
+        while ($res = mysql_fetch_object($result)) {
+            if ($detail == "low") {
+                switch ($table) {
+                case "result":      show_result_short($res);                                      break;
+                case "host":        show_host_short($res);                                        break;
+                }
+            } else {
+                switch ($table) {
+                case "platform":    show_platform($res);                                          break;
+                case "app":         show_app($res);                                               break;
+                case "app_version": show_app_version($res, $hide_xml_docs);                       break;
+                case "host":        show_host($res);                                              break;
+                case "workunit":    show_workunit($res, $hide_xml_docs);                          break;
+                case "result":      show_result($res, $hide_xml_docs, $hide_stderr, $hide_times); break;
+                case "team":        show_team($res);                                              break;
+                case "user":        show_user($res);                                              break;
+                }
+            }
+        }
         if ($detail == "low") {
-            switch ($table) {
-            case "result":      show_result_short($res);                                      break;
-            case "host":        show_host_short($res);                                        break;
-            }
-        } else {
-            switch ($table) {
-            case "platform":    show_platform($res);                                          break;
-            case "app":         show_app($res);                                               break;
-            case "app_version": show_app_version($res, $hide_xml_docs);                       break;
-            case "host":        show_host($res);                                              break;
-            case "workunit":    show_workunit($res, $hide_xml_docs);                          break;
-            case "result":      show_result($res, $hide_xml_docs, $hide_stderr, $hide_times); break;
-            case "team":        show_team($res);                                              break;
-            case "user":        show_user($res);                                              break;
-            }
+            end_table();
         }
-    }
-    if ($detail == "low") {
-        end_table();
+    } else {
+        echo "<h2>No results found</h2>";
     }
 
     page_tail();
