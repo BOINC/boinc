@@ -32,8 +32,8 @@
 extern "C" {
     extern int	boinc_set_error(int exit_code);
 
-    extern int	boinc_init(bool standalone = false);
-    extern int	boinc_finish(int);
+    extern int	boinc_init(bool is_worker = true);
+    extern int	boinc_finish(int status, bool is_worker = true);
 
     extern bool	boinc_is_standalone();
 

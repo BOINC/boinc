@@ -39,12 +39,12 @@ public:
 
 extern "C" {
 
-    void boinc_init_(int *standalone) {
-        boinc_init(*standalone);
+    void boinc_init_(int* is_worker) {
+        boinc_init(*is_worker);
     }
 
-    void boinc_finish_(int* status) {
-        boinc_finish(*status);
+    void boinc_finish_(int* status, int* is_worker) {
+        boinc_finish(*status, *is_worker);
     }
 
     void boinc_is_standalone_(int* result) {

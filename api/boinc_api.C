@@ -102,7 +102,9 @@ static void cleanup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static int  set_timer(double period);
 
-int boinc_init(bool standalone_ /* = false */) {
+// Timer will be installed iff is_worker=true.
+//
+int boinc_init(bool is_worker /* = true */) {
     FILE* f;
     int retval;
 
@@ -131,8 +133,6 @@ int boinc_init(bool standalone_ /* = false */) {
         DUPLICATE_SAME_ACCESS
     );
 #endif
-
-    standalone = standalone_;
 
     retval = boinc_parse_init_data_file();
     if (retval) {
@@ -165,30 +165,33 @@ int boinc_init(bool standalone_ /* = false */) {
     heartbeat_active = !standalone;
     seconds_until_heartbeat_giveup = HEARTBEAT_GIVEUP_PERIOD;
 
-    set_timer(timer_period);
+    if (is_worker) {
+        set_timer(timer_period);
+    }
 
     return 0;
 }
 
 
-int boinc_finish(int status) {
+int boinc_finish(int status, bool is_worker /* = true */) {
     double cur_mem;
-
-    boinc_calling_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
-    last_checkpoint_cpu_time += aid.wu_cpu_time;
-    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    if (is_worker) {
+        boinc_calling_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
+        last_checkpoint_cpu_time += aid.wu_cpu_time;
+        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
 #ifdef _WIN32
-    // Stop the timer
-    timeKillEvent(timer_id);
-    CloseHandle(worker_thread_handle);
+        // Stop the timer
+        timeKillEvent(timer_id);
+        CloseHandle(worker_thread_handle);
 #endif
-    cleanup_shared_mem();
-    if (status == 0) {
-        FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
-        if (f) fclose(f);
+        cleanup_shared_mem();
+        if (status == 0) {
+            FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
+            if (f) fclose(f);
+        }
+        aid.wu_cpu_time = last_checkpoint_cpu_time;
+        boinc_write_init_data_file();
     }
-    aid.wu_cpu_time = last_checkpoint_cpu_time;
-    boinc_write_init_data_file();
     exit(status);
     return 0;
 }

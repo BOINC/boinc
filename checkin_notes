@@ -14511,3 +14511,24 @@ David  2 July 2004
         backend_lib.C,h
         create_work.C
         process_result_template.C
+
+Daniel 2004-07-02
+    - API: provide is_worker (default to true) parameter to boinc_init
+        and boinc_finish.
+        - Applications for which is_worker=false CANNOT access shared
+            memory segment that is used for status updates. But they 
+            can still use BOINC graphics API.
+    - API: deleted standalone parameter to boinc_init. standalone
+        status is already detected in boinc_init automatically. It
+        should be sufficient for testing purposes.
+    - FORTRAN API also changed.
+    - Documentation updated to reflect API changes.
+
+    api/
+        boinc_api.C
+        boinc_api.h
+        boinc_api_fortran.C
+    doc/
+        api.php
+        compound_app.php
+
