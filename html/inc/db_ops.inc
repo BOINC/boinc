@@ -313,7 +313,7 @@ function show_failure_result_summary_by_platform() {
             $table_row_background = "000000";
         }
 
-        echo "<tr>"
+        echo "<tr>";
 
         
         echo "<td class=fieldname bgcolor=$table_row_background align=left valign=top>";
