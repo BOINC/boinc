@@ -16215,3 +16215,12 @@ Daniel 2004-08-11
         app_control.C
         app_start.C
 
+David  11 Aug 2004
+    - comment out disk-management code, pending a review.
+
+    client/
+        client_state.C
+        client_types.C
+        cs_data.C
+        cs_scheduler.C
+        scheduler_op.C

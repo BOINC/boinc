@@ -40,6 +40,7 @@
 
 using std::vector;
 
+#if 0
 
 // This gets called when the client doesn't have enough disk space to continue
 // running active tasks.
@@ -562,3 +563,4 @@ double CLIENT_STATE::proj_potentially_free(PROJECT* p) {
     return tps;
 }
 
+#endif

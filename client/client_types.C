@@ -494,6 +494,8 @@ char* PROJECT::get_project_name() {
 }
 
 bool PROJECT::associate_file(FILE_INFO* fip) {
+    return 0;
+#if 0
     double space_made = 0;
     if(gstate.get_more_disk_space(this, fip->nbytes)) {
         size += fip->nbytes;
@@ -508,6 +510,7 @@ bool PROJECT::associate_file(FILE_INFO* fip) {
     } else {
         return false;
     }
+#endif
 }
 
 int APP::parse(MIOFILE& in) {
