@@ -538,7 +538,7 @@ for opt,v in opts:
     else: assert(False)
 
 if not command:
-    raise SystemExit('No command specified and script name is not "start" or "stop"')
+    raise SystemExit('No command specified and script name is not "start", "stop", or "status"')
 
 config = BoincConfig(config_filename).read()
 run_state = BoincRunState(run_state_filename).read(failopen_ok = True)
