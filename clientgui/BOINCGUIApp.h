@@ -31,7 +31,9 @@
 
 #include "MainFrame.h"
 #include "MainDocument.h"
+#ifndef NOTASKBAR
 #include "TaskBarIcon.h"
+#endif
 
 
 class CBOINCGUIApp : public wxApp
@@ -52,7 +54,9 @@ protected:
 
     CMainFrame*     m_pFrame;
     CMainDocument*  m_pDocument;
+#ifndef NOTASKBAR
     CTaskBarIcon*   m_pTaskBarIcon;
+#endif
 
 public:
 
@@ -60,7 +64,9 @@ public:
 
     CMainFrame*     GetFrame()       { return m_pFrame; };
     CMainDocument*  GetDocument()    { return m_pDocument; };
+#ifndef NOTASKBAR
     CTaskBarIcon*   GetTaskBarIcon() { return m_pTaskBarIcon; };
+#endif
 
 };
 

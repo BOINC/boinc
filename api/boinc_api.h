@@ -87,7 +87,9 @@ extern APP_INIT_DATA aid;
 /////////// IMPLEMENTATION STUFF BEGINS HERE
 
 extern APP_CLIENT_SHM *app_client_shm;
+#ifdef _WIN32
 extern HANDLE worker_thread_handle;
+#endif
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 

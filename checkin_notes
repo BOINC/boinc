@@ -18830,3 +18830,15 @@ David  25 Oct 2004
 	api/
 		boinc_api.C,h
 		graphics_api.C
+
+David  25 Oct 2004
+    - fix compile errors.
+        I conditionally commented out stuff related to taskbar icon
+        in the BOINC GUI code,
+        since taskbar icon doesn't seem to exist on X11/GTK
+
+    api/
+        boinc_api.h
+    clientgui/
+        BOINCGUIApp.cpp,h
+        Makefile.old
