@@ -355,11 +355,10 @@ int insert_deadline_tag(RESULT& result) {
 
 static int update_wu_transition_time(WORKUNIT wu, time_t x) {
     DB_WORKUNIT dbwu;
-    int retval;
     char buf[256];
 
     dbwu.id = wu.id;
-    sprintf(buf, "transition_time=%d", x);
+    sprintf(buf, "transition_time=%d", (int)x);
     return dbwu.update_field(buf);
 }
 
@@ -425,17 +424,17 @@ static bool already_sent_to_different_platform(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 ) {
     DB_WORKUNIT db_wu;
-    int wsn;
+    int retval, wsn=0;
     char buf[256];
 
     // reread workseq_next field from DB in case it's changed
     //
     db_wu.id = workunit.id;
-    retval = db_wu.get_field("workseq_next", wsn);
+    retval = db_wu.get_field_int("workseq_next", wsn);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::ERROR, "can't get workseq_next for %s: %d\n",
-            dbwu.id, retval
+            SCHED_MSG_LOG::CRITICAL, "can't get workseq_next for %d: %d\n",
+            db_wu.id, retval
         );
         return true;
     }
