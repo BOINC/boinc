@@ -55,7 +55,7 @@ if ($_GET["xml"]) {
     echo "<stable_version>4.13</stable_version>\n";
     show_413(true);
     echo "<development_version>4.55</development_version>\n";
-    show_455(true);
+    //show_455(true);
     echo "</core_versions>\n";
     exit();
 }
@@ -99,10 +99,10 @@ echo "
     BOINC can be customized for
     <a href=http://boinc.berkeley.edu/language.php>languages other than English</a>
 ";
-echo "
-<h2>Development version (latest features, possibly buggy)</h2>
-";
-show_455();
+//echo "
+//<h2>Development version (latest features, possibly buggy)</h2>
+//";
+//show_455();
 
 //echo"<h2>Old versions</h2>\n";
 //show_405();

@@ -208,6 +208,7 @@ pthread_t graphics_thread;
 
 void restart() {
     if (pthread_equal(pthread_self(), graphics_thread)) {
+        atexit(restart);
         longjmp(jbuf, 1);
     }
 }
