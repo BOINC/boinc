@@ -30,12 +30,12 @@ using namespace std;
 #include "server_types.h"
 
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
-    prefs_xml = 0;
+    global_prefs_xml = 0;
     code_sign_key = 0;
 }
 
 SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
-    if (prefs_xml) free(prefs_xml);
+    if (global_prefs_xml) free(global_prefs_xml);
     if (code_sign_key) free(code_sign_key);
 }
 
@@ -46,8 +46,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(authenticator, "");
     hostid = 0;
     work_req_seconds = 0;
-    prefs_mod_time = 0;
-    prefs_xml = strdup("");
+    global_prefs_mod_time = 0;
+    global_prefs_xml = strdup("");
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return 1;
@@ -59,13 +59,13 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
         else if (parse_int(buf, "<core_client_version>", core_client_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
-        else if (parse_int(buf, "<prefs_mod_time>", (int)prefs_mod_time)) {
+        else if (parse_int(buf, "<global_prefs_mod_time>", (int)global_prefs_mod_time)) {
             continue;
         }
         else if (match_tag(buf, "<preferences>")) {
             while (fgets(buf, 256, fin)) {
                 if (strstr(buf, "</preferences>")) break;
-                strcatdup(prefs_xml, buf);
+                strcatdup(global_prefs_xml, buf);
             }
         }
         else if (match_tag(buf, "<host_info>")) {
@@ -99,7 +99,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     hostid = 0;
     strcpy(message, "");
     strcpy(message_priority, "");
-    send_prefs = false;
+    send_global_prefs = false;
     code_sign_key = 0;
     code_sign_key_signature = 0;
     memset(&user, 0, sizeof(user));
@@ -144,12 +144,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fprintf(fout, "<hostid>%d</hostid>\n", hostid);
     }
     
-    if (send_prefs) {
+    if (send_global_prefs) {
         fprintf(fout,
-            "<prefs_mod_time>%d</prefs_mod_time>\n",
-            user.prefs_mod_time
+            "<global_prefs_mod_time>%d</global_prefs_mod_time>\n",
+            user.global_prefs_mod_time
         );
-        fputs(user.prefs, fout);
+        fputs(user.global_prefs, fout);
     }
 
     // acknowledge results

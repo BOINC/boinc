@@ -118,7 +118,7 @@ int check_set(vector<RESULT> results, int& canonical, double& credit) {
                 sum += results[i].claimed_credit;
             }
         }
-        credit + sum/(neq-2);
+        credit = sum/(neq-2);
     }
 
     // free malloced files

@@ -32,8 +32,8 @@ struct SCHEDULER_REQUEST {
     int core_client_version;
     int rpc_seqno;
     int work_req_seconds;
-    unsigned int prefs_mod_time;
-    char* prefs_xml;
+    unsigned int global_prefs_mod_time;
+    char* global_prefs_xml;
     char* code_sign_key;
 
     HOST host;
@@ -53,7 +53,7 @@ struct SCHEDULER_REPLY {
     char message_priority[256];
     int hostid;                 // send this only if nonzero.
                                 // this tells client to reset rpc_seqno
-    bool send_prefs;            // whether to send preferences
+    bool send_global_prefs;     // whether to send global preferences
     USER user;
     HOST host;
     vector<APP> apps;

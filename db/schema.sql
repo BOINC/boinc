@@ -49,7 +49,7 @@ create table user (
     expavg_credit   float      not null,
     expavg_time     float      not null,
     global_prefs    blob,
-    prefs_mod_time  integer     not null,
+    global_prefs_mod_time  integer     not null,
     project_prefs   blob,
     teamid	    integer	not null,
     primary key (id)

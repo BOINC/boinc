@@ -224,21 +224,23 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     return 0;
 }
 
-// If the client sent prefs, and they're more recent than ours,
+// If the client sent global prefs, and they're more recent than ours,
 // update user record in DB.
-// If we our DB has more recent prefs than client's, send them.
+// If we our DB has more recent global prefs than client's, send them.
 //
-int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    if (sreq.prefs_mod_time > reply.user.prefs_mod_time && strlen(sreq.prefs_xml)) {
-        strncpy(reply.user.prefs, sreq.prefs_xml, sizeof(reply.user.prefs));
-        reply.user.prefs_mod_time = sreq.prefs_mod_time;
-        if (reply.user.prefs_mod_time > (unsigned)time(0)) {
-            reply.user.prefs_mod_time = (unsigned)time(0);
+int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    if (sreq.global_prefs_mod_time > reply.user.global_prefs_mod_time
+        && strlen(sreq.global_prefs_xml)
+    ) {
+        strncpy(reply.user.global_prefs, sreq.global_prefs_xml, sizeof(reply.user.global_prefs));
+        reply.user.global_prefs_mod_time = sreq.global_prefs_mod_time;
+        if (reply.user.global_prefs_mod_time > (unsigned)time(0)) {
+            reply.user.global_prefs_mod_time = (unsigned)time(0);
         }
         db_user_update(reply.user);
     }
-    if (reply.user.prefs_mod_time > sreq.prefs_mod_time) {
-        reply.send_prefs = true;
+    if (reply.user.global_prefs_mod_time > sreq.global_prefs_mod_time) {
+        reply.send_global_prefs = true;
     }
     return 0;
 }
@@ -447,7 +449,6 @@ void send_code_sign_key(
             }
         }
     } else {
-        fprintf(stderr, "%d: didn't get code sign key, sending one\n", getpid());
         reply.code_sign_key = strdup(code_sign_key);
     }
 }
@@ -475,7 +476,7 @@ void process_request(
         return;
     }
 
-    handle_prefs(sreq, reply);
+    handle_global_prefs(sreq, reply);
 
     handle_results(sreq, reply, reply.host);
 

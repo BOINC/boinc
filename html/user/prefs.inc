@@ -323,7 +323,7 @@ function project_prefs_make_xml($prefs) {
 function global_prefs_update($user, $prefs) {
     $prefs_xml = global_prefs_make_xml($prefs);
     $now = time();
-    mysql_query("update user set global_prefs='$prefs_xml', prefs_mod_time=$now where id=$user->id");
+    mysql_query("update user set global_prefs='$prefs_xml', global_prefs_mod_time=$now where id=$user->id");
     $user->global_prefs = $prefs_xml;
 }
 

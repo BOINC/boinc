@@ -116,7 +116,7 @@ struct USER {
     double expavg_credit;           // credit per second, recent average
     double expavg_time;             // when the above was computed
     char global_prefs[MAX_BLOB_SIZE];  // global preferences
-    unsigned int prefs_mod_time;    // When the preferences were last updated
+    unsigned int global_prefs_mod_time;  // When global prefs were last updated
                                     // zero if they're not defined
     char project_prefs[MAX_BLOB_SIZE];
     int teamid;                     // if the user is part of a team
