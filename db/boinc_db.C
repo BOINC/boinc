@@ -17,14 +17,23 @@
 // Contributor(s):
 //
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <unistd.h>
 
 #include "boinc_db.h"
 
 #define MAX_QUERY_LEN 8192
 
 MYSQL* mysql;
+
+static struct random_init {
+    random_init()
+    {
+        srand48(getpid() + time(0));
+    }
+} random_init;
 
 DB_BASE::DB_BASE(char *tn) : table_name(tn) {
     cursor.active = false;
@@ -655,6 +664,12 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     opaque = atoi(r[i++]);
     random = atoi(r[i++]);
     client_version_num = atoi(r[i++]);
+}
+
+int DB_RESULT::insert()
+{
+    random = lrand48();
+    return DB_BASE::insert();
 }
 
 void DB_WORKSEQ::db_print(char* buf){

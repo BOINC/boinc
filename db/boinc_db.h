@@ -481,6 +481,7 @@ public:
 class DB_RESULT : public DB_BASE, public RESULT {
 public:
     DB_RESULT();
+    int insert();
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);

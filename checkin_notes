@@ -5617,3 +5617,15 @@ Karl 2003/08/10
     - client: show platform name on startup
     client/
         client_state.C
+
+Karl 2003/08/10
+    - timeout_check: change 'random' for new results (!)
+        - moved lrand48() and init code from create_result() to
+          result.insert()
+
+    tools/
+        backend_lib.C
+        
+    db/
+        boinc_db.C
+        boinc_db.h
