@@ -7917,6 +7917,12 @@ Karl 2003-11-28
     client/
         cs_cmdline.C
 
+David  2003-11-28
+	- changed date/time display in Windows to yyyy-mm-dd hh:mm:ss
+
+	client/win/
+		wingui_mainwindow.cpp
+		
 David  28 Nov 2003
     - added "signature" field to user table;
         when making forum postings,
