@@ -25056,3 +25056,37 @@ Janus 20 Feb 2005
     html/inc/
         image.inc
 
+Bruce 20 Feb 2005
+    Fixed a bug in locality scheduling.  When old work was being sent,
+    the daily_result_quota constraint was not being enforced.
+    Normally this constraint is enforced in the work_needed()
+    function.  However note that the critical send_work() function
+    NEVER checks work_needed() [DAVID, perhaps it should?] before
+    calling send_work_locality() or scan_work_array().  Then, when
+    send_work_locality() was called, it would in turn call
+    send_old_work() immediately, WITHOUT checking to see if
+    work_needed() was TRUE.  This allowed the daily_result_quota
+    constraint to be broken.
+
+    Possible fixes included:
+      test work_needed() before calling send_old_work()
+      test work_needed() WITHIN send_old_work()
+      test work_needed() within possibly_send_result()
+      test work_needed() within wu_is_infeasible()
+
+    Conclusion: work is ONLY sent by the function
+    possibly_send_result() which is called in two places in
+    sched_locality.C: once in send_results_for_file() and once in
+    send_old_work().  The first of these DOES check the value of
+    work_needed().  The second does NOT.  So I added a check of
+    work_needed() within send_old_work().  A also added
+    added another check of work_needed() at the top of
+    send_results_for_file() BEFORE any DB access is done.  It might be
+    better to put this test of work_needed() lower down (within
+    possibly_send_result()) or higher up (where send_old_work())
+    is called.  I am not sure. David, I'd appreciate your advice.
+
+    sched/
+        sched_locality.C
+
+

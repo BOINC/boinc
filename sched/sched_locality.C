@@ -391,6 +391,10 @@ static int send_results_for_file(
     char buf[256], query[1024];
     int i, maxid, retval_max, retval_lookup;
 
+    if (!reply.work_needed(true)) {
+        return 0;
+    }
+
     // find largest ID of results already sent to this user for this
     // file, if any.  Any result that is sent will have userid field
     // set, so unsent results can not be returned by this query.
@@ -751,6 +755,11 @@ static int send_old_work(
     int retval, extract_retval, nsent;
     DB_RESULT result;
     int now=time(0);
+
+    if (!reply.work_needed(true)) {
+        return 0;
+    }
+
 
     boinc_db.start_transaction();
 
