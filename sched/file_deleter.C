@@ -40,6 +40,7 @@ int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete=false;
+    int count_deleted = 0;
 
     safe_strcpy(buf, wu.xml_doc);
 
@@ -55,12 +56,14 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
-                log_messages.printf(SchedMessages::NORMAL, "[%s] deleting %s\n", wu.name, pathname);
+                log_messages.printf(SchedMessages::DEBUG, "[%s] deleting %s\n", wu.name, pathname);
                 unlink(pathname);
+                ++count_deleted;
             }
         }
         p = strtok(0, "\n");
     }
+    log_messages.printf(SchedMessages::NORMAL, "[%s] deleted %d file(s)\n", wu.name, count_deleted);
     return 0;
 }
 
@@ -68,7 +71,6 @@ int result_delete_files(RESULT& result) {
     char* p;
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete=false;
-
     int count_deleted = 0;
 
     safe_strcpy(buf, result.xml_doc_in);
@@ -91,7 +93,7 @@ int result_delete_files(RESULT& result) {
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(SchedMessages::NORMAL, "[%s] deleted %d files\n", result.name, count_deleted);
+    log_messages.printf(SchedMessages::NORMAL, "[%s] deleted %d file(s)\n", result.name, count_deleted);
     return 0;
 }
 

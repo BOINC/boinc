@@ -1,0 +1,43 @@
+#!/usr/bin/env perl
+
+# $Id$
+# greplogs - grep logs for a string.
+
+use strict;
+use warnings;
+
+my $html = 0;
+die unless @ARGV;
+if ($ARGV[0] eq '-html') {
+    shift;
+    $html = 1;
+}
+
+my $s = shift; die unless defined $s;
+
+my $prev_file = '';
+
+if ($html) { print "<pre>"; }
+while (<ARGV>) {
+    chomp;
+    if (/$s/) {
+        if ($ARGV ne $prev_file) {
+            $prev_file = $ARGV;
+            if ($html) {
+                print "</pre><h2>$ARGV</h2><pre>";
+            } else {
+                print "\n\n$ARGV:\n";
+            }
+        }
+        my $n = sprintf("%05d", $.);
+        if ($html) {
+            s%.*debug.*%<font color=grey>$&</font>%i;
+            s%.*critical|error.*%<font color=red>$&</font>%i;
+            s%$s%<b>$&</b>%g if $s;
+            print "<font size=-1><a name=$. href=show_log.php?f=$ARGV#$.>$n</a></font>  $_\n";
+        } else {
+            print "  $n: $_\n";
+        }
+    }
+}
+if ($html) { print "</pre>"; }

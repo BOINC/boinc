@@ -5222,3 +5222,18 @@ Karl    2003/07/01-02
         update_stats.C
         validate.C
         validate_test.C
+
+Karl 2003/07/02
+    - added grepping for WU/results in log files. Can also just view log
+      file(s). Spiffy colorization and hyperlinks.
+
+    html_ops/
+        db.inc
+        db_action.php
+        show_log.php (new)
+    sched/
+        grep_logs (new)
+    test/
+        boinc.py
+        test_backend.py
+

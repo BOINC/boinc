@@ -136,7 +136,7 @@ function host_short_header() {
 function show_host_short($host) {
     echo "
         <tr>
-        <td><a href=db_action?table=host&id=$host->id>$host->id</a></td>
+        <td><a href=db_action.php?table=host&id=$host->id>$host->id</a></td>
         <td>$host->last_ip_addr</td>
         <td>$host->domain_name</td>
         <td>$host->p_vendor $host->p_model</td>
@@ -186,7 +186,7 @@ function show_host($host) {
     row("% of time client on", 100*$host->on_frac." %");
     row("% of time host connected", 100*$host->connected_frac." %");
     row("% of time user active", 100*$host->active_frac." %");
-    row("Results", "<a href=db_action?table=result&detail=low&hostid=$host->id&sort_by=sent_time>click here</a>");
+    row("Results", "<a href=db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time>click here</a>");
     end_table();
 
 }
@@ -239,6 +239,7 @@ function show_workunit($wu, $hide_xml_doc) {
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
     row("","<a href=db_action.php?table=result&wu_id=$wu->id>Show associated results</a>");
+    row("","<a href=show_log.php?s=$wu->name>Grep logs for</a>");
     end_table();
     echo "<p>";
 }
@@ -312,6 +313,7 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     row("Validate state", validate_state_str($result->validate_state));
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
+    row("","<a href=show_log.php?s=$result->name>Grep logs</a>");
     end_table();
     echo "<p>";
 }
@@ -366,7 +368,7 @@ function show_user($user) {
     row("Average credit", $user->expavg_credit);
     row("Last average time", time_str($user->expavg_time));
     row("Default venue", $user->venue);
-    row("Hosts", "<a href=db_action?table=host&userid=$user->id&detail=low>click</a>");
+    row("Hosts", "<a href=db_action.php?table=host&userid=$user->id&detail=low>click</a>");
     end_table();
 }
 

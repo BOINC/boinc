@@ -42,9 +42,9 @@ class ProjectBackend(ProjectUC):
         self.start_servers()
 
     def check(self):
-        # Give the server 30 seconds to finish assimilating/deleting
+        # Give the server 20 seconds to finish assimilating/deleting
         # TODO: use wait on all processes.
-        verbose_sleep("Sleeping to allow server daemons to finish", 30)
+        verbose_sleep("Sleeping to allow server daemons to finish", 20)
         self.check_results(ResultUC(), self.num)
 
 if __name__ == '__main__':

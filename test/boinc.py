@@ -440,7 +440,7 @@ class Project:
         map(lambda (s): self.copy(os.path.join('sched', s), 'cgi/'),
             [ 'cgi', 'file_upload_handler', 'make_work',
               'feeder', 'timeout_check', 'validate_test',
-              'file_deleter', 'assimilator', 'start_servers', 'kill_server' ])
+              'file_deleter', 'assimilator', 'start_servers', 'kill_server', 'grep_logs' ])
 
         verbose_echo(1, "Setting up database")
         map(self.run_db_script, [ 'drop.sql', 'schema.sql', 'constraints.sql' ])
@@ -526,11 +526,14 @@ class Project:
 
         htconfig = self.dir('html_user', '.htconfig.xml')
         htconfig2 = self.dir('html_ops', '.htconfig.xml')
+        htconfig3 = self.dir('html_ops', 'config.xml')
         f = open(htconfig, 'w')
+        self.log_dir = self.dir('cgi');
         print >>f, map_xml(self,
-                           [ 'db_name', 'db_passwd', 'download_url', 'cgi_url'] )
+                           [ 'db_name', 'db_passwd', 'download_url', 'cgi_url', 'log_dir'] )
         f.close()
         shutil.copy(htconfig, htconfig2)
+        shutil.copy(htconfig, htconfig3)
 
         # edit "index.php" in the user HTML directory to have the right file
         # as the source for scheduler_urls; default is schedulers.txt
