@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/09/10 23:17:08  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/09/01 04:59:32  rwalton
 // *** empty log message ***
 //
@@ -48,57 +51,65 @@
 #pragma interface "MainDocument.cpp"
 #endif
 
+#include "gui_rpc_client.h"
+
 
 class CMainDocument : public wxObject
 {
     DECLARE_DYNAMIC_CLASS(CMainDocument)
 
 private:
-    wxDateTime              m_dtCachedStateTimestamp;
-    wxDateTime              m_dtCachedStateLockTimestamp;
-    bool                    m_bCachedStateLocked;
+    RPC_CLIENT                  rpc;
+    CC_STATE                    state;
+    RESULTS                     results;
+    FILE_TRANSFERS              ft;
+    std::vector<MESSAGE_DESC>   message_descs;
+    wxDateTime                  m_dtCachedStateTimestamp;
+    wxDateTime                  m_dtCachedStateLockTimestamp;
+    bool                        m_bCachedStateLocked;
+    bool                        m_bIsConnected;
 
-    wxInt32                 CachedStateUpdate();
+    wxInt32                     CachedStateUpdate();
 
 public:
     CMainDocument();
     ~CMainDocument();
 
-    wxInt32                 CachedStateLock();
-    wxInt32                 CachedStateUnlock();
+    wxInt32                     CachedStateLock();
+    wxInt32                     CachedStateUnlock();
 
-    wxInt32                 GetProjectCount();
-    wxString                GetProjectProjectName(wxInt32 iIndex);
-    wxString                GetProjectAccountName(wxInt32 iIndex);
-    wxString                GetProjectTeamName(wxInt32 iIndex);
-    wxString                GetProjectTotalCredit(wxInt32 iIndex);
-    wxString                GetProjectAvgCredit(wxInt32 iIndex);
-    wxString                GetProjectResourceShare(wxInt32 iIndex);
+    wxInt32                     GetProjectCount();
+    wxString                    GetProjectProjectName(wxInt32 iIndex);
+    wxString                    GetProjectAccountName(wxInt32 iIndex);
+    wxString                    GetProjectTeamName(wxInt32 iIndex);
+    wxString                    GetProjectTotalCredit(wxInt32 iIndex);
+    wxString                    GetProjectAvgCredit(wxInt32 iIndex);
+    wxString                    GetProjectResourceShare(wxInt32 iIndex);
 
-    wxInt32                 GetWorkCount();
-    wxString                GetWorkProjectName(wxInt32 iIndex);
-    wxString                GetWorkApplicationName(wxInt32 iIndex);
-    wxString                GetWorkName(wxInt32 iIndex);
-    wxString                GetWorkCPUTime(wxInt32 iIndex);
-    wxString                GetWorkProgress(wxInt32 iIndex);
-    wxString                GetWorkTimeToCompletion(wxInt32 iIndex);
-    wxString                GetWorkReportDeadline(wxInt32 iIndex);
-    wxString                GetWorkStatus(wxInt32 iIndex);
+    wxInt32                     GetWorkCount();
+    wxString                    GetWorkProjectName(wxInt32 iIndex);
+    wxString                    GetWorkApplicationName(wxInt32 iIndex);
+    wxString                    GetWorkName(wxInt32 iIndex);
+    wxString                    GetWorkCPUTime(wxInt32 iIndex);
+    wxString                    GetWorkProgress(wxInt32 iIndex);
+    wxString                    GetWorkTimeToCompletion(wxInt32 iIndex);
+    wxString                    GetWorkReportDeadline(wxInt32 iIndex);
+    wxString                    GetWorkStatus(wxInt32 iIndex);
 
-    wxInt32                 GetTransferCount();
-    wxString                GetTransferFileName(wxInt32 iIndex);
-    wxString                GetTransferProgress(wxInt32 iIndex);
-    wxString                GetTransferProjectName(wxInt32 iIndex);
-    wxString                GetTransferSize(wxInt32 iIndex);
-    wxString                GetTransferSpeed(wxInt32 iIndex);
-    wxString                GetTransferStatus(wxInt32 iIndex);
-    wxString                GetTransferTime(wxInt32 iIndex);
+    wxInt32                     GetTransferCount();
+    wxString                    GetTransferFileName(wxInt32 iIndex);
+    wxString                    GetTransferProgress(wxInt32 iIndex);
+    wxString                    GetTransferProjectName(wxInt32 iIndex);
+    wxString                    GetTransferSize(wxInt32 iIndex);
+    wxString                    GetTransferSpeed(wxInt32 iIndex);
+    wxString                    GetTransferStatus(wxInt32 iIndex);
+    wxString                    GetTransferTime(wxInt32 iIndex);
 
-    wxInt32                 GetMessageCount();
-    wxString                GetMessageProjectName(wxInt32 iIndex);
-    wxString                GetMessageTime(wxInt32 iIndex);
-    wxInt32                 GetMessagePriority(wxInt32 iIndex);
-    wxString                GetMessageMessage(wxInt32 iIndex);
+    wxInt32                     GetMessageCount();
+    wxString                    GetMessageProjectName(wxInt32 iIndex);
+    wxString                    GetMessageTime(wxInt32 iIndex);
+    wxInt32                     GetMessagePriority(wxInt32 iIndex);
+    wxString                    GetMessageMessage(wxInt32 iIndex);
 
 };
 

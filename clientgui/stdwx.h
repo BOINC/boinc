@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/09/10 23:17:08  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/07/12 08:46:26  rwalton
 // Document parsing of the <get_state/> message
 //
@@ -67,6 +70,46 @@
 #include <wx/txtstrm.h>  // text streams support
 #include <wx/datetime.h> // date/time support
 #include <wx/dynarray.h> // dynamic array support
+
+
+// Standard Libraries
+//
+
+// C headers
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cerrno>
+#include <cmath>
+#include <csetjmp>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <fcntl.h>
+
+// C++ headers
+#include <algorithm>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <list>
+#include <locale>
+
+
+#define vsnprintf               _vsnprintf
+#define snprintf                _snprintf
+#define fdopen                  _fdopen
+#define dup                     _dup
+#define unlink                  _unlink
+#define strdup                  _strdup
+#define read                    _read
+#define stat                    _stat
 
 
 // On the Win32 platform include file and line number information for each

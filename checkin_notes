@@ -17284,3 +17284,10 @@ David  10 Sept 2004
         sched_locality.h (new)
         sched_send.C
         server_types.C,h
+
+Rom    10 Sept 2004
+    - NEw GUI: Put the glue back in so that we can make the various tabs work.
+
+    clientgui/
+        MainDocument.cpp, .h
+        stdwx.h

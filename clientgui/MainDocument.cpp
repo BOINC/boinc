@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/09/10 23:17:07  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/09/01 04:59:32  rwalton
 // *** empty log message ***
 //
@@ -53,12 +56,24 @@
 #include "error_numbers.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CMainDocument, CXMLParser)
+IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
 CMainDocument::CMainDocument()
 {
+#ifdef __WIN32__
+    wxInt32 retval;
+    WSADATA wsdata;
+
+    retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+    if (retval) 
+    {
+        wxLogTrace("CMainDocument::CMainDocument - Winsock Initialization Failure '%d'", retval);
+    }
+#endif
+
     m_bCachedStateLocked = false;
+    m_bIsConnected = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = 0;
 }
@@ -68,73 +83,79 @@ CMainDocument::~CMainDocument()
 {
     m_dtCachedStateTimestamp = wxDateTime::Now();
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    m_bIsConnected = false;
     m_bCachedStateLocked = false;
+
+#ifdef __WIN32__
+    WSACleanup();
+#endif
 }
 
 
 wxInt32 CMainDocument::GetProjectCount() {
     CachedStateUpdate();
-    return 0;
+    wxInt32 iCount = state.projects.size();
+    return iCount;
 }
 
 
 wxString CMainDocument::GetProjectProjectName(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return state.projects[iIndex]->project_name.c_str();
 }
 
 
 wxString CMainDocument::GetProjectAccountName(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return state.projects[iIndex]->user_name.c_str();
 }
 
 
 wxString CMainDocument::GetProjectTeamName(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return state.projects[iIndex]->team_name.c_str();
 }
 
 
 wxString CMainDocument::GetProjectTotalCredit(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return wxString::Format(_T("%0.2f"), state.projects[iIndex]->user_total_credit);
 }
 
 
 wxString CMainDocument::GetProjectAvgCredit(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return wxString::Format(_T("%0.2f"), state.projects[iIndex]->user_expavg_credit);
 }
 
 
 wxString CMainDocument::GetProjectResourceShare(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return wxString::Format(_T("%0.2f%%"), state.projects[iIndex]->resource_share);
 }
 
 
 wxInt32 CMainDocument::GetWorkCount() {
     CachedStateUpdate();
-    return 0;
+    return state.results.size();
 }
 
 
 wxString CMainDocument::GetWorkProjectName(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return state.results[iIndex]->project->project_name.c_str();
 }
 
 
 wxString CMainDocument::GetWorkApplicationName(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return state.results[iIndex]->app->name.c_str();
 }
 
 
 wxString CMainDocument::GetWorkName(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    return state.results[iIndex]->name.c_str();
 }
 
 
@@ -158,7 +179,9 @@ wxString CMainDocument::GetWorkTimeToCompletion(wxInt32 iIndex) {
 
 wxString CMainDocument::GetWorkReportDeadline(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T(""));
+    wxDateTime dtReportDeadline;
+    dtReportDeadline.Set((time_t)state.results[iIndex]->report_deadline);
+    return dtReportDeadline.Format();
 }
 
 
@@ -260,6 +283,37 @@ wxInt32 CMainDocument::CachedStateUnlock() {
 
 
 wxInt32 CMainDocument::CachedStateUpdate() {
-    return 0;
+
+    wxInt32 retval = 0;
+
+    wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
+    if (!m_bCachedStateLocked && (ts > wxTimeSpan::Seconds(300)))
+    {
+        wxLogTrace("CMainDocument::CachedStateUpdate - State Cache Updating...");
+        m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
+
+        if (!m_bIsConnected)
+        {
+            retval = rpc.init(NULL);
+            if (retval)
+                wxLogTrace("CMainDocument::CachedStateUpdate - RPC Initialization Failed '%d'", retval);
+        }
+
+        retval = rpc.get_state(state);
+        if (retval)
+            wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+
+        retval = rpc.get_results(results);
+        if (retval)
+            wxLogTrace("CMainDocument::CachedStateUpdate - Get Results Failed '%d'", retval);
+
+        retval = rpc.get_file_transfers(ft);
+        if (retval)
+            wxLogTrace("CMainDocument::CachedStateUpdate - Get File Transfers Failed '%d'", retval);
+
+        wxLogTrace("CMainDocument::CachedStateUpdate - State Cache Updated...");
+    }
+
+    return retval;
 }
 
