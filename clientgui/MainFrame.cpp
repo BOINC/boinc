@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.14  2004/05/29 00:09:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.13  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -219,7 +222,7 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
 
 
     wxImageList*    pImageList;
-    int             iImageIndex = 0;
+    wxInt32         iImageIndex = 0;
 
     wxASSERT(NULL != pwndNewNotebookPage);
     wxASSERT(NULL != m_pNotebook);
@@ -250,9 +253,9 @@ bool CMainFrame::CreateStatusbar() {
     if (m_pStatusbar)
         return true;
 
-    int ch = GetCharWidth();
+    wxInt32 ch = GetCharWidth();
 
-    const int widths[] = {-1, 20*ch, 15};
+    const wxInt32 widths[] = {-1, 20*ch, 15};
 
     m_pStatusbar = CreateStatusBar(WXSIZEOF(widths), wxST_SIZEGRIP, ID_STATUSBAR);
     wxASSERT(NULL != m_pStatusbar);
@@ -322,6 +325,10 @@ bool CMainFrame::SaveState() {
 
     wxString        strBaseConfigLocation = wxString(_T("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxWindow*       pwndNotebookPage = NULL;
+    wxString        strConfigLocation = wxString(_T(""));
+    wxInt32         iIndex = 0;
+    wxInt32         iPageCount = 0;
 
 
     wxASSERT(NULL != pConfig);
@@ -339,12 +346,8 @@ bool CMainFrame::SaveState() {
     //
     // Save Page(s) State
     //
-
-    wxWindow*       pwndNotebookPage = NULL;
-    wxString        strConfigLocation = wxString(_T(""));
-    int             iIndex;
-    int             iPageCount;
-
+ 
+    // Convert to a zero based index
     iPageCount = m_pNotebook->GetPageCount() - 1;
 
     for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
@@ -387,7 +390,7 @@ bool CMainFrame::FireSaveStateEvent( T pPage, wxConfigBase* pConfig ) {
     strConfigLocation = strPreviousLocation + pPage->GetViewName();
 
     pConfig->SetPath(strConfigLocation);
-    pPage->OnSaveState();
+    pPage->OnSaveState( pConfig );
     pConfig->SetPath(strPreviousLocation);
 
     wxLogTrace("CMainFrame::FireSaveStateEvent - Function Ending");
@@ -400,6 +403,10 @@ bool CMainFrame::RestoreState() {
 
     wxString        strBaseConfigLocation = wxString(_T("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxWindow*       pwndNotebookPage = NULL;
+    wxString        strConfigLocation = wxString(_T(""));
+    wxInt32         iIndex = 0;
+    wxInt32         iPageCount = 0;
 
 
     wxASSERT(NULL != pConfig);
@@ -409,24 +416,20 @@ bool CMainFrame::RestoreState() {
     //
     // Restore Frame State
     //
-    long            lCurrentPage;
+    wxInt32         iCurrentPage;
 
 
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Read("CurrentPage", &lCurrentPage);
-    m_pNotebook->SetSelection(lCurrentPage);
+    pConfig->Read("CurrentPage", &iCurrentPage);
+    m_pNotebook->SetSelection(iCurrentPage);
 
 
     //
     // Restore Page(s) State
     //
 
-    wxWindow*       pwndNotebookPage = NULL;
-    wxString        strConfigLocation = wxString(_T(""));
-    int             iIndex;
-    int             iPageCount;
-
+    // Convert to a zero based index
     iPageCount = m_pNotebook->GetPageCount() - 1;
 
     for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
@@ -469,7 +472,7 @@ bool CMainFrame::FireRestoreStateEvent( T pPage, wxConfigBase* pConfig ) {
     strConfigLocation = strPreviousLocation + pPage->GetViewName();
 
     pConfig->SetPath(strConfigLocation);
-    pPage->OnRestoreState();
+    pPage->OnRestoreState( pConfig );
     pConfig->SetPath(strPreviousLocation);
 
     wxLogTrace("CMainFrame::FireRestoreStateEvent - Function Ending");
@@ -505,7 +508,7 @@ void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) {
     pDlg->ShowModal();
 
     if (pDlg)
-        delete pDlg;
+        pDlg->Destroy();
 
 
     wxLogTrace("CMainFrame::OnCommandsAttachProject - Function Ending");
@@ -522,7 +525,7 @@ void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
     pDlg->ShowModal();
 
     if (pDlg)
-        delete pDlg;
+        pDlg->Destroy();
 
 
     wxLogTrace("CMainFrame::OnToolsOptions - Function Ending");
@@ -539,7 +542,7 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
     pDlg->ShowModal();
 
     if (pDlg)
-        delete pDlg;
+        pDlg->Destroy();
 
 
     wxLogTrace("CMainFrame::OnAbout - Function Ending");

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/29 00:09:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -98,19 +101,5 @@ char** CMessagesView::GetViewIcon()
 void CMessagesView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CMessagesView::OnRender - Function Begining");
     wxLogTrace("CMessagesView::OnRender - Function Ending");
-}
-
-
-bool CMessagesView::OnSaveState() {
-    wxLogTrace("CMessagesView::OnSaveState - Function Begining");
-    wxLogTrace("CMessagesView::OnSaveState - Function Ending");
-    return true;
-}
-
-
-bool CMessagesView::OnRestoreState() {
-    wxLogTrace("CMessagesView::OnRestoreState - Function Begining");
-    wxLogTrace("CMessagesView::OnRestoreState - Function Ending");
-    return true;
 }
 

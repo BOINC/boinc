@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/29 00:09:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -100,19 +103,5 @@ char** CProjectsView::GetViewIcon()
 void CProjectsView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CProjectsView::OnRender - Function Begining");
     wxLogTrace("CProjectsView::OnRender - Function Ending");
-}
-
-
-bool CProjectsView::OnSaveState() {
-    wxLogTrace("CProjectsView::OnSaveState - Function Begining");
-    wxLogTrace("CProjectsView::OnSaveState - Function Ending");
-    return true;
-}
-
-
-bool CProjectsView::OnRestoreState() {
-    wxLogTrace("CProjectsView::OnRestoreState - Function Begining");
-    wxLogTrace("CProjectsView::OnRestoreState - Function Ending");
-    return true;
 }
 

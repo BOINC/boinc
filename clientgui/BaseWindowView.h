@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/29 00:09:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -54,8 +57,8 @@ public:
     virtual char**   GetViewIcon();
 
     virtual void OnRender(wxTimerEvent &event);
-    virtual bool OnSaveState();
-    virtual bool OnRestoreState();
+    virtual bool OnSaveState( wxConfigBase* pConfig );
+    virtual bool OnRestoreState( wxConfigBase* pConfig );
 
 };
 

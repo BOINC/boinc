@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/29 00:09:41  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/27 06:17:58  rwalton
 // *** empty log message ***
 //
@@ -103,19 +106,5 @@ char** CWorkView::GetViewIcon()
 void CWorkView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CWorkView::OnRender - Function Begining");
     wxLogTrace("CWorkView::OnRender - Function Ending");
-}
-
-
-bool CWorkView::OnSaveState() {
-    wxLogTrace("CWorkView::OnSaveState - Function Begining");
-    wxLogTrace("CWorkView::OnSaveState - Function Ending");
-    return true;
-}
-
-
-bool CWorkView::OnRestoreState() {
-    wxLogTrace("CWorkView::OnRestoreState - Function Begining");
-    wxLogTrace("CWorkView::OnRestoreState - Function Ending");
-    return true;
 }
 

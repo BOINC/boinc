@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/29 00:09:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -102,14 +105,14 @@ void CResourceUtilizationView::OnRender(wxTimerEvent &event) {
 }
 
 
-bool CResourceUtilizationView::OnSaveState() {
+bool CResourceUtilizationView::OnSaveState( wxConfigBase* pConfig ) {
     wxLogTrace("CResourceUtilizationView::OnSaveState - Function Begining");
     wxLogTrace("CResourceUtilizationView::OnSaveState - Function Ending");
     return true;
 }
 
 
-bool CResourceUtilizationView::OnRestoreState() {
+bool CResourceUtilizationView::OnRestoreState( wxConfigBase* pConfig ) {
     wxLogTrace("CResourceUtilizationView::OnRestoreState - Function Begining");
     wxLogTrace("CResourceUtilizationView::OnRestoreState - Function Ending");
     return true;

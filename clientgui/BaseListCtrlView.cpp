@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/05/29 00:09:40  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/05/27 06:17:57  rwalton
 // *** empty log message ***
 //
@@ -101,22 +104,38 @@ void CBaseListCtrlView::OnRender (wxTimerEvent &event) {
 }
 
 
-bool CBaseListCtrlView::OnSaveState() {
+bool CBaseListCtrlView::OnSaveState( wxConfigBase* pConfig ) {
     wxLogTrace("CBaseListCtrlView::OnSaveState - Function Begining");
 
-    wxLogTrace("CBaseListCtrlView::OnSaveState - ***** Warning ***** Each page is supposed to have it's own OnSaveState");
-    wxLogTrace("CBaseListCtrlView::OnSaveState -                     event handler");
+    wxString    strBaseConfigLocation = wxString(_T(""));
+    wxString    strConfigLocation = wxString(_T(""));
+    wxListItem* pHeader = NULL;
+    wxInt32     iIndex = 0;
+    wxInt32     iColumnCount = 0;
+
+
+    wxASSERT(NULL != pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + "/";
+
+    // Convert to a zero based index
+    iColumnCount = this->GetColumnCount() - 1;
+
+
+
+
 
     wxLogTrace("CBaseListCtrlView::OnSaveState - Function Ending");
     return true;
 }
 
 
-bool CBaseListCtrlView::OnRestoreState() {
+bool CBaseListCtrlView::OnRestoreState( wxConfigBase* pConfig ) {
     wxLogTrace("CBaseListCtrlView::OnRestoreState - Function Begining");
 
-    wxLogTrace("CBaseListCtrlView::OnRestoreState - ***** Warning ***** Each page is supposed to have it's own OnRestoreState");
-    wxLogTrace("CBaseListCtrlView::OnRestoreState -                     event handler");
 
     wxLogTrace("CBaseListCtrlView::OnRestoreState - Function Ending");
     return true;

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/05/29 00:09:41  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/05/27 06:17:58  rwalton
 // *** empty log message ***
 //
@@ -102,19 +105,5 @@ char** CTransfersView::GetViewIcon()
 void CTransfersView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CTransfersView::OnRender - Function Begining");
     wxLogTrace("CTransfersView::OnRender - Function Ending");
-}
-
-
-bool CTransfersView::OnSaveState() {
-    wxLogTrace("CTransfersView::OnSaveState - Function Begining");
-    wxLogTrace("CTransfersView::OnSaveState - Function Ending");
-    return true;
-}
-
-
-bool CTransfersView::OnRestoreState() {
-    wxLogTrace("CTransfersView::OnRestoreState - Function Begining");
-    wxLogTrace("CTransfersView::OnRestoreState - Function Ending");
-    return true;
 }
 
