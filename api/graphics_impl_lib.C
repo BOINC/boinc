@@ -27,8 +27,8 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     return g_bmsp->boinc_get_init_data_hook(app_init_data);
 }
 
-int boinc_is_standalone() {
-    return g_bmsp->boinc_is_standalone_hook());
+bool boinc_is_standalone() {
+    return g_bmsp->boinc_is_standalone_hook();
 }
 
 #ifdef __GNUC__
