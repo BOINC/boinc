@@ -40,17 +40,18 @@ int CLIENT_STATE::make_slot_dirs() {
 // all applications, checking their final status, and writing
 // the client_state.xml file (should we also terminate net_xfers here?)
 //
-int CLIENT_STATE::exit() {
+int CLIENT_STATE::cleanup_and_exit() {
     int retval;
+
     retval = exit_tasks();
     if (retval) {
-    fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
-        return retval;
+        fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
+        // don't return here - we'll exit anyway
     }
     retval = write_state_file();
     if (retval) { 
-    fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
-        return retval;
+        fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
+        // don't return here - we'll exit anyway
     }
     return 0;
 }

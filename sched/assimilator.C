@@ -8,6 +8,13 @@
 
 CONFIG config;
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 // return nonzero if did anything
 //
 bool do_pass(APP app) {
@@ -22,16 +29,16 @@ bool do_pass(APP app) {
         did_something = true;
         switch(wu.main_state) {
         case WU_MAIN_STATE_INIT:
-            fprintf(stderr, "assimilate: ERROR; shouldn't be in init state\n");
+            write_log("ERROR; WU shouldn't be in init state\n");
             break;
         case WU_MAIN_STATE_DONE:
             if (!wu.canonical_resultid) {
-                fprintf(stderr, "assimilate: ERROR: canonical resultid zero\n");
+                write_log("ERROR: canonical resultid zero\n");
                 break;
             }
             retval = db_result(wu.canonical_resultid, result);
             if (retval) {
-                fprintf(stderr, "assimilate: can't get canonical result\n");
+                write_log("can't get canonical result\n");
                 break;
             }
             printf("canonical result for WU %s:\n%s", wu.name, result.xml_doc_out);
@@ -53,6 +60,7 @@ int main(int argc, char** argv) {
     bool asynch = false, one_pass = false;
     APP app;
     int i;
+    char buf[256];
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -62,13 +70,14 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else {
-            fprintf(stderr, "Unrecognized arg: %s\n", argv[i]);
+            sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
+            write_log(buf);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        write_log("Can't parse config file\n");
         exit(1);
     }
 
@@ -80,12 +89,12 @@ int main(int argc, char** argv) {
 
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "Can't open DB\n");
+        write_log("Can't open DB\n");
         exit(1);
     }
     retval = db_app_lookup_name(app);
     if (retval) {
-        fprintf(stderr, "Can't find app\n");
+        write_log("Can't find app\n");
         exit(1);
     }
     if (one_pass) {

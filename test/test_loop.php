@@ -25,7 +25,7 @@
     $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
-    $work->redundancy = 2;
+    $work->redundancy = 3;
   
     array_push($work->input_files, "input");
     $work->install($project);
@@ -33,7 +33,9 @@
     $project->start_feeder();
     $project->start_make_work($work);
     $project->start_validate($app, 3);
-    $project->start_stripchart();
+    $project->start_file_delete();
+    $project->start_assimilator($app);
+    //$project->start_stripchart();
     $host->run("");
     //$project->stop();
 

@@ -85,7 +85,6 @@ int main(int argc, char** argv) {
     retval = gstate.init();
     if (retval) exit(retval);
     while (1) {
-        fflush(stdout);
         if (!gstate.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
@@ -97,6 +96,6 @@ int main(int argc, char** argv) {
             break;
         }
     }
-    gstate.exit();
+    gstate.cleanup_and_exit();
     return 0;
 }

@@ -46,8 +46,15 @@ struct FILE_INFO {
     int parse(FILE*);
 };
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 int FILE_INFO::parse(FILE* in) {
-    char buf[256];
+    char buf[256], ebuf[256];
     int retval;
 
     memset(this, 0, sizeof(FILE_INFO));
@@ -62,12 +69,14 @@ int FILE_INFO::parse(FILE* in) {
         strcatdup(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        //fprintf(stderr, "file_upload_handler (%s): FILE_INFO::parse: unrecognized: %s \n", config.user, buf);
+        sprintf(ebuf, "FILE_INFO::parse: unrecognized: %s \n", buf);
+        write_log(ebuf);
     }
     return 1;
 }
 
 int return_error(char* message) {
+    char buf[256];
     printf(
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
@@ -76,10 +85,8 @@ int return_error(char* message) {
         "</data_server_reply>\n",
         message
     );
-    fprintf(stderr,
-        "file_upload_handler (%s):  %s>\n",
-        config.user_name, message
-    );
+    sprintf(buf, "%s\n", message);
+    write_log(buf);
     return 1;
 }
 
@@ -122,7 +129,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
         fclose(out);
-        sprintf(buf2, "offset == nbytes: %f\n", nbytes);
+        sprintf(buf2, "offset == nbytes: %f", nbytes);
         return return_error(buf2);
     }
     while (1) {
@@ -131,7 +138,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         n = fread(buf, 1, m, in);
         if (n <= 0) {
             fclose(out);
-            sprintf(buf2, "fread: asked for %d, got %d\n", m, n);
+            sprintf(buf2, "fread: asked for %d, got %d", m, n);
             return return_error(buf2);
         }
         m = fwrite(buf, 1, n, out);
@@ -198,7 +205,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             //
             if (strstr(file_info.name, "..")) {
                 sprintf(buf,
-                    "file_upload_handler: .. found in filename: %s\n",
+                    "file_upload_handler: .. found in filename: %s",
                     file_info.name
                 );
                 return return_error(buf);

@@ -52,6 +52,13 @@ void check_trigger() {
     exit(0);
 }
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 // The scheme for generating unique output filenames is as follows.
 // If the original filename is of the form x__y,
 // then y is replaced with a string of the form time_seqno,
@@ -117,7 +124,8 @@ int assign_new_names(char* in) {
         n1 += strlen("<name>");
         n2 = strstr(p, "</name>");
         if (!n2) {
-            fprintf(stderr, "assign_new_names(): malformed XML:\n%s", in);
+            sprintf(buf, "assign_new_names(): malformed XML:\n%s", in);
+            write_log(buf);
             return 1;
         }
         len = n2 - n1;
@@ -134,7 +142,8 @@ int assign_new_names(char* in) {
         sprintf(element, "<file_name>%s</file_name>", name);
         n2 = strstr(n1, element);
         if (!n2) {
-            fprintf(stderr, "assign_new_names(): no <file_name>:\n%s", in);
+            sprintf(buf, "assign_new_names(): no <file_name>:\n%s", in);
+            write_log(buf);
             return 1;
         }
         strcpy(buf, n2+strlen(element));
@@ -152,6 +161,7 @@ bool do_pass(APP& app) {
     int nerrors, ndone, retval;
     unsigned int i, n;
     bool did_something = false;
+    char buf[256];
 
     wu.retry_check_time = time(0);
     wu.appid = app.id;
@@ -186,7 +196,8 @@ bool do_pass(APP& app) {
             // if any result is unsent, give up on the WU
             //
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-                fprintf(stderr, "WU %s has unsent result\n", wu.name);
+                sprintf(buf, "WU %s has unsent result\n", wu.name);
+                write_log(buf);
                 wu.main_state = WU_MAIN_STATE_ERROR;
                 wu.error = SEND_FAIL;
                 wu.file_delete_state = FILE_DELETE_READY;
@@ -205,7 +216,8 @@ bool do_pass(APP& app) {
         // it too many errors or too many different results, bail
         //
         if (nerrors > max_errors) {
-            fprintf(stderr, "WU %s has too many errors\n", wu.name);
+            sprintf(buf, "WU %s has too many errors\n", wu.name);
+            write_log(buf);
             wu.main_state = WU_MAIN_STATE_ERROR;
             wu.error = TOO_MANY_ERRORS;
             wu.file_delete_state = FILE_DELETE_READY;
@@ -214,7 +226,8 @@ bool do_pass(APP& app) {
             goto update_wu;
         }
         if (ndone > max_done) {
-            fprintf(stderr, "WU %s has too many answers\n", wu.name);
+            sprintf(buf, "WU %s has too many answers\n", wu.name);
+            write_log(buf);
             wu.main_state = WU_MAIN_STATE_ERROR;
             wu.error = TOO_MANY_DONE;
             wu.file_delete_state = FILE_DELETE_READY;
@@ -239,7 +252,8 @@ bool do_pass(APP& app) {
                 add_signatures(result.xml_doc_in, key);
                 retval = db_result_new(result);
                 if (retval) {
-                    fprintf(stderr, "result_retry: db_result_new %d\n", retval);
+                    sprintf(buf, "db_result_new %d\n", retval);
+                    write_log(buf);
                     break;
                 }
             }
@@ -251,7 +265,8 @@ bool do_pass(APP& app) {
 update_wu:
         retval = db_workunit_update(wu);
         if (retval) {
-            fprintf(stderr, "result_retry: db_workunit_update %d\n", retval);
+            sprintf(buf, "db_workunit_update %d\n", retval);
+            write_log(buf);
         }
     }
     return did_something;
@@ -261,17 +276,20 @@ void main_loop(bool one_pass) {
     APP app;
     bool did_something;
     int retval;
+    char buf[256];
 
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "result_retry: db_open: %d\n", retval);
+        sprintf(buf, "db_open: %d\n", retval);
+        write_log(buf);
         exit(1);
     }
 
     strcpy(app.name, app_name);
     retval = db_app_lookup_name(app);
     if (retval) {
-        fprintf(stderr, "result_retry: can't find app %s\n", app.name);
+        sprintf(buf, "can't find app %s\n", app.name);
+        write_log(buf);
         exit(1);
     }
 

@@ -218,6 +218,7 @@ static void compute_credit_rating(HOST& host) {
 //
 int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     int retval;
+    char buf[256];
 
     host.timezone = sreq.host.timezone;
     strncpy(host.domain_name, sreq.host.domain_name, sizeof(host.domain_name));
@@ -251,7 +252,8 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 
     retval = db_host_update(host);
     if (retval) {
-        fprintf(stderr, "sched (%s): db_host_update: %d\n", config.user_name, retval);
+        sprintf(buf, "db_host_update: %d\n", retval);
+        write_log(buf);
     }
     return 0;
 }
@@ -302,6 +304,7 @@ int handle_results(
     int retval;
     RESULT result, *rp;
     WORKUNIT wu;
+    char buf[256];
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
@@ -316,18 +319,20 @@ int handle_results(
             printf("can't find result %s\n", rp->name);
         } else {
             if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
-                fprintf(stderr,
+                sprintf(buf,
                     "got unexpected result for %s: server state is %d\n",
                     rp->name, result.server_state
                 );
+                write_log(buf);
                 continue;
             }
 
             if (result.hostid != sreq.hostid) {
-                fprintf(stderr,
+                sprintf(buf,
                     "got result from wrong host: %d %d\n",
                     result.hostid, sreq.hostid
                 );
+                write_log(buf);
                 continue;
             }
 
@@ -337,11 +342,11 @@ int handle_results(
             result.received_time = time(0);
             result.client_state = rp->client_state;
             result.cpu_time = rp->cpu_time;
-	    result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
-	    result.validate_state = VALIDATE_STATE_NEED_CHECK;
+            result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+            result.validate_state = VALIDATE_STATE_NEED_CHECK;
             if (result.client_state != CLIENT_DONE) {
-	      
-	        result.validate_state = VALIDATE_STATE_INVALID; //so we won't try to validate this result anymore
+                result.validate_state = VALIDATE_STATE_INVALID;
+                    //so we won't try to validate this result anymore
                 result.server_state = RESULT_SERVER_STATE_ERROR;
             } else {
                 result.server_state = RESULT_SERVER_STATE_DONE;
@@ -365,7 +370,7 @@ int handle_results(
                 wu.need_validate = 1;
                 retval = db_workunit_update(wu);
                 if (retval) {
-                    fprintf(stderr, "Can't update WU\n");
+                    write_log("Can't update WU\n");
                 }
             }
         }
@@ -393,10 +398,6 @@ int send_work(
     int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
     RESULT result, result_copy;
-#if 0
-    APP* app;
-    char prefix [256];
-#endif
 
     seconds_to_fill = sreq.work_req_seconds;
     if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -425,11 +426,13 @@ int send_work(
         );
         if (retval) continue;
 
-#if 0
-        fprintf(stderr,
-            "BOINC scheduler: sending result name %s, id %d\n",
+#if 1
+        char buf[256];
+        sprintf(buf,
+            "sending result name %s, id %d\n",
             result.name, result.id
         );
+        write_log(buf);
 #endif
 
         // copy the result so we don't overwrite its XML fields
@@ -438,7 +441,7 @@ int send_work(
         
         retval = insert_name_tags(result_copy, wu);
         if (retval) {
-            fprintf(stderr, "send_work: can't insert name tags\n");
+            write_log("send_work: can't insert name tags\n");
         }
         reply.insert_result(result_copy);
 
@@ -474,7 +477,7 @@ void send_code_sign_key(
 
     if (sreq.code_sign_key) {
         if (strcmp(sreq.code_sign_key, code_sign_key)) {
-            fprintf(stderr, "received old code sign key\n");
+            write_log("received old code sign key\n");
             // look for a signature file
             //
             for (i=0; ; i++) {

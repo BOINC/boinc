@@ -34,19 +34,20 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "account.h"
-#include "error_numbers.h"
-#include "file_names.h"
-#include "filesys.h"
-#include "hostinfo.h"
-#include "log_flags.h"
 #include "parse.h"
+#include "util.h"
+#include "error_numbers.h"
+#include "filesys.h"
+
+#include "account.h"
+#include "file_names.h"
+#include "hostinfo.h"
+#include "http.h"
+#include "log_flags.h"
 #include "speed_stats.h"
 #include "client_state.h"
 
-extern void parse_url(char* url, char* host, int &port, char* file);
-
-#define SECONDS_IN_MONTH 2592000
+#define SECONDS_PER_MONTH (SECONDS_PER_DAY*30)
 
 CLIENT_STATE gstate;
 
@@ -132,14 +133,14 @@ int CLIENT_STATE::init() {
     get_host_info(host_info);       // this is platform dependent
 
     if (gstate.run_time_tests()) {
-                show_message("Running time tests", "low");
+        show_message("Running time tests", "low");
 #ifdef _WIN32
-                time_tests_handle = CreateThread(NULL, 0, win_time_tests, NULL, 0, &time_tests_id);
+        time_tests_handle = CreateThread(NULL, 0, win_time_tests, NULL, 0, &time_tests_id);
 #else
-                time_tests_id = fork();
-                if(time_tests_id == 0) {
-                        _exit(time_tests());
-                }
+        time_tests_id = fork();
+        if(time_tests_id == 0) {
+            _exit(time_tests());
+        }
 #endif
     }
 
@@ -168,13 +169,13 @@ int CLIENT_STATE::init() {
 //
 bool CLIENT_STATE::run_time_tests() {
     return (run_time_test && (
-        difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_IN_MONTH
+        difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_PER_MONTH
     ));
 }
 
 #ifdef _WIN32
 DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
-        return gstate.time_tests();
+    return gstate.time_tests();
 }
 #endif
 
@@ -183,10 +184,10 @@ DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
 // so it should be called very seldom
 //
 int CLIENT_STATE::time_tests() {
-        HOST_INFO host_info;
-        FILE* finfo;
+    HOST_INFO host_info;
+    FILE* finfo;
 
-        clear_host_info(host_info);
+    clear_host_info(host_info);
     if (log_flags.measurement_debug) {
         printf("Getting general host information.\n");
     }
@@ -239,28 +240,28 @@ int CLIENT_STATE::time_tests() {
 // checks if the time tests are running
 //
 int CLIENT_STATE::check_time_tests() {
-        FILE* finfo;
-        if(time_tests_id) {
+    FILE* finfo;
+    if (time_tests_id) {
 #ifdef _WIN32
-                DWORD exit_code = 0;
-                GetExitCodeThread(time_tests_handle, &exit_code);
-                if(exit_code == STILL_ACTIVE) return TIME_TESTS_RUNNING;
-                CloseHandle(time_tests_handle);
+        DWORD exit_code = 0;
+        GetExitCodeThread(time_tests_handle, &exit_code);
+        if(exit_code == STILL_ACTIVE) return TIME_TESTS_RUNNING;
+        CloseHandle(time_tests_handle);
 #else
-                int retval, exit_code = 0;
-                retval = waitpid(time_tests_id, &exit_code, WNOHANG);
-                if(retval == 0) return TIME_TESTS_RUNNING;
+        int retval, exit_code = 0;
+        retval = waitpid(time_tests_id, &exit_code, WNOHANG);
+        if(retval == 0) return TIME_TESTS_RUNNING;
 #endif
-                time_tests_id = 0;
-                show_message("Time tests complete", "low");
-                finfo = fopen(TIME_TESTS_FILE_NAME, "r");
-                if(!finfo) return TIME_TESTS_COMPLETE;
-                host_info.parse_time_tests(finfo);
-                fclose(finfo);
-                file_delete(TIME_TESTS_FILE_NAME);
-                return TIME_TESTS_COMPLETE;
-        }
-        return TIME_TESTS_NOT_RUNNING;
+        time_tests_id = 0;
+        show_message("Time tests complete", "low");
+        finfo = fopen(TIME_TESTS_FILE_NAME, "r");
+        if(!finfo) return TIME_TESTS_COMPLETE;
+        host_info.parse_time_tests(finfo);
+        fclose(finfo);
+        file_delete(TIME_TESTS_FILE_NAME);
+        return TIME_TESTS_COMPLETE;
+    }
+    return TIME_TESTS_NOT_RUNNING;
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.
@@ -406,8 +407,8 @@ int CLIENT_STATE::parse_state_file() {
     int retval=0;
     int failnum;
 
-        global_prefs.confirm_before_connecting = false;
-        global_prefs.hangup_if_dialed = false;
+    global_prefs.confirm_before_connecting = false;
+    global_prefs.hangup_if_dialed = false;
 
     if (!f) {
         if (log_flags.state_debug) {
@@ -1067,8 +1068,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         if (!strcmp(argv[i], "-version")) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOST );
-            ::exit(0);
-            continue;
+            exit(0);
         }
 
         if (!strcmp(argv[i], "-help")) {
@@ -1077,8 +1077,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                 "    -version                show version info\n"
                 "    -add_new_project        add project (will prompt for URL, authenticator)\n"
             );
-            ::exit(0);
-            continue;
+            exit(0);
         }
     }
 }
@@ -1160,14 +1159,15 @@ int CLIENT_STATE::report_project_error(
     unsigned int i;
     int failnum;
     
-    //if this result is already in a state of error, then do nothing
+    // if this result is already in a state of error, then do nothing
+    //
     if (res.state == RESULT_ERROR) {
         return 0;
     }
         
     res.state = RESULT_ERROR;
     scheduler_op->backoff(res.project, "");
-    
+
     res.client_state = state;
 
     sprintf( total_err, 
@@ -1181,13 +1181,13 @@ int CLIENT_STATE::report_project_error(
         res.signal
     );
     
-    if( strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
+    if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN) {
         strcat(res.stderr_out, total_err );
     }
     
-    if((res.client_state == CLIENT_COMPUTING) && (err_num)) {            
+    if ((res.client_state == CLIENT_COMPUTING) && err_num) {            
         sprintf(total_err,"<couldnt_start>%d</couldnt_start>\n", err_num);
-        if( strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
+        if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN) {
             strcat(res.stderr_out, total_err );
         }
     }
@@ -1212,7 +1212,6 @@ int CLIENT_STATE::report_project_error(
 
     if (res.client_state == CLIENT_UPLOADING) {
         for (i=0; i<res.output_files.size(); i++) {
-          // If one of the file infos had a failure,
             if (res.output_files[i].file_info->had_failure(failnum)) {
                 sprintf(total_err,
                     "<upload_error>\n"

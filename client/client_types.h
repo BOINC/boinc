@@ -213,6 +213,8 @@ struct WORKUNIT {
 #define CLIENT_UPLOADING        3
 #define CLIENT_DONE             4
 
+// TODO: combine the above two state fields!!!!!
+
 struct RESULT {
     char name[256];
     char wu_name[256];
@@ -222,10 +224,11 @@ struct RESULT {
     double final_cpu_time;
     int state;              // state of this result
     int exit_status;        // return value from the application
-    int signal;             //the signal caught by the active_task, makes sense only if active_task_state is PROCESS_SIGNALED
+    int signal;             //the signal caught by the active_task,
+                // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
     char stderr_out[STDERR_MAX_LEN];
-    int client_state;     //the state of the client according to this result, as defined above. this information is passed back with the scheduler RPC to the scheduler server when there is any error related to the result or when the result is done.
+    int client_state;     // the state of the client according to this result, as defined above. this information is passed back with the scheduler RPC to the scheduler server when there is any error related to the result or when the result is done.
 
     APP* app;
     WORKUNIT* wup;

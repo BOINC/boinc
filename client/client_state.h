@@ -61,7 +61,7 @@ public:
     CLIENT_STATE();
     int init();
     int restart_tasks();
-    int exit();
+    int cleanup_and_exit();
     bool do_something();
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
@@ -84,6 +84,7 @@ public:
 	bool minimize;  // put client in the background after it's started up
     bool user_idle;
     bool suspend_requested;
+    bool exit_when_idle;
     bool use_http_proxy;
     bool use_socks_proxy;
     int proxy_server_port;
@@ -99,7 +100,6 @@ private:
     int core_client_minor_version;
     char* platform_name;
     unsigned int nslots;
-    bool exit_when_idle;
     bool run_time_test;
     bool activities_suspended;
     int exit_after;

@@ -40,7 +40,7 @@ SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
 }
 
 int SCHEDULER_REQUEST::parse(FILE* fin) {
-    char buf[256];
+    char buf[256], ebuf[256];
     RESULT result;
     assert(fin!=NULL);
     strcpy(authenticator, "");
@@ -87,7 +87,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (match_tag(buf, "<code_sign_key>")) {
             dup_element_contents(fin, "</code_sign_key>", &code_sign_key);
         }
-        else fprintf(stderr, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
+        else {
+            sprintf(ebuf, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
+            write_log(ebuf);
+        }
     }
     return 1;
 }
@@ -256,8 +259,8 @@ int APP_VERSION::write(FILE* fout, APP& app) {
 }
 
 int RESULT::parse_from_client(FILE* fin) {
-    char buf[256];
-    assert(fin!=NULL);
+    char buf[256], ebuf[256];
+
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</result>")) return 0;
@@ -284,14 +287,17 @@ int RESULT::parse_from_client(FILE* fin) {
             }
             continue;
         }
-        else fprintf(stderr, "RESULT::parse_from_client(): unrecognized: %s\n", buf);
+        else {
+            sprintf(ebuf, "RESULT::parse_from_client(): unrecognized: %s\n", buf);
+            write_log(ebuf);
+        }
     }
     return 1;
 }
 
 int HOST::parse(FILE* fin) {
-    char buf[256];
-    assert(fin!=NULL);
+    char buf[256], ebuf[256];
+
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
@@ -314,33 +320,42 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
-        else fprintf(stderr, "HOST::parse(): unrecognized: %s\n", buf);
+        else {
+            sprintf(ebuf, "HOST::parse(): unrecognized: %s\n", buf);
+            write_log(ebuf);
+        }
     }
     return 1;
 }
 
 
 int HOST::parse_time_stats(FILE* fin) {
-    char buf[256];
-    assert(fin!=NULL);
+    char buf[256], ebuf[256];
+
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else fprintf(stderr, "HOST::parse_time_stats(): unrecognized: %s\n", buf);
+        else {
+            sprintf(ebuf, "HOST::parse_time_stats(): unrecognized: %s\n", buf);
+            write_log(ebuf);
+        }
     }
     return 1;
 }
 
 int HOST::parse_net_stats(FILE* fin) {
-    char buf[256];
+    char buf[256], ebuf[256];
 
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</net_stats>")) return 0;
         else if (parse_double(buf, "<bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
-        else fprintf(stderr, "HOST::parse_net_stats(): unrecognized: %s\n", buf);
+        else {
+            sprintf(ebuf, "HOST::parse_net_stats(): unrecognized: %s\n", buf);
+            write_log(ebuf);
+        }
     }
     return 1;
 }

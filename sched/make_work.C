@@ -46,6 +46,13 @@ int cushion = 10;
 int redundancy = 10;
 char wu_name[256], result_template_file[256];
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 // edit a WU XML doc, replacing one filename by another
 // (should appear twice, within <file_info> and <file_ref>)
 // Also patch the download URL (redundant)
@@ -99,20 +106,21 @@ void make_work() {
    
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr,"make_work: can't read config file\n");
+        write_log("can't read config file\n");
         exit(1);
     }
 
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr,"make_work: can't open db\n");
+        write_log("can't open db\n");
         exit(1);
     }
 
     strcpy(wu.name, wu_name);
     retval = db_workunit_lookup_name(wu);
     if (retval) {
-        fprintf(stderr,"make_work: can't find wu %s\n", wu_name);
+        sprintf(buf, "can't find wu %s\n", wu_name);
+        write_log(buf);
         exit(1);
     }
 
@@ -121,24 +129,22 @@ void make_work() {
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
-        fprintf(stderr,"make_work: can't read key\n");
+        write_log("can't read key\n");
         exit(1);
     }
     
     retval = read_filename(result_template_file, result_template);
     if (retval) {
-        fprintf(stderr,"make_work: can't open result template\n");
+        write_log("can't open result template\n");
         exit(1);
     }
     nresults_left = 0;
-    while (true) {
-        fflush(stdout);
+    while (1) {
         retval = db_result_count_server_state(RESULT_SERVER_STATE_UNSENT, n);
         if (retval) {
-            fprintf(stderr,"make_work: can't counts results\n");
+            write_log("can't count results\n");
             exit(1);
         }
-        printf("make_work: %d results available to send\n", n);
         if (n > cushion) {
             sleep(1);
             continue;
@@ -162,12 +168,14 @@ void make_work() {
                     sprintf(
                         new_pathname, "%s/%s",config.download_dir, new_file_name
                     );
-                    sprintf(command,"cp %s %s",pathname,new_pathname);
+                    sprintf(command,"cp %s %s", pathname, new_pathname);
                     if (system(command)) {
-                        fprintf(stderr, "make_work: ERROR\n");
+                        write_log("system() error\n");
                         perror(command);
                         exit(1);
                     }
+                    sprintf(buf, "%s\n", command);
+                    write_log(buf);
                     strcpy(new_buf, starting_xml);
                     replace_file_name(
                         new_buf, file_name, new_file_name, config.download_url
@@ -182,14 +190,16 @@ void make_work() {
             wu.create_time = time(0);
             retval = db_workunit_new(wu);
             wu.id = db_insert_id();
-         
+            sprintf(buf, "Created new WU: %s\n", wu.name);
+            write_log(buf);
         }
         sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
             wu, result_template, suffix, key,
             config.upload_url, config.download_url
         );
-        printf("make_work: added a result\n");
+        sprintf(buf, "added result: %s_%s\n", wu.name, suffix);
+        write_log(buf);
         nresults_left--;
         check_trigger();
     }
@@ -213,11 +223,11 @@ int main(int argc, char** argv) {
     }
 
     if (!strlen(result_template_file)) {
-        fprintf(stderr,"make_work: missing -result_template\n");
+        write_log("missing -result_template\n");
         exit(1);
     }
     if (!strlen(wu_name)) {
-        fprintf(stderr,"make_work: missing -wu_name\n");
+        write_log("missing -wu_name\n");
         exit(1);
     }
 

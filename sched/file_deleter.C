@@ -8,9 +8,16 @@
 
 CONFIG config;
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
-    char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
+    char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
     bool no_delete;
 
     strcpy(buf,wu.xml_doc);
@@ -27,7 +34,8 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
-                printf("deleting %s\n", pathname);
+                sprintf(logbuf, "deleting %s\n", pathname);
+                write_log(logbuf);
                 unlink(pathname);
             }
         }
@@ -38,7 +46,7 @@ int wu_delete_files(WORKUNIT& wu) {
 
 int result_delete_files(RESULT& result) {
     char* p;
-    char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
+    char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
     bool no_delete;
 
     strcpy(buf,result.xml_doc_in);
@@ -53,7 +61,8 @@ int result_delete_files(RESULT& result) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
-                printf("deleting %s\n", pathname);
+                sprintf(logbuf, "deleting %s\n", pathname);
+                write_log(logbuf);
                 unlink(pathname);
             }
         }
@@ -91,6 +100,7 @@ int main(int argc, char** argv) {
     int retval;
     bool asynch = false, one_pass = false;
     int i;
+    char buf[256];
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -98,13 +108,14 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else {
-            fprintf(stderr, "Unrecognized arg: %s\n", argv[i]);
+            sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
+            write_log(buf);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        write_log("Can't parse config file\n");
         exit(1);
     }
 

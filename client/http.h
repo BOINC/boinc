@@ -104,5 +104,6 @@ public:
 #define HTTP_STATE_DONE             7
 
 extern int read_http_reply_header(int socket, HTTP_REPLY_HEADER&);
+extern void parse_url(char* url, char* host, int &port, char* file);
 
 #endif

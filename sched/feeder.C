@@ -62,6 +62,13 @@
 
 CONFIG config;
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 int check_triggers(SCHED_SHMEM* ssp) {
     FILE* f;
 
@@ -185,13 +192,14 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false;
     void* p;
+    char buf[256];
 
     unlink(STOP_SERVER_FILENAME);
     unlink(REREAD_DB_FILENAME);
 
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "feeder: can't parse config file\n");
+        write_log("can't parse config file\n");
         exit(1);
     }
 
@@ -209,19 +217,20 @@ int main(int argc, char** argv) {
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
-        fprintf(stderr, "feeder: can't destroy shmem\n");
+        write_log("can't destroy shmem\n");
         exit(1);
     }
     retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), &p);
     if (retval) {
-        fprintf(stderr, "feeder: can't create shmem\n");
+        write_log("can't create shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "feeder: db_open: %d\n", retval);
+        sprintf(buf, "db_open: %d\n", retval);
+        write_log(buf);
         exit(1);
     }
     ssp->scan_tables();

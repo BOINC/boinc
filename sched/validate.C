@@ -70,6 +70,13 @@ int min_quorum;
 #define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
 #define ALPHA (LOG2/AVG_HALF_LIFE)
 
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
+}
+
 // update an exponential average of credit per second.
 //
 void update_average(double credit_assigned_time, double credit, double& avg, double& avg_time) {
@@ -125,19 +132,23 @@ bool do_validate_scan(APP& app, int min_quorum) {
     int retval, canonicalid;
     double credit;
     unsigned int i;
+    char buf[256];
 
     wu.appid = app.id;
     while(!db_workunit_enum_app_need_validate(wu)) {
         found = true;
         if (wu.canonical_resultid) {
-            printf("validating WU %s; already have canonical result\n", wu.name);
+            sprintf(buf,
+                "validating WU %s; already have canonical result\n", wu.name
+            );
+            write_log(buf);
 
             // Here if WU already has a canonical result.
             // Get unchecked results and see if they match the canonical result
             //
             retval = db_result(wu.canonical_resultid, canonical_result);
             if (retval) {
-                fprintf(stderr, "validate: can't read canonical result\n");
+                write_log("can't read canonical result\n");
                 continue;
             }
 
@@ -150,10 +161,11 @@ bool do_validate_scan(APP& app, int min_quorum) {
                 }
                 retval = check_pair(result, canonical_result, match);
                 if (retval) {
-                    fprintf(stderr,
+                    sprintf(buf,
                         "validate: pair_check failed for result %d\n",
                         result.id
                     );
+                    write_log(buf);
                     continue;
                 } else {
                     if (match) {
@@ -167,12 +179,12 @@ bool do_validate_scan(APP& app, int min_quorum) {
                 }
                 retval = db_result_update(result);
                 if (retval) {
-                    fprintf(stderr, "Can't update result\n");
+                    write_log("Can't update result\n");
                     continue;
                 }
                 retval = grant_credit(result, result.granted_credit);
                 if (retval) {
-                    fprintf(stderr, "Can't grant credit\n");
+                    write_log("Can't grant credit\n");
                     continue;
                 }
             }
@@ -180,7 +192,8 @@ bool do_validate_scan(APP& app, int min_quorum) {
             // Here if WU doesn't have a canonical result yet.
             // Try to get one
 
-            printf("validating WU %s; no canonical result\n", wu.name);
+            sprintf(buf, "validating WU %s; no canonical result\n", wu.name);
+            write_log(buf);
 
             vector<RESULT> results;
             result.workunitid = wu.id;
@@ -189,11 +202,12 @@ bool do_validate_scan(APP& app, int min_quorum) {
                     results.push_back(result);
                 }
             }
-            printf("found %d results\n", results.size());
+            sprintf(buf, "found %d results\n", results.size());
+            write_log(buf);
             if (results.size() >= (unsigned int)min_quorum) {
                 retval = check_set(results, canonicalid, credit);
                 if (!retval && canonicalid) {
-                    printf("found a canonical result\n");
+                    write_log("found a canonical result\n");
                     wu.canonical_resultid = canonicalid;
                     wu.canonical_credit = credit;
                     wu.main_state = WU_MAIN_STATE_DONE;
@@ -213,18 +227,21 @@ bool do_validate_scan(APP& app, int min_quorum) {
                         if (results[i].validate_state == VALIDATE_STATE_VALID) {
                             retval = grant_credit(results[i], credit);
                             if (retval) {
-                                fprintf(stderr,
+                                sprintf(buf,
                                     "validate: grant_credit %d\n", retval
                                 );
+                                write_log(buf);
                             }
                             results[i].granted_credit = credit;
                         }
-                        printf("updating result %d to %d; credit %f\n", results[i].id, results[i].validate_state, credit);
+                        sprintf(buf, "updating result %d to %d; credit %f\n", results[i].id, results[i].validate_state, credit);
+                        write_log(buf);
                         retval = db_result_update(results[i]);
                         if (retval) {
-                            fprintf(stderr,
+                            sprintf(buf,
                                 "validate: db_result_update %d\n", retval
                             );
+                            write_log(buf);
                         }
                     }
                 }
@@ -236,7 +253,8 @@ bool do_validate_scan(APP& app, int min_quorum) {
         wu.need_validate = 0;
         retval = db_workunit_update(wu);
         if (retval) {
-            fprintf(stderr, "db_workunit_update: %d\n", retval);
+            sprintf(buf, "db_workunit_update: %d\n", retval);
+            write_log(buf);
         }
     }
     return found;
@@ -246,17 +264,20 @@ int main_loop(bool one_pass) {
     int retval;
     APP app;
     bool did_something;
+    char buf[256];
 
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "validate: db_open: %d\n", retval);
+        sprintf(buf, "db_open: %d\n", retval);
+        write_log(buf);
         exit(1);
     }
 
     strcpy(app.name, app_name);
     retval = db_app_lookup_name(app);
     if (retval) {
-        fprintf(stderr, "can't find app %s\n", app.name);
+        sprintf(buf, "can't find app %s\n", app.name);
+        write_log(buf);
         exit(1);
     }
 
@@ -264,8 +285,6 @@ int main_loop(bool one_pass) {
         did_something = do_validate_scan(app, min_quorum);
         if (one_pass) break;
         if (!did_something) {
-            printf("sleeping\n");
-            fflush(stdout);
             sleep(1);
         }
     }
@@ -276,6 +295,7 @@ int main_loop(bool one_pass) {
 int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false, one_pass = false;
+    char buf[256];
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -287,18 +307,23 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-quorum")) {
             min_quorum = atoi(argv[++i]);
         } else {
-            fprintf(stderr, "unrecognized arg: %s\n", argv[i]);
+            sprintf(buf, "unrecognized arg: %s\n", argv[i]);
+            write_log(buf);
         }
     }
 
     if (min_quorum < 1 || min_quorum > 10) {
-        fprintf(stderr, "bad min_quorum: %d\n", min_quorum);
+        sprintf(buf, "bad min_quorum: %d\n", min_quorum);
+        write_log(buf);
         exit(1);
     }
 
+    sprintf(buf, "starting validator; min_quorum %d\n", min_quorum);
+    write_log(buf);
+
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        write_log("Can't parse config file\n");
         exit(1);
     }
 

@@ -12,6 +12,8 @@
 
 define("RESULT_STATE_DONE", 4);
 
+ob_end_flush();         // let us see what's going on
+
 // get an enviroment variable, and abort script if missing
 //
 function get_env_var($name) {
@@ -352,52 +354,52 @@ class Project {
     }
 
     function start_feeder(){
-        PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
+        PassThru("cd $this->project_dir/cgi; ./feeder -asynch >> feeder_out 2>&1");
     }
 
     function result_retry($app, $nerror = 5, $ndet = 5, $nredundancy = 5){
-        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy  > result_retry_out");
+        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy  >> result_retry_out 2>&1");
     }
 
     function start_result_retry($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
-        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch > result_retry_out");
+        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> result_retry_out 2>&1");
     }
 
     function start_make_work($work){
         $result_template_path = realpath($work->result_template);
-        PassThru("cd $this->project_dir/cgi; ./make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");
+        PassThru("cd $this->project_dir/cgi; ./make_work -asynch -result_template $result_template_path -wu_name $work->wu_template >> make_work_out 2>&1");
     }
 
     // run the validator asynchronously
     //
     function start_validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; ./validate_test -asynch -app $app->name -quorum $quorum > validate_out");
+        PassThru("cd $this->project_dir/cgi; ./validate_test -asynch -app $app->name -quorum $quorum >> validate_out 2>&1");
     }
 
     // do one pass of validation
     //
     function validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum > validate_out");
+        PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum >> validate_out 2>&1");
     }
    
     function start_file_delete(){
-        PassThru("cd $this->project_dir/cgi; ./file_deleter -asynch > file_deleter_out");
+        PassThru("cd $this->project_dir/cgi; ./file_deleter -asynch >> file_deleter_out 2>&1");
     }
 	
     // do one pass of file_deleter
     //
     function file_delete() {
-        PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass > file_deleter_out");
+        PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass >> file_deleter_out 2>&1");
     }
     
-    function start_assimilate($app) {
-        PassThru("cd $this->project_dir/cgi; ./assimilator -asynch -app $app->name > assimilator_out");
+    function start_assimilator($app) {
+        PassThru("cd $this->project_dir/cgi; ./assimilator -asynch -app $app->name >> assimilator_out 2>&1");
     }
     
     // do one pass of assimilator
     //
     function assimilate($app) {
-        PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name > assimilator_out");
+        PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name >> assimilator_out 2>&1");
     }
 
     // start collecting data for stripcharts
@@ -461,9 +463,9 @@ class Project {
     function compare_file($result, $correct) {
         PassThru("diff $this->project_dir/upload/$result $correct", $retval);
         if ($retval) {
-            echo "File mismatch: $out $correct\n";
+            echo "File mismatch: $result $correct\n";
         } else {
-            echo "Files match: $out $correct\n";
+            echo "Files match: $result $correct\n";
         }
     }
 }

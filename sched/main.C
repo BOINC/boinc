@@ -18,6 +18,7 @@
 //
 
 // The BOINC scheduling server.
+//
 // command-line options:
 //  -use_files      // use disk files for req/reply msgs (for debugging)
 
@@ -39,109 +40,91 @@ using namespace std;
 #include "handle_request.h"
 #include "main.h"
 
+#define STDERR_FILENAME "cgi_out"
 #define REQ_FILE_PREFIX "boinc_req_"
 #define REPLY_FILE_PREFIX "boinc_reply_"
 
 PROJECT gproject;
 CONFIG config;
 
-int return_error(char* p) {
-    fprintf(stderr, "BOINC server: %s\n", p);
-    printf("<error_msg>%s</error_msg>\n", p);
-    return 1;
+void write_log(char* p) {
+    time_t now = time(0);
+    char* timestr = ctime(&now);
+    *(strchr(timestr, '\n')) = 0;
+    fprintf(stderr, "%s: %s", timestr, p);
 }
 
-// the code below is convoluted because,
-// instead of going from stdin to stdout directly,
-// we go via a pair of disk files
-// (this makes it easy to save the input,
-// and to know the length of the output).
-//
 int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval, pid;
-    char req_path[256], reply_path[256], path[256];
+    char buf[256], req_path[256], reply_path[256], path[256];
     SCHED_SHMEM* ssp;
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
     bool found, use_files=false;
 
+    if (!freopen(STDERR_FILENAME, "a", stderr)) {
+        fprintf(stderr, "Can't redirect stderr\n");
+        exit(1);
+    }
+
+
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-use_files")) {
             use_files = true;
         }
     }
+
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        write_log("Can't parse config file\n");
         exit(1);
     }
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
-        fprintf(stderr,
-            "BOINC scheduler (%s): can't read code sign key file (%s)\n",
-	    config.user_name, path
-        );
+        sprintf(buf, "Can't read code sign key file (%s)\n", path);
+        write_log(buf);
         exit(1);
     }
 
     retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
-        fprintf(stderr,
-	    "BOINC scheduler (%s): can't attach shmem\n",
-	    config.user_name
-	);
+        write_log("Can't attach shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     if (retval) {
-        fprintf(stderr,
-	    "BOINC scheduler (%s): shmem has wrong struct sizes - recompile\n",
-	    config.user_name
-	);
+        write_log("shmem has wrong struct sizes - recompile\n");
         exit(1);
     }
 
     for (i=0; i<10; i++) {
         if (ssp->ready) break;
-        fprintf(stderr,
-	    "BOINC scheduler (%s): waiting for ready flag\n",
-	    config.user_name
-	);
+        write_log("waiting for ready flag\n");
         sleep(1);
     }
     if (!ssp->ready) {
-        fprintf(stderr,
-	    "BOINC scheduler (%s): feeder doesn't seem to be running\n",
-	    config.user_name
-	);
+        write_log("feeder doesn't seem to be running\n");
         exit(1);
     }
 
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
-	fprintf(stderr,
-	    "BOINC scheduler (%s): can't open database\n",
-	    config.user_name
-	);
-	return_error("can't open database");
+        write_log("can't open database\n");
         exit(1);
     }
 
     found = false;
     while (!db_project_enum(gproject)) {
-	found = true;
+        found = true;
     }
     if (!found) {
-	fprintf(stderr,
-	    "BOINC scheduler (%s): can't find project\n",
-	    config.user_name
-	);
-	exit(1);
+        write_log("can't find project\n");
+        exit(1);
     }
 
     pid = getpid();
@@ -149,34 +132,31 @@ int main(int argc, char** argv) {
     while(FCGI_Accept() >= 0) {
     counter++;
 #endif
-    fprintf(stdout, "Content-type: text/plain\n\n");
+    printf("Content-type: text/plain\n\n");
     if (use_files) {
+        // the code below is convoluted because,
+        // instead of going from stdin to stdout directly,
+        // we go via a pair of disk files
+        // (this makes it easy to save the input,
+        // and to know the length of the output).
+        //
         sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, pid, counter);
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
         fout = fopen(req_path, "w");
         if (!fout) {
-            fprintf(stderr,
-                "BOINC scheduler (%s): can't write request file",
-                config.user_name
-            );
+            write_log("can't write request file\n");
             exit(1);
         }
         copy_stream(stdin, fout);
         fclose(fout);
         fin = fopen(req_path, "r");
         if (!fin) {
-            fprintf(stderr,
-                "BOINC scheduler (%s): can't read request file",
-                config.user_name
-            );
+            write_log("can't read request file\n");
             exit(1);
         }
         fout = fopen(reply_path, "w");
         if (!fout) {
-            fprintf(stderr,
-                "BOINC scheduler (%s): can't write reply file",
-                config.user_name
-            );
+            write_log("can't write reply file\n");
             exit(1);
         }
         handle_request(fin, fout, *ssp, code_sign_key);
@@ -184,10 +164,7 @@ int main(int argc, char** argv) {
         fclose(fout);
         fin = fopen(reply_path, "r");
         if (!fin) {
-            fprintf(stderr,
-                "BOINC scheduler (%s): can't read reply file",
-                config.user_name
-            );
+            write_log("can't read reply file\n");
             exit(1);
         }
         copy_stream(fin, stdout);
