@@ -209,7 +209,8 @@ int handle_wu(
             TRANSITIONER_ITEM& res_item = items[i];
             if (res_item.res_id) {
                 bool update_result = false;
-                if (res_item.res_server_state == RESULT_SERVER_STATE_UNSENT) {
+                switch(res_item.res_server_state) {
+                case RESULT_SERVER_STATE_UNSENT:
                     log_messages.printf(
                         SCHED_MSG_LOG::NORMAL,
                         "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
@@ -218,11 +219,18 @@ int handle_wu(
                     res_item.res_server_state = RESULT_SERVER_STATE_OVER;
                     res_item.res_outcome = RESULT_OUTCOME_DIDNT_NEED;
                     update_result = true;
-                }
-                if ((res_item.res_validate_state == VALIDATE_STATE_INIT) &&
-                    (res_item.res_outcome != RESULT_OUTCOME_SUCCESS)) {
-                    res_item.res_validate_state = VALIDATE_STATE_NO_CHECK;
-                    update_result = true;
+                    break;
+                case RESULT_SERVER_STATE_OVER:
+                    switch (res_item.res_outcome) {
+                    case RESULT_OUTCOME_SUCCESS:
+                        switch(res_item.res_validate_state) {
+                        case VALIDATE_STATE_INIT:
+                        case VALIDATE_STATE_INCONCLUSIVE:
+                            res_item.res_validate_state = VALIDATE_STATE_NO_CHECK;
+                            update_result = true;
+                            break;
+                        }
+                    }
                 }
                 if (update_result) {
                     retval = transitioner.update_result(res_item);

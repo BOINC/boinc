@@ -21324,3 +21324,20 @@ Rom    15 Dec 2004
 
     win_build/installerv2/
         boinc.ism
+
+David  15 Dec 2004
+    - transitioner:
+        if WU has error, set unvalidated results to VALIDATE_STATE_NO_CHECK
+    - Web:
+        - show WU error flags to users
+        - show link to canonical result on WU page
+        - clearer heading for deadline colors
+
+    html/
+        inc/
+            result.inc
+            util.inc
+        user/
+            workunit.php
+    sched/
+        transitioner.C

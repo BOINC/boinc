@@ -77,6 +77,38 @@ function validate_state_str($s) {
     return "Unknown";
 }
 
+function wu_error_mask_str($s) {
+    $x = "";
+    if ($s & 1) {
+        $x = $x."Couldn't send result ";
+        $s -= 1;
+    }
+    if ($s & 2) {
+        $x = $x."Too many error results ";
+        $s -= 2;
+    }
+    if ($s & 4) {
+        $x = $x."Too many success results ";
+        $s -= 4;
+    }
+    if ($s & 8) {
+        $x = $x."Too many total results ";
+        $s -= 8;
+    }
+    if ($s & 16) {
+        $x = $x."Cancelled ";
+        $s -= 16;
+    }
+    if ($s) {
+        $x = $x."Unrecognized Error: $s ";
+    }
+    if (strlen($x)) {
+    } else {
+        $x="<br>";
+    }
+    return $x;
+}
+
 function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
     start_table();
     echo "
@@ -93,7 +125,11 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
     }
     echo "
         <th>Sent</th>
-        <th>Received <i>or</i> <font color='33cc33'>Deadline</font></th>
+        <th>Time reported
+            <br>or deadline
+            <br>(<font color='33cc33'>future</font> |
+            <font color='ff3333'>past</font>)
+        </th>
         <th>Server state
             <br><font size=-2><a href=explain_state.php?field=result_server_state>explain</a>
         </th>
@@ -114,17 +150,20 @@ function show_result_row(
     $result, $show_wu_link, $show_host_link, $show_result_link
 ) {
     $s = time_str($result->sent_time);
-    // if result has been received, show the received time, else show the reporting
-    // deadline in GREEN if in the future and in RED if in the past.
-    if ($result->received_time)
+    // if result has been received, show the received time,
+    // else show the reporting deadline in green if in the future
+    // and in red if in the past.
+    //
+    if ($result->received_time) {
         $r = time_str($result->received_time);
-    else {
-        $timenow=time();
-        if ($result->report_deadline>$timenow) {
+    } else if ($result->report_deadline) {
+        if ($result->report_deadline>time()) {
             $r = "<font color='33cc33'>" . time_str($result->report_deadline) . "</font>";
         } else {
             $r = "<font color='ff3333'>" . time_str($result->report_deadline) . "</font>";
         }
+    } else {
+        $r = "---";
     }
     $ss = result_server_state_string($result->server_state);
     $out = result_outcome_string($result->outcome);

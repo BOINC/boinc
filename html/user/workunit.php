@@ -20,7 +20,13 @@
     row2("application", $app->user_friendly_name);
     row2("created", time_str($wu->create_time));
     row2("name", $wu->name);
-    row2("granted credit", format_credit($wu->canonical_credit));
+    if ($wu->canonical_resultid) {
+        row2("canonical result", "<a href=result.php?resultid=$wu->canonical_resultid>$wu->canonical_resultid</a>");
+        row2("granted credit", format_credit($wu->canonical_credit));
+    }
+    if ($wu->error_mask) {
+        row2("errors", wu_error_mask_str($wu->error_mask));
+    }
     echo "</table>\n";
 
     echo "<br><br><b>Results:</b>\n";

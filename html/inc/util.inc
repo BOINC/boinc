@@ -432,8 +432,8 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     return $result;
 }
 
-function format_credit($cobblestones) {
-    return number_format($cobblestones, 2);
+function format_credit($x) {
+    return number_format($x, 2);
 }
 
 function project_is_stopped() {
