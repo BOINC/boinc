@@ -1,6 +1,7 @@
 <?php
 
 require_once("../inc/credit.inc");
+require_once("../inc/email.inc");
 
 function pending_credit($user) {
     $result = mysql_query("select sum(claimed_credit) as total from result where userid=$user->id and validate_state=0");

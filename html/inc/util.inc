@@ -126,7 +126,7 @@ function page_tail_aux($show_return, $show_date) {
     }
     echo "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
-        echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"\n";
+        echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"</font>\n";
     }
     echo "</body>\n</html>";
 }
