@@ -6399,3 +6399,9 @@ David Sept 27 2003
         Makefile.am
         wu_check.C (new)
 
+Eric K Sept 29 2003
+    - Fixed bug that cause a encoded null to be appended to strings in
+      xml_encode()
+
+    lib/xml_util.C
+

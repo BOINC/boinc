@@ -267,7 +267,7 @@ std::vector<unsigned char> xml_decode_string(const unsigned char *input, size_t 
   char c;
   if (!length) {
     // We're going to decode until we see a null.  Including the null.
-    length=strlen((const char *)input)+1;
+    length=strlen((const char *)input);
   }
   std::vector<unsigned char> rv;
   unsigned char *p;
