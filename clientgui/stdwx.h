@@ -72,9 +72,11 @@
 #include <wx/notebook.h>        // notebook support
 #include <wx/html/htmlwin.h>    // html window support
 #include <wx/statline.h>        // static line support
+#include <wx/statbmp.h>         // static bitmap support
 #include <wx/taskbar.h>         // taskbar support
 #include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
+#include <wx/textdlg.h>
 #include <wx/mimetype.h>
 #include <wx/event.h>
 #include <wx/utils.h>

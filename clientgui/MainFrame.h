@@ -46,6 +46,7 @@ public:
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
     void OnRunBenchmarks( wxCommandEvent& event );
+    void OnSelectComputer( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
     void OnToolsOptions( wxCommandEvent& event );
@@ -73,6 +74,9 @@ private:
     wxStatusBar*    m_pStatusbar;
     wxTimer*        m_pFrameTaskPanelRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
+
+    wxStaticBitmap* m_pbmpConnected;
+    wxStaticBitmap* m_pbmpDisconnected;
 
 
     bool            CreateMenu();

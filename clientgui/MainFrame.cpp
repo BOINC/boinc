@@ -39,6 +39,8 @@
 #include "DlgOptions.h"
 
 #include "res/BOINCGUIApp.xpm"
+#include "res/connect.xpm"
+#include "res/disconnect.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
@@ -48,6 +50,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnNetworkSelection)
     EVT_MENU(ID_RUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
+    EVT_MENU(ID_SELECTCOMPUTER, CMainFrame::OnSelectComputer)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
@@ -182,6 +185,14 @@ bool CMainFrame::CreateMenu()
     menuFile->AppendSeparator();
 
     menuFile->Append(
+        ID_SELECTCOMPUTER, 
+        _("Select Computer..."),
+        _("Allows you to remotely connect up to another computer running BOINC")
+    );
+
+    menuFile->AppendSeparator();
+
+    menuFile->Append(
         wxID_EXIT,
         _("E&xit"),
         _("Exit the BOINC Manager")
@@ -287,7 +298,7 @@ bool CMainFrame::CreateStatusbar()
 
     wxInt32 ch = GetCharWidth();
 
-    const wxInt32 widths[] = {-1, 20*ch, 15};
+    const wxInt32 widths[] = {-1, 16, 15};
 
     m_pStatusbar = CreateStatusBar(WXSIZEOF(widths), wxST_SIZEGRIP, ID_STATUSBAR);
     wxASSERT(NULL != m_pStatusbar);
@@ -296,6 +307,9 @@ bool CMainFrame::CreateStatusbar()
 
     SetStatusBar(m_pStatusbar);
     SendSizeEvent();
+
+    m_pbmpConnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(connect_xpm));
+    m_pbmpDisconnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
 
     return true;
 }
@@ -538,6 +552,30 @@ void CMainFrame::OnRunBenchmarks( wxCommandEvent& WXUNUSED(event) )
 
     m_pNotebook->SetSelection( ID_LIST_MESSAGESVIEW - ID_LIST_BASE );
     pDoc->RunBenchmarks();
+}
+
+
+void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
+{
+    wxInt32        iRetVal = -1;
+    wxString       strMachine = wxEmptyString;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strMachine = ::wxGetTextFromUser(
+        _("Which computer do you wish to connect to?"),
+        _("Select Computer...")
+    );
+
+    iRetVal = pDoc->Connect( strMachine );
+    if ( !(0 == iRetVal) )
+        ::wxMessageBox(
+            _("Failed to connect to the requested computer, please check the name of the computer and try again."),
+            _("Failed to connect..."),
+            wxICON_ERROR
+        );
 }
 
 

@@ -48,6 +48,7 @@ CMainDocument::CMainDocument()
 #endif
 
     m_bIsConnected = false;
+    m_strConnectedComputer = wxEmptyString;
 
     m_iCachedActivityRunMode = 0;
     m_iCachedNetworkRunMode = 0;
@@ -79,6 +80,7 @@ CMainDocument::~CMainDocument()
     m_iCachedActivityRunMode = 0;
     m_iCachedNetworkRunMode = 0;
 
+    m_strConnectedComputer = wxEmptyString;
     m_bIsConnected = false;
 
 #ifdef __WIN32__
@@ -126,38 +128,92 @@ wxInt32 CMainDocument::CachedStateUpdate()
 
 wxInt32 CMainDocument::OnInit()
 {
-    wxInt32 retval = 0;
+    wxInt32 iRetVal = -1;
+    wxString strMachine = wxEmptyString;
 
-    if (!m_bIsConnected)
-    {
-        retval = rpc.init(NULL);
-        if (retval)
-            wxLogTrace("CMainDocument::OnInit - RPC Initialization Failed '%d'", retval);
-    }
+    if ( !IsConnected() )
+        iRetVal = Connect( strMachine );
 
-    return retval;
+    return iRetVal;
 }
 
 
 wxInt32 CMainDocument::OnExit()
 {
-    wxInt32 retval = 0;
+    wxInt32 iRetVal = 0;
 
-    if (m_bIsConnected)
-        rpc.close();
+    if ( IsConnected() )
+        iRetVal = Disconnect();
 
-    return retval;
+    return iRetVal;
 }
 
 
 wxInt32 CMainDocument::OnIdle()
 {
-    if (m_bIsConnected)
-    {
+    if ( IsConnected() )
         CachedStateUpdate();
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::Connect( wxString& strMachine )
+{
+    wxInt32 iRetVal = -1;
+    std::string str;
+
+    if ( IsConnected() )
+        Disconnect();
+
+    str.clear();
+
+    if ( strMachine.empty() && !m_strConnectedComputer.empty() )
+        str = m_strConnectedComputer.c_str();
+    else
+        str = strMachine.c_str();
+
+    if ( str.empty() )
+        iRetVal = rpc.init( NULL );
+    else
+        iRetVal = rpc.init( str.c_str() );
+
+    if ( 0 == iRetVal )
+        m_strConnectedComputer = strMachine;
+    else
+        wxLogTrace("CMainDocument::Connect - RPC Initialization Failed '%d'", iRetVal);
+
+    return iRetVal;
+}
+
+
+wxInt32 CMainDocument::Disconnect()
+{
+    if ( IsConnected() )
+    {
+        rpc.close();
+        state.clear();
+        host.clear();
+        project_status.clear();
+        results.clear();
+        messages.clear();
+        ft.clear();
+        resource_status.clear();
+        proxy_info.clear();
+        
+        m_dtCachedStateLockTimestamp = wxDateTime::Now();
+        m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
+
+        m_bIsConnected = false;
     }
 
     return 0;
+}
+
+
+bool CMainDocument::IsConnected()
+{
+    return m_bIsConnected;
 }
 
 
