@@ -1,55 +1,90 @@
-<body bgcolor=ffffff>
-<h2>Compute model: workunits</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+    <title>Compute Model: Workunits</title> 
+    <meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body bgcolor="#FFFFFF">
+<h2>Compute Model: Workunits</h2> 
 <p>
-A <b>workunit</b> describes a computation to be performed.
-Workunits are maintained in the <b>workunit</b> table in the BOINC DB.
-The attributes of a workunit include:
+    A <b>workunit</b> describes a computation to be performed. Workunits
+are maintained in the <b>workunit</b> table in the BOINC DB. The
+attributes of a workunit include:
+</p>
 <ul>
-<li> Its application.
-<li> Its name (unique across all workunits in the project).
-<li> An XML document describing its input files and other parameters
+    <li>
+        Its application.
+    </li>
+    <li>
+        Its name (unique across all workunits in the project).
+    </li>
+    <li>
+        An XML document describing its input files and other parameters
 (see below).
-<li> The estimated resource requirements of the work unit
+    </li>
+    <li>
+        The estimated resource requirements of the work unit
 (computation, memory, disk space, network traffic).
-<li> Counts of how many times this workunit should be dispatched,
-how many times it has been dispatched, how many results have
-been returned, and how many failures have occurred.
+    </li>
+    <li>
+        Counts of how many times this workunit should be dispatched, how
+many times it has been dispatched, how many results have been returned,
+and how many failures have occurred.
+    </li>
 </ul>
 <p>
-The inputs to a workunit are described by an XML document of the form
+    The inputs to a workunit are described by an XML document of the
+form
+</p>
 <pre>
-[ &lt;file_info>...&lt;/file_info> ]
+[ &lt;file_info&gt;...&lt;/file_info&gt; ]
 [ ... ]
-&lt;workunit>
-    &lt;name>foobar&lt;/name>
-    &lt;app_name>blah&lt;/app_name>
-    [ &lt;command_line>-flags xyz&lt;/command_line> ]
-    [ &lt;env_vars>name=val&name=val&lt;/env_vars> ]
-    [ &lt;file_ref>...&lt;/file_ref> ]
+&lt;workunit&gt;
+    &lt;name&gt;foobar&lt;/name&gt;
+    &lt;app_name&gt;blah&lt;/app_name&gt;
+    [ &lt;version_num&gt;1&lt;/version_num&gt; ]
+    [ &lt;command_line&gt;-flags xyz&lt;/command_line&gt; ]
+    [ &lt;env_vars&gt;name=val&amp;name=val&lt;/env_vars&gt; ]
+    [ &lt;file_ref&gt;...&lt;/file_ref&gt; ]
     [ ... ]
-&lt;workunit>
-</pre>
-The components are:
+&lt;workunit&gt;
+</pre> The components are: 
 <ul>
-<li> The <b>&lt;name></b> element is the name of the workunit.
-<li> The <b>&lt;app_name></b> element is the name of the application.
-<li> The <b>&lt;command_line></b> element, if present,
-is the command-line arguments to be passed to the main program.
-<li> The <b>&lt;env_vars></b> element, if present,
-is a list of environment variables to be passed to the main program.
-<li> Each <b>&lt;file_ref></b> element describes a
-<a href=files.html>reference</a> to an input file,
-each of which is described by a <b>&lt;file_info></b> element.
+    <li>
+        The <b>&lt;name&gt;</b> element is the name of the workunit.
+    </li>
+    <li>
+        The <b>&lt;app_name&gt;</b> element is the name of the
+application.
+    </li>
+    <li>
+        The <b>&lt;version_num&gt;</b> element is ???.
+    </li>
+    <li>
+        The <b>&lt;command_line&gt;</b> element, if present, is the
+command-line arguments to be passed to the main program.
+    </li>
+    <li>
+        The <b>&lt;env_vars&gt;</b> element, if present, is a list of
+environment variables to be passed to the main program.
+    </li>
+    <li>
+        Each <b>&lt;file_ref&gt;</b> element describes a <a
+href="files.html">reference</a> to an input file, each of which is
+described by a <b>&lt;file_info&gt;</b> element.
+    </li>
 </ul>
 <p>
-A workunit is associated with an application,
-not with a particular version or set of versions.
-If the format of your input data changes in a way that
-is incompatible with older versions,
-you must create a new application.
-This can often be avoided by using XML data format.
+    A workunit is associated with an application, not with a particular
+version or set of versions???. If the format of your input data changes
+in
+a way that is incompatible with older versions, you must create a new
+application. This can often be avoided by using XML data format. 
+</p>
 <p>
-
-The <a href=tools.html>create_work</a> utility program
-provides a simplified interface for creating workunits.
+    The <a href="tools.html">create_work</a> utility program provides a
+simplified interface for creating workunits. 
+</p>
+</body>
+</html>

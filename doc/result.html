@@ -1,83 +1,131 @@
-<h2>Compute model: results</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+    <title>Compute Model: Results</title> 
+    <meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Compute Model: Results</h2> 
 <p>
-A <b>result</b> describes an instance of a computation,
-either to be performed, in progress, or completed.
-Results are stored in the <b>result</b> table of the BOINC DB.
-The attributes of a result include:
-<ul>
-<li> The name of the result (unique across all results in the project).
-<li> The name of the associated workunit.
-<li> The time when the completed result
-should be reported to a scheduling server.
-This is assigned by the project, and
-is used by clients to prioritize operations,
-and to initiate scheduler RPCs.
-There is no guarantee that the result will actually
-be reported by this time.
+    A <b>result</b> describes an instance of a computation, either to be
+performed, in progress, or completed. Results are stored in the
+<b>result</b> table of the BOINC DB. The attributes of a result include:
 
-<li> An XML document listing the names of its output files; see below.
-<li> An XML document giving the sizes and checksums of its output files
-(filled in after the result is completed).
-<li> The stderr output of the result.
-<li> The host that computed the result.
-<li> The times when the result was dispatched and received.
-<li> The exit status of the application.
-<li> The reported CPU time.
-<li> Its <b>state</b>.  Values include:
+</p>
 <ul>
-<li> Inactive (not ready to dispatch)
-<li> Unsent (ready to dispatch, but not dispatched)
-<li> In progress (dispatched, not done)
-<li> Done successfully
-<li> Timed out
-<li> Done with error
+    <li>
+        The name of the result (unique across all results in the
+project). 
+    </li>
+    <li>
+        The name of the associated workunit. 
+    </li>
+    <li>
+        The time when the completed result should be reported to a
+scheduling server. This is assigned by the project, and is used by
+clients to prioritize operations, and to initiate scheduler RPCs. There
+is no guarantee that the result will actually be reported by this time. 
+    </li>
+    <li>
+        An XML document listing the names of its output files; see
+below. 
+    </li>
+    <li>
+        An XML document giving the sizes and checksums of its output
+files (filled in after the result is completed). 
+    </li>
+    <li>
+        The stderr output of the result. 
+    </li>
+    <li>
+        The host that computed the result. 
+    </li>
+    <li>
+        The times when the result was dispatched and received. 
+    </li>
+    <li>
+        The exit status of the application. 
+    </li>
+    <li>
+        The reported CPU time. 
+    </li>
+    <li>
+        Its <b>state</b>. Values include: 
+    </li>
+<ul>
+    <li>
+        Inactive (not ready to dispatch) 
+    </li>
+    <li>
+        Unsent (ready to dispatch, but not dispatched) 
+    </li>
+    <li>
+        In progress (dispatched, not done) 
+    </li>
+    <li>
+        Done successfully 
+    </li>
+    <li>
+        Timed out 
+    </li>
+    <li>
+        Done with error 
+    </li>
 </ul>
 </ul>
-
-The XML document listing the output files has the form:
-<pre>
-&lt;file_info>...&lt;/file_info>
+The XML document listing the output files has the form: <pre>
+&lt;file_info&gt;...&lt;/file_info&gt;
 [ ... ]
-&lt;result>
-    &lt;name>foobar&lt;/name>
-    &lt;wu_name>blah&lt;/wu_name>
-    &lt;file_ref>...&lt;/file_ref>
+&lt;result&gt;
+    &lt;name&gt;foobar&lt;/name&gt;
+    &lt;wu_name&gt;blah&lt;/wu_name&gt;
+    &lt;exit_status&gt;blah&lt;/exit_status&gt;
+    &lt;file_ref&gt;...&lt;/file_ref&gt;
     [ ... ]
-&lt;/result>
-</pre>
-The components are:
+&lt;/result&gt;
+</pre> The components are: 
 <ul>
-<li> The <b>&lt;name></b> element is the result name.
-<li> The <b>&lt;wu_name></b> element is the workunit name.
-<li> Each <b>&lt;file_ref></b> element is an association
-to an output file, described by a corresponding
-<b>&lt;file_info></b> element.
+    <li>
+        The <b>&lt;name&gt;</b> element is the result name. 
+    </li>
+    <li>
+        The <b>&lt;wu_name&gt;</b> element is the workunit name. 
+    </li>
+    <li>
+        Each <b>&lt;file_ref&gt;</b> element is an association to an
+output file, described by a corresponding <b>&lt;file_info&gt;</b>
+element. 
+    </li>
 </ul>
-
 <p>
-The XML document describing the sizes and checksums
-of the output files is just a list of
-<b>&lt;file_info></b> elements, with the
-<b>nbytes</b> and <b>md5_cksum</b> fields present.
-The project back end must parse this field to
-find the locations and checksums of output files.
+    The XML document describing the sizes and checksums of the output
+files is just a list of <b>&lt;file_info&gt;</b> elements, with the
+<b>nbytes</b> and <b>md5_cksum</b> fields present. The project back end
+must parse this field to find the locations and checksums of output
+files. 
+</p>
 <p>
-Several results may be associated with a single workunit.
-Results may be generated in either of two ways
-(selected as part of the application):
+    Several results may be associated with a single workunit. Results
+may be generated in either of two ways (selected as part of the
+application): 
+</p>
 <ul>
-<li> <b>Advance generation</b> of results.
-One or more result records are stored in the database
-when the workunit is produced.
-The scheduling server dispatches each result to a single participant host.
-When all result records have been dispatched,
-participants hosts are "turned away".
-<li> <b>On-demand generation</b> of results.
-The application specifies a "result template",
-which has place-holder tokens for the output filenames.
-The scheduling server, in response to a host request,
-generates a new result record and sends the result template.
-The host generates unique output filenames,
-and returns them along when it the computation is done.
+    <li>
+        <b>Advance generation</b> of results. One or more result records
+are stored in the database when the workunit is produced. The scheduling
+server dispatches each result to a single participant host. When all
+result records have been dispatched, participants hosts are "turned
+away". 
+    </li>
+    <li>
+        <b>On-demand generation</b> of results. The application
+specifies a "result template", which has place-holder tokens for the
+output filenames. The scheduling server, in response to a host request,
+generates a new result record and sends the result template. The host
+generates unique output filenames, and returns them along when it the
+computation is done. 
+    </li>
 </ul>
+</body>
+</html>

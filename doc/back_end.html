@@ -1,36 +1,46 @@
-<h2>Back end examples</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Back End Examples</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Back End Examples</h2> 
 <p>
-Here are some examples of the "back ends" that
-could be used by various types of project.
-
+	Here are some examples of the "back ends" that could be used by
+various types of project. 
+</p>
 <p>
-<b>SETI@home with local data servers</b>
+	<b>SETI@home with local data servers</b> 
+</p>
 <ul>
-<li>
-A <b>splitter program</b> generates data files.
-For each data file, calls the BOINC server library to
-create a workunit record and several result records,
-and stores the data file on disk of a data server.
-<li>
-A <b>garbage collector</b> program deletes data files for which enough
-results have been returned.
-Generates new result records as needed.
-<li>
-A <b>result handler</b> program checks for new results.
-Parses result files, and transfers contents to
-a separate "science database".
+	<li>
+		A <b>splitter program</b> generates data files. For each data
+file, calls the BOINC server library to create a workunit record and
+several result records, and stores the data file on disk of a data
+server.
+	</li>
+	<li>
+		A <b>garbage collector</b> program deletes data files for which
+enough results have been returned. Generates new result records as
+needed.
+	</li>
+	<li>
+		A <b>result handler</b> program checks for new results. Parses
+result files, and transfers contents to a separate "science database".
 Does redundancy checking, and marks result records as valid or invalid.
+	</li>
 </ul>
-
 <p>
-<b>SETI@home with remote data servers</b>
+</p>
+<b>SETI@home with remote data servers</b> 
 <p>
-As above, but the splitter program writes data files to DLT tape.
-The result records are generated, using the
-URL of a selected data server.
-The tape is mailed to the data server.
-An operator at the data server transfers the files to disk,
-than uses a web control panel to mark the batch as ready,
-which marks the result records as ready.
-<p>
+	As above, but the splitter program writes data files to DLT tape.
+The result records are generated, using the URL of a selected data
+server. The tape is mailed to the data server. An operator at the data
+server transfers the files to disk, than uses a web control panel to
+mark the batch as ready, which marks the result records as ready. 
+</p>
+</body>
+</html>

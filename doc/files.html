@@ -1,83 +1,111 @@
-<h2>Compute model: storage</h2>
-
-<h3>Files</h3>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+    <title>Compute Model: Storage</title> 
+    <meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Compute Model: Storage</h2> <h3>Files</h3> 
 <p>
-The BOINC storage model is based on <b>files</b>.
-The inputs and outputs of applications,
-and the applications executables, are files.
+    The BOINC storage model is based on <b>files</b>. The inputs and
+outputs of applications, and the applications executables, are files.
+</p>
 <p>
-A file is described by an XML element of the form
+    A file is described by an XML element of the form 
+</p>
 <pre>
-&lt;file_info>
-    &lt;name>foobar&lt;/name>
-    &lt;url>http://a.b.c/foobar&lt;/url>
-    &lt;url>http://x.y.z/foobar&lt;/url>
+&lt;file_info&gt;
+    &lt;name&gt;foobar&lt;/name&gt;
+    &lt;url&gt;http://a.b.c/foobar&lt;/url&gt;
+    &lt;url&gt;http://x.y.z/foobar&lt;/url&gt;
     ...
-    &lt;md5_cksum>123123123123&lt;/md5_cksum>
-    &lt;nbytes>134423&lt;/nbytes>
-    [ &lt;executable/> ]
-    [ &lt;upload_when_present/> ]
-    [ &lt;sticky/> ]
-&lt;/file_info>
-</pre>
-The components are as follows:
+    &lt;md5_cksum&gt;123123123123&lt;/md5_cksum&gt;
+    &lt;nbytes&gt;134423&lt;/nbytes&gt;
+    &lt;max_nbytes&gt;200000&lt;/max_nbytes&gt;
+    [ &lt;executable/&gt; ]
+    [ &lt;upload_when_present/&gt; ]
+    [ &lt;sticky/&gt; ]
+&lt;/file_info&gt;
+</pre> The components are as follows: 
 <ul>
-<li>
-The <b>&lt;name></b> element gives the file's name,
-which must be unique within the project.
-
-<li> Each <b>&lt;url></b> element gives a URL
-where the file is (or will be) located on a data server.
-<li> The <b>&lt;md5_cksum></b> element
-is the MD5 checksum of the file,
-providing protection against corruption and spoofing.
-<li> The <b>&lt;nbytes></b> element is the size of the file in bytes
-(may be greater than 2^32).
-<li> The <b>&lt;sticky></b> element, if present,
-indicates that the file should be retained on the client
-after its initial use.
-<li> The <b>&lt;upload_when_present></b> element, if present,
+    <li>
+        The <b>&lt;name&gt;</b> element gives the file's name, which
+must be unique within the project. 
+    </li>
+    <li>
+        Each <b>&lt;url&gt;</b> element gives a URL where the file is
+(or will be) located on a data server.
+    </li>
+    <li>
+        The <b>&lt;md5_cksum&gt;</b> element is the MD5 checksum of the
+file, providing protection against corruption and spoofing.
+    </li>
+    <li>
+        The <b>&lt;nbytes&gt;</b> element is the size of the file in
+bytes (may be greater than 2^32).
+    </li>
+    <li>
+        The <b>&lt;max_nbytes&gt;</b> element is the maximum allowable
+size of the file in bytes (may be greater than 2^32).  This is used to
+prevent flooding data servers with bogus data.
+    </li>
+    <li>
+        The <b>&lt;sticky&gt;</b> element, if present, indicates that
+the file should be retained on the client after its initial use.
+    </li>
+    <li>
+        The <b>&lt;upload_when_present&gt;</b> element, if present,
 indicates that the file should be uploaded after it is created.
-<li> The <b>&lt;executable></b> element,
-if present, indicates that the file protections
-should be set to allow execution.
+    </li>
+    <li>
+        The <b>&lt;executable&gt;</b> element, if present, indicates
+that the file protections should be set to allow execution.
+    </li>
 </ul>
-
-These attributes allow the specification of various types of files:
-for example, input or output files that are retained for
-use as input to later computations.
-
+These attributes allow the specification of various types of files: for
+example, input or output files that are retained for use as input to
+later computations. 
 <p>
-Once a file is created (on a data server or a participant host)
-it is immutable.
-
-<h3>File references</h3>
+    Once a file is created (on a data server or a participant host) it
+is immutable. 
+</p>
+<h3>File references</h3> 
 <p>
-Files may be associated with
-<a href=work.html>workunits</a>,
-<a href=result.html>results</a> and
-<a href=app.html>application versions</a>.
-Each such association is represented by an XML element of the form
-
+    Files may be associated with <a href="work.html">workunits</a>, <a
+href="result.html">results</a> and <a href="app.html">application
+versions</a>. Each such association is represented by an XML element of
+the form 
+</p>
 <pre>
-&lt;file_ref>
-    &lt;file_name>foobar&lt;/file_name>
-    [ &lt;open_name>input&lt;/open_name> ]
-    [ &lt;fd>2&lt;/fd> ]
-    [ &lt;main_program/> ]
-&lt;/file_ref>
-</pre>
-
-The components are as follows:
+&lt;file_ref&gt;
+    &lt;file_name&gt;foobar&lt;/file_name&gt;
+    [ &lt;open_name&gt;input&lt;/open_name&gt; ]
+    [ &lt;fd&gt;2&lt;/fd&gt; ]
+    [ &lt;main_program/&gt; ]
+&lt;/file_ref&gt;
+</pre> The components are as follows: 
 <ul>
-<li> The <b>&lt;file_name></b> element specifies a file.
-<li> The <b>&lt;open_name></b> element, if present,
-is the name by which the application will refer to the file
-(in a call to <b>fopen()</b>, for example).
-<li> The <b>&lt;fd></b> element, if present,
-indicates the file descriptor number by which the application
-will access the file.
-<li> The <b>&lt;main_program></b> element is used for
-files associated with application versions.
-It indicates that this file is the application's main program.
+    <li>
+        The <b>&lt;file_name&gt;</b> element specifies a file.
+    </li>
+    <li>
+        The <b>&lt;open_name&gt;</b> element, if present, is the name by
+which the application will refer to the file (in a call to
+<b>fopen()</b>, for example).  Note that this file will usually be a
+BOINC soft link rather than the actual file.
+    </li>
+    <li>
+        The <b>&lt;fd&gt;</b> element, if present, indicates the file
+descriptor number by which the application will access the file.  This
+file descriptor will only be set up if the application calls the API
+function <tt>boinc_init</tt>.
+    </li>
+    <li>
+        The <b>&lt;main_program&gt;</b> element is used for files
+associated with application versions. It indicates that this file is the
+application's main program.
+    </li>
 </ul>
+</body>
+</html>

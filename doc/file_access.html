@@ -1,19 +1,26 @@
-<h2>Compute model: remote file access</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Compute Model: Remote File Access</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Compute Model: Remote File Access</h2> 
 <p>
-Output files can be designated as sticky but not upload-when-present.
-Sometimes this is done because the file will be used as an
-input for a later workunit;
-it may also be done to spread large output data across
-participant disks, in cases where the data may be too large
-to store on the project back-end.
-
+	Output files can be designated as sticky but not
+upload-when-present. Sometimes this is done because the file will be
+used as an input for a later workunit; it may also be done to spread
+large output data across participant disks, in cases where the data may
+be too large to store on the project back-end. 
+</p>
 <p>
-To access such a file,
-the back end inserts a <b>file access request</b> in the database.
-This specifies a file and a data-server URL.
-When a host storing the file contacts the scheduling server
-(which may not happen for a while)
-the scheduling server forwards the file access request.
-The host confirms the file transfer when it is completed;
-the back-end must poll for this event.
+	To access such a file, the back end inserts a <b>file access
+request</b> in the database. This specifies a file and a data-server
+URL. When a host storing the file contacts the scheduling server (which
+may not happen for a while) the scheduling server forwards the file
+access request. The host confirms the file transfer when it is
+completed; the back-end must poll for this event. 
+</p>
+</body>
+</html>

@@ -1,40 +1,78 @@
-<h2>Installing BOINC</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Installing BOINC</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Installing BOINC</h2> 
 <p>
-To use BOINC you must have the following software
-installed on a server computer running Linux or Solaris:
-
+	To use BOINC you must have the following software installed on a
+server computer running Linux or Solaris: 
+</p>
 <ul>
-<li> MySQL
-<li> Apache with PHP
+	<li>
+		MySQL
+	</li>
+	<li>
+		Apache with PHP
+	</li>
 </ul>
-
 <p>
-Unzip and untar the BOINC release, and compile it
-by typing "configure" and "make". 
-To install in /usr/local/boinc, type "make install".
-<br>If Apache is configured to run with Fast CGI, rename
-fcgi to cgi in the "boinc/sched" directory, replacing the existing cgi.
+	Unzip and untar the BOINC release, and compile it by typing
+"configure" and "make". To install in /usr/local/boinc, type "make
+install". 
+	<br>
+	If Apache is configured to run with Fast CGI, rename fcgi to cgi in
+the "boinc/sched" directory, replacing the existing cgi.
+</p>
 <p>
-Edit your Apache configuration file (httpd.conf) to
-set the "boinc/sched" directory as CGI,
-and to allow uploads to to the upload directory.
+	Edit your Apache configuration file (httpd.conf) to set the
+"boinc/sched" directory as CGI, and to allow uploads to to the upload
+directory.
+</p>
 <p>
-Add the following (with appropriate changes) to your .tcshrc
+	Add the following (with appropriate changes) to your .tcshrc
+</p>
 <pre>
-setenv BOINC_DOWNLOAD_DIR   /home/david/html/download
-setenv BOINC_UPLOAD_DIR     /home/david/html/upload
-setenv BOINC_PLATFORM       i686-pc-linux-gnu
-setenv BOINC_EMAIL          david@localhost.localdomain
-setenv BOINC_URL_BASE       http://localhost.localdomain/download
-</pre>
-
+setenv BOINC_DOWNLOAD_DIR /usr/local/boinc/download
+</pre> This directory should be set to be web accessible via Apache. If
+you plan on using a different directory, be sure to set the
+BOINC_DOWNLOAD_DIR properly so as to point to the correct directory. It
+is important that this directory is different from the BOINC_UPLOAD_DIR.
+<pre>
+BOINC_UPLOAD_DIR /usr/local/boinc/upload
+</pre> This directory should be set to be web accessible via Apache. If
+you plan on using a different directory, be sure to set the
+BOINC_UPLOAD_DIR properly so as to point to the correct directory. It is
+important that this directory is different from the BOINC_DOWNLOAD_DIR.
+<pre>
+BOINC_PLATFORM_NAME
+</pre> This is set when configure is run in the client directory. It is
+used by the client to determine the name of the BOINC client. <pre>
+BOINC_EMAIL mgary@ssl.berkeley.edu
+</pre> This is currently used by one of the test scripts. It is not
+critical for the running of BOINC. <pre>
+BOINC_URL_BASE http://localhost/download
+</pre> This should be set to a url that points to the
+BOINC_DOWNLOAD_DIR. Currently, this is the same as the
+BOINC_DOWNLOAD_URL, although it may change in the future. <pre>
+BOINC_KEY_DIR /usr/local/boinc/key_dir
+</pre> This should be set to a directory in which the public and private
+keys for BOINC are to be created. If you wish to place this in a
+different directory, change the variable appropriately. <pre>
+<b>setenv BOINC_KEY 0xdadacafe</b>
+</pre> This should be set to any 32 bit hex value desired. To run
+multiple instances of BOINC on one machine, each instance needs to have
+a different BOINC_KEY compiled into it. 
 <p>
-Go into the boinc/test directory, and type
+	Go into the boinc/test directory, and type
+</p>
 <pre>
 test_uc.php
-</pre>
-
-This script runs a test case that initializes the database
-with a user account, application and workunits,
-runs the client, and checks the results.
+</pre> This script runs a test case that initializes the database with a
+user account, application and workunits, runs the client, and checks the
+results. 
+</body>
+</html>

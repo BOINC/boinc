@@ -1,10 +1,19 @@
-<h2>Operational tools: work and results</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Operational Tools: Work and Results</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Operational Tools: Work and Results</h2> 
 <p>
-Workunits and results can be created using either
-a utility program or a C++ function.
+	Workunits and results can be created using either a utility program
+or a C++ function. 
+</p>
 <p>
-The program
+	The program
+</p>
 <pre>
 create_work
     -appname name
@@ -13,39 +22,58 @@ create_work
     -result_template file
     -nresults n
     infile_1 ... infile_m
-</pre>
+</pre> 
 <p>
-<b>-appname</b> specifies the name of the application
+	<b>-appname</b> specifies the name of the application 
+</p>
 <p>
-<b>-wu_name</b> gives the name of the workunit.
+	<b>-wu_name</b> gives the name of the workunit. 
+</p>
 <p>
-<b>-wu_template</b> gives the filename of a template for the
-workunit XML document.
-This template is macro-substituted as follows:
+	<b>-wu_template</b> gives the filename of a template for the
+workunit XML document. This template is macro-substituted as follows:
+</p>
 <ul>
-<li> &lt;INFILE_n/> is replaced with the name of the nth input file.
-<li> &lt;MD5_n/> is replaced with the MD5 checksum of the nth input file.
-<li> &lt;WU_NAME/> is replaced with the workunit name.
+	<li>
+		&lt;INFILE_n/&gt; is replaced with the name of the nth input
+file.
+	</li>
+	<li>
+		&lt;MD5_n/&gt; is replaced with the MD5 checksum of the nth
+input file.
+	</li>
+	<li>
+		&lt;WU_NAME/&gt; is replaced with the workunit name.
+	</li>
 </ul>
 <p>
-<b>-result_template</b> gives the filename of a template for the
-result XML document.
-This template is macro-substituted as follows:
+	<b>-result_template</b> gives the filename of a template for the
+result XML document. This template is macro-substituted as follows:
+</p>
 <ul>
-<li> &lt;OUTFILE_n> is replaced with a string of the form
-"wuname_resultnum_n" where wuname is the workunit name and
-resultnum is the ordinal number of the result (0, 1, ...).
-<li> &lt;WU_NAME> is replaced with the workunit name.
-<li> &lt;RESULT_NAME> is replaced with a string of the form "wuname_resultnum".
+	<li>
+		&lt;OUTFILE_n&gt; is replaced with a string of the form
+"wuname_resultnum_n" where wuname is the workunit name and resultnum is
+the ordinal number of the result (0, 1, ...).
+	</li>
+	<li>
+		&lt;WU_NAME&gt; is replaced with the workunit name.
+	</li>
+	<li>
+		&lt;RESULT_NAME&gt; is replaced with a string of the form
+"wuname_resultnum".
+	</li>
 </ul>
 <p>
-<b>-nresults</b> gives the number of results to be created.
+	<b>-nresults</b> gives the number of results to be created.
+</p>
 <p>
-<b>infile_1 ... infile_m</b> are the names of the input files.
-
+	<b>infile_1 ... infile_m</b> are the names of the input files. 
+</p>
 <hr>
 <p>
-The C++ library (backend_lib.C,h) provides the function:
+	The C++ library (backend_lib.C,h) provides the function: 
+</p>
 <pre>
 int create_work(
     int appid,
@@ -57,14 +85,19 @@ int create_work(
     char** infiles,
     int ninfiles
 );
-</pre>
-
+</pre> 
 <p>
-This creates a workunit and one or more results.
-The arguments are the same as for the utility program,
-except that the application is identified by its database ID.
+	This creates a workunit and one or more results. The arguments are
+the same as for the utility program, except that the application is
+identified by its database ID. 
+</p>
 <p>
-"infile_dir" is the path of the directory containing the input files.
+	"infile_dir" is the path of the directory containing the input
+files.
+</p>
 <p>
-"infiles" is an array of names of the input files,
-of length "ninfiles".
+	"infiles" is an array of names of the input files, of length
+"ninfiles".
+</p>
+</body>
+</html>

@@ -1,18 +1,27 @@
-<h2>Compute model: handling very long computations</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Compute Model: Handling Very Long Computations</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Compute Model: Handling Very Long Computations</h2> 
 <p>
-Some applications have very long (multi-month) computations
-that generate large amounts of local state,
-and therefore are most efficiently done on a single host.
-
+	Some applications have very long (multi-month) computations that
+generate large amounts of local state, and therefore are most
+efficiently done on a single host. 
+</p>
 <p>
-To accommodate such applications, BOINC allows workunits and results
-to be linked together into <b>sequences</b>.
-Each workunit and result may have a predecessor and a successor.
-
+	To accommodate such applications, BOINC allows workunits and results
+to be linked together into <b>sequences</b>. Each workunit and result
+may have a predecessor and a successor. 
+</p>
 <p>
-If a result A has a predecessor B,
-the scheduling server will dispatch A only
-to the host that has handled (or is currently handling) B.
-If result A times out,
-then the scheduling server will dispatch B to any eligible host.
+	If a result A has a predecessor B, the scheduling server will
+dispatch A only to the host that has handled (or is currently handling)
+B. If result A times out, then the scheduling server will dispatch B to
+any eligible host. 
+</p>
+</body>
+</html>

@@ -1,79 +1,102 @@
-<h2>Core client: debugging</h2>
-
-<h3>Core client logging and error output</h3>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Core Client: Debugging</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Core Client: Debugging</h2> <h3>Core client logging and error
+output</h3> 
 <p>
-The core client writes error messages to stderr.
-This mechanism is reserved for serious problems,
-i.e. those that reflect bugs in the core client program
-or conditions that require user intervention. Specifically, 
-The client verifies that arguments to functions have valid
-values, and will print a message to stderr on an invalid argument. 
-These error messages are formatted as <tt>error: CLASS_NAME.function: 
-error_statement argument</tt>. Common errors of this type include 
-unexpected NULL pointer arguments and negative lengths. Error numbers are
-defined in <b>lib/error_numbers.h</b>.
-
+	The core client writes error messages to stderr. This mechanism is
+reserved for serious problems, i.e. those that reflect bugs in the core
+client program or conditions that require user intervention.
+Specifically, The client verifies that arguments to functions have valid
+values, and will print a message to stderr on an invalid argument. These
+error messages are formatted as <tt>error: CLASS_NAME.function:
+error_statement argument</tt>. Common errors of this type include
+unexpected NULL pointer arguments and negative lengths. Error numbers
+are defined in <b>lib/error_numbers.h</b>. 
+</p>
 <p>
-In addition, the core client can write a variety of "logging"
-information to stdout.
-
-The logging options are read from a file <b>log_flags.xml</b>.
-This file has the following format:
-
+	In addition, the core client can write a variety of "logging"
+information to stdout. The logging options are read from a file
+<b>log_flags.xml</b>. This file has the following format: 
+</p>
 <pre>
-&lt;log_flags>
+&lt;log_flags&gt;
     [ flags ]
-&lt;/log_flags>
-</pre>
-The flags are as follows:
+&lt;/log_flags&gt;
+</pre> The flags are as follows: 
 <dl>
-<dt>
-&lt;task/>
-<dd>
-Log the start, restart and completion of computational tasks.
-<dt>
-&lt;file_xfer/>
-<dd>
-Log the start, restart and completion of file transfers.
-<dt>
-&lt;sched_ops/>
-<dd>
-Log connections with scheduling servers.
-<dt>
-&lt;state_debug/>
-<dd>
-Log changes to the "client state" data structures.
-<dt>
-&lt;task_debug/>
-<dd>
-Log debugging information about task execution.
-<dt>
-&lt;file_xfer_debug/>
-<dd>
-Log debugging information about file transfers.
-<dt>
-&lt;sched_op_debug/>
-<dd>
-Log the request and reply messages of exchanges with
-scheduling servers.
-<dt>
-&lt;http_debug/>
-<dd>
-Log debugging information about HTTP operations.
-<dt>
-&lt;time_debug/>
-<dd>
-Log the passage of time.
-<dt>
-&lt;net_xfer_debug/>
-<dd>
-Log debugging information about network communication.
-
+	<dt>
+		&lt;task/&gt; 
+	</dt>
+	<dd>
+		Log the start, restart and completion of computational tasks. 
+	</dd>
+	<dt>
+		&lt;file_xfer/&gt; 
+	</dt>
+	<dd>
+		Log the start, restart and completion of file transfers. 
+	</dd>
+	<dt>
+		&lt;sched_ops/&gt; 
+	</dt>
+	<dd>
+		Log connections with scheduling servers. 
+	</dd>
+	<dt>
+		&lt;state_debug/&gt; 
+	</dt>
+	<dd>
+		Log changes to the "client state" data structures. 
+	</dd>
+	<dt>
+		&lt;task_debug/&gt; 
+	</dt>
+	<dd>
+		Log debugging information about task execution. 
+	</dd>
+	<dt>
+		&lt;file_xfer_debug/&gt; 
+	</dt>
+	<dd>
+		Log debugging information about file transfers. 
+	</dd>
+	<dt>
+		&lt;sched_op_debug/&gt; 
+	</dt>
+	<dd>
+		Log the request and reply messages of exchanges with scheduling
+servers. 
+	</dd>
+	<dt>
+		&lt;http_debug/&gt; 
+	</dt>
+	<dd>
+		Log debugging information about HTTP operations. 
+	</dd>
+	<dt>
+		&lt;time_debug/&gt; 
+	</dt>
+	<dd>
+		Log the passage of time. 
+	</dd>
+	<dt>
+		&lt;net_xfer_debug/&gt; 
+	</dt>
+	<dd>
+		Log debugging information about network communication. 
+	</dd>
 </dl>
-
-
-<h3>Application error output</h3>
+<h3>Application error output</h3> 
 <p>
-The stderr of applications is automatically directed to a file.
-The contents of this file are returned to the scheduling server
-and stored in the database.
+	The stderr of applications is automatically directed to a file. The
+contents of this file are returned to the scheduling server and stored
+in the database. 
+</p>
+</body>
+</html>

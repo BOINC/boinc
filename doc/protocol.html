@@ -1,4 +1,12 @@
-<h2>The BOINC client/server protocol</h2>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>The BOINC Client/Server Protocol</title>
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>The BOINC Client/Server Protocol</h2>
 
 <h3>Protocol nucleus</h3>
 <p>
@@ -8,31 +16,31 @@ This will allow any version of the core client to talk to
 any version of the scheduling server,
 and for the server, if needed,
 to tell the core client that it's out of date.
-The form of the request is:
+The form of the request is:</p>
 <pre>
-&lt;scheduler_request>
-    &lt;platform>intel-linux&lt;/platform>
-    &lt;version_num>1&lt;/version_num>
+&lt;scheduler_request&gt;
+    &lt;platform&gt;intel-linux&lt;/platform&gt;
+    &lt;version_num&gt;1&lt;/version_num&gt;
     ... other elements
-&lt;/scheduler_request>
+&lt;/scheduler_request&gt;
 </pre>
 The "platform" and "version_num" elements identify the
 version of the core client originating the request.
 
 <p>
 The form of the reply is:
-
+</p>
 <pre>
-&lt;scheduler_reply>
-    [ &lt;message priority="low"> arbitrary text &lt;/message> ... ]
-    [ &lt;request_delay>3600&lt;/request_delay> ]
-    [ &lt;redirect>URL&lt;/redirect> ]
+&lt;scheduler_reply&gt;
+    [ &lt;message priority="low"&gt; arbitrary text &lt;/message&gt; ... ]
+    [ &lt;request_delay&gt;3600&lt;/request_delay&gt; ]
+    [ &lt;redirect&gt;URL&lt;/redirect&gt; ]
     ... other elements
-&lt;/scheduler_reply>
+&lt;/scheduler_reply&gt;
 </pre>
 
-<p
-Each <b>message</b> element is a message to the participant.
+<p>
+Each <b>message</b> element is a message to the participant.</p>
 <ul>
 <li>
 If the priority is "high", the core client should try
@@ -42,77 +50,77 @@ It should not, however, wait for user input, as this
 could starve other projects.
 This should be reserved for situations where definitive action
 is required, e.g. the user must download a new version of the
-core client in order to continue participating in this project.
+core client in order to continue participating in this project.</li>
 <li>
 If the priority is "low" (default) the core client should
 allow the participant to see the message, but should not require it.
-For example, it could the message to a log file.
+For example, it could the message to a log file.</li>
 </ul>
 <p>
 A reply message can contain multiple message elements.
-
+</p>
 <p>
 A <b>request_delay</b> element instructs the client
 to not issue another request until the indicated number
-of seconds has elapsed.
+of seconds has elapsed.</p>
 <p>
 A <b>redirect</b> element gives the URL for a scheduling
 server for this project.
 If present, the core client should replace its list
 of scheduling servers for this project.
 The reply may contain multiple <b>redirect</b> elements.
-
+</p>
 
 <h3>Extensible protocol</h3>
 <p>
 The remaining protocol may evolve over time.
 Request elements include
-
+</p>
 <pre>
-&lt;prefs_mod_time>0&lt;/prefs_mod_time>
-&lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
-&lt;hostid>1&lt;/hostid>
-&lt;work_req_seconds>1000&lt;/work_req_seconds>
-&lt;host_info>
-    &lt;timezone>28800&lt;/timezone>
-    &lt;domain_name>localhost.localdomain&lt;/domain_name>
-    &lt;ip_addr>127.0.0.1&lt;/ip_addr>
-    &lt;conn_frac>0.000000&lt;/conn_frac>
-    &lt;on_frac>0.000000&lt;/on_frac>
-    &lt;p_ncpus>1&lt;/p_ncpus>
-    &lt;p_vendor>GenuineIntel&lt;/p_vendor>
-    &lt;p_model>Pentium&lt;/p_model>
-    &lt;p_fpops>0.000000&lt;/p_fpops>
-    &lt;p_iops>0.000000&lt;/p_iops>
-    &lt;p_membw>0.000000&lt;/p_membw>
-    &lt;p_calculated>0.000000&lt;/p_calculated>
-    &lt;os_name>Linux&lt;/os_name>
-    &lt;os_version>2.2.14-5.0&lt;/os_version>
-    &lt;m_nbytes>197427200.000000&lt;/m_nbytes>
-    &lt;m_cache>131072.000000&lt;/m_cache>
-    &lt;m_swap>178012160.000000&lt;/m_swap>
-    &lt;d_total>22108344320.000000&lt;/d_total>
-    &lt;d_free>18332545024.000000&lt;/d_free>
-    &lt;n_bwup>0.000000&lt;/n_bwup>
-    &lt;n_bwdown>0.000000&lt;/n_bwdown>
-&lt;/host_info>
-&lt;result>
-    &lt;name>uc_wu_0&lt;/name>
-    &lt;exit_status>0&lt;/exit_status>
-    &lt;cpu_time>0.020000&lt;/cpu_time>
-    &lt;output_file>
-        &lt;md5_cksum>3f7b90793a0175ad0bda68684e8bd136&lt;/md5_cksum>
-        &lt;file_name>uc_wu_0_0&lt;/file_name>
-    &lt;/output_file>
-&lt;/result>
+&lt;prefs_mod_time&gt;0&lt;/prefs_mod_time&gt;
+&lt;authenticator&gt;3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator&gt;
+&lt;hostid&gt;1&lt;/hostid&gt;
+&lt;work_req_seconds&gt;1000&lt;/work_req_seconds&gt;
+&lt;host_info&gt;
+    &lt;timezone&gt;28800&lt;/timezone&gt;
+    &lt;domain_name&gt;localhost.localdomain&lt;/domain_name&gt;
+    &lt;ip_addr&gt;127.0.0.1&lt;/ip_addr&gt;
+    &lt;conn_frac&gt;0.000000&lt;/conn_frac&gt;
+    &lt;on_frac&gt;0.000000&lt;/on_frac&gt;
+    &lt;p_ncpus&gt;1&lt;/p_ncpus&gt;
+    &lt;p_vendor&gt;GenuineIntel&lt;/p_vendor&gt;
+    &lt;p_model&gt;Pentium&lt;/p_model&gt;
+    &lt;p_fpops&gt;0.000000&lt;/p_fpops&gt;
+    &lt;p_iops&gt;0.000000&lt;/p_iops&gt;
+    &lt;p_membw&gt;0.000000&lt;/p_membw&gt;
+    &lt;p_calculated&gt;0.000000&lt;/p_calculated&gt;
+    &lt;os_name&gt;Linux&lt;/os_name&gt;
+    &lt;os_version&gt;2.2.14-5.0&lt;/os_version&gt;
+    &lt;m_nbytes&gt;197427200.000000&lt;/m_nbytes&gt;
+    &lt;m_cache&gt;131072.000000&lt;/m_cache&gt;
+    &lt;m_swap&gt;178012160.000000&lt;/m_swap&gt;
+    &lt;d_total&gt;22108344320.000000&lt;/d_total&gt;
+    &lt;d_free&gt;18332545024.000000&lt;/d_free&gt;
+    &lt;n_bwup&gt;0.000000&lt;/n_bwup&gt;
+    &lt;n_bwdown&gt;0.000000&lt;/n_bwdown&gt;
+&lt;/host_info&gt;
+&lt;result&gt;
+    &lt;name&gt;uc_wu_0&lt;/name&gt;
+    &lt;exit_status&gt;0&lt;/exit_status&gt;
+    &lt;cpu_time&gt;0.020000&lt;/cpu_time&gt;
+    &lt;output_file&gt;
+        &lt;md5_cksum&gt;3f7b90793a0175ad0bda68684e8bd136&lt;/md5_cksum&gt;
+        &lt;file_name&gt;uc_wu_0_0&lt;/file_name&gt;
+    &lt;/output_file&gt;
+&lt;/result&gt;
 </pre>
 
 <p>
-Reply elements include
+Reply elements include</p>
 <pre>
-&lt;request_delay>10&lt;/request_delay>
-&lt;message priority="low">no work available&lt;/message>
-&lt;code_sign_key>
+&lt;request_delay&gt;10&lt;/request_delay&gt;
+&lt;message priority="low"&gt;no work available&lt;/message&gt;
+&lt;code_sign_key&gt;
     1024
     ec8b7f60fa494ce65d70afa98f91f2ab08fb5fac3931a27524e0eb954d587846
     29e94ce79d61f4d4bc4f9660578a06e941ca271646f11ef4d2be67f4a155e0a9
@@ -123,26 +131,29 @@ Reply elements include
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000010001
     .
-&lt;/code_sign_key>
-&lt;prefs_mod_time>123123&lt;/prefs_mod_time>
-&lt;preferences>
-    &lt;low_water_days>1.2&lt;/low_water_days>
-    &lt;high_water_days>2.5&lt;/high_water_days>
-    &lt;disk_max_used_gb>0.4&lt;/disk_max_used_gb>
-    &lt;disk_max_used_pct>50&lt;/disk_max_used_pct>
-    &lt;disk_min_free_gb>0.4&lt;/disk_min_free_gb>
-    &lt;project>
-        &lt;master_url>http://localhost.localdomain&lt;/master_url>
-        &lt;email_addr>david@localdomain&lt;/email_addr>
-        &lt;authenticator>123892398&lt;/authenticator>
-        &lt;resource_share>10&lt;/resource_share>
-        &lt;project_specific>
-            &lt;color-scheme>Tahiti Sunset&lt;/color-scheme>
-        &lt;/project_specific>
-    &lt;/project>
-&lt;/preferences>
-&lt;result_ack>
-    &lt;name>uc_wu_0&lt;/name>
-&lt;/result_ack>
+&lt;/code_sign_key&gt;
+&lt;prefs_mod_time&gt;123123&lt;/prefs_mod_time&gt;
+&lt;preferences&gt;
+    &lt;low_water_days&gt;1.2&lt;/low_water_days&gt;
+    &lt;high_water_days&gt;2.5&lt;/high_water_days&gt;
+    &lt;disk_max_used_gb&gt;0.4&lt;/disk_max_used_gb&gt;
+    &lt;disk_max_used_pct&gt;50&lt;/disk_max_used_pct&gt;
+    &lt;disk_min_free_gb&gt;0.4&lt;/disk_min_free_gb&gt;
+    &lt;project&gt;
+        &lt;master_url&gt;http://localhost.localdomain&lt;/master_url&gt;
+        &lt;email_addr&gt;david@localdomain&lt;/email_addr&gt;
+        &lt;authenticator&gt;123892398&lt;/authenticator&gt;
+        &lt;resource_share&gt;10&lt;/resource_share&gt;
+        &lt;project_specific&gt;
+            &lt;color-scheme&gt;Tahiti Sunset&lt;/color-scheme&gt;
+        &lt;/project_specific&gt;
+    &lt;/project&gt;
+&lt;/preferences&gt;
+&lt;result_ack&gt;
+    &lt;name&gt;uc_wu_0&lt;/name&gt;
+&lt;/result_ack&gt;
 </pre>
 
+
+</body>
+</html>

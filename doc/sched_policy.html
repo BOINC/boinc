@@ -1,17 +1,29 @@
-<h2>Scheduling server: policy</h2>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en">
+<head>
+	<title>Scheduling Server: Policy</title> 
+	<meta name="generator" content="BBEdit 6.1.2">
+</head>
+<body>
+<h2>Scheduling Server: Policy</h2> 
 <p>
-The scheduling server will attempt to send enough work to excede a hosts high
-water mark. If the amount of work the scheduling server is sending excedes four
-weeks, the scheduling server will not attach more work to a scheduler reply. 
-This does not prevent the scheduling server from sending a work unit that takes
-more than four weeks, but merely from attaching more work after a scheduler
-reply has four weeks of work. If a work unit uses more disk resources than a
-host has available, the scheduling server will not attach that work unit. The
-scheduling server estimates the amount of time a work unit will take to
-complete with the formula <b>(number of fpops)/(fpops per second)+(number of
-iops)/(iops per second)</b>. The number of fpops and number of iops are 
-provided by the backend when creating the work unit, and the calculation speeds
-are included in a scheduler request. If no work is available, the scheduling
-server sends the message <tt>no work available</tt> with priority <tt>low</tt>,
-and requests that the client wait before sending another scheduler request. 
+	The scheduling server will attempt to send enough work to excede a
+hosts high water mark. If the amount of work the scheduling server is
+sending excedes four weeks, the scheduling server will not attach more
+work to a scheduler reply. This does not prevent the scheduling server
+from sending a work unit that takes more than four weeks, but merely
+from attaching more work after a scheduler reply has four weeks of work.
+If a work unit uses more disk resources than a host has available, the
+scheduling server will not attach that work unit. The scheduling server
+estimates the amount of time a work unit will take to complete with the
+formula <b>(number of fpops)/(fpops per second)+(number of iops)/(iops
+per second)</b>. The number of fpops and number of iops are provided by
+the backend when creating the work unit, and the calculation speeds are
+included in a scheduler request. If no work is available, the scheduling
+server sends the message <tt>no work available</tt> with priority
+<tt>low</tt>, and requests that the client wait before sending another
+scheduler request. 
+</p>
+</body>
+</html>
