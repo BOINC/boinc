@@ -345,7 +345,7 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 double CLIENT_STATE::avg_proc_rate(PROJECT *p) {
     return (p->resource_share / trs)
         * ncpus
-        * time_stats.active_frac;
+        * time_state.on_frac * time_stats.active_frac;
 }
 
 // "estimated time to project result count"

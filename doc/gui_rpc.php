@@ -104,7 +104,6 @@ list_item_func(
 );
 list_item_func(
     "get_messages(
-    int nmessages,
     int seqno,
     vector<MESSAGE_DESC>&
 )",
@@ -112,9 +111,8 @@ list_item_func(
     Each message has a sequence number (1, 2, ...),
     a priority (1=informational, 2=error)
     and a timestamp.
-    The RPC requests the N most recent messages
-    with sequence numbers greater than M.
-    They are returned in order of decreasing sequence number."
+    The RPC requests the messages with sequence numbers greater than M.
+    They are returned in order of increasing sequence number."
 );
 list_item_func(
     "file_transfer_op(FILE_TRANSFER&, char* op)",

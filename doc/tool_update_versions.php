@@ -29,7 +29,14 @@ boinc_3.17_i686-pc-linux-gnu.gz
 astropulse_7.17_windows_intelx86.exe
 </pre>
 The prefix name and extensions .gz, .exe, .sit are ignored.
-Platform strings must match the names of platforms in the database.
+<p>
+Important notes:
+<ul>
+<li> <b>Platform strings must match the names of platforms in the database.</b>
+    If needed, <a href=tool_xadd.php>add the platform to the DB</a>.
+<li> <b>Your application must have the same major version number
+as your BOINC server software</b>.
+</ul>
 
 <p>
 If a file of the form

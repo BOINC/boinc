@@ -17984,3 +17984,13 @@ David  1 Oct 2004
 		cs_account.C
 		cs_prefs.C
 		cs_scheduler.C
+
+David  1 Oct 2004
+    - CLIENT_STATE::avg_proc_rate: include on_frac in the formula
+        (from Ben Herndon)
+
+    client/
+        cs_scheduler.C
+        time_stats.h
+    sched/
+        server_types.h

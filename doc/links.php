@@ -75,6 +75,11 @@ show_link(
 );
 show_link(
     "German",
+    "BOINC - LUBECA (Lübeck, Germany)",
+    "http://www.boinc-lubeca.de/"
+);
+show_link(
+    "German",
     "www.boinc-forum.de",
     "http://www.boinc-forum.de/"
 );

@@ -72,6 +72,12 @@ function list_item_func($x, $y) {
     list_item(html_text($x), $y);
 }
 
+function list_bar($x) {
+    echo "
+        <tr><td colspan=2 bgcolor=eeeecc><center><b>$x</b></center></td></tr>
+    ";
+}
+
 function list_end() {
     echo "</table><p>\n";
 }

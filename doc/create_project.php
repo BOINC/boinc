@@ -86,7 +86,6 @@ The components of a BOINC project, and how to create them.
 <li> <a href=code_signing.php>Code signing</a>
 <li> <a href=tool_update_versions.php>Adding application versions</a>
 <li> <a href=tool_upgrade.php>Upgrading a project's server software</a>
-<li> <a href=web.php>Managing the project web site</a>
 
 </ul>
 
@@ -132,6 +131,16 @@ Using disk space on participant hosts
 <li> <a href=delete_file.php>Deleting files</a>
 </ul>
 
+<font size=+1><b>
+Miscellaneous
+</b></font>
+<br> &nbsp; &nbsp; &nbsp;
+<font size=-1>
+Communicating with participants
+</font>
+<ul>
+<li> <a href=web.php>Managing the project web site</a>
+</ul>
 ";
 page_tail();
 ?>

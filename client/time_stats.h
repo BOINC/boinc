@@ -17,22 +17,22 @@
 // Contributor(s):
 //
 
-// keep track of the fraction of time this host is
-// "on" (i.e. the core client is running)
-// "connected" (to the Internet)
-// "active" (not suspended by user activity or prefs)
-//
-// We maintain an exponentially weighted mean of these quantities
-
 #include "miofile.h"
 
 class TIME_STATS {
     int last_update;
     bool first;
 public:
+// we maintain an exponentially weighted average of these quantities:
     double on_frac;
+        // the fraction of time this host runs the core client
     double connected_frac;
+        // of the time running the core client,
+        // the fraction the host is connected to the Internet
     double active_frac;
+        // of the time running the core client,
+        // the fraction the core client is able to work
+        // (due to preferences, manual suspend/resume, etc.)
 
     void update(bool is_connected, bool is_active);
 
