@@ -53,18 +53,25 @@
 # char* code_sign_keyfile=0;
 # char *message=0, *message_priority=0;
 
-import sys
+import sys, getopt
 sys.path.append('../py/')
 import database, db_mid
 from util import *
 
+CREATE_TIME = ['?create_time', time.time()]
+
+# format: [ database.Object, args, ...]
+#   arg format:
+#       'arg'
+#       '?arg'    optional
+#       [ 'arg', default_value ]
 list_objects_to_add = [
-    [ database.Project, 'short_name', 'long_name' ],
-    [ database.App, 'name' ],
+    [ database.Project,    'name', '?long_name' ],
+    [ database.App,        'name', 'min_version', CREATE_TIME],
     [ database.AppVersion, 'appname' ],
-    [ database.Platform, 'name', 'user_friendly_name' ],
-    [ database.User, 'name', 'email_addr', 'authenticator' ],
-    [ database.Workunit, 'zzzz' ],
+    [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
+    [ database.User,       'name', 'email_addr', 'authenticator' ],
+    [ database.Workunit,   'zzzz' ],
     ]
 
 def ambiguous_lookup(string, dict):
@@ -82,8 +89,42 @@ def parse_global_options(args):
     # raise SystemExit('todo')
     pass
 
+def dv(object,arg):
+    if arg in object.default_args:
+        return '    --%s [%s]' %(arg, object.default_args[arg])
+    else:
+        return '    --%s' %arg
+
+def help_object(object, msg=None):
+    if msg:
+        print >>sys.stderr, msg
+        print
+    print >>sys.stderr, "Syntax: add %s"%object.name
+    for arg in object.args:
+        print >>sys.stderr, dv(object,arg)
+    print >>sys.stderr, " Optional:"
+    for arg in object.optional_args:
+        print >>sys.stderr, dv(object,arg)
+    raise SystemExit
+
 def add_object(object, args):
-    raise SystemExit('TODO: add object %s with args %s'%(object,args))
+    try:
+        parsed_opts, placement_args = getopt.getopt(args, '', object.args + object.optional_args)
+    except Exception, e:
+        help_object(object, e)
+    args_dict = {}
+    for arg,value in parsed_opts:
+        if not arg.startswith('--'):
+            raise Exception('internal error: arg should start with "--"')
+        arg = arg[2:]
+        args_dict[arg] = value
+    for arg in object.args:
+        if not arg in args_dict:
+            help_object(object, 'required argument --%s not given'%arg)
+
+    object = apply(object.DatabaseObject, placement_args, args_dict)
+    object.commit()
+    print "Done"
 
 class Dict:
     pass
@@ -93,7 +134,26 @@ for o in list_objects_to_add:
     object = Dict()
     object.DatabaseObject = o[0]
     object.name = object.DatabaseObject._table.table
-    object.args = o[1:]
+    object.args = []
+    object.optional_args = []
+    object.default_values = {}
+    for arg in o[1:]:
+        if isinstance(arg, list):
+            default_value = arg[1]
+            arg = arg[0]
+        else:
+            default_value = None
+        if arg.startswith('?'):
+            optional = True
+            arg = arg[1:]
+        else:
+            optional = False
+        if optional:
+            objects.optional_args.append(arg)
+        else:
+            objects.args.append(arg)
+        if default_value:
+            object.default_values[arg] = default_value
     objects_to_add[object.name] = object
 
 if len(sys.argv) < 2:
@@ -131,74 +191,6 @@ args = sys.argv[2:]
 parse_global_options(args)
 add_object(possible_objects[0], args)
 
-
-
-# for object in objects_to_add:
-    # if name_of_object_to_add
-
-
-
-
-# def add_project:
-
-
-
-# void add_project() {
-#     int retval;
-#     DB_PROJECT project;
-
-#     if (!project_short_name || !project_long_name) {
-#         fprintf( stderr, "Project name (long or short) not specified.\n" );
-#         exit(1);
-#     }
-#     project.clear();
-#     strcpy(project.short_name, project_short_name);
-#     strcpy(project.long_name, project_long_name);
-#     retval = project.insert();
-#     if (retval) {
-#         boinc_db_print_error("project.insert()");
-#     }
-# }
-
-# void add_app() {
-#     int retval;
-#     DB_APP app;
-
-#     if (!app_name) {
-#         fprintf( stderr, "Application name not specified.\n" );
-#         exit(1);
-#     }
-#     app.clear();
-#     strcpy(app.name, app_name);
-#     app.create_time = time(0);
-#     app.min_version = version;
-#     retval = app.insert();
-#     if (retval) {
-#         boinc_db_print_error("app.insert()");
-#     }
-# }
-
-# void add_platform() {
-#     int retval;
-#     DB_PLATFORM platform;
-
-#     if (!user_friendly_name) {
-#         fprintf( stderr, "User friendly name not specified.\n" );
-#         exit(1);
-#     }
-#     if (!platform_name) {
-#         fprintf( stderr, "Platform name not specified.\n" );
-#         exit(1);
-#     }
-#     platform.clear();
-#     strcpy(platform.name, platform_name);
-#     strcpy(platform.user_friendly_name, user_friendly_name);
-#     platform.create_time = time(0);
-#     retval = platform.insert();
-#     if (retval) {
-#         boinc_db_print_error("platform.insert()");
-#     }
-# }
 
 # int sign_executable(char* path, char* signature_text) {
 #     DATA_BLOCK signature;
