@@ -9641,16 +9641,16 @@ David  Jan 31 2004
         makefile.gui_test
 
 David  Feb 2 2004
-	- escape all user-supplied text in XML (messages and files)
-		e.g. user name, team name
-	- added functions xml_escape() and xml_unescape()
-		(very simple versions; just escape < and &)
+    - escape all user-supplied text in XML (messages and files)
+        e.g. user name, team name
+    - added functions xml_escape() and xml_unescape()
+        (very simple versions; just escape < and &)
     - parse_str() does unescape
 
-	client/
-		client_types.C
-	lib/
-		parse.C,h
+    client/
+        client_types.C
+    lib/
+        parse.C,h
     sched/
         server_types.C
 
@@ -9747,16 +9747,16 @@ Rom    Feb 4 2004
             win_screensaver.cpp
 
 David  Feb 4 2004
-	- BOINC API: if get a REREAD_PREFS message from core client,
-		only call the app's reread_prefs function if there's a window open
-		(the SETI@home reread_prefs function goes into an infinite loop
-		if there's not a window open)
-	- change copyright year to 2004
+    - BOINC API: if get a REREAD_PREFS message from core client,
+        only call the app's reread_prefs function if there's a window open
+        (the SETI@home reread_prefs function goes into an infinite loop
+        if there's not a window open)
+    - change copyright year to 2004
 
-	api/
-		windows_opengl.C
-	client/win/
-		resource.rc
+    api/
+        windows_opengl.C
+    client/win/
+        resource.rc
 
 Karl 2004-02-03
     - more misc. make_project fixes
@@ -9784,14 +9784,14 @@ David  Feb 4 2004
         cs_scheduler.C
 
 David  Feb 4 2004
-	- Cleaned up the project-reset logic a little:
-		- first garbage-collect, THEN unlink and delete the apps and app_versions
-	- When detach project, delete FILE_INFO*s.
+    - Cleaned up the project-reset logic a little:
+        - first garbage-collect, THEN unlink and delete the apps and app_versions
+    - When detach project, delete FILE_INFO*s.
 
-	NOTE: there are lots of loose ends, e.g. files/sockets left open etc.
+    NOTE: there are lots of loose ends, e.g. files/sockets left open etc.
 
-	client/
-		client_state.C
+    client/
+        client_state.C
 
 David  Feb 4 2004
     - Released version 2.24 of core client
@@ -9852,14 +9852,14 @@ David  Feb 5 2004
         pers_file_xfer.C
 
 David  Feb 5 2004
-	- skip over <file_xfer> elements while parsing <file_info>
-		(they're there for the benefit of GUI RPC)
-	- removed old TRACEs from Win code
+    - skip over <file_xfer> elements while parsing <file_info>
+        (they're there for the benefit of GUI RPC)
+    - removed old TRACEs from Win code
 
-	client/
-		client_types.C
-		win/
-			wingui_mainwindow.cpp
+    client/
+        client_types.C
+        win/
+            wingui_mainwindow.cpp
 
 Rom    Feb 5 2004
     - Moved the unhandled exception filter back into boinc_api.c where it was orginally.
@@ -9890,3 +9890,36 @@ Rom    Feb 6 2004
     api/
         boinc_api.c,h
         boincdiag.cpp,h (deleted)
+
+David  Feb 6 2004
+    - changed default min/max work buffers from (1,3) to (.1, 1)
+
+    html/incs/
+        prefs.inc
+
+David  Feb 6 2004
+	- ask for more work when # of results in progress is less than # CPUs
+	- when get an APP_VERSION in a scheduler reply that's already in client state,
+		DON'T update the client state (it can't be any different anyway)
+		This fixes a garbage-collection crash
+	- Win client: added check_state.C to the project.
+		You can call check_all() to verify the integrity of client data.
+		This is commented out but useful for debugging.
+	- FILE_XFER_SET::insert() adds item to list, even if the underlying
+		HTTP_OP::insert() fails (because can't connect, e.g.)
+		This is necessary to make sure that the FILE_XFER remains in the
+		FILE_XFER_SET even in case of error, so that check_all() works.
+
+		NOTE: the semantics of insert() should be reexamined through the whole
+		FSM stack.  Does it initialize?  Is it guaranteed to insert?
+		Need consistency.
+
+	client/
+		check_state.C
+		client_state.C,h
+		cs_scheduler.C
+		file_xfer.C
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
+

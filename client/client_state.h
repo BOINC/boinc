@@ -246,7 +246,7 @@ private:
     void compute_resource_debts();
 
     PROJECT* find_project_with_overdue_results();
-    double current_work_buf_days();
+    void current_work_buf_days(double& work_buf, int& nactive_results);
     void update_avg_cpu(PROJECT*);
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();

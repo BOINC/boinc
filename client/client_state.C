@@ -473,7 +473,6 @@ int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
 int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     APP* app;
     FILE_INFO* fip;
-    FILE_REF file_ref;
     unsigned int i;
 
     avp->project = p;
@@ -487,7 +486,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 	if (lookup_app_version(app, avp->version_num)) return ERR_NOT_UNIQUE;
 
     for (i=0; i<avp->app_files.size(); i++) {
-        file_ref = avp->app_files[i];
+        FILE_REF& file_ref = avp->app_files[i];
         fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
             msg_printf(0, MSG_ERROR,
@@ -502,7 +501,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         if (fip->executable) {
             fip->signature_required = true;
         }
-        avp->app_files[i].file_info = fip;
+        file_ref.file_info = fip;
     }
     return 0;
 }

@@ -149,9 +149,9 @@ FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     int retval;
 
+    file_xfers.push_back(fxp);
     retval = http_ops->insert(fxp);
     if (retval) return retval;
-    file_xfers.push_back(fxp);
     return 0;
 }
 
@@ -206,8 +206,6 @@ bool FILE_XFER_SET::poll() {
                         printf("ERROR: file upload returned %d\n", fxp->file_xfer_retval);
                         fxp->fip->upload_offset = -1;
                     } else {
-                        remove(fxp);
-                        i--;
 
                         // if the server's file size is bigger than ours,
                         // something bad has happened (like a result
@@ -223,6 +221,8 @@ bool FILE_XFER_SET::poll() {
                             fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
                             if (!fxp->file_xfer_retval) {
+								remove(fxp);
+								i--;
                                 fxp->file_xfer_retval = insert(fxp);
                                 if (!fxp->file_xfer_retval) {
                                     fxp->file_xfer_done = false;

@@ -54,11 +54,12 @@ const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
 
 // estimate the days of work remaining
 //
-double CLIENT_STATE::current_work_buf_days() {
+void CLIENT_STATE::current_work_buf_days(double& work_buf, int& nactive_results) {
     unsigned int i;
     RESULT* rp;
     double seconds_remaining=0, x;
 
+	nactive_results = 0;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         // Don't count result if we've already computed it,
@@ -67,6 +68,8 @@ double CLIENT_STATE::current_work_buf_days() {
         if (rp->state >= RESULT_COMPUTE_DONE) continue;
         if (rp->ready_to_report) continue;
 
+		nactive_results++;
+
         // TODO: subtract time already finished for WUs in progress
 
         seconds_remaining += estimate_cpu_time(*rp->wup) * (1.0-get_percent_done(rp));
@@ -74,13 +77,16 @@ double CLIENT_STATE::current_work_buf_days() {
     x = seconds_remaining / SECONDS_PER_DAY;
     x /= host_info.p_ncpus;
     x /= time_stats.active_frac;
-    return x;
+    work_buf = x;
 }
 
 // seconds of CPU work needed to come up to the max buffer level
 //
 double CLIENT_STATE::work_needed_secs() {
-    double x = current_work_buf_days();
+    double x;
+	int n;
+
+	current_work_buf_days(x, n);
     if (x > global_prefs.work_buf_max_days) return 0;
 
 	// TODO: take into account preference # CPUS
@@ -417,7 +423,8 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 // initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
-    double work_secs;
+    double work_secs, work_buf_days;
+	int nactive_results;
     PROJECT* p;
     bool action=false, below_work_buf_min, should_get_work;
 
@@ -432,7 +439,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         	// work_buf_min concept
         	//
             //below_work_buf_min = (current_work_buf_days() <= global_prefs.work_buf_min_days);
-			below_work_buf_min = (current_work_buf_days() == 0);
+			current_work_buf_days(work_buf_days, nactive_results);
+			below_work_buf_min = nactive_results < host_info.p_ncpus;
             should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
@@ -624,13 +632,6 @@ int CLIENT_STATE::handle_scheduler_reply(
             *avp = sr.app_versions[i];
             retval = link_app_version(project, avp);
             if (!retval) app_versions.push_back(avp);
-        } else {
-            // The list of file references may have changed.
-            // Copy the list from the reply message,
-            // and link to the FILE_INFOs
-            //
-            avp->app_files = sr.app_versions[i].app_files;
-            link_app_version(project, avp);
         }
     }
     for (i=0; i<sr.workunits.size(); i++) {

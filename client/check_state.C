@@ -102,7 +102,8 @@ void CLIENT_STATE::check_app_version(APP_VERSION& p) {
     check_app_pointer(p.app);
     check_project_pointer(p.project);
     for (i=0; i<p.app_files.size(); i++) {
-        check_file_ref(p.app_files[i]);
+		FILE_REF& fr = p.app_files[i];
+        check_file_ref(fr);
     }
 }
 
@@ -133,7 +134,7 @@ void CLIENT_STATE::check_active_task(ACTIVE_TASK& p) {
 }
 
 void CLIENT_STATE::check_pers_file_xfer(PERS_FILE_XFER& p) {
-    check_file_xfer_pointer(p.fxp);
+    if (p.fxp) check_file_xfer_pointer(p.fxp);
     check_file_info_pointer(p.fip);
 }
 
