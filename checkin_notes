@@ -23801,4 +23801,15 @@ Bruce  2 Feb 2005
     tools/
         backend_lib.C
 
+Rom    2 Feb 2005
+    - Bug Fix: Adjust the manager so that it'll set it's current directory to that
+        of it's installed location.  This will fix the bug of the log files ending
+        up where the installer is executed from.
+    - Bug Fix: Remove the message cache from the message view in the manager.  This
+        should clear up a crashing problem that seems to strike the Win9x platform.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        ViewMessages.cpp, .h
+
 

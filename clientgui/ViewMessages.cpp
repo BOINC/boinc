@@ -45,80 +45,6 @@
 #define PRIORITY_ERROR              2
 
 
-CMessage::CMessage()
-{
-	m_strPriority = wxEmptyString;
-	m_strProjectName = wxEmptyString;
-	m_strTime = wxEmptyString;
-	m_strMessage = wxEmptyString;
-}
-
-
-CMessage::~CMessage()
-{
-	m_strPriority.Clear();
-	m_strProjectName.Clear();
-	m_strTime.Clear();
-	m_strMessage.Clear();
-}
-
-
-wxInt32 CMessage::GetProjectName( wxString& strProjectName )
-{
-    strProjectName = m_strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CMessage::GetPriority( wxString& strPriority )
-{
-    strPriority = m_strPriority;	
-	return 0;
-}
-
-
-wxInt32 CMessage::GetTime( wxString& strTime )
-{
-    strTime = m_strTime;	
-	return 0;
-}
-
-
-wxInt32 CMessage::GetMessage( wxString& strMessage )
-{
-    strMessage =  m_strMessage;	
-	return 0;
-}
-
-
-wxInt32 CMessage::SetProjectName( wxString& strProjectName )
-{
-    m_strProjectName = strProjectName;	
-	return 0;
-}
-
-
-wxInt32 CMessage::SetPriority( wxString& strPriority )
-{
-	m_strPriority = strPriority;
-	return 0;
-}
-
-
-wxInt32 CMessage::SetTime( wxString& strTime )
-{
-	m_strTime = strTime;
-	return 0;
-}
-
-
-wxInt32 CMessage::SetMessage( wxString& strMessage )
-{
-	m_strMessage = strMessage;
-	return 0;
-}
-
-
 IMPLEMENT_DYNAMIC_CLASS( CViewMessages, CBOINCBaseView )
 
 
@@ -132,6 +58,12 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
+
+    //
+    // Initialize variables used in later parts of the class
+    //
+    m_iPreviousDocCount = 0;
+
 
     //
     // Globalization/Localization
@@ -197,8 +129,6 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 
 CViewMessages::~CViewMessages()
 {
-    EmptyCache();
-
     if ( m_pMessageInfoAttr )
     {
         delete m_pMessageInfoAttr;
@@ -236,52 +166,41 @@ wxInt32 CViewMessages::GetDocCount()
 }
 
 
+void CViewMessages::OnListRender ( wxTimerEvent& event )
+{
+    if (!m_bProcessingListRenderEvent)
+    {
+        m_bProcessingListRenderEvent = true;
+
+        wxASSERT(NULL != m_pListPane);
+
+        wxInt32 iDocCount = GetDocCount();
+        if ( 0 >= iDocCount )
+        {
+            m_pListPane->DeleteAllItems();
+        }
+        else
+        {
+            if ( m_iPreviousDocCount != iDocCount )
+            {
+                m_pListPane->SetItemCount( iDocCount );
+                m_iPreviousDocCount = iDocCount;
+            }
+        }
+
+        if ( _EnsureLastItemVisible() && iDocCount )
+            m_pListPane->EnsureVisible( iDocCount - 1 );
+
+        m_bProcessingListRenderEvent = false;
+    }
+
+    event.Skip();
+}
+
+
 wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
-    CMessage*       message     = m_MessageCache.at( item );
     wxString        strBuffer   = wxEmptyString;
-
-    switch(column)
-    {
-        case COLUMN_PROJECT:
-            message->GetProjectName( strBuffer );
-            break;
-        case COLUMN_TIME:
-            message->GetTime( strBuffer );
-            break;
-        case COLUMN_MESSAGE:
-            message->GetMessage( strBuffer );
-            break;
-    }
-
-    return strBuffer;
-}
-
-
-wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
-{
-    wxListItemAttr* pAttribute  = NULL;
-    CMessage*       message     = m_MessageCache.at( item );
-    wxString        strBuffer   = wxEmptyString;
-
-    message->GetPriority( strBuffer );
-
-    if ( wxT("E") == strBuffer )
-    {
-        pAttribute = m_pMessageErrorAttr;
-    }
-    else
-    {
-        pAttribute = m_pMessageInfoAttr;
-    }
-
-    return pAttribute;
-}
-
-
-wxString CViewMessages::OnDocGetItemText( long item, long column ) const
-{
-    wxString       strBuffer = wxEmptyString;
 
     switch(column)
     {
@@ -297,6 +216,26 @@ wxString CViewMessages::OnDocGetItemText( long item, long column ) const
     }
 
     return strBuffer;
+}
+
+
+wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
+{
+    wxListItemAttr* pAttribute  = NULL;
+    wxString        strBuffer   = wxEmptyString;
+
+    FormatPriority( item, strBuffer );
+
+    if ( wxT("E") == strBuffer )
+    {
+        pAttribute = m_pMessageErrorAttr;
+    }
+    else
+    {
+        pAttribute = m_pMessageInfoAttr;
+    }
+
+    return pAttribute;
 }
 
 
@@ -382,76 +321,6 @@ void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x),
             UpdateSelection();
         }
     }
-}
-
-
-wxInt32 CViewMessages::AddCacheElement()
-{
-    CMessage* pItem = new CMessage();
-    wxASSERT( NULL != pItem );
-    if ( NULL != pItem )
-    {
-        m_MessageCache.push_back( pItem );
-        return 0;
-    }
-    return -1;
-}
-
-
-wxInt32 CViewMessages::EmptyCache()
-{
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    unsigned int i;
-    for (i=0; i<m_MessageCache.size(); i++) {
-        delete m_MessageCache[i];
-    }
-    m_MessageCache.clear();
-    pDoc->ResetMessageState();
-
-    return 0;
-}
-
-
-wxInt32 CViewMessages::GetCacheCount()
-{
-    return m_MessageCache.size();
-}
-
-
-wxInt32 CViewMessages::RemoveCacheElement()
-{
-    delete m_MessageCache.back();
-    m_MessageCache.erase( m_MessageCache.end() - 1 );
-    return 0;
-}
-
-    
-wxInt32 CViewMessages::UpdateCache( long item, long column, wxString& strNewData )
-{
-    CMessage* message     = m_MessageCache.at( item );
-    wxString  strPriority = wxEmptyString;
-
-    switch(column)
-    {
-        case COLUMN_PROJECT:
-            message->SetProjectName( strNewData );
-            break;
-        case COLUMN_TIME:
-            message->SetTime( strNewData );
-            break;
-        case COLUMN_MESSAGE:
-            message->SetMessage( strNewData );
-            break;
-    }
-
-    FormatPriority( item, strPriority );
-    message->SetPriority( strPriority );
-
-    return 0;
 }
 
 

@@ -41,6 +41,21 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 bool CBOINCGUIApp::OnInit()
 {
+#ifdef __WXMSW__
+
+    TCHAR   szPath[MAX_PATH-1];
+
+    // change the current directory to the boinc install directory
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+		
+    TCHAR *pszProg = strrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+        SetCurrentDirectory(szPath);
+    }
+
+#endif
+
     // Setup application and company information
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
     SetAppName(wxT("BOINC Manager"));

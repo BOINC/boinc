@@ -28,30 +28,6 @@
 #include "BOINCBaseView.h"
 
 
-class CMessage : public wxObject
-{
-public:
-	CMessage();
-	~CMessage();
-
-	wxInt32  GetProjectName( wxString& strProjectName );
-	wxInt32  GetPriority( wxString& strPriority  );
-	wxInt32  GetTime( wxString& strTime );
-	wxInt32  GetMessage( wxString& strMessage );
-
-	wxInt32  SetProjectName( wxString& strProjectName );
-	wxInt32  SetPriority( wxString& strPriority );
-	wxInt32  SetTime( wxString& strTime );
-	wxInt32  SetMessage( wxString& strMessage );
-
-protected:
-	wxString m_strProjectName;
-	wxString m_strPriority;
-	wxString m_strTime;
-    wxString m_strMessage;
-};
-
-
 class CViewMessages : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewMessages )
@@ -73,26 +49,20 @@ protected:
 
     bool                    m_bTipsHeaderHidden;
 
+    wxInt32                 m_iPreviousDocCount;
+
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
 
-    std::vector<CMessage*>  m_MessageCache;
+    virtual void            OnListRender( wxTimerEvent& event );
 
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
-
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
     virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
-
-    virtual wxInt32         AddCacheElement();
-    virtual wxInt32         EmptyCache();
-    virtual wxInt32         GetCacheCount();
-    virtual wxInt32         RemoveCacheElement();
-    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual bool            EnsureLastItemVisible();
 
