@@ -352,19 +352,24 @@ int boinc_child_done(double cpu) {
 }
 
 double boinc_cpu_time() {
+    double cpu_secs;
+
+    // Start with the CPU time from previous runs, then
+    // add the CPU time of the current run
+    cpu_secs = aid.wu_cpu_time;
+
 #ifdef HAVE_SYS_RESOURCE_H
     int retval, pid = getpid();
     struct rusage ru;
-    double cpu_secs;
     retval = getrusage(RUSAGE_SELF, &ru);
     if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
     // Sum the user and system time spent in this process
-    cpu_secs = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
+    cpu_secs += (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu_secs += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
     return cpu_secs;
 #else
 #ifdef _WIN32
-#ifdef WINNT_CLOCK
+//#ifdef WINNT_CLOCK
     HANDLE hProcess;
     FILETIME creationTime,exitTime,kernelTime,userTime;
 
@@ -382,27 +387,27 @@ double boinc_cpu_time() {
         tKernel.HighPart = kernelTime.dwHighDateTime;
         tUser.LowPart    = userTime.dwLowDateTime;
         tUser.HighPart   = userTime.dwHighDateTime;
+		totTime = tKernel.QuadPart + tUser.QuadPart;
 
         // Runtimes in 100-nanosecond units
-        totTime = tKernel.QuadPart + tUser.QuadPart;
+        cpu_secs += totTime / 10000000.0;
 
         // Convert to seconds and return
-        return(totTime / 10000000.0);
+        return cpu_secs;
     }
     CloseHandle(hProcess);
     // ... fall through
-#endif  // WINNT_CLOCK
+//#endif  // WINNT_CLOCK
+	// TODO: Handle timer wraparound
     static bool first=true;
-    static DWORD last_count = 0;
+    static DWORD first_count = 0;
 
     if (first) {
-        last_count = GetTickCount();
-        first = true;
+        first_count = GetTickCount();
+        first = false;
     }
     DWORD cur = GetTickCount();
-    double x = (cur - last_count)/1000.;
-    last_count = cur;
-    return x;
+    return cpu_secs + ((cur - first_count)/1000.);
 #endif  // _WIN32
 #endif
 

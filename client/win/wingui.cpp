@@ -1090,14 +1090,20 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		m_ResultListCtrl.SetItemText(i, 2, re->name);
 
 		// cpu time
-		int cpuhour = (int)(re->final_cpu_time / (60 * 60));
-		int cpumin = (int)(re->final_cpu_time / 60) % 60;
-		int cpusec = (int)(re->final_cpu_time) % 60;
+		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
+		double cur_cpu;
+		if (at) {
+			cur_cpu = at->current_cpu_time;
+		} else {
+			cur_cpu = 0;
+		}
+		int cpuhour = (int)(cur_cpu / (60 * 60));
+		int cpumin = (int)(cur_cpu / 60) % 60;
+		int cpusec = (int)(cur_cpu) % 60;
 		buf.Format("%0.2dh%0.2dm%0.2ds", cpuhour, cpumin, cpusec);
 		m_ResultListCtrl.SetItemText(i, 3, buf);
 
 		// progress
-		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
 		if(!at) {
 			m_ResultListCtrl.SetItemProgress(i, 4, 0);
 		} else {	
@@ -1108,7 +1114,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		if(!at || at->fraction_done == 0) {
 			buf.Format("unable to calculate");
 		} else {
-			int tocomp = (re->final_cpu_time / at->fraction_done) - re->final_cpu_time;
+			double tocomp = at->est_time_to_completion();
 			cpuhour = (int)(tocomp / (60 * 60));
 			cpumin = (int)(tocomp / 60) % 60;
 			cpusec = (int)(tocomp) % 60;
@@ -1121,7 +1127,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 			case RESULT_NEW:
 				buf.Format("%s", "New"); break;
 			case RESULT_FILES_DOWNLOADED:
-				buf.Format("%s", "Ready to run"); break;
+				if (at)
+					buf.Format("%s", "Running");
+				else
+					buf.Format("%s", "Ready to run");
+				break;
 			case RESULT_COMPUTE_DONE:
 				buf.Format("%s", "Computation done"); break;
 			case RESULT_READY_TO_ACK:

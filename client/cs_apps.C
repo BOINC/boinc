@@ -38,19 +38,18 @@ int CLIENT_STATE::make_slot_dirs() {
 
 // Perform a graceful shutdown of the client, including quitting
 // all applications, checking their final status, and writing
-// the client_state.xml file
+// the client_state.xml file (should we also terminate net_xfers here?)
 //
 int CLIENT_STATE::exit() {
     int retval;
-    active_tasks.poll_time();
-    retval = write_state_file();
-    if (retval) { 
-    fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
-        return retval;
-    }
     retval = exit_tasks();
     if (retval) {
     fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
+        return retval;
+    }
+    retval = write_state_file();
+    if (retval) { 
+    fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
         return retval;
     }
     return 0;

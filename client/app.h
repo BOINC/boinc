@@ -75,6 +75,7 @@ public:
     void suspend(bool suspend);
 
     bool check_app_status_files();
+    double est_time_to_completion();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

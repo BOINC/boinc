@@ -247,6 +247,9 @@ int ACTIVE_TASK::start(bool first_time) {
 
     fclose(f);
 
+    sprintf(temp, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
+    file_delete(temp);
+
 #ifdef HAVE_UNISTD_H
 #ifdef HAVE_SYS_TYPES_H
     char* argv[100];
@@ -406,14 +409,13 @@ bool ACTIVE_TASK_SET::poll() {
                 // Runtimes in 100-nanosecond units
                 totTime = tKernel.QuadPart + tUser.QuadPart;
 
-                atp->result->final_cpu_time = (totTime / 10000000.0);
+                //atp->result->final_cpu_time = atp->starting_cpu_time + (totTime / 10000000.0);
             } else {
                 // This probably isn't correct
-                atp->result->final_cpu_time = ((double)clock())/CLOCKS_PER_SEC;
+                //atp->result->final_cpu_time = atp->starting_cpu_time + ((double)clock())/CLOCKS_PER_SEC;
             }
             if (exit_code != STILL_ACTIVE) {
                 found = true;
-                // Not sure how to incorporate the other states (WAS_SIGNALED, etc)
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
                 atp->result->exit_status = atp->exit_status;
@@ -619,6 +621,13 @@ bool ACTIVE_TASK::check_app_status_files() {
         }
     }
     return found;
+}
+
+// Returns the estimated time to completion (in seconds) of this
+// active task, based on current reported CPU time and fraction done
+//
+double ACTIVE_TASK::est_time_to_completion() {
+    return (current_cpu_time / fraction_done) - current_cpu_time;
 }
 
 // Poll each of the currently running tasks and get their CPU time

@@ -42,7 +42,7 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
     disk_max_used_gb = 1;
     disk_max_used_pct = 0.5;
     disk_min_free_gb = 0.1;
-    idle_time_to_run = 5;
+    idle_time_to_run = 0;
 };
 
 // Parse XML global prefs
