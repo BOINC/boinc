@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/22 21:53:03  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
@@ -34,6 +37,7 @@
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "ViewProjects.h"
+#include "DlgAttachProject.h"
 #include "Events.h"
 
 #include "res/proj.xpm"
@@ -41,6 +45,22 @@
 #include "res/web.xpm"
 #include "res/tips.xpm"
 
+
+#define VIEW_HEADER                 "proj"
+
+#define SECTION_TASK                VIEW_HEADER "task"
+#define SECTION_WEB                 VIEW_HEADER "web"
+#define SECTION_TIPS                VIEW_HEADER "tips"
+
+#define BITMAP_PROJECTS             VIEW_HEADER ".xpm"
+#define BITMAP_TASKHEADER           SECTION_TASK ".xpm"
+#define BITMAP_WEBHEADER            SECTION_WEB ".xpm"
+#define BITMAP_TIPSHEADER           SECTION_TIPS ".xpm"
+
+#define LINK_TASKATTACH             SECTION_TASK "attach"
+#define LINK_TASKDETACH             SECTION_TASK "detach"
+#define LINK_TASKUPDATE             SECTION_TASK "update"
+#define LINK_TASKRESET              SECTION_TASK "reset"
 
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
@@ -59,8 +79,8 @@ END_EVENT_TABLE()
 
 CViewProjects::CViewProjects()
 {
-    wxLogTrace("CViewProjects::CViewProjects - Function Begining");
-    wxLogTrace("CViewProjects::CViewProjects - Function Ending");
+    wxLogTrace(wxT("CViewProjects::CViewProjects - Function Begining"));
+    wxLogTrace(wxT("CViewProjects::CViewProjects - Function Ending"));
 }
 
 
@@ -78,12 +98,15 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     wxBitmap bmpTips(tips_xpm);
 
     bmpProject.SetMask(new wxMask(bmpProject, wxColour(255, 0, 255)));
+    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
+    bmpWeb.SetMask(new wxMask(bmpWeb, wxColour(255, 0, 255)));
+    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
 
-    m_pTaskPane->AddVirtualFile(_T("proj.xpm"), bmpProject, wxBITMAP_TYPE_XPM);
+    m_pTaskPane->AddVirtualFile(wxT(BITMAP_PROJECTS), bmpProject, wxBITMAP_TYPE_XPM);
 
-    m_pTaskPane->CreateTaskHeader(_T("projheader.xpm"), bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(_T("projweb.xpm"), bmpWeb, _("Websites"));
-    m_pTaskPane->CreateTaskHeader(_T("projtips.xpm"), bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TASKHEADER), bmpTask, _("Tasks"));
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_WEBHEADER), bmpWeb, _("Websites"));
+    m_pTaskPane->CreateTaskHeader(wxT(BITMAP_TIPSHEADER), bmpTips, _("Quick Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, -1);
@@ -92,14 +115,18 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
 
+    bTaskHeaderHidden = false;
+    bWebsiteHeaderHidden = false;
+    bTipsHeaderHidden = false;
+
     UpdateTaskPane();
 }
 
 
 CViewProjects::~CViewProjects()
 {
-    wxLogTrace("CViewProjects::~CViewProjects - Function Begining");
-    wxLogTrace("CViewProjects::~CViewProjects - Function Ending");
+    wxLogTrace(wxT("CViewProjects::~CViewProjects - Function Begining"));
+    wxLogTrace(wxT("CViewProjects::~CViewProjects - Function Ending"));
 }
 
 
@@ -115,60 +142,9 @@ char** CViewProjects::GetViewIcon()
 }
 
 
-void CViewProjects::UpdateTaskPane()
-{
-    wxLogTrace("CViewProjects::UpdateTaskPane - Function Begining");
-
-    wxASSERT(NULL != m_pTaskPane);
-
-    m_pTaskPane->BeginTaskPage();
-
-    m_pTaskPane->BeginTaskSection( _T("projheader.xpm"), false );
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("Attach to Project"), 
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("Detach from Project"), 
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("Update Project"), 
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("Reset Project"), 
-                            _(""));
-    m_pTaskPane->EndTaskSection();
-
-    m_pTaskPane->BeginTaskSection( _T("projweb.xpm"), false );
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("BOINC"), 
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("FAQ"),
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("Project"), 
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("Team"), 
-                            _(""));
-    m_pTaskPane->CreateTask(_T("proj.xpm"), 
-                            _("User"), 
-                            _(""));
-    m_pTaskPane->EndTaskSection();
-
-    m_pTaskPane->BeginTaskSection( _T("projtips.xpm"), false );
-    m_pTaskPane->CreateQuickTip(_("Please select a project to see additional options."));
-    m_pTaskPane->EndTaskSection();
-
-    m_pTaskPane->EndTaskPage();
-
-    wxLogTrace("CViewProjects::UpdateTaskPane - Function Ending");
-}
-
-
 void CViewProjects::OnRender(wxTimerEvent &event)
 {
-    wxLogTrace("CViewProjects::OnRender - Processing Render Event...");
+    wxLogTrace(wxT("CViewProjects::OnRender - Processing Render Event..."));
     if (!m_bProcessingRenderEvent)
     {
         m_bProcessingRenderEvent = true;
@@ -183,6 +159,39 @@ void CViewProjects::OnRender(wxTimerEvent &event)
     {
         event.Skip();
     }
+}
+
+
+void CViewProjects::OnLinkClicked( const wxHtmlLinkInfo& link )
+{
+    wxLogTrace(wxT("CViewProjects::OnLinkClicked - Function Begining"));
+
+    if ( link.GetHref() == wxT(SECTION_TASK) )
+        bTaskHeaderHidden ? bTaskHeaderHidden = false : bTaskHeaderHidden = true;
+
+
+    if ( link.GetHref() == wxT(LINK_TASKATTACH) )
+    {
+        CDlgAttachProject* pDlg = new CDlgAttachProject(this);
+        wxASSERT(NULL != pDlg);
+
+        pDlg->ShowModal();
+
+        if (pDlg)
+            pDlg->Destroy();
+    }
+
+
+    if ( link.GetHref() == wxT(SECTION_WEB) )
+        bWebsiteHeaderHidden ? bWebsiteHeaderHidden = false : bWebsiteHeaderHidden = true;
+
+    if ( link.GetHref() == wxT(SECTION_TIPS) )
+        bTipsHeaderHidden ? bTipsHeaderHidden = false : bTipsHeaderHidden = true;
+
+
+    UpdateTaskPane();
+
+    wxLogTrace(wxT("CViewProjects::OnLinkClicked - Function Ending"));
 }
 
 
@@ -211,5 +220,111 @@ wxString CViewProjects::OnGetItemText(long item, long column) const {
             break;
     }
     return strBuffer;
+}
+
+
+void CViewProjects::UpdateTaskPane()
+{
+    wxLogTrace(wxT("CViewProjects::UpdateTaskPane - Function Begining"));
+
+    wxASSERT(NULL != m_pTaskPane);
+
+    m_pTaskPane->BeginTaskPage();
+
+
+    m_pTaskPane->BeginTaskSection(
+        wxT(SECTION_TASK),
+        wxT(BITMAP_TASKHEADER), 
+        bTaskHeaderHidden 
+    );
+    if (!bTaskHeaderHidden)
+    {
+        m_pTaskPane->CreateTask(
+            wxT(LINK_TASKATTACH),
+            wxT(BITMAP_PROJECTS),
+            _("Attach to Project"),
+            _("")
+        );
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS),
+            _("Detach from Project"),
+            _("")
+        );
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS),
+            _("Update Project"),
+            _("")
+        );
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS),
+            _("Reset Project"),
+            _("")
+        );
+    }
+    m_pTaskPane->EndTaskSection(
+        bTaskHeaderHidden
+    );
+
+
+    m_pTaskPane->BeginTaskSection( 
+        wxT(SECTION_WEB),
+        wxT(BITMAP_WEBHEADER), 
+        bWebsiteHeaderHidden
+    );
+    if (!bWebsiteHeaderHidden)
+    {
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS),
+            _("BOINC"),
+            _("")
+        );
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS),
+            _("FAQ"),
+            _("")
+        );
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS),
+            _("Project"),
+            _("")
+        );
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS), 
+            _("Team"), 
+            _(""));
+        m_pTaskPane->CreateTask(
+            wxT(""),
+            wxT(BITMAP_PROJECTS), 
+            _("User"), 
+            _("")
+        );
+    }
+    m_pTaskPane->EndTaskSection(bWebsiteHeaderHidden);
+
+
+    m_pTaskPane->BeginTaskSection(
+        wxT(SECTION_TIPS),
+        wxT(BITMAP_TIPSHEADER),
+        bTipsHeaderHidden
+    );
+    if (!bTipsHeaderHidden)
+    {
+        m_pTaskPane->CreateQuickTip(
+            _("Please select a project to see additional options.")
+        );
+    }
+    m_pTaskPane->EndTaskSection(bTipsHeaderHidden);
+
+
+    m_pTaskPane->EndTaskPage();
+
+    wxLogTrace(wxT("CViewProjects::UpdateTaskPane - Function Ending"));
 }
 

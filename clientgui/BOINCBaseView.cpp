@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/22 21:53:02  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:24  rwalton
 // *** empty log message ***
 //
@@ -34,6 +37,7 @@
 #include "BOINCBaseView.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
+
 #include "res/boinc.xpm"
 
 

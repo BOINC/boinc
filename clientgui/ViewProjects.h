@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/22 21:53:03  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
@@ -51,13 +54,24 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            UpdateTaskPane();
-
     virtual void            OnRender( wxTimerEvent& event );
 
-    virtual wxString        OnGetItemText(long item, long column) const;
+    virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual wxString        OnGetItemText( long item, long column ) const;
 
 private:
+
+    virtual void            UpdateTaskPane();
+
+    bool                    bTaskHeaderHidden;
+    bool                    bTaskAttachToProjectHidden;
+    bool                    bTaskDetachFromProjectHidden;
+    bool                    bTaskUpdateProjectHidden;
+    bool                    bTaskResetProjectHidden;
+
+    bool                    bWebsiteHeaderHidden;
+
+    bool                    bTipsHeaderHidden;
 
     DECLARE_EVENT_TABLE()
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-09-16 17:21-0800\n"
+"PO-Revision-Date: 2004-09-21 16:48-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,11 +14,11 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:118
+#: clientgui/BOINCGUIApp.cpp:128
 msgid "You have specified -e on the commmand line. The application will exit now."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:119
+#: clientgui/BOINCGUIApp.cpp:129
 msgid "Example command line option"
 msgstr ""
 
@@ -102,28 +102,20 @@ msgstr ""
 msgid "SOCKS Proxy"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:151
+#: clientgui/MainFrame.cpp:156
 msgid "E&xit"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:155
-msgid "&Attach to Project..."
-msgstr ""
-
-#: clientgui/MainFrame.cpp:159
+#: clientgui/MainFrame.cpp:160
 msgid "&Options"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:163
+#: clientgui/MainFrame.cpp:164
 msgid "&About BOINC..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:167
-msgid "&File"
-msgstr ""
-
 #: clientgui/MainFrame.cpp:168
-msgid "&Commands"
+msgid "&File"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:169
@@ -134,110 +126,153 @@ msgstr ""
 msgid "&Help"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:83
-#: clientgui/ProjectsView.cpp:85
-#: clientgui/TransfersView.cpp:84
-#: clientgui/WorkView.cpp:87
+#: clientgui/ViewMessages.cpp:69
+#: clientgui/ViewProjects.cpp:109
+#: clientgui/ViewProjects.cpp:292
+#: clientgui/ViewTransfers.cpp:73
+#: clientgui/ViewWork.cpp:74
 msgid "Project"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:84
-#: clientgui/TransfersView.cpp:88
+#: clientgui/ViewMessages.cpp:70
+#: clientgui/ViewTransfers.cpp:77
 msgid "Time"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:85
+#: clientgui/ViewMessages.cpp:71
 msgid "Message"
 msgstr ""
 
-#: clientgui/MessagesView.cpp:96
+#: clientgui/ViewMessages.cpp:84
 msgid "Messages"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:86
+#: clientgui/ViewProjects.cpp:105
+msgid "Tasks"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:106
+msgid "Websites"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:107
+msgid "Quick Tips"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:110
 msgid "Account"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:87
+#: clientgui/ViewProjects.cpp:111
+#: clientgui/ViewProjects.cpp:298
 msgid "Team"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:88
+#: clientgui/ViewProjects.cpp:112
 msgid "Total Credit"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:89
+#: clientgui/ViewProjects.cpp:113
 msgid "Avg. Credit"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:90
+#: clientgui/ViewProjects.cpp:114
 msgid "Resource Share"
 msgstr ""
 
-#: clientgui/ProjectsView.cpp:101
+#: clientgui/ViewProjects.cpp:133
 msgid "Projects"
 msgstr ""
 
-#: clientgui/ResourceUtilizationView.cpp:85
+#: clientgui/ViewProjects.cpp:243
+#: clientgui/DlgAttachProject.h:39
+msgid "Attach to Project"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:249
+msgid "Detach from Project"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:255
+msgid "Update Project"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:261
+msgid "Reset Project"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:280
+msgid "BOINC"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:286
+msgid "FAQ"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:303
+msgid "User"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:318
+msgid "Please select a project to see additional options."
+msgstr ""
+
+#: clientgui/ViewResources.cpp:76
 msgid "Disk"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:85
+#: clientgui/ViewTransfers.cpp:74
 msgid "File"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:86
-#: clientgui/WorkView.cpp:91
+#: clientgui/ViewTransfers.cpp:75
+#: clientgui/ViewWork.cpp:78
 msgid "Progress"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:87
+#: clientgui/ViewTransfers.cpp:76
 msgid "Size"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:89
+#: clientgui/ViewTransfers.cpp:78
 msgid "Speed"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:90
-#: clientgui/WorkView.cpp:94
+#: clientgui/ViewTransfers.cpp:79
+#: clientgui/ViewWork.cpp:81
 msgid "Status"
 msgstr ""
 
-#: clientgui/TransfersView.cpp:101
+#: clientgui/ViewTransfers.cpp:92
 msgid "Transfers"
 msgstr ""
 
-#: clientgui/WorkView.cpp:88
+#: clientgui/ViewWork.cpp:75
 msgid "Application"
 msgstr ""
 
-#: clientgui/WorkView.cpp:89
+#: clientgui/ViewWork.cpp:76
 msgid "Name"
 msgstr ""
 
-#: clientgui/WorkView.cpp:90
+#: clientgui/ViewWork.cpp:77
 msgid "CPU time"
 msgstr ""
 
-#: clientgui/WorkView.cpp:92
+#: clientgui/ViewWork.cpp:79
 msgid "To Completetion"
 msgstr ""
 
-#: clientgui/WorkView.cpp:93
+#: clientgui/ViewWork.cpp:80
 msgid "Report Deadline"
 msgstr ""
 
-#: clientgui/WorkView.cpp:105
+#: clientgui/ViewWork.cpp:94
 msgid "Work"
 msgstr ""
 
 #: clientgui/DlgAbout.h:39
 msgid "About BOINC"
-msgstr ""
-
-#: clientgui/DlgAttachProject.h:39
-msgid "Attach to Project"
 msgstr ""
 
 #: clientgui/DlgConnection.h:39

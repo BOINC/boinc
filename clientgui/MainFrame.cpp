@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.20  2004/09/22 21:53:03  rwalton
+// *** empty log message ***
+//
 // Revision 1.19  2004/09/21 01:26:23  rwalton
 // *** empty log message ***
 //
@@ -155,10 +158,6 @@ bool CMainFrame::CreateMenu()
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(wxID_EXIT, _("E&xit"));
 
-    // Commands menu
-    wxMenu *menuCommands = new wxMenu;
-    menuCommands->Append(ID_COMMANDSATTACHPROJECT, _("&Attach to Project..."));
-
     // Tools menu
     wxMenu *menuTools = new wxMenu;
     menuTools->Append(ID_TOOLSOPTIONS, _("&Options"));
@@ -170,7 +169,6 @@ bool CMainFrame::CreateMenu()
     // construct menu
     m_pMenubar = new wxMenuBar;
     m_pMenubar->Append(menuFile,      _("&File"));
-    m_pMenubar->Append(menuCommands,  _("&Commands"));
     m_pMenubar->Append(menuTools,     _("&Tools"));
     m_pMenubar->Append(menuHelp,      _("&Help"));
     SetMenuBar(m_pMenubar);

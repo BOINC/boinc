@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/22 21:53:03  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -69,6 +72,9 @@ public:
 
     wxTextCtrl* m_ProjectAddressCtrl;
     wxTextCtrl* m_ProjectAccountKeyCtrl;
+
+    wxString    m_strProjectAddress;
+    wxString    m_strProjectAccountKey;
 };
 
 #endif

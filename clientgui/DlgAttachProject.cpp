@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/22 21:53:02  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -32,6 +35,8 @@
 
 #include "stdwx.h"
 #include "DlgAttachProject.h"
+#include "ValidateURL.h"
+#include "ValidateAccountKey.h"
 
 
 IMPLEMENT_CLASS( CDlgAttachProject, wxDialog )
@@ -89,7 +94,7 @@ void CDlgAttachProject::CreateControls()
     item4->Add(item5, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxTextCtrl* item6 = new wxTextCtrl;
-    item6->Create( item1, ID_PROJECTADDRESS, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
+    item6->Create( item1, ID_PROJECTADDRESS, wxT(""), wxDefaultPosition, wxSize(200, -1), 0, CValidateURL(&m_strProjectAddress) );
     m_ProjectAddressCtrl = item6;
     item4->Add(item6, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
@@ -98,7 +103,7 @@ void CDlgAttachProject::CreateControls()
     item4->Add(item7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxTextCtrl* item8 = new wxTextCtrl;
-    item8->Create( item1, ID_PROJECTACCOUNTKEY, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
+    item8->Create( item1, ID_PROJECTACCOUNTKEY, wxT(""), wxDefaultPosition, wxSize(200, -1), 0, CValidateAccountKey(&m_strProjectAccountKey) );
     m_ProjectAccountKeyCtrl = item8;
     item4->Add(item8, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 

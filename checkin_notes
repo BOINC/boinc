@@ -17559,3 +17559,12 @@ David  21 Sept 2004
     lib/
         miofile.C
         parse.C
+
+Rom    22 Sept 2004
+    - NEWGUI: Add rules to enforce URL and Accout Key rules to the 
+      attach to project dialog, this will increase the robustness
+      of the new UI when dealing with unexpected input.
+    - Cleanup the rest of the graphics stuff.
+
+    clientgui/
+        <various files>

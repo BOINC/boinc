@@ -324,6 +324,12 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\ValidateAccountKey.cpp">
+			</File>
+			<File
+				RelativePath=".\ValidateURL.cpp">
+			</File>
+			<File
 				RelativePath=".\ViewMessages.cpp">
 			</File>
 			<File
@@ -408,6 +414,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\util.h">
+			</File>
+			<File
+				RelativePath=".\ValidateAccountKey.h">
+			</File>
+			<File
+				RelativePath=".\ValidateURL.h">
 			</File>
 			<File
 				RelativePath=".\ViewMessages.h">

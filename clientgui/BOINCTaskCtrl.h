@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/22 21:53:02  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:24  rwalton
 // *** empty log message ***
 //
@@ -46,38 +49,42 @@ public:
 
     ~CBOINCTaskCtrl();
 
-    virtual void            BeginTaskPage();
-    virtual void            BeginTaskSection(  const wxString& strTaskHeaderFilename, 
-                                               bool bHidden );
-    virtual void            CreateTask(        const wxString& strTaskIconFilename, 
-                                               const wxString& strTaskName,
-                                               const wxString& strTaskDescription );
-    virtual void            EndTaskSection();
-    virtual void            CreateQuickTip(    const wxString& strTip );
-    virtual void            EndTaskPage();
+    virtual void                BeginTaskPage();
+    virtual void                BeginTaskSection(  const wxString& strLink,
+                                                   const wxString& strTaskHeaderFilename, 
+                                                   bool  bHidden );
+    virtual void                CreateTask(        const wxString& strLink,
+                                                   const wxString& strTaskIconFilename, 
+                                                   const wxString& strTaskName,
+                                                   const wxString& strTaskDescription );
+    virtual void                EndTaskSection(    bool  bHidden );
+    virtual void                CreateQuickTip(    const wxString& strTip );
+    virtual void                EndTaskPage();
 
 
-    virtual void            CreateTaskHeader(  const wxString& strFilename, 
-                                               const wxBitmap& itemTaskBitmap, 
-                                               const wxString& strTaskName ); 
+    virtual void                CreateTaskHeader(  const wxString& strFilename, 
+                                                   const wxBitmap& itemTaskBitmap, 
+                                                   const wxString& strTaskName ); 
 
 
-    virtual void            AddVirtualFile(    const wxString& strFilename, 
-                                               wxImage& itemImage, 
-                                               long lType );
-    virtual void            AddVirtualFile(    const wxString& strFilename, 
-                                               const wxBitmap& itemBitmap, 
-                                               long lType );
-    virtual void            RemoveVirtualFile( const wxString& strFilename );
+    virtual void                AddVirtualFile(    const wxString& strFilename, 
+                                                   wxImage& itemImage, 
+                                                   long lType );
+    virtual void                AddVirtualFile(    const wxString& strFilename, 
+                                                   const wxBitmap& itemBitmap, 
+                                                   long lType );
+    virtual void                RemoveVirtualFile( const wxString& strFilename );
 
 
-    virtual void            OnRender( wxTimerEvent& event );
-    virtual bool            OnSaveState( wxConfigBase* pConfig );
-    virtual bool            OnRestoreState( wxConfigBase* pConfig );
+    virtual void                OnRender( wxTimerEvent& event );
+    virtual bool                OnSaveState( wxConfigBase* pConfig );
+    virtual bool                OnRestoreState( wxConfigBase* pConfig );
+
+    virtual void                OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual wxHtmlOpeningStatus OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect );
 
 private:
     
-    virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
     template < class T >
         void                FireOnLinkClickedEvent( T pView, const wxHtmlLinkInfo& link );
 
