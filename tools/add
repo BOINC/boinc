@@ -49,7 +49,7 @@ class XAppVersion(database.AppVersion):
     def __init__(self,**kwargs):
         kwargs['xml_doc'] = tools.process_app_version(
             app = kwargs['app'],
-            version_num = int(kwargs['version_num'])
+            version_num = int(kwargs['version_num']),
             exec_files = kwargs['exec_files']
             signature_files = kwargs.get('signature_files',{}))
         del kwargs['signature_files']
