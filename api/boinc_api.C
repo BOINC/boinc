@@ -142,9 +142,7 @@ double boinc_cpu_time() {
     );
 #else
 #ifdef _WIN32
-#ifndef WINNT_CLOCK
-    return UtilGetCPUClock();
-#else
+#ifdef WINNT_CLOCK
     HANDLE hProcess;
     FILETIME creationTime,exitTime,kernelTime,userTime;
 
@@ -167,11 +165,21 @@ double boinc_cpu_time() {
 
         // Convert to seconds and return
         return(totTime / 10000000.0);
-    } else {
-        CloseHandle(hProcess);
-        return ((double)clock())/CLOCKS_PER_SEC;
     }
+    CloseHandle(hProcess);
+	// ... fall through
 #endif  // WINNT_CLOCK
+	static bool first=true;
+	static DWORD last_count = 0;
+
+	if (first) {
+		last_count = GetTickCount();
+		first = true;
+	}
+	DWORD cur = GetTickCount();
+	double x = (cur - last_count)/1000.;
+	last_count = cur;
+	return x;
 #endif  // _WIN32
 #endif
 
