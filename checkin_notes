@@ -12793,3 +12793,10 @@ Rom    May 28 2004
         db_ops.inc
     html/ops/
         failure_result_summary_by_host.php
+
+Rom    May 29 2004
+    - Fix a possible bug in the new Limiting number of WU's sent to a host per day
+      due to a floating point issue.
+
+    sched/
+        handle_request.C

@@ -639,7 +639,7 @@ void process_request(
 
     last_rpc_time = reply.host.rpc_time;
     reply.host.rpc_time = time(0);
-    if (last_rpc_time/SECONDS_PER_DAY != reply.host.rpc_time/SECONDS_PER_DAY) {
+    if (((int)last_rpc_time/SECONDS_PER_DAY) != ((int)reply.host.rpc_time/SECONDS_PER_DAY)) {
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
