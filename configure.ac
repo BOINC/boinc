@@ -48,6 +48,8 @@ AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number]
 AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
 AC_DEFINE_UNQUOTED(HOST, "$host", [Host for this compilation])
 
+AC_SUBST(SOURCE_TOP_DIR, `pwd`)
+
 AM_MAINTAINER_MODE
 
 dnl AC_EGREP_CPP(yes,

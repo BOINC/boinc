@@ -1,4 +1,4 @@
-<?php
+<?php // -*- php -*-
 
 // test.inc
 //
@@ -12,26 +12,137 @@
 
 include_once("version.inc");
 
-define("RESULT_STATE_OVER", 5);
-
 ob_end_flush();         // let us see what's going on
+
+// Create a handler function
+function my_assert_handler ($file, $line, $code) {
+    echo "Assertion Failed:
+        File '$file'
+        Line '$line'
+        Code '$code'
+";
+    exit(1);
+}
+
+assert_options(ASSERT_ACTIVE  , 1);
+assert_options(ASSERT_WARNING , 1);
+assert_options(ASSERT_BAIL    , 1);
+assert_options(ASSERT_CALLBACK, 'my_assert_handler');
+
+$errors = 0;
 
 // get an enviroment variable, and abort script if missing
 //
-function get_env_var($name) {
+function get_env_var($name, $defvalue = -1) {
     $x = getenv($name);
     if ($x == null) {
-        echo "Environment variable $name not defined\n";
-        exit();
+        if ($defvalue != -1) {
+            return $defvalue;
+        } else {
+            echo "Environment variable $name not defined\n";
+            exit();
+        }
     }
     return $x;
 }
 
+/// VERBOSITY LEVELS:
+//    VERBOSE=0  print nothing
+//    VERBOSE=1  show only up to 1 line
+//    VERBOSE=2  print everything
+
+define("VERBOSE", get_env_var("TEST_VERBOSE",1));
+
+function verbose_echo($level, $line)
+{
+    if ($level == 0) {
+        if (VERBOSE == 1) {
+            echo "\n";
+        }
+        echo "$line\n";
+    } else if (VERBOSE >= $level) {
+        if (VERBOSE == 2) {
+            echo "$line\n";
+        } else if (VERBOSE == 1) {
+            echo "\r                                                                               ";
+            echo "\r$line";
+        }
+    }
+}
+
+function error($msg, $fatal=0)
+{
+    global $errors;
+    ++$errors;
+    verbose_echo(0, "ERROR: $msg");
+    if ($fatal) {
+        exit(1);
+    }
+}
+
+// when sleeping for a long time this shows sleep progress
+function verbose_sleep($msg, $wait)
+{
+    $front = "$msg [sleep ";
+    $back = "]";
+    for ($i = 1; $i <= $wait; ++$i) {
+        $m = $front . str_repeat('.',$i) . str_repeat(' ',$wait-$i) . $back;
+        verbose_echo(1, $m);
+        sleep(1);
+    }
+}
+
+function XPassThru($cmd, $failok=0)
+{
+    PassThru($cmd, $retval);
+    if (!$failok && $retval) {
+        verbose_echo(0, "Command failed: $cmd");
+        exit(1);
+    }
+}
+
+function verbose_XPassThru($cmd, $failok=0)
+{
+    verbose_echo(2,"   $cmd");
+    return XPassThru($cmd, $failok);
+}
+
+define("RESULT_STATE_OVER", 5);
+
+define("KEY_DIR"      , get_env_var("BOINC_KEY_DIR"));
+define("SHMEM_KEY"    , get_env_var("BOINC_SHMEM_KEY"));
+define("PROJECTS_DIR" , get_env_var("BOINC_PROJECTS_DIR"));
+define("CGI_URL"      , get_env_var("BOINC_CGI_URL"));
+define("HTML_URL"     , get_env_var("BOINC_HTML_URL"));
+define("USER_NAME"    , get_env_var("BOINC_USER_NAME", get_env_var("USER","")));
+define("CGI_DIR"      , get_env_var("BOINC_CGI_DIR"));
+define("HTML_DIR"     , get_env_var("BOINC_HTML_DIR"));
+define("HOSTS_DIR"    , get_env_var("BOINC_HOSTS_DIR"));
+
+function check_program_exists($prog) {
+    if (!is_executable($prog)) {
+        verbose_echo(0, "Executable not found: $prog");
+        verbose_echo(0, "Did you `make' yet?\n");
+        die(1);
+    }
+}
+
+
+function check_core_client_executable()
+{
+    check_program_exists(SRC_DIR."/client/".CLIENT_BIN_FILENAME);
+}
+
+function check_app_executable($app)
+{
+    check_program_exists(SRC_DIR."/apps/".$app);
+}
+
 function run_db_script($script, $db_name) {
-    $db_dir = get_env_var("BOINC_SRC_DIR")."/db";
+    $db_dir = SRC_DIR . "/db";
     $x = "sed -e s/BOINC_DB_NAME/$db_name/ $db_dir/$script | mysql";
-    //echo $x;
-    PassThru($x);
+    // echo $x;
+    XPassThru($x);
 }
 
 // expand a macro in a file
@@ -39,13 +150,13 @@ function run_db_script($script, $db_name) {
 function macro_substitute($macro, $replacement, $infile, $outfile) {
     $x = "sed -e s/$macro/$replacement/ $infile > $outfile";
     //echo $x;
-    PassThru($x);
+    XPassThru($x);
 }
 
 // make a file executable
 //
 function make_executable($name) {
-    PassThru("chmod uog+x $name");
+    XPassThru("chmod uog+x $name");
 }
 
 // given a project URL,
@@ -84,17 +195,20 @@ function db_query($query) {
 }
 
 function run_tool($cmd) {
-    $tool_dir = get_env_var("BOINC_SRC_DIR")."/tools/";
-    $cmd = $tool_dir.$cmd;
-    echo "$cmd\n";
-    PassThru($cmd);
+    verbose_XPassThru(SRC_DIR."/tools/".$cmd);
 }
 
 function create_keys() {
-    $key_dir = get_env_var("BOINC_KEY_DIR");
-    $lib_dir = get_env_var("BOINC_SRC_DIR")."/lib";
-    PassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/upload_private $key_dir/upload_public");
-    PassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/code_sign_private $key_dir/code_sign_public");
+    $key_dir = KEY_DIR;
+    $lib_dir = SRC_DIR."/lib";
+    XPassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/upload_private $key_dir/upload_public");
+    XPassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/code_sign_private $key_dir/code_sign_public");
+}
+
+function check_deleted($file) {
+    if (file_exists($file)) {
+        error("file wasn't deleted: $file\n");
+    }
 }
 
 class Platform {
@@ -113,9 +227,10 @@ class Core_Version {
     var $exec_name;
     var $platform;
     function Core_Version() {
-        $this->version = 1;
-        $x = get_env_var("BOINC_PLATFORM");
-        $this->platform= new Platform($x, $x);
+        $this->version   = 1;
+        $this->platform  = new Platform(PLATFORM, PLATFORM);
+        $this->exec_dir  = SRC_DIR . "/client";
+        $this->exec_name = CLIENT_BIN_FILENAME;
     }
 }
 
@@ -136,11 +251,12 @@ class App_Version {
     var $platform;
 
     function App_Version($app) {
-        $this->exec_names = array();
-        $this->app = $app;
-        $this->version = 1;
-        $x = get_env_var("BOINC_PLATFORM");
-        $this->platform= new Platform($x, $x);
+        $this->exec_names    = array();
+        $this->exec_dir      = SRC_DIR . "/apps";
+        $this->exec_names[0] = $app->name;
+        $this->app           = $app;
+        $this->version       = 1;
+        $this->platform      = new Platform(PLATFORM, PLATFORM);
     }
 }
 
@@ -178,9 +294,9 @@ class Project {
         $this->platforms = array();
         $this->db_passwd = "";
         $this->generate_keys = false;
-        $this->shmem_key = get_env_var("BOINC_SHMEM_KEY");
+        $this->shmem_key = SHMEM_KEY;
         $this->resource_share = 1;
-        $this->source_dir = get_env_var("BOINC_SRC_DIR");
+        $this->source_dir = SRC_DIR;
     }
 
     function add_user($user) {
@@ -203,39 +319,68 @@ class Project {
         array_push($this->platforms, $platform);
     }
 
+    function add_app_and_version($appname) {
+        $app = new App($appname);
+        $app_version = new App_Version($app);
+        $this->add_app($app);
+        $this->add_app_version($app_version);
+    }
+
+    function add_core_and_version() {
+        $this->add_core_version(new Core_Version());
+    }
+
+    function mkdir($dir, $chmod=0)
+    {
+        $d = "$this->project_dir/$dir";
+        mkdir($d,0777);
+        if ($chmod) {
+            chmod($d, 0777);
+        }
+    }
+
+    function copy($source, $dest, $failok=0)
+    {
+        XPassThru("cp -f $this->source_dir/$source $this->project_dir/$dest >> /dev/null 2>&1", $failok);
+    }
+
     // Set up the database and directory structures for a project
     //
     function install($scheduler_file = null) {
-        global $CLIENT_BIN_FILENAME;
-        $source_dir = $this->source_dir;
-        $base_dir = get_env_var("BOINC_PROJECTS_DIR");
-        $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->short_name;
-        $this->download_url = get_env_var("BOINC_HTML_URL")."/".$this->short_name."/download";
+        $base_dir = PROJECTS_DIR;
+        $cgi_url = CGI_URL."/".$this->short_name;
+        $this->download_url = HTML_URL."/".$this->short_name."/download";
         $this->upload_url = $cgi_url."/file_upload_handler";
         $this->scheduler_url = $cgi_url."/cgi";
         $this->project_dir = $base_dir."/".$this->short_name;
-        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->short_name."/";
-        PassThru("rm -rf $this->project_dir");
-        PassThru("mkdir $this->project_dir");
-            // make the CGI writeable in case scheduler writes req/reply files
-        PassThru("mkdir $this->project_dir/cgi; chmod uog+w $this->project_dir/cgi");
-        PassThru("mkdir $this->project_dir/upload; chmod uog+w $this->project_dir/upload");
-        PassThru("mkdir $this->project_dir/download");
-        PassThru("mkdir $this->project_dir/keys");
-        PassThru("mkdir $this->project_dir/html_ops");
-        PassThru("mkdir $this->project_dir/html_user");
-        PassThru("ln -s $this->project_dir/download $this->project_dir/html_user/download");
+        $this->master_url = HTML_URL."/".$this->short_name."/";
+
+        verbose_echo(1, "Deleting previous test runs");
+        XPassThru("rm -rf $this->project_dir");
+
+        verbose_echo(1, "Creating server directories");
+
+        // make the CGI writeable in case scheduler writes req/reply files
+        $this->mkdir("");
+        $this->mkdir("cgi", 1);
+        $this->mkdir("upload", 1);
+        $this->mkdir("download");
+        $this->mkdir("keys");
+        $this->mkdir("html_ops");
+        $this->mkdir("html_user");
+        XPassThru("ln -s $this->project_dir/download $this->project_dir/html_user/download");
 
         if ($this->generate_keys) {
             echo "KEY GENERATION NOT IMPLEMENTED YET\n";
         } else {
-            $this->key_dir = get_env_var("BOINC_KEY_DIR");
-            PassThru("cp $this->key_dir/* $this->project_dir/keys");
+            $this->key_dir = KEY_DIR;
+            XPassThru("cp $this->key_dir/* $this->project_dir/keys");
         }
 
         // set up the database
         //
-        $this->user_name = get_env_var("BOINC_USER_NAME");
+        verbose_echo(1, "Setting up database");
+        $this->user_name = USER_NAME;
         if (!$this->db_name)
             $this->db_name = $this->user_name."_".$this->short_name;
         run_db_script("drop.sql", $this->db_name);
@@ -259,14 +404,16 @@ class Project {
             db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '$gp', '$pp', 0, 'home', '', 0, 1)");
         }
 
-        echo "adding apps\n";
-        for ($i=0; $i<sizeof($this->apps); $i++) {
+        $napp = sizeof($this->apps);
+        verbose_echo(1, "Adding $napp app(s) to database");
+        for ($i=0; $i<$napp; $i++) {
             $app = $this->apps[$i];
             $now = time(0);
+            check_app_executable($app->name);
             db_query("insert into app(name, create_time) values ('$app->name', $now)");
         }
 
-        echo "adding platforms\n";
+        verbose_echo(1, "Adding platforms(s) to database");
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app_version = $this->app_versions[$i];
             $p = $app_version->platform;
@@ -286,32 +433,20 @@ class Project {
             run_tool("add platform -db_name $this->db_name -platform_name $platform->name -user_friendly_name '$platform->user_friendly_name'");
         }
 
-        echo "adding core versions\n";
-        for ($i=0; $i<sizeof($this->core_versions); $i++) {
+        $ncore = sizeof($this->core_versions);
+        verbose_echo(1, "Adding $ncore core version(s) to database");
+        for ($i=0; $i<$ncore; $i++) {
             $core_version = $this->core_versions[$i];
-            if ($core_version->exec_dir == null) {
-                $core_version->exec_dir = "$source_dir/client";
-            }
-            if ($core_version->exec_name == null) {
-                //$core_version->exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
-                $core_version->exec_name = $CLIENT_BIN_FILENAME;
-            }
             $p = $core_version->platform;
             $x = "add core_version -db_name $this->db_name -platform_name $p->name -version $core_version->version -download_dir $this->project_dir/download -download_url $this->download_url -exec_dir $core_version->exec_dir -exec_files $core_version->exec_name";
             run_tool($x);
         }
 
-        echo "adding app versions\n";
-        for ($i=0; $i<sizeof($this->app_versions); $i++) {
+        $nappv = sizeof($this->app_versions);
+        verbose_echo(1, "Adding $nappv app version(s) to database");
+        for ($i=0; $i<$nappv; $i++) {
             $app_version = $this->app_versions[$i];
             $app = $app_version->app;
-            if ($app_version->exec_dir == null) {
-                $app_version->exec_dir = "$source_dir/apps";
-            }
-            if (sizeof($app_version->exec_names) == 0) {
-                $app_version->exec_names[0] = $app->name;
-            }
-
             $p = $app_version->platform;
             $x = "add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $p->name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $app_version->exec_dir -exec_files";
             for ($j=0; $j<sizeof($app_version->exec_names); $j++) {
@@ -319,24 +454,30 @@ class Project {
             }
             run_tool($x);
         }
-        
+
+        verbose_echo(1, "Creating html directories");
         // copy the user and administrative PHP files to the project dir,
         //
-        PassThru("cp -f $source_dir/html_user/* $this->project_dir/html_user >> /dev/null 2>&1");
-        PassThru("cp -f $source_dir/tools/country_select $this->project_dir/html_user >> /dev/null 2>&1");
-        PassThru("cp -f $source_dir/html_ops/* $this->project_dir/html_ops >> /dev/null 2>&1");
+        $this->copy('html_user/*.php'      , 'html_user/');
+        $this->copy('html_user/*.inc'      , 'html_user/');
+        $this->copy('html_user/*.html'     , 'html_user/');
+        $this->copy('html_ops/*.php'       , 'html_ops/');
+        $this->copy('html_ops/*.inc'       , 'html_ops/');
+        $this->copy('html_ops/*.html'      , 'html_ops/');
+        $this->copy('tools/country_select' , 'html_user/');
         if ($this->project_php_file) {
-            PassThru("cp -f $source_dir/html_user/$this->project_php_file $this->project_dir/html_user/project.inc");
+            $this->copy('html_user/$this->project_php_file', 'html_user/project.inc');
         }
         if ($this->project_prefs_php_file) {
-            PassThru("cp -f $source_dir/html_user/$this->project_prefs_php_file $this->project_dir/html_user/project_specific_prefs.inc");
+            $this->copy('html_user/$this->project_prefs_php_file', 'html_user/project_specific_prefs.inc');
         }
 
         // Copy the sched server in the cgi directory with the
         // cgi names given $source_dir/html_usr/schedulers.txt
         //
+        verbose_echo(1, "Copying cgi programs");
         if ($scheduler_file == null) {
-            $scheduler_file = "schedulers.txt";        
+            $scheduler_file = "schedulers.txt";
             $f = fopen("$this->project_dir/html_user/schedulers.txt", "w");
             fputs($f,"<scheduler>".$this->scheduler_url."</scheduler>\n");
             fclose($f);
@@ -347,7 +488,7 @@ class Project {
                 if($scheduler_url == false) break;
                 $temp = substr($scheduler_url, 0, strrpos($scheduler_url, '<'));
                 $cgi_name = substr($temp, strrpos($temp, '/')+1, strlen($temp) - strrpos($temp, '/'));
-                PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/$cgi_name");
+                $this->copy('sched/cgi', 'cgi/$cgi_name');
             }
 
             fclose($f);
@@ -355,16 +496,17 @@ class Project {
 
         // copy all the backend programs to the CGI directory
         //
-        PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/timeout_check $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/file_deleter $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/assimilator $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/start_servers $this->project_dir/cgi/");
+        $this->copy('sched/cgi'                 , 'cgi/');
+        $this->copy('sched/file_upload_handler' , 'cgi/');
+        $this->copy('sched/make_work'           , 'cgi/');
+        $this->copy('sched/feeder'              , 'cgi/');
+        $this->copy('sched/timeout_check'       , 'cgi/');
+        $this->copy('sched/validate_test'       , 'cgi/');
+        $this->copy('sched/file_deleter'        , 'cgi/');
+        $this->copy('sched/assimilator'         , 'cgi/');
+        $this->copy('sched/start_servers'       , 'cgi/');
 
+        verbose_echo(1, "Writing config files");
         // write the server config file
         //
         $this->append_config("<config>\n" .
@@ -388,37 +530,38 @@ class Project {
         fputs($f, "<download_url>$this->download_url</download_url>\n");
         fputs($f, "<cgi_url>$cgi_url</cgi_url>\n");
         fclose($f);
-        PassThru("cp $this->project_dir/html_user/.htconfig.xml $this->project_dir/html_ops");
+        XPassThru("cp $this->project_dir/html_user/.htconfig.xml $this->project_dir/html_ops");
 
         // edit "index.php" in the user HTML directory to have
         // the right file as the source for scheduler_urls;
         // default is schedulers.txt
         //
         $x = "sed -e s/FILE_NAME/$scheduler_file/ $this->project_dir/html_user/index.php > temp; mv temp $this->project_dir/html_user/index.php";
-        PassThru($x);
+        XPassThru($x);
 
+        verbose_echo(1, "Linking cgi programs");
         // create symbolic links to the CGI and HTML directories
         //
-        $cgi_dir = get_env_var("BOINC_CGI_DIR");
-        $cgi_url = get_env_var("BOINC_CGI_URL");
-        $html_dir = get_env_var("BOINC_HTML_DIR");
-        $html_url = get_env_var("BOINC_HTML_URL");
-        PassThru("rm -f $cgi_dir/$this->short_name");
-        PassThru("ln -s $this->project_dir/cgi $cgi_dir/$this->short_name");
-        PassThru("rm -f $html_dir/$this->short_name");
-        PassThru("ln -s $this->project_dir/html_user $html_dir/$this->short_name");
+        $cgi_dir = CGI_DIR;
+        $cgi_url = CGI_URL;
+        $html_dir = HTML_DIR;
+        $html_url = HTML_URL;
+        XPassThru("rm -f $cgi_dir/$this->short_name");
+        XPassThru("ln -s $this->project_dir/cgi $cgi_dir/$this->short_name");
+        XPassThru("rm -f $html_dir/$this->short_name");
+        XPassThru("ln -s $this->project_dir/html_user $html_dir/$this->short_name");
         $x = "ln -s $this->project_dir/html_ops ".$html_dir."/".$this->short_name."_admin";
-        PassThru($x);
+        XPassThru($x);
 
         // show the URLs for user and admin sites
         //
-        echo "Master URL: $this->master_url\n";
         $admin_url = $html_url."/".$this->short_name."_admin/index.php";
-        echo "Admin URL: $admin_url\n";
+        verbose_echo(2, "Master URL: $this->master_url");
+        verbose_echo(2, "Admin URL:  $admin_url");
     }
-    
+
     // Adds http password protection to the html_ops directory
-    // 
+    //
     function http_password($user,$password) {
         $f = fopen($this->project_dir."/html_ops/.htaccess", "w");
         fputs($f,"AuthName \"$this->long_name Administration\"\n");
@@ -427,63 +570,64 @@ class Project {
         fputs($f,"require valid-user\n");
         fclose($f);
 
-        PassThru("htpasswd -bc $this->project_dir/html_ops/.htpasswd $user $password");
+        XPassThru("htpasswd -bc $this->project_dir/html_ops/.htpasswd $user $password");
     }
 
     // moves the master web page to temp
     // This is used to test exponential backoff on the client side.
     //
     function delete_masterindex() {
-        PassThru("mv $this->project_dir/html_user/index.php $this->project_dir/html_user/temp");
+        XPassThru("mv $this->project_dir/html_user/index.php $this->project_dir/html_user/temp");
     }
-    
+
     // moves temp back to the master web page
     // This is used to test exponential backoff on the client side.
     //
     function reestablish_masterindex() {
-        PassThru("mv $this->project_dir/html_user/temp $this->project_dir/html_user/index.php");
-          
+        XPassThru("mv $this->project_dir/html_user/temp $this->project_dir/html_user/index.php");
+
     }
-    
+
     // delete the sched server for this project
     // This is used to test exponential backoff on the client side.
     //
     function delete_scheduler($cgi_num = null) {
-        PassThru("rm $this->project_dir/cgi/cgi$cgi_num");
+        XPassThru("rm $this->project_dir/cgi/cgi$cgi_num");
     }
-      
+
     // copies the sched server back into the CGI directory.
     // This is used to test exponential backoff on the client side.
     //
     function reinstall_scheduler($cgi_num=null) {
-        PassThru("cp $this->source_dir/sched/cgi $this->project_dir/cgi/cgi$cgi_num");
+        XPassThru("cp $this->source_dir/sched/cgi $this->project_dir/cgi/cgi$cgi_num");
     }
-    
+
     // moves the download directory to temp.
     // This is used to test exponential backoff
     //
     function delete_downloaddir($download_dir_num = null) {
-        PassThru("mv $this->project_dir/download$download_dir_num $this->project_dir/download_moved$download_dir_num");
-         
+        XPassThru("mv $this->project_dir/download$download_dir_num $this->project_dir/download_moved$download_dir_num");
+
     }
-    
+
     // reinstalls the download directory.
     // This is used to test exponential backoff
     //
     function reinstall_downloaddir($download_dir_num = null) {
-        PassThru("mv $this->project_dir/download_moved$download_dir_num $this->project_dir/download$download_dir_num");
+        XPassThru("mv $this->project_dir/download_moved$download_dir_num $this->project_dir/download$download_dir_num");
     }
-    
+
     function remove_file_upload_handler($handler_num = null) {
-        PassThru("rm $this->project_dir/cgi/file_upload_handler$handler_num");
+        XPassThru("rm $this->project_dir/cgi/file_upload_handler$handler_num");
     }
-        
+
     function reinstall_file_upload_handler($handler_num = null) {
-        PassThru("cp $this->source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
+        XPassThru("cp $this->source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
     }
 
     function start_servers() {
-        PassThru("cd $this->project_dir/cgi; ./start_servers >> start_servers.out 2>&1");
+        XPassThru("cd $this->project_dir/cgi; ./start_servers >> start_servers.out 2>&1");
+        verbose_sleep("Starting servers for project $this->short_name", 1);
     }
 
     function install_feeder() {
@@ -506,62 +650,84 @@ class Project {
     // run the validator asynchronously
     //
     function install_validate($app, $quorum) {
-        $this->append_config("<start>./validate_test -asynch -app $app->name -quorum $quorum >> validate.out 2>&1</start>\n");
+        assert($quorum);
+        for ($i=0; $i<sizeof($this->app_versions); $i++) {
+            $app = $this->app_versions[$i]->app;
+            assert($app);
+            $this->append_config("<start>./validate_test -asynch -app $app->name -quorum $quorum >> validate.out 2>&1</start>\n");
+        }
     }
 
     // do one pass of validation
     //
-    function validate($app, $quorum) {
-        PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum >> validate.out 2>&1");
+    function validate($quorum) {
+        assert($quorum);
+        for ($i=0; $i<sizeof($this->app_versions); $i++) {
+            $app = $this->app_versions[$i]->app;
+            assert($app);
+            verbose_echo(1, "Validating $app->name");
+            XPassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum >> validate.out 2>&1");
+        }
     }
-   
+
     function install_file_delete(){
         $this->append_config("<start>./file_deleter -asynch >> file_deleter.out 2>&1</start>\n");
     }
-	
+
     // do one pass of file_deleter
     //
     function file_delete() {
-        PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass >> file_deleter.out 2>&1");
+        XPassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass >> file_deleter.out 2>&1");
     }
-    
-    function install_assimilator($app) {
-        $this->append_config("<start>./assimilator -asynch -app $app->name >> assimilator.out 2>&1</start>\n");
+
+    function install_assimilator() {
+        for ($i=0; $i<sizeof($this->app_versions); $i++) {
+            $app = $this->app_versions[$i]->app;
+            $this->append_config("<start>./assimilator -asynch -app $app->name >> assimilator.out 2>&1</start>\n");
+        }
     }
-    
+
     // do one pass of assimilator
     //
-    function assimilate($app) {
-        PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name >> assimilator.out 2>&1");
+    function assimilate() {
+        for ($i=0; $i<sizeof($this->app_versions); $i++) {
+            $app = $this->app_versions[$i]->app;
+            verbose_echo(1, "Assimilating $app->name");
+            XPassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name >> assimilator.out 2>&1");
+        }
     }
 
     // start collecting data for stripcharts
     //
     function start_stripchart() {
         $source_dir = $this->source_dir;
-        PassThru("cp $source_dir/stripchart/stripchart.cgi $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/stripchart $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/stripchart.cnf $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/samples/looper $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/samples/db_looper $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/samples/datafiles $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/samples/get_load $this->project_dir/cgi/");
-        PassThru("cp $source_dir/stripchart/samples/dir_size $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/stripchart.cgi $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/stripchart $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/stripchart.cnf $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/samples/looper $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/samples/db_looper $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/samples/datafiles $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/samples/get_load $this->project_dir/cgi/");
+        XPassThru("cp $source_dir/stripchart/samples/dir_size $this->project_dir/cgi/");
         macro_substitute("BOINC_DB_NAME", $this->db_name, "$source_dir/stripchart/samples/db_count", "$this->project_dir/cgi/db_count");
         make_executable("$this->project_dir/cgi/db_count");
-        PassThru("cd $this->project_dir/cgi; looper get_load 1 > get_load_out &");
-        PassThru("cd $this->project_dir/cgi; db_looper 'result' 1 > count_results_out &");
-        PassThru("cd $this->project_dir/cgi; db_looper 'workunit where assimilate_state=2' 1 > assimilated_wus_out &");
-        PassThru("cd $this->project_dir/cgi; looper 'dir_size ../download' 1 > download_size_out &");
-        PassThru("cd $this->project_dir/cgi; looper 'dir_size ../upload' 1 > upload_size_out &");
+        XPassThru("cd $this->project_dir/cgi; looper get_load 1 > get_load_out &");
+        XPassThru("cd $this->project_dir/cgi; db_looper 'result' 1 > count_results_out &");
+        XPassThru("cd $this->project_dir/cgi; db_looper 'workunit where assimilate_state=2' 1 > assimilated_wus_out &");
+        XPassThru("cd $this->project_dir/cgi; looper 'dir_size ../download' 1 > download_size_out &");
+        XPassThru("cd $this->project_dir/cgi; looper 'dir_size ../upload' 1 > upload_size_out &");
     }
 
     // this should stop the feeder and any other daemons
     //
-    function stop() {
+    function stop($nosleep=0) {
         $f = fopen($this->project_dir."/cgi/stop_server", "w");
         fputs($f, "<quit/>\n");
         fclose($f);
+        // need to sleep because the feeder sleeps (up to 5+5+1) seconds to
+        // check triggers.
+        $sleep = $nosleep ? 0 : 7;
+        verbose_sleep("Stopping server(s) for project $this->short_name", $sleep);
     }
 
     // append the line to the config file
@@ -612,19 +778,19 @@ class Project {
         while ($x = mysql_fetch_object($result)) {
             $n++;
             if ($result->server_state != null && $result->server_state != $x->server_state) {
-                echo "ERROR: result $x->id: unexpected state $x->server_state\n";
+                error("result $x->id: unexpected state $x->server_state");
             }
             if ($result->stderr_out != null) {
                 if (substr($result->stderr_out, $x->stderr_out)==0) {
-                    echo "ERROR: result $x->id: unexpected stderr_out $x->stderr_out\n";
+                    error("result $x->id: unexpected stderr_out $x->stderr_out\n");
                 }
             }
             if ($result->exit_state != null && $result->exit_status != $x->exit_status) {
-                echo "ERROR: result $x->id: unexpected exit_status $x->exit_status\n";
+                error("result $x->id: unexpected exit_status $x->exit_status\n");
             }
         }
         if ($n != $ntarget) {
-            echo "ERROR: expected $ntarget results, found $n.\n";
+            error("expected $ntarget results, found $n.\n");
         }
     }
 
@@ -645,11 +811,16 @@ class Project {
     function compare_file($result, $correct) {
         PassThru("diff $this->project_dir/upload/$result $correct", $retval);
         if ($retval) {
-            echo "File mismatch: $result $correct\n";
+            error("File mismatch for project $this->short_name: $result $correct");
         } else {
-            echo "Files match: $result $correct\n";
+            verbose_echo(2, "Files match for project $this->short_name: $result $correct");
         }
     }
+
+    function check_server_deleted($file) {
+        check_deleted("$this->project_dir/" . $file);
+    }
+
 }
 
 // represents an account on a particular project
@@ -682,7 +853,8 @@ class Host {
         $this->users = array();
         $this->projects = array();
         $this->global_prefs = null;
-        $this->log_flags = null;
+        //$this->log_flags = null;
+        $this->log_flags = "log_flags.xml";
     }
 
     function add_user($user, $project) {
@@ -691,19 +863,19 @@ class Host {
     }
 
     function install() {
-        $base_dir = get_env_var("BOINC_HOSTS_DIR");
+        $base_dir = HOSTS_DIR;
         $this->host_dir = $base_dir."/".$this->name;
-        PassThru("rm -rf $this->host_dir");
-        PassThru("mkdir $this->host_dir");
+        XPassThru("rm -rf $this->host_dir");
+        XPassThru("mkdir $this->host_dir");
 
         // create account files
         //
-        echo "creating account files\n";
+        verbose_echo(1, "Creating account files");
         for ($i=0; $i<sizeof($this->users); $i++) {
             $user = $this->users[$i];
             $project = $this->projects[$i];
             $filename = account_file_name($project->master_url);
-            echo "writing $this->host_dir/$filename\n";
+            verbose_echo(2, "Writing $this->host_dir/$filename");
             $f = fopen($this->host_dir."/".$filename, "w");
             fputs($f, "<account>\n");
             fputs($f, "    <master_url>$project->master_url</master_url>\n");
@@ -716,41 +888,39 @@ class Host {
         // copy log flags, if any
         //
         if ($this->log_flags != null) {
-            PassThru("cp $this->log_flags $this->host_dir/log_flags.xml");
+            XPassThru("cp $this->log_flags $this->host_dir/log_flags.xml");
         }
 
         // copy global prefs, if any
         //
         if ($this->global_prefs != null) {
-            PassThru("cp $this->global_prefs.xml $this->host_dir/global_prefs.xml");
+            XPassThru("cp $this->global_prefs.xml $this->host_dir/global_prefs.xml");
         }
     }
-    
+
     function kill($boinc_pid) {
         if ($boinc_pid) {
-            PassThru("kill -9 $boinc_pid");
+            XPassThru("kill -9 $boinc_pid");
         }
     }
- 
+
     // forks a new process to run this host with the given $args.
     // the pid returned is the pid of the newly forked php process.
     // NOTE: to kill the newly started host,
-    // get_new_boincpid() must be called and kill() must be called on it. 
+    // get_new_boincpid() must be called and kill() must be called on it.
     //
     function run_asynch($args) {
-        global $CLIENT_BIN_FILENAME;
         $pid = pcntl_fork();
         if ($pid == -1) {
-            return -1; 
+            return -1;
         } else if ($pid) {
-            return $pid; // we are the parent 
+            return $pid; // we are the parent
         } else { //we are the child
-            echo "\nRunning core client asynch\n";
-            $source_dir = get_env_var("BOINC_SRC_DIR");
-            $platform = get_env_var("BOINC_PLATFORM");
-            //$exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
-            $exec_name = $CLIENT_BIN_FILENAME;
-            PassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
+            verbose_echo(1, "Running core client asynch");
+            $source_dir = SRC_DIR;
+            $platform = PLATFORM;
+            $exec_name = CLIENT_BIN_FILENAME;
+            XPassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
             exit(0);
         }
     }
@@ -769,13 +939,11 @@ class Host {
     }
 
     function run($args=null) {
-          global $CLIENT_BIN_FILENAME;
-          echo "\nRunning core client\n";
-          $source_dir = get_env_var("BOINC_SRC_DIR");
-          $platform = get_env_var("BOINC_PLATFORM");
-          //$exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $platform);
-          $exec_name = $CLIENT_BIN_FILENAME;
-          PassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
+        verbose_echo(1, "Running core client");
+        $source_dir = SRC_DIR;
+        $exec_name = CLIENT_BIN_FILENAME;
+        XPassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out", $ret);
+        assert ($ret == 0);
     }
 
     // read a CPU time file written by the client.
@@ -810,9 +978,8 @@ class Work {
     var $rsc_memory;
     var $rsc_disk;
     var $delay_bound;
-        
-    function Work($app) {
-        $this->app = $app;
+
+    function Work() {
         $this->input_files = array();
         $this->rsc_iops = 1.8e12;
         $this->rsc_fpops = 1e13;
@@ -823,10 +990,16 @@ class Work {
     }
 
     function install($project) {
+        verbose_echo(1, "Installing work <$this->wu_template> in project $project->short_name");
+        if (!$this->app) {
+            $this->app = $project->app_versions[0]->app;
+        }
         $app = $this->app;
+        assert($app);
+
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];
-            PassThru("cp $x $project->project_dir/download");
+            XPassThru("cp $x $project->project_dir/download");
         }
 
         // simulate multiple data servers by making symbolic links
@@ -842,15 +1015,15 @@ class Work {
                 if($temp[$pos + 2] != "<") {
                     $append = substr($temp, $pos+1,strpos($temp,"/<") - $pos -1);
                 }
-                PassThru("ln -s $project->project_dir/download $project->project_dir/download$append");
+                XPassThru("ln -s $project->project_dir/download $project->project_dir/download$append");
             }
         }
-        
+
         // simulate multiple data servers by making copies of
         // the file upload handler
         //
         fclose($f);
-        $source_dir = get_env_var("BOINC_SRC_DIR");
+        $source_dir = SRC_DIR;
         $append = null;
         $f = fopen($this->result_template,"r");
         while(true) {
@@ -859,12 +1032,12 @@ class Work {
             $temp = stristr($temp,"<url>");
             if($temp) {
                 $upload_url = strip_tags($temp,"<UPLOAD_URL/>");
-        
+
                 if(strip_tags($upload_url)) {
                     $append = strip_tags($upload_url);
-                 
-                    PassThru("cp $source_dir/sched/file_upload_handler $project->project_dir/cgi/file_upload_handler$append");
-                      
+
+                    XPassThru("cp $source_dir/sched/file_upload_handler $project->project_dir/cgi/file_upload_handler$append");
+
                 }
             }
         }
@@ -879,3 +1052,22 @@ class Work {
         run_tool($cmd);
     }
 }
+
+function test_done()
+{
+    global $errors;
+
+    // PHP's exit function is really annoying, it prints the exit value
+    if ($errors) {
+        verbose_echo(0, "ERRORS: $errors");
+
+        exit ($errors);
+    } else {
+        verbose_echo(1, "Passed test!");
+        if (VERBOSE == 1)
+            echo "\n";
+        exit();
+    }
+}
+
+?>

@@ -4635,3 +4635,20 @@ Karl    2003/06/11
 
     client/
         client_state.C
+
+Karl    2003/06/11
+    - test suite overhaul 
+
+    _autosetup
+    configure.ac
+    test/
+        Makefile.am
+        test.inc
+        test_1sec.php
+        test_concat.php
+        test_pers.php
+        test_sanity.php
+        test_uc.php
+        version.inc.in
+
+

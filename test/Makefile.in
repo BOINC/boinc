@@ -101,6 +101,7 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SOURCE_TOP_DIR = @SOURCE_TOP_DIR@
 STRIP = @STRIP@
 VERSION = @VERSION@
 ac_ct_CC = @ac_ct_CC@
@@ -167,7 +168,7 @@ RSA_LIBS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-TESTS = test_uc.php
+TESTS = test_sanity.php test_uc.php test_concat.php test_1sec.php
 
 EXTRA_DIST = \
         *.xml *.php *wu *result *output		\

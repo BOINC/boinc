@@ -22,3 +22,6 @@ aclocal && automake --foreign && autoconf && autoheader
 ## to run it, or may want to run with custom parameters.
 
 echo "Done, now run ./configure"
+echo " ./configure -C                         to enable caching"
+echo " ./configure --enable-maintainer-mode   to enable maintainer depedencies"
+

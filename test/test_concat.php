@@ -1,25 +1,25 @@
-#! /usr/local/bin/php
-<?php
+#!/usr/local/bin/php -q
+<?php {
+    // $Id$
     // tests whether command-line arg passing works
 
     include_once("test.inc");
 
+    echo "-- Testing standard concat application ----------------------------------------\n";
+
     $project = new Project;
+    $project->add_core_and_version();
+    $project->add_app_and_version("concat");
+
     $user = new User();
     $host = new Host($user);
-    $app = new App("concat");
-    $app_version = new App_Version($app);
 
     $project->add_user($user);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
     $project->install_feeder();
 
     $host->add_user($user,$project);
     $host->install();
-
-    echo "adding work\n";
 
     $work = new Work($app);
     $work->wu_template = "concat_wu";
@@ -37,4 +37,6 @@
     $project->check_results(2, $result);
     $project->compare_file("concat_wu_0_0", "concat_correct_output");
     $project->compare_file("concat_wu_1_0", "concat_correct_output");
-?>
+
+    test_done();
+} ?>

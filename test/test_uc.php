@@ -1,23 +1,18 @@
-#! /usr/local/bin/php
-<?php
+#!/usr/local/bin/php -q
+<?php {
+    // $Id$
+
     // This tests whether the most basic mechanisms are working
     // Also whether stderr output is reported correctly
     // Also tests if water levels are working correctly
 
     include_once("test.inc");
 
-    $retval = 0;
+    echo "-- Testing standard upper_case application ------------------------------------\n";
 
     $project = new Project;
-
-    // the following is optional (makes client web download possible)
-    $core_version = new Core_Version($core_app);
-    $project->add_core_version($core_version);
-
-    $app = new App("upper_case");
-    $app_version = new App_Version($app);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
+    $project->add_core_and_version();
+    $project->add_app_and_version("upper_case");
 
     $user = new User();
     $user->project_prefs = "<project_specific>\nfoobar\n</project_specific>\n";
@@ -34,17 +29,14 @@
     $project->install_feeder();
 
     $host = new Host();
-    $host->log_flags = "log_flags.xml";
     $host->add_user($user, $project);
     $host->install();
 
-    echo "adding work\n";
-
-    $work = new Work($app);
+    $work = new Work();
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
     $work->redundancy = 2;
-    $work->delay_bound = 2;
+    $work->delay_bound = 10;
     // Say that 1 WU takes 1 day on a ref comp
     $work->rsc_fpops = 86400*1e9/2;
     $work->rsc_iops = 86400*1e9/2;
@@ -53,12 +45,9 @@
     $work->install($project);
 
     $project->start_servers();
-    sleep(1);       // make sure feeder has a chance to run
     $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
-    $project->stop();
-    $project->restart();
-    $project->validate($app, 2);
+    $project->validate(2);
     $result->server_state = RESULT_STATE_OVER;
     $result->stderr_out = "APP: upper_case: starting, argc 1";
     $result->exit_status = 0;
@@ -66,21 +55,13 @@
     $project->compare_file("uc_wu_0_0", "uc_correct_output");
     $project->compare_file("uc_wu_1_0", "uc_correct_output");
 
-    $project->assimilate($app);
+    $project->assimilate();
     $project->file_delete();
-    if (file_exists("$project->project_dir/download/input")) {
-        echo "ERROR: File $project->project_dir/download/input still there\n";
-        $retval = -1;
-    }
-    if (file_exists("$project->project_dir/upload/uc_wu_0_0")) {
-        echo "ERROR: File $project->project_dir/upload/uc_wu_0_0 still there\n";
-        $retval = -1;
-    }
-    if (file_exists("$project->project_dir/upload/uc_wu_1_0")) {
-        echo "ERROR: File $project->project_dir/upload/uc_wu_1_0 still there\n";
-        $retval = -1;
-    }
+
+    $project->check_server_deleted("download/input");
+    $project->check_server_deleted("upload/uc_wu_0_0");
+    $project->check_server_deleted("upload/uc_wu_1_0");
     $project->stop();
 
-    exit($retval);
-?>
+    test_done();
+} ?>

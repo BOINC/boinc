@@ -32,14 +32,14 @@ $work->install($project);
 $project->start_feeder();
 
 //get the path for checking download
-$source_dir = get_env_var("BOINC_SRC_DIR");
+$source_dir = SRC_DIR;
 $enc_url = strtr($project->master_url, "/", "_");
 $enc_url = substr($enc_url,7,strlen($enc_url));
 $path= "$host->host_dir/projects/$enc_url/upper_case";
 print "\n the path for checking download is :".$path;
 
 $pid = $host->run_asynch("-exit_when_idle -limit_transfer_rate 2048");
-$client_pid = $host->get_new_client_pid(null); 
+$client_pid = $host->get_new_client_pid(null);
 assert($pid != -1);
 $first = 0;
 $file_size = 0;
@@ -47,7 +47,7 @@ $file_size = 0;
 
 while(1)
 {
-  
+
   if(file_exists($path))
     {
       $temp = filesize($path);
@@ -57,7 +57,7 @@ while(1)
 	  echo "temp is $temp, file_size is  $file_size\n";
       	  break;
 	}
-  
+
       else if($temp > $file_size)
 	{
 	  print "\n filesize increased, it is : ".$temp;
@@ -71,11 +71,11 @@ while(1)
               echo "\nNow executing : $client_pid";
 	      $first++;
 	    }
-	     
+
 	}
-	     
-      $file_size = $temp;      
-      
+
+      $file_size = $temp;
+
       if($file_size == filesize("$source_dir/apps/upper_case"))
 	{
 	  echo "\n download test succeeded";
@@ -85,7 +85,7 @@ while(1)
     }
 }
 
-	     
+
 $file_size = 0;
 $path= "$project->project_dir/upload/uc_wu_0_0";
 $first =0;
@@ -96,11 +96,11 @@ echo "\n Now checking upload";
 while(1)
 {
   //  echo "\n checking upload";
- 
+
 
   if(file_exists($path))
     {
-      
+
       //  echo "\nfile exists is download";
       $temp = filesize($path);
       if($temp < $file_size)
@@ -122,8 +122,8 @@ while(1)
 	      echo "\nnew client_pid is $client_pid";
 	      $first++;
 	    }
-	     
-	}	   
+
+	}
       $file_size = $temp;
       if($file_size == filesize("$source_dir/test/uc_correct_output"))
 	{
