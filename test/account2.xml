@@ -1,16 +1,16 @@
 <accounts>
     <project>
         <home_project/>
-        <domain>localhost.localdomain</domain>
-        <scheduler_url>http://localhost.localdomain/boinc-cgi/cgi</scheduler_url>
-        <email_addr>david@localhost.localdomain</email_addr>
+        <domain>localhost</domain>
+        <scheduler_url>http://localhost/cgi-bin/boinc-cgi/cgi</scheduler_url>
+        <email_addr>david@localhost</email_addr>
         <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
         <resource_share>2</resource_share>
     </project>
     <project>
         <domain>zoot</domain>
-        <scheduler_url>http://zoot/boinc-cgi/cgi</scheduler_url>
-        <email_addr>david@localhost.localdomain</email_addr>
+        <scheduler_url>http://zoot/cgi-bin/boinc-cgi/cgi</scheduler_url>
+        <email_addr>david@localhost</email_addr>
         <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
         <resource_share>10</resource_share>
     </project>

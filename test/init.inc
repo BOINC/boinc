@@ -1,15 +1,16 @@
 <?php
 
-define("HOME", "home/david");
-define("DOWNLOAD_DIR", "$HOME/html/download");
-define("UPLOAD_DIR", "$HOME/html/upload");
-define("PLATFORM_NAME", "i686-pc-linux-gnu");
+define("HOME", "/disks/jill/a/inet_services/boinc_www/share/htdocs");
+define("DOWNLOAD_DIR", "$HOME/download");
+define("UPLOAD_DIR", "$HOME/upload");
+define("PLATFORM_NAME", "sparc-sun-solaris2.7");
+define("DOWNLOAD_URL", "http://localhost/download/");
 define("VERSION", "1");
 define("CORE_CLIENT", "boinc_".VERSION."_".PLATFORM_NAME);
-define("PROJECTS", "localhost.localdomain zoot");
+define("PROJECTS", "localhost zoot");
     // directories to empty
-define("EMAIL_ADDR", "david@localhost.localdomain");
-define("URL_BASE", "http://localhost.localdomain/download");
+define("EMAIL_ADDR", "david@localhost");
+define("URL_BASE", "http://localhost/download");
     // data server URL root
 
 include_once("../html_user/db.inc");
@@ -59,7 +60,7 @@ function add_app($name) {
 }
 
 function create_work($x) {
-    PassThru("../tools/create_work $x");
+    PassThru("../tools/create_work $x -download_url " .DOWNLOAD_URL);
 }
 
 function run_client() {

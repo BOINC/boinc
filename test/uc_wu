@@ -1,13 +1,13 @@
 <file_info>
-    <name>INFILE_0</name>
-    <url>http://localhost.localdomain/download/INFILE_0</url>
-    <md5_cksum>MD5_0</md5_cksum>
+    <name><INFILE_0/></name>
+    <url><DOWNLOAD_URL/><INFILE_0/></url>
+    <md5_cksum><MD5_0/></md5_cksum>
 </file_info>
 <workunit>
-    <name>WU_NAME</name>
+    <name><WU_NAME/></name>
     <app_name>upper_case</app_name>
     <input_file>
-        <file_name>INFILE_0</file_name>
+        <file_name><INFILE_0/></file_name>
         <fd>0</fd>
     </input_file>
 </workunit>

@@ -1,14 +1,14 @@
 <file_info>
-    <name>OUTFILE_0</name>
+    <name><OUTFILE_0/></name>
     <generated_locally/>
     <upload_when_present/>
-    <url>http://localhost.localdomain/upload/OUTFILE_0</url>
+    <url><UPLOAD_URL/><OUTFILE_0/></url>
 </file_info>
 <result>
-    <name>RESULT_NAME</name>
-    <wu_name>WU_NAME</wu_name>
+    <name><RESULT_NAME/></name>
+    <wu_name><WU_NAME/></wu_name>
     <output_file>
-        <file_name>OUTFILE_0</file_name>
+        <file_name><OUTFILE_0/></file_name>
         <open_name>out</open_name>
     </output_file>
 </result>
