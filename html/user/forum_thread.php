@@ -47,8 +47,10 @@ if ($category->is_helpdesk) {
     }
     if ($logged_in_user->jump_to_unread){
         page_head($title, 'jumpToUnread();');
+	echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->title."\">";
     } else {
         page_head($title);
+	echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->title."\">";
     }
 }
 

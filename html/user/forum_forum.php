@@ -33,6 +33,7 @@ if ($category->is_helpdesk) {
     }
     if (!$sort_style) $sort_style = 'modified-new';
     page_head('Message boards : '.$forum->title);
+    echo "<link href=\"forum_index.php\" rel=\"up\" title=\"Forum Index\">";
 }
 
 echo "
