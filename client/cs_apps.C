@@ -260,6 +260,7 @@ bool CLIENT_STATE::start_apps() {
                 *(atp->result), retval,
                 "Couldn't start the app for this result: error %d", retval
             );
+            delete atp;
         }
         action = true;
         set_client_state_dirty("start_apps");

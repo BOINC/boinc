@@ -9530,3 +9530,17 @@ David  Jan 23 2004
 	lib/
 		parse.C
 		util.C
+
+David  Jan 23 2004
+    - Fleshed out client-side support for GUI RPCs
+        The GUI_RPC class now parses the XML it gets back from
+        the <get_state> request, and builds a data structure
+        that is more or less a clone of the state of the core client.
+        There are still a number of missing pieces,
+        e.g. active tasks and file transfers
+    
+    client/
+        cs_apps.C
+        gui_rpc_client.C,h
+        gui_test.C
+        makefile.gui_test (new)
