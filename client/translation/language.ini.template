@@ -136,6 +136,12 @@ Don't ask this again (connect automatically)=DON'T ASK THIS AGAIN (CONNECT AUTOM
 OK=OK
 Cancel=CANCEL
 
+[DIALOG-RESET]
+Are you sure you want to reset the project =ARE YOU SURE YOU WANT TO RESET THE PROJECT 
+?=???
+Yes=YES
+No=NO
+
 [DIALOG-ABOUT]
 Title=Boinc Beta Version
 Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
