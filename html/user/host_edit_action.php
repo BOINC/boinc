@@ -28,10 +28,20 @@
         exit();
     }
 
-    $result = mysql_query("update result set hostid=$targetid where hostid=$hostid");
+    // update the database:
+    // - add credit from old to new host
+    // - change results to refer to new host
+    // - delete old host
+
+    $t = $old_host->total_credit + $new_host->total_credit;
+    $a = $old_host->expavg_credit + $new_host->expavg_credit;
+    $result = mysql_query("update host set total_credit=$t, expavg_credit=$a where id=$new_host->id");
     if ($result) {
-        if ($hostid != $targetid) {
-            $result = mysql_query("delete from host where id=$hostid");
+        $result = mysql_query("update result set hostid=$targetid where hostid=$hostid");
+        if ($result) {
+            if ($hostid != $targetid) {
+                $result = mysql_query("delete from host where id=$hostid");
+            }
         }
     }
     if ($result) {

@@ -3931,3 +3931,6 @@ David  Mar 20 2003
         edit_host_action.php
         edit_host_form.php
 
+David  Mar 21 2003
+    - fixed bugs in host merge
+    - (Eric) fix secs-per-day problem in credit

@@ -17,24 +17,25 @@ if (!$host || $host->userid != $user->id) {
     exit();
 }
 
+$t = time_str($host->create_time);
 echo "
     Sometimes BOINC assigns separate identities to the same host.
-    You can correct this by merging the old
-    identity with the newer one
-    (the one that has contacted the server most recently).
+    You can correct this by merging old identities with the newest one.
     <form action=host_edit_action.php>
     <input type=hidden name=hostid value=$hostid>
     <p>
-    Merge $host->domain_name (ID $host->id) with
+    Merge $host->domain_name (created $t) with
     <select name=targetid>
     <option value=0> -
 ";
 
 $result = mysql_query("select * from host where userid=$user->id");
 while ($host2 = mysql_fetch_object($result)) {
-    //if ($host->id == $host2->id) continue;
+    if ($host->id == $host2->id) continue;
+    if ($host2->create_time < $host->create_time) continue;
     if (!hosts_compatible($host, $host2)) continue;
-    echo "<option value=$host2->id> $host2->domain_name (ID $host2->id)\n";
+    $t = time_str($host2->create_time);
+    echo "<option value=$host2->id> $host2->domain_name (created $t)\n";
 }
 echo "
     </select>
