@@ -162,7 +162,7 @@ void http_put_request_header(
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     int i, n;
     char buf[1024], *p;
-    if(socket<0) {
+    if (socket<0) {
         fprintf(stderr, "error: read_http_reply_header: negative socket\n");
         return ERR_NEG;
     }
@@ -172,7 +172,7 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     for (i=0; i<1024; i++) {
         n = recv(socket, buf+i, 1, 0);
         if (strstr(buf, "\r\n\r\n") || strstr(buf, "\n\n")) {
-            if (log_flags.http_debug) printf("reply header:\n%s", buf);
+            if (log_flags.http_debug) printf("reply header on socket %d:\n%s", socket, buf);
             p = strchr(buf, ' ');
             if (p) {
                 header.status = atoi(p+1);
@@ -295,6 +295,9 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     http_post_request_header(
         request_header, hostname, port, proxy_buf, content_length
     );
+    if (log_flags.http_debug) {
+        printf("init_post: %x io_done %d\n", (unsigned int)this, io_done);
+    }
     return 0;
 }
 
@@ -398,7 +401,10 @@ bool HTTP_OP_SET::poll() {
                 action = true;
                 n = send(htp->socket, htp->request_header, strlen(htp->request_header), 0);
                 if (log_flags.http_debug) {
-                    printf("wrote HTTP header: %d bytes\n%s", n, htp->request_header);
+                    printf(
+                        "wrote HTTP header to socket %d: %d bytes\n%s",
+                        htp->socket, n, htp->request_header
+                    );
                 }
                 htp->io_ready = false;
                 switch(htp->http_op_type) {
@@ -467,11 +473,12 @@ bool HTTP_OP_SET::poll() {
                 htp->want_upload = false;
                 htp->want_download = true;
                 htp->io_ready = false;
+                htp->io_done = false;
             }
         case HTTP_STATE_REPLY_HEADER:
             if (htp->io_ready) {
                 action = true;
-                if (log_flags.http_debug) printf("got reply header\n");
+                if (log_flags.http_debug) printf("got reply header; %x io_done %d\n", (unsigned int)htp, htp->io_done);
                 read_http_reply_header(htp->socket, htp->hrh);
                 // TODO: handle all kinds of redirects here
                 if (htp->hrh.status == HTTP_STATUS_MOVED_PERM || htp->hrh.status == HTTP_STATUS_MOVED_TEMP) {
@@ -535,6 +542,7 @@ bool HTTP_OP_SET::poll() {
                 case HTTP_OP_POST2:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
                     htp->io_ready = false;
+                    htp->io_done = true;
                     break;
 #if 0
                 case HTTP_OP_PUT:

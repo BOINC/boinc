@@ -501,6 +501,10 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     code_sign_key_signature = 0;
 
     p = fgets(buf, 256, in);
+    if (!p) {
+        fprintf(stderr, "SCHEDULER_REPLY::parse(): empty file\n");
+        return ERR_XML_PARSE;
+    }
     // First part of content should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
     if (!match_tag(buf, "<scheduler_reply>")) {

@@ -905,7 +905,7 @@ void CLIENT_STATE::print_summary() {
     }
     printf("  %d persistent file xfers\n", (int)pers_xfers->pers_file_xfers.size());
     for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        printf("    %s\n", pers_xfers->pers_file_xfers[i]->fip->name);
+        printf("    %s http op state: %d\n", pers_xfers->pers_file_xfers[i]->fip->name, (pers_xfers->pers_file_xfers[i]->fxp?pers_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
     }
     printf("  %d active tasks\n", (int)active_tasks.active_tasks.size());
     for (i=0; i<active_tasks.active_tasks.size(); i++) {

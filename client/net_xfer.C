@@ -218,6 +218,7 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
 // do a select and do I/O on as many sockets as possible.
 // 
 int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeval timeout) {
+    struct timeval zeros;
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
@@ -233,6 +234,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeva
     bytes_transferred = 0;
 
     fd_set read_fds, write_fds, error_fds;
+    memset(&zeros, 0, sizeof(zeros));
 
     FD_ZERO(&read_fds);
     FD_ZERO(&write_fds);
@@ -251,7 +253,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeva
         }
         FD_SET(net_xfers[i]->socket, &error_fds);
     }
-    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
+    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &zeros);
     if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
     if (n == 0) return 0;
     if (n < 0) return ERR_SELECT;
@@ -268,7 +270,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeva
 #elif __APPLE__
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
 #else
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (int *)&intsize);
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
 #endif
                 if (n) {
                     if (log_flags.net_xfer_debug) {
@@ -392,4 +394,7 @@ done:
 void NET_XFER::got_error() {
     error = ERR_IO;
     io_done = true;
+    if (log_flags.net_xfer_debug) {
+        printf("IO error on socket %d\n", socket);
+    }
 }
