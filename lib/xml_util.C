@@ -17,6 +17,14 @@
 //
 // Contributor(s):
 //
+// Revision History
+// $Log$
+// Revision 1.25  2003/12/01 23:42:05  korpela
+// Under some compilers template parameters of type char [] weren't getting
+// cast to char *.  Template functions now use &(array[0]) to ensure correct
+// type is used.
+//
+//
 #include "config.h"
 #include <cctype>
 #include <vector>
@@ -494,7 +502,7 @@ std::string encode_char(unsigned char c) {
     char buf[16];
     sprintf(buf,"&#%.3d;",static_cast<int>(c));
 #ifdef HAVE_MAP
-    encode_map.insert(std::make_pair(c,buf));
+    encode_map.insert(std::make_pair(c,&(buf[0])));
 #endif
     return std::string(buf);
   }
@@ -527,7 +535,7 @@ unsigned char decode_char(const char *s) {
     if (code[1]=='#') {
       sscanf((const char *)(code+2),"%d",&i);
 #ifdef HAVE_MAP
-      decode_map.insert(std::make_pair(code,static_cast<unsigned char>(i&0xff)));
+      decode_map.insert(std::make_pair(std::string(code),static_cast<unsigned char>(i&0xff)));
 #endif
     } else {
       fprintf(stderr,"Unknown XML entity \"%s\"\n",code);
@@ -556,6 +564,11 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.25  2003/12/01 23:42:05  korpela
+// Under some compilers template parameters of type char [] weren't getting
+// cast to char *.  Template functions now use &(array[0]) to ensure correct
+// type is used.
+//
 // Revision 1.24  2003/11/11 17:29:01  quarl
 // *** empty log message ***
 //

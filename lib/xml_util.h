@@ -17,8 +17,16 @@
 // 
 // Contributor(s):
 //
-//
 //  Additional routines to help maintain XML compliance.
+//
+// Revision History:
+// $Log$
+// Revision 1.17  2003/12/01 23:42:05  korpela
+// Under some compilers template parameters of type char [] weren't getting
+// cast to char *.  Template functions now use &(array[0]) to ensure correct
+// type is used.
+//
+//
 
 #ifndef _XML_UTIL_H_
 #define _XML_UTIL_H_
@@ -821,6 +829,11 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.17  2003/12/01 23:42:05  korpela
+// Under some compilers template parameters of type char [] weren't getting
+// cast to char *.  Template functions now use &(array[0]) to ensure correct
+// type is used.
+//
 // Revision 1.16  2003/10/29 20:08:50  korpela
 // *** empty log message ***
 //
