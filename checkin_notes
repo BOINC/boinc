@@ -11024,3 +11024,14 @@ Eric H  Mar 27 2004
     lib/
         error_numbers.h
 
+Rom   Mar 26 2004
+    - Updated setup so it'll ask if you want it to be the defult screensaver
+    - Updated setup so that it'll remember where you installed it last and
+        select that folder by default.
+
+    win_build/installer
+        BOINC.ipr
+    win_build/installer/Media/Default/
+        default.mda
+    win_build/installer/Script Files/
+        Setup.ino, .ins, .obs, .rul

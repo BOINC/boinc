@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  IIIIIII SSSSSS
-//    II    SS                          InstallShield (R)
+//    II    SS                         InstallShield (R)
 //    II    SSSSSS      (c) 1996-1997, InstallShield Software Corporation
 //    II        SS      (c) 1990-1996, InstallShield Corporation
 //  IIIIIII SSSSSS                     All Rights Reserved.
@@ -24,15 +24,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-  // Include header file
+// Include header file
 #include "sdlang.h"
 #include "sddialog.h"
+
 
 ////////////////////// string defines ////////////////////////////
 
 #define UNINST_LOGFILE_NAME		"Uninst.isu"
 #define BOINC_GUI_EXE			"boinc_gui.exe"
 #define README_TXT				"readme.txt"
+
+#define WM_DESTROY 2
 
 //////////////////// installation declarations ///////////////////
 
@@ -52,8 +55,6 @@
      prototype ProcessAfterDataMove();
      prototype SetupRegistry();
      prototype SetupFolders();
-     prototype SetupStartupIcon();
-     prototype DisableLaunchBoincAtStartup();
      prototype CleanUpInstall();
      prototype SetupInstall();
      prototype SetupScreen();
@@ -67,20 +68,19 @@
 
      // your prototypes
 
-
-  // ----- global variables ------
-
      // generated
      BOOL        bWinNT, bIsShellExplorer, bInstallAborted, bIs32BitSetup;
      STRING      svDir;
      STRING      svName, svCompany, svSerial;
      STRING      szAppPath;
+     STRING      svAppPath;
      STRING      svSetupType;
-     STRING  svAppPath;
 
      // your global variables
-     NUMBER bLaunchBoinc, bLaunchBoincAtStartup;
-     //bViewReadme
+     BOOL        bLaunchBoincAtStartup;
+     BOOL        bSetAsDefaultScreensaver;
+     STRING      szProgram;
+     NUMBER      nResult;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -125,27 +125,43 @@ program
         abort;
     endif;
 
-    /*if (bViewReadme) then
-		ChangeDirectory(TARGETDIR);
-    	svAppPath = TARGETDIR ^ README_TXT;
-   		LongPathToQuote( svAppPath, TRUE );
-    	LaunchApp( "notepad", svAppPath );
-    endif;*/
 
+    // Configure launching at startup
     if (bLaunchBoincAtStartup) then
-        SetupStartupIcon();
+		svDir = TARGETDIR ^ BOINC_GUI_EXE;
+		LongPathToQuote ( svDir , TRUE );
+		szProgram = svDir + " -min";
+		AddFolderIcon( FOLDER_STARTUP, "BOINC", szProgram, TARGETDIR, "", 0, "", REPLACE);
     else
-        DisableLaunchBoincAtStartup();
+		DeleteFolderIcon( FOLDER_STARTUP, "BOINC" );
     endif;
 
-    if (bLaunchBoinc) then
-		ChangeDirectory(TARGETDIR);
-    	svAppPath = TARGETDIR ^ BOINC_GUI_EXE;
-   		LongPathToQuote( svAppPath, TRUE );
-    	LaunchApp( svAppPath, "" );
-	endif;
-	
+
+    // Set default screen saver
+    if ( bSetAsDefaultScreensaver ) then
+        if ( bWinNT ) then
+            svDir = WINDIR ^ "boinc.scr";
+            LongPathToQuote( svDir, TRUE );
+            nResult = RegDBSetDefaultRoot (HKEY_CURRENT_USER);
+            nResult = RegDBSetKeyValueEx ("Control Panel\\Desktop", "SCRNSAVE.EXE", REGDB_STRING, svDir, -1);
+        else
+            svDir = WINDIR ^ "system.ini";
+            LongPathToQuote ( svDir, TRUE );
+            nResult = ConfigFileLoad ( svDir );
+            nResult = ConfigAdd ("boinc.scr", WINDIR, "SCRNSAVE.EXE", AFTER );
+            nResult = ConfigFileSave ( svDir );
+        endif;
+    endif;
+
+
+    // Launch BOINC
+	ChangeDirectory(TARGETDIR);
+   	svAppPath = TARGETDIR ^ BOINC_GUI_EXE;
+	LongPathToQuote( svAppPath, TRUE );
+   	LaunchApp( svAppPath, "" );
+
 endprogram
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -157,7 +173,7 @@ endprogram
 ///////////////////////////////////////////////////////////////////////////////
 function ShowDialogs()
     NUMBER  nResult;
- begin
+begin
 
     Dlg_Start:
         // beginning of dialogs label
@@ -178,14 +194,10 @@ function ShowDialogs()
         nResult = DialogShowSdSelectFolder();
         if (nResult = BACK) goto Dlg_SdAskDestPath;
 
-    // Added by Eric 01/23/03
-    //Dlg_SdSelectLanguage:
-    //    nResult = DialogShowSdSelectLanguage();
-    //    if (nResult = BACK) goto Dlg_SdSelectFolder;
+   return 0;
 
-    return 0;
+end;
 
- end;
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -199,7 +211,7 @@ function ProcessBeforeDataMove()
     STRING svLogFile;
     NUMBER nResult, count;
     HWND   client_win;
- begin
+begin
 
   InstallationInfo( @COMPANY_NAME, @PRODUCT_NAME, @PRODUCT_VERSION, @PRODUCT_KEY );
 
@@ -209,8 +221,6 @@ function ProcessBeforeDataMove()
   if (nResult < 0) then
       MessageBox( @ERROR_UNINSTSETUP, WARNING );
   endif;
-
-#define WM_DESTROY 2
 
   // TODO: add boinc_cli.exe check to this
   // if boinc_gui.exe instance is running, tell it to quit
@@ -244,7 +254,8 @@ function ProcessBeforeDataMove()
   //
 
   return 0;
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -256,7 +267,7 @@ function ProcessBeforeDataMove()
 ///////////////////////////////////////////////////////////////////////////////
 function MoveFileData()
     NUMBER nResult, nDisk;
- begin
+begin
 
   nDisk = 1;
   SetStatusWindow( 0, "" );
@@ -271,7 +282,7 @@ function MoveFileData()
 
   return nResult;
 
- end;
+end;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -284,7 +295,7 @@ function MoveFileData()
 ///////////////////////////////////////////////////////////////////////////////
 function HandleMoveDataError( nResult )
     STRING szErrMsg, svComponent , svFileGroup , svFile;
- begin
+begin
 
   svComponent = "";
   svFileGroup = "";
@@ -304,7 +315,8 @@ function HandleMoveDataError( nResult )
        return nResult;
   endswitch;
 
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -315,14 +327,15 @@ function HandleMoveDataError( nResult )
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 function ProcessAfterDataMove()
- begin
+begin
 
   // TODO : update self-registered files and other processes that
   //        should be performed after the data has been moved.
 
 
   return 0;
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -338,15 +351,7 @@ function SetupRegistry()
  STRING svDir;
  STRING svSoftwareStr;
 
- begin
-
-  // TODO : Add all your registry entry keys here
-  //
-  //
-  //    RegDBCreateKeyEx, RegDBSetKeyValueEx....
-  //
-
-  //nResult = CreateRegistrySet( "" );
+begin
 
   svPath = TARGETDIR ^ BOINC_GUI_EXE;
   svArgPath = "\"" + TARGETDIR ^ BOINC_GUI_EXE + "\" -min";
@@ -354,45 +359,22 @@ function SetupRegistry()
 
   if ( bWinNT ) then
     nResult = RegDBSetDefaultRoot (HKEY_CURRENT_USER);
-    nResult = RegDBSetKeyValueEx ("Software\\Microsoft\\Windows\\CurrentVersion\\Run", "boincclient", REGDB_STRING, svArgPath, -1);
-    nResult = RegDBCreateKeyEx ("Software\\BOINC", "ClientPath");
-    nResult = RegDBSetKeyValueEx ("Software\\BOINC", "ClientPath", REGDB_STRING, svPath, -1);
-    nResult = RegDBCreateKeyEx ("Software\\BOINC", "ClientDir");
-    nResult = RegDBSetKeyValueEx ("Software\\BOINC", "ClientDir", REGDB_STRING, svDir, -1);
-    svPath = WINDIR;
-	LongPathToQuote( svPath, TRUE );
-    nResult = RegDBCreateKeyEx ("Software\\BOINC", "WinDir");
-    nResult = RegDBSetKeyValueEx ("Software\\BOINC", "WinDir", REGDB_STRING, svPath, -1);
   else
     nResult = RegDBSetDefaultRoot (HKEY_LOCAL_MACHINE);
-    nResult = RegDBSetKeyValueEx ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "boincclient", REGDB_STRING, svArgPath, -1);
-    nResult = RegDBCreateKeyEx ("SOFTWARE\\BOINC", "ClientPath");
-    nResult = RegDBSetKeyValueEx ("SOFTWARE\\BOINC", "ClientPath", REGDB_STRING, svPath, -1);
-    nResult = RegDBCreateKeyEx ("SOFTWARE\\BOINC", "ClientDir");
-    nResult = RegDBSetKeyValueEx ("SOFTWARE\\BOINC", "ClientDir", REGDB_STRING, svDir, -1);
-    svPath = WINDIR;
-   	LongPathToQuote( svPath, TRUE );
-    nResult = RegDBCreateKeyEx ("SOFTWARE\\BOINC", "WinDir");
-    nResult = RegDBSetKeyValueEx ("SOFTWARE\\BOINC", "WinDir", REGDB_STRING, svPath, -1);
   endif;
 
-  // Set default screen saver
-
-  //if ( bWinNT ) then
-      //svPath = WINDIR ^ "sstest.scr";
-      //LongPathToQuote( svPath, TRUE );
-      //nResult = RegDBSetDefaultRoot (HKEY_CURRENT_USER);
-      //nResult = RegDBSetKeyValueEx ("Control Panel\\Desktop", "SCRNSAVE.EXE", REGDB_STRING, svPath, -1);
-  //else
-      //svPath = WINDIR ^ "system.ini";
-      //LongPathToQuote ( svPath, TRUE );
-      //nResult = ConfigFileLoad ( svPath );
-      //nResult = ConfigAdd ("myscrnsave.exe", "myownpath", "SCRNSAVE.EXE", AFTER );
-      //nResult = ConfigFileSave ( svPath );
-  //endif;
+  nResult = RegDBCreateKeyEx ("SOFTWARE\\BOINC", "ClientPath");
+  nResult = RegDBSetKeyValueEx ("SOFTWARE\\BOINC", "ClientPath", REGDB_STRING, svPath, -1);
+  nResult = RegDBCreateKeyEx ("SOFTWARE\\BOINC", "ClientDir");
+  nResult = RegDBSetKeyValueEx ("SOFTWARE\\BOINC", "ClientDir", REGDB_STRING, svDir, -1);
+  svPath = WINDIR;
+  LongPathToQuote( svPath, TRUE );
+  nResult = RegDBCreateKeyEx ("SOFTWARE\\BOINC", "WinDir");
+  nResult = RegDBSetKeyValueEx ("SOFTWARE\\BOINC", "WinDir", REGDB_STRING, svPath, -1);
 
   return nResult;
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -407,7 +389,7 @@ function SetupFolders()
  STRING svPath;
  STRING szProgram;
 
- begin
+begin
 
   // Added by Eric 11/12/02
   svPath = TARGETDIR ^ BOINC_GUI_EXE;
@@ -425,87 +407,12 @@ function SetupFolders()
   // Added by Eric 01/27/03
   svPath = TARGETDIR ^ README_TXT;
   LongPathToQuote ( svPath , TRUE );
-  AddFolderIcon ( SHELL_OBJECT_FOLDER , "BOINC help" , svPath , WINDIR , "" , 0 , "" , REPLACE );
-
-  // TODO : Add all your folder (program group) along with shortcuts (program items)
-  //
-  //
-  //    CreateProgramFolder, AddFolderIcon....
-  //
+  AddFolderIcon ( SHELL_OBJECT_FOLDER , "BOINC README" , svPath , WINDIR , "" , 0 , "" , REPLACE );
 
   nResult = CreateShellObjects( "" );
 
   return nResult;
- end;
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Function: SetupStartupIcon
-//
-//  Purpose: This function places a shortcut to the boinc client in the
-//           Startup menu folder.
-//
-///////////////////////////////////////////////////////////////////////////////
-function SetupStartupIcon()
- STRING svPath;
- STRING szProgram;
- begin
-   // added by Karl 2003-10-27
-  svPath = TARGETDIR ^ BOINC_GUI_EXE;
-  LongPathToQuote ( svPath , TRUE );
-  szProgram = svPath + " -min";
-  AddFolderIcon( FOLDER_STARTUP, "BOINC", szProgram, TARGETDIR, "", 0, "", REPLACE);
-  return 0;
 end;
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Function: DisableLaunchBoincAtStartup
-//
-//  Purpose: This function removes any registry entries and/or Startup menu
-//           shortcuts that cause boinc to launch at system start. This is
-//           needed to handle the case where the user previously installed
-//           boinc with the option to launch at startup, them (re-)installs
-//           boinc without the option to launch at startup.
-//
-///////////////////////////////////////////////////////////////////////////////
-function DisableLaunchBoincAtStartup()
- NUMBER nResult;
- STRING szKSuffix;   // the constant part of the registry key
- STRING szKey;       // registry key to lookup
- STRING szValue;     // registry key value to delete
-
- begin
-   // added by gmg 2003-12-15
-   szValue = "boincclient";
-   szKSuffix = "\\Microsoft\\Windows\\CurrentVersion\\Run";
-
-   // delete any Startup folder icons
-   //  this is normally what controls autostart
-   nResult = DeleteFolderIcon( FOLDER_STARTUP, "BOINC" );
-
-   // now, delete any startup info in the registry
-   //  not sure what the "boincclient" value does. It is deleted
-   //  as soon as boinc autostarts for the first time (either as
-   //  a result of "Start Boinc Now" or the first autostart after
-   //  a (re)boot.
-   // anyway, it should be removed if it exists, as doing so doesn't
-   // seem to hurt anything.
-
-   // NT registry key as defined by SetupRegistry()
-   nResult = RegDBSetDefaultRoot (HKEY_CURRENT_USER);
-   szKey = "Software" + szKSuffix;
-   nResult = RegDBDeleteValue ( szKey, szValue );
-
-   // non-NT registry key as defined by SetupRegistry()
-   nResult = RegDBSetDefaultRoot (HKEY_LOCAL_MACHINE);
-   szKey = "SOFTWARE" + szKSuffix;
-   nResult = RegDBDeleteValue ( szKey, szValue );
-
-   return 0;
-end;
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -518,7 +425,7 @@ end;
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 function CleanUpInstall()
- begin
+begin
 
 
   if (bInstallAborted) then
@@ -532,7 +439,8 @@ function CleanUpInstall()
   endif;
 
   return 0;
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -543,7 +451,7 @@ function CleanUpInstall()
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 function SetupInstall()
- begin
+begin
 
   Enable( CORECOMPONENTHANDLING );
 
@@ -562,7 +470,8 @@ function SetupInstall()
   Enable( DIALOGCACHE );
 
   return 0;
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -573,7 +482,7 @@ function SetupInstall()
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 function SetupScreen()
- begin
+begin
 
   Enable( FULLWINDOWMODE );
   Enable( INDVFILESTATUS );
@@ -584,7 +493,8 @@ function SetupScreen()
   Enable( BACKGROUND );
 
   Delay( 1 );
- end;
+end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -599,7 +509,7 @@ function CheckRequirements()
     NUMBER  nvDx, nvDy, nvResult;
     STRING  svResult;
 
- begin
+begin
 
   bWinNT           = FALSE;
   bIsShellExplorer = FALSE;
@@ -655,14 +565,14 @@ end;
 function DialogShowSdWelcome()
     NUMBER nResult;
     STRING szTitle, szMsg;
- begin
+begin
 
   szTitle = "";
   szMsg   = "";
   nResult = SdWelcome( szTitle, szMsg );
 
   return nResult;
- end;
+end;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -676,7 +586,7 @@ function DialogShowSdWelcome()
 function DialogShowSdLicense()
     NUMBER nResult;
     STRING szTitle, szMsg, szQuestion, szLicenseFile;
- begin
+begin
 
   szLicenseFile = SUPPORTDIR ^ "license.txt";
   szTitle    = "";
@@ -685,7 +595,7 @@ function DialogShowSdLicense()
   nResult    = SdLicense( szTitle, szMsg, szQuestion, szLicenseFile );
 
   return nResult;
- end;
+end;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -696,18 +606,27 @@ function DialogShowSdLicense()
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 function DialogShowSdAskDestPath()
-    NUMBER nResult;
+    NUMBER nResult, nvType, nvSize;
     STRING szTitle, szMsg;
- begin
+begin
 
   szTitle = "";
   szMsg   = "";
+
+  if ( bWinNT ) then
+    RegDBSetDefaultRoot (HKEY_CURRENT_USER);
+    RegDBGetKeyValueEx ("SOFTWARE\\BOINC", "ClientDir", nvType, svDir, nvSize);
+  else
+    RegDBSetDefaultRoot (HKEY_LOCAL_MACHINE);
+    RegDBGetKeyValueEx ("SOFTWARE\\BOINC", "ClientDir", nvType, svDir, nvSize);
+  endif;
+
   nResult = SdAskDestPath( szTitle, szMsg, svDir, 0 );
 
   TARGETDIR = svDir;
 
   return nResult;
- end;
+end;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -721,7 +640,7 @@ function DialogShowSdAskDestPath()
 function DialogShowSdSelectFolder()
     NUMBER nResult;
     STRING szTitle, szMsg;
- begin
+begin
 
   if (SHELL_OBJECT_FOLDER = "") then
       SHELL_OBJECT_FOLDER = @FOLDER_NAME;
@@ -732,7 +651,7 @@ function DialogShowSdSelectFolder()
   nResult    = SdSelectFolder( szTitle, szMsg, SHELL_OBJECT_FOLDER );
 
   return nResult;
- end;
+end;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -746,58 +665,25 @@ function DialogShowSdSelectFolder()
 function DialogShowSdFinishReboot()
     NUMBER nResult, nDefOptions;
     STRING szTitle, szMsg1, szMsg2, szOption1, szOption2;
- begin
+begin
 
-  //if (!BATCH_INSTALL) then
-      //bViewReadme = FALSE;
-      bLaunchBoinc = TRUE;
-      bLaunchBoincAtStartup = TRUE;
-      szMsg1 = "";
-      szMsg2 = "";
-      szOption1 = "Run BOINC now";
-      szOption2 = "Run BOINC at Startup";
-      //szOption2 = "View README File";
-      nResult = SdFinish( szTitle, szMsg1, szMsg2, szOption1, szOption2, bLaunchBoinc, bLaunchBoincAtStartup );
+   bLaunchBoincAtStartup = TRUE;
+   bSetAsDefaultScreensaver = TRUE;
+   szMsg1 = "";
+   szMsg2 = "";
+   szOption1 = "Run BOINC at Startup";
+   szOption2 = "Set BOINC as your default screensaver";
+   nResult = SdFinish( szTitle, szMsg1, szMsg2, szOption1, szOption2, bLaunchBoincAtStartup, bSetAsDefaultScreensaver );
 
-      return 0;
-  //endif;
+   return 0;
 
-  nDefOptions = SYS_BOOTMACHINE;
-  szTitle     = "";
-  szMsg1      = "";
-  szMsg2      = "";
-  nResult     = SdFinishReboot( szTitle, szMsg1, nDefOptions, szMsg2, 0 );
-
-  return nResult;
- end;
+end;
 
 
-///////////////////////////////////////////////////////////////////////////////
-//                                                                           //
-// Function: DialogShowSdSelectLanguage                                      //
-//                                                                           //
-//  Purpose: This function displays the language selection dialog.           //
-//  Added by Eric Heien, 1/23/03                                             //
-//                                                                           //
-///////////////////////////////////////////////////////////////////////////////
-
-function DialogShowSdSelectLanguage()
-    NUMBER nResult;
-    STRING szTitle, szMsg1, szMsg2;
-    STRING oldMedia;
- begin
-
-  szTitle    = "Select Language";
-  szMsg1     = "Please select the language you want the BOINC client to use:";
-  nResult    = SdAskOptions(szTitle , szMsg1, "" , "" , "Language Files" , EXCLUSIVE);
-  //nResult    = SdComponentDialog(szTitle , szMsg1, TARGETDIR , "Language Files");
-
-  return nResult;
- end;
-
- // --- include script file section ---
+// --- include script file section ---
 
 #include "sddialog.rul"
+
 
 
 
