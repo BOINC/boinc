@@ -1307,10 +1307,11 @@ bool CLIENT_STATE::update_results() {
         
         switch (rp->state) {
         case RESULT_NEW:
-            if (input_files_available(rp)) {
+            if (input_files_available(rp))
                 rp->state = RESULT_FILES_DOWNLOADED;
-                action = true;
-            }
+            else
+                rp->state = RESULT_FILES_DOWNLOADING;
+            action = true;
             break;
         case RESULT_FILES_DOWNLOADED:
             // The transition to COMPUTE_DONE is performed
@@ -1323,8 +1324,9 @@ bool CLIENT_STATE::update_results() {
             if (rp->is_upload_done()) {
                 rp->ready_to_ack = true;
                 rp->state = RESULT_FILES_UPLOADED;
-                action = true;
-            }
+            } else
+                rp->state = RESULT_FILES_UPLOADING;
+            action = true;
             break;
             
         case RESULT_FILES_UPLOADED:
