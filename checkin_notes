@@ -22153,6 +22153,7 @@ Rom    6 Jan 2005
         API to determine if the system is idle or not instead of hooking
         into each process space.  This will fix the possible warnings
         that key logging detection tools throw with BOINC is started up.
+        For older platforms we'll hook into the process space.
     - Bug Fix: Detect system idle properties across the terminal services
         boundry.  Thanks to Eric Youngdale for the patch.
     - Bug Fix: Detect the condition where the system tick count may have
