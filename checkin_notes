@@ -22802,4 +22802,9 @@ Bruce 17 Jan 2005
         sched_locality.C
  
 
+David  17 Jan 2005
+    - don't start apps until after benchmark
+        (may work around CPDN bug)
 
+    client/
+        client_state.C

@@ -301,10 +301,6 @@ int CLIENT_STATE::init() {
     retval = make_project_dirs();
     if (retval) return retval;
 
-    // Restart any tasks that were running when we last quit the client
-    //
-    restart_tasks();
-
     // Just to be on the safe side; something may have been modified
     //
     set_client_state_dirty("init");
@@ -349,6 +345,7 @@ int CLIENT_STATE::net_sleep(double x) {
 bool CLIENT_STATE::do_something(double now) {
     int actions = 0, reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
+    static bool tasks_restarted = false;
 
     if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
         run_cpu_benchmarks = false;
@@ -406,6 +403,14 @@ bool CLIENT_STATE::do_something(double now) {
     //  schedule_cpus
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before schedule_cpus()
+
+    // restart tasks here so that if we do benchmark on startup,
+    // we don't immediately suspend apps
+    //
+    if (!activities_suspended && !tasks_restarted) {
+        restart_tasks();
+        tasks_restarted = true;
+    }
 
     ss_logic.poll();
     if (activities_suspended) {

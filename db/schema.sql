@@ -413,3 +413,10 @@ create table forum_logging (
     timestamp           integer     not null default 0,
     primary key (userid,threadid)
 ) TYPE=MyISAM;
+
+create table tentative_user (
+    nonce               varchar(254) not null,
+    email_addr          varchar(254) not null,
+    confirmed           integer not null,
+    primary key(nonce)
+);
