@@ -109,8 +109,12 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             // Note: this is only checked when the application finishes. there
             // is also a check_max_disk_exceeded that is checked while the
             // application is running.
-            msg_printf(rp->project, MSG_INFO, "Output file %s for result %s exceeds size limit.",
-                       fip->name, rp->name);
+            //
+            msg_printf(
+                rp->project, MSG_INFO,
+                "Output file %s for result %s exceeds size limit.",
+                fip->name, rp->name
+            );
 
             fip->delete_file();
             fip->status = ERR_FILE_TOO_BIG;
@@ -161,8 +165,10 @@ bool CLIENT_STATE::handle_finished_apps() {
             break;
         default:
             msg_printf(atp->wup->project, MSG_INFO, "Computation for result %s finished", atp->wup->name);
-            scope_messages.printf("CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
-                                  atp->pid, atp->exit_status);
+            scope_messages.printf(
+                "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
+                atp->pid, atp->exit_status
+            );
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;

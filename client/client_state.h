@@ -52,7 +52,7 @@ public:
     vector<RESULT*> results;
 
     NET_XFER_SET* net_xfers;
-    PERS_FILE_XFER_SET* pers_xfers;
+    PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;
     ACTIVE_TASK_SET active_tasks;
@@ -162,7 +162,9 @@ private:
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);
     int latest_version_num(char*);
-    int check_suspend_activities();
+    int check_suspend_activities(int&);
+    int suspend_activities(int reason);
+    int resume_activities();
     int make_project_dirs();
     int make_slot_dirs();
     bool input_files_available(RESULT*);
@@ -194,8 +196,6 @@ public:
     int add_project(char* master_url, char* authenticator);
     int reset_project(PROJECT*);
     int detach_project(PROJECT*);
-    //int change_project(int index, char* master_url, char* authenticator);
-    //int quit_project(PROJECT*);
 private:
     PROJECT* find_project_with_overdue_results();
     bool some_project_rpc_ok();

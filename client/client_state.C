@@ -18,7 +18,6 @@
 //
 
 #include "windows_cpp.h"
-#include "error_numbers.h"
 
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -36,6 +35,7 @@
 #include <unistd.h>
 #endif
 
+#include <cassert>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -64,7 +64,7 @@ CLIENT_STATE::CLIENT_STATE() {
     net_xfers = new NET_XFER_SET;
     http_ops = new HTTP_OP_SET(net_xfers);
     file_xfers = new FILE_XFER_SET(http_ops);
-    pers_xfers = new PERS_FILE_XFER_SET(file_xfers);
+    pers_file_xfers = new PERS_FILE_XFER_SET(file_xfers);
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
@@ -300,8 +300,7 @@ int CLIENT_STATE::init() {
     return 0;
 }
 
-void CLIENT_STATE::fork_run_cpu_benchmarks()
-{
+void CLIENT_STATE::fork_run_cpu_benchmarks() {
 	cpu_benchmarks_start = time(0);
 	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
 #ifdef _WIN32
@@ -379,16 +378,22 @@ int CLIENT_STATE::cpu_benchmarks() {
         host_info.p_membw = 4e9;
         host_info.m_cache = 1e6;
     } else {
-        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
-                              fpop_test_secs);
+        scope_messages.printf(
+            "CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
+            fpop_test_secs
+        );
         host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
 
-        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
-                              iop_test_secs);
+        scope_messages.printf(
+            "CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
+            iop_test_secs
+        );
         host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
 
-        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
-                              mem_test_secs);
+        scope_messages.printf(
+            "CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
+            mem_test_secs
+        );
         host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
 
         // need to check cache!!
@@ -398,7 +403,7 @@ int CLIENT_STATE::cpu_benchmarks() {
 			host_info.p_fpops, (host_info.p_fpop_err?" [ERROR]":""),
 			host_info.p_iops,  (host_info.p_iops?" [ERROR]":""),
 			host_info.p_membw, (host_info.p_membw?" [ERROR]":"")
-			);
+        );
     }
 
     host_info.p_calculated = (double)time(0);
@@ -533,54 +538,32 @@ inline bool now_between_two_hours(int start_hour, int end_hour)
     }
 }
 
+#define SUSPEND_REASON_BATTERIES    1
+#define SUSPEND_REASON_USER_ACTIVE  2
+#define SUSPEND_REASON_USER_REQ     4
+#define SUSPEND_REASON_TIME_OF_DAY  8
+
 // See if (on the basis of user prefs) we should suspend activities.
-// If so, suspend tasks
 //
-int CLIENT_STATE::check_suspend_activities() {
-    bool should_suspend = false;
-    // char susp_msg[256];
-    const char* susp_msg = "<error>";
+int CLIENT_STATE::check_suspend_activities(int& reason) {
+    reason = 0;
+
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
-        susp_msg = "Suspending activity - on batteries";
-        should_suspend = true;
+        reason |= SUSPEND_REASON_BATTERIES;
     }
 
     // user_idle and suspend_requested are set in the Mac/Win GUI code
     //
     if (!global_prefs.run_if_user_active && !user_idle) {
-        should_suspend = true;
-        susp_msg = "Suspending activity - user is active";
+        reason |= SUSPEND_REASON_USER_ACTIVE;
     }
     if (suspend_requested) {
-        should_suspend = true;
-        susp_msg = "Suspending activity - user request";
+        reason |= SUSPEND_REASON_USER_REQ;
     }
 
     if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
-        should_suspend = true;
-        susp_msg = "Suspending activity - time of day";
+        reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
-
-    // Don't work while we're running CPU benchmarks
-    //
-    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
-        should_suspend = true;
-        susp_msg = "Suspending activity - running CPU benchmarks";
-    }
-
-    if (should_suspend) {
-        if (!activities_suspended) {
-            active_tasks.suspend_all();
-            msg_printf(NULL, MSG_INFO, const_cast<char*>(susp_msg));
-        }
-    } else {
-        if (activities_suspended) {
-            active_tasks.unsuspend_all();
-            msg_printf(NULL, MSG_INFO, "Resuming activity");
-        }
-    }
-    previous_activities_suspended = activities_suspended;
-    activities_suspended = should_suspend;
     return 0;
 }
 
@@ -598,23 +581,35 @@ int CLIENT_STATE::net_sleep(double x) {
     }
 }
 
-// do_something polls each of the client's finite-state machine layers,
-// possibly triggering state transitions.
-// Returns true if something happened
-// (in which case should call this again immediately)
+int CLIENT_STATE::suspend_activities(int reason) {
+    char buf [256];
+    strcpy(buf, "Suspending computation and file transfer");
+    if (reason & SUSPEND_REASON_BATTERIES) {
+        strcat(buf, " - on batteries");
+    }
+    if (reason & SUSPEND_REASON_USER_ACTIVE) {
+        strcat(buf, " - user is active");
+    }
+    if (reason & SUSPEND_REASON_USER_REQ) {
+        strcat(buf, " - user request");
+    }
+    if (reason & SUSPEND_REASON_TIME_OF_DAY) {
+        strcat(buf, " - time of day");
+    }
+    msg_printf(NULL, MSG_INFO, buf);
+    active_tasks.suspend_all();
+    pers_file_xfers->suspend();
+    return 0;
+}
+
+// persistent file xfers will resume of their own accord
+// since activities_suspended is now true
 //
-bool CLIENT_STATE::do_something() {
-    int actions = 0;
-
-    check_suspend_activities();
-
-    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) return false;
-
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_POLL);
-    scope_messages.printf("CLIENT_STATE::do_evil(): Begin poll:\n");
-    ++scope_messages;
-    net_stats.poll(*net_xfers);
-    ss_logic.poll();
+int CLIENT_STATE::resume_activities() {
+    msg_printf(NULL, MSG_INFO, "Resuming activity");
+    active_tasks.unsuspend_all();
+    return 0;
+}
 
 #define POLL_ACTION(name, func)                                                \
     do { if (func()) {                                                         \
@@ -622,38 +617,66 @@ bool CLIENT_STATE::do_something() {
             scope_messages.printf("CLIENT_STATE::do_evil(): active task: " #name "\n"); \
         } } while(0)
 
-    POLL_ACTION(scheduler_rpc, scheduler_rpc_poll);
+// do_something polls each of the client's finite-state machine layers,
+// possibly triggering state transitions.
+// Returns true if something happened
+// (in which case should call this again immediately)
+//
+bool CLIENT_STATE::do_something() {
+    int actions = 0, reason;
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_POLL);
 
+    // if we're doing CPU benchmarks, don't do anything else
+    //
+    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) return false;
+
+    check_suspend_activities(reason);
+    if (reason) {
+        if (!activities_suspended) {
+            suspend_activities(reason);
+        }
+    } else {
+        if (activities_suspended) {
+            resume_activities();
+        }
+    }
+    previous_activities_suspended = activities_suspended;
+    activities_suspended = (reason != 0);
+
+    scope_messages.printf("CLIENT_STATE::do_evil(): Begin poll:\n");
+    ++scope_messages;
+
+    ss_logic.poll();
     if (activities_suspended) {
         scope_messages.printf("CLIENT_STATE::do_evil(): No active tasks! (suspended)\n");
-		if (!previous_activities_suspended) {
-			// TODO: clean up network connections, close files
-		}
+        POLL_ACTION(net_xfers              , net_xfers->poll        );
+        POLL_ACTION(http_ops               , http_ops->poll         );
+        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     } else {
+        net_stats.poll(*net_xfers);
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
-
+        //
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(start_apps             , start_apps             );
-        POLL_ACTION(pers_xfers             , pers_xfers->poll       );
+        POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll       );
         POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
+    }
 
-#undef POLL_ACTION
-
-        if (write_state_file_if_needed()) {
-            msg_printf(NULL, MSG_ERROR, "Couldn't write state file");
-        }
+    if (write_state_file_if_needed()) {
+        msg_printf(NULL, MSG_ERROR, "Couldn't write state file");
     }
     --log_messages;
-    scope_messages.printf("CLIENT_STATE::do_evil(): End poll: %d tasks active\n",
-                          actions);
+    scope_messages.printf(
+        "CLIENT_STATE::do_evil(): End poll: %d tasks active\n", actions
+    );
     if (actions > 0) {
         return true;
     } else {
@@ -723,7 +746,7 @@ int CLIENT_STATE::parse_state_file() {
                 // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
                 if (fip->pers_file_xfer) {
                     fip->pers_file_xfer->init(fip, fip->upload_when_present);
-                    retval = pers_xfers->insert( fip->pers_file_xfer );
+                    retval = pers_file_xfers->insert( fip->pers_file_xfer );
                 }
             } else {
                 delete fip;
@@ -1137,9 +1160,9 @@ void CLIENT_STATE::print_summary() {
     for (i=0; i<results.size(); i++) {
         scope_messages.printf("    %s state:%d\n", results[i]->name, results[i]->state);
     }
-    scope_messages.printf("%d persistent file xfers\n", (int)pers_xfers->pers_file_xfers.size());
-    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        scope_messages.printf("    %s http op state: %d\n", pers_xfers->pers_file_xfers[i]->fip->name, (pers_xfers->pers_file_xfers[i]->fxp?pers_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
+    scope_messages.printf("%d persistent file xfers\n", (int)pers_file_xfers->pers_file_xfers.size());
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        scope_messages.printf("    %s http op state: %d\n", pers_file_xfers->pers_file_xfers[i]->fip->name, (pers_file_xfers->pers_file_xfers[i]->fxp?pers_file_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
     }
     scope_messages.printf("%d active tasks\n", (int)active_tasks.active_tasks.size());
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -1616,13 +1639,13 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         }
     }
 
-    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        pxp = pers_xfers->pers_file_xfers[i];
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
             if (pxp->fxp) {
                 file_xfers->remove(pxp->fxp);
             }
-            pers_xfers->remove(pxp);
+            pers_file_xfers->remove(pxp);
             i--;
         }
     }
@@ -1748,8 +1771,8 @@ void CLIENT_STATE::check_result_pointer(RESULT* p) {
 
 void CLIENT_STATE::check_pers_file_xfer_pointer(PERS_FILE_XFER* p) {
     unsigned int i;
-    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        if (p == pers_xfers->pers_file_xfers[i]) return;
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        if (p == pers_file_xfers->pers_file_xfers[i]) return;
     }
     assert(0);
 }
@@ -1839,8 +1862,8 @@ void CLIENT_STATE::check_all() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         check_active_task(*active_tasks.active_tasks[i]);
     }
-    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        check_pers_file_xfer(*pers_xfers->pers_file_xfers[i]);
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        check_pers_file_xfer(*pers_file_xfers->pers_file_xfers[i]);
     }
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         check_file_xfer(*file_xfers->file_xfers[i]);

@@ -272,7 +272,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
         }
         iter++;
     }
-    // fprintf(stdout, "NET_XFER_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "NET_XFER_SET::remove(): not found\n");
     return 1;
 }
 

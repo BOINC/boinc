@@ -263,7 +263,7 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     }
     http_post_request_header(
         request_header, hostname, port, proxy_buf, content_length
-        );
+    );
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
     return 0;
 }
@@ -355,8 +355,10 @@ bool HTTP_OP_SET::poll() {
                     htp->socket, htp->request_header,
                     strlen(htp->request_header), 0
                     );
-                scope_messages.printf("HTTP_OP_SET::poll(): wrote HTTP header to socket %d: %d bytes\n",
-                                      htp->socket, n);
+                scope_messages.printf(
+                    "HTTP_OP_SET::poll(): wrote HTTP header to socket %d: %d bytes\n",
+                    htp->socket, n
+                );
                 scope_messages.printf_multiline(htp->request_header, "HTTP_OP_SET::poll(): request header: ");
                 htp->io_ready = false;
                 switch(htp->http_op_type) {
@@ -538,6 +540,6 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
         }
         iter++;
     }
-    // fprintf(stdout, "HTTP_OP_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::remove(): not found\n");
     return 1;
 }

@@ -906,7 +906,9 @@ int ACTIVE_TASK_SET::restart_tasks() {
         get_slot_dir(atp->slot, atp->slot_dir);
         atp->result->is_active = true;
         retval = atp->start(false);
-        scope_messages.printf("ACTIVE_TASK_SET::restart_tasks(): Restarting computation for result %s", atp->result->name);
+        msg_printf(atp->wup->project, MSG_INFO,
+            "Restarting computation for result %s", atp->result->name
+        );
         if (retval) {
             msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
             atp->result->active_task_state = PROCESS_COULDNT_START;

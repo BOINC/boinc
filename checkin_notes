@@ -5426,3 +5426,29 @@ Karl 2003/07/29
 
     client/*
     client/win/*
+
+David  July 29 2003
+    - allow scheduler RPCs while client is suspended
+    - when suspend client, stop all PERS_FILE_XFERs,
+        close the associated sockets and FILE*s
+        and delete the FILE_XFER objects
+    - cleaned up suspend/resume logic a bit;
+        check_suspend_activities() now just checks,
+        a separate function suspend_activities() does the suspending
+    - don't start new FILE_XFERS while suspended
+    - show message when restarting a result
+
+    client/
+        app.C
+        client_state.C,h
+        cs_apps.C
+        cs_files.C
+        file_xfer.h
+        http.C
+        net_xfer.C
+        pers_file_xfer.C,h
+        win/
+            wingui_mainwindow.cpp
+    doc/
+        index.html
+        old_news.html

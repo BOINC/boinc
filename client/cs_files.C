@@ -44,7 +44,7 @@
 // TODO: limit the number of file xfers in some way
 //
 bool CLIENT_STATE::start_new_file_xfer() {
-    return true;
+    return !activities_suspended;
 }
 
 void CLIENT_STATE::trunc_stderr_stdout() {
@@ -132,14 +132,14 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
-            pers_xfers->insert(fip->pers_file_xfer);
+            pers_file_xfers->insert(fip->pers_file_xfer);
             action = true;
         } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
 
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
             fip->pers_file_xfer = pfx;
-            pers_xfers->insert(fip->pers_file_xfer);
+            pers_file_xfers->insert(fip->pers_file_xfer);
             action = true;
         }
     }
@@ -148,8 +148,8 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     // and deleting them
     //
     vector<PERS_FILE_XFER*>::iterator iter;
-    iter = pers_xfers->pers_file_xfers.begin();
-    while (iter != pers_xfers->pers_file_xfers.end()) {
+    iter = pers_file_xfers->pers_file_xfers.begin();
+    while (iter != pers_file_xfers->pers_file_xfers.end()) {
         pfx = *iter;
 
         // If the transfer finished, remove the PERS_FILE_XFER object
@@ -158,7 +158,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         if (pfx->xfer_done) {
             // pfx->fip->pers_file_xfer = NULL;
             FILE_INFO* DEBUG_fip = pfx->fip;
-            iter = pers_xfers->pers_file_xfers.erase(iter);
+            iter = pers_file_xfers->pers_file_xfers.erase(iter);
             delete pfx;
             action = true;
             // `delete pfx' should have set pfx->fip->pfx to NULL

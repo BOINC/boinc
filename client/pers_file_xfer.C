@@ -347,6 +347,22 @@ int PERS_FILE_XFER::write(FILE* fout) {
     return 0;
 }
 
+void PERS_FILE_XFER::suspend() {
+    if (fxp) {
+        if (fxp->socket) {
+            fxp->close_socket();
+            fxp->socket = 0;
+        }
+        if (fxp->file) {
+            fclose(fxp->file);
+            fxp->file = 0;
+        }
+        gstate.file_xfers->remove(fxp);     // this removes from http_op_set too
+        delete fxp;
+        fxp = 0;
+    }
+}
+
 PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
     file_xfers = p;
 }
@@ -395,4 +411,14 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
         "PERS_FILE_XFER_SET::remove(): not found"
     );
     return 1;
+}
+
+// suspend all PERS_FILE_XFERs
+//
+void PERS_FILE_XFER_SET::suspend() {
+    unsigned int i;
+
+    for (i=0; i<pers_file_xfers.size(); i++) {
+        pers_file_xfers[i]->suspend();
+    }
 }

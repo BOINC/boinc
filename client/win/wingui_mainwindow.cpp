@@ -2001,7 +2001,7 @@ void CMainWindow::OnTimer(UINT uEventID)
 		while(gstate.do_something());
 		NetCheck(); // check if network connection can be terminated
 		if (IsUserSuspended()) {
-			// user spended - don't bother checking idle
+			// user suspended - don't bother checking idle
 		} else if (gstate.is_suspended()) {
 			// otherwise suspended, possibly due to not being idle
 			CheckIdle();

@@ -61,6 +61,7 @@ public:
     int write(FILE* fout);
     int parse(FILE* fin);
     int start_xfer();
+    void suspend();
 };
 
 class PERS_FILE_XFER_SET {
@@ -72,4 +73,5 @@ public:
     int insert(PERS_FILE_XFER*);
     int remove(PERS_FILE_XFER*);
     bool poll();
+    void suspend();
 };
