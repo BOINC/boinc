@@ -44,7 +44,7 @@ $user = get_user_from_auth($authenticator);
     <br><font size=2>This page will be linked to from the project's team page.
     </td></tr><tr>
     <td valign=top>Description of team:</td>
-    <td><textarea name=description value=$team_description cols=60 rows=10>$team_description</textarea>
+    <td><textarea name=description cols=60 rows=10>$team_description</textarea>
     </td></tr><tr>
     <td valign=top>Type of team:</td><td>";
     printf("<input type=radio name=type value=4%s>Club<br>", ($team->type==4)?" checked":"");

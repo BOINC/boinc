@@ -36,7 +36,7 @@
             where id = %d",
             $team_name,
             $team_name_html,
-            $new_url,
+            $team_url,
             $team_description,
             $HTTP_POST_VARS["type"],
             $team->id
