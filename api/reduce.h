@@ -49,11 +49,12 @@ public:
 	int reduce_method;			// Which method to use for data row reduction
     double hue0;
     double dhue;
+	float alpha;
 
     REDUCED_ARRAY();
     ~REDUCED_ARRAY();
     void init(int, int);
-    void init_draw(float*, float*, double, double);
+    void init_draw(float*, float*, double, double, float);
     void set_max_dims(int, int);
     void reduce_source_row(float*, float*);
     void add_source_row(float*);

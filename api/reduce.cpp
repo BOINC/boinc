@@ -70,13 +70,14 @@ void REDUCED_ARRAY::reset() {
     last_ry_count = 0;
 }
 
-void REDUCED_ARRAY::init_draw(float* p, float* s, double h0, double dh) {
+void REDUCED_ARRAY::init_draw(float* p, float* s, double h0, double dh, float trans) {
     memcpy(draw_pos, p, sizeof(draw_pos));
     memcpy(draw_size, s, sizeof(draw_size));
     draw_deltax = draw_size[0]/rdimx;
     draw_deltaz = draw_size[2]/rdimy;
     hue0 = h0;
     dhue = dh;
+	alpha = trans;
 }
 
 // reduce a single row.  This is called only if sdimx > rdimx;
@@ -218,7 +219,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
         double lum = .5 + h/2;
         COLOR color;
         HLStoRGB(hue, lum, sat, color);
-        glColor3f(color.r, color.g, color.b);
+        glColor4f(color.r, color.g, color.b, alpha);
 
         glVertex3f(x0, y00, z0);
         glVertex3f(x1, y01, z0);
@@ -230,7 +231,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
     // draw a black line on front and right edge of each quad
     //
     glBegin(GL_LINES);
-    glColor3f(0., 0., 0.);
+    glColor4f(0., 0., 0., 0.);
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax;
@@ -269,7 +270,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
         double lum = .5 + h/2;
         COLOR color;
         HLStoRGB(hue, lum, sat, color);
-        glColor3f(color.r, color.g, color.b);
+        glColor4f(color.r, color.g, color.b, alpha);
 
         glVertex3f(x0, y0, z0);
         glVertex3f(x1, y0, z0);
@@ -281,7 +282,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
     // draw a black line on top of rectangle
     //
     glBegin(GL_LINES);
-    glColor3f(0., 0., 0.);
+    glColor4f(0., 0., 0., 0.);
     for (i=0; i<rdimx; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax*.8f;
@@ -316,7 +317,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
         double lum = .5 + h/2;
         COLOR color;
         HLStoRGB(hue, lum, sat, color);
-        glColor3f(color.r, color.g, color.b);
+        glColor4f(color.r, color.g, color.b, alpha);
 
         glVertex3f(x0, y0, z0);
         glVertex3f(x0, y1, z0);
@@ -328,7 +329,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
     // draw a black line on top of rectangle
     //
     glBegin(GL_LINES);
-    glColor3f(0., 0., 0.);
+    glColor4f(0., 0., 0., 0.);
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
