@@ -171,7 +171,6 @@ int make_more_work_for_file(char* filename) {
         SCHED_MSG_LOG::DEBUG,
         "touched %s: need work for file %s\n", fullpath, filename
     );
-    sleep(config.locality_scheduling_wait_period);
     return 0;
 }
 
@@ -243,37 +242,33 @@ static int send_results_for_file(
     bool in_working_set
 ) {
     DB_RESULT result, prev_result;
-    int retval, i, maxid;
     char buf[256], query[1024];
-    bool work_generator_invoked = false;
+    int i, maxid, retval_max, retval_lookup;
 
-    // find largest ID of results already sent to this user
-    // for this file, if any
+    // find largest ID of results already sent to this user for this
+    // file, if any.  Any result that is sent will have userid field
+    // set, so unsent results can not be returned by this query.
     //
     sprintf(buf, "where userid=%d and name like '%s__%%'",
         reply.user.id, filename
     );
-    retval = result.max_id(maxid, buf);
-    if (retval) {
+    retval_max = result.max_id(maxid, buf);
+    if (retval_max) {
         prev_result.id = 0;
     } else {
-        retval = prev_result.lookup_id(maxid);
-        if (retval) return retval;
+        retval_lookup = prev_result.lookup_id(maxid);
+        if (retval_lookup) return retval_lookup;
     }
-
 
     nsent = 0;
     for (i=0; i<100; i++) {     // avoid infinite loop
+        int query_retval;
+
         if (!wreq.work_needed(reply)) break;
     
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "in_send_results_for_file(%s) maxid=%d prev_result.id=%d\n", filename, maxid, prev_result.id
+            "in_send_results_for_file(%s, %d) prev_result.id=%d\n", filename, i, prev_result.id
         );
-
-        // Use a transaction so that if we get a result,
-        // someone else doesn't send it before we do
-        //
-        boinc_db.start_transaction();
 
         // find unsent result with next larger ID than previous largest ID
         //
@@ -291,64 +286,102 @@ static int send_results_for_file(
                 filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
         }
-        retval = result.lookup(query);
 
-        if (retval) {
+        // Use a transaction so that if we get a result,
+        // someone else doesn't send it before we do
+        //
+        boinc_db.start_transaction();
 
-            // if didn't get a result, trigger the work generator if relevant
-            //
-            boinc_db.commit_transaction();
-            if (!work_generator_invoked && config.locality_scheduling_wait_period) {
-                retval = make_more_work_for_file(filename);
-                log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                    "make_more_work_for_file(%s, %d)=%d\n", filename, i, retval
-                );
+        query_retval = result.lookup(query);
 
-                if (retval) break;
-                work_generator_invoked = true;
-            } else {
-                if (in_working_set) {
-		    if (work_generation_over(filename)) {
-                        flag_for_possible_removal(filename);
-                        log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                            "No remaining work for file %s, flagging for removal\n", filename
-                        );
-		    } else {
-		    //  DAVID: if work generation is NOT over then we
-		    //  should invoke make_more_work_for_file(),
-		    //  right?  Or will this branch never happen?
-		    }
+        if (query_retval) {
+	    int make_work_retval;
+	  
+	    // no unsent results are available for this file
+	    //
+	    boinc_db.commit_transaction();
+
+	    // see if no more work remains to be made for this file,
+	    // or if an attempt to make more work fails.
+	    //
+	    make_work_retval=make_more_work_for_file(filename);
+	    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+	        "make_more_work_for_file(%s, %d)=%d\n", filename, i, make_work_retval
+            );
+	  
+	    // if we failed to make more work, we are finished.
+	    //
+	    if (make_work_retval) {
+	        // DAVID, I don't see how we can EVER flag this file
+	        // for removal from the advertisement list in this way
+	        // if one_result_per_user_per_wu is set.  We have not
+	        // checked that there are no more unsent results for
+	        // this file.  Only that we can't find any more
+	        // results which are suitable for this host.  But
+	        // there may be results suitable for other hosts, so
+	        // we need to continue advertising.  It only makes
+	        // sense to stop advertising the file is there are no
+	        // remaining unsent results for it (suitable for ANY
+	        // host).  Truly, we can only stop advertising a file
+	        // when all the WU for it are finished.
+	        if (!config.one_result_per_user_per_wu) {
+		    flag_for_possible_removal(filename);
+		    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+		        "No remaining work for file %s (%d), flagging for removal\n", filename, i
+                    );
                 }
-                break;
-            }
-        } else {
-            retval = possibly_send_result(
+		break;
+	    }
+
+	    // if the user has not configured us to wait and try
+	    // again, we are finished.
+	    //
+	    if (!config.locality_scheduling_wait_period)
+	        break;
+
+	    // wait a bit and try again to find a suitable unsent result
+	    sleep(config.locality_scheduling_wait_period);
+	  
+	}
+	else {
+	    int retval_send;
+
+	    // we found an unsent result, so try sending it. This
+	    // *should* always work.
+	    //
+            retval_send = possibly_send_result(
                 result, sreq, reply, platform, wreq, ss
             );
             boinc_db.commit_transaction();
 
             // if no app version, give up completely
             //
-            if (retval == ERR_NO_APP_VERSION) return retval;
+            if (retval_send == ERR_NO_APP_VERSION) return retval_send;
 
             // if we couldn't send it for other reason, something's wacky;
-            // print a message, but keep on looking
-            //
+            // print a message, but keep on looking.
 
-            // David, we DO arrive here at times!  The reason is as follows, I
-            // think.  You are missing a boinc_db.start_transaction *after* calling make_more_work_for_file()
-            // above.  This means that possibly_send_result is not bracketed in a start/end transaction
-            // pair. Remember that make_more_work_for_file() sleeps AND modifies the DB.
-            if (retval) {
+	    // David, this is NOT wacky.  Consider the following
+	    // scenario: WU A has result 1 and WU B has result 2.
+	    // These are both sent to a host.  Some time later, result
+	    // 1 fails and the transitioner creates a new result,
+	    // result 3 for WU A.  Then the host requests a new
+	    // result.  The maximum result already sent to the host is
+	    // 2.  The next unsent result (sorted by ID) is #3.  But
+	    // since it is for WU A, and since the host has already
+	    // gotten a result for WU A, it's infeasible.  So I think
+	    // this is only wacky if !one_wu_per_result_per_host.
+            if (retval_send && !config.one_result_per_user_per_wu) {
                 log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                    "Database inconsistency?  possibly_send_result() failed, returning %d\n", retval
+                    "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n", i, result.id, retval_send
                 );
-            } else {
+            }
+	    else {
                 nsent++;
             }
             prev_result = result;
-        }
-    }
+        } // query_retval
+    } // loop over 0<i<100
     return 0;
 }
 
@@ -385,6 +418,11 @@ static int send_new_file_work_deterministic(
         if (retval) break; // no more unsent results, return -1
         retval = extract_filename(result.name, filename);
         if (retval) return retval; // not locality scheduled, now what???
+
+	log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "send_new_file_work_deterministic will try filename %s\n", filename
+        );
+
         retval = send_results_for_file(
             filename, nsent, sreq, reply, platform, wreq, ss, false
         );
@@ -410,6 +448,11 @@ static int send_new_file_work_working_set(
 
     retval = get_working_set_filename(filename);
     if (retval) return retval;
+
+    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "send_new_file_working_set will try filename %s\n", filename
+    );
+
     return send_results_for_file(
         filename, nsent, sreq, reply, platform, wreq, ss, true
     );
@@ -454,6 +497,9 @@ static int send_old_work(
         );
         boinc_db.commit_transaction();
         if (!retval) {
+	    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+	        "send_old_work(%s) send laggard result [RESULT#%d]\n", result.name, result.id
+	    );
 	    extract_retval=extract_filename(result.name, filename);
             if (!extract_retval) {
                 send_results_for_file(

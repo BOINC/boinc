@@ -22485,7 +22485,8 @@ David  10 Jan 2005
             1) of results for this file sent to this user,
                 find the one R with largest ID
             2) find unsent result R2 for this file with next ID greater than R,
-                and (if one result per use per WU) different workunitid
+                and (if one result per user per WU) different workunitid than
+                ALL previous results sent to this user.
             3) if need more results, set R = R2 and go to 2)
         send_new_file_work():
             min_id = 0
@@ -22596,3 +22597,22 @@ Bruce  13 Jan 2005
       is that one can't use "^boinc[ ]" or "^boinc\ " or
       "^boinc\#20" as a regex to try and match the name of the top
       level directory with no trailing slash. What a mess! 
+
+    - More work on sched_locality.C.  Note that the 'wacky' warning is
+      actually not impossible.  Consider the following scenario: WU A
+      has result 1 and WU B has result 2.  These are both sent to a
+      host.  Some time later, result 1 fails and the transitioner
+      creates a new result, result 3 for WU A.  Then the host requests
+      a new result.  The maximum result already sent to the host is 2.
+      The next unsent result (sorted by ID) is #3.  But since it is
+      for WU A, and since the host has already gotten a result for WU
+      A, it's infeasible.  So I think this is only wacky if
+      !one_wu_per_result_per_host.
+
+    - David, I simplified the inner part of send_results_for_file()
+      somewhat.  I can't see the need/use for the bool bool
+      in_working_set argument.  If I have really screwed the pooch
+      please revert.
+
+    sched/
+        sched_locality.C
