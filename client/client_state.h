@@ -82,6 +82,7 @@ public:
     SS_LOGIC ss_logic;
     GUI_RPC_CONN_SET gui_rpcs;
     LANGUAGE language;
+    TIME_STATS time_stats;
 
     int core_client_major_version;
     int core_client_minor_version;
@@ -122,7 +123,6 @@ public:
 
 private:
     bool client_state_dirty;
-    TIME_STATS time_stats;
     int old_major_version;
     int old_minor_version;
     char* platform_name;

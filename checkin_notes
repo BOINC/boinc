@@ -10299,7 +10299,7 @@ Rom    Mar 3 2004
         *.vcproj
         boinc.vcproj (removed)
 
-Rom    Mar 3 2004
+Rom    Mar 4 2004
     - Include file overhaul for the Windows platform
 
       Basically the linker was linking Windows GUI resources into it because of various
@@ -10325,3 +10325,18 @@ Rom    Mar 3 2004
 
     I pretty much touched all the source and header files.  This checkin should not have any
     effect on any platform other than Windows.
+
+Rom    Mar 4 2004 (from John Keck)
+
+    Edits to change when the client considers a result to be at its deadline
+    it was originally 6 hours as defined in _BASE
+    if I did this right it will use the connected fraction to modify that amount
+    a 100% connected client will use the base figure, a 0% connected client will
+    use the base figure times the multiplier in addition to the base figure.
+    The figures I have here will produce a maximum time before deadline of
+    18 hours. 6*2=12+6=18 for debugging that may be too much but
+    it may not be enough for release.
+
+    client/
+        client_state.h
+        cs_scheduler.c

@@ -53,7 +53,23 @@
 
 const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 
-const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
+//Edits to change when the client considers a result to be at its deadline
+//it was originally 6 hours as defined in _BASE
+//if I did this right it will use the connected fraction to modify that amount
+//a 100% connected client will use the base figure, a 0% connected client will
+//use the base figure times the multiplier in addition to the base figure.
+//The figures I have here will produce a maximum time before deadline of
+//18 hours. 6*2=12+6=18 for debugging that may be too much but
+//it may not be enough for release.
+// jkeck
+const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE = 60*60*6;
+const double DEADLINE_TO_REPORT_MULTIPLIER = 2.0;
+const double SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT =
+                             (SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE *
+                             DEADLINE_TO_REPORT_MULTIPLIER *
+                             (1-gstate.time_stats.connected_frac)) +
+                             SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE;
+
 
 // estimate the days of work remaining
 //
