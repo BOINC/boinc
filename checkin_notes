@@ -13946,3 +13946,8 @@ David  2004.06.17
         cs_scheduler.C
         hostinfo_network.C
         hostinfo_unix.C
+
+Karl 2004-06-18
+    - makefile cleanup
+
+    */Makefile.am

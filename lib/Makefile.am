@@ -1,3 +1,4 @@
+## -*- mode: make; tab-width: 4 -*-
 ## $Id$
 
 include $(top_srcdir)/Makefile.incl
@@ -10,21 +11,21 @@ EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
 
 # libboinc.a is for use by applications (not core client or server)
 
-libboinc_a_SOURCES =				\
-    ../api/boinc_api.C			\
-    app_ipc.C				\
-	base64.C				\
-    diagnostics.C           \
-    exception.C             \
-    filesys.C				\
-    hostinfo.C				\
-    language.C				\
-    md5.c					\
-    md5_file.C				\
-    mfile.C                 \
-    miofile.C               \
-    parse.C					\
-	shmem.C					\
+libboinc_a_SOURCES =                            \
+    ../api/boinc_api.C                          \
+    app_ipc.C                                   \
+	base64.C                                    \
+    diagnostics.C                               \
+    exception.C                                 \
+    filesys.C                                   \
+    hostinfo.C                                  \
+    language.C                                  \
+    md5.c                                       \
+    md5_file.C                                  \
+    mfile.C                                     \
+    miofile.C                                   \
+    parse.C                                     \
+	shmem.C                                     \
     util.C
 
 # libboinc_graphics_a_SOURCES =			\

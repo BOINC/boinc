@@ -1,3 +1,4 @@
+## -*- mode: make; tab-width: 4 -*-
 ## $Id$
 
 AUTOMAKE_OPTIONS = foreign
@@ -7,10 +8,10 @@ SUBDIRS = RSAEuro db lib api apps client sched tools test py
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.
 
-EXTRA_DIST =								\
-	win_build						\
-	doc								\
-	stripchart							\
+EXTRA_DIST =                                    \
+	win_build                                   \
+	doc                                         \
+	stripchart                                  \
     INSTALL
 
 py:
