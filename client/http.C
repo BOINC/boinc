@@ -436,7 +436,11 @@ bool HTTP_OP_SET::poll() {
                     htp->want_download = true;
                     // We don't need to write to the socket anymore.  This
                     // closes the read fd on the receiving side.
+                    // NOTE: in Windows this exercises a problem with
+                    // Norton Firewall
+#ifndef _WIN32
                     shutdown(htp->socket, SHUT_WR);
+#endif
                     break;
                 case HTTP_OP_POST2:
                     htp->http_op_state = HTTP_STATE_REQUEST_BODY1;
@@ -486,7 +490,11 @@ bool HTTP_OP_SET::poll() {
 
                 // We don't need to write to the socket anymore.  This closes
                 // the read fd on the receiving side.
+                // NOTE: in Windows this exercises a problem with
+                // Norton Firewall
+#ifndef _WIN32
                 shutdown(htp->socket, SHUT_WR);
+#endif
             }
             break;
         case HTTP_STATE_REPLY_HEADER:
