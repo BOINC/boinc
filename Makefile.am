@@ -8,7 +8,7 @@ if ENABLE_SERVER
 endif
 
 if ENABLE_CLIENT
-  CLIENT_SUBDIRS = client
+  CLIENT_SUBDIRS = client clientgui
 endif
 
 SUBDIRS = RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS)
