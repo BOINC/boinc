@@ -25,6 +25,7 @@ libsched_a_SOURCES =				\
         config.C				\
 	sched_messages.C			\
 	../db/boinc_db.C			\
+	../db/db_base.C			\
         ../lib/util.C				\
         ../lib/crypt.C				\
         ../lib/parse.C				\

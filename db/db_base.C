@@ -1,3 +1,13 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "db_base.h"
+
+#define MAX_QUERY_LEN 8192
+
+MYSQL* mysql;
+
 DB_BASE::DB_BASE(char *tn) : table_name(tn) {
     cursor.active = false;
 }
@@ -125,13 +135,13 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
     return get_double(query, x);
 }
 
-static void strcpy2(char* dest, char* src) {
+void strcpy2(char* dest, char* src) {
     if (!src) *dest = 0;
     else strcpy(dest, src);
 }
 
 // convert ' to \' in place
-static void escape_single_quotes(char* field) {
+void escape_single_quotes(char* field) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     while (*p) {
@@ -147,7 +157,7 @@ static void escape_single_quotes(char* field) {
     strcpy(field, buf);
 }
 
-static void unescape_single_quotes(char* p) {
+void unescape_single_quotes(char* p) {
     char* q;
     while (1) {
         q = strstr(p, "\\'");

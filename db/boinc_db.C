@@ -24,10 +24,6 @@
 
 #include "boinc_db.h"
 
-#define MAX_QUERY_LEN 8192
-
-MYSQL* mysql;
-
 static struct random_init {
     random_init()
     {

@@ -17,6 +17,7 @@ create_work_SOURCES =				\
         ../lib/parse.C				\
         ../lib/util.C				\
 	../db/boinc_db.C			\
+	../db/db_base.C			\
         ../lib/crypt.C				\
 	backend_lib.h
 
@@ -32,6 +33,7 @@ add_SOURCES =					\
         ../lib/parse.C				\
         ../lib/util.C				\
 	../db/boinc_db.C			\
+	../db/db_base.C			\
         ../lib/crypt.C				\
 	backend_lib.h
 

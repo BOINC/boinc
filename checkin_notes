@@ -5947,3 +5947,11 @@ Karl 2003/08/28
         create_project.php
         single_host_server.php
         software.php               (new)
+
+David  Aug 30 2003
+    - split db_base.C off from boinc_db.C
+      (it's the class DB_BASE that supports MySQL access,
+      independent of the BOINC database)
+
+    db/
+       db_base.C,h (new)
