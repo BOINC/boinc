@@ -95,7 +95,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double iop_test_secs = 3.3;
     double mem_test_secs = 3.3;
 
-    clear_host_info(host_info);
+    host_info.clear_host_info();
     host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
     host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
     host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);

@@ -55,12 +55,12 @@ struct HOST_INFO {
     int write(FILE*);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
+
+    bool host_is_running_on_batteries();
+    int get_host_info();
+    void clear_host_info();
 };
 
-extern bool host_is_running_on_batteries();
-
-extern int get_host_info(HOST_INFO&);
-extern void clear_host_info(HOST_INFO&);
 
 extern int get_local_domain_name(char* p, int len);
 extern int get_local_ip_addr_str(char* p, int len);

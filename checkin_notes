@@ -11163,3 +11163,15 @@ Rom    Mar 30 2004
     lib/
         app_ipc.c, .h
         diagnostics.c
+
+David  Mar 31 2004
+    - make host_info related functions into members of HOST_INFO
+
+    client/
+        client_state.C
+        cs_benchmarks.C
+        cs_prefs.C
+        hostinfo.C,h
+        hostinfo_unix.C
+    lib/
+        app_ipc.C

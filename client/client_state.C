@@ -211,7 +211,7 @@ int CLIENT_STATE::init() {
     // ignoring any <project> tags (and associated stuff)
     // for projects with no account file
     //
-    clear_host_info(host_info);
+    host_info.clear_host_info();
     parse_state_file();
 
     // scan user prefs; create file records
@@ -257,7 +257,7 @@ int CLIENT_STATE::init() {
 
     // Getting host info is very fast, so we can do it anytime
     //
-    get_host_info(host_info);
+    host_info.get_host_info();
 
     // running CPU benchmarks is slow, so do it infrequently
     //

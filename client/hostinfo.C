@@ -51,32 +51,32 @@
 
 // Reset the host info struct to default values
 //
-void clear_host_info(HOST_INFO& host) {
-    host.timezone = 0;        // seconds added to local time to get UTC
-    strcpy(host.domain_name, "");
-    strcpy(host.serialnum, "");
-    strcpy(host.ip_addr, "");
+void HOST_INFO::clear_host_info() {
+    timezone = 0;        // seconds added to local time to get UTC
+    strcpy(domain_name, "");
+    strcpy(serialnum, "");
+    strcpy(ip_addr, "");
 
-    host.p_ncpus = 0;
-    strcpy(host.p_vendor, "");
-    strcpy(host.p_model, "");
-    host.p_fpops = 0;
-    host.p_iops = 0;
-    host.p_membw = 0;
-    host.p_fpop_err = 0;
-    host.p_iop_err = 0;
-    host.p_membw_err = 0;
-    host.p_calculated = 0;
+    p_ncpus = 0;
+    strcpy(p_vendor, "");
+    strcpy(p_model, "");
+    p_fpops = 0;
+    p_iops = 0;
+    p_membw = 0;
+    p_fpop_err = 0;
+    p_iop_err = 0;
+    p_membw_err = 0;
+    p_calculated = 0;
 
-    strcpy(host.os_name, "");
-    strcpy(host.os_version, "");
+    strcpy(os_name, "");
+    strcpy(os_version, "");
 
-    host.m_nbytes = 0;
-    host.m_cache = 0;
-    host.m_swap = 0;
+    m_nbytes = 0;
+    m_cache = 0;
+    m_swap = 0;
 
-    host.d_total = 0;
-    host.d_free = 0;
+    d_total = 0;
+    d_free = 0;
 }
 
 // Parse the host information, usually from the client state XML file

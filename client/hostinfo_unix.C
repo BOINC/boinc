@@ -16,31 +16,6 @@
 // 
 // Contributor(s):
 //
-// Revision History:
-//
-// $Log$
-// Revision 1.56  2004/03/31 06:25:39  rwalton
-// *** empty log message ***
-//
-// Revision 1.55  2004/03/17 02:06:09  rwalton
-// *** empty log message ***
-//
-// Revision 1.54  2004/03/17 01:26:38  davea
-// *** empty log message ***
-//
-// Revision 1.53  2004/03/12 23:20:04  rwalton
-// *** empty log message ***
-//
-// Revision 1.52  2004/03/12 23:09:48  rwalton
-// *** empty log message ***
-//
-// Revision 1.51  2004/03/04 11:41:40  rwalton
-// *** empty log message ***
-//
-// Revision 1.50  2003/12/01 23:02:22  korpela
-// timezone fix for CYGWIN
-//
-//
 
 #include "cpp.h"
 
@@ -127,17 +102,19 @@ int get_timezone() {
 }
 
 // Returns true if the host is currently running off battery power
+// If you can't figure out, return false
+//
 // TODO: port this to other platforms (Windows, Mac OS X, others?)
 //
-bool host_is_running_on_batteries() {
+bool HOST_INFO::host_is_running_on_batteries() {
     bool    retval = false;
 	char    apm_driver_version[10];
     int     apm_major_version;
     int     apm_minor_version;
     int     apm_flags;
-    int     apm_ac_line_status;
+    int     apm_ac_line_status=1;
 
-    if (0 == strncasecmp(gstate.host_info.os_name, "Linux", 5)) {
+    if (!strncasecmp(os_name, "Linux", 5)) {
         // the following only works on Linux APM systems.
         //
         FILE* f = fopen("/proc/apm", "r");
@@ -149,7 +126,8 @@ bool host_is_running_on_batteries() {
                 &apm_major_version,
                 &apm_minor_version,
                 &apm_flags,
-                &apm_ac_line_status);
+                &apm_ac_line_status
+            );
             fclose(f);
             retval = (apm_ac_line_status == 0);
         } else {
@@ -250,11 +228,11 @@ void parse_cpuinfo(HOST_INFO& host) {
 
 // get all relevant host information
 //
-int get_host_info(HOST_INFO& host) {
-    get_filesystem_info(host.d_total, host.d_free);
+int HOST_INFO::get_host_info() {
+    get_filesystem_info(d_total, d_free);
 
 #ifdef linux
-    parse_cpuinfo(host);
+    parse_cpuinfo(*this);
 #else
 #if HAVE_SYS_SYSCTL_H
     int mib[2];
@@ -264,26 +242,26 @@ int get_host_info(HOST_INFO& host) {
     // Get machine
     mib[0] = CTL_HW;
     mib[1] = HW_MACHINE;
-    len = sizeof(host.p_vendor);
-    sysctl(mib, 2, &host.p_vendor, &len, NULL, 0);
+    len = sizeof(p_vendor);
+    sysctl(mib, 2, &p_vendor, &len, NULL, 0);
     
     // Get model
     mib[0] = CTL_HW;
     mib[1] = HW_MODEL;
     len = sizeof(host.p_model);
-    sysctl(mib, 2, &host.p_model, &len, NULL, 0);
+    sysctl(mib, 2, &p_model, &len, NULL, 0);
 #endif
 #endif
  
 
 #if defined(_SC_NPROCESSORS_ONLN)
-    host.p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
+    p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
     mib[0] = CTL_HW;
     mib[1] = HW_NCPU;
-    len = sizeof(host.p_ncpus);
-    sysctl(mib, 2, &host.p_ncpus, &len, NULL, 0);
+    len = sizeof(p_ncpus);
+    sysctl(mib, 2, &p_ncpus, &len, NULL, 0);
 #else
 #error Need to specify a sysconf() define to obtain number of processors
 #endif
@@ -294,17 +272,17 @@ int get_host_info(HOST_INFO& host) {
  *        - 2002-11-03 hiram@users.sourceforge.net
  */
 #if defined(_SC_USEABLE_MEMORY)
-    host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
+    m_nbytes = (double)sysconf(_SC_PAGESIZE)
         * (double)sysconf(_SC_USEABLE_MEMORY);  /*      UnixWare        */
 #elif defined(_SC_PHYS_PAGES)
-    host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
+    m_nbytes = (double)sysconf(_SC_PAGESIZE)
         * (double)sysconf(_SC_PHYS_PAGES);      /*      Linux   */
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);
     sysctl(mib, 2, &mem_size, &len, NULL, 0);    // Mac OS X
-    host.m_nbytes = mem_size;
+    m_nbytes = mem_size;
 #else
 #error Need to specify a sysconf() define to obtain memory size
 #endif
@@ -321,7 +299,7 @@ int get_host_info(HOST_INFO& host) {
     s->swt_n = n;
     n = swapctl(SC_LIST, s);
     for (i=0; i<n; i++) {
-        host.m_swap += 512.*(double)s->swt_ent[i].ste_length;
+        m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // TODO: figure this out
@@ -331,54 +309,54 @@ int get_host_info(HOST_INFO& host) {
     mib[1] = VM_METER;
     len = sizeof(vm_info);
     sysctl(mib, 2, &vm_info, &len, NULL, 0);
-    host.m_swap = vm_info.t_vm;
+    m_swap = vm_info.t_vm;
     */
 #else
 #endif
 
 #if defined(HAVE_SYS_SYSTEMINFO_H) 
 #if defined(SI_HW_SERIAL)
-    sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
+    sysinfo(SI_HW_SERIAL, serialnum, sizeof(serialnum));
 #else
 //#error Need to specify a method to obtain serial num
 #endif
 #ifdef SI_PLATFORM
-    sysinfo(SI_PLATFORM, host.p_vendor, sizeof(host.p_vendor));
+    sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
 #endif
 #ifdef SI_ISALIST
-    sysinfo(SI_ISALIST, host.p_model, sizeof(host.p_model));
-    for (unsigned int i=0; i<sizeof(host.p_model); i++) {
-        if (host.p_model[i]==' ') {
-            host.p_model[i]=0;
+    sysinfo(SI_ISALIST, p_model, sizeof(p_model));
+    for (unsigned int i=0; i<sizeof(p_model); i++) {
+        if (p_model[i]==' ') {
+            p_model[i]=0;
         }
-        if (host.p_model[i]==0) {
-            i=sizeof(host.p_model);
+        if (p_model[i]==0) {
+            i=sizeof(p_model);
         }
     }
 #endif
 #endif
    
-    get_local_domain_name(host.domain_name, sizeof(host.domain_name));
-    get_local_ip_addr_str(host.ip_addr, sizeof(host.ip_addr));
-    host.timezone = get_timezone();
+    get_local_domain_name(domain_name, sizeof(domain_name));
+    get_local_ip_addr_str(ip_addr, sizeof(ip_addr));
+    timezone = get_timezone();
 #ifdef HAVE_SYS_UTSNAME_H
     struct utsname u;
     uname(&u);
-    safe_strcpy(host.os_name, u.sysname);
-    safe_strcpy(host.os_version, u.release);
+    safe_strcpy(os_name, u.sysname);
+    safe_strcpy(os_version, u.release);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSTYPE;
-    len = sizeof(host.os_name);
-    sysctl(mib, 2, &host.os_name, &len, NULL, 0);
+    len = sizeof(os_name);
+    sysctl(mib, 2, &os_name, &len, NULL, 0);
     
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSRELEASE;
-    len = sizeof(host.os_version);
-    sysctl(mib, 2, &host.os_version, &len, NULL, 0);
+    len = sizeof(os_version);
+    sysctl(mib, 2, &os_version, &len, NULL, 0);
 #elif HAVE_SYS_SYSTEMINFO_H
-    sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
-    sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
+    sysinfo(SI_SYSNAME, os_name, sizeof(os_name));
+    sysinfo(SI_RELEASE, os_version, sizeof(os_version));
 #else
 #error Need to specify a method to obtain OS name/version
 #endif

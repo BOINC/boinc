@@ -105,7 +105,9 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         return;
     }
 
-    if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
+    if (!global_prefs.run_on_batteries
+        && host_info.host_is_running_on_batteries()
+    ) {
         reason |= SUSPEND_REASON_BATTERIES;
     }
 
