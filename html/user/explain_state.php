@@ -7,95 +7,110 @@ $field = $_GET["field"];
 
 switch($field) {
 case "result_server_state":
-    page_head("Server state");
+    page_head("Server states");
     echo "
         <p>
-        The <b>server state</b> of a result is one of:
-        <dl>
-        <dt><b>Inactive</b>
-        <dd> The result is not ready to send
-           (for example, because its input files are unavailable)
-        <dt><b>Unsent</b>
-        <dd> The result is ready to send, but hasn't been sent yet.
-        <dt><b>In Progress</b>
-        <dd> The result has been sent; waiting for completion.
-        <dt><b>Over</b>
-        <dd> The result has been sent to a host and either
-           it has timed out or the host has reported its completion.
-        </dl>
+        A result's <b>server state</b> keeps track of
+        whether the result has been sent to a host,
+        and if so whether the host has finished it.
+        Possible values are:
+        <p>
     ";
+    start_table();
+    row2_plain("<b>Inactive</b>",
+        "The result is not ready to send
+       (for example, because its input files are unavailable)"
+    );
+    row2_plain("<b>Unsent</b>",
+        "The result is ready to send, but hasn't been sent yet."
+    );
+    row2_plain("<b>In Progress</b>",
+        "The result has been sent; waiting for completion."
+    );
+    row2_plain("<b>Over</b>",
+        "The result has been sent to a host and either
+       it has timed out or the host has reported its completion."
+    );
     break;
 
 case "result_outcome":
-    page_head("Outcome");
+    page_head("Outcomes");
     echo "
         <p>
-        The <b>outcome</b> of a result is defined if
+        A result's <b>outcome</b> is defined if
         its server state is <b>over</b>.
-        <br>
-        It has the following values:
-        <dl>
-        <dt> <b>Success</b>
-        <dd> A client completed the result successfully.
-        <dt> <b>Couldn't send</b>
-        <dd> The server wasn't able to send the result to a client
-            (perhaps because its resource requirements were too large)
-        <dt> <b>Client error</b>
-        <dd> The result was sent to a client and an error occurred.
-        <dt> <b>No reply</b>
-        <dd> The result was sent to a client
-            and no reply was received within the time limit.
-        <dt> <b>Didn't need</b>
-        <dd> The result wasn't sent to a client because
-            enough other results were returned for this work unit.
-        <dt><b>Validate error</b>
-        <dd> The result was reported but could not be validated,
-            typically because the output files were lost on the server.
-        </dl>
+        Possible values are:
+        <p>
     ";
+    start_table();
+    row2_plain("<b>Success</b>",
+        "A client completed the result successfully."
+    );
+    row2_plain("<b>Couldn't send</b>",
+        "The server wasn't able to send the result to a client
+        (perhaps because its resource requirements were too large)"
+    );
+    row2_plain("<b>Client error</b>",
+        "The result was sent to a client and an error occurred."
+    );
+    row2_plain("<b>No reply</b>",
+        "The result was sent to a client
+        and no reply was received within the time limit."
+    );
+    row2_plain("<b>Didn't need</b>",
+        "The result wasn't sent to a client because
+        enough other results were returned for this work unit."
+    );
+    row2_plain("<b>Validate error</b>",
+        "The result was reported but could not be validated,
+        typically because the output files were lost on the server."
+    );
     break;
 
 case "result_client_state":
-    page_head("Client state");
-    echo "
+    page_head("Client states");
+    echo "<p>A result's <b>client state</b>
+        indicates the stage of processing at which
+        an error occurred.
         <p>
-        The <b>client state</b> of a result is either <b>Done</b>
-        for a successful result, or it has one
-        of the following values if the outcome is <b>client error</b>.
-
-        <dl>
-        <dt> <b>Downloading</b>
-        <dd> The client couldn't download the application or input files.
-        <dt> <b>Computing</b>
-        <dd> An error occurred during computation.
-        <dt> <b>Uploading</b>
-        <dd> The client couldn't upload the output files.
-        </dl>
-        These states indicate the stage of processing at which
-        the client error occurred.
     ";
+    start_table();
+    row2_plain("<b>Done</b>",
+        "No error occurred."
+    );
+    row2_plain("<b>Downloading</b>",
+        "The client couldn't download the application or input files."
+    );
+    row2_plain("<b>Computing</b>",
+        "An error occurred during computation."
+    );
+    row2_plain("<b>Uploading</b>",
+        "The client couldn't upload the output files."
+    );
     break;
 
 case "result_time":
     page_head("Time reported and deadline");
     echo "
         <p>
-        The <b>Time reported or deadline</b> field shows:
-        <ul>
-        <li> If the result has been reported, the time it was reported.
-        <li> If the result has not been reported yet,
-            and its deadline is in the future,
-            the deadline is shown in green.
-        <li> If the result has not been reported yet,
-            and its deadline is in the past,
-            the deadline is shown in red.
-        </ul>
+        A result's <b>Time reported or deadline</b> field depends
+        on whether the result has been reported yet:
+        <p>
     ";
+    start_table();
+    row2("Already reported", "The date/time it was reported");
+    row2("Not reported yet, deadline in the future",
+        "Deadline, shown in green."
+    );
+    row2("Not reported yet, deadline in the past",
+        "Deadline, shown in red."
+    );
     break;
 
 default:
     page_head("Unknown field");
 }
 
+end_table();
 page_tail();
 ?>

@@ -11,10 +11,14 @@ function show_page_nav($forum) {
     global $threads_per_page;
 
     if ($forum->threads > $threads_per_page) {
-        $totalPages = floor($forum->threads / $threads_per_page);
+        $totalPages = ceil($forum->threads / $threads_per_page);
         $curPage = floor($_GET['start'] / $threads_per_page);
 
-        $pages = array(0, 1, 2);
+        if ($total_pages == 0) {
+            $pages = array(0, 1);
+        } else {
+            $pages = array(0, 1, 2);
+        }
         for ($i = -1 ; $i <= 1 ; $i++) {
             if ($curPage + $i > 0 && $curPage + $i < $totalPages - 1) {
                 array_push($pages, $curPage + $i);
@@ -32,7 +36,7 @@ function show_page_nav($forum) {
         $gotoStr = '<p style="text-align:right">Go to page ';
 
         if ($curPage == 0) {
-            $gotoStr .= '<span style="font-size:larger; font-weight:bold">1</span>';
+            $gotoStr .= '1 ';
         } else {
             $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($curPage-1)*$threads_per_page);
@@ -43,7 +47,7 @@ function show_page_nav($forum) {
         for ($i = 1 ; $i < count($pages)-1 ; $i++) {
             if ($curPage == $pages[$i]) {
                 $gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
-                $gotoStr .= '<span style="font-size:larger; font-weight:bold">'.($pages[$i]+1).'</span>';
+                $gotoStr .= $pages[$i]+1;
             } else {
                 $gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
                 $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
@@ -54,7 +58,7 @@ function show_page_nav($forum) {
         }
 
         if ($curPage == $totalPages-1) {
-            $gotoStr .= ', <span style="font-size:larger; font-weight:bold">'.$totalPages.'</span>';
+            $gotoStr .= $totalPages;
         } else {
             $gotoStr .= ', <a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($totalPages-1)*$threads_per_page);

@@ -22652,3 +22652,17 @@ Rom    13 Jan 2005 (boinc)
     - Tag for 4.59 release, all platforms
       boinc_core_release_4_59
 
+David  13 Jan 2005
+    - user web: in thread page, show numbered lists of pages correctly
+        Also get rid of goofy big/bold stuff
+    - page_tail(): use the current year (not necessarily 2004) for copyright
+    - add warning about CPU overheating to Rules/Policies page
+    - use tables for result state explanations
+
+    html/
+        inc/
+            forum_show.inc
+            util.inc
+        user/
+            explain_state.php
+            info.php

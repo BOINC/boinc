@@ -126,7 +126,7 @@ function page_tail_aux($show_return, $show_date) {
     if ($show_return) {
         echo "<a href=".URL_BASE.">Return to ".PROJECT." main page</a><br>\n";
     }
-    echo "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n";
+    echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
         echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"</font>\n";
     }
