@@ -1,16 +1,25 @@
 <?php
 
 function print_login_form() {
+    page_head("Log in");
+    echo "<br>\n";
+    start_table_instr();
+    echo "<tr><td>If you already have an account, you can login using the email address";
+    echo " and password you used in creating your account. Otherwise you need to create";
+    echo " a new account using a valid email address and password, both of which you will";
+    echo " need in order to access your account in the future.</td></tr>\n";
+    echo "</table>\n";
+  
     printf(
         "<form method=post action=login_action.php>\n"
         ."<table>\n"
         ."<tr><td colspan=2>If you already have an account:</td></tr>\n"
         ."<tr>\n"
-        ."    <td align=right>Email</td>\n"
+        ."    <td align=right>Your account email address</td>\n"
         ."    <td> <input name=existing_email type=text size=40></td>\n"
         ."</tr>\n"
         ."<tr>\n"
-        ."    <td align=right>Password</td>\n"
+        ."    <td align=right>Your account password</td>\n"
         ."    <td> <input name=existing_password type=password></td>\n"
         ."</tr>\n"
         ."<tr>\n"
@@ -41,7 +50,7 @@ function print_create_account_form() {
         ."    <td><input name=new_password type=password></td>\n"
         ."</tr>\n"
         ."<tr>\n"
-        ."    <td align=right>Password confirm</td>\n"
+        ."    <td align=right>Retype password</td>\n"
         ."    <td><input name=new_password2 type=password></td>\n"
         ."</tr>\n"
         ."<tr>\n"

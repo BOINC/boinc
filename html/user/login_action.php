@@ -3,6 +3,7 @@
     require_once("user.inc");
     require_once("db.inc");
     if (strlen($HTTP_POST_VARS["old"])) {
+	page_head("Logging In");
         db_init();
         $query = sprintf(
             "select * from user where email_addr='%s'",
@@ -21,6 +22,7 @@
             show_user_page($user);
         }
     } else if (strlen($HTTP_POST_VARS["new"])) {
+        page_head("Creating Account");
         db_init();
         $query = sprintf(
             "select * from user where email_addr='%s'",

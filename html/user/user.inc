@@ -30,6 +30,5 @@ function show_user_page($user) {
     echo "<li><a href=prefs.php>Preferences</a></li>";
     echo "<li><a href=team.php>Teams</a></li>";
     echo "</ul>";
-
 }
 ?>
