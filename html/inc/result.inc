@@ -71,8 +71,9 @@ function validate_state_str($s) {
     case 0: return "Initial";
     case 1: return "Valid";
     case 2: return "Invalid";
-    case 3: return "WU error - check skipped";
+    case 3: return "Workunit error - check skipped";
     case 4: return "Checked, but no consensus yet";
+    case 5: return "Result was reported too late to validate";
     }
     return "Unknown";
 }

@@ -24145,3 +24145,21 @@ David  7 Feb 2005
 
     html/user/
         verify_cpid.php
+
+David  7 Feb 2005
+    - If a result is reported after the canonical result's output files
+        have been deleted, handle this case specially:
+        don't trigger the validator,
+        and set the result's validate_state to TOO_LATE (new value)
+    - Add acct_mgr to Unix makefile
+
+    client/
+        Makefile.am
+        acct_mgr.h
+    db/
+        boinc_db.h
+    html/inc
+        result.inc
+    sched/
+        sched_send.C
+        transitioner.C

@@ -170,7 +170,16 @@ static double estimate_wallclock_duration(
 	double running_frac = host.active_frac * host.on_frac;
 	if (running_frac < HOST_ACTIVE_FRAC_MIN) running_frac = HOST_ACTIVE_FRAC_MIN;
 	if (running_frac > 1) running_frac = 1;
-    return estimate_cpu_duration(wu, host)/(running_frac*resource_share_fraction);
+    double ecd = estimate_cpu_duration(wu, host);
+    double ewd = ecd/(running_frac*resource_share_fraction);
+#if 0
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG, "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
+        ecd, running_frac, resource_share_fraction, ewd
+    );
+#endif
+
+    return ewd;
 }
 
 // return false if the WU can't be executed on the host because either
@@ -768,8 +777,8 @@ int add_result_to_reply(
     );
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
-        "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
-        reply.host.id, result.id, result.name, int(wu_seconds_filled)
+        "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
+        reply.host.id, result.id, result.name, wu_seconds_filled
     );
 
     retval = update_wu_transition_time(wu, result.report_deadline);

@@ -108,13 +108,53 @@ int handle_wu(
 
     TRANSITIONER_ITEM& wu_item = items[0];
 
+    // Scan the WU's results, and find the canonical result if there is one
+    //
+    canonical_result_index = -1;
+    if (wu_item.canonical_resultid) {
+        for (i=0; i<items.size(); i++) {
+            TRANSITIONER_ITEM& res_item = items[i];
+            if (!res_item.res_id) continue;
+            if (res_item.res_id == wu_item.canonical_resultid) {
+                canonical_result_index = i;
+            }
+        }
+    }
+
+    if (wu_item.canonical_resultid && (canonical_result_index == -1)) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[WU#%d %s] can't find canonical result\n",
+            wu_item.id, wu_item.name
+        );
+    }
+
+    // if there is a canonical result, see if its file are deleted
+    //
+    bool canonical_result_files_deleted = false;
+    if (canonical_result_index >= 0) {
+        TRANSITIONER_ITEM& cr = items[canonical_result_index];
+        if (cr.res_file_delete_state == FILE_DELETE_DONE) {
+            canonical_result_files_deleted = true;
+        }
+    }
+
+    // Scan this WU's results, and
+    // 1) count those in various server states;
+    // 2) identify time-out results and update their server state and outcome
+    // 3) find the max result suffix (in case need to generate new ones)
+    // 4) see if we have a new result to validate
+    //    (outcome SUCCESS and validate_state INIT)
+    //
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
 
         if (!res_item.res_id) continue;
         ntotal++;
+
         rs = result_suffix(res_item.res_name);
         if (rs > max_result_suffix) max_result_suffix = rs;
+
         switch (res_item.res_server_state) {
         case RESULT_SERVER_STATE_UNSENT:
             nunsent++;
@@ -157,7 +197,18 @@ int handle_wu(
                 break;
             case RESULT_OUTCOME_SUCCESS:
                 if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
-                    have_new_result_to_validate = true;
+                    if (canonical_result_files_deleted) {
+                        res_item.res_validate_state = VALIDATE_STATE_TOO_LATE;
+                        retval = transitioner.update_result(res_item);
+                        log_messages.printf(
+                            SCHED_MSG_LOG::NORMAL,
+                            "[WU#%d %s] [RESULT#%d %s] validate_state:INIT=>TOO_LATE retval %d\n",
+                            wu_item.id, wu_item.name, res_item.id,
+                            res_item.name, retval
+                        );
+                    } else {
+                        have_new_result_to_validate = true;
+                    }
                 }
                 nsuccess++;
                 break;
@@ -179,19 +230,17 @@ int handle_wu(
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
         "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d, no_reply %d, didnt_need %d)\n",
-        wu_item.id, wu_item.name, ntotal,
-        nunsent, ninprogress, nover, nsuccess, nerrors, ncouldnt_send, nno_reply, ndidnt_need
+        wu_item.id, wu_item.name, ntotal, nunsent, ninprogress, nover,
+        nsuccess, nerrors, ncouldnt_send, nno_reply, ndidnt_need
     );
 
-    // trigger validation if we have a quorum
-    // and some result hasn't been validated
+    // if there's a new result to validate, trigger validation
     //
-    if (nsuccess >= wu_item.min_quorum && have_new_result_to_validate) {
+    if (have_new_result_to_validate && (nsuccess >= wu_item.min_quorum)) {
         wu_item.need_validate = true;
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
-            "[WU#%d %s] need_validate:=>true [nsuccess=%d >= min_quorum=%d]\n",
-            wu_item.id, wu_item.name, nsuccess, wu_item.min_quorum
+            "[WU#%d %s] need_validate:=>true\n", wu_item.id, wu_item.name
         );
     }
 
@@ -271,7 +320,8 @@ int handle_wu(
             );
         }
     } else if (wu_item.assimilate_state == ASSIMILATE_INIT) {
-        // If no error, generate new results if needed.
+        // Here if no WU-level error.
+        // Generate new results if needed.
         // NOTE: n must be signed
         //
         int n = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
@@ -336,9 +386,7 @@ int handle_wu(
 
     // scan results:
     //  - see if all over and validated
-    //  - look for canonical result
     //
-    canonical_result_index = -1;
     all_over_and_validated = true;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
@@ -352,17 +400,7 @@ int handle_wu(
             } else {
                 all_over_and_validated = false;
             }
-            if (res_item.res_id == wu_item.canonical_resultid) {
-                canonical_result_index = i;
-            }
         }
-    }
-    if (wu_item.canonical_resultid && (canonical_result_index == -1)) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "[WU#%d %s] can't find canonical result\n",
-            wu_item.id, wu_item.name
-        );
     }
 
     // if WU is assimilated, trigger file deletion
@@ -423,6 +461,8 @@ int handle_wu(
         }
     }
 
+    // compute next transition time = minimum timeout of in-progress results
+    //
     wu_item.transition_time = INT_MAX;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];

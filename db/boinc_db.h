@@ -385,6 +385,11 @@ struct WORKUNIT {
 #define VALIDATE_STATE_INCONCLUSIVE 4
     // the validator looked this result (as part of a check_set() call)
     // but didn't find a canonical result.
+    // This needs to be distinct from INIT for the transitioner to decide
+    // whether to trigger the validator
+#define VALIDATE_STATE_TOO_LATE     5
+    // The result arrived after the canonical result's files were deleted,
+    // so we can't determine if it's valid
 
 struct RESULT {
     int id;
