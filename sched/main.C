@@ -52,8 +52,11 @@ using namespace std;
 
 void get_log_path(char* p) {
     char buf[256];
+    char path[256];
     gethostname(buf, 256);
-    sprintf(p, "../log_%s/cgi.log", buf);
+    sprintf(path, "log_%s", buf);
+    sprintf(p, "../%s/cgi.log", path);
+    boinc_mkdir(path);
 }
 
 #define REQ_FILE_PREFIX "boinc_req_"

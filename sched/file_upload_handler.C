@@ -35,6 +35,7 @@
 #include "crypt.h"
 #include "parse.h"
 #include "util.h"
+#include "filesys.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -49,8 +50,11 @@ SCHED_CONFIG config;
 
 void get_log_path(char* p) {
     char buf[256];
+    char path[256];
     gethostname(buf, 256);
-    sprintf(p, "../log_%s/file_upload_handler.log", buf);
+    sprintf(path, "log_%s", buf);
+    sprintf(p, "../%s/file_upload_handler.log", path);
+    boinc_mkdir(path);
 }
 
 struct FILE_INFO {
