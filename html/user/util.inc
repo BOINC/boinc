@@ -21,6 +21,7 @@ define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
 define("PROJECT", "Astropulse");
+define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 
 
 function get_user_from_cookie() {
