@@ -39,13 +39,7 @@ import sys, os, re, time
 def get_current_core_version():
     cursor = database.get_dbconnection().cursor()
     cursor.execute('select max(version_num) from core_version')
-    return int(cur.fetchall()[0].values()[0])
-
-##### only allow most recent core client
-if True:
-    min_core_version = get_current_core_version()
-else:
-    min_core_version = 0
+    return int(cursor.fetchall()[0].values()[0])
 
 verbose = 0
 try:
@@ -57,6 +51,12 @@ except:
 
 config = configxml.default_config().config
 database.connect()
+
+##### only allow most recent core client
+if True:
+    min_core_version = get_current_core_version()
+else:
+    min_core_version = 0
 
 create_time = int(time.time())
 

@@ -12615,3 +12615,10 @@ Rom    May 24 2004
     - Tag for 3.06 release, all platforms
       boinc_core_release_3_06
 
+David  May 24 2004
+    - bugs in update_versions:
+        "cur" -> "cursor"
+        move call to get_current_core_version() after DB init
+
+    tools/
+        update_versions
