@@ -241,7 +241,7 @@ bool CLIENT_STATE::do_something() {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
 
-        net_xfers->poll(999999, nbytes);
+        net_xfers->poll(transfer_rate, nbytes);
         if (nbytes) { sleep(1); action=true; print_log("net_xfers\n"); }
 
         x = http_ops->poll();
