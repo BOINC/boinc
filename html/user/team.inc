@@ -144,7 +144,7 @@ function user_join_team($team, $user) {
         $first_team = mysql_fetch_object($result_team_other);
         $first_nusers = $first_team->nusers;
         $first_new_nusers = $first_nusers - 1;
-        if ($first_new_nusers) {
+        if ($first_new_nusers > 0) {
             $query_team_table_other = sprintf(
                 "update team set nusers = %d where id = %d",
                 $first_new_nusers,
