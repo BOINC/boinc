@@ -4,8 +4,9 @@
 
 require_once("util.inc");
 
-define("PROJECT", "BOINC Internal Web Testbed");
-define("MASTER_URL", "http://milhouse.ssl.berkeley.edu/~jbkirby/");
+define("PROJECT", "Test Project");
+define("MASTER_URL", "http://boinc.berkeley.edu/");
+define("URL_BASE", "");
 define('IMAGE_PATH', 'images/user_profile/');
 define('PROFILE_PATH', 'user_profile/');
 define('LANGUAGE_FILE', 'languages.txt');
