@@ -177,14 +177,17 @@ noinst_LIBRARIES = libapp.a
 
 libapp_a_SOURCES = ../api/mfile.C ../lib/parse.C ../lib/filesys.C ../lib/shmem.C ../lib/util.C ../lib/app_ipc.C
 
-LDADD = -lm -lGL -lGLU -lpthread -L. -lapp
+
+# when we are ready to build graphics apps on unix:
+# LDADD = -lm -lGL -lGLU -lpthread -L. -lapp
+LDADD = -lm -lpthread -L. -lapp
 
 
 # upper_case_x11_SOURCES = upper_case_x11.C ../api/x_opengl.C ../api/boinc_api.C ../api/graphics_api.C
 # upper_case_x11_CPPFLAGS = -DBOINC_APP_GRAPHICS
-upper_case_SOURCES = upper_case.C ../api/boinc_api.C ../api/graphics_api.C
-concat_SOURCES = concat.C ../api/boinc_api.C ../api/graphics_api.C
-1sec_SOURCES = 1sec.C ../api/boinc_api.C ../api/graphics_api.C
+upper_case_SOURCES = upper_case.C ../api/boinc_api.C
+concat_SOURCES = concat.C ../api/boinc_api.C
+1sec_SOURCES = 1sec.C ../api/boinc_api.C
 subdir = apps
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -200,20 +203,17 @@ libapp_a_OBJECTS = $(am_libapp_a_OBJECTS)
 bin_PROGRAMS = upper_case$(EXEEXT) concat$(EXEEXT) 1sec$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_1sec_OBJECTS = 1sec.$(OBJEXT) boinc_api.$(OBJEXT) \
-	graphics_api.$(OBJEXT)
+am_1sec_OBJECTS = 1sec.$(OBJEXT) boinc_api.$(OBJEXT)
 1sec_OBJECTS = $(am_1sec_OBJECTS)
 1sec_LDADD = $(LDADD)
 1sec_DEPENDENCIES =
 1sec_LDFLAGS =
-am_concat_OBJECTS = concat.$(OBJEXT) boinc_api.$(OBJEXT) \
-	graphics_api.$(OBJEXT)
+am_concat_OBJECTS = concat.$(OBJEXT) boinc_api.$(OBJEXT)
 concat_OBJECTS = $(am_concat_OBJECTS)
 concat_LDADD = $(LDADD)
 concat_DEPENDENCIES =
 concat_LDFLAGS =
-am_upper_case_OBJECTS = upper_case.$(OBJEXT) boinc_api.$(OBJEXT) \
-	graphics_api.$(OBJEXT)
+am_upper_case_OBJECTS = upper_case.$(OBJEXT) boinc_api.$(OBJEXT)
 upper_case_OBJECTS = $(am_upper_case_OBJECTS)
 upper_case_LDADD = $(LDADD)
 upper_case_DEPENDENCIES =
@@ -224,10 +224,9 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/1sec.Po ./$(DEPDIR)/app_ipc.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/concat.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/graphics_api.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/parse.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/upper_case.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/mfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/upper_case.Po ./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -301,7 +300,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/concat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/graphics_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
@@ -486,28 +484,6 @@ boinc_api.obj: ../api/boinc_api.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_api.Po' tmpdepfile='$(DEPDIR)/boinc_api.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_api.obj `if test -f '../api/boinc_api.C'; then $(CYGPATH_W) '../api/boinc_api.C'; else $(CYGPATH_W) '$(srcdir)/../api/boinc_api.C'; fi`
-
-graphics_api.o: ../api/graphics_api.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT graphics_api.o -MD -MP -MF "$(DEPDIR)/graphics_api.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o graphics_api.o `test -f '../api/graphics_api.C' || echo '$(srcdir)/'`../api/graphics_api.C; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/graphics_api.Tpo" "$(DEPDIR)/graphics_api.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/graphics_api.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../api/graphics_api.C' object='graphics_api.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/graphics_api.Po' tmpdepfile='$(DEPDIR)/graphics_api.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o graphics_api.o `test -f '../api/graphics_api.C' || echo '$(srcdir)/'`../api/graphics_api.C
-
-graphics_api.obj: ../api/graphics_api.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT graphics_api.obj -MD -MP -MF "$(DEPDIR)/graphics_api.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o graphics_api.obj `if test -f '../api/graphics_api.C'; then $(CYGPATH_W) '../api/graphics_api.C'; else $(CYGPATH_W) '$(srcdir)/../api/graphics_api.C'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/graphics_api.Tpo" "$(DEPDIR)/graphics_api.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/graphics_api.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../api/graphics_api.C' object='graphics_api.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/graphics_api.Po' tmpdepfile='$(DEPDIR)/graphics_api.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o graphics_api.obj `if test -f '../api/graphics_api.C'; then $(CYGPATH_W) '../api/graphics_api.C'; else $(CYGPATH_W) '$(srcdir)/../api/graphics_api.C'; fi`
 uninstall-info-am:
 
 ETAGS = etags
@@ -687,6 +663,8 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
+
+#  ../api/graphics_api.C
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
