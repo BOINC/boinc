@@ -226,7 +226,40 @@ show_dev(false);
 
 echo "
     <p>
-    Get data in <a href=download.php?xml=1>XML format</a>.
+    Download data is also available in <a href=download.php?xml=1>XML format</a>.
+
+    <h2>End-User License Agreement</h2>
+    Versions 4.27 and earlier may contain an erroneous
+    End-User Licence Agreement.
+    The correct text is:
+    <pre>
+License Agreement
+
+Please carefully read the following terms and conditions
+before using this software.  Your use of this software indicates
+your acceptance of this license agreement and warranty.
+
+Disclaimer of Warranty
+
+THIS SOFTWARE AND THE ACCOMPANYING FILES ARE DISTRIBUTED \"AS IS\"
+AND WITHOUT WARRANTIES AS TO PERFORMANCE OR MERCHANTABILITY OR ANY
+OTHER WARRANTIES WHETHER EXPRESSED OR IMPLIED.
+NO WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE IS OFFERED.
+
+Restrictions
+
+You may use this software on a computer system only if you own the system
+or have the permission of the owner.
+
+Distribution
+
+This is free software.
+It is distributed under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation (http://www.fsf.org/).
+The source code may be obtained
+from the BOINC web site (http://boinc.berkeley.edu).
+
+    </pre>
 ";
 
 

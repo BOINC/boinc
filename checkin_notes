@@ -26060,3 +26060,9 @@ Bruce  19 Mar 2005
         transitioner.C
         validator.C
 
+David  19 Mar 2005
+    - API: changed all vars modified by signal handler to "volatile"
+    - API: fixed typo in key handling for Unix
+
+    api/
+        boinc_api.C

@@ -85,7 +85,7 @@ void keyboardU(unsigned char key, int /*x*/, int /*y*/) {
     if (current_graphics_mode == MODE_FULLSCREEN) {
         set_mode(MODE_HIDE_GRAPHICS);
     } else {
-        boinc_app_key_press((int) key, 0);
+        boinc_app_key_release((int) key, 0);
     }
 }
 

@@ -29,16 +29,11 @@
 #include <cstdio>
 #include <cstdarg>
 #include <sys/types.h>
-#ifdef HAVE_UNISTD_H
+#include <errno.h>
 #include <unistd.h>
-#endif
-#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
-#endif
-#ifdef HAVE_PTHREAD
 #include <pthread.h>
 #include <sched.h>
-#endif
 using namespace std;
 #endif
 
@@ -61,27 +56,27 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-static APP_INIT_DATA  aid;
+static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
-APP_CLIENT_SHM       *app_client_shm      = 0;
-static double         time_until_checkpoint;
+APP_CLIENT_SHM* app_client_shm = 0;
+static volatile double time_until_checkpoint;
     // time until enable checkpoint
-static double         time_until_fraction_done_update;
+static volatile double time_until_fraction_done_update;
     // time until report fraction done to core client
-static double         fraction_done;
-static double         last_checkpoint_cpu_time;
-static bool           ready_to_checkpoint = false;
-static double         last_wu_cpu_time;
-static bool           standalone          = false;
-static double         initial_wu_cpu_time;
-static bool           have_new_trickle_up = false;
-static bool           have_trickle_down   = true;
+static double fraction_done;
+static double last_checkpoint_cpu_time;
+static bool ready_to_checkpoint = false;
+static volatile double last_wu_cpu_time;
+static bool standalone          = false;
+static double initial_wu_cpu_time;
+static volatile bool have_new_trickle_up = false;
+static volatile bool have_trickle_down   = true;
     // on first call, scan slot dir for msgs
-static double         heartbeat_giveup_time;
-static bool           heartbeat_active;
+static volatile double heartbeat_giveup_time;
+static volatile bool heartbeat_active;
     // if false, suppress heartbeat mechanism
 #ifdef _WIN32
-static int nrunning_ticks = 0;
+static volatile int nrunning_ticks = 0;
 #endif
 
 #define TIMER_PERIOD 1.0
@@ -108,7 +103,7 @@ static MMRESULT timer_id;
 static int  setup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static BOINC_OPTIONS options;
-static BOINC_STATUS boinc_status;
+static volatile BOINC_STATUS boinc_status;
 
 // the following 2 functions are used when there's no graphics
 //
@@ -130,7 +125,9 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     int retval;
     options = opt;
 
-    memset(&boinc_status, 0, sizeof(boinc_status));
+    boinc_status.no_heartbeat = false;
+    boinc_status.suspended = false;
+    boinc_status.quit_request = false;
 
     if (options.main_program) {
         // make sure we're the only app running in this slot
@@ -179,7 +176,9 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 }
 
 int boinc_get_status(BOINC_STATUS& s) {
-    s = boinc_status;
+    s.no_heartbeat = boinc_status.no_heartbeat;
+    s.suspended = boinc_status.suspended;
+    s.quit_request = boinc_status.quit_request;
     return 0;
 }
 
@@ -447,7 +446,6 @@ static void CALLBACK worker_timer(
 #else
 static void worker_timer(int /*a*/) {
 #endif
-
     if (!ready_to_checkpoint) {
         time_until_checkpoint -= TIMER_PERIOD;
         if (time_until_checkpoint <= 0) {
