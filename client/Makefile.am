@@ -49,29 +49,11 @@ boinc_client_SOURCES = \
     scheduler_op.C \
     ss_logic.C \
     time_stats.C \
-    whetstone.C \
-    ../lib/app_ipc.C \
-    ../lib/base64.C \
-    ../lib/crypt.C \
-    ../lib/diagnostics.C \
-    ../lib/exception.C \
-    ../lib/filesys.C \
-    ../lib/hostinfo.C \
-    ../lib/language.C \
-    ../lib/md5_file.C \
-    ../lib/md5.c \
-    ../lib/mfile.C \
-    ../lib/miofile.C \
-    ../lib/msg_log.C \
-    ../lib/parse.C \
-    ../lib/prefs.C \
-    ../lib/proxy_info.C \
-    ../lib/shmem.C \
-    ../lib/util.C
+    whetstone.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
-boinc_client_LDADD = $(RSA_LIBS) $(PTHREAD_LIBS)
+boinc_client_LDADD = -L../lib -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 # the following don't do anything

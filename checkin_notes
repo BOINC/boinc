@@ -20890,3 +20890,16 @@ David  7 Dec 2004
     html/inc/
         email.inc
 
+David  8 Dec 2004
+    - change makefiles so that libboinc, libboinc_api and libboinc_api_graphics
+        have disjoint contents
+    - change client makefile so it uses libboinc instead of separate .o files
+
+    api/
+        Makefile.am
+    apps/
+        Makefile.am
+    client/
+        Makefile.am
+    lib/
+        Makefile.am

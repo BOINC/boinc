@@ -4,14 +4,7 @@
 include $(top_srcdir)/Makefile.incl
 
 api_files= \
-	boinc_api.C                                 \
-	../lib/app_ipc.C                            \
-	../lib/base64.C                             \
-	../lib/diagnostics.C                        \
-	../lib/exception.C                          \
-	../lib/parse.C                              \
-	../lib/shmem.C                              \
-	../lib/util.C
+	boinc_api.C
 
 graphics_api_files = 		\
 	x_opengl.C 				\

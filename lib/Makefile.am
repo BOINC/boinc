@@ -22,24 +22,25 @@ lib_LIBRARIES = libboinc.a
 EXTRA_DIST = *.h *.C
 
 # libboinc.a is for use by applications (not core client or server)
-libboinc_a_SOURCES =                            \
-    ../api/boinc_api.C                          \
-    app_ipc.C                                   \
-	base64.C                                    \
-    diagnostics.C                               \
-    exception.C                                 \
-    filesys.C                                   \
-    hostinfo.C                                  \
-    language.C                                  \
-    md5.c                                       \
-    md5_file.C                                  \
-    mfile.C                                     \
-    miofile.C                                   \
-    parse.C                                     \
-    prefs.C                                     \
-    proxy_info.C                                \
-	shmem.C                                     \
-    util.C										\
+libboinc_a_SOURCES =        \
+    app_ipc.C               \
+	base64.C                \
+    crypt.C                 \
+    diagnostics.C           \
+    exception.C             \
+    filesys.C               \
+    hostinfo.C              \
+    language.C              \
+    md5.c                   \
+    md5_file.C              \
+    mfile.C                 \
+    miofile.C               \
+    msg_log.C               \
+    parse.C                 \
+    prefs.C                 \
+    proxy_info.C            \
+	shmem.C                 \
+    util.C					\
 	base64.h  				\
 	crypt.h  				\
 	error_numbers.h  		\
