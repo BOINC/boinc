@@ -371,6 +371,7 @@ struct DISPLAY_INFO {
 class RPC_CLIENT {
 public:
     int sock;
+    int client_version;
     int send_request(const char*);
     int get_reply(char*&);
 

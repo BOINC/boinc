@@ -996,9 +996,6 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
-    wxString strTitle = wxEmptyString;
-    wxString strStatusText = wxEmptyString;
-
     if ( IsShown() )
     {
         wxString       strConnectedMachine = wxEmptyString;
@@ -1016,24 +1013,31 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                 m_pbmpDisconnect->Hide();
                 m_ptxtDisconnect->Hide();
 
-                strStatusText =  _("Connected to ");
-                strTitle = m_strBaseTitle;
-                
+                wxString strBuffer = wxEmptyString;
+                wxString strLocale = setlocale(LC_NUMERIC, NULL);
+                wxString strTitle = m_strBaseTitle;
+                wxString strStatusText = _("Connected to ");
+ 
                 pDoc->GetConnectedComputerName( strConnectedMachine );
                 if ( strConnectedMachine.empty() )
                 {
                     strTitle += wxT(" - (localhost)");
-                    strStatusText += wxT("(localhost)");
+                    strStatusText += wxT("localhost");
                 }
                 else
                 {
                     strTitle += wxT(" - (") + strConnectedMachine + wxT(")");
-                    strStatusText += wxT("(") + strConnectedMachine + wxT(")");
+                    strStatusText += strConnectedMachine;
                 }
+
+                setlocale(LC_NUMERIC, "C");
+                strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
+                setlocale(LC_NUMERIC, strLocale.c_str());
+
+                strStatusText += wxT(" (") + strBuffer + wxT(")");
 
                 SetTitle( strTitle );
                 m_ptxtConnected->SetLabel( strStatusText );
-
             }
             else
             {

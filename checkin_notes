@@ -25163,3 +25163,15 @@ David  22 Feb 2005
         boinc_db.C,h
     sched/
         validator.C
+
+Rom    22 Feb 2005
+    - Bug Fix: Include the core client version number in the connected to
+        field of the status bar to ease deployment issues for large farms
+
+    client/
+        gui_rpc_server.C
+    clientgui/
+        MainDocument.cpp, .h
+        MainFrame.cpp
+    lib/
+        gui_rpc_client.C, .h

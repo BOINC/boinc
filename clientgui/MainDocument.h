@@ -100,6 +100,8 @@ public:
     wxInt32                     CachedStateLock();
     wxInt32                     CachedStateUnlock();
 
+    wxInt32                     GetCoreClientVersion();
+
     wxInt32                     GetActivityRunMode( wxInt32& iMode );
     wxInt32                     SetActivityRunMode( wxInt32 iMode );
     wxInt32                     GetNetworkRunMode( wxInt32& iMode );

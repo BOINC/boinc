@@ -248,6 +248,12 @@ wxInt32 CMainDocument::CachedStateUnlock()
 }
 
 
+wxInt32 CMainDocument::GetCoreClientVersion()
+{
+    return rpc.client_version;    
+}
+
+
 wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 {
     wxInt32     iRetVal = 0;

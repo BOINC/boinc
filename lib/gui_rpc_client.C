@@ -926,9 +926,13 @@ void MESSAGES::clear() {
 }
 
 RPC_CLIENT::RPC_CLIENT() {
+    sock = 0;
+    client_version = 0;
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
+    sock = 0;
+    client_version = 0;
 }
 
 // if any RPC returns ERR_READ or ERR_WRITE,
@@ -1048,6 +1052,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
 
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</client_state>")) break;
+        else if (parse_int(buf, "<client_version>", client_version)) continue;
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT();
             project->parse(rpc.fin);

@@ -496,7 +496,7 @@ int GUI_RPC_CONN::handle_rpc() {
 
     mf.printf(
         "<boinc_gui_rpc_reply>\n"
-        "<version>%d</version>\n",
+        "<client_version>%d</client_version>\n",
         gstate.version()
     );
     if (match_tag(request_msg, "<get_state")) {
