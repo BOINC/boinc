@@ -123,9 +123,14 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #define BOINCINFO			__noop
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern int boinc_init_diagnostics(int flags);
 extern int boinc_finish_diag(void);
 extern int boinc_install_signal_handlers(void);
 
-
+#ifdef __cplusplus
+}
+#endif
 #endif

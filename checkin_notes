@@ -20850,3 +20850,12 @@ Bruce   7 Dec 2004
 
     sched/
         db_purge.C
+
+Rom    7 Dec 2004
+    - Checkin changes suggested by Bruce Allen and Bernd Machenschalk related to
+      compiling in pure ANSI C environments.
+
+    lib/
+        boinc_win.h
+        diagnostics.h
+        filesys.h

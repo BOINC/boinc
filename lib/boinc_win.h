@@ -78,9 +78,11 @@
 // C headers
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <fcntl.h>
+
+#ifdef __cplusplus
 #include <cassert>
 #include <cctype>
-#include <cerrno>
 #include <cerrno>
 #include <cmath>
 #include <csetjmp>
@@ -89,9 +91,22 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <fcntl.h>
+#else
+#include <assert.h>
+#include <ctype.h>
+#include <errno.h>
+#include <math.h>
+#include <setjmp.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#endif
+
 
 // C++ headers
+#ifdef __cplusplus
 #include <algorithm>
 #include <string>
 #include <iostream>
@@ -101,6 +116,7 @@
 #include <deque>
 #include <list>
 #include <locale>
+#endif
 
 
 #define vsnprintf               _vsnprintf

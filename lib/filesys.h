@@ -39,7 +39,7 @@
 
 #ifdef _WIN32
 
-struct DIR_DESC {
+typedef struct DIR_DESC {
     char path[256];
     bool first;
     void* handle;

@@ -1059,7 +1059,7 @@
 				RelativePath="..\client\file_xfer.h">
 			</File>
 			<File
-				RelativePath="..\client\filesys.h">
+				RelativePath="..\lib\filesys.h">
 			</File>
 			<File
 				RelativePath="..\client\gui_rpc_server.h">
