@@ -303,4 +303,46 @@ function split_munged_email_addr($addr, $string, &$email) {
     return true;
 }
 
+// Generates a standard set of links between associated multi-page documents.  All linked
+// files must be of the form "$filename_<page number>.html".
+
+function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
+  fwrite($descriptor, "<p>Page $currPageNum of $numPages</p>");
+
+  $nextPageNum = $currPageNum + 1;
+  $prevPageNum = $currPageNum - 1;
+
+  // Make the 'previous' and 'next' page links as appropriate.
+  if ($currPageNum > 1) {
+    fwrite($descriptor, "<a href=$filename" . "_" . $prevPageNum . ".html>Previous Page</a>");
+    
+    if ($currPageNum != $numPages) {
+      fwrite($descriptor, " | ");
+    }
+  }
+  if ($currPageNum != $numPages) {
+    fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
+  }
+
+  fwrite($descriptor, "<p><table border=0>\n<tr>\n<td>Jump to Page:</td>\n");
+
+  // Make the individual page links (or a bold non-link for the current page).
+  for ($i = 1; $i <= $numPages; $i++) {
+    if ($i != $currPageNum) {
+      fwrite($descriptor, "<td><a href=$filename" . "_" . $i . ".html>$i</a></td>\n");
+    } else {
+      fwrite($descriptor, "<td><b>$i</b></td>\n");
+    }
+  }
+
+  fwrite($descriptor, "</table>\n");
+}
+
+// Generates a legal filename from a parameter string.
+
+function get_legal_filename($name) {
+  $name = ereg_replace(',', '', $name);
+  return ereg_replace(' ', '_', $name);
+}
+
 ?>
