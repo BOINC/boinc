@@ -14379,3 +14379,20 @@ David  30 June 2004
     sched/
         db_dump.C
         feeder.C
+
+Daniel 30 June 2004
+    - Continuing Eric's vanquishing of "using" directives from header
+      files. Moved "using" directives from inside "#ifndef _WIN32"
+      blocks. Should compile under Windows now.
+
+    client/
+        client_msgs.C
+        win/
+            wingui_mainwindow.cpp
+            wingui_mainwindow.h
+    lib/
+        miofile.C
+        msg_log.C
+        parse.C
+        util.C
+

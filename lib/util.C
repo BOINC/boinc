@@ -55,6 +55,7 @@
 #include "fcgi_stdio.h"
 #endif
 
+using std::min;
 using std::string;
 
 #if !defined(HAVE_STRLCPY)
