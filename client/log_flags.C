@@ -103,6 +103,9 @@ int LOG_FLAGS::parse(FILE* in) {
         } else if (match_tag(buf, "<poll_debug/>")) {
             poll_debug = true;
             continue;
+        } else if (match_tag(buf, "<dont_check_file_sizes/>")) {
+            dont_check_file_sizes = true;
+            continue;
         }
         else msg_printf(NULL, MSG_ERROR, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
     }

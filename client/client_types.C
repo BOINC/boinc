@@ -32,6 +32,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "message.h"
+#include "log_flags.h"
 #include "parse.h"
 #include "util.h"
 #include "client_state.h"
@@ -502,7 +503,11 @@ bool FILE_INFO::verify_existing_file() {
 
     get_pathname(this, path);
     retval = file_size(path, size);
-    if (retval || size!=nbytes) {
+    if (retval) {
+        status = FILE_NOT_PRESENT;
+        return false;
+    }
+    if (!log_flags.dont_check_file_sizes && size!=nbytes) {
         status = FILE_NOT_PRESENT;
         return false;
     }

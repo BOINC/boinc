@@ -10884,3 +10884,11 @@ David  Mar 24 2004
 	lib/
 		diagnostics.C,h
 		error_numbers.h
+
+David  Mar 24 2004
+	- add log flag to suppress file-size checking on app startup
+
+	client/
+		client_types.C
+		log_flags.C,h
+		

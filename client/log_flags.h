@@ -49,6 +49,7 @@ public:
     bool net_xfer_debug;
     bool measurement_debug; // host measurement notices
     bool poll_debug;        // show what polls are responding
+    bool dont_check_file_sizes;
 
     LOG_FLAGS();
     int parse(FILE*);
