@@ -20618,6 +20618,7 @@ Rom    3 Dec 2004
         MainFrame.cpp
 
 Bruce   3 Dec 2004
-    -   Enabled automatic emailing of CVS diffs to the boinc_cvs email list.  This is
-        done by adding a 'syncmail' script in the CVSROOT/ directory and adding an
-        extra line at the end of CVSROOT/loginfo.
+
+    -   Enabled automatic emailing of CVS diffs to the boinc_cvs email
+        list.  This is done by adding a 'syncmail' script in the CVSROOT/
+        directory and adding an extra line at the end of CVSROOT/loginfo.
