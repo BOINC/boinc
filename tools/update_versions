@@ -24,6 +24,13 @@ import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
 import sys, os, glob, re, time
 
+verbose = 0
+try:
+    if sys.argv[1] == '-v':
+        verbose = 1
+except:
+    pass
+
 config = configxml.default_config().config
 database.connect()
 
@@ -71,7 +78,8 @@ def find_versions(app, dir):
         if app:
             existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num)
             if existing_versions:
-                print "  Skipping existing %s %3d: %s" %(app.name, version_num, file)
+                if verbose:
+                    print "  Skipping existing %s %3d: %s" %(app.name, version_num, file)
                 continue
 
             print "  Found %s version %s for %s: %s" %(app, version_num, platform, file)
@@ -89,7 +97,8 @@ def find_versions(app, dir):
         else:
             existing_versions = database.CoreVersions.find(platform=platform, version_num=version_num)
             if existing_versions:
-                print "  Skipping existing core version %s: %s" %(version_num, file)
+                if verbose:
+                    print "  Skipping existing core version %s: %s" %(version_num, file)
                 continue
 
             print "  Found core version %3d for %s: %s" %(version_num, platform, file)
