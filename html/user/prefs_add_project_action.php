@@ -25,7 +25,7 @@ if ($user == NULL) {
             array_push($prefs->projects, $project);
         }
         prefs_update($user, $prefs);
-        print_prefs_display($prefs);
+        prefs_form_projects($prefs);
     }
 }
 echo "<p>\n";

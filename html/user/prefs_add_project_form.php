@@ -12,7 +12,6 @@ page_head("Add project");
 if ($user == NULL) {
     print_login_form();
 } else {
-    echo "Add a project:<br>\n";
     prefs_form_project($project, "prefs_add_project_action.php");
 }
 echo "<p>\n";

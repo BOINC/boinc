@@ -12,7 +12,7 @@
         $prefs = prefs_parse($user->prefs);
 
         echo "<p>This page is where you can edit your preferences.  There are both preferences about when you want your client to start up and how much work should be buffered for it and how much disk space you want to allow this project to use.";
-        echo "<p><b>Important: Remember when you join a new project, you must add it to the list of projects on your home project, that is, the first project you joined.</b>";
+        echo "<p><b>Important: Remember when you join a new project, you <i>must</i> add it to the list of projects on your home project, that is, the first project you joined.</b>";
 
         print_prefs_display($prefs);
     } else {

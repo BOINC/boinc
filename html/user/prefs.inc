@@ -225,7 +225,7 @@ function print_prefs_display($prefs) {
 //
 function prefs_form_work($user, $prefs) {
     echo   "<form action=prefs_edit_work_action.php>\n";
-    echo   "    <table border=1 cellpadding=6>\n";
+    echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Don't run if computer is<br>on batteries</b></td>\n";
     printf("        <td><input type=checkbox name=dont_run_on_batteries %s></td>\n", $prefs->dont_run_on_batteries?"checked":"");
@@ -240,11 +240,11 @@ function prefs_form_work($user, $prefs) {
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Minimum amount of work<br>to buffer (in hours)</b></td>\n";
-    printf("        <td><input name=low_water_days value='$prefs->low_water_days'></td>\n");
+    printf("        <td><input size=5 name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Maximum amount of work<br>to buffer (in hours)</b></td>\n";
-    printf("        <td><input name=high_water_days value='$prefs->high_water_days'></td>\n");
+    printf("        <td><input size=5 name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    </table>\n";
     echo   "    <input type=submit value=\"Edit Preferences\">\n";
@@ -253,18 +253,18 @@ function prefs_form_work($user, $prefs) {
 
 function prefs_form_disk($user, $prefs) {
     echo   "<form action=prefs_edit_disk_action.php>\n";
-    echo   "    <table border=1 cellpadding=6>\n";
+    echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC(in MB)</b></td>\n";
-    echo   "        <td><input name=disk_max_used_gb value='$prefs->disk_max_used_gb'></td>\n";
+    echo   "        <td><input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Minimum disk space to leave<br>free (in MB)</b></td>\n";
-    echo   "        <td><input name=disk_min_free_gb value='$prefs->disk_min_free_gb'></td>\n";
+    echo   "        <td><input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Maximum % of disk space to<br>use for BOINC</b></td>\n";
-    echo   "        <td><input name=disk_max_used_pct value='$prefs->disk_max_used_pct'></td>\n";
+    echo   "        <td><input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'></td>\n";
     echo   "    </tr>\n";
     echo   "    </table>\n";
     echo   "    <input type=submit value=\"Edit Preferences\">\n";
@@ -288,25 +288,25 @@ function prefs_form_projects($prefs) {
 
 function prefs_form_project($project, $action) {
     echo   "<form action=$action>\n";
-    echo   "    <table border=1 cellpadding=6>\n";
+    echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Master URL</td>\n";
-    echo   "        <td><input name=master_url value='$project->master_url'></td>\n";
+    echo   "        <td align=right><b>Master URL</b></td>\n";
+    echo   "        <td><input size=60 name=master_url value='$project->master_url'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>email address</td>\n";
-    echo   "        <td><input name=email_addr value='$project->email_addr'></td>\n";
+    echo   "        <td align=right><b>Email address</b></td>\n";
+    echo   "        <td><input size=40 name=email_addr value='$project->email_addr'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Authenticator</td>\n";
-    echo   "        <td><input name=authenticator value='$project->authenticator'></td>\n";
+    echo   "        <td align=right><b>Authenticator</b></td>\n";
+    echo   "        <td><input size=32 name=authenticator value='$project->authenticator'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Resource share</td>\n";
+    echo   "        <td align=right><b>Resource share</b></td>\n";
     echo   "        <td><input name=resource_share value='$project->resource_share'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Project-specific preferences</td>\n";
+    echo   "        <td align=right><b>Project-specific preferences</b></td>\n";
     echo   "        <td><input name=project_specific value='$project->project_specific'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr><td><br></td><td><input type=submit value=OK></td></tr>\n";

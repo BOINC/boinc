@@ -8,7 +8,7 @@ include_once("prefs.inc");
 db_init();
 
 $user = get_user_from_cookie();
-page_head("Edit Project Prefrences");
+page_head("Edit Project Preferences");
 if ($user == NULL) {
     print_login_form();
 } else {

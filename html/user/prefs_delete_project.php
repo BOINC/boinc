@@ -15,7 +15,7 @@ if ($user == NULL) {
     $prefs = prefs_parse($user->prefs);
     parse_str(getenv("QUERY_STRING"));
     $i = project_index($prefs, $master_url);
-    array_splice($prefs->projects, i, 1);
+    array_splice($prefs->projects, $i, 1);
     prefs_update($user, $prefs);
     echo "Project $master_url deleted";
     prefs_form_projects($prefs);
