@@ -121,7 +121,7 @@ static int possibly_send_result(
 // be sure if it suceeded).
 //
 int made_more_work_for_file(char* filename) {
-    char fullpath[512], buf[256];
+    char fullpath[512];
 
     sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
     FILE *fp=fopen(fullpath, "r");
@@ -168,7 +168,7 @@ static int send_results_for_file(
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
     DB_RESULT result;
-    int lookup_retval=0, send_retval=0, lastid=0, i, last_wuid=0;
+    int lookup_retval=0, send_retval=0, lastid=0, i;
     unsigned int j;
     std::vector<int> excluded_wus;
     char buf[256], query[65000];
@@ -253,6 +253,7 @@ static void send_new_file_work(
         //
         if (!lookup_retval && (result.id == lastid)) lookup_retval = -1;
 
+        send_retval=0;
         if (!lookup_retval) {
             lastid = result.id;
             send_retval = possibly_send_result(
