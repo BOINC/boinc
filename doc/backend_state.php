@@ -48,6 +48,10 @@ list_item("file_delete_state",
     <li>Initially INIT
     <li>Set to READY by transitioner when all results have server_state=OVER
         and wu.assimilate_state=DONE
+        Note: db_purge purges a WU and all its results when
+        file_delete_state=DONE;
+        therefore it is critical that it only be set to DONE
+        if all results have server_state=OVER.
     <li>Set to DONE by file_deleter when it has attempted to delete files.
     </ul>
     "

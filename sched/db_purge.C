@@ -1,4 +1,3 @@
- /* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -18,9 +17,41 @@
 // Contributor(s):
 //
 
-// db_purge:
-// purge workunit and result records that are no longer needed from
-// the database
+// db_purge options
+//
+// purge workunit and result records that are no longer needed.
+// Specifically, purges WUs for which file_delete_state=DONE;
+// this occurs only when it has been assimilated
+// and all results have server_state=OVER.
+// Purging a WU means writing it and all its results
+// to XML-format archive files, then deleting it and its results from the DB.
+//
+// The XML files have names of the form
+// wu_archive_TIME and result_archive_TIME
+// where TIME is the time it was created.
+// In addition there are index files associating each WU and result ID
+// with the timestamp of the file it's in.
+//
+// Options:
+//
+// -days n              purge WUs with mod_time at least N days in the past
+// -max n               purge at most N WUs
+// -one_pass            purge a few (~1000) WUs, then exit
+//                      default: keep scanning indefinitely
+// -max_wu_per_file n   write at most N WUs to an archive file
+                // The file is then closed and another file is opened.
+                // This can be used to get a series of small files
+                // instead of one huge file.
+// -zip
+            // compress output files using zip.  If used with
+            // -max_wu_per_file then the files get compressed after
+            // being closed.  In any case the files are compressed
+            // when db_purge exits on a signal.
+// -gzip
+            // compress output files using gzip.  If used with
+            // -max_wu_per_file then the files get compressed after
+            // being closed.  In any case the files are compressed
+            // when db_purge exits on a signal.
 
 #include <cstdio>
 #include <unistd.h>
@@ -64,10 +95,11 @@ int             time_int=0;
 // These is used if limiting the total number of workunits to eliminate
 int purged_workunits= 0;
 
-// If non-negative, maximum number of workunits to purge. Since all
-// results associated with a purged workunit are also purged, this
-// also limits the number of purged results.
-int max_number_workunits_to_purge=-1;
+// If nonzero, maximum number of workunits to purge.
+// Since all results associated with a purged workunit are also purged,
+// this also limits the number of purged results.
+//
+int max_number_workunits_to_purge=0;
 
 // set on command line if compression of archives is desired
 #define COMPRESSION_NONE    0
@@ -87,6 +119,13 @@ int max_wu_per_file=0;
 // keep track of how many WU archived in file so far
 int wu_stored_in_file=0;
 
+bool time_to_quit() {
+    if (max_number_workunits_to_purge) {
+        if (purged_workunits >= max_number_workunits_to_purge) return true;
+    }
+    return false;
+}
+
 // this opens the archive.  Only subtle thing is that if the user has
 // asked for compression, then we popen(2) a pipe to gzip or zip.
 // This does 'in place' compression.
@@ -100,26 +139,32 @@ void open_archive(char* filename_prefix, FILE*& f){
     strcat(path, suffix[compress]);
 
     // and construct appropriate command if needed
-    if (compress==COMPRESSION_GZIP)
+    if (compress==COMPRESSION_GZIP) {
         sprintf(command, "gzip - > %s", path);
+    }
    
-    if (compress==COMPRESSION_ZIP)
+    if (compress==COMPRESSION_ZIP) {
         sprintf(command, "zip %s -", path);
+    }
 
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Opening archive %s\n", path);
 
     // in the case with no compression, just open the file, else open
     // a pipe to the compression executable.
+    //
     if (compress==COMPRESSION_NONE) {   
         if (!(f = fopen( path,"w"))) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s %s\n",
-                path, errno?strerror(errno):"");
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s %s\n",
+                path, errno?strerror(errno):""
+            );
             exit(3);
         }
-    }
-    else if (!(f = popen(command,"w"))) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't open pipe %s %s\n", 
-            command, errno?strerror(errno):"");
+    } else if (!(f = popen(command,"w"))) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,"Can't open pipe %s %s\n", 
+            command, errno?strerror(errno):""
+        );
         exit(4);
     }
 
@@ -134,16 +179,17 @@ void open_archive(char* filename_prefix, FILE*& f){
 void close_archive(char *filename, FILE*& fp){
     char path[256];
 
-    // Set file pointer to NULL after closing file to indicate that
-    // it's closed.
-    if (!fp)
-        return;
+    // Set file pointer to NULL after closing file to indicate that it's closed.
+    //
+    if (!fp) return;
 
     // In case of errors, carry on anyway.  This is deliberate, not lazy
-    if (compress==COMPRESSION_NONE)
+    //
+    if (compress==COMPRESSION_NONE) {
         fclose(fp);
-    else
+    } else {
         pclose(fp);
+    }
     
     fp=NULL;
 
@@ -153,7 +199,8 @@ void close_archive(char *filename, FILE*& fp){
     
     log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Closed archive file %s containing records of %d workunits\n",
-        path, wu_stored_in_file);
+        path, wu_stored_in_file
+    );
 
     return;
 }
@@ -165,8 +212,9 @@ void open_all_archives() {
     int old_time=time_int;
     
     // make sure we get a NEW value of the file timestamp!
-    while (old_time == (time_int = (int)time(0)))
+    while (old_time == (time_int = (int)time(0))) {
         sleep(1);
+    }
     
     // open all the archives.
     open_archive(WU_FILENAME_PREFIX,           wu_stream);
@@ -368,34 +416,39 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 
     sprintf(buf, "where workunitid=%d", wu.id);
     while (!result.enumerate(buf)) {
-       retval= archive_result(result);
-       if (retval) return retval;
-       log_messages.printf(SCHED_MSG_LOG::DEBUG,"Archived result [%d] to a file\n", result.id);
-
-       retval= result.delete_from_db();
-       if (retval) return retval;
-       log_messages.printf(SCHED_MSG_LOG::DEBUG,"Purged result [%d] from database\n", result.id);
-
-       number_results++;
+        retval= archive_result(result);
+        if (retval) return retval;
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "Archived result [%d] to a file\n", result.id
+        );
+        retval= result.delete_from_db();
+        if (retval) return retval;
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "Purged result [%d] from database\n", result.id
+        );
+        number_results++;
     }
     return 0;
 }
 
-// return nonzer if did anything
+// return true if did anything
 //
 bool do_pass() {
     int retval= 0;
 
-    // The number of workunits/results purged in a single pass of
-    // do_pass().  Since do_pass() may be invoked multiple times,
+    // The number of workunits/results purged in a single pass of do_pass().
+    // Since do_pass() may be invoked multiple times,
     // corresponding global variables store global totals.
     //
     int do_pass_purged_workunits = 0;
     int do_pass_purged_results = 0;
 
-    // check to see if we got a stop signal.  Note that if we do catch
-    // a stop signal here, we call an exit handler that closes [and
-    // optionally compresses] files before returning to the OS.
+    // check to see if we got a stop signal.
+    // Note that if we do catch a stop signal here,
+    // we call an exit handler that closes [and optionally compresses] files
+    // before returning to the OS.
     //
     check_stop_daemons();
 
@@ -403,19 +456,21 @@ bool do_pass() {
     DB_WORKUNIT wu;
     char buf[256];
 
-    // select all workunits with file_delete_state='DONE'
+    // select all workunits with file_delete_state=DONE
     //
-    sprintf(buf, "where file_delete_state=%d limit %d", FILE_DELETE_DONE,
-            DB_QUERY_LIMIT);
+    sprintf(buf,
+        "where file_delete_state=%d limit %d",
+        FILE_DELETE_DONE, DB_QUERY_LIMIT
+    );
 
-    int n=0; // cleared in purge_and_archive_results, but avoid
-             // compiler complaints about uninitialized
+    int n=0;
     while (!wu.enumerate(buf)) {
         did_something = true;
         
         // if archives have not already been opened, then open them.
-        if (!wu_stream)
+        if (!wu_stream) {
             open_all_archives();
+        }
 
         retval = purge_and_archive_results(wu, n);
         do_pass_purged_results += n;
@@ -451,8 +506,9 @@ bool do_pass() {
             wu_stored_in_file=0;
         }
 
-        if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)
+        if (time_to_quit()) {
             break;
+        }
 
     }
 
@@ -484,28 +540,12 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-max")) {
-            // This is the limit on the maximum number of workunits to
-            // purge.  Since all results associated with those WU are
-            // also purged, it indirectly controls that number as
-            // well.
             max_number_workunits_to_purge= atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-zip")) {
-            // compress output files using zip.  If used with
-            // -max_wu_per_file then the files get compressed after
-            // being closed.  In any case the files are compressed
-            // when db_purge exits on a signal.
             compress=COMPRESSION_ZIP;
-            // compress output files using gzip.  If used with
-            // -max_wu_per_file then the files get compressed after
-            // being closed.  In any case the files are compressed
-            // when db_purge exits on a signal.
         } else if (!strcmp(argv[i], "-gzip")) {
             compress=COMPRESSION_GZIP;
         } else if (!strcmp(argv[i], "-max_wu_per_file")) {
-            // This is the limit on the maximum number of workunits to
-            // purge into a given file. The file is then closed and
-            // another file is opened. This can be used to get a
-            // series of bite-sized files instead of one huge file.
             max_wu_per_file = atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -531,27 +571,20 @@ int main(int argc, char** argv) {
 
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
-        config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
         exit(2);
     }
     install_stop_signal_handler();
-
-
-    //time_t  now;
-    //struct tm tim;
-    //size_t i;
-
-    //now= time(0);
-    //tim= *(localtime(&now));
-    //i= strftime(time_int,30,"%b%d_%Y_%H:%M:%S", &tim);
     mkdir("../archives", 0777);
 
     // on exit, either via the check_stop_daemons signal handler, or
     // through a regular call to exit, these functions will be called
     // in the opposite order of registration.
+    //
     atexit(close_db_exit_handler);
     atexit(close_all_archives);
 
@@ -559,10 +592,12 @@ int main(int argc, char** argv) {
         do_pass();
     } else {
         while (1) {
-            if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)
+            if (time_to_quit()) {
                 break;
-            if (!do_pass())
+            }
+            if (!do_pass()) {
                 sleep(10);
+            }
         }
     }    
 
