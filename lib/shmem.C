@@ -20,6 +20,8 @@
 // interfaces for accessing shared memory segments
 
 #include <stdio.h>
+#include <string.h>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
