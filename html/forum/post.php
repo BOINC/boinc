@@ -62,9 +62,9 @@ if ($category->is_helpdesk) {
 echo "<form action=\"post.php?id=", $_GET['id'], "\" method=POST>";
 
 if ($category->is_helpdesk) {
-	$cell = "Post a New Question";
+	$cell = "Submit a new question/problem";
 } else {
-	$cell = "Post a New Thread / Question";
+	$cell = "Create a new thread";
 }
 start_forum_table(array($cell), 2);
 
@@ -102,7 +102,7 @@ echo "
     </tr>
 ";
 row2("", "<input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this post");
-row2("", "<input type=submit value=\"Post message\">");
+row2("", "<input type=submit value=\"OK\">");
 
 end_forum_table();
 

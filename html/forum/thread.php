@@ -88,9 +88,9 @@ echo "<td align=right style=\"border:0px\">";
 if ($category->is_helpdesk) {
     show_select_from_array("sort", $answer_sort_styles, $sort_styles);
 } else {
-    echo "Sort/filter ";
+    echo "Sort ";
     show_select_from_array("sort", $thread_sort_styles, $sort_style);
-    show_select_from_array("filter", $thread_filter_styles, $filter_min);
+    //show_select_from_array("filter", $thread_filter_styles, $filter_min);
 }
 echo "<input type=submit value=OK>\n</td>";
 

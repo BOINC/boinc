@@ -43,6 +43,7 @@
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_trigger();
+extern bool is_stopfile_present();
 extern void update_average(double, double, double&, double&);
 extern void install_sigint_handler();
 extern bool caught_sig_int;

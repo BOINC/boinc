@@ -30,7 +30,7 @@ using namespace std;
 #include "sched_util.h"
 #include "server_types.h"
 
-const char* STOP_TRIGGER_FILENAME = "../stop_server";
+const char* STOP_TRIGGER_FILENAME = "../stop_servers";
 
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
@@ -64,6 +64,15 @@ void check_stop_trigger() {
         log_messages.printf(SchedMessages::NORMAL, "Quitting due to stop trigger\n");
         exit(0);
     }
+}
+
+bool is_stopfile_present() {
+    FILE* f = fopen(STOP_TRIGGER_FILENAME, "r");
+    if (f) {
+        fclose(f);
+        return true;
+    }
+    return false;
 }
 
 

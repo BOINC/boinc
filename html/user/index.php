@@ -17,37 +17,39 @@
     echo "
 <br><br>
 <table cellpadding=8>
-<tr><td width=40%>
-<h3>Join ".PROJECT." </h3>
-<p>
-<ul>
-<li><a href=".URL_BASE."info.php>Rules and policies <b>[read this first]</b></a>
-<li><a href=".URL_BASE."create_account_form.php>Create account</a>
-</ul>
+<tr><td valign=top width=40%>
+";
+if (project_is_stopped()) {
+    echo "
+        <b>".PROJECT." is temporarily shut down for maintenance.
+        Please try again later.
+    ";
+} else {
+    echo "
+        <h3>Join ".PROJECT." </h3>
+        <p>
+        <ul>
+        <li><a href=".URL_BASE."info.php>Rules and policies <b>[read this first]</b></a>
+        <li><a href=".URL_BASE."create_account_form.php>Create account</a>
+        </ul>
 
-<h3>Returning participants</h3>
-<ul>
-<li><a href=".URL_BASE."login_form.php>Log in</a>
-<li><a href=".URL_BASE."home.php>User page</a> - view stats, modify preferences
-<li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
-<li><a href=".URL_BASE."download.php>Download BOINC</a>
-</ul>
-<h3>Community</h3>
-<ul>
-<li><a href=".URL_BASE."profile_menu.php>User profiles</a>
-<li><a href=".URL_BASE."forum/>Message boards</a>
-<li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
-</ul>
-<h3><a href=stats.php>Project totals and leader boards</a></h3>
-<!--  Deprecated
-<ul>
-<li><a href=".URL_BASE."totals.php>Project totals</a>
-<li><a href=".URL_BASE."top_users.php>Top users</a>
-<li><a href=".URL_BASE."top_hosts.php>Top computers</a>
-<li><a href=".URL_BASE."top_teams.php>Top teams</a>
-<li><a href=".URL_BASE."stats.php>XML statistics data</a>
-</ul>
--->
+        <h3>Returning participants</h3>
+        <ul>
+        <li><a href=".URL_BASE."login_form.php>Log in</a>
+        <li><a href=".URL_BASE."home.php>User page</a> - view stats, modify preferences
+        <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
+        <li><a href=".URL_BASE."download.php>Download BOINC</a>
+        </ul>
+        <h3>Community</h3>
+        <ul>
+        <li><a href=".URL_BASE."profile_menu.php>User profiles</a>
+        <li><a href=".URL_BASE."forum/>Message boards</a>
+        <li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
+        </ul>
+        <h3><a href=stats.php>Project totals and leader boards</a></h3>
+    ";
+}
+echo "
 </td>
 <td valign=top bgcolor=dddddd>
 <center>
@@ -65,6 +67,6 @@ include 'schedulers.txt';
 
 echo "-->\n";
 
-page_tail();
+page_tail(true);
 
 ?>

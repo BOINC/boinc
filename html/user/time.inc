@@ -38,6 +38,6 @@ function time_diff_str($t1, $t2) {
     if ($diff == 1) {
         return "1 second ago";
     }
-    return $x." seconds ago";
+    return $diff." seconds ago";
 }
 ?>

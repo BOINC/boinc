@@ -194,7 +194,7 @@ function createThread($forumID, $ownerID, $title, $content) {
     $title = addslashes(sanitize_html($title));
     $content = addslashes(sanitize_html($content));
 
-    $sql = "INSERT INTO thread (forum, owner, title, create_time) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP())";
+    $sql = "INSERT INTO thread (forum, owner, title, create_time, timestamp) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
     $result = mysql_query($sql);
     if (!$result) return false;
     $threadID = mysql_insert_id();
@@ -330,9 +330,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     echo "</p>\n</td>\n";
 
     if ($controls == FORUM_CONTROLS) {
-        echo "<td align=\"right\" style=\"border:0px\">Rate this post:";
-        show_select_from_array("rating", $post_ratings, "0");
-        echo "<input type=\"submit\" value=\"Rate\"></td>";
+        //echo "<td align=\"right\" style=\"border:0px\">Rate this post:";
+        //show_select_from_array("rating", $post_ratings, "0");
+        //echo "<input type=\"submit\" value=\"Rate\"></td>";
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
             <td align=\"right\" style=\"border:0px\">

@@ -137,12 +137,15 @@ function page_head($title, $user=null, $fd=null, $styleSheet=null) {
     project_banner($user, $fd);
 }
 
-function page_tail($fd=null) {
-    write_fd($fd, "<br><hr noshade size=1><center><a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n");
+function page_tail($is_main=false) {
+    echo "<br><hr noshade size=1><center>";
+    if (!$is_main) {
+        echo "<a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n";
+    }
 
     // put your copyright notice etc. here
 
-    write_fd($fd, "<br><br>Copyright &copy; 2003 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>");
+    echo "<br><br>Copyright &copy; 2003 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>";
 }
 
 function db_error_page() {
@@ -447,5 +450,9 @@ function doError($msg, $info = '') {
 
 function format_credit($cobblestones) {
     return sprintf("%.2f", $cobblestones);
+}
+
+function project_is_stopped() {
+    return file_exists("../stop_servers");
 }
 ?>

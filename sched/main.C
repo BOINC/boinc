@@ -43,8 +43,6 @@ using namespace std;
 
 #define DEBUG_LEVEL  999
 
-//#define STDERR_FILENAME "cgi_out"
-
 void get_log_path(char* p) {
     char buf[256];
     gethostname(buf, 256);
@@ -57,6 +55,15 @@ bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 DB_PROJECT gproject;
 SCHED_CONFIG config;
+
+void send_shut_message() {
+    printf(
+        "Content-type: text/plain\n\n"
+        "<scheduler_reply>\n"
+        "    <message priority=\"low\">Project is temporarily shut down for maintenance</message>\n"
+        "</scheduler_reply>\n"
+    );
+}
 
 int main() {
     FILE* fin, *fout;
@@ -77,13 +84,16 @@ int main() {
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
+    if (is_stopfile_present()) {
+        send_shut_message();
+        goto done;
+    }
+
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
-
-    check_stop_trigger();
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
@@ -141,15 +151,11 @@ int main() {
     while(FCGI_Accept() >= 0) {
     counter++;
 #endif
-    printf("Content-type: text/plain\n\n");
     if (project_stopped) {
-        printf(
-            "<scheduler_reply>\n"
-            "    <message priority=\"low\">Project is temporarily shut down for maintenance</message>\n"
-            "</scheduler_reply>\n"
-        );
+        send_shut_message();
         goto done;
     }
+    printf("Content-type: text/plain\n\n");
     if (use_files) {
         // the code below is convoluted because,
         // instead of going from stdin to stdout directly,

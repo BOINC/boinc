@@ -8317,3 +8317,25 @@ Karl 2003-12-09
 
     sched/
         main.C
+
+David  9 Dec 2003
+    - scheduler returns message if "../stop_servers" exists
+        NOTE SPELLING; "stop_server" was error
+    - web site main page checks for "stop_servers" file,
+        shows "project down" message if so
+        TODO: have all DB-driven pages do this
+    - don't show link to main page on main page
+    - turned off "rate message" control (wasn't being used)
+
+    html_user/
+        index.php
+        time.inc
+        util.inc
+        forum/
+            forum.inc
+            post.php
+            text_search_action.php
+            thread.php
+    sched/
+        main.C
+        sched_util.C,h
