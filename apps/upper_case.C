@@ -31,8 +31,10 @@
 #include <ctype.h>
 #include <time.h>
 #include <string.h>
-#include <unistd.h>
 #include <stdlib.h>
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 
 #ifdef BOINC_APP_GRAPHICS
 #ifdef __APPLE_CC__
@@ -47,7 +49,7 @@
 #endif
 
 #ifdef _WIN32
-#include "glut.h"
+#include <windows.h>
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
@@ -69,7 +71,7 @@ char the_char[10];
 double xPos=0, yPos=0;
 double xDelta=0.03, yDelta=0.07;
 
-int run_slow=0,cpu_time=0;
+int run_slow=1,cpu_time=0;
 time_t my_start_time;
 APP_INIT_DATA uc_aid;
 
@@ -115,24 +117,16 @@ int do_checkpoint(MFILE& mf, int nchars) {
 }
 
 #ifdef _WIN32
-#include <afxwin.h>
 
 extern int main(int argc, char** argv);
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPWSTR command_line;
-    LPWSTR *args;
+    LPSTR command_line;
     char* argv[100];
-    int i, argc;
+    int argc;
 
-    command_line = GetCommandLineW();
-    args = CommandLineToArgvW(command_line, &argc);
-
-    // uh, why did MS have to "improve" on char*?
-
-    for (i=0; i<argc; i++) {
-        argv[i] = (char*)args[i];
-    }
+    command_line = GetCommandLine();
+	argc = parse_command_line( command_line, argv );
     return main(argc, argv);
 }
 #endif
@@ -155,8 +149,6 @@ int main(int argc, char **argv) {
 
     boinc_get_init_data(uc_aid);
 
-    boinc_get_init_data(uc_aid);
-
     boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
@@ -166,6 +158,10 @@ int main(int argc, char **argv) {
     }
     in = fopen(resolved_name, "r");
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
+	if (in == NULL) {
+		fprintf( stderr, "Couldn't find input file.\n" );
+		exit(-1);
+	}
     state = fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
@@ -225,7 +221,7 @@ int main(int argc, char **argv) {
     time_file.flush();
     time_file.close();
     
-    //boinc_finish_opengl();
+    boinc_finish_opengl();
     boinc_finish(0);
     
     return 0;
@@ -233,25 +229,30 @@ int main(int argc, char **argv) {
 
 #ifdef BOINC_APP_GRAPHICS
 
+GLvoid glPrint(const char *fmt, ...);
+
 int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
 {
-    char text[1024];
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
     glLoadIdentity();                                    // Reset The Current Modelview Matrix
     glColor3f(1,1,1);
-    renderBitmapString(xPos,yPos,GLUT_BITMAP_HELVETICA_12,the_char);
+
+	glRasterPos3f(xPos, yPos, -3);
+    glPrint(the_char);
+
     xPos += xDelta;
     yPos += yDelta;
     if (xPos < -1 || xPos > 1) xDelta *= -1;
     if (yPos < -1 || yPos > 1) yDelta *= -1;
 
-    sprintf(text, "User: %s", uc_aid.user_name);
-    renderBitmapString(-1.3,1.1,GLUT_BITMAP_HELVETICA_12, text);
-    sprintf(text, "Team: %s", uc_aid.team_name);
-    renderBitmapString(-1.3,1.0,GLUT_BITMAP_HELVETICA_12, text);
-    sprintf(text, "CPU Time: %f", uc_aid.wu_cpu_time);
-    renderBitmapString(-1.3,0.9,GLUT_BITMAP_HELVETICA_12, text);
+	glRasterPos3f(-1.3, 1.1, -3);
+	glPrint("User: %s", uc_aid.user_name);
+
+	glRasterPos3f(-1.3, 1.0, -3);
+    glPrint("Team: %s", uc_aid.team_name);
+
+	glRasterPos3f(-1.3, 0.9, -3);
+    glPrint("CPU Time: %f", uc_aid.wu_cpu_time);
 
     return TRUE;                                        // Everything Went OK
 }

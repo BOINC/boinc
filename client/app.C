@@ -286,6 +286,7 @@ int ACTIVE_TASK::start(bool first_time) {
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     char slotdirpath[256];
+	char cmd_line[512];
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -295,12 +296,13 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
+	sprintf( cmd_line, "%s %s", exec_path, wup->command_line );
     // Need to condense argv into a single string
     //if (log_flags.task_debug) print_argv(argv);
     //
     full_path(slot_dir, slotdirpath);
     if (!CreateProcess(exec_path,
-        wup->command_line,
+        cmd_line,
         NULL,
         NULL,
         FALSE,
@@ -316,16 +318,14 @@ int ACTIVE_TASK::start(bool first_time) {
             FORMAT_MESSAGE_ALLOCATE_BUFFER | 
             FORMAT_MESSAGE_FROM_SYSTEM | 
             FORMAT_MESSAGE_IGNORE_INSERTS,
-            NULL,
-            state,
+            NULL, state,
             0, // Default language
-            (LPTSTR) &lpMsgBuf,
-            0,
-            NULL
+            (LPTSTR) &lpMsgBuf, 0, NULL
         );
-        fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+        fprintf(stderr, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
     }
     pid_handle = process_info.hProcess;
+	thread_handle = process_info.hThread;
 
 #endif
 
@@ -408,6 +408,8 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
                 atp->result->exit_status = atp->exit_status;
+				CloseHandle(atp->pid_handle);
+				CloseHandle(atp->thread_handle);
             }
         }
     }
