@@ -8769,3 +8769,7 @@ David  23 Dec 2003
         db_base.C,h
     sched/
         update_stats.C
+
+Gary    25 Dec 2003
+    - BOINC release 2.16 for windows, Linux, solaris, mac os x 10.3
+       (os x 10.2 compatability will come soon)
