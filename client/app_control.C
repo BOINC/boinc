@@ -176,6 +176,16 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     return 0;
 }
 
+static void limbo_message(ACTIVE_TASK& at) {
+    msg_printf(at.result->project, MSG_INFO,
+        "Result %s exited with zero status but no 'finished' file",
+        at.result->name
+    );
+    msg_printf(at.result->project, MSG_INFO,
+        "You may need to restart BOINC to finish this result"
+    );
+}
+
 // deal with a process that has exited, for whatever reason
 // (including preemption)
 //
@@ -211,6 +221,7 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
             }
             if (!finish_file_present()) {
                 state = PROCESS_IN_LIMBO;
+                limbo_message(*this);
                 return true;
             }
         }
@@ -268,6 +279,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                     // (assume user is about to exit core client)
                     //
                     state = PROCESS_IN_LIMBO;
+                    limbo_message(*this);
                     return true;
                 }
             }
@@ -290,6 +302,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
             case SIGTERM:
             case SIGSTOP:
                 state = PROCESS_IN_LIMBO;
+                limbo_message(*this);
                 return true;
             }
             exit_status = stat;

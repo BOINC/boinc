@@ -8,8 +8,8 @@ echo "
 <p>
 To ask questions or report bugs in the BOINC client software,
 please go to the
-<a href=http://setiboinc.ssl.berkeley.edu/ap/forum_help_desk.php>Message
-board area</a> of the BOINC beta test.
+<a href=http://setiweb.ssl.berkeley.edu/sah/forum_help_desk.php>Message
+board area</a> of SETI@home.
 
 <p>
 There are
@@ -18,7 +18,7 @@ in various languages.
 
 <p>
 See also
-<a href=guis.php>GUIs and add-on software for BOINC</a>.
+<a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>GUIs and add-on software for BOINC</a>.
 
 <h2>Mailing lists</h2>
 

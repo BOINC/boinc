@@ -16719,3 +16719,10 @@ David  25 Aug 2004
             util.inc
         user/
             results.php
+
+David  25 Aug 2004
+    - Core client: print a message when an app is put in LIMBO state
+        (i.e. exit zero but w/o finish file)
+
+    client/
+        app_control.C

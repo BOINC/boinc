@@ -12,8 +12,9 @@ echo "
 <li> Installing and running the BOINC client
 <ul>
 <li> <a href=client_windows.php>Windows GUI</a>
-<li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
 <li> <a href=service.php>Windows service</a>
+<li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
+<li> <a href=client_mac.php>Installing BOINC on Mac OS/X</a>
 </ul>
 <li> <a href=prefs.php>Preferences</a>
 <li> <a href=host_id.php>Host identification and merging</a>
@@ -27,7 +28,7 @@ echo "
 <ul>
 <li> <a href=gui_rpc.php>Framework for separate GUIs</a>
 <li> <a href=gui_rpc_control.php>Access control</a>
-<li> <a href=guis.php>Separate GUIs</a>
+<li> <a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>Separate GUIs</a>
 </ul>
 <p>
 <b>Statistics web sites</b>
