@@ -39,6 +39,14 @@
 #include "client_state.h"
 #include "error_numbers.h"
 
+// Decide whether to start a new file transfer
+//
+bool CLIENT_STATE::start_new_file_xfer() {
+    // TODO: limit the number of file xfers in some way
+    return true;
+}
+
+
 // Make a directory for each of the projects present
 // in the client state
 //

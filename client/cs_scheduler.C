@@ -43,13 +43,6 @@
 #define EXP_DECAY_RATE  (1./(3600*24*7))
 #define SECONDS_IN_DAY 86400
 
-// Decide whether to start a new file transfer
-//
-bool CLIENT_STATE::start_new_file_xfer() {
-    // **** this should do a little more than this
-    return true;
-}
-
 // estimate the days of work remaining
 //
 double CLIENT_STATE::current_water_days() {
