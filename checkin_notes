@@ -4376,3 +4376,12 @@ Eric   May 30, 2003
         client_state.C,h
         cs_scheduler.C
 
+Karl    2003/06/02
+    - fixed some spelling and grammar
+
+    doc/
+        api.html
+        boinc_version.html
+        road_map.html
+        sequence.html
+        single_host_server.html
