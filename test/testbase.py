@@ -41,7 +41,8 @@ def test_init():
     if not os.path.exists('test_uc.py'):
         raise SystemExit('Could not find boinc_db.py anywhere')
 
-    options.program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
+    #options.program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
+    options.program_path = os.getcwd()
 
     options.auto_setup     = int(get_env_var("BOINC_TEST_AUTO_SETUP",1))#######
     options.user_name      = get_env_var("BOINC_TEST_USER_NAME", '') or get_env_var("USER")
