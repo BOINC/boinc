@@ -34,7 +34,9 @@ libboinc_a_SOURCES =				\
 	shmem.h					\
 	synch.h					\
 	util.h					\
-	base64.h
+	base64.h				\
+	sighandle.C				\
+	sighandle.h
 
 # libboinc_graphics_a_SOURCES =			\
 #         ../api/graphics_api.C			\
