@@ -245,8 +245,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     return 0;
 }
 
-inline void trim(STRING256& str)
-{
+static void trim(STRING256& str) {
 	char* last_char = str.text + strlen(str.text);
 	while (isspace(*(last_char-1)) && last_char > str.text) {
 		--last_char;
@@ -254,8 +253,9 @@ inline void trim(STRING256& str)
 	*last_char = '\0';
 	char *first_char = str.text;
 	if (isspace(*first_char)) {
-		while (isspace(*first_char))
+		while (isspace(*first_char)) {
 			++first_char;
+        }
 		char* dest = str.text;
 		while (*first_char) {
 			*dest++ = *first_char++;
@@ -547,7 +547,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     strcpy(project_name, "");
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    // const char* old_project_prefs_xml = project_prefs_xml;
     strcpy(user_name, "");
     strcpy(team_name, "");
     user_total_credit = 0;
@@ -591,7 +590,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &global_prefs_xml
             );
             if (retval) return ERR_XML_PARSE;
-            msg_printf(project, MSG_INFO, "General preferences have been updated\n");
+            msg_printf(project, MSG_INFO,
+                "General preferences have been updated\n"
+            );
         } else if (match_tag(buf, "<project_preferences>")) {
             retval = dup_element_contents(
                 in,

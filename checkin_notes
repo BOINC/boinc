@@ -7886,3 +7886,27 @@ David  27 Nov 2003
         client_types.C,h
     db/
         constraints.sql
+
+David  28 Nov 2003
+	- Fixed various problems with project preferences.
+		(overrides yesterday's non-fix)
+		PROJECT now has separate fields for
+			project_prefs (entire prefs, include venue variants)
+			project_specific_prefs (only project specific,
+				and only for current venue).
+		These had been confused before.
+		The account_*.xml file has the project_prefs,
+		enclosed in a <project_preferences> element
+	- updated document about account files
+	- Changed project prefs from char[MAX_BLOB_LEN] to string,
+		and added variant of copy_element_contents() for string.
+
+	client/
+		app.C
+		client_types.C,h
+		cs_scheduler.C
+		scheduler_ops.C
+	doc/
+		client_files.php
+	lib/
+		parse.C,h

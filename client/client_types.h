@@ -119,10 +119,16 @@ public:
     char master_url[256];       // url of site that contains scheduler tags
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
-    char project_specific_prefs[MAX_BLOB_LEN];
-                                // without enclosing <project_specific> tags
-    double resource_share;      // project's resource share
-                                // relative to other projects.  Arbitrary scale.
+    string project_prefs;
+        // without the enclosing <project_preferences> tags.
+        // May include <venue> elements
+        // This field is used only briefly: between handling a
+        // scheduler RPC reply and writing the account file
+    string project_specific_prefs;
+        // without enclosing <project_specific> tags
+        // Does not include <venue> elements
+    double resource_share;
+        // project's resource share relative to other projects.
 
     // the following items come from client_state.xml
     // They may depend on the host as well as user and project

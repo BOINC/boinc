@@ -470,10 +470,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     // deal with project preferences (should always be there)
+    // If they've changed, write to account file,
+    // then parse to get our venue, and pass to running apps
     //
     if (sr.project_prefs_xml) {
-        if (strcmp(project->project_specific_prefs, sr.project_prefs_xml)) {
-            strcpy(project->project_specific_prefs, sr.project_prefs_xml);
+        if (strcmp(project->project_prefs.c_str(), sr.project_prefs_xml)) {
+            project->project_prefs = string(sr.project_prefs_xml);
             retval = project->write_account_file();
             if (retval) return retval;
             project->parse_account_file();

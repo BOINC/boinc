@@ -174,6 +174,21 @@ int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
     return ERR_XML_PARSE;
 }
 
+int copy_element_contents(FILE* in, const char* end_tag, string& str) {
+    char buf[256];
+
+    str = "";
+    while (fgets(buf, 256, in)) {
+        if (strstr(buf, end_tag)) {
+            return 0;
+        }
+        str += buf;
+    }
+    fprintf(stderr, "copy_element_contents(): no end tag\n");
+    return ERR_XML_PARSE;
+}
+
+
 // read a file into a malloc'd string
 //
 int read_file_malloc(const char* pathname, char*& str) {

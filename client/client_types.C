@@ -40,7 +40,7 @@ PROJECT::PROJECT() {
 void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
-    strcpy(project_specific_prefs, "");
+    project_specific_prefs = "";
     resource_share = 100;
     strcpy(project_name, "");
     strcpy(user_name, "");
@@ -70,7 +70,12 @@ void PROJECT::init() {
 PROJECT::~PROJECT() {
 }
 
-// write account_*.xml file
+// write account_*.xml file.
+// NOTE: this is called only when
+// 1) attach to a project, and
+// 2) after a scheduler RPC
+// So in either case PROJECT.project_prefs
+// (which normally is undefined) is valid
 //
 int PROJECT::write_account_file() {
     char path[256];
@@ -91,15 +96,18 @@ int PROJECT::write_account_file() {
         master_url,
         authenticator
     );
+    // put project name in account file for informational purposes only
+    // (client state file is authoritative)
+    //
     if (strlen(project_name)) {
         fprintf(f, "    <project_name>%s</project_name>\n", project_name);
     }
     if (tentative) {
         fprintf(f, "    <tentative/>\n");
     }
-    if (strlen(project_specific_prefs)) {
-        fprintf(f, "<project_specific>\n%s</project_specific>", project_specific_prefs);
-    }
+    fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
+        project_prefs.c_str()
+    );
     fprintf(f, "</account>\n");
     fclose(f);
     retval = boinc_rename(TEMP_FILE_NAME, path);
@@ -124,12 +132,15 @@ int PROJECT::parse_account_file() {
 // FILE_REF and FILE_INFO objects for each <app_file> element.
 //
 int PROJECT::parse_preferences_for_user_files() {
-    char* p = project_specific_prefs, *q, *q2;
+    char* p, *q, *q2;
     char buf[1024];
     string timestamp, open_name, url, filename;
     FILE_INFO* fip;
     FILE_REF fr;
     STRING256 url_str;
+    char prefs_buf[MAX_BLOB_LEN];
+    strcpy(prefs_buf, project_specific_prefs.c_str());
+    p = prefs_buf;
 
     user_files.clear();
     while (1) {
@@ -165,14 +176,14 @@ int PROJECT::parse_preferences_for_user_files() {
     return 0;
 }
 
-// parse account_*.xml file
+// parse account_*.xml file; fill in files of
+// project_specific_prefs
 //
 int PROJECT::parse_account(FILE* in) {
     char buf[256], venue[256];
     char temp[MAX_BLOB_LEN];
     int retval;
     bool got_venue_prefs = false;
-    // bool in_venue = false, in_correct_venue;
 
     // Assume master_url_fetch_pending, sched_rpc_pending are
     // true until we read client_state.xml
@@ -183,6 +194,9 @@ int PROJECT::parse_account(FILE* in) {
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
+        if (match_tag(buf, "<project_preferences>")) continue;
+        if (match_tag(buf, "</project_preferences>")) continue;
+        if (match_tag(buf, "</venue>")) continue;
         if (match_tag(buf, "</account>")) {
             if (strlen(gstate.host_venue)) {
                 if (!got_venue_prefs) {
@@ -205,11 +219,6 @@ int PROJECT::parse_account(FILE* in) {
                     gstate.host_venue
                 );
                 got_venue_prefs = true;
-                copy_element_contents(
-                    in, "</venue>",
-                    project_specific_prefs,
-                    sizeof(project_specific_prefs)
-                );
             } else {
                 copy_element_contents(in, "</venue>", temp, sizeof(temp));
             }
@@ -222,8 +231,6 @@ int PROJECT::parse_account(FILE* in) {
         }
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
-        else if (match_tag(buf, "<send_email/>")) continue;
-        else if (match_tag(buf, "<show_email/>")) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (match_tag(buf, "<tentative/>")) {
             tentative = true;
@@ -233,8 +240,7 @@ int PROJECT::parse_account(FILE* in) {
             retval = copy_element_contents(
                 in,
                 "</project_specific>",
-                project_specific_prefs,
-                sizeof(project_specific_prefs)
+                project_specific_prefs
             );
             if (retval) return ERR_XML_PARSE;
             continue;

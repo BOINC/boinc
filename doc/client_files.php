@@ -45,18 +45,21 @@ echo htmlspecialchars("
 <account>
     <master_url>http://www.myproject.com/</master_url>
     <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
+    [ <project_name>...</project_name> ]
     [ <tentative/> ]
+    <project_preferences>
     <resource_share>1</resource_share>
     <project_specific>
         ...
     </project_specific>
+    [ <venue>...</venue> ]
+    </project_preferences>
 </account>
 ");
 echo "
 </pre>
-Note: everything from &lt;resource_share> onwards is
-the contents of the 'project_prefs' field of the user database record,
-less the enclosing &lt;project_preferences> tags.
+The &lt;project_preferences> field is
+the 'project_prefs' field of the user database record.
 
 <h3>Format of prefs.xml</h3>
 <p>

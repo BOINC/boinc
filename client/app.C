@@ -162,15 +162,8 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
-    if (wup->project->project_specific_prefs) {
-#if 0
-        extract_venue(
-            wup->project->project_specific_prefs,
-            gstate.host_venue,
-            aid.app_preferences
-        );
-#endif
-        strcpy(aid.app_preferences, wup->project->project_specific_prefs);
+    if (wup->project->project_specific_prefs.length()) {
+        strcpy(aid.app_preferences, wup->project->project_specific_prefs.c_str());
     }
     aid.user_total_credit = wup->project->user_total_credit;
     aid.user_expavg_credit = wup->project->user_expavg_credit;

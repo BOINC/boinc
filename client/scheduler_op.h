@@ -92,8 +92,12 @@ struct SCHEDULER_REPLY {
     char message[1024];
     char message_priority[256];
     char project_name[256];
-    char* global_prefs_xml;     // not including <global_preferences> tags
-    char* project_prefs_xml;    // not including <project_preferences> tags
+    char* global_prefs_xml;
+        // not including <global_preferences> tags;
+        // may include <venue> elements
+    char* project_prefs_xml;
+        // not including <project_preferences> tags
+        // may include <venue> elements
     char user_name[256],team_name[256];
     double user_total_credit;
     double user_expavg_credit;
