@@ -662,6 +662,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->state == PROCESS_IN_LIMBO) continue;
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);

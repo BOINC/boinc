@@ -58,12 +58,24 @@ using namespace std;
 #include "app_ipc.h"
 #include "boinc_api.h"
 
-static APP_INIT_DATA		aid;
-APP_CLIENT_SHM		*app_client_shm;
+// The BOINC API communicates CPU time and fraction done to the core client.
+// Currently this is done using a timer.
+// Remember that the processing of a result can be divided
+// into multiple "episodes" (executions of the app),
+// each of which resumes from the checkpointed state of the previous episode.
+// Unless otherwise noted, "CPU time" refers to the sum over all episodes
+// (not counting the part after the last checkpoint in an episode).
 
-static	double				timer_period = 1.0/50.0;    // 50 Hz timer
+static APP_INIT_DATA		aid;
+APP_CLIENT_SHM	            *app_client_shm;
+static	double				timer_period = 1.0;    // period of API timer
+    // This determines the resolution of fraction done and CPU time reporting
+    // to the core client, and of checkpoint enabling.
+    // It doesn't influence graphics, so 1 sec is enough.
 static	double				time_until_checkpoint;
+    // countdown timer until enable checkpoint
 static	double				time_until_fraction_done_update;
+    // countdown timer until report fraction done to core
 static	double				fraction_done;
 static	double				last_checkpoint_cpu_time;
 static	bool				ready_to_checkpoint = false;
@@ -84,24 +96,16 @@ HANDLE				worker_thread_handle;
 MMRESULT			timer_id;
 #endif
 
-
-//
-// Forward declare implementation functions.
-//
-static void		setup_shared_mem();
+static int		setup_shared_mem();
 static void		cleanup_shared_mem();
-static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t);
+static int		update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static int		set_timer(double period);
-
-// Standard BOINC APIs
-//
 
 int boinc_init(bool standalone_ /* = false */) {
     FILE* f;
     int retval;
 
 #ifdef _WIN32
-
 	DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),
@@ -111,29 +115,30 @@ int boinc_init(bool standalone_ /* = false */) {
         FALSE,
         DUPLICATE_SAME_ACCESS
     );
-
 #endif
 
-    // Store startup mode for later use.
     standalone = standalone_;
 
-	// Parse initial data file.
     retval = boinc_parse_init_data_file();
     if (retval) return retval;
+
+    retval = setup_shared_mem();
+    if (retval) {
+        standalone = true;
+    }
 
     // copy the WU CPU time to a separate var,
     // since we may reread the structure again later.
     //
     initial_wu_cpu_time = aid.wu_cpu_time;
 
-    if (boinc_file_exists(FD_INIT_FILE)) {
-        f = boinc_fopen(FD_INIT_FILE, "r");
-        if (f) {
-            parse_fd_init_file(f);
-            fclose(f);
-        }
+    f = boinc_fopen(FD_INIT_FILE, "r");
+    if (f) {
+        parse_fd_init_file(f);
+        fclose(f);
     }
 
+    fraction_done = -1;
     time_until_checkpoint = aid.checkpoint_period;
     last_checkpoint_cpu_time = aid.wu_cpu_time;
     time_until_fraction_done_update = aid.fraction_done_update_period;
@@ -141,7 +146,6 @@ int boinc_init(bool standalone_ /* = false */) {
     last_wu_cpu_time = aid.wu_cpu_time;
 
     set_timer(timer_period);
-    setup_shared_mem();
 
     return 0;
 }
@@ -152,7 +156,7 @@ int boinc_finish(int status) {
 
     boinc_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
     last_checkpoint_cpu_time += aid.wu_cpu_time;
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
@@ -220,19 +224,23 @@ int boinc_parse_init_data_file() {
 // the current CPU time and fraction done
 //
 static int update_app_progress(
-    double frac_done, double cpu_t, double cp_cpu_t, double ws_t
+    double cpu_t, double cp_cpu_t, double ws_t
 ) {
-    char msg_buf[SHM_SEG_SIZE];
+    char msg_buf[SHM_SEG_SIZE], buf[256];
 
     if (!app_client_shm) return 0;
 
     sprintf(msg_buf,
-        "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
         "<working_set_size>%f</working_set_size>\n",
-        frac_done, cpu_t, cp_cpu_t, ws_t
+        cpu_t, cp_cpu_t, ws_t
     );
+    if (fraction_done >= 0) {
+        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fraction_done);
+        strcat(msg_buf, buf);
+    }
+
     if (have_new_trickle_up) {
         strcat(msg_buf, "<have_new_trickle_up/>\n");
         have_new_trickle_up = false;
@@ -338,7 +346,7 @@ static void on_timer(int a) {
             double cur_mem;
             boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-            update_app_progress(fraction_done, last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
     }
@@ -387,10 +395,10 @@ static int set_timer(double period) {
     return retval;
 }
 
-static void setup_shared_mem() {
+static int setup_shared_mem() {
     if (standalone) {
         fprintf(stderr, "Standalone mode, so not using shared memory.\n");
-        return;
+        return 0;
     }
 	app_client_shm = new APP_CLIENT_SHM;
 
@@ -402,16 +410,14 @@ static void setup_shared_mem() {
         delete app_client_shm;
         app_client_shm = NULL;
     }
-#endif
-
-#ifdef HAVE_SYS_SHM_H
-#ifdef HAVE_SYS_IPC_H
+#else
     if (attach_shmem(aid.shm_key, (void**)&app_client_shm->shm)) {
         delete app_client_shm;
         app_client_shm = NULL;
     }
 #endif
-#endif
+    if (app_client_shm == NULL) return -1;
+    return 0;
 }
 
 static void cleanup_shared_mem() {
@@ -419,17 +425,12 @@ static void cleanup_shared_mem() {
 
 #ifdef _WIN32
     detach_shmem(hSharedMem, app_client_shm->shm);
-#endif
-
-#ifdef HAVE_SYS_SHM_H
-#ifdef HAVE_SYS_IPC_H
+#else
     detach_shmem(app_client_shm->shm);
-#endif
 #endif
     delete app_client_shm;
     app_client_shm = NULL;
 }
-
 
 int boinc_send_trickle_up(char* p) {
     FILE* f = boinc_fopen(TRICKLE_UP_FILENAME, "wb");
@@ -440,8 +441,6 @@ int boinc_send_trickle_up(char* p) {
     have_new_trickle_up = true;
     return 0;
 }
-
-
 
 bool boinc_time_to_checkpoint() {
 #ifdef _WIN32
@@ -471,7 +470,7 @@ int boinc_checkpoint_completed() {
     boinc_thread_cpu_time(cur_cpu, cur_mem);
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
 

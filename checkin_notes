@@ -12441,8 +12441,30 @@ David  May 20 2004
 		cs_benchmark.C
 
 David  May 21 2004
-    - changed variable names in app.C:
+	- API: changed timer period from 50 Hz to 1 Hz.
+		This timer is used only for reporting progress and CPU,
+		not for doing graphics, to 1 Hz is enough
+	- API: if setup_shared_mem() returns error, set standalone = true.
+		This means that if you run an app standalone,
+		it will be detected automatically,
+		so no need for command-line args or even
+		standalone argument to boinc_init()
+		(but leave that arg in for now)
+	- API: initialize fraction_done to -1,
+		and only report it to core client if >= 0
+		(i.e. don't report it unless app specifies it)
+	- API: removed
+	    #ifdef HAVE_SYS_SHM_H
+        #ifdef HAVE_SYS_IPC_H
+		around calls to attach_shmem in non-Win case.
+		This not an appropriate place for these ifdefs.
+	- core client: ACTIVE_TASK_SET::check_app_exited():
+		skip tasks in state PROCESS_IN_LIMBO.
+		This avoid core client spinning when apps misbehave.
+    - core client: changed variable names in app.C:
         starting_cpu_time -> episode_start_cpu_time
 
+	api/
+		boinc_api.C
     client/
         app.C,h
