@@ -5370,3 +5370,9 @@ Karl 2003/07/24
     http://www.boinc.dk/index.php?page=download_languages.
 
     Release 1.06.
+
+David  July 24 2003
+    - added code to check integrity of client data structures
+
+    client/
+        client_state.C,h
