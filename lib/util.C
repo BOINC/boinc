@@ -48,6 +48,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "filesys.h"
 #include "util.h"
 #include "boinc_api.h"
 
@@ -765,7 +766,7 @@ int dir_hier_path(
     sum %= fanout;
     sprintf(dir, "%s/%x", root, sum);
     if (create) {
-        retval = mkdir(dir, 0777);
+        retval = boinc_mkdir(dir, 0777);
         if (retval && (retval != EEXIST)) {
             return ERR_MKDIR;
         }
