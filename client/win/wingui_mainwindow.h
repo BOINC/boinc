@@ -111,6 +111,8 @@ protected:
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	BOOL					m_bSuspend;				// should apps be suspended?
 	int						m_nContextItem;			// item selected for context menu
+	int						m_nRefreshCount;		// countdown for GUI refreshing
+	UINT					m_nTimerID;				// ID of current GUI timer	
 
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);
