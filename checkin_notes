@@ -10892,3 +10892,11 @@ David  Mar 24 2004
 		client_types.C
 		log_flags.C,h
 		
+Rom   Mar 25 2004
+     - I have made SETI_BOINC Glut Free, Basically copied font code from glut
+         and put it into the glut folder.
+     - Removed Glut libraries
+     - Removed Delay Load technologies
+
+     api/
+         graphics_api.C

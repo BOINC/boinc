@@ -83,25 +83,6 @@ int boinc_init_graphics() {
 
 #ifdef _WIN32
 
-    BOOL    bLoadError = FALSE;
-
-    __try {
-        if (FAILED(__HrLoadAllImportsForDll("glut32.dll")))
-        {
-            fprintf(stderr, "boinc_init_graphics(): failed to load imports for glut32.dll\n");
-            fprintf(stderr, "boinc_init_graphics(): graphics have been disabled\n");
-            bLoadError = TRUE;
-        }
-    }
-    __except((GetExceptionCode() == 0xC06D007E) ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) {
-        fprintf(stderr, "boinc_init_graphics(): failed to load imports for glut32.dll\n");
-        fprintf(stderr, "boinc_init_graphics(): graphics have been disabled\n");
-        bLoadError = TRUE;
-    }
-
-    if (bLoadError) return ERR_NOT_FOUND;
-
-
     // Create the event object used to signal between the
     // worker and event threads
 
