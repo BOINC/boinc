@@ -46,6 +46,7 @@ PERS_FILE_XFER::PERS_FILE_XFER() {
     nretry = 0;
     first_request_time = time(0);
     next_request_time = first_request_time;
+    time_so_far = 0;
 }
 
 int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
@@ -53,7 +54,6 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fip = f;
     is_upload = is_file_upload;
     xfer_done = false;
-    time_so_far = 0;
 
     return 0;
 }
