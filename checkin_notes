@@ -9799,3 +9799,10 @@ Rom    Feb 4 2004
     
     client/
         app.c
+
+Rom    Feb 4 2004
+    - Update the debugging page with some more useful information about what we need
+        when a crash occurs
+    
+    html/user/
+        debug.php

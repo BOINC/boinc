@@ -6,29 +6,39 @@ require_once("../inc/util.inc");
     init_session();
 
     page_head("Download debugging files");
+
     echo "
     <h2>Download debugging files</h2>
     <p>
     <b>Windows users</b>:
     <p>
-    If the SETI@home application crashes,
-    it is very helpful if you mail us the stack trace
+    If the BOINC application crashes, it is very helpful if you mail us the stack trace
     (which shows exactly where the crash occurred).
-    To do this, you will need to have the symbol file
-    on your computer.
-    Click here to download the symbol file for
-    the 2.22 version of SETI@home:
+    To do this, you will need to have the symbol file on your computer.
     <p>
-    <a href=http://setiboinc.ssl.berkeley.edu/ap/download/setiathome_2.22_windows_intelx86.pdb>setiathome_2.22_windows_intelx86.pdb</a>
+    <b>BOINC core client</b>
     <p>
-    Place this file in the same directory as the executable
-    (usually <code>C:/Program Files/BOINC/projects/http_setiboinc.berkeley.edu_ap</code>).
+    The zipped symbol file(s) are for the BOINC core client 2.24
+    (both GUI and CLI versions) are here:
+    <a href=http://setiboinc.ssl.berkeley.edu/ap/download/boinc_224_pdb.zip>boinc_224_pdb.zip</a>
     <p>
-    Windows 2000 users: Uncompressing the DLL file in
-    <a href=http://setiboinc.ssl.berkeley.edu/ap/download/dbghelp.zip>dbghelp.zip</a>
-    to the 
-    <b>BOINC\projects\setiboinc.ssl.berkeley.edu_ap</b> directory gets around the 
-    <b>SymGetLineFromAddr(): GetLastError = 126</b> error.
+    Place the extracted file(s) in the same directory as the executable(s)
+    (usually <code>C:/Program Files/BOINC</code>).
+    <p>
+    <p>
+    <h2>Sending Debug Results</h2>
+    <p>
+    The files we are interested in are user.dmp and drwtsn32.log, they can be found in the Dr. Watson folder
+    (usually <code>C:/Documents and Settings/All Users/Application Data/Dr Watson</code>).
+    <p>
+    We would perfer the files to be zipped up with a compression program like winzip or gzip.
+    <p>
+    Be sure to include which version of BOINC and the project applications you are using in the email.
+    <p>
+    Thanks for helping make BOINC a better product.
+    <p>
+    <p>
     ";
+
     page_tail();
 ?>
