@@ -187,276 +187,300 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 {
 	CString strBuf;
     float totalres;
-	int i;
+	int i, n;
 
 	// If we failed to set the taskbar icon before, keep trying!
 	if (m_nDesiredIconState != m_nIconState)
 		SetStatusIcon(m_nDesiredIconState);
 
-	// display projects
-	m_ProjectListCtrl.SetRedraw(FALSE);
-    totalres = 0;
-	Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
-	for(i = 0; i < pcs->projects.size(); i ++) {
-		totalres += pcs->projects[i]->resource_share;
-	}
-	for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
-		PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
-		if(!pr) {
-            m_ProjectListCtrl.DeleteItem(i--);
-			continue;
-		}
+    switch (m_TabCtrl.GetCurFocus()) {
 
-		// Set the master URL for this object
-        if (m_ProjectListCtrl.GetProjectURL(i) != pr->master_url)
-		    m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
+    case PROJECT_ID:
 
-		// project
-        if (m_ProjectListCtrl.GetItemText(i, 0) != pr->get_project_name())
-		    m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
+	    // display projects
+	    m_ProjectListCtrl.SetRedraw(FALSE);
+        totalres = 0;
+	    Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
+	    for(i = 0; i < pcs->projects.size(); i ++) {
+		    totalres += pcs->projects[i]->resource_share;
+	    }
+	    for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
+		    PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
+		    if(!pr) {
+                m_ProjectListCtrl.DeleteItem(i--);
+			    continue;
+		    }
 
-		// account
-        if (m_ProjectListCtrl.GetItemText(i, 1) != pr->user_name)
-		    m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
+		    // Set the master URL for this object
+            if (m_ProjectListCtrl.GetProjectURL(i) != pr->master_url)
+		        m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
 
-		// total credit
-		strBuf.Format("%0.2f", pr->user_total_credit);
-        if (m_ProjectListCtrl.GetItemText(i, 2) != strBuf)
-		    m_ProjectListCtrl.SetItemText(i, 2, strBuf);
+		    // project
+            if (m_ProjectListCtrl.GetItemText(i, 0) != pr->get_project_name())
+		        m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
 
-		// avg credit
-		strBuf.Format("%0.2f", pr->user_expavg_credit);
-        if (m_ProjectListCtrl.GetItemText(i, 3) != strBuf)
-    		m_ProjectListCtrl.SetItemText(i, 3, strBuf);
+		    // account
+            if (m_ProjectListCtrl.GetItemText(i, 1) != pr->user_name)
+		        m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
 
-		// resource share
-		if(totalres <= 0) {
-            if (m_ProjectListCtrl.GetItemProgress(i, 4) != 100)
-			    m_ProjectListCtrl.SetItemProgress(i, 4, 100);
-		} else {
-            if (m_ProjectListCtrl.GetItemProgress(i, 4) != (100 * pr->resource_share) / totalres)
-    			m_ProjectListCtrl.SetItemProgress(i, 4, (100 * pr->resource_share) / totalres);
-		}
-	}
-	m_ProjectListCtrl.SetRedraw(TRUE);
+		    // total credit
+		    strBuf.Format("%0.2f", pr->user_total_credit);
+            if (m_ProjectListCtrl.GetItemText(i, 2) != strBuf)
+		        m_ProjectListCtrl.SetItemText(i, 2, strBuf);
 
-	// update results
-	m_ResultListCtrl.SetRedraw(FALSE);
-	Syncronize(&m_ResultListCtrl, (vector<void*>*)(&pcs->results));
-	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
-		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
-		if(!re) {
-            m_ResultListCtrl.DeleteItem(i--);
-			continue;
-		}
+		    // avg credit
+		    strBuf.Format("%0.2f", pr->user_expavg_credit);
+            if (m_ProjectListCtrl.GetItemText(i, 3) != strBuf)
+    		    m_ProjectListCtrl.SetItemText(i, 3, strBuf);
 
-		// Set the master URL for this object
-        if (m_ResultListCtrl.GetProjectURL(i) != re->project->master_url)
-		    m_ResultListCtrl.SetProjectURL(i, re->project->master_url);
+		    // resource share
+		    if(totalres <= 0) {
+                if (m_ProjectListCtrl.GetItemProgress(i, 4) != 100)
+			        m_ProjectListCtrl.SetItemProgress(i, 4, 100);
+		    } else {
+                if (m_ProjectListCtrl.GetItemProgress(i, 4) != (100 * pr->resource_share) / totalres)
+    			    m_ProjectListCtrl.SetItemProgress(i, 4, (100 * pr->resource_share) / totalres);
+		    }
+	    }
+	    m_ProjectListCtrl.SetRedraw(TRUE);
 
-		// project
-        if (m_ResultListCtrl.GetItemText(i, 0) != re->project->project_name)
-		    m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
+        break;
 
-		// application
-        if (m_ResultListCtrl.GetItemText(i, 1) != re->app->name)
-		    m_ResultListCtrl.SetItemText(i, 1, re->app->name);
+    case RESULT_ID:
 
-		// name
-        if (m_ResultListCtrl.GetItemText(i, 2) != re->name)
-		    m_ResultListCtrl.SetItemText(i, 2, re->name);
+	    // update results
+	    m_ResultListCtrl.SetRedraw(FALSE);
+	    Syncronize(&m_ResultListCtrl, (vector<void*>*)(&pcs->results));
+	    for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
+		    RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
+		    if(!re) {
+                m_ResultListCtrl.DeleteItem(i--);
+			    continue;
+		    }
 
-		// cpu time
-		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
-		double cur_cpu;
-		if (at) {
-			cur_cpu = at->current_cpu_time;
-		} else {
-			if(re->state < RESULT_COMPUTE_DONE) cur_cpu = 0;
-			else cur_cpu = re->final_cpu_time;
-		}
-		int cpuhour = (int)(cur_cpu / (60 * 60));
-		int cpumin = (int)(cur_cpu / 60) % 60;
-		int cpusec = (int)(cur_cpu) % 60;
-		if (cur_cpu == 0)
-			strBuf.Format("---");
-		else
-			strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
-        if (m_ResultListCtrl.GetItemText(i, 3) != strBuf)
-    		m_ResultListCtrl.SetItemText(i, 3, strBuf);
+		    // Set the master URL for this object
+            if (m_ResultListCtrl.GetProjectURL(i) != re->project->master_url)
+		        m_ResultListCtrl.SetProjectURL(i, re->project->master_url);
 
-		// progress
-		if(!at) {
-            if (m_ResultListCtrl.GetItemProgress(i, 4) != 0)
-	    		m_ResultListCtrl.SetItemProgress(i, 4, 0);
-		} else {	
-            if (m_ResultListCtrl.GetItemProgress(i, 4) != at->fraction_done * 100)
-    			m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
-		}
+		    // project
+            if (m_ResultListCtrl.GetItemText(i, 0) != re->project->project_name)
+		        m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
 
-		// to completion
-		double tocomp;
-		if(!at || at->fraction_done == 0) {
-			tocomp = gstate.estimate_cpu_time(*re->wup);
-		} else {
-			tocomp = at->est_time_to_completion();
-		}
-		cpuhour = (int)(tocomp / (60 * 60));
-		cpumin = (int)(tocomp / 60) % 60;
-		cpusec = (int)(tocomp) % 60;
-		strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
-        if (m_ResultListCtrl.GetItemText(i, 5) != strBuf)
-    		m_ResultListCtrl.SetItemText(i, 5, strBuf);
+		    // application
+            if (m_ResultListCtrl.GetItemText(i, 1) != re->app->name)
+		        m_ResultListCtrl.SetItemText(i, 1, re->app->name);
 
-		// status
-		switch(re->state) {
-			case RESULT_NEW:
-				strBuf.Format(g_szMiscItems[0]); break;
-			case RESULT_FILES_DOWNLOADING:
-                strBuf.Format(g_szMiscItems[9]);
-                break;
-			case RESULT_FILES_DOWNLOADED:
-				if (at) strBuf.Format(g_szMiscItems[1]);
-				else strBuf.Format(g_szMiscItems[2]);
-				break;
-			case RESULT_COMPUTE_DONE:
-				strBuf.Format(g_szMiscItems[3]); break;
-                break;
-			case RESULT_FILES_UPLOADING:
-                strBuf.Format(g_szMiscItems[8]);
-                break;
-			default:
-				if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
-				else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
-				else strBuf.Format(g_szMiscItems[6]);
-				break;
-		}
-        if (m_ResultListCtrl.GetItemText(i, 6) != strBuf)
-    		m_ResultListCtrl.SetItemText(i, 6, strBuf);
-	}
-	m_ResultListCtrl.SetRedraw(TRUE);
+		    // name
+            if (m_ResultListCtrl.GetItemText(i, 2) != re->name)
+		        m_ResultListCtrl.SetItemText(i, 2, re->name);
 
-	// update xfers
-	m_XferListCtrl.SetRedraw(FALSE);
-	Syncronize(&m_XferListCtrl, (vector<void*>*)(&pcs->pers_xfers->pers_file_xfers));
-	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
-		PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
-		if(!pfx) {
-            m_XferListCtrl.DeleteItem(i--);
-			continue;
-		}
+		    // cpu time
+		    ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
+		    double cur_cpu;
+		    if (at) {
+			    cur_cpu = at->current_cpu_time;
+		    } else {
+			    if(re->state < RESULT_COMPUTE_DONE) cur_cpu = 0;
+			    else cur_cpu = re->final_cpu_time;
+		    }
+		    int cpuhour = (int)(cur_cpu / (60 * 60));
+		    int cpumin = (int)(cur_cpu / 60) % 60;
+		    int cpusec = (int)(cur_cpu) % 60;
+		    if (cur_cpu == 0)
+			    strBuf.Format("---");
+		    else
+			    strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+            if (m_ResultListCtrl.GetItemText(i, 3) != strBuf)
+    		    m_ResultListCtrl.SetItemText(i, 3, strBuf);
 
-		// Set the master URL for this object
-        if (m_XferListCtrl.GetProjectURL(i) != pfx->fip->project->master_url)
-		    m_XferListCtrl.SetProjectURL(i, pfx->fip->project->master_url);
+		    // progress
+		    if(!at) {
+                if (m_ResultListCtrl.GetItemProgress(i, 4) != 0)
+	    		    m_ResultListCtrl.SetItemProgress(i, 4, 0);
+		    } else {	
+                if (m_ResultListCtrl.GetItemProgress(i, 4) != at->fraction_done * 100)
+    			    m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
+		    }
 
-		// project
-        if (m_XferListCtrl.GetItemText(i, 0) != pfx->fip->project->project_name)
-		    m_XferListCtrl.SetItemText(i, 0, pfx->fip->project->project_name);
+		    // to completion
+		    double tocomp;
+		    if(!at || at->fraction_done == 0) {
+			    tocomp = gstate.estimate_cpu_time(*re->wup);
+		    } else {
+			    tocomp = at->est_time_to_completion();
+		    }
+		    cpuhour = (int)(tocomp / (60 * 60));
+		    cpumin = (int)(tocomp / 60) % 60;
+		    cpusec = (int)(tocomp) % 60;
+		    strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+            if (m_ResultListCtrl.GetItemText(i, 5) != strBuf)
+    		    m_ResultListCtrl.SetItemText(i, 5, strBuf);
 
-		// file
-        if (m_XferListCtrl.GetItemText(i, 1) != pfx->fip->name)
-		    m_XferListCtrl.SetItemText(i, 1, pfx->fip->name);
+		    // status
+		    switch(re->state) {
+			    case RESULT_NEW:
+				    strBuf.Format(g_szMiscItems[0]); break;
+			    case RESULT_FILES_DOWNLOADING:
+                    strBuf.Format(g_szMiscItems[9]);
+                    break;
+			    case RESULT_FILES_DOWNLOADED:
+				    if (at) strBuf.Format(g_szMiscItems[1]);
+				    else strBuf.Format(g_szMiscItems[2]);
+				    break;
+			    case RESULT_COMPUTE_DONE:
+				    strBuf.Format(g_szMiscItems[3]); break;
+                    break;
+			    case RESULT_FILES_UPLOADING:
+                    strBuf.Format(g_szMiscItems[8]);
+                    break;
+			    default:
+				    if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
+				    else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
+				    else strBuf.Format(g_szMiscItems[6]);
+				    break;
+		    }
+            if (m_ResultListCtrl.GetItemText(i, 6) != strBuf)
+    		    m_ResultListCtrl.SetItemText(i, 6, strBuf);
+	    }
+	    m_ResultListCtrl.SetRedraw(TRUE);
 
-		// progress
-		double xSent = 0;
-		if (pfx->fxp) {
-			xSent = pfx->fxp->bytes_xferred;
-		}
-        if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
-		    m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
+        break;
 
-		// size
-		char size_buf[256];
-		get_byte_string(xSent, pfx->fip->nbytes, size_buf, 256);
-        if (strcmp(m_XferListCtrl.GetItemText(i, 3).GetBuffer(0), size_buf))
-		    m_XferListCtrl.SetItemText(i, 3, size_buf);
+    case XFER_ID:
 
-		// time
-		double xtime = 0;
-		xtime = pfx->time_so_far;
-		int xhour = (int)(xtime / (60 * 60));
-		int xmin = (int)(xtime / 60) % 60;
-		int xsec = (int)(xtime) % 60;
-		strBuf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
-        if (m_XferListCtrl.GetItemText(i, 4) != strBuf.GetBuffer(0))
-		    m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
+	    // update xfers
+	    m_XferListCtrl.SetRedraw(FALSE);
+	    Syncronize(&m_XferListCtrl, (vector<void*>*)(&pcs->pers_xfers->pers_file_xfers));
+	    for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
+		    PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
+		    if(!pfx) {
+                m_XferListCtrl.DeleteItem(i--);
+			    continue;
+		    }
 
-		// speed
-		strBuf.Format("0.00 KBps");
-		if(pfx->fxp) {
-			strBuf.Format("%0.2f KBps", pfx->fxp->xfer_speed/1024);
-		}
-        if (m_XferListCtrl.GetItemText(i, 5) != strBuf.GetBuffer(0))
-		    m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
+		    // Set the master URL for this object
+            if (m_XferListCtrl.GetProjectURL(i) != pfx->fip->project->master_url)
+		        m_XferListCtrl.SetProjectURL(i, pfx->fip->project->master_url);
 
-		// status
-		if (pfx->next_request_time > time(0)) {
-			double xtime = pfx->next_request_time-time(0);
-			int xhour = (int)(xtime / (60 * 60));
-			int xmin = (int)(xtime / 60) % 60;
-			int xsec = (int)(xtime) % 60;
-			strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
-            if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
-			    m_XferListCtrl.SetItemText(i, 6, strBuf);
-		} else if (pfx->fip->status == ERR_GIVEUP_DOWNLOAD) {
-			strBuf.Format(g_szMiscItems[11]);
-            if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
-				m_XferListCtrl.SetItemText(i, 6, strBuf);
-		} else if (pfx->fip->status == ERR_GIVEUP_UPLOAD) {
-			strBuf.Format(g_szMiscItems[12]);
-            if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
-				m_XferListCtrl.SetItemText(i, 6, strBuf);
-		} else {
-            if (m_XferListCtrl.GetItemText(i, 6) != pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9])
-				m_XferListCtrl.SetItemText(i, 6, pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
-		}
-	}
-	m_XferListCtrl.SetRedraw(TRUE);
+		    // project
+            if (m_XferListCtrl.GetItemText(i, 0) != pfx->fip->project->project_name)
+		        m_XferListCtrl.SetItemText(i, 0, pfx->fip->project->project_name);
 
-    // check message pane size
-    int n = m_MessageListCtrl.GetItemCount();
-    if (n > 2000) {
-        m_MessageListCtrl.SetRedraw(FALSE);
-        for (i = 0 ; i < n - 2000 ; i++)
-            m_MessageListCtrl.DeleteItem(0);
-        m_MessageListCtrl.SetRedraw(TRUE);
+		    // file
+            if (m_XferListCtrl.GetItemText(i, 1) != pfx->fip->name)
+		        m_XferListCtrl.SetItemText(i, 1, pfx->fip->name);
+
+		    // progress
+		    double xSent = 0;
+		    if (pfx->fxp) {
+			    xSent = pfx->fxp->bytes_xferred;
+		    }
+            if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
+		        m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
+
+		    // size
+		    char size_buf[256];
+		    get_byte_string(xSent, pfx->fip->nbytes, size_buf, 256);
+            if (strcmp(m_XferListCtrl.GetItemText(i, 3).GetBuffer(0), size_buf))
+		        m_XferListCtrl.SetItemText(i, 3, size_buf);
+
+		    // time
+		    double xtime = 0;
+		    xtime = pfx->time_so_far;
+		    int xhour = (int)(xtime / (60 * 60));
+		    int xmin = (int)(xtime / 60) % 60;
+		    int xsec = (int)(xtime) % 60;
+		    strBuf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
+            if (m_XferListCtrl.GetItemText(i, 4) != strBuf.GetBuffer(0))
+		        m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
+
+		    // speed
+		    strBuf.Format("0.00 KBps");
+		    if(pfx->fxp) {
+			    strBuf.Format("%0.2f KBps", pfx->fxp->xfer_speed/1024);
+		    }
+            if (m_XferListCtrl.GetItemText(i, 5) != strBuf.GetBuffer(0))
+		        m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
+
+		    // status
+		    if (pfx->next_request_time > time(0)) {
+			    double xtime = pfx->next_request_time-time(0);
+			    int xhour = (int)(xtime / (60 * 60));
+			    int xmin = (int)(xtime / 60) % 60;
+			    int xsec = (int)(xtime) % 60;
+			    strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
+                if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+			        m_XferListCtrl.SetItemText(i, 6, strBuf);
+		    } else if (pfx->fip->status == ERR_GIVEUP_DOWNLOAD) {
+			    strBuf.Format(g_szMiscItems[11]);
+                if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+				    m_XferListCtrl.SetItemText(i, 6, strBuf);
+		    } else if (pfx->fip->status == ERR_GIVEUP_UPLOAD) {
+			    strBuf.Format(g_szMiscItems[12]);
+                if (m_XferListCtrl.GetItemText(i, 6) != strBuf)
+				    m_XferListCtrl.SetItemText(i, 6, strBuf);
+		    } else {
+                if (m_XferListCtrl.GetItemText(i, 6) != pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9])
+				    m_XferListCtrl.SetItemText(i, 6, pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+		    }
+	    }
+	    m_XferListCtrl.SetRedraw(TRUE);
+
+        break;
+
+    case MESSAGE_ID:
+
+        // check message pane size
+        n = m_MessageListCtrl.GetItemCount();
+        if (n > 2000) {
+            m_MessageListCtrl.SetRedraw(FALSE);
+            for (i = 0 ; i < n - 2000 ; i++)
+                m_MessageListCtrl.DeleteItem(0);
+            m_MessageListCtrl.SetRedraw(TRUE);
+        }
+
+        break;
+
+    case USAGE_ID:
+
+	    // update usage
+	    double xDiskTotal;
+	    double xDiskFree; get_filesystem_info(xDiskTotal, xDiskFree);
+	    double xDiskUsed = xDiskTotal - xDiskFree;
+	    double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
+	    double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
+
+	    m_UsagePieCtrl.SetTotal(xDiskTotal);
+	    m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space
+	    m_UsagePieCtrl.SetPiece(1, xDiskUsed - xDiskUsage); // Used space
+	    m_UsagePieCtrl.SetPiece(2, xDiskUsage); // Used space: BOINC
+	    m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+
+        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 < gstate.projects.size()) {
+		    m_UsageBOINCPieCtrl.AddPiece("", GetPieColor(m_UsageBOINCPieCtrl.GetItemCount()), 0);
+	    }
+
+	    while(m_UsageBOINCPieCtrl.GetItemCount() - 1 > gstate.projects.size()) {
+		    m_UsageBOINCPieCtrl.RemovePiece(m_UsageBOINCPieCtrl.GetItemCount() - 1);
+	    }
+
+	    m_UsageBOINCPieCtrl.SetTotal(xDiskUsage);
+	    m_UsageBOINCPieCtrl.SetPiece(0, 1); // BOINC: core application
+	    for(i = 0; i < gstate.projects.size(); i ++) {
+		    double xUsage;
+		    CString strLabel;
+		    strLabel.Format("%s %s", g_szUsageItems[4], gstate.projects[i]->project_name);
+		    gstate.project_disk_usage(gstate.projects[i], xUsage);
+		    m_UsageBOINCPieCtrl.SetPieceLabel(i + 1, strLabel.GetBuffer(0));
+		    m_UsageBOINCPieCtrl.SetPiece(i + 1, xUsage);
+            xDiskUsage -= xUsage;
+	    }
+	    m_UsageBOINCPieCtrl.SetPiece(0, xDiskUsage); // BOINC: core application
+	    m_UsageBOINCPieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+
+        break;
+
     }
-
-	// update usage
-	double xDiskTotal;
-	double xDiskFree; get_filesystem_info(xDiskTotal, xDiskFree);
-	double xDiskUsed = xDiskTotal - xDiskFree;
-	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
-	double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
-
-	m_UsagePieCtrl.SetTotal(xDiskTotal);
-	m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space
-	m_UsagePieCtrl.SetPiece(1, xDiskUsed - xDiskUsage); // Used space
-	m_UsagePieCtrl.SetPiece(2, xDiskUsage); // Used space: BOINC
-	m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
-
-    while(m_UsageBOINCPieCtrl.GetItemCount() - 1 < gstate.projects.size()) {
-		m_UsageBOINCPieCtrl.AddPiece("", GetPieColor(m_UsageBOINCPieCtrl.GetItemCount()), 0);
-	}
-
-	while(m_UsageBOINCPieCtrl.GetItemCount() - 1 > gstate.projects.size()) {
-		m_UsageBOINCPieCtrl.RemovePiece(m_UsageBOINCPieCtrl.GetItemCount() - 1);
-	}
-
-	m_UsageBOINCPieCtrl.SetTotal(xDiskUsage);
-	m_UsageBOINCPieCtrl.SetPiece(0, 1); // BOINC: core application
-	for(i = 0; i < gstate.projects.size(); i ++) {
-		double xUsage;
-		CString strLabel;
-		strLabel.Format("%s %s", g_szUsageItems[4], gstate.projects[i]->project_name);
-		gstate.project_disk_usage(gstate.projects[i], xUsage);
-		m_UsageBOINCPieCtrl.SetPieceLabel(i + 1, strLabel.GetBuffer(0));
-		m_UsageBOINCPieCtrl.SetPiece(i + 1, xUsage);
-        xDiskUsage -= xUsage;
-	}
-	m_UsageBOINCPieCtrl.SetPiece(0, xDiskUsage); // BOINC: core application
-	m_UsageBOINCPieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
     // make icon flash if needed
 	if(m_bMessage || m_bRequest) {
@@ -567,13 +591,7 @@ void CMainWindow::ShowTab(int nTab)
 	}
 	m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	RedrawWindow();
-
-    /*
-    // draw line between menu and tabs
-    RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
-    GetDC()->MoveTo(0, 0);
-    GetDC()->LineTo(rect.right, 0);
-    */
+    UpdateGUI(&gstate);
 }
 
 //////////

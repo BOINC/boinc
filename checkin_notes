@@ -4878,6 +4878,22 @@ Karl    2003/06/19
     sched/
         make_work.C
 
+Tim     June 19, 2003
+    - Astropulse Website
+        added description to project preferences
+    - Windows GUI
+        implemented message pane entry limit
+        new icons
+
+    client/win/res/
+        icon.ico
+        iconhigh.ico
+        iconsmall.ico
+    html_user/
+        db.inc
+        host.inc
+        project_specific_prefs_ap.inc
+
 Karl    2003/06/19
     - scheduler daemons: write pid to a pidfile.  trap SIGINTs and exit on
       the next check_stop_trigger() (the 'stop_server' file still works)
@@ -4937,3 +4953,10 @@ Karl    2003/06/20
     apps/
         Makefile.am
         upper_case.C
+
+Tim     June 23, 2003
+    - Windows GUI
+        UpdateGUI only refreshes active tab
+
+    client/win/
+        wingui_mainwindow.cpp
