@@ -16450,3 +16450,28 @@ Rom    16 Aug 2004
     lib/
         gui_rpc_client.C, .h (added)
         makefile.gui_test (added)
+
+David  17 Aug 2004
+	- server changes (courtesy Pietro Cicotti from Predictor@home)
+		to implement homogeneous redundancy more efficiently.
+		Instead of scanning result table,
+		use the workunit.workseq_next field to store an integer encoding
+		of the platform the WU has been sent to, if any.
+	- added utility program (hr_db_convert.C) to convert
+		existing an database to new format
+
+	sched/
+		sched_send.C
+	tools/
+		hr_db_convert.C (new)
+
+David  17 Aug 2004
+	- removed boinc_close_socket() from util.C,
+		since it causes Win link error in upper_case.
+		TODO: would be nice to use lib/ code as library
+
+	client/
+		gui_rpc_server.C
+		net_xfer.C
+	lib/
+		util.C,h

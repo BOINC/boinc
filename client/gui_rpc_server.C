@@ -55,6 +55,14 @@ typedef size_t socklen_t;
 #endif
 #endif
 
+static void boinc_close_socket(int sock) {
+#ifdef _WIN32
+    closesocket(sock);
+#else
+    close(sock);
+#endif
+}
+
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
 }

@@ -387,41 +387,34 @@ static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
 // Architectures: AMD, Intel, Macintosh
 // OS: Linux, Windows, Darwin, SunOS
 
-const int nocpu = 0;
-const int Intel = 1;
-const int AMD = 2;
-const int Macintosh = 3;
+const int unspec = 0;
+const int nocpu = 1;
+const int Intel = 2;
+const int AMD = 3;
+const int Macintosh = 4;
 
-const int noos = 10;
-const int Linux = 11;
-const int Windows = 12;
-const int Darwin = 13;
-const int SunOS = 14;
+const int noos = 128;
+const int Linux = 256;
+const int Windows = 384;
+const int Darwin = 512;
+const int SunOS = 640;
 
-bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
-    int h_processor = nocpu;
-    int h_system = noos;
-    int r_processor = nocpu;
-    int r_system = noos;
+inline
+int OS(SCHEDULER_REQUEST& sreq){
+    if ( strstr(sreq.host.os_name, "Linux") != NULL ) return Linux;
+    else if( strstr(sreq.host.os_name, "Windows") != NULL ) return Windows;
+    else if( strstr(sreq.host.os_name, "Darwin") != NULL ) return Darwin;
+    else if( strstr(sreq.host.os_name, "SunOS") != NULL ) return SunOS;
+    else return noos;
+};
 
-    if ( strstr(host.p_vendor, "Intel") != NULL ) h_processor = Intel;
-    else if( strstr(host.p_vendor, "AMD") != NULL ) h_processor = AMD;
-    else if( strstr(host.p_vendor, "Macintosh") != NULL ) h_processor = Macintosh;
-    if ( strstr(sreq.host.p_vendor, "Intel") != NULL ) r_processor = Intel;
-    else if( strstr(sreq.host.p_vendor, "AMD") != NULL ) r_processor = AMD;
-    else if( strstr(sreq.host.p_vendor, "Macintosh") != NULL ) r_processor = Macintosh;
-
-    if ( strstr(host.os_name, "Linux") != NULL ) h_system = Linux;
-    else if( strstr(host.os_name, "Windows") != NULL ) h_system = Windows;
-    else if( strstr(host.os_name, "Darwin") != NULL ) h_system = Darwin;
-    else if( strstr(host.os_name, "SunOS") != NULL ) h_system = SunOS;
-    if ( strstr(sreq.host.os_name, "Linux") != NULL ) r_system = Linux;
-    else if( strstr(sreq.host.os_name, "Windows") != NULL ) r_system = Windows;
-    else if( strstr(sreq.host.os_name, "Darwin") != NULL ) r_system = Darwin;
-    else if( strstr(sreq.host.os_name, "SunOS") != NULL ) r_system = SunOS;
-
-    return ( h_processor == r_processor && h_system == r_system );
-}
+inline
+int CPU(SCHEDULER_REQUEST& sreq){
+    if ( strstr(sreq.host.p_vendor, "Intel") != NULL ) return Intel;
+    else if( strstr(sreq.host.p_vendor, "AMD") != NULL ) return AMD;
+    else if( strstr(sreq.host.p_vendor, "Macintosh") != NULL ) return Macintosh;
+    else return nocpu;
+};
 
 #if 0
 // old version, just in case
@@ -436,39 +429,19 @@ bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
 // may want to sharpen this for Unix)
 //
 static bool already_sent_to_different_platform(
-    WORK_REQ& wreq, SCHEDULER_REQUEST& sreq, WORKUNIT& workunit
+    SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 ) {
-    DB_RESULT result;
-    DB_HOST host;
-    char buf[256];
-    bool found = false;
-    int retval;
-
-    sprintf(buf, "where workunitid=%d", workunit.id);
-    while (!result.enumerate(buf)) {
-        if (result.hostid) {
-            sprintf(buf, "where id=%d", result.hostid);
-            retval = host.lookup(buf);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "send_work: host lookup failed (%d)\n", retval
-                );
-                found = true;
-                break;
-            }
-            if (same_platform(host, sreq)) {
-                // already sent to same platform - don't need to keep looking
-                //
-                break;
-            }
+    if (workunit.workseq_next != unspec) {
+        if (OS(sreq) + CPU(sreq) != workunit.workseq_next)
             wreq.homogeneous_redundancy_reject = true;
-            found = true;
-            break;
-        }
     }
-    result.end_enumerate();
-    return found;
+    else {
+      workunit.workseq_next = OS(sreq) + CPU(sreq);
+      DB_WORKUNIT db_wu;
+      db_wu = workunit;
+      db_wu.update();
+    }
+    return wreq.homogeneous_redundancy_reject;
 }
 
 void lock_sema() {
@@ -617,7 +590,7 @@ static void scan_work_array(
         //
         if (config.homogeneous_redundancy) {
             if (already_sent_to_different_platform(
-                wreq, sreq, wu_result.workunit
+                sreq, wu_result.workunit, wreq
             )) {
                 goto dont_send;
             }
@@ -835,4 +808,3 @@ int send_work(
     }
     return 0;
 }
-

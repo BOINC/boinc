@@ -92,6 +92,14 @@ using std::vector;
 // in this many seconds, error out
 #define NET_XFER_TIMEOUT    600
 
+static void boinc_close_socket(int sock) {
+#ifdef _WIN32
+    closesocket(sock);
+#else
+    close(sock);
+#endif
+}
+
 int get_socket_error(int fd) {
     socklen_t intsize = sizeof(int);
     int n;
