@@ -272,11 +272,17 @@ static void send_new_file_work(
                 result,
                 sreq, reply, platform, wreq, ss
             );
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "possibly_send_result() gives retval=%d\n", retval);
+
             if (config.one_result_per_user_per_wu) {
                 last_wuid = result.workunitid;
             }
         }
+
         boinc_db.commit_transaction();
+
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "lastid=%d last_wuid=%d\n", lastid, last_wuid);
+
         if (lookup_retval) break;
         if (send_retval) continue;
 
