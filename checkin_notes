@@ -18593,3 +18593,14 @@ David  19 Oct 2004
 
     html/user/
         sample_rss_main.php
+
+David  19 Oct 2004
+    - Added GLUT files for new fonts (from Bruce Allen)
+
+    boincglut/lib/glut/
+        Makefile
+        glut_bitmap.c
+        glut_hel10.c
+        glut_hel12.c
+        glut_tr10.c
+        glut_tr24.c
