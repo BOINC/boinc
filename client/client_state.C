@@ -665,11 +665,11 @@ void CLIENT_STATE::print_counts() {
             "%d app_versions\n"
             "%d workunits\n"
             "%d results\n",
-            projects.size(),
-            file_infos.size(),
-            app_versions.size(),
-            workunits.size(),
-            results.size()
+            (int)projects.size(),
+            (int)file_infos.size(),
+            (int)app_versions.size(),
+            (int)workunits.size(),
+            (int)results.size()
         );
     }
 }
@@ -678,6 +678,7 @@ void CLIENT_STATE::print_counts() {
 //
 bool CLIENT_STATE::garbage_collect() {
     unsigned int i;
+    int fail_num;
     FILE_INFO* fip;
     RESULT* rp;
     WORKUNIT* wup;
@@ -708,7 +709,11 @@ bool CLIENT_STATE::garbage_collect() {
             result_iter = results.erase(result_iter);
             action = true;
         } else {
-            if (rp->wup->had_failure()) {
+            // See if the files for this result's workunit had
+            // any errors (MD5, RSA, etc)
+            fail_num = rp->wup->had_failure();
+            if (fail_num) {
+                rp->exit_status = fail_num;
                 if (rp->state < RESULT_READY_TO_ACK) {
                     rp->state = RESULT_READY_TO_ACK;
                 }
@@ -721,7 +726,9 @@ bool CLIENT_STATE::garbage_collect() {
                 // The result, workunits, and file infos
                 // will be cleaned up after the server is notified
                 //
-                if (rp->output_files[i].file_info->had_failure()) {
+                fail_num = rp->output_files[i].file_info->had_failure();
+                if (fail_num) {
+                    rp->exit_status = fail_num;
                     if (rp->state < RESULT_READY_TO_ACK) {
                         rp->state = RESULT_READY_TO_ACK;
                     }
