@@ -884,3 +884,21 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
     }
     client_state_dirty = true;
 }
+
+// Report error back to project, setting result state to finished and backing
+// off on the project.  The error will appear in the stderr_out field of
+// the result
+// 
+int CLIENT_STATE::report_project_error( RESULT &res, int err_num, char *err_msg ) {
+    char total_err[256];
+    
+    res.state = RESULT_READY_TO_ACK;
+    scheduler_op->backoff(res.project,"");
+    
+    sprintf( total_err, "BOINC Core Client: Err %d: %s\n", err_num, err_msg );
+    if( strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
+        strcat( res.stderr_out, total_err );
+    }
+    
+    return 0;
+}

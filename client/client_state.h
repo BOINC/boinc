@@ -118,6 +118,7 @@ public:
     int make_scheduler_request(PROJECT*, double);
     void handle_scheduler_reply(PROJECT*, char* scheduler_url);
     void set_client_state_dirty(char*);
+    int report_project_error( RESULT &res, int err_num, char *err_msg );
 private:
     PROJECT* find_project_with_overdue_results();
     bool some_project_rpc_ok();
