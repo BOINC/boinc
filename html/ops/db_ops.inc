@@ -204,8 +204,8 @@ function show_result_summary() {
     echo "<tr valign=top>";
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '') . "</h2></td>";
     echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5") . "</h2></td>";
+    echo "<td><h2>" . link_results("'Success' results", $urlquery, "outcome=1") . "</h2></td>";
     echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3") . "</h2></td>";
-    echo "<td><h2>Success results</h2></td>";
     echo "</tr>";
     echo "<tr valign=top>";
     echo "<td><table border=2 cellpadding=4\n";
@@ -219,11 +219,21 @@ function show_result_summary() {
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
-        c_row2($outcome[$ro]?outcome_color($ro):'white', outcome_string($ro),
+        c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
             link_results($outcome[$ro], $urlquery, "outcome=$ro")
         );
     }
     echo "</table></td>";
+
+    echo "<td>";
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<tr><th>Validate state</th><th># results</th></tr>\n";
+    row2("Valid", link_results($nvalid, $urlquery, "validate_state=1"));
+    row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2"));
+    echo "</td></table>";
+    echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
+    row2("Files deleted", link_results($ninvalid, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
+    echo "</td></table>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
@@ -233,13 +243,6 @@ function show_result_summary() {
         );
     }
     echo "</td></table>";
-    echo "<td>";
-    start_table();
-    row2("Valid", link_results($nvalid, $urlquery, "validate_state=1"));
-    row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2"));
-    row2("Files deleted", link_results($ninvalid, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
-    end_table();
-    echo "</table>";
 
 }
 
@@ -546,7 +549,7 @@ function outcome_color($s) {
     case 1: return '33cc33'; // "Success"
     case 3: return 'ff3333'; // "Client error"
     }
-    return 'white';
+    return '';
 }
 
 function credit_str($c) {
@@ -563,7 +566,7 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times)
 
     echo "<h2>$result->name</h2>";
     echo "<p>WU: <a href=db_action.php?table=workunit&id=$result->workunitid>$wu_name</a>";
-    
+
     start_table();
 
 
