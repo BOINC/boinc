@@ -218,6 +218,8 @@ int lock_file(char* filename) {
     return retval;
 }
 
+// TODO: should use drand48 and/or drand_r (multithreaded re-entrant version)
+// when available (check using autoconf) -- quarl
 double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
