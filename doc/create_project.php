@@ -99,6 +99,6 @@ Tools for monitoring the system as a whole.
 <li> <a href=stripchart.php>Stripcharts: a tool for viewing time-varying data </a>
 <li> <a href=stripchart_data.php>Recording data for Stripcharts</a>
 </ul>
-";
+<?
 page_tail();
 ?>
