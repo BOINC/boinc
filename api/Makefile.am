@@ -38,7 +38,10 @@ EXTRA_DIST =            \
 	x_opengl.h
 
 if BUILD_GRAPHICS_API
-graphics_libs = libboinc_graphics_api.a libboinc_graphics_lib.a libboinc_graphics_impl.a
+graphics_libs = \
+    libboinc_graphics_api.a \
+    libboinc_graphics_lib.a \
+    libboinc_graphics_impl.a
 else
 graphics_libs = 
 endif
@@ -51,6 +54,10 @@ libboinc_api_a_SOURCES = $(api_files)
 
 libboinc_graphics_api_a_SOURCES = $(graphics_api_files)
 libboinc_graphics_api_a_CPPFLAGS = -I$(top_srcdir)/lib 
+libboinc_graphics_lib_a_SOURCES = $(graphics_lib_files)
+libboinc_graphics_lib_a_CPPFLAGS = -I$(top_srcdir)/lib 
+libboinc_graphics_impl_a_SOURCES = $(graphics_impl_files)
+libboinc_graphics_impl_a_CPPFLAGS = -I$(top_srcdir)/lib 
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
