@@ -6,3 +6,9 @@
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif
