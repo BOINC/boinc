@@ -75,6 +75,7 @@ o_iterator transform(i_iterator first, i_iterator last, o_iterator res, OP op) {
 #if defined(LARGEFILE_BREAKS_CXX) && (defined(_LARGE_FILES) || (_FILE_OFFSET_BITS==64))
 
 #include <stdio.h>
+#include <fcntl.h>
 
 #undef fopen
 #undef freopen
@@ -83,6 +84,8 @@ o_iterator transform(i_iterator first, i_iterator last, o_iterator res, OP op) {
 #undef fsetpos
 #undef fseeko
 #undef ftello
+#undef open
+#undef creat
 
 extern "C" {
 FILE *fopen(const char *, const char *);
@@ -92,6 +95,8 @@ int fgetpos(FILE *, fpos64_t *);
 int fsetpos(FILE *, const fpos64_t *);
 int fseeko(FILE *, const off64_t, int);
 off64_t ftello(FILE *);
+int open(const char *, int, mode_t mode=0);
+int creat(const char *, mode_t mode);
 }
 
 inline FILE *fopen(const char *path, const char *mode) { return fopen64(path,
@@ -103,6 +108,8 @@ inline int fgetpos(FILE *file, fpos64_t *pos) { return fgetpos64(file,pos); }
 inline int fsetpos(FILE *file, const fpos64_t *pos) { return fsetpos64(file,pos); }
 inline int fseeko(FILE *file, const off64_t pos, int whence) {return fseeko64(file,pos,whence);}
 inline off64_t ftello(FILE *file) {return ftello64(file);}
+inline int open(const char *filename, int flags, mode_t mode) { return open64(filename,flags,mode); }
+inline int creat(const char *filename, mode_t mode) { return creat64(filename,mode); }
 
 #endif
 #endif
