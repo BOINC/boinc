@@ -437,6 +437,7 @@ int MESSAGE::parse(MIOFILE& in) {
         }
         else if (parse_int(buf, "<pri>", priority)) continue;
         else if (parse_int(buf, "<time>", timestamp)) continue;
+        else if (parse_int(buf, "<seqno>", seqno)) continue;
     }
     return ERR_XML_PARSE;
 }

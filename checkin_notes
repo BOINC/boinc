@@ -17846,3 +17846,9 @@ David  28 Sept 2004
     client/
         client_state.C
         cs_data.C
+
+David  28 Sept 2004
+    - parse message seqnos in GUI RPC client
+
+    lib/
+        gui_rpc_client.C,h

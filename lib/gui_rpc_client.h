@@ -179,6 +179,7 @@ class MESSAGE {
 public:
     std::string project;
     int priority;
+    int seqno;
     int timestamp;
     std::string body;
 
