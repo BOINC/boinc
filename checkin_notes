@@ -4965,3 +4965,16 @@ Tim     June 23, 2003
         gui_title.c
     client/win/
         wingui_mainwindow.cpp
+
+John Brian	2003/06/23
+    - Changed label text in "Disk" tab: 
+        "BOINC" -> "BOINC core client"
+        "PROJECT:" prepending removed
+
+    - Removed CProgressListCtrl::OnLButtonDown to allow
+        left mouse clicks to highlight list items.
+
+    /client/win/
+        gui_titles.C
+        wingui_listctrl.h
+        wingui_listctrl.cpp 
