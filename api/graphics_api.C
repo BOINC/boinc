@@ -115,8 +115,9 @@ int boinc_init_opengl() {
     entry_proc = NewThreadEntryUPP( mac_graphics_event_loop );
     
     // Create the thread in a suspended state
-   theErr = NewThread ( kCooperativeThread, entry_proc,
-        (void *)(&gi), 0, kNewSuspend | kCreateIfNeeded, NULL, &graphicsThreadID );
+    theErr = NewThread ( kCooperativeThread, entry_proc,
+        (void *)(&gi), 0, kNewSuspend | kCreateIfNeeded, NULL, &graphicsThreadID
+    );
     if (theErr != noErr) return ERR_THREAD;
     
     // In theory we could do customized scheduling or install thread disposal routines here
@@ -158,8 +159,8 @@ int boinc_finish_opengl() {
 }
 
 #ifdef HAVE_GL_LIB
-GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routine
-{
+// Custom GL "Print" Routine
+GLvoid glPrint(GLuint font, const char *fmt, ...) {
 	/*
     char		text[256];			// Holds Our String
     va_list		ap;				// Pointer To List Of Arguments
@@ -178,7 +179,9 @@ GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routin
 	*/
 }
 
-GLenum InitGL(GLvoid) {					// All Setup For OpenGL Goes Here
+// All Setup For OpenGL Goes Here
+//
+GLenum InitGL(GLvoid) {
     GLenum err;
     
     glShadeModel(GL_SMOOTH);				// Enable Smooth Shading

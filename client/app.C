@@ -185,8 +185,10 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
     f = fopen(init_data_path, "w");
     if (!f) {
-        msg_printf(wup->project, MSG_ERROR, "Failed to open core-to-app prefs file %s",
-            init_data_path);
+        msg_printf(wup->project, MSG_ERROR,
+            "Failed to open core-to-app prefs file %s",
+            init_data_path
+        );
         return ERR_FOPEN;
     }
 
@@ -208,8 +210,10 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
     f = fopen(graphics_data_path, "w");
     if (!f) {
-        msg_printf(wup->project, MSG_ERROR, "Failed to open core-to-app graphics prefs file %s",
-            graphics_data_path);
+        msg_printf(wup->project, MSG_ERROR,
+            "Failed to open core-to-app graphics prefs file %s",
+            graphics_data_path
+        );
         return ERR_FOPEN;
     }
     retval = write_graphics_file(f, &gi);

@@ -8,8 +8,9 @@
 #ifndef HAVE_OPENGL_GL_H
 #define HAVE_OPENGL_GL_H
 #endif
+#endif
 
-#elif defined(_WIN32)
+#ifdef _WIN32
 #ifndef HAVE_GL_LIB
 #define HAVE_GL_LIB 1
 #endif
@@ -22,11 +23,6 @@
 #ifndef HAVE_GL_GLAUX_H
 #define HAVE_GL_GLAUX_H 1
 #endif
-
-#include <windows.h>
-extern HANDLE hQuitEvent;
-extern HANDLE graphics_threadh;
-extern BOOL    win_loop_done;
 #endif
 
 #ifdef HAVE_GL_H
@@ -68,8 +64,6 @@ extern BOOL    win_loop_done;
 #include <MesaGL/glaux.h>
 #endif
 
-
-
 #if defined(HAVE_GL_LIB) && defined(HAVE_X11)
 #include "x_opengl.h"
 #endif
@@ -78,15 +72,27 @@ extern BOOL    win_loop_done;
 #include <Carbon/Carbon.h>
 #endif
 
+// The API (functions called by the app)
 extern int boinc_init_opengl();
 extern int boinc_finish_opengl();
-#ifdef HAVE_GL_LIB
 extern GLvoid glPrint(GLuint font, const char *fmt, ...);
-extern GLenum InitGL(GLvoid);
 extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
-#endif
+
+// Functions that must be supplied by the app
+//
 extern bool app_render(int xs, int ys, double time_of_day);
 extern void app_init_gl(void);
 extern void app_resize(int width, int height);
+
+// Implementation stuff
+//
+extern GLenum InitGL(GLvoid);
+extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
+
+#ifdef _WIN32
+extern HANDLE hQuitEvent;
+extern HANDLE graphics_threadh;
+extern BOOL    win_loop_done;
+#endif
 
 #endif
