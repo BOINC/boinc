@@ -79,6 +79,8 @@ END_EVENT_TABLE ()
 
 CMainFrame::CMainFrame()
 {
+    wxLogTrace(wxT("CMainFrame::CMainFrame - Default Constructor Function Begin"));
+    wxLogTrace(wxT("CMainFrame::CMainFrame - Default Constructor Function End"));
 }
 
 
@@ -86,6 +88,8 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxFrame ((wxFrame *)NULL, -1, strTitle, wxDefaultPosition, wxDefaultSize,
              wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
+    wxLogTrace(wxT("CMainFrame::CMainFrame - Function Begin"));
+
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
@@ -119,11 +123,15 @@ CMainFrame::CMainFrame(wxString strTitle) :
     SetStatusBarPane(0);
 
     RestoreState();
+
+    wxLogTrace(wxT("CMainFrame::CMainFrame - Function End"));
 }
 
 
 CMainFrame::~CMainFrame()
 {
+    wxLogTrace(wxT("CMainFrame::~CMainFrame - Function Begin"));
+
     wxASSERT(NULL != m_pFrameRenderTimer);
     wxASSERT(NULL != m_pFrameTaskPanelRenderTimer);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
@@ -158,11 +166,15 @@ CMainFrame::~CMainFrame()
 
     if (m_pMenubar)
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
+
+    wxLogTrace(wxT("CMainFrame::~CMainFrame - Function End"));
 }
 
 
 bool CMainFrame::CreateMenu()
 {
+    wxLogTrace(wxT("CMainFrame::CreateMenu - Function Begin"));
+
     // File menu
     wxMenu *menuFile = new wxMenu;
 
@@ -254,12 +266,15 @@ bool CMainFrame::CreateMenu()
     );
     SetMenuBar(m_pMenubar);
 
+    wxLogTrace(wxT("CMainFrame::CreateMenu - Function End"));
     return true;
 }
 
 
 bool CMainFrame::CreateNotebook()
 {
+    wxLogTrace(wxT("CMainFrame::CreateNotebook - Function Begin"));
+
     // create frame panel
     wxPanel *pPanel = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize,
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
@@ -286,6 +301,7 @@ bool CMainFrame::CreateNotebook()
     CreateNotebookPage( new CViewMessages( m_pNotebook ) );
     CreateNotebookPage( new CViewResources( m_pNotebook ) );
 
+    wxLogTrace(wxT("CMainFrame::CreateNotebook - Function End"));
     return true;
 }
 
@@ -293,6 +309,8 @@ bool CMainFrame::CreateNotebook()
 template < class T >
 bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage)
 {
+    wxLogTrace(wxT("CMainFrame::CreateNotebookPage - Function Begin"));
+
     wxImageList*    pImageList;
     wxInt32         iImageIndex = 0;
 
@@ -311,12 +329,15 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage)
     iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()), wxColour(255, 0, 255));
     m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
 
+    wxLogTrace(wxT("CMainFrame::CreateNotebookPage - Function End"));
     return true;
 }
 
 
 bool CMainFrame::CreateStatusbar()
 {
+    wxLogTrace(wxT("CMainFrame::CreateStatusbar - Function Begin"));
+
     if (m_pStatusbar)
         return true;
 
@@ -337,18 +358,24 @@ bool CMainFrame::CreateStatusbar()
 
     SendSizeEvent();
 
+    wxLogTrace(wxT("CMainFrame::CreateStatusbar - Function End"));
     return true;
 }
 
 
 bool CMainFrame::DeleteMenu()
 {
+    wxLogTrace(wxT("CMainFrame::DeleteMenu - Function Begin"));
+
+    wxLogTrace(wxT("CMainFrame::DeleteMenu - Function End"));
     return true;
 }
 
 
 bool CMainFrame::DeleteNotebook()
 {
+    wxLogTrace(wxT("CMainFrame::DeleteNotebook - Function Begin"));
+
     wxImageList*    pImageList;
 
     wxASSERT(NULL != m_pNotebook);
@@ -360,12 +387,15 @@ bool CMainFrame::DeleteNotebook()
     if (pImageList)
         delete pImageList;
 
+    wxLogTrace(wxT("CMainFrame::DeleteNotebook - Function End"));
     return true;
 }
 
 
 bool CMainFrame::DeleteStatusbar()
 {
+    wxLogTrace(wxT("CMainFrame::DeleteStatusbar - Function Begin"));
+
     if (!m_pStatusbar)
         return true;
 
@@ -376,12 +406,15 @@ bool CMainFrame::DeleteStatusbar()
 
     SendSizeEvent();
 
+    wxLogTrace(wxT("CMainFrame::DeleteStatusbar - Function End"));
     return true;
 }
 
 
 bool CMainFrame::SaveState()
 {
+    wxLogTrace(wxT("CMainFrame::SaveState - Function Begin"));
+
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
@@ -428,12 +461,15 @@ bool CMainFrame::SaveState()
         pConfig->SetPath(strPreviousLocation);
     }
 
+    wxLogTrace(wxT("CMainFrame::SaveState - Function End"));
     return true;
 }
 
 
 bool CMainFrame::RestoreState()
 {
+    wxLogTrace(wxT("CMainFrame::RestoreState - Function Begin"));
+
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
@@ -490,18 +526,25 @@ bool CMainFrame::RestoreState()
 
     }
 
+    wxLogTrace(wxT("CMainFrame::RestoreState - Function End"));
     return true;
 }
 
 
 void CMainFrame::OnHide( wxCommandEvent& WXUNUSED(event) )
 {
+    wxLogTrace(wxT("CMainFrame::OnHide - Function Begin"));
+
     Hide();
+
+    wxLogTrace(wxT("CMainFrame::OnHide - Function End"));
 }
 
 
 void CMainFrame::OnActivitySelection( wxCommandEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnActivitySelection - Function Begin"));
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -519,11 +562,15 @@ void CMainFrame::OnActivitySelection( wxCommandEvent& event )
             pDoc->SetActivityRunMode( CMainDocument::MODE_AUTO );
             break;
     }
+
+    wxLogTrace(wxT("CMainFrame::OnActivitySelection - Function End"));
 }
 
 
 void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnNetworkSelection - Function Begin"));
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -543,11 +590,15 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
             pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
             break;
     }
+
+    wxLogTrace(wxT("CMainFrame::OnNetworkSelection - Function End"));
 }
 
    
 void CMainFrame::OnRunBenchmarks( wxCommandEvent& WXUNUSED(event) )
 {
+    wxLogTrace(wxT("CMainFrame::OnRunBenchmarks - Function Begin"));
+
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(NULL != m_pNotebook);
     wxASSERT(NULL != pDoc);
@@ -555,11 +606,15 @@ void CMainFrame::OnRunBenchmarks( wxCommandEvent& WXUNUSED(event) )
 
     m_pNotebook->SetSelection( ID_LIST_MESSAGESVIEW - ID_LIST_BASE );
     pDoc->RunBenchmarks();
+
+    wxLogTrace(wxT("CMainFrame::OnRunBenchmarks - Function End"));
 }
 
 
 void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
 {
+    wxLogTrace(wxT("CMainFrame::OnSelectComputer - Function Begin"));
+
     wxInt32        iRetVal = -1;
     wxString       strMachine = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -579,17 +634,25 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
             _("Failed to connect..."),
             wxICON_ERROR
         );
+
+    wxLogTrace(wxT("CMainFrame::OnSelectComputer - Function End"));
 }
 
 
 void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 {
+    wxLogTrace(wxT("CMainFrame::OnExit - Function Begin"));
+
     Close(true);
+
+    wxLogTrace(wxT("CMainFrame::OnExit - Function End"));
 }
 
 
 void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
 {
+    wxLogTrace(wxT("CMainFrame::OnToolsOptions - Function Begin"));
+
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CDlgOptions*   pDlg = new CDlgOptions(this);
     wxInt32        iAnswer = 0;
@@ -668,11 +731,15 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
 
     if (pDlg)
         pDlg->Destroy();
+
+    wxLogTrace(wxT("CMainFrame::OnToolsOptions - Function End"));
 }
 
 
 void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 {
+    wxLogTrace(wxT("CMainFrame::OnAbout - Function Begin"));
+
     CDlgAbout* pDlg = new CDlgAbout(this);
     wxASSERT(NULL != pDlg);
 
@@ -680,11 +747,15 @@ void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 
     if (pDlg)
         pDlg->Destroy();
+
+    wxLogTrace(wxT("CMainFrame::OnAbout - Function End"));
 }
 
 
 void CMainFrame::OnUpdateActivitySelection( wxUpdateUIEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnUpdateActivitySelection - Function Begin"));
+
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenuBar*     pMenuBar      = GetMenuBar();
     wxInt32        iActivityMode = -1;
@@ -713,11 +784,15 @@ void CMainFrame::OnUpdateActivitySelection( wxUpdateUIEvent& event )
                 pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
             break;
     }
+
+    wxLogTrace(wxT("CMainFrame::OnUpdateActivitySelection - Function End"));
 }
 
 
 void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnUpdateNetworkSelection - Function Begin"));
+
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxMenuBar*     pMenuBar      = GetMenuBar();
     wxInt32        iNetworkMode  = -1;
@@ -746,11 +821,15 @@ void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& event )
                 pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
             break;
     }
+
+    wxLogTrace(wxT("CMainFrame::OnUpdateNetworkSelection - Function End"));
 }
 
    
 void CMainFrame::OnIdle( wxIdleEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnIdle - Function Begin"));
+
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     if ( NULL != pDoc )
@@ -760,20 +839,28 @@ void CMainFrame::OnIdle( wxIdleEvent& event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnIdle - Function End"));
 }
 
 
 void CMainFrame::OnClose( wxCloseEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnClose - Function Begin"));
+
     if ( !event.CanVeto() )
         Destroy();
     else
         Hide();
+
+    wxLogTrace(wxT("CMainFrame::OnClose - Function End"));
 }
 
 
 void CMainFrame::OnSize( wxSizeEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnSize - Function Begin"));
+
     if ( IsShown() )
     {
         wxRect rect;
@@ -798,11 +885,15 @@ void CMainFrame::OnSize( wxSizeEvent& event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnSize - Function End"));
 }
 
 
 void CMainFrame::OnChar( wxKeyEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnChar - Function Begin"));
+
     if ( IsShown() )
     {
         wxWindow*       pwndNotebookPage = NULL;
@@ -820,11 +911,15 @@ void CMainFrame::OnChar( wxKeyEvent& event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnChar - Function End"));
 }
 
 
 void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnNotebookSelectionChanged - Function Begin"));
+
     if ( (-1 != event.GetSelection()) && IsShown() )
     {
         wxWindow*       pwndNotebookPage = NULL;
@@ -844,11 +939,15 @@ void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnNotebookSelectionChanged - Function End"));
 }
 
 
 void CMainFrame::OnListSelected( wxListEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnListSelected - Function Begin"));
+
     if ( IsShown() )
     {
         wxWindow*       pwndNotebookPage = NULL;
@@ -866,11 +965,15 @@ void CMainFrame::OnListSelected( wxListEvent& event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnListSelected - Function End"));
 }
 
 
 void CMainFrame::OnListDeselected( wxListEvent& event )
 {
+    wxLogTrace(wxT("CMainFrame::OnListDeselected - Function Begin"));
+
     if ( IsShown() )
     {
         wxWindow*       pwndNotebookPage = NULL;
@@ -888,11 +991,15 @@ void CMainFrame::OnListDeselected( wxListEvent& event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnListDeselected - Function End"));
 }
 
 
-void CMainFrame::OnFrameRender ( wxTimerEvent &event )
+void CMainFrame::OnFrameRender( wxTimerEvent &event )
 {
+    wxLogTrace(wxT("CMainFrame::OnFrameRender - Function Begin"));
+
     if ( IsShown() )
     {
         wxString       strConnectedMachine = wxEmptyString;
@@ -927,11 +1034,15 @@ void CMainFrame::OnFrameRender ( wxTimerEvent &event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnFrameRender - Function End"));
 }
 
 
-void CMainFrame::OnListPanelRender ( wxTimerEvent &event )
+void CMainFrame::OnListPanelRender( wxTimerEvent &event )
 {
+    wxLogTrace(wxT("CMainFrame::OnListPanelRender - Function Begin"));
+
     if ( IsShown() )
     {
         wxWindow*       pwndNotebookPage = NULL;
@@ -949,11 +1060,15 @@ void CMainFrame::OnListPanelRender ( wxTimerEvent &event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnListPanelRender - Function End"));
 }
 
 
-void CMainFrame::OnTaskPanelRender ( wxTimerEvent &event )
+void CMainFrame::OnTaskPanelRender( wxTimerEvent &event )
 {
+    wxLogTrace(wxT("CMainFrame::OnTaskPanelRender - Function Begin"));
+
     if ( IsShown() )
     {
         wxWindow*       pwndNotebookPage = NULL;
@@ -971,5 +1086,7 @@ void CMainFrame::OnTaskPanelRender ( wxTimerEvent &event )
     }
 
     event.Skip();
+
+    wxLogTrace(wxT("CMainFrame::OnTaskPanelRender - Function End"));
 }
 

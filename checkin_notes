@@ -20605,3 +20605,14 @@ Bruce   3 Dec 2004
 
     db/
         boinc_db.C
+
+Rom    3 Dec 2004
+    - Add back in trace statements to boincmgr's main frame, so we can begin to 
+      track down the Mac OS X problem.
+    - Change the screensaver so that it only checks for BOINC's configuration
+      once.
+
+    client/win/
+        win_screensaver.cpp, .h
+    clientgui/
+        MainFrame.cpp
