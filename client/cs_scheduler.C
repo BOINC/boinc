@@ -94,7 +94,7 @@ bool PROJECT::waiting_until_min_rpc_time(double now) {
     return false;
 }
 
-// find a project that needs its master file parsed
+// find a project that needs to have its master file fetched
 //
 PROJECT* CLIENT_STATE::next_project_master_pending() {
     unsigned int i;
@@ -104,6 +104,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->suspended_via_gui) continue;
         if (p->master_url_fetch_pending) {
             return p;
         }
@@ -116,11 +117,14 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
     double now = dtime();
+    PROJECT* p;
 
     for (i=0; i<projects.size(); i++) {
-        if (projects[i]->waiting_until_min_rpc_time(now)) continue;
-        if (projects[i]->sched_rpc_pending) {
-            return projects[i];
+        p = projects[i];
+        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->suspended_via_gui) continue;
+        if (p->sched_rpc_pending) {
+            return p;
         }
     }
     return 0;
@@ -144,6 +148,7 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
         }
         if (p->master_url_fetch_pending) continue;
         if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->suspended_via_gui) continue;
         if (found_old && p->work_request > 0) {
             return p;
         }
@@ -296,13 +301,15 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         //    - we're almost at the report_deadline
         //
 
-        if (r->project->waiting_until_min_rpc_time(now)) continue;
+        PROJECT* p = r->project;
+        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->suspended_via_gui) continue;
 
         if (!r->ready_to_report) continue;
         if (return_results_immediately ||
              (r->report_deadline <= (now + REPORT_DEADLINE_CUSHION))
         ) {
-            return r->project;
+            return p;
         }
     }
 

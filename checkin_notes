@@ -21836,3 +21836,10 @@ David  26 Dec 2004
             create_account_action.php
             edit_user_info_action.php
             forum*.php
+
+David  26 Dec 2004
+    - If a project is suspended via GUI,
+        don't to any scheduler RPCs or master URL fetches for it
+
+    client/
+        cs_scheduler.C
