@@ -455,7 +455,7 @@ int boinc_init(bool standalone_ /* = false */) {
 	_CrtSetReportHook( boinc_message_reporting );
 
     SET_CRT_DEBUG_FIELD(
-        _CRTDBG_LEAK_CHECK_DF |
+//        _CRTDBG_LEAK_CHECK_DF |
         _CRTDBG_CHECK_EVERY_1024_DF
     ); 
 

@@ -10730,3 +10730,10 @@ Jeff  Mar 23 2004
 
      sched/
 	validate.C
+
+Rom  Mar 23 2004
+    - client applications don't really need to dump leak detection information
+        for public consumption.  So remark it out for public release.
+
+    api/
+        boinc_api.c
