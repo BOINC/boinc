@@ -179,7 +179,15 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     return 0;
 }
 
-// Back off contacting scheduler and output an error msg if needed
+// One of the following errors occurred:
+// - connection failure in fetching master file
+// - connection failure in scheduler RPC
+// - got master file, but it didn't have any <scheduler> elements
+// - tried all schedulers, none responded
+// - sent nonzero work request, got a reply with no work
+//
+// Back off contacting this project's schedulers,
+// and output an error msg if needed
 //
 void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
@@ -493,15 +501,8 @@ bool SCHEDULER_OP::poll() {
                         if (must_get_work && nresults==0) {
                             backoff(project, "No work from project\n");
                         } else {
-                            project->nrpc_failures = 0;
-                            project->min_rpc_time = 0;
+                            project->nrpc_errors = 0;
                         }
-                        break;
-                    case ERR_SERVER_REQ_DELAY:
-                        // The server has requested a backoff of a specified
-                        // amount, so lets honor it by not resetting the
-                        // project->min_rpc_time value.
-                        project->nrpc_failures = 0;
                         break;
                     case ERR_PROJECT_DOWN:
                         backoff(project, "Project is down");

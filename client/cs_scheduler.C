@@ -521,12 +521,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         show_message(project, buf, prio);
     }
 
-    if (sr.request_delay) {
-        double x = dtime() + sr.request_delay;
-        if (x > project->min_rpc_time) project->min_rpc_time = x;
-        return ERR_SERVER_REQ_DELAY;
-    }
-
     // if project is down, return error (so that we back off)
     // and don't do anything else
     //
@@ -779,6 +773,16 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->send_file_list = true;
     }
     project->sched_rpc_pending = false;
+
+    // handle delay request
+    //
+    if (sr.request_delay) {
+        double x = dtime() + sr.request_delay;
+        if (x > project->min_rpc_time) project->min_rpc_time = x;
+    } else {
+        project->min_rpc_time = 0;
+    }
+
     set_client_state_dirty("handle_scheduler_reply");
     scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): State after handle_scheduler_reply():\n");
     print_summary();

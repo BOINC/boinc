@@ -23213,3 +23213,13 @@ Rom    24 Jan 2005
         scheduler_op.C
     lib/
         error_numbers.h
+
+David  24 Jan 2005
+    - Amend the above checkin so that a scheduler reply
+        is handled completely even if there's a delay request
+    
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        error_numbers.h
