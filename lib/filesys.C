@@ -388,7 +388,7 @@ int boinc_rename(const char* old, const char* newf) {
 int boinc_mkdir(const char* path) {
     if (is_dir(path)) return 0;
 #ifdef _WIN32
-    return CreateDirectory(path, NULL);
+    return !CreateDirectory(path, NULL);
 #else
     return mkdir(path, 0777);
 #endif
@@ -396,7 +396,7 @@ int boinc_mkdir(const char* path) {
 
 int boinc_rmdir(const char* name) {
 #ifdef _WIN32
-    return RemoveDirectory(name);
+    return !RemoveDirectory(name);
 #else
     return rmdir(name);
 #endif

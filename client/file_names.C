@@ -78,10 +78,12 @@ void get_slot_dir(int slot, char* path) {
 //
 int make_project_dir(PROJECT& p) {
     char buf[256];
+    int retval;
 
     boinc_mkdir(PROJECTS_DIR);
     get_project_dir(&p, buf);
-    return boinc_mkdir(buf);
+    retval = boinc_mkdir(buf);
+    return retval;
 }
 
 int remove_project_dir(PROJECT& p) {

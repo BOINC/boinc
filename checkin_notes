@@ -11703,3 +11703,18 @@ Rom    April 20 2004
             heap check during a stack dump.
 	lib/
 		diagnostics.C
+
+
+David  April 20 2004
+	- The Windows CreateDirectory and RemoveDirectory return
+		nonzero on error (unlike rmdir and mkdir).
+		The code had it backwards, which led to various problems,
+		e.g. after attaching to a new project no RPC happened
+	- print error messages if fail to delete account file
+		or project dir on detach
+
+	client/
+		client_state.C
+		file_names.C
+	lib/
+		filesys.C

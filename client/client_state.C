@@ -1151,10 +1151,16 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     //
     get_account_filename(project->master_url, path);
     retval = boinc_delete_file(path);
+    if (retval) {
+        msg_printf(project, MSG_ERROR, "Can't delete account file: %d\n", retval);
+    }
 
     // remove project directory and its contents
     //
-    remove_project_dir(*project);
+    retval = remove_project_dir(*project);
+    if (retval) {
+        msg_printf(project, MSG_ERROR, "Can't delete project directory: %d\n", retval);
+    }
     delete project;
     write_state_file();
 
