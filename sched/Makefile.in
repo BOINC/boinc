@@ -43,8 +43,10 @@ FEEDER_OBJS = \
 SHOW_SHMEM_OBJS = \
     show_shmem.o \
     sched_shmem.o \
+    config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/parse.o \
     ../lib/shmem.o
 
 FILE_UPLOAD_OBJS = \

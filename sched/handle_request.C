@@ -32,6 +32,7 @@ using namespace std;
 #include "backend_lib.h"
 #include "parse.h"
 #include "server_types.h"
+#include "main.h"
 #include "handle_request.h"
 
 #define MIN_SECONDS_TO_SEND 0
@@ -223,7 +224,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 
     retval = db_host_update(host);
     if (retval) {
-        fprintf(stderr, "sched (%s): db_host_update: %d\n", BOINC_USER, retval);
+        fprintf(stderr, "sched (%s): db_host_update: %d\n", config.user_name, retval);
     }
     return 0;
 }
@@ -442,7 +443,7 @@ void send_code_sign_key(
             // look for a signature file
             //
             for (i=0; ; i++) {
-                sprintf(path, "%s/old_key_%d", "BOINC_KEY_DIR", i);
+                sprintf(path, "%s/old_key_%d", config.key_dir, i);
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     strcpy(reply.message,
@@ -452,7 +453,7 @@ void send_code_sign_key(
                     return;
                 }
                 if (!strcmp(oldkey, sreq.code_sign_key)) {
-                    sprintf(path, "%s/signature_%d", "BOINC_KEY_DIR", i);
+                    sprintf(path, "%s/signature_%d", config.key_dir, i);
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         strcpy(reply.message,

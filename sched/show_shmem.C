@@ -3,14 +3,21 @@
 #include <unistd.h>
 
 #include "shmem.h"
+#include "config.h"
 #include "sched_shmem.h"
 
 int main() {
     SCHED_SHMEM* ssp;
     int retval, i;
     void* p;
+    CONFIG config;
 
-    retval = attach_shmem(BOINC_SHMEM_KEY, &p);
+    retval = config.parse_file();
+    if (retval) {
+        printf("can't parse config\n");
+        exit(1);
+    }
+    retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
         printf("can't attach shmem\n");
         exit(1);

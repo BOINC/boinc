@@ -1,3 +1,6 @@
+#ifndef _CONFIG_
+#define _CONFIG_
+
 // info needed by server-side software
 //
 class CONFIG {
@@ -12,3 +15,5 @@ public:
     int parse(FILE*);
     int parse_file();
 };
+
+#endif

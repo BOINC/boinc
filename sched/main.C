@@ -44,6 +44,7 @@ using namespace std;
 #endif
 
 PROJECT gproject;
+CONFIG config;
 
 int return_error(char* p) {
     fprintf(stderr, "BOINC server: %s\n", p);
@@ -66,7 +67,6 @@ int main() {
     unsigned int counter=0;
     char* code_sign_key;
     bool found;
-    CONFIG config;
 
     retval = config.parse_file();
     if (retval) {
