@@ -1,8 +1,0 @@
-[TopDir]
-file0=..\Build\Release\boinc.dll
-file1=..\Build\Release\dbghelp.dll
-
-[General]
-Type=FILELIST
-Version=1.10.000
-

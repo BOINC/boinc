@@ -1,9 +1,0 @@
-[DYNAMIC]
-WILDCARD0=*.ini
-INCLUDESUBDIR=YES
-FOLDER=..\..\client\translation
-
-[General]
-Type=FILELIST
-Version=1.10.000
-

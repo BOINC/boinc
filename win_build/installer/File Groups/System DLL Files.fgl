@@ -1,9 +1,0 @@
-[DYNAMIC]
-WILDCARD0=*.dll
-INCLUDESUBDIR=NO
-FOLDER=System DLLs
-
-[General]
-Type=FILELIST
-Version=1.10.000
-

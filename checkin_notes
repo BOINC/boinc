@@ -24121,3 +24121,12 @@ Rom    6 Feb 2005
         BOINCGUIApp.cpp, .h
         DlgOptions.cpp, .h
         MainFrame.cpp, .h
+
+Rom    6 Feb 2005
+    - Remove Legacy installer
+    - Add the BOINC Manager resource templates
+
+    clientgui/res/templates
+        <added a bunch of files>
+    win_build/installer
+        <removed a bunch of files>

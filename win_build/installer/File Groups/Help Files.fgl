@@ -1,9 +1,0 @@
-[DYNAMIC]
-WILDCARD0=readme.txt
-INCLUDESUBDIR=NO
-FOLDER=Setup Files\Compressed Files\Language Independent\OS Independent
-
-[General]
-Type=FILELIST
-Version=1.10.000
-

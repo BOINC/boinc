@@ -1,7 +1,0 @@
-[TopDir]
-file0=..\Build\Release\boinc.scr
-
-[General]
-Type=FILELIST
-Version=1.10.000
-
