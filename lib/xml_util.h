@@ -542,7 +542,7 @@ std::vector<T> x_csv_decode(const char *data, size_t nbytes) {
     while (in && !isdigit(c)) {
       in.get(c);
     }
-    in.putback(c);
+    if (in) in.putback(c);
   }
   return rv;
 }
@@ -806,6 +806,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.8  2003/10/22 18:13:39  korpela
+// *** empty log message ***
+//
 // Revision 1.7  2003/10/22 17:43:10  korpela
 // *** empty log message ***
 //
