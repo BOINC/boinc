@@ -185,6 +185,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
 
 wxInt32 CMainDocument::GetProjectCount()
 {
+    CachedStateUpdate();
     CachedProjectStatusUpdate();
     wxInt32 iCount = project_status.projects.size();
 
@@ -289,10 +290,12 @@ wxInt32 CMainDocument::GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer)
 
 wxInt32 CMainDocument::GetProjectWebsiteCount(wxInt32 iIndex)
 {
+    wxInt32 iCount = 0;
+    PROJECT* pProject = NULL;
+
     CachedStateUpdate();
 
-    wxInt32 iCount = 0;
-    PROJECT* pProject = state.projects.at( iIndex );
+    pProject = state.projects.at( iIndex );
 
     if ( NULL != pProject )
         iCount = pProject->gui_urls.size();
@@ -430,6 +433,188 @@ wxInt32 CMainDocument::ProjectResume( wxString& strURL )
 }
 
 
+wxInt32 CMainDocument::CachedResultsStatusUpdate()
+{
+    wxInt32 retval = 0;
+
+    if (!m_bIsConnected)
+    {
+        retval = rpc.init(NULL);
+        if (retval)
+        {
+            wxLogTrace("CMainDocument::CachedResultsStatusUpdate - RPC Initialization Failed '%d'", retval);
+            return retval;
+        }
+
+        m_bIsConnected = true;
+    }
+
+    retval = rpc.get_results(results);
+    if (retval)
+    {
+        wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", retval);
+    }
+
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::GetWorkCount()
+{
+    CachedStateUpdate();
+    CachedResultsStatusUpdate();
+    wxInt32 iCount = state.results.size();
+
+    return iCount;
+}
+
+
+wxInt32 CMainDocument::GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+    PROJECT* pProject = NULL;
+
+    if ( NULL != pResult )
+    {
+        pProject = pResult->project;
+        if ( NULL != pProject )
+        {
+            strBuffer = pProject->project_name.c_str();
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+    WORKUNIT* pWorkunit = NULL;
+    APP_VERSION* pAppVersion = NULL;
+
+    if ( NULL != pResult )
+    {
+        pWorkunit = pResult->wup;
+        if ( NULL != pWorkunit )
+        {
+            pAppVersion = pWorkunit->avp;
+            if ( NULL != pAppVersion )
+            {
+                strBuffer = pAppVersion->app_name.c_str();
+            }
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+    WORKUNIT* pWorkunit = NULL;
+    APP_VERSION* pAppVersion = NULL;
+
+    if ( NULL != pResult )
+    {
+        pWorkunit = pResult->wup;
+        if ( NULL != pWorkunit )
+        {
+            pAppVersion = pWorkunit->avp;
+            if ( NULL != pAppVersion )
+            {
+                iBuffer = pAppVersion->version_num;
+            }
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkName(wxInt32 iIndex, wxString& strBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+
+    if ( NULL != pResult )
+        strBuffer = pResult->name.c_str();
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+
+    if ( NULL != pResult )
+        fBuffer = pResult->current_cpu_time;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+
+    if ( NULL != pResult )
+        fBuffer = pResult->final_cpu_time;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkFractionDone(wxInt32 iIndex, float& fBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+
+    if ( NULL != pResult )
+        fBuffer = pResult->fraction_done;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer)
+{
+    RESULT* pResult = state.results.at( iIndex );
+
+    if ( NULL != pResult )
+        iBuffer = pResult->report_deadline;
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetWorkState(wxInt32 iIndex)
+{
+    wxInt32 iBuffer = 0;
+    RESULT* pResult = state.results.at( iIndex );
+
+    if ( NULL != pResult )
+        iBuffer = pResult->state;
+
+    return iBuffer;
+}
+
+
+bool CMainDocument::IsWorkActive(wxInt32 iIndex)
+{
+    RESULT* pResult = state.results.at( iIndex );
+    return pResult->suspended_via_gui;
+}
+
+
+bool CMainDocument::IsWorkSuspended(wxInt32 iIndex)
+{
+    RESULT* pResult = state.results.at( iIndex );
+    return pResult->suspended_via_gui;
+}
+
+
 wxInt32 CMainDocument::CachedMessageUpdate()
 {
     wxInt32 retval = 0;
@@ -461,6 +646,7 @@ wxInt32 CMainDocument::CachedMessageUpdate()
 
 wxInt32 CMainDocument::GetMessageCount() 
 {
+    CachedStateUpdate();
     CachedMessageUpdate();
     wxInt32 iCount = messages.messages.size();
 
@@ -512,62 +698,6 @@ wxInt32 CMainDocument::GetMessageMessage(wxInt32 iIndex, wxString& strBuffer)
 
 
 
-
-
-wxInt32 CMainDocument::GetWorkCount() {
-    CachedStateUpdate();
-    return state.results.size();
-}
-
-
-wxString CMainDocument::GetWorkProjectName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return state.results[iIndex]->project->project_name.c_str();
-}
-
-
-wxString CMainDocument::GetWorkApplicationName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return state.results[iIndex]->app->name.c_str();
-}
-
-
-wxString CMainDocument::GetWorkName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return state.results[iIndex]->name.c_str();
-}
-
-
-wxString CMainDocument::GetWorkCPUTime(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
-}
-
-
-wxString CMainDocument::GetWorkProgress(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
-}
-
-
-wxString CMainDocument::GetWorkTimeToCompletion(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
-}
-
-
-wxString CMainDocument::GetWorkReportDeadline(wxInt32 iIndex) {
-    CachedStateUpdate();
-    wxDateTime dtReportDeadline;
-    dtReportDeadline.Set((time_t)state.results[iIndex]->report_deadline);
-    return dtReportDeadline.Format();
-}
-
-
-wxString CMainDocument::GetWorkStatus(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T(""));
-}
 
 
 wxInt32 CMainDocument::GetTransferCount() {

@@ -102,6 +102,30 @@ public:
 
 
     //
+    // Work Tab
+    //
+private:
+    RESULTS                     results;
+
+    wxInt32                     CachedResultsStatusUpdate();
+
+public:
+
+    wxInt32                     GetWorkCount();
+    wxInt32                     GetWorkProjectName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetWorkApplicationName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetWorkApplicationVersion(wxInt32 iIndex, wxInt32& iBuffer);
+    wxInt32                     GetWorkName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer);
+    wxInt32                     GetWorkFinalCPUTime(wxInt32 iIndex, float& fBuffer);
+    wxInt32                     GetWorkFractionDone(wxInt32 iIndex, float& fBuffer);
+    wxInt32                     GetWorkReportDeadline(wxInt32 iIndex, wxInt32& iBuffer);
+    wxInt32                     GetWorkState(wxInt32 iIndex);
+    bool                        IsWorkActive(wxInt32 iIndex);
+    bool                        IsWorkSuspended(wxInt32 iIndex);
+
+
+    //
     // Messages Tab
     //
 private:
@@ -122,21 +146,10 @@ public:
 
 private:
 
-    RESULTS                     results;
     FILE_TRANSFERS              ft;
 
 public:
 
-
-    wxInt32                     GetWorkCount();
-    wxString                    GetWorkProjectName(wxInt32 iIndex);
-    wxString                    GetWorkApplicationName(wxInt32 iIndex);
-    wxString                    GetWorkName(wxInt32 iIndex);
-    wxString                    GetWorkCPUTime(wxInt32 iIndex);
-    wxString                    GetWorkProgress(wxInt32 iIndex);
-    wxString                    GetWorkTimeToCompletion(wxInt32 iIndex);
-    wxString                    GetWorkReportDeadline(wxInt32 iIndex);
-    wxString                    GetWorkStatus(wxInt32 iIndex);
 
     wxInt32                     GetTransferCount();
     wxString                    GetTransferFileName(wxInt32 iIndex);

@@ -410,6 +410,9 @@
 				RelativePath=".\resource.h">
 			</File>
 			<File
+				RelativePath="..\lib\result_state.h">
+			</File>
+			<File
 				RelativePath=".\stdwx.h">
 			</File>
 			<File

@@ -69,6 +69,15 @@ private:
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
 
+    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatApplicationName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatCPUTime( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatProgress( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+
 };
 
 

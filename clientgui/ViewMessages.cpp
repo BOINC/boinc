@@ -172,9 +172,13 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
     {
         m_bProcessingListRenderEvent = true;
 
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(NULL != pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(NULL != m_pListPane);
 
-        wxInt32 iCount = wxGetApp().GetDocument()->GetMessageCount();
+        wxInt32 iCount = pDoc->GetMessageCount();
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;
@@ -187,7 +191,7 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
             wxString   strListItemMessage;
             wxString   strDocumentItemMessage;
 
-            wxGetApp().GetDocument()->GetMessageMessage(m_iCacheTo, strDocumentItemMessage);
+            FormatMessage(m_iCacheTo, strDocumentItemMessage);
 
             liListItemMessage.SetId(m_iCacheTo);
             liListItemMessage.SetColumn(COLUMN_MESSAGE);
@@ -200,7 +204,6 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
             if ( !strDocumentItemMessage.IsSameAs(strListItemMessage) )
             {
                 m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
-                m_pListPane->Refresh();
                 m_pListPane->EnsureVisible(m_iCacheTo);
             }
         }
@@ -241,19 +244,19 @@ void CViewMessages::OnListDeselected ( wxListEvent& event )
 wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
     wxString   strBuffer;
-    wxDateTime dtBuffer(wxDateTime::Now());
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            wxGetApp().GetDocument()->GetMessageProjectName(item, strBuffer);
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            FormatProjectName( item, strBuffer );
             break;
         case COLUMN_TIME:
-            wxGetApp().GetDocument()->GetMessageTime(item, dtBuffer);
-            strBuffer = dtBuffer.Format();
+            FormatTime( item, strBuffer );
             break;
         case COLUMN_MESSAGE:
-            wxGetApp().GetDocument()->GetMessageMessage(item, strBuffer);
+            FormatMessage( item, strBuffer );
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
             break;
     }
 
@@ -386,5 +389,52 @@ void CViewMessages::UpdateTaskPane()
     m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
+}
+
+
+wxInt32 CViewMessages::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetMessageProjectName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewMessages::FormatTime( wxInt32 item, wxString& strBuffer ) const
+{
+    wxDateTime     dtBuffer(wxDateTime::Now());
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetMessageTime(item, dtBuffer);
+    strBuffer = dtBuffer.Format();
+
+    return 0;
+}
+
+
+wxInt32 CViewMessages::FormatMessage( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetMessageMessage(item, strBuffer);
+
+    return 0;
 }
 

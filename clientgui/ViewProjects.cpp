@@ -331,6 +331,7 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const
     switch(column)
     {
         case COLUMN_PROJECT:
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
             FormatProjectName(item, strBuffer);
             break;
         case COLUMN_ACCOUNTNAME:
@@ -350,6 +351,7 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const
             break;
         case COLUMN_STATUS:
             FormatStatus(item, strBuffer);
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
             break;
     }
 

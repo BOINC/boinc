@@ -32,6 +32,7 @@
 #include "BOINCListCtrl.h"
 #include "ViewWork.h"
 #include "Events.h"
+#include "result_state.h"
 
 #include "res/result.xpm"
 #include "res/task.xpm"
@@ -115,8 +116,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTER, -1);
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
@@ -187,7 +188,69 @@ void CViewWork::OnListRender(wxTimerEvent &event)
         }
         else
         {
-            m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
+            wxInt32         iRowIndex        = 0;
+            wxInt32         iColumnIndex     = 0;
+            wxInt32         iColumnTotal     = 0;
+            wxString        strDocumentText  = wxEmptyString;
+            wxString        strListPaneText  = wxEmptyString;
+            wxString        strBuffer        = wxEmptyString;
+            bool            bNeedRefreshData = false;
+            wxListItem      liItem;
+
+            liItem.SetMask(wxLIST_MASK_TEXT);
+            iColumnTotal = m_pListPane->GetColumnCount();
+
+            for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
+            {
+                bNeedRefreshData = false;
+                liItem.SetId(iRowIndex);
+
+                for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+                {
+                    strDocumentText.Empty();
+                    strListPaneText.Empty();
+
+                    switch(iColumnIndex)
+                    {
+                        case COLUMN_PROJECT:
+                            FormatProjectName(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_APPLICATION:
+                            FormatApplicationName(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_NAME:
+                            FormatName(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_CPUTIME:
+                            FormatCPUTime(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_PROGRESS:
+                            FormatProgress(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_TOCOMPLETETION:
+                            FormatTimeToCompletion(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_REPORTDEADLINE:
+                            FormatReportDeadline(iRowIndex, strBuffer);
+                            break;
+                        case COLUMN_STATUS:
+                            FormatStatus(iRowIndex, strBuffer);
+                            break;
+                    }
+
+                    liItem.SetColumn(iColumnIndex);
+                    m_pListPane->GetItem(liItem);
+                    strListPaneText = liItem.GetText();
+
+                    if ( !strBuffer.IsSameAs(strListPaneText) )
+                        bNeedRefreshData = true;
+                }
+
+                if ( bNeedRefreshData )
+                {
+                    m_pListPane->RefreshItem( iRowIndex );
+                }
+            }
         }
 
         m_bProcessingListRenderEvent = false;
@@ -225,35 +288,38 @@ void CViewWork::OnListDeselected ( wxListEvent& event )
 
 wxString CViewWork::OnListGetItemText( long item, long column ) const
 {
-    wxString strBuffer;
-    switch(column) {
+    wxString strBuffer = wxEmptyString;
+
+    switch(column)
+    {
         case COLUMN_PROJECT:
             if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetWorkProjectName(item);
+            FormatProjectName(item, strBuffer);
             break;
         case COLUMN_APPLICATION:
-            strBuffer = wxGetApp().GetDocument()->GetWorkApplicationName(item);
+            FormatApplicationName(item, strBuffer);
             break;
         case COLUMN_NAME:
-            strBuffer = wxGetApp().GetDocument()->GetWorkName(item);
+            FormatName(item, strBuffer);
             break;
         case COLUMN_CPUTIME:
-            strBuffer = wxGetApp().GetDocument()->GetWorkCPUTime(item);
+            FormatCPUTime(item, strBuffer);
             break;
         case COLUMN_PROGRESS:
-            strBuffer = wxGetApp().GetDocument()->GetWorkProgress(item);
+            FormatProgress(item, strBuffer);
             break;
         case COLUMN_TOCOMPLETETION:
-            strBuffer = wxGetApp().GetDocument()->GetWorkTimeToCompletion(item);
+            FormatTimeToCompletion(item, strBuffer);
             break;
         case COLUMN_REPORTDEADLINE:
-            strBuffer = wxGetApp().GetDocument()->GetWorkReportDeadline(item);
+            FormatReportDeadline(item, strBuffer);
             break;
         case COLUMN_STATUS:
-            strBuffer = wxGetApp().GetDocument()->GetWorkStatus(item);
+            FormatStatus(item, strBuffer);
             if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
             break;
     }
+
     return strBuffer;
 }
 
@@ -342,7 +408,7 @@ void CViewWork::UpdateSelection()
     else
     {
         m_bTaskHeaderHidden = false;
-        if ( wxGetApp().GetDocument()->IsProjectSuspended(m_pListPane->GetFirstSelected()) )
+        if ( wxGetApp().GetDocument()->IsWorkSuspended(m_pListPane->GetFirstSelected()) )
         {
             m_bTaskSuspendHidden = true;
             m_bTaskResumeHidden = false;
@@ -382,5 +448,159 @@ void CViewWork::UpdateTaskPane()
     m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
+}
+
+
+wxInt32 CViewWork::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetWorkProjectName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatApplicationName( wxInt32 item, wxString& strBuffer ) const
+{
+    wxInt32        iBuffer = 0;
+    wxString       strTemp = wxEmptyString;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetWorkApplicationName(item, strTemp);
+    pDoc->GetWorkApplicationVersion(item, iBuffer);
+
+    strBuffer.Printf(wxT("%s %.2f"), strTemp.c_str(), iBuffer/100.0);
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatName( wxInt32 item, wxString& strBuffer ) const
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetWorkName(item, strBuffer);
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
+{
+    float          fBuffer = 0;
+    int            cpuhour = 0;
+    int            cpumin = 0;
+    int            cpusec = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    if (pDoc->IsWorkActive(item))
+    {
+        pDoc->GetWorkCurrentCPUTime(item, fBuffer);
+    }
+    else
+    {
+        if(pDoc->GetWorkState(item) < RESULT_COMPUTE_ERROR)
+            fBuffer = 0;
+        else 
+            pDoc->GetWorkFinalCPUTime(item, fBuffer);
+    }
+
+    if ( 0 == fBuffer )
+    {
+        strBuffer = wxT("---");
+    }
+    else
+    {
+        cpuhour = (int)(fBuffer / (60 * 60));
+        cpumin = (int)(fBuffer / 60) % 60;
+        cpusec = (int)(fBuffer) % 60;
+
+        strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), cpuhour, cpumin, cpusec);
+    }
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
+{
+    float          fBuffer = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    if (!pDoc->IsWorkActive(item))
+    {
+        if(pDoc->GetWorkState(item) < RESULT_COMPUTE_ERROR)
+            strBuffer = wxT("0%%");
+        else 
+            strBuffer = wxT("100%%");
+    }
+    else
+    {
+        fBuffer = 0;
+        pDoc->GetWorkFractionDone(item, fBuffer);
+        strBuffer.Printf(wxT("%.0f%%"), fBuffer * 100);
+    }
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const
+{
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const
+{
+    wxInt32        iBuffer = 0;
+    wxDateTime     dtTemp;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    pDoc->GetWorkReportDeadline(item, iBuffer);
+    dtTemp.Set((time_t)iBuffer);
+
+    strBuffer = dtTemp.Format();
+
+    return 0;
+}
+
+
+wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
+{
+
+    return 0;
 }
 
