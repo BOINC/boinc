@@ -14405,7 +14405,7 @@ Daniel 30 June 2004
         cs_apps.C
 
 Brian 1 July 2004
-    - Continuing Eric and Danial's vanquicshing of "using" directives from 
+    - Continuing Eric and Daniel's vanquishing of "using" directives from 
 	header files. Instances of string or vector in header files were changed
 	to std::string and std::vector respectively.
 
