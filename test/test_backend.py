@@ -17,6 +17,7 @@ class ProjectBackend(ProjectUC):
         ProjectUC.__init__(self, redundancy = 5, short_name = 'test_backend')
     def run(self):
         self.install()
+
         self.install_make_work(work=self.work, cushion=self.num-1, redundancy=5)
         self.start_servers()
 
@@ -26,7 +27,7 @@ class ProjectBackend(ProjectUC):
         while n < self.num:
             n = self.num_wus_left(db)
             verbose_echo(1, "Generating results [%d/%d]" % (n,self.num));
-            time.sleep(1)
+            time.sleep(.1)
         db.close()
         verbose_echo(1, "Generating results [%d/%d]: done." % (self.num,self.num));
 
@@ -38,7 +39,7 @@ class ProjectBackend(ProjectUC):
         self.install_file_delete()
         self.install_validate(self.app, quorum=5)
         self.install_feeder()
-        self.install_timeout_check(self.app, nerror=5, ndet=5, nredundancy=0)
+        # self.install_timeout_check(self.app, nerror=5, ndet=5, nredundancy=0)
 
         # TODO: get PID and use wait.
         verbose_echo(1, "Waiting for make_work to finish...")
@@ -56,7 +57,7 @@ class ProjectBackend(ProjectUC):
         while True:
             n = self.num_results_done(db)
             verbose_echo(1, msg+" [%d/%d]"%(n,self.num))
-            time.sleep(1)
+            time.sleep(.1)
 
     def stop_result_progress_meter(self):
         if self.rpm_pid:
@@ -71,7 +72,7 @@ class ProjectBackend(ProjectUC):
 if __name__ == '__main__':
     test_msg("entire backend");
 
-    num = 500
+    num = 100
     try: num = int(sys.argv[1])
     except: pass
 

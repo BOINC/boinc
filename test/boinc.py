@@ -176,7 +176,7 @@ def map_xml(dic, keys):
         dic = dic.__dict__
     s = ''
     for key in keys:
-        s += "    <%s>%s</%s>\n" % (key, dic[key], key)
+        s += "<%s>%s</%s>\n" % (key, dic[key], key)
     return s[:-1]
 
 def generate_shmem_key():
@@ -255,6 +255,7 @@ class Project:
         self.generate_keys = False
         self.shmem_key = generate_shmem_key()
         self.resource_share = 1
+        self.output_level = 3
 
         self.master_url    = os.path.join(HTML_URL         , self.short_name , '')
         self.download_url  = os.path.join(HTML_URL         , self.short_name , 'download')
@@ -444,7 +445,8 @@ class Project:
         config = map_xml(self,
                          [ 'db_name', 'db_passwd', 'shmem_key',
                            'key_dir', 'download_url', 'download_dir',
-                           'upload_url', 'upload_dir', 'project_dir', 'user_name' ])
+                           'upload_url', 'upload_dir', 'project_dir', 'user_name',
+                           'output_level' ])
         self.append_config(config)
 
         # put a file with the database name and other info in each HTML
@@ -597,28 +599,21 @@ class Project:
         except OSError:
             pass
 
-    configlines = ''
+    configlines = []
     def append_config(self, line):
-        if self.configlines:
-            self.configlines += '\n' + line
-        else:
-            self.configlines = line
+        self.configlines += line.split('\n')
+        self.write_config()
+
+    def write_config(self):
         f = open(self.dir('cgi/.htconfig.xml'), 'w')
         print >>f, '<config>'
-        print >>f, self.configlines
+        for line in self.configlines:
+            print >>f, "   ", line
         print >>f, '</config>'
 
     def remove_config(self, pattern):
-        config = self.dir('cgi/.htconfig.xml')
-        config_old = config + '.old'
-        os.rename(config, config_old)
-        f0 = open(config_old)
-        f = open(config, 'w')
-        for line in f0:
-            if not line.count(pattern): f.write(line)
-        f.close()
-        f0.close()
-        os.unlink(config_old)
+        self.configlines = filter(lambda l: l.find(pattern)==-1, self.configlines)
+        self.write_config()
 
     def check_results(self, ntarget, matchresult):
         '''MATCHRESULT should be a dictionary of columns to check, such as:
