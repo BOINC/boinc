@@ -283,7 +283,6 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         }
         else if (match_tag(buf, "<file_signature>")) {
             dup_element_contents(in, "</file_signature>", &file_signature);
-            fprintf(stderr, "file_signature %s being copied\n", file_signature);
             continue;
         }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum)) continue;
