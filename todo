@@ -51,8 +51,6 @@ On "add project" the core client should immediately attempt to
     get project master page and verify user account.
     If failure, let user retype URL/ID
 
-test cpu-counting on red hat
-
 Delete files if needed to honor disk usage constraint
     should include per-result constraints (e.g. giant stderr files)
     inform user if files deleted
