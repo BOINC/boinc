@@ -66,7 +66,7 @@ DWORD WINAPI foobar(LPVOID) {
 #else
 void* foobar(void*) {
 #endif
-    set_worker_timer();
+    bmsp->set_worker_timer_hook();
     worker_main();
     return 0;
 }
