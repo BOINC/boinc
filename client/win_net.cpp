@@ -13,7 +13,6 @@
 #include <stdio.h>
 
 #include "win_net.h"
-#include "win_util.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -136,6 +135,9 @@ void NetSetState( ENetState state )
 
 /*
  * $Log$
+ * Revision 1.2  2002/07/22 23:37:56  eheien
+ * Windows compilation fixes.
+ *
  * Revision 1.1  2002/06/21 00:29:08  eheien
  * Fixed windows bug and changed file names to avoid compile error on UNIX.
  *

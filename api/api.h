@@ -107,7 +107,11 @@ int app_completed(APP_OUT& ao); //call this when app is completed
 extern bool _checkpoint;
 #define time_to_checkpoint() _checkpoint
 int set_timer(double period); //period is seconds spent in process
+#ifdef _WIN32
+void CALLBACK on_timer( HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime );
+#else
 void on_timer(int not_used); //sets _checkpoint to true
+#endif
 double get_cpu_time(); //return cpu time for this process
 
 #endif

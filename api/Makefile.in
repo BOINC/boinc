@@ -8,7 +8,8 @@ INSTALL_DIR = /usr/local/boinc
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
-    -I@top_srcdir@/lib/
+    -I@top_srcdir@/lib/ \
+    -I@top_srcdir@/client/
 
 CC = @CC@ $(CFLAGS)
 

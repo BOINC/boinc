@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -24,8 +26,10 @@
 #ifdef WIN32
 #include <io.h>
 #include <sys/stat.h>
-#include "windows_cpp.h"
-#else
+#include <windows.h>
+#include <winuser.h>
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #ifdef HAVE_SYS_TIME_H
@@ -363,9 +367,19 @@ int app_completed(APP_OUT& ao) {
     return 0;
 }
 
+#ifdef _WIN32
+
+void CALLBACK on_timer( HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime ) {
+    _checkpoint = true;
+}
+
+#else
+
 void on_timer(int a) {
     _checkpoint = true;
 }
+
+#endif
 
 int set_timer(double period) {
     int retval=0;
@@ -373,6 +387,10 @@ int set_timer(double period) {
         fprintf(stderr, "error: set_timer: negative period\n");
         return ERR_NEG;
     }
+#ifdef _WIN32
+    retval = SetTimer( NULL, 0, (int)(period*1000), on_timer );
+#endif
+
 #if HAVE_SIGNAL_H
 #if HAVE_SYS_TIME_H
     struct sigaction sa;

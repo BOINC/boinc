@@ -8,6 +8,7 @@ INSTALL_DIR = /usr/local/boinc
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
+    -I @srcdir@ \
     -I @srcdir@/../api \
     -I @srcdir@/../lib \
     -I @srcdir@/../RSAEuro/source \
