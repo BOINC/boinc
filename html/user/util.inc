@@ -118,7 +118,7 @@ function page_head($title, $user=null, $fd=null) {
 }
 
 function page_tail($fd=null) {
-    write_fd($fd, "<br><hr><center><a href=index.php>Return to ".PROJECT." main page</a><br>\n");
+    write_fd($fd, "<br><hr><center><a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n");
 
     // put your copyright notice etc. here
 
@@ -360,6 +360,35 @@ function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
 function get_legal_filename($name) {
   $name = ereg_replace(',', '', $name);
   return ereg_replace(' ', '_', $name);
+}
+
+/* Returns a string containing as many words (being collections of characters separated
+   by the character $delimiter) as possible such that the total string length is <= $chars
+   characters long.  If $ellipsis is true, then an ellipsis is added to any sentence which
+   is cut short.
+*/
+
+function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
+    $words = explode($delimiter, $sentence);
+    $total_chars = 0;
+    $count = 0;
+    $result = '';
+    
+    do {
+        if ($count > 0) {
+            $result = $result . ' ' . $words[$count];
+        } else {
+            $result = $result . $words[$count];
+        }
+        $total_chars += strlen($words[$count]) + 1;
+        $count++;
+    } while ($count < count($words) && ($total_chars + strlen($words[$count])) <= $max_chars);
+    
+    if ($ellipsis && ($count < count($words))) {
+        $result = $result . '...';
+    }
+    
+    return $result;
 }
 
 ?>
