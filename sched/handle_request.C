@@ -191,7 +191,7 @@ int add_wu_to_reply(
     double seconds_to_complete
 ) {
     APP* app;
-    APP_VERSION* app_version;
+    APP_VERSION* avp, app_version;
     int retval;
     WORKUNIT wu2;
     char buf[256];
@@ -202,8 +202,8 @@ int add_wu_to_reply(
         write_log(buf);
         return -1;
     }
-    app_version = ss.lookup_app_version(app->id, platform.id, app->min_version);
-    if (!app_version) {
+    avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
+    if (!avp) {
         sprintf(buf,
             "Can't find app version: appid %d platformid %d min_version %d\n",
             app->id, platform.id, app->min_version
@@ -220,14 +220,16 @@ int add_wu_to_reply(
 
     // If the user's project prefs include any <app_file> tags,
     // make appropriate modifications to the app_version XML
+    // DO THIS IN A COPY OF THE STRUCTURE
     //
-    retval = insert_app_file_tags(*app_version, reply.user);
+    app_version = *avp;
+    retval = insert_app_file_tags(app_version, reply.user);
     if (retval) {
         write_log("insert_app_file_tags failed\n");
         return retval;
     }
 
-    reply.insert_app_version_unique(*app_version);
+    reply.insert_app_version_unique(app_version);
 
     // add time estimate to reply
     //

@@ -141,6 +141,17 @@ try_again:
                         break;
                     }
                 }
+
+                // there's a chance this result was sent out
+                // after the enumeration started.
+                // So read it from the DB again
+                //
+                retval = boinc_db_result(result.id, result);
+                if (retval) {
+                    sprintf(buf, "can't reread result %s\n", result.name);
+                    write_log(buf);
+                    goto try_again;
+                }
                 if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
                     sprintf(buf, "RESULT STATE CHANGED: %s\n", result.name);
                     write_log(buf);
