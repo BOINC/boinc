@@ -993,29 +993,6 @@
 				RelativePath="..\client\whetstone.C">
 			</File>
 			<File
-				RelativePath="..\Client\win\Win_net.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\client\win\win_service.cpp">
 			</File>
 		</Filter>
@@ -1147,9 +1124,6 @@
 			</File>
 			<File
 				RelativePath="..\client\version.h">
-			</File>
-			<File
-				RelativePath="..\Client\win\Win_net.h">
 			</File>
 			<File
 				RelativePath="..\client\win\win_service.h">

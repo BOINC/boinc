@@ -52,6 +52,7 @@
 #include "file_names.h"
 #include "hostinfo.h"
 #include "hostinfo_network.h"
+#include "network.h"
 #include "http.h"
 #include "log_flags.h"
 #include "client_msgs.h"

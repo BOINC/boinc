@@ -31,7 +31,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
-#include "hostinfo_network.h"
+#include "network.h"
 
 #include "time_stats.h"
 

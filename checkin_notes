@@ -26298,3 +26298,20 @@ Rom    29 Mar 2005
         MainFrame.cpp
     clientgui/msw/
         taskbarex.h
+
+David  29 Mar 2005
+	- moved NetOpen(), NetClose(), NetCheck() from win_net.cpp (removed)
+		to lib/network.C
+
+	client/
+		client_state.C
+		hostinfo_network.h
+		time_stats.C
+		win/
+			win_net.cpp,h (removed)
+			wingui_mainwindow.cpp
+	lib/
+		network.C,h
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj

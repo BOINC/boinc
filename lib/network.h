@@ -29,3 +29,14 @@ typedef int32_t socklen_t;
 typedef size_t socklen_t;
 #endif
 
+#define CONNECTED_STATE_NOT_CONNECTED   0
+#define CONNECTED_STATE_CONNECTED       1
+#define CONNECTED_STATE_UNKNOWN         2
+
+extern int get_connected_state();
+
+#ifdef _WIN32
+extern int  NetOpen();
+extern void NetClose();
+extern void NetCheck(bool hangup_if_dialed);
+#endif

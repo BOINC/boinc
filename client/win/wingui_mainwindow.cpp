@@ -22,7 +22,7 @@
 #include "client_msgs.h"
 #include "diagnostics.h"
 #include "hostinfo.h"
-#include "win_net.h"
+#include "network.h"
 
 #include "wingui_mainwindow.h"
 
@@ -2175,7 +2175,9 @@ void CMainWindow::OnTimer(UINT uEventID) {
 
         // update state and gui
         while(gstate.do_something(dtime()));
-        NetCheck(); // check if network connection can be terminated
+
+        // check if network connection can be terminated
+        NetCheck(gstate.global_prefs.hangup_if_dialed);
 
         UpdateGUI(&gstate);
 
