@@ -135,9 +135,9 @@ function show_language_selection() {
     rowify("Selecting a language will help others with the same language preference to find each others' profiles and message board postings."); 
     echo "<tr><td>";
     if ($profile_info) {
-        show_select("language", LANGUAGE_FILE, $profile_info['language']);
+        show_combo_box("language", LANGUAGE_FILE, $profile_info['language']);
     } else {
-        show_select("language", LANGUAGE_FILE, "English");
+        show_combo_box("language", LANGUAGE_FILE, "English");
     }
     echo "</td></tr>\n";
 }
