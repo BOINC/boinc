@@ -19,3 +19,6 @@ dist-hook:
 	rm -rf `find $(distdir) -name CVS -prune`
 	rm -rf `find $(distdir) -name .backup -prune -o -name *~`
 	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw *.dsp
+
+client-bin:
+	cd client && make client-bin client-bin-gz
