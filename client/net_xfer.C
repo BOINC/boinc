@@ -296,19 +296,22 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 bool NET_XFER_SET::poll() {
     double bytes_xferred;
     int retval;
-    struct timeval timeout;
     time_t t = time(0);
     bool action = false;
 
     while (1) {
-        timeout.tv_sec = timeout.tv_usec = 0;
-        retval = do_select(bytes_xferred, timeout);
+        retval = do_select(bytes_xferred, 0);
         if (retval) break;
         if (bytes_xferred == 0) break;
         action = true;
         if (time(0) != t) break;
     }
     return action;
+}
+
+static void double_to_timeval(double x, timeval& t) {
+    t.tv_sec = (int)x;
+    t.tv_usec = (int)(1000000*(x - (int)x));
 }
 
 // Wait at most x seconds for network I/O to become possible,
@@ -318,11 +321,8 @@ bool NET_XFER_SET::poll() {
 int NET_XFER_SET::net_sleep(double x) {
     int retval;
     double bytes_xferred;
-    struct timeval timeout;
 
-    timeout.tv_sec = (int)x;
-    timeout.tv_usec = (int)(1000000*(x - (int)x));
-    retval = do_select(bytes_xferred, timeout);
+    retval = do_select(bytes_xferred, x);
     if (retval) return retval;
     if (bytes_xferred) {
         return poll();
@@ -334,10 +334,11 @@ int NET_XFER_SET::net_sleep(double x) {
 // then do I/O on as many sockets as possible, subject to rate limits
 // Transfer at most one block per socket.
 //
-int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
+int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     int n, fd, retval, nsocks_queried;
     socklen_t i;
     NET_XFER *nxp;
+    struct timeval tv;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
 
@@ -387,8 +388,13 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
         }
         FD_SET(nxp->socket, &error_fds);
     }
-    if (nsocks_queried==0) return 0;
-    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
+    if (nsocks_queried==0) {
+        boinc_sleep(timeout);
+        return 0;
+    }
+
+    double_to_timeval(timeout, tv);
+    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
     scope_messages.printf(
         "NET_XFER_SET::do_select(): queried %d, returned %d\n",
         nsocks_queried, n

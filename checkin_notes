@@ -6206,3 +6206,12 @@ Karl 2003/09/05
 
     Sched/
         handle_request.C
+
+David  Sept 6 2003
+    - fixed bug where do_select wasn't sleeping
+        when there are no fds (doh!!)
+
+    client/
+        net_xfer.C,h
+    lib/
+        util.C

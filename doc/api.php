@@ -35,7 +35,6 @@ For example, instead of
 </pre>
 </p>
 the application might use
-<p>
 <pre>
     char resolved_name[256];
     retval = boinc_resolve_filename(\"my_file\", resolved_name);
@@ -70,8 +69,16 @@ then call
 <pre>
     void boinc_checkpoint_completed();
 </pre>
-A call to <tt>boinc_time_to_checkpoint()</tt> is extremely fast,
-so there is little penalty in calling it frequently.
+<tt>boinc_time_to_checkpoint()</tt> is fast
+(it usually makes no system calls),
+so can be called frequently (hundreds or thousands of times a second).
+
+<p>
+<tt>boinc_time_to_checkpoint()</tt> performs other time-based functions;
+e.g. it periodically measures the application's CPU time and
+reports it to the core client.
+So, even for applications that don't do checkpointing,
+it should be called at least once a second.
 
 <h3>Atomic file update</h3>
 <p>
@@ -111,14 +118,13 @@ This is done using
 <h3>Communicating with the core client</h3>
 <p>
 The core client GUI displays the percent done of workunits in progress.
-To keep this display current, an application should
-periodically call
+To keep this display current, an application should periodically call
 <pre>
    boinc_fraction_done(double fraction_done);
 </pre>
 The <tt>fraction_done</tt> argument is a rough estimate of the
 workunit fraction complete (0 to 1).
-This function is extremely fast and can be called often.
+This function is fast and can be called frequently.
 
 <p>
 The following functions get information from the core client;
@@ -150,7 +156,7 @@ list_item("team_expavg_credit", " team's recent average work per day.");
 list_end();
 echo "
 <p>
-It may call
+An application may call
 <pre>
     int boinc_cpu_time(double &cpu_time, double& working_set_size);
 </pre>

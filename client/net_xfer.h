@@ -89,7 +89,7 @@ public:
     int remove(NET_XFER*);
     bool poll();
     int net_sleep(double);
-    int do_select(double& bytes_transferred, struct timeval& timeout);
+    int do_select(double& bytes_transferred, double timeout);
     NET_XFER* lookup_fd(int);   // lookup by fd
     void check_active(bool&, bool&);
 };
