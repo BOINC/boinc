@@ -119,6 +119,8 @@ int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
     if (log_flags.sched_op_debug) {
         printf(error_msg);
     }
+    
+    return 0;
 }
 
 // low-level routine to initiate an RPC
