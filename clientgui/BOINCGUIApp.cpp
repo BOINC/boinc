@@ -64,12 +64,13 @@ bool CBOINCGUIApp::OnInit()
     wxString strDirectory = wxEmptyString;
     bool success;
 
-    umask(0);   // Set file creation mask to make all files world-writable
+// We have postponed implementing the umask change due to security concerns.
+//    umask(0);   // Set file creation mask to make all files world-writable
                 // Our umask will be inherited by all our child processes
 
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
-#if 0   // Code for data in user's private directory
+#if 1   // Code for data in user's private directory
     wxChar buf[1024];
     wxExpandPath(buf, "~/Library/Application Support");
     strDirectory = wxT(buf);

@@ -243,7 +243,8 @@ static void init_core_client(int argc, char** argv) {
 
 #ifdef __APPLE__
 
-    umask(0);   // Set file creation mask to make all files world-writable
+// We have postponed implementing the umask change due to security concerns.
+//    umask(0);   // Set file creation mask to make all files world-writable
                 // Our umask will be inherited by all our child processes
 #endif
 

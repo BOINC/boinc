@@ -26336,6 +26336,31 @@ David  29 Mar 2005
         assimilator.C
         transitioner.C
 
+Charlie	29 Mar 2005
+BOINC Manager: Work around apparent bug in Mac version of WxWidgets 
+which prevented the main window's size and position from being 
+restored on application launch.
+Main widow close box doesn't quit application. 
+Postponed implementing the umask change due to security concerns:  
+removed umask(0) from Core Client & BOINC Manager; changed BOINC 
+Data directory back to user's "~/Library/Application Support/"
+Automate generating Mac version numbers from version.h file. (Added 
+shell script build phase and tiny SetVersion shell application to 
+XCode project to create / update InfoPlist.strings file.)
+CViewProjects::OnTaskLinkClicked(): added casts to change compiler 
+errors to compiler warnings; this allows it to compile.
+
+client/
+	main.C
+clientGUI/
+	BOINCGUIApp.cpp
+	MainFrame.cpp
+        ViewProjects.cpp
+clientGUI/mac/
+        SetVersion.C (add)
+mac_build/
+	boinc.pbproj/boinc.pbproj
+
 Rom    29 Mar 2005
     - Implement GUI RPC authentication in the manager
     - Implement a Select Computer MRU list so you only have to type

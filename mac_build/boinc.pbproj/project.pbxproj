@@ -65,6 +65,7 @@
 				DD095EF107D87AE900362260,
 				DD35353107E1E05C00C4718D,
 				DD40CDF907F0386A0096C645,
+				DDAEC9E107FA583B00A7BC36,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -94,18 +95,19 @@
 			mainGroup = 20286C29FDCF999611CA2CEA;
 			projectDirPath = "";
 			targets = (
+				DDBD680D07FA82BB0082C20D,
 				DDD74D8607CF482E0065AC9D,
 				DD407A4907D2FB1200163EF5,
 				DD40823907D304F000163EF5,
 				DD35353007E1E05C00C4718D,
 				DD095EF007D87AE900362260,
 				DD40CDF807F0386A0096C645,
+				DDAEC9E007FA583B00A7BC36,
 			);
 		};
 		20286C29FDCF999611CA2CEA = {
 			children = (
 				DD40827D07D30AA800163EF5,
-				F5C5403402BFC5C701BEDAB8,
 				F54B8FBE02AC0A0C01FB7237,
 				DD81C3F707C5D03B0098A04D,
 				DDF9385307E288F0004DC076,
@@ -286,17 +288,18 @@
 		DD095EEE07D87AE900362260 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD4DD0A207EAA648008A6468,
-				DD2F32F807F2A88B00645DDC,
 				DD095F1407D882DD00362260,
 				DD095F1607D882E700362260,
 				DD095F1807D882E900362260,
+				DD4DD0A207EAA648008A6468,
 				DD095F1C07D882EB00362260,
 				DD095F1E07D882EE00362260,
+				DD6D0A2007E9999C007F882B,
 				DD095F2007D882EF00362260,
 				DD095F2207D882F100362260,
 				DD095F2407D882F200362260,
 				DD095F2707D882F400362260,
+				DD2F32F807F2A88B00645DDC,
 				DD095F2907D882F600362260,
 				DD095F2B07D882FB00362260,
 				DD095F2D07D882FC00362260,
@@ -307,6 +310,7 @@
 				DD095F3707D8830500362260,
 				DD095F3907D8830700362260,
 				DD095F3B07D8830800362260,
+				DD6D0A2E07E99A08007F882B,
 				DD095F4507D8838F00362260,
 				DD095F4807D8839200362260,
 				DD095F4A07D8839300362260,
@@ -316,8 +320,6 @@
 				DD095F5307D883AD00362260,
 				DD095F5407D883AF00362260,
 				DD095F5807D883C000362260,
-				DD6D0A2007E9999C007F882B,
-				DD6D0A2E07E99A08007F882B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,6 +347,7 @@
 		};
 		DD095EF007D87AE900362260 = {
 			buildPhases = (
+				DDAECA2B07FA5F2400A7BC36,
 				DD095EED07D87AE900362260,
 				DD095EEE07D87AE900362260,
 				DD095EEF07D87AE900362260,
@@ -356,14 +359,14 @@
 				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_CW_ASM_SYNTAX = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/stdwx.h;
-				HEADER_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.5 ../wxinclude";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.5.3/osx-build/lib";
-				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -I../wx_lib/wx/include/mac-ansi-release-static-2.5 -I../wxinclude -include../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -I../wx_lib/wx/include/mac-ansi-release-static-2.5 -I../wxinclude -include../config.h";
+				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
 				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINC;
@@ -372,6 +375,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
+				DDAECA2807FA5EE500A7BC36,
 				DD095EF607D87B1E00362260,
 				DD40D36107F03B600096C645,
 			);
@@ -685,18 +689,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = MacSysMenu.h;
-			path = ../clientgui/mac/MacSysMenu.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/MacSysMenu.h;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		DD2F32F707F2A88B00645DDC = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = MacSysMenu.cpp;
-			path = ../clientgui/mac/MacSysMenu.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/MacSysMenu.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		DD2F32F807F2A88B00645DDC = {
 			fileRef = DD2F32F707F2A88B00645DDC;
@@ -1847,8 +1851,8 @@
 			buildRules = (
 			);
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/SystemMenu_Prefix.pch;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -1902,15 +1906,6 @@
 			path = "/Volumes/Moon/BOINC_Mac/boinc/mac_build/SystemMenu-Info.plist";
 			refType = 0;
 			sourceTree = "<absolute>";
-		};
-		DD40CDFD07F038990096C645 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = SystemMenu_Prefix.pch;
-			path = ../clientgui/mac/SystemMenu_Prefix.pch;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		DD40CDFE07F038990096C645 = {
 			fileEncoding = 30;
@@ -2145,8 +2140,7 @@
 				DD81C44D07C5D2470098A04D,
 				DD81C41407C5D13E0098A04D,
 				DD81C45007C5D2470098A04D,
-				DD2F32F707F2A88B00645DDC,
-				DD2F32EF07F2A83E00645DDC,
+				F5C5403402BFC5C701BEDAB8,
 				DD81C41607C5D13E0098A04D,
 				DD81C44F07C5D2470098A04D,
 				DD81C41507C5D13E0098A04D,
@@ -2168,6 +2162,7 @@
 				DD81C42107C5D1D70098A04D,
 				DD81C47007C5D2BF0098A04D,
 				DD81C43C07C5D2240098A04D,
+				DDAEC9E707FA58A000A7BC36,
 			);
 			isa = PBXGroup;
 			name = clientgui;
@@ -2599,6 +2594,164 @@
 			path = "../../wxMac-2.5.3/osx-build/lib/libwx_mac_gl-2.5.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DDAEC9DE07FA583B00A7BC36 = {
+			buildActionMask = 2147483647;
+			files = (
+				DDAEC9FF07FA5A5C00A7BC36,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDAEC9DF07FA583B00A7BC36 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDAEC9E007FA583B00A7BC36 = {
+			buildPhases = (
+				DDAEC9DE07FA583B00A7BC36,
+				DDAEC9DF07FA583B00A7BC36,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SetVersion;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = SetVersion;
+			productName = SetVersion;
+			productReference = DDAEC9E107FA583B00A7BC36;
+			productType = "com.apple.product-type.tool";
+		};
+		DDAEC9E107FA583B00A7BC36 = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = SetVersion;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDAEC9E707FA58A000A7BC36 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = SetVersion.C;
+			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/SetVersion.C;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DDAEC9FF07FA5A5C00A7BC36 = {
+			fileRef = DDAEC9E707FA58A000A7BC36;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDAECA2707FA5EE500A7BC36 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAECA2807FA5EE500A7BC36 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAECA2707FA5EE500A7BC36;
+		};
+		DDAECA2B07FA5F2400A7BC36 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../English.lproj/InfoPlist.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ./build/SetVersion;
+		};
+		DDBD680D07FA82BB0082C20D = {
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Build_All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				DDBD681107FA830E0082C20D,
+				DDBD681307FA830E0082C20D,
+				DDBD681507FA830E0082C20D,
+				DDBD681707FA830E0082C20D,
+			);
+			isa = PBXAggregateTarget;
+			name = Build_All;
+			productName = Build_All;
+		};
+		DDBD681007FA830E0082C20D = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
+			remoteInfo = libboinc;
+		};
+		DDBD681107FA830E0082C20D = {
+			isa = PBXTargetDependency;
+			target = DD407A4907D2FB1200163EF5;
+			targetProxy = DDBD681007FA830E0082C20D;
+		};
+		DDBD681207FA830E0082C20D = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD40823907D304F000163EF5;
+			remoteInfo = gfxlibboinc;
+		};
+		DDBD681307FA830E0082C20D = {
+			isa = PBXTargetDependency;
+			target = DD40823907D304F000163EF5;
+			targetProxy = DDBD681207FA830E0082C20D;
+		};
+		DDBD681407FA830E0082C20D = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD35353007E1E05C00C4718D;
+			remoteInfo = api_libboinc;
+		};
+		DDBD681507FA830E0082C20D = {
+			isa = PBXTargetDependency;
+			target = DD35353007E1E05C00C4718D;
+			targetProxy = DDBD681407FA830E0082C20D;
+		};
+		DDBD681607FA830E0082C20D = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD095EF007D87AE900362260;
+			remoteInfo = mgr_boinc;
+		};
+		DDBD681707FA830E0082C20D = {
+			isa = PBXTargetDependency;
+			target = DD095EF007D87AE900362260;
+			targetProxy = DDBD681607FA830E0082C20D;
 		};
 		DDBE3E1307C954300042BE67 = {
 			isa = PBXFileReference;
@@ -3413,8 +3566,8 @@
 			isa = PBXVariantGroup;
 			name = InfoPlist.strings;
 			path = "";
-			refType = 4;
-			sourceTree = "<group>";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F51BDF4A03086C46012012A7 = {
 			fileEncoding = 30;
@@ -3422,60 +3575,6 @@
 			lastKnownFileType = text.plist.strings;
 			name = English;
 			path = English.lproj/InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F51BDF5F030872AC012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = mac_about.cpp;
-			path = ../client/mac/mac_about.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51BDF60030872AC012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = mac_about.h;
-			path = ../client/mac/mac_about.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51BDF630308731E012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = mac_join.cpp;
-			path = ../client/mac/mac_join.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51BDF6503087327012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = mac_main.cpp;
-			path = ../client/mac/mac_main.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51BDF7E0308775A012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = mac_prefs.cpp;
-			path = ../client/mac/mac_prefs.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51BDF7F0308775A012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = mac_prefs.h;
-			path = ../client/mac/mac_prefs.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3789,15 +3888,6 @@
 			path = error_numbers.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F5265C160307B062016EE2A0 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = mac_join.h;
-			path = ../client/mac/mac_join.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		F54B8FBE02AC0A0C01FB7237 = {
 			children = (
@@ -4162,29 +4252,13 @@
 		};
 		F5C5403402BFC5C701BEDAB8 = {
 			children = (
-				DD40CDFD07F038990096C645,
+				DD2F32F707F2A88B00645DDC,
+				DD2F32EF07F2A83E00645DDC,
 				DD40CDFE07F038990096C645,
-				F51BDF6503087327012012A7,
-				F5E0787E03048833017846D9,
-				F51BDF630308731E012012A7,
-				F5265C160307B062016EE2A0,
-				F51BDF5F030872AC012012A7,
-				F51BDF60030872AC012012A7,
-				F51BDF7E0308775A012012A7,
-				F51BDF7F0308775A012012A7,
 			);
 			isa = PBXGroup;
 			name = mac;
 			path = "";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F5E0787E03048833017846D9 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = mac_main.h;
-			path = ../client/mac/mac_main.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};

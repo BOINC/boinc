@@ -665,6 +665,22 @@ bool CMainFrame::RestoreState()
     pConfig->Read(wxT("YPos"), &iTop, 30);
     pConfig->Read(wxT("XPos"), &iLeft, 30);
 
+    // If the user has changed the arrangement of multiple 
+    // displays, make sure the window title bar is still on-screen.
+    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
+    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+    RgnHandle displayRgn = NewRgn();
+    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+    Rect menuRect = ((**GetMainDevice())).gdRect;
+    menuRect.bottom = GetMBarHeight() + menuRect.top;
+    RgnHandle menuRgn = NewRgn();
+    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+    if (!RectInRgn(&titleRect, displayRgn))
+        iTop = iLeft = 30;
+    DisposeRgn(menuRgn);
+    DisposeRgn(displayRgn);
+
     SetPosition(wxPoint(iLeft, iTop));
     // The following line of code works around an apparent bug in 
     // the Macintosh version of wxWidgets which fails to set the 
@@ -1037,7 +1053,7 @@ void CMainFrame::OnClose( wxCloseEvent& event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
     if ( !event.CanVeto() )
         Destroy();
     else
