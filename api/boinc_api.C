@@ -577,10 +577,10 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         fprintf(f, "<app_preferences>\n%s</app_preferences>\n", ai.app_preferences);
     }
     if (strlen(ai.team_name)) {
-        fprintf(f, "<team_name>\n%s</team_name>\n", ai.team_name);
+        fprintf(f, "<team_name>%s</team_name>\n", ai.team_name);
     }
     if (strlen(ai.user_name)) {
-        fprintf(f, "<user_name>\n%s</user_name>\n", ai.user_name);
+        fprintf(f, "<user_name>%s</user_name>\n", ai.user_name);
     }
     fprintf(f,
         "<wu_cpu_time>%f</wu_cpu_time>\n"
