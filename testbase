@@ -7,8 +7,11 @@
 
 # need to set PATH because we might be running from a cron job.
 # on our Solaris servers, cvs is in /opt/misc/bin
-PATH=/opt/misc/bin:/usr/local/bin:/usr/bin:/bin:$PATH
-export PATH
+
+if [ -d /disks/asimov ]; then
+    PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS:/disks/philmor/a/users/quarl/bin:/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:/usr/ccs/bin:/disks/asimov/a/lang/gcc/bin:/disks/asimov/a/apps/gnu/H-sparc-sun-solaris2/bin:/disks/milkyway/a/users/anderson/seti/bin:/disks/cyclops/c/users/seti/s4/siren/bin:/disks/cyclops/c/users/seti/s4/siren/scripts:/disks/cyclops/c/users/seti/s4/siren/scripts/s4pipeline:/opt/misc/bin:/usr/ucb:/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/dt/bin:/opt/misc/rsi/idl/bin:/opt/misc/lib/teTeX/bin:.:/usr/local/sbin:/usr/local/bin:/sbin:/usr/games
+    export PATH
+fi
 
 CHECKOUT="CVSROOT=/disks/milkyway/a/users/anderson/seti/cvsroot cvs co boinc"
 TMPDIR=/tmp/testbase
