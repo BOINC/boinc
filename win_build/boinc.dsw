@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "RSAEuro"=".\RSAEuro\RSAEuro.dsp" - Package Owner=<4>
+Project: "RSAEuro"=.\RSAEuro\RSAEuro.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -15,7 +15,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "boinc_cli"=".\boinc_cli\boinc_cli.dsp" - Package Owner=<4>
+Project: "boinc_cli"=.\boinc_cli\boinc_cli.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -27,7 +27,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "boinc_gui"=".\boinc_gui\boinc_gui.dsp" - Package Owner=<4>
+Project: "boinc_gui"=.\boinc_gui\boinc_gui.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -39,7 +39,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "test_http"=".\test_http\test_http.dsp" - Package Owner=<4>
+Project: "boinc_ss"=.\boinc_ss\boinc_ss.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -51,7 +51,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "test_net_xfer"=".\test_net_xfer\test_net_xfer.dsp" - Package Owner=<4>
+Project: "test_http"=.\test_http\test_http.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -63,7 +63,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "upper_case"=".\upper_case\upper_case.dsp" - Package Owner=<4>
+Project: "test_net_xfer"=.\test_net_xfer\test_net_xfer.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "upper_case"=.\upper_case\upper_case.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

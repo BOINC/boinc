@@ -32,7 +32,10 @@
 #include <winuser.h>
 #include <mmsystem.h>    // for timing
 
-HANDLE hGlobalDrawEvent;
+MMRESULT timer_id;
+HANDLE hGlobalDrawEvent,hQuitEvent;
+extern HANDLE graphics_threadh;
+extern BOOL	win_loop_done;
 #endif
 
 #if HAVE_UNISTD_H
@@ -223,6 +226,15 @@ void boinc_catch_signal(int signal) {
 
 int boinc_finish(int status) {
     write_checkpoint_cpu_file(boinc_cpu_time());
+#ifdef _WIN32
+	// Stop the timer
+    timeKillEvent(timer_id);
+    // If the graphics thread is running, tell it to quit and wait for it
+	win_loop_done = TRUE;
+    if (hQuitEvent != NULL) {
+        WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
+    }
+#endif
     exit(status);
     return 0;
 }
@@ -405,14 +417,14 @@ int set_timer(double period) {
 #ifdef _WIN32
     // Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop
-    retval = timeSetEvent(
+    timer_id = timeSetEvent(
         (int)(period*1000), // uDelay
         (int)(period*1000), // uResolution
         on_timer, // lpTimeProc
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
         );
-
+#ifdef BOINC_APP_GRAPHICS
     // Create the event object used to signal between the
     // worker and event threads
     hGlobalDrawEvent = CreateEvent( 
@@ -420,6 +432,13 @@ int set_timer(double period) {
             TRUE,    // manual reset event
             TRUE,     // initial state is signaled
             NULL);    // object not named
+
+    hQuitEvent = CreateEvent( 
+            NULL,     // no security attributes
+            TRUE,    // manual reset event
+            TRUE,     // initial state is signaled
+            NULL);    // object not named
+#endif
 #endif
 
 #if defined BOINC_APP_GRAPHICS && defined __APPLE_CC__

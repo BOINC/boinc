@@ -20,6 +20,7 @@
 #ifdef _WIN32
 #include <afxwin.h>
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
+HANDLE graphics_threadh=NULL;
 #endif
 
 #ifdef BOINC_APP_GRAPHICS
@@ -61,19 +62,18 @@ int boinc_init_opengl() {
 #ifdef BOINC_APP_GRAPHICS
 #ifdef _WIN32
     DWORD threadId;
-    HANDLE hThread;
 
     // Create the graphics thread, passing it the graphics info
     // TODO: is it better to use _beginthreadex here?
-    hThread = CreateThread(
+    graphics_threadh = CreateThread(
         NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId
     );
 
     // Set it to idle priority
-    SetThreadPriority(hThread, THREAD_PRIORITY_HIGHEST);
+    SetThreadPriority(graphics_threadh, THREAD_PRIORITY_HIGHEST);
 
     // Start the graphics thread
-    ResumeThread(hThread);
+    ResumeThread(graphics_threadh);
 #endif
 
 #ifdef __APPLE_CC__
