@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /download_network.php
+Allow: /index.php
+Allow: /info.php
+Allow: /intro.php
+Allow: /old_news.php
+Allow: /rss_main.php
+Disallow: /
