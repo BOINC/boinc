@@ -64,7 +64,7 @@ define("HANGUP_IF_DIALED_DESC",
     "Disconnect when done?
     <br><font size=-2>(matters only if you use a modem)</font>"
 );
-define("WORK_BUF_DESC", "Keep enough work on disk to last between");
+define("WORK_BUF_DESC", "Connect to network about every");
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
@@ -222,9 +222,6 @@ function element_end_global($parser, $name) {
     case "work_buf_min_days":
         $parse_result->work_buf_min_days = $text;
         break;
-    case "work_buf_max_days":
-        $parse_result->work_buf_max_days = $text;
-        break;
     case "max_cpus":
         $parse_result->max_cpus = $text;
         break;
@@ -277,7 +274,6 @@ function default_prefs_global() {
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = .1;
-    $p->work_buf_max_days = 1;
     $p->max_cpus = 2;
     $p->disk_interval = 60;
     $p->disk_max_used_gb = 100;
@@ -374,7 +370,7 @@ function prefs_show_global($prefs) {
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
     row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
-    row2(WORK_BUF_DESC, "$prefs->work_buf_min_days and $prefs->work_buf_max_days days");
+    row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row1(DISK_LIMIT_DESC);
@@ -535,10 +531,7 @@ function prefs_form_global($user, $prefs) {
     row2($x, $y);
 
     $x = WORK_BUF_DESC;
-    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'>
-        and
-        <input size=5 name=work_buf_max_days value='$prefs->work_buf_max_days'> days
-    ";
+    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> days";
     row2($x, $y);
 
     row2(MAX_CPUS_DESC,
@@ -655,7 +648,6 @@ function prefs_global_parse_form(&$prefs) {
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
-    $work_buf_max_days = $_GET["work_buf_max_days"];
     $max_cpus = $_GET["max_cpus"];
     $disk_interval = $_GET["disk_interval"];
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
@@ -676,12 +668,9 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->confirm_eecutable = ($confirm_eecutable == "yes");
 
     if ($work_buf_min_days<0) $work_buf_min_days = 0;
-    if ($work_buf_max_days<0) $work_buf_max_days = 0;
-    if ($work_buf_min_days > $work_buf_max_days) $work_buf_min_days = $work_buf_max_days;
     if ($max_cpus<1) $max_cpus = 1;
     if ($disk_interval<0) $disk_interval = 0;
     $prefs->work_buf_min_days = $work_buf_min_days;
-    $prefs->work_buf_max_days = $work_buf_max_days;
     $prefs->max_cpus = $max_cpus;
     $prefs->disk_interval = $disk_interval;
 
@@ -747,7 +736,6 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
-        ."<work_buf_max_days>$prefs->work_buf_max_days</work_buf_max_days>\n"
         ."<max_cpus>$prefs->max_cpus</max_cpus>\n"
         ."<disk_interval>$prefs->disk_interval</disk_interval>\n";
     $xml = $xml
