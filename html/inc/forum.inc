@@ -73,6 +73,7 @@ $post_ratings['-2'] = "Off topic (-2)";
 //
 function cleanup_title($title) {
     $x = trim(htmlspecialchars(strip_tags($title)));
+    $x = stripslashes($x);      // clean up funky old titles in DB
     if (strlen($x)==0) return "(no title)";
     else return $x;
 }
@@ -345,7 +346,6 @@ function cleanup_forum_log(){
 
 function createThread($forumID, $ownerID, $title, $content, $add_signature=false) {
 
-    $title = addslashes(sanitize_html($title));
     $content = addslashes(sanitize_html(stripslashes($content)));
 
     $title = strip_tags(trim($title));
@@ -512,21 +512,20 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
     if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
 
-    echo "<br><font size=\"-2\">", $user->id, "</font>";                                          // Try and circumvent various forms of
-                                                                                                  // of identity spoofing by displaying the
-                                                                                                  // user id of the poster, its cheep, easy,
-                                                                                                  // and doesn't require any additional database
-                                                                                                  // calls.
+    echo "<br><font size=-2>";
     if (!$filter || !$rated_below_threshold){
-        echo "<p><font size=\"-2\">";
         if ($user->has_avatar and $logged_in_user->hide_avatars!=1) {
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
         }
-        echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</font></p>";
+        echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: $user->posts<br>";
     }
-    echo "
-        </td>
-        <td>
+
+    // circumvent various forms of identity spoofing
+    // by displaying the  user id of the poster.
+    // its cheap, easy, and doesn't require any additional database calls.
+    echo "ID: $user->id<br>";
+
+    echo "</font></td><td>
     ";
 
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {

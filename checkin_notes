@@ -22713,3 +22713,10 @@ David  13 Jan 2005
     sched/
         db_dump.C
 
+David  14 Jan 2005
+    - Fix problems with backslashes in forum titles;
+        also kludge display so old titles with extraneous backslashes
+        are shown without them
+
+    html/inc/
+        forum.inc
