@@ -17364,3 +17364,19 @@ David  13 Sept 2004
         sched_locality.C
         sched_util.C,h
         server_types.C,h
+
+David  13 Sept 2004
+    - When email account ID, show (on the next web page) the "from"
+        address of the email,
+        since some users may have email filters based on sender.
+        The "from" address is the constant EMAIL_FROM,
+        which should be defined in project.inc.
+        If this is missing, it uses URL_BASE
+        (which is not an email address, so projects should define EMAIL_FROM)
+
+    html/
+        inc/
+            util.inc
+        user/
+            account_created.php
+            mail_passwd.php

@@ -18,6 +18,23 @@ You will need your account ID to log in to the ".PROJECT." web site."
     );
 }
 
+function email_sent_message($email_addr) {
+    if (defined('EMAIL_FROM')) {
+        $email_from = EMAIL_FROM;
+    } else {
+        $email_from = URL_BASE;
+    }
+
+    echo "
+        Your account ID has been emailed to $email_addr.
+        <p>
+        If the email doesn't arrive in a few minutes,
+        your ISP may be blocking it as spam.
+        In this case please contact your ISP and
+        ask them to not block email from $email_from.
+    ";
+}
+
 // Initializes the session and returns the authenticator
 // for the session (if any)
 //

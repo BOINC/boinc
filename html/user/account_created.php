@@ -8,14 +8,8 @@
         echo "
             <h3>Congratulations - your ".PROJECT." account has been created</h3>
             <p>
-            Your <b>account ID</b> has been emailed to $email_addr.
-            <br>
-            Please wait until you receive this email.
-            If it doesn't arrive in a minute or two,
-            your ISP may be blocking it as 'spam'.
-            In this case please contact your ISP and
-            ask them to not block email from ".URL_BASE.".
         ";
+        email_sent_message($email_addr);
     } else {
         echo "<h3>Activate your ".PROJECT." account</h3>\n";
     }
