@@ -54,7 +54,8 @@ void write_pid_file(const char* filename) {
     fclose(fpid);
 }
 
-// caught_sig_int will be set to true if SIGINT is caught.
+// caught_sig_int will be set to true if STOP_SIGNAL (normally SIGHUP)
+//  is caught.
 bool caught_stop_signal = false;
 static void stop_signal_handler(int) {
     fprintf(stderr, "GOT STOP SIGNAL\n");
@@ -68,7 +69,7 @@ void install_stop_signal_handler() {
 
 void check_stop_daemons() {
     if (caught_stop_signal) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Quitting due to SIGINT\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Quitting due to SIGHUP\n");
         exit(0);
     }
     if (boinc_file_exists(STOP_DAEMONS_FILENAME)) {
