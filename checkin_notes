@@ -621,3 +621,17 @@ Michael Gary	June 21 2002
     test/
         log_flags.php
     sched_fcgi/ (removed)
+
+Micahel Gary	6/23/2002
+    - Checkpoint timer initialized in boinc_init.
+    - Test script added for api.
+
+    api/
+        api.C
+        test_api.C
+    test/
+        init.inc
+        test_api.php (new)
+        ta_correct_atc (new)
+        ta_correct_f (new)
+        core_to_app.xml.in (new)
