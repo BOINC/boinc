@@ -60,6 +60,7 @@ echo "
     | <a href=show_log.php>Show/Grep all logs</a>
     | <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
     | <a href=create_account_form.php>Create account</a>
+    | <a href=cancel_wu_form.php>Cancel workunits</a>
 ";
 
 // TODO: Add functionality to list the number of recommends / rejects received

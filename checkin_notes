@@ -19368,3 +19368,13 @@ Rom   13 Nov 2004 (boinc)
     - Tag for 4.55 release, all platforms
       boinc_core_release_4_55
 
+Bruce Allen 13 Nov 2004
+    - Fixed, modified, tested script to remove workunits.  Linked to main ops page.
+    html/ops/
+     Removed:
+      cancel_wu.php 
+     Added:
+      cancel_wu_form.php
+      cancel_wu_action.php
+     Modified: (link added at bottom)
+      index.php 
