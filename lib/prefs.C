@@ -67,8 +67,9 @@ void GLOBAL_PREFS::init() {
     //max_memory_mbytes = 128;
     proc_priority = 1;
     cpu_affinity = -1;
-    strcpy(source_project, "");
-    strcpy(source_scheduler, "");
+
+    // don't initialize source_project, source_scheduler here
+    // since they are outside of <venue> elements
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -97,6 +98,8 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     run_minimized = false;
     run_on_startup = false;
     hangup_if_dialed = false;
+    strcpy(source_project, "");
+    strcpy(source_scheduler, "");
 
     found_venue = false;
     while (fgets(buf, 256, in)) {

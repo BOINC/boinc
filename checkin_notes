@@ -18185,3 +18185,13 @@ David  8 Oct 2004
 
     html/user/
         prefs_remove.php
+
+David  8 Oct 2004
+	- GLOBAL_PREFS::parse(): don't erase source project/scheduler info
+		when parse venue-specific prefs
+	- compile fix for windows
+
+	client/win/
+		wingui_mainwindow.cpp
+	lib/
+		prefs.C

@@ -417,7 +417,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
             if (at) {
                 cur_cpu = at->current_cpu_time;
             } else {
-                if(re->state < RESULT_COMPUTE_DONE) cur_cpu = 0;
+                if(re->state < RESULT_COMPUTE_ERROR) cur_cpu = 0;
                 else cur_cpu = re->final_cpu_time;
             }
             int cpuhour = (int)(cur_cpu / (60 * 60));
@@ -432,7 +432,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
             // progress
             if(!at) {
-                if(re->state < RESULT_COMPUTE_DONE)
+                if(re->state < RESULT_COMPUTE_ERROR)
                     m_ResultListCtrl.SetItemProgress(i, 4, 0);
                 else
                     m_ResultListCtrl.SetItemProgress(i, 4, 100);
@@ -443,7 +443,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
             // to completion
             double tocomp;
             if(!at) {
-                if(re->state < RESULT_COMPUTE_DONE)
+                if(re->state < RESULT_COMPUTE_ERROR)
                     tocomp = gstate.estimate_cpu_time(*re->wup);
                 else
                     tocomp = 0;
@@ -500,7 +500,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                     }
                     else strBuf.Format(g_szMiscItems[2]);
                     break;
-                case RESULT_COMPUTE_DONE:
+                case RESULT_COMPUTE_ERROR:
                     strBuf.Format(g_szMiscItems[3]); break;
                     break;
                 case RESULT_FILES_UPLOADING:
