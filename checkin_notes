@@ -6658,3 +6658,10 @@ Karl 2003/10/08
     sched/
         file_upload_handler.C
         transitioner.C
+
+David  Oct 10 2003
+	- made STARFIELD CLASS
+	- implement tickmarks for RIBBON_GRAPH
+
+	api/
+		gutil.C,h

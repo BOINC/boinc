@@ -646,11 +646,15 @@ void PROGRESS_2D::draw(float x) {
 	glEnd();
 }
 
-GRAPH_2D::GRAPH_2D(float* p, float* s, float* c, float* tc) {
+
+//----------------- RIBBON_GRAPH ---------------------
+
+RIBBON_GRAPH::RIBBON_GRAPH(float* p, float* s, float* c, float* tc, float ty) {
     memcpy(pos, p, sizeof(pos));
     memcpy(size, s, sizeof(size));
     memcpy(color, c, sizeof(color));
     memcpy(tick_color, tc, sizeof(tick_color));
+    tick_yfrac = ty;
 }
 
 float yvec[] = {0., 1., 0.};
@@ -660,7 +664,7 @@ float zvec[] = {0, 0, 1};
 
 // draw horizontal plate from i to i+1, with height data[i]
 //
-void GRAPH_2D::draw_x(int i) {
+void RIBBON_GRAPH::draw_x(int i) {
     GLfloat pt[3];
     double r1 = i/(double)len;
     double r2 = (i+1)/(double)len;
@@ -691,7 +695,7 @@ void GRAPH_2D::draw_x(int i) {
 
 // draw vertical plate at position i, with height from data[i-1] to data[i]
 //
-void GRAPH_2D::draw_y(int i) {
+void RIBBON_GRAPH::draw_y(int i) {
     GLfloat pt[3];
     double r1 = i/(double)len;
 
@@ -708,7 +712,23 @@ void GRAPH_2D::draw_y(int i) {
     glVertex3fv(pt);
 }
 
-void GRAPH_2D::draw(float* d, int ln) {
+void RIBBON_GRAPH::draw_tick(int i) {
+    GLfloat pt[3];
+    double r1 = i/(double)len;
+
+    pt[0] = pos[0] + r1*size[0];
+    pt[1] = pos[1] + (1.-tick_yfrac)*size[1];
+    pt[2] = pos[2];
+    glVertex3fv(pt);
+    pt[1] = pos[1] + size[1];
+    glVertex3fv(pt);
+    pt[2] = pos[2] + size[2];
+    glVertex3fv(pt);
+    pt[1] = pos[1] + (1.-tick_yfrac)*size[1];
+    glVertex3fv(pt);
+}
+
+void RIBBON_GRAPH::draw(float* d, int ln, bool with_ticks) {
     int i;
 
     data = d;
@@ -727,37 +747,33 @@ void GRAPH_2D::draw(float* d, int ln) {
         draw_x(i);
     }
     draw_x(len-1);
+    if (with_ticks) {
+        for (i=0; i<3; i++) {
+            draw_tick(i);
+        }
+    }
     glEnd();
 }
 
-void GRAPH_2D::add_tick(float x, float yfrac) {
+void RIBBON_GRAPH::add_tick(float x, int index) {
+    ticks[index] = x;
 }
-
-struct Vertex
-{
-    float tu, tv;
-    float x, y, z;
-};
-
-Vertex g_quadVertices[] =
-{
-    { 0.0f,0.0f, -1.0f,-1.0f, 0.0f },
-    { 1.0f,0.0f,  1.0f,-1.0f, 0.0f },
-    { 1.0f,1.0f,  1.0f, 1.0f, 0.0f },
-    { 0.0f,1.0f, -1.0f, 1.0f, 0.0f }
-};
-float white[4] = {1., 1., 1., 1.};
 
 
 //star drawing functions -<oliver wang>-
-Star stars[MAX_STARFIELD_SIZE];
+
+#define PI 3.14159265358979323846264
+#define TAN22_5 0.41421356237309504880
+
 
 //makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
-void build_stars(int size, float speed)
-{
+//
+void STARFIELD::build_stars(int size, float speed) {
 	float modelview[16];
 	float eye[3];
 	float camera[3];
+
+    stars = (STAR*)calloc(sizeof(STAR), size);
 	
 	if(get_matrix_invert(modelview)==false)
 		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
@@ -808,7 +824,7 @@ float dotProd(float a, float b, float c, float x, float y, float z)
 	return(a*x+b*y+c*z);
 }
 
-void update_stars(int size, float speed, float dt)
+void STARFIELD::update_stars(int size, float speed, float dt)
 {
 	float modelview[16];
 
@@ -841,7 +857,7 @@ void update_stars(int size, float speed, float dt)
 		
 		if(dotProd(eye[0],eye[1],eye[2],stars[i].x,stars[i].y,stars[i].z)>0) // behind camera
 		{
- 			replaceStar(i);
+ 			replace_star(i);
 			continue;
 		}		
 		
@@ -863,7 +879,7 @@ void update_stars(int size, float speed, float dt)
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );		
 }
 
-void replaceStar(int i) {
+void STARFIELD::replace_star(int i) {
 	float z = -frand()*1000;
 	float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
 	float beta = asin(z/1000.0f);
@@ -877,7 +893,24 @@ void replaceStar(int i) {
 	stars[i].v=v;		
 }
 
-// ------------ OLD TEXTURE STUFF --------------------
+// ------------  TEXTURE STUFF --------------------
+//
+
+struct Vertex
+{
+    float tu, tv;
+    float x, y, z;
+};
+
+Vertex g_quadVertices[] =
+{
+    { 0.0f,0.0f, -1.0f,-1.0f, 0.0f },
+    { 1.0f,0.0f,  1.0f,-1.0f, 0.0f },
+    { 1.0f,1.0f,  1.0f, 1.0f, 0.0f },
+    { 0.0f,1.0f, -1.0f, 1.0f, 0.0f }
+};
+float white[4] = {1., 1., 1., 1.};
+
 // read a PPM file
 // to generate PPM from JPEG:
 // mogrify -format ppm foo.jpg
@@ -914,49 +947,6 @@ int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
     return 0;
 }
 
-#if 0
-unsigned int texture_id;
-
-int init_texture(char* filename) {
-    unsigned char* pixels;
-    int width, height, retVal;
-    int err;
-    retVal = read_ppm_file(filename, width, height, &pixels);
-    if (retVal) return retVal;
-    glGenTextures(1, &texture_id);
-    err = glGetError();
-    if (err) return err;
-    glBindTexture(GL_TEXTURE_2D, texture_id);
-    err = glGetError();
-    if (err) return err;
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    err = glGetError();
-    if (err) return err;
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    err = glGetError();
-    if (err) return err;
-	//ASSERT(0);
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        3,
-        //0,
-        //0,
-        width,
-        height,
-        0,
-        GL_RGB,
-        GL_UNSIGNED_BYTE,
-        pixels    // dimension of PPM file MUST be power of 2
-    );
-    err = glGetError();
-    if (err) {
-		fprintf(stderr, "glTexImage2D returned error # %d: %s\n", err, gluErrorString(err));
-		return err;
-	}
-    return 0;
-}
-#endif
 
 // draw a texture at a given position and size.
 // Change size if needed so aspect ratio of texture isn't changed
@@ -1006,8 +996,6 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
 
     glDisable(GL_TEXTURE_2D);
 }
-
-////  --------------- NEW TEXTURE STUFF ----------------------
 
 void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {	
 	jpeg_read_header(cinfo, TRUE);
@@ -1166,31 +1154,6 @@ int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
 #endif
 	return 0;
 }
-
-#if 0
-static int getFileType(char* file) {
-    int l = strlen(file);
-    char f2[64];
-	int i;
-        
-    for(i=l-4;i<l;i++) {
-        f2[i-(l-4)]=file[i];
-    }
-
-    //MessageBox(NULL,f2,"D",0);    
-    
-    for(i=0;i<4;i++) {
-        f2[i]=tolower(f2[i]);
-    }
-
-    if(strncmp(f2,".jpg",4)==0) return IMAGE_TYPE_JPG;
-    else if(strncmp(f2,".ppm",4)==0) return IMAGE_TYPE_PPM;
-    else if(strncmp(f2,".bmp",4)==0) return IMAGE_TYPE_BMP;
-    else if(strncmp(f2,".tga",4)==0) return IMAGE_TYPE_TGA;
-
-    else return -1;
-}
-#endif
 
 int TEXTURE_DESC::load_image_file(char* filename) {
     int retval;

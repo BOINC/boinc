@@ -111,19 +111,22 @@ public:
     void draw(float);
 };
 
-// a graph drawn as a ribbon in 3D
+// a graph of a function of 1 variable drawn as a ribbon in 3D
 //
-class GRAPH_2D {
+class RIBBON_GRAPH {
     float pos[3], size[3];
     float color[4], tick_color[4];
     float *data, dmax;
+    float tick_yfrac;
+    float ticks[3];
     int len;
     void draw_x(int);
     void draw_y(int);
+    void draw_tick(int i);
 public:
-    GRAPH_2D(float* pos, float* size, float* color, float* tick_color);
-    void draw(float* data, int len);	
-    void add_tick(float x, float yfrac);
+    RIBBON_GRAPH(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
+    void draw(float* data, int len, bool with_ticks=false);	
+    void add_tick(float x, int index);
 };
 
 // a colored panel with some text, that can move cyclically
@@ -151,17 +154,18 @@ public:
 // ----- STUFF RELATED TO STARFIELDS
 //
 
-#define PI 3.14159265358979323846264
-#define TAN22_5 0.41421356237309504880
-#define MAX_STARFIELD_SIZE 10000
-
-struct Star {	
+struct STAR {	
 	float x,y,z,v;		
 };
 
-extern void build_stars(int, float);
-extern void update_stars(int, float,float);
-extern void replaceStar(int);
+class STARFIELD {
+    void replace_star(int);
+    STAR* stars;
+public:
+    void build_stars(int, float);
+    void update_stars(int, float, float);
+};
+
 
 
 // ----- STUFF RELATED TO TEXTURES AND IMAGES
@@ -189,13 +193,6 @@ struct TEXTURE_DESC {
     int CreateTexturePPM(char* strFileName);
     int CreateTextureTGA(char* strFileName);
 };
-
-#if 0
-// read a portable pixmap file
-//
-extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
-extern int init_texture(char* filename);
-#endif
 
 struct tImageJPG {
 	int rowSpan;
