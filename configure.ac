@@ -169,34 +169,12 @@ of the BOINC application API library.
 ================================================================================
        ])
 else
-if test "$no_glut" = yes ; then
-   have_glut=yes
-   build_boincglut=yes
-   GLUT_CFLAGS="-I$TOP_BUILD_DIR/boincglut/include"
-   GLUT_LIBS="-L$TOP_BUILD_DIR/boincglut/lib/glut -lboincglut"
-   AC_SUBST([GLUT_CFLAGS])
-   AC_SUBST([GLUT_LIBS])
-   AC_MSG_WARN([
-================================================================================
-WARNING: GLUT not found.
-
-The GLUT library is required in order to build the graphical parts
-of the BOINC application API library.
-
-==> we will build the boincglut library instead.
-
-================================================================================
-       ])
-       save_cflags="$CFLAGS"
-       CFLAGS="$CFLAGS $GLUT_CFLAGS"
-fi
    AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
    have_glut=yes
-   CFLAGS="$save_cflags"
 fi
 
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
-AM_CONDITIONAL(BUILD_BOINCGLUT, [ test "$build_boincglut" = yes ])
+AM_CONDITIONAL(BUILD_BOINCGLUT, [ /bin/false ])
 dnl --------------------------------------------------------------------------------
 
 AC_CHECK_LIB(socket, setservent)
