@@ -1,33 +1,51 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
+- Network retry policies
+    can't download file: when to give up? how to retry?
+        exponential backoff
+    can't upload file: when to give up/retry?
+    can't connect to sched server
+    error return from sched server
+
+- make scheduling server use fast CGI
+
+- proxy support
+    HTTP, Socks
+    Look at other open source code
+
+- team system
+    in PHP
+
+- credit display
+    in PHP
+
+- CPU accounting in the presence of checkpoint/restart
+    core client periodically gets CPU time, accumulates in state file
+
 - test versioning mechanisms for core
-    send messages if either
+    Idea: need to notify user if core becomes out of date.
+    Send messages if either
     1) some WU couldn't be sent because core is too old
     2) no WUs could be sent because core is too old
 
-- test incompatible-core mechanism for apps
-    same as above?
+- Think about issues in update core client
+    What if state file is incompatible?
+    What if app versions are incompatible?
 
 - test reporting of app errors
 
 - test checksumming of executables
 
-- proxy support
-
-- implement scheme for distributing scheduling server addresses
-    each project provides a URL for file with list of scheduler address,
-    and email address of "problems" contact
+- Think about making the set of scheduling servers dynamic
+    one approach: allow "redirect" reply from server
+        (requires old address to still work)
+    second approach: "master URL"
+        returns a file with list of scheduler address
+        and email address of "problems" contact
 
 - implement and test hi/lo water mark scheme
     - core client must estimate how much work it has left,
         based on %done (if available) and time estimates
-
-- CPU accounting in the presence of checkpoint/restart
-    core client periodically gets CPU time, accumulates in state file
-
-- scalable/efficient server architecture: alternatives
-    use our own process framework, shared memory for result/WU lists
-    use fast CGI w/ shared mem
 
 - measure hardware parameters: CPU speed, #CPUs, memory, disk
     - define CPU benchmarks
@@ -78,20 +96,13 @@ HIGH-PRIORITY (must be done to support SETI@home)
 
 
 - get idle-only behavior without screensaver
-
-- Network retry policies
-    can't download file: when to give up? how to retry?
-        exponential backoff
-    can't upload file: when to give up/retry?
-    can't connect to sched server
-    error return from sched server
+    Windows
+    UNIX
 
 - sched server should return total credit info (user, team?)
     could display in default core client display
 
 - edit user account
-
-- team system
 --------------------------
 MEDIUM-PRIORITY (must be done for CM)
 
