@@ -17,10 +17,17 @@ cgi_SOURCES =					\
         server_types.C				\
         sched_util.C				\
         config.C				\
-	../db/boinc_db.C                        \
+	../db/boinc_db.C			\
         ../lib/shmem.C				\
         ../lib/util.C				\
-        ../lib/parse.C
+        ../lib/parse.C				\
+	assimilate_handler.h			\
+	config.h				\
+	handle_request.h			\
+	main.h					\
+	sched_shmem.h				\
+	sched_util.h				\
+	server_types.h
 
 cgi_LDADD = $(MYSQL_LIBS)
 
@@ -58,7 +65,7 @@ file_upload_handler_SOURCES =			\
         ../lib/md5.c				\
         ../lib/md5_file.C
 
-#file_upload_handler_DEPENDENCIES = LIBRSA
+file_upload_handler_DEPENDENCIES = $(LIBRSA)
 file_upload_handler_LDADD = $(RSA_LIBS)
 
 validate_test_SOURCES =				\
@@ -106,7 +113,7 @@ make_work_SOURCES =					\
         ../lib/md5.c					\
         ../lib/crypt.C
 
-#make_work_DEPENDENCIES = LIBRSA
+make_work_DEPENDENCIES = $(LIBRSA)
 make_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 timeout_check_SOURCES =					\
@@ -122,7 +129,7 @@ timeout_check_SOURCES =					\
         ../tools/backend_lib.C				\
         ../tools/process_result_template.C
 
-#timeout_check_DEPENDENCIES = LIBRSA
+timeout_check_DEPENDENCIES = $(LIBRSA)
 timeout_check_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 db_dump_SOURCES = 				\
@@ -164,6 +171,6 @@ fcgi_SOURCES =					\
         ../lib/md5_file.C			\
         ../tools/process_result_template.C
 
-#fcgi_DEPENDENCIES = LIBRSA
+fcgi_DEPENDENCIES = $(LIBRSA)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_
 fcgi_LDADD = $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)

@@ -158,10 +158,18 @@ RSA_LIBS = \
 	-lrsaeuro
 
 
+#    -pedantic
+
+# this is useful as a dependency to make sure librsaeuro gets compiled before
+# programs linking to it:
+LIBRSA = $(top_srcdir)/RSAEuro/source/librsaeuro.a
+
 EXTRA_PROGRAMS = api_app api_test
 
 api_app_SOURCES = api_app.C mfile.C boinc_api.C ../lib/parse.C
 api_test_SOURCES = boinc_api.C api_test.C ../lib/parse.C
+
+EXTRA_DIST = *.h
 subdir = api
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -445,13 +453,7 @@ uninstall-am: uninstall-info-am
 
     # -DVERSION=$(VERSION)                              
 
-#    -pedantic
-
-# this is useful as a dependency to make sure librsaeuro gets compiled before
-# programs linking to it:
-LIBRSA: $(top_srcdir)/RSAEuro/source/librsaeuro.a
-
-$(top_srcdir)/RSAEuro/source/librsaeuro.a: 
+$(LIBRSA):
 	cd $(top_srcdir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 .PHONY: LIBRSA

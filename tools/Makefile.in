@@ -158,6 +158,12 @@ RSA_LIBS = \
 	-lrsaeuro
 
 
+#    -pedantic
+
+# this is useful as a dependency to make sure librsaeuro gets compiled before
+# programs linking to it:
+LIBRSA = $(top_srcdir)/RSAEuro/source/librsaeuro.a
+
 bin_PROGRAMS = create_work add country_select
 
 create_work_SOURCES = \
@@ -168,11 +174,12 @@ create_work_SOURCES = \
         ../lib/md5.c				\
         ../lib/parse.C				\
         ../lib/util.C				\
-	../db/boinc_db.C                        \
-        ../lib/crypt.C
+	../db/boinc_db.C			\
+        ../lib/crypt.C				\
+	backend_lib.h
 
 
-#create_work_DEPENDENCIES = LIBRSA
+create_work_DEPENDENCIES = $(LIBRSA)
 create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 add_SOURCES = \
@@ -184,10 +191,11 @@ add_SOURCES = \
         ../lib/parse.C				\
         ../lib/util.C				\
 	../db/boinc_db.C			\
-        ../lib/crypt.C
+        ../lib/crypt.C				\
+	backend_lib.h
 
 
-#add_DEPENDENCIES = LIBRSA
+add_DEPENDENCIES = $(LIBRSA)
 add_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 country_select_SOURCES = country_select.C ../lib/countries.C
@@ -204,7 +212,6 @@ am_add_OBJECTS = add.$(OBJEXT) backend_lib.$(OBJEXT) \
 	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
 	crypt.$(OBJEXT)
 add_OBJECTS = $(am_add_OBJECTS)
-add_DEPENDENCIES =
 add_LDFLAGS =
 am_country_select_OBJECTS = country_select.$(OBJEXT) countries.$(OBJEXT)
 country_select_OBJECTS = $(am_country_select_OBJECTS)
@@ -216,7 +223,6 @@ am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
 	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
 	crypt.$(OBJEXT)
 create_work_OBJECTS = $(am_create_work_OBJECTS)
-create_work_DEPENDENCIES =
 create_work_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -683,13 +689,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
     # -DVERSION=$(VERSION)                              
 
-#    -pedantic
-
-# this is useful as a dependency to make sure librsaeuro gets compiled before
-# programs linking to it:
-LIBRSA: $(top_srcdir)/RSAEuro/source/librsaeuro.a
-
-$(top_srcdir)/RSAEuro/source/librsaeuro.a: 
+$(LIBRSA):
 	cd $(top_srcdir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 .PHONY: LIBRSA

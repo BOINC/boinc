@@ -1,3 +1,3 @@
 ## $Id$
 
-EXTRA_DIST = *.sql init_db
+EXTRA_DIST = *.sql *.h init_db

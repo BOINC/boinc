@@ -158,6 +158,12 @@ RSA_LIBS = \
 	-lrsaeuro
 
 
+#    -pedantic
+
+# this is useful as a dependency to make sure librsaeuro gets compiled before
+# programs linking to it:
+LIBRSA = $(top_srcdir)/RSAEuro/source/librsaeuro.a
+
 bin_PROGRAMS = upper_case concat 1sec
 
 # bin_PROGRAMS = upper_case upper_case_x11 concat 1sec
@@ -675,13 +681,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
     # -DVERSION=$(VERSION)                              
 
-#    -pedantic
-
-# this is useful as a dependency to make sure librsaeuro gets compiled before
-# programs linking to it:
-LIBRSA: $(top_srcdir)/RSAEuro/source/librsaeuro.a
-
-$(top_srcdir)/RSAEuro/source/librsaeuro.a: 
+$(LIBRSA):
 	cd $(top_srcdir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 .PHONY: LIBRSA

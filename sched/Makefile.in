@@ -158,6 +158,12 @@ RSA_LIBS = \
 	-lrsaeuro
 
 
+#    -pedantic
+
+# this is useful as a dependency to make sure librsaeuro gets compiled before
+# programs linking to it:
+LIBRSA = $(top_srcdir)/RSAEuro/source/librsaeuro.a
+
 bin_PROGRAMS = cgi feeder show_shmem file_upload_handler
 
 noinst_PROGRAMS = \
@@ -174,10 +180,17 @@ cgi_SOURCES = \
         server_types.C				\
         sched_util.C				\
         config.C				\
-	../db/boinc_db.C                        \
+	../db/boinc_db.C			\
         ../lib/shmem.C				\
         ../lib/util.C				\
-        ../lib/parse.C
+        ../lib/parse.C				\
+	assimilate_handler.h			\
+	config.h				\
+	handle_request.h			\
+	main.h					\
+	sched_shmem.h				\
+	sched_util.h				\
+	server_types.h
 
 
 cgi_LDADD = $(MYSQL_LIBS)
@@ -219,7 +232,7 @@ file_upload_handler_SOURCES = \
         ../lib/md5_file.C
 
 
-#file_upload_handler_DEPENDENCIES = LIBRSA
+file_upload_handler_DEPENDENCIES = $(LIBRSA)
 file_upload_handler_LDADD = $(RSA_LIBS)
 
 validate_test_SOURCES = \
@@ -271,7 +284,7 @@ make_work_SOURCES = \
         ../lib/crypt.C
 
 
-#make_work_DEPENDENCIES = LIBRSA
+make_work_DEPENDENCIES = $(LIBRSA)
 make_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 timeout_check_SOURCES = \
@@ -288,7 +301,7 @@ timeout_check_SOURCES = \
         ../tools/process_result_template.C
 
 
-#timeout_check_DEPENDENCIES = LIBRSA
+timeout_check_DEPENDENCIES = $(LIBRSA)
 timeout_check_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 db_dump_SOURCES = \
@@ -334,7 +347,7 @@ fcgi_SOURCES = \
         ../tools/process_result_template.C
 
 
-#fcgi_DEPENDENCIES = LIBRSA
+fcgi_DEPENDENCIES = $(LIBRSA)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_
 fcgi_LDADD = $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 subdir = sched
@@ -376,7 +389,6 @@ am_fcgi_OBJECTS = fcgi-handle_request.$(OBJEXT) fcgi-main.$(OBJEXT) \
 	fcgi-parse.$(OBJEXT) fcgi-crypt.$(OBJEXT) fcgi-md5.$(OBJEXT) \
 	fcgi-md5_file.$(OBJEXT) fcgi-process_result_template.$(OBJEXT)
 fcgi_OBJECTS = $(am_fcgi_OBJECTS)
-fcgi_DEPENDENCIES =
 fcgi_LDFLAGS =
 am_feeder_OBJECTS = feeder.$(OBJEXT) sched_shmem.$(OBJEXT) \
 	sched_util.$(OBJEXT) config.$(OBJEXT) boinc_db.$(OBJEXT) \
@@ -394,7 +406,6 @@ am_file_upload_handler_OBJECTS = file_upload_handler.$(OBJEXT) \
 	sched_util.$(OBJEXT) config.$(OBJEXT) crypt.$(OBJEXT) \
 	util.$(OBJEXT) parse.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT)
 file_upload_handler_OBJECTS = $(am_file_upload_handler_OBJECTS)
-file_upload_handler_DEPENDENCIES =
 file_upload_handler_LDFLAGS =
 am_make_work_OBJECTS = make_work.$(OBJEXT) sched_util.$(OBJEXT) \
 	config.$(OBJEXT) boinc_db.$(OBJEXT) backend_lib.$(OBJEXT) \
@@ -402,7 +413,6 @@ am_make_work_OBJECTS = make_work.$(OBJEXT) sched_util.$(OBJEXT) \
 	parse.$(OBJEXT) md5_file.$(OBJEXT) md5.$(OBJEXT) \
 	crypt.$(OBJEXT)
 make_work_OBJECTS = $(am_make_work_OBJECTS)
-make_work_DEPENDENCIES =
 make_work_LDFLAGS =
 am_show_shmem_OBJECTS = show_shmem.$(OBJEXT) sched_shmem.$(OBJEXT) \
 	sched_util.$(OBJEXT) config.$(OBJEXT) boinc_db.$(OBJEXT) \
@@ -422,7 +432,6 @@ am_timeout_check_OBJECTS = timeout_check.$(OBJEXT) sched_util.$(OBJEXT) \
 	crypt.$(OBJEXT) backend_lib.$(OBJEXT) \
 	process_result_template.$(OBJEXT)
 timeout_check_OBJECTS = $(am_timeout_check_OBJECTS)
-timeout_check_DEPENDENCIES =
 timeout_check_LDFLAGS =
 am_update_stats_OBJECTS = boinc_db.$(OBJEXT) parse.$(OBJEXT) \
 	util.$(OBJEXT) sched_util.$(OBJEXT) config.$(OBJEXT) \
@@ -1274,13 +1283,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
     # -DVERSION=$(VERSION)                              
 
-#    -pedantic
-
-# this is useful as a dependency to make sure librsaeuro gets compiled before
-# programs linking to it:
-LIBRSA: $(top_srcdir)/RSAEuro/source/librsaeuro.a
-
-$(top_srcdir)/RSAEuro/source/librsaeuro.a: 
+$(LIBRSA):
 	cd $(top_srcdir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 .PHONY: LIBRSA

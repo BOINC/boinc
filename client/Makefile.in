@@ -158,6 +158,12 @@ RSA_LIBS = \
 	-lrsaeuro
 
 
+#    -pedantic
+
+# this is useful as a dependency to make sure librsaeuro gets compiled before
+# programs linking to it:
+LIBRSA = $(top_srcdir)/RSAEuro/source/librsaeuro.a
+
 bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = speed_stats
@@ -196,7 +202,7 @@ boinc_client_SOURCES = \
     ../lib/util.C				
 
 
-#boinc_client_DEPENDENCIES = LIBRSA
+boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_LDADD = $(RSA_LIBS)
 boinc_client_CPPFLAGS = -I $(srcdir)/win
 
@@ -204,9 +210,10 @@ speed_stats_SOURCES = speed_stats.C
 speed_stats_CFLAGS = -O6
 
 EXTRA_DIST = \
-	mac/*.h mac/*.cpp					\
-        win/*.h win/*.cpp win/*.rc				\
-        win/*.ico win/*.def win/res/*.*				\
+	*.h					\
+	mac/*.h mac/*.cpp			\
+        win/*.h win/*.cpp win/*.rc		\
+        win/*.ico win/*.def win/res/*.*		\
         translation/language.* 
 
 subdir = client
@@ -243,7 +250,6 @@ am_boinc_client_OBJECTS = boinc_client-main.$(OBJEXT) \
 	boinc_client-md5.$(OBJEXT) boinc_client-crypt.$(OBJEXT) \
 	boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
-boinc_client_DEPENDENCIES =
 boinc_client_LDFLAGS =
 am_speed_stats_OBJECTS = speed_stats.$(OBJEXT)
 speed_stats_OBJECTS = $(am_speed_stats_OBJECTS)
@@ -1285,13 +1291,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
     # -DVERSION=$(VERSION)                              
 
-#    -pedantic
-
-# this is useful as a dependency to make sure librsaeuro gets compiled before
-# programs linking to it:
-LIBRSA: $(top_srcdir)/RSAEuro/source/librsaeuro.a
-
-$(top_srcdir)/RSAEuro/source/librsaeuro.a: 
+$(LIBRSA):
 	cd $(top_srcdir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 .PHONY: LIBRSA

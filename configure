@@ -292,7 +292,7 @@ PACKAGE_VERSION='1.03'
 PACKAGE_STRING='BOINC 1.03'
 PACKAGE_BUGREPORT=''
 
-ac_unique_file="api/api_test.C"
+ac_unique_file="lib/shmem.C"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -330,7 +330,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAJOR_VERSION MINOR_VERSION CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CPP RANLIB ac_ct_RANLIB EGREP CLIENT_BIN_FILENAME LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAJOR_VERSION MINOR_VERSION CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CPP RANLIB ac_ct_RANLIB EGREP CLIENT_BIN_FILENAME NOT_IN_CLIENT_TARBALL TOP_SUBDIRS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -6627,8 +6627,25 @@ fi
 
 CLIENT_BIN_FILENAME=boinc_${MAJOR_VERSION}.${MINOR_VERSION}_$host${EXEEXT}
 
+NOT_IN_CLIENT_TARBALL=db doc html_ops html_user lib stripchart sched test tools api
+
+
+CLIENT_DISTRIBUTION=0
 
                                                                                                               ac_config_files="$ac_config_files RSAEuro/source/Makefile RSAEuro/Makefile api/Makefile apps/Makefile client/Makefile db/Makefile lib/Makefile sched/Makefile tools/Makefile Makefile test/version.inc"
+
+
+if  "$CLIENT_DISTRIBUTION" = 1 ; then
+    for dir in $NOT_IN_CLIENT_TARBALL ; do
+        ac_config_files = `echo "$ac_config_files" | sed 's/$dir^ *//'`
+    done
+
+    TOP_SUBDIRS=RSAEuro lib apps client
+else
+    TOP_SUBDIRS=RSAEuro db lib api apps client sched tools
+fi
+
+
 
           ac_config_headers="$ac_config_headers config.h"
 
@@ -7346,6 +7363,8 @@ s,@RANLIB@,$RANLIB,;t t
 s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
 s,@EGREP@,$EGREP,;t t
 s,@CLIENT_BIN_FILENAME@,$CLIENT_BIN_FILENAME,;t t
+s,@NOT_IN_CLIENT_TARBALL@,$NOT_IN_CLIENT_TARBALL,;t t
+s,@TOP_SUBDIRS@,$TOP_SUBDIRS,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF

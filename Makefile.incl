@@ -33,9 +33,9 @@ CPPFLAGS = -g -Wall				\
 
 # this is useful as a dependency to make sure librsaeuro gets compiled before
 # programs linking to it:
-LIBRSA: $(top_srcdir)/RSAEuro/source/librsaeuro.a
+LIBRSA = $(top_srcdir)/RSAEuro/source/librsaeuro.a
 
-$(top_srcdir)/RSAEuro/source/librsaeuro.a: 
+$(LIBRSA):
 	cd $(top_srcdir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 .PHONY: LIBRSA

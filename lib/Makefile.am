@@ -14,12 +14,25 @@ libboinc_a_SOURCES =				\
         language.C				\
         util.C					\
         md5.c					\
-        md5_file.C
+        md5_file.C				\
+	app_ipc.h				\
+	countries.h				\
+	crypt.h					\
+	error_numbers.h				\
+	filesys.h				\
+	language.h				\
+	md5.h					\
+	md5_file.h				\
+	msg_queue.h				\
+	parse.h					\
+	shmem.h					\
+	synch.h					\
+	util.h
 
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
 synch_test_SOURCES = synch_test.C synch.C
 crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
-#crypt_prog_DEPENDENCIES = LIBRSA
+crypt_prog_DEPENDENCIES = $(LIBRSA)
 crypt_prog_LDADD = $(RSA_LIBS)

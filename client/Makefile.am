@@ -39,7 +39,7 @@ boinc_client_SOURCES =					\
     ../lib/crypt.C					\
     ../lib/util.C				
 
-#boinc_client_DEPENDENCIES = LIBRSA
+boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_LDADD = $(RSA_LIBS)
 boinc_client_CPPFLAGS = -I $(srcdir)/win
 
@@ -54,10 +54,11 @@ all-local: @CLIENT_BIN_FILENAME@
 	ln boinc_client @CLIENT_BIN_FILENAME@
 
 ## these source files need to be specified because no rule on unix uses them.
-EXTRA_DIST =							\
-	mac/*.h mac/*.cpp					\
-        win/*.h win/*.cpp win/*.rc				\
-        win/*.ico win/*.def win/res/*.*				\
+EXTRA_DIST =					\
+	*.h					\
+	mac/*.h mac/*.cpp			\
+        win/*.h win/*.cpp win/*.rc		\
+        win/*.ico win/*.def win/res/*.*		\
         translation/language.* 
 
 clean-local:
