@@ -70,6 +70,9 @@ Access the CVS repository directly, e.g. with a command like
 cvs -d :pserver:anonymous@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
 <pre>
 </ul>
+<p>
+Source code for a typical BOINC application,
+SETI@home, is <a href=http://boinc.berkeley.edu/seti_source/>here</a>.
 <h2>Bug database</h2>
 <p>
 You can browse the BOINC

@@ -24,8 +24,8 @@ echo "
 <p>
 <b>Graphical User Interfaces (GUIs)</b>
 <ul>
-<li> <a href=gui_rpc_control.php>Access control</a>
 <li> <a href=gui_rpc.php>Framework for separate GUIs</a>
+<li> <a href=gui_rpc_control.php>Access control</a>
 <li> <a href=guis.php>Separate GUIs</a>
 </ul>
 <p>

@@ -687,57 +687,64 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.app_versions.size(); i++) {
         APP* app = lookup_app(project, sr.app_versions[i].app_name);
         APP_VERSION* avp = lookup_app_version(app, sr.app_versions[i].version_num);
-        if (!avp) {
-            avp = new APP_VERSION;
-            *avp = sr.app_versions[i];
-            retval = link_app_version(project, avp);
-            if (retval) {
-                 msg_printf(project, MSG_ERROR,
-                     "Can't link app version %s %d in sched reply",
-                     avp->app_name, avp->version_num
-                 );
-                 delete avp;
-           } else {
-                app_versions.push_back(avp);
-            }
+        if (avp) continue;
+        avp = new APP_VERSION;
+        *avp = sr.app_versions[i];
+        retval = link_app_version(project, avp);
+        if (retval) {
+             msg_printf(project, MSG_ERROR,
+                 "Can't link app version %s %d in sched reply",
+                 avp->app_name, avp->version_num
+             );
+             delete avp;
+             continue;
         }
+        app_versions.push_back(avp);
     }
     for (i=0; i<sr.workunits.size(); i++) {
-        if (!lookup_workunit(project, sr.workunits[i].name)) {
-            WORKUNIT* wup = new WORKUNIT;
-            *wup = sr.workunits[i];
-            wup->version_num = choose_version_num(wup->app_name, sr);
-            retval = link_workunit(project, wup);
-            if (retval) {
-                msg_printf(project, MSG_ERROR,
-                    "Can't link workunit %s in sched reply", wup->name
-                );
-                delete wup;
-            } else {
-                workunits.push_back(wup);
-            }
+        if (lookup_workunit(project, sr.workunits[i].name)) continue;
+        WORKUNIT* wup = new WORKUNIT;
+        *wup = sr.workunits[i];
+        int vnum = choose_version_num(wup->app_name, sr);
+        if (vnum < 0) {
+            msg_printf(project, MSG_ERROR,
+                "Can't find app version for WU %s", wup->name
+            );
+            delete wup;
+            continue;
         }
+
+        wup->version_num = vnum;
+        retval = link_workunit(project, wup);
+        if (retval) {
+            msg_printf(project, MSG_ERROR,
+                "Can't link workunit %s in sched reply", wup->name
+            );
+            delete wup;
+            continue;
+        }
+        workunits.push_back(wup);
     }
     for (i=0; i<sr.results.size(); i++) {
-        if (!lookup_result(project, sr.results[i].name)) {
-            RESULT* rp = new RESULT;
-            *rp = sr.results[i];
-            retval = link_result(project, rp);
-            if (retval) {
-                msg_printf(project, MSG_ERROR,
-                    "Can't link result %s in sched reply", rp->name
-                );
-                delete rp;
-            } else {
-                results.push_back(rp);
-                rp->state = RESULT_NEW;
-                nresults++;
-            }
-        } else {
+        if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_ERROR,
                 "Already have result %s\n", sr.results[i].name
             );
+            continue;
         }
+        RESULT* rp = new RESULT;
+        *rp = sr.results[i];
+        retval = link_result(project, rp);
+        if (retval) {
+            msg_printf(project, MSG_ERROR,
+                "Can't link result %s in sched reply", rp->name
+            );
+            delete rp;
+            continue;
+        }
+        results.push_back(rp);
+        rp->state = RESULT_NEW;
+        nresults++;
     }
 
     // update records for ack'ed results

@@ -405,8 +405,8 @@ int handle_wu(
     // the system is bogged down and behind schedule.
     // Make sure we don't process this WU again for at least a day.
     //
-    if (wu_item.transition_time < now + wu_item.delay_bound) {
-        wu_item.transition_time = now + wu_item.delay_bound;
+    if (wu_item.transition_time < now + 86400) {
+        wu_item.transition_time = now + 86400;
     }
 
     log_messages.printf(

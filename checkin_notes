@@ -16395,7 +16395,7 @@ Karl 2004-08-14
         software.php
         build_server.php
 
-David  14 Aug 2004
+David  16 Aug 2004
     - fix compile error
     - check bind/listen failure in GUI RPC code
     - added boinc_close_socket()
@@ -16406,16 +16406,29 @@ David  14 Aug 2004
     lib/
         util.C,h
 
-David  14 Aug 2004
+David  16 Aug 2004
     - changed "engine" to "type" in schema SQL
 
     db/
         schema.sql
 
-David  14 Aug 2004
+David  16 Aug 2004
     - compile fixes and more commenting-out of disk mgt code
 
     sched/
         delete_file.C
         sched_send.C
         server_types.C,h
+
+David  16 Aug 2004
+    - client: check error return from choose_version_num().
+        There's a remote chance this has something to do with
+        the "scrambled XML" problem
+    _ changed my 13 Aug change to transitioner
+        so that new transition time is at least now + 1 day
+
+    client/
+        cs_apps.C
+        cs_scheduler.C
+    sched/
+        transitioner.C

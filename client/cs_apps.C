@@ -512,6 +512,7 @@ double CLIENT_STATE::get_fraction_done(RESULT* result) {
 }
 
 // Decide which app version to use for a WU.
+// Return -1 if can't find one
 //
 int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     unsigned int i;
