@@ -21542,3 +21542,15 @@ David  17 Dec 2004
         client_state.C
     sched/
         feeder.C
+
+Rom    17 Dec 2004
+    - Bug Fix: Use an MSI DLL instead of grant.exe to grant the 'Logon As a Service'
+        right.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
+
+    < Added a bunch of files required for various setup things >
+ 
