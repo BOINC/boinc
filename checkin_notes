@@ -15474,10 +15474,6 @@ Eric K.	July 20 2004
 
     html/inc/cache.inc
 
-
-
-
-
 Rom    July 19 2004
     - Fix a bug where during the benchmarking process all the active tasks
       would die off.
@@ -15664,3 +15660,11 @@ Eric K. July 22 2004
 	    top_hosts.php
 	    top_teams.php
 	    top_users.php
+
+Karl 2004-07-23
+    - added argument check to create_work process_wu_template if <file_number>
+      isn't found (otherwise it just silently uses the previous command-line
+      argument as a file_ref!)
+
+    tools/
+        backend_lib.C

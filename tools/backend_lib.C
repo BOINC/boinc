@@ -132,6 +132,10 @@ static int process_wu_template(
                 } else if (parse_str(p, "<open_name>", open_name, sizeof(open_name))) {
                     continue;
                 } else if (match_tag(p, "</file_ref>")) {
+                    if (file_number < 0) {
+                        fprintf(stderr, "No file number found\n");
+                        return ERR_XML_PARSE;
+                    }
                     sprintf(buf,
                         "<file_ref>\n"
                         "    <file_name>%s</file_name>\n"
