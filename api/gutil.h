@@ -28,6 +28,7 @@ extern void draw_text_panel(
     GLfloat char_height, GLfloat line_width, GLfloat line_spacing,
     char* text);
 
+extern void mode_texture();
 extern void mode_shaded(GLfloat*);
 extern void mode_unshaded();
 extern void mode_lines();

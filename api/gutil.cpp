@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -31,12 +32,11 @@ void mode_shaded(GLfloat* color) {
 }
 
 void mode_texture() {
-	glMatrixMode( GL_MODELVIEW );
+    glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
-	//glTranslatef( 0.0f, 0.0f, -4.0f );
-
+    //glTranslatef( 0.0f, 0.0f, -4.0f );
 }
 
 void mode_unshaded() {
@@ -290,6 +290,7 @@ GRAPH_2D::GRAPH_2D(float* p, float* s, float* c, float* tc) {
 float yvec[] = {0., 1., 0.};
 float xvec[] = {1., 0., 0.};
 float xvecneg[] = {-1., 0., 0.};
+float zvec[] = {0, 0, 1};
 
 // draw horizontal plate from i to i+1, with height data[i]
 //
@@ -308,6 +309,17 @@ void GRAPH_2D::draw_x(int i) {
     pt[2] = pos[2] + size[2];
     glVertex3fv(pt);
     pt[0] = pos[0] + r1*size[0];
+    glVertex3fv(pt);
+    glNormal3fv(zvec);
+    pt[0] = pos[0] + r1*size[0];
+    pt[1] = pos[1] + data[i]*size[1]/dmax;
+    pt[2] = pos[2]+size[2];
+    glVertex3fv(pt);
+    pt[1] = pos[1];
+    glVertex3fv(pt);
+    pt[0] = pos[0] + r2*size[0];
+    glVertex3fv(pt);
+    pt[1] = pos[1] + data[i]*size[1]/dmax;
     glVertex3fv(pt);
 }
 
@@ -397,8 +409,8 @@ void init_texture(char* filename) {
     read_ppm_file(filename, width, height, &pixels);
     glGenTextures(1, &texture_id);
     glBindTexture(GL_TEXTURE_2D, texture_id);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
@@ -426,25 +438,26 @@ Vertex g_quadVertices[] =
     { 1.0f,1.0f,  1.0f, 1.0f, 0.0f },
     { 0.0f,1.0f, -1.0f, 1.0f, 0.0f }
 };
-float white[3] = {1., 1., 1.};
+float white[4] = {1., 1., 1., 1.};
 
 void draw_texture(float* p, float* size) {
     float pos[3];
     memcpy(pos, p, sizeof(pos));
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture_id);
+    mode_shaded(white);
 #if 1
     glBegin(GL_QUADS);
-	glTexCoord2f(0., 1.);
+    glTexCoord2f(0., 1.);
     glVertex3fv(pos);
     pos[0] += size[0];
-	glTexCoord2f(1., 1.);
+    glTexCoord2f(1., 1.);
     glVertex3fv(pos);
     pos[1] += size[1];
-	glTexCoord2f(1., 0.);
+    glTexCoord2f(1., 0.);
     glVertex3fv(pos);
     pos[0] -= size[0];
-	glTexCoord2f(0., 0.);
+    glTexCoord2f(0., 0.);
     glVertex3fv(pos);
     glEnd();
 #else
