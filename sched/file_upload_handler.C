@@ -150,6 +150,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         }
         m = fwrite(buf, 1, n, out);
         if (m != n) {
+            fclose(out);
             return return_error(ERR_TRANSIENT, "can't fwrite file");
         }
         bytes_left -= n;
