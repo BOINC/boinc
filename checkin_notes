@@ -9226,3 +9226,9 @@ David  Jan 15 2004
     sched/
         file_upload_handler.C
         handle_request.C
+
+Karl 2004-01-15
+    - makefile fixes
+
+    py/Boinc/
+        Makefile.am
