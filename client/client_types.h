@@ -88,6 +88,7 @@ public:
     int delete_file();      // attempt to delete the underlying file
     char* get_url();
     bool had_failure(int& failnum);
+    bool verify_existing_file();
 };
 
 // Describes a connection between a file and a workunit, result, or application.

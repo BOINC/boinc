@@ -176,35 +176,37 @@ noinst_LIBRARIES = libboinc.a
 #libboinc_graphics.a
 EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
 
+
+# libboinc.a is for use by applications (not core client or server)
 libboinc_a_SOURCES = \
-        ../api/boinc_api.C			\
-        ../api/mfile.C				\
-        app_ipc.C				\
-        parse.C					\
-	base64.C				\
-	xml_util.C				\
-        filesys.C				\
-        language.C				\
-        util.C					\
-        md5.c					\
-        md5_file.C				\
-	shmem.C					\
+    ../api/boinc_api.C			\
+    ../api/mfile.C				\
+    app_ipc.C				\
 	app_ipc.h				\
+	base64.C				\
+	base64.h				\
 	crypt.h					\
-	error_numbers.h				\
+    diagnostics.C           \
+	error_numbers.h			\
+    exception.C             \
+    filesys.C				\
 	filesys.h				\
+    language.C				\
 	language.h				\
+    md5.c					\
 	md5.h					\
+    md5_file.C				\
 	md5_file.h				\
 	msg_queue.h				\
+    parse.C					\
 	parse.h					\
-	xml_util.h				\
+	shmem.C					\
 	shmem.h					\
 	synch.h					\
+    util.C					\
 	util.h					\
-	base64.h				\
-	sighandle.C				\
-	sighandle.h
+	xml_util.C              \
+	xml_util.h
 
 
 
@@ -227,10 +229,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 libboinc_a_AR = $(AR) cru
 libboinc_a_LIBADD =
 am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
-	app_ipc.$(OBJEXT) parse.$(OBJEXT) base64.$(OBJEXT) \
-	xml_util.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
-	util.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT) \
-	sighandle.$(OBJEXT)
+	app_ipc.$(OBJEXT) base64.$(OBJEXT) diagnostics.$(OBJEXT) \
+	exception.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
+	md5.$(OBJEXT) md5_file.$(OBJEXT) parse.$(OBJEXT) \
+	shmem.$(OBJEXT) util.$(OBJEXT) xml_util.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT) \
 	synch_test$(EXEEXT)
@@ -268,13 +270,14 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/app_ipc.Po ./$(DEPDIR)/base64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/crypt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/crypt_prog.Po ./$(DEPDIR)/filesys.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/language.Po ./$(DEPDIR)/md5.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/md5_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/msg_queue.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/msg_test.Po ./$(DEPDIR)/parse.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/shmem_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sighandle.Po ./$(DEPDIR)/synch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/crypt_prog.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/diagnostics.Po ./$(DEPDIR)/exception.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/language.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5.Po ./$(DEPDIR)/md5_file.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_test.Po ./$(DEPDIR)/mfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/msg_queue.Po ./$(DEPDIR)/msg_test.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/synch.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/synch_test.Po ./$(DEPDIR)/util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/xml_util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -363,6 +366,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt_prog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnostics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/language.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
@@ -374,7 +379,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem_test.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sighandle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@

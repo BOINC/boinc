@@ -37,10 +37,9 @@
 #include "util.h"
 
 // Diagnostics Global State
-// NOTE: Do NOT depend on any of this outside of this file
 //
 
-unsigned long g_BOINCDIAG_dwDiagnosticsFlags;
+static int g_BOINCDIAG_dwDiagnosticsFlags;
 
 
 #ifdef _WIN32
@@ -59,7 +58,6 @@ int __cdecl       boinc_message_reporting( int reportType, char *szMsg, int *ret
 
 // Forward declare implementation functions - POSIX Platform Only.
 extern RETSIGTYPE boinc_catch_signal(int signal);
-extern void       boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
 extern void       boinc_quit(int sig);
 
 #endif
@@ -67,7 +65,7 @@ extern void       boinc_quit(int sig);
 
 // Used to initialize the diagnostics environment.
 //
-int boinc_init_diag( unsigned long dwDiagnosticsFlags ) {
+int boinc_init_diag( int dwDiagnosticsFlags ) {
 
 	void* lpRetVal;
 
@@ -216,7 +214,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
     // If we've been in this procedure before, something went wrong so we immediately exit
 	if ( InterlockedIncrement(&lDetectNestedException) > 1 ) {
-		TerminateProcess( GetCurrentProcess(), BOINC_NESTED_UNHANDLED_EXCEPTION_DETECTED );
+		TerminateProcess( GetCurrentProcess(), ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED );
 	}
 
     switch ( exceptionCode ) {

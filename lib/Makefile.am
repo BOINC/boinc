@@ -8,35 +8,37 @@ noinst_LIBRARIES = libboinc.a
 #libboinc_graphics.a
 EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
 
+# libboinc.a is for use by applications (not core client or server)
+
 libboinc_a_SOURCES =				\
-        ../api/boinc_api.C			\
-        ../api/mfile.C				\
-        app_ipc.C				\
-        parse.C					\
-	base64.C				\
-	xml_util.C				\
-        filesys.C				\
-        language.C				\
-        util.C					\
-        md5.c					\
-        md5_file.C				\
-	shmem.C					\
+    ../api/boinc_api.C			\
+    ../api/mfile.C				\
+    app_ipc.C				\
 	app_ipc.h				\
+	base64.C				\
+	base64.h				\
 	crypt.h					\
-	error_numbers.h				\
+    diagnostics.C           \
+	error_numbers.h			\
+    exception.C             \
+    filesys.C				\
 	filesys.h				\
+    language.C				\
 	language.h				\
+    md5.c					\
 	md5.h					\
+    md5_file.C				\
 	md5_file.h				\
 	msg_queue.h				\
+    parse.C					\
 	parse.h					\
-	xml_util.h				\
+	shmem.C					\
 	shmem.h					\
 	synch.h					\
+    util.C					\
 	util.h					\
-	base64.h				\
-	sighandle.C				\
-	sighandle.h
+	xml_util.C              \
+	xml_util.h
 
 # libboinc_graphics_a_SOURCES =			\
 #         ../api/graphics_api.C			\

@@ -118,11 +118,12 @@ void	boinc_info_release(const char *pszFormat, ...);
 
 // Diagnostics Functions
 //
-extern int boinc_init_diag(unsigned long dwDiagnosticsFlags);
+extern int boinc_init_diag(int);
 extern int boinc_finish_diag();
 
 extern int boinc_install_signal_handlers();
-
+extern void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
+extern void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int));
 
 // Diagnostic Flags
 //
@@ -146,10 +147,5 @@ extern int boinc_install_signal_handlers();
 #define BOINC_DIAG_STDOUT                  "stdout.txt"
 #define BOINC_DIAG_STDOUTOLD               "stdout.old"
 
-
-// Diagnostics Numerical Errors
-//
-#define BOINC_SUCCESS								0
-#define BOINC_NESTED_UNHANDLED_EXCEPTION_DETECTED   -1024
 
 #endif //_BOINC_DIAGNOSTICS_

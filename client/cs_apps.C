@@ -190,11 +190,13 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
         fr = avp->app_files[i];
         fip = fr.file_info;
         if (fip->status != FILE_PRESENT) return false;
+        if (!fip->verify_existing_file()) return false;
     }
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
         if (fip->status != FILE_PRESENT) return false;
+        if (!fip->verify_existing_file()) return false;
     }
     return true;
 }
@@ -224,9 +226,9 @@ bool CLIENT_STATE::start_apps() {
     RESULT* rp;
     int open_slot;
 
-    while ( (open_slot = active_tasks.get_free_slot(nslots)) >= 0 &&
-            (rp = next_result_to_start()) != NULL)
-    {
+    while ((open_slot = active_tasks.get_free_slot(nslots)) >= 0 &&
+        (rp = next_result_to_start()) != NULL
+    ){
         int retval;
         // Start the application to compute a result if:
         // 1) the result isn't done yet;

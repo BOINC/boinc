@@ -181,7 +181,9 @@ libboinc_api_a_SOURCES = \
 	../lib/shmem.C				\
 	../lib/parse.C				\
 	../lib/app_ipc.C			\
-	../lib/base64.C
+	../lib/base64.C                         \
+        ../lib/diagnostics.C                    \
+        ../lib/exception.C
 
 
 libboinc_graphics_api_a_SOURCES = \
@@ -213,7 +215,8 @@ libboinc_api_a_AR = $(AR) cru
 libboinc_api_a_LIBADD =
 am_libboinc_api_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
 	util.$(OBJEXT) shmem.$(OBJEXT) parse.$(OBJEXT) \
-	app_ipc.$(OBJEXT) base64.$(OBJEXT)
+	app_ipc.$(OBJEXT) base64.$(OBJEXT) diagnostics.$(OBJEXT) \
+	exception.$(OBJEXT)
 libboinc_api_a_OBJECTS = $(am_libboinc_api_a_OBJECTS)
 EXTRA_PROGRAMS = api_app$(EXEEXT) api_test$(EXEEXT)
 am_api_app_OBJECTS = api_app.$(OBJEXT) mfile.$(OBJEXT) \
@@ -234,7 +237,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/api_app.Po ./$(DEPDIR)/api_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/app_ipc.Po ./$(DEPDIR)/base64.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/mfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/diagnostics.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/exception.Po ./$(DEPDIR)/mfile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -270,6 +274,8 @@ shmem.$(OBJEXT): ../lib/shmem.C
 parse.$(OBJEXT): ../lib/parse.C
 app_ipc.$(OBJEXT): ../lib/app_ipc.C
 base64.$(OBJEXT): ../lib/base64.C
+diagnostics.$(OBJEXT): ../lib/diagnostics.C
+exception.$(OBJEXT): ../lib/exception.C
 libboinc_api.a: $(libboinc_api_a_OBJECTS) $(libboinc_api_a_DEPENDENCIES) 
 	-rm -f libboinc_api.a
 	$(libboinc_api_a_AR) libboinc_api.a $(libboinc_api_a_OBJECTS) $(libboinc_api_a_LIBADD)
@@ -292,6 +298,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/app_ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/base64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnostics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
@@ -431,6 +439,50 @@ base64.obj: ../lib/base64.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/base64.Po' tmpdepfile='$(DEPDIR)/base64.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o base64.obj `if test -f '../lib/base64.C'; then $(CYGPATH_W) '../lib/base64.C'; else $(CYGPATH_W) '$(srcdir)/../lib/base64.C'`
+
+diagnostics.o: ../lib/diagnostics.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT diagnostics.o -MD -MP -MF "$(DEPDIR)/diagnostics.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o diagnostics.o `test -f '../lib/diagnostics.C' || echo '$(srcdir)/'`../lib/diagnostics.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/diagnostics.Tpo" "$(DEPDIR)/diagnostics.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/diagnostics.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/diagnostics.C' object='diagnostics.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/diagnostics.Po' tmpdepfile='$(DEPDIR)/diagnostics.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o diagnostics.o `test -f '../lib/diagnostics.C' || echo '$(srcdir)/'`../lib/diagnostics.C
+
+diagnostics.obj: ../lib/diagnostics.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT diagnostics.obj -MD -MP -MF "$(DEPDIR)/diagnostics.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o diagnostics.obj `if test -f '../lib/diagnostics.C'; then $(CYGPATH_W) '../lib/diagnostics.C'; else $(CYGPATH_W) '$(srcdir)/../lib/diagnostics.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/diagnostics.Tpo" "$(DEPDIR)/diagnostics.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/diagnostics.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/diagnostics.C' object='diagnostics.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/diagnostics.Po' tmpdepfile='$(DEPDIR)/diagnostics.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o diagnostics.obj `if test -f '../lib/diagnostics.C'; then $(CYGPATH_W) '../lib/diagnostics.C'; else $(CYGPATH_W) '$(srcdir)/../lib/diagnostics.C'`
+
+exception.o: ../lib/exception.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT exception.o -MD -MP -MF "$(DEPDIR)/exception.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o exception.o `test -f '../lib/exception.C' || echo '$(srcdir)/'`../lib/exception.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/exception.Tpo" "$(DEPDIR)/exception.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/exception.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/exception.C' object='exception.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/exception.Po' tmpdepfile='$(DEPDIR)/exception.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o exception.o `test -f '../lib/exception.C' || echo '$(srcdir)/'`../lib/exception.C
+
+exception.obj: ../lib/exception.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT exception.obj -MD -MP -MF "$(DEPDIR)/exception.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o exception.obj `if test -f '../lib/exception.C'; then $(CYGPATH_W) '../lib/exception.C'; else $(CYGPATH_W) '$(srcdir)/../lib/exception.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/exception.Tpo" "$(DEPDIR)/exception.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/exception.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/exception.C' object='exception.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/exception.Po' tmpdepfile='$(DEPDIR)/exception.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o exception.obj `if test -f '../lib/exception.C'; then $(CYGPATH_W) '../lib/exception.C'; else $(CYGPATH_W) '$(srcdir)/../lib/exception.C'`
 uninstall-info-am:
 
 ETAGS = etags

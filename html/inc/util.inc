@@ -77,7 +77,7 @@ function show_login($user) {
         echo "Logged in as %s.\n", $user->name;
         echo "<br><a href=login_form.php>Log in as someone else.</a>\n";
     } else {
-	echo "Not logged in";
+        echo "Not logged in";
     }
 }
 
@@ -153,10 +153,10 @@ function db_error_page() {
 }
 
 function profile_error_page($str) {
-  page_head("Profile error");
-  echo "$str<br>\n";
-  echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
-  page_tail();
+    page_head("Profile error");
+    echo "$str<br>\n";
+    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
+  p  age_tail();
 }
 
 function date_str($x) {
@@ -365,42 +365,42 @@ function split_munged_email_addr($addr, $string, &$email) {
 //  All linked files must be of the form "$filename_<page number>.html".
 
 function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
-  fwrite($descriptor, "<p>Page $currPageNum of $numPages</p>");
+    fwrite($descriptor, "<p>Page $currPageNum of $numPages</p>");
 
-  $nextPageNum = $currPageNum + 1;
-  $prevPageNum = $currPageNum - 1;
+    $nextPageNum = $currPageNum + 1;
+    $prevPageNum = $currPageNum - 1;
 
-  // Make the 'previous' and 'next' page links as appropriate.
-  if ($currPageNum > 1) {
-    fwrite($descriptor, "<a href=$filename" . "_" . $prevPageNum . ".html>Previous Page</a>");
+    // Make the 'previous' and 'next' page links as appropriate.
+    if ($currPageNum > 1) {
+        fwrite($descriptor, "<a href=$filename" . "_" . $prevPageNum . ".html>Previous Page</a>");
 
+        if ($currPageNum != $numPages) {
+            fwrite($descriptor, " | ");
+        }
+    }
     if ($currPageNum != $numPages) {
-      fwrite($descriptor, " | ");
+        fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
     }
-  }
-  if ($currPageNum != $numPages) {
-    fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
-  }
 
-  fwrite($descriptor, "<p><table border=0>\n<tr>\n<td>Jump to Page:</td>\n");
+    fwrite($descriptor, "<p><table border=0>\n<tr>\n<td>Jump to Page:</td>\n");
 
-  // Make the individual page links (or a bold non-link for the current page).
-  for ($i = 1; $i <= $numPages; $i++) {
-    if ($i != $currPageNum) {
-      fwrite($descriptor, "<td><a href=$filename" . "_" . $i . ".html>$i</a></td>\n");
-    } else {
-      fwrite($descriptor, "<td><b>$i</b></td>\n");
+    // Make the individual page links (or a bold non-link for the current page).
+    for ($i = 1; $i <= $numPages; $i++) {
+        if ($i != $currPageNum) {
+            fwrite($descriptor, "<td><a href=$filename" . "_" . $i . ".html>$i</a></td>\n");
+        } else {
+            fwrite($descriptor, "<td><b>$i</b></td>\n");
+        }
     }
-  }
 
-  fwrite($descriptor, "</table>\n");
+    fwrite($descriptor, "</table>\n");
 }
 
 // Generates a legal filename from a parameter string.
 
 function get_legal_filename($name) {
-  $name = ereg_replace(',', '', $name);
-  return ereg_replace(' ', '_', $name);
+    $name = ereg_replace(',', '', $name);
+    return ereg_replace(' ', '_', $name);
 }
 
 // Returns a string containing as many words
@@ -430,20 +430,6 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     }
 
     return $result;
-}
-
-// TODO: Generalize this.  Currently it is just pasted from error.inc
-
-function doError($msg, $info = '') {
-    page_head('Error');
-    echo '<p class="title">'.$msg.'</p>';
-    echo "<p>The error has been recorded,
-        and the website administrator will investigate the issue
-        as soon as possible.
-        We sincerely apologize for the inconvenience.</p>
-    ";
-    page_tail();
-    exit();
 }
 
 function format_credit($cobblestones) {

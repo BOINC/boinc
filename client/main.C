@@ -33,7 +33,6 @@
 #include <unistd.h>
 #endif
 #ifdef HAVE_SIGNAL_H
-#include "sighandle.h"
 #include <signal.h>
 #endif
 #endif

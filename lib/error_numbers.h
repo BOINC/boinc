@@ -20,6 +20,7 @@
 // NOTE:  add new errors to the end of the list and don't change
 // old error numbers to avoid confusion between versions
 //
+#define BOINC_SUCCESS       0
 #define ERR_SELECT          -100
 #define ERR_MALLOC          -101
 #define ERR_READ            -102
@@ -109,4 +110,6 @@
 #define ERR_NOT_FOUND		-161
 	// inconsistent client state
 #define ERR_NO_EXIT_STATUS	-162
-	// exit_status not found in request 
+	// exit_status not found in scheduler request 
+#define ERR_FILE_MISSING    -163
+#define ERR_NESTED_UNHANDLED_EXCEPTION  -164

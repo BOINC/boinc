@@ -10836,3 +10836,41 @@ David  Mar 24 2004
         profile.inc
     sched/
         handle_request.C
+
+David  Mar 24 2004
+    - check for the existence and correct size (but not checksum)
+        of a result's files (app_version and inputs)
+        before starting or restarting the app
+        If a file is deleted (e.g., manually by the user)
+        the core client should download it again before starting the app.
+
+        New function: FILE_INFO::verify_existing_file()
+    - various changes to get Unix client and apps to compile
+        with new diagnostics code
+    - diagnostics.C subsumes sighandle.C
+
+    NOTES:
+        - use int where possible
+        - all numeric error codes go in lib/error_numbers.h
+        - libboinc.a is to be used by applications only
+            (not client or server programs)
+            We can create a different lib for the latter,
+            but for now they use explicit .o's
+
+    api/
+        boinc_api.C
+    client/
+        Makefile.am
+        app.C
+        client_state.h
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        main.C
+    html/inc/
+        util.inc
+    lib/
+        Makefile.am
+        diagnostics.C,h
+        error_numbers.h
+        sighandle.C,h (removed)

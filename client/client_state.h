@@ -181,11 +181,11 @@ public:
     int set_nslots();
     double estimate_cpu_time(WORKUNIT&);
     double get_percent_done(RESULT* result);
+    bool input_files_available(RESULT*);
 private:
     int nslots;
 
     int choose_version_num(char*, SCHEDULER_REPLY&);
-    bool input_files_available(RESULT*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();

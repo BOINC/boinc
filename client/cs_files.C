@@ -96,8 +96,8 @@ int CLIENT_STATE::make_project_dirs() {
     return 0;
 }
 
-// Verify the validity of a downloaded file, through MD5 checksum
-// or an RSA signature
+// Verify the validity of a downloaded file,
+// through MD5 checksum or an RSA signature
 //
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     char cksum[64];

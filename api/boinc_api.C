@@ -57,7 +57,6 @@ using namespace std;
 #include "error_numbers.h"
 #include "app_ipc.h"
 #include "boinc_api.h"
-#include "sighandle.h"
 
 static APP_INIT_DATA		aid;
 APP_CLIENT_SHM		*app_client_shm;

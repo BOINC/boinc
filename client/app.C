@@ -1102,6 +1102,7 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
 int ACTIVE_TASK_SET::restart_tasks() {
     vector<ACTIVE_TASK*>::iterator iter;
     ACTIVE_TASK* atp;
+    RESULT* result;
     int retval;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
@@ -1109,9 +1110,20 @@ int ACTIVE_TASK_SET::restart_tasks() {
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         atp = *iter;
+        result = atp->result;
         atp->init(atp->result);
         get_slot_dir(atp->slot, atp->slot_dir);
-        atp->result->is_active = true;
+        if (!gstate.input_files_available(result)) {
+            msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); missing files\n");
+            atp->result->active_task_state = PROCESS_COULDNT_START;
+            gstate.report_result_error(
+                *(atp->result), ERR_FILE_MISSING,
+                "One or more missing files"
+            );
+            active_tasks.erase(iter);
+            delete atp;
+        }
+        result->is_active = true;
         msg_printf(atp->wup->project, MSG_INFO,
             "Restarting computation for result %s using %s version %.2f",
             atp->result->name,
@@ -1127,7 +1139,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
                 "Couldn't restart the app for this result: %d", retval
             );
             active_tasks.erase(iter);
-                        delete atp;
+            delete atp;
         } else {
             iter++;
         }
