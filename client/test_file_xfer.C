@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include "windows_cpp.h"
 
 #include "http.h"
 #include "file_xfer.h"

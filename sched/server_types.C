@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
 #include <strings.h>
 #include <assert.h>
 

@@ -3,6 +3,7 @@
 // -l       lock semaphore, sleep 10 secs, unlock
 
 #include <unistd.h>
+#include <strings.h>
 
 #include "synch.h"
 

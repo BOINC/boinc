@@ -13,10 +13,12 @@ CFLAGS = -g -Wall @DEFS@ \
 
 CC = @CC@ $(CFLAGS)
 
+CLIBS = @LIBS@
+
 PROGS = api_app api_test
 
 #all: $(PROGS)
-all: mfile.o boinc_api.o
+all: mfile.o boinc_api.o graphics_api.o
 
 APP_OBJS = \
     api_app.o \
@@ -35,10 +37,10 @@ TEST_OBJS = \
 	$(CC) -c -o $*.o $<
 
 api_app: $(APP_OBJS)
-	$(CC) $(APP_OBJS) -o api_app
+	$(CC) $(APP_OBJS) $(CLIBS) -o api_app
 
 api_test: $(TEST_OBJS)
-	$(CC) $(TEST_OBJS) -o api_test
+	$(CC) $(TEST_OBJS) $(CLIBS) -o api_test
 
 install: all
 	-mkdir -p $(INSTALL_DIR)/api

@@ -51,10 +51,10 @@ LIBS = \
 .C.o:
 	$(CC) -c -o $*.o $<
 
-create_work: create_work.o $(CLIBS) $(LIBS) $(CRYPTO_LIBS)
+create_work: create_work.o $(LIBS) $(CRYPTO_LIBS)
 	$(CC) create_work.o $(CRYPTO_LIBS) $(CLIBS) $(LIBS) $(MYSQL_LIBS) -o create_work
 
-add: add.o $(CLIBS) $(LIBS) $(CRYPTO_LIBS)
+add: add.o $(LIBS) $(CRYPTO_LIBS)
 	$(CC) add.o $(CLIBS) $(LIBS) $(CRYPTO_LIBS) $(MYSQL_LIBS) -o add
 
 country_select: country_select.o ../lib/countries.o

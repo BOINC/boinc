@@ -11,6 +11,8 @@ CFLAGS = -g -Wall @DEFS@
 
 CC = @CC@ $(CFLAGS) -I ../RSAEuro/source
 
+CLIBS = @LIBS@
+
 PROGS = md5_test shmem_test synch_test crypt_prog
 
 OBJS = \
@@ -44,16 +46,16 @@ libboinc.a: $(OBJS) $(MD5_OBJS)
 	ar cr libboinc.a $(OBJS) $(MD5_OBJS); ranlib libboinc.a
 
 md5_test: md5_test.o $(MD5_OBJS)
-	$(CC) md5_test.o $(MD5_OBJS) -o md5_test
+	$(CC) md5_test.o $(MD5_OBJS) $(CLIBS) -o md5_test
 
 shmem_test: shmem_test.o shmem.o
-	$(CC) shmem_test.o shmem.o -o shmem_test
+	$(CC) shmem_test.o shmem.o $(CLIBS) -o shmem_test
 
 synch_test: synch_test.o synch.o
-	$(CC) synch_test.o synch.o -o synch_test
+	$(CC) synch_test.o synch.o $(CLIBS) -o synch_test
 
 crypt_prog: crypt_prog.o crypt.o 
-	$(CC) crypt_prog.o crypt.o $(CRYPT_LIBS) -o crypt_prog
+	$(CC) crypt_prog.o crypt.o $(CRYPT_LIBS) $(CLIBS) -o crypt_prog
 
 clean:
 	rm -f *.o $(PROGS) core dependencies

@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
 
 #include <stdio.h>
 #include <unistd.h>

@@ -33,6 +33,7 @@ dnl Replace `main' with a function in -lgen:
 AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND) ] )
 AC_CHECK_LIB(stdc++, cerr)
+AC_CHECK_LIB(stdc++, main)
 
 dnl Checks for header files.
 AC_HEADER_DIRENT

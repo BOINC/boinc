@@ -30,6 +30,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 #ifdef BOINC_APP_GRAPHICS
 #ifdef __APPLE_CC__

@@ -27,13 +27,13 @@ APPS = upper_case concat 1sec
 all: $(APPS)
 
 upper_case: upper_case.o
-	$(CC) upper_case.o $(LIBS) -lm -o upper_case
+	$(CC) upper_case.o $(LIBS) $(CLIBS) -lm -o upper_case
 
 concat: concat.o
-	$(CC) concat.o $(LIBS) -lm -o concat
+	$(CC) concat.o $(LIBS) $(CLIBS) -lm -o concat
 
 1sec: 1sec.o
-	$(CC) 1sec.o $(LIBS) -lm -o 1sec
+	$(CC) 1sec.o $(LIBS) $(CLIBS) -lm -o 1sec
 
 install: all
 	-mkdir -p $(INSTALL_DIR)/apps

@@ -18,6 +18,8 @@ AC_CHECK_LIB(nsl, main)
 dnl Replace `main' with a function in -lsocket:
 AC_CHECK_LIB(socket, main)
 dnl Replace `main' with a function in -lstdc:
+AC_CHECK_LIB(stdc++, main)
+dnl Replace `main' with a function in -lstdc:
 AC_CHECK_LIB(stdc, main)
 dnl Replace `main' with a function in -lz:
 AC_CHECK_LIB(z, gzopen)
