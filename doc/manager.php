@@ -9,7 +9,7 @@ It is normally started at boot time.
 It is represented by a icon in the system tray.
 </p>
 
-<img src=msgsystraymenu.png>
+<img src=mgrsystraymenu.png>
 
 <p>
 Double-click on the icon to open the BOINC manager window.
