@@ -204,6 +204,9 @@ struct HOST {
     int id;
     int create_time;
     int userid;             // ID of user running this host
+        // If the host is "zombied" during merging of duplicate hosts,
+        // this field is set to zero and rpc_seqno is used to
+        // store the ID of the new host (kludge, but what the heck)
     int rpc_seqno;          // last seqno received from client
     int rpc_time;           // time of last scheduler RPC
     double total_credit;

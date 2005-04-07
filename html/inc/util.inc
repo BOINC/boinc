@@ -220,11 +220,28 @@ function row3($x, $y, $z) {
 
 function row4($xx, $xy, $yx, $yy) {
     echo "<tr><td width=25% valign=top>$xx</td><td width=25%>$xy</td>"
-        . "<td width=25% >$yx</td><td width=%25>$yy</td></tr>\n";
+        . "<td width=25% >$yx</td><td width=%25>$yy</td></tr>
+    ";
 }
 
 function rowify($string) {
     echo "<tr><td>$string</td></tr>";
+}
+
+function row($x) {
+    echo "<tr>";
+    foreach ($x as $h) {
+        echo "<td>$h</th>";
+    }
+    echo "</tr>\n";
+}
+
+function row_heading($x) {
+    echo "<tr>";
+    foreach ($x as $h) {
+        echo "<th class=heading>$h</th>";
+    }
+    echo "</tr>\n";
 }
 
 function random_string() {

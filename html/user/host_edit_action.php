@@ -18,34 +18,35 @@ function get_host($hostid, $user) {
 }
 
 function merge_hosts($old_host, $new_host) {
-   if ($old_host->id == $new_host->id) {
-       fail("same host");
-   }
-   if (!hosts_compatible($old_host, $new_host)) {
-       fail("Can't merge hosts - they're incompatible");
-   }
+    if ($old_host->id == $new_host->id) {
+        fail("same host");
+    }
+    if (!hosts_compatible($old_host, $new_host)) {
+        fail("Can't merge hosts - they're incompatible");
+    }
 
-   echo "<br>Merging $old_host->id into $new_host->id\n";
+    echo "<br>Merging host $old_host->id into host $new_host->id\n";
 
-   // update the database:
-   // - add credit from old to new host
-   // - change results to refer to new host
-   // - delete old host
-   //
-   $total_credit = $old_host->total_credit + $new_host->total_credit;
-   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
-   $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit where id=$new_host->id");
-   if (!$result) {
-       fail("Couldn't update credit of new host");
-   }
-   $result = mysql_query("update result set hostid=$new_host->id where hostid=$old_host->id");
-   if (!$result) {
-       fail("Couldn't update results");
-   }
-   $result = mysql_query("delete from host where id=$old_host->id");
-   if (!$result) {
-       fail("Couldn't delete record of computer");
-   }
+    // update the database:
+    // - add credit from old to new host
+    // - change results to refer to new host
+    // - put old host in "zombie" state
+    //
+    $total_credit = $old_host->total_credit + $new_host->total_credit;
+    $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
+    $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit where id=$new_host->id");
+    if (!$result) {
+        fail("Couldn't update credit of new computer");
+    }
+    $result = mysql_query("update result set hostid=$new_host->id where hostid=$old_host->id");
+    if (!$result) {
+        fail("Couldn't update results");
+    }
+    $result = mysql_query("update host set total_credit=0, expavg_credit=0, userid=0, rpc_seqno=$new_host->id where id=$old_host->id");
+    if (!$result) {
+        fail("Couldn't update old computer");
+    }
+    echo "<br>Retired old computer $old_host->id\n";
 }
 
     db_init();

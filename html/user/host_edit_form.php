@@ -22,12 +22,15 @@ echo "
     <form name=blah action=host_edit_action.php>
     <input type=hidden name=id_0 value=$hostid>
     <p>
-    Check the computers that are the same as $host->domain_name (created $t):
+    Check the computers that are the same as $host->domain_name
+    (created $t, computer ID $host->id):
     <p>
 ";
 
 $result = mysql_query("select * from host where userid=$user->id");
 $nhosts = 1;
+start_table();
+row_heading(array("", "name", "created", "computer ID"));
 while ($host2 = mysql_fetch_object($result)) {
     if ($host->id == $host2->id) continue;
     //if ($host2->create_time > $host->create_time) continue;
@@ -37,10 +40,16 @@ while ($host2 = mysql_fetch_object($result)) {
     if ($x == "") {
         $x = "[no hostname]";
     }
-    echo "<br><input type=checkbox name=id_$nhosts value=$host2->id> $x (created $t)\n";
+    row(array(
+        "<input type=checkbox name=id_$nhosts value=$host2->id>",
+        $x,
+        "$t",
+        "$host2->id"
+     ));
     $nhosts++;
     if ($nhosts==500) break;
 }
+end_table();
 mysql_free_result($result);
 echo "
     <br>

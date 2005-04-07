@@ -87,6 +87,19 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (sreq.hostid) {
         retval = host.lookup_id(sreq.hostid);
+        if (!retval && host.userid==0) {
+            // if host record is zombie, follow link to new host
+            //
+            retval = host.lookup_id(host.rpc_seqno);
+            if (!retval) {
+                reply.hostid = host.id;
+                log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "[HOST#%d] forwarding to new host ID %d\n",
+                    sreq.hostid, host.id
+                );
+            }
+        }
         if (retval) {
             USER_MESSAGE um("Can't find host record", "low");
             reply.insert_message(um);
@@ -98,12 +111,13 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.hostid = 0;
             goto lookup_user_and_make_new_host;
         }
+
         reply.host = host;
         log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
-                "Request [HOST#%d] Database [HOST#%d] Request [RPC#%d] Database [RPC#%d]\n",
-                sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
-            );
+            SCHED_MSG_LOG::DEBUG,
+            "Request [HOST#%d] Database [HOST#%d] Request [RPC#%d] Database [RPC#%d]\n",
+            sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
+        );
 
         strlcpy(
             user.authenticator, sreq.authenticator,
@@ -443,10 +457,10 @@ int handle_results(
         // Comment -- In the sanity checks that follow, should we
         // verify that the results validate_state is consistent with
         // this being a newly arrived result?
-		// What happens if a workunit was canceled after a result was sent?
-		// When it gets back in, do we want to leave the validate state 'as is'?
-		// Probably yes, which is as the code currently behaves.
-		//
+        // What happens if a workunit was canceled after a result was sent?
+        // When it gets back in, do we want to leave the validate state 'as is'?
+        // Probably yes, which is as the code currently behaves.
+        //
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -1081,13 +1095,13 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     }
     
     // pick a data file to delete.
-	// Do this deterministically so that we always tell host to delete the same file.
-	// But to prevent all hosts from removing 'the same' file,
-	// choose a file which depends upon the hostid.
+    // Do this deterministically so that we always tell host to delete the same file.
+    // But to prevent all hosts from removing 'the same' file,
+    // choose a file which depends upon the hostid.
     //
     // Assumption is that if nothing has changed on the host,
-	// the order in which it reports files is fixed.
-	// If this is false, we need to sort files into order by name!
+    // the order in which it reports files is fixed.
+    // If this is false, we need to sort files into order by name!
     //
     int j = sreply.host.id % nfiles;
     FILE_INFO& fi = sreq.file_infos[j];
@@ -1098,7 +1112,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     );
 
     // give host 4 hours to nuke the file and come back.
-	// This might in general be too soon, since host needs to complete any work
+    // This might in general be too soon, since host needs to complete any work
     // that depends upon this file, before it will be removed by core client.
     //
     sprintf(buf, "Removing file %s to free up disk space", fi.name);
@@ -1203,10 +1217,10 @@ void handle_request(
     if (sreply.user.id==3) {
         USER_MESSAGE um("THIS IS A SHORT MESSAGE. \n AND ANOTHER", "high");
         // USER_MESSAGE um("THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE. \n"
-	//		"THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "low");
+    //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "low");
         sreply.insert_message(um);
         // USER_MESSAGE um2("THIS IS A VERY LONG TEST MESSAGE2. THIS IS A VERY LONG TEST MESSAGE. \n"
-	//		"THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "high");
+    //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "high");
         // sreply.insert_message(um2);
     }
 #endif
@@ -1239,7 +1253,7 @@ void handle_request(
         debug_sched(sreq, sreply, "../debug_sched");
     } else if (max_allowable_disk(sreq)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
         debug_sched(sreq, sreply, "../debug_sched");
-	}
+    }
 #endif
     
     sreply.write(fout);

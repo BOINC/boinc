@@ -1749,8 +1749,9 @@ wxInt32 CMainDocument::GetResourceProjectName(wxInt32 iIndex, wxString& strBuffe
     PROJECT* pStateProject = NULL;
 
     try {
-        if (!resource_status.projects.empty())
+        if (!resource_status.projects.empty()) {
             pProject = resource_status.projects.at(iIndex);
+        }
     }
     catch (std::out_of_range e) {
         pProject = NULL;
@@ -1760,17 +1761,17 @@ wxInt32 CMainDocument::GetResourceProjectName(wxInt32 iIndex, wxString& strBuffe
         pStateProject = state.lookup_project(pProject->master_url);
         if (NULL != pStateProject) {
             strBuffer = pStateProject->project_name.c_str();
-        }
-        else
+        } else {
             ForceCacheUpdate();
+        }
     }
 
     return 0;
 }
 
 
-wxInt32 CMainDocument::GetResourceDiskspace(wxInt32 iIndex, float& fBuffer)
-{ PROJECT* pProject = NULL;
+wxInt32 CMainDocument::GetResourceDiskspace(wxInt32 iIndex, float& fBuffer) {
+    PROJECT* pProject = NULL;
 
     try {
         if (!resource_status.projects.empty())
