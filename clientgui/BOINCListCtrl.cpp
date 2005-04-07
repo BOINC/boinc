@@ -35,28 +35,28 @@ CBOINCListCtrl::CBOINCListCtrl()
 }
 
 
-CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags ) :
-    wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags )
+CBOINCListCtrl::CBOINCListCtrl(CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags) :
+    wxListView(pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags)
 {
     m_pParentView = pView;
 
-    m_bIsSingleSelection = ( iListWindowFlags & wxLC_SINGLE_SEL ) ? true : false ;
+    m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
 
-    Connect( 
+    Connect(
         iListWindowID, 
         wxEVT_COMMAND_LEFT_CLICK, 
         (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CBOINCListCtrl::OnClick
-    );
-    Connect( 
+   );
+    Connect(
         iListWindowID, 
         wxEVT_COMMAND_LIST_ITEM_SELECTED, 
         (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnSelected
-    );
-    Connect( 
+   );
+    Connect(
         iListWindowID, 
         wxEVT_COMMAND_LIST_ITEM_DESELECTED, 
         (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnDeselected
-    );
+   );
 }
 
 
@@ -65,8 +65,7 @@ CBOINCListCtrl::~CBOINCListCtrl()
 }
 
 
-bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig )
-{
+bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
     wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
@@ -84,13 +83,14 @@ bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig )
     iColumnCount = GetColumnCount() - 1;
 
     // Which fields are we interested in?
-    liColumnInfo.SetMask( wxLIST_MASK_TEXT |
-                          wxLIST_MASK_WIDTH |
-                          wxLIST_MASK_FORMAT );
+    liColumnInfo.SetMask(
+        wxLIST_MASK_TEXT |
+        wxLIST_MASK_WIDTH |
+        wxLIST_MASK_FORMAT
+    );
 
     // Cycle through the columns recording anything interesting
-    for ( iIndex = 0; iIndex <= iColumnCount; iIndex++ )
-    {
+    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
         GetColumn(iIndex, liColumnInfo);
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
@@ -103,8 +103,7 @@ bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig )
 }
 
 
-bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig )
-{
+bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
     wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
@@ -123,13 +122,12 @@ bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig )
     iColumnCount = GetColumnCount() - 1;
 
     // Which fields are we interested in?
-    liColumnInfo.SetMask( wxLIST_MASK_TEXT |
+    liColumnInfo.SetMask(wxLIST_MASK_TEXT |
                           wxLIST_MASK_WIDTH |
-                          wxLIST_MASK_FORMAT );
+                          wxLIST_MASK_FORMAT);
 
     // Cycle through the columns recording anything interesting
-    for ( iIndex = 0; iIndex <= iColumnCount; iIndex++ )
-    {
+    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
         GetColumn(iIndex, liColumnInfo);
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
@@ -147,75 +145,66 @@ bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig )
 }
 
 
-void CBOINCListCtrl::OnClick( wxCommandEvent& event )
-{
+void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
     wxListEvent leEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
     leEvent.SetEventObject(this);
 
-    if ( m_bIsSingleSelection )
-    {
-        if ( GetFocusedItem() != GetFirstSelected() )
-            OnDeselected( leEvent );
-    }
-    else
-    {
-        if ( -1 == GetFirstSelected() )
-            OnDeselected( leEvent );
+    if (m_bIsSingleSelection) {
+        if (GetFocusedItem() != GetFirstSelected())
+            OnDeselected(leEvent);
+    } else {
+        if (-1 == GetFirstSelected())
+            OnDeselected(leEvent);
     }
 
     event.Skip();
 }
 
 
-void CBOINCListCtrl::OnSelected( wxListEvent& event )
-{
+void CBOINCListCtrl::OnSelected(wxListEvent& event) {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    m_pParentView->FireOnListSelected( event );
+    m_pParentView->FireOnListSelected(event);
 
     event.Skip();
 }
 
 
-void CBOINCListCtrl::OnDeselected( wxListEvent& event )
-{
+void CBOINCListCtrl::OnDeselected(wxListEvent& event) {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    m_pParentView->FireOnListDeselected( event );
+    m_pParentView->FireOnListDeselected(event);
 
     event.Skip();
 }
 
 
-wxString CBOINCListCtrl::OnGetItemText( long item, long column ) const
-{
+wxString CBOINCListCtrl::OnGetItemText(long item, long column) const {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    return m_pParentView->FireOnListGetItemText( item, column );
+    return m_pParentView->FireOnListGetItemText(item, column);
 }
 
 
-int CBOINCListCtrl::OnGetItemImage( long item ) const
-{
+int CBOINCListCtrl::OnGetItemImage(long item) const {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    return m_pParentView->FireOnListGetItemImage( item );
+    return m_pParentView->FireOnListGetItemImage(item);
 }
 
 
-wxListItemAttr* CBOINCListCtrl::OnGetItemAttr( long item ) const
-{
+wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    return m_pParentView->FireOnListGetItemAttr( item );
+    return m_pParentView->FireOnListGetItemAttr(item);
 }
 
 

@@ -38,21 +38,18 @@ BEGIN_EVENT_TABLE (CPaintStatistics, wxPanel)
     EVT_PAINT(CPaintStatistics::OnPaint)
 END_EVENT_TABLE ()
 
-CPaintStatistics::CPaintStatistics()
-{
+CPaintStatistics::CPaintStatistics() {
 	m_SelectedStatistic=0;
 	heading="User Total";
 }
 
 CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
-				wxPanel(parent, id, pos, size, style, name)
-{
+				wxPanel(parent, id, pos, size, style, name) {
 	m_SelectedStatistic=0;
 	heading="User Total";
 }
 
-void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event))
-{
+void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 	//Init global
     CMainDocument* pDoc      = wxGetApp().GetDocument();
@@ -123,7 +120,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event))
 	wxInt32 count=-1;
 	
 	for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();
-		i!=proj->projects.end(); ++i) {
+		i!=proj->projects.end(); ++i
+    ) {
 		++count;
 
 		//No statistics
@@ -272,8 +270,7 @@ CViewStatistics::CViewStatistics()
 
 
 CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
-    CBOINCBaseView( pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS, true )
-{
+    CBOINCBaseView( pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS, true ) {
 	wxASSERT(NULL != pNotebook);
 
     m_bProcessingTaskRenderEvent = false;
@@ -375,25 +372,22 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
 }
 
-CViewStatistics::~CViewStatistics()
-{
-}
+CViewStatistics::~CViewStatistics() {}
 
 
-wxString CViewStatistics::GetViewName()
-{
+wxString CViewStatistics::GetViewName() {
     return wxString(_("Statistics"));
 }
 
 
-/*const char** CViewStatistics::GetViewIcon()
-{
+#if 0
+const char** CViewStatistics::GetViewIcon() {
     return usage_xpm;
-}*/
+}
+#endif
 
 
-wxInt32 CViewStatistics::GetDocCount()
-{
+wxInt32 CViewStatistics::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
 	static long old_val=0;
@@ -411,8 +405,7 @@ wxInt32 CViewStatistics::GetDocCount()
 }
 
 
-void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
-{
+void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link ) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 	wxASSERT(NULL != m_PaintStatistics);
@@ -442,21 +435,18 @@ void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 }
 
 
-void CViewStatistics::UpdateSelection()
-{
+void CViewStatistics::UpdateSelection() {
     UpdateTaskPane();
 }
 
 
-void CViewStatistics::UpdateTaskPane()
-{
+void CViewStatistics::UpdateTaskPane() {
     wxASSERT(NULL != m_pTaskPane);
 
     m_pTaskPane->BeginTaskPage();
 
     m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
-    if (!m_bTaskHeaderHidden)
-    {
+    if (!m_bTaskHeaderHidden) {
         m_pTaskPane->CreateTask( LINK_TASKUSERTOTAL, _("Show user total"), false );
         m_pTaskPane->CreateTask( LINK_TASKUSERAVG, _("Show user average"), false );
         m_pTaskPane->CreateTask( LINK_TASKHOSTTOTAL, _("Show host total"), false );

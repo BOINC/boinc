@@ -45,8 +45,7 @@
 #define COLUMN_STATUS               6
 
 
-CTransfer::CTransfer()
-{
+CTransfer::CTransfer() {
     m_strProjectName = wxEmptyString;
     m_strFileName = wxEmptyString;
     m_strProgress = wxEmptyString;
@@ -57,8 +56,7 @@ CTransfer::CTransfer()
 }
 
 
-CTransfer::~CTransfer()
-{
+CTransfer::~CTransfer() {
     m_strProjectName.Clear();
     m_strFileName.Clear();
     m_strProgress.Clear();
@@ -72,14 +70,11 @@ CTransfer::~CTransfer()
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 
 
-CViewTransfers::CViewTransfers()
-{
-}
+CViewTransfers::CViewTransfers() {}
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
-    CBOINCBaseView( pNotebook, ID_HTML_TRANSFERSVIEW, DEFAULT_HTML_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS )
-{
+    CBOINCBaseView(pNotebook, ID_HTML_TRANSFERSVIEW, DEFAULT_HTML_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -140,32 +135,28 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     SetCurrentQuickTip(
         LINK_DEFAULT, 
         LINKDESC_DEFAULT
-    );
+   );
 
     UpdateSelection();
 }
 
 
-CViewTransfers::~CViewTransfers()
-{
+CViewTransfers::~CViewTransfers() {
     EmptyCache();
 }
 
 
-wxString CViewTransfers::GetViewName()
-{
+wxString CViewTransfers::GetViewName() {
     return wxString(_("Transfers"));
 }
 
 
-const char** CViewTransfers::GetViewIcon()
-{
+const char** CViewTransfers::GetViewIcon() {
     return xfer_xpm;
 }
 
 
-wxInt32 CViewTransfers::GetDocCount()
-{
+wxInt32 CViewTransfers::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -175,13 +166,11 @@ wxInt32 CViewTransfers::GetDocCount()
 }
 
 
-wxString CViewTransfers::OnListGetItemText(long item, long column) const
-{
-    CTransfer* transfer   = m_TransferCache.at( item );
+wxString CViewTransfers::OnListGetItemText(long item, long column) const {
+    CTransfer* transfer   = m_TransferCache.at(item);
     wxString   strBuffer  = wxEmptyString;
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
             strBuffer = transfer->m_strProjectName;
             break;
@@ -209,32 +198,30 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const
 }
 
 
-wxString CViewTransfers::OnDocGetItemText(long item, long column) const
-{
+wxString CViewTransfers::OnDocGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
-            FormatProjectName( item, strBuffer );
+            FormatProjectName(item, strBuffer);
             break;
         case COLUMN_FILE:
-            FormatFileName( item, strBuffer );
+            FormatFileName(item, strBuffer);
             break;
         case COLUMN_PROGRESS:
-            FormatProgress( item, strBuffer );
+            FormatProgress(item, strBuffer);
             break;
         case COLUMN_SIZE:
-            FormatSize( item, strBuffer );
+            FormatSize(item, strBuffer);
             break;
         case COLUMN_TIME:
-            FormatTime( item, strBuffer );
+            FormatTime(item, strBuffer);
             break;
         case COLUMN_SPEED:
-            FormatSpeed( item, strBuffer );
+            FormatSpeed(item, strBuffer);
             break;
         case COLUMN_STATUS:
-            FormatStatus( item, strBuffer );
+            FormatStatus(item, strBuffer);
             break;
     }
 
@@ -242,8 +229,7 @@ wxString CViewTransfers::OnDocGetItemText(long item, long column) const
 }
 
 
-void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
-{
+void CViewTransfers::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxInt32  iAnswer        = 0; 
     wxInt32  iProjectIndex  = 0; 
     wxString strName        = wxEmptyString;
@@ -258,16 +244,11 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     m_bTaskHeaderHidden = false;
     m_bTipsHeaderHidden = false;
 
-    if ( link.GetHref() == LINK_TASKRETRY )
-    {
+    if (link.GetHref() == LINK_TASKRETRY) {
         iProjectIndex = m_pListPane->GetFirstSelected();
 
-        pDoc->TransferRetryNow(
-            iProjectIndex 
-        );
-    }
-    else if ( link.GetHref() == LINK_TASKABORT )
-    {
+        pDoc->TransferRetryNow(iProjectIndex);
+    } else if (link.GetHref() == LINK_TASKABORT) {
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetTransferFileName(iProjectIndex, strName);
 
@@ -280,13 +261,12 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             _("Abort File Transfer"),
             wxYES_NO | wxICON_QUESTION, 
             this
-        );
+       );
 
-        if ( wxYES == iAnswer )
-        {
+        if (wxYES == iAnswer) {
             pDoc->TransferAbort(
                 iProjectIndex
-            );
+           );
         }
     }
 
@@ -295,58 +275,49 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 }
 
 
-void CViewTransfers::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y) )
-{
-    if ( NULL != cell->GetLink() )
-    {
+void CViewTransfers::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
+    if (NULL != cell->GetLink()) {
         bool        bUpdateSelection = false;
         wxString    strLink;
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( UpdateQuickTip( strLink, LINK_TASKRETRY, LINKDESC_TASKRETRY ) )
+        if      (UpdateQuickTip(strLink, LINK_TASKRETRY, LINKDESC_TASKRETRY)) {
             bUpdateSelection = true;
-        else if ( UpdateQuickTip( strLink, LINK_TASKABORT, LINKDESC_TASKABORT ) )
+        } else if (UpdateQuickTip(strLink, LINK_TASKABORT, LINKDESC_TASKABORT)) {
             bUpdateSelection = true;
-        else
-        {
-            if ( 0 == m_pListPane->GetSelectedItemCount() )
-            {
-                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
-                {
+        } else {
+            if (0 == m_pListPane->GetSelectedItemCount()) {
+                if  (LINK_DEFAULT != GetCurrentQuickTip()) {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
                         LINKDESC_DEFAULT
-                    );
+                   );
 
                     bUpdateSelection = true;
                 }
             }
         }
 
-        if ( bUpdateSelection )
-        {
+        if (bUpdateSelection) {
             UpdateSelection();
         }
     }
 }
 
 
-wxInt32 CViewTransfers::AddCacheElement()
-{
+wxInt32 CViewTransfers::AddCacheElement() {
     CTransfer* pItem = new CTransfer();
-    wxASSERT( NULL != pItem );
-    if ( NULL != pItem )
-    {
-        m_TransferCache.push_back( pItem );
+    wxASSERT(NULL != pItem);
+    if (NULL != pItem) {
+        m_TransferCache.push_back(pItem);
         return 0;
     }
     return -1;
 }
 
 
-wxInt32 CViewTransfers::EmptyCache()
-{
+wxInt32 CViewTransfers::EmptyCache() {
     unsigned int i;
     for (i=0; i<m_TransferCache.size(); i++) {
         delete m_TransferCache[i];
@@ -356,26 +327,22 @@ wxInt32 CViewTransfers::EmptyCache()
 }
 
 
-wxInt32 CViewTransfers::GetCacheCount()
-{
+wxInt32 CViewTransfers::GetCacheCount() {
     return m_TransferCache.size();
 }
 
 
-wxInt32 CViewTransfers::RemoveCacheElement()
-{
+wxInt32 CViewTransfers::RemoveCacheElement() {
     delete m_TransferCache.back();
-    m_TransferCache.erase( m_TransferCache.end() - 1 );
+    m_TransferCache.erase(m_TransferCache.end() - 1);
     return 0;
 }
 
 
-wxInt32 CViewTransfers::UpdateCache( long item, long column, wxString& strNewData )
-{
-    CTransfer* transfer   = m_TransferCache.at( item );
+wxInt32 CViewTransfers::UpdateCache(long item, long column, wxString& strNewData) {
+    CTransfer* transfer   = m_TransferCache.at(item);
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
             transfer->m_strProjectName = strNewData;
             break;
@@ -403,28 +370,23 @@ wxInt32 CViewTransfers::UpdateCache( long item, long column, wxString& strNewDat
 }
 
 
-void CViewTransfers::UpdateSelection()
-{
+void CViewTransfers::UpdateSelection() {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if ( 0 == m_pListPane->GetSelectedItemCount() )
-    {
+    if (0 == m_pListPane->GetSelectedItemCount()) {
         m_bTaskHeaderHidden = true;
         m_bTaskRetryHidden = true;
         m_bTaskAbortHidden = true;
 
-        if ( m_bItemSelected )
-        {
+        if (m_bItemSelected) {
             SetCurrentQuickTip(
                 LINK_DEFAULT, 
                 wxT("")
-            );
+           );
         }
         m_bItemSelected = false;
-    }
-    else
-    {
+    } else {
         m_bTaskHeaderHidden = false;
         m_bTaskRetryHidden = false;
         m_bTaskAbortHidden = false;
@@ -435,28 +397,25 @@ void CViewTransfers::UpdateSelection()
 }
 
 
-void CViewTransfers::UpdateTaskPane()
-{
+void CViewTransfers::UpdateTaskPane() {
     wxASSERT(NULL != m_pTaskPane);
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
-    if (!m_bTaskHeaderHidden)
-    {
-        m_pTaskPane->CreateTask( LINK_TASKRETRY, _("Retry Now"), m_bTaskRetryHidden );
-        m_pTaskPane->CreateTask( LINK_TASKABORT, _("Abort Transfer"), m_bTaskAbortHidden );
+    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
+    if (!m_bTaskHeaderHidden) {
+        m_pTaskPane->CreateTask(LINK_TASKRETRY, _("Retry Now"), m_bTaskRetryHidden);
+        m_pTaskPane->CreateTask(LINK_TASKABORT, _("Abort Transfer"), m_bTaskAbortHidden);
     }
-    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }
 
 
-wxInt32 CViewTransfers::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -470,8 +429,7 @@ wxInt32 CViewTransfers::FormatProjectName( wxInt32 item, wxString& strBuffer ) c
 }
 
 
-wxInt32 CViewTransfers::FormatFileName( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatFileName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -485,8 +443,7 @@ wxInt32 CViewTransfers::FormatFileName( wxInt32 item, wxString& strBuffer ) cons
 }
 
 
-wxInt32 CViewTransfers::FormatProgress( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBytesSent = 0;
     float          fFileSize = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -496,21 +453,20 @@ wxInt32 CViewTransfers::FormatProgress( wxInt32 item, wxString& strBuffer ) cons
 
     strBuffer.Clear();
 
-    if ( pDoc->IsTransferActive(item) )
-        pDoc->GetTransferBytesXfered( item, fBytesSent );
+    if (pDoc->IsTransferActive(item))
+        pDoc->GetTransferBytesXfered(item, fBytesSent);
     else
-        pDoc->GetTransferFileSize( item, fBytesSent );
+        pDoc->GetTransferFileSize(item, fBytesSent);
 
-    pDoc->GetTransferFileSize( item, fFileSize );
+    pDoc->GetTransferFileSize(item, fFileSize);
 
-    strBuffer.Printf(wxT("%.2f%%"), ( 100 * ( fBytesSent / fFileSize ) ) );
+    strBuffer.Printf(wxT("%.2f%%"), (100 * (fBytesSent / fFileSize)));
 
     return 0;
 }
 
 
-wxInt32 CViewTransfers::FormatSize( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatSize(wxInt32 item, wxString& strBuffer) const {
     float          fBytesSent = 0;
     float          fFileSize = 0;
     double         xTera = 1099511627776.0;
@@ -524,66 +480,43 @@ wxInt32 CViewTransfers::FormatSize( wxInt32 item, wxString& strBuffer ) const
 
     strBuffer.Clear();
 
-    if ( pDoc->IsTransferActive(item) )
-        pDoc->GetTransferBytesXfered( item, fBytesSent );
+    if (pDoc->IsTransferActive(item))
+        pDoc->GetTransferBytesXfered(item, fBytesSent);
     else
-        pDoc->GetTransferFileSize( item, fBytesSent );
+        pDoc->GetTransferFileSize(item, fBytesSent);
 
-    pDoc->GetTransferFileSize( item, fFileSize );
+    pDoc->GetTransferFileSize(item, fFileSize);
 
-    if (fFileSize != 0)
-    {
-        if      ( fFileSize >= xTera )
-        {
-            strBuffer.Printf( wxT("%0.2f/%0.2f TB"), fBytesSent/xTera, fFileSize/xTera);
+    if (fFileSize != 0) {
+        if      (fFileSize >= xTera) {
+            strBuffer.Printf(wxT("%0.2f/%0.2f TB"), fBytesSent/xTera, fFileSize/xTera);
+        } else if (fFileSize >= xGiga) {
+            strBuffer.Printf(wxT("%0.2f/%0.2f GB"), fBytesSent/xGiga, fFileSize/xGiga);
+        } else if (fFileSize >= xMega) {
+            strBuffer.Printf(wxT("%0.2f/%0.2f MB"), fBytesSent/xMega, fFileSize/xMega);
+        } else if (fFileSize >= xKilo) {
+            strBuffer.Printf(wxT("%0.2f/%0.2f KB"), fBytesSent/xKilo, fFileSize/xKilo);
+        } else {
+            strBuffer.Printf(wxT("%0.0f/%0.0f bytes"), fBytesSent, fFileSize);
         }
-        else if ( fFileSize >= xGiga )
-        {
-            strBuffer.Printf( wxT("%0.2f/%0.2f GB"), fBytesSent/xGiga, fFileSize/xGiga);
-        }
-        else if ( fFileSize >= xMega )
-        {
-            strBuffer.Printf( wxT("%0.2f/%0.2f MB"), fBytesSent/xMega, fFileSize/xMega);
-        }
-        else if ( fFileSize >= xKilo )
-        {
-            strBuffer.Printf( wxT("%0.2f/%0.2f KB"), fBytesSent/xKilo, fFileSize/xKilo);
-        }
-        else
-        {
-            strBuffer.Printf( wxT("%0.0f/%0.0f bytes"), fBytesSent, fFileSize);
+    } else {
+        if      (fBytesSent >= xTera) {
+            strBuffer.Printf(wxT("%0.2f TB"), fBytesSent/xTera);
+        } else if (fBytesSent >= xGiga) {
+            strBuffer.Printf(wxT("%0.2f GB"), fBytesSent/xGiga);
+        } else if (fBytesSent >= xMega) {
+            strBuffer.Printf(wxT("%0.2f MB"), fBytesSent/xMega);
+        } else if (fBytesSent >= xKilo) {
+            strBuffer.Printf(wxT("%0.2f KB"), fBytesSent/xKilo);
+        } else {
+            strBuffer.Printf(wxT("%0.0f bytes"), fBytesSent);
         }
     }
-    else
-    {
-        if      ( fBytesSent >= xTera )
-        {
-            strBuffer.Printf( wxT("%0.2f TB"), fBytesSent/xTera);
-        }
-        else if ( fBytesSent >= xGiga )
-        {
-            strBuffer.Printf( wxT("%0.2f GB"), fBytesSent/xGiga);
-        }
-        else if ( fBytesSent >= xMega )
-        {
-            strBuffer.Printf( wxT("%0.2f MB"), fBytesSent/xMega);
-        }
-        else if ( fBytesSent >= xKilo )
-        {
-            strBuffer.Printf( wxT("%0.2f KB"), fBytesSent/xKilo);
-        }
-        else
-        {
-            strBuffer.Printf( wxT("%0.0f bytes"), fBytesSent);
-        }
-    }
-
     return 0;
 }
 
 
-wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatTime(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
@@ -602,7 +535,7 @@ wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
     iMin  = (wxInt32)(fBuffer / 60) % 60;
     iSec  = (wxInt32)(fBuffer) % 60;
 
-    ts = wxTimeSpan( iHour, iMin, iSec );
+    ts = wxTimeSpan(iHour, iMin, iSec);
 
     strBuffer = ts.Format();
 
@@ -610,8 +543,7 @@ wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewTransfers::FormatSpeed( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
     float          fTransferSpeed = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
@@ -620,20 +552,18 @@ wxInt32 CViewTransfers::FormatSpeed( wxInt32 item, wxString& strBuffer ) const
 
     strBuffer.Clear();
 
-    if ( pDoc->IsTransferActive(item) )
-    {
-        pDoc->GetTransferSpeed( item, fTransferSpeed );
-        strBuffer.Printf( wxT("%0.2f KBps"), ( fTransferSpeed / 1024 ) );
-    }
-    else
+    if (pDoc->IsTransferActive(item)) {
+        pDoc->GetTransferSpeed(item, fTransferSpeed);
+        strBuffer.Printf(wxT("%0.2f KBps"), (fTransferSpeed / 1024));
+    } else {
         strBuffer.Printf(wxT("%.2f KBps"), 0.0);
+    }
 
     return 0;
 }
 
 
-wxInt32 CViewTransfers::FormatStatus( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iTime = 0;
     wxInt32        iStatus = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -645,44 +575,33 @@ wxInt32 CViewTransfers::FormatStatus( wxInt32 item, wxString& strBuffer ) const
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
-    pDoc->GetActivityState( bActivitiesSuspended, bNetworkSuspended );
+    pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
 
-    pDoc->GetTransferNextRequestTime( item, iTime );
-    pDoc->GetTransferStatus( item, iStatus );
+    pDoc->GetTransferNextRequestTime(item, iTime);
+    pDoc->GetTransferStatus(item, iStatus);
 
-    pDoc->GetActivityRunMode( iActivityMode );
+    pDoc->GetActivityRunMode(iActivityMode);
 
-    wxDateTime dtNextRequest( (time_t)iTime );
+    wxDateTime dtNextRequest((time_t)iTime);
     wxDateTime dtNow(wxDateTime::Now());
 
-    if      ( dtNextRequest > dtNow )
-    {
+    if      (dtNextRequest > dtNow) {
         wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
         strBuffer = _("Retry in ") + tsNextRequest.Format();
-    }
-    else if ( ERR_GIVEUP_DOWNLOAD == iStatus )
-    {
+    } else if (ERR_GIVEUP_DOWNLOAD == iStatus) {
         strBuffer = _("Download failed");
-    }
-    else if ( ERR_GIVEUP_UPLOAD == iStatus )
-    {
+    } else if (ERR_GIVEUP_UPLOAD == iStatus) {
         strBuffer = _("Upload failed");
-    }
-    else
-    {
-        if ( bNetworkSuspended )
-        {
+    } else {
+        if (bNetworkSuspended) {
             strBuffer = _("Suspended");
-        }
-        else
-        {
-            strBuffer = pDoc->IsTransferGeneratedLocally( item )? _("Uploading") : _("Downloading");
+        } else {
+            strBuffer = pDoc->IsTransferGeneratedLocally(item)? _("Uploading") : _("Downloading");
         }
     }
 
-    if ( CMainDocument::MODE_NEVER == iActivityMode )
-    {
-        strBuffer = wxT(" ( ") + strBuffer + wxT(" ) ");
+    if (CMainDocument::MODE_NEVER == iActivityMode) {
+        strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Suspended") + strBuffer;
     }
 

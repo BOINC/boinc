@@ -45,8 +45,7 @@
 #define COLUMN_STATUS               7
 
 
-CWork::CWork()
-{
+CWork::CWork() {
     m_strProjectName = wxEmptyString;
     m_strApplicationName = wxEmptyString;
     m_strName = wxEmptyString;
@@ -58,8 +57,7 @@ CWork::CWork()
 }
 
 
-CWork::~CWork()
-{
+CWork::~CWork() {
     m_strProjectName.Clear();
     m_strApplicationName.Clear();
     m_strName.Clear();
@@ -74,14 +72,11 @@ CWork::~CWork()
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 
 
-CViewWork::CViewWork()
-{
-}
+CViewWork::CViewWork() {}
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView( pNotebook, ID_HTML_WORKVIEW, DEFAULT_HTML_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS )
-{
+    CBOINCBaseView(pNotebook, ID_HTML_WORKVIEW, DEFAULT_HTML_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -153,32 +148,28 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     SetCurrentQuickTip(
         LINK_DEFAULT, 
         LINKDESC_DEFAULT
-    );
+   );
 
     UpdateSelection();
 }
 
 
-CViewWork::~CViewWork()
-{
+CViewWork::~CViewWork() {
     EmptyCache();
 }
 
 
-wxString CViewWork::GetViewName()
-{
+wxString CViewWork::GetViewName() {
     return wxString(_("Work"));
 }
 
 
-const char** CViewWork::GetViewIcon()
-{
+const char** CViewWork::GetViewIcon() {
     return result_xpm;
 }
 
 
-wxInt32 CViewWork::GetDocCount()
-{
+wxInt32 CViewWork::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -188,13 +179,11 @@ wxInt32 CViewWork::GetDocCount()
 }
 
 
-wxString CViewWork::OnListGetItemText( long item, long column ) const
-{
-    CWork*    work      = m_WorkCache.at( item );
+wxString CViewWork::OnListGetItemText(long item, long column) const {
+    CWork*    work      = m_WorkCache.at(item);
     wxString  strBuffer = wxEmptyString;
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
             strBuffer = work->m_strProjectName;
             break;
@@ -225,35 +214,33 @@ wxString CViewWork::OnListGetItemText( long item, long column ) const
 }
 
 
-wxString CViewWork::OnDocGetItemText( long item, long column ) const
-{
+wxString CViewWork::OnDocGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
-            FormatProjectName( item, strBuffer );
+            FormatProjectName(item, strBuffer);
             break;
         case COLUMN_APPLICATION:
-            FormatApplicationName( item, strBuffer );
+            FormatApplicationName(item, strBuffer);
             break;
         case COLUMN_NAME:
-            FormatName( item, strBuffer );
+            FormatName(item, strBuffer);
             break;
         case COLUMN_CPUTIME:
-            FormatCPUTime( item, strBuffer );
+            FormatCPUTime(item, strBuffer);
             break;
         case COLUMN_PROGRESS:
-            FormatProgress( item, strBuffer );
+            FormatProgress(item, strBuffer);
             break;
         case COLUMN_TOCOMPLETION:
-            FormatTimeToCompletion( item, strBuffer );
+            FormatTimeToCompletion(item, strBuffer);
             break;
         case COLUMN_REPORTDEADLINE:
-            FormatReportDeadline( item, strBuffer );
+            FormatReportDeadline(item, strBuffer);
             break;
         case COLUMN_STATUS:
-            FormatStatus( item, strBuffer );
+            FormatStatus(item, strBuffer);
             break;
     }
 
@@ -261,8 +248,7 @@ wxString CViewWork::OnDocGetItemText( long item, long column ) const
 }
 
 
-void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
-{
+void CViewWork::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxInt32  iAnswer        = 0; 
     wxInt32  iProjectIndex  = 0; 
     wxString strProjectURL  = wxEmptyString;
@@ -279,43 +265,38 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     m_bTaskHeaderHidden = false;
     m_bTipsHeaderHidden = false;
 
-    if ( link.GetHref() == LINK_TASKSUSPEND )
-    {
+    if (link.GetHref() == LINK_TASKSUSPEND) {
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->WorkSuspend(
             iProjectIndex
-        );
-    }
-    else if ( link.GetHref() == LINK_TASKRESUME )
-    {
+       );
+    } else if (link.GetHref() == LINK_TASKRESUME) {
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->WorkResume(
             iProjectIndex
-        );
-    }
-    else if ( link.GetHref() == LINK_TASKSHOWGRAPHICS )
-    {
+       );
+    } else if (link.GetHref() == LINK_TASKSHOWGRAPHICS) {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetConnectedComputerName( strMachineName );
+        pDoc->GetConnectedComputerName(strMachineName);
 
 #ifdef _WIN32
-        if ( !strMachineName.empty() ) {
+        if (!strMachineName.empty()) {
             iAnswer = wxMessageBox(
                 _("Are you sure you wish to display graphics on a remote machine?"),
                 _("Show graphics"),
                 wxYES_NO | wxICON_QUESTION, 
                 this
-            );
+           );
         } else {
             iAnswer = wxYES;
         }
 #else
-            iAnswer = wxYES;
+        iAnswer = wxYES;
 #endif
 
-        if ( wxYES == iAnswer ) {
+        if (wxYES == iAnswer) {
 			int foo = iProjectIndex;
             pDoc->WorkShowGraphics(
                 foo,
@@ -323,11 +304,9 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
                 wxGetApp().m_strDefaultWindowStation,
                 wxGetApp().m_strDefaultDesktop,
                 wxGetApp().m_strDefaultDisplay
-            );
+           );
         }
-    }
-    else if ( link.GetHref() == LINK_TASKABORT )
-    {
+    } else if (link.GetHref() == LINK_TASKABORT) {
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetWorkName(iProjectIndex, strResultName);
 
@@ -340,13 +319,12 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             _("Abort result"),
             wxYES_NO | wxICON_QUESTION, 
             this
-        );
+       );
 
-        if ( wxYES == iAnswer )
-        {
+        if (wxYES == iAnswer) {
             pDoc->WorkAbort(
                 iProjectIndex
-            );
+           );
         }
     }
 
@@ -355,40 +333,34 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 }
 
 
-void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y) )
-{
-    if ( NULL != cell->GetLink() )
-    {
+void CViewWork::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
+    if (NULL != cell->GetLink()) {
         bool        bUpdateSelection = false;
         wxString    strLink;
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( UpdateQuickTip( strLink, LINK_TASKSUSPEND, LINKDESC_TASKSUSPEND ) )
+        if      (UpdateQuickTip(strLink, LINK_TASKSUSPEND, LINKDESC_TASKSUSPEND))
             bUpdateSelection = true;
-        else if ( UpdateQuickTip( strLink, LINK_TASKRESUME, LINKDESC_TASKRESUME ) )
+        else if (UpdateQuickTip(strLink, LINK_TASKRESUME, LINKDESC_TASKRESUME))
             bUpdateSelection = true;
-        else if ( UpdateQuickTip( strLink, LINK_TASKSHOWGRAPHICS, LINKDESC_TASKSHOWGRAPHICS ) )
+        else if (UpdateQuickTip(strLink, LINK_TASKSHOWGRAPHICS, LINKDESC_TASKSHOWGRAPHICS))
             bUpdateSelection = true;
-        else if ( UpdateQuickTip( strLink, LINK_TASKABORT, LINKDESC_TASKABORT ) )
+        else if (UpdateQuickTip(strLink, LINK_TASKABORT, LINKDESC_TASKABORT))
             bUpdateSelection = true;
-        else
-        {
-            if ( 0 == m_pListPane->GetSelectedItemCount() )
-            {
-                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
-                {
+        else {
+            if (0 == m_pListPane->GetSelectedItemCount()) {
+                if  (LINK_DEFAULT != GetCurrentQuickTip()) {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
                         LINKDESC_DEFAULT
-                    );
-
+                   );
                     bUpdateSelection = true;
                 }
             }
         }
 
-        if ( bUpdateSelection )
+        if (bUpdateSelection)
         {
             UpdateSelection();
         }
@@ -396,21 +368,18 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxC
 }
 
 
-wxInt32 CViewWork::AddCacheElement()
-{
+wxInt32 CViewWork::AddCacheElement() {
     CWork* pItem = new CWork();
-    wxASSERT( NULL != pItem );
-    if ( NULL != pItem )
-    {
-        m_WorkCache.push_back( pItem );
+    wxASSERT(NULL != pItem);
+    if (NULL != pItem) {
+        m_WorkCache.push_back(pItem);
         return 0;
     }
     return -1;
 }
 
 
-wxInt32 CViewWork::EmptyCache()
-{
+wxInt32 CViewWork::EmptyCache() {
     unsigned int i;
     for (i=0; i<m_WorkCache.size(); i++) {
         delete m_WorkCache[i];
@@ -420,26 +389,22 @@ wxInt32 CViewWork::EmptyCache()
 }
 
 
-wxInt32 CViewWork::GetCacheCount()
-{
+wxInt32 CViewWork::GetCacheCount() {
     return m_WorkCache.size();
 }
 
 
-wxInt32 CViewWork::RemoveCacheElement()
-{
+wxInt32 CViewWork::RemoveCacheElement() {
     delete m_WorkCache.back();
-    m_WorkCache.erase( m_WorkCache.end() - 1 );
+    m_WorkCache.erase(m_WorkCache.end() - 1);
     return 0;
 }
 
 
-wxInt32 CViewWork::UpdateCache( long item, long column, wxString& strNewData )
-{
-    CWork* work   = m_WorkCache.at( item );
+wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
+    CWork* work   = m_WorkCache.at(item);
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
             work->m_strProjectName = strNewData;
             break;
@@ -470,8 +435,7 @@ wxInt32 CViewWork::UpdateCache( long item, long column, wxString& strNewData )
 }
 
 
-void CViewWork::UpdateSelection()
-{
+void CViewWork::UpdateSelection() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxInt32        iSelectedRow   = -1;
 
@@ -480,56 +444,48 @@ void CViewWork::UpdateSelection()
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if ( 0 == m_pListPane->GetSelectedItemCount() )
-    {
+    if (0 == m_pListPane->GetSelectedItemCount()) {
         m_bTaskHeaderHidden = true;
         m_bTaskSuspendHidden = true;
         m_bTaskResumeHidden = true;
         m_bTaskShowGraphicsHidden = true;
         m_bTaskAbortHidden = true;
 
-        if ( m_bItemSelected )
-        {
+        if (m_bItemSelected) {
             SetCurrentQuickTip(
                 LINK_DEFAULT, 
                 wxT("")
-            );
+           );
         }
         m_bItemSelected = false;
-    }
-    else
-    {
+    } else {
         iSelectedRow = m_pListPane->GetFirstSelected();
 
         m_bTaskHeaderHidden = false;
 
-        if ( pDoc->IsWorkSuspended( iSelectedRow ) )
-        {
+        if (pDoc->IsWorkSuspended(iSelectedRow)) {
             m_bTaskSuspendHidden = true;
             m_bTaskResumeHidden = false;
-        }
-        else
-        {
+        } else {
             m_bTaskSuspendHidden = false;
             m_bTaskResumeHidden = true;
         }
 
-        if ( pDoc->IsWorkGraphicsSupported( iSelectedRow ) && !pDoc->IsWorkSuspended( iSelectedRow ) )
+        if (pDoc->IsWorkGraphicsSupported(iSelectedRow) && !pDoc->IsWorkSuspended(iSelectedRow))
             m_bTaskShowGraphicsHidden = false;
         else
             m_bTaskShowGraphicsHidden = true;
 
-        if ( !pDoc->IsWorkAborted( iSelectedRow ) )
+        if (!pDoc->IsWorkAborted(iSelectedRow)) {
             m_bTaskAbortHidden = false;
-        else
-        {
+        } else {
             m_bTaskAbortHidden = true;
             m_bTaskSuspendHidden = true;
             m_bTaskResumeHidden = true;
-            UpdateQuickTip( LINK_TASKABORT, LINK_TASKABORT, LINKDESC_TASKABORT );
+            UpdateQuickTip(LINK_TASKABORT, LINK_TASKABORT, LINKDESC_TASKABORT);
         }
 
-        if ( m_bTaskSuspendHidden && m_bTaskResumeHidden && m_bTaskShowGraphicsHidden && m_bTaskAbortHidden )
+        if (m_bTaskSuspendHidden && m_bTaskResumeHidden && m_bTaskShowGraphicsHidden && m_bTaskAbortHidden)
             m_bTaskHeaderHidden = true;
 
         m_bItemSelected = true;
@@ -538,30 +494,27 @@ void CViewWork::UpdateSelection()
 }
 
 
-void CViewWork::UpdateTaskPane()
-{
+void CViewWork::UpdateTaskPane() {
     wxASSERT(NULL != m_pTaskPane);
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
-    if (!m_bTaskHeaderHidden)
-    {
-        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, _("Suspend"), m_bTaskSuspendHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESUME, _("Resume"), m_bTaskResumeHidden );
-        m_pTaskPane->CreateTask( LINK_TASKSHOWGRAPHICS, _("Show graphics"), m_bTaskShowGraphicsHidden );
-        m_pTaskPane->CreateTask( LINK_TASKABORT, _("Abort result"), m_bTaskAbortHidden );
+    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
+    if (!m_bTaskHeaderHidden) {
+        m_pTaskPane->CreateTask(LINK_TASKSUSPEND, _("Suspend"), m_bTaskSuspendHidden);
+        m_pTaskPane->CreateTask(LINK_TASKRESUME, _("Resume"), m_bTaskResumeHidden);
+        m_pTaskPane->CreateTask(LINK_TASKSHOWGRAPHICS, _("Show graphics"), m_bTaskShowGraphicsHidden);
+        m_pTaskPane->CreateTask(LINK_TASKABORT, _("Abort result"), m_bTaskAbortHidden);
     }
-    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }
 
 
-wxInt32 CViewWork::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -575,8 +528,7 @@ wxInt32 CViewWork::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewWork::FormatApplicationName( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iBuffer = 0;
     wxString       strTempName = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -598,8 +550,7 @@ wxInt32 CViewWork::FormatApplicationName( wxInt32 item, wxString& strBuffer ) co
 }
 
 
-wxInt32 CViewWork::FormatName( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -613,8 +564,7 @@ wxInt32 CViewWork::FormatName( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
@@ -627,29 +577,23 @@ wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
 
     strBuffer.Clear();
 
-    if (pDoc->IsWorkActive(item))
-    {
+    if (pDoc->IsWorkActive(item)) {
         pDoc->GetWorkCurrentCPUTime(item, fBuffer);
-    }
-    else
-    {
+    } else {
         if(pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR)
             fBuffer = 0;
         else 
             pDoc->GetWorkFinalCPUTime(item, fBuffer);
     }
 
-    if ( 0 == fBuffer )
-    {
+    if (0 == fBuffer) {
         strBuffer = wxT("---");
-    }
-    else
-    {
+    } else {
         iHour = (wxInt32)(fBuffer / (60 * 60));
         iMin  = (wxInt32)(fBuffer / 60) % 60;
         iSec  = (wxInt32)(fBuffer) % 60;
 
-        ts = wxTimeSpan( iHour, iMin, iSec );
+        ts = wxTimeSpan(iHour, iMin, iSec);
 
         strBuffer = ts.Format();
     }
@@ -658,8 +602,7 @@ wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
@@ -668,15 +611,12 @@ wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 
     strBuffer.Clear();
 
-    if (!pDoc->IsWorkActive(item))
-    {
-        if( pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR )
+    if (!pDoc->IsWorkActive(item)) {
+        if(pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR)
             strBuffer.Printf(wxT("%.2f%%"), 0.0);
         else 
             strBuffer.Printf(wxT("%.2f%%"), 100.00);
-    }
-    else
-    {
+    } else {
         pDoc->GetWorkFractionDone(item, fBuffer);
         strBuffer.Printf(wxT("%.2f%%"), fBuffer * 100);
     }
@@ -685,7 +625,7 @@ wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const
+wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const
 {
     float          fBuffer = 0;
     wxInt32        iHour = 0;
@@ -701,17 +641,14 @@ wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) c
 
     pDoc->GetWorkEstimatedCPUTime(item, fBuffer);
 
-    if ( 0 >= fBuffer )
-    {
+    if (0 >= fBuffer) {
         strBuffer = wxT("---");
-    }
-    else
-    {
+    } else {
         iHour = (wxInt32)(fBuffer / (60 * 60));
         iMin  = (wxInt32)(fBuffer / 60) % 60;
         iSec  = (wxInt32)(fBuffer) % 60;
 
-        ts = wxTimeSpan( iHour, iMin, iSec );
+        ts = wxTimeSpan(iHour, iMin, iSec);
 
         strBuffer = ts.Format();
     }
@@ -720,8 +657,7 @@ wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) c
 }
 
 
-wxInt32 CViewWork::FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iBuffer = 0;
     wxDateTime     dtTemp;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -740,8 +676,7 @@ wxInt32 CViewWork::FormatReportDeadline( wxInt32 item, wxString& strBuffer ) con
 }
 
 
-wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
     bool           bActivitiesSuspended = false;
@@ -752,65 +687,42 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
-    pDoc->GetActivityState( bActivitiesSuspended, bNetworkSuspended );
-    pDoc->GetActivityRunMode( iActivityMode );
+    pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+    pDoc->GetActivityRunMode(iActivityMode);
 
-    switch( pDoc->GetWorkState(item) )
-    {
+    switch(pDoc->GetWorkState(item)) {
         case CMainDocument::NEW:
             strBuffer = _("New"); 
             break;
         case CMainDocument::FILES_DOWNLOADING:
-            if (pDoc->IsWorkReadyToReport(item))
-            {
+            if (pDoc->IsWorkReadyToReport(item)) {
                 strBuffer = _("Download failed");
-            }
-            else
-            {
+            } else {
                 strBuffer = _("Downloading");
             }
             break;
         case CMainDocument::FILES_DOWNLOADED:
-            if      ( pDoc->IsWorkAborted(item) )
-            {
+            if      (pDoc->IsWorkAborted(item)) {
                 strBuffer = _("Aborted");
-            }
-            else if ( !pDoc->IsWorkActive(item) && pDoc->IsWorkSuspended(item) )
-            {
+            } else if (!pDoc->IsWorkActive(item) && pDoc->IsWorkSuspended(item)) {
                 strBuffer = _("Suspended");
-            }
-            else if ( pDoc->IsWorkActive(item) )
-            {
+            } else if (pDoc->IsWorkActive(item)) {
                 wxInt32 iSchedulerState = pDoc->GetWorkSchedulerState(item);
-                if      ( CMainDocument::SCHED_SCHEDULED == iSchedulerState )
-                {
-                    if ( bActivitiesSuspended )
-                    {
-                        strBuffer = _("Suspended");
-                    }
-                    else
-                    {
+                if      (CMainDocument::SCHED_SCHEDULED == iSchedulerState) {
+                    if (bActivitiesSuspended) { strBuffer = _("Suspended");
+                    } else {
                         strBuffer = _("Running");
                     }
-                }
-                else if ( CMainDocument::SCHED_PREEMPTED == iSchedulerState )
-                {
-                    if ( pDoc->IsWorkSuspended(item) )
-                    {
+                } else if (CMainDocument::SCHED_PREEMPTED == iSchedulerState) {
+                    if (pDoc->IsWorkSuspended(item)) {
                         strBuffer = _("Suspended");
-                    }
-                    else
-                    {
+                    } else {
                         strBuffer = _("Paused");
                     }
-                }
-                else if ( CMainDocument::SCHED_UNINITIALIZED == iSchedulerState )
-                {
+                } else if (CMainDocument::SCHED_UNINITIALIZED == iSchedulerState) {
                     strBuffer = _("Ready to run");
                 }
-            }
-            else
-            {
+            } else {
                 strBuffer = _("Ready to run");
             }
             break;
@@ -818,34 +730,25 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
             strBuffer = _("Computation error");
             break;
         case CMainDocument::FILES_UPLOADING:
-            if ( pDoc->IsWorkReadyToReport(item) )
-            {
+            if (pDoc->IsWorkReadyToReport(item)) {
                 strBuffer = _("Upload failed");
-            }
-            else
-            {
+            } else {
                 strBuffer = _("Uploading");
             }
             break;
         default:
-            if      ( pDoc->IsWorkAcknowledged(item) ) 
-            {
+            if      (pDoc->IsWorkAcknowledged(item)) {
                 strBuffer = _("Acknowledged");
-            }
-            else if ( pDoc->IsWorkReadyToReport(item) )
-            {
+            } else if (pDoc->IsWorkReadyToReport(item)) {
                 strBuffer = _("Ready to report");
-            }
-            else
-            {
+            } else {
                 strBuffer.Format(_("Error: invalid state '%d'"), pDoc->GetWorkState(item));
             }
             break;
     }
 
-    if ( CMainDocument::MODE_NEVER == iActivityMode )
-    {
-        strBuffer = wxT(" ( ") + strBuffer + wxT(" ) ");
+    if (CMainDocument::MODE_NEVER == iActivityMode) {
+        strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Suspended") + strBuffer;
     }
 

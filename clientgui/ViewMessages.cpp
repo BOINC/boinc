@@ -45,17 +45,14 @@
 #define PRIORITY_ERROR              2
 
 
-IMPLEMENT_DYNAMIC_CLASS( CViewMessages, CBOINCBaseView )
+IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
 
-CViewMessages::CViewMessages()
-{
-}
+CViewMessages::CViewMessages() {}
 
 
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :
-    CBOINCBaseView( pNotebook, ID_HTML_MESSAGESVIEW, DEFAULT_HTML_FLAGS, ID_LIST_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS )
-{
+    CBOINCBaseView(pNotebook, ID_HTML_MESSAGESVIEW, DEFAULT_HTML_FLAGS, ID_LIST_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -112,8 +109,8 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 145);
     m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 550);
 
-    m_pMessageInfoAttr = new wxListItemAttr( *wxBLACK, *wxWHITE, wxNullFont );
-    m_pMessageErrorAttr = new wxListItemAttr( *wxRED, *wxWHITE, wxNullFont );
+    m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
+    m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
 
     m_bTipsHeaderHidden = false;
     m_bItemSelected = false;
@@ -121,42 +118,36 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     SetCurrentQuickTip(
         LINK_DEFAULT, 
         LINKDESC_DEFAULT
-    );
+   );
 
     UpdateSelection();
 }
 
 
-CViewMessages::~CViewMessages()
-{
-    if ( m_pMessageInfoAttr )
-    {
+CViewMessages::~CViewMessages() {
+    if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
     }
 
-    if ( m_pMessageErrorAttr )
-    {
+    if (m_pMessageErrorAttr) {
         delete m_pMessageErrorAttr;
         m_pMessageErrorAttr = NULL;
     }
 }
 
 
-wxString CViewMessages::GetViewName()
-{
+wxString CViewMessages::GetViewName() {
     return wxString(_("Messages"));
 }
 
 
-const char** CViewMessages::GetViewIcon()
-{
+const char** CViewMessages::GetViewIcon() {
     return mess_xpm;
 }
 
 
-wxInt32 CViewMessages::GetDocCount()
-{
+wxInt32 CViewMessages::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -166,29 +157,24 @@ wxInt32 CViewMessages::GetDocCount()
 }
 
 
-void CViewMessages::OnListRender ( wxTimerEvent& event )
-{
-    if (!m_bProcessingListRenderEvent)
-    {
+void CViewMessages::OnListRender (wxTimerEvent& event) {
+    if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
         wxASSERT(NULL != m_pListPane);
 
         wxInt32 iDocCount = GetDocCount();
-        if ( 0 >= iDocCount )
-        {
+        if (0 >= iDocCount) {
             m_pListPane->DeleteAllItems();
-        }
-        else
-        {
-            if ( m_iPreviousDocCount != iDocCount )
-                m_pListPane->SetItemCount( iDocCount );
+        } else {
+            if (m_iPreviousDocCount != iDocCount)
+                m_pListPane->SetItemCount(iDocCount);
         }
 
-        if ( (iDocCount) && (_EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount) )
-            m_pListPane->EnsureVisible( iDocCount - 1 );
+        if ((iDocCount) && (_EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount))
+            m_pListPane->EnsureVisible(iDocCount - 1);
 
-        if ( m_iPreviousDocCount != iDocCount )
+        if (m_iPreviousDocCount != iDocCount)
             m_iPreviousDocCount = iDocCount;
 
         m_bProcessingListRenderEvent = false;
@@ -198,20 +184,18 @@ void CViewMessages::OnListRender ( wxTimerEvent& event )
 }
 
 
-wxString CViewMessages::OnListGetItemText( long item, long column ) const
-{
+wxString CViewMessages::OnListGetItemText(long item, long column) const {
     wxString        strBuffer   = wxEmptyString;
 
-    switch(column)
-    {
+    switch(column) {
         case COLUMN_PROJECT:
-            FormatProjectName( item, strBuffer );
+            FormatProjectName(item, strBuffer);
             break;
         case COLUMN_TIME:
-            FormatTime( item, strBuffer );
+            FormatTime(item, strBuffer);
             break;
         case COLUMN_MESSAGE:
-            FormatMessage( item, strBuffer );
+            FormatMessage(item, strBuffer);
             break;
     }
 
@@ -219,19 +203,15 @@ wxString CViewMessages::OnListGetItemText( long item, long column ) const
 }
 
 
-wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
-{
+wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
     wxString        strBuffer   = wxEmptyString;
 
-    FormatPriority( item, strBuffer );
+    FormatPriority(item, strBuffer);
 
-    if ( wxT("E") == strBuffer )
-    {
+    if (wxT("E") == strBuffer) {
         pAttribute = m_pMessageErrorAttr;
-    }
-    else
-    {
+    } else {
         pAttribute = m_pMessageInfoAttr;
     }
 
@@ -239,8 +219,7 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 }
 
 
-void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
-{
+void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -249,33 +228,28 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
 #ifndef NOCLIPBOARD
     wxInt32 iIndex = -1;
-    if ( link.GetHref() == LINK_TASKCOPYALL )
-    {
+    if (link.GetHref() == LINK_TASKCOPYALL) {
         wxInt32 iRowCount = 0;
 
         OpenClipboard();
 
         iRowCount = m_pListPane->GetItemCount();
-        for ( iIndex = 0; iIndex < iRowCount; iIndex++ )
-        {
-            CopyToClipboard( iIndex );            
+        for (iIndex = 0; iIndex < iRowCount; iIndex++) {
+            CopyToClipboard(iIndex);            
         }
 
         CloseClipboard();
-    }
-    else if ( link.GetHref() == LINK_TASKCOPYMESSAGE )
-    {
+    } else if (link.GetHref() == LINK_TASKCOPYMESSAGE) {
         OpenClipboard();
 
-        for ( ;; )
-        {
+        for (;;) {
             iIndex = m_pListPane->GetNextItem(iIndex,
                                         wxLIST_NEXT_ALL,
                                         wxLIST_STATE_SELECTED);
-            if ( iIndex == -1 )
+            if (iIndex == -1)
                 break;
 
-            CopyToClipboard( iIndex );            
+            CopyToClipboard(iIndex);            
         }
 
         CloseClipboard();
@@ -286,25 +260,20 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 }
 
 
-void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y) )
-{
-    if ( NULL != cell->GetLink() )
-    {
+void CViewMessages::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
+    if (NULL != cell->GetLink()) {
         bool        bUpdateSelection = false;
         wxString    strLink;
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( UpdateQuickTip( strLink, LINK_TASKCOPYALL, LINKDESC_TASKCOPYALL ) )
+        if      (UpdateQuickTip(strLink, LINK_TASKCOPYALL, LINKDESC_TASKCOPYALL))
             bUpdateSelection = true;
-        else if ( UpdateQuickTip( strLink, LINK_TASKCOPYMESSAGE, LINKDESC_TASKCOPYMESSAGE ) )
+        else if (UpdateQuickTip(strLink, LINK_TASKCOPYMESSAGE, LINKDESC_TASKCOPYMESSAGE))
             bUpdateSelection = true;
-        else
-        {
-            if ( 0 == m_pListPane->GetSelectedItemCount() )
-            {
-                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
-                {
+        else {
+            if (0 == m_pListPane->GetSelectedItemCount()) {
+                if  (LINK_DEFAULT != GetCurrentQuickTip()) {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
                         LINKDESC_DEFAULT
@@ -315,42 +284,35 @@ void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x),
             }
         }
 
-        if ( bUpdateSelection )
-        {
+        if (bUpdateSelection) {
             UpdateSelection();
         }
     }
 }
 
 
-bool CViewMessages::EnsureLastItemVisible()
-{
+bool CViewMessages::EnsureLastItemVisible() {
     return true;
 }
 
 
-void CViewMessages::UpdateSelection()
-{
+void CViewMessages::UpdateSelection() {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if ( 0 == m_pListPane->GetSelectedItemCount() )
-    {
+    if (0 == m_pListPane->GetSelectedItemCount()) {
         m_bTaskHeaderHidden = false;
         m_bTaskCopyAllHidden = false;
         m_bTaskCopyMessageHidden = true;
 
-        if ( m_bItemSelected )
-        {
+        if (m_bItemSelected) {
             SetCurrentQuickTip(
                 LINK_DEFAULT, 
                 wxT("")
             );
         }
         m_bItemSelected = false;
-    }
-    else
-    {
+    } else {
         m_bTaskHeaderHidden = false;
         m_bTaskCopyAllHidden = false;
         m_bTaskCopyMessageHidden = false;
@@ -361,28 +323,25 @@ void CViewMessages::UpdateSelection()
 }
 
 
-void CViewMessages::UpdateTaskPane()
-{
+void CViewMessages::UpdateTaskPane() {
     wxASSERT(NULL != m_pTaskPane);
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
-    if (!m_bTaskHeaderHidden)
-    {
-        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, _("Copy all messages"), m_bTaskCopyAllHidden );
-        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, _("Copy selected messages"), m_bTaskCopyMessageHidden );
+    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
+    if (!m_bTaskHeaderHidden) {
+        m_pTaskPane->CreateTask(LINK_TASKCOPYALL, _("Copy all messages"), m_bTaskCopyAllHidden);
+        m_pTaskPane->CreateTask(LINK_TASKCOPYMESSAGE, _("Copy selected messages"), m_bTaskCopyMessageHidden);
     }
-    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }
 
 
-wxInt32 CViewMessages::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -396,8 +355,7 @@ wxInt32 CViewMessages::FormatProjectName( wxInt32 item, wxString& strBuffer ) co
 }
 
 
-wxInt32 CViewMessages::FormatPriority( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
     CMainDocument*  pDoc = wxGetApp().GetDocument();
     wxInt32         iBuffer = 0;
 
@@ -408,8 +366,7 @@ wxInt32 CViewMessages::FormatPriority( wxInt32 item, wxString& strBuffer ) const
 
     pDoc->GetMessagePriority(item, iBuffer);
 
-    switch(iBuffer)
-    {
+    switch(iBuffer) {
         case PRIORITY_INFO:
             strBuffer = wxT("I");
             break;
@@ -422,8 +379,7 @@ wxInt32 CViewMessages::FormatPriority( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewMessages::FormatTime( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
     wxDateTime     dtBuffer(wxDateTime::Now());
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
@@ -439,8 +395,7 @@ wxInt32 CViewMessages::FormatTime( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-wxInt32 CViewMessages::FormatMessage( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -450,20 +405,18 @@ wxInt32 CViewMessages::FormatMessage( wxInt32 item, wxString& strBuffer ) const
 
     pDoc->GetMessageMessage(item, strBuffer);
 
-    strBuffer.Replace( wxT("\n"), wxT(""), true );
+    strBuffer.Replace(wxT("\n"), wxT(""), true);
 
     return 0;
 }
 
 
 #ifndef NOCLIPBOARD
-bool CViewMessages::OpenClipboard()
-{
+bool CViewMessages::OpenClipboard() {
     bool bRetVal = false;
 
     bRetVal = wxTheClipboard->Open();
-    if ( bRetVal )
-    {
+    if (bRetVal) {
         m_bClipboardOpen = true;
         m_strClipboardData = wxEmptyString;
         wxTheClipboard->Clear();
@@ -473,25 +426,23 @@ bool CViewMessages::OpenClipboard()
 }
 
 
-wxInt32 CViewMessages::CopyToClipboard( wxInt32 item )
-{
+wxInt32 CViewMessages::CopyToClipboard(wxInt32 item) {
     wxInt32        iRetVal = -1;
 
-    if ( m_bClipboardOpen )
-    {
+    if (m_bClipboardOpen) {
         wxString       strBuffer = wxEmptyString;
         wxString       strTimeStamp = wxEmptyString;
         wxString       strProject = wxEmptyString;
         wxString       strMessage = wxEmptyString;
 
-        FormatTime( item, strTimeStamp );
-        FormatProjectName( item, strProject );
-        FormatMessage( item, strMessage );
+        FormatTime(item, strTimeStamp);
+        FormatProjectName(item, strProject);
+        FormatMessage(item, strMessage);
 
 #ifdef __WXMSW__
-        strBuffer.Printf( wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str() );
+        strBuffer.Printf(wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #else
-        strBuffer.Printf( wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str() );
+        strBuffer.Printf(wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #endif
 
         m_strClipboardData += strBuffer;
@@ -503,13 +454,11 @@ wxInt32 CViewMessages::CopyToClipboard( wxInt32 item )
 }
 
 
-bool CViewMessages::CloseClipboard()
-{
+bool CViewMessages::CloseClipboard() {
     bool bRetVal = false;
 
-    if ( m_bClipboardOpen )
-    {
-        wxTheClipboard->SetData( new wxTextDataObject( m_strClipboardData ) );
+    if (m_bClipboardOpen) {
+        wxTheClipboard->SetData(new wxTextDataObject(m_strClipboardData));
         wxTheClipboard->Close();
 
         m_bClipboardOpen = false;

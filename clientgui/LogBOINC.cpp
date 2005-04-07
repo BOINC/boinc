@@ -27,13 +27,11 @@
 #include "LogBOINC.h"
 
 
-wxLogBOINC::wxLogBOINC()
-{
+wxLogBOINC::wxLogBOINC() {
     m_fp = stdout;
 }
 
-void wxLogBOINC::DoLogString(const wxChar *szString, time_t t)
-{
+void wxLogBOINC::DoLogString(const wxChar *szString, time_t t) {
     diagnostics_cycle_logs();
     wxLogStderr::DoLogString(szString, t);
 }

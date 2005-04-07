@@ -23,6 +23,9 @@ if your browser has not done it for you.
 Instructions on running the core client (command-line options, etc.) are
 <a href=client_unix.php>here</a>.
 <p>
+Mac OS X - specific instructions are
+<a href=http://boinc-doc.net/site-boinc/oman-app/inst-mac.php>here</a>.
+<p>
 You'll probably want to arrange
 to run the executable each time your machine boots or you log on.
 Some examples follow.

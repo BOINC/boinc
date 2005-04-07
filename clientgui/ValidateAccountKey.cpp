@@ -28,8 +28,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CValidateAccountKey, wxValidator)
 
 
-CValidateAccountKey::CValidateAccountKey(wxString *val)
-{
+CValidateAccountKey::CValidateAccountKey(wxString *val) {
     m_stringValue = val ;
 }
 
@@ -41,13 +40,10 @@ CValidateAccountKey::CValidateAccountKey(const CValidateAccountKey& val)
 }
 
 
-CValidateAccountKey::~CValidateAccountKey()
-{
-}
+CValidateAccountKey::~CValidateAccountKey() {}
 
 
-bool CValidateAccountKey::Copy(const CValidateAccountKey& val)
-{
+bool CValidateAccountKey::Copy(const CValidateAccountKey& val) {
     wxValidator::Copy(val);
 
     m_stringValue = val.m_stringValue ;
@@ -56,8 +52,7 @@ bool CValidateAccountKey::Copy(const CValidateAccountKey& val)
 }
 
 
-bool CValidateAccountKey::Validate(wxWindow *parent)
-{
+bool CValidateAccountKey::Validate(wxWindow *parent) {
     if( !CheckValidator() )
         return FALSE;
 
@@ -70,15 +65,13 @@ bool CValidateAccountKey::Validate(wxWindow *parent)
 
     bool ok = TRUE;
 
-    if ( (!wxIsAlphaNumeric(val)) )
-    {
+    if ( (!wxIsAlphaNumeric(val)) ) {
         ok = FALSE;
 
         m_errormsg = _("Invalid Account Key; please enter a valid Account Key");
     }
 
-    if ( !ok )
-    {
+    if ( !ok ) {
         wxASSERT_MSG( !m_errormsg.empty(), _T("you forgot to set errormsg") );
 
         m_validatorWindow->SetFocus();
@@ -94,8 +87,7 @@ bool CValidateAccountKey::Validate(wxWindow *parent)
 }
 
 
-bool CValidateAccountKey::TransferToWindow(void)
-{
+bool CValidateAccountKey::TransferToWindow(void) {
     if( !CheckValidator() )
         return FALSE;
     
@@ -109,8 +101,7 @@ bool CValidateAccountKey::TransferToWindow(void)
 }
 
 
-bool CValidateAccountKey::TransferFromWindow(void)
-{
+bool CValidateAccountKey::TransferFromWindow(void) {
     if( !CheckValidator() )
         return FALSE;
 
@@ -124,11 +115,9 @@ bool CValidateAccountKey::TransferFromWindow(void)
 }
 
 
-bool CValidateAccountKey::wxIsAlphaNumeric(const wxString& val)
-{
+bool CValidateAccountKey::wxIsAlphaNumeric(const wxString& val) {
     int i;
-    for ( i = 0; i < (int)val.Length(); i++)
-    {
+    for ( i = 0; i < (int)val.Length(); i++) {
         if (!wxIsalnum(val[i]))
             return FALSE;
     }
@@ -136,8 +125,7 @@ bool CValidateAccountKey::wxIsAlphaNumeric(const wxString& val)
 }
 
 
-bool CValidateAccountKey::CheckValidator() const
-{
+bool CValidateAccountKey::CheckValidator() const {
     wxCHECK_MSG( m_validatorWindow, FALSE,
                     _T("No window associated with validator") );
     wxCHECK_MSG( m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl)), FALSE,

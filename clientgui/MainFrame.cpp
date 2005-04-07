@@ -43,8 +43,7 @@
 #include "res/disconnect.xpm"
 
 
-enum STATUSBARFIELDS
-{
+enum STATUSBARFIELDS {
     STATUS_TEXT,
     STATUS_CONNECTION_STATUS
 };
@@ -57,15 +56,14 @@ BEGIN_EVENT_TABLE(CStatusBar, wxStatusBar)
 END_EVENT_TABLE()
 
 
-CStatusBar::CStatusBar()
-{
+CStatusBar::CStatusBar() {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Default Constructor Function Begin"));
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Default Constructor Function End"));
 }
 
 
-CStatusBar::CStatusBar( wxWindow *parent ) :
-    wxStatusBar( parent, ID_STATUSBAR, wxST_SIZEGRIP, _T("statusBar") )
+CStatusBar::CStatusBar(wxWindow *parent) :
+    wxStatusBar(parent, ID_STATUSBAR, wxST_SIZEGRIP, _T("statusBar"))
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function Begin"));
 
@@ -76,7 +74,7 @@ CStatusBar::CStatusBar( wxWindow *parent ) :
     wxASSERT(NULL != m_pbmpConnected);
     m_pbmpConnected->Hide();
 
-    m_ptxtConnected = new wxStaticText(this, -1, _("Connected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
+    m_ptxtConnected = new wxStaticText(this, -1, _("Connected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
     wxASSERT(NULL != m_ptxtConnected);
     m_ptxtConnected->Hide();
 
@@ -84,7 +82,7 @@ CStatusBar::CStatusBar( wxWindow *parent ) :
     wxASSERT(NULL != m_pbmpDisconnect);
     m_pbmpDisconnect->Hide();
 
-    m_ptxtDisconnect = new wxStaticText(this, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
+    m_ptxtDisconnect = new wxStaticText(this, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
     wxASSERT(NULL != m_ptxtDisconnect);
     m_ptxtDisconnect->Hide();
 
@@ -98,39 +96,33 @@ CStatusBar::~CStatusBar()
 }
 
 
-void CStatusBar::OnSize(wxSizeEvent& event)
-{
+void CStatusBar::OnSize(wxSizeEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::OnSize - Function Begin"));
 
-    if ( IsShown() )
-    {
+    if (IsShown()) {
         wxRect rect;
         wxSize size;
 
         GetFieldRect(STATUS_CONNECTION_STATUS, rect);
 
-        if ( m_pbmpConnected )
-        {
+        if (m_pbmpConnected) {
             size = m_pbmpConnected->GetSize();
             m_pbmpConnected->Move(rect.x + 1,
                                   rect.y + (rect.height - size.y) / 2);
         }
 
-        if ( m_ptxtConnected )
-        {
+        if (m_ptxtConnected) {
             m_ptxtConnected->Move((rect.x + size.x) + 2,
                                   (rect.y + (rect.height - size.y) / 2) + 1);
         }
 
-        if ( m_pbmpDisconnect )
-        {
+        if (m_pbmpDisconnect) {
             size = m_pbmpConnected->GetSize();
             m_pbmpDisconnect->Move(rect.x + 1,
                                    rect.y + (rect.height - size.y) / 2);
         }
 
-        if ( m_ptxtDisconnect )
-        {
+        if (m_ptxtDisconnect) {
             m_ptxtDisconnect->Move((rect.x + size.x) + 2,
                                    (rect.y + (rect.height - size.y) / 2) + 1);
         }
@@ -163,8 +155,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
 END_EVENT_TABLE ()
 
 
-CMainFrame::CMainFrame()
-{
+CMainFrame::CMainFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Default Constructor Function Begin"));
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Default Constructor Function End"));
 }
@@ -259,8 +250,7 @@ CMainFrame::~CMainFrame()
 }
 
 
-bool CMainFrame::CreateMenu()
-{
+bool CMainFrame::CreateMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
@@ -276,13 +266,13 @@ bool CMainFrame::CreateMenu()
         ID_HIDE, 
         _("Close"),
         _("Closes the main BOINC Manager window")
-    );
+   );
 #else
     menuFile->Append(
         ID_HIDE, 
         _("&Hide"),
         _("Hides the main BOINC Manager window")
-    );
+   );
 #endif
     menuFile->AppendSeparator();
 
@@ -290,17 +280,17 @@ bool CMainFrame::CreateMenu()
         ID_ACTIVITYRUNALWAYS,
         _("&Run always"),
         _("Does work regardless of preferences")
-    );
+   );
     menuFile->AppendRadioItem(
         ID_ACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
         _("Does work according to your preferences")
-    );
+   );
     menuFile->AppendRadioItem(
         ID_ACTIVITYSUSPEND,
         _("&Suspend"),
         _("Stops work regardless of preferences")
-    );
+   );
 
     menuFile->AppendSeparator();
 
@@ -308,7 +298,7 @@ bool CMainFrame::CreateMenu()
         ID_NETWORKSUSPEND,
         _("&Disable BOINC Network Access"),
         _("Stops BOINC network activity")
-    );
+   );
 
     menuFile->AppendSeparator();
 
@@ -316,7 +306,7 @@ bool CMainFrame::CreateMenu()
         ID_RUNBENCHMARKS, 
         _("Run &Benchmarks"),
         _("Runs BOINC CPU benchmarks")
-    );
+   );
 
     menuFile->AppendSeparator();
 
@@ -324,7 +314,7 @@ bool CMainFrame::CreateMenu()
         ID_SELECTCOMPUTER, 
         _("Select Computer..."),
         _("Connect to another computer running BOINC")
-    );
+   );
 
     menuFile->AppendSeparator();
 
@@ -332,49 +322,48 @@ bool CMainFrame::CreateMenu()
         wxID_EXIT,
         _("E&xit"),
         _("Exit the BOINC Manager")
-    );
+   );
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
-    if ( pDoc->IsAccountManagerFound() )
-    {
-        menuTools->Append( 
+    if (pDoc->IsAccountManagerFound()) {
+        menuTools->Append(
             ID_TOOLSUPDATEACCOUNTS, 
             _("&Update Accounts"),
             _("Connect to your account manager website and update all of your accounts")
-        );
+       );
 
         menuTools->AppendSeparator();
     }
 
-    menuTools->Append( 
+    menuTools->Append(
         ID_TOOLSOPTIONS, 
         _("&Options"),
         _("Configure GUI options and proxy settings")
-    );
+   );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(  
+    menuHelp->Append( 
         wxID_ABOUT,
         _("&About BOINC Manager..."), 
         _("Show information about BOINC and BOINC Manager")
-    );
+   );
 
     // construct menu
     m_pMenubar = new wxMenuBar;
     m_pMenubar->Append(
         menuFile,
         _("&File")
-    );
+   );
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
-    );
+   );
     m_pMenubar->Append(
         menuHelp,
         _("&Help")
-    );
+   );
     SetMenuBar(m_pMenubar);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function End"));
@@ -382,8 +371,7 @@ bool CMainFrame::CreateMenu()
 }
 
 
-bool CMainFrame::CreateNotebook()
-{
+bool CMainFrame::CreateNotebook() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebook - Function Begin"));
 
     // create frame panel
@@ -406,12 +394,12 @@ bool CMainFrame::CreateNotebook()
 
 
     // create the various notebook pages
-    CreateNotebookPage( new CViewProjects( m_pNotebook ) );
-    CreateNotebookPage( new CViewWork( m_pNotebook ) );
-    CreateNotebookPage( new CViewTransfers( m_pNotebook ) );
-    CreateNotebookPage( new CViewMessages( m_pNotebook ) );
-	CreateNotebookPage( new CViewStatistics( m_pNotebook ) );
-    CreateNotebookPage( new CViewResources( m_pNotebook ) );
+    CreateNotebookPage(new CViewProjects(m_pNotebook));
+    CreateNotebookPage(new CViewWork(m_pNotebook));
+    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+    CreateNotebookPage(new CViewMessages(m_pNotebook));
+	CreateNotebookPage(new CViewStatistics(m_pNotebook));
+    CreateNotebookPage(new CViewResources(m_pNotebook));
 
 
     // have the panel calculate everything after the pages are created so
@@ -425,8 +413,7 @@ bool CMainFrame::CreateNotebook()
 
 
 template < class T >
-bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage)
-{
+bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebookPage - Function Begin"));
 
     wxImageList*    pImageList;
@@ -452,14 +439,13 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage)
 }
 
 
-bool CMainFrame::CreateStatusbar()
-{
+bool CMainFrame::CreateStatusbar() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateStatusbar - Function Begin"));
 
     if (m_pStatusbar)
         return true;
 
-    m_pStatusbar = new CStatusBar( this );
+    m_pStatusbar = new CStatusBar(this);
     wxASSERT(NULL != m_pStatusbar);
 
     SetStatusBar(m_pStatusbar);
@@ -469,8 +455,7 @@ bool CMainFrame::CreateStatusbar()
 }
 
 
-bool CMainFrame::DeleteMenu()
-{
+bool CMainFrame::DeleteMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteMenu - Function Begin"));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteMenu - Function End"));
@@ -478,8 +463,7 @@ bool CMainFrame::DeleteMenu()
 }
 
 
-bool CMainFrame::DeleteNotebook()
-{
+bool CMainFrame::DeleteNotebook() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteNotebook - Function Begin"));
 
     wxImageList*    pImageList;
@@ -498,8 +482,7 @@ bool CMainFrame::DeleteNotebook()
 }
 
 
-bool CMainFrame::DeleteStatusbar()
-{
+bool CMainFrame::DeleteStatusbar() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteStatusbar - Function Begin"));
 
     if (!m_pStatusbar)
@@ -515,8 +498,7 @@ bool CMainFrame::DeleteStatusbar()
 }
 
 
-bool CMainFrame::SaveState()
-{
+bool CMainFrame::SaveState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::SaveState - Function Begin"));
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
@@ -546,8 +528,7 @@ bool CMainFrame::SaveState()
 #if defined(__WXMSW__) || defined(__WXMAC__)
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
 #endif
-    if ( !IsIconized() && !IsMaximized() )
-    {
+    if (!IsIconized() && !IsMaximized()) {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
         pConfig->Write(wxT("Height"), GetSize().GetHeight());
 #ifdef __WXMAC__
@@ -564,8 +545,7 @@ bool CMainFrame::SaveState()
     // Convert to a zero based index
     iItemCount = m_pNotebook->GetPageCount() - 1;
 
-    for ( iIndex = 0; iIndex <= iItemCount; iIndex++ )
-    {   
+    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
@@ -576,7 +556,7 @@ bool CMainFrame::SaveState()
         strConfigLocation = strPreviousLocation + pView->GetViewName();
 
         pConfig->SetPath(strConfigLocation);
-        pView->FireOnSaveState( pConfig );
+        pView->FireOnSaveState(pConfig);
         pConfig->SetPath(strPreviousLocation);
     }
 
@@ -590,8 +570,7 @@ bool CMainFrame::SaveState()
     pConfig->SetPath(strConfigLocation);
 
     iItemCount = m_aSelectedComputerMRU.GetCount() - 1;
-    for ( iIndex = 0; iIndex <= iItemCount; iIndex++ )
-    {
+    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
         strBuffer.Printf(wxT("%d"), iIndex);
         pConfig->Write(
             strBuffer,
@@ -607,8 +586,7 @@ bool CMainFrame::SaveState()
 }
 
 
-bool CMainFrame::RestoreState()
-{
+bool CMainFrame::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::RestoreState - Function Begin"));
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
@@ -660,10 +638,10 @@ bool CMainFrame::RestoreState()
     pConfig->Read(wxT("Width"), &iWidth, 800);
     pConfig->Read(wxT("Height"), &iHeight, 600);
 
-    SetSize( -1, -1, iWidth, iHeight );
-    Iconize( bWindowIconized );
+    SetSize(-1, -1, iWidth, iHeight);
+    Iconize(bWindowIconized);
 #if defined(__WXMSW__) || defined(__WXMAC__)
-    Maximize( bWindowMaximized );
+    Maximize(bWindowMaximized);
 #endif
 
 #ifdef __WXMAC__
@@ -704,7 +682,7 @@ bool CMainFrame::RestoreState()
     // Convert to a zero based index
     iPageCount = m_pNotebook->GetPageCount() - 1;
 
-    for ( iIndex = 0; iIndex <= iPageCount; iIndex++ ) {   
+    for (iIndex = 0; iIndex <= iPageCount; iIndex++) {   
 
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
@@ -716,7 +694,7 @@ bool CMainFrame::RestoreState()
         strConfigLocation = strPreviousLocation + pView->GetViewName();
 
         pConfig->SetPath(strConfigLocation);
-        pView->FireOnRestoreState( pConfig );
+        pView->FireOnRestoreState(pConfig);
         pConfig->SetPath(strPreviousLocation);
 
     }
@@ -732,8 +710,7 @@ bool CMainFrame::RestoreState()
 
     m_aSelectedComputerMRU.Clear();
     bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
-    while ( bKeepEnumerating )
-    {
+    while (bKeepEnumerating) {
         pConfig->Read(strBuffer, &strValue);
 
         m_aSelectedComputerMRU.Add(strValue);
@@ -748,8 +725,7 @@ bool CMainFrame::RestoreState()
 }
 
 
-bool CMainFrame::AttachToProjectPrompt()
-{
+bool CMainFrame::AttachToProjectPrompt() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::AttachToProjectPrompt - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
@@ -766,19 +742,17 @@ bool CMainFrame::AttachToProjectPrompt()
     // Only present the attach to project dialog if no projects are currently
     //   detected.
     lProjectCount = pDoc->GetProjectCount();
-    if ( 0 == lProjectCount )
-    {
+    if (0 == lProjectCount) {
 
         iAnswer = pDlg->ShowModal();
-        if ( wxID_OK == iAnswer )
-        {
+        if (wxID_OK == iAnswer) {
             pDoc->ProjectAttach(
                 pDlg->GetProjectAddress(), 
                 pDlg->GetProjectAccountKey()
             );
         }
 
-        m_pNotebook->SetSelection( ID_LIST_MESSAGESVIEW - ID_LIST_BASE );
+        m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
     }
 
 
@@ -790,8 +764,7 @@ bool CMainFrame::AttachToProjectPrompt()
 }
 
 
-void CMainFrame::OnHide( wxCommandEvent& WXUNUSED(event) )
-{
+void CMainFrame::OnHide(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHide - Function Begin"));
 
     Hide();
@@ -800,8 +773,7 @@ void CMainFrame::OnHide( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnActivitySelection( wxCommandEvent& event )
-{
+void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnActivitySelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
@@ -809,25 +781,23 @@ void CMainFrame::OnActivitySelection( wxCommandEvent& event )
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch( event.GetId() )
-    {
-        case ID_ACTIVITYRUNALWAYS:
-            pDoc->SetActivityRunMode( CMainDocument::MODE_ALWAYS );
-            break;
-        case ID_ACTIVITYSUSPEND:
-            pDoc->SetActivityRunMode( CMainDocument::MODE_NEVER );
-            break;
-        case ID_ACTIVITYRUNBASEDONPREPERENCES:
-            pDoc->SetActivityRunMode( CMainDocument::MODE_AUTO );
-            break;
+    switch(event.GetId()) {
+    case ID_ACTIVITYRUNALWAYS:
+        pDoc->SetActivityRunMode(CMainDocument::MODE_ALWAYS);
+        break;
+    case ID_ACTIVITYSUSPEND:
+        pDoc->SetActivityRunMode(CMainDocument::MODE_NEVER);
+        break;
+    case ID_ACTIVITYRUNBASEDONPREPERENCES:
+        pDoc->SetActivityRunMode(CMainDocument::MODE_AUTO);
+        break;
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnActivitySelection - Function End"));
 }
 
 
-void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
-{
+void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
@@ -836,21 +806,20 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch( event.GetId() )
-    {
+    switch(event.GetId()) {
         case ID_NETWORKSUSPEND:
-            pDoc->GetNetworkRunMode( iCurrentNetworkMode );
+            pDoc->GetNetworkRunMode(iCurrentNetworkMode);
 
-            if ( iCurrentNetworkMode == CMainDocument::MODE_ALWAYS )
-                pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
+            if (iCurrentNetworkMode == CMainDocument::MODE_ALWAYS)
+                pDoc->SetNetworkRunMode(CMainDocument::MODE_NEVER);
             else
-                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+                pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
 
             break;
         case ID_NETWORKRUNALWAYS:
         case ID_NETWORKRUNBASEDONPREPERENCES:
         default:
-            pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+            pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
             break;
     }
 
@@ -858,8 +827,7 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
 }
 
    
-void CMainFrame::OnRunBenchmarks( wxCommandEvent& WXUNUSED(event) )
-{
+void CMainFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRunBenchmarks - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -867,15 +835,14 @@ void CMainFrame::OnRunBenchmarks( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_pNotebook->SetSelection( ID_LIST_MESSAGESVIEW - ID_LIST_BASE );
+    m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
     pDoc->RunBenchmarks();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRunBenchmarks - Function End"));
 }
 
 
-void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
-{
+void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSelectComputer - Function Begin"));
 
     CMainDocument*      pDoc = wxGetApp().GetDocument();
@@ -895,25 +862,20 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
 
     // Lets populate the combo control with the MRU list
     pDlg->m_ComputerNameCtrl->Clear();
-    for ( lIndex = 0; lIndex < aComputerNames.Count(); lIndex++ )
-    {
-        pDlg->m_ComputerNameCtrl->Append(aComputerNames.Item( lIndex ));
+    for (lIndex = 0; lIndex < aComputerNames.Count(); lIndex++) {
+        pDlg->m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
     }
 
     lAnswer = pDlg->ShowModal();
-    if ( wxID_OK == lAnswer )
-    {
-        lRetVal = pDoc->Connect( pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue() );
-        if ( !(0 == lRetVal) )
-        {
+    if (wxID_OK == lAnswer) {
+        lRetVal = pDoc->Connect(pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue());
+        if (!(0 == lRetVal)) {
             ::wxMessageBox(
                 _("Failed to connect to the requested computer, please check the name of the computer and try again."),
                 _("Failed to connect..."),
                 wxICON_ERROR
             );
-        }
-        else
-        {
+        } else {
             // Run any checks that may need to be run upon an initial
             //   connection.
             m_bRunInitialClientConnectionChecks = true;
@@ -921,14 +883,13 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
 
         // Insert a copy of the current combo box value to the head of the
         //   computer names string array
-        aComputerNames.Insert( pDlg->m_ComputerNameCtrl->GetValue(), 0 );
+        aComputerNames.Insert(pDlg->m_ComputerNameCtrl->GetValue(), 0);
 
         // Loops through the computer names and remove any duplicates that
         //   might exist with the new head value
-        for ( lIndex = 1; lIndex < aComputerNames.Count(); lIndex++ )
-        {
-            if ( aComputerNames.Item( lIndex ) == aComputerNames.Item( 0 ) )
-                aComputerNames.Remove( lIndex );
+        for (lIndex = 1; lIndex < aComputerNames.Count(); lIndex++) {
+            if (aComputerNames.Item(lIndex) == aComputerNames.Item(0))
+                aComputerNames.Remove(lIndex);
         }
 
         // Store the modified computer name MRU list back to the system state
@@ -942,8 +903,7 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
-{
+void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnExit - Function Begin"));
 
     Close(true);
@@ -952,7 +912,7 @@ void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnToolsUpdateAccounts( wxCommandEvent& WXUNUSED(event) )
+void CMainFrame::OnToolsUpdateAccounts(wxCommandEvent& WXUNUSED(event))
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsUpdateAccounts - Function Begin"));
 
@@ -967,15 +927,13 @@ void CMainFrame::OnToolsUpdateAccounts( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != pDlg);
 
-    if ( !pDoc->IsAccountManagerLoginFound() )
-    {
+    if (!pDoc->IsAccountManagerLoginFound()) {
         iAnswer = pDlg->ShowModal();
-        if ( wxID_OK == iAnswer )
-        {
+        if (wxID_OK == iAnswer) {
             strLogin = pDlg->m_AcctManagerUsernameCtrl->GetValue();
             strPassword = pDlg->m_AcctManagerUsernameCtrl->GetValue();
 
-            pDoc->InitializeAccountManagerLogin( strLogin, strPassword );            
+            pDoc->InitializeAccountManagerLogin(strLogin, strPassword);            
         }
     }
 
@@ -988,8 +946,7 @@ void CMainFrame::OnToolsUpdateAccounts( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
-{
+void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsOptions - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -1005,72 +962,67 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(NULL != pDlg);
 
 
-    bProxyInformationConfigured = ( 0 == pDoc->GetProxyConfiguration() );
-    if ( bProxyInformationConfigured )
-    {
+    bProxyInformationConfigured = (0 == pDoc->GetProxyConfiguration());
+    if (bProxyInformationConfigured) {
         pDlg->m_bProxySectionConfigured = true;
-        if ( 0 == pDoc->GetProxyHTTPProxyEnabled( bBuffer ) )
-            pDlg->m_EnableHTTPProxyCtrl->SetValue( bBuffer );
-        if ( 0 == pDoc->GetProxyHTTPServerName( strBuffer ) ) 
-            pDlg->m_HTTPAddressCtrl->SetValue( strBuffer );
-        if ( 0 == pDoc->GetProxyHTTPServerPort( iBuffer ) ) 
-        {
-            strBuffer.Printf( wxT("%d"), iBuffer );
-            pDlg->m_HTTPPortCtrl->SetValue( strBuffer );
+        if (0 == pDoc->GetProxyHTTPProxyEnabled(bBuffer))
+            pDlg->m_EnableHTTPProxyCtrl->SetValue(bBuffer);
+        if (0 == pDoc->GetProxyHTTPServerName(strBuffer)) 
+            pDlg->m_HTTPAddressCtrl->SetValue(strBuffer);
+        if (0 == pDoc->GetProxyHTTPServerPort(iBuffer)) {
+            strBuffer.Printf(wxT("%d"), iBuffer);
+            pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
         }
-        if ( 0 == pDoc->GetProxyHTTPUserName( strBuffer ) ) 
-            pDlg->m_HTTPUsernameCtrl->SetValue( strBuffer );
-        if ( 0 == pDoc->GetProxyHTTPPassword( strBuffer ) ) 
-            pDlg->m_HTTPPasswordCtrl->SetValue( strBuffer );
+        if (0 == pDoc->GetProxyHTTPUserName(strBuffer)) 
+            pDlg->m_HTTPUsernameCtrl->SetValue(strBuffer);
+        if (0 == pDoc->GetProxyHTTPPassword(strBuffer)) 
+            pDlg->m_HTTPPasswordCtrl->SetValue(strBuffer);
 
-        if ( 0 == pDoc->GetProxySOCKSProxyEnabled( bBuffer ) )
-            pDlg->m_EnableSOCKSProxyCtrl->SetValue( bBuffer );
-        if ( 0 == pDoc->GetProxySOCKSServerName( strBuffer ) ) 
-            pDlg->m_SOCKSAddressCtrl->SetValue( strBuffer );
-        if ( 0 == pDoc->GetProxySOCKSServerPort( iBuffer ) ) 
-        {
-            strBuffer.Printf( wxT("%d"), iBuffer );
-            pDlg->m_SOCKSPortCtrl->SetValue( strBuffer );
+        if (0 == pDoc->GetProxySOCKSProxyEnabled(bBuffer))
+            pDlg->m_EnableSOCKSProxyCtrl->SetValue(bBuffer);
+        if (0 == pDoc->GetProxySOCKSServerName(strBuffer)) 
+            pDlg->m_SOCKSAddressCtrl->SetValue(strBuffer);
+        if (0 == pDoc->GetProxySOCKSServerPort(iBuffer)) {
+            strBuffer.Printf(wxT("%d"), iBuffer);
+            pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
         }
-        if ( 0 == pDoc->GetProxySOCKSUserName( strBuffer ) ) 
-            pDlg->m_SOCKSUsernameCtrl->SetValue( strBuffer );
-        if ( 0 == pDoc->GetProxySOCKSPassword( strBuffer ) ) 
-            pDlg->m_SOCKSPasswordCtrl->SetValue( strBuffer );
+        if (0 == pDoc->GetProxySOCKSUserName(strBuffer)) 
+            pDlg->m_SOCKSUsernameCtrl->SetValue(strBuffer);
+        if (0 == pDoc->GetProxySOCKSPassword(strBuffer)) 
+            pDlg->m_SOCKSPasswordCtrl->SetValue(strBuffer);
 
-        pDlg->m_LanguageSelectionCtrl->SetSelection( m_iSelectedLanguage );
+        pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     }
 
     iAnswer = pDlg->ShowModal();
-    if ( wxID_OK == iAnswer )
-    {
+    if (wxID_OK == iAnswer) {
         bBuffer = pDlg->m_EnableHTTPProxyCtrl->GetValue();
-        pDoc->SetProxyHTTPProxyEnabled( bBuffer );
+        pDoc->SetProxyHTTPProxyEnabled(bBuffer);
         strBuffer = pDlg->m_HTTPAddressCtrl->GetValue();
-        pDoc->SetProxyHTTPServerName( strBuffer );
+        pDoc->SetProxyHTTPServerName(strBuffer);
         strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
-        strBuffer.ToLong( (long*)&iBuffer );
-        pDoc->SetProxyHTTPServerPort( iBuffer );
+        strBuffer.ToLong((long*)&iBuffer);
+        pDoc->SetProxyHTTPServerPort(iBuffer);
         strBuffer = pDlg->m_HTTPUsernameCtrl->GetValue();
-        pDoc->SetProxyHTTPUserName( strBuffer );
+        pDoc->SetProxyHTTPUserName(strBuffer);
         strBuffer = pDlg->m_HTTPPasswordCtrl->GetValue();
-        pDoc->SetProxyHTTPPassword( strBuffer );
+        pDoc->SetProxyHTTPPassword(strBuffer);
 
         bBuffer = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
-        pDoc->SetProxySOCKSProxyEnabled( bBuffer );
+        pDoc->SetProxySOCKSProxyEnabled(bBuffer);
         strBuffer = pDlg->m_SOCKSAddressCtrl->GetValue();
-        pDoc->SetProxySOCKSServerName( strBuffer );
+        pDoc->SetProxySOCKSServerName(strBuffer);
         strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
-        strBuffer.ToLong( (long*)&iBuffer );
-        pDoc->SetProxySOCKSServerPort( iBuffer );
+        strBuffer.ToLong((long*)&iBuffer);
+        pDoc->SetProxySOCKSServerPort(iBuffer);
         strBuffer = pDlg->m_SOCKSUsernameCtrl->GetValue();
-        pDoc->SetProxySOCKSUserName( strBuffer );
+        pDoc->SetProxySOCKSUserName(strBuffer);
         strBuffer = pDlg->m_SOCKSPasswordCtrl->GetValue();
-        pDoc->SetProxySOCKSPassword( strBuffer );
+        pDoc->SetProxySOCKSPassword(strBuffer);
 
         pDoc->SetProxyConfiguration();
 
-        if ( m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection() )
-        {
+        if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
             ::wxMessageBox(
                 _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
                 _("Language Selection..."),
@@ -1088,8 +1040,7 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
-{
+void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAbout - Function Begin"));
 
     CDlgAbout* pDlg = new CDlgAbout(this);
@@ -1104,12 +1055,11 @@ void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnClose( wxCloseEvent& event )
-{
+void CMainFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
-    if ( !event.CanVeto() )
+    if (!event.CanVeto())
         Destroy();
     else
         Hide();
@@ -1121,24 +1071,23 @@ void CMainFrame::OnClose( wxCloseEvent& event )
 }
 
 
-void CMainFrame::OnChar( wxKeyEvent& event )
+void CMainFrame::OnChar(wxKeyEvent& event)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnChar - Function Begin"));
 
-    if ( IsShown() )
-    {
+    if (IsShown()) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
 
         wxASSERT(NULL != m_pNotebook);
 
-        pwndNotebookPage = m_pNotebook->GetPage( event.GetId() - ID_LIST_BASE );
+        pwndNotebookPage = m_pNotebook->GetPage(event.GetId() - ID_LIST_BASE);
         wxASSERT(NULL != pwndNotebookPage);
 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->FireOnChar( event );
+        pView->FireOnChar(event);
     }
 
     event.Skip();
@@ -1147,25 +1096,23 @@ void CMainFrame::OnChar( wxKeyEvent& event )
 }
 
 
-void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
-{
+void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function Begin"));
 
-    if ( (-1 != event.GetSelection()) && IsShown() )
-    {
+    if ((-1 != event.GetSelection()) && IsShown()) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
         wxTimerEvent    timerEvent;
 
         wxASSERT(NULL != m_pNotebook);
 
-        pwndNotebookPage = m_pNotebook->GetPage( event.GetSelection() );
+        pwndNotebookPage = m_pNotebook->GetPage(event.GetSelection());
         wxASSERT(NULL != pwndNotebookPage);
 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->FireOnListRender( timerEvent );
+        pView->FireOnListRender(timerEvent);
     }
 
     event.Skip();
@@ -1174,14 +1121,12 @@ void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
 }
 
 
-void CMainFrame::OnRefreshState( wxTimerEvent &event )
-{
+void CMainFrame::OnRefreshState(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshState - Function Begin"));
 
     static bool bAlreadyRunningLoop = false;
 
-    if (!bAlreadyRunningLoop)
-    {
+    if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
 
         // Write a snapshot of the current state to the config
@@ -1194,8 +1139,7 @@ void CMainFrame::OnRefreshState( wxTimerEvent &event )
 
         // Refresh the state data at the document level
         CMainDocument* pDoc = wxGetApp().GetDocument();
-        if ( NULL != pDoc )
-        {
+        if (NULL != pDoc) {
             wxASSERT(wxDynamicCast(pDoc, CMainDocument));
             pDoc->OnRefreshState();
         }
@@ -1210,28 +1154,23 @@ void CMainFrame::OnRefreshState( wxTimerEvent &event )
 }
 
 
-void CMainFrame::OnFrameRender( wxTimerEvent &event )
-{
+void CMainFrame::OnFrameRender(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     static bool bAlreadyRunningLoop = false;
 
-    if (!bAlreadyRunningLoop)
-    {
+    if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
 
         wxGetApp().UpdateSystemIdleDetection();
 
-        if ( IsShown() )
-        {
-            if ( NULL != pDoc )
-            {
+        if (IsShown()) {
+            if (NULL != pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
                 // Run stuff that we want to display on startup
-                if ( m_bRunInitialClientConnectionChecks && pDoc->IsConnected() )
-                {
+                if (m_bRunInitialClientConnectionChecks && pDoc->IsConnected()) {
                     m_bRunInitialClientConnectionChecks = false;
 
                     // If we don't detect any attached projects for this BOINC Daemon,
@@ -1249,59 +1188,56 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                 wxASSERT(NULL != pMenuBar);
                 wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-                if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNALWAYS, NULL ) )
-                    pMenuBar->Check( ID_ACTIVITYRUNALWAYS, false );
+                if (NULL != pMenuBar->FindItem(ID_ACTIVITYRUNALWAYS, NULL))
+                    pMenuBar->Check(ID_ACTIVITYRUNALWAYS, false);
 
-                if ( NULL != pMenuBar->FindItem( ID_ACTIVITYSUSPEND, NULL ) )
-                    pMenuBar->Check( ID_ACTIVITYSUSPEND, false );
+                if (NULL != pMenuBar->FindItem(ID_ACTIVITYSUSPEND, NULL))
+                    pMenuBar->Check(ID_ACTIVITYSUSPEND, false);
 
-                if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNBASEDONPREPERENCES, NULL ) )
-                    pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
+                if (NULL != pMenuBar->FindItem(ID_ACTIVITYRUNBASEDONPREPERENCES, NULL))
+                    pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
 
-                if ( 0 == pDoc->GetActivityRunMode( iActivityMode ) )
-                {
-                    if ( CMainDocument::MODE_ALWAYS == iActivityMode )
-                        pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+                if (0 == pDoc->GetActivityRunMode(iActivityMode)) {
+                    if (CMainDocument::MODE_ALWAYS == iActivityMode)
+                        pMenuBar->Check(ID_ACTIVITYRUNALWAYS, true);
 
-                    if ( CMainDocument::MODE_NEVER == iActivityMode )
-                        pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
+                    if (CMainDocument::MODE_NEVER == iActivityMode)
+                        pMenuBar->Check(ID_ACTIVITYSUSPEND, true);
 
-                    if ( CMainDocument::MODE_AUTO == iActivityMode )
-                        pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+                    if (CMainDocument::MODE_AUTO == iActivityMode)
+                        pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, true);
                 }
 
 #if 0
-                if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNALWAYS, NULL ) )
-                    pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
+                if (NULL != pMenuBar->FindItem(ID_NETWORKRUNALWAYS, NULL))
+                    pMenuBar->Check(ID_NETWORKRUNALWAYS, false);
 #endif
-                if ( NULL != pMenuBar->FindItem( ID_NETWORKSUSPEND, NULL ) )
-                    pMenuBar->Check( ID_NETWORKSUSPEND, false );
+                if (NULL != pMenuBar->FindItem(ID_NETWORKSUSPEND, NULL))
+                    pMenuBar->Check(ID_NETWORKSUSPEND, false);
 
 #if 0
-                if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNBASEDONPREPERENCES, NULL ) )
-                    pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+                if (NULL != pMenuBar->FindItem(ID_NETWORKRUNBASEDONPREPERENCES, NULL))
+                    pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
 #endif
 
-                if ( 0 == pDoc->GetNetworkRunMode( iNetworkMode ) )
-                {
+                if (0 == pDoc->GetNetworkRunMode(iNetworkMode)) {
 #if 0
-                    if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
-                        pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
+                    if (CMainDocument::MODE_ALWAYS == iNetworkMode)
+                        pMenuBar->Check(ID_NETWORKRUNALWAYS, true);
 #endif
 
-                    if ( CMainDocument::MODE_NEVER == iNetworkMode )
-                        pMenuBar->Check( ID_NETWORKSUSPEND, true );
+                    if (CMainDocument::MODE_NEVER == iNetworkMode)
+                        pMenuBar->Check(ID_NETWORKSUSPEND, true);
 
 #if 0
-                    if ( CMainDocument::MODE_AUTO == iNetworkMode )
-                        pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
+                    if (CMainDocument::MODE_AUTO == iNetworkMode)
+                        pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, true);
 #endif
                 }
 
                 // Update the statusbar
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
-                if ( pDoc->IsConnected() || pDoc->IsReconnecting() )
-                {
+                if (pDoc->IsConnected() || pDoc->IsReconnecting()) {
                     m_pStatusbar->m_pbmpConnected->Show();
                     m_pStatusbar->m_ptxtConnected->Show();
                     m_pStatusbar->m_pbmpDisconnect->Hide();
@@ -1313,28 +1249,22 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = setlocale(LC_NUMERIC, NULL);
      
-                    if ( pDoc->IsReconnecting() )
-                        pDoc->GetConnectingComputerName( strComputerName );
+                    if (pDoc->IsReconnecting())
+                        pDoc->GetConnectingComputerName(strComputerName);
                     else
-                        pDoc->GetConnectedComputerName( strComputerName );
+                        pDoc->GetConnectedComputerName(strComputerName);
 
-                    if ( strComputerName.empty() )
-                    {
+                    if (strComputerName.empty()) {
                         strTitle += wxT(" - (localhost)");
                         strComputerName += wxT("localhost");
-                    }
-                    else
-                    {
+                    } else {
                         strStatusText += strComputerName;
                     }
 
-                    if ( pDoc->IsReconnecting() )
-                    {
+                    if (pDoc->IsReconnecting()) {
                         strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
                         strStatusText.Printf(_("Connecting to %s"), strComputerName.c_str());
-                    }
-                    else
-                    {
+                    } else {
                         setlocale(LC_NUMERIC, "C");
                         strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
                         setlocale(LC_NUMERIC, strLocale.c_str());
@@ -1343,11 +1273,9 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                         strStatusText.Printf(_("Connected to %s (%s)"), strComputerName.c_str(), strBuffer.c_str());
                     }
 
-                    SetTitle( strTitle );
-                    m_pStatusbar->m_ptxtConnected->SetLabel( strStatusText );
-                }
-                else
-                {
+                    SetTitle(strTitle);
+                    m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
+                } else {
                     m_pStatusbar->m_pbmpConnected->Hide();
                     m_pStatusbar->m_ptxtConnected->Hide();
                     m_pStatusbar->m_pbmpDisconnect->Show();
@@ -1365,30 +1293,27 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 }
 
 
-void CMainFrame::OnListPanelRender( wxTimerEvent &event )
-{
+void CMainFrame::OnListPanelRender(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function Begin"));
 
     static bool bAlreadyRunningLoop = false;
 
-    if (!bAlreadyRunningLoop)
-    {
+    if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
 
-        if ( IsShown() )
-        {
+        if (IsShown()) {
             wxWindow*       pwndNotebookPage = NULL;
             CBOINCBaseView* pView = NULL;
 
             wxASSERT(NULL != m_pNotebook);
 
-            pwndNotebookPage = m_pNotebook->GetPage( m_pNotebook->GetSelection() );
+            pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
             wxASSERT(NULL != pwndNotebookPage);
 
             pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
             wxASSERT(NULL != pView);
 
-            pView->FireOnListRender( event );
+            pView->FireOnListRender(event);
         }
 
         bAlreadyRunningLoop = false;

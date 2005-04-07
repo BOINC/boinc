@@ -39,15 +39,13 @@
 #define COLUMN_DISKSPACE            1
 
 
-CResource::CResource()
-{
+CResource::CResource() {
     m_strProjectName = wxEmptyString;
     m_strDiskSpace = wxEmptyString;
 }
 
 
-CResource::~CResource()
-{
+CResource::~CResource() {
     m_strProjectName.Clear();
     m_strDiskSpace.Clear();
 }
@@ -56,14 +54,11 @@ CResource::~CResource()
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
 
-CViewResources::CViewResources()
-{
-}
+CViewResources::CViewResources() {}
 
 
 CViewResources::CViewResources(wxNotebook* pNotebook) :
-    CBOINCBaseView( pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS )
-{
+    CBOINCBaseView(pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -108,32 +103,28 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     SetCurrentQuickTip(
         LINK_DEFAULT, 
         LINKDESC_DEFAULT
-    );
+   );
 
     UpdateSelection();
 }
 
 
-CViewResources::~CViewResources()
-{
+CViewResources::~CViewResources() {
     EmptyCache();
 }
 
 
-wxString CViewResources::GetViewName()
-{
+wxString CViewResources::GetViewName() {
     return wxString(_("Disk"));
 }
 
 
-const char** CViewResources::GetViewIcon()
-{
+const char** CViewResources::GetViewIcon() {
     return usage_xpm;
 }
 
 
-wxInt32 CViewResources::GetDocCount()
-{
+wxInt32 CViewResources::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -143,9 +134,8 @@ wxInt32 CViewResources::GetDocCount()
 }
 
 
-wxString CViewResources::OnListGetItemText( long item, long column ) const
-{
-    CResource* resource   = m_ResourceCache.at( item );
+wxString CViewResources::OnListGetItemText(long item, long column) const {
+    CResource* resource   = m_ResourceCache.at(item);
     wxString   strBuffer  = wxEmptyString;
 
     switch(column)
@@ -162,26 +152,22 @@ wxString CViewResources::OnListGetItemText( long item, long column ) const
 }
 
 
-wxString CViewResources::OnDocGetItemText( long item, long column ) const
-{
+wxString CViewResources::OnDocGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
-    switch(column)
-    {
-        case COLUMN_PROJECT:
-            FormatProjectName( item, strBuffer );
-            break;
-        case COLUMN_DISKSPACE:
-            FormatDiskSpace( item, strBuffer );
-            break;
+    switch(column) {
+    case COLUMN_PROJECT:
+        FormatProjectName(item, strBuffer);
+        break;
+    case COLUMN_DISKSPACE:
+        FormatDiskSpace(item, strBuffer);
+        break;
     }
-
     return strBuffer;
 }
 
 
-void CViewResources::OnTaskLinkClicked( const wxHtmlLinkInfo& /*link*/ )
-{
+void CViewResources::OnTaskLinkClicked(const wxHtmlLinkInfo& /*link*/) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -195,23 +181,18 @@ void CViewResources::OnTaskLinkClicked( const wxHtmlLinkInfo& /*link*/ )
 }
 
 
-void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y) )
-{
-    if ( NULL != cell->GetLink() )
-    {
+void CViewResources::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
+    if (NULL != cell->GetLink()) {
         bool        bUpdateSelection = false;
         wxString    strLink;
 
         strLink = cell->GetLink()->GetHref();
 
-        if      ( UpdateQuickTip( strLink, wxT("test"), wxT("test") ) )
+        if      (UpdateQuickTip(strLink, wxT("test"), wxT("test"))) {
             bUpdateSelection = true;
-        else
-        {
-            if ( 0 == m_pListPane->GetSelectedItemCount() )
-            {
-                if  ( wxT(LINK_DEFAULT) != GetCurrentQuickTip() )
-                {
+        } else {
+            if (0 == m_pListPane->GetSelectedItemCount()) {
+                if  (wxT(LINK_DEFAULT) != GetCurrentQuickTip()) {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
                         LINKDESC_DEFAULT
@@ -222,21 +203,18 @@ void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x)
             }
         }
 
-        if ( bUpdateSelection )
-        {
+        if (bUpdateSelection) {
             UpdateSelection();
         }
     }
 }
 
 
-wxInt32 CViewResources::AddCacheElement()
-{
+wxInt32 CViewResources::AddCacheElement() {
     CResource* pItem = new CResource();
-    wxASSERT( NULL != pItem );
-    if ( NULL != pItem )
-    {
-        m_ResourceCache.push_back( pItem );
+    wxASSERT(NULL != pItem);
+    if (NULL != pItem) {
+        m_ResourceCache.push_back(pItem);
         return 0;
     }
     return -1;
@@ -254,58 +232,48 @@ wxInt32 CViewResources::EmptyCache()
 }
 
 
-wxInt32 CViewResources::GetCacheCount()
-{
+wxInt32 CViewResources::GetCacheCount() {
     return m_ResourceCache.size();
 }
 
 
-wxInt32 CViewResources::RemoveCacheElement()
-{
+wxInt32 CViewResources::RemoveCacheElement() {
     delete m_ResourceCache.back();
-    m_ResourceCache.erase( m_ResourceCache.end() - 1 );
+    m_ResourceCache.erase(m_ResourceCache.end() - 1);
     return 0;
 }
 
 
-wxInt32 CViewResources::UpdateCache( long item, long column, wxString& strNewData )
-{
-    CResource* resource   = m_ResourceCache.at( item );
+wxInt32 CViewResources::UpdateCache(long item, long column, wxString& strNewData) {
+    CResource* resource   = m_ResourceCache.at(item);
 
-    switch(column)
-    {
-        case COLUMN_PROJECT:
-            resource->m_strProjectName = strNewData;
-            break;
-        case COLUMN_DISKSPACE:
-            resource->m_strDiskSpace = strNewData;
-            break;
+    switch(column) {
+    case COLUMN_PROJECT:
+        resource->m_strProjectName = strNewData;
+        break;
+    case COLUMN_DISKSPACE:
+        resource->m_strDiskSpace = strNewData;
+        break;
     }
-
     return 0;
 }
 
 
-void CViewResources::UpdateSelection()
-{
+void CViewResources::UpdateSelection() {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if ( 0 == m_pListPane->GetSelectedItemCount() )
-    {
+    if (0 == m_pListPane->GetSelectedItemCount()) {
         m_bTaskHeaderHidden = true;
 
-        if ( m_bItemSelected )
-        {
+        if (m_bItemSelected) {
             SetCurrentQuickTip(
                 LINK_DEFAULT, 
                 wxT("")
             );
         }
         m_bItemSelected = false;
-    }
-    else
-    {
+    } else {
         m_bTaskHeaderHidden = true;
 
         m_bItemSelected = true;
@@ -314,25 +282,23 @@ void CViewResources::UpdateSelection()
 }
 
 
-void CViewResources::UpdateTaskPane()
-{
+void CViewResources::UpdateTaskPane() {
     wxASSERT(NULL != m_pTaskPane);
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
-    if (!m_bTaskHeaderHidden)
-    {
+    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
+    if (!m_bTaskHeaderHidden) {
     }
-    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }
 
 
-wxInt32 CViewResources::FormatProjectName( wxInt32 item, wxString& strBuffer ) const
+wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) const
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
@@ -347,8 +313,7 @@ wxInt32 CViewResources::FormatProjectName( wxInt32 item, wxString& strBuffer ) c
 }
 
 
-wxInt32 CViewResources::FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const
-{
+wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     double         xTera = 1099511627776.0;
     double         xGiga = 1073741824.0;
@@ -361,27 +326,18 @@ wxInt32 CViewResources::FormatDiskSpace( wxInt32 item, wxString& strBuffer ) con
 
     strBuffer.Clear();
 
-    pDoc->GetResourceDiskspace( item, fBuffer );
+    pDoc->GetResourceDiskspace(item, fBuffer);
 
-    if      ( fBuffer >= xTera )
-    {
-        strBuffer.Printf( wxT("%0.2f TB"), fBuffer/xTera);
-    }
-    else if ( fBuffer >= xGiga )
-    {
-        strBuffer.Printf( wxT("%0.2f GB"), fBuffer/xGiga);
-    }
-    else if ( fBuffer >= xMega )
-    {
-        strBuffer.Printf( wxT("%0.2f MB"), fBuffer/xMega);
-    }
-    else if ( fBuffer >= xKilo )
-    {
-        strBuffer.Printf( wxT("%0.2f KB"), fBuffer/xKilo);
-    }
-    else
-    {
-        strBuffer.Printf( wxT("%0.0f bytes"), fBuffer);
+    if (fBuffer >= xTera) {
+        strBuffer.Printf(wxT("%0.2f TB"), fBuffer/xTera);
+    } else if (fBuffer >= xGiga) {
+        strBuffer.Printf(wxT("%0.2f GB"), fBuffer/xGiga);
+    } else if (fBuffer >= xMega) {
+        strBuffer.Printf(wxT("%0.2f MB"), fBuffer/xMega);
+    } else if (fBuffer >= xKilo) {
+        strBuffer.Printf(wxT("%0.2f KB"), fBuffer/xKilo);
+    } else {
+        strBuffer.Printf(wxT("%0.0f bytes"), fBuffer);
     }
 
     return 0;

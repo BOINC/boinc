@@ -42,8 +42,7 @@ IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 
-bool CBOINCGUIApp::OnInit()
-{
+bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMSW__
 
     TCHAR   szPath[MAX_PATH-1];
@@ -78,13 +77,13 @@ bool CBOINCGUIApp::OnInit()
     strDirectory = wxT("/Library/Application Support");
 #endif
 
-    success = ::wxSetWorkingDirectory( strDirectory );
-    if (success)            // If SetWD failed, don't create a directory in wrong place
-    {
+    success = ::wxSetWorkingDirectory(strDirectory);
+    if (success) {
+        // If SetWD failed, don't create a directory in wrong place
         strDirectory += wxT("/BOINC Data");
         if (! wxPathExists(strDirectory))
-            success = wxMkdir( wxT("BOINC Data"), 0777);    // Does nothing if dir exists
-        success = ::wxSetWorkingDirectory( strDirectory );
+            success = wxMkdir(wxT("BOINC Data"), 0777);    // Does nothing if dir exists
+        success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
 
@@ -120,7 +119,7 @@ bool CBOINCGUIApp::OnInit()
         dwDiagnosticsFlags,
         "stdoutgui",
         "stderrgui"
-    );
+   );
 
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
@@ -133,8 +132,8 @@ bool CBOINCGUIApp::OnInit()
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
 
-    m_pLog->AddTraceMask( wxT("Function Start/End") );
-    m_pLog->AddTraceMask( wxT("Function Status") );
+    m_pLog->AddTraceMask(wxT("Function Start/End"));
+    m_pLog->AddTraceMask(wxT("Function Status"));
 
     // Enable the in memory virtual file system for
     //   storing images
@@ -191,10 +190,9 @@ bool CBOINCGUIApp::OnInit()
 
     // Show the UI
     SetTopWindow(m_pFrame);
-    if (m_bFrameVisible)
+    if (m_bFrameVisible) {
         m_pFrame->Show();
-	else
-	{
+    } else {
         m_pFrame->Show();
         m_pFrame->Show(false);
 	}
@@ -204,8 +202,7 @@ bool CBOINCGUIApp::OnInit()
 }
 
 
-int CBOINCGUIApp::OnExit()
-{
+int CBOINCGUIApp::OnExit() {
     // Detect if we need to stop the BOINC Core Client due to configuration
     ShutdownBOINCCore();
 
@@ -222,8 +219,7 @@ int CBOINCGUIApp::OnExit()
 
 #endif
 
-    if (m_pDocument)
-    {
+    if (m_pDocument) {
         m_pDocument->OnExit();
         delete m_pDocument;
     }
@@ -235,8 +231,7 @@ int CBOINCGUIApp::OnExit()
 }
 
 
-void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser)
-{
+void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
@@ -246,12 +241,10 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser)
 }
 
 
-bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
-{
+bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
-    if (parser.Found(wxT("systray")))
-    {
+    if (parser.Found(wxT("systray"))) {
         m_bFrameVisible = false;
     }
     return true;
@@ -265,16 +258,16 @@ void CBOINCGUIApp::DetectDisplayInfo() {
     wxChar szDesktop[256];
     memset(szDesktop, 0, sizeof(szDesktop)/sizeof(wxChar));
 
-    if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) ) {
+    if (wxWIN95 != wxGetOsVersion(NULL, NULL)) {
         // Retrieve the current window station and desktop names
-        GetUserObjectInformation( 
+        GetUserObjectInformation(
             GetProcessWindowStation(), 
             UOI_NAME, 
             szWindowStation,
             (sizeof(szWindowStation) / sizeof(wxChar)),
             NULL
         );
-        GetUserObjectInformation( 
+        GetUserObjectInformation(
             GetThreadDesktop(GetCurrentThreadId()), 
             UOI_NAME, 
             szDesktop,
@@ -293,8 +286,7 @@ void CBOINCGUIApp::DetectDisplayInfo() {
 }
 
 
-void CBOINCGUIApp::InitSupportedLanguages()
-{
+void CBOINCGUIApp::InitSupportedLanguages() {
     wxInt32               iIndex = 0;
     const wxLanguageInfo* liLanguage = NULL;
 
@@ -303,28 +295,23 @@ void CBOINCGUIApp::InitSupportedLanguages()
     m_strLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
     m_strLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
 
-    for ( iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++ )
-    {
-        liLanguage = wxLocale::GetLanguageInfo( iIndex );
-        if ( NULL != liLanguage )
-        {
+    for (iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++) {
+        liLanguage = wxLocale::GetLanguageInfo(iIndex);
+        if (NULL != liLanguage) {
             m_strLanguages[iIndex] = liLanguage->Description;
         }
     }
 }
 
 
-bool CBOINCGUIApp::IsBOINCCoreRunning()
-{
+bool CBOINCGUIApp::IsBOINCCoreRunning() {
 	wxString strMachineName = wxT("localhost");
-    return ( 0 == m_pDocument->Connect(strMachineName, FALSE));
+    return (0 == m_pDocument->Connect(strMachineName, FALSE));
 }
 
 
-void CBOINCGUIApp::StartupBOINCCore()
-{
-    if ( !IsBOINCCoreRunning() )
-    {
+void CBOINCGUIApp::StartupBOINCCore() {
+    if (!IsBOINCCoreRunning()) {
 #ifndef __WXMAC__
         wxString strDirectory = wxEmptyString;
 #endif  // ! __WXMAC__
@@ -342,10 +329,10 @@ void CBOINCGUIApp::StartupBOINCCore()
         //   to startup in the correct directory, since the user may have created the
         //   shortcut themselves.  So determine where boinc.exe is based off of our
         //   current execution location and then execute it.
-        GetModuleFileName( 
+        GetModuleFileName(
             NULL, 
             szExecutableDirectory,
-            (sizeof(szExecutableDirectory) / sizeof(wxChar) )
+            (sizeof(szExecutableDirectory) / sizeof(wxChar))
         );
 
 #endif
@@ -364,24 +351,23 @@ void CBOINCGUIApp::StartupBOINCCore()
                 err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
             if (err == noErr)
                 err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
-            if (err == noErr)
-            {
+            if (err == noErr) {
                 strExecute = wxT("\"");            
                 strExecute += wxT(buf);
                 strExecute += wxT("/Contents/Resources/boinc_client\" -redirectio");
-            }
-            else
+            } else {
                 buf[0] = '\0';
+            }
         }
 
 #else   // ! __WXMAC__
 
         // We are only interested in the path component of the fully qualified path.
-        wxFileName::SplitPath( szExecutableDirectory, &strDirectory, NULL, NULL );
+        wxFileName::SplitPath(szExecutableDirectory, &strDirectory, NULL, NULL);
 
         // Set the current directory ahead of the application launch so the core
         //   client can find its files
-        ::wxSetWorkingDirectory( strDirectory );
+        ::wxSetWorkingDirectory(strDirectory);
 
 #endif  // ! __WXMAC__
 
@@ -413,8 +399,7 @@ void CBOINCGUIApp::StartupBOINCCore()
             &si,
             &pi
         );
-        if (bProcessStarted)
-        {
+        if (bProcessStarted) {
             m_lBOINCCoreProcessId = pi.dwProcessId;
             m_hBOINCCoreProcess = pi.hProcess;
         }
@@ -428,42 +413,36 @@ void CBOINCGUIApp::StartupBOINCCore()
         
 #endif  // ! __WXMAC__
 
-        m_lBOINCCoreProcessId = ::wxExecute( strExecute );
+        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
 
 #endif  // ! __WXMSW__
 
-        if ( 0 != m_lBOINCCoreProcessId )
+        if (0 != m_lBOINCCoreProcessId) {
             m_bBOINCStartedByManager = true;
+        }
     }
 }
 
 
 #ifdef __WXMSW__
 
-void CBOINCGUIApp::ShutdownBOINCCore()
-{
+void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32  iCount = 0;
     bool     bClientQuit = false;
     DWORD    dwExitCode;
 	wxString strMachineName = wxT("localhost");
 
-    if ( m_bBOINCStartedByManager )
-    {
+    if (m_bBOINCStartedByManager) {
 		// The user may have gone off to look at another machine on the network, and
 		//   we don't want to leave any dangling processes if we started them up.
 		m_pDocument->Connect(strMachineName);
 
-        if ( GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
-        {
-            if ( STILL_ACTIVE == dwExitCode )
-            {
+        if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+            if (STILL_ACTIVE == dwExitCode) {
                 m_pDocument->CoreClientQuit();
-                for ( iCount = 0; iCount <= 10; iCount++ )
-                {
-                    if ( !bClientQuit && GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
-                    {
-                        if ( STILL_ACTIVE != dwExitCode )
-                        {
+                for (iCount = 0; iCount <= 10; iCount++) {
+                    if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                        if (STILL_ACTIVE != dwExitCode) {
                             bClientQuit = true;
                             continue;
                         }
@@ -473,27 +452,23 @@ void CBOINCGUIApp::ShutdownBOINCCore()
             }
         }
 
-        if ( !bClientQuit )
-            ::wxKill( m_lBOINCCoreProcessId );
+        if (!bClientQuit) {
+            ::wxKill(m_lBOINCCoreProcessId);
+        }
     }
 }
 
 #else
 
-void CBOINCGUIApp::ShutdownBOINCCore()
-{
+void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32 iCount = 0;
     bool    bClientQuit = false;
 
-    if ( m_bBOINCStartedByManager )
-    {
-        if ( wxProcess::Exists( m_lBOINCCoreProcessId ) )
-        {
+    if (m_bBOINCStartedByManager) {
+        if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
             m_pDocument->CoreClientQuit();
-            for ( iCount = 0; iCount <= 10; iCount++ )
-            {
-                if ( !bClientQuit && !wxProcess::Exists( m_lBOINCCoreProcessId ) )
-                {
+            for (iCount = 0; iCount <= 10; iCount++) {
+                if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
                     bClientQuit = true;
                     continue;
                 }
@@ -501,33 +476,28 @@ void CBOINCGUIApp::ShutdownBOINCCore()
             }
         }
 
-        if ( !bClientQuit )
-            ::wxKill( m_lBOINCCoreProcessId );
+        if (!bClientQuit) {
+            ::wxKill(m_lBOINCCoreProcessId);
+        }
     }
 }
 
 #endif
 
 
-wxInt32 CBOINCGUIApp::StartupSystemIdleDetection()
-{
+wxInt32 CBOINCGUIApp::StartupSystemIdleDetection() {
 #ifdef __WXMSW__
     // load dll and start idle detection
     m_hIdleDetectionDll = LoadLibrary("boinc.dll");
-    if(m_hIdleDetectionDll)
-    {
+    if(m_hIdleDetectionDll) {
         IdleTrackerInit fn;
         fn = (IdleTrackerInit)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerInit"));
-        if(!fn)
-        {
+        if(!fn) {
             FreeLibrary(m_hIdleDetectionDll);
             m_hIdleDetectionDll = NULL;
             return -1;
-        }
-        else 
-        {
-            if(!fn())
-            {
+        } else {
+            if(!fn()) {
                 FreeLibrary(m_hIdleDetectionDll);
                 m_hIdleDetectionDll = NULL;
                 return -1;
@@ -539,18 +509,14 @@ wxInt32 CBOINCGUIApp::StartupSystemIdleDetection()
 }
 
 
-wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection()
-{
+wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection() {
 #ifdef __WXMSW__
     if(m_hIdleDetectionDll) {
         IdleTrackerTerm fn;
         fn = (IdleTrackerTerm)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerTerm"));
-        if(fn)
-        {
+        if(fn) {
             fn();
-        }
-        else
-        {
+        } else {
             return -1;
         }
         FreeLibrary(m_hIdleDetectionDll);
@@ -561,19 +527,14 @@ wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection()
 }
 
 
-wxInt32 CBOINCGUIApp::UpdateSystemIdleDetection()
-{
+wxInt32 CBOINCGUIApp::UpdateSystemIdleDetection() {
 #ifdef __WXMSW__
-    if (m_hIdleDetectionDll)
-    {
+    if (m_hIdleDetectionDll) {
         IdleTrackerGetIdleTickCount fn;
         fn = (IdleTrackerGetIdleTickCount)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerGetIdleTickCount"));
-        if(fn)
-        {
+        if(fn) {
             fn();
-        }
-        else
-        {
+        } else {
             return -1;
         }
     }

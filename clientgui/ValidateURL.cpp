@@ -28,26 +28,20 @@
 IMPLEMENT_DYNAMIC_CLASS(CValidateURL, wxValidator)
 
 
-CValidateURL::CValidateURL(wxString *val)
-{
+CValidateURL::CValidateURL(wxString *val) {
     m_stringValue = val ;
 }
 
 
-CValidateURL::CValidateURL(const CValidateURL& val)
-    : wxValidator()
-{
+CValidateURL::CValidateURL(const CValidateURL& val) : wxValidator() {
     Copy(val);
 }
 
 
-CValidateURL::~CValidateURL()
-{
-}
+CValidateURL::~CValidateURL() {}
 
 
-bool CValidateURL::Copy(const CValidateURL& val)
-{
+bool CValidateURL::Copy(const CValidateURL& val) {
     wxValidator::Copy(val);
 
     m_stringValue = val.m_stringValue ;
@@ -56,8 +50,7 @@ bool CValidateURL::Copy(const CValidateURL& val)
 }
 
 
-bool CValidateURL::Validate(wxWindow *parent)
-{
+bool CValidateURL::Validate(wxWindow *parent) {
     if( !CheckValidator() )
         return FALSE;
 
@@ -70,12 +63,10 @@ bool CValidateURL::Validate(wxWindow *parent)
 
     bool ok = TRUE;
 
-    if ( wxURL_NOERR != val.GetError() )
-    {
+    if ( wxURL_NOERR != val.GetError() ) {
         ok = FALSE;
 
-        if ( ( wxURL_NOPROTO == val.GetError() ) || wxURL_SNTXERR == val.GetError() )
-        {
+        if ( ( wxURL_NOPROTO == val.GetError() ) || wxURL_SNTXERR == val.GetError() ) {
             // Special case: we want to allow the user to specify the URL without
             //   specifing the protocol.
             ok = TRUE;
@@ -86,8 +77,7 @@ bool CValidateURL::Validate(wxWindow *parent)
             m_errormsg = _("'%s' does not contain a valid path.");
     }
 
-    if ( !ok )
-    {
+    if ( !ok ) {
         wxASSERT_MSG( !m_errormsg.empty(), _T("you forgot to set errormsg") );
 
         m_validatorWindow->SetFocus();
@@ -103,8 +93,7 @@ bool CValidateURL::Validate(wxWindow *parent)
 }
 
 
-bool CValidateURL::TransferToWindow(void)
-{
+bool CValidateURL::TransferToWindow() {
     if( !CheckValidator() )
         return FALSE;
     
@@ -118,8 +107,7 @@ bool CValidateURL::TransferToWindow(void)
 }
 
 
-bool CValidateURL::TransferFromWindow(void)
-{
+bool CValidateURL::TransferFromWindow() {
     if( !CheckValidator() )
         return FALSE;
 
@@ -133,8 +121,7 @@ bool CValidateURL::TransferFromWindow(void)
 }
 
 
-bool CValidateURL::CheckValidator() const
-{
+bool CValidateURL::CheckValidator() const {
     wxCHECK_MSG( m_validatorWindow, FALSE,
                     _T("No window associated with validator") );
     wxCHECK_MSG( m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl)), FALSE,

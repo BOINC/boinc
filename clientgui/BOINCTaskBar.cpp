@@ -53,43 +53,39 @@ END_EVENT_TABLE ()
 
 CTaskBarIcon::CTaskBarIcon() : 
 #ifdef __WXMAC__
-    wxTaskBarIcon( DOCK )
+    wxTaskBarIcon(DOCK)
 #else
-    wxTaskBarIconEx( wxT("BOINCManagerSystray") )
+    wxTaskBarIconEx(wxT("BOINCManagerSystray"))
 #endif
 {
-    m_iconTaskBarIcon = wxIcon( boinc_xpm );
-    m_dtLastHoverDetected = wxDateTime( (time_t)0 );
-    m_dtLastBalloonDisplayed = wxDateTime( (time_t)0 );
+    m_iconTaskBarIcon = wxIcon(boinc_xpm);
+    m_dtLastHoverDetected = wxDateTime((time_t)0);
+    m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
 
 #ifndef __WXMAC__
-    SetIcon( m_iconTaskBarIcon, _("BOINC Manager") );
+    SetIcon(m_iconTaskBarIcon, _("BOINC Manager"));
 #endif
 }
 
 
-CTaskBarIcon::~CTaskBarIcon()
-{
+CTaskBarIcon::~CTaskBarIcon() {
     RemoveIcon();
 }
 
 
-void CTaskBarIcon::OnIdle( wxIdleEvent& event )
-{
+void CTaskBarIcon::OnIdle(wxIdleEvent& event) {
     wxGetApp().UpdateSystemIdleDetection();
     event.Skip();
 }
 
 
-void CTaskBarIcon::OnClose( wxCloseEvent& event )
-{
+void CTaskBarIcon::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
 
     ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if ( NULL != pFrame )
-    {
+    if (NULL != pFrame) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         pFrame->Close(true);
     }
@@ -100,40 +96,36 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
 }
 
 
-void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
-{
+void CTaskBarIcon::OnLButtonDClick(wxTaskBarIconEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnLButtonDClick - Function Begin"));
 
     wxCommandEvent eventCommand;
-    OnOpen( eventCommand );
-    if ( eventCommand.GetSkipped() ) event.Skip();
+    OnOpen(eventCommand);
+    if (eventCommand.GetSkipped()) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnLButtonDClick - Function End"));
 }
 
 
-void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
-{
+void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(NULL != pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-    if ( NULL != pFrame )
-	{
+    if (NULL != pFrame) {
         pFrame->Show();
         pFrame->SendSizeEvent();
 
 #ifdef __WXMSW__
-        ::SetForegroundWindow( (HWND)pFrame->GetHandle() );
+        ::SetForegroundWindow((HWND)pFrame->GetHandle());
 #endif
 	}
 }
 
 
-void CTaskBarIcon::OnActivitySelection( wxCommandEvent& event )
-{
+void CTaskBarIcon::OnActivitySelection(wxCommandEvent& event) {
     ResetTaskBar();
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
@@ -141,23 +133,21 @@ void CTaskBarIcon::OnActivitySelection( wxCommandEvent& event )
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch( event.GetId() )
-    {
-        case ID_TB_ACTIVITYRUNALWAYS:
-            pDoc->SetActivityRunMode( CMainDocument::MODE_ALWAYS );
-            break;
-        case ID_TB_ACTIVITYSUSPEND:
-            pDoc->SetActivityRunMode( CMainDocument::MODE_NEVER );
-            break;
-        case ID_TB_ACTIVITYRUNBASEDONPREPERENCES:
-            pDoc->SetActivityRunMode( CMainDocument::MODE_AUTO );
-            break;
+    switch(event.GetId()) {
+    case ID_TB_ACTIVITYRUNALWAYS:
+        pDoc->SetActivityRunMode(CMainDocument::MODE_ALWAYS);
+        break;
+    case ID_TB_ACTIVITYSUSPEND:
+        pDoc->SetActivityRunMode(CMainDocument::MODE_NEVER);
+        break;
+    case ID_TB_ACTIVITYRUNBASEDONPREPERENCES:
+        pDoc->SetActivityRunMode(CMainDocument::MODE_AUTO);
+        break;
     }
 }
 
 
-void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
-{
+void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
     ResetTaskBar();
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
@@ -166,28 +156,26 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch( event.GetId() )
-    {
-        case ID_TB_NETWORKSUSPEND:
-            pDoc->GetNetworkRunMode( iCurrentNetworkMode );
+    switch(event.GetId()) {
+    case ID_TB_NETWORKSUSPEND:
+        pDoc->GetNetworkRunMode(iCurrentNetworkMode);
 
-            if ( iCurrentNetworkMode == CMainDocument::MODE_ALWAYS )
-                pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
-            else
-                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+        if (iCurrentNetworkMode == CMainDocument::MODE_ALWAYS)
+            pDoc->SetNetworkRunMode(CMainDocument::MODE_NEVER);
+        else
+            pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
 
-            break;
-        case ID_TB_NETWORKRUNALWAYS:
-        case ID_TB_NETWORKRUNBASEDONPREPERENCES:
-        default:
-            pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
-            break;
+        break;
+    case ID_TB_NETWORKRUNALWAYS:
+    case ID_TB_NETWORKRUNBASEDONPREPERENCES:
+    default:
+        pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
+        break;
     }
 }
 
 
-void CTaskBarIcon::OnAbout( wxCommandEvent& WXUNUSED(event) )
-{
+void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CDlgAbout* pDlg = new CDlgAbout(NULL);
@@ -200,15 +188,14 @@ void CTaskBarIcon::OnAbout( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CTaskBarIcon::OnExit( wxCommandEvent& event )
-{
+void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
     wxCloseEvent eventClose;
 
-    OnClose( eventClose );
+    OnClose(eventClose);
 
-    if ( eventClose.GetSkipped() ) event.Skip();
+    if (eventClose.GetSkipped()) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
@@ -217,29 +204,25 @@ void CTaskBarIcon::OnExit( wxCommandEvent& event )
 #ifdef __WXMSW__
 
 
-void CTaskBarIcon::OnShutdown( wxTaskBarIconExEvent& event )
-{
+void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
 
     wxCloseEvent eventClose;
-    OnClose( eventClose );
-    if ( eventClose.GetSkipped() ) event.Skip();
+    OnClose(eventClose);
+    if (eventClose.GetSkipped()) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
 }
 
 
-void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
-{
-
+void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
     wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
-    if ( ts.GetSeconds() >= 10 )
+    if (ts.GetSeconds() >= 10)
         m_dtLastHoverDetected = wxDateTime::Now();
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
     wxTimeSpan tsLastBalloon(wxDateTime::Now() - m_dtLastBalloonDisplayed);
-    if ( (tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10) )
-    {
+    if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
         m_dtLastBalloonDisplayed = wxDateTime::Now();
 
         wxString strTitle        = wxGetApp().GetAppName();
@@ -259,29 +242,28 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
-        pDoc->GetConnectedComputerName( strMachineName );
-        if ( strMachineName.empty() )
+        pDoc->GetConnectedComputerName(strMachineName);
+        if (strMachineName.empty())
             strTitle = strTitle + wxT(" - (localhost)");
         else
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
 
         iResultCount = pDoc->GetWorkCount();
-        for ( iIndex = 0; iIndex < iResultCount; iIndex++ )
-        {
-            bIsDownloaded = ( CMainDocument::FILES_DOWNLOADED == pDoc->GetWorkState( iIndex ) );
-            bIsActive     = ( pDoc->IsWorkActive( iIndex ) );
-            bIsExecuting  = ( CMainDocument::SCHED_SCHEDULED == pDoc->GetWorkSchedulerState( iIndex ) );
-            if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
+        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+            bIsDownloaded = (CMainDocument::FILES_DOWNLOADED == pDoc->GetWorkState(iIndex));
+            bIsActive     = (pDoc->IsWorkActive(iIndex));
+            bIsExecuting  = (CMainDocument::SCHED_SCHEDULED == pDoc->GetWorkSchedulerState(iIndex));
+            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 
-            pDoc->GetWorkProjectName( iIndex, strProjectName );
-            pDoc->GetWorkFractionDone( iIndex, fProgress );
+            pDoc->GetWorkProjectName(iIndex, strProjectName);
+            pDoc->GetWorkFractionDone(iIndex, fProgress);
 
-            strBuffer.Printf(wxT( "%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100 );
+            strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100);
             strMessage += strBuffer;
         }
 
-        SetBalloon( m_iconTaskBarIcon, strTitle, strMessage );
+        SetBalloon(m_iconTaskBarIcon, strTitle, strMessage);
     }
 }
 
@@ -289,33 +271,26 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 
 
 #ifdef __WXMSW__
-void CTaskBarIcon::OnContextMenu( wxTaskBarIconExEvent& event )
-{
+void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& event) {
     CreateContextMenu();
 }
 #else
-void CTaskBarIcon::OnContextMenu( wxTaskBarIconEvent& event )
-{
+void CTaskBarIcon::OnContextMenu(wxTaskBarIconEvent& event) {
     CreateContextMenu();
 }
 #endif
 
 
-void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
-{
-    if (!IsBalloonsSupported())
-    {
+void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& event) {
+    if (!IsBalloonsSupported()) {
         m_bButtonPressed = true;
     }
 }
 
 
-void CTaskBarIcon::OnRButtonUp( wxTaskBarIconEvent& event )
-{
-    if (!IsBalloonsSupported())
-    {
-        if (m_bButtonPressed)
-        {
+void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& event) {
+    if (!IsBalloonsSupported()) {
+        if (m_bButtonPressed) {
             CreateContextMenu();
             m_bButtonPressed = false;
         }
@@ -323,13 +298,12 @@ void CTaskBarIcon::OnRButtonUp( wxTaskBarIconEvent& event )
 }
 
 
-void CTaskBarIcon::ResetTaskBar()
-{
+void CTaskBarIcon::ResetTaskBar() {
 #ifdef __WXMSW___
-    SetBalloon( m_iconTaskBarIcon, wxT(""), wxT("") );
+    SetBalloon(m_iconTaskBarIcon, wxT(""), wxT(""));
 #else
 #ifndef __WXMAC__
-    SetIcon( m_iconTaskBarIcon, wxT("") );
+    SetIcon(m_iconTaskBarIcon, wxT(""));
 #endif
 #endif
 
@@ -345,32 +319,29 @@ void CTaskBarIcon::ResetTaskBar()
 //  in WxMac/src/mac/carbon/taskbar.cpp for details
 
 // Overridables
-wxMenu *CTaskBarIcon::CreatePopupMenu()
-{
+wxMenu *CTaskBarIcon::CreatePopupMenu() {
     wxMenu *menu = BuildContextMenu();
     return menu;
 }
 
 #endif
 
-void CTaskBarIcon::CreateContextMenu()
-{
+void CTaskBarIcon::CreateContextMenu() {
     ResetTaskBar();
 
     wxMenu *menu = BuildContextMenu();
 
     // These should be in Windows Task Bar Menu but not in Mac's Dock menu
     menu->AppendSeparator();
-    menu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
+    menu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
 
-    PopupMenu( menu );
+    PopupMenu(menu);
 
     delete menu;
 }
 
 
-wxMenu *CTaskBarIcon::BuildContextMenu()
-{
+wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxMenu*        menu          = new wxMenu;
     wxASSERT(NULL != menu);
 
@@ -378,35 +349,34 @@ wxMenu *CTaskBarIcon::BuildContextMenu()
 
     wxMenuItem*    menuItem      = NULL;
 
-    wxFont font = wxSystemSettings::GetFont( wxSYS_DEFAULT_GUI_FONT );
-    font.SetWeight( wxBOLD );
+    wxFont font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+    font.SetWeight(wxBOLD);
 
-    menuItem = new wxMenuItem( menu, wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString );
-    menuItem->SetFont( font );
+    menuItem = new wxMenuItem(menu, wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString);
+    menuItem->SetFont(font);
 
-    menu->Append( menuItem );
+    menu->Append(menuItem);
 
 #else
 
-    menu->Append( wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString );
+    menu->Append(wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString);
 
 #endif
     menu->AppendSeparator();
-    menu->AppendRadioItem( ID_TB_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString );
-    menu->AppendRadioItem( ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString );
-    menu->AppendRadioItem( ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString );
+    menu->AppendRadioItem(ID_TB_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString);
+    menu->AppendRadioItem(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString);
+    menu->AppendRadioItem(ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString);
     menu->AppendSeparator();
-    menu->AppendCheckItem( ID_TB_NETWORKSUSPEND, _("&Disable BOINC network access"), wxEmptyString );
+    menu->AppendCheckItem(ID_TB_NETWORKSUSPEND, _("&Disable BOINC network access"), wxEmptyString);
     menu->AppendSeparator();
-    menu->Append( wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString );
+    menu->Append(wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString);
 
     AdjustMenuItems(menu);
     
     return menu;
 }
 
-void CTaskBarIcon::AdjustMenuItems(wxMenu* menu)
-{
+void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     CMainDocument* pDoc          = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
     wxInt32        iNetworkMode  = -1;
@@ -414,25 +384,24 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu)
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetActivityRunMode( iActivityMode );
-    switch( iActivityMode )
-    {
-        case CMainDocument::MODE_ALWAYS:
-            menu->Check( ID_TB_ACTIVITYRUNALWAYS, true );
-            break;
-        case CMainDocument::MODE_NEVER:
-            menu->Check( ID_TB_ACTIVITYSUSPEND, true );
-            break;
-        case CMainDocument::MODE_AUTO:
-            menu->Check( ID_TB_ACTIVITYRUNBASEDONPREPERENCES, true );
-            break;
+    pDoc->GetActivityRunMode(iActivityMode);
+    switch(iActivityMode) {
+    case CMainDocument::MODE_ALWAYS:
+        menu->Check(ID_TB_ACTIVITYRUNALWAYS, true);
+        break;
+    case CMainDocument::MODE_NEVER:
+        menu->Check(ID_TB_ACTIVITYSUSPEND, true);
+        break;
+    case CMainDocument::MODE_AUTO:
+        menu->Check(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, true);
+        break;
     }
 
-    pDoc->GetNetworkRunMode( iNetworkMode );
-    if ( CMainDocument::MODE_NEVER == iNetworkMode )
-        menu->Check( ID_TB_NETWORKSUSPEND, true );
+    pDoc->GetNetworkRunMode(iNetworkMode);
+    if (CMainDocument::MODE_NEVER == iNetworkMode)
+        menu->Check(ID_TB_NETWORKSUSPEND, true);
     else
-        menu->Check( ID_TB_NETWORKSUSPEND, false );
+        menu->Check(ID_TB_NETWORKSUSPEND, false);
 }
 
 const char *BOINC_RCSID_531575eeaa = "$Id$";

@@ -26778,3 +26778,9 @@ Rom    6 April 2005
     clientgui/
         MainDocument.cpp, .h
         MainFrame.cpp, .h
+
+David  6 April 2005
+    - code cleanup in BOINC manager
+
+    clientgui/
+        *.cpp
