@@ -7,6 +7,11 @@ The <b>BOINC manager</b> program controls
 the use of your computer's disk, network, and processor resources.
 It is normally started at boot time.
 It is represented by a icon in the system tray.
+</p>
+
+<img src=msgsystraymenu.png>
+
+<p>
 Double-click on the icon to open the BOINC manager window.
 Right-click on the icon to:
 <ul>
