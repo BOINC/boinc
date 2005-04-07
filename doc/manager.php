@@ -15,19 +15,27 @@ It is represented by a icon in the system tray.
 Double-click on the icon to open the BOINC manager window.
 Right-click on the icon to:
 <ul>
-<li> <b>Suspend</b>: stop work (computation and file transfer).
+<li> <b>Open BOINC Manager</b>: opens the current BOINC Manager.
+<li> <b>Run always</b>: do work, regardless of preferences.
 <li> <b>Run based on preferences</b>: do work
     when your <a href=prefs.php>preferences</a> allow it.
-<li> <b>Run always</b>: do work,
-    regardless of preferences.
+<li> <b>Suspend</b>: stop work (computation and file transfer).
+<li> <b>Disable BOINC network access</b>:  setting this keeps BOINC
+from attempting to contact any of the project servers.  It is useful
+for those on dial-up connections who do not want to be bothered with
+BOINC prompting to connect or disconnect for a time.
+<li> <b>About BOINC Manager</b>:  displays useful information about the
+BOINC Manager.
 <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
 No further work will take place until you run the BOINC manager again.
-<li> <b>Hide</b>:  close the BOINC manager window, but do not exit.
 </ul>
+</p>
+<img src=mgrsystrayballoon.png>
 <p>
-When the icon is flashing, 
-there is an unread error message.
-To view it, open the BOINC manager window and go to the Messages tab.
+Hovering over the BOINC icon will display a status balloon which contains
+the project it is currently working on, how far along it is, and which
+computer it is connected too.
+</p>
 <p>
 The BOINC manager window has several tabs:
 <ul>
