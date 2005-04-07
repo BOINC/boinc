@@ -799,7 +799,16 @@ bool HTTP_OP_SET::poll(double) {
                 case HTTP_OP_GET:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
 
-                    htp->file = boinc_fopen(htp->outfile, "ab");
+                    // if server doesn't support range request,
+                    // prepare to receive the entire file
+                    //
+                    if (htp->hrh.http_status == HTTP_STATUS_PARTIAL_CONTENT) {
+                        htp->file = boinc_fopen(htp->outfile, "ab");
+                    } else {
+                        htp->file = boinc_fopen(htp->outfile, "wb");
+                        htp->file_offset = 0;
+                        htp->bytes_xferred = 0;
+                    }
                     if (!htp->file) {
                         msg_printf(NULL, MSG_ERROR,
                             "HTTP_OP_SET::poll(): can't open output file %s\n",

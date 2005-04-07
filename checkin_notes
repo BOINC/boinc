@@ -26812,3 +26812,15 @@ David  6 April 2005
             host_edit_form.php
     sched/
         handle_request.C
+
+David  6 April 2005
+    - Core client: deal correctly with HTTP servers that don't support
+        the Range: option.
+        Namely: if we issue an HTTP GET request with a Range option,
+        and the reply header is 200 OK (rather than 206 Partial Content)
+        then assume the server is sending us the whole file;
+        reset bytes_xfered and offset to zero,
+        and open the file in "wb" rather than "ab" mode.
+
+    client/
+        http.C,h

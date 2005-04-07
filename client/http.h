@@ -28,6 +28,7 @@
 
 // official HTTP status codes
 #define HTTP_STATUS_OK              200
+#define HTTP_STATUS_PARTIAL_CONTENT 206
 #define HTTP_STATUS_RANGE_REQUEST_ERROR    416
 #define HTTP_STATUS_MOVED_PERM      301
 #define HTTP_STATUS_MOVED_TEMP      302
