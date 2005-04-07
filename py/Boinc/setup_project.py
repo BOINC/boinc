@@ -306,6 +306,9 @@ def create_project_dirs(dest_dir):
         ])
 
 def install_boinc_files(dest_dir):
+    """Copy files from source dir to project dir.
+        Used by the upgrade script, so don't overwrite sample files."""
+
     def dir(*dirs):
         return apply(os.path.join,(dest_dir,)+dirs)
 
@@ -345,15 +348,6 @@ def install_boinc_files(dest_dir):
           'boincxml.py', 'configxml.py', 'database.py',
           'db_base.py', 'db_mid.py', 'projectxml.py',
           'sched_messages.py', 'tools.py', 'util.py', 'version.py' ])
-    install(
-        srcdir('html/user', 'forum_sample_index.php'),
-        dir('html/user', 'forum_index.php'))
-    install(
-        srcdir('html/user', 'sample_rss_main.php'),
-        dir('html/user', 'rss_main.php'))
-    install(
-        srcdir('html/user', 'sample_status.php'),
-        dir('html/user', 'status.php'))
 
 
 class Project:
@@ -464,6 +458,12 @@ class Project:
             self.dir('html/project/project_news.inc'))
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
+        install(srcdir('html/user', 'forum_sample_index.php'),
+            dir('html/user', 'forum_index.php'))
+        install(srcdir('html/user', 'sample_rss_main.php'),
+            dir('html/user', 'rss_main.php'))
+        install(srcdir('html/user', 'sample_status.php'),
+            dir('html/user', 'status.php'))
 
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))

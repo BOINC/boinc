@@ -26824,3 +26824,13 @@ David  6 April 2005
 
     client/
         http.C,h
+
+David  6 April 2005
+    - Python: in install_boinc_files(): don't copy "sample" php files,
+        since this is called from "upgrade" and it would overwrite
+        existing files.
+        Move the copies to install_project(),
+        which is used only at project creation.
+
+    py/Boinc/
+        setup_project.py
