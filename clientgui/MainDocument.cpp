@@ -91,13 +91,13 @@ void* CNetworkConnectionThread::Entry() {
                 }
 
                 if (0 == iRetVal) {
-                    if (!strComputerPassword.empty()) {
-                        iRetVal = m_pDocument->rpc.authorize(strComputerPassword.c_str());
-                    }
-
+                    iRetVal = m_pDocument->rpc.authorize(strComputerPassword.c_str());
                     if (0 == iRetVal) {
                         wxLogTrace("CNetworkConnectionThread::Entry - Connection Success");
                         SetStateSuccess( strComputer, strComputerPassword );
+                    } else if (ERR_AUTHENTICATOR == iRetVal) {
+                        wxLogTrace("CNetworkConnectionThread::Entry - RPC Authorization Failed '%d'", iRetVal);
+                        SetStateErrorAuthentication();
                     } else {
                         wxLogTrace("CNetworkConnectionThread::Entry - RPC Authorization Failed '%d'", iRetVal);
                         SetStateError();
@@ -137,6 +137,21 @@ wxInt32 CNetworkConnectionThread::SetNewComputerName( const wxChar* szComputer )
 wxInt32 CNetworkConnectionThread::SetNewComputerPassword( const wxChar* szPassword ) {
     m_strNewComputerPassword = szPassword;
     return 0;
+}
+
+
+void CNetworkConnectionThread::SetStateErrorAuthentication() {
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame && wxGetApp().GetTopWindow()) {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        m_bConnected = false;
+        m_bReconnecting = false;
+        m_bReconnectOnError = false;
+
+        m_bConnectEvent = false;
+
+        pFrame->FireConnectErrorAuthentication();
+    }
 }
 
 

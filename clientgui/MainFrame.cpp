@@ -136,6 +136,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR)
+DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
 
@@ -157,6 +158,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
     EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
+    EVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION(CMainFrame::OnConnectErrorAuthentication)
     EVT_MAINFRAME_INITIALIZED(CMainFrame::OnInitialized)
     EVT_MAINFRAME_REFRESH(CMainFrame::OnRefreshView)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
@@ -1138,6 +1140,19 @@ void CMainFrame::OnConnectError(CMainFrameEvent&) {
 }
 
 
+void CMainFrame::OnConnectErrorAuthentication(CMainFrameEvent&) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectErrorAuthentication - Function Begin"));
+
+    ::wxMessageBox(
+        _("The password you have provided is incorrect, please try again."),
+        _("Connection Error"),
+        wxICON_ERROR
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectErrorAuthentication - Function End"));
+}
+
+
 void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
 
@@ -1386,6 +1401,12 @@ void CMainFrame::FireConnect() {
 
 void CMainFrame::FireConnectError() {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR, this);
+    AddPendingEvent(event);
+}
+
+
+void CMainFrame::FireConnectErrorAuthentication() {
+    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, this);
     AddPendingEvent(event);
 }
 

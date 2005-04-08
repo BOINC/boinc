@@ -43,6 +43,7 @@ public:
     wxInt32        SetNewComputerName( const wxChar* szComputer );
     wxInt32        SetNewComputerPassword( const wxChar* szPassword );
     void           SetStateError();
+    void           SetStateErrorAuthentication();
     void           SetStateReconnecting();
     void           SetStateSuccess( std::string& strComputer, std::string& strComputerPassword );
     void           SetStateDisconnected();

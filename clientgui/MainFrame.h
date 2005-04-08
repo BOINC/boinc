@@ -81,6 +81,7 @@ public:
 
     void OnConnect( CMainFrameEvent& event );
     void OnConnectError( CMainFrameEvent& event );
+    void OnConnectErrorAuthentication( CMainFrameEvent& event );
     void OnInitialized( CMainFrameEvent& event );
     void OnRefreshView( CMainFrameEvent& event );
 
@@ -88,6 +89,7 @@ public:
 
     void FireConnect();
     void FireConnectError();
+    void FireConnectErrorAuthentication();
     void FireRefreshView();
     void ProcessRefreshView();
 
@@ -142,12 +144,15 @@ public:
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT, 10000 )
 DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR, 10001 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED, 10002 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW, 10003 )
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, 10002 )
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED, 10003 )
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW, 10004 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_MAINFRAME_CONNECT(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_MAINFRAME_CONNECT_ERROR(fn)      DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT_ERROR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION(fn) \
+                                             DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_MAINFRAME_INITIALIZED(fn)        DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_INITIALIZED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_MAINFRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
