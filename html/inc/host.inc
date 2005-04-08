@@ -49,9 +49,9 @@ function show_host($host, $private, $ipprivate) {
     row2("Created", time_str($host->create_time));
     row2("Total Credit", format_credit($host->total_credit));
     row2("Recent average credit", format_credit($host->expavg_credit));
-    row2("CPU type", "$host->p_vendor $host->p_model");
+    row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of CPUs", $host->p_ncpus);
-    row2("Operating System", "$host->os_name $host->os_version");
+    row2("Operating System", "$host->os_name <br> $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);
     row2("Memory", "$y MB");
@@ -201,8 +201,8 @@ function show_host_row($host, $i, $private, $show_owner) {
     printf("
         <td>%s</td>
         <td>%s</td>
-        <td>%s %s</td>
-        <td>%s %s</td>",
+        <td>%s <br> %s</td>
+        <td>%s <br> %s</td>",
            format_credit($host->expavg_credit), format_credit($host->total_credit),
            $host->p_vendor, $host->p_model,
            $host->os_name, $host->os_version
@@ -216,9 +216,30 @@ function show_host_row($host, $i, $private, $show_owner) {
 // return true iff it's possible that the hosts are actually
 // the same machine
 //
+function ghz($x) {
+    $y = explode(" ", $x);
+    foreach ($y as $z) {
+        if (strstr($z, "GHz")) return $z;
+    }
+}
+
 function hosts_compatible($host1, $host2) {
-    if ($host2->p_vendor != $host1->p_vendor) return false;
-    if ($host2->p_model != $host1->p_model) return false;
+    // we screwed around with Intel processor names,
+    // so count them as compatible if both contain "Intel" and "Pentium",
+    // and don't have conflicting clock rate info
+    //
+    $p1 = "$host1->p_vendor $host1->p_model";
+    $p2 = "$host2->p_vendor $host2->p_model";
+    if (strstr($p1, "Pentium") && strstr($p1, "Intel")
+        && strstr($p2, "Pentium") && strstr($p2, "Intel")
+    ) {
+        $g1 = ghz($p1);
+        $g2 = ghz($p2);
+        if ($g1 && $g2 && ($g1!=$g2)) return false;
+    } else {
+        if ($host2->p_vendor != $host1->p_vendor) return false;
+        if ($host2->p_model != $host1->p_model) return false;
+    }
     if ($host2->os_name != $host1->os_name) return false;
     return true;
 }

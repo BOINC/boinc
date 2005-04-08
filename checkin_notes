@@ -26899,3 +26899,19 @@ David  8 April 2005
         MainDocument.cpp
         MainFrame.cpp
         ViewMessages.cpp
+
+David  8 April 2005
+    - user web: weaken the test for hosts to be considered compatible
+        for the "merge" function.
+        This is needed because different versions of the core client
+        reported CPU vendor/model differently.
+
+        If two hosts have the words "Intel" and "Pentium" anywhere
+        in their vendor/model,
+        and they don't have conflicting xxxGHz strings,
+        consider them compatible
+
+    client/
+        app_graphics.C
+    html/inc/
+        host.inc
