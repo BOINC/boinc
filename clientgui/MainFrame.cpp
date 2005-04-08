@@ -1072,10 +1072,10 @@ void CMainFrame::OnHelp(wxHelpEvent& event) {
     if (IsShown()) {
         if (ID_FRAME == event.GetId()) {
             ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
+        } else {
+            event.Skip();
         }
     }
-
-    event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelp - Function End"));
 }
