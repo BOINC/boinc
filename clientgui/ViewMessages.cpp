@@ -220,6 +220,10 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
 
 
 void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -229,6 +233,8 @@ void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 #ifndef NOCLIPBOARD
     wxInt32 iIndex = -1;
     if (link.GetHref() == LINK_TASKCOPYALL) {
+        pFrame->UpdateStatusText(_("Copying all messages to the clipboard..."));
+
         wxInt32 iRowCount = 0;
 
         OpenClipboard();
@@ -240,6 +246,8 @@ void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 
         CloseClipboard();
     } else if (link.GetHref() == LINK_TASKCOPYMESSAGE) {
+        pFrame->UpdateStatusText(_("Copying selected message(s) to the clipboard..."));
+
         OpenClipboard();
 
         for (;;) {
@@ -257,6 +265,10 @@ void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 #endif
 
     UpdateSelection();
+    pFrame->ProcessRefreshView();
+
+    pFrame->UpdateStatusText( wxEmptyString );
+
 }
 
 

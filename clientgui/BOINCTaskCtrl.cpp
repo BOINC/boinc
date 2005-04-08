@@ -300,6 +300,15 @@ void CBOINCTaskCtrl::OnLinkClicked(const wxHtmlLinkInfo& link) {
 }
 
 
+void CBOINCTaskCtrl::OnCellClicked(wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event) {
+    wxASSERT(NULL != m_pParentView);
+    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
+
+    m_pParentView->FireOnTaskCellClicked(cell, x, y, event);
+    wxHtmlWindow::OnCellClicked(cell, x, y, event);
+}
+
+
 void CBOINCTaskCtrl::OnCellMouseHover(wxHtmlCell* cell, wxCoord x, wxCoord y) {
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));

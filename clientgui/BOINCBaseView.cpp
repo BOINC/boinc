@@ -159,6 +159,11 @@ void CBOINCBaseView::FireOnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 }
 
 
+void CBOINCBaseView::FireOnTaskCellClicked(wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event) {
+    OnTaskCellClicked(cell, x, y, event);
+}
+
+
 void CBOINCBaseView::FireOnTaskCellMouseHover(wxHtmlCell* cell, wxCoord x, wxCoord y) {
     OnTaskCellMouseHover(cell, x, y);
 }
@@ -310,6 +315,10 @@ wxString CBOINCBaseView::OnDocGetItemAttr(long WXUNUSED(item)) const {
 
 
 void CBOINCBaseView::OnTaskLinkClicked(const wxHtmlLinkInfo& WXUNUSED(link)) {}
+
+
+void CBOINCBaseView::OnTaskCellClicked(wxHtmlCell* WXUNUSED(cell), wxCoord WXUNUSED(x) , wxCoord WXUNUSED(y), const wxMouseEvent& WXUNUSED(event))
+{}
 
 
 void CBOINCBaseView::OnTaskCellMouseHover(wxHtmlCell* WXUNUSED(cell), wxCoord WXUNUSED(x) , wxCoord WXUNUSED(y))

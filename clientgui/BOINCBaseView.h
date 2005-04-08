@@ -32,6 +32,17 @@
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
 
+class CTaskItem : wxObject
+{
+public:
+    wxString    m_strTaskName;
+    wxString    m_strTaskDescription;
+    wxString    m_strLink;
+    bool        m_bIsHidden;
+    bool        m_bIsHovering;
+    bool        m_bIsClicked;
+};
+
 class CBOINCBaseView : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
@@ -64,6 +75,7 @@ public:
     int                     FireOnListGetItemImage( long item ) const;
     wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
     void                    FireOnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    void                    FireOnTaskCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
     void                    FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     virtual void            UpdateTaskPane();
@@ -90,6 +102,7 @@ protected:
     virtual wxString        OnDocGetItemAttr( long item ) const;
 
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnTaskCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
     virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     wxString                GetCurrentQuickTip();
@@ -108,6 +121,8 @@ protected:
 
     virtual bool            UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText );
     virtual void            UpdateSelection();
+
+    std::vector<CTaskItem*> m_DefinedTasks;
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;

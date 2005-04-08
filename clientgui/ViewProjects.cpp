@@ -284,6 +284,8 @@ wxString CViewProjects::OnDocGetItemText(long item, long column) const {
 
 
 void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function Begin"));
+
     wxInt32  iAnswer        = 0; 
     wxInt32  iProjectIndex  = 0; 
     wxInt32  iWebsiteIndex  = 0; 
@@ -291,9 +293,12 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxString strURL         = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -302,6 +307,8 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     m_bTipsHeaderHidden = false;
 
     if (link.GetHref() == LINK_TASKATTACH) {
+        pFrame->UpdateStatusText(_("Ataching to project..."));
+
         CDlgAttachProject* pDlg = new CDlgAttachProject(this);
         wxASSERT(NULL != pDlg);
 
@@ -317,6 +324,8 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
         if (pDlg)
             pDlg->Destroy();
     } else if (link.GetHref() == LINK_TASKDETACH) {
+        pFrame->UpdateStatusText(_("Detaching from project..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
 
@@ -337,6 +346,8 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
            );
         }
     } else if (link.GetHref() == LINK_TASKRESET) {
+        pFrame->UpdateStatusText(_("Resetting project..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
 
@@ -357,39 +368,55 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
            );
         }
     } else if (link.GetHref() == LINK_TASKUPDATE) {
+        pFrame->UpdateStatusText(_("Updating project..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->ProjectUpdate(
             iProjectIndex 
        );
     } else if (link.GetHref() == LINK_TASKSUSPEND) {
+        pFrame->UpdateStatusText(_("Suspending project..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->ProjectSuspend(
             iProjectIndex 
        );
     } else if (link.GetHref() == LINK_TASKRESUME) {
+        pFrame->UpdateStatusText(_("Resuming project..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->ProjectResume(
             iProjectIndex 
        );
     } else if (link.GetHref() == LINK_WEBBOINC) {
-        ExecuteLink(wxT("http://boinc.berkeley.edu"));
+        pFrame->UpdateStatusText(_("Opening a browser to the BOINC homepage..."));
+
+        pFrame->ExecuteBrowserLink(wxT("http://boinc.berkeley.edu"));
     } else if (link.GetHref() == LINK_WEBPROJECT) {
+        pFrame->UpdateStatusText(_("Opening a browser to the project homepage..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetProjectProjectURL(iProjectIndex, strURL);
 
-        ExecuteLink(strURL);
+        pFrame->ExecuteBrowserLink(strURL);
     } else if (link.GetHref().StartsWith(LINK_WEB)) {
+        pFrame->UpdateStatusText(_("Opening a browser to a project specified URL..."));
+
         ConvertLinkToWebsiteIndex(link.GetHref(), iProjectIndex, iWebsiteIndex);
         pDoc->GetProjectWebsiteLink(iProjectIndex, iWebsiteIndex, strURL);
 
-        ExecuteLink(strURL);
+        pFrame->ExecuteBrowserLink(strURL);
     }
 
     UpdateSelection();
-    m_pListPane->Refresh();
+    pFrame->ProcessRefreshView();
+
+    pFrame->UpdateStatusText( wxEmptyString );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function End"));
 }
 
 
@@ -781,31 +808,6 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
     strBuffer.ToLong((long*) &iWebsiteIndex);
 
     return 0;
-}
-
-
-void CViewProjects::ExecuteLink(const wxString &strLink) {
-    wxString strMimeType = wxEmptyString;
-
-    if      (strLink.StartsWith(wxT("http://")))
-        strMimeType = wxT("text/html");
-    else if (strLink.StartsWith(wxT("ftp://")))
-        strMimeType = wxT("text/html");
-    else if (strLink.StartsWith(wxT("mailto:")))
-        strMimeType = wxT("message/rfc822");
-    else
-        return;
-
-    wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(strMimeType);
-    if (ft) {
-        wxString cmd;
-        if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
-            cmd.Replace(wxT("file://"), wxEmptyString);
-            ::wxExecute(cmd);
-        }
-
-        delete ft;
-    }
 }
 
 

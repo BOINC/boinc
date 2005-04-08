@@ -26863,3 +26863,26 @@ Rom    7 April 2005
         MainFrame.cpp, .h
     lib/
         gui_rpc_client.C
+
+Rom    7 April 2005
+    - Enable the F1 key so that it'll open up a browser to
+        http://boinc.berkeley.edu/manager.php
+    - Add status bar text for each task that is defined and don't remove it
+        until the list has been updated.
+    - Define and fire an update view window message which is used to quickly
+        update the listview out of cycle with the timer event, but since the
+        timer event in turn fires the same event, we won't be caught in a
+        recursive update loop.  We can only process one of these messages at
+        a time.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        Events.h
+        MainFrame.cpp, .h
+        ViewMessages.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewStatistics.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h

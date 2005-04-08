@@ -154,6 +154,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
     EVT_CLOSE(CMainFrame::OnClose)
     EVT_CHAR(CMainFrame::OnChar)
+    EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
     EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
     EVT_MAINFRAME_INITIALIZED(CMainFrame::OnInitialized)
@@ -172,7 +173,7 @@ CMainFrame::CMainFrame() {
 
 
 CMainFrame::CMainFrame(wxString strTitle) : 
-    wxFrame ((wxFrame *)NULL, -1, strTitle, wxDefaultPosition, wxDefaultSize,
+    wxFrame ((wxFrame *)NULL, ID_FRAME, strTitle, wxDefaultPosition, wxDefaultSize,
              wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function Begin"));
@@ -1041,8 +1042,7 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 }
 
 
-void CMainFrame::OnChar(wxKeyEvent& event)
-{
+void CMainFrame::OnChar(wxKeyEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnChar - Function Begin"));
 
     if (IsShown()) {
@@ -1063,6 +1063,21 @@ void CMainFrame::OnChar(wxKeyEvent& event)
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnChar - Function End"));
+}
+
+
+void CMainFrame::OnHelp( wxHelpEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+        if ( ID_FRAME == event.GetId() ) {
+            ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
+        }
+    }
+
+    event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelp - Function End"));
 }
 
 
@@ -1351,6 +1366,14 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 }
 
 
+void CMainFrame::UpdateStatusText( const wxChar* szStatus )
+{
+    wxString strStatus = szStatus;
+    m_pStatusbar->SetStatusText( strStatus );
+    Sleep(0);
+}
+
+
 void CMainFrame::FireConnect()
 {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
@@ -1370,6 +1393,39 @@ void CMainFrame::FireRefreshView()
     CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
     AddPendingEvent( event );
 }
+
+
+void CMainFrame::ProcessRefreshView()
+{
+    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
+    ProcessEvent( event );
+}
+
+
+void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
+    wxString strMimeType = wxEmptyString;
+
+    if      (strLink.StartsWith(wxT("http://")))
+        strMimeType = wxT("text/html");
+    else if (strLink.StartsWith(wxT("ftp://")))
+        strMimeType = wxT("text/html");
+    else if (strLink.StartsWith(wxT("mailto:")))
+        strMimeType = wxT("message/rfc822");
+    else
+        return;
+
+    wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(strMimeType);
+    if (ft) {
+        wxString cmd;
+        if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
+            cmd.Replace(wxT("file://"), wxEmptyString);
+            ::wxExecute(cmd);
+        }
+
+        delete ft;
+    }
+}
+
 
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

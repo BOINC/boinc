@@ -71,6 +71,7 @@ public:
 
     void OnClose( wxCloseEvent& event );
     void OnChar( wxKeyEvent& event );
+    void OnHelp( wxHelpEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
@@ -83,9 +84,14 @@ public:
     void OnInitialized( CMainFrameEvent& event );
     void OnRefreshView( CMainFrameEvent& event );
 
+    void UpdateStatusText( const wxChar* szStatus );
+
     void FireConnect();
     void FireConnectError();
     void FireRefreshView();
+    void ProcessRefreshView();
+
+    void ExecuteBrowserLink( const wxString& strLink );
 
 private:
 

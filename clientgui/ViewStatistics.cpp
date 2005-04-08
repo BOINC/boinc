@@ -406,12 +406,18 @@ wxInt32 CViewStatistics::GetDocCount() {
 
 
 void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link ) {
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 	wxASSERT(NULL != m_PaintStatistics);
 
     m_bTaskHeaderHidden = false;
     m_bTipsHeaderHidden = false;
+
+    pFrame->UpdateStatusText(_("Updating charts..."));
 
 	if ( link.GetHref() == LINK_TASKUSERTOTAL ) {
 		m_PaintStatistics->heading="User Total";
@@ -431,7 +437,11 @@ void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link ) {
 	}
 
     UpdateSelection();
+    pFrame->ProcessRefreshView();
     m_PaintStatistics->Refresh();
+
+    pFrame->UpdateStatusText( wxEmptyString );
+
 }
 
 

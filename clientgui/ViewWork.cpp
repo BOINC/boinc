@@ -256,9 +256,12 @@ void CViewWork::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxString strMachineName = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -266,18 +269,24 @@ void CViewWork::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     m_bTipsHeaderHidden = false;
 
     if (link.GetHref() == LINK_TASKSUSPEND) {
+        pFrame->UpdateStatusText(_("Suspending result..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->WorkSuspend(
             iProjectIndex
        );
     } else if (link.GetHref() == LINK_TASKRESUME) {
+        pFrame->UpdateStatusText(_("Resuming result..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->WorkResume(
             iProjectIndex
        );
     } else if (link.GetHref() == LINK_TASKSHOWGRAPHICS) {
+        pFrame->UpdateStatusText(_("Showing graphics for result..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetConnectedComputerName(strMachineName);
 
@@ -307,6 +316,8 @@ void CViewWork::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
            );
         }
     } else if (link.GetHref() == LINK_TASKABORT) {
+        pFrame->UpdateStatusText(_("Aborting result..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetWorkName(iProjectIndex, strResultName);
 
@@ -329,7 +340,10 @@ void CViewWork::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     }
 
     UpdateSelection();
-    m_pListPane->Refresh();
+    pFrame->ProcessRefreshView();
+
+    pFrame->UpdateStatusText( wxEmptyString );
+
 }
 
 

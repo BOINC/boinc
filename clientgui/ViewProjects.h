@@ -106,7 +106,6 @@ protected:
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
-    void                    ExecuteLink( const wxString& strLink );
 
 
     //

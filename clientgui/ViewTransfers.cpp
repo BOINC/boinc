@@ -235,9 +235,12 @@ void CViewTransfers::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxString strName        = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -245,10 +248,14 @@ void CViewTransfers::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     m_bTipsHeaderHidden = false;
 
     if (link.GetHref() == LINK_TASKRETRY) {
+        pFrame->UpdateStatusText(_("Retrying transfer now..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
 
         pDoc->TransferRetryNow(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKABORT) {
+        pFrame->UpdateStatusText(_("Aborting transfer..."));
+
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetTransferFileName(iProjectIndex, strName);
 
@@ -261,7 +268,7 @@ void CViewTransfers::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
             _("Abort File Transfer"),
             wxYES_NO | wxICON_QUESTION, 
             this
-       );
+        );
 
         if (wxYES == iAnswer) {
             pDoc->TransferAbort(
@@ -271,7 +278,10 @@ void CViewTransfers::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     }
 
     UpdateSelection();
-    m_pListPane->Refresh();
+    pFrame->ProcessRefreshView();
+
+    pFrame->UpdateStatusText( wxEmptyString );
+
 }
 
 

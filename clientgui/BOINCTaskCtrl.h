@@ -84,6 +84,7 @@ public:
     virtual bool                OnRestoreState( wxConfigBase* pConfig );
 
     virtual void                OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void                OnCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
     virtual void                OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual wxHtmlOpeningStatus OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect );
 

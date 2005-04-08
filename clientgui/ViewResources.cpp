@@ -168,6 +168,10 @@ wxString CViewResources::OnDocGetItemText(long item, long column) const {
 
 
 void CViewResources::OnTaskLinkClicked(const wxHtmlLinkInfo& /*link*/) {
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -177,7 +181,10 @@ void CViewResources::OnTaskLinkClicked(const wxHtmlLinkInfo& /*link*/) {
     m_bTipsHeaderHidden = false;
 
     UpdateSelection();
-    m_pListPane->Refresh();
+    pFrame->ProcessRefreshView();
+
+    pFrame->UpdateStatusText( wxEmptyString );
+
 }
 
 
