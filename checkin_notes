@@ -26927,3 +26927,18 @@ David  8 April 2005
 	lib/
 		gui_rpc_client.C
 
+David  8 April 2005
+    - Made library functions for creating a socket,
+        and for changing a socket to/from asynch mode
+    - GUI RPC client: allow for asynchronous connection.
+        First you call RPC_CLIENT::init(host, true),
+        then you call RPC_CLIENT::init_poll()
+            until it returns either zero (connected)
+            or a value other than ERR_RETRY (error)
+
+    client/
+        net_xfer.C
+    lib/
+        error_numbers.h
+        gui_rpc_client.C,h
+        network.C,h

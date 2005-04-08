@@ -393,7 +393,8 @@ public:
     int get_reply(char*&);
     RPC_CLIENT();
     ~RPC_CLIENT();
-    int init(const char* host);
+    int init(const char* host, bool asynch=false);
+    int init_poll();
     void close();
     int authorize(const char* passwd);
     int get_state(CC_STATE&);

@@ -144,3 +144,4 @@
 #define ERR_WU_USER_RULE    -196
 #define ERR_ABORTED_VIA_GUI -197
 #define ERR_INSUFFICIENT_RESOURCE   -198
+#define ERR_RETRY           -199

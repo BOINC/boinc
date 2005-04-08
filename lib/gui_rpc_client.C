@@ -40,6 +40,7 @@
 #include "error_numbers.h"
 #include "miofile.h"
 #include "md5_file.h"
+#include "network.h"
 #include "gui_rpc_client.h"
 
 using std::string;
@@ -947,7 +948,7 @@ void RPC_CLIENT::close() {
     sock = 0;
 }
 
-int RPC_CLIENT::init(const char* host) {
+int RPC_CLIENT::init(const char* host, bool asynch) {
     int retval;
     sockaddr_in addr;
     addr.sin_family = AF_INET;
@@ -968,28 +969,54 @@ int RPC_CLIENT::init(const char* host) {
 #endif
     }
 
-    sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock <= 0) {
-        perror("socket");
-        return ERR_SOCKET;
-    }
-    retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-    if (retval) {
-#ifdef _WIN32
-        printf( "connect 1: Windows Socket Error '%d'\n", WSAGetLastError() );
-#endif
-        addr.sin_port = htons(GUI_RPC_PORT);
+    retval = boinc_socket(sock);
+    if (retval) return retval;
+
+    if (asynch) {
+        boinc_socket_asynch(sock, true);
+        retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+    } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
 #ifdef _WIN32
-            printf( "connect 2: Windows Socket Error '%d'\n", WSAGetLastError() );
+            printf( "connect 1: Winsock error '%d'\n", WSAGetLastError() );
 #endif
-            perror("connect");
-            close();
-            return ERR_CONNECT;
+            addr.sin_port = htons(GUI_RPC_PORT);
+            retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+            if (retval) {
+#ifdef _WIN32
+                printf( "connect 2: Winsock error '%d'\n", WSAGetLastError() );
+#endif
+                perror("connect");
+                close();
+                return ERR_CONNECT;
+            }
         }
     }
     return 0;
+}
+
+int RPC_CLIENT::init_poll() {
+    fd_set read_fds, write_fds, error_fds;
+    struct timeval tv;
+
+    FD_ZERO(&read_fds);
+    FD_ZERO(&write_fds);
+    FD_ZERO(&error_fds);
+
+    FD_SET(sock, &read_fds);
+    FD_SET(sock, &write_fds);
+    FD_SET(sock, &error_fds);
+
+    tv.tv_sec = tv.tv_usec = 0;
+    select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
+    if (FD_ISSET(sock, &error_fds)) return ERR_CONNECT;
+    if (FD_ISSET(sock, &read_fds)) {
+        boinc_socket_asynch(sock, false);
+        return 0;
+    }
+    return ERR_RETRY;
+
 }
 
 int RPC_CLIENT::authorize(const char* passwd) {

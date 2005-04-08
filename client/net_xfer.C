@@ -161,27 +161,10 @@ int NET_XFER::open_server() {
     retval = get_ip_addr(ipaddr);
     if (retval) return retval;
 
-    fd = ::socket(AF_INET, SOCK_STREAM, 0);
-    if (fd < 0) {
-#ifdef WIN32
-        NetClose();
-#endif
-        return ERR_SOCKET;
-    }
-
-#ifdef WIN32
-    unsigned long one = 1;
-    ioctlsocket(fd, FIONBIO, &one);
-#else
-    int flags;
-    flags = fcntl(fd, F_GETFL, 0);
-    if (flags < 0) {
-        return ERR_FCNTL;
-    }
-    if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) {
-        return ERR_FCNTL;
-    }
-#endif
+    retval = boinc_socket(fd);
+    if (retval) return retval;
+    retval = boinc_socket_asynch(fd, true);
+    if (retval) return retval;
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);

@@ -21,10 +21,59 @@
 #include "boinc_win.h"
 #else
 #include <unistd.h>
+#include <cstdio>
 #include <sys/socket.h>
+#include <fcntl.h>
+
 #endif
 
+#include "error_numbers.h"
 #include "network.h"
+
+int boinc_socket(int& fd) {
+    fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (fd < 0) {
+        perror("socket");
+#ifdef WIN32
+        NetClose();
+#endif
+        return ERR_SOCKET;
+    }
+    return 0;
+}
+
+int boinc_socket_asynch(int fd, bool asynch) {
+    if (asynch) {
+#ifdef WIN32
+        unsigned long one = 1;
+        ioctlsocket(fd, FIONBIO, &one);
+#else
+        int flags;
+        flags = fcntl(fd, F_GETFL, 0);
+        if (flags < 0) {
+            return ERR_FCNTL;
+        }
+        if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) {
+            return ERR_FCNTL;
+        }
+#endif
+    } else {
+#ifdef WIN32
+        unsigned long zero = 0;
+        ioctlsocket(fd, FIONBIO, &zero);
+#else
+        int flags;
+        flags = fcntl(fd, F_GETFL, 0);
+        if (flags < 0) {
+            return ERR_FCNTL;
+        }
+        if (fcntl(fd, F_SETFL, flags&(~O_NONBLOCK)) < 0 ) {
+            return ERR_FCNTL;
+        }
+#endif
+    }
+    return 0;
+}
 
 void boinc_close_socket(int sock) {
 #ifdef _WIN32
