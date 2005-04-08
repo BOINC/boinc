@@ -1136,8 +1136,7 @@ void CMainFrame::OnConnectError(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
 
     ::wxMessageBox(
-        _("The BOINC client you have attempted to connect too could not be reached. Please "
-          "check the computer name/password and try again."),
+        _("Connection failed.\nIf using a Client Firewall, please try again."),
         _("Connection Error"),
         wxICON_ERROR
     );
@@ -1328,12 +1327,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
                         strStatusText.Printf(_("Connecting to %s"), strComputerName.c_str());
                     } else {
-                        setlocale(LC_NUMERIC, "C");
-                        strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
-                        setlocale(LC_NUMERIC, strLocale.c_str());
-
                         strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
-                        strStatusText.Printf(_("Connected to %s (%s)"), strComputerName.c_str(), strBuffer.c_str());
+                        strStatusText.Printf(_("Connected to %s"), strComputerName.c_str());
                     }
 
                     SetTitle(strTitle);

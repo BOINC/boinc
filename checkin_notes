@@ -26915,3 +26915,15 @@ David  8 April 2005
         app_graphics.C
     html/inc/
         host.inc
+
+David  8 April 2005
+	- Manager: removed extraneous stuff from About box
+	- Manager: don't show version number in status bar
+
+	clientgui/
+		DlgAbout.cpp
+		DlgSelectComputer.cpp
+		MainFrame.cpp
+	lib/
+		gui_rpc_client.C
+

@@ -154,8 +154,7 @@ void CDlgSelectComputer::CreateControls()
  * Should we show tooltips?
  */
 
-bool CDlgSelectComputer::ShowToolTips()
-{
+bool CDlgSelectComputer::ShowToolTips(){
     return TRUE;
 }
 

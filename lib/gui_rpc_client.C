@@ -975,11 +975,14 @@ int RPC_CLIENT::init(const char* host) {
     }
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
+#ifdef _WIN32
+        printf( "connect 1: Windows Socket Error '%d'\n", WSAGetLastError() );
+#endif
         addr.sin_port = htons(GUI_RPC_PORT);
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
 #ifdef _WIN32
-            printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
+            printf( "connect 2: Windows Socket Error '%d'\n", WSAGetLastError() );
 #endif
             perror("connect");
             close();

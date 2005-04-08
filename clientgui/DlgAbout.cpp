@@ -110,19 +110,14 @@ void CDlgAbout::CreateControls() {
 
     wxStaticText* itemStaticText3 = new wxStaticText;
     itemStaticText3->Create(itemDialog1, wxID_STATIC, _("BOINC Manager"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE);
-    itemStaticText3->SetFont(wxFont(24, wxDEFAULT, wxNORMAL, wxBOLD, FALSE, _T("")));
-    itemBoxSizer2->Add(itemStaticText3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemStaticText3->SetFont(wxFont(16, wxDEFAULT, wxNORMAL, wxBOLD, FALSE, _T("")));
+    itemBoxSizer2->Add(itemStaticText3, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer4->Add(itemBoxSizer5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxBitmap itemStaticBitmap6Bitmap(itemDialog1->GetBitmapResource(wxT("res/boincsm.xpm")));
-    wxStaticBitmap* itemStaticBitmap6 = new wxStaticBitmap;
-    itemStaticBitmap6->Create(itemDialog1, wxID_STATIC, itemStaticBitmap6Bitmap, wxDefaultPosition, wxSize(50, 50), 0);
-    itemBoxSizer5->Add(itemStaticBitmap6, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);
     itemBoxSizer4->Add(itemFlexGridSizer7, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -135,14 +130,6 @@ void CDlgAbout::CreateControls() {
     itemStaticText9->Create(itemDialog1, wxID_STATIC, _T(""), wxDefaultPosition, wxDefaultSize, 0);
     itemFlexGridSizer7->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
-    wxStaticText* itemStaticText10 = new wxStaticText;
-    itemStaticText10->Create(itemDialog1, wxID_STATIC, _("Licence type:"), wxDefaultPosition, wxDefaultSize, 0);
-    itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
-
-    wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create(itemDialog1, wxID_STATIC, _("Lesser GNU Public License"), wxDefaultPosition, wxDefaultSize, 0);
-    itemFlexGridSizer7->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
-
     wxStaticText* itemStaticText12 = new wxStaticText;
     itemStaticText12->Create(itemDialog1, wxID_STATIC, _("Copyright:"), wxDefaultPosition, wxDefaultSize, 0);
     itemFlexGridSizer7->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
@@ -154,10 +141,6 @@ void CDlgAbout::CreateControls() {
     wxStaticText* itemStaticText14 = new wxStaticText;
     itemStaticText14->Create(itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0);
     itemBoxSizer2->Add(itemStaticText14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
-
-    wxStaticText* itemStaticText15 = new wxStaticText;
-    itemStaticText15->Create(itemDialog1, wxID_STATIC, _("A software platform for distributed computing using volunteered computer resources"), wxDefaultPosition, wxDefaultSize, 0);
-    itemBoxSizer2->Add(itemStaticText15, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxStaticText* itemStaticText16 = new wxStaticText;
     itemStaticText16->Create(itemDialog1, wxID_STATIC, _("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, 0);
