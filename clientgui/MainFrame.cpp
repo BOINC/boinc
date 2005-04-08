@@ -843,7 +843,11 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
     lAnswer = pDlg->ShowModal();
     if (wxID_OK == lAnswer) {
-        lRetVal = pDoc->Connect(pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue(), TRUE);
+        lRetVal = pDoc->Connect(
+            pDlg->m_ComputerNameCtrl->GetValue(), 
+            pDlg->m_ComputerPasswordCtrl->GetValue(),
+            TRUE
+        );
         if (!(0 == lRetVal)) {
             ::wxMessageBox(
                 _("Failed to connect to the requested computer, please check the name of the computer and try again."),
@@ -1124,7 +1128,7 @@ void CMainFrame::OnConnectError(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
 
     ::wxMessageBox(
-        _("The BOINC client you have attempted to connect you could not be reached, please "
+        _("The BOINC client you have attempted to connect could not be reached. Please "
           "check the computer name/password and try again."),
         _("Connection Error"),
         wxICON_ERROR

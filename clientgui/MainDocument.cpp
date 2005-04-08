@@ -291,6 +291,7 @@ wxInt32 CMainDocument::OnExit() {
     if (m_pNetworkConnectionThread) {
         m_pNetworkConnectionThread->Delete();
         m_pNetworkConnectionThread->Wait();
+        m_pNetworkConnectionThread->Kill();
         delete m_pNetworkConnectionThread;
     }
 
