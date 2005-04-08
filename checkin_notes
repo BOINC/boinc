@@ -26886,3 +26886,16 @@ Rom    7 April 2005
         ViewStatistics.cpp, .h
         ViewTransfers.cpp, .h
         ViewWork.cpp, .h
+
+David  8 April 2005
+    - compile fixes, code cleanup
+
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp
+        BOINCListCtrl.cpp
+        BOINCTaskBar.cpp
+        DlgOptions.cpp
+        MainDocument.cpp
+        MainFrame.cpp
+        ViewMessages.cpp

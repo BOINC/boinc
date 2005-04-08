@@ -85,7 +85,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
     ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if (NULL != pFrame) {
+    if (pFrame) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         pFrame->Close(true);
     }
@@ -111,10 +111,10 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-    if (NULL != pFrame) {
+    if (pFrame) {
         pFrame->Show();
         pFrame->SendSizeEvent();
 
@@ -130,7 +130,7 @@ void CTaskBarIcon::OnActivitySelection(wxCommandEvent& event) {
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
@@ -153,7 +153,7 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     wxInt32        iCurrentNetworkMode = -1;
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
@@ -179,12 +179,13 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CDlgAbout* pDlg = new CDlgAbout(NULL);
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
     pDlg->ShowModal();
 
-    if (pDlg)
+    if (pDlg) {
         pDlg->Destroy();
+    }
 }
 
 
@@ -200,9 +201,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
 
-
 #ifdef __WXMSW__
-
 
 void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
@@ -243,10 +242,11 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
 
 
         pDoc->GetConnectedComputerName(strMachineName);
-        if (strMachineName.empty())
+        if (strMachineName.empty()) {
             strTitle = strTitle + wxT(" - (localhost)");
-        else
+        } else {
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
+        }
 
 
         iResultCount = pDoc->GetWorkCount();
@@ -398,10 +398,11 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     }
 
     pDoc->GetNetworkRunMode(iNetworkMode);
-    if (CMainDocument::MODE_NEVER == iNetworkMode)
+    if (CMainDocument::MODE_NEVER == iNetworkMode) {
         menu->Check(ID_TB_NETWORKSUSPEND, true);
-    else
+    } else {
         menu->Check(ID_TB_NETWORKSUSPEND, false);
+    }
 }
 
 const char *BOINC_RCSID_531575eeaa = "$Id$";

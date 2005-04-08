@@ -30,14 +30,14 @@
 IMPLEMENT_DYNAMIC_CLASS(CBOINCListCtrl, wxListView)
 
 
-CBOINCListCtrl::CBOINCListCtrl()
-{
-}
+CBOINCListCtrl::CBOINCListCtrl() {}
 
 
-CBOINCListCtrl::CBOINCListCtrl(CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags) :
-    wxListView(pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags)
-{
+CBOINCListCtrl::CBOINCListCtrl(
+    CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags
+) : wxListView(
+    pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags
+) {
     m_pParentView = pView;
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
@@ -46,17 +46,17 @@ CBOINCListCtrl::CBOINCListCtrl(CBOINCBaseView* pView, wxWindowID iListWindowID, 
         iListWindowID, 
         wxEVT_COMMAND_LEFT_CLICK, 
         (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CBOINCListCtrl::OnClick
-   );
+    );
     Connect(
         iListWindowID, 
         wxEVT_COMMAND_LIST_ITEM_SELECTED, 
         (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnSelected
-   );
+    );
     Connect(
         iListWindowID, 
         wxEVT_COMMAND_LIST_ITEM_DESELECTED, 
         (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnDeselected
-   );
+    );
 }
 
 
@@ -122,9 +122,9 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     iColumnCount = GetColumnCount() - 1;
 
     // Which fields are we interested in?
-    liColumnInfo.SetMask(wxLIST_MASK_TEXT |
-                          wxLIST_MASK_WIDTH |
-                          wxLIST_MASK_FORMAT);
+    liColumnInfo.SetMask(
+        wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH | wxLIST_MASK_FORMAT
+    );
 
     // Cycle through the columns recording anything interesting
     for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
@@ -153,11 +153,13 @@ void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
     leEvent.SetEventObject(this);
 
     if (m_bIsSingleSelection) {
-        if (GetFocusedItem() != GetFirstSelected())
+        if (GetFocusedItem() != GetFirstSelected()) {
             OnDeselected(leEvent);
+        }
     } else {
-        if (-1 == GetFirstSelected())
+        if (-1 == GetFirstSelected()) {
             OnDeselected(leEvent);
+        }
     }
 
     event.Skip();

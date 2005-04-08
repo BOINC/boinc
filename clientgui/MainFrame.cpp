@@ -134,10 +134,10 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 }
 
 
-DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT )
-DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR )
-DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED )
-DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW )
+DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT)
+DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR)
+DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_INITIALIZED)
+DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
@@ -216,7 +216,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     // Complete any remaining initialization that has to happen after we are up
     //   and running
     CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
-    AddPendingEvent( event );
+    AddPendingEvent(event);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -280,13 +280,13 @@ bool CMainFrame::CreateMenu() {
         ID_HIDE, 
         _("Close"),
         _("Closes the main BOINC Manager window")
-   );
+  );
 #else
     menuFile->Append(
         ID_HIDE, 
         _("&Hide"),
         _("Hides the main BOINC Manager window")
-   );
+  );
 #endif
     menuFile->AppendSeparator();
 
@@ -294,17 +294,17 @@ bool CMainFrame::CreateMenu() {
         ID_ACTIVITYRUNALWAYS,
         _("&Run always"),
         _("Does work regardless of preferences")
-   );
+  );
     menuFile->AppendRadioItem(
         ID_ACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
         _("Does work according to your preferences")
-   );
+  );
     menuFile->AppendRadioItem(
         ID_ACTIVITYSUSPEND,
         _("&Suspend"),
         _("Stops work regardless of preferences")
-   );
+  );
 
     menuFile->AppendSeparator();
 
@@ -312,7 +312,7 @@ bool CMainFrame::CreateMenu() {
         ID_NETWORKSUSPEND,
         _("&Disable BOINC Network Access"),
         _("Stops BOINC network activity")
-   );
+  );
 
     menuFile->AppendSeparator();
 
@@ -320,7 +320,7 @@ bool CMainFrame::CreateMenu() {
         ID_RUNBENCHMARKS, 
         _("Run &Benchmarks"),
         _("Runs BOINC CPU benchmarks")
-   );
+  );
 
     menuFile->AppendSeparator();
 
@@ -328,7 +328,7 @@ bool CMainFrame::CreateMenu() {
         ID_SELECTCOMPUTER, 
         _("Select Computer..."),
         _("Connect to another computer running BOINC")
-   );
+  );
 
     menuFile->AppendSeparator();
 
@@ -336,7 +336,7 @@ bool CMainFrame::CreateMenu() {
         wxID_EXIT,
         _("E&xit"),
         _("Exit the BOINC Manager")
-   );
+  );
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -345,7 +345,7 @@ bool CMainFrame::CreateMenu() {
             ID_TOOLSUPDATEACCOUNTS, 
             _("&Update Accounts"),
             _("Connect to your account manager website and update all of your accounts")
-       );
+      );
 
         menuTools->AppendSeparator();
     }
@@ -354,30 +354,30 @@ bool CMainFrame::CreateMenu() {
         ID_TOOLSOPTIONS, 
         _("&Options"),
         _("Configure GUI options and proxy settings")
-   );
+  );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append( 
+    menuHelp->Append(
         wxID_ABOUT,
         _("&About BOINC Manager..."), 
         _("Show information about BOINC and BOINC Manager")
-   );
+  );
 
     // construct menu
     m_pMenubar = new wxMenuBar;
     m_pMenubar->Append(
         menuFile,
         _("&File")
-   );
+  );
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
-   );
+  );
     m_pMenubar->Append(
         menuHelp,
         _("&Help")
-   );
+  );
     SetMenuBar(m_pMenubar);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function End"));
@@ -522,12 +522,12 @@ bool CMainFrame::SaveState() {
     wxString        strConfigLocation = wxEmptyString;
     wxString        strPreviousLocation = wxEmptyString;
     wxString        strBuffer = wxEmptyString;
-    long            iIndex = 0;
-    long            iItemCount = 0;
+    int            iIndex = 0;
+    int            iItemCount = 0;
 
 
-    wxASSERT(NULL != pConfig);
-    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(pConfig);
+    wxASSERT(m_pNotebook);
 
     //
     // Save Frame State
@@ -589,7 +589,7 @@ bool CMainFrame::SaveState() {
         pConfig->Write(
             strBuffer,
             m_aSelectedComputerMRU.Item(iIndex)
-        );
+       );
     }
 
     pConfig->SetPath(strPreviousLocation);
@@ -849,7 +849,7 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
                 _("Failed to connect to the requested computer, please check the name of the computer and try again."),
                 _("Failed to connect..."),
                 wxICON_ERROR
-            );
+           );
         }
 
         // Insert a copy of the current combo box value to the head of the
@@ -998,7 +998,7 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
                 _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
                 _("Language Selection..."),
                 wxICON_INFORMATION
-            );
+           );
         }
 
         m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
@@ -1066,11 +1066,11 @@ void CMainFrame::OnChar(wxKeyEvent& event) {
 }
 
 
-void CMainFrame::OnHelp( wxHelpEvent& event ) {
+void CMainFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelp - Function Begin"));
 
     if (IsShown()) {
-        if ( ID_FRAME == event.GetId() ) {
+        if (ID_FRAME == event.GetId()) {
             ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
         }
     }
@@ -1081,7 +1081,7 @@ void CMainFrame::OnHelp( wxHelpEvent& event ) {
 }
 
 
-void CMainFrame::OnConnect(CMainFrameEvent &event) {
+void CMainFrame::OnConnect(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
@@ -1089,10 +1089,10 @@ void CMainFrame::OnConnect(CMainFrameEvent &event) {
     wxInt32            iAnswer = 0;
     long               lProjectCount = 0;
 
-    wxASSERT(NULL != m_pNotebook);
-    wxASSERT(NULL != pDoc);
+    wxASSERT(m_pNotebook);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
 
     // Only present the attach to project dialog if no projects are currently
@@ -1112,14 +1112,15 @@ void CMainFrame::OnConnect(CMainFrameEvent &event) {
     }
 
 
-    if (pDlg)
+    if (pDlg) {
         pDlg->Destroy();
+    }
    
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
 }
 
 
-void CMainFrame::OnConnectError(CMainFrameEvent &event) {
+void CMainFrame::OnConnectError(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
 
     ::wxMessageBox(
@@ -1133,22 +1134,22 @@ void CMainFrame::OnConnectError(CMainFrameEvent &event) {
 }
 
 
-void CMainFrame::OnInitialized(CMainFrameEvent &event) {
+void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if ( !pDoc->IsConnected() )
-        pDoc->Connect( wxEmptyString );
+    if (!pDoc->IsConnected())
+        pDoc->Connect(wxEmptyString);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
 }
 
 
-void CMainFrame::OnRefreshView(CMainFrameEvent &event) {
+void CMainFrame::OnRefreshView(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshView - Function Begin"));
 
     static bool bAlreadyRunningLoop = false;
@@ -1164,12 +1165,12 @@ void CMainFrame::OnRefreshView(CMainFrameEvent &event) {
             wxASSERT(NULL != m_pNotebook);
 
             pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-            wxASSERT(NULL != pwndNotebookPage);
+            wxASSERT(pwndNotebookPage);
 
             pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
             wxASSERT(NULL != pView);
 
-            pView->FireOnListRender( timerEvent );
+            pView->FireOnListRender(timerEvent);
         }
 
         bAlreadyRunningLoop = false;
@@ -1235,7 +1236,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 if (NULL != pMenuBar->FindItem(ID_ACTIVITYRUNBASEDONPREPERENCES, NULL))
                     pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
 
-                if ( (pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode)) ) {
+                if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
                     if (CMainDocument::MODE_ALWAYS == iActivityMode)
                         pMenuBar->Check(ID_ACTIVITYRUNALWAYS, true);
 
@@ -1257,7 +1258,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
 #endif
 
-                if ( (pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode)) ) {
+                if ((pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode))) {
 #if 0
                     if (CMainDocument::MODE_ALWAYS == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKRUNALWAYS, true);
@@ -1332,7 +1333,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 }
 
 
-void CMainFrame::OnListPanelRender(wxTimerEvent &event) {
+void CMainFrame::OnListPanelRender(wxTimerEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function Begin"));
 
     FireRefreshView();
@@ -1366,39 +1367,34 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 }
 
 
-void CMainFrame::UpdateStatusText( const wxChar* szStatus )
-{
+void CMainFrame::UpdateStatusText(const wxChar* szStatus) {
     wxString strStatus = szStatus;
-    m_pStatusbar->SetStatusText( strStatus );
-    Sleep(0);
+    m_pStatusbar->SetStatusText(strStatus);
+    ::wxSleep(0);
 }
 
 
-void CMainFrame::FireConnect()
-{
+void CMainFrame::FireConnect() {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
-    AddPendingEvent( event );
+    AddPendingEvent(event);
 }
 
 
-void CMainFrame::FireConnectError()
-{
+void CMainFrame::FireConnectError() {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR, this);
-    AddPendingEvent( event );
+    AddPendingEvent(event);
 }
 
 
-void CMainFrame::FireRefreshView()
-{
+void CMainFrame::FireRefreshView() {
     CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
-    AddPendingEvent( event );
+    AddPendingEvent(event);
 }
 
 
-void CMainFrame::ProcessRefreshView()
-{
+void CMainFrame::ProcessRefreshView() {
     CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
-    ProcessEvent( event );
+    ProcessEvent(event);
 }
 
 

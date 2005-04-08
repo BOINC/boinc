@@ -119,7 +119,7 @@ bool CBOINCGUIApp::OnInit() {
         dwDiagnosticsFlags,
         "stdoutgui",
         "stderrgui"
-   );
+    );
 
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
@@ -156,8 +156,9 @@ bool CBOINCGUIApp::OnInit() {
     InitSupportedLanguages();
 
     // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit())
+    if (!wxApp::OnInit()) {
         return false;
+    }
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
@@ -197,7 +198,6 @@ bool CBOINCGUIApp::OnInit() {
         m_pFrame->Show(false);
 	}
 
-
     return true;
 }
 
@@ -210,11 +210,13 @@ int CBOINCGUIApp::OnExit() {
     ShutdownSystemIdleDetection();
 
 #ifndef NOTASKBAR
-    if (m_pTaskBarIcon)
+    if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
+    }
 #ifdef __WXMAC__
-    if (m_pMacSystemMenu)
+    if (m_pMacSystemMenu) {
         delete m_pMacSystemMenu;
+    }
 #endif
 
 #endif
@@ -224,8 +226,9 @@ int CBOINCGUIApp::OnExit() {
         delete m_pDocument;
     }
 
-    if (m_pLocale)
+    if (m_pLocale) {
         delete m_pLocale;
+    }
 
     return wxApp::OnExit();
 }
@@ -347,10 +350,12 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
             // Get the full path to core client inside this application's bundle
             err = GetCurrentProcess (&ourPSN);
-            if (err == noErr)
+            if (err == noErr) {
                 err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-            if (err == noErr)
+            }
+            if (err == noErr) {
                 err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
+            }
             if (err == noErr) {
                 strExecute = wxT("\"");            
                 strExecute += wxT(buf);

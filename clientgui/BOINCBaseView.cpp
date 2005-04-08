@@ -36,9 +36,10 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 CBOINCBaseView::CBOINCBaseView() {}
 
-CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags, wxWindowID iListWindowID, wxInt32 iListWindowFlags, bool donothing) :
-    wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
-{
+CBOINCBaseView::CBOINCBaseView(
+    wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags,
+    wxWindowID iListWindowID, wxInt32 iListWindowFlags, bool donothing
+) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
     if (!donothing) {
         wxASSERT(NULL != pNotebook);
 
@@ -98,13 +99,13 @@ wxString CBOINCBaseView::GetViewName() {
 //   If it has not been defined by the view the BOINC icon is returned.
 //
 const char** CBOINCBaseView::GetViewIcon() {
-    wxASSERT(NULL != boinc_xpm);
+    wxASSERT(boinc_xpm);
     return boinc_xpm;
 }
 
 
 wxInt32 CBOINCBaseView::GetListRowCount() {
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pListPane);
     return m_pListPane->GetItemCount();
 }
 
@@ -159,12 +160,16 @@ void CBOINCBaseView::FireOnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 }
 
 
-void CBOINCBaseView::FireOnTaskCellClicked(wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event) {
+void CBOINCBaseView::FireOnTaskCellClicked(
+    wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event
+) {
     OnTaskCellClicked(cell, x, y, event);
 }
 
 
-void CBOINCBaseView::FireOnTaskCellMouseHover(wxHtmlCell* cell, wxCoord x, wxCoord y) {
+void CBOINCBaseView::FireOnTaskCellMouseHover(
+    wxHtmlCell* cell, wxCoord x, wxCoord y
+) {
     OnTaskCellMouseHover(cell, x, y);
 }
 
@@ -178,7 +183,7 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
-        wxASSERT(NULL != m_pListPane);
+        wxASSERT(m_pListPane);
 
         wxInt32 iDocCount = GetDocCount();
         wxInt32 iCacheCount = GetCacheCount();
@@ -193,14 +198,14 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
                     for (iIndex = 0; iIndex < (iDocCount - iCacheCount); iIndex++
                     ) {
                         iReturnValue = AddCacheElement();
-                        wxASSERT(0 == iReturnValue);
+                        wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
                 } else {
                     for (iIndex = 0; iIndex < (iCacheCount - iDocCount); iIndex++
                     ) {
                         iReturnValue = RemoveCacheElement();
-                        wxASSERT(0 == iReturnValue);
+                        wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
                 }
@@ -209,11 +214,13 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
             }
         }
 
-        if (iDocCount)
+        if (iDocCount) {
             SyncronizeCache();
+        }
 
-        if (_EnsureLastItemVisible() && (iDocCount != iCacheCount))
+        if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
             m_pListPane->EnsureVisible(iDocCount - 1);
+        }
 
         m_bProcessingListRenderEvent = false;
     }
@@ -229,31 +236,31 @@ bool CBOINCBaseView::OnSaveState(wxConfigBase* pConfig) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if (!m_pTaskPane->OnSaveState(pConfig))
+    if (!m_pTaskPane->OnSaveState(pConfig)) {
         bReturnValue = false;
+    }
 
-    if (!m_pListPane->OnSaveState(pConfig))
+    if (!m_pListPane->OnSaveState(pConfig)) {
         bReturnValue = false;
+    }
 
     return bReturnValue;
 }
 
 
-bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig)
-{
-    bool bReturnValue = true;
+bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
-    wxASSERT(NULL != pConfig);
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    if (!m_pTaskPane->OnRestoreState(pConfig)) {
+        return false;
+    }
 
-    if (!m_pTaskPane->OnRestoreState(pConfig))
-        bReturnValue = false;
-
-    if (!m_pListPane->OnRestoreState(pConfig))
-        bReturnValue = false;
-
-    return bReturnValue;
+    if (!m_pListPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+    return true;
 }
 
 
@@ -263,10 +270,7 @@ void CBOINCBaseView::OnChar(wxKeyEvent& event) {
 
 
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        wxT("")
-    );
+    SetCurrentQuickTip(LINK_DEFAULT, wxT(""));
 
     UpdateSelection();
     event.Skip();
@@ -274,17 +278,16 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 
 
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        wxT("")
-    );
+    SetCurrentQuickTip(LINK_DEFAULT, wxT(""));
 
     UpdateSelection();
     event.Skip();
 }
 
 
-wxString CBOINCBaseView::OnListGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
+wxString CBOINCBaseView::OnListGetItemText(
+    long WXUNUSED(item), long WXUNUSED(column)
+) const {
     return wxString("Undefined");
 }
 
@@ -400,8 +403,9 @@ wxInt32 CBOINCBaseView::SyncronizeCache() {
 }
 
 
-wxInt32 CBOINCBaseView::UpdateCache(long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData))
-{
+wxInt32 CBOINCBaseView::UpdateCache(
+    long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData)
+) {
     return -1;
 }
 
@@ -416,7 +420,10 @@ bool CBOINCBaseView::EnsureLastItemVisible() {
 }
 
 
-bool CBOINCBaseView::UpdateQuickTip(const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText) {
+bool CBOINCBaseView::UpdateQuickTip(
+    const wxString& strCurrentLink, const wxString& strQuickTip,
+    const wxString& strQuickTipText
+) {
     bool bRetVal;
 
     bRetVal = false;
