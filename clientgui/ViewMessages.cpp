@@ -221,7 +221,7 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
 }
 
 
-void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo&) {
+void CViewMessages::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(pFrame);
