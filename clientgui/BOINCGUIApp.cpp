@@ -305,8 +305,8 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 
 
 bool CBOINCGUIApp::IsBOINCCoreRunning() {
-	wxString strMachineName = wxT("localhost");
-    return (0 == m_pDocument->Connect(strMachineName, FALSE));
+    RPC_CLIENT rpc;
+    return (0 == rpc.init( wxT("localhost") ) );
 }
 
 
@@ -436,7 +436,6 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 		// The user may have gone off to look at another machine on the network, and
 		//   we don't want to leave any dangling processes if we started them up.
 		m_pDocument->Connect(strMachineName);
-
         if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
             if (STILL_ACTIVE == dwExitCode) {
                 m_pDocument->CoreClientQuit();
@@ -463,8 +462,12 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32 iCount = 0;
     bool    bClientQuit = false;
+	wxString strMachineName = wxT("localhost");
 
     if (m_bBOINCStartedByManager) {
+		// The user may have gone off to look at another machine on the network, and
+		//   we don't want to leave any dangling processes if we started them up.
+		m_pDocument->Connect(strMachineName);
         if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
             m_pDocument->CoreClientQuit();
             for (iCount = 0; iCount <= 10; iCount++) {

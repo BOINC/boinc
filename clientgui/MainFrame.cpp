@@ -134,6 +134,12 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 }
 
 
+DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT )
+DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR )
+DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED )
+DEFINE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW )
+
+
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
@@ -148,6 +154,10 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
     EVT_CLOSE(CMainFrame::OnClose)
     EVT_CHAR(CMainFrame::OnChar)
+    EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
+    EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
+    EVT_MAINFRAME_INITIALIZED(CMainFrame::OnInitialized)
+    EVT_MAINFRAME_REFRESH(CMainFrame::OnRefreshView)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
@@ -173,8 +183,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_iSelectedLanguage = 0;
 
     m_strBaseTitle = strTitle;
-
-    m_bRunInitialClientConnectionChecks = true;
 
     m_aSelectedComputerMRU.Clear();
 
@@ -203,6 +211,11 @@ CMainFrame::CMainFrame(wxString strTitle) :
     RestoreState();
 
     SetStatusBarPane(0);
+
+    // Complete any remaining initialization that has to happen after we are up
+    //   and running
+    CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
+    AddPendingEvent( event );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -725,45 +738,6 @@ bool CMainFrame::RestoreState() {
 }
 
 
-bool CMainFrame::AttachToProjectPrompt() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::AttachToProjectPrompt - Function Begin"));
-    
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-    wxInt32            iAnswer = 0;
-    long               lProjectCount = 0;
-
-    wxASSERT(NULL != m_pNotebook);
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pDlg);
-
-
-    // Only present the attach to project dialog if no projects are currently
-    //   detected.
-    lProjectCount = pDoc->GetProjectCount();
-    if (0 == lProjectCount) {
-
-        iAnswer = pDlg->ShowModal();
-        if (wxID_OK == iAnswer) {
-            pDoc->ProjectAttach(
-                pDlg->GetProjectAddress(), 
-                pDlg->GetProjectAccountKey()
-            );
-        }
-
-        m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
-    }
-
-
-    if (pDlg)
-        pDlg->Destroy();
-   
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::AttachToProjectPrompt - Function End"));
-    return true;
-}
-
-
 void CMainFrame::OnHide(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHide - Function Begin"));
 
@@ -868,17 +842,13 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
     lAnswer = pDlg->ShowModal();
     if (wxID_OK == lAnswer) {
-        lRetVal = pDoc->Connect(pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue());
+        lRetVal = pDoc->Connect(pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue(), TRUE);
         if (!(0 == lRetVal)) {
             ::wxMessageBox(
                 _("Failed to connect to the requested computer, please check the name of the computer and try again."),
                 _("Failed to connect..."),
                 wxICON_ERROR
             );
-        } else {
-            // Run any checks that may need to be run upon an initial
-            //   connection.
-            m_bRunInitialClientConnectionChecks = true;
         }
 
         // Insert a copy of the current combo box value to the head of the
@@ -1096,28 +1066,101 @@ void CMainFrame::OnChar(wxKeyEvent& event)
 }
 
 
-void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function Begin"));
+void CMainFrame::OnConnect(CMainFrameEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function Begin"));
+    
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
+    wxInt32            iAnswer = 0;
+    long               lProjectCount = 0;
 
-    if ((-1 != event.GetSelection()) && IsShown()) {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-        wxTimerEvent    timerEvent;
+    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pDlg);
 
-        wxASSERT(NULL != m_pNotebook);
 
-        pwndNotebookPage = m_pNotebook->GetPage(event.GetSelection());
-        wxASSERT(NULL != pwndNotebookPage);
+    // Only present the attach to project dialog if no projects are currently
+    //   detected.
+    lProjectCount = pDoc->GetProjectCount();
+    if (0 == lProjectCount) {
 
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
+        iAnswer = pDlg->ShowModal();
+        if (wxID_OK == iAnswer) {
+            pDoc->ProjectAttach(
+                pDlg->GetProjectAddress(), 
+                pDlg->GetProjectAccountKey()
+            );
+        }
 
-        pView->FireOnListRender(timerEvent);
+        m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
     }
 
-    event.Skip();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function End"));
+    if (pDlg)
+        pDlg->Destroy();
+   
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
+}
+
+
+void CMainFrame::OnConnectError(CMainFrameEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
+
+    ::wxMessageBox(
+        _("The BOINC client you have attempted to connect you could not be reached, please "
+          "check the computer name/password and try again."),
+        _("Connection Error"),
+        wxICON_ERROR
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function End"));
+}
+
+
+void CMainFrame::OnInitialized(CMainFrameEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if ( !pDoc->IsConnected() )
+        pDoc->Connect( wxEmptyString );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
+}
+
+
+void CMainFrame::OnRefreshView(CMainFrameEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshView - Function Begin"));
+
+    static bool bAlreadyRunningLoop = false;
+
+    if (!bAlreadyRunningLoop) {
+        bAlreadyRunningLoop = true;
+
+        if (IsShown()) {
+            wxWindow*       pwndNotebookPage = NULL;
+            CBOINCBaseView* pView = NULL;
+            wxTimerEvent    timerEvent;
+
+            wxASSERT(NULL != m_pNotebook);
+
+            pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+            wxASSERT(NULL != pwndNotebookPage);
+
+            pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+            wxASSERT(NULL != pView);
+
+            pView->FireOnListRender( timerEvent );
+        }
+
+        bAlreadyRunningLoop = false;
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshView - Function End"));
 }
 
 
@@ -1136,16 +1179,7 @@ void CMainFrame::OnRefreshState(wxTimerEvent &event) {
         //   for their next use
         SaveState();
 
-
-        // Refresh the state data at the document level
-        CMainDocument* pDoc = wxGetApp().GetDocument();
-        if (NULL != pDoc) {
-            wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-            pDoc->OnRefreshState();
-        }
-
         bAlreadyRunningLoop = false;
-
     }
 
     event.Skip();
@@ -1169,17 +1203,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             if (NULL != pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-                // Run stuff that we want to display on startup
-                if (m_bRunInitialClientConnectionChecks && pDoc->IsConnected()) {
-                    m_bRunInitialClientConnectionChecks = false;
-
-                    // If we don't detect any attached projects for this BOINC Daemon,
-                    //   prompt to add one.
-                    AttachToProjectPrompt();
-
-                }
-
-
                 // Update the menu bar
                 wxMenuBar*     pMenuBar      = GetMenuBar();
                 wxInt32        iActivityMode = -1;
@@ -1197,13 +1220,12 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 if (NULL != pMenuBar->FindItem(ID_ACTIVITYRUNBASEDONPREPERENCES, NULL))
                     pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
 
-                if (0 == pDoc->GetActivityRunMode(iActivityMode)) {
+                if ( (pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode)) ) {
                     if (CMainDocument::MODE_ALWAYS == iActivityMode)
                         pMenuBar->Check(ID_ACTIVITYRUNALWAYS, true);
 
                     if (CMainDocument::MODE_NEVER == iActivityMode)
                         pMenuBar->Check(ID_ACTIVITYSUSPEND, true);
-
                     if (CMainDocument::MODE_AUTO == iActivityMode)
                         pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, true);
                 }
@@ -1220,7 +1242,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
 #endif
 
-                if (0 == pDoc->GetNetworkRunMode(iNetworkMode)) {
+                if ( (pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode)) ) {
 #if 0
                     if (CMainDocument::MODE_ALWAYS == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKRUNALWAYS, true);
@@ -1280,6 +1302,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     m_pStatusbar->m_ptxtConnected->Hide();
                     m_pStatusbar->m_pbmpDisconnect->Show();
                     m_pStatusbar->m_ptxtDisconnect->Show();
+
+                    SetTitle(m_strBaseTitle);
                 }
             }
         }
@@ -1296,32 +1320,55 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 void CMainFrame::OnListPanelRender(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function Begin"));
 
-    static bool bAlreadyRunningLoop = false;
+    FireRefreshView();
 
-    if (!bAlreadyRunningLoop) {
-        bAlreadyRunningLoop = true;
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function End"));
+}
 
-        if (IsShown()) {
-            wxWindow*       pwndNotebookPage = NULL;
-            CBOINCBaseView* pView = NULL;
 
-            wxASSERT(NULL != m_pNotebook);
+void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function Begin"));
 
-            pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-            wxASSERT(NULL != pwndNotebookPage);
+    if ((-1 != event.GetSelection()) && IsShown()) {
+        wxWindow*       pwndNotebookPage = NULL;
+        CBOINCBaseView* pView = NULL;
+        wxTimerEvent    timerEvent;
 
-            pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-            wxASSERT(NULL != pView);
+        wxASSERT(NULL != m_pNotebook);
 
-            pView->FireOnListRender(event);
-        }
+        pwndNotebookPage = m_pNotebook->GetPage(event.GetSelection());
+        wxASSERT(NULL != pwndNotebookPage);
 
-        bAlreadyRunningLoop = false;
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(NULL != pView);
+
+        pView->FireOnListRender(timerEvent);
     }
 
     event.Skip();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function End"));
+}
+
+
+void CMainFrame::FireConnect()
+{
+    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
+    AddPendingEvent( event );
+}
+
+
+void CMainFrame::FireConnectError()
+{
+    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR, this);
+    AddPendingEvent( event );
+}
+
+
+void CMainFrame::FireRefreshView()
+{
+    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
+    AddPendingEvent( event );
 }
 
 

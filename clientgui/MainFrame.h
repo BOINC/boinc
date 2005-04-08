@@ -46,6 +46,7 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+class CMainFrameEvent;
 
 class CMainFrame : public wxFrame
 {
@@ -77,6 +78,15 @@ public:
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
+    void OnConnect( CMainFrameEvent& event );
+    void OnConnectError( CMainFrameEvent& event );
+    void OnInitialized( CMainFrameEvent& event );
+    void OnRefreshView( CMainFrameEvent& event );
+
+    void FireConnect();
+    void FireConnectError();
+    void FireRefreshView();
+
 private:
 
     wxMenuBar*      m_pMenubar;
@@ -87,8 +97,6 @@ private:
     wxTimer*        m_pFrameListPanelRenderTimer;
 
     wxString        m_strBaseTitle;
-
-    bool            m_bRunInitialClientConnectionChecks;
 
     wxInt32         m_iSelectedLanguage;
     wxArrayString   m_aSelectedComputerMRU;
@@ -108,12 +116,34 @@ private:
     bool            SaveState();
     bool            RestoreState();
 
-
-    bool            AttachToProjectPrompt();
-
     DECLARE_EVENT_TABLE()
-
 };
+
+
+class CMainFrameEvent : public wxEvent
+{
+public:
+    CMainFrameEvent(wxEventType evtType, CMainFrame *frame)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(frame);
+        }
+
+    virtual wxEvent *Clone() const { return new CMainFrameEvent(*this); }
+};
+
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT, 10000 )
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR, 10001 )
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED, 10002 )
+DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW, 10003 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_MAINFRAME_CONNECT(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_MAINFRAME_CONNECT_ERROR(fn)      DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT_ERROR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_MAINFRAME_INITIALIZED(fn)        DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_INITIALIZED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_MAINFRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif

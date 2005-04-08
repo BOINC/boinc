@@ -926,12 +926,12 @@ void MESSAGES::clear() {
 }
 
 RPC_CLIENT::RPC_CLIENT() {
-    sock = 0;
+    close();
     client_version = 0;
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
-    sock = 0;
+    close();
     client_version = 0;
 }
 

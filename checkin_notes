@@ -26847,3 +26847,19 @@ David  7 April 2005
         user/
             host_edit_form.php
             show_user.php
+
+Rom    7 April 2005
+    - Switch the connection errors and connection initialization routines
+        from a polling style routines to an event style, this fixes the
+        issues of the attach to project dialog being displayed at odd
+        times.
+    - Warn the user of connection failures to a new host.
+    - Deal with various odd issues that cropped up due to the connection
+        thread being introduced to the system.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+    lib/
+        gui_rpc_client.C

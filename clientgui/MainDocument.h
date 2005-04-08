@@ -33,11 +33,33 @@ class CNetworkConnectionThread : public wxThread
 {
 public:
     CNetworkConnectionThread( CMainDocument* pDocument );
+    ~CNetworkConnectionThread();
 
-    virtual void* Entry();
+    virtual void*  Entry();
+    void           FireReconnectEvent() { m_bConnectEvent = true; };
+    void           ForceReconnect() { m_bForceReconnect = true; };
+    wxInt32        GetConnectedComputerName( wxString& strMachine );
+    wxInt32        GetConnectingComputerName( wxString& strMachine );
+    wxInt32        SetNewComputerName( const wxChar* szComputer );
+    wxInt32        SetNewComputerPassword( const wxChar* szPassword );
+    void           SetStateError();
+    void           SetStateReconnecting();
+    void           SetStateSuccess( std::string& strComputer, std::string& strComputerPassword );
+    bool           IsConnectEventSignaled() { return m_bConnectEvent; };
+    bool           IsConnected() { return m_bConnected; };
+    bool           IsReconnecting() { return m_bReconnecting; };
 
 private:
     CMainDocument* m_pDocument;
+    bool           m_bConnectEvent;
+    bool           m_bForceReconnect;
+    bool           m_bReconnectOnError;
+    bool           m_bConnected;
+    bool           m_bReconnecting;
+    wxString       m_strNewComputerName;
+    wxString       m_strNewComputerPassword;
+    wxString       m_strConnectedComputerName;
+    wxString       m_strConnectedComputerPassword;
 };
 
 
@@ -79,9 +101,9 @@ public:
     //
 private:
 
-    bool                        m_bCachedStateLocked;
-
     CNetworkConnectionThread*   m_pNetworkConnectionThread;
+
+    bool                        m_bCachedStateLocked;
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
@@ -98,18 +120,22 @@ public:
 
     wxInt32                     OnInit();
     wxInt32                     OnExit();
-    wxInt32                     OnRefreshState();
 
-    wxInt32                     Connect( const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = TRUE );
-    wxInt32                     GetConnectedComputerName( wxString& strMachine );
-    wxInt32                     GetConnectingComputerName( wxString& strMachine );
-    bool                        IsConnected();
-    bool                        IsReconnecting();
+    wxInt32                     OnRefreshState();
+    wxInt32                     ResetState();
+
+    wxInt32                     Connect( const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = FALSE );
 
     wxInt32                     CachedStateLock();
     wxInt32                     CachedStateUnlock();
 
     wxInt32                     GetCoreClientVersion();
+    wxInt32                     CoreClientQuit();
+
+    wxInt32                     GetConnectedComputerName( wxString& strMachine );
+    wxInt32                     GetConnectingComputerName( wxString& strMachine );
+    bool                        IsConnected();
+    bool                        IsReconnecting();
 
     wxInt32                     GetActivityRunMode( wxInt32& iMode );
     wxInt32                     SetActivityRunMode( wxInt32 iMode );
@@ -118,22 +144,12 @@ public:
     wxInt32                     GetActivityState( bool& bActivitiesSuspended, bool& bNetworkSuspended );
 
     wxInt32                     RunBenchmarks();
-    wxInt32                     CoreClientQuit();
 
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
     HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
-
-    bool                        m_bNCTConnectEvent;
-    bool                        m_bNCTNewShouldReconnect;
-    wxString                    m_strNCTNewConnectedComputerName;
-    wxString                    m_strNCTNewConnectedComputerPassword;
-    bool                        m_bIsConnected;
-    bool                        m_bIsReconnecting;
-    wxString                    m_strConnectedComputerName;
-    wxString                    m_strConnectedComputerPassword;
 
 
     //
