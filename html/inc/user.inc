@@ -14,7 +14,7 @@ function pending_credit($user) {
 function show_credit($user) {
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
-	project_user_credit($user);
+    project_user_credit($user);
 }
 
 // show dynamic user info (private)
@@ -103,9 +103,7 @@ function show_user_summary_public($user) {
     }
     show_credit($user);
 
-    if ($user->teamid) {
-        $result = mysql_query("select * from team where id = $user->teamid");
-        $team = mysql_fetch_object($result);
+    if ($user->teamid && ($team = lookup_team($user->teamid))) {
         row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a>");
     } else {
         row2("Team", "None");
@@ -118,8 +116,11 @@ function show_user_summary_public($user) {
     if ($user->posts) {
         row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts</a>");
     }
+}
+
+function show_profile_link($user) {
     if ($user->has_profile) {
-        row2("Profile", "<a href=view_profile.php?userid=$user->id>view</a>");
+        row2("Profile", "<a href=view_profile.php?userid=$user->id>View</a>");
     }
 }
 

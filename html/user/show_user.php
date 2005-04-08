@@ -35,6 +35,7 @@
             page_head("Account data for $user->name");
             start_table();
             show_user_summary_public($user);
+            show_profile_link($user);
             end_table();
 	        project_user_summary($user);
             page_tail(true);

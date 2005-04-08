@@ -30,7 +30,7 @@ echo "
 $result = mysql_query("select * from host where userid=$user->id");
 $nhosts = 1;
 start_table();
-row_heading(array("", "name", "created", "computer ID"));
+row_heading_array(array("", "name", "created", "computer ID"));
 while ($host2 = mysql_fetch_object($result)) {
     if ($host->id == $host2->id) continue;
     //if ($host2->create_time > $host->create_time) continue;
@@ -40,7 +40,7 @@ while ($host2 = mysql_fetch_object($result)) {
     if ($x == "") {
         $x = "[no hostname]";
     }
-    row(array(
+    row_array(array(
         "<input type=checkbox name=id_$nhosts value=$host2->id>",
         $x,
         "$t",

@@ -5,6 +5,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/cache.inc");
+require_once("../inc/user.inc");
 
 // TODO: Determine if we can always assume these will be the same number.
 define('SMALL_IMG_WIDTH', 64);
@@ -464,15 +465,7 @@ function show_profile($userid, $verify_mode = FALSE) {
         ";
     }
 
-    row2("Country", $user->country);
-    row2("Language", $profile->language);
-    row2("Total Credit", $user->total_credit);
-    if ($user->teamid) {
-        $result = mysql_query("select * from team where id = $user->teamid");
-        $team = mysql_fetch_object($result);
-        row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a><br>");
-    }
-    row2("Date Registered", date_str($user->create_time));
+    show_user_summary_public($user);
 
     row1(show_profile_heading1());
     row1($profile->response1, 2, "foobar");

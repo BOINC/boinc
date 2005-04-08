@@ -228,7 +228,7 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row($x) {
+function row_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
         echo "<td>$h</th>";
@@ -236,7 +236,7 @@ function row($x) {
     echo "</tr>\n";
 }
 
-function row_heading($x) {
+function row_heading_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
         echo "<th class=heading>$h</th>";

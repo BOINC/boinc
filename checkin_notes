@@ -26785,7 +26785,7 @@ David  6 April 2005
     clientgui/
         *.cpp
 
-David  6 April 2005
+David  7 April 2005
     - Attempt to fix the situation where:
         1) user merges hosts; hosts with lower IDs are folded
             into host with maximal ID, then deleted
@@ -26813,7 +26813,7 @@ David  6 April 2005
     sched/
         handle_request.C
 
-David  6 April 2005
+David  7 April 2005
     - Core client: deal correctly with HTTP servers that don't support
         the Range: option.
         Namely: if we issue an HTTP GET request with a Range option,
@@ -26825,7 +26825,7 @@ David  6 April 2005
     client/
         http.C,h
 
-David  6 April 2005
+David  7 April 2005
     - Python: in install_boinc_files(): don't copy "sample" php files,
         since this is called from "upgrade" and it would overwrite
         existing files.
@@ -26834,3 +26834,16 @@ David  6 April 2005
 
     py/Boinc/
         setup_project.py
+
+David  7 April 2005
+    - Show complete account info in profile page
+    - fix name conflict in PHP
+
+    html/
+        inc/
+            profile.inc
+            user.inc
+            util.inc
+        user/
+            host_edit_form.php
+            show_user.php
