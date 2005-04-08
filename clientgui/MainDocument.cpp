@@ -142,8 +142,8 @@ wxInt32 CNetworkConnectionThread::SetNewComputerPassword( const wxChar* szPasswo
 
 void CNetworkConnectionThread::SetStateError() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-
-    if (wxDynamicCast(pFrame, CMainFrame)) {
+    if (pFrame && wxGetApp().GetTopWindow()) {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = false;
         m_bReconnecting = false;
         m_bReconnectOnError = false;
@@ -156,17 +156,21 @@ void CNetworkConnectionThread::SetStateError() {
 
 
 void CNetworkConnectionThread::SetStateReconnecting() {
-    m_bConnected = false;
-    m_bReconnectOnError = false;
-    m_bForceReconnect = false;
-    m_bReconnecting = true;
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame && wxGetApp().GetTopWindow()) {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        m_bConnected = false;
+        m_bReconnectOnError = false;
+        m_bForceReconnect = false;
+        m_bReconnecting = true;
+    }
 }
 
 
 void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::string& strComputerPassword ) {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-
-    if (wxDynamicCast(pFrame, CMainFrame)) {
+    if (pFrame && wxGetApp().GetTopWindow()) {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = true;
         m_bReconnecting = false;
         m_bReconnectOnError = true;
@@ -178,6 +182,15 @@ void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::s
         m_bConnectEvent = false;
 
         pFrame->FireConnect();
+    }
+}
+
+
+void CNetworkConnectionThread::SetStateDisconnected() {
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame && wxGetApp().GetTopWindow()) {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        m_bConnected = false;
     }
 }
 
@@ -244,6 +257,7 @@ wxInt32 CMainDocument::CachedStateUpdate() {
         retval = rpc.get_state(state);
         if (retval) {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
 
         wxLogStatus(_("Retrieving host information; please wait..."));
@@ -251,6 +265,7 @@ wxInt32 CMainDocument::CachedStateUpdate() {
         retval = rpc.get_host_info(host);
         if (retval) {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
 
         wxLogStatus(wxEmptyString);
@@ -499,6 +514,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate() {
         iRetVal = rpc.get_project_status(project_status);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
 
         m_fProjectTotalResourceShare = 0.0;
@@ -928,6 +944,7 @@ wxInt32 CMainDocument::CachedResultsStatusUpdate() {
         iRetVal = rpc.get_results(results);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
     }
 
@@ -1447,6 +1464,7 @@ wxInt32 CMainDocument::CachedMessageUpdate() {
         iRetVal = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
 
         if (messages.messages.size() != 0)
@@ -1557,6 +1575,7 @@ wxInt32 CMainDocument::CachedFileTransfersUpdate() {
         iRetVal = rpc.get_file_transfers(ft);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
     }
 
@@ -1804,6 +1823,7 @@ wxInt32 CMainDocument::CachedResourceStatusUpdate() {
         iRetVal = rpc.get_disk_usage(resource_status);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
     }
 
@@ -1875,6 +1895,7 @@ wxInt32 CMainDocument::CachedStatisticsStatusUpdate() {
         iRetVal = rpc.get_statistics(statistics_status);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
+            m_pNetworkConnectionThread->SetStateDisconnected();
         }
     }
 
@@ -2103,6 +2124,7 @@ wxInt32 CMainDocument::UpdateAccountManagerAccounts() {
     );
     if (iRetVal) {
         wxLogTrace("CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
+        m_pNetworkConnectionThread->SetStateDisconnected();
     }
 
     return iRetVal;

@@ -45,6 +45,7 @@ public:
     void           SetStateError();
     void           SetStateReconnecting();
     void           SetStateSuccess( std::string& strComputer, std::string& strComputerPassword );
+    void           SetStateDisconnected();
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
     bool           IsReconnecting() { return m_bReconnecting; };

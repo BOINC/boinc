@@ -1128,7 +1128,7 @@ void CMainFrame::OnConnectError(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
 
     ::wxMessageBox(
-        _("The BOINC client you have attempted to connect could not be reached. Please "
+        _("The BOINC client you have attempted to connect too could not be reached. Please "
           "check the computer name/password and try again."),
         _("Connection Error"),
         wxICON_ERROR
