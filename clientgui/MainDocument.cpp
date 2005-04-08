@@ -292,7 +292,7 @@ wxInt32 CMainDocument::CachedStateUpdate() {
             m_pNetworkConnectionThread->SetStateDisconnected();
         }
 
-        wxLogStatus(wxEmptyString);
+        pFrame->UpdateStatusText(wxEmptyString);
     }
 
     return retval;
