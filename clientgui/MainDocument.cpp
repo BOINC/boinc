@@ -142,15 +142,16 @@ wxInt32 CNetworkConnectionThread::SetNewComputerPassword( const wxChar* szPasswo
 
 void CNetworkConnectionThread::SetStateError() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-    m_bConnected = false;
-    m_bReconnecting = false;
-    m_bReconnectOnError = false;
+    if (wxDynamicCast(pFrame, CMainFrame)) {
+        m_bConnected = false;
+        m_bReconnecting = false;
+        m_bReconnectOnError = false;
 
-    m_bConnectEvent = false;
+        m_bConnectEvent = false;
 
-    pFrame->FireConnectError();
+        pFrame->FireConnectError();
+    }
 }
 
 
@@ -164,19 +165,20 @@ void CNetworkConnectionThread::SetStateReconnecting() {
 
 void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::string& strComputerPassword ) {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-    m_bConnected = true;
-    m_bReconnecting = false;
-    m_bReconnectOnError = true;
-    m_strConnectedComputerName = strComputer.c_str();
-    m_strConnectedComputerPassword = strComputerPassword.c_str();
-    m_strNewComputerName = wxEmptyString;
-    m_strNewComputerPassword = wxEmptyString;
+    if (wxDynamicCast(pFrame, CMainFrame)) {
+        m_bConnected = true;
+        m_bReconnecting = false;
+        m_bReconnectOnError = true;
+        m_strConnectedComputerName = strComputer.c_str();
+        m_strConnectedComputerPassword = strComputerPassword.c_str();
+        m_strNewComputerName = wxEmptyString;
+        m_strNewComputerPassword = wxEmptyString;
 
-    m_bConnectEvent = false;
+        m_bConnectEvent = false;
 
-    pFrame->FireConnect();
+        pFrame->FireConnect();
+    }
 }
 
 
